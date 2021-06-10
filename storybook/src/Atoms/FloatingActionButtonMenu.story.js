@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import FloatingActionButtonPresenter from 'in-new-components/FloatingActionButton/FloatingActionButtonPresenter';
-import FloatingActionButtonMenu from 'in-new-components/FloatingActionButton/FloatingActionButtonMenu';
+import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
+import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 
 export default {
   title: 'Atoms|Buttons/Floating Action Button Menu',

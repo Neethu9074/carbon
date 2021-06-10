@@ -8,10 +8,10 @@ import React from 'react';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { expandNestedSerializedJson } from 'in-services/util/json';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import User from 'in-websites/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';

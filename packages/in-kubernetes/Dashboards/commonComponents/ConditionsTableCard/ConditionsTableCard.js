@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
 import { withState } from 'recompose';
 import React from 'react';
 
+import { Card } from '@instana/components';
+import { Link } from '@instana/components';
+
 import ToggleStatusButtonGroup from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/ToggleStatusButtonGroup';
 import ConditionsPresenter from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard/ConditionsPresenter';
-import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { t } from 'in-i18n';
 

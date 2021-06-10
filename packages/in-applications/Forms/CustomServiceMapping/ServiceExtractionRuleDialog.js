@@ -20,7 +20,7 @@ import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

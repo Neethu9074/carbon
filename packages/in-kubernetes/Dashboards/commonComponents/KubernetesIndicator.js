@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
+import EntityWithTypeAndIcon from 'in-components/EntityWithTypeAndIcon';
 import { capitalize } from 'in-services/formatters/string';
 
 export default function KubernetesIndicator({ result }) {

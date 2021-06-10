@@ -8,7 +8,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { breadcrumbs$ } from 'in-components/breadcrumb/stores/breadcrumbs';
 import connectTo from 'in-hoc/connectTo';
 

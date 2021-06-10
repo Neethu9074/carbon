@@ -6,7 +6,7 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import IconButton, { kinds } from 'in-new-components/IconButton/IconButton';
+import IconButton, { kinds } from 'in-components/IconButton/IconButton';
 
 export default {
   title: 'Atoms|Buttons/IconButton',

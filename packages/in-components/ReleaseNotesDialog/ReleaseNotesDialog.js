@@ -8,7 +8,7 @@ import React from 'react';
 import { markAsRead, unreadReleaseNotesContentAndVersion$ } from 'in-stores/releaseNotes';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { toHtml } from 'in-services/formatters/markdown';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

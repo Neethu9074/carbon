@@ -7,10 +7,10 @@ import React from 'react';
 
 import { loadRawAgentConfiguration } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';

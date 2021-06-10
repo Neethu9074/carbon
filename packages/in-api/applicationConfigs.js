@@ -5,8 +5,8 @@
 
 import { create } from '@instana/observables';
 
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';

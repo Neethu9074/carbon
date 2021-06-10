@@ -11,7 +11,7 @@ import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/c
 import BackendDi from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BackendDi';
 import { latencyFixed, bytes, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
 import Meta from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/Meta';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';

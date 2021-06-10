@@ -6,7 +6,7 @@
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-new-components/Button/DropdownButton';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import timePresets from 'in-amp/components/timePresets';
 
 export default function TimeSelection({ windowSize, setWindowSize }) {

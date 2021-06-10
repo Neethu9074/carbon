@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
-import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
-import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { Link } from '@instana/components';
+
+import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
+import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { getLinkToWebsite, getLinkToError } from 'in-websites/navigation/paths';
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import { affectedUsers } from 'in-websites/formatters';

@@ -14,8 +14,8 @@ import {
 } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
 import { hexToRGBA } from 'in-themes/utils';

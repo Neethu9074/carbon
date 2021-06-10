@@ -8,12 +8,12 @@ import React, { Fragment } from 'react';
 
 import { combineLatest } from '@instana/observables';
 
-import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
+import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, isView, isViewWithRouteParam } from 'in-stores/navigation';
 import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

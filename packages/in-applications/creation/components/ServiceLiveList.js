@@ -8,7 +8,7 @@ import React from 'react';
 import { Ul } from '@instana/components';
 
 import ServiceLiveListItem from 'in-applications/creation/components/ServiceLiveListItem';
-import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { t } from 'in-i18n';
 

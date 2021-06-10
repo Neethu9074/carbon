@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { ua2FacetedSearchFilterOpenedTracker, ua2FacetedSearchFilterClosedTracker } from 'in-applications/tracker';
-import ExpandableCard from 'in-new-components/ExpandableCard/ExpandableCard';
+import ExpandableCard from 'in-components/ExpandableCard/ExpandableCard';
 import { openFacetedSearchByDefault } from 'in-services/featureFlags';
 
 import locals from './Suggestion.mless';

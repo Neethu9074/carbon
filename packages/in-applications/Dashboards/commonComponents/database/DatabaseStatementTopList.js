@@ -3,17 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
+import { Link } from '@instana/components';
+
 import getDatabaseStatementTopList from 'in-subscription/application/getDatabaseStatementTopList';
-import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
+import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getApplication from 'in-subscription/application/getApplication';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { millis, number } from 'in-services/formatters/number';

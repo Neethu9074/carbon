@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import EntityVersionListPresenter from 'in-new-components/EntityVersionList/EntityVersionListPresenter';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import EntityVersionListPresenter from 'in-components/EntityVersionList/EntityVersionListPresenter';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 
 export default function NotFoundDialog({ versionsForFocusedMoment, versionsForLive }) {

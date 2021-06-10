@@ -8,8 +8,8 @@ import { fromJS, Map } from 'immutable';
 
 import { HttpSpanDetailViewDescriptionList } from 'in-forge/tracing/http/HttpSpanDetailView';
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { t } from 'in-i18n';
 

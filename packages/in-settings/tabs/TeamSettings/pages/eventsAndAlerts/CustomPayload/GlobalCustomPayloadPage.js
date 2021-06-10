@@ -40,7 +40,7 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import { pendingResult } from 'in-services/fixedObjects';
 import { emptyArray } from 'in-services/fixedObjects';
 import Section from 'in-settings/components/Section';
-import Message from 'in-new-components/Message';
+import Message from 'in-components/Message';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';

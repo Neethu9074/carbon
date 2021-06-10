@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';

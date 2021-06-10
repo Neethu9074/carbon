@@ -12,11 +12,11 @@ import {
   facettedSearchItemClicked
 } from 'in-logging/analyze/AnalyzeView/tracker';
 import TagExpressionValidation from 'in-logging/analyze/AnalyzeView/components/TagExpressionValidation';
-import FacetedFilterGeneric from 'in-new-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
+import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import { logIdMatrixParameter, selectedTags } from 'in-logging/navigation/matrix';
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
 import useTimeSpentInsideComponent from 'in-hooks/useTimeSpentInsideComponent';
-import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
+import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { LOG_LEVEL, LOG_STREAM_NAME } from 'in-logging/queryBuilder';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';

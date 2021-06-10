@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { getMetricForFocusedMoment, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
-import TwoValueBar from 'in-new-components/TwoValueBar';
+import TwoValueBar from 'in-components/TwoValueBar';
 import connectTo from 'in-hoc/connectTo';
 import theme from 'in-themes';
 

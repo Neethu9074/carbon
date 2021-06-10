@@ -9,10 +9,10 @@ import DashboardHeaderButtonSection from 'in-infrastructure/Dashboard/components
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import DashboardBreadcrumb from 'in-infrastructure/Dashboard/components/DashboardBreadcrumb';
 import PluginBadge from 'in-infrastructure/Dashboard/components/PluginBadge';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
-import DashboardHeaderComponent from 'in-new-components/DashboardHeader';
-import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
 import ZoneTag from 'in-map/components/MapSidebar/components/ZoneTag';
+import DashboardHeaderComponent from 'in-components/DashboardHeader';
+import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { getShowZoneInSidebarHeader } from 'in-sdk/snapshot';
 import PluginIcon from 'in-components/PluginIcon';
 import { plugins } from 'in-forge/constants';

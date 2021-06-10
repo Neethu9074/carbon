@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-new-components/Button/DropdownButton';
+import DropdownButton from 'in-components/Button/DropdownButton';
 
 import locals from 'in-alerting/components/Dropdown/Dropdown.mless';
 

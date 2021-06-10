@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just, combineLatest } from '@instana/observables';
 import { compose, withProps } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
+
+import { just, combineLatest } from '@instana/observables';
 
 import {
   getNamespaceDashboard,
@@ -24,7 +25,7 @@ import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { settings$ } from 'in-services/settings/settings';
 import { siPrefix } from 'in-services/formatters/number';
 import { lighten } from 'in-services/formatters/color';
-import TreeMap from 'in-new-components/TreeMap';
+import TreeMap from 'in-components/TreeMap';
 import connect from 'in-hoc/connectTo';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

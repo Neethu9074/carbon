@@ -9,7 +9,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitScreenList/elementIds';
+import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreenList/elementIds';
 import { debouncedResize$, refreshWindowSizeDependingState } from 'in-services/browser';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import withPropDependingState from 'in-hoc/withPropDependingState';

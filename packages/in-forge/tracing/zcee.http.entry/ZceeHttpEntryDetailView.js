@@ -7,7 +7,7 @@ import React from 'react';
 
 import AdditionalAttributesSection from 'in-sdk/components/traceDetails/AdditionalAttributesSection';
 import { HttpSpanDetailViewDescriptionList } from 'in-forge/tracing/http/HttpSpanDetailView';
-import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import { t } from 'in-i18n';
 
 export default function ZceeHttpEntryDetailView({ span }) {

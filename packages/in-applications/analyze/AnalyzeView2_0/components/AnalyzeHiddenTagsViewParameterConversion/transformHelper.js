@@ -5,12 +5,12 @@
 
 import { isEmpty } from 'lodash';
 
-import { tagFilter as createTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { tagFilter as createTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { getMatrixParameter, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
-import { CONJUNCTION } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { analyzePath, analyzeTwoParameters } from 'in-applications/navigation/paths';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { CONJUNCTION } from 'in-components/QueryBuilder/transformation/formModel';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 
 export const TAG_SERVICE_NAME = 'service.name';

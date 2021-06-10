@@ -11,7 +11,7 @@ import React from 'react';
 
 import { formatDate, parseDate } from 'in-services/formatters/date';
 import { dateValidator } from 'in-services/validators/date';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 import { identity } from 'in-services/util/function';
 import { isBlank } from 'in-services/util/string';
 import keyCodes from 'in-components/keyCodes';

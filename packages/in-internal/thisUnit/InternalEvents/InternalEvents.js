@@ -10,12 +10,12 @@ import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import getInternalEvents from 'in-subscription/getInternalEvents';
-import ExpandableCard from 'in-new-components/ExpandableCard';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { formatDateTime } from 'in-services/formatters/date';
+import ExpandableCard from 'in-components/ExpandableCard';
 import { Col, Row } from 'in-components/layout/Grid';
 import cursorPaginated from 'in-hoc/cursorPaginated';
 import { timeConfig$ } from 'in-stores/time/config';

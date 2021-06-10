@@ -13,7 +13,7 @@ import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigatio
 import { removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import { setTimeConfig, urlQueryKeys } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
-import TimeCount from 'in-new-components/time/TimeCount';
+import TimeCount from 'in-components/time/TimeCount';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ReleaseOccuredMessage.mless';

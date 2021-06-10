@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
-import EntityWithTypeAndIcon from 'in-new-components/EntityWithTypeAndIcon';
+import { Link } from '@instana/components';
+
+import EntityWithTypeAndIcon from 'in-components/EntityWithTypeAndIcon';
 import { getLabel } from 'in-applications/technologyRegistry';
 import Tooltip from 'in-components/Tooltip';
 

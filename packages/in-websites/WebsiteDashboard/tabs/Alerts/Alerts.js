@@ -25,12 +25,12 @@ import {
 import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl } from 'in-stores/navigation/navigation';
-import Footer from 'in-new-components/Footer/Footer';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import Footer from 'in-components/Footer/Footer';
 import List from 'in-settings/components/List';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';

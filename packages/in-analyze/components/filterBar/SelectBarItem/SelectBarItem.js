@@ -8,7 +8,7 @@ import React from 'react';
 
 import SelectBarOverlayBehavior from 'in-analyze/components/filterBar/SelectBarItem/SelectBarOverlayBehavior';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 
 export default function SelectBarItem(props) {
   return (

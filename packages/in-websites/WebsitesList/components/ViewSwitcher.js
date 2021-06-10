@@ -5,14 +5,14 @@
 
 import React from 'react';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
-import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
 import { mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { websiteMonitoringPath } from 'in-websites/navigation/paths';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
 
 export default function WebsitesAndMobileAppsViewSwitcher({ isWebsites }) {

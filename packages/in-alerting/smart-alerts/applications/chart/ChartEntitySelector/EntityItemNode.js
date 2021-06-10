@@ -14,8 +14,8 @@ import {
   Item,
   labelColumnDefinition,
   rightArrowColumnDefinition
-} from 'in-new-components/SelectorOverlay/Node';
-import { node as nodePropType } from 'in-new-components/SelectorOverlay/props';
+} from 'in-components/SelectorOverlay/Node';
+import { node as nodePropType } from 'in-components/SelectorOverlay/props';
 
 import locals from './ScopeSelectorItem.mless';
 

@@ -7,7 +7,7 @@ import React from 'react';
 
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig';
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/websites/simple/SimpleAlertConfigDialogChart';
-import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/websites/simple/SimpleAlertConfigDialogStep2.mless';

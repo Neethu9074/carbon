@@ -9,7 +9,7 @@ import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
-import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
+import GroupedView from 'in-components/AnalyzeView/GroupedView';
 
 export default function GroupedBeacons(props) {
   return (

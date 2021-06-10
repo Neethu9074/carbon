@@ -11,12 +11,12 @@ import {
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import formModelFromHttpStatusRange, { TAG_CALL_HTTP_STATUS } from 'in-applications/analyze/utils/formModelUtils';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { IS_EMPTY, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { stackedBar, line } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';

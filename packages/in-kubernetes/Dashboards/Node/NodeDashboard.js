@@ -13,20 +13,20 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import EntityVersionList from 'in-new-components/EntityVersionList';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
-import BadgeList from 'in-new-components/BadgeList/BadgeList';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';
+import BadgeList from 'in-components/BadgeList/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
 import { nodeTabChange } from 'in-kubernetes/tracker';
-import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
+import Footer from 'in-components/Footer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

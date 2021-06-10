@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
-import DebouncedRestrictedSlider from 'in-new-components/Slider/DebouncedRestrictedSlider';
+import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 

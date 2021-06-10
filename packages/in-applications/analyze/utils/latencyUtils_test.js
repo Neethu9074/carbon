@@ -13,9 +13,9 @@ import {
   LESS_THAN,
   NOT_EQUAL,
   EQUALS
-} from 'in-new-components/QueryBuilder/tagFilter/operators';
+} from 'in-components/QueryBuilder/tagFilter/operators';
 import { updateLatencyFilters, getLatencySelectionFromFilters } from 'in-applications/analyze/utils/latencyUtils';
-import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 
 describe('in-applications/analyze/utils/latencyUtils', () => {
   describe('#getLatencySelectionFromFilters()', () => {

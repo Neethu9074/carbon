@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import { fromJS } from 'immutable';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import { LoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
@@ -14,9 +15,9 @@ import InfrastructureMetricSparkChart from 'in-components/SparkChart/Infrastruct
 import getHostByKubernetesNode from 'in-subscription/kubernetes/getHostByKubernetesNode';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import EntityLink from 'in-new-components/EntityLink';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import EntityLink from 'in-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

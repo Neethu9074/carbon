@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 
 import './CellLoadingIndicator.less';
 

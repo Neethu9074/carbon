@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import EntityVersionListPresenter from 'in-new-components/EntityVersionList/EntityVersionListPresenter';
+import EntityVersionListPresenter from 'in-components/EntityVersionList/EntityVersionListPresenter';
 import { plugins } from 'in-forge/constants';
 import { minutes } from 'in-services/time';
 

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import CreateApplicationFilterExpression from 'in-applications/creation/components/CreateApplicationFilterExpression';
-import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
 import Spacer from 'in-applications/Forms/components/Spacer';

@@ -5,15 +5,15 @@
 
 import React, { Fragment } from 'react';
 
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import ApplicationState from 'in-cloudfoundry/commonComponents/ApplicationState';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import Containers from 'in-cloudfoundry/Dashboards/Application/tabs/Containers';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
-import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
-import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

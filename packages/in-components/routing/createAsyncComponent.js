@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createLogger } from '@instana/logger';
 import React from 'react';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import { createLogger } from '@instana/logger';
+
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getServerVersionTag, localTag } from 'in-services/uiClientVersion';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import ReloadUiDialog from 'in-components/ReloadUiDialog';

@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { t } from 'in-i18n';
 
 import './DownloadView.less';

@@ -8,7 +8,7 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 import { Card } from '@instana/components';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EventListItem from 'in-events/components/legacy/EventListItem';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';

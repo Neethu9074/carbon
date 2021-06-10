@@ -12,8 +12,8 @@ import { setCurrentViewWithViewGrouping } from 'in-stores/navigation/paths/mainP
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
+import Dialog from 'in-components/Dialog/Dialog';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t, Trans } from 'in-i18n';

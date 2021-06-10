@@ -10,10 +10,10 @@ import { metricOptions, metricAggregations } from 'in-custom-dashboards/widgets/
 import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import Sections from 'in-new-components/workspace/Sections';
-import Divider from 'in-new-components/workspace/Divider';
-import Section from 'in-new-components/workspace/Section';
-import Header from 'in-new-components/workspace/Header';
+import Sections from 'in-components/workspace/Sections';
+import Divider from 'in-components/workspace/Divider';
+import Section from 'in-components/workspace/Section';
+import Header from 'in-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
 import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';

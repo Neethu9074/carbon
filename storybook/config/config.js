@@ -20,7 +20,7 @@ import './globalTagDefinition';
 
 // End: Initialize Instana specific globals
 // ################################################
-import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
+import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 
 import 'in-themes/foundation.less';

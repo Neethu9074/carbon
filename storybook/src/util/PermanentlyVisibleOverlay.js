@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import locals from 'in-new-components/overlays/OverlayPresenter/SingleOverlayPresenter.mless';
+import locals from 'in-components/overlays/OverlayPresenter/SingleOverlayPresenter.mless';
 
 export default function PermanentlyVisibleOverlay({ children }) {
   return (

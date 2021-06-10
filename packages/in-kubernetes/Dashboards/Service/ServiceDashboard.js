@@ -11,25 +11,25 @@ import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/Kuber
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
-import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import EntityVersionList from 'in-new-components/EntityVersionList';
+import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { serviceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
-import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
+import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default function ServiceDashboard({ location }) {

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import TimeInput from 'in-new-components/TimeInput';
+import TimeInput from 'in-components/TimeInput';
 
 export default {
   title: 'Molecules|TimeInput',

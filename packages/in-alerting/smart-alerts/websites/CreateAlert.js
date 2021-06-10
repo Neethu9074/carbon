@@ -9,14 +9,14 @@ import React from 'react';
 
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
 import { websitesAlertingAddAlert } from 'in-alerting/smart-alerts/websites/tracker';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/AlertConfigDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import FloatingActionButton from 'in-new-components/FloatingActionButton';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
+import FloatingActionButton from 'in-components/FloatingActionButton';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { propTypeLocation } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';

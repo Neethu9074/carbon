@@ -10,7 +10,7 @@ import { KeyValue } from '@instana/components';
 import { Li, Ul } from '@instana/components';
 import { Card } from '@instana/components';
 
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 
 export default function KeyValueList({ title, items, onEmptyText }) {
   if (!items || items.length === 0) {

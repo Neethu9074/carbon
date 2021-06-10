@@ -9,7 +9,7 @@ import React from 'react';
 import AlertDescriptionRow from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertDescriptionRow';
 import TriggersIncidentRow from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/TriggersIncidentRow';
 import AlertLevelRow from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertLevelRow';
-import Sections from 'in-new-components/workspace/Sections';
+import Sections from 'in-components/workspace/Sections';
 
 export default function AlertProperties({
   form,

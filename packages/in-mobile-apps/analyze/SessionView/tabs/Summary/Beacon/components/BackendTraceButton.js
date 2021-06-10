@@ -11,8 +11,8 @@ import { Button } from '@instana/components';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';
 import { navigateToBackendTraceFromSession } from 'in-mobile-apps/tracker';
-import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

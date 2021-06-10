@@ -9,8 +9,8 @@ import React, { Fragment } from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { sanitize, ansiToHtml, replaceHtmlChars } from 'in-services/formatters/html';
-import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 

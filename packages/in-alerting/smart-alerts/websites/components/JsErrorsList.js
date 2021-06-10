@@ -6,10 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';

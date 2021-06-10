@@ -13,8 +13,8 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
-import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';

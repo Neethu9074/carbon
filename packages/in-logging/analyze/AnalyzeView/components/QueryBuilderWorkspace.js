@@ -6,19 +6,19 @@
 import React from 'react';
 
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection';
-import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { filterAdded, queryChanged, groupAdded, chartChanged } from 'in-logging/analyze/AnalyzeView/tracker';
+import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
-import Sections from 'in-new-components/workspace/Sections';
-import { error } from 'in-new-components/Message/types';
-import Message from 'in-new-components/Message';
+import Sections from 'in-components/workspace/Sections';
+import { error } from 'in-components/Message/types';
 import Stack from 'in-components/layout/Stack';
-import Footer from 'in-new-components/Footer';
+import Message from 'in-components/Message';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 

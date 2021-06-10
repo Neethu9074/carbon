@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 
 export default function SmartAlertsNoDataAvailable({ text }) {
   return <NoDataAvailable text={text} type="lib_alerts_alert" height={100} />;

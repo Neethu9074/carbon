@@ -14,14 +14,14 @@ import RadioGroup from 'in-analyze/components/RadioButtons/RadioGroup';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { emptyArray } from 'in-services/fixedObjects';
-import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
-import Typeahead from 'in-new-components/Typeahead';
-import Message from 'in-new-components/Message';
+import Dialog from 'in-components/Dialog/Dialog';
+import Typeahead from 'in-components/Typeahead';
 import Select from 'in-components/form/Select';
 import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './EditTagFilterDialogPresenter.mless';

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
-import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
+import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { t } from 'in-i18n';
 
 import locals from './CreateApplicationDialogPresenter.mless';

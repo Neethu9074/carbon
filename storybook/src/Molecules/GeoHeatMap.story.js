@@ -6,7 +6,7 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import GeoHeatMapPresenter from 'in-new-components/GeoHeatMap/GeoHeatMapPresenter';
+import GeoHeatMapPresenter from 'in-components/GeoHeatMap/GeoHeatMapPresenter';
 import { pendingResult, finishedProgress } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 

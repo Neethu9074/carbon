@@ -6,15 +6,15 @@
 import React, { Fragment } from 'react';
 
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
-import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelectorWithUrlState';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
+import AggregationSelectorWithUrlState from 'in-components/AggregationSelectorWithUrlState';
 import { clsFormatter } from 'in-websites/analyze/AnalyzeView/metrics';
 import { number, millis } from 'in-services/formatters/number';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { speedTab } from 'in-websites/navigation/paths';
 import { Row, Col } from 'in-components/layout/Grid';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

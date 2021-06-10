@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { Button } from '@instana/components';
 
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';

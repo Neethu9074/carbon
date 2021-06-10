@@ -13,7 +13,7 @@ import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/comp
 import LearnMore from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/LearnMore';
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';

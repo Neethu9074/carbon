@@ -8,7 +8,7 @@ import React from 'react';
 import { Li } from '@instana/components';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import EntityWithIcon from 'in-new-components/EntityWithIcon';
+import EntityWithIcon from 'in-components/EntityWithIcon';
 
 import locals from './ServiceLiveListItem.mless';
 

@@ -8,13 +8,13 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { joinExpressions, fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
-import { containsTagName } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { containsTagName } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { createChartedMetric } from 'in-analyze/navigation/paths';

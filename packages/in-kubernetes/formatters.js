@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { percentage, bytes, number } from 'in-services/formatters/number';
 
 export const resourceQuotaPercentage = d => (d < 0 ? valueMissingPlaceholder : percentage.detailed(d));

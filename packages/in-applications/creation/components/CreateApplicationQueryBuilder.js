@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
+import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
-import { createQueryBuilder } from 'in-new-components/QueryBuilder';
+import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
 
 const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({

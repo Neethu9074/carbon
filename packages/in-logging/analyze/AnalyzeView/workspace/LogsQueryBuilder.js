@@ -6,7 +6,7 @@
 import { just } from '@instana/observables/lib';
 
 import getTagSuggestions from 'in-logging/subscriptions/getTagSuggestions';
-import { createQueryBuilder } from 'in-new-components/QueryBuilder';
+import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import { listSuccess } from 'in-services/util/result';
 

@@ -7,10 +7,10 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { CONTAINS, EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { t } from 'in-i18n';
 

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createGroupingConfigurator } from 'in-new-components/GroupingConfigurator';
+import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
 import { getSuggestions } from 'in-mobile-apps/queryBuilder';
 

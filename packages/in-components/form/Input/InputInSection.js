@@ -7,7 +7,7 @@ import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import Section from 'in-new-components/workspace/Section';
+import Section from 'in-components/workspace/Section';
 import Input from 'in-components/form/Input/Input';
 
 import locals from './InputInSection.mless';

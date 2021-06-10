@@ -4,18 +4,19 @@
  */
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { useObservable } from '@instana/hooks';
 import { get } from 'lodash';
 
+import { useObservable } from '@instana/hooks';
+
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { isWebGLSupported, getWebGLCanvasContext } from 'in-map/services/webGL';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ApplicationMap from 'in-applications/ApplicationMap/ApplicationMap';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import getServiceMap from 'in-subscription/application/getServiceMap';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import { pendingResult } from 'in-services/fixedObjects';

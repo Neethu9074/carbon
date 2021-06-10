@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
 
 export default function VSphereViewSwitcher() {

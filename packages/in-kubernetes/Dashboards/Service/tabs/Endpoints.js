@@ -9,12 +9,12 @@ import React from 'react';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { serviceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
-import EntityLink from 'in-new-components/EntityLink';
-import WithIcon from 'in-new-components/WithIcon';
+import EntityLink from 'in-components/EntityLink';
+import WithIcon from 'in-components/WithIcon';
 import { t } from 'in-i18n';
 
 const pathSegment = '/endpoints';

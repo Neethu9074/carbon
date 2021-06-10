@@ -5,14 +5,14 @@
 
 import React from 'react';
 
-import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
+import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import getJumpDirectlyToUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToUA2Href';
-import { toNewTagFilterFormat } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { EQUALS, GREATER_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { toNewTagFilterFormat } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS, GREATER_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { createChartedMetric } from 'in-analyze/navigation/paths';

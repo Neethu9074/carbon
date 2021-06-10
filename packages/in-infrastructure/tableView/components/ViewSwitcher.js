@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { physicalTablePath, physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
 import { isInfraExploreView, defaultInfraExploreView } from 'in-infrastructure/navigation/paths';
 import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
-import { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
+import { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import SearchBar from 'in-components/SearchBar';
 import { any } from 'in-services/fixedStreams';
 import connectTo from 'in-hoc/connectTo';

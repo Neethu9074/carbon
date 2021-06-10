@@ -7,12 +7,12 @@ import React, { useState, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import IconButton from 'in-new-components/IconButton/IconButton';
+import IconButton from 'in-components/IconButton/IconButton';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import { LOG_TRACE_ID } from 'in-logging/queryBuilder';
 import Tooltip from 'in-components/Tooltip';

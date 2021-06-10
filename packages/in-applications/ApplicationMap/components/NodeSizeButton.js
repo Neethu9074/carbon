@@ -9,8 +9,8 @@ import { SvgIcon } from '@instana/components';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { number, millis, percentage } from 'in-services/formatters/number';
-import Button from 'in-new-components/MapControls/Button';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Button from 'in-components/MapControls/Button';
+import Overlay from 'in-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

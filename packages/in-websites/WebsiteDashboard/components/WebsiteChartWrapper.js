@@ -7,7 +7,7 @@ import React from 'react';
 
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { actionName, getButton } from 'in-components/Chart/actions/viewInAnalytics';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { extendMetricConfigurationOnLiveMode } from 'in-websites/metrics';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';

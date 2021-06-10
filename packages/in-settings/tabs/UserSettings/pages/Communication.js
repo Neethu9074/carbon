@@ -9,7 +9,7 @@ import { create } from '@instana/observables';
 
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
-import { success, neutral, error as errorType } from 'in-new-components/Message/types';
+import { success, neutral, error as errorType } from 'in-components/Message/types';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import MarketingMessageBox from 'in-settings/terms/MarketingMessageBox';

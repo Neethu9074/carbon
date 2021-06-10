@@ -7,14 +7,14 @@ import {
   getRangeFromBackendQueryModel,
   getRangeFromFilters,
   updateRange
-} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import {
   GREATER_OR_EQUAL_THAN,
   LESS_OR_EQUAL_THAN,
   LESS_THAN,
   GREATER_THAN
-} from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
+} from 'in-components/QueryBuilder/tagFilter/operators';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 
 export function getLatencySelectionFromTagFilterExpression(dataSource, tagFilterExpression) {

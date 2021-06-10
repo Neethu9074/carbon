@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
-import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
-import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
+import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
 import { ms, number } from 'in-services/formatters/number';

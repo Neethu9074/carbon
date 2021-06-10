@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-new-components/StackTrace';
+import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-components/StackTrace';
 
 export default {
   title: 'Molecules|StackTrace',

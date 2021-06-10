@@ -12,7 +12,7 @@ import {
   getFsDetails
 } from 'in-internal/monitoringUnit/sre/datastores';
 import { getBeeInstanaAggregatorWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';

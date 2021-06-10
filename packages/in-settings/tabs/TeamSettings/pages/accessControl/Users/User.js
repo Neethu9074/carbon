@@ -12,8 +12,8 @@ import { Button } from '@instana/components';
 
 import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
 import { success as successResult, error as errorResult } from 'in-services/util/result';
-import { success, neutral, error as errorType } from 'in-new-components/Message/types';
 import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
+import { success, neutral, error as errorType } from 'in-components/Message/types';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { updateUser } from 'in-settings/tabs/UserSettings/api/user';

@@ -16,7 +16,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { usersTab } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }) {

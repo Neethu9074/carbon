@@ -1,8 +1,0 @@
-{
-  "name": "in-new-components",
-  "version": "1.0.0",
-  "description": "The SDK provides an access point to pluggables",
-  "main": "index.js",
-  "license": "UNLICENSED",
-  "private": true
-}

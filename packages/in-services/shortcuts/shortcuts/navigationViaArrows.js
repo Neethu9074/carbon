@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { leftArrowId, rightArrowId } from 'in-new-components/AnalyzeView/SplitScreenList/elementIds';
+import { leftArrowId, rightArrowId } from 'in-components/AnalyzeView/SplitScreenList/elementIds';
 import { onScrollUp, onScrollDown } from 'in-components/Chart/components/TooltipContent';
 
 export function onLeftArrow(e) {

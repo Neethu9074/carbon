@@ -5,7 +5,7 @@
 
 import { get } from 'lodash';
 
-import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { t } from 'in-i18n';
 

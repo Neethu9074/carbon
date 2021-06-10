@@ -19,10 +19,10 @@ import {
   NOT_EQUAL,
   NOT_STARTS_WITH,
   STARTS_WITH
-} from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { CLOSE_BRACKET, CONJUNCTION, OPEN_BRACKET } from 'in-new-components/QueryBuilder/transformation/formModel';
+} from 'in-components/QueryBuilder/tagFilter/operators';
+import { CLOSE_BRACKET, CONJUNCTION, OPEN_BRACKET } from 'in-components/QueryBuilder/transformation/formModel';
 import { httpStatusCodeTagFiltersToExpression, TAG_CALL_HTTP_STATUS } from 'in-analyze/navigation/paths';
-import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 
 export const EXP_OPEN_BRACKET = Object.freeze({ type: OPEN_BRACKET });
 export const EXP_CLOSE_BRACKET = Object.freeze({ type: CLOSE_BRACKET });

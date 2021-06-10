@@ -14,7 +14,7 @@ import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboar
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { publicFormatters } from 'in-stores/metric/formatters';
-import Sections from 'in-new-components/workspace/Sections';
+import Sections from 'in-components/workspace/Sections';
 import FormGroup from 'in-components/form/FormGroup';
 import Stack from 'in-components/layout/Stack';
 import Toggle from 'in-components/form/Toggle';

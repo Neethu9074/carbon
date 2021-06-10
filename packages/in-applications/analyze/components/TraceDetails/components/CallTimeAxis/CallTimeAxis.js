@@ -7,8 +7,8 @@ import React from 'react';
 
 import CallStartLabel from 'in-applications/analyze/components/TraceDetails/components/CallTimeAxis/CallStartLabel';
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
-import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
+import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 import { millis } from 'in-services/formatters/number';
 import theme from 'in-themes';
 

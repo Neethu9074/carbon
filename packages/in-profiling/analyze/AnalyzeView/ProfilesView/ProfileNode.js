@@ -10,10 +10,10 @@ import { toInteractiveElement } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
 import PercentIndicator from 'in-profiling/analyze/AnalyzeView/ProfilesView/PercentIndicator';
-import FileNameAndLine from 'in-new-components/Profiling/components/FileNameAndLine';
-import MethodName from 'in-new-components/Profiling/components/MethodName';
-import At from 'in-new-components/Profiling/components/At';
+import FileNameAndLine from 'in-components/Profiling/components/FileNameAndLine';
+import MethodName from 'in-components/Profiling/components/MethodName';
 import { treeViewExpanded } from 'in-profiling/tracker';
+import At from 'in-components/Profiling/components/At';
 import { scrollIntoView } from 'in-services/util/dom';
 
 import locals from './ProfileNode.mless';

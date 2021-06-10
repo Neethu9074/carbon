@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
-import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
+import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { t } from 'in-i18n';
 
 export default function ConfigureViolations({ label, onChange, violations, maxViolations }) {

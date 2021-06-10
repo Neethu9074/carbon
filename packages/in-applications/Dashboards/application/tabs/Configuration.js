@@ -7,7 +7,7 @@ import React from 'react';
 
 import CreateApplicationDialog from 'in-applications/Forms/NewApplication/CreateApplicationDialog';
 import RemoveSection from 'in-applications/Forms/NewApplication/Remove';
-import Footer from 'in-new-components/Footer/Footer';
+import Footer from 'in-components/Footer/Footer';
 
 export default function Configuration({ timeConfig, data: application, applicationId }) {
   return (

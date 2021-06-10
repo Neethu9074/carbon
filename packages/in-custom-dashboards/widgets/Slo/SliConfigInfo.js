@@ -9,7 +9,7 @@ import { SvgIcon } from '@instana/components';
 
 import SliEventsQueryBuilder from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
 import { getThresholdLabelWithUnit } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

@@ -17,13 +17,13 @@ import {
 } from 'in-websites/navigation/urlParameters';
 import SplitScreenPageLoadContent from 'in-websites/analyze/PageLoadView/SplitScreenPageLoadContent';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
-import SplitScreenList from 'in-new-components/AnalyzeView/SplitScreenList/SplitScreenList';
+import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
-import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { shorten, isNotBlank } from 'in-services/util/string';
+import DashboardHeader from 'in-components/DashboardHeader';
 import getTabs from 'in-websites/analyze/PageLoadView/tabs';
 import { dataSourceTitles } from 'in-websites/tags';
 import withUrlState from 'in-hoc/withUrlState';

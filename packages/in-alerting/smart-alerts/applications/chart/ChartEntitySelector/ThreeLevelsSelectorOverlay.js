@@ -10,22 +10,22 @@ import { ListGroup, Li } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
-import SlideInView, { ListHeader, NoHeader } from 'in-new-components/SlideInView/SlideInView';
-import { nodeArray as nodeArrayPropType } from 'in-new-components/SelectorOverlay/props';
+import SlideInView, { ListHeader, NoHeader } from 'in-components/SlideInView/SlideInView';
+import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
-import { LoadingIndicator } from 'in-new-components/LoadingIndicators';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import { search } from 'in-new-components/SelectorOverlay/search';
+import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { search } from 'in-components/SelectorOverlay/search';
 import { isNotBlank, isBlank } from 'in-services/util/string';
 import { getInteractiveElements } from 'in-services/util/dom';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
-import SearchInput from 'in-new-components/SearchInput';
+import SearchInput from 'in-components/SearchInput';
 import { isLoading } from 'in-services/util/result';
 import keyCodes from 'in-components/keyCodes';
 import { t } from 'in-i18n';
 
-import locals from 'in-new-components/SelectorOverlay/SelectorOverlay.mless';
+import locals from 'in-components/SelectorOverlay/SelectorOverlay.mless';
 
 /* we found the current implementation does not fully work with latest, on-demand loading items,
  * so this is temporary disabled
@@ -456,7 +456,7 @@ ThreeLevelsSelectorOverlay.propTypes = {
   query: PropTypes.string.isRequired,
   /**
    * function (nodes:[node], query:string): [node]
-   * default: in-new-components/SelectorOverlay/search
+   * default: in-components/SelectorOverlay/search
    */
   searchNodes: PropTypes.func,
   onQueryChange: PropTypes.func.isRequired

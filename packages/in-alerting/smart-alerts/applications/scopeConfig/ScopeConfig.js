@@ -14,7 +14,7 @@ import ServicesAndEndpointsListPresenter, {
 import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ClearTagFilterExpressionButton';
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
-import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
+import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
 import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import LightCard from 'in-alerting/components/LightCard/LightCard';

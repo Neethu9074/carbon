@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 import React from 'react';
 
-import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { useObservable } from '@instana/hooks';
+import { Link } from '@instana/components';
+
+import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
+import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { getLinkToAnalyzeDeprecated } from 'in-analyze/navigation/paths';
 import { NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';

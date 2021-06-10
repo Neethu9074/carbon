@@ -5,15 +5,15 @@
 
 import React from 'react';
 
-import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
+import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
-import Sections from 'in-new-components/workspace/Sections';
-import { error } from 'in-new-components/Message/types';
-import Message from 'in-new-components/Message';
+import Sections from 'in-components/workspace/Sections';
+import { error } from 'in-components/Message/types';
 import Stack from 'in-components/layout/Stack';
-import Footer from 'in-new-components/Footer';
+import Message from 'in-components/Message';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 

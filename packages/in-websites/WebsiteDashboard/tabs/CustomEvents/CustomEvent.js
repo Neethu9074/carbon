@@ -21,7 +21,7 @@ import BrowserTopList from 'in-websites/WebsiteDashboard/tabs/CustomEvents/Brows
 import PageTopList from 'in-websites/WebsiteDashboard/tabs/CustomEvents/PageTopList';
 import OsTopList from 'in-websites/WebsiteDashboard/tabs/CustomEvents/OsTopList';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { affectedUsers, affectedUsersChart } from 'in-websites/formatters';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { millis, number } from 'in-services/formatters/number';
@@ -29,10 +29,10 @@ import RedirectWithHash from 'in-components/RedirectWithHash';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
-import BackButton from 'in-new-components/BackButton';
 import { Col, Row } from 'in-components/layout/Grid';
-import Footer from 'in-new-components/Footer';
+import KpiCard from 'in-components/KpiCard/KpiCard';
+import BackButton from 'in-components/BackButton';
+import Footer from 'in-components/Footer';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 

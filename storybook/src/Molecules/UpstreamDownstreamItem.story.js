@@ -6,7 +6,7 @@
 import { withKnobs, select } from '@storybook/addon-knobs';
 import React from 'react';
 
-import UpstreamDownstreamPresenter from 'in-new-components/UpstreamDownstream/UpstreamDownstreamPresenter';
+import UpstreamDownstreamPresenter from 'in-components/UpstreamDownstream/UpstreamDownstreamPresenter';
 
 export default {
   title: 'Molecules|UpstreamDownstream',

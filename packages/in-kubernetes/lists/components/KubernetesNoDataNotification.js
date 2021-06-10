@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
-import ArticleContent from 'in-new-components/ArticleContent';
+import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
+import ArticleContent from 'in-components/ArticleContent';
 import { t } from 'in-i18n';
 
 export default function KubernetesNoDataNotification(props) {

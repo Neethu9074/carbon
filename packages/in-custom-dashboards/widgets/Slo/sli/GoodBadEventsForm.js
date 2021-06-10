@@ -11,8 +11,8 @@ import { availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes'
 import { sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormBound from 'in-components/form/binding/FormBound';
-import Divider from 'in-new-components/workspace/Divider';
-import Header from 'in-new-components/workspace/Header';
+import Divider from 'in-components/workspace/Divider';
+import Header from 'in-components/workspace/Header';
 import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 

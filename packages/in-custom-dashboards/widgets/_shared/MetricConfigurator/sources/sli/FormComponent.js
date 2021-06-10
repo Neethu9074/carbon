@@ -11,11 +11,11 @@ import * as serviceLevelIndicators from 'in-custom-dashboards/widgets/_shared/Me
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import HelpAction from 'in-new-components/workspace/HelpAction';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
-import Sections from 'in-new-components/workspace/Sections';
+import HelpAction from 'in-components/workspace/HelpAction';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { percentage } from 'in-services/formatters/number';
+import Sections from 'in-components/workspace/Sections';
 import Stack from 'in-components/layout/Stack';
 import { Trans, t } from 'in-i18n';
 

@@ -23,10 +23,10 @@ import { createOptionsList } from 'in-alerting/smart-alerts/applications/chart/C
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import getApplication from 'in-subscription/application/getApplication';
-import DropdownButton from 'in-new-components/Button/DropdownButton';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import Overlay from 'in-new-components/overlays/Overlay';
 import { pendingResult } from 'in-services/fixedObjects';
+import Overlay from 'in-components/overlays/Overlay';
 import { isLoading } from 'in-services/util/result';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';

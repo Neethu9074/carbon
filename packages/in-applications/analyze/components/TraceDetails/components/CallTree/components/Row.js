@@ -21,7 +21,7 @@ import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/comp
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { shorten } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './Row.mless';

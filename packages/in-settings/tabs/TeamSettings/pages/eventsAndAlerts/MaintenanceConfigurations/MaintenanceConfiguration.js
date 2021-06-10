@@ -20,7 +20,7 @@ import { queryValidationResultValidator, queryValidationInProgressValidator, val
 import { applicationIdsToDfq, parseQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { teamSettingsAlertingMaintenanceConfigurations } from 'in-settings/navigation/paths';
 import { formatTime, formatDate, parseDateTime } from 'in-services/formatters/date';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { timeValidator, dateValidator } from 'in-services/validators/date';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { notBlankValidator } from 'in-services/validators/string';

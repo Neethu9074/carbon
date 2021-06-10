@@ -10,17 +10,17 @@ import { find, debounce } from 'lodash';
 import { Link } from '@instana/components';
 
 import { fixClockSkewProblems } from 'in-websites/analyze/PageLoadView/tabs/Summary/fixClockSkewProblems';
-import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
+import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
-import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
+import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
-import { warning } from 'in-new-components/Message/types';
 import { number } from 'in-services/formatters/number';
+import { warning } from 'in-components/Message/types';
 import { Row, Col } from 'in-components/layout/Grid';
 import { openPageLoad } from 'in-websites/tracker';
-import Message from 'in-new-components/Message';
-import KpiCard from 'in-new-components/KpiCard';
+import Message from 'in-components/Message';
+import KpiCard from 'in-components/KpiCard';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';

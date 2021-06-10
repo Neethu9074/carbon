@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
-import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
-import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
+import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { meanLatency, number } from 'in-services/formatters/number';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { t } from 'in-i18n';

@@ -10,9 +10,9 @@ import { KeyValue } from '@instana/components';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
-import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
+import GroupedView from 'in-components/AnalyzeView/GroupedView';
 import { percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

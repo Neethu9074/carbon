@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
+import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { t } from 'in-i18n';
 
 export const DebouncedSensitivitySlider = ({ value, defaultValue, onChange }) => {

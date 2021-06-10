@@ -34,7 +34,7 @@ import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { getColor } from 'in-applications/endpointTypes';
-import Footer from 'in-new-components/Footer/Footer';
+import Footer from 'in-components/Footer/Footer';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 

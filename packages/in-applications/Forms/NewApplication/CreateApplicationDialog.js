@@ -31,7 +31,7 @@ import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import { Trans, t } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';

@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { emptyList } from 'in-services/fixedImmutables';
-import TwoValueBar from 'in-new-components/TwoValueBar';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import TwoValueBar from 'in-components/TwoValueBar';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
 import locals from './AgentViewKpis.mless';

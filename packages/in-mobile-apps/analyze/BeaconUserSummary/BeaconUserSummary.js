@@ -8,8 +8,8 @@ import React from 'react';
 import { Card } from '@instana/components';
 
 import NotDefined from 'in-websites/analyze/BeaconUserSummary/NotDefined';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { expandNestedSerializedJson } from 'in-services/util/json';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import User from 'in-mobile-apps/analyze/BeaconUserSummary/User';
 import Map from 'in-websites/analyze/BeaconUserSummary/Map';
 import { Row, Col } from 'in-components/layout/Grid';

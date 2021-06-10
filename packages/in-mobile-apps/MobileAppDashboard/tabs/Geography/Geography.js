@@ -14,11 +14,11 @@ import getMobileAppCountryBreakdown from 'in-mobile-apps/subscriptions/getMobile
 import TwoDMobileAppGeoMap from 'in-mobile-apps/MobileAppDashboard/tabs/Geography/2DMobileAppGeoMap';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import { mobileAppPathFullyQualified } from 'in-mobile-apps/navigation/paths';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import Button from 'in-new-components/MapControls/Button';
+import Button from 'in-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

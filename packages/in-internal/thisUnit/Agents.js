@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import { Link } from '@instana/components';
+
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';

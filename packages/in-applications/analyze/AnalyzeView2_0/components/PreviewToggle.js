@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useObservable } from '@instana/hooks';
 import Toggle from 'react-toggle';
 import React from 'react';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { useObservable } from '@instana/hooks';
+
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { t } from 'in-i18n';
 
 import locals from './PreviewToggle.mless';

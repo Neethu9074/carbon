@@ -15,11 +15,11 @@ import Applications, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
-import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { userSettingsGeneral, getEntityIdView } from 'in-settings/navigation/paths';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import FormDataEnrichment from './components/FormDataEnrichment';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -29,10 +29,10 @@ import FormGroup from 'in-settings/components/FormGroup';
 import DateInput from 'in-components/form/DateInput';
 import HelpText from 'in-components/form/HelpText';
 import moment from 'in-services/moment-timezone';
-import Message from 'in-new-components/Message';
 import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
+import Message from 'in-components/Message';
 import connectTo from 'in-hoc/connectTo';
 import { t, Trans } from 'in-i18n';
 

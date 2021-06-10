@@ -6,7 +6,7 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { t } from 'in-i18n';
 

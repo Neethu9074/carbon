@@ -15,10 +15,10 @@ import { source } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/
 import { isInitiallyOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/Chart/FormComponent/TimeShiftingForm';
 import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
-import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
-import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
+import { HighlightedEffect } from 'in-components/SelectedElementHighlighter';
+import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './MetricConfiguration.mless';

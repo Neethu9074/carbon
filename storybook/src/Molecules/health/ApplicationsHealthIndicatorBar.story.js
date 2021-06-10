@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import ApplicationsHealthIndicatorBar from 'in-new-components/ApplicationHealthOverview/ApplicationsHealthIndicatorBar';
+import ApplicationsHealthIndicatorBar from 'in-components/ApplicationHealthOverview/ApplicationsHealthIndicatorBar';
 
 export default {
   title: 'Molecules|health/ApplicationsHealthIndicatorBar',

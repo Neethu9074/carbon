@@ -30,7 +30,7 @@ import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
-import Overlay from 'in-new-components/overlays/Overlay';
+import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
+import Overlay from 'in-components/overlays/Overlay';
 import { Row, Col } from 'in-components/layout/Grid';
 
 export default {

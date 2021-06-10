@@ -29,7 +29,7 @@ import {
   joinExpressions,
   OPEN_BRACKET as OPEN_BRACKET_TYPE,
   TAG as TAG_FILTER
-} from 'in-new-components/QueryBuilder/transformation/formModel';
+} from 'in-components/QueryBuilder/transformation/formModel';
 import {
   APPLICATION,
   APPLICATION_INBOUND,
@@ -39,10 +39,10 @@ import {
   SERVICE
 } from 'in-analyze/applicationFilter';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
-import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
-import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { createParameters } from 'in-new-components/AnalyzeView/parameters';
+import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getTagFilterToUrlString } from 'in-analyze/filterBuilder';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';

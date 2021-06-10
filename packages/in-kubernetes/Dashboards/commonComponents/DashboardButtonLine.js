@@ -6,8 +6,8 @@
 import React from 'react';
 
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator';
-import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator';
+import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 
 export default function DashboardButtonLine({ snapshotId, timeConfig, tagFilters, plugin }) {
   return (

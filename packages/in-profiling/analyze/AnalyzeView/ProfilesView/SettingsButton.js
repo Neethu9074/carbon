@@ -9,9 +9,9 @@ import { KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
 import { Ul, Li } from '@instana/components';
 
-import DebouncedDistinctSlider from 'in-new-components/Slider/DebouncedDistinctSlider';
+import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { percentage } from 'in-services/formatters/number';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 

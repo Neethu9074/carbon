@@ -16,7 +16,7 @@ import {
   NOT_EQUAL,
   NOT_STARTS_WITH,
   STARTS_WITH
-} from 'in-new-components/QueryBuilder/tagFilter/operators';
+} from 'in-components/QueryBuilder/tagFilter/operators';
 import {
   dataSource as dataSourceMatrixParameterName,
   hiddenCallsMatrixParameter,
@@ -28,11 +28,11 @@ import {
   setOrDeleteMatrixParameter,
   buildJsonParser
 } from 'in-stores/navigation/matrix';
-import { sanitizeTagFilter, toNewTagFilterFormat } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import formModelFromHttpStatusRange, { TAG_CALL_HTTP_STATUS } from 'in-applications/analyze/utils/formModelUtils';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { sanitizeTagFilter, toNewTagFilterFormat } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { analyzePath, analyzeTwoParameters } from 'in-applications/navigation/paths';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { getTagFilterFromUrlString } from 'in-analyze/filterBuilder';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { emptyArray } from 'in-services/fixedObjects';

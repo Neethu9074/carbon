@@ -8,7 +8,7 @@ import { compose } from 'recompose';
 import React from 'react';
 
 import ProfiledProcessesPresenter from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/ProfiledProcessesPresenter';
-import { analyzeProfilePathFullyQualified } from 'in-new-components/Profiling/navigation/paths';
+import { analyzeProfilePathFullyQualified } from 'in-components/Profiling/navigation/paths';
 import ProfilesView from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
 import getProfiledProcesses from 'in-profiling/subscriptions/getProfiledProcesses';
 import cursorPaginated from 'in-hoc/cursorPaginated';

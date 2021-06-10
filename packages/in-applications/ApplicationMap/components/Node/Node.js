@@ -13,7 +13,7 @@ import ServiceInformation from 'in-applications/ApplicationMap/components/Toolti
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
 import ContextMenu from 'in-applications/ApplicationMap/components/ContextMenu';
 import { getButtonKindBySeverity } from 'in-stores/events';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Node.mless';

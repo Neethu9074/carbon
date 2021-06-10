@@ -13,10 +13,10 @@ import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-import FeatureFeedback from 'in-new-components/FeatureFeedback/FeatureFeedback';
+import FeatureFeedback from 'in-components/FeatureFeedback/FeatureFeedback';
 
 export function SmartAlertConfigDialog(props) {
   useCalculateThresholdOnBackendSignalEmitter(props.form);

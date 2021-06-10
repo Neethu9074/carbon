@@ -8,7 +8,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 
 import locals from 'in-alerting/components/SelectedAlertTypeInfo.mless';
 

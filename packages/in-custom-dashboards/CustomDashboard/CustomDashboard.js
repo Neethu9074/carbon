@@ -23,14 +23,14 @@ import EditAsJsonDialog from 'in-custom-dashboards/CustomDashboard/EditAsJsonDia
 import CustomDashboardPresenter from 'in-custom-dashboards/CustomDashboard/CustomDashboardPresenter';
 import SharingDialog from 'in-custom-dashboards/CustomDashboard/SharingDialog/SharingDialog';
 import DuplicateDashboardDialog from 'in-custom-dashboards/DuplicateDashboardDialog';
-import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { generateUniqueShortId } from 'in-services/util/id';
-import Prompt from 'in-new-components/Dialog/Prompt';
 import { deepCopy } from 'in-services/util/object';
+import Prompt from 'in-components/Dialog/Prompt';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';

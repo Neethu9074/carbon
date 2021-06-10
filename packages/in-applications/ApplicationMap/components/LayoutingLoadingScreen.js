@@ -7,7 +7,7 @@ import React from 'react';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

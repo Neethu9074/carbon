@@ -15,11 +15,11 @@ import {
   isUnknownTypeSpan,
   hasOnlyExitSpan
 } from 'in-applications/analyze/components/TraceDetails/components/callHelper';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getColor as getEndpointColor } from 'in-applications/endpointTypes';
 import { latencyFixed } from 'in-services/formatters/number';
 import { shorten } from 'in-services/util/string';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './CallTooltipContent.mless';

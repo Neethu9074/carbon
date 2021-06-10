@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import { useState } from 'react';
 import { find } from 'lodash';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import GroupMetricsChartPresenter, {
   getMetricKey
@@ -14,7 +15,7 @@ import GroupMetricsChartPresenter, {
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import { actionName, getButton } from 'in-components/Chart/actions/viewInAnalytics';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';

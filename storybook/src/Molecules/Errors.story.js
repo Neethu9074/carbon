@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 
 export default {
   title: 'Molecules|Errors'

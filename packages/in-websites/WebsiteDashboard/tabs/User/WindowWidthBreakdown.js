@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import getWindowWidthBreakdown from 'in-websites/subscriptions/getWindowWidthBreakdown';
-import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
-import { TopListWithUrlState } from 'in-new-components/TopListWithUrlState';
+import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';

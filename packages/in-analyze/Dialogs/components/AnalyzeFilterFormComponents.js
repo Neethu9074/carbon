@@ -16,7 +16,7 @@ import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input/Input';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

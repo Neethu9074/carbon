@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { kiloBytesTwoDecimalPlaces, millis } from 'in-services/formatters/number';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';

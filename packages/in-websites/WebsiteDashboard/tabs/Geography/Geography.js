@@ -14,11 +14,11 @@ import getWebsiteCountryBreakdown from 'in-websites/subscriptions/getWebsiteCoun
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import TwoDWebsiteGeoMap from 'in-websites/WebsiteDashboard/tabs/Geography/2DWebsiteGeoMap';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import Button from 'in-new-components/MapControls/Button';
+import Button from 'in-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

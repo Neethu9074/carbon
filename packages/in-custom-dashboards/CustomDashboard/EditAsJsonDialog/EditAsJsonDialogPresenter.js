@@ -8,10 +8,10 @@ import React from 'react';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
 import CancelButton from 'in-components/form/CancelButton';
-import Actions from 'in-new-components/Dialog/Actions';
 import SaveButton from 'in-components/form/SaveButton';
-import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
+import Actions from 'in-components/Dialog/Actions';
+import Dialog from 'in-components/Dialog/Dialog';
 import Code from 'in-components/form/Code';
 import { t } from 'in-i18n';
 

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import MultipleTechnologiesIcon from 'in-new-components/MultipleTechnologiesIcon';
+import MultipleTechnologiesIcon from 'in-components/MultipleTechnologiesIcon';
 
 export default {
   title: 'Molecules|MultipleTechnologiesIcon',

@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { combineLatest } from '@instana/observables';
 import { Link } from '@instana/components';
-import React from 'react';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';
 import { navigateToBackendTraceFromSession } from 'in-mobile-apps/tracker';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import { latencyFixed, number } from 'in-services/formatters/number';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import { Di } from 'in-new-components/HorizontalDescriptionList';
+import { Di } from 'in-components/HorizontalDescriptionList';
 import Tooltip from 'in-components/Tooltip';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

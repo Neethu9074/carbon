@@ -8,7 +8,7 @@ import React from 'react';
 
 import CustomPayloadViewer from 'in-alerting/smart-alerts/applications/details/CustomPayloadViewer';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import Message from 'in-new-components/Message/Message';
+import Message from 'in-components/Message/Message';
 import { t } from 'in-i18n';
 
 export default function CustomPayloadCard({

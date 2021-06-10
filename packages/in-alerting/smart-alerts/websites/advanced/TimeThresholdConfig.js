@@ -5,9 +5,9 @@
 
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import connectTo from 'in-hoc/connectTo';
 
 const twentyFourHours = 86400000;

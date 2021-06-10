@@ -6,18 +6,18 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { trackingProps as metricConfiguratorTrackingProps } from 'in-new-components/MetricConfigurator/MetricConfigurator';
+import { trackingProps as metricConfiguratorTrackingProps } from 'in-components/MetricConfigurator/MetricConfigurator';
 import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
 import getEntities from 'in-infrastructure/subscriptions/getEntities';
-import Header from 'in-new-components/QueryBuilder/components/Header';
-import EntityLink from 'in-new-components/EntityLink/EntityLink';
+import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import EntityLink from 'in-components/EntityLink/EntityLink';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { noop } from 'in-services/util/function';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './InfrastructureList.mless';

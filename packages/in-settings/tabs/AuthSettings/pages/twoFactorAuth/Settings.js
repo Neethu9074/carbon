@@ -11,13 +11,13 @@ import {
   toggleTwoFactor,
   verifyTwoFactorToken
 } from 'in-settings/tabs/AuthSettings/api/twoFactorAuth';
-import { success, neutral, error as errorType } from 'in-new-components/Message/types';
+import { success, neutral, error as errorType } from 'in-components/Message/types';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Section from 'in-settings/components/Section';
-import Message from 'in-new-components/Message';
 import Title from 'in-components/Title/Title';
 import Input from 'in-components/form/Input';
+import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './Settings.mless';

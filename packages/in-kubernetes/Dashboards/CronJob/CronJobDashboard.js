@@ -13,20 +13,20 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import getKubernetesCronJob from 'in-subscription/kubernetes/getKubernetesCronJob';
 import { cronJobId as matrixCronJobId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import EntityVersionList from 'in-new-components/EntityVersionList';
 import { cronJobDashboard } from 'in-kubernetes/navigation/paths';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { CronJobBreadcrumbs } from 'in-kubernetes/breadcrumbs';
-import BadgeList from 'in-new-components/BadgeList/BadgeList';
+import DashboardHeader from 'in-components/DashboardHeader';
+import BadgeList from 'in-components/BadgeList/BadgeList';
 import { cronJobTabChange } from 'in-kubernetes/tracker';
 import tabs from 'in-kubernetes/Dashboards/CronJob/tabs';
 import { getTimeConfig } from 'in-stores/time/config';
-import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
+import Footer from 'in-components/Footer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

@@ -9,11 +9,11 @@ import { ColumnizedContent, Ul, Li } from '@instana/components';
 
 import { compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
 import { selectedChanged } from 'in-logging/analyze/AnalyzeView/tracker';
-import DropdownButton from 'in-new-components/Button/DropdownButton';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import Overlay from 'in-new-components/overlays/Overlay';
-import SearchInput from 'in-new-components/SearchInput';
 import { LOG_MESSAGE } from 'in-logging/queryBuilder';
+import Overlay from 'in-components/overlays/Overlay';
+import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
 
 import locals from './TagSelector.mless';

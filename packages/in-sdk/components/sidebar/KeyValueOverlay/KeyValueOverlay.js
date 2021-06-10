@@ -9,7 +9,7 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import KeyValueDialogPresenter from 'in-sdk/components/sidebar/KeyValueOverlay/KeyValueDialogPresenter';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './KeyValueOverlay.mless';
 

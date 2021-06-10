@@ -5,7 +5,7 @@
 
 import React, { Fragment } from 'react';
 
-import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-new-components/StackTrace';
+import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-components/StackTrace';
 import { status } from 'in-websites/definitions/stackTraceLineTranslationStatus';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { isNotBlank } from 'in-services/util/string';

@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
-import SlideInView from 'in-new-components/SlideInView/SlideInView';
+import SlideInView from 'in-components/SlideInView/SlideInView';
 
 export default {
   title: 'Templates|layout/SlideInView',

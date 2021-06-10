@@ -13,9 +13,9 @@ import { bytesPerSecondZeroDecimalPlaces, percentage } from 'in-services/formatt
 import { datacenterList, getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import EntityLink from 'in-new-components/EntityLink/EntityLink';
+import EntityLink from 'in-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';

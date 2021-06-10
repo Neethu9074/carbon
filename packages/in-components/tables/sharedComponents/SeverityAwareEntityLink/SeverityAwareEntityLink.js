@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
-import EntityLink from 'in-new-components/EntityLink/EntityLink';
+import EntityLink from 'in-components/EntityLink/EntityLink';
 
 export default function SeverityAwareEntityLink({
   severity,

@@ -19,7 +19,7 @@ import {
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
-import { success, neutral, error as errorType } from 'in-new-components/Message/types';
+import { success, neutral, error as errorType } from 'in-components/Message/types';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';

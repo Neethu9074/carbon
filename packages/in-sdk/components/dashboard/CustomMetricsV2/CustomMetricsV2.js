@@ -15,7 +15,7 @@ import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import withUrlState from 'in-hoc/withUrlState';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './CustomMetricsV2.mless';

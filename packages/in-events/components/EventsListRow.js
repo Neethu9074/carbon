@@ -16,7 +16,7 @@ import {
   isWebsiteEntityType
 } from 'in-services/entityUtils';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';

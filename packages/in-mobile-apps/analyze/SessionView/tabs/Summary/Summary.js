@@ -10,17 +10,17 @@ import { find, debounce } from 'lodash';
 import { Link } from '@instana/components';
 
 import { fixClockSkewProblems } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/fixClockSkewProblems';
-import ContentWrapper from 'in-new-components/LocationAwareTabView/components/ContentWrapper';
 import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUserSummary';
+import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import Activity from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Activity';
-import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
-import { warning } from 'in-new-components/Message/types';
+import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import { number } from 'in-services/formatters/number';
+import { warning } from 'in-components/Message/types';
 import { Row, Col } from 'in-components/layout/Grid';
 import { openSession } from 'in-mobile-apps/tracker';
-import Message from 'in-new-components/Message';
-import KpiCard from 'in-new-components/KpiCard';
+import Message from 'in-components/Message';
+import KpiCard from 'in-components/KpiCard';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';

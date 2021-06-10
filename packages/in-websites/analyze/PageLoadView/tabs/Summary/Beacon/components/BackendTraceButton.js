@@ -11,8 +11,8 @@ import { Button } from '@instana/components';
 
 import getWebsiteBackendTraces from 'in-websites/subscriptions/getWebsiteBackendTraces';
 import { navigateToBackendTraceFromPageLoad } from 'in-websites/tracker';
-import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

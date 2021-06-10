@@ -13,7 +13,7 @@ import { isUnknownTypeSpan } from 'in-applications/analyze/components/TraceDetai
 import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/components/ErrorIndicator';
 import { getColor as getColorForEndpointType } from 'in-applications/endpointTypes';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './Header.mless';

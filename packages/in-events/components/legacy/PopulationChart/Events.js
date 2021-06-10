@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import Event from 'in-events/components/legacy/PopulationChart/Event';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 

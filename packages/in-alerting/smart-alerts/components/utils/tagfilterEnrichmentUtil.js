@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 
 export function getEnhancedTagFilterFormModel(
   alertConfigWithFormModel,

@@ -7,10 +7,10 @@
 
 import { expect } from 'chai';
 
-import { CLOSE_BRACKET, CONJUNCTION, OPEN_BRACKET } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { GREATER_OR_EQUAL_THAN, LESS_OR_EQUAL_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { CLOSE_BRACKET, CONJUNCTION, OPEN_BRACKET } from 'in-components/QueryBuilder/transformation/formModel';
+import { GREATER_OR_EQUAL_THAN, LESS_OR_EQUAL_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
+import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import formModelFromHttpStatusRange, { TAG_CALL_HTTP_STATUS } from './formModelUtils';
 
 export const EXP_OPEN_BRACKET = Object.freeze({ type: OPEN_BRACKET });

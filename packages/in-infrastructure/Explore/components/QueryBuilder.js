@@ -5,7 +5,7 @@
 
 import getTagValueSearchSuggestions from 'in-infrastructure/subscriptions/getTagValueSuggestions';
 import getTagCatalogSubscription from 'in-infrastructure/subscriptions/getTagCatalog';
-import { createQueryBuilder } from 'in-new-components/QueryBuilder';
+import { createQueryBuilder } from 'in-components/QueryBuilder';
 
 const { QueryBuilder, isQueryValid: isQueryValidInternal, getTagCatalog: getTagCatalogInternal } = createQueryBuilder({
   getTagCatalog: getTagCatalogSubscription,

@@ -13,23 +13,23 @@ import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsF
 import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
-import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import EntityVersionList from 'in-new-components/EntityVersionList';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { namespaceTabChange } from 'in-kubernetes/tracker';
 import { getTimeConfig } from 'in-stores/time/config';
-import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
+import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default function NamespaceDashboard({ location }) {

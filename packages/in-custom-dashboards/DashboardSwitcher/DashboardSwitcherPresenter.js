@@ -7,8 +7,8 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import DashboardSwitcherOverlayPresenter from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcherOverlayPresenter';
-import DropdownButton from 'in-new-components/Button/DropdownButton';
-import Overlay from 'in-new-components/overlays/Overlay';
+import DropdownButton from 'in-components/Button/DropdownButton';
+import Overlay from 'in-components/overlays/Overlay';
 import Lettering from 'in-components/Lettering';
 import { t } from 'in-i18n';
 

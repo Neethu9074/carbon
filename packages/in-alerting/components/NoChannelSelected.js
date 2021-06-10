@@ -7,7 +7,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import BasicWrapper from 'in-new-components/Errors/BasicWrapper';
+import BasicWrapper from 'in-components/Errors/BasicWrapper';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/components/NoChannelSelected.mless';

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createGroupingConfigurator } from 'in-new-components/GroupingConfigurator';
+import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
 import { getTagCatalog } from 'in-logging/api/catalog';
 
 const {

@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 
 import { percentage, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';

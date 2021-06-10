@@ -6,7 +6,7 @@
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { number, seconds, bytes } from 'in-services/formatters/number';
 import getAgentResponse from 'in-subscription/agentResponse';
 import Table from 'in-sdk/components/dashboard/Table';

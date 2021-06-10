@@ -11,9 +11,9 @@ import { Card } from '@instana/components';
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
 import Row from 'in-sdk/components/dashboard/Table/components/Row';
-import ButtonGroup from 'in-new-components/ButtonGroup';
-import SearchInput from 'in-new-components/SearchInput';
-import Pagination from 'in-new-components/Pagination';
+import ButtonGroup from 'in-components/ButtonGroup';
+import SearchInput from 'in-components/SearchInput';
+import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from './Table.mless';

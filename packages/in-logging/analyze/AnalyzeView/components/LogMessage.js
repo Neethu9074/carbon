@@ -10,10 +10,10 @@ import { Li, Ul } from '@instana/components';
 
 import { toChunks, fillWithParams, MESSAGE_CHUNK } from 'in-services/util/stringToChunks';
 import { logMessageParameterClicked } from 'in-logging/analyze/AnalyzeView/tracker';
-import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { compareIgnoreCase } from 'in-services/util/string';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
 import locals from './LogMessage.mless';

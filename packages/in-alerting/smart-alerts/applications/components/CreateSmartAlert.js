@@ -11,7 +11,7 @@ import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/e
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
 import { refreshSmartAlertConfigsList } from '../inventory/SmartAlertsBaseList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import FloatingActionButton from 'in-new-components/FloatingActionButton';
+import FloatingActionButton from 'in-components/FloatingActionButton';
 import { propTypeLocation } from 'in-stores/navigation';
 import { reload } from 'in-settings/components/List';
 import { isBlank } from 'in-services/util/string';

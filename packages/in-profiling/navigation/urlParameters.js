@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { dataSource, processId, time, threshold } from 'in-new-components/Profiling/navigation/matrix';
-import { analyzePath, profilingPath } from 'in-new-components/Profiling/navigation/paths';
+import { dataSource, processId, time, threshold } from 'in-components/Profiling/navigation/matrix';
+import { analyzePath, profilingPath } from 'in-components/Profiling/navigation/paths';
 import { numberParser } from 'in-stores/navigation/urlParameterUtils';
 
 export const analyzeDataSourceUrlParameter = {

@@ -28,8 +28,8 @@ import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import Delete from 'in-settings/components/ApiList/sharedComponents/Delete';
-import Dialog from 'in-new-components/Dialog/Dialog';
 import { success } from 'in-services/util/result';
+import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
 import locals from './Areas.mless';

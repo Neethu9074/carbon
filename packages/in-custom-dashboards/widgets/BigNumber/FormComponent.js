@@ -11,8 +11,8 @@ import TimeShiftingForm from 'in-custom-dashboards/widgets/BigNumber/TimeShiftin
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { publicFormatters } from 'in-stores/metric/formatters';
-import Sections from 'in-new-components/workspace/Sections';
-import Header from 'in-new-components/workspace/Header';
+import Sections from 'in-components/workspace/Sections';
+import Header from 'in-components/workspace/Header';
 import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 

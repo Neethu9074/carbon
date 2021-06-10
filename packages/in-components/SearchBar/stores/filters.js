@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createLogger } from '@instana/logger';
 import { List } from 'immutable';
 import React from 'react';
 
+import { createLogger } from '@instana/logger';
+
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { DFQ_FILTER_REMOVED } from 'in-services/tracking/eventNames';
 import { getAllFilters, removeFilter } from 'in-api/filters';
 import { track } from 'in-services/tracking/tracking';

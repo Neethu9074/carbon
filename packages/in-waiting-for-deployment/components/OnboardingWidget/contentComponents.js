@@ -10,13 +10,13 @@ import { get } from 'lodash';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
-import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { notBlankValidator } from 'in-services/validators/string';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { close } from 'in-components/DialogPresenter/store';
 import InputComponent from 'in-components/form/Input';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 import CodeComponent from 'in-components/Code';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
-import { warning } from 'in-new-components/Message/types';
+import { warning } from 'in-components/Message/types';
 import { Ul, Li } from '@instana/components';
 
 export default {

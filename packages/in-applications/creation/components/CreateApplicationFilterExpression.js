@@ -10,12 +10,12 @@ import { Li } from '@instana/components';
 
 import TagFilterExpressionConfigurationWrapper from 'in-analyze/AnalyzeView/components/TagFilterExpressionConfigurationWrapper';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
 import QuickFilterBar from 'in-applications/creation/components/QuickFilterBar';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
 import locals from './CreateApplicationFilterExpression.mless';

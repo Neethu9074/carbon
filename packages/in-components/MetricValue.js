@@ -10,7 +10,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { getMetricForFocusedMoment, getHistoricMetric, getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { showAggregations$ } from 'in-stores/metric/showAggregations';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 

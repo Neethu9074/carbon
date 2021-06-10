@@ -8,8 +8,8 @@ import React from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 
-import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
-import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
+import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { hasError, isLoading } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 

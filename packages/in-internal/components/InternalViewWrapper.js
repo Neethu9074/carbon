@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import { Link } from '@instana/components';
+
+import DashboardHeader from 'in-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';

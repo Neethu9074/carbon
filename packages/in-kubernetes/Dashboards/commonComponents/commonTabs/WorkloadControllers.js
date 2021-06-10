@@ -18,7 +18,7 @@ import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/S
 import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';

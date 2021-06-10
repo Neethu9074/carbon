@@ -19,7 +19,7 @@ import {
 } from 'in-events/timeframe';
 import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { formatDurationAccurately } from 'in-services/formatters/date';

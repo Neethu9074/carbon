@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import Typeahead from 'in-new-components/Typeahead';
+import Typeahead from 'in-components/Typeahead';
 
 export default {
   title: 'Templates|analyze/Typeahead',

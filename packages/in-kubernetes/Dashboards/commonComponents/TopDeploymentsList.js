@@ -10,7 +10,7 @@ import { getDeploymentDashboard, getDeploymentConfigDashboard, summaryTab } from
 import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
 import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
-import ButtonGroup from 'in-new-components/ButtonGroup';
+import ButtonGroup from 'in-components/ButtonGroup';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 

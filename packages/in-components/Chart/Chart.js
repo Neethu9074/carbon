@@ -8,11 +8,11 @@ import { combineLatest } from '@instana/observables';
 import renderLocalHighlightedTimeframe from 'in-components/Chart/renderer/localHighlightedTimeframe';
 import renderHighlightedTimeframe from 'in-components/Chart/renderer/highlightedTimeframe';
 import DoubleBufferRenderScheduler from 'in-components/Chart/DoubleBufferRenderScheduler';
-import { getAxisTickPositions } from 'in-new-components/Axis/HorizontalTimeAxis';
+import { getAxisTickPositions } from 'in-components/Axis/HorizontalTimeAxis';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
-import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
 import renderTickLines from 'in-components/Chart/renderer/tickLines';
 import renderTimeLine from 'in-components/Chart/renderer/timeLine';
+import { getAxisConfig } from 'in-components/Axis/timeFormatting';
 import clearRender from 'in-components/Chart/renderer/clear';
 import Config from 'in-components/Chart/Configuration';
 

@@ -7,8 +7,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { warning } from 'in-new-components/Message/types';
-import Message from 'in-new-components/Message';
+import { warning } from 'in-components/Message/types';
+import Message from 'in-components/Message';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/TwoColumnContainer.mless';
 

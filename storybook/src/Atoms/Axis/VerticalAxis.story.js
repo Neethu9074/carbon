@@ -7,7 +7,7 @@ import { withKnobs, number } from '@storybook/addon-knobs';
 import React from 'react';
 
 import { bytes, millis, percentage } from 'in-services/formatters/number';
-import VerticalAxis from 'in-new-components/Axis/VerticalAxis';
+import VerticalAxis from 'in-components/Axis/VerticalAxis';
 
 export default {
   title: 'Atoms|Axis/Vertical',

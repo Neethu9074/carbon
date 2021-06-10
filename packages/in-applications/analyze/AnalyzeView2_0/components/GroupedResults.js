@@ -10,7 +10,7 @@ import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/Pre
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
 import getCallGroups from 'in-subscription/application/getCallGroups';
-import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
+import GroupedView from 'in-components/AnalyzeView/GroupedView';
 
 const getDataPerDataSource = {
   calls: getCallGroups,

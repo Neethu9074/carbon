@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Di } from 'in-new-components/HorizontalDescriptionList';
+import { Di } from 'in-components/HorizontalDescriptionList';
 import { t } from 'in-i18n';
 
 export default function AwsLambdaInvokeDetailView({ span }) {

@@ -9,14 +9,14 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import LatencyDistributionBase10Chart from 'in-new-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
-import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
+import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { fixateTimeConfig } from 'in-stores/time/config';

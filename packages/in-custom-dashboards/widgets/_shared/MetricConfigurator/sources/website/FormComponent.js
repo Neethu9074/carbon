@@ -9,15 +9,15 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
-import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
+import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { availableMetrics } from 'in-websites/analyze/AnalyzeView/metrics';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import * as queryBuildersPerDataSource from 'in-websites/queryBuilder';
 import { emptyObject, pendingResult } from 'in-services/fixedObjects';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import Sections from 'in-new-components/workspace/Sections';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
+import Sections from 'in-components/workspace/Sections';
 import { dataSourceTitles } from 'in-websites/tags';
 import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';

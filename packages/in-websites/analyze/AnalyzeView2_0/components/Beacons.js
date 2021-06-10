@@ -8,11 +8,11 @@ import React from 'react';
 import { Link } from '@instana/components';
 
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
-import UngroupedViewTable, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedViewTable';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
+import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/Beacon';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
-import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
+import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';

@@ -3,18 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import AnalyzeMessagesButton from 'in-applications/Dashboards/commonTabs/messages/components/AnalyzeMessagesButton';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { EQUALS, IS_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { EQUALS, IS_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getErrorMessages from 'in-applications/subscriptions/getErrorMessages';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';

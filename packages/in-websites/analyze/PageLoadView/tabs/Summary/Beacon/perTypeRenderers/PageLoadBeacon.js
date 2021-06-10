@@ -11,7 +11,7 @@ import BackendDi from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/comp
 import Timings from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Timings';
 import { millis, latencyFixed, fourDecimalPlaces } from 'in-services/formatters/number';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 

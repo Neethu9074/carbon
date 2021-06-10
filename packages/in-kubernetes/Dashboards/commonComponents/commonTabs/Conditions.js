@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import {
   clusterIdUrlParameter,
@@ -15,8 +16,8 @@ import {
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import getKubernetesConditions from 'in-subscription/kubernetes/getKubernetesConditions';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { t } from 'in-i18n';
 
 const pathSegment = '/conditions';

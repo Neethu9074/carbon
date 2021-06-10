@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import { analysisTypes } from 'in-internal/monitoringUnit/units/UnitList/analysisModes';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import UnitsBreadcrumb from 'in-internal/monitoringUnit/units/UnitsBreadcrumb';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';

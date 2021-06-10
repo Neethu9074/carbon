@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+
+import { Card } from '@instana/components';
 
 import ErrorMessagesTable from 'in-applications/Dashboards/commonTabs/messages/components/ErrorMessagesTable';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';
-import Footer from 'in-new-components/Footer/Footer';
+import Footer from 'in-components/Footer/Footer';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

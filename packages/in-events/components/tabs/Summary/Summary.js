@@ -17,8 +17,8 @@ import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDes
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';

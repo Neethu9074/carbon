@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertSection from 'in-alerting/components/AlertSection';
-import Sections from 'in-new-components/workspace/Sections';
+import Sections from 'in-components/workspace/Sections';
 import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';

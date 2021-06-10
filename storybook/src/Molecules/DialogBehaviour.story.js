@@ -9,7 +9,7 @@ import { Button } from '@instana/components';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 
 import locals from './DialogBehaviour.mless';
 

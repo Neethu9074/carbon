@@ -9,8 +9,8 @@ import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import { pendingResult } from 'in-services/fixedObjects';

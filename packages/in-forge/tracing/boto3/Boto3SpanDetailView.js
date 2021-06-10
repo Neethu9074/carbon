@@ -6,8 +6,8 @@
 import React from 'react';
 
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
 import { expandNestedSerializedJson } from 'in-services/util/json';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 import { t } from 'in-i18n';
 

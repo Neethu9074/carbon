@@ -15,7 +15,7 @@ import {
   getServiceIds,
   transformHiddenTags
 } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { error, isLoading, noResultObservable } from 'in-services/util/result';
 import getEndpoint from 'in-subscription/application/getEndpoint';
 import { getModifiedUrl } from 'in-stores/navigation/navigation';

@@ -10,7 +10,7 @@ import KeyValueHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon
 import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BodyHeader';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { millisToTwoDecimalSeconds } from 'in-services/formatters/number';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';

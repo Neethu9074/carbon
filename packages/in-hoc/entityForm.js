@@ -6,7 +6,7 @@
 import React, { Fragment, useState, useRef, useLayoutEffect } from 'react';
 import { fromJS } from 'immutable';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import Title from 'in-components/Title';

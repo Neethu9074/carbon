@@ -8,7 +8,7 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-new-components/Button/DropdownButton';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import { boundaryScopes } from 'in-applications/constants';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

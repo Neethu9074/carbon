@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import Message from 'in-new-components/Message';
+import Message from 'in-components/Message';
 import Trans from 'in-i18n/Trans';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

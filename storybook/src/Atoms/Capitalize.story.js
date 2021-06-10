@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import Capitalize from 'in-new-components/Capitalize';
+import Capitalize from 'in-components/Capitalize';
 
 export default {
   title: 'Atoms|Capitalize',

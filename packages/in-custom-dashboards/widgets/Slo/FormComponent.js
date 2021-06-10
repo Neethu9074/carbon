@@ -32,8 +32,8 @@ import {
   trackTimeWindowTypeChanged
 } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import formatInputTime from 'in-new-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
+import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
 import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
@@ -41,12 +41,12 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/SliManageList';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import HelpAction from 'in-new-components/workspace/HelpAction';
-import Sections from 'in-new-components/workspace/Sections';
-import Section from 'in-new-components/workspace/Section';
-import Header from 'in-new-components/workspace/Header';
+import HelpAction from 'in-components/workspace/HelpAction';
+import Sections from 'in-components/workspace/Sections';
+import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
+import Header from 'in-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
 import Stack from 'in-components/layout/Stack';
 import { Trans, t } from 'in-i18n';

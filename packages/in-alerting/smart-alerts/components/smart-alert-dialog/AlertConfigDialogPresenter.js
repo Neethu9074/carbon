@@ -10,9 +10,9 @@ import PropTypes from 'prop-types';
 import { Button } from '@instana/components';
 
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
-import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
+import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { Title } from 'in-new-components/Dialog/Header';
+import { Title } from 'in-components/Dialog/Header';
 import { t } from 'in-i18n';
 
 import locals from './AlertConfigDialogPresenter.mless';

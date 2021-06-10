@@ -8,10 +8,10 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { fromBackendModel, joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/websites/tracker';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { defaultGroupings } from 'in-websites/tags';

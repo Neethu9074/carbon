@@ -17,15 +17,15 @@ import {
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { availableMetrics } from 'in-applications/analyze/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import Sections from 'in-new-components/workspace/Sections';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { pendingResult } from 'in-services/fixedObjects';
+import Sections from 'in-components/workspace/Sections';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
 import Stack from 'in-components/layout/Stack';

@@ -10,7 +10,7 @@ import { KeyValue } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';

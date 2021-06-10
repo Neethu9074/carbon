@@ -12,7 +12,7 @@ import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPr
 import ReleasesLanePresenter from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLanePresenter';
 import AlertsLanePresenter from 'in-components/Chart/markerLanes/AlertsLane/AlertsLanePresenter';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
-import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
+import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compare } from 'in-services/util/number';

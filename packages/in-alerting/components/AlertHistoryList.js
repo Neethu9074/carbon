@@ -11,7 +11,7 @@ import { Li, Ul } from '@instana/components';
 import { Link } from '@instana/components';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
-import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
+import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
@@ -19,9 +19,9 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { formatDateTime } from 'in-services/formatters/date';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import getRawEvents from 'in-subscription/getRawEvents';
-import ListTitle from 'in-new-components/lists/Title';
 import { isLoading } from 'in-services/util/result';
-import WithIcon from 'in-new-components/WithIcon';
+import ListTitle from 'in-components/lists/Title';
+import WithIcon from 'in-components/WithIcon';
 import { t } from 'in-i18n';
 
 import locals from 'in-events/components/EventsListRowDense.mless';

@@ -9,9 +9,9 @@ import React from 'react';
 import { LoadingSkeleton } from '@instana/components';
 
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
-import Delayed from 'in-new-components/Delayed/Delayed';
-import WithIcon from 'in-new-components/WithIcon';
+import Delayed from 'in-components/Delayed/Delayed';
 import { getSnapshot } from 'in-stores/snapshot';
+import WithIcon from 'in-components/WithIcon';
 import { plugins } from 'in-forge/constants';
 import { getLabel } from 'in-sdk/snapshot';
 import connectTo from 'in-hoc/connectTo';

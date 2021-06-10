@@ -21,7 +21,7 @@ import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/P
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Areas';
-import { success, neutral, error as errorType } from 'in-new-components/Message/types';
+import { success, neutral, error as errorType } from 'in-components/Message/types';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -33,7 +33,7 @@ import ApiItemView from 'in-settings/components/ApiItemView';
 import { ownerRoleId, defaultRoleId } from 'in-stores/user';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 import { goToPath } from 'in-stores/navigation';
 import Toggle from 'in-components/form/Toggle';
 import Title from 'in-components/Title/Title';

@@ -11,11 +11,11 @@ import AlertChannelModificationForm, {
   save
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelModificationForm';
 import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
-import { default as Message, default as types } from 'in-new-components/Message/Message';
-import DialogFooter from 'in-new-components/BlueprintFormMultistep/DialogFooter';
+import { default as Message, default as types } from 'in-components/Message/Message';
+import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { createAlertChannel, getAlertChannel } from 'in-api/alertChannels';
 import AlertSection from 'in-alerting/components/AlertSection';
-import Sections from 'in-new-components/workspace/Sections';
+import Sections from 'in-components/workspace/Sections';
 import SaveButton from 'in-components/form/SaveButton';
 import Stack from 'in-components/layout/Stack/Stack';
 import Select from 'in-components/form/Select';

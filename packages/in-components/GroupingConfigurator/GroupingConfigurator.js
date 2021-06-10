@@ -1,0 +1,111 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React, { useRef } from 'react';
+import rpt from 'prop-types';
+
+import { Button } from '@instana/components';
+
+import ActiveGroupingConfiguration from 'in-components/GroupingConfigurator/ActiveGroupingConfiguration';
+import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
+import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import useTagCatalog from 'in-applications/hooks/useTagCatalog';
+import Overlay from 'in-components/overlays/Overlay';
+import { t } from 'in-i18n';
+
+import locals from './GroupingConfigurator.mless';
+
+export default function GroupingConfigurator({
+  value: group,
+  tagFilterExpression,
+  getTagCatalog,
+  getSuggestions,
+  onChange,
+  tracking,
+  label = t('in-components:groupingConfigurator.addGroup'),
+  loadingLabel
+}) {
+  const tagCatalog = useTagCatalog(getTagCatalog);
+  const autoFocus = useRef();
+
+  if (!tagCatalog) {
+    return <LoadingIndicator text={loadingLabel} />;
+  }
+
+  return (
+    <>
+      <Overlay
+        content={TagSelectorOverlay}
+        props={{
+          tagCatalog,
+          onChange: ({ name }) => {
+            autoFocus.current = Date.now();
+            const selectedGroup = setEntityIfNecessary(name);
+            tracking?.onGroupAdded?.(selectedGroup);
+            onChange(selectedGroup);
+          }
+        }}
+        align={'bottomLeft'}
+        withoutWrapper
+      >
+        {({ toggle, refSetter }) =>
+          group?.groupbyTag ? (
+            <ActiveGroupingConfiguration
+              onChange={onChange}
+              onGroupRemoved={tracking?.onGroupRemoved}
+              getSuggestions={getSuggestions}
+              group={group}
+              toggle={toggle}
+              ref={refSetter}
+              tagCatalog={tagCatalog}
+              tagFilterExpression={tagFilterExpression}
+              autoFocus={autoFocus.current}
+            />
+          ) : (
+            <Button
+              className={locals.noActiveGroupingButton}
+              kind={'subtle'}
+              size="compact"
+              icon={'lib_openclose_add'}
+              refSetter={refSetter}
+              onClick={toggle}
+            >
+              {label}
+            </Button>
+          )
+        }
+      </Overlay>
+    </>
+  );
+
+  function setEntityIfNecessary(groupbyTag) {
+    const tagTreeNode = tagCatalog?.tagsByName[groupbyTag];
+    if (tagTreeNode.canApplyToSource && tagTreeNode.canApplyToDestination) {
+      return {
+        groupbyTag,
+        groupbyTagEntity: DESTINATION
+      };
+    }
+
+    return { groupbyTag };
+  }
+}
+
+export const trackingProps = {
+  onGroupAdded: rpt.func,
+  onGroupRemoved: rpt.func
+};
+
+GroupingConfigurator.propTypes = {
+  onChange: rpt.func.isRequired,
+  value: rpt.object,
+  getTagCatalog: rpt.func.isRequired,
+  getSuggestions: rpt.func.isRequired,
+  tagFilterExpression: rpt.object.isRequired,
+  tracking: rpt.shape(trackingProps),
+  label: rpt.string,
+  loadingLabel: rpt.string
+};

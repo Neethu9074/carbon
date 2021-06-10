@@ -10,8 +10,8 @@ import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
-import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
-import SlideInView, { NoHeader } from 'in-new-components/SlideInView/SlideInView';
+import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
+import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import FormBoundInput from 'in-components/form/Input/FormBoundInput';
 import StackItem from 'in-components/layout/Stack/StackItem';
 import Stack from 'in-components/layout/Stack';

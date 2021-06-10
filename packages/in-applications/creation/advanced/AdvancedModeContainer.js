@@ -16,12 +16,12 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import Spacer from 'in-applications/Forms/components/Spacer';
 import { getColor } from 'in-applications/endpointTypes';
-import { error } from 'in-new-components/Message/types';
 import FormGroup from 'in-components/form/FormGroup';
-import Message from 'in-new-components/Message';
+import { error } from 'in-components/Message/types';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Pill from 'in-new-components/Pill';
+import Message from 'in-components/Message';
+import Pill from 'in-components/Pill';
 import { t, Trans } from 'in-i18n';
 
 import locals from './AdvancedModeContainer.mless';

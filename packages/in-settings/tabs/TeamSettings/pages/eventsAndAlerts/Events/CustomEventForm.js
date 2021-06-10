@@ -61,7 +61,7 @@ import { putApplicationIdField } from 'in-settings/tabs/TeamSettings/pages/event
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { getPluginsWithCustomMetrics, getCustomMetricsForPlugin } from 'in-api/infraCatalog';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import EventDescription from 'in-events/components/EventDescription';

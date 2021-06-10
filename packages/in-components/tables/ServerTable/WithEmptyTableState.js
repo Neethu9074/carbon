@@ -8,9 +8,9 @@ import { get } from 'lodash';
 import React from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification';
+import EntityPageMainNotification from 'in-components/EntityPageMainNotification';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { emptyListResult } from 'in-services/util/result';
 import { getPluginName } from 'in-sdk/pluginName';
 import { t } from 'in-i18n';

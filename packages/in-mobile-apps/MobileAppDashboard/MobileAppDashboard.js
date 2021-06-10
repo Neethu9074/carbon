@@ -14,22 +14,22 @@ import { mobileAppId as matrixMobileAppId, viewId as matrixViewId } from 'in-mob
 import { defaultGroupings, translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import MobileAppContextIcon from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContextIcon';
 import MobileAppContext from 'in-mobile-apps/MobileAppDashboard/components/MobileAppContext';
-import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
 import { tagFiltersInDashboardUrlParameter } from 'in-mobile-apps/navigation/urlParameters';
+import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { mobileAppTabs, viewTabs } from 'in-mobile-apps/MobileAppDashboard/tabs/index';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracker';
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import DashboardHeader from 'in-new-components/DashboardHeader';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-mobile-apps/tracker';
 import withUrlState from 'in-hoc/withUrlState';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default compose(

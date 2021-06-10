@@ -6,7 +6,7 @@
 import { withKnobs } from '@storybook/addon-knobs';
 import React from 'react';
 
-import BadgeList from 'in-new-components/BadgeList/BadgeList';
+import BadgeList from 'in-components/BadgeList/BadgeList';
 import theme from 'in-themes';
 
 export default {

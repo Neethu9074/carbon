@@ -14,7 +14,7 @@ import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDep
 import TopNamespacesList from 'in-kubernetes/Dashboards/commonComponents/TopNamespacesList';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
-import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';

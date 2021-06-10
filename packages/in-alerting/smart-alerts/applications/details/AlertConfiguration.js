@@ -21,14 +21,14 @@ import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/Expa
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import CustomPayloadCard from 'in-alerting/smart-alerts/applications/details/CustomPayloadCard';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { operators } from 'in-analyze/applicationFilter';
-import ListTitle from 'in-new-components/lists/Title';
+import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//AlertConfiguration.mless';

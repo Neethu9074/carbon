@@ -6,13 +6,13 @@
 import React from 'react';
 
 import WidgetPreview from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetPreview';
-import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext';
+import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import InputInSection from 'in-components/form/Input/InputInSection';
-import HelpAction from 'in-new-components/workspace/HelpAction';
 import StackItem from 'in-components/layout/Stack/StackItem';
-import Sections from 'in-new-components/workspace/Sections';
-import Divider from 'in-new-components/workspace/Divider';
-import Header from 'in-new-components/workspace/Header';
+import HelpAction from 'in-components/workspace/HelpAction';
+import Sections from 'in-components/workspace/Sections';
+import Divider from 'in-components/workspace/Divider';
+import Header from 'in-components/workspace/Header';
 import widgets from 'in-custom-dashboards/widgets';
 import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';

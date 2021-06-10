@@ -12,10 +12,10 @@ import { Li, Ul } from '@instana/components';
 
 import { createApplicationHealthForm } from 'in-custom-dashboards/widgets/ApplicationHealth/form';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { pendingResult } from 'in-services/fixedObjects';
-import Header from 'in-new-components/workspace/Header';
+import Header from 'in-components/workspace/Header';
 import Label from 'in-components/form/Label/Label';
 import Stack from 'in-components/layout/Stack';
 import Select from 'in-components/form/Select';

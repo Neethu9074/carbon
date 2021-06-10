@@ -13,8 +13,8 @@ import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from '
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
-import { success, neutral, error as errorType } from 'in-new-components/Message/types';
-import CopyToClipboardButton from 'in-new-components/CopyToClipboardButton';
+import { success, neutral, error as errorType } from 'in-components/Message/types';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-components/layout/Grid';

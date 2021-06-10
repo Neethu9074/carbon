@@ -16,7 +16,7 @@ import LoadingCallDetails from 'in-applications/analyze/components/TraceDetails/
 import IsSynthetic from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/IsSynthetic';
 import Header from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/Header';
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { pendingResult } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';

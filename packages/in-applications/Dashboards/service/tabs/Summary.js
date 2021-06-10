@@ -11,25 +11,25 @@ import {
   getTagFiltersForSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { createMetricField, createChartedMetric, createGroupBy, createOrderBy } from 'in-analyze/navigation/paths';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
-import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { hasHttpAndOtherEndpoints, hasHttpEndpoints } from 'in-applications/endpointTypes';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import EndpointTopList from 'in-applications/Dashboards/service/tabs/EndpointTopList';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { meanLatency, number, percentage } from 'in-services/formatters/number';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';

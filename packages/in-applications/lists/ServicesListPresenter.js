@@ -30,7 +30,7 @@ import { getServicesWithDefaults } from 'in-subscription/application/getServices
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -42,7 +42,7 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
 import { timeConfig$ } from 'in-stores/time/config';
 import { isBlank } from 'in-services/util/string';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';

@@ -9,7 +9,7 @@ import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/compone
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import MobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/MobileBeacons';
-import GroupedView from 'in-new-components/AnalyzeView/GroupedView';
+import GroupedView from 'in-components/AnalyzeView/GroupedView';
 
 export default function GroupedMobileBeacons(props) {
   return (

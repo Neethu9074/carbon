@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
-import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import { getLinkToMobileApp, getLinkToHttpRequest } from 'in-mobile-apps/navigation/paths';
-import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { number, percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

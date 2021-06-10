@@ -10,8 +10,8 @@ import { source as applicationSource } from 'in-custom-dashboards/widgets/_share
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { isPotentialProblemsSupportedByMetric } from 'in-applications/analyze/metrics';
 import { getShortMetricKey } from 'in-custom-dashboards/widgets/Chart/util';
-import Sections from 'in-new-components/workspace/Sections';
-import Section from 'in-new-components/workspace/Section';
+import Sections from 'in-components/workspace/Sections';
+import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';

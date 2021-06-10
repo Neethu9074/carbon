@@ -20,16 +20,16 @@ import {
   NOT_EQUAL,
   NOT_STARTS_WITH,
   STARTS_WITH
-} from 'in-new-components/QueryBuilder/tagFilter/operators';
+} from 'in-components/QueryBuilder/tagFilter/operators';
 import {
   httpStatusCodeTagFiltersToExpression,
   isAnalyticsOneLocation,
   transformOneZeroToTwoZero
 } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
-import { CLOSE_BRACKET, CONJUNCTION, OPEN_BRACKET } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { CLOSE_BRACKET, CONJUNCTION, OPEN_BRACKET } from 'in-components/QueryBuilder/transformation/formModel';
+import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { TAG_CALL_HTTP_STATUS } from 'in-applications/analyze/utils/formModelUtils';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 
 export const EXP_OPEN_BRACKET = Object.freeze({ type: OPEN_BRACKET });

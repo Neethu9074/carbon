@@ -12,10 +12,10 @@ import { Li, Ul } from '@instana/components';
 
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-new-components/Profiling/navigation/paths';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { getLinkToAnalyze as getLinkToLogsAnalyze, getLinkToRawLogs } from 'in-logging/navigation/paths';
+import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
 import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
 import { getLinkToAnalyze as getLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
@@ -30,7 +30,7 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { loggingEnabled } from 'in-services/featureFlags';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeDataSourceSelector.mless';

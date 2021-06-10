@@ -4,15 +4,16 @@
  */
 
 import { withState, compose } from 'recompose';
-import { create } from '@instana/observables';
 import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
+
+import { create } from '@instana/observables';
 
 import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
 import CountryList from 'in-websites/WebsiteDashboard/components/GlobeView/components/CountryList';
 import { websitePathFullyQualified } from 'in-websites/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import Button from 'in-new-components/MapControls/Button';
+import Button from 'in-components/MapControls/Button';
 import { applyTransform } from 'in-services/util/dom';
 import { Vector3 } from 'in-map/3DLibProvider';
 import Tooltip from 'in-components/Tooltip';

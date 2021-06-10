@@ -11,13 +11,13 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
-import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
-import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

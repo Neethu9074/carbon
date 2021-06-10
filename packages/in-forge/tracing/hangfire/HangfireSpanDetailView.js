@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { t } from 'in-i18n';
 
 export default function HangfireSpanDetailView({ span }) {

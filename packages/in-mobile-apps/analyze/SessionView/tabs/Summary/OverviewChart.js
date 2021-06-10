@@ -9,8 +9,8 @@ import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetail
 import OverviewChartTooltip from 'in-mobile-apps/analyze/SessionView/tabs/Summary/OverviewChartTooltip';
 import { getType, types } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
-import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
-import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
+import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
+import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
 import { deepFreeze } from 'in-services/util/object';

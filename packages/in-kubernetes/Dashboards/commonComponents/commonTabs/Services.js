@@ -17,7 +17,7 @@ import {
 } from 'in-kubernetes/navigation/urlParameters';
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
@@ -25,7 +25,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
-import EntityLink from 'in-new-components/EntityLink';
+import EntityLink from 'in-components/EntityLink';
 import { t } from 'in-i18n';
 
 const pathSegment = '/services';

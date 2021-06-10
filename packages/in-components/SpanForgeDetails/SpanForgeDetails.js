@@ -7,7 +7,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getType, getSpanDetailView } from 'in-sdk/tracing';
 import Jail from 'in-components/Jail/Jail';
 

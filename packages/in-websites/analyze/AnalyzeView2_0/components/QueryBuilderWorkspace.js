@@ -15,23 +15,23 @@ import {
 import {
   toBackendQueryModel,
   getMaximumExpressionDepth
-} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
-import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
-import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
+import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
+import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
-import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
 import * as groupingConfiguratorsByDataSource from 'in-websites/groupingConfigurators';
+import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import { metricRenderers } from 'in-websites/analyze/AnalyzeView2_0/metrics';
 import * as queryBuildersByDataSource from 'in-websites/queryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
-import Charting from 'in-new-components/AnalyzeView/Charting';
-import Sections from 'in-new-components/workspace/Sections';
-import { error } from 'in-new-components/Message/types';
-import Message from 'in-new-components/Message';
+import Charting from 'in-components/AnalyzeView/Charting';
+import Sections from 'in-components/workspace/Sections';
+import { error } from 'in-components/Message/types';
 import Stack from 'in-components/layout/Stack';
-import Footer from 'in-new-components/Footer';
+import Message from 'in-components/Message';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import theme from 'in-themes';
 

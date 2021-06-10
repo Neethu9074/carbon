@@ -25,7 +25,7 @@ import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/Di
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
 import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';

@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import VersionTimeline from 'in-new-components/VersionTimeline';
+import VersionTimeline from 'in-components/VersionTimeline';
 import { hours, minutes } from 'in-services/time';
 
 export default {

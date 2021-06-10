@@ -21,7 +21,7 @@ import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Delete from 'in-settings/components/actions/Delete';
 import { arrayToResult } from 'in-services/util/result';
-import ListTitle from 'in-new-components/lists/Title';
+import ListTitle from 'in-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';

@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { interval } from '@instana/observables';
 import { createField } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
+
+import { interval } from '@instana/observables';
 
 import { addMobileApp as addMobileAppTracker } from 'in-mobile-apps/tracker';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
@@ -19,7 +20,7 @@ import ReadyStep from 'in-mobile-apps/NewMobileAppFlow/ReadyStep';
 import WaitStep from 'in-mobile-apps/NewMobileAppFlow/WaitStep';
 import { addMobileApp } from 'in-mobile-apps/api/mobileApps';
 import { combineDataAndError } from 'in-services/util/ro';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';

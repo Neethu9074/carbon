@@ -7,10 +7,10 @@ import { useState, useEffect } from 'react';
 import { isEqual } from 'lodash';
 
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { validateFormModel } from 'in-new-components/QueryBuilder/validation/formModel';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 
 // Unfortunately, we persist the backend model within the form while the UI has to operate on
 // the form model. This disconnect causes the form elements to be unnecessarily complicated.

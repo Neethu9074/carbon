@@ -8,7 +8,7 @@ import { createField } from 'formalistic';
 import React from 'react';
 
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
-import PromptPresenter from 'in-new-components/Dialog/PromptPresenter';
+import PromptPresenter from 'in-components/Dialog/PromptPresenter';
 import { notBlankValidator } from 'in-services/validators/string';
 import { createDashboard } from 'in-custom-dashboards/tracker';
 import { addCustomDashboard } from 'in-custom-dashboards/api';

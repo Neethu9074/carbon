@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext';
+import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import HelpAction from 'in-new-components/workspace/HelpAction';
-import Sections from 'in-new-components/workspace/Sections';
+import HelpAction from 'in-components/workspace/HelpAction';
 import { compareIgnoreCase } from 'in-services/util/string';
+import Sections from 'in-components/workspace/Sections';
 import { t } from 'in-i18n';
 
 export default function APConfigForm({ apConfigIdField: field, apConfigs, onUpdateApConfigId }) {

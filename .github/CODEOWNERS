@@ -25,6 +25,7 @@ packages/in-cloudfoundry            @pr-approval @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-cockpit                 @pr-approval @instana/eng-ui
 packages/in-components              @pr-approval @instana/eng-ui
+packages/in-components/alerting     @pr-approval @instana/eng-ui @instana/eng-stan
 packages/in-connection              @pr-approval @instana/eng-ui
 packages/in-custom-dashboards       @pr-approval @instana/eng-eum @instana/eng-ui
 packages/in-custom-dashboards/widgets/Slo @pr-approval @instana/eng-eum @instana/eng-ui @instana/eng-stan
@@ -43,8 +44,6 @@ packages/in-logging                 @pr-approval @instana/eng-logs @instana/eng-
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @pr-approval @instana/eng-ui
 packages/in-mobile-apps             @pr-approval @instana/eng-eum @instana/eng-application @instana/eng-ui
-packages/in-new-components          @pr-approval @instana/eng-ui
-packages/in-new-components/alerting @pr-approval @instana/eng-ui @instana/eng-stan
 # No clear ownership: Fallback to eng-ui
 packages/in-profiling               @pr-approval @instana/eng-ui
 packages/in-sdk                     @pr-approval @instana/eng-ui

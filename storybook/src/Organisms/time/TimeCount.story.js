@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import TimeCount from 'in-new-components/time/TimeCount';
+import TimeCount from 'in-components/time/TimeCount';
 
 export default {
   title: 'Organisms|time/TimeCount',

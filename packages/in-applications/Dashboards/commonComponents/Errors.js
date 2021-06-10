@@ -11,12 +11,12 @@ import {
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';

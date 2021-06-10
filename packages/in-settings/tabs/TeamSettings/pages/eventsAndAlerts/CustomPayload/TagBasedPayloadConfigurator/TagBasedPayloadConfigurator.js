@@ -10,10 +10,10 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import TagBasedPayload from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/TagBasedPayload';
-import TagSelectorOverlay from 'in-new-components/TagSelectorOverlay/TagSelectorOverlay';
-import LoadingIndicator from 'in-new-components/GroupingConfigurator/LoadingIndicator';
+import TagSelectorOverlay from 'in-components/TagSelectorOverlay/TagSelectorOverlay';
+import LoadingIndicator from 'in-components/GroupingConfigurator/LoadingIndicator';
 import { getTagCatalogOnce, enrichTagCatalog } from 'in-services/tags/tagCatalog';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';

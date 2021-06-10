@@ -6,7 +6,7 @@
 import React from 'react';
 
 import WidgetTypeSidebar from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector/WidgetTypeSidebar';
-import { SideNavigationWrapper } from 'in-new-components/SideNavigation/SideNavigation';
+import { SideNavigationWrapper } from 'in-components/SideNavigation/SideNavigation';
 import widgets from 'in-custom-dashboards/widgets';
 import { t } from 'in-i18n';
 

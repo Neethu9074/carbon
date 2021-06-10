@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
-import React from 'react';
 
 import {
   websiteIdUrlParameter,
@@ -22,7 +23,7 @@ import changeExplanation from 'in-websites/emptyListExplanation';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number, ms } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 const columnDefinitions = [

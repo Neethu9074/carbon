@@ -12,8 +12,8 @@ import { updateConfiguration } from 'in-forge/plugins/instanaAgent/selfMonitorin
 import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-new-components/Dialog/Dialog';
 import FormGroup from 'in-components/form/FormGroup';
+import Dialog from 'in-components/Dialog/Dialog';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';

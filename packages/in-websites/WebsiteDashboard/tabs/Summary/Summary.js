@@ -9,21 +9,21 @@ import { Card } from '@instana/components';
 
 import WebsiteDashboardsMarkerLanes from 'in-websites/WebsiteDashboard/components/WebsiteDashboardsMarkerLanes';
 import WebsiteMetricsKpiCard from 'in-websites/WebsiteDashboard/components/WebsiteMetricsKpiCard';
-import AggregationSelectorWithUrlState from 'in-new-components/AggregationSelectorWithUrlState';
 import WebsiteChartWrapper from 'in-websites/WebsiteDashboard/components/WebsiteChartWrapper';
 import Deprecations from 'in-websites/WebsiteDashboard/components/Deprecations/Deprecations';
+import AggregationSelectorWithUrlState from 'in-components/AggregationSelectorWithUrlState';
 import WebsiteGeoHeatMap from 'in-websites/WebsiteDashboard/components/WebsiteGeoHeatMap';
 import { number, millis, meanLatency, latency } from 'in-services/formatters/number';
 import ErrorTopList from 'in-websites/WebsiteDashboard/tabs/Summary/ErrorTopList';
 import PagesTopList from 'in-websites/WebsiteDashboard/tabs/Summary/PagesTopList';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { getLinkToAnalyze, summaryTab } from 'in-websites/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { Row, Col } from 'in-components/layout/Grid';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

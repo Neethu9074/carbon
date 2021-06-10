@@ -8,7 +8,7 @@ import React from 'react';
 import { getLabel as getJsStackTraceTranslatorLabel } from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
 import { hostTableCols, getHostDetails } from 'in-internal/monitoringUnit/sre/datastores';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getNginxWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';

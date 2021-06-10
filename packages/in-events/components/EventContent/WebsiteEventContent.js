@@ -11,9 +11,9 @@ import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/webs
 import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';

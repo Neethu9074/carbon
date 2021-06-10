@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import ResultForTimeSelectionIndicator from 'in-new-components/ResultForTimeSelectionIndicator';
+import ResultForTimeSelectionIndicator from 'in-components/ResultForTimeSelectionIndicator';
 import { Td, Tr } from 'in-components/tables/sharedComponents';
 
 import locals from './HighlightedTimeframeMarkerRow.mless';

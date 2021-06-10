@@ -6,8 +6,8 @@
 import { compose, withProps } from 'recompose';
 import React, { Fragment } from 'react';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import HeaderWithTimeSelection from 'in-new-components/time/TimeSelection/HeaderWithTimeSelection';
+import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import HeaderWithTimeSelection from 'in-components/time/TimeSelection/HeaderWithTimeSelection';
 import IntegrationDashboardList from 'in-integrations/landing/IntegrationDashboardList';
 import { landingConfigUrlParameter } from 'in-integrations/navigation/matrix';
 import getReferences from 'in-integrations/subscriptions/getReferences';

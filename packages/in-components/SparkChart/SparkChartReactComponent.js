@@ -8,11 +8,11 @@ import React from 'react';
 
 import { KeyValue } from '@instana/components';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { number, isPercentageFormatter } from 'in-services/formatters/number';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import AggregationSymbol from 'in-components/AggregationSymbol';
 import SparkChart from 'in-components/SparkChart/SparkChart';
 import { isBlank } from 'in-services/util/string';

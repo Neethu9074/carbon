@@ -11,9 +11,9 @@ import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/c
 import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/TypeHeader';
 import { getType, types } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
-import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import { getLinkToSession } from 'in-mobile-apps/navigation/paths';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { EntityToInstanaServicesButton } from 'in-new-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
-import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
+import { EntityToInstanaServicesButton } from 'in-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
+import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 
 export default {
   title: 'Templates|application/EntityToInstanaServicesButton',

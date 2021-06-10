@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import PhysicalHierarchyBreadcrumb from 'in-infrastructure/Dashboard/components/PhysicalHierarchyBreadcrumb';
 import CollapsedEntitiesBreadcrumb from 'in-infrastructure/Dashboard/components/CollapsedEntitiesBreadcrumb';
 import { getCloseDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';

@@ -11,8 +11,8 @@ import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/ale
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrapper';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { smoothMetrics } from 'in-alerting/smart-alerts/components/utils/chartUtil';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
 import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
 import theme from 'in-themes';

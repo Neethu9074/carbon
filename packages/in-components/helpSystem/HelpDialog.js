@@ -9,7 +9,7 @@ import React from 'react';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { close } from 'in-components/DialogPresenter/store';
 import { toHtml } from 'in-services/formatters/markdown';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 
 import locals from './HelpDialog.mless';
 

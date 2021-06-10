@@ -16,21 +16,21 @@ import {
   waitTimeFlameGraphOpened
 } from 'in-profiling/tracker';
 import ProfileFlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph';
-import ResultForTimeSelectionIndicator from 'in-new-components/ResultForTimeSelectionIndicator';
+import ResultForTimeSelectionIndicator from 'in-components/ResultForTimeSelectionIndicator';
 import SettingsButton from 'in-profiling/analyze/AnalyzeView/ProfilesView/SettingsButton';
 import { viewTypes } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesView';
 import countSamples from 'in-profiling/analyze/AnalyzeView/ProfilesView/sampleCount';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import ProfileTree from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileTree';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import InfiniteCircle from 'in-new-components/Loading/InfiniteCircle';
+import InfiniteCircle from 'in-components/Loading/InfiniteCircle';
 import { hasError, isLoading } from 'in-services/util/result';
 import { formatTime } from 'in-services/formatters/date';
-import { error } from 'in-new-components/Message/types';
-import ButtonGroup from 'in-new-components/ButtonGroup';
-import SearchInput from 'in-new-components/SearchInput';
 import SetBodyColor from 'in-components/SetBodyColor';
-import Message from 'in-new-components/Message';
+import { error } from 'in-components/Message/types';
+import ButtonGroup from 'in-components/ButtonGroup';
+import SearchInput from 'in-components/SearchInput';
+import Message from 'in-components/Message';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

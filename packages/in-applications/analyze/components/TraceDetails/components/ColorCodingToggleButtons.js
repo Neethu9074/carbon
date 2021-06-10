@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import ButtonGroup from 'in-new-components/ButtonGroup';
+import ButtonGroup from 'in-components/ButtonGroup';
 import { t } from 'in-i18n';
 
 import locals from './ColorCodingToggleButtons.mless';

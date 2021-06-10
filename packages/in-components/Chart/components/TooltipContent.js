@@ -11,7 +11,7 @@ import { SvgIcon } from '@instana/components';
 
 import AggregationSymbol, { supportsAggregationIcon } from 'in-components/AggregationSymbol';
 import { collectAllDataPointsAtTime } from 'in-components/Chart/data/dataSearchUtils';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getTimeShiftLabel, defaultTimeShift } from 'in-stores/time/shifting';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Trans, t } from 'in-i18n';

@@ -6,8 +6,8 @@
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getActiveLicensesAsResultObservable } from 'in-amp/api/account';
 import { formatDate } from 'in-services/formatters/date';
 import { t } from 'in-i18n';

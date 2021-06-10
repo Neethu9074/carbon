@@ -10,7 +10,7 @@ import { Button } from '@instana/components';
 
 import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { goToAlertChannelView } from 'in-settings/navigation/paths';
-import MultiButton from 'in-new-components/MultiButton';
+import MultiButton from 'in-components/MultiButton';
 import { t } from 'in-i18n';
 
 import locals from './NewChannelButton.mless';

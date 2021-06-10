@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
 import React from 'react';
 
+import { create } from '@instana/observables';
+
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
-import { success, neutral, error as errorType } from 'in-new-components/Message/types';
+import { success, neutral, error as errorType } from 'in-components/Message/types';
 import ExpandableCookieList from 'in-settings/terms/cookies/ExpandableCookieList';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import termsFormDefinition from 'in-settings/terms/termsFormDefinition';

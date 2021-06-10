@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import Message from 'in-new-components/Message';
+import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './TraceValidationResult.mless';

@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { Card } from '@instana/components';
+
 import { urlParameter as timeShiftUrlParameter } from 'in-stores/time/shifting';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-new-components/Button/DropdownButton';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import ButtonGroup from 'in-new-components/ButtonGroup';
+import ButtonGroup from 'in-components/ButtonGroup';
 import useUrlState from 'in-hooks/useUrlState';
 
 import locals from './ChartSelectors.mless';

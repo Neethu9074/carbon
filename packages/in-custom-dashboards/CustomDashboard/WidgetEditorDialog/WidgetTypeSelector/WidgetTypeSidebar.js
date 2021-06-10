@@ -5,10 +5,10 @@
 
 import React from 'react';
 
-import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
+import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { compareIgnoreCase } from 'in-services/util/string';
 import widgets from 'in-custom-dashboards/widgets';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 
 import locals from './WidgetTypeSidebar.mless';
 

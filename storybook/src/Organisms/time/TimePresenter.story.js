@@ -7,7 +7,7 @@ import { withKnobs, number, boolean } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import TimePresenter from 'in-new-components/time/TimePresenter';
+import TimePresenter from 'in-components/time/TimePresenter';
 
 export default {
   title: 'Organisms|time/TimePresenter',

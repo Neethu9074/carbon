@@ -12,9 +12,9 @@ import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/a
 import getKubernetesClusterByRelation from 'in-subscription/kubernetes/getKubernetesClusterByRelation';
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
-import { warning } from 'in-new-components/Message/types';
+import { warning } from 'in-components/Message/types';
 import { getSnapshot } from 'in-stores/snapshot';
-import Message from 'in-new-components/Message';
+import Message from 'in-components/Message';
 
 import locals from './K8sAgentMonitoringIssueNotifications.mless';
 

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { Row, Col } from 'in-components/layout/Grid';
-import KpiCard from 'in-new-components/KpiCard';
+import KpiCard from 'in-components/KpiCard';
 
 export function KpiHeading({ children }) {
   return <div>{children}</div>;

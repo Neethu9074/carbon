@@ -13,7 +13,7 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
-import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/getPotentialProblems';
 import { trackRequestLoadingTime } from 'in-alerting/PotentialProblems/tracker';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';

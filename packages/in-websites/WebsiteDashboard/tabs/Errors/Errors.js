@@ -28,7 +28,7 @@ import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 const columnDefinitions = [

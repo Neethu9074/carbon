@@ -15,13 +15,13 @@ import GoodBadEvents from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsFor
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
-import HelpAction from 'in-new-components/workspace/HelpAction';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import Sections from 'in-new-components/workspace/Sections';
-import Divider from 'in-new-components/workspace/Divider';
-import Section from 'in-new-components/workspace/Section';
-import Header from 'in-new-components/workspace/Header';
+import HelpAction from 'in-components/workspace/HelpAction';
+import Sections from 'in-components/workspace/Sections';
+import Divider from 'in-components/workspace/Divider';
+import Section from 'in-components/workspace/Section';
 import { Row, Col } from 'in-components/layout/Grid';
+import Header from 'in-components/workspace/Header';
 import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 

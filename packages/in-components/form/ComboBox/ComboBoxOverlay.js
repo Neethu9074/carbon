@@ -8,8 +8,8 @@ import React from 'react';
 import { Ul } from '@instana/components';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
+import OverlayOption from 'in-components/OverlayOption/OverlayOption';
 import { compareIgnoreCase } from 'in-services/util/string';
 
 import locals from './ComboBoxOverlay.mless';

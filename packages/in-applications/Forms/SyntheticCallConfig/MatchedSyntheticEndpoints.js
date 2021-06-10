@@ -19,17 +19,14 @@ import {
   LoadMoreRow,
   HorizontalIndicatorRow
 } from 'in-components/tables/sharedComponents';
-import {
-  OPERATOR_OR,
-  createTagFilterExpression
-} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import { OPERATOR_OR, createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { DESTINATION } from 'in-new-components/QueryBuilder/tagFilter/entities';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';

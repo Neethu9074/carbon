@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import { createField } from 'formalistic';
 import { isEqual } from 'lodash';
 
-import { toBackendQueryModel, EMPTY_EXPRESSION } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { just } from '@instana/observables';
+
+import { toBackendQueryModel, EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { finishedProgress, emptyArray } from 'in-services/fixedObjects';
 import { objectValidator } from 'in-services/validators/jsonType';
 import { identity } from 'in-services/util/function';

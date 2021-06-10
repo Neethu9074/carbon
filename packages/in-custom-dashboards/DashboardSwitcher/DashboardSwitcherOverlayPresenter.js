@@ -18,10 +18,10 @@ import { getActiveConfiguration$ } from 'in-client/js/LandingPage/activeConfigra
 import { getCustomDashboardLink } from 'in-custom-dashboards/navigation/url';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { cockpitLink$ } from 'in-cockpit/navigation/paths';
-import SearchInput from 'in-new-components/SearchInput';
+import SearchInput from 'in-components/SearchInput';
 import Lettering from 'in-components/Lettering';
-import Pill from 'in-new-components/Pill';
 import connectTo from 'in-hoc/connectTo';
+import Pill from 'in-components/Pill';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

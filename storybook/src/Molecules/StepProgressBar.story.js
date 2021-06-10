@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
-import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
+import StepProgressBar from 'in-components/StepProgressBar/StepProgressBar';
 
 export default {
   title: 'Molecules|StepProgressBar',

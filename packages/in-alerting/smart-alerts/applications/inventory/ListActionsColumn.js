@@ -26,9 +26,9 @@ import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
-import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
-import IconButton from 'in-new-components/IconButton/IconButton';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
+import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
 import { t, Trans } from 'in-i18n';
 

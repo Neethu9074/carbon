@@ -10,11 +10,11 @@ import ProfiledProcesses from 'in-profiling/analyze/AnalyzeView/ProfiledProcesse
 import getProfiledProcessesAvailable from 'in-profiling/subscriptions/getProfiledProcessesAvailable';
 import { analyzeDataSourceUrlParameter } from 'in-profiling/navigation/urlParameters';
 import EmptyAnalyzeView from 'in-profiling/analyze/AnalyzeView/EmptyAnalyzeView';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { getTimeConfig } from 'in-stores/time/config';
 import SetBodyColor from 'in-components/SetBodyColor';
 import withUrlState from 'in-hoc/withUrlState';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 
 export default compose(
   withUrlState({

@@ -8,9 +8,9 @@ import React, { Fragment } from 'react';
 import { Button } from '@instana/components';
 
 import CallGroupsChartWrapper from 'in-applications/analyze/components/CallGroupsChartWrapper';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { CONTAINS, NOT_EMPTY } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { CONTAINS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number, millis } from 'in-services/formatters/number';

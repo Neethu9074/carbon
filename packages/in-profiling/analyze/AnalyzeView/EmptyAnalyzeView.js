@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
+import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
 import { getEntityNameByType, getIconByType } from 'in-analyze/AnalyzeView/dataSources';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';

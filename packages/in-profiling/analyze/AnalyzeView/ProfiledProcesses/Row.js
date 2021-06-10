@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
 
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import { getLinkToProfiles } from 'in-new-components/Profiling/navigation/paths';
+import { useObservable } from '@instana/hooks';
+
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { getLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
-import EntityLink from 'in-new-components/EntityLink/EntityLink';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
+import EntityLink from 'in-components/EntityLink/EntityLink';
 
 export default function Row({ item }) {
   const { processSnapshotId, time, entityLabel, entityPlugin, hostSnapshotPreview } = item;

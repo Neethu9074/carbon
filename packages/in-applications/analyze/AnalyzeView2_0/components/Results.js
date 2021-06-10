@@ -9,7 +9,7 @@ import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
-import UngroupedViewTable, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedViewTable';
+import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
 import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
 import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';

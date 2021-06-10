@@ -12,7 +12,7 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';

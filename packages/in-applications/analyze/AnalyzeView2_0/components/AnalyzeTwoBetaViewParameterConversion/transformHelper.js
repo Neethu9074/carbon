@@ -11,7 +11,7 @@ import {
 } from 'in-stores/navigation/matrix';
 import { dataSource as dataSourceMatrixParameterName } from 'in-applications/navigation/matrix';
 import { analyzePath, analyzeTwoParameters } from 'in-applications/navigation/paths';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { emptyArray } from 'in-services/fixedObjects';
 
 const parseJson = buildJsonParser(null);

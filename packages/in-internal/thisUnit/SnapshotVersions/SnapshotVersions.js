@@ -10,7 +10,7 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import createSnapshotVersionsInTimeframeObservable from 'in-subscription/snapshotVersionsInTimeframe';
-import VersionTimeline from 'in-new-components/VersionTimeline';
+import VersionTimeline from 'in-components/VersionTimeline';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';

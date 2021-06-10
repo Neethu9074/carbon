@@ -7,7 +7,7 @@ import AnalyzeView from 'promise-loader?global,profiling!in-profiling/analyze/An
 import { Route } from 'react-router-dom';
 import React from 'react';
 
-import { analyzePathFullyQualified, profilingPath, analyzePath } from 'in-new-components/Profiling/navigation/paths';
+import { analyzePathFullyQualified, profilingPath, analyzePath } from 'in-components/Profiling/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 

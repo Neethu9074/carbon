@@ -9,8 +9,8 @@ import { createLogger } from '@instana/logger';
 import { Button } from '@instana/components';
 
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
-import { success, error as errorType } from 'in-new-components/Message/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { success, error as errorType } from 'in-components/Message/types';
 import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { sendInvitation } from 'in-api/users';
 import { t } from 'in-i18n';

@@ -9,9 +9,9 @@ import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetail
 import OverviewChartTooltip from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChartTooltip';
 import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
-import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
-import HorizontalAxis from 'in-new-components/Axis/HorizontalAxis';
+import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
+import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 import { millis } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
 import createScale from 'in-services/scale';

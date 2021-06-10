@@ -11,7 +11,7 @@ import {
   ua2FacetedSearchInternalCallsToggledTracker
 } from 'in-applications/tracker';
 import FacetedExpandableCard from 'in-applications/analyze/components/FacetedSearch/FacetedExpandableCard';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';

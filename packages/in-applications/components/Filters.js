@@ -7,10 +7,10 @@ import React, { Fragment } from 'react';
 
 import { Button } from '@instana/components';
 
-import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { type as tagFilterType } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { CONTAINS, EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { type as tagFilterType } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getTechnologyComboBoxItems } from 'in-applications/technologyRegistry';
 import { getEndpointTypesComboBoxItems } from 'in-applications/endpointTypes';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';

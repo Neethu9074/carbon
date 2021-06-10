@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useMemo, useState } from 'react';
+
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
@@ -22,8 +23,8 @@ import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart
 import WebsitesSimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/WebsitesSimpleModeContainer';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';

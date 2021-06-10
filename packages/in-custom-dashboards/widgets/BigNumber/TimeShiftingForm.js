@@ -9,8 +9,8 @@ import ComparisonColorSelect from 'in-custom-dashboards/widgets/BigNumber/Compar
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import Sections from 'in-new-components/workspace/Sections';
-import Section from 'in-new-components/workspace/Section';
+import Sections from 'in-components/workspace/Sections';
+import Section from 'in-components/workspace/Section';
 import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 

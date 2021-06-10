@@ -9,7 +9,7 @@ import React from 'react';
 
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
 import HorizontalFormGroup from 'in-components/form/HorizontalFormGroup';
-import PromptPresenter from 'in-new-components/Dialog/PromptPresenter';
+import PromptPresenter from 'in-components/Dialog/PromptPresenter';
 import { notBlankValidator } from 'in-services/validators/string';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';

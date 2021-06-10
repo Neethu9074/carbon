@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import Code from 'in-sdk/components/traceDetails/Code';
 import { emptyMap } from 'in-services/fixedImmutables';
 import { t } from 'in-i18n';

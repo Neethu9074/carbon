@@ -10,7 +10,7 @@ import { Card } from '@instana/components';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
-import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';

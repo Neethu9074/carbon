@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import MetricValue from 'in-components/MetricValue';
 
 export default function ServerSideSortedMetricValue({ snapshotId, metric, sortedMetricValue, formatter }) {

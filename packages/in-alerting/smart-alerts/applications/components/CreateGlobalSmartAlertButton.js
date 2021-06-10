@@ -12,7 +12,7 @@ import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import FloatingActionButton from 'in-new-components/FloatingActionButton';
+import FloatingActionButton from 'in-components/FloatingActionButton';
 import { boundaryScopes } from 'in-applications/constants';
 import { propTypeLocation } from 'in-stores/navigation';
 import { t } from 'in-i18n';

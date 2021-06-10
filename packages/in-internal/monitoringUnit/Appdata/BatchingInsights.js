@@ -6,12 +6,12 @@
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { number, percentagePlain, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import ExpandableCard from 'in-new-components/ExpandableCard';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import ExpandableCard from 'in-components/ExpandableCard';
 import { Row, Col } from 'in-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
 import { compare } from 'in-services/util/number';

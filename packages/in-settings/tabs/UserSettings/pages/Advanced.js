@@ -18,7 +18,7 @@ import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import Toggle from 'in-components/form/Toggle';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 

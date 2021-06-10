@@ -6,8 +6,8 @@
 import React from 'react';
 
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
-import DropdownButton from 'in-new-components/Button/DropdownButton';
 import { syntheticCallsOptions } from 'in-applications/constants';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import { t } from 'in-i18n';
 
 import locals from './IncludeSyntheticCallsDropdown.mless';

@@ -4,7 +4,7 @@
  */
 
 import { cpuColorMapper } from 'in-profiling/analyze/AnalyzeView/colors';
-import { serializeLine } from 'in-new-components/StackTrace/serializer';
+import { serializeLine } from 'in-components/StackTrace/serializer';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { percentage } from 'in-services/formatters/number';
 import theme from 'in-themes';

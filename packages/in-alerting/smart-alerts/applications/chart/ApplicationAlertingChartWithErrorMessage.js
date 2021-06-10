@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
@@ -11,8 +12,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
-import PropTypes from 'prop-types';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { t } from 'in-i18n';
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {

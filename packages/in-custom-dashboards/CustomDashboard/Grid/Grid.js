@@ -20,7 +20,7 @@ import {
   containerPadding
 } from 'in-custom-dashboards/CustomDashboard/Grid/settings';
 import ViewTracker from 'in-custom-dashboards/CustomDashboard/Grid/ViewTracker';
-import { MoreMenu, MoreMenuButton } from 'in-new-components/MoreMenu';
+import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
 import theme from 'in-themes';

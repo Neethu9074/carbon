@@ -21,7 +21,7 @@ import { getSeverityText, unmapConditionValue } from 'in-settings/tabs/TeamSetti
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';

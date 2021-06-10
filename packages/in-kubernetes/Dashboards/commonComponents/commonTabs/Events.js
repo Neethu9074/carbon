@@ -12,13 +12,13 @@ import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Ta
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { plugins, translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
 import DateTime from 'in-components/tables/sharedComponents/DateTime';
-import EntityLink from 'in-new-components/EntityLink';
+import EntityLink from 'in-components/EntityLink';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

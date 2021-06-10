@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { createQueryBuilder } from 'in-new-components/QueryBuilder';
+import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import { getSuggestions } from 'in-websites/queryBuilder';
 

@@ -6,8 +6,8 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import FloatingActionButtonPresenter from 'in-new-components/FloatingActionButton/FloatingActionButtonPresenter';
-import FloatingActionButton from 'in-new-components/FloatingActionButton/FloatingActionButton';
+import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
+import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 
 export default {
   title: 'Atoms|Buttons/Floating Action Button Presenter',

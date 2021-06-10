@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { getTickPositionsAbsolute } from 'in-services/ticks/horizontal';
-import { getAxisConfig } from 'in-new-components/Axis/timeFormatting';
+import { getAxisConfig } from 'in-components/Axis/timeFormatting';
 import { formatDateTime } from 'in-services/formatters/date';
 
 import './TimeAxis.less';

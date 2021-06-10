@@ -3,7 +3,7 @@ import {useState} from 'react';
 
 import { QueryBuilderStateHelper } from "./QueryBuilderStateHelper";
 import { successObservableFactory } from 'in-services/util/result';
-import {createQueryBuilder} from 'in-new-components/QueryBuilder';
+import {createQueryBuilder} from 'in-components/QueryBuilder';
 import LocallyChangedTheme from 'in-themes/LocallyChangedTheme';
 import tagCatalogExampleJson from './tagCatalogExample';
 import tagCatalogExample from './tagCatalogExample.png';
@@ -42,7 +42,7 @@ export function DefaultExample() {
 ## Usage
 
 ```js
-import {createQueryBuilder} from 'in-new-components/QueryBuilder';
+import {createQueryBuilder} from 'in-components/QueryBuilder';
 
 const {QueryBuilder, isQueryValid} = createQueryBuilder({
   // see dedicated TagCatalog story for more information about the
@@ -126,7 +126,7 @@ models in order to do its job:
 ## Transformations
 
  1. `Form Model -> Render Model -> DOM Model -(events)-> Form Model`
- 2. `Form Model -> Backend Query Model` via `in-new-components/QueryBuilder/transformation/backendQueryModel`
+ 2. `Form Model -> Backend Query Model` via `in-components/QueryBuilder/transformation/backendQueryModel`
     via `toBackendQueryModel(formModel)`.
 
 ## Backend Query Model

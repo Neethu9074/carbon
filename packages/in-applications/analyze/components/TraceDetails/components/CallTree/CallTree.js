@@ -10,7 +10,7 @@ import TreeHeader from 'in-applications/analyze/components/TraceDetails/componen
 import { getStart, getEnd } from 'in-applications/analyze/components/TraceDetails/components/callStartAndEndTime';
 import LoadingCallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree/LoadingCallTree';
 import Row from 'in-applications/analyze/components/TraceDetails/components/CallTree/components/Row';
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import createScale from 'in-services/scale';
 
 import locals from './CallTree.mless';

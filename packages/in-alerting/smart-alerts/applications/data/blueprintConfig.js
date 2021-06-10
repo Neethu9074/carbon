@@ -9,12 +9,12 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
-import { and } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';

@@ -9,18 +9,18 @@ import { get } from 'lodash';
 import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import EntityVersionList from 'in-new-components/EntityVersionList';
 import { datacenterDashboard } from 'in-vsphere/navigation/paths';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-vsphere/Dashboards/Datacenter/tabs/index';
 import { DatacenterBreadcrumbs } from 'in-vsphere/breadcrumbs';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
-import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
+import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default function DatacenterDashboard({ location }) {

@@ -15,7 +15,7 @@ import CustomPayloadCard from 'in-alerting/smart-alerts/applications/details/Cus
 import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
@@ -23,7 +23,7 @@ import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import { operators } from 'in-analyze/applicationFilter';
-import ListTitle from 'in-new-components/lists/Title';
+import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/AlertConfiguration.mless';

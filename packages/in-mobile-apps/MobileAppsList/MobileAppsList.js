@@ -16,15 +16,15 @@ import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobil
 import { mobileAppsPath, linkToNewMobileApp$ } from 'in-mobile-apps/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { mobileAppsOpenAddForm } from 'in-mobile-apps/tracker';
 import { number } from 'in-services/formatters/number';
 import { timeConfig$ } from 'in-stores/time/config';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';

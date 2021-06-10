@@ -6,7 +6,7 @@
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
-import SearchInput from 'in-new-components/SearchInput';
+import SearchInput from 'in-components/SearchInput';
 
 export default {
   title: 'Atoms|FormControl/SearchInput',

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HealthchecksTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HealthchecksTable';
 import HttpServersTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HttpServersTable';
 import ModuleAnalysisDialog from 'in-forge/plugins/nodeJsRuntimePlatform/ModuleAnalysisDialog';

@@ -9,13 +9,13 @@ import { fromJS } from 'immutable';
 import { Card } from '@instana/components';
 
 import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import convert from 'in-applications/analyze/components/TraceDetails/components/CallDetails/fakedSpanConverter';
 import ErrorDescriptionItem from 'in-sdk/components/traceDetails/ErrorDescriptionItem';
 import SpanForgeDetails from 'in-components/SpanForgeDetails/SpanForgeDetails';
 import { getSpanDefinition, getTypeLabelSingular } from 'in-sdk/tracing';
-import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
 import { expandNestedSerializedJson } from 'in-services/util/json';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import { flatten } from 'in-forge/tracing/sdk/flatten';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

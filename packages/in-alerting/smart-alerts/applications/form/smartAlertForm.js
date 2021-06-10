@@ -10,8 +10,8 @@ import { createForm as createListFormForCustomPayloads } from 'in-alerting/compo
 import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { t } from 'in-i18n';
 

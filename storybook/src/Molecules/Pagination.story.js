@@ -8,7 +8,7 @@ import { withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import Pagination from 'in-new-components/Pagination';
+import Pagination from 'in-components/Pagination';
 
 export default {
   title: 'Molecules|Pagination',

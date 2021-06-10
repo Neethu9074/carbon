@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import { fromJS } from 'immutable';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -16,7 +17,7 @@ import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarker
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import EntityLink from 'in-new-components/EntityLink';
+import EntityLink from 'in-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
 import { t } from 'in-i18n';
 

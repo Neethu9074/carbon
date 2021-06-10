@@ -25,7 +25,7 @@ import CallLogs from 'in-applications/analyze/components/TraceDetails/components
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { loggingEnabledOnTrace } from 'in-services/featureFlags';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
-import ExpandableGroup from 'in-new-components/ExpandableGroup';
+import ExpandableGroup from 'in-components/ExpandableGroup';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';

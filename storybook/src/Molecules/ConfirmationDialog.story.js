@@ -7,7 +7,7 @@ import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 
 export default {
   title: 'Molecules|Dialogs/ConfirmationDialog',

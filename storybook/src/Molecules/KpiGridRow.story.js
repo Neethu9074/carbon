@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 
 export default {
   title: 'Molecules|KpiGridRow',

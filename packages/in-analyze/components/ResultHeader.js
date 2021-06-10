@@ -8,11 +8,11 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import { historicOrLargeDataResult$ } from 'in-new-components/time/TimeSelection/TimeSelection';
+import { historicOrLargeDataResult$ } from 'in-components/time/TimeSelection/TimeSelection';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
-import TimeIcon from 'in-new-components/time/TimeIcon';
 import { number } from 'in-services/formatters/number';
 import { emptyObject } from 'in-services/fixedObjects';
+import TimeIcon from 'in-components/time/TimeIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

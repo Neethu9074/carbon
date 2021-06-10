@@ -9,8 +9,8 @@ import React from 'react';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import ButtonGroup from 'in-new-components/ButtonGroup';
 import { identity } from 'in-services/util/function';
+import ButtonGroup from 'in-components/ButtonGroup';
 
 import locals from './GroupMetricsChartPresenter.mless';
 

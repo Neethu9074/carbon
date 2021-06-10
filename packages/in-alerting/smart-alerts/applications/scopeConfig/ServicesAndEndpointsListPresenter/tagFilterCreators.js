@@ -4,8 +4,8 @@
  */
 
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
-import { CONTAINS, EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 
 export function createApplicationIdTagFilter(applicationId, boundaryScope) {
   return tagFilter(

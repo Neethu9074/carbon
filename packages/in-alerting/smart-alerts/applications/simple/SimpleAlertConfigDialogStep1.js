@@ -10,8 +10,8 @@ import {
   simpleModeBlueprintConfigs
 } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConfigDialogChart';
-import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
-import SelectedBlueprintPresenter from 'in-new-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
+import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import { applicationsAlertingBlueprintChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage';
 import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/ProvideStatusCode';

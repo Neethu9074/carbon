@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
-import React from 'react';
 
 import {
   getLinkToUnboundAnalytics,
   getEnrichedAnalyzeTagFilterFormModel,
   tagNamesToUseEndpointGrouping
 } from 'in-events/components/AnalyzeApplicationEventButton';
-import { containsTagName, toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { containsTagName, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';

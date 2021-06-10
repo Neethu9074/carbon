@@ -11,7 +11,7 @@ import { SvgIcon } from '@instana/components';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { clearActiveTooltip } from 'in-components/Tooltip/store';
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './LaneIcon.mless';
 

@@ -12,7 +12,7 @@ import { Ul, Li } from '@instana/components';
 import PhysicalHierarchyBreadcrumb from 'in-infrastructure/Dashboard/components/PhysicalHierarchyBreadcrumb';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './CollapsedEntitiesBreadcrumb.mless';
 

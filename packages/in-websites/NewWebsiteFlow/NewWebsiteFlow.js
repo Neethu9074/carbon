@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { interval } from '@instana/observables';
 import { createField } from 'formalistic';
 import { get } from 'lodash';
 import React from 'react';
+
+import { interval } from '@instana/observables';
 
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
@@ -19,7 +20,7 @@ import ReadyStep from 'in-websites/NewWebsiteFlow/ReadyStep';
 import WaitStep from 'in-websites/NewWebsiteFlow/WaitStep';
 import { combineDataAndError } from 'in-services/util/ro';
 import { addWebsite } from 'in-websites/api/websites';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import Title from 'in-components/Title';
 

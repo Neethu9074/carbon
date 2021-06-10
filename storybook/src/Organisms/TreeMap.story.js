@@ -6,7 +6,7 @@
 import React from 'react';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
-import ResultAwareTreeMap from 'in-new-components/TreeMap/ResultAwareTreeMap';
+import ResultAwareTreeMap from 'in-components/TreeMap/ResultAwareTreeMap';
 
 export default {
   title: 'Organisms|TreeMap',

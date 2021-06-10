@@ -11,7 +11,7 @@ import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commo
 import { clusterIdUrlParameter, namespaceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import getKubernetesCronJobs from 'in-subscription/kubernetes/getKubernetesCronJobs';

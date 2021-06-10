@@ -18,11 +18,11 @@ import {
   pageLoadViewPath
 } from 'in-websites/navigation/paths';
 import { setOrDeleteMatrixKey, getMatrixParameter, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
-import { fromTagFiltersArray } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
 import { deserializeTagFilters, deserializeMetrics } from 'in-websites/navigation/matrix';
-import { NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
-import { type } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
+import { type } from 'in-components/QueryBuilder/transformation/tagFilter';
 
 export function transformOneZeroToTwoZero(location, tagCatalog, metricCatalog, dataSourceConfiguration) {
   // In 1.0 zero mode the detail view has a different path. In 2.0 mode this difference

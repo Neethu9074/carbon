@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import IconLabel from 'in-alerting/components/IconLabel';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import { t } from 'in-i18n';

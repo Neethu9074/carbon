@@ -7,7 +7,7 @@ import { createField } from 'formalistic';
 import React, { useMemo } from 'react';
 import zxcvbn from 'zxcvbn';
 
-import { success, neutral, error as errorType } from 'in-new-components/Message/types';
+import { success, neutral, error as errorType } from 'in-components/Message/types';
 import { changePassword } from 'in-settings/tabs/AuthSettings/api/changePassword';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { stringMaxLengthValidator } from 'in-services/validators/string';

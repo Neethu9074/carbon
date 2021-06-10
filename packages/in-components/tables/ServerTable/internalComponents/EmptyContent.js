@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { Tr, Td } from 'in-components/tables/sharedComponents';
 
 export default function EmptyContent({ cols, size, renderNoDataAvailable, noDataMessage }) {

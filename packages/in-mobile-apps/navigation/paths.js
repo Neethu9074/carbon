@@ -18,8 +18,8 @@ import {
 } from 'in-mobile-apps/navigation/matrix';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
-import { type as TAG_FILTER } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { createParameters } from 'in-new-components/AnalyzeView/parameters';
+import { type as TAG_FILTER } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';

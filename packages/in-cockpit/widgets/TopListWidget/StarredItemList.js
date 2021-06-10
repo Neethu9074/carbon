@@ -8,11 +8,11 @@ import React from 'react';
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
 
-import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import WithStarredItems from 'in-cockpit/widgets/TopListWidget/WithStarredItems';
+import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { hasError, isLoading } from 'in-services/util/result';
-import { error } from 'in-new-components/Message/types';
-import Message from 'in-new-components/Message';
+import { error } from 'in-components/Message/types';
+import Message from 'in-components/Message';
 
 import locals from './ItemList.mless';
 

@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import { get } from 'lodash';
 
-import { joinExpressions, fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { combineLatest } from '@instana/observables';
+
+import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import getApplication from 'in-subscription/application/getApplication';

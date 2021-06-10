@@ -12,7 +12,7 @@ import UserList from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Us
 import withSelectableItems from 'in-settings/components/withSelectableItems';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 import { find } from 'in-services/arrayUtils';
 import { t } from 'in-i18n';
 

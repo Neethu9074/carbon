@@ -7,7 +7,7 @@ import { Iterable, Map } from 'immutable';
 import React, { Fragment } from 'react';
 
 import { containsIgnoreCase, compareIgnoreCase } from 'in-services/util/string';
-import SearchInput from 'in-new-components/SearchInput/SearchInput';
+import SearchInput from 'in-components/SearchInput/SearchInput';
 
 import locals from './KeyValueDialogPresenter.mless';
 

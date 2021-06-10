@@ -10,7 +10,7 @@ import { interval } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { physicalDashboardPath } from 'in-stores/navigation/paths/mainPaths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -18,7 +18,7 @@ import SloViolationsChart from 'in-internal/components/SloViolationsChart';
 import { getSnapshots, getPhysicalHierarchy } from 'in-stores/snapshot';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { siPrefix } from 'in-services/formatters/number';
 import getRawEvents from 'in-subscription/getRawEvents';
 import { getColorBySeverity } from 'in-stores/events';

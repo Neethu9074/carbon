@@ -11,14 +11,14 @@ import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
-import SplitScreenList from 'in-new-components/AnalyzeView/SplitScreenList/SplitScreenList';
+import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import tabs from 'in-applications/analyze/AnalyzeView2_0/components/tabs';
 import getTraceSummary from 'in-subscription/application/getTraceSummary';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getColorPool } from 'in-services/util/ColorGenerator';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { getColor } from 'in-applications/endpointTypes';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';

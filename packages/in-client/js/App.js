@@ -4,16 +4,17 @@
  */
 
 import { useLocation } from 'react-router';
-import '@instana/components/esm/index.css';
 import React from 'react';
 
-import FloatingActionButtonPresenter from 'in-new-components/FloatingActionButton/FloatingActionButtonPresenter';
-import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
+import '@instana/components/esm/index.css';
+
+import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/FloatingActionButtonPresenter';
+import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import { GlobalTimeConfig } from 'in-stores/time/TimeConfigContext';
 import ReleaseNotesDialog from 'in-components/ReleaseNotesDialog';
-import MainNavigation from 'in-new-components/MainNavigation';
 import DialogPresenter from 'in-components/DialogPresenter';
+import MainNavigation from 'in-components/MainNavigation';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
 import routes from 'in-client/js/routes/mainRoutes';

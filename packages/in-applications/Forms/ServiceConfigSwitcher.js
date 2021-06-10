@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { newServiceView, configureSyntheticEndpointsView } from 'in-applications/navigation/paths';
-import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation';
+import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

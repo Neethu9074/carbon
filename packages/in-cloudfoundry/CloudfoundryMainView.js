@@ -10,7 +10,7 @@ import { applicationListFullyQualified } from 'in-cloudfoundry/navigation/paths'
 import ViewSwitcher from 'in-cloudfoundry/lists/components/ViewSwitcher';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ApplicationList from 'in-cloudfoundry/lists/ApplicationList';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 
 export default function CloudfoundryMainView(props) {

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import SparkChart from 'in-components/SparkChart';
 
 export default function TableSparkChart(props) {

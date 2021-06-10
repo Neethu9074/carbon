@@ -11,8 +11,8 @@ import {
 } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { BlueprintDescription } from 'in-alerting/smart-alerts/components/smart-alert-dialog/BlueprintDescription';
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/websites/simple/SimpleAlertConfigDialogChart';
-import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
-import SelectedBlueprintPresenter from 'in-new-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
+import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import ProvideStatusCode from 'in-alerting/smart-alerts/websites/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/websites/form/blueprintFormCreator';
 import { websitesAlertingBlueprintChanged } from 'in-alerting/smart-alerts/websites/tracker';

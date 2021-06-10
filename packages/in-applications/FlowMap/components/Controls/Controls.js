@@ -5,12 +5,12 @@
 
 import React, { Fragment } from 'react';
 
-import HorizontalControlsPresenter from 'in-new-components/MapControls/HorizontalControlsPresenter';
-import VerticalControlsPresenter from 'in-new-components/MapControls/VerticalControlsPresenter';
+import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
+import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
-import MapButtonGroup from 'in-new-components/MapControls/ButtonGroup';
-import Button from 'in-new-components/MapControls/Button';
-import ButtonGroup from 'in-new-components/ButtonGroup';
+import MapButtonGroup from 'in-components/MapControls/ButtonGroup';
+import Button from 'in-components/MapControls/Button';
+import ButtonGroup from 'in-components/ButtonGroup';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

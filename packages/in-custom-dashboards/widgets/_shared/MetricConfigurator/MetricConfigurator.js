@@ -5,14 +5,14 @@
 
 import React from 'react';
 
-import SectionLabelWithSubtext from 'in-new-components/workspace/SectionLabelWithSubtext';
+import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
-import Sections from 'in-new-components/workspace/Sections';
+import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 

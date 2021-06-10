@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';

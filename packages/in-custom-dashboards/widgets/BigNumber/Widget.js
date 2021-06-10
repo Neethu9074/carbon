@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
+import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { getFormatter } from 'in-stores/metric/formatters';
 
 export default function BigNumber({ config, title, actions, dragHandle, isPreview }) {

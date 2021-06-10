@@ -14,7 +14,7 @@ import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import getApplications from 'in-subscription/application/getApplications';
 import getApplication from 'in-subscription/application/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationSwitcherContext.mless';

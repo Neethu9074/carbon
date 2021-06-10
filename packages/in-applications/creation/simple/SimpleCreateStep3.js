@@ -5,16 +5,16 @@
 
 import React from 'react';
 
-import SimpleModeStepContentWrapper from 'in-new-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
+import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Spacer from 'in-applications/Forms/components/Spacer';
-import { error } from 'in-new-components/Message/types';
 import FormGroup from 'in-components/form/FormGroup';
-import Message from 'in-new-components/Message';
+import { error } from 'in-components/Message/types';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './SimpleCreateStep2.mless';

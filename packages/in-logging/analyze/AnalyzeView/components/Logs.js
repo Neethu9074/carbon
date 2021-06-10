@@ -10,8 +10,8 @@ import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/Que
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
-import UngroupedViewList from 'in-new-components/AnalyzeView/UngroupedViewList';
 import { LOG_CUSTOM, LOG_LEVEL, LOG_TRACE_ID } from 'in-logging/queryBuilder';
+import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
 import HealthDot from 'in-components/health/HealthDot';

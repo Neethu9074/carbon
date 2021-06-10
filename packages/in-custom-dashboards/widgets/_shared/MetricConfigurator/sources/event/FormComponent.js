@@ -8,9 +8,9 @@ import React from 'react';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import HelpAction from 'in-new-components/workspace/HelpAction';
-import Sections from 'in-new-components/workspace/Sections';
+import HelpAction from 'in-components/workspace/HelpAction';
 import { aggregationLabels } from 'in-stores/metric/metric';
+import Sections from 'in-components/workspace/Sections';
 import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 

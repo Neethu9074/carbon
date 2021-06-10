@@ -22,9 +22,9 @@ import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/s
 import { selectApplication } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
 import ServicesList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesList';
 import SharedList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { isLoading } from 'in-services/util/result';

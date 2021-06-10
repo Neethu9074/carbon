@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest, just } from '@instana/observables';
 import React, { useState } from 'react';
+
+import { combineLatest, just } from '@instana/observables';
 
 import { host as hostType, container as containerType, process as processType } from 'in-stores/starredItems/types';
 import { entityTypeToFullyQualifiedPlugin } from 'in-infrastructure/tableView/stores/snapshotIds';
@@ -15,8 +16,8 @@ import { physicalTablePath } from 'in-stores/navigation/paths/mainPaths';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { pendingResult } from 'in-services/fixedObjects';
-import ButtonGroup from 'in-new-components/ButtonGroup';
 import { add, remove } from 'in-stores/starredItems';
+import ButtonGroup from 'in-components/ButtonGroup';
 import { getSnapshot } from 'in-stores/snapshot';
 import { getMetric } from 'in-stores/metric';
 import search from 'in-subscription/search';

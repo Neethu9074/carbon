@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-new-components/SecondLevelNavigation';
-import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
-import DashboardHeaderModule, { themes } from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import { useObservable } from '@instana/hooks';
+
+import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
+import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import DashboardHeaderModule, { themes } from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { applicationsList, servicesList, alertsList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation/navigation';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { t } from 'in-i18n';
 
 export default function AppViewSwitcher() {

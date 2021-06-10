@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { resetAgent, resetSensors, updateAgent, rebootAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ImageButton from 'in-forge/plugins/instanaAgent/Dashboard/ImageButton';
 import LogLevel from 'in-forge/plugins/instanaAgent/Dashboard/LogLevel';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';

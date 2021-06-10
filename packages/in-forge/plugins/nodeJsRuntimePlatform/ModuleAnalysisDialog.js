@@ -6,10 +6,10 @@
 import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';

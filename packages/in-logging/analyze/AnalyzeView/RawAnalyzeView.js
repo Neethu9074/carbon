@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { logIdMatrixParameter, selectedTagsRawLogs } from 'in-logging/navigation/matrix';
-import StateManagement from 'in-new-components/AnalyzeView/StateManagement';
 import RawLogs from 'in-logging/analyze/AnalyzeView/components/raw/RawLogs';
+import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { rawLogsPath } from 'in-logging/navigation/paths';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import useUrlState from 'in-hooks/useUrlState';

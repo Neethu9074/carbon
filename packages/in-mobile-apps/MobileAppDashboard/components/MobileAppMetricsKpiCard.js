@@ -6,8 +6,8 @@
 import React from 'react';
 
 import getMobileAppMetrics from 'in-mobile-apps/subscriptions/getMobileAppMetrics';
-import ResultAwareKpiCard from 'in-new-components/KpiCard/ResultAwareKpiCard';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

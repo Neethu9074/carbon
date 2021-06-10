@@ -7,11 +7,11 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import FileNameAndLine from 'in-new-components/Profiling/components/FileNameAndLine';
+import FileNameAndLine from 'in-components/Profiling/components/FileNameAndLine';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import MethodName from 'in-new-components/Profiling/components/MethodName';
-import At from 'in-new-components/Profiling/components/At';
+import MethodName from 'in-components/Profiling/components/MethodName';
 import { percentage } from 'in-services/formatters/number';
+import At from 'in-components/Profiling/components/At';
 
 import locals from './StackTrace.mless';
 

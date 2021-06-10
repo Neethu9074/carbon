@@ -8,7 +8,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 

@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { success, warning, error } from 'in-new-components/Message/types';
-import Message from 'in-new-components/Message';
+import { success, warning, error } from 'in-components/Message/types';
+import Message from 'in-components/Message';
 
 export default {
   title: 'Molecules|Message',

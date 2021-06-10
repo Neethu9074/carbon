@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
-import { just } from '@instana/observables';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { just } from '@instana/observables';
+
 import { CpuProfileChart, MemoryProfileChart } from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileChart';
-import { analyzeProfilePathFullyQualified } from 'in-new-components/Profiling/navigation/paths';
-import getProfiles from 'in-new-components/Profiling/subscriptions/getProfiles';
+import { analyzeProfilePathFullyQualified } from 'in-components/Profiling/navigation/paths';
 import View from 'in-profiling/analyze/AnalyzeView/ProfilesView/Hotspot/View';
+import getProfiles from 'in-components/Profiling/subscriptions/getProfiles';
 import Profile from 'in-profiling/analyze/AnalyzeView/ProfilesView/Profile';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import { success, hasError, isLoading } from 'in-services/util/result';

@@ -13,7 +13,7 @@ import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { getDesignLibraryColorBySeverity } from 'in-stores/events';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toHtml } from 'in-services/formatters/markdown';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from './Issue.mless';

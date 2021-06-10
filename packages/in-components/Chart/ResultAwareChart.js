@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import { Card } from '@instana/components';
+
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
-import { warning } from 'in-new-components/Message/types';
-import PieChart from 'in-new-components/PieChart';
-import Message from 'in-new-components/Message';
+import { warning } from 'in-components/Message/types';
+import PieChart from 'in-components/PieChart';
+import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 export default function ResultAwareChart({ result, config, renderLegend = true }) {

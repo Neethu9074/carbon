@@ -11,7 +11,7 @@ import ViewSwitcher from 'in-kubernetes/lists/components/ViewSwitcher';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import NamespaceList from 'in-kubernetes/lists/NamespaceList';
 import ClusterList from 'in-kubernetes/lists/ClusterList';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 
 export default function KubernetesMainView(props) {

@@ -10,9 +10,9 @@ import { LoadingSkeleton } from '@instana/components';
 
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { resourceQuotaBytes } from 'in-kubernetes/formatters';
-import Delayed from 'in-new-components/Delayed/Delayed';
+import Delayed from 'in-components/Delayed/Delayed';
 import MetricValue from 'in-components/MetricValue';
-import WithIcon from 'in-new-components/WithIcon';
+import WithIcon from 'in-components/WithIcon';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

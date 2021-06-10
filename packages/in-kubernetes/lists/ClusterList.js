@@ -13,12 +13,12 @@ import KubernetesNoDataNotification from 'in-kubernetes/lists/components/Kuberne
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getKubernetesClustersWithDefaults } from 'in-subscription/kubernetes/getKubernetesClusters';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { clusterList, getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import { timeConfig$ } from 'in-stores/time/config';

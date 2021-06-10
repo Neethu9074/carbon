@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
 import { toInteractiveElement } from '@instana/components';
 
 import ComboBoxOverlay from 'in-components/form/ComboBox/ComboBoxOverlay';
-import OverlayOption from 'in-new-components/OverlayOption/OverlayOption';
-import Overlay from 'in-new-components/overlays/Overlay';
+import OverlayOption from 'in-components/OverlayOption/OverlayOption';
 import { compositeRef } from 'in-services/util/react';
+import Overlay from 'in-components/overlays/Overlay';
 
 export default function ComboBoxBehavior({
   options,

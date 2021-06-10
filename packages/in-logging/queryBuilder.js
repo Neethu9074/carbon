@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
-import { EQUALS, NOT_EMPTY, ENDS_WITH } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { sanitizeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
+import { EQUALS, NOT_EMPTY, ENDS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
+import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 
 export function getTraceIdTagFilter(traceId) {
   // Until the transition to 128bit trace IDs is complete, only the ID's last 64 bits should

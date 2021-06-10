@@ -10,10 +10,10 @@ import { create, just, interval } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { eventIdUrlParameter, orderDirectionParameter, orderByUrlParameter } from 'in-events/navigation/urlParameters';
-import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
-import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
+import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { timeConfig$, getTimeConfig } from 'in-stores/time/config';

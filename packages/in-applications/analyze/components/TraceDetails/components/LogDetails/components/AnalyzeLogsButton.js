@@ -11,7 +11,7 @@ import { Li, Ul } from '@instana/components';
 import { LOG_CUSTOM, LOG_MESSAGE, getValueMatchTagFilter } from 'in-logging/queryBuilder';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeLogsButton.mless';

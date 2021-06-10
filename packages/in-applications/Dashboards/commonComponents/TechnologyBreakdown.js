@@ -11,12 +11,12 @@ import {
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import getTechnologyBreakdown from 'in-applications/subscriptions/getTechnologyBreakdown';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { endpointNameTranslations, getColorChart } from 'in-applications/endpointTypes';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { createChartedMetric, createGroupBy } from 'in-analyze/navigation/paths';
-import { NOT_EQUAL } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { millis, meanLatencyFixed } from 'in-services/formatters/number';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';

@@ -16,7 +16,7 @@ import RawStack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/compo
 import Stack from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Stack';
 import Meta from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/Meta';
 import { latencyFixed, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { formatDateTime } from 'in-services/formatters/date';
 import { Row, Col } from 'in-components/layout/Grid';
 import { isNotBlank } from 'in-services/util/string';

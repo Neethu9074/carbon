@@ -6,7 +6,7 @@
 import { withKnobs, text, select } from '@storybook/addon-knobs';
 import React from 'react';
 
-import Pill, { kinds } from 'in-new-components/Pill';
+import Pill, { kinds } from 'in-components/Pill';
 
 const options = {
   teal800: '#00B3B3',

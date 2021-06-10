@@ -8,7 +8,7 @@ import React from 'react';
 import NumberBarOverlayBehavior from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarOverlayBehavior';
 import { getNumberTagFilters, showGt, showLt } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 import { identity } from 'in-services/util/function';
 
 export default function NumberBarItemBehavior(props) {

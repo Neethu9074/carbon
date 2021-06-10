@@ -9,15 +9,15 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 
 import { createApplicationIdTagFilter } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
-import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getCallGroups from 'in-subscription/application/getCallGroups';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/components/LogMessagesList.mless';

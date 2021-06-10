@@ -7,11 +7,11 @@ import {
   createTagFilterExpression,
   OPERATOR_AND,
   toBackendQueryModel
-} from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
-import { createQueryBuilder } from 'in-new-components/QueryBuilder';
+import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { CALLS } from 'in-applications/analyze/metrics';
 import { isIdTag } from 'in-applications/tags';
 

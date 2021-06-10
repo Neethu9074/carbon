@@ -11,7 +11,7 @@ import { unmaskApiToken } from 'in-settings/tabs/TeamSettings/pages/accessContro
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import IconButton from 'in-new-components/IconButton';
+import IconButton from 'in-components/IconButton';
 import { t } from 'in-i18n';
 
 export default forwardRef(function AsyncTokenCopyButton({ internalId }, ref) {

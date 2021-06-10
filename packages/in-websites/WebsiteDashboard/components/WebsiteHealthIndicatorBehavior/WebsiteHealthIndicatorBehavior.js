@@ -8,7 +8,7 @@ import React from 'react';
 import WebsiteOpenIssuesList from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteOpenIssuesList';
 import getWebsiteHealthInfo from 'in-subscription/website/getWebsiteHealthInfo';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import Overlay from 'in-new-components/overlays/Overlay';
+import Overlay from 'in-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

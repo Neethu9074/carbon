@@ -9,7 +9,7 @@ import React from 'react';
 import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 

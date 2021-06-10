@@ -13,8 +13,8 @@ import {
   getFsDetails
 } from 'in-internal/monitoringUnit/sre/datastores';
 import { number, timeByMicroTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { getElasticWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';

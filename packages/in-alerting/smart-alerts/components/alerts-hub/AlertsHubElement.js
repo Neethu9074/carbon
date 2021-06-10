@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Card, Link } from '@instana/components';
 
-import Message from 'in-new-components/Message';
 import Stack from 'in-components/layout/Stack';
+import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHubElement.mless';

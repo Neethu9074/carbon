@@ -4,18 +4,19 @@
  */
 
 import { Switch, Route } from 'react-router-dom';
-import { useObservable } from '@instana/hooks';
 import React from 'react';
 
-import DashboardHeaderShadowModule from 'in-new-components/DashboardHeader/DashboardHeaderShadowModule';
-import DashboardHeaderModule from 'in-new-components/DashboardHeader/DashboardHeaderModule';
+import { useObservable } from '@instana/hooks';
+
+import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import ViewSwitcher from 'in-infrastructure/tableView/components/ViewSwitcher';
 import TypeSelector from 'in-infrastructure/Explore/components/TypeSelector';
-import DashboardHeader, { themes } from 'in-new-components/DashboardHeader';
+import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { isInfraExploreView } from 'in-infrastructure/navigation/paths';
 import Dashboard from 'in-infrastructure/Dashboard';
 import { noop } from 'in-services/util/function';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
 

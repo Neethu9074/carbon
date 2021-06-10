@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import TabLabelWithCounterPresenter from 'in-new-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
+import TabLabelWithCounterPresenter from 'in-components/LocationAwareTabView/tabs/TabLabelWithCounterPresenter';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

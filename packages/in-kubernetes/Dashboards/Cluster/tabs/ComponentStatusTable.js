@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
 
+import { Card } from '@instana/components';
+
 import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { compare } from 'in-services/util/boolean';
 import { t } from 'in-i18n';
 

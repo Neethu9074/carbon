@@ -13,16 +13,16 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
-import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
-import Capitalize from 'in-new-components/Capitalize';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import MetricValue from 'in-components/MetricValue';
+import Capitalize from 'in-components/Capitalize';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

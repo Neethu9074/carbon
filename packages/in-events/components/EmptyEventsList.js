@@ -7,7 +7,7 @@ import React from 'react';
 
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import { Table, Th, Thead, Td, Tbody, Tr } from 'in-components/tables/sharedComponents';
-import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification';
+import EntityPageMainNotification from 'in-components/EntityPageMainNotification';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { t } from 'in-i18n';
 

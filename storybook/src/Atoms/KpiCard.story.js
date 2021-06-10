@@ -7,7 +7,7 @@ import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import theme from 'in-themes';
 
 export default {

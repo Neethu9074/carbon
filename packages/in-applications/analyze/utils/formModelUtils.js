@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { GREATER_OR_EQUAL_THAN, LESS_OR_EQUAL_THAN } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { GREATER_OR_EQUAL_THAN, LESS_OR_EQUAL_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
+import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 
 export const TAG_CALL_HTTP_STATUS = 'call.http.status';
 

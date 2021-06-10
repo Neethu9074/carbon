@@ -7,8 +7,8 @@ import { useLocation } from 'react-router';
 import React from 'react';
 
 import { transformTwoGAToPostGA } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewParameterConversion/transformHelper';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import { createParameters } from 'in-new-components/AnalyzeView/parameters';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getModifiedUrl } from 'in-stores/navigation/navigation';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import { analyzePath } from 'in-applications/navigation/paths';

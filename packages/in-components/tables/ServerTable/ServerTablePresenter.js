@@ -17,8 +17,8 @@ import Columns from 'in-components/tables/ServerTable/internalComponents/Columns
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import SearchInput from 'in-new-components/SearchInput';
-import Pagination from 'in-new-components/Pagination';
+import SearchInput from 'in-components/SearchInput';
+import Pagination from 'in-components/Pagination';
 
 import locals from './ServerTablePresenter.mless';
 

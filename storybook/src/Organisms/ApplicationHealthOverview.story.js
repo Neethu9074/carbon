@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import ApplicationHealthOverview from 'in-new-components/ApplicationHealthOverview';
+import ApplicationHealthOverview from 'in-components/ApplicationHealthOverview';
 
 export default {
   title: 'Organisms|ApplicationhealthOverview',

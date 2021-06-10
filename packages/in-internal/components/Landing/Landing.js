@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountChartWrapper';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -20,8 +20,8 @@ import { number } from 'in-services/formatters/number';
 import { role, isInstanaEmail } from 'in-stores/user';
 import { Row, Col } from 'in-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';
-import Footer from 'in-new-components/Footer';
 import { config } from 'in-services/config';
+import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

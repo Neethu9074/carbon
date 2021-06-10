@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
 import { get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
 
 import {
   apConfigId,
@@ -22,7 +23,7 @@ import {
   rolling,
   dynamic
 } from 'in-custom-dashboards/widgets/Slo/form';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
 import getApplication from 'in-subscription/application/getApplication';
@@ -30,9 +31,9 @@ import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getSliConfiguration } from 'in-custom-dashboards/api';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
-import Message from 'in-new-components/Message/Message';
-import { error } from 'in-new-components/Message/types';
 import { alwaysNull } from 'in-services/fixedStreams';
+import Message from 'in-components/Message/Message';
+import { error } from 'in-components/Message/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hasError } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';

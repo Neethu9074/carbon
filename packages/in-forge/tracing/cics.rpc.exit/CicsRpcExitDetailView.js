@@ -7,7 +7,7 @@ import React from 'react';
 
 import AdditionalAttributesSection from 'in-sdk/components/traceDetails/AdditionalAttributesSection';
 import { RpcSpanDetailViewDescriptionList } from 'in-forge/tracing/rpc/RpcSpanDetailView';
-import { Di, Dl } from 'in-new-components/HorizontalDescriptionList';
+import { Di, Dl } from 'in-components/HorizontalDescriptionList';
 import { t } from 'in-i18n';
 
 export default function CicsRpcExitDetailView({ span }) {

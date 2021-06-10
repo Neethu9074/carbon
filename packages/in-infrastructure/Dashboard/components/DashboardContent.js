@@ -3,17 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { fromPromise, timeout, combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import React from 'react';
 
 import AgentMonitoringIssueNotifications from 'in-infrastructure/Dashboard/components/AgentMonitoringIssueNotifications';
 import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-stores/snapshot';
 import DashboardHeader from 'in-infrastructure/Dashboard/components/DashboardHeader';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
 import NotFoundDialog from 'in-infrastructure/Dashboard/components/NotFoundDialog';
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getForgeComponent } from 'in-services/getForgeComponent';

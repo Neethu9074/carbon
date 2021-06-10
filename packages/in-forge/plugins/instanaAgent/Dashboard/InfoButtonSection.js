@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import AgentConfiguration from 'in-forge/plugins/instanaAgent/Dashboard/AgentConfiguration';
 import LogsDownloadList from 'in-forge/plugins/instanaAgent/Dashboard/LogsDownloadList';
 import ImageButton from 'in-forge/plugins/instanaAgent/Dashboard/ImageButton';

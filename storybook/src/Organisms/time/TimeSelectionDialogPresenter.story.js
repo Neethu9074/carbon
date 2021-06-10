@@ -6,8 +6,8 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import TimeSelectionDialogPresenter from 'in-new-components/time/TimeSelectionDialogPresenter';
-import OverlayPresenter from 'in-new-components/overlays/OverlayPresenter';
+import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter';
+import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import { minutes } from 'in-services/time';
 
 export default {

@@ -10,7 +10,7 @@ import { datacenterListFullyQualified } from 'in-vsphere/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewSwitcher from 'in-vsphere/lists/components/ViewSwitcher';
 import DatacenterList from 'in-vsphere/lists/DatacenterList';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 
 export default function VSphereMainView(props) {

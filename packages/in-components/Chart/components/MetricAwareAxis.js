@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import VerticalAxis, { HEIGHT as verticalAxisHeight } from 'in-new-components/Axis/VerticalAxis';
+import VerticalAxis, { HEIGHT as verticalAxisHeight } from 'in-components/Axis/VerticalAxis';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(

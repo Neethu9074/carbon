@@ -3,17 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import { compose } from 'recompose';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import ControlFrame from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/ControlFrame';
 import PodTreeMap from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/PodTreeMap';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
-import ServerTreeMap from 'in-new-components/TreeMap/ServerTreeMap';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
+import ServerTreeMap from 'in-components/TreeMap/ServerTreeMap';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 
 export default compose(

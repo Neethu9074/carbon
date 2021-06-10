@@ -11,12 +11,12 @@ import {
   configurationJsStackTraceTranslationFullyQualified
 } from 'in-websites/navigation/paths';
 import StackTraceTranslation from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/StackTraceTranslation';
-import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
+import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
 import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
 import RedirectWithHash from 'in-components/RedirectWithHash';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

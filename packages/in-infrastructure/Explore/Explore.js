@@ -38,27 +38,27 @@ import {
 import GroupingConfigurator, {
   isGroupingConfigurationValid
 } from 'in-infrastructure/Explore/components/GroupingConfigurator';
-import GroupingConfiguratorSection from 'in-new-components/GroupingConfigurator/GroupingConfiguratorSection';
+import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
-import ApiQueryAction from 'in-new-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilder, { isQueryValid } from 'in-infrastructure/Explore/components/QueryBuilder';
-import QueryBuilderSection from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
 import GroupedInfrastructure from 'in-infrastructure/Explore/components/GroupedInfrastructure';
+import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import InfrastructureList from 'in-infrastructure/Explore/components/InfrastructureList';
 import { getMetrics, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
-import { ActionSection } from 'in-new-components/workspace/ActionSection/ActionSection';
-import { themes } from 'in-new-components/DashboardHeader/DashboardHeader';
+import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
+import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import { warning, error } from 'in-new-components/Message/types';
-import Sections from 'in-new-components/workspace/Sections';
+import { warning, error } from 'in-components/Message/types';
 import { pendingResult } from 'in-services/fixedObjects';
+import Sections from 'in-components/workspace/Sections';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Message from 'in-new-components/Message';
 import Stack from 'in-components/layout/Stack';
 import useUrlState from 'in-hooks/useUrlState';
+import Message from 'in-components/Message';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 

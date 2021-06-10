@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import DistinctSlider from 'in-new-components/Slider/DistinctSlider';
+import DistinctSlider from 'in-components/Slider/DistinctSlider';
 
 export default {
   title: 'Molecules|slider/Sliders/discreteValues'

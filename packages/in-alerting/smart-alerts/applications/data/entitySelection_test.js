@@ -10,10 +10,10 @@ import {
   getEntitySelectionAsTagFilterFormModel,
   getEntitySelection
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-import { CONJUNCTION, OPEN_BRACKET, CLOSE_BRACKET } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { EQUALS, NOT_EQUAL } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { CONJUNCTION, OPEN_BRACKET, CLOSE_BRACKET } from 'in-components/QueryBuilder/transformation/formModel';
+import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes } from 'in-applications/constants';
 
 describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {

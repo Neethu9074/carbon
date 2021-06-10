@@ -13,7 +13,7 @@ import BackendTraceButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/TypeHeader';
 import renderers from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers';
-import { HighlightedEffect } from 'in-new-components/SelectedElementHighlighter';
+import { HighlightedEffect } from 'in-components/SelectedElementHighlighter';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

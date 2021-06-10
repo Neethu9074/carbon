@@ -8,12 +8,12 @@ import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { containsIgnoreCase } from 'in-services/util/string';
-import SearchInput from 'in-new-components/SearchInput';
+import SearchInput from 'in-components/SearchInput';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

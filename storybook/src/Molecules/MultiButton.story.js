@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import MultiButton from 'in-new-components/MultiButton';
+import MultiButton from 'in-components/MultiButton';
 
 export default {
   title: 'Molecules|MultiButton',

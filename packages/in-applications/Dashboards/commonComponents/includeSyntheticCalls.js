@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { syntheticCallsOptions } from 'in-applications/constants';
 

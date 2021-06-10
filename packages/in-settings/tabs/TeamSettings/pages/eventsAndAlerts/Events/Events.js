@@ -33,8 +33,8 @@ import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracke
 import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { intersperse } from 'in-services/arrayUtils';
-import WithIcon from 'in-new-components/WithIcon';
 import { getPluginName } from 'in-sdk/pluginName';
+import WithIcon from 'in-components/WithIcon';
 import ComboBox from 'in-components/ComboBox';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';

@@ -7,7 +7,7 @@ import React from 'react';
 
 import Region from 'in-forge/plugins/azureCosmosDb/Dashboard/Region';
 import { emptyMap, emptyList } from 'in-services/fixedImmutables';
-import ExpandableCard from 'in-new-components/ExpandableCard';
+import ExpandableCard from 'in-components/ExpandableCard';
 
 import locals from './RegionsTable.mless';
 

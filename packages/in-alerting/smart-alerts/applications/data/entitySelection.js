@@ -5,10 +5,10 @@
 
 import { isEmpty } from 'lodash';
 
-import { and, or } from 'in-new-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { EQUALS, NOT_EQUAL } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes } from 'in-applications/constants';
 
 /**

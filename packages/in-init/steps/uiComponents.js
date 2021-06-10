@@ -19,6 +19,6 @@ require('in-services/tracking/tracking').init();
 require('in-services/tracking/mixpanel').init();
 require('in-services/tracking/appcues').init();
 require('in-stores/isMonitoring').init();
-require('in-new-components/SelectedElementHighlighter').init();
+require('in-components/SelectedElementHighlighter').init();
 require('in-events/releases/releases').init();
-require('in-new-components/uiClientUpdateMessage/uiClientUpdate').init();
+require('in-components/uiClientUpdateMessage/uiClientUpdate').init();

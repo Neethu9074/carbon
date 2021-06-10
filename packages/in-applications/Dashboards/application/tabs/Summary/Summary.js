@@ -16,23 +16,23 @@ import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/Applica
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
 import ServiceTopList from 'in-applications/Dashboards/application/tabs/Summary/ServiceTopList';
-import { DESTINATION, NOT_APPLICABLE } from 'in-new-components/QueryBuilder/tagFilter/entities';
+import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { hasHttpEndpoints, hasHttpAndOtherEndpoints } from 'in-applications/endpointTypes';
 import IssuesAndEvents from 'in-applications/Dashboards/commonComponents/IssuesAndEvents';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
-import BigNumberKpiCard from 'in-new-components/KpiCard/BigNumberKpiCard';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
+import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Row, Col } from 'in-components/layout/Grid';
-import Footer from 'in-new-components/Footer/Footer';
+import Footer from 'in-components/Footer/Footer';
 import { t } from 'in-i18n';
 
 export default function Summary({

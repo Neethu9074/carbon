@@ -18,16 +18,16 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import MetricFilterChart from 'in-kubernetes/Dashboards/commonComponents/MetricFilterChart';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
-import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
-import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

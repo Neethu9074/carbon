@@ -17,13 +17,13 @@ import {
   STRING_LIST,
   STRING_SET,
   KEY_VALUE_PAIR
-} from 'in-new-components/QueryBuilder/tagFilter/types';
+} from 'in-components/QueryBuilder/tagFilter/types';
 import KeyEquals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/TagBasedPayloadConfigurator/KeyEquals';
-import SimpleValueSelector from 'in-new-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
+import SimpleValueSelector from 'in-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 import theme from 'in-themes';
 
 import locals from './TagBasedPayloadConfigurator.mless';

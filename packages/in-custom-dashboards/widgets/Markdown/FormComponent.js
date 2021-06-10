@@ -7,9 +7,9 @@ import React from 'react';
 
 import TextAreaInSection from 'in-components/form/TextArea/TextAreaInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import HelpAction from 'in-new-components/workspace/HelpAction';
-import Sections from 'in-new-components/workspace/Sections';
-import Header from 'in-new-components/workspace/Header';
+import HelpAction from 'in-components/workspace/HelpAction';
+import Sections from 'in-components/workspace/Sections';
+import Header from 'in-components/workspace/Header';
 import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 

@@ -12,12 +12,12 @@ import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-applications/tracker';
-import { TAG } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { EQUALS } from 'in-new-components/QueryBuilder/tagFilter/operators';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
+import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { identity } from 'in-services/util/function';
-import Message from 'in-new-components/Message';
+import Message from 'in-components/Message';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

@@ -9,8 +9,8 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import RequestQuoteForm from 'in-components/RequestQuoteDialog/RequestQuoteForm';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { track, REQUEST_QUOTE_SUBMITTED } from 'in-services/tracking/tracking';
 import withPropDependingState from 'in-hoc/withPropDependingState';
 import { notBlankValidator } from 'in-services/validators/string';
@@ -18,9 +18,9 @@ import { close } from 'in-components/DialogPresenter/store';
 import Notification from 'in-components/form/Notification';
 import requestQuote from 'in-subscription/requestQuote';
 import { emptyObject } from 'in-services/fixedObjects';
-import Dialog from 'in-new-components/Dialog/Dialog';
 import Section from 'in-settings/components/Section';
 import getAccount from 'in-subscription/getAccount';
+import Dialog from 'in-components/Dialog/Dialog';
 import connect from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

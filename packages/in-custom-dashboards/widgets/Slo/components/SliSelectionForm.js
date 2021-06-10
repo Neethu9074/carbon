@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useEffect } from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { trackSliChanged } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { sliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { getSliConfigurations } from 'in-custom-dashboards/api';
-import Sections from 'in-new-components/workspace/Sections';
 import { compareIgnoreCase } from 'in-services/util/string';
+import Sections from 'in-components/workspace/Sections';
 import { t } from 'in-i18n';
 
 export default function SliSelectionForm({ form, onChange, applicationId, openManageSLIComponent }) {

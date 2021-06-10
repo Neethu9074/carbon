@@ -7,7 +7,7 @@ import React from 'react';
 
 import { toggleSnapshotId, selectedSnapshotIds$ } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 import ChartsForSelectedEntities from 'in-infrastructure/tableView/components/ChartsForSelectedEntities';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import RightHeader from 'in-infrastructure/tableView/components/RightHeader';
 import LeftHeader from 'in-infrastructure/tableView/components/LeftHeader';
 import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';

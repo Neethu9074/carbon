@@ -10,8 +10,8 @@ import InfrastructureDataStatistics from 'in-internal/monitoringUnit/unit/Infras
 import ApplicationDataStatistics from 'in-internal/monitoringUnit/unit/ApplicationDataStatistics';
 import ProfileDataStatistics from 'in-internal/monitoringUnit/unit/ProfileDataStatistics';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { LinkList, LinkListItem } from 'in-internal/components/LinkList/LinkList';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import EntityStatistics from 'in-internal/monitoringUnit/unit/EntityStatistics';
 import UnitsBreadcrumb from 'in-internal/monitoringUnit/units/UnitsBreadcrumb';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 
 import locals from './Badge.mless';
 

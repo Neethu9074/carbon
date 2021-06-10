@@ -7,14 +7,14 @@ import React from 'react';
 
 import { just } from '@instana/observables';
 
-import { isInternalVisible$ } from 'in-new-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import getProfilesAvailable from 'in-new-components/Profiling/subscriptions/getProfilesAvailable';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import getProfilesAvailable from 'in-components/Profiling/subscriptions/getProfilesAvailable';
 import EntityVersionDialog from 'in-infrastructure/Dashboard/components/EntityVersionDialog';
-import { getLinkToProfiles } from 'in-new-components/Profiling/navigation/paths';
 import { getDashboardHeaderActions, getAnalyzeLogsHref$ } from 'in-sdk/snapshot';
+import { getLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { containerLogsEnabled } from 'in-services/featureFlags';
-import { MoreMenuCollapser } from 'in-new-components/MoreMenu';
+import { MoreMenuCollapser } from 'in-components/MoreMenu';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { getSnapshots } from 'in-stores/snapshot';
 import { plugins } from 'in-forge/constants';

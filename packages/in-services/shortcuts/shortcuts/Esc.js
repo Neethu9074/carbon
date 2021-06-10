@@ -6,8 +6,8 @@
 import { togglePresets, presetsVisible$ } from 'in-components/SearchBar/stores/presetsVisibility';
 import { goToRootOfView, navigationParameters$ } from 'in-stores/navigation';
 import { activeDialogs$, close } from 'in-components/DialogPresenter/store';
-import { disableTvMode } from 'in-new-components/WithTvMode';
 import { clearSelectedSnapshotId } from 'in-stores/snapshot';
+import { disableTvMode } from 'in-components/WithTvMode';
 
 let navigationParameters;
 navigationParameters$.subscribe(_navigationParameters => (navigationParameters = _navigationParameters));

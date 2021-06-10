@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import {
   getEntityHref,
@@ -16,7 +17,7 @@ import { getMaintenanceConfigsMutable, deleteMaintenanceConfig } from 'in-api/ma
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
 import { formatDateTime } from 'in-services/formatters/date';
 import { toTitleCase } from 'in-services/util/string';
-import WithIcon from 'in-new-components/WithIcon';
+import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

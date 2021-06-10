@@ -11,10 +11,10 @@ import { SvgIcon } from '@instana/components';
 
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
-import Divider from 'in-new-components/workspace/Divider';
-import Header from 'in-new-components/workspace/Header';
-import SideNav from 'in-new-components/SideNav';
+import Divider from 'in-components/workspace/Divider';
+import Header from 'in-components/workspace/Header';
 import Stack from 'in-components/layout/Stack';
+import SideNav from 'in-components/SideNav';
 import { t } from 'in-i18n';
 
 import locals from './AdvancedModeContainer.mless';

@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
-import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import getServices from 'in-subscription/application/getServices';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

@@ -8,10 +8,10 @@ import React, { useState } from 'react';
 import { SvgIconSizes } from '@instana/components';
 
 import WidgetTypeSelector from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector/WidgetTypeSelector';
-import IndeterminateLoadingIndicator from 'in-new-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import WidgetConfiguration from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetConfiguration';
+import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
-import DialogWithSlideInView from 'in-new-components/Dialog/DialogWithSlideInView';
+import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import widgets from 'in-custom-dashboards/widgets';
 import { t } from 'in-i18n';
 

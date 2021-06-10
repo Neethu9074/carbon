@@ -1,0 +1,19 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React, { Fragment } from 'react';
+
+import { interval } from '@instana/observables';
+
+import { fromNowAccurately } from 'in-services/formatters/date';
+import connectTo from 'in-hoc/connectTo';
+
+export default connectTo(({ start }) => ({
+  range: interval(1000)
+    .startWith(start)
+    .map(() => fromNowAccurately(start, 1000))
+}))(function TimeCount({ range }) {
+  return <Fragment>{range}</Fragment>;
+});

@@ -16,7 +16,7 @@ import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfi
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { publicFormatters } from 'in-stores/metric/formatters';
-import Header from 'in-new-components/workspace/Header';
+import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
 export default function ListWidgetFormComponent({ form, onChange }) {

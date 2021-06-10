@@ -5,9 +5,9 @@
 
 import React from 'react';
 
-import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
-import ArticleContent from 'in-new-components/ArticleContent';
-import Message from 'in-new-components/Message';
+import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
+import ArticleContent from 'in-components/ArticleContent';
+import Message from 'in-components/Message';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

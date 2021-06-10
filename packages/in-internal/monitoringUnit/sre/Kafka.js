@@ -21,7 +21,7 @@ import {
   getHostDetails,
   getFsDetails
 } from 'in-internal/monitoringUnit/sre/datastores';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';

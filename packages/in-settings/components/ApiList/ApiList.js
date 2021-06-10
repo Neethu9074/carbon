@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { pendingResult } from 'in-services/fixedObjects';
-import { error } from 'in-new-components/Message/types';
+import { error } from 'in-components/Message/types';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 

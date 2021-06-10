@@ -21,10 +21,10 @@ import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAle
 import { getAlertConfig as getApplicationsAlertConfig } from 'in-applications/navigation/paths';
 import { getAlertChannel, saveAlertChannel, createAlertChannel } from 'in-api/alertChannels';
 import { getAlertConfig as getWebsiteAlertConfig } from 'in-websites/navigation/paths';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { getAlertsForAlertChannelId } from 'in-api/alertingConfiguration';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import WithSubscript from 'in-settings/components/WithSubscript';

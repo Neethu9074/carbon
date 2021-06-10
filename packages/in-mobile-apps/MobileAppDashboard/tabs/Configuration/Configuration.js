@@ -6,7 +6,7 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
-import { SideNavigation, SideNavigationItem } from 'in-new-components/SideNavigation/SideNavigation';
+import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Options';
 import { configurationOptionsFullyQualified } from 'in-mobile-apps/navigation/paths';

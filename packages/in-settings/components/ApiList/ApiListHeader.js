@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import SearchInput from 'in-new-components/SearchInput';
+import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
 
 import locals from './ApiListHeader.mless';

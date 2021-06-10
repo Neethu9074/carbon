@@ -8,7 +8,7 @@ import React from 'react';
 
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
-import Pill from 'in-new-components/Pill';
+import Pill from 'in-components/Pill';
 
 import locals from './BatchingIndicator.mless';
 

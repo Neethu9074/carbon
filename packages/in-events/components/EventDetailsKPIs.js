@@ -13,14 +13,14 @@ import {
   fireCallbacksForEventAtFocusedMomentAsStream,
   getEventSeverityLabel
 } from 'in-stores/events';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import DateTimeKpiCard from 'in-new-components/KpiCard/DateTimeKpiCard';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { formatDurationAccurately } from 'in-services/formatters/date';
+import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { Row, Col } from 'in-components/layout/Grid';
 import { serverTime$ } from 'in-stores/serverTime';
-import KpiCard from 'in-new-components/KpiCard';
+import KpiCard from 'in-components/KpiCard';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

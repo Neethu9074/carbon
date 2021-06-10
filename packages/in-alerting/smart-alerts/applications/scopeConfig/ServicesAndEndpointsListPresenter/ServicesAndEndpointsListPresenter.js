@@ -21,7 +21,7 @@ import getApplication from 'in-subscription/application/getApplication';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { boundaryScopes } from 'in-applications/constants';
-import SearchInput from 'in-new-components/SearchInput';
+import SearchInput from 'in-components/SearchInput';
 
 const backendApiSubscriptions = {
   getApplication,

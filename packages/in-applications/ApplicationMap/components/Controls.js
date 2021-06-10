@@ -6,12 +6,12 @@
 import React from 'react';
 
 import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusServiceLocator/EventBusService';
-import HorizontalControlsPresenter from 'in-new-components/MapControls/HorizontalControlsPresenter';
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
-import VerticalControlsPresenter from 'in-new-components/MapControls/VerticalControlsPresenter';
+import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
+import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
 import NodeSizeButton from 'in-applications/ApplicationMap/components/NodeSizeButton';
-import ButtonGroup from 'in-new-components/MapControls/ButtonGroup';
-import Button from 'in-new-components/MapControls/Button';
+import ButtonGroup from 'in-components/MapControls/ButtonGroup';
+import Button from 'in-components/MapControls/Button';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

@@ -6,10 +6,10 @@
 import React, { Fragment } from 'react';
 
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
-import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { formatDuration } from 'in-services/formatters/date';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import Jobs from '../JobList';
 import { t } from 'in-i18n';
 

@@ -11,7 +11,7 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
-import emptyTagFilterExpression from 'in-new-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
+import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';

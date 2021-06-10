@@ -8,7 +8,7 @@ import React from 'react';
 
 import SelectListDialogContent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
 import locals from './SelectListDialog.mless';

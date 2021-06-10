@@ -7,14 +7,14 @@ import { compose, withState, setPropTypes } from 'recompose';
 import rpt from 'prop-types';
 import React from 'react';
 
-import EntityPageMainNotification from 'in-new-components/EntityPageMainNotification/EntityPageMainNotification';
+import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
 import DraggableLightCard from 'in-cockpit/widgets/TopListWidget/DraggableLightCard';
 import StarredItemList from 'in-cockpit/widgets/TopListWidget/StarredItemList';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ItemList from 'in-cockpit/widgets/TopListWidget/ItemList';
 import Star from 'in-cockpit/widgets/TopListWidget/Star';
-import SearchInput from 'in-new-components/SearchInput';
 import { starredItems$ } from 'in-stores/starredItems';
+import SearchInput from 'in-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

@@ -5,10 +5,10 @@
 
 import React from 'react';
 
-import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
-import { error as errorType } from 'in-new-components/Message/types';
+import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { Tr, Td } from 'in-components/tables/sharedComponents/Table';
-import Message from 'in-new-components/Message';
+import { error as errorType } from 'in-components/Message/types';
+import Message from 'in-components/Message';
 
 export default function ErrorRows({ cols, size, errors }) {
   return getUniqueErrors(errors).map(error => (

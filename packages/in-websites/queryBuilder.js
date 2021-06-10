@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-new-components/QueryBuilder/workspace/QueryBuilderSection';
-import { addTagFilters } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
-import { createQueryBuilder } from 'in-new-components/QueryBuilder';
+import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 
 export const pageLoad = create('pageLoad');

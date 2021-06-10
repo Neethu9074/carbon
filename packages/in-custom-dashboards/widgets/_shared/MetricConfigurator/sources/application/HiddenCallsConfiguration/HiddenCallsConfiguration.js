@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Section from 'in-new-components/workspace/Section';
+import Section from 'in-components/workspace/Section';
 import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 

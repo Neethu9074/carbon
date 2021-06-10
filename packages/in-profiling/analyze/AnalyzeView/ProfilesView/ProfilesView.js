@@ -4,20 +4,21 @@
  */
 
 import React, { useState, useEffect } from 'react';
+
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 import { Link } from '@instana/components';
 
 import { processIdUrlParameter, timeUrlParameter, thresholdUrlParameter } from 'in-profiling/navigation/urlParameters';
-import { closeProfilesViewLink } from 'in-new-components/Profiling/navigation/paths';
-import getProfiles from 'in-new-components/Profiling/subscriptions/getProfiles';
+import { closeProfilesViewLink } from 'in-components/Profiling/navigation/paths';
+import getProfiles from 'in-components/Profiling/subscriptions/getProfiles';
 import { setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
 import { highlightedTimeframe$ } from 'in-stores/highlightedTimeframe';
-import ContextGuide from 'in-new-components/ContextGuide/ContextGuide';
 import tabs from 'in-profiling/analyze/AnalyzeView/ProfilesView/tabs';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import ContextGuide from 'in-components/ContextGuide/ContextGuide';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getSnapshot, getSnapshots } from 'in-stores/snapshot';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isEntityOnline } from 'in-stores/snapshot';

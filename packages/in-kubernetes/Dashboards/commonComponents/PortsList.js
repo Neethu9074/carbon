@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
 
+import { Card } from '@instana/components';
+
 import { Table, Thead, Tbody, Th, Tr, Td } from 'in-components/tables/sharedComponents';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import WithIcon from 'in-new-components/WithIcon';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import WithIcon from 'in-components/WithIcon';
 import { t } from 'in-i18n';
 
 import locals from './PortsList.mless';

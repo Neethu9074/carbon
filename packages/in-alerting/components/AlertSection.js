@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import Section from 'in-new-components/workspace/Section';
+import Section from 'in-components/workspace/Section';
 import theme from 'in-themes';
 
 export default function AlertSection({

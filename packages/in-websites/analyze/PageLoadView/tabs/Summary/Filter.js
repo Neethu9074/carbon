@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { compareIgnoreCase, isNotBlank } from 'in-services/util/string';
-import SearchInput from 'in-new-components/SearchInput';
+import SearchInput from 'in-components/SearchInput';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';

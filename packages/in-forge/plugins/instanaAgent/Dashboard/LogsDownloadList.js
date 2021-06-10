@@ -9,16 +9,16 @@ import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
 import { loadDownloadableLogs } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { track, AGENT_LOGS_DOWNLOAD_CLICKED } from 'in-services/tracking/tracking';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { formatDateTime } from 'in-services/formatters/date';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { close } from 'in-components/DialogPresenter/store';
 import { bytes } from 'in-services/formatters/number';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
 import locals from './LogsDownloadList.mless';

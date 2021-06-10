@@ -17,9 +17,9 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
-import { fromBackendModel } from 'in-new-components/QueryBuilder/transformation/formModel';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';

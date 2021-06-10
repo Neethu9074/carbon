@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-import { TopListWithUrlState, trackTopListNavigation } from 'in-new-components/TopListWithUrlState';
-import TopListCardPresenter from 'in-new-components/TopListCard/TopListCardPresenter';
+import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
+import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

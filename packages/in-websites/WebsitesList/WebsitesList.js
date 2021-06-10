@@ -20,8 +20,8 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getWebsitesWithDefaults } from 'in-websites/subscriptions/getWebsites';
 import { websitesPath, linkToNewWebsite$ } from 'in-websites/navigation/paths';
-import WithEmptyStateFallback from 'in-new-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-websites/WebsitesList/components/ViewSwitcher';
+import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { number, meanLatencyFixed } from 'in-services/formatters/number';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -29,7 +29,7 @@ import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { websitesOpenAddForm } from 'in-websites/tracker';
 import { timeConfig$ } from 'in-stores/time/config';
-import Footer from 'in-new-components/Footer';
+import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';

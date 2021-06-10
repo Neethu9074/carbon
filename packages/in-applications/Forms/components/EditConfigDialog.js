@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 
 export default function EditConfigDialog({ title, content }) {
   return (

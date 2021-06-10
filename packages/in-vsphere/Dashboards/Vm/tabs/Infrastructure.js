@@ -11,7 +11,7 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import getVsphereGuestHost from 'in-vsphere/subscriptions/getVsphereGuestHost';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import EntityLink from 'in-new-components/EntityLink';
+import EntityLink from 'in-components/EntityLink';
 import { getLabel } from 'in-sdk/snapshot';
 import { t } from 'in-i18n';
 

@@ -12,9 +12,9 @@ import { isAvailable as isSamlAvailable } from 'in-settings/tabs/AuthSettings/ap
 import { isAvailable as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
 import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
 import legacyRedirects from 'in-settings/navigation/legacy-redirects';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import RedirectWithHash from 'in-components/RedirectWithHash';
+import DashboardHeader from 'in-components/DashboardHeader';
 import getTabs from 'in-settings/tabs/index';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

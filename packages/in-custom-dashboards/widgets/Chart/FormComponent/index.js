@@ -10,8 +10,8 @@ import DataSeriesConfigurator from 'in-custom-dashboards/widgets/Chart/FormCompo
 import AxesConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/AxesConfigurator';
 import { potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFlags';
 import { getShortMetricKey } from 'in-custom-dashboards/widgets/Chart/util';
-import Divider from 'in-new-components/workspace/Divider';
-import Header from 'in-new-components/workspace/Header';
+import Divider from 'in-components/workspace/Divider';
+import Header from 'in-components/workspace/Header';
 import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 

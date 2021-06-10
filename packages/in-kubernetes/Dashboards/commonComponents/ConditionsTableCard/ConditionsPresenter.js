@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { t } from 'in-i18n';
 
 export default function NodeConditionsPresenter({ conditions }) {

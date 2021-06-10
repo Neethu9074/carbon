@@ -8,7 +8,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { STRING_MAX_LENGTH } from 'in-new-components/QueryBuilder/tagFilter/constraints';
+import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { t } from 'in-i18n';

@@ -15,19 +15,19 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
-import TabView from 'in-new-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
-import EntityVersionList from 'in-new-components/EntityVersionList';
+import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import DashboardHeader from 'in-new-components/DashboardHeader';
+import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { podDashboard } from 'in-kubernetes/navigation/paths';
+import DashboardHeader from 'in-components/DashboardHeader';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';
 import { PodBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { getTimeConfig } from 'in-stores/time/config';
 import { podTabChange } from 'in-kubernetes/tracker';
-import Footer from 'in-new-components/Footer';
 import { plugins } from 'in-forge/constants';
+import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default function PodDashboard({ location }) {

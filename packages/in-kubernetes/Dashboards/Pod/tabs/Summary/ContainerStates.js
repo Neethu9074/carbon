@@ -16,18 +16,18 @@ import {
 } from 'in-services/formatters/number';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import EntityHealthIndicator from 'in-new-components/EntityHealthIndicator/EntityHealthIndicator';
+import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
 import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import ViewAllWrapper from 'in-new-components/TopListCard/ViewAllWrapper';
-import NoDataAvailable from 'in-new-components/Errors/NoDataAvailable';
+import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { getContainerIconByPlugin } from 'in-kubernetes/icons';
-import Capitalize from 'in-new-components/Capitalize';
+import Capitalize from 'in-components/Capitalize';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

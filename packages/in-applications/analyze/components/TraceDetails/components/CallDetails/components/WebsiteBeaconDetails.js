@@ -11,8 +11,8 @@ import BodyHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/com
 import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
 import { getType, types } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
-import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
-import { Dl, Di } from 'in-new-components/HorizontalDescriptionList';
+import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
+import { Dl, Di } from 'in-components/HorizontalDescriptionList';
 import { explanations } from 'in-websites/cacheInteractionTypes';
 import { getLinkToPageLoad } from 'in-websites/navigation/paths';
 import { bytes } from 'in-services/formatters/number';

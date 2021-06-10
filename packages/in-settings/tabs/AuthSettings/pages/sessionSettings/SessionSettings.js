@@ -7,10 +7,10 @@ import { createField } from 'formalistic';
 import React from 'react';
 
 import { refresh, deleteSessionSettings, setSessionSettings } from 'in-settings/tabs/AuthSettings/api/sessionSettings';
-import { success, neutral, error as errorType } from 'in-new-components/Message/types';
+import { success, neutral, error as errorType } from 'in-components/Message/types';
 import { getSessionSettingsAsResultObservable } from '../../api/sessionSettings';
 import { formatDurationAccurately } from 'in-services/formatters/date';
-import DistinctSlider from 'in-new-components/Slider/DistinctSlider';
+import DistinctSlider from 'in-components/Slider/DistinctSlider';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { days, minutes, hours } from 'in-services/time';

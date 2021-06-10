@@ -9,11 +9,11 @@ import { Link } from '@instana/components';
 
 import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
-import UngroupedViewTable, { retrievalSize } from 'in-new-components/AnalyzeView/UngroupedViewTable';
+import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
-import { triggerHighlight } from 'in-new-components/SelectedElementHighlighter';
+import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';

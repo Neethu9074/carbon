@@ -11,11 +11,11 @@ import { Button } from '@instana/components';
 
 import getCloudfoundryApplicationForInstanaApplication from 'in-subscription/cloudfoundry/getCloudfoundryApplicationForInstanaApplication';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { Td, Table, Tbody, Tr } from 'in-components/tables/sharedComponents';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
-import EntityWithType from 'in-new-components/EntityWithType';
-import Overlay from 'in-new-components/overlays/Overlay';
+import EntityWithType from 'in-components/EntityWithType';
+import Overlay from 'in-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

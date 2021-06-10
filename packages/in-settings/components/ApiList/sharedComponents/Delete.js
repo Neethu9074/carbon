@@ -9,7 +9,7 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import ConfirmationDialog from 'in-new-components/Dialog/ConfirmationDialog';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Delete.mless';

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Di } from 'in-new-components/HorizontalDescriptionList';
+import { Di } from 'in-components/HorizontalDescriptionList';
 import { isBlank } from 'in-services/util/string';
 import Code from 'in-components/Code';
 import theme from 'in-themes';

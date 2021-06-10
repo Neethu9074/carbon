@@ -7,8 +7,8 @@ import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import SimpleModePageNavigation from 'in-new-components/BlueprintFormMultistep/SimpleModePageNavigation';
-import { toBackendQueryModel } from 'in-new-components/QueryBuilder/transformation/backendQueryModel';
+import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getApplicationLiveView from 'in-subscription/application/getApplicationLiveView';
 import SimpleCreateStep1 from 'in-applications/creation/simple/SimpleCreateStep1';
 import SimpleCreateStep2 from 'in-applications/creation/simple/SimpleCreateStep2';

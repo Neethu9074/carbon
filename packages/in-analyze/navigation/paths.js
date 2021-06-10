@@ -28,12 +28,12 @@ import {
   NOT_EQUAL,
   NOT_STARTS_WITH,
   STARTS_WITH
-} from 'in-new-components/QueryBuilder/tagFilter/operators';
+} from 'in-components/QueryBuilder/tagFilter/operators';
 import {
   sanitizeTagFilter,
   toNewTagFilterFormat,
   type as TAG_FILTER
-} from 'in-new-components/QueryBuilder/transformation/tagFilter';
+} from 'in-components/QueryBuilder/transformation/tagFilter';
 import {
   APPLICATION,
   APPLICATION_INBOUND,
@@ -43,11 +43,11 @@ import {
   SERVICE
 } from 'in-analyze/applicationFilter';
 import { dataSourceConstants, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
-import { toNewOrderBy } from 'in-new-components/QueryBuilder/transformation/orderBy';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
-import { createParameters } from 'in-new-components/AnalyzeView/parameters';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { toNewOrderBy } from 'in-components/QueryBuilder/transformation/orderBy';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
+import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import { boundaryScopes } from 'in-applications/constants';

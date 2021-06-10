@@ -12,7 +12,7 @@ import { alertRulesPropType, thresholdsPropType } from 'in-alerting/PotentialPro
 import PotentialProblemsList from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsList';
 import { trackCurrentlySelected, trackDialogClosed } from 'in-alerting/PotentialProblems/tracker';
 import { close } from 'in-components/DialogPresenter/store';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter.mless';

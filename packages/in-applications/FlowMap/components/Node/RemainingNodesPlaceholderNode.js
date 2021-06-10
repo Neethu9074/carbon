@@ -11,7 +11,7 @@ import { Button } from '@instana/components';
 
 import ScreenPositionWrapper from 'in-applications/FlowMap/components/Node/ScreenPositionWrapper';
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
-import ErroneousResultPresenter from 'in-new-components/Errors/ErroneousResultPresenter';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';

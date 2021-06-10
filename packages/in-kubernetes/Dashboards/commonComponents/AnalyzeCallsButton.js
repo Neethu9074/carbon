@@ -7,8 +7,8 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
-import { type as typeTagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
-import { joinExpressions } from 'in-new-components/QueryBuilder/transformation/formModel';
+import { type as typeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { t } from 'in-i18n';
 

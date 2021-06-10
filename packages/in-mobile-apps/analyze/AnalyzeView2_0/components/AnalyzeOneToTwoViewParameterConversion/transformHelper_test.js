@@ -11,7 +11,7 @@ import {
   isAnalyticsOneLocation,
   transformOneZeroToTwoZero
 } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
-import { metric as metricType } from 'in-new-components/AnalyzeView/fieldTypes';
+import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 
 const cases = [

@@ -14,8 +14,8 @@ import AlertChannelsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAler
 import { limitForConnectedAlertChannels } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogContentComponent from 'in-settings/tabs/TeamSettings/components/SelectListDialogContent';
 import AlertChannelCreation from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertChannelCreation';
-import SlideInView, { NoHeader } from 'in-new-components/SlideInView/SlideInView';
-import DialogFooter from 'in-new-components/BlueprintFormMultistep/DialogFooter';
+import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
+import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import NoChannelSelected from 'in-alerting/components/NoChannelSelected';
 import { getAlertChannelsInfosMutable } from 'in-api/alertChannels';
 import TouchedMessages from 'in-components/form/TouchedMessages';

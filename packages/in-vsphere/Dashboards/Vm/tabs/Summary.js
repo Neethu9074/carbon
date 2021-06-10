@@ -8,13 +8,13 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import { number, bytes, percentage, bytesTwoDecimalPlaces, msZeroDecimalPlaces } from 'in-services/formatters/number';
-import { valueMissingPlaceholder } from 'in-new-components/valueMissingPlaceholder';
-import InfraMetricKpiCard from 'in-new-components/KpiCard/InfraMetricKpiCard';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import KpiGridRow from 'in-new-components/KpiGridRow/KpiGridRow';
-import KpiCard from 'in-new-components/KpiCard/KpiCard';
-import Capitalize from 'in-new-components/Capitalize';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
+import Capitalize from 'in-components/Capitalize';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: vm }) {

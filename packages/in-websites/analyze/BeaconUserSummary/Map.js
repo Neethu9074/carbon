@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import { amCharts, worldLowMap, centerAlignedLocationPointer } from 'in-new-components/AmMap/libraryWrapper';
-import AmMap from 'in-new-components/AmMap/ReactWrapper';
+import { amCharts, worldLowMap, centerAlignedLocationPointer } from 'in-components/AmMap/libraryWrapper';
+import AmMap from 'in-components/AmMap/ReactWrapper';
 
 import locals from './Map.mless';
 

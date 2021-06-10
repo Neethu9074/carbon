@@ -9,10 +9,10 @@ import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
-import ApplicationsHealthIndicatorBar from 'in-new-components/ApplicationHealthOverview/ApplicationsHealthIndicatorBar';
+import ApplicationsHealthIndicatorBar from 'in-components/ApplicationHealthOverview/ApplicationsHealthIndicatorBar';
 import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import ApplicationHealthOverview from 'in-new-components/ApplicationHealthOverview';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import ApplicationHealthOverview from 'in-components/ApplicationHealthOverview';
 import { compareIgnoreCase } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { compare } from 'in-services/util/number';

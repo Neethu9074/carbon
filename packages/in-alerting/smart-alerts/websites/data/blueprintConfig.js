@@ -10,7 +10,7 @@ import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/sub
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
-import { tagFilter } from 'in-new-components/QueryBuilder/transformation/tagFilter';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { availableFilterTags } from 'in-websites/tags';

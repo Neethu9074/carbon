@@ -7,7 +7,7 @@ import React from 'react';
 
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import ServerListPresenter from 'in-new-components/lists/List/ServerListPresenter';
+import ServerListPresenter from 'in-components/lists/List/ServerListPresenter';
 import getWebsites from 'in-websites/subscriptions/getWebsites';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import useTimeConfig from 'in-hooks/useTimeConfig';

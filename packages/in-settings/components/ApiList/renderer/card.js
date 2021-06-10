@@ -5,14 +5,14 @@
 
 import React from 'react';
 
-import LoadingList from 'in-new-components/lists/List/sharedComponents/LoadingList';
 import ResolveResult from 'in-settings/components/ApiList/renderer/ResolveResult';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
-import EmptyList from 'in-new-components/lists/List/sharedComponents/EmptyList';
-import ErrorList from 'in-new-components/lists/List/sharedComponents/ErrorList';
+import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import EmptyList from 'in-components/lists/List/sharedComponents/EmptyList';
+import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import SearchInput from 'in-new-components/SearchInput';
-import Pagination from 'in-new-components/Pagination';
+import SearchInput from 'in-components/SearchInput';
+import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from '../ApiListHeader.mless';

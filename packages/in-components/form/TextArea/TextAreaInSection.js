@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import TextArea from 'in-components/form/TextArea/TextArea';
-import Section from 'in-new-components/workspace/Section';
+import Section from 'in-components/workspace/Section';
 
 import locals from './TextAreaInSection.mless';
 

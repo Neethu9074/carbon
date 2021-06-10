@@ -9,8 +9,8 @@ import React, { useState } from 'react';
 import { combineLatest } from '@instana/observables';
 
 import renderLoadingStateDefault from 'in-settings/components/ApiItemView/FallbackLoadingView';
-import { getUniqueErrors } from 'in-new-components/Errors/ErroneousResultPresenter';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
+import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import Header from 'in-settings/components/ApiItemView/Header';
 import Footer from 'in-settings/components/ApiItemView/Footer';
 import { isLoading, hasError } from 'in-services/util/result';

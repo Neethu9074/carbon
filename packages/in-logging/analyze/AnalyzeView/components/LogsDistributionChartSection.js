@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import ChartingConfiguratorSection from 'in-new-components/ChartingConfigurator/ChartingConfiguratorSection';
+import ChartingConfiguratorSection from 'in-components/ChartingConfigurator/ChartingConfiguratorSection';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';

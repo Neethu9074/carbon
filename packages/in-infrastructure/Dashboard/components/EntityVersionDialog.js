@@ -6,13 +6,13 @@
 import React, { useState } from 'react';
 
 import { getSnapshotVersions } from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
-import EntityVersionListing from 'in-new-components/EntityVersionList/EntityVersionListing';
-import LoadingIndicator from 'in-new-components/LoadingIndicators/LoadingIndicator';
-import EntityVersionList from 'in-new-components/EntityVersionList';
-import VersionTimeline from 'in-new-components/VersionTimeline';
+import EntityVersionListing from 'in-components/EntityVersionList/EntityVersionListing';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import EntityVersionList from 'in-components/EntityVersionList';
+import VersionTimeline from 'in-components/VersionTimeline';
 import { close } from 'in-components/DialogPresenter/store';
 import { Row, Col } from 'in-components/layout/Grid';
-import Dialog from 'in-new-components/Dialog/Dialog';
+import Dialog from 'in-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';

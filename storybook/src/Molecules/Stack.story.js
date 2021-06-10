@@ -6,7 +6,7 @@
 import { withKnobs, select } from '@storybook/addon-knobs';
 import React from 'react';
 
-import StackPresenter from 'in-new-components/Stack/StackPresenter';
+import StackPresenter from 'in-components/Stack/StackPresenter';
 
 export default {
   title: 'Molecules|Stack',

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import ProgressInformation from 'in-waiting-for-deployment/components/OnboardingWidget/ProgressInformation';
-import StanImage from 'in-new-components/StanImage/StanImage';
+import StanImage from 'in-components/StanImage/StanImage';
 import { t } from 'in-i18n';
 
 import locals from './ProgressSection.mless';
