@@ -1562,6 +1562,11 @@
   "tracingTypeName_mail_0": "Mail messages",
   "tracingTypeName_mail_1": "Mail message",
   "tracingTypeName_mail_2": "Mail messages",
+  "tracingTypeName_mailactionmailer": "ActionMailer message",
+  "tracingTypeName_mailactionmailer_plural": "ActionMailer messages",
+  "tracingTypeName_mailactionmailer_0": "ActionMailer messages",
+  "tracingTypeName_mailactionmailer_1": "ActionMailer message",
+  "tracingTypeName_mailactionmailer_2": "ActionMailer messages",
   "tracingTypeName_memcache": "Memcache Call",
   "tracingTypeName_memcache_plural": "Memcache Calls",
   "tracingTypeName_memcache_0": "Memcache Calls",
@@ -10984,7 +10989,9 @@
       "titleThread": "Thread"
     },
     "mail": {
-      "titleAddress": "Address"
+      "titleAddress": "Address",
+      "class": "Class",
+      "method": "Method"
     },
     "memcache": {
       "titleCommand": "Command",
