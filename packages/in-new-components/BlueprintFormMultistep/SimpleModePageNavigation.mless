@@ -6,18 +6,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .controls {
-    padding: 1rem 0;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-  }
-
-  .button {
-    width: 6.25rem;
-  }
-
   .form {
     flex-grow: 1;
   }

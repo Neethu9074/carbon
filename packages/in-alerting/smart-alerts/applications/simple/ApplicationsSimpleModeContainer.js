@@ -58,9 +58,7 @@ export default function ApplicationsSimpleModeContainer({
         {...parentProps}
       />
     ),
-    parentProps => (
-      <SimpleAlertConfigDialogStep3 onChange={onChange} setAlertChannelsVisible={setSliderState} {...parentProps} />
-    )
+    parentProps => <SimpleAlertConfigDialogStep3 onChange={onChange} setSliderState={setSliderState} {...parentProps} />
   ];
 
   return (

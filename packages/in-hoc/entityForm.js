@@ -136,7 +136,15 @@ export default function entityForm(ComposedComponent) {
         message: savingMessage
       });
 
-      responseSubscription.current = result$.once(props.openEntities);
+      responseSubscription.current = result$.once(() => {
+        setState({
+          ...state,
+          loading: false,
+          error: false
+        });
+        props.onSaveSuccess?.();
+        props.openEntities?.();
+      });
 
       errorSubscription.current = result$.errors().once(error => {
         let message = error.message;
@@ -149,6 +157,7 @@ export default function entityForm(ComposedComponent) {
           message = error.response.body.errors.join(', ');
         }
         scrollToTopSmoothly();
+        props.onSaveError?.(message);
         setState({
           ...state,
           loading: false,

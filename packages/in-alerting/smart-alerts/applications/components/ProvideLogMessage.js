@@ -16,6 +16,7 @@ import {
   applicationsAlertingLogMsgSelected,
   applicationsAlertingLogOpenMsgSelectView
 } from 'in-alerting/smart-alerts/applications/tracker';
+import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigSlideInContentWrapper';
 import {
   ruleLogMessageOperatorOptions,
   ruleLogLevelOptions
@@ -59,24 +60,26 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
               onSelectLogMessage({
                 slideInConfig: {
                   component: (
-                    <LogMessagesList
-                      applications={form.get('applications').value}
-                      tagFilterExpression={form.get('tagFilterExpression').value}
-                      applicationBoundaryScope={form.get('boundaryScope').value}
-                      includeInternal={form.get('includeInternal').value}
-                      includeSynthetic={form.get('includeSynthetic').value}
-                      timeConfig={timeConfig}
-                      onLogMessageSelect={(message, level) => {
-                        applicationsAlertingLogMsgSelected({ message, mode });
-                        updateForm(
-                          form
-                            .updateIn(['rule', 'message'], f => f.setValue(message).setTouched(true))
-                            .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
-                            .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
-                        );
-                      }}
-                      slideOut={() => onSelectLogMessage({ isVisible: false })}
-                    />
+                    <AlertConfigSlideInContentWrapper>
+                      <LogMessagesList
+                        applications={form.get('applications').value}
+                        tagFilterExpression={form.get('tagFilterExpression').value}
+                        applicationBoundaryScope={form.get('boundaryScope').value}
+                        includeInternal={form.get('includeInternal').value}
+                        includeSynthetic={form.get('includeSynthetic').value}
+                        timeConfig={timeConfig}
+                        onLogMessageSelect={(message, level) => {
+                          applicationsAlertingLogMsgSelected({ message, mode });
+                          updateForm(
+                            form
+                              .updateIn(['rule', 'message'], f => f.setValue(message).setTouched(true))
+                              .updateIn(['rule', 'operator'], field => field.setValue(operators.EQUALS))
+                              .updateIn(['rule', 'level'], f => f.setValue(level).setTouched(true))
+                          );
+                        }}
+                        slideOut={() => onSelectLogMessage({ isVisible: false })}
+                      />
+                    </AlertConfigSlideInContentWrapper>
                   ),
                   title: t('in-alerting:smartAlerts.applications.logMessages.selectLogMessageTitle')
                 },

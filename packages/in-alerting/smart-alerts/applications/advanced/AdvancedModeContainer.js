@@ -27,10 +27,10 @@ import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/applications/ad
 import ThroughputInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/ThroughputInteractiveChart';
 import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import ErrorRateInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/ErrorRateInteractiveChart';
+import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/ConfigureAlertChannel';
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/SlownessInteractiveChart';
 import BaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/BaselineErrorMessage';
 import { validateCheckForCustomPayload } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
-import SelectAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/SelectAlertChannel';
 import LogsInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import ProvideLogMessage from 'in-alerting/smart-alerts/applications/components/ProvideLogMessage';
@@ -49,6 +49,7 @@ export default function AdvancedModeContainer(props) {
     timeConfig,
     onChange,
     setSliderState,
+    setCustomSlideInHeaderConfig,
     updateForm,
     applicationLabel,
     onChartViewConfigChange,
@@ -191,7 +192,15 @@ export default function AdvancedModeContainer(props) {
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.title'),
           checked: form.get('alertChannelIds').value.length > 0,
           valid: true,
-          content: <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
+          content: (
+            <ConfigureAlertChannel
+              form={form}
+              onChange={onChange}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={7}
+            />
+          )
         },
         {
           scrollId: '5',

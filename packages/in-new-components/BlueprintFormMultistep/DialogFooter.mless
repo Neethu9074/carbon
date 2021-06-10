@@ -1,0 +1,18 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+:local {
+  .controls {
+    padding: 1rem 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    button {
+      min-width: 6.25rem;
+    }
+  }
+}

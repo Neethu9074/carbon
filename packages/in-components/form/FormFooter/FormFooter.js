@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import CancelButtonComponent from 'in-components/form/CancelButton';
 import DeleteButtonComponent from 'in-components/form/DeleteButton';
@@ -13,15 +13,16 @@ import { t } from 'in-i18n';
 
 import locals from './FormFooter.mless';
 
-export default function FormFooter({ className, withRoundedBottomBorder, children }) {
+export default forwardRef(function FormFooter({ className, withRoundedBottomBorder, children }, ref) {
   return (
     <nav
+      ref={ref}
       className={classNames(locals.controls, className, { [locals.withRoundedBottomBorder]: withRoundedBottomBorder })}
     >
       {children}
     </nav>
   );
-}
+});
 
 export function SaveButton(props) {
   return (

@@ -26,13 +26,13 @@ import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dia
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig';
 import WebsiteAlertPropertiesTitleRow from 'in-alerting/smart-alerts/websites/advanced/WebsiteAlertPropertiesTitleRow';
 import BlueprintSelection from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/BlueprintSelection';
+import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/ConfigureAlertChannel';
 import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/ThroughputInteractiveChart';
 import BaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/BaselineErrorMessage';
 import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/JsErrorsInteractiveChart';
-import SelectAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/SelectAlertChannel';
 import { validateCheckForCustomPayload } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/advanced/TimeThresholdConfig';
@@ -53,6 +53,7 @@ export default function AdvancedModeContainer(props) {
     timeConfig,
     onChange,
     setSliderState,
+    setCustomSlideInHeaderConfig,
     updateForm,
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
@@ -208,7 +209,15 @@ export default function AdvancedModeContainer(props) {
           title: t('in-alerting:smartAlerts.websites.advanced.alertChannelsTitle'),
           checked: form.get(fieldNames.alertChannelIds).value.length > 0,
           valid: true,
-          content: <SelectAlertChannel form={form} onChange={onChange} setAlertChannelsVisible={setSliderState} />
+          content: (
+            <ConfigureAlertChannel
+              form={form}
+              onChange={onChange}
+              setSliderState={setSliderState}
+              setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
+              numberOfAlertChannelListRows={7}
+            />
+          )
         },
         {
           scrollId: '5',

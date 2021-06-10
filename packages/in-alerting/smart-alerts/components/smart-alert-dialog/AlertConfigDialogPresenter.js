@@ -37,6 +37,11 @@ export default function AlertConfigDialogPresenter(props) {
   const [slideInConfig, setSlideInConfig] = useState(null);
   const [simpleModeStep, setSimpleModeStep] = useState(0);
 
+  const [customSlideInHeaderConfig, setCustomSlideInHeaderConfig] = useState({
+    title: null,
+    onClose: null
+  });
+
   const builtIn = form.get('builtIn').value;
 
   const setSliderState = ({ slideInConfig, isVisible }) => {
@@ -49,13 +54,17 @@ export default function AlertConfigDialogPresenter(props) {
   return (
     <DialogWithSlideInView
       title={getDialogTitle(isGlobalSmartAlert, editMode, builtIn)}
-      slideInViewTitle={slideInConfig && slideInConfig.title}
-      onSlideInViewTitleClick={() => setSlideInViewVisible(!slideInViewVisible)}
+      slideInViewTitle={customSlideInHeaderConfig.title ?? slideInConfig?.title}
+      onSlideInViewTitleClick={() =>
+        customSlideInHeaderConfig.onClose
+          ? customSlideInHeaderConfig.onClose()
+          : setSlideInViewVisible(!slideInViewVisible)
+      }
       titleIconType="lib_alerts_create"
       onClose={() => withTrackClose(simpleMode && simpleModeStep)}
       doNotCloseOnOutsideClick
       slideInViewVisible={slideInViewVisible}
-      slideInViewComponent={slideInConfig && <div className={locals.slideInContainer}>{slideInConfig.component}</div>}
+      slideInViewComponent={slideInConfig?.component}
       renderCustomCloseBehaviour={resetScrollShadow => (
         <>
           {featureFeedbackElement}
@@ -91,6 +100,7 @@ export default function AlertConfigDialogPresenter(props) {
             onClose={withTrackClose}
             setSliderState={setSliderState}
             setSimpleModeStep={setSimpleModeStep}
+            setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
           />
         ) : (
           <AdvancedModeElement
@@ -99,6 +109,7 @@ export default function AlertConfigDialogPresenter(props) {
             onClose={withTrackClose}
             setSliderState={setSliderState}
             setSimpleModeStep={setSimpleModeStep}
+            setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
           />
         )}
       </div>

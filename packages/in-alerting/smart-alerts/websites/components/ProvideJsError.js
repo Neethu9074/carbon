@@ -15,6 +15,7 @@ import {
   websitesAlertingJsErrorsErrorSelected,
   websitesAlertingJsErrorsOpenErrorSelectView
 } from 'in-alerting/smart-alerts/websites/tracker';
+import AlertConfigSlideInContentWrapper from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigSlideInContentWrapper';
 import { ruleJsErrorsOperatorOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import JsErrorsList from 'in-alerting/smart-alerts/websites/components/JsErrorsList';
 import DebouncedTextArea from 'in-components/form/TextArea/DebouncedTextArea';
@@ -55,22 +56,24 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
                 onSelectJsError({
                   slideInConfig: {
                     component: (
-                      <JsErrorsList
-                        websiteId={form.get('websiteId').value}
-                        tagFilterExpression={form.get('tagFilterExpression').value}
-                        timeConfig={timeConfig}
-                        onJsErrorSelect={message => {
-                          websitesAlertingJsErrorsErrorSelected({ message, mode });
-                          updateForm(
-                            form
-                              .updateIn(['rule', 'value'], f => f.setValue(message).setTouched(true))
-                              .updateIn(['rule', 'operator'], field =>
-                                field.setValue(operators.EQUALS).setTouched(true)
-                              )
-                          );
-                        }}
-                        slideOut={() => onSelectJsError({ isVisible: false })}
-                      />
+                      <AlertConfigSlideInContentWrapper>
+                        <JsErrorsList
+                          websiteId={form.get('websiteId').value}
+                          tagFilterExpression={form.get('tagFilterExpression').value}
+                          timeConfig={timeConfig}
+                          onJsErrorSelect={message => {
+                            websitesAlertingJsErrorsErrorSelected({ message, mode });
+                            updateForm(
+                              form
+                                .updateIn(['rule', 'value'], f => f.setValue(message).setTouched(true))
+                                .updateIn(['rule', 'operator'], field =>
+                                  field.setValue(operators.EQUALS).setTouched(true)
+                                )
+                            );
+                          }}
+                          slideOut={() => onSelectJsError({ isVisible: false })}
+                        />
+                      </AlertConfigSlideInContentWrapper>
                     ),
                     title: t('in-alerting:smartAlerts.websites.components.selectJSErrorTitle')
                   },

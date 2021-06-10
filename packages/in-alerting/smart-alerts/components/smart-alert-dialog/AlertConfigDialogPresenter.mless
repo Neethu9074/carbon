@@ -17,7 +17,7 @@
   }
 
   .slideInContainer {
-    padding: 0 1.375rem;
+    height: 100%;
   }
 
   .titleWrapper {

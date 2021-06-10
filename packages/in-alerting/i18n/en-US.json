@@ -463,6 +463,7 @@
     },
     "components": {
       "smartAlertDialog": {
+        "cancelTitle": "Cancel",
         "sharedListTooltip": "Selected {{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
@@ -470,11 +471,11 @@
         "blueprintDescriptionButtonSelect": "Select",
         "selectAlertChannelButtonTitle": "Select alert channels",
         "selectAlertChannelButton": "Select Alert Channels",
+        "createAlertChannelTitle": "Create Alert Channel",
+        "alertChannelCreatedSuccess": "Alert channel created",
+        "alertChannelSelectTypeTitle": "Alert Channel type",
         "addChannel": "Add {{count}} Channel",
         "addChannel_plural": "Add {{count}} Channels",
-        "addChannel_0": "Add {{count}} Channels",
-        "addChannel_1": "Add {{count}} Channels",
-        "addChannel_2": "Add {{count}} Channels",
         "add": "Add",
         "scopeConfigTitleWithApplications": "Select Applications/Services/Endpoints",
         "scopeConfigTitle": "Select Services/Endpoints",

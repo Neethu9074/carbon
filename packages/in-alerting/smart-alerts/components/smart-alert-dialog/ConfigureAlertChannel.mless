@@ -9,4 +9,13 @@
   .selectButton {
     margin-right: 0.5rem;
   }
+
+  .createButton {
+    margin-right: 0.5rem;
+    color: @lib__colors__N900Primary;
+  }
+
+  .createAlertChannelButton {
+    margin-right: 1rem;
+  }
 }

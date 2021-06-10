@@ -37,7 +37,8 @@ function SelectListDialogContent({
   setErrorMessage,
   limit = Number.MAX_VALUE, // unlimited by default
   pageSize = 7,
-  preventCloseOnSubmit
+  preventCloseOnSubmit,
+  renderCustomFormActions
 }) {
   limit = limit - hiddenIds.length; // take the items that are already selected into account
   const ListComponent = listComponent;
@@ -94,19 +95,21 @@ function SelectListDialogContent({
         {errorMessage && <ValidationBlock className={locals.errorMessage}>{errorMessage}</ValidationBlock>}
       </FormGroup>
 
-      <div className={locals.actions}>
-        <Button type="submit" kind={'secondary'} onClick={() => setSelectedItems([])} className={locals.actionButton}>
-          {t('in-settings:tabs.cancel')}
-        </Button>
-        <Button
-          type="submit"
-          kind={'primary'}
-          disabled={requiresAtLeastOneMessage && numberOfItems === 0}
-          className={locals.actionButton}
-        >
-          {createSubmitLabel(numberOfItems)}
-        </Button>
-      </div>
+      {renderCustomFormActions?.(numberOfItems) ?? (
+        <div className={locals.actions}>
+          <Button type="submit" kind={'secondary'} onClick={() => setSelectedItems([])} className={locals.actionButton}>
+            {t('in-settings:tabs.cancel')}
+          </Button>
+          <Button
+            type="submit"
+            kind={'primary'}
+            disabled={requiresAtLeastOneMessage && numberOfItems === 0}
+            className={locals.actionButton}
+          >
+            {createSubmitLabel(numberOfItems)}
+          </Button>
+        </div>
+      )}
     </form>
   );
 }

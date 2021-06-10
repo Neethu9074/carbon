@@ -7,13 +7,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
+import DialogFooter from 'in-new-components/BlueprintFormMultistep/DialogFooter';
 import StepProgressBar from 'in-new-components/StepProgressBar/StepProgressBar';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import FormFooter from 'in-components/form/FormFooter/FormFooter';
-import SaveButton from 'in-components/form/SaveButton';
 import { t } from 'in-i18n';
 
 import locals from './SimpleModePageNavigation.mless';
@@ -82,26 +80,22 @@ export default function SimpleModePageNavigation({
 
       <form onSubmit={e => handleSubmit(e, step)} className={locals.form}>
         {renderStep(step)}
-
-        <FormFooter className={locals.controls}>
-          <Button className={locals.button} kind="secondary" onClick={() => backOrCancel(step)}>
-            {step === 0
-              ? t('in-new-components:blueprintFormMultistep.buttonCancel')
-              : t('in-new-components:blueprintFormMultistep.buttonBack')}
-          </Button>
-          <SaveButton
-            type="submit"
-            kind="primary"
-            className={locals.button}
-            form={form}
-            disabled={(isDisabled || isCalculatingThreshold) && step !== 0}
-            isSaving={isSaving}
-          >
-            {step === stepConfigs.length - 1
+        <DialogFooter
+          form={form}
+          primaryActionText={
+            step === stepConfigs.length - 1
               ? t('in-new-components:blueprintFormMultistep.buttonCreate')
-              : t('in-new-components:blueprintFormMultistep.buttonNext')}
-          </SaveButton>
-        </FormFooter>
+              : t('in-new-components:blueprintFormMultistep.buttonNext')
+          }
+          onSecondaryActionClick={() => backOrCancel(step)}
+          secondaryActionText={
+            step === 0
+              ? t('in-new-components:blueprintFormMultistep.buttonCancel')
+              : t('in-new-components:blueprintFormMultistep.buttonBack')
+          }
+          primaryActionDisabled={(isDisabled || isCalculatingThreshold) && step !== 0}
+          saving={isSaving}
+        />
       </form>
     </>
   );
