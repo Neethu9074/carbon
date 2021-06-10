@@ -42,7 +42,7 @@ export default function AlertConfigDialogPresenter(props) {
     onClose: null
   });
 
-  const builtIn = form.get('builtIn').value;
+  const builtIn = form.get('builtIn')?.value;
 
   const setSliderState = ({ slideInConfig, isVisible }) => {
     if (slideInConfig) {
