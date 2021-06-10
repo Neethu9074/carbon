@@ -122,7 +122,9 @@ export default function Alert({
           renderCustomTitle={() => {
             return (
               <HorizontalFlexWrapper className={locals.titleWrapper}>
-                <AlertTitleWithPlaceholderHighlighting configName={alertConfig.name} />
+                <div>
+                  <AlertTitleWithPlaceholderHighlighting configName={alertConfig.name} />
+                </div>
                 <BuiltInIndicator builtIn={alertConfig.builtIn} />
               </HorizontalFlexWrapper>
             );
