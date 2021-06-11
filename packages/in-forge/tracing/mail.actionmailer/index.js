@@ -16,6 +16,6 @@ registerSpanDefinition({
     const klass = span.getIn(['data', 'actionmailer', 'class'], '<unknown class>');
     const method = span.getIn(['data', 'actionmailer', 'method'], '<unknown_method>');
 
-    return `${klass}#${method}`;
+    return `SEND MAIL ${klass}#${method}`;
   }
 });
