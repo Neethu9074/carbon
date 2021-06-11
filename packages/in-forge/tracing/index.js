@@ -11,6 +11,7 @@ import './spring-webflux-exit';
 import './haskell.wai.server';
 import './aws.lambda.invoke';
 import './akka-remote-entry';
+import './mail.actionmailer';
 import './actioncontroller';
 import './akka-remote-exit';
 import './akka.http.client';
