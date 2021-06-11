@@ -115,7 +115,7 @@ function mapServicesToOptions(
                 applicationId: app.id,
                 serviceId: service.id,
                 boundaryScope,
-                tagFilterExpression,
+                tagFilterFormModel: tagFilterExpression,
                 applications,
                 timeConfig,
                 includeSynthetic
