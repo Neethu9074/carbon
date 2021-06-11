@@ -7,7 +7,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { isEmpty } from 'lodash';
 
-import { combineLatest, timeout } from '@instana/observables/lib';
+import { combineLatest, timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import {

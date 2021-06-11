@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables/lib';
+import { just } from '@instana/observables';
 
 import getTagSuggestions from 'in-logging/subscriptions/getTagSuggestions';
 import { createQueryBuilder } from 'in-components/QueryBuilder';

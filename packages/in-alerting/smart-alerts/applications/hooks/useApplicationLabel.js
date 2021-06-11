@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { empty } from '@instana/observables/lib';
 import { useObservable } from '@instana/hooks';
+import { empty } from '@instana/observables';
 
 import getApplication from 'in-subscription/application/getApplication';
 
