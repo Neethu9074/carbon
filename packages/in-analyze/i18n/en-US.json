@@ -125,6 +125,9 @@
         "hideWebsiteInformation": "Hide Website Information",
         "showWebsiteInformation": "Show Website Information",
         "viewWebsiteActivity": "View Website Activity"
+      },
+      "logs": {
+        "noDataMessage": "There are no logs available for this trace"
       }
     },
     "components": {
@@ -172,13 +175,22 @@
         "tags": "Tags"
       },
       "callTree": {
-        "expandButtonForRow": "Expand button for row",
+        "expandButtonForRow": "Expand all Sub Calls",
+        "collapseButtonForRow": "Collapse all Sub Calls",
         "of": "of",
-        "inheritedFrom": "Inherited from"
+        "inheritedFrom": "Inherited from",
+        "cardTitle": "Calls"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Colorize by",
-        "endpoint": "Endpoint"
+        "colorizeByExpl": "Changes the color for the call bars",
+        "endpoint": "Endpoint",
+        "service": "Service"
+      },
+      "viewToggleButtons": {
+        "expl": "View as",
+        "tree": "Tree",
+        "chart": "Timeline"
       },
       "logTooltipContent": {
         "errorLog": "Error Log",
@@ -286,7 +298,8 @@
     "tooltipCloseLogDetails": "Close log details",
     "analyzeLogsLabel": "Analyze logs",
     "similarLogs": "Similar logs",
-    "similarServiceLogs": "In context of the service"
+    "similarServiceLogs": "Show logs in context of this service",
+    "service": "Show service"
   },
   "traceDetails": {
     "labelTotal": "Total",

@@ -1,0 +1,39 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .serviceEndpointInformation {
+    display: flex;
+    align-items: center;
+
+    margin: 0.25rem 0 0 1.625rem;
+  }
+
+  .serviceIcon,
+  .arrowIcon,
+  .endpointIcon {
+    margin-right: 4px;
+    fill: @lib__colors__N600Light;
+  }
+
+  .text {
+    margin: 0 0.5rem 0.125rem 0.5rem;
+    color: @lib__colors__N600Light;
+    white-space: nowrap;
+  }
+
+  .link {
+    white-space: nowrap;
+    margin-bottom: 0.0625rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+      color: @lib__colors__N700Medium;
+    }
+  }
+}

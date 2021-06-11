@@ -1,0 +1,16 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .callStartLabel {
+    position: absolute;
+    top: 0.75rem;
+    left: 0rem;
+
+    color: @lib__colors__N700Medium;
+  }
+}

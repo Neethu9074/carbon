@@ -1,10 +1,10 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 
 :local {
-  .messageWrapper {
+  .button {
     margin-bottom: 1rem;
   }
 }

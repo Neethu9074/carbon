@@ -25,7 +25,9 @@ export default function LogMessageColumn(props) {
 
   const tagListTags = tags.filter(({ name }) => selectedTags.indexOf(name) >= 0);
 
-  const onSelectTagHref = tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag));
+  const onSelectTagHref = getHrefWithAdditionalTagFilter
+    ? tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
+    : undefined;
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
@@ -73,16 +75,9 @@ export default function LogMessageColumn(props) {
         </div>
       </div>
 
-      {tagListTags.length > 0 && (
-        <HorizontalFlexWrapper className={locals.tagsWrapper}>
-          <TagList
-            itemId={itemId}
-            tags={tagListTags}
-            onSelectTagHref={onSelectTagHref}
-            showLoadMoreAction={isHovered}
-          />
-        </HorizontalFlexWrapper>
-      )}
+      <HorizontalFlexWrapper className={locals.tagsWrapper}>
+        <TagList itemId={itemId} tags={tagListTags} onSelectTagHref={onSelectTagHref} showLoadMoreAction={isHovered} />
+      </HorizontalFlexWrapper>
     </div>
   );
 }

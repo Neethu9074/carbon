@@ -199,6 +199,7 @@
     "listBatchTypeTooltip": "This {{type}} is batched and represents {{batchCount}} individual {{types}}.",
     "listBatchLatencyTooltip": "Total latency of {{batchCount}} batched {{types}}.",
     "traceIdTooltip": "Some data related to this trace is delayed so please reload the page in a little later. An example where this may happen is viewing a very recent trace with some of its data is still being processed.",
+    "downloadTraceTooltip": "Download full trace.",
     "closeTraceDetail": "Close trace detail",
     "invalidQueryConfig": "The query configuration is invalid. Please address the validation failures before continuing.",
     "errorRateLabel": "Erroneous Calls (rate)",
@@ -432,7 +433,7 @@
     "errorCallWithoutMessage": "Erroneous call without error message",
     "logMessages": "log messages",
     "noLogMessage": "No log message available",
-    "includeSyntheticCallsDropDownSyntheticCalls":" Synthetic Calls: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "Synthetic Calls: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "The service is not in the current application.",
@@ -556,11 +557,22 @@
         "calls": "Calls",
         "erroneousTrace": "Erroneous Trace",
         "attemptToRenderTrace": "Attempt to render trace"
+      },
+      "calls": {
+        "settings": {
+          "showServiceInformation": "Service information",
+          "showServiceInformationExpl": "Show service information underneath the call label",
+          "showSubCalls": "Show subcalls",
+          "showSubCallsExpl": "Show direct subcalls on each row"
+        }
       }
     }
   },
   "tabs": {
-    "labelDetail": "Detail"
+    "labelDetail": "Detail",
+    "labelSummary": "Summary",
+    "servicesAndEndpoint": "Services and Endpoints",
+    "logs": "Logs"
   },
   "metrics": {
     "calls_calls": "Calls",

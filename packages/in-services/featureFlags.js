@@ -60,6 +60,7 @@ export const openFacetedSearchByDefault = isFeatureFlagEnabled('openFacetedSearc
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
+export const traceDetailViewV2Enabled = isFeatureFlagEnabled('traceDetailViewV2Enabled');
 export const deprecateAppDataLegacyEvents = isFeatureFlagEnabled('deprecateAppDataLegacyEvents');
 export const potentialProblemsInCustomDashboardEnabled = isFeatureFlagEnabled(
   'potentialProblemsInCustomDashboardEnabled'

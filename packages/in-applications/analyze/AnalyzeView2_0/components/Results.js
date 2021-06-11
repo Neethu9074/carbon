@@ -5,9 +5,12 @@
 
 import React, { useCallback } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import AlternativeTraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components_alt/TraceDetailView';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
@@ -17,6 +20,7 @@ import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
+import { traceDetailViewV2Enabled } from 'in-services/featureFlags';
 import getTraces from 'in-subscription/application/getTraces';
 import getCalls from 'in-subscription/application/getCalls';
 import HealthDot from 'in-components/health/HealthDot';
@@ -53,10 +57,13 @@ const columnsPerDataSource = {
 
 export default function Results(props) {
   const { dataSource, hiddenCalls, previewEnabled, onChangePreviewEnabled, withoutHeader, detailId } = props;
+
+  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
   const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
     hiddenCalls,
     previewEnabled
   ]);
+
   let content = (
     <UngroupedViewTable
       {...props}
@@ -77,7 +84,7 @@ export default function Results(props) {
           ...(dataSource !== 'traces' && { callId: item[type].id })
         };
       }}
-      DetailView={TraceDetailView}
+      DetailView={traceDetailViewV2Enabled || isInternalVisible ? AlternativeTraceDetailView : TraceDetailView}
       getDetailData={getTraceSummary}
       withSamplingTooltip
       CustomHeaderActions={() => (

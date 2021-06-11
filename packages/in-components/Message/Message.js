@@ -21,6 +21,7 @@ export default function Message({
   dismissible,
   type = neutral,
   withIcon,
+  iconType,
   bold,
   iconColor = theme.lib.colors.N600Light,
   small
@@ -48,7 +49,12 @@ export default function Message({
     >
       <div className={locals.firstLine}>
         {withIcon && (
-          <SvgIcon type={getIconByType(type)} className={locals.icon} color={iconColor} size={small && 's'} />
+          <SvgIcon
+            type={iconType ?? getIconByType(type)}
+            className={locals.icon}
+            color={iconColor}
+            size={small && 's'}
+          />
         )}
 
         <span

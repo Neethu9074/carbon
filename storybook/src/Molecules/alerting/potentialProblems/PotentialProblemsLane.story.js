@@ -9,6 +9,7 @@ import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { alertRules, potentialProblemsCluster } from './potentialProblemsStorySharedData';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -17,7 +18,6 @@ import { close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { compare } from 'in-services/util/number';
 import { hours } from 'in-services/time';
-import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 
 /* there are random data */
 export default {

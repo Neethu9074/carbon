@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
@@ -34,6 +34,7 @@ export default function TabSwitch({ tabs, result, hasErrors, location, props, re
           render={() => <ViewWrapper tab={tab} data={result ? result.data : null} location={location} props={props} />}
         />
       ))}
+      <RedirectOnNoActiveTab tabs={tabs} location={location} />
     </Switch>
   );
 }
@@ -67,4 +68,13 @@ function ViewWrapper({ tab, data, location, props }) {
       <ErrorBoundary name="dashboard content">{content}</ErrorBoundary>
     </Fragment>
   );
+}
+
+function RedirectOnNoActiveTab({ tabs, location }) {
+  for (const tab of tabs) {
+    if (location && location.pathname.indexOf(tab.path) === 0) {
+      return null;
+    }
+  }
+  return <Redirect to={tabs[0].path} />;
 }

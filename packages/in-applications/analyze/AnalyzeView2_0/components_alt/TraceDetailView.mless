@@ -1,0 +1,42 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .traceIdWrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  .traceId {
+    font-family: @font-family-monospace;
+
+    margin: 0.1875rem 0.1875rem 0 0.1875rem;
+  }
+
+  .icon {
+    padding-left: 0.25rem;
+  }
+
+  .traceLink {
+    display: flex;
+  }
+
+  .closeIcon {
+    cursor: pointer;
+    fill: @lib__colors__N500;
+    display: block;
+    margin: 0 0 0 0.5rem;
+
+    &:hover {
+      fill: @lib__colors__N700Medium;
+    }
+  }
+
+  .analyticsLink {
+    color: @lib__colors__N600Light;
+  }
+}

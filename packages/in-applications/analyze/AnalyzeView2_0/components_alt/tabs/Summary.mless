@@ -1,0 +1,42 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .attemptRendering {
+    display: block;
+    margin: 1rem 0 0 0;
+  }
+
+  .twoColumnViewWrapper {
+    display: flex;
+  }
+
+  .left {
+    width: ~'calc(100% - 32rem)';
+  }
+
+  .leftFullWidth {
+    width: 100%;
+  }
+
+  .right {
+    min-width: 32rem;
+    max-width: 32rem;
+  }
+
+  .expandCollapseIcon {
+    fill: @lib__colors__N400;
+    &:hover {
+      fill: @lib__colors__N500;
+    }
+  }
+
+  .chartToggleWrapper,
+  .chartToggleLabel {
+    margin-right: 0.5rem;
+  }
+}

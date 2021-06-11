@@ -1,0 +1,126 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  @lineColor: @lib__colors__N400;
+
+  .wrapper {
+    position: relative;
+  }
+
+  .row {
+    height: 3rem;
+    padding: 0 5rem 0 0.5rem;
+
+    transition: background 0.4s ease-in-out;
+    &:hover {
+      background: @lib__colors__N200;
+    }
+  }
+
+  .collapsedRow {
+    height: 1.5rem;
+  }
+
+  .highlighted {
+    background: @lib__colors__N300;
+    border-radius: @lib__shapes__radius_large;
+
+    &:hover {
+      background: @lib__colors__N300;
+    }
+  }
+
+  .clickable {
+    cursor: pointer;
+  }
+
+  .detailGroup {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    min-height: 1.5rem;
+  }
+
+  .left,
+  .leftLargeTrace {
+    display: flex;
+    align-items: center;
+
+    padding-right: 0.25rem;
+  }
+
+  .left {
+    min-width: 35%;
+    max-width: 35%;
+  }
+
+  .leftLargeTrace {
+    overflow: hidden;
+  }
+
+  .expandIcon {
+    min-width: 0.75rem;
+    min-height: 0.75rem;
+
+    margin-right: 0.5rem;
+
+    border-radius: @lib__shapes__radius_small;
+    fill: @lib__colors__primary1;
+    cursor: pointer;
+
+    &:hover {
+      fill: #12978e;
+    }
+  }
+
+  .label {
+    margin-right: 0.25rem;
+    font-size: 0.75rem;
+
+    .ellipsis();
+  }
+
+  .batchSizeIndicator {
+    margin-right: 0.5rem;
+  }
+
+  .leftLine {
+    border-bottom: 1px solid @lineColor;
+    margin-right: 0.25rem;
+  }
+
+  .intermediateLine,
+  .lineEnd {
+    position: absolute;
+    top: -1.25rem;
+
+    margin-left: 1rem;
+    border-right: 1px solid @lineColor;
+    background: @lineColor;
+  }
+
+  .intermediateLine {
+    bottom: 0;
+  }
+
+  .lineEnd {
+    height: 2rem;
+  }
+
+  .lineSmall {
+    top: 0.125rem;
+    bottom: -0.125rem;
+  }
+
+  .lineSmallEnd {
+    top: 0.125rem;
+    height: 0.625rem;
+  }
+}

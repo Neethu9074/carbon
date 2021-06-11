@@ -51,7 +51,7 @@ const columnDefinitions = [
 ];
 
 export default function Logs(props) {
-  const { traceId, totalNumberOfLogs, selectedLogIdPair, clearSelectedLogId, selectLogId, timeConfigForLogs } = props;
+  const { traceId, totalNumberOfLogs, selectedLogIdPair, selectLogId, timeConfigForLogs } = props;
   const { items, errors, progress } = useLogsCursorPagination(
     params => getData({ traceId, totalNumberOfLogs, timeConfigForLogs, ...params }),
     [traceId]
@@ -80,7 +80,7 @@ export default function Logs(props) {
             className={classNames({
               [locals.selectedRow]: isSelected
             })}
-            onClick={() => (isSelected ? clearSelectedLogId() : selectLogId({ logId: id, spanId }))}
+            onClick={() => selectLogId({ logId: id, spanId })}
           >
             <ColumnizedContent columnDefinitions={columnDefinitions} {...log} />
           </Li>

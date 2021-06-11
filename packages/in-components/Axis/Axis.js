@@ -31,6 +31,7 @@ export default function Axis({
   tickLabelBackgroundColor,
   tickPositions,
   renderTickLines = true,
+  renderTickLabels = true,
   style
 }) {
   if (__DEV__) {
@@ -61,16 +62,18 @@ export default function Axis({
           tickLength={tickLength}
         />
       )}
-      <TickLabels
-        tickPositions={tickPositions.slice(tickPositions.length - 1)}
-        tickColor={tickLabelColor}
-        backgroundColor={tickLabelBackgroundColor}
-        detailedFormatting={detailedFormatting}
-        isVertical={isVertical}
-        formatter={formatter}
-        align={align}
-        tickLength={tickLength}
-      />
+      {renderTickLabels && (
+        <TickLabels
+          tickPositions={tickPositions.slice(tickPositions.length - 1)}
+          tickColor={tickLabelColor}
+          backgroundColor={tickLabelBackgroundColor}
+          detailedFormatting={detailedFormatting}
+          isVertical={isVertical}
+          formatter={formatter}
+          align={align}
+          tickLength={tickLength}
+        />
+      )}
     </div>
   );
 }

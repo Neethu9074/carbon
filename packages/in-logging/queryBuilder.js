@@ -34,3 +34,4 @@ export const LOG_SPAN_ID = 'log.spanId';
 export const LOG_MESSAGE = 'log.message';
 export const LOG_CUSTOM = 'log.custom';
 export const LOG_DOCKER_SNAPSHOT_ID = 'log.dockerSnapshotId';
+export const LOG_SERVICE_NAME = 'service.name';

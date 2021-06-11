@@ -1,0 +1,110 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .childrenDistributionTimeLine {
+    position: relative;
+
+    min-width: 65%;
+    max-width: 65%;
+    height: 1.3125rem;
+  }
+
+  .subCallIndicator,
+  .callIndicator {
+    position: absolute;
+
+    min-width: 0.3125rem;
+  }
+
+  .callIndicator {
+    top: 0.0625rem;
+    height: 1.1875rem;
+
+    &:hover {
+      opacity: 0.75;
+    }
+  }
+
+  .smallCallIndicator {
+    height: 0.4375rem;
+  }
+
+  .subCallIndicator {
+    top: 0.9375rem;
+
+    height: 0.25rem;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .processingTime {
+    position: absolute;
+    top: 0;
+
+    height: 100%;
+
+    border-radius: @lib__shapes__radius_small;
+    opacity: 1;
+  }
+
+  .bar,
+  .networkTimeBar {
+    width: 100%;
+    height: 100%;
+
+    border-radius: @lib__shapes__radius_small;
+  }
+
+  .networkTimeBar {
+    opacity: 0.4;
+  }
+
+  .callDuration {
+    padding: 0 0.25rem;
+
+    font-size: 0.75rem;
+    color: @lib__colors__N500;
+    white-space: nowrap;
+  }
+
+  .callDurationWrapper {
+    position: absolute;
+    top: 2px;
+  }
+
+  .smallCallDurationWrapper {
+    top: -0.25rem;
+  }
+
+  .leftAlignedCallDurationWrapper {
+    left: 100%;
+  }
+
+  .rightAlignedCallDurationWrapper {
+    left: 0;
+  }
+
+  .leftAlignedCallDuration {
+    margin-left: 0.25rem;
+  }
+
+  .rightAlignedCallDuration {
+    margin-right: 0.25rem;
+    margin-left: -100%;
+    width: 100%;
+  }
+
+  .errorIndicator {
+    position: absolute;
+    top: -0.6875rem;
+    left: 0;
+  }
+}

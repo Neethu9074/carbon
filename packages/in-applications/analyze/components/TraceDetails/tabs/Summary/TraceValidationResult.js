@@ -8,8 +8,6 @@ import React from 'react';
 import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
-import locals from './TraceValidationResult.mless';
-
 export const issueMessages = {
   multiple_root_spans: t('in-analyze:tabs.summary.messageMultiple_root_spans'),
   missing_root_span: t('in-analyze:tabs.summary.messageMissing_root_span'),
@@ -23,15 +21,14 @@ export const issueMessages = {
 };
 
 export default function TraceValidationResult({ issues }) {
-  if (issues && issues.length > 0) {
-    return (
-      <div className={locals.messageWrapper}>
-        {issues.map(issueKey => (
-          <Message key={issueKey} withIcon title={issueMessages[issueKey] ? issueMessages[issueKey] : issueKey} />
-        ))}
-      </div>
-    );
-  } else {
+  if (!issues || issues.length === 0) {
     return null;
   }
+  return (
+    <div>
+      {issues.map(issueKey => (
+        <Message key={issueKey} withIcon title={issueMessages[issueKey] ? issueMessages[issueKey] : issueKey} />
+      ))}
+    </div>
+  );
 }

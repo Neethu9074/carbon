@@ -1,0 +1,35 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .cell {
+    display: flex;
+    align-items: center;
+  }
+
+  .colorIndicator {
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .serviceIcon,
+  .endpointIcon {
+    margin-right: 0.5rem;
+    fill: @lib__colors__N600Light;
+  }
+
+  .aggregatedTime {
+    font-size: 0.875rem;
+  }
+
+  .metricValue {
+    font-size: 0.875rem;
+  }
+}

@@ -1,0 +1,15 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+:local {
+  .treeHeader {
+    padding: 0 5rem 0 0.5rem;
+  }
+
+  .axis {
+    width: 65%;
+    margin-left: 35%;
+  }
+}

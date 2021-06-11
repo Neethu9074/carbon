@@ -36,9 +36,16 @@ const LogV2Indicator = forwardRef(function LogV2IndicatorFn(props, ref) {
     <div
       ref={ref}
       {...getStyleProps(props)}
-      onClick={() =>
-        logId ? selectLogId({ logId, spanId: log.id }) : onCallClicked != null ? () => onCallClicked(parentCall) : null
-      }
+      onClick={e => {
+        if (logId) {
+          e.preventDefault();
+          e.stopPropagation();
+          return selectLogId({ logId, spanId: log.id });
+        }
+        if (onCallClicked) {
+          onCallClicked(parentCall);
+        }
+      }}
     />
   );
 });

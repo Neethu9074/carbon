@@ -1,0 +1,13 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+:local {
+  .timeAxis {
+    position: relative;
+
+    width: ~'calc(100% - 2px)';
+    margin-left: 1px;
+  }
+}
