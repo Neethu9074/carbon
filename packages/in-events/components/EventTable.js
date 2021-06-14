@@ -143,7 +143,7 @@ function Header(props) {
     <DashboardHeader
       event={props.result.data}
       title={t('in-events:titleEvent')}
-      renderIcon={() => renderIcon(props.result.data)}
+      renderIcon={() => renderIcon(props.result.data, props.timeConfig)}
       label={props.result.data.getIn(['problem', 'problemText'], '')}
       renderMetaInformation={renderMetaInformation}
       renderTimeSelection={renderTimeSelection}
@@ -181,12 +181,12 @@ function hasServiceImpact(event) {
   return isAppDataEntityType(entityType);
 }
 
-function renderIcon(event) {
+function renderIcon(event, timeConfig) {
   return (
     <EventIcon
       className={locals.icon}
       event={event}
-      tooltipLabel={getEventSeverityLabelWithEventType(event)}
+      tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
       size="l"
     />
   );

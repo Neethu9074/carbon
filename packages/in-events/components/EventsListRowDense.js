@@ -13,11 +13,11 @@ import EventIcon from 'in-events/components/EventIcon';
 
 import locals from './EventsListRowDense.mless';
 
-export default function EventRow({ event, active, onClick }) {
+export default function EventRow({ event, active, onClick, timeConfig }) {
   return (
     <Tr size="compact" active={active} onClick={onClick}>
       <Td>
-        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event)} />
+        <EventIcon event={event} tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)} />
       </Td>
       <Td>
         <div

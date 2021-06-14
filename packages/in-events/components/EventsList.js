@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import {
   Table,
@@ -44,12 +45,13 @@ function List(props) {
     loadMore,
     progress,
     eventType,
-    isPresentingHighlightedTimeframe
+    isPresentingHighlightedTimeframe,
+    timeConfig
   } = props;
   const isDenseList = !!selectedEventId;
   const cols = isDenseList ? 2 : 6;
 
-  const timeScale = useTimeConfigUpdatingScale(props.timeConfig);
+  const timeScale = useTimeConfigUpdatingScale(timeConfig);
 
   if (!progress.loading && rawEventList.length === 0) {
     return (
@@ -100,6 +102,7 @@ function List(props) {
                 isDenseList={isDenseList}
                 event={event}
                 timeScale={timeScale}
+                timeConfig={timeConfig}
               />
             ))}
 
@@ -147,6 +150,7 @@ function List(props) {
               isDenseList={isDenseList}
               event={event}
               timeScale={timeScale}
+              timeConfig={timeConfig}
             />
           ))}
 
