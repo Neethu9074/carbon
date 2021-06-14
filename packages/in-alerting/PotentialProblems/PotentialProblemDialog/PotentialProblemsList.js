@@ -45,14 +45,24 @@ function PotentialProblemsListItem({
       <div className={locals.itemInnerWrapper}>
         <SvgIcon type="lib_application_trace" className={locals.icon} />
         <div>
-          <div className={locals.itemName}>
-            {endpointLabel ?? serviceLabel ?? applicationLabel} (
-            <span className={locals.type}>{getType({ applicationLabel, serviceLabel, endpointLabel })}</span>)
-          </div>
-          <div className={locals.itemDescription}>{`${getTitle({ rule, threshold })}`}</div>
+          <AppDataLabel applicationLabel={applicationLabel} serviceLabel={serviceLabel} endpointLabel={endpointLabel} />
+          <div className={locals.itemDescription}>{getTitle({ rule, threshold })}</div>
         </div>
       </div>
     </Li>
+  );
+}
+
+function AppDataLabel({ endpointLabel, serviceLabel, applicationLabel }) {
+  if (!endpointLabel && !serviceLabel && !applicationLabel) {
+    return null;
+  }
+
+  return (
+    <div className={locals.itemName}>
+      {endpointLabel ?? serviceLabel ?? applicationLabel} (
+      <span className={locals.type}>{getType({ applicationLabel, serviceLabel, endpointLabel })}</span>)
+    </div>
   );
 }
 

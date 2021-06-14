@@ -9,8 +9,7 @@ import React from 'react';
 import {
   addFieldsForPotentialProblems,
   removeFieldsForPotentialProblems,
-  bluePrintForCallsMetric,
-  ppFieldNames
+  bluePrintForCallsMetric
 } from 'in-custom-dashboards/widgets/Chart/FormComponent/potentialProblemsForm';
 import { source as applicationSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -25,11 +24,11 @@ import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
 export default function PotentialProblemsConfigurator({ form, onChange }) {
-  const potentialProblemsForm = form.get(ppFieldNames.potentialProblems);
+  const potentialProblemsForm = form.get('potentialProblems');
   const potentialProblemsEnabled = Boolean(potentialProblemsForm);
 
-  const potentialProblemsDatasetField = potentialProblemsForm?.get(ppFieldNames.dataset);
-  const bluePrintForCallsMetricField = potentialProblemsForm?.get(ppFieldNames.bluePrintForCallsMetric);
+  const potentialProblemsDatasetField = potentialProblemsForm?.get('dataset');
+  const bluePrintForCallsMetricField = potentialProblemsForm?.get('bluePrintForCallsMetric');
 
   return (
     <Sections>
@@ -47,7 +46,7 @@ export default function PotentialProblemsConfigurator({ form, onChange }) {
                   return addFieldsForPotentialProblems(form, {
                     potentialProblems: {}
                   })
-                    .updateIn([ppFieldNames.potentialProblems, ppFieldNames.dataset], field => field.setTouched(true))
+                    .updateIn(['potentialProblems', 'dataset'], field => field.setTouched(true))
                     .setTouched(true);
                 }
                 return removeFieldsForPotentialProblems(form).setTouched(true);
@@ -64,28 +63,22 @@ export default function PotentialProblemsConfigurator({ form, onChange }) {
           id="metric-configurator-dataset-selector"
           value={potentialProblemsDatasetField.value}
           onChange={e =>
-            onChange([ppFieldNames.potentialProblems, ppFieldNames.dataset], field =>
-              field.setValue(e.target.value).setTouched(true)
-            )
+            onChange(['potentialProblems', 'dataset'], field => field.setValue(e.target.value).setTouched(true))
           }
           hasError={!potentialProblemsDatasetField.valid && potentialProblemsDatasetField.touched}
           additionalContent={<TouchedMessages field={potentialProblemsDatasetField} />}
           useAlternateBg
         >
-          {
-            <>
-              <option value="">
-                {t('in-custom-dashboards:widgets.formCompChart.potentialProblems.selectDataSet')}
-              </option>
-              {getMetricsLabelForAxis('y1')
-                .concat(getMetricsLabelForAxis('y2'))
-                .map(({ key, label, disabled }) => (
-                  <option key={key} value={key} disabled={disabled}>
-                    {label}
-                  </option>
-                ))}
-            </>
-          }
+          <>
+            <option value="">{t('in-custom-dashboards:widgets.formCompChart.potentialProblems.selectDataSet')}</option>
+            {getMetricsLabelForAxis('y1')
+              .concat(getMetricsLabelForAxis('y2'))
+              .map(({ key, label, disabled }) => (
+                <option key={key} value={key} disabled={disabled}>
+                  {label}
+                </option>
+              ))}
+          </>
         </SelectInSection>
       )}
 
@@ -95,7 +88,7 @@ export default function PotentialProblemsConfigurator({ form, onChange }) {
             id={`metric-configurator-blue-print-selector`}
             value={bluePrintForCallsMetricField.value}
             onChange={e =>
-              onChange([ppFieldNames.potentialProblems, ppFieldNames.bluePrintForCallsMetric], field =>
+              onChange(['potentialProblems', 'bluePrintForCallsMetric'], field =>
                 field.setValue(e.target.value).setTouched(true)
               )
             }

@@ -29,22 +29,16 @@ export const bluePrintForCallsMetric = Object.freeze({
   )
 });
 
-export const ppFieldNames = Object.freeze({
-  potentialProblems: 'potentialProblems',
-  dataset: 'dataset',
-  bluePrintForCallsMetric: 'bluePrintForCallsMetric'
-});
-
 export const addFieldsForPotentialProblems = (form, savedState) => {
   if (!savedState?.potentialProblems) {
     return form;
   }
 
   return form.put(
-    ppFieldNames.potentialProblems,
+    'potentialProblems',
     createMapForm()
       .put(
-        ppFieldNames.dataset,
+        'dataset',
         createField({
           value: savedState.potentialProblems.dataset || '',
           validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, str => {
@@ -61,7 +55,7 @@ export const addFieldsForPotentialProblems = (form, savedState) => {
         })
       )
       .put(
-        ppFieldNames.bluePrintForCallsMetric,
+        'bluePrintForCallsMetric',
         createField({
           value:
             savedState.potentialProblems.bluePrintForCallsMetric || potentialProblemsCallsUnexpectedLowOrHighNumber,
@@ -77,5 +71,5 @@ export const addFieldsForPotentialProblems = (form, savedState) => {
 };
 
 export const removeFieldsForPotentialProblems = form => {
-  return form.remove(ppFieldNames.potentialProblems);
+  return form.remove('potentialProblems');
 };
