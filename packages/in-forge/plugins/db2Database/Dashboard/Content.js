@@ -8,10 +8,10 @@ import React from 'react';
 import TopTotalStmtsTable from 'in-forge/plugins/db2Database/Dashboard/TopTotalStmtsTable';
 import DiagLogInfoTable from 'in-forge/plugins/db2Database/Dashboard//DiagLogInfoTable';
 import LogDiskWaitTable from 'in-forge/plugins/db2Database/Dashboard/LogDiskWaitTable';
+import DbUtilitiesTable from 'in-forge/plugins/db2Database/Dashboard/DbUtilitiesTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import TopQueriesTable from 'in-forge/plugins/db2Database/Dashboard//TopQueriesTable';
 import ContainersTable from 'in-forge/plugins/db2Database/Dashboard/ContainersTable';
-import UnitOfWorkTable from 'in-forge/plugins/db2Database/Dashboard/UnitOfWorkTable';
 import DatabasesTable from 'in-forge/plugins/db2Database/Dashboard/DatabasesTable';
 import DbmConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbmConfigTable';
 import LockWaitsTable from 'in-forge/plugins/db2Database/Dashboard/LockWaitsTable';
@@ -330,14 +330,18 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             metrics: [
               'agentstatus.total',
               'agentstatus.uowWaiting',
+              'agentstatus.uowExecuting',
               'agentstatus.lockWait',
-              'agentstatus.lockEscalation'
+              'agentstatus.lockEscalation',
+              'agentstatus.other'
             ],
             labels: [
               t('in-forge:plugins.db2Database.total'),
               t('in-forge:plugins.db2Database.uowWaiting'),
+              t('in-forge:plugins.db2Database.uowExecuting'),
               t('in-forge:plugins.db2Database.lockWait'),
-              t('in-forge:plugins.db2Database.lockEscalation')
+              t('in-forge:plugins.db2Database.lockEscalation'),
+              t('in-forge:plugins.db2Database.other')
             ],
             type: 'line',
             formatter: number.compact
@@ -351,21 +355,22 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            metrics: ['dbmconfigusage.omsCons', 'dbmconfigusage.agentHighWmark', 'dbmconfigusage.coordAgentsHighWmark'],
+            metrics: [
+              'dbmconfigusage.omsCons',
+              'dbmconfigusage.omsConsExec',
+              'dbmconfigusage.agentHighWmark',
+              'dbmconfigusage.coordAgentsHighWmark',
+              'dbmconfigusage.agentCreatedVSReused'
+            ],
             labels: [
               t('in-forge:plugins.db2Database.omsCons'),
+              t('in-forge:plugins.db2Database.omsConsExec'),
               t('in-forge:plugins.db2Database.agentHighWmark'),
-              t('in-forge:plugins.db2Database.coordAgentsHighWmark')
+              t('in-forge:plugins.db2Database.coordAgentsHighWmark'),
+              t('in-forge:plugins.db2Database.agentCreatedVSReused')
             ],
             type: 'line',
             formatter: number.compact
-          }}
-          y2={{
-            min: 0,
-            metrics: ['dbmconfigusage.agentCreatedVSReused'],
-            labels: [t('in-forge:plugins.db2Database.agentCreatedVSReused')],
-            type: 'line',
-            formatter: number.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
@@ -393,11 +398,17 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           }}
           y2={{
             min: 0,
-            metrics: ['workloadstats.totalNetTime', 'workloadstats.totalRequestTime', 'workloadstats.totalWaitTime'],
+            metrics: [
+              'workloadstats.totalNetTime',
+              'workloadstats.totalRequestTime',
+              'workloadstats.totalWaitTime',
+              'workloadstats.totalIOTime'
+            ],
             labels: [
               t('in-forge:plugins.db2Database.totalNetTime'),
               t('in-forge:plugins.db2Database.totalRequestTime'),
-              t('in-forge:plugins.db2Database.totalWaitTime')
+              t('in-forge:plugins.db2Database.totalWaitTime'),
+              t('in-forge:plugins.db2Database.totalIOTime')
             ],
             type: 'line',
             formatter: millis.detailed
@@ -435,42 +446,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <LockWaitsTable snapshotId={snapshotId} />
-      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.uowIdle')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['uowIdle.clientIdleTimeSec', 'uowIdle.clientIdleTimeMin', 'uowIdle.execTime'],
-            labels: [
-              t('in-forge:plugins.db2Database.dashboard.clientIdleTimeSec'),
-              t('in-forge:plugins.db2Database.dashboard.clientIdleTimeMin'),
-              t('in-forge:plugins.db2Database.dashboard.execTime')
-            ],
-            type: 'line',
-            formatter: millis.detailed
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-      <UnitOfWorkTable snapshotId={snapshotId} />
-      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.uowLogSpace')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['uowIdle.logSpaceUsedKB', 'uowIdle.logSpaceUsed'],
-            labels: [
-              t('in-forge:plugins.db2Database.dashboard.logSpaceUsedKB'),
-              t('in-forge:plugins.db2Database.dashboard.logSpaceUsed')
-            ],
-            type: 'line',
-            formatter: bytes.detailed
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+
       {data.get('databaseNames', emptyList).size > 0 && <DatabasesTable snapshot={snapshot} timeConfig={timeConfig} />}
 
       {data.get('containerNames', emptyList).size > 0 && (
@@ -482,6 +458,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       {data.get('logdiskwaitid', emptyList).size > 0 && (
         <LogDiskWaitTable snapshot={snapshot} timeConfig={timeConfig} />
       )}
+      <DbUtilitiesTable snapshotId={snapshotId} />
       <DbConfigTable snapshotId={snapshotId} />
       <DbmConfigTable snapshotId={snapshotId} />
       <RunStatsTable snapshotId={snapshotId} />

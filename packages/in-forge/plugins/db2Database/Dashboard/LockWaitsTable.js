@@ -6,8 +6,8 @@
 import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
+import { seconds, positiveNumber } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { number, millis } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
 import { shorten } from 'in-services/util/string';
@@ -25,7 +25,7 @@ const cols = [
       getValue(row) {
         return row.topQuery.get('REQ_APPLICATION_HANDLE');
       },
-      getContent: number.compact
+      getContent: positiveNumber
     }
   },
   {
@@ -35,7 +35,7 @@ const cols = [
       getValue(row) {
         return row.topQuery.get('HLD_APPLICATION_HANDLE');
       },
-      getContent: number.compact
+      getContent: positiveNumber
     }
   },
   {
@@ -81,7 +81,7 @@ const cols = [
       getValue(row) {
         return row.topQuery.get('LOCK_WAIT_ELAPSED_TIME');
       },
-      getContent: millis.compact
+      getContent: seconds.detailed
     }
   }
 ];
@@ -129,7 +129,21 @@ export default connectTo(
 );
 
 function getDetails(row) {
-  return <Code code={formatSql(row.topQuery.get('REQ_STMT_TEXT'))} lang="sql" />;
+  return (
+    <div>
+      <label>Requesting Client Accounting :</label>
+      <p />
+      <code className={locals.statement}>{row.topQuery.get('REQ_CLIENT_ACCTNG')}</code>
+      <p />
+      <label>Holding Client Accounting :</label>
+      <p />
+      <code className={locals.statement}>{row.topQuery.get('HLD_CLIENT_ACCTNG')}</code>
+      <p />
+      <label>Request Statement Text :</label>
+      <p />
+      <Code code={formatSql(row.topQuery.get('REQ_STMT_TEXT'))} lang="sql" softWrap />
+    </div>
+  );
 }
 function Args({ args }) {
   return <code className={locals.statement}>{args}</code>;

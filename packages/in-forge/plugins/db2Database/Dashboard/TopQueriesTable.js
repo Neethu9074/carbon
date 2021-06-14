@@ -53,6 +53,42 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.db2Database.clientApplName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('CLIENT_APPLNAME');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.activityState'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('ACTIVITY_STATE');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.activityType'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('ACTIVITY_TYPE');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.db2Database.elapsedTimeSec'),
     type: 'number',
     typeArgs: {
@@ -97,7 +133,7 @@ export default connectTo(
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={3}
+        initialSortColumn={6}
         initialSortDirection="desc"
         getRowDetails={getDetails}
       />
@@ -106,7 +142,7 @@ export default connectTo(
 );
 
 function getDetails(row) {
-  return <Code code={formatSql(row.topQuery.get('STMT_TEXT'))} lang="sql" />;
+  return <Code code={formatSql(row.topQuery.get('STMT_TEXT'))} lang="sql" softWrap />;
 }
 
 function Args({ args }) {
