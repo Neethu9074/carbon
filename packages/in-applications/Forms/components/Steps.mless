@@ -9,4 +9,8 @@
     padding: 0;
     list-style: none;
   }
+
+  .step {
+    list-style: none;
+  }
 }

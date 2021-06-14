@@ -7,8 +7,7 @@ import { createField, createMapForm, composeValidators } from 'formalistic';
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link, Spacer as SpacerComponent, SpacerSizes } from '@instana/components';
 
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
@@ -92,7 +91,7 @@ export function CheckBox({ label, checked, setChecked }) {
 }
 
 export function Spacer() {
-  return <div className={locals.spacer} />;
+  return <SpacerComponent vertical={SpacerSizes.xsmall} />;
 }
 
 export function HelpBox({ title, children }) {

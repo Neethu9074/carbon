@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { Spacer, SpacerSizes } from '@instana/components';
 import { Button } from '@instana/components';
 
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
@@ -14,7 +15,6 @@ import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import Spacer from 'in-applications/Forms/components/Spacer';
 import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
 import { error } from 'in-components/Message/types';
@@ -69,8 +69,6 @@ export default function AdvancedModeContainer({
             {t('in-applications:creation.advanced.apNameDescription')}
           </DescriptionText>
         </FormGroup>
-        <Spacer type="dark" />
-
         <>
           <h1 className={locals.heading}>{t('in-applications:creation.advanced.defineUsingTags')}</h1>
           <DescriptionText className={locals.descriptionText}>
@@ -116,13 +114,15 @@ export default function AdvancedModeContainer({
             </HorizontalFlexWrapper>
           </div>
         </>
-        <Spacer type="dark" />
+        <Spacer vertical={SpacerSizes.normal} />
+
         <h1 className={locals.heading}>{t('in-applications:creation.advanced.downstreamCalls')}</h1>
         <DescriptionText className={locals.descriptionText}>
           {t('in-applications:creation.advanced.downstreamCallsDescription')}
         </DescriptionText>
         <ApplicationScopeSelector form={form} updateForm={updateForm} />
-        <Spacer type="dark" />
+        <Spacer vertical={SpacerSizes.normal} />
+
         <h1 className={locals.heading}>{t('in-applications:creation.advanced.defaultDashboardView')}</h1>
         <InboundAllCalls form={form} updateForm={updateForm} apCreation />
       </div>

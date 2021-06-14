@@ -1279,10 +1279,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/memoize/-/memoize-0.7.4.tgz#19bf0f5af19149111c40d98bb0cf82119f5d9eeb"
   integrity sha512-Ja/Vfqe3HpuzRsG1oBtWTHk2PGZ7GR+2Vz5iYGelAw8dx32K0y7PjVuxK6z1nMpZOqAFsRUPCkK1YjJ56qJlgw==
 
-"@instana/components@1.23.0":
-  version "1.23.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.23.0.tgz#7ee65999acb9bf879d32eac158498f24bd5a4e1d"
-  integrity sha1-fuZZmay5v4edMurBWEmPJL1aTh0=
+"@instana/components@1.24.0":
+  version "1.24.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.24.0.tgz#d88289f5c1d569f94e0bc085811cba03505776ab"
+  integrity sha1-2IKJ9cHVaflOC8CFgRy6A1BXdqs=
   dependencies:
     "@instana/design-tokens" "^1.7.0"
     "@instana/hooks" "^1.4.0"
