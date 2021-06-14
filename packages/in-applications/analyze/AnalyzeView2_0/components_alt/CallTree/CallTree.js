@@ -13,6 +13,7 @@ import LoadingCallTree from 'in-applications/analyze/AnalyzeView2_0/components_a
 import Row from 'in-applications/analyze/AnalyzeView2_0/components_alt/CallTree/components/Row';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { isLoading, hasError } from 'in-services/util/result';
+import { emptySet } from 'in-services/fixedImmutables';
 import createScale from 'in-services/scale';
 
 export default function ResultAwareCallTree(props) {
@@ -39,7 +40,7 @@ function CallTree(props) {
   } = props;
   const rootCall = callTreeResult.data;
 
-  const [expandedCallIds, setExpandedCallIds] = useState(null);
+  const [expandedCallIds, setExpandedCallIds] = useState(emptySet);
 
   // changing the openedCallId should NOT result in a recalculation
   useMemo(
@@ -59,7 +60,7 @@ function CallTree(props) {
     if (signal?.command === 'expand') {
       setExpandedCallIds(collectAllIds(rootCall));
     } else if (signal?.command === 'collapse') {
-      setExpandedCallIds(expandedCallIds && expandedCallIds.size > 0 ? new Set([rootCall.id]) : null);
+      setExpandedCallIds(expandedCallIds?.size > 0 ? new Set([rootCall.id]) : emptySet);
     }
   }, [signal]);
 
