@@ -1,0 +1,55 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React from 'react';
+
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
+import { close } from 'in-components/DialogPresenter/store';
+import Dialog from 'in-components/Dialog/Dialog';
+import connectTo from 'in-hoc/connectTo';
+import Code from 'in-components/Code';
+
+import locals from './DiagnosticInfoDialog.mless';
+
+export default connectTo(
+  props => {
+    return {
+      response: props.agentResponse$
+    };
+  },
+  function DiagnosticInfoDialog({ diagnosticCommand, response }) {
+    let header;
+    if (response && !response.error) {
+      header = <CopyToClipboardButton kind="secondary" size="compact" getText={() => response.data} />;
+    }
+
+    return (
+      <Dialog
+        title={`Diagnostic info for command: ${diagnosticCommand}`}
+        onClose={close}
+        renderCustomCloseBehaviour={() => header}
+      >
+        {!response ? <LoadingIndicator /> : null}
+
+        {response && response.error ? (
+          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
+        ) : null}
+
+        {response && response.data ? (
+          <Code
+            lang="yaml"
+            line="0"
+            code={response.data}
+            className={locals.code}
+            showLineNumbers={false}
+            scrollElementClassName={locals.content}
+          />
+        ) : null}
+      </Dialog>
+    );
+  }
+);
