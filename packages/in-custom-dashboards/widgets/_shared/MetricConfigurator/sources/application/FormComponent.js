@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { find, groupBy } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/components';
 
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import HiddenCallsConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/HiddenCallsConfiguration';
@@ -28,7 +29,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function FormComponent({
@@ -100,7 +100,7 @@ export default function FormComponent({
   const isSingleAggregator = aggregators?.length < 2;
 
   return (
-    <Stack space="xsmall">
+    <Stack gap="xsmall">
       <Sections>{dataSourceSection}</Sections>
 
       <Sections>

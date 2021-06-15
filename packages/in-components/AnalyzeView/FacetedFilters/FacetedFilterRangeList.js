@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -19,7 +20,6 @@ import ExistingValue from 'in-components/AnalyzeView/FacetedFilters/ExistingValu
 import { ua2FacetedSearchFilterAddedTracker } from 'in-components/tracker';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { emptyArray } from 'in-services/fixedObjects';
-import Stack from 'in-components/layout/Stack';
 
 import locals from './FacetedFilterRangeList.mless';
 
@@ -68,7 +68,7 @@ function Body({ tag, formModel, ranges, getUpdatedTagExpressionHref, dataSource 
     );
   }
   return (
-    <Stack space="small">
+    <Stack gap="small">
       {ranges.map(range => (
         <Suggestion
           tag={tag}

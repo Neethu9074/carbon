@@ -8,6 +8,7 @@ import { range, sortBy } from 'lodash';
 
 import { LoadingSkeleton } from '@instana/components';
 import { Button } from '@instana/components';
+import { Stack } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-components/tracker';
@@ -15,7 +16,6 @@ import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { identity } from 'in-services/util/function';
-import Stack from 'in-components/layout/Stack';
 import Message from 'in-components/Message';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -113,7 +113,7 @@ function Results({
   }, [presentedSuggestions, setNumberOfPresentedRows]);
 
   return (
-    <Stack space="small">
+    <Stack gap="small">
       {presentedSuggestions.map((suggestion, i) => {
         return (
           <div key={i} className={locals.suggestion}>

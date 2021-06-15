@@ -6,6 +6,8 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { Stack } from '@instana/components';
+
 import AlertChannelModificationForm, {
   createForm,
   save
@@ -17,7 +19,6 @@ import { createAlertChannel, getAlertChannel } from 'in-api/alertChannels';
 import AlertSection from 'in-alerting/components/AlertSection';
 import Sections from 'in-components/workspace/Sections';
 import SaveButton from 'in-components/form/SaveButton';
-import Stack from 'in-components/layout/Stack/Stack';
 import Select from 'in-components/form/Select';
 import { t } from 'in-i18n';
 

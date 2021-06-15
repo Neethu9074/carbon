@@ -6,8 +6,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import { Col, Row } from 'in-components/layout/Grid';
-import Stack from 'in-components/layout/Stack';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 
@@ -24,7 +25,7 @@ export default function StatusCodeRangeSelection({
   return (
     <Row>
       <Col lg={3}>
-        <Stack space="xsmall">
+        <Stack gap="xsmall">
           <Label hasError={startHasError} htmlFor="statusCodeStart" className={locals.label}>
             From
           </Label>
@@ -40,7 +41,7 @@ export default function StatusCodeRangeSelection({
         </Stack>
       </Col>
       <Col lg={3}>
-        <Stack space="xsmall">
+        <Stack gap="xsmall">
           <Label hasError={endHasError} htmlFor="statusCodeEnd" className={locals.label}>
             To
           </Label>

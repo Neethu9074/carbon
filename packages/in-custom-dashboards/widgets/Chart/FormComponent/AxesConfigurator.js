@@ -8,6 +8,7 @@ import classNames from 'classnames';
 
 import { Button } from '@instana/components';
 import { Li, Ul } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
@@ -16,7 +17,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { publicFormatters } from 'in-stores/metric/formatters';
 import Sections from 'in-components/workspace/Sections';
 import FormGroup from 'in-components/form/FormGroup';
-import Stack from 'in-components/layout/Stack';
 import Toggle from 'in-components/form/Toggle';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -131,7 +131,7 @@ function AxisConfigurator({
       </Li>
 
       <Li forceAlternateBg className={locals.listItem}>
-        <Stack space="medium">
+        <Stack gap="medium">
           <Sections>
             {axisForm.get('renderer').map(field => (
               <SelectInSection

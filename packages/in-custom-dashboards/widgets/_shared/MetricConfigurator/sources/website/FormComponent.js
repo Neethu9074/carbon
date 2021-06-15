@@ -7,6 +7,7 @@ import { find, groupBy } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/components';
 
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
@@ -19,7 +20,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import Sections from 'in-components/workspace/Sections';
 import { dataSourceTitles } from 'in-websites/tags';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function FormComponent({
@@ -45,7 +45,7 @@ export default function FormComponent({
   });
 
   return (
-    <Stack space="xsmall">
+    <Stack gap="xsmall">
       <Sections>
         {dataSourceSection}
         <SelectInSection

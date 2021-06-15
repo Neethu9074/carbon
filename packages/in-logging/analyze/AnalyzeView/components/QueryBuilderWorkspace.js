@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection';
 import { filterAdded, queryChanged, groupAdded, chartChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
@@ -16,7 +18,6 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import { error } from 'in-components/Message/types';
-import Stack from 'in-components/layout/Stack';
 import Message from 'in-components/Message';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -39,7 +40,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
   return (
     <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
       <LeftRightPadding>
-        <Stack space="gutter">
+        <Stack gap="gutter">
           <Sections>
             <QueryBuilderSection
               value={formModel}

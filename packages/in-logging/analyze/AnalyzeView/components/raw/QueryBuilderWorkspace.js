@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import { error } from 'in-components/Message/types';
-import Stack from 'in-components/layout/Stack';
 import Message from 'in-components/Message';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';

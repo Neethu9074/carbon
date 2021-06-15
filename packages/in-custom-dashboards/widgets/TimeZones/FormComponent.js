@@ -6,6 +6,7 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useMemo } from 'react';
 
+import { Stack, StackItem } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 import { Ul, Li } from '@instana/components';
@@ -13,12 +14,10 @@ import { Ul, Li } from '@instana/components';
 import { createTimeZoneSubForm } from 'in-custom-dashboards/widgets/TimeZones/form';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import StackItem from 'in-components/layout/Stack/StackItem';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Header from 'in-components/workspace/Header';
 import { compare } from 'in-services/util/number';
 import moment from 'in-services/moment-timezone';
-import Stack from 'in-components/layout/Stack';
 import Select from 'in-components/form/Select';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
@@ -51,7 +50,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
   );
 
   return (
-    <Stack space="normal">
+    <Stack gap="normal">
       <Header>{t('in-custom-dashboards:widgets.timezone.formComp.whatULikeShow')}</Header>
       <TouchedMessages field={timeZonesForm} />
 
@@ -67,7 +66,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
       >
         <Droppable droppableId="timeZones-widget-configuration">
           {provided => (
-            <Stack space="xsmall" ref={provided.innerRef}>
+            <Stack gap="xsmall" ref={provided.innerRef}>
               {timeZonesForm.map((timeZoneform, i) => (
                 <Draggable key={i} draggableId={String(i)} index={i}>
                   {provided => (

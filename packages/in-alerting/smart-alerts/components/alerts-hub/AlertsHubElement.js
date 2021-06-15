@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { Card, Link } from '@instana/components';
+import { Stack } from '@instana/components';
 
-import Stack from 'in-components/layout/Stack';
 import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 

@@ -8,12 +8,12 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { SvgIcon } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
-import Stack from 'in-components/layout/Stack';
 import SideNav from 'in-components/SideNav';
 import { t } from 'in-i18n';
 
@@ -32,11 +32,11 @@ export default function AdvancedModeContainer({
     <nav className={locals.container}>
       <div className={locals.scrollWrapper}>
         <div className={locals.content}>
-          <Stack space="large">
+          <Stack gap="large">
             {navItems.map(({ scrollId, title, content }, i) => (
               <Fragment key={scrollId}>
                 <ScrollStep id={scrollId}>
-                  <Stack space="normal">
+                  <Stack gap="normal">
                     <Header>{title}</Header>
                     {content}
                   </Stack>

@@ -6,6 +6,8 @@
 import { compose, withState } from 'recompose';
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-components/time/timeframeFormatter';
 import { getShortUrl } from 'in-components/DashboardHeader/UrlShortener/shortener';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -13,7 +15,6 @@ import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { timeConfig$, fixateTimeConfig } from 'in-stores/time/config';
 import InlineTabNavigation from 'in-components/InlineTabNavigation';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import Stack from 'in-components/layout/Stack';
 import Input from 'in-components/form/Input';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -68,7 +69,7 @@ function Wait() {
 function Ready({ shortUrl, setFixateTime, fixateTime, timeConfig }) {
   return (
     <div className={locals.ready}>
-      <Stack space="small">
+      <Stack gap="small">
         <div className={locals.copyRow}>
           <Input
             type="text"

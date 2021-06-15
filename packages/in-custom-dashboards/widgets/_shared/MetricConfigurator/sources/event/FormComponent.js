@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpAction from 'in-components/workspace/HelpAction';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import Sections from 'in-components/workspace/Sections';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function FormComponent({
@@ -27,7 +28,7 @@ export default function FormComponent({
   const dynamicFocusQueryField = form.get('dynamicFocusQuery');
 
   return (
-    <Stack space="xsmall">
+    <Stack gap="xsmall">
       <Sections>{dataSourceSection}</Sections>
 
       <Sections>

@@ -9,12 +9,12 @@ import PropTypes from 'prop-types';
 
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { TosButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
-import Stack from 'in-components/layout/Stack';
 import { t, Trans } from 'in-i18n';
 
 import locals from './TermsPages.mless';

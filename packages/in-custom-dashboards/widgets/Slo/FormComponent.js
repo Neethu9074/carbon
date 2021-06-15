@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import {
   sloTarget,
@@ -48,7 +49,6 @@ import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
 import Header from 'in-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
-import Stack from 'in-components/layout/Stack';
 import { Trans, t } from 'in-i18n';
 
 import locals from './FormComponent.mless';
@@ -158,10 +158,10 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   }
 
   return (
-    <Stack space="normal">
+    <Stack gap="normal">
       <Header>{t('in-custom-dashboards:widgets.slo.formComponent.sloConfig')}</Header>
 
-      <Stack space="xsmall">
+      <Stack gap="xsmall">
         <APConfigSelector
           apConfigIdField={apConfigIdField}
           apConfigs={apConfigs}
