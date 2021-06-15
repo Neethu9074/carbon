@@ -94,6 +94,7 @@ export default function Summary({ timeConfig, data: statefulSet }) {
                 colors: [usage, requests, limits].filter(Boolean)
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}
+              minRollup={10000}
             />
           </Card>
         </Col>
@@ -114,6 +115,7 @@ export default function Summary({ timeConfig, data: statefulSet }) {
                 colors: [usage, requests, limits].filter(Boolean)
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}
+              minRollup={10000}
             />
           </Card>
         </Col>
@@ -141,6 +143,7 @@ export default function Summary({ timeConfig, data: statefulSet }) {
                 colors: [allocated, pending, unscheduled, unready]
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}
+              minRollup={10000}
             />
           </Card>
         </Col>
