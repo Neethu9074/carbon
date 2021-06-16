@@ -55,8 +55,10 @@ export default function SelectorOverlay({
   const searchElementRef = useRef();
 
   const focusOnFirstResult = () => {
-    const groups = getInteractiveElements(staticContentWrapperRef.current);
-    groups[0]?.focus();
+    if (staticContentWrapperRef.current) {
+      const groups = getInteractiveElements(staticContentWrapperRef.current);
+      groups[0]?.focus();
+    }
   };
 
   return (
