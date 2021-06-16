@@ -10,11 +10,11 @@ import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
+import OfflineEventDescription, { getSnapshotId } from 'in-events/components/legacy/OfflineEventDescription';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import { getTimeConfigFromEventForSnapshotRetrieval, getTimeConfigFromEvent } from 'in-events/timeframe';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
-import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
@@ -71,9 +71,7 @@ function EventContent({ event }) {
 
   const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
 
-  const expiredSnapshotId = isEntityVerificationEvent(event)
-    ? event.getIn(['metadata', 'entityVerificationSnapshotId'], '')
-    : event.getIn(['metadata', 'hostAvailabilitySnapshotId'], '');
+  const expiredSnapshotId = getSnapshotId(event, isEntityVerificationEvent(event));
   const expiredSnapshotVersions = useObservable(getSnapshotVersionsObservable, [expiredSnapshotId]);
   const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
 
@@ -246,11 +244,11 @@ function shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) {
   return recentEvents && recentEvents.length - (!changesAreVisible ? numChanges : 0) > 10;
 }
 
-function isEntityVerificationEvent(event) {
+export function isEntityVerificationEvent(event) {
   return event.hasIn(['metadata', 'entityVerificationSnapshotId']);
 }
 
-function isHostAvailabilityEvent(event) {
+export function isHostAvailabilityEvent(event) {
   return event.hasIn(['metadata', 'hostAvailabilitySnapshotId']);
 }
 

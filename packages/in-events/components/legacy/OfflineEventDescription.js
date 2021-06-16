@@ -33,7 +33,7 @@ export default function OfflineEventDescription({ event, latestSnapshot }) {
   );
 }
 
-function getSnapshotId(event, entityVerification) {
+export function getSnapshotId(event, entityVerification) {
   return entityVerification
     ? event.getIn(['metadata', 'entityVerificationSnapshotId'], '')
     : event.getIn(['metadata', 'hostAvailabilitySnapshotId'], '');
