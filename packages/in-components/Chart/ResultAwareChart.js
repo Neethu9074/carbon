@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
+import InfiniteCircle from 'in-components/Loading/InfiniteCircle/InfiniteCircle';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -32,8 +33,11 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
       />
     );
   } else if (result.progress.loading) {
-    // First time progress received, percentage seems to be empty, so start with 0.2 to have a small arc
-    content = <LoadingIndicator height={height} width={frontBufferWidth} />;
+    if (result.progress.percentage) {
+      content = <InfiniteCircle height={height} width={frontBufferWidth} percentage={result.progress.percentage} />;
+    } else {
+      content = <LoadingIndicator height={height} width={frontBufferWidth} />;
+    }
     withoutPadding = true;
   } else {
     if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {

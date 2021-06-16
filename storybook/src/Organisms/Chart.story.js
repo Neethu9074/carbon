@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { withKnobs, number } from '@storybook/addon-knobs';
 
 import AlertingRenderer from 'in-alerting/components/Chart/renderer/Renderer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
@@ -30,6 +31,7 @@ export default {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }
   },
+  decorators: [withKnobs],
   component: ResultAwareChart
 };
 
@@ -37,6 +39,24 @@ export function MissingData() {
   return (
     <>
       <ResultAwareChart config={{}} data={{}} result={{ errors: [], progress: { loading: false } }} />
+    </>
+  );
+}
+
+export function Loading() {
+  return (
+    <>
+      <ResultAwareChart
+        config={{}}
+        data={{}}
+        result={{
+          errors: [],
+          progress: {
+            loading: true,
+            percentage: number('percentage', 0.5, { range: true, min: 0, max: 1, step: 0.05 })
+          }
+        }}
+      />
     </>
   );
 }
