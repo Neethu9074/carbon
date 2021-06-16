@@ -22,7 +22,6 @@ export const isSelfService = isFeatureFlagEnabled('isSelfService');
 export const k8sClusterUsageEnabled = isFeatureFlagEnabled('k8sClusterUsageEnabled');
 export const websiteUserBreakdownEnabled = isFeatureFlagEnabled('websiteUserBreakdownEnabled');
 export const fullTermsConfigEnabled = isFeatureFlagEnabled('fullTermsConfigEnabled', true);
-export const contextGuideEnabled = isFeatureFlagEnabled('contextGuideEnabled');
 export const agentMonitoringIssuesEnabled = isFeatureFlagEnabled('agentMonitoringIssuesEnabled');
 export const skipOnboardingDialog = isFeatureFlagEnabled('skipOnboardingDialog');
 export const routeIdOverPathTplEnabled = isFeatureFlagEnabled('routeIdOverPathTplEnabled');

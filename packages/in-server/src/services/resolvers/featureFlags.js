@@ -59,12 +59,6 @@ module.exports = exports = [
     instanaCtlKey: 'feature.website.user.breakdown.enabled',
     defaultValue: false
   },
-
-  {
-    uiClientKey: 'contextGuideEnabled',
-    instanaCtlKey: 'feature.context.guide.enabled',
-    defaultValue: true
-  },
   {
     uiClientKey: 'fullTermsConfigEnabled',
     instanaCtlKey: 'feature.full.terms.config.enabled',

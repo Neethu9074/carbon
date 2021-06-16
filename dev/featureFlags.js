@@ -10,7 +10,6 @@ module.exports = {
   applicationSmartAlertsEnabled: true,
   applicationSmartAlertsPerEndpointsEnabled: true,
   containerInfoEnabled: true,
-  contextGuideEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
   infraExplorePresentationEnabled: true,
