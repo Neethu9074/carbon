@@ -10,7 +10,6 @@ import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
-import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 import locals from './RawTableFormat.mless';
@@ -101,11 +100,11 @@ function getDetails(row) {
     <div>
       <label>Value:</label>
       <p />
-      <Code code={row.topQuery.get('VALUE')} />
+      <code className={locals.statement}>{row.topQuery.get('VALUE')}</code>
       <p />
       <label>Deferred Value:</label>
       <p />
-      <Code code={row.topQuery.get('DEFERRED_VALUE')} />
+      <code className={locals.statement}>{row.topQuery.get('DEFERRED_VALUE')}</code>
     </div>
   );
 }

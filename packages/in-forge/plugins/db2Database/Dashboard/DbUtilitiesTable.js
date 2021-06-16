@@ -39,11 +39,11 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.clientAcctng'),
+    title: t('in-forge:plugins.db2Database.utilityOperationType'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('CLIENT_ACCTNG');
+        return row.topQuery.get('UTILITY_OPERATION_TYPE');
       },
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
@@ -51,11 +51,11 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.clientApplName'),
+    title: t('in-forge:plugins.db2Database.objectType'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('CLIENT_APPLNAME');
+        return row.topQuery.get('OBJECT_TYPE');
       },
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
@@ -63,38 +63,15 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.applId'),
+    title: t('in-forge:plugins.db2Database.utilityStartTime'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('APPLICATION_ID');
+        return row.topQuery.get('UTILITY_START_TIME');
       },
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
       }
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.clientWrkstnName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('CLIENT_WRKSTNNAME');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-
-  {
-    title: t('in-forge:plugins.db2Database.numLocksHeld'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('NUM_LOCKS_HELD');
-      },
-      getContent: positiveNumber
     }
   }
 ];
@@ -102,13 +79,14 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'uowqueries')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'dbutilities')
     };
   },
-  function UnitOfWorkTable({ data }) {
+  function DbUtilitiesTable({ data }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
+
     const topQueries = data.get('raw_payload');
     if (topQueries.size === 0) {
       return null;
@@ -126,18 +104,33 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.db2Database.dashboard.uowQueries')}
+            title={t('in-forge:plugins.db2Database.dashboard.dbutilities')}
             timestamp={data.get('timestamp')}
           />
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={3}
+        initialSortColumn={0}
+        getRowDetails={getDetails}
         initialSortDirection="desc"
       />
     );
   }
 );
+
+function getDetails(row) {
+  return (
+    <div>
+      <label>Utility Type:</label>
+      <p />
+      <code className={locals.statement}>{row.topQuery.get('UTILITY_TYPE')}</code>
+      <p />
+      <label>Utility_Detail:</label>
+      <p />
+      <code className={locals.statement}>{row.topQuery.get('UTILITY_DETAIL')}</code>
+    </div>
+  );
+}
 
 function Args({ args }) {
   return <code className={locals.statement}>{args}</code>;
