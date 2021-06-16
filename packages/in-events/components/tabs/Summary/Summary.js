@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 
@@ -24,6 +25,7 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
+import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
@@ -31,7 +33,6 @@ import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { Row, Col } from 'in-components/layout/Grid';
-import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -70,6 +71,20 @@ function EventContent({ event }) {
 
   const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
 
+  const expiredSnapshotId = isEntityVerificationEvent(event)
+    ? event.getIn(['metadata', 'entityVerificationSnapshotId'], '')
+    : event.getIn(['metadata', 'hostAvailabilitySnapshotId'], '');
+  const expiredSnapshotVersions = useObservable(getSnapshotVersionsObservable, [expiredSnapshotId]);
+  const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
+
+  if (expiredSnapshotId && latestSnapshot) {
+    timeConfig.to = latestSnapshot.get('to');
+    timeConfig.from = latestSnapshot.get('from');
+    timeConfig.windowSize = latestSnapshot.get('to') - latestSnapshot.get('from');
+    timeConfig.focusedMoment = latestSnapshot.get('to') - timeConfig.windowSize / 2;
+    timeConfig.autoRefresh = false;
+  }
+
   return (
     <>
       <ViewTrackingMeta
@@ -107,11 +122,13 @@ function EventContent({ event }) {
         </Col>
       </Row>
 
-      {isOfflineEvent(event) ? (
+      {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
         <Row withoutSideMargin>
           <Col xs>
-            <Card title={t('in-events:titleLastProcess')}>
-              <OfflineEventDescription event={event} />
+            <Card
+              title={isEntityVerificationEvent(event) ? t('in-events:titleLastProcess') : t('in-events:titleLastHost')}
+            >
+              <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
             </Card>
           </Col>
         </Row>
@@ -229,8 +246,12 @@ function shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) {
   return recentEvents && recentEvents.length - (!changesAreVisible ? numChanges : 0) > 10;
 }
 
-function isOfflineEvent(event) {
+function isEntityVerificationEvent(event) {
   return event.hasIn(['metadata', 'entityVerificationSnapshotId']);
+}
+
+function isHostAvailabilityEvent(event) {
+  return event.hasIn(['metadata', 'hostAvailabilitySnapshotId']);
 }
 
 function isWebsiteSmartAlertEvent(event) {
@@ -251,4 +272,12 @@ function hasMetric(event, metric) {
 
 function hasAtLeastOneMetric(event) {
   return event.getIn(['metadata', 'metrics'], emptyList).size > 0;
+}
+
+function getLatestSnapshot(snapshotVersions) {
+  return snapshotVersions.sort((a, b) => a.get('to') - b.get('to')).pop();
+}
+
+function getSnapshotVersionsObservable([expiredSnapshotId]) {
+  return expiredSnapshotId && getSnapshotVersions(expiredSnapshotId);
 }

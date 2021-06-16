@@ -16,7 +16,9 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import EventChart from 'in-events/components/EventChart';
 
 export default function EventListItemContent({ event }) {
-  const isOfflineEvent = event => event.hasIn(['metadata', 'entityVerificationSnapshotId']);
+  const isOfflineEvent = event =>
+    event.hasIn(['metadata', 'entityVerificationSnapshotId']) ||
+    event.hasIn(['metadata', 'hostAvailabilitySnapshotId']);
 
   return (
     <>
