@@ -38,7 +38,9 @@ export default connectTo(
           </DashboardNotification>
         )}
 
-        {response && <Code code={response.data} showLineNumbers={false} id={codeTargetId} lang="yaml" />}
+        {response && (
+          <Code code={response.data} showLineNumbers={false} id={codeTargetId} lang="yaml" withoutCopyButton />
+        )}
       </Dialog>
     );
   }

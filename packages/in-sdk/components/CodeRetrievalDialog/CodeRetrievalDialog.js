@@ -57,6 +57,7 @@ export default connectTo(
             className={locals.code}
             showLineNumbers={lang !== 'java'}
             scrollElementClassName={locals.content}
+            withoutCopyButton
           />
         ) : null}
       </Dialog>

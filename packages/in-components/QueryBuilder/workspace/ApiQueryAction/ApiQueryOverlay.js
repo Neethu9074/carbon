@@ -32,7 +32,7 @@ export default function ApiQueryOverlay({ backendQueryModel }) {
         <CopyToClipboardButton kind="action" getText={() => jsonString} />
       </HorizontalFlexWrapper>
       <div className={locals.content}>
-        <CodeComponent code={jsonString} lang="json" showLineNumbers={false} />
+        <CodeComponent code={jsonString} lang="json" showLineNumbers={false} withoutCopyButton />
       </div>
     </div>
   );

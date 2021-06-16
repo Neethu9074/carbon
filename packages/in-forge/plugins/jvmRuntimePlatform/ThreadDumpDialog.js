@@ -44,7 +44,7 @@ export default connectTo(
           <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
         )}
 
-        {response && response.data && <Code code={response.data} id={codeTargetId} />}
+        {response && response.data && <Code code={response.data} id={codeTargetId} withoutCopyButton />}
       </Dialog>
     );
   }

@@ -45,7 +45,12 @@ export default connectTo(
         )}
 
         {response && response.data && (
-          <Code code={JSON.stringify(JSON.parse(response.data), null, 2)} id={codeTargetId} lang="json" />
+          <Code
+            code={JSON.stringify(JSON.parse(response.data), null, 2)}
+            id={codeTargetId}
+            lang="json"
+            withoutCopyButton
+          />
         )}
       </Dialog>
     );
