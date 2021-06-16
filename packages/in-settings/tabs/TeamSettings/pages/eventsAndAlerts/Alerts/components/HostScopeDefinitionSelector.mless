@@ -1,0 +1,111 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .configurator {
+    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 1.6;
+
+    color: var(--query-builder-element-color);
+    max-height: 1.6875rem;
+
+    padding: 0.1875rem 0.3rem 0.1875rem 0.4375rem;
+    background: @lib__colors__N050;
+    width: fit-content;
+
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_medium;
+
+    display: flex;
+    align-items: center;
+  }
+
+  .tagName {
+    margin-right: 0.5rem;
+    background: @lib__colors__transparent;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: none;
+      color: @lib__colors__light-blue800;
+
+      .icon {
+        fill: @lib__colors__light-blue800;
+      }
+    }
+  }
+
+  .icon {
+    // icons have a built in margin so we need to substract it when it is used in smaller frames
+    margin: -0.5rem -0.25rem;
+
+    fill: @lib__colors__N400;
+  }
+
+  .removeIconContainer {
+    line-height: 2.1;
+    border-left: 1px solid @lib__colors__N400;
+  }
+
+  .removeIcon {
+    // icons have a built in margin so we need to subtract it when it is used in smaller frames
+    margin: -0.5rem -0.25rem -0.5rem 0.25rem;
+
+    fill: @lib__colors__N400;
+    cursor: pointer;
+
+    &:hover,
+    &:active,
+    &:focus {
+      fill: @lib__colors__light-blue800;
+      outline: none;
+    }
+  }
+
+  .operator {
+    padding: 0.0225rem 0.3125rem;
+    margin-top: -0.25rem;
+    margin-bottom: -0.25rem;
+    border-left: 1px solid @lib__colors__N300;
+    border-right: 1px solid @lib__colors__N300;
+    border-bottom: none;
+    border-top: none;
+    line-height: 2;
+
+    cursor: pointer;
+
+    &:hover {
+      color: @lib__colors__N600Light;
+      outline: none;
+      background: @lib__colors__N200;
+      border-bottom: 1px solid;
+      border-top: 1px solid;
+      border-color: @lib__colors__light-blue800;
+    }
+
+    .operator {
+      background: @lib__colors__N050;
+      color: @lib__colors__N900Primary;
+    }
+
+    .operator_dark {
+      background: @lib__colors__N900Primary;
+      color: @lib__colors__N050;
+    }
+
+    &:focus,
+    &:active {
+      outline: none;
+      background: @lib__colors__N200;
+      border-bottom: 1px solid;
+      border-top: 1px solid;
+      border-color: @lib__colors__light-blue800;
+    }
+  }
+}
