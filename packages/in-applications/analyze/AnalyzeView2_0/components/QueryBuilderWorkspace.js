@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import {
   ua2QueryBuilderFilterAddedTracker,
   ua2GroupChangedTracker,
@@ -35,7 +37,6 @@ import Sections from 'in-components/workspace/Sections';
 import { emptyArray } from 'in-services/fixedObjects';
 import { error } from 'in-components/Message/types';
 import { getPluginName } from 'in-sdk/pluginName';
-import Stack from 'in-components/layout/Stack';
 import Message from 'in-components/Message';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -78,7 +79,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
       backgroundColor={theme.lib.colors.white}
     >
       <LeftRightPadding>
-        <Stack space="gutter">
+        <Stack gap="gutter">
           <Sections>
             <QueryBuilderSection
               value={formModel}

@@ -148,7 +148,6 @@ export default getElementDimensions(
       }
 
       const metrics = axis.metrics;
-      const rollup = getInfraGranularity(this.props.timeConfig, this.props.minRollup);
 
       for (let i = 0, len = metrics.length; i < len; i++) {
         const snapshotId = axis.snapshotId || this.props.snapshotId || this.props.snapshotIds[i];
@@ -162,7 +161,7 @@ export default getElementDimensions(
               maxDataPoints: axis.maxDataPoints,
               minPixelsPerBlock: axis.minPixelsPerBlock || 1,
               width: getChartCanvasWidth(this.props),
-              rollup: rollup
+              rollup: this.granularity
             })
           );
         }
@@ -172,7 +171,7 @@ export default getElementDimensions(
             snapshotId,
             metric: metrics[i],
             timeConfig: this.props.timeConfig,
-            rollup: rollup,
+            rollup: this.granularity,
             aggregation: axis.aggregation,
             blockSizeMillis: blockSizeMillis,
             metricBaseMillis: axis.metricBaseMillis,

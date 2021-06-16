@@ -9,6 +9,7 @@ import React from 'react';
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { toInteractiveElement } from '@instana/components';
 import { SvgIcon } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import ColorConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/ColorConfigurator';
 import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
@@ -16,7 +17,6 @@ import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { generateStableHash } from 'in-services/util/id';
 import Header from 'in-components/workspace/Header';
-import Stack from 'in-components/layout/Stack';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
 import { t } from 'in-i18n';
@@ -117,14 +117,14 @@ export function MetricsForAxis({
   const showHelpText = metricsForm.size === 0;
 
   return (
-    <Stack space="normal">
+    <Stack gap="normal">
       <Header>{t('in-custom-dashboards:widgets.formCompChart.metricReorderingChart.datasets')}</Header>
 
       <TouchedMessages field={metricsForm} />
 
       <Droppable droppableId={axisName}>
         {provided => (
-          <Stack space="xxsmall" ref={provided.innerRef}>
+          <Stack gap="xxsmall" ref={provided.innerRef}>
             {metricsForm.map((metricForm, indexInAxis) => (
               // Note: react beautiful dnd requires keys to be stable or at least stable while dragging.
               // Usage of indexInAxis is therefore not sufficient. You can validate this by trying to drag

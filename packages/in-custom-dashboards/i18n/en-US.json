@@ -310,7 +310,10 @@
         "potentialProblemsDescription": "Highlights potential issues for unexpected behaviour",
         "enabled": "Enabled",
         "dataset": "Dataset",
-        "selectDataSet": "Please Select Dataset"
+        "selectDataSet": "Please Select Dataset",
+        "validation": {
+          "missingDataset": "A dataset must be selected."
+        }
       }
     },
     "demo": {

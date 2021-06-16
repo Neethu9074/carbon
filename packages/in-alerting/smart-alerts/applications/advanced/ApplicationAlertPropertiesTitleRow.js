@@ -7,6 +7,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { Button } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesTextArea';
 import {
@@ -20,7 +21,6 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import AlertSection from 'in-alerting/components/AlertSection';
 import { stopPropagation } from 'in-services/util/function';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 import locals from './ApplicationAlertPropertiesTitleRow.mless';
@@ -34,7 +34,7 @@ export default function ApplicationAlertPropertiesTitleRow({ form, onChange }) {
       titleHtmlFor="name"
       title={t('in-alerting:smartAlerts.components.smartAlertDialog.alertPropertiesTitle')}
     >
-      <Stack space="xsmall">
+      <Stack gap="xsmall">
         <HorizontalFlexWrapper className={locals.placeholderMenuButtonWrapper}>
           <MoreMenu
             renderInteractiveElement={({ ref, toggle }) => (

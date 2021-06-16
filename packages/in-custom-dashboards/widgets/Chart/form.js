@@ -8,13 +8,10 @@ import { createMapForm, createField, createListForm } from 'formalistic';
 import { just, combineLatest } from '@instana/observables';
 
 import {
-  bluePrintForCallsMetric,
-  potentialProblemsCallsUnexpectedLowOrHighNumber
-} from 'in-custom-dashboards/widgets/Chart/FormComponent/PotentialProblemsConfigurator';
-import {
   createForm as createMetricConfigurationForm,
   migrate as migrateMetricConfiguration
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import { addFieldsForPotentialProblems } from 'in-custom-dashboards/widgets/Chart/FormComponent/potentialProblemsForm';
 import { stringValidator, numberValidator, arrayValidator, booleanValidator } from 'in-services/validators/jsonType';
 import { defaultRenderer, allRendererIds } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { defaultFormatter, publicFormatterIds } from 'in-stores/metric/formatters';
@@ -28,7 +25,7 @@ import { identity } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
 export function createForm(savedState) {
-  return createMapForm()
+  let form = createMapForm()
     .put(
       'type',
       createField({
@@ -50,42 +47,11 @@ export function createForm(savedState) {
         value: savedState?.shareMaxAxisDomain ?? false,
         validator: composeAndShortCircuitOnError(booleanValidator)
       })
-    )
-    .put(
-      'potentialProblems',
-      createMapForm()
-        .put(
-          'enabled',
-          createField({
-            value: savedState?.potentialProblems?.enabled || false,
-            validator: composeAndShortCircuitOnError(booleanValidator)
-          })
-        )
-        .put(
-          'dataset',
-          createField({
-            value: savedState?.potentialProblems?.dataset || '',
-            validator: composeAndShortCircuitOnError(
-              notUndefinedValidator,
-              stringValidator
-              // notBlankValidator // TODO: Need to check if PP is enabled then it should not be blank!
-            )
-          })
-        )
-        .put(
-          'bluePrintForCallsMetric',
-          createField({
-            value:
-              savedState?.potentialProblems?.bluePrintForCallsMetric || potentialProblemsCallsUnexpectedLowOrHighNumber,
-            validator: composeAndShortCircuitOnError(
-              notUndefinedValidator,
-              stringValidator,
-              notBlankValidator,
-              buildEnumValidator(Object.keys(bluePrintForCallsMetric))
-            )
-          })
-        )
     );
+
+  form = addFieldsForPotentialProblems(form, savedState);
+
+  return form;
 }
 
 function createAxisForm(savedState, requiresAtLeastOneMetric = false) {

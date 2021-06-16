@@ -6,7 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Stack from 'in-components/layout/Stack/Stack';
+import { Stack } from '@instana/components';
+
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -25,7 +26,7 @@ const ApplicationsHealthIndicatorBar = ({ critical = 0, warning = 0, total = 0, 
     }
   };
   return (
-    <Stack space="xsmall">
+    <Stack gap="xsmall">
       {label && <label className={locals.label}>{label}</label>}
       <div className={locals.healthBar}>
         <Tooltip

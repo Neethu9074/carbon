@@ -5,17 +5,18 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import TextAreaInSection from 'in-components/form/TextArea/TextAreaInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Header from 'in-components/workspace/Header';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function MarkdownWidgetFormComponent({ form: field, onChange }) {
   return (
-    <Stack space="normal">
+    <Stack gap="normal">
       <Header>{t('in-custom-dashboards:widgets.markdown.formComp.whatULikeShow')}</Header>
 
       <Sections>

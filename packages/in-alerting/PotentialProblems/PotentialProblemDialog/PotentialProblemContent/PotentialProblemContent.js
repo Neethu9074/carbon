@@ -30,20 +30,12 @@ export default function PotentialProblemContent({
   ...remainingProps
 }) {
   const alertType = rule.alertType;
-  const type = getType({ applicationLabel, serviceLabel, endpointLabel });
 
   return (
     <div className={locals.container}>
       <div className={locals.contentHeader}>
         <div className={locals.headline}>{getTitle({ rule, threshold })}</div>
-        <div className={locals.entity}>
-          <SvgIcon size="s" className={locals.icon} type={getIconByType(type)} />
-          {getLabelText({
-            applicationLabel,
-            serviceLabel,
-            endpointLabel
-          })}
-        </div>
+        <Entity applicationLabel={applicationLabel} serviceLabel={serviceLabel} endpointLabel={endpointLabel} />
         <div className={locals.duration}>
           <SvgIcon size="xs" className={locals.icon} type="lib_datetime_time" />
           <time dateTime={new Date(alert.start).toISOString()}>{formatDateTime(alert.start)}</time>
@@ -74,6 +66,25 @@ export default function PotentialProblemContent({
   );
 }
 
+function Entity({ endpointLabel, serviceLabel, applicationLabel }) {
+  if (!endpointLabel && !serviceLabel && !applicationLabel) {
+    return null;
+  }
+
+  const type = getType({ applicationLabel, serviceLabel, endpointLabel });
+
+  return (
+    <div className={locals.entity}>
+      <SvgIcon size="s" className={locals.icon} type={getIconByType(type)} />
+      {getLabelText({
+        applicationLabel,
+        serviceLabel,
+        endpointLabel
+      })}
+    </div>
+  );
+}
+
 function getLabelText({ applicationLabel, serviceLabel, endpointLabel }) {
   const Icon = <SvgIcon size="xs" className={locals.icon} type="lib_arrow_expand_right" />;
   return (
@@ -97,7 +108,7 @@ function getLabelText({ applicationLabel, serviceLabel, endpointLabel }) {
 
 PotentialProblemContent.propTypes = {
   alert: alertPropType.isRequired,
-  applicationLabel: PropTypes.string.isRequired,
+  applicationLabel: PropTypes.string,
   endpointLabel: PropTypes.string,
   rule: rulePropType.isRequired,
   serviceLabel: PropTypes.string,

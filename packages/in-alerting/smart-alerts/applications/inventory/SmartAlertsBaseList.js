@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { ColumnizedContent, Li, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
+import { Stack } from '@instana/components';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
 import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
@@ -32,7 +33,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-components/ButtonGroup';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
-import Stack from 'in-components/layout/Stack';
 import useUrlState from 'in-hooks/useUrlState';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';

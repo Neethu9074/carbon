@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Spacer, SpacerSizes } from '@instana/components';
+
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import Spacer from 'in-applications/Forms/components/Spacer';
 import FormGroup from 'in-components/form/FormGroup';
 import { error } from 'in-components/Message/types';
 import Label from 'in-components/form/Label';
@@ -54,7 +55,7 @@ export default function SimpleCreateStep3({
             {errorMessage}
           </Message>
         )}
-        <Spacer type="dark" />
+        <Spacer vertical={SpacerSizes.normal} />
         <Label>{t('in-applications:creation.simple.step3.inboundAllCalls')}</Label>
         <InboundAllCalls form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
       </div>

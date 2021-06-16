@@ -8,12 +8,12 @@ import { useEffect } from 'react';
 import rpt from 'prop-types';
 
 import { Button } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import { trackingProps as queryBuilderTrackingProps } from 'in-components/QueryBuilder/QueryBuilder';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { emptyObject } from 'in-services/fixedObjects';
 import Section from 'in-components/workspace/Section';
-import Stack from 'in-components/layout/Stack';
 import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
@@ -56,7 +56,7 @@ export default function QueryBuilderSection({
       }
       hasError={hasExteralError || hasInternalError}
     >
-      <Stack space="xsmall">
+      <Stack gap="xsmall">
         <div>
           <QueryBuilder
             // If the 'Clear' button was clicked, pass a new empty array instance, so that the query builder can

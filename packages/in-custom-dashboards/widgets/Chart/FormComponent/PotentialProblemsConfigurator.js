@@ -6,23 +6,29 @@
 import { isEmpty } from 'lodash';
 import React from 'react';
 
+import {
+  addFieldsForPotentialProblems,
+  removeFieldsForPotentialProblems,
+  bluePrintForCallsMetric
+} from 'in-custom-dashboards/widgets/Chart/FormComponent/potentialProblemsForm';
 import { source as applicationSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { isPotentialProblemsSupportedByMetric } from 'in-applications/analyze/metrics';
 import { getShortMetricKey } from 'in-custom-dashboards/widgets/Chart/util';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
-import locals from './PotentialProblemsConfigurator.mless';
-
 export default function PotentialProblemsConfigurator({ form, onChange }) {
   const potentialProblemsForm = form.get('potentialProblems');
-  const potentialProblemsEnabledField = potentialProblemsForm.get('enabled');
-  const potentialProblemsDatasetField = potentialProblemsForm.get('dataset');
-  const bluePrintForCallsMetricField = potentialProblemsForm.get('bluePrintForCallsMetric');
+  const potentialProblemsEnabled = Boolean(potentialProblemsForm);
+
+  const potentialProblemsDatasetField = potentialProblemsForm?.get('dataset');
+  const bluePrintForCallsMetricField = potentialProblemsForm?.get('bluePrintForCallsMetric');
 
   return (
     <Sections>
@@ -33,14 +39,17 @@ export default function PotentialProblemsConfigurator({ form, onChange }) {
         <HorizontalFlexWrapper>
           <Toggle
             id={`potential-problems-configurator`}
-            checked={potentialProblemsEnabledField.value}
+            checked={potentialProblemsEnabled}
             onChange={e => {
               onChange([], form => {
-                return form
-                  .updateIn(['potentialProblems', 'enabled'], field =>
-                    field.setValue(e.target.checked).setTouched(true)
-                  )
-                  .updateIn(['potentialProblems', 'dataset'], field => field.setValue('').setTouched(true));
+                if (e.target.checked) {
+                  return addFieldsForPotentialProblems(form, {
+                    potentialProblems: {}
+                  })
+                    .updateIn(['potentialProblems', 'dataset'], field => field.setTouched(true))
+                    .setTouched(true);
+                }
+                return removeFieldsForPotentialProblems(form).setTouched(true);
               });
             }}
           />
@@ -48,49 +57,49 @@ export default function PotentialProblemsConfigurator({ form, onChange }) {
         </HorizontalFlexWrapper>
       </Section>
 
-      {potentialProblemsEnabledField.value && (
-        <Section useAlternateBg title={t('in-custom-dashboards:widgets.formCompChart.potentialProblems.dataset')}>
-          <HorizontalFlexWrapper>
-            <Select
-              id={`metic-configurator-blue-print-selector`}
-              value={potentialProblemsDatasetField.value}
-              onChange={e =>
-                onChange(['potentialProblems', 'dataset'], field => field.setValue(e.target.value).setTouched(true))
-              }
-              hasError={!potentialProblemsDatasetField.valid && potentialProblemsDatasetField.touched}
-            >
-              <option value="">
-                {t('in-custom-dashboards:widgets.formCompChart.potentialProblems.selectDataSet')}
-              </option>
-              {getMetricsLabelForAxis('y1')
-                .concat(getMetricsLabelForAxis('y2'))
-                .map(({ key, label, disabled }) => (
-                  <option key={key} value={key} disabled={disabled}>
-                    {label}
-                  </option>
-                ))}
-            </Select>
+      {potentialProblemsEnabled && (
+        <SelectInSection
+          label={t('in-custom-dashboards:widgets.formCompChart.potentialProblems.dataset')}
+          id="metric-configurator-dataset-selector"
+          value={potentialProblemsDatasetField.value}
+          onChange={e =>
+            onChange(['potentialProblems', 'dataset'], field => field.setValue(e.target.value).setTouched(true))
+          }
+          hasError={!potentialProblemsDatasetField.valid && potentialProblemsDatasetField.touched}
+          additionalContent={<TouchedMessages field={potentialProblemsDatasetField} />}
+          useAlternateBg
+        >
+          <>
+            <option value="">{t('in-custom-dashboards:widgets.formCompChart.potentialProblems.selectDataSet')}</option>
+            {getMetricsLabelForAxis('y1')
+              .concat(getMetricsLabelForAxis('y2'))
+              .map(({ key, label, disabled }) => (
+                <option key={key} value={key} disabled={disabled}>
+                  {label}
+                </option>
+              ))}
+          </>
+        </SelectInSection>
+      )}
 
-            {showBluePrintSelector() && (
-              <Select
-                className={locals.bluePrintSelector}
-                id={`metic-configurator-blue-print-selector`}
-                value={bluePrintForCallsMetricField.value}
-                onChange={e =>
-                  onChange(['potentialProblems', 'bluePrintForCallsMetric'], field =>
-                    field.setValue(e.target.value).setTouched(true)
-                  )
-                }
-                hasError={!bluePrintForCallsMetricField.valid && bluePrintForCallsMetricField.touched}
-              >
-                {Object.keys(bluePrintForCallsMetric).map(bluePrint => (
-                  <option key={bluePrint} value={bluePrint}>
-                    {bluePrintForCallsMetric[bluePrint]}
-                  </option>
-                ))}
-              </Select>
-            )}
-          </HorizontalFlexWrapper>
+      {potentialProblemsEnabled && showBluePrintSelector() && (
+        <Section useAlternateBg>
+          <Select
+            id={`metric-configurator-blue-print-selector`}
+            value={bluePrintForCallsMetricField.value}
+            onChange={e =>
+              onChange(['potentialProblems', 'bluePrintForCallsMetric'], field =>
+                field.setValue(e.target.value).setTouched(true)
+              )
+            }
+            hasError={!bluePrintForCallsMetricField.valid && bluePrintForCallsMetricField.touched}
+          >
+            {Object.keys(bluePrintForCallsMetric).map(bluePrint => (
+              <option key={bluePrint} value={bluePrint}>
+                {bluePrintForCallsMetric[bluePrint]}
+              </option>
+            ))}
+          </Select>
         </Section>
       )}
     </Sections>
@@ -130,19 +139,3 @@ export default function PotentialProblemsConfigurator({ form, onChange }) {
       .filter(Boolean);
   }
 }
-
-export const potentialProblemsCallsUnexpectedLowNumber = 'unexpectedLowNumberOfCalls';
-export const potentialProblemsCallsUnexpectedHighNumber = 'unexpectedHighNumberOfCalls';
-export const potentialProblemsCallsUnexpectedLowOrHighNumber = 'unexpectedLowOrHighNumberOfCalls';
-
-export const bluePrintForCallsMetric = {
-  [potentialProblemsCallsUnexpectedLowNumber]: t(
-    'in-custom-dashboards:widgets.metricConfig.bluePrintForCallsMetric.unexpectedLowNumberOfCalls'
-  ),
-  [potentialProblemsCallsUnexpectedHighNumber]: t(
-    'in-custom-dashboards:widgets.metricConfig.bluePrintForCallsMetric.unexpectedHighNumberOfCalls'
-  ),
-  [potentialProblemsCallsUnexpectedLowOrHighNumber]: t(
-    'in-custom-dashboards:widgets.metricConfig.bluePrintForCallsMetric.unexpectedLowOrHighNumberOfCalls'
-  )
-};

@@ -131,6 +131,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                 colors: [hardRequests, requests, hardLimits, limits, usage]
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}
+              minRollup={10000}
             />
           </Card>
         </Col>
@@ -167,6 +168,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                 colors: [hardRequests, requests, hardLimits, limits, usage]
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}
+              minRollup={10000}
             />
           </Card>
         </Col>
@@ -184,6 +186,7 @@ export default function Summary({ timeConfig, data: namespace }) {
                 colors: [pods, hardLimits]
               }}
               renderPostChartContent={K8DashboardsMarkerLanes}
+              minRollup={10000}
             />
           </Card>
         </Col>

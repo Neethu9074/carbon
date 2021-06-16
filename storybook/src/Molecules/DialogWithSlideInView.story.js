@@ -13,8 +13,7 @@ import { Button } from '@instana/components';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import FormBoundInput from 'in-components/form/Input/FormBoundInput';
-import StackItem from 'in-components/layout/Stack/StackItem';
-import Stack from 'in-components/layout/Stack';
+import { Stack, StackItem } from '@instana/components';
 import Form from 'in-components/form/binding/Form';
 import FormInput from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -206,7 +205,7 @@ export const FocusingFirstItem = () => {
         </Stack>
       }
     >
-      <Stack space="xxsmall">
+      <Stack gap="xxsmall">
         <StackItem>
           <Form form={form} setForm={setForm}>
             <FormBoundInput path="value" type="number" label="Field 1" />

@@ -141,7 +141,15 @@ export function getEnrichedAnalyzeTagFilterFormModel(
 
   return joinExpressions({
     expressions: [
-      blueprintConfig.getEntityTagFilterFormModel(alertConfig, applicationId, applicationName, serviceId, endpointId),
+      applicationName
+        ? blueprintConfig.getEntityTagFilterFormModel(
+            alertConfig,
+            applicationId,
+            applicationName,
+            serviceId,
+            endpointId
+          )
+        : null,
       serviceName ? tagFilter('service.name', EQUALS, serviceName) : null, // service.name is still used by the affected entities list
       endpointName ? tagFilter('endpoint.name', EQUALS, endpointName) : null, // endpoint.name is still used by the affected entities list
       fromBackendModel(tagFilterExpression),

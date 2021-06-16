@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import Toggle from 'react-toggle';
 
+import { Stack } from '@instana/components';
+
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
@@ -18,7 +20,6 @@ import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSub
 import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig.mless';

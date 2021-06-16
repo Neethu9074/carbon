@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { number, bytes, millis, percentage, micros } from 'in-services/formatters/number';
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { number, bytes, millis } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -203,12 +203,14 @@ export default [
   {
     metrics: [
       'dbmconfigusage.omsCons',
+      'dbmconfigusage.omsConsExec',
       'dbmconfigusage.agentHighWmark',
       'dbmconfigusage.coordAgentsHighWmark',
       'dbmconfigusage.agentCreatedVSReused'
     ],
     labels: [
       t('in-forge:plugins.db2Database.omsCons'),
+      t('in-forge:plugins.db2Database.omsConsExec'),
       t('in-forge:plugins.db2Database.agentHighWmark'),
       t('in-forge:plugins.db2Database.coordAgentsHighWmark'),
       t('in-forge:plugins.db2Database.agentCreatedVSReused')
@@ -233,11 +235,17 @@ export default [
     formatter: number
   },
   {
-    metrics: ['workloadstats.totalRequestTime', 'workloadstats.totalWaitTime', 'workloadstats.totalNetTime'],
+    metrics: [
+      'workloadstats.totalRequestTime',
+      'workloadstats.totalWaitTime',
+      'workloadstats.totalNetTime',
+      'workloadstats.totalIOTime'
+    ],
     labels: [
       t('in-forge:plugins.db2Database.totalRequestTime'),
       t('in-forge:plugins.db2Database.totalWaitTime'),
-      t('in-forge:plugins.db2Database.totalNetTime')
+      t('in-forge:plugins.db2Database.totalNetTime'),
+      t('in-forge:plugins.db2Database.totalIOTime')
     ],
     min: 0,
     formatter: millis
@@ -256,35 +264,37 @@ export default [
     metrics: [
       getDynamicMetricMatch('toptotalstmts', 'pctTotRr', t('in-forge:plugins.db2Database.dashboard.toptotalcpu')),
       getDynamicMetricMatch('toptotalstmts', 'pctTotCpu', t('in-forge:plugins.db2Database.dashboard.toptotalcpu')),
-      getDynamicMetricMatch('toptotalstmts', 'pctNumExec', t('in-forge:plugins.db2Database.dashboard.toptotalcpu'))
+      getDynamicMetricMatch('toptotalstmts', 'pctNumExec', t('in-forge:plugins.db2Database.dashboard.toptotalcpu')),
+      getDynamicMetricMatch('toptotalstmts', 'pctStmtExecTime', t('in-forge:plugins.db2Database.dashboard.toptotalcpu'))
     ],
     labels: [
       t('in-forge:plugins.db2Database.pctTotRr'),
       t('in-forge:plugins.db2Database.pctTotCpu'),
-      t('in-forge:plugins.db2Database.pctNumExec')
+      t('in-forge:plugins.db2Database.pctNumExec'),
+      t('in-forge:plugins.db2Database.pctStmtExecTime')
     ],
     category: [t('in-forge:plugins.db2Database.dashboard.toptotalcpu')],
     min: 0,
-    formatter: number
+    max: 100,
+    formatter: percentage.detailed
   },
   {
     metrics: [
-      getDynamicMetricMatch('toptotalstmts', 'totalCpuTime', t('in-forge:plugins.db2Database.dashboard.toptotalcpu')),
       getDynamicMetricMatch('toptotalstmts', 'stmtExecTime', t('in-forge:plugins.db2Database.dashboard.toptotalcpu'))
     ],
-    labels: [t('in-forge:plugins.db2Database.totalCpuTime'), t('in-forge:plugins.db2Database.stmtExecTime')],
+    labels: [t('in-forge:plugins.db2Database.stmtExecTime')],
     category: [t('in-forge:plugins.db2Database.dashboard.toptotalcpu')],
     min: 0,
     formatter: millis
   },
   {
     metrics: [
-      getDynamicMetricMatch('toptotalstmts', 'pctStmtExecTime', t('in-forge:plugins.db2Database.dashboard.toptotalcpu'))
+      getDynamicMetricMatch('toptotalstmts', 'totalCpuTime', t('in-forge:plugins.db2Database.dashboard.toptotalcpu'))
     ],
-    labels: [t('in-forge:plugins.db2Database.pctStmtExecTime')],
+    labels: [t('in-forge:plugins.db2Database.totalCpuTime')],
     category: [t('in-forge:plugins.db2Database.dashboard.toptotalcpu')],
     min: 0,
-    formatter: number
+    formatter: micros
   },
   {
     metrics: [
@@ -299,7 +309,7 @@ export default [
     ],
     category: [t('in-forge:plugins.db2Database.dashboard.logdiskwait')],
     min: 0,
-    formatter: millis
+    formatter: millis.detailed
   },
   {
     metrics: [
@@ -313,13 +323,12 @@ export default [
     labels: [t('in-forge:plugins.db2Database.logDiskWaitsTotal'), t('in-forge:plugins.db2Database.logBufferWaitTime')],
     category: [t('in-forge:plugins.db2Database.dashboard.logdiskwait')],
     min: 0,
-    formatter: millis
+    formatter: millis.detailed
   },
   {
     metrics: [
       getDynamicMetricMatch('logdiskwait', 'pctTotActTime', t('in-forge:plugins.db2Database.dashboard.logdiskwait')),
       getDynamicMetricMatch('logdiskwait', 'pctTotalActWt', t('in-forge:plugins.db2Database.dashboard.logdiskwait')),
-      getDynamicMetricMatch('logdiskwait', 'pctLogDiskWt', t('in-forge:plugins.db2Database.dashboard.logdiskwait')),
       getDynamicMetricMatch(
         'logdiskwait',
         'pctDiskWtTotalExec',
@@ -330,28 +339,32 @@ export default [
     labels: [
       t('in-forge:plugins.db2Database.pctTotActTime'),
       t('in-forge:plugins.db2Database.pctTotalActWt'),
-      t('in-forge:plugins.db2Database.pctLogDiskWt'),
       t('in-forge:plugins.db2Database.pctDiskWtTotalExec'),
       t('in-forge:plugins.db2Database.pctLogBufWt')
     ],
     category: [t('in-forge:plugins.db2Database.dashboard.logdiskwait')],
     min: 0,
-    formatter: number
+    max: 100,
+    formatter: percentage.detailed
   },
   {
-    metrics: ['uowqueriesstats.clientIdleTimeSec', 'uowqueriesstats.clientIdleTimeMin', 'uowqueriesstats.execTime'],
+    metrics: [
+      'agentstatus.total',
+      'agentstatus.uowWaiting',
+      'agentstatus.uowExecuting',
+      'agentstatus.lockWait',
+      'agentstatus.lockEscalation',
+      'agentstatus.other'
+    ],
     labels: [
-      t('in-forge:plugins.db2Database.clientIdleTimeSec'),
-      t('in-forge:plugins.db2Database.clientIdleTimeMin'),
-      t('in-forge:plugins.db2Database.clientIdleTimeMin')
+      t('in-forge:plugins.db2Database.total'),
+      t('in-forge:plugins.db2Database.uowWaiting'),
+      t('in-forge:plugins.db2Database.uowExecuting'),
+      t('in-forge:plugins.db2Database.lockWait'),
+      t('in-forge:plugins.db2Database.lockEscalation'),
+      t('in-forge:plugins.db2Database.other')
     ],
     min: 0,
-    formatter: millis
-  },
-  {
-    metrics: ['uowqueriesstats.logSpaceUsedKB', 'uowqueriesstats.logSpaceUsed'],
-    labels: [t('in-forge:plugins.db2Database.logSpaceUsedKB'), t('in-forge:plugins.db2Database.logSpaceUsed')],
-    min: 0,
-    formatter: bytes
+    formatter: number
   }
 ];

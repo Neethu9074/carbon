@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { Spacer, SpacerSizes } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
@@ -12,7 +13,6 @@ import { Button } from '@instana/components';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
-import Spacer from 'in-applications/Forms/components/Spacer';
 import { pendingResult } from 'in-services/fixedObjects';
 import { goToPath } from 'in-stores/navigation';
 import Tooltip from 'in-components/Tooltip';
@@ -114,7 +114,7 @@ class BasicForm extends React.Component {
         <form onSubmit={e => this.onSubmit(e, form, updateForm)} className={locals.form}>
           {form && renderFormContent(entityResult.data, form, this.setValue.bind(this, updateForm), updateForm)}
 
-          <Spacer type="dark" />
+          <Spacer vertical={SpacerSizes.normal} />
           <div className={locals.footer}>
             {onCancelHref$ && (
               <Button kind="subtle" size="compact" href$={onCancelHref$}>
@@ -156,7 +156,7 @@ class BasicForm extends React.Component {
         {success && <TemporaryMessage message={t('in-applications:messageSuccessfullySaved')} type="success" />}
         {error && <TemporaryMessage message={t('in-applications:messageErrorOccurred')} type="error" />}
 
-        {title && <Spacer type="dark" />}
+        {title && <Spacer vertical={SpacerSizes.normal} />}
 
         {content}
       </div>

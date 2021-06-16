@@ -6,8 +6,8 @@
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { number, millis, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
@@ -34,7 +34,7 @@ const cols = [
       getMetricName(row) {
         return `logdiskwait.${row.key}.totalActTime`;
       },
-      getContent: millis.compact,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -66,7 +66,7 @@ const cols = [
       getMetricName(row) {
         return `logdiskwait.${row.key}.totalActWaitTime`;
       },
-      getContent: millis.compact,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -82,7 +82,7 @@ const cols = [
       getMetricName(row) {
         return `logdiskwait.${row.key}.pctTotalActWt`;
       },
-      getContent: number.detailed,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -98,23 +98,7 @@ const cols = [
       getMetricName(row) {
         return `logdiskwait.${row.key}.logDiskWaitTime`;
       },
-      getContent: millis.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.pctLogDiskWt'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `logdiskwait.${row.key}.pctLogDiskWt`;
-      },
-      getContent: number.detailed,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -130,7 +114,7 @@ const cols = [
       getMetricName(row) {
         return `logdiskwait.${row.key}.logDiskWaitsTotal`;
       },
-      getContent: millis.compact,
+      getContent: millis.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -146,39 +130,7 @@ const cols = [
       getMetricName(row) {
         return `logdiskwait.${row.key}.pctDiskWtTotalExec`;
       },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.dashboard.logBufferWaitTime'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `logdiskwait.${row.key}.logBufferWaitTime`;
-      },
-      getContent: millis.compact,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.pctLogBufWt'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.snapshotId;
-      },
-      getMetricName(row) {
-        return `logdiskwait.${row.key}.pctLogBufWt`;
-      },
-      getContent: number.detailed,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -217,39 +169,27 @@ export default function LogDiskWaitTable({ snapshot, timeConfig }) {
 function getDetails(row) {
   return (
     <div>
-      <Code code={formatSql(row.snapshot.getIn(['data', 'logdiskwait.' + row.key + '.stmtText']))} lang="sql" />
+      <Code
+        code={formatSql(row.snapshot.getIn(['data', 'logdiskwait.' + row.key + '.stmtText']))}
+        lang="sql"
+        softWrap
+      />
       <Chart
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          formatter: number.detailed,
-          metrics: [
-            'logdiskwait.' + row.key + '.totalActTime',
-            'logdiskwait.' + row.key + '.totalActWaitTime',
-            'logdiskwait.' + row.key + 'logDiskWaitTime'
-          ],
-          labels: [
-            t('in-forge:plugins.db2Database.totalActTime'),
-            t('in-forge:plugins.db2Database.totalActWaitTime'),
-            t('in-forge:plugins.db2Database.logDiskWaitTime')
-          ],
+          formatter: millis.detailed,
+          metrics: ['logdiskwait.' + row.key + '.totalActTime', 'logdiskwait.' + row.key + '.totalActWaitTime'],
+          labels: [t('in-forge:plugins.db2Database.totalActTime'), t('in-forge:plugins.db2Database.totalActWaitTime')],
           type: 'line'
         }}
         y2={{
           min: 0,
-          metrics: [
-            'logdiskwait.' + row.key + '.pctTotActTime',
-            'logdiskwait.' + row.key + '.pctTotalActWt',
-            'logdiskwait.' + row.key + '.pctLogDiskWt'
-          ],
-          labels: [
-            t('in-forge:plugins.db2Database.pctTotActTime'),
-            t('in-forge:plugins.db2Database.pctTotalActWt'),
-            t('in-forge:plugins.db2Database.pctLogDiskWt')
-          ],
+          metrics: ['logdiskwait.' + row.key + '.pctTotActTime', 'logdiskwait.' + row.key + '.pctTotalActWt'],
+          labels: [t('in-forge:plugins.db2Database.pctTotActTime'), t('in-forge:plugins.db2Database.pctTotalActWt')],
           type: 'line',
-          formatter: number.compact
+          formatter: percentage.detailed
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />
@@ -268,10 +208,10 @@ function getDetails(row) {
         }}
         y2={{
           min: 0,
-          metrics: ['logdiskwait.' + row.key + '.pctDiskWtTotalExec', 'logdiskwait' + row.key + '.pctLogBufWt'],
-          labels: [t('in-forge:plugins.db2Database.pctDiskWtTotalExec'), t('in-forge:plugins.db2Database.pctLogBufWt')],
+          metrics: ['logdiskwait.' + row.key + '.pctDiskWtTotalExec'],
+          labels: [t('in-forge:plugins.db2Database.pctDiskWtTotalExec')],
           type: 'line',
-          formatter: number.compact
+          formatter: percentage.detailed
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />

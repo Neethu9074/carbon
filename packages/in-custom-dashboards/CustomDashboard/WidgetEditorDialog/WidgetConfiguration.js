@@ -5,16 +5,16 @@
 
 import React from 'react';
 
+import { Stack, StackItem } from '@instana/components';
+
 import WidgetPreview from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetPreview';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import InputInSection from 'in-components/form/Input/InputInSection';
-import StackItem from 'in-components/layout/Stack/StackItem';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
 import widgets from 'in-custom-dashboards/widgets';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function WidgetConfiguration({ form, onChange, setSlideInView }) {
@@ -22,7 +22,7 @@ export default function WidgetConfiguration({ form, onChange, setSlideInView }) 
   const widget = widgets[selectedType];
 
   return (
-    <Stack space="large">
+    <Stack gap="large">
       <StackItem>
         <widget.Form
           form={form.get('config')}
@@ -33,7 +33,7 @@ export default function WidgetConfiguration({ form, onChange, setSlideInView }) 
 
       <Divider />
 
-      <Stack space="normal">
+      <Stack gap="normal">
         <Header>{t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetConfiguration.widgetName')}</Header>
         <Sections>
           <WidgetTitleInput form={form} onChange={onChange} />

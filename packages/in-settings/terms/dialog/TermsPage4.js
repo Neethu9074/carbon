@@ -9,11 +9,11 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import FormFooter from 'in-components/form/FormFooter/FormFooter';
 import TermsProgressIndicator from './TermsProgressIndicator';
 import RolesSelector from 'in-settings/terms/RolesSelector';
-import Stack from 'in-components/layout/Stack';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';

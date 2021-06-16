@@ -4,7 +4,11 @@
  */
 
 :local {
-  .bluePrintSelector {
-    margin-left: 1rem;
+  .button {
+    line-height: 1;
+  }
+
+  .lettering {
+    filter: brightness(0.1);
   }
 }

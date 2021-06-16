@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import { Reorderer, MetricsForAxis } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import DataSeriesConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/DataSeriesConfigurator';
 import { getShortMetricKey } from 'in-custom-dashboards/widgets/Pie/util';
@@ -14,20 +16,19 @@ import { publicFormatters } from 'in-stores/metric/formatters';
 import Sections from 'in-components/workspace/Sections';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function PieChartWidgetFormComponent({ form, onChange }) {
   return (
-    <Stack space="large">
-      <Stack space="normal">
+    <Stack gap="large">
+      <Stack gap="normal">
         <Header>{t('in-custom-dashboards:widgets.pie.formComponent.datasets')}</Header>
         <DataSeriesConfigurator form={form} onChange={onChange} getShortMetricKey={getShortMetricKey} />
       </Stack>
 
       <Divider />
 
-      <Stack space="normal">
+      <Stack gap="normal">
         <Reorderer onChange={onChange}>
           <MetricsForAxis
             form={form}
@@ -42,7 +43,7 @@ export default function PieChartWidgetFormComponent({ form, onChange }) {
 
       <Divider />
 
-      <Stack space="normal">
+      <Stack gap="normal">
         <Header>{t('in-custom-dashboards:widgets.pie.formComponent.dataPresentation')}</Header>
 
         {form.getIn(['y1', 'formatter']).map(field => (

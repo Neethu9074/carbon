@@ -6,10 +6,9 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, Spacer, SpacerSizes } from '@instana/components';
 
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
-import Spacer from 'in-applications/Forms/components/Spacer';
 
 import locals from './TemporaryMessage.mless';
 
@@ -17,7 +16,7 @@ export default function TemporaryMessage({ type = 'success', duration = 5000, id
   return (
     <TemporaryPresenter duration={duration} id={id || message} onHide={onHide}>
       <Fragment>
-        <Spacer type="light" />
+        <Spacer vertical={SpacerSizes.normal} />
         <div className={locals.temporyMessageWrapper}>
           <SvgIcon
             className={classNames({

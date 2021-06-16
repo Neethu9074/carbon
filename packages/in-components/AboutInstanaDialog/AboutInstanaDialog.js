@@ -8,6 +8,7 @@ import React from 'react';
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';
@@ -16,7 +17,6 @@ import { instanaRegion } from 'in-services/config';
 import Dialog from 'in-components/Dialog/Dialog';
 import { goToPath } from 'in-stores/navigation';
 import Lettering from 'in-components/Lettering';
-import Stack from 'in-components/layout/Stack';
 import { build } from 'in-services/config';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

@@ -6,6 +6,7 @@
 import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/components';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
@@ -31,7 +32,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { noop } from 'in-services/util/function';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function FormComponent({
@@ -83,7 +83,7 @@ export default function FormComponent({
   );
 
   return (
-    <Stack space="xsmall">
+    <Stack gap="xsmall">
       <Sections>{dataSourceSection}</Sections>
       <Sections>
         <Section title={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.metric')}>

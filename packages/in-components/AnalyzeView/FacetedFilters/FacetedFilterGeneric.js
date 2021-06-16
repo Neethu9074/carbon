@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { escapeRegExp } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/components';
 
 import ExistingValue, { getExistingValuesForTag } from 'in-components/AnalyzeView/FacetedFilters/ExistingValue';
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
@@ -19,7 +20,6 @@ import { identity } from 'in-services/util/function';
 import { mapDataHO } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { isBlank } from 'in-services/util/string';
-import Stack from 'in-components/layout/Stack';
 
 import locals from './FacetedFilterGeneric.mless';
 
@@ -55,7 +55,7 @@ function Body(props) {
 
 function ExistingFilters({ selectedValues, tag, entity, getUpdatedTagExpressionHref, customLabelMapper = identity }) {
   return (
-    <Stack space="small">
+    <Stack gap="small">
       {selectedValues.map((value, i) => (
         <ExistingValue
           key={i}
@@ -137,7 +137,7 @@ function SearchAndSuggestions({
       ]
     ) ?? pendingResult;
   return (
-    <Stack space="small">
+    <Stack gap="small">
       {(!isBlank(valueFilter) || suggestions?.data?.items.length > 5) && (
         <SearchInput
           onChange={setValueFilter}

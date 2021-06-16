@@ -3,15 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
 import { get } from 'lodash';
+import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button, Spacer, SpacerSizes } from '@instana/components';
 
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { deleteEndpointConfig } from 'in-api/endpointConfiguration';
 import DescriptionText from 'in-components/form/DescriptionText';
-import Spacer from 'in-applications/Forms/components/Spacer';
 import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import { goToPath } from 'in-stores/navigation';
@@ -44,8 +43,8 @@ export default class Remove extends React.PureComponent {
     const { removeError, loading } = this.state;
 
     return (
-      <Fragment>
-        <Spacer type="light" />
+      <>
+        <Spacer vertical={SpacerSizes.normal} />
         <DescriptionText>{t('in-applications:forms.descriptionResetToDefaultRule')}</DescriptionText>
         <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} />
         {t('in-applications:forms.understandCheckboxResetToDefaultRule')}
@@ -58,7 +57,7 @@ export default class Remove extends React.PureComponent {
         >
           {t('in-applications:buttonResetToDefault')}
         </Button>
-      </Fragment>
+      </>
     );
   }
 

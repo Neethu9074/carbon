@@ -6,12 +6,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import StatusCodeRangeSelection from 'in-alerting/smart-alerts/applications/components/StatusCodeRangeSelection';
 import { applicationsAlertingStatusCodeChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import { ruleStatusCodeValueOptions } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
-import Stack from 'in-components/layout/Stack';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';

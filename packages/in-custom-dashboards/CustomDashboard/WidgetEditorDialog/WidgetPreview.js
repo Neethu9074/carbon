@@ -6,11 +6,11 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Header from 'in-components/workspace/Header';
 import widgets from 'in-custom-dashboards/widgets';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 import locals from './WidgetPreview.mless';
@@ -48,7 +48,7 @@ export default function WidgetPreview({ form, onChange }) {
       meta={config}
     >
       <div className={locals.preview}>
-        <Stack space="normal">
+        <Stack gap="normal">
           <Header>{t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetPreview.preview')}</Header>
           {content}
         </Stack>

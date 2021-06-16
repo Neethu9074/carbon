@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import TimeShiftingForm from 'in-custom-dashboards/widgets/BigNumber/TimeShiftingForm';
@@ -13,12 +15,11 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { publicFormatters } from 'in-stores/metric/formatters';
 import Sections from 'in-components/workspace/Sections';
 import Header from 'in-components/workspace/Header';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function BigNumberWidgetFormComponent({ form, onChange }) {
   return (
-    <Stack space="normal">
+    <Stack gap="normal">
       <Header>{t('in-custom-dashboards:widgets.bigNumber.formComponent.whatULikeShow')}</Header>
 
       <MetricConfigurator

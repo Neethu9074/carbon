@@ -6,13 +6,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import HelpText from 'in-components/form/HelpText';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export default function ScopeConfigPresenter({ tagFilterFormModel, queryBuilder, scopePath }) {
   return (
-    <Stack space="xsmall">
+    <Stack gap="xsmall">
       {scopePath}
       {tagFilterFormModel.length > 0 && (
         <>

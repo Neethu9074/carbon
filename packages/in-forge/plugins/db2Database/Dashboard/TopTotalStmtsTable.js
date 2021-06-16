@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import { number, millis, micros, percentage } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { number, millis } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
@@ -34,7 +34,7 @@ const cols = [
       getMetricName(row) {
         return `toptotalstmts.${row.key}.pctTotRr`;
       },
-      getContent: number.detailed,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -50,7 +50,7 @@ const cols = [
       getMetricName(row) {
         return `toptotalstmts.${row.key}.pctTotCpu`;
       },
-      getContent: number.detailed,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -66,7 +66,7 @@ const cols = [
       getMetricName(row) {
         return `toptotalstmts.${row.key}.totalCpuTime`;
       },
-      getContent: millis.detailed,
+      getContent: micros.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -98,7 +98,7 @@ const cols = [
       getMetricName(row) {
         return `toptotalstmts.${row.key}.pctStmtExecTime`;
       },
-      getContent: number.detailed,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -138,7 +138,11 @@ export default function TopTotalStmtsTable({ snapshot, timeConfig }) {
 function getDetails(row) {
   return (
     <div>
-      <Code code={formatSql(row.snapshot.getIn(['data', 'toptotalstmts.' + row.key + '.stmText']))} lang="sql" />
+      <Code
+        code={formatSql(row.snapshot.getIn(['data', 'toptotalstmts.' + row.key + '.stmText']))}
+        lang="sql"
+        softWrap
+      />
       <Chart
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
@@ -151,18 +155,10 @@ function getDetails(row) {
         }}
         y2={{
           min: 0,
-          metrics: [
-            'toptotalstmts.' + row.key + '.pctTotRr',
-            'toptotalstmts.' + row.key + '.pctTotCpu',
-            'toptotalstmts.' + row.key + '.pctNumExec'
-          ],
-          labels: [
-            t('in-forge:plugins.db2Database.pctTotRr'),
-            t('in-forge:plugins.db2Database.pctTotCpu'),
-            t('in-forge:plugins.db2Database.pctNumExec')
-          ],
-          type: 'line',
-          formatter: number.compact
+          formatter: millis.detailed,
+          metrics: ['toptotalstmts.' + row.key + '.stmtExecTime'],
+          labels: [t('in-forge:plugins.db2Database.stmtExecTime')],
+          type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />
@@ -171,17 +167,27 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          formatter: millis.detailed,
-          metrics: ['toptotalstmts.' + row.key + '.totalCpuTime', 'toptotalstmts.' + row.key + '.stmtExecTime'],
-          labels: [t('in-forge:plugins.db2Database.totalCpuTime'), t('in-forge:plugins.db2Database.stmtExecTime')],
+          formatter: micros.detailed,
+          metrics: ['toptotalstmts.' + row.key + '.totalCpuTime'],
+          labels: [t('in-forge:plugins.db2Database.totalCpuTime')],
           type: 'line'
         }}
         y2={{
           min: 0,
-          metrics: ['toptotalstmts.' + row.key + '.pctStmtExecTime'],
-          labels: [t('in-forge:plugins.db2Database.pctStmtExecTime')],
+          metrics: [
+            'toptotalstmts.' + row.key + '.pctTotRr',
+            'toptotalstmts.' + row.key + '.pctTotCpu',
+            'toptotalstmts.' + row.key + '.pctNumExec',
+            'toptotalstmts.' + row.key + '.pctStmtExecTime'
+          ],
+          labels: [
+            t('in-forge:plugins.db2Database.pctTotRr'),
+            t('in-forge:plugins.db2Database.pctTotCpu'),
+            t('in-forge:plugins.db2Database.pctNumExec'),
+            t('in-forge:plugins.db2Database.pctStmtExecTime')
+          ],
           type: 'line',
-          formatter: number.compact
+          formatter: percentage.detailed
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />

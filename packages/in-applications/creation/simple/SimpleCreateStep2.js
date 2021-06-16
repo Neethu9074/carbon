@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { Spacer, SpacerSizes } from '@instana/components';
+
 import CreateApplicationFilterExpression from 'in-applications/creation/components/CreateApplicationFilterExpression';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
-import Spacer from 'in-applications/Forms/components/Spacer';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
@@ -34,7 +35,7 @@ export default function SimpleCreateStep2({
           timeConfig={timeConfig}
           updateForm={updateForm}
         />
-        <Spacer type="dark" />
+        <Spacer vertical={SpacerSizes.normal} />
         <Label>{t('in-applications:creation.simple.step2.includeDownstreamServices')}</Label>
         <ApplicationScopeSelector form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
       </div>

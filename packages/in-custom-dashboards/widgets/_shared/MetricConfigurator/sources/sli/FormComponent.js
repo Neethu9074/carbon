@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Stack } from '@instana/components';
 
 import * as serviceLevelIndicators from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/serviceLevelIndicators';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -16,7 +17,6 @@ import HelpAction from 'in-components/workspace/HelpAction';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { percentage } from 'in-services/formatters/number';
 import Sections from 'in-components/workspace/Sections';
-import Stack from 'in-components/layout/Stack';
 import { Trans, t } from 'in-i18n';
 
 export default function FormComponent({
@@ -29,7 +29,7 @@ export default function FormComponent({
 }) {
   const { data: sliConfigurations } = useObservable(() => getSliConfigurations(), []) ?? {};
   return (
-    <Stack space="xsmall">
+    <Stack gap="xsmall">
       <Sections>{dataSourceSection}</Sections>
 
       {form.get('sliConfigId').map(field => (

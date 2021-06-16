@@ -6,6 +6,8 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Spacer, SpacerSizes } from '@instana/components';
+
 import {
   mobileAppMonitoringPath,
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
@@ -89,7 +91,7 @@ export default function ViewSwitcher({
         href$={getView('/')}
         {...commonProps}
       />
-      <Spacer />
+      <SpacerListItem />
       <WebsiteMobileAppView {...commonProps} />
       <Applications {...commonProps} />
       <Platforms
@@ -101,10 +103,10 @@ export default function ViewSwitcher({
         onMouseLeave={onMouseLeave}
       />
       <Infrastructure {...commonProps} />
-      <Spacer />
+      <SpacerListItem />
       <Analyze {...commonProps} />
       <Incidents {...commonProps} />
-      <Spacer />
+      <SpacerListItem />
       <View
         id="main-nav-settings"
         label={t('in-components:mainNavigation.viewSwitcherLabelSettings')}
@@ -450,6 +452,12 @@ function Platforms(props) {
   return platforms;
 }
 
-function Spacer() {
-  return <li className={locals.spacer} />;
+function SpacerListItem() {
+  return (
+    <li>
+      {/* double space to get a 1.5rem  */}
+      <Spacer vertical={SpacerSizes.small} />
+      <Spacer vertical={SpacerSizes.small} />
+    </li>
+  );
 }

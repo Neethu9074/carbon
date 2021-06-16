@@ -71,7 +71,7 @@ export default function PotentialProblemContentControls({
       >
         {t('in-alerting:potentialProblems.buttonInvestigate')}
       </Button>
-      {role.canConfigureCustomAlerts && (
+      {role.canConfigureCustomAlerts && applicationId && applicationLabel && (
         <Button
           kind="secondaryDarker"
           onClick={() => {
@@ -110,8 +110,8 @@ function getTimeConfigForAnalyzeLink({ start, end }) {
 PotentialProblemContentControls.propTypes = {
   alert: alertPropType.isRequired,
   rule: rulePropType.isRequired,
-  applicationId: PropTypes.string.isRequired,
-  applicationLabel: PropTypes.string.isRequired,
+  applicationId: PropTypes.string,
+  applicationLabel: PropTypes.string,
   applications: applicationsItemTreePropType,
   boundaryScope: PropTypes.string,
   renderSmartAlertDialogComponent: PropTypes.func.isRequired,

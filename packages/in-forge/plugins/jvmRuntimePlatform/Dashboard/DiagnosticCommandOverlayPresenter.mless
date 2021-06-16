@@ -1,0 +1,36 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .overlay {
+    min-width: 30rem;
+    overflow: visible auto;
+    margin: 1rem;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .addDashboard {
+    margin: 0 0 0 2rem;
+  }
+
+  .tabs {
+    padding-bottom: 0;
+  }
+
+  .lettering {
+    filter: brightness(0.1);
+  }
+
+  .itemContent {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+}

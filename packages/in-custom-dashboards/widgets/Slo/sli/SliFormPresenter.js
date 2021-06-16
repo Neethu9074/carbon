@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { sliTypeOptions, applicationType, availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
@@ -22,7 +24,6 @@ import Divider from 'in-components/workspace/Divider';
 import Section from 'in-components/workspace/Section';
 import { Row, Col } from 'in-components/layout/Grid';
 import Header from 'in-components/workspace/Header';
-import Stack from 'in-components/layout/Stack';
 import { t } from 'in-i18n';
 
 export function SliForm({ form, onChange, onChangeType, apName }) {
@@ -46,11 +47,11 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
   const sliType = sliTypeForm.value;
 
   return (
-    <Stack space="large">
-      <Stack space="normal">
+    <Stack gap="large">
+      <Stack gap="normal">
         <Header>{t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomization')}</Header>
 
-        <Stack space="xsmall">
+        <Stack gap="xsmall">
           <Sections>
             {form.get('sliName').map(field => (
               <InputInSection
@@ -104,10 +105,10 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
 
       <Divider />
 
-      <Stack space="normal">
+      <Stack gap="normal">
         <Header>{t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliEntity')}</Header>
 
-        <Stack space="xsmall">
+        <Stack gap="xsmall">
           <Sections>
             <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.boundary')}>
               <Row>

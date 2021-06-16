@@ -85,7 +85,7 @@ PotentialProblemChart.propTypes = {
   alert: alertPropType.isRequired,
   alertType: PropTypes.string.isRequired,
   applicationId: PropTypes.string,
-  boundaryScope: PropTypes.string.isRequired,
+  boundaryScope: PropTypes.string,
   rule: rulePropType.isRequired,
   tagFilterExpression: PropTypes.object.isRequired,
   includeSynthetic: PropTypes.bool,
