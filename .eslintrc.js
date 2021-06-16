@@ -1,3 +1,12 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+/* eslint-env node */
+
+const { createImportRestrictionRule } = require('./build/linting/restrictedImportRule');
+
 module.exports = {
   env: {
     es6: true
@@ -72,6 +81,8 @@ module.exports = {
     // prevent from throwing no-unused-expression error when using optional chaining
     'no-unused-expressions': 'off',
     'babel/no-unused-expressions': ['error'],
+
+    ...createImportRestrictionRule(),
 
     // ###########################################################
     // ### React
@@ -343,23 +354,6 @@ module.exports = {
     ],
 
     // Only warn on hook rule violations. This will be reverted when refactoring is finished.
-    'react-hooks/rules-of-hooks': 'warn',
-
-    // i18next is wrapped via in-i18n. Please only ever access i18next via our wrappers.
-    'no-restricted-imports': [
-      'error',
-
-      // Please use our wrapper by importing from the in-i18n package.
-      'react-i18next',
-      'i18next',
-
-      // Some editor/IDE auto imports incorrectly import the commonJS variant of the packages.
-      // This ensures that the ESM variant is used.
-      '@instana/observables/lib',
-      '@instana/components/lib',
-      '@instana/hooks/lib',
-      '@instana/logger/lib',
-      '@instana/roemitter/lib'
-    ]
+    'react-hooks/rules-of-hooks': 'warn'
   }
 };
