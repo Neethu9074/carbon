@@ -135,7 +135,7 @@ function DetailsHeader({ event, onClick, iconType, background, timeConfig }) {
         <div className={`${block}__icon-wrapper`} style={{ background }}>
           <EventIcon
             event={event}
-            tooltipLabel={getEventSeverityLabelWithEventType(event)}
+            tooltipLabel={getEventSeverityLabelWithEventType(event, timeConfig)}
             disableColorCalculation
             size="xs"
           />

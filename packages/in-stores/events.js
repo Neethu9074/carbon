@@ -231,7 +231,19 @@ export function getEventSeverityLabel(event) {
   }
 }
 
-export function getEventSeverityLabelWithEventType(event) {
+export function getEventStateLabel(event, timeConfig) {
+  const start = event.get?.('start') ?? event.start;
+  const end = event.get?.('end') ?? event.end;
+  const state = event.get?.('state') ?? event.state;
+
+  if (isEventOpenAtFocusedMoment(start, end, state, timeConfig)) {
+    return t('in-events:labelOpen');
+  }
+
+  return t('in-events:labelClosed');
+}
+
+export function getEventSeverityLabelWithEventType(event, timeConfig) {
   const isImmutableObject = !!event.get;
   const eventType = isImmutableObject ? event.get('type') : event.type;
   const eventTitle = isImmutableObject ? event.get('title') : event.title;
@@ -239,9 +251,13 @@ export function getEventSeverityLabelWithEventType(event) {
     ? event.getIn(['problem', 'problemText'])
     : get(event, ['problem', 'problemText'], '');
   const severityLabel = getEventSeverityLabel(event);
+  const stateLabel = getEventStateLabel(event, timeConfig);
   switch (eventType) {
     case 'incident':
-      return t('in-events:labelIncidentWithSeverity', { severityLabel });
+      return t('in-events:labelIncidentWithSeverity', {
+        severityLabel: severityLabel,
+        stateLabel: stateLabel
+      });
     case 'issue':
       return t('in-events:labelIssueWithSeverity', { severityLabel });
     case 'change':
