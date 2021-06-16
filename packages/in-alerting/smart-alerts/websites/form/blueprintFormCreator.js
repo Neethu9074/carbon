@@ -4,8 +4,11 @@
  */
 
 import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 
 export default function createBlueprintForm(form, alertType, alertThreshold = {}) {
@@ -38,13 +41,12 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
   // TODO when switching the blueprint, we currently do a cleanup based on the UI catalog. However, we should rely on
   //      the backend catalog instead. And then blueprintConfig.getAvailableTags(metricName) can be removed.
   const availableTagFilters = blueprintConfig.getAvailableTags(metricName);
-  const isAllowedFilter = filter => availableTagFilters.includes(filter.name);
-
-  const filteredTagFilterExpression = (tagFilterExpression ?? []).filter(isAllowedFilter);
-  const firstTagFilterItemIndex = filteredTagFilterExpression.findIndex(({ type }) => type === 'TAG_FILTER');
+  const backendModel = toBackendQueryModel(tagFilterExpression);
+  const cleanedUpExpression = removeExcludedFilters(backendModel, availableTagFilters);
+  const filteredTagFilterExpression = fromBackendModel(cleanedUpExpression);
 
   let updatedForm = form
-    .updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression.slice(firstTagFilterItemIndex)))
+    .updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression))
     .put('rule', newRuleForm)
     .put('threshold', newThresholdForm);
 
