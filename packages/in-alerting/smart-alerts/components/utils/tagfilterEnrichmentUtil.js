@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 
 export function getEnhancedTagFilterFormModel(
@@ -34,8 +35,14 @@ export function getEnhancedTagFilterFormModel(
 
   return {
     numeratorFilter,
-    enrichedTagFilterFormModel: joinExpressions({
-      expressions: expressionsToCombine
-    })
+    enrichedTagFilterFormModel: sanitizeStringTagFilters(
+      joinExpressions({
+        expressions: expressionsToCombine
+      })
+    )
   };
+}
+
+function sanitizeStringTagFilters(tagFilterExpressionFormModel) {
+  return tagFilterExpressionFormModel.map(sanitizeTagFilter);
 }
