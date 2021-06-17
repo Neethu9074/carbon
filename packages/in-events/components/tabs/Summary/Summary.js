@@ -17,7 +17,7 @@ import {
   isApplicationSmartAlertEvent,
   isWebsiteSmartAlertEvent,
   getTimeConfigForSnapshotRetrieval
-} from 'in-events/components/EventUtil';
+} from 'in-events/components/eventUtil';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';

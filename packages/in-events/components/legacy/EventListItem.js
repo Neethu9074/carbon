@@ -19,7 +19,7 @@ import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/Websi
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
-import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/EventUtil';
+import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/eventUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';

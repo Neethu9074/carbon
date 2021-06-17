@@ -8,7 +8,7 @@ import React from 'react';
 import { Link } from '@instana/components';
 
 import CustomProblemDescription from 'in-events/components/legacy/CustomProblemDescription';
-import { getSnapshotId, isEntityVerificationEvent } from 'in-events/components/EventUtil';
+import { getSnapshotId, isEntityVerificationEvent } from 'in-events/components/eventUtil';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setTimeConfig } from 'in-stores/time/config';

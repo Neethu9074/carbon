@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Spacer, SpacerSizes } from '@instana/components';
 
-import { isEntityVerificationEvent, isHostAvailabilityEvent } from 'in-events/components/EventUtil';
+import { isEntityVerificationEvent, isHostAvailabilityEvent } from 'in-events/components/eventUtil';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
