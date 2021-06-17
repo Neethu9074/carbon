@@ -5,16 +5,25 @@
 
 import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 
+import {
+  getSnapshotId,
+  isEntityVerificationEvent,
+  isHostAvailabilityEvent,
+  isAgentMonitoringIssueEvent,
+  isApplicationSmartAlertEvent,
+  isWebsiteSmartAlertEvent,
+  getTimeConfigForSnapshotRetrieval
+} from 'in-events/components/eventUtil';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
-import { getTimeConfigFromEventForSnapshotRetrieval, getTimeConfigFromEvent } from 'in-events/timeframe';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
-import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
+import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
@@ -24,20 +33,25 @@ import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
+import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
+import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
 import { Row, Col } from 'in-components/layout/Grid';
-import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './Summary.mless';
 
 export default function Summary({ selectedEventId, data: event }) {
+  const expiredSnapshotId = getSnapshotId(event, isEntityVerificationEvent(event));
+  const expiredSnapshotVersions = useObservable(getSnapshotVersionsObservable, [expiredSnapshotId]);
+  const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
+
   if (!event || selectedEventId !== event.get('id')) {
     return <LoadingIndicator size="xxxl" style={{ height: '200px' }} />;
   }
@@ -51,7 +65,11 @@ export default function Summary({ selectedEventId, data: event }) {
         <>
           <div className={locals.content}>
             <EventDetailsKPIs event={event} isIncident={isIncident} />
-            {isIncident ? <IncidentContent incident={event} /> : <EventContent event={event} />}
+            {isIncident ? (
+              <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
+            ) : (
+              <EventContent event={event} latestSnapshot={latestSnapshot} />
+            )}
           </div>
         </>
       )}
@@ -59,7 +77,7 @@ export default function Summary({ selectedEventId, data: event }) {
   );
 }
 
-function EventContent({ event }) {
+function EventContent({ event, latestSnapshot }) {
   if (isWebsiteSmartAlertEvent(event)) {
     return <WebsiteEventContent event={event} />;
   }
@@ -68,7 +86,7 @@ function EventContent({ event }) {
     return <ApplicationEventContent event={event} />;
   }
 
-  const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
+  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
   return (
     <>
@@ -107,11 +125,13 @@ function EventContent({ event }) {
         </Col>
       </Row>
 
-      {isOfflineEvent(event) ? (
+      {isEntityVerificationEvent(event) || isHostAvailabilityEvent(event) ? (
         <Row withoutSideMargin>
           <Col xs>
-            <Card title={t('in-events:titleLastProcess')}>
-              <OfflineEventDescription event={event} />
+            <Card
+              title={isEntityVerificationEvent(event) ? t('in-events:titleLastProcess') : t('in-events:titleLastHost')}
+            >
+              <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
             </Card>
           </Col>
         </Row>
@@ -155,7 +175,7 @@ const IncidentContent = connectTo(
   ({ incident }) => ({
     recentEvents: getRecentEvents$(incident)
   }),
-  function IncidentContent({ incident, recentEvents }) {
+  function IncidentContent({ incident, recentEvents, latestSnapshot }) {
     const [changesAreVisible, setChangesAreVisible] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -200,7 +220,7 @@ const IncidentContent = connectTo(
             </Card>
           </Col>
         </Row>
-        <IncidentEventListRows incident={incident} />
+        <IncidentEventListRows incident={incident} latestSnapshot={latestSnapshot} />
       </>
     );
   }
@@ -229,26 +249,18 @@ function shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) {
   return recentEvents && recentEvents.length - (!changesAreVisible ? numChanges : 0) > 10;
 }
 
-function isOfflineEvent(event) {
-  return event.hasIn(['metadata', 'entityVerificationSnapshotId']);
-}
-
-function isWebsiteSmartAlertEvent(event) {
-  return event.hasIn(['metadata', 'websiteId']);
-}
-
-function isApplicationSmartAlertEvent(event) {
-  return event.hasIn(['metadata', 'applicationId']);
-}
-
-function isAgentMonitoringIssueEvent(event) {
-  return event.hasIn(['metadata', 'agent_monitoring_issue']);
-}
-
 function hasMetric(event, metric) {
   return event.getIn(['metadata', 'metrics'], emptyList).filter(e => e.get('metricName') === metric).size > 0;
 }
 
 function hasAtLeastOneMetric(event) {
   return event.getIn(['metadata', 'metrics'], emptyList).size > 0;
+}
+
+function getLatestSnapshot(snapshotVersions) {
+  return snapshotVersions.sort((a, b) => a.get('to') - b.get('to')).pop();
+}
+
+function getSnapshotVersionsObservable([expiredSnapshotId]) {
+  return expiredSnapshotId && getSnapshotVersions(expiredSnapshotId);
 }

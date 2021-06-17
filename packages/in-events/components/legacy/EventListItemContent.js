@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Spacer, SpacerSizes } from '@instana/components';
 
+import { isEntityVerificationEvent, isHostAvailabilityEvent } from 'in-events/components/eventUtil';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
@@ -15,8 +16,8 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import EventChart from 'in-events/components/EventChart';
 
-export default function EventListItemContent({ event }) {
-  const isOfflineEvent = event => event.hasIn(['metadata', 'entityVerificationSnapshotId']);
+export default function EventListItemContent({ event, latestSnapshot }) {
+  const isOfflineEvent = event => isEntityVerificationEvent(event) || isHostAvailabilityEvent(event);
 
   return (
     <>
@@ -27,7 +28,11 @@ export default function EventListItemContent({ event }) {
         <AnalyzeIssueCallsButton event={event} />
       </DescriptionButtons>
       <Spacer vertical={SpacerSizes.normal} />
-      {isOfflineEvent(event) ? <OfflineEventDescription event={event} /> : <EventChart event={event} />}
+      {isOfflineEvent(event) ? (
+        <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
+      ) : (
+        <EventChart event={event} />
+      )}
     </>
   );
 }
