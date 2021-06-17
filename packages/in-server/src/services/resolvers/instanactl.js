@@ -82,7 +82,13 @@ function getButlerDomain(tenant, unit) {
 }
 
 function getBooleanSetting(tenant, unit, key, notDefinedFallback) {
-  return getSetting({ tenant, unit, key, notDefinedFallback, valueParser: str => str === 'true' });
+  return getSetting({
+    tenant,
+    unit,
+    key,
+    notDefinedFallback,
+    valueParser: str => toggleValueParser(str) || tenantUnitFeatureFlagForSharedComponentParser(tenant, unit, str)
+  });
 }
 
 function getIntSetting(tenant, unit, key, notDefinedFallback) {
@@ -148,4 +154,22 @@ async function getSetting({ tenant, unit, key, notDefinedFallback, valueParser }
     error.ignoreStackTrace = true;
     throw error;
   }
+}
+
+function toggleValueParser(str) {
+  return str === 'true';
+}
+
+/**
+ * This enables support for tenant unit specific feature flags for shared components.
+ * Technically they are deployment scoped feature flags who's value is a
+ * comma separated list of enabled tenant unit names or * for all.
+ * The parser will resolve them to the boolean value for the active TU.
+ * Define them with a boolean fallback in featureFlags.js and other places accordingly.
+ *
+ * DONT use these unless you have to share a tenant unit specific feature flag
+ * with a shared component. Consider them deprecated for any other use.
+ */
+function tenantUnitFeatureFlagForSharedComponentParser(tenant, unit, str) {
+  return str === '*' || str.split(/,|\s/).some(s => s === `${tenant}-${unit}`);
 }
