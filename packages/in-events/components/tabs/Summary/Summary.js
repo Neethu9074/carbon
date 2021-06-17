@@ -9,13 +9,21 @@ import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 
+import {
+  getSnapshotId,
+  isEntityVerificationEvent,
+  isHostAvailabilityEvent,
+  isAgentMonitoringIssueEvent,
+  isApplicationSmartAlertEvent,
+  isWebsiteSmartAlertEvent,
+  getTimeConfigForSnapshotRetrieval
+} from 'in-events/components/EventUtil';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
-import OfflineEventDescription, { getSnapshotId } from 'in-events/components/legacy/OfflineEventDescription';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
-import { getTimeConfigFromEventForSnapshotRetrieval, getTimeConfigFromEvent } from 'in-events/timeframe';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ApplicationEventContent from 'in-events/components/EventContent/ApplicationEventContent';
 import AnalyzeIssueCallsButton from 'in-events/components/legacy/AnalyzeIssueCallsButton';
+import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
 import WebsiteEventContent from 'in-events/components/EventContent/WebsiteEventContent';
 import EventSpecificationLink from 'in-events/components/legacy/EventSpecificationLink';
 import SubEntityInformation from 'in-events/components/legacy/SubEntityInformation';
@@ -29,6 +37,7 @@ import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
 import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
+import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventChart from 'in-events/components/EventChart';
 import { emptyList } from 'in-services/fixedImmutables';
 import getRecentEvents$ from 'in-events/recentEvents';
@@ -39,16 +48,16 @@ import { t } from 'in-i18n';
 import locals from './Summary.mless';
 
 export default function Summary({ selectedEventId, data: event }) {
+  const expiredSnapshotId = getSnapshotId(event, isEntityVerificationEvent(event));
+  const expiredSnapshotVersions = useObservable(getSnapshotVersionsObservable, [expiredSnapshotId]);
+  const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
+
   if (!event || selectedEventId !== event.get('id')) {
     return <LoadingIndicator size="xxxl" style={{ height: '200px' }} />;
   }
 
   const eventType = getEventType(event);
   const isIncident = eventType === EVENT_TYPES.INCIDENT;
-
-  const expiredSnapshotId = getSnapshotId(event, isEntityVerificationEvent(event));
-  const expiredSnapshotVersions = useObservable(getSnapshotVersionsObservable, [expiredSnapshotId]);
-  const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
 
   return (
     <HeightRestrictedView
@@ -77,15 +86,7 @@ function EventContent({ event, latestSnapshot }) {
     return <ApplicationEventContent event={event} />;
   }
 
-  const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
-
-  if (latestSnapshot) {
-    timeConfig.to = latestSnapshot.get('to');
-    timeConfig.from = latestSnapshot.get('from');
-    timeConfig.windowSize = latestSnapshot.get('to') - latestSnapshot.get('from');
-    timeConfig.focusedMoment = latestSnapshot.get('to') - timeConfig.windowSize / 2;
-    timeConfig.autoRefresh = false;
-  }
+  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
   return (
     <>
@@ -246,26 +247,6 @@ function shouldRenderShowChangesButton(numChanges) {
 
 function shouldRenderExpandButton(recentEvents, changesAreVisible, numChanges) {
   return recentEvents && recentEvents.length - (!changesAreVisible ? numChanges : 0) > 10;
-}
-
-export function isEntityVerificationEvent(event) {
-  return event.hasIn(['metadata', 'entityVerificationSnapshotId']);
-}
-
-export function isHostAvailabilityEvent(event) {
-  return event.hasIn(['metadata', 'hostAvailabilitySnapshotId']);
-}
-
-function isWebsiteSmartAlertEvent(event) {
-  return event.hasIn(['metadata', 'websiteId']);
-}
-
-function isApplicationSmartAlertEvent(event) {
-  return event.hasIn(['metadata', 'applicationId']);
-}
-
-function isAgentMonitoringIssueEvent(event) {
-  return event.hasIn(['metadata', 'agent_monitoring_issue']);
 }
 
 function hasMetric(event, metric) {

@@ -13,19 +13,20 @@ import { Link } from '@instana/components';
 import { getColorForEventAtFocusedMomentAsStream, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import ApplicationEventListItemContent from 'in-events/components/legacy/ApplicationEventListItemContent';
-import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import WebsiteEventListItemContent from 'in-events/components/legacy/WebsiteEventListItemContent';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
 import EventDurationMarker from 'in-events/components/legacy/marker/EventDurationMarker';
 import EventListItemContent from 'in-events/components/legacy/EventListItemContent';
+import { getTimeConfigForSnapshotRetrieval } from 'in-events/components/EventUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
 import EndedMarker from 'in-events/components/legacy/marker/EndedMarker';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import { isAppDataEntityType } from 'in-services/entityUtils';
+import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { formatTime } from 'in-services/formatters/date';
 import Marker from 'in-events/components/legacy/Marker';
 import EventIcon from 'in-events/components/EventIcon';
@@ -49,7 +50,10 @@ export default connectTo(
       triggeringProblemId: rpt.string,
       event: irpt.map.isRequired,
       background: rpt.string,
-      latestSnapshot: irpt.map.isRequired
+      /**
+       * The latestSnapshot is present only for entityVerification or HostAvailability event
+       */
+      latestSnapshot: irpt.map
     };
 
     state = {
@@ -62,15 +66,7 @@ export default connectTo(
       const background = this.props.background;
       const event = this.props.event;
       const latestSnapshot = this.props.latestSnapshot;
-      const timeConfigFromEvent = getTimeConfigFromEventForSnapshotRetrieval(event);
-
-      if (latestSnapshot) {
-        timeConfigFromEvent.to = latestSnapshot.get('to');
-        timeConfigFromEvent.from = latestSnapshot.get('from');
-        timeConfigFromEvent.windowSize = latestSnapshot.get('to') - latestSnapshot.get('from');
-        timeConfigFromEvent.focusedMoment = latestSnapshot.get('to') - timeConfigFromEvent.windowSize / 2;
-        timeConfigFromEvent.autoRefresh = false;
-      }
+      const timeConfigFromEvent = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
 
       let rightClassName = `${block}__right`;
 
