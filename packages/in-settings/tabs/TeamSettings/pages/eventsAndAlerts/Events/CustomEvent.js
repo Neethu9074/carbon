@@ -10,12 +10,14 @@ import {
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
   saveCustomEventSpecification,
-  createCustomSystemRuleBasedEventSpecificationForEntityVerification
+  createCustomSystemRuleBasedEventSpecificationForEntityVerification,
+  createCustomSystemRuleBasedHostAvailability
 } from 'in-api/eventSpecifications';
 import {
   dataSourceSystem,
   createEventFormDefinition,
-  entityVerification
+  entityVerification,
+  hostAvailabilityDetection
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getSeverityText, unmapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
@@ -123,6 +125,69 @@ function save(event, form) {
   return saveCustomEventSpecification(eventSpecification);
 }
 
+function getTagFilterForHostAvailability(form) {
+  if (form.get('tagValue') && form.get('tagOperator')) {
+    return {
+      name: 'tag',
+      operator: form.get('tagOperator').value,
+      stringValue: form.get('tagValue').value
+    };
+  }
+
+  return null;
+}
+
+function getHostAvailabilityEventSpecification(form, event) {
+  return createCustomSystemRuleBasedHostAvailability(
+    event ? event.get('id') : null,
+    form.get('name').value,
+    form.get('triggering').value,
+    form.get('description').value,
+    form.get('gracePeriod').value,
+    getTagFilterForHostAvailability(form),
+    Number(form.get('offlineDuration')?.value ?? 0),
+    Number(form.get('closeAfter')?.value ?? 0),
+    event ? event.get('enabled') : true,
+    Number(form.get('severity')?.value ?? 0)
+  );
+}
+
+function getEntityVerificationEventSpecification(form, query, event) {
+  return createCustomSystemRuleBasedEventSpecificationForEntityVerification(
+    event ? event.get('id') : null,
+    form.get('name').value,
+    'host',
+    query,
+    form.get('triggering').value,
+    form.get('description').value,
+    form.get('gracePeriod').value,
+    event ? event.get('enabled') : true,
+    Number(form.get('severity')?.value ?? 0),
+    form.get('matchingEntityType')?.value ?? null,
+    form.get('matchingOperator')?.value ?? null,
+    form.get('matchingEntityLabel')?.value ?? null,
+    Number(form.get('offlineDuration')?.value ?? 0)
+  );
+}
+
+function getCustomSystemRuleBasedEventSpecification(form, query, event) {
+  return createCustomSystemRuleBasedEventSpecification(
+    event ? event.get('id') : null,
+    form.get('name').value,
+    // For now, all system rule based events use 'any' as their entity type. It does not make any sense to have this
+    // attribute at all but the back end validation requires a value.
+    'any',
+    query,
+    form.get('triggering').value,
+    form.get('description').value,
+    form.get('gracePeriod').value,
+    event ? event.get('enabled') : true,
+    'system',
+    Number(form.get('severity')?.value ?? 0),
+    form.get('systemRule')?.value ?? null
+  );
+}
+
 function getEventSpecification(event, form) {
   const ruleType = form.get('dataSource') && form.get('dataSource').value === dataSourceSystem ? 'system' : 'threshold';
   const query = serializeQuery(form);
@@ -131,38 +196,14 @@ function getEventSpecification(event, form) {
     const systemRule = form.get('systemRule')?.value;
 
     if (systemRule === entityVerification.id) {
-      return createCustomSystemRuleBasedEventSpecificationForEntityVerification(
-        event ? event.get('id') : null,
-        form.get('name').value,
-        'host',
-        query,
-        form.get('triggering').value,
-        form.get('description').value,
-        form.get('gracePeriod').value,
-        event ? event.get('enabled') : true,
-        Number(form.get('severity')?.value ?? 0),
-        form.get('matchingEntityType')?.value ?? null,
-        form.get('matchingOperator')?.value ?? null,
-        form.get('matchingEntityLabel')?.value ?? null,
-        Number(form.get('offlineDuration')?.value ?? 0)
-      );
+      return getEntityVerificationEventSpecification(form, query, event);
     }
 
-    return createCustomSystemRuleBasedEventSpecification(
-      event ? event.get('id') : null,
-      form.get('name').value,
-      // For now, all system rule based events use 'any' as their entity type. It does not make any sense to have this
-      // attribute at all but the back end validation requires a value.
-      'any',
-      query,
-      form.get('triggering').value,
-      form.get('description').value,
-      form.get('gracePeriod').value,
-      event ? event.get('enabled') : true,
-      ruleType,
-      Number(form.get('severity')?.value ?? 0),
-      form.get('systemRule')?.value ?? null
-    );
+    if (systemRule === hostAvailabilityDetection.id) {
+      return getHostAvailabilityEventSpecification(form, event);
+    }
+
+    return getCustomSystemRuleBasedEventSpecification(form, query, event);
   } else {
     const formatterType = form.get('formatter')?.value ?? null;
     let conditionValue = Number(form.get('conditionValue')?.value ?? 0);

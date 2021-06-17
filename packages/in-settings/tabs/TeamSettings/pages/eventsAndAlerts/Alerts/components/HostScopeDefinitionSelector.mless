@@ -12,7 +12,7 @@
     line-height: 1.6;
 
     color: var(--query-builder-element-color);
-    max-height: 1.6875rem;
+    height: 2rem;
 
     padding: 0.1875rem 0.3rem 0.1875rem 0.4375rem;
     background: @lib__colors__N050;
@@ -49,7 +49,7 @@
   }
 
   .removeIconContainer {
-    line-height: 2.1;
+    line-height: 2.5;
     border-left: 1px solid @lib__colors__N400;
   }
 
@@ -76,7 +76,7 @@
     border-right: 1px solid @lib__colors__N300;
     border-bottom: none;
     border-top: none;
-    line-height: 2;
+    line-height: 2.5;
 
     cursor: pointer;
 

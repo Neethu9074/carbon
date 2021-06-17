@@ -9,15 +9,16 @@ import { t } from 'in-i18n';
 export const scopeApplication = 'application';
 export const scopeEverything = 'all';
 export const scopeDfq = 'dfq';
+export const scopeHostsByTag = 'hostsByTag';
 
-export const applyOnOptions = [
-  { value: scopeApplication, label: t('in-settings:tabs.applicationPerspective') },
-  {
-    value: scopeDfq,
-    label: t('in-settings:tabs.selectedEntitiesOnlyDynamicFocusQuery')
-  },
-  { value: scopeEverything, label: t('in-settings:tabs.allAvailableEntities') }
-];
+const scopeEverythingOption = { value: scopeEverything, label: t('in-settings:tabs.allAvailableEntities') };
+const scopeHostsByTagOption = { value: scopeHostsByTag, label: t('in-settings:tabs.selectedEntitiesHostByTag') };
+const scopeDfqOption = { value: scopeDfq, label: t('in-settings:tabs.selectedEntitiesOnlyDynamicFocusQuery') };
+const scopeApplicationOption = { value: scopeApplication, label: t('in-settings:tabs.applicationPerspective') };
+
+export const applyOnOptions = [scopeApplicationOption, scopeDfqOption, scopeEverythingOption];
+
+export const applyOnOptionsForHostAvailability = [scopeEverythingOption, scopeHostsByTagOption];
 
 // If the applyOn-scope is set to application, this is represented as a DFQ like
 // entity.application.name:"<applicationName>". This regex checks if the query matches this and it also parses out the

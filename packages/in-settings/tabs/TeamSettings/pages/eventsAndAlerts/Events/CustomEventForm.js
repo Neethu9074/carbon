@@ -27,8 +27,23 @@ import {
   updateFormDefinitionForDataSource,
   updateFormDefinitionForSystemRule,
   entityVerification,
-  systemRules
+  systemRules,
+  hostAvailabilityDetection,
+  putScopeByHostsFields,
+  removeScopeByHostsField
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import {
+  metricPatternMatchingOptions,
+  conditionOperatorOptions,
+  aggregationOptions,
+  rollupOptions,
+  windowOptions,
+  gracePeriodOptions,
+  getOptionsWithAdditionalValueIfMissing,
+  severityOptions,
+  dataSourceOptions,
+  systemRuleOptions
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import Applications, {
   getSelectedApplicationConfigsByName,
   applicationSelectionTableActions,
@@ -37,6 +52,14 @@ import Applications, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import {
+  applyOnOptions,
+  scopeApplication,
+  scopeEverything,
+  scopeDfq,
+  applyOnOptionsForHostAvailability,
+  scopeHostsByTag
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import {
   containsMetricInList,
   createMetricListItem,
   getAllBuiltInMetrics,
@@ -44,12 +67,7 @@ import {
   getMetricDefinition,
   isBuiltInDynamicMetric
 } from 'in-sdk/metrics';
-import {
-  applyOnOptions,
-  scopeApplication,
-  scopeEverything,
-  scopeDfq
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
 import {
   getEntityTypeOptions,
   formatterTypeToDefinition
@@ -58,6 +76,8 @@ import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/event
 import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/BuiltInMetricSelector';
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import { putApplicationIdField } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
+import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { getPluginsWithCustomMetrics, getCustomMetricsForPlugin } from 'in-api/infraCatalog';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
@@ -73,7 +93,6 @@ import { compareIgnoreCase } from 'in-services/util/string';
 import HelpText from 'in-components/form/HelpText/HelpText';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
-import { millis } from 'in-services/formatters/number';
 import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -391,6 +410,8 @@ function EventForm({
               onChange={onChange}
             />
           )}
+
+          {isHostAvailabilitySystemRule() && <HostAvailabilityFormGroup form={form} onChange={onChange} />}
         </>
       )}
 
@@ -536,7 +557,7 @@ function EventForm({
               <ComboBox
                 name="event-apply-on"
                 value={field.value}
-                options={applyOnOptions}
+                options={isHostAvailabilitySystemRule() ? applyOnOptionsForHostAvailability : applyOnOptions}
                 clearable={false}
                 onChange={e => onChangeApplyOn(e ? e.value : null, onChange)}
               />
@@ -589,6 +610,9 @@ function EventForm({
                 </DescriptionText>
               </FormGroup>
             ))}
+          {isHostAvailabilitySystemRule() && form.get('applyOn').value === scopeHostsByTag && (
+            <ScopeHostsByTagFormGroup form={form} onChange={onChange} />
+          )}
         </Col>
       </Row>
       {form.get('applyOn').value === scopeApplication &&
@@ -624,6 +648,10 @@ function EventForm({
         ))}
     </fieldset>
   );
+
+  function isHostAvailabilitySystemRule() {
+    return form.get('systemRule') && form.get('systemRule').value === hostAvailabilityDetection.id;
+  }
 }
 
 function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions, onChange }) {
@@ -819,86 +847,6 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
   );
 }
 
-function ObserveHostHasMatchingEntitiesRunningFormGroup({ entityTypes, form, onChange }) {
-  const entityTypeOptions = entityTypes.filter(
-    ({ value }) => entityTypesToExcludeInVerificationRule.indexOf(value) === -1
-  );
-
-  const matchingEntityType = form.get('matchingEntityType');
-  const matchingOperator = form.get('matchingOperator');
-  const matchingEntityLabel = form.get('matchingEntityLabel');
-  const offlineDuration = form.get('offlineDuration');
-
-  return (
-    <FormGroup noFlex>
-      <Row>
-        <Col lg={3}>
-          <FormGroup>
-            <Label htmlFor="-entity-matchingtype" hasError={!matchingEntityType.valid && matchingEntityType.touch}>
-              {t('in-settings:tabs.entityType')}
-            </Label>
-            <ComboBox
-              name="matching-entity-type"
-              value={matchingEntityType.value}
-              options={entityTypeOptions}
-              onChange={e => onChange('matchingEntityType', e ? e.value : '')}
-              clearable={false}
-            />
-            <TouchedMessages field={matchingEntityType} />
-          </FormGroup>
-        </Col>
-        <Col lg={3}>
-          <FormGroup>
-            <Label htmlFor="matching-operator" hasError={!matchingOperator.valid && matchingOperator.touched}>
-              {t('in-settings:tabs.entityLabelOperator')}
-            </Label>
-            <ComboBox
-              name="matching-operator"
-              value={matchingOperator.value}
-              options={entityLabelOperatorOptions}
-              onChange={e => onChange('matchingOperator', e ? e.value : '')}
-              clearable={false}
-            />
-            <TouchedMessages field={matchingOperator} />
-          </FormGroup>
-        </Col>
-        <Col lg={3}>
-          <FormGroup>
-            <Label htmlFor="matching-entity-label" hasError={!matchingEntityLabel.valid && matchingEntityLabel.touched}>
-              {t('in-settings:tabs.entityLabel')}
-            </Label>
-            <Input
-              id="matching-entity-label"
-              type="text"
-              value={matchingEntityLabel.value || ''}
-              onChange={e => onChange('matchingEntityLabel', e.target.value)}
-              hasError={!matchingEntityLabel.valid && matchingEntityLabel.touched}
-              maxLength={256}
-              autoFocus
-            />
-            <TouchedMessages field={matchingEntityLabel} />
-          </FormGroup>
-        </Col>
-        <Col lg={3}>
-          <FormGroup>
-            <Label htmlFor="offline-duration" hasError={!offlineDuration.valid && offlineDuration.touched}>
-              {t('in-settings:tabs.offlineFor')}
-            </Label>
-            <ComboBox
-              name="offline-duration"
-              value={offlineDuration.value}
-              options={offlineDurationOptions}
-              onChange={e => onChange('offlineDuration', e ? e.value : '')}
-              clearable={false}
-            />
-            <TouchedMessages field={offlineDuration} />
-          </FormGroup>
-        </Col>
-      </Row>
-    </FormGroup>
-  );
-}
-
 function getBuiltInMetricInfo(metricItem) {
   let formatter = undefinedMetricFormatter;
   let label = unknownMetricLabel;
@@ -1015,12 +963,13 @@ function applyQueryValidationResult(queryValidationResult, form, onChange) {
   }
 }
 
-function onChangeApplyOn(applyOn, onChange) {
+export function onChangeApplyOn(applyOn, onChange) {
   let updateFormDefinition;
 
   if (applyOn === scopeDfq) {
     updateFormDefinition = (form, eventSpec) => {
       form = form.remove('application');
+      form = removeScopeByHostsField(form);
       form = putQueryFields(form, eventSpec);
       return form.updateIn(['query'], f => {
         return f.setValue('');
@@ -1029,8 +978,18 @@ function onChangeApplyOn(applyOn, onChange) {
   } else if (applyOn === scopeApplication) {
     updateFormDefinition = form => {
       form = removeQueryFields(form);
+      form = removeScopeByHostsField(form);
       form = putApplicationField(form, null);
       form = putApplicationIdField(form, []);
+      return form;
+    };
+  } else if (applyOn === scopeHostsByTag) {
+    updateFormDefinition = form => {
+      form = removeQueryFields(form);
+      form = form.remove('application');
+      form = form.remove('applicationIds');
+      form = putScopeByHostsFields(form);
+
       return form;
     };
   } else {
@@ -1039,6 +998,8 @@ function onChangeApplyOn(applyOn, onChange) {
       form = removeQueryFields(form);
       form = form.remove('application');
       form = form.remove('applicationIds');
+      form = removeScopeByHostsField(form);
+
       return form;
     };
   }
@@ -1083,164 +1044,3 @@ function isCustomDataSourceSelected(form) {
 function isSystemRuleDataSourceSelected(form) {
   return form.get('dataSource').value === dataSourceSystem;
 }
-
-const severityWarning = '5';
-const severityCritical = '10';
-const severityOptions = Object.freeze([
-  { value: severityWarning, label: t('in-settings:tabs.warning') },
-  { value: severityCritical, label: t('in-settings:tabs.critical') }
-]);
-
-const dataSourceOptions = Object.freeze([
-  { value: dataSourceBuiltIn, label: t('in-settings:tabs.builtInMetrics') },
-  { value: dataSourceCustom, label: t('in-settings:tabs.customMetrics') },
-  { value: dataSourceSystem, label: t('in-settings:tabs.systemRules') }
-]);
-
-function systemRuleOptions(systemRules) {
-  if (!systemRules) {
-    return [];
-  }
-  return systemRules.map(({ id, name }) => ({ value: id, label: name }));
-}
-
-/**
- * Gets the given options but extends it with the selected value if it is missing.
- * This is needed for options where there has not always been a backend validation,
- * and therefore there could still be a some Custom Events using these values that
- * are not listed in possible options.
- * Therefore we include this custom value in the dropdown, instead of selecting
- * nothing.
- */
-function getOptionsWithAdditionalValueIfMissing(options, selectedTimeValue) {
-  if (selectedTimeValue && selectedTimeValue !== '0') {
-    const optionsContainTimeValue = options.some(opt => opt.value == selectedTimeValue);
-    return optionsContainTimeValue
-      ? options
-      : [
-          {
-            value: selectedTimeValue,
-            label: millis.fixedCompact(selectedTimeValue)
-          },
-          ...options
-        ];
-  } else {
-    return options;
-  }
-}
-
-const gracePeriodOptions = Object.freeze([
-  { value: '5000', label: t('in-settings:tabs.5S') },
-  { value: '10000', label: t('in-settings:tabs.10S') },
-  { value: '30000', label: t('in-settings:tabs.30S') },
-  { value: '60000', label: t('in-settings:tabs.60S') },
-  { value: '90000', label: t('in-settings:tabs.90S') },
-  { value: '300000', label: t('in-settings:tabs.5Min') },
-  { value: '600000', label: t('in-settings:tabs.10Min') },
-  { value: '1800000', label: t('in-settings:tabs.30Min') },
-  { value: '3600000', label: t('in-settings:tabs.60Min') },
-  { value: '5400000', label: t('in-settings:tabs.90Min') },
-  { value: '7200000', label: t('in-settings:tabs.120Min') },
-  { value: '14400000', label: t('in-settings:tabs.4H') },
-  { value: '21600000', label: t('in-settings:tabs.6H') },
-  { value: '43200000', label: t('in-settings:tabs.12H') },
-  { value: '86400000', label: t('in-settings:tabs.24H') }
-]);
-
-const windowOptions = Object.freeze([
-  { value: '1000', label: t('in-settings:tabs.1S') },
-  { value: '5000', label: t('in-settings:tabs.5S') },
-  { value: '10000', label: t('in-settings:tabs.10S') },
-  { value: '30000', label: t('in-settings:tabs.30S') },
-  { value: '60000', label: t('in-settings:tabs.60S') },
-  { value: '90000', label: t('in-settings:tabs.90S') },
-  { value: '300000', label: t('in-settings:tabs.5Min') },
-  { value: '600000', label: t('in-settings:tabs.10Min') },
-  { value: '1800000', label: t('in-settings:tabs.30Min') },
-  { value: '3600000', label: t('in-settings:tabs.60Min') },
-  { value: '5400000', label: t('in-settings:tabs.90Min') },
-  { value: '7200000', label: t('in-settings:tabs.120Min') }
-]);
-
-const rollupOptions = Object.freeze([
-  { value: '5000', label: t('in-settings:tabs.5S') },
-  { value: '60000', label: t('in-settings:tabs.1Min') },
-  { value: '300000', label: t('in-settings:tabs.5Min') },
-  { value: '3600000', label: t('in-settings:tabs.60Min') }
-]);
-
-const aggregationOptions = Object.freeze([
-  { value: 'avg', label: t('in-settings:tabs.avg') },
-  { value: 'sum', label: t('in-settings:tabs.sum') },
-  { value: 'min', label: t('in-settings:tabs.min') },
-  { value: 'max', label: t('in-settings:tabs.max') }
-]);
-
-const conditionOperatorOptions = Object.freeze([
-  { value: '<', label: '<' },
-  { value: '<=', label: '≤' },
-  { value: '=', label: '=' },
-  { value: '>=', label: '≥' },
-  { value: '>', label: '>' },
-  { value: '!=', label: '≠' }
-]);
-
-const entityTypesToExcludeInVerificationRule = Object.freeze([
-  'application',
-  'awsEbs',
-  'awsLambda',
-  'awsLambdaVersion',
-  'cassandraCluster',
-  'cockroachDBCluster',
-  'consulCluster',
-  'couchbaseCluster',
-  'elasticsearchCluster',
-  'endpoint',
-  'hazelcastCluster',
-  'host',
-  'instanaAgent',
-  'kafkaCluster',
-  'kubernetesCluster',
-  'kubernetesDeployment',
-  'kubernetesNamespace',
-  'kubernetesNode',
-  'kubernetesPod',
-  'kubernetesReplicaSet',
-  'mongoDbReplicaSet',
-  'openshiftDeploymentConfig',
-  'ping',
-  'redisCluster',
-  'service'
-]);
-
-const entityLabelOperatorOptions = Object.freeze([
-  { value: 'is', label: t('in-settings:tabs.is') },
-  { value: 'contains', label: t('in-settings:tabs.contains') },
-  { value: 'startsWith', label: t('in-settings:tabs.startsWith') },
-  { value: 'endsWith', label: t('in-settings:tabs.endsWith') }
-]);
-
-const offlineDurationOptions = Object.freeze([
-  { value: '60000', label: t('in-settings:tabs.1Min') },
-  { value: '120000', label: t('in-settings:tabs.2Min') },
-  { value: '180000', label: t('in-settings:tabs.3Min') },
-  { value: '300000', label: t('in-settings:tabs.5Min') },
-  { value: '600000', label: t('in-settings:tabs.10Min') },
-  { value: '1800000', label: t('in-settings:tabs.30Min') },
-  { value: '3600000', label: t('in-settings:tabs.60Min') },
-  { value: '5400000', label: t('in-settings:tabs.90Min') },
-  { value: '7200000', label: t('in-settings:tabs.120Min') },
-  { value: '14400000', label: t('in-settings:tabs.4H') },
-  { value: '21600000', label: t('in-settings:tabs.6H') },
-  { value: '43200000', label: t('in-settings:tabs.12H') },
-  { value: '64800000', label: t('in-settings:tabs.18H') },
-  { value: '86400000', label: t('in-settings:tabs.24H') }
-]);
-
-const metricPatternMatchingOptions = Object.freeze([
-  { value: 'is', label: t('in-settings:tabs.is') },
-  { value: 'contains', label: t('in-settings:tabs.contains') },
-  { value: 'startsWith', label: t('in-settings:tabs.startsWith') },
-  { value: 'endsWith', label: t('in-settings:tabs.endsWith') },
-  { value: 'any', label: t('in-settings:tabs.any') }
-]);
