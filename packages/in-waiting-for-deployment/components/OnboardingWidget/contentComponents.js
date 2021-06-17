@@ -22,7 +22,7 @@ import Tooltip from 'in-components/Tooltip';
 import { region } from 'in-services/config';
 import { t } from 'in-i18n';
 
-import locals from './content.mless';
+import locals from './contentComponents.mless';
 
 export function toURLstring(str) {
   return encodeURIComponent(str);
