@@ -2,6 +2,7 @@
 
 // define global vars for use in later stages
 def branchName          = env.BRANCH_NAME
+def isDeliveryBranch    = null
 def gitCommitId         = null
 def gitCommitAuthor     = null
 def gitMessage          = null
@@ -43,6 +44,12 @@ pipeline {
             error "Build aborted: Branch names containing slashes or commas aren't allowed. Please rename your branch."
           }
 
+          // download git submodules so that our shared CI tools are available
+          sh "git submodule update --init --recursive"
+          // Set up the shared tooling
+          sh "./build/ci-shared-tools/scripts/setup.bash"
+
+          isDeliveryBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isDeliveryBranch.js") == 'true'
           latestReleaseBranch = getLatestReleaseBranch()
           instanaUiClientVersion = getVersion('ui-client', branchName)
           majorReleaseVersion = instanaUiClientVersion.tokenize('.')[1].toInteger()
@@ -57,11 +64,6 @@ pipeline {
           uiClientComponents = getBackendComponents()
               .findAll { it.isIncludedInRelease(majorReleaseVersion) && (it.name ==~ /^ui-client.*/) }
               .collect { it.name }
-
-          // download git submodules so that our shared CI tools are available
-          sh "git submodule update --init --recursive"
-          // Set up the shared tooling
-          sh "./build/ci-shared-tools/scripts/setup.bash"
 
           currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId.take(8)} -> ${instanaUiClientVersion}"
           archiveName = "ui-client-${branchName}-${instanaUiClientVersion}.tar.gz"
@@ -99,28 +101,44 @@ pipeline {
       }
     }
 
-    stage('Build & Push Images') {
+    stage('Build & Push ui-client images') {
       steps {
         // Only allow 1 concurrent build is allowed to build images at a time and newer
         // builds are pulled off the queue first. When the a build reaches the milestone
         // at the end of the lock, all jobs started prior to the current build that are
         // still waiting for the lock will be aborted
         // https://www.jenkins.io/blog/2016/10/16/stage-lock-milestone/
-        // This lock is shared with the backend pipeline as both pipelines share the same
-        // source of image versioning
-        lock(resource: "build-instana-images-${branchName}", inversePrecedence: true) {
+        lock(resource: "build-ui-client-images-${branchName}", inversePrecedence: true) {
           timeout(time: 15, unit: 'MINUTES') {
             timestamps {
               script {
-                // TODO: Use isDeliveryBranch instead
-                if (branchName == 'develop' || branchName ==~ /release-\d{3,}/   || branchName ==~ /hotfix-\d{3,}(-.+)?/) {
+                if (isDeliveryBranch) {
                   instanaImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getInstanaImageVersion.js ${branchName}").trim() + "-0"
                   buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion)
                 }
               }
             }
           }
-          milestone(label: "Build & Push Images", ordinal: null)
+          milestone(label: "Build & Push ui-client images", ordinal: null)
+        }
+      }
+    }
+
+    stage ('Retag backend images') {
+      steps {
+        // Only allow 1 concurrent build is allowed to run at a time and newer
+        // builds are pulled off the queue first
+        lock(resource: "retag-backend-images-${branchName}", inversePrecedence: true) {
+          timeout(time: 30, unit: 'MINUTES') {
+            timestamps {
+              script {
+                if (isDeliveryBranch) {
+                  rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion)
+                }
+              }
+            }
+          }
+          milestone(label: "Retag ui-client images", ordinal: null)
         }
       }
     }
@@ -189,21 +207,15 @@ pipeline {
 }
 
 def buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion) {
-  try {
-    def buildAndPublish = [:]
-    uiClientComponents.each { component ->
-      buildAndPublish[component] = {
-        buildAndPublishImage(gitCommitId, component, branchName, instanaUiClientVersion, instanaImageVersion)
-      }
+  def buildAndPublish = [:]
+  uiClientComponents.each { component ->
+    buildAndPublish[component] = {
+      buildAndPublishImage(gitCommitId, component, branchName, instanaUiClientVersion, instanaImageVersion)
     }
-    parallel buildAndPublish
-
-    rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion)
-    notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully built K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
-  } catch (e) {
-    notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Failed to build K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
-    throw e
   }
+  parallel buildAndPublish
+
+  markStableImageVersions(branchName, instanaImageVersion)
 }
 
 def buildAndPublishImage(gitCommitId, componentName, branchName, instanaUiClientVersion, instanaImageVersion) {
@@ -217,45 +229,61 @@ def buildAndPublishImage(gitCommitId, componentName, branchName, instanaUiClient
       envVariables: "[ {CONTAINER_IMAGE_NAME, ${componentName}}, {ARTIFACT_VERSION, ${instanaUiClientVersion}}, {IMAGE_VERSION, ${instanaImageVersion}}, {BRANCH_NAME, ${branchName}} ]"
 }
 
+def markStableImageVersions(branchName, instanaImageVersion) {
+  sh "./build/ci-shared-tools/scripts/markStableVersion.bash instana-image-from-ui-client ${branchName} ${instanaImageVersion}" // so the backend pipeline can lookup the latest version built by the ui-client pipeline
+  sh "./build/ci-shared-tools/scripts/markStableVersion.bash instana-image ${branchName} ${instanaImageVersion}" // single source of latest stable Instana image version
+}
+
 // Keep image tags for backend and ui-client in-sync as instanactl only accepts a single version
 // and expects all components to have an image with that version
 def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion) {
-  def instanaOpenShiftImageVersion = instanaImageVersion - "-0" + "-openshift"
-  def backendStableVersion =
-      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
-  def backendStableImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-backend ${branchName}").trim()
+  try {
+    waitForStableBackendVersions(branchName)
+    def instanaOpenShiftImageVersion = instanaImageVersion - "-0" + "-openshift"
+    def backendStableVersion =
+        sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
+    def backendStableImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-backend ${branchName}").trim()
 
-  def rebuildBackendComponents = [:]
-  backendComponents.each {
-      def currentBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion}"
-      def newBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
-      def newBackendOpenShiftTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaOpenShiftImageVersion}"
-      rebuildBackendComponents[it] = {
-        sh """
-        ./build/ci-shared-tools/scripts/docker/imageOverride.js \
-        ${currentBackendTag} \
-        ${newBackendTag} \
-        "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
-        """
-        sh """
-        ./build/ci-shared-tools/scripts/docker/imageOverride.js \
-        ${currentBackendTag} \
-        ${newBackendOpenShiftTag} \
-        "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaOpenShiftImageVersion}"
-        """
+    def rebuildBackendComponents = [:]
+    backendComponents.each {
+        def currentBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion}"
+        def newBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
+        def newBackendOpenShiftTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaOpenShiftImageVersion}"
+        rebuildBackendComponents[it] = {
+          sh """
+          ./build/ci-shared-tools/scripts/docker/imageOverride.js \
+          ${currentBackendTag} \
+          ${newBackendTag} \
+          "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
+          """
+          sh """
+          ./build/ci-shared-tools/scripts/docker/imageOverride.js \
+          ${currentBackendTag} \
+          ${newBackendOpenShiftTag} \
+          "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaOpenShiftImageVersion}"
+          """
+      }
     }
-  }
-  parallel rebuildBackendComponents
+    parallel rebuildBackendComponents
 
-  markStableVersions(branchName, instanaUiClientVersion, instanaImageVersion)
-  currentBuild.description = "backend: ${backendStableVersion}, ui-client: ${instanaUiClientVersion}, Instana image version: ${instanaImageVersion}"
+    currentBuild.description = "backend: ${backendStableVersion}, ui-client: ${instanaUiClientVersion}, Instana image version: ${instanaImageVersion}"    
+    notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully built K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
+  } catch(e) {
+    notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Failed to build K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
+    throw e
+  }
 }
 
-def markStableVersions(branchName, instanaUiClientVersion, instanaImageVersion) {
-  sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaUiClientVersion}"
-  sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client-saas ${branchName} ${instanaUiClientVersion}"
-  sh "./build/ci-shared-tools/scripts/markStableVersion.bash instana-image-from-ui-client ${branchName} ${instanaImageVersion}" // so the backend pipeline can lookup the latest version built by the ui-client pipeline
-  sh "./build/ci-shared-tools/scripts/markStableVersion.bash instana-image ${branchName} ${instanaImageVersion}" // single source of latest stable Instana image version
+def waitForStableBackendVersions(branchName) {
+  waitUntil {
+    try {
+      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}")
+      sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-backend ${branchName}")
+      true
+    } catch(ignored) {
+      false
+    }
+  }
 }
 
 def deployInstana(branchName, version, globalEnvironment, environment, tenant, unit) {
