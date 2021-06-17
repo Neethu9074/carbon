@@ -5,7 +5,10 @@
 
 import { fromJS } from 'immutable';
 
-import { ruleTypeEntityVerification } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
+import {
+  ruleTypeEntityVerification,
+  ruleTypeHostAvailability
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from 'in-services/util/id';
 import http from 'in-services/http';
@@ -99,6 +102,38 @@ export function createCustomSystemRuleBasedEventSpecificationForEntityVerificati
         matchingOperator,
         matchingEntityLabel,
         offlineDuration
+      }
+    ]
+  };
+}
+
+export function createCustomSystemRuleBasedHostAvailability(
+  id,
+  name = t('in-settings:tabs.newEvent'),
+  triggering = false,
+  description = '',
+  expirationTime = null,
+  tagFilter,
+  offlineDuration,
+  closeAfter,
+  enabled = true,
+  severity = 5
+) {
+  return {
+    id: id || generateUniqueShortId(),
+    name,
+    entityType: 'host',
+    triggering,
+    description,
+    expirationTime,
+    enabled,
+    rules: [
+      {
+        ruleType: ruleTypeHostAvailability,
+        severity,
+        offlineDuration,
+        closeAfter,
+        tagFilter
       }
     ]
   };

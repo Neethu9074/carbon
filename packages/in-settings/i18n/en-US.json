@@ -258,6 +258,7 @@
     "aNonEmptyFilterQueryWhichDefinesForWhichEntitiesTheRuleWillBeApplied": "A <strong>non-empty</strong> filter query which defines for which entities the rule will be applied. Select <em>\"Apply on: All available entities\"</em> if you want this rule to be applied on all entities. For more information on syntax, please see our <docLink>documentation</docLink>.",
     "offlineEventDetection": "Offline event detection",
     "hostsThatDoNotHaveMatchingEntitiesRunningOnThem": "Hosts that do not have matching entities running on them",
+    "hostAvailabilityDetection": "Host availability detection",
     "pleaseSelectASeverity": "Please select a severity",
     "pleaseEnterAValidMetric": "Please enter a valid metric.",
     "thisEntityTypeHasBeenDeprecated": "This entity type has been deprecated. Please choose a different type.",
@@ -638,6 +639,14 @@
     "applyOn": "Apply on",
     "applicationPerspective": "Application Perspective",
     "selectedEntitiesDynamicFocusQuery": "Selected entities (Dynamic Focus query)",
+    "automaticallyCloseAfter": "Automatically close after",
+    "selectedEntitiesHostByTag": "Selected entities (Scope hosts by tag)",
+    "scopeHostsByTag": "Scope hosts by tag",
+    "hostsByTag": {
+      "host": "Host",
+      "tag": "tag",
+      "value": "Value"
+    },
     "allAvailableEntities": "All available entities",
     "3SetTheStartAndEndOfYourMaintenanceWindow": "3. Set the start and end of your maintenance window",
     "startTime": "Start Time",

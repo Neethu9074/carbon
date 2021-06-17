@@ -15,6 +15,7 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { isNotBlank } from 'in-services/util/string';
 import Overlay from 'in-components/overlays/Overlay';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/HostScopeDefinitionSelector.mless';
 
@@ -62,7 +63,7 @@ export default React.forwardRef(function HostScopeDefinitionSelector(
           maxLength: 512,
           type: 'text',
           valid: isNotBlank(infraTagKeyValueState.value),
-          placeholder: 'Value',
+          placeholder: t('in-settings:tabs.hostsByTag.value'),
           hideValidityInformationOnFocus: true
         }}
       />
