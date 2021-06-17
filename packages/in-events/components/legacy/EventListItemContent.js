@@ -16,7 +16,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import EventChart from 'in-events/components/EventChart';
 
-export default function EventListItemContent({ event }) {
+export default function EventListItemContent({ event, latestSnapshot }) {
   const isOfflineEvent = event => isEntityVerificationEvent(event) || isHostAvailabilityEvent(event);
 
   return (
@@ -28,7 +28,11 @@ export default function EventListItemContent({ event }) {
         <AnalyzeIssueCallsButton event={event} />
       </DescriptionButtons>
       <Spacer vertical={SpacerSizes.normal} />
-      {isOfflineEvent(event) ? <OfflineEventDescription event={event} /> : <EventChart event={event} />}
+      {isOfflineEvent(event) ? (
+        <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
+      ) : (
+        <EventChart event={event} />
+      )}
     </>
   );
 }

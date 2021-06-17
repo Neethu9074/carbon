@@ -39,7 +39,7 @@ export default connectTo(
       )
       .throttle(250)
   }),
-  function IncidentEventList({ events, incident }) {
+  function IncidentEventList({ events, incident, latestSnapshot }) {
     if (!events) {
       return <ListRow title={t('in-events:titleTriggerEvent')} />;
     }
@@ -54,6 +54,7 @@ export default connectTo(
           title={t('in-events:titleTriggerEvent')}
           events={events.filter(isTriggeringEvent)}
           triggeringProblemId={triggeringProblemId}
+          latestSnapshot={latestSnapshot}
         />
         <ListRow
           title={t('in-events:titleRelatedEvents', {
@@ -61,13 +62,14 @@ export default connectTo(
           })}
           events={events.filter(ev => !isTriggeringEvent(ev))}
           triggeringProblemId={triggeringProblemId}
+          latestSnapshot={latestSnapshot}
         />
       </>
     );
   }
 );
 
-function ListRow({ title, events, triggeringProblemId }) {
+function ListRow({ title, events, triggeringProblemId, latestSnapshot }) {
   return (
     <Row withoutSideMargin>
       <Col xs>
@@ -75,7 +77,12 @@ function ListRow({ title, events, triggeringProblemId }) {
           <div className={`${block}__timeline`}>
             {!events && <LoadingIndicator />}
             {events?.map(_event => (
-              <EventListItem key={_event.get('id')} triggeringProblemId={triggeringProblemId} event={_event} />
+              <EventListItem
+                key={_event.get('id')}
+                triggeringProblemId={triggeringProblemId}
+                event={_event}
+                latestSnapshot={latestSnapshot}
+              />
             ))}
           </div>
         </Card>

@@ -46,13 +46,21 @@ export default function Summary({ selectedEventId, data: event }) {
   const eventType = getEventType(event);
   const isIncident = eventType === EVENT_TYPES.INCIDENT;
 
+  const expiredSnapshotId = getSnapshotId(event, isEntityVerificationEvent(event));
+  const expiredSnapshotVersions = useObservable(getSnapshotVersionsObservable, [expiredSnapshotId]);
+  const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
+
   return (
     <HeightRestrictedView
       render={() => (
         <>
           <div className={locals.content}>
             <EventDetailsKPIs event={event} isIncident={isIncident} />
-            {isIncident ? <IncidentContent incident={event} /> : <EventContent event={event} />}
+            {isIncident ? (
+              <IncidentContent incident={event} latestSnapshot={latestSnapshot} />
+            ) : (
+              <EventContent event={event} latestSnapshot={latestSnapshot} />
+            )}
           </div>
         </>
       )}
@@ -60,7 +68,7 @@ export default function Summary({ selectedEventId, data: event }) {
   );
 }
 
-function EventContent({ event }) {
+function EventContent({ event, latestSnapshot }) {
   if (isWebsiteSmartAlertEvent(event)) {
     return <WebsiteEventContent event={event} />;
   }
@@ -71,11 +79,7 @@ function EventContent({ event }) {
 
   const timeConfig = getTimeConfigFromEventForSnapshotRetrieval(event);
 
-  const expiredSnapshotId = getSnapshotId(event, isEntityVerificationEvent(event));
-  const expiredSnapshotVersions = useObservable(getSnapshotVersionsObservable, [expiredSnapshotId]);
-  const latestSnapshot = expiredSnapshotVersions && getLatestSnapshot(expiredSnapshotVersions.toArray());
-
-  if (expiredSnapshotId && latestSnapshot) {
+  if (latestSnapshot) {
     timeConfig.to = latestSnapshot.get('to');
     timeConfig.from = latestSnapshot.get('from');
     timeConfig.windowSize = latestSnapshot.get('to') - latestSnapshot.get('from');
@@ -170,7 +174,7 @@ const IncidentContent = connectTo(
   ({ incident }) => ({
     recentEvents: getRecentEvents$(incident)
   }),
-  function IncidentContent({ incident, recentEvents }) {
+  function IncidentContent({ incident, recentEvents, latestSnapshot }) {
     const [changesAreVisible, setChangesAreVisible] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -215,7 +219,7 @@ const IncidentContent = connectTo(
             </Card>
           </Col>
         </Row>
-        <IncidentEventListRows incident={incident} />
+        <IncidentEventListRows incident={incident} latestSnapshot={latestSnapshot} />
       </>
     );
   }

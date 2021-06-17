@@ -48,7 +48,8 @@ export default connectTo(
     static propTypes = {
       triggeringProblemId: rpt.string,
       event: irpt.map.isRequired,
-      background: rpt.string
+      background: rpt.string,
+      latestSnapshot: irpt.map.isRequired
     };
 
     state = {
@@ -60,7 +61,16 @@ export default connectTo(
       const isExpanded = this.state.isExpanded;
       const background = this.props.background;
       const event = this.props.event;
+      const latestSnapshot = this.props.latestSnapshot;
       const timeConfigFromEvent = getTimeConfigFromEventForSnapshotRetrieval(event);
+
+      if (latestSnapshot) {
+        timeConfigFromEvent.to = latestSnapshot.get('to');
+        timeConfigFromEvent.from = latestSnapshot.get('from');
+        timeConfigFromEvent.windowSize = latestSnapshot.get('to') - latestSnapshot.get('from');
+        timeConfigFromEvent.focusedMoment = latestSnapshot.get('to') - timeConfigFromEvent.windowSize / 2;
+        timeConfigFromEvent.autoRefresh = false;
+      }
 
       let rightClassName = `${block}__right`;
 
@@ -100,7 +110,7 @@ export default connectTo(
               {isExpanded ? <div className={`${block}__border`} style={{ background }} /> : null}
               {isExpanded ? (
                 <div className={`${block}__expanded-details`}>
-                  <ListItemContent event={event} />
+                  <ListItemContent event={event} latestSnapshot={latestSnapshot} />
                 </div>
               ) : null}
             </div>
@@ -212,13 +222,13 @@ function WebsiteDetailsHeaderEntity({ event }) {
   );
 }
 
-function ListItemContent({ event }) {
+function ListItemContent({ event, latestSnapshot }) {
   if (isWebsiteSmartAlertEvent(event)) {
     return <WebsiteEventListItemContent event={event} />;
   } else if (isApplicationSmartAlertEvent(event)) {
     return <ApplicationEventListItemContent event={event} />;
   }
-  return <EventListItemContent event={event} />;
+  return <EventListItemContent event={event} latestSnapshot={latestSnapshot} />;
 }
 
 function hasServiceImpact(event) {
