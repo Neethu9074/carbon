@@ -1,6 +1,7 @@
 #!groovy
 
 // define global vars for use in later stages
+def branchName          = env.BRANCH_NAME
 def gitCommitId         = null
 def gitCommitAuthor     = null
 def gitMessage          = null
@@ -37,13 +38,13 @@ pipeline {
         setBuildStatus('Build started', 'PENDING')
 
         script {
-          if (env.BRANCH_NAME.contains('/') || env.BRANCH_NAME.contains(',')) {
+          if (branchName.contains('/') || branchName.contains(',')) {
             setBuildStatus('Build failure', 'FAILURE')
             error "Build aborted: Branch names containing slashes or commas aren't allowed. Please rename your branch."
           }
 
           latestReleaseBranch = getLatestReleaseBranch()
-          instanaUiClientVersion = getVersion('ui-client', env.BRANCH_NAME)
+          instanaUiClientVersion = getVersion('ui-client', branchName)
           majorReleaseVersion = instanaUiClientVersion.tokenize('.')[1].toInteger()
           gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
@@ -63,7 +64,7 @@ pipeline {
           sh "./build/ci-shared-tools/scripts/setup.bash"
 
           currentBuild.displayName = "#${env.BUILD_NUMBER}: ${gitCommitId.take(8)} -> ${instanaUiClientVersion}"
-          archiveName = "ui-client-${env.BRANCH_NAME}-${instanaUiClientVersion}.tar.gz"
+          archiveName = "ui-client-${branchName}-${instanaUiClientVersion}.tar.gz"
           stash includes: "**/*", name: "ui-client-checkout-${gitCommitId}", useDefaultExcludes: false
         }
       }
@@ -83,7 +84,7 @@ pipeline {
                   imageOverride: 'aws/codebuild/standard:5.0',
                   sourceControlType: 'project',
                   sourceVersion: gitCommitId,
-                  envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + env.BRANCH_NAME + '}, {GIT_BRANCH, ' + env.BRANCH_NAME + '} ]'
+                  envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
 
                 if ( currentBuild.currentResult == 'SUCCESS' ) {
                   setBuildStatus('Build successful', 'SUCCESS')
@@ -107,14 +108,14 @@ pipeline {
         // https://www.jenkins.io/blog/2016/10/16/stage-lock-milestone/
         // This lock is shared with the backend pipeline as both pipelines share the same
         // source of image versioning
-        lock(resource: "build-instana-images-${env.BRANCH_NAME}", inversePrecedence: true) {
+        lock(resource: "build-instana-images-${branchName}", inversePrecedence: true) {
           timeout(time: 15, unit: 'MINUTES') {
             timestamps {
               script {
                 // TODO: Use isDeliveryBranch instead
-                if (env.BRANCH_NAME == 'develop' || env.BRANCH_NAME ==~ /release-\d{3,}/   || env.BRANCH_NAME ==~ /hotfix-\d{3,}(-.+)?/) {
-                  instanaImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getInstanaImageVersion.js ${env.BRANCH_NAME}").trim() + "-0"
-                  buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, env.BRANCH_NAME, instanaUiClientVersion, instanaImageVersion)
+                if (branchName == 'develop' || branchName ==~ /release-\d{3,}/   || branchName ==~ /hotfix-\d{3,}(-.+)?/) {
+                  instanaImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getInstanaImageVersion.js ${branchName}").trim() + "-0"
+                  buildAndPublishImages(gitCommitId, backendComponents, uiClientComponents, branchName, instanaUiClientVersion, instanaImageVersion)
                 }
               }
             }
@@ -128,16 +129,16 @@ pipeline {
       steps {
         // This lock is shared with the backend pipeline as well so as only to allow
         // one deploy per deployable branch at a time
-        lock(resource: "deploy-instana-${env.BRANCH_NAME}", inversePrecedence: true) {
+        lock(resource: "deploy-instana-${branchName}", inversePrecedence: true) {
           timeout(time: 30, unit: 'MINUTES') {
             timestamps {
               script {
                 // Enable only for the develop branch for now
                 // Other delivery branches will use 'K8s Deploy'
-                if (env.BRANCH_NAME == 'develop') {
-                  deployInstana(env.BRANCH_NAME, instanaImageVersion, null, 'pink', 'instana', 'test')
-                } else if (env.BRANCH_NAME == latestReleaseBranch) {
-                  deployInstana(env.BRANCH_NAME, instanaImageVersion, null, 'magenta', 'instana', 'release')
+                if (branchName == 'develop') {
+                  deployInstana(branchName, instanaImageVersion, null, 'pink', 'instana', 'test')
+                } else if (branchName == latestReleaseBranch) {
+                  deployInstana(branchName, instanaImageVersion, null, 'magenta', 'instana', 'release')
                 }
               }
             }
@@ -151,14 +152,14 @@ pipeline {
         timeout(time: 30, unit: 'MINUTES') {
           timestamps {
             script {
-              if (env.BRANCH_NAME == 'develop'
-                  || env.BRANCH_NAME.startsWith('release-')
-                  || env.BRANCH_NAME.startsWith('storybook-')
-                  || env.BRANCH_NAME.startsWith('chromatic-')) {
+              if (branchName == 'develop'
+                  || branchName.startsWith('release-')
+                  || branchName.startsWith('storybook-')
+                  || branchName.startsWith('chromatic-')) {
 
                   try {
                     def RUN_UI_TEST_ON_DELIVERY =
-                      (env.BRANCH_NAME.startsWith('storybook-') || env.BRANCH_NAME.startsWith('chromatic-')) ? "true" : "false"
+                      (branchName.startsWith('storybook-') || branchName.startsWith('chromatic-')) ? "true" : "false"
 
                     awsCodeBuild credentialsType: 'jenkins',
                       credentialsId: 'codebuild',
