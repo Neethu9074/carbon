@@ -8,7 +8,12 @@
 
 'use strict';
 
-const Adapter = require('enzyme-adapter-react-16');
+/**
+ * Enzyme hasn't released an adapter to support react-17
+ * Until the officila one is released we can use this package which is developed from adapter of react 16
+ * Reference: https://github.com/enzymejs/enzyme/issues/2429
+ */
+const Adapter = require('@wojtekmaj/enzyme-adapter-react-17');
 const Enzyme = require('enzyme');
 const chai = require('chai');
 // eslint-disable-next-line no-restricted-imports
