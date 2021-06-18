@@ -56,6 +56,38 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: t('in-forge:plugins.ibmCloudPostgreSql.diskUsedBytes'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `members.${row.name}.disk_used_bytes`;
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmCloudPostgreSql.diskTotalBytes'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `members.${row.name}.disk_total_bytes`;
+      },
+      getContent: bytes.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 
@@ -123,12 +155,13 @@ function getDetails(row) {
           y1={{
             min: 0,
             formatter: bytes.detailed,
-            metrics: ['members.' + row.name + '.disk_used_bytes'],
-            labels: [t('in-forge:plugins.ibmCloudPostgreSql.usedBytes')],
+            metrics: ['members.' + row.name + '.disk_used_bytes', 'members.' + row.name + '.disk_total_bytes'],
+            labels: [t('in-forge:plugins.ibmCloudPostgreSql.used'), t('in-forge:plugins.ibmCloudPostgreSql.total')],
             type: 'line'
           }}
           y2={{
             min: 0,
+            max: 1,
             formatter: percentage.detailed,
             metrics: ['members.' + row.name + '.disk_used_percent'],
             labels: [t('in-forge:plugins.ibmCloudPostgreSql.diskUtilization')],

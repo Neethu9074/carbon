@@ -7712,7 +7712,8 @@
       "titleMemberID": "Member ID",
       "titleLimit": "Limit",
       "titleUsed": "Used",
-      "usedBytes": "Used Bytes",
+      "used": "Used",
+      "total": "Total",
       "labelUsedBytes": "Used Bytes",
       "titleUsedPercent": "Utilization",
       "titleCPU": "CPU",
@@ -7729,6 +7730,7 @@
       "inserted": "Inserted",
       "deleted": "Deleted",
       "fetched": "Fetched",
+      "updated": "Updated",
       "returned": "Returned",
       "count": "Count",
       "rate": "Rate",
@@ -7751,6 +7753,8 @@
       "latency": "Latency",
       "cache": "Cache",
       "files": "Files",
+      "replica": "Replica",
+      "readReplicaReplicationLagBytes": "Read replica replication lag",
       "zone": "Zone"
     },
     "ibmCloudRabbitMq": {

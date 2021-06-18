@@ -74,6 +74,22 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.ibmCloudPostgreSql.tuplesUpdatedRate'),
+    type: 'sparkChart',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `members.${row.name}.tuples_updated_rate`;
+      },
+      getContent: number.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.ibmCloudPostgreSql.tuplesReturnedRate'),
     type: 'sparkChart',
     typeArgs: {
@@ -141,12 +157,14 @@ function getDetails(row) {
             metrics: [
               'members.' + row.name + '.tuples_inserted_count',
               'members.' + row.name + '.tuples_deleted_count',
-              'members.' + row.name + '.tuples_fetched_count'
+              'members.' + row.name + '.tuples_fetched_count',
+              'members.' + row.name + '.tuples_updated_count'
             ],
             labels: [
               t('in-forge:plugins.ibmCloudPostgreSql.inserted'),
               t('in-forge:plugins.ibmCloudPostgreSql.deleted'),
-              t('in-forge:plugins.ibmCloudPostgreSql.fetched')
+              t('in-forge:plugins.ibmCloudPostgreSql.fetched'),
+              t('in-forge:plugins.ibmCloudPostgreSql.updated')
             ],
             type: 'line'
           }}
@@ -164,12 +182,14 @@ function getDetails(row) {
               'members.' + row.name + '.tuples_inserted_rate',
               'members.' + row.name + '.tuples_deleted_rate',
               'members.' + row.name + '.tuples_fetched_rate',
+              'members.' + row.name + '.tuples_updated_rate',
               'members.' + row.name + '.tuples_returned_rate'
             ],
             labels: [
               t('in-forge:plugins.ibmCloudPostgreSql.inserted'),
               t('in-forge:plugins.ibmCloudPostgreSql.deleted'),
               t('in-forge:plugins.ibmCloudPostgreSql.fetched'),
+              t('in-forge:plugins.ibmCloudPostgreSql.updated'),
               t('in-forge:plugins.ibmCloudPostgreSql.returned')
             ],
             type: 'line'

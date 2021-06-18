@@ -9,6 +9,7 @@ import TransactionsTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/Tra
 import ConnectionsTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/ConnectionsTable';
 import DeadlocksTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/DeadlocksTable';
 import BuffersTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/BuffersTable';
+import ReplicaTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/ReplicaTable';
 import TuplesTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/TuplesTable';
 import MemoryTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/MemoryTable';
 import BlocksTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/BlocksTable';
@@ -16,21 +17,31 @@ import FilesTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/FilesTable
 import CacheTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/CacheTable';
 import DiskTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/DiskTable';
 import CpuTable from 'in-forge/plugins/ibmCloudPostgreSql/Dashboard/CpuTable';
+import { getRawPayload } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
 
-export default function ibmCloudPostgreSqlDashboard({ snapshot, timeConfig }) {
-  return (
-    <div>
-      <CpuTable snapshot={snapshot} timeConfig={timeConfig} />
-      <MemoryTable snapshot={snapshot} timeConfig={timeConfig} />
-      <DiskTable snapshot={snapshot} timeConfig={timeConfig} />
-      <ConnectionsTable snapshot={snapshot} timeConfig={timeConfig} />
-      <TuplesTable snapshot={snapshot} timeConfig={timeConfig} />
-      <TransactionsTable snapshot={snapshot} timeConfig={timeConfig} />
-      <BlocksTable snapshot={snapshot} timeConfig={timeConfig} />
-      <BuffersTable snapshot={snapshot} timeConfig={timeConfig} />
-      <CacheTable snapshot={snapshot} timeConfig={timeConfig} />
-      <FilesTable snapshot={snapshot} timeConfig={timeConfig} />
-      <DeadlocksTable snapshot={snapshot} timeConfig={timeConfig} />
-    </div>
-  );
-}
+export default connectTo(
+  props => {
+    return {
+      memberIds: getRawPayload(props.snapshot.get('id'), 'member_ids')
+    };
+  },
+  function ibmCloudPostgreSqlDashboard({ snapshot, timeConfig, memberIds }) {
+    return (
+      <div>
+        <CpuTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <MemoryTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <DiskTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <ConnectionsTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <TuplesTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <TransactionsTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <BlocksTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <BuffersTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <CacheTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <FilesTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <DeadlocksTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+        <ReplicaTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
+      </div>
+    );
+  }
+);

@@ -4,7 +4,7 @@
  */
 
 import { getDynamicMetricMatch } from 'in-sdk/metrics/metricDefinitions';
-import { number } from 'in-services/formatters/number';
+import { number, bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -284,5 +284,16 @@ export default [
     category: [t('in-forge:plugins.ibmCloudPostgreSql.storage')],
     min: 0,
     formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch(
+      'members',
+      'read_replica_replication_lag_bytes',
+      t('in-forge:plugins.ibmCloudPostgreSql.replica')
+    ),
+    label: t('in-forge:plugins.ibmCloudPostgreSql.readReplicaReplicationLagBytes'),
+    category: [t('in-forge:plugins.ibmCloudPostgreSql.replica')],
+    min: 0,
+    formatter: bytes
   }
 ];
