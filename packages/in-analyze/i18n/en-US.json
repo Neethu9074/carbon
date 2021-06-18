@@ -253,14 +253,6 @@
   "analyzeHeader": {
     "title": "Analytics"
   },
-  "editTagFilterDialog": {
-    "dialogTitleEdit": "Edit Filter",
-    "dialogTitleAdd": "Add {{filterCategory}} Filter",
-    "messageTitle": "Select a tag by which your data should be filtered. Tags are case-sensitive.",
-    "placeholder": "Type to filter the results…",
-    "saveFilter": "Save Filter",
-    "addFilter": "Add Filter"
-  },
   "filterBar": {
     "keyValueBarItem": {
       "tooltip": "Remove filter"
@@ -344,14 +336,6 @@
     "analyzeHeader": {
       "beta": "BETA",
       "analytics": "Analytics"
-    },
-    "editTagFilterDialog": {
-      "tag": "Tag",
-      "loadingSuggestions": "Loading suggestions…",
-      "operator": "Operator",
-      "true": "true",
-      "false": "false",
-      "removeFilter": "Remove Filter"
     },
     "filterBar": {
       "group": "Group",

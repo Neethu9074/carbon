@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import CreatableSelect from 'react-select/lib/Creatable';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { SvgIcon } from '@instana/components';
 
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
+import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup';
@@ -21,6 +21,7 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeFilterFormComponents.mless';
+import 'in-components/ComboBox/ComboBox.less';
 
 export function FlexWrapper({ children }) {
   return <div className={locals.flexWrapper}>{children}</div>;
@@ -183,9 +184,9 @@ export function SelectBox({ options, id, value, onChange, autoFocus }) {
       onChange={e => onChange(e && e.value ? e : { value: '' })}
       autoComplete="off"
       options={options}
-      clearable={false}
+      isClearable={false}
       autoFocus={autoFocus}
-      openOnFocus
+      openMenuOnFocus
     />
   );
 }
@@ -234,18 +235,14 @@ export function AutoCompletedSelect({ value, onChange, tagSuggestionResult }) {
 
     return (
       <div className={locals.loadingSelectPlaceholder}>
-        <CreatableSelect
+        <CreatableComboBox
           id="value"
           className={locals.loadingSelectPlaceholderInput}
-          value={value}
           onChange={e => onChange(e ? e.value : '')}
           options={autoCompletedOptions}
           placeholder=""
-          isClearable
           autoFocus
-          openOnFocus
-          searchable
-          menuIsOpen
+          openMenuOnFocus
         />
         {get(tagSuggestionResult, ['progress', 'loading'], false) && (
           <SvgIcon className={locals.loadingIcon} type="lib_actions_loading" spinning />

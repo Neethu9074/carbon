@@ -19,9 +19,9 @@ import {
   Spacer,
   TextWithLink
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
+import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import createObservable from 'in-services/http/observableHttpResult';
 import { Col, Row as GridRow } from 'in-components/layout/Grid';
-import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 

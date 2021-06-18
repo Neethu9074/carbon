@@ -106,8 +106,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
               updateForm(form.updateIn(['rule', 'level'], f => f.setValue(newLevel).setTouched(true)));
             }}
             defaultValue={ruleLogLevelOptions[0].value}
-            clearable={false}
-            searchable
+            isClearable={false}
           />
           <TouchedMessages field={field} />
         </FormGroup>
@@ -139,8 +138,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
               );
             }}
             defaultValue={ruleLogMessageOperatorOptions[0].value}
-            clearable={false}
-            searchable
+            isClearable={false}
           />
           <TouchedMessages field={field} />
         </FormGroup>

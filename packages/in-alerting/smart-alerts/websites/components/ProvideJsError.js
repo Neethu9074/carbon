@@ -109,8 +109,7 @@ export default function ProvideJsError({ form, timeConfig, onSelectJsError, mode
               );
             }}
             defaultValue={ruleJsErrorsOperatorOptions[0].value}
-            clearable={false}
-            searchable
+            isClearable={false}
           />
           <TouchedMessages field={field} />
         </FormGroup>

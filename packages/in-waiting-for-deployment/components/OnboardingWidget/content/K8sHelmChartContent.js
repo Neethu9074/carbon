@@ -12,7 +12,7 @@ import {
   Row,
   Spacer,
   TextWithLink,
-  ValidatedInputFields,
+  ValidatedInputFields
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { clusterNameValidator } from 'in-waiting-for-deployment/components/OnboardingWidget/content/validators';
 import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';

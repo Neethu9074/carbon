@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import CreatableSelect from 'react-select/lib/Creatable';
 import React from 'react';
 
 import { Button, SvgIcon } from '@instana/components';
 
 import BarOverlay from 'in-analyze/components/filterBar/BarOverlay/BarOverlay';
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
+import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { emptyArray } from 'in-services/fixedObjects';
@@ -21,6 +21,7 @@ import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './KeyValueBarOverlayPresenter.mless';
+import 'in-components/ComboBox/ComboBox.less';
 
 export default function KeyValueBarOverlayPresenter({
   tagFilters,
@@ -89,20 +90,15 @@ export default function KeyValueBarOverlayPresenter({
                     <Loading>{t('in-analyze:components.filterBar.loadingSuggestions')}</Loading>
                   )}
                 </Label>
-                <CreatableSelect
+                <CreatableComboBox
                   id="filter-key"
-                  className={locals.loadingSelectPlaceholderInput}
-                  value={field.value || ''}
                   options={ensureCreatedOptionExists(keySuggestions || emptyArray, field.value).map(s => ({
                     value: s,
                     label: s
                   }))}
                   onChange={e => onKeyChange(e ? e.value : '')}
                   placeholder=""
-                  isClearable
-                  openOnFocus
-                  searchable
-                  menuIsOpen
+                  openMenuOnFocus
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -122,20 +118,15 @@ export default function KeyValueBarOverlayPresenter({
                       <Loading>{t('in-analyze:components.filterBar.loadingSuggestions')}</Loading>
                     )}
                   </Label>
-                  <CreatableSelect
+                  <CreatableComboBox
                     id="filter-second-level-key"
-                    className={locals.loadingSelectPlaceholderInput}
-                    value={field.value || ''}
                     options={ensureCreatedOptionExists(secondLevelKeySuggestions || emptyArray, field.value).map(s => ({
                       value: s,
                       label: s
                     }))}
                     onChange={e => onSecondLevelKeyChange(e ? e.value : '')}
                     placeholder=""
-                    isClearable
-                    openOnFocus
-                    searchable
-                    menuIsOpen
+                    openMenuOnFocus
                   />
                   <TouchedMessages field={field} />
                 </FormGroup>
@@ -180,20 +171,15 @@ export default function KeyValueBarOverlayPresenter({
                       <Loading>{t('in-analyze:components.filterBar.loadingSuggestions')}</Loading>
                     )}
                   </Label>
-                  <CreatableSelect
+                  <CreatableComboBox
                     id="filter-value"
-                    className={locals.loadingSelectPlaceholderInput}
-                    value={field.value || ''}
                     options={ensureCreatedOptionExists(valueSuggestions || emptyArray, field.value).map(s => ({
                       value: s,
                       label: s
                     }))}
                     onChange={e => onValueChange(e ? e.value : '')}
                     placeholder=""
-                    isClearable
-                    openOnFocus
-                    searchable
-                    menuIsOpen
+                    openMenuOnFocus
                   />
                   <TouchedMessages field={field} />
                 </FormGroup>

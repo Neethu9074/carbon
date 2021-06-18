@@ -82,7 +82,7 @@ export default function MaintenanceConfigurationForm(props) {
               },
               { value: 'all', label: t('in-settings:tabs.allAvailableEntities') }
             ]}
-            clearable={false}
+            isClearable={false}
             onChange={e => {
               const updatedForm = onChangeApplyOn(form, e ? e.value : null);
               if (updatedForm) {

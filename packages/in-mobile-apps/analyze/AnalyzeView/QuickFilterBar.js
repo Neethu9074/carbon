@@ -7,7 +7,6 @@ import React from 'react';
 
 import KeyValueBarItem from 'in-mobile-apps/analyze/AnalyzeView/MobileAppKeyValueBarItem';
 import SelectBarItem from 'in-mobile-apps/analyze/AnalyzeView/MobileAppSelectBarItem';
-import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -17,7 +16,6 @@ export default function QuickFilterBar(props) {
     implicitTagFilters = emptyArray,
     tagFilters,
     clearTagFilters,
-    onMoreClick,
     showMobileAppSelector,
     showViewSelector,
     showSubdivisionSelector,
@@ -90,7 +88,6 @@ export default function QuickFilterBar(props) {
         label={t('in-mobile-apps:analyzeView.quickFilterBar.metaLabel')}
         tag="mobileBeacon.meta"
       />
-      {onMoreClick && <MoreBarItem onClick={onMoreClick} />}
     </Bar>
   );
 }

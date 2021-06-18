@@ -12,12 +12,18 @@ import {
   PowershellEC2,
   Row,
   Spacer,
-  TextWithLink,
+  TextWithLink
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import { t } from 'in-i18n';
 
-export default function ElasticComputingWindowsContent({ agentKey, agentEndpoint, agentEndpointPort, tenant, tenantUnit }) {
+export default function ElasticComputingWindowsContent({
+  agentKey,
+  agentEndpoint,
+  agentEndpointPort,
+  tenant,
+  tenantUnit
+}) {
   const agentModeOptions = [
     t('in-waiting-for-deployment:content.dynamicAgent'),
     t('in-waiting-for-deployment:content.staticAgent')

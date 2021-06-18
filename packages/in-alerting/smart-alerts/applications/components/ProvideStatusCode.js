@@ -58,8 +58,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
                   .updateIn(['rule', 'statusCode', 'isCustomRange'], f => f.setValue(false).setTouched(true))
               );
             }}
-            clearable={false}
-            searchable
+            isClearable={false}
           />
           {selection === 'custom' && (
             <StatusCodeRangeSelection

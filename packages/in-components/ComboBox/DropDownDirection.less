@@ -3,31 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-.Select.menu-direction-up .Select-menu-outer {
-  top: auto;
-  bottom: 100%;
+.Select.menu-direction-bottom {
+  .Select__menu {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-top-color: rgb(230, 230, 230);
+  }
+}
 
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-  border-top-color: rgb(204, 204, 204);
-  margin-bottom: -1px;
-
-  border-bottom-right-radius: unset;
-  border-bottom-left-radius: unset;
-  border-bottom-color: rgb(230, 230, 230);
-  margin-top: 0;
-}
-.Select.menu-direction-up .Select-option:first-child {
-  border-top-right-radius: 4px;
-  border-top-left-radius: 4px;
-}
-.Select.menu-direction-up .Select-option:last-child {
-  border-bottom-right-radius: unset;
-  border-bottom-left-radius: unset;
-}
-.Select.menu-direction-up.is-open > .Select-control {
-  border-top-right-radius: unset;
-  border-top-left-radius: unset;
-  border-bottom-right-radius: 4px;
-  border-bottom-left-radius: 4px;
+.Select.menu-direction-top {
+  .Select__menu {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-color: rgb(230, 230, 230);
+  }
 }

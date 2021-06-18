@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Description,

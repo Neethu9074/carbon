@@ -8,7 +8,6 @@ import React from 'react';
 import NumberBarItem from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarItemBehavior';
 import KeyValueBarItem from 'in-websites/analyze/AnalyzeView/WebsiteKeyValueBarItem';
 import SelectBarItem from 'in-websites/analyze/AnalyzeView/WebsiteSelectBarItem';
-import MoreBarItem from 'in-analyze/components/filterBar/MoreBarItem';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 import { emptyArray } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -18,7 +17,6 @@ export default function QuickFilterBar(props) {
     implicitTagFilters = emptyArray,
     tagFilters,
     clearTagFilters,
-    onMoreClick,
     showWebsiteSelector,
     showPageSelector,
     showSubdivisionSelector,
@@ -90,7 +88,6 @@ export default function QuickFilterBar(props) {
           showRange
         />
       )}
-      {onMoreClick && <MoreBarItem onClick={onMoreClick} />}
     </Bar>
   );
 }

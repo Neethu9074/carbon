@@ -109,9 +109,9 @@ function ControlFrame(props) {
                   value={grouping}
                   options={groupingOptions}
                   onChange={_grouping => setConfig({ grouping: _grouping })}
-                  clearable={false}
-                  openOnFocus
-                  searchable={false}
+                  isClearable={false}
+                  openMenuOnFocus
+                  isSearchable={false}
                 />
               )
             }}

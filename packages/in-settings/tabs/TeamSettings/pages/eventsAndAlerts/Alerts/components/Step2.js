@@ -51,7 +51,7 @@ export default function Step2({ form, setForm, onChange, onChangeEventSelectionM
                 name="alert-event-selection-mode"
                 value={field.value}
                 options={eventSelectionModeOptions}
-                clearable={false}
+                isClearable={false}
                 onChange={e => {
                   const updatedForm = onChangeEventSelectionMode(form, e ? e.value : null);
                   if (updatedForm) {

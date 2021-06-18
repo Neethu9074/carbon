@@ -302,7 +302,7 @@ function EventForm({
                         value={field.value}
                         options={severityOptions}
                         onChange={e => onChange('severity', e ? e.value : '')}
-                        clearable={false}
+                        isClearable={false}
                       />
                       <TouchedMessages field={field} />
                     </FormGroup>
@@ -336,7 +336,7 @@ function EventForm({
                           className={locals.helpified}
                           options={getOptionsWithAdditionalValueIfMissing(gracePeriodOptions, field.value)}
                           onChange={e => onChange('gracePeriod', (e = e ? e.value : ''))}
-                          clearable={false}
+                          isClearable={false}
                         />
                         <TouchedMessages field={field} />
                       </Helpify>
@@ -375,7 +375,7 @@ function EventForm({
                 return updateFormDefinitionForDataSource(updatedForm, field.value, eventSpec, systemRules);
               });
             }}
-            clearable={false}
+            isClearable={false}
           />
           <TouchedMessages field={field} />
         </FormGroup>
@@ -397,7 +397,7 @@ function EventForm({
                     return updateFormDefinitionForSystemRule(updatedForm, field.value, eventSpec, systemRules);
                   });
                 }}
-                clearable={false}
+                isClearable={false}
               />
               <TouchedMessages field={field} />
             </FormGroup>
@@ -436,7 +436,7 @@ function EventForm({
                       id="event-metricName"
                       plugin={form.get('entityType').value}
                       value={form.get('metricName').value}
-                      clearable={false}
+                      isClearable={false}
                       onChange={e => {
                         if ((field.value && !e) || (e && e.value !== field.value)) {
                           let selectedMetric = e ? e.value : '';
@@ -558,7 +558,7 @@ function EventForm({
                 name="event-apply-on"
                 value={field.value}
                 options={isHostAvailabilitySystemRule() ? applyOnOptionsForHostAvailability : applyOnOptions}
-                clearable={false}
+                isClearable={false}
                 onChange={e => onChangeApplyOn(e ? e.value : null, onChange)}
               />
               <TouchedMessages field={field} />
@@ -669,7 +669,7 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions, onChange }) {
             return updatedForm.updateIn(['metricName'], field => field.setValue(null).setTouched(false));
           });
         }}
-        clearable={false}
+        isClearable={false}
       />
       <TouchedMessages field={field} />
     </FormGroup>
@@ -692,7 +692,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
                   value={field.value}
                   options={getOptionsWithAdditionalValueIfMissing(windowOptions, field.value)}
                   onChange={e => onChange('window', e ? e.value : '')}
-                  clearable={false}
+                  isClearable={false}
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -711,7 +711,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
                   value={field.value}
                   options={rollupOptions}
                   onChange={e => onChange('rollup', e ? e.value : '')}
-                  clearable={false}
+                  isClearable={false}
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -730,7 +730,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
                   value={field.value}
                   options={aggregationOptions}
                   onChange={e => onChange('aggregation', e ? e.value : e)}
-                  clearable={false}
+                  isClearable={false}
                 />
                 <TouchedMessages field={field} />
               </FormGroup>
@@ -748,7 +748,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
                 value={field.value}
                 options={conditionOperatorOptions}
                 onChange={e => onChange('conditionOperator', e ? e.value : e)}
-                clearable={false}
+                isClearable={false}
               />
               <TouchedMessages field={field} />
             </FormGroup>
@@ -816,7 +816,7 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
                       return updatedForm;
                     });
                   }}
-                  clearable={false}
+                  isClearable={false}
                 />
                 <TouchedMessages field={metricPatternOperator} />
               </FormGroup>

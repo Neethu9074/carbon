@@ -10,7 +10,7 @@ import ComboBox from 'in-components/ComboBox';
 
 import locals from './BuiltInMetricSelector.mless';
 
-export default function BuiltInMetricSelector({ id, plugin, onChange, value, clearable = true }) {
+export default function BuiltInMetricSelector({ id, plugin, onChange, value, isClearable = true }) {
   const metricsList = getAllBuiltInMetrics(plugin);
   return (
     <ComboBox
@@ -19,7 +19,7 @@ export default function BuiltInMetricSelector({ id, plugin, onChange, value, cle
       options={metricsList}
       optionRenderer={renderOption}
       onChange={onChange}
-      clearable={clearable}
+      isClearable={isClearable}
     />
   );
 }

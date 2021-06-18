@@ -13,8 +13,8 @@ import {
   Spacer,
   TextWithLink
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
 export default function ElasticComputingLinuxContent({ agentKey, agentEndpoint, agentEndpointPort }) {

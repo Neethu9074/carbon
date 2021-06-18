@@ -3,17 +3,18 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import {
-  PER_AP,
-  PER_AP_SERVICE,
-  PER_AP_ENDPOINT
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import React from 'react';
+
 import {
   ScopeSelectorAppItem,
   ScopeSelectorServiceItem,
   ScopeSelectorEndpoint
 } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ScopeSelectorItem';
-import React from 'react';
+import {
+  PER_AP,
+  PER_AP_SERVICE,
+  PER_AP_ENDPOINT
+} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 
 const evaluationTypeLevelMap = {
   [PER_AP]: 'APP',

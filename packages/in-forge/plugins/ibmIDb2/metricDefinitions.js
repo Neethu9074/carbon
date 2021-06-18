@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { t } from '../../../in-i18n';
 import { bytes, number, percentage } from 'in-services/formatters/number';
+import { t } from 'in-i18n';
 
 export default [
   {
@@ -88,5 +88,5 @@ export default [
     min: 0,
     formatter: number,
     category: [t('in-forge:plugins.ibmIDb2.dashboard.charts.sqlCursor.name')]
-  },
+  }
 ];

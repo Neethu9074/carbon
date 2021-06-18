@@ -96,7 +96,7 @@ export default function Filters({
         value={endpointTypes}
         onChange={t => setFilter({ endpointTypes: t.map(a => a.value) })}
         placeholder={t('in-applications:placeholderType')}
-        multi
+        isMulti
         options={getEndpointTypesComboBoxItems(restrictedEndpointTypes)}
         className={locals.filter}
       />
@@ -104,7 +104,7 @@ export default function Filters({
         value={technologies}
         onChange={t => setFilter({ technologies: t.map(a => a.value) })}
         placeholder={t('in-applications:placeholderTechnology')}
-        multi
+        isMulti
         options={getTechnologyComboBoxItems(restrictedTechnologies)}
         className={locals.filter}
       />

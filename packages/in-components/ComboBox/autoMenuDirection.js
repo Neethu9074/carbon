@@ -26,7 +26,7 @@ export default function autoMenuDirection(ComposedComponent, assumedTimeLineFoot
     static displayName = 'AutoMenuDirection';
 
     state = {
-      direction: 'down'
+      direction: 'bottom'
     };
 
     componentDidMount() {
@@ -39,9 +39,9 @@ export default function autoMenuDirection(ComposedComponent, assumedTimeLineFoot
       const boundingRect = this.domNode.getBoundingClientRect();
       const spaceAbove = boundingRect.top;
       const spaceBelow = window.innerHeight - boundingRect.bottom - assumedTimeLineFooterHeight;
-      let direction = 'down';
+      let direction = 'bottom';
       if (spaceBelow < assumedMaxMenuHeight && spaceAbove > spaceBelow) {
-        direction = 'up';
+        direction = 'top';
       }
       this.setState({ direction: direction });
     };
@@ -55,6 +55,7 @@ export default function autoMenuDirection(ComposedComponent, assumedTimeLineFoot
         <ComposedComponent
           {...this.props}
           className={classNames(this.props.className, `menu-direction-${this.state.direction}`)}
+          menuPlacement={this.state.direction}
         />
       );
     }

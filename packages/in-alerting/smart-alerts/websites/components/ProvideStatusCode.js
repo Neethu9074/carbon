@@ -41,8 +41,7 @@ export default function ProvideStatusCode({ form, mode, updateForm }) {
                 );
               }}
               defaultValue="4"
-              clearable={false}
-              searchable
+              isClearable={false}
             />
             <TouchedMessages field={field} />
           </FormGroup>

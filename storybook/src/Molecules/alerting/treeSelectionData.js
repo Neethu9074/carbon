@@ -3,9 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { just, timeout } from '@instana/observables';
-
-const convertToNormalChildren = items => items;
+import { timeout } from '@instana/observables';
 
 const loadingItems = items => () =>
   timeout(2000).map(() => ({

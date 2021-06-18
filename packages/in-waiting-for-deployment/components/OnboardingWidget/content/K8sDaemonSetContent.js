@@ -14,8 +14,8 @@ import {
   YAMLFile
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { clusterNameValidator } from 'in-waiting-for-deployment/components/OnboardingWidget/content/validators';
-import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import instanaAgentYaml from 'in-waiting-for-deployment/components/OnboardingWidget/content/instana-agent.yaml';
+import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import { t } from 'in-i18n';
 
 export default function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {

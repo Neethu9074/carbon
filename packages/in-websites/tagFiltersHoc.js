@@ -4,14 +4,11 @@
  */
 
 import { withProps } from 'recompose';
-import React from 'react';
 
-import WebsiteEditTagFilterDialog from 'in-websites/analyze/AnalyzeView/WebsiteEditTagFilterDialog';
-import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { noop } from 'in-services/util/function';
 
 export const tagFilterManipulators = ({ tagFiltersTrackers }) =>
-  withProps(({ tagFilters, setTagFilters, timeConfig, filterableTags, group }) => {
+  withProps(({ tagFilters, setTagFilters, group }) => {
     const trackedSetTagFilters = newTagFilters => {
       setTagFilters(newTagFilters);
       tagFiltersTrackers.set({
@@ -71,27 +68,6 @@ export const tagFilterManipulators = ({ tagFiltersTrackers }) =>
         tagFiltersTrackers.clear({
           group: group
         });
-      },
-      onMoreClick() {
-        addActiveDialog(
-          <WebsiteEditTagFilterDialog
-            tagFilters={tagFilters}
-            setTagFilters={trackedSetTagFilters}
-            tagSuggestions={filterableTags}
-            timeConfig={timeConfig}
-          />
-        );
-      },
-      onTagFilterClick(tagFilter) {
-        addActiveDialog(
-          <WebsiteEditTagFilterDialog
-            tagFilter={tagFilter}
-            tagFilters={tagFilters}
-            setTagFilters={trackedSetTagFilters}
-            tagSuggestions={filterableTags}
-            timeConfig={timeConfig}
-          />
-        );
       }
     };
   });

@@ -72,7 +72,7 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
                 name="alert-apply-on"
                 value={field.value}
                 options={applyOnOptions}
-                clearable={false}
+                isClearable={false}
                 onChange={e => {
                   const updatedForm = onChangeApplyOn(form, e ? e.value : null);
                   if (updatedForm) {

@@ -13,8 +13,8 @@ import {
   ValidatedInputFields,
   YAMLFile
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
-import { getKubernetesYamlConfig } from 'in-waiting-for-deployment/components/OnboardingWidget/content/K8sDaemonSetContent';
 import instanaAgentOpenShiftYaml from 'in-waiting-for-deployment/components/OnboardingWidget/content/instana-agent-openshift.yaml';
+import { getKubernetesYamlConfig } from 'in-waiting-for-deployment/components/OnboardingWidget/content/K8sDaemonSetContent';
 import { clusterNameValidator } from 'in-waiting-for-deployment/components/OnboardingWidget/content/validators';
 import { t } from 'in-i18n';
 

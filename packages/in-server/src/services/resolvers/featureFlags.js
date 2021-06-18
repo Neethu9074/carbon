@@ -70,11 +70,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'customDashboardsEnabled',
-    instanaCtlKey: 'feature.custom.dashboards.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'skipOnboardingDialog',
     instanaCtlKey: 'feature.skip.oboarding.dialog',
     defaultValue: false

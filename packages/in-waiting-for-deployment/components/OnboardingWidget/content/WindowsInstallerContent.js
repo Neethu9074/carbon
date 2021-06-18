@@ -17,7 +17,14 @@ import { Col, Row as GridRow } from 'in-components/layout/Grid';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
-export default function WindowsInstallerContent({ agentKey, agentEndpoint, agentEndpointPort, butlerDomain, tenant, tenantUnit }) {
+export default function WindowsInstallerContent({
+  agentKey,
+  agentEndpoint,
+  agentEndpointPort,
+  butlerDomain,
+  tenant,
+  tenantUnit
+}) {
   const agentModeOptions = ['dynamic', 'static'];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
   const jvmVendorOptions = ['azul', 'eclipse'];
