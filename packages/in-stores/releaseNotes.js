@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import semver from 'semver';
+
 import { combineLatest } from '@instana/observables';
 import { createLogger } from '@instana/logger';
-import semver from 'semver';
 
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { build as uiClientBuildInfo } from 'in-services/config';
@@ -135,7 +136,7 @@ function processReleaseNotesIndex(indexResponse, currentlyRunningVersionMajorMin
     const index = JSON.parse(indexResponse.body);
     if (!index[currentlyRunningVersionMajorMinor] || !index[currentlyRunningVersionMajorMinor].link) {
       // There are no release notes for the currently active release (yet).
-      if (!noReleaseNotesWarningHasBeenLogged) {
+      if (!noReleaseNotesWarningHasBeenLogged && !__DEV__) {
         logger.warn('No release notes available for release ' + currentlyRunningVersionMajorMinor + '.');
         noReleaseNotesWarningHasBeenLogged = true;
       }
