@@ -36,21 +36,29 @@ export default function ChartViewConfiguratorWithEntitySelection({
 }) {
   const selectApLevelOnly = alertConfigWithFormModel.evaluationType === PER_AP;
   const selectServiceLevel = alertConfigWithFormModel.evaluationType === PER_AP_SERVICE;
+  const firstAppId = firstApplicationId(alertConfigWithFormModel?.applications);
   const selectedChartViewConfig = chartViewConfigs[selectedChartViewConfigIndex];
   const [serviceId, setServiceId] = useState();
   const [endpointId, setEndpointId] = useState();
-  const [applicationId, setApplicationId] = useState(
-    selectApLevelOnly ? firstApplicationId(alertConfigWithFormModel?.applications) : null
-  );
+  const [applicationId, setApplicationId] = useState(selectApLevelOnly ? firstAppId : null);
   const applications = Object.values(alertConfigWithFormModel?.applications);
   const showEntitySelection = !selectApLevelOnly || applications.length > 1;
+
+  useEffect(() => {
+    // as long as no appId is in state we should watch the form for selection updates
+    // or if our current selection vanishes from the selected apps we should switch to the first app of the form
+    if (!applicationId || !applications.find(({ applicationId: id }) => id === applicationId)) {
+      setApplicationId(firstAppId);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firstAppId, applications]);
 
   useEffect(() => {
     // do a simple reset, after somebody switched evaluationType
     setEndpointId(null);
     setServiceId(null);
     if (selectApLevelOnly) {
-      setApplicationId(firstApplicationId(alertConfigWithFormModel?.applications));
+      setApplicationId(firstAppId);
     } else {
       setApplicationId(null);
     }

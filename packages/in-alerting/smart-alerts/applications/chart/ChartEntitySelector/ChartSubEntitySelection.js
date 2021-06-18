@@ -80,6 +80,7 @@ export default function ChartSubEntitySelection({
       : empty,
     [isSelectApLevel, applicationId]
   );
+
   useEffect(() => {
     // reset on first rendering or evaluation type change
     // apId is currently set automatically in parent
@@ -89,7 +90,7 @@ export default function ChartSubEntitySelection({
     setEndpointId?.(null);
     // ignore any change to the setter functions
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSelectApLevel, isSelectServiceLevel]);
+  }, [isSelectApLevel, isSelectServiceLevel, applications]);
 
   const applicationIds = Object.keys(applications);
 
@@ -112,11 +113,11 @@ export default function ChartSubEntitySelection({
             isSelectApLevel,
             isSelectServiceLevel,
             // derived from/based on queryWindowSize:
+            applications,
             timeConfig,
             tagFilterExpression,
             boundaryScope,
-            includeSynthetic,
-            applications
+            includeSynthetic
           );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -132,6 +133,8 @@ export default function ChartSubEntitySelection({
       isSelectApLevel,
       isSelectServiceLevel
     ]
+    // applicationIds will already be tracked with applicationAndServicesList
+    // timeConfig is depending on queryWindowSize
     // do not watch loadingOptions intentionally, because it is constant
   );
 
@@ -143,8 +146,8 @@ export default function ChartSubEntitySelection({
         retrievalSize: maxSearchRetrievalSize
       },
       includeSynthetic,
-      //includeInternal // TODO add
-      //tagFilterExpression  // TODO add
+      //includeInternal // TODO clarify if needed in query on backend
+      //tagFilterExpression  // TODO clarify if needed in query on backend
       searchTerm: query,
       timeConfig,
       order: {
@@ -230,7 +233,7 @@ export function EntitySelectionOverlay({
   return (
     <ThreeLevelsSelectorOverlay
       {...props}
-      searchNodes={options => options /* override default search */}
+      searchNodes={options => options /* override builtin search */}
       onChange={node => {
         if (node.type === 'ENDPOINT') {
           setEndpointId(node.id);

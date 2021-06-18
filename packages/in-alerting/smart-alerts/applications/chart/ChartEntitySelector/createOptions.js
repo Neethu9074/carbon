@@ -3,22 +3,34 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React from 'react';
-
 import { fetchEndpoints } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/selectionApi';
-import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { compareIgnoreCase } from 'in-services/util/string';
 
+/*
+  Use Cases:
+
+  0 APs -> empty
+
+  PerAP-only:
+
+  PerService:
+  * only 1 AP -> just services
+  * many APs
+
+  PerEndpoints:
+  * only 1 AP -> just services + endpoints
+  * many APs
+ */
 export function createOptionsList(
   applicationList,
   applicationIds,
   isSelectApLevel,
   isSelectServiceLevel,
+  applications,
   timeConfig,
   tagFilterExpression,
   boundaryScope,
-  includeSynthetic,
-  applications
+  includeSynthetic
 ) {
   if (!applicationIds || applicationIds.length === 0) return [];
 
@@ -31,29 +43,31 @@ export function createOptionsList(
         return {
           label,
           id,
-          /* used in search results */
-          breadcrumbAndLabel: <ApplicationScopePath applicationName={label} />,
           icon: 'lib_application',
           type: 'APPLICATION'
         };
       });
   }
 
-  if (applicationIds.length === 1) {
-    const { app, services } = applicationList.map(({ data }) => data)[0];
-    return [
-      {
-        label: 'Services:',
-        children: mapServicesToOptions(
+  const createServicesAndEndpointsList = isSelectServiceLevel
+    ? (app, services) => mapServicesToOptions(app, services)
+    : (app, services) =>
+        mapServicesWithEndpointsToOptions(
           app,
           services,
-          isSelectServiceLevel,
           timeConfig,
           boundaryScope,
           includeSynthetic,
           tagFilterExpression,
           applications
-        )
+        );
+
+  if (applicationIds.length === 1) {
+    const { app, services } = applicationList.map(({ data }) => data)[0];
+    return [
+      {
+        label: 'Services:',
+        children: createServicesAndEndpointsList(app, services)
       }
     ];
   }
@@ -70,27 +84,28 @@ export function createOptionsList(
           label: app.label,
           icon: 'lib_application',
           type: 'APPLICATION',
-          children: mapServicesToOptions(
-            app,
-            services,
-            isSelectServiceLevel,
-            timeConfig,
-            boundaryScope,
-            includeSynthetic,
-            tagFilterExpression,
-            applications
-          )
+          children: createServicesAndEndpointsList(app, services)
         }))
     }
   ];
 }
 
+function mapServicesToOptions(app, services) {
+  return (services ?? []) //
+    .map(({ service }) => ({
+      appId: app.id,
+      id: service.id,
+      icon: 'lib_application_service',
+      label: service.label,
+      type: 'SERVICE'
+    }));
+}
+
 const hasNoEndpoints = metrics => metrics?.endpoints?.[0]?.[1] === 0;
 
-function mapServicesToOptions(
+function mapServicesWithEndpointsToOptions(
   app,
   services,
-  isSelectServiceLevel,
   timeConfig,
   boundaryScope,
   includeSynthetic,
@@ -106,37 +121,32 @@ function mapServicesToOptions(
       label: service.label,
       type: 'SERVICE',
       children: hasNoEndpoints(metrics) ? [] : undefined, // undefined will be replaced in case list will have been fetched
-      loadChildren:
-        isSelectServiceLevel || hasNoEndpoints(metrics) // ignore if only showing services (or APs) or
-          ? // if we already know it has no endpoints
-            undefined
-          : () =>
-              fetchEndpoints({
-                applicationId: app.id,
-                serviceId: service.id,
-                boundaryScope,
-                tagFilterFormModel: tagFilterExpression,
-                applications,
-                timeConfig,
-                includeSynthetic
-              }) //
-                .map(({ data, progress }) => ({
-                  data: {
-                    items: mapEndpointsToOptions(app, service, data?.items)
-                  },
-                  progress
-                }))
+      loadChildren: hasNoEndpoints(metrics)
+        ? undefined // optimisation, when we already know it has no endpoints
+        : () =>
+            fetchEndpoints({
+              applicationId: app.id,
+              serviceId: service.id,
+              boundaryScope,
+              tagFilterFormModel: tagFilterExpression,
+              applications,
+              timeConfig,
+              includeSynthetic
+            }) //
+              .map(({ data, progress }) => ({
+                data: {
+                  items: mapEndpointItemsToOptions(app, service, data?.items)
+                },
+                progress
+              }))
     }));
 }
 
-function mapEndpointsToOptions(app, service, itemsWithEndpoints) {
+function mapEndpointItemsToOptions(app, service, itemsWithEndpoints) {
   return (itemsWithEndpoints ?? []) //
     .map(({ endpoint }) => ({
-      breadcrumbAndLabel: <ApplicationScopePath endpointName={endpoint.label} serviceName={service.label} />,
       serviceId: service.id,
-      serviceName: service.label,
       appId: app.id,
-      appName: app.label,
       label: endpoint.label,
       id: endpoint.id,
       type: 'ENDPOINT',
