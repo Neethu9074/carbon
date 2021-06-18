@@ -14,7 +14,7 @@
 exports.createImportRestrictionRule = ({
   paths = [],
   patterns = [],
-  allowedInPackages = [],
+  allowedInPackages,
   enforceAbsoluteImportPaths
 } = {}) => ({
   'no-restricted-imports': [
@@ -42,8 +42,8 @@ exports.createImportRestrictionRule = ({
           : []),
 
         // Allow architecture enforcement rules, i.e., restrict cross-package imports.
-        allowedInPackages.length > 0 ? 'in-*/*' : null,
-        ...allowedInPackages.map(pckg => `!${pckg}/*`),
+        allowedInPackages != null ? 'in-*/*' : null,
+        ...(allowedInPackages || []).map(pckg => `!${pckg}/*`),
 
         ...patterns
       ].filter(Boolean)

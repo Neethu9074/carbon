@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import DashboardErroneousResultPresenter from 'in-components/DashboardErroneousResultPresenter';
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import Title from 'in-components/Title';
 

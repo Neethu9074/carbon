@@ -19,7 +19,7 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { bytesZeroDecimalPlaces } from 'in-services/formatters/number';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip';

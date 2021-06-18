@@ -14,7 +14,7 @@ import { datacenterList, getVsphereDatacenterDashboard } from 'in-vsphere/naviga
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';

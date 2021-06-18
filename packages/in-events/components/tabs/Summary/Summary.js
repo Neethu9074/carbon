@@ -35,7 +35,7 @@ import PopulationChart from 'in-events/components/legacy/PopulationChart';
 import IncidentEventListRows from 'in-events/components/legacy/EventList';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
 import EventDetailsKPIs from 'in-events/components/EventDetailsKPIs';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getEventType, EVENT_TYPES } from 'in-stores/events';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import EventChart from 'in-events/components/EventChart';

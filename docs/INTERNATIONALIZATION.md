@@ -122,7 +122,7 @@ respective json would change as below
    these for static source code analysis.
  - Do not translate logger statements.
  - Do not translate JavaScript error messages, e.g. `new Error(…)`.
- - Do not translate Mixpanel API calls and `in-services/tracking/ViewTrackingMeta` usages.
+ - Do not translate Mixpanel API calls and `in-components/ViewTrackingMeta` usages.
  - Do not translate `in-server`.
  - Translation of `in-internal` is optional.
 

@@ -6,7 +6,7 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
-import { getTimeConfig, urlQueryKeys } from './config';
+import { getTimeConfig, urlQueryKeys } from 'in-stores/time/config';
 import { config } from 'in-services/config';
 import { hours } from 'in-services/time';
 

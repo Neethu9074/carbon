@@ -1,0 +1,25 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+/* eslint-env node */
+
+const { createImportRestrictionRule } = require('../../build/linting/restrictedImportRule');
+
+module.exports = {
+  rules: {
+    ...createImportRestrictionRule({
+      enforceAbsoluteImportPaths: true,
+
+      allowedInPackages: [
+        'in-subscription',
+        // FIXME Circular import
+        'in-services',
+        // FIXME This import path should not exist in a global package
+        // FIXME Circular import
+        'in-applications'
+      ]
+    })
+  }
+};

@@ -13,13 +13,13 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import getKubernetesCronJob from 'in-subscription/kubernetes/getKubernetesCronJob';
 import { cronJobId as matrixCronJobId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { cronJobDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { CronJobBreadcrumbs } from 'in-kubernetes/breadcrumbs';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import BadgeList from 'in-components/BadgeList/BadgeList';
 import { cronJobTabChange } from 'in-kubernetes/tracker';

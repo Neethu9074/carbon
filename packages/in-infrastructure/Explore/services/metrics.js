@@ -7,8 +7,8 @@ import { just } from '@instana/observables';
 
 import { percentageZeroDecimalPlaces, bytesTwoDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
 import getAvailableMetrics from 'in-infrastructure/subscriptions/getAvailableMetrics';
-import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
+import { getFormatterType } from 'in-services/formatters/number';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getKpiDefinitions } from 'in-sdk/metrics/kpis';
@@ -111,7 +111,7 @@ function createKpi(kpiDefinition) {
   return {
     isKpi: true,
     aggregations: DEFAULT_AGGREGATIONS,
-    percentageMetric: numberFormatterToFormatterType(kpiDefinition.formatter) === 'PERCENTAGE',
+    percentageMetric: getFormatterType(kpiDefinition.formatter) === 'PERCENTAGE',
     ...kpiDefinition
   };
 }

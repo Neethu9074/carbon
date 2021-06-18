@@ -6,7 +6,7 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
-import { diff, find, intersperse } from './arrayUtils';
+import { diff, find, intersperse } from 'in-services/arrayUtils';
 
 describe('arrayUtils', () => {
   describe('find', () => {

@@ -25,10 +25,10 @@ import ExtractionRule from 'in-applications/Forms/CustomEndpointMapping/Extracti
 import RemoveSection from 'in-applications/Forms/CustomEndpointMapping/Remove';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { routeIdOverPathTplEnabled } from 'in-services/featureFlags';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';

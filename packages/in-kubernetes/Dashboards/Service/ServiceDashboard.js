@@ -14,7 +14,6 @@ import getKubernetesService from 'in-subscription/kubernetes/getKubernetesServic
 import { serviceId as matrixServiceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
 import { serviceDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -24,6 +23,7 @@ import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Service/tabs/index';
 import { ServiceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { serviceTabChange } from 'in-kubernetes/tracker';

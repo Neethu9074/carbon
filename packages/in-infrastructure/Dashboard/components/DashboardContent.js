@@ -16,8 +16,8 @@ import NotFoundDialog from 'in-infrastructure/Dashboard/components/NotFoundDialo
 import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getForgeComponent } from 'in-services/getForgeComponent';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import { getPluginName } from 'in-sdk/pluginName';
 import { getLabel } from 'in-sdk/snapshot';

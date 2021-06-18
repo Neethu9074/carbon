@@ -8,7 +8,7 @@
 
 import { expect } from 'chai';
 
-import createScale from './scale';
+import createScale from 'in-services/scale';
 
 describe('scale', () => {
   let scale;

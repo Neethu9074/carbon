@@ -7,8 +7,8 @@
 
 import { expect } from 'chai';
 
+import getTickPositions from 'in-services/ticks/vertical';
 import createScale from 'in-services/scale';
-import getTickPositions from './vertical';
 
 describe('timeAxis', () => {
   let scale;

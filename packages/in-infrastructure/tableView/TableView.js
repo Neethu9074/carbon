@@ -8,7 +8,7 @@ import React from 'react';
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
 import useOldBackgroundColor from 'in-infrastructure/hooks/useOldBackgroundColor';
 import TableWrapper from 'in-infrastructure/tableView/components/TableWrapper';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 

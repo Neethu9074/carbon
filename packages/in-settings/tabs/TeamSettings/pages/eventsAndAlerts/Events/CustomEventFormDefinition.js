@@ -21,10 +21,10 @@ import {
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { mapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecifications';
-import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { queryValidationResultValidator, valid } from 'in-settings/validation';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { notBlankValidator } from 'in-services/validators/string';
+import { getFormatterType } from 'in-services/formatters/number';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
 import { plugins } from 'in-forge/constants';
@@ -196,7 +196,7 @@ function putAllDataSourceFields(form, eventSpec) {
     const metricItem = find(metricList, _metric => _metric.value === metricName);
 
     if (metricItem) {
-      formatter = numberFormatterToFormatterType(metricItem.formatter);
+      formatter = getFormatterType(metricItem.formatter);
     }
   }
 

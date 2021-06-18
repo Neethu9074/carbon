@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import StringStream from './StringStream';
+import StringStream from 'in-stores/search/lexer/StringStream';
 
 const OPERATORS = ['AND', 'OR', 'NOT', '+', '-'];
 const TERM_REGEXP_START = /[a-z0-9öäüß*?.><=]/i;

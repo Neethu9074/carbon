@@ -4,14 +4,15 @@
  */
 
 import React, { useLayoutEffect, useRef } from 'react';
+
 import { useObservable } from '@instana/hooks';
 
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import { setCanvas, clear } from 'in-map/stores/indexStore';

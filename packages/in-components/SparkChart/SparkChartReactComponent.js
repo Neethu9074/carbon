@@ -8,9 +8,9 @@ import React from 'react';
 
 import { KeyValue } from '@instana/components';
 
+import { number, getFormatterType, PERCENTAGE_FORMATTER_TYPE } from 'in-services/formatters/number';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { number, isPercentageFormatter } from 'in-services/formatters/number';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import AggregationSymbol from 'in-components/AggregationSymbol';
@@ -57,7 +57,9 @@ function SparkChartReactComponent(props) {
     sparkChart = (
       <SparkChartReactWrapper
         {...props}
-        percentageMetric={props.percentageMetric ?? isPercentageFormatter(props.tooltipFormatter)}
+        percentageMetric={
+          props.percentageMetric ?? getFormatterType(props.tooltipFormatter) === PERCENTAGE_FORMATTER_TYPE
+        }
         timeConfig={timeConfig}
         metrics={metrics}
       />

@@ -34,7 +34,7 @@ import {
   meanLatency,
   meanLatencyFixed,
   meanLatencyLargeInSeconds
-} from './number';
+} from 'in-services/formatters/number';
 import { days, hours, minutes, seconds } from 'in-services/time';
 
 describe('in-services.formatter.number', () => {

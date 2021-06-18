@@ -21,9 +21,9 @@ import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summar
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import { closeSessionViewLink } from 'in-mobile-apps/navigation/paths';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import getTabs from 'in-mobile-apps/analyze/SessionView/tabs';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import DashboardHeader from 'in-components/DashboardHeader';

@@ -82,10 +82,10 @@ import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/Sel
 import { getPluginsWithCustomMetrics, getCustomMetricsForPlugin } from 'in-api/infraCatalog';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import EventDescription from 'in-events/components/EventDescription';
 import SectionHeading from 'in-settings/components/SectionHeading';
+import { getFormatterType } from 'in-services/formatters/number';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { isBlank, isNotBlank } from 'in-services/util/string';
@@ -851,7 +851,7 @@ function getBuiltInMetricInfo(metricItem) {
   let formatter = undefinedMetricFormatter;
   let label = unknownMetricLabel;
   if (metricItem != null) {
-    formatter = numberFormatterToFormatterType(metricItem.formatter);
+    formatter = getFormatterType(metricItem.formatter);
     label = metricItem.origLabel || metricItem.label;
   }
   return {

@@ -30,8 +30,8 @@ import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeader
 import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import FeatureFeedback from 'in-components/FeatureFeedback/FeatureFeedback';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';

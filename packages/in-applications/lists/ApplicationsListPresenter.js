@@ -36,7 +36,7 @@ import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { boundaryScopes } from 'in-applications/constants';
 import Tooltip from 'in-components/Tooltip';
 import Footer from 'in-components/Footer';

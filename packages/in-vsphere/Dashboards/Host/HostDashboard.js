@@ -10,11 +10,11 @@ import { datacenterId as matrixDatacenterId } from 'in-vsphere/navigation/matrix
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { hostId as matrixHostId } from 'in-vsphere/navigation/matrix';
 import getVsphereHost from 'in-vsphere/subscriptions/getVsphereHost';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { hostDashboard } from 'in-vsphere/navigation/paths';
 import { HostBreadcrumbs } from 'in-vsphere/breadcrumbs';

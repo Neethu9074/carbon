@@ -15,7 +15,6 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { namespaceDashboard } from 'in-kubernetes/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { NamespaceBreadcrumbs } from 'in-kubernetes/breadcrumbs';
@@ -24,6 +23,7 @@ import tabs from 'in-kubernetes/Dashboards/Namespace/tabs/index';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { namespaceTabChange } from 'in-kubernetes/tracker';

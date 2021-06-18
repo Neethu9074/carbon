@@ -6,7 +6,7 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
-import ColorGenerator from './ColorGenerator';
+import ColorGenerator from 'in-services/util/ColorGenerator';
 
 describe('util.ColorGenerator', () => {
   it('should return only 2 colors', () => {

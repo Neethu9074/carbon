@@ -13,12 +13,12 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import { nodeDashboard } from 'in-kubernetes/navigation/paths';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { NodeBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import tabs from 'in-kubernetes/Dashboards/Node/tabs/index';

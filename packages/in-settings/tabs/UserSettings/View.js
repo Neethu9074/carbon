@@ -16,9 +16,9 @@ import SideNavigationAndContent from 'in-components/layout/SideNavigationAndCont
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { t } from 'in-i18n';
 

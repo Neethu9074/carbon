@@ -5,11 +5,12 @@
 
 /* eslint-env mocha */
 
-import { create } from '@instana/observables';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { createStore, createTrackingStore, allStates } from './store';
+import { create } from '@instana/observables';
+
+import { createStore, createTrackingStore, allStates } from 'in-stores/store';
 
 describe('in-stores/store', () => {
   let subscriber;

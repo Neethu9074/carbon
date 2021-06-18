@@ -5,9 +5,12 @@
 
 import React from 'react';
 
-import 'in-client/js/devtools/storeStates';
+import { allStates } from 'in-stores/store';
 
 // expose the React global to analyze performance issues
 if (__DEV__) {
   window.React = React;
 }
+
+window.instana.dev = window.instana.dev || {};
+window.instana.dev.storeStates = allStates;

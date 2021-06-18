@@ -21,10 +21,10 @@ import { dashboardTagFilters as tagFiltersTrackers } from 'in-mobile-apps/tracke
 import QuickFilterBar from 'in-mobile-apps/analyze/AnalyzeView/QuickFilterBar';
 import { tagFilterManipulators } from 'in-mobile-apps/tagFiltersHoc';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTagCatalog from 'in-mobile-apps/hooks/useTagCatalog';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
 import { tabChange } from 'in-mobile-apps/tracker';

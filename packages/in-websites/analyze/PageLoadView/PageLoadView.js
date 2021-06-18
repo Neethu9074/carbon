@@ -20,8 +20,8 @@ import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBe
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-components/LocationAwareTabView/TabView';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { shorten, isNotBlank } from 'in-services/util/string';
 import DashboardHeader from 'in-components/DashboardHeader';
 import getTabs from 'in-websites/analyze/PageLoadView/tabs';

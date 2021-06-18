@@ -51,8 +51,8 @@ import InfrastructureList from 'in-infrastructure/Explore/components/Infrastruct
 import { getMetrics, fromUrlMetrics } from 'in-infrastructure/Explore/services/metrics';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { warning, error } from 'in-components/Message/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';

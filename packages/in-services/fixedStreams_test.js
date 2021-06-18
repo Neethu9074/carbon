@@ -7,7 +7,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { alwaysNull, alwaysEmptyArray } from './fixedStreams';
+import { alwaysNull, alwaysEmptyArray } from 'in-services/fixedStreams';
 
 describe('fixedStreams', () => {
   testPrimitive('alwaysNull', null);

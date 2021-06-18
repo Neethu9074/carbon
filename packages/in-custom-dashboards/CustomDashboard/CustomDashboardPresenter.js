@@ -19,9 +19,9 @@ import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeader
 import DefaultLoadingDashboard from 'in-components/Loading/DefaultLoadingDashboard';
 import { dashboardTvModeUrlParameter } from 'in-custom-dashboards/navigation/url';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import Grid from 'in-custom-dashboards/CustomDashboard/Grid/Grid';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import SaveButton from 'in-components/form/SaveButton';
 import WithTvMode from 'in-components/WithTvMode';
 import Tooltip from 'in-components/Tooltip';

@@ -7,7 +7,7 @@
 
 import { expect } from 'chai';
 
-import toPx from './toPx';
+import toPx from 'in-services/formatters/toPx';
 
 describe('formatters.toPx', () => {
   it('should remove decimal places to avoid sub pixel rendering artifacts', () => {

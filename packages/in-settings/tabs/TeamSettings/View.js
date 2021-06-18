@@ -66,7 +66,7 @@ import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub'
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { role } from 'in-stores/user';

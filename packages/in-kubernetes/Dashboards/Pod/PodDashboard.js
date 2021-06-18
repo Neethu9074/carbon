@@ -15,11 +15,11 @@ import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadge
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
 import { podId as matrixPodId } from 'in-kubernetes/navigation/matrix';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { podDashboard } from 'in-kubernetes/navigation/paths';
 import DashboardHeader from 'in-components/DashboardHeader';
 import tabs from 'in-kubernetes/Dashboards/Pod/tabs/index';

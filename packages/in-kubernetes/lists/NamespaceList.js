@@ -18,8 +18,8 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import ViewTrackingMeta from 'in-services/tracking/ViewTrackingMeta';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import Title from 'in-components/Title';
