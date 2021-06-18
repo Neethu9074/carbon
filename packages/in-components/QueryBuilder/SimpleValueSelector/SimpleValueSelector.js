@@ -113,7 +113,7 @@ function SuggestionsList({
       aria-labelledby={menuProps['aria-labelledby']}
       id={menuProps.id}
       role={menuProps.role}
-      refSetter={menuProps.ref}
+      ref={menuProps.ref}
     >
       {filteredOptions.map((item, index) => {
         const itemProps = getItemProps({
