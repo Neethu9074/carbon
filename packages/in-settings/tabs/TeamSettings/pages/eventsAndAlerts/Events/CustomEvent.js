@@ -126,7 +126,7 @@ function save(event, form) {
 }
 
 function getTagFilterForHostAvailability(form) {
-  if (form.get('tagValue') && form.get('tagOperator')) {
+  if (form.containsKey('tagValue') && form.containsKey('tagOperator')) {
     return {
       name: 'tag',
       operator: form.get('tagOperator').value,
@@ -138,36 +138,39 @@ function getTagFilterForHostAvailability(form) {
 }
 
 function getHostAvailabilityEventSpecification(form, event) {
-  return createCustomSystemRuleBasedHostAvailability(
-    event ? event.get('id') : null,
-    form.get('name').value,
-    form.get('triggering').value,
-    form.get('description').value,
-    form.get('gracePeriod').value,
-    getTagFilterForHostAvailability(form),
-    Number(form.get('offlineDuration')?.value ?? 0),
-    Number(form.get('closeAfter')?.value ?? 0),
-    event ? event.get('enabled') : true,
-    Number(form.get('severity')?.value ?? 0)
-  );
+  const hostAvailabilityFields = {
+    id: event ? event.get('id') : null,
+    name: form.get('name').value,
+    triggering: form.get('triggering').value,
+    description: form.get('description').value,
+    expirationTime: form.get('gracePeriod').value,
+    tagFilter: getTagFilterForHostAvailability(form),
+    offlineDuration: Number(form.get('offlineDuration')?.value ?? 0),
+    closeAfter: Number(form.get('closeAfter')?.value ?? 0),
+    enabled: event ? event.get('enabled') : true,
+    severity: Number(form.get('severity')?.value ?? 0)
+  };
+
+  return createCustomSystemRuleBasedHostAvailability(hostAvailabilityFields);
 }
 
 function getEntityVerificationEventSpecification(form, query, event) {
-  return createCustomSystemRuleBasedEventSpecificationForEntityVerification(
-    event ? event.get('id') : null,
-    form.get('name').value,
-    'host',
+  const entityVerificationFields = {
+    id: event ? event.get('id') : null,
+    name: form.get('name').value,
     query,
-    form.get('triggering').value,
-    form.get('description').value,
-    form.get('gracePeriod').value,
-    event ? event.get('enabled') : true,
-    Number(form.get('severity')?.value ?? 0),
-    form.get('matchingEntityType')?.value ?? null,
-    form.get('matchingOperator')?.value ?? null,
-    form.get('matchingEntityLabel')?.value ?? null,
-    Number(form.get('offlineDuration')?.value ?? 0)
-  );
+    triggering: form.get('triggering').value,
+    description: form.get('description').value,
+    expirationTime: form.get('gracePeriod').value,
+    enabled: event ? event.get('enabled') : true,
+    severity: Number(form.get('severity')?.value ?? 0),
+    matchingEntityType: form.get('matchingEntityType')?.value ?? null,
+    matchingOperator: form.get('matchingOperator')?.value ?? null,
+    matchingEntityLabel: form.get('matchingEntityLabel')?.value ?? null,
+    offlineDuration: Number(form.get('offlineDuration')?.value ?? 0)
+  };
+
+  return createCustomSystemRuleBasedEventSpecificationForEntityVerification(entityVerificationFields);
 }
 
 function getCustomSystemRuleBasedEventSpecification(form, query, event) {
