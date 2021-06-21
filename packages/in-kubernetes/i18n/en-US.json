@@ -198,7 +198,6 @@
     "noCpuLimitQuotaMessage": "There are no CPU limit quotas in this namespace",
     "noMemoryRequestQuotaMessage": "There are no memory request quotas in this namespace",
     "noMemoryLimitQuotaMessage": "There are no memory limit quotas in this namespace",
-    "completion": "Completion",
     "placeholderPhase": "Phase…",
     "events2": "events"
   },
@@ -249,12 +248,16 @@
   "running": "Running",
   "pending": "Pending",
   "succeeded": "Succeeded",
-  "active": "Active",
   "failed": "Failed",
   "unknown": "Unknown",
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "No Kubernetes data is available. For troubleshooting information, see the [documentation][Docs].\n\n[Docs]:https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+  },
+  "pod": {
+    "pending": "Pods Pending",
+    "active": "Pods Active",
+    "completed": "Pods Completed"
   }
 }
