@@ -13,6 +13,11 @@ import './DropDownDirection.less';
 import './ComboBox.less';
 
 export default autoMenuDirection(function ComboBox({ isClearable = true, ...props }) {
+  /**
+   * When props.value is null, then Array.find operation will return undefined
+   * Select expects value to be null if wanted to reset the value
+   */
+  const value = props.options.find(option => option.value === props.value) ?? null;
   return (
     <Select
       {...props}
@@ -25,7 +30,7 @@ export default autoMenuDirection(function ComboBox({ isClearable = true, ...prop
           props.onChange(e);
         }
       }}
-      value={props.options.find(option => option.value === props.value)}
+      value={value}
     />
   );
 });
