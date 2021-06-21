@@ -5,7 +5,6 @@
 
 import moment from 'moment';
 
-import { formatEnglishDurationAccurately, formatDurationAccurately } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 
 const minute = 60 * 1000;
@@ -137,20 +136,4 @@ function getPreviousWeekPreset(months) {
     windowSize: sevenDays,
     to: endOfWeek.getTime()
   };
-}
-
-export function format(windowSize) {
-  const result = `Last ${formatEnglishDurationAccurately(windowSize, 60000, false)}`;
-  const match = result.match(/^Last 1 ([a-z]+)$/i);
-  if (match && match[1] === 'day') {
-    return t('in-components:time.timePresetsLast24Hours');
-  } else if (match) {
-    return t('in-components:time.timePresetsLast', {
-      duration: t('in-components:time.timeUnit', { context: match[1] })
-    });
-  } else {
-    return t('in-components:time.timePresetsLast', {
-      duration: formatDurationAccurately(windowSize, 60000, false)
-    });
-  }
 }

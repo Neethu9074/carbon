@@ -3,12 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import {
-  formatEnglishDurationAccurately,
-  formatDurationAccurately,
-  formatTime,
-  formatDateShort
-} from 'in-services/formatters/date';
+import { formatDurationAccurately, formatTime, formatDateShort } from 'in-services/formatters/date';
+import { days, hours, minutes } from 'in-services/time';
 import { isOnSameDay } from 'in-services/util/date';
 import { t } from 'in-i18n';
 
@@ -43,43 +39,30 @@ export function timeDisplayTopFormat(timeConfig) {
 
 export function timeDisplayBottomFormat(timeConfig) {
   const currentTime = Date.now();
+  const fromTime = (timeConfig.to ?? currentTime) - timeConfig.windowSize;
+  const oneDay = days.toMillis(1);
+  const oneHour = hours.toMillis(1);
+  const oneMinute = minutes.toMillis(1);
+  const numHours = Math.floor(timeConfig.windowSize / oneHour);
+  const numMinutes = Math.floor((timeConfig.windowSize - numHours * oneHour) / oneMinute);
 
-  if (timeConfig.autoRefresh == true) {
-    const result = `Last ${formatEnglishDurationAccurately(timeConfig.windowSize, 60000, false)}`;
-    const match = result.match(/^Last 1 ([a-z]+)$/i);
-    if (match && match[1] === 'day') {
-      return t('in-components:time.timeFrameFormatterLast24Hours');
-    } else if (match) {
-      return t('in-components:time.timeFrameFormatterLast', {
-        duration: t('in-components:time.timeUnit', { context: match[1] })
-      });
-    } else {
-      return t('in-components:time.timeFrameFormatterLast', {
-        duration: formatDurationAccurately(timeConfig.windowSize, 60000, false)
-      });
+  if (timeConfig.autoRefresh || timeConfig.to == null) {
+    if (!isOnSameDay(fromTime, currentTime)) {
+      //special case for 24 hours
+      return timeConfig.windowSize === oneDay
+        ? t('in-components:time.timeFrameFormatterHours', { count: numHours })
+        : `${formatDateShort(fromTime)} - ${formatDateShort(currentTime)}`;
     }
+
+    if (numHours && numMinutes) {
+      return t('in-components:time.timeFrameFormatterHoursMinutes', { hours: numHours, minutes: numMinutes });
+    }
+    if (numMinutes) {
+      return t('in-components:time.timeFrameFormatterMinutes', { count: numMinutes });
+    }
+    return t('in-components:time.timeFrameFormatterHours', { count: numHours });
   }
 
-  if (timeConfig.to == null) {
-    const fromTime = currentTime - timeConfig.windowSize;
-    const result = `Last ${formatEnglishDurationAccurately(timeConfig.windowSize, 60000, false)}`;
-    const match = result.match(/^Last 1 ([a-z]+)$/i);
-    if (isOnSameDay(fromTime, currentTime)) {
-      if (match) {
-        return t('in-components:time.timeFrameFormatterLast', {
-          duration: t('in-components:time.timeUnit', { context: match[1] })
-        });
-      }
-      return result;
-    } else {
-      if (match && match[1] === 'day') {
-        return t('in-components:time.timeFrameFormatterLast24Hours');
-      }
-      return `${formatDateShort(fromTime)} - ${formatDateShort(currentTime)}`;
-    }
-  }
-
-  const fromTime = timeConfig.to - timeConfig.windowSize;
   const toTime = timeConfig.to;
   if (isOnSameDay(fromTime, toTime)) {
     return `${formatTime(fromTime)} - ${formatTime(toTime)}`;

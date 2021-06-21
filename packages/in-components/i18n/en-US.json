@@ -60,7 +60,7 @@
   },
   "loadMoreRow": {
     "loadMore": "Load More"
-},
+  },
   "messageFlyout": {
     "infrastructurePageName": "Infrastructure",
     "eumPageName": "EUM",
@@ -459,18 +459,25 @@
     "timeSelectionDialogPresenterLabelTimeRange": "Time Range",
     "timeSelectionDialogPresenterLabelReleases": "Releases",
     "timeFrameFormatterStarting": "Starting {{fromTime}}",
-    "timeFrameFormatterLast": "Last {{duration}}",
-    "timeFrameFormatterLast24Hours": "Last 24 hours",
     "timeIconHistoricDataMessage": "You are viewing approximate data due to the data retention settings. Precise data is available within the last {{retention}} days.",
     "timeIconLargeDataMessage": "You are viewing approximate data due to a large data set. Please reduce the time range for precise data.",
-    "timePresetsLast": "Last {{duration}}",
-    "timePresetsLast24Hours": "Last 24 hours",
     "timeUnit_year": "year",
     "timeUnit_month": "month",
     "timeUnit_day": "day",
     "timeUnit_hour": "hour",
     "timeUnit_minute": "minute",
-    "timeUnit_second": "second"
+    "timeUnit_second": "second",
+
+    "timeFrameFormatterHoursMinutes": "Last $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+    "hours": "{{count}} hour",
+    "hours_plural": "{{count}} hours",
+    "minutes": "{{count}} minute",
+    "minutes_plural": "{{count}} minutes",
+
+    "timeFrameFormatterHours": "Last hour",
+    "timeFrameFormatterHours_plural": "Last {{count}} hours",
+    "timeFrameFormatterMinutes": "Last minute",
+    "timeFrameFormatterMinutes_plural": "Last {{count}} minutes"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Change selected time shift",
@@ -485,9 +492,9 @@
     "buttonReloadToUpdate": "Reload to update"
   },
   "upstreamDownstream": {
-    "companionMetricLabelCalls" : "Calls",
-    "companionMetricLabelLatency" : "Latency",
-    "companionMetricLabelErroneousCalls" : "Erroneous Calls",
+    "companionMetricLabelCalls": "Calls",
+    "companionMetricLabelLatency": "Latency",
+    "companionMetricLabelErroneousCalls": "Erroneous Calls",
     "companionMetricLabelErroneousCallRate": "Erroneous Call Rate: ",
     "metricLabelCallsAndErroneousCalls": "Calls and Erroneous Calls",
     "metricLabelCallsAndLatency": "Calls and Latency",
