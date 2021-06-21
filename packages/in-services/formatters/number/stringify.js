@@ -23,7 +23,18 @@ import { getSingle } from 'in-services/settings';
 import { t } from 'in-i18n';
 
 const isLocaleAware = !getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
-const format = isLocaleAware ? createCustomLocaleFormat(window.instana.numberLocale).format : defaultLocaleFormat;
+const format = isLocaleAware
+  ? createCustomLocaleFormat({
+      ...window.instana.numberLocale,
+      // Some languages have alternative numerals, e.g., east arabic.
+      // https://en.wikipedia.org/wiki/Eastern_Arabic_numerals
+      //
+      // Some of our formatters have assumptions about these numbers.
+      // In order to avoid breakage, we will just disable alternative
+      // numeral characters. To be revisited in the future :)
+      numerals: undefined
+    }).format
+  : defaultLocaleFormat;
 export const byteBase = 1024;
 export const decimalSeparator = (isLocaleAware && window.instana.numberLocale.decimal) || '.';
 export const thousandsSeparator = (isLocaleAware && window.instana.numberLocale.thousands) || ',';
