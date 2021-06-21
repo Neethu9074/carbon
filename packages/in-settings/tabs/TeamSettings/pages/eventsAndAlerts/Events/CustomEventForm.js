@@ -650,7 +650,7 @@ function EventForm({
   );
 
   function isHostAvailabilitySystemRule() {
-    return form.get('systemRule') && form.get('systemRule').value === hostAvailabilityDetection.id;
+    return form.get('systemRule')?.value === hostAvailabilityDetection.id;
   }
 }
 

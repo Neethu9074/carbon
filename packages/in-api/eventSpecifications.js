@@ -69,10 +69,9 @@ export function getCustomEventSpecificationMutable(eventSpecificationIds) {
   }).map(response => response.body);
 }
 
-export function createCustomSystemRuleBasedEventSpecificationForEntityVerification(
-  id,
+export function createCustomSystemRuleBasedEventSpecificationForEntityVerification({
+  id = generateUniqueShortId(),
   name = t('in-settings:tabs.newEvent'),
-  entityType,
   query = '',
   triggering = false,
   description = '',
@@ -82,13 +81,12 @@ export function createCustomSystemRuleBasedEventSpecificationForEntityVerificati
   matchingEntityType,
   matchingOperator,
   matchingEntityLabel,
-  offlineDuration,
-  ruleType = ruleTypeEntityVerification
-) {
+  offlineDuration
+}) {
   return {
-    id: id || generateUniqueShortId(),
+    id,
     name,
-    entityType,
+    entityType: 'host',
     query,
     triggering,
     description,
@@ -96,7 +94,7 @@ export function createCustomSystemRuleBasedEventSpecificationForEntityVerificati
     enabled,
     rules: [
       {
-        ruleType,
+        ruleType: ruleTypeEntityVerification,
         severity,
         matchingEntityType,
         matchingOperator,
@@ -107,8 +105,8 @@ export function createCustomSystemRuleBasedEventSpecificationForEntityVerificati
   };
 }
 
-export function createCustomSystemRuleBasedHostAvailability(
-  id,
+export function createCustomSystemRuleBasedHostAvailability({
+  id = generateUniqueShortId(),
   name = t('in-settings:tabs.newEvent'),
   triggering = false,
   description = '',
@@ -118,9 +116,9 @@ export function createCustomSystemRuleBasedHostAvailability(
   closeAfter,
   enabled = true,
   severity = 5
-) {
+}) {
   return {
-    id: id || generateUniqueShortId(),
+    id,
     name,
     entityType: 'host',
     triggering,

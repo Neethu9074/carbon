@@ -96,7 +96,7 @@
   "buttonFocusTimeToRelease": "Focus time to release",
   "buttonFollowReleaseLive": "Follow releases live",
   "linkViewLastProcess": "View Last Process",
-  "linkViewLastHost": "View Last Host",
+  "linkGoToTheOfflineHost": "Go to the offline host",
   "headerStarted": "Started",
   "headerTitle": "Title",
   "headerEnd": "End",

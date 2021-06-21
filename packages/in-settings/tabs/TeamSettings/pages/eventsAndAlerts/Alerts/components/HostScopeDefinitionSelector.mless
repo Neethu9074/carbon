@@ -5,6 +5,8 @@
 
 @import '~in-themes/active.less';
 
+@host__scope__tag__line_height: 2.5;
+
 :local {
   .configurator {
     font-weight: 600;
@@ -28,17 +30,6 @@
   .tagName {
     margin-right: 0.5rem;
     background: @lib__colors__transparent;
-
-    &:focus,
-    &:active,
-    &:hover {
-      outline: none;
-      color: @lib__colors__light-blue800;
-
-      .icon {
-        fill: @lib__colors__light-blue800;
-      }
-    }
   }
 
   .icon {
@@ -49,7 +40,7 @@
   }
 
   .removeIconContainer {
-    line-height: 2.5;
+    line-height: @host__scope__tag__line_height;
     border-left: 1px solid @lib__colors__N400;
   }
 
@@ -76,7 +67,7 @@
     border-right: 1px solid @lib__colors__N300;
     border-bottom: none;
     border-top: none;
-    line-height: 2.5;
+    line-height: @host__scope__tag__line_height;
 
     cursor: pointer;
 

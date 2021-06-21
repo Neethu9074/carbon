@@ -28,7 +28,7 @@ export default function OfflineEventDescription({ event, latestSnapshot }) {
   ) : (
     <div>
       <CustomProblemDescription title="Last Known Host" text={problemText} className="in-event-view-event-content" />
-      {url && <Link href$={url}>{t('in-events:linkViewLastHost')}</Link>}
+      {url && <Link href$={url}>{t('in-events:linkGoToTheOfflineHost')}</Link>}
     </div>
   );
 }
