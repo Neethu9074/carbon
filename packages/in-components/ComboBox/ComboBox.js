@@ -17,7 +17,7 @@ export default autoMenuDirection(function ComboBox({ isClearable = true, ...prop
    * When props.value is null, then Array.find operation will return undefined
    * Select expects value to be null if wanted to reset the value
    */
-  const value = props.options.find(option => option.value === props.value) ?? null;
+  const value = props.options?.find(option => option.value === props.value) ?? null;
   return (
     <Select
       {...props}
