@@ -67,6 +67,7 @@ export default function ApplicationEventListItemContent({ event }) {
           }}
           viewConfig={chartViewConfig}
           blueprintConfig={blueprintConfig}
+          applicationId={eventEntity.applicationId}
           serviceId={eventEntity.serviceId}
           endpointId={eventEntity.endpointId}
         />
