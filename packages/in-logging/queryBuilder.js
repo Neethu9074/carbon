@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
+import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { EQUALS, NOT_EMPTY, ENDS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 
@@ -15,7 +15,7 @@ export function getTraceIdTagFilter(traceId) {
 }
 
 export function getSpanIdTagFilter(spanId) {
-  return spanId ? getValueMatchTagFilter({ name: LOG_SPAN_ID, value: spanId }) : emptyTagFilterExpression;
+  return spanId ? getValueMatchTagFilter({ name: LOG_SPAN_ID, value: spanId }) : getEmptyTagFilterExpression();
 }
 
 export function getValueMatchTagFilter(tagFilter) {

@@ -5,8 +5,8 @@
 
 import React from 'react';
 
+import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
-import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import getJumpDirectlyToUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToUA2Href';
@@ -113,7 +113,7 @@ function getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime) {
     filters = [];
   } else {
     // application
-    formModel = emptyTagFilterExpression;
+    formModel = getEmptyTagFilterExpression();
     filters = getAdditionalFiltersForApplicationSli(sliConfig);
   }
 
