@@ -6,7 +6,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { Spacer, SpacerSizes } from '@instana/components';
+import { Spacer } from '@instana/components';
 
 import AggregationSymbol from 'in-components/AggregationSymbol';
 import { getTimeShiftLabel } from 'in-stores/time/shifting';
@@ -22,9 +22,9 @@ export default function TooltipContent({ slice, formatter }) {
       {slice.timeShift.offset !== 0 && (
         <span className={locals.timeShift}>{`(${getTimeShiftLabel(slice.timeShift)})`}</span>
       )}
-      <Spacer horizontal={SpacerSizes.small} />
+      <Spacer horizontal="small" />
       {slice.aggregation && <AggregationSymbol aggregation={slice.aggregation} />}
-      <Spacer horizontal={SpacerSizes.xxsmall} />
+      <Spacer horizontal="xxsmall" />
       <strong>{formatter(slice.value)}</strong>
       <span className={locals.percentage}> {`(${percentage.detailed(slice.percentage)})`}</span>
     </div>

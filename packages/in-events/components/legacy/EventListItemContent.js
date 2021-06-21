@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Spacer, SpacerSizes } from '@instana/components';
+import { Spacer } from '@instana/components';
 
 import { isEntityVerificationEvent, isHostAvailabilityEvent } from 'in-events/components/eventUtil';
 import OfflineEventDescription from 'in-events/components/legacy/OfflineEventDescription';
@@ -27,7 +27,7 @@ export default function EventListItemContent({ event, latestSnapshot }) {
         <EventSpecificationLink event={event} />
         <AnalyzeIssueCallsButton event={event} />
       </DescriptionButtons>
-      <Spacer vertical={SpacerSizes.normal} />
+      <Spacer vertical="normal" />
       {isOfflineEvent(event) ? (
         <OfflineEventDescription event={event} latestSnapshot={latestSnapshot} />
       ) : (

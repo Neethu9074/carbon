@@ -5,9 +5,9 @@
 
 import React, { useState, useEffect } from 'react';
 
-import { Spacer, SpacerSizes } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
+import { Spacer } from '@instana/components';
 import { Button } from '@instana/components';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
@@ -114,7 +114,7 @@ class BasicForm extends React.Component {
         <form onSubmit={e => this.onSubmit(e, form, updateForm)} className={locals.form}>
           {form && renderFormContent(entityResult.data, form, this.setValue.bind(this, updateForm), updateForm)}
 
-          <Spacer vertical={SpacerSizes.normal} />
+          <Spacer vertical="normal" />
           <div className={locals.footer}>
             {onCancelHref$ && (
               <Button kind="subtle" size="compact" href$={onCancelHref$}>
@@ -156,7 +156,7 @@ class BasicForm extends React.Component {
         {success && <TemporaryMessage message={t('in-applications:messageSuccessfullySaved')} type="success" />}
         {error && <TemporaryMessage message={t('in-applications:messageErrorOccurred')} type="error" />}
 
-        {title && <Spacer vertical={SpacerSizes.normal} />}
+        {title && <Spacer vertical="normal" />}
 
         {content}
       </div>

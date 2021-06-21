@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Spacer, SpacerSizes } from '@instana/components';
+import { Spacer } from '@instana/components';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
@@ -55,7 +55,7 @@ export default function SimpleCreateStep3({
             {errorMessage}
           </Message>
         )}
-        <Spacer vertical={SpacerSizes.normal} />
+        <Spacer vertical="normal" />
         <Label>{t('in-applications:creation.simple.step3.inboundAllCalls')}</Label>
         <InboundAllCalls form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
       </div>

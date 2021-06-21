@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Spacer, SpacerSizes } from '@instana/components';
+import { Spacer } from '@instana/components';
 
 import {
   mobileAppMonitoringPath,
@@ -456,8 +456,8 @@ function SpacerListItem() {
   return (
     <li>
       {/* double space to get a 1.5rem  */}
-      <Spacer vertical={SpacerSizes.small} />
-      <Spacer vertical={SpacerSizes.small} />
+      <Spacer vertical="small" />
+      <Spacer vertical="small" />
     </li>
   );
 }

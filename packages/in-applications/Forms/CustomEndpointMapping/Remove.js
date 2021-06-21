@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Button, Spacer, SpacerSizes } from '@instana/components';
+import { Button, Spacer } from '@instana/components';
 
 import { serviceDashboard } from 'in-applications/navigation/paths';
 import { deleteEndpointConfig } from 'in-api/endpointConfiguration';
@@ -44,7 +44,7 @@ export default class Remove extends React.PureComponent {
 
     return (
       <>
-        <Spacer vertical={SpacerSizes.normal} />
+        <Spacer vertical="normal" />
         <DescriptionText>{t('in-applications:forms.descriptionResetToDefaultRule')}</DescriptionText>
         <input type="checkbox" checked={this.state.checkboxChecked} onChange={this.onTickChange} disabled={loading} />
         {t('in-applications:forms.understandCheckboxResetToDefaultRule')}

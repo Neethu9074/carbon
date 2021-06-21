@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Spacer, SpacerSizes } from '@instana/components';
+import { Spacer } from '@instana/components';
 import { Button } from '@instana/components';
 
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
@@ -114,14 +114,14 @@ export default function AdvancedModeContainer({
             </HorizontalFlexWrapper>
           </div>
         </>
-        <Spacer vertical={SpacerSizes.normal} />
+        <Spacer vertical="normal" />
 
         <h1 className={locals.heading}>{t('in-applications:creation.advanced.downstreamCalls')}</h1>
         <DescriptionText className={locals.descriptionText}>
           {t('in-applications:creation.advanced.downstreamCallsDescription')}
         </DescriptionText>
         <ApplicationScopeSelector form={form} updateForm={updateForm} />
-        <Spacer vertical={SpacerSizes.normal} />
+        <Spacer vertical="normal" />
 
         <h1 className={locals.heading}>{t('in-applications:creation.advanced.defaultDashboardView')}</h1>
         <InboundAllCalls form={form} updateForm={updateForm} apCreation />
