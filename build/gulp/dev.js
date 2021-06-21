@@ -257,6 +257,10 @@ function createWebpackCompiler(config, onReadyCallback) {
         console.log(`Unit:            ${devModeOptions.target.tenantUnit}`);
         console.log(`Base Domain:     ${devModeOptions.target.baseDomain}`);
       }
+
+      console.log();
+      console.log('Getting security warnings in your browser? Check out:');
+      console.log(chalk.blue('https://instana.io/s/3esFtc5ZRBOtVlRJMBMS1A'));
     }
 
     if (typeof onReadyCallback === 'function') {
