@@ -28,7 +28,6 @@ export default function ChartViewConfiguratorWithEntitySelection({
   alertConfigWithFormModel,
   children,
   className,
-  doNotSetDefaultHeight,
   title,
   headerTransparent,
   framed = false,
@@ -70,7 +69,6 @@ export default function ChartViewConfiguratorWithEntitySelection({
     <LightCard
       className={classNames(locals.container, {
         [className]: className, // className overrides everything
-        [locals.defaultSize]: !showEntitySelection && !className && !doNotSetDefaultHeight,
         [locals.withSelection]: showEntitySelection && !className
       })}
       title={title}
@@ -119,7 +117,6 @@ ChartViewConfiguratorWithEntitySelection.propTypes = {
   children: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number,
   className: PropTypes.string,
-  doNotSetDefaultHeight: PropTypes.bool,
   title: PropTypes.string,
   headerTransparent: PropTypes.bool,
   framed: PropTypes.bool,
