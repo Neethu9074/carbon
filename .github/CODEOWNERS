@@ -66,3 +66,6 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrast
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @pr-approval @instana/eng-application @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli               @pr-approval @instana/eng-stan @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @pr-approval @instana/eng-application @instana/eng-ui
+
+# Container images
+/containers/ @pr-approval @instana/eng-delivery-enablement
