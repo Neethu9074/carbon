@@ -64,6 +64,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
         onChartViewConfigChange={index => setSelectedChartViewConfigIndex(index)}
         selectedChartViewConfigIndex={selectedChartViewConfigIndex}
         title={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label')}
+        doNotSetDefaultHeight
         framed
       >
         {(chartViewConfig, applicationId, serviceId, endpointId) => (
