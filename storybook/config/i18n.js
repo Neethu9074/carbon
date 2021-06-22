@@ -8,7 +8,18 @@ import { initReactI18next } from 'react-i18next';
 // eslint-disable-next-line no-restricted-imports
 import i18n from 'i18next';
 
+// This bundle will get generated from the regular gulp build process,
+// therefore we need to run `gulp prepareTestExecution` in the
+// `storybook` script.
+// (currently we decided to do no file-watching or integrate sb into gulp)
+//
+// The i18n language bundle files will get created
+// specifically in /ui-client/build/gulp/i18n.js
+import languageBundle from '../../target/assets/i18n/en-US.json';
+
 i18n.use(initReactI18next).init({
+  resources: { 'en-US': languageBundle },
+
   lng: 'en-US',
 
   defaultNS: 'common',
