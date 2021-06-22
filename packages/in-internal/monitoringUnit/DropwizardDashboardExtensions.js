@@ -130,9 +130,11 @@ export default connect(({ snapshot, timeConfig }) => ({
         )}
       </DashboardSection>
 
-      <DashboardSection title={t('in-internal:monitoringUnit.dropwizardDashboardExt.commonCommands')}>
-        <Code lang="bash" code={getLogsCommand} showLineNumbers={false} />
-      </DashboardSection>
+      {getLogsCommand && (
+        <DashboardSection title={t('in-internal:monitoringUnit.dropwizardDashboardExt.commonCommands')}>
+          <Code lang="bash" code={getLogsCommand} showLineNumbers={false} />
+        </DashboardSection>
+      )}
     </Fragment>
   );
 });
