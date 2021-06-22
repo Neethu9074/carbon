@@ -258,7 +258,8 @@ export default function SmartAlertsBaseList({
         </HorizontalFlexWrapper>
       </HorizontalFlexWrapper>
       <Ul framed>
-        {searchResultsSelected
+        {/* copy this list because the result coming from createObservable() is strictly deep freezed */}
+        {[...searchResultsSelected]
           .sort(sortBy(orderBy, orderDirection))
           .slice(offset, until)
           .map(config => (
