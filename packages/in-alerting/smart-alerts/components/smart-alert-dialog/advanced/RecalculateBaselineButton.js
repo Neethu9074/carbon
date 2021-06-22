@@ -25,8 +25,10 @@ export default function RecalculateBaselineButton({ onChange, editMode, form }) 
         kind="secondaryDarker"
         onClick={() => {
           isRecalculated.current = true;
-          onChange(['hiddenFields'], f => {
-            return f.updateIn(['calculateThresholdOnBackend'], field => field.setValue(true));
+          onChange([], f => {
+            return f
+              .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], field => field.setValue(true))
+              .updateIn(['threshold', 'baseline'], field => field.setValue(null).setTouched(false));
           });
         }}
         disabled={isRecalculated.current || !form?.get('threshold').get('baseline')?.touched}
