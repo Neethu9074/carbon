@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
@@ -120,7 +120,7 @@ const urlStateDefinition = {
       path: alertsTab,
       name: alertsCategory,
       as: 'configsCategory',
-      initialState: 'local' // "local" or "global"""
+      initialState: 'local' // "local" or "global"
     },
     {
       path: alertsTab,
@@ -171,11 +171,13 @@ export default function SmartAlertsBaseList({
 }) {
   const [{ orderBy, orderDirection, configsCategory, page, query }, setUrlState] = useUrlState(urlStateDefinition);
 
-  const { globalConfigs, isLoadingGlobalConfigs, errorsGlobalConfigs } = useGlobalSmartAlertConfigs(
-    getGlobalAlertConfigFetchFunction
-  );
+  const {
+    configs: globalConfigs,
+    isLoading: isLoadingGlobalConfigs,
+    errors: errorsGlobalConfigs
+  } = useSmartAlertConfigs(getGlobalAlertConfigFetchFunction);
 
-  const { localConfigs, isLoadingLocalConfigs, errorsLocalConfigs } = useLocalSmartAlertConfigs(
+  const { configs: localConfigs, isLoading: isLoadingLocalConfigs, errors: errorsLocalConfigs } = useSmartAlertConfigs(
     getLocalAlertConfigsFetchFunction
   );
 
@@ -341,46 +343,16 @@ function isCategoryLocal(categorySelected) {
   return categorySelected === categoryLocal;
 }
 
-function useGlobalSmartAlertConfigs(getGlobalAlertConfigFetchFunction) {
-  const result = useObservable(() => {
-    return refreshSignal.flatMap(getGlobalAlertConfigFetchFunction).startWith(pendingResult);
-  }, []);
-
-  // Only render the List when smartAlertConfigsResult?.data changes
-  const [globalConfigs, setGlobalConfigs] = useState([]);
-  useEffect(() => {
-    const resultData = result?.data;
-    if (resultData) {
-      setGlobalConfigs([...resultData]);
-    }
-  }, [result?.data]);
-
-  return {
-    globalConfigs,
-    isLoadingGlobalConfigs: isLoading(result),
-    errorsGlobalConfigs: result?.errors
-  };
-}
-
-function useLocalSmartAlertConfigs(getLocalAlertConfigsFetchFunction) {
+function useSmartAlertConfigs(getAlertConfigFetchFunction) {
   const result =
     useObservable(() => {
-      return refreshSignal.flatMap(getLocalAlertConfigsFetchFunction);
+      return refreshSignal.flatMap(getAlertConfigFetchFunction);
     }, []) ?? pendingResult;
 
-  const [localConfigs, setLocalConfigs] = useState([]);
-  useEffect(() => {
-    const resultData = result?.data;
-
-    if (resultData) {
-      setLocalConfigs([...resultData]);
-    }
-  }, [result?.data]);
-
   return {
-    localConfigs,
-    isLoadingLocalConfigs: isLoading(result),
-    errorsLocalConfigs: result?.errors
+    configs: result?.data ?? [],
+    isLoading: isLoading(result),
+    errors: result?.errors
   };
 }
 
