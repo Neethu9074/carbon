@@ -7,11 +7,20 @@
 
 :local {
   .item {
-    max-width: 42rem;
-    display: inline-block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: @lib__colors__N700Medium;
+    padding: 8px 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(230, 239, 255, 0.69);
+    }
+
+    &.selected {
+      background-color: rgba(230, 239, 255, 0.69);
+    }
   }
 
   .subtleMetric {

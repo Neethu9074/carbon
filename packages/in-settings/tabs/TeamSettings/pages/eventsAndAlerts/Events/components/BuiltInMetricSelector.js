@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { getAllBuiltInMetrics } from 'in-sdk/metrics';
@@ -17,16 +18,23 @@ export default function BuiltInMetricSelector({ id, plugin, onChange, value, isC
       name={id}
       value={value}
       options={metricsList}
-      optionRenderer={renderOption}
+      components={{ Option }}
       onChange={onChange}
       isClearable={isClearable}
     />
   );
 }
 
-function renderOption(option) {
+function Option(props) {
+  const { data: option, innerProps } = props;
+  const selectedOption = props.getValue();
   return (
-    <div className={locals.item}>
+    <div
+      className={classNames(locals.item, {
+        [locals.selected]: option.value === selectedOption?.[0]?.value
+      })}
+      {...innerProps}
+    >
       {option.label}
       <span className={locals.subtleMetric}>({option.metricLabel})</span>
     </div>
