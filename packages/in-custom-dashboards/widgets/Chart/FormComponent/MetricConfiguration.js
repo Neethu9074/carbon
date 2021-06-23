@@ -114,7 +114,6 @@ export default function MetricConfiguration(props) {
                   newSource
                 )
               }
-              withLabelConfiguration
               timeShiftConfiguration={
                 <TimeShiftingForm
                   axisName={axisName}
@@ -127,6 +126,8 @@ export default function MetricConfiguration(props) {
               disabledDataSources={[source]}
               axisForm={form}
               axisName={axisName}
+              withLabelConfiguration
+              withPotentialProblemsConfiguration
             />
           )}
         >

@@ -11,7 +11,7 @@ import {
   createForm as createMetricConfigurationForm,
   migrate as migrateMetricConfiguration
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
-import { addFieldsForPotentialProblems } from 'in-custom-dashboards/widgets/Chart/FormComponent/potentialProblemsForm';
+import { validatePotentialProblemsConstraints } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
 import { stringValidator, numberValidator, arrayValidator, booleanValidator } from 'in-services/validators/jsonType';
 import { defaultRenderer, allRendererIds } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { defaultFormatter, publicFormatterIds } from 'in-stores/metric/formatters';
@@ -25,7 +25,9 @@ import { identity } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
 export function createForm(savedState) {
-  let form = createMapForm()
+  return createMapForm({
+    validator: validatePotentialProblemsConstraints
+  })
     .put(
       'type',
       createField({
@@ -48,10 +50,6 @@ export function createForm(savedState) {
         validator: composeAndShortCircuitOnError(booleanValidator)
       })
     );
-
-  form = addFieldsForPotentialProblems(form, savedState);
-
-  return form;
 }
 
 function createAxisForm(savedState, requiresAtLeastOneMetric = false) {
@@ -111,6 +109,7 @@ export function createMetricForm(savedState) {
   return createMetricConfigurationForm(savedState, {
     withLabelConfiguration: true,
     withCompareToTimeShifted: true,
+    withEnablePotentialProblems: true,
     withColorConfiguration: true
   });
 }

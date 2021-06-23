@@ -15,10 +15,12 @@ import {
   isRequiringGroupingConfiguration,
   onChangeGrouping
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
+import PotentialProblemsConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/PotentialProblemsConfigurator';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
+import { potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFlags';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { availableMetrics } from 'in-applications/analyze/metrics';
@@ -33,11 +35,13 @@ import { t } from 'in-i18n';
 
 export default function FormComponent({
   form,
+  axisForm,
   onChange,
   dataSourceSection,
   labelSection,
   formatterSection,
   timeShiftConfiguration,
+  withPotentialProblemsConfiguration,
   withGrouping = true,
   maxGrouping = 20
 }) {
@@ -229,6 +233,16 @@ export default function FormComponent({
       />
 
       {timeShiftConfiguration}
+
+      {withPotentialProblemsConfiguration && potentialProblemsInCustomDashboardEnabled && (
+        <PotentialProblemsConfigurator
+          form={form}
+          onChange={onChange}
+          axisForm={axisForm}
+          metricField={metricField}
+          grouping={grouping}
+        />
+      )}
 
       {labelSection}
     </Stack>

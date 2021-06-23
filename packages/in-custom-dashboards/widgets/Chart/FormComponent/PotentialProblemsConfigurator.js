@@ -3,139 +3,123 @@
  * (c) Copyright Instana Inc.
  */
 
-import { isEmpty } from 'lodash';
 import React from 'react';
+
+import { Stack, SpacerSizes, Spacer } from '@instana/components';
 
 import {
   addFieldsForPotentialProblems,
   removeFieldsForPotentialProblems,
-  bluePrintForCallsMetric
-} from 'in-custom-dashboards/widgets/Chart/FormComponent/potentialProblemsForm';
-import { source as applicationSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
+  bluePrintForCallsMetric,
+  potentialProblemsCategory
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
+import { isBluePrintForCallsSupportedByMetric } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsOnDatasetValidator';
 import { isPotentialProblemsSupportedByMetric } from 'in-applications/analyze/metrics';
-import { getShortMetricKey } from 'in-custom-dashboards/widgets/Chart/util';
-import SelectInSection from 'in-components/form/Select/SelectInSection';
-import TouchedMessages from 'in-components/form/TouchedMessages';
+import ValidationBlock from 'in-components/form/ValidationBlock';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
-export default function PotentialProblemsConfigurator({ form, onChange }) {
-  const potentialProblemsForm = form.get('potentialProblems');
-  const potentialProblemsEnabled = Boolean(potentialProblemsForm);
+export default function PotentialProblemsConfigurator({ form, metricField, axisForm, grouping, onChange }) {
+  const potentialProblemsField = form.get('potentialProblems');
+  const potentialProblemsEnabled = Boolean(potentialProblemsField);
 
-  const potentialProblemsDatasetField = potentialProblemsForm?.get('dataset');
-  const bluePrintForCallsMetricField = potentialProblemsForm?.get('bluePrintForCallsMetric');
+  const bluePrintForCallsMetricField = potentialProblemsField?.get('bluePrintForCallsMetric');
+
+  /* PP can NOT be enabled, when
+   * grouping is enabled,
+   * for any unsupported metric
+   */
+  const notEnabled = grouping || !isPotentialProblemsSupportedByMetric(metricField?.value);
+
+  const hasError = hasPotentialProblemsError(form) || hasPotentialProblemsError(axisForm);
+
+  const metricHasMoreOptions = metricField?.value === 'calls';
+  const invalidBlueprintSelected = isBluePrintForCallsSupportedByMetric(
+    bluePrintForCallsMetricField,
+    metricField?.value
+  );
 
   return (
     <Sections>
       <Section
-        titleHtmlFor={`potential-problems-configurator`}
-        title={t('in-custom-dashboards:widgets.formCompChart.potentialProblems.enabled')}
+        hasError={hasError}
+        titleHtmlFor="potential-problems-configurator"
+        title={t('in-custom-dashboards:widgets.formCompChart.indexChart.potentialProblems')}
       >
-        <HorizontalFlexWrapper>
+        <Stack direction="horizontal" align="center" gap={SpacerSizes.normal}>
           <Toggle
-            id={`potential-problems-configurator`}
+            id="potential-problems-configurator"
             checked={potentialProblemsEnabled}
+            disabled={notEnabled && !potentialProblemsEnabled}
             onChange={e => {
               onChange([], form => {
                 if (e.target.checked) {
                   return addFieldsForPotentialProblems(form, {
                     potentialProblems: {}
-                  })
-                    .updateIn(['potentialProblems', 'dataset'], field => field.setTouched(true))
-                    .setTouched(true);
+                  });
                 }
                 return removeFieldsForPotentialProblems(form).setTouched(true);
               });
             }}
           />
           {t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription')}
-        </HorizontalFlexWrapper>
-      </Section>
-
-      {potentialProblemsEnabled && (
-        <SelectInSection
-          label={t('in-custom-dashboards:widgets.formCompChart.potentialProblems.dataset')}
-          id="metric-configurator-dataset-selector"
-          value={potentialProblemsDatasetField.value}
-          onChange={e =>
-            onChange(['potentialProblems', 'dataset'], field => field.setValue(e.target.value).setTouched(true))
-          }
-          hasError={!potentialProblemsDatasetField.valid && potentialProblemsDatasetField.touched}
-          additionalContent={<TouchedMessages field={potentialProblemsDatasetField} />}
-          useAlternateBg
-        >
-          <>
-            <option value="">{t('in-custom-dashboards:widgets.formCompChart.potentialProblems.selectDataSet')}</option>
-            {getMetricsLabelForAxis('y1')
-              .concat(getMetricsLabelForAxis('y2'))
-              .map(({ key, label, disabled }) => (
-                <option key={key} value={key} disabled={disabled}>
-                  {label}
-                </option>
-              ))}
-          </>
-        </SelectInSection>
-      )}
-
-      {potentialProblemsEnabled && showBluePrintSelector() && (
-        <Section useAlternateBg>
+          <Spacer horizontal={SpacerSizes.xsmall} />
           <Select
-            id={`metric-configurator-blue-print-selector`}
-            value={bluePrintForCallsMetricField.value}
+            disabled={(notEnabled || !potentialProblemsEnabled) && !metricHasMoreOptions && !invalidBlueprintSelected}
+            id="metric-configurator-blue-print-selector"
+            value={bluePrintForCallsMetricField?.value}
             onChange={e =>
               onChange(['potentialProblems', 'bluePrintForCallsMetric'], field =>
                 field.setValue(e.target.value).setTouched(true)
               )
             }
-            hasError={!bluePrintForCallsMetricField.valid && bluePrintForCallsMetricField.touched}
+            hasError={!bluePrintForCallsMetricField?.valid && bluePrintForCallsMetricField?.touched}
           >
-            {Object.keys(bluePrintForCallsMetric).map(bluePrint => (
+            {Object.entries(bluePrintForCallsMetric).map(([bluePrint, userText]) => (
               <option key={bluePrint} value={bluePrint}>
-                {bluePrintForCallsMetric[bluePrint]}
+                {userText}
               </option>
             ))}
           </Select>
-        </Section>
-      )}
+        </Stack>
+        {
+          // validation on current dataset
+          <ValidationMessages field={form} category={potentialProblemsCategory} />
+        }
+        {
+          // validation on all metrics
+          <ValidationMessages field={axisForm} category={potentialProblemsCategory} />
+        }
+      </Section>
     </Sections>
   );
+}
 
-  function showBluePrintSelector() {
-    const dataset = potentialProblemsDatasetField.value;
+function filterByCategory(category) {
+  return message => !category || message?.category === category;
+}
 
-    if (!isEmpty(dataset)) {
-      const [axis, index] = dataset.toLowerCase().split('.');
-
-      return form.getIn([axis, 'metrics', `${parseInt(index) - 1}`, 'metric'])?.value === 'calls';
-    }
-
-    return false;
+/**
+ * Renders all validation error messages of a form of a specific category.
+ * It does not show any path info of any message.
+ *
+ * @param field formalistic field
+ * @param category only messages of this category are shown, or all if it is not defined
+ * @returns {null|[ValidationBlock]}
+ */
+function ValidationMessages({ field, category }) {
+  if (!field?.hierarchyTouched) {
+    return null;
   }
 
-  function getMetricsLabelForAxis(axisName) {
-    return form
-      .getIn([axisName, 'metrics'])
-      .toJS()
-      .map((dataset, index) => {
-        if (!isEmpty(dataset.source) && !isEmpty(dataset.metric) && !isEmpty(dataset.aggregation)) {
-          const key = getShortMetricKey(axisName, index);
-          const label = `${key} ${isEmpty(dataset.label) ? dataset.metricLabel : dataset.label}`;
-          const disabled = !(
-            dataset.source === applicationSource && isPotentialProblemsSupportedByMetric(dataset.metric)
-          );
+  return field.messages.filter(filterByCategory(category)).map((message, i) => {
+    return <ValidationBlock key={i}>{message.message}</ValidationBlock>;
+  });
+}
 
-          return {
-            key,
-            label,
-            disabled
-          };
-        }
-      })
-      .filter(Boolean);
-  }
+function hasPotentialProblemsError(form) {
+  return !form?.valid && form?.messages?.filter(filterByCategory(potentialProblemsCategory)).length > 0;
 }

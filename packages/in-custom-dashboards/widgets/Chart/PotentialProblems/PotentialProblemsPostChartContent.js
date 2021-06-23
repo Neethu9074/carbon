@@ -9,15 +9,16 @@ import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import {
+  hasPotentialProblems,
+  potentialProblemsCallsUnexpectedLowNumber,
+  potentialProblemsCallsUnexpectedHighNumber
+} from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
+import {
   throughputLowAlertRule,
   throughputHighAlertRule,
   getLatencyAlertRule,
   errorRateAlertRule
 } from 'in-custom-dashboards/widgets/Chart/PotentialProblems/potentialProblemsAlertRules';
-import {
-  potentialProblemsCallsUnexpectedLowNumber,
-  potentialProblemsCallsUnexpectedHighNumber
-} from 'in-custom-dashboards/widgets/Chart/FormComponent/potentialProblemsForm';
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/getPotentialProblems';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -30,8 +31,7 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, config }) {
   const globalTimeConfig = useTimeConfig();
 
   const configuredDataset = useMemo(() => {
-    const [axis, index] = config?.potentialProblems?.dataset.toLowerCase().split('.');
-    return config[axis]?.metrics[parseInt(index) - 1];
+    return [...config.y1?.metrics, ...config.y2?.metrics].find(hasPotentialProblems);
   }, [config]);
 
   const alertRules = getAlertRules(configuredDataset, config);

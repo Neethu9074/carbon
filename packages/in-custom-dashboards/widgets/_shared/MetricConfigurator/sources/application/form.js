@@ -5,6 +5,7 @@
 
 import { createField } from 'formalistic';
 
+import { addFieldsForPotentialProblems } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
 import { migrate as migrateTagFilterArray } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
 import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
@@ -16,6 +17,7 @@ export function createForm(form, savedState) {
 
   updatedForm = addTagFilterExpressionField(form, savedState);
   updatedForm = addHiddenCalls(updatedForm, savedState);
+  updatedForm = addFieldsForPotentialProblems(updatedForm, savedState);
 
   return updatedForm;
 }

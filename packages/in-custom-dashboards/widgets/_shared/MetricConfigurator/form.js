@@ -7,6 +7,7 @@ import { createMapForm, createField, createListForm, alwaysValidValidator } from
 
 import { just } from '@instana/observables';
 
+import { potentialProblemsOnDatasetValidator } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsOnDatasetValidator';
 import { numberValidator, stringValidator, booleanValidator } from 'in-services/validators/jsonType';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -25,11 +26,18 @@ export function createForm(
     // Adding new options? Remember to also make getConfigFromExistingForm aware of these
     withLabelConfiguration = false,
     withCompareToTimeShifted = false,
+    withEnablePotentialProblems = false,
     withColorConfiguration = false,
     withMandatoryGrouping = false
   } = {}
 ) {
-  let form = createMapForm()
+  let form = createMapForm(
+    withEnablePotentialProblems
+      ? {
+          validator: potentialProblemsOnDatasetValidator
+        }
+      : {}
+  )
     .put(
       'source',
       createField({
@@ -155,10 +163,12 @@ function getConfigFromExistingForm(form) {
   const labelField = form.get('label');
   const compareToTimeShiftedField = form.get('compareToTimeShifted');
   const colorField = form.get('color');
+  const isPotentialProblemValidator = form.validator === potentialProblemsOnDatasetValidator;
   return {
     withLabelConfiguration: !!labelField,
     withCompareToTimeShifted: !!compareToTimeShiftedField,
     withColorConfiguration: !!colorField,
+    withEnablePotentialProblems: isPotentialProblemValidator,
     withMandatoryGrouping: isRequiringGroupingConfiguration(form)
   };
 }

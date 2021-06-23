@@ -10,7 +10,9 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import { potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFlags';
 
 export default function ChartWidget({ actions, config, title, isPreview, dragHandle, customHeight }) {
-  const potentialProblemsEnabled = potentialProblemsInCustomDashboardEnabled && Boolean(config?.potentialProblems);
+  const potentialProblemsEnabled =
+    potentialProblemsInCustomDashboardEnabled &&
+    anyDatasetWithPotentialProblemsConfigured(config?.y1?.metrics, config?.y2?.metrics);
 
   return (
     <UnifiedMetricsChart
@@ -33,4 +35,8 @@ export default function ChartWidget({ actions, config, title, isPreview, dragHan
       shareMaxAxisDomain={config?.shareMaxAxisDomain}
     />
   );
+}
+
+function anyDatasetWithPotentialProblemsConfigured(metrics1, metrics2) {
+  return metrics1?.some(m => Boolean(m.potentialProblems)) || metrics2?.some(m => Boolean(m.potentialProblems));
 }

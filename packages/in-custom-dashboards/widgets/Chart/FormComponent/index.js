@@ -7,10 +7,8 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import PotentialProblemsConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/PotentialProblemsConfigurator';
 import DataSeriesConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/DataSeriesConfigurator';
 import AxesConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/AxesConfigurator';
-import { potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFlags';
 import { getShortMetricKey } from 'in-custom-dashboards/widgets/Chart/util';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
@@ -30,17 +28,6 @@ export default function ChartWidgetFormComponent({ form, onChange }) {
         <Header>{t('in-custom-dashboards:widgets.formCompChart.indexChart.axisConfig')}</Header>
         <AxesConfigurator form={form} onChange={onChange} getShortMetricKey={getShortMetricKey} />
       </Stack>
-
-      {potentialProblemsInCustomDashboardEnabled && (
-        <>
-          <Divider />
-
-          <Stack gap="normal">
-            <Header>{t('in-custom-dashboards:widgets.formCompChart.indexChart.potentialProblems')}</Header>
-            <PotentialProblemsConfigurator form={form} onChange={onChange} />
-          </Stack>
-        </>
-      )}
     </Stack>
   );
 }

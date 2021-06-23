@@ -307,13 +307,8 @@
         "displayCurrentValues": "Display current values"
       },
       "potentialProblems": {
-        "potentialProblemsDescription": "Highlights potential issues for unexpected behaviour",
-        "enabled": "Enabled",
-        "dataset": "Dataset",
-        "selectDataSet": "Please Select Dataset",
-        "validation": {
-          "missingDataset": "A dataset must be selected."
-        }
+        "potentialProblemsDescription": "Highlights potential issues for:",
+        "onlyWorksWithOneMetricConfigured": "Only supported when only one dataset is configured."
       }
     },
     "demo": {

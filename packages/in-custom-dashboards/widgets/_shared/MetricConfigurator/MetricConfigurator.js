@@ -21,6 +21,7 @@ export default function MetricConfigurator({
   onChange,
   onChangeSource,
   withLabelConfiguration,
+  withPotentialProblemsConfiguration,
   formatterSection,
   timeShiftConfiguration,
   disabledDataSources = emptyArray,
@@ -92,6 +93,7 @@ export default function MetricConfigurator({
         axisName={axisName}
         withGrouping={withGrouping}
         maxGrouping={maxGrouping}
+        withPotentialProblemsConfiguration={withPotentialProblemsConfiguration}
       />
     );
   }
