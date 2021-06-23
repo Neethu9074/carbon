@@ -471,6 +471,23 @@ function GroupLabelTooltip({ groupName, getCustomGroupLabel }) {
   );
 }
 
+const isNumberFormatter = formatter => formatter === 'NUMBER';
+const getDetailedMetricTooltipValueFormatter = (customFormatterId, formatter) => {
+  if (customFormatterId != null) {
+    return getFormatter(customFormatterId);
+  }
+  return isNumberFormatter(formatter)
+    ? getBackendFormatter(formatter).compact
+    : getBackendFormatter(formatter).detailed;
+};
+
+const getDetailedMetricTooltipValue = (metric, metricFormatter) => {
+  if (metric instanceof Array && metric.length === 1 && metric[0].length === 2) {
+    return metricFormatter(metric[0][1]);
+  }
+  return null;
+};
+
 function metricColumns({
   columnDefinitions,
   fields,
@@ -495,10 +512,9 @@ function metricColumns({
         } else {
           // The width of metric values rendered using NUMBER formatter can vary significantly which may
           // break column alignment, use more dense SI prefix based formatter instead.
-          formatter =
-            metricDefinition?.formatter === 'NUMBER'
-              ? withSiPrefixOneDecimalPlace
-              : getBackendFormatter(metricDefinition?.formatter);
+          formatter = isNumberFormatter(metricDefinition?.formatter)
+            ? withSiPrefixOneDecimalPlace
+            : getBackendFormatter(metricDefinition?.formatter);
         }
         return {
           shrink: false,
@@ -515,6 +531,10 @@ function metricColumns({
                   metrics={metrics[getSparkChartTimeSeriesMetricId(field)]}
                   metric={metrics[getSingleNumberMetricId(field)]}
                   tooltipFormatter={formatter}
+                  customValueTooltip={getDetailedMetricTooltipValue(
+                    metrics[getSingleNumberMetricId(field)],
+                    getDetailedMetricTooltipValueFormatter(customFormatterId, metricDefinition?.formatter)
+                  )}
                   label={metricDefinition?.label ?? field.metricId}
                   valueTheme="blue"
                 />

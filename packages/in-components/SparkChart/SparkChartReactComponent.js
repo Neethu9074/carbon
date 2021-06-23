@@ -8,7 +8,7 @@ import React from 'react';
 
 import { KeyValue } from '@instana/components';
 
-import { number, getFormatterType, PERCENTAGE_FORMATTER_TYPE } from 'in-services/formatters/number';
+import { getFormatterType, number, PERCENTAGE_FORMATTER_TYPE } from 'in-services/formatters/number';
 import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SparkTooltip from 'in-components/SparkChart/components/Tooltip';
@@ -72,9 +72,13 @@ function SparkChartReactComponent(props) {
         <div className={locals.iconValueWrapper}>
           <AggregationSymbol aggregation={aggregation} />
           &nbsp;
-          {isBlank(horizontalMetricValue.toString())
-            ? t('in-components:sparkChart.notAvailable')
-            : horizontalMetricValue}
+          <Tooltip content={customValueTooltip} align={'mousePosition'}>
+            <span>
+              {isBlank(horizontalMetricValue.toString())
+                ? t('in-components:sparkChart.notAvailable')
+                : horizontalMetricValue}
+            </span>
+          </Tooltip>
         </div>
       ) : (
         horizontalMetricValue
@@ -82,9 +86,7 @@ function SparkChartReactComponent(props) {
       return (
         <div className={locals.withHorizontalMetricValueWrapper}>
           {sparkChart}
-          <Tooltip content={customValueTooltip}>
-            <KeyValue className={locals.keyValue} label={label} customValue={value} theme={valueTheme} accentuated />
-          </Tooltip>
+          <KeyValue className={locals.keyValue} label={label} customValue={value} theme={valueTheme} accentuated />
         </div>
       );
     }
