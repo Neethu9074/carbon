@@ -20,10 +20,10 @@ import {
   scopeHostsByTag
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { mapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { EQUALS, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { createCustomThresholdBasedEventSpecification } from 'in-api/eventSpecifications';
 import { numberFormatterToFormatterType } from 'in-services/formatters/number';
 import { queryValidationResultValidator, valid } from 'in-settings/validation';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { notBlankValidator } from 'in-services/validators/string';
 import { isBlank } from 'in-services/util/string';
 import { find } from 'in-services/arrayUtils';
@@ -528,20 +528,34 @@ export function putApplicationField(form, applicationName) {
 }
 
 export function putScopeByHostsFields(form, tagValueForHostAvailability, tagOperatorForHostAvailability) {
-  return form
-    .put(
-      'tagValue',
-      createField({
-        value: tagValueForHostAvailability ?? '',
-        validator: notBlankValidator
-      })
-    )
-    .put(
-      'tagOperator',
-      createField({
-        value: tagOperatorForHostAvailability ?? EQUALS
-      })
-    );
+  const tagOperator = tagOperatorForHostAvailability ?? EQUALS;
+
+  const formWithTagOperator = form.put(
+    'tagOperator',
+    createField({
+      value: tagOperator
+    })
+  );
+
+  if (![IS_EMPTY, NOT_EMPTY].includes(tagOperator)) {
+    return putTagValueField(formWithTagOperator, tagValueForHostAvailability);
+  }
+
+  return formWithTagOperator;
+}
+
+export function putTagValueField(form, tagValue) {
+  return form.put(
+    'tagValue',
+    createField({
+      value: tagValue ?? '',
+      validator: notBlankValidator
+    })
+  );
+}
+
+export function removeTagValueField(form) {
+  return form.remove('tagValue');
 }
 
 export function removeScopeByHostsField(form) {
