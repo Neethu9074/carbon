@@ -12,6 +12,7 @@ import {
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
+import Helpify from 'in-components/form/Helpify/Helpify';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -45,13 +46,15 @@ export default function HostAvailabilityFormGroup({ form, onChange }) {
             <Label htmlFor="automaticallyCloseAfter" hasError={!closeAfter.valid && closeAfter.touched}>
               {t('in-settings:tabs.automaticallyCloseAfter')}
             </Label>
-            <ComboBox
-              name="automaticallyCloseAfter"
-              value={closeAfter.value}
-              options={automaticallyCloseAfterOptions}
-              onChange={e => onChange('closeAfter', e ? e.value : '')}
-              clearable={false}
-            />
+            <Helpify helpText={t('in-settings:tabs.closeAfterHelperDescription')}>
+              <ComboBox
+                name="automaticallyCloseAfter"
+                value={closeAfter.value}
+                options={automaticallyCloseAfterOptions}
+                onChange={e => onChange('closeAfter', e ? e.value : '')}
+                clearable={false}
+              />
+            </Helpify>
             <TouchedMessages field={closeAfter} />
           </Col>
         </Row>

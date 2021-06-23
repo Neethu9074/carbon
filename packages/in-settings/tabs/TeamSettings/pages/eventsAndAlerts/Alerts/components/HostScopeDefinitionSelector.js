@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
@@ -20,11 +21,11 @@ import { t } from 'in-i18n';
 import locals from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/HostScopeDefinitionSelector.mless';
 
 export default React.forwardRef(function HostScopeDefinitionSelector(
-  { tagTreeNode, getSuggestions, tagValue, setTagValue, operator, setOperator, handleCancel },
+  { tagTreeNode, getSuggestions, tagValueField, setTagValue, operator, setOperator, handleCancel },
   ref
 ) {
   const timeConfig = useTimeConfig();
-  const infraTagKeyValueState = useDebouncedValue(tagValue, setTagValue, 500);
+  const infraTagKeyValueState = useDebouncedValue(tagValueField?.value ?? '', setTagValue, 500);
 
   const tagName = tagTreeNode?.name ?? '';
   const path = tagTreeNode?.path ?? [];
@@ -47,6 +48,33 @@ export default React.forwardRef(function HostScopeDefinitionSelector(
         onChange={setOperator}
       />
 
+      <RenderSimpleValueSelector
+        tagValueField={tagValueField}
+        infraTagKeyValueState={infraTagKeyValueState}
+        getSuggestions={getSuggestions}
+        tagName={tagName}
+        timeConfig={timeConfig}
+      />
+
+      <div
+        className={classNames({
+          [locals.removeIconContainer]: Boolean(tagValueField)
+        })}
+      >
+        <SvgIcon
+          className={locals.removeIcon}
+          type="lib_openclose_cancel"
+          data-test="lib_openclose_cancel"
+          onClick={handleCancel}
+        />
+      </div>
+    </div>
+  );
+});
+
+function RenderSimpleValueSelector({ tagValueField, infraTagKeyValueState, getSuggestions, tagName, timeConfig }) {
+  if (tagValueField) {
+    return (
       <SimpleValueSelector
         onChange={infraTagKeyValueState.onChange}
         value={infraTagKeyValueState.value}
@@ -67,18 +95,11 @@ export default React.forwardRef(function HostScopeDefinitionSelector(
           hideValidityInformationOnFocus: true
         }}
       />
+    );
+  }
 
-      <div className={locals.removeIconContainer}>
-        <SvgIcon
-          className={locals.removeIcon}
-          type="lib_openclose_cancel"
-          data-test="lib_openclose_cancel"
-          onClick={handleCancel}
-        />
-      </div>
-    </div>
-  );
-});
+  return null;
+}
 
 function Operator({ operator, allowedOperators, tagType, onChange }) {
   return (

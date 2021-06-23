@@ -126,11 +126,11 @@ function save(event, form) {
 }
 
 function getTagFilterForHostAvailability(form) {
-  if (form.containsKey('tagValue') && form.containsKey('tagOperator')) {
+  if (form.containsKey('tagOperator')) {
     return {
       name: 'tag',
       operator: form.get('tagOperator').value,
-      stringValue: form.get('tagValue').value
+      stringValue: form.get('tagValue')?.value
     };
   }
 

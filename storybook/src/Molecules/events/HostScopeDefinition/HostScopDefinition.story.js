@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { just } from '@instana/observables';
 
 import HostScopeDefinitionSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/HostScopeDefinitionSelector';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { putScopeByHostsFields } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 
 export default {
   title: 'Molecules|alerts/HostScopeDefinition'
@@ -54,18 +55,21 @@ export const Default = () => {
       }
     });
 
-  const [tagValue, setTagValue] = useState('');
-  const [operator, setOperator] = useState(EQUALS);
+  const [form, updateForm] = useState(putScopeByHostsFields(createMapForm()));
 
   return (
     <HostScopeDefinitionSelector
       tagTreeNode={tagTreeNode}
       getSuggestions={() => getSuggestions()}
-      tagValue={tagValue}
-      setTagValue={setTagValue}
-      operator={operator}
-      setOperator={setOperator}
-      handleCancel={() => setTagValue('')}
+      tagValueField={form.get('tagValue')}
+      setTagValue={updatedValue => updateForm(updateFormField(['tagValue'], updatedValue))}
+      operator={form.get('tagOperator').value}
+      setOperator={updatedOperator => updateForm(updateFormField(['tagOperator'], updatedOperator))}
+      handleCancel={() => updateForm(updateFormField(['tagValue'], ''))}
     />
   );
+
+  function updateFormField(fieldPath, value) {
+    return form.updateIn(fieldPath, field => field.setValue(value).setTouched(true));
+  }
 };

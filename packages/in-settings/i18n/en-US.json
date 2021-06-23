@@ -580,6 +580,7 @@
     "incident": "Incident",
     "gracePeriod": "Grace Period",
     "periodToWaitBeforeClosingTheIssueOnceConditionsAreNoLongerMet": "Period to wait before closing the issue once conditions are no longer met.",
+    "closeAfterHelperDescription": "If a host is offline for longer than the defined period, Instana does not expect the host to reappear anymore, and the event will be closed after the grace period.",
     "issuePreview": "Issue Preview",
     "2Condition": "2. Condition",
     "source": "Source",
