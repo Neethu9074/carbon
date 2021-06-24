@@ -21,21 +21,15 @@ export default function WebsiteAlertPropertiesTitleRow({ form, onChange }) {
       <AlertPropertiesTextarea
         name="name"
         id="name"
-        value={form.get('name').value}
         onChange={e => {
           onChange(['name'], field => field.setValue(e.target.value || '').setTouched(true));
           websitesAlertingAdditionalPropsTitleChanged();
         }}
-        hasError={hasError(form.get('name'))}
-        maxLength={256}
         placeholder={getTitlePlaceholder(form)}
+        formField={form.get('name')}
       />
     </AlertSection>
   );
-}
-
-function hasError(field) {
-  return !field.valid && field.touched;
 }
 
 WebsiteAlertPropertiesTitleRow.propTypes = {

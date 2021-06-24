@@ -8,9 +8,11 @@ import { createMapForm, createField } from 'formalistic';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
+import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
+import { stringMaxLengthValidator } from 'in-services/validators/string';
 
 const severityWarning = 5;
 
@@ -46,13 +48,15 @@ export default function alertFormDefinition(alertConfig, editMode) {
     .put(
       fieldNames.tagFilterExpression,
       createField({
-        value: fromBackendModel(tagFilterExpression)
+        value: fromBackendModel(tagFilterExpression),
+        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
       })
     )
     .put(
       fieldNames.alertChannelIds,
       createField({
-        value: alertChannelIds
+        value: alertChannelIds,
+        validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
       })
     )
     .put(
