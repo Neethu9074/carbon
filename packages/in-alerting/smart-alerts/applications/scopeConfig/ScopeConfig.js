@@ -6,9 +6,8 @@
 import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import Toggle from 'react-toggle';
 
-import { Stack } from '@instana/components';
+import { Toggle, Stack, Spacer } from '@instana/components';
 
 import ServicesAndEndpointsListPresenter, {
   ServicesAndEndpointsSearchInput
@@ -112,12 +111,14 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
         <div className={locals.lightCardHeaderControlsSelectionTitle}>
           {t('in-alerting:smartAlerts.components.smartAlertDialog.sortByUserSelectionLabel')}
         </div>
+        <Spacer horizontal="xxsmall" />
         <Toggle
           checked={filterBySelectionState}
           onChange={() => {
             setFilterBySelectionState(_showInteractedItemsOnly => !_showInteractedItemsOnly);
           }}
         />
+        <Spacer horizontal="xxsmall" />
       </HorizontalFlexWrapper>
       <div className={locals.lightCardHeaderControlsSearchInputWrapper}>
         <ServicesAndEndpointsSearchInput onChange={query => setSearchQuery(query)} />

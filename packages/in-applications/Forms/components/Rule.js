@@ -6,9 +6,7 @@
 import React, { forwardRef, useState } from 'react';
 import classNames from 'classnames';
 
-import { SvgIcon } from '@instana/components';
-
-import Toggle from 'in-components/form/Toggle';
+import { Toggle, Spacer, SvgIcon } from '@instana/components';
 
 import locals from './Rule.mless';
 
@@ -61,7 +59,10 @@ const Rule = forwardRef(function Rule(
             </>
           )}
           {onToggleEnable && (
-            <Toggle className={locals.toggle} checked={enabled} onChange={e => onToggleEnable(e.target.checked)} />
+            <>
+              <Toggle className={locals.toggle} checked={enabled} onChange={e => onToggleEnable(e.target.checked)} />
+              <Spacer horizontal="xxsmall" />
+            </>
           )}
           {expandableContent ? (
             <SvgIcon

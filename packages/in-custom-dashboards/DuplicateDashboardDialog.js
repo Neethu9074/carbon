@@ -7,13 +7,14 @@ import { compose, withProps, withState } from 'recompose';
 import { createMapForm, createField } from 'formalistic';
 import React from 'react';
 
+import { Toggle } from '@instana/components';
+
 import { goToCustomDashboard } from 'in-custom-dashboards/navigation/url';
 import HorizontalFormGroup from 'in-components/form/HorizontalFormGroup';
 import PromptPresenter from 'in-components/Dialog/PromptPresenter';
 import { notBlankValidator } from 'in-services/validators/string';
 import { addCustomDashboard } from 'in-custom-dashboards/api';
 import { close } from 'in-components/DialogPresenter/store';
-import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import { user } from 'in-stores/user';
 import { t } from 'in-i18n';

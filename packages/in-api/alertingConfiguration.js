@@ -5,8 +5,9 @@
 
 import { fromJS } from 'immutable';
 
-import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { generateUniqueShortId } from '@instana/utils';
+
+import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { deepCopy } from 'in-services/util/object';
 import http from 'in-services/http';
 

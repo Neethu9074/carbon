@@ -8,6 +8,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
+import { Toggle } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -35,7 +36,6 @@ import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
 import { goToPath } from 'in-stores/navigation';
-import Toggle from 'in-components/form/Toggle';
 import Title from 'in-components/Title/Title';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';

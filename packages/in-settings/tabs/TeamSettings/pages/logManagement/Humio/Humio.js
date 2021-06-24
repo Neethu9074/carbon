@@ -4,8 +4,10 @@
  */
 
 import { createMapForm, createField } from 'formalistic';
-import { createLogger } from '@instana/logger';
 import React, { Fragment } from 'react';
+
+import { createLogger } from '@instana/logger';
+import { Toggle } from '@instana/components';
 
 import HumioForm from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/HumioForm';
 import { teamSettingsLogManagementHumio } from 'in-settings/navigation/paths';
@@ -19,7 +21,6 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import { get, save } from 'in-integrations/logging/api';
 import { isBlank } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
-import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';

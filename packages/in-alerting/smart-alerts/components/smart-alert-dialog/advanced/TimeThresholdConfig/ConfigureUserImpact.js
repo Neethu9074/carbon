@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Toggle, Spacer } from '@instana/components';
+
 import {
   putUsersField,
   putUserPercentageField,
@@ -16,7 +18,6 @@ import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/componen
 import { getValueRoundedToDecimals, round } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
-import Toggle from 'in-components/form/Toggle';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -58,6 +59,7 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
               />
             </FormGroup>
           </div>
+          <Spacer horizontal="xxsmall" />
           <Toggle
             name="alertByNumberOfUsersChecked"
             className={locals.toggle}
@@ -116,6 +118,7 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
               />
             </FormGroup>
           </div>
+          <Spacer horizontal="xxsmall" />
           <Toggle
             name={'alertByPercentageOfImpactedUsersEnabled'}
             className={locals.toggle}

@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
+import { Toggle, Spacer } from '@instana/components';
 import { Button } from '@instana/components';
 import { Li, Ul } from '@instana/components';
 import { Stack } from '@instana/components';
@@ -17,7 +18,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { publicFormatters } from 'in-stores/metric/formatters';
 import Sections from 'in-components/workspace/Sections';
 import FormGroup from 'in-components/form/FormGroup';
-import Toggle from 'in-components/form/Toggle';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -221,6 +221,7 @@ function AxisConfigurator({
                       updateShareMaxAxisDomain(e);
                     }}
                   />
+                  <Spacer horizontal="xxsmall" />
                   <span>{t('in-custom-dashboards:widgets.chart.axesConfigurator.sharemaxValue')}</span>
                 </div>
               </Li>

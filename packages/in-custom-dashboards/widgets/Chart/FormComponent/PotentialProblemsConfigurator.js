@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Stack, SpacerSizes, Spacer } from '@instana/components';
+import { Stack, Spacer, Toggle } from '@instana/components';
 
 import {
   addFieldsForPotentialProblems,
@@ -19,7 +19,6 @@ import ValidationBlock from 'in-components/form/ValidationBlock';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
-import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
 export default function PotentialProblemsConfigurator({ form, metricField, axisForm, grouping, onChange }) {
@@ -49,7 +48,7 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
         titleHtmlFor="potential-problems-configurator"
         title={t('in-custom-dashboards:widgets.formCompChart.indexChart.potentialProblems')}
       >
-        <Stack direction="horizontal" align="center" gap={SpacerSizes.normal}>
+        <Stack direction="horizontal" align="center" gap="normal">
           <Toggle
             id="potential-problems-configurator"
             checked={potentialProblemsEnabled}
@@ -65,8 +64,9 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
               });
             }}
           />
+          <Spacer horizontal="xxsmall" />
           {t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription')}
-          <Spacer horizontal={SpacerSizes.xsmall} />
+          <Spacer horizontal="xsmall" />
           <Select
             disabled={(notEnabled || !potentialProblemsEnabled) && !metricHasMoreOptions && !invalidBlueprintSelected}
             id="metric-configurator-blue-print-selector"

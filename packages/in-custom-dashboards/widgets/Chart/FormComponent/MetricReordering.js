@@ -8,6 +8,7 @@ import React from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { toInteractiveElement } from '@instana/components';
+import { generateStableHash } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
 import { Stack } from '@instana/components';
 
@@ -15,7 +16,6 @@ import ColorConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/
 import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { generateStableHash } from '@instana/utils';
 import Header from 'in-components/workspace/Header';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';

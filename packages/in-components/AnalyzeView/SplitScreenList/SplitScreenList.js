@@ -8,6 +8,7 @@ import { findIndex, isEqual } from 'lodash';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
+import { generateStableHash } from '@instana/utils';
 import { LiLoadMore } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
@@ -23,7 +24,6 @@ import { detailViewProps } from 'in-components/AnalyzeView/UngroupedView';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ResultHeader from 'in-components/AnalyzeView/ResultHeader';
 import { prefetch } from 'in-subscription/util/prefetch';
-import { generateStableHash } from '@instana/utils';
 import Tooltip from 'in-components/Tooltip';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';

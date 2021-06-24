@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { generateStableHash } from '@instana/utils';
+
 import { isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { generateStableHash } from '@instana/utils';
 import { roundDownToWeek } from 'in-services/util/date';
 import { minutes } from 'in-services/time/time';
 import http from 'in-services/http';

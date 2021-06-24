@@ -6,9 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Toggle, Spacer } from '@instana/components';
+
 import AlertSection from 'in-alerting/components/AlertSection';
 import Sections from 'in-components/workspace/Sections';
-import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
@@ -43,6 +44,7 @@ export default function AlertPropertyInfos({
         title={t('in-alerting:components.alertPropertyInfosLabelTriggersIncident')}
       >
         <Toggle checked={triggering} disabled />
+        <Spacer horizontal="xxsmall" />
       </AlertSection>
       <AlertSection
         icon="lib_help_error_error_outline"

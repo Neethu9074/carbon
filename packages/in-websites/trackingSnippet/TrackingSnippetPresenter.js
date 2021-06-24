@@ -5,11 +5,9 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { SvgIcon, Toggle, Link, Spacer } from '@instana/components';
 
 import { getTrackingSnippet } from 'in-websites/trackingSnippet';
-import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Tooltip from 'in-components/Tooltip';
 import Code from 'in-components/Code';
@@ -40,6 +38,7 @@ export default function TrackingSnippetPresenter({ websiteId, trackSessions, set
               </Link>
             </Tooltip>
           </Label>
+          <Spacer horizontal="xxsmall" />
           <Toggle id="trackSessions" checked={trackSessions} onChange={e => setTrackSessions(e.target.checked)} />
         </div>
       </div>

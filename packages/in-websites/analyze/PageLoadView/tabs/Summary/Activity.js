@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { generateStableHash } from '@instana/utils';
 import { Card } from '@instana/components';
 
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
@@ -12,7 +13,6 @@ import BeaconPageGroup from 'in-websites/analyze/PageLoadView/tabs/Summary/Beaco
 import OverviewChart from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChart';
 import { getType } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import Filter from 'in-websites/analyze/PageLoadView/tabs/Summary/Filter';
-import { generateStableHash } from '@instana/utils';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 

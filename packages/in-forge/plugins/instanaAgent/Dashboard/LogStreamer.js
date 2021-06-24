@@ -8,13 +8,13 @@ import irpt from 'react-immutable-proptypes';
 import React, { Fragment } from 'react';
 import DOMPurify from 'dompurify';
 
+import { Toggle, Spacer } from '@instana/components';
 import { replaceHtmlChars } from '@instana/utils';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { ansiToHtml } from 'in-forge/plugins/instanaAgent/Dashboard/ansiLoader';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
-import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
 import locals from './LogStreamer.mless';
@@ -139,6 +139,7 @@ export default class extends React.PureComponent {
 
         <label htmlFor="set-auto-scroll" className={locals.autoScroll}>
           {t('in-forge:plugins.instanaAgent.dashboard.automaticallyScrollToBottomOnLogChange')}
+          <Spacer horizontal="xxsmall" />
           <Toggle
             onChange={e => this.setState({ scrollToBottomOnChange: e.target.checked })}
             checked={this.state.scrollToBottomOnChange}

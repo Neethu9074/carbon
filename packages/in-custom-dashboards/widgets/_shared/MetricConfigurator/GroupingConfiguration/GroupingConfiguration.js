@@ -6,12 +6,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Toggle, Spacer } from '@instana/components';
+
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select';
-import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
 import locals from './GroupingConfiguration.mless';
@@ -81,6 +82,7 @@ export default function GroupingConfiguration({
                       checked={grouping.includeOthers}
                       onChange={e => onIncludeOthersChange(e.target.checked)}
                     />
+                    <Spacer horizontal="xxsmall" />
                     {t('in-custom-dashboards:widgets.metricConfig.groupingConfig.showRemainingGroupsAggregOther')}
                   </>
                 )}

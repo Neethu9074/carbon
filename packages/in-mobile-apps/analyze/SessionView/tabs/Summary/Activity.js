@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { generateStableHash } from '@instana/utils';
 import { Card } from '@instana/components';
 
 import renderers from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers';
@@ -12,7 +13,6 @@ import BeaconViewGroup from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Bea
 import OverviewChart from 'in-mobile-apps/analyze/SessionView/tabs/Summary/OverviewChart';
 import { getType } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
 import Filter from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Filter';
-import { generateStableHash } from '@instana/utils';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 

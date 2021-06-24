@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Toggle, Button } from '@instana/components';
 
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
@@ -16,7 +16,6 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
 import { Row, Col } from 'in-components/layout/Grid';
 import Dialog from 'in-components/Dialog/Dialog';
-import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';

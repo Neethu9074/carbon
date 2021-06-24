@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import memoize from 'in-services/util/memoizingObservableGenerator';
 import { generateStableHash } from '@instana/utils';
+
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import { roundDownToWeek } from 'in-services/util/date';
 import { success } from 'in-services/util/result';
 

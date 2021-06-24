@@ -5,12 +5,13 @@
 
 import { fromJS } from 'immutable';
 
+import { generateUniqueShortId } from '@instana/utils';
+
 import {
   ruleTypeEntityVerification,
   ruleTypeHostAvailability
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { generateUniqueShortId } from '@instana/utils';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 

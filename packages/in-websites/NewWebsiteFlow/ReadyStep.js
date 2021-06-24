@@ -13,8 +13,8 @@ import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import Actions from 'in-websites/NewWebsiteFlow/Actions';
-import { Trans, t, SecureString } from 'in-i18n';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
+import { Trans, t, SecureString } from 'in-i18n';
 
 export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackSessions, setTrackSessions }) {
   const eumSnippet = getTrackingSnippet({ key: websiteId, trackSessions });

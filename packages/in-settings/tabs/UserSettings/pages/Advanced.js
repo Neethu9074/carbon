@@ -7,6 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Toggle } from '@instana/components';
 
 import { enableShowInternalTags, isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
@@ -17,7 +18,6 @@ import SectionHeading from 'in-settings/components/SectionHeading';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
-import Toggle from 'in-components/form/Toggle';
 import Footer from 'in-components/Footer';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';

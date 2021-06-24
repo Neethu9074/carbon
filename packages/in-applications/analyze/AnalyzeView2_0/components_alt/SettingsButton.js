@@ -5,13 +5,10 @@
 
 import React from 'react';
 
-import { KeyValue } from '@instana/components';
-import { Button } from '@instana/components';
-import { Ul, Li } from '@instana/components';
+import { Toggle, Spacer, Ul, Li, Button, KeyValue } from '@instana/components';
 
 import Overlay from 'in-components/overlays/Overlay';
 import ButtonGroup from 'in-components/ButtonGroup';
-import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
 import locals from './SettingsButton.mless';
@@ -72,6 +69,7 @@ function SettingsContent({
           accentuated
           inverted
         />
+        <Spacer horizontal="xxsmall" />
         <Toggle
           checked={showServiceInformation}
           onChange={() => setShowServiceInformation(!showServiceInformation)}
@@ -86,6 +84,7 @@ function SettingsContent({
           accentuated
           inverted
         />
+        <Spacer horizontal="xxsmall" />
         <Toggle
           checked={showSubCallBars}
           onChange={() => setShowSubCallBars(!showSubCallBars)}

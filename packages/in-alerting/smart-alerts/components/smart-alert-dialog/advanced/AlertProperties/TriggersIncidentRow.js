@@ -6,8 +6,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Toggle } from '@instana/components';
+
 import AlertSection from 'in-alerting/components/AlertSection';
-import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
 export default function TriggersIncidentRow({ form, trackTriggerChanged, onChange }) {

@@ -8,8 +8,8 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
 
+import { Toggle, Spacer, Link } from '@instana/components';
 import { create, just } from '@instana/observables';
-import { Link } from '@instana/components';
 
 import {
   dataSourceCustom,
@@ -97,7 +97,6 @@ import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
 import { getPluginName } from 'in-sdk/pluginName';
 import Helpify from 'in-components/form/Helpify';
-import Toggle from 'in-components/form/Toggle';
 import { find } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
@@ -312,6 +311,7 @@ function EventForm({
                   {form.get('triggering').map(field => (
                     <FormGroup>
                       <Label htmlFor="event-triggering">{t('in-settings:tabs.incident')}</Label>
+                      <Spacer horizontal="xxsmall" />
                       <Toggle
                         id="event-triggering"
                         className={locals.toggle}

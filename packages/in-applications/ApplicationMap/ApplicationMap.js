@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { generateUniqueShortId } from '@instana/utils';
 import RoEmitter from '@instana/roemitter';
 import { on } from '@instana/observables';
 
@@ -17,7 +18,6 @@ import OverlayReactComponentMounter from 'in-applications/ApplicationMap/misc/Ov
 import getPowerFunctions from 'in-applications/ApplicationMap/misc/layouting/powerFunctions';
 import SceneGraph from 'in-applications/ApplicationMap/SceneGraph/SceneGraph';
 import Scene from 'in-applications/ApplicationMap/sceneObjects/Scene';
-import { generateUniqueShortId } from '@instana/utils';
 import Subscriber from 'in-map/misc/Subscriber';
 
 export default class ApplicationMap {

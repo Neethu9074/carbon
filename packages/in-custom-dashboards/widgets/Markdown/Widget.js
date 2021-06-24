@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import DOMPurify from 'dompurify';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { toHtml } from 'in-services/formatters/markdown';

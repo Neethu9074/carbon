@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createLogger } from '@instana/logger';
 import React from 'react';
 
-import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { generateUniqueShortId } from '@instana/utils';
+import { createLogger } from '@instana/logger';
+
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { ineum } from 'in-services/tracking/ineum';
 import { Trans } from 'in-i18n';
 

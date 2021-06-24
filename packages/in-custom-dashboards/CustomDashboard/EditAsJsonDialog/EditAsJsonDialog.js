@@ -6,6 +6,8 @@
 import { createField, createMapForm, createListForm } from 'formalistic';
 import React, { useState } from 'react';
 
+import { generateUniqueShortId } from '@instana/utils';
+
 import { getInitialFormState as createWidgetForm } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetEditorDialog';
 import EditAsJsonDialogPresenter from 'in-custom-dashboards/CustomDashboard/EditAsJsonDialog/EditAsJsonDialogPresenter';
 import { stringValidator, arrayValidator } from 'in-services/validators/jsonType';
@@ -13,7 +15,6 @@ import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { close } from 'in-components/DialogPresenter/store';
-import { generateUniqueShortId } from '@instana/utils';
 import { user, role } from 'in-stores/user';
 import { t } from 'in-i18n';
 

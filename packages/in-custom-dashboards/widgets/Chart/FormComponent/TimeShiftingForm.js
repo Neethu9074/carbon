@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Toggle, Spacer } from '@instana/components';
+
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -12,7 +14,6 @@ import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
-import Toggle from 'in-components/form/Toggle';
 import { Trans, t } from 'in-i18n';
 
 import locals from './TimeShiftingForm.mless';
@@ -42,6 +43,7 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
               );
             }}
           />
+          <Spacer horizontal="xxsmall" />
           {t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.applyTimeShiftDs')}
         </div>
       </Section>
@@ -100,6 +102,7 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
                   )
                 }
               />
+              <Spacer horizontal="xxsmall" />
               {t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.displayCurrentValues')}
             </div>
           </HorizontalFlexWrapper>

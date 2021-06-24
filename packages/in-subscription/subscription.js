@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { generateStableHash } from '@instana/utils';
 import { create } from '@instana/observables';
 
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { generateStableHash } from '@instana/utils';
 import { connection } from 'in-connection';
 
 /**

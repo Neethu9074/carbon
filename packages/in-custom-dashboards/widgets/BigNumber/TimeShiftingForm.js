@@ -5,13 +5,14 @@
 
 import React from 'react';
 
+import { Toggle, Spacer } from '@instana/components';
+
 import ComparisonColorSelect from 'in-custom-dashboards/widgets/BigNumber/ComparisonColorSelect';
 import { timeShifts, defaultTimeShift, previousHourTimeShift } from 'in-stores/time/shifting';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
-import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
 import locals from './TimeShiftingForm.mless';
@@ -38,6 +39,7 @@ export default function TimeShiftingForm({ form, onChange }) {
               onChange(['metricConfiguration', 'timeShift'], field => field.setValue(newOffset).setTouched(true));
             }}
           />
+          <Spacer horizontal="xxsmall" />
           {t('in-custom-dashboards:widgets.bigNumber.timeShiftingForm.addTimeShiftComparBadge')}
         </div>
       </Section>

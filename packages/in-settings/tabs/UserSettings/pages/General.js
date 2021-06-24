@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Toggle } from '@instana/components';
+
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
@@ -15,7 +17,6 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { saveUserSettings } from 'in-services/userSettings';
-import Toggle from 'in-components/form/Toggle';
 import Select from 'in-components/form/Select';
 import Title from 'in-components/Title';
 

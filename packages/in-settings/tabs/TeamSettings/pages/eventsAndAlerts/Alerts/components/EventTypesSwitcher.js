@@ -6,12 +6,13 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+import { Toggle, Spacer } from '@instana/components';
+
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-settings/components/FormGroup';
-import Toggle from 'in-components/form/Toggle';
 import Label from 'in-components/form/Label';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -48,6 +49,7 @@ function EventType({ onChange, types, type, label }) {
   return (
     <HorizontalFormGroup noHelpTextSpacer>
       <Label htmlFor={`event-type-${type}`}>{label}</Label>
+      <Spacer horizontal="xxsmall" />
       <Toggle
         id={`event-type-${type}`}
         checked={types.includes(type)}

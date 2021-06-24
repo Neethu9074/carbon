@@ -5,14 +5,11 @@
 
 import React from 'react';
 
-import { KeyValue } from '@instana/components';
-import { Button } from '@instana/components';
-import { Ul, Li } from '@instana/components';
+import { Toggle, Spacer, Ul, Li, Button, KeyValue } from '@instana/components';
 
 import DebouncedDistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { percentage } from 'in-services/formatters/number';
 import Overlay from 'in-components/overlays/Overlay';
-import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
 import locals from './SettingsButton.mless';
@@ -71,10 +68,12 @@ function SettingsContent({
           accentuated
           inverted
         />
+        <Spacer horizontal="xxsmall" />
         <Toggle checked={selfTimeHighlighted} onChange={() => setSelfTimeHighlighted(!selfTimeHighlighted)} />
       </Li>
       <Li>
         <KeyValue value={t('in-profiling:cpuGraph')} label={t('in-profiling:showCpuOverTime')} accentuated inverted />
+        <Spacer horizontal="xxsmall" />
         <Toggle checked={showGraph} onChange={() => setShowGraph(!showGraph)} />
       </Li>
     </Ul>

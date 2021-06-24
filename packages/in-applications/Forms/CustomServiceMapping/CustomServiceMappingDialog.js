@@ -7,6 +7,7 @@ import { composeValidators, createField, createListForm, createMapForm } from 'f
 import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { Button } from '@instana/components';
 
 import { createNewServiceConfigs, getServiceConfigs, replaceAllServiceConfigs } from 'in-api/serviceConfiguration';
@@ -16,7 +17,6 @@ import { notBlankValidator } from 'in-services/validators/string';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { servicesList } from 'in-applications/navigation/paths';
 import { getModifiedUrlStream } from 'in-stores/navigation';
-import { generateUniqueShortId } from '@instana/utils';
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
 import { isBlank } from 'in-services/util/string';

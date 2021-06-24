@@ -7,6 +7,7 @@ import { createMapForm, createField, createListForm } from 'formalistic';
 import React, { Fragment } from 'react';
 import { List } from 'immutable';
 
+import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -16,7 +17,6 @@ import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import SectionHelp from 'in-settings/components/SectionHelp';
-import { generateUniqueShortId } from '@instana/utils';
 import FormGroup from 'in-settings/components/FormGroup';
 import { emptyList } from 'in-services/fixedImmutables';
 import { Row, Col } from 'in-components/layout/Grid';

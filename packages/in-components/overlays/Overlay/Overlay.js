@@ -8,10 +8,10 @@ import { throttle } from 'lodash';
 import React from 'react';
 
 import { create, just, timeout } from '@instana/observables';
+import { generateUniqueShortId } from '@instana/utils';
 
 import OverlayMounter from 'in-components/overlays/OverlayMounter';
 import { identifyOverlay } from 'in-components/overlays/dom';
-import { generateUniqueShortId } from '@instana/utils';
 import { emptyObject } from 'in-services/fixedObjects';
 
 // Usage:

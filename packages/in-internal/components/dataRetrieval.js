@@ -4,10 +4,10 @@
  */
 
 import { combineLatest } from '@instana/observables';
+import { generateStableHash } from '@instana/utils';
 
 import getPhysicalHierarchy from 'in-subscription/physicalHierarchy';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { generateStableHash } from '@instana/utils';
 import { getSnapshots } from 'in-stores/snapshot';
 import search from 'in-subscription/search';
 
