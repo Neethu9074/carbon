@@ -28,7 +28,7 @@ import { onLayoutChange } from 'in-custom-dashboards/CustomDashboard/editor';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import withPropDependingState from 'in-hoc/withPropDependingState';
-import { generateUniqueShortId } from 'in-services/util/id';
+import { generateUniqueShortId } from '@instana/utils';
 import { deepCopy } from 'in-services/util/object';
 import Prompt from 'in-components/Dialog/Prompt';
 import withUrlState from 'in-hoc/withUrlState';

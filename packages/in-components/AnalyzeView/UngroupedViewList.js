@@ -12,7 +12,7 @@ import { LiLoadMore } from '@instana/components';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import UngroupedView from 'in-components/AnalyzeView/UngroupedView';
-import { generateStableHash } from 'in-services/util/id';
+import { generateStableHash } from '@instana/utils';
 
 export { detailViewProps, retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 

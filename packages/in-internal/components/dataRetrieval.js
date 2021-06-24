@@ -7,7 +7,7 @@ import { combineLatest } from '@instana/observables';
 
 import getPhysicalHierarchy from 'in-subscription/physicalHierarchy';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { generateStableHash } from 'in-services/util/id';
+import { generateStableHash } from '@instana/utils';
 import { getSnapshots } from 'in-stores/snapshot';
 import search from 'in-subscription/search';
 

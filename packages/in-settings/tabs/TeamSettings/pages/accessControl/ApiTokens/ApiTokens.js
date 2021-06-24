@@ -16,7 +16,7 @@ import {
 import AsyncTokenCopyButton from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/AsyncTokenCopyButton';
 import { getEntityHref, getEntityIdView, teamSettingsAccessControlApiTokens } from 'in-settings/navigation/paths';
 import List, { defaultHeaderWithCount } from 'in-settings/components/List';
-import { generateUniqueShortId } from 'in-services/util/id';
+import { generateUniqueShortId } from '@instana/utils';
 import { goToPath } from 'in-stores/navigation';
 import { t } from 'in-i18n';
 

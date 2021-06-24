@@ -8,7 +8,7 @@ import React from 'react';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import FrontendsTable from 'in-forge/plugins/hAProxy/Dashboard/FrontendsTable';
 import BackendsTable from 'in-forge/plugins/hAProxy/Dashboard/BackendsTable';
-import { Trans, t, markAsSecureString } from 'in-i18n';
+import { Trans, t, SecureString } from 'in-i18n';
 
 export default function HAProxyDashboard({ snapshot, timeConfig }) {
   const socketPath = snapshot.getIn(['data', 'socketPath']);
@@ -36,7 +36,7 @@ export default function HAProxyDashboard({ snapshot, timeConfig }) {
           <Trans
             i18nKey="in-forge:plugins.haProxy.dashboard.eGStatsSocketRunHaproxyAdmin1SockMode660LevelAdminProcess1"
             values={{
-              code: markAsSecureString('stats socket /run/haproxy/admin1.sock mode 660 level admin process 1')
+              code: new SecureString('stats socket /run/haproxy/admin1.sock mode 660 level admin process 1')
             }}
           />
         </DashboardNotification>

@@ -6,7 +6,7 @@
 import { createMapForm, createField, createListForm } from 'formalistic';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import { generateUniqueShortId } from 'in-services/util/id';
+import { generateUniqueShortId } from '@instana/utils';
 import { t } from 'in-i18n';
 
 export const staticType = 'staticString';

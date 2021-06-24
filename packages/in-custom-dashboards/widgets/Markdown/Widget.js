@@ -3,29 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { compose, setPropTypes } from 'recompose';
 import { Card } from '@instana/components';
-import rpt from 'prop-types';
+import DOMPurify from 'dompurify';
 import React from 'react';
 
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { toHtml } from 'in-services/formatters/markdown';
-import { sanitize } from 'in-services/formatters/html';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './Widget.mless';
 
-export default compose(
-  setPropTypes({
-    title: rpt.string.isRequired,
-    config: rpt.string.isRequired
-  }),
-  connectTo(({ config: markdown }) => ({
-    html: sanitize(toHtml(markdown || ''))
-  }))
-)(MarkdownWidget);
-
-function MarkdownWidget({ title, actions, html, isPreview, dragHandle }) {
+export default function MarkdownWidget({ title, actions, isPreview, dragHandle, config: markdown }) {
   return (
     <Card
       title={title}
@@ -37,7 +24,7 @@ function MarkdownWidget({ title, actions, html, isPreview, dragHandle }) {
       }
       useMaxAvailableHeight={!isPreview}
     >
-      <DangerousHtmlPresenter className={locals.markdown} html={html} />
+      <DangerousHtmlPresenter className={locals.markdown} html={DOMPurify.sanitize(toHtml(markdown || ''))} />
     </Card>
   );
 }

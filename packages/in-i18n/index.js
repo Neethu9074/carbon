@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-export { default as Trans, markAsSecureString } from 'in-i18n/Trans';
+export { t, Trans, SecureString } from '@instana/i18n-react';
+
 export { activeLanguage, fallbackLanguage } from 'in-i18n/language';
 export { supportedLanguages } from 'in-i18n/supportedLanguages';
 export { init } from 'in-i18n/init';
-export { t } from 'in-i18n/t';

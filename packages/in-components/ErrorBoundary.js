@@ -7,7 +7,7 @@ import { createLogger } from '@instana/logger';
 import React from 'react';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import { generateUniqueShortId } from 'in-services/util/id';
+import { generateUniqueShortId } from '@instana/utils';
 import { ineum } from 'in-services/tracking/ineum';
 import { Trans } from 'in-i18n';
 

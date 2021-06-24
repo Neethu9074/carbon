@@ -18,7 +18,7 @@ import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresen
 import { SliForm } from 'in-custom-dashboards/widgets/Slo/sli/SliFormPresenter';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
-import { generateUniqueShortId } from 'in-services/util/id';
+import { generateUniqueShortId } from '@instana/utils';
 import { pendingResult } from 'in-services/fixedObjects';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';

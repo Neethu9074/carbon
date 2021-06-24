@@ -11,7 +11,7 @@ import { create, just, timeout } from '@instana/observables';
 
 import OverlayMounter from 'in-components/overlays/OverlayMounter';
 import { identifyOverlay } from 'in-components/overlays/dom';
-import { generateUniqueShortId } from 'in-services/util/id';
+import { generateUniqueShortId } from '@instana/utils';
 import { emptyObject } from 'in-services/fixedObjects';
 
 // Usage:

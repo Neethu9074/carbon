@@ -6,7 +6,7 @@
 import { create } from '@instana/observables';
 
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { generateStableHash } from 'in-services/util/id';
+import { generateStableHash } from '@instana/utils';
 import { connection } from 'in-connection';
 
 /**

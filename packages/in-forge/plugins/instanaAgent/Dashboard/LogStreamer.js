@@ -6,9 +6,12 @@
 /* eslint-disable react/no-danger */
 import irpt from 'react-immutable-proptypes';
 import React, { Fragment } from 'react';
+import DOMPurify from 'dompurify';
+
+import { replaceHtmlChars } from '@instana/utils';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
-import { sanitize, ansiToHtml, replaceHtmlChars } from 'in-services/formatters/html';
+import { ansiToHtml } from 'in-forge/plugins/instanaAgent/Dashboard/ansiLoader';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import Toggle from 'in-components/form/Toggle';
@@ -91,14 +94,10 @@ export default class extends React.PureComponent {
           };
         });
       })
-      .flatMap(aggregated => {
-        return sanitize(aggregated.log).map(cleanHtml => {
-          return {
-            log: cleanHtml,
-            error: aggregated.error
-          };
-        });
-      })
+      .map(aggregated => ({
+        log: DOMPurify.sanitize(aggregated.log),
+        error: aggregated.error
+      }))
       .subscribe(aggregated => {
         this.setState({
           error: aggregated.error,

@@ -6,9 +6,8 @@
 import React from 'react';
 
 import Message from 'in-components/Message';
-import Trans from 'in-i18n/Trans';
+import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 export default function BaselineErrorMessage({ thresholdResult }) {
   if (!hasBaselineError(thresholdResult)) {

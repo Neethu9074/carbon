@@ -20,9 +20,11 @@ import 'moment/locale/ko';
 import React from 'react';
 
 import { combineLatest, fromPromise } from '@instana/observables';
+import { setOptions } from '@instana/i18n';
 
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { activeLanguage, fallbackLanguage } from 'in-i18n/language';
+import { getSingle } from 'in-services/settings/settings';
 import { ineum } from 'in-services/tracking/ineum';
 import { build } from 'in-services/config';
 import Code from 'in-components/Code';
@@ -31,6 +33,16 @@ import http from 'in-services/http';
 export function init() {
   // Set locale globally so that moment.js formats dates correctly.
   moment.locale(activeLanguage);
+
+  // Set locale in @instana/i18n to configure the formatting utilities
+  setOptions({
+    fallbackLocale: fallbackLanguage,
+    textLocale: activeLanguage,
+    numberLocale: getSingle('formatNumbersAccordingToEnUs') ? 'en-US' : navigator.language || fallbackLanguage,
+    dateLocale: fallbackLanguage,
+    timeZone: getSingle('formatTimestampsAsUtc') ? 'UTC' : new Intl.DateTimeFormat().resolvedOptions().timeZone,
+    hour12: false
+  });
 
   // Report the locale to Instana for monitoring purposes
   ineum('meta', 'locale', activeLanguage);

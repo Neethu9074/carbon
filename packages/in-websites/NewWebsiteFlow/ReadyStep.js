@@ -13,7 +13,7 @@ import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import Paragraph from 'in-websites/NewWebsiteFlow/Paragraph';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import Actions from 'in-websites/NewWebsiteFlow/Actions';
-import { Trans, t, markAsSecureString } from 'in-i18n';
+import { Trans, t, SecureString } from 'in-i18n';
 import Frame from 'in-websites/NewWebsiteFlow/Frame';
 
 export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackSessions, setTrackSessions }) {
@@ -24,7 +24,7 @@ export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackS
       <Paragraph>
         <Trans
           i18nKey="in-websites:newWebsiteFlow.readyStepParagraphEverythingIsReadyToMonitorYourWebsite"
-          values={{ websiteName: websiteName, httpHeadTag: markAsSecureString('<head>') }}
+          values={{ websiteName: websiteName, httpHeadTag: new SecureString('<head>') }}
           components={{
             linkToDocs: <Link href="https://instana.com/docs/website_monitoring/" external />
           }}

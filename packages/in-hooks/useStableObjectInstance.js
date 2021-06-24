@@ -5,7 +5,7 @@
 
 import { useMemo } from 'react';
 
-import { generateStableHash } from 'in-services/util/id';
+import { generateStableHash } from '@instana/utils';
 
 export default function useStableObjectInstance(obj) {
   // eslint-disable-next-line react-hooks/exhaustive-deps

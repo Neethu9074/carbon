@@ -71,6 +71,8 @@ describe('in-i18n/translations', function() {
       new Map()
     );
 
+    removeUiFoundationKey(unusedKeyMap);
+
     if (unusedKeyMap.size > 0) {
       const keysAsString = JSON.stringify(Object.fromEntries(unusedKeyMap), null, 2);
 
@@ -232,5 +234,23 @@ function ignorePluralsAndContext(jsonTree) {
     } else {
       ignorePluralsAndContext(value);
     }
+  }
+}
+
+/**
+ * ui-foundation i18n keys cannot be found within the ui-client codebase.
+ * As such, the translation key usage test would fail. We remove all
+ * ui-foundation i18n keys from the map of unused keys to avoid this
+ * failure.
+ *
+ * ui-foundation keys all belong to the default namespace and are located
+ * under the components. prefix.
+ */
+function removeUiFoundationKey(unusedKeysByNamespaceMap) {
+  const keys = unusedKeysByNamespaceMap.get('in-i18n');
+  const withoutUiFoundationKeys = keys.filter(key => !key.startsWith('components.'));
+  unusedKeysByNamespaceMap.set('in-i18n', withoutUiFoundationKeys);
+  if (withoutUiFoundationKeys.length === 0) {
+    unusedKeysByNamespaceMap.delete('in-i18n');
   }
 }

@@ -16,7 +16,7 @@ import SectionHelp from 'in-settings/components/SectionHelp';
 import { close } from 'in-components/DialogPresenter/store';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import FormGroup from 'in-settings/components/FormGroup';
-import { Trans, markAsSecureString, t } from 'in-i18n';
+import { Trans, SecureString, t } from 'in-i18n';
 import { Row, Col } from 'in-components/layout/Grid';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
@@ -67,7 +67,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
         <p>
           <Trans
             i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMatchingRuleHelp2"
-            values={{ http: markAsSecureString('https://') }}
+            values={{ http: new SecureString('https://') }}
           />
         </p>
       </SectionHelp>
@@ -123,7 +123,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                     <HelpText>
                       <Trans
                         i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelHostHelpText"
-                        values={{ asterisks: markAsSecureString('*') }}
+                        values={{ asterisks: new SecureString('*') }}
                       />
                     </HelpText>
                     <TouchedMessages field={field} />
@@ -146,7 +146,7 @@ function MatchingRules({ form, onChange, addMatchingRule, removeMatchingRule, di
                     <HelpText>
                       <Trans
                         i18nKey="in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogLabelPathHelpText"
-                        values={{ asterisks: markAsSecureString('*') }}
+                        values={{ asterisks: new SecureString('*') }}
                       />
                     </HelpText>
                     <TouchedMessages field={field} />

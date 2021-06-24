@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { isEqual } from 'lodash';
 
 import { TimeConfigContext } from 'in-stores/time/TimeConfigContext';
-import { generateStableHash } from 'in-services/util/id';
+import { generateStableHash } from '@instana/utils';
 import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 

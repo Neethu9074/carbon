@@ -17,7 +17,7 @@ import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { cancelEditWidget } from 'in-custom-dashboards/tracker';
 import { close } from 'in-components/DialogPresenter/store';
-import { generateUniqueShortId } from 'in-services/util/id';
+import { generateUniqueShortId } from '@instana/utils';
 import { pendingResult } from 'in-services/fixedObjects';
 
 export default function WidgetEditorDialog({ widget, onSubmit }) {

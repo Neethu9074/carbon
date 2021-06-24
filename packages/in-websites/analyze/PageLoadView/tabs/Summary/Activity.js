@@ -12,7 +12,7 @@ import BeaconPageGroup from 'in-websites/analyze/PageLoadView/tabs/Summary/Beaco
 import OverviewChart from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChart';
 import { getType } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import Filter from 'in-websites/analyze/PageLoadView/tabs/Summary/Filter';
-import { generateStableHash } from 'in-services/util/id';
+import { generateStableHash } from '@instana/utils';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 

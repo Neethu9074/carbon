@@ -4,7 +4,7 @@
  */
 
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { generateStableHash } from 'in-services/util/id';
+import { generateStableHash } from '@instana/utils';
 import { roundDownToWeek } from 'in-services/util/date';
 import { success } from 'in-services/util/result';
 

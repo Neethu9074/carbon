@@ -16,7 +16,7 @@ import OverlayReactComponentMounter from 'in-applications/FlowMap/misc/OverlayRe
 import { SIGNALS } from 'in-applications/FlowMap/components/Controls/Controls';
 import SceneGraph from 'in-applications/FlowMap/SceneGraph/SceneGraph';
 import Scene from 'in-applications/FlowMap/sceneObjects/Scene';
-import { generateUniqueShortId } from 'in-services/util/id';
+import { generateUniqueShortId } from '@instana/utils';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';
 

@@ -10,7 +10,7 @@ import {
   ruleTypeHostAvailability
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { generateUniqueShortId } from 'in-services/util/id';
+import { generateUniqueShortId } from '@instana/utils';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 

@@ -4,7 +4,7 @@
  */
 
 import createSubscription from 'in-subscription/subscription';
-import { generateStableHash } from 'in-services/util/id';
+import { generateStableHash } from '@instana/utils';
 
 export default createSubscription({
   eventId: 'getRawEvents',

@@ -21,8 +21,7 @@ import { combineDataAndError } from 'in-services/util/ro';
 import SaveError from 'in-components/form/SaveError';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
-import Trans from 'in-i18n/Trans';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './Rename.mless';
 

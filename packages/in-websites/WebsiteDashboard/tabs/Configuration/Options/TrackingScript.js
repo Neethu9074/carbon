@@ -13,7 +13,7 @@ import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Optio
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
 import { getTrackingSnippet } from 'in-websites/trackingSnippet';
 import CopyToClipboard from 'in-components/CopyToClipboard';
-import { Trans, markAsSecureString } from 'in-i18n';
+import { Trans, SecureString } from 'in-i18n';
 import { t } from 'in-i18n';
 
 export default function TrackingScript({ websiteId }) {
@@ -36,7 +36,7 @@ export default function TrackingScript({ websiteId }) {
       <HelpParagraph>
         <Trans
           i18nKey="in-websites:trackingScript.help"
-          values={{ htmlElementName: markAsSecureString('<head />') }}
+          values={{ htmlElementName: new SecureString('<head />') }}
           components={{
             linkToDocs: <Link href="https://instana.com/docs/website_monitoring/" external />
           }}

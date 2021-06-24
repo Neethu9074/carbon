@@ -15,7 +15,7 @@ import ColorConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/
 import { getMetricId, getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { generateStableHash } from 'in-services/util/id';
+import { generateStableHash } from '@instana/utils';
 import Header from 'in-components/workspace/Header';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';

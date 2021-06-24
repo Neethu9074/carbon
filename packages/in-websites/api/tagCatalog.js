@@ -5,7 +5,7 @@
 
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { generateStableHash } from 'in-services/util/id';
+import { generateStableHash } from '@instana/utils';
 import { minutes } from 'in-services/time/time';
 import http from 'in-services/http';
 

@@ -1,4 +1,11 @@
 {
+  "components": {
+    "list": {
+      "loadMore": "Load More",
+      "toggleExtraContent": "Toggle extra content",
+      "initiateDefaultAction": "Initiate default action"
+    }
+  },
   "forms": {
     "actions": {
       "save": "Save",
