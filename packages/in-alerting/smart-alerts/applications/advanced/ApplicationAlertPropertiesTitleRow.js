@@ -64,14 +64,12 @@ export default function ApplicationAlertPropertiesTitleRow({ form, onChange }) {
           ref={titleTextareaRef}
           name="name"
           id="name"
-          value={form.get('name').value}
           onChange={e => {
             onChange(['name'], field => field.setValue(e.target.value || '').setTouched(true));
             applicationsAlertingAdditionalPropsTitleChanged();
           }}
-          hasError={hasError(form.get('name'))}
-          maxLength={256}
           placeholder={getTitlePlaceholder(form)}
+          formField={form.get('name')}
         />
       </Stack>
     </AlertSection>
@@ -120,10 +118,6 @@ function insertPlaceholderText(titleTextareaRef, placeholderString, onChange) {
 
     onChange(['name'], field => field.setValue(newValue).setTouched(true));
   };
-}
-
-function hasError(field) {
-  return !field.valid && field.touched;
 }
 
 ApplicationAlertPropertiesTitleRow.propTypes = {

@@ -11,8 +11,10 @@ import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/Evaluatio
 import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
+import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
 
 const defaultSeverity = 5;
@@ -23,13 +25,15 @@ export function createSmartAlertForm(alertConfig, editMode) {
     .put(
       'name',
       createField({
-        value: alertConfig.name ?? ''
+        value: alertConfig.name ?? '',
+        validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
       })
     )
     .put(
       'description',
       createField({
-        value: alertConfig.description ?? ''
+        value: alertConfig.description ?? '',
+        validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
       })
     )
     .put(
