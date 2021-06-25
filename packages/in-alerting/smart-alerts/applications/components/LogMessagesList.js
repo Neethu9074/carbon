@@ -4,9 +4,10 @@
  */
 
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 import React from 'react';
 
-import { combineLatest } from '@instana/observables';
+import { combineLatest, just } from '@instana/observables';
 
 import { createApplicationIdTagFilter } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
@@ -52,20 +53,22 @@ export default function LogMessagesList({
 }) {
   return (
     <List
-      isSearchable
+      key={Math.random()} // It's save to trigger a reload this way because results are memoized in the backend.
       getHeader={() => ''}
       searchAttributes={[entity => entity.message]}
       getEntityName={config => config.message}
       columnDefinitions={columnDefinitions}
       loadEntities={() =>
-        getTableData({
-          applicationIds: Object.keys(applications),
-          applicationBoundaryScope,
-          includeInternal,
-          includeSynthetic,
-          tagFilterExpression,
-          timeConfig
-        })
+        isEmpty(applications)
+          ? just([]) // Show on–no–data message
+          : getTableData({
+              applicationIds: Object.keys(applications),
+              applicationBoundaryScope,
+              includeInternal,
+              includeSynthetic,
+              tagFilterExpression,
+              timeConfig
+            })
       }
       pageSize={10}
       noDataMessage={t('in-alerting:smartAlerts.applications.logMessages.noDataMessage')}
@@ -73,6 +76,7 @@ export default function LogMessagesList({
         onLogMessageSelect(log.message, log.level);
         slideOut();
       }}
+      isSearchable
     />
   );
 }
