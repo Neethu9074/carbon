@@ -66,7 +66,7 @@ const hostViewCols = [
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    rows: getDropwizardWithContext('entity.service.name:"log-reader"')
+    rows: getDropwizardWithContext('entity.jvm.app.name:"log-reader"')
   },
   function LogReader({ rows, timeConfig }) {
     if (rows.length === 0) {

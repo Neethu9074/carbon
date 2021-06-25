@@ -391,7 +391,19 @@
         "logCleanup" : {
           "success": "Log clean-up success",
           "failure": "Log clean-up failure",
-          "duration": "Log clean-up duration (99th)"
+          "duration": "Log clean-up duration (99th)",
+          "skips" : {
+            "mutations": "Log clean-up skips (mutations)"
+          }
+        },
+        "logColdTier" : {
+          "success": "Log cold-tier move success",
+          "failure": "Log cold-tier move failure",
+          "duration": "Log cold-tier move duration (99th)",
+          "skips" : {
+            "mutations": "Log cold-tier move skips (mutations)",
+            "merges": "Log cold-tier move skips (merges)"
+          }
         }
       },
       "reader": {

@@ -66,7 +66,7 @@ const hostViewCols = [
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    rows: getDropwizardWithContext('entity.service.name:"log-writer"')
+    rows: getDropwizardWithContext('entity.jvm.app.name:"log-writer"')
   },
   function LogWriter({ rows, timeConfig }) {
     if (rows.length === 0) {
@@ -319,6 +319,94 @@ export default connectTo(
                 min: 0,
                 formatter: millis.fixedCompact,
                 metrics: rows.map(() => `metrics.timers.logCleanUpService.log-clean-up-timer.99th`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logCleanup.skips.mutations')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(() => `metrics.meters.logCleanUpService.number-skips-because-of-running-mutations`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logColdTier.success')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(() => `metrics.meters.logColdTierService.number-partitions-moved-success`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logColdTier.failure')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(() => `metrics.meters.logColdTierService.number-partitions-moved-failure`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logColdTier.duration')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: millis.fixedCompact,
+                metrics: rows.map(() => `metrics.timers.logColdTierService.log-cold-tier-timer.99th`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logColdTier.skips.mutations')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(() => `metrics.meters.logColdTierService.number-skips-because-of-running-mutations`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logColdTier.skips.merges')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(() => `metrics.meters.logColdTierService.number-skips-because-of-running-merges`),
                 labels: labels,
                 type: 'line'
               }}

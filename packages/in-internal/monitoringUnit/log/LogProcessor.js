@@ -50,7 +50,7 @@ const hostViewCols = [
 export default connectTo(
   {
     timeConfig: timeConfig$,
-    rows: getDropwizardWithContext('entity.service.name:"log-processor"')
+    rows: getDropwizardWithContext('entity.jvm.app.name:"log-processor"')
   },
   function LogProcessor({ rows, timeConfig }) {
     if (rows.length === 0) {
