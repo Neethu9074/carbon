@@ -23,7 +23,7 @@ canvas.width = canvas.height = config.numElementsPerColumn * config.iconWidth;
 const context = canvas.getContext('2d');
 context.fillStyle = '#fff';
 
-if (__DEV__ && canvas.width > 2000) {
+if (__DEV__ && canvas.width > 4000) {
   const logger = createLogger('in-map/singleMeshFactories/pluginIconsGlyphTexture');
   logger.warn('The atlas map has reached a critical size of', canvas.width, '. We should spit them into 1k maps.');
 }
