@@ -3,6 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+
 const someFormData = {
   id: '<generated server side',
   name: 'JS Specific errors example',
@@ -29,7 +32,7 @@ const someFormData = {
   baseline: {
     to: 0,
     windowSize: 0,
-    seasonality: 'DAILY',
+    seasonality: DAILY,
     granularity: 0,
     segments: [],
     sdFactor: 1.0
@@ -61,7 +64,7 @@ export function someErrorRateFormData() {
       alertType: 'errorRate'
     },
     threshold: {
-      type: 'staticThreshold',
+      type: STATIC_THRESHOLD,
       value: 100
     }
   };
@@ -74,10 +77,10 @@ export const someSlownessFormData = {
     alertType: 'slowness'
   },
   threshold: {
-    type: 'historicBaseline',
+    type: HISTORIC_BASELINE,
     operator: '>=',
     lastUpdated: 1589797200000,
-    seasonality: 'DAILY',
+    seasonality: DAILY,
     baseline: [
       [0, 65.5742, 9.4923],
       [600000, 64.6961, 9.8364],

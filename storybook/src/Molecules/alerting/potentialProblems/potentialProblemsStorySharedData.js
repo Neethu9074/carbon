@@ -3,13 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
+import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+
 export const potentialProblemsCluster = {
   thresholds: {
     errorRate: {
-      type: 'historicBaseline',
+      type: HISTORIC_BASELINE,
       lastUpdated: 1599052440000,
       operator: '>=',
-      seasonality: 'DAILY',
+      seasonality: DAILY,
       baseline: [
         [1599048840000, 2442, 0.8697],
         [1599048900000, 3759, 0.7804],
@@ -80,10 +83,10 @@ export const potentialProblemsCluster = {
         metricName: 'calls'
       },
       threshold: {
-        type: 'historicBaseline',
+        type: HISTORIC_BASELINE,
         lastUpdated: 1599052440000,
         operator: '>',
-        seasonality: 'DAILY',
+        seasonality: DAILY,
         baseline: [
           [1599048840000, 3821, 0.4693],
           [1599048900000, 3914, 0.0002],

@@ -13,6 +13,7 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import theme from 'in-themes';
@@ -110,7 +111,7 @@ export default function CallsErrorsChart({
                 aggregation: throughputBlueprintConfig.getAggregation(),
                 metricName: throughputBlueprintConfig.getMetricName()
               },
-              seasonality: 'DAILY'
+              seasonality: DAILY
             },
             throughputLow: {
               rule: {
@@ -118,7 +119,7 @@ export default function CallsErrorsChart({
                 aggregation: throughputBlueprintConfig.getAggregation(),
                 metricName: throughputBlueprintConfig.getMetricName()
               },
-              seasonality: 'DAILY',
+              seasonality: DAILY,
               operator: '<='
             },
             errorRate: {

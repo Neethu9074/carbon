@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
 
 export const thresholdGreaterOperatorOptions = Object.freeze([
@@ -19,15 +21,15 @@ export const thresholdOperatorOptions = Object.freeze([
 
 export const thresholdTypeOptions = Object.freeze([
   {
-    value: 'staticThreshold',
+    value: STATIC_THRESHOLD,
     label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionStaticThreshold')
   },
   {
-    value: 'historicBaseline.DAILY',
+    value: `${HISTORIC_BASELINE}.${DAILY}`,
     label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionHistoricBaselineDaily')
   },
   {
-    value: 'historicBaseline.WEEKLY',
+    value: `${HISTORIC_BASELINE}.${WEEKLY}`,
     label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionHistoricBaselineWeekly')
   }
 ]);

@@ -17,6 +17,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import FeatureFeedback from 'in-components/FeatureFeedback/FeatureFeedback';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 export function SmartAlertConfigDialog(props) {
   useCalculateThresholdOnBackendSignalEmitter(props.form);
@@ -107,7 +108,7 @@ function resolveThresholdRequest(
       // request static threshold
       return null;
     }
-    return fallbackOnError ? 'DAILY' : seasonality;
+    return fallbackOnError ? DAILY : seasonality;
   };
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);

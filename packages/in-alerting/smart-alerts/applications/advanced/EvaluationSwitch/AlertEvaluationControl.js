@@ -12,6 +12,7 @@ import alertEvaluationTypes, {
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { applicationSmartAlertsPerEndpointsEnabled } from 'in-services/featureFlags';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconLabel from 'in-alerting/components/IconLabel';
 import theme from 'in-themes';
@@ -53,7 +54,7 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
                     createThresholdForm(
                       {
                         ...form.get('threshold').toJS(),
-                        type: 'staticThreshold'
+                        type: STATIC_THRESHOLD
                       },
                       alertType
                     )

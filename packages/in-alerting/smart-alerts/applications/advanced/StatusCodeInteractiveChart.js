@@ -24,6 +24,7 @@ import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-
 import { createStatusCodeForm, defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
 import { findEntryByValue, alertConfigWithDefaultValues } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
@@ -112,7 +113,7 @@ export function ThresholdCondition({ form, onChange, updateForm, blueprintConfig
               items={thresholdTypeOptions}
               onChange={e => onThresholdChange(e, form, updateForm)}
             />
-            {thresholdType === 'historicBaseline' && (
+            {thresholdType === HISTORIC_BASELINE && (
               <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
             )}
           </>
@@ -121,7 +122,7 @@ export function ThresholdCondition({ form, onChange, updateForm, blueprintConfig
         )}
       </ThresholdConditionFormGroup>
 
-      {thresholdType === 'staticThreshold' && (
+      {thresholdType === STATIC_THRESHOLD && (
         <ThresholdConditionFormGroup iconType="lib_threshold" label={t('in-applications:alert.thresholdLabel')}>
           <ThresholdValueInput
             max={maxValue}
@@ -134,7 +135,7 @@ export function ThresholdCondition({ form, onChange, updateForm, blueprintConfig
         </ThresholdConditionFormGroup>
       )}
 
-      {thresholdType !== 'staticThreshold' && (
+      {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm
           form={form}
           onChange={onChange}

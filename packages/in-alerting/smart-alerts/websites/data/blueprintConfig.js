@@ -11,6 +11,7 @@ import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscription
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { availableFilterTags } from 'in-websites/tags';
@@ -208,7 +209,7 @@ function isCustomRateMetric(metricName) {
 
 function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) {
   let value;
-  if (alertConfig.threshold.type === 'staticThreshold') {
+  if (alertConfig.threshold.type === STATIC_THRESHOLD) {
     value = alertConfig.threshold.value;
   } else {
     value = getBaselineThresholdValue(alertConfig, timeConfig);

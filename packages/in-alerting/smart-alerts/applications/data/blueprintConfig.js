@@ -15,6 +15,7 @@ import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/base
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -209,7 +210,7 @@ function getStatusCodeFormModel(alertRule) {
 
 function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) {
   let value;
-  if (alertConfig.threshold.type === 'staticThreshold') {
+  if (alertConfig.threshold.type === STATIC_THRESHOLD) {
     value = alertConfig.threshold.value;
   } else {
     value = getBaselineThresholdValue(alertConfig, timeConfig);

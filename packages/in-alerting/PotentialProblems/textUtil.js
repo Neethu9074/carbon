@@ -6,6 +6,7 @@
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { t } from 'in-i18n';
 
 export function getTitle({ rule, threshold }) {
@@ -35,7 +36,7 @@ export function getDescription({ rule, threshold, alertType }) {
       return getErrorRateHigherOrLowerOperatorText(operator, getValueRoundedToDecimals(value, true));
     }
     case 'slowness': {
-      if (type === 'staticThreshold') {
+      if (type === STATIC_THRESHOLD) {
         return getSlownessStaticThresholdSlowerOrBelowOperatorText(
           operator,
           parseInt(value),
@@ -45,7 +46,7 @@ export function getDescription({ rule, threshold, alertType }) {
       return getSlownessSlowerOrBelowOperatorText(operator, getAggregationText(aggregation));
     }
     case 'throughput': {
-      if (type === 'staticThreshold') {
+      if (type === STATIC_THRESHOLD) {
         return getThroughputStaticThresholdHigherOrLowerOperatorText(operator, parseInt(value));
       }
       return getThroughputHigherOrLowerOperatorText(operator);

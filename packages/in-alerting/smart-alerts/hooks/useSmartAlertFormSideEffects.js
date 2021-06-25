@@ -5,6 +5,7 @@
 
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export default function useSmartAlertFormSideEffects(form, setForm) {
   const effects = [
@@ -68,7 +69,7 @@ export default function useSmartAlertFormSideEffects(form, setForm) {
 function resetBaseline(form) {
   const type = form.get('threshold').get('type').value;
 
-  if (type === 'historicBaseline') {
+  if (type === HISTORIC_BASELINE) {
     return form.updateIn(['threshold', 'baseline'], f => f.setValue([]).setTouched(false));
   }
   return form;
@@ -77,7 +78,7 @@ function resetBaseline(form) {
 function requestThresholdOnOperatorChange(form) {
   const type = form.get('threshold').get('type').value;
 
-  if (type === 'staticThreshold') {
+  if (type === STATIC_THRESHOLD) {
     return requestThresholdSuggestion(form);
   }
 
@@ -93,7 +94,7 @@ function resetThreshold(form) {
   const type = form.get('threshold').get('type').value;
   form = requestThresholdSuggestion(form);
 
-  if (type === 'staticThreshold') {
+  if (type === STATIC_THRESHOLD) {
     return form.updateIn(['threshold', 'value'], f => f.setValue(null).setTouched(false));
   }
 

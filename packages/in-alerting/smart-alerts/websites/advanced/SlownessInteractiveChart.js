@@ -27,6 +27,7 @@ import createThresholdForm, { defaultDeviationFactor } from 'in-alerting/smart-a
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
@@ -131,12 +132,12 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
             websitesAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));
           }}
         />
-        {thresholdType === 'historicBaseline' && (
+        {thresholdType === HISTORIC_BASELINE && (
           <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
         )}
       </ThresholdConditionFormGroup>
 
-      {thresholdType === 'staticThreshold' && (
+      {thresholdType === STATIC_THRESHOLD && (
         <ThresholdConditionFormGroup
           iconType="lib_threshold"
           label={t('in-alerting:smartAlerts.websites.advanced.slownessInteractiveChartThresholdValue')}
@@ -152,7 +153,7 @@ export function ThresholdCondition({ form, updateForm, onChange, blueprintConfig
         </ThresholdConditionFormGroup>
       )}
 
-      {thresholdType !== 'staticThreshold' && (
+      {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm
           form={form}
           onChange={onChange}

@@ -9,6 +9,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 
 export default function createBlueprintForm(form, alertType, alertThreshold = {}) {
@@ -20,7 +21,7 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
     {
       ...threshold,
       ...alertThreshold,
-      type: blueprintConfig.baselineEnabled ? threshold.type : 'staticThreshold',
+      type: blueprintConfig.baselineEnabled ? threshold.type : STATIC_THRESHOLD,
       value: null, // reset the "old" value if present
       baseline: null // reset the "old" value if present
     },

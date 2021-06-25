@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLanePresenter';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 
 export default function AlertsPreviewLanePropsChecker(props) {
@@ -31,7 +33,7 @@ function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...re
 }
 
 function isConfigValid({ granularity, threshold }) {
-  if (threshold.type === 'historicBaseline') {
+  if (threshold.type === HISTORIC_BASELINE) {
     if (threshold.baseline == null || threshold.baseline?.length <= 1) {
       return false;
     }
@@ -40,7 +42,7 @@ function isConfigValid({ granularity, threshold }) {
     }
   }
   return !(
-    threshold.type === 'staticThreshold' &&
+    threshold.type === STATIC_THRESHOLD &&
     (threshold.value === undefined || threshold.value == null || threshold.value < 0)
   );
 }

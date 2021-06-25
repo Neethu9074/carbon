@@ -39,6 +39,7 @@ import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blue
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
@@ -94,7 +95,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.title'),
           checked:
-            form.get('threshold').get('type').value === 'staticThreshold'
+            form.get('threshold').get('type').value === STATIC_THRESHOLD
               ? form.get('threshold').hierarchyTouched
               : true,
           valid: formFieldsValid(form, ['rule', 'threshold']),

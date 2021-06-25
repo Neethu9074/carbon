@@ -4,6 +4,7 @@
  */
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { t } from 'in-i18n';
 
 export function updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode) {
@@ -39,7 +40,7 @@ export function updateThresholdInForm(createThresholdForm, form, updateForm, dat
   // we need to do this because, createThresholdForm discards all touched states from the threshold form
   // and because we use the touched state to decide if we should overwrite the current threshold input with new suggestions
   // automatically
-  if (data?.type === 'staticThreshold' && thresholdForm.containsKey('value')) {
+  if (data?.type === STATIC_THRESHOLD && thresholdForm.containsKey('value')) {
     const oldState = thresholdForm.get('value').touched;
     updatedThresholdForm = updatedThresholdForm.updateIn(['value'], f => f.setTouched(oldState));
   }
@@ -73,7 +74,7 @@ export function applyEditMode(form, editMode) {
 
   const type = form.get('threshold').get('type').value;
 
-  if (type === 'staticThreshold') {
+  if (type === STATIC_THRESHOLD) {
     return form
       .updateIn(['threshold', 'value'], f => f.setTouched(true))
       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)); // request update to show a new suggestion
@@ -85,7 +86,7 @@ function shouldAddNewThresholdData(simpleMode, thresholdForm) {
   if (simpleMode) return true;
 
   const type = thresholdForm?.get('type')?.value;
-  if (type === 'staticThreshold') {
+  if (type === STATIC_THRESHOLD) {
     return !thresholdForm?.get('value')?.touched;
   }
   return !thresholdForm?.get('baseline')?.touched;

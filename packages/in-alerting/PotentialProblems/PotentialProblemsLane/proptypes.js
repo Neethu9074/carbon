@@ -5,6 +5,9 @@
 
 import PropTypes from 'prop-types';
 
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
+
 export const alertPropType = PropTypes.shape({
   start: PropTypes.number,
   end: PropTypes.number,
@@ -33,11 +36,11 @@ export const alertRulesPropType = PropTypes.shape({
 });
 
 export const thresholdPropType = PropTypes.shape({
-  type: PropTypes.oneOf(['staticThreshold', 'historicBaseline']),
+  type: PropTypes.oneOf([STATIC_THRESHOLD, HISTORIC_BASELINE, ADAPTIVE_BASELINE]),
   operator: PropTypes.string,
   value: PropTypes.number, // if type === 'staticThreshold'
   baseline: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)), // if type === 'historicBaseline'
-  seasonality: PropTypes.oneOf(['DAILY', 'WEEKLY'])
+  seasonality: PropTypes.oneOf([DAILY, WEEKLY])
 });
 
 export const thresholdsPropType = PropTypes.shape({

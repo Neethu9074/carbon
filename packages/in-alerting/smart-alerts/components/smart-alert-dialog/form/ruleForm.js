@@ -8,9 +8,10 @@ import {
   ruleAggregationOptions
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleFormData';
 import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
+import { WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 export function getAggregationOptions(form) {
-  if (getFormValueOrDefault(form.get('threshold'), 'seasonality') === 'WEEKLY') {
+  if (getFormValueOrDefault(form.get('threshold'), 'seasonality') === WEEKLY) {
     return ruleAggregationForWeeklySeasonalityOptions;
   }
   return ruleAggregationOptions;

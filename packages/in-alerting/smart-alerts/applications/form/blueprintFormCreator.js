@@ -7,6 +7,7 @@ import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/compone
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export default function createBlueprintForm(form, alertType, alertThreshold = {}) {
   const threshold = form.get('threshold').toJS();
@@ -16,7 +17,7 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
     {
       ...threshold,
       ...alertThreshold,
-      type: blueprintConfig.baselineEnabled ? threshold.type : 'staticThreshold'
+      type: blueprintConfig.baselineEnabled ? threshold.type : STATIC_THRESHOLD
     },
     alertType
   );

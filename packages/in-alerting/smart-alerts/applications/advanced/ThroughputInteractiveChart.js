@@ -26,6 +26,7 @@ import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert
 import { findEntryByValue, alertConfigWithDefaultValues } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
@@ -130,7 +131,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
                 applicationsAlertingThresholdTypeChanged(getTrackingObject(form, { value: newThresholdType }));
               }}
             />
-            {thresholdType === 'historicBaseline' && (
+            {thresholdType === HISTORIC_BASELINE && (
               <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
             )}
           </>
@@ -139,7 +140,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
         )}
       </ThresholdConditionFormGroup>
 
-      {thresholdType === 'staticThreshold' && (
+      {thresholdType === STATIC_THRESHOLD && (
         <ThresholdConditionFormGroup iconType="lib_threshold" label={t('in-applications:alert.thresholdLabel')}>
           <ThresholdValueInput
             max={maxValue}
@@ -152,7 +153,7 @@ function ThresholdCondition({ form, updateForm, onChange, blueprintConfig, editM
         </ThresholdConditionFormGroup>
       )}
 
-      {thresholdType !== 'staticThreshold' && (
+      {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm
           form={form}
           onChange={onChange}

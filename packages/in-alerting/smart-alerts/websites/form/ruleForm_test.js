@@ -6,20 +6,21 @@
 /* eslint-env mocha */
 import { expect } from 'chai';
 
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 
 describe('in-websites/alerting/form/ruleForm', () => {
   describe('when alertType is slowness', () => {
-    describe('when thresholdType is staticThreshold', () => {
+    describe('when thresholdType is STATIC_THRESHOLD', () => {
       it('should contain fields: alertType, metricName, aggregation', () => {
-        const ruleForm = createRuleForm({ alertType: 'slowness' }, 'staticThreshold').toJS();
+        const ruleForm = createRuleForm({ alertType: 'slowness' }, STATIC_THRESHOLD).toJS();
         expect(ruleForm).to.have.keys('alertType', 'metricName', 'aggregation');
       });
     });
 
-    describe('when thresholdType includes historicBaseline', () => {
+    describe('when thresholdType includes HISTORIC_BASELINE', () => {
       it('should contain fields: alertType, metricName, aggregation', () => {
-        const ruleForm = createRuleForm({ alertType: 'slowness' }, 'historicBaseline').toJS();
+        const ruleForm = createRuleForm({ alertType: 'slowness' }, HISTORIC_BASELINE).toJS();
         expect(ruleForm).to.have.keys('alertType', 'metricName', 'aggregation');
       });
     });

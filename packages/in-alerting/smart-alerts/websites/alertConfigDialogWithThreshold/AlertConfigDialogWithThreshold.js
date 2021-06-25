@@ -28,6 +28,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
@@ -131,7 +132,7 @@ function resolveThresholdRequest(
       // request static threshold
       return null;
     }
-    return fallbackOnError ? 'DAILY' : seasonality;
+    return fallbackOnError ? DAILY : seasonality;
   };
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);

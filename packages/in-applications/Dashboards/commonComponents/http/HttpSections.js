@@ -17,6 +17,7 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import { IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { stackedBar, line } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
@@ -150,7 +151,7 @@ export default function HttpSections({
                 aggregation: throughputBlueprintConfig.getAggregation(),
                 metricName: throughputBlueprintConfig.getMetricName()
               },
-              seasonality: 'DAILY'
+              seasonality: DAILY
             },
             throughputLow: {
               rule: {
@@ -158,7 +159,7 @@ export default function HttpSections({
                 aggregation: throughputBlueprintConfig.getAggregation(),
                 metricName: throughputBlueprintConfig.getMetricName()
               },
-              seasonality: 'DAILY',
+              seasonality: DAILY,
               operator: '<='
             },
             errorRate: {

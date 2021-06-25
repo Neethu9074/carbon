@@ -7,9 +7,10 @@ import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
+import WebsitesSimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/WebsitesSimpleModeContainer';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
 import alertFormDefinition from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
-import WebsitesSimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/WebsitesSimpleModeContainer';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 export default {
   title: 'Templates|website/alerting/AlertConfigDialog',
@@ -110,7 +111,7 @@ function getFormData() {
     baseline: {
       to: 0,
       windowSize: 0,
-      seasonality: 'DAILY',
+      seasonality: DAILY,
       granularity: 0,
       segments: [],
       sdFactor: 1.0

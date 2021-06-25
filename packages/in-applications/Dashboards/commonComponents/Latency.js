@@ -13,6 +13,7 @@ import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { latencyFixed } from 'in-services/formatters/number';
 import { integral, line } from 'in-stores/metric/renderer';
@@ -45,7 +46,7 @@ export default function Latency({
         aggregation,
         metricName: slownessBlueprintConfig.getMetricName()
       },
-      seasonality: 'DAILY'
+      seasonality: DAILY
     };
   }
 

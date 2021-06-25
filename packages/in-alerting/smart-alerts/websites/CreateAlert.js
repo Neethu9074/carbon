@@ -9,6 +9,7 @@ import React from 'react';
 
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/formModel';
@@ -17,6 +18,7 @@ import AlertConfigDialog from 'in-alerting/smart-alerts/websites/AlertConfigDial
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
 import FloatingActionButton from 'in-components/FloatingActionButton';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { propTypeLocation } from 'in-stores/navigation';
 import { alwaysNull } from 'in-services/fixedStreams';
@@ -120,8 +122,8 @@ function generateFormData(websiteId, tagFilters, error, tagCatalog) {
       metricName
     },
     threshold: {
-      type: error?.message ? 'staticThreshold' : 'historicBaseline',
-      seasonality: error?.message ?? 'DAILY',
+      type: error?.message ? STATIC_THRESHOLD : HISTORIC_BASELINE,
+      seasonality: error?.message ?? DAILY,
       value: 0.0
     },
     websiteId,

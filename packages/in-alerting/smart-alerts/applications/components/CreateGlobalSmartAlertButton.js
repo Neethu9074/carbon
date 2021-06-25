@@ -11,8 +11,10 @@ import { Button } from '@instana/components';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { boundaryScopes } from 'in-applications/constants';
 import { propTypeLocation } from 'in-stores/navigation';
 import { t } from 'in-i18n';
@@ -70,8 +72,8 @@ function generateFormData() {
       metricName: 'latency'
     },
     threshold: {
-      type: 'staticThreshold',
-      seasonality: 'DAILY'
+      type: STATIC_THRESHOLD,
+      seasonality: DAILY
     },
     calculateThresholdOnBackend: false,
     includeSynthetic: false,

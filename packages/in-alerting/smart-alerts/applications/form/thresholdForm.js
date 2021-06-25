@@ -5,6 +5,8 @@
 
 import { createField, createMapForm } from 'formalistic';
 
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
 
 export const defaultDeviationFactor = 3;
@@ -54,11 +56,11 @@ export function createThroughputForm(threshold = {}) {
 function createBaselineEnabledForm(threshold) {
   const thresholdType = threshold.type;
 
-  if (thresholdType === 'staticThreshold') {
+  if (thresholdType === STATIC_THRESHOLD) {
     return createStaticThresholdForm(threshold);
   }
 
-  if (thresholdType === 'historicBaseline') {
+  if (thresholdType === HISTORIC_BASELINE) {
     return createHistoricBaselineForm(threshold);
   }
 
@@ -89,7 +91,7 @@ function createHistoricBaselineForm(threshold) {
     .put(
       'seasonality',
       createField({
-        value: threshold.seasonality ?? 'DAILY'
+        value: threshold.seasonality ?? DAILY
       })
     )
     .put(
@@ -121,7 +123,7 @@ function createBaseForm(threshold) {
     .put(
       'type',
       createField({
-        value: threshold.type ?? 'historicBaseline'
+        value: threshold.type ?? HISTORIC_BASELINE
       })
     )
     .put(

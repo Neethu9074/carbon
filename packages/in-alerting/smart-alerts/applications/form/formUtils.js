@@ -12,6 +12,7 @@ import {
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
@@ -101,7 +102,7 @@ export function getDescriptionPlaceholder(form) {
     case 'slowness': {
       const aggregation = ruleForm.get('aggregation').value;
       const thresholdType = thresholdForm.get('type').value;
-      if (thresholdType === 'staticThreshold') {
+      if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.slownessStaticThreshold', {
           context: getSlowerOrBelowOperatorContext(thresholdOperator),
@@ -143,7 +144,7 @@ export function getDescriptionPlaceholder(form) {
       const statusCodeStart = ruleForm.get('statusCode').get('statusCodeStart').value;
       const statusCodeEnd = ruleForm.get('statusCode').get('statusCodeEnd').value;
 
-      if (thresholdType === 'staticThreshold') {
+      if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeStaticThreshold', {
           context: getHigherOrLowerOperatorContext(thresholdOperator),
@@ -159,7 +160,7 @@ export function getDescriptionPlaceholder(form) {
     }
     case 'throughput': {
       const thresholdType = thresholdForm.get('type').value;
-      if (thresholdType === 'staticThreshold') {
+      if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.throughputStaticThreshold', {
           context: getHigherOrLowerOperatorContext(thresholdOperator),

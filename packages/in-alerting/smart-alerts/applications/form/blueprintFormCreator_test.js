@@ -13,8 +13,10 @@ import {
   createLogsForm as thresholdCreateLogsForm
 } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () => {
   function createTagFilterExpressionForm() {
@@ -24,11 +26,11 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
   }
 
   describe('when alertType is slowness', () => {
-    describe('when thresholdType is staticThreshold', () => {
+    describe('when thresholdType is STATIC_THRESHOLD', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
           .put('tagFilterExpression', createTagFilterExpressionForm())
-          .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold', value: 5 }))
+          .put('threshold', thresholdCreateSlownessForm({ type: STATIC_THRESHOLD, value: 5 }))
           .put('rule', createRuleForm({ alertType: 'slowness' }))
           .put('timeThreshold', createViolationsInSequenceForm({})),
         'slowness'
@@ -38,17 +40,17 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
         expect(blueprintForm.get('threshold').toJS()).to.have.keys('type', 'operator', 'lastUpdated', 'value');
       });
       it('should have thresholdType "dynamicBaseline"', () => {
-        expect(blueprintForm.get('threshold').get('type').value).to.equal('staticThreshold');
+        expect(blueprintForm.get('threshold').get('type').value).to.equal(STATIC_THRESHOLD);
       });
     });
-    describe('when thresholdType is historicBaseline', () => {
+    describe('when thresholdType is HISTORIC_BASELINE', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
           .put('tagFilterExpression', createTagFilterExpressionForm())
           .put(
             'threshold',
             thresholdCreateSlownessForm({
-              type: 'historicBaseline',
+              type: HISTORIC_BASELINE,
               baseline: [1, 2, 3]
             })
           )
@@ -72,18 +74,18 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
         );
       });
 
-      it('should have thresholdType "historicBaseline"', () => {
-        expect(blueprintForm.get('threshold').get('type').value).to.equal('historicBaseline');
+      it('should have thresholdType "HISTORIC_BASELINE"', () => {
+        expect(blueprintForm.get('threshold').get('type').value).to.equal(HISTORIC_BASELINE);
       });
       it('should have seasonality "DAILY"', () => {
-        expect(blueprintForm.get('threshold').get('seasonality').value).to.equal('DAILY');
+        expect(blueprintForm.get('threshold').get('seasonality').value).to.equal(DAILY);
       });
     });
     it('should have metricName "latency"', () => {
       const blueprintForm = createBlueprintForm(
         createMapForm()
           .put('tagFilterExpression', createTagFilterExpressionForm())
-          .put('threshold', thresholdCreateSlownessForm({ type: 'staticThreshold' }))
+          .put('threshold', thresholdCreateSlownessForm({ type: STATIC_THRESHOLD }))
           .put('rule', createRuleForm({ alertType: 'slowness', metricName: 'latency' }))
           .put('timeThreshold', createViolationsInSequenceForm({})),
         'slowness'
@@ -113,9 +115,9 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
       expect(metricName).to.equal('errors');
     });
 
-    it('should have thresholdType "staticThreshold"', () => {
+    it('should have thresholdType "STATIC_THRESHOLD"', () => {
       const type = blueprintForm.get('threshold').get('type').value;
-      expect(type).to.equal('staticThreshold');
+      expect(type).to.equal(STATIC_THRESHOLD);
     });
   });
 
@@ -139,9 +141,9 @@ describe('in-alerting/smart-alerts/applications/form/blueprintFormCreator', () =
       expect(metricName).to.equal('calls');
     });
 
-    it('should have thresholdType "staticThreshold"', () => {
+    it('should have thresholdType "STATIC_THRESHOLD"', () => {
       const type = blueprintForm.get('threshold').get('type').value;
-      expect(type).to.equal('staticThreshold');
+      expect(type).to.equal(STATIC_THRESHOLD);
     });
   });
 });

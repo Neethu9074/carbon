@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+
 export const throughputHighAlertRule = {
   throughputHigh: {
     rule: {
@@ -10,7 +12,7 @@ export const throughputHighAlertRule = {
       aggregation: 'SUM',
       metricName: 'calls'
     },
-    seasonality: 'DAILY',
+    seasonality: DAILY,
     operator: '>='
   }
 };
@@ -22,7 +24,7 @@ export const throughputLowAlertRule = {
       aggregation: 'SUM',
       metricName: 'calls'
     },
-    seasonality: 'DAILY',
+    seasonality: DAILY,
     operator: '<='
   }
 };
@@ -35,7 +37,7 @@ export function getLatencyAlertRule(aggregation) {
         aggregation,
         metricName: 'latency'
       },
-      seasonality: 'DAILY'
+      seasonality: DAILY
     }
   };
 }

@@ -49,5 +49,6 @@ module.exports = {
   agentInstallViewRestrictedToIBMSaas: false,
   traceDetailViewV2Enabled: false,
   deprecateAppDataLegacyEvents: true,
-  potentialProblemsInCustomDashboardEnabled: true
+  potentialProblemsInCustomDashboardEnabled: true,
+  adaptiveBaselineEnable: true
 };

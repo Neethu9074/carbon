@@ -8,6 +8,7 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/bluep
 import { getStatusCodeLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
@@ -63,7 +64,7 @@ export function getDescriptionPlaceholder(form) {
     case 'slowness': {
       const thresholdType = thresholdForm.get('type').value;
       const aggregationText = getAggregationText(rule.aggregation);
-      if (thresholdType === 'staticThreshold') {
+      if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
         return getSlownessGreaterOrLessOperatorText(aggregationText, thresholdOperator, thresholdValue);
       }
@@ -75,7 +76,7 @@ export function getDescriptionPlaceholder(form) {
       const metricLabel = blueprintConfig.getMetricLabel(metricName);
       const thresholdType = thresholdForm.get('type').value;
 
-      if (thresholdType === 'staticThreshold') {
+      if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
         return getStaticThresholdHigherOrLowerOperatorText(metricLabel, thresholdOperator, thresholdValue);
       }

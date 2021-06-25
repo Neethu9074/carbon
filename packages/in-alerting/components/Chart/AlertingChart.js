@@ -13,8 +13,10 @@ import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewC
 import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { smoothMetrics } from 'in-alerting/smart-alerts/components/utils/chartUtil';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
 import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
+import {} from 'in-alerting/smart-alerts/data/thresholdTypes';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -45,7 +47,7 @@ export default function AlertingChart({
 
   const aggregation = blueprintConfig.getAggregation(rule);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
-  const isStaticThreshold = threshold.type === 'staticThreshold';
+  const isStaticThreshold = threshold.type === STATIC_THRESHOLD;
   const renderer = rendererOverride || (isStaticThreshold ? Renderer.lineWithThreshold : Renderer.lineWithBaseline);
 
   return (

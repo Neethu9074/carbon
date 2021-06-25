@@ -65,6 +65,8 @@ export const potentialProblemsInCustomDashboardEnabled = isFeatureFlagEnabled(
   'potentialProblemsInCustomDashboardEnabled'
 );
 
+export const adaptiveBaselineEnabled = isFeatureFlagEnabled('adaptiveBaselineEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

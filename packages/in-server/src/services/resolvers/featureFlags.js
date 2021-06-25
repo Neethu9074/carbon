@@ -218,5 +218,10 @@ module.exports = exports = [
     uiClientKey: 'potentialProblemsInCustomDashboardEnabled',
     instanaCtlKey: 'feature.potential.problems.in.customDashboard.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'adaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.adaptive.baseline.enabled',
+    defaultValue: false
   }
 ];

@@ -12,6 +12,8 @@ import sinon from 'sinon';
 import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 describe('in-alerting/smart-alerts/applications/hooks/useSmartAlertFormSideEffects', () => {
   const initialAlertData = {
@@ -22,9 +24,9 @@ describe('in-alerting/smart-alerts/applications/hooks/useSmartAlertFormSideEffec
       metricName: 'latency'
     },
     threshold: {
-      type: 'historicBaseline',
+      type: HISTORIC_BASELINE,
       value: 0.0,
-      seasonality: 'DAILY',
+      seasonality: DAILY,
       baseline: [1]
     },
     calculateThresholdOnBackend: false,

@@ -7,9 +7,11 @@ import React from 'react';
 
 import PotentialProblemsDialogPresenter from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
-import { potentialProblemsCluster, alertRules as clusterAlertRules } from './potentialProblemsStorySharedData';
-import { close } from 'in-components/DialogPresenter/store';
+import { alertRules as clusterAlertRules, potentialProblemsCluster } from './potentialProblemsStorySharedData';
+import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import DialogPresenter from 'in-components/DialogPresenter';
+import { close } from 'in-components/DialogPresenter/store';
 
 export default {
   title: 'Molecules|potentialProblems/PotentialProblemsDialogPresenter',
@@ -121,10 +123,10 @@ const alertRules = {
 const potentialProblemsSingle = {
   thresholds: {
     throughput: {
-      type: 'historicBaseline',
+      type: HISTORIC_BASELINE,
       lastUpdated: 1599052440000,
       operator: '>',
-      seasonality: 'DAILY',
+      seasonality: DAILY,
       baseline: [
         [1599048840000, 3821, 0.4693],
         [1599048900000, 3914, 0.0002],
