@@ -64,8 +64,22 @@ export default [
     formatter: bytes
   },
   {
+    metrics: ['network_in_errors'],
+    labels: [t('in-forge:plugins.ibmVsi.inErrors')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmVsi.labelNetwork')],
+    formatter: number
+  },
+  {
     metrics: ['network_in_packets'],
     labels: [t('in-forge:plugins.ibmVsi.labelNetworkInPackets')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmVsi.labelNetwork')],
+    formatter: number
+  },
+  {
+    metrics: ['network_in_dropped_packets'],
+    labels: [t('in-forge:plugins.ibmVsi.droppedPacketsIn')],
     min: 0,
     category: [t('in-forge:plugins.ibmVsi.labelNetwork')],
     formatter: number
@@ -78,8 +92,22 @@ export default [
     formatter: bytes
   },
   {
+    metrics: ['network_out_errors'],
+    labels: [t('in-forge:plugins.ibmVsi.outErrors')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmVsi.labelNetwork')],
+    formatter: number
+  },
+  {
     metrics: ['network_out_packets'],
     labels: [t('in-forge:plugins.ibmVsi.labelNetworkOutPackets')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmVsi.labelNetwork')],
+    formatter: number
+  },
+  {
+    metrics: ['network_out_dropped_packets'],
+    labels: [t('in-forge:plugins.ibmVsi.droppedPacketsOut')],
     min: 0,
     category: [t('in-forge:plugins.ibmVsi.labelNetwork')],
     formatter: number

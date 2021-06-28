@@ -16,13 +16,12 @@ const cols = [
   {
     id: 'CPU',
     title: t('in-forge:plugins.ibmVsi.titleCPU'),
-    type: 'number',
+    type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.cpuNumber;
-      },
-      getContent(cpuNumber) {
-        return `CPU ${cpuNumber}`;
+        return isAggregateRow(row)
+          ? `${t('in-forge:plugins.ibmVsi.aggregate')}`
+          : `${t('in-forge:plugins.ibmVsi.titleCPU')} ${row.cpuNumber}`;
       }
     }
   },
@@ -35,7 +34,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `cpus.${row.cpuNumber}.cpu_usage_nanoseconds`;
+        return isAggregateRow(row) ? `total_cpu_usage_nanoseconds` : `cpus.${row.cpuNumber}.cpu_usage_nanoseconds`;
       },
       getContent: timeByNanoTwoDecimalPlaces,
       getTimeWindowAggregation() {
@@ -46,13 +45,13 @@ const cols = [
   {
     id: 'cpuUsagePercent',
     title: t('in-forge:plugins.ibmVsi.titleCPUPercent'),
-    type: 'metric',
+    type: 'sparkChart',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `cpus.${row.cpuNumber}.cpu_usage_percentage`;
+        return isAggregateRow(row) ? `average_cpu_usage_percentage` : `cpus.${row.cpuNumber}.cpu_usage_percentage`;
       },
       getContent: percentage.detailed,
       getTimeWindowAggregation() {
@@ -68,12 +67,12 @@ export default function CpuTable({ snapshot, timeConfig }) {
     return null;
   }
 
-  const rows = Range(1, cpuCount + 1)
+  const rows = Range(0, cpuCount + 1)
     .toArray()
     .map(cpuNumber => {
       return {
         key: String(cpuNumber),
-        cpuNumber,
+        cpuNumber: String(cpuNumber),
         timeConfig,
         snapshotId: snapshot.get('id')
       };
@@ -83,7 +82,7 @@ export default function CpuTable({ snapshot, timeConfig }) {
   // to have evenly filled pages, we use 8 as maxItems instead of default 10
   return (
     <Table
-      cardTitle={t('in-forge:plugins.ibmVsi.labelIndividualCPUUsage')}
+      cardTitle={t('in-forge:plugins.ibmVsi.titleCPU')}
       withoutPadding
       cols={cols}
       rows={rows}
@@ -94,18 +93,37 @@ export default function CpuTable({ snapshot, timeConfig }) {
 }
 
 function getRowDetails(row) {
+  let usageMetric = `cpus.${row.cpuNumber}.cpu_usage_percentage`,
+    timeMetric = `cpus.${row.cpuNumber}.cpu_usage_nanoseconds`;
+
+  if (isAggregateRow(row)) {
+    usageMetric = 'average_cpu_usage_percentage';
+    timeMetric = 'total_cpu_usage_nanoseconds';
+  }
+
   return (
     <Chart
       snapshotId={row.snapshotId}
       timeConfig={row.timeConfig}
       y1={{
         min: 0,
+        formatter: timeByNanoTwoDecimalPlaces,
+        metrics: [timeMetric],
+        labels: [t('in-forge:plugins.ibmVsi.titleCPUTime')],
+        type: 'line'
+      }}
+      y2={{
+        min: 0,
         formatter: percentage.detailed,
-        metrics: ['cpus.' + row.cpuNumber + '.cpu_usage_percentage'],
+        metrics: [usageMetric],
         labels: [t('in-forge:plugins.ibmVsi.labelUsagePercent')],
         type: 'line'
       }}
       renderPostChartContent={PluginDashboardsMarkerLanes}
     />
   );
+}
+
+function isAggregateRow(row) {
+  return row.cpuNumber === '0';
 }

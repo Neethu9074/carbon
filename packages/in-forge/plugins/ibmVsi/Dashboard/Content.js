@@ -15,6 +15,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, percentage, bytes } from 'in-services/formatters/number';
+import NetworkTable from 'in-forge/plugins/ibmVsi/Dashboard/NetworkTable';
 import CpuTable from 'in-forge/plugins/ibmVsi/Dashboard/CpuTable';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
@@ -61,25 +62,18 @@ export default function IbmVsiDashboard({ snapshot, timeConfig }) {
             ],
             type: 'line'
           }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-
-      <DashboardSection title={t('in-forge:plugins.ibmVsi.titleNetwork')}>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
+          y2={{
             min: 0,
-            formatter: bytesZeroDecimalPlaces,
-            tooltipFormatter: bytesTwoDecimalPlaces,
-            metrics: ['network.network_in_bytes', 'network.network_out_bytes'],
-            labels: [t('in-forge:plugins.ibmVsi.labelBytesIn'), t('in-forge:plugins.ibmVsi.labelBytesOut')],
+            formatter: percentage.detailed,
+            metrics: ['memory.memory_usage_percentage'],
+            labels: [t('in-forge:plugins.ibmVsi.labelMemoryUsedPercent')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
+      <NetworkTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <DashboardSection title={t('in-forge:plugins.ibmVsi.titleVolumeAccessSize')}>
         <Chart

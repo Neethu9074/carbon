@@ -7608,7 +7608,8 @@
       "used": "Used",
       "total": "Total",
       "titleMemory": "Memory",
-      "titleDisk": "Disk"
+      "titleDisk": "Disk",
+      "ibmCloudFoundry": "IBM Cloud Foundry"
     },
     "ibmCloudFunctions": {
       "titleAction": "Action",
@@ -7812,6 +7813,7 @@
       "zone": "Zone"
     },
     "ibmCloudRabbitMq": {
+      "ibmCloudRabbitMq": "IBM Cloud Messages for RabbitMQ",
       "memberID": "Member ID",
       "limit": "Limit",
       "used": "Used",
@@ -7822,6 +7824,8 @@
       "disk": "Disk",
       "memory": "Memory",
       "diskIO": "Disk IO",
+      "titleCpu": "CPU",
+      "cpu": "cpu",
       "zone": "Zone"
     },
     "ibmCloudRedis": {
@@ -8272,6 +8276,7 @@
       "subscriptions": "Subscriptions"
     },
     "ibmVsi": {
+      "aggregate": "Aggregate",
       "labelInstanceName": "Instance Name",
       "labelGenerationId": "Instance Type",
       "labelCpuCount": "CPU Count",
@@ -8283,9 +8288,6 @@
       "labelFree": "Free",
       "labelUsed": "Used",
       "labelTotal": "Total",
-      "titleNetwork": "Network",
-      "labelBytesIn": "Bytes In",
-      "labelBytesOut": "Bytes out",
       "titleVolumeAccessSize": "Volume Access Size",
       "labelReadBytes": "Read Bytes",
       "labelWriteBytes": "Write Bytes",
@@ -8295,7 +8297,6 @@
       "titleCPU": "CPU",
       "titleCPUTime": "CPU Time",
       "titleCPUPercent": "CPU Percent",
-      "labelIndividualCPUUsage": "Individual CPU Usage",
       "labelUsagePercent": "Percentage Usage",
       "labelTotalUsed": "Total Used Bytes",
       "labelTotalCPUCount": "CPU count",
@@ -8313,7 +8314,18 @@
       "labelCPU": "CPU",
       "labelMemory": "Memory",
       "labelNetwork": "Network",
-      "labelVolume": "Volume"
+      "labelVolume": "Volume",
+      "errors": "Errors",
+      "packets": "Packets",
+      "packetsDropped": "Packets Dropped",
+      "network": "Network",
+      "bytes": "Bytes",
+      "ibmVsi": "IBM Virtual Server Instance",
+      "direction": "In/Out",
+      "inErrors": "Errors In",
+      "outErrors": "Errors Out",
+      "droppedPacketsIn": "Packets Dropped In",
+      "droppedPacketsOut": "Packets Dropped Out"
     },
     "instanaAgent": {
       "dashboard": {

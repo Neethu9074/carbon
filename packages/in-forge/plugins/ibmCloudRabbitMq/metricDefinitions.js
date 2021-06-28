@@ -9,10 +9,17 @@ import { t } from 'in-i18n';
 
 export default [
   {
+    metric: getDynamicMetricMatch('members', 'cpu_used_percent', t('in-forge:plugins.ibmCloudRabbitMq.memberID')),
+    label: t('in-forge:plugins.ibmCloudRabbitMq.usedPercent'),
+    category: [t('in-forge:plugins.ibmCloudRabbitMq.cpu')],
+    min: 0,
+    formatter: percentage
+  },
+  {
     metric: getDynamicMetricMatch(
       'members',
       'disk_io_utilization_percent_average_5m',
-      t('in-forge:plugins.ibmCloudRabbitMq.disk')
+      t('in-forge:plugins.ibmCloudRabbitMq.memberID')
     ),
     label: t('in-forge:plugins.ibmCloudRabbitMq.diskIOPercent'),
     category: [t('in-forge:plugins.ibmCloudRabbitMq.disk')],
@@ -20,49 +27,53 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('members', 'disk_iops_read_write_total', t('in-forge:plugins.ibmCloudRabbitMq.disk')),
+    metric: getDynamicMetricMatch(
+      'members',
+      'disk_iops_read_write_total',
+      t('in-forge:plugins.ibmCloudRabbitMq.memberID')
+    ),
     label: t('in-forge:plugins.ibmCloudRabbitMq.iOPSTotal'),
     category: [t('in-forge:plugins.ibmCloudRabbitMq.disk')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('members', 'disk_total_bytes', t('in-forge:plugins.ibmCloudRabbitMq.disk')),
+    metric: getDynamicMetricMatch('members', 'disk_total_bytes', t('in-forge:plugins.ibmCloudRabbitMq.memberID')),
     label: t('in-forge:plugins.ibmCloudRabbitMq.total'),
     category: [t('in-forge:plugins.ibmCloudRabbitMq.disk')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('members', 'disk_used_bytes', t('in-forge:plugins.ibmCloudRabbitMq.disk')),
+    metric: getDynamicMetricMatch('members', 'disk_used_bytes', t('in-forge:plugins.ibmCloudRabbitMq.memberID')),
     label: t('in-forge:plugins.ibmCloudRabbitMq.used'),
     category: [t('in-forge:plugins.ibmCloudRabbitMq.disk')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('members', 'disk_used_percent', t('in-forge:plugins.ibmCloudRabbitMq.disk')),
+    metric: getDynamicMetricMatch('members', 'disk_used_percent', t('in-forge:plugins.ibmCloudRabbitMq.memberID')),
     label: t('in-forge:plugins.ibmCloudRabbitMq.usedPercent'),
     category: [t('in-forge:plugins.ibmCloudRabbitMq.disk')],
     min: 0,
     formatter: percentage
   },
   {
-    metric: getDynamicMetricMatch('members', 'memory_limit_bytes', t('in-forge:plugins.ibmCloudRabbitMq.memory')),
+    metric: getDynamicMetricMatch('members', 'memory_limit_bytes', t('in-forge:plugins.ibmCloudRabbitMq.memberID')),
     label: t('in-forge:plugins.ibmCloudRabbitMq.limit'),
     category: [t('in-forge:plugins.ibmCloudRabbitMq.memory')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('members', 'memory_used_bytes', t('in-forge:plugins.ibmCloudRabbitMq.memory')),
+    metric: getDynamicMetricMatch('members', 'memory_used_bytes', t('in-forge:plugins.ibmCloudRabbitMq.memberID')),
     label: t('in-forge:plugins.ibmCloudRabbitMq.used'),
     category: [t('in-forge:plugins.ibmCloudRabbitMq.memory')],
     min: 0,
     formatter: bytes
   },
   {
-    metric: getDynamicMetricMatch('members', 'memory_used_percent', t('in-forge:plugins.ibmCloudRabbitMq.memory')),
+    metric: getDynamicMetricMatch('members', 'memory_used_percent', t('in-forge:plugins.ibmCloudRabbitMq.memberID')),
     label: t('in-forge:plugins.ibmCloudRabbitMq.usedPercent'),
     category: [t('in-forge:plugins.ibmCloudRabbitMq.memory')],
     min: 0,

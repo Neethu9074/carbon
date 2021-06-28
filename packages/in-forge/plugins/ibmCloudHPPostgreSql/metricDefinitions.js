@@ -10,7 +10,7 @@ import { t } from 'in-i18n';
 export default [
   {
     metric: getDynamicMetricMatch('nodes', 'cpuPercent', t('in-forge:plugins.ibmCloudHPPostgreSql.nodeId')),
-    label: t('in-forge:plugins.ibmCloudHPPostgreSql.usedPercent'),
+    label: t('in-forge:plugins.ibmCloudHPPostgreSql.idlePercent'),
     category: [t('in-forge:plugins.ibmCloudHPPostgreSql.cpu')],
     min: 0,
     formatter: percentage

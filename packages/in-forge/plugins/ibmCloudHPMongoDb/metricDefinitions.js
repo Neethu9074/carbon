@@ -10,7 +10,7 @@ import { t } from 'in-i18n';
 export default [
   {
     metric: getDynamicMetricMatch('nodes', 'cpuPercent', t('in-forge:plugins.ibmCloudHPMongoDb.nodeId')),
-    label: t('in-forge:plugins.ibmCloudHPMongoDb.usedPercent'),
+    label: t('in-forge:plugins.ibmCloudHPMongoDb.idlePercent'),
     category: [t('in-forge:plugins.ibmCloudHPMongoDb.cpu')],
     min: 0,
     formatter: percentage

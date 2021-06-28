@@ -8,6 +8,7 @@ import React from 'react';
 import MemoryTable from 'in-forge/plugins/ibmCloudRabbitMq/Dashboard/MemoryTable';
 import DiskIOTable from 'in-forge/plugins/ibmCloudRabbitMq/Dashboard/DiskIOTable';
 import DiskTable from 'in-forge/plugins/ibmCloudRabbitMq/Dashboard/DiskTable';
+import CpuTable from 'in-forge/plugins/ibmCloudRabbitMq/Dashboard/CpuTable';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
@@ -20,6 +21,7 @@ export default connectTo(
   function IbmRabbitMqDashboard({ snapshot, timeConfig, memberIds }) {
     return (
       <div>
+        <CpuTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
         <MemoryTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
         <DiskTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
         <DiskIOTable snapshot={snapshot} timeConfig={timeConfig} memberIds={memberIds} />
