@@ -18,9 +18,4 @@
     border-top-left-radius: 0.125rem;
     border-top-right-radius: 0.125rem;
   }
-
-  .buttonContainer {
-    display: flex;
-    flex-wrap: wrap;
-  }
 }

@@ -1354,10 +1354,10 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha1-ju2YLi7m9/TkTCU+EpYpgHke/UY=
 
-"@instana/components@^1.26.1":
-  version "1.26.1"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.26.1.tgz#e5997f895e9bb0cc0310014fc95616670bd0c51a"
-  integrity sha1-5Zl/iV6bsMwDEAFPyVYWZwvQxRo=
+"@instana/components@^1.27.0":
+  version "1.27.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.27.0.tgz#9d0c37ed433d441321c558e5ffe51b4717e85a18"
+  integrity sha1-nQw37UM9RBMhxVjl/+UbRxfoWhg=
   dependencies:
     "@instana/design-tokens" "^1.8.1"
     "@instana/hooks" "^1.4.1"
