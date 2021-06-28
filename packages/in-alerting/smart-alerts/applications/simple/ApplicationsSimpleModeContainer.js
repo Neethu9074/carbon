@@ -3,14 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
+import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
+import { isEmpty } from 'lodash';
 import React from 'react';
 
 import SimpleAlertConfigDialogStep3 from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleAlertConfigDialogStep3';
 import SimpleAlertConfigDialogStep2 from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConfigDialogStep2';
 import SimpleAlertConfigDialogStep1 from 'in-alerting/smart-alerts/applications/simple/SimpleAlertConfigDialogStep1';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
-import { applicationsAlertingStepSwitch } from 'in-alerting/smart-alerts/applications/tracker';
+import { applicationsAlertingStepSwitch as trackStepSwitch } from 'in-alerting/smart-alerts/applications/tracker';
+import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { applicationId as applicationIdMatrixParam } from 'in-applications/navigation/matrix';
+import { applicationDashboard } from 'in-applications/navigation/paths';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { t } from 'in-i18n';
 
 const stepConfigs = [
@@ -31,8 +37,6 @@ const stepConfigs = [
   }
 ];
 
-const onStepChanged = (oldStep, nextStep) => applicationsAlertingStepSwitch({ oldStep, nextStep });
-
 export default function ApplicationsSimpleModeContainer({
   onChange,
   setSliderState,
@@ -41,6 +45,8 @@ export default function ApplicationsSimpleModeContainer({
   isGlobalSmartAlert,
   ...props
 }) {
+  const location = useLocation();
+  const { form, updateForm } = props;
   const stepRenderers = [
     parentProps => (
       <SimpleAlertConfigDialogStep1
@@ -64,7 +70,7 @@ export default function ApplicationsSimpleModeContainer({
   return (
     <SimpleModeContainer
       stepConfigs={stepConfigs}
-      onStepChanged={onStepChanged}
+      onStepChanged={getOnStepSwitch({ isGlobalSmartAlert, form, updateForm, location })}
       stepRenderers={stepRenderers}
       {...props}
     />
@@ -84,3 +90,17 @@ ApplicationsSimpleModeContainer.propTypes = {
   selectedChartViewConfigIndex: PropTypes.number.isRequired,
   isGlobalSmartAlert: PropTypes.bool
 };
+
+function getOnStepSwitch({ isGlobalSmartAlert, form, updateForm, location }) {
+  return (oldStep, nextStep) => {
+    if (!isGlobalSmartAlert && nextStep === 1) {
+      const applications = form.get('applications').value;
+      if (isEmpty(applications)) {
+        const applicationId = getMatrixParameter(location, applicationDashboard, applicationIdMatrixParam);
+        updateForm(form.updateIn(['applications'], f => f.setValue(getEntitySelection(applicationId))));
+      }
+    }
+
+    trackStepSwitch({ oldStep, nextStep });
+  };
+}
