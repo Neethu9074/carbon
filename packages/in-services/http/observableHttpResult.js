@@ -3,24 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-// Not using deepFreeze from in-services/util/object
-// to avoid circular imports
-import deepFreezeStrict from 'deep-freeze-strict';
 import { combineLatest } from '@instana/observables';
+
+import { loading, success } from 'in-services/util/result';
 
 export default function createObservable(observableHttpRequest) {
   const observable = combineLatest([
     observableHttpRequest.startWith(null),
     observableHttpRequest.errors().startWith(null)
   ]).map(([response, error]) => {
-    return deepFreezeStrict({
-      data: response ? response.body : null,
-      errors: getErrors(error),
-      progress: {
-        loading: !response && !error
-      },
-      time: Date.now()
-    });
+    const errors = getErrors(error);
+    const hasErrors = errors.length > 0;
+
+    if (!response && !hasErrors) {
+      return loading;
+    }
+
+    if (hasErrors) {
+      return error(errors);
+    }
+
+    return success(response?.body ?? null);
   });
 
   return observable;
