@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { Message } from '@instana/components';
 import { Spacer } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -17,10 +18,8 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
 import { getColor } from 'in-applications/endpointTypes';
 import FormGroup from 'in-components/form/FormGroup';
-import { error } from 'in-components/Message/types';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Message from 'in-components/Message';
 import Pill from 'in-components/Pill';
 import { t, Trans } from 'in-i18n';
 
@@ -60,7 +59,7 @@ export default function AdvancedModeContainer({
           />
           <TouchedMessages field={labelField} />
           {errorMessage && (
-            <Message className={locals.errorMessage} type={error} withIcon small>
+            <Message className={locals.errorMessage} type="error" withIcon small>
               {errorMessage}
             </Message>
           )}

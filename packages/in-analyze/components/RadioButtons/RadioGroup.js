@@ -7,9 +7,9 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
+import { Message } from '@instana/components';
 
 import { entityTypes } from 'in-analyze/applicationFilter';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './RadioGroup.mless';

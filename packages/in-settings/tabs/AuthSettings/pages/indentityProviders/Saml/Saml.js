@@ -6,14 +6,12 @@
 import React, { useState, useEffect } from 'react';
 import { createField } from 'formalistic';
 
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link } from '@instana/components';
 
 import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable, deleteConfig, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -233,25 +231,25 @@ function CopyableText({ title, form, fieldName }) {
 }
 
 function deleteItem({ setMessage }) {
-  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = deleteConfig();
   setConfigResult$.once(
     () => {
       setMessage({
         text: t('in-settings:tabs.configSuccessfullyDeleted'),
-        type: success
+        type: 'success'
       });
     },
-    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: errorType })
+    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: 'error' })
   );
 }
 
 function saveItem({ setMessage, ownerEmail, idpMetadata, spEntityId }) {
-  setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig({ ownerEmail, idpMetadata, spEntityId });
   setConfigResult$.once(
-    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
-    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
+    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' }),
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' })
   );
 }
 

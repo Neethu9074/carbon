@@ -8,6 +8,7 @@ import { sortBy } from 'lodash';
 import { range } from 'lodash';
 
 import { LoadingSkeleton } from '@instana/components';
+import { Message } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -17,7 +18,6 @@ import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { identity } from 'in-services/util/function';
-import Message from 'in-components/Message';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 
+import { Message } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
 import {
@@ -27,10 +28,8 @@ import InfiniteCircle from 'in-components/Loading/InfiniteCircle';
 import { hasError, isLoading } from 'in-services/util/result';
 import { formatTime } from 'in-services/formatters/date';
 import SetBodyColor from 'in-components/SetBodyColor';
-import { error } from 'in-components/Message/types';
 import ButtonGroup from 'in-components/ButtonGroup';
 import SearchInput from 'in-components/SearchInput';
-import Message from 'in-components/Message';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -39,14 +38,14 @@ import locals from './Profile.mless';
 export default function ProfileErrorHandler(props) {
   if (!props.profile) {
     return (
-      <Message type={error} withIcon>
+      <Message type="error" withIcon>
         {t('in-profiling:thereAreNoProfilesInTheSelectedTimeframe')}
       </Message>
     );
   }
   if (hasError(props.profileForHighlightedTimeframeResult)) {
     return (
-      <Message type={error} withIcon>
+      <Message type="error" withIcon>
         {t('in-profiling:errorWhileLoadingProfilesForTheHighlightedTime', {
           error: props.profileForHighlightedTimeframeResult.errors[0]
         })}

@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 import { Link } from '@instana/components';
 
 import getProfilesAvailable from 'in-components/Profiling/subscriptions/getProfilesAvailable';
@@ -19,11 +20,9 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import HotspotList from 'in-components/Profiling/components/HotspotList';
 import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
 import { hasError, isLoading } from 'in-services/util/result';
-import { error, warning } from 'in-components/Message/types';
 import ExpandableGroup from 'in-components/ExpandableGroup';
 import { percentage } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Message from 'in-components/Message';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
@@ -110,7 +109,7 @@ function Content({ processSnapshotId, to, windowSize, time }) {
   }
   if (hasError(result)) {
     return (
-      <Message type={error} small>
+      <Message type="error" small>
         {getUniqueErrors(result.errors)[0]}
       </Message>
     );
@@ -118,7 +117,7 @@ function Content({ processSnapshotId, to, windowSize, time }) {
   const cpuProfile = result?.data?.cpuProfile;
   if (!cpuProfile) {
     return (
-      <Message type={warning} small>
+      <Message type="warning" small>
         {t('in-analyze:traceDetail.components.callDetails.noCpuProfileAvailable')}
       </Message>
     );

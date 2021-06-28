@@ -7,7 +7,7 @@ import React, { useMemo, useEffect } from 'react';
 import { compose, withState } from 'recompose';
 import { find, debounce } from 'lodash';
 
-import { Link } from '@instana/components';
+import { Link, Message } from '@instana/components';
 
 import { fixClockSkewProblems } from 'in-websites/analyze/PageLoadView/tabs/Summary/fixClockSkewProblems';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
@@ -16,10 +16,8 @@ import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
-import { warning } from 'in-components/Message/types';
 import { Row, Col } from 'in-components/layout/Grid';
 import { openPageLoad } from 'in-websites/tracker';
-import Message from 'in-components/Message';
 import KpiCard from 'in-components/KpiCard';
 import { t } from 'in-i18n';
 
@@ -90,7 +88,7 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
         <Row>
           <Col lg={12}>
             <Message
-              type={warning}
+              type="warning"
               title={t('in-websites:analyze.analyzeView.pageLoadView.summaryTitleClockSkewProblemsDetected')}
               description={t(
                 'in-websites:analyze.analyzeView.pageLoadView.summaryDescriptionClockSkewProblemsDetected'

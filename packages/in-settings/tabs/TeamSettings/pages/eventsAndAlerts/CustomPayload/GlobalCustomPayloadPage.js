@@ -8,6 +8,7 @@ import { uniqBy } from 'lodash';
 
 import { createLogger } from '@instana/logger';
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -40,7 +41,6 @@ import SaveCancel from 'in-settings/components/SaveCancel';
 import { pendingResult } from 'in-services/fixedObjects';
 import { emptyArray } from 'in-services/fixedObjects';
 import Section from 'in-settings/components/Section';
-import Message from 'in-components/Message';
 import Title from 'in-components/Title';
 import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';

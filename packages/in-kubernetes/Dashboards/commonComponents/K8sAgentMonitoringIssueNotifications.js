@@ -6,15 +6,14 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 import { Button } from '@instana/components';
 
 import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import getKubernetesClusterByRelation from 'in-subscription/kubernetes/getKubernetesClusterByRelation';
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
-import { warning } from 'in-components/Message/types';
 import { getSnapshot } from 'in-stores/snapshot';
-import Message from 'in-components/Message';
 
 import locals from './K8sAgentMonitoringIssueNotifications.mless';
 
@@ -76,7 +75,7 @@ function K8sAgentMonitoringIssueNotifications({ clusterId, data, timeConfig, ent
           const args = row.arguments ? row.arguments.toJS() : {};
           const issueDefinition = getIssueDefinitionForSnapshotAndCode(row.snapshot, row.code);
           return (
-            <Message withIcon type={warning} className={locals.monitoringMessage} key={row.code}>
+            <Message withIcon type="warning" className={locals.monitoringMessage} key={row.code}>
               <div className={locals.monitoringIssuesMessageContent}>
                 <div>
                   <p className={locals.monitoringIssueMessageText}>

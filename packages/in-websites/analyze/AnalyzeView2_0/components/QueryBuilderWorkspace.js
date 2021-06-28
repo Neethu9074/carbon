@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Stack, Message } from '@instana/components';
 
 import {
   ua2QueryBuilderFilterAddedTracker,
@@ -30,8 +30,6 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
-import { error } from 'in-components/Message/types';
-import Message from 'in-components/Message';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import theme from 'in-themes';
@@ -112,7 +110,7 @@ export default function WebsiteQueryBuilderWorkspace(props) {
             />
           </Sections>
           {!isValid && !isLoading && (
-            <Message type={error} withIcon small>
+            <Message type="error" withIcon small>
               The query configuration is invalid. Please address the validation failures before continuing.
             </Message>
           )}

@@ -7,12 +7,11 @@ import React from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
+import { Message } from '@instana/components';
 
 import WithStarredItems from 'in-cockpit/widgets/TopListWidget/WithStarredItems';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { hasError, isLoading } from 'in-services/util/result';
-import { error } from 'in-components/Message/types';
-import Message from 'in-components/Message';
 
 import locals from './ItemList.mless';
 
@@ -77,7 +76,7 @@ function Item({ item, timeConfig, getItemLink, columnDefinitions }) {
             {
               getContent() {
                 return (
-                  <Message type={error} small>
+                  <Message type="error" small>
                     {getUniqueErrors(result.errors)[0]}
                   </Message>
                 );

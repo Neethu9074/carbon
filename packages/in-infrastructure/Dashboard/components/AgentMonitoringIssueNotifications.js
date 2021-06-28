@@ -5,14 +5,13 @@
 
 import React, { Fragment } from 'react';
 
+import { Message } from '@instana/components';
 import { Button } from '@instana/components';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
-import { warning } from 'in-components/Message/types';
-import Message from 'in-components/Message';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './AgentMonitoringIssueNotifications.mless';
@@ -58,7 +57,7 @@ export default connectTo(
             const args = row.arguments ? row.arguments.toJS() : {};
             const issueDefinition = getIssueDefinitionForSnapshotAndCode(row.snapshot, row.code);
             return (
-              <Message withIcon type={warning} className={locals.monitoringMessage} key={row.code}>
+              <Message withIcon type="warning" className={locals.monitoringMessage} key={row.code}>
                 <div className={locals.monitoringIssuesMessageContent}>
                   <div>
                     <p className={locals.monitoringIssueMessageText}>

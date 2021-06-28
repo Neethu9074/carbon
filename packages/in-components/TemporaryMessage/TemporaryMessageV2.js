@@ -5,8 +5,9 @@
 
 import React from 'react';
 
+import { Message } from '@instana/components';
+
 import TemporaryPresenter from 'in-components/TemporaryPresenter';
-import Message from 'in-components/Message';
 
 export default function TemporaryMessage({ id, message, text, type, duration = 5000 }) {
   return (

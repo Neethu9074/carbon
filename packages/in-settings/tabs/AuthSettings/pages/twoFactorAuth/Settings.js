@@ -6,18 +6,18 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
+import { Message } from '@instana/components';
+
 import {
   getTwoFactorCredentials,
   toggleTwoFactor,
   verifyTwoFactorToken
 } from 'in-settings/tabs/AuthSettings/api/twoFactorAuth';
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title/Title';
 import Input from 'in-components/form/Input';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './Settings.mless';
@@ -61,7 +61,7 @@ function render(props) {
 }
 function TwoFactorDisabled() {
   return (
-    <Message withIcon type={neutral}>
+    <Message withIcon type="neutral">
       {t('in-settings:tabs.twoFactorAuthenticationIsCurrentlyDisabledForThisUser')}
     </Message>
   );
@@ -106,7 +106,7 @@ function TwoFactorUnverified({ form, setForm, twoFactorCredentials }) {
 function TwoFactorVerified({ twoFactorCredentials }) {
   return (
     <>
-      <Message withIcon type={success}>
+      <Message withIcon type="success">
         {t('in-settings:tabs.twoFactorAuthenticationIsEnabledAndVerified')}
       </Message>
       <Section className={locals.scratchCodesSection}>
@@ -139,7 +139,7 @@ function onSubmit(e, { form, setForm, setMessage }) {
   const token = form.get('2faToken').value;
   setMessage({
     message: t('in-settings:tabs.savingTwoFactorToken'),
-    type: neutral,
+    type: 'neutral',
     isSaving: true
   });
 
@@ -148,12 +148,12 @@ function onSubmit(e, { form, setForm, setMessage }) {
     () =>
       setMessage({
         text: t('in-settings:tabs.twoFactorTokenSuccessfullyVerified'),
-        type: success
+        type: 'success'
       }),
     error =>
       setMessage({
         text: t('in-settings:tabs.failedToSaveTwoFactorToken') + error.message,
-        type: errorType
+        type: 'error'
       })
   );
 }
@@ -167,7 +167,7 @@ function toggle2Fa({ form, setMessage }) {
 
   setMessage({
     message: twoFactorEnabled ? t('in-settings:tabs.disableTwoFactorAuth') : t('in-settings:tabs.enableTwoFactorAuth'),
-    type: neutral,
+    type: 'neutral',
     isSaving: true
   });
   const result$ = toggleTwoFactor();
@@ -178,7 +178,7 @@ function toggle2Fa({ form, setMessage }) {
         text: twoFactorEnabled
           ? t('in-settings:tabs.failedToDisableTwoFactorAuth')
           : t('in-settings:tabs.failedToEnableTwoFactorAuth') + error.message,
-        type: errorType
+        type: 'error'
       })
   );
 }

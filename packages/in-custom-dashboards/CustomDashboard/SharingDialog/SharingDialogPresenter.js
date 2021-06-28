@@ -5,15 +5,14 @@
 
 import React from 'react';
 
+import { Message } from '@instana/components';
 import { Button } from '@instana/components';
 
 import IndividualEditRightSelection from 'in-custom-dashboards/CustomDashboard/SharingDialog/IndividualEditRightSelection';
 import Option from 'in-custom-dashboards/CustomDashboard/SharingDialog/Option';
 import { close } from 'in-components/DialogPresenter/store';
-import { neutral } from 'in-components/Message/types';
 import Actions from 'in-components/Dialog/Actions';
 import Dialog from 'in-components/Dialog/Dialog';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './SharingDialogPresenter.mless';
@@ -30,7 +29,7 @@ export default function SharingDialogPresenter(props) {
     >
       <form onSubmit={onSubmit}>
         {isUsingAdvancedAccessRules && (
-          <Message type={neutral} withIcon className={locals.message}>
+          <Message type="neutral" withIcon className={locals.message}>
             {t('in-custom-dashboards:customDashboard.sharingDialog.sharingDialogPresenter.shareMsg')}
           </Message>
         )}

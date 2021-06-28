@@ -7,6 +7,7 @@ import { createField } from 'formalistic';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Message } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
@@ -17,7 +18,6 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import { Row, Col } from 'in-components/layout/Grid';
 import Title from 'in-components/Title/Title';
-import Message from 'in-components/Message';
 import { t, Trans } from 'in-i18n';
 
 import locals from './AccountSettings.mless';

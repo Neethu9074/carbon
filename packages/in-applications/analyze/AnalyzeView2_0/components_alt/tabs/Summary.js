@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { create } from '@instana/observables';
 import { Button } from '@instana/components';
@@ -32,11 +33,9 @@ import { refreshWindowSizeDependingState } from 'in-services/browser';
 import { number, latency } from 'in-services/formatters/number';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { pendingResult } from 'in-services/fixedObjects';
-import { warning } from 'in-components/Message/types';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import ButtonGroup from 'in-components/ButtonGroup';
-import Message from 'in-components/Message';
 import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
@@ -144,7 +143,7 @@ export default function Summary({
         <Row withoutSideMargin>
           <Col lg={12}>
             <Message
-              type={warning}
+              type="warning"
               title={t('in-applications:traceDetail.tabs.summary.duplicateCalls')}
               description={t('in-applications:traceDetail.tabs.summary.duplicateCallsDesc', {
                 traceCallCountIgnoringBatchSize: trace.callCountIgnoringBatchSize,
@@ -159,7 +158,7 @@ export default function Summary({
         <Row withoutSideMargin>
           <Col lg={12}>
             <Message
-              type={warning}
+              type="warning"
               title={t('in-applications:traceDetail.tabs.summary.batchedIngestion')}
               description={t('in-applications:traceDetail.tabs.summary.traceIngestionBatchCount', {
                 traceIngestionBatchesCount: trace.ingestionBatchesCount
@@ -172,7 +171,7 @@ export default function Summary({
       {rootCall && rootCall.errorCount ? (
         <Row withoutSideMargin>
           <Col lg={12}>
-            <Message type={warning} title={t('in-applications:traceDetail.tabs.summary.erroneousTrace')} />
+            <Message type="warning" title={t('in-applications:traceDetail.tabs.summary.erroneousTrace')} />
           </Col>
         </Row>
       ) : null}

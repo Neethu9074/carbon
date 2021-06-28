@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 import { just } from '@instana/observables';
 import { Stack } from '@instana/components';
 
@@ -23,7 +24,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 import Form from 'in-components/form/binding/Form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 export default function CreateNewSLIForm({ apName, applicationId, apDefaultBoundaryScope, close, sliConfig }) {

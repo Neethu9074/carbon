@@ -6,14 +6,11 @@
 import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { LoadingSkeleton } from '@instana/components';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button, SvgIcon, LoadingSkeleton } from '@instana/components';
 
 import UserPermissions from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/UserPermissions';
 import { success as successResult, error as errorResult } from 'in-services/util/result';
 import Groups from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Groups';
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Areas';
 import { teamSettingsAccessControlUsers } from 'in-settings/navigation/paths';
 import { updateUser } from 'in-settings/tabs/UserSettings/api/user';
@@ -186,15 +183,15 @@ function changeUserName(e, userMail, form, updateForm, setMessage) {
 function saveItem(userMail, form, setMessage) {
   setMessage({
     message: t('in-settings:tabs.savingNewName'),
-    type: neutral,
+    type: 'neutral',
     isSaving: true
   });
   const updateUserResult$ = updateUser(userMail, form.toJS());
   updateUserResult$.once(
     () => {
-      setMessage({ text: t('in-settings:tabs.nameChanged'), type: success });
+      setMessage({ text: t('in-settings:tabs.nameChanged'), type: 'success' });
       window.location.reload();
     },
-    error => setMessage({ text: t('in-settings:tabs.failedToChangeName', { err: error.message }), type: errorType })
+    error => setMessage({ text: t('in-settings:tabs.failedToChangeName', { err: error.message }), type: 'error' })
   );
 }

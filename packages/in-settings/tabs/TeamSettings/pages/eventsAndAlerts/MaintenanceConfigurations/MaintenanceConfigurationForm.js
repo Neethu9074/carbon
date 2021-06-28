@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { Message } from '@instana/components';
 import { Button } from '@instana/components';
 import { Link } from '@instana/components';
 
@@ -32,7 +33,6 @@ import moment from 'in-services/moment-timezone';
 import ComboBox from 'in-components/ComboBox';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
-import Message from 'in-components/Message';
 import connectTo from 'in-hoc/connectTo';
 import { t, Trans } from 'in-i18n';
 

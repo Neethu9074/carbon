@@ -6,9 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Message } from '@instana/components';
+
 import CustomPayloadViewer from 'in-alerting/smart-alerts/applications/details/CustomPayloadViewer';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import Message from 'in-components/Message/Message';
 import { t } from 'in-i18n';
 
 export default function CustomPayloadCard({

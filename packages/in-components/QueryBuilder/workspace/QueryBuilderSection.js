@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import rpt from 'prop-types';
 
+import { Message } from '@instana/components';
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
 
@@ -14,7 +15,6 @@ import { trackingProps as queryBuilderTrackingProps } from 'in-components/QueryB
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { emptyObject } from 'in-services/fixedObjects';
 import Section from 'in-components/workspace/Section';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 export const DEFAULT_MAX_EXPRESSION_DEPTH = 5;

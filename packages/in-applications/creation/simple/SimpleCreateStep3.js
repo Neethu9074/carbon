@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { Message } from '@instana/components';
 import { Spacer } from '@instana/components';
 
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
@@ -12,10 +13,8 @@ import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormGroup from 'in-components/form/FormGroup';
-import { error } from 'in-components/Message/types';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './SimpleCreateStep2.mless';
@@ -51,7 +50,7 @@ export default function SimpleCreateStep3({
         </FormGroup>
         <TouchedMessages field={labelField} />
         {errorMessage && (
-          <Message type={error} withIcon small>
+          <Message type="error" withIcon small>
             {errorMessage}
           </Message>
         )}

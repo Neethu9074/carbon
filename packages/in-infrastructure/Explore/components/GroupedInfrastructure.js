@@ -10,6 +10,7 @@ import { LiHorizontalIndicator } from '@instana/components';
 import { LiLoadingSkeleton } from '@instana/components';
 import { LiLoadMore } from '@instana/components';
 import { KeyValue } from '@instana/components';
+import { Message } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
 import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';
@@ -27,7 +28,6 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
-import { error as errorType } from 'in-components/Message/types';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -36,7 +36,6 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
 import SparkChart from 'in-components/SparkChart';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './GroupedInfrastructure.mless';
@@ -170,7 +169,7 @@ function Presenter({
         {hasErrors &&
           getUniqueErrors(errors).map(error => (
             <Li key={error}>
-              <Message className={locals.message} type={errorType} small>
+              <Message className={locals.message} type="error" small>
                 {error}
               </Message>
             </Li>

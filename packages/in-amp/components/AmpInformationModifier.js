@@ -6,11 +6,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Message } from '@instana/components';
+
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import AmpTimeSelection from 'in-amp/components/TimeSelection';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './AmpInformationModifier.mless';

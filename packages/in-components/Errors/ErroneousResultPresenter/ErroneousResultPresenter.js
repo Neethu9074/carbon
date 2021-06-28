@@ -7,10 +7,10 @@ import classNames from 'classnames';
 import { uniq } from 'lodash';
 import React from 'react';
 
-import { error as errorType } from 'in-components/Message/types';
+import { Message } from '@instana/components';
+
 import { isTechnicalError } from 'in-services/util/error';
 import { emptyArray } from 'in-services/fixedObjects';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './ErroneousResultPresenter.mless';
@@ -38,7 +38,7 @@ export default function ErrorneousResultPresenter({ errors, className, addBottom
     >
       {getUniqueErrors(errors).map((error, i) => (
         <li key={i} className={locals.item}>
-          <Message type={errorType} small>
+          <Message type="error" small>
             {error}
           </Message>
         </li>

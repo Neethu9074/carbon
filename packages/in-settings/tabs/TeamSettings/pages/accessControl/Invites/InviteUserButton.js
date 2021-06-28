@@ -10,7 +10,6 @@ import { Button } from '@instana/components';
 
 import InviteUserDialog from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/InviteUserDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { success, error as errorType } from 'in-components/Message/types';
 import { track, USER_INVITE } from 'in-services/tracking/tracking';
 import { sendInvitation } from 'in-api/users';
 import { t } from 'in-i18n';
@@ -45,12 +44,12 @@ export default function InviteUserButton({ setMessage, reload }) {
 
 function onDoInviteUser(setMessage, emails, groupId, reload) {
   close();
-  setMessage({ text: t('in-settings:tabs.sendingInvitation'), type: success });
+  setMessage({ text: t('in-settings:tabs.sendingInvitation'), type: 'success' });
   const invitationResult$ = sendInvitation(emails, groupId);
   invitationResult$.once(() => {
     setMessage({
       text: t('in-settings:tabs.invitationSuccessfullySent'),
-      type: success
+      type: 'success'
     });
     if (reload) {
       reload();
@@ -60,7 +59,10 @@ function onDoInviteUser(setMessage, emails, groupId, reload) {
     }, 5000);
   });
   invitationResult$.errors().once(error => {
-    setMessage({ text: t('in-settings:tabs.failedToSendInvitation', { err: error.message }), type: errorType });
+    setMessage({
+      text: t('in-settings:tabs.failedToSendInvitation', { err: error.message }),
+      type: 'error'
+    });
     logger.error(error);
   });
 }

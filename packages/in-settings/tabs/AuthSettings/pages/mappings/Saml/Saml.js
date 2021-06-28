@@ -7,7 +7,6 @@ import React from 'react';
 
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import { neutral } from 'in-components/Message/types';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
@@ -41,7 +40,7 @@ function render() {
 function saveItem({ setMessage }) {
   // const emails = form.get('emails').value;
 
-  setMessage({ text: t('in-settings:tabs.savingSsoConfig'), type: neutral });
+  setMessage({ text: t('in-settings:tabs.savingSsoConfig'), type: 'neutral' });
   // const setRoleResult$ = setRole(userId, roleId);
   // setRoleResult$.once(
   //   () => {

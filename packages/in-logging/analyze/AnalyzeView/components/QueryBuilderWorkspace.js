@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection';
@@ -17,8 +18,6 @@ import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQuery
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
-import { error } from 'in-components/Message/types';
-import Message from 'in-components/Message';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 import { t } from 'in-i18n';
@@ -75,7 +74,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
             )}
           </Sections>
           {!isValid && !isLoading && (
-            <Message type={error} withIcon small>
+            <Message type="error" withIcon small>
               {validationError ??
                 t('in-logging:theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing')}
             </Message>

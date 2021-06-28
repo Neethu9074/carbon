@@ -13,7 +13,6 @@ import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/inden
 import { defaultIdpType, idpTypes } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/idpTypes';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import { notBlankValidator } from 'in-services/validators/string';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -293,22 +292,22 @@ function CopyableText({ title, form, fieldName }) {
 }
 
 function deleteItem({ setMessage }) {
-  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = deleteConfig();
   setConfigResult$.once(
     () => {
-      setMessage({ text: t('in-settings:tabs.configSuccessfullyDeleted'), type: success });
+      setMessage({ text: t('in-settings:tabs.configSuccessfullyDeleted'), type: 'success' });
     },
-    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: errorType })
+    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: 'error' })
   );
 }
 
 function saveItem({ setMessage, idpMetadata, spEntityId, ownerEmail, discoveryUri, secret, idpType }) {
-  setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig({ idpMetadata, spEntityId, ownerEmail, discoveryUri, secret, idpType });
   setConfigResult$.once(
-    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
-    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
+    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' }),
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' })
   );
 }
 

@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import Message from 'in-components/Message';
+import { Message } from '@instana/components';
+
 import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
 

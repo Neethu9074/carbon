@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { range, sortBy } from 'lodash';
 
 import { LoadingSkeleton } from '@instana/components';
+import { Message } from '@instana/components';
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
 import { Link } from '@instana/components';
@@ -16,7 +17,6 @@ import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { identity } from 'in-services/util/function';
-import Message from 'in-components/Message';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 

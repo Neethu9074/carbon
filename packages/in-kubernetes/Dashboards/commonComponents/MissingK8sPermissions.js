@@ -6,13 +6,12 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Message } from '@instana/components';
 import { Link } from '@instana/components';
 
 import getKubernetesClusterByRelation$ from 'in-subscription/kubernetes/getKubernetesClusterByRelation';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
-import { warning } from 'in-components/Message/types';
 import { Row, Col } from 'in-components/layout/Grid';
-import Message from 'in-components/Message';
 import connectTo from 'in-hoc/connectTo';
 import { Trans } from 'in-i18n';
 
@@ -33,7 +32,7 @@ function WarningMessage(props) {
     return (
       <Row>
         <Col lg={12}>
-          <Message type={warning} withIcon small>
+          <Message type="warning" withIcon small>
             <Trans
               i18nKey="in-kubernetes:dashboards.missingPermissionMessage"
               values={{ target: props.debuggingInfo['Missing Resource Watches'] }}

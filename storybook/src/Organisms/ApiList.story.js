@@ -5,9 +5,9 @@
 
 import React from 'react';
 
-import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
-import { warning } from 'in-components/Message/types';
 import { Ul, Li } from '@instana/components';
+
+import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 
 export default {
   title: 'Organisms|ApiList',
@@ -66,7 +66,7 @@ export function WithMessageStory() {
       }}
       searchFields={['label']}
       query=""
-      message={{ type: warning, text: 'warning! weeep weeep!' }}
+      message={{ type: 'warning', text: 'warning! weeep weeep!' }}
       retainMessagesAfter={10000000}
       ListRenderer={ListRenderer}
     />

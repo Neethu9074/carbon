@@ -6,8 +6,7 @@
 import { createField } from 'formalistic';
 import React, { useState } from 'react';
 
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link } from '@instana/components';
 
 import {
   getConfigAsResultObservable,
@@ -19,7 +18,6 @@ import {
 import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -224,10 +222,10 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                       const result$ = getTestResult(config);
                       result$.once(({ testPassed, reason }) =>
                         setTestResultMessage(
-                          testPassed ? { text: reason, type: success } : { text: reason, type: errorType }
+                          testPassed ? { text: reason, type: 'success' } : { text: reason, type: 'errorType' }
                         )
                       );
-                      result$.errors().once(e => setTestResultMessage({ text: e, type: errorType }));
+                      result$.errors().once(e => setTestResultMessage({ text: e, type: 'error' }));
                     }}
                   >
                     {t('in-settings:tabs.testConfiguration')}
@@ -297,25 +295,25 @@ function FormInput({ form, type, setForm, fieldName, label, className, disabled,
 }
 
 function saveItem({ form, setMessage }) {
-  setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig(form.toJS());
   setConfigResult$.once(
-    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
-    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
+    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' }),
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' })
   );
 }
 
 function deleteItem({ setMessage }) {
-  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.deletingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = deleteConfig();
   setConfigResult$.once(
     () => {
       setMessage({
         text: t('in-settings:tabs.configSuccessfullyDeleted'),
-        type: success
+        type: 'success'
       });
     },
-    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: errorType })
+    error => setMessage({ text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }), type: 'error' })
   );
 }
 

@@ -8,6 +8,7 @@ import moment from 'moment';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 import { Card } from '@instana/components';
 
 import {
@@ -32,8 +33,6 @@ import { getSliConfiguration } from 'in-custom-dashboards/api';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
 import { alwaysNull } from 'in-services/fixedStreams';
-import Message from 'in-components/Message/Message';
-import { error } from 'in-components/Message/types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hasError } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
@@ -285,7 +284,7 @@ const WidgetContent = ({ result, sliConfigIdValue, ...otherChartProps }) => {
   if (isConfiguredSliDeleted(result, sliConfigIdValue)) {
     return (
       <Message
-        type={error}
+        type="error"
         withIcon
         title={t('in-custom-dashboards:widgets.chart.errorTitleForConfiguredSliDeletion')}
         description={t('in-custom-dashboards:widgets.chart.errorDescriptionToConfigureOtherSLI')}

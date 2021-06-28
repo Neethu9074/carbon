@@ -6,6 +6,7 @@
 import React, { useCallback, useMemo } from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import {
@@ -53,12 +54,10 @@ import { ActionSection } from 'in-components/workspace/ActionSection/ActionSecti
 import { themes } from 'in-components/DashboardHeader/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { warning, error } from 'in-components/Message/types';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
-import Message from 'in-components/Message';
 import Title from 'in-components/Title';
 import { t } from 'in-i18n';
 
@@ -140,7 +139,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
       <Title title={t('in-infrastructure:explore.explore')} />
       <LeftRightPadding className={locals.stack}>
         <Stack gap="gutter">
-          <Message type={warning} withIcon small>
+          <Message type="warning" withIcon small>
             {t('in-infrastructure:explore.thisIsABetaVersionOfANewProductCapability')}
           </Message>
 
@@ -172,7 +171,7 @@ function InfraExploreViewWithFixatedTimeConfig() {
           </Sections>
 
           {isInvalid && (
-            <Message type={error} withIcon small>
+            <Message type="error" withIcon small>
               {t('in-infrastructure:explore.theQueryConfigurationIsInvalid')}
             </Message>
           )}

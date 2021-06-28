@@ -10,7 +10,6 @@ import { useObservable } from '@instana/hooks';
 import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { pendingResult } from 'in-services/fixedObjects';
-import { error } from 'in-components/Message/types';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
 
@@ -35,7 +34,7 @@ export default function ApiList({ deleteItem, itemName, getItems, boundedPath, o
 
   const itemsResult = useObservable(getItems, []) ?? pendingResult;
 
-  const setErrorMessage = text => setMessage({ text, type: error });
+  const setErrorMessage = text => setMessage({ text, type: 'error' });
   const newProps = {
     ...props,
     setMessage,

@@ -8,7 +8,6 @@ import React from 'react';
 import { create } from '@instana/observables';
 
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import ExpandableCookieList from 'in-settings/terms/cookies/ExpandableCookieList';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import termsFormDefinition from 'in-settings/terms/termsFormDefinition';
@@ -52,7 +51,7 @@ function render({ form, setForm, setCanSaveItem }) {
 function saveItem({ form, setMessage }) {
   setMessage({
     message: t('in-settings:tabs.savingPrivacySettings'),
-    type: neutral,
+    type: 'neutral',
     isSaving: true
   });
   setAndSave(
@@ -60,9 +59,9 @@ function saveItem({ form, setMessage }) {
     () =>
       setMessage({
         text: t('in-settings:tabs.settingsSuccessfullySaved'),
-        type: success
+        type: 'success'
       }),
-    error => setMessage({ text: t('in-settings:tabs.failedToSaveSettings', { err: error.message }), type: errorType })
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveSettings', { err: error.message }), type: 'error' })
   );
 }
 

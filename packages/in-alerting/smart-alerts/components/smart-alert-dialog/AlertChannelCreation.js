@@ -6,6 +6,7 @@
 import React, { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import AlertChannelModificationForm, {
@@ -13,7 +14,6 @@ import AlertChannelModificationForm, {
   save
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/components/AlertChannelModificationForm';
 import configs from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
-import { default as Message, default as types } from 'in-components/Message/Message';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { createAlertChannel, getAlertChannel } from 'in-api/alertChannels';
 import AlertSection from 'in-alerting/components/AlertSection';
@@ -75,7 +75,7 @@ export default function AlertChannelCreation({ onCancel }) {
             selectedAlertChannelKey={selectedAlertChannelKey}
             handleSaveSuccess={() => {
               setMessage({
-                type: types.success,
+                type: 'success',
                 text: t('in-alerting:smartAlerts.components.smartAlertDialog.alertChannelCreatedSuccess')
               });
               resetForm();
@@ -83,7 +83,7 @@ export default function AlertChannelCreation({ onCancel }) {
             }}
             handleSaveError={errorMessage =>
               setMessage({
-                type: types.error,
+                type: 'error',
                 text: errorMessage
               })
             }

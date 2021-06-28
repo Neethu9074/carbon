@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { just, create } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
@@ -37,11 +38,9 @@ import { isLoading, hasError } from 'in-services/util/result';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import { warning } from 'in-components/Message/types';
 import { scrollIntoView } from 'in-services/util/dom';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-import Message from 'in-components/Message';
 import { minutes } from 'in-services/time';
 import { connection } from 'in-connection';
 import { Trans, t } from 'in-i18n';
@@ -166,7 +165,7 @@ export default function Summary({
           <Row withoutSideMargin>
             <Col lg={12}>
               <Message
-                type={warning}
+                type="warning"
                 title={t('in-applications:traceDetail.tabs.summary.duplicateCalls')}
                 description={t('in-applications:traceDetail.tabs.summary.duplicateCallsDesc', {
                   traceCallCountIgnoringBatchSize: trace.callCountIgnoringBatchSize,
@@ -180,7 +179,7 @@ export default function Summary({
           <Row withoutSideMargin>
             <Col lg={12}>
               <Message
-                type={warning}
+                type="warning"
                 title={t('in-applications:traceDetail.tabs.summary.batchedIngestion')}
                 description={t('in-applications:traceDetail.tabs.summary.traceIngestionBatchCount', {
                   traceIngestionBatchesCount: trace.ingestionBatchesCount

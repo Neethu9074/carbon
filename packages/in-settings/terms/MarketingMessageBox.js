@@ -6,8 +6,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Message } from '@instana/components';
+
 import { DataProtectionMailButton, PrivacyButton } from 'in-settings/terms/dialog/DocumentLinkButtons';
-import Message from 'in-components/Message';
 import { t, Trans } from 'in-i18n';
 
 import locals from './MarketingMessageBox.mless';

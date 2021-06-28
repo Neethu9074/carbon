@@ -7,7 +7,6 @@ import { createField } from 'formalistic';
 import React from 'react';
 
 import { refresh, deleteSessionSettings, setSessionSettings } from 'in-settings/tabs/AuthSettings/api/sessionSettings';
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import { getSessionSettingsAsResultObservable } from '../../api/sessionSettings';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import DistinctSlider from 'in-components/Slider/DistinctSlider';
@@ -146,15 +145,19 @@ function FormInput({ form, fieldName, labeledTicks, label, description, onChange
 }
 
 function deleteItem({ setMessage }) {
-  setMessage({ message: t('in-settings:tabs.deletingTimeouts'), type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.deletingTimeouts'), type: 'neutral', isSaving: true });
   const deleteConfigResult$ = deleteSessionSettings();
   deleteConfigResult$.once(
     () =>
       setMessage({
         text: t('in-settings:tabs.timeoutsSuccessfullyDeleted'),
-        type: success
+        type: 'success'
       }),
-    error => setMessage({ text: t('in-settings:tabs.failedToDeleteTimeouts', { err: error.message }), type: errorType })
+    error =>
+      setMessage({
+        text: t('in-settings:tabs.failedToDeleteTimeouts', { err: error.message }),
+        type: 'error'
+      })
   );
 }
 
@@ -168,20 +171,20 @@ function saveItem({ form, setMessage }) {
   if (configToSave.tokenLifeTimeInMillis < configToSave.idleTimeInMillis) {
     return setMessage({
       text: t('in-settings:tabs.tokenLifeTimeCan', "Token life time can't be smaller than the idle timeout"),
-      type: errorType
+      type: 'error'
     });
   }
 
-  setMessage({ message: t('in-settings:tabs.savingTimeouts'), type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.savingTimeouts'), type: 'neutral', isSaving: true });
 
   const setConfigResult$ = setSessionSettings(configToSave);
   setConfigResult$.once(
     () =>
       setMessage({
         text: t('in-settings:tabs.timeoutsSuccessfullySaved'),
-        type: success
+        type: 'success'
       }),
-    error => setMessage({ text: t('in-settings:tabs.failedToSaveTimeouts', { err: error.message }), type: errorType })
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveTimeouts', { err: error.message }), type: 'error' })
   );
 }
 

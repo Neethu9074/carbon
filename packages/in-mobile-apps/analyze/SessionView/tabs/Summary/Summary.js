@@ -7,6 +7,7 @@ import React, { useMemo, useEffect } from 'react';
 import { compose, withState } from 'recompose';
 import { find, debounce } from 'lodash';
 
+import { Message } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { fixClockSkewProblems } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/fixClockSkewProblems';
@@ -16,10 +17,8 @@ import Activity from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Activity';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import { number } from 'in-services/formatters/number';
-import { warning } from 'in-components/Message/types';
 import { Row, Col } from 'in-components/layout/Grid';
 import { openSession } from 'in-mobile-apps/tracker';
-import Message from 'in-components/Message';
 import KpiCard from 'in-components/KpiCard';
 import { t } from 'in-i18n';
 
@@ -77,7 +76,7 @@ function Summary({ beacons, filter, setFilter, sessionLabel, sessionId }) {
         <Row>
           <Col lg={12}>
             <Message
-              type={warning}
+              type="warning"
               title={t('in-mobile-apps:sessionView.tabsSummary.clockProblemTitle')}
               description={t('in-mobile-apps:sessionView.tabsSummary.clockProblemDesc')}
             />

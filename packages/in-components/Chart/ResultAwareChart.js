@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { Message } from '@instana/components';
 import { Card } from '@instana/components';
 
 import InfiniteCircle from 'in-components/Loading/InfiniteCircle/InfiniteCircle';
@@ -12,9 +13,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
-import { warning } from 'in-components/Message/types';
 import PieChart from 'in-components/PieChart';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 export default function ResultAwareChart({ result, config, renderLegend = true }) {
@@ -26,7 +25,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
   if (result.errors.length > 0) {
     content = (
       <Message
-        type={warning}
+        type="warning"
         withIcon
         title={t('in-components:chart.resultAwareChartSomethingWentWrong')}
         description={t('in-components:chart.resultAwareChartPleaseTryAgainLater')}

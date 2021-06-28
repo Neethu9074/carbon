@@ -7,7 +7,6 @@ import { createField } from 'formalistic';
 import React, { useMemo } from 'react';
 import zxcvbn from 'zxcvbn';
 
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import { changePassword } from 'in-settings/tabs/AuthSettings/api/changePassword';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
@@ -118,13 +117,17 @@ function onSubmit(e, props) {
 function saveItem({ form, setMessage }) {
   setMessage({
     message: t('in-settings:tabs.savingNewPassword'),
-    type: neutral,
+    type: 'neutral',
     isSaving: true
   });
   const setRoleResult$ = changePassword(form.toJS());
   setRoleResult$.once(
-    () => setMessage({ text: t('in-settings:tabs.passwordChanged'), type: success }),
-    error => setMessage({ text: t('in-settings:tabs.failedToChangePassword', { err: error.message }), type: errorType })
+    () => setMessage({ text: t('in-settings:tabs.passwordChanged'), type: 'success' }),
+    error =>
+      setMessage({
+        text: t('in-settings:tabs.failedToChangePassword', { err: error.message }),
+        type: 'error'
+      })
   );
 }
 

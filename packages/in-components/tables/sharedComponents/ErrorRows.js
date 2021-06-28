@@ -5,16 +5,16 @@
 
 import React from 'react';
 
+import { Message } from '@instana/components';
+
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { Tr, Td } from 'in-components/tables/sharedComponents/Table';
-import { error as errorType } from 'in-components/Message/types';
-import Message from 'in-components/Message';
 
 export default function ErrorRows({ cols, size, errors }) {
   return getUniqueErrors(errors).map(error => (
     <Tr key={error} size={size}>
       <Td colSpan={cols}>
-        <Message type={errorType} small>
+        <Message type="error" small>
           {error}
         </Message>
       </Td>

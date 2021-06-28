@@ -10,7 +10,6 @@ import { Stack } from '@instana/components';
 
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import { setAndSave, formUserSettingsObject } from 'in-settings/terms/termsAndPrivaySettings';
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import MarketingMessageBox from 'in-settings/terms/MarketingMessageBox';
@@ -102,7 +101,7 @@ function saveItem({ form, setForm, setMessage }) {
 
   setMessage({
     message: t('in-settings:tabs.savingPrivacySettings'),
-    type: neutral,
+    type: 'neutral',
     isSaving: true
   });
 
@@ -111,9 +110,9 @@ function saveItem({ form, setForm, setMessage }) {
     () =>
       setMessage({
         text: t('in-settings:tabs.settingsSuccessfullySaved'),
-        type: success
+        type: 'success'
       }),
-    error => setMessage({ text: t('in-settings:tabs.failedToSaveSettings', { err: error.message }), type: errorType })
+    error => setMessage({ text: t('in-settings:tabs.failedToSaveSettings', { err: error.message }), type: 'error' })
   );
 }
 

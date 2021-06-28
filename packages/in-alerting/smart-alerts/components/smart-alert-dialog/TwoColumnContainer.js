@@ -7,8 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { warning } from 'in-components/Message/types';
-import Message from 'in-components/Message';
+import { Message } from '@instana/components';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/TwoColumnContainer.mless';
 
@@ -30,7 +29,7 @@ export default function TwoColumnContainer({
     >
       <div className={locals.mainArea}>
         <h3 className={locals.headline}>{mainContentHeadline}</h3>
-        {warnMessage && <Message type={warning}>{warnMessage}</Message>}
+        {warnMessage && <Message type="warning">{warnMessage}</Message>}
         <div
           className={classNames({
             [locals.mainAreaContent]: true,

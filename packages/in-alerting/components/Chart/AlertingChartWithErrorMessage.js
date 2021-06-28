@@ -7,6 +7,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 
 import { isAlertQueryValid as isApplicationAlertQueryValid } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
@@ -14,7 +15,6 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import AlertingChart from 'in-alerting/components/Chart/AlertingChart';
 import { pendingResult } from 'in-services/fixedObjects';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 export default function AlertingChartWithErrorMessage({

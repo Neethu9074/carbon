@@ -7,7 +7,6 @@ import { createField } from 'formalistic';
 import React from 'react';
 
 import { getConfigAsResultObservable, refresh, setConfig } from 'in-settings/tabs/AuthSettings/api/googleSSO';
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -72,11 +71,15 @@ function render({ form, setForm }) {
 }
 
 function saveItem({ form, setMessage }) {
-  setMessage({ message: t('in-settings:tabs.savingConfig'), type: neutral, isSaving: true });
+  setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig({ filter: form.get('filter').value });
   setConfigResult$.once(
-    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: success }),
-    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: errorType })
+    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' }),
+    error =>
+      setMessage({
+        text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }),
+        type: 'error'
+      })
   );
 }
 

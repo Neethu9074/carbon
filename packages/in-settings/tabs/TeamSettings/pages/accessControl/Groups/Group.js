@@ -6,9 +6,7 @@
 import { createField } from 'formalistic';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
-import { Toggle } from '@instana/components';
+import { SvgIcon, Button, Toggle } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -22,7 +20,6 @@ import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/P
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
 import Areas from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/components/Areas';
-import { success, neutral, error as errorType } from 'in-components/Message/types';
 import Users from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Users';
 import { teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
@@ -366,16 +363,16 @@ function saveItem({ form, setMessage, setCanSaveItem, setForm }) {
     permissionSet: form.get('permissionSet').value
   };
 
-  setMessage({ text: t('in-settings:tabs.savingGroup'), type: neutral, isSaving: true });
+  setMessage({ text: t('in-settings:tabs.savingGroup'), type: 'neutral', isSaving: true });
 
   saveGroup(group).once(
     savedGroup => {
-      setMessage({ text: t('in-settings:tabs.groupSuccessfullySaved'), type: success });
+      setMessage({ text: t('in-settings:tabs.groupSuccessfullySaved'), type: 'success' });
       setForm(form.updateIn(['id'], f => f.setValue(savedGroup.id)));
       setCanSaveItem(false);
     },
     error => {
-      setMessage({ text: t('in-settings:tabs.failedToSaveGroup', { err: error.message }), type: errorType });
+      setMessage({ text: t('in-settings:tabs.failedToSaveGroup', { err: error.message }), type: 'error' });
     }
   );
 }

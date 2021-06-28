@@ -6,8 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { neutral, warning, error } from 'in-components/Message/types';
-import Message from 'in-components/Message';
+import { Message } from '@instana/components';
 
 import locals from './DashboardNotification.mless';
 
@@ -28,10 +27,10 @@ DashboardNotification.propTypes = {
 
 function mapTypes(type) {
   if (type === 'warning') {
-    return warning;
+    return 'warning';
   }
   if (type === 'danger') {
-    return error;
+    return 'error';
   }
-  return neutral;
+  return 'neutral';
 }

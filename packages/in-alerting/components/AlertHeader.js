@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { Message } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -15,9 +16,7 @@ import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation';
-import { warning } from 'in-components/Message/types';
 import BackButton from 'in-components/BackButton';
-import Message from 'in-components/Message';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
 import { role } from 'in-stores/user';
@@ -261,7 +260,7 @@ export default function AlertHeader({
       </div>
       {isDeletedConfig && (
         <Message
-          type={warning}
+          type="warning"
           withIcon
           className={locals.bottomSpace}
           title={t(

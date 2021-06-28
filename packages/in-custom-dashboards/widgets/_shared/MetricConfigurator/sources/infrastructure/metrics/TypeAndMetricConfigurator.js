@@ -7,12 +7,12 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Message } from '@instana/components';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { emptyObject } from 'in-services/fixedObjects';
 import Overlay from 'in-components/overlays/Overlay';
-import Message from 'in-components/Message';
 import { t } from 'in-i18n';
 
 import locals from './TypeAndMetricConfigurator.mless';
