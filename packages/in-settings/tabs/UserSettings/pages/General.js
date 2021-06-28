@@ -9,7 +9,6 @@ import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEd
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { t, Trans, supportedLanguages, activeLanguage } from 'in-i18n';
-import { languageSelectorEnabled } from 'in-services/featureFlags';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -111,30 +110,28 @@ export default function UiConfigGeneralPage() {
           onChange={e => saveSetting('formatNumbersAccordingToEnUs', e.target.checked)}
         />
       </HorizontalFormGroup>
-      {languageSelectorEnabled && (
-        <HorizontalFormGroup noHelpTextSpacer>
-          <Heading text={t('in-settings:languageSelection.language')} htmlFor="language" />
-          <Select
-            id="language"
-            name="language"
-            value={activeLanguage}
-            onChange={e => saveUserSettings({ preferredLanguage: e.target.value }, () => window.location.reload())}
-          >
-            {supportedLanguages
-              .map(code => ({
-                code,
-                label: t('language', { context: code, lng: 'en-US' }),
-                localizedLabel: t('language', { context: code })
-              }))
-              .sort((a, b) => compareIgnoreCase(a.label, b.label))
-              .map(({ code, label, localizedLabel }) => (
-                <option key={code} value={code}>
-                  {label} {label !== localizedLabel && ` / ${localizedLabel}`}
-                </option>
-              ))}
-          </Select>
-        </HorizontalFormGroup>
-      )}
+      <HorizontalFormGroup noHelpTextSpacer>
+        <Heading text={t('in-settings:languageSelection.language')} htmlFor="language" />
+        <Select
+          id="language"
+          name="language"
+          value={activeLanguage}
+          onChange={e => saveUserSettings({ preferredLanguage: e.target.value }, () => window.location.reload())}
+        >
+          {supportedLanguages
+            .map(code => ({
+              code,
+              label: t('language', { context: code, lng: 'en-US' }),
+              localizedLabel: t('language', { context: code })
+            }))
+            .sort((a, b) => compareIgnoreCase(a.label, b.label))
+            .map(({ code, label, localizedLabel }) => (
+              <option key={code} value={code}>
+                {label} {label !== localizedLabel && ` / ${localizedLabel}`}
+              </option>
+            ))}
+        </Select>
+      </HorizontalFormGroup>
     </SettingsDetailPage>
   );
 }

@@ -39,7 +39,6 @@ module.exports = {
   loggingEnabled: true,
   loggingEnabledOnTrace: true,
   containerLogsEnabled: true,
-  languageSelectorEnabled: true,
   pseudoLanguageEnabled: true,
   authenticationOidcEnabled: true,
   syntheticCallsEnabled: true,

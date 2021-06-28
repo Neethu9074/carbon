@@ -49,7 +49,6 @@ export const containerLogsEnabled = isFeatureFlagEnabled('containerLogsEnabled')
 export const loggingEnabledOnTrace = isFeatureFlagEnabled('loggingEnabledOnTrace');
 
 export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);
-export const languageSelectorEnabled = isFeatureFlagEnabled('languageSelectorEnabled');
 export const authenticationOidcEnabled = isFeatureFlagEnabled('authenticationOidcEnabled', false);
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
