@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import invariant from 'invariant';
-
+import { renderStaticThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/lineWithThreshold';
 import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import line from 'in-components/Chart/renderer/line';
@@ -13,10 +12,9 @@ import theme from 'in-themes';
 
 export default {
   render: ({ axis, colors50, colors100, scale, config, metrics }) => {
-    validateProps(config);
     const metric = metrics[0];
 
-    renderBaseline(metric, axis, config, scale, colors50, colors100);
+    renderBaselineOrStaticThreshold(metric, axis, config, scale, colors50, colors100);
 
     // historical data
     line.render({ dataSeries: metric, color: colors100[0], scale, config });
@@ -84,26 +82,85 @@ function renderBackground(xStart, xEnd, yStart, timebasePoints, fillStyle, scale
   config.backBufferCtx.restore();
 }
 
-function renderBaseline(metric, axis, config, scale, colors50, colors100) {
+function renderBaselineOrStaticThreshold(metric, axis, config, scale, colors50, colors100) {
   const baseline = config.y1.baseline;
   if (!baseline || baseline.length === 0) {
-    return;
+    renderStaticThresholdLineAndBackgrounds(config, scale, colors100, colors50);
   }
-  const sensitivity = config.y1.sensitivity;
   const thresholdLineWidth = config.y1.thresholdLineWidth;
   const thresholdGranularity = config.y1.thresholdGranularity;
   const timeConfig = config.timeConfig;
   const baselineWindowSize = (timeConfig.windowSize / thresholdGranularity) * thresholdGranularity;
   const chartFrom = timeConfig.to - baselineWindowSize;
-  const chartTo = chartFrom + baselineWindowSize;
 
   const chartHeight = scale.getRangeFrom();
   const thresholdColor = colors100[1];
-  const alrightColor = colors50[0];
-  const violationColor = colors50[1];
-  const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
   const lastAvailableMetricTimestamp = metric[metric.length - 1][0];
   const oneSidedThresholdInTimeframe = [];
+
+  const markerPaneHeight = config.markerPaneHeight;
+  const graphAreaHeight = chartHeight - markerPaneHeight;
+
+  if (baseline && baseline.length > 0) {
+    renderBaseline(
+      chartFrom,
+      baselineWindowSize,
+      thresholdGranularity,
+      baseline,
+      oneSidedThresholdInTimeframe,
+      config,
+      chartHeight,
+      colors50,
+      scale,
+      markerPaneHeight
+    );
+  }
+
+  // one-sided time-dependent threshold line
+  config.backBufferCtx.save();
+  config.backBufferCtx.lineWidth = thresholdLineWidth;
+  line.render({
+    dataSeries: oneSidedThresholdInTimeframe,
+    color: thresholdColor,
+    scale,
+    config: {
+      ...config,
+      y1: {
+        ...config.y1,
+        lineWidth: thresholdLineWidth
+      }
+    }
+  });
+  config.backBufferCtx.restore();
+
+  const len = oneSidedThresholdInTimeframe.length;
+  if (len > 0) {
+    const xPosEnd = config.xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[len - 1][0]);
+
+    renderMetricUnavailableIndicator(markerPaneHeight, graphAreaHeight, xPosEnd, lastAvailableMetricTimestamp, config);
+  }
+
+  renderHighlight(markerPaneHeight, graphAreaHeight, config);
+}
+
+function renderBaseline(
+  chartFrom,
+  baselineWindowSize,
+  thresholdGranularity,
+  baseline,
+  oneSidedThresholdInTimeframe,
+  config,
+  chartHeight,
+  colors50,
+  scale,
+  markerPaneHeight
+) {
+  const chartTo = chartFrom + baselineWindowSize;
+  const alrightColor = colors50[0];
+  const violationColor = colors50[1];
+
+  const sensitivity = config.y1.sensitivity;
+  const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
 
   for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += thresholdGranularity) {
     const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, thresholdGranularity, isGreaterOp);
@@ -114,8 +171,6 @@ function renderBaseline(metric, axis, config, scale, colors50, colors100) {
   const len = oneSidedThresholdInTimeframe.length;
   const xPosStart = config.xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[0][0]);
   const xPosEnd = config.xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[len - 1][0]);
-  const markerPaneHeight = config.markerPaneHeight;
-  const graphAreaHeight = chartHeight - markerPaneHeight;
 
   renderBackground(
     xPosStart,
@@ -136,34 +191,4 @@ function renderBaseline(metric, axis, config, scale, colors50, colors100) {
     scale,
     config
   );
-
-  // one-sided time-dependent threshold line
-  config.backBufferCtx.save();
-  config.backBufferCtx.lineWidth = thresholdLineWidth;
-  line.render({
-    dataSeries: oneSidedThresholdInTimeframe,
-    color: thresholdColor,
-    scale,
-    config: {
-      ...config,
-      y1: {
-        ...config.y1,
-        lineWidth: thresholdLineWidth
-      }
-    }
-  });
-  config.backBufferCtx.restore();
-
-  renderMetricUnavailableIndicator(markerPaneHeight, graphAreaHeight, xPosEnd, lastAvailableMetricTimestamp, config);
-
-  renderHighlight(markerPaneHeight, graphAreaHeight, config);
-}
-
-function validateProps(config) {
-  if (__DEV__) {
-    invariant(
-      Number(config.y1.sensitivity) >= 0,
-      'Property "sensitivity" is missing in config. Example: y1={{ sensitivity, colors:[], ... }}'
-    );
-  }
 }
