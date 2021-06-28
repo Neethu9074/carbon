@@ -103,6 +103,7 @@ function getHeadCellProps(columnDefinition) {
   });
   headCellProps.width = columnDefinition.width;
   headCellProps.widthInAbsoluteUnit = columnDefinition.widthInAbsoluteUnit;
+  headCellProps.useMinimumAmountOfHorizontalSpace = columnDefinition.useMinimumAmountOfHorizontalSpace;
   return headCellProps;
 }
 

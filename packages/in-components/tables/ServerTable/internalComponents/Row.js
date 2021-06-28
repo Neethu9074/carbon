@@ -32,12 +32,21 @@ export default function Row({
       {...rowProps}
     >
       {keys.map(key => {
-        const { id, noWrap, ellipsis, cellClassName, tableAction, getContent } = columnDefinitions[key];
+        const {
+          id,
+          noWrap,
+          ellipsis,
+          cellClassName,
+          tableAction,
+          useMinimumAmountOfHorizontalSpace,
+          getContent
+        } = columnDefinitions[key];
         return (
           <Td
             key={id}
             noWrap={noWrap}
             ellipsis={ellipsis}
+            useMinimumAmountOfHorizontalSpace={useMinimumAmountOfHorizontalSpace}
             className={classNames({
               [cellClassName]: cellClassName,
               [locals.tableActionCell]: tableAction,

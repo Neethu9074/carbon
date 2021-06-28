@@ -57,16 +57,13 @@ const columnDefinitions = [
     id: 'gravatar',
     label: t('in-settings:tabs.user'),
     sortable: false,
-    width: '4rem',
-    widthInAbsoluteUnit: true,
+    cellClassName: locals.avatar,
+    useMinimumAmountOfHorizontalSpace: true,
     getContent(logEntry) {
       if (!logEntry.actor || logEntry.actor.type !== 'USER' || !logEntry.actor.email) {
         return t('in-settings:tabs.apiCall');
       }
       return <Gravatar email={logEntry.actor.email} size="l" />;
-    },
-    headCellProps: {
-      className: locals.narrowColumn
     }
   },
   {
@@ -82,7 +79,7 @@ const columnDefinitions = [
             {` - ${fromNow(logEntry.timestamp)} (${formatDateTime(logEntry.timestamp)})`}
           </span>
 
-          <DangerousHtmlPresenter html={toHtml(logEntry.message)} />
+          <DangerousHtmlPresenter className={locals.markdown} html={toHtml(logEntry.message)} />
         </div>
       );
     }

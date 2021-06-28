@@ -128,3 +128,10 @@ respective json would change as below
 
 [context]: https://www.i18next.com/translation-function/context
 [interpolation parameters]: https://www.i18next.com/translation-function/interpolation
+
+## Patterns
+
+### Table Columns With Minimum Width
+
+Sometimes, you want a table column to use the minimum amount of space necessary *without* wrapping the content.
+In those cases, you can set `useMinimumAmountOfHorizontalSpace` on `Td`, `Th` and on table column definitions.

@@ -67,12 +67,13 @@ export function Th(props) {
 
   return (
     <th
-      {...omit(props, ['noWrap', 'width', 'wrapContent', 'widthInAbsoluteUnit'])}
+      {...omit(props, ['noWrap', 'width', 'wrapContent', 'widthInAbsoluteUnit', 'useMinimumAmountOfHorizontalSpace'])}
       {...additionalStyleProps}
       className={classNames({
         [locals.th]: true,
         [locals.noWrap]: props.noWrap,
-        [props.className]: true
+        [props.className]: true,
+        [locals.useMinimumAmountOfHorizontalSpace]: props.useMinimumAmountOfHorizontalSpace
       })}
     >
       {children}
@@ -87,14 +88,15 @@ export function Td(props) {
   }
   return (
     <td
-      {...omit(props, ['noWrap', 'ellipsis', 'active'])}
+      {...omit(props, ['noWrap', 'ellipsis', 'active', 'useMinimumAmountOfHorizontalSpace'])}
       style={style}
       className={classNames({
         [props.className]: true,
         [locals.td]: true,
         [locals.noWrap]: props.noWrap,
         [locals.ellipsis]: props.ellipsis,
-        [locals.active]: props.active
+        [locals.active]: props.active,
+        [locals.useMinimumAmountOfHorizontalSpace]: props.useMinimumAmountOfHorizontalSpace
       })}
     />
   );

@@ -175,4 +175,11 @@
     left: 0;
     width: 2px;
   }
+
+  .useMinimumAmountOfHorizontalSpace {
+    // For verification that this works across browsers:
+    // https://codesandbox.io/s/naughty-platform-e48qx?file=/index.html
+    width: 5px;
+    white-space: nowrap;
+  }
 }

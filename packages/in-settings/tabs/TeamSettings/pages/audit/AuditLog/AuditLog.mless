@@ -7,12 +7,7 @@
 @import '~in-themes/mixins.less';
 
 :local {
-  .narrowColumn {
-    width: 3rem;
-  }
-
   .text {
-    height: 2.625rem;
     .ellipsis();
   }
 
@@ -23,5 +18,13 @@
 
   .time {
     font-weight: 300;
+  }
+
+  .avatar {
+    text-align: center;
+  }
+
+  .markdown p:last-child {
+    margin-bottom: 0;
   }
 }
