@@ -440,17 +440,17 @@ function getNoAlertConfiguredLabel(query) {
 
 SmartAlertsBaseList.propTypes = {
   /**
-   * A function which returns the function which return an observable subscription! which does the api call for
-   * local smart alert configsSelected. Please wrap http() calls in createObservable()
+   * A function which returns an observable resolving with the api call result for
+   * global smart alert configsSelected. Please wrap http() calls in createObservable()
    * This is done so that it is possible to configure the respective fetcher function from teh outside
-   * aka.injecting params etc.
+   * aka. injecting params etc.
    */
   getGlobalAlertConfigFetchFunction: PropTypes.func,
   /**
-   * A function which returns the function which return an observable subscription! which does the api call for
+   * A function which returns an observable resolving with the api call result for
    * local smart alert configsSelected. Please wrap http() calls in createObservable()
    * This is done so that it is possible to configure the respective fetcher function from the outside
-   * aka.injecting params etc.
+   * aka. injecting params etc.
    */
   getLocalAlertConfigsFetchFunction: PropTypes.func,
   /**

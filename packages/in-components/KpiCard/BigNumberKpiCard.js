@@ -20,9 +20,9 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
-const metricKey = 'bigNumber';
-const companionMetricKey = 'companion';
-const comparisonMetricKey = 'comparison';
+export const metricKey = 'bigNumber';
+export const companionMetricKey = 'companion';
+export const comparisonMetricKey = 'comparison';
 
 export default function BigNumberKpiCard({
   title,

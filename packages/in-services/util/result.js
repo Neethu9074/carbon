@@ -3,18 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
+import deepFreeze from 'deep-freeze-strict';
 import { get } from 'lodash';
+
+import { just } from '@instana/observables';
 
 import { emptyArray, finishedProgress, pendingResult, listData } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 
 export function mapData(result, fn) {
   if (result.data != null) {
-    return {
+    return deepFreeze({
       ...result,
       data: fn(result.data)
-    };
+    });
   }
   return result;
 }
@@ -29,17 +31,17 @@ export function mapData(result, fn) {
 export function mapDataHO(fn) {
   return result => {
     if (result.data != null) {
-      return {
+      return deepFreeze({
         ...result,
         data: fn(result.data)
-      };
+      });
     }
     return result;
   };
 }
 
 export function success(data, time = Date.now()) {
-  return Object.freeze({
+  return deepFreeze({
     data,
     errors: emptyArray,
     progress: finishedProgress,
@@ -48,7 +50,7 @@ export function success(data, time = Date.now()) {
 }
 
 export function error(errors, time = Date.now()) {
-  return Object.freeze({
+  return deepFreeze({
     data: null,
     errors,
     progress: finishedProgress,
@@ -57,7 +59,7 @@ export function error(errors, time = Date.now()) {
 }
 
 export function errorWithData(errors, data, time = Date.now()) {
-  return Object.freeze({
+  return deepFreeze({
     data,
     errors,
     progress: finishedProgress,
