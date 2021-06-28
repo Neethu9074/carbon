@@ -7,13 +7,18 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import HelpAction from 'in-components/workspace/HelpAction';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import Sections from 'in-components/workspace/Sections';
+import Section from 'in-components/workspace/Section';
+import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
+
+import locals from './FormComponent.mless';
 
 export default function FormComponent({
   form,
@@ -26,6 +31,8 @@ export default function FormComponent({
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
   const dynamicFocusQueryField = form.get('dynamicFocusQuery');
+  const includeK8sInfoEventsField = form.get('includeK8sInfoEvents');
+  const includeAgentMonitoringIssuesField = form.get('includeAgentMonitoringIssues');
 
   return (
     <Stack gap="xsmall">
@@ -43,6 +50,27 @@ export default function FormComponent({
           actions={<HelpAction>{t('in-custom-dashboards:widgets.srcEvent.formComponent.helpAction')}</HelpAction>}
           maxLength={512}
         />
+        <Section useAlternateBg>
+          <HorizontalFlexWrapper>
+            <Toggle
+              id="select-k8s-info-events"
+              checked={includeK8sInfoEventsField.value}
+              onChange={e =>
+                onChange(['includeK8sInfoEvents'], field => field.setValue(e.target.checked).setTouched(true))
+              }
+            />
+            <span>{t('in-custom-dashboards:widgets.srcEvent.formComponent.includeK8sInfoEvents')}</span>
+            <Toggle
+              className={locals.agentMonitoringIssuesToggle}
+              id="select-agent-monitoring-issues"
+              checked={includeAgentMonitoringIssuesField.value}
+              onChange={e =>
+                onChange(['includeAgentMonitoringIssues'], field => field.setValue(e.target.checked).setTouched(true))
+              }
+            />
+            <span>{t('in-custom-dashboards:widgets.srcEvent.formComponent.includeAgentMonitoringIssues')}</span>
+          </HorizontalFlexWrapper>
+        </Section>
       </Sections>
 
       <Sections>

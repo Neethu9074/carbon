@@ -5,9 +5,9 @@
 
 import { createField } from 'formalistic';
 
+import { stringValidator, booleanValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
-import { stringValidator } from 'in-services/validators/jsonType';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { t } from 'in-i18n';
@@ -56,6 +56,20 @@ export function createForm(form, savedState) {
           notBlankValidator,
           buildEnumValidator(['DISTINCT_COUNT'])
         )
+      })
+    )
+    .put(
+      'includeK8sInfoEvents',
+      createField({
+        value: savedState?.includeK8sInfoEvents || false,
+        validator: composeAndShortCircuitOnError(booleanValidator)
+      })
+    )
+    .put(
+      'includeAgentMonitoringIssues',
+      createField({
+        value: savedState?.includeAgentMonitoringIssues || false,
+        validator: composeAndShortCircuitOnError(booleanValidator)
       })
     );
 }
