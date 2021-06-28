@@ -31,6 +31,7 @@ export default function PotentialProblemContentControls({
   applications,
   tagFilterExpression,
   includeSynthetic,
+  includeInternal,
   alert,
   rule,
   threshold,
@@ -63,6 +64,7 @@ export default function PotentialProblemContentControls({
             threshold,
             tagFilterExpression,
             includeSynthetic,
+            includeInternal,
             granularity: defaultGranularity
           },
           getTimeConfigForAnalyzeLink(alert),
@@ -117,5 +119,6 @@ PotentialProblemContentControls.propTypes = {
   renderSmartAlertDialogComponent: PropTypes.func.isRequired,
   tagFilterExpression: PropTypes.object.isRequired,
   includeSynthetic: PropTypes.bool,
+  includeInternal: PropTypes.bool,
   threshold: thresholdPropType.isRequired
 };

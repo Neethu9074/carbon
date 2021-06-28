@@ -18,7 +18,12 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getTitle } from 'in-alerting/PotentialProblems/textUtil';
 import { t } from 'in-i18n';
 
-export default function PotentialProblemsLanePresenter({ potentialProblems, alertRules, ...remainingProps }) {
+export default function PotentialProblemsLanePresenter({
+  potentialProblems,
+  alertRules,
+  openingDialogDisabled,
+  ...remainingProps
+}) {
   const events = useMemo(() => {
     function buildPotentialProblemEventObject({ alerts, lastStart, lastEnd, granularity, thresholds }) {
       const lastStartShifted = adjustTimestampFraction(lastStart, granularity) - granularity / 2;
@@ -113,28 +118,30 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
       }}
       HoverOverlay={PotentialProblemsHoverArea}
       onClick={({ alerts, thresholds }) => {
-        addActiveDialog(
-          <PotentialProblemsDialogPresenter
-            {...remainingProps}
-            alertRules={alertRules}
-            alerts={alerts}
-            thresholds={thresholds}
-            renderSmartAlertDialogComponent={dialogProps => {
-              const { applicationLabel } = remainingProps;
-              return (
-                <SmartAlertConfigDialogWrapper
-                  applicationLabel={applicationLabel}
-                  formData={{
-                    ...remainingProps,
-                    ...dialogProps
-                  }}
-                  onClose={close}
-                />
-              );
-            }}
-          />
-        );
-        trackMarkerClicked({ metricNames: getUniqueMetricNames(alertRules) });
+        if (!openingDialogDisabled) {
+          addActiveDialog(
+            <PotentialProblemsDialogPresenter
+              {...remainingProps}
+              alertRules={alertRules}
+              alerts={alerts}
+              thresholds={thresholds}
+              renderSmartAlertDialogComponent={dialogProps => {
+                const { applicationLabel } = remainingProps;
+                return (
+                  <SmartAlertConfigDialogWrapper
+                    applicationLabel={applicationLabel}
+                    formData={{
+                      ...remainingProps,
+                      ...dialogProps
+                    }}
+                    onClose={close}
+                  />
+                );
+              }}
+            />
+          );
+          trackMarkerClicked({ metricNames: getUniqueMetricNames(alertRules) });
+        }
       }}
       LaneItem={SingleMarkerLaneItem}
       renderMarkerItem={PotentialProblemMarker}
@@ -160,6 +167,7 @@ export default function PotentialProblemsLanePresenter({ potentialProblems, aler
 
 PotentialProblemsLanePresenter.propTypes = {
   potentialProblems: potentialProblemsLaneAlertsPropType.isRequired,
+  openingDialogDisabled: PropTypes.bool,
   isClustered: PropTypes.bool,
   applicationLabel: PropTypes.string,
   serviceLabel: PropTypes.string,

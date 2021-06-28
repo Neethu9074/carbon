@@ -18,7 +18,13 @@ export default function ChartWidget({ actions, config, title, isPreview, dragHan
     <UnifiedMetricsChart
       renderPostChartContent={
         potentialProblemsEnabled
-          ? markerLaneProps => <PotentialProblemsPostChartContent config={config} markerLaneProps={markerLaneProps} />
+          ? markerLaneProps => (
+              <PotentialProblemsPostChartContent
+                config={config}
+                markerLaneProps={markerLaneProps}
+                openingDialogDisabled={isPreview}
+              />
+            )
           : undefined
       }
       cardUseMaxAvailableHeight={!isPreview}

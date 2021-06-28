@@ -20,6 +20,7 @@ import {
   errorRateAlertRule
 } from 'in-custom-dashboards/widgets/Chart/PotentialProblems/potentialProblemsAlertRules';
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
+import isOutsideCallsShortTermStorage from 'in-alerting/PotentialProblems/PotentialProblemsLane/isOutsideCallsShortTermStorage';
 import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/getPotentialProblems';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -27,8 +28,10 @@ import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-export function PotentialProblemsPostChartContent({ markerLaneProps, config }) {
+export function PotentialProblemsPostChartContent({ markerLaneProps, openingDialogDisabled, config }) {
   const globalTimeConfig = useTimeConfig();
+
+  const outsideCallsShortTermStorage = isOutsideCallsShortTermStorage(globalTimeConfig);
 
   const configuredDataset = useMemo(() => {
     return [...config.y1?.metrics, ...config.y2?.metrics].find(hasPotentialProblems);
@@ -38,7 +41,7 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, config }) {
 
   const potentialProblemsResult =
     useObservable(() => {
-      if (alertRules) {
+      if (!outsideCallsShortTermStorage && alertRules) {
         return getPotentialProblems({
           timeConfig: globalTimeConfig,
           alertRules,
@@ -56,13 +59,18 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, config }) {
 
   return (
     <MarkerLanesPresenter {...markerLaneProps}>
-      <PotentialProblemsLanePresenter
-        potentialProblems={potentialProblemsResult?.data ?? emptyPotentialProblems}
-        alertRules={alertRules}
-        isLoading={isLoading(potentialProblemsResult)}
-        tagFilterExpression={configuredDataset?.tagFilterExpression ?? EMPTY_EXPRESSION}
-        applications={{}}
-      />
+      {!outsideCallsShortTermStorage && (
+        <PotentialProblemsLanePresenter
+          potentialProblems={potentialProblemsResult?.data ?? emptyPotentialProblems}
+          alertRules={alertRules}
+          isLoading={isLoading(potentialProblemsResult)}
+          openingDialogDisabled={openingDialogDisabled}
+          tagFilterExpression={configuredDataset?.tagFilterExpression ?? EMPTY_EXPRESSION}
+          includeSynthetic={configuredDataset?.includeSynthetic}
+          includeInternal={configuredDataset?.includeInternal}
+          applications={{}}
+        />
+      )}
     </MarkerLanesPresenter>
   );
 }

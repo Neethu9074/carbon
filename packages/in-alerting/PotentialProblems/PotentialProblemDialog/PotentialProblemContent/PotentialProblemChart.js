@@ -30,7 +30,8 @@ export default function PotentialProblemChart({
   threshold,
   rule,
   tagFilterExpression,
-  includeSynthetic = false,
+  includeSynthetic,
+  includeInternal,
   alert,
   alertType
 }) {
@@ -43,6 +44,7 @@ export default function PotentialProblemChart({
     applications,
     granularity: defaultGranularity,
     tagFilterExpression: fromBackendModel(tagFilterExpression),
+    includeInternal,
     includeSynthetic
   };
   const highlightColor = theme.lib.colors.chart.strokeColors100[3];
@@ -88,6 +90,7 @@ PotentialProblemChart.propTypes = {
   boundaryScope: PropTypes.string,
   rule: rulePropType.isRequired,
   tagFilterExpression: PropTypes.object.isRequired,
+  includeInternal: PropTypes.bool,
   includeSynthetic: PropTypes.bool,
   applications: applicationsItemTreePropType,
   threshold: thresholdPropType.isRequired

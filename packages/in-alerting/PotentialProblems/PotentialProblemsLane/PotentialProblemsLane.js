@@ -13,10 +13,10 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
+import isOutsideCallsShortTermStorage from 'in-alerting/PotentialProblems/PotentialProblemsLane/isOutsideCallsShortTermStorage';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/getPotentialProblems';
 import { trackRequestLoadingTime } from 'in-alerting/PotentialProblems/tracker';
-import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
@@ -24,7 +24,6 @@ import getApplication from 'in-subscription/application/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { days } from 'in-services/time';
 
 const emptyPotentialProblems = {
   alerts: [],
@@ -129,28 +128,6 @@ function useGetLabels(applicationId, serviceId, endpointId) {
 
 function getLabel(result) {
   return result?.data?.label ?? null;
-}
-
-/* This function is implemented after the respective backend function.
-   See: https://github.com/instana/backend/blob/c27424b3a0b64ea38169f102450c721292184e84/ui-backend/src/main/java/com/instana/ui/service/smartAlerts/application/ApplicationPotentialProblemsService.java#L86
-*/
-function isOutsideCallsShortTermStorage(globalTimeConfig) {
-  const now = Date.now();
-  const granularity = defaultGranularity;
-  const to = globalTimeConfig.to ?? now;
-  const windowSize = globalTimeConfig.windowSize;
-  const originalFrom = to - windowSize;
-  let adjustedFrom = originalFrom - (originalFrom % granularity);
-
-  if (adjustedFrom < originalFrom) {
-    // If the first bucket was shifted to the left, drop it, otherwise it might slip outside the
-    // short term retention storage (7 days by default) for "last 7 days" time frame and thus force
-    // usage of the less precise long term retention storage.
-    adjustedFrom = adjustedFrom + granularity;
-  }
-
-  const shortTermCutoff = now - days.toMillis(7);
-  return adjustedFrom < shortTermCutoff;
 }
 
 PotentialProblemsLane.propTypes = {
