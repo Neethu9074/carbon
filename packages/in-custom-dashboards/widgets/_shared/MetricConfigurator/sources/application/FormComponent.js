@@ -9,6 +9,7 @@ import { find, groupBy } from 'lodash';
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
+import { resetPotentialProblemsFormFieldIfNeeded } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
 import HiddenCallsConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/HiddenCallsConfiguration';
 import {
@@ -120,6 +121,7 @@ export default function FormComponent({
                   field.setValue(getMetricLabel(e.target.value)).setTouched(true)
                 );
               }
+              updatedForm = resetPotentialProblemsFormFieldIfNeeded(updatedForm);
               return updatedForm
                 .updateIn(['metric'], field => field.setValue(e.target.value).setTouched(true))
                 .updateIn(['aggregation'], field => {

@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Toggle } from '@instana/components';
-import { Stack } from '@instana/components';
+import { Stack, Toggle } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import SelectInSection from 'in-components/form/Select/SelectInSection';

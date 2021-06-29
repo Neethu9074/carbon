@@ -13,12 +13,12 @@ import {
   bluePrintForCallsMetric,
   potentialProblemsCategory
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
-import { isBluePrintForCallsSupportedByMetric } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsOnDatasetValidator';
 import { isPotentialProblemsSupportedByMetric } from 'in-applications/analyze/metrics';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 export default function PotentialProblemsConfigurator({ form, metricField, axisForm, grouping, onChange }) {
@@ -26,20 +26,13 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
   const potentialProblemsEnabled = Boolean(potentialProblemsField);
 
   const bluePrintForCallsMetricField = potentialProblemsField?.get('bluePrintForCallsMetric');
+  const moreThanOneDataset = axisForm.get('y1').get('metrics').size + axisForm.get('y2').get('metrics').size > 1;
+  const metricValue = metricField?.value;
+  const unsupportedMetric = !isPotentialProblemsSupportedByMetric(metricValue);
 
-  /* PP can NOT be enabled, when
-   * grouping is enabled,
-   * for any unsupported metric
-   */
-  const notEnabled = grouping || !isPotentialProblemsSupportedByMetric(metricField?.value);
-
+  const disabled = grouping || unsupportedMetric || moreThanOneDataset;
   const hasError = hasPotentialProblemsError(form) || hasPotentialProblemsError(axisForm);
-
-  const metricHasMoreOptions = metricField?.value === 'calls';
-  const invalidBlueprintSelected = isBluePrintForCallsSupportedByMetric(
-    bluePrintForCallsMetricField,
-    metricField?.value
-  );
+  const metricHasMoreOptions = metricValue === 'calls';
 
   return (
     <Sections>
@@ -48,42 +41,59 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
         titleHtmlFor="potential-problems-configurator"
         title={t('in-custom-dashboards:widgets.formCompChart.indexChart.potentialProblems')}
       >
-        <Stack direction="horizontal" align="center" gap="normal">
-          <Toggle
-            id="potential-problems-configurator"
-            checked={potentialProblemsEnabled}
-            disabled={notEnabled && !potentialProblemsEnabled}
-            onChange={e => {
-              onChange([], form => {
-                if (e.target.checked) {
-                  return addFieldsForPotentialProblems(form, {
-                    potentialProblems: {}
+        <Stack direction="horizontal" align="center" distribution="start" gap="disabled">
+          <Tooltip content={tooltipMessage(grouping, moreThanOneDataset, unsupportedMetric)} align="topLeft">
+            <span>
+              <Toggle
+                id="potential-problems-configurator"
+                checked={potentialProblemsEnabled}
+                disabled={disabled && !potentialProblemsEnabled}
+                onChange={e => {
+                  onChange([], form => {
+                    if (e.target.checked) {
+                      return addFieldsForPotentialProblems(form, {
+                        potentialProblems: {}
+                      });
+                    }
+                    return removeFieldsForPotentialProblems(form).setTouched(true);
                   });
-                }
-                return removeFieldsForPotentialProblems(form).setTouched(true);
-              });
-            }}
-          />
+                }}
+              />
+            </span>
+          </Tooltip>
+
           <Spacer horizontal="xxsmall" />
-          {t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription')}
+
+          {unsupportedMetric &&
+            t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription.noMetric')}
+
+          {metricValue === 'latency' &&
+            t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription.latency')}
+          {metricValue === 'errors' &&
+            t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription.errors')}
+          {metricValue === 'calls' &&
+            t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription.calls')}
           <Spacer horizontal="xsmall" />
-          <Select
-            disabled={(notEnabled || !potentialProblemsEnabled) && !metricHasMoreOptions && !invalidBlueprintSelected}
-            id="metric-configurator-blue-print-selector"
-            value={bluePrintForCallsMetricField?.value}
-            onChange={e =>
-              onChange(['potentialProblems', 'bluePrintForCallsMetric'], field =>
-                field.setValue(e.target.value).setTouched(true)
-              )
-            }
-            hasError={!bluePrintForCallsMetricField?.valid && bluePrintForCallsMetricField?.touched}
-          >
-            {Object.entries(bluePrintForCallsMetric).map(([bluePrint, userText]) => (
-              <option key={bluePrint} value={bluePrint}>
-                {userText}
-              </option>
-            ))}
-          </Select>
+
+          {metricHasMoreOptions && (
+            <Select
+              disabled={disabled || !potentialProblemsEnabled}
+              id="metric-configurator-blue-print-selector"
+              value={bluePrintForCallsMetricField?.value}
+              onChange={e =>
+                onChange(['potentialProblems', 'bluePrintForCallsMetric'], field =>
+                  field.setValue(e.target.value).setTouched(true)
+                )
+              }
+              hasError={!bluePrintForCallsMetricField?.valid && bluePrintForCallsMetricField?.touched}
+            >
+              {Object.entries(bluePrintForCallsMetric).map(([bluePrint, userText]) => (
+                <option key={bluePrint} value={bluePrint}>
+                  {userText}
+                </option>
+              ))}
+            </Select>
+          )}
         </Stack>
         {
           // validation on current dataset
@@ -96,6 +106,19 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
       </Section>
     </Sections>
   );
+}
+
+function tooltipMessage(grouping, moreThanOneDataset, unsupportedMetric) {
+  if (grouping) {
+    return t('in-custom-dashboards:widgets.formCompChart.potentialProblems.tooltip.needToTurnOffGrouping');
+  }
+  if (moreThanOneDataset) {
+    return t('in-custom-dashboards:widgets.formCompChart.potentialProblems.tooltip.needToRemoveDatasets');
+  }
+  if (unsupportedMetric) {
+    return t('in-custom-dashboards:widgets.formCompChart.potentialProblems.tooltip.needToChangeMetric');
+  }
+  return '';
 }
 
 function filterByCategory(category) {

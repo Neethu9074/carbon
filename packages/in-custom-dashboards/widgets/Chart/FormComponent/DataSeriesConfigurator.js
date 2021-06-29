@@ -5,12 +5,14 @@
 
 import React, { useEffect } from 'react';
 
-import { Button } from '@instana/components';
-import { Ul, Li } from '@instana/components';
+import { Button, Ul, Li } from '@instana/components';
 
+import { hasPotentialProblems } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
+import { potentialProblemsInCustomDashboardEnabled, applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 export default function DataSeriesConfigurator({ form, onChange, getShortMetricKey }) {
@@ -33,6 +35,11 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
     ]
   );
 
+  const metrics1 = form.get('y1').get('metrics');
+  const metrics2 = form.get('y2').get('metrics');
+  const atLeastOnePPEnabled = [...metrics1.toJS(), ...metrics2.toJS()].find(hasPotentialProblems);
+  const disabled = potentialProblemsInCustomDashboardEnabled && applicationSmartAlertsEnabled && atLeastOnePPEnabled;
+
   return (
     <Ul>
       <DataSeriesForAxis
@@ -50,18 +57,23 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
         getShortMetricKey={getShortMetricKey}
       />
       <Li noAlternatingBg>
-        <Button
-          kind="action"
-          icon="lib_openclose_add_circle_outline"
-          onClick={() => {
-            const axisName = hasY2 ? 'y2' : 'y1';
-            const indexInAxis = form.get(axisName).get('metrics').size;
-            autoOpen(axisName, indexInAxis);
-            onChange([axisName, 'metrics'], f => f.push(createMetricForm()));
-          }}
+        <Tooltip
+          content={disabled && t('in-custom-dashboards:widgets.formCompChart.dataConfigChart.tooltipDisabledBecausePP')}
         >
-          {t('in-custom-dashboards:widgets.formCompChart.dataConfigChart.addDataset')}
-        </Button>
+          <Button
+            kind="action"
+            disabled={disabled}
+            icon="lib_openclose_add_circle_outline"
+            onClick={() => {
+              const axisName = hasY2 ? 'y2' : 'y1';
+              const indexInAxis = form.get(axisName).get('metrics').size;
+              autoOpen(axisName, indexInAxis);
+              onChange([axisName, 'metrics'], f => f.push(createMetricForm()));
+            }}
+          >
+            {t('in-custom-dashboards:widgets.formCompChart.dataConfigChart.addDataset')}
+          </Button>
+        </Tooltip>
       </Li>
     </Ul>
   );

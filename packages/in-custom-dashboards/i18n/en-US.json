@@ -284,6 +284,7 @@
         "indigo": "Indigo"
       },
       "dataConfigChart": {
+        "tooltipDisabledBecausePP": "Disable highlighing potential problems to add more datasets.",
         "addDataset": "Add dataset"
       },
       "indexChart": {
@@ -309,7 +310,17 @@
         "displayCurrentValues": "Display current values"
       },
       "potentialProblems": {
-        "potentialProblemsDescription": "Highlights potential issues for:",
+        "potentialProblemsDescription": {
+          "noMetric": "Highlight potential problems in chart",
+          "latency":  "Highlight unexpectedly slow calls",
+          "errors":  "Highlight unexpectedly high erroneous call rates",
+          "calls":  "Highlight potential problems for:"
+        },
+        "tooltip": {
+          "needToTurnOffGrouping": "To use Potential Problems Highlighting you need to turn off grouping first.",
+          "needToRemoveDatasets": "To use Potential Problems Highlighting you need to remove any other dataset first.",
+          "needToChangeMetric": "To use Potential Problems Highlighting you need to change the metric."
+        },
         "onlyWorksWithOneMetricConfigured": "Only supported when only one dataset is configured."
       }
     },

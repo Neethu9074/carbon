@@ -36,6 +36,10 @@ export const bluePrintForCallsMetric = Object.freeze({
   )
 });
 
+/**
+ * adds fields when savedState contains a potentialProblems field
+ * set @potentialProblemsCallsUnexpectedHighNumber per default if no other value is given.
+ */
 export const addFieldsForPotentialProblems = (form, savedState) => {
   if (savedState?.potentialProblems) {
     return form.put(
@@ -59,6 +63,14 @@ export const addFieldsForPotentialProblems = (form, savedState) => {
 
 export const removeFieldsForPotentialProblems = form => {
   return form.remove('potentialProblems');
+};
+
+/** Only reset, when PP has activated - else no change on the form needed */
+export const resetPotentialProblemsFormFieldIfNeeded = form => {
+  if (form.containsKey('potentialProblems')) {
+    return removeFieldsForPotentialProblems(form);
+  }
+  return form;
 };
 
 /**
