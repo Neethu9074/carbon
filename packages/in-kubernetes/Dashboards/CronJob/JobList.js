@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
+import { SvgIconSizes } from '@instana/components';
 import { LiLoadMore } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { KeyValue } from '@instana/components';
@@ -19,12 +20,16 @@ import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import getKubernetesJobs from 'in-subscription/kubernetes/getKubernetesJobs';
 import { retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 import useCursorPagination from 'in-hooks/useCursorPagination';
+import { isLoading, hasError } from 'in-services/util/result';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { formatDuration } from 'in-services/formatters/date';
+import Pods from 'in-kubernetes/Dashboards/CronJob/PodList';
 import HealthDot from 'in-components/health/HealthDot';
 import { getHistoricMetric } from 'in-stores/metric';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
+
+import locals from 'in-kubernetes/Dashboards/CronJob/CronJob.mless';
 
 const statusToSeverity = {
   Completed: 0,
@@ -47,90 +52,107 @@ const columnDefinitions = [
   {
     id: 'health',
     width: '1rem',
-    getContent(item) {
-      return <HealthDot severity={statusToSeverity[item.status] || statusToSeverity.Running} iconSize={10} />;
+    getContent({ status }) {
+      return (
+        <HealthDot
+          severity={status ? statusToSeverity[status] : statusToSeverity.Running}
+          iconSize={SvgIconSizes.xxs}
+        />
+      );
     }
   },
   {
     id: 'name',
-    getContent(item) {
-      return <KeyValue label={t('in-kubernetes:dashboards.name')} value={item.job.label} accentuated />;
+    getContent({ job }) {
+      return <KeyValue label={t('in-kubernetes:dashboards.name')} value={job.label} accentuated />;
     }
   },
   {
     id: 'status',
     width: '10rem',
-    getContent(item) {
-      return <KeyValue label={t('in-kubernetes:dashboards.status')} value={item.job.status} theme="blue" accentuated />;
+    getContent({ job }) {
+      return <KeyValue label={t('in-kubernetes:dashboards.status')} value={job.status} theme="blue" accentuated />;
     }
   },
   {
     id: 'age',
     width: '10rem',
-    getContent(item) {
+    getContent({ job }) {
       return (
-        <KeyValue
-          label={t('in-kubernetes:dashboards.age')}
-          value={formatDuration(item.job?.age)}
-          theme="blue"
-          accentuated
-        />
+        <KeyValue label={t('in-kubernetes:dashboards.age')} value={formatDuration(job?.age)} theme="blue" accentuated />
       );
     }
   },
   {
     id: 'pending',
     width: '10rem',
-    getContent(item) {
-      return <PodMetrics snapshotId={item.job.id} metric="status.failed" label={t('in-kubernetes:pod.pending')} />;
+    getContent({ job }) {
+      return <PodMetrics snapshotId={job.id} metric="status.failed" label={t('in-kubernetes:pod.pending')} />;
     }
   },
   {
     id: 'active',
     width: '10rem',
-    getContent(item) {
-      return <PodMetrics snapshotId={item.job.id} metric="status.active" label={t('in-kubernetes:pod.active')} />;
+    getContent({ job }) {
+      return <PodMetrics snapshotId={job.id} metric="status.active" label={t('in-kubernetes:pod.active')} />;
     }
   },
   {
     id: 'complete',
     width: '10rem',
-    getContent(item) {
-      return <PodMetrics snapshotId={item.job.id} metric="status.succeeded" label={t('in-kubernetes:pod.completed')} />;
+    getContent({ job }) {
+      return <PodMetrics snapshotId={job.id} metric="status.succeeded" label={t('in-kubernetes:pod.completed')} />;
     }
   }
 ];
 
 export default function Jobs(props) {
-  const { timeConfig } = props;
-  const { canLoadMore, progress, loadMore, errors, items } = useCursorPagination(
+  const { timeConfig, cronJobId } = props;
+  const jobsResult = useCursorPagination(
     ({ cursor }) =>
       getTableData({
-        timeConfig: timeConfig,
+        timeConfig,
         page: cursor,
         pageSize: retrievalSize,
-        cronJobId: props.cronJobId
+        cronJobId
       }),
     [timeConfig]
   );
-  const isLoading = progress?.loading;
-  const isInitialLoading = progress?.loading && items?.length === 0;
-  const hasErrors = errors?.length > 0;
+
+  const loading = isLoading(jobsResult);
+  const hasErrors = hasError(jobsResult);
+  const items = jobsResult.items;
+  const isInitialLoading = isLoading(jobsResult) && jobsResult.items?.length === 0;
+
+  // There are two loading related boolean variables here: isLoading and isInitialLoading.
+  // where as isInitialLoading is only True when data is loaded for the first time
+  // isLoading is true when data is loaded for the first time and when MORE data is loading
+  // Here UL is returned if there is previously loaded data otherwise LoadingIndicator is returned
+
   if (isInitialLoading) {
     return <LoadingIndicator text={t('in-applications:loadingData')} height={100} />;
   } else if (hasErrors) {
-    return <ErroneousResultPresenter errors={errors} />;
+    return <ErroneousResultPresenter errors={jobsResult.errors} />;
   }
+
   return (
     <Ul>
       {items.map(item => (
-        <Li noAlternatingBg borderRadius="medium" toggleContentOnRowClick highlightOpenState={false} key={item.label}>
+        <Li
+          borderRadius="medium"
+          className={locals.listItem}
+          highlightOpenState={false}
+          key={item.label}
+          renderNestedContent={() => <Pods {...props} jobId={item.job.id} />}
+          toggleContentOnRowClick
+          noAlternatingBg
+        >
           <ColumnizedContent columnDefinitions={columnDefinitions} {...item} />
         </Li>
       ))}
-      {canLoadMore && <LiLoadMore loadMore={loadMore} />}
-      {isLoading && <LoadingList numSkeletonRows={items?.length ? 1 : 3} />}
-      {!isLoading && !items?.length && notFoundComponent}
+      {jobsResult.canLoadMore && <LiLoadMore loadMore={jobsResult.loadMore} />}
+      {loading && <LoadingList numSkeletonRows={items?.length ? 1 : 3} />}
+      {!loading && !items?.length && notFoundComponent}
     </Ul>
   );
 }

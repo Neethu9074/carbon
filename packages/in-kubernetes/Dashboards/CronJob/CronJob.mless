@@ -1,0 +1,10 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .listItem {
+    margin: 0.5rem 0rem;
+  }
+}
