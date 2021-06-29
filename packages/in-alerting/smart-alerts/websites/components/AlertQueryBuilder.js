@@ -47,16 +47,17 @@ export const createIsAlertQueryValid = isQueryValid => ([tagFilterFormModel, tim
  *
  * To validate the query, simply use the statically created {@link isQueryValid} method reference,
  * because the additional website scope has no impact on the validity of the user defined query.
- * @param websiteId The website ID this alert is bound to.
- * @param beaconType one of the different beacon-types, see #queryBuildersByBeaconType
+ * @param websiteId            The website ID this alert is bound to.
+ * @param beaconType           One of the different beacon-types, see #queryBuildersByBeaconType
+ * @param suggestionTimeConfig The timeframe used for resolving tag-suggestions.
  * @returns A QueryBuilder where the scope is bound to a single website and beacon type.
  */
-export function createBoundedAlertQueryBuilder(websiteId, beaconType = 'pageLoad') {
+export function createBoundedAlertQueryBuilder(websiteId, beaconType = 'pageLoad', suggestionTimeConfig) {
   return createQueryBuilder({
     getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'SMART_ALERTS' }),
     getSuggestions: args =>
       getSuggestions({
-        ...tagSuggestionArgs(withWebsiteIdFilter(args, websiteId)),
+        ...tagSuggestionArgs(withWebsiteIdFilter(args, websiteId), suggestionTimeConfig),
         beaconType
       })
   });
@@ -70,13 +71,11 @@ export function getQueryBuilderForBeaconType(beaconType = 'pageLoad') {
   return queryBuildersByBeaconType[beaconType];
 }
 
-function tagSuggestionArgs(args) {
+function tagSuggestionArgs(args, suggestionTimeConfig) {
   return {
     ...args,
     tagName: args.name,
-    filter: {
-      timeConfig: args.timeConfig
-    },
+    timeConfig: suggestionTimeConfig ?? args.timeConfig,
     secondLevelKeyTagName: args.key
   };
 }

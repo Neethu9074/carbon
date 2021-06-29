@@ -28,18 +28,19 @@ export const isAlertQueryValid = ([tagFilterFormModel, timeConfig]) => isQueryVa
  * Creates a QueryBuilder that is bound to multiple applications.
  * To validate the query, simply use the statically created {@link isAlertQueryValid} method reference,
  * because the additional application scope has no impact on the validity of the user defined query.
- * @param applicationIds The application IDs this alert is bound to.
- * @param boundaryScope The applications boundary-scope this alert is bound to.
+ * @param applications         The application/service/endpoint-selection scope this alert is bound to.
+ * @param boundaryScope        The applications boundary-scope this alert is bound to.
+ * @param suggestionTimeConfig The timeframe used for resolving tag-suggestions.
  * @returns A QueryBuilder where the scope is bound to a single application.
  */
-export function createBoundedAlertQueryBuilder(applications, boundaryScope, customTimeConfig) {
+export function createBoundedAlertQueryBuilder(applications, boundaryScope, suggestionTimeConfig) {
   const { QueryBuilder } = createQueryBuilder({
     getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS' })(props),
     getSuggestions: args =>
       isIdTag(args.name)
         ? null
         : getTagSuggestions({
-            ...tagSuggestionArgs(args, customTimeConfig),
+            ...tagSuggestionArgs(args, suggestionTimeConfig),
             tagFilterExpression: createTagFilterExpression(OPERATOR_AND, [
               toBackendQueryModel(getEntitySelectionAsTagFilterFormModel(applications, boundaryScope)),
               args.tagFilterExpression
@@ -50,7 +51,7 @@ export function createBoundedAlertQueryBuilder(applications, boundaryScope, cust
   return QueryBuilder;
 }
 
-function tagSuggestionArgs(args, customTimeConfig) {
+function tagSuggestionArgs(args, suggestionTimeConfig) {
   return {
     entity: args.entity,
     propose: args.propose,
@@ -58,7 +59,7 @@ function tagSuggestionArgs(args, customTimeConfig) {
     tagName: args.name,
     value: args.value,
     filter: {
-      timeConfig: customTimeConfig ?? args.timeConfig
+      timeConfig: suggestionTimeConfig ?? args.timeConfig
     },
     secondLevelKeyTagName: args.key
   };

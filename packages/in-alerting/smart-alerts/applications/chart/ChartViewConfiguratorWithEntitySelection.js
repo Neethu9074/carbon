@@ -16,12 +16,19 @@ import {
 import ChartSubEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ChartSubEntitySelection';
 import { ShowApplicationSelection } from 'in-alerting/smart-alerts/applications/chart/ShowApplicationSelection';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import ButtonGroup from 'in-components/ButtonGroup';
+import { days } from 'in-services/time';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator.mless';
+
+/**
+ * Timeframe used for the entities shown to pick for the preview. The bigger the timeframe, the better the coverage of entities
+ * to be selected, even for entities that did not receive any calls recently.
+ * However, large timeframes makes resolving entities slow, and UI interaction hard, or even impossible due to timeouts.
+ */
+const entitySelectionQueryWindowSize = days.toMillis(1);
 
 export default function ChartViewConfiguratorWithEntitySelection({
   selectedChartViewConfigIndex = 0,
@@ -97,8 +104,7 @@ export default function ChartViewConfiguratorWithEntitySelection({
               endpointId={endpointId}
               setEndpointId={setEndpointId}
               alertConfigWithFormModel={alertConfigWithFormModel}
-              // use maximum possible timeframe, to have a stable list when switching between options
-              queryWindowSize={maxChartViewTimeframe}
+              queryWindowSize={entitySelectionQueryWindowSize}
             />
           </StackItem>
         )}

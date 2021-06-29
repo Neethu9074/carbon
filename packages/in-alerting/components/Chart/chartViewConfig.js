@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 
 import { propTypeTimeConfig } from 'in-stores/time/config';
-import { hours } from 'in-services/time';
+import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
 export const chartViewConfigPropType = PropTypes.shape({
@@ -14,19 +14,6 @@ export const chartViewConfigPropType = PropTypes.shape({
   timeConfig: propTypeTimeConfig.isRequired,
   minChartMetricGranularity: PropTypes.number.isRequired,
   smoothMetric: PropTypes.bool
-});
-
-export const maxChartViewTimeframe = hours.toMillis(7 * 24);
-
-/**
- * The timeConfig with the maximum timeframe that we support in our SmartAlerts chart.
- * This value is also relevant for other components within the SmartAlert-dialog, such as the entities-lists, in order
- * to have "stable values" when switching between these 24h and 7days view modes.
- * As a specific example, the user could otherwise deselect all entities in the S/E selector, but still see a metric
- * in the chart.
- */
-export const maxChartViewTimeConfig = Object.freeze({
-  windowSize: maxChartViewTimeframe
 });
 
 /**
@@ -39,13 +26,15 @@ export const chartViewConfigs = Object.freeze([
   {
     label: t('in-alerting:components.chart.chartViewConfigsLast24Hours'),
     timeConfig: {
-      windowSize: hours.toMillis(24)
+      windowSize: days.toMillis(1)
     },
     minChartMetricGranularity: 0
   },
   {
     label: t('in-alerting:components.chart.chartViewConfigsLast7Days'),
-    timeConfig: maxChartViewTimeConfig,
+    timeConfig: {
+      windowSize: days.toMillis(7)
+    },
     minChartMetricGranularity: 0, // at the moment we don't use a higher granularity for the metric, because we don't handle that properly for count metrics (using SUM)
     smoothMetric: true
   }

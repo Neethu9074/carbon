@@ -16,15 +16,21 @@ import { ClearTagFilterExpressionButton } from 'in-alerting/smart-alerts/compone
 import AlertFilterConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertFilterConfigurator';
 import { createBoundedAlertQueryBuilder } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext/SectionLabelWithSubtext';
-import { maxChartViewTimeframe } from 'in-alerting/components/Chart/chartViewConfig';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig.mless';
 
-const timeConfig = {
-  windowSize: maxChartViewTimeframe
+/**
+ * Timeframe used for both the entities listed in the advanced AP/Service/Endpoint selector, as well as for the tag-suggestions
+ * in QB2. The bigger the timeframe, the better the coverage of entities to be selected, even for entities that did not receive
+ * any calls recently. However, large timeframes makes resolving entities/suggestions and UI interaction slow, or even impossible
+ * due to timeouts.
+ */
+const scopeSelectionTimeConfig = {
+  windowSize: days.toMillis(1)
 };
 export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, editMode, initialConfiguredApplications }) {
   const applications = form.get('applications').value;
@@ -36,7 +42,7 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
 
   const AlertQueryBuilder = useMemo(() => {
-    return createBoundedAlertQueryBuilder(applications, boundaryScope, timeConfig);
+    return createBoundedAlertQueryBuilder(applications, boundaryScope, scopeSelectionTimeConfig);
   }, [applications, boundaryScope]);
 
   return (
@@ -75,7 +81,7 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
                   form.updateIn(['applications'], field => field.setValue(applicationsSelection).setTouched(true))
                 )
               }
-              timeConfig={timeConfig}
+              timeConfig={scopeSelectionTimeConfig}
               boundaryScope={boundaryScope}
               includeSynthetic={includeSynthetic}
               searchQuery={searchQuery}

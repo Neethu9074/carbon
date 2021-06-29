@@ -3,7 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-export const DEFAULT_PAGE_SIZE = 5;
+/**
+ * Page size used for the service/endpoint selection.
+ * A larger page-size has no negative impact in the query performance.
+ */
+export const DEFAULT_PAGE_SIZE = 10;
 
 export function enrichListWithStaleSelectionData(entitySelection, listData) {
   const list = [...listData];

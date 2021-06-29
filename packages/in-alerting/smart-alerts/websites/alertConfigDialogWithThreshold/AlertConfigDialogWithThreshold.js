@@ -31,6 +31,14 @@ import createThresholdForm from 'in-alerting/smart-alerts/websites/form/threshol
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { days } from 'in-services/time';
+
+/**
+ * Timeframe used for the tag-suggestions in QB2.
+ */
+const tagSuggestionTimeConfig = {
+  windowSize: days.toMillis(1)
+};
 
 export default function AlertConfigDialogWithThreshold(props) {
   const { form, updateForm, onClose, onCreate, editMode } = props;
@@ -51,7 +59,7 @@ export default function AlertConfigDialogWithThreshold(props) {
   const websiteId = alertConfigWithFormModel.websiteId;
   const beaconType = blueprintConfig.getBeaconType(alertConfigWithFormModel.rule.metricName);
   const { QueryBuilder: AlertQueryBuilder, isQueryValid } = useMemo(
-    () => createBoundedAlertQueryBuilder(websiteId, beaconType),
+    () => createBoundedAlertQueryBuilder(websiteId, beaconType, tagSuggestionTimeConfig),
     [websiteId, beaconType]
   );
   // we are validating only the user-defined part, not the whole enriched form model here,
