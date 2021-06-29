@@ -33,7 +33,8 @@ export default function PotentialProblemChart({
   includeSynthetic,
   includeInternal,
   alert,
-  alertType
+  alertType,
+  queryValidator
 }) {
   const blueprintConfig = getBlueprintConfig(alertType);
   const alertConfig = {
@@ -63,6 +64,7 @@ export default function PotentialProblemChart({
         color: [hexToRGBA(highlightColor, 0.25), highlightColor],
         label: t('in-alerting:potentialProblems.titlePotentialProblem')
       }}
+      queryValidator={queryValidator}
     />
   );
 
@@ -93,5 +95,6 @@ PotentialProblemChart.propTypes = {
   includeInternal: PropTypes.bool,
   includeSynthetic: PropTypes.bool,
   applications: applicationsItemTreePropType,
-  threshold: thresholdPropType.isRequired
+  threshold: thresholdPropType.isRequired,
+  queryValidator: PropTypes.func.isRequired
 };

@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { Toggle } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
@@ -15,7 +16,6 @@ import HelpAction from 'in-components/workspace/HelpAction';
 import { aggregationLabels } from 'in-stores/metric/metric';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
-import Toggle from 'in-components/form/Toggle';
 import { t } from 'in-i18n';
 
 import locals from './FormComponent.mless';

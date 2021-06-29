@@ -10,6 +10,7 @@ import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { isAlertQueryValid as isApplicationAlertQueryValid } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
@@ -46,6 +47,7 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
         getErrorMessage(!isValidDependingOnMode, !isServicesAndEndpointsSelectionValid)
       }
       customValidators={() => isServicesAndEndpointsSelectionValid}
+      queryValidator={isApplicationAlertQueryValid}
     />
   );
 }
@@ -60,7 +62,10 @@ function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
 }
 
 ApplicationAlertingChartWithErrorMessage.propTypes = {
-  ...AlertingChartWithErrorMessage.propTypes,
+  alertConfigWithFormModel: PropTypes.shape({
+    applications: PropTypes.object.isRequired,
+    evaluationType: PropTypes.string.isRequired
+  }).isRequired,
 
   /**
    * Optional serviceId, used

@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { useObservable } from '@instana/hooks';
 import { Message } from '@instana/components';
 
-import { isAlertQueryValid as isApplicationAlertQueryValid } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
@@ -20,7 +19,7 @@ import { t } from 'in-i18n';
 export default function AlertingChartWithErrorMessage({
   getErrorMessage,
   customValidators,
-  isAlertQueryValid = isApplicationAlertQueryValid,
+  queryValidator,
   applicationId,
   serviceId,
   endpointId,
@@ -37,13 +36,13 @@ export default function AlertingChartWithErrorMessage({
   );
 
   const queryValidationResult =
-    useObservable(args => isAlertQueryValid(args), [
+    useObservable(args => queryValidator(args), [
       alertConfigWithFormModel.tagFilterExpression,
       viewConfig.timeConfig
     ]) ?? pendingResult;
   const isValid = Boolean(queryValidationResult?.data);
 
-  // isAlertQueryValid returns undefined -> null -> true || false.
+  // queryValidator returns undefined -> null -> true || false.
   // Because of that we need this extra handling to ensure that we show the error message only if the backend
   // explicitly returns false
   const isValidDependingOnMode = queryValidationResult?.data !== false;
@@ -96,7 +95,7 @@ AlertingChartWithErrorMessage.propTypes = {
    * Called to verify if filters are valid
    * If the result is false, an error will be shown
    */
-  isAlertQueryValid: PropTypes.func,
+  queryValidator: PropTypes.func.isRequired,
   getErrorMessage: PropTypes.func,
   customValidators: PropTypes.func
 };

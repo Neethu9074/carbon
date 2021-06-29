@@ -22,6 +22,7 @@ import {
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import isOutsideCallsShortTermStorage from 'in-alerting/PotentialProblems/PotentialProblemsLane/isOutsideCallsShortTermStorage';
 import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/getPotentialProblems';
+import { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -68,6 +69,7 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, openingDial
           tagFilterExpression={configuredDataset?.tagFilterExpression ?? EMPTY_EXPRESSION}
           includeSynthetic={configuredDataset?.includeSynthetic}
           includeInternal={configuredDataset?.includeInternal}
+          queryValidator={isCallQueryValid}
           applications={{}}
         />
       )}

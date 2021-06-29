@@ -23,5 +23,5 @@ export default function WebsitesAlertingChartWithErrorMessage(props) {
     beaconType
   ]);
 
-  return <AlertingChartWithErrorMessage isAlertQueryValid={createIsAlertQueryValid(isQueryValid)} {...props} />;
+  return <AlertingChartWithErrorMessage queryValidator={createIsAlertQueryValid(isQueryValid)} {...props} />;
 }

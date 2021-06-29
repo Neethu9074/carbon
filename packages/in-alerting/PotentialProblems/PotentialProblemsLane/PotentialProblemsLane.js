@@ -12,6 +12,7 @@ import {
   getEntitySelection,
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { isAlertQueryValid as isApplicationAlertQueryValid } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import isOutsideCallsShortTermStorage from 'in-alerting/PotentialProblems/PotentialProblemsLane/isOutsideCallsShortTermStorage';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -114,6 +115,7 @@ function PotentialProblemsLaneConnected({
       tagFilterExpression={EMPTY_EXPRESSION}
       applications={applications}
       isLoading={isLoading(potentialProblemsResult)}
+      queryValidator={isApplicationAlertQueryValid}
     />
   );
 }
