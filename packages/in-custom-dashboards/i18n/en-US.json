@@ -118,13 +118,14 @@
         "includeSyntheticCalls": "Include synthetic calls"
       },
       "bluePrintForCallsMetric": {
-        "unexpectedLowNumberOfCalls": "An unexpected low number of calls",
-        "unexpectedHighNumberOfCalls": "An unexpectedly high number of calls",
-        "unexpectedLowOrHighNumberOfCalls": "Unexpected low or a high number of calls"
+        "unexpectedLowNumberOfCalls": "Unexpectedly low number of calls",
+        "unexpectedHighNumberOfCalls": "Unexpectedly high number of calls",
+        "unexpectedLowOrHighNumberOfCalls": "Unexpectedly high or low number of calls"
       }
     },
     "srcApp": {
       "formComponent": {
+        "needToTurnOffPP": "To use Grouping you need to turn off Potential Problem Highlighting first",
         "pleaseSelect": "Please select",
         "pleaseSelectMetric": "Please select a metric",
         "aggregation": "Aggregation",
@@ -284,7 +285,7 @@
         "indigo": "Indigo"
       },
       "dataConfigChart": {
-        "tooltipDisabledBecausePP": "Disable highlighing potential problems to add more datasets.",
+        "tooltipDisabledBecausePP": "To add more datasets you need to turn off highlighting potential problems first.",
         "addDataset": "Add dataset"
       },
       "indexChart": {
@@ -311,10 +312,7 @@
       },
       "potentialProblems": {
         "potentialProblemsDescription": {
-          "noMetric": "Highlight potential problems in chart",
-          "latency":  "Highlight unexpectedly slow calls",
-          "errors":  "Highlight unexpectedly high erroneous call rates",
-          "calls":  "Highlight potential problems for:"
+          "anyMetric": "Highlight potential problems"
         },
         "tooltip": {
           "needToTurnOffGrouping": "To use Potential Problems Highlighting you need to turn off grouping first.",

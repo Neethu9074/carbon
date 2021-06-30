@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { find, groupBy } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
+import { Message } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import { resetPotentialProblemsFormFieldIfNeeded } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
@@ -227,7 +228,11 @@ export default function FormComponent({
         onByChange={onByChange}
         onDirectionChange={onDirectionChange}
         onIncludeOthersChange={onIncludeOthersChange}
-        GroupingConfigurator={CallGroupingConfigurator}
+        GroupingConfigurator={
+          form.containsKey('potentialProblems')
+            ? () => <Message small title={t('in-custom-dashboards:widgets.srcApp.formComponent.needToTurnOffPP')} />
+            : CallGroupingConfigurator
+        }
         hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
         additionalContent={<TouchedMessages field={groupingField} />}
         withOptionalMarker={!isRequiringGroupingConfiguration(form)}

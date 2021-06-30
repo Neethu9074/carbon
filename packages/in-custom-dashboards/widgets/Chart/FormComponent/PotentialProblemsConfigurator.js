@@ -64,36 +64,7 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
 
           <Spacer horizontal="xxsmall" />
 
-          {unsupportedMetric &&
-            t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription.noMetric')}
-
-          {metricValue === 'latency' &&
-            t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription.latency')}
-          {metricValue === 'errors' &&
-            t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription.errors')}
-          {metricValue === 'calls' &&
-            t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription.calls')}
-          <Spacer horizontal="xsmall" />
-
-          {metricHasMoreOptions && (
-            <Select
-              disabled={disabled || !potentialProblemsEnabled}
-              id="metric-configurator-blue-print-selector"
-              value={bluePrintForCallsMetricField?.value}
-              onChange={e =>
-                onChange(['potentialProblems', 'bluePrintForCallsMetric'], field =>
-                  field.setValue(e.target.value).setTouched(true)
-                )
-              }
-              hasError={!bluePrintForCallsMetricField?.valid && bluePrintForCallsMetricField?.touched}
-            >
-              {Object.entries(bluePrintForCallsMetric).map(([bluePrint, userText]) => (
-                <option key={bluePrint} value={bluePrint}>
-                  {userText}
-                </option>
-              ))}
-            </Select>
-          )}
+          {t('in-custom-dashboards:widgets.formCompChart.potentialProblems.potentialProblemsDescription.anyMetric')}
         </Stack>
         {
           // validation on current dataset
@@ -104,6 +75,28 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
           <ValidationMessages field={axisForm} category={potentialProblemsCategory} />
         }
       </Section>
+
+      {metricHasMoreOptions && (
+        <Section useAlternateBg>
+          <Select
+            disabled={disabled || !potentialProblemsEnabled}
+            id="metric-configurator-blue-print-selector"
+            value={bluePrintForCallsMetricField?.value}
+            onChange={e =>
+              onChange(['potentialProblems', 'bluePrintForCallsMetric'], field =>
+                field.setValue(e.target.value).setTouched(true)
+              )
+            }
+            hasError={!bluePrintForCallsMetricField?.valid && bluePrintForCallsMetricField?.touched}
+          >
+            {Object.entries(bluePrintForCallsMetric).map(([bluePrint, userText]) => (
+              <option key={bluePrint} value={bluePrint}>
+                {userText}
+              </option>
+            ))}
+          </Select>
+        </Section>
+      )}
     </Sections>
   );
 }

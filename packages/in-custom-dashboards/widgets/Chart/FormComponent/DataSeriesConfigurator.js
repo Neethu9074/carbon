@@ -5,14 +5,13 @@
 
 import React, { useEffect } from 'react';
 
-import { Button, Ul, Li } from '@instana/components';
+import { Button, Ul, Li, Message, Stack } from '@instana/components';
 
 import { hasPotentialProblems } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
 import { potentialProblemsInCustomDashboardEnabled, applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 export default function DataSeriesConfigurator({ form, onChange, getShortMetricKey }) {
@@ -57,9 +56,7 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
         getShortMetricKey={getShortMetricKey}
       />
       <Li noAlternatingBg>
-        <Tooltip
-          content={disabled && t('in-custom-dashboards:widgets.formCompChart.dataConfigChart.tooltipDisabledBecausePP')}
-        >
+        <Stack direction="horizontal" align="center" distribution="start">
           <Button
             kind="action"
             disabled={disabled}
@@ -73,7 +70,13 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
           >
             {t('in-custom-dashboards:widgets.formCompChart.dataConfigChart.addDataset')}
           </Button>
-        </Tooltip>
+          {disabled && (
+            <Message
+              small
+              title={t('in-custom-dashboards:widgets.formCompChart.dataConfigChart.tooltipDisabledBecausePP')}
+            />
+          )}
+        </Stack>
       </Li>
     </Ul>
   );
