@@ -66,7 +66,7 @@ function CookieTable({ cookie }) {
         {cookie.details.map(cookieDetails => {
           return (
             <Tr key={cookieDetails.name}>
-              <Td style={{ width: '2rem' }}>{cookieDetails.category}</Td>
+              <Td>{cookieDetails.category}</Td>
               <Td>{cookieDetails.name}</Td>
               <Td>{cookieDetails.purpose}</Td>
               <Td>{cookieDetails.moreInformation}</Td>
