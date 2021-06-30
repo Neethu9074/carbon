@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { ColumnizedContent, Ul, Li, KeyValue, Button, Stack, Link } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
 import getUiBackendVersion from 'in-subscription/getUiBackendVersion';
 import { graphPath } from 'in-stores/navigation/paths/mainPaths';
@@ -20,7 +21,7 @@ import { t, Trans } from 'in-i18n';
 import locals from './AboutInstanaDialog.mless';
 
 export default function AboutInstanaDialog() {
-  const uiBackendVersion = getUiBackendVersion();
+  const uiBackendVersion = useObservable(getUiBackendVersion(), []);
   return (
     <Dialog onClose={close} title={<Lettering className={locals.lettering} />}>
       <Stack align="center" space="medium">
