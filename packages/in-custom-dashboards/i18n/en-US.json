@@ -125,7 +125,7 @@
     },
     "srcApp": {
       "formComponent": {
-        "needToTurnOffPP": "To use Grouping you need to turn off Potential Problem Highlighting first",
+        "needToTurnOffPP": "To use grouping you need to turn off Potential Problem highlighting first",
         "pleaseSelect": "Please select",
         "pleaseSelectMetric": "Please select a metric",
         "aggregation": "Aggregation",
@@ -308,6 +308,7 @@
         "timeShift": "Time Shift",
         "applyTimeShiftDs": "Apply a time shift to this data series",
         "timeShiftHelpAction": "Selecting <strong>Display current values</strong> will automatically duplicate this data series onto the same axis. The first data series will have time shifting disabled, the second one will have time shifting enabled.",
+        "timeShiftDisabledWhilePPon": "To use time shift you need to turn off Potential Problem highlighting first.",
         "displayCurrentValues": "Display current values"
       },
       "potentialProblems": {
@@ -315,9 +316,10 @@
           "anyMetric": "Highlight potential problems"
         },
         "tooltip": {
-          "needToTurnOffGrouping": "To use Potential Problems Highlighting you need to turn off grouping first.",
-          "needToRemoveDatasets": "To use Potential Problems Highlighting you need to remove any other dataset first.",
-          "needToChangeMetric": "To use Potential Problems Highlighting you need to change the metric."
+          "needToTurnOffTimeShift": "To use Potential Problems highlighting you need to turn off time shift first.",
+          "needToTurnOffGrouping": "To use Potential Problems highlighting you need to turn off grouping first.",
+          "needToRemoveDatasets": "To use Potential Problems highlighting you need to remove any other dataset first.",
+          "needToChangeMetric": "To use Potential Problems highlighting you need to change the metric."
         },
         "onlyWorksWithOneMetricConfigured": "Only supported when only one dataset is configured."
       }

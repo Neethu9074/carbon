@@ -8,7 +8,7 @@ import React, { useEffect } from 'react';
 import { Button, Ul, Li, Message, Stack } from '@instana/components';
 
 import { hasPotentialProblems } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
-import { potentialProblemsInCustomDashboardEnabled, applicationSmartAlertsEnabled } from 'in-services/featureFlags';
+import { applicationSmartAlertsEnabled, potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFlags';
 import MetricConfiguration from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricConfiguration';
 import { autoOpen } from 'in-custom-dashboards/widgets/Chart/FormComponent/autoOpenHelper';
 import { createMetricForm } from 'in-custom-dashboards/widgets/Chart/form';
@@ -37,7 +37,7 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
   const metrics1 = form.get('y1').get('metrics');
   const metrics2 = form.get('y2').get('metrics');
   const atLeastOnePPEnabled = [...metrics1.toJS(), ...metrics2.toJS()].find(hasPotentialProblems);
-  const disabled = potentialProblemsInCustomDashboardEnabled && applicationSmartAlertsEnabled && atLeastOnePPEnabled;
+  const disabled = applicationSmartAlertsEnabled && potentialProblemsInCustomDashboardEnabled && atLeastOnePPEnabled;
 
   return (
     <Ul>

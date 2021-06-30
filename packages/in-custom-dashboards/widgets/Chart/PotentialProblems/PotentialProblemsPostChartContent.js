@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
@@ -25,11 +25,12 @@ import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/get
 import { isCallQueryValid } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import { trackRequestLoadingTime } from 'in-alerting/PotentialProblems/tracker';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-export function PotentialProblemsPostChartContent({ markerLaneProps, openingDialogDisabled, config }) {
+export function PotentialProblemsPostChartContent({ markerLaneProps, openingDialogDisabled, config, widgetTitle }) {
   const globalTimeConfig = useTimeConfig();
 
   const outsideCallsShortTermStorage = isOutsideCallsShortTermStorage(globalTimeConfig);
@@ -38,7 +39,8 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, openingDial
     return [...config.y1?.metrics, ...config.y2?.metrics].find(hasPotentialProblems);
   }, [config]);
 
-  const alertRules = getAlertRules(configuredDataset, config);
+  const alertRules = getAlertRules(configuredDataset);
+  const startTime = useRef(null);
 
   const potentialProblemsResult =
     useObservable(() => {
@@ -49,7 +51,24 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, openingDial
           includeSynthetic: configuredDataset?.includeSynthetic ?? false,
           includeInternal: configuredDataset?.includeInternal ?? false,
           tagFilterExpression: configuredDataset?.tagFilterExpression ?? EMPTY_EXPRESSION
-        });
+        })
+          .startWith(pendingResult)
+          .tap(result => {
+            const start = startTime.current;
+            if (isLoading(result) && !start) {
+              startTime.current = Date.now();
+            } else if (start) {
+              if (result.data?.alerts.length !== 0) {
+                trackRequestLoadingTime({
+                  requestTime: `${Date.now() - start / 1000}s`,
+                  numberPotentialProblems: result.data.alerts.length,
+                  windowSize: globalTimeConfig.windowSize,
+                  widgetTitle
+                });
+                startTime.current = null;
+              }
+            }
+          });
       }
 
       return just(emptyPotentialProblems);
@@ -77,11 +96,11 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, openingDial
   );
 }
 
-function getAlertRules(configuredDataset, config) {
+function getAlertRules(configuredDataset) {
   const configuredMetric = configuredDataset?.metric;
 
   if (configuredMetric === 'calls') {
-    const configuredBluePrintForCalls = config?.potentialProblems?.bluePrintForCallsMetric;
+    const configuredBluePrintForCalls = configuredDataset?.potentialProblems?.bluePrintForCallsMetric;
 
     if (configuredBluePrintForCalls === potentialProblemsCallsUnexpectedLowNumber) {
       return throughputLowAlertRule;

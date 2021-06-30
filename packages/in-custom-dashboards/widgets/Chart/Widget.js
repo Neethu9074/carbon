@@ -6,11 +6,12 @@
 import React from 'react';
 
 import { PotentialProblemsPostChartContent } from 'in-custom-dashboards/widgets/Chart/PotentialProblems/PotentialProblemsPostChartContent';
+import { applicationSmartAlertsEnabled, potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFlags';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFlags';
 
 export default function ChartWidget({ actions, config, title, isPreview, dragHandle, customHeight }) {
   const potentialProblemsEnabled =
+    applicationSmartAlertsEnabled &&
     potentialProblemsInCustomDashboardEnabled &&
     anyDatasetWithPotentialProblemsConfigured(config?.y1?.metrics, config?.y2?.metrics);
 
@@ -23,6 +24,7 @@ export default function ChartWidget({ actions, config, title, isPreview, dragHan
                 config={config}
                 markerLaneProps={markerLaneProps}
                 openingDialogDisabled={isPreview}
+                widgetTitle={title}
               />
             )
           : undefined

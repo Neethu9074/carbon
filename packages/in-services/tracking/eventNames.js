@@ -289,7 +289,6 @@ export const AGENT_LOGS_DOWNLOAD_CLICKED = 'agent.logs.download.clicked';
 // Potential Problems Marker Lane
 export const POTENTIAL_PROBLEMS_MARKER_HOVERED = 'potential.problems.marker.hovered';
 export const POTENTIAL_PROBLEMS_MARKER_CLICKED = 'potential.problems.marker.clicked';
-export const POTENTIAL_PROBLEMS_LIST_SELECT = 'potential.problems.list.select';
 export const POTENTIAL_PROBLEMS_SMART_ALERT_CREATE = 'potential.problems.smartalert.create';
 export const POTENTIAL_PROBLEMS_GO_TO_ANALYZE = 'potential.problems.goto.analyze';
 export const POTENTIAL_PROBLEMS_REQUEST_LOADING_TIME = 'potential.problems.request.loading.time';

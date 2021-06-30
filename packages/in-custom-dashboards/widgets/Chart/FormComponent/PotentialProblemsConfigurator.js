@@ -30,7 +30,10 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
   const metricValue = metricField?.value;
   const unsupportedMetric = !isPotentialProblemsSupportedByMetric(metricValue);
 
-  const disabled = grouping || unsupportedMetric || moreThanOneDataset;
+  const timeShiftField = form.get('timeShift');
+  const timeshift = timeShiftField.value !== 0;
+
+  const disabled = timeshift || grouping || unsupportedMetric || moreThanOneDataset;
   const hasError = hasPotentialProblemsError(form) || hasPotentialProblemsError(axisForm);
   const metricHasMoreOptions = metricValue === 'calls';
 
@@ -42,7 +45,7 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
         title={t('in-custom-dashboards:widgets.formCompChart.indexChart.potentialProblems')}
       >
         <Stack direction="horizontal" align="center" distribution="start" gap="disabled">
-          <Tooltip content={tooltipMessage(grouping, moreThanOneDataset, unsupportedMetric)} align="topLeft">
+          <Tooltip content={tooltipMessage(timeshift, grouping, moreThanOneDataset, unsupportedMetric)} align="topLeft">
             <span>
               <Toggle
                 id="potential-problems-configurator"
@@ -101,7 +104,10 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
   );
 }
 
-function tooltipMessage(grouping, moreThanOneDataset, unsupportedMetric) {
+function tooltipMessage(timeshift, grouping, moreThanOneDataset, unsupportedMetric) {
+  if (timeshift) {
+    return t('in-custom-dashboards:widgets.formCompChart.potentialProblems.tooltip.needToTurnOffTimeShift');
+  }
   if (grouping) {
     return t('in-custom-dashboards:widgets.formCompChart.potentialProblems.tooltip.needToTurnOffGrouping');
   }

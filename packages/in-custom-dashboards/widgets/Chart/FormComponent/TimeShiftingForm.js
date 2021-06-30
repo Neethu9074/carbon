@@ -14,14 +14,18 @@ import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
+import Tooltip from 'in-components/Tooltip';
 import { Trans, t } from 'in-i18n';
 
 import locals from './TimeShiftingForm.mless';
 
 export default function TimeShiftingForm({ axisName, index, indexInAxis, onChange, metricForm }) {
   const timeShiftField = metricForm.get('timeShift');
+
   const isEnabled = timeShiftField.value !== 0;
   const compareToTimeShiftedField = metricForm.get('compareToTimeShifted');
+
+  const disabled = !!metricForm.get('potentialProblems');
 
   return (
     <Sections>
@@ -30,19 +34,26 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
         title={t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShift')}
       >
         <div className={locals.timeShiftHelpText}>
-          <Toggle
-            id={`metic-configurator-${index}-time-shift-enabler`}
-            checked={isEnabled}
-            onChange={e => {
-              let newOffset = defaultTimeShift.offset;
-              if (e.target.checked) {
-                newOffset = previousHourTimeShift.offset;
-              }
-              onChange([axisName, 'metrics', indexInAxis, 'timeShift'], field =>
-                field.setValue(newOffset).setTouched(true)
-              );
-            }}
-          />
+          <Tooltip
+            content={t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShiftDisabledWhilePPon')}
+          >
+            <div>
+              <Toggle
+                id={`metic-configurator-${index}-time-shift-enabler`}
+                checked={isEnabled}
+                disabled={disabled}
+                onChange={e => {
+                  let newOffset = defaultTimeShift.offset;
+                  if (e.target.checked) {
+                    newOffset = previousHourTimeShift.offset;
+                  }
+                  onChange([axisName, 'metrics', indexInAxis, 'timeShift'], field =>
+                    field.setValue(newOffset).setTouched(true)
+                  );
+                }}
+              />
+            </div>
+          </Tooltip>
           <Spacer horizontal="xxsmall" />
           {t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.applyTimeShiftDs')}
         </div>
@@ -64,6 +75,7 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
             <Select
               id={`metic-configurator-${index}-time-shift`}
               value={timeShiftField.value}
+              disabled={disabled}
               onChange={e => {
                 let value = e.target.value;
                 if (value !== 'auto') {
@@ -96,6 +108,7 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
               <Toggle
                 id={`metic-configurator-${index}-time-shift-comparison`}
                 checked={compareToTimeShiftedField.value}
+                disabled={disabled}
                 onChange={e =>
                   onChange([axisName, 'metrics', indexInAxis, 'compareToTimeShifted'], field =>
                     field.setValue(e.target.checked).setTouched(true)

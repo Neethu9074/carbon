@@ -12,10 +12,12 @@ import {
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application/potentialProblemsForm';
 import { source as applicationSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application';
 import { isPotentialProblemsSupportedByMetric } from 'in-applications/analyze/metrics';
+import { t } from 'in-i18n';
 
 export function potentialProblemsOnDatasetValidator(datasetForm) {
   if (datasetForm?.source?.value === applicationSource) {
-    const { metric, potentialProblems, grouping } = datasetForm;
+    const { metric, potentialProblems, grouping, timeShift } = datasetForm;
+
     if (potentialProblems) {
       const errors = [];
 
@@ -23,7 +25,16 @@ export function potentialProblemsOnDatasetValidator(datasetForm) {
       if (hasGrouping) {
         errors.push({
           severity: 'error',
-          message: 'Remove grouping to enable potential problems highlighting.',
+          message: t('in-custom-dashboards:widgets.formCompChart.potentialProblems.tooltip.needToTurnOffGrouping'),
+          category: potentialProblemsCategory
+        });
+      }
+
+      const hasTimeShift = timeShift?.value !== 0;
+      if (hasTimeShift) {
+        errors.push({
+          severity: 'error',
+          message: 'Remove time-shift to enable potential problems highlighting.',
           category: potentialProblemsCategory
         });
       }
