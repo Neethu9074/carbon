@@ -99,6 +99,31 @@ export default function PotentialProblemsLanePresenter({
     return events;
   }, [potentialProblems, remainingProps]);
 
+  const defaultClickHandler = ({ alerts, thresholds }) => {
+    addActiveDialog(
+      <PotentialProblemsDialogPresenter
+        {...remainingProps}
+        alertRules={alertRules}
+        alerts={alerts}
+        thresholds={thresholds}
+        renderSmartAlertDialogComponent={dialogProps => {
+          const { applicationLabel } = remainingProps;
+          return (
+            <SmartAlertConfigDialogWrapper
+              applicationLabel={applicationLabel}
+              formData={{
+                ...remainingProps,
+                ...dialogProps
+              }}
+              onClose={close}
+            />
+          );
+        }}
+      />
+    );
+    trackMarkerClicked({ metricNames: getUniqueMetricNames(alertRules) });
+  };
+
   return (
     <MarkerLane
       {...remainingProps}
@@ -117,32 +142,7 @@ export default function PotentialProblemsLanePresenter({
         return <>{text}</>;
       }}
       HoverOverlay={PotentialProblemsHoverArea}
-      onClick={({ alerts, thresholds }) => {
-        if (!openingDialogDisabled) {
-          addActiveDialog(
-            <PotentialProblemsDialogPresenter
-              {...remainingProps}
-              alertRules={alertRules}
-              alerts={alerts}
-              thresholds={thresholds}
-              renderSmartAlertDialogComponent={dialogProps => {
-                const { applicationLabel } = remainingProps;
-                return (
-                  <SmartAlertConfigDialogWrapper
-                    applicationLabel={applicationLabel}
-                    formData={{
-                      ...remainingProps,
-                      ...dialogProps
-                    }}
-                    onClose={close}
-                  />
-                );
-              }}
-            />
-          );
-          trackMarkerClicked({ metricNames: getUniqueMetricNames(alertRules) });
-        }
-      }}
+      onClick={openingDialogDisabled ? undefined : defaultClickHandler}
       LaneItem={SingleMarkerLaneItem}
       renderMarkerItem={PotentialProblemMarker}
       trackMarkerHoverEvent={eventData => {

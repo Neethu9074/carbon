@@ -14,6 +14,9 @@
     border: 2px solid @lib__colors__deep-purple800;
     height: var(--item-height);
     border-radius: calc(var(--item-height) / 2);
+  }
+
+  .clickable {
     cursor: pointer;
   }
 

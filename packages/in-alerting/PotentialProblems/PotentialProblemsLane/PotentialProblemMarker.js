@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classnames from 'classnames';
 import React from 'react';
 
 import { toInteractiveElement } from '@instana/components';
@@ -28,7 +29,7 @@ export default function PotentialProblemMarker({ eventData, xScale, onClick }) {
 
   return (
     <div
-      className={locals.marker}
+      className={classnames({ [locals.marker]: true, [locals.clickable]: onClick })}
       style={{
         transform: `translateX(${durationWidth / 2}px)`,
         width: durationWidth

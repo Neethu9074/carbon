@@ -58,9 +58,9 @@ export function PotentialProblemsPostChartContent({ markerLaneProps, openingDial
             if (isLoading(result) && !start) {
               startTime.current = Date.now();
             } else if (start) {
-              if (result.data?.alerts.length !== 0) {
+              if (result.data && result.data.alerts.length !== 0) {
                 trackRequestLoadingTime({
-                  requestTime: `${Date.now() - start / 1000}s`,
+                  requestTime: `${(Date.now() - start) / 1000}s`,
                   numberPotentialProblems: result.data.alerts.length,
                   windowSize: globalTimeConfig.windowSize,
                   widgetTitle
