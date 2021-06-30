@@ -11,4 +11,11 @@
     height: 1.5rem;
     filter: brightness(0);
   }
+
+  .maxMindAttribution {
+    display: block;
+    max-width: 16rem;
+    white-space: normal;
+    text-align: right;
+  }
 }

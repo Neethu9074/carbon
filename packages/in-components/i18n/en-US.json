@@ -177,7 +177,11 @@
     "labelRegion": "Region",
     "labelTag": "Tag",
     "labelCommit": "Commit",
-    "buttonGraphShowcase": "Graph Showcase"
+    "buttonGraphShowcase": "Graph Showcase",
+    "geo": {
+      "title": "Geo Data",
+      "description": "This product includes GeoLite2 data created by MaxMind, available from <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
+    }
   },
   "blueprintFormMultistep": {
     "buttonCancel": "Cancel",
