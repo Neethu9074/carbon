@@ -72,8 +72,9 @@ export default function DataSeriesConfigurator({ form, onChange, getShortMetricK
           </Button>
           {disabled && (
             <Message
-              small
               title={t('in-custom-dashboards:widgets.formCompChart.dataConfigChart.tooltipDisabledBecausePP')}
+              small
+              withIcon
             />
           )}
         </Stack>

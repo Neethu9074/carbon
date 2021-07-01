@@ -79,7 +79,7 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
         }
       </Section>
 
-      {metricHasMoreOptions && (
+      {metricHasMoreOptions && potentialProblemsEnabled && (
         <Section useAlternateBg>
           <Select
             disabled={disabled || !potentialProblemsEnabled}
@@ -105,6 +105,9 @@ export default function PotentialProblemsConfigurator({ form, metricField, axisF
 }
 
 function tooltipMessage(timeshift, grouping, moreThanOneDataset, unsupportedMetric) {
+  if (unsupportedMetric) {
+    return t('in-custom-dashboards:widgets.formCompChart.potentialProblems.tooltip.needToChangeMetric');
+  }
   if (timeshift) {
     return t('in-custom-dashboards:widgets.formCompChart.potentialProblems.tooltip.needToTurnOffTimeShift');
   }
@@ -113,9 +116,6 @@ function tooltipMessage(timeshift, grouping, moreThanOneDataset, unsupportedMetr
   }
   if (moreThanOneDataset) {
     return t('in-custom-dashboards:widgets.formCompChart.potentialProblems.tooltip.needToRemoveDatasets');
-  }
-  if (unsupportedMetric) {
-    return t('in-custom-dashboards:widgets.formCompChart.potentialProblems.tooltip.needToChangeMetric');
   }
   return '';
 }

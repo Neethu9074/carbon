@@ -230,7 +230,13 @@ export default function FormComponent({
         onIncludeOthersChange={onIncludeOthersChange}
         GroupingConfigurator={
           form.containsKey('potentialProblems')
-            ? () => <Message small title={t('in-custom-dashboards:widgets.srcApp.formComponent.needToTurnOffPP')} />
+            ? () => (
+                <Message
+                  title={t('in-custom-dashboards:widgets.srcApp.formComponent.needToTurnOffPP')}
+                  small
+                  withIcon
+                />
+              )
             : CallGroupingConfigurator
         }
         hasError={groupingField ? groupingField.touched && !groupingField.valid : false}
