@@ -217,12 +217,12 @@ function getGranularity(timeConfig) {
   const now = Date.now();
   const toOrNow = timeConfig.to ?? now;
   const from = toOrNow - timeConfig.windowSize;
-
   const wiggleRoom = oneMinute;
-  if (timeConfig.windowSize <= 7 * oneDay && from > now - 7 * oneDay - wiggleRoom) {
-    // if timeframe is within the last 7 days, and window-size less or equal to a day, then request metric even in
-    // one minute granularity. We use a small "wiggle-room" of 1 minutes to circumvent that settings of "Last 7 days"
-    // don't end up with wrong granularity due to small shifts or delays
+
+  if (timeConfig.windowSize < oneDay && from > now - oneDay - wiggleRoom) {
+    // if timeframe is within the last 24 hours, and window-size less or equal to a day, then request metric even in
+    // one minute granularity. We do not want to query CH with oneMinute granularity with large windowSize as
+    // this would lead to performance problems.
     return oneMinute;
   }
   return oneHour;
