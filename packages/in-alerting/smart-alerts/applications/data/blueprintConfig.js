@@ -9,9 +9,9 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
+import { getApproximatedBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -213,20 +213,8 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) 
   if (alertConfig.threshold.type === STATIC_THRESHOLD) {
     value = alertConfig.threshold.value;
   } else {
-    value = getBaselineThresholdValue(alertConfig, timeConfig);
+    value = getApproximatedBaselineThresholdValue(alertConfig, timeConfig);
   }
 
   return [tagFilter('call.latency', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];
-}
-
-function getBaselineThresholdValue(alertConfig, timeConfig) {
-  const { operator, baseline, deviationFactor } = alertConfig.threshold;
-  const baselineGranularity = alertConfig.granularity;
-  const isGreaterOp = operator === '>=' || operator === '>';
-
-  const baselineValues = [];
-  for (let time = timeConfig.to - timeConfig.windowSize; time <= timeConfig.to; time += baselineGranularity) {
-    baselineValues.push(getBaselineValue(time, baseline, deviationFactor, baselineGranularity, isGreaterOp));
-  }
-  return isGreaterOp ? Math.min(...baselineValues) : Math.max(...baselineValues);
 }
