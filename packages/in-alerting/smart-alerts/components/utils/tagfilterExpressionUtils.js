@@ -19,6 +19,10 @@ export function removeExcludedFilters(tagFilterExpression, availableTagFilters) 
 
   let { elements = [] } = tagFilterExpression;
 
+  if (tagFilterExpression.type === 'EXPRESSION' && elements.length === 0) {
+    return tagFilterExpression;
+  }
+
   for (let i = elements.length - 1; i >= 0; i--) {
     const element = elements[i];
 

@@ -35,6 +35,12 @@ const expressionOR = {
 const availableTagFilters = [availableTagFilter.name];
 
 describe('in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils::removeExcludedFilters', () => {
+  test('If empty expression is passed, return that expression', () => {
+    const backendModel = emptyTagFilterExpression;
+    const cleanedUpExpression = removeExcludedFilters(backendModel, availableTagFilters);
+    expect(cleanedUpExpression).toMatchObject(emptyTagFilterExpression);
+  });
+
   test('Return null if expression consists of only one non available filter', () => {
     const backendModel = nonAvailableTagFilter;
     const cleanedUpExpression = removeExcludedFilters(backendModel, availableTagFilters);
