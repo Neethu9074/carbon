@@ -36,9 +36,6 @@
       }
     },
     "widgetEditorDialog": {
-      "widgetTypeSelector": {
-        "showWidgetLabel": "Show case of the {{label}} widget"
-      },
       "widgetConfiguration": {
         "widgetName": "Widget Name",
         "name": "Name",
@@ -335,6 +332,10 @@
       "unnamMetric": "Unnamed metric"
     },
     "markdown": {
+      "demo": {
+        "title": "Instana - Getting Started",
+        "text": "Instana is the first and only fully automated Application Performance (APM) Solution designed\nspecifically for the challenges of managing microservice and cloud-native applications.\n\nGetting started is easy\n\n1. If you don't have yet access to Instana, head over to [Instana.com](https://www.instana.com) and register for a Free Trial.\n2. Explore our ecosystem of hundreds of [supported technologies](https://www.instana.com/docs/ecosystem).\n3. Start collecting data with one of our [agents](https://www.instana.com/docs/setup_and_manage).\n4. Learn [how to use Instana](https://www.instana.com/docs/using_instana) for your use-cases.\n5. Read about our unique [Core Capabilities](https://www.instana.com/docs/core_capabilities/).\n6. Extend Instana with our [Integrations, SDK & APIs](https://www.instana.com/docs/integrations).\n\nThat's it!\n\nCan't find what you're looking for? Hop over to [docs.instana.io](https://www.instana.com/docs/)!"
+      },
       "formComp": {
         "whatULikeShow": "What would you like to show?",
         "markdown": "Markdown",
@@ -350,10 +351,17 @@
         "formatter": "Formatter"
       },
       "index": {
-        "chartPie": "Chart: Pie"
+        "chartPie": "Chart: Pie",
+        "testLegendItem1": "Incidents",
+        "testLegendItem2": "Issues: Critical",
+        "testLegendItem3": "Issues: Warning"
       }
     },
     "slo": {
+      "demo": {
+        "title": "SLO Title",
+        "appName": "Example Application Name"
+      },
       "apConfigFormComp": {
         "userJourneyOffering": "User Journey / Offering",
         "appnPerspective": "Application Perspective",
@@ -509,6 +517,7 @@
     },
     "timezone": {
       "demo": {
+        "title": "Team Availability",
         "sanFrancisco": "San Francisco",
         "austin": "Austin",
         "newYorkCity": "New York City",
@@ -533,7 +542,8 @@
         "formatter": "Formatter"
       },
       "index": {
-        "topListLb": "Top List"
+        "topListLb": "Top List",
+        "topListItem": "Item {{itemNumber}}"
       },
       "widget": {
         "aggregOtherGroup": "Aggregation of other groups",

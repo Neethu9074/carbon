@@ -5,7 +5,7 @@
 
 import { t } from 'in-i18n';
 
-export { default as showCase } from 'in-custom-dashboards/widgets/BigNumber/showCase.png';
+export { default as ShowCaseComponent } from 'in-custom-dashboards/widgets/BigNumber/ShowCase';
 export { default as Form } from 'in-custom-dashboards/widgets/BigNumber/FormComponent';
 export { default as Widget } from 'in-custom-dashboards/widgets/BigNumber/Widget';
 export { createForm, migrate } from 'in-custom-dashboards/widgets/BigNumber/form';

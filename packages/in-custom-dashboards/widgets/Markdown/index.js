@@ -5,7 +5,7 @@
 
 import { t } from 'in-i18n';
 
-export { default as showCase } from 'in-custom-dashboards/widgets/Markdown/showCase.png';
+export { default as ShowCaseComponent } from 'in-custom-dashboards/widgets/Markdown/ShowCase';
 export { default as Form } from 'in-custom-dashboards/widgets/Markdown/FormComponent';
 export { default as Widget } from 'in-custom-dashboards/widgets/Markdown/Widget';
 export { createForm } from 'in-custom-dashboards/widgets/Markdown/form';

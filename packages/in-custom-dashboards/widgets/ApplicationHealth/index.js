@@ -6,7 +6,7 @@
 import { applicationHealthOverviewEnabled } from 'in-services/featureFlags';
 import { t } from 'in-i18n';
 
-export { default as showCase } from 'in-custom-dashboards/widgets/ApplicationHealth/showCase.png';
+export { default as ShowCaseComponent } from 'in-custom-dashboards/widgets/ApplicationHealth/ShowCase';
 export { default as Form } from 'in-custom-dashboards/widgets/ApplicationHealth/FormComponent';
 export { default as Widget } from 'in-custom-dashboards/widgets/ApplicationHealth/Widget';
 export { createForm } from 'in-custom-dashboards/widgets/ApplicationHealth/form';

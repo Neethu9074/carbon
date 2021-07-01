@@ -7,8 +7,8 @@ import React from 'react';
 
 import WidgetTypeSidebar from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/WidgetTypeSelector/WidgetTypeSidebar';
 import { SideNavigationWrapper } from 'in-components/SideNavigation/SideNavigation';
+import ErrorBoundary from 'in-components/ErrorBoundary';
 import widgets from 'in-custom-dashboards/widgets';
-import { t } from 'in-i18n';
 
 import locals from './WidgetTypeSelector.mless';
 
@@ -18,18 +18,9 @@ export default function WidgetTypeSelector({ form, onChangeType }) {
 
   return (
     <SideNavigationWrapper sidebar={<WidgetTypeSidebar form={form} onChangeType={onChangeType} />}>
-      {widget && widget.showCase && (
-        <div className={locals.wrapper}>
-          <img
-            className={locals.img}
-            src={widget.showCase}
-            alt={t('in-custom-dashboards:customDashboard.widgetEditorDialog.widgetTypeSelector.showWidgetLabel', {
-              label: widget.label
-            })}
-            key={selectedType} // Added to notify react about the image has changed to avoid from displaying old image
-          />
-        </div>
-      )}
+      <ErrorBoundary name="widget-showcase">
+        <div className={locals.wrapper}>{widget && widget.ShowCaseComponent && <widget.ShowCaseComponent />}</div>
+      </ErrorBoundary>
     </SideNavigationWrapper>
   );
 }

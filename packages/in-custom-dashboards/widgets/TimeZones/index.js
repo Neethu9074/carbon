@@ -5,7 +5,7 @@
 
 import { t } from 'in-i18n';
 
-export { default as showCase } from 'in-custom-dashboards/widgets/TimeZones/showCase.png';
+export { default as ShowCaseComponent } from 'in-custom-dashboards/widgets/TimeZones/ShowCase';
 export { default as Form } from 'in-custom-dashboards/widgets/TimeZones/FormComponent';
 export { default as Widget } from 'in-custom-dashboards/widgets/TimeZones/Widget';
 export { createForm } from 'in-custom-dashboards/widgets/TimeZones/form';

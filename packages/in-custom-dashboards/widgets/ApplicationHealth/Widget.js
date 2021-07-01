@@ -5,11 +5,11 @@
 
 import React from 'react';
 
-import ApplicationHealthOverviewPresenter from 'in-custom-dashboards/widgets/ApplicationHealth/ApplicationHealthOverviewPresenter';
+import ApplicationHealthOverview from 'in-custom-dashboards/widgets/ApplicationHealth/ApplicationHealthOverviewPresenter';
 
 export default function ApplicationHealthOverviewWidget({ config, title, actions, dragHandle, isPreview }) {
   return (
-    <ApplicationHealthOverviewPresenter
+    <ApplicationHealthOverview
       title={title}
       config={config}
       actions={actions}

@@ -37,6 +37,21 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
   let result = useResultData(config, timeConfig) ?? pendingResult;
   const isErroneous =
     config.metricConfiguration.metric === 'erroneousCalls' || config.metricConfiguration.metric === 'errors';
+
+  return (
+    <ListWidgetRenderer
+      title={title}
+      result={result}
+      dragHandle={dragHandle}
+      isErroneous={isErroneous}
+      tagCatalog={tagCatalog}
+      config={config}
+      actions={actions}
+    />
+  );
+}
+
+export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, dragHandle }) {
   return (
     <TopListCardPresenter
       title={title}

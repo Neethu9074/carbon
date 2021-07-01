@@ -1,0 +1,11 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+:local {
+  .wrapper {
+    height: 31rem;
+    padding: 3rem 0;
+  }
+}

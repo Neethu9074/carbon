@@ -20,9 +20,24 @@ import { t } from 'in-i18n';
 
 import locals from './ApplicationHealthOverviewPresenter.mless';
 
-const ApplicationHealthOverviewPresenter = ({ config, isPreview, title, dragHandle, actions }) => {
+export default function ApplicationHealthOverviewBehaviour(props) {
+  const { config } = props;
   const timeConfig = useTimeConfig();
   const appsAndHealthInfo = useObservable(() => getHealthStatusForApps(config, timeConfig), [config, timeConfig]);
+
+  return (
+    <ApplicationHealthOverviewPresenter {...props} appsAndHealthInfo={appsAndHealthInfo} timeConfig={timeConfig} />
+  );
+}
+
+export const ApplicationHealthOverviewPresenter = ({
+  appsAndHealthInfo,
+  timeConfig,
+  isPreview,
+  title,
+  dragHandle,
+  actions
+}) => {
   const configWithSeverity = appsAndHealthInfo?.configWithHealthInfo || [];
   const overallHealthStatus = appsAndHealthInfo?.overallHealthStatus || {};
 
@@ -61,8 +76,6 @@ const ApplicationHealthOverviewPresenter = ({ config, isPreview, title, dragHand
     </Card>
   );
 };
-
-export default ApplicationHealthOverviewPresenter;
 
 /**
  * Iterate through the applications and combine the observables to be used insude useObservables later
