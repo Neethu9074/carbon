@@ -366,7 +366,8 @@
   },
   "selectorOverlay": {
     "placeholderSearch": "Search",
-    "loadingIndicatorLoadingCatalog": "Loading catalog"
+    "loadingIndicatorLoadingCatalog": "Loading catalog",
+    "noResults": "No Results"
   },
   "sortingConfigurator": {
     "labelNA": "N/A",

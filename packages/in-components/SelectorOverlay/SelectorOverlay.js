@@ -91,6 +91,8 @@ export default function SelectorOverlay({
             />
           </div>
         )}
+        {loading === false && options.length === 0 && <NoResults /> //No Results
+        }
         {loading === false && (
           <SlideInView
             showSlideInContent={showFocusedNode}
@@ -190,6 +192,10 @@ export default function SelectorOverlay({
       }
     }
   }
+}
+
+function NoResults() {
+  return <div>{t('in-components:selectorOverlay.noResults')}</div>;
 }
 
 SelectorOverlay.propTypes = {
