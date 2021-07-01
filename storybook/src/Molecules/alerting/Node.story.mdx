@@ -18,62 +18,62 @@ import { pendingResult } from 'in-services/fixedObjects';
 
 # Auto-Loading Nodes: On-demand loading children
 <Preview>
-  <EntityItemNode node={nodeWithKids()} asListGroup withIcons />
+  <EntityItemNode node={nodeWithKids} asListGroup withIcons />
 </Preview>
 
 ## Nodes, with children
 ### single row
   <Story name="auto loading children, single row">
-    <EntityItemNode node={nodeWithKids()} asListGroup={false} withIcons />
+    <EntityItemNode node={nodeWithKids} asListGroup={false} withIcons />
   </Story>
 
-  <EntityItemNode node={nodeWithKids()} asListGroup={false} />
+  <EntityItemNode node={nodeWithKids} asListGroup={false} />
 
 ### list group
 
-  <EntityItemNode node={nodeWithKids()} asListGroup withIcons />
-  <EntityItemNode node={nodeWithKids()} asListGroup  />
+  <EntityItemNode node={nodeWithKids} asListGroup withIcons />
+  <EntityItemNode node={nodeWithKids} asListGroup  />
 
 ## Leaves
 ### single row
 
   <Story name="auto loading leaf, single row">
-    <EntityItemNode node={leafNode()} asListGroup={false} withIcons />
+    <EntityItemNode node={leafNode} asListGroup={false} withIcons />
   </Story>
 
-  <EntityItemNode node={leafNode()} asListGroup={false} />
+  <EntityItemNode node={leafNode} asListGroup={false} />
 
 ### List group
 
-  <EntityItemNode node={leafNode()} asListGroup withIcons />
-  <EntityItemNode node={leafNode()} asListGroup  />
+  <EntityItemNode node={leafNode} asListGroup withIcons />
+  <EntityItemNode node={leafNode} asListGroup  />
 
 # Regular Nodes, with children
 ### single row item
 
   <Story name="static node with children, single row">
-    <Node node={nodeWithKids()} asListGroup={false} withIcons />
+    <Node node={nodeWithKids} asListGroup={false} withIcons />
   </Story>
 
-  <Node node={nodeWithKids()} asListGroup={false} />
+  <Node node={nodeWithKids} asListGroup={false} />
 
 ### list group
 
-  <Node node={nodeWithKids()} asListGroup withIcons />
-  <Node node={nodeWithKids()} asListGroup  />
+  <Node node={nodeWithKids} asListGroup withIcons />
+  <Node node={nodeWithKids} asListGroup  />
 
 ## Leaves
 ### single row
 
   <Story name="static node, leaf, single row">
-    <Node node={leafNode()} asListGroup={false} withIcons />
+    <Node node={leafNode} asListGroup={false} withIcons />
   </Story>
 
-  <Node node={leafNode()} asListGroup={false} />
+  <Node node={leafNode} asListGroup={false} />
 
 ### List group
 
-  <Node node={leafNode()} asListGroup withIcons />
-  <Node node={leafNode()} asListGroup  />
+  <Node node={leafNode} asListGroup withIcons />
+  <Node node={leafNode} asListGroup  />
 
   <Props of={Node} />
