@@ -108,11 +108,9 @@ export default function ChartSubEntitySelection({
         ? loadingOptions
         : createOptionsList(
             applicationAndServicesList,
-            // derived from/based on applications:
             applicationIds,
             isSelectApLevel,
             isSelectServiceLevel,
-            // derived from/based on queryWindowSize:
             applications,
             timeConfig,
             tagFilterExpression,
@@ -139,6 +137,9 @@ export default function ChartSubEntitySelection({
   );
 
   const queryEntity = ({ cursor }) => {
+    if (!isQuery) {
+      return null;
+    }
     return getAppDataEntityChainsPaginated({
       level: getLevel(evaluationType),
       pagination: {
