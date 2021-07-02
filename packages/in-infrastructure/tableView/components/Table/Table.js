@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
 import SortIndicator from 'in-infrastructure/tableView/components/Table/components/SortIndicator';
 import { createStore } from 'in-infrastructure/tableView/components/Table/stores/content';
 import Row from 'in-infrastructure/tableView/components/Table/components/Row';
+import { shallowEquals } from 'in-services/util/object';
 import ButtonGroup from 'in-components/ButtonGroup';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';

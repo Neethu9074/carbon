@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
 import { Card } from '@instana/components';
@@ -11,6 +10,7 @@ import { Card } from '@instana/components';
 import SortIndicator from 'in-sdk/components/dashboard/Table/components/SortIndicator';
 import { createStore } from 'in-sdk/components/dashboard/Table/stores/content';
 import Row from 'in-sdk/components/dashboard/Table/components/Row';
+import { shallowEquals } from 'in-services/util/object';
 import ButtonGroup from 'in-components/ButtonGroup';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';

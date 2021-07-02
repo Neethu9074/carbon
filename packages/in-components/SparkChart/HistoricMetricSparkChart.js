@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import shallowEquals from 'fbjs/lib/shallowEqual';
 import React from 'react';
 
 import { createLogger } from '@instana/logger';
 
 import { getMetricsForTimeframe, getPixelAwareRollupSize } from 'in-stores/metric';
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
+import { shallowEquals } from 'in-services/util/object';
 import { getChartWiggleRoom } from 'in-sdk/snapshot';
 import { timeConfig$ } from 'in-stores/time/config';
 import { deepCopy } from 'in-services/util/object';

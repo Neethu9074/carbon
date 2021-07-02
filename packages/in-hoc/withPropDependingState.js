@@ -4,10 +4,10 @@
  */
 
 import { pick, curryRight, defaults } from 'lodash';
-import shallowEquals from 'fbjs/lib/shallowEqual';
 import React, { Component } from 'react';
 
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
+import { shallowEquals } from 'in-services/util/object';
 import { emptyArray } from 'in-services/fixedObjects';
 
 // Sample usage

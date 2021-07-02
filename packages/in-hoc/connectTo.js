@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import shallowEquals from 'fbjs/lib/shallowEqual';
 import React, { forwardRef } from 'react';
 import { defaultsDeep } from 'lodash';
 
 import { getDisplayName } from 'in-hoc/internal/getDisplayName';
+import { shallowEquals } from 'in-services/util/object';
 import { emptyObject } from 'in-services/fixedObjects';
 
 const defaultOptions = {

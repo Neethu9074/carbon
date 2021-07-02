@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import shallowEquals from 'fbjs/lib/shallowEqual';
+import React, { useMemo } from 'react';
+
 import { timeout } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import React, { useMemo } from 'react';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { getSingle, setSingle } from 'in-services/settings/settings';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
+import { shallowEquals } from 'in-services/util/object';
 import useUrlState from 'in-hooks/useUrlState';
 
 export default function createServerTableWithUrlState({
