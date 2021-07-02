@@ -82,8 +82,9 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -98,8 +99,9 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -114,8 +116,9 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -130,8 +133,9 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -146,8 +150,9 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   }
 ];
