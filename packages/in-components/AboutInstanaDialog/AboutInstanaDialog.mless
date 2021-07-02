@@ -16,6 +16,6 @@
     display: block;
     max-width: 16rem;
     white-space: normal;
-    text-align: right;
+    text-align: left;
   }
 }

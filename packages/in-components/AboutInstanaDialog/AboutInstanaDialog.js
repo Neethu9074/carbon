@@ -37,7 +37,7 @@ export default function AboutInstanaDialog() {
                     }
                   },
                   {
-                    width: '8rem',
+                    width: '15rem',
                     getContent() {
                       return (
                         <KeyValue
@@ -63,7 +63,7 @@ export default function AboutInstanaDialog() {
                   }
                 },
                 {
-                  width: '8rem',
+                  width: '15rem',
                   getContent() {
                     return (
                       build.tag && (
@@ -105,7 +105,7 @@ export default function AboutInstanaDialog() {
                     }
                   },
                   {
-                    width: '8rem',
+                    width: '15rem',
                     getContent() {
                       return (
                         uiBackendVersion.imageTag && (
