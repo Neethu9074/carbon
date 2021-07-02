@@ -196,7 +196,6 @@ export const EVENT_TYPES = {
   CHANGE: 0,
   ISSUE_WARNING: 1,
   ISSUE_CRITICAL: 2,
-  ISSUE_OK: 3,
   INCIDENT: 4
 };
 
@@ -281,16 +280,15 @@ export function getEventType(event) {
       return EVENT_TYPES.INCIDENT;
     case 'change':
       return EVENT_TYPES.CHANGE;
+    case 'agent_monitoring_issue': // can be handled just as any other other issue in the UI
     case 'issue': {
       const severity = isImmutableObject
         ? event.getIn(['problem', 'severity'], 0)
         : get(event, ['problem', 'severity'], event.severity || 0);
-      if (severity > 8) {
+      if (severity >= 10) {
         return EVENT_TYPES.ISSUE_CRITICAL;
-      } else if (severity > 4) {
-        return EVENT_TYPES.ISSUE_WARNING;
       }
-      return EVENT_TYPES.ISSUE_OK;
+      return EVENT_TYPES.ISSUE_WARNING;
     }
     default:
       return EVENT_TYPES.CHANGE;
