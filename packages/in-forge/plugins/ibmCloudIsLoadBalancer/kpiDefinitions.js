@@ -8,12 +8,12 @@ import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.ibmCloudIsLoadBalancer.labelActiveConnections'),
-    metric: 'active_connection',
+    label: t('in-forge:plugins.ibmCloudIsLoadBalancer.activeConnections'),
+    metric: 'active_connections',
     formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.ibmCloudIsLoadBalancer.labelThroughput'),
+    label: t('in-forge:plugins.ibmCloudIsLoadBalancer.throughput'),
     metric: 'throughput',
     formatter: bytesPerSecondZeroDecimalPlaces
   }

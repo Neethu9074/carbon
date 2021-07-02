@@ -3,17 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { bytesPerSecondZeroDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import { bytesPerSecondZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
   {
-    label: t('in-forge:plugins.ibmCloudLoadBalancer.labelActiveConnections'),
-    metric: 'active_connection',
-    formatter: zeroDecimalPlaces
+    label: t('in-forge:plugins.ibmCloudLoadBalancer.activeConnections'),
+    metric: 'active_connections',
+    formatter: number.compact
   },
   {
-    label: t('in-forge:plugins.ibmCloudLoadBalancer.labelThroughput'),
+    label: t('in-forge:plugins.ibmCloudLoadBalancer.throughput'),
     metric: 'throughput',
     formatter: bytesPerSecondZeroDecimalPlaces
   }

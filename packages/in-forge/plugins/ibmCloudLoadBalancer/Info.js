@@ -13,7 +13,7 @@ export default function IbmCloudLoadBalancerInfo({ snapshot }) {
 
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.ibmCloudLoadBalancer.labelZone')}>{data.get('zone')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmCloudLoadBalancer.zone')}>{data.get('zone')}</DescriptionItem>
     </DescriptionList>
   );
 }

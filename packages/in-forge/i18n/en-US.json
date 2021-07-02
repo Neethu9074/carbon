@@ -7660,16 +7660,33 @@
       "zone": "Zone"
     },
     "ibmCloudIsLoadBalancer": {
-      "labelActiveConnections": "Active Connections",
-      "labelConnectionRate": "Connection Rate",
-      "labelThroughput": "Throughput",
-      "labelZone": "Zone"
+      "ibmCloudIsLoadBalancer": "IBM Cloud Load Balancer for VPC",
+      "applianceId": "Appliance ID",
+      "connections": "Connections",
+      "activeConnections": "Active Connections",
+      "connectionRate": "Connection Rate",
+      "requests": "Requests",
+      "requestCount": "Request Count",
+      "count": "Count",
+      "latency": "Latency",
+      "throughput": "Throughput",
+      "httpStatus": "HTTP Status",
+      "http_2xx": "Status 2xx",
+      "http_3xx": "Status 3xx",
+      "http_4xx": "Status 4xx",
+      "http_5xx": "Status 5xx",
+      "aggregate": "System Aggregate",
+      "zone": "Zone"
     },
     "ibmCloudLoadBalancer": {
-      "labelActiveConnections": "Active Connections",
-      "labelConnectionRate": "Connection Rate",
-      "labelThroughput": "Throughput",
-      "labelZone": "Zone"
+      "ibmCloudLoadBalancer": "IBM Cloud Load Balancer",
+      "applianceId": "Appliance ID",
+      "activity": "Activity",
+      "activeConnections": "Active Connections",
+      "connectionRate": "Connection Rate",
+      "throughput": "Throughput",
+      "aggregate": "System Aggregate",
+      "zone": "Zone"
     },
     "ibmCloudMongoDb": {
       "connections": "Connections",
