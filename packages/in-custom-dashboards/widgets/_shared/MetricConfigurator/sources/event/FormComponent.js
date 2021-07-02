@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Stack, Toggle } from '@instana/components';
+import { Stack, Spacer, Toggle } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -58,6 +58,7 @@ export default function FormComponent({
                 onChange(['includeK8sInfoEvents'], field => field.setValue(e.target.checked).setTouched(true))
               }
             />
+            <Spacer horizontal="xxsmall" />
             <span>{t('in-custom-dashboards:widgets.srcEvent.formComponent.includeK8sInfoEvents')}</span>
             <Toggle
               className={locals.agentMonitoringIssuesToggle}
@@ -67,6 +68,7 @@ export default function FormComponent({
                 onChange(['includeAgentMonitoringIssues'], field => field.setValue(e.target.checked).setTouched(true))
               }
             />
+            <Spacer horizontal="xxsmall" />
             <span>{t('in-custom-dashboards:widgets.srcEvent.formComponent.includeAgentMonitoringIssues')}</span>
           </HorizontalFlexWrapper>
         </Section>
