@@ -219,7 +219,7 @@ function getGranularity(timeConfig) {
   const from = toOrNow - timeConfig.windowSize;
 
   if (timeConfig.windowSize < oneDay && from > now - oneDay) {
-    // if timeframe is within the last 24 hours, and window-size less or equal to a day, then request metric even in
+    // if timeframe is within the last 24 hours, and window-size less than a day, then request metric in
     // one minute granularity. We do not want to query CH with oneMinute granularity with large windowSize as
     // this would lead to performance problems.
     return oneMinute;
