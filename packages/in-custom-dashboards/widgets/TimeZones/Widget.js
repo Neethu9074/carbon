@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
-import { Card } from '@instana/components';
 import React, { useMemo } from 'react';
 import rpt from 'prop-types';
+
+import { getIntlDateFormatter } from '@instana/format-date';
+import { useObservable } from '@instana/hooks';
+import { Card } from '@instana/components';
 
 import { serverTime$ } from 'in-stores/serverTime';
 
@@ -49,9 +51,8 @@ TimeZonesWidget.protpTypes = {
 function TimeZone({ serverTime, label, timeZone }) {
   const formatter = useMemo(
     () =>
-      new Intl.DateTimeFormat('de-de', {
+      getIntlDateFormatter({
         timeZone,
-        hour12: false,
         hour: 'numeric',
         minute: 'numeric'
       }),
@@ -60,7 +61,7 @@ function TimeZone({ serverTime, label, timeZone }) {
   return (
     <div className={locals.zone}>
       <dt className={locals.label}>{label}</dt>
-      <dd className={locals.time}>{formatter.format(new Date(serverTime))}</dd>
+      <dd className={locals.time}>{formatter(serverTime)}</dd>
     </div>
   );
 }

@@ -39,7 +39,8 @@ export function init() {
     fallbackLocale: fallbackLanguage,
     textLocale: activeLanguage,
     numberLocale: getSingle('formatNumbersAccordingToEnUs') ? 'en-US' : navigator.language || fallbackLanguage,
-    dateLocale: fallbackLanguage,
+    dateLocale: activeLanguage,
+    prefersIso8601LikeDateTimeFormat: true,
     timeZone: getSingle('formatTimestampsAsUtc') ? 'UTC' : new Intl.DateTimeFormat().resolvedOptions().timeZone,
     hour12: false
   });

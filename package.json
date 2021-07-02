@@ -50,9 +50,11 @@
     "url": "https://github.com/instana/ui-client.git"
   },
   "dependencies": {
-    "@instana/components": "^1.27.0",
+    "@instana/components": "^1.27.1",
     "@instana/hooks": "^1.4.1",
-    "@instana/i18n": "^1.1.0",
+    "@instana/format-date": "^1.1.1",
+    "@instana/format-numbers": "^1.1.1",
+    "@instana/i18n": "^1.2.0",
     "@instana/i18n-react": "^1.1.0",
     "@instana/logger": "^1.1.1",
     "@instana/observables": "^1.2.1",

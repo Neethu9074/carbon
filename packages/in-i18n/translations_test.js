@@ -248,7 +248,7 @@ function ignorePluralsAndContext(jsonTree) {
  */
 function removeUiFoundationKey(unusedKeysByNamespaceMap) {
   const keys = unusedKeysByNamespaceMap.get('in-i18n');
-  const withoutUiFoundationKeys = keys.filter(key => !key.startsWith('components.'));
+  const withoutUiFoundationKeys = keys.filter(key => !key.startsWith('components.') && !key.startsWith('formatDate.'));
   unusedKeysByNamespaceMap.set('in-i18n', withoutUiFoundationKeys);
   if (withoutUiFoundationKeys.length === 0) {
     unusedKeysByNamespaceMap.delete('in-i18n');

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env mocha,node */
-/* eslint-disable no-var, vars-on-top, strict */
+/* eslint-env jest,node */
+/* eslint-disable strict */
 
 'use strict';
 
@@ -19,9 +19,22 @@ const chai = require('chai');
 // eslint-disable-next-line no-restricted-imports
 const i18n = require('i18next');
 
+const { setOptions, defaultOptions } = require('@instana/i18n');
+
 chai.use(require('chai-string'));
 chai.use(require('chai-subset'));
 chai.use(require('sinon-chai'));
+
+setOptions({
+  ...defaultOptions,
+  fallbackLocale: 'en-US',
+  textLocale: 'en-US',
+  numberLocale: 'en-US',
+  prefersIso8601LikeDateTimeFormat: true,
+  dateLocale: 'en-US',
+  timeZone: global.process.env.TZ,
+  hour12: false
+});
 
 global.__DEV__ = false;
 global.__HOT_RELOAD__ = false;

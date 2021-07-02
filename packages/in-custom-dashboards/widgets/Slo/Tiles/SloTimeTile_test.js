@@ -22,7 +22,7 @@ describe('in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile', function() {
           new Date(2021, 0, 1, 1, 1, 1),
           new Date(2021, 1, 2, 2, 2, 1)
         )
-      ).to.be.equal('Jan 01 01:01 - Feb 02, 2021 02:02');
+      ).to.be.equal('Jan. 01 01:01 - Feb. 02, 2021 02:02');
     });
   });
 });

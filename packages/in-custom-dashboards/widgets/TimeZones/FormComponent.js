@@ -6,10 +6,8 @@
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import React, { useMemo } from 'react';
 
-import { Stack, StackItem } from '@instana/components';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
-import { Ul, Li } from '@instana/components';
+import { SvgIcon, Button, Ul, Li, Stack, StackItem } from '@instana/components';
+import { getIntlDateFormatter } from '@instana/format-date';
 
 import { createTimeZoneSubForm } from 'in-custom-dashboards/widgets/TimeZones/form';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -154,7 +152,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
 
 function isSupportedTimeZone(timeZone) {
   try {
-    new Intl.DateTimeFormat('de-de', {
+    getIntlDateFormatter({
       timeZone,
       hour12: false,
       hour: 'numeric',

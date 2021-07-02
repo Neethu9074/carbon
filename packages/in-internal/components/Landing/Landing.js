@@ -14,7 +14,6 @@ import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { internalMonitoringUnit } from 'in-services/featureFlags';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getModifiedUrlStream } from 'in-stores/navigation';
-import TimeZones from 'in-internal/components/TimeZones';
 import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
 import { role, isInstanaEmail } from 'in-stores/user';
@@ -35,10 +34,6 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
 
   return (
     <>
-      <div className={locals.header}>
-        <TimeZones />
-      </div>
-
       {internalMonitoringUnit && isInstanaEmail && (
         <Row>
           <Col lg={6}>

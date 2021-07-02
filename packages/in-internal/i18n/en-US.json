@@ -131,16 +131,6 @@
       "sLOViolations": "SLO Violations",
       "devTUSLOs": "Development TU SLOs",
       "expTUSLOs": "Experimental TU SLOs"
-    },
-    "timeZones": {
-      "sanFrancisco": "San Francisco",
-      "austin": "Austin",
-      "newYorkCity": "New York City",
-      "uTC": "UTC",
-      "solingen": "Solingen",
-      "noviSad": "Novi Sad",
-      "tokyo": "Tokyo",
-      "sydney": "Sydney"
     }
   },
   "monitoringUnit": {

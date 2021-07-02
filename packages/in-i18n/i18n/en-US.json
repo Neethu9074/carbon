@@ -6,6 +6,32 @@
       "initiateDefaultAction": "Initiate default action"
     }
   },
+  "formatDate": {
+    "date": {
+      "aFewSeconds": "a few seconds",
+      "time_years" : "{{count}} year",
+      "time_years_plural" : "{{count}} years",
+      "time_y" : "{{count}}y",
+      "time_months" : "{{count}} month",
+      "time_months_plural" : "{{count}} months",
+      "time_mo" : "{{count}}mo",
+      "time_days" : "{{count}} day",
+      "time_days_plural" : "{{count}} days",
+      "time_d" : "{{count}}d",
+      "time_hours" : "{{count}} hour",
+      "time_hours_plural" : "{{count}} hours",
+      "time_h" : "{{count}}h",
+      "time_minutes" : "{{count}} minute",
+      "time_minutes_plural" : "{{count}} minutes",
+      "time_m" : "{{count}}m",
+      "time_seconds" : "{{count}} second",
+      "time_seconds_plural" : "{{count}} seconds",
+      "time_s" : "{{count}}s",
+      "time_milliseconds" : "{{count}} millisecond",
+      "time_milliseconds_plural" : "{{count}} milliseconds",
+      "time_ms" : "{{millis}}ms"
+    }
+  },
   "forms": {
     "actions": {
       "save": "Save",
