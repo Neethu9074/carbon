@@ -34,8 +34,9 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -50,8 +51,9 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -66,8 +68,9 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -114,8 +117,9 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -130,8 +134,9 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -146,8 +151,9 @@ const cols = [
       },
       getContent: bytes.detailed,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   },
   {
@@ -162,8 +168,9 @@ const cols = [
       },
       getContent: bytes.detailed,
       getTimeWindowAggregation() {
-        return 'mean';
-      }
+        return 'sum';
+      },
+      forceTimeWindowAggregation: true
     }
   }
 ];
@@ -209,7 +216,9 @@ function getRowDetails(row) {
             t('in-forge:plugins.hAProxy.dashboard.requestErrors'),
             t('in-forge:plugins.hAProxy.dashboard.deniedRequests')
           ],
-          type: 'line'
+          type: 'stackedBar',
+          formatter: number.compact,
+          aggregation: 'sum'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />
@@ -248,13 +257,14 @@ function getRowDetails(row) {
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}
         y1={{
-          formatter: bytes.detailed,
           metrics: ['frontendStats.' + row.key + '.bytesSent', 'frontendStats.' + row.key + '.bytesReceived'],
           labels: [
             t('in-forge:plugins.hAProxy.dashboard.bytesSent'),
             t('in-forge:plugins.hAProxy.dashboard.bytesReceived')
           ],
-          type: 'line'
+          type: 'stackedBar',
+          aggregation: 'sum',
+          formatter: bytes.detailed
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />
