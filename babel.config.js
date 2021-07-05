@@ -23,6 +23,7 @@ module.exports = {
     process.env.STORYBOOK === 'true' && ['react-docgen']
   ].filter(Boolean),
   presets: [
+    '@babel/preset-typescript',
     '@babel/preset-react',
     [
       '@babel/preset-env',
@@ -54,6 +55,7 @@ module.exports = {
   only: [
     // All our main packages
     path.join(__dirname, 'packages', '**', '*.js'),
+    path.join(__dirname, 'packages', '**', '*.ts'),
     // Storybook
     path.join(__dirname, 'storybook', 'config', '**', '*.js'),
     path.join(__dirname, 'storybook', 'src', '**', '*.mdx'),

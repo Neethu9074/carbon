@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-export function compare(a, b) {
+type Result = 1 | 0 | -1;
+
+export function compare(a?: number, b?: number): Result {
   if (a == null && b == null) {
     return 0;
   } else if (a == null) {
@@ -19,6 +21,6 @@ export function compare(a, b) {
   return 0;
 }
 
-export function isParseableAsNumber(n) {
+export function isParseableAsNumber(n: number) {
   return !isNaN(n) && isFinite(n);
 }

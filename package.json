@@ -9,8 +9,9 @@
     "build": "export BUILD_DEV='false' && node --max-old-space-size=4096 node_modules/.bin/gulp build",
     "try-build": "export BUILD_DEV='false' && gulp try-build",
     "test": "yarn run test:unit && yarn run test:lint",
-    "test:lint": "eslint gulpfile.js packages",
-    "test:lint:quiet": "eslint --quiet gulpfile.js packages",
+    "test:lint:typescript": "tsc --pretty --project tsconfig.json",
+    "test:lint": "yarn run test:lint:typescript && eslint gulpfile.js packages",
+    "test:lint:quiet": "yarn run test:lint:typescript && eslint --quiet gulpfile.js packages",
     "test:unit": "export IS_TEST='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./node_modules/.bin/jest --testTimeout 6000 --reporters jest-simple-dot-reporter --all --ci",
     "test:compression": "ls target/assets/bundle | grep \".js\" | grep -v \".js.map\" | grep -v \".json\" | xargs -I _ terser ./target/assets/bundle/_ -o /dev/null",
     "check:licenses": "build/create-license-report.sh",
@@ -38,6 +39,10 @@
     ],
     "*.{css,mless,less}": [
       "prettier --write"
+    ],
+    "packages/**/*.ts": [
+      "tsc --pretty --noEmit",
+      "prettier --write"
     ]
   },
   "importSort": {
@@ -50,10 +55,11 @@
     "url": "https://github.com/instana/ui-client.git"
   },
   "dependencies": {
+    "@babel/preset-typescript": "^7.14.5",
     "@instana/components": "^1.27.1",
-    "@instana/hooks": "^1.4.1",
     "@instana/format-date": "^1.1.1",
     "@instana/format-numbers": "^1.1.1",
+    "@instana/hooks": "^1.4.1",
     "@instana/i18n": "^1.2.0",
     "@instana/i18n-react": "^1.1.0",
     "@instana/logger": "^1.1.1",
@@ -112,6 +118,7 @@
     "semver": "^5.3.0",
     "sockjs-client": "^1.5.1",
     "three": "^0.113.0",
+    "typescript": "^4.3.5",
     "use-resize-observer": "^6.1.0",
     "zxcvbn": "^4.4.2"
   },

@@ -129,7 +129,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.js$/i,
+        test: /\.(js|ts)$/i,
         exclude: /node_modules/,
         use: [
           {
@@ -176,6 +176,6 @@ module.exports = {
   },
   plugins,
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.ts']
   }
 };

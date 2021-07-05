@@ -1,0 +1,37 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+{
+  "compilerOptions": {
+    "lib": ["esnext", "es6", "DOM"],
+
+    "module": "ESNext",
+    "moduleResolution": "node",
+
+    "importHelpers": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "resolveJsonModule": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "jsx": "react",
+
+    "target": "ESNext",
+
+    // Don't emit .d.ts files
+    "declaration": false,
+    // Don't emit .js files
+    "noEmit": true,
+    // Ensure that Babel can safely transpile files in the TypeScript project
+    "isolatedModules": false
+  },
+  "include": ["packages/**/*.ts"],
+  "exclude": ["node_modules/**/*", "packages/in-server/node_modules/**/*"]
+}
