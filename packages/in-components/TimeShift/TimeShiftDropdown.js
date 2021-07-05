@@ -49,7 +49,7 @@ export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChang
         onTimeShiftChange(timeShiftOffset);
       }}
       disableAutomaticOptionSorting
-      ariaLabel={t('in-components:timeShift.changeSelectedTimeShift')}
+      aria-label={t('in-components:timeShift.changeSelectedTimeShift')}
     >
       {({ elementProps, isOpen }) => (
         <DropdownButton

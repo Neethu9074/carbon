@@ -20,7 +20,7 @@ export default function ComboBoxBehavior({
   children,
   disableAutomaticOptionSorting,
   requiresCustomInteractivity,
-  ariaLabel,
+  'aria-label': ariaLabel,
   overlayAlignment = 'bottomLeft',
   listItemClassName,
   listItemAlignment
@@ -89,7 +89,7 @@ ComboBoxBehavior.propTypes = {
 
   requiresCustomInteractivity: PropTypes.bool,
   disableAutomaticOptionSorting: PropTypes.bool,
-  ariaLabel: PropTypes.string,
+  'aria-label': PropTypes.string,
   overlayAlignment: PropTypes.string,
   listItemClassName: PropTypes.string,
   listItemAlignment: OverlayOption.propTypes.alignment

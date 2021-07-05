@@ -119,7 +119,7 @@ export default function TimeZoneWidgetFormComponent({ form: timeZonesForm, onCha
 
                         <HorizontalFlexWrapper className={locals.right}>
                           <SvgIcon
-                            ariaLabel={t('in-custom-dashboards:widgets.timezone.formComp.removeTimeZone')}
+                            aria-label={t('in-custom-dashboards:widgets.timezone.formComp.removeTimeZone')}
                             className={locals.removeButton}
                             type="lib_actions_delete"
                             onClick={() => onChange([], form => form.remove(i).setTouched(true))}
