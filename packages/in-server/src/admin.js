@@ -9,11 +9,6 @@ const serverConfig = require('./serverConfig.js');
 const app = express();
 
 app.get('/healthcheck', (req, res) => res.json({}));
-app.get('/config', (req, res) =>
-  res.json({
-    config: serverConfig
-  })
-);
 
 const server = app.listen(serverConfig.adminPort, '0.0.0.0', () => {
   const host = server.address().address;
