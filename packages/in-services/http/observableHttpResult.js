@@ -5,7 +5,7 @@
 
 import { combineLatest } from '@instana/observables';
 
-import { loading, success } from 'in-services/util/result';
+import { loading, success, error as createErrorObject } from 'in-services/util/result';
 
 export default function createObservable(observableHttpRequest) {
   const observable = combineLatest([
@@ -20,7 +20,7 @@ export default function createObservable(observableHttpRequest) {
     }
 
     if (hasErrors) {
-      return error(errors);
+      return createErrorObject(errors);
     }
 
     return success(response?.body ?? null);
