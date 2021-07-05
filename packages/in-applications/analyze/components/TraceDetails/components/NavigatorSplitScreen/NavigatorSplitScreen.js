@@ -53,6 +53,7 @@ function getInitialState({ screenWidth }) {
 function NavigatorSplitScreen({
   navigator,
   typeLabel,
+  translatedTypeLabel,
   totalHits,
   totalRepresentedItemCount,
   resultCountLimit,
@@ -91,13 +92,13 @@ function NavigatorSplitScreen({
                   {hasPrev && (
                     <Tooltip
                       content={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewPrevious', {
-                        viewType: typeLabel.toLowerCase()
+                        viewType: translatedTypeLabel.toLowerCase()
                       })}
                     >
                       <SvgIcon
                         type="lib_arrow_drop_left"
                         aria-label={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewPrevious', {
-                          viewType: typeLabel.toLowerCase()
+                          viewType: translatedTypeLabel.toLowerCase()
                         })}
                         size="s"
                         className={locals.prev}
@@ -112,13 +113,13 @@ function NavigatorSplitScreen({
                   {hasNext && (
                     <Tooltip
                       content={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewNext', {
-                        viewType: typeLabel.toLowerCase()
+                        viewType: translatedTypeLabel.toLowerCase()
                       })}
                     >
                       <SvgIcon
                         type="lib_arrow_drop_right"
                         aria-label={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewNext', {
-                          viewType: typeLabel.toLowerCase()
+                          viewType: translatedTypeLabel.toLowerCase()
                         })}
                         size="s"
                         className={locals.next}
