@@ -3,8 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
-  .noLeftPadding pre[class*='language-'] {
+  .noLeftPadding {
     padding-left: 0;
+    .bodyCopy();
   }
 }

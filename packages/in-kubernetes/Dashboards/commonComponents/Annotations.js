@@ -9,7 +9,6 @@ import _ from 'lodash';
 import KeyValueList from 'in-kubernetes/Dashboards/commonComponents/KeyValueList';
 import getAnnotations from 'in-kubernetes/components/getAnnotations';
 import connectTo from 'in-hoc/connectTo';
-import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
 import locals from './Annotations.mless';
@@ -46,7 +45,7 @@ function formatAnnotation(value) {
   const code = parseAnnotation(value);
   return (
     <div className={locals.noLeftPadding}>
-      <Code showLineNumbers={false} code={code.formatted} lang={code.lang} />
+      <code>{code.formatted}</code>
     </div>
   );
 }
