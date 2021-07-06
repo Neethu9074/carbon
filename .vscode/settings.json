@@ -1,7 +1,5 @@
 {
-  "typescript.validate.enable": false,
-  "tslint.enable": false,
-  "typescript.autoImportSuggestions.enabled": false,
+  "typescript.validate.enable": true,
   "typescript.format.enable": false,
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "javascript.preferences.importModuleSpecifierEnding": "minimal",
@@ -16,6 +14,12 @@
     "*.js.snap": "javascript"
   },
   "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[json]": {
