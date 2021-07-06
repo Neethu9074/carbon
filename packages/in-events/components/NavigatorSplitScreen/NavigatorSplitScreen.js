@@ -53,7 +53,6 @@ function getInitialState({ screenWidth }) {
 function NavigatorSplitScreen({
   navigator,
   typeLabel,
-  translatedTypeLabel,
   totalHits,
   totalRepresentedItemCount,
   resultCountLimit,
@@ -91,14 +90,14 @@ function NavigatorSplitScreen({
                 <div className={locals.actions}>
                   {hasPrev && (
                     <Tooltip
-                      content={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewPrevious', {
-                        viewType: translatedTypeLabel.toLowerCase()
+                      content={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
+                        context: typeLabel
                       })}
                     >
                       <SvgIcon
                         type="lib_arrow_drop_left"
-                        aria-label={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewPrevious', {
-                          viewType: translatedTypeLabel.toLowerCase()
+                        aria-label={t('in-events:navigatorSplitScreen.tooltipViewPrevious', {
+                          context: typeLabel
                         })}
                         size="s"
                         className={locals.prev}
@@ -112,14 +111,14 @@ function NavigatorSplitScreen({
 
                   {hasNext && (
                     <Tooltip
-                      content={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewNext', {
-                        viewType: translatedTypeLabel.toLowerCase()
+                      content={t('in-events:navigatorSplitScreen.tooltipViewNext', {
+                        context: typeLabel
                       })}
                     >
                       <SvgIcon
                         type="lib_arrow_drop_right"
-                        aria-label={t('in-analyze:traceDetails.navigatorSplitScreen.tooltipViewNext', {
-                          viewType: translatedTypeLabel.toLowerCase()
+                        aria-label={t('in-events:navigatorSplitScreen.tooltipViewNext', {
+                          context: typeLabel
                         })}
                         size="s"
                         className={locals.next}
@@ -134,16 +133,16 @@ function NavigatorSplitScreen({
                   <Tooltip
                     content={
                       expanded
-                        ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar')
-                        : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')
+                        ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
+                        : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
                     }
                   >
                     <SvgIcon
                       type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
                       aria-label={
                         expanded
-                          ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar')
-                          : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')
+                          ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
+                          : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
                       }
                       size="s"
                       className={locals.toggle}
@@ -169,16 +168,16 @@ function NavigatorSplitScreen({
                 <Tooltip
                   content={
                     expanded
-                      ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar')
-                      : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')
+                      ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
+                      : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
                   }
                 >
                   <SvgIcon
                     type={expanded ? 'lib_sidebar_to_left' : 'lib_sidebar_to_right'}
                     aria-label={
                       expanded
-                        ? t('in-analyze:traceDetails.navigatorSplitScreen.tooltipCloseSidebar')
-                        : t('in-analyze:traceDetails.navigatorSplitScreen.tooltipOpenSidebar')
+                        ? t('in-events:navigatorSplitScreen.tooltipCloseSidebar')
+                        : t('in-events:navigatorSplitScreen.tooltipOpenSidebar')
                     }
                     size="s"
                     className={`${locals.toggleInBar} ${locals.toggle}`}
@@ -226,9 +225,6 @@ export function findPrevIndexToOpen(currentIndex, items) {
 }
 
 function openItem(e, openItemIndex, items, canLoadMore, loadMore, progress, customOpenItem) {
-  e.preventDefault();
-  e.stopPropagation();
-
   // todo only do when clicking on next/prev
   if (openItemIndex + 10 >= items.length && canLoadMore && !progress.loading) {
     loadMore();

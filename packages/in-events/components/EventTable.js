@@ -10,8 +10,8 @@ import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 import { on } from '@instana/observables';
 
-import NavigatorSplitScreen from 'in-applications/analyze/components/TraceDetails/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getEventType, EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
+import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
@@ -106,7 +106,6 @@ function EventTable(props) {
       items={items}
       navigator={<EventsList {...props} onItemClicked={onItemClicked} />}
       typeLabel="event"
-      translatedTypeLabel={t('in-events:labelEvent')}
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
       openItem={e => onChange({ eventId: e.id })}
       resultCountLimit={eventResponseLimit}

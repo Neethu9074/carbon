@@ -10,9 +10,9 @@ import { expect } from 'chai';
 import {
   findNextIndexToOpen,
   findPrevIndexToOpen
-} from 'in-applications/analyze/components/TraceDetails/components/NavigatorSplitScreen/NavigatorSplitScreen';
+} from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
 
-describe('in-applications/analyze/components/TraceDetails/components/NavigatorSplitScreen/NavigatorSplitScreen', () => {
+describe('in-events/components/NavigatorSplitScreen/NavigatorSplitScreen', () => {
   it('must find next index', () => {
     const array = [{ isDisabledForOpen: true }, {}, { isDisabledForOpen: true }, {}];
     const find = (c, e) => expect(findNextIndexToOpen(c, array)).to.equal(e);

@@ -306,15 +306,8 @@
     "callDetails": {
       "tooltipCloseCallDetails": "Close call details"
     },
-
     "callTimeAxis": {
       "started": "Started: {{startedTime}}"
-    },
-    "navigatorSplitScreen": {
-      "tooltipViewPrevious": "View previous {{viewType}} (shortcut: left arrow key)",
-      "tooltipViewNext": "View next {{viewType}} (shortcut: right arrow key)",
-      "tooltipCloseSidebar": "Close sidebar",
-      "tooltipOpenSidebar": "Open sidebar"
     }
   },
   "tabs": {

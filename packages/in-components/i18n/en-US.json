@@ -568,8 +568,8 @@
     "focusOnGroup": "Focus on this group",
     "splitScreen": {
       "sidebarActions": {
-        "prev": "View previous {{ itemName }} (shortcut: left arrow key)",
-        "next": "View next {{ itemName }} (shortcut: right arrow key)"
+        "prev": "View previous entry (shortcut: left arrow key)",
+        "next": "View next entry (shortcut: right arrow key)"
       }
     },
     "groupName": "Group Name",

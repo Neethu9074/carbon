@@ -69,7 +69,6 @@ function ExpandedList(props) {
     getHrefToDetailId,
     isLoading,
     loadMore,
-    itemName,
     setExpanded,
     detailId,
     setDetailId,
@@ -90,17 +89,11 @@ function ExpandedList(props) {
 
             <div className={locals.actions}>
               {hasPrev && (
-                <Tooltip
-                  content={t('in-components:analyze.splitScreen.sidebarActions.prev', {
-                    itemName: t(itemName).toLowerCase()
-                  })}
-                >
+                <Tooltip content={t('in-components:analyze.splitScreen.sidebarActions.prev')}>
                   <SvgIcon
                     className={locals.prev}
                     type="lib_arrow_drop_left"
-                    aria-label={t('in-components:analyze.splitScreen.sidebarActions.prev', {
-                      itemName: t(itemName).toLowerCase()
-                    })}
+                    aria-label={t('in-components:analyze.splitScreen.sidebarActions.prev')}
                     size="s"
                     id={leftArrowId}
                     onClick={() =>
@@ -121,17 +114,11 @@ function ExpandedList(props) {
               )}
 
               {hasNext && (
-                <Tooltip
-                  content={t('in-components:analyze.splitScreen.sidebarActions.next', {
-                    itemName: t(itemName).toLowerCase()
-                  })}
-                >
+                <Tooltip content={t('in-components:analyze.splitScreen.sidebarActions.next')}>
                   <SvgIcon
                     className={locals.next}
                     type="lib_arrow_drop_right"
-                    aria-label={t('in-components:analyze.splitScreen.sidebarActions.next', {
-                      itemName: t(itemName).toLowerCase()
-                    })}
+                    aria-label={t('in-components:analyze.splitScreen.sidebarActions.next')}
                     size="s"
                     id={rightArrowId}
                     onClick={() =>

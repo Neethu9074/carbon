@@ -85,7 +85,6 @@
   "labelIssues": "Issues",
   "labelMonitoringIssues": "Monitoring issues",
   "labelAll": "All",
-  "labelEvent": "event",
   "buttonViewCustomEvent": "View Custom Event",
   "buttonViewBuiltInEvent": "View Built-in Event",
   "buttonCollapse": "Collapse",
@@ -108,5 +107,11 @@
   "tooltipAnalyzeCalls": "The config for this is stored with Query Builder 2 expressions. <br /> You can only use this button with configs stored in Query Builder 1",
   "tooltipCloseEventDetail": "Close event detail",
   "releaseOccurName": "Release: {{releaseName}}",
-  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)"
+  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> ago)",
+  "navigatorSplitScreen": {
+    "tooltipViewPrevious_event": "View previous event (shortcut: left arrow key)",
+    "tooltipViewNext_event": "View next event (shortcut: right arrow key)",
+    "tooltipCloseSidebar": "Close sidebar",
+    "tooltipOpenSidebar": "Open sidebar"
+  }
 }
