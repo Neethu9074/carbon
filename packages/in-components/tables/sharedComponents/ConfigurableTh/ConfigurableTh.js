@@ -5,10 +5,8 @@
 
 import React, { useState } from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { SvgIcon, Button, Th, SortableTh } from '@instana/components';
 
-import { Th, SortableTh } from 'in-components/tables/sharedComponents';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';

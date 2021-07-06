@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/components';
 import { Card } from '@instana/components';
 
-import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { compare } from 'in-services/util/boolean';
 import { t } from 'in-i18n';

@@ -5,11 +5,12 @@
 
 import React from 'react';
 
+import { TableEntityCounter } from '@instana/components';
+
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import getVsphereHosts from 'in-vsphere/subscriptions/getVsphereHosts';
 import { MemoryTotal } from 'in-vsphere/commonComponents/MemoryTotal';
@@ -38,7 +39,7 @@ const columnDefinitions = [
     id: 'vms',
     label: t('in-vsphere:dashboards.virtualMachines'),
     getContent(item) {
-      return <EntityCounter icon="lib_vsphere_vm" count={item.vms} />;
+      return <TableEntityCounter icon="lib_vsphere_vm" count={item.vms} />;
     }
   },
   {
@@ -61,7 +62,7 @@ const columnDefinitions = [
     label: t('in-vsphere:dashboards.cpuResources'),
     sortable: true,
     getContent(item) {
-      return <EntityCounter count={item.cpuTotal} />;
+      return <TableEntityCounter count={item.cpuTotal} />;
     }
   },
   {

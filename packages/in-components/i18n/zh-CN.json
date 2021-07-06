@@ -58,9 +58,6 @@
     "avatarUrlAlt": "来自 gravatar.com 的 {{email}} 头像。",
     "avatarNullAlt": "{{email}} 的后备头像。"
   },
-  "loadMoreRow": {
-    "loadMore": "加载更多"
-},
   "messageFlyout": {
     "infrastructurePageName": "基础架构",
     "eumPageName": "EUM",
@@ -485,9 +482,9 @@
     "buttonReloadToUpdate": "重新加载以更新"
   },
   "upstreamDownstream": {
-    "companionMetricLabelCalls" : "调用",
-    "companionMetricLabelLatency" : "延迟",
-    "companionMetricLabelErroneousCalls" : "错误调用数",
+    "companionMetricLabelCalls": "调用",
+    "companionMetricLabelLatency": "延迟",
+    "companionMetricLabelErroneousCalls": "错误调用数",
     "companionMetricLabelErroneousCallRate": "错误调用率：",
     "metricLabelCallsAndErroneousCalls": "调用数和错误调用数",
     "metricLabelCallsAndLatency": "调用数和等待时间",

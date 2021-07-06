@@ -6,10 +6,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/components';
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { KeyValue } from '@instana/components';
 
-import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
 import { cookieDefinitions } from 'in-settings/terms/cookies/cookieDefinitions';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { t } from 'in-i18n';

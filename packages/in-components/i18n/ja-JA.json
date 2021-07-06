@@ -58,9 +58,6 @@
     "avatarUrlAlt": "gravatar.com からの {{email}} のアバター。",
     "avatarNullAlt": "{{email}} のフォールバック・アバター。"
   },
-  "loadMoreRow": {
-    "loadMore": "さらにロード"
-},
   "messageFlyout": {
     "infrastructurePageName": "インフラストラクチャー",
     "eumPageName": "EUM",
@@ -485,9 +482,9 @@
     "buttonReloadToUpdate": "再ロードして更新"
   },
   "upstreamDownstream": {
-    "companionMetricLabelCalls" : "呼び出し",
-    "companionMetricLabelLatency" : "待ち時間",
-    "companionMetricLabelErroneousCalls" : "エラーのある呼び出し数",
+    "companionMetricLabelCalls": "呼び出し",
+    "companionMetricLabelLatency": "待ち時間",
+    "companionMetricLabelErroneousCalls": "エラーのある呼び出し数",
     "companionMetricLabelErroneousCallRate": "エラーのある呼び出し率: ",
     "metricLabelCallsAndErroneousCalls": "呼び出し数およびエラーのある呼び出し数",
     "metricLabelCallsAndLatency": "呼び出しおよび待ち時間",

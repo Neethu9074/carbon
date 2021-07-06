@@ -7,9 +7,9 @@ import { fromJS } from 'immutable';
 import { get } from 'lodash';
 import React from 'react';
 
+import { TableLoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from '@instana/components';
 import { Card } from '@instana/components';
 
-import { LoadingSkeletonRows, Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import getHostByKubernetesNode from 'in-subscription/kubernetes/getHostByKubernetesNode';
@@ -47,7 +47,7 @@ export default connectTo(
         <Table>
           <Thead />
           <Tbody>
-            <LoadingSkeletonRows cols={3} />
+            <TableLoadingSkeletonRows cols={3} />
           </Tbody>
         </Table>
       );

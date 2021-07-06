@@ -6,7 +6,9 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Th, SortableTh, ConfigurableTh } from 'in-components/tables/sharedComponents';
+import { Tr, Th, SortableTh } from '@instana/components';
+
+import ConfigurableTh from 'in-components/tables/sharedComponents/ConfigurableTh';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 

@@ -58,9 +58,6 @@
     "avatarUrlAlt": "Avatar for {{email}} from gravatar.com.",
     "avatarNullAlt": "Fallback avatar for {{email}}."
   },
-  "loadMoreRow": {
-    "loadMore": "Load More"
-  },
   "messageFlyout": {
     "infrastructurePageName": "Infrastructure",
     "eumPageName": "EUM",

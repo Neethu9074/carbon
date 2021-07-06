@@ -6,6 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Td, Table, Tbody, Tr } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
@@ -13,7 +14,6 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
-import { Td, Table, Tbody, Tr } from 'in-components/tables/sharedComponents';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import EntityWithType from 'in-components/EntityWithType';
 import Overlay from 'in-components/overlays/Overlay';

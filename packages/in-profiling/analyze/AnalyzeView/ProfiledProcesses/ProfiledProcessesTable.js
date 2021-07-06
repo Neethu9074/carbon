@@ -5,9 +5,9 @@
 
 import React from 'react';
 
-import { Table, Thead, Tbody, Tr, LoadMoreRow } from 'in-components/tables/sharedComponents';
+import { Table, Thead, Tbody, Tr, TableLoadMoreRow, Th } from '@instana/components';
+
 import Rows from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/Rows';
-import { Th } from 'in-components/tables/sharedComponents/Table';
 import { t } from 'in-i18n';
 
 export default function ProfiledProcessesTable(props) {
@@ -24,7 +24,7 @@ export default function ProfiledProcessesTable(props) {
       </Thead>
       <Tbody>
         <Rows {...props} cols={columnCount} />
-        {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={columnCount} />}
+        {canLoadMore && <TableLoadMoreRow loadMore={loadMore} size="compact" cols={columnCount} />}
       </Tbody>
     </Table>
   );

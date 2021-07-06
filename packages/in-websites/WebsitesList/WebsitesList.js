@@ -6,6 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { SeverityIndicatorCellContentWrapper } from '@instana/components';
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
@@ -13,7 +14,6 @@ import { Link } from '@instana/components';
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior';
 import WebsitesNoDataNotification from 'in-websites/WebsitesList/components/WebsitesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';

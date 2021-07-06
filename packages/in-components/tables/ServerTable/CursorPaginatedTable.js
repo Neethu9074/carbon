@@ -5,13 +5,13 @@
 
 import React, { Fragment } from 'react';
 
-import { ActionColumn, ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';
+import { TableActionColumn, TableErrorRows, Table, Tbody, Thead, Tr } from '@instana/components';
+
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
-import { Tr } from 'in-components/tables/sharedComponents/Table';
 import { t } from 'in-i18n';
 
 export default function CursorPaginatedTable(props) {
@@ -94,9 +94,9 @@ export default function CursorPaginatedTable(props) {
           {isLoading && (
             <LoadingRows cols={visibleColumns.length} progress={progress} numSkeletonRows={numSkeletonRows} />
           )}
-          {hasErrors && <ErrorRows cols={visibleColumns.length} errors={errors} size={size} />}
+          {hasErrors && <TableErrorRows cols={visibleColumns.length} errors={errors} size={size} />}
           {
-            <LoadMoreRow
+            <TableLoadMoreRow
               cols={visibleColumns.length}
               loadMore={canLoadMore && loadMore}
               label={loadMoreLabel}
@@ -111,7 +111,7 @@ export default function CursorPaginatedTable(props) {
   );
 }
 
-function LoadMoreRow({
+function TableLoadMoreRow({
   depth,
   cols,
   loadMore,
@@ -128,9 +128,9 @@ function LoadMoreRow({
   return (
     <Tr depth={depth} size={size} className={className}>
       {supportsFilterBy && (
-        <ActionColumn cols={filterByCols} onClick={filterByOnClick} href={filterByHref} label={filterByLabel} />
+        <TableActionColumn cols={filterByCols} onClick={filterByOnClick} href={filterByHref} label={filterByLabel} />
       )}
-      {loadMore && <ActionColumn cols={loadMoreCols} onClick={loadMore} label={label} />}
+      {loadMore && <TableActionColumn cols={loadMoreCols} onClick={loadMore} label={label} />}
     </Tr>
   );
 }

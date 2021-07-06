@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Td } from 'in-components/tables/sharedComponents';
+import { Tr, Td } from '@instana/components';
 
 import locals from './Row.mless';
 

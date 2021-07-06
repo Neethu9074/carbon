@@ -45,7 +45,6 @@ export default function ServerListPresenter(props) {
     // body = getLoadingContent(filteredAndDisabledColumnDefinitions, numSkeletonRows, result);
     content = <LoadingList numSkeletonRows={numSkeletonRows} />;
   } else if (hasError(result)) {
-    // body = <ErrorRows cols={filteredAndDisabledColumnDefinitions.length} errors={result.errors} size={size} />;
     content = <ErrorList errors={result.errors} />;
   } else if (result.data.items.length === 0) {
     content = getEmptyContent(renderNoDataAvailable, noDataMessage);

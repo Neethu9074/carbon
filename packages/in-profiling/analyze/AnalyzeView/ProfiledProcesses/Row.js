@@ -6,12 +6,12 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Tr, Td } from '@instana/components';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getSnapshot, getSnapshotVersions } from 'in-stores/snapshot';
-import { Tr, Td } from 'in-components/tables/sharedComponents';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 
 export default function Row({ item }) {

@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { SeverityIndicatorCellContentWrapper } from '@instana/components';
+import { TableEntityCounter } from '@instana/components';
 import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
@@ -19,7 +21,6 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { serviceListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
@@ -29,7 +30,6 @@ import ScopeNotification from 'in-applications/lists/components/ScopeNotificatio
 import { getServicesWithDefaults } from 'in-subscription/application/getServices';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
@@ -88,7 +88,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'applications', 0, 1], 0);
-      return <EntityCounter count={count} />;
+      return <TableEntityCounter count={count} />;
     }
   },
   {
@@ -97,7 +97,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
-      return <EntityCounter count={count} />;
+      return <TableEntityCounter count={count} />;
     }
   },
   {

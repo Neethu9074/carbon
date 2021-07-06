@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
+import { SeverityIndicatorCellContentWrapper } from '@instana/components';
+
 import EntityLink from 'in-components/EntityLink/EntityLink';
 
 export default function SeverityAwareEntityLink({

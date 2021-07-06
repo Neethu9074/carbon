@@ -7,12 +7,12 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import invariant from 'invariant';
 
+import { TableErrorRows, Table, Tbody, Thead } from '@instana/components';
 import { Card } from '@instana/components';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
-import { ErrorRows, Table, Tbody, Thead } from 'in-components/tables/sharedComponents';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -66,7 +66,7 @@ export default function ServerTablePresenter(props) {
   if (isLoading(result)) {
     body = <LoadingRows cols={visibleColumns.length} progress={result.progress} numSkeletonRows={numSkeletonRows} />;
   } else if (hasError(result)) {
-    body = <ErrorRows cols={visibleColumns.length} errors={result.errors} size={size} />;
+    body = <TableErrorRows cols={visibleColumns.length} errors={result.errors} size={size} />;
   } else if (result?.data?.items?.length === 0) {
     body = (
       <EmptyContent

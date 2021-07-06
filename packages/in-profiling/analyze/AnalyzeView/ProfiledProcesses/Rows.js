@@ -5,7 +5,8 @@
 
 import React from 'react';
 
-import { HorizontalIndicatorRow, LoadingSkeletonRows, ErrorRows } from 'in-components/tables/sharedComponents';
+import { TableHorizontalIndicatorRow, TableLoadingSkeletonRows, TableErrorRows } from '@instana/components';
+
 import Row from 'in-profiling/analyze/AnalyzeView/ProfiledProcesses/Row';
 
 export default function ProfiledProcessesTable(props) {
@@ -17,9 +18,9 @@ export default function ProfiledProcessesTable(props) {
         <Row key={i} {...props} item={item.profiledProcess} />
       ))}
 
-      <HorizontalIndicatorRow cols={cols} progress={progress} />
-      <ErrorRows cols={cols} errors={errors} size="compact" />
-      {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={cols} />}
+      <TableHorizontalIndicatorRow cols={cols} progress={progress} />
+      <TableErrorRows cols={cols} errors={errors} size="compact" />
+      {items.length === 0 && progress.loading && <TableLoadingSkeletonRows cols={cols} />}
     </>
   );
 }

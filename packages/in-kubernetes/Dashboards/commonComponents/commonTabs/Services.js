@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { TableEntityCounter } from '@instana/components';
 import { Card } from '@instana/components';
 
 import {
@@ -22,7 +23,6 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';
 import EntityLink from 'in-components/EntityLink';
@@ -78,7 +78,7 @@ const columnDefinitions = [
     id: 'pods',
     label: t('in-kubernetes:dashboards.pods'),
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
+      return <TableEntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
     }
   },
   {

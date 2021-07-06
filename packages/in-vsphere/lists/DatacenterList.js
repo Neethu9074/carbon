@@ -5,6 +5,8 @@
 
 import React, { Fragment } from 'react';
 
+import { TableEntityCounter } from '@instana/components';
+
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
@@ -12,7 +14,6 @@ import VSphereNoDataNotification from 'in-vsphere/lists/components/VSphereNoData
 import { bytesPerSecondZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { datacenterList, getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -38,14 +39,14 @@ const columnDefinitions = [
     id: 'hosts',
     label: t('in-vsphere:esXiHosts'),
     getContent(item) {
-      return <EntityCounter icon="lib_linux" count={item.hosts} />;
+      return <TableEntityCounter icon="lib_linux" count={item.hosts} />;
     }
   },
   {
     id: 'vms',
     label: t('in-vsphere:virtualMachines'),
     getContent(item) {
-      return <EntityCounter icon="lib_vsphere_vm" count={item.vms} />;
+      return <TableEntityCounter icon="lib_vsphere_vm" count={item.vms} />;
     }
   },
   {

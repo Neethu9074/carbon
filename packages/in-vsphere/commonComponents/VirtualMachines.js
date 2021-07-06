@@ -6,11 +6,12 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { TableEntityCounter } from '@instana/components';
+
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import { getVsphereVmDashboard } from 'in-vsphere/navigation/paths';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
@@ -60,7 +61,7 @@ const columnDefinitions = [
     label: t('in-vsphere:cpuResources'),
     sortable: true,
     getContent(item) {
-      return <EntityCounter count={item.cpuTotal} />;
+      return <TableEntityCounter count={item.cpuTotal} />;
     }
   },
   {

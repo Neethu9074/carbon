@@ -58,9 +58,6 @@
     "avatarUrlAlt": "gravatar.com의 {{email}}에 대한 아바타.",
     "avatarNullAlt": "{{email}}에 대한 폴백 아바타."
   },
-  "loadMoreRow": {
-    "loadMore": "추가 로드"
-},
   "messageFlyout": {
     "infrastructurePageName": "인프라",
     "eumPageName": "EUM",
@@ -485,9 +482,9 @@
     "buttonReloadToUpdate": "업데이트하기 위해 다시 로드"
   },
   "upstreamDownstream": {
-    "companionMetricLabelCalls" : "호출",
-    "companionMetricLabelLatency" : "대기 시간",
-    "companionMetricLabelErroneousCalls" : "잘못된 호출",
+    "companionMetricLabelCalls": "호출",
+    "companionMetricLabelLatency": "대기 시간",
+    "companionMetricLabelErroneousCalls": "잘못된 호출",
     "companionMetricLabelErroneousCallRate": "잘못된 호출 비율: ",
     "metricLabelCallsAndErroneousCalls": "호출 및 잘못된 호출",
     "metricLabelCallsAndLatency": "호출 및 대기 시간",

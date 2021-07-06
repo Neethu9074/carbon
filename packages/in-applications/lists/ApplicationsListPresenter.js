@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { SeverityIndicatorCellContentWrapper } from '@instana/components';
+import { TableEntityCounter } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
@@ -22,7 +24,6 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { getApplicationDashboard, applicationsList } from 'in-applications/navigation/paths';
-import { SeverityIndicatorCellContentWrapper } from 'in-components/tables/sharedComponents';
 import { applicationListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
@@ -30,7 +31,6 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import CreateApplication from 'in-applications/creation/CreateApplication';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import ViewSwitcher from 'in-applications/lists/components/ViewSwitcher';
@@ -83,7 +83,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'services', 0, 1], 0);
-      return <EntityCounter count={count} />;
+      return <TableEntityCounter count={count} />;
     }
   },
   {

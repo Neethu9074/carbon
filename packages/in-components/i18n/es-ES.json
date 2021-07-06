@@ -58,9 +58,6 @@
     "avatarUrlAlt": "Avatar para {{email}} de gravatar.com.",
     "avatarNullAlt": "Avatar de reserva para {{email}}."
   },
-  "loadMoreRow": {
-    "loadMore": "Cargar más"
-},
   "messageFlyout": {
     "infrastructurePageName": "Infraestructura",
     "eumPageName": "EUM",
@@ -485,9 +482,9 @@
     "buttonReloadToUpdate": "Volver a cargar para actualizar"
   },
   "upstreamDownstream": {
-    "companionMetricLabelCalls" : "Llamadas",
-    "companionMetricLabelLatency" : "latencia",
-    "companionMetricLabelErroneousCalls" : "Llamadas erróneas",
+    "companionMetricLabelCalls": "Llamadas",
+    "companionMetricLabelLatency": "latencia",
+    "companionMetricLabelErroneousCalls": "Llamadas erróneas",
     "companionMetricLabelErroneousCallRate": "Tasa de llamadas erróneas: ",
     "metricLabelCallsAndErroneousCalls": "Llamadas y llamadas erróneas",
     "metricLabelCallsAndLatency": "Llamadas y Latencia",

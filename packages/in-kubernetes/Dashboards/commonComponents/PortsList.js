@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import { Table, Thead, Tbody, Th, Tr, Td } from '@instana/components';
 import { Card } from '@instana/components';
 
-import { Table, Thead, Tbody, Th, Tr, Td } from 'in-components/tables/sharedComponents';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import WithIcon from 'in-components/WithIcon';
 import { t } from 'in-i18n';

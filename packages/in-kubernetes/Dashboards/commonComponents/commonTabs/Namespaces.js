@@ -6,6 +6,7 @@
 import { get, find } from 'lodash';
 import React from 'react';
 
+import { TableEntityCounter } from '@instana/components';
 import { Card } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
@@ -17,7 +18,6 @@ import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNam
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { resourceQuotaPercentage } from 'in-kubernetes/formatters';
@@ -47,42 +47,42 @@ const columnDefinitions = [
     id: 'workloads.deployments',
     label: t('in-kubernetes:dashboards.deployments'),
     getContent({ workloads }) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deployments} />;
+      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.deployments} />;
     }
   },
   {
     id: 'workloads.deploymentConfigs',
     label: t('in-kubernetes:dashboards.deploymentConfigs'),
     getContent({ workloads }) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.deploymentConfigs} />;
+      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.deploymentConfigs} />;
     }
   },
   {
     id: 'workloads.daemonSets',
     label: t('in-kubernetes:dashboards.daemonSets'),
     getContent({ workloads }) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.daemonSets} />;
+      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.daemonSets} />;
     }
   },
   {
     id: 'workloads.statefulSets',
     label: t('in-kubernetes:dashboards.statefulSets'),
     getContent({ workloads }) {
-      return <EntityCounter icon="lib_kubernetes_workload" count={workloads.statefulSets} />;
+      return <TableEntityCounter icon="lib_kubernetes_workload" count={workloads.statefulSets} />;
     }
   },
   {
     id: 'services',
     label: t('in-kubernetes:dashboards.services'),
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_service" count={item.services} />;
+      return <TableEntityCounter icon="lib_kubernetes_service" count={item.services} />;
     }
   },
   {
     id: 'workloads.pods',
     label: t('in-kubernetes:dashboards.pods'),
     getContent({ workloads }) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={workloads.pods} />;
+      return <TableEntityCounter icon="lib_kubernetes_pod" count={workloads.pods} />;
     }
   },
   {

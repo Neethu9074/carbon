@@ -7,18 +7,9 @@ import classNames from 'classnames';
 import { get } from 'lodash';
 import React from 'react';
 
+import { Table, Thead, Tbody, Tr, Th, Td, TableLoadMoreRow, TableHorizontalIndicatorRow } from '@instana/components';
 import { Link } from '@instana/components';
 
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  LoadMoreRow,
-  HorizontalIndicatorRow
-} from 'in-components/tables/sharedComponents';
 import { OPERATOR_OR, createTagFilterExpression } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { getTagFilterListForBackendSubscription } from 'in-analyze/applicationFilter';
@@ -104,8 +95,8 @@ export default function MatchedSyntheticEndpoints({ tagFilters }) {
             </Td>
           </Tr>
         ))}
-        {canLoadMore && <LoadMoreRow className={locals.loadMore} loadMore={loadMore} cols={2} size="compact" />}
-        {isLoading && <HorizontalIndicatorRow cols={2} progress={progress} />}
+        {canLoadMore && <TableLoadMoreRow className={locals.loadMore} loadMore={loadMore} cols={2} size="compact" />}
+        {isLoading && <TableHorizontalIndicatorRow cols={2} progress={progress} />}
       </Tbody>
     </Table>
   );

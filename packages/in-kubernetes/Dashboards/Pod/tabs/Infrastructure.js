@@ -6,6 +6,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { Td, Table, Thead, Tbody, Tr, Th } from '@instana/components';
 import { Card } from '@instana/components';
 
 import {
@@ -19,7 +20,6 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
-import { Td, Table, Thead, Tbody, Tr, Th } from 'in-components/tables/sharedComponents';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';

@@ -5,13 +5,13 @@
 
 import React, { Fragment } from 'react';
 
-import { HorizontalIndicatorRow, LoadingSkeletonRows } from 'in-components/tables/sharedComponents';
+import { TableHorizontalIndicatorRow, TableLoadingSkeletonRows } from '@instana/components';
 
 export default function LoadingRows({ cols, progress, numSkeletonRows }) {
   return (
     <Fragment>
-      <HorizontalIndicatorRow cols={cols} progress={progress} />
-      <LoadingSkeletonRows cols={cols} rows={numSkeletonRows} />
+      <TableHorizontalIndicatorRow cols={cols} progress={progress} />
+      <TableLoadingSkeletonRows cols={cols} rows={numSkeletonRows} />
     </Fragment>
   );
 }

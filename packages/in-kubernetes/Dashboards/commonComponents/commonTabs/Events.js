@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { Card, TableDateTime } from '@instana/components';
 
 import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Table/components/ViewWidthRestrictedColumn';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
@@ -17,7 +17,6 @@ import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents'
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
-import DateTime from 'in-components/tables/sharedComponents/DateTime';
 import EntityLink from 'in-components/EntityLink';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -101,7 +100,7 @@ const allColumns = [
     id: 'time',
     label: t('in-kubernetes:dashboards.time'),
     getContent(item) {
-      return <DateTime>{get(item, 'time')}</DateTime>;
+      return <TableDateTime>{get(item, 'time')}</TableDateTime>;
     }
   }
 ];

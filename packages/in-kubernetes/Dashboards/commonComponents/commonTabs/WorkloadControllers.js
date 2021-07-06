@@ -6,6 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { TableEntityCounter } from '@instana/components';
 import { Card } from '@instana/components';
 
 import {
@@ -23,7 +24,6 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
 
@@ -56,7 +56,7 @@ const columnDefinitions = [
     id: 'pods',
     label: t('in-kubernetes:dashboards.pods'),
     getContent(item) {
-      return <EntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
+      return <TableEntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
     }
   },
   {

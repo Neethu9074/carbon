@@ -58,9 +58,6 @@
     "avatarUrlAlt": "gravatar.com 提供的 {{email}} 頭像。",
     "avatarNullAlt": "{{email}} 的備用頭像。"
   },
-  "loadMoreRow": {
-    "loadMore": "載入更多"
-},
   "messageFlyout": {
     "infrastructurePageName": "基礎架構",
     "eumPageName": "EUM",
@@ -485,9 +482,9 @@
     "buttonReloadToUpdate": "重新載入以更新"
   },
   "upstreamDownstream": {
-    "companionMetricLabelCalls" : "呼叫",
-    "companionMetricLabelLatency" : "延遲時間",
-    "companionMetricLabelErroneousCalls" : "錯誤呼叫",
+    "companionMetricLabelCalls": "呼叫",
+    "companionMetricLabelLatency": "延遲時間",
+    "companionMetricLabelErroneousCalls": "錯誤呼叫",
     "companionMetricLabelErroneousCallRate": "錯誤呼叫率：",
     "metricLabelCallsAndErroneousCalls": "呼叫和錯誤呼叫",
     "metricLabelCallsAndLatency": "呼叫和延遲時間",

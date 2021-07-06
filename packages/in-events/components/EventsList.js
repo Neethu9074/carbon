@@ -5,19 +5,19 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
-
 import {
   Table,
-  HorizontalIndicatorRow,
-  LoadingSkeletonRows,
+  TableHorizontalIndicatorRow,
+  TableLoadingSkeletonRows,
   SortableTh,
   Thead,
   Tbody,
   Tr,
   Th,
-  LoadMoreRow
-} from 'in-components/tables/sharedComponents';
+  TableLoadMoreRow
+} from '@instana/components';
+import { Card } from '@instana/components';
+
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import HighlightedTimeframeMarkerRow from 'in-events/components/HighlightedTimeframeMarkerRow';
 import useTimeConfigUpdatingScale from 'in-services/hooks/useTimeConfigUpdatingScale';
@@ -106,9 +106,9 @@ function List(props) {
               />
             ))}
 
-            {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
-            <HorizontalIndicatorRow cols={cols} progress={progress} />
-            {progress.loading && <LoadingSkeletonRows cols={cols} />}
+            {canLoadMore && <TableLoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
+            <TableHorizontalIndicatorRow cols={cols} progress={progress} />
+            {progress.loading && <TableLoadingSkeletonRows cols={cols} />}
           </Tbody>
         </Table>
       </Card>
@@ -154,9 +154,9 @@ function List(props) {
             />
           ))}
 
-          {canLoadMore && <LoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
-          <HorizontalIndicatorRow cols={cols} progress={progress} />
-          {progress.loading && <LoadingSkeletonRows cols={cols} />}
+          {canLoadMore && <TableLoadMoreRow loadMore={loadMore} size="compact" cols={cols} />}
+          <TableHorizontalIndicatorRow cols={cols} progress={progress} />
+          {progress.loading && <TableLoadingSkeletonRows cols={cols} />}
         </Tbody>
       </Table>
     );

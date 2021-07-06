@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
+import { Tr, Td } from '@instana/components';
 import { just } from '@instana/observables';
 
 import {
@@ -21,7 +22,6 @@ import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';
 import getApplication from 'in-subscription/application/getApplication';
-import { Tr, Td } from 'in-components/tables/sharedComponents';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { formatDateTime } from 'in-services/formatters/date';
 import getWebsite from 'in-subscription/website/getWebsite';

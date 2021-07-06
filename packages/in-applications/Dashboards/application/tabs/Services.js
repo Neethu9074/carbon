@@ -6,6 +6,7 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import { TableEntityCounter } from '@instana/components';
 import { Card } from '@instana/components';
 
 import {
@@ -24,7 +25,6 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import EntityCounter from 'in-components/tables/sharedComponents/EntityCounter';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
@@ -96,7 +96,7 @@ const columnDefinitions = [
     defaultOrderDirection: 'DESC',
     getContent(item) {
       const count = get(item, ['metrics', 'endpoints', 0, 1], 0);
-      return <EntityCounter count={count} />;
+      return <TableEntityCounter count={count} />;
     }
   },
   {

@@ -7,15 +7,16 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  HorizontalIndicatorRow,
-  LoadingSkeletonRows,
+  TableHorizontalIndicatorRow,
+  TableLoadingSkeletonRows,
   Table,
   Tbody,
   Td,
   Th,
   Thead,
   Tr
-} from 'in-components/tables/sharedComponents';
+} from '@instana/components';
+
 import { AffectedEntity } from 'in-events/components/AffectedEntities/AffectedEntity';
 import { finishedProgress } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
@@ -44,7 +45,7 @@ export default function AffectedEntitiesPresenter(props) {
           </Tr>
         </Thead>
         <Tbody>
-          <HorizontalIndicatorRow cols={4} progress={progress} />
+          <TableHorizontalIndicatorRow cols={4} progress={progress} />
           {items.map((item, groupIndex) => (
             <AffectedEntity key={`${item.name}${groupIndex}`} item={item} createItemLink$={createItemLink$} />
           ))}
@@ -55,7 +56,7 @@ export default function AffectedEntitiesPresenter(props) {
               </Td>
             </Tr>
           )}
-          {items.length === 0 && progress.loading && <LoadingSkeletonRows cols={4} />}
+          {items.length === 0 && progress.loading && <TableLoadingSkeletonRows cols={4} />}
         </Tbody>
       </Table>
     </Fragment>
