@@ -2257,8 +2257,6 @@
       "state": "State",
       "queueManagersNumber": "Queue Manager ({{count}})",
       "queueManagersNumber_plural": "Queue Managers ({{count}})",
-      "serviceClass": "Service Class",
-      "localIP": "Local IP",
       "serviceNumber": "Service ({{count}})",
       "serviceNumber_plural": "Services ({{count}})",
       "sqlDatasourceNumber": "SQL Data Source ({{count}})",
@@ -2295,7 +2293,8 @@
       "currentMemUsage": "Memory Usage",
       "meanTransactionTime": "Mean Transaction Time",
       "transactionRate": "Transaction Rate",
-      "throughput": "10 minutes (tps)"
+      "throughput": "10 minutes (tps)",
+      "status": "Status"
     },
     "ibmDataPowerSqlDatasource": {
       "ibmDataPowerSqlDatasourceInfo": "IBM DataPower SQL Data Source",

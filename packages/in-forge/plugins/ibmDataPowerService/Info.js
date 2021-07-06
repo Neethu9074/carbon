@@ -25,6 +25,7 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmDataPowerService.localPort')}>
         {data.get('localPort')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmDataPowerService.status')}>{data.get('status')}</DescriptionItem>
     </DescriptionList>
   );
 }

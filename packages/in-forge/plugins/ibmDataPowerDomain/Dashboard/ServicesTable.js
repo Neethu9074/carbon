@@ -23,7 +23,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmDataPowerDomain.domainName'),
+    title: t('in-forge:plugins.ibmDataPowerService.domainName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -32,7 +32,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmDataPowerDomain.serviceClass'),
+    title: t('in-forge:plugins.ibmDataPowerService.serviceClass'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -41,11 +41,32 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmDataPowerDomain.localIP'),
+    title: t('in-forge:plugins.ibmDataPowerService.localIP'),
     type: 'string',
     typeArgs: {
       getValue(row) {
         return row.service.getIn(['data', 'localIP']);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmDataPowerService.localPort'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.service.getIn(['data', 'localPort']);
+      },
+      getContent(value) {
+        return value;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmDataPowerService.status'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.service.getIn(['data', 'status']);
       }
     }
   }

@@ -29,6 +29,13 @@ export default [
     formatter: percentage
   },
   {
+    metrics: ['memoryUsage'],
+    labels: [t('in-forge:plugins.ibmDataPowerAppliance.memoryUsage')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmDataPowerAppliance.memoryUsage')],
+    formatter: percentage
+  },
+  {
     metrics: ['connectionAccepted'],
     labels: [t('in-forge:plugins.ibmDataPowerAppliance.connectionAccepted')],
     min: 0,
