@@ -49,5 +49,5 @@ module.exports = {
   traceDetailViewV2Enabled: false,
   deprecateAppDataLegacyEvents: true,
   potentialProblemsInCustomDashboardEnabled: true,
-  adaptiveBaselineEnable: true
+  adaptiveBaselineEnabled: true
 };

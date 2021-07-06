@@ -545,6 +545,7 @@
         "thresholdTypeOptionStaticThreshold": "Static Threshold",
         "thresholdTypeOptionHistoricBaselineDaily": "Baseline (Daily Seasonality)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (Weekly Seasonality)",
+        "thresholdTypeOptionAdaptiveBaseline": "Adaptive baseline",
         "useSuggestedvalue": "Use suggested value",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Edit Smart Alert",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Edit Global Smart Alert",

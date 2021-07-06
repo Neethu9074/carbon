@@ -5,7 +5,7 @@
 
 import { createField, createMapForm } from 'formalistic';
 
-import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
 
@@ -64,6 +64,10 @@ function createBaselineEnabledForm(threshold) {
     return createHistoricBaselineForm(threshold);
   }
 
+  if (thresholdType === ADAPTIVE_BASELINE) {
+    return createAdaptiveBaselineForm(threshold);
+  }
+
   throw new Error(`Unknown threshold type ${thresholdType}.`);
 }
 
@@ -107,6 +111,22 @@ function createHistoricBaselineForm(threshold) {
             ];
           }
         },
+        value: threshold.baseline
+      })
+    )
+    .put(
+      'deviationFactor',
+      createField({
+        value: threshold.deviationFactor ?? defaultDeviationFactor
+      })
+    );
+}
+function createAdaptiveBaselineForm(threshold) {
+  return createBaseForm(threshold)
+    .put(
+      'baseline',
+      createField({
+        // For adaptiveBaseline an empty lisy (baseline)is legit. No validation needed.
         value: threshold.baseline
       })
     )

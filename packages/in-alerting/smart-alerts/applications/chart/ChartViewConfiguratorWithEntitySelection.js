@@ -38,7 +38,8 @@ export default function ChartViewConfiguratorWithEntitySelection({
   title,
   headerTransparent,
   framed = false,
-  onChartViewConfigChange
+  onChartViewConfigChange,
+  onEntityIdChange
 }) {
   const selectApLevelOnly = alertConfigWithFormModel.evaluationType === PER_AP;
   const selectServiceLevel = alertConfigWithFormModel.evaluationType === PER_AP_SERVICE;
@@ -50,23 +51,38 @@ export default function ChartViewConfiguratorWithEntitySelection({
   const applications = Object.values(alertConfigWithFormModel?.applications);
   const showEntitySelection = !selectApLevelOnly || applications.length > 1;
 
+  const handleSetApplicationId = applicationId => {
+    setApplicationId(applicationId);
+    onEntityIdChange?.({ applicationId });
+  };
+
+  const handleSetServiceId = serviceId => {
+    setServiceId(serviceId);
+    onEntityIdChange?.({ serviceId });
+  };
+
+  const handleSetEndpointId = endpointId => {
+    setEndpointId(endpointId);
+    onEntityIdChange?.({ endpointId });
+  };
+
   useEffect(() => {
     // as long as no appId is in state we should watch the form for selection updates
     // or if our current selection vanishes from the selected apps we should switch to the first app of the form
     if (!applicationId || !applications.find(({ applicationId: id }) => id === applicationId)) {
-      setApplicationId(firstAppId);
+      handleSetApplicationId(firstAppId);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [firstAppId, applications]);
 
   useEffect(() => {
     // do a simple reset, after somebody switched evaluationType
-    setEndpointId(null);
-    setServiceId(null);
+    handleSetEndpointId(null);
+    handleSetServiceId(null);
     if (selectApLevelOnly) {
-      setApplicationId(firstAppId);
+      handleSetApplicationId(firstAppId);
     } else {
-      setApplicationId(null);
+      handleSetApplicationId(null);
     }
     // trigger only when evaluationType was changed, but no by "firstApplicationId"
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -98,11 +114,11 @@ export default function ChartViewConfiguratorWithEntitySelection({
           <StackItem>
             <ChartSubEntitySelection
               applicationId={applicationId}
-              setApplicationId={setApplicationId}
+              setApplicationId={handleSetApplicationId}
               serviceId={serviceId}
-              setServiceId={setServiceId}
+              setServiceId={handleSetServiceId}
               endpointId={endpointId}
-              setEndpointId={setEndpointId}
+              setEndpointId={handleSetEndpointId}
               alertConfigWithFormModel={alertConfigWithFormModel}
               queryWindowSize={entitySelectionQueryWindowSize}
             />
@@ -132,5 +148,6 @@ ChartViewConfiguratorWithEntitySelection.propTypes = {
     websiteId: PropTypes.string,
     evaluationType: PropTypes.string
   }),
-  onChartViewConfigChange: PropTypes.func.isRequired
+  onChartViewConfigChange: PropTypes.func.isRequired,
+  onEntityIdChange: PropTypes.func
 };

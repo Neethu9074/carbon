@@ -16,18 +16,17 @@ import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import FeatureFeedback from 'in-components/FeatureFeedback/FeatureFeedback';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 
 export function SmartAlertConfigDialog(props) {
   useCalculateThresholdOnBackendSignalEmitter(props.form);
   const alertConfigWithFormModel = props.form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
+  const enrichedTagFilterFormModel = getEnrichedTagfilterFormModel(props, alertConfigWithFormModel, blueprintConfig);
 
-  // for the threshold, we don't include the sub-entity filters, because we perform a grouping on the entire scope
-  const { enrichedTagFilterFormModel } = props.isGlobalSmartAlert
-    ? {}
-    : getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig, null);
   return (
     <SmartAlertConfigDialogWithQueryValidation
       {...props}
@@ -36,6 +35,24 @@ export function SmartAlertConfigDialog(props) {
       blueprintConfig={blueprintConfig}
     />
   );
+}
+
+function getEnrichedTagfilterFormModel({ isGlobalSmartAlert, form }, alertConfigWithFormModel, blueprintConfig) {
+  let enrichedTagFilterFormModel = [];
+
+  if (adaptiveBaselineEnabled || !isGlobalSmartAlert) {
+    const { applicationId, serviceId, endpointId } = form.get('hiddenFields').get('chartViewEntitySelection').value;
+
+    enrichedTagFilterFormModel = getEnhancedTagFilterFormModel(
+      alertConfigWithFormModel,
+      blueprintConfig,
+      applicationId,
+      serviceId,
+      endpointId
+    ).enrichedTagFilterFormModel;
+  }
+
+  return enrichedTagFilterFormModel;
 }
 
 function SmartAlertConfigDialogWithQueryValidation({
@@ -91,7 +108,7 @@ function resolveThresholdRequest(
   const {
     rule: { metricName },
     rule,
-    threshold: { operator, seasonality = null },
+    threshold: { operator, seasonality = null, type },
     includeInternal,
     includeSynthetic,
     granularity,
@@ -123,8 +140,9 @@ function resolveThresholdRequest(
     },
     operator,
     seasonality: getSeasonality(),
-    evaluationType,
-    fallbackOnError
+    evaluationType: type === ADAPTIVE_BASELINE ? null : evaluationType,
+    fallbackOnError,
+    type
   });
 }
 

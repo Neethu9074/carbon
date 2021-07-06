@@ -179,5 +179,15 @@ function createHiddenFieldsForm(alertConfig) {
       createField({
         value: null
       })
+    )
+    .put(
+      'chartViewEntitySelection',
+      createField({
+        value: {
+          applicationId: null,
+          serviceId: null,
+          endpointId: null
+        }
+      })
     );
 }
