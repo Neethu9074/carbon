@@ -48,7 +48,7 @@ export default function createQueue({ numberOfSeries, requireExistenceInAllSerie
     const firstSeries = series[0];
 
     for (const time in firstSeries) {
-      if (!firstSeries.hasOwnProperty(time)) {
+      if (!Object.prototype.hasOwnProperty.call(firstSeries, time)) {
         continue;
       }
 
@@ -81,7 +81,7 @@ export default function createQueue({ numberOfSeries, requireExistenceInAllSerie
 
   function isDataPointInEverySeries(time) {
     for (let i = 0; i < numberOfSeries; i++) {
-      if (!series[i].hasOwnProperty(time)) {
+      if (!Object.prototype.hasOwnProperty.call(series[i], time)) {
         return false;
       }
     }

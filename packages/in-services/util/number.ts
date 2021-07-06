@@ -21,6 +21,6 @@ export function compare(a?: number, b?: number): Result {
   return 0;
 }
 
-export function isParseableAsNumber(n: number) {
+export function isParseableAsNumber(n: number): boolean {
   return !isNaN(n) && isFinite(n);
 }

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* global module: false, __HOT_RELOAD__: false */
+/* global module: false */
 
 import { Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';

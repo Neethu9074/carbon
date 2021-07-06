@@ -8,7 +8,9 @@
     "lib": ["esnext", "es6", "DOM"],
 
     "module": "ESNext",
+    "target": "ESNext",
     "moduleResolution": "node",
+    "jsx": "react",
 
     "importHelpers": true,
     "strict": true,
@@ -21,17 +23,13 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowJs": true,
-    "jsx": "react",
-
-    "target": "ESNext",
+    "isolatedModules": false,
 
     // Don't emit .d.ts files
     "declaration": false,
     // Don't emit .js files
-    "noEmit": true,
-    // Ensure that Babel can safely transpile files in the TypeScript project
-    "isolatedModules": false
+    "noEmit": true
   },
-  "include": ["packages/**/*.ts"],
+  "include": ["packages/**/*.ts", "packages/**/*.tsx"],
   "exclude": ["node_modules/**/*", "packages/in-server/node_modules/**/*"]
 }

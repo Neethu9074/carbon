@@ -101,7 +101,7 @@ export default connectTo(
       slow = value.slow;
       count = value.count;
       min = value.min;
-      if (value.hasOwnProperty('max')) {
+      if (Object.prototype.hasOwnProperty.call(value, 'max')) {
         max = value.max;
         avg = value.avg;
       } else {

@@ -129,7 +129,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(js|ts)$/i,
+        test: /\.(js|ts|tsx)$/i,
         exclude: /node_modules/,
         use: [
           {

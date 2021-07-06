@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import { get } from 'lodash';
+
 import { createLogger } from '@instana/logger';
 import { create } from '@instana/observables';
-import { get } from 'lodash';
 
 import { saveSettings, saveSetting } from 'in-api/settings';
 
@@ -45,7 +46,7 @@ export function getSingle(key, fallback) {
 }
 
 export function getSetting$(key) {
-  return settingsStore.map(set => (set.hasOwnProperty(key) ? set[key] : null)).distinct();
+  return settingsStore.map(set => (Object.prototype.hasOwnProperty.call(set, key) ? set[key] : null)).distinct();
 }
 
 function saveProperty(key, value) {

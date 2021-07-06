@@ -9,22 +9,19 @@ const { createImportRestrictionRule } = require('./build/linting/restrictedImpor
 
 module.exports = {
   env: {
-    es6: true
+    browser: true,
+    es2021: true
   },
 
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
 
-  extends: ['eslint:recommended', 'prettier', 'prettier/react', 'plugin:react-hooks/recommended'],
-
-  parserOptions: {
-    sourceType: 'module'
-  },
+  extends: ['eslint:recommended', 'prettier', 'plugin:react-hooks/recommended'],
 
   plugins: ['react', 'jest', 'babel', 'header'],
 
   settings: {
     react: {
-      version: '16.4.2'
+      version: '17.0.2'
     }
   },
 
@@ -342,18 +339,71 @@ module.exports = {
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-children-prop.md
     'react/no-children-prop': 'warn',
 
-    // Validate whitespace in and around the JSX opening and closing brackets
-    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-tag-spacing.md
-    'react/jsx-tag-spacing': [
-      'warn',
-      {
-        closingSlash: 'never',
-        beforeSelfClosing: 'always',
-        afterOpening: 'never'
-      }
-    ],
-
     // Only warn on hook rule violations. This will be reverted when refactoring is finished.
     'react-hooks/rules-of-hooks': 'warn'
-  }
+  },
+
+  overrides: [
+    {
+      files: ['packages/**/*.ts?(x)'],
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaVersion: 2018,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true
+        },
+
+        // typescript-eslint specific options
+        warnOnUnsupportedTypeScriptVersion: true
+      },
+
+      plugins: ['@typescript-eslint'],
+
+      rules: {
+        // TypeScript's `noFallthroughCasesInSwitch` option is more robust (#6906)
+        'default-case': 'off',
+        // 'tsc' already handles this (https://github.com/typescript-eslint/typescript-eslint/issues/291)
+        'no-dupe-class-members': 'off',
+        // 'tsc' already handles this (https://github.com/typescript-eslint/typescript-eslint/issues/477)
+        'no-undef': 'off',
+
+        // Add TypeScript specific rules (and turn off ESLint equivalents)
+        '@typescript-eslint/consistent-type-assertions': 'warn',
+        'no-array-constructor': 'off',
+        '@typescript-eslint/no-array-constructor': 'warn',
+        'no-redeclare': 'off',
+        '@typescript-eslint/no-redeclare': 'warn',
+        'no-use-before-define': 'off',
+        '@typescript-eslint/no-use-before-define': [
+          'warn',
+          {
+            functions: false,
+            classes: false,
+            variables: false,
+            typedefs: false
+          }
+        ],
+        'no-unused-expressions': 'off',
+        '@typescript-eslint/no-unused-expressions': [
+          'error',
+          {
+            allowShortCircuit: true,
+            allowTernary: true,
+            allowTaggedTemplates: true
+          }
+        ],
+        'no-unused-vars': 'off',
+        '@typescript-eslint/no-unused-vars': [
+          'warn',
+          {
+            args: 'none',
+            ignoreRestSiblings: true
+          }
+        ],
+        'no-useless-constructor': 'off',
+        '@typescript-eslint/no-useless-constructor': 'warn'
+      }
+    }
+  ]
 };

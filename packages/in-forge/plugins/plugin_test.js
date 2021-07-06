@@ -62,7 +62,7 @@ describe('in-forge/plugins', () => {
       });
 
       it('must define a fully qualified plugin name', () => {
-        expect(fullyQualifiedPlugins.hasOwnProperty(plugin)).to.equal(true);
+        expect(Object.prototype.hasOwnProperty.call(fullyQualifiedPlugins, plugin)).to.equal(true);
       });
 
       it('must be registered in the snapshot SDK', () => {

@@ -79,7 +79,7 @@ export const matchedSnapshotCount$ = data$.filter(data => data.snapshots != null
 
 function translateFullyQualifiedPluginToShortPluginName(fullyQualifiedPlugin) {
   for (const plugin in fullyQualifiedPlugins) {
-    if (!fullyQualifiedPlugins.hasOwnProperty(plugin)) {
+    if (!Object.prototype.hasOwnProperty.call(fullyQualifiedPlugins, plugin)) {
       continue;
     }
 

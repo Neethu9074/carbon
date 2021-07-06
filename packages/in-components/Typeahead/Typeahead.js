@@ -13,9 +13,9 @@ import locals from './Typeahead.mless';
 
 export default function Typeahead({ value, onChange, render = renderDefault, ...remainingProps }) {
   const handleStateChange = changes => {
-    if (changes.hasOwnProperty('selectedItem')) {
+    if (Object.prototype.hasOwnProperty.call(changes, 'selectedItem')) {
       onChange({ value: changes.selectedItem || '' });
-    } else if (changes.hasOwnProperty('inputValue')) {
+    } else if (Object.prototype.hasOwnProperty.call(changes, 'inputValue')) {
       onChange({ value: changes.inputValue || '' });
     }
   };
