@@ -6,13 +6,12 @@
 import Select from 'react-select';
 import React from 'react';
 
-import autoMenuDirection from './autoMenuDirection';
 import { t } from 'in-i18n';
 
 import './DropDownDirection.less';
 import './ComboBox.less';
 
-export default autoMenuDirection(function ComboBox({ isClearable = true, ...props }) {
+export default function ComboBox({ isClearable = true, ...props }) {
   /**
    * When props.value is null, then Array.find operation will return undefined
    * Select expects value to be null if wanted to reset the value
@@ -33,4 +32,4 @@ export default autoMenuDirection(function ComboBox({ isClearable = true, ...prop
       value={value}
     />
   );
-});
+}
