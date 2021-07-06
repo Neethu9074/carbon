@@ -9,7 +9,7 @@ module.exports = {
   roots: ['packages'],
   globalSetup: '<rootDir>/packages/in-test/globalSetup.js',
   setupFilesAfterEnv: ['<rootDir>/packages/in-test/setup.js'],
-  testMatch: ['**/*_test.js'],
+  testMatch: ['**/*_test.js', '**/*_test.ts', '**/*_test.tsx'],
   moduleNameMapper: {
     '\\.png$': '<rootDir>/packages/in-test/styleMock.js',
     '\\.less$': '<rootDir>/packages/in-test/styleMock.js',

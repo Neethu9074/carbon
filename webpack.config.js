@@ -176,6 +176,6 @@ module.exports = {
   },
   plugins,
   resolve: {
-    extensions: ['.js', '.ts']
+    extensions: ['.js', '.ts', '.tsx']
   }
 };

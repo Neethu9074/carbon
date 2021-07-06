@@ -48,4 +48,4 @@ addParameters({
   }
 });
 
-configure(require.context('../src', true, /\.story\.(js|mdx)$/), module);
+configure(require.context('../src', true, /\.story\.(js|ts|tsx|mdx)$/), module);

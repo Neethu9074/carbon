@@ -57,7 +57,7 @@ const necessaryLoaders = [
     ]
   },
   {
-    test: /\.js$/i,
+    test: /\.(js|ts|tsx)$/i,
     exclude: /node_modules/,
     use: [
       {
@@ -127,7 +127,7 @@ const necessaryLoaders = [
   {
     // For the code view in the CSF (component story format)
     // Only apply to stories. See https://github.com/storybookjs/storybook/pull/8773 for context
-    test: /\.story\.js$/,
+    test: /\.story\.(js|ts|tsx)$/,
     loader: require.resolve('@storybook/source-loader'),
     exclude: [/node_modules/],
     enforce: 'pre'
@@ -148,5 +148,8 @@ module.exports = async ({ config }) => {
     aggregateTimeout: 300,
     poll: 2000
   };
+
+  config.resolve.extensions.push('.ts', '.tsx');
+
   return config;
 };
