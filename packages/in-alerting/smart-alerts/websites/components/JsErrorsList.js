@@ -29,7 +29,7 @@ export default function JsErrorsList({ websiteId, tagFilterExpression, timeConfi
   return (
     <>
       <List
-        isSearchable
+        key={Math.random()} // It's save to trigger a reload this way because results are memoized in the backend.
         getHeader={() => ''}
         searchAttributes={[entity => entity.message]}
         getEntityName={config => config.message}
@@ -53,6 +53,7 @@ export default function JsErrorsList({ websiteId, tagFilterExpression, timeConfi
           onJsErrorSelect(error.message);
           slideOut();
         }}
+        isSearchable
       />
     </>
   );

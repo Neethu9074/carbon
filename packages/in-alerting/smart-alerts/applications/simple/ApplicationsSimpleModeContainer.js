@@ -70,7 +70,7 @@ export default function ApplicationsSimpleModeContainer({
   return (
     <SimpleModeContainer
       stepConfigs={stepConfigs}
-      onStepChanged={getOnStepSwitch({ isGlobalSmartAlert, form, updateForm, location })}
+      onStepChanged={getOnStepSwitch({ form, updateForm, location })}
       stepRenderers={stepRenderers}
       {...props}
     />
@@ -91,9 +91,9 @@ ApplicationsSimpleModeContainer.propTypes = {
   isGlobalSmartAlert: PropTypes.bool
 };
 
-function getOnStepSwitch({ isGlobalSmartAlert, form, updateForm, location }) {
+function getOnStepSwitch({ form, updateForm, location }) {
   return (oldStep, nextStep) => {
-    if (!isGlobalSmartAlert && nextStep === 1) {
+    if (nextStep === 0) {
       const applications = form.get('applications').value;
       if (isEmpty(applications)) {
         const applicationId = getMatrixParameter(location, applicationDashboard, applicationIdMatrixParam);
