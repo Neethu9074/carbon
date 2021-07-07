@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
-import { create } from '@instana/observables';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+/* eslint-env jest, node */
+import { create } from '@instana/observables';
+
 import { homePath } from 'in-stores/navigation/paths/mainPaths';
 import { resetStoreRegistry } from 'in-stores/store';
-import keyCodes from 'in-components/keyCodes';
 
 describe('shortcuts/dashboard', () => {
   let onKeyPressed;
@@ -98,7 +98,8 @@ describe('shortcuts/dashboard', () => {
 
   function pressEscape() {
     onKeyPressed.emit({
-      keyCode: keyCodes.escape,
+      keyCode: 27,
+      code: 'Espace',
       target: {
         tagName: ''
       }

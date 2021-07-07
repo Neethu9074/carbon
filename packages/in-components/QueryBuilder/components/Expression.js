@@ -10,7 +10,7 @@ import { isPrimaryInteractiveElement } from '@instana/components';
 
 import { CLOSE_BRACKET } from 'in-components/QueryBuilder/transformation/renderModel';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import keyCodes from 'in-components/keyCodes';
+import { isBackspace, isDelete } from 'in-components/keyCodes';
 
 import locals from './Expression.mless';
 
@@ -35,7 +35,7 @@ export default function Expression({ onRemove, children, element: { elements }, 
       return;
     }
 
-    if (event.keyCode === keyCodes.backspace || event.keyCode === keyCodes.delete) {
+    if (isBackspace(event) || isDelete(event)) {
       stopPropagationAndPreventDefault(event);
       const startFormModelIndex = elements[0].formModelIndex;
       const endFormModelIndex = elements[elements.length - 1].formModelIndex;

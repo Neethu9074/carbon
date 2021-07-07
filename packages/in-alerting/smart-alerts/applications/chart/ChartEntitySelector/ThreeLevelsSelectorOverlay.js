@@ -11,6 +11,7 @@ import { useObservable } from '@instana/hooks';
 
 import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
 import SlideInView, { ListHeader, NoHeader } from 'in-components/SlideInView/SlideInView';
+import { isArrowRight, isReturn, isArrowLeft, isArrowUp } from 'in-components/keyCodes';
 import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
@@ -22,7 +23,6 @@ import { getInteractiveElements } from 'in-services/util/dom';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import SearchInput from 'in-components/SearchInput';
 import { isLoading } from 'in-services/util/result';
-import keyCodes from 'in-components/keyCodes';
 import { t } from 'in-i18n';
 
 import locals from 'in-components/SelectorOverlay/SelectorOverlay.mless';
@@ -205,13 +205,11 @@ export default function ThreeLevelsSelectorOverlay({
   }
 
   function onKeyDown(event, level123) {
-    // keyCode is deprecated and code is not yet supported everywhere
-    const code = event.code ?? event.keyCode;
-    if (code === keyCodes.arrows.right || code === keyCodes.enter) {
+    if (isArrowRight(event) || isReturn(event)) {
       // remember last selection
       stopPropagationAndPreventDefault(event);
       event.target.click();
-    } else if (code === keyCodes.arrows.left) {
+    } else if (isArrowLeft(event)) {
       stopPropagationAndPreventDefault(event);
       if (level123 === 2)
         setState({
@@ -226,7 +224,7 @@ export default function ThreeLevelsSelectorOverlay({
           showFocusedNode: true
         });
     } else if (
-      code === keyCodes.arrows.up &&
+      isArrowUp(event) &&
       !showFocusedNode &&
       getInteractiveElements(event.currentTarget).indexOf(event.target) === 0
     ) {

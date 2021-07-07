@@ -6,9 +6,9 @@
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
+import { isArrowUp, isArrowDown, isArrowLeft, isArrowRight } from 'in-components/keyCodes';
 import ProfileNode from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileNode';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import keyCodes from 'in-components/keyCodes';
 
 import nodeLocals from './ProfileNode.mless';
 import locals from './ProfileTree.mless';
@@ -66,12 +66,11 @@ export function countSamples(profile) {
 }
 
 function onKeyDown(selectedNode, e) {
-  if (
-    e.keyCode !== keyCodes.arrows.up &&
-    e.keyCode !== keyCodes.arrows.down &&
-    e.keyCode !== keyCodes.arrows.left &&
-    e.keyCode !== keyCodes.arrows.right
-  ) {
+  const isUp = isArrowUp(e);
+  const isDown = isArrowDown(e);
+  const isLeft = isArrowLeft(e);
+  const isRight = isArrowRight(e);
+  if (!isUp && !isDown && !isLeft && !isRight) {
     return;
   }
 
@@ -82,14 +81,14 @@ function onKeyDown(selectedNode, e) {
   }
 
   // when the current icon is a collapsed one, we want to expand it by simulating a click event on it
-  if (e.keyCode === keyCodes.arrows.right) {
+  if (isRight) {
     if (get(focusedNode, ['attributes', 'aria-label', 'value']) === 'Expand') {
       return clickNod(focusedNode);
     }
   }
 
   // when the current icon is an expanded one, we want to collapse it by simulating a click event on it
-  if (e.keyCode === keyCodes.arrows.left) {
+  if (isLeft) {
     if (get(focusedNode, ['attributes', 'aria-label', 'value']) === 'Collapse') {
       return clickNod(focusedNode);
     }
@@ -103,7 +102,7 @@ function onKeyDown(selectedNode, e) {
     return agg;
   }, -1);
 
-  const offset = e.keyCode === keyCodes.arrows.up || e.keyCode === keyCodes.arrows.left ? -1 : 1;
+  const offset = isUp || isLeft ? -1 : 1;
   const indexOfNewSelectedNode = selectedNodeIndex + offset;
   if (indexOfNewSelectedNode < 0 || indexOfNewSelectedNode >= rows.length) {
     return;

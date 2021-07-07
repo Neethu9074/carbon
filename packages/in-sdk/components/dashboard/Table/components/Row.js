@@ -7,12 +7,12 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+import { isArrowUp, isArrowDown, isSpace, isModifierPressed } from 'in-components/keyCodes';
 import { scrollIntoView } from 'in-services/util/dom';
-import keyCodes from 'in-components/keyCodes';
 
 import locals from './Row.mless';
 
-const allowedKeyCodesForKeydown = [keyCodes.arrows.up, keyCodes.arrows.down, keyCodes.space];
+const isAllowedKeyCodesForKeydown = e => isArrowUp(e) || isArrowDown(e) || isSpace(e);
 
 const expand = <SvgIcon type="lib_arrow_expand_down" className={locals.toggle} />;
 const collapse = <SvgIcon type="lib_arrow_expand_up" className={locals.toggle} />;
@@ -71,11 +71,7 @@ export default class Row extends React.Component {
   }
 
   onKeyDown = e => {
-    if (
-      e.target === this.domElement &&
-      !keyCodes.isModifierPressed(e) &&
-      allowedKeyCodesForKeydown.indexOf(e.keyCode) !== -1
-    ) {
+    if (e.target === this.domElement && !isModifierPressed(e) && isAllowedKeyCodesForKeydown(e) !== -1) {
       e.stopPropagation();
       e.preventDefault();
     }
@@ -85,11 +81,11 @@ export default class Row extends React.Component {
       return;
     }
 
-    if (e.keyCode === keyCodes.arrows.up) {
+    if (isArrowUp(e)) {
       this.moveActiveState(-1);
-    } else if (e.keyCode === keyCodes.arrows.down) {
+    } else if (isArrowDown(e)) {
       this.moveActiveState(1);
-    } else if (e.keyCode === keyCodes.space) {
+    } else if (isSpace(e)) {
       this.props.toggleRowDetails(this.props.row.key);
     }
   };

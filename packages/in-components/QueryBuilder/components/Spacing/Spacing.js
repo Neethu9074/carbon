@@ -23,8 +23,8 @@ import ConjunctionTagSelectorOverlay from 'in-components/QueryBuilder/Conjunctio
 import { and, or, not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { isBackspace, isDelete } from 'in-components/keyCodes';
 import Overlay from 'in-components/overlays/Overlay';
-import keyCodes from 'in-components/keyCodes';
 
 import locals from './Spacing.mless';
 
@@ -116,11 +116,11 @@ export default function Spacing({
       } else {
         openTagSuggestionOverlay();
       }
-    } else if (onRemove && e.keyCode === keyCodes.backspace) {
+    } else if (onRemove && isBackspace(e)) {
       stopPropagationAndPreventDefault(e);
       // Deleting a single element also deletes the whitespace element.
       onRemove(leftFormModelIndex, renderModelIndex - 2);
-    } else if (onRemove && e.keyCode === keyCodes.delete) {
+    } else if (onRemove && isDelete(e)) {
       stopPropagationAndPreventDefault(e);
       onRemove(rightFormModelIndex, renderModelIndex);
     } else if (e.key === '(') {

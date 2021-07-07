@@ -11,7 +11,6 @@ import { spy } from 'sinon';
 import { isPrimaryInteractiveElement } from '@instana/components';
 
 import { onKeyDown } from 'in-components/QueryBuilder/keyboardInteraction';
-import keyCodes from 'in-components/keyCodes';
 
 jest.mock('@instana/components');
 isPrimaryInteractiveElement.mockImplementation(e => e.isPrimaryInteractiveElement);
@@ -30,7 +29,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
       addChild(stopElement, first);
       addChild(stopElement, second);
 
-      const event = getEvent(first, keyCodes.arrows.up);
+      const event = getEvent(first, 38, 'ArrowUp');
       onKeyDown(event, stopElement);
 
       expect(first.focus.callCount).to.equal(0);
@@ -46,7 +45,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, first);
         addChild(stopElement, second);
 
-        const event = getEvent(first, keyCodes.arrows.right);
+        const event = getEvent(first, 39, 'ArrowRight');
         onKeyDown(event, stopElement);
 
         expect(second.focus.callCount).to.equal(1);
@@ -60,7 +59,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, first);
         addChild(stopElement, second);
 
-        const event = getEvent(second, keyCodes.arrows.right);
+        const event = getEvent(second, 39, 'ArrowRight');
         onKeyDown(event, stopElement);
 
         expect(first.focus.callCount).to.equal(0);
@@ -76,7 +75,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, first);
         addChild(stopElement, second);
 
-        const event = getEvent(first, keyCodes.arrows.right);
+        const event = getEvent(first, 39, 'ArrowRight');
         onKeyDown(event, stopElement);
 
         expect(first.focus.callCount).to.equal(0);
@@ -92,7 +91,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, newElement());
         addChild(stopElement, third);
 
-        const event = getEvent(first, keyCodes.arrows.right);
+        const event = getEvent(first, 39, 'ArrowRight');
         onKeyDown(event, stopElement);
 
         expect(third.focus.callCount).to.equal(1);
@@ -106,7 +105,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, nextSibling);
         addChild(start, child);
 
-        const event = getEvent(start, keyCodes.arrows.right);
+        const event = getEvent(start, 39, 'ArrowRight');
         onKeyDown(event, stopElement);
 
         expect(child.focus.callCount).to.equal(1);
@@ -120,7 +119,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, nextSibling);
         addChild(start, child);
 
-        const event = getEvent(child, keyCodes.arrows.right);
+        const event = getEvent(child, 39, 'ArrowRight');
         onKeyDown(event, stopElement);
 
         expect(nextSibling.focus.callCount).to.equal(1);
@@ -134,7 +133,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, first);
         addChild(stopElement, second);
 
-        const event = getEvent(second, keyCodes.arrows.left);
+        const event = getEvent(second, 37, 'ArrowLeft');
         onKeyDown(event, stopElement);
 
         expect(first.focus.callCount).to.equal(1);
@@ -148,7 +147,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, first);
         addChild(stopElement, second);
 
-        const event = getEvent(first, keyCodes.arrows.left);
+        const event = getEvent(first, 37, 'ArrowLeft');
         onKeyDown(event, stopElement);
 
         expect(first.focus.callCount).to.equal(0);
@@ -164,7 +163,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, first);
         addChild(stopElement, second);
 
-        const event = getEvent(second, keyCodes.arrows.left);
+        const event = getEvent(second, 37, 'ArrowLeft');
         onKeyDown(event, stopElement);
 
         expect(first.focus.callCount).to.equal(0);
@@ -180,7 +179,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, newElement());
         addChild(stopElement, third);
 
-        const event = getEvent(third, keyCodes.arrows.left);
+        const event = getEvent(third, 37, 'ArrowLeft');
         onKeyDown(event, stopElement);
 
         expect(first.focus.callCount).to.equal(1);
@@ -194,7 +193,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, nextSibling);
         addChild(start, child);
 
-        const event = getEvent(nextSibling, keyCodes.arrows.left);
+        const event = getEvent(nextSibling, 37, 'ArrowLeft');
         onKeyDown(event, stopElement);
 
         expect(child.focus.callCount).to.equal(1);
@@ -206,7 +205,7 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
         addChild(stopElement, start);
         addChild(start, child);
 
-        const event = getEvent(child, keyCodes.arrows.left);
+        const event = getEvent(child, 37, 'ArrowLeft');
         onKeyDown(event, stopElement);
 
         expect(start.focus.callCount).to.equal(1);
@@ -215,9 +214,10 @@ describe('in-components/QueryBuilder/keyboardInteraction', () => {
   });
 });
 
-function getEvent(target, keyCode) {
+function getEvent(target, keyCode, code) {
   return {
     keyCode,
+    code,
     target,
     stopPropagation: spy(),
     preventDefault: spy()

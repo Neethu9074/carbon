@@ -18,8 +18,8 @@ import {
 } from 'in-stores/search/lexer';
 import { getSubstringTillDotBackwards, getCursorTillNextDot } from 'in-components/SearchBar/misc/stringUtils';
 import { findNode, operatorTree, getValueSuggestions, node as createNode } from 'in-stores/search/fields';
+import { isArrowDown, isArrowUp, isReturn, isTab } from 'in-components/keyCodes';
 import { emptyArray } from 'in-services/fixedObjects';
-import keyCodes from 'in-components/keyCodes';
 
 import './Suggestions.less';
 
@@ -101,12 +101,12 @@ export default class extends React.Component {
   }
 
   setupSubscriptions = () => {
-    this.keyDownSubscription = this.props.eventEmitter.on('keyDown').subscribe(keyCode => {
-      if (keyCode === keyCodes.arrows.down) {
+    this.keyDownSubscription = this.props.eventEmitter.on('keyDown').subscribe(keyEvent => {
+      if (isArrowDown(keyEvent)) {
         this.onArrowDown();
-      } else if (keyCode === keyCodes.arrows.up) {
+      } else if (isArrowUp(keyEvent)) {
         this.onArrowUp();
-      } else if (keyCode === keyCodes.return || keyCode === keyCodes.tab) {
+      } else if (isReturn(keyEvent) || isTab(keyEvent)) {
         this.onReturn();
       }
     });

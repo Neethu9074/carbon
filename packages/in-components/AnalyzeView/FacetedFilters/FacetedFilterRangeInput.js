@@ -15,7 +15,7 @@ import { ua2FacetedSearchFilterAddedTracker } from 'in-components/tracker';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Row, Col } from 'in-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
-import keyCodes from 'in-components/keyCodes';
+import { isReturn } from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
@@ -92,7 +92,7 @@ function Body({ tag, formModel, updateFilter, isValid, unit, dataSource }) {
               validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError, dataSource)
             }
             onKeyDown={e =>
-              e.keyCode === keyCodes.enter &&
+              isReturn(e) &&
               (effectiveRange.from !== minInput || isError) &&
               validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError, dataSource)
             }
@@ -117,7 +117,7 @@ function Body({ tag, formModel, updateFilter, isValid, unit, dataSource }) {
               validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError, dataSource)
             }
             onKeyDown={e =>
-              e.keyCode === keyCodes.enter &&
+              isReturn(e) &&
               (effectiveRange.to !== maxInput || isError) &&
               validateInputAndSetTagFilter(tag, minInput, maxInput, formModel, updateFilter, setError, dataSource)
             }

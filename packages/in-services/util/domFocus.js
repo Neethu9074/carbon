@@ -4,9 +4,9 @@
  */
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { isArrowUp, isArrowDown } from 'in-components/keyCodes';
 import { getInteractiveElements } from 'in-services/util/dom';
 import { isSafari } from 'in-services/browser';
-import keyCodes from 'in-components/keyCodes';
 
 // Whether or not the browser respects/supports preventScroll: true
 //
@@ -32,12 +32,10 @@ export function onArrowKeyDownFocusSiblings(event) {
     return;
   }
 
-  // keyCode is deprecated and code is not yet supported everywhere
-  const code = event.code ?? event.keyCode;
   let nextFocusIndex;
-  if (code === keyCodes.arrows.up) {
+  if (isArrowUp(event)) {
     nextFocusIndex = currentIndex - 1;
-  } else if (code === keyCodes.arrows.down) {
+  } else if (isArrowDown(event)) {
     nextFocusIndex = currentIndex + 1;
   }
 

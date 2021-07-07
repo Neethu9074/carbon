@@ -6,9 +6,9 @@
 import { find } from 'lodash';
 import React from 'react';
 
+import { isModifierPressed, isEscape, isLeftClick } from 'in-components/keyCodes';
 import { identifyOverlay } from 'in-components/overlays/dom';
 import { emptyArray } from 'in-services/fixedObjects';
-import keyCodes from 'in-components/keyCodes';
 
 /**
  * The `<CloseWrapper/>` component registers your callback on the document
@@ -40,7 +40,7 @@ export default class CloseWrapper extends React.Component {
   handleMouseCapture = e => {
     this.closeFunctionsToExecute = [];
 
-    if (keyCodes.isModifierPressed(e) || !keyCodes.isLeftClick(e)) {
+    if (isModifierPressed(e) || !isLeftClick(e)) {
       return;
     }
 
@@ -68,7 +68,7 @@ export default class CloseWrapper extends React.Component {
   };
 
   handleKeyUp = e => {
-    if (e.keyCode === keyCodes.escape) {
+    if (isEscape(e)) {
       this.props.overlays.slice().forEach(o => o.parentOverlay == null && o.close(e));
     }
   };

@@ -5,8 +5,19 @@
 
 import { isPrimaryInteractiveElement } from '@instana/components';
 
+import {
+  isArrowLeft,
+  isHome,
+  isCtrl,
+  isA,
+  isMeta,
+  isArrowRight,
+  isEnd,
+  isE,
+  isBackspace,
+  isDelete
+} from 'in-components/keyCodes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import keyCodes from 'in-components/keyCodes';
 
 export function onKeyDown(e, stopElement) {
   // Do execute custom focus change logic when typing in regular input fields
@@ -14,22 +25,16 @@ export function onKeyDown(e, stopElement) {
     return;
   }
 
-  // keyCode is deprecated and code is not yet supported everywhere
-  const code = e.code ?? e.keyCode;
-  if ((e.metaKey && code === keyCodes.arrows.left) || code === keyCodes.home || (e.ctrlKey && code === keyCodes.a)) {
+  if ((e.metaKey && isArrowLeft(e)) || isHome(e) || (isCtrl(e) && isA(e))) {
     stopPropagationAndPreventDefault(e);
     focusFirst(stopElement);
-  } else if (
-    (e.metaKey && code === keyCodes.arrows.right) ||
-    code === keyCodes.end ||
-    (e.ctrlKey && code === keyCodes.e)
-  ) {
+  } else if ((isMeta(e) && isArrowRight(e)) || isEnd(e) || (isCtrl(e) && isE(e))) {
     stopPropagationAndPreventDefault(e);
     focusLast(stopElement);
-  } else if (code === keyCodes.arrows.left) {
+  } else if (isArrowLeft(e)) {
     stopPropagationAndPreventDefault(e);
     focusPrevious({ element: e.target, stopElement, allowSelfFocussing: false, traverseChildren: false });
-  } else if (code === keyCodes.arrows.right) {
+  } else if (isArrowRight(e)) {
     stopPropagationAndPreventDefault(e);
     focusNext({
       element: e.target,
@@ -127,7 +132,7 @@ export function onElementKeyUp({ event, onRemove, renderModelIndex, formModelInd
     return;
   }
 
-  if (event.keyCode === keyCodes.backspace || event.keyCode === keyCodes.delete) {
+  if (isBackspace(event) || isDelete(event)) {
     stopPropagationAndPreventDefault(event);
     onRemove(formModelIndex, renderModelIndex - 1);
   }
