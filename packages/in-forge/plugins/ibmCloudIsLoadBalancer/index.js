@@ -7,12 +7,13 @@ import metricDefinitions from 'in-forge/plugins/ibmCloudIsLoadBalancer/metricDef
 import kpiDefinitions from 'in-forge/plugins/ibmCloudIsLoadBalancer/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmCloudIsLoadBalancer,
 
   technologyDescriptor: {
-    label: 'IBM Cloud Load Balancer'
+    label: t('in-forge:plugins.ibmCloudIsLoadBalancer.ibmCloudIsLoadBalancer')
   },
   kpiDefinitions,
   metricDefinitions
