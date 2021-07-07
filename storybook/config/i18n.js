@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { setOptions, defaultOptions } from '@instana/i18n';
 // eslint-disable-next-line no-restricted-imports
 import { initReactI18next } from 'react-i18next';
 // eslint-disable-next-line no-restricted-imports
@@ -36,4 +37,15 @@ i18n.use(initReactI18next).init({
     // React already escapes values
     escapeValue: false
   }
+});
+
+// Read more: https://ui.instana.io/global/internationalization
+setOptions({
+  ...defaultOptions,
+  fallbackLocale: 'en-US',
+  textLocale: 'en-US',
+  numberLocale: 'en-US',
+  prefersIso8601LikeDateTimeFormat: true,
+  dateLocale: 'en-US',
+  hour12: false
 });

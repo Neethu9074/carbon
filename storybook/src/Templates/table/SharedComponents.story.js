@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td } from 'in-components/tables/sharedComponents';
+import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/components';
 import ConfigurableTh from 'in-components/tables/sharedComponents/ConfigurableTh';
 
 export default {
