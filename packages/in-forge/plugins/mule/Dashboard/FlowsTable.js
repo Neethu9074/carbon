@@ -112,10 +112,6 @@ export default function FlowsTable({ snapshot, timeConfig }) {
     })
     .toArray();
 
-  if (rows.length === 0) {
-    return null;
-  }
-
   return (
     <Table
       withoutPadding
