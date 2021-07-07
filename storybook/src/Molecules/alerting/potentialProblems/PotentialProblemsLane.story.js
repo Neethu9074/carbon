@@ -17,6 +17,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { compare } from 'in-services/util/number';
+import { noop } from 'in-services/fixedObjects';
 import { hours } from 'in-services/time';
 
 /* there are random data */
@@ -69,6 +70,7 @@ export const PotentialProblemsMarkerLane = () => {
           <MarkerLanesPresenter {...props}>
             <PotentialProblemsLanePresenter
               {...laneProps}
+              queryValidator={noop}
               tagFilterExpression={EMPTY_EXPRESSION}
               applications={{}}
               potentialProblems={potentialProblemsCluster}

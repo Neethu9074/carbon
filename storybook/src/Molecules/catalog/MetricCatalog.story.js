@@ -71,6 +71,7 @@ export const Default = () => {
       <TypeAndMetricConfigurator
         type={type}
         metric={metric}
+        metricMetadata={{}}
         metricCatalog={metricCatalog(
           number('number of categories', 20, {
             range: true,

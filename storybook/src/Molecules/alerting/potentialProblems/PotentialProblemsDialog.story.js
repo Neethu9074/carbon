@@ -8,10 +8,12 @@ import React from 'react';
 import PotentialProblemsDialogPresenter from 'in-alerting/PotentialProblems/PotentialProblemDialog/PotentialProblemsDialogPresenter';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { alertRules as clusterAlertRules, potentialProblemsCluster } from './potentialProblemsStorySharedData';
+import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { close } from 'in-components/DialogPresenter/store';
+import { noop } from 'in-services/fixedObjects';
 
 export default {
   title: 'Molecules|potentialProblems/PotentialProblemsDialogPresenter',
@@ -88,6 +90,8 @@ export const PotentialProblemsSingleItemDialog = () => {
     <>
       <PotentialProblemsDialogPresenter
         {...props}
+        queryValidator={noop}
+        tagFilterExpression={EMPTY_EXPRESSION}
         alertRules={alertRules}
         alerts={potentialProblemsSingle.alerts}
         thresholds={potentialProblemsSingle.thresholds}
@@ -102,6 +106,8 @@ export const PotentialProblemsClusterDialog = () => {
     <>
       <PotentialProblemsDialogPresenter
         {...props}
+        queryValidator={noop}
+        tagFilterExpression={EMPTY_EXPRESSION}
         alertRules={clusterAlertRules}
         alerts={potentialProblemsCluster.alerts}
         thresholds={potentialProblemsCluster.thresholds}
