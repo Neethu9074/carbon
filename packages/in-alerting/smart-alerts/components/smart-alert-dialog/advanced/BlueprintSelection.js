@@ -6,7 +6,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { BlueprintDescription } from 'in-alerting/smart-alerts/components/smart-alert-dialog/BlueprintDescription';
+import {
+  BlueprintDescription,
+  BlueprintText
+} from 'in-alerting/smart-alerts/components/smart-alert-dialog/BlueprintDescription';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import Menu from 'in-alerting/components/Menu';
 import { t } from 'in-i18n';
@@ -21,10 +24,9 @@ export default function BlueprintSelection({
   createBlueprintForm
 }) {
   const alertType = form.get('rule').get('alertType').value;
+  // NOTE: Website alert configs does not have builtIn param
+  const isBuiltIn = form.get('builtIn')?.value;
   const selectedBlueprintConfig = blueprintConfigs.find(item => item.type === alertType);
-
-  const [config, setConfig] = useState(selectedBlueprintConfig);
-  const [selectButtonDisabled, setSelectButtonDisabled] = useState(true);
 
   return (
     <ExpandableLightCard
@@ -34,28 +36,57 @@ export default function BlueprintSelection({
       openByDefault
       darkFrame
     >
-      <div className={locals.container}>
-        <Menu
-          items={blueprintConfigs}
-          onItemClick={item => {
-            setSelectButtonDisabled(false);
-            setConfig(item);
-            trackBlueprintChange(item.type);
-          }}
-          initialItemSelected={selectedBlueprintConfig}
-        />
-        <div className={locals.spanTwoColumns}>
-          <BlueprintDescription
-            config={config}
-            selectButtonDisabled={selectButtonDisabled}
-            onSelectBlueprint={blueprintConfig => {
-              setSelectButtonDisabled(true);
-              updateForm(createBlueprintForm(form, blueprintConfig.type, blueprintConfig.thresholdDefaults));
-            }}
-          />
+      {isBuiltIn ? (
+        <div className={locals.bluePrintText}>
+          <BlueprintText config={selectedBlueprintConfig} />
         </div>
-      </div>
+      ) : (
+        <BlueprintSelectionMenu
+          selectedBlueprintConfig={selectedBlueprintConfig}
+          blueprintConfigs={blueprintConfigs}
+          trackBlueprintChange={trackBlueprintChange}
+          form={form}
+          updateForm={updateForm}
+          createBlueprintForm={createBlueprintForm}
+        />
+      )}
     </ExpandableLightCard>
+  );
+}
+
+function BlueprintSelectionMenu({
+  selectedBlueprintConfig,
+  blueprintConfigs,
+  trackBlueprintChange,
+  form,
+  updateForm,
+  createBlueprintForm
+}) {
+  const [config, setConfig] = useState(selectedBlueprintConfig);
+  const [selectButtonDisabled, setSelectButtonDisabled] = useState(true);
+
+  return (
+    <div className={locals.container}>
+      <Menu
+        items={blueprintConfigs}
+        onItemClick={item => {
+          setSelectButtonDisabled(false);
+          setConfig(item);
+          trackBlueprintChange(item.type);
+        }}
+        initialItemSelected={selectedBlueprintConfig}
+      />
+      <div className={locals.spanTwoColumns}>
+        <BlueprintDescription
+          config={config}
+          selectButtonDisabled={selectButtonDisabled}
+          onSelectBlueprint={blueprintConfig => {
+            setSelectButtonDisabled(true);
+            updateForm(createBlueprintForm(form, blueprintConfig.type, blueprintConfig.thresholdDefaults));
+          }}
+        />
+      </div>
+    </div>
   );
 }
 

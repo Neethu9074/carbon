@@ -85,12 +85,14 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
         <MoreMenuButton icon="lib_actions_copy" onClick={() => handleClone(config, isGlobalSmartAlertConfig)}>
           {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDuplicate')}
         </MoreMenuButton>
-        <MoreMenuButton
-          icon="lib_actions_delete"
-          onClick={() => handleDelete(id, setIsMoreMenuSaving, isGlobalSmartAlertConfig, name)}
-        >
-          {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
-        </MoreMenuButton>
+        {!config?.builtIn && (
+          <MoreMenuButton
+            icon="lib_actions_delete"
+            onClick={() => handleDelete(id, setIsMoreMenuSaving, isGlobalSmartAlertConfig, name)}
+          >
+            {t('in-alerting:smartAlerts.applications.inventory.labelActionButtonDelete')}
+          </MoreMenuButton>
+        )}
       </MoreMenu>
     </HorizontalFlexWrapper>
   );
@@ -179,7 +181,8 @@ ListActionsColumn.propTypes = {
   config: PropTypes.shape({
     enabled: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    builtIn: PropTypes.bool
   }).isRequired,
   isGlobalSmartAlertConfig: PropTypes.bool,
   isLoading: PropTypes.bool

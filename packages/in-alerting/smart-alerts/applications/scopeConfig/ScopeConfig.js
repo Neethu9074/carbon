@@ -37,9 +37,11 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
   const boundaryScope = form.get('boundaryScope').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
   const includeSynthetic = form.get('includeSynthetic').value;
+  const isBuiltIn = form.get('builtIn').value;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
+  const shouldDisplayAlertConfigurator = !isBuiltIn || tagFilterExpression.length > 0;
 
   const AlertQueryBuilder = useMemo(() => {
     return createBoundedAlertQueryBuilder(applications, boundaryScope, scopeSelectionTimeConfig);
@@ -73,7 +75,11 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
     >
       <div className={locals.scopeConfigContainer}>
         <Stack>
-          <div className={locals.servicesAndEndpointsListPresenterWrapper}>
+          <div
+            className={classNames({
+              [locals.servicesAndEndpointsListPresenterWrapper]: shouldDisplayAlertConfigurator
+            })}
+          >
             <ServicesAndEndpointsListPresenter
               applicationsSelection={applications}
               onChange={applicationsSelection =>
@@ -91,16 +97,18 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
               initialConfiguredApplications={initialConfiguredApplications}
             />
           </div>
-          <div
-            className={classNames({
-              [locals.alertFilterConfiguratorWrapper]: true,
-              [locals.alertFilterConfiguratorWrapperBottomPadding]: tagFilterExpression.length === 0
-            })}
-          >
-            <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
-          </div>
+          {shouldDisplayAlertConfigurator && (
+            <div
+              className={classNames({
+                [locals.alertFilterConfiguratorWrapper]: true,
+                [locals.alertFilterConfiguratorWrapperBottomPadding]: !tagFilterExpression.length || isBuiltIn
+              })}
+            >
+              <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
+            </div>
+          )}
         </Stack>
-        {tagFilterExpression.length > 0 && (
+        {tagFilterExpression.length > 0 && !isBuiltIn && (
           <div className={locals.clearButtonWrapper}>
             <ClearTagFilterExpressionButton form={form} updateForm={updateForm} />
           </div>

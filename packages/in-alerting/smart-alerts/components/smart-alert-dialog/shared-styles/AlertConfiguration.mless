@@ -17,4 +17,9 @@
   .alertFiltersWrapper {
     margin-bottom: 1rem;
   }
+
+  .evaluationType {
+    border-radius: @lib__shapes__radius_small;
+    border-bottom: 1px solid @lib__colors__N300;
+  }
 }

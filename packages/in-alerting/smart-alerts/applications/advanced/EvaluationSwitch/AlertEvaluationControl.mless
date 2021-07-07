@@ -22,4 +22,9 @@
     align-items: center;
     color: @lib__colors__N900Primary;
   }
+
+  .readOnlyAlertEvaluationContainer {
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_small;
+  }
 }

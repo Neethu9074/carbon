@@ -31,7 +31,7 @@ import { operators } from 'in-analyze/applicationFilter';
 import ListTitle from 'in-components/lists/Title';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles//AlertConfiguration.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/AlertConfiguration.mless';
 
 const logLevelList = ['ERROR', 'WARN'];
 const initialChartConfigIndex = 0;
@@ -102,7 +102,9 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
         bodyWithoutPadding
         darkFrame
       >
-        <ReadOnlyAlertEvaluation evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert} />
+        <div className={locals.evaluationType}>
+          <ReadOnlyAlertEvaluation evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert} />
+        </div>
         <div className={locals.paddingBodyWrapper}>
           <div className={locals.alertFiltersWrapper}>
             <ScopeConfigPresenter

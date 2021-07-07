@@ -8,9 +8,6 @@
 :local {
   .container {
     display: flex;
-
-    border-radius: @lib__shapes__radius_small;
-    border-bottom: 1px solid @lib__colors__N300;
     padding: 1rem;
   }
 }

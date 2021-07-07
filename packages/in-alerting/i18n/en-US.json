@@ -557,7 +557,8 @@
         "PreviewForAP": "Preview for Application Perspective:",
         "PreviewForEndpoint": "Preview for Endpoint:",
         "PreviewForService": "Preview for Service:",
-        "PreviewSelectLoadingEndpoints": "Loading Endpoints List"
+        "PreviewSelectLoadingEndpoints": "Loading Endpoints List",
+        "thresholdValue": "Threshold Value"
       },
       "alertsHub": {
         "title": "Alerts Hub",

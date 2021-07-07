@@ -5,23 +5,22 @@
 
 import React, { useState } from 'react';
 
-import LogsInteractiveChart, {
-  ThresholdCondition
-} from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
+import LogsThresholdCondition from 'in-alerting/smart-alerts/applications/advanced/LogsThresholdCondition';
+import LogsInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { someLogsFormData } from './formSampleData';
 
 export default {
   title: 'Molecules|alerting/LogsInteractiveChart',
-  component: ThresholdCondition
+  component: LogsThresholdCondition
 };
 
 export const thresholdCondition = () => {
   const [form, setForm] = useState(createSmartAlertForm(someLogsFormData()));
 
   return (
-    <ThresholdCondition
+    <LogsThresholdCondition
       form={form}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       blueprintConfig={getBlueprintConfig('logs')}

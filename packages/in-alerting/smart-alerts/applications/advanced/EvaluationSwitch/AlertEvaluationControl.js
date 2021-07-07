@@ -10,6 +10,7 @@ import alertEvaluationTypes, {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { applicationSmartAlertsPerEndpointsEnabled } from 'in-services/featureFlags';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -23,6 +24,16 @@ import locals from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwi
 export default function AlertEvaluationControl({ form, updateForm, isGlobalSmartAlert }) {
   const evaluationType = form.get('evaluationType').value;
   const alertType = form.get('rule').get('alertType').value;
+  const isBuiltIn = form.get('builtIn').value;
+
+  if (isBuiltIn) {
+    return (
+      <div className={locals.readOnlyAlertEvaluationContainer}>
+        <ReadOnlyAlertEvaluation evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert} />
+      </div>
+    );
+  }
+
   return (
     <div className={locals.container}>
       <IconLabel

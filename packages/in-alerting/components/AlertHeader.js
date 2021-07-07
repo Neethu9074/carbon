@@ -225,35 +225,37 @@ export default function AlertHeader({
                   onClick={() => openDialog({ isCopy: true })}
                 />
               </Tooltip>
-              <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')}>
-                <SvgIcon
-                  className={locals.actionIcon}
-                  type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
-                  spinning={isDeleting}
-                  onClick={() => {
-                    if (!isDeleting) {
-                      addActiveDialog(
-                        <ConfirmationDialog
-                          header={t('in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogHeader')}
-                          description={
-                            <Trans
-                              i18nKey="in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogDescription"
-                              values={{ alertConfigName: alertConfig.name }}
-                            />
-                          }
-                          confirmButtonLabel={t(
-                            'in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogConfirmButton'
-                          )}
-                          onSubmit={() => {
-                            close();
-                            doDelete();
-                          }}
-                        />
-                      );
-                    }
-                  }}
-                />
-              </Tooltip>
+              {!alertConfig?.builtIn && (
+                <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')}>
+                  <SvgIcon
+                    className={locals.actionIcon}
+                    type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
+                    spinning={isDeleting}
+                    onClick={() => {
+                      if (!isDeleting) {
+                        addActiveDialog(
+                          <ConfirmationDialog
+                            header={t('in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogHeader')}
+                            description={
+                              <Trans
+                                i18nKey="in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogDescription"
+                                values={{ alertConfigName: alertConfig.name }}
+                              />
+                            }
+                            confirmButtonLabel={t(
+                              'in-alerting:components.alertHeaderRestoreDeleteConfirmationDialogConfirmButton'
+                            )}
+                            onSubmit={() => {
+                              close();
+                              doDelete();
+                            }}
+                          />
+                        );
+                      }
+                    }}
+                  />
+                </Tooltip>
+              )}
             </>
           )}
         </div>

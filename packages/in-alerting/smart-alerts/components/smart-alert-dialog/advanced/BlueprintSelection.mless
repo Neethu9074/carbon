@@ -16,4 +16,9 @@
   .spanTwoColumns {
     grid-column: 2 / span 2;
   }
+
+  .bluePrintText {
+    padding: 1rem;
+    color: @lib__colors__N600Light;
+  }
 }

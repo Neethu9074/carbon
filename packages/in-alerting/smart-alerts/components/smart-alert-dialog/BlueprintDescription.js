@@ -14,14 +14,9 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/BlueprintDescription.mless';
 
 export function BlueprintDescription({ config, selectButtonDisabled, isSimpleMode, onSelectBlueprint }) {
-  const { headline, text } = config;
-
   return (
     <div className={locals.container}>
-      <div>
-        <h3 className={locals.headline}>{headline}</h3>
-        <DangerousHtmlPresenter className={locals.text} html={text} />
-      </div>
+      <BlueprintText config={config} />
       {!isSimpleMode && (
         <Button
           kind={selectButtonDisabled ? 'info' : 'primary'}
@@ -32,6 +27,17 @@ export function BlueprintDescription({ config, selectButtonDisabled, isSimpleMod
           {t('in-alerting:smartAlerts.components.smartAlertDialog.blueprintDescriptionButtonSelect')}
         </Button>
       )}
+    </div>
+  );
+}
+
+export function BlueprintText({ config }) {
+  const { headline, text } = config;
+
+  return (
+    <div>
+      <h3 className={locals.headline}>{headline}</h3>
+      <DangerousHtmlPresenter className={locals.text} html={text} />
     </div>
   );
 }

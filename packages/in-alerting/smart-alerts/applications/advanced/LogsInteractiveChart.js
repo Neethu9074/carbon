@@ -6,21 +6,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  applicationsAlertingThresholdOperatorChanged,
-  applicationsAlertingThresholdValueChanged
-} from 'in-alerting/smart-alerts/applications/tracker';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
-import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
-import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
-import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/smart-alert-dialog/IncompleteChartPlaceholder';
-import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
+import LogsThresholdCondition from 'in-alerting/smart-alerts/applications/advanced/LogsThresholdCondition';
 import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
-import Label from 'in-components/form/Label';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
@@ -43,7 +34,12 @@ export default function LogsInteractiveChart({
 
   return (
     <div className={locals.container}>
-      <ThresholdCondition form={form} onChange={onChange} updateForm={updateForm} blueprintConfig={blueprintConfig} />
+      <LogsThresholdCondition
+        form={form}
+        onChange={onChange}
+        updateForm={updateForm}
+        blueprintConfig={blueprintConfig}
+      />
 
       <ChartViewConfiguratorWithEntitySelection
         alertConfigWithFormModel={alertConfigWithFormModel}
@@ -65,31 +61,6 @@ export default function LogsInteractiveChart({
         )}
       </ChartViewConfiguratorWithEntitySelection>
     </div>
-  );
-}
-
-export function ThresholdCondition({ form, onChange, updateForm, blueprintConfig }) {
-  const metricName = form.get('rule').get('metricName').value;
-  const metricUnitPostfix = getMetricUnitPostfix(metricName);
-  const maxValue = blueprintConfig.getMaxMetricValue(metricName);
-
-  return (
-    <ThresholdConditionFormGroup>
-      <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
-      <ThresholdOperatorDropDown
-        form={form}
-        onChange={onChange}
-        trackingCallback={applicationsAlertingThresholdOperatorChanged}
-      />
-      <ThresholdValueInput
-        max={maxValue}
-        form={form}
-        updateForm={updateForm}
-        trackChange={applicationsAlertingThresholdValueChanged}
-        metricUnitPostfix={metricUnitPostfix}
-      />
-      <UseSuggestedValueButton form={form} onChange={onChange} metricUnitPostfix={metricUnitPostfix} />
-    </ThresholdConditionFormGroup>
   );
 }
 

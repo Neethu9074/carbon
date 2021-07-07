@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { ThresholdCondition } from 'in-alerting/smart-alerts/applications/advanced/ErrorRateInteractiveChart';
+import ErrorRateThresholdCondition from 'in-alerting/smart-alerts/applications/advanced/ErrorRateThresholdCondition';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { someErrorRateFormData } from './formSampleData';
@@ -16,14 +16,14 @@ export default {
     // Error: Evaluation failed: TypeError: (void 0) is not a function
     chromatic: { disable: true }
   },
-  component: ThresholdCondition
+  component: ErrorRateThresholdCondition
 };
 
 export const thresholdCondition = () => {
   const [form, setForm] = useState(createSmartAlertForm(someErrorRateFormData()));
 
   return (
-    <ThresholdCondition
+    <ErrorRateThresholdCondition
       form={form}
       onChange={(path, fn) => setForm(form.updateIn(path, fn))}
       blueprintConfig={getBlueprintConfig('errorRate')}
