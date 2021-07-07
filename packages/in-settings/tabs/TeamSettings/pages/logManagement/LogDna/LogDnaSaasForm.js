@@ -14,8 +14,11 @@ import { t, Trans } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaForm.mless';
 
-export default function LogDnaForm({ form, onChange, disabled, areFieldsBlank }) {
-  const logdnaUrl = 'https://app.logdna.com/' + form.get('accountId').value + '/logs';
+const logDnaBasePath = 'https://app.logdna.com/';
+
+export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsBlank }) {
+  const accountId = form.get('accountId').value;
+  const logdnaUrl = logDnaBasePath + accountId + '/logs';
 
   return (
     <fieldset>
@@ -38,7 +41,6 @@ export default function LogDnaForm({ form, onChange, disabled, areFieldsBlank })
           </HelpText>
         </FormGroup>
       ))}
-
       {!areFieldsBlank && (
         <FormGroup>
           <Label htmlFor="logdna-test-link">{t('in-settings:tabs.testYourLogDnaLink')}</Label>

@@ -9,17 +9,23 @@ import React, { Fragment } from 'react';
 import { createLogger } from '@instana/logger';
 import { Toggle } from '@instana/components';
 
-import LogDnaForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaForm';
+import IbmCloudLogDnaForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/IbmCloudLogDnaForm';
+import LogDnaSaasForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaSaasForm';
 import { teamSettingsLogManagementLogDna } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { integrationKey } from 'in-integrations/logging/logdna/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import { notBlankValidator } from 'in-services/validators/string';
 import SectionLine from 'in-settings/components/SectionLine';
 import SaveCancel from 'in-settings/components/SaveCancel';
+import FormGroup from 'in-settings/components/FormGroup';
 import { get, save } from 'in-integrations/logging/api';
+import { Col, Row } from 'in-components/layout/Grid';
 import { isBlank } from 'in-services/util/string';
+import Select from 'in-components/form/Select';
 import { goToPath } from 'in-stores/navigation';
 import Label from 'in-components/form/Label';
 import Title from 'in-components/Title';
@@ -114,13 +120,41 @@ export default class LogDna extends React.Component {
                 </HorizontalFormGroup>
               </div>
             </Fragment>
-
-            <LogDnaForm
-              form={form}
-              onChange={this.onChange}
-              areFieldsBlank={areFieldsBlank(form)}
-              disabled={!enabled}
-            />
+            {form.get('instanceType').map(field => (
+              <Row>
+                <Col xs={2}>
+                  <FormGroup>
+                    <Label htmlFor="logdna-selected-instance" hasError={enabled && !field.valid && field.touched}>
+                      {t('in-settings:tabs.logDnaInstance')}
+                    </Label>
+                    <Select
+                      id="logdna-selected-instance"
+                      value={field.value}
+                      onChange={e => this.onChange('instanceType', e.target.value)}
+                    >
+                      <option value="LOG_DNA_SAAS">LogDna SaaS</option>
+                      <option value="IBM_CLOUD">IBM Cloud Log Analysis</option>
+                    </Select>
+                    {enabled && <TouchedMessages field={field} />}
+                  </FormGroup>
+                </Col>
+              </Row>
+            ))}
+            {form.get('instanceType').value === 'LOG_DNA_SAAS' ? (
+              <LogDnaSaasForm
+                form={form}
+                onChange={this.onChange}
+                areFieldsBlank={areFieldsBlank(form)}
+                disabled={!enabled}
+              />
+            ) : (
+              <IbmCloudLogDnaForm
+                form={form}
+                onChange={this.onChange}
+                areFieldsBlank={areFieldsBlank(form)}
+                disabled={!enabled}
+              />
+            )}
 
             <SaveCancel
               form={form}
@@ -152,7 +186,9 @@ export default class LogDna extends React.Component {
       return;
     }
 
-    const result$ = save(this.state.form.toJS());
+    let data = this.state.form.toJS();
+
+    const result$ = save(data);
     this.disposeAsyncAction();
     this.setState({
       loading: true,
@@ -192,6 +228,13 @@ function createForm(integration) {
       'accountId',
       createField({
         value: integration ? integration['accountId'] : ''
+      })
+    )
+    .put(
+      'instanceType',
+      createField({
+        value: integration && integration['instanceType'] ? integration['instanceType'] : 'LOG_DNA_SAAS',
+        validator: notBlankValidator
       })
     )
     .put(
