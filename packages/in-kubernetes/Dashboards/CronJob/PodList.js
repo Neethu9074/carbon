@@ -23,8 +23,6 @@ import useCursorPagination from 'in-hooks/useCursorPagination';
 import { isLoading, hasError } from 'in-services/util/result';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { formatDuration } from 'in-services/formatters/date';
-import TwoValueBar from 'in-components/TwoValueBar';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 const columnDefinitions = [
@@ -63,27 +61,23 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'ready',
-    width: '13rem',
-    widthInAbsoluteUnit: true,
-    label: t('in-kubernetes:dashboards.ready'),
+    id: 'online',
+    label: 'Online Containers',
     optional: true,
     sortable: false,
-    getContent({ pod }) {
-      const podStatusSummary = get(pod, ['status', 'statusSummary'], missingValueComponent);
-      const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
-      return (
-        <TwoValueBar
-          v1={containerStatuses.filter(c => c.ready).length}
-          v2={containerStatuses.length}
-          v1Color={theme.lib.colors.lightBlue800}
-          v2Color={podStatusSummary === 'Completed' ? theme.lib.colors.N400 : theme.lib.colors.red800}
-          v1Label={t('in-kubernetes:dashboards.ready')}
-          v2Label={t('in-kubernetes:dashboards.total')}
-          fullDomain={containerStatuses.length}
-          formatter={v => v}
-        />
-      );
+    getContent(item) {
+      const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
+      return <span>{containerStatuses.filter(c => c.ready).length}</span>;
+    }
+  },
+  {
+    id: 'desired',
+    label: 'Desired Containers',
+    optional: true,
+    sortable: false,
+    getContent(item) {
+      const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
+      return <span>{containerStatuses.length}</span>;
     }
   },
   {

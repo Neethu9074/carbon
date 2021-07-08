@@ -23,7 +23,6 @@ import {
   statefulSetIdUrlParameter
 } from 'in-kubernetes/navigation/urlParameters';
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
-import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
@@ -33,16 +32,13 @@ import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatter
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { formatDuration } from 'in-services/formatters/date';
-import TwoValueBar from 'in-components/TwoValueBar';
 import MetricValue from 'in-components/MetricValue';
 import podPhases from 'in-kubernetes/podPhases';
 import withUrlState from 'in-hoc/withUrlState';
 import ComboBox from 'in-components/ComboBox';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Pods.mless';
@@ -90,41 +86,23 @@ const allColumnDefinitions = [
     }
   },
   {
-    id: 'ready',
-    label: t('in-kubernetes:dashboards.ready'),
+    id: 'online',
+    label: 'Online Containers',
     optional: true,
     sortable: false,
     getContent(item) {
-      const podStatusSummary = get(item, ['pod', 'status', 'statusSummary'], valueMissingPlaceholder);
       const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
-      return (
-        <TwoValueBar
-          v1={containerStatuses.filter(c => c.ready).length}
-          v2={containerStatuses.length}
-          v1Color={theme.lib.colors.lightBlue800}
-          v2Color={podStatusSummary === 'Completed' ? theme.lib.colors.N400 : theme.lib.colors.red800}
-          v1Label={t('in-kubernetes:dashboards.ready')}
-          v2Label={t('in-kubernetes:dashboards.total')}
-          fullDomain={containerStatuses.length}
-          formatter={v => v}
-        />
-      );
+      return <span>{containerStatuses.filter(c => c.ready).length}</span>;
     }
   },
   {
-    id: 'restartCount',
-    label: t('in-kubernetes:dashboards.restarts'),
+    id: 'desired',
+    label: 'Desired Containers',
     optional: true,
-    sortable: true,
-    getContent(item, props, columnId) {
-      return (
-        <ServerSideSortedMetricValue
-          snapshotId={item.pod.id}
-          metric={columnId}
-          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={zeroDecimalPlaces}
-        />
-      );
+    sortable: false,
+    getContent(item) {
+      const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
+      return <span>{containerStatuses.length}</span>;
     }
   },
   {
@@ -171,7 +149,6 @@ const allColumnDefinitions = [
       return <MetricValue snapshotId={item.pod.id} metric="memoryLimits" formatter={resourceQuotaBytes} />;
     }
   },
-
   {
     id: 'health',
     label: t('in-kubernetes:dashboards.health'),

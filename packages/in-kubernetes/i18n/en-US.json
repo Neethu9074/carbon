@@ -95,7 +95,6 @@
     "container": "Container",
     "loading": "Loading",
     "ready": "Ready",
-    "total": "Total",
     "restarts": "Restarts",
     "serviceLocation": "Service location",
     "intEndpoints": "Int. endpoints",
