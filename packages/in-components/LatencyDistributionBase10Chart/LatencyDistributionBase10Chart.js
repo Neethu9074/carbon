@@ -3,18 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-import { defaultProps, compose, renameProps } from 'recompose';
+import React from 'react';
 
 import LatencyDistributionBase10ChartPresenter from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10ChartPresenter';
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 
-export default compose(
-  renameProps({
-    cheight: 'customHeight',
-    cwidth: 'customWidth'
-  }),
-  getElementDimensions,
-  defaultProps({
-    customHeight: 189
-  })
-)(LatencyDistributionBase10ChartPresenter);
+export default function LatencyDistributionBase10Chart({ cheight = 189, cwidth, ...remainingProps }) {
+  const { ref, ...dimensions } = useResizeObserverCustom();
+  return (
+    <div ref={ref}>
+      <LatencyDistributionBase10ChartPresenter
+        {...remainingProps}
+        {...dimensions}
+        customWidth={cwidth}
+        customHeight={cheight}
+      />
+    </div>
+  );
+}

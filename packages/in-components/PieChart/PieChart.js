@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { forwardRef, useMemo, useState } from 'react';
 import rpt from 'prop-types';
 
 import { enrichAxisWithColors } from 'in-components/Chart/strokeColors';
 import TooltipContent from 'in-components/PieChart/TooltipContent';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import { defaultTimeShift } from 'in-stores/time/shifting';
 import PieLegend from 'in-components/PieChart/PieLegend';
 import Tooltip from 'in-components/Tooltip';
@@ -21,15 +21,16 @@ export default function PieChart({ config, donutRadius }) {
   if (config.automaticallySize) {
     return <PieChartWrapper {...config} donutRadius={donutRadius} />;
   }
-  return <CustomSized {...config} donutRadius={donutRadius} />;
+  return <CustomSizedChart {...config} donutRadius={donutRadius} />;
 }
 
-const CustomSized = getElementDimensions(function CustomSizedChart(props) {
-  return <PieChartWrapper {...props} width={props.width} height={props.customHeight || defaultChartHeight} />;
-});
+function CustomSizedChart(props) {
+  const { width, ref } = useResizeObserverCustom();
+  return <PieChartWrapper {...props} width={width} height={props.customHeight || defaultChartHeight} ref={ref} />;
+}
 
 // This component is not doing much otherthan rendering the chart, We can keep in the same file
-const PieChartWrapper = props => {
+const PieChartWrapper = forwardRef((props, ref) => {
   enrichAxisWithColors(props.y1);
   const {
     y1: { metrics, formatter },
@@ -66,6 +67,8 @@ const PieChartWrapper = props => {
           };
         }
       }),
+    // We only wnant to upate when the props below are changing
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [metricsWithDataPoints, props.y1.colors100, props.y1.colors50, hiddenMetrics, sum]
   );
   let renderedPercentage = 0;
@@ -89,7 +92,7 @@ const PieChartWrapper = props => {
     );
   }
   return (
-    <div className={locals.chartContainer}>
+    <div className={locals.chartContainer} ref={ref}>
       <PieLegend {...props} updateHiddenMetrics={setHiddenMetrics} hiddenMetrics={hiddenMetrics} />
       <div className={locals.chart} style={customStyle}>
         <svg className={locals.svg} viewBox="-1 -1 2 2">
@@ -129,7 +132,7 @@ const PieChartWrapper = props => {
       </div>
     </div>
   );
-};
+});
 
 function getCoordinatesForSlice(percentage) {
   const x = Math.cos(2 * Math.PI * percentage);

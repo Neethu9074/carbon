@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -11,7 +11,6 @@ import { HorizontalIndicator } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 
@@ -37,7 +36,7 @@ import locals from './MarkerLane.mless';
   }}
 */
 
-class MarkersLane extends React.Component {
+class MarkersLaneRenderScheduler extends React.Component {
   constructor(props) {
     super(props);
     this.renderScheduler = new RenderScheduler(this);
@@ -212,4 +211,7 @@ export const commonOverlayStylesPropType = PropTypes.shape({
   color: PropTypes.string
 });
 
-export default getElementDimensions(MarkersLane);
+export default function MarkersLane(props) {
+  const ref = useRef();
+  return <div ref={ref}>{<MarkersLaneRenderScheduler {...props} width={ref.current?.offsetWidth} />}</div>;
+}

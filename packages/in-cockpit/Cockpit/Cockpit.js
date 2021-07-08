@@ -3,15 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
 
-import { setLandingPage, isLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
-import { hasApplicationsAccess, hasWebsitesAccess, hasMobileAppsAccess } from 'in-stores/permission';
+import {
+  hasApplicationsAccess,
+  hasKubernetesAccess,
+  hasMobileAppsAccess,
+  hasWebsitesAccess
+} from 'in-stores/permission';
+import { isLandingPage, setLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 import WebsitesAndMobileTopList from 'in-cockpit/Cockpit/components/WebsitesAndMobileTopList';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
@@ -24,10 +28,9 @@ import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
-import { settings$, setSingle } from 'in-services/settings/settings';
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import { setSingle, settings$ } from 'in-services/settings/settings';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-import { hasKubernetesAccess } from 'in-stores/permission';
 import SideNav from 'in-components/SideNav';
 import Sticky from 'in-components/Sticky';
 import connectTo from 'in-hoc/connectTo';
@@ -151,7 +154,9 @@ function Header() {
   );
 }
 
-const Content = getElementDimensions(function Content({ itemOrder, width, applicationId }) {
+const Content = function Content({ itemOrder, applicationId }) {
+  const { ref, width } = useResizeObserverCustom();
+
   const setNewItemOrder = items => {
     setSingle(settingsKey, { ordering: items.map(({ id }, i) => ({ id, x: 0, y: i * 10 })) });
   };
@@ -160,6 +165,7 @@ const Content = getElementDimensions(function Content({ itemOrder, width, applic
 
   return (
     <div
+      ref={ref}
       className={classNames(locals.wrapper, {
         [locals.wrapperWithRightContent]: !!renderNavigation
       })}
@@ -235,7 +241,7 @@ const Content = getElementDimensions(function Content({ itemOrder, width, applic
       )}
     </div>
   );
-});
+};
 
 function renderIcon({ icon }, isSelected) {
   return (

@@ -3,21 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { get } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
-import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { isWebGLSupported, getWebGLCanvasContext } from 'in-map/services/webGL';
+import { getWebGLCanvasContext, isWebGLSupported } from 'in-map/services/webGL';
 import ApplicationMap from 'in-applications/ApplicationMap/ApplicationMap';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import getServiceMap from 'in-subscription/application/getServiceMap';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import getServiceMap from 'in-subscription/application/getServiceMap';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import { pendingResult } from 'in-services/fixedObjects';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -103,8 +103,9 @@ export default function ApplicationMapReactComponentStateWrapper(props) {
   );
 }
 
-function ApplicationMapLifecycleHandler(props) {
-  const { result, width, customHeight, height, layouter, particles, traffic, sizingMetric } = props;
+export function ApplicationMapReactComponent(props) {
+  const { width, height, ref: resizeObserverRef } = useResizeObserverCustom();
+  const { result, customHeight, layouter, particles, traffic, sizingMetric } = props;
 
   const [webGlContext, setWebGlContext] = useState(null);
   const [canvasNode, setCanvasNode] = useState(null);
@@ -120,6 +121,7 @@ function ApplicationMapLifecycleHandler(props) {
     if (!map && webGlContext) {
       setMap(initMap({ ...props, map, canvasNode, overlayNode, webGlContext }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [canvasNode, overlayNode, webGlContext]); // not passing props as deps is wanted here!
 
   const isLoading = get(result, ['progress', 'loading'], false);
@@ -141,7 +143,7 @@ function ApplicationMapLifecycleHandler(props) {
   }, [map]);
 
   return (
-    <div className={locals.wrapper}>
+    <div className={locals.wrapper} ref={resizeObserverRef}>
       <div className={locals.overlay} ref={overlayRef} />
       <canvas className={locals.canvas} ref={canvasRef} />
       {(isLoading || hasErrors) && (
@@ -198,8 +200,6 @@ function showHelpIfWebGLCantBeSetup(webGlContext) {
     );
   }
 }
-
-export const ApplicationMapReactComponent = getElementDimensions(ApplicationMapLifecycleHandler);
 
 function getHasDataToRender({ traffic, applicationId, boundaryScope }) {
   return timeConfig$

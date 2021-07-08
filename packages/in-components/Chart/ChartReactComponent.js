@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { isEqual } from 'lodash';
 
 import ExternallyDefinedWidthAndHeight from 'in-components/layout/ExternallyDefinedWidthAndHeight';
@@ -11,7 +11,6 @@ import { HEIGHT as commonLegendHeight } from 'in-components/Chart/components/Leg
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import ChartLegend from 'in-components/Chart/components/ChartLegend';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Chart from 'in-components/Chart/Chart';
 
@@ -25,9 +24,14 @@ export default function ChartReactComponent(props) {
   return <HorizontallyAutomaticallySized {...props} />;
 }
 
-const HorizontallyAutomaticallySized = getElementDimensions(function HorizontallyAutomaticallySizedChart(props) {
-  return <ChartReactWrapper {...props} width={props.width} height={props.customHeight || defaultChartHeight} />;
-});
+const HorizontallyAutomaticallySized = function HorizontallyAutomaticallySizedChart(props) {
+  const { ref, width } = useResizeObserver();
+  return (
+    <div ref={ref}>
+      {width && <ChartReactWrapper {...props} width={width} height={props.customHeight || defaultChartHeight} />}
+    </div>
+  );
+};
 
 function CompletelyAutomaticallySized(props) {
   return (

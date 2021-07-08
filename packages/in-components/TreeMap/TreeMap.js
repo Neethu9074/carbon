@@ -3,36 +3,25 @@
  * (c) Copyright Instana Inc.
  */
 
-import { defaultProps, compose, renameProps } from 'recompose';
 import { hierarchy, treemap } from 'd3-hierarchy';
 import React from 'react';
 
-import getElementDimensions from 'in-hoc/getElementDimensions';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Group from 'in-components/TreeMap/components/Group';
 
 import locals from './TreeMap.mless';
 
-export default compose(
-  renameProps({
-    cheight: 'customHeight',
-    cwidth: 'customWidth'
-  }),
-  getElementDimensions,
-  defaultProps({
-    customHeight: 300
-  })
-)(TreeMap);
+export default function TreeMap({ cwidth: customWidth, cheight: customHeight = 300, data, groupProps, nodeProps }) {
+  const { ref, width: observedWidth, height: observedHeight } = useResizeObserverCustom();
 
-function TreeMap({ width, height, customWidth, customHeight, data, groupProps, nodeProps }) {
   if (!width || !data) {
-    return <div style={{ height: customHeight || height }} className={locals.treeMap} />;
+    return <div style={{ height: customHeight || height }} className={locals.treeMap} ref={ref} />;
   }
 
-  data = data.root;
-  width = customWidth || width;
-  height = customHeight || height;
+  const width = customWidth || observedWidth;
+  const height = customHeight || observedHeight;
 
-  const root = hierarchy(data)
+  const root = hierarchy(data.root)
     .sum(d => d.value)
     .sort((a, b) => b.height - a.height || b.value - a.value);
 
@@ -42,7 +31,7 @@ function TreeMap({ width, height, customWidth, customHeight, data, groupProps, n
     .paddingInner(node => (node.depth === 0 ? 8 : 4))(root);
 
   return (
-    <div style={{ height: root.y1 - root.y0 }} className={locals.treeMap}>
+    <div style={{ height: root.y1 - root.y0 }} className={locals.treeMap} ref={ref}>
       {root.children.map(group => (
         <Group key={group.data.id} group={group} groupProps={groupProps} nodeProps={nodeProps} />
       ))}

@@ -10,8 +10,8 @@ import OverviewChartTooltip from 'in-mobile-apps/analyze/SessionView/tabs/Summar
 import { getType, types } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
+import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import { millis } from 'in-services/formatters/number';
 import { deepFreeze } from 'in-services/util/object';
 import Tooltip from 'in-components/Tooltip';
@@ -22,7 +22,9 @@ import locals from './OverviewChart.mless';
 
 const barHeight = 8;
 
-export default getElementDimensions(function OverviewChart({ beacons, earliestTimestamp, width, endTimestamp }) {
+export default function OverviewChart({ beacons, earliestTimestamp, endTimestamp }) {
+  const { ref, width } = useResizeObserverCustom();
+
   const scale = createScale();
   const beaconsStacked = applyLayout(beacons, earliestTimestamp, endTimestamp);
 
@@ -50,7 +52,7 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
         />
       )}
 
-      <div className={locals.beacons} style={{ height: `${chartHeight}px` }}>
+      <div className={locals.beacons} style={{ height: `${chartHeight}px` }} ref={ref}>
         {beaconsStacked.map((beacon, i) => {
           const type = getType(beacon);
           const typeDefinition = types[type];
@@ -83,7 +85,7 @@ export default getElementDimensions(function OverviewChart({ beacons, earliestTi
       </div>
     </Fragment>
   );
-});
+}
 
 function applyLayout(beacons) {
   return deepFreeze(positionBeacons(beacons, 0, []));
