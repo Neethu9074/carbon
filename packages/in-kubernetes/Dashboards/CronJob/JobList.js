@@ -34,7 +34,8 @@ import locals from 'in-kubernetes/Dashboards/CronJob/CronJob.mless';
 const statusToSeverity = {
   Completed: 0,
   Running: 1.1,
-  Failed: 10
+  Failed: 10,
+  Unknown: 6
 };
 
 const notFoundComponent = (
@@ -55,7 +56,7 @@ const columnDefinitions = [
     getContent({ status }) {
       return (
         <HealthDot
-          severity={status ? statusToSeverity[status] : statusToSeverity.Running}
+          severity={status ? statusToSeverity[status] : statusToSeverity.Unknown}
           iconSize={SvgIconSizes.xxs}
         />
       );
