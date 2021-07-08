@@ -5,6 +5,7 @@
 
 /* eslint-env node */
 
+const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const webpack = require('webpack');
@@ -33,7 +34,13 @@ const plugins = [
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^$/),
   new CaseSensitivePathsPlugin(),
   cssIdentWebpackPlugin,
-  process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin()
+  process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin(),
+
+  isDevModeBuild && new ForkTsCheckerWebpackPlugin({
+    checkSyntacticErrors: true,
+    async: true,
+    silent: true
+  })
 ].filter(Boolean);
 
 if (hotReload) {

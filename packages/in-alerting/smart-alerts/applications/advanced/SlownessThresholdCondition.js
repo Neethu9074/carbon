@@ -121,7 +121,7 @@ function SlownessBaselineConfig({ form, updateForm, onChange, editMode, isGlobal
   const thresholdType = form.get('threshold').get('type')?.value;
   const evaluationType = form.get('evaluationType').value;
 
-  return(
+  return (
     <ShowLabelOrDropdown form={form} isGlobalSmartAlert={isGlobalSmartAlert}>
       <Dropdown
         asSimpleDropdown
@@ -142,9 +142,7 @@ function SlownessBaselineConfig({ form, updateForm, onChange, editMode, isGlobal
 
           if (thresholdType === HISTORIC_BASELINE) {
             const seasonality = valueParts[1];
-            newThresholdForm = newThresholdForm.updateIn(['seasonality'], f =>
-              f.setValue(seasonality).setTouched()
-            );
+            newThresholdForm = newThresholdForm.updateIn(['seasonality'], f => f.setValue(seasonality).setTouched());
           }
 
           const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });

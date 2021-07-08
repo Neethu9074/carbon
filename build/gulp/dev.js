@@ -8,7 +8,9 @@
 
 'use strict';
 
+const forkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
+const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const clearConsole = require('react-dev-utils/clearConsole');
 const WebpackDevServer = require('webpack-dev-server');
 const { clone } = require('lodash');
@@ -211,6 +213,23 @@ function createWebpackCompiler(config, onReadyCallback) {
     process.exit(1);
   }
 
+  let tsMessagesPromise;
+  let tsMessagesResolver;
+  compiler.hooks.beforeCompile.tap('beforeCompile', () => {
+    tsMessagesPromise = new Promise(resolve => {
+      tsMessagesResolver = msgs => resolve(msgs);
+    });
+  });
+
+  forkTsCheckerWebpackPlugin.getCompilerHooks(compiler).receive.tap('afterTypeScriptCheck', (diagnostics, lints) => {
+    const allMsgs = [...diagnostics, ...lints];
+    const format = message => `${message.file}\n${typescriptFormatter(message, true)}`;
+    tsMessagesResolver({
+      errors: allMsgs.filter(msg => msg.severity === 'error').map(format),
+      warnings: allMsgs.filter(msg => msg.severity === 'warning').map(format)
+    });
+  });
+
   // "invalid" event fires when you have changed a file, and Webpack is
   // recompiling a bundle. WebpackDevServer takes care to pause serving the
   // bundle, so if you refresh, it'll wait instead of serving the old one.
@@ -226,15 +245,34 @@ function createWebpackCompiler(config, onReadyCallback) {
 
   // "done" event fires when Webpack has finished recompiling the bundle.
   // Whether or not you have warnings or errors, you will get this event.
-  compiler.plugin('done', stats => {
+  compiler.hooks.done.tap('done', async stats => {
     if (process.stdout.isTTY) {
       clearConsole();
+    }
+
+    const statsData = stats.toJson({
+      all: false,
+      warnings: true,
+      errors: true
+    });
+
+    if (statsData.errors.length === 0) {
+      const delayedMsg = setTimeout(() => {
+        renderSucessMessage();
+      }, 100);
+
+      const tsMessages = await tsMessagesPromise;
+      clearTimeout(delayedMsg);
+      statsData.errors.push(...tsMessages.errors);
+      statsData.warnings.push(...tsMessages.warnings);
+      stats.compilation.errors.push(...tsMessages.errors);
+      stats.compilation.warnings.push(...tsMessages.warnings);
     }
 
     // We have switched off the default Webpack output in WebpackDevServer
     // options so we are going to "massage" the warnings and errors and present
     // them in a readable focused way.
-    const messages = formatWebpackMessages(stats.toJson({}, true));
+    const messages = formatWebpackMessages(statsData);
     const warnings = (messages.warnings || []).filter(warning => {
       // We ensure via strict CSS coding guidelines that this is not a problem. Therefore do not log any errors.
       const isWarningAboutConflictingStyleOrder =
@@ -246,21 +284,7 @@ function createWebpackCompiler(config, onReadyCallback) {
     const showInstructions = isSuccessful && (process.stdout.isTTY || isFirstCompile);
 
     if (isSuccessful) {
-      console.log(chalk.green('Compiled successfully!'));
-      console.log();
-      console.log(`Development URL: ${chalk.blue(getDevUrl())}`);
-
-      if (devModeOptions.target.local) {
-        console.log(`Base Domain:     ${chalk.yellow('[Local Backend]')}`);
-      } else {
-        console.log(`Tenant:          ${devModeOptions.target.tenant}`);
-        console.log(`Unit:            ${devModeOptions.target.tenantUnit}`);
-        console.log(`Base Domain:     ${devModeOptions.target.baseDomain}`);
-      }
-
-      console.log();
-      console.log('Getting security warnings in your browser? Check out:');
-      console.log(chalk.blue('https://instana.io/s/3esFtc5ZRBOtVlRJMBMS1A'));
+      renderSucessMessage();
     }
 
     if (typeof onReadyCallback === 'function') {
@@ -295,4 +319,22 @@ function createWebpackCompiler(config, onReadyCallback) {
   });
 
   return compiler;
+}
+
+function renderSucessMessage() {
+  console.log(chalk.green('Compiled successfully!'));
+  console.log();
+  console.log(`Development URL: ${chalk.blue(getDevUrl())}`);
+
+  if (devModeOptions.target.local) {
+    console.log(`Base Domain:     ${chalk.yellow('[Local Backend]')}`);
+  } else {
+    console.log(`Tenant:          ${devModeOptions.target.tenant}`);
+    console.log(`Unit:            ${devModeOptions.target.tenantUnit}`);
+    console.log(`Base Domain:     ${devModeOptions.target.baseDomain}`);
+  }
+
+  console.log();
+  console.log('Getting security warnings in your browser? Check out:');
+  console.log(chalk.blue('https://instana.io/s/3esFtc5ZRBOtVlRJMBMS1A'));
 }
