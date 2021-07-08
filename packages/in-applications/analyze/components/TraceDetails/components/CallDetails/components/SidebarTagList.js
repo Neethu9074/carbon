@@ -4,6 +4,7 @@
  */
 
 import React, { createRef, useEffect, useState, forwardRef } from 'react';
+import classNames from 'classnames';
 
 import { Button } from '@instana/components';
 import { Li, Ul } from '@instana/components';
@@ -14,12 +15,18 @@ import Tooltip from 'in-components/Tooltip';
 
 import locals from './SidebarTagList.mless';
 
-export default function SidebarTagList({ tags }) {
+export default function SidebarTagList({ leftAligned = false, tags }) {
   const TagLine = forwardRef(function TagLine({ name, value, valueRef }, ref) {
     return (
       <Li className={locals.root}>
         <div className={locals.key}>{name}</div>
-        <div className={locals.value} ref={compositeRef(valueRef, ref)}>
+        <div
+          className={classNames({
+            [locals.rightAlignedValue]: !leftAligned,
+            [locals.leftAlignedValue]: leftAligned
+          })}
+          ref={compositeRef(valueRef, ref)}
+        >
           {value}
         </div>
         <div className={locals.clipboard}>

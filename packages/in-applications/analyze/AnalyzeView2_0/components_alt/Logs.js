@@ -179,7 +179,7 @@ function Details({ log }) {
       <div className={locals.logMessageWrapper}>
         <LogMessage {...log} />
       </div>
-      <SidebarTagList tags={tags} />
+      <SidebarTagList tags={tags} leftAligned />
     </span>
   );
 }

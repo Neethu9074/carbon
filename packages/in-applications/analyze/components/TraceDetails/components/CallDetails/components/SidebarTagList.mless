@@ -7,7 +7,8 @@
 
 :local {
   .key,
-  .value {
+  .rightAlignedValue,
+  .leftAlignedValue {
     width: 50%;
     .ellipsis();
   }
@@ -16,8 +17,12 @@
     text-align: left;
   }
 
-  .value {
+  .rightAlignedValue {
     text-align: right;
+  }
+
+  .leftAlignedValue {
+    text-align: left;
   }
 
   .root {
