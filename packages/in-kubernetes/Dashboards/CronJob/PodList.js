@@ -29,13 +29,13 @@ const columnDefinitions = [
   {
     id: 'name',
     label: t('in-kubernetes:dashboards.name'),
-    getContent({ pod, entityHealthInfo }) {
+    getContent({ pod }) {
       return (
         <SeverityAwareEntityLink
           icon="lib_kubernetes_pod"
           label={pod.label}
           href$={getPodDashboard(pod.id)}
-          severity={entityHealthInfo.maxSeverity}
+          severity={-1}
         />
       );
     }
