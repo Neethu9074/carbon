@@ -6,10 +6,23 @@
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
+import getKubernetesCronJob from 'in-subscription/kubernetes/getKubernetesCronJob';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-export default function CronJobBreadcrumb({ cronJobId, cronJob, href$ }) {
+export default connectTo(
+  ({ cronJobId, timeConfig }) => ({
+    cronJob: getKubernetesCronJob({
+      id: cronJobId,
+      timeConfig
+    }).map(result => result?.data)
+  }),
+  CronJobBreadcrumb
+);
+
+function CronJobBreadcrumb(props) {
+  const { cronJobId, cronJob, href$ } = props;
   return (
     <WithInfrastructureHealthIndicationBehaviour
       snapshotId={cronJobId}
