@@ -40,8 +40,8 @@ import {
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-applications/navigation/matrix';
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
+import { categoryGlobal } from 'in-alerting/smart-alerts/applications/components/list/constants';
 import { alertsCategory as alertsCategoryMatrixParam } from 'in-applications/navigation/matrix';
-import { categoryGlobal } from 'in-alerting/smart-alerts/applications/inventory/constants';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl, propTypeLocation } from 'in-stores/navigation/navigation';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';

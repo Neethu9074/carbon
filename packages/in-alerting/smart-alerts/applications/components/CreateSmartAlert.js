@@ -6,11 +6,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { getEntitySelection } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { refreshSmartAlertConfigsList } from '../inventory/SmartAlertsBaseList';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';

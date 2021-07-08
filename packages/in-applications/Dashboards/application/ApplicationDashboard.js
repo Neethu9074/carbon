@@ -23,10 +23,10 @@ import InboundAllCallsDropdown from 'in-applications/Dashboards/commonComponents
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicatorButtonPresenter';
 import CreateSmartAlert from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
+import { categoryGlobal } from 'in-alerting/smart-alerts/applications/components/list/constants';
 import { applicationSmartAlertsEnabled, syntheticCallsEnabled } from 'in-services/featureFlags';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { applicationDashboardUrlParameters } from 'in-applications/navigation/urlParameters';
-import { categoryGlobal } from 'in-alerting/smart-alerts/applications/inventory/constants';
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import getEndpointTypes from 'in-applications/subscriptions/getEndpointTypes';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';

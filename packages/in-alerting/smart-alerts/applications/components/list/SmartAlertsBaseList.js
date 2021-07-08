@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useLocation } from 'react-router';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
@@ -12,149 +11,35 @@ import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 import { Stack } from '@instana/components';
 
+import {
+  categoryGlobal,
+  categoryLocal,
+  sortOptions
+} from 'in-alerting/smart-alerts/applications/components/list/constants';
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
-import { categoryGlobal, categoryLocal } from 'in-alerting/smart-alerts/applications/inventory/constants';
-import EvaluationTypeColumn from 'in-alerting/smart-alerts/applications/inventory/EvaluationTypeColumn';
-import ListEntityNameColumn from 'in-alerting/smart-alerts/applications/inventory/ListEntityNameColumn';
-import ListActionsColumn from 'in-alerting/smart-alerts/applications/inventory/ListActionsColumn';
-import ListFilterColumn from 'in-alerting/smart-alerts/applications/inventory/ListFiltersColumn';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { ListNameColumn } from 'in-alerting/smart-alerts/applications/inventory/ListNameColumn';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
-import { alertsCategory } from 'in-applications/navigation/matrix';
-import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { hasError, isLoading } from 'in-services/util/result';
-import { alertsTab } from 'in-applications/navigation/paths';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { pendingResult } from 'in-services/fixedObjects';
 import ButtonGroup from 'in-components/ButtonGroup';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
-import useUrlState from 'in-hooks/useUrlState';
-import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './SmartAlertsBaseList.mless';
 
-const columnDefinitions = [
-  {
-    id: 'name',
-    width: '35%',
-    sortable: false,
-    getContent({ config, configsCategory, additionalMatrixKeys, location }) {
-      return (
-        <ListNameColumn
-          config={config}
-          configsCategory={configsCategory}
-          additionalMatrixKeys={additionalMatrixKeys}
-          goToGlobalAlertDetails={location?.pathname === '/alerts'}
-        />
-      );
-    }
-  },
-  {
-    id: 'evaluationInfo',
-    sortable: false,
-    width: '20%',
-    getContent({ config }) {
-      return <EvaluationTypeColumn {...config} />;
-    }
-  },
-  {
-    id: 'entityName',
-    width: '25%',
-    sortable: false,
-    getContent({ config, isGlobalSmartAlertConfig }) {
-      return <ListEntityNameColumn {...config} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />;
-    }
-  },
-  {
-    id: 'filters',
-    sortable: false,
-    getContent({ config }) {
-      return <ListFilterColumn {...config} />;
-    }
-  },
-  {
-    id: 'actions',
-    sortable: false,
-    getContent({ config, loading, isGlobalSmartAlertConfig }) {
-      return (
-        role.canConfigureCustomAlerts && (
-          <ListActionsColumn config={config} isLoading={loading} isGlobalSmartAlertConfig={isGlobalSmartAlertConfig} />
-        )
-      );
-    }
-  }
-];
-
-const sortOptions = [
-  { label: t('in-alerting:smartAlerts.sortOptions.name'), value: 'name' },
-  { label: t('in-alerting:smartAlerts.sortOptions.blueprint'), value: 'blueprint' },
-  { label: t('in-alerting:smartAlerts.sortOptions.enabled'), value: 'enabled' },
-  { label: t('in-alerting:smartAlerts.sortOptions.disabled'), value: 'disabled' },
-  { label: t('in-alerting:smartAlerts.sortOptions.severity'), value: 'severity' },
-  { label: t('in-alerting:smartAlerts.sortOptions.created'), value: 'created' }
-];
-
 const pageSize = 15;
 
-const urlStateDefinition = {
-  bind: [
-    {
-      path: alertsTab,
-      name: 'orderBy',
-      as: 'orderBy',
-      initialState: 'name'
-    },
-    {
-      path: alertsTab,
-      name: 'orderDirection',
-      as: 'orderDirection',
-      initialState: 'ASC'
-    },
-    {
-      path: alertsTab,
-      name: alertsCategory,
-      as: 'configsCategory',
-      initialState: 'local' // "local" or "global"
-    },
-    {
-      path: alertsTab,
-      name: 'page',
-      as: 'page',
-      initialState: 1,
-      parser: intParser
-    },
-    {
-      path: alertsTab,
-      name: 'query',
-      as: 'query',
-      initialState: ''
-    }
-  ],
-  resets: [
-    {
-      bind: [
-        {
-          path: alertsTab,
-          name: 'configsCategory'
-        },
-        {
-          path: alertsTab,
-          name: 'orderBy'
-        },
-        {
-          path: alertsTab,
-          name: 'orderDirection'
-        }
-      ],
-      reset: { page: 1 }
-    }
-  ]
+const defaultState = {
+  orderBy: 'name',
+  orderDirection: 'ASC',
+  configsCategory: categoryLocal,
+  page: 1,
+  query: ''
 };
 
 const refreshSignal = create().emit({ emitLatestOnSubscribe: false });
@@ -167,9 +52,15 @@ export default function SmartAlertsBaseList({
   onNoData,
   getGlobalAlertConfigFetchFunction,
   getLocalAlertConfigsFetchFunction,
-  additionalMatrixKeys
+  columnDefinitions,
+  externalState,
+  setExternalState,
+  ...remainingProps
 }) {
-  const [{ orderBy, orderDirection, configsCategory, page, query }, setUrlState] = useUrlState(urlStateDefinition);
+  const [{ orderBy, orderDirection, configsCategory, page, query }, setState] = useOptionalExternalState(
+    externalState,
+    setExternalState
+  );
 
   const {
     configs: globalConfigs,
@@ -207,7 +98,6 @@ export default function SmartAlertsBaseList({
     configsCategory
   });
 
-  const location = useLocation();
   const offset = (page - 1) * pageSize;
   const until = offset + pageSize;
 
@@ -223,7 +113,7 @@ export default function SmartAlertsBaseList({
               }),
               key: categoryGlobal,
               onClick() {
-                setUrlState({ configsCategory: categoryGlobal });
+                setState({ configsCategory: categoryGlobal });
               }
             },
             {
@@ -232,7 +122,7 @@ export default function SmartAlertsBaseList({
               }),
               key: categoryLocal,
               onClick() {
-                setUrlState({ configsCategory: categoryLocal });
+                setState({ configsCategory: categoryLocal });
               }
             }
           ]}
@@ -247,14 +137,14 @@ export default function SmartAlertsBaseList({
                 direction: orderDirection
               }}
               onChange={({ by, direction }) =>
-                setUrlState({
+                setState({
                   orderBy: by,
                   orderDirection: direction
                 })
               }
             />
           </div>
-          <SearchInput query={query} onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })} />
+          <SearchInput query={query} onChange={updatedQuery => setState({ query: updatedQuery, page: 1 })} />
         </HorizontalFlexWrapper>
       </HorizontalFlexWrapper>
       <Ul framed>
@@ -265,13 +155,12 @@ export default function SmartAlertsBaseList({
           .map(config => (
             <Li key={config.id}>
               <ColumnizedContent
-                additionalMatrixKeys={additionalMatrixKeys}
+                {...remainingProps}
                 columnDefinitions={columnDefinitions}
                 config={config}
                 configsCategory={configsCategory}
                 loading={loading}
                 isGlobalSmartAlertConfig={isCategoryGlobal(configsCategory)}
-                location={location}
               />
             </Li>
           ))}
@@ -287,7 +176,7 @@ export default function SmartAlertsBaseList({
       <Pagination
         currentPage={page}
         numPages={Math.ceil(searchResultsSelected.length / pageSize)}
-        onChange={newPage => setUrlState({ page: newPage })}
+        onChange={newPage => setState({ page: newPage })}
       />
     </Stack>
   );
@@ -438,6 +327,14 @@ function getNoAlertConfiguredLabel(query) {
     : t('in-alerting:smartAlerts.titleNoSmartAlertsConfigured');
 }
 
+function useOptionalExternalState(externalState, setExternalState) {
+  const defaultStateHandling = useState(defaultState);
+  if (setExternalState) {
+    return [externalState, setExternalState];
+  }
+  return defaultStateHandling;
+}
+
 SmartAlertsBaseList.propTypes = {
   /**
    * A function which returns an observable resolving with the api call result for
@@ -457,9 +354,25 @@ SmartAlertsBaseList.propTypes = {
    * Optional callback executed when there is no data to display
    */
   onNoData: PropTypes.func,
+
+  columnDefinitions: PropTypes.array.isRequired,
+
   /**
-   * Array containing additional keys/values which should be added as additional matrix parameters.
-   * The function has the alertConfig as function parameter
+   * Externally defined state, to be used instead of internal state handling.
+   * Only used if `setExternalState` is defined
    */
-  additionalMatrixKeys: PropTypes.func
+  externalState: PropTypes.shape({
+    orderBy: PropTypes.string.isRequired,
+    orderDirection: PropTypes.string.isRequired,
+    configsCategory: PropTypes.oneOf([categoryLocal, categoryGlobal]).isRequired,
+    page: PropTypes.number.isRequired,
+    query: PropTypes.string.isRequired
+  }),
+
+  /**
+   * External state setter, argument has the same type as `externalState`.
+   * Setting this will disable internal state handling, providing `externalState`
+   * is then required.
+   */
+  setExternalState: PropTypes.func
 };

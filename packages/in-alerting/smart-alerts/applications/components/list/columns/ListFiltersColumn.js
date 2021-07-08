@@ -9,7 +9,7 @@ import React from 'react';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import IconLabel from 'in-alerting/components/IconLabel';
-import Tooltip from 'in-components/Tooltip/Tooltip';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './ListColumns.mless';

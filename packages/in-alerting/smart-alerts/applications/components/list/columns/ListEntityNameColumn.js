@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useObservable } from '@instana/hooks';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';

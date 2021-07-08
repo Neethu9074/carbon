@@ -6,10 +6,16 @@
 /* eslint-env jest */
 
 import { render } from '@testing-library/react';
-import { useLocation } from 'react-router';
 import React from 'react';
 
-import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
+import {
+  linkedListNameColumnDefinition,
+  evaluationInfoColumnDefinition,
+  entityNameColumnDefinition,
+  filtersColumnDefinition,
+  editActionsColumnDefinition
+} from 'in-alerting/smart-alerts/applications/components/list/columns/columnDefinitions';
+import SmartAlertsBaseList from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseList';
 import { successObservable } from 'in-services/util/result';
 
 jest.mock('react-router');
@@ -18,18 +24,24 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
   const onNoData = jest.fn();
   const getGlobalAlertConfigFetchFunction = jest.fn();
   const getLocalAlertConfigsFetchFunction = jest.fn();
-  const additionalMatrixKeys = jest.fn();
+
+  const location = {
+    pathname: '/',
+    query: {},
+    matrix: {}
+  };
+  const columnDefinitions = [
+    linkedListNameColumnDefinition(location),
+    evaluationInfoColumnDefinition(),
+    entityNameColumnDefinition(),
+    filtersColumnDefinition(),
+    editActionsColumnDefinition()
+  ];
 
   beforeEach(() => {
     jest.resetAllMocks();
     getGlobalAlertConfigFetchFunction.mockReturnValue(successObservable([]));
     getLocalAlertConfigsFetchFunction.mockReturnValue(successObservable([]));
-    additionalMatrixKeys.mockReturnValue([]);
-    useLocation.mockReturnValue({
-      pathname: '/',
-      query: {},
-      matrix: {}
-    });
   });
 
   it('must trigger onNoData when both fetch calls return no entries', async () => {
@@ -38,7 +50,7 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
         onNoData={onNoData}
         getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
         getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
-        additionalMatrixKeys={additionalMatrixKeys}
+        columnDefinitions={columnDefinitions}
       />
     );
     expect(getGlobalAlertConfigFetchFunction).toHaveBeenCalledTimes(1);
@@ -54,7 +66,7 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
         onNoData={onNoData}
         getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
         getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
-        additionalMatrixKeys={additionalMatrixKeys}
+        columnDefinitions={columnDefinitions}
       />
     );
 
@@ -69,7 +81,7 @@ describe('in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList', 
         onNoData={onNoData}
         getGlobalAlertConfigFetchFunction={getGlobalAlertConfigFetchFunction}
         getLocalAlertConfigsFetchFunction={getLocalAlertConfigsFetchFunction}
-        additionalMatrixKeys={additionalMatrixKeys}
+        columnDefinitions={columnDefinitions}
       />
     );
 

@@ -8,8 +8,8 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import { applicationsAlertingAddAlert } from 'in-alerting/smart-alerts/applications/tracker';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';

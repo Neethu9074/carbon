@@ -22,14 +22,14 @@ import {
   disableAlertConfig,
   enableAlertConfig
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
+import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
-import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/inventory/SmartAlertsBaseList';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
-import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
+import IconButton from 'in-components/IconButton';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ListActionsColumn.mless';
