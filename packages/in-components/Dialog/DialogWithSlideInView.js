@@ -49,7 +49,7 @@ export default function DialogWithSlideInView({
       <section
         className={classNames(locals.dialog, className)}
         onClick={stopPropagation}
-        onScroll={e => setScrollshadow(e.target.scrollTop > 0)}
+        onScrollCapture={e => setScrollshadow(e.target.scrollTop > 0)}
       >
         <SlideInView
           onShowSlideInContentChange={onSlideInViewTitleClick}
