@@ -10,13 +10,15 @@ import { isModifierPressed, isEscape, isLeftClick } from 'in-components/keyCodes
 import { identifyOverlay } from 'in-components/overlays/dom';
 import { emptyArray } from 'in-services/fixedObjects';
 
+const reactContainer = document.getElementById('main');
+
 /**
- * The `<CloseWrapper/>` component registers your callback on the document
+ * The `<OverlayCloseIdentification/>` component registers your callback on the document
  * when rendered. Powers the `<Overlay/>` component. This is used achieve modal
  * style behavior where your callback is triggered when the user tries to
  * interact with the rest of the document or hits the `esc` key.
  */
-export default class CloseWrapper extends React.Component {
+export default class OverlayCloseIdentification extends React.Component {
   constructor(props) {
     super(props);
     this.closeFunctionsToExecute = emptyArray;
@@ -26,14 +28,20 @@ export default class CloseWrapper extends React.Component {
     // Use capture for this listener so it fires before React's listener, to
     // avoid false positives in the contains() check below if the target DOM
     // element is removed in the React mouse callback.
-    document.documentElement.addEventListener('click', this.handleMouseCapture, true);
-    document.documentElement.addEventListener('click', this.handleMouse);
+    //
+    // We need to attach the click event listener to the React root node in
+    // order to avoid conflicts with React's event delegation system.
+    // Also see:
+    // https://reactjs.org/blog/2020/10/20/react-v17.html#changes-to-event-delegation
+    // https://instana.kanbanize.com/ctrl_board/103/cards/66722/details
+    reactContainer.addEventListener('click', this.handleMouseCapture, true);
+    reactContainer.addEventListener('click', this.handleMouse);
     document.documentElement.addEventListener('keyup', this.handleKeyUp);
   }
 
   componentWillUnmount() {
-    document.documentElement.removeEventListener('click', this.handleMouseCapture, true);
-    document.documentElement.removeEventListener('click', this.handleMouse);
+    reactContainer.removeEventListener('click', this.handleMouseCapture, true);
+    reactContainer.removeEventListener('click', this.handleMouse);
     document.documentElement.removeEventListener('keyup', this.handleKeyUp);
   }
 
@@ -74,7 +82,7 @@ export default class CloseWrapper extends React.Component {
   };
 
   render() {
-    return this.props.children;
+    return null;
   }
 }
 

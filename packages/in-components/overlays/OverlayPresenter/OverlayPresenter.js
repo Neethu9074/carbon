@@ -5,19 +5,20 @@
 
 import React from 'react';
 
-import SingleOverlayPresenter from 'in-components/overlays/OverlayPresenter/SingleOverlayPresenter';
-import CloseWrapper from 'in-components/overlays/OverlayPresenter/CloseWrapper';
-import { overlays$ } from 'in-components/overlays/overlayStore';
-import connect from 'in-hoc/connectTo';
+import { useObservable } from '@instana/hooks';
 
-export default connect({
-  overlays: overlays$
-})(function OverlayPresenter({ overlays }) {
+import OverlayCloseIdentification from 'in-components/overlays/OverlayPresenter/OverlayCloseIdentification';
+import SingleOverlayPresenter from 'in-components/overlays/OverlayPresenter/SingleOverlayPresenter';
+import { overlays$ } from 'in-components/overlays/overlayStore';
+
+export default function OverlayPresenter() {
+  const overlays = useObservable(overlays$, []);
   return (
-    <CloseWrapper overlays={overlays}>
-      {overlays.map(overlay => (
+    <>
+      <OverlayCloseIdentification overlays={overlays} />
+      {overlays?.map(overlay => (
         <SingleOverlayPresenter key={overlay.id} {...overlay} />
       ))}
-    </CloseWrapper>
+    </>
   );
-});
+}
