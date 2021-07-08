@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import { SvgIcon } from '@instana/components';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import keyCodes from 'in-components/keyCodes';
+import { isReturn, isArrowDown } from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
@@ -66,10 +66,10 @@ export default function SearchInput({
         onChange={e => onChange(e.target.value)}
         autoFocus={autoFocus}
         onKeyDown={e => {
-          if (onReturn && e.keyCode === keyCodes.enter) {
+          if (onReturn && isReturn(e)) {
             onReturn(e);
           }
-          if (onArrowDown && e.keyCode === keyCodes.arrows.down) {
+          if (onArrowDown && isArrowDown(e)) {
             stopPropagationAndPreventDefault(e);
             onArrowDown(e);
           }

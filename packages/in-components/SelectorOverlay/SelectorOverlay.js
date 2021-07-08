@@ -6,6 +6,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
+import { isArrowRight, isReturn, isArrowLeft, isArrowUp } from 'in-components/keyCodes';
 import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -15,7 +16,6 @@ import { getInteractiveElements } from 'in-services/util/dom';
 import Node from 'in-components/SelectorOverlay/Node';
 import { isNotBlank } from 'in-services/util/string';
 import SearchInput from 'in-components/SearchInput';
-import keyCodes from 'in-components/keyCodes';
 import { t } from 'in-i18n';
 
 import locals from './SelectorOverlay.mless';
@@ -159,17 +159,15 @@ export default function SelectorOverlay({
   }
 
   function onKeyDown(event) {
-    // keyCode is deprecated and code is not yet supported everywhere
-    const code = event.code ?? event.keyCode;
-    if (code === keyCodes.arrows.right || code === keyCodes.enter) {
+    if (isArrowRight(event) || isReturn(event)) {
       event.target.click();
-    } else if (code === keyCodes.arrows.left) {
+    } else if (isArrowLeft(event)) {
       setState({
         focusedNode,
         showFocusedNode: false
       });
     } else if (
-      code === keyCodes.arrows.up &&
+      isArrowUp(event) &&
       !showFocusedNode &&
       getInteractiveElements(event.currentTarget).indexOf(event.target) === 0
     ) {

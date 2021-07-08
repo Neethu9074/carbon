@@ -3,9 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-import RoEmitter from '@instana/roemitter';
 import React from 'react';
 
+import RoEmitter from '@instana/roemitter';
+
+import {
+  isSpace,
+  isCtrl,
+  isReturn,
+  isTab,
+  isArrowUp,
+  isArrowDown,
+  isArrowLeft,
+  isArrowRight,
+  isEscape
+} from 'in-components/keyCodes';
 import { onDown, onMove, onLeave } from 'in-services/util/reactiveMouseEvents';
 import { setQueryInput, unvalidatedQuery$ } from 'in-stores/search/query';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
@@ -17,7 +29,6 @@ import ErrorBoundary from 'in-components/ErrorBoundary';
 import { applyTransform } from 'in-services/util/dom';
 import 'in-components/SearchBar/misc/codeMirrorModes';
 import CodeMirror from 'in-components/CodeMirror';
-import keyCodes from 'in-components/keyCodes';
 import connectTo from 'in-hoc/connectTo';
 
 import 'in-components/SearchBar/searchTokenDefinitions.less';
@@ -72,10 +83,7 @@ export default getElementDimensions(
 
         editor.on('keydown', (editor, event) => {
           // open the suggestions when user hitting ctrl + space
-          if (
-            (event.keyCode === keyCodes.space && event.ctrlKey) ||
-            (event.keyCode === keyCodes.arrows.down && this.state.suggestionConfig == null)
-          ) {
+          if ((isSpace(event) && isCtrl(event)) || (isArrowDown(event) && this.state.suggestionConfig == null)) {
             event.preventDefault();
 
             const query = this.props.contextQuery.query;
@@ -93,21 +101,12 @@ export default getElementDimensions(
           }
 
           // send allowed navigation keys to the suggestions component
-          if (
-            event.keyCode === keyCodes.return ||
-            event.keyCode === keyCodes.tab ||
-            event.keyCode === keyCodes.arrows.down ||
-            event.keyCode === keyCodes.arrows.up
-          ) {
+          if (isReturn(event) || isTab(event) || isArrowDown(event) || isArrowUp(event)) {
             event.preventDefault();
-            this.state.eventEmitter.emit('keyDown', event.keyCode);
+            this.state.eventEmitter.emit('keyDown', event);
           }
 
-          if (
-            event.keyCode === keyCodes.arrows.left ||
-            event.keyCode === keyCodes.arrows.right ||
-            event.keyCode === keyCodes.escape
-          ) {
+          if (isArrowLeft(event) || isArrowRight(event) || isEscape(event)) {
             this.hide();
           }
         });

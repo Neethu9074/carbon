@@ -17,7 +17,7 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { emptyArray } from 'in-services/fixedObjects';
-import keyCodes from 'in-components/keyCodes';
+import { isEscape } from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
 
@@ -113,7 +113,7 @@ export default class extends React.Component {
   }
 
   onKeyDown(e) {
-    if (e.keyCode === keyCodes.escape) {
+    if (isEscape(e)) {
       this.props.chart.config.clearLocalHighlightedTimeframe();
     }
   }

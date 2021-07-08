@@ -3,37 +3,40 @@
  * (c) Copyright Instana Inc.
  */
 
-export default {
-  arrows: {
-    up: 38,
-    right: 39,
-    down: 40,
-    left: 37
-  },
-  tab: 9,
-  enter: 13,
-  space: 32,
-  backspace: 8,
-  delete: 46,
-  escape: 27,
-  return: 13,
-  questionMark: 191,
-  end: 35,
-  home: 36,
-  a: 65,
-  c: 67,
-  d: 68,
-  e: 69,
-  f: 70,
-  n: 78,
-  v: 86,
-  w: 87,
-  s: 83,
-  p: 80,
-  l: 76,
-  isModifierPressed: e => !!(e.ctrlKey || e.shiftKey || e.altKey || e.metaKey),
-  isLeftClick: e => e.button === 0
-};
+export const isArrowUp = checkCode.bind(null, 38, 'ArrowUp');
+export const isArrowDown = checkCode.bind(null, 40, 'ArrowDown');
+export const isArrowLeft = checkCode.bind(null, 37, 'ArrowLeft');
+export const isArrowRight = checkCode.bind(null, 39, 'ArrowRight');
+export const isReturn = checkCode.bind(null, 13, 'Enter');
+export const isSpace = checkCode.bind(null, 32, 'Space');
+export const isTab = checkCode.bind(null, 9, 'Tab');
+export const isBackspace = checkCode.bind(null, 8, 'Backspace');
+export const isDelete = checkCode.bind(null, 46, 'Delete');
+export const isEscape = checkCode.bind(null, 27, 'Escape');
+export const isA = checkCode.bind(null, 65, 'KeyA');
+export const isC = checkCode.bind(null, 67, 'KeyC');
+export const isD = checkCode.bind(null, 68, 'KeyD');
+export const isE = checkCode.bind(null, 69, 'KeyE');
+export const isF = checkCode.bind(null, 70, 'KeyF');
+export const isN = checkCode.bind(null, 78, 'KeyN');
+export const isV = checkCode.bind(null, 86, 'KeyV');
+export const isW = checkCode.bind(null, 87, 'KeyW');
+export const isS = checkCode.bind(null, 83, 'KeyS');
+export const isP = checkCode.bind(null, 80, 'KeyP');
+export const isL = checkCode.bind(null, 76, 'KeyL');
+export const isQuestionMarkOrMinus = checkCode.bind(null, 191, 'Minus');
+export const isHome = checkCode.bind(null, 36, 'Home');
+export const isEnd = checkCode.bind(null, 35, 'End');
+
+export const isCtrl = e => !!e.ctrlKey;
+export const isMeta = e => !!e.metaKey;
+export const isAlt = e => !!e.altKey;
+export const isModifierPressed = e => !!(e.ctrlKey || e.shiftKey || e.altKey || e.metaKey);
+export const isLeftClick = e => e.button === 0;
+
+function checkCode(numericalCode, stringCode, event) {
+  return event.keyCode === numericalCode || event.code === stringCode;
+}
 
 /*
 Key                 Code

@@ -5,39 +5,64 @@
 
 import { on } from '@instana/observables';
 
+import {
+  isCtrl,
+  isAlt,
+  isMeta,
+  isEscape,
+  isF,
+  isV,
+  isC,
+  isQuestionMarkOrMinus,
+  isArrowLeft,
+  isArrowRight,
+  isArrowUp,
+  isArrowDown
+} from 'in-components/keyCodes';
 import { onLeftArrow, onRightArrow, onUpArrow, onDownArrow } from 'in-services/shortcuts/shortcuts/navigationViaArrows';
 import onQuestionMarkPressed from 'in-services/shortcuts/shortcuts/QuestionMark';
 import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
 import onFPressed from 'in-services/shortcuts/shortcuts/F';
 import onVPressed from 'in-services/shortcuts/shortcuts/V';
 import onCPressed from 'in-services/shortcuts/shortcuts/C';
-import keyCodes from 'in-components/keyCodes';
-
-const registeredShortcuts = {};
 
 export function init() {
-  registeredShortcuts[keyCodes.escape] = onEscapePressed;
-  registeredShortcuts[keyCodes.f] = onFPressed;
-  registeredShortcuts[keyCodes.v] = onVPressed;
-  registeredShortcuts[keyCodes.c] = onCPressed;
-  registeredShortcuts[keyCodes.questionMark] = onQuestionMarkPressed;
-  registeredShortcuts[keyCodes.arrows.left] = onLeftArrow;
-  registeredShortcuts[keyCodes.arrows.right] = onRightArrow;
-  registeredShortcuts[keyCodes.arrows.up] = onUpArrow;
-  registeredShortcuts[keyCodes.arrows.down] = onDownArrow;
-
   on(window, 'keydown').subscribe(keyEvent => {
     const targetType = keyEvent.target.tagName.toLowerCase();
     if (targetType === 'input' || targetType === 'textarea') {
       return;
     }
 
-    if (keyEvent.ctrlKey || keyEvent.altKey || keyEvent.metaKey) {
+    if (isCtrl(keyEvent) || isAlt(keyEvent) || isMeta(keyEvent)) {
       return;
     }
 
-    if (registeredShortcuts[keyEvent.keyCode]) {
-      registeredShortcuts[keyEvent.keyCode](keyEvent);
+    if (isEscape(keyEvent)) {
+      return onEscapePressed(keyEvent);
+    }
+    if (isF(keyEvent)) {
+      return onFPressed(keyEvent);
+    }
+    if (isV(keyEvent)) {
+      return onVPressed(keyEvent);
+    }
+    if (isC(keyEvent)) {
+      return onCPressed(keyEvent);
+    }
+    if (isQuestionMarkOrMinus(keyEvent)) {
+      return onQuestionMarkPressed(keyEvent);
+    }
+    if (isArrowLeft(keyEvent)) {
+      return onLeftArrow(keyEvent);
+    }
+    if (isArrowRight(keyEvent)) {
+      return onRightArrow(keyEvent);
+    }
+    if (isArrowUp(keyEvent)) {
+      return onUpArrow(keyEvent);
+    }
+    if (isArrowDown(keyEvent)) {
+      return onDownArrow(keyEvent);
     }
   });
 }

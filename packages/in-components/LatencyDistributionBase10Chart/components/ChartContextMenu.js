@@ -12,7 +12,7 @@ import { Button } from '@instana/components';
 import { on } from '@instana/observables';
 
 import { containsIgnoreCase } from 'in-services/util/string';
-import keyCodes from 'in-components/keyCodes';
+import { isEscape } from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './ChartContextMenu.mless';
@@ -56,7 +56,7 @@ export default function ChartContextMenu({
   };
 
   const onKeyDown = e => {
-    if (onContextMenuClosed && e.keyCode === keyCodes.escape) {
+    if (onContextMenuClosed && isEscape(e)) {
       onContextMenuClosed();
     }
   };

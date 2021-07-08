@@ -14,7 +14,7 @@ import { dateValidator } from 'in-services/validators/date';
 import Overlay from 'in-components/overlays/Overlay';
 import { identity } from 'in-services/util/function';
 import { isBlank } from 'in-services/util/string';
-import keyCodes from 'in-components/keyCodes';
+import { isTab } from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
 import { t, activeLanguage } from 'in-i18n';
 import theme from 'in-themes';
@@ -51,9 +51,7 @@ function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconTyp
       autoComplete="off"
       onChange={e => onChange(e.target.value)}
       onKeyDown={e => {
-        // keyCode is deprecated and code is not yet supported everywhere
-        const code = e.code != null ? e.code : e.keyCode;
-        if (code === keyCodes.tab) {
+        if (isTab(e)) {
           close();
         }
       }}

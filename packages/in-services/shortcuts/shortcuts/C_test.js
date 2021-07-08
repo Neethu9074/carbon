@@ -9,7 +9,7 @@ import sinon from 'sinon';
 
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import { resetStoreRegistry } from 'in-stores/store';
-import keyCodes from 'in-components/keyCodes';
+import {} from 'in-components/keyCodes';
 
 describe('shortcuts/C', () => {
   let selectedEntityId;
@@ -51,7 +51,8 @@ describe('shortcuts/C', () => {
 
   function pressC() {
     onKeyPressed.emit({
-      keyCode: keyCodes.c,
+      keyCode: 67,
+      code: 'KeyC',
       target: {
         tagName: ''
       }
