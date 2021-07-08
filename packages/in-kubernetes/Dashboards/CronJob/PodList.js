@@ -106,14 +106,14 @@ const columnDefinitions = [
     width: '5rem',
     widthInAbsoluteUnit: true,
     label: t('in-kubernetes:dashboards.health'),
-    getContent({ pod, entityHealthInfo, timeConfig }) {
+    getContent(item, { timeConfig }) {
       return (
         <EntityHealthIndicator
-          openIssues={entityHealthInfo.openIssues.length}
-          maxSeverity={entityHealthInfo.maxSeverity}
+          openIssues={item.entityHealthInfo.openIssues.length}
+          maxSeverity={item.entityHealthInfo.maxSeverity}
           IndicatorPresenter={HealthIndicatorPresenter}
           timeConfig={timeConfig}
-          snapshotId={pod.id}
+          snapshotId={item.pod.id}
           inContentArea
         />
       );
