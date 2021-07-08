@@ -328,10 +328,8 @@
     "readyStepTitleEverythingsReady": "Alles ist bereit!",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Alles Erforderliche zum Überwachen Ihrer Website <strong>{{websiteName}}</strong> ist bereit. Fügen Sie dieses Script zum <code>{{httpHeadTag}}</code> des HTML-Dokuments hinzu. Informationen zur Website-Überwachung und zu den vollständigen Funktionen des Tracking-Scripts finden Sie <linkToDocs>in unseren Dokumenten</linkToDocs>.",
     "readyStepButtonGoToWebsiteDashboard": "Zu Website-Dashboard wechseln",
-    "readyStepButtonCopyToClipboard": "In Zwischenablage kopieren",
     "waitStepTitleWorking": "Vorgang wird ausgeführt...",
     "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "Es wird alles für die Überwachung Ihrer Website <strong>{{websiteName}}</strong> vorbereitet. Fügen Sie inzwischen das folgende Script zum <code>{{httpHeadTag}}</code> des HTML-Dokuments hinzu. Informationen zur Website-Überwachung und zu den vollständigen Funktionen des Tracking-Scripts finden Sie <linkToDocs>in unseren Dokumenten</linkToDocs>.",
-    "waitStepButtonCopyToClipboard": "In Zwischenablage kopieren",
     "waitStepButtonEnablingMonitoring": "Überwachung wird aktiviert..."
   },
   "trackingSnippet": {
@@ -477,7 +475,6 @@
         "configurationRenameTitle": "Website umbenennen",
         "configurationRenameButton": "Umbenennen",
         "configurationTrackingScriptTitle": "Überwachungsscript",
-        "configurationrackingScriptButton": "In Zwischenablage kopieren",
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Konfiguration wird gespeichert...",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "Konfiguration wurde aktualisiert. ",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "Neue Konfiguration gespeichert.",

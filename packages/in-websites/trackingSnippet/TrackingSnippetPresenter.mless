@@ -15,7 +15,6 @@
   .snippet {
     flex-grow: 1;
     margin: 0 1rem 0 0;
-    border-right: 1px solid @lib__colors__N400;
   }
 
   .options {

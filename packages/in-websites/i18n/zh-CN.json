@@ -328,10 +328,8 @@
     "readyStepTitleEverythingsReady": "一切准备就绪！",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "一切准备就绪，可监控您的 Web 站点 <strong>{{websiteName}}</strong>。将此脚本复制到 HTML 文档的 <code>{{httpHeadTag}}</code>。有关 Web 站点监控以及跟踪脚本完整功能的信息位于<linkToDocs>我们的文档</linkToDocs>中。",
     "readyStepButtonGoToWebsiteDashboard": "转至 Web 站点仪表板",
-    "readyStepButtonCopyToClipboard": "复制到剪贴板",
     "waitStepTitleWorking": "正在处理...",
     "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "一切准备就绪，可监视您的 Web 站点 <strong>{{websiteName}}</strong>。在执行此操作期间，将以下脚本条件到 HTML 文档的 <code>{{httpHeadTag}}</code>。有关 Web 站点监控以及跟踪脚本完整功能的信息位于<linkToDocs>我们的文档</linkToDocs>中。",
-    "waitStepButtonCopyToClipboard": "复制到剪贴板",
     "waitStepButtonEnablingMonitoring": "正在启用监视..."
   },
   "trackingSnippet": {
@@ -477,7 +475,6 @@
         "configurationRenameTitle": "重命名 Web 站点",
         "configurationRenameButton": "重命名",
         "configurationTrackingScriptTitle": "跟踪脚本",
-        "configurationrackingScriptButton": "复制到剪贴板",
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "正在保存配置...",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "已更新配置。",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "已保存新配置。",

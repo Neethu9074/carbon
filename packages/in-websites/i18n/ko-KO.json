@@ -328,10 +328,8 @@
     "readyStepTitleEverythingsReady": "준비가 완료되었습니다!",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "웹 사이트 <strong>{{websiteName}}</strong>을(를) 모니터할 준비가 완료되었습니다. 이 스크립트를 HTML 문서의 <code>{{httpHeadTag}}</code>에 복사하십시오. 웹 사이트 모니터링 및 추적 스크립트의 전체 기능에 대한 정보는 <linkToDocs>문서 내에</linkToDocs> 있습니다.",
     "readyStepButtonGoToWebsiteDashboard": "웹 사이트 대시보드로 이동",
-    "readyStepButtonCopyToClipboard": "클립보드에 복사",
     "waitStepTitleWorking": "작업 중…",
     "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "웹 사이트 <strong>{{websiteName}}</strong>을(를) 모니터할 모든 항목을 준비하고 있습니다. 준비하는 동안 다음 스크립트를 HTML 문서의 <code>{{httpHeadTag}}</code>에 추가하십시오. 웹 사이트 모니터링 및 추적 스크립트의 전체 기능에 대한 정보는 <linkToDocs>문서 내에</linkToDocs> 있습니다.",
-    "waitStepButtonCopyToClipboard": "클립보드에 복사",
     "waitStepButtonEnablingMonitoring": "모니터링을 사용으로 설정 중…"
   },
   "trackingSnippet": {
@@ -477,7 +475,6 @@
         "configurationRenameTitle": "웹 사이트 이름 바꾸기",
         "configurationRenameButton": "이름 바꾸기",
         "configurationTrackingScriptTitle": "추적 스크립트",
-        "configurationrackingScriptButton": "클립보드에 복사",
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "구성 저장",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "구성이 업데이트되었습니다.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "새 구성이 저장되었습니다.",

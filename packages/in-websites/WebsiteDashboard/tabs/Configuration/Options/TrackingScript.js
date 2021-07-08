@@ -5,34 +5,19 @@
 
 import React, { useState } from 'react';
 
-import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import TrackingSnippetPresenter from 'in-websites/trackingSnippet/TrackingSnippetPresenter';
-import { getTrackingSnippet } from 'in-websites/trackingSnippet';
-import CopyToClipboard from 'in-components/CopyToClipboard';
 import { Trans, SecureString } from 'in-i18n';
 import { t } from 'in-i18n';
 
 export default function TrackingScript({ websiteId }) {
   const [trackSessions, setTrackSessions] = useState(true);
-  const eumSnippet = getTrackingSnippet({ key: websiteId, trackSessions });
 
   return (
-    <Card
-      title={t('in-websites:websiteDashboard.tabs.configuration.configurationTrackingScriptTitle')}
-      header={
-        <CopyToClipboard getText={() => eumSnippet}>
-          {refSetter => (
-            <Button kind="primaryv2" refSetter={refSetter}>
-              {t('in-websites:websiteDashboard.tabs.configuration.configurationrackingScriptButton')}
-            </Button>
-          )}
-        </CopyToClipboard>
-      }
-    >
+    <Card title={t('in-websites:websiteDashboard.tabs.configuration.configurationTrackingScriptTitle')}>
       <HelpParagraph>
         <Trans
           i18nKey="in-websites:trackingScript.help"

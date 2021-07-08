@@ -328,10 +328,8 @@
     "readyStepTitleEverythingsReady": "すべての準備が完了しました。",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Web サイト <strong>{{websiteName}}</strong> をモニターする準備がすべて完了しました。 このスクリプトを HTML 文書の <code>{{httpHeadTag}}</code> にコピーしてください。 Web サイト・モニタリングおよびトラッキング・スクリプトの全機能に関する情報は<linkToDocs>こちらの資料</linkToDocs>をご覧ください。",
     "readyStepButtonGoToWebsiteDashboard": "Web サイト・ダッシュボードに移動",
-    "readyStepButtonCopyToClipboard": "クリップボードにコピー",
     "waitStepTitleWorking": "処理中…",
     "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "Web サイト <strong>{{websiteName}}</strong> をモニターするための準備を進めています。 処理を進めている間に、以下のスクリプトを HTML 文書の <code>{{httpHeadTag}}</code> に追加してください。 Web サイト・モニタリングおよびトラッキング・スクリプトの全機能に関する情報は<linkToDocs>こちらの資料</linkToDocs>をご覧ください。",
-    "waitStepButtonCopyToClipboard": "クリップボードにコピー",
     "waitStepButtonEnablingMonitoring": "モニタリングを有効化しています…"
   },
   "trackingSnippet": {
@@ -477,7 +475,6 @@
         "configurationRenameTitle": "Web サイトの名前変更",
         "configurationRenameButton": "名前を変更",
         "configurationTrackingScriptTitle": "トラッキング・スクリプト",
-        "configurationrackingScriptButton": "クリップボードにコピー",
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "構成を保存しています…",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "構成を更新しました。",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "新しい構成が保存されました。",

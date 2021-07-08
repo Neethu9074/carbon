@@ -328,10 +328,8 @@
     "readyStepTitleEverythingsReady": "一切就緒！",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "一切都就緒，可開始監視您的網站 <strong>{{websiteName}}</strong>。請將此 Script 複製到 HTML 文件的 <code>{{httpHeadTag}}</code>。有關網站監視和追蹤 Script 完整功能的相關資訊位於<linkToDocs>我們的文件內</linkToDocs>。",
     "readyStepButtonGoToWebsiteDashboard": "移至網站儀表板",
-    "readyStepButtonCopyToClipboard": "複製至剪貼簿",
     "waitStepTitleWorking": "工作中...",
     "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "我們正在準備一切，以監視您的網站 <strong>{{websiteName}}</strong>。正當我們這樣做之時，請將下列 Script 新增至 HTML 文件的 <code>{{httpHeadTag}}</code>。有關網站監視和追蹤 Script 完整功能的相關資訊位於<linkToDocs>我們的文件內</linkToDocs>。",
-    "waitStepButtonCopyToClipboard": "複製至剪貼簿",
     "waitStepButtonEnablingMonitoring": "正在啟用監視..."
   },
   "trackingSnippet": {
@@ -477,7 +475,6 @@
         "configurationRenameTitle": "重新命名網站",
         "configurationRenameButton": "重新命名",
         "configurationTrackingScriptTitle": "追蹤 Script",
-        "configurationrackingScriptButton": "複製至剪貼簿",
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "正在儲存配置...",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "已更新配置。",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "已儲存新配置。",

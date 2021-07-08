@@ -328,10 +328,8 @@
     "readyStepTitleEverythingsReady": "¡Todo está listo!",
     "readyStepParagraphEverythingIsReadyToMonitorYourWebsite": "Todo está preparado para supervisar su sitio web <strong>{{websiteName}}</strong>. Copie este script en el documento HTML <code>{{httpHeadTag}}</code>. La información sobre la supervisión de sitios web y las funciones completas del script de seguimiento se encuentran <linkToDocs>en nuestros documentos</linkToDocs>.",
     "readyStepButtonGoToWebsiteDashboard": "Ir al panel de control del sitio web",
-    "readyStepButtonCopyToClipboard": "Copiar en portapapeles",
     "waitStepTitleWorking": "Trabajando...",
     "waitStepParagraphWeArePreparingEverythingToMonitorYourWebsite": "Se está preparando todo para supervisar su sitio web <strong>{{websiteName}}</strong>. Mientras se lleva a cabo, añada el siguiente script al documento HTML <code>{{httpHeadTag}}</code>. La información sobre la supervisión de sitios web y las funciones completas del script de seguimiento se encuentran <linkToDocs>en nuestros documentos</linkToDocs>.",
-    "waitStepButtonCopyToClipboard": "Copiar en portapapeles",
     "waitStepButtonEnablingMonitoring": "Habilitando la supervisión..."
   },
   "trackingSnippet": {
@@ -477,7 +475,6 @@
         "configurationRenameTitle": "Renombrar sitio web",
         "configurationRenameButton": "Renombrar",
         "configurationTrackingScriptTitle": "Script de Rastreo",
-        "configurationrackingScriptButton": "Copiar en portapapeles",
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Guardando configuración...",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "Configuración actualizada.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "Se ha guardado la nueva configuración.",
