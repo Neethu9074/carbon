@@ -6,6 +6,9 @@
 import initialiseSteps from 'in-init/initialiseSteps';
 
 initialiseSteps([
+  // Initialize the globalization options
+  'globalization',
+
   // console concat and build information
   'consoleBuildInformation',
 
