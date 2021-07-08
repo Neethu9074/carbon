@@ -147,6 +147,13 @@ function _run_docker_build {
     ${COMPONENT_CONTAINER_DIR}
 }
 
+function _scan_image() {
+  local TAG=$1
+  local INSTANA_TWISTCLI_VERSION='0.0.9'
+  _log_info "Triggering scan for image ${TAG} with instana-twistcli ${INSTANA_TWISTCLI_VERSION}"
+  ${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/instana-twistcli/scanImage.bash ${TAG} ${INSTANA_TWISTCLI_VERSION}
+}
+
 function build_image {
   _check_prerequisites
   _check_branch_name
@@ -160,9 +167,11 @@ function build_image {
   _docker_login
 
   _run_docker_build ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION}
-
   # Create another image version that is OpenShift compatible
   _run_docker_build ${OPENSHIFT_FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${OPENSHIFT_IMAGE_VERSION} "openshift"
+
+  _scan_image ${FULLY_QUALIFIED_TAG}
+  _scan_image ${OPENSHIFT_FULLY_QUALIFIED_TAG}
 
   _cleanup_container_dir
 }

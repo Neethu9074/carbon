@@ -2,12 +2,16 @@ version: 0.2
 
 env:
   parameter-store:
-    GITHUB_READ_USER: "github.read.user"
-    GITHUB_READ_PASSWORD: "github.read.password"
-    CONTAINERS_INSTANA_IO_USER: "containers.instana.io.user"
-    CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
     ARTIFACT_RND_INSTANA_IO_USER: "artifact-rnd.instana.io.user"
     ARTIFACT_RND_INSTANA_IO_PASSWORD: "artifact-rnd.instana.io.password"
+    AWS_ACCESS_KEY_ID: "s3.devinfra.access.key.id"
+    AWS_SECRET_ACCESS_KEY: "s3.devinfra.secret.access.key"
+    CONTAINERS_INSTANA_IO_USER: "containers.instana.io.user"
+    CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
+    GITHUB_READ_USER: "github.read.user"
+    GITHUB_READ_PASSWORD: "github.read.password"
+    TWISTLOCK_INSTANA_IO_USER: "twistlock.instana.io.user"
+    TWISTLOCK_INSTANA_IO_PASSWORD: "twistlock.instana.io.password"
 
 phases:
   install:
