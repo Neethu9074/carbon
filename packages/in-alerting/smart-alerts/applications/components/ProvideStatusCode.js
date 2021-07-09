@@ -122,11 +122,11 @@ function getStatusCodeFieldValue(form) {
   }
 
   if (statusCodeStart.value === statusCodeEnd.value) {
-    return statusCodeStart.value;
+    return `${statusCodeStart.value}`;
   }
 
   if (statusCodeEnd.value - statusCodeStart.value === 99) {
-    return statusCodeStart.value / 100;
+    return `${statusCodeStart.value / 100}`;
   }
 
   return 'custom';
