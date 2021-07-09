@@ -31,7 +31,9 @@ addDecorator(story => (
   <>
     <TooltipPresenter />
     <OverlayPresenter />
-    <div className={locals.root}>{story()}</div>
+    <div id="main" className={locals.root}>
+      {story()}
+    </div>
   </>
 ));
 

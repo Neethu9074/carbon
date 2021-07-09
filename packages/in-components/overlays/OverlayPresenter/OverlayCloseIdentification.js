@@ -10,8 +10,6 @@ import { isModifierPressed, isEscape, isLeftClick } from 'in-components/keyCodes
 import { identifyOverlay } from 'in-components/overlays/dom';
 import { emptyArray } from 'in-services/fixedObjects';
 
-const reactContainer = document.getElementById('main');
-
 /**
  * The `<OverlayCloseIdentification/>` component registers your callback on the document
  * when rendered. Powers the `<Overlay/>` component. This is used achieve modal
@@ -34,14 +32,18 @@ export default class OverlayCloseIdentification extends React.Component {
     // Also see:
     // https://reactjs.org/blog/2020/10/20/react-v17.html#changes-to-event-delegation
     // https://instana.kanbanize.com/ctrl_board/103/cards/66722/details
-    reactContainer.addEventListener('click', this.handleMouseCapture, true);
-    reactContainer.addEventListener('click', this.handleMouse);
+    this.getContainer()?.addEventListener('click', this.handleMouseCapture, true);
+    this.getContainer()?.addEventListener('click', this.handleMouse);
     document.documentElement.addEventListener('keyup', this.handleKeyUp);
   }
 
+  getContainer() {
+    return document.getElementById('main');
+  }
+
   componentWillUnmount() {
-    reactContainer.removeEventListener('click', this.handleMouseCapture, true);
-    reactContainer.removeEventListener('click', this.handleMouse);
+    this.getContainer()?.removeEventListener('click', this.handleMouseCapture, true);
+    this.getContainer()?.removeEventListener('click', this.handleMouse);
     document.documentElement.removeEventListener('keyup', this.handleKeyUp);
   }
 
