@@ -21,6 +21,7 @@ const path = require('path');
 
 const webpackConfig = require('../../webpack.config.js');
 const { askQuestions } = require('./devModeQuestions');
+const { isDevModeBuild } = require('../webpack/opts');
 const { createI18nFiles } = require('./i18n');
 const commonJobs = require('./common');
 const buildUtil = require('./util');
@@ -205,6 +206,13 @@ function createWebpackCompiler(config, onReadyCallback) {
   let compiler;
   try {
     compiler = webpack(config);
+    if (isDevModeBuild) {
+      new forkTsCheckerWebpackPlugin({
+        checkSyntacticErrors: true,
+        async: true,
+        silent: true
+      }).apply(compiler);
+    }
   } catch (err) {
     console.log(chalk.red('Failed to compile.'));
     console.log();
