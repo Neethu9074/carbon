@@ -5,14 +5,15 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import locals from './SideNavigationWrapper.mless';
 
 export default function SideNavigationWrapper({ sidebar, children }) {
   return (
-    <div className={locals.wrapper}>
+    <Stack direction="horizontal" gap="medium">
       <div className={locals.sidebar}>{sidebar}</div>
-
       <div className={locals.content}>{children}</div>
-    </div>
+    </Stack>
   );
 }

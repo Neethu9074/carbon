@@ -8,18 +8,26 @@ import React from 'react';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { success } from 'in-services/util/result';
+import { t } from 'in-i18n';
 
 export default function ShowCase() {
   return (
-    <div style={{ width: '40rem' }}>
+    <div style={{ width: '45rem' }}>
       <ResultAwareChart
         result={success(null)}
         config={{
           granularity: 1000,
           timeConfig: { windowSize: 60000, to: 1624949300207 },
+          cardTitle: t('in-custom-dashboards:widgets.chart.index.testTitle'),
           y1: {
             renderer: Renderer.line,
-            labels: ['catalogue-demo', 'cart', 'ratings', 'discount', 'shipping'],
+            labels: [
+              t('in-custom-dashboards:widgets.chart.index.testLabels.catalogue'),
+              t('in-custom-dashboards:widgets.chart.index.testLabels.cart'),
+              t('in-custom-dashboards:widgets.chart.index.testLabels.ratings'),
+              t('in-custom-dashboards:widgets.chart.index.testLabels.discount'),
+              t('in-custom-dashboards:widgets.chart.index.testLabels.shipping')
+            ],
             metricIds: [],
             metrics: [
               [

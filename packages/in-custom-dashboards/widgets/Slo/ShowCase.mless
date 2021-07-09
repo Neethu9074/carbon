@@ -5,7 +5,9 @@
 
 :local {
   .wrapper {
-    height: 31rem;
-    padding: 3rem 0;
+    max-height: 400px;
+    margin: 1rem;
+    transform: scale(0.95);
+    min-width: 50rem;
   }
 }

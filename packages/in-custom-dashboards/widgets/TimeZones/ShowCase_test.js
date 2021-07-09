@@ -18,7 +18,7 @@ describe('in-custom-dashboards/widgets/TimeZones/ShowCase', () => {
 
     await screen.findByText(t('in-custom-dashboards:widgets.timezone.demo.title'));
 
-    const timeZones = demo.slice(2, 6);
+    const timeZones = demo.slice(2, 5);
     for (let i = 0; i < timeZones.length; i++) {
       const { label } = timeZones[i];
       await screen.findByText(label);

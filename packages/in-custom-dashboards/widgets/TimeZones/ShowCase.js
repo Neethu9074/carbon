@@ -14,7 +14,7 @@ export default function ShowCase() {
     <TimeZonesWidget
       title={t('in-custom-dashboards:widgets.timezone.demo.title')}
       isPreview
-      config={demo.slice(2, 6)}
+      config={demo.slice(2, 5)}
     />
   );
 }

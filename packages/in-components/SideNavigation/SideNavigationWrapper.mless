@@ -6,16 +6,11 @@
 @import '~in-themes/active.less';
 
 :local {
-  .wrapper {
-    display: flex;
-  }
-
   .sidebar {
     flex-shrink: 0;
     flex-grow: 0;
     border-right: 1px solid @lib__colors__N400;
     padding-right: 1rem;
-    margin-right: 1.5rem;
     min-width: 10rem;
   }
 

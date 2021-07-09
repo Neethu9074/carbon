@@ -11,12 +11,13 @@ import { t } from 'in-i18n';
 
 export default function ShowCase() {
   return (
-    <div>
+    <div style={{ width: '45rem' }}>
       <ResultAwareChart
         result={success(null)}
         config={{
           metricsConfiguration: { metrics: [] },
           timeConfig: { windowSize: 60000, to: 1624888952857 },
+          cardTitle: t('in-custom-dashboards:widgets.pie.index.testTitle'),
           y1: {
             formatter: x => x,
             renderer: { id: 'pie' },

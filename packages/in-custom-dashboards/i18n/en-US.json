@@ -259,7 +259,17 @@
       },
       "atLeastOneDatasetIsRequired": "At least one dataset is required.",
       "errorTitleForConfiguredSliDeletion": "Configured SLI has been deleted",
-      "errorDescriptionToConfigureOtherSLI": "Please update the SLO widget by selecting another SLI"
+      "errorDescriptionToConfigureOtherSLI": "Please update the SLO widget by selecting another SLI",
+      "index": {
+        "testTitle": "Top 5 slowest services",
+        "testLabels": {
+          "catalogue": "catalogue",
+          "cart": "cart",
+          "ratings": "ratings",
+          "discount": "discount",
+          "shipping": "shipping"
+        }
+      }
     },
     "formCompChart": {
       "colorConfiguratorChart": {
@@ -352,6 +362,7 @@
       },
       "index": {
         "chartPie": "Chart: Pie",
+        "testTitle": "Events",
         "testLegendItem1": "Incidents",
         "testLegendItem2": "Issues: Critical",
         "testLegendItem3": "Issues: Warning"
