@@ -40,7 +40,13 @@ function constructLink(integration, props) {
     queryParameters.t = new Date(timeConfig.to).toISOString();
   }
 
-  return `https://app.logdna.com/${integration.accountId}/logs/view${toParams(queryParameters, '?', '&')}`;
+  return integration.instanceType === 'LOG_DNA_SAAS'
+    ? `https://app.logdna.com/${integration.accountId}/logs/view${toParams(queryParameters, '?', '&')}`
+    : `https://cloud.ibm.com/observe/embedded-view/logging/${integration.accountId}${toParams(
+        queryParameters,
+        '?',
+        '&'
+      )}`;
 }
 
 function serializeHosts({ hostFqdn }) {

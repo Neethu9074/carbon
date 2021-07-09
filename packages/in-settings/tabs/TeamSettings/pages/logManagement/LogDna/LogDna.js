@@ -132,7 +132,7 @@ export default class LogDna extends React.Component {
                       value={field.value}
                       onChange={e => this.onChange('instanceType', e.target.value)}
                     >
-                      <option value="LOG_DNA_SAAS">LogDna SaaS</option>
+                      <option value="LOG_DNA_SAAS">LogDNA SaaS</option>
                       <option value="IBM_CLOUD">IBM Cloud Log Analysis</option>
                     </Select>
                     {enabled && <TouchedMessages field={field} />}
