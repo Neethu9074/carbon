@@ -55,6 +55,7 @@ packages/in-stores                  @pr-approval @instana/eng-ui
 packages/in-subscription            @pr-approval @instana/eng-ui
 packages/in-test                    @pr-approval @instana/eng-ui
 packages/in-themes                  @pr-approval @instana/eng-ui
+packages/in-types                   @pr-approval @instana/eng-ui
 packages/in-vsphere                 @pr-approval @instana/eng-infrastructure @instana/eng-ui
 # Shared ownership
 # packages/in-waiting-for-deployment

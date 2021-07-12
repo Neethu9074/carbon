@@ -3,16 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
+import { combineLatest, Observable } from '@instana/observables';
+import { ResultErrorCode, ResultError } from 'in-types/result';
+import { Response } from 'in-services/http/types';
 
 import { loading, success, error as createErrorObject } from 'in-services/util/result';
 
-export default function createObservable(observableHttpRequest) {
+export default function createObservable<T>(observableHttpRequest: Observable<Response<T>>) {
   const observable = combineLatest([
     observableHttpRequest.startWith(null),
     observableHttpRequest.errors().startWith(null)
-  ]).map(([response, error]) => {
-    const errors = getErrors(error);
+  ], true).map(parts => {
+    const response: Response<T> | null = parts[0];
+    const errors = getErrors(parts[1]);
     const hasErrors = errors.length > 0;
 
     if (!response && !hasErrors) {
@@ -29,7 +32,7 @@ export default function createObservable(observableHttpRequest) {
   return observable;
 }
 
-function mapResponseStatusCode(statusCode) {
+function mapResponseStatusCode(statusCode: number): ResultErrorCode {
   if (statusCode === 403 || statusCode === 401) {
     return 'AUTH';
   }
@@ -49,7 +52,7 @@ function mapResponseStatusCode(statusCode) {
 }
 
 // export for test
-export function getErrors(error) {
+export function getErrors(error: any): ResultError[] {
   if (!error) {
     return [];
   }
@@ -61,8 +64,8 @@ export function getErrors(error) {
   }
   if (Array.isArray(error)) {
     return error
-      .map(error => (typeof error === 'string' ? { code: 'SERVER', message: error } : undefined))
-      .filter(Boolean);
+      .filter(error => typeof error === 'string')
+      .map(error => ({ code: 'SERVER', message: error }));
   }
   return [];
 }

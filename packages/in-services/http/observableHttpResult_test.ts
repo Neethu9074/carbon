@@ -3,16 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
-import { expect } from 'chai';
+/* eslint-env jest */
 
 import { getErrors } from 'in-services/http/observableHttpResult';
 
 describe('in-services/http/observableHttpResult', () => {
   describe('getErrors', () => {
     it('should return an empty array on missing error', () => {
-      expect(getErrors()).to.deep.equal([]);
-      expect(getErrors(undefined)).to.deep.equal([]);
+      expect(getErrors(undefined)).toEqual([]);
     });
 
     it('should map different error messages to errors', () => {
@@ -23,7 +21,7 @@ describe('in-services/http/observableHttpResult', () => {
             statusText: 'foobar'
           }
         })
-      ).to.deep.equal([
+      ).toEqual([
         {
           code: 'NOT_FOUND',
           message: 'foobar'
@@ -37,14 +35,14 @@ describe('in-services/http/observableHttpResult', () => {
           },
           message: 'foobar'
         })
-      ).to.deep.equal([
+      ).toEqual([
         {
           code: 'NOT_FOUND',
           message: 'foobar'
         }
       ]);
 
-      expect(getErrors(['foobar', 'baz', {}, false, 42])).to.deep.equal([
+      expect(getErrors(['foobar', 'baz', {}, false, 42])).toEqual([
         {
           code: 'SERVER',
           message: 'foobar'

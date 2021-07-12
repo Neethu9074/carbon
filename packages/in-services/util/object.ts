@@ -13,17 +13,18 @@ const hasOwnProperty = Object.prototype.hasOwnProperty;
 // reexporting because I am not sure whether deep-freeze-strict is a good choice.
 export const deepFreeze = deepFreezeStrict;
 
-export function deepCopy(obj) {
+export function deepCopy(obj: any) {
   return cloneDeep(obj);
 }
 
-export function sortKeys(obj) {
+type MapLike = {[k: string]: any};
+export function sortKeys(obj: MapLike): MapLike {
   return Object.keys(obj)
     .sort(compareIgnoreCase)
     .reduce((agg, key) => {
       agg[key] = obj[key];
       return agg;
-    }, {});
+    }, {} as MapLike);
 }
 
 /**
@@ -38,7 +39,7 @@ export function sortKeys(obj) {
  * when any key has values which are not strictly equal between the arguments.
  * Returns true when the values of all keys are strictly equal.
  */
-export function shallowEquals(objA, objB) {
+export function shallowEquals(objA: MapLike, objB: MapLike) {
   if (Object.is(objA, objB)) {
     return true;
   }

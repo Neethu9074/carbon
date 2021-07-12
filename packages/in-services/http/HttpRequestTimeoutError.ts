@@ -6,7 +6,7 @@
 import ExtendableError from 'in-services/util/ExtendableError';
 
 export default class HttpRequestTimeoutError extends ExtendableError {
-  constructor(method, url) {
+  constructor(method: string, url: string) {
     super(`Request timed out: ${method} ${url}`);
   }
 }

@@ -18,9 +18,10 @@ import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePr
 import { noop, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
+import { listSuccess, loading } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Delete from 'in-settings/components/actions/Delete';
-import { arrayToResult } from 'in-services/util/result';
+import { identity } from 'in-services/util/function';
 import ListTitle from 'in-components/lists/Title';
 import { isBlank } from 'in-services/util/string';
 import Tooltip from 'in-components/Tooltip';
@@ -671,4 +672,8 @@ List.propTypes = {
 
 export function reload() {
   reloadEntitiesSignal$.emit(true);
+}
+
+function arrayToResult(array, totalHits, pageSize, itemMapper = identity, time = Date.now()) {
+  return array ? listSuccess(array.map(itemMapper), totalHits, pageSize, time) : loading;
 }

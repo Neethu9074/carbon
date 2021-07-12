@@ -2,5 +2,5 @@
   "name": "time",
   "version": "0.0.0",
   "private": true,
-  "main": "./time.js"
+  "main": "./time.ts"
 }

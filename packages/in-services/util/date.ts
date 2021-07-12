@@ -5,11 +5,11 @@
 
 import moment from 'moment';
 
-export function isOnSameDay(time1, time2) {
+export function isOnSameDay(time1: number, time2: number) {
   return moment(time1).isSame(moment(time2), 'day');
 }
 
-export function roundDownToWeek(timestamp) {
+export function roundDownToWeek(timestamp: number) {
   return moment(timestamp)
     .startOf('week')
     .valueOf();

@@ -4,7 +4,7 @@
  */
 
 export default class ExtendableError extends Error {
-  constructor(message) {
+  constructor(message: string) {
     super(message);
     this.name = this.constructor.name;
     this.message = message;

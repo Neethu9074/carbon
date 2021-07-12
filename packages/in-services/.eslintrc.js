@@ -14,6 +14,7 @@ module.exports = {
       allowedInPackages: [
         'in-services',
         'in-i18n',
+        'in-types',
 
         // FIXME This import path should not exist
         'in-map',

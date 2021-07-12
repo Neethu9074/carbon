@@ -4,18 +4,22 @@
  */
 
 import ExtendableError from 'in-services/util/ExtendableError';
+import { Response } from 'in-services/http/types';
 
 const isJsonTest = /^application\/([a-z0-9]+\+)?json.*$/i;
 
 export default class HttpResponseStatusCodeError extends ExtendableError {
-  constructor(response, method, url) {
+  response: Response<any>;
+
+  constructor(response: Response<any>, method: string, url: string) {
     super(getMessage(response, method, url));
     this.response = response;
   }
 }
 
-function getMessage(response, method, url) {
-  if (isJsonTest.test(response.getHeader('Content-Type'))) {
+function getMessage(response: Response<any>, method: string, url: string) {
+  const contentType = response.getHeader('Content-Type');
+  if (contentType && isJsonTest.test(contentType)) {
     const error = getEmbeddedError(response);
     if (error) {
       if (Array.isArray(error)) {
@@ -29,7 +33,7 @@ function getMessage(response, method, url) {
 }
 
 //This function is supposed to handle two cases: body being a JSON-object and body being stringified JSON
-function getEmbeddedError({ body }) {
+function getEmbeddedError({ body }: Response<any>): string | string[] | undefined {
   if (typeof body === 'object') {
     return body.errors || body.error;
   }
@@ -38,6 +42,6 @@ function getEmbeddedError({ body }) {
     const parsed = JSON.parse(body);
     return parsed.errors || parsed.error;
   } catch (e) {
-    return null;
+    return undefined;
   }
 }

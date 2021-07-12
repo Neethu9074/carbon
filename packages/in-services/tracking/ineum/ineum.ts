@@ -9,12 +9,13 @@ export function init() {
   registerTracker(track);
 }
 
-export function ineum() {
+export const ineum: typeof window.ineum = (function() {
   if (typeof window !== 'undefined' && window.ineum) {
+    // @ts-ignore
     window.ineum.apply(window, arguments);
   }
-}
+} as any);
 
-function track(event, meta) {
+function track(event: string, meta?: {}) {
   ineum('reportEvent', event, { meta });
 }
