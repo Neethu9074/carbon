@@ -5,29 +5,53 @@
 
 {
   "compilerOptions": {
-    "lib": ["esnext", "es6", "DOM"],
+    "lib": ["esnext", "dom", "dom.iterable"],
 
+    // We leverage ESNext, because babel with @babel/preset-env takes care of transpilation.
+    // ESNext as the module output ensures that tree-shaking works.
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution": "node",
-    "jsx": "react",
 
+    // This only works with Node (and it is what Webpack does downstream).
+    "moduleResolution": "node",
+
+    // We use React 17 and therefore can rely on the lastest JSX support.
+    "jsx": "react-jsx",
+
+    // Force import of helpers, so that deduplication of helpers can do a better job.
     "importHelpers": true,
+
+    // Raise strictness to encourage better coding practices.
     "strict": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "resolveJsonModule": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "allowJs": true,
-    "isolatedModules": false,
 
-    // Don't emit .d.ts files
+    // We want to let the TypeScript compiler generate types for imported JSON files.
+    "resolveJsonModule": true,
+
+    // We follow the official TypeScript recommendation.
+    "esModuleInterop": true,
+
+    // We follow the official TypeScript recommendation.
+    "skipLibCheck": true,
+
+    // For now, we do not want to allow imports to JavaScript files
+    // from TypeScript files. Down the road, we might revisit this
+    // decision.
+    "allowJs": false,
+
+    // We have babel as a follow-up transpilation step. Setting this
+    // to `true` ensures that babel can correctly do its job.
+    "isolatedModules": true,
+
+    // Don't emit .d.ts files. We don't need these. Our users are leveraging
+    // web browsers / we do not publish a package.
     "declaration": false,
-    // Don't emit .js files
+
+    // Don't emit .js files. Babel/webpack takes care of this.
     "noEmit": true
   },
   "include": ["packages/**/*.ts", "packages/**/*.tsx"],
