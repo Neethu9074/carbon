@@ -268,12 +268,6 @@
     },
     "allFilters": "All filters"
   },
-  "radioButtons": {
-    "messageFilering": "Filtering and grouping on source is not available for the selected timeframe",
-    "messageIndependent": "This tag is independent of source and destination",
-    "fragmentSource": "Applies only to the source of the call",
-    "fragmentCall": "Apply to call source or destination"
-  },
   "dialogs": {
     "tooltip": "Suggestions currently not available, please type in the value",
     "components": {
@@ -351,10 +345,6 @@
     "groupedTraces": {
       "tagPresentWithNoValue": "Tag present with no value",
       "tagNotPresent": "Tag not present"
-    },
-    "radioButtons": {
-      "source": "Source",
-      "destination": "Destination"
     }
   }
 }
