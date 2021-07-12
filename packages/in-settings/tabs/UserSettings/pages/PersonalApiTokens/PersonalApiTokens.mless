@@ -1,0 +1,11 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .grantingToken {
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}

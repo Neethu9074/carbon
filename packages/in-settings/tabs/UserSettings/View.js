@@ -10,8 +10,12 @@ import {
   userSettingsGeneral,
   userSettingsAdvanced,
   userSettingsPrivacy,
-  userSettingsCommunication
+  userSettingsCommunication,
+  userSettingsPersonalApiTokens,
+  userSettingsPersonalApiTokenEdit
 } from 'in-settings/navigation/paths';
+import PersonalApiTokensPage from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiTokens';
+import PersonalApiTokenPage from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken';
 import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
@@ -20,6 +24,7 @@ import Privacy from 'in-settings/tabs/UserSettings/pages/Privacy';
 import { fullTermsConfigEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import SetBodyColor from 'in-components/SetBodyColor';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 const navigationTree = [
@@ -41,6 +46,22 @@ const navigationTree = [
   {
     title: t('in-settings:tabs.preferences'),
     pages: getPreferencesRoutes(fullTermsConfigEnabled)
+  },
+  role.canConfigurePersonalApiTokens && {
+    title: t('in-settings:tabs.personalSettings'),
+    pages: [
+      {
+        path: userSettingsPersonalApiTokens,
+        label: t('in-settings:tabs.personalApiTokens'),
+        component: PersonalApiTokensPage,
+        subPages: [
+          {
+            path: userSettingsPersonalApiTokenEdit,
+            component: PersonalApiTokenPage
+          }
+        ]
+      }
+    ]
   }
 ];
 

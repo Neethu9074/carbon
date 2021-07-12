@@ -204,6 +204,14 @@ function getProductPermissions() {
       isOwnerPermission: true
     },
     {
+      keyForGroupApi: 'CAN_CONFIGURE_PERSONAL_API_TOKENS',
+      keyForApiTokenApi: 'canConfigurePersonalApiTokens',
+      label: t('in-stores:permissionCanConfigurePersonalApiTokensLabel'),
+      description: t('in-stores:permissionCanConfigurePersonalApiTokensDescription'),
+      category: t('in-stores:permissionCanConfigurePersonalApiTokensCategory'),
+      isOwnerPermission: false
+    },
+    {
       keyForGroupApi: 'CAN_CONFIGURE_AUTHENTICATION_METHODS',
       keyForApiTokenApi: 'canConfigureAuthenticationMethods',
       label: t('in-stores:permissionCanConfigureAuthenticationMethodsLabel'),

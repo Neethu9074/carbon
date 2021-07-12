@@ -15,6 +15,8 @@ export const userSettingsGeneral = `${userSettings}/general`;
 export const userSettingsAdvanced = `${userSettings}/advanced`;
 export const userSettingsPrivacy = `${userSettings}/privacy`;
 export const userSettingsCommunication = `${userSettings}/communications`;
+export const userSettingsPersonalApiTokens = `${userSettings}/personal-api-tokens`;
+export const userSettingsPersonalApiTokenEdit = `${userSettings}/personal-api-tokens/:id`;
 
 export const teamSettings = `${settingsPath}/team`;
 
