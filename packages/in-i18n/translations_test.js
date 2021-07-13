@@ -13,6 +13,8 @@ const fs = require('fs');
 
 const DEFAULT_NAMESPACE = 'in-i18n';
 
+const transLikeComponentToCheckForKeys = ['Trans', 'TextWithLink'];
+
 // Not using a lambda so that we can adapt the test timeout.
 // parseTransFromString takes quite some time
 describe('in-i18n/translations', function() {
@@ -115,17 +117,26 @@ function getAllI18nKeys() {
   const parser = new Parser({});
   const keys = new Set();
 
-  const files = getAllFiles('*.js').filter(file => !file.endsWith('_test.js'));
+  const files = [...getAllFiles('*.js'), ...getAllFiles('*.ts'), ...getAllFiles('*.tsx')].filter(
+    file => !file.includes('_test.')
+  );
 
   for (let i = 0; i < files.length; i++) {
     const filePath = files[i];
     const content = fs.readFileSync(filePath, { encoding: 'utf8' });
 
     parser.parseFuncFromString(content, { list: ['t'] }, key => keys.add(key));
-    parser.parseTransFromString(content, key => keys.add(key));
+    for (const component of transLikeComponentToCheckForKeys) {
+      parser.parseTransFromString(content, { component, i18nKey: 'i18nKey' }, key => keys.add(key));
+    }
   }
 
-  return Array.from(keys);
+  return (
+    Array.from(keys)
+      // Some components work without localization in transition periods. Do not
+      // report the empty string as a missing translation.
+      .filter(key => key && key !== 'i18nKey')
+  );
 }
 
 function getAllLanguages() {

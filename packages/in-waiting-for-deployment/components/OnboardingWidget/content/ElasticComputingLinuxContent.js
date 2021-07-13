@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Bash,
@@ -27,7 +27,7 @@ export default function ElasticComputingLinuxContent({ agentKey, agentEndpoint, 
   return (
     <>
       <Row>
-        <Fragment>
+        <>
           <h4>{t('in-waiting-for-deployment:content.agentModeLabel')}</h4>
           <p>
             <CheckboxFancy
@@ -47,9 +47,9 @@ export default function ElasticComputingLinuxContent({ agentKey, agentEndpoint, 
               asRadioButton
             />
           </p>
-        </Fragment>
+        </>
 
-        <Fragment>
+        <>
           <h4>{t('in-waiting-for-deployment:content.agentRuntimeLabel')}</h4>
           <p>
             <CheckboxFancy
@@ -69,7 +69,7 @@ export default function ElasticComputingLinuxContent({ agentKey, agentEndpoint, 
               asRadioButton
             />
           </p>
-        </Fragment>
+        </>
       </Row>
       <Description lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsUserDataForTheEc2Instance')]} />
       <Bash
@@ -82,10 +82,7 @@ export default function ElasticComputingLinuxContent({ agentKey, agentEndpoint, 
       <Spacer />
       <HelpBox title={t('in-waiting-for-deployment:content.userDataInAwsEc2')}>
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.forMoreInformationOnHowToUseTheScriptAboveWithUserDataInAwsEc2ReferToThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.runningCommandsOnYourLinuxInstanceAtLaunchPage')}
+          i18nKey="in-waiting-for-deployment:content.forMoreInformationOnHowToUseTheScriptAboveWithUserDataInAwsEc2ReferToTheLinux"
           href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
         />
       </HelpBox>

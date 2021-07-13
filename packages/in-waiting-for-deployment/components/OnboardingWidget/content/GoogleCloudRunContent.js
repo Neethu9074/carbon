@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Bash,
@@ -46,13 +46,10 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
 
   if (selectedInstallationMethod === installationMethods[1]) {
     steps = (
-      <Fragment>
+      <>
         <Spacer />
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.theInstanaGoogleBuildpackIsACloudNativeBuildpackDesignedToWorkWithTheGoogleCloudRunBuildpackBuilderForMoreInformationOnTheGoogleCloudRunBuildpackBuilderReferToThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.googleCloudRunBuildpackBuilderDocumentation')}
+          i18nKey="in-waiting-for-deployment:content.theInstanaGoogleBuildpackIsACloudNativeBuildpackDesignedToWorkWithTheGoogleCloudRunBuildpackBuilderForMoreInformationOnTheGoogleCloudRunBuildpackBuilderReferToThe"
           href="https://github.com/GoogleCloudPlatform/buildpacks"
         />
         <Spacer />
@@ -72,8 +69,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
         />
         <Spacer />
         <TextWithLink
-          text={t('in-waiting-for-deployment:content.thePackUtilityIsProvidedByThe')}
-          linkText={t('in-waiting-for-deployment:content.cloudNativeBuildpacksProject')}
+          i18nKey="in-waiting-for-deployment:content.thePackUtilityIsProvidedByThe"
           href="https://buildpacks.io/docs/tools/pack/"
         />
         <Spacer />
@@ -93,11 +89,11 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[0]) {
     steps = (
-      <Fragment>
+      <>
         <Spacer />
         <Description lines={[t('in-waiting-for-deployment:content.linuxBaseImage')]} />
         <DropDown value={baseImageName} options={baseImageOptions} onChange={setBaseImageName} />
@@ -156,18 +152,15 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
             <Script lines={[`${appDirName}/instana_tracing/CoreProfiler.so`]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[1]) {
     steps = (
-      <Fragment>
+      <>
         <Spacer />
 
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.goDocumentation')}
+          i18nKey="in-waiting-for-deployment:content.theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe"
           href="https://instana.com/docs/ecosystem/go"
         />
         <Spacer />
@@ -186,11 +179,11 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[2]) {
     steps = (
-      <Fragment>
+      <>
         <Spacer />
 
         <Description
@@ -239,11 +232,11 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[3]) {
     steps = (
-      <Fragment>
+      <>
         <Spacer />
 
         <Description
@@ -282,23 +275,21 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   }
 
-  let runtimeSelection;
+  let runtimeSelection = null;
 
   if (selectedInstallationMethod === installationMethods[0]) {
     runtimeSelection = (
-      <Fragment>
+      <>
         <Row>
           {t('in-waiting-for-deployment:content.selectYourApplicationRuntime')}
           <DropDown value={selectedRuntime} options={runtimeOptions} onChange={setRuntime} />
         </Row>
-      </Fragment>
+      </>
     );
-  } else {
-    runtimeSelection = <Fragment />;
   }
 
   return (
@@ -315,10 +306,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
 
       <HelpBox>
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.instanaGcpSupportDocumentation')}
+          i18nKey="in-waiting-for-deployment:content.makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe"
           href="https://instana.com/docs/ecosystem/gcp"
         />
       </HelpBox>
@@ -337,10 +325,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
       <Spacer />
 
       <TextWithLink
-        text={t(
-          'in-waiting-for-deployment:content.integrateTheInstanaInProcessCollectorForGoogleCloudRunAsDescribedBelowMoreDetailsAreAvailableInThe'
-        )}
-        linkText={t('in-waiting-for-deployment:content.documentationForGoogleCloudRun')}
+        i18nKey="in-waiting-for-deployment:content.integrateTheInstanaInProcessCollectorForGoogleCloudRunAsDescribedBelowMoreDetailsAreAvailableInThe"
         href="https://instana.com/docs/ecosystem/google-cloud-run"
       />
       <Spacer />

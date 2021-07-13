@@ -20,17 +20,13 @@ export default function PcfContent({ agentKey, agentEndpoint, agentEndpointPort 
   return (
     <>
       <TextWithLink
-        text={t('in-waiting-for-deployment:content.downloadTheInstanaMicroservicesApplicationMonitoringTileFrom')}
+        i18nKey="in-waiting-for-deployment:content.downloadTheInstanaMicroservicesApplicationMonitoringTileFrom"
         href="https://network.pivotal.io/products/instana-microservices-application-monitoring"
-        linkText={t('in-waiting-for-deployment:content.vMwareTanzuNetwork')}
       />
       <Spacer />
       <TextWithLink
-        text={t(
-          'in-waiting-for-deployment:content.uploadTheInstanaMicroservicesApplicationMonitoringTileToYourOpsManagerAsDescribedInThe'
-        )}
+        i18nKey="in-waiting-for-deployment:content.uploadTheInstanaMicroservicesApplicationMonitoringTileToYourOpsManagerAsDescribedInThe"
         href="https://docs.pivotal.io/partners/instana/installing.html"
-        linkText={t('in-waiting-for-deployment:content.instanaTileDocumentationOnVMwareTanzuNetwork')}
       />
       <Description
         lines={[
@@ -62,10 +58,12 @@ export default function PcfContent({ agentKey, agentEndpoint, agentEndpointPort 
           )
         ]}
       />
-      <TextWithLink
-        text={t(
-          'in-waiting-for-deployment:content.applyTheChangesIntroducedByTheInstanaMicroservicesApplicationMonitoringTileToAllTilesInTheOpsManagerTilesThatAreNotSelectedForTheApplyChangesStepInOpsManagerWillNotBeVisibleInInstana'
-        )}
+      <Description
+        lines={[
+          t(
+            'in-waiting-for-deployment:content.applyTheChangesIntroducedByTheInstanaMicroservicesApplicationMonitoringTileToAllTilesInTheOpsManagerTilesThatAreNotSelectedForTheApplyChangesStepInOpsManagerWillNotBeVisibleInInstana'
+          )
+        ]}
       />
       <Spacer />
       <HelpBox title={t('in-waiting-for-deployment:content.supportedOpsManagerVersions')}>

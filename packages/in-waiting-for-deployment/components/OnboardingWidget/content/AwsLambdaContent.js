@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -23,7 +23,7 @@ import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWi
 import createObservable from 'in-services/http/observableHttpResult';
 import { Col, Row as GridRow } from 'in-components/layout/Grid';
 import http from 'in-services/http';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 const lambdaLayerVersionApiBaseUrl = `https://lambda-layers.instana.${instanaDomain}`;
 
@@ -71,14 +71,11 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
   if (selectedRuntime === runtimeOptions[0]) {
     // Golang
     steps = (
-      <Fragment>
+      <>
         <Spacer />
 
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.awsLambdaGoDocumentation')}
+          i18nKey="in-waiting-for-deployment:content.awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe"
           href="https://instana.com/docs/ecosystem/aws-lambda/go"
         />
         <Spacer />
@@ -99,18 +96,19 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[1]) {
     // Java
     steps = (
-      <Fragment>
+      <>
         <HelpBox title={t('in-waiting-for-deployment:content.configuringYourAwsLambdaFunction')}>
           <Description
             lines={[
-              t(
-                'in-waiting-for-deployment:content.noteThatTheJava8RuntimeIsNotSupportedCurrentlyOnlySupportedRuntimesAreJava8A12AndJava11'
-              )
+              <Trans
+                key="0"
+                i18nKey="in-waiting-for-deployment:content.noteThatTheJava8RuntimeIsNotSupportedCurrentlyOnlySupportedRuntimesAreJava8A12AndJava11"
+              />
             ]}
           />
           <Description
@@ -133,10 +131,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
         <HelpBox title={t('in-waiting-for-deployment:content.awsWebConsole')}>
           <TextWithLink
-            text={t(
-              'in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur'
-            )}
-            linkText={t('in-waiting-for-deployment:content.documentationForLambdaAutoTrace')}
+            i18nKey="in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur"
             href="https://instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
           />
           <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
@@ -150,19 +145,18 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
           <Spacer />
           <Listing
             items={[
-              <Fragment>
+              <>
                 {t('in-waiting-for-deployment:content.addTheInstanaLambdaLayerWithTheArn')}
                 <Spacer />
                 <Script lines={[javaLayerArn]} />
                 (
                 <TextWithLink
-                  text={t('in-waiting-for-deployment:content.see')}
-                  linkText={t('in-waiting-for-deployment:content.awsDocs')}
+                  i18nKey="in-waiting-for-deployment:content.seeAwsDocs"
                   href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-functions.html"
                 />
                 )<Spacer />
-              </Fragment>,
-              <Fragment>
+              </>,
+              <>
                 <Spacer />
                 {t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInYourLambdaFunction')}
                 <Spacer />
@@ -180,7 +174,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
                     <Script lines={['-javaagent:/opt/instana/standalone-collector.jar']} />
                   </Col>
                 </GridRow>
-              </Fragment>
+              </>
             ]}
           />
         </HelpBox>
@@ -224,12 +218,12 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
             ]}
           />
         </HelpBox>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[2]) {
     // Node.js >= 10.x
     steps = (
-      <Fragment>
+      <>
         <HelpBox title={t('in-waiting-for-deployment:content.configuringYourAwsLambdaFunction')}>
           <Description
             lines={[
@@ -251,10 +245,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
         <Spacer />
         <HelpBox title={t('in-waiting-for-deployment:content.awsWebConsole')}>
           <TextWithLink
-            text={t(
-              'in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur'
-            )}
-            linkText={t('in-waiting-for-deployment:content.documentationForLambdaAutoTrace')}
+            i18nKey="in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur"
             href="https://instana.com/docs/ecosystem/aws-lambda/#autotrace-aws-lambdas"
           />
           <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
@@ -278,31 +269,29 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
           <Spacer />
           <Listing
             items={[
-              <Fragment>
+              <>
                 {t('in-waiting-for-deployment:content.addTheInstanaLambdaLayerWithTheArn')}
                 <Spacer />
                 <Script lines={[nodejsLayerArn]} />
                 (
                 <TextWithLink
-                  text={t('in-waiting-for-deployment:content.see')}
-                  linkText={t('in-waiting-for-deployment:content.awsDocs')}
+                  i18nKey="in-waiting-for-deployment:content.seeAwsDocs"
                   href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-functions.html"
                 />
                 )
-              </Fragment>,
-              <Fragment>
+              </>,
+              <>
                 <Spacer />
                 {t('in-waiting-for-deployment:content.setInstanaAutoWrapHandlerAsTheHandlerForYourLambdaFunction')}
                 <Spacer />
                 <Script lines={['instana-aws-lambda-auto-wrap.handler']} />(
                 <TextWithLink
-                  text={t('in-waiting-for-deployment:content.see')}
-                  linkText={t('in-waiting-for-deployment:content.awsDocs')}
+                  i18nKey="in-waiting-for-deployment:content.seeAwsDocs"
                   href="https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html"
                 />
                 )
-              </Fragment>,
-              <Fragment>
+              </>,
+              <>
                 <Spacer />
                 {t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInYourLambdaFunction')}
                 <Spacer />
@@ -320,7 +309,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
                     <Script lines={[lambdaHandler]} />
                   </Col>
                 </GridRow>
-              </Fragment>
+              </>
             ]}
           />
         </HelpBox>
@@ -376,23 +365,20 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
             ]}
           />
         </HelpBox>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[3]) {
     // Node.js 8.x
     steps = (
       <TextWithLink
-        text={t(
-          'in-waiting-for-deployment:content.thePreferredWayToConfigureAwsLambdaFunctionsBasedOnNodeJs8XIsToUseThe'
-        )}
-        linkText={t('in-waiting-for-deployment:content.instanaLambdaLayerWithManualWrapping')}
+        i18nKey="in-waiting-for-deployment:content.thePreferredWayToConfigureAwsLambdaFunctionsBasedOnNodeJs8XIsToUseThe"
         href="https://instana.com/docs/ecosystem/aws-lambda#manual-wrapping"
       />
     );
   } else if (selectedRuntime === runtimeOptions[4]) {
     // Python
     steps = (
-      <Fragment>
+      <>
         <HelpBox title={t('in-waiting-for-deployment:content.configuringYourAwsLambdaFunction')}>
           <Description
             lines={[
@@ -416,10 +402,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
 
         <HelpBox title={t('in-waiting-for-deployment:content.awsWebConsole')}>
           <TextWithLink
-            text={t(
-              'in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur'
-            )}
-            linkText={t('in-waiting-for-deployment:content.documentationForLambdaAutoTrace')}
+            i18nKey="in-waiting-for-deployment:content.aDetailedGuideIncludingScreenshotsOnHowToConfigureYourLambdaFunctionForAutoTraceUsingTheAwsWebConsoleCanBeFoundInOur"
             href="https://instana.com/docs/ecosystem/aws-lambda#instana-autotrace"
           />
           <Description lines={[t('in-waiting-for-deployment:content.inShortTheStepsAreAsFollows')]} />
@@ -443,31 +426,29 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
           <Spacer />
           <Listing
             items={[
-              <Fragment>
+              <>
                 {t('in-waiting-for-deployment:content.addTheInstanaLambdaLayerWithTheArn')}
                 <Spacer />
                 <Script lines={[pythonLayerArn]} />
                 (
                 <TextWithLink
-                  text={t('in-waiting-for-deployment:content.see')}
-                  linkText={t('in-waiting-for-deployment:content.awsDocs')}
+                  i18nKey="in-waiting-for-deployment:content.seeAwsDocs"
                   href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-functions.html"
                 />
                 )
-              </Fragment>,
-              <Fragment>
+              </>,
+              <>
                 <Spacer />
                 {t('in-waiting-for-deployment:content.setInstanaAutoWrapHandlerAsTheHandlerForYourLambdaFunction')}
                 <Spacer />
                 <Script lines={['instana.lambda_handler']} />(
                 <TextWithLink
-                  text={t('in-waiting-for-deployment:content.see')}
-                  linkText={t('in-waiting-for-deployment:content.awsDocs')}
+                  i18nKey="in-waiting-for-deployment:content.seeAwsDocs"
                   href="https://docs.aws.amazon.com/lambda/latest/dg/env_variables.html"
                 />
                 )
-              </Fragment>,
-              <Fragment>
+              </>,
+              <>
                 <Spacer />
                 {t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInYourLambdaFunction')}
                 <Spacer />
@@ -485,7 +466,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
                     <Script lines={[lambdaHandler]} />
                   </Col>
                 </GridRow>
-              </Fragment>
+              </>
             ]}
           />
         </HelpBox>
@@ -538,19 +519,16 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
             ]}
           />
         </HelpBox>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[5]) {
     // Ruby
     steps = (
-      <Fragment>
+      <>
         <Spacer />
 
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.awsLambdaFunctionsWrittenInRubyNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.awsLambdaRubyDocumentation')}
+          i18nKey="in-waiting-for-deployment:content.awsLambdaFunctionsWrittenInRubyNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe"
           href="https://instana.com/docs/ecosystem/aws-lambda/ruby"
         />
         <Spacer />
@@ -571,7 +549,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   }
 
@@ -583,19 +561,13 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
       </Row>
 
       <TextWithLink
-        text={t(
-          'in-waiting-for-deployment:content.makeSureYouHaveAnInstanaAwsSensorRunningInYourAwsRegionForDetailsOnSettingUpTheInstanaAwsSensorReferToThe'
-        )}
-        linkText={t('in-waiting-for-deployment:content.awsServiceDocumentation')}
+        i18nKey="in-waiting-for-deployment:content.makeSureYouHaveAnInstanaAwsSensorRunningInYourAwsRegionForDetailsOnSettingUpTheInstanaAwsSensorReferToThe"
         href="https://instana.com/docs/ecosystem/aws"
       />
       <Spacer />
 
       <TextWithLink
-        text={t(
-          'in-waiting-for-deployment:content.nextConfigureYourAwsLambdaFunctionsForNativeTracingAsDescribedInTheStepsBelowOtherOptionsToSetUpNativeLambdaTracingAndMoreDetailsAboutThisFeatureAreAvailableInThe'
-        )}
-        linkText={t('in-waiting-for-deployment:content.documentation')}
+        i18nKey="in-waiting-for-deployment:content.nextConfigureYourAwsLambdaFunctionsForNativeTracingAsDescribedInTheStepsBelowOtherOptionsToSetUpNativeLambdaTracingAndMoreDetailsAboutThisFeatureAreAvailableInThe"
         href="https://instana.com/docs/ecosystem/aws-lambda"
       />
       <Spacer />

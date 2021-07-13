@@ -55,10 +55,7 @@ export default function ElasticComputingWindowsContent({
       <Spacer />
       <HelpBox title={t('in-waiting-for-deployment:content.userDataInAwsEc2')}>
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.forMoreInformationOnHowToUseTheScriptAboveWithUserDataInAwsEc2ReferToThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.runningCommandsOnYourWindowsInstanceAtLaunchPage')}
+          i18nKey="in-waiting-for-deployment:content.forMoreInformationOnHowToUseTheScriptAboveWithUserDataInAwsEc2ReferToTheWindows"
           href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-windows-user-data.html#user-data-scripts"
         />
       </HelpBox>

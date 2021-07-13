@@ -142,8 +142,7 @@ export default function CfAndBoshContent({ agentKey, agentEndpoint }) {
                 {clientSecretInput}
               </Row>
               <TextWithLink
-                text={t('in-waiting-for-deployment:content.theEasiestWayToCreateTheRequiredUaaClientIsToUseThe')}
-                linkText={t('in-waiting-for-deployment:content.uaacTool')}
+                i18nKey="in-waiting-for-deployment:content.theEasiestWayToCreateTheRequiredUaaClientIsToUseThe"
                 href="https://github.com/cloudfoundry/cf-uaac"
               />
               <Description
@@ -169,10 +168,7 @@ export default function CfAndBoshContent({ agentKey, agentEndpoint }) {
             <Spacer />
             <HelpBox title={t('in-waiting-for-deployment:content.instanaBoshAddon')}>
               <TextWithLink
-                text={t(
-                  'in-waiting-for-deployment:content.boshAddonsAreRuntimeConfigurationsForBoshThatAllowYouToDeclareAdditionalJobsToBeRunInYourDeploymentsForMoreInformationOnBoshRuntimeConfigurationsAndAddonsReferToThe'
-                )}
-                linkText={t('in-waiting-for-deployment:content.boshRuntimeConfigurationsDocumentation')}
+                i18nKey="in-waiting-for-deployment:content.boshAddonsAreRuntimeConfigurationsForBoshThatAllowYouToDeclareAdditionalJobsToBeRunInYourDeploymentsForMoreInformationOnBoshRuntimeConfigurationsAndAddonsReferToThe"
                 href="https://bosh.io/docs/runtime-config/"
               />
               <Spacer />
@@ -226,10 +222,7 @@ export default function CfAndBoshContent({ agentKey, agentEndpoint }) {
                 />
               </Row>
               <TextWithLink
-                text={t(
-                  'in-waiting-for-deployment:content.forMoreInformationOnHowToSetUpBoshRuntimeConfigurationsReferToThe'
-                )}
-                linkText={t('in-waiting-for-deployment:content.applyingTheInstanaAgentRuntimeConfigurationsPage')}
+                i18nKey="in-waiting-for-deployment:content.forMoreInformationOnHowToSetUpBoshRuntimeConfigurationsReferToThe"
                 href="https://instana.com/docs/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
               />
             </HelpBox>
@@ -246,11 +239,8 @@ export default function CfAndBoshContent({ agentKey, agentEndpoint }) {
                 ]}
               />
               <TextWithLink
-                text={t(
-                  'in-waiting-for-deployment:content.forMoreInformationOnHostConfigurationsThatYouCanApplyOverTheInstanaAgentBoshReleaseConsultThe'
-                )}
+                i18nKey="in-waiting-for-deployment:content.forMoreInformationOnHostConfigurationsThatYouCanApplyOverTheInstanaAgentBoshReleaseConsultThe"
                 href="https://instana.com/docs/ecosystem/cloudfoundry/"
-                linkText={t('in-waiting-for-deployment:content.instanaCloudFoundryDocumentation')}
               />
             </HelpBox>
           </>

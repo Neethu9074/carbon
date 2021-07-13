@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Bash,
@@ -32,7 +32,7 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
   ];
   const baseImageOptions = [
     t('in-waiting-for-deployment:baseImg.glibcLinux'),
-    t('in-waiting-for-deployment:baseImg.glibcLinux')
+    t('in-waiting-for-deployment:baseImg.alpineLinux')
   ];
 
   const [selectedRuntime, setRuntime] = useState(runtimeOptions[0]);
@@ -43,14 +43,11 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
 
   if (selectedRuntime === runtimeOptions[0]) {
     steps = (
-      <Fragment>
+      <>
         <Spacer />
 
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.theSupportForGoOnFargateOnEcsWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.goDocumentation')}
+          i18nKey="in-waiting-for-deployment:content.theSupportForGoOnFargateOnEcsWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe"
           href="https://instana.com/docs/ecosystem/go"
         />
         <Spacer />
@@ -67,11 +64,11 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[1]) {
     steps = (
-      <Fragment>
+      <>
         <Spacer />
 
         <Description
@@ -118,11 +115,11 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[2]) {
     steps = (
-      <Fragment>
+      <>
         <Spacer />
         {t('in-waiting-for-deployment:content.linuxBaseImage')} &nbsp;
         <DropDown value={baseImageName} options={baseImageOptions} onChange={setBaseImageName} />
@@ -175,11 +172,11 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
             <Script lines={[`${appDirName}/instana_tracing/CoreProfiler.so`]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[3]) {
     steps = (
-      <Fragment>
+      <>
         <Spacer />
 
         <Description
@@ -216,16 +213,13 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[4]) {
     steps = (
-      <Fragment>
+      <>
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.pythonDocumentation')}
+          i18nKey="in-waiting-for-deployment:content.theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe"
           href="https://instana.com/docs/ecosystem/python"
         />
         <Spacer />
@@ -242,18 +236,15 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   } else if (selectedRuntime === runtimeOptions[5]) {
     steps = (
-      <Fragment>
+      <>
         <Spacer />
 
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.rubyDocumentation')}
+          i18nKey="in-waiting-for-deployment:content.theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe"
           href="https://instana.com/docs/ecosystem/ruby"
         />
         <Spacer />
@@ -270,7 +261,7 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
             <Script lines={[agentKey]} />
           </Col>
         </GridRow>
-      </Fragment>
+      </>
     );
   }
 

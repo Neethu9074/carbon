@@ -60,9 +60,8 @@ export default function OpenShiftHelmContent({ agentKey, agentEndpoint, agentEnd
           <Spacer />
           <HelpBox>
             <TextWithLink
-              text={t('in-waiting-for-deployment:content.helmVersion3IsRequiredForMoreInformationVisitThe')}
+              i18nKey="in-waiting-for-deployment:content.helmVersion3IsRequiredForMoreInformationVisitTheOpenShift"
               href="https://instana.com/docs/ecosystem/openshift/"
-              linkText={t('in-waiting-for-deployment:content.instanaOpenShiftDocumentation')}
             />
           </HelpBox>
         </>

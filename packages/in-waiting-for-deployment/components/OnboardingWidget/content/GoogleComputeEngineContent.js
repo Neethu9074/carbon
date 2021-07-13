@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Bash,
@@ -27,7 +27,7 @@ export default function GoogleComputeEngineContent({ agentKey, agentEndpoint, ag
   return (
     <>
       <Row>
-        <Fragment>
+        <>
           <h4>{t('in-waiting-for-deployment:content.agentMode')}</h4>
           <p>
             <CheckboxFancy
@@ -47,9 +47,9 @@ export default function GoogleComputeEngineContent({ agentKey, agentEndpoint, ag
               asRadioButton
             />
           </p>
-        </Fragment>
+        </>
 
-        <Fragment>
+        <>
           <h4>{t('in-waiting-for-deployment:content.agentJdk')}</h4>
           <p>
             <CheckboxFancy
@@ -69,7 +69,7 @@ export default function GoogleComputeEngineContent({ agentKey, agentEndpoint, ag
               asRadioButton
             />
           </p>
-        </Fragment>
+        </>
       </Row>
       <Description
         lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsStartupScriptForTheGceInstance')]}
@@ -84,10 +84,7 @@ export default function GoogleComputeEngineContent({ agentKey, agentEndpoint, ag
       <Spacer />
       <HelpBox title={t('in-waiting-for-deployment:content.startupScriptsInGoogleComputeEngine')}>
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.forMoreInformationOnHowToUseTheScriptAboveAsAStartupScriptInGceReferToThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.runningStartupScriptsPage')}
+          i18nKey="in-waiting-for-deployment:content.forMoreInformationOnHowToUseTheScriptAboveAsAStartupScriptInGceReferToThe"
           href="https://cloud.google.com/compute/docs/startupscript"
         />
       </HelpBox>

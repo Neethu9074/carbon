@@ -20,7 +20,7 @@ import CodeComponent from 'in-components/Code';
 import Select from 'in-components/form/Select';
 import Tooltip from 'in-components/Tooltip';
 import { region } from 'in-services/config';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './contentComponents.mless';
 
@@ -113,13 +113,15 @@ export function Listing({ items }) {
   );
 }
 
-export function TextWithLink({ text, linkText, href }) {
+export function TextWithLink({ href, i18nKey }) {
   return (
     <span className={locals.textWithLink}>
-      {`${text} `}
-      <Link href={href} external>
-        {linkText || href}
-      </Link>
+      <Trans
+        i18nKey={i18nKey}
+        components={{
+          go: <Link href={href} external />
+        }}
+      />
     </span>
   );
 }

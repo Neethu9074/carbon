@@ -59,9 +59,8 @@ export default function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndp
           <Spacer />
           <HelpBox>
             <TextWithLink
-              text={t('in-waiting-for-deployment:content.helmVersion3IsRequiredForMoreInformationVisitThe')}
+              i18nKey="in-waiting-for-deployment:content.helmVersion3IsRequiredForMoreInformationVisitThe"
               href="https://instana.com/docs/ecosystem/kubernetes/"
-              linkText={t('in-waiting-for-deployment:content.instanaKubernetesDocumentation')}
             />
           </HelpBox>
         </>

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Description,
@@ -33,7 +33,7 @@ export default function WindowsInstallerContent({
   return (
     <>
       <Row>
-        <Fragment>
+        <>
           <h4>{t('in-waiting-for-deployment:content.agentModeLabel')}</h4>
           <p>
             <CheckboxFancy
@@ -53,9 +53,9 @@ export default function WindowsInstallerContent({
               asRadioButton
             />
           </p>
-        </Fragment>
+        </>
 
-        <Fragment>
+        <>
           <h4>{t('in-waiting-for-deployment:content.agentRuntimeLabel')}</h4>
           <p>
             <CheckboxFancy
@@ -75,7 +75,7 @@ export default function WindowsInstallerContent({
               asRadioButton
             />
           </p>
-        </Fragment>
+        </>
       </Row>
       <Row>
         <DownloadButton

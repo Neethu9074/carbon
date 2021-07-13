@@ -19,15 +19,13 @@ export default function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpo
   return (
     <>
       <TextWithLink
-        text={t('in-waiting-for-deployment:content.installingTheInstanaAgentUsingTheKubernetesOperatorIsDescribedIn')}
+        i18nKey="in-waiting-for-deployment:content.installingTheInstanaAgentUsingTheKubernetesOperatorIsDescribedIn"
         href="https://instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#install-using-the-operator"
-        linkText={t('in-waiting-for-deployment:content.theInstanaKubernetesDocumentation')}
       />
       <Spacer />
       <TextWithLink
-        text={t('in-waiting-for-deployment:content.theFollowingConfigurationValuesWillBeNeededToBePopulatedInThe')}
+        i18nKey="in-waiting-for-deployment:content.theFollowingConfigurationValuesWillBeNeededToBePopulatedInThe"
         href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
-        linkText={t('in-waiting-for-deployment:content.instanaAgentCustomResourceFile')}
       />
       <Spacer />
       <GridRow>
@@ -47,11 +45,8 @@ export default function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpo
       <Spacer />
       <HelpBox title={t('in-waiting-for-deployment:content.nameYourKubernetesCluster')}>
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.youWillAlsoWantToProvideADescriptiveNameForYourClusterLikeProdEuOrDevUsingTheClusterNameOptionInThe'
-          )}
+          i18nKey="in-waiting-for-deployment:content.youWillAlsoWantToProvideADescriptiveNameForYourClusterLikeProdEuOrDevUsingTheClusterNameOptionInThe"
           href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
-          linkText={t('in-waiting-for-deployment:content.instanaAgentCustomResourceFile')}
         />
       </HelpBox>
     </>

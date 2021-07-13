@@ -19,9 +19,8 @@ export default function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoi
   return (
     <>
       <TextWithLink
-        text={t('in-waiting-for-deployment:content.installingTheInstanaAgentOnGoogleKubernetesEngineIsIntegratedInThe')}
+        i18nKey="in-waiting-for-deployment:content.installingTheInstanaAgentOnGoogleKubernetesEngineIsIntegratedInThe"
         href="https://console.cloud.google.com/marketplace/details/instana-public/instana?q=instana"
-        linkText={t('in-waiting-for-deployment:content.googleCloudMarketplace')}
       />
       <Spacer />
       <Description

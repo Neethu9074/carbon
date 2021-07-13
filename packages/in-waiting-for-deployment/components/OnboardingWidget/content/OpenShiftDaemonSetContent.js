@@ -55,9 +55,8 @@ export default function OpenShiftDaemonSetContent({ agentKey, agentEndpoint, age
           />
           <HelpBox>
             <TextWithLink
-              text={t('in-waiting-for-deployment:content.forMoreInformationVisitThe')}
+              i18nKey="in-waiting-for-deployment:content.forMoreInformationVisitTheOpenshift"
               href="https://instana.com/docs/ecosystem/openshift/"
-              linkText={t('in-waiting-for-deployment:content.instanaOpenShiftDocumentation')}
             />
           </HelpBox>
         </>

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
   Bash,
@@ -88,12 +88,12 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
   let content;
 
   const iamPermissions = (
-    <Fragment>
+    <>
       <JSONFile
         title={t('in-waiting-for-deployment:content.iamPermissions')}
         content={JSON.stringify(permissions, 0, 2)}
       />
-    </Fragment>
+    </>
   );
 
   if (selectedPlatform === platformOptions[0]) {
@@ -111,7 +111,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
     };
 
     content = (
-      <Fragment>
+      <>
         <Description lines={[t('in-waiting-for-deployment:aws.description')]} />
         <Bash
           lines={[
@@ -123,9 +123,8 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
         <Spacer />
         <HelpBox title={t('in-waiting-for-deployment:aws.help.title')}>
           <TextWithLink
-            text={t('in-waiting-for-deployment:aws.help.text')}
-            linkText={t('in-waiting-for-deployment:aws.help.linkText')}
-            href={t('in-waiting-for-deployment:aws.help.link')}
+            i18nKey="in-waiting-for-deployment:aws.help.text"
+            href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"
           />
         </HelpBox>
         <Spacer />
@@ -137,7 +136,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
           title={t('in-waiting-for-deployment:content.trustRelationship')}
           content={JSON.stringify(trustRelationship, 0, 2)}
         />
-      </Fragment>
+      </>
     );
   } else if (selectedPlatform === platformOptions[1]) {
     const taskDefinition = {
@@ -173,7 +172,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
     };
 
     content = (
-      <Fragment>
+      <>
         <HelpBox title={t('in-waiting-for-deployment:content.ecsSupportedRuntimes')}>
           <Description
             lines={[
@@ -208,7 +207,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
             ]}
           />
         </HelpBox>
-      </Fragment>
+      </>
     );
   }
 
@@ -216,10 +215,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
     <>
       <HelpBox>
         <TextWithLink
-          text={t(
-            'in-waiting-for-deployment:content.theAwsAgentMonitorsLotsOfDifferentAwsTechnologiesInOneSinglePackageForTheFullListReferToThe'
-          )}
-          linkText={t('in-waiting-for-deployment:content.supportedAwsServicesList')}
+          i18nKey="in-waiting-for-deployment:content.theAwsAgentMonitorsLotsOfDifferentAwsTechnologiesInOneSinglePackageForTheFullListReferToThe"
           href="https://instana.com/docs/ecosystem/aws/#monitored-services"
         />
       </HelpBox>
