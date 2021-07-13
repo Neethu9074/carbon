@@ -168,7 +168,7 @@ function http<T>({
 export default http;
 
 function formatUrl(url: string, queryParams: QueryParams = {}) {
-  const serializedQueryParams = stringify(queryParams);
+  const serializedQueryParams = stringify(queryParams, { arrayFormat: 'repeat' });
   if (serializedQueryParams.length > 0) {
     return url + '?' + serializedQueryParams;
   }
