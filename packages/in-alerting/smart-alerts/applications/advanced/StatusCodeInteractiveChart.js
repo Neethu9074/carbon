@@ -10,6 +10,7 @@ import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/a
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/smart-alert-dialog/IncompleteChartPlaceholder';
 import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/applications/advanced/StatusCodeThresholdCondition';
+import EntitySelectionFormUpdater from 'in-alerting/smart-alerts/applications/chart/EntitySelectionFormUpdater';
 import { alertConfigWithDefaultValues } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 
@@ -45,26 +46,27 @@ export default function StatusCodeInteractiveChart({
         editMode={editMode}
         isGlobalSmartAlert={isGlobalSmartAlert}
       />
-
-      <ChartViewConfiguratorWithEntitySelection
-        alertConfigWithFormModel={alertConfigWithFormModel}
-        onChartViewConfigChange={onChartViewConfigChange}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        headerTransparent
-      >
-        {(chartViewConfig, applicationId, serviceId, endpointId) => (
-          <ApplicationAlertingChartWithErrorMessage
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            alertConfigWithFormModel={alertConfigWithFormModel}
-            viewConfig={chartViewConfig}
-            blueprintConfig={blueprintConfig}
-            alertsPreviewEnabled
-            canReload
-          />
-        )}
-      </ChartViewConfiguratorWithEntitySelection>
+      <EntitySelectionFormUpdater form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert}>
+        <ChartViewConfiguratorWithEntitySelection
+          alertConfigWithFormModel={alertConfigWithFormModel}
+          onChartViewConfigChange={onChartViewConfigChange}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          headerTransparent
+        >
+          {(chartViewConfig, applicationId, serviceId, endpointId) => (
+            <ApplicationAlertingChartWithErrorMessage
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              alertConfigWithFormModel={alertConfigWithFormModel}
+              viewConfig={chartViewConfig}
+              blueprintConfig={blueprintConfig}
+              alertsPreviewEnabled
+              canReload
+            />
+          )}
+        </ChartViewConfiguratorWithEntitySelection>
+      </EntitySelectionFormUpdater>
     </div>
   );
 }

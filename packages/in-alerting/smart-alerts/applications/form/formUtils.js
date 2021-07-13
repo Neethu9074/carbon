@@ -9,10 +9,10 @@ import {
   getLogLevelRuleOperatorLabel,
   getStatusCodeLabel
 } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
@@ -90,18 +90,23 @@ export function getDescriptionPlaceholder(form) {
   const alertType = ruleForm.get('alertType').value;
   const thresholdForm = form.get('threshold');
   const thresholdOperator = thresholdForm.get('operator').value;
+  const thresholdType = thresholdForm.get('type').value;
 
   switch (alertType) {
     case 'errorRate': {
+      if (thresholdType === ADAPTIVE_BASELINE) {
+        // TODO: NEW TEXT NEEDED?
+        return '';
+      }
       const thresholdValue = thresholdForm.get('value').value;
-      return t('in-alerting:smartAlerts.applications.formUtils.titlePlaceholder.errorRate', {
+      return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRate', {
         context: getHigherOrLowerOperatorContext(thresholdOperator),
         valueRoundedToDecimals: getValueRoundedToDecimals(thresholdValue, true)
       });
     }
     case 'slowness': {
       const aggregation = ruleForm.get('aggregation').value;
-      const thresholdType = thresholdForm.get('type').value;
+
       if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.slownessStaticThreshold', {
@@ -120,8 +125,13 @@ export function getDescriptionPlaceholder(form) {
       const ruleOperator = ruleForm.get('operator').value;
       const level = ruleForm.get('level').value;
       const levelText = getLogLevelRuleOperatorLabel(level);
-      const thresholdValue = thresholdForm.get('value').value;
 
+      if (thresholdType === ADAPTIVE_BASELINE) {
+        // TODO: NEW TEXT NEEDED?
+        return '';
+      }
+
+      const thresholdValue = thresholdForm.get('value').value;
       if (thresholdOperator === operators.NOT_EMPTY) {
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.logsNotEmpty', {
           context: getHigherOrLowerOperatorContext(thresholdOperator),
@@ -140,7 +150,6 @@ export function getDescriptionPlaceholder(form) {
       });
     }
     case 'statusCode': {
-      const thresholdType = thresholdForm.get('type').value;
       const statusCodeStart = ruleForm.get('statusCode').get('statusCodeStart').value;
       const statusCodeEnd = ruleForm.get('statusCode').get('statusCodeEnd').value;
 
@@ -159,7 +168,11 @@ export function getDescriptionPlaceholder(form) {
       });
     }
     case 'throughput': {
-      const thresholdType = thresholdForm.get('type').value;
+      if (thresholdType === ADAPTIVE_BASELINE) {
+        // TODO: NEW TEXT NEEDED?
+        return '';
+      }
+
       if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.throughputStaticThreshold', {

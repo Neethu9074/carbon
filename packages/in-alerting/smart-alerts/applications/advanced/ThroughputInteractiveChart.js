@@ -9,6 +9,7 @@ import React from 'react';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
 import ThroughputThresholdCondition from 'in-alerting/smart-alerts/applications/advanced/ThroughputThresholdCondition';
+import EntitySelectionFormUpdater from 'in-alerting/smart-alerts/applications/chart/EntitySelectionFormUpdater';
 import { alertConfigWithDefaultValues } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 
@@ -37,25 +38,27 @@ export default function ThroughputInteractiveChart({
         isGlobalSmartAlert={isGlobalSmartAlert}
       />
 
-      <ChartViewConfiguratorWithEntitySelection
-        alertConfigWithFormModel={alertConfigWithFormModel}
-        onChartViewConfigChange={onChartViewConfigChange}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        headerTransparent
-      >
-        {(chartViewConfig, applicationId, serviceId, endpointId) => (
-          <ApplicationAlertingChartWithErrorMessage
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            alertConfigWithFormModel={alertConfigWithFormModel}
-            viewConfig={chartViewConfig}
-            blueprintConfig={blueprintConfig}
-            alertsPreviewEnabled
-            canReload
-          />
-        )}
-      </ChartViewConfiguratorWithEntitySelection>
+      <EntitySelectionFormUpdater form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert}>
+        <ChartViewConfiguratorWithEntitySelection
+          alertConfigWithFormModel={alertConfigWithFormModel}
+          onChartViewConfigChange={onChartViewConfigChange}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          headerTransparent
+        >
+          {(chartViewConfig, applicationId, serviceId, endpointId) => (
+            <ApplicationAlertingChartWithErrorMessage
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              alertConfigWithFormModel={alertConfigWithFormModel}
+              viewConfig={chartViewConfig}
+              blueprintConfig={blueprintConfig}
+              alertsPreviewEnabled
+              canReload
+            />
+          )}
+        </ChartViewConfiguratorWithEntitySelection>
+      </EntitySelectionFormUpdater>
     </div>
   );
 }

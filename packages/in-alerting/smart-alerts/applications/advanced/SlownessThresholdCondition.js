@@ -12,31 +12,23 @@ import {
   applicationsAlertingThresholdTypeChanged
 } from 'in-alerting/smart-alerts/applications/tracker';
 import {
-  applicationThresholdTypeOptions,
-  getAvailableOptionsForEvaluationType,
-  isOneOfBaselineTypes
-} from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import {
-  getOperatorLabel,
+  getAggregationLabel,
   getConfiguredThreshold,
-  getAggregationLabel
+  getOperatorLabel
 } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
 import ThresholdValueFormGroupForStaticThreshold from 'in-alerting/smart-alerts/applications/advanced/ThresholdValueFormGroupForStaticThreshold';
 import { ThresholdDeviationSliderForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdDeviationSliderForm';
 import FixedThresholdConditionForBuiltInAlert from 'in-alerting/smart-alerts/applications/advanced/FixedThresholdConditionForBuiltInAlert';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
-import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
-import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
-import { createSlownessForm, defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { applicationThresholdTypeOptions } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
 import ThresholdLabel from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdLabel';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
-import ShowLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowLabelOrDropdown';
-import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import ThresholdTypeSelection from 'in-alerting/smart-alerts/applications/advanced/ThresholdTypeSelection';
+import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
@@ -83,11 +75,12 @@ export default function SlownessThresholdCondition({
               onChange={onChange}
               trackingCallback={applicationsAlertingThresholdOperatorChanged}
             />
-            <SlownessBaselineConfig
+            <ThresholdTypeSelection
               form={form}
               updateForm={updateForm}
-              onChange={onChange}
               editMode={editMode}
+              trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
+              thresholdTypeOptions={applicationThresholdTypeOptions}
               isGlobalSmartAlert={isGlobalSmartAlert}
             />
           </>
@@ -114,48 +107,6 @@ export default function SlownessThresholdCondition({
         />
       )}
     </>
-  );
-}
-
-function SlownessBaselineConfig({ form, updateForm, onChange, editMode, isGlobalSmartAlert }) {
-  const thresholdType = form.get('threshold').get('type')?.value;
-  const evaluationType = form.get('evaluationType').value;
-
-  return (
-    <ShowLabelOrDropdown form={form} isGlobalSmartAlert={isGlobalSmartAlert}>
-      <Dropdown
-        asSimpleDropdown
-        label={findEntryByValue(applicationThresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
-        items={getAvailableOptionsForEvaluationType(
-          applicationThresholdTypeOptions,
-          evaluationType,
-          isGlobalSmartAlert
-        )}
-        onChange={({ value = '' }) => {
-          const valueParts = value.split('.');
-          const thresholdType = valueParts[0];
-
-          let newThresholdForm = createSlownessForm({
-            ...form.get('threshold').toJS(),
-            type: thresholdType
-          });
-
-          if (thresholdType === HISTORIC_BASELINE) {
-            const seasonality = valueParts[1];
-            newThresholdForm = newThresholdForm.updateIn(['seasonality'], f => f.setValue(seasonality).setTouched());
-          }
-
-          const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });
-
-          updateForm(form.put('threshold', newThresholdForm).put('rule', newRuleForm));
-
-          applicationsAlertingThresholdTypeChanged(getTrackingObject(form, { value: thresholdType }));
-        }}
-      />
-      {isOneOfBaselineTypes(thresholdType) && (
-        <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
-      )}
-    </ShowLabelOrDropdown>
   );
 }
 

@@ -9,6 +9,7 @@ import React from 'react';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/applications/chart/ChartViewConfiguratorWithEntitySelection';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/smart-alert-dialog/IncompleteChartPlaceholder';
+import EntitySelectionFormUpdater from 'in-alerting/smart-alerts/applications/chart/EntitySelectionFormUpdater';
 import LogsThresholdCondition from 'in-alerting/smart-alerts/applications/advanced/LogsThresholdCondition';
 import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
@@ -21,7 +22,9 @@ export default function LogsInteractiveChart({
   onChange,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  editMode,
+  isGlobalSmartAlert
 }) {
   const alertConfigWithFormModel = alertConfigWithDefaultThreshold(form);
   if (!blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule)) {
@@ -39,27 +42,31 @@ export default function LogsInteractiveChart({
         onChange={onChange}
         updateForm={updateForm}
         blueprintConfig={blueprintConfig}
+        editMode={editMode}
+        isGlobalSmartAlert={isGlobalSmartAlert}
       />
 
-      <ChartViewConfiguratorWithEntitySelection
-        alertConfigWithFormModel={alertConfigWithFormModel}
-        onChartViewConfigChange={onChartViewConfigChange}
-        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-        headerTransparent
-      >
-        {(chartViewConfig, applicationId, serviceId, endpointId) => (
-          <ApplicationAlertingChartWithErrorMessage
-            applicationId={applicationId}
-            serviceId={serviceId}
-            endpointId={endpointId}
-            alertConfigWithFormModel={alertConfigWithFormModel}
-            viewConfig={chartViewConfig}
-            blueprintConfig={blueprintConfig}
-            alertsPreviewEnabled
-            canReload
-          />
-        )}
-      </ChartViewConfiguratorWithEntitySelection>
+      <EntitySelectionFormUpdater form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert}>
+        <ChartViewConfiguratorWithEntitySelection
+          alertConfigWithFormModel={alertConfigWithFormModel}
+          onChartViewConfigChange={onChartViewConfigChange}
+          selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+          headerTransparent
+        >
+          {(chartViewConfig, applicationId, serviceId, endpointId) => (
+            <ApplicationAlertingChartWithErrorMessage
+              applicationId={applicationId}
+              serviceId={serviceId}
+              endpointId={endpointId}
+              alertConfigWithFormModel={alertConfigWithFormModel}
+              viewConfig={chartViewConfig}
+              blueprintConfig={blueprintConfig}
+              alertsPreviewEnabled
+              canReload
+            />
+          )}
+        </ChartViewConfiguratorWithEntitySelection>
+      </EntitySelectionFormUpdater>
     </div>
   );
 }
@@ -70,5 +77,7 @@ LogsInteractiveChart.propTypes = {
   onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
-  selectedChartViewConfigIndex: PropTypes.number.isRequired
+  selectedChartViewConfigIndex: PropTypes.number.isRequired,
+  editMode: PropTypes.bool,
+  isGlobalSmartAlert: PropTypes.bool
 };

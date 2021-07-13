@@ -48,3 +48,12 @@ export function getAvailableOptionsForEvaluationType(thresholdTypeOptions = [], 
     return true;
   });
 }
+
+/**
+ * @param {[{value: string, label: string}]} thresholdTypeOptions
+ */
+export function withoutHistoricBaselineOptions(thresholdTypeOptions = []) {
+  return thresholdTypeOptions.filter(({ value }) =>
+    [ADAPTIVE_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0])
+  );
+}

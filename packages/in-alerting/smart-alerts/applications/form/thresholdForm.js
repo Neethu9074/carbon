@@ -34,10 +34,18 @@ export default function createThresholdForm(threshold = {}, alertType) {
 }
 
 export function createErrorRateForm(threshold = {}) {
+  const thresholdType = threshold.type;
+  if (thresholdType === ADAPTIVE_BASELINE) {
+    return createAdaptiveBaselineForm(threshold);
+  }
   return createStaticThresholdForm(threshold);
 }
 
 export function createLogsForm(threshold = {}) {
+  const thresholdType = threshold.type;
+  if (thresholdType === ADAPTIVE_BASELINE) {
+    return createAdaptiveBaselineForm(threshold);
+  }
   return createStaticThresholdForm(threshold);
 }
 
@@ -121,6 +129,7 @@ function createHistoricBaselineForm(threshold) {
       })
     );
 }
+
 function createAdaptiveBaselineForm(threshold) {
   return createBaseForm(threshold)
     .put(
