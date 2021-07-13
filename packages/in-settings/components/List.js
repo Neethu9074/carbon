@@ -640,7 +640,7 @@ List.propTypes = {
   onCreateNew: PropTypes.func,
   onRowClick: PropTypes.func,
   orderByState: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  orderDirectionState: PropTypes.oneOf(['ASC', 'DSC']),
+  orderDirectionState: PropTypes.oneOf(['ASC', 'DESC']),
   pageSize: PropTypes.number,
   pageState: PropTypes.number,
   pathNew: PropTypes.string,

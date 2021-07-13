@@ -13,16 +13,24 @@ import { t } from 'in-i18n';
 
 import locals from './ListColumns.mless';
 
-export default function EvaluationTypeColumn({ evaluationType = PER_AP }) {
+export default function EvaluationTypeColumn({ config, isGlobalSmartAlertConfig }) {
+  const { evaluationType = PER_AP } = config;
   const evaluationInfo = alertEvaluationTypes[evaluationType];
   return (
     <div className={locals.column}>
-      <div className={locals.name}>{t('in-applications:alert.applicationSmartAlert')}</div>
+      <div className={locals.name}>
+        {isGlobalSmartAlertConfig
+          ? t('in-alerting:smartAlerts.globalApplicationSmartAlert')
+          : t('in-alerting:smartAlerts.applicationSmartAlert')}
+      </div>
       {evaluationInfo && <div className={locals.nameSubtext}>{evaluationInfo.columnText}</div>}
     </div>
   );
 }
 
 EvaluationTypeColumn.propTypes = {
-  evaluationType: PropTypes.string.isRequired
+  config: PropTypes.shape({
+    evaluationType: PropTypes.string.isRequired
+  }).isRequired,
+  isGlobalSmartAlertConfig: PropTypes.bool
 };

@@ -146,7 +146,6 @@
     "noData": "Application perspectives provide a means to model environments, sets of services, tenants, or just about anything."
   },
   "alert": {
-    "applicationSmartAlert": "Application Smart Alert",
     "tooltipMoreFilter": "+{{moreFilterCount}} more filter",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} more filters",
     "tooltipMoreFilter_0": "+{{moreFilterCount}} more filters",

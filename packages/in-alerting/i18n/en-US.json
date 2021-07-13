@@ -102,6 +102,8 @@
     "descriptionUnsupportedOperator": "Unsupported operator: {{operator}}"
   },
   "smartAlerts": {
+    "applicationSmartAlert": "Application Smart Alert",
+    "globalApplicationSmartAlert": "Global Application Smart Alert",
     "titleNoSmartAlertsConfigured": "No Smart Alerts configured",
     "titleNoSmartAlertsConfiguredForSearchQuery": "No Smart Alert configurations found for a given search",
     "titleNoSmartAlertsCreated": "No Smart Alerts created",
@@ -800,7 +802,8 @@
       "enabled": "Enabled",
       "disabled": "Disabled",
       "severity": "Severity",
-      "created": "Date created"
+      "created": "Date created",
+      "type": "Type"
     }
   }
 }

@@ -21,6 +21,7 @@ import {
   scopeDfq
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
+import { modeSelectedSmartAlerts } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -71,7 +72,7 @@ function Step3({ form, setForm, onChange, onChangeApplyOn, existingApplication }
               <ComboBox
                 name="alert-apply-on"
                 value={field.value}
-                options={applyOnOptions}
+                options={getApplyOnOptions(form)}
                 isClearable={false}
                 onChange={e => {
                   const updatedForm = onChangeApplyOn(form, e ? e.value : null);
@@ -184,4 +185,14 @@ function MatchingEntitiesIndicator({ form }) {
         })}
     </div>
   );
+}
+
+function getApplyOnOptions(form) {
+  const eventSelectionMode = form.get('eventSelectionMode').value;
+
+  if (eventSelectionMode === modeSelectedSmartAlerts) {
+    return applyOnOptions.filter(({ value }) => value !== scopeDfq);
+  }
+
+  return applyOnOptions;
 }

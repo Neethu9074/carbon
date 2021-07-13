@@ -1,0 +1,22 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .dialog {
+    width: 70vw;
+    max-height: 90vh;
+    height: calc(100vh - 18rem);
+  }
+
+  .footer {
+    padding: 1rem 0;
+    height: 4rem;
+
+    background-color: @lib__colors__N100;
+    border-top: 1px solid @lib__colors__N300;
+  }
+}

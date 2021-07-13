@@ -32,7 +32,7 @@ import { t } from 'in-i18n';
 
 import locals from './SmartAlertsBaseList.mless';
 
-const pageSize = 15;
+const defaultPageSize = 15;
 
 const defaultState = {
   orderBy: 'name',
@@ -55,6 +55,7 @@ export default function SmartAlertsBaseList({
   columnDefinitions,
   externalState,
   setExternalState,
+  pageSize = defaultPageSize,
   ...remainingProps
 }) {
   const [{ orderBy, orderDirection, configsCategory, page, query }, setState] = useOptionalExternalState(
@@ -328,11 +329,12 @@ function getNoAlertConfiguredLabel(query) {
 }
 
 function useOptionalExternalState(externalState, setExternalState) {
-  const defaultStateHandling = useState(defaultState);
+  const [state, defaultSetState] = useState(defaultState);
+  const setState = newState => defaultSetState({ ...state, ...newState });
   if (setExternalState) {
     return [externalState, setExternalState];
   }
-  return defaultStateHandling;
+  return [state, setState];
 }
 
 SmartAlertsBaseList.propTypes = {
@@ -374,5 +376,10 @@ SmartAlertsBaseList.propTypes = {
    * Setting this will disable internal state handling, providing `externalState`
    * is then required.
    */
-  setExternalState: PropTypes.func
+  setExternalState: PropTypes.func,
+
+  /**
+   * The amount of alerts per page, defaults to 15
+   */
+  pageSize: PropTypes.number
 };

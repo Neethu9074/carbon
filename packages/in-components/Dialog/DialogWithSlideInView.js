@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { stopPropagation, stopPropagationAndPreventDefault, noop } from 'in-services/util/function';
 import SlideInView from 'in-components/SlideInView/SlideInView';
 import Header from 'in-components/Dialog/Header';
 
@@ -52,7 +52,7 @@ export default function DialogWithSlideInView({
         onScrollCapture={e => setScrollshadow(e.target.scrollTop > 0)}
       >
         <SlideInView
-          onShowSlideInContentChange={onSlideInViewTitleClick}
+          onShowSlideInContentChange={onSlideInViewTitleClick ?? noop}
           slideInContentTitle={slideInViewTitle}
           slideInContent={slideInViewComponent}
           showSlideInContent={slideInViewVisible}

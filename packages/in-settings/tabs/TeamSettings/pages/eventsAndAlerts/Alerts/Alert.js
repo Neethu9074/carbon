@@ -9,15 +9,16 @@ import { fromJS, List } from 'immutable';
 import React from 'react';
 
 import {
+  modeEventTypes,
+  modeSelectedEvents,
+  modeSelectedSmartAlerts
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
+import {
   parseQuery,
   scopeApplication,
   scopeDfq,
   serializeQuery
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
-import {
-  modeEventTypes,
-  modeSelectedEvents
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/Step2';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { queryValidationResultValidator, queryValidationInProgressValidator, valid } from 'in-settings/validation';
 import { getAlertingConfig, saveAlertingConfig, createAlertingConfig } from 'in-api/alertingConfiguration';
@@ -110,11 +111,16 @@ const Form = entityForm(
   compose(
     withState('eventTypes', 'setEventTypes', null),
     withState('selectedEvents', 'setSelectedEvents', null),
+    withState('applicationAlertConfigIds', 'setApplicationAlertConfigIds', null),
     withHandlers({
-      onChangeEventSelectionMode: ({ eventTypes, setEventTypes, selectedEvents, setSelectedEvents }) => (
-        form,
-        eventSelectionMode
-      ) => {
+      onChangeEventSelectionMode: ({
+        eventTypes,
+        setEventTypes,
+        selectedEvents,
+        setSelectedEvents,
+        applicationAlertConfigIds,
+        setApplicationAlertConfigIds
+      }) => (form, eventSelectionMode) => {
         let updatedForm = onChangeEventSelectionMode(form, eventSelectionMode);
 
         if (eventSelectionMode === modeSelectedEvents) {
@@ -127,6 +133,14 @@ const Form = entityForm(
           setSelectedEvents(selectedEvents);
           updatedForm = putEventTypesField(updatedForm, eventTypes);
         }
+        if (eventSelectionMode === modeSelectedSmartAlerts) {
+          const selectedApplicationAlertConfigs = form.get('applicationAlertConfigIds')?.value ?? List([]);
+          setApplicationAlertConfigIds(selectedApplicationAlertConfigs);
+          updatedForm = putSelectedSmartAlertsField(updatedForm, applicationAlertConfigIds);
+          if (form.get('applyOn')?.value === scopeDfq) {
+            updatedForm = onChangeApplyOn(updatedForm, scopeApplication);
+          }
+        }
         return updatedForm;
       }
     })
@@ -136,7 +150,11 @@ const Form = entityForm(
 function createForm(alertEntity, isCreate) {
   const eventTypes = alertEntity.getIn(['eventFilteringConfiguration', 'eventTypes'], List([])) ?? List([]);
   const selectedEvents = alertEntity.getIn(['eventFilteringConfiguration', 'ruleIds'], List([])) ?? List([]);
-  const eventSelectionMode = eventTypes.isEmpty() ? modeSelectedEvents : modeEventTypes;
+  const selectedApplicationAlertConfigs = alertEntity.getIn(
+    ['eventFilteringConfiguration', 'applicationAlertConfigIds'],
+    List([])
+  );
+  const eventSelectionMode = getEventSelectionMode(eventTypes, selectedApplicationAlertConfigs);
 
   const query = alertEntity.getIn(['eventFilteringConfiguration', 'query'], '');
   const { applyOn, applicationName, applicationIds } = isCreate
@@ -205,6 +223,8 @@ function createForm(alertEntity, isCreate) {
     form = putEventTypesField(form, eventTypes);
   } else if (eventSelectionMode === modeSelectedEvents) {
     form = putSelectedEventsField(form, selectedEvents);
+  } else if (eventSelectionMode === modeSelectedSmartAlerts) {
+    form = putSelectedSmartAlertsField(form, selectedApplicationAlertConfigs);
   }
 
   if (applyOn === scopeDfq) {
@@ -237,6 +257,16 @@ export function putSelectedEventsField(form, selectedEvents) {
     createField({
       value: selectedEvents ? selectedEvents : List([]),
       validator: selectedEventsValidator
+    })
+  );
+}
+
+export function putSelectedSmartAlertsField(form, selectedApplicationAlertIds) {
+  return form.put(
+    'applicationAlertConfigIds',
+    createField({
+      value: selectedApplicationAlertIds ?? List([]),
+      validator: selectedApplicationAlertConfigsValidator
     })
   );
 }
@@ -297,15 +327,16 @@ function onChangeEventSelectionMode(form, eventSelectionMode) {
   }
   let updatedForm = form.updateIn(['eventSelectionMode'], field => field.setValue(eventSelectionMode).setTouched(true));
 
+  updatedForm = updatedForm
+    .remove('selectedEvents')
+    .remove('eventTypes')
+    .remove('applicationAlertConfigIds');
   if (eventSelectionMode === modeEventTypes) {
-    updatedForm = updatedForm.remove('selectedEvents');
     updatedForm = putEventTypesField(updatedForm);
   } else if (eventSelectionMode === modeSelectedEvents) {
-    updatedForm = updatedForm.remove('eventTypes');
     updatedForm = putSelectedEventsField(updatedForm);
-  } else {
-    updatedForm = updatedForm.remove('selectedEvents');
-    updatedForm = updatedForm.remove('eventTypes');
+  } else if (eventSelectionMode === modeSelectedSmartAlerts) {
+    updatedForm = putSelectedSmartAlertsField(updatedForm);
   }
 
   return updatedForm;
@@ -366,6 +397,27 @@ function selectedEventsValidator(selectedEvents) {
   }
 }
 
+function selectedApplicationAlertConfigsValidator(selectedApplicationAlertConfigs) {
+  if (selectedApplicationAlertConfigs.size === 0) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs.pleaseSelectAtLeastOneSmartAlert')
+      }
+    ];
+  }
+  if (selectedApplicationAlertConfigs.size > limitForConnectedEvents) {
+    return [
+      {
+        severity: 'error',
+        message: t('in-settings:tabs.pleaseSelectAtMostSmartAlerts', {
+          limit: limitForConnectedEvents
+        })
+      }
+    ];
+  }
+}
+
 function selectedApplicationsValidator(selectedApplications) {
   if (selectedApplications.size === 0) {
     return [
@@ -395,8 +447,9 @@ function save(alertEntity, form) {
   const eventSelectionMode = form.get('eventSelectionMode').value;
 
   const selectedAlertChannels = form.get('selectedAlertChannels').value.toJS();
-  const selectedEvents =
-    modeSelectedEvents && form.get('selectedEvents') ? form.get('selectedEvents').value.toJS() : null;
+  const selectedEvents = form.get('selectedEvents')?.value?.toJS();
+  const selectedApplicationAlertConfigs = form.get('applicationAlertConfigIds')?.value?.toJS();
+  const selectedEventTypes = form.get('eventTypes')?.value;
   const scopeType = form.get('applyOn').value;
 
   submitAlertTracker({
@@ -418,9 +471,20 @@ function save(alertEntity, form) {
         selectedAlertChannels,
         selectedEvents,
         query,
-        eventSelectionMode === modeEventTypes && form.get('eventTypes') ? form.get('eventTypes').value : null,
+        selectedEventTypes,
+        selectedApplicationAlertConfigs,
         form.get('customPayloadFields').toJS()
       )
     )
   );
+}
+
+function getEventSelectionMode(eventTypes, selectedApplicationAlertConfigs) {
+  if (!eventTypes.isEmpty()) {
+    return modeEventTypes;
+  }
+  if (!selectedApplicationAlertConfigs.isEmpty()) {
+    return modeSelectedSmartAlerts;
+  }
+  return modeSelectedEvents;
 }

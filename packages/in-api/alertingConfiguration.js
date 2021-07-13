@@ -80,6 +80,7 @@ export function createAlertingConfig(
   ruleIds = [],
   query = '',
   eventTypes = [],
+  applicationAlertConfigIds = [],
   customPayloadFields = []
 ) {
   return {
@@ -90,7 +91,8 @@ export function createAlertingConfig(
     eventFilteringConfiguration: {
       query,
       ruleIds,
-      eventTypes
+      eventTypes,
+      applicationAlertConfigIds
     },
     customPayloadFields
   };
