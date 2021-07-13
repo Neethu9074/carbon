@@ -4,7 +4,41 @@
  */
 
 :local {
-  .listItem {
-    margin: 0.5rem 0rem;
+  .list {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  .label {
+    width: '30%';
+    min-width: 15rem;
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .metrics {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
   }
 }

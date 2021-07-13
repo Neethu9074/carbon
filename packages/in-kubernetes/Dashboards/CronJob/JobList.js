@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
@@ -24,18 +26,19 @@ import { isLoading, hasError } from 'in-services/util/result';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { formatDuration } from 'in-services/formatters/date';
 import Pods from 'in-kubernetes/Dashboards/CronJob/PodList';
-import HealthDot from 'in-components/health/HealthDot';
 import { getHistoricMetric } from 'in-stores/metric';
+import Tooltip from '../../../in-components/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/CronJob.mless';
 
-const statusToSeverity = {
-  Completed: 0,
-  Running: 1.1,
-  Failed: 10,
-  Unknown: 6
+const statusToColour = {
+  Completed: theme.lib.colors.success,
+  Running: theme.lib.colors.success,
+  Failed: theme.lib.colors.failure,
+  Unknown: theme.lib.colors.N400
 };
 
 const notFoundComponent = (
@@ -49,25 +52,28 @@ const notFoundComponent = (
   </CenterAlignmentColumn>
 );
 
-const columnDefinitions = [
+const labelColumnDefinitions = [
   {
     id: 'health',
-    width: '1rem',
-    getContent({ status }) {
+    width: '1.7rem',
+    getContent({ item }) {
       return (
-        <HealthDot
-          severity={status ? statusToSeverity[status] : statusToSeverity.Unknown}
-          iconSize={SvgIconSizes.xxs}
-        />
+        <div className={locals.center}>
+          <HealthDot color={statusToColour[item?.status || statusToColour.Unknown]} iconSize={SvgIconSizes.xxs} />
+        </div>
       );
     }
   },
   {
     id: 'name',
-    getContent({ job }) {
-      return <KeyValue label={t('in-kubernetes:dashboards.name')} value={job.label} accentuated />;
+    getContent({ item }) {
+      console.log(item);
+      return <KeyValue label={t('in-kubernetes:dashboards.name')} value={item.label} accentuated />;
     }
-  },
+  }
+];
+
+const columnDefinitions = [
   {
     id: 'status',
     width: '10rem',
@@ -138,17 +144,21 @@ export default function Jobs(props) {
 
   return (
     <Ul>
-      {items.map(item => (
+      {items.map((item, index) => (
         <Li
-          borderRadius="medium"
-          className={locals.listItem}
-          highlightOpenState={false}
-          key={item.label}
-          renderNestedContent={() => <Pods {...props} jobId={item.job.id} />}
+          key={`${item.label}-${index}`}
           toggleContentOnRowClick
-          noAlternatingBg
+          renderNestedContent={() => <Pods {...props} jobId={item.job.id} />}
+          roundShadow
         >
-          <ColumnizedContent columnDefinitions={columnDefinitions} {...item} />
+          <div className={locals.list}>
+            <div className={locals.label}>
+              <ColumnizedContent {...props} columnDefinitions={labelColumnDefinitions} item={item.job} />
+            </div>
+            <div className={locals.metrics}>
+              <ColumnizedContent columnDefinitions={columnDefinitions} {...item} />
+            </div>
+          </div>
         </Li>
       ))}
       {jobsResult.canLoadMore && <LiLoadMore loadMore={jobsResult.loadMore} />}
@@ -203,3 +213,27 @@ function PodMetrics({ snapshotId, metric, label }) {
   );
   return <KeyValue label={label} value={podsPending || valueMissingPlaceholder} theme="blue" accentuated />;
 }
+
+function HealthDot({ color = theme.lib.colors.fadedTeal800, explanation, iconSize, className }) {
+  const dot = (
+    <div
+      style={{
+        width: iconSize,
+        height: iconSize,
+        backgroundColor: color
+      }}
+      className={classNames({ [locals.dot]: true, [className]: true })}
+    />
+  );
+  if (!explanation) {
+    return dot;
+  }
+  return <Tooltip content={explanation}>{dot}</Tooltip>;
+}
+
+HealthDot.propTypes = {
+  color: PropTypes.string,
+  explanation: PropTypes.string,
+  iconSize: PropTypes.number,
+  className: PropTypes.string
+};
