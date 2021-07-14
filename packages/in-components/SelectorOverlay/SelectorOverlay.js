@@ -11,6 +11,7 @@ import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/pr
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { search } from 'in-components/SelectorOverlay/search';
 import { getInteractiveElements } from 'in-services/util/dom';
 import Node from 'in-components/SelectorOverlay/Node';
@@ -91,8 +92,9 @@ export default function SelectorOverlay({
             />
           </div>
         )}
-        {loading === false && options.length === 0 && <NoResults /> //No Results
-        }
+        {loading === false && options.length === 0 && (
+          <NoDataAvailable className={locals.overlay} text={t('in-components:selectorOverlay.noResults')} />
+        )}
         {loading === false && (
           <SlideInView
             showSlideInContent={showFocusedNode}
@@ -190,10 +192,6 @@ export default function SelectorOverlay({
       }
     }
   }
-}
-
-function NoResults() {
-  return <div>{t('in-components:selectorOverlay.noResults')}</div>;
 }
 
 SelectorOverlay.propTypes = {

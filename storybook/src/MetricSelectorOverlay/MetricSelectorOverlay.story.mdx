@@ -1,11 +1,12 @@
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
 import { action as storybookAction } from '@storybook/addon-actions';
+import { withKnobs, boolean, object} from '@storybook/addon-knobs';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import PermanentlyVisibleOverlay from '../util/PermanentlyVisibleOverlay';
 import metricCatalogExampleJson from './metricCatalogExample';
 
-<Meta title="Molecules|MetricSelectorOverlay" component={MetricSelectorOverlay} />
+<Meta title="Molecules|MetricSelectorOverlay"  component={MetricSelectorOverlay} decorators={[withKnobs]}/>
 
 ## Metric Selector
 
@@ -19,6 +20,28 @@ the MetricTree.
         onChange={storybookAction('onChange')}
         close={storybookAction('close')}
         metricCatalog={metricCatalogExampleJson}
+        loading={boolean('Loading', false)}
+        onQueryChange={storybookAction('onQueryChange')}
+      />
+    </PermanentlyVisibleOverlay>
+  </Story>
+</Preview>
+
+export function generateEmptyResult() {
+  return {"tree": []};
+}
+
+export const emptyResult = generateEmptyResult();
+
+<Preview>
+  <Story name="WithNoResults">
+    <PermanentlyVisibleOverlay>
+      <MetricSelectorOverlay
+        onChange={storybookAction('onChange')}
+        close={storybookAction('close')}
+        metricCatalog={object('metricCatalog', emptyResult)}
+        loading={boolean('Loading', false)}
+        onQueryChange={v=> console.log(v)}
       />
     </PermanentlyVisibleOverlay>
   </Story>
