@@ -8,6 +8,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { toClassPathTree } from 'in-sdk/components/sidebar/ClassPathLayouter/treeStructureGenerator';
 import { t } from 'in-i18n';
 
 import './ClasspathLayouter.less';
@@ -36,24 +37,11 @@ export default class extends React.Component {
       return null;
     }
 
-    const cpEntries = classpath.split(/:|;/);
-    const tree = {};
-    let currentPath = '';
-
-    cpEntries.forEach(path => {
-      const pathTillJar = getPathTillJar(path);
-
-      if (pathTillJar !== currentPath || !tree[pathTillJar]) {
-        tree[pathTillJar] = [];
-      }
-
-      currentPath = pathTillJar;
-      tree[pathTillJar].push(path);
-    });
+    const { tree, numberOfEntries } = toClassPathTree(classpath);
 
     return (
       <div className={block}>
-        {cpEntries.length > 5 ? (
+        {numberOfEntries > 5 ? (
           <Button onClick={this.toggleVisibility} kind="secondary" className={`${block}__toggle`}>
             {this.state.visible
               ? t('in-sdk:sidebar.classpath.classpathHide')
@@ -61,7 +49,7 @@ export default class extends React.Component {
           </Button>
         ) : null}
 
-        {this.state.visible || cpEntries.length <= 5
+        {this.state.visible || numberOfEntries <= 5
           ? Object.keys(tree).map((path, i) => {
               const parentPath = path;
               const children = tree[path];
@@ -87,16 +75,4 @@ export default class extends React.Component {
       </div>
     );
   }
-}
-
-function getPathTillJar(path) {
-  let indexOfLastSlash = path.length;
-  for (let i = path.length - 1; i > 0; i--) {
-    const char = path[i];
-    if (char === '/') {
-      indexOfLastSlash = i;
-      break;
-    }
-  }
-  return path.slice(0, indexOfLastSlash + 1);
 }
