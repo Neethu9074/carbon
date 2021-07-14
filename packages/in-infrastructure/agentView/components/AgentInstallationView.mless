@@ -7,8 +7,4 @@
   .wrapper {
     margin-top: 2rem;
   }
-
-  .installationContent {
-    max-height: 100vh;
-  }
 }

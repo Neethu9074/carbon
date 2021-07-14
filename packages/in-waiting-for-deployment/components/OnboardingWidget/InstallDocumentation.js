@@ -60,9 +60,8 @@ export default function InstallDocumentation(props) {
         </div>
 
         <div
-          className={classNames({
-            [locals.content]: true,
-            [props.contentClassName]: props.contentClassName
+          className={classNames(locals.content, {
+            [locals.withoutHeightRestriction]: props.withoutHeightRestriction
           })}
         >
           <EntryContent {...props} entry={filteredEntities[props.selectedEntryIndex]} />

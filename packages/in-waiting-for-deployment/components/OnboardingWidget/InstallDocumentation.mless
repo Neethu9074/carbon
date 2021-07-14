@@ -37,24 +37,26 @@
     width: 100%;
 
     padding: 0 1rem 0 2rem;
+  }
 
+  .content:not(.withoutHeightRestriction) {
     overflow-y: auto;
   }
 
   @media (min-height: 0) {
-    .content {
+    .content:not(.withoutHeightRestriction) {
       max-height: 26rem;
     }
   }
 
   @media (min-height: 40.5rem) {
-    .content {
+    .content:not(.withoutHeightRestriction) {
       max-height: calc(100vh - 15.5rem);
     }
   }
 
   @media (min-height: 62.5rem) {
-    .content {
+    .content:not(.withoutHeightRestriction) {
       min-height: 41rem;
       max-height: 41rem;
     }
