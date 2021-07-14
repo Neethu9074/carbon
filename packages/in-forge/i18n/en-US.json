@@ -603,11 +603,11 @@
   "pluginName_ibmDataPowerSqlDatasource_1": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource_2": "IBM DataPower SQL Data Sources",
   "pluginName_ibmDataPowerSqlDatasource": "IBM DataPower SQL Data Source",
-  "pluginName_ibmIOs_plural": "IBM i Series",
-  "pluginName_ibmIOs_0": "IBM i Series",
-  "pluginName_ibmIOs_1": "IBM i Series",
-  "pluginName_ibmIOs_2": "IBM i Series",
-  "pluginName_ibmIOs": "IBM i Series",
+  "pluginName_ibmIOs_plural": "IBM i",
+  "pluginName_ibmIOs_0": "IBM i",
+  "pluginName_ibmIOs_1": "IBM i",
+  "pluginName_ibmIOs_2": "IBM i",
+  "pluginName_ibmIOs": "IBM i",
   "pluginName_ibmIDb2_plural": "Db2s on i",
   "pluginName_ibmIDb2_0": "Db2s on i",
   "pluginName_ibmIDb2_1": "Db2s on i",
@@ -8006,7 +8006,7 @@
     },
     "ibmIOs": {
       "sidebar": {
-        "ibmIOSInfo": "IBM i Series Info",
+        "ibmIOSInfo": "IBM i Info",
         "hostName": "Host Name",
         "partitionId": "Partition ID",
         "numberOfPartitions": "Number of Partitions",
@@ -8071,7 +8071,7 @@
           }
         }
       },
-      "name": "IBM i Series",
+      "name": "IBM i",
       "memoryPool": "Memory Pool"
     },
     "ibmMqChannel": {
