@@ -92,7 +92,7 @@ const columnDefinitions = [
   {
     width: '15rem',
     getContent({ item }) {
-      return <KeyValue label={t('in-settings:tabs.group')} customValue={item.group.name} />;
+      return <KeyValue label={t('in-settings:tabs.Group')} customValue={item.group.name} />;
     }
   }
 ];
