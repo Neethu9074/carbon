@@ -23,6 +23,7 @@ import { createOptionsList } from 'in-alerting/smart-alerts/applications/chart/C
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import getApplication from 'in-subscription/application/getApplication';
+import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -231,6 +232,8 @@ export function EntitySelectionOverlay({
   isSelectApLevel,
   ...props
 }) {
+  useDisabledBodyScroll();
+
   return (
     <ThreeLevelsSelectorOverlay
       {...props}
