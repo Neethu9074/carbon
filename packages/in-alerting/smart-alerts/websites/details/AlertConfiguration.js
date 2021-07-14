@@ -10,9 +10,9 @@ import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/webs
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
 import { getStatusCodeLabel, getRuleOperatorLabel } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
+import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import CustomPayloadCard from 'in-alerting/smart-alerts/applications/details/CustomPayloadCard';
-import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -32,7 +32,7 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }) {
   const {
-    rule: { operator, value, alertType },
+    rule: { operator, value, alertType, metricName },
     timeThreshold,
     alertChannelIds,
     tagFilterExpression,
@@ -44,6 +44,9 @@ export default function AlertConfiguration({ alertConfig }) {
   const websiteLabel = useWebsiteLabel(websiteId);
 
   const blueprintConfig = getBlueprintConfig(alertType);
+  const beaconType = blueprintConfig.getBeaconType(metricName);
+  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
+
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
 
   return (
