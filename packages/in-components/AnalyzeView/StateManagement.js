@@ -8,18 +8,19 @@ import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
 
-import { TAG, CONJUNCTION, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { EQUALS, IS_EMPTY, NOT_EMPTY, IS_BLANK } from 'in-components/QueryBuilder/tagFilter/operators';
+import { CONJUNCTION, joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
+import { EQUALS, IS_BLANK, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
+import { removeFacetTag, tagFiltersFromFacets } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { metric as metricType, custom as customType } from 'in-components/AnalyzeView/fieldTypes';
+import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-components/tracker';
-import { NUMBER, KEY_VALUE_PAIR, BOOLEAN } from 'in-components/QueryBuilder/tagFilter/types';
+import { BOOLEAN, KEY_VALUE_PAIR, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
 import { isValid as isValidGrouping } from 'in-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
-import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
+import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import { emptyArray, emptyObject, pendingResult } from 'in-services/fixedObjects';
 import { getSingleNumberMetricId } from 'in-components/AnalyzeView/metrics';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
@@ -201,6 +202,30 @@ function AnalyzeStateManagement({
 
   const formModel = useStableObjectInstance(urlState.formModel);
   const onFormModelChange = formModel => onChange({ formModel });
+  const facets = useStableObjectInstance(urlState.facets);
+
+  const resetFacets = tag => {
+    if (tag != null) {
+      return getChangeAsUrl({ facets: removeFacetTag(facets, tag) });
+    } else {
+      return getChangeAsUrl({ facets: {} });
+    }
+  };
+
+  const onFacetedSearchChange = facets => {
+    onChange({ facets });
+  };
+
+  const getUpdatedFacetedSearchHref = facets => {
+    return getChangeAsUrl({
+      facets
+    });
+  };
+
+  const facetsAsTagFilterExpression = useMemo(() => tagFiltersFromFacets(facetedSearchItems, facets), [
+    facetedSearchItems,
+    facets
+  ]);
 
   const groupBy = useStableObjectInstance(urlState.groupBy);
   const detailId = useStableObjectInstance(urlState.detailId);
@@ -250,13 +275,21 @@ function AnalyzeStateManagement({
     return metricCatalog;
   }, [metricCatalog, metricCatalogResult, chartableMetricCatalogTransformer]);
 
+  const backendQueryModel = useMemo(() => toBackendQueryModel(formModel), [formModel]);
+
+  const formModelWithFacets = useMemo(
+    () => joinExpressions({ expressions: [formModel, facetsAsTagFilterExpression] }),
+    [formModel, facetsAsTagFilterExpression]
+  );
+  const backendQueryModelWithFacets = useMemo(() => toBackendQueryModel(formModelWithFacets), [formModelWithFacets]);
+
   const isLoading =
     filteringTagCatalogResult.data == null || groupingTagCatalogResult.data == null || metricCatalogResult.data == null;
   const isValid = Boolean(
     !isLoading &&
       validateFormModel({
         tagCatalog: filteringTagCatalogResult.data,
-        formModel
+        formModel: formModelWithFacets
       }).isValid &&
       isValidGrouping(groupBy, groupingTagCatalogResult.data)
   );
@@ -265,8 +298,6 @@ function AnalyzeStateManagement({
   const { defaultOrderBy, defaultOrderDirection } = ungroupedView ?? emptyObject;
   const { defaultOrderBy: defaultOrderByGroups, defaultOrderDirection: defaultOrderDirectionGroups } =
     groupedView ?? emptyObject;
-
-  const backendQueryModel = useMemo(() => toBackendQueryModel(formModel), [formModel]);
 
   const orderBy = useStableObjectInstance({
     by: urlState.orderBy?.by ?? defaultOrderBy,
@@ -319,18 +350,23 @@ function AnalyzeStateManagement({
     getOrderByGroupId,
     facetedSearchItems,
     fixedFields,
-
     backendQueryModel,
+    backendQueryModelWithFacets,
     formModel,
+    formModelWithFacets,
     onFormModelChange,
+    facets,
+    facetsAsTagFilterExpression,
+    onFacetedSearchSelectionChange: onFacetedSearchChange,
+    resetFacets,
+    getUpdatedFacetedSearchHref,
     filteringTagCatalog: filteringTagCatalogResult.data,
-
     isGrouped,
     groupBy,
     onGroupByChange: groupBy => onChange({ groupBy }),
     getHrefToUngroupedView(groupValue) {
       return getChangeAsUrl({
-        ...(groupValue != null ? getStateChangeForUngroupedView(groupValue) : emptyObject),
+        ...(groupValue != null ? getStateChangeForUngroupedView(groupValue) : { groupBy: emptyObject }),
         detailId: null
       });
     },

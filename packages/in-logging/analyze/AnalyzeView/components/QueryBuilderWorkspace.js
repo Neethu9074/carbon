@@ -5,11 +5,10 @@
 
 import React from 'react';
 
-import { Message } from '@instana/components';
-import { Stack } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 
 import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection';
-import { filterAdded, queryChanged, groupAdded, chartChanged } from 'in-logging/analyze/AnalyzeView/tracker';
+import { chartChanged, filterAdded, groupAdded, queryChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -24,8 +23,8 @@ import { t } from 'in-i18n';
 
 export default function LoggingQueryBuilderWorkspace(props) {
   const {
-    onFormModelChange,
     formModel,
+    onFormModelChange,
     backendQueryModel,
     onGroupByChange,
     isGrouped,
@@ -82,7 +81,6 @@ export default function LoggingQueryBuilderWorkspace(props) {
           {children}
         </Stack>
       </LeftRightPadding>
-
       <Footer />
     </Sticky>
   );

@@ -193,8 +193,6 @@
     "technologies": "기술",
     "httpStatusCode": "HTTP 상태 코드",
     "hiddenCalls": "숨겨진 호출",
-    "noResults": "결과 없음",
-    "loadMore": "추가 로드",
     "preview": "미리보기",
     "listBatchTypeTooltip": "이 {{type}}은(는) 일괄처리되며 {{batchCount}}개 개별 {{types}}을(를) 나타냅니다.",
     "listBatchLatencyTooltip": "일괄처리된 {{batchCount}}개 {{types}}의 총 대기 시간입니다.",

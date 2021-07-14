@@ -4,18 +4,13 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { range, sortBy } from 'lodash';
 
-import { LoadingSkeleton } from '@instana/components';
-import { Message } from '@instana/components';
-import { Button } from '@instana/components';
-import { Stack } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link, Stack } from '@instana/components';
 
 import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-components/tracker';
+import { Errors, Loading } from 'in-components/AnalyzeView/FacetedFilters/Placeholders';
+import { addFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
-import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { identity } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -33,9 +28,12 @@ export default function SuggestionsPresenter({
   loading = false,
   errors = [],
   suggestions = [],
+  orderSuggestions,
+  getMetric,
+  facets,
   tag,
   entity,
-  getUpdatedTagExpressionHref,
+  getUpdatedFacetedSearchHref,
   getHrefToGroupedView,
   customLabelMapper,
   dataSource,
@@ -46,16 +44,25 @@ export default function SuggestionsPresenter({
   if (loading) {
     return <Loading numberOfRows={numberOfPresentedRows} />;
   } else if (errors?.length > 0) {
-    return <Errors errors={errors} />;
+    return (
+      <Errors
+        errors={errors}
+        numberOfPresentedRows={numberOfPresentedRows}
+        setNumberOfPresentedRows={setNumberOfPresentedRows}
+      />
+    );
   } else if (!suggestions) {
     return null;
   } else if (suggestions.length > 0) {
     return (
       <Results
         suggestions={suggestions}
+        getMetric={getMetric}
+        orderSuggestions={orderSuggestions}
+        facets={facets}
         tag={tag}
         entity={entity}
-        getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+        getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
         getHrefToGroupedView={getHrefToGroupedView}
         setNumberOfPresentedRows={setNumberOfPresentedRows}
         customLabelMapper={customLabelMapper}
@@ -64,34 +71,18 @@ export default function SuggestionsPresenter({
         tracker={tracker}
       />
     );
-  } else {
-    return <NoResults />;
   }
-}
-
-function Loading({ numberOfRows = 5 }) {
-  return range(numberOfRows + 1).map((e, i) => (
-    <div key={i} className={locals.suggestion}>
-      <div className={locals.addSuggestion}>
-        <LoadingSkeleton className={locals.skeletonContainer} darkMode />
-      </div>
-    </div>
-  ));
-}
-
-function Errors({ errors }) {
-  return errors.map(error => (
-    <Message key={error.code} type="error" small>
-      {error.message}
-    </Message>
-  ));
+  return null;
 }
 
 function Results({
   suggestions,
+  getMetric,
+  orderSuggestions,
+  facets,
   tag,
   entity,
-  getUpdatedTagExpressionHref,
+  getUpdatedFacetedSearchHref,
   getHrefToGroupedView,
   setNumberOfPresentedRows,
   customLabelMapper = identity,
@@ -102,11 +93,10 @@ function Results({
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
 
-  const orderByMetric = Boolean(suggestions?.length > 0 && suggestions[0]?.metrics?.facetedSearchMetric[0][1]);
-  const presentedSuggestions = (orderByMetric
-    ? sortBy(suggestions, suggestion => -1 * suggestion.metrics.facetedSearchMetric[0][1])
-    : suggestions
-  ).slice(0, showMore ? showMore : undefined);
+  const presentedSuggestions = (orderSuggestions?.(suggestions) ?? suggestions).slice(
+    0,
+    showMore ? showMore : undefined
+  );
 
   useEffect(() => {
     setNumberOfPresentedRows(presentedSuggestions.length);
@@ -127,25 +117,14 @@ function Results({
               delay={1000}
             >
               <Link
-                href={getUpdatedTagExpressionHref({
-                  add: [
-                    {
-                      type: TAG,
-                      name: tag,
-                      operator: EQUALS,
-                      value: suggestion.value
-                    }
-                  ]
-                })}
+                href={getUpdatedFacetedSearchHref(addFacetItem(facets, tag, suggestion.value))}
                 onClick={() => tracker.suggestionClicked({ dataSource, tagName: tag })}
                 className={locals.addSuggestion}
                 style={{ textDecoration: 'none' }}
               >
                 <span className={locals.label}>{customLabelMapper(suggestion.name)}</span>
                 {suggestion.metrics && (
-                  <span className={locals.count}>
-                    {withSiPrefixOneDecimalPlace(suggestion.metrics.facetedSearchMetric[0][1])}
-                  </span>
+                  <span className={locals.count}>{withSiPrefixOneDecimalPlace(getMetric(suggestion))}</span>
                 )}
               </Link>
             </Tooltip>
@@ -172,8 +151,4 @@ function Results({
       </div>
     </Stack>
   );
-}
-
-function NoResults() {
-  return <div>{t('in-components:analyze.noResults')}</div>;
 }

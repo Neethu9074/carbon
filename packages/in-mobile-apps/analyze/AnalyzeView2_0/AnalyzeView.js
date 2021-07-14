@@ -11,12 +11,13 @@ import { isAnalyticsOneLocation } from 'in-mobile-apps/analyze/AnalyzeView2_0/co
 import AnalyzeOneToTwoViewParameterConversion from 'in-mobile-apps/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion';
 import { createTableTimestampColumnDefinition } from 'in-components/AnalyzeView/commonTableColumnDefinitions';
 import { createListTimestampColumnDefinition } from 'in-components/AnalyzeView/commonListColumnDefinitions';
+import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
 import GroupedMobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/GroupedMobileBeacons';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import MobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/MobileBeacons';
+import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
@@ -26,46 +27,60 @@ import { beaconType } from 'in-mobile-apps/navigation/matrix';
 import { getTagCatalog } from 'in-mobile-apps/api/tagCatalog';
 import { t } from 'in-i18n';
 
+const renderer = FacetedFilterMultiSelect;
+
+function getMetric({ metrics }) {
+  return metrics?.facetedSearchMetric[0][1];
+}
+
 const facetedSearchItems = [
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-mobile-apps:facetedSearch.mobileApp'),
-    tag: 'mobileBeacon.mobileApp.name'
+    tag: 'mobileBeacon.mobileApp.name',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-mobile-apps:facetedSearch.view'),
-    tag: 'mobileBeacon.view.name'
+    tag: 'mobileBeacon.view.name',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-mobile-apps:facetedSearch.platform'),
-    tag: 'mobileBeacon.platform'
+    tag: 'mobileBeacon.platform',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-mobile-apps:facetedSearch.os'),
-    tag: 'mobileBeacon.os.name'
+    tag: 'mobileBeacon.os.name',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-mobile-apps:facetedSearch.bundle'),
-    tag: 'mobileBeacon.app.bundleIdentifier'
+    tag: 'mobileBeacon.app.bundleIdentifier',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-mobile-apps:facetedSearch.version'),
-    tag: 'mobileBeacon.app.version'
+    tag: 'mobileBeacon.app.version',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-mobile-apps:facetedSearch.country'),
-    tag: 'mobileBeacon.geo.country'
+    tag: 'mobileBeacon.geo.country',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-mobile-apps:facetedSearch.subdivision'),
-    tag: 'mobileBeacon.geo.subdivision'
+    tag: 'mobileBeacon.geo.subdivision',
+    getMetric
   }
 ];
 
@@ -227,21 +242,28 @@ function createMetricCatalogTransformer(dataSource) {
 
 function getFacetedSearchSuggestions({
   timeConfig,
-  backendQueryModel,
-  backendQueryModelExcludingMissingGroupingTag,
+  facets,
+  tag,
+  formModel,
+  excludeMissingGroupingTagFilterExpression,
   group,
   metricKey,
   dataSource
 }) {
+  const backendQuery = toBackendQuery({
+    formModel,
+    facets,
+    facetedSearchConfiguration: facetedSearchItems,
+    tagToExclude: tag,
+    excludeMissingGroupingTagFilterExpression
+  });
   return getMobileAppBeaconGroups({
     pagination: {
       retrievalSize: 200
     },
     timeConfig,
     tagFilterExpression: addDataSourceToBackendQueryModel({
-      // Because the grouped view doesn't support a special 'Tag not present' group, faceted search
-      // should filter out items which would belong to this group for consistency with the result list.
-      backendQueryModel: backendQueryModelExcludingMissingGroupingTag ?? backendQueryModel,
+      backendQueryModel: backendQuery,
       dataSource
     }),
     group,

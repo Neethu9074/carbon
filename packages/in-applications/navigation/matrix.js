@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 
 export const applicationId = 'appId';
@@ -38,6 +38,14 @@ export const tagFilterExpressionMatrixParameter = {
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
   initialState: emptyArray
+};
+
+export const facetedSearchMatrixParameter = {
+  path: '/analyze',
+  name: 'facets',
+  serializer: buildJsonSerializer(),
+  parser: buildJsonParser(emptyObject),
+  initialState: emptyObject
 };
 
 export const groupByMatrixParameter = {

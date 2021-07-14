@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { isEqual, findIndex } from 'lodash';
+import { findIndex, isEqual } from 'lodash';
 
-import { type as TAG_FILTER_TYPE, toNewTagFilterFormat } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { toNewTagFilterFormat, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 
@@ -106,7 +106,7 @@ const andConjunction = { type: CONJUNCTION, logicalOperator: and };
 function removeSingleTopLevelFilter(expression, filter) {
   const index = indexOfFilter(expression, { entity: DESTINATION, ...filter });
   const operatorIndex = adjacentAndIndex(expression, index);
-  return removeSurroundingParenthesis(
+  return removeSurroundingBrackets(
     expression.filter((_, position) => position !== index && position !== operatorIndex)
   );
 }
@@ -115,7 +115,7 @@ export function removeTopLevelFilters(expression, ...filters) {
   return filters.reduce((acc, filter) => removeSingleTopLevelFilter(acc, filter), expression);
 }
 
-function removeSurroundingParenthesis(expression) {
+function removeSurroundingBrackets(expression) {
   if (
     expression.length > 2 &&
     expression[0].type === OPEN_BRACKET &&

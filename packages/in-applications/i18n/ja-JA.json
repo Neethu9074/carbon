@@ -193,8 +193,6 @@
     "technologies": "テクノロジー",
     "httpStatusCode": "HTTP 状況コード",
     "hiddenCalls": "非表示の呼び出し",
-    "noResults": "結果なし",
-    "loadMore": "さらにロード",
     "preview": "プレビュー",
     "listBatchTypeTooltip": "この {{type}} はバッチ処理され、{{batchCount}} 個の個別の {{types}} を表します。",
     "listBatchLatencyTooltip": "{{batchCount}} 個のバッチ処理された {{types}} の合計待ち時間。",

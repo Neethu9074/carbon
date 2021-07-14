@@ -21,12 +21,9 @@ export default function ExpandableCard({
   titleSubContent,
   expansionTracker,
   headerClassName,
-  bodyWithoutPadding,
+  bodyClassName,
   openByDefault = false,
   className,
-  framed,
-  label,
-  darkFrame,
   useMaxAvailableHeight,
   size,
   tooltipDisabled = false
@@ -65,16 +62,12 @@ export default function ExpandableCard({
   return (
     <Card
       title={title}
-      label={label}
-      titleSubContent={expanded ? titleSubContent : preview}
       leftHeaderContent={expanded ? titleSubContent : preview}
-      header={rightSide}
-      withoutPadding={!expanded || bodyWithoutPadding}
-      framed={framed}
+      rightHeaderContent={rightSide}
       onHeaderBackgroundClicked={() => setExpanded(!expanded)}
       className={className}
+      bodyClassName={bodyClassName}
       headerClassName={headerClassName}
-      darkFrame={darkFrame}
       useMaxAvailableHeight={useMaxAvailableHeight}
       size={size}
     >

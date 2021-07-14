@@ -193,8 +193,6 @@
     "technologies": "技術",
     "httpStatusCode": "HTTP 狀態碼",
     "hiddenCalls": "隱藏的呼叫",
-    "noResults": "無結果",
-    "loadMore": "載入更多",
     "preview": "預覽",
     "listBatchTypeTooltip": "此 {{type}} 已批次處理，代表 {{batchCount}} 個個別的 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 個批次處理 {{types}} 的延遲時間總計。",

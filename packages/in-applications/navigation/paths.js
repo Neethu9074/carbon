@@ -14,6 +14,7 @@ import {
   contextScope as matrixContextScope,
   dataSourceMatrixParameter,
   endpointId as matrixEndpointId,
+  facetedSearchMatrixParameter,
   hiddenCallsMatrixParameter,
   plugin as matrixPlugin,
   previewEnabledMatrixParameter,
@@ -93,6 +94,7 @@ export function getLinkToAnalyze({
   orderBy,
   orderByGroups,
   formModel,
+  facets,
   hiddenCalls,
   chartedMetrics,
   fields,
@@ -112,6 +114,7 @@ export function getLinkToAnalyze({
     setOrDeleteMatrixParameter(params, analyzeTwoParameters.chartedMetrics, chartedMetrics);
     setOrDeleteMatrixParameter(params, hiddenCallsMatrixParameter, hiddenCalls);
     setOrDeleteMatrixParameter(params, previewEnabledMatrixParameter, previewEnabled);
+    setOrDeleteMatrixParameter(params, facetedSearchMatrixParameter, facets);
 
     if (timeConfig) {
       setTimeConfig(params, timeConfig);

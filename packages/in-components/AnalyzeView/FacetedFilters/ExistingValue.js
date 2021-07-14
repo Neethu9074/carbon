@@ -5,18 +5,8 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
-import {
-  EXPRESSION,
-  OPERATOR_AND,
-  toBackendQueryModel
-} from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { emptyArray } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './ExistingValue.mless';
@@ -37,27 +27,4 @@ export default function ExistingValue({ value, removeLink }) {
       </div>
     </Tooltip>
   );
-}
-
-export function getExistingValuesForTag(formModel, tag, entity) {
-  const backendQueryModel = toBackendQueryModel(formModel);
-  const isSingleFilterValue =
-    backendQueryModel.type === TAG_FILTER_TYPE &&
-    backendQueryModel.name === tag &&
-    backendQueryModel.operator === EQUALS &&
-    (!entity || (backendQueryModel.entity ?? DESTINATION) === entity);
-  if (isSingleFilterValue) {
-    return [backendQueryModel.value];
-  }
-  return backendQueryModel.type === EXPRESSION && backendQueryModel.logicalOperator === OPERATOR_AND
-    ? backendQueryModel.elements
-        .filter(
-          element =>
-            element.type === TAG_FILTER_TYPE &&
-            element.name === tag &&
-            (!entity || (backendQueryModel.entity ?? DESTINATION) === entity) &&
-            element.operator === EQUALS
-        )
-        .map(element => element.value)
-    : emptyArray;
 }

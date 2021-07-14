@@ -10,16 +10,15 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
-import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { fixateTimeConfig } from 'in-stores/time/config';
+import { emptyObject } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 export default function LatencyDistributionHistogram({
@@ -35,23 +34,8 @@ export default function LatencyDistributionHistogram({
 
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
 
-  const formModelForLink = () => {
-    const { from, to } = selectedLatencyRange;
-    let formModel = [];
-    if (from != null && from === to) {
-      formModel = joinExpressions({ expressions: [formModel, tagFilter('call.latency', EQUALS, from)] });
-    } else {
-      if (from > 0) {
-        formModel = joinExpressions({
-          expressions: [formModel, tagFilter('call.latency', GREATER_OR_EQUAL_THAN, from)]
-        });
-      }
-      if (to) {
-        formModel = joinExpressions({ expressions: [formModel, tagFilter('call.latency', LESS_THAN, to)] });
-      }
-    }
-    return formModel;
-  };
+  const latencyFacet =
+    !selectedLatencyRange.from && !selectedLatencyRange.to ? emptyObject : { 'call.latency': [selectedLatencyRange] };
 
   const latencyDistRequest = {
     maxLatencyBuckets: 80,
@@ -108,9 +92,8 @@ export default function LatencyDistributionHistogram({
               {
                 timeConfig: fixateTimeConfig(timeConfig),
                 boundaryScope,
-                formModel: joinExpressions({
-                  expressions: [createFormModelFromSyntheticOption(syntheticCalls), formModelForLink()]
-                }),
+                formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                facets: latencyFacet,
                 hiddenCalls,
                 chartedMetrics: [createChartedMetric('latency', 'DISTRIBUTION')],
                 orderBy: createOrderBy('latency', 'DESC')

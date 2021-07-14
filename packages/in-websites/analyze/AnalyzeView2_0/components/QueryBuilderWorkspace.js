@@ -5,18 +5,18 @@
 
 import React from 'react';
 
-import { Stack, Message } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 
 import {
-  ua2QueryBuilderFilterAddedTracker,
-  ua2GroupChangedTracker,
-  ua2ChartChangedTracker,
   ua2ApiQueryPressedTracker,
-  ua2NestingDepthTracker
+  ua2ChartChangedTracker,
+  ua2GroupChangedTracker,
+  ua2NestingDepthTracker,
+  ua2QueryBuilderFilterAddedTracker
 } from 'in-websites/tracker';
 import {
-  toBackendQueryModel,
-  getMaximumExpressionDepth
+  getMaximumExpressionDepth,
+  toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
@@ -36,9 +36,10 @@ import theme from 'in-themes';
 
 export default function WebsiteQueryBuilderWorkspace(props) {
   const {
-    onFormModelChange,
     formModel,
+    onFormModelChange,
     backendQueryModel,
+    backendQueryModelWithFacets,
     isGrouped,
     isValid,
     isLoading,
@@ -50,6 +51,7 @@ export default function WebsiteQueryBuilderWorkspace(props) {
     chartedMetrics,
     chartableDataSeries
   } = props;
+
   return (
     <Sticky
       header={<AnalyzeHeader formModel={formModel} isGrouped={isGrouped} />}
@@ -101,7 +103,7 @@ export default function WebsiteQueryBuilderWorkspace(props) {
             <ActionSection
               right={
                 <ApiQueryAction
-                  backendQueryModel={backendQueryModel}
+                  backendQueryModel={backendQueryModelWithFacets}
                   tracking={{
                     onClick: () => ua2ApiQueryPressedTracker({ dataSource })
                   }}

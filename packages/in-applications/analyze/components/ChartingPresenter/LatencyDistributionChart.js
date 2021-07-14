@@ -6,31 +6,37 @@
 import React from 'react';
 
 import {
-  updateLatencySelection,
-  getLatencySelectionFromTagFilterExpression
+  getLatencySelectionFromTagFilterExpression,
+  updateLatencySelection
 } from 'in-applications/analyze/utils/latencyUtils';
-import {
-  EMPTY_EXPRESSION,
-  EXPRESSION,
-  OPERATOR_AND
-} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
-import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-export default function LatencyDistributionChart({ dataSource, tagFilterExpression, hiddenCalls, updateFilter }) {
-  const latencyTag = dataSourceConstants[dataSource].latencyTag;
+export default function LatencyDistributionChart({
+  dataSource,
+  tagFilterExpression,
+  facets,
+  facetedSearchItems,
+  formModel,
+  hiddenCalls,
+  updateFilter
+}) {
   const timeConfig = useTimeConfig();
+  const latencyTag = dataSourceConstants[dataSource].latencyTag;
+  const backendQuery = toBackendQuery({
+    formModel,
+    facets,
+    facetedSearchConfiguration: facetedSearchItems,
+    tagToExclude: latencyTag
+  });
   const subscription = getLatencyDistributionBase10({
     maxLatencyBuckets: 80,
     includePercentiles: true,
     filter: { timeConfig },
-    tagFilterExpression: removeTopLevelFiltersFromExpression(
-      tagFilterExpression,
-      tagFilter => tagFilter.name === latencyTag
-    ),
+    tagFilterExpression: backendQuery,
     includeInternal: hiddenCalls?.includeInternal,
     includeSynthetic: hiddenCalls?.includeSynthetic,
     dataSource: dataSourceConstants[dataSource].backendDataSource
@@ -46,27 +52,11 @@ export default function LatencyDistributionChart({ dataSource, tagFilterExpressi
       onSelectionChanged={selection =>
         updateLatencySelection({
           dataSource: dataSource,
+          facets,
           selection,
-          tagFilterExpression: tagFilterExpression,
-          updateFilter: updateFilter
+          updateFilter
         })
       }
     />
   );
-}
-
-function removeTopLevelFiltersFromExpression(tagFilterExpression, predicate) {
-  if (tagFilterExpression.type === EXPRESSION && tagFilterExpression.logicalOperator === OPERATOR_AND) {
-    const filteredElements = tagFilterExpression.elements.filter(e => !predicate(e));
-    if (filteredElements.length === 1) {
-      return filteredElements[0];
-    } else if (filteredElements.length > 1) {
-      return { ...tagFilterExpression, elements: filteredElements };
-    } else {
-      return EMPTY_EXPRESSION;
-    }
-  } else if (tagFilterExpression.type === TAG_FILTER_TYPE && predicate(tagFilterExpression)) {
-    return EMPTY_EXPRESSION;
-  }
-  return tagFilterExpression;
 }

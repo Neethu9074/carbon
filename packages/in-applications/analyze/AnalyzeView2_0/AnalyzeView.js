@@ -5,21 +5,23 @@
 
 import { useLocation } from 'react-router';
 import React, { useState } from 'react';
+import { sortBy } from 'lodash';
 
 import AnalyzeHiddenTagsViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/AnalyzeHiddenTagsViewParameterConversion';
 import AnalyzeOneToTwoViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/AnalyzeOneToTwoViewParameterConversion';
 import AnalyzeTwoBetaViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0//components/AnalyzeTwoBetaViewParameterConversion/AnalyzeTwoBetaViewParameterConversion';
-import { isAnalyticsWithHiddenTagsLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
-import { isAnalyticsTwoBetaLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewParameterConversion/transformHelper';
-import { isAnalyticsOneLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
 import {
+  dataSource as dataSourceName,
   dataSourceMatrixParameter,
   hiddenCallsMatrixParameter,
   previewEnabledMatrixParameter
 } from 'in-applications/navigation/matrix';
+import { isAnalyticsWithHiddenTagsLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
+import { isAnalyticsTwoBetaLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewParameterConversion/transformHelper';
+import { isAnalyticsOneLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
 import {
-  ungroupedChartingOptions,
-  groupedChartingOptions
+  groupedChartingOptions,
+  ungroupedChartingOptions
 } from 'in-applications/analyze/components/ChartingPresenter/chartingOptions';
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 import { NO_VALUE, NO_VALUE_LABEL, UNSPECIFIED, UNSPECIFIED_LABEL } from 'in-analyze/components/GroupedTraces/Group';
@@ -27,13 +29,13 @@ import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/com
 import FacetedFilterHiddenCalls from 'in-applications/analyze/components/FacetedSearch/FacetedFilterHiddenCalls';
 import { createTableTimestampColumnDefinition } from 'in-components/AnalyzeView/commonTableColumnDefinitions';
 import { createListTimestampColumnDefinition } from 'in-components/AnalyzeView/commonListColumnDefinitions';
+import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
 import FacetedFilterRangeInput from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterRangeInput';
-import FacetedFilterRangeList from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterRangeList';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
-import { dataSource as dataSourceName } from 'in-applications/navigation/matrix';
+import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -337,80 +339,104 @@ function metricFormatter({ metricId, formatter }) {
   return formatter;
 }
 
+function orderByValue(suggestions) {
+  const hasValueData = Boolean(suggestions?.length > 0 && suggestions[0]?.value);
+  return hasValueData ? sortBy(suggestions, 'value') : suggestions;
+}
+
+function getItems({ results }) {
+  return results;
+}
+
+function getSuggestionName({ label }) {
+  return label;
+}
+
+function getMetric({ metrics }) {
+  return metrics?.facetedSearchMetric[0][1];
+}
+
 function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls }) {
-  const enableUseAsGroup = dataSource !== 'traces';
+  const isCallsDataSource = dataSource !== 'traces';
+  const renderer = isCallsDataSource ? FacetedFilterMultiSelect : FacetedFilterGeneric;
+
   return [
     {
       renderer: FacetedFilterRangeInput,
-      title: t('in-applications:analyze.latency'),
-      tag: 'call.latency',
+      title: isCallsDataSource ? t('in-applications:analyze.latency') : t('in-applications:analyze.traceLatency'),
+      tag: isCallsDataSource ? 'call.latency' : 'trace.latency',
       openByDefault: true
     },
     {
-      renderer: FacetedFilterGeneric,
+      renderer,
       title: t('in-applications:analyze.erroneous'),
       tag: 'call.erroneous',
-      enableUseAsGroup,
-      getItems: ({ results }) => results,
-      getSuggestionName: ({ label }) => label,
+      enableUseAsGroup: isCallsDataSource,
+      getItems: ({ results }) => results.filter(result => result.label === 'true'),
+      customLabelMapper: () => t('in-applications:analyze.facetedSearch.showOnlyErroneous'),
+      getSuggestionName,
+      getMetric,
       openByDefault: true
     },
     {
-      renderer: FacetedFilterRangeList,
+      renderer,
       title: t('in-applications:analyze.httpStatusCode'),
-      tag: 'call.http.status',
-      ranges: [
-        { start: 100, end: 199, label: '1xx' },
-        { start: 200, end: 299, label: '2xx' },
-        { start: 300, end: 399, label: '3xx' },
-        { start: 400, end: 499, label: '4xx' },
-        { start: 500, end: 599, label: '5xx' }
-      ]
+      tag: 'call.http.statusClass',
+      enableUseAsGroup: isCallsDataSource,
+      getItems,
+      getSuggestionName,
+      getMetric,
+      orderSuggestions: orderByValue
     },
     {
-      renderer: FacetedFilterGeneric,
+      renderer,
       title: t('in-applications:analyze.applications'),
       tag: 'application.name',
       entity: DESTINATION,
-      enableUseAsGroup,
-      getItems: ({ results }) => results,
-      getSuggestionName: ({ label }) => label
+      enableUseAsGroup: isCallsDataSource,
+      getItems,
+      getSuggestionName,
+      getMetric
     },
     {
-      renderer: FacetedFilterGeneric,
+      renderer,
       title: t('in-applications:analyze.services'),
       tag: 'service.name',
       entity: DESTINATION,
-      enableUseAsGroup,
-      getItems: ({ results }) => results,
-      getSuggestionName: ({ label }) => label
+      enableUseAsGroup: isCallsDataSource,
+      getItems,
+      getSuggestionName,
+      getMetric
     },
     {
-      renderer: FacetedFilterGeneric,
+      renderer,
       title: t('in-applications:analyze.endpoints'),
       tag: 'endpoint.name',
       entity: DESTINATION,
-      enableUseAsGroup,
-      getItems: ({ results }) => results,
-      getSuggestionName: ({ label }) => label
+      enableUseAsGroup: isCallsDataSource,
+      getItems,
+      getSuggestionName,
+      getMetric
     },
     {
-      renderer: FacetedFilterGeneric,
+      renderer,
       title: t('in-applications:analyze.types'),
       tag: 'call.type',
-      enableUseAsGroup,
-      getItems: ({ results }) => results,
-      getSuggestionName: ({ label }) => label
+      enableUseAsGroup: isCallsDataSource,
+      getItems,
+      getSuggestionName,
+      getMetric
     },
     {
-      renderer: FacetedFilterGeneric,
+      renderer,
       title: t('in-applications:analyze.technologies'),
       tag: 'technology',
       entity: DESTINATION,
-      enableUseAsGroup,
+      enableUseAsGroup: isCallsDataSource,
       customLabelMapper: label => getPluginName(label),
-      getItems: ({ results }) => results,
-      getSuggestionName: ({ label }) => label
+      getItems,
+      getSuggestionName,
+      getMetric
     },
     {
       renderer: FacetedFilterHiddenCalls,
@@ -437,15 +463,23 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
 
 function getFacetedSearchSuggestions({
   timeConfig,
-  backendQueryModel,
-  backendQueryModelExcludingMissingGroupingTag,
+  facets,
+  tag,
+  facetedSearchItems,
+  formModel,
   group,
   metricKey,
   hiddenCalls
 }) {
   const { includeSynthetic = false, includeInternal = false } = hiddenCalls;
+  const backendQuery = toBackendQuery({
+    formModel,
+    facets,
+    facetedSearchConfiguration: facetedSearchItems,
+    tagToExclude: tag
+  });
   return getTagSuggestions({
-    tagFilterExpression: backendQueryModelExcludingMissingGroupingTag ?? backendQueryModel,
+    tagFilterExpression: backendQuery,
     tagName: group.groupbyTag,
     filter: {
       timeConfig: timeConfig
@@ -458,6 +492,7 @@ function getFacetedSearchSuggestions({
         metric: 'calls',
         aggregation: 'SUM'
       }
-    }
+    },
+    removeRequestedTagFromFilters: false
   });
 }

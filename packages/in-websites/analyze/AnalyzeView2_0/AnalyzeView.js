@@ -11,13 +11,13 @@ import { isAnalyticsOneLocation } from 'in-websites/analyze/AnalyzeView2_0/compo
 import AnalyzeOneToTwoViewParameterConversion from 'in-websites/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion';
 import { createTableTimestampColumnDefinition } from 'in-components/AnalyzeView/commonTableColumnDefinitions';
 import { createListTimestampColumnDefinition } from 'in-components/AnalyzeView/commonListColumnDefinitions';
-import FacetedFilterRangeInput from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterRangeInput';
+import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
-import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import GroupedBeacons from 'in-websites/analyze/AnalyzeView2_0/components/GroupedBeacons';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
+import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
 import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
@@ -28,41 +28,54 @@ import { beaconType } from 'in-websites/navigation/matrix';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import { t } from 'in-i18n';
 
+const renderer = FacetedFilterMultiSelect;
+
+function getMetric({ metrics }) {
+  return metrics?.facetedSearchMetric[0][1];
+}
+
 const facetedSearchItems = [
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-websites:facetedSearch.website'),
-    tag: 'beacon.website.name'
+    tag: 'beacon.website.name',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-websites:facetedSearch.page'),
-    tag: 'beacon.page.name'
+    tag: 'beacon.page.name',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-websites:facetedSearch.browser'),
-    tag: 'beacon.browser.name'
+    tag: 'beacon.browser.name',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-websites:facetedSearch.os'),
-    tag: 'beacon.os.name'
+    tag: 'beacon.os.name',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-websites:facetedSearch.country'),
-    tag: 'beacon.geo.country'
+    tag: 'beacon.geo.country',
+    getMetric
   },
   {
-    renderer: FacetedFilterGeneric,
+    renderer,
     title: t('in-websites:facetedSearch.subdivision'),
-    tag: 'beacon.geo.subdivision'
+    tag: 'beacon.geo.subdivision',
+    getMetric
   },
   {
-    renderer: FacetedFilterRangeInput,
+    renderer,
     title: t('in-websites:facetedSearch.windowWidth'),
-    tag: 'beacon.window.width'
+    tag: 'beacon.window.width',
+    getMetric
   }
 ];
 
@@ -262,21 +275,28 @@ function createMetricCatalogTransformer(dataSource) {
 
 function getFacetedSearchSuggestions({
   timeConfig,
-  backendQueryModel,
-  backendQueryModelExcludingMissingGroupingTag,
+  formModel,
+  facets,
+  tag,
+  excludeMissingGroupingTagFilterExpression,
   group,
   metricKey,
   dataSource
 }) {
+  const backendQuery = toBackendQuery({
+    formModel,
+    facets,
+    facetedSearchConfiguration: facetedSearchItems,
+    tagToExclude: tag,
+    excludeMissingGroupingTagFilterExpression
+  });
   return getWebsiteBeaconGroups({
     pagination: {
       retrievalSize: 200
     },
     timeConfig,
     tagFilterExpression: addDataSourceToBackendQueryModel({
-      // Because the grouped view doesn't support a special 'Tag not present' group, faceted search
-      // should filter out items which would belong to this group for consistency with the result list.
-      backendQueryModel: backendQueryModelExcludingMissingGroupingTag ?? backendQueryModel,
+      backendQueryModel: backendQuery,
       dataSource
     }),
     group,

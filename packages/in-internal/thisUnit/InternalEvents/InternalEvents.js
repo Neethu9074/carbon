@@ -97,7 +97,7 @@ function Event({ event, timeConfig }) {
   );
 
   return (
-    <ExpandableCard title={cardPreview} framed openByDefault={false}>
+    <ExpandableCard title={cardPreview} openByDefault={false}>
       <Row verticallyStretchColumns>
         <Col lg={1}>
           <span className={locals.title}>{t('in-internal:monitoringUnit.thisUnit.internalEvents.issueLink')}</span>

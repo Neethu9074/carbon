@@ -193,8 +193,6 @@
     "technologies": "Tecnologie",
     "httpStatusCode": "Codice di stato HTTP",
     "hiddenCalls": "Chiamate nascoste",
-    "noResults": "Nessun risultato",
-    "loadMore": "Carica altro",
     "preview": "Anteprima",
     "listBatchTypeTooltip": "Questo {{type}} è stato eseguito in batch e rappresenta {{batchCount}} {{types}} singoli.",
     "listBatchLatencyTooltip": "Latenza totale di {{batchCount}} {{types}} eseguiti in batch.",

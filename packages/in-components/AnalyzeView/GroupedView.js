@@ -8,10 +8,7 @@ import classNames from 'classnames';
 import { range } from 'lodash';
 import rpt from 'prop-types';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
-import { LiLoadMore } from '@instana/components';
-import { KeyValue } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import { ColumnizedContent, KeyValue, Li, LiLoadMore, SvgIcon, Ul } from '@instana/components';
 import { empty } from '@instana/observables';
 
 import {
@@ -20,25 +17,24 @@ import {
   getSparkChartTimeSeriesMetricId,
   groupName
 } from 'in-components/AnalyzeView/metrics';
-import { joinExpressions, removeTopLevelFilters, TAG } from 'in-components/QueryBuilder/transformation/formModel';
+import { addGroupingCriteriaToFormModel, childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
-import { addGroupingCriteriaToFormModel } from 'in-components/AnalyzeView/StateManagement';
+import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import { BOOLEAN, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
-import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import { EQUALS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
-import { UNSPECIFIED, NO_VALUE } from 'in-analyze/components/GroupedTraces/Group';
+import { NO_VALUE, UNSPECIFIED } from 'in-analyze/components/GroupedTraces/Group';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
 import FacetedSearch from 'in-components/AnalyzeView/FacetedSearch';
 import { getSparkChartGranularity } from 'in-applications/metrics';
-import { emptyObject, emptyArray } from 'in-services/fixedObjects';
+import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import Header from 'in-components/QueryBuilder/components/Header';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -56,12 +52,14 @@ import locals from './GroupedView.mless';
 
 export default function GroupedAnalyzeView(props) {
   const {
+    backendQueryModelWithFacets,
     getData,
     groupBy,
     orderByGroups,
     onOrderByGroupsChange,
-    backendQueryModel,
+    facets,
     formModel,
+    formModelWithFacets,
     getHrefToUngroupedView,
     getHrefToGroupedView,
     UngroupedView,
@@ -74,13 +72,14 @@ export default function GroupedAnalyzeView(props) {
     dataSource,
     facetedSearchItems,
     getFacetedSearchSuggestions,
-    onFormModelChange,
-    getHrefWithTagFilterExpression,
+    getUpdatedFacetedSearchHref,
     groupedViewConfiguration,
     getCustomMetricUiFormatterName,
     getOrderByGroupId,
     itemlabelColumnId,
     onChartableDataSeriesChange,
+    onFacetedSearchSelectionChange,
+    resetFacets,
     withSamplingTooltip,
     withResultsInGroups,
     withoutSorting = false,
@@ -160,24 +159,19 @@ export default function GroupedAnalyzeView(props) {
         ? getData({
             timeConfig,
             orderByGroups,
-            backendQueryModel,
+            backendQueryModel: backendQueryModelWithFacets,
             groupBy,
             cursor,
             dataSource,
             metrics: backendMetrics
           })
         : empty,
-    [isValid, timeConfig, groupBy, backendQueryModel, orderByGroups, backendMetrics, dataSource, getData]
+    [isValid, timeConfig, groupBy, backendQueryModelWithFacets, orderByGroups, backendMetrics, dataSource, getData]
   );
 
   const isLoading = props.isLoading || progress?.loading;
   const hasErrors = !isLoading && errors?.length > 0;
   const hasItems = !isLoading && items.length > 0;
-
-  const getNewTagFilterExpression = ({ add = emptyArray, remove = emptyArray }) =>
-    joinExpressions({
-      expressions: [removeTopLevelFilters(formModel, ...remove), ...add]
-    });
 
   useEffect(() => {
     if (isLoading) {
@@ -188,7 +182,7 @@ export default function GroupedAnalyzeView(props) {
       onChartableDataSeriesChange(
         items.slice(0, 5).map(item => ({
           label: getLabel(item),
-          formModel: addGroupingCriteriaToFormModel(groupBy, getLabel(item), formModel, groupingTagCatalog)
+          formModel: addGroupingCriteriaToFormModel(groupBy, getLabel(item), formModelWithFacets, groupingTagCatalog)
         }))
       );
     }
@@ -197,7 +191,7 @@ export default function GroupedAnalyzeView(props) {
     isLoading,
     hasErrors,
     onChartableDataSeriesChange,
-    formModel,
+    formModelWithFacets,
     getLabel,
     groupBy,
     dataSource,
@@ -228,31 +222,25 @@ export default function GroupedAnalyzeView(props) {
 
   const availableMetrics = getAvailableMetrics({ metricCatalog, fixedFields });
 
-  const formModelExcludingMissingGroupingTag = useMemo(() => {
+  const excludeMissingGroupingTagFilterExpression = useMemo(() => {
     const groupByTagType = groupingTagCatalog?.tags.find(t => t.name === groupBy.groupbyTag)?.type;
-    let excludeMissingGroupTagFilter;
     if (groupByTagType === BOOLEAN) {
       // Boolean tags do not support the NOT_EMPTY operator
-      excludeMissingGroupTagFilter = joinExpressions({
+      return joinExpressions({
         logicalOperator: or,
         expressions: [tagFilter(groupBy.groupbyTag, EQUALS, true), tagFilter(groupBy.groupbyTag, EQUALS, false)]
       });
-    } else {
-      excludeMissingGroupTagFilter = {
-        type: TAG,
-        operator: NOT_EMPTY,
-        name: groupBy.groupbyTag
-      };
-      if (groupByTagType === KEY_VALUE_PAIR) {
-        excludeMissingGroupTagFilter.key = groupBy.groupbyTagSecondLevelKey;
-      }
     }
-    return joinExpressions({ expressions: [formModel, excludeMissingGroupTagFilter] });
-  }, [formModel, groupBy, groupingTagCatalog]);
-
-  const backendQueryModelExcludingMissingGroupingTag = useMemo(() => {
-    return isValid ? toBackendQueryModel(formModelExcludingMissingGroupingTag) : null;
-  }, [isValid, formModelExcludingMissingGroupingTag]);
+    const excludeMissingGroupTagFilter = {
+      type: TAG,
+      operator: NOT_EMPTY,
+      name: groupBy.groupbyTag
+    };
+    if (groupByTagType === KEY_VALUE_PAIR) {
+      excludeMissingGroupTagFilter.key = groupBy.groupbyTagSecondLevelKey;
+    }
+    return excludeMissingGroupTagFilter;
+  }, [groupBy, groupingTagCatalog]);
 
   return (
     <>
@@ -290,22 +278,23 @@ export default function GroupedAnalyzeView(props) {
         {facetedSearchItems && facetedSearchItems.length > 0 && (
           <FacetedSearch
             facetedSearchItems={facetedSearchItems}
-            formModel={formModel}
-            formModelExcludingMissingGroupingTag={formModelExcludingMissingGroupingTag}
-            onFacetedSearchChange={updateAddAndRemove =>
-              onFormModelChange(getNewTagFilterExpression(updateAddAndRemove))
-            }
-            getUpdatedTagExpressionHref={updateAddAndRemove =>
-              getHrefWithTagFilterExpression(getNewTagFilterExpression(updateAddAndRemove))
-            }
+            facets={facets}
+            formModelWithFacets={formModelWithFacets}
+            resetFacets={resetFacets}
+            onFacetedSearchSelectionChange={onFacetedSearchSelectionChange}
+            getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
             getHrefToGroupedView={getHrefToGroupedView}
+            getHrefToUngroupedView={getHrefToUngroupedView}
             dataSource={dataSource}
             isValid={isValid}
             getSuggestions={({ tag, entity }) =>
               getFacetedSearchSuggestions({
                 timeConfig,
-                backendQueryModel,
-                backendQueryModelExcludingMissingGroupingTag,
+                formModel,
+                tag,
+                facets,
+                facetedSearchItems,
+                excludeMissingGroupingTagFilterExpression,
                 metricKey: 'facetedSearchMetric',
                 group: {
                   groupbyTag: tag
@@ -334,6 +323,12 @@ export default function GroupedAnalyzeView(props) {
                         formModel,
                         groupingTagCatalog
                       );
+                      const formModelWithFacetsForUnGroupedView = addGroupingCriteriaToFormModel(
+                        groupBy,
+                        label,
+                        formModelWithFacets,
+                        groupingTagCatalog
+                      );
                       return (
                         // tagFilterExpression / backendQueryModel must be separately memoized based on hash
                         // within the ungrouped view.
@@ -343,7 +338,9 @@ export default function GroupedAnalyzeView(props) {
                           groupLabel={label}
                           groupBy={emptyObject}
                           backendQueryModel={toBackendQueryModel(formModelForUnGroupedView)}
+                          backendQueryModelWithFacets={toBackendQueryModel(formModelWithFacetsForUnGroupedView)}
                           formModel={formModelForUnGroupedView}
+                          formModelWithFacets={formModelWithFacetsForUnGroupedView}
                           facetedSearchItems={[]}
                           withEmbeddedLoadingIndicator
                           withEmbeddedNoDataIndicator

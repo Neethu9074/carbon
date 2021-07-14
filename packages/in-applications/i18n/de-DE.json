@@ -193,8 +193,6 @@
     "technologies": "Technologien",
     "httpStatusCode": "HTTP-Statuscode",
     "hiddenCalls": "Verborgene Aufrufe",
-    "noResults": "Keine Ergebnisse",
-    "loadMore": "Mehr laden",
     "preview": "Vorschau",
     "listBatchTypeTooltip": "Dieser {{type}} wurde gebündelt und stellt {{batchCount}} einzelne {{types}} dar.",
     "listBatchLatencyTooltip": "Gesmatlatenz von {{batchCount}} gebündelten {{types}}.",

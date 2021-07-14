@@ -1,0 +1,101 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .icon {
+    fill: @lib__colors__N600Light;
+    margin: 0 0 0 1.5rem;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+
+    &.left {
+      justify-content: flex-start;
+      grid-area: header-left;
+    }
+
+    &.right {
+      justify-content: flex-end;
+      grid-area: header-right;
+    }
+  }
+
+  .title {
+    color: @lib__colors__N900Primary;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: normal;
+    .ellipsis();
+  }
+
+  .subheader {
+    display: flex;
+    align-items: center;
+    grid-area: subtitle;
+  }
+
+  .subtitle {
+    color: @lib__colors__teal800;
+
+    .ellipsis();
+
+    &.disabled {
+      color: @lib__colors__N600Light;
+    }
+  }
+
+  .card {
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    margin-bottom: 1rem;
+  }
+
+  .cardHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 0.5rem 0;
+    cursor: pointer;
+
+    &.disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  .withBottomBorder {
+    border-bottom: 1px solid lightgray;
+  }
+
+  .useMaxAvailableHeight {
+    height: 100%;
+  }
+
+  .hasMarginBottom {
+    margin: 0 0 1.5rem 0;
+  }
+
+  .cardBody {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding: 0;
+  }
+
+  .headerGrid {
+    width: 100%;
+    line-height: 1.5;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'header-left header-right'
+      'subtitle subtitle';
+    gap: 0 0;
+    grid-auto-flow: row;
+  }
+}

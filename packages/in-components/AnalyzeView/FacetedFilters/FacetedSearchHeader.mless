@@ -4,6 +4,7 @@
  */
 
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .typoSettings {
@@ -11,32 +12,21 @@
     line-height: 0.75rem;
   }
 
-  .rangeForm {
-    margin-bottom: 0;
+  .header {
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid lightgray;
   }
 
-  .errorMessage {
-    margin-left: 0.75rem;
-    margin-right: 0.75rem;
+  .facetCount {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5rem;
   }
 
-  .rangeInput {
-    height: 1.75rem;
-  }
-
-  .buttonRow {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin-top: 0.5rem;
-
-    > button {
-      padding: 0;
-    }
-  }
-
-  .clearFacet {
+  .clearAll {
     .typoSettings();
+    padding: 0;
     color: @lib__colors__teal800;
 
     &:hover {

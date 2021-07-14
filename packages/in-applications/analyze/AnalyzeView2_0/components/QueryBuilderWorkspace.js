@@ -5,24 +5,22 @@
 
 import React from 'react';
 
-import { Message } from '@instana/components';
-import { Stack } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 
 import {
-  ua2QueryBuilderFilterAddedTracker,
-  ua2GroupChangedTracker,
-  ua2ChartChangedTracker,
   ua2ApiQueryPressedTracker,
-  ua2NestingDepthTracker
+  ua2ChartChangedTracker,
+  ua2GroupChangedTracker,
+  ua2NestingDepthTracker,
+  ua2QueryBuilderFilterAddedTracker
 } from 'in-applications/tracker';
 import {
-  toBackendQueryModel,
+  EMPTY_EXPRESSION,
   getMaximumExpressionDepth,
-  EMPTY_EXPRESSION
+  toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import LatencyDistributionChart from 'in-applications/analyze/components/ChartingPresenter/LatencyDistributionChart';
 import TraceGroupingConfigurator from 'in-applications/analyze/components/workspace/TraceGroupingConfigurator';
-import { joinExpressions, removeTopLevelFilters } from 'in-components/QueryBuilder/transformation/formModel';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
@@ -35,7 +33,6 @@ import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
-import { emptyArray } from 'in-services/fixedObjects';
 import { getPluginName } from 'in-sdk/pluginName';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -56,9 +53,14 @@ const groupingConfiguratorPerDataSource = {
 
 export default function ApplicationsQueryBuilderWorkspace(props) {
   const {
-    onFormModelChange,
+    facets,
+    facetedSearchItems,
+    onFacetedSearchSelectionChange,
     formModel,
+    facetsAsTagFilterExpression,
+    onFormModelChange,
     backendQueryModel,
+    backendQueryModelWithFacets,
     isGrouped,
     isValid,
     isLoading,
@@ -134,15 +136,12 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                   <div className={locals.latencyDistribution}>
                     <LatencyDistributionChart
                       dataSource={dataSource}
-                      tagFilterExpression={backendQueryModel ?? EMPTY_EXPRESSION}
+                      tagFilterExpression={toBackendQueryModel(facetsAsTagFilterExpression) ?? EMPTY_EXPRESSION}
                       hiddenCalls={hiddenCalls}
-                      updateFilter={({ add = emptyArray, remove = emptyArray }) =>
-                        onFormModelChange(
-                          joinExpressions({
-                            expressions: [removeTopLevelFilters(formModel, ...remove), ...add]
-                          })
-                        )
-                      }
+                      facets={facets}
+                      formModel={formModel}
+                      facetedSearchItems={facetedSearchItems}
+                      updateFilter={onFacetedSearchSelectionChange}
                     />
                   </div>
                 ))
@@ -152,7 +151,7 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
             <ActionSection
               right={
                 <ApiQueryAction
-                  backendQueryModel={backendQueryModel}
+                  backendQueryModel={backendQueryModelWithFacets}
                   tracking={{
                     onClick: () => ua2ApiQueryPressedTracker({ dataSource })
                   }}

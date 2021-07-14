@@ -6,14 +6,15 @@
 import React, { useEffect } from 'react';
 
 import {
-  timeSpent,
-  timeframeUsed,
   facettedSearchGroupClicked,
-  facettedSearchItemClicked
+  facettedSearchItemClicked,
+  timeframeUsed,
+  timeSpent
 } from 'in-logging/analyze/AnalyzeView/tracker';
+import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
 import TagExpressionValidation from 'in-logging/analyze/AnalyzeView/components/TagExpressionValidation';
-import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
 import { logIdMatrixParameter, selectedTags } from 'in-logging/navigation/matrix';
+import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
 import useTimeSpentInsideComponent from 'in-hooks/useTimeSpentInsideComponent';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
@@ -30,18 +31,28 @@ const urlStateDefinition = {
 };
 const defaultChartedMetrics = [{ metricId: 'logs_distribution', aggregationId: 'SUM' }];
 
+function getMetric({ numberOfLogs }) {
+  return numberOfLogs;
+}
+
+function getSuggestionName({ label }) {
+  return label;
+}
+
 const facetedSearchItems = [
   {
     renderer: FacetedFilterRenderer,
     title: 'Log levels',
     tag: LOG_LEVEL,
-    getSuggestionName: getLabel
+    getSuggestionName,
+    getMetric
   },
   {
     renderer: FacetedFilterRenderer,
     title: 'Stream',
     tag: LOG_STREAM_NAME,
-    getSuggestionName: getLabel
+    getSuggestionName,
+    getMetric
   }
 ];
 
@@ -93,7 +104,7 @@ export default function LoggingAnalyzeView() {
                 {...furtherProps}
                 {...validationProps}
                 getFacetedSearchSuggestions={getFacetedSearchSuggestions}
-                getLabel={getLabel}
+                getLabel={getSuggestionName}
               />
             ) : (
               <Logs
@@ -110,15 +121,28 @@ export default function LoggingAnalyzeView() {
   );
 }
 
-function getLabel(item) {
-  return item.label;
-}
+function getFacetedSearchSuggestions({
+  timeConfig,
+  formModel,
+  tag,
+  excludeMissingGroupingTagFilterExpression,
+  facets,
+  facetedSearchItems,
+  group,
+  cursor
+}) {
+  const backendQuery = toBackendQuery({
+    formModel,
+    facets,
+    facetedSearchConfiguration: facetedSearchItems,
+    tagToExclude: tag,
+    excludeMissingGroupingTagFilterExpression
+  });
 
-function getFacetedSearchSuggestions({ timeConfig, backendQueryModel, group, cursor }) {
   return getLogGroups({
     timeConfig,
     group,
-    tagFilterExpression: backendQueryModel,
+    tagFilterExpression: backendQuery,
     pagination: {
       cursor,
       retrievalSize: 20
@@ -128,7 +152,7 @@ function getFacetedSearchSuggestions({ timeConfig, backendQueryModel, group, cur
 
 function FacetedFilterRenderer(props) {
   return (
-    <FacetedFilterGeneric
+    <FacetedFilterMultiSelect
       {...props}
       openByDefault={false}
       tracker={{

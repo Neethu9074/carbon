@@ -17,6 +17,14 @@ export function createParameters(path) {
       initialState: emptyArray
     },
 
+    facetedSearchMatrixParameter: {
+      path,
+      name: 'facets',
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser(emptyObject),
+      initialState: emptyObject
+    },
+
     groupBy: {
       path,
       name: 'groupBy',

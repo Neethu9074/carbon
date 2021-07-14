@@ -8,19 +8,19 @@
 import { expect } from 'chai';
 
 import {
-  fromTagFiltersArray,
-  fromBackendModel,
-  joinExpressions,
-  removeTopLevelFilters,
+  CLOSE_BRACKET as CLOSE_BRACKET_TYPE,
   CONJUNCTION as CONJUNCTION_TYPE,
+  fromBackendModel,
+  fromTagFiltersArray,
+  joinExpressions,
   OPEN_BRACKET as OPEN_BRACKET_TYPE,
-  CLOSE_BRACKET as CLOSE_BRACKET_TYPE
+  removeTopLevelFilters,
+  TAG
 } from 'in-components/QueryBuilder/transformation/formModel';
-import { or, and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { KEY_VALUE_PAIR, STRING } from 'in-components/QueryBuilder/tagFilter/types';
-import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 
 describe('in-components/QueryBuilder/transformation/formModel', () => {

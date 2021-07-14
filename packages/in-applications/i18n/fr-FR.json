@@ -193,8 +193,6 @@
     "technologies": "Technologies",
     "httpStatusCode": "Code de statut HTTP",
     "hiddenCalls": "Appels masqués",
-    "noResults": "Aucun résultat",
-    "loadMore": "Charger plus",
     "preview": "Aperçu",
     "listBatchTypeTooltip": "Ce {{type}} est traité par lots et représente {{batchCount}} {{types}} individuels.",
     "listBatchLatencyTooltip": "Latence totale de {{batchCount}} {{types}} traités par lots",

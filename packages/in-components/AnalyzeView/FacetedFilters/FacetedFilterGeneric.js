@@ -3,142 +3,137 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState } from 'react';
-import { escapeRegExp } from 'lodash';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
-import ExistingValue, { getExistingValuesForTag } from 'in-components/AnalyzeView/FacetedFilters/ExistingValue';
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import SuggestionsPresenter from 'in-components/AnalyzeView/FacetedFilters/SuggestionsPresenter';
-import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import ExistingValue from 'in-components/AnalyzeView/FacetedFilters/ExistingValue';
+import { removeFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
+import { useSuggestions } from 'in-components/AnalyzeView/useSuggestions';
 import SearchInput from 'in-components/SearchInput/SearchInput';
-import { pendingResult } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
-import { mapDataHO } from 'in-services/util/result';
-import useTimeConfig from 'in-hooks/useTimeConfig';
+import { isLoading } from 'in-services/entityUtils';
+import { hasError } from 'in-services/util/result';
 import { isBlank } from 'in-services/util/string';
+import { t } from 'in-i18n';
 
 import locals from './FacetedFilterGeneric.mless';
 
+const DEFAULT_SUGGESTIONS_SIZE = 5;
+
 export default function FacetedFilterGeneric(props) {
-  const { title, tag, openByDefault, enableUseAsGroup = true, groupbyTag, dataSource } = props;
+  const {
+    tag,
+    title,
+    entity,
+    facets,
+    openByDefault,
+    enableUseAsGroup = true,
+    groupbyTag,
+    dataSource,
+    getUpdatedFacetedSearchHref,
+    customLabelMapper
+  } = props;
+
+  const [valueFilter, setValueFilter] = useState('');
+  const [isDisabledWithNoValues, setIsDisabledWithNoValues] = useState(false);
+  const selectedValues = useMemo(() => facets[tag] ?? [], [facets, tag]);
+
+  const tagSuggestions$ = useSuggestions({
+    ...props,
+    valueFilter
+  });
+
+  useEffect(() => {
+    setIsDisabledWithNoValues(
+      valueFilter === '' &&
+        !isLoading(tagSuggestions$) &&
+        selectedValues.length === 0 &&
+        tagSuggestions$?.data?.items?.length === 0 &&
+        !hasError(tagSuggestions$)
+    );
+  }, [tagSuggestions$, selectedValues, valueFilter]);
+
+  const getSubtitle = () => {
+    if (isDisabledWithNoValues) {
+      return t('in-components:analyze.noResults');
+    } else if (selectedValues.length > 0) {
+      return t('in-components:analyze.activeFacets', { count: selectedValues.length });
+    }
+  };
 
   return (
-    <FacetedExpandableCard title={title} openByDefault={openByDefault} tag={tag} dataSource={dataSource}>
-      <Body {...props} enableUseAsGroup={enableUseAsGroup && tag !== groupbyTag} />
+    <FacetedExpandableCard
+      title={title}
+      subtitle={getSubtitle()}
+      openByDefault={openByDefault}
+      disabled={isDisabledWithNoValues}
+      tag={tag}
+      dataSource={dataSource}
+    >
+      {selectedValues.length > 0 ? (
+        <ExistingFilters
+          title={title}
+          selectedValues={selectedValues}
+          facets={facets}
+          tag={tag}
+          entity={entity}
+          getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
+          customLabelMapper={customLabelMapper}
+          disabled={isDisabledWithNoValues}
+        />
+      ) : (
+        <SearchAndSuggestions
+          {...props}
+          isLoading={tagSuggestions$?.progress?.loading}
+          suggestions={tagSuggestions$?.data?.items}
+          errors={tagSuggestions$?.errors}
+          valueFilter={valueFilter}
+          setValueFilter={setValueFilter}
+          enableUseAsGroup={enableUseAsGroup && tag !== groupbyTag}
+        />
+      )}
     </FacetedExpandableCard>
   );
 }
 
-function Body(props) {
-  const { formModel, tag, entity, title, getUpdatedTagExpressionHref, customLabelMapper } = props;
-
-  const [valueFilter, setValueFilter] = useState('');
-  const selectedValues = getExistingValuesForTag(formModel, tag, entity);
-  if (selectedValues.length > 0) {
-    return (
-      <ExistingFilters
-        title={title}
-        selectedValues={selectedValues}
-        tag={tag}
-        entity={entity}
-        getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
-        customLabelMapper={customLabelMapper}
-      />
-    );
-  }
-  return <SearchAndSuggestions {...props} valueFilter={valueFilter} setValueFilter={setValueFilter} />;
-}
-
-function ExistingFilters({ selectedValues, tag, entity, getUpdatedTagExpressionHref, customLabelMapper = identity }) {
+function ExistingFilters({ selectedValues, facets, tag, getUpdatedFacetedSearchHref, customLabelMapper = identity }) {
   return (
     <Stack gap="small">
       {selectedValues.map((value, i) => (
         <ExistingValue
           key={i}
           value={customLabelMapper(value)}
-          removeLink={getUpdatedTagExpressionHref({
-            remove: [
-              {
-                type: TAG,
-                name: tag,
-                operator: EQUALS,
-                value,
-                ...(entity && { entity })
-              }
-            ]
-          })}
+          removeLink={getUpdatedFacetedSearchHref(removeFacetItem(facets, tag, value))}
         />
       ))}
     </Stack>
   );
 }
 
-function SearchAndSuggestions({
-  formModel,
-  formModelExcludingMissingGroupingTag,
-  hiddenCalls,
-  tag,
-  entity,
-  getUpdatedTagExpressionHref,
-  getHrefToGroupedView,
-  valueFilter,
-  setValueFilter,
-  dataSource,
-  getSuggestions,
-  customLabelMapper = identity,
-  enableUseAsGroup,
-  tagCatalog,
-  tracker,
-  getItems = ({ items }) => items,
-  getSuggestionName = ({ name }) => JSON.parse(name)
-}) {
-  const timeConfig = useTimeConfig();
-  const tagDefinition = tagCatalog?.tags.find(tagEntry => tagEntry.name === tag);
-  const isBooleanTag = tagDefinition?.type === 'BOOLEAN';
+function SearchAndSuggestions(props) {
+  const {
+    tag,
+    entity,
+    isLoading,
+    suggestions,
+    errors,
+    facets,
+    getUpdatedFacetedSearchHref,
+    getHrefToGroupedView,
+    valueFilter,
+    setValueFilter,
+    dataSource,
+    customLabelMapper = identity,
+    enableUseAsGroup,
+    tracker
+  } = props;
 
-  const valueRegex = new RegExp(
-    valueFilter
-      .split('')
-      .map(escapeRegExp)
-      .join('.*'),
-    'i'
-  );
-
-  const suggestions =
-    useObservable(
-      getSuggestions({ tag, entity }).map(
-        mapDataHO(data => ({
-          ...data,
-          items: getItems(data)
-            .map(suggestion => ({
-              ...suggestion,
-              name: getSuggestionName(suggestion)
-            }))
-            .filter(suggestion => valueRegex.test(customLabelMapper(suggestion.name)))
-            .map(suggestion => ({
-              ...suggestion,
-              value: isBooleanTag ? suggestion.name === 'true' : suggestion.name
-            }))
-        }))
-      ),
-      [
-        getSuggestions,
-        formModel,
-        formModelExcludingMissingGroupingTag,
-        hiddenCalls,
-        tag,
-        valueFilter,
-        dataSource,
-        timeConfig
-      ]
-    ) ?? pendingResult;
   return (
     <Stack gap="small">
-      {(!isBlank(valueFilter) || suggestions?.data?.items.length > 5) && (
+      {(!isBlank(valueFilter) || suggestions?.length > DEFAULT_SUGGESTIONS_SIZE) && (
         <SearchInput
           onChange={setValueFilter}
           query={valueFilter}
@@ -148,10 +143,13 @@ function SearchAndSuggestions({
         />
       )}
       <SuggestionsPresenter
-        loading={suggestions?.progress.loading}
-        errors={suggestions?.errors}
-        suggestions={suggestions?.data?.items}
-        getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+        loading={isLoading}
+        errors={errors}
+        suggestions={suggestions}
+        orderSuggestions={props.orderSuggestions}
+        getMetric={props.getMetric}
+        facets={facets}
+        getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
         getHrefToGroupedView={getHrefToGroupedView}
         tag={tag}
         entity={entity}

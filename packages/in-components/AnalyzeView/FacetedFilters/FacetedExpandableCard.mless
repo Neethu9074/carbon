@@ -6,21 +6,25 @@
 @import '~in-themes/active.less';
 
 :local {
-  .facetedCard {
-    border-radius: 0;
-    box-shadow: none;
-    background: none;
-    margin-bottom: 1rem;
-  }
+  .headerButton {
+    position: relative;
+    background: transparent;
+    right: -1rem;
+    padding: 0;
+    border: none;
 
-  .facetedCardHeader {
-    margin: 0.25rem 0.5rem;
-    padding: 0.5rem;
-    cursor: pointer;
-  }
+    svg {
+      fill: @lib__colors__N900Primary;
+    }
 
-  .facetedCardBody {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    &:hover {
+      background: transparent;
+      color: @lib__colors__N900Primary;
+      border: none;
+
+      svg {
+        fill: @lib__colors__N900Primary;
+      }
+    }
   }
 }

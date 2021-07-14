@@ -9,17 +9,14 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 import { empty } from '@instana/observables';
 
-import { joinExpressions, removeTopLevelFilters } from 'in-components/QueryBuilder/transformation/formModel';
 import { optionsPropType } from 'in-components/SortingConfigurator/SortingConfigurator';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { getAvailableMetrics } from 'in-components/AnalyzeView/metrics';
-import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import FacetedSearch from 'in-components/AnalyzeView/FacetedSearch';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { emptyArray } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -28,22 +25,26 @@ import locals from './UngroupedView.mless';
 
 export const retrievalSize = 20;
 export default function UngroupedAnalyzeView(props) {
-  const backendQueryModel = useStableObjectInstance(props.backendQueryModel);
-
   const {
+    backendQueryModelWithFacets,
     dataSource,
     detailId,
     DetailView,
     facetedSearchItems,
+    facets,
+    excludeMissingGroupingTagFilterExpression,
     fixedFields,
     formModel,
+    formModelWithFacets,
     getData,
     getFacetedSearchSuggestions,
     getHrefToGroupedView,
-    getHrefWithTagFilterExpression,
+    getHrefToUngroupedView,
+    getUpdatedFacetedSearchHref,
     isValid,
     metricCatalog,
-    onFormModelChange,
+    resetFacets,
+    onFacetedSearchSelectionChange,
     onOrderByChange,
     onSelectableFieldsChange,
     orderBy,
@@ -60,8 +61,11 @@ export default function UngroupedAnalyzeView(props) {
 
   const timeConfig = useTimeConfig();
   const cursorPaginationState = (useCursorPaginationStrategy ?? useCursorPagination)(
-    params => (isValid ? getData({ timeConfig, orderBy, backendQueryModel, dataSource, ...params }) : empty),
-    [isValid, timeConfig, backendQueryModel, orderBy, dataSource, getData]
+    params =>
+      isValid
+        ? getData({ timeConfig, orderBy, backendQueryModel: backendQueryModelWithFacets, dataSource, ...params })
+        : empty,
+    [isValid, timeConfig, backendQueryModelWithFacets, orderBy, dataSource, getData]
   );
   const { items, errors, progress, totalHits, totalRepresentedItemCount, adjustedWindowSize } = cursorPaginationState;
 
@@ -76,20 +80,6 @@ export default function UngroupedAnalyzeView(props) {
   if (!props.isLoading && !isValid) {
     return null;
   }
-
-  const onFacetedSearchChange = ({ add = emptyArray, remove = emptyArray }) =>
-    onFormModelChange(
-      joinExpressions({
-        expressions: [removeTopLevelFilters(formModel, ...remove), ...add]
-      })
-    );
-
-  const getUpdatedTagExpressionHref = ({ add = emptyArray, remove = emptyArray }) =>
-    getHrefWithTagFilterExpression(
-      joinExpressions({
-        expressions: [removeTopLevelFilters(formModel, ...remove), ...add]
-      })
-    );
 
   if (detailId) {
     return (
@@ -152,16 +142,24 @@ export default function UngroupedAnalyzeView(props) {
         {facetedSearchItems?.length > 0 && (
           <FacetedSearch
             facetedSearchItems={facetedSearchItems}
+            facets={facets}
             formModel={formModel}
-            onFacetedSearchChange={onFacetedSearchChange}
-            getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+            formModelWithFacets={formModelWithFacets}
+            resetFacets={resetFacets}
+            onFacetedSearchSelectionChange={onFacetedSearchSelectionChange}
+            getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
             getHrefToGroupedView={getHrefToGroupedView}
+            getHrefToUngroupedView={getHrefToUngroupedView}
             dataSource={dataSource}
             isValid={isValid}
             getSuggestions={({ tag, entity }) =>
               getFacetedSearchSuggestions({
                 timeConfig,
-                backendQueryModel,
+                formModel,
+                tag,
+                facets,
+                facetedSearchItems,
+                excludeMissingGroupingTagFilterExpression,
                 metricKey: 'facetedSearchMetric',
                 group: {
                   groupbyTag: tag

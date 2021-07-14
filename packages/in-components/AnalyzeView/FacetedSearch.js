@@ -3,17 +3,30 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { sortBy } from 'lodash';
 import React from 'react';
+
+import FacetedSearchHeader from 'in-components/AnalyzeView/FacetedFilters/FacetedSearchHeader';
 
 import locals from './FacetedSearch.mless';
 
+function orderByMetric(suggestions) {
+  const hasMetricData = Boolean(suggestions?.length > 0 && suggestions[0]?.metrics?.facetedSearchMetric[0][1]);
+  return hasMetricData
+    ? sortBy(suggestions, suggestion => -1 * suggestion.metrics.facetedSearchMetric[0][1])
+    : suggestions;
+}
+
 export default function FacetedSearch({
   facetedSearchItems = [],
+  facets,
   formModel,
-  formModelExcludingMissingGroupingTag,
-  onFacetedSearchChange,
-  getUpdatedTagExpressionHref,
+  formModelWithFacets,
+  resetFacets,
+  onFacetedSearchSelectionChange,
+  getUpdatedFacetedSearchHref,
   getHrefToGroupedView,
+  getHrefToUngroupedView,
   dataSource,
   isValid,
   getSuggestions,
@@ -22,6 +35,7 @@ export default function FacetedSearch({
 }) {
   return (
     <div className={locals.wrapper}>
+      <FacetedSearchHeader facets={facets} facetedSearchItems={facetedSearchItems} resetFacets={resetFacets} />
       {facetedSearchItems.map(facetedSearchItem => {
         const FilterComponent = facetedSearchItem.renderer;
         return (
@@ -31,10 +45,13 @@ export default function FacetedSearch({
             tag={facetedSearchItem.tag}
             entity={facetedSearchItem.entity}
             formModel={formModel}
-            formModelExcludingMissingGroupingTag={formModelExcludingMissingGroupingTag}
-            updateFilter={onFacetedSearchChange}
-            getUpdatedTagExpressionHref={getUpdatedTagExpressionHref}
+            formModelWithFacets={formModelWithFacets}
+            facets={facets}
+            resetFacets={resetFacets}
+            updateFacets={onFacetedSearchSelectionChange}
+            getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
             getHrefToGroupedView={getHrefToGroupedView}
+            getHrefToUngroupedView={getHrefToUngroupedView}
             isValid={isValid}
             openByDefault={facetedSearchItem.openByDefault}
             dataSource={dataSource}
@@ -46,6 +63,8 @@ export default function FacetedSearch({
             enableUseAsGroup={facetedSearchItem.enableUseAsGroup}
             getItems={facetedSearchItem.getItems}
             getSuggestionName={facetedSearchItem.getSuggestionName}
+            orderSuggestions={facetedSearchItem.orderSuggestions || orderByMetric}
+            getMetric={facetedSearchItem.getMetric}
             {...facetedSearchItem.extraProps}
           />
         );

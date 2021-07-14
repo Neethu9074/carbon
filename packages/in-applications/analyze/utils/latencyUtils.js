@@ -4,16 +4,16 @@
  */
 
 import {
-  getRangeFromBackendQueryModel,
-  getRangeFromFilters,
-  updateRange
-} from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import {
   GREATER_OR_EQUAL_THAN,
+  GREATER_THAN,
   LESS_OR_EQUAL_THAN,
-  LESS_THAN,
-  GREATER_THAN
+  LESS_THAN
 } from 'in-components/QueryBuilder/tagFilter/operators';
+import {
+  getRangeFromBackendQueryModel,
+  getRangeFromFilters
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { addFacetItem, removeFacetTag } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 
@@ -77,11 +77,12 @@ export function updateLatencyFilters(dataSource, tagFilter, selection) {
   return updatedTagFilter;
 }
 
-export function updateLatencySelection({ dataSource, selection, tagFilterExpression, updateFilter }) {
-  updateRange({
-    tag: dataSourceConstants[dataSource].latencyTag,
-    selection,
-    backendQueryModel: tagFilterExpression,
-    updateFilter
-  });
+export function updateLatencySelection({ dataSource, facets, selection, updateFilter }) {
+  const tag = dataSourceConstants[dataSource].latencyTag;
+  const removedRange = removeFacetTag(facets, tag);
+  if ((selection.from != null && selection.from > 0) || (selection.to != null && selection.to > 0)) {
+    updateFilter(addFacetItem(removedRange, tag, selection));
+  } else {
+    updateFilter(removedRange);
+  }
 }

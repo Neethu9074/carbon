@@ -1,0 +1,29 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .typoSettings {
+    font-size: 0.75rem;
+    line-height: 0.75rem;
+  }
+
+  .leftAlignedCheckbox {
+    transform: scale(0.667) translateX(-0.25rem);
+    margin-right: 0.2rem;
+  }
+
+  .label {
+    .typoSettings();
+    .ellipsis();
+  }
+
+  .count {
+    margin-left: 1rem;
+    color: @lib__colors__N600Light;
+  }
+}
