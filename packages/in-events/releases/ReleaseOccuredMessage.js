@@ -6,8 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { Stack, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Button } from '@instana/components';
 
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import { removeMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -37,7 +37,7 @@ export default function ReleaseOccurredMessage({ release }) {
           />
         </p>
       </div>
-      <nav className={locals.controls}>
+      <Stack direction="horizontal" gap="xsmall" wrap>
         <Button
           className={locals.btnLeft}
           href$={getModifiedUrlStream(params => {
@@ -58,7 +58,7 @@ export default function ReleaseOccurredMessage({ release }) {
         >
           {t('in-events:buttonFollowReleaseLive')}
         </Button>
-      </nav>
+      </Stack>
     </div>
   );
 }
