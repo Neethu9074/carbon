@@ -127,7 +127,7 @@
     "theUserDataScriptAboveWillDownloadTheHostAgentInstallItOnTheVirtualMachineAsAWindowsServiceAndThenAutomaticallyStartIt": "The \"User Data\" script above will download the host agent, install it on the virtual machine as a Windows Service and then automatically start it.",
     "userDataInAwsEc2": "User Data in AWS EC2",
     "forMoreInformationOnHowToUseTheScriptAboveWithUserDataInAwsEc2ReferToTheLinux": "For more information on how to use the script above with User Data in AWS EC2, refer to the <go>\"Running Commands on Your Linux Instance at Launch\" page</go>.",
-    "forMoreInformationOnHowToUseTheScriptAboveWithUserDataInAwsEc2ReferToTheWindows": "For more information on how to use the script above with User Data in AWS EC2, refer to the <go>\"Running commands on your Windows instance at launch\" page. page</go>.",
+    "forMoreInformationOnHowToUseTheScriptAboveWithUserDataInAwsEc2ReferToTheWindows": "For more information on how to use the script above with User Data in AWS EC2, refer to the <go>\"Running commands on your Windows instance at launch\" page</go>.",
     "agentZoneOptional": "Agent zone (Optional)",
     "installAndStartAsServiceOnlySupportedForSystemDBasedSystems": "Install and start as service (only supported for SystemD-based systems)",
     "supportedOperatingSystems": "Supported Operating Systems",
