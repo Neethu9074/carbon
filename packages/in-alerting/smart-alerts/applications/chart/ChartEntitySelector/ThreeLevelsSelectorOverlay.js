@@ -297,7 +297,6 @@ function InnerSlideInView({
   withIcons,
   loading,
   loading2ndLevel,
-  focusNode,
   focus2ndLevelNode,
   onKeyDown2
 }) {
@@ -364,7 +363,13 @@ function InnerSlideInView({
           >
             <Loading loading={loading} />
             {focusedNode?.children?.slice(0, maxResults).map((node, i) => (
-              <EntityItemNode key={i} node={node} focusNode={focusNode} onChange={onChange} withIcons={withIcons} />
+              <EntityItemNode
+                key={i}
+                node={node}
+                focusNode={focus2ndLevelNode}
+                onChange={onChange}
+                withIcons={withIcons}
+              />
             ))}
           </div>
         }
