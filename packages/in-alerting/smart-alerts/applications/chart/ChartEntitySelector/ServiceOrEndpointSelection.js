@@ -8,14 +8,16 @@ import React, { useState, useEffect, useMemo } from 'react';
 import useApplicationsAndServicesSubscriptions from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/useApplicationsAndServicesSubscriptions';
 import {
   getLevel,
-  loadingOptions,
   searchResultsToListItems
 } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/searchResults';
+import {
+  createOptionsList,
+  loadingOptions
+} from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/createOptions';
 import getAppDataEntityChainsPaginated from 'in-alerting/smart-alerts/applications/subscriptions/getAppDataEntityChainsPaginated';
 import { EntitySelectionOverlay } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntitySelectionOverlay';
 import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-import { createOptionsList } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/createOptions';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
