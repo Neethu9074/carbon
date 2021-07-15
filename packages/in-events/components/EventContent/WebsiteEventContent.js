@@ -8,7 +8,7 @@ import React from 'react';
 import { Card } from '@instana/components';
 
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
-import AlertQueryBuilder from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
@@ -36,10 +36,16 @@ export default function WebsiteEventContent({ event }) {
     return null;
   }
 
-  const { tagFilterExpression, rule } = alertConfig;
+  const {
+    tagFilterExpression,
+    rule,
+    rule: { metricName }
+  } = alertConfig;
   const alertType = rule.alertType;
 
   const blueprintConfig = getBlueprintConfig(alertType);
+  const beaconType = blueprintConfig.getBeaconType(metricName);
+  const AlertQueryBuilder = getQueryBuilderForBeaconType(beaconType).QueryBuilder;
   const timeConfig = {
     ...getChartTimeConfigByEvent({ event }),
     windowSize: alertingEventDetailsChartTimeframe

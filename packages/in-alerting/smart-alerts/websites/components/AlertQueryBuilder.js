@@ -30,10 +30,6 @@ const queryBuildersByBeaconType = {
   custom: create('custom')
 };
 
-// Default query builder works for providing the tagCatalog, which is beacon-type independent
-export const { QueryBuilder: AlertQueryBuilder, isQueryValid } = queryBuildersByBeaconType.pageLoad;
-export default AlertQueryBuilder;
-
 /* helper, to create a query-builder dependent query validator */
 export const createIsAlertQueryValid = isQueryValid => ([tagFilterFormModel, timeConfig]) =>
   isQueryValid(tagFilterFormModel, timeConfig);
