@@ -6,7 +6,6 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { TableEntityCounter } from '@instana/components';
 import { Card } from '@instana/components';
 
 import {
@@ -16,19 +15,39 @@ import {
 } from 'in-kubernetes/navigation/urlParameters';
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
-import MetricBasedTwoValueBar from 'in-kubernetes/Dashboards/commonComponents/MetricBasedTwoValueBar';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
+import { getInfraGranularity, getMetricForFocusedMoment } from 'in-stores/metric/metric';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import { number, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { getInfraGranularity } from 'in-stores/metric/metric';
+import { timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
+import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const msFormatter = d => (d < 0 ? t('in-kubernetes:dashboards.noActivity') : timeByMillisTwoDecimalPlaces(d));
 const matrixPrefix = 'deployment.';
+
+function getMetricValue({ snapshotId, metricName }) {
+  return getMetricForFocusedMoment({ snapshotId, metric: metricName }).map(v => v[1]);
+}
+
+let MetricValueContainer = connectTo(
+  ({ metricName, snapshotId }) => {
+    return {
+      metric: getMetricValue({
+        snapshotId,
+        metricName
+      })
+    };
+  },
+  ({ metric }) => <MetricValue value={metric} />
+);
+
+function MetricValue({ value }) {
+  return <span>{value}</span>;
+}
 
 const columnDefinitions = [
   {
@@ -53,27 +72,21 @@ const columnDefinitions = [
     }
   },
   {
-    id: 'pods',
-    label: t('in-kubernetes:dashboards.pods'),
-    getContent(item) {
-      return <TableEntityCounter icon="lib_kubernetes_pod" count={item.pods} />;
+    id: 'online',
+    label: t('in-kubernetes:dashboards.podsOnline'),
+    optional: true,
+    sortable: false,
+    getContent({ snapshotIdForMetric }) {
+      return <MetricValueContainer snapshotId={snapshotIdForMetric} metricName={'availableReplicas'} />;
     }
   },
   {
-    id: 'replicas',
-    label: t('in-kubernetes:dashboards.replicas'),
+    id: 'desired',
+    label: t('in-kubernetes:dashboards.podsDesired'),
+    optional: true,
     sortable: false,
-    getContent(item) {
-      return (
-        <MetricBasedTwoValueBar
-          snapshotId={get(item, ['workloadController', 'id'])}
-          metrics={['availableReplicas', 'desiredReplicas']}
-          labels={[t('in-kubernetes:dashboards.available'), t('in-kubernetes:dashboards.desired')]}
-          timeWindowAggregation={null}
-          formatter={number.compact}
-          transformer={number.compact}
-        />
-      );
+    getContent({ snapshotIdForMetric }) {
+      return <MetricValueContainer snapshotId={snapshotIdForMetric} metricName={'desiredReplicas'} />;
     }
   },
   {
