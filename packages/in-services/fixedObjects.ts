@@ -5,22 +5,22 @@
 
 export { noop } from 'in-services/util/function';
 
-import { Result, ResultProgress } from 'in-types/result';
+import { Result, Progress } from 'in-types/backend';
 
 export const emptyObject = Object.freeze({});
 export const emptyJsMap = new Map();
 export const emptyArray = Object.freeze([]);
 export const javaLongMaxValue = 9223372036854775807;
 
-export const finishedProgress: ResultProgress = Object.freeze({
+export const finishedProgress: Progress = Object.freeze({
   loading: false
 });
 
-export const indeterminateProgress: ResultProgress = Object.freeze({
+export const indeterminateProgress: Progress = Object.freeze({
   loading: true
 });
 
 export const pendingResult: Readonly<Result<any>> = Object.freeze({
   progress: indeterminateProgress,
-  errors: Object.freeze([])
+  errors: Object.freeze([]) as []
 });

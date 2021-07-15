@@ -4,7 +4,7 @@
  */
 
 import { combineLatest, Observable } from '@instana/observables';
-import { ResultErrorCode, ResultError } from 'in-types/result';
+import { ErrorCode, Error } from 'in-types/backend';
 import { Response } from 'in-services/http/types';
 
 import { loading, success, error as createErrorObject } from 'in-services/util/result';
@@ -32,7 +32,7 @@ export default function createObservable<T>(observableHttpRequest: Observable<Re
   return observable;
 }
 
-function mapResponseStatusCode(statusCode: number): ResultErrorCode {
+function mapResponseStatusCode(statusCode: number): ErrorCode {
   if (statusCode === 403 || statusCode === 401) {
     return 'AUTH';
   }
@@ -52,7 +52,7 @@ function mapResponseStatusCode(statusCode: number): ResultErrorCode {
 }
 
 // export for test
-export function getErrors(error: any): ResultError[] {
+export function getErrors(error: any): Error[] {
   if (!error) {
     return [];
   }

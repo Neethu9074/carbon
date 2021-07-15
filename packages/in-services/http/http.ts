@@ -8,13 +8,13 @@ import { stringify } from 'qs';
 import { create, Observable, Subject } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 
-import { Result } from 'in-types/result';
 import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCodeError';
 import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';
 import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
 import createObservableResult from 'in-services/http/observableHttpResult';
 import HttpResponseError from 'in-services/http/HttpResponseError';
 import { Response } from 'in-services/http/types';
+import { Result } from 'in-types/backend';
 
 const logger = createLogger('xhrService');
 
