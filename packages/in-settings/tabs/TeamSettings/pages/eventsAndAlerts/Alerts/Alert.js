@@ -150,10 +150,9 @@ const Form = entityForm(
 function createForm(alertEntity, isCreate) {
   const eventTypes = alertEntity.getIn(['eventFilteringConfiguration', 'eventTypes'], List([])) ?? List([]);
   const selectedEvents = alertEntity.getIn(['eventFilteringConfiguration', 'ruleIds'], List([])) ?? List([]);
-  const selectedApplicationAlertConfigs = alertEntity.getIn(
-    ['eventFilteringConfiguration', 'applicationAlertConfigIds'],
-    List([])
-  );
+  const selectedApplicationAlertConfigs =
+    alertEntity.getIn(['eventFilteringConfiguration', 'applicationAlertConfigIds'], List([])) ?? List([]);
+
   const eventSelectionMode = getEventSelectionMode(eventTypes, selectedApplicationAlertConfigs);
 
   const query = alertEntity.getIn(['eventFilteringConfiguration', 'query'], '');
