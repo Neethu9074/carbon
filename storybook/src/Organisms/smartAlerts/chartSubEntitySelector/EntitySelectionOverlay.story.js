@@ -6,7 +6,7 @@
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
-import { EntitySelectionOverlay } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/ChartSubEntitySelection';
+import { EntitySelectionOverlay } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntitySelectionOverlay';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import PermanentlyVisibleOverlay from '../../../util/PermanentlyVisibleOverlay';
 

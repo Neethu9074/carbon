@@ -19,15 +19,12 @@
   }
 
   .smallColumn {
-    min-width: 15%;
     max-width: 40%;
     flex-shrink: 1;
     .ellipsis();
     gap: @gap; // between icon and label
   }
   .normalColumn {
-    min-width: 20%;
-    max-width: 60%;
     flex-shrink: 1;
     .ellipsis();
     gap: @gap; // between icon and label
@@ -40,7 +37,7 @@
 
   .fullColumn {
     display: inline-flex;
-    flex-flow: row wrap;
+    flex-flow: row;
     gap: @gap;
     white-space: normal; // enable line-break
     font-size: @lib__typography__body__font-size;

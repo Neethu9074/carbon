@@ -20,7 +20,6 @@ import { pendingResult } from 'in-services/fixedObjects';
 export default function useApplicationsAndServicesSubscriptions({
   alertConfigWithFormModel,
   applicationIds,
-  isSelectApLevel,
   queryWindowSize
 }) {
   const { applications, boundaryScope, tagFilterExpression, includeSynthetic } = alertConfigWithFormModel;
@@ -29,39 +28,36 @@ export default function useApplicationsAndServicesSubscriptions({
   // would reject the entity-filter anyways, because the user is not allowed to use them
   const isQueryValid = useIsTagFilterFormModelValid(tagFilterExpression);
 
-  const fetchAppsAndServices = isSelectApLevel
-    ? applicationIds.map(applicationId => getApplication({ id: applicationId }))
-    : applicationIds.map(applicationId => {
-        const scopeDownEnrichedTagFilterFormModel = joinExpressions({
-          expressions: [
-            getEnrichedFiltersForApplication(alertConfigWithFormModel, applicationId),
-            getEntitySelectionAsTagFilterFormModel(applications, boundaryScope)
-          ]
+  const fetchAppsAndServices = applicationIds.map(applicationId => {
+    const scopeDownEnrichedTagFilterFormModel = joinExpressions({
+      expressions: [
+        getEnrichedFiltersForApplication(alertConfigWithFormModel, applicationId),
+        getEntitySelectionAsTagFilterFormModel(applications, boundaryScope)
+      ]
+    });
+    return combineLatest([
+      getApplication({ id: applicationId }),
+      isQueryValid
+        ? getServiceList(queryWindowSize, scopeDownEnrichedTagFilterFormModel, includeSynthetic)
+        : just(pendingResult)
+    ]).map(([app, services]) => {
+      if (isLoading(app) || isLoading(services)) return pendingResult;
+      if (hasError(app) || hasError(services)) {
+        return errorWithData([...app.errors, ...services.errors], {
+          app: app.data,
+          services: services.data?.items
         });
-        return combineLatest([
-          getApplication({ id: applicationId }),
-          isQueryValid
-            ? getServiceList(queryWindowSize, scopeDownEnrichedTagFilterFormModel, includeSynthetic)
-            : just(pendingResult)
-        ]).map(([app, services]) => {
-          if (isLoading(app) || isLoading(services)) return pendingResult;
-          if (hasError(app) || hasError(services)) {
-            return errorWithData([...app.errors, ...services.errors], {
-              app: app.data,
-              services: services.data?.items
-            });
-          }
-          return success({
-            app: app.data,
-            services: services.data?.items
-          });
-        });
+      }
+      return success({
+        app: app.data,
+        services: services.data?.items
       });
+    });
+  });
 
   return useObservable(combineLatest(fetchAppsAndServices), [
     applications,
     isQueryValid,
-    isSelectApLevel,
     boundaryScope,
     includeSynthetic
   ]);

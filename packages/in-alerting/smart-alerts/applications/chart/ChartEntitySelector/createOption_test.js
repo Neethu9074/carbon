@@ -36,43 +36,121 @@ describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/create
       expect(list.map(i => i.label)).toStrictEqual(['1', 'a', 'aa', 'B', 'c']);
     });
   });
-});
 
-describe('createOptionList for Service selection', () => {
-  const isSelectServiceLevel = true;
+  describe('createOptionList for Service selection', () => {
+    const isSelectServiceLevel = true;
 
-  const dummyId = '0815';
-  it('should create services list for only one AP', () => {
-    const apListWithOneEntry = {
-      data: {
-        app: { id: dummyId },
-        services: [
-          {
-            service: { id: dummyId, label: 'testService' },
-            metrics: {
-              endpoints: [[-1, 1]]
+    const dummyId = '0815';
+    it('should create services list for only one AP', () => {
+      const apListWithOneEntry = {
+        data: {
+          app: { id: dummyId },
+          services: [
+            {
+              service: { id: dummyId, label: 'testService' },
+              metrics: {
+                endpoints: [[-1, 0]]
+              }
             }
-          }
-        ]
-      }
-    };
-    const list = createOptionsList([apListWithOneEntry], [dummyId], false, isSelectServiceLevel, {});
+          ]
+        }
+      };
+      const list = createOptionsList([apListWithOneEntry], [dummyId], false, isSelectServiceLevel, {});
 
-    expect(list).toMatchInlineSnapshot(`
-      Array [
-        Object {
-          "children": Array [
-            Object {
-              "appId": "0815",
-              "icon": "lib_application_service",
-              "id": "0815",
-              "label": "testService",
-              "type": "SERVICE",
-            },
-          ],
-          "label": "Services:",
-        },
-      ]
-    `);
+      expect(list).toMatchInlineSnapshot(`
+              Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "appId": "0815",
+                      "icon": "lib_application_service",
+                      "id": "0815",
+                      "label": "testService",
+                      "type": "SERVICE",
+                    },
+                  ],
+                  "label": "Services:",
+                },
+              ]
+          `);
+    });
+  });
+
+  describe('createOptionList for Endpoint selection', () => {
+    const isSelectServiceLevel = false;
+
+    const dummyId = '0815';
+    it('should create list of services/endpoints when only one AP given - without endpoints', () => {
+      const apListWithOneEntry = {
+        data: {
+          app: { id: dummyId },
+          services: [
+            {
+              service: { id: dummyId, label: 'testService' },
+              metrics: {
+                endpoints: [[-1, 0]]
+              }
+            }
+          ]
+        }
+      };
+      const list = createOptionsList([apListWithOneEntry], [dummyId], false, isSelectServiceLevel, {});
+
+      expect(list).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "children": Array [
+              Object {
+                "appId": "0815",
+                "breadcrumbAndLabel": "0815",
+                "children": Array [],
+                "icon": "lib_application_service",
+                "id": "0815",
+                "label": "testService",
+                "loadChildren": undefined,
+                "type": "SERVICE",
+              },
+            ],
+            "label": "Services:",
+          },
+        ]
+      `);
+    });
+    it('should create list of services/endpoints when only one AP given - with one endpoint', () => {
+      const apListWithOneEntry = {
+        data: {
+          app: { id: dummyId },
+          services: [
+            {
+              service: { id: dummyId, label: 'testService' },
+              metrics: {
+                endpoints: [[-1, 1]]
+              }
+            }
+          ]
+        }
+      };
+      const list = createOptionsList([apListWithOneEntry], [dummyId], false, isSelectServiceLevel, {});
+
+      expect(list).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "children": Array [
+              Object {
+                "appId": "0815",
+                "breadcrumbAndLabel": "0815",
+                "children": undefined,
+                "icon": "lib_application_service",
+                "id": "0815",
+                "label": "testService",
+                "loadChildren": [Function],
+                "type": "SERVICE",
+              },
+            ],
+            "label": "Services:",
+          },
+        ]
+      `);
+    });
   });
 });

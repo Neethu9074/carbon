@@ -95,7 +95,6 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
       </ChartViewConfiguratorWithEntitySelection>
 
       <ExpandableLightCard
-        className={locals.filterListContainer}
         title={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.label')}
         useMaxAvailableHeight={false}
         openByDefault

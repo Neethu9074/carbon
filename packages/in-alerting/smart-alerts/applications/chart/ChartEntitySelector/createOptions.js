@@ -5,6 +5,8 @@
 
 import { fetchEndpoints } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/selectionApi';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { pendingResult } from 'in-services/fixedObjects';
+import { t } from 'in-i18n';
 
 /*
   Use Cases:
@@ -35,18 +37,7 @@ export function createOptionsList(
   if (!applicationIds || applicationIds.length === 0) return [];
 
   if (isSelectApLevel) {
-    return applicationList
-      .map(({ data }) => data)
-      .filter(Boolean)
-      .sort((appA, appB) => compareIgnoreCase(appA.label, appB.label))
-      .map(({ id, label }) => {
-        return {
-          label,
-          id,
-          icon: 'lib_application',
-          type: 'APPLICATION'
-        };
-      });
+    return createAPsList(applicationList);
   }
 
   const createServicesAndEndpointsList = isSelectServiceLevel
@@ -66,7 +57,7 @@ export function createOptionsList(
     const { app, services } = applicationList.map(({ data }) => data)[0];
     return [
       {
-        label: 'Services:',
+        label: t('in-alerting:smartAlerts.applications.chart.entitySelection.services'),
         children: createServicesAndEndpointsList(app, services)
       }
     ];
@@ -74,7 +65,7 @@ export function createOptionsList(
 
   return [
     {
-      label: 'Applications:',
+      label: t('in-alerting:smartAlerts.applications.chart.entitySelection.applications'),
       children: applicationList
         .filter(result => Boolean(result?.data?.app))
         .sort((resultA, resultB) => compareIgnoreCase(resultA.data.app.label, resultB.data.app.label))
@@ -88,6 +79,21 @@ export function createOptionsList(
         }))
     }
   ];
+}
+
+export function createAPsList(applicationList) {
+  return applicationList
+    .map(({ data }) => data)
+    .filter(Boolean)
+    .sort((appA, appB) => compareIgnoreCase(appA.label, appB.label))
+    .map(({ id, label }) => {
+      return {
+        label,
+        id,
+        icon: 'lib_application',
+        type: 'APPLICATION'
+      };
+    });
 }
 
 function mapServicesToOptions(app, services) {
@@ -153,3 +159,7 @@ function mapEndpointItemsToOptions(app, service, itemsWithEndpoints) {
       icon: 'lib_application_endpoint'
     }));
 }
+
+export const loadingOptions = [
+  { label: t('in-alerting:smartAlerts.components.smartAlertDialog.Loading'), loadChildren: () => pendingResult }
+];

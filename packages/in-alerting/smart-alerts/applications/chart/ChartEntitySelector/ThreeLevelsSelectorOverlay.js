@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { ListGroup, Li } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
+import useLazyLoadingOfNodeChildren from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/useLazyLoadingOfNodeChildren';
 import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
 import SlideInView, { ListHeader, NoHeader } from 'in-components/SlideInView/SlideInView';
 import { isArrowRight, isReturn, isArrowLeft, isArrowUp } from 'in-components/keyCodes';
@@ -17,22 +17,16 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import { search } from 'in-components/SelectorOverlay/search';
 import { isNotBlank, isBlank } from 'in-services/util/string';
 import { getInteractiveElements } from 'in-services/util/dom';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import SearchInput from 'in-components/SearchInput';
-import { isLoading } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 import locals from 'in-components/SelectorOverlay/SelectorOverlay.mless';
+import threeLevelsSelectorLocals from './ThreeLevelsSelectorOverlay.mless';
 
-/* we found the current implementation does not fully work with latest, on-demand loading items,
- * so this is temporary disabled
- * There is this follow-up task to implement it in a different way:
- * https://instana.kanbanize.com/ctrl_board/37/cards/57241
- */
-const searchEnabled = false;
+const searchEnabled = true;
 
 const initialState = {
   focusedNode: null,
@@ -45,33 +39,7 @@ const categoryHeight = 40;
 // for performance reasons limit number of results shown as rendering is slow for high number of results
 const maxResults = 100;
 
-function useLazyLoadChildrenForNode(node, triggerRenderingAfterUpdated) {
-  const loadChildren = node?.loadChildren;
-  useObservable(
-    loadChildren &&
-      (() =>
-        loadChildren().map(result => {
-          const loading = isLoading(result);
-          const resolvedChildren = result?.data?.items;
-          if (!loading && resolvedChildren) {
-            node.children = resolvedChildren;
-            node.loadChildren = undefined;
-            triggerRenderingAfterUpdated(node);
-          }
-          return result;
-        })),
-    [loadChildren]
-  );
-}
-
-export default function ThreeLevelsSelectorOverlay({
-  options,
-  onChange,
-  withIcons = true,
-  query,
-  searchNodes = search,
-  onQueryChange
-}) {
+export default function ThreeLevelsSelectorOverlay({ options, onChange, withIcons = true, query, onQueryChange }) {
   const [
     { focusedNode, showFocusedNode, secondFocusedNode, showSecondFocusedNode, loading, loading2ndLevel },
     setState
@@ -80,15 +48,6 @@ export default function ThreeLevelsSelectorOverlay({
   useEffect(() => {
     if (!searchEnabled) focusOnFirstResult();
   });
-
-  options = useMemo(() => {
-    if (isNotBlank(query)) {
-      return searchNodes(options, query, []);
-    }
-    return options;
-    // changing searchNodes should not trigger a new result-calculation
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [options, query]);
 
   // Used to jump to the first available group when clicking enter in the input field.
   const staticContentWrapperRef = useRef();
@@ -118,7 +77,7 @@ export default function ThreeLevelsSelectorOverlay({
       });
   }
 
-  useLazyLoadChildrenForNode(focusedNode, triggerRenderingAfterUpdated);
+  useLazyLoadingOfNodeChildren(focusedNode, triggerRenderingAfterUpdated);
 
   return (
     <>
@@ -142,7 +101,7 @@ export default function ThreeLevelsSelectorOverlay({
           />
         </div>
       )}
-      <div className={locals.overlay}>
+      <div className={threeLevelsSelectorLocals.wide}>
         <MainSlideInView
           {...{
             showFocusedNode,
@@ -248,13 +207,12 @@ export default function ThreeLevelsSelectorOverlay({
 }
 
 function MainStaticContent({ options, focusNode, onChange, query, withIcons }) {
-  const asSearchResult = isNotBlank(query);
-
   if (options.length === 0) {
     return <NoDataAvailable />;
   }
 
-  return options.slice(0, maxResults).map((node, i) => {
+  const asSearchResult = isNotBlank(query);
+  return options.map((node, i) => {
     const noChildren = !node.children || node.children.length === 0;
     if (noChildren && !node.loadChildren)
       return (
@@ -304,7 +262,7 @@ function InnerSlideInView({
   const innerSlideInRef = useRef();
   const lastFocusedElementLevel2Ref = useRef();
 
-  useLazyLoadChildrenForNode(secondFocusedNode, triggerRenderingAfterUpdated);
+  useLazyLoadingOfNodeChildren(secondFocusedNode, triggerRenderingAfterUpdated);
 
   useEffect(() => {
     if (showSecondFocusedNode && !loading2ndLevel && secondFocusedNode?.children) {
@@ -431,7 +389,7 @@ function EntitiesSearchInput({ query = '', onChange, ...props }) {
     value => {
       onChange?.(value);
     },
-    500
+    300
   );
   return <SearchInput onChange={debouncedOnChange} query={value} {...props} />;
 }
@@ -457,10 +415,5 @@ ThreeLevelsSelectorOverlay.propTypes = {
   onChange: PropTypes.func.isRequired,
   withIcons: PropTypes.bool,
   query: PropTypes.string.isRequired,
-  /**
-   * function (nodes:[node], query:string): [node]
-   * default: in-components/SelectorOverlay/search
-   */
-  searchNodes: PropTypes.func,
   onQueryChange: PropTypes.func.isRequired
 };

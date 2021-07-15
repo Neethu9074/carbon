@@ -15,6 +15,7 @@ import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { t } from 'in-i18n';
 
 const evaluationTypeLevelMap = {
   [PER_AP]: 'APP',
@@ -26,24 +27,29 @@ export function getLevel(evaluationType) {
   return evaluationTypeLevelMap[evaluationType];
 }
 
+const tooManyResultsItemOption = {
+  path: t('in-alerting:smartAlerts.applications.chart.entitySelection.tooManyResults')
+};
+
+export function createApOnlyItem({ applicationName, applicationId }) {
+  return {
+    type: 'APPLICATION',
+    label: applicationName,
+    path: <ScopeSelectorAppItem applicationName={applicationName} />,
+    id: applicationId
+  };
+}
+
 export function searchResultsToListItems(searchResult, evaluationType) {
   const items = searchResult?.items;
   if (!items) {
     return [];
   }
 
-  if (evaluationType === PER_AP) {
-    return items.map(({ applicationName, applicationId }) => ({
-      type: 'APPLICATION',
-      label: applicationName,
-      path: <ScopeSelectorAppItem applicationName={applicationName} />,
-      id: applicationId
-    }));
-  }
-
-  if (evaluationType === PER_AP_SERVICE)
-    return items.map(chain => {
-      const { applicationName, serviceName, serviceId } = chain;
+  const canLoadMore = searchResult?.canLoadMore;
+  if (evaluationType === PER_AP_SERVICE) {
+    const list = items.map(({ appDataEntityChain }) => {
+      const { applicationName, serviceName, serviceId } = appDataEntityChain;
 
       return {
         type: 'SERVICE',
@@ -52,9 +58,14 @@ export function searchResultsToListItems(searchResult, evaluationType) {
         id: serviceId
       };
     });
+    if (canLoadMore) {
+      return [...list, tooManyResultsItemOption];
+    }
+    return list;
+  }
 
-  return items.map(chain => {
-    const { applicationName, serviceName, endpointName, endpointId } = chain;
+  const list = items.map(({ appDataEntityChain }) => {
+    const { applicationName, serviceName, endpointName, endpointId } = appDataEntityChain;
 
     return {
       type: 'ENDPOINT',
@@ -69,4 +80,8 @@ export function searchResultsToListItems(searchResult, evaluationType) {
       id: endpointId
     };
   });
+  if (canLoadMore) {
+    return [...list, tooManyResultsItemOption];
+  }
+  return list;
 }
