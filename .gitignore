@@ -5,6 +5,7 @@
 /node_modules
 /target
 /storybookTarget
+/coverage
 /tmp
 /packages/in-themes/active*
 /packages/in-server/node_modules
