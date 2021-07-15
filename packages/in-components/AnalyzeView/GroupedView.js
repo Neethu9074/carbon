@@ -244,36 +244,6 @@ export default function GroupedAnalyzeView(props) {
 
   return (
     <>
-      <Header
-        {...props}
-        sortOptions={withoutSorting ? undefined : sortOptions}
-        availableMetrics={availableMetrics}
-        metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
-        totalHits={totalHits}
-        totalRepresentedItemCount={totalRepresentedItemCount}
-        order={orderByGroups}
-        setOrder={onOrderByGroupsChange}
-        setMetrics={metrics =>
-          onSelectableFieldsChange(
-            metrics.map(metric => ({
-              // Converting metrics to fields by adding the type
-              metricId: metric.metric,
-              aggregationId: metric.aggregation,
-              type: metricType
-            }))
-          )
-        }
-        withGrouping
-        withResultsInGroups={withResultsInGroups}
-        withSamplingTooltip={withSamplingTooltip}
-        withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
-        tracking={{
-          onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
-          onMetricAggregationChanged: ({ metric, aggregation }) =>
-            ua2MetricAddedTracker({ dataSource, metric, aggregation }),
-          onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
-        }}
-      />
       <div className={locals.facetedSearchResultContainer}>
         {facetedSearchItems && facetedSearchItems.length > 0 && (
           <FacetedSearch
@@ -308,6 +278,36 @@ export default function GroupedAnalyzeView(props) {
           />
         )}
         <div className={locals.resultContainer}>
+          <Header
+            {...props}
+            sortOptions={withoutSorting ? undefined : sortOptions}
+            availableMetrics={availableMetrics}
+            metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
+            totalHits={totalHits}
+            totalRepresentedItemCount={totalRepresentedItemCount}
+            order={orderByGroups}
+            setOrder={onOrderByGroupsChange}
+            setMetrics={metrics =>
+              onSelectableFieldsChange(
+                metrics.map(metric => ({
+                  // Converting metrics to fields by adding the type
+                  metricId: metric.metric,
+                  aggregationId: metric.aggregation,
+                  type: metricType
+                }))
+              )
+            }
+            withGrouping
+            withResultsInGroups={withResultsInGroups}
+            withSamplingTooltip={withSamplingTooltip}
+            withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
+            tracking={{
+              onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+              onMetricAggregationChanged: ({ metric, aggregation }) =>
+                ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+              onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
+            }}
+          />
           {hasItems && (
             <Ul>
               {items.map((item, index) => {
