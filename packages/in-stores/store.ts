@@ -3,14 +3,44 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { create, Observable } from '@instana/observables';
 import invariant from 'invariant';
+
+interface StoreSpec<T> {
+  // The store name is used for debugging purposes.
+  name: string,
+  // Only global stores can be inspected for debugging purposes.
+  // Defaults to true.
+  isGlobal?: boolean,
+  initialValue?: T | null,
+  reducers: {
+    [type: string]: (currentState: T | null, action: ActionDefinition) => T
+  }
+}
+
+interface ActionDefinition {
+  type: string
+}
+
+type Action<T> = ((currentState: T | null) => T) | ActionDefinition;
+
+interface TrackingStoreSpec<T> {
+  // The store name is used for debugging purposes.
+  name: string,
+  observable: Observable<T>
+}
+
+interface TrackingStore<T> {
+  observable: Observable<T>
+}
 
 // Keeps track of the current state of all created stores. Will
 // be used for debugging purposes in the future.
-export const allStates = {};
+export const allStates: {
+  [storeName: string]: any
+} = {};
 
-export function createStore(spec) {
+export function createStore<T>(spec: StoreSpec<T>) {
   spec.isGlobal = spec.isGlobal !== false;
 
   if (spec.initialValue === undefined) {
@@ -37,8 +67,8 @@ export function createStore(spec) {
     mutateTo
   };
 
-  function applyStateMutation(action) {
-    if (spec.reducers == null) {
+  function applyStateMutation(action: Action<T>) {
+    if (typeof action === 'function') {
       mutateTo(action(currentState));
     } else {
       const reducer = spec.reducers[action.type];
@@ -52,7 +82,7 @@ export function createStore(spec) {
     }
   }
 
-  function mutateTo(newValue) {
+  function mutateTo(newValue: T) {
     currentState = newValue;
     if (spec.isGlobal) {
       allStates[spec.name] = currentState;
@@ -61,7 +91,7 @@ export function createStore(spec) {
   }
 }
 
-export function createTrackingStore(spec) {
+export function createTrackingStore<T>(spec: TrackingStoreSpec<T>): TrackingStore<T> {
   invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
   invariant(spec.observable != null, 'Observable must be provided');
 
