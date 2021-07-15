@@ -5,8 +5,16 @@
 
 import http from 'in-services/http';
 
+interface TenantUnit {}
+
+interface TenantsWithUnits {
+  [tenant: string]: TenantUnit[];
+}
+
 export function getTenantsWithUnits() {
-  return http({ method: 'GET', maxRetries: 3, url: '/auth/users/tenants/' }).map(response => response.body);
+  return http<TenantsWithUnits>({ method: 'GET', maxRetries: 3, url: '/auth/users/tenants/' }).map(
+    response => response.body
+  );
 }
 
 export function isSignedIn() {
