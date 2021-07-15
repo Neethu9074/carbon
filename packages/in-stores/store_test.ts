@@ -3,116 +3,110 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
-
-import { expect } from 'chai';
-import sinon from 'sinon';
+/* eslint-env jest */
 
 import { create } from '@instana/observables';
 
 import { createStore, createTrackingStore, allStates } from 'in-stores/store';
 
 describe('in-stores/store', () => {
-  let subscriber;
+  let subscriber: jest.Mock;
 
   beforeEach(() => {
-    subscriber = sinon.stub();
+    subscriber = jest.fn();
   });
 
   describe('createStore', () => {
-    it('should fail when the store already exists', () => {
+    it('must fail when the store already exists', () => {
       const name = generateStoreName();
       createStore({ name });
 
-      expect(() => {
-        createStore({ name });
-      }).to.throw('Store (' + name + ') already exists');
+      expect(() => createStore({ name })).toThrow('Store (' + name + ') already exists');
     });
 
-    it('should create a named store', () => {
+    it('must create a named store', () => {
       const name = generateStoreName();
       const store = createStore({ name, initialValue: 'foobar' });
 
       store.observable.subscribe(subscriber);
-      expect(subscriber).to.have.callCount(1);
-      expect(subscriber).to.have.been.calledWith('foobar');
-      expect(allStates[name]).to.equal('foobar');
+      expect(subscriber.mock.calls.length).toEqual(1);
+      expect(subscriber.mock.calls[0][0]).toEqual('foobar');
+      expect(allStates[name]).toEqual('foobar');
     });
 
-    it('should expose the store values under allStates for debugging purposes', () => {
+    it('must expose the store values under allStates for debugging purposes', () => {
       const name = generateStoreName();
       const store = createStore({ name, initialValue: 'bla' });
-      expect(allStates[name]).to.equal('bla');
+      expect(allStates[name]).toEqual('bla');
 
       store.applyStateMutation(() => 'blub');
-      expect(allStates[name]).to.equal('blub');
+      expect(allStates[name]).toEqual('blub');
     });
 
-    it('should free the observable so that all mutations go through applyStateMutation', () => {
+    it('must free the observable so that all mutations go through applyStateMutation', () => {
       const name = generateStoreName();
       const store = createStore({ name });
 
-      expect(store.observable.emit).to.equal(undefined);
+      // Retaining the test case for JavaScript users
+      // @ts-ignore
+      expect(store.observable.emit).toEqual(undefined);
     });
 
-    it('should inform subscribers about state transitions', () => {
+    it('must inform subscribers about state transitions', () => {
       const name = generateStoreName();
       const store = createStore({ name });
 
       store.observable.subscribe(subscriber);
-      expect(subscriber).to.have.callCount(1);
-      expect(subscriber).to.have.been.calledWith(null);
+      expect(subscriber.mock.calls.length).toEqual(1);
+      expect(subscriber.mock.calls[0][0]).toEqual(null);
 
       store.applyStateMutation(() => 'We want Mett!');
-      expect(subscriber).to.have.callCount(2);
-      expect(subscriber).to.have.been.calledWith('We want Mett!');
+      expect(subscriber.mock.calls.length).toEqual(2);
+      expect(subscriber.mock.calls[1][0]).toEqual('We want Mett!');
     });
   });
 
   describe('createTrackingStore', () => {
-    it('should fail when the store already exists', () => {
+    it('must fail when the store already exists', () => {
       const name = generateStoreName();
       createTrackingStore({ name, observable: create() });
-
-      expect(() => {
-        createTrackingStore({ name, observable: create() });
-      }).to.throw('Store (' + name + ') already exists');
+      expect(() => createTrackingStore({ name, observable: create() })).toThrow('Store (' + name + ') already exists');
     });
 
-    it('should track the store states', () => {
-      const name = generateStoreName();
-      const observable = create();
+      it('must track the store states', () => {
+        const name = generateStoreName();
+        const observable = create();
 
-      const emittedValue = 42;
-      observable.emit(42);
-      const store = createTrackingStore({ name, observable });
-      store.observable.subscribe(subscriber);
+        const emittedValue = 42;
+        observable.emit(42);
+        const store = createTrackingStore({ name, observable });
+        store.observable.subscribe(subscriber);
 
-      expect(allStates[name]).to.equal(emittedValue);
-    });
+        expect(allStates[name]).toEqual(emittedValue);
+      });
 
-    it('should not incur a performance overhead when no subscribers exist', () => {
-      const name = generateStoreName();
-      const observable = create();
+      it('must not incur a performance overhead when no subscribers exist', () => {
+        const name = generateStoreName();
+        const observable = create();
 
-      observable.emit(42);
-      createTrackingStore({ name, observable });
+        observable.emit(42);
+        createTrackingStore({ name, observable });
 
-      expect(allStates[name]).to.equal(undefined);
-    });
+        expect(allStates[name]).toEqual(undefined);
+      });
 
-    it('should expose a new observable to be subscribed on', () => {
-      const name = generateStoreName();
-      const observable = create();
-      const emittedValue = 42;
-      const store = createTrackingStore({ name, observable });
-      store.observable.subscribe(subscriber);
+      it('must expose a new observable to be subscribed on', () => {
+        const name = generateStoreName();
+        const observable = create();
+        const emittedValue = 42;
+        const store = createTrackingStore({ name, observable });
+        store.observable.subscribe(subscriber);
 
-      observable.emit(42);
+        observable.emit(42);
 
-      expect(subscriber).to.have.callCount(1);
-      expect(subscriber).to.have.been.calledWith(emittedValue);
-    });
+        expect(subscriber.mock.calls.length).toEqual(1);
+        expect(subscriber.mock.calls[0][0]).toEqual(emittedValue);
+      });
   });
 
   let storeCounter = 0;

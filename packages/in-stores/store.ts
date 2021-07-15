@@ -13,7 +13,7 @@ interface StoreSpec<T> {
   // Defaults to true.
   isGlobal?: boolean,
   initialValue?: T | null,
-  reducers: {
+  reducers?: {
     [type: string]: (currentState: T | null, action: ActionDefinition) => T
   }
 }
@@ -70,7 +70,7 @@ export function createStore<T>(spec: StoreSpec<T>) {
   function applyStateMutation(action: Action<T>) {
     if (typeof action === 'function') {
       mutateTo(action(currentState));
-    } else {
+    } else if (spec.reducers) {
       const reducer = spec.reducers[action.type];
       if (__DEV__) {
         invariant(
