@@ -96,7 +96,7 @@ export default function ServicesAndEndpointsListPresenter({
   );
 }
 
-export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
+export function ServicesAndEndpointsSearchInput({ query = '', onChange, applications }) {
   const { value, onChange: debouncedOnChange } = useDebouncedValue(
     query,
     value => {
@@ -104,7 +104,8 @@ export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
     },
     500
   );
-  return <SearchInput onChange={debouncedOnChange} query={value} />;
+
+  return <SearchInput onChange={debouncedOnChange} query={value} disabled={isEmpty(applications)} />;
 }
 
 ServicesAndEndpointsListPresenter.propTypes = {

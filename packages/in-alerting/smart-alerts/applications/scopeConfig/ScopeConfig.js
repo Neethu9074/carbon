@@ -66,7 +66,7 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
           filterBySelectionState={filterBySelectionState}
           setSearchQuery={setSearchQuery}
           setFilterBySelectionState={setFilterBySelectionState}
-          tagFilterExpression={tagFilterExpression}
+          applications={applications}
         />
       }
       withoutPadding
@@ -118,7 +118,7 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
   );
 }
 
-function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFilterBySelectionState }) {
+function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFilterBySelectionState, applications }) {
   return (
     <HorizontalFlexWrapper>
       <HorizontalFlexWrapper>
@@ -135,7 +135,7 @@ function LightCardHeaderControls({ filterBySelectionState, setSearchQuery, setFi
         <Spacer horizontal="xxsmall" />
       </HorizontalFlexWrapper>
       <div className={locals.lightCardHeaderControlsSearchInputWrapper}>
-        <ServicesAndEndpointsSearchInput onChange={query => setSearchQuery(query)} />
+        <ServicesAndEndpointsSearchInput onChange={query => setSearchQuery(query)} applications={applications} />
       </div>
     </HorizontalFlexWrapper>
   );
