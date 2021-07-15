@@ -22,6 +22,13 @@ export default [
     formatter: millis
   },
   {
+    metrics: ['statusMetric'],
+    labels: [t('in-forge:plugins.ibmDataPowerService.status')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmDataPowerService.status')],
+    formatter: number
+  },
+  {
     metrics: ['throughput'],
     labels: [t('in-forge:plugins.ibmDataPowerService.throughput')],
     min: 0,

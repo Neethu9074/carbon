@@ -6,6 +6,7 @@
 import React from 'react';
 
 import getIbmDataPowerServicesForDomain from 'in-subscription/ibmDataPowerDomain/getIbmDataPowerServicesForDomain';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -56,9 +57,7 @@ const cols = [
       getValue(row) {
         return row.service.getIn(['data', 'localPort']);
       },
-      getContent(value) {
-        return value;
-      }
+      getContent: number.compact
     }
   },
   {

@@ -41,5 +41,12 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.ibmDataPowerAppliance.connectionAccepted')],
     formatter: number
+  },
+  {
+    metrics: ['statusMetric'],
+    labels: [t('in-forge:plugins.ibmDataPowerAppliance.status')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmDataPowerAppliance.status')],
+    formatter: number
   }
 ];
