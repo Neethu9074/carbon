@@ -7,7 +7,7 @@ import { renderStaticThresholdLineAndBackgrounds } from 'in-alerting/components/
 import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import line from 'in-components/Chart/renderer/line';
-import { hexToRGBA } from 'in-themes/utils';
+import { hexToRGBA } from 'in-services/util/color';
 import theme from 'in-themes';
 
 export default {

@@ -5,7 +5,7 @@
 
 import invariant from 'invariant';
 
-import { addTransparency } from 'in-themes/utils';
+import { addTransparency } from 'in-services/util/color';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

@@ -18,7 +18,7 @@ import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartView
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
-import { hexToRGBA } from 'in-themes/utils';
+import { hexToRGBA } from 'in-services/util/color';
 import { hours } from 'in-services/time';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
