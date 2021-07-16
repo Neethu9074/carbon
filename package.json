@@ -158,6 +158,7 @@
     "clear-module": "^3.0.0",
     "css-loader": "^1.0.0",
     "del": "^2.0.2",
+    "detect-port-alt": "^1.1.6",
     "enzyme": "^3.10.0",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",

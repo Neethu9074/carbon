@@ -13,6 +13,7 @@ const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const clearConsole = require('react-dev-utils/clearConsole');
 const WebpackDevServer = require('webpack-dev-server');
+const detectPort = require('detect-port-alt');
 const { clone } = require('lodash');
 const webpack = require('webpack');
 const chalk = require('chalk');
@@ -28,6 +29,8 @@ const buildUtil = require('./util');
 const paths = require('./paths');
 
 const hotReload = !!process.env.HOT_RELOAD;
+const webpackDevServerPort = 3000;
+const proroxPort = 4000;
 
 // will be populated with data using the askForDevOptions task
 let devModeOptions;
@@ -39,6 +42,7 @@ gulp.task('prepareTestExecution', cb => {
 gulp.task('dev', cb => {
   const { clean, ensureTargetDirStructureExists, copyFavicon, writeBuildInfo, translateTheme } = commonJobs;
   gulp.series(
+    checkWebpackPortNotInUse,
     askForDevOptions,
     clean,
     ensureTargetDirStructureExists,
@@ -57,6 +61,20 @@ gulp.task('dev', cb => {
     webpackDev
   )(cb);
 });
+
+async function checkWebpackPortNotInUse(cb) {
+  // There is no need to check for the proxrox port, because we
+  // terminate running nginx instances before starting another one.
+  const resolvedPort = await detectPort(webpackDevServerPort);
+  if (resolvedPort === webpackDevServerPort) {
+    cb();
+  } else {
+    const error = `Webpack port ${webpackDevServerPort} already in use. Please terminate the already running process. For example by executing 'killall node'`;
+    // console.log(chalk.red(error));
+    // process.exit(1);
+    cb(new Error(error));
+  }
+}
 
 function askForDevOptions(cb) {
   askQuestions(_devModeOptions => {
@@ -99,8 +117,8 @@ function startDevProxy(cb) {
   let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
 
   const httpProxy = {
-    '/': 'http://127.0.0.1:3000',
-    '/waiting/': 'http://127.0.0.1:3000/waiting/',
+    '/': `http://127.0.0.1:${webpackDevServerPort}`,
+    '/waiting/': `http://127.0.0.1:${webpackDevServerPort}/waiting/`,
     '/api/': `${uiBackendUrl}/api/`,
     '/auth/': butlerUrl + '/auth/',
     '/assets/': butlerUrl + '/assets/',
@@ -114,7 +132,7 @@ function startDevProxy(cb) {
 
   if (hotReload) {
     // webpack hot reload HTTP URL
-    httpProxy['/hot/'] = 'http://127.0.0.1:3000/hot/';
+    httpProxy['/hot/'] = `http://127.0.0.1:${webpackDevServerPort}/hot/`;
   }
 
   if (envConfig.local) {
@@ -128,12 +146,12 @@ function startDevProxy(cb) {
 
   if (hotReload) {
     // webpack hot reload websocket URL
-    websocketProxy['/sockjs-node/'] = 'http://127.0.0.1:3000/sockjs-node/';
+    websocketProxy['/sockjs-node/'] = `http://127.0.0.1:${webpackDevServerPort}/sockjs-node/`;
   }
 
   const config = {
     serverName: 'local-instana.instana.io',
-    port: 4000,
+    port: proroxPort,
     root: paths.assetDir,
     ssi: true,
     tls: true,
@@ -158,7 +176,7 @@ function openDevUrlInBrowser(cb) {
 }
 
 function getDevUrl() {
-  return `https://local-instana.${devModeOptions.target.baseDomain}:4000`;
+  return `https://local-instana.${devModeOptions.target.baseDomain}:${proroxPort}`;
 }
 
 function webpackDev() {
@@ -185,11 +203,11 @@ function webpackDev() {
     stats: {
       colors: true
     }
-  }).listen(3000, 'localhost', err => {
+  }).listen(webpackDevServerPort, 'localhost', err => {
     if (err) {
       throw err;
     }
-    console.log('[webpack:dev]', 'http://localhost:3000/');
+    console.log('[webpack:dev]', `http://localhost:${webpackDevServerPort}/`);
     console.log();
     console.log(chalk.blue('Will now execute first compilation. This can take a few minutes.'));
     console.log(chalk.blue('The terminal output will change once completed.'));
