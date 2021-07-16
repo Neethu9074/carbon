@@ -5,7 +5,7 @@
 
 import { format as defaultLocaleFormat, formatLocale as createCustomLocaleFormat } from 'd3-format';
 
-export { t } from '@instana/i18n-react';
+import { t } from '@instana/i18n-react';
 
 import {
   markAsFormatterType,
