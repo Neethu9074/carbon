@@ -205,7 +205,7 @@ describe('in-components/SearchBar/misc/fields', () => {
 
   function updateFeatureFlags() {
     // evaluating feature flags is a one-time event in production code, so we have to jump through some hoops here :-/
-    const resolvedFileName = require.resolve(__dirname + '/../../in-services/featureFlags.js');
+    const resolvedFileName = require.resolve(__dirname + '/../../in-services/featureFlags.ts');
     delete require.cache[resolvedFileName];
     require(resolvedFileName);
   }
