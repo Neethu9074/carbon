@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import { SvgIcon } from '@instana/components';
 
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
-import { lib } from 'in-themes';
+import theme from 'in-themes';
 
 import locals from './FloatingActionButtonMenu.mless';
 
@@ -42,7 +42,11 @@ export default function FloatingActionButtonMenu({ children, label = 'Add' }) {
       <ClickAwayListener onClickAway={() => setMenuOpen(false)}>
         <FloatingActionButton onClick={toggleMenu} kind={menuOpen ? 'action' : 'primaryv2'} withBoxShadow>
           <div className={locals.buttonLabelContainer}>
-            <SvgIcon type={'lib_openclose_add'} className={menuOpen ? locals.rotate : ''} color={lib.colors.white} />
+            <SvgIcon
+              type={'lib_openclose_add'}
+              className={menuOpen ? locals.rotate : ''}
+              color={theme.lib.colors.white}
+            />
             <label className={menuOpen ? locals.labelHidden : ''}>{label}</label>
           </div>
         </FloatingActionButton>
