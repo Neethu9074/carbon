@@ -5,16 +5,17 @@ env:
     CODEBUILD_PROJECT_NAME: 'ui-client'
     VERSIONING_ARTIFACT_NAME: 'ui-client'
   parameter-store:
+    ARTIFACT_INSTANA_IO_PASSWORD: 'artifact.instana.io.password'
+    ARTIFACT_INSTANA_IO_USER: 'artifact.instana.io.user'
+    ARTIFACT_RND_INSTANA_IO_PASSWORD: 'artifact-rnd.instana.io.maven-write-password'
+    ARTIFACT_RND_INSTANA_IO_USER: 'artifact-rnd.instana.io.maven-write-user'
+    CONTAINERS_INSTANA_IO_PASSWORD: 'containers.instana.io.password'
+    CONTAINERS_INSTANA_IO_USER: 'containers.instana.io.user'
     EFS_DATA_DIR: 'efs.data.dir'
     EFS_DNS: 'efs.data.dns'
-    GITHUB_READ_USER: 'github.read.user'
+    GITHUB_API_TOKEN: "instanacd.github.api.token"
     GITHUB_READ_PASSWORD: 'github.read.password'
-    CONTAINERS_INSTANA_IO_USER: 'containers.instana.io.user'
-    CONTAINERS_INSTANA_IO_PASSWORD: 'containers.instana.io.password'
-    ARTIFACT_INSTANA_IO_USER: 'artifact.instana.io.user'
-    ARTIFACT_INSTANA_IO_PASSWORD: 'artifact.instana.io.password'
-    ARTIFACT_RND_INSTANA_IO_USER: 'artifact-rnd.instana.io.maven-write-user'
-    ARTIFACT_RND_INSTANA_IO_PASSWORD: 'artifact-rnd.instana.io.maven-write-password'
+    GITHUB_READ_USER: 'github.read.user'
 
 phases:
   install:
@@ -26,9 +27,8 @@ phases:
       # git configuration to check out git submodules
       - echo "https://$GITHUB_READ_USER:$GITHUB_READ_PASSWORD@github.com" > $HOME/.git-credentials
       - git config --global credential.helper store
-      # download git submodules so that our shared CI tools are available
-      - git submodule update --init --recursive
       # Set up the shared tooling
+      - ./build/download-ci-shared-tools.bash
       - 'USE_N=true ./build/ci-shared-tools/scripts/setup.bash'
       - ./build/ci-shared-tools/scripts/codebuild/setup.bash
       # Define the standard build env vars

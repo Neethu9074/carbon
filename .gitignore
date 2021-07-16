@@ -27,3 +27,6 @@ git-env.properties
 ui-client-license-report.csv
 ui-server-license-report.csv
 .DS_Store
+
+# ci-shared-tools is dynamically downloaded
+build/ci-shared-tools

@@ -1,3 +1,0 @@
-[submodule "build/ci-shared-tools"]
-	path = build/ci-shared-tools
-	url = https://github.com/instana/ci-shared-tools.git

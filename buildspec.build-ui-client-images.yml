@@ -2,16 +2,17 @@ version: 0.2
 
 env:
   parameter-store:
-    ARTIFACT_RND_INSTANA_IO_USER: "artifact-rnd.instana.io.user"
     ARTIFACT_RND_INSTANA_IO_PASSWORD: "artifact-rnd.instana.io.password"
+    ARTIFACT_RND_INSTANA_IO_USER: "artifact-rnd.instana.io.user"
     AWS_ACCESS_KEY_ID: "s3.devinfra.access.key.id"
     AWS_SECRET_ACCESS_KEY: "s3.devinfra.secret.access.key"
-    CONTAINERS_INSTANA_IO_USER: "containers.instana.io.user"
     CONTAINERS_INSTANA_IO_PASSWORD: "containers.instana.io.password"
-    GITHUB_READ_USER: "github.read.user"
+    CONTAINERS_INSTANA_IO_USER: "containers.instana.io.user"
+    GITHUB_API_TOKEN: "instanacd.github.api.token"
     GITHUB_READ_PASSWORD: "github.read.password"
-    TWISTLOCK_INSTANA_IO_USER: "twistlock.instana.io.user"
+    GITHUB_READ_USER: "github.read.user"
     TWISTLOCK_INSTANA_IO_PASSWORD: "twistlock.instana.io.password"
+    TWISTLOCK_INSTANA_IO_USER: "twistlock.instana.io.user"
 
 phases:
   install:
@@ -21,9 +22,8 @@ phases:
       # git configuration to check out git submodules
       - echo "https://$GITHUB_READ_USER:$GITHUB_READ_PASSWORD@github.com" > $HOME/.git-credentials
       - git config --global credential.helper store
-      # download git submodules so that our shared CI tools are available
-      - git submodule update --init --recursive
       # Set up the shared tooling
+      - ./build/download-ci-shared-tools.bash
       - 'USE_N=true ./build/ci-shared-tools/scripts/setup.bash'
       - ./build/ci-shared-tools/scripts/codebuild/setup.bash
   build:

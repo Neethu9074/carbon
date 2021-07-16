@@ -17,17 +17,9 @@ git config --global url.git@github.com:.insteadof https://github.com/
 ## Cloning the Repository
 
 ```sh
-git clone --recurse-submodules git@github.com:instana/ui-client.git
+git clone git@github.com:instana/ui-client.git
 cd ui-client
 ```
-
-If you already cloned the repository without `--recurse-submodules`, you can fetch the submodules with `git submodule update --init --recursive` .
-
-## Git Configuration, Again
-
-Note that by default, submodules are not updated automatically when doing `git pull`. That means that if the commit that a submodule points to has changed and you pull, your local clone will still be on the old commit. This would show like this in `git status`: `modified:   build/ci-shared-tools (new commits)`. You can use `git submodule update` to update all submodules.
-
-To avoid having to update submodules manually, we recommend to execute `git config submodule.recurse true` once in the `ui-client` repository, or, to execute `git config --global submodule.recurse true` to set this globally for all repositories. With that setting submodules are updated automatically when doing `git pull`.
 
 ## Setting up local domains
 

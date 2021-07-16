@@ -44,10 +44,11 @@ pipeline {
             error "Build aborted: Branch names containing slashes or commas aren't allowed. Please rename your branch."
           }
 
-          // download git submodules so that our shared CI tools are available
-          sh "git submodule update --init --recursive"
           // Set up the shared tooling
-          sh "./build/ci-shared-tools/scripts/setup.bash"
+          withCredentials([string(credentialsId: 'GH_API_TOKEN', variable: 'GITHUB_API_TOKEN')]) {
+            sh "./build/download-ci-shared-tools.bash"
+            sh "./build/ci-shared-tools/scripts/setup.bash"
+          }
 
           isDeliveryBranch = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/isDeliveryBranch.js") == 'true'
           latestReleaseBranch = getLatestReleaseBranch()
