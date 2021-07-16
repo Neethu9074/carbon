@@ -3,37 +3,42 @@
  * (c) Copyright Instana Inc.
  */
 
+import { emptyArray } from 'in-services/fixedObjects';
 import { createStore } from 'in-stores/store';
+
+export type MessageId = number | string;
+
+export interface Message {
+  id?: MessageId;
+  type: 'info' | 'warning' | 'danger';
+  icon: string;
+  title: string;
+  content: string;
+  onClick: () => void;
+  isLicenseUsageMsg: boolean;
+  timeout?: number;
+}
+
+export interface MessageWithId extends Message {
+  id: MessageId;
+}
 
 // used to generate IDs for messages
 let idCounter = 0;
 
-// Each message has the following format:
-// {
-//   id: <id>,
-//   type: <info|warning|danger>
-//   icon: <string name of SvgIcon>
-//   timeout: <number ms till the message will be disposed again>
-//   title: <string title>
-//   content: <string longer message for description>
-//   onClick?: <fn>
-//   isLicenseUsageMsg: Optional, indicating that this message is from the license usage flyout.
-//                      Causes an alternative visual style to be used for this kind of message.
-// }
-const messagesStore = createStore({
-  name: 'in-components/MessageFlyout/stores/messages',
+const messagesStore = createStore<Array<MessageWithId>>({
+  name: 'messages',
   initialValue: []
 });
 export const messages$ = messagesStore.observable
   // support state manipulate in render methods
   .nextFrame();
 
-export function addMessage(messageParam, id = null) {
-  id = id == null ? idCounter++ : id;
-  const message = {
+export function addMessage(messageParam: Message, id: MessageId = idCounter++) {
+  const message: MessageWithId = {
     id,
     type: messageParam.type,
-    icon: messageParam.icon ? messageParam.icon : getIconByType(messageParam.type),
+    icon: messageParam.icon || getIconByType(messageParam.type),
     title: messageParam.title,
     content: messageParam.content,
     onClick: messageParam.onClick ? messageParam.onClick : () => removeMessage(id),
@@ -41,6 +46,7 @@ export function addMessage(messageParam, id = null) {
   };
 
   messagesStore.applyStateMutation(messages => {
+    messages = messages || ((emptyArray as any) as MessageWithId[]);
     messages = messages.slice();
     const i = getIndexOfMessage(messages, id);
     if (i !== -1) {
@@ -55,12 +61,12 @@ export function addMessage(messageParam, id = null) {
     setTimeout(() => removeMessage(id), messageParam.timeout);
   }
 
-  return id;
+  return message.id;
 }
 
-export function removeMessage(id) {
+export function removeMessage(id: MessageId) {
   messagesStore.applyStateMutation(messages => {
-    messages = messages.slice();
+    messages = (messages || emptyArray).slice();
     const i = getIndexOfMessage(messages, id);
     if (i !== -1) {
       messages.splice(i, 1);
@@ -69,7 +75,7 @@ export function removeMessage(id) {
   });
 }
 
-function getIndexOfMessage(messages, id) {
+function getIndexOfMessage(messages: MessageWithId[], id: MessageId) {
   for (let i = 0, len = messages.length; i < len; i++) {
     if (messages[i].id === id) {
       return i;
@@ -78,7 +84,7 @@ function getIndexOfMessage(messages, id) {
   return -1;
 }
 
-function getIconByType(type) {
+function getIconByType(type: string) {
   if (type === 'warning' || type === 'danger') {
     return 'lib_events_inverted';
   }
