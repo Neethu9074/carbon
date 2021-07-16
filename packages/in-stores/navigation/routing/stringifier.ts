@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-export function stringify(location) {
+import { Location, Parameters } from 'in-stores/navigation/types';
+
+export function stringify(location: Location) {
   let href = location.pathname
     .split('/')
     .slice(1)
@@ -15,7 +17,7 @@ export function stringify(location) {
   return href + toParams(location.query, '?', '&');
 }
 
-export function toParams(params, firstSeparator, followUpSeparator) {
+export function toParams(params: Parameters, firstSeparator: string, followUpSeparator: string) {
   if (!params) {
     return '';
   }

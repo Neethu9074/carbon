@@ -151,6 +151,7 @@
     "@types/prop-types": "^15.7.4",
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.14",
+    "@types/react-router": "^5.1.16",
     "autoprefixer": "^7.0.1",
     "babel-loader": "^8.1.0",
     "babel-plugin-react-docgen": "^4.1.0",
