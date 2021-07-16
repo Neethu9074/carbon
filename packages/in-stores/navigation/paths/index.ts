@@ -4,11 +4,11 @@
  */
 
 // exported for testing purposes
-export function getRootPathPattern(...paths) {
+export function getRootPathPattern(...paths: string[]) {
   return new RegExp(`^(${paths.join('|')})(/.*)?$`, 'i');
 }
 
-export function getRootPathPredicate() {
-  const pattern = getRootPathPattern.apply(null, arguments);
+export function getRootPathPredicate(...paths: string[]) {
+  const pattern = getRootPathPattern(...paths);
   return pattern.test.bind(pattern);
 }

@@ -76,7 +76,10 @@ export function getView(path: string) {
   });
 }
 
-export function isView(...args) {
+type IsViewPredicate = (path: string) => boolean;
+export type IsViewArg = string | IsViewPredicate;
+
+export function isView(...args: IsViewArg[]) {
   const predicates = args.reduce((agg, arg) => {
     if (typeof arg === 'function') {
       agg.push(arg);
@@ -88,7 +91,7 @@ export function isView(...args) {
       }
     }
     return agg;
-  }, []);
+  }, [] as Array<IsViewPredicate>);
 
   return navigationParameters$
     .map(location => {
