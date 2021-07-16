@@ -7,7 +7,7 @@ export { parse, stringify } from 'in-services/util/json/jsurl2';
 
 import { sortKeys } from 'in-services/util/object';
 
-export function expandNestedSerializedJson(val, remainingExpansions = 1) {
+export function expandNestedSerializedJson(val: any, remainingExpansions = 1): any {
   if (val == null) {
     return val;
   }
@@ -28,7 +28,7 @@ export function expandNestedSerializedJson(val, remainingExpansions = 1) {
   }
 }
 
-function expandNestedSerializedJsonInObject(obj, remainingExpansions) {
+function expandNestedSerializedJsonInObject(obj: Object, remainingExpansions: number) {
   const copy = sortKeys(obj);
   for (let key in copy) {
     copy[key] = expandNestedSerializedJson(copy[key], remainingExpansions);
@@ -36,7 +36,7 @@ function expandNestedSerializedJsonInObject(obj, remainingExpansions) {
   return copy;
 }
 
-function expandNestedSerializedJsonInArray(arr, remainingExpansions) {
+function expandNestedSerializedJsonInArray(arr: Array<any>, remainingExpansions: number) {
   const copy = [];
   for (let i = 0; i < arr.length; i++) {
     copy[i] = expandNestedSerializedJson(arr[i], remainingExpansions);
