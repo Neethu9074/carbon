@@ -3,13 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { parse, stringify } from 'in-services/util/json/jsurl2';
-import { sortKeys } from 'in-services/util/object';
+export { parse, stringify } from 'in-services/util/json/jsurl2';
 
-export const urlFriendly = {
-  parse,
-  stringify
-};
+import { sortKeys } from 'in-services/util/object';
 
 export function expandNestedSerializedJson(val, remainingExpansions = 1) {
   if (val == null) {

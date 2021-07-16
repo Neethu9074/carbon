@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { parse, stringify } from 'in-services/util/json';
 import { emptyObject } from 'in-services/fixedObjects';
-import { urlFriendly } from 'in-services/util/json';
 import { isBlank } from 'in-services/util/string';
 
 export function getMatrixParameter(location, path, key) {
@@ -36,7 +36,7 @@ export function buildJsonSerializer() {
     if (!v) {
       return undefined;
     }
-    return urlFriendly.stringify(v);
+    return stringify(v);
   };
 }
 
@@ -47,7 +47,7 @@ export function buildJsonParser(fallback) {
     }
 
     try {
-      return urlFriendly.parse(str);
+      return parse(str);
     } catch (e) {
       return fallback;
     }
