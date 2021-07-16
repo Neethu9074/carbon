@@ -35,3 +35,7 @@ export function getActiveView(params) {
 export function isTableView(type) {
   return navigationParameters$.map(params => getMatrixParameter(params, tablePath, 'view') === type).distinct();
 }
+
+export function isInfrastructurePath(path) {
+  return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0 || path.indexOf(containerPath) === 0;
+}

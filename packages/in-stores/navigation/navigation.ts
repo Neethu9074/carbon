@@ -5,7 +5,7 @@
 
 import PropTypes from 'prop-types';
 
-import { physicalPath, containerPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
+import { isInfrastructurePath } from 'in-stores/navigation/paths/mainPaths';
 import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
@@ -97,10 +97,6 @@ export function isView(...args) {
       return false;
     })
     .distinct();
-}
-
-function isInfrastructurePath(path) {
-  return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0 || path.indexOf(containerPath) === 0;
 }
 
 export const propTypeLocation = PropTypes.shape({
