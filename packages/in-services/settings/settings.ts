@@ -25,7 +25,7 @@ export function set(settings: UiSettings) {
   });
   result$.once(savedBackendSettings => {
     window.instana.settings = savedBackendSettings;
-    settings$.emit(window.instana.settings);
+    settings$.emit(savedBackendSettings);
   });
 }
 
@@ -38,7 +38,7 @@ export function toggle(key: string) {
 }
 
 // Fire and forget: Usage discouraged because you will not get informed about settings changes. Consider using getSettings$
-export function getSingle<T>(key: string, fallback: T): T {
+export function getSingle<T>(key: string, fallback?: T): T {
   return window.instana.settings?.[key] ?? fallback;
 }
 

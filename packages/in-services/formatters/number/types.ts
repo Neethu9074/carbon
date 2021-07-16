@@ -22,8 +22,11 @@ type FormatterType =
 type NumberFormatter =
   | ((...args: any) => string)
   | {
-      compact: (...args: any) => string;
-      detailed: (...args: any) => string;
+      compact?: (...args: any) => string;
+      detailed?: (...args: any) => string;
+
+      // More properties may be defined, but we ignore them.
+      [other: string]: any
     };
 
 export const BYTE_RATE_FORMATTER_TYPE: FormatterType = 'BYTE_RATE';

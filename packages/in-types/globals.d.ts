@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { FormatLocaleDefinition } from 'd3-format';
+
 export interface UiSettings {
   [key: string]: any;
 }
@@ -25,6 +27,7 @@ export interface User {
 declare interface InstanaGlobals {
   user?: User;
   settings?: UiSettings;
+  numberLocale?: FormatLocaleDefinition;
 }
 
 declare global {
