@@ -4,6 +4,7 @@
  */
 
 /* global process:false */
+
 import { createMemoryHistory, createHashHistory } from 'history';
 
 import { wrap } from 'in-stores/navigation/routing/matrixAwareHistory';
