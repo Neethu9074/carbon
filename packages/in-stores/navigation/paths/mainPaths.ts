@@ -5,6 +5,7 @@
 
 import { navigationParameters$, mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { Location } from 'in-stores/navigation/types';
 
 export const homePath = '/';
 export const agentsPath = '/agents';
@@ -16,11 +17,11 @@ export const physicalDashboardPath = `${physicalPath}/dashboard`;
 export const tablePath = '/table';
 export const physicalTablePath = '/table;view=physical;plugin=host';
 
-export function getLinkToCurrentViewWithViewGrouping(view, vg) {
+export function getLinkToCurrentViewWithViewGrouping(view: string, vg: string) {
   return getModifiedUrlStream(params => (params.query[view] = vg));
 }
 
-export function setCurrentViewWithViewGrouping(view, vg) {
+export function setCurrentViewWithViewGrouping(view: string, vg: string) {
   mutateUrl(params => {
     delete params.query[view];
     params.query[view] = vg;
@@ -28,14 +29,14 @@ export function setCurrentViewWithViewGrouping(view, vg) {
   });
 }
 
-export function getActiveView(params) {
-  return params.pathname.replace(/\/dashboard($|\/.*)/, '').replace(/^\//, '');
+export function getActiveView(location: Location) {
+  return location.pathname.replace(/\/dashboard($|\/.*)/, '').replace(/^\//, '');
 }
 
-export function isTableView(type) {
+export function isTableView(type: string) {
   return navigationParameters$.map(params => getMatrixParameter(params, tablePath, 'view') === type).distinct();
 }
 
-export function isInfrastructurePath(path) {
+export function isInfrastructurePath(path: string) {
   return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0 || path.indexOf(containerPath) === 0;
 }

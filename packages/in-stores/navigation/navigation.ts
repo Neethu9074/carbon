@@ -10,11 +10,12 @@ import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+import { Location } from 'in-stores/navigation/types';
 import history from 'in-stores/navigation/history';
 import { ineum } from 'in-services/tracking/ineum';
 import { createStore } from 'in-stores/store';
 
-const store = createStore({
+const store = createStore<Location>({
   name: 'navigation',
   initialValue: history.location
 });
@@ -28,7 +29,9 @@ history.listen(location => {
   store.mutateTo(cloneLocation(location));
 });
 
-export function mutateUrl(mutator, replace = false) {
+export type LocationMutator = (location: Location) => void;
+
+export function mutateUrl(mutator: LocationMutator, replace = false) {
   navigationParameters$.once(currentLocation => {
     const newLocation = cloneLocation(currentLocation);
     mutator(newLocation);
@@ -43,22 +46,22 @@ export function mutateUrl(mutator, replace = false) {
   });
 }
 
-export function getModifiedUrl(currentLocation, modifyLocation) {
+export function getModifiedUrl(currentLocation: Location, modifyLocation: LocationMutator) {
   const newLocation = cloneLocation(currentLocation);
   modifyLocation(newLocation);
   applyResets(currentLocation, newLocation);
   return '/#' + stringify(newLocation);
 }
 
-export function getModifiedUrlStream(modifyLocation) {
+export function getModifiedUrlStream(modifyLocation: LocationMutator) {
   return navigationParameters$.map(currentLocation => getModifiedUrl(currentLocation, modifyLocation)).distinct();
 }
 
-export function goToPath(path) {
+export function goToPath(path: string) {
   mutateUrl(location => (location.pathname = path));
 }
 
-export function getView(path) {
+export function getView(path: string) {
   return getModifiedUrlStream(params => {
     if (
       params.query.q != undefined &&

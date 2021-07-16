@@ -55,8 +55,9 @@ export function createStore<T>(spec: StoreSpec<T>) {
   if (spec.isGlobal) {
     allStates[spec.name] = currentState;
   }
-  const observable = create();
-  observable.emit(currentState);
+  const observable = create<T>();
+  // as any because the store implementation is borked
+  observable.emit(currentState as any);
 
   return {
     // We do not want store users to see the emit function. It could occur
