@@ -3,10 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import * as React from 'react';
 
 import { ThemeContext } from '@instana/components';
 
-export default function LocallyChangedTheme({ theme, children }) {
+interface Props {
+  children: React.ReactNode;
+  theme: string;
+}
+
+export default function LocallyChangedTheme({ theme, children }: Props) {
   return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
 }
