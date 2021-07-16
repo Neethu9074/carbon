@@ -4,7 +4,7 @@
  */
 
 import { getTimeConfig, setTimeConfig, fixateTimeConfig } from 'in-stores/time/config';
-import { getModifiedUrlStream, toAbsoluteUrl } from 'in-stores/navigation/navigation';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
@@ -38,4 +38,8 @@ export function getShortUrl({ fixateTime = true } = emptyObject) {
   })
     .map(toAbsoluteUrl)
     .flatMap(getShortUrlInternal);
+}
+
+function toAbsoluteUrl(partialUrl) {
+  return window.location.origin + partialUrl;
 }

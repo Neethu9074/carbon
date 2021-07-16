@@ -18,8 +18,7 @@ const store = createStore({
   name: 'navigation',
   initialValue: history.location
 });
-export const navigationParameters = store.observable;
-export const navigationParameters$ = navigationParameters;
+export const navigationParameters$ = store.observable;
 
 // Synchronously set the page name to ensure that the page load beacon does carry the right page name.
 ineum('page', history.location.pathname);
@@ -53,21 +52,6 @@ export function getModifiedUrl(currentLocation, modifyLocation) {
 
 export function getModifiedUrlStream(modifyLocation) {
   return navigationParameters$.map(currentLocation => getModifiedUrl(currentLocation, modifyLocation)).distinct();
-}
-
-export function toAbsoluteUrl(partialUrl) {
-  return window.location.origin + partialUrl;
-}
-
-export function buildPathStartsWithStream(path) {
-  return navigationParameters$.map(params => params.pathname.indexOf(path) === 0).distinct();
-}
-
-export function goToRootOfView() {
-  mutateUrl(navParams => {
-    navParams.pathname = navParams.pathname.replace(/^\/([a-z]+)\/.*/i, (all, view) => `/${view}`);
-    return navParams;
-  });
 }
 
 export function goToPath(path) {

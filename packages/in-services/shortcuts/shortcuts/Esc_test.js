@@ -9,7 +9,7 @@ import sinon from 'sinon';
 /* eslint-env jest, node */
 import { create } from '@instana/observables';
 
-import { homePath } from 'in-stores/navigation/paths/mainPaths';
+import { cloneLocation } from 'in-stores/navigation/routing/clone';
 import { resetStoreRegistry } from 'in-stores/store';
 
 describe('shortcuts/dashboard', () => {
@@ -55,7 +55,6 @@ describe('shortcuts/dashboard', () => {
     // initial call
     expect(selectedSnapshotIdStub).to.have.callCount(1);
 
-    navigationMock.goToRootOfView();
     navigationMock.setSnapshotId('testId');
 
     pressEscape();
@@ -82,17 +81,20 @@ describe('shortcuts/dashboard', () => {
 
     navigationMock.goToDashboard();
     expect(navigationParametersStub).to.have.callCount(2);
+    expect(navigationParametersStub.getCall(1).args[0].pathname).to.equal('/foo/dashboard');
 
     navigationMock.setSnapshotId('testId');
     expect(navigationParametersStub).to.have.callCount(3);
+    expect(navigationParametersStub.getCall(2).args[0].pathname).to.equal('/foo/dashboard');
 
     pressEscape();
     expect(selectedSnapshotIdStub).to.have.callCount(1);
     expect(navigationParametersStub).to.have.callCount(4);
-    expect(navigationParametersStub.getCall(1).args[0].pathname).to.equal(homePath);
+    expect(navigationParametersStub.getCall(3).args[0].pathname).to.equal('/foo');
 
     pressEscape();
     expect(selectedSnapshotIdStub).to.have.callCount(2);
+    expect(navigationParametersStub).to.have.callCount(4);
     expect(selectedSnapshotIdStub.getCall(1).args[0]).to.equal(null);
   });
 
@@ -112,7 +114,7 @@ describe('shortcuts/dashboard', () => {
     navigationParametersStore = createStore({
       name: 'navigationTestStore',
       initialValue: {
-        pathname: homePath,
+        pathname: '/',
         query: {}
       }
     });
@@ -130,13 +132,14 @@ describe('shortcuts/dashboard', () => {
     navigationMock = {
       goToDashboard: () =>
         navigationParametersStore.applyStateMutation(oldParams => {
-          oldParams.pathname = '/dashboard';
+          oldParams.pathname = '/foo/dashboard';
           return oldParams;
         }),
-      goToRootOfView: () =>
+      mutateUrl: mutator =>
         navigationParametersStore.applyStateMutation(oldParams => {
-          oldParams.pathname = homePath;
-          return oldParams;
+          const clone = cloneLocation(oldParams);
+          mutator(clone);
+          return clone;
         }),
       setSnapshotId: id =>
         navigationParametersStore.applyStateMutation(oldParams => {
