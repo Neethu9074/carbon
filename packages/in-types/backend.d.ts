@@ -1,6 +1,5 @@
 /* tslint:disable */
 /* eslint-disable */
-// Generated using typescript-generator version 2.32.889 on 2021-07-14 16:57:28.
 
 export interface TimeShift {
     readonly offset: number;
@@ -46,7 +45,7 @@ export interface Alert {
     readonly end: number;
 }
 
-export interface GetAppDataEntityChainsQuery extends UiQuery {
+export interface GetAppDataEntityChainsQuery extends CursorPaginatedQuery {
     readonly timeConfig: TimeConfig;
     readonly tagFilterExpression?: TagFilterExpressionElement;
     readonly includeSynthetic: boolean;
@@ -77,8 +76,7 @@ export interface GetApplicationLiveViewQuery extends PaginatedUIQuery {
 export interface GetApplicationMetricsAlertPreviewQuery extends UiQuery {
     readonly timeConfig: TimeConfig;
     readonly metrics: { [index: string]: AppDataMetricConfiguration };
-    readonly tagFilters?: TagFilter[];
-    readonly tagFilterExpression?: TagFilterExpressionElement;
+    readonly tagFilterExpression: TagFilterExpressionElement;
     readonly includeInternal: boolean;
     readonly includeSynthetic: boolean;
     readonly threshold: Threshold;
@@ -90,14 +88,10 @@ export interface GetApplicationMetricsAlertPreviewQueryWithClustering extends Ge
     readonly granularity: number;
 }
 
-export interface GetApplicationMetricsThresholdSuggestionQuery extends ThresholdSuggestionQuery, UiQuery {
+export interface GetApplicationMetricsThresholdSuggestionQuery extends AbstractThresholdSuggestionQuery {
     readonly metric: AppDataMetricConfiguration;
-    readonly tagFilters?: TagFilter[];
-    readonly tagFilterExpression?: TagFilterExpressionElement;
     readonly includeInternal: boolean;
     readonly includeSynthetic: boolean;
-    readonly operator: ThresholdOperator;
-    readonly rbacRestrictions?: any;
     readonly alertEvaluationType?: AlertEvaluationType;
     readonly evaluationType?: AlertEvaluationType;
 }
@@ -105,9 +99,9 @@ export interface GetApplicationMetricsThresholdSuggestionQuery extends Threshold
 export interface GetApplicationPotentialProblemsQuery extends FilteredQuery {
     readonly timeConfig: TimeConfig;
     readonly alertRules?: { [index: string]: AlertRuleWithGranularity };
-    readonly tagFilters?: TagFilter[];
-    readonly tagFilterExpression?: TagFilterExpressionElement;
+    readonly tagFilterExpression: TagFilterExpressionElement;
     readonly includeSynthetic: boolean;
+    readonly includeInternal: boolean;
 }
 
 export interface AlertRuleWithGranularity {
@@ -193,8 +187,8 @@ export interface CloudfoundryContainer {
 export interface CloudfoundryContainerListItem extends FilterableListItem {
     readonly container: CloudfoundryContainer;
     readonly entityHealthInfo: EntityHealthInfo;
-    readonly cfInstanceIndex?: string;
     readonly containerLabel?: string;
+    readonly cfInstanceIndex?: string;
 }
 
 export interface GetApplicationServiceIdForCloudfoundryApplicationServiceUidQuery extends UiQuery {
@@ -734,9 +728,9 @@ export interface References {
 
 export interface AbstractKubernetesContainerState {
     readonly status?: string;
-    readonly waiting: boolean;
     readonly terminated: boolean;
     readonly running: boolean;
+    readonly waiting: boolean;
 }
 
 export interface ComponentStatus {
@@ -779,11 +773,6 @@ export interface GetKubernetesContainersQuery extends PaginatedQuery {
     readonly filter: KubernetesQueryFilter;
     readonly pagination: Pagination;
     readonly order: Order;
-}
-
-export interface GetKubernetesCronJobPodsQuery extends UiQuery {
-    readonly id: string;
-    readonly timeConfig: TimeConfig;
 }
 
 export interface GetKubernetesCronJobQuery extends UiQuery {
@@ -1116,9 +1105,9 @@ export interface KubernetesJobListItem extends FilterableListItem {
     readonly podIds?: string[];
     readonly entityHealthInfo: EntityHealthInfo;
     readonly namespace?: string;
-    readonly status?: string;
     readonly age?: number;
     readonly label?: string;
+    readonly status?: string;
 }
 
 export interface KubernetesLabel {
@@ -1144,8 +1133,8 @@ export interface KubernetesNamespaceListItem extends FilterableListItem, ListIte
     readonly services: number;
     readonly workloads: WorkloadCounters;
     readonly entityHealthInfo: EntityHealthInfo;
-    readonly clusterName?: string;
     readonly label?: string;
+    readonly clusterName?: string;
 }
 
 export interface KubernetesNode {
@@ -1171,11 +1160,11 @@ export interface KubernetesNodeListItem extends ListItemWithMetric, FilterableLi
     readonly node: KubernetesNode;
     readonly pods: number;
     readonly entityHealthInfo: EntityHealthInfo;
-    readonly roles?: string;
-    readonly name?: string;
-    readonly status?: string;
     readonly age?: number;
+    readonly roles?: string;
     readonly version?: string;
+    readonly status?: string;
+    readonly name?: string;
 }
 
 export interface KubernetesPersistentVolume {
@@ -1192,8 +1181,8 @@ export interface KubernetesPersistentVolume {
 export interface KubernetesPersistentVolumeListItem extends FilterableListItem {
     readonly persistentVolume: KubernetesPersistentVolume;
     readonly entityHealthInfo: EntityHealthInfo;
-    readonly name?: string;
     readonly phase?: string;
+    readonly name?: string;
 }
 
 export interface KubernetesPod {
@@ -1223,8 +1212,8 @@ export interface KubernetesPodCondition {
 export interface KubernetesPodListItem extends ListItemWithMetric, FilterableListItem {
     readonly pod: KubernetesPod;
     readonly entityHealthInfo: EntityHealthInfo;
-    readonly namespace?: string;
     readonly statusSummary?: string;
+    readonly namespace?: string;
     readonly age?: number;
     readonly phase?: string;
     readonly label?: string;
@@ -1316,16 +1305,16 @@ export interface KubernetesWorkloadControllerListItem extends ListItemWithMetric
     readonly workloadController: KubernetesWorkloadController;
     readonly pods: number;
     readonly entityHealthInfo: EntityHealthInfo;
-    readonly namespace?: string;
     readonly deploymentConfig?: KubernetesWorkloadController;
-    readonly name?: string;
     readonly deployment?: KubernetesWorkloadController;
+    readonly namespace?: string;
+    readonly name?: string;
 }
 
 export interface ListItemWithMetric {
-    readonly snapshotIdForMetric?: string;
     readonly sortedMetricValue?: number;
     readonly entityIdForMetric?: EntityId;
+    readonly snapshotIdForMetric?: string;
 }
 
 export interface DefaultComparator extends Comparator<any> {
@@ -1549,6 +1538,7 @@ export interface HasLogsResult {
 export interface LogGroupItem extends Cursorific<IngestionOffsetCursor> {
     readonly label: string;
     readonly numberOfLogs: number;
+    readonly percentage: number;
     readonly cursor: IngestionOffsetCursor;
 }
 
@@ -1648,6 +1638,11 @@ export interface MetricQuery {
     readonly rollup?: number;
     readonly aggregation?: AggregationType;
     readonly rollupOrDefault: number;
+}
+
+export interface AppDataEntityChainItem extends Cursorific<IngestionOffsetCursor> {
+    readonly appDataEntityChain: AppDataEntityChain;
+    readonly cursor: IngestionOffsetCursor;
 }
 
 export interface GetRetentionResult {
@@ -1951,6 +1946,13 @@ export interface ProfilesItem {
 export interface GetProfilesQueryBuilder {
 }
 
+export interface AbstractThresholdSuggestionQuery extends ThresholdSuggestionQuery, UiQuery {
+    readonly type: ThresholdType;
+    readonly operator: ThresholdOperator;
+    readonly tagFilterExpression: TagFilterExpressionElement;
+    readonly rbacRestrictions?: any;
+}
+
 export interface CloudfoundryQueryFilter extends FilterInterface {
     readonly label?: string;
     readonly applicationId?: string;
@@ -1976,6 +1978,7 @@ export interface Filter extends FilterInterface {
     readonly timeConfig: TimeConfig;
     readonly processReference?: EntityId;
     readonly includeSyntheticCalls: boolean;
+    readonly includeInternalCalls: boolean;
     readonly useLongTermDataOnly: boolean;
     readonly applicationBoundaryScope?: ApplicationBoundaryScope;
 }
@@ -2004,10 +2007,11 @@ export interface KubernetesQueryFilter extends FilterInterface {
     readonly label?: string;
     readonly serviceId?: string;
     readonly clusterId?: string;
+    readonly namespaceId?: string;
     readonly podId?: string;
     readonly nodeId?: string;
-    readonly namespaceId?: string;
     readonly workloadControllerId?: string;
+    readonly workloadOwnerId?: string;
     readonly daemonSetId?: string;
     readonly deploymentId?: string;
     readonly deploymentConfigId?: string;
@@ -2039,6 +2043,7 @@ export interface ThresholdSuggestionQuery {
     readonly operator?: ThresholdOperator;
     readonly seasonality?: Seasonality;
     readonly fallbackOnError: boolean;
+    readonly type?: ThresholdType;
 }
 
 export interface TimeConfig {
@@ -2075,6 +2080,7 @@ export interface FilterBuilder {
     readonly timeConfig?: TimeConfig;
     readonly processReference?: EntityId;
     readonly includeSyntheticCalls: boolean;
+    readonly includeInternalCalls: boolean;
     readonly useLongTermDataOnly: boolean;
     readonly applicationBoundaryScope?: ApplicationBoundaryScope;
 }
@@ -2100,6 +2106,7 @@ export interface KubernetesQueryFilterBuilder {
     readonly statefulSetId?: string;
     readonly cronJobId?: string;
     readonly timeConfig?: TimeConfig;
+    readonly workloadOwnerId?: string;
 }
 
 export interface ApplicationScope {
@@ -2367,8 +2374,8 @@ export interface Builder {
     readonly metricIds?: string[];
     readonly id?: string;
     readonly this?: Builder;
-    readonly entityId?: EntityId;
     readonly volatileId?: VolatileId;
+    readonly entityId?: EntityId;
     readonly snapshotId?: string;
 }
 
@@ -2412,6 +2419,7 @@ export interface GetTagSuggestionsQuery extends FilteredQuery {
     readonly metrics?: { [index: string]: MetricConfiguration };
     readonly includeInternal?: boolean;
     readonly includeSynthetic?: boolean;
+    readonly removeRequestedTagFromFilters?: boolean;
 }
 
 export interface QueryableTag {
@@ -2752,6 +2760,8 @@ export interface DistributedLogsV2MetricConfiguration extends UnifiedMetricConfi
 
 export interface EventMetricConfiguration extends UnifiedMetricConfiguration {
     readonly dynamicFocusQuery: string;
+    readonly includeAgentMonitoringIssues: boolean;
+    readonly includeK8sInfoEvents: boolean;
 }
 
 export interface EventMetricsCatalog {
@@ -3101,12 +3111,8 @@ export interface GetWebsiteMetricsQuery extends QueryWithMetrics, UiQuery {
     readonly tagFilterExpression?: TagFilterExpressionElement;
 }
 
-export interface GetWebsiteMetricsThresholdSuggestionQuery extends ThresholdSuggestionQuery, UiQuery {
+export interface GetWebsiteMetricsThresholdSuggestionQuery extends AbstractThresholdSuggestionQuery {
     readonly metric: WebsiteMonitoringMetricsConfiguration;
-    readonly tagFilters?: TagFilter[];
-    readonly tagFilterExpression?: TagFilterExpressionElement;
-    readonly operator: ThresholdOperator;
-    readonly rbacRestrictions?: any;
 }
 
 export interface GetWebsiteQuery extends UiQuery {
@@ -3132,12 +3138,8 @@ export interface GetWebsiteRateMetricQuery extends QueryWithMetrics, UiQuery {
     readonly tagFilterExpression?: TagFilterExpressionElement;
 }
 
-export interface GetWebsiteRateMetricThresholdSuggestionQuery extends ThresholdSuggestionQuery, UiQuery {
+export interface GetWebsiteRateMetricThresholdSuggestionQuery extends AbstractThresholdSuggestionQuery {
     readonly metric: WebsiteRateMetricConfiguration;
-    readonly tagFilters?: TagFilter[];
-    readonly tagFilterExpression?: TagFilterExpressionElement;
-    readonly operator: ThresholdOperator;
-    readonly rbacRestrictions?: any;
 }
 
 export interface GetWebsiteUniqueUsersInSlidingWindowQuery extends QueryWithMetrics, UiQuery {
@@ -3317,11 +3319,18 @@ export interface WindowWidthBreakdown {
 export interface Threshold {
     readonly type: string;
     readonly operator: ThresholdOperator;
-    readonly lastUpdated: number;
 }
 
 export interface TagFilterExpressionElement {
     readonly type: string;
+}
+
+export interface ApplicationTimeThreshold extends TimeThreshold {
+    readonly type: string;
+}
+
+export interface ApplicationAlertRule extends AlertRule {
+    readonly alertType: string;
 }
 
 export interface TagFilter extends TagFilterExpressionElement {
@@ -3335,21 +3344,13 @@ export interface TagFilter extends TagFilterExpressionElement {
     readonly entity: TagFilterEntity;
 }
 
-export interface ApplicationTimeThreshold extends TimeThreshold {
-    readonly type: string;
-}
-
-export interface ApplicationAlertRule extends AlertRule {
-    readonly alertType: string;
-}
-
 export interface Timeframe {
     readonly windowSize: number;
     readonly to?: number;
+    readonly from: number;
     readonly toAsDate?: Date;
     readonly fromAsDate?: Date;
     readonly toOrNow: number;
-    readonly from: number;
 }
 
 export interface TagFilterExpression extends TagFilterExpressionElement {
@@ -3470,11 +3471,17 @@ export interface WebsiteTimeThreshold extends TimeThreshold {
 
 export interface StaticThreshold extends Threshold {
     readonly value: number;
+    readonly lastUpdated: number;
 }
 
 export interface HistoricBaseline extends Threshold {
     readonly seasonality: Seasonality;
     readonly baseline?: number[][];
+    readonly deviationFactor: number;
+    readonly lastUpdated: number;
+}
+
+export interface AdaptiveBaseline extends Threshold {
     readonly deviationFactor: number;
 }
 
@@ -3548,7 +3555,7 @@ export type Type = "HEALTHY" | "WARNING" | "CRITICAL" | "UNKNOWN";
 
 export type EndpointSyntheticType = "NON_SYNTHETIC" | "SYNTHETIC" | "MIXED";
 
-export type EndpointType = "UNDEFINED" | "RPC" | "EVENT" | "GRAPHQL" | "BATCH" | "SHELL" | "HTTP" | "SDK" | "INTERNAL" | "DATABASE" | "MESSAGING" | "PAGE" | "PAGE_RESOURCE";
+export type EndpointType = "UNDEFINED" | "RPC" | "EVENT" | "GRAPHQL" | "BATCH" | "SHELL" | "HTTP" | "SDK" | "OPENTELEMETRY" | "INTERNAL" | "DATABASE" | "MESSAGING" | "PAGE" | "PAGE_RESOURCE";
 
 export type LogLevel = "WARN" | "ERROR";
 
@@ -3594,6 +3601,8 @@ export type ResultType = "TIME_SERIES" | "HISTOGRAM" | "SINGLE_NUMBER";
 
 export type SliMetricType = "SLI" | "ERROR_BUDGET_SPENT" | "ERROR_BUDGET_REMAINING" | "TOTAL_ERROR_BUDGET" | "HOURLY_ERROR_BUDGET_CHART" | "CONSUMED_ERROR_BUDGET_CHART";
 
+export type ThresholdType = "staticThreshold" | "historicBaseline" | "adaptiveBaseline";
+
 export type ThresholdOperator = ">" | ">=" | "<" | "<=";
 
 export type Seasonality = "WEEKLY" | "DAILY";
@@ -3610,7 +3619,7 @@ export type AggregationType = "SUM" | "MEAN" | "MAX" | "MIN" | "P25" | "P50" | "
 
 export type EntityType = "Entity10" | "App20" | "Service20" | "Endpoint20" | "Website";
 
-export type InfraTagCategory = "OTHERS" | "KUBERNETES" | "CLOUD_FOUNDRY" | "VSHPERE" | "AWS" | "AZURE" | "GCP" | "CONTAINER" | "SELF_MONITORING" | "IBM_CLOUD" | "IBM_DATAPOWER" | "IBM_MQ" | "CLR" | "ACE" | "CASSANDRA" | "COCKROACH" | "CONSUL" | "COUCHBASE" | "ELASTICSEARCH" | "HADOOP_YARN" | "HAZELCAST" | "KAFKA_CONNECT" | "MONGO_DB" | "REDIS" | "SOLR" | "SPARK";
+export type InfraTagCategory = "OTHERS" | "KUBERNETES" | "CLOUD_FOUNDRY" | "VSHPERE" | "AWS" | "AZURE" | "GCP" | "CONTAINER" | "SELF_MONITORING" | "IBM_CLOUD" | "IBM_DATAPOWER" | "IBM_I_SERIES" | "IBM_MQ" | "CLR" | "ACE" | "CASSANDRA" | "COCKROACH" | "CONSUL" | "COUCHBASE" | "ELASTICSEARCH" | "HADOOP_YARN" | "HAZELCAST" | "KAFKA_CONNECT" | "MONGO_DB" | "REDIS" | "SOLR" | "SPARK";
 
 export type Formatter = "NUMBER" | "BYTES" | "PERCENTAGE" | "LATENCY" | "MILLIS" | "SECONDS" | "MICROS" | "RATE" | "BYTE_RATE" | "UNDEFINED";
 
