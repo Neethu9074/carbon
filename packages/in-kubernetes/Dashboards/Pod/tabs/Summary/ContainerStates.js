@@ -155,6 +155,7 @@ export default connectTo(
                       />
                     )}
                   </Td>
+                  <Td>&mdash;</Td>
                 </Tr>
               );
             })}
