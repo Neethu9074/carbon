@@ -14,14 +14,14 @@ import {
 
 describe('in-services/formatters/number/types', () => {
   it('must return the undefined type when no better match was found', () => {
-    expect(getFormatterType(null)).toEqual(UNDEFINED_FORMATTER_TYPE);
-    expect(getFormatterType({})).toEqual(UNDEFINED_FORMATTER_TYPE);
-    expect(getFormatterType(() => {})).toEqual(UNDEFINED_FORMATTER_TYPE);
+    expect(getFormatterType(null as any)).toEqual(UNDEFINED_FORMATTER_TYPE);
+    expect(getFormatterType({} as any)).toEqual(UNDEFINED_FORMATTER_TYPE);
+    expect(getFormatterType(() => '42')).toEqual(UNDEFINED_FORMATTER_TYPE);
   });
 
   it('must mark functions', () => {
     const type = PERCENTAGE_FORMATTER_TYPE;
-    const formatter = () => {};
+    const formatter = () => '42';
     expect(markAsFormatterType(formatter, type)).toEqual(formatter);
     expect(getFormatterType(formatter)).toEqual(type);
   });
@@ -29,8 +29,8 @@ describe('in-services/formatters/number/types', () => {
   it('must mark objects and the fixed/compact fields', () => {
     const type = PERCENTAGE_FORMATTER_TYPE;
     const formatter = {
-      compact: () => {},
-      detailed: () => {}
+      compact: () => '42',
+      detailed: () => '42.0'
     };
     expect(markAsFormatterType(formatter, type)).toEqual(formatter);
     expect(getFormatterType(formatter)).toEqual(type);
@@ -41,8 +41,8 @@ describe('in-services/formatters/number/types', () => {
   it('must support partially annotated formatter objects', () => {
     const type = PERCENTAGE_FORMATTER_TYPE;
     const formatter = {
-      compact: () => {},
-      detailed: markAsFormatterType(() => {}, type)
+      compact: () => '42',
+      detailed: markAsFormatterType(() => '42', type)
     };
     expect(getFormatterType(formatter)).toEqual(type);
     expect(getFormatterType(formatter.compact)).toEqual(UNDEFINED_FORMATTER_TYPE);

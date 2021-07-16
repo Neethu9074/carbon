@@ -63,7 +63,7 @@ function mark(obj: any, type: FormatterType) {
 /**
  * Returns the first formatter type found or UNDEFINED_FORMATTER_TYPE.
  */
-export function getFormatterType(formatter: NumberFormatter): FormatterType {
+export function getFormatterType(formatter?: NumberFormatter): FormatterType {
   return (
     get(formatter) || get((formatter as any)?.compact) || get((formatter as any)?.detailed) || UNDEFINED_FORMATTER_TYPE
   );
