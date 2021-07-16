@@ -36,26 +36,26 @@ getSetting$('formatTimestampsAsUtc').subscribe(asUtc => {
   }
 });
 
-export function parseDate(dateString) {
+export function parseDate(dateString: string): Date {
   return parseDateInternal(dateString);
 }
 
-function parseDateAsUtc(dateString) {
+function parseDateAsUtc(dateString: string): Date {
   return moment.utc(dateString, dateFormat).toDate();
 }
 
-function parseDateAccordingToLocalTime(dateString) {
+function parseDateAccordingToLocalTime(dateString: string): Date {
   return moment(dateString, dateFormat).toDate();
 }
 
-export function parseDateTime(dateTimeString) {
+export function parseDateTime(dateTimeString: string): Date {
   return parseDateTimeInternal(dateTimeString);
 }
 
-function parseDateTimeAsUtc(dateTimeString) {
+function parseDateTimeAsUtc(dateTimeString: string): Date {
   return moment.utc(dateTimeString, dateTimeFormat).toDate();
 }
 
-function parseDateTimeAccordingToLocalTime(dateTimeString) {
+function parseDateTimeAccordingToLocalTime(dateTimeString: string): Date {
   return moment(dateTimeString, dateTimeFormat).toDate();
 }
