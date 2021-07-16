@@ -4,7 +4,6 @@ set -e
 
 linkModule() {
   name="$1"
-  echo "linking $name"
   rm -rf "node_modules/$name"
   ln -s "../packages/$name" "node_modules/$name"
 }

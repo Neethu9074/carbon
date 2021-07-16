@@ -77,8 +77,10 @@ export const number = markAsFormatterType(
 
 export const positiveNumber = (v: number) => (v > 0 ? v : '-');
 
-export const activityZeroDecimalPlaces = (d: number) => (d < 0 ? t('in-services:formatters.noActivity') : zeroDecimalPlaces(d));
-export const activityTwoDecimalPlaces = (d: number) => (d < 0 ? t('in-services:formatters.noActivity') : twoDecimalPlaces(d));
+export const activityZeroDecimalPlaces = (d: number) =>
+  d < 0 ? t('in-services:formatters.noActivity') : zeroDecimalPlaces(d);
+export const activityTwoDecimalPlaces = (d: number) =>
+  d < 0 ? t('in-services:formatters.noActivity') : twoDecimalPlaces(d);
 export const activity = {
   compact: activityZeroDecimalPlaces,
   detailed: activityTwoDecimalPlaces
@@ -95,7 +97,8 @@ export const twoDecimalPlacesPerSecond = markAsFormatterType(
 
 export const percentageZeroDecimalPlaces = (d: number) =>
   t('in-services:formatters.percent', { num: zeroDecimalPlaces(d * 100) });
-export const percentageTwoDecimalPlaces = (d: number) => t('in-services:formatters.percent', { num: twoDecimalPlaces(d * 100) });
+export const percentageTwoDecimalPlaces = (d: number) =>
+  t('in-services:formatters.percent', { num: twoDecimalPlaces(d * 100) });
 export const percentage = markAsFormatterType(
   {
     compact: percentageZeroDecimalPlaces,
@@ -104,8 +107,10 @@ export const percentage = markAsFormatterType(
   PERCENTAGE_FORMATTER_TYPE
 );
 
-export const percentagePlainZeroDecimalPlaces = (d: number) => t('in-services:formatters.percent', { num: zeroDecimalPlaces(d) });
-export const percentagePlainTwoDecimalPlaces = (d: number) => t('in-services:formatters.percent', { num: twoDecimalPlaces(d) });
+export const percentagePlainZeroDecimalPlaces = (d: number) =>
+  t('in-services:formatters.percent', { num: zeroDecimalPlaces(d) });
+export const percentagePlainTwoDecimalPlaces = (d: number) =>
+  t('in-services:formatters.percent', { num: twoDecimalPlaces(d) });
 export const percentagePlain = markAsFormatterType(
   {
     compact: percentagePlainZeroDecimalPlaces,
@@ -187,7 +192,8 @@ export const millis = markAsFormatterType(
     forcedCompactOnMs: markAsFormatterType(
       {
         compact: (v: number) => formatTime(v, timeMilliUnits, number.compact),
-        detailed: (v: number) => (v < 1000 ? formatTime(v, timeMilliUnits, number.compact) : timeByMillisTwoDecimalPlaces(v))
+        detailed: (v: number) =>
+          v < 1000 ? formatTime(v, timeMilliUnits, number.compact) : timeByMillisTwoDecimalPlaces(v)
       },
       MILLIS_FORMATTER_TYPE
     ),
@@ -456,10 +462,13 @@ export const nanos = {
   detailed: timeNs
 };
 
-export const bitReadableString = (v: number) => (v > 0 ? t('in-services:formatters.yes') : t('in-services:formatters.no'));
+export const bitReadableString = (v: number) =>
+  v > 0 ? t('in-services:formatters.yes') : t('in-services:formatters.no');
 
-export const temperatureZeroDecimalPlaces = (d: number) => t('in-services:formatters.temperature', { num: zeroDecimalPlaces(d) });
-export const temperatureTwoDecimalPlaces = (d: number) => t('in-services:formatters.temperature', { num: twoDecimalPlaces(d) });
+export const temperatureZeroDecimalPlaces = (d: number) =>
+  t('in-services:formatters.temperature', { num: zeroDecimalPlaces(d) });
+export const temperatureTwoDecimalPlaces = (d: number) =>
+  t('in-services:formatters.temperature', { num: twoDecimalPlaces(d) });
 export const temperature = {
   compact: temperatureZeroDecimalPlaces,
   detailed: temperatureTwoDecimalPlaces
@@ -519,8 +528,8 @@ function formatBytes(num: number, numberFormatter: (v: number) => string) {
 }
 
 interface TimeUnit {
-  unit: string,
-  range: number
+  unit: string;
+  range: number;
 }
 
 const timeNanoUnits: TimeUnit[] = [
