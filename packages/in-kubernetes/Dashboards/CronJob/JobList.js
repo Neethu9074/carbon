@@ -12,15 +12,19 @@ import { SvgIconSizes } from '@instana/components';
 import { LiLoadMore } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { KeyValue } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
+import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import getKubernetesJobs from 'in-subscription/kubernetes/getKubernetesJobs';
 import { retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
+import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { isLoading, hasError } from 'in-services/util/result';
 import { getInfraGranularity } from 'in-stores/metric/metric';
@@ -28,11 +32,15 @@ import { formatDuration } from 'in-services/formatters/date';
 import Pods from 'in-kubernetes/Dashboards/CronJob/PodList';
 import { getHistoricMetric } from 'in-stores/metric';
 import Tooltip from '../../../in-components/Tooltip';
+import SearchInput from 'in-components/SearchInput';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import useUrlState from 'in-hooks/useUrlState';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-kubernetes/Dashboards/CronJob/CronJob.mless';
+
+const pathSegment = '/cronjob';
 
 const statusToColour = {
   Completed: theme.lib.colors.success,
@@ -41,12 +49,63 @@ const statusToColour = {
   Unknown: theme.lib.colors.N400
 };
 
+const sortOptions = [
+  { label: 'name', value: 'name' },
+  { label: 'age', value: 'age' },
+  { label: 'status', value: 'status' }
+];
+
+const urlStateDefinition = {
+  bind: [
+    {
+      path: pathSegment,
+      name: 'orderBy',
+      as: 'orderBy',
+      initialState: 'name'
+    },
+    {
+      path: pathSegment,
+      name: 'orderDirection',
+      as: 'orderDirection',
+      initialState: 'ASC'
+    },
+    {
+      path: pathSegment,
+      name: 'page',
+      as: 'page',
+      initialState: 1,
+      parser: intParser
+    },
+    {
+      path: pathSegment,
+      name: 'query',
+      as: 'query',
+      initialState: ''
+    }
+  ],
+  resets: [
+    {
+      bind: [
+        {
+          path: pathSegment,
+          name: 'orderBy'
+        },
+        {
+          path: pathSegment,
+          name: 'orderDirection'
+        }
+      ],
+      reset: { page: 1 }
+    }
+  ]
+};
+
 const notFoundComponent = (
   <CenterAlignmentColumn>
     <EntityPageMainNotification
       icon="lib_missing_data"
       title="No jobs available"
-      explanation="No jobs   available"
+      explanation="No jobs available"
       changeExplanation={() => 'There were no jobs retrieved for the selected time range.'}
     />
   </CenterAlignmentColumn>
@@ -67,7 +126,6 @@ const labelColumnDefinitions = [
   {
     id: 'name',
     getContent({ item }) {
-      console.log(item);
       return <KeyValue label={t('in-kubernetes:dashboards.name')} value={item.label} accentuated />;
     }
   }
@@ -114,13 +172,46 @@ const columnDefinitions = [
 ];
 
 export default function Jobs(props) {
-  const { timeConfig, cronJobId } = props;
+  // There are two loading related boolean variables here: isLoading and isInitialLoading.
+  // where as isInitialLoading is only True when data is loaded for the first time
+  // isLoading is true when data is loaded for the first time and when MORE data is loading
+  // Here UL is returned if there is previously loaded data otherwise LoadingIndicator is returned
+  const [{ orderBy, orderDirection, page, query }, setUrlState] = useUrlState(urlStateDefinition);
+  return (
+    <Stack>
+      <HorizontalFlexWrapper className={locals.header}>
+        <div>
+          <SortingConfigurator
+            options={sortOptions}
+            orderBy={{
+              by: orderBy,
+              direction: orderDirection
+            }}
+            onChange={({ by, direction }) =>
+              setUrlState({
+                orderBy: by,
+                orderDirection: direction
+              })
+            }
+          />
+        </div>
+        <SearchInput query={query} onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })} />
+      </HorizontalFlexWrapper>
+      <JobList {...props} page={page} query={query} orderBy={orderBy} orderDirection={orderDirection} />
+    </Stack>
+  );
+}
+
+function JobList({ query, cronJobId, timeConfig, orderBy, orderDirection, props }) {
   const jobsResult = useCursorPagination(
     ({ cursor }) =>
       getTableData({
+        query,
         timeConfig,
-        page: cursor,
-        pageSize: retrievalSize,
+        cursor,
+        orderBy,
+        orderDirection,
+        retrievalSize: retrievalSize,
         cronJobId
       }),
     [timeConfig]
@@ -131,17 +222,11 @@ export default function Jobs(props) {
   const items = jobsResult.items;
   const isInitialLoading = isLoading(jobsResult) && jobsResult.items?.length === 0;
 
-  // There are two loading related boolean variables here: isLoading and isInitialLoading.
-  // where as isInitialLoading is only True when data is loaded for the first time
-  // isLoading is true when data is loaded for the first time and when MORE data is loading
-  // Here UL is returned if there is previously loaded data otherwise LoadingIndicator is returned
-
   if (isInitialLoading) {
     return <LoadingIndicator text={t('in-applications:loadingData')} height={100} />;
   } else if (hasErrors) {
     return <ErroneousResultPresenter errors={jobsResult.errors} />;
   }
-
   return (
     <Ul>
       {items.map((item, index) => (
@@ -170,8 +255,8 @@ export default function Jobs(props) {
 
 function getTableData({
   query = '',
-  page = 1,
-  pageSize = 20,
+  cursor = null,
+  retrievalSize = 20,
   orderBy = 'age',
   orderDirection = 'ASC',
   timeConfig,
@@ -181,8 +266,8 @@ function getTableData({
 }) {
   return getKubernetesJobs({
     pagination: {
-      page,
-      pageSize
+      cursor,
+      retrievalSize
     },
     order: {
       by: orderBy,

@@ -35,10 +35,13 @@
     justify-content: center;
     height: 100%;
   }
-
   .dot {
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
+  }
+
+  .header {
+    margin-left: auto;
   }
 }
