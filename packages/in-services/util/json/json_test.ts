@@ -5,8 +5,6 @@
 
 /* eslint-env jest */
 
-import { expect } from 'chai';
-
 import { expandNestedSerializedJson } from 'in-services/util/json/json';
 import { deepFreeze } from 'in-services/util/object';
 
@@ -26,7 +24,7 @@ describe('in-services/util/json/json', () => {
         })
       });
 
-      expect(expandNestedSerializedJson(given)).to.deep.equal({
+      expect(expandNestedSerializedJson(given)).toEqual({
         num: 1,
         bol: false,
         nul: null,
