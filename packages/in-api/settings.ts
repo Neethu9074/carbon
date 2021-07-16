@@ -6,8 +6,12 @@
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import http from 'in-services/http';
 
-export function saveSettings(settings) {
-  return http({
+export interface Settings {
+  [key: string]: any
+}
+
+export function saveSettings(settings: Settings) {
+  return http<Settings>({
     method: 'PUT',
     url: `/api/ui/settings`,
     data: settings,
@@ -16,8 +20,8 @@ export function saveSettings(settings) {
   }).map(response => response.body);
 }
 
-export function saveSetting(key, value) {
-  return http({
+export function saveSetting<T>(key: string, value: T) {
+  return http<T>({
     method: 'PUT',
     url: `/api/ui/settings/${encodeURIComponent(key)}`,
     data: value,
