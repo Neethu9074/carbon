@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Location, MatrixParameters, Parameters } from 'in-stores/navigation/types';
+
 // We explicitly clone this manually for the best performance we can get.
 // We have a terribly large number of navigation object clone instructions which we
 // need to keep fast.
-export function cloneLocation(location) {
-  const matrix = {};
+export function cloneLocation(location: Location): Location {
+  const matrix: MatrixParameters = {};
   for (let key in location.matrix) {
     matrix[key] = cloneParameterObject(location.matrix[key]);
   }
@@ -19,8 +21,8 @@ export function cloneLocation(location) {
   };
 }
 
-function cloneParameterObject(source) {
-  const clone = {};
+function cloneParameterObject(source: Parameters): Parameters {
+  const clone: Parameters = {};
   for (let key in source) {
     clone[key] = source[key];
   }
