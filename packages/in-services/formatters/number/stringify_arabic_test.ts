@@ -12,14 +12,17 @@ jest.mock('in-services/settings', () => ({
 }));
 
 describe('in-services/formatters/number/stringify', () => {
-  let withSiPrefixZeroDecimalPlaces;
+  let withSiPrefixZeroDecimalPlaces: (v: number) => string;
 
   beforeEach(() => {
     window.instana.numberLocale = {
+      // @ts-ignore The d3-format types are incomplete and do not reflect reality
       decimal: '٫',
+      // @ts-ignore The d3-format types are incomplete and do not reflect reality
       thousands: '٬',
       grouping: [3],
       currency: ['', ''],
+      // @ts-ignore The d3-format types are incomplete and do not reflect reality
       numerals: ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩']
     };
 
