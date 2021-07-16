@@ -32,7 +32,7 @@ import {
   meanLatency,
   meanLatencyFixed,
   meanLatencyLargeInSeconds
-} from 'in-services/formatters/number';
+} from '.';
 import { days, hours, minutes, seconds } from 'in-services/time';
 
 describe('in-services.formatter.number', () => {
@@ -233,25 +233,25 @@ describe('in-services.formatter.number', () => {
   });
 
   it('must not fail on null', () => {
-    expect(zeroDecimalPlaces(null)).toEqual('0');
-    expect(twoDecimalPlaces(null)).toEqual('0.00');
+    expect(zeroDecimalPlaces(null as any)).toEqual('0');
+    expect(twoDecimalPlaces(null as any)).toEqual('0.00');
     expect(bytesPerSecondTwoDecimalPlaces(null)).toEqual('0.00 B/s');
     expect(bytesPerSecondZeroDecimalPlaces(null)).toEqual('0 B/s');
-    expect(bytesTwoDecimalPlaces(null)).toEqual('0.00 B');
-    expect(bytesZeroDecimalPlaces(null)).toEqual('0 B');
+    expect(bytesTwoDecimalPlaces(null as any)).toEqual('0.00 B');
+    expect(bytesZeroDecimalPlaces(null as any)).toEqual('0 B');
     expect(kiloBytesTwoDecimalPlaces(null)).toEqual('0.00 B');
     expect(kiloBytesZeroDecimalPlaces(null)).toEqual('0 B');
     expect(msZeroDecimalPlaces(null)).toEqual('0ms');
-    expect(muSecondsToMillisZeroDecimalPlaces(null)).toEqual('0ms');
-    expect(muSecondsZeroDecimalPlaces(null)).toEqual('0µs');
-    expect(percentageTwoDecimalPlaces(null)).toEqual('0.00%');
-    expect(percentageZeroDecimalPlaces(null)).toEqual('0%');
-    expect(time(null)).toEqual('0µs');
-    expect(timeByMicroTwoDecimalPlaces(null)).toEqual('0µs');
-    expect(withSiMultiplyPrefixThreeDecimalPlaces(null)).toEqual('0.000');
-    expect(withSiMultiplyPrefixZeroDecimalPlaces(null)).toEqual('0');
-    expect(withSiPrefixThreeDecimalPlaces(null)).toEqual('0.000');
-    expect(withSiPrefixZeroDecimalPlaces(null)).toEqual('0');
+    expect(muSecondsToMillisZeroDecimalPlaces(null as any)).toEqual('0ms');
+    expect(muSecondsZeroDecimalPlaces(null as any)).toEqual('0µs');
+    expect(percentageTwoDecimalPlaces(null as any)).toEqual('0.00%');
+    expect(percentageZeroDecimalPlaces(null as any)).toEqual('0%');
+    expect(time(null as any)).toEqual('0µs');
+    expect(timeByMicroTwoDecimalPlaces(null as any)).toEqual('0µs');
+    expect(withSiMultiplyPrefixThreeDecimalPlaces(null as any)).toEqual('0.000');
+    expect(withSiMultiplyPrefixZeroDecimalPlaces(null as any)).toEqual('0');
+    expect(withSiPrefixThreeDecimalPlaces(null as any)).toEqual('0.000');
+    expect(withSiPrefixZeroDecimalPlaces(null as any)).toEqual('0');
   });
 
   describe('millis', () => {
