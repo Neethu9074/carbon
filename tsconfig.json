@@ -16,7 +16,7 @@
     "moduleResolution": "node",
 
     // We use React 17 and therefore can rely on the lastest JSX support.
-    "jsx": "react-jsx",
+    "jsx": "react",
 
     // Force import of helpers, so that deduplication of helpers can do a better job.
     "importHelpers": true,

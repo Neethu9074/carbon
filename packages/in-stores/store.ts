@@ -3,41 +3,42 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create, Observable } from '@instana/observables';
 import invariant from 'invariant';
+
+import { create, Observable } from '@instana/observables';
 
 interface StoreSpec<T> {
   // The store name is used for debugging purposes.
-  name: string,
+  name: string;
   // Only global stores can be inspected for debugging purposes.
   // Defaults to true.
-  isGlobal?: boolean,
-  initialValue?: T | null,
+  isGlobal?: boolean;
+  initialValue?: T | null;
   reducers?: {
-    [type: string]: (currentState: T | null, action: ActionDefinition) => T
-  }
+    [type: string]: (currentState: T | null, action: ActionDefinition) => T;
+  };
 }
 
 interface ActionDefinition {
-  type: string
+  type: string;
 }
 
 type Action<T> = ((currentState: T | null) => T) | ActionDefinition;
 
 interface TrackingStoreSpec<T> {
   // The store name is used for debugging purposes.
-  name: string,
-  observable: Observable<T>
+  name: string;
+  observable: Observable<T>;
 }
 
 interface TrackingStore<T> {
-  observable: Observable<T>
+  observable: Observable<T>;
 }
 
 // Keeps track of the current state of all created stores. Will
 // be used for debugging purposes in the future.
 export const allStates: {
-  [storeName: string]: any
+  [storeName: string]: any;
 } = {};
 
 export function createStore<T>(spec: StoreSpec<T>) {
@@ -47,7 +48,7 @@ export function createStore<T>(spec: StoreSpec<T>) {
     spec.initialValue = null;
   }
 
-  if (spec.isGlobal && !process.env.IS_TEST) {
+  if (spec.isGlobal) {
     invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
   }
 

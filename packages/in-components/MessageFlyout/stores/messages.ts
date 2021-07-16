@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { emptyArray } from 'in-services/fixedObjects';
 import { createStore } from 'in-stores/store';
 
@@ -12,8 +14,8 @@ export interface Message {
   id?: MessageId;
   type: 'info' | 'warning' | 'danger';
   icon?: string;
-  title: string;
-  content: string;
+  title?: string;
+  content: React.ReactNode;
   onClick?: () => void;
   isLicenseUsageMsg?: boolean;
   timeout?: number;
@@ -28,7 +30,8 @@ let idCounter = 0;
 
 const messagesStore = createStore<Array<MessageWithId>>({
   name: 'messages',
-  initialValue: []
+  initialValue: [],
+  isGlobal: false
 });
 export const messages$ = messagesStore.observable
   // support state manipulate in render methods
@@ -89,4 +92,9 @@ function getIconByType(type: string) {
     return 'lib_events_inverted';
   }
   return 'lib_help_error_info_outline';
+}
+
+// exported for testing purposes
+export function removeAllMessages() {
+  messagesStore.mutateTo([]);
 }
