@@ -5,11 +5,11 @@
 
 import PropTypes from 'prop-types';
 
-import { getRootPathPredicate, getPredicateForPathsWithRouteParamPlaceholders } from 'in-stores/navigation/paths';
 import { physicalPath, containerPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
+import { getRootPathPredicate } from 'in-stores/navigation/paths';
 import history from 'in-stores/navigation/history';
 import { ineum } from 'in-services/tracking/ineum';
 import { createStore } from 'in-stores/store';
@@ -98,31 +98,6 @@ export function isView(...args) {
     } else {
       if (__DEV__) {
         throw new Error(`Unsupported isView predicate of type ${typeof arg}: ${arg}`);
-      }
-    }
-    return agg;
-  }, []);
-
-  return navigationParameters$
-    .map(location => {
-      for (let i = 0; i < predicates.length; i++) {
-        if (predicates[i](location.pathname)) {
-          return true;
-        }
-      }
-      return false;
-    })
-    .distinct();
-}
-
-// A variant of isView that can handle routing parameter placeholders.
-export function isViewWithRouteParam(...args) {
-  const predicates = args.reduce((agg, arg) => {
-    if (typeof arg === 'string') {
-      agg.push(getPredicateForPathsWithRouteParamPlaceholders(arg));
-    } else {
-      if (__DEV__) {
-        throw new Error(`Unsupported isViewWithRouteParam predicate of type ${typeof arg}: ${arg}`);
       }
     }
     return agg;

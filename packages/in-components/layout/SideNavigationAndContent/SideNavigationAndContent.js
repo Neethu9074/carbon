@@ -9,8 +9,9 @@ import React, { Fragment } from 'react';
 import { combineLatest } from '@instana/observables';
 
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
-import { getModifiedUrlStream, isView, isViewWithRouteParam } from 'in-stores/navigation';
+import { isViewWithRouteParam } from 'in-components/layout/SideNavigationAndContent/routing';
 import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
+import { getModifiedUrlStream, isView } from 'in-stores/navigation';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 import Footer from 'in-components/Footer';

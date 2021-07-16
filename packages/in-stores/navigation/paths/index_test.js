@@ -7,7 +7,7 @@
 
 import { expect } from 'chai';
 
-import { getRootPathPattern, getRegexForPathPatternsWithRouteParamPlaceholders } from 'in-stores/navigation/paths';
+import { getRootPathPattern } from 'in-stores/navigation/paths';
 
 describe('in-stores/navigation/paths', () => {
   describe('getRootPathPattern', () => {
@@ -29,29 +29,6 @@ describe('in-stores/navigation/paths', () => {
 
     it('must match against multiple root paths', () => {
       expect('/blub').to.match(getRootPathPattern('/foo', '/blub', '/bar'));
-    });
-  });
-
-  describe('getRegexForPathPatternsWithRouteParamPlaceholders', () => {
-    it('must match without route parameters', () => {
-      expect('/path/without/route/params').to.match(
-        getRegexForPathPatternsWithRouteParamPlaceholders('/path/without/route/params')
-      );
-    });
-
-    it('must match with route parameters', () => {
-      expect('/a/path/With/some/PLAAAACE/holders').to.match(
-        getRegexForPathPatternsWithRouteParamPlaceholders('/a/path/:w1th/some/:pla_ce/holders')
-      );
-    });
-
-    it('must match multiple routes', () => {
-      expect('/foo/1234/bar/5678').to.match(
-        getRegexForPathPatternsWithRouteParamPlaceholders('/foo/:id/bar/:thing', '/bar/:what/baz/:ever')
-      );
-      expect('/bar/abcd/baz/efgh').to.match(
-        getRegexForPathPatternsWithRouteParamPlaceholders('/foo/:id/bar/:thing', '/bar/:what/baz/:ever')
-      );
     });
   });
 });
