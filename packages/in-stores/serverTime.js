@@ -3,17 +3,31 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
+import { combineLatest, create } from '@instana/observables';
 
 import { offset, toServerTime } from 'in-stores/timeOffset';
-import { createTrackingStore } from 'in-stores/store';
-import { localTime } from 'in-stores/localTime';
 
-const serverTime = createTrackingStore({
-  name: 'serverTime',
-  observable: combineLatest([offset, localTime]).map(([_currentOffset, _localTime]) =>
-    toServerTime(_localTime, _currentOffset)
-  )
-}).observable;
+// EXPLICITLY USING A TIMEOUT TO AVOID EVENT LOOP CONGESTION.
+//
+// An interval would be executed at least one per second. A timeout
+// based solution will only be called at once every second. This is
+// large difference when the browser has problems rendering / scripting.
+// Especially in our case, since this will trigger timeline repaints.
+let timeoutHandle;
+const localTime$ = create({
+  start(observable) {
+    loop();
+    function loop() {
+      observable.emit(Date.now());
+      setTimeout(loop, 1000);
+    }
+  },
 
-export const serverTime$ = serverTime;
+  stop() {
+    clearTimeout(timeoutHandle);
+  }
+});
+
+export const serverTime$ = combineLatest([offset, localTime$]).map(([_currentOffset, _localTime]) =>
+  toServerTime(_localTime, _currentOffset)
+);
