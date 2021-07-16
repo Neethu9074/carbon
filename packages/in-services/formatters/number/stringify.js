@@ -5,6 +5,8 @@
 
 import { format as defaultLocaleFormat, formatLocale as createCustomLocaleFormat } from 'd3-format';
 
+export { t } from '@instana/i18n-react';
+
 import {
   markAsFormatterType,
   BYTE_RATE_FORMATTER_TYPE,
@@ -20,7 +22,6 @@ import {
   SECONDS_FORMATTER_TYPE
 } from 'in-services/formatters/number/types';
 import { getSingle } from 'in-services/settings';
-import { t } from 'in-i18n';
 
 const isLocaleAware = !getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
 const format = isLocaleAware
