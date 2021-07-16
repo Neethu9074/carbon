@@ -5,15 +5,16 @@
 
 /* eslint-env mocha */
 import createMemoryHistory from 'history/createMemoryHistory';
-import { expect } from 'chai';
+import { History } from 'history';
 import sinon from 'sinon';
 
-import { wrap } from 'in-stores/navigation/routing/matrixAwareHistory';
+import { wrap, MatrixAwareHistory } from 'in-stores/navigation/routing/matrixAwareHistory';
+import { emptyObject } from 'in-services/fixedObjects';
 
 describe('in-stores/navigation/routing/matrixAwareHistory', () => {
-  let originalHistory;
-  let history;
-  let listener;
+  let originalHistory: History;
+  let history: MatrixAwareHistory;
+  let listener: sinon.SinonStub;
 
   beforeEach(() => {
     listener = sinon.stub();
@@ -25,12 +26,12 @@ describe('in-stores/navigation/routing/matrixAwareHistory', () => {
   });
 
   it('must not emit anything initially', () => {
-    expect(getLastEmittedLocation()).to.deep.equal(null);
+    expect(getLastEmittedLocation()).toEqual(null);
   });
 
   it('must set simple URL via string', () => {
     history.push('/foo?a=b');
-    expect(getLastEmittedLocation()).to.deep.equal({
+    expect(getLastEmittedLocation()).toEqual({
       pathname: '/foo',
       query: { a: 'b' },
       matrix: {
@@ -44,9 +45,10 @@ describe('in-stores/navigation/routing/matrixAwareHistory', () => {
       pathname: '/foo',
       query: {
         a: 'b'
-      }
+      },
+      matrix: emptyObject
     });
-    expect(getLastEmittedLocation()).to.deep.equal({
+    expect(getLastEmittedLocation()).toEqual({
       pathname: '/foo',
       query: { a: 'b' },
       matrix: {
@@ -57,7 +59,7 @@ describe('in-stores/navigation/routing/matrixAwareHistory', () => {
 
   it('must handle matrix URL', () => {
     history.push('/first;k=a%2Fb/second?a=b');
-    expect(getLastEmittedLocation()).to.deep.equal({
+    expect(getLastEmittedLocation()).toEqual({
       pathname: '/first/second',
       query: { a: 'b' },
       matrix: {
@@ -73,7 +75,7 @@ describe('in-stores/navigation/routing/matrixAwareHistory', () => {
     return getLastCallArg(listener);
   }
 
-  function getLastCallArg(spy) {
+  function getLastCallArg(spy: sinon.SinonStub) {
     if (spy.callCount === 0) {
       return null;
     }

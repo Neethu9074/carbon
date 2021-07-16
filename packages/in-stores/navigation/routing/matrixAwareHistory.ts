@@ -10,9 +10,16 @@ import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { emptyObject } from 'in-services/fixedObjects';
 import { Location } from 'in-stores/navigation/types';
 
-type ExtendedHistoryListener = (location: Location) => void;
+type MatrixAwareHistoryListener = (location: Location) => void;
 
-export function wrap(history: History) {
+export interface MatrixAwareHistory {
+  listen(listener: MatrixAwareHistoryListener): void;
+  push(location: string | Location): void;
+  replace(location: string | Location): void;
+  readonly location: Location;
+}
+
+export function wrap(history: History<any>): MatrixAwareHistory {
   // needed to resolve cases where a redirect is done via React components. This will then only
   // push via a string. In these cases, we want to potentially retain all matrix and query parameters.
   let currentLocation: Location;
@@ -26,7 +33,7 @@ export function wrap(history: History) {
   history.location = parseUrl(window.location.hash.replace(/^#/, ''));
 
   // @ts-ignore
-  history.listen = (listener: ExtendedHistoryListener) => origListen.call(history, wrapListener(listener));
+  history.listen = (listener: MatrixAwareHistoryListener) => origListen.call(history, wrapListener(listener));
   history.push = (pathnameOrLocation: string | Location) =>
     origPush.call(history, translate(pathnameOrLocation, currentLocation));
   history.replace = (pathnameOrLocation: string | Location) =>
@@ -34,7 +41,7 @@ export function wrap(history: History) {
 
   history.listen((location: any) => (currentLocation = history.location = location));
 
-  return history;
+  return history as any;
 }
 
 function wrapListener(listener: (loc: Location) => void): LocationListener<unknown> {
