@@ -7,6 +7,13 @@ export interface Parameters {
   [key: string]: string;
 }
 
+export interface MatrixParameterDefinition<T> {
+  path: string;
+  name: string;
+  serializer?: (v: T) => string;
+  parser?: (str: string) => T | undefined;
+}
+
 export interface MatrixParameters {
   [pathSegment: string]: Parameters;
 }

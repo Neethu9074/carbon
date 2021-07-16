@@ -3,24 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Location, MatrixParameterDefinition } from 'in-stores/navigation/types';
 import { parse, stringify } from 'in-services/util/json';
 import { emptyObject } from 'in-services/fixedObjects';
 import { isBlank } from 'in-services/util/string';
 
-export function getMatrixParameter(location, path, key) {
+export function getMatrixParameter(location: Location, path: string, key: string) {
   return (location.matrix[path] || emptyObject)[key];
 }
 
-export function setOrDeleteMatrixParameter(location, matrixParameter, value) {
+export function setOrDeleteMatrixParameter<T>(
+  location: Location,
+  matrixParameter: MatrixParameterDefinition<T>,
+  value?: T
+) {
   setOrDeleteMatrixKey(
     location,
     matrixParameter.path,
     matrixParameter.name,
-    value && matrixParameter['serializer'] ? matrixParameter.serializer(value) : value
+    value != null && matrixParameter.serializer ? matrixParameter.serializer(value) : value
   );
 }
 
-export function setOrDeleteMatrixKey(location, path, key, value) {
+export function setOrDeleteMatrixKey(location: Location, path: string, key: string, value?: any) {
   if (value != null) {
     location.matrix[path] = location.matrix[path] || {};
     location.matrix[path][key] = value;
@@ -31,8 +36,8 @@ export function setOrDeleteMatrixKey(location, path, key, value) {
   }
 }
 
-export function buildJsonSerializer() {
-  return v => {
+export function buildJsonSerializer<T>() {
+  return (v: T) => {
     if (!v) {
       return undefined;
     }
@@ -40,8 +45,8 @@ export function buildJsonSerializer() {
   };
 }
 
-export function buildJsonParser(fallback) {
-  return str => {
+export function buildJsonParser<T>(fallback?: T): (str: string) => T {
+  return (str: string) => {
     if (isBlank(str)) {
       return fallback;
     }
