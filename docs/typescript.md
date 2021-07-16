@@ -125,3 +125,65 @@ class MyComponent extends React.Component<Props> {
   ...
 }
 ```
+
+## Types extracted from backend
+
+Our backend repository contains a lot of type definitions of models that are used throughout the UI. Some examples:
+
+- [Result](https://github.com/instana/backend/blob/b8f5e05818bacd199d7c2b97fc93d538913dea87/ui-model/src/main/java/com/instana/ui/model/result/Result.java)
+
+- [TimeConfig](https://github.com/instana/backend/blob/b8f5e05818bacd199d7c2b97fc93d538913dea87/ui-model/src/main/java/com/instana/ui/model/query/TimeConfig.java)
+
+- [GetUnifiedMetricsQuery](https://github.com/instana/backend/blob/b8f5e05818bacd199d7c2b97fc93d538913dea87/ui-model/src/main/java/com/instana/ui/model/unifiedmetrics/GetUnifiedMetricsQuery.java)
+
+Instead of manually defining all of these APIs within ui-client, it makes more sense to automatically generate them from the Java code. Not only does this save time, but it would also implicitly turn into a kind of contract test between user interface and backend.
+
+In the [backend](https://github.com/instana/backend/tree/develop/ui/typescript-generation) repository, we have added a script to generate typescript type definitions out of the java code and create a PR to `ui-client` every time there is a change detected in delivery branches.
+
+Sample PR: https://github.com/instana/ui-client/pull/6779
+
+This PR will update the `ui-client/in-types/backend.d.ts` file.
+
+More details about the type-def generation can be found in our [backend repo](https://github.com/instana/backend/tree/develop/ui/typescript-generation)
+
+### Sample TS output from Java
+
+### Java
+
+```java
+public class MyApplication {
+  private final String foo;
+  @NotNull
+  private final String fooBar;
+  @NotBlank
+  private final String fooBarFizz;
+  @Nullable
+  private boolean isFooBarActive;
+}
+```
+
+### Typescript output
+
+```ts
+export interface MyApplication {
+  readonly foo?: string;
+  readonly fooBar: string;
+  readonly fooBarFizz: string;
+  readonly isFooBarActive?: boolean;
+}
+```
+
+### Example usage
+
+```ts
+import { Result, Progress } from 'in-types/backend';
+
+export const finishedProgress: Progress = Object.freeze({
+  loading: false
+});
+
+export const pendingResult: Readonly<Result<any>> = Object.freeze({
+  progress: indeterminateProgress,
+  errors: Object.freeze([]) as []
+});
+```
