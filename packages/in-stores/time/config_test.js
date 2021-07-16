@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 import { expect } from 'chai';
 
 import { getTimeConfig, urlQueryKeys } from 'in-stores/time/config';

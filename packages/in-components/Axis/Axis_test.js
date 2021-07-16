@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 import { expect } from 'chai';
 
 import { mapNormalizedTicks } from 'in-components/Axis/Axis';

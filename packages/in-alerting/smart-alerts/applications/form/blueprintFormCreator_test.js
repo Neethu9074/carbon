@@ -4,7 +4,7 @@
  */
 
 import { createMapForm, createField } from 'formalistic';
-/* eslint-env mocha */
+/* eslint-env jest */
 import { expect } from 'chai';
 
 import {

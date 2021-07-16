@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
 import { mount } from 'enzyme';
 import { expect } from 'chai';

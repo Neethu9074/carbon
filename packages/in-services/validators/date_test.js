@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 import { expect } from 'chai';
 
 import { dateValidator } from 'in-services/validators/date';

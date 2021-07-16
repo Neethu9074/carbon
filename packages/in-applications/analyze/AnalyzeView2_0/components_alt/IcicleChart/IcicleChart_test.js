@@ -7,7 +7,7 @@ import { expect } from 'chai';
 
 import { isOverlappedWith } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/TimeRangeHelper';
 import { applyLayout } from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/IcicleLayout';
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 import { deepFreeze } from 'in-services/util/object';
 
 describe('in-applications/analyze/components/TraceDetails/components/IcicleChart', () => {

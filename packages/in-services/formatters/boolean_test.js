@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 import { expect } from 'chai';
 
 import { yesOrNo } from 'in-services/formatters/boolean';

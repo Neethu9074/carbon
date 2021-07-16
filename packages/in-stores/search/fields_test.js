@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
-/* global require: false, __dirname: false */
+/* eslint-env jest */
+/* global __dirname: false */
+
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 

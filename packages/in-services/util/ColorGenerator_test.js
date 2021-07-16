@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 import { expect } from 'chai';
 
 import ColorGenerator from 'in-services/util/ColorGenerator';

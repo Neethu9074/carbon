@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 import { expect } from 'chai';
 
 import { parse, build, validate } from 'in-services/validators/urlPath';

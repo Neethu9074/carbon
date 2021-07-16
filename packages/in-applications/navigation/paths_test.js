@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
 import { expect } from 'chai';
 import sinon from 'sinon';

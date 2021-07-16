@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 import { expect } from 'chai';
 
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';

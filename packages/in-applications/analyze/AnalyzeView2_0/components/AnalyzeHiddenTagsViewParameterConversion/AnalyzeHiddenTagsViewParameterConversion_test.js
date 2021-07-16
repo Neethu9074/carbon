@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 /* eslint-disable no-unused-expressions */
 
 import * as sinon from 'sinon';

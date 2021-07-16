@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 
 import { fromJS } from 'immutable';
 import { expect } from 'chai';

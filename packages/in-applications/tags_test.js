@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 import { expect } from 'chai';
 
 import { findSubTreeByFullyQualifiedName, getMultipleTagFromList, getTagFromList } from 'in-applications/tags';

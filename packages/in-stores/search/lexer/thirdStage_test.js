@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 import { expect } from 'chai';
 
 import { getEndCursorForFieldValue } from 'in-stores/search/lexer/thirdStage';

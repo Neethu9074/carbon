@@ -4,7 +4,7 @@
  */
 
 /* import-sort-ignore */
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 
 // load all the plugins
 import 'in-forge/plugins/index';

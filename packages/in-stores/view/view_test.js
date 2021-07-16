@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 
-import { create } from '@instana/observables';
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+import { create } from '@instana/observables';
 
 import { resetStoreRegistry } from 'in-stores/store';
 

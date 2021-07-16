@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
 /* eslint-disable comma-style, no-sparse-arrays */
 

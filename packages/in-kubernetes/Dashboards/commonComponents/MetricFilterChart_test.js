@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha, node */
+/* eslint-env jest, node */
 
-import { create } from '@instana/observables';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import React from 'react';
+
+import { create } from '@instana/observables';
 
 import { getProps, NoopComponent } from 'in-test/enzymeTestUtils';
 import MetricFilterChart from './MetricFilterChart';

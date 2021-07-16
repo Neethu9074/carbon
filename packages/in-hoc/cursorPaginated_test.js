@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
-import { create } from '@instana/observables';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
 import { stub } from 'sinon';
 import React from 'react';
+
+import { create } from '@instana/observables';
 
 import { getProps, NoopComponent } from 'in-test/enzymeTestUtils';
 import cursorPaginated from 'in-hoc/cursorPaginated';

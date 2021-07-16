@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env node, mocha */
+/* eslint-env node, jest */
 
 const Promise = require('bluebird');
 const { expect } = require('chai');

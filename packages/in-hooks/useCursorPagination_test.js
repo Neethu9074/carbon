@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 
 import { renderHook, act } from '@testing-library/react-hooks';
-import { create } from '@instana/observables';
 import { expect } from 'chai';
+
+import { create } from '@instana/observables';
 
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { success, error } from 'in-services/util/result';

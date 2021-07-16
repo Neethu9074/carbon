@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env mocha */
+/* eslint-env jest */
 import createMemoryHistory from 'history/createMemoryHistory';
 import { expect } from 'chai';
 import sinon from 'sinon';
