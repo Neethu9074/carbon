@@ -3,63 +3,68 @@
  * (c) Copyright Instana Inc.
  */
 
-import { get } from 'lodash';
-
+import { create, Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
-import { create } from '@instana/observables';
 
 import { saveSettings, saveSetting } from 'in-api/settings';
+import { UiSettings } from 'in-types/globals';
 
 const logger = createLogger('SearchBar/stores/settings');
 
-export const settingsStore = create({ emitLatestOnSubscribe: true });
-export const settings$ = settingsStore;
+export const settings$ = create<UiSettings>();
 
+window.instana.settings = window.instana.settings || {};
 // apply default
-if (window.instana.settings) {
-  window.instana.settings.map_excludeExternalServices = window.instana.settings.map_excludeExternalServices || false;
-}
-settingsStore.emit(window.instana.settings);
+window.instana.settings.map_excludeExternalServices = window.instana.settings.map_excludeExternalServices || false;
+settings$.emit(window.instana.settings);
 
-export function set(settings) {
+export function set(settings: UiSettings) {
   const result$ = saveSettings(settings);
   result$.errors().once(error => {
     logger.error(`failed to save settings: ${settings} ${error.message}`, error);
   });
   result$.once(savedBackendSettings => {
     window.instana.settings = savedBackendSettings;
-    settingsStore.emit(window.instana.settings);
+    settings$.emit(window.instana.settings);
   });
 }
 
-export function setSingle(key, value) {
+export function setSingle(key: string, value: any) {
   saveProperty(key, value);
 }
 
-export function toggle(key) {
-  saveProperty(key, !window.instana.settings[key]);
+export function toggle(key: string) {
+  saveProperty(key, !window.instana.settings?.[key]);
 }
 
 // Fire and forget: Usage discouraged because you will not get informed about settings changes. Consider using getSettings$
-export function getSingle(key, fallback) {
-  return get(window, ['instana', 'settings', key], fallback);
+export function getSingle<T>(key: string, fallback: T): T {
+  return window.instana.settings?.[key] ?? fallback;
 }
 
-export function getSetting$(key) {
-  return settingsStore.map(set => (Object.prototype.hasOwnProperty.call(set, key) ? set[key] : null)).distinct();
+export function getSetting$<T>(key: string): Observable<T> {
+  return settings$.map(set => (Object.prototype.hasOwnProperty.call(set, key) ? set[key] : null)).distinct();
 }
 
-function saveProperty(key, value) {
+function saveProperty(key: string, value: any) {
+  if (!window.instana.settings) {
+    window.instana.settings = {};
+  }
+
   // optimistic write
   const oldValue = window.instana.settings[key];
   window.instana.settings[key] = value;
-  settingsStore.emit(window.instana.settings);
+  settings$.emit(window.instana.settings);
 
   const result$ = saveSetting(key, value);
   result$.errors().once(error => {
+    if (!window.instana.settings) {
+      window.instana.settings = {};
+    }
+
     // rollback on error
     window.instana.settings[key] = oldValue;
-    settingsStore.emit(window.instana.settings);
+    settings$.emit(window.instana.settings);
     logger.error(`failed to save setting (key: ${key}, value: ${value}): ${error.message}`, error);
   });
 }

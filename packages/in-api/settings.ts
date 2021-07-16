@@ -4,14 +4,11 @@
  */
 
 import { getHeader as getCsrfHeader } from '../in-services/security/csrf';
+import { UiSettings } from 'in-types/globals';
 import http from 'in-services/http';
 
-export interface Settings {
-  [key: string]: any
-}
-
-export function saveSettings(settings: Settings) {
-  return http<Settings>({
+export function saveSettings(settings: UiSettings) {
+  return http<UiSettings>({
     method: 'PUT',
     url: `/api/ui/settings`,
     data: settings,
