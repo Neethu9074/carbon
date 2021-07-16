@@ -3,35 +3,45 @@
  * (c) Copyright Instana Inc.
  */
 
+import { History, LocationListener } from 'history';
+
 import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { emptyObject } from 'in-services/fixedObjects';
+import { Location } from 'in-stores/navigation/types';
 
-export function wrap(history) {
+type ExtendedHistoryListener = (location: Location) => void;
+
+export function wrap(history: History) {
   // needed to resolve cases where a redirect is done via React components. This will then only
   // push via a string. In these cases, we want to potentially retain all matrix and query parameters.
-  let currentLocation;
+  let currentLocation: Location;
 
   const origPush = history.push;
   const origReplace = history.replace;
   const origListen = history.listen;
 
+  // @ts-ignore The types are incomplete. This field exists and is used by other
+  // libraries that interact with the history module.
   history.location = parseUrl(window.location.hash.replace(/^#/, ''));
 
-  history.listen = listener => origListen.call(history, wrapListener(listener));
-  history.push = pathnameOrLocation => origPush.call(history, translate(pathnameOrLocation, currentLocation));
-  history.replace = pathnameOrLocation => origReplace.call(history, translate(pathnameOrLocation, currentLocation));
+  // @ts-ignore
+  history.listen = (listener: ExtendedHistoryListener) => origListen.call(history, wrapListener(listener));
+  history.push = (pathnameOrLocation: string | Location) =>
+    origPush.call(history, translate(pathnameOrLocation, currentLocation));
+  history.replace = (pathnameOrLocation: string | Location) =>
+    origReplace.call(history, translate(pathnameOrLocation, currentLocation));
 
-  history.listen(location => (currentLocation = history.location = location));
+  history.listen((location: any) => (currentLocation = history.location = location));
 
   return history;
 }
 
-function wrapListener(listener) {
+function wrapListener(listener: (loc: Location) => void): LocationListener<unknown> {
   return location => listener(parseUrl(location.pathname + (location.search || '')));
 }
 
-function translate(location, currentLocation) {
+function translate(location: string | Location, currentLocation: Location) {
   currentLocation = currentLocation || emptyObject;
 
   // Pushing as string is supported in the history module. We will always normalize
