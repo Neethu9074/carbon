@@ -11,11 +11,11 @@ export type MessageId = number | string;
 export interface Message {
   id?: MessageId;
   type: 'info' | 'warning' | 'danger';
-  icon: string;
+  icon?: string;
   title: string;
   content: string;
-  onClick: () => void;
-  isLicenseUsageMsg: boolean;
+  onClick?: () => void;
+  isLicenseUsageMsg?: boolean;
   timeout?: number;
 }
 

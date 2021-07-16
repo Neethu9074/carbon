@@ -47,7 +47,7 @@ export function createStore<T>(spec: StoreSpec<T>) {
     spec.initialValue = null;
   }
 
-  if (spec.isGlobal) {
+  if (spec.isGlobal && !process.env.IS_TEST) {
     invariant(!(spec.name in allStates), 'Store (' + spec.name + ') already exists');
   }
 
