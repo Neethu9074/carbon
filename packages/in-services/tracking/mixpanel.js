@@ -3,16 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import { assign } from 'lodash';
 
-import { tenant, tenantUnitStructure$, user } from 'in-stores/user';
+import { combineLatest } from '@instana/observables';
+
 import { registerTracker } from 'in-services/tracking/trackers';
 import getUsageInfo from 'in-subscription/getUsageInfo';
+import { getTenantsWithUnits } from 'in-api/account';
 import getAccount from 'in-subscription/getAccount';
 import { activeLanguage } from 'in-i18n/language';
 import { noop } from 'in-services/util/function';
 import { find } from 'in-services/arrayUtils';
+import { tenant, user } from 'in-stores/user';
 import config from 'in-services/config';
 
 export function init() {
@@ -54,7 +56,7 @@ function initMixpanel() {
   });
 
   combineLatest([
-    tenantUnitStructure$,
+    getTenantsWithUnits(),
     getUsageInfo(),
     getAccount()
       .map(result => (result && result.data ? result.data : null))

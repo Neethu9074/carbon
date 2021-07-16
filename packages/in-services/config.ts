@@ -8,7 +8,8 @@ export interface ClientConfig {
     [name: string]: boolean
   }
   instanaRegion: string,
-  region: string
+  region: string,
+  tenant: string
 };
 
 export interface BuildInfo {
