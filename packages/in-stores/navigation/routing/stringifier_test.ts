@@ -22,7 +22,7 @@ describe('in-stores/navigation/routing/stringifier', () => {
     check('/foo;valueWithSpaces=a%2520b/bar');
   });
 
-  function check(href, expected) {
+  function check(href: string, expected?: string) {
     expected = expected || href;
     it(`must parse and translate: ${href}`, () => {
       expect(stringify(parseUrl(href))).to.equal(expected);
