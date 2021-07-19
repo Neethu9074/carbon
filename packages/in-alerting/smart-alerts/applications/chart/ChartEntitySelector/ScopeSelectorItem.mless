@@ -19,12 +19,21 @@
   }
 
   .smallColumn {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
     max-width: 40%;
     flex-shrink: 1;
     .ellipsis();
     gap: @gap; // between icon and label
   }
+
   .normalColumn {
+    display: flex;
+    align-items: center;
+
+    flex-wrap: nowrap;
     flex-shrink: 1;
     .ellipsis();
     gap: @gap; // between icon and label
@@ -33,6 +42,10 @@
   .entityIcon {
     vertical-align: middle;
     margin-right: @gap;
+  }
+
+  .icon {
+    fill: @lib__colors__N600Light;
   }
 
   .fullColumn {
@@ -49,9 +62,13 @@
     }
 
     & > svg {
-      fill: @lib__colors__N900Primary;
       align-self: flex-start; // icon at top
+
+      vertical-align: middle;
+
       margin-top: (@lib__typography__body__font-size - @lib__typography__body-small__font-size) / 2; // adjust to also have the icon properly aligned when in all fits in one row
+      margin-bottom: (@lib__typography__body__font-size - @lib__typography__body-small__font-size) / 2; // adjust to also have the icon properly aligned when in all fits in one row
+
     }
   }
 }
