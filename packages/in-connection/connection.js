@@ -53,8 +53,6 @@ const sharedState = (window.instana.dev.ws = {
 });
 
 export const connection = createFsm({
-  publicApiMethods: ['init', 'subscribe', 'unsubscribe', 'getNewSubscriptionId', 'on', 'off', 'send'],
-
   initialState: 'waitForInit',
 
   states: {

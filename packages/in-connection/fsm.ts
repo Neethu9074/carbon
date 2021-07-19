@@ -3,14 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-import invariant from 'invariant';
+interface TransitionManager {
+  transitionTo(stateName: string): void;
+  getActiveState(): string;
+}
 
 export class AbstractState {
-  _setTransitionManager(transitionManager) {
+  // @ts-expect-error We have no constructor and need to support runtime configuration without
+  // a runtime performance impact.
+  _transitionManager: TransitionManager;
+
+  _setTransitionManager(transitionManager: TransitionManager) {
     this._transitionManager = transitionManager;
   }
 
-  transitionTo(stateName) {
+  transitionTo(stateName: string) {
     this._transitionManager.transitionTo(stateName);
   }
 
@@ -22,33 +29,81 @@ export class AbstractState {
   onLeave() {}
 }
 
-export function createFsm(opts) {
-  if (__DEV__) {
-    validateStateApi(opts.publicApiMethods, opts.states);
-  }
+export type Listener<T> = (data: T) => void;
 
-  const transitionManager = {
+export interface SubscribeOptions {
+  // {
+  //   subscriptionId,
+  //   event,
+  //   payload,
+  //   disposeSubscriptionOnDocumentHidden,
+  //   listener,
+  //   initializationCallStack
+  // }
+}
+
+export interface PublicConnectionApi {
+  init(): void;
+  subscribe(options: SubscribeOptions): void;
+  unsubscribe(subscriptionId: number): void;
+  getNewSubscriptionId(): number;
+  on<T>(event: string, fn: Listener<T>): void;
+  off<T>(event: string, fn: Listener<T>): void;
+  send(event: string, data: any): void;
+}
+
+export interface CreateFsmOptions {
+  publicApiMethods: string[];
+  initialState: string;
+  states: {
+    [stateName: string]: AbstractState & PublicConnectionApi;
+  };
+}
+
+export function createFsm(opts: CreateFsmOptions): PublicConnectionApi {
+  const transitionManager: TransitionManager = {
     transitionTo,
     getActiveState
   };
 
   const states = opts.states;
-  let activeStateName;
+  let activeStateName: string;
   Object.keys(states).forEach(stateName => {
     states[stateName]._setTransitionManager(transitionManager);
   });
   transitionTo(opts.initialState);
 
-  const publicInterface = {};
-  opts.publicApiMethods.forEach(methodName => {
-    publicInterface[methodName] = function() {
-      return states[activeStateName][methodName].apply(states[activeStateName], arguments);
-    };
-  });
+  return {
+    init() {
+      states[activeStateName].init();
+    },
 
-  return publicInterface;
+    subscribe(options: SubscribeOptions) {
+      states[activeStateName].subscribe(options);
+    },
 
-  function transitionTo(name) {
+    unsubscribe(subscriptionId: number) {
+      states[activeStateName].unsubscribe(subscriptionId);
+    },
+
+    getNewSubscriptionId() {
+      return states[activeStateName].getNewSubscriptionId();
+    },
+
+    on<T>(event: string, fn: Listener<T>): void {
+      states[activeStateName].on(event, fn);
+    },
+
+    off<T>(event: string, fn: Listener<T>): void {
+      states[activeStateName].off(event, fn);
+    },
+
+    send(event: string, data: any) {
+      states[activeStateName].send(event, data);
+    }
+  };
+
+  function transitionTo(name: string) {
     if (activeStateName) {
       states[activeStateName].onLeave();
     }
@@ -60,29 +115,4 @@ export function createFsm(opts) {
   function getActiveState() {
     return activeStateName;
   }
-}
-
-function validateStateApi(publicApiMethods, states) {
-  invariant(
-    publicApiMethods.indexOf('_setTransitionManager') === -1,
-    'A public API method _setTransitionManager is not supported'
-  );
-  invariant(publicApiMethods.indexOf('onEnter') === -1, 'A public API method onEnter is not supported');
-  invariant(publicApiMethods.indexOf('onLeave') === -1, 'A public API method onLeave is not supported');
-
-  Object.keys(states).forEach(stateName => {
-    invariant(
-      typeof states[stateName]._setTransitionManager === 'function',
-      `State ${stateName} must define a method _setTransitionManager`
-    );
-    invariant(typeof states[stateName].onEnter === 'function', `State ${stateName} must define a method onEnter`);
-    invariant(typeof states[stateName].onLeave === 'function', `State ${stateName} must define a method onLeave`);
-
-    publicApiMethods.forEach(methodName => {
-      invariant(
-        typeof states[stateName][methodName] === 'function',
-        `State ${stateName} must define a method ${methodName}`
-      );
-    });
-  });
 }
