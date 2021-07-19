@@ -27,8 +27,8 @@ export default function ChartReactComponent(props) {
 const HorizontallyAutomaticallySized = function HorizontallyAutomaticallySizedChart(props) {
   const { ref, width } = useResizeObserver();
   return (
-    // flexGrow style is required to properly size chart component inside flex containers so it takes up 100% of its parent width
-    <div ref={ref} style={{ flexGrow: 1 }}>
+    // properly size chart component too take up 100% of its parent width
+    <div ref={ref} style={{ flexGrow: 1, width: '100%' }}>
       {width && <ChartReactWrapper {...props} width={width} height={props.customHeight || defaultChartHeight} />}
     </div>
   );
