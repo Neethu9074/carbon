@@ -18,5 +18,7 @@ export const supportedLanguages = [
   'zh-TW',
   'es-ES',
   'pt-BR',
-  pseudoLanguageEnabled && 'zz-ZZ'
+  // The "or else ''" part exists so that TypeScript can correctly
+  // infer the type of supportedLanguages.
+  pseudoLanguageEnabled ? 'zz-ZZ' : ''
 ].filter(Boolean);
