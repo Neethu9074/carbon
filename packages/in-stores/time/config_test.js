@@ -4,8 +4,6 @@
  */
 
 /* eslint-env jest */
-import { expect } from 'chai';
-
 import { getTimeConfig, urlQueryKeys } from 'in-stores/time/config';
 import { config } from 'in-services/config';
 import { hours } from 'in-services/time';
@@ -30,15 +28,15 @@ describe('time config', () => {
             [urlQueryKeys.to]: '123456789'
           }
         }).to
-      ).to.equal(123456789);
+      ).toEqual(123456789);
     });
 
-    it('should set to to null if not present in query params', () => {
+    it('should set to to undefined if not present in query params', () => {
       expect(
         getTimeConfig({
           query: {}
         }).to
-      ).to.equal(null);
+      ).toEqual(null);
     });
 
     it('should read window size from query params', () => {
@@ -48,7 +46,7 @@ describe('time config', () => {
             [urlQueryKeys.windowSize]: '123456789'
           }
         }).windowSize
-      ).to.equal(123456789);
+      ).toEqual(123456789);
     });
 
     it('should not exceed max window size', () => {
@@ -58,7 +56,7 @@ describe('time config', () => {
             [urlQueryKeys.windowSize]: '2678400001'
           }
         }).windowSize
-      ).to.equal(2678400000);
+      ).toEqual(2678400000);
     });
 
     it('should at least use minimum window size', () => {
@@ -68,7 +66,7 @@ describe('time config', () => {
             [urlQueryKeys.windowSize]: '59999'
           }
         }).windowSize
-      ).to.equal(60000);
+      ).toEqual(60000);
     });
 
     describe('in 2.0', () => {
@@ -77,7 +75,7 @@ describe('time config', () => {
           getTimeConfig({
             query: {}
           }).windowSize
-        ).to.equal(hours.toMillis(1));
+        ).toEqual(hours.toMillis(1));
       });
 
       it('should auto refresh in 2.0 if to is null and ar query param is set', () => {
@@ -87,7 +85,7 @@ describe('time config', () => {
               [urlQueryKeys.autoRefresh]: 'true'
             }
           }).autoRefresh
-        ).to.equal(true);
+        ).toEqual(true);
       });
 
       it('should not auto refresh in 2.0 without explicit ar query param', () => {
@@ -96,7 +94,7 @@ describe('time config', () => {
           getTimeConfig({
             query: {}
           }).autoRefresh
-        ).to.equal(false);
+        ).toEqual(false);
       });
     });
   });

@@ -19,7 +19,7 @@ import locals from './NotMonitoringMap.mless';
 
 export default connectTo(
   {
-    isLive: timeConfig$.map(timeConfig => timeConfig.to === null).distinct(),
+    isLive: timeConfig$.map(timeConfig => timeConfig.to == null).distinct(),
     isMonitoring: isMonitoring$
   },
   function NotMonitoringMap({ isMonitoring }) {
