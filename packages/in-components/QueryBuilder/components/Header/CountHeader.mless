@@ -8,9 +8,8 @@
 :local {
   .header {
     display: flex;
-    flex-direction: column;
     width: max-content;
-    padding: 0 1rem;
+    padding: 8px 0;
   }
 
   .topTextWithTooltip {
