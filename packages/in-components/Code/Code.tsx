@@ -5,16 +5,22 @@
 
 import React from 'react';
 
-import { Code as CodeSnippet } from '@instana/components';
+import { Code as CodeSnippet, CodeProps } from '@instana/components';
 
-export default function Code(props) {
+export default function Code(props: CodeProps) {
   return (
-    <CodeSnippet {...props} line={props.lang === 'java' ? getActualJavaLine(props.code, props.line) : props.line} />
+    <CodeSnippet
+      {...props}
+      line={
+        // @ts-ignore Code does support Java, but the types are incomplete
+        props.lang === 'java' ? getActualJavaLine(props.code, props.line) : props.line
+      }
+    />
   );
 }
 
-function getActualJavaLine(code, givenLine) {
-  if (!givenLine) return null;
+function getActualJavaLine(code: string, givenLine?: number) {
+  if (!givenLine) return undefined;
 
   const lineRegex = new RegExp('/\\*\\s*' + givenLine + '\\*/');
   const lines = code.split('\n');
@@ -24,5 +30,5 @@ function getActualJavaLine(code, givenLine) {
       return i + 1;
     }
   }
-  return null;
+  return undefined;
 }
