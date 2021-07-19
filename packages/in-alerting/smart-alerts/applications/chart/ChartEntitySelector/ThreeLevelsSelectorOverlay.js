@@ -23,8 +23,8 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
 
-import locals from 'in-components/SelectorOverlay/SelectorOverlay.mless';
 import threeLevelsSelectorLocals from './ThreeLevelsSelectorOverlay.mless';
+import locals from 'in-components/SelectorOverlay/SelectorOverlay.mless';
 
 const searchEnabled = true;
 
@@ -39,7 +39,7 @@ const categoryHeight = 40;
 // for performance reasons limit number of results shown as rendering is slow for high number of results
 const maxResults = 100;
 
-export default function ThreeLevelsSelectorOverlay({ options, onChange, withIcons = true, query, onQueryChange }) {
+export default function ThreeLevelsSelectorOverlay({ options, onChange, query, onQueryChange }) {
   const [
     { focusedNode, showFocusedNode, secondFocusedNode, showSecondFocusedNode, loading, loading2ndLevel },
     setState
@@ -124,12 +124,11 @@ export default function ThreeLevelsSelectorOverlay({ options, onChange, withIcon
                 onKeyDown3={onKeyDown3}
                 onChange={onChange}
                 triggerRenderingAfterUpdated={triggerRenderingAfterUpdated}
-                withIcons={withIcons}
                 loading={loading}
                 loading2ndLevel={loading2ndLevel}
               />
             ),
-            mainStaticContent: <MainStaticContent {...{ options, focusNode, onChange, query, withIcons }} />
+            mainStaticContent: <MainStaticContent {...{ options, focusNode, onChange, query }} />
           }}
         />
       </div>
@@ -206,7 +205,7 @@ export default function ThreeLevelsSelectorOverlay({ options, onChange, withIcon
   }
 }
 
-function MainStaticContent({ options, focusNode, onChange, query, withIcons }) {
+function MainStaticContent({ options, focusNode, onChange, query }) {
   if (options.length === 0) {
     return <NoDataAvailable />;
   }
@@ -221,7 +220,7 @@ function MainStaticContent({ options, focusNode, onChange, query, withIcons }) {
           node={node}
           focusNode={focusNode}
           onChange={onChange}
-          withIcons={isBlank(query) && withIcons}
+          withIcons={isBlank(query)}
           asSearchResult={asSearchResult}
         />
       );
@@ -234,8 +233,8 @@ function MainStaticContent({ options, focusNode, onChange, query, withIcons }) {
             node={node}
             focusNode={focusNode}
             onChange={onChange}
-            withIcons={withIcons}
             asSearchResult={asSearchResult}
+            withIcons
           />
         ))}
       </ListGroup>
@@ -252,7 +251,6 @@ function InnerSlideInView({
   onKeyDown3,
   onChange,
   triggerRenderingAfterUpdated,
-  withIcons,
   loading,
   loading2ndLevel,
   focus2ndLevelNode,
@@ -301,13 +299,7 @@ function InnerSlideInView({
           <div onKeyDown={onKeyDown3} ref={innerSlideInRef}>
             <Loading loading={loading2ndLevel} />
             {secondFocusedNode?.children?.slice(0, maxResults).map((node, i) => (
-              <EntityItemNode
-                key={i}
-                node={node}
-                onChange={onChange}
-                withIcons={withIcons}
-                focusNode={focus2ndLevelNode}
-              />
+              <EntityItemNode key={i} node={node} onChange={onChange} focusNode={focus2ndLevelNode} withIcons />
             ))}
           </div>
         }
@@ -321,13 +313,7 @@ function InnerSlideInView({
           >
             <Loading loading={loading} />
             {focusedNode?.children?.slice(0, maxResults).map((node, i) => (
-              <EntityItemNode
-                key={i}
-                node={node}
-                focusNode={focus2ndLevelNode}
-                onChange={onChange}
-                withIcons={withIcons}
-              />
+              <EntityItemNode key={i} node={node} focusNode={focus2ndLevelNode} onChange={onChange} withIcons />
             ))}
           </div>
         }
@@ -413,7 +399,6 @@ function Loading({ loading }) {
 ThreeLevelsSelectorOverlay.propTypes = {
   options: nodeArrayPropType.isRequired,
   onChange: PropTypes.func.isRequired,
-  withIcons: PropTypes.bool,
   query: PropTypes.string.isRequired,
   onQueryChange: PropTypes.func.isRequired
 };

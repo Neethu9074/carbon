@@ -27,24 +27,12 @@ import {options, optionsWithBreadCrumbLabels, firstLevelChildren} from './treeSe
       <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={firstLevelChildren} />
     </PermanentlyVisibleOverlay>
   </Story>
-  <Story name="without icons">
-    <PermanentlyVisibleOverlay>
-      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options} withIcons={false} />
-    </PermanentlyVisibleOverlay>
-  </Story>
   <Story name="with search">
     <PermanentlyVisibleOverlay>
       <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={options} query={"a"} />
     </PermanentlyVisibleOverlay>
   </Story>
-  <Story name="with search without icons">
-    <PermanentlyVisibleOverlay>
-      <ThreeLevelsSelectorOverlay onChange={storybookAction('onChange')} options={optionsWithBreadCrumbLabels()} withIcons={false} query={"a"} />
-    </PermanentlyVisibleOverlay>
-  </Story>
 </Preview>
-
-
 
 ### Props
 

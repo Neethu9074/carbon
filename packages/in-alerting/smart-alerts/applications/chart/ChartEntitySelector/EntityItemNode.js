@@ -46,6 +46,6 @@ EntityItemNode.propTypes = {
 
 const searchResultColumnDefinition = {
   getContent({ node }) {
-    return <KeyValue label={node.path} className={locals.keyValue} accentuated />;
+    return <KeyValue inverted value={node.path} className={locals.keyValue} accentuated />;
   }
 };

@@ -115,7 +115,7 @@ export default {
         return (
           <KeyValue
             label={t('in-cockpit:widgets.columnDefinitions.created')}
-            value={formatDateTime(item.snapshot.getIn(['data', 'Created'], ''))}
+            value={formatDateTime(item.snapshot.getIn(['data', 'Created'], undefined))}
             accentuated
           />
         );
@@ -127,7 +127,7 @@ export default {
         return (
           <KeyValue
             label={t('in-cockpit:widgets.columnDefinitions.started')}
-            value={formatDateTime(item.snapshot.getIn(['data', 'Started'], ''))}
+            value={formatDateTime(item.snapshot.getIn(['data', 'Started'], undefined))}
             accentuated
           />
         );

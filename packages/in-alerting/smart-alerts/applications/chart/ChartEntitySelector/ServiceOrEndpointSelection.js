@@ -171,13 +171,14 @@ export default function ServiceOrEndpointSelection({
       align="bottomLeft"
       withoutWrapper
     >
-      {({ toggle, refSetter }) => (
+      {({ toggle, refSetter, isOpen }) => (
         <HorizontalFlexWrapper>
           <DropdownButton
             kind="secondary"
             size="compact"
             refSetter={refSetter}
             onClick={toggle}
+            expanded={isOpen}
             className={locals.labelWithGap}
             disabled={applicationIds.length === 0}
           >
