@@ -86,7 +86,7 @@
     "deep-freeze-strict": "^1.1.1",
     "dompurify": "2.0.17",
     "downshift": "^3.2.12",
-    "eventemitter3": "^2.0.3",
+    "eventemitter3": "^4.0.0",
     "favico.js": "^0.3.10",
     "formalistic": "1.13.0",
     "framer-motion": "^3.3.0",
