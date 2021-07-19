@@ -5,13 +5,6 @@
 
 import { create, Disposable, Observable } from '@instana/observables';
 
-export function dispose(subscription: Disposable) {
-  if (subscription) {
-    subscription.dispose();
-  }
-  return null;
-}
-
 export interface CombinedDataAndError<T> {
   data: T | null;
   error: any | null;
