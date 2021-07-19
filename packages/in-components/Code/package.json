@@ -2,5 +2,5 @@
   "name": "Code",
   "version": "0.0.0",
   "private": true,
-  "main": "./Code.js"
+  "main": "./Code.tsx"
 }
