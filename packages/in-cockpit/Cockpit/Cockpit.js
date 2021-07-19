@@ -5,6 +5,7 @@
 
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import classNames from 'classnames';
+import { useMemo } from 'react';
 import React from 'react';
 
 import { Button, SvgIcon } from '@instana/components';
@@ -86,7 +87,19 @@ export default connectTo(
     settings: settings$
   },
   function Cockpit({ settings }) {
+    const { ref, width } = useResizeObserverCustom();
+
     return (
+      <div ref={ref}>
+        <CockpitInner settings={settings} width={width} />
+      </div>
+    );
+  }
+);
+
+function CockpitInner({ settings, width }) {
+  return useMemo(
+    () => (
       <>
         <Title title={t('in-cockpit:cockpit.home')} />
         <ViewTrackingMeta
@@ -95,14 +108,14 @@ export default connectTo(
             pageRootName: 'Home'
           }}
         />
-
         <Sticky header={<Header />}>
-          <Content itemOrder={filterItems(getOrderedItems(settings))} />
+          <Content width={width} itemOrder={filterItems(getOrderedItems(settings))} />
         </Sticky>
       </>
-    );
-  }
-);
+    ),
+    [width, settings]
+  );
+}
 
 function Header() {
   return (
@@ -154,9 +167,7 @@ function Header() {
   );
 }
 
-const Content = function Content({ itemOrder, applicationId }) {
-  const { ref, width } = useResizeObserverCustom();
-
+const Content = function Content({ itemOrder, applicationId, width }) {
   const setNewItemOrder = items => {
     setSingle(settingsKey, { ordering: items.map(({ id }, i) => ({ id, x: 0, y: i * 10 })) });
   };
@@ -165,7 +176,6 @@ const Content = function Content({ itemOrder, applicationId }) {
 
   return (
     <div
-      ref={ref}
       className={classNames(locals.wrapper, {
         [locals.wrapperWithRightContent]: !!renderNavigation
       })}
