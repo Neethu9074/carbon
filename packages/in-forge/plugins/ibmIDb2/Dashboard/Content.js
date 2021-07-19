@@ -14,7 +14,7 @@ import { t } from '../../../../in-i18n';
 
 export default function IbmIDb2Dashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
-  const collectionServicesRunning = snapshot.getIn(['data', 'collectionServicesRunning']);
+  const collectionServicesRunning = snapshot.getIn(['data', 'collectionServicesRunning'], false);
   return (
     collectionServicesRunning && (
       <div>
