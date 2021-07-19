@@ -3,18 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { create, Disposable, Observable } from '@instana/observables';
 
-export function dispose(subscription) {
+export function dispose(subscription: Disposable) {
   if (subscription) {
     subscription.dispose();
   }
   return null;
 }
 
-export function combineDataAndError(upstream) {
-  let subscription;
-  return create({
+export interface CombinedDataAndError<T> {
+  data: T | null;
+  error: any | null;
+}
+
+export function combineDataAndError<T>(upstream: Observable<T>): Observable<CombinedDataAndError<T>> {
+  let subscription: Disposable | null;
+  return create<CombinedDataAndError<T>>({
     start(observable) {
       subscription = upstream.subscribe(
         data => observable.emit({ data, error: null }),
@@ -23,10 +28,8 @@ export function combineDataAndError(upstream) {
     },
 
     stop() {
-      if (subscription) {
-        subscription.dispose();
-        subscription = null;
-      }
+      subscription?.dispose();
+      subscription = null;
     }
-  });
+  }).freeze();
 }
