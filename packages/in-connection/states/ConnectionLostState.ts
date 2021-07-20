@@ -9,6 +9,7 @@ import { createLogger } from '@instana/logger';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import AbstractConnectionState from 'in-connection/states/AbstractConnectionState';
+import { SubscriptionDescription } from 'in-connection/types';
 import { combineDataAndError } from 'in-services/util/ro';
 import { ineum } from 'in-services/tracking/ineum';
 import { minutes } from 'in-services/time/time';
@@ -23,13 +24,19 @@ const transports = ['websocket', 'xhr-polling'];
 let isInitialEnter = true;
 
 export default class ConnectionLostState extends AbstractConnectionState {
+  lastEnterTime?: number;
+  isFirstEverConnectionAttempt?: boolean;
+  connectionAttempts: number = 0;
+
   onEnter() {
     if (isInitialEnter) {
       isInitialEnter = false;
     } else {
       ineum('reportEvent', 'connection.lost', {
         meta: {
+          // @ts-expect-error we access a private field for monitoring data
           transport: this.sharedState.socket?.transport,
+          // @ts-expect-error we access a private field for monitoring data
           socketRto: this.sharedState.socket?._rto
         }
       });
@@ -51,7 +58,7 @@ export default class ConnectionLostState extends AbstractConnectionState {
     this.off('close', this.onClose);
   }
 
-  markSubscriptionDescriptionAsUnsubscribed(subscriptionDescription) {
+  markSubscriptionDescriptionAsUnsubscribed<T>(subscriptionDescription: SubscriptionDescription<T>) {
     subscriptionDescription.isSubscribedToBackend = false;
   }
 
@@ -73,7 +80,7 @@ export default class ConnectionLostState extends AbstractConnectionState {
         this.sharedState.socket.onopen = null;
         this.sharedState.socket.onclose = null;
         this.sharedState.socket.close();
-        this.sharedState.socket = null;
+        this.sharedState.socket = undefined;
       } catch (e) {
         // ignore
       }
@@ -138,7 +145,9 @@ export default class ConnectionLostState extends AbstractConnectionState {
     this.sendConnectionSettings();
     ineum('reportEvent', 'connection.established', {
       meta: {
+        // @ts-expect-error we access a private field for monitoring data
         transport: this.sharedState.socket?.transport,
+        // @ts-expect-error we access a private field for monitoring data
         socketRto: this.sharedState.socket?._rto
       }
     });
@@ -153,7 +162,7 @@ export default class ConnectionLostState extends AbstractConnectionState {
     setTimeout(this.attemptConnection, Math.min(30, Math.pow(2, this.connectionAttempts)) * 1000);
   };
 
-  forwardMessageToEventHandlers = e => {
+  forwardMessageToEventHandlers = (e: MessageEvent) => {
     this.sharedState.metrics.received++;
     const commaIndex = e.data.indexOf(',');
     if (commaIndex === -1) {
