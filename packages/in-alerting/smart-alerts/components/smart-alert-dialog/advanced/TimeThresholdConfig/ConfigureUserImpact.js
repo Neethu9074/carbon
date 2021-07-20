@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Toggle, Spacer } from '@instana/components';
+import { Toggle } from '@instana/components';
 
 import {
   putUsersField,
@@ -59,7 +59,6 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
               />
             </FormGroup>
           </div>
-          <Spacer horizontal="xxsmall" />
           <Toggle
             name="alertByNumberOfUsersChecked"
             className={locals.toggle}
@@ -118,7 +117,6 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
               />
             </FormGroup>
           </div>
-          <Spacer horizontal="xxsmall" />
           <Toggle
             name={'alertByPercentageOfImpactedUsersEnabled'}
             className={locals.toggle}
