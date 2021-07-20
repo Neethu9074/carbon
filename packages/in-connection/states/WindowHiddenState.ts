@@ -6,6 +6,8 @@
 import AbstractConnectionState from 'in-connection/states/AbstractConnectionState';
 
 export default class WindowHiddenState extends AbstractConnectionState {
+  timerHandle: any;
+
   onEnter() {
     if (!window.document.hidden) {
       this.transitionTo('connected');

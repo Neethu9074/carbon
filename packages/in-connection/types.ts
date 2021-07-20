@@ -39,7 +39,7 @@ export interface SharedState {
 
   // How long it takes until the subscriptions are disposed backend wise when the
   // browser tab is no longer visible.
-  timeUntilDisposingSubscriptionsForHiddenUi: null;
+  timeUntilDisposingSubscriptionsForHiddenUi: number;
 }
 
 export interface TransitionManager {
