@@ -426,11 +426,9 @@
       "instanceOfEntity": "<entityLink>{{entityLabel}}</entityLink>의 인스턴스<icon />",
       "tooltipUnmonitored": "실행 중인 에이전트의 범위를 벗어나는 정보로 인해 모니터되지 않은 인프라"
     },
-    "errorMessages": "오류 메시지",
     "errorCallWithoutMessage": "오류 메시지가 없는 잘못된 호출",
-    "logMessages": "로그 메시지",
     "noLogMessage": "사용 가능한 로그 메시지가 없음",
-    "includeSyntheticCallsDropDownSyntheticCalls":" 합성 호출: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": " 합성 호출: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "현재 애플리케이션에 서비스가 없습니다.",

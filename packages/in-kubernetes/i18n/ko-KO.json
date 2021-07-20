@@ -199,8 +199,7 @@
     "noMemoryRequestQuotaMessage": "이 네임스페이스에는 메모리 요청 할당량이 없습니다.",
     "noMemoryLimitQuotaMessage": "이 네임스페이스에는 메모리 한계 할당량이 없습니다.",
     "completion": "완료",
-    "placeholderPhase": "단계(Phase)…",
-    "events2": "이벤트"
+    "placeholderPhase": "단계(Phase)…"
   },
   "viewAllEntityName_unknownEntity_plural": "모두",
   "viewAllEntityName_unknownEntity_0": "모두",

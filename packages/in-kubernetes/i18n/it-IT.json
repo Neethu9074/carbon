@@ -199,8 +199,7 @@
     "noMemoryRequestQuotaMessage": "In questo spazio dei nomi non ci sono quote per le richieste della memoria",
     "noMemoryLimitQuotaMessage": "In questo spazio dei nomi non ci sono quote per i limiti della memoria",
     "completion": "Completamento",
-    "placeholderPhase": "Fase…",
-    "events2": "eventi"
+    "placeholderPhase": "Fase…"
   },
   "viewAllEntityName_unknownEntity_plural": "tutti",
   "viewAllEntityName_unknownEntity_0": "tutti",

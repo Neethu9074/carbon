@@ -450,7 +450,6 @@
         "xhrRequestsLabelCalls": "Chiamate",
         "xhrRequestsLabelLatency": "Latenza",
         "xhrRequestsLabelErrors": "Errori",
-        "xhrRequestsEntityNameHTTPRequests": "Richieste HTTP",
         "xhrRequestsButtonAnalyzeHTTPRequests": "Analizza richieste HTTP"
       },
       "alerts": {
@@ -543,8 +542,7 @@
         "pageTopListLabelOccurrences": "Ricorrenze",
         "pageTopListLabelUsers": "Utenti",
         "browserTopListLabelOccurrences": "Ricorrenze",
-        "browserTopListLabelUsers": "Utenti",
-        "customEvents": "eventi personalizzati"
+        "browserTopListLabelUsers": "Utenti"
       },
       "errors": {
         "browserTopListLabelOccurrences": "Ricorrenze",
@@ -571,7 +569,6 @@
         "errorsLabelErrorMessage": "Messaggio di errore",
         "errorsLabelOccurrences": "Ricorrenze",
         "errorsLabelAffectedUsers": "Utenti interessati",
-        "errorsEntityNameJavaScriptErrors": "Errori JavaScript",
         "errorsButtonAnalyzeJSErrors": "Analizza errori JS",
         "osTopListLabelOccurrences": "Ricorrenze",
         "osTopListLabelAffectedUsers": "Utenti interessati",

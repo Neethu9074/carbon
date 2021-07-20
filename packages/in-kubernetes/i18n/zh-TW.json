@@ -199,8 +199,7 @@
     "noMemoryRequestQuotaMessage": "此名稱空間中沒有任何記憶體要求配額",
     "noMemoryLimitQuotaMessage": "此名稱空間中沒有任何記憶體限制配額",
     "completion": "完成",
-    "placeholderPhase": "階段…",
-    "events2": "事件"
+    "placeholderPhase": "階段…"
   },
   "viewAllEntityName_unknownEntity_plural": "全部",
   "viewAllEntityName_unknownEntity_0": "全部",

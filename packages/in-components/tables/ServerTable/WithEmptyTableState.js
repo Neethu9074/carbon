@@ -12,7 +12,6 @@ import EntityPageMainNotification from 'in-components/EntityPageMainNotification
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import { emptyListResult } from 'in-services/util/result';
-import { getPluginName } from 'in-sdk/pluginName';
 import { t } from 'in-i18n';
 
 export default function withEmptyTableState(props) {
@@ -39,19 +38,13 @@ function FallbackComponent(props) {
 }
 
 function NoDataAvailable(props) {
-  const { entityName, plugin } = props;
-  const entitiesName =
-    getPluginName(plugin, 0) || entityName || t('in-components:tables.serverTable.withEmptyTableStateEntitiesName');
+  const { title, description } = props;
   return (
     <CenterAlignmentColumn>
       <EntityPageMainNotification
         {...props}
-        title={t('in-components:tables.serverTable.withEmptyTableStateEntityPageMainNotificationTitle', {
-          name: entitiesName
-        })}
-        explanation={t('in-components:tables.serverTable.withEmptyTableStateEntityPageMainNotificationExplanation', {
-          name: entitiesName
-        })}
+        title={title || t('in-components:tables.noDataAvailable.entititiesTitle')}
+        explanation={description || t('in-components:tables.noDataAvailable.entititiesDescription')}
       />
     </CenterAlignmentColumn>
   );

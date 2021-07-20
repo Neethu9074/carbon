@@ -114,7 +114,8 @@ function eventsTable(columnDefinitions) {
   const ServerTableWithUrlState = createServerTableWithUrlState({
     Renderer: withEmptyTableState({
       columnDefinitions,
-      entityName: t('in-kubernetes:dashboards.events2')
+      title: t('in-kubernetes:dashboards.noDataAvailable.eventsTitle'),
+      description: t('in-kubernetes:dashboards.noDataAvailable.eventsDescription')
     }),
     paginationResettingUrlParameters: [...timeConfigUrlParameters],
     columnDefinitions,

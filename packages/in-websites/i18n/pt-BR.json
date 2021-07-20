@@ -450,7 +450,6 @@
         "xhrRequestsLabelCalls": "Chamadas",
         "xhrRequestsLabelLatency": "Latência",
         "xhrRequestsLabelErrors": "Erros",
-        "xhrRequestsEntityNameHTTPRequests": "Solicitações de HTTP",
         "xhrRequestsButtonAnalyzeHTTPRequests": "Analisar solicitações de HTTP"
       },
       "alerts": {
@@ -543,8 +542,7 @@
         "pageTopListLabelOccurrences": "Ocorrências",
         "pageTopListLabelUsers": "Usuários",
         "browserTopListLabelOccurrences": "Ocorrências",
-        "browserTopListLabelUsers": "Usuários",
-        "customEvents": "eventos customizados"
+        "browserTopListLabelUsers": "Usuários"
       },
       "errors": {
         "browserTopListLabelOccurrences": "Ocorrências",
@@ -571,7 +569,6 @@
         "errorsLabelErrorMessage": "Mensagem de erro",
         "errorsLabelOccurrences": "Ocorrências",
         "errorsLabelAffectedUsers": "Usuários afetados",
-        "errorsEntityNameJavaScriptErrors": "Erros do Javascript",
         "errorsButtonAnalyzeJSErrors": "Analisar erros de JS",
         "osTopListLabelOccurrences": "Ocorrências",
         "osTopListLabelAffectedUsers": "Usuários afetados",

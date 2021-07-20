@@ -199,8 +199,7 @@
     "noMemoryRequestQuotaMessage": "この名前空間にはメモリー要求の割り当て量がありません",
     "noMemoryLimitQuotaMessage": "この名前空間にはメモリー制限の割り当て量がありません",
     "completion": "完了",
-    "placeholderPhase": "フェーズ…",
-    "events2": "イベント"
+    "placeholderPhase": "フェーズ…"
   },
   "viewAllEntityName_unknownEntity_plural": "すべて",
   "viewAllEntityName_unknownEntity_0": "すべて",

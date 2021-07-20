@@ -111,7 +111,8 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'HTTP requests',
+    title: t('in-mobile-apps:dashboard.noDataAvailable.httpRequestsTitle'),
+    description: t('in-mobile-apps:dashboard.noDataAvailable.httpRequestsDescription'),
     changeExplanation
   }),
   paginationResettingUrlParameters: [

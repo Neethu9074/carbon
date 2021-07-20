@@ -450,7 +450,6 @@
         "xhrRequestsLabelCalls": "调用",
         "xhrRequestsLabelLatency": "等待时间",
         "xhrRequestsLabelErrors": "错误数",
-        "xhrRequestsEntityNameHTTPRequests": "HTTP 请求数",
         "xhrRequestsButtonAnalyzeHTTPRequests": "分析 HTTP 请求数"
       },
       "alerts": {
@@ -543,8 +542,7 @@
         "pageTopListLabelOccurrences": "出现次数",
         "pageTopListLabelUsers": "用户",
         "browserTopListLabelOccurrences": "出现次数",
-        "browserTopListLabelUsers": "用户",
-        "customEvents": "定制事件"
+        "browserTopListLabelUsers": "用户"
       },
       "errors": {
         "browserTopListLabelOccurrences": "出现次数",
@@ -571,7 +569,6 @@
         "errorsLabelErrorMessage": "错误消息",
         "errorsLabelOccurrences": "出现次数",
         "errorsLabelAffectedUsers": "受影响的用户数",
-        "errorsEntityNameJavaScriptErrors": "JavaScript 错误数",
         "errorsButtonAnalyzeJSErrors": "分析 JS 错误",
         "osTopListLabelOccurrences": "出现次数",
         "osTopListLabelAffectedUsers": "受影响的用户数",

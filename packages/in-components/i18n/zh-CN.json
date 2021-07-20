@@ -104,10 +104,7 @@
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "分析此组",
-      "cursorPaginatedTableLoadMoreRowLabel": "加载更多",
-      "withEmptyTableStateEntitiesName": "实体",
-      "withEmptyTableStateEntityPageMainNotificationTitle": "无可用的“{{name}}”",
-      "withEmptyTableStateEntityPageMainNotificationExplanation": "针对所选时间范围未检索到任何“{{name}}”。"
+      "cursorPaginatedTableLoadMoreRowLabel": "加载更多"
     },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "搜索 {{len}} 项",

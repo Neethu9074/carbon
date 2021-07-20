@@ -199,8 +199,7 @@
     "noMemoryRequestQuotaMessage": "Aucun quota de demande de mémoire dans cet espace de nom",
     "noMemoryLimitQuotaMessage": "Aucun quota de limite de mémoire dans cet espace de nom",
     "completion": "Achèvement",
-    "placeholderPhase": "Phase...",
-    "events2": "événements"
+    "placeholderPhase": "Phase..."
   },
   "viewAllEntityName_unknownEntity_plural": "tout",
   "viewAllEntityName_unknownEntity_0": "tout",

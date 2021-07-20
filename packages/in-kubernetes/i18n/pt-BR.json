@@ -199,8 +199,7 @@
     "noMemoryRequestQuotaMessage": "Não há cotas de solicitação de memória neste namespace",
     "noMemoryLimitQuotaMessage": "Não há cotas de limite de memória neste namespace",
     "completion": "Conclusão",
-    "placeholderPhase": "Fase...",
-    "events2": "eventos"
+    "placeholderPhase": "Fase..."
   },
   "viewAllEntityName_unknownEntity_plural": "todos",
   "viewAllEntityName_unknownEntity_0": "todos",

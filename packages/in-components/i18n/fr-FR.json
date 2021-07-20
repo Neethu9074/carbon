@@ -104,10 +104,7 @@
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "Analyser ce groupe",
-      "cursorPaginatedTableLoadMoreRowLabel": "Charger plus",
-      "withEmptyTableStateEntitiesName": "entités",
-      "withEmptyTableStateEntityPageMainNotificationTitle": "Aucun {{name}} disponible",
-      "withEmptyTableStateEntityPageMainNotificationExplanation": "Aucun {{name}} n'a été extrait pour la période sélectionnée."
+      "cursorPaginatedTableLoadMoreRowLabel": "Charger plus"
     },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "Rechercher {{len}} éléments",

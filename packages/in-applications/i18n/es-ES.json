@@ -426,11 +426,9 @@
       "instanceOfEntity": "instancia de <icon /><entityLink>{{entityLabel}}</entityLink>",
       "tooltipUnmonitored": "Infraestructura no supervisada debido a que la información está fuera de la vista de los agentes en ejecución"
     },
-    "errorMessages": "mensajes de error",
     "errorCallWithoutMessage": "Llamada errónea sin mensaje de error",
-    "logMessages": "mensajes de registro",
     "noLogMessage": "No hay ningún mensaje de registro disponible",
-    "includeSyntheticCallsDropDownSyntheticCalls":"Llamadas sintéticas: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "Llamadas sintéticas: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "El servicio no está en la aplicación actual.",
@@ -461,14 +459,14 @@
     "tooltipEndpointCallsNotMatch": "Las llamadas que no coinciden con una regla anterior se asignan a este punto final",
     "titleConfigureEndpointsExtract": "Configurar cómo se extraen los puntos finales de las llamadas subyacentes a este servicio.",
     "descriptionConfigureEndpointsExtract": "Las reglas de punto final se evalúan secuencialmente, de arriba abajo, y se asigna una llamada a la primera regla coincidente. Una vez configuradas, las nuevas llamadas nuevas se asignarán en función de las reglas actualizadas.",
-  "descriptionResetToDefaultRule": "Si desea restablecer las reglas de extracciones predeterminadas, utilice el botón de abajo. El restablecimiento puede tardar algunos unos minutos en registrarse.",
+    "descriptionResetToDefaultRule": "Si desea restablecer las reglas de extracciones predeterminadas, utilice el botón de abajo. El restablecimiento puede tardar algunos unos minutos en registrarse.",
     "understandCheckboxResetToDefaultRule": " Entiendo que esta acción no se puede deshacer.",
     "customService": {
       "stepTitle": "Ampliar la correlación de servicios automática añadiendo una regla de servicio personalizada.",
       "descriptionTextFirstLine": "Instana correlaciona automáticamente los servicios basándose en un amplio conjunto de reglas predefinidas. Por ejemplo, si se encuentra el código nodejs.app.name, y hay llamadas codificadas con <bold>\"nodejs.app.name=user service\"</bold> y con <bold>\"nodejs.app.name=cart service\"</bold>, entonces <bold>\"user service\"</bold> y <bold>\"cart service\"</bold> se mostrarán como servicios.",
       "descriptionVisit": "Vaya a la <bold><linkToDoc>Documentación de gestión de aplicaciones y servicios</linkToDoc></bold> para obtener más información sobre las reglas predefinidas.",
       "descriptionCustomServiceRule": "Defina una regla personalizada seleccionando una serie de etiquetas a continuación. Si todas las etiquetas están presentes en una llamada, se correlacionará con ese servicio.",
-     "tooltipRemoveCondition": "Eliminar esta condición de coincidencia"
+      "tooltipRemoveCondition": "Eliminar esta condición de coincidencia"
     },
     "newApplication": {
       "helpApplicationPerspectives": "Las perspectivas de aplicación proporcionan un medio para modelar entornos, conjuntos de servicios, arrendatarios o prácticamente cualquier cosa.",
@@ -529,7 +527,7 @@
   "constants": {
     "exclude": "Excluir",
     "syntheticCallsAreExcludedFromTheMetrics": "Las llamadas sintéticas se excluyen de las métricas.",
-"include": "Incluir",
+    "include": "Incluir",
     "syntheticCallsAreIncludedInTheMetrics": "Las llamadas sintéticas se incluyen en las métricas.",
     "only": "Solo",
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Sólo se muestran y se incluyen las llamadas sintéticas en las métricas"

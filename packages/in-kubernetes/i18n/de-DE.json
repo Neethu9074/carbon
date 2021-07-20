@@ -199,8 +199,7 @@
     "noMemoryRequestQuotaMessage": "Es gibt keine Speicheranfragequoten für diesen Namensbereich",
     "noMemoryLimitQuotaMessage": "Es gibt keine Speicherlimitquoten für diesen Namensbereich",
     "completion": "Abschluss",
-    "placeholderPhase": "Phase …",
-    "events2": "Ereignisse"
+    "placeholderPhase": "Phase …"
   },
   "viewAllEntityName_unknownEntity_plural": "Alle",
   "viewAllEntityName_unknownEntity_0": "Alle",

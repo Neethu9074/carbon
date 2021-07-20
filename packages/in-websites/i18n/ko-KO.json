@@ -450,7 +450,6 @@
         "xhrRequestsLabelCalls": "호출",
         "xhrRequestsLabelLatency": "대기 시간",
         "xhrRequestsLabelErrors": "오류",
-        "xhrRequestsEntityNameHTTPRequests": "HTTP 요청",
         "xhrRequestsButtonAnalyzeHTTPRequests": "HTTP 요청 분석"
       },
       "alerts": {
@@ -543,8 +542,7 @@
         "pageTopListLabelOccurrences": "발생 횟수",
         "pageTopListLabelUsers": "사용자",
         "browserTopListLabelOccurrences": "발생 횟수",
-        "browserTopListLabelUsers": "사용자",
-        "customEvents": "사용자 정의 이벤트"
+        "browserTopListLabelUsers": "사용자"
       },
       "errors": {
         "browserTopListLabelOccurrences": "발생 횟수",
@@ -571,7 +569,6 @@
         "errorsLabelErrorMessage": "오류 메시지",
         "errorsLabelOccurrences": "발생 횟수",
         "errorsLabelAffectedUsers": "영향을 받는 사용자",
-        "errorsEntityNameJavaScriptErrors": "JavaScript 오류",
         "errorsButtonAnalyzeJSErrors": "JS 오류 분석",
         "osTopListLabelOccurrences": "발생 횟수",
         "osTopListLabelAffectedUsers": "영향을 받는 사용자",

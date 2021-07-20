@@ -450,7 +450,6 @@
         "xhrRequestsLabelCalls": "Aufrufe",
         "xhrRequestsLabelLatency": "Latenzzeit",
         "xhrRequestsLabelErrors": "Fehler",
-        "xhrRequestsEntityNameHTTPRequests": "HTTP-Anforderungen",
         "xhrRequestsButtonAnalyzeHTTPRequests": "HTTP-Anforderungen analysieren"
       },
       "alerts": {
@@ -543,8 +542,7 @@
         "pageTopListLabelOccurrences": "Vorkommen",
         "pageTopListLabelUsers": "Benutzer",
         "browserTopListLabelOccurrences": "Vorkommen",
-        "browserTopListLabelUsers": "Benutzer",
-        "customEvents": "angepasste Ereignisse"
+        "browserTopListLabelUsers": "Benutzer"
       },
       "errors": {
         "browserTopListLabelOccurrences": "Vorkommen",
@@ -571,7 +569,6 @@
         "errorsLabelErrorMessage": "Fehlernachricht",
         "errorsLabelOccurrences": "Vorkommen",
         "errorsLabelAffectedUsers": "Betroffene Benutzer",
-        "errorsEntityNameJavaScriptErrors": "JavaScript-Fehler",
         "errorsButtonAnalyzeJSErrors": "JS-Fehler analysieren",
         "osTopListLabelOccurrences": "Vorkommen",
         "osTopListLabelAffectedUsers": "Betroffene Benutzer",

@@ -426,11 +426,9 @@
       "instanceOfEntity": "instância de<icon /><entityLink>{{entityLabel}}</entityLink>",
       "tooltipUnmonitored": "Infraestrutura não monitorada devido a informações fora do alcance dos agentes em execução"
     },
-    "errorMessages": "mensagens de erro",
     "errorCallWithoutMessage": "Chamada errônea sem mensagem de erro",
-    "logMessages": "mensagens de log",
     "noLogMessage": "Nenhuma mensagem de log disponível",
-    "includeSyntheticCallsDropDownSyntheticCalls":" Chamadas sintéticas: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": " Chamadas sintéticas: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "O serviço não está no aplicativo atual.",
@@ -493,7 +491,7 @@
     "customSyntheticRule": {
       "placeholderNameRule": "Dê um nome à sua regra",
       "placeholderAddDescriptionForRule": "Inclua uma descrição para sua regra",
-"helpSpecifyRule": "Especifique as regras para corresponder, por exemplo. endpoint.name contém funcionamento",
+      "helpSpecifyRule": "Especifique as regras para corresponder, por exemplo. endpoint.name contém funcionamento",
       "messageNoMatchRule": "Nenhum terminal corresponde a esta regra.",
       "messageNoRule": "Nenhuma regra especificada.",
       "stepTitleConfigureSyntheticEndpoints": "Configure terminais sintéticos para ignorar chamadas para eles de KPIs de serviço e de aplicativo",

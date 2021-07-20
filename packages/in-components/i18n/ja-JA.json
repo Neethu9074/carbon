@@ -104,10 +104,7 @@
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "このグループの分析",
-      "cursorPaginatedTableLoadMoreRowLabel": "さらにロード",
-      "withEmptyTableStateEntitiesName": "エンティティー",
-      "withEmptyTableStateEntityPageMainNotificationTitle": "{{name}} がありません",
-      "withEmptyTableStateEntityPageMainNotificationExplanation": "選択された時刻範囲で取得された {{name}} はありません。"
+      "cursorPaginatedTableLoadMoreRowLabel": "さらにロード"
     },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "{{len}} 項目の検索",

@@ -111,7 +111,8 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: t('in-websites:websiteDashboard.tabs.ajax.xhrRequestsEntityNameHTTPRequests'),
+    title: t('in-websites:websiteDashboard.noDataAvailable.httpRequestsTitle'),
+    description: t('in-websites:websiteDashboard.noDataAvailable.httpRequestsDescription'),
     changeExplanation
   }),
   paginationResettingUrlParameters: [

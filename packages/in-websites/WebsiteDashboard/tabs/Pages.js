@@ -110,7 +110,8 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'pages',
+    title: t('in-websites:websiteDashboard.noDataAvailable.pagesTitle'),
+    description: t('in-websites:websiteDashboard.noDataAvailable.pagesDescription'),
     changeExplanation
   }),
   paginationResettingUrlParameters: [

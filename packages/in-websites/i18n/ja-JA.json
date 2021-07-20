@@ -450,7 +450,6 @@
         "xhrRequestsLabelCalls": "呼び出し",
         "xhrRequestsLabelLatency": "待ち時間",
         "xhrRequestsLabelErrors": "エラー",
-        "xhrRequestsEntityNameHTTPRequests": "HTTP 要求",
         "xhrRequestsButtonAnalyzeHTTPRequests": "HTTP 要求の分析"
       },
       "alerts": {
@@ -543,8 +542,7 @@
         "pageTopListLabelOccurrences": "発生回数",
         "pageTopListLabelUsers": "ユーザー",
         "browserTopListLabelOccurrences": "発生回数",
-        "browserTopListLabelUsers": "ユーザー",
-        "customEvents": "カスタム・イベント"
+        "browserTopListLabelUsers": "ユーザー"
       },
       "errors": {
         "browserTopListLabelOccurrences": "発生回数",
@@ -571,7 +569,6 @@
         "errorsLabelErrorMessage": "エラー・メッセージ",
         "errorsLabelOccurrences": "発生回数",
         "errorsLabelAffectedUsers": "影響を受けたユーザー",
-        "errorsEntityNameJavaScriptErrors": "JavaScript エラー",
         "errorsButtonAnalyzeJSErrors": "JS エラーの分析",
         "osTopListLabelOccurrences": "発生回数",
         "osTopListLabelAffectedUsers": "影響を受けたユーザー",

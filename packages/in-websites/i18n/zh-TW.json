@@ -450,7 +450,6 @@
         "xhrRequestsLabelCalls": "呼叫",
         "xhrRequestsLabelLatency": "延遲時間",
         "xhrRequestsLabelErrors": "錯誤",
-        "xhrRequestsEntityNameHTTPRequests": "HTTP 要求",
         "xhrRequestsButtonAnalyzeHTTPRequests": "分析 HTTP 要求"
       },
       "alerts": {
@@ -543,8 +542,7 @@
         "pageTopListLabelOccurrences": "出現次數",
         "pageTopListLabelUsers": "使用者",
         "browserTopListLabelOccurrences": "出現次數",
-        "browserTopListLabelUsers": "使用者",
-        "customEvents": "自訂事件"
+        "browserTopListLabelUsers": "使用者"
       },
       "errors": {
         "browserTopListLabelOccurrences": "出現次數",
@@ -571,7 +569,6 @@
         "errorsLabelErrorMessage": "錯誤訊息",
         "errorsLabelOccurrences": "出現次數",
         "errorsLabelAffectedUsers": "受影響的使用者",
-        "errorsEntityNameJavaScriptErrors": "JavaScript 錯誤",
         "errorsButtonAnalyzeJSErrors": "分析 JS 錯誤",
         "osTopListLabelOccurrences": "出現次數",
         "osTopListLabelAffectedUsers": "受影響的使用者",

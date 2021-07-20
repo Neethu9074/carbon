@@ -104,10 +104,11 @@
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "Analyze this group",
-      "cursorPaginatedTableLoadMoreRowLabel": "Load More",
-      "withEmptyTableStateEntitiesName": "entities",
-      "withEmptyTableStateEntityPageMainNotificationTitle": "No {{name}} available",
-      "withEmptyTableStateEntityPageMainNotificationExplanation": "There were no {{name}} retrieved for the selected time range."
+      "cursorPaginatedTableLoadMoreRowLabel": "Load More"
+    },
+    "noDataAvailable": {
+      "entititiesTitle": "No entities available",
+      "entititiesDescription": "There were no entities retrieved for the selected time range."
     },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "Search {{len}} items",
