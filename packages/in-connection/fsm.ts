@@ -7,7 +7,6 @@ import { TransitionManager, Connection, Listener, SubscribeOptions } from 'in-co
 import AbstractFsmState from 'in-connection/states/AbstractFsmState';
 
 export interface CreateFsmOptions {
-  publicApiMethods: string[];
   initialState: string;
   states: {
     [stateName: string]: AbstractFsmState & Connection;
