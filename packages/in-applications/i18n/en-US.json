@@ -427,11 +427,19 @@
       "instanceOfEntity": "instance of<icon /><entityLink>{{entityLabel}}</entityLink>",
       "tooltipUnmonitored": "Unmonitored infrastructure due to information outside the purview of running agents"
     },
-    "errorMessages": "error messages",
     "errorCallWithoutMessage": "Erroneous call without error message",
-    "logMessages": "log messages",
     "noLogMessage": "No log message available",
-    "includeSyntheticCallsDropDownSyntheticCalls": "Synthetic Calls: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "Synthetic Calls: {{syntheticCallsOptionLabel}}",
+    "noDataAvailable": {
+      "servicesTitle": "No services available",
+      "servicesDescription": "There were no services retrieved for the selected time range.",
+      "errorMessagesTitle": "No error messages available",
+      "errorMessagesDescription": "There were no error messages retrieved for the selected time range.",
+      "logMessagesTitle": "No log messages available",
+      "logMessagesDescription": "There were no log messages retrieved for the selected time range.",
+      "endpointsTitle": "No endpoints available",
+      "endpointsDescription": "There were no endpoints retrieved for the selected time range."
+    }
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "The service is not in the current application.",

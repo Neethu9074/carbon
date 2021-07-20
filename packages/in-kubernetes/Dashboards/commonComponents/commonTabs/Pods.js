@@ -176,7 +176,8 @@ function createTable(columnDefinitions) {
   return createServerTableWithUrlState({
     Renderer: withEmptyTableState({
       columnDefinitions,
-      entityName: 'pods'
+      title: t('in-kubernetes:dashboards.noDataAvailable.podsTitle'),
+      description: t('in-kubernetes:dashboards.noDataAvailable.podsDescription')
     }),
     paginationResettingUrlParameters: [
       ...timeConfigUrlParameters,

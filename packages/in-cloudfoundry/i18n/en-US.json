@@ -25,7 +25,11 @@
     "routes": "Routes",
     "diskLimit": "Disk Limit",
     "createdAt": "Created at",
-    "analyzeCalls": "Analyze Calls"
+    "analyzeCalls": "Analyze Calls",
+    "noDataAvailable": {
+      "containersTitle": "No containers available",
+      "containersDescription": "There were no containers retrieved for the selected time range."
+    }
   },
   "name": "Name",
   "requestedState": "Requested State",

@@ -147,7 +147,8 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'nodes'
+    title: t('in-kubernetes:dashboards.noDataAvailable.nodesTitle'),
+    description: t('in-kubernetes:dashboards.noDataAvailable.nodesDescription')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter, daemonSetIdUrlParameter],
   columnDefinitions,

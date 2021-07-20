@@ -104,7 +104,8 @@ const filterUrlParameter = {
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'resources',
+    title: t('in-websites:websiteDashboard.noDataAvailable.resourcesTitle'),
+    description: t('in-websites:websiteDashboard.noDataAvailable.resourcesDescription'),
     changeExplanation
   }),
   paginationResettingUrlParameters: [

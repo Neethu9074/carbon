@@ -301,6 +301,12 @@
       "geographyTitle": "Geography",
       "topViewsTitle": "Top Views",
       "globViewFootertext": "Images provided by NASA"
+    },
+    "noDataAvailable": {
+      "viewsTitle": "No views available",
+      "viewsDescription": "There were no views retrieved for the selected time range.",
+      "httpRequestsTitle": "No HTTP requests available",
+      "httpRequestsDescription": "There were no HTTP requests retrieved for the selected time range."
     }
   },
   "appsList": {

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Card } from '@instana/components';
 import React from 'react';
+
+import { Card } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
 import getKubernetesPersistentVolumes from 'in-subscription/kubernetes/getKubernetesPersistentVolumes';
@@ -52,7 +53,8 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'persistentVolumes'
+    title: t('in-kubernetes:dashboards.noDataAvailable.persistentVolumesTitle'),
+    description: t('in-kubernetes:dashboards.noDataAvailable.persistentVolumesDescription')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter],
   columnDefinitions,
@@ -84,7 +86,7 @@ function getTableData({
   namespaceId,
   podId,
   workloadControllerId,
-  nodeId,
+  nodeId
 }) {
   return getKubernetesPersistentVolumes({
     pagination: {
@@ -102,7 +104,7 @@ function getTableData({
       namespaceId,
       podId,
       workloadControllerId,
-      nodeId,
+      nodeId
     },
     granularity: getInfraGranularity(timeConfig)
   });

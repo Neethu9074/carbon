@@ -4,9 +4,10 @@
  */
 
 import { compose, withState } from 'recompose';
-import { Link } from '@instana/components';
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
+
+import { Link } from '@instana/components';
 
 import {
   getEntityHref,
@@ -41,7 +42,7 @@ function Alerts({ enabled, setEnabled }) {
   return (
     <List
       title={t('in-settings:tabs.alerts')}
-      getHeader={defaultHeaderWithCount('Alerts')}
+      getHeader={defaultHeaderWithCount(t('in-settings:tabs.alerts'))}
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions}
       tableActions={tableActions}

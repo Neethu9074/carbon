@@ -426,11 +426,9 @@
       "instanceOfEntity": "Instanz von <icon /><entityLink>{{entityLabel}}</entityLink>",
       "tooltipUnmonitored": "Unüberwachte Infrastruktur aufgrund von Informationen, die außerhalb des Zuständigkeitsbereichs der laufenden Agenten liegen"
     },
-    "errorMessages": "Fehlernachrichten",
     "errorCallWithoutMessage": "Fehlerhafter Aufruf ohne Fehlernachricht",
-    "logMessages": "Protokollnachrichten",
     "noLogMessage": "Keine Protokollnachricht verfügbar",
-    "includeSyntheticCallsDropDownSyntheticCalls":"Synthetische Aufrufe: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "Synthetische Aufrufe: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "Der Service befindet sich nicht in der aktuellen Anwendung.",

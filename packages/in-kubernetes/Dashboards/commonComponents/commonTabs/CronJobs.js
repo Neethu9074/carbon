@@ -79,7 +79,8 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'cronjobs'
+    title: t('in-kubernetes:dashboards.noDataAvailable.cronjobsTitle'),
+    description: t('in-kubernetes:dashboards.noDataAvailable.cronjobsDescription')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, clusterIdUrlParameter, namespaceIdUrlParameter],
   columnDefinitions,

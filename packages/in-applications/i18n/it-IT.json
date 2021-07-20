@@ -426,11 +426,9 @@
       "instanceOfEntity": "istanza di<icon /><entityLink>{{entityLabel}}</entityLink>",
       "tooltipUnmonitored": "Infrastruttura non monitorata a causa di informazioni al di fuori dell'ambito degli agent in esecuzione"
     },
-    "errorMessages": "messaggi di errore",
     "errorCallWithoutMessage": "Chiamata errata senza messaggio di errore",
-    "logMessages": "messaggi di log",
     "noLogMessage": "Nessun messaggio di log disponibile",
-    "includeSyntheticCallsDropDownSyntheticCalls":" Chiamate sintetiche: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": " Chiamate sintetiche: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "Il servizio non si trova nell'applicazione corrente.",

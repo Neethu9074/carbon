@@ -104,10 +104,7 @@
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "이 그룹 분석",
-      "cursorPaginatedTableLoadMoreRowLabel": "추가 로드",
-      "withEmptyTableStateEntitiesName": "엔티티",
-      "withEmptyTableStateEntityPageMainNotificationTitle": "{{name}}을(를) 사용할 수 없음",
-      "withEmptyTableStateEntityPageMainNotificationExplanation": "선택한 시간 범위에 대해 검색된 {{name}}이(가) 없습니다."
+      "cursorPaginatedTableLoadMoreRowLabel": "추가 로드"
     },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "{{len}} 항목 검색",

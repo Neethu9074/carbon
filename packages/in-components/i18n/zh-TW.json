@@ -104,10 +104,7 @@
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "分析此群組",
-      "cursorPaginatedTableLoadMoreRowLabel": "載入更多",
-      "withEmptyTableStateEntitiesName": "實體",
-      "withEmptyTableStateEntityPageMainNotificationTitle": "沒有可用的{{name}}",
-      "withEmptyTableStateEntityPageMainNotificationExplanation": "在選取的時間範圍內未擷取任何 {{name}}。"
+      "cursorPaginatedTableLoadMoreRowLabel": "載入更多"
     },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "搜尋 {{len}} 個項目",

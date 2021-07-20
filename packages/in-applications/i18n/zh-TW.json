@@ -426,11 +426,9 @@
       "instanceOfEntity": "實例屬於<icon /><entityLink>{{entityLabel}}</entityLink>",
       "tooltipUnmonitored": "未受監視的基礎架構，因為資訊位於執行中代理程式的權限外"
     },
-    "errorMessages": "錯誤訊息",
     "errorCallWithoutMessage": "沒有錯誤訊息的錯誤呼叫",
-    "logMessages": "日誌訊息",
     "noLogMessage": "沒有可用的日誌訊息",
-    "includeSyntheticCallsDropDownSyntheticCalls":" 合成呼叫：{{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": " 合成呼叫：{{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "服務不在現行應用程式中。",

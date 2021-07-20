@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { Card } from '@instana/components';
 import { Link } from '@instana/components';
-import React from 'react';
 
 import {
   mobileAppIdUrlParameter,
@@ -71,7 +72,8 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: 'views',
+    title: t('in-mobile-apps:dashboard.noDataAvailable.viewsTitle'),
+    description: t('in-mobile-apps:dashboard.noDataAvailable.viewsDescription'),
     emptyListExplanation
   }),
   paginationResettingUrlParameters: [

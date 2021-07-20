@@ -199,8 +199,7 @@
     "noMemoryRequestQuotaMessage": "No hay cuotas de solicitud de memoria en este espacio de nombres",
     "noMemoryLimitQuotaMessage": "No hay cuotas de límite de memoria en este espacio de nombres",
     "completion": "Finalización",
-    "placeholderPhase": "Fase...",
-    "events2": "sucesos"
+    "placeholderPhase": "Fase..."
   },
   "viewAllEntityName_unknownEntity_plural": "todos",
   "viewAllEntityName_unknownEntity_0": "todos",

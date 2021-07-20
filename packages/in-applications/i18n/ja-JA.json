@@ -424,13 +424,11 @@
       "ofEntity": " / <icon /><entityLink>{{entityLabel}}</entityLink>",
       "instanceIndexOfEntity": "<icon /><entityLink>{{entityLabel}}</entityLink> のインスタンス {{cfInstanceIndex}}",
       "instanceOfEntity": "<icon /><entityLink>{{entityLabel}}</entityLink> のインスタンス",
-"tooltipUnmonitored": "実行中のエージェントの範囲外の情報が原因で、モニター対象外のインフラストラクチャー"
+      "tooltipUnmonitored": "実行中のエージェントの範囲外の情報が原因で、モニター対象外のインフラストラクチャー"
     },
-    "errorMessages": "エラー・メッセージ",
     "errorCallWithoutMessage": "エラーのある呼び出し (エラー・メッセージなし)",
-    "logMessages": "ログ・メッセージ",
     "noLogMessage": "使用可能なログ・メッセージがありません",
-    "includeSyntheticCallsDropDownSyntheticCalls":"シンセティック呼び出し: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "シンセティック呼び出し: {{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "サービスが現在のアプリケーションにありません。",
@@ -506,8 +504,8 @@
   "list": {
     "textNewApplicationPerspective": "アカウント管理者が作成すると、ここに表示されます。",
     "showApplicationsScope": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity>) を表示しています",
-"showServicesScope": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity>) を表示しています",
-"showApplicationsScopeWithApplicationLabel": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity> (コンテキスト <linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
+    "showServicesScope": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity>) を表示しています",
+    "showApplicationsScopeWithApplicationLabel": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity> (コンテキスト <linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
     "showServicesScopeWithServiceLabel": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity> (コンテキスト <linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
     "titleNoService": "サービスがまだありません",
     "servicesNoData": "選択された時刻範囲に使用可能なサービス呼び出しがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"

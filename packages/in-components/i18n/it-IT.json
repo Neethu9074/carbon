@@ -104,10 +104,7 @@
   "tables": {
     "serverTable": {
       "cursorPaginatedTableFilterByLabel": "Analizzare questo gruppo",
-      "cursorPaginatedTableLoadMoreRowLabel": "Carica altro",
-      "withEmptyTableStateEntitiesName": "entità",
-      "withEmptyTableStateEntityPageMainNotificationTitle": "Nessun {{name}} disponibile",
-      "withEmptyTableStateEntityPageMainNotificationExplanation": "Non vi sono {{name}} richiamati per l'intervallo di tempo selezionato."
+      "cursorPaginatedTableLoadMoreRowLabel": "Carica altro"
     },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "Cerca {{len}} elementi",

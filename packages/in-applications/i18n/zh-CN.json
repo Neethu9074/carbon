@@ -426,11 +426,9 @@
       "instanceOfEntity": "<icon /><entityLink>{{entityLabel}}</entityLink> 的实例",
       "tooltipUnmonitored": "由于运行中代理程序范围之外的信息，基础架构不受监视"
     },
-    "errorMessages": "错误消息",
     "errorCallWithoutMessage": "无错误消息的错误调用",
-    "logMessages": "日志消息",
     "noLogMessage": "未提供日志消息",
-    "includeSyntheticCallsDropDownSyntheticCalls":" 合成调用：{{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": " 合成调用：{{syntheticCallsOptionLabel}}"
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "该服务不在当前应用程序中。",

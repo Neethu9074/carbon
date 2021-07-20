@@ -74,7 +74,8 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    entityName: t('in-applications:dashboards.logMessages')
+    title: t('in-applications:dashboards.noDataAvailable.logMessagesTitle'),
+    description: t('in-applications:dashboards.noDataAvailable.logMessagesDescription')
   }),
   paginationResettingUrlParameters: [
     ...timeConfigUrlParameters,

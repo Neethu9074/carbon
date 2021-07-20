@@ -450,7 +450,6 @@
         "xhrRequestsLabelCalls": "Calls",
         "xhrRequestsLabelLatency": "Latency",
         "xhrRequestsLabelErrors": "Errors",
-        "xhrRequestsEntityNameHTTPRequests": "HTTP requests",
         "xhrRequestsButtonAnalyzeHTTPRequests": "Analyze HTTP Requests"
       },
       "alerts": {
@@ -543,8 +542,7 @@
         "pageTopListLabelOccurrences": "Occurrences",
         "pageTopListLabelUsers": "Users",
         "browserTopListLabelOccurrences": "Occurrences",
-        "browserTopListLabelUsers": "Users",
-        "customEvents": "custom events"
+        "browserTopListLabelUsers": "Users"
       },
       "errors": {
         "browserTopListLabelOccurrences": "Occurrences",
@@ -571,7 +569,6 @@
         "errorsLabelErrorMessage": "Error Message",
         "errorsLabelOccurrences": "Occurrences",
         "errorsLabelAffectedUsers": "Affected Users",
-        "errorsEntityNameJavaScriptErrors": "JavaScript errors",
         "errorsButtonAnalyzeJSErrors": "Analyze JS Errors",
         "osTopListLabelOccurrences": "Occurrences",
         "osTopListLabelAffectedUsers": "Affected Users",
@@ -747,7 +744,19 @@
     "websiteDashboardTitleWebsitePage": "Website Page",
     "websiteDashboardTitleWebsite": "Website",
     "websiteDashboardButtonAnalyzePageLoads": "Analyze Page Loads",
-    "websiteDashboardButtonAnalyzePageTransitions": "Analyze Page Transitions"
+    "websiteDashboardButtonAnalyzePageTransitions": "Analyze Page Transitions",
+    "noDataAvailable": {
+      "pagesTitle": "No pages available",
+      "pagesDescription": "There were no pages retrieved for the selected time range.",
+      "customEventsTitle": "No custom events available",
+      "customEventsDescription": "There were no custom events retrieved for the selected time range.",
+      "javascriptErrorsTitle": "No JavaScript errors available",
+      "javascriptErrorsDescription": "There were no JavaScript errors retrieved for the selected time range.",
+      "resourcesTitle": "No resources available",
+      "resourcesDescription": "There were no resources retrieved for the selected time range.",
+      "httpRequestsTitle": "No HTTP requests available",
+      "httpRequestsDescription": "There were no HTTP requests retrieved for the selected time range."
+    }
   },
   "rename": {
     "help": "Renaming a website is an eventually consistent action within the Instana system. For this reason, a change to a website name may take <strong>up to a few minutes</strong> until it has populated throughout the whole system."
