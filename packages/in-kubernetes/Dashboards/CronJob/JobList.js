@@ -195,7 +195,11 @@ export default function Jobs(props) {
             }
           />
         </div>
-        <SearchInput query={query} onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })} />
+        <SearchInput
+          inputClassName={locals.searchInput}
+          query={query}
+          onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })}
+        />
       </HorizontalFlexWrapper>
       <JobList {...props} page={page} query={query} orderBy={orderBy} orderDirection={orderDirection} />
     </Stack>
