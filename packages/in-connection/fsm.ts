@@ -31,7 +31,7 @@ export function createFsm(opts: CreateFsmOptions): Connection {
       states[activeStateName].init();
     },
 
-    subscribe(options: SubscribeOptions) {
+    subscribe<T>(options: SubscribeOptions<T>) {
       states[activeStateName].subscribe(options);
     },
 

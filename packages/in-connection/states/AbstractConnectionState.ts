@@ -5,21 +5,24 @@
 
 import { createLogger } from '@instana/logger';
 
-import AbstractState from 'in-connection/states/AbstractFsmState';
+import { Connection, SharedState, SubscriptionDescription, Listener, SubscribeOptions } from 'in-connection/types';
+import AbstractFsmState from 'in-connection/states/AbstractFsmState';
 
 const logger = createLogger('connection/states/AbstractConnectionState');
 
-export default class AbstractConnectionState extends AbstractState {
-  constructor(sharedState) {
+export default class AbstractConnectionState extends AbstractFsmState implements Connection {
+  readonly sharedState: SharedState;
+
+  constructor(sharedState: SharedState) {
     super();
     this.sharedState = sharedState;
   }
 
-  on(event, fn) {
+  on<T>(event: string, fn: Listener<T>) {
     this.sharedState.events.on(event, fn);
   }
 
-  off(event, fn) {
+  off<T>(event: string, fn: Listener<T>) {
     this.sharedState.events.off(event, fn);
   }
 
@@ -27,16 +30,21 @@ export default class AbstractConnectionState extends AbstractState {
     logger.debug(`init() not supported in state: ${this.getActiveState()}`);
   }
 
-  subscribe({
-    subscriptionId,
-    event,
-    payload,
-    disposeSubscriptionOnDocumentHidden,
-    listener,
-    initializationCallStack
-  }) {
+  subscribe<T>(options: SubscribeOptions<T>) {
+    const {
+      subscriptionId,
+      event,
+      payload,
+      disposeSubscriptionOnDocumentHidden,
+      listener,
+      initializationCallStack
+    } = options;
+
+    // backend is expecting subscription IDs to be part of the payload.
+    // TODO can/should we avoid this?
     payload.subscriptionId = subscriptionId;
-    const subscriptionDescription = {
+
+    const subscriptionDescription: SubscriptionDescription<T> = {
       subscriptionId,
       event,
       payload,
@@ -51,14 +59,14 @@ export default class AbstractConnectionState extends AbstractState {
     this.sendSubscribeWhenNecessary(subscriptionDescription);
   }
 
-  sendSubscribeWhenNecessary(subscriptionDescription) {
+  sendSubscribeWhenNecessary<T>(subscriptionDescription: SubscriptionDescription<T>) {
     if (!subscriptionDescription.isSubscribedToBackend) {
       subscriptionDescription.isSubscribedToBackend = true;
       this.send(subscriptionDescription.event, subscriptionDescription.payload);
     }
   }
 
-  unsubscribe(subscriptionId) {
+  unsubscribe(subscriptionId: number) {
     const subscriptionDescription = this.sharedState.subscriptions.get(subscriptionId);
     if (!subscriptionDescription) {
       return;
@@ -69,7 +77,7 @@ export default class AbstractConnectionState extends AbstractState {
     this.sendUnsubscribeWhenNecessary(subscriptionDescription);
   }
 
-  sendUnsubscribeWhenNecessary(subscriptionDescription) {
+  sendUnsubscribeWhenNecessary<T>(subscriptionDescription: SubscriptionDescription<T>) {
     if (subscriptionDescription.isSubscribedToBackend) {
       this.send('unsubscribe', { subscriptionId: subscriptionDescription.subscriptionId });
       subscriptionDescription.isSubscribedToBackend = false;
@@ -80,7 +88,7 @@ export default class AbstractConnectionState extends AbstractState {
     return this.sharedState.subscriptionIdCounter++;
   }
 
-  send(event, obj) {
+  send(event: string, obj: any) {
     try {
       if (this.sharedState.socket) {
         this.sharedState.metrics.transmitted++;

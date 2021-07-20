@@ -61,7 +61,7 @@ function createObservable(
     payload: getData(subscriptionId, opts),
     disposeSubscriptionOnDocumentHidden,
     listener: onData,
-    initializationCallStack: new Error('Subscription failed. Stack shows subscription initialization.')
+    initializationCallStack: __DEV__ ? new Error('Subscription failed. Stack shows subscription initialization.') : null
   };
 
   const observable = create({

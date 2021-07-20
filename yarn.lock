@@ -2221,6 +2221,11 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/sinon/-/sinon-7.5.2.tgz#5e2f1d120f07b9cda07e5dedd4f3bf8888fccdb9"
   integrity sha1-Xi8dEg8Huc2gfl3t1PO/iIj8zbk=
 
+"@types/sockjs-client@^1.5.1":
+  version "1.5.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/sockjs-client/-/sockjs-client-1.5.1.tgz#7ed2093da89305af370511c4e3beb7e4ef0d7e87"
+  integrity sha1-ftIJPaiTBa83BRHE47635O8Nfoc=
+
 "@types/stack-utils@^2.0.0":
   version "2.0.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/stack-utils/-/stack-utils-2.0.0.tgz#7036640b4e21cc2f259ae826ce843d277dad8cff"
