@@ -23,18 +23,6 @@ export interface SharedState {
     connectionAttempts: number;
   };
 
-  // {
-  //   <id>: {
-  //     subscriptionId
-  //     event: 'event to send to establish subscription'
-  //     payload: 'payload to be send to establish subscription'
-  //     isSubscribedToBackend: true|false
-  //     disposeSubscriptionOnDocumentHidden: true|false
-  //     listener,
-  //     initializationCallStack: ?Error
-  //   }
-  // }
-  // TODO types
   subscriptions: Map<number, SubscriptionDescription<any>>;
 
   // How long it takes until the subscriptions are disposed backend wise when the
@@ -70,4 +58,10 @@ export interface Connection {
   on<T>(event: string, fn: Listener<T>): void;
   off<T>(event: string, fn: Listener<T>): void;
   send(event: string, data: any): void;
+}
+
+export interface SubscriptionDebuggingData {
+  event: string;
+  payload: any;
+  subscribed: boolean;
 }

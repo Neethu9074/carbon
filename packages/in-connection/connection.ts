@@ -14,10 +14,11 @@ import ConnectedState from 'in-connection/states/ConnectedState';
 import { compare } from 'in-services/util/string';
 import { createFsm } from 'in-connection/fsm';
 import { seconds } from 'in-services/time';
+import { SharedState, SubscriptionDebuggingData } from 'in-connection/types';
 
 window.instana.dev = window.instana.dev || {};
-const sharedState = (window.instana.dev.ws = {
-  socket: null,
+const sharedState: SharedState = (window.instana.dev.ws = {
+  socket: undefined,
   events: new EventEmitter(),
 
   // We want to reduce the overhead of channels on the network. Example: A metric
@@ -69,8 +70,8 @@ export function init() {
 }
 
 export function getDebuggingData() {
-  const subscriptions = [];
-  const counts = {};
+  const subscriptions: SubscriptionDebuggingData[] = [];
+  const counts: Record<string, number> = {};
 
   sharedState.subscriptions.forEach(subscriptionDescription => {
     const event = subscriptionDescription.event;
@@ -98,12 +99,12 @@ export function getDebuggingData() {
   };
 }
 
-export function getInitializationCallStack(subscriptionId) {
+export function getInitializationCallStack(subscriptionId: number) {
   const subscription = sharedState.subscriptions.get(subscriptionId);
   return subscription ? subscription.initializationCallStack : null;
 }
 
-export function getSubscriptionPayload(subscriptionId) {
+export function getSubscriptionPayload(subscriptionId: number) {
   const subscription = sharedState.subscriptions.get(subscriptionId);
   return subscription ? subscription.payload : null;
 }

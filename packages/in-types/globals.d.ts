@@ -28,6 +28,7 @@ declare interface InstanaGlobals {
   user?: User;
   settings?: UiSettings;
   numberLocale?: FormatLocaleDefinition;
+  dev: any;
 }
 
 declare global {

@@ -2,5 +2,5 @@
   "name": "in-connection",
   "version": "0.0.0",
   "private": true,
-  "main": "./connection.js"
+  "main": "./connection.ts"
 }
