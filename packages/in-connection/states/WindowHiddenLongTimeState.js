@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import AbstractState from 'in-connection/states/AbstractState';
+import AbstractConnectionState from 'in-connection/states/AbstractConnectionState';
 
-export default class WindowHiddenLongTimeState extends AbstractState {
+export default class WindowHiddenLongTimeState extends AbstractConnectionState {
   onEnter() {
     if (!window.document.hidden) {
       this.transitionTo('connected');

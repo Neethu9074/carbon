@@ -5,9 +5,9 @@
 
 import { createLogger } from '@instana/logger';
 
-import { AbstractState } from 'in-connection/fsm';
+import AbstractState from 'in-connection/states/AbstractFsmState';
 
-const logger = createLogger('connection/states/AbstractState');
+const logger = createLogger('connection/states/AbstractConnectionState');
 
 export default class AbstractConnectionState extends AbstractState {
   constructor(sharedState) {

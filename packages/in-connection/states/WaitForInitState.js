@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import AbstractState from 'in-connection/states/AbstractState';
+import AbstractConnectionState from 'in-connection/states/AbstractConnectionState';
 
-export default class WaitForInitState extends AbstractState {
+export default class WaitForInitState extends AbstractConnectionState {
   init() {
     this.transitionTo('connectionLost');
   }

@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createLogger } from '@instana/logger';
 import SockJS from 'sockjs-client';
 
+import { createLogger } from '@instana/logger';
+
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
-import AbstractState from 'in-connection/states/AbstractState';
+import AbstractConnectionState from 'in-connection/states/AbstractConnectionState';
 import { combineDataAndError } from 'in-services/util/ro';
 import { ineum } from 'in-services/tracking/ineum';
 import { minutes } from 'in-services/time/time';
@@ -21,7 +22,7 @@ const transports = ['websocket', 'xhr-polling'];
 // Do not track the initial enter call as connection lost
 let isInitialEnter = true;
 
-export default class ConnectionLostState extends AbstractState {
+export default class ConnectionLostState extends AbstractConnectionState {
   onEnter() {
     if (isInitialEnter) {
       isInitialEnter = false;

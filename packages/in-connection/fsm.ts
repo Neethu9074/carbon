@@ -3,64 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-interface TransitionManager {
-  transitionTo(stateName: string): void;
-  getActiveState(): string;
-}
-
-export class AbstractState {
-  // @ts-expect-error We have no constructor and need to support runtime configuration without
-  // a runtime performance impact.
-  _transitionManager: TransitionManager;
-
-  _setTransitionManager(transitionManager: TransitionManager) {
-    this._transitionManager = transitionManager;
-  }
-
-  transitionTo(stateName: string) {
-    this._transitionManager.transitionTo(stateName);
-  }
-
-  getActiveState() {
-    return this._transitionManager.getActiveState();
-  }
-
-  onEnter() {}
-  onLeave() {}
-}
-
-export type Listener<T> = (data: T) => void;
-
-export interface SubscribeOptions {
-  // {
-  //   subscriptionId,
-  //   event,
-  //   payload,
-  //   disposeSubscriptionOnDocumentHidden,
-  //   listener,
-  //   initializationCallStack
-  // }
-}
-
-export interface PublicConnectionApi {
-  init(): void;
-  subscribe(options: SubscribeOptions): void;
-  unsubscribe(subscriptionId: number): void;
-  getNewSubscriptionId(): number;
-  on<T>(event: string, fn: Listener<T>): void;
-  off<T>(event: string, fn: Listener<T>): void;
-  send(event: string, data: any): void;
-}
+import { TransitionManager, Connection, Listener, SubscribeOptions } from 'in-connection/types';
+import AbstractFsmState from 'in-connection/states/AbstractFsmState';
 
 export interface CreateFsmOptions {
   publicApiMethods: string[];
   initialState: string;
   states: {
-    [stateName: string]: AbstractState & PublicConnectionApi;
+    [stateName: string]: AbstractFsmState & Connection;
   };
 }
 
-export function createFsm(opts: CreateFsmOptions): PublicConnectionApi {
+export function createFsm(opts: CreateFsmOptions): Connection {
   const transitionManager: TransitionManager = {
     transitionTo,
     getActiveState
