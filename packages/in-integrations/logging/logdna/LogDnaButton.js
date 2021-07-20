@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Button } from '@instana/components';
 
+import { jumpToLogDna } from 'in-integrations/logging/logdna/tracker';
 import { toParams } from 'in-stores/navigation/routing/stringifier';
 import { isBlank } from 'in-services/util/string';
 
@@ -24,6 +25,7 @@ export default function LogDnaButton(props) {
       icon="lib_logdna"
       target="_blank"
       href={constructLink(integration, props)}
+      onClick={() => jumpToLogDna()}
     >
       LogDNA
     </Button>
@@ -49,11 +51,11 @@ function constructLink(integration, props) {
       )}`;
 }
 
-function serializeHosts({ hostFqdn }) {
+function serializeHosts({ hostName }) {
   let query = '';
 
-  if (hostFqdn) {
-    query = hostFqdn;
+  if (hostName) {
+    query = hostName;
   }
 
   return query.trim();

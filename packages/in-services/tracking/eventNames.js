@@ -323,3 +323,4 @@ export const ANALYZE_LOGGING_FACETTEDSEARCH_ITEM_CLICKED = 'analyze.logging.face
 export const ANALYZE_LOGGING_FACETTEDSEARCH_GROUP_CLICKED = 'analyze.logging.facettedsearch.group.clicked';
 export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
 export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';
+export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
