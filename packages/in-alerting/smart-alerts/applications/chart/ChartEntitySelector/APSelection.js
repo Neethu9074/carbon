@@ -70,6 +70,7 @@ export default function APSelection({
   return (
     <Overlay
       content={EntitySelectionOverlay}
+      onCloseSideEffect={() => onQueryChange('')}
       props={{
         query,
         onQueryChange,

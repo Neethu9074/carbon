@@ -18,30 +18,33 @@ import { pendingResult } from 'in-services/fixedObjects';
 
 # Auto-Loading Nodes: On-demand loading children
 <Preview>
-  <EntityItemNode node={nodeWithKids} asListGroup withIcons />
+  <Stack>
+    <EntityItemNode node={nodeWithKids} />
+    <EntityItemNode node={leafNode} asSearchResult withIcons />
+  </Stack>
 </Preview>
 
 ## Nodes, with children
 ### single row
   <Story name="auto loading children, single row">
-    <EntityItemNode node={nodeWithKids} asListGroup={false} withIcons />
+    <EntityItemNode node={nodeWithKids} withIcons />
   </Story>
 
-  <EntityItemNode node={nodeWithKids} asListGroup={false} />
+  <EntityItemNode node={nodeWithKids} />
 
-### list group
+### search Result group
 
-  <EntityItemNode node={nodeWithKids} asListGroup withIcons />
-  <EntityItemNode node={nodeWithKids} asListGroup  />
+  <EntityItemNode node={nodeWithKids} asSearchResult withIcons />
+  <EntityItemNode node={nodeWithKids} asSearchResult />
 
 ## Leaves
 ### single row
 
   <Story name="auto loading leaf, single row">
-    <EntityItemNode node={leafNode} asListGroup={false} withIcons />
+    <EntityItemNode node={leafNode} withIcons />
   </Story>
 
-  <EntityItemNode node={leafNode} asListGroup={false} />
+  <EntityItemNode node={leafNode} />
 
 ### List group
 

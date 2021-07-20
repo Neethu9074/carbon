@@ -33,7 +33,7 @@ export default function ApplicationsList({
   getApplicationsCursorPaginated,
   getApplication,
   isGlobalSmartAlert,
-  alertApplicationId,
+  appIdForIndividualSmartAlert,
   ...props
 }) {
   const { timeConfig, includeSynthetic } = props;
@@ -68,7 +68,7 @@ export default function ApplicationsList({
                 )
               : null
           })
-        : getApplication({ id: alertApplicationId }).map(result => {
+        : getApplication({ id: appIdForIndividualSmartAlert }).map(result => {
             return { ...result, data: { items: result?.data ? [{ application: result.data }] : [] } };
           }),
     [searchQuery, isGlobalSmartAlert, includeSynthetic]
@@ -146,7 +146,6 @@ function hasUserInteractedWithItem(state) {
 }
 
 ApplicationsList.propTypes = {
-  alertApplicationId: PropTypes.string,
   isGlobalSmartAlert: PropTypes.bool,
   getApplication: PropTypes.func.isRequired,
   getApplicationsCursorPaginated: PropTypes.func.isRequired,
@@ -156,5 +155,6 @@ ApplicationsList.propTypes = {
   boundaryScope: PropTypes.string.isRequired,
   showInteractedItemsOnly: PropTypes.bool,
   editMode: PropTypes.bool,
+  appIdForIndividualSmartAlert: PropTypes.string,
   includeSynthetic: PropTypes.bool.isRequired
 };

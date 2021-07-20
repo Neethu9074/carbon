@@ -18,6 +18,10 @@
     fill: @lib__colors__N600Light;
   }
 
+  .cutOffText {
+    .ellipsis();
+  }
+
   .smallColumn {
     display: flex;
     align-items: center;
@@ -54,7 +58,6 @@
     gap: @gap;
     white-space: normal; // enable line-break
     font-size: @lib__typography__body__font-size;
-    color: @lib__colors__N900Primary;
 
     word-break: break-word;
     .in-browser-ff & {
@@ -68,7 +71,6 @@
 
       margin-top: (@lib__typography__body__font-size - @lib__typography__body-small__font-size) / 2; // adjust to also have the icon properly aligned when in all fits in one row
       margin-bottom: (@lib__typography__body__font-size - @lib__typography__body-small__font-size) / 2; // adjust to also have the icon properly aligned when in all fits in one row
-
     }
   }
 }

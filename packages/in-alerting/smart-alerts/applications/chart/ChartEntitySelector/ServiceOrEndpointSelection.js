@@ -33,7 +33,7 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/Chart
 
 /*
   This could be adjusted when needed, short discussion we had, see this comment
- https://github.com/instana/ui-client/pull/6425/files#r641383176
+  https://github.com/instana/ui-client/pull/6425#discussion_r641316497
  */
 const maxSearchRetrievalSize = 200;
 
@@ -157,6 +157,7 @@ export default function ServiceOrEndpointSelection({
   return (
     <Overlay
       content={EntitySelectionOverlay}
+      onCloseSideEffect={() => onQueryChange('')}
       props={{
         query,
         onQueryChange,

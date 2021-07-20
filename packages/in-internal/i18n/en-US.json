@@ -45,6 +45,8 @@
       "logMonitorWriterDesc": "The log-writer ingest logs into ClickHouse.",
       "logMonitorReader": "log-reader (log querying)",
       "logMonitorReaderDesc": "The log-reader queries logs from ClickHouse.",
+      "logMonitorHousekeeping": "log-housekeeping (log maintenance)",
+      "logMonitorHousekeepingDesc": "The log-housekeeping contains maintenance jobs that run inside log-writer.",
       "infrastructureMetrics": "Infrastructure Metrics",
       "infrastructureMetricsDesc": "Information about our infrastructure metric pipeline.",
       "fillerMetricExtraction": "Filler (metric extraction)",
@@ -377,23 +379,6 @@
           "mean": "mean",
           "50th": "50th",
           "99th": "99th"
-        },
-        "logCleanup" : {
-          "success": "Log clean-up success",
-          "failure": "Log clean-up failure",
-          "duration": "Log clean-up duration (99th)",
-          "skips" : {
-            "mutations": "Log clean-up skips (mutations)"
-          }
-        },
-        "logColdTier" : {
-          "success": "Log cold-tier move success",
-          "failure": "Log cold-tier move failure",
-          "duration": "Log cold-tier move duration (99th)",
-          "skips" : {
-            "mutations": "Log cold-tier move skips (mutations)",
-            "merges": "Log cold-tier move skips (merges)"
-          }
         }
       },
       "reader": {
@@ -424,6 +409,28 @@
           "mean": "mean",
           "50th": "50th",
           "99th": "99th"
+        }
+      },
+      "housekeeping" : {
+        "title": "log-housekeeping (running inside log-writer)",
+        "cleanup" : {
+          "success": "Log clean-up success",
+          "failure": "Log clean-up failure",
+          "duration": "Log clean-up duration (99th)",
+          "skips" : {
+            "mutations": "Log clean-up skips (mutations)"
+          }
+        },
+        "coldTier" : {
+          "success": "Log cold-tier success",
+          "failure": "Log cold-tier failure",
+          "optimize": "Log cold-tier optimize",
+          "move": "Log cold-tier move",
+          "duration": "Log cold-tier duration (99th)",
+          "skips": {
+            "mutations": "Log cold-tier skips (mutations)",
+            "merges": "Log cold-tier skips (merges)"
+          }
         }
       }
     },

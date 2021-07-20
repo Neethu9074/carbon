@@ -17,21 +17,21 @@ const iconSize = 'normal';
 
 export const ScopeSelectorEndpoint = ({ applicationName, serviceName, endpointName }) => (
   <HorizontalFlexWrapper className={locals.selectorItem}>
-    <Tooltip content={applicationName}>
+    <Tooltip align="topMiddle" delay={500} content={applicationName}>
       <div className={locals.smallColumn}>
         <SvgIcon size={iconSize} type="lib_application" className={locals.icon} />
         <Spacer horizontal={SpacerSizes.xsmall} />
-        {applicationName}
+        <span className={locals.cutOffText}>{applicationName}</span>
       </div>
     </Tooltip>
 
     <SvgIcon className={locals.separator} size={iconSize} type="lib_arrow_expand_right" />
 
-    <Tooltip content={serviceName}>
+    <Tooltip align="topMiddle" delay={500} content={serviceName}>
       <div className={locals.smallColumn}>
         <SvgIcon size={iconSize} type="lib_application_service" className={locals.icon} />
         <Spacer horizontal={SpacerSizes.xsmall} />
-        {serviceName}
+        <span className={locals.cutOffText}>{serviceName}</span>
       </div>
     </Tooltip>
 
@@ -47,11 +47,11 @@ export const ScopeSelectorEndpoint = ({ applicationName, serviceName, endpointNa
 
 export const ScopeSelectorServiceItem = ({ applicationName, serviceName }) => (
   <HorizontalFlexWrapper className={locals.selectorItem}>
-    <Tooltip content={applicationName}>
+    <Tooltip align="topMiddle" delay={500} content={applicationName}>
       <div className={locals.normalColumn}>
         <SvgIcon size={iconSize} type="lib_application" className={locals.icon} />
         <Spacer horizontal={SpacerSizes.xsmall} />
-        {applicationName}
+        <span className={locals.cutOffText}>{applicationName}</span>
       </div>
     </Tooltip>
 
