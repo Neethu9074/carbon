@@ -65,7 +65,7 @@ export default function APSelection({
   const filteredAndTransformedAPs = () =>
     options
       .filter(option => containsIgnoreCase(option.label, query))
-      .map(option => createApOnlyItem({ applicationName: option.label, applicationId: option.id, searchTerm: query }));
+      .map(option => createApOnlyItem({ applicationName: option.label, applicationId: option.id }));
 
   return (
     <Overlay

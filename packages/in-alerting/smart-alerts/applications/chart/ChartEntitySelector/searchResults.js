@@ -31,16 +31,16 @@ const tooManyResultsItemOption = {
   path: t('in-alerting:smartAlerts.applications.chart.entitySelection.tooManyResults')
 };
 
-export function createApOnlyItem({ applicationName, applicationId, searchTerm }) {
+export function createApOnlyItem({ applicationName, applicationId }) {
   return {
     type: 'APPLICATION',
     label: applicationName,
-    path: <ScopeSelectorAppItem applicationName={applicationName} highlightText={searchTerm} />,
+    path: <ScopeSelectorAppItem applicationName={applicationName} />,
     id: applicationId
   };
 }
 
-export function searchResultsToListItems(searchResult, evaluationType, searchTerm) {
+export function searchResultsToListItems(searchResult, evaluationType) {
   const items = searchResult?.items;
   if (!items) {
     return [];
@@ -49,18 +49,12 @@ export function searchResultsToListItems(searchResult, evaluationType, searchTer
   const canLoadMore = searchResult?.canLoadMore;
   if (evaluationType === PER_AP_SERVICE) {
     const list = items.map(({ appDataEntityChain }) => {
-      let { applicationName, serviceName, serviceId } = appDataEntityChain;
+      const { applicationName, serviceName, serviceId } = appDataEntityChain;
 
       return {
         type: 'SERVICE',
         label: serviceName,
-        path: (
-          <ScopeSelectorServiceItem
-            applicationName={applicationName}
-            serviceName={serviceName}
-            highlightText={searchTerm}
-          />
-        ),
+        path: <ScopeSelectorServiceItem applicationName={applicationName} serviceName={serviceName} />,
         id: serviceId
       };
     });
@@ -81,7 +75,6 @@ export function searchResultsToListItems(searchResult, evaluationType, searchTer
           applicationName={applicationName}
           serviceName={serviceName}
           endpointName={endpointName}
-          highlightText={searchTerm}
         />
       ),
       id: endpointId

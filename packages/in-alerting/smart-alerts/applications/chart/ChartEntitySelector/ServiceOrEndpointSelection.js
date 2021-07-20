@@ -152,7 +152,7 @@ export default function ServiceOrEndpointSelection({
 
   const searchResult = useCursorPagination(queryEntity, [query, evaluationType]);
   const isSearchLoading = !searchResult || isLoading(searchResult);
-  const queryOptions = isSearchLoading ? loadingOptions : searchResultsToListItems(searchResult, evaluationType, query);
+  const queryOptions = isSearchLoading ? loadingOptions : searchResultsToListItems(searchResult, evaluationType);
 
   return (
     <Overlay

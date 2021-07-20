@@ -13,13 +13,13 @@
     flex-wrap: wrap;
   }
 
-  strong {
-    color: black;
+  .separator {
+    margin: 0 @gap;
+    fill: @lib__colors__N600Light;
   }
 
-  .separator {
-    margin: 0 0 0 @gap;
-    fill: @lib__colors__N600Light;
+  .cutOffText {
+    .ellipsis();
   }
 
   .smallColumn {
@@ -30,6 +30,7 @@
     max-width: 40%;
     flex-shrink: 1;
     .ellipsis();
+    gap: @gap; // between icon and label
   }
 
   .normalColumn {
@@ -39,6 +40,7 @@
     flex-wrap: nowrap;
     flex-shrink: 1;
     .ellipsis();
+    gap: @gap; // between icon and label
   }
 
   .entityIcon {
@@ -47,13 +49,13 @@
   }
 
   .icon {
-    margin-right: 0.5rem;
     fill: @lib__colors__N600Light;
   }
 
   .fullColumn {
     display: inline-flex;
     flex-flow: row;
+    gap: @gap;
     white-space: normal; // enable line-break
     font-size: @lib__typography__body__font-size;
 
