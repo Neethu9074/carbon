@@ -4,6 +4,7 @@
  */
 
 import React, { useEffect, useReducer, useState } from 'react';
+import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
@@ -15,9 +16,12 @@ import {
 import ApplicationsList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ApplicationsList';
 import getApplicationsCursorPaginated from 'in-subscription/application/getApplicationsCursorPaginated';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
-import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getServicesCursorPaginated from 'in-subscription/application/getServicesCursorPaginated';
+import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { applicationId as applicationIdMatrixParam } from 'in-applications/navigation/matrix';
 import getApplication from 'in-subscription/application/getApplication';
+import { applicationDashboard } from 'in-applications/navigation/paths';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { boundaryScopes } from 'in-applications/constants';
@@ -44,7 +48,6 @@ export default function ServicesAndEndpointsListPresenter({
   const [state, dispatch] = useReducer(listReducer, {}, () => {
     return applicationsSelection;
   });
-  const alertApplicationId = firstApplicationId(applicationsSelection);
 
   useEffect(() => {
     onChange?.(state);
@@ -81,22 +84,35 @@ export default function ServicesAndEndpointsListPresenter({
   }, [boundaryScope]);
 
   const [timeTo] = useState(Date.now());
+  const location = useLocation();
 
   return (
     <ApplicationsList
       isGlobalSmartAlert={isGlobalSmartAlert}
-      alertApplicationId={alertApplicationId}
       stateManagement={{ state, dispatch }}
       timeConfig={{ ...timeConfig, to: timeTo, focusedMoment: timeTo }}
       boundaryScope={boundaryScope}
       editMode={editMode}
+      appIdForIndividualSmartAlert={deriveAppIdForIndividualSmartAlert()}
       {...apiSubscriptions}
       {...otherProps}
     />
   );
+
+  function deriveAppIdForIndividualSmartAlert() {
+    if (editMode) {
+      return firstApplicationId(initialConfiguredApplications);
+    }
+
+    if (isEmpty(applicationsSelection)) {
+      return getMatrixParameter(location, applicationDashboard, applicationIdMatrixParam);
+    }
+
+    return firstApplicationId(applicationsSelection);
+  }
 }
 
-export function ServicesAndEndpointsSearchInput({ query = '', onChange, applications }) {
+export function ServicesAndEndpointsSearchInput({ query = '', onChange }) {
   const { value, onChange: debouncedOnChange } = useDebouncedValue(
     query,
     value => {
@@ -105,7 +121,7 @@ export function ServicesAndEndpointsSearchInput({ query = '', onChange, applicat
     500
   );
 
-  return <SearchInput onChange={debouncedOnChange} query={value} disabled={isEmpty(applications)} />;
+  return <SearchInput onChange={debouncedOnChange} query={value} />;
 }
 
 ServicesAndEndpointsListPresenter.propTypes = {
