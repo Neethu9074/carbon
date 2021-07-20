@@ -271,6 +271,13 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                             )}
                             description={t('in-internal:components.landing.logMonitorReaderDesc')}
                           />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.logMonitorHousekeeping')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/log/LogHousekeeping')
+                            )}
+                            description={t('in-internal:components.landing.logMonitorHousekeepingDesc')}
+                          />
                         </LinkList>
                       </LinkListItem>
 
