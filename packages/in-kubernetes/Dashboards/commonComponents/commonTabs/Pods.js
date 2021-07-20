@@ -23,6 +23,7 @@ import {
   statefulSetIdUrlParameter
 } from 'in-kubernetes/navigation/urlParameters';
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
@@ -32,6 +33,7 @@ import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatter
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import { formatDuration } from 'in-services/formatters/date';
@@ -103,6 +105,22 @@ const allColumnDefinitions = [
     getContent(item) {
       const containerStatuses = get(item, ['pod', 'status', 'containerStatuses'], []);
       return <span>{containerStatuses.length}</span>;
+    }
+  },
+  {
+    id: 'restartCount',
+    label: t('in-kubernetes:dashboards.restarts'),
+    optional: true,
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.pod.id}
+          metric={columnId}
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={zeroDecimalPlaces}
+        />
+      );
     }
   },
   {
