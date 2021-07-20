@@ -3,40 +3,54 @@
  * (c) Copyright Instana Inc.
  */
 
+import { create, Observable } from '@instana/observables';
 import { generateStableHash } from '@instana/utils';
-import { create } from '@instana/observables';
 
-import memoize from 'in-services/util/memoizingObservableGenerator';
+import memoize, { IdGenerator, TtiGenerator } from 'in-services/util/memoizingObservableGenerator';
+import { SubscribeOptions } from 'in-connection/types';
 import { connection } from 'in-connection';
 
-/**
- * Returns a function (Param => Observable<Result>) that, when called, yields an observable of Result values.
- *
- * Type params:
- * - PARAM: the type of object this subscription needs for getId and getData
- * - RESULT: the type of values the new subscription will emit
- */
-export default function({
-  eventId,
-  getId = generateStableHash,
-  getData = defaultGetData,
-  memoizeFor,
-  disposeSubscriptionOnDocumentHidden = true,
-  transform,
-  onStart,
-  onStop,
-  onData
-}) {
-  const observableCreator = createObservable.bind(
-    null,
-    eventId,
-    getData,
-    disposeSubscriptionOnDocumentHidden,
-    transform,
-    onStart,
-    onStop,
-    onData
-  );
+type GetData<IN> = (subscriptionId: number, opts: IN) => Object;
+
+export interface Options<IN, OUT> {
+  eventId: string;
+
+  getId?: IdGenerator<IN>;
+
+  /**
+   * Use this function to create the subscription request payload
+   */
+  getData?: GetData<IN>;
+
+  memoizeFor?: number | TtiGenerator<IN, OUT>;
+
+  disposeSubscriptionOnDocumentHidden?: boolean;
+
+  transform?: (observable: Observable<Object>, opts: IN) => Observable<OUT>;
+
+  /**
+   * A side-effect that triggers when creating the observable for the first time
+   * (per-request). Can be used to track when a request is send to the backend.
+   */
+  onStart?: (subscribeOptions: SubscribeOptions<OUT>) => void;
+
+  /**
+   * A side-effect that triggers when disposing the observable (per-request).
+   * Can be used to track when a memoized observable is disposed.
+   */
+  onStop?: (subscribeOptions: SubscribeOptions<OUT>) => void;
+
+  /**
+   * A side-effect to trigger whenever data is received from the backend.
+   */
+  onData(subscribeOptions: SubscribeOptions<OUT>, data: OUT): void;
+}
+
+export default function subscribe<IN, OUT>(options: Options<IN, OUT>) {
+  const { getId = generateStableHash, memoizeFor } = options;
+
+  const observableCreator = (subscriptionParameters: IN) => createObservable(options, subscriptionParameters);
+
   if (memoizeFor != null && typeof memoizeFor === 'number' && memoizeFor < 1) {
     return observableCreator;
   }
@@ -44,37 +58,41 @@ export default function({
   return memoize(observableCreator, getId, memoizeFor == null ? 10000 : memoizeFor);
 }
 
-function createObservable(
-  event,
-  getData,
-  disposeSubscriptionOnDocumentHidden,
-  transform,
-  onStart,
-  onStop,
-  onDataSideEffect,
-  opts
+function createObservable<IN, OUT>(
+  {
+    eventId,
+    getData = defaultGetData,
+    disposeSubscriptionOnDocumentHidden = true,
+    transform,
+    onStart,
+    onStop,
+    onData: onDataSideEffect
+  }: Options<IN, OUT>,
+  opts: IN
 ) {
   const subscriptionId = connection.getNewSubscriptionId();
-  const subscriptionDescription = {
+  const subscribeOptions: SubscribeOptions<OUT> = {
     subscriptionId,
-    event,
+    event: eventId,
     payload: getData(subscriptionId, opts),
     disposeSubscriptionOnDocumentHidden,
     listener: onData,
-    initializationCallStack: __DEV__ ? new Error('Subscription failed. Stack shows subscription initialization.') : null
+    initializationCallStack: __DEV__
+      ? new Error('Subscription failed. Stack shows subscription initialization.')
+      : undefined
   };
 
-  const observable = create({
+  const observable = create<OUT>({
     start() {
       if (onStart) {
-        onStart(subscriptionDescription);
+        onStart(subscribeOptions);
       }
-      connection.subscribe(subscriptionDescription);
+      connection.subscribe(subscribeOptions);
     },
 
     stop() {
       if (onStop) {
-        onStop(subscriptionDescription);
+        onStop(subscribeOptions);
       }
       connection.unsubscribe(subscriptionId);
     }
@@ -86,15 +104,15 @@ function createObservable(
 
   return observable;
 
-  function onData(data) {
+  function onData(data: OUT) {
     if (onDataSideEffect) {
-      onDataSideEffect(subscriptionDescription, data);
+      onDataSideEffect(subscribeOptions, data);
     }
     observable.emit(data);
   }
 }
 
-function defaultGetData(subscriptionId, params) {
+function defaultGetData(subscriptionId: number, params: Object): Object {
   return {
     subscriptionId,
     ...params

@@ -14,6 +14,7 @@ module.exports = {
 
       allowedInPackages: [
         'in-subscription',
+        'in-connection',
         // FIXME Circular import
         'in-services',
         // FIXME This import path should not exist in a global package
