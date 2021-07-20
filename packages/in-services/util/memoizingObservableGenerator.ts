@@ -5,7 +5,7 @@
 
 import { Observable, DelayedStopTti } from '@instana/observables';
 
-export type ObservableCreator<ARG, RESULT> = (arg: ARG) => Observable<RESULT>;
+export type ObservableCreator<ARG, RESULT> = (arg?: ARG) => Observable<RESULT>;
 export type IdGenerator<ARG> = (arg: ARG) => string;
 export type TtiGenerator<ARG, RESULT> = (arg: ARG[], lastEmittedValue?: RESULT) => number;
 
@@ -40,8 +40,7 @@ export default function memoize<ARG, RESULT>(
     // We don't want to call the function any other way, because we
     // do not want to incur a performance penalty because of static types.
     // @ts-ignore
-    const observable = createObservable.apply(this, arguments)
-      .delayedStop(delayedStopTti, () => cache.delete(id));
+    const observable = createObservable.apply(this, arguments).delayedStop(delayedStopTti, () => cache.delete(id));
     cache.set(id, observable);
     return observable;
   };

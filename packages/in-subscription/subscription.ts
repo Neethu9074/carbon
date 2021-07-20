@@ -10,8 +10,6 @@ import memoize, { IdGenerator, TtiGenerator } from 'in-services/util/memoizingOb
 import { SubscribeOptions } from 'in-connection/types';
 import { connection } from 'in-connection';
 
-type GetData<IN> = (subscriptionId: number, opts: IN) => Object;
-
 export interface Options<IN, OUT> {
   eventId: string;
 
@@ -20,36 +18,36 @@ export interface Options<IN, OUT> {
   /**
    * Use this function to create the subscription request payload
    */
-  getData?: GetData<IN>;
+  getData?(subscriptionId: number, opts?: IN): Object;
 
   memoizeFor?: number | TtiGenerator<IN, OUT>;
 
   disposeSubscriptionOnDocumentHidden?: boolean;
 
-  transform?: (observable: Observable<Object>, opts: IN) => Observable<OUT>;
+  transform?(observable: Observable<Object>, opts?: IN): Observable<OUT>;
 
   /**
    * A side-effect that triggers when creating the observable for the first time
    * (per-request). Can be used to track when a request is send to the backend.
    */
-  onStart?: (subscribeOptions: SubscribeOptions<OUT>) => void;
+  onStart?(subscribeOptions: SubscribeOptions<OUT>): void;
 
   /**
    * A side-effect that triggers when disposing the observable (per-request).
    * Can be used to track when a memoized observable is disposed.
    */
-  onStop?: (subscribeOptions: SubscribeOptions<OUT>) => void;
+  onStop?(subscribeOptions: SubscribeOptions<OUT>): void;
 
   /**
    * A side-effect to trigger whenever data is received from the backend.
    */
-  onData(subscribeOptions: SubscribeOptions<OUT>, data: OUT): void;
+  onData?(subscribeOptions: SubscribeOptions<OUT>, data: OUT): void;
 }
 
-export default function subscribe<IN, OUT>(options: Options<IN, OUT>) {
+export default function subscribe<IN, OUT>(options: Options<IN, OUT>): (parameter?: IN) => Observable<OUT> {
   const { getId = generateStableHash, memoizeFor } = options;
 
-  const observableCreator = (subscriptionParameters: IN) => createObservable(options, subscriptionParameters);
+  const observableCreator = (subscriptionParameters?: IN) => createObservable(options, subscriptionParameters);
 
   if (memoizeFor != null && typeof memoizeFor === 'number' && memoizeFor < 1) {
     return observableCreator;
@@ -68,7 +66,7 @@ function createObservable<IN, OUT>(
     onStop,
     onData: onDataSideEffect
   }: Options<IN, OUT>,
-  opts: IN
+  opts?: IN
 ) {
   const subscriptionId = connection.getNewSubscriptionId();
   const subscribeOptions: SubscribeOptions<OUT> = {
@@ -112,7 +110,7 @@ function createObservable<IN, OUT>(
   }
 }
 
-function defaultGetData(subscriptionId: number, params: Object): Object {
+function defaultGetData<IN>(subscriptionId: number, params: IN): Object {
   return {
     subscriptionId,
     ...params

@@ -7,24 +7,25 @@ import { createLogger } from '@instana/logger';
 
 import { getInitializationCallStack, getSubscriptionPayload } from 'in-connection';
 import createSubscription from 'in-subscription/subscription';
+import { Message } from 'in-types/backend';
 import { t } from 'in-i18n';
 
 const logger = createLogger('in-connection/clientErrorMessages');
 
 export function init() {
-  createSubscription({
+  createSubscription<void, Message>({
     eventId: 'subscribe-message'
   })().subscribe(onNewMessage);
 }
 
-function onNewMessage(msg) {
-  const args = [
-    t('in-connection:clientErrMsg.techClientMsgeErrFromBackend'),
-    msg,
-    getInitializationCallStack(msg.subscriptionId),
-    {
+function onNewMessage(msg: Message) {
+  const args: any[] = [t('in-connection:clientErrMsg.techClientMsgeErrFromBackend'), msg];
+
+  if (msg.subscriptionId != null) {
+    args.push(getInitializationCallStack(msg.subscriptionId), {
       subscriptionPayload: getSubscriptionPayload(msg.subscriptionId)
-    }
-  ].filter(Boolean);
+    });
+  }
+
   logger.error(...args);
 }

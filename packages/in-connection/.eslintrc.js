@@ -15,6 +15,7 @@ module.exports = {
       allowedInPackages: [
         'in-connection',
         'in-api',
+        'in-types',
         // FIXME This import rule might be indicative of circular imports.
         'in-services',
         // FIXME This import rule might be indicative of circular imports.

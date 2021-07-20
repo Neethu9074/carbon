@@ -18,7 +18,7 @@ describe('in-services/util/memoizingObservableGenerator', () => {
     stop = jest.fn();
     subscriber = jest.fn();
     creator = memoize<number, number>(
-      arg => create<number>({ stop }).emit(arg),
+      arg => create<number>({ stop }).emit(arg ?? -1),
       JSON.stringify.bind(JSON),
       100
     );
@@ -51,7 +51,7 @@ describe('in-services/util/memoizingObservableGenerator', () => {
     const ttiFunction = jest.fn();
     ttiFunction.mockReturnValue(0);
     creator = memoize<number, number>(
-      arg => create<number>({ stop }).emit(arg),
+      arg => create<number>({ stop }).emit(arg ?? -1),
       JSON.stringify.bind(JSON),
       ttiFunction
     );
