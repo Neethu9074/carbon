@@ -65,11 +65,12 @@ export default function APSelection({
   const filteredAndTransformedAPs = () =>
     options
       .filter(option => containsIgnoreCase(option.label, query))
-      .map(option => createApOnlyItem({ applicationName: option.label, applicationId: option.id }));
+      .map(option => createApOnlyItem({ applicationName: option.label, applicationId: option.id, searchTerm: query }));
 
   return (
     <Overlay
       content={EntitySelectionOverlay}
+      onCloseSideEffect={() => onQueryChange('')}
       props={{
         query,
         onQueryChange,

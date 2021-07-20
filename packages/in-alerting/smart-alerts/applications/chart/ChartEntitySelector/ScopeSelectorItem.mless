@@ -13,8 +13,12 @@
     flex-wrap: wrap;
   }
 
+  strong {
+    color: black;
+  }
+
   .separator {
-    margin: 0 @gap;
+    margin: 0 0 0 @gap;
     fill: @lib__colors__N600Light;
   }
 
@@ -26,7 +30,6 @@
     max-width: 40%;
     flex-shrink: 1;
     .ellipsis();
-    gap: @gap; // between icon and label
   }
 
   .normalColumn {
@@ -36,7 +39,6 @@
     flex-wrap: nowrap;
     flex-shrink: 1;
     .ellipsis();
-    gap: @gap; // between icon and label
   }
 
   .entityIcon {
@@ -45,16 +47,15 @@
   }
 
   .icon {
+    margin-right: 0.5rem;
     fill: @lib__colors__N600Light;
   }
 
   .fullColumn {
     display: inline-flex;
     flex-flow: row;
-    gap: @gap;
     white-space: normal; // enable line-break
     font-size: @lib__typography__body__font-size;
-    color: @lib__colors__N900Primary;
 
     word-break: break-word;
     .in-browser-ff & {
@@ -68,7 +69,6 @@
 
       margin-top: (@lib__typography__body__font-size - @lib__typography__body-small__font-size) / 2; // adjust to also have the icon properly aligned when in all fits in one row
       margin-bottom: (@lib__typography__body__font-size - @lib__typography__body-small__font-size) / 2; // adjust to also have the icon properly aligned when in all fits in one row
-
     }
   }
 }

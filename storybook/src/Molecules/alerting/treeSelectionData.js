@@ -4,6 +4,7 @@
  */
 
 import { timeout } from '@instana/observables';
+import { createApOnlyItem } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/searchResults';
 
 const loadingItems = items => () =>
   timeout(2000).map(() => ({
@@ -18,7 +19,10 @@ export const firstLevelChildren = [
     icon: 'lib_infra_docker'
   },
   {
-    label: 'First Level Node (app)',
+    ...createApOnlyItem({
+      applicationName: 'First Level Node (app)',
+      applicationId: '0815'
+    }),
     icon: 'lib_application',
     // for testing, swap next two lines to get static case
     loadChildren: loadingItems([
@@ -47,6 +51,10 @@ export const nodeWithKids = {
 };
 
 export const leafNode = {
+  ...createApOnlyItem({
+    applicationName: 'Root Level Leaf',
+    applicationId: '0815'
+  }),
   label: 'Root Level Leaf',
   icon: 'lib_infra_host'
 };
