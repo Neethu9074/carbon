@@ -16,6 +16,7 @@ module.exports = {
         'in-stores',
         'in-subscription',
         'in-api',
+        'in-types',
         // FIXME This import rule might be indicative of circular imports.
         'in-services',
         // FIXME This import rule might be indicative of circular imports.

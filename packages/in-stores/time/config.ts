@@ -7,9 +7,11 @@ import { isEqual } from 'lodash';
 import rpt from 'prop-types';
 
 import { navigationParameters$ } from 'in-stores/navigation/navigation';
+import { Location, Parameters } from 'in-stores/navigation/types';
 import { days, hours, minutes } from 'in-services/time';
-import { createTrackingStore } from 'in-stores/store';
 import { isBlank } from 'in-services/util/string';
+import { TimeConfig } from 'in-types/time';
+import { Result } from 'in-types/backend';
 
 export const urlQueryKeys = Object.freeze({
   to: 'timeline.to',
@@ -35,25 +37,22 @@ const minimumWindowSize = minutes.toMillis(1);
 export const maximumWindowSize = days.toMillis(31);
 export const defaultWindowSize = hours.toMillis(1);
 
-export const timeConfig$ = createTrackingStore({
-  name: 'time/config',
-  observable: navigationParameters$.map(getTimeConfig).distinct((prev, next) => !isEqual(prev, next))
-}).observable;
+export const timeConfig$ = navigationParameters$.map(getTimeConfig).distinct((prev, next) => !isEqual(prev, next));
 
-export function getTimeConfig(params) {
-  const to = getInt(params.query, urlQueryKeys.to, null);
+export function getTimeConfig(location: Location): TimeConfig {
+  const to = getInt(location.query, urlQueryKeys.to, null);
   return {
     to,
     windowSize: Math.min(
       maximumWindowSize,
-      Math.max(minimumWindowSize, getInt(params.query, urlQueryKeys.windowSize, defaultWindowSize))
+      Math.max(minimumWindowSize, getInt(location.query, urlQueryKeys.windowSize, defaultWindowSize))
     ),
-    focusedMoment: to == null ? null : getInt(params.query, urlQueryKeys.focusedMoment, to),
-    autoRefresh: to == null && params.query[urlQueryKeys.autoRefresh] === 'true'
+    focusedMoment: to == null ? null : getInt(location.query, urlQueryKeys.focusedMoment, to),
+    autoRefresh: to == null && location.query[urlQueryKeys.autoRefresh] === 'true'
   };
 }
 
-export function fixateTimeConfig(timeConfig) {
+export function fixateTimeConfig(timeConfig: TimeConfig): TimeConfig {
   if (timeConfig.to != null) {
     return timeConfig;
   }
@@ -67,7 +66,9 @@ export function fixateTimeConfig(timeConfig) {
   };
 }
 
-function getInt(query, key, fallback) {
+function getInt(query: Parameters, key: string, fallback: number): number;
+function getInt(query: Parameters, key: string, fallback: null): number | null;
+function getInt(query: Parameters, key: string, fallback: number | null): number | null {
   const value = query[key];
   if (isBlank(value)) {
     return fallback;
@@ -80,7 +81,7 @@ function getInt(query, key, fallback) {
   return parsed;
 }
 
-export function getTimeConfigAtMoment(moment) {
+export function getTimeConfigAtMoment(moment: number): TimeConfig {
   return {
     windowSize: defaultWindowSize,
     to: moment,
@@ -98,7 +99,7 @@ export function getWaitForEntityCreationTimeConfig() {
   };
 }
 
-export function getTimeConfigAlignedToResultTime(timeConfig, result) {
+export function getTimeConfigAlignedToResultTime(timeConfig: TimeConfig, result: Result<any>): TimeConfig {
   return {
     windowSize: timeConfig.windowSize,
     autoRefresh: timeConfig.autoRefresh && result.time == null,
@@ -107,27 +108,31 @@ export function getTimeConfigAlignedToResultTime(timeConfig, result) {
   };
 }
 
-export function setTimeConfig(location, timeConfig) {
+export function setTimeConfig(location: Location, timeConfig: TimeConfig) {
   if (timeConfig.windowSize != null) {
-    location.query[urlQueryKeys.windowSize] = timeConfig.windowSize;
+    location.query[urlQueryKeys.windowSize] = String(timeConfig.windowSize);
   }
 
   if (timeConfig.to === undefined) {
     delete location.query[urlQueryKeys.to];
   } else {
-    location.query[urlQueryKeys.to] = timeConfig.to == null ? '' : timeConfig.to;
+    location.query[urlQueryKeys.to] = String(timeConfig.to == null ? '' : timeConfig.to);
   }
 
   if (timeConfig.focusedMoment === undefined) {
     delete location.query[urlQueryKeys.focusedMoment];
   } else {
-    location.query[urlQueryKeys.focusedMoment] = timeConfig.focusedMoment == null ? '' : timeConfig.focusedMoment;
+    location.query[urlQueryKeys.focusedMoment] = String(
+      timeConfig.focusedMoment == null ? '' : timeConfig.focusedMoment
+    );
   }
 
   if (timeConfig.autoRefresh !== undefined) {
     location.query[urlQueryKeys.autoRefresh] = String(Boolean(timeConfig.autoRefresh));
   }
 
+  // TODO get rid of this confusing/wrong API
+  // @ts-expect-error
   if (timeConfig.clearHighlightedTimeframe) {
     delete location.query['tl.tf'];
   }
