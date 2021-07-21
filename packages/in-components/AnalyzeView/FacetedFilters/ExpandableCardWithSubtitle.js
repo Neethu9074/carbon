@@ -26,7 +26,8 @@ export default function ExpandableCardWithSubtitle({
   hasMarginBottom,
   useMaxAvailableHeight,
   tooltipDisabled = false,
-  children
+  children,
+  stickyHeader = true
 }) {
   const [expanded, setExpanded] = useState(openByDefault);
 
@@ -100,7 +101,8 @@ export default function ExpandableCardWithSubtitle({
         className={classNames(locals.cardHeader, {
           [locals.withBottomBorder]: !disabled && expanded,
           [headerClassName]: headerClassName,
-          [locals.disabled]: disabled
+          [locals.disabled]: disabled,
+          [locals.stickyHeader]: stickyHeader
         })}
         onClick={() => setExpanded(!expanded)}
       >

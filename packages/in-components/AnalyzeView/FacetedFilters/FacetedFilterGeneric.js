@@ -34,7 +34,8 @@ export default function FacetedFilterGeneric(props) {
     groupbyTag,
     dataSource,
     getUpdatedFacetedSearchHref,
-    customLabelMapper
+    customLabelMapper,
+    stickyHeader
   } = props;
 
   const [valueFilter, setValueFilter] = useState('');
@@ -72,6 +73,7 @@ export default function FacetedFilterGeneric(props) {
       disabled={isDisabledWithNoValues}
       tag={tag}
       dataSource={dataSource}
+      stickyHeader={stickyHeader}
     >
       {selectedValues.length > 0 ? (
         <ExistingFilters

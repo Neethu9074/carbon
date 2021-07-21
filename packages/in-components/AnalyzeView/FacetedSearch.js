@@ -65,6 +65,7 @@ export default function FacetedSearch({
             getSuggestionName={facetedSearchItem.getSuggestionName}
             orderSuggestions={facetedSearchItem.orderSuggestions || orderByMetric}
             getMetric={facetedSearchItem.getMetric}
+            stickyHeader={facetedSearchItem.stickyHeader}
             {...facetedSearchItem.extraProps}
           />
         );

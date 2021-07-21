@@ -19,6 +19,7 @@ import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function LoggingQueryBuilderWorkspace(props) {
@@ -36,7 +37,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
   } = props;
 
   return (
-    <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />}>
+    <Sticky header={<AnalyzeHeader isGrouped={isGrouped} />} backgroundColor={theme.lib.colors.white}>
       <LeftRightPadding>
         <Stack gap="gutter">
           <Sections>

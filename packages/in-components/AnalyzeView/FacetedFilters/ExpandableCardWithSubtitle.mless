@@ -60,12 +60,20 @@
 
   .cardHeader {
     display: flex;
+    background: @lib__colors__white;
     justify-content: space-between;
-    padding: 0 0 0.5rem 0;
+    padding: 0 1px 0.5rem 0;
     cursor: pointer;
 
     &.disabled {
       cursor: not-allowed;
+    }
+
+    &.stickyHeader {
+      position: sticky;
+      z-index: 1;
+      top: 33px;
+      padding-top: 0.5rem;
     }
   }
 
