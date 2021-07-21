@@ -5,7 +5,7 @@
 
 let isUnloading = false;
 
-export function onLastChance(fn) {
+export function onLastChance(fn: () => void) {
   if (isUnloading) {
     fn();
   }
