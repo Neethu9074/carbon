@@ -8,27 +8,26 @@ import { sortedUniq } from 'lodash';
 import { setTitles as setTitlesForTracking } from 'in-services/tracking/tracking';
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { isBlank, isNotBlank } from 'in-services/util/string';
-import { emptyArray } from 'in-services/fixedObjects';
 import config from 'in-services/config';
 
 const defaultTitleSuffix = `Instana (${config.tenantUnit}-${config.tenant})`;
 const MAX_DYNAMIC_SEGMENT_LENGTH = 30;
 
-const useSideEffect = createSideEffectHook(
-  propsList => propsList.reduce((result, props) => result.concat(props), emptyArray),
+const useSideEffect = createSideEffectHook<Props, Props[]>(
+  propsList => propsList.slice(),
   titles => {
     setTitlesForTracking(titles);
 
     document.title = [defaultTitleSuffix]
-      .concat(sortedUniq(titles.map(toString).filter(isNotBlank)))
+      .concat(sortedUniq(titles.map(toString).filter(isNotBlank) as string[]))
       .reverse()
       .join(' – ');
   }
 );
 
-function toString({ title, dynamic }) {
+function toString({ title, dynamic }: Props): string | undefined {
   if (isBlank(title)) {
-    return null;
+    return undefined;
   }
 
   if (typeof dynamic != 'string' || dynamic === title || isBlank(dynamic)) {
@@ -40,7 +39,12 @@ function toString({ title, dynamic }) {
   return `${title}: ${dynamic}`;
 }
 
-export default function Title(props) {
+export interface Props {
+  title?: string;
+  dynamic?: string;
+}
+
+export default function Title(props: Props) {
   useSideEffect(props);
   return null;
 }

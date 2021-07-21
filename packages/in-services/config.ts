@@ -5,18 +5,19 @@
 
 export interface ClientConfig {
   featureFlags: {
-    [name: string]: boolean
-  }
-  instanaRegion: string,
-  region: string,
-  tenant: string
-};
+    [name: string]: boolean;
+  };
+  instanaRegion: string;
+  region: string;
+  tenant: string;
+  tenantUnit: string;
+}
 
 export interface BuildInfo {
-  date: string,
-  revision: string,
-  tag: string
-};
+  date: string;
+  revision: string;
+  tag: string;
+}
 
 // @ts-ignore
 const theConfig: ClientConfig = window.instana.config;

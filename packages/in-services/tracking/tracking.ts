@@ -17,6 +17,7 @@ import { isNotBlank, isBlank } from 'in-services/util/string';
 import { VIEW_CHANGE } from 'in-services/tracking/eventNames';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { onLastChance } from 'in-services/util/onLastChance';
+import { Props as Title } from 'in-components/Title/Title';
 import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { seconds } from 'in-services/time';
@@ -122,11 +123,6 @@ function getStateBasedMetaData() {
     windowSize: formatDurationAccurately(state.timeConfig?.windowSize),
     ...state.meta
   };
-}
-
-interface Title {
-  title?: string;
-  dynamic?: string;
 }
 
 export function setTitles(titles: Title[]) {
