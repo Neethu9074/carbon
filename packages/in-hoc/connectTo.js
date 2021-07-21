@@ -10,6 +10,14 @@ import { getDisplayName } from 'in-hoc/internal/getDisplayName';
 import { shallowEquals } from 'in-services/util/object';
 import { emptyObject } from 'in-services/fixedObjects';
 
+// ###############################################################
+// ###############################################################
+// There is deliberately not a TypeScript version of connectTo.
+// If you want TypeScript support, then please refactor your code
+// to the useObservable hook!
+// ###############################################################
+// ###############################################################
+
 const defaultOptions = {
   pure: true
 };
