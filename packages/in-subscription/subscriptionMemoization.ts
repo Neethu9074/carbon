@@ -3,15 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { get } from 'lodash';
-
+import { TtiGenerator } from 'in-services/util/memoizingObservableGenerator';
 import { minutes, seconds } from 'in-services/time';
 
 export default function memoizeOnCases({
   noDataMillis = defaultMemoizeConfig.noDataMillis,
   liveMillis = defaultMemoizeConfig.liveMillis,
   defaultMillis = defaultMemoizeConfig.defaultMillis
-}) {
+}): TtiGenerator<any, any> {
   return ([data], lastEmittedValue) => {
     if (!lastEmittedValue || !lastEmittedValue.data) {
       return noDataMillis;
@@ -33,8 +32,8 @@ const defaultMemoizeConfig = {
 
 export const defaultMemoize = memoizeOnCases(defaultMemoizeConfig);
 
-function isLiveSubscription(data) {
-  const timeConfig = get(data, ['filter', 'timeConfig'], get(data, ['timeConfig'], undefined));
+function isLiveSubscription(data: any) {
+  const timeConfig = data?.timeConfig || data?.filter?.timeConfig;
   if (!timeConfig) {
     return false;
   }
