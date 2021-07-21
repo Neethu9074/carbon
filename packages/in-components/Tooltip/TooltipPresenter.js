@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { on } from '@instana/observables';
 import React from 'react';
 
-import { activeTooltip, TooltipShape } from 'in-components/Tooltip/store';
+import { on } from '@instana/observables';
+
+import { activeTooltip$, TooltipShape } from 'in-components/Tooltip/store';
 import TooltipCalculator from 'in-components/Tooltip/TooltipCalculator';
 import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
@@ -17,7 +18,7 @@ const mouseMoveProperty = 'mousePosition';
 
 export default connectTo(
   {
-    _activeTooltip: activeTooltip.nextFrame()
+    _activeTooltip: activeTooltip$.nextFrame()
   },
   class extends React.Component {
     static displayName = 'TooltipPresenter';

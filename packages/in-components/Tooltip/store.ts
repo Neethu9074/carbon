@@ -3,10 +3,40 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { ReactNode } from 'react';
 import rpt from 'prop-types';
 
-const reemitSpec = { emitLatestOnSubscribe: true };
+import { light, dark } from '@instana/components';
+import { create } from '@instana/observables';
+
+type Align =
+  | 'leftBottom'
+  | 'leftMiddle'
+  | 'leftTop'
+  | 'topLeft'
+  | 'topMiddle'
+  | 'topRight'
+  | 'rightTop'
+  | 'rightMiddle'
+  | 'rightBottom'
+  | 'bottomLeft'
+  | 'bottomMiddle'
+  | 'bottomRight'
+  | 'auto'
+  | 'mousePosition';
+
+export interface Tooltip {
+  content: ReactNode;
+  focusedElement: Element;
+  mouseEvent: MouseEvent;
+  themeStyle: typeof light | typeof dark;
+  bindToMousePosition: boolean;
+  focusedPoint: {
+    x: number;
+    y: number;
+  };
+  align: Align;
+}
 
 export const TooltipShape = rpt.shape({
   content: rpt.node,
@@ -39,17 +69,17 @@ export const TooltipShape = rpt.shape({
   ])
 });
 
-export const activeTooltip = create(reemitSpec);
+export const activeTooltip$ = create<Tooltip | undefined>();
 
-export function setActiveTooltip(tooltip) {
+export function setActiveTooltip(tooltip: Tooltip) {
   if (!tooltip.content) {
     clearActiveTooltip();
   } else {
     tooltip.align = tooltip.align || 'auto';
-    activeTooltip.emit(tooltip);
+    activeTooltip$.emit(tooltip);
   }
 }
 
 export function clearActiveTooltip() {
-  activeTooltip.emit(null);
+  activeTooltip$.emit(undefined);
 }
