@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import { FacetedSearchPresenter } from 'in-websites/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
@@ -244,6 +245,7 @@ export default function Beacons(props) {
   let content = (
     <UngroupedViewTable
       {...props}
+      Sidebar={FacetedSearchPresenter}
       getItemName={({ count }) =>
         t('in-websites:dataSource', {
           context: props.dataSource,

@@ -8,6 +8,7 @@ import React, { useCallback } from 'react';
 import { Link, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import AlternativeTraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components_alt/TraceDetailView';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
@@ -66,6 +67,7 @@ export default function Results(props) {
   let content = (
     <UngroupedViewTable
       {...props}
+      Sidebar={FacetedSearchPresenter}
       getItemName={({ count }) =>
         t('in-applications:analyze.dataSource', {
           context: dataSource,

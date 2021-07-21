@@ -6,6 +6,7 @@
 import React from 'react';
 
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
+import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
@@ -58,6 +59,7 @@ export default function Logs(props) {
   let content = (
     <UngroupedViewList
       {...props}
+      Sidebar={FacetedSearchPresenter}
       useCursorPaginationStrategy={useLogsCursorPagination}
       additionalGetDataDependencies={[props.selectedTags]}
       classNames={{ listItem: locals.listItem }}

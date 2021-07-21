@@ -6,7 +6,7 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { Stack, SvgIcon } from '@instana/components';
 import { empty } from '@instana/observables';
 
 import { optionsPropType } from 'in-components/SortingConfigurator/SortingConfigurator';
@@ -14,7 +14,6 @@ import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tr
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { getAvailableMetrics } from 'in-components/AnalyzeView/metrics';
-import FacetedSearch from 'in-components/AnalyzeView/FacetedSearch';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -30,21 +29,11 @@ export default function UngroupedAnalyzeView(props) {
     dataSource,
     detailId,
     DetailView,
-    facetedSearchItems,
-    facets,
-    excludeMissingGroupingTagFilterExpression,
+    Sidebar,
     fixedFields,
-    formModel,
-    formModelWithFacets,
     getData,
-    getFacetedSearchSuggestions,
-    getHrefToGroupedView,
-    getHrefToUngroupedView,
-    getUpdatedFacetedSearchHref,
     isValid,
     metricCatalog,
-    resetFacets,
-    onFacetedSearchSelectionChange,
     onOrderByChange,
     onSelectableFieldsChange,
     orderBy,
@@ -55,7 +44,6 @@ export default function UngroupedAnalyzeView(props) {
     withoutHeader,
     withSamplingTooltip,
     ungroupedViewConfiguration,
-    filteringTagCatalog,
     hideMetricAndSortingConfigurator
   } = props;
 
@@ -100,88 +88,54 @@ export default function UngroupedAnalyzeView(props) {
   });
 
   return (
-    <>
-      <div className={locals.facetedSearchResultContainer}>
-        {facetedSearchItems?.length > 0 && (
-          <FacetedSearch
-            facetedSearchItems={facetedSearchItems}
-            facets={facets}
-            formModel={formModel}
-            formModelWithFacets={formModelWithFacets}
-            resetFacets={resetFacets}
-            onFacetedSearchSelectionChange={onFacetedSearchSelectionChange}
-            getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
-            getHrefToGroupedView={getHrefToGroupedView}
-            getHrefToUngroupedView={getHrefToUngroupedView}
-            dataSource={dataSource}
-            isValid={isValid}
-            getSuggestions={({ tag, entity }) =>
-              getFacetedSearchSuggestions({
-                timeConfig,
-                formModel,
-                tag,
-                facets,
-                facetedSearchItems,
-                excludeMissingGroupingTagFilterExpression,
-                metricKey: 'facetedSearchMetric',
-                group: {
-                  groupbyTag: tag
-                },
-                dataSource,
-                entity
-              })
+    <Stack direction={'horizontal'} gap={'disabled'}>
+      <Sidebar {...props} />
+      <div className={locals.resultContainer}>
+        {!withoutHeader && (
+          <Header
+            {...props}
+            order={orderBy}
+            totalHits={totalHits}
+            totalRepresentedItemCount={totalRepresentedItemCount}
+            setOrder={onOrderByChange}
+            availableMetrics={hideMetricAndSortingConfigurator ? [] : availableMetrics}
+            metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
+            setMetrics={metrics =>
+              onSelectableFieldsChange(
+                metrics.map(metric => ({
+                  // Converting metrics to fields by adding the type
+                  metricId: metric.metric,
+                  aggregationId: metric.aggregation,
+                  type: metricType
+                }))
+              )
             }
-            tagCatalog={filteringTagCatalog}
+            withSamplingTooltip={withSamplingTooltip}
+            withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
+            tracking={{
+              onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+              onMetricAggregationChanged: ({ metric, aggregation }) =>
+                ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+              onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
+            }}
+            MetricConfiguratorHint={({ metricId }) => (
+              <GroupedViewOnlyIndicator
+                metricId={metricId}
+                getHasRawValue={ungroupedViewConfiguration.metricFieldExtractors?.hasRawValue}
+                metricCatalog={metricCatalog}
+              />
+            )}
           />
         )}
-        <div className={locals.resultContainer}>
-          {!withoutHeader && (
-            <Header
-              {...props}
-              order={orderBy}
-              totalHits={totalHits}
-              totalRepresentedItemCount={totalRepresentedItemCount}
-              setOrder={onOrderByChange}
-              availableMetrics={hideMetricAndSortingConfigurator ? [] : availableMetrics}
-              metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
-              setMetrics={metrics =>
-                onSelectableFieldsChange(
-                  metrics.map(metric => ({
-                    // Converting metrics to fields by adding the type
-                    metricId: metric.metric,
-                    aggregationId: metric.aggregation,
-                    type: metricType
-                  }))
-                )
-              }
-              withSamplingTooltip={withSamplingTooltip}
-              withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
-              tracking={{
-                onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
-                onMetricAggregationChanged: ({ metric, aggregation }) =>
-                  ua2MetricAddedTracker({ dataSource, metric, aggregation }),
-                onMetricRemoved: ({ metric, aggregation }) =>
-                  ua2MetricRemovedTracker({ dataSource, metric, aggregation })
-              }}
-              MetricConfiguratorHint={({ metricId }) => (
-                <GroupedViewOnlyIndicator
-                  metricId={metricId}
-                  getHasRawValue={ungroupedViewConfiguration.metricFieldExtractors?.hasRawValue}
-                  metricCatalog={metricCatalog}
-                />
-              )}
-            />
-          )}
-          <Presenter
-            {...props}
-            isLoading={isLoading}
-            hasErrors={hasErrors}
-            hasItems={hasItems}
-            {...cursorPaginationState}
-          />
-        </div>
+        <Presenter
+          {...props}
+          isLoading={isLoading}
+          hasErrors={hasErrors}
+          hasItems={hasItems}
+          {...cursorPaginationState}
+        />
       </div>
-    </>
+    </Stack>
   );
 }
 
@@ -209,6 +163,7 @@ UngroupedAnalyzeView.propTypes = {
   DetailView: rpt.elementType.isRequired,
   CustomHeaderActions: rpt.elementType,
   sortOptions: optionsPropType,
+  Sidebar: rpt.elementType,
 
   // Will be auto-provided by GroupedView in the relevant scenarios.
   groupLabel: rpt.string

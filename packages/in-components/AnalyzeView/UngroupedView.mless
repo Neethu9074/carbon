@@ -6,11 +6,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .facetedSearchResultContainer {
-    display: flex;
-    flex-direction: row;
-  }
-
   .resultContainer {
     flex: 1;
     overflow: hidden;

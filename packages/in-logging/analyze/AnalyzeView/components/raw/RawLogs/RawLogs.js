@@ -5,9 +5,10 @@
 
 import React from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { ColumnizedContent, Li, Ul } from '@instana/components';
 
 import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
+import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/raw/QueryBuilderWorkspace';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter/DangerousHtmlPresenter';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
@@ -40,6 +41,7 @@ export default function RawLogs(props) {
   let content = (
     <UngroupedViewList
       {...props}
+      Sidebar={FacetedSearchPresenter}
       useCursorPaginationStrategy={useLogsCursorPagination}
       classNames={{ listItem: locals.listItem }}
       withoutSorting

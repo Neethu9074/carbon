@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import { FacetedSearchPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
@@ -165,6 +166,7 @@ export default function MobileBeacons(props) {
   let content = (
     <UngroupedViewTable
       {...props}
+      Sidebar={FacetedSearchPresenter}
       getItemName={({ count }) =>
         t('in-mobile-apps:dataSource', {
           context: props.dataSource,
