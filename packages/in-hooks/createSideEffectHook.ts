@@ -5,13 +5,21 @@
 
 import { useLayoutEffect, useState } from 'react';
 
+interface State<T> {
+  arg: T;
+  instanceId: Symbol;
+}
+
 // A modern hook-based variant of react-side-effect
 // Check out the react-side-effect documentation for rationale/inspiration
 // https://github.com/gaearon/react-side-effect
-export default function createSideEffectHook(reduceArgs, applySideEffect) {
-  const states = [];
+export default function createSideEffectHook<ARG, REDUCED>(
+  reduceArgs: (args: ARG[]) => REDUCED,
+  applySideEffect: (value: REDUCED) => void
+) {
+  const states: State<ARG>[] = [];
 
-  return arg => {
+  return (arg: ARG) => {
     // Using Symbol to create a unique ID
     const [instanceId] = useState(Symbol('instanceId'));
 
@@ -26,14 +34,14 @@ export default function createSideEffectHook(reduceArgs, applySideEffect) {
     });
   };
 
-  function addInstance(instanceId, arg) {
+  function addInstance(instanceId: Symbol, arg: ARG) {
     states.push({
       instanceId,
       arg
     });
   }
 
-  function removeInstance(instanceId) {
+  function removeInstance(instanceId: Symbol) {
     const index = states.findIndex(s => s.instanceId === instanceId);
     if (index >= 0) {
       states.splice(index, 1);
