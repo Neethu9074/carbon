@@ -84,10 +84,6 @@ export default connectTo(
 
       if (_activeTooltip.focusedElement) {
         this.positionFocusedElement(align, tooltipElement, _activeTooltip.focusedElement, block);
-      } else if (_activeTooltip.focusedPoint) {
-        tooltipElement.style.left = toPx(_activeTooltip.focusedPoint.x);
-        tooltipElement.style.top = toPx(_activeTooltip.focusedPoint.y);
-        tooltipElement.classList.add(`${block}__${align}`);
       } else {
         throw new Error('Not possible to show tooltip without any focused element.');
       }

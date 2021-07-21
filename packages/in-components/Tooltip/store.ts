@@ -9,7 +9,7 @@ import rpt from 'prop-types';
 import { light, dark } from '@instana/components';
 import { create } from '@instana/observables';
 
-type Align =
+export type Align =
   | 'leftBottom'
   | 'leftMiddle'
   | 'leftTop'
@@ -25,16 +25,13 @@ type Align =
   | 'auto'
   | 'mousePosition';
 
+export type ThemeStyle = typeof light | typeof dark;
+
 export interface Tooltip {
   content: ReactNode;
   focusedElement: Element;
   mouseEvent: MouseEvent;
-  themeStyle: typeof light | typeof dark;
-  bindToMousePosition: boolean;
-  focusedPoint: {
-    x: number;
-    y: number;
-  };
+  themeStyle?: ThemeStyle;
   align: Align;
 }
 
@@ -46,11 +43,6 @@ export const TooltipShape = rpt.shape({
   // tooltip element.
   mouseEvent: rpt.instanceOf(window.MouseEvent),
   themeStyle: rpt.string,
-  bindToMousePosition: rpt.bool,
-  focusedPoint: rpt.shape({
-    x: rpt.number,
-    y: rpt.number
-  }),
   align: rpt.oneOf([
     'leftBottom',
     'leftMiddle',

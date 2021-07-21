@@ -3,24 +3,43 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useRef, Children, cloneElement, useCallback } from 'react';
-import { createLogger } from '@instana/logger';
+import { useRef, Children, cloneElement, useCallback, ReactNode, ReactElement } from 'react';
 import invariant from 'invariant';
 import rpt from 'prop-types';
 
-import { setActiveTooltip, clearActiveTooltip } from 'in-components/Tooltip/store';
+import { createLogger } from '@instana/logger';
+
+import { Align, ThemeStyle, setActiveTooltip, clearActiveTooltip } from 'in-components/Tooltip/store';
 
 const logger = createLogger('in-components/Tooltip');
 
-export default function Tooltip({ align = 'auto', delay = 0, themeStyle, children, content }) {
+export interface Props {
+  align?: Align;
+  themeStyle?: ThemeStyle;
+  delay?: number;
+  children: ReactElement;
+  content: ReactNode;
+}
+
+interface TooltipState {
+  isActive: boolean;
+  timeoutHandle?: any;
+  domNode?: HTMLElement;
+}
+
+export default function Tooltip({ align = 'auto', delay = 0, themeStyle, children, content }: Props) {
   if (__DEV__) {
     invariant(
+      // @ts-expect-error We need to keep this "always-false"-check because of existing
+      // JavaScript code that cannot be statically enforced.
       Children.count(children) === 1 && children.type !== Symbol.for('react.fragment'),
       `Only one child which is not of type React.Fragment is allowed.`
     );
   }
 
-  const tooltipState = useRef();
+  const tooltipState = useRef<TooltipState>({
+    isActive: false
+  });
   const ref = useCallback(
     domNode => {
       const { isActive, timeoutHandle, domNode: previousDomNode } = tooltipState.current || {};
@@ -57,7 +76,7 @@ export default function Tooltip({ align = 'auto', delay = 0, themeStyle, childre
         }
       }
 
-      function onMouseIn(e) {
+      function onMouseIn(e: MouseEvent) {
         if (delay > 0) {
           tooltipState.current.timeoutHandle = setTimeout(showTooltip, delay, e);
         } else {
@@ -74,7 +93,7 @@ export default function Tooltip({ align = 'auto', delay = 0, themeStyle, childre
         tooltipState.current.isActive = false;
       }
 
-      function showTooltip(mouseEvent) {
+      function showTooltip(mouseEvent: MouseEvent) {
         tooltipState.current.isActive = true;
         setActiveTooltip({
           focusedElement: domNode,
