@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { tracker } from 'in-services/tracking/ineum/resultSubscriptionStatsTracking';
+import { onStart, onStop, onData } from 'in-services/tracking/ineum/resultSubscriptionStatsTracking';
 import { defaultMemoize } from 'in-subscription/subscriptionMemoization';
 import createSubscription from 'in-subscription/subscription';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -35,8 +35,8 @@ export function createResultSubscriptionFactory({
       return observable.map(deepFreeze).startWith(pendingResult);
     },
 
-    onStart: trackSubscriptionStatistics ? tracker.onStart : null,
-    onStop: trackSubscriptionStatistics ? tracker.onStop : null,
-    onData: trackSubscriptionStatistics ? tracker.onData : null
+    onStart: trackSubscriptionStatistics ? onStart : null,
+    onStop: trackSubscriptionStatistics ? onStop : null,
+    onData: trackSubscriptionStatistics ? onData : null
   });
 }

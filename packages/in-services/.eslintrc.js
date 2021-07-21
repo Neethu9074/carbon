@@ -15,6 +15,7 @@ module.exports = {
         'in-services',
         'in-i18n',
         'in-types',
+        'in-connection',
 
         // FIXME This import path should not exist
         'in-map',

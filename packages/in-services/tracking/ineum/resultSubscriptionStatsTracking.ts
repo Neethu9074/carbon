@@ -3,11 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
+import { SubscriptionDescription } from 'in-connection/types';
 import { timeConfig$ } from 'in-stores/time/config';
 import { ineum } from 'in-services/tracking/ineum';
+import { TimeConfig } from 'in-types/time';
+import { Result } from 'in-types/backend';
 
-let globalTimeConfig;
-const pendingSubscriptions = new Map();
+interface PendingSubscription {
+  event: string;
+  payload: any;
+  start: number;
+  timeTillLoadingState?: number;
+}
+
+let globalTimeConfig: TimeConfig;
+const pendingSubscriptions = new Map<number, PendingSubscription>();
 
 timeConfig$.subscribe(timeConfig => (globalTimeConfig = timeConfig));
 
@@ -24,67 +34,65 @@ if (typeof document !== 'undefined') {
   );
 }
 
-// This tracker observes the side-effects our subscription system supports.
-// See: packages/in-subscription/subscription.js
-export const tracker = {
-  onStart: ({ subscriptionId, event, payload }) => {
-    if (document && document.visibilityState !== 'visible') {
-      // Tracking does not make sense when the document is hidden. In these cases the
-      // optimizations in the subscription system will not result in reliable data.
-      return;
-    }
-
-    pendingSubscriptions.set(subscriptionId, {
-      event,
-      payload,
-      start: Date.now()
-    });
-  },
-
-  onData: ({ subscriptionId }, data) => {
-    const subscription = pendingSubscriptions.get(subscriptionId);
-    if (!subscription) {
-      return;
-    }
-
-    if (data.progress.loading) {
-      if (subscription.timeTillLoadingState == null) {
-        subscription.timeTillLoadingState = Date.now() - subscription.start;
-      }
-      return;
-    }
-
-    pendingSubscriptions.delete(subscriptionId);
-    const eventName = `subscription.${subscription.event}`;
-    const timeTillFirstData = Date.now() - subscription.start;
-    const meta = {
-      subscriptionId,
-      subscribeEvent: subscription.event,
-      subscriptionPayload: subscription.payload,
-      autoRefresh: globalTimeConfig.autoRefresh,
-      windowSize: globalTimeConfig.windowSize
-    };
-
-    if (subscription.timeTillLoadingState) {
-      meta.timeTillLoadingState = subscription.timeTillLoadingState;
-    }
-
-    if (data.errors.length > 0) {
-      meta.backendErrors = data.errors;
-      ineum('reportEvent', eventName, {
-        duration: timeTillFirstData,
-        error: new Error('Received failing result from backend'),
-        meta
-      });
-    } else {
-      ineum('reportEvent', eventName, {
-        duration: timeTillFirstData,
-        meta
-      });
-    }
-  },
-
-  onStop: ({ subscriptionId }) => {
-    pendingSubscriptions.delete(subscriptionId);
+export function onStart({ subscriptionId, event, payload }: SubscriptionDescription<any>) {
+  if (document && document.visibilityState !== 'visible') {
+    // Tracking does not make sense when the document is hidden. In these cases the
+    // optimizations in the subscription system will not result in reliable data.
+    return;
   }
-};
+
+  pendingSubscriptions.set(subscriptionId, {
+    event,
+    payload,
+    start: Date.now()
+  });
+}
+
+export function onStop({ subscriptionId }: SubscriptionDescription<any>) {
+  pendingSubscriptions.delete(subscriptionId);
+}
+
+export function onData({ subscriptionId }: SubscriptionDescription<any>, data: Result<any>) {
+  const subscription = pendingSubscriptions.get(subscriptionId);
+  if (!subscription) {
+    return;
+  }
+
+  if (data.progress.loading) {
+    if (subscription.timeTillLoadingState == null) {
+      subscription.timeTillLoadingState = Date.now() - subscription.start;
+    }
+    return;
+  }
+
+  pendingSubscriptions.delete(subscriptionId);
+  const eventName = `subscription.${subscription.event}`;
+  const timeTillFirstData = Date.now() - subscription.start;
+  const meta: {
+    [key: string]: any;
+  } = {
+    subscriptionId,
+    subscribeEvent: subscription.event,
+    subscriptionPayload: subscription.payload,
+    autoRefresh: globalTimeConfig.autoRefresh,
+    windowSize: globalTimeConfig.windowSize
+  };
+
+  if (subscription.timeTillLoadingState) {
+    meta.timeTillLoadingState = subscription.timeTillLoadingState;
+  }
+
+  if (data.errors.length > 0) {
+    meta.backendErrors = data.errors;
+    ineum('reportEvent', eventName, {
+      duration: timeTillFirstData,
+      error: new Error('Received failing result from backend'),
+      meta
+    });
+  } else {
+    ineum('reportEvent', eventName, {
+      duration: timeTillFirstData,
+      meta
+    });
+  }
+}
