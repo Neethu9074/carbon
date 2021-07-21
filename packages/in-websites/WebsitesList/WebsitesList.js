@@ -137,8 +137,8 @@ export default connectTo(
           <Title title={t('in-websites:websitesList.websitesListTitleWebsites')} />
           <ViewTrackingMeta
             data={{
-              productArea: t('in-websites:websitesList.websitesListProductAreaEUMWebsites'),
-              pageRootName: t('in-websites:websitesList.websitesListPageRootNameWebsites')
+              productArea: 'EUM: Websites',
+              pageRootName: 'Websites'
             }}
           />
           <WithEmptyStateFallback

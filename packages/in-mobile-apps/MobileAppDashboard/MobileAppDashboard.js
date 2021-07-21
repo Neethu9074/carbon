@@ -112,10 +112,8 @@ function MobileAppDashboard({
     <>
       <ViewTrackingMeta
         data={{
-          productArea: t('in-mobile-apps:dashboard.mobileAppProductArea'),
-          pageRootName: props.viewId
-            ? t('in-mobile-apps:dashboard.mobileAppViewPageRootName')
-            : t('in-mobile-apps:dashboard.mobileAppPageRootName')
+          productArea: 'EUM: Mobile Apps',
+          pageRootName: props.viewId ? 'Mobile App View' : 'Mobile App'
         }}
       />
 

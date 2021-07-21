@@ -131,8 +131,8 @@ function InfraExploreViewWithFixatedTimeConfig() {
     >
       <ViewTrackingMeta
         data={{
-          productArea: t('in-infrastructure:explore.infrastructure'),
-          pageRootName: t('in-infrastructure:explore.infraExplore')
+          productArea: 'Infrastructure',
+          pageRootName: 'Infra Explore'
         }}
       />
 

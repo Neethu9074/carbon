@@ -345,9 +345,7 @@
     "websitesListLabelOnLoadTime": "onLoad Time",
     "websitesListLabelHealth": "Health",
     "websitesListButtonAddWebsite": "Add Website",
-    "websitesListTitleWebsites": "Websites",
-    "websitesListProductAreaEUMWebsites": "EUM: Websites",
-    "websitesListPageRootNameWebsites": "Websites"
+    "websitesListTitleWebsites": "Websites"
   },
   "websiteDashboard": {
     "components": {

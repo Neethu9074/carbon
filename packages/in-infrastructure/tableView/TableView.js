@@ -18,8 +18,8 @@ export default function TableView() {
     <InfraPageHeaderWithTabs>
       <ViewTrackingMeta
         data={{
-          productArea: t('in-infrastructure:tableView.infrastructure'),
-          pageRootName: t('in-infrastructure:tableView.infraComparisonTable')
+          productArea: 'Infrastructure',
+          pageRootName: 'Infra Comparison Table'
         }}
       />
 

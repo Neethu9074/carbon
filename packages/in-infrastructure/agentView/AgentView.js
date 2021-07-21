@@ -62,8 +62,8 @@ export default connectTo(
       <>
         <ViewTrackingMeta
           data={{
-            productArea: t('in-infrastructure:agentView.agents'),
-            pageRootName: t('in-infrastructure:agentView.agents')
+            productArea: 'Agents',
+            pageRootName: 'Agents'
           }}
         />
 

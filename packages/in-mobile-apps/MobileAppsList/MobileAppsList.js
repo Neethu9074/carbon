@@ -110,8 +110,8 @@ export default connectTo(
           <Title title={t('in-mobile-apps:appsList.mobileAppsTitle')} />
           <ViewTrackingMeta
             data={{
-              productArea: t('in-mobile-apps:appsList.mobileAppProductArea'),
-              pageRootName: t('in-mobile-apps:appsList.mobileAppPageRootName')
+              productArea: 'EUM: Mobile Apps',
+              pageRootName: 'Mobile Apps'
             }}
           />
           <WithEmptyStateFallback

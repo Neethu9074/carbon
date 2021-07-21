@@ -64,8 +64,6 @@
     "allInfrastructure": "All Infrastructure",
     "name": "Name",
     "search": "Search",
-    "infrastructure": "Infrastructure",
-    "infraExplore": "Infra Explore",
     "explore": "Explore",
     "cpuUser": "CPU (user)",
     "memoryFree": "Memory Free"
@@ -100,8 +98,6 @@
     "map": "Map",
     "comparisonTable": "Comparison Table",
     "entityExploreBeta": "Entity Explore (Beta)",
-    "infrastructure": "Infrastructure",
-    "infraComparisonTable": "Infra Comparison Table",
     "infrastructureComparisonTable": "Infrastructure Comparison Table"
   }
 }

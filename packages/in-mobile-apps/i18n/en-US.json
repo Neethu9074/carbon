@@ -227,9 +227,6 @@
     }
   },
   "dashboard": {
-    "mobileAppProductArea": "EUM: Mobile Apps",
-    "mobileAppViewPageRootName": "Mobile App View",
-    "mobileAppPageRootName": "Mobile App",
     "mobileAppViewTitle": "Mobile App",
     "mobileAppTitle": "View",
     "analyzeSessions": "Analyze Sessions",
@@ -314,9 +311,7 @@
     "sessionStartsLabel": "Session Starts",
     "viewTransitionsLabel": "View Transitions",
     "addMobileAppBtn": "Add Mobile App",
-    "mobileAppsTitle": "Mobile Apps",
-    "mobileAppProductArea": "EUM: Mobile Apps",
-    "mobileAppPageRootName": "Mobile Apps"
+    "mobileAppsTitle": "Mobile Apps"
   },
   "newAppFlow": {
     "addMobileAppTitle": "Add Mobile App",

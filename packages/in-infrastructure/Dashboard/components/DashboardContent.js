@@ -93,8 +93,8 @@ export default connectTo(
         <Title title={t('in-infrastructure:dashboard.infrastructure')} />
         <ViewTrackingMeta
           data={{
-            productArea: t('in-infrastructure:dashboard.infrastructure'),
-            pageRootName: t('in-infrastructure:dashboard.infrastructure')
+            productArea: 'Infrastructure',
+            pageRootName: 'Infrastructure'
           }}
         />
 
