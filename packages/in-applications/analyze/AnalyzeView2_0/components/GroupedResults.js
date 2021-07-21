@@ -24,7 +24,12 @@ export default function GroupedResults(props) {
     previewEnabled
   ]);
   return (
-    <QueryBuilderWorkspace {...props}>
+    <QueryBuilderWorkspace
+      {...props}
+      CustomAction={() => (
+        <PreviewToggle previewEnabled={previewEnabled} onChangePreviewEnabled={onChangePreviewEnabled} />
+      )}
+    >
       <GroupedView
         {...props}
         itemlabelColumnId="name"
@@ -32,9 +37,6 @@ export default function GroupedResults(props) {
         getLabel={getLabel}
         UngroupedView={Results}
         withSamplingTooltip
-        CustomHeaderActions={() => (
-          <PreviewToggle previewEnabled={previewEnabled} onChangePreviewEnabled={onChangePreviewEnabled} />
-        )}
       />
     </QueryBuilderWorkspace>
   );

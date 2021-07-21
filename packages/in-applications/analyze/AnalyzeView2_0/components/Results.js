@@ -88,15 +88,21 @@ export default function Results(props) {
       DetailView={traceDetailViewV2Enabled || isInternalVisible ? AlternativeTraceDetailView : TraceDetailView}
       getDetailData={getTraceSummary}
       withSamplingTooltip
-      CustomHeaderActions={() => (
-        <PreviewToggle previewEnabled={previewEnabled} onChangePreviewEnabled={onChangePreviewEnabled} />
-      )}
       hideMetricAndSortingConfigurator
     />
   );
 
   if (!withoutHeader && !detailId) {
-    content = <QueryBuilderWorkspace {...props}>{content}</QueryBuilderWorkspace>;
+    content = (
+      <QueryBuilderWorkspace
+        CustomAction={() => (
+          <PreviewToggle previewEnabled={previewEnabled} onChangePreviewEnabled={onChangePreviewEnabled} />
+        )}
+        {...props}
+      >
+        {content}
+      </QueryBuilderWorkspace>
+    );
   }
 
   return content;

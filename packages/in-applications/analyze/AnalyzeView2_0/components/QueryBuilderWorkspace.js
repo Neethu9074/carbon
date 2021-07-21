@@ -72,7 +72,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
     chartedMetrics,
     chartableDataSeries,
     hiddenCalls,
-    groupedViewConfiguration
+    groupedViewConfiguration,
+    CustomAction
   } = props;
   return (
     <Sticky
@@ -150,12 +151,15 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
 
             <ActionSection
               right={
-                <ApiQueryAction
-                  backendQueryModel={backendQueryModelWithFacets}
-                  tracking={{
-                    onClick: () => ua2ApiQueryPressedTracker({ dataSource })
-                  }}
-                />
+                <Stack direction={'horizontal'} gap={'small'}>
+                  {CustomAction && <CustomAction {...props} />}
+                  <ApiQueryAction
+                    backendQueryModel={backendQueryModelWithFacets}
+                    tracking={{
+                      onClick: () => ua2ApiQueryPressedTracker({ dataSource })
+                    }}
+                  />
+                </Stack>
               }
             />
           </Sections>
