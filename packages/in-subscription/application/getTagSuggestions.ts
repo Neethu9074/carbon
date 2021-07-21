@@ -4,11 +4,10 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { GetTagSuggestionsQuery, Result, TagSuggestions } from 'in-types/backend';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetTagSuggestionsQuery, Result<TagSuggestions>>({
   eventId: 'getTagSuggestions',
   memoizeFor: 5000,
   trackSubscriptionStatistics: true
 });
-
-// TODO in analyze?

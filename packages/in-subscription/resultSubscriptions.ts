@@ -16,7 +16,7 @@ import { Result } from 'in-types/backend';
 export interface Options<IN, OUT> {
   eventId: string;
   mapResult?: (result: Object) => OUT;
-  memoizeFor?: TtiGenerator<IN, OUT>;
+  memoizeFor?: number | TtiGenerator<IN, OUT>;
   disposeSubscriptionOnDocumentHidden?: boolean;
   trackSubscriptionStatistics?: boolean;
 }
