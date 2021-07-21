@@ -5,9 +5,10 @@
 
 export * from 'in-services/tracking/eventNames';
 
-import { createLogger } from '@instana/logger';
 import { sortedUniq, isEqual } from 'lodash';
 import invariant from 'invariant';
+
+import { createLogger } from '@instana/logger';
 
 import { track as trackInternal } from 'in-services/tracking/trackers';
 import { formatDurationAccurately } from 'in-services/formatters/date';
@@ -17,19 +18,28 @@ import { VIEW_CHANGE } from 'in-services/tracking/eventNames';
 import { navigationParameters$ } from 'in-stores/navigation';
 import { onLastChance } from 'in-services/util/onLastChance';
 import { getTimeConfig } from 'in-stores/time/config';
+import { Location } from 'in-stores/navigation/types';
 import { seconds } from 'in-services/time';
+import { TimeConfig } from 'in-types/time';
 
 const logger = createLogger('in-services/tracking');
 
-let pendingViewChangeTransmissionHandle = null;
-let previousState = null;
-let state = {
-  location: null,
+interface State {
+  location?: Location;
+  timeConfig?: TimeConfig;
+  titles: readonly Title[];
+  meta: Object;
+}
+
+let pendingViewChangeTransmissionHandle: any = null;
+let previousState: State;
+let state: State = {
+  location: undefined,
   titles: emptyArray,
   meta: emptyObject
 };
 
-export function track(event, payload) {
+export function track(event: string, payload: Object) {
   if (payload == null) {
     payload = emptyObject;
   }
@@ -49,7 +59,7 @@ export function track(event, payload) {
   trackInternal(event, payload);
 }
 
-function isValidPayload(payload) {
+function isValidPayload(payload: Object) {
   return Object.getPrototypeOf(payload) === Object.prototype;
 }
 
@@ -91,12 +101,12 @@ function transmitViewChange() {
   }
 
   previousState = state;
-  previousState.location = null;
+  previousState.location = undefined;
 }
 
 // Define which values should be compared in order to identify a view change.
 // A deep comparison will be executed between two states to identify a state change.
-function getStateEqualityFields(state) {
+function getStateEqualityFields(state: State) {
   return {
     meta: state.meta,
     titles: state.titles
@@ -114,10 +124,15 @@ function getStateBasedMetaData() {
   };
 }
 
-export function setTitles(titles) {
+interface Title {
+  title?: string;
+  dynamic?: string;
+}
+
+export function setTitles(titles: Title[]) {
   state.titles = titles;
 }
 
-export function setMeta(meta) {
+export function setMeta(meta: Object) {
   state.meta = meta;
 }
