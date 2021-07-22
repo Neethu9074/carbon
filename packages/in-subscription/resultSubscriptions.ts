@@ -11,7 +11,7 @@ import { defaultMemoize } from 'in-subscription/subscriptionMemoization';
 import createSubscription from 'in-subscription/subscription';
 import { pendingResult } from 'in-services/fixedObjects';
 import { deepFreeze } from 'in-services/util/object';
-import { Result } from 'in-types/backend';
+import { Result } from 'in-types';
 
 export interface Options<IN, OUT> {
   eventId: string;

@@ -142,7 +142,7 @@ In the [backend](https://github.com/instana/backend/tree/develop/ui/typescript-g
 
 Sample PR: https://github.com/instana/ui-client/pull/6779
 
-This PR will update the `ui-client/in-types/backend.d.ts` file.
+This PR will update the `ui-client/in-types.d.ts` file.
 
 More details about the type-def generation can be found in our [backend repo](https://github.com/instana/backend/tree/develop/ui/typescript-generation)
 
@@ -176,7 +176,7 @@ export interface MyApplication {
 ### Example usage
 
 ```ts
-import { Result, Progress } from 'in-types/backend';
+import { Result, Progress } from 'in-types';
 
 export const finishedProgress: Progress = Object.freeze({
   loading: false

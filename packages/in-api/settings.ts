@@ -4,7 +4,7 @@
  */
 
 import { getHeader as getCsrfHeader } from '../in-services/security/csrf';
-import { UiSettings } from 'in-types/globals';
+import { UiSettings } from 'in-types';
 import http from 'in-services/http';
 
 export function saveSettings(settings: UiSettings) {

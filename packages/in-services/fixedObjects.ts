@@ -5,7 +5,7 @@
 
 export { noop } from 'in-services/util/function';
 
-import { Result, Progress } from 'in-types/backend';
+import { Result, Progress } from 'in-types';
 
 export const emptyObject = Object.freeze({});
 export const emptyJsMap = new Map();

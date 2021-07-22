@@ -4,16 +4,16 @@
  */
 
 import { combineLatest, Observable } from '@instana/observables';
-import { ErrorCode, Error } from 'in-types/backend';
-import { Response } from 'in-services/http/types';
 
 import { loading, success, error as createErrorObject } from 'in-services/util/result';
+import { Response } from 'in-services/http/types';
+import { ErrorCode, Error } from 'in-types';
 
 export default function createObservable<T>(observableHttpRequest: Observable<Response<T>>) {
-  const observable = combineLatest([
-    observableHttpRequest.startWith(null),
-    observableHttpRequest.errors().startWith(null)
-  ], true).map(parts => {
+  const observable = combineLatest(
+    [observableHttpRequest.startWith(null), observableHttpRequest.errors().startWith(null)],
+    true
+  ).map(parts => {
     const response: Response<T> | null = parts[0];
     const errors = getErrors(parts[1]);
     const hasErrors = errors.length > 0;
@@ -63,9 +63,7 @@ export function getErrors(error: any): Error[] {
     return [{ code: mapResponseStatusCode(error.response.status), message: error.response.statusText }];
   }
   if (Array.isArray(error)) {
-    return error
-      .filter(error => typeof error === 'string')
-      .map(error => ({ code: 'SERVER', message: error }));
+    return error.filter(error => typeof error === 'string').map(error => ({ code: 'SERVER', message: error }));
   }
   return [];
 }
