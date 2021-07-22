@@ -25,6 +25,6 @@ function disableBodyScroll() {
 }
 
 function enableBodyScroll() {
-  document.documentElement.style.overflow = null;
-  document.body.style.overflow = null;
+  document.documentElement.style.overflow = '';
+  document.body.style.overflow = '';
 }

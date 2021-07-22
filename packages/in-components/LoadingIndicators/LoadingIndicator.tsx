@@ -11,9 +11,28 @@ import { SvgIconSizes } from '@instana/components';
 
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 
+// @ts-expect-error
 import locals from './LoadingIndicator.mless';
 
-export default function LoadingIndicator({ size = 'xl', title, text, className, width, height, style }) {
+export interface LoadingIndicatorProps {
+  size: keyof typeof SvgIconSizes;
+  title: string;
+  text: string;
+  className: string;
+  width: number;
+  height: number;
+  style: Record<string, string | number>;
+}
+
+export default function LoadingIndicator({
+  size = 'xl',
+  title,
+  text,
+  className,
+  width,
+  height,
+  style
+}: LoadingIndicatorProps) {
   if (height < 80) {
     size = 'regular';
   }
