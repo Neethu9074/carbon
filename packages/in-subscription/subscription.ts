@@ -44,7 +44,7 @@ export interface Options<IN, OUT> {
   onData?(subscribeOptions: SubscribeOptions<OUT>, data: OUT): void;
 }
 
-export default function subscribe<IN, OUT>(options: Options<IN, OUT>): (parameter?: IN) => Observable<OUT> {
+export default function subscribe<IN, OUT>(options: Options<IN, OUT>): (parameter: IN) => Observable<OUT> {
   const { getId = generateStableHash, memoizeFor } = options;
 
   const observableCreator = (subscriptionParameters?: IN) => createObservable(options, subscriptionParameters);
