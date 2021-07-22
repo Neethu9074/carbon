@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { TimeConfig, TagType } from 'in-typesCorrections';
+import { TimeConfig, TagType } from 'in-types/backendCorrections';
 
 export interface AbstractApplicationAlertConfig {
   readonly alertChannelIds: string[];
@@ -74,6 +74,15 @@ export interface AlertRuleWithGranularity {
   readonly rule: ApplicationAlertRule;
   readonly seasonality?: Seasonality;
   readonly timeThreshold: ApplicationTimeThreshold;
+}
+
+export interface ApiTag {
+  readonly canApplyToDestination: boolean;
+  readonly canApplyToSource: boolean;
+  readonly description?: string;
+  readonly label?: string;
+  readonly name: string;
+  readonly type: TagType;
 }
 
 export interface AppDataEntityChain extends Cursorific<IngestionOffsetCursor> {
@@ -3059,6 +3068,11 @@ export interface TagAvailability {
   readonly availableFrom: number;
 }
 
+export interface TagCatalog {
+  readonly tagTree: TagTreeLevel[];
+  readonly tags: ApiTag[];
+}
+
 export interface TagFilter extends TagFilterExpressionElement {
   readonly booleanValue?: boolean;
   readonly entity: TagFilterEntity;
@@ -3093,6 +3107,29 @@ export interface TagSuggestions {
   readonly results: TagSuggestion[];
   readonly suggestions: string[];
   readonly totalHits: number;
+}
+
+export interface TagTreeLevel extends TagTreeNode {
+  readonly children: TagTreeNodeUnion[];
+  readonly description?: string;
+  readonly label: string;
+  readonly queryable: boolean;
+  readonly type: 'LEVEL';
+}
+
+export interface TagTreeNode {
+  readonly icon?: string;
+  readonly label?: string;
+  readonly type: 'LEVEL' | 'TAG';
+}
+
+export interface TagTreeTag extends TagTreeNode {
+  readonly description?: string;
+  readonly hidden?: boolean;
+  readonly label: string;
+  readonly queryable?: boolean;
+  readonly tagName: string;
+  readonly type: 'TAG';
 }
 
 export interface TenantConfig {
@@ -3836,6 +3873,8 @@ export type TagFilterOperator =
   | 'NOT_ENDS_WITH';
 
 export type TagSuggestionProposeType = 'KEYS' | 'VALUES';
+
+export type TagTreeNodeUnion = TagTreeLevel | TagTreeTag;
 
 export type ThresholdOperator = '>' | '>=' | '<' | '<=';
 
