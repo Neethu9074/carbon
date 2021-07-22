@@ -10,6 +10,11 @@ import './ValidationBlock.less';
 
 const block = 'in-form-validation-block';
 
-export default function ValidationBlock({ children, className }) {
+interface ValidationBlockProps {
+  children: React.ReactNode;
+  className: string;
+}
+
+export default function ValidationBlock({ children, className }: ValidationBlockProps) {
   return <p className={classNames(block, className)}>{children}</p>;
 }
