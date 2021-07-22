@@ -2,5 +2,5 @@
   "name": "Grid",
   "version": "0.0.0",
   "private": true,
-  "main": "./Grid.js"
+  "main": "./Grid.tsx"
 }

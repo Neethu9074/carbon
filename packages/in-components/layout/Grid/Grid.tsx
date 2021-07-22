@@ -6,7 +6,32 @@
 import classNames from 'classnames';
 import React from 'react';
 
+// @ts-expect-error
 import locals from './Grid.mless';
+
+export type RowProps = {
+  children: React.ReactNode;
+  className?: string;
+  style?: Record<string, any>;
+  withoutTopMargin?: boolean;
+  verticallyStretchColumns?: boolean;
+  singleRowTopMargin?: boolean;
+  withoutSideMargin?: boolean;
+  withBottomMargin?: boolean;
+};
+
+export type ColProps = {
+  lg?: number | boolean;
+  lgOffset?: number;
+  md?: number | boolean;
+  mdOffset?: number;
+  xs?: number | boolean;
+  xsOffset?: number;
+  children: React.ReactNode;
+  className?: string;
+  style?: Record<string, any>;
+  preserveVerticalGutter?: boolean;
+};
 
 export const Row = ({
   children,
@@ -17,12 +42,11 @@ export const Row = ({
   singleRowTopMargin,
   withoutSideMargin,
   withBottomMargin
-}) => {
+}: RowProps) => {
   return (
     <div
-      className={classNames({
+      className={classNames(className, {
         [locals.row]: true,
-        [className]: className,
         [locals.withoutTopMargin]: withoutTopMargin,
         [locals.verticallyStretchColumns]: verticallyStretchColumns,
         [locals.singleRowTopMargin]: singleRowTopMargin,
@@ -47,10 +71,10 @@ export const Col = ({
   className,
   style,
   preserveVerticalGutter
-}) => {
+}: ColProps) => {
   return (
     <div
-      className={classNames({
+      className={classNames(className, {
         [locals[`lg--${lg}`]]: typeof lg === 'number',
         [locals[`lg-offset--${lgOffset}`]]: typeof lgOffset === 'number',
         [locals['lg--auto']]: lg === true,
@@ -65,9 +89,7 @@ export const Col = ({
         [locals[`xs--${xs}`]]: typeof xs === 'number',
         [locals[`xs-offset--${xsOffset}`]]: typeof xsOffset === 'number',
         [locals['xs--auto']]: xs === true && !preserveVerticalGutter,
-        [locals['xs--auto-preserve-vertical']]: xs === true && preserveVerticalGutter,
-
-        [className]: className != null
+        [locals['xs--auto-preserve-vertical']]: xs === true && preserveVerticalGutter
       })}
       style={style}
     >
