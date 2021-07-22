@@ -216,7 +216,8 @@
     "shiftingLabelYesterday": "Yesterday",
     "shiftingDescriptionYesterday": "Compare with data recorded 24 hours before the selected time window",
     "shiftingLabelLastWeek": "Last week",
-    "shiftingDescriptionLastWeek": "Compare with from one week before the selected time window"
+    "shiftingDescriptionLastWeek": "Compare with from one week before the selected time window",
+    "shiftingCustomDuration": "Previous {{duration}}"
   },
 
   "view": {
