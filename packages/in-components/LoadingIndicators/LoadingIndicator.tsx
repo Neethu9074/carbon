@@ -4,7 +4,6 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIconSizes } from '@instana/components';
@@ -33,7 +32,7 @@ export default function LoadingIndicator({
   height,
   style
 }: LoadingIndicatorProps) {
-  if (height < 80) {
+  if (height && height < 80) {
     size = 'regular';
   }
   return (
