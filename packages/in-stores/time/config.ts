@@ -10,8 +10,8 @@ import { navigationParameters$ } from 'in-stores/navigation/navigation';
 import { Location, Parameters } from 'in-stores/navigation/types';
 import { days, hours, minutes } from 'in-services/time';
 import { isBlank } from 'in-services/util/string';
-import { TimeConfig } from 'in-types/time';
-import { Result } from 'in-types/backend';
+import { TimeConfig } from 'in-types';
+import { Result } from 'in-types';
 
 export const urlQueryKeys = Object.freeze({
   to: 'timeline.to',

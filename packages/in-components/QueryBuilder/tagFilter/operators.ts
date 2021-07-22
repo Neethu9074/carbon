@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TagFilterOperator } from 'in-types/backend';
+import { TagFilterOperator } from 'in-types';
 
 export const EQUALS: TagFilterOperator = 'EQUALS';
 export const CONTAINS: TagFilterOperator = 'CONTAINS';

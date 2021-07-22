@@ -4,7 +4,7 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { GetTagSuggestionsQuery, Result, TagSuggestions } from 'in-types/backend';
+import { GetTagSuggestionsQuery, Result, TagSuggestions } from 'in-types';
 
 export default createResultSubscriptionFactory<GetTagSuggestionsQuery, Result<TagSuggestions>>({
   eventId: 'getTagSuggestions',

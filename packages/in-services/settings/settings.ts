@@ -7,7 +7,7 @@ import { create, Observable } from '@instana/observables';
 import { createLogger } from '@instana/logger';
 
 import { saveSettings, saveSetting } from 'in-api/settings';
-import { UiSettings } from 'in-types/globals';
+import { UiSettings } from 'in-types';
 
 const logger = createLogger('SearchBar/stores/settings');
 

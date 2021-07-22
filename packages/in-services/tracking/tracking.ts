@@ -21,7 +21,7 @@ import { Props as Title } from 'in-components/Title/Title';
 import { getTimeConfig } from 'in-stores/time/config';
 import { Location } from 'in-stores/navigation/types';
 import { seconds } from 'in-services/time';
-import { TimeConfig } from 'in-types/time';
+import { TimeConfig } from 'in-types';
 
 const logger = createLogger('in-services/tracking');
 
