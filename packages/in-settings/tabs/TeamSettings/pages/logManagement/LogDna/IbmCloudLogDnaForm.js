@@ -16,7 +16,7 @@ import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/Log
 
 const ibmCloudBasePath = 'https://cloud.ibm.com/observe/embedded-view/logging/';
 
-export default function IbmCloudLogDnaForm({ form, onChange, disabled, areFieldsBlank }) {
+export default function IbmCloudLogDnaForm({ form, onChange, disabled, areFieldsInvalid }) {
   const accountId = form.get('accountId').value;
   const logdnaUrl = ibmCloudBasePath + accountId;
 
@@ -41,7 +41,7 @@ export default function IbmCloudLogDnaForm({ form, onChange, disabled, areFields
           </HelpText>
         </FormGroup>
       ))}
-      {!areFieldsBlank && (
+      {!areFieldsInvalid && (
         <FormGroup>
           <Label htmlFor="logdna-test-link">{t('in-settings:tabs.testYourLogDnaLink')}</Label>
           <a href={logdnaUrl} target={'_blank'} rel="noopener noreferrer">

@@ -16,7 +16,7 @@ import locals from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/Log
 
 const logDnaBasePath = 'https://app.logdna.com/';
 
-export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsBlank }) {
+export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsInvalid }) {
   const accountId = form.get('accountId').value;
   const logdnaUrl = logDnaBasePath + accountId + '/logs';
 
@@ -41,7 +41,7 @@ export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsBlan
           </HelpText>
         </FormGroup>
       ))}
-      {!areFieldsBlank && (
+      {!areFieldsInvalid && (
         <FormGroup>
           <Label htmlFor="logdna-test-link">{t('in-settings:tabs.testYourLogDnaLink')}</Label>
           <a href={logdnaUrl} target={'_blank'} rel="noopener noreferrer">
