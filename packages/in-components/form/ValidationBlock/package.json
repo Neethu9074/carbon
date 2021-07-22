@@ -2,5 +2,5 @@
   "name": "ValidationBlock",
   "version": "0.0.0",
   "private": true,
-  "main": "./ValidationBlock.js"
+  "main": "./ValidationBlock.tsx"
 }
