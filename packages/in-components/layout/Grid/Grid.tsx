@@ -9,7 +9,7 @@ import React from 'react';
 // @ts-expect-error
 import locals from './Grid.mless';
 
-export type RowProps = {
+export interface RowProps {
   children: React.ReactNode;
   className?: string;
   style?: Record<string, any>;
@@ -18,9 +18,9 @@ export type RowProps = {
   singleRowTopMargin?: boolean;
   withoutSideMargin?: boolean;
   withBottomMargin?: boolean;
-};
+}
 
-export type ColProps = {
+export interface ColProps {
   lg?: number | boolean;
   lgOffset?: number;
   md?: number | boolean;
@@ -31,7 +31,7 @@ export type ColProps = {
   className?: string;
   style?: Record<string, any>;
   preserveVerticalGutter?: boolean;
-};
+}
 
 export const Row = ({
   children,
