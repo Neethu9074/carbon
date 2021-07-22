@@ -12,7 +12,7 @@ import locals from './Grid.mless';
 export interface RowProps {
   children: React.ReactNode;
   className?: string;
-  style?: Record<string, any>;
+  style?: Record<string, string | number>;
   withoutTopMargin?: boolean;
   verticallyStretchColumns?: boolean;
   singleRowTopMargin?: boolean;
@@ -29,7 +29,7 @@ export interface ColProps {
   xsOffset?: number;
   children: React.ReactNode;
   className?: string;
-  style?: Record<string, any>;
+  style?: Record<string, string | number>;
   preserveVerticalGutter?: boolean;
 }
 

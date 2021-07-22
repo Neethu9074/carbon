@@ -14,7 +14,6 @@ import theme from 'in-themes';
 
 // @ts-expect-error
 import locals from './IndeterminateLoadingIndicator.mless';
-import { stripTrailingSlash } from 'history/PathUtils';
 
 const {
   lib: { colors: COLORS }
