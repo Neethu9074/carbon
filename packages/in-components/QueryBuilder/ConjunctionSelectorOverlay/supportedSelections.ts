@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { LogicalOperator } from 'in-types';
+
 export const and = 'AND';
 export const or = 'OR';
 export const not = 'NOT';
