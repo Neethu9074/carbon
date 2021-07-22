@@ -37,7 +37,7 @@ export default function ReleaseOccurredMessage({ release }) {
           />
         </p>
       </div>
-      <Stack direction="horizontal" gap="xsmall" wrap>
+      <Stack direction="horizontal" gap="disabled" wrap>
         <Button
           className={locals.btnLeft}
           href$={getModifiedUrlStream(params => {
