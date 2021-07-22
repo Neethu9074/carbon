@@ -14,6 +14,7 @@ import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tr
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { getAvailableMetrics } from 'in-components/AnalyzeView/metrics';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import FacetedSearch from 'in-components/AnalyzeView/FacetedSearch';
 import Header from 'in-components/QueryBuilder/components/Header';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -25,8 +26,9 @@ import locals from './UngroupedView.mless';
 
 export const retrievalSize = 20;
 export default function UngroupedAnalyzeView(props) {
+  const backendQueryModelWithFacets = useStableObjectInstance(props.backendQueryModelWithFacets);
+
   const {
-    backendQueryModelWithFacets,
     dataSource,
     detailId,
     DetailView,
