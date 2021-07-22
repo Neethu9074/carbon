@@ -58,11 +58,11 @@ export function sanitizeTagFilter(tagFilter: TagFilter): TagFilter {
   return { ...tagFilter, value: tagFilter.value.substring(0, STRING_MAX_LENGTH) };
 }
 
-export function toNewTagFilterFormat(tagFilter: TagFilter, tagCatalog: TagCatalog) {
+export function toNewTagFilterFormat(tagFilter: TagFilter, tagCatalog: TagCatalog): TagFilter {
   let key;
   let value = tagFilter.value;
   // In some cases the operator is in lower case or missing, which is no longer supported
-  let operator = tagFilter.operator?.toUpperCase() || EQUALS;
+  let operator = (tagFilter.operator?.toUpperCase() || EQUALS) as TagFilterOperator;
 
   if (tagFilter.booleanValue != null) {
     value = transformBooleanValue(tagFilter.booleanValue);
