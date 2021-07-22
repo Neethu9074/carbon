@@ -23,16 +23,32 @@ export default function useResizeObserverCustom({ millis = 100 } = emptyObject) 
     return () => (isUnmountedRef.current = true);
   });
 
+  // On first render of a component the onResize function wouldn't trigger an update leading to returning
+  // undefined for width/height which can cause flickering.
+  // The first update get's swallowed due to the combination of having debouncing logic with a default
+  // time and using requestAnimationFrame.
+  // Here we ensure that on first load we trigger a state change immediately and do not wait till
+  // before next paint.
+  const firstLoad = useRef(true);
+
   const [state, setState] = useState(emptyObject);
   const onResize = useMemo(
     () =>
       debounce(
-        newState =>
+        newState => {
+          // Update state immediately on first render
+          if (firstLoad.current) {
+            firstLoad.current = false;
+            setState(newState);
+            return;
+          }
+
           requestAnimationFrame(() => {
             if (!isUnmountedRef.current) {
               setState(newState);
             }
-          }),
+          });
+        },
         millis,
         { leading: true }
       ),
