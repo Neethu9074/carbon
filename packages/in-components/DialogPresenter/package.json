@@ -2,5 +2,5 @@
   "name": "DialogPresenter",
   "version": "0.0.0",
   "private": true,
-  "main": "./DialogPresenter.js"
+  "main": "./DialogPresenter.tsx"
 }
