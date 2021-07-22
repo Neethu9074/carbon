@@ -16,12 +16,12 @@ import locals from './LoadingIndicator.mless';
 
 export interface LoadingIndicatorProps {
   size: keyof typeof SvgIconSizes;
-  title: string;
-  text: string;
-  className: string;
-  width: number;
-  height: number;
-  style: Record<string, string | number>;
+  title?: string;
+  text?: string;
+  className?: string;
+  width?: number;
+  height?: number;
+  style?: Record<string, string | number>;
 }
 
 export default function LoadingIndicator({
@@ -46,13 +46,3 @@ export default function LoadingIndicator({
     </div>
   );
 }
-
-LoadingIndicator.propTypes = {
-  size: PropTypes.oneOf(Object.keys(SvgIconSizes)),
-  title: PropTypes.string,
-  text: PropTypes.string,
-  className: PropTypes.string,
-  height: PropTypes.number,
-  width: PropTypes.number,
-  style: PropTypes.object
-};
