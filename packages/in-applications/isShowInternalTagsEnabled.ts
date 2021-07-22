@@ -3,37 +3,30 @@
  * (c) Copyright Instana Inc.
  */
 
+import { create } from '@instana/observables';
+
 import { trySet, tryGet } from 'in-services/localStorage';
-import { createStore } from 'in-stores/store';
 import { minutes } from 'in-services/time';
 
 const localStorageKey = 'in-sit';
 const showInternalTagsForMillis = minutes.toMillis(30);
 
-const isShowInternalTagsEnabled = createStore({
-  name: 'isShowInternalTagsEnabled',
-  initialValue: hasShowInternalTagsEnabledPerLocalStorage()
-});
-export const isShowInternalTagsEnabled$ = isShowInternalTagsEnabled.observable;
+const subject = create<boolean>().emit(isEnabledPerLocalStorage());
+export const isShowInternalTagsEnabled$ = subject.freeze();
 
-let hideInternalTagsHandle;
-export function enableShowInternalTags(enabled) {
-  isShowInternalTagsEnabled.applyStateMutation(() => {
-    // Update store + local storage
-    if (enabled === true) {
-      trySet(localStorageKey, Date.now());
-    } else {
-      trySet(localStorageKey, -1);
-    }
-    return enabled;
-  });
+let hideInternalTagsHandle: any;
+export function setShowInternalTags(enabled: boolean) {
+  trySet(localStorageKey, String(enabled === true ? Date.now() : -1));
+  subject.emit(enabled);
 
   // disable after N minutes
   clearTimeout(hideInternalTagsHandle);
-  hideInternalTagsHandle = setTimeout(() => isShowInternalTagsEnabled.mutateTo(false), showInternalTagsForMillis);
+  if (enabled) {
+    hideInternalTagsHandle = setTimeout(() => setShowInternalTags(false), showInternalTagsForMillis);
+  }
 }
 
-function hasShowInternalTagsEnabledPerLocalStorage() {
+function isEnabledPerLocalStorage() {
   const value = tryGet(localStorageKey);
 
   if (!value) {
