@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { create, Subject } from '@instana/observables';
+import React from 'react';
 
-export const activeDialogs$ = create().emit([]);
+export const activeDialogs$: Subject<any> = create().emit([]);
 
-export function addActiveDialog(dialog) {
-  activeDialogs$.once(dialogs => {
+export function addActiveDialog(dialog: React.ReactNode) {
+  activeDialogs$.once((dialogs: React.ReactNode[]) => {
     dialogs = dialogs.slice();
     dialogs.push(dialog);
     activeDialogs$.emit(dialogs);
