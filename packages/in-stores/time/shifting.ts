@@ -3,16 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ParameterDefinition } from 'in-stores/navigation/types';
 import { formatDuration } from 'in-services/formatters/date';
+import { TimeConfig, TimeShift } from 'in-types';
 import { days, hours } from 'in-services/time';
 import { t } from 'in-i18n';
 
+export type TimeShiftOffset = number | 'auto';
+
 const initialState = 0;
 
-export const urlParameter = {
+export const urlParameter: ParameterDefinition<TimeShiftOffset> = {
   name: 'ts',
   as: 'timeShiftOffset',
-  parser: v => {
+  parser: (v?: string) => {
     if (v == null) {
       return initialState;
     }
@@ -27,7 +31,7 @@ export const urlParameter = {
     }
     return parsed;
   },
-  serializer: v => {
+  serializer: (v: TimeShiftOffset) => {
     if (v === 'auto') {
       return v;
     }
@@ -41,19 +45,26 @@ export const urlParameter = {
   initialState
 };
 
-export const defaultTimeShift = {
+export interface TimeShiftOption {
+  offset: TimeShiftOffset;
+  label: string;
+  description: string;
+  disallowSelection?: boolean;
+}
+
+export const defaultTimeShift: TimeShiftOption = {
   offset: initialState,
   label: t('in-stores:time.shiftingLabelOff'),
   description: t('in-stores:time.shiftingDescriptionOff')
 };
 
-export const previousHourTimeShift = {
+export const previousHourTimeShift: TimeShiftOption = {
   offset: -1 * hours.toMillis(1),
   label: t('in-stores:time.shiftingLabelPreviousHour'),
   description: t('in-stores:time.shiftingDescriptionPreviousHour')
 };
 
-export const timeShifts = [
+export const timeShifts: TimeShiftOption[] = [
   defaultTimeShift,
   {
     offset: 'auto',
@@ -74,9 +85,15 @@ export const timeShifts = [
   }
 ];
 
-export function translateOffsetToTimeShiftConfig(timeShift, timeConfig) {
+const defaultTimeShiftConfig: TimeShift = {
+  offset: 0
+};
+export function translateOffsetToTimeShiftConfig(
+  timeShift: TimeShiftOffset | TimeShift,
+  timeConfig: TimeConfig
+): TimeShift {
   if (timeShift == null) {
-    return defaultTimeShift;
+    return defaultTimeShiftConfig;
   } else if (typeof timeShift === 'number') {
     return {
       offset: timeShift
@@ -90,10 +107,10 @@ export function translateOffsetToTimeShiftConfig(timeShift, timeConfig) {
     return translateOffsetToTimeShiftConfig(timeShift.offset, timeConfig);
   }
 
-  return defaultTimeShift;
+  return defaultTimeShiftConfig;
 }
 
-export function getTimeShiftLabel(timeShift) {
+export function getTimeShiftLabel(timeShift: TimeShift): string {
   if (!timeShift) {
     return defaultTimeShift.label;
   }
@@ -105,5 +122,5 @@ export function getTimeShiftLabel(timeShift) {
     }
   }
 
-  return `Previous ${formatDuration(Math.abs(timeShift.offset))}`;
+  return t('in-stores:time.shiftingCustomDuration', { duration: formatDuration(Math.abs(timeShift.offset)) });
 }

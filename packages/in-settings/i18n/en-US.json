@@ -315,6 +315,7 @@
     "canBeFoundFromTheLogdnaUrl": "Can be found from the URL: <strong>https://app.logdna.com/account_id/</strong>.",
     "canBeFoundFromTheIbmCloudUrl": "Can be found from the URL: <strong>https://cloud.ibm.com/observe/embedded-view/logging/dashboard_id</strong>.",
     "logDnaInstance": "Provider",
+    "invalidLogDnaId": "The Account/Dashboard ID must only contain letters, numbers and -.",
     "configureYourSplunkSettings": "Configure your Splunk settings",
     "splunkExampleForAnInternalInstance": "Example: <strong>https://cloud.splunk.com</strong> or <strong>http://192.168.1.128:443</strong> for an internal instance.",
     "spaceBetweenGroupsInXDirection": "Space between groups in x direction ({{packingXSpace}})",

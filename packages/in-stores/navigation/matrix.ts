@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Location, MatrixParameterDefinition } from 'in-stores/navigation/types';
+import invariant from 'invariant';
+
+import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { parse, stringify } from 'in-services/util/json';
 import { emptyObject } from 'in-services/fixedObjects';
 import { isBlank } from 'in-services/util/string';
@@ -12,11 +14,8 @@ export function getMatrixParameter(location: Location, path: string, key: string
   return (location.matrix[path] || emptyObject)[key];
 }
 
-export function setOrDeleteMatrixParameter<T>(
-  location: Location,
-  matrixParameter: MatrixParameterDefinition<T>,
-  value?: T
-) {
+export function setOrDeleteMatrixParameter<T>(location: Location, matrixParameter: ParameterDefinition<T>, value?: T) {
+  invariant(matrixParameter.path, 'This function can only be used for matrix parameter (you used a query parameter)');
   setOrDeleteMatrixKey(
     location,
     matrixParameter.path,

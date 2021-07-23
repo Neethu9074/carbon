@@ -3651,12 +3651,22 @@ export type AlertingApplicationBoundaryScope = 'ALL' | 'INBOUND';
 
 export type ApplicationBoundaryScope = 'ALL' | 'INBOUND';
 
+export type ApplicationDataSource = 'CALLS' | 'TRACES';
+
 export type ApplicationDownstreamScope =
   | 'INCLUDE_NO_DOWNSTREAM'
   | 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
   | 'INCLUDE_ALL_DOWNSTREAM';
 
 export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
+
+export type CatalogUseCase =
+  | 'GROUPING'
+  | 'FILTERING'
+  | 'SMART_ALERTS'
+  | 'SLI_MANAGEMENT'
+  | 'APPLICATION_CONFIG'
+  | 'APPLICATION_CONFIG_BLUEPRINT';
 
 export type ContextScope = 'NONE' | 'UPSTREAM' | 'DOWNSTREAM';
 

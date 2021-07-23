@@ -19,7 +19,7 @@ import { Result } from 'in-types';
 const logger = createLogger('xhrService');
 
 interface QueryParams {
-  [k: string]: string;
+  [k: string]: string | number | boolean | undefined | null;
 }
 
 interface HttpRequestOptions {

@@ -60,7 +60,7 @@
     "url": "https://github.com/instana/ui-client.git"
   },
   "dependencies": {
-    "@instana/components": "^1.29.2",
+    "@instana/components": "^1.29.3",
     "@instana/format-date": "^1.1.7",
     "@instana/format-numbers": "^1.1.1",
     "@instana/hooks": "^1.4.7",

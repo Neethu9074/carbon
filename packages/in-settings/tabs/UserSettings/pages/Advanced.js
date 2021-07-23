@@ -9,7 +9,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Toggle } from '@instana/components';
 
-import { enableShowInternalTags, isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
+import { setShowInternalTags, isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import { showUserSettingInternalTagsInUA } from 'in-services/featureFlags';
@@ -207,7 +207,7 @@ export default function UiConfigAdvancedPage() {
               <Toggle
                 id="ua-show-internal-tags"
                 checked={isShowInternalTagsEnabled}
-                onChange={e => enableShowInternalTags(e.target.checked)}
+                onChange={e => setShowInternalTags(e.target.checked)}
               />
             </HorizontalFormGroup>
           </div>
