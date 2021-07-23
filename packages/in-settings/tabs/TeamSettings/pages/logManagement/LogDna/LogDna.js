@@ -11,12 +11,12 @@ import { Toggle } from '@instana/components';
 
 import IbmCloudLogDnaForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/IbmCloudLogDnaForm';
 import LogDnaSaasForm from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDnaSaasForm';
+import { validLogDnaId } from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/validation';
 import { teamSettingsLogManagementLogDna } from 'in-settings/navigation/paths';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { integrationKey } from 'in-integrations/logging/logdna/consts';
 import { refresh } from 'in-integrations/logging/configurationsStore';
-import { notBlankValidator } from 'in-services/validators/string';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -131,6 +131,7 @@ export default class LogDna extends React.Component {
                       id="logdna-selected-instance"
                       value={field.value}
                       onChange={e => this.onChange('instanceType', e.target.value)}
+                      disabled={!enabled}
                     >
                       <option value="LOG_DNA_SAAS">LogDNA SaaS</option>
                       <option value="IBM_CLOUD">IBM Cloud Log Analysis</option>
@@ -144,14 +145,14 @@ export default class LogDna extends React.Component {
               <LogDnaSaasForm
                 form={form}
                 onChange={this.onChange}
-                areFieldsBlank={areFieldsBlank(form)}
+                areFieldsInvalid={areFieldsInvalid(form)}
                 disabled={!enabled}
               />
             ) : (
               <IbmCloudLogDnaForm
                 form={form}
                 onChange={this.onChange}
-                areFieldsBlank={areFieldsBlank(form)}
+                areFieldsInvalid={areFieldsInvalid(form)}
                 disabled={!enabled}
               />
             )}
@@ -161,7 +162,7 @@ export default class LogDna extends React.Component {
               message={message}
               loading={loading}
               hasCancelButton={false}
-              saveEnabled={!enabled || !areFieldsBlank(form)}
+              saveEnabled={!enabled || !areFieldsInvalid(form)}
             />
           </form>
         )}
@@ -227,14 +228,14 @@ function createForm(integration) {
     .put(
       'accountId',
       createField({
-        value: integration ? integration['accountId'] : ''
+        value: integration ? integration['accountId'] : '',
+        validator: validLogDnaId
       })
     )
     .put(
       'instanceType',
       createField({
-        value: integration && integration['instanceType'] ? integration['instanceType'] : 'LOG_DNA_SAAS',
-        validator: notBlankValidator
+        value: integration && integration['instanceType'] ? integration['instanceType'] : 'LOG_DNA_SAAS'
       })
     )
     .put(
@@ -253,6 +254,6 @@ function Heading({ text, htmlFor }) {
   );
 }
 
-function areFieldsBlank(form) {
-  return isBlank(form.get('accountId').value);
+function areFieldsInvalid(form) {
+  return isBlank(form.get('accountId').value) || validLogDnaId(form.get('accountId').value);
 }
