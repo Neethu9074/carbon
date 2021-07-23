@@ -14,12 +14,12 @@ import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
 import createObservableResult from 'in-services/http/observableHttpResult';
 import HttpResponseError from 'in-services/http/HttpResponseError';
 import { Response } from 'in-services/http/types';
-import { Result } from 'in-types/backend';
+import { Result } from 'in-types';
 
 const logger = createLogger('xhrService');
 
 interface QueryParams {
-  [k: string]: string;
+  [k: string]: string | number | boolean | undefined | null;
 }
 
 interface HttpRequestOptions {

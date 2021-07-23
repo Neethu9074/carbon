@@ -4,17 +4,35 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIconSizes } from '@instana/components';
 
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 
+// @ts-expect-error
 import locals from './LoadingIndicator.mless';
 
-export default function LoadingIndicator({ size = 'xl', title, text, className, width, height, style }) {
-  if (height < 80) {
+export interface LoadingIndicatorProps {
+  size: keyof typeof SvgIconSizes;
+  title?: string;
+  text?: string;
+  className?: string;
+  width?: number;
+  height?: number;
+  style?: Record<string, string | number>;
+}
+
+export default function LoadingIndicator({
+  size = 'xl',
+  title,
+  text,
+  className,
+  width,
+  height,
+  style
+}: LoadingIndicatorProps) {
+  if (height && height < 80) {
     size = 'regular';
   }
   return (
@@ -27,13 +45,3 @@ export default function LoadingIndicator({ size = 'xl', title, text, className, 
     </div>
   );
 }
-
-LoadingIndicator.propTypes = {
-  size: PropTypes.oneOf(Object.keys(SvgIconSizes)),
-  title: PropTypes.string,
-  text: PropTypes.string,
-  className: PropTypes.string,
-  height: PropTypes.number,
-  width: PropTypes.number,
-  style: PropTypes.object
-};

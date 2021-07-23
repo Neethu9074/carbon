@@ -41,7 +41,6 @@
     ],
     "packages/**/*.{ts,tsx}": [
       "./build/cli-tools/node_modules/.bin/import-sort --write",
-      "echo",
       "eslint --fix",
       "prettier --write"
     ]
@@ -60,9 +59,9 @@
     "url": "https://github.com/instana/ui-client.git"
   },
   "dependencies": {
-    "@instana/components": "^1.29.3",
-    "@instana/format-date": "^1.1.7",
-    "@instana/format-numbers": "^1.1.1",
+    "@instana/components": "^1.30.1",
+    "@instana/format-date": "^1.2.0",
+    "@instana/format-numbers": "^1.2.0",
     "@instana/hooks": "^1.4.7",
     "@instana/i18n": "^1.2.0",
     "@instana/i18n-react": "^1.1.6",

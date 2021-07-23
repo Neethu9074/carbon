@@ -5,7 +5,7 @@
 
 import { Observable, DelayedStopTti } from '@instana/observables';
 
-export type ObservableCreator<ARG, RESULT> = (arg?: ARG) => Observable<RESULT>;
+export type ObservableCreator<ARG, RESULT> = (arg: ARG) => Observable<RESULT>;
 export type IdGenerator<ARG> = (arg: ARG) => string;
 export type TtiGenerator<ARG, RESULT> = (arg: ARG[], lastEmittedValue?: RESULT) => number;
 

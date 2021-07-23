@@ -38,7 +38,7 @@ const cases = [
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
           beaconType: 'pageLoad',
-          tagFilterExpression: '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~value~Product)~',
+          tagFilterExpression: '!(name~beacon.website.name~operator~EQUALS~type~TAG*_FILTER~value~Product)~',
           groupBy: '(groupbyTag~beacon.website.name)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~earliestTimestamp~direction~ASC)~'
@@ -70,7 +70,7 @@ const cases = [
         '/websiteMonitoring': {},
         '/analyzeBeacons': {
           beaconType: 'pageLoad',
-          tagFilterExpression: '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~value~Product)~',
+          tagFilterExpression: '!(name~beacon.website.name~operator~EQUALS~type~TAG*_FILTER~value~Product)~',
           groupBy: '(groupbyTag~beacon.website.name)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~',
           orderByGroups: '(by~firstPaintTime*_P90~direction~DESC)~'
@@ -104,7 +104,7 @@ const cases = [
         '/analyzeBeacons': {
           beaconType: 'pageLoad',
           tagFilterExpression:
-            '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~value~*/home)~',
+            '!(name~beacon.website.name~operator~EQUALS~type~TAG*_FILTER~value~Product)(type~CONJUNCTION~logicalOperator~AND)(name~beacon.page.name~operator~EQUALS~type~TAG*_FILTER~value~*/home)~',
           orderBy: '(by~timestamp~direction~ASC)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }
@@ -137,7 +137,7 @@ const cases = [
         '/analyzeBeacons': {
           beaconType: 'pageLoad',
           tagFilterExpression:
-            '!(type~TAG*_FILTER~name~beacon.website.name~operator~EQUALS~value~Product)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~beacon.page.name~operator~EQUALS~value~*/home)~',
+            '!(name~beacon.website.name~operator~EQUALS~type~TAG*_FILTER~value~Product)(type~CONJUNCTION~logicalOperator~AND)(name~beacon.page.name~operator~EQUALS~type~TAG*_FILTER~value~*/home)~',
           orderBy: '(by~beacon.timing.firstPaint~direction~DESC)~',
           chartedMetrics: '!(metricId~beaconCount~aggregationId~SUM)~'
         }

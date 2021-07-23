@@ -7,11 +7,13 @@ export interface Parameters {
   [key: string]: string;
 }
 
-export interface MatrixParameterDefinition<T> {
-  path: string;
+export interface ParameterDefinition<T> {
+  path?: string;
   name: string;
-  serializer?: (v: T) => string;
-  parser?: (str: string) => T | undefined;
+  as?: string;
+  serializer?: (v: T) => string | undefined | null;
+  parser?: (str?: string) => T | undefined | null;
+  initialState?: T;
 }
 
 export interface MatrixParameters {

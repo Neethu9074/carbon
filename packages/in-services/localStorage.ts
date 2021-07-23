@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-function isLocalStorageNameSupportedFn() {
+function isLocalStorageSupportedFn() {
   var testKey = 'test';
 
   // Apparently this is by design. When Safari (OS X or iOS) is in private browsing mode,
@@ -17,16 +17,16 @@ function isLocalStorageNameSupportedFn() {
   }
 }
 
-const isLocalStorageNameSupported = isLocalStorageNameSupportedFn();
+const isLocalStorageSupported = isLocalStorageSupportedFn();
 
-export function trySet(key, value) {
-  if (isLocalStorageNameSupported) {
+export function trySet(key: string, value: string) {
+  if (isLocalStorageSupported) {
     localStorage.setItem(key, value);
   }
 }
 
-export function tryGet(key) {
-  if (isLocalStorageNameSupported) {
+export function tryGet(key: string): string | null {
+  if (isLocalStorageSupported) {
     return localStorage.getItem(key);
   }
   return null;

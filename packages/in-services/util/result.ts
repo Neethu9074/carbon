@@ -8,7 +8,7 @@ import deepFreeze from 'deep-freeze-strict';
 import { just } from '@instana/observables';
 
 import { emptyArray, finishedProgress, pendingResult } from 'in-services/fixedObjects';
-import { PaginatedResult, Result, Error } from 'in-types/backend';
+import { PaginatedResult, Result, Error } from 'in-types';
 
 export function mapData<IN, OUT>(result: Result<IN>, fn: (data: IN) => OUT): Result<OUT> {
   if (result.data != null) {
@@ -56,11 +56,13 @@ export function errorWithData<T>(errors: Error[], data: T, time = Date.now()): R
   });
 }
 
-export function listSuccess<T>(data: T[],
-    totalHits = data.length,
-    pageSize = data.length,
-    page = 0,
-    time = Date.now()): Result<PaginatedResult<T>> {
+export function listSuccess<T>(
+  data: T[],
+  totalHits = data.length,
+  pageSize = data.length,
+  page = 0,
+  time = Date.now()
+): Result<PaginatedResult<T>> {
   return success(
     {
       items: data,

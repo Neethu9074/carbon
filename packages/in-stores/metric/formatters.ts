@@ -6,7 +6,15 @@
 import { number, percentage, bytes, millis, siPrefix, latency, fourDecimalPlaces } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
-export const defaultFormatter = {
+export type FormatterFn = (n: number) => string | undefined | null;
+
+export interface Formatter {
+  id: string;
+  label: string;
+  formatter: FormatterFn;
+}
+
+export const defaultFormatter: Formatter = {
   id: 'number.detailed',
   label: t('in-stores:metric.formatterLabelNumber', { example: number.detailed(42.15) }),
   formatter: number.detailed
@@ -19,7 +27,7 @@ export const defaultFormatter = {
 // is millis, micros, nanos, seconds, minutes…
 // Consider cleaning this up for users instead of exposing them to our
 // failure to consistently model the data.
-export const publicFormatters = [
+export const publicFormatters: Formatter[] = [
   {
     id: 'number.compact',
     label: t('in-stores:metric.formatterLabelNumber', { example: number.compact(42.15) }),
@@ -74,17 +82,18 @@ export const publicFormatters = [
 ];
 
 // These formatters should not be selectable by end-users.
-const privateFormatters = [
+const privateFormatters: Formatter[] = [
   {
     id: 'fourDecimalPlaces.detailed',
+    label: t('in-stores:metric.formatterLabelNumber', { example: fourDecimalPlaces(42.15) }),
     formatter: fourDecimalPlaces
   }
 ];
 
-const allFormatters = [...publicFormatters, ...privateFormatters];
+const allFormatters: Formatter[] = [...publicFormatters, ...privateFormatters];
 
 export const publicFormatterIds = Object.values(publicFormatters).map(c => c.id);
 
-export function getFormatter(formatterId) {
+export function getFormatter(formatterId: string): FormatterFn {
   return (allFormatters.find(({ id }) => id === formatterId) || defaultFormatter).formatter;
 }

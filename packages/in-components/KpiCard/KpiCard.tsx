@@ -3,22 +3,44 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { SvgIcon, Button, Link, ButtonKinds } from '@instana/components';
+import { Observable } from '@instana/observables';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
 
+// @ts-ignore
 import locals from './KpiCard.mless';
 
 const valueSplitRegExp = new RegExp(`^([0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
+
+export interface IconAction {
+  text: string;
+  icon: string;
+  kind?: keyof typeof ButtonKinds;
+  href$: Observable<string>;
+  onClick?: (e: any) => void;
+}
+
+export interface KpiCardProps {
+  title: string;
+  value?: any;
+  actions?: ReactNode;
+  companionValue?: ReactNode;
+  raw?: boolean;
+  renderValue?: (value?: any) => ReactNode;
+  valuesClassName?: string;
+  borderless?: boolean;
+  color?: string;
+  useMaxAvailableHeight?: boolean;
+  iconAction?: IconAction;
+}
 
 export default function KpiCard({
   title,
@@ -32,8 +54,8 @@ export default function KpiCard({
   color,
   useMaxAvailableHeight = true,
   iconAction
-}) {
-  const { ref, width } = useResizeObserver();
+}: KpiCardProps) {
+  const { ref, width } = useResizeObserver<HTMLDivElement>();
 
   let content;
   if (raw || renderValue) {
@@ -78,7 +100,7 @@ export default function KpiCard({
           <div
             className={classNames({
               [locals.actionWrapper]: true,
-              [locals.showLongVariantOnHover]: width > 300
+              [locals.showLongVariantOnHover]: width != null && width > 300
             })}
           >
             <Tooltip content={iconAction.text}>

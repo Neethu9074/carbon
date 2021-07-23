@@ -11,7 +11,7 @@ module.exports = {
   rules: {
     ...createImportRestrictionRule({
       enforceAbsoluteImportPaths: true,
-      allowedInPackages: []
+      allowedInPackages: ['in-types']
     })
   }
 };

@@ -9,18 +9,32 @@ import { debounce } from 'lodash';
 
 import { emptyObject } from 'in-services/fixedObjects';
 
+interface ObservedSize {
+  width?: number | undefined;
+  height?: number | undefined;
+}
+type ResizeHandler = (size: ObservedSize) => void;
+
+export interface Options {
+  millis?: number;
+}
+
 // Implements the wrapper around use-resize-observer that is recommended by the project
 // itself when one wants to:
 //
 // a) Decouple resize observation processing from the resize event itself (via requestAnimationFrame)
 // b) Avoid too many events (via debounce)
-export default function useResizeObserverCustom({ millis = 100 } = emptyObject) {
+export default function useResizeObserverCustom<ElementType extends HTMLElement>({
+  millis = 100
+}: Options = emptyObject) {
   // To allow detection of an unmounted component so that we do not call setState when the
   // component is unmounted.
-  const isUnmountedRef = useRef();
+  const isUnmountedRef = useRef(false);
   useEffect(() => {
     isUnmountedRef.current = false;
-    return () => (isUnmountedRef.current = true);
+    return () => {
+      isUnmountedRef.current = true;
+    };
   });
 
   // On first render of a component the onResize function wouldn't trigger an update leading to returning
@@ -31,11 +45,11 @@ export default function useResizeObserverCustom({ millis = 100 } = emptyObject) 
   // before next paint.
   const firstLoad = useRef(true);
 
-  const [state, setState] = useState(emptyObject);
-  const onResize = useMemo(
+  const [state, setState] = useState<ObservedSize>(emptyObject);
+  const onResize: ResizeHandler = useMemo<ResizeHandler>(
     () =>
       debounce(
-        newState => {
+        (newState: ObservedSize) => {
           // Update state immediately on first render
           if (firstLoad.current) {
             firstLoad.current = false;
@@ -54,6 +68,6 @@ export default function useResizeObserverCustom({ millis = 100 } = emptyObject) 
       ),
     [millis]
   );
-  const { ref } = useResizeObserver({ onResize });
+  const { ref } = useResizeObserver<ElementType>({ onResize });
   return { ref, ...state };
 }

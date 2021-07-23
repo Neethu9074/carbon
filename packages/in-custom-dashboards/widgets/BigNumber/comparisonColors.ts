@@ -6,35 +6,42 @@
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-export const green = {
+export interface ComparisonColor {
+  id: string;
+  label: string;
+  backgroundColor: string;
+  foregroundColor: string;
+}
+
+export const green: ComparisonColor = {
   id: 'greenish',
   label: t('in-custom-dashboards:widgets.bigNumber.comparisonColors.green'),
   backgroundColor: theme.lib.colors.green800,
   foregroundColor: '#ffffff'
 };
 
-export const red = {
+export const red: ComparisonColor = {
   id: 'redish',
   label: t('in-custom-dashboards:widgets.bigNumber.comparisonColors.red'),
   backgroundColor: theme.lib.colors.red800,
   foregroundColor: '#ffffff'
 };
 
-export const yellow = {
+export const yellow: ComparisonColor = {
   id: 'yellowish',
   label: t('in-custom-dashboards:widgets.bigNumber.comparisonColors.yellow'),
   backgroundColor: theme.lib.colors.yellow800,
-  foregroundColor: theme.lib.colors.lib__colors__N900Primary
+  foregroundColor: theme.lib.colors.N900Primary
 };
 
-export const orange = {
+export const orange: ComparisonColor = {
   id: 'orangish',
   label: t('in-custom-dashboards:widgets.bigNumber.comparisonColors.orange'),
   backgroundColor: theme.lib.colors.orange800,
   foregroundColor: '#ffffff'
 };
 
-export const blue = {
+export const blue: ComparisonColor = {
   id: 'blueish',
   label: t('in-custom-dashboards:widgets.bigNumber.comparisonColors.blue'),
   backgroundColor: theme.lib.colors.blue800,
