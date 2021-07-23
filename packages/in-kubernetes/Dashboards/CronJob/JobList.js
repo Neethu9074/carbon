@@ -206,7 +206,8 @@ export default function Jobs(props) {
   );
 }
 
-function JobList({ query, cronJobId, timeConfig, orderBy, orderDirection, props }) {
+function JobList(props) {
+  const { query, cronJobId, timeConfig, orderBy, orderDirection } = props;
   const jobsResult = useCursorPagination(
     ({ cursor }) =>
       getTableData({
@@ -231,6 +232,7 @@ function JobList({ query, cronJobId, timeConfig, orderBy, orderDirection, props 
   } else if (hasErrors) {
     return <ErroneousResultPresenter errors={jobsResult.errors} />;
   }
+
   return (
     <Ul>
       {items.map((item, index) => (
