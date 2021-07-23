@@ -103,43 +103,6 @@ export default function UngroupedAnalyzeView(props) {
 
   return (
     <>
-      {!withoutHeader && (
-        <Header
-          {...props}
-          order={orderBy}
-          totalHits={totalHits}
-          totalRepresentedItemCount={totalRepresentedItemCount}
-          setOrder={onOrderByChange}
-          availableMetrics={hideMetricAndSortingConfigurator ? [] : availableMetrics}
-          metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
-          setMetrics={metrics =>
-            onSelectableFieldsChange(
-              metrics.map(metric => ({
-                // Converting metrics to fields by adding the type
-                metricId: metric.metric,
-                aggregationId: metric.aggregation,
-                type: metricType
-              }))
-            )
-          }
-          withSamplingTooltip={withSamplingTooltip}
-          withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
-          tracking={{
-            onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
-            onMetricAggregationChanged: ({ metric, aggregation }) =>
-              ua2MetricAddedTracker({ dataSource, metric, aggregation }),
-            onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
-          }}
-          MetricConfiguratorHint={({ metricId }) => (
-            <GroupedViewOnlyIndicator
-              metricId={metricId}
-              getHasRawValue={ungroupedViewConfiguration.metricFieldExtractors?.hasRawValue}
-              metricCatalog={metricCatalog}
-            />
-          )}
-        />
-      )}
-
       <div className={locals.facetedSearchResultContainer}>
         {facetedSearchItems?.length > 0 && (
           <FacetedSearch
@@ -174,6 +137,43 @@ export default function UngroupedAnalyzeView(props) {
           />
         )}
         <div className={locals.resultContainer}>
+          {!withoutHeader && (
+            <Header
+              {...props}
+              order={orderBy}
+              totalHits={totalHits}
+              totalRepresentedItemCount={totalRepresentedItemCount}
+              setOrder={onOrderByChange}
+              availableMetrics={hideMetricAndSortingConfigurator ? [] : availableMetrics}
+              metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
+              setMetrics={metrics =>
+                onSelectableFieldsChange(
+                  metrics.map(metric => ({
+                    // Converting metrics to fields by adding the type
+                    metricId: metric.metric,
+                    aggregationId: metric.aggregation,
+                    type: metricType
+                  }))
+                )
+              }
+              withSamplingTooltip={withSamplingTooltip}
+              withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
+              tracking={{
+                onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+                onMetricAggregationChanged: ({ metric, aggregation }) =>
+                  ua2MetricAddedTracker({ dataSource, metric, aggregation }),
+                onMetricRemoved: ({ metric, aggregation }) =>
+                  ua2MetricRemovedTracker({ dataSource, metric, aggregation })
+              }}
+              MetricConfiguratorHint={({ metricId }) => (
+                <GroupedViewOnlyIndicator
+                  metricId={metricId}
+                  getHasRawValue={ungroupedViewConfiguration.metricFieldExtractors?.hasRawValue}
+                  metricCatalog={metricCatalog}
+                />
+              )}
+            />
+          )}
           <Presenter
             {...props}
             isLoading={isLoading}

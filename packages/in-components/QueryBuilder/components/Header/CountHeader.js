@@ -83,6 +83,7 @@ function Presenter({
 }) {
   const { containsHistoricData, retention } = historicOrLargeDataResult ?? emptyObject;
   const showSamplingTooltip = withSamplingTooltip && !samplingIndicatorEnabled && containsHistoricData;
+
   return (
     <div className={locals.header}>
       <div className={locals.topTextWithTooltip}>
@@ -102,7 +103,7 @@ function Presenter({
           </Tooltip>
         )}
       </div>
-      <span className={locals.bottomText}>{bottomText}</span>
+      {bottomText ? <span className={locals.bottomText}>{bottomText}</span> : null}
     </div>
   );
 }
