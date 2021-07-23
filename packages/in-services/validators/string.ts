@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ValidationResult } from 'formalistic';
+
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-export function stringMaxLengthValidator(maxLength = 128) {
-  return str => {
+export function stringMaxLengthValidator(maxLength = 128): ((str?: any) => ValidationResult) {
+  return (str?: any) => {
     if (typeof str === 'string' && str.length > maxLength) {
       return [
         {
@@ -23,7 +25,7 @@ export function stringMaxLengthValidator(maxLength = 128) {
 // A variation to formalistic's default notBlankValidator which does
 // not break for non-string types. Useful to validate fields which
 // can either contain strings/numbers/boolean values.
-export function notBlankValidator(str) {
+export function notBlankValidator(str?: any): ValidationResult {
   if (str == null || (typeof str === 'string' && isBlank(str))) {
     return [
       {
