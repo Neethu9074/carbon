@@ -41,7 +41,6 @@
     ],
     "packages/**/*.{ts,tsx}": [
       "./build/cli-tools/node_modules/.bin/import-sort --write",
-      "echo",
       "eslint --fix",
       "prettier --write"
     ]

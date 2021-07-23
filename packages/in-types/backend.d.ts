@@ -345,6 +345,14 @@ export interface Cursorific<T> {
   readonly cursor?: T;
 }
 
+export interface CustomPayloadConfiguration {
+  readonly fields: CustomPayloadField[];
+}
+
+export interface CustomPayloadConfigurationWithLastUpdated extends CustomPayloadConfiguration {
+  readonly lastUpdated: number;
+}
+
 export interface CustomPayloadField {
   readonly key: string;
   readonly type: string;
