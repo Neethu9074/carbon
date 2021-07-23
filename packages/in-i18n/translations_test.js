@@ -10,6 +10,8 @@ const { difference, get, unset } = require('lodash');
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
+const typescript = require('typescript');
+// import { transpileModule } from 'typescript/lib/typescript.js';
 
 const DEFAULT_NAMESPACE = 'in-i18n';
 
@@ -127,7 +129,28 @@ function getAllI18nKeys() {
 
     parser.parseFuncFromString(content, { list: ['t'] }, key => keys.add(key));
     for (const component of transLikeComponentToCheckForKeys) {
-      parser.parseTransFromString(content, { component, i18nKey: 'i18nKey' }, key => keys.add(key));
+      const { ext, base } = path.parse(filePath);
+      /**
+       * i18next-scanner doesn't check for <Trans /> component inside typescript files
+       * Open issue: https://github.com/i18next/i18next-scanner/issues/88
+       * To achieve this we need to transpile the tsx files to Js before scanning them
+       * Reference: https://github.com/nucleartux/i18next-scanner-typescript/blob/master/src/index.js
+       */
+      if (['.tsx'].includes(ext) && !base.includes('.d.ts')) {
+        try {
+          const { outputText } = typescript.transpileModule(content, {
+            compilerOptions: {
+              target: 'esnext'
+            },
+            fileName: base
+          });
+          parser.parseTransFromString(outputText, { component, i18nKey: 'i18nKey' }, key => keys.add(key));
+        } catch (e) {
+          throw new Error(e);
+        }
+      } else {
+        parser.parseTransFromString(content, { component, i18nKey: 'i18nKey' }, key => keys.add(key));
+      }
     }
   }
 
