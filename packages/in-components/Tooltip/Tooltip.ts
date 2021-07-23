@@ -107,7 +107,7 @@ export default function Tooltip({ align = 'auto', delay = 0, themeStyle, childre
     [align, delay, themeStyle, content]
   );
 
-  return Children.map(children, child => cloneElement(child, { ref }));
+  return cloneElement(Children.only(children), { ref });
 }
 
 Tooltip.propTypes = {
