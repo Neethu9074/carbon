@@ -5,7 +5,7 @@
 
 export const stickyWrapperClassName = 'sticky-wrapper';
 
-export function withDisabledStickyBodyTopPadding(fn: () => {}) {
+export function withDisabledStickyBodyTopPadding(fn: () => void) {
   const elements = [...document.querySelectorAll(`.${stickyWrapperClassName}`)] as HTMLElement[];
 
   // unset padding top and remember correct value

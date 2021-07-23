@@ -7,16 +7,16 @@ import { isInStickyBody, withDisabledStickyBodyTopPadding } from 'in-components/
 
 const supportsTransformWithOutPrefix = 'transform' in document.body.style;
 
-export function applyTransform(ele, transform) {
+export function applyTransform(ele: HTMLElement, transform: string) {
   if (!supportsTransformWithOutPrefix) {
     // required for Safari (2015-08-24)
-    ele.style['-webkit-transform'] = transform;
+    ele.style.webkitTransform = transform;
   } else {
     ele.style.transform = transform;
   }
 }
 
-export function scrollIntoView(element, options = {}) {
+export function scrollIntoView(element: HTMLElement, options: ScrollIntoViewOptions = {}) {
   if (!element) {
     return;
   }
@@ -52,14 +52,14 @@ export function scrollToTopSmoothly() {
   }
 }
 
-export function scrollToTop(domElement) {
+export function scrollToTop(domElement: HTMLElement) {
   if (domElement.scrollTo) {
     domElement.scrollTo(0, 0);
   }
 }
 
 // Calculate the position of an element relative to the document root.
-export function getCoords(elem) {
+export function getCoords(elem: HTMLElement) {
   const box = elem.getBoundingClientRect();
 
   const body = document.body;
@@ -77,18 +77,18 @@ export function getCoords(elem) {
   return { top: Math.round(top), left: Math.round(left) };
 }
 
-export function findParentNodeByClassName(node, className) {
-  while (node != null && node !== document) {
+export function findParentNodeByClassName(node: HTMLElement | null, className: string) {
+  while (node != null) {
     if (node.classList.contains(className)) {
       return node;
     }
-    node = node.parentNode;
+    node = node.parentElement;
   }
   return null;
 }
 
 // lazy load this calculation because getComputedStyle is unknown under node environment (which is used for tests)
-let defaultFontSize = null;
+let defaultFontSize: number | null = null;
 function getDefaultFontSize() {
   if (!defaultFontSize) {
     defaultFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
@@ -101,11 +101,11 @@ export function getFactor() {
   return 16 / getDefaultFontSize();
 }
 
-export function convertRemToPx(rem) {
+export function convertRemToPx(rem: number) {
   return rem * getDefaultFontSize();
 }
 
-export function getInteractiveElements(parent) {
+export function getInteractiveElements(parent: HTMLElement) {
   return Array.prototype.slice
     .call(parent.querySelectorAll('a, button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'))
     .filter(element => !element.hasAttribute('disabled') && element.clientWidth > 0);

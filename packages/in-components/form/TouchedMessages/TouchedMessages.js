@@ -11,22 +11,12 @@ import { Trans } from 'in-i18n';
 // @ts-expect-error
 import locals from './TouchedMessages.mless';
 
-export interface TouchedMessagesProps {
-  field: Record<string, any>;
-  className: string;
-}
-
-interface FieldMessage {
-  path: string;
-  message: string;
-}
-
-export default function TouchedMessages({ field, className }: TouchedMessagesProps) {
+export default function TouchedMessages({ field, className }) {
   if (!field?.hierarchyTouched) {
     return null;
   }
 
-  return field.messages.map((message: FieldMessage, i: number) => {
+  return field.messages.map((message, i) => {
     if (message.path) {
       return (
         <ValidationBlock key={i} className={className}>
