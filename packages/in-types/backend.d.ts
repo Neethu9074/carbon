@@ -101,7 +101,8 @@ export interface AppDataEntityChainItem extends Cursorific<IngestionOffsetCursor
   readonly cursor: IngestionOffsetCursor;
 }
 
-export interface AppDataMetricConfiguration extends MetricConfiguration {}
+export interface AppDataMetricConfiguration extends MetricConfiguration {
+}
 
 export interface Application {
   readonly boundaryScope: string;
@@ -290,9 +291,11 @@ export interface CloudfoundryQueryFilter extends FilterInterface {
   readonly timeConfig: TimeConfig;
 }
 
-export interface Comparable<T> {}
+export interface Comparable<T> {
+}
 
-export interface Comparator<T> {}
+export interface Comparator<T> {
+}
 
 export interface ComponentStatus {
   readonly conditionMessage?: string;
@@ -311,7 +314,8 @@ export interface ContextGuideGroup {
   readonly type: string;
 }
 
-export interface Cursor {}
+export interface Cursor {
+}
 
 export interface CursorPaginatedQuery extends UiQuery {
   readonly pagination?: CursorPagination<any>;
@@ -364,7 +368,8 @@ export interface DatabaseStatementTopListItem {
   readonly statement: string;
 }
 
-export interface DefaultComparator extends Comparator<any> {}
+export interface DefaultComparator extends Comparator<any> {
+}
 
 export interface Dependency {
   readonly direction?: string;
@@ -389,7 +394,8 @@ export interface DomainSpecificStack {
   readonly healthInfo?: HealthInfo;
 }
 
-export interface DomainSpecificStackBuilder {}
+export interface DomainSpecificStackBuilder {
+}
 
 export interface DynamicField extends CustomPayloadField {
   readonly value: DynamicFieldValue;
@@ -443,7 +449,8 @@ export interface EndpointPreview {
   readonly label: string;
 }
 
-export interface EndpointQueryConstants {}
+export interface EndpointQueryConstants {
+}
 
 export interface EndpointTypeSummary {
   readonly metrics: { [index: string]: number[][] };
@@ -455,7 +462,8 @@ export interface EntityHealthInfo {
   readonly openIssues: Event[];
 }
 
-export interface EntityHealthInfoComparator extends Comparator<EntityHealthInfo> {}
+export interface EntityHealthInfoComparator extends Comparator<EntityHealthInfo> {
+}
 
 export interface EntityId extends Comparable<EntityId> {
   readonly host: string;
@@ -473,7 +481,8 @@ export interface ErrorMessageItem {
   readonly metrics: { [index: string]: number[][] };
 }
 
-export interface ErrorRateApplicationAlertRule extends ApplicationAlertRule {}
+export interface ErrorRateApplicationAlertRule extends ApplicationAlertRule {
+}
 
 export interface Event {
   readonly end?: number;
@@ -496,7 +505,8 @@ export interface EventMetricConfiguration extends UnifiedMetricConfiguration {
   readonly includeK8sInfoEvents: boolean;
 }
 
-export interface EventMetricsCatalog {}
+export interface EventMetricsCatalog {
+}
 
 export interface ExtendedMetricsTimeConfig extends TimeConfig {
   readonly autoRefresh: boolean;
@@ -505,7 +515,8 @@ export interface ExtendedMetricsTimeConfig extends TimeConfig {
   readonly windowSize: number;
 }
 
-export interface Fields {}
+export interface Fields {
+}
 
 export interface Filter extends FilterInterface {
   readonly application?: string;
@@ -544,7 +555,8 @@ export interface FilterInterface {
   readonly timeConfig?: TimeConfig;
 }
 
-export interface FilterableListItem {}
+export interface FilterableListItem {
+}
 
 export interface FilteredQuery extends UiQuery {
   readonly filter?: FilterInterface;
@@ -671,10 +683,7 @@ export interface GetApplicationServiceIdForKubernetesServiceUidQuery extends UiQ
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetApplicationsCursorPaginatedQuery
-  extends CursorPaginatedQuery,
-    QueryWithMetrics,
-    QueryWithPrecision {
+export interface GetApplicationsCursorPaginatedQuery extends CursorPaginatedQuery, QueryWithMetrics, QueryWithPrecision {
   readonly contextScope?: ContextScope;
   readonly filter: Filter;
   readonly metrics: { [index: string]: AppDataMetricConfiguration };
@@ -725,7 +734,8 @@ export interface GetCallGroupsQuery extends CursorPaginatedQuery, FilteredQuery,
   readonly timeShift: TimeShift;
 }
 
-export interface GetCallGroupsQueryBuilder {}
+export interface GetCallGroupsQueryBuilder {
+}
 
 export interface GetCallsQuery extends CursorPaginatedQuery, FilteredQuery, QueryWithPrecision {
   readonly filter: Filter;
@@ -823,7 +833,8 @@ export interface GetEntityHealthQuery extends UiQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetErrorMessagesMetricConfiguration extends MetricConfiguration {}
+export interface GetErrorMessagesMetricConfiguration extends MetricConfiguration {
+}
 
 export interface GetErrorMessagesQuery extends PaginatedQuery {
   readonly filter: Filter;
@@ -1292,7 +1303,8 @@ export interface GetProfilesQuery extends FilteredQuery {
   readonly processSnapshotId?: string;
 }
 
-export interface GetProfilesQueryBuilder {}
+export interface GetProfilesQueryBuilder {
+}
 
 export interface GetQueryableTagsQuery extends UiQuery {
   readonly tenantConfig: TenantConfig;
@@ -1464,7 +1476,8 @@ export interface GetTraceGroupsQuery extends CursorPaginatedQuery, FilteredQuery
   readonly tagFilters?: TagFilter[];
 }
 
-export interface GetTraceGroupsQueryBuilder {}
+export interface GetTraceGroupsQueryBuilder {
+}
 
 export interface GetTraceParticipantsQuery extends PaginatedUIQuery {
   readonly order: Order;
@@ -1490,7 +1503,8 @@ export interface GetTracesQuery extends CursorPaginatedQuery, FilteredQuery, Que
   readonly tagFilters?: TagFilter[];
 }
 
-export interface GetTracesQueryBuilder {}
+export interface GetTracesQueryBuilder {
+}
 
 export interface GetUnifiedMetricsQuery {
   readonly metrics: { [index: string]: UnifiedMetricConfiguration };
@@ -1529,7 +1543,8 @@ export interface GetWebsiteBeaconGroupsQuery extends QueryWithMetrics, CursorPag
   readonly timeShift: TimeShift;
 }
 
-export interface GetWebsiteBeaconGroupsQueryBuilder {}
+export interface GetWebsiteBeaconGroupsQueryBuilder {
+}
 
 export interface GetWebsiteBeaconsForPageLoadQuery extends UiQuery {
   readonly beaconTimestamp?: number;
@@ -1547,7 +1562,8 @@ export interface GetWebsiteBeaconsQuery extends CursorPaginatedQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetWebsiteBeaconsQueryBuilder {}
+export interface GetWebsiteBeaconsQueryBuilder {
+}
 
 export interface GetWebsiteCountryBreakdownQuery extends PaginatedUIQuery {
   readonly order: Order;
@@ -1599,7 +1615,8 @@ export interface GetWebsiteMetricsQuery extends QueryWithMetrics, UiQuery {
   readonly timeShift: TimeShift;
 }
 
-export interface GetWebsiteMetricsQueryBuilder {}
+export interface GetWebsiteMetricsQueryBuilder {
+}
 
 export interface GetWebsiteMetricsThresholdSuggestionQuery extends AbstractThresholdSuggestionQuery {
   readonly metric: WebsiteMonitoringMetricsConfiguration;
@@ -1897,7 +1914,8 @@ export interface KubernetesContainerListItem extends FilterableListItem {
   readonly entityHealthInfo: EntityHealthInfo;
 }
 
-export interface KubernetesContainerStateRunning extends AbstractKubernetesContainerState {}
+export interface KubernetesContainerStateRunning extends AbstractKubernetesContainerState {
+}
 
 export interface KubernetesContainerStateTerminated extends AbstractKubernetesContainerState {
   readonly exitCode: number;
@@ -2027,14 +2045,16 @@ export interface KubernetesJobListItem extends FilterableListItem {
   readonly status?: string;
 }
 
-export interface KubernetesJobStatusComparator extends Comparator<string> {}
+export interface KubernetesJobStatusComparator extends Comparator<string> {
+}
 
 export interface KubernetesLabel {
   readonly key: string;
   readonly value: string;
 }
 
-export interface KubernetesMetricConfiguration extends MetricConfiguration {}
+export interface KubernetesMetricConfiguration extends MetricConfiguration {
+}
 
 export interface KubernetesNamespace {
   readonly age?: number;
@@ -2159,7 +2179,8 @@ export interface KubernetesPodListItem extends ListItemWithMetric, FilterableLis
   readonly statusSummary?: string;
 }
 
-export interface KubernetesPodPhaseComparator extends Comparator<string> {}
+export interface KubernetesPodPhaseComparator extends Comparator<string> {
+}
 
 export interface KubernetesPodStatus {
   readonly containerStatuses: KubernetesContainerStatus[];
@@ -2170,7 +2191,8 @@ export interface KubernetesPodStatus {
   readonly statusSummary?: string;
 }
 
-export interface KubernetesPodStatusComparator extends Comparator<string> {}
+export interface KubernetesPodStatusComparator extends Comparator<string> {
+}
 
 export interface KubernetesPort {
   readonly name: string;
@@ -2514,7 +2536,8 @@ export interface MobileAppBeaconGroupsItem extends Metricific, Cursorific<Ingest
   readonly name: string;
 }
 
-export interface MobileAppBeaconTagGroup extends Group {}
+export interface MobileAppBeaconTagGroup extends Group {
+}
 
 export interface MobileAppBeaconsItem extends Cursorific<IngestionOffsetCursor> {
   readonly beacon: MobileAppMonitoringBeacon;
@@ -2607,7 +2630,8 @@ export interface MobileAppMonitoringBeacon {
   readonly viewportWidth: number;
 }
 
-export interface MobileAppMonitoringMetricsConfiguration extends MetricConfiguration {}
+export interface MobileAppMonitoringMetricsConfiguration extends MetricConfiguration {
+}
 
 export interface MobileAppPaginatedBeaconGroupsItem {
   readonly earliestTimestamp: number;
@@ -2635,7 +2659,8 @@ export interface Order {
   readonly direction: OrderDirection;
 }
 
-export interface PaginatedQuery extends QueryWithMetrics, PaginatedUIQuery {}
+export interface PaginatedQuery extends QueryWithMetrics, PaginatedUIQuery {
+}
 
 export interface PaginatedRelatedSnapshots {
   readonly items?: SnapshotItem[];
@@ -2825,7 +2850,8 @@ export interface ReleaseWithId {
   readonly start: number;
 }
 
-export interface ReleaseWithIdInternal extends ReleaseWithId {}
+export interface ReleaseWithIdInternal extends ReleaseWithId {
+}
 
 export interface RequestImpactApplicationTimeThreshold extends ApplicationTimeThreshold {
   readonly requests: number;
@@ -2917,7 +2943,8 @@ export interface ServicePreviewItem {
   readonly label: string;
 }
 
-export interface ServiceQueryConstants {}
+export interface ServiceQueryConstants {
+}
 
 export interface ServiceScope {
   readonly name: string;
@@ -3159,7 +3186,8 @@ export interface ThresholdSuggestionQuery {
   readonly type?: ThresholdType;
 }
 
-export interface ThroughputApplicationAlertRule extends ApplicationAlertRule {}
+export interface ThroughputApplicationAlertRule extends ApplicationAlertRule {
+}
 
 export interface TimeBucket {
   readonly from: number;
@@ -3286,7 +3314,8 @@ export interface TreeMapNode<T> {
   readonly label?: string;
 }
 
-export interface UiQuery {}
+export interface UiQuery {
+}
 
 export interface UnifiedMetricConfiguration {
   readonly aggregation: AggregationType;
@@ -3298,7 +3327,8 @@ export interface UnifiedMetricConfiguration {
   readonly timeShift: TimeShift;
 }
 
-export interface UnsupportedMetricSource extends UnifiedMetricConfiguration {}
+export interface UnsupportedMetricSource extends UnifiedMetricConfiguration {
+}
 
 export interface UsageMetricConfiguration extends UnifiedMetricConfiguration {
   readonly showAggregatedMetrics: boolean;
@@ -3311,7 +3341,8 @@ export interface UserImpactThreshold {
   readonly users?: number;
 }
 
-export interface UserImpactWebsiteTimeThreshold extends WebsiteTimeThreshold, UserImpactThreshold {}
+export interface UserImpactWebsiteTimeThreshold extends WebsiteTimeThreshold, UserImpactThreshold {
+}
 
 export interface ViolationsInPeriodApplicationTimeThreshold extends ApplicationTimeThreshold {
   readonly violations: number;
@@ -3321,9 +3352,11 @@ export interface ViolationsInPeriodWebsiteTimeThreshold extends WebsiteTimeThres
   readonly violations: number;
 }
 
-export interface ViolationsInSequenceApplicationTimeThreshold extends ApplicationTimeThreshold {}
+export interface ViolationsInSequenceApplicationTimeThreshold extends ApplicationTimeThreshold {
+}
 
-export interface ViolationsInSequenceWebsiteTimeThreshold extends WebsiteTimeThreshold {}
+export interface ViolationsInSequenceWebsiteTimeThreshold extends WebsiteTimeThreshold {
+}
 
 export interface VolatileId {
   readonly entity_id?: string;
@@ -3455,7 +3488,8 @@ export interface WebsiteBeaconGroupsItem extends Metricific, Cursorific<Ingestio
   readonly name: string;
 }
 
-export interface WebsiteBeaconTagGroup extends Group {}
+export interface WebsiteBeaconTagGroup extends Group {
+}
 
 export interface WebsiteBeaconsItem extends Cursorific<IngestionOffsetCursor> {
   readonly beacon: WebsiteMonitoringBeacon;
@@ -3588,7 +3622,8 @@ export interface WebsiteMonitoringBeacon {
   readonly windowWidth?: number;
 }
 
-export interface WebsiteMonitoringMetricsConfiguration extends MetricConfiguration {}
+export interface WebsiteMonitoringMetricsConfiguration extends MetricConfiguration {
+}
 
 export interface WebsitePaginatedBeaconGroupsItem {
   readonly earliestTimestamp: number;
@@ -3636,22 +3671,7 @@ export interface WorkloadCounters {
 
 export type AgentMonitoringIssueCategory = 'SENSOR' | 'TRACER' | 'PROFILER' | 'UNKNOWN';
 
-export type AggregationType =
-  | 'SUM'
-  | 'MEAN'
-  | 'MAX'
-  | 'MIN'
-  | 'P25'
-  | 'P50'
-  | 'P75'
-  | 'P90'
-  | 'P95'
-  | 'P98'
-  | 'P99'
-  | 'P99_9'
-  | 'P99_99'
-  | 'DISTINCT_COUNT'
-  | 'SUM_POSITIVE';
+export type AggregationType = 'SUM' | 'MEAN' | 'MAX' | 'MIN' | 'P25' | 'P50' | 'P75' | 'P90' | 'P95' | 'P98' | 'P99' | 'P99_9' | 'P99_99' | 'DISTINCT_COUNT' | 'SUM_POSITIVE';
 
 export type AlertEvaluationType = 'PER_AP' | 'PER_AP_SERVICE' | 'PER_AP_ENDPOINT';
 
@@ -3661,20 +3681,11 @@ export type ApplicationBoundaryScope = 'ALL' | 'INBOUND';
 
 export type ApplicationDataSource = 'CALLS' | 'TRACES';
 
-export type ApplicationDownstreamScope =
-  | 'INCLUDE_NO_DOWNSTREAM'
-  | 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING'
-  | 'INCLUDE_ALL_DOWNSTREAM';
+export type ApplicationDownstreamScope = 'INCLUDE_NO_DOWNSTREAM' | 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING' | 'INCLUDE_ALL_DOWNSTREAM';
 
 export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
 
-export type CatalogUseCase =
-  | 'GROUPING'
-  | 'FILTERING'
-  | 'SMART_ALERTS'
-  | 'SLI_MANAGEMENT'
-  | 'APPLICATION_CONFIG'
-  | 'APPLICATION_CONFIG_BLUEPRINT';
+export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SLI_MANAGEMENT' | 'APPLICATION_CONFIG' | 'APPLICATION_CONFIG_BLUEPRINT';
 
 export type ContextScope = 'NONE' | 'UPSTREAM' | 'DOWNSTREAM';
 
@@ -3682,107 +3693,25 @@ export type DataSource = 'CALLS' | 'TRACES';
 
 export type EndpointSyntheticType = 'NON_SYNTHETIC' | 'SYNTHETIC' | 'MIXED';
 
-export type EndpointType =
-  | 'UNDEFINED'
-  | 'RPC'
-  | 'EVENT'
-  | 'GRAPHQL'
-  | 'BATCH'
-  | 'SHELL'
-  | 'HTTP'
-  | 'SDK'
-  | 'OPENTELEMETRY'
-  | 'INTERNAL'
-  | 'DATABASE'
-  | 'MESSAGING'
-  | 'PAGE'
-  | 'PAGE_RESOURCE';
+export type EndpointType = 'UNDEFINED' | 'RPC' | 'EVENT' | 'GRAPHQL' | 'BATCH' | 'SHELL' | 'HTTP' | 'SDK' | 'OPENTELEMETRY' | 'INTERNAL' | 'DATABASE' | 'MESSAGING' | 'PAGE' | 'PAGE_RESOURCE';
 
-export type EntityContextGuideGroup =
-  | 'INFRASTRUCTURE_AVAILABILITY_ZONE'
-  | 'INFRASTRUCTURE_CLUSTER'
-  | 'INFRASTRUCTURE_CLUSTER_NODE'
-  | 'INFRASTRUCTURE_HARDWARE'
-  | 'INFRASTRUCTURE_HOST'
-  | 'INFRASTRUCTURE_CONTAINER'
-  | 'INFRASTRUCTURE_PROCESS'
-  | 'INFRASTRUCTURE_PROCESS_TECHNOLOGY'
-  | 'INFRASTRUCTURE_PROCESS_APPLICATION'
-  | 'APPLICATION_PERSPECTIVE'
-  | 'APPLICATION_SERVICE'
-  | 'APPLICATION_ENDPOINT'
-  | 'KUBERNETES_CLUSTER'
-  | 'KUBERNETES_NODE'
-  | 'KUBERNETES_NAMESPACE'
-  | 'KUBERNETES_WORKLOAD_CONTROLLER'
-  | 'KUBERNETES_SERVICE'
-  | 'KUBERNETES_POD'
-  | 'KUBERNETES_REPLICA_SET'
-  | 'KUBERNETES_ENDPOINTS'
-  | 'KUBERNETES_JOB'
-  | 'KUBERNETES_CRONJOB';
+export type EntityContextGuideGroup = 'INFRASTRUCTURE_AVAILABILITY_ZONE' | 'INFRASTRUCTURE_CLUSTER' | 'INFRASTRUCTURE_CLUSTER_NODE' | 'INFRASTRUCTURE_HARDWARE' | 'INFRASTRUCTURE_HOST' | 'INFRASTRUCTURE_CONTAINER' | 'INFRASTRUCTURE_PROCESS' | 'INFRASTRUCTURE_PROCESS_TECHNOLOGY' | 'INFRASTRUCTURE_PROCESS_APPLICATION' | 'APPLICATION_PERSPECTIVE' | 'APPLICATION_SERVICE' | 'APPLICATION_ENDPOINT' | 'KUBERNETES_CLUSTER' | 'KUBERNETES_NODE' | 'KUBERNETES_NAMESPACE' | 'KUBERNETES_WORKLOAD_CONTROLLER' | 'KUBERNETES_SERVICE' | 'KUBERNETES_POD' | 'KUBERNETES_REPLICA_SET' | 'KUBERNETES_ENDPOINTS' | 'KUBERNETES_JOB' | 'KUBERNETES_CRONJOB';
 
 export type EntityType = 'Entity10' | 'App20' | 'Service20' | 'Endpoint20' | 'Website';
 
-export type ErrorCode =
-  | 'NOT_FOUND'
-  | 'VALIDATION'
-  | 'AUTH'
-  | 'TOO_MANY_REQUESTS'
-  | 'CLIENT'
-  | 'SERVER'
-  | 'UNAVAILABLE'
-  | 'GATEWAY_TIMEOUT'
-  | 'TIMEOUT';
+export type ErrorCode = 'NOT_FOUND' | 'VALIDATION' | 'AUTH' | 'TOO_MANY_REQUESTS' | 'CLIENT' | 'SERVER' | 'UNAVAILABLE' | 'GATEWAY_TIMEOUT' | 'TIMEOUT';
 
 export type EventTypes = 'INCIDENT' | 'ISSUE' | 'CHANGE' | 'OBJECTIVE' | 'AGENT_MONITORING_ISSUE';
 
 export type FlowDirection = 'INCOMING' | 'OUTGOING';
 
-export type Formatter =
-  | 'NUMBER'
-  | 'BYTES'
-  | 'PERCENTAGE'
-  | 'LATENCY'
-  | 'MILLIS'
-  | 'SECONDS'
-  | 'MICROS'
-  | 'RATE'
-  | 'BYTE_RATE'
-  | 'UNDEFINED';
+export type Formatter = 'NUMBER' | 'BYTES' | 'PERCENTAGE' | 'LATENCY' | 'MILLIS' | 'SECONDS' | 'MICROS' | 'RATE' | 'BYTE_RATE' | 'UNDEFINED';
 
 export type Granularity = 60000 | 300000 | 600000 | 900000 | 1200000 | 1800000;
 
 export type InfraTabCategory = 'HOST' | 'CONTAINER' | 'PROCESS' | 'CLUSTER';
 
-export type InfraTagCategory =
-  | 'OTHERS'
-  | 'KUBERNETES'
-  | 'CLOUD_FOUNDRY'
-  | 'VSHPERE'
-  | 'AWS'
-  | 'AZURE'
-  | 'GCP'
-  | 'CONTAINER'
-  | 'SELF_MONITORING'
-  | 'IBM_CLOUD'
-  | 'IBM_DATAPOWER'
-  | 'IBM_I_SERIES'
-  | 'IBM_MQ'
-  | 'CLR'
-  | 'ACE'
-  | 'CASSANDRA'
-  | 'COCKROACH'
-  | 'CONSUL'
-  | 'COUCHBASE'
-  | 'ELASTICSEARCH'
-  | 'HADOOP_YARN'
-  | 'HAZELCAST'
-  | 'KAFKA_CONNECT'
-  | 'MONGO_DB'
-  | 'REDIS'
-  | 'SOLR'
-  | 'SPARK';
+export type InfraTagCategory = 'OTHERS' | 'KUBERNETES' | 'CLOUD_FOUNDRY' | 'VSHPERE' | 'AWS' | 'AZURE' | 'GCP' | 'CONTAINER' | 'SELF_MONITORING' | 'IBM_CLOUD' | 'IBM_DATAPOWER' | 'IBM_I_SERIES' | 'IBM_MQ' | 'CLR' | 'ACE' | 'CASSANDRA' | 'COCKROACH' | 'CONSUL' | 'COUCHBASE' | 'ELASTICSEARCH' | 'HADOOP_YARN' | 'HAZELCAST' | 'KAFKA_CONNECT' | 'MONGO_DB' | 'REDIS' | 'SOLR' | 'SPARK';
 
 export type KubernetesClusterManagementType = 'RANCHER' | 'PKS' | 'NONE';
 
@@ -3798,73 +3727,19 @@ export type LogsApplicationAlertRuleLogLevel = 'WARN' | 'ERROR' | 'ANY';
 
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
-export type MetricSource =
-  | 'INFRASTRUCTURE_METRICS'
-  | 'INFRASTRUCTURE'
-  | 'APPLICATION'
-  | 'WEBSITE'
-  | 'MOBILE_APP'
-  | 'EVENT'
-  | 'SLI'
-  | 'USAGE'
-  | 'DISTRIBUTED_LOGS'
-  | 'DISTRIBUTED_LOGS_V2'
-  | 'UNKNOWN';
+export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'DISTRIBUTED_LOGS' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
 
 export type OrderDirection = 'ASC' | 'DESC';
 
 export type QueryPrecision = 'APPROXIMATE' | 'FULL';
 
-export type Relationship =
-  | 'CONTAINS'
-  | 'DEFINED_IN'
-  | 'DEPLOYED_ON'
-  | 'DEPLOYED_WITHIN'
-  | 'EXECUTED_BY'
-  | 'EXECUTING'
-  | 'EXPOSED_BY'
-  | 'EXPOSED_THROUGH'
-  | 'EXPOSES'
-  | 'EXPOSING'
-  | 'ORCHESTRATED_IN'
-  | 'ORCHESTRATED_ON'
-  | 'ORCHESTRATING'
-  | 'PART_OF'
-  | 'PROVIDED_BY'
-  | 'PROVIDED_FROM'
-  | 'PROVIDED_ON'
-  | 'PROVIDED_WITHIN'
-  | 'PROVIDES'
-  | 'RUNS'
-  | 'RUNS_IN'
-  | 'RUNS_ON'
-  | 'RUNS_WITHIN'
-  | 'SCHEDULED'
-  | 'SCHEDULED_BY'
-  | 'SCHEDULED_ON'
-  | 'SCHEDULED_WITHIN'
-  | 'SCHEDULES'
-  | 'SCHEDULING_IN'
-  | 'SCHEDULING_ON'
-  | 'SERVED_BY'
-  | 'SERVED_THROUGH'
-  | 'SERVES'
-  | 'SERVES_ON'
-  | 'SERVES_WITHIN'
-  | 'SPANS_ACROSS'
-  | 'WITHIN';
+export type Relationship = 'CONTAINS' | 'DEFINED_IN' | 'DEPLOYED_ON' | 'DEPLOYED_WITHIN' | 'EXECUTED_BY' | 'EXECUTING' | 'EXPOSED_BY' | 'EXPOSED_THROUGH' | 'EXPOSES' | 'EXPOSING' | 'ORCHESTRATED_IN' | 'ORCHESTRATED_ON' | 'ORCHESTRATING' | 'PART_OF' | 'PROVIDED_BY' | 'PROVIDED_FROM' | 'PROVIDED_ON' | 'PROVIDED_WITHIN' | 'PROVIDES' | 'RUNS' | 'RUNS_IN' | 'RUNS_ON' | 'RUNS_WITHIN' | 'SCHEDULED' | 'SCHEDULED_BY' | 'SCHEDULED_ON' | 'SCHEDULED_WITHIN' | 'SCHEDULES' | 'SCHEDULING_IN' | 'SCHEDULING_ON' | 'SERVED_BY' | 'SERVED_THROUGH' | 'SERVES' | 'SERVES_ON' | 'SERVES_WITHIN' | 'SPANS_ACROSS' | 'WITHIN';
 
 export type ResultType = 'TIME_SERIES' | 'HISTOGRAM' | 'SINGLE_NUMBER';
 
 export type Seasonality = 'WEEKLY' | 'DAILY';
 
-export type SliMetricType =
-  | 'SLI'
-  | 'ERROR_BUDGET_SPENT'
-  | 'ERROR_BUDGET_REMAINING'
-  | 'TOTAL_ERROR_BUDGET'
-  | 'HOURLY_ERROR_BUDGET_CHART'
-  | 'CONSUMED_ERROR_BUDGET_CHART';
+export type SliMetricType = 'SLI' | 'ERROR_BUDGET_SPENT' | 'ERROR_BUDGET_REMAINING' | 'TOTAL_ERROR_BUDGET' | 'HOURLY_ERROR_BUDGET_CHART' | 'CONSUMED_ERROR_BUDGET_CHART';
 
 export type SpanKind = 'UNKNOWN' | 'ENTRY' | 'EXIT' | 'INTERMEDIATE';
 
@@ -3872,23 +3747,7 @@ export type SpanModel = 'UNKNOWN' | 'HTTP' | 'DATABASE' | 'RPC' | 'MESSAGING' | 
 
 export type TagFilterEntity = 'NOT_APPLICABLE' | 'DESTINATION' | 'SOURCE';
 
-export type TagFilterOperator =
-  | 'EQUALS'
-  | 'CONTAINS'
-  | 'LESS_THAN'
-  | 'LESS_OR_EQUAL_THAN'
-  | 'GREATER_THAN'
-  | 'GREATER_OR_EQUAL_THAN'
-  | 'NOT_EMPTY'
-  | 'NOT_EQUAL'
-  | 'NOT_CONTAIN'
-  | 'IS_EMPTY'
-  | 'NOT_BLANK'
-  | 'IS_BLANK'
-  | 'STARTS_WITH'
-  | 'ENDS_WITH'
-  | 'NOT_STARTS_WITH'
-  | 'NOT_ENDS_WITH';
+export type TagFilterOperator = 'EQUALS' | 'CONTAINS' | 'LESS_THAN' | 'LESS_OR_EQUAL_THAN' | 'GREATER_THAN' | 'GREATER_OR_EQUAL_THAN' | 'NOT_EMPTY' | 'NOT_EQUAL' | 'NOT_CONTAIN' | 'IS_EMPTY' | 'NOT_BLANK' | 'IS_BLANK' | 'STARTS_WITH' | 'ENDS_WITH' | 'NOT_STARTS_WITH' | 'NOT_ENDS_WITH';
 
 export type TagSuggestionProposeType = 'KEYS' | 'VALUES';
 
