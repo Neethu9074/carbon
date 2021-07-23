@@ -24,7 +24,9 @@ export interface Options {
 //
 // a) Decouple resize observation processing from the resize event itself (via requestAnimationFrame)
 // b) Avoid too many events (via debounce)
-export default function useResizeObserverCustom({ millis = 100 }: Options = emptyObject) {
+export default function useResizeObserverCustom<ElementType extends HTMLElement>({
+  millis = 100
+}: Options = emptyObject) {
   // To allow detection of an unmounted component so that we do not call setState when the
   // component is unmounted.
   const isUnmountedRef = useRef(false);
@@ -66,6 +68,6 @@ export default function useResizeObserverCustom({ millis = 100 }: Options = empt
       ),
     [millis]
   );
-  const { ref } = useResizeObserver({ onResize });
+  const { ref } = useResizeObserver<ElementType>({ onResize });
   return { ref, ...state };
 }
