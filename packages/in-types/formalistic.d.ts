@@ -20,6 +20,7 @@ declare module 'formalistic' {
   export interface Field<VALUE_TYPE> {
     readonly value: VALUE_TYPE;
     readonly touched: boolean;
+    readonly hierarchyTouched: boolean;
     readonly messages: ValidationMessage[];
     readonly maxSeverity: Severity;
     readonly valid: boolean;
@@ -55,6 +56,7 @@ declare module 'formalistic' {
 
   export interface MapForm {
     readonly touched: boolean;
+    readonly hierarchyTouched: boolean;
     readonly messages: ValidationMessage[];
     readonly maxSeverity: Severity;
     readonly valid: boolean;
@@ -89,6 +91,7 @@ declare module 'formalistic' {
   export interface ListForm {
     readonly size: number;
     readonly touched: boolean;
+    readonly hierarchyTouched: boolean;
     readonly messages: ValidationMessage[];
     readonly maxSeverity: Severity;
     readonly valid: boolean;

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Field } from 'formalistic';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -12,13 +13,8 @@ import { Trans } from 'in-i18n';
 import locals from './TouchedMessages.mless';
 
 export interface TouchedMessagesProps {
-  field: Record<string, any>;
+  field?: Field<any>;
   className: string;
-}
-
-interface FieldMessage {
-  path: string;
-  message: string;
 }
 
 export default function TouchedMessages({ field, className }: TouchedMessagesProps) {
@@ -26,7 +22,7 @@ export default function TouchedMessages({ field, className }: TouchedMessagesPro
     return null;
   }
 
-  return field.messages.map((message: FieldMessage, i: number) => {
+  return field.messages.map((message, i) => {
     if (message.path) {
       return (
         <ValidationBlock key={i} className={className}>
