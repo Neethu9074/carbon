@@ -10,30 +10,28 @@ import React from 'react';
 import { Message } from '@instana/components';
 
 import { isTechnicalError } from 'in-services/util/error';
-import { emptyArray } from 'in-services/fixedObjects';
+import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
+// @ts-ignore
 import locals from './ErroneousResultPresenter.mless';
 
-// Usage
-// <ErrorneousResultPresenter errors={[
-//   {
-//     message: 'Something went wrong',
-//     code: 'SERVER'
-//   }
-// ]}/>
+export interface Props {
+  errors?: Error[];
+  className?: string;
+  addBottomMargin?: boolean;
+}
 
-export default function ErrorneousResultPresenter({ errors, className, addBottomMargin = false }) {
+export default function ErrorneousResultPresenter({ errors, className, addBottomMargin = false }: Props) {
   if (errors == null || errors.length === 0) {
     return null;
   }
 
   return (
     <ul
-      className={classNames({
+      className={classNames(className, {
         [locals.errors]: true,
-        [locals.bottomMargin]: addBottomMargin,
-        [className]: className
+        [locals.bottomMargin]: addBottomMargin
       })}
     >
       {getUniqueErrors(errors).map((error, i) => (
@@ -47,11 +45,11 @@ export default function ErrorneousResultPresenter({ errors, className, addBottom
   );
 }
 
-export function getUniqueErrors(errors = emptyArray) {
+export function getUniqueErrors(errors: Error[] = []) {
   return uniq(errors.map(getMessage));
 }
 
-function getMessage(error) {
+function getMessage(error: Error) {
   if (isTechnicalError(error.code) && !__DEV__) {
     return t('in-components:error.erroneousResultPresenterMessage');
   }
