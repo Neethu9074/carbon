@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-export function isTechnicalError(ec) {
-  return ec === 'CLIENT' || ec === 'SERVER' || ec === 'TIMEOUT';
+import { ErrorCode } from 'in-types';
+
+export function isTechnicalError(ec: ErrorCode) {
+  return ec === 'CLIENT' || ec === 'SERVER' || ec === 'TIMEOUT' || ec === 'GATEWAY_TIMEOUT';
 }
