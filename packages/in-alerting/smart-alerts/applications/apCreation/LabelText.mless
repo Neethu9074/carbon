@@ -1,0 +1,18 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .label {
+    font-size: 0.875rem;
+    color: @lib__colors__N700Medium;
+  }
+
+  .subLabel {
+    font-size: 0.8125rem;
+    color: @lib__colors__N600Light;
+  }
+}

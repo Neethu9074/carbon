@@ -5,10 +5,12 @@
 
 import React from 'react';
 
-import { Message } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 import { Spacer } from '@instana/components';
 import { Button } from '@instana/components';
 
+import BuiltInGlobalSmartAlertsPermissionWrapper from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
+import DialogBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/DialogBuiltInSmartAlertsSelectionList';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
@@ -41,90 +43,107 @@ export default function AdvancedModeContainer({
   return (
     <>
       <div className={locals.container}>
-        <h1 className={locals.heading}>{t('in-applications:creation.advanced.defineName')}</h1>
-        <FormGroup>
-          <Label htmlFor="label" hasError={!labelField.valid && labelField.touched}>
-            {t('in-applications:creation.advanced.apName')}
-          </Label>
-          <Input
-            type="text"
-            id="label"
-            value={labelField.value}
-            onChange={e =>
-              updateForm(form.updateIn(['label'], field => field.setValue(e.target.value || '').setTouched(true)))
-            }
-            autoComplete="off"
-            hasError={(!labelField.valid || errorMessage) && labelField.touched}
-            autoFocus
-          />
-          <TouchedMessages field={labelField} />
-          {errorMessage && (
-            <Message className={locals.errorMessage} type="error" withIcon small>
-              {errorMessage}
-            </Message>
-          )}
-
-          <DescriptionText className={locals.descriptionText}>
-            {t('in-applications:creation.advanced.apNameDescription')}
-          </DescriptionText>
-        </FormGroup>
-        <>
-          <h1 className={locals.heading}>{t('in-applications:creation.advanced.defineUsingTags')}</h1>
-          <DescriptionText className={locals.descriptionText}>
-            <Trans
-              i18nKey="in-applications:creation.advanced.defineUsingTagsDescription"
-              components={{
-                'pill-database': (
-                  <Pill color={getColor('DATABASE')} kind="light">
-                    {t('in-applications:creation.advanced.database')}
-                  </Pill>
-                ),
-                'pill-messaging': (
-                  <Pill color={getColor('MESSAGING')} kind="light">
-                    {t('in-applications:creation.advanced.messaging')}
-                  </Pill>
-                )
-              }}
-            />
-            <br />
-            <br />
-            <strong>{t('in-applications:creation.advanced.andOperatorsPrecedenceBrackets')}</strong>
-          </DescriptionText>
-
-          <div className={locals.queryBuilder}>
-            <div className={locals.queryBuilderExpression}>
-              <CreateApplicationQueryBuilder
-                value={tagFilterExpressionField.value}
-                onChange={tagFilterExpression => setTagFilterExpression(tagFilterExpression, form, updateForm)}
+        <Stack>
+          <Section headingText={t('in-applications:creation.advanced.defineName')}>
+            <FormGroup>
+              <Label htmlFor="label" hasError={!labelField.valid && labelField.touched}>
+                {t('in-applications:creation.advanced.apName')}
+              </Label>
+              <Input
+                type="text"
+                id="label"
+                value={labelField.value}
+                onChange={e =>
+                  updateForm(form.updateIn(['label'], field => field.setValue(e.target.value || '').setTouched(true)))
+                }
+                autoComplete="off"
+                hasError={(!labelField.valid || errorMessage) && labelField.touched}
+                autoFocus
               />
-            </div>
-
-            <HorizontalFlexWrapper>
-              {tagFilterExpressionField.value.length > 0 && (
-                <Button
-                  kind="subtle"
-                  icon="lib_openclose_cancel"
-                  size="compact"
-                  onClick={() => setTagFilterExpression([], form, updateForm)}
-                >
-                  {t('in-applications:creation.advanced.clear')}
-                </Button>
+              <TouchedMessages field={labelField} />
+              {errorMessage && (
+                <Message className={locals.errorMessage} type="error" withIcon small>
+                  {errorMessage}
+                </Message>
               )}
-            </HorizontalFlexWrapper>
-          </div>
-        </>
-        <Spacer vertical="normal" />
 
-        <h1 className={locals.heading}>{t('in-applications:creation.advanced.downstreamCalls')}</h1>
-        <DescriptionText className={locals.descriptionText}>
-          {t('in-applications:creation.advanced.downstreamCallsDescription')}
-        </DescriptionText>
-        <ApplicationScopeSelector form={form} updateForm={updateForm} />
-        <Spacer vertical="normal" />
+              <DescriptionText className={locals.descriptionText}>
+                {t('in-applications:creation.advanced.apNameDescription')}
+              </DescriptionText>
+            </FormGroup>
+          </Section>
 
-        <h1 className={locals.heading}>{t('in-applications:creation.advanced.defaultDashboardView')}</h1>
-        <InboundAllCalls form={form} updateForm={updateForm} apCreation />
+          <Section headingText={t('in-applications:creation.advanced.defineUsingTags')}>
+            <DescriptionText className={locals.descriptionText}>
+              <Trans
+                i18nKey="in-applications:creation.advanced.defineUsingTagsDescription"
+                components={{
+                  'pill-database': (
+                    <Pill color={getColor('DATABASE')} kind="light">
+                      {t('in-applications:creation.advanced.database')}
+                    </Pill>
+                  ),
+                  'pill-messaging': (
+                    <Pill color={getColor('MESSAGING')} kind="light">
+                      {t('in-applications:creation.advanced.messaging')}
+                    </Pill>
+                  )
+                }}
+              />
+              <Spacer vertical="normal" />
+              <strong>{t('in-applications:creation.advanced.andOperatorsPrecedenceBrackets')}</strong>
+            </DescriptionText>
+
+            <div className={locals.queryBuilder}>
+              <div className={locals.queryBuilderExpression}>
+                <CreateApplicationQueryBuilder
+                  value={tagFilterExpressionField.value}
+                  onChange={tagFilterExpression => setTagFilterExpression(tagFilterExpression, form, updateForm)}
+                />
+              </div>
+
+              <HorizontalFlexWrapper>
+                {tagFilterExpressionField.value.length > 0 && (
+                  <Button
+                    kind="subtle"
+                    icon="lib_openclose_cancel"
+                    size="compact"
+                    onClick={() => setTagFilterExpression([], form, updateForm)}
+                  >
+                    {t('in-applications:creation.advanced.clear')}
+                  </Button>
+                )}
+              </HorizontalFlexWrapper>
+            </div>
+          </Section>
+
+          <Section headingText={t('in-applications:creation.advanced.downstreamCalls')}>
+            <DescriptionText className={locals.descriptionText}>
+              {t('in-applications:creation.advanced.downstreamCallsDescription')}
+            </DescriptionText>
+            <ApplicationScopeSelector form={form} updateForm={updateForm} />
+          </Section>
+
+          <Section headingText={t('in-applications:creation.advanced.defaultDashboardView')}>
+            <InboundAllCalls form={form} updateForm={updateForm} apCreation />
+          </Section>
+
+          <BuiltInGlobalSmartAlertsPermissionWrapper>
+            <Section headingText={t('in-applications:creation.advanced.builtInSmartAlertsScope')}>
+              <DescriptionText className={locals.descriptionText}>
+                {t('in-applications:creation.advanced.builtInSmartAlertsScopeDescription')}
+              </DescriptionText>
+              <DialogBuiltInSmartAlertsSelectionList
+                onChange={alertIds => {
+                  updateForm(form.updateIn(['builtInAlertIds'], field => field.setValue(alertIds).setTouched(true)));
+                }}
+                alertIds={form.get('builtInAlertIds').value}
+              />
+            </Section>
+          </BuiltInGlobalSmartAlertsPermissionWrapper>
+        </Stack>
       </div>
+      <Spacer vertical="normal" />
       <FormFooter className={locals.controls}>
         <CancelButton onClick={() => onClose()} />
         <SaveButton
@@ -137,6 +156,15 @@ export default function AdvancedModeContainer({
         </SaveButton>
       </FormFooter>
     </>
+  );
+}
+
+function Section({ children, headingText }) {
+  return (
+    <section>
+      <h2 className={locals.heading}>{headingText}</h2>
+      {children}
+    </section>
   );
 }
 

@@ -12,10 +12,8 @@ import Footer from 'in-components/Footer/Footer';
 export default function Configuration({ timeConfig, data: application, applicationId }) {
   return (
     <>
-      <div>
-        <CreateApplicationDialog applicationId={applicationId} timeConfig={timeConfig} />
-        <RemoveSection application={application} />
-      </div>
+      <CreateApplicationDialog applicationId={applicationId} timeConfig={timeConfig} />
+      <RemoveSection application={application} />
       <Footer />
     </>
   );

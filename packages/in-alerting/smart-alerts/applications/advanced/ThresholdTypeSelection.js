@@ -69,10 +69,12 @@ ThresholdTypeSelection.propTypes = {
   editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
   isGlobalSmartAlert: PropTypes.bool,
-  thresholdTypeOptions: PropTypes.shape({
-    value: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired
-  }).isRequired,
+  thresholdTypeOptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired
+    })
+  ).isRequired,
   trackThresholdTypeChanged: PropTypes.func,
   updateForm: PropTypes.func.isRequired
 };

@@ -138,3 +138,16 @@ export function getAllVersionsOfGlobalAlertConfig(id, config = { asObservable: f
     ? createObservable(http(requestConfig))
     : http(requestConfig).map(response => response.body);
 }
+
+export function getAllBuiltInGlobalSmartAlerts(config = { asObservable: false }) {
+  const requestConfig = {
+    method: 'GET',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/builtIn`
+  };
+
+  return config.asObservable
+    ? createObservable(http(requestConfig))
+    : http(requestConfig).map(response => response.body);
+}

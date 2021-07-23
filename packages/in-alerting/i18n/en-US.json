@@ -449,6 +449,17 @@
       "details": {
         "title": "Alert Details",
         "titleAlertProperties": "Alert Properties"
+      },
+      "apCreation": {
+        "addToAllBuiltInAlerts": "Add to all ({{numAlerts}}) Built–In Global Smart Alerts",
+        "addToAllBuiltInAlertsSubText": "({{numDisabled}}/{{numAlerts}} alerts are currently disabled)",
+        "addToAllExplanation": "Include this Application Perspective in the scope of all the",
+        "addToAllExplanationSubText": "Built–In Global Smart Alerts",
+        "notAllEnitiesSelected": "Not all services/endpoints selected",
+        "alertCurrentlyDisabled": "Alert currently disabled",
+        "viewAlertDetails": "View alert details for configuration: {{name}}",
+        "eventsWarningIcon": "Events warning icon",
+        "eventsCriticalIcon": "Events critical icon"
       }
     },
     "details": {

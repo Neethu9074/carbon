@@ -11,17 +11,19 @@ import { just } from '@instana/observables';
 import { Card } from '@instana/components';
 
 import {
+  addApplicationConfig,
   createNewApplicationConfig,
   getApplicationConfig,
-  addApplicationConfig,
   updateApplicationConfig
 } from 'in-api/applicationConfigs';
+import { hasPermissionToAddBuiltInSmartAlerts } from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
+import ConfigTabBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/ConfigTabBuiltInSmartAlertsSelectionList';
 import InboundOrAllCallsChoiceVertical from 'in-applications/Dashboards/commonComponents/inboundOrAllCalls/InboundOrAllCallsChoiceVertical';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
 import { applicationSubmitTracker } from 'in-applications/tracker';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import OptionBox from 'in-applications/components/OptionBox';
 import Steps from 'in-applications/Forms/components/Steps';
 import { getColor } from 'in-applications/endpointTypes';
@@ -29,10 +31,10 @@ import BasicForm from 'in-applications/Forms/BasicForm';
 import FormGroup from 'in-components/form/FormGroup';
 import HelpText from 'in-components/form/HelpText';
 import { isBlank } from 'in-services/util/string';
-import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import Label from 'in-components/form/Label';
 import Pill from 'in-components/Pill';
-import { Trans, t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './CreateApplicationDialog.mless';
 
@@ -195,8 +197,27 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                           </FormGroup>
                         );
                       })
-                    }
-                  ]}
+                    },
+                    hasPermissionToAddBuiltInSmartAlerts()
+                      ? {
+                          stepTitle: t('in-applications:forms.newApplication.stepTitleBuiltInSmartAlertsScope'),
+                          content: form.get('builtInAlertIds').map(field => {
+                            return (
+                              <ConfigTabBuiltInSmartAlertsSelectionList
+                                onChange={alertIds =>
+                                  updateForm(
+                                    form.updateIn(['builtInAlertIds'], field =>
+                                      field.setValue(alertIds).setTouched(true)
+                                    )
+                                  )
+                                }
+                                alertIds={field.value}
+                              />
+                            );
+                          })
+                        }
+                      : null
+                  ].filter(Boolean)}
                 />
               </Fragment>
             );
@@ -233,15 +254,22 @@ function getInitialForm(application) {
       createField({
         value: application.boundaryScope
       })
+    )
+    .put(
+      'tagFilterExpression',
+      createField({
+        value: application.tagFilterExpression ?? [],
+        validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
+      })
+    )
+    .put(
+      'builtInAlertIds',
+      createField({
+        value: application.builtInAlertIds ?? []
+      })
     );
 
-  return form.put(
-    'tagFilterExpression',
-    createField({
-      value: application.tagFilterExpression ?? [],
-      validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
-    })
-  );
+  return form;
 }
 
 function applicationLabelValidator(name) {

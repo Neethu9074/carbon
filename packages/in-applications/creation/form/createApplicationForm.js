@@ -38,15 +38,22 @@ export function createApplicationPerspectiveForm(application) {
       createField({
         value: application.boundaryScope
       })
+    )
+    .put(
+      'builtInAlertIds',
+      createField({
+        value: application.builtInAlertIds ?? []
+      })
+    )
+    .put(
+      'tagFilterExpression',
+      createField({
+        value: application.tagFilterExpression ?? [],
+        validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
+      })
     );
 
-  return form.put(
-    'tagFilterExpression',
-    createField({
-      value: application.tagFilterExpression ?? [],
-      validator: tagFilterExpression => tagFilterExpressionValidator(tagFilterExpression)
-    })
-  );
+  return form;
 }
 
 function applicationLabelValidator(name) {

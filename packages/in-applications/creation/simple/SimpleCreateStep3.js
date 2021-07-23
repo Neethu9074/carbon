@@ -8,6 +8,8 @@ import React from 'react';
 import { Message } from '@instana/components';
 import { Spacer } from '@instana/components';
 
+import BuiltInGlobalSmartAlertsPermissionWrapper from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
+import AddAllBuiltInGlobalSmartAlerts from 'in-alerting/smart-alerts/applications/apCreation/AddAllBuiltInGlobalSmartAlerts';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
 import ServiceLiveList from 'in-applications/creation/components/ServiceLiveList';
@@ -55,8 +57,19 @@ export default function SimpleCreateStep3({
           </Message>
         )}
         <Spacer vertical="normal" />
+
         <Label>{t('in-applications:creation.simple.step3.inboundAllCalls')}</Label>
         <InboundAllCalls form={form} updateForm={updateForm} selectedBlueprint={selectedBlueprint} />
+        <Spacer vertical="normal" />
+
+        <BuiltInGlobalSmartAlertsPermissionWrapper>
+          <AddAllBuiltInGlobalSmartAlerts
+            onChange={alertIds =>
+              updateForm(form.updateIn(['builtInAlertIds'], field => field.setValue(alertIds).setTouched(true)))
+            }
+          />
+          <Spacer vertical="normal" />
+        </BuiltInGlobalSmartAlertsPermissionWrapper>
       </div>
       <ServiceLiveList
         servicesLiveList={servicesLiveList}

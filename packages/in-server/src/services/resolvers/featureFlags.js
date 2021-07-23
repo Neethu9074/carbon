@@ -218,5 +218,10 @@ module.exports = exports = [
     uiClientKey: 'adaptiveBaselineEnabled',
     instanaCtlKey: 'feature.adaptive.baseline.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'builtInGlobalApplicationSmartAlertsEnabled',
+    instanaCtlKey: 'feature.shared.application.smart.alerts.builtIn.enabled',
+    defaultValue: false
   }
 ];

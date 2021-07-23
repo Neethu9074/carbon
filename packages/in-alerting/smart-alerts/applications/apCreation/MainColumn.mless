@@ -1,0 +1,20 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .iconWarning {
+    fill: @lib__colors__warning;
+  }
+
+  .iconCritical {
+    fill: @lib__colors__failure;
+  }
+
+  .labelTextWrapper {
+    white-space: break-spaces;
+  }
+}

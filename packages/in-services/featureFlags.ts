@@ -66,6 +66,9 @@ export const potentialProblemsInCustomDashboardEnabled = isFeatureFlagEnabled(
 );
 
 export const adaptiveBaselineEnabled = isFeatureFlagEnabled('adaptiveBaselineEnabled');
+export const builtInGlobalApplicationSmartAlertsEnabled = isFeatureFlagEnabled(
+  'builtInGlobalApplicationSmartAlertsEnabled'
+);
 
 // ########################################################################################
 // Dynamic focus keywords
