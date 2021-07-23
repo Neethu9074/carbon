@@ -1491,14 +1491,14 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha1-h956+cIxgm/daKxyWPd8Qp4OX88=
 
-"@instana/components@^1.29.3":
-  version "1.29.3"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.29.3.tgz#a42f7634c52431dd7f056855a56df0e4c15fa9de"
-  integrity sha1-pC92NMUkMd1/BWhVpW3w5MFfqd4=
+"@instana/components@^1.30.1":
+  version "1.30.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.30.1.tgz#56334617ffe6cd76648a57cada689c81a3a66fcc"
+  integrity sha1-VjNGF//mzXZkilfK2micgaOmb8w=
   dependencies:
     "@instana/design-tokens" "^1.9.1"
-    "@instana/format-date" "^1.1.7"
-    "@instana/format-numbers" "^1.1.0"
+    "@instana/format-date" "^1.2.0"
+    "@instana/format-numbers" "^1.2.0"
     "@instana/hooks" "^1.4.7"
     "@instana/i18n-react" "^1.1.6"
     "@instana/observables" "^1.2.7"
@@ -1517,10 +1517,10 @@
     tslib "^2.1.0"
     typescript "^4.1.4"
 
-"@instana/format-date@^1.1.7":
-  version "1.1.7"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-date/-/@instana/format-date-1.1.7.tgz#15438fd48effa05f287d0d21e26846d3b652a02e"
-  integrity sha1-FUOP1I7/oF8ofQ0h4mhG07ZSoC4=
+"@instana/format-date@^1.2.0":
+  version "1.2.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-date/-/@instana/format-date-1.2.0.tgz#fd9bc5c5ba5174fa2544cff51d9827f0be7a4f4d"
+  integrity sha1-/ZvFxbpRdPolRM/1HZgn8L56T00=
   dependencies:
     "@instana/i18n" "^1.2.0"
     "@instana/i18n-react" "^1.1.6"
@@ -1530,10 +1530,10 @@
     tslib "^2.1.0"
     typescript "^4.1.4"
 
-"@instana/format-numbers@^1.1.0", "@instana/format-numbers@^1.1.1":
-  version "1.1.1"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-numbers/-/@instana/format-numbers-1.1.1.tgz#8509bebbfaabeda34a5ff9f34d1133a49a97e1a0"
-  integrity sha1-hQm+u/qr7aNKX/nzTREzpJqX4aA=
+"@instana/format-numbers@^1.2.0":
+  version "1.2.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-numbers/-/@instana/format-numbers-1.2.0.tgz#7112fbf38c97562e670702aa1e3462336a184b4a"
+  integrity sha1-cRL784yXVi5nBwKqHjRiM2oYS0o=
   dependencies:
     "@instana/i18n" "^1.2.0"
     ts-node "^9.1.1"
