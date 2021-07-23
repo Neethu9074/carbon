@@ -26,6 +26,7 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { boundaryScopes } from 'in-applications/constants';
 import SearchInput from 'in-components/SearchInput';
+import usePrevious from 'in-hooks/usePrevious';
 
 const backendApiSubscriptions = {
   getApplication,
@@ -49,6 +50,8 @@ export default function ServicesAndEndpointsListPresenter({
     return applicationsSelection;
   });
 
+  const previousBoundaryScope = usePrevious(boundaryScope);
+
   useEffect(() => {
     onChange?.(state);
     // since onChange func can be re-created when parent rerenders we only want to trigger the effect if  state changes
@@ -58,8 +61,9 @@ export default function ServicesAndEndpointsListPresenter({
   }, [state]);
 
   useEffect(() => {
+    // NOTE: We are resetting A/S/E selection if user changes boundary scope from All -> Inbound
     if (
-      !isEmpty(initialConfiguredApplications) &&
+      previousBoundaryScope === boundaryScopes.all &&
       boundaryScope === boundaryScopes.inbound &&
       Object.values(state).some(({ services }) => !isEmpty(services))
     ) {
