@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
@@ -36,6 +37,7 @@ export default function ApplicationEventListItemContent({ event }) {
   }
 
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
+  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({});
   const { applicationId } = eventEntity;
   const alertType = alertConfig.rule.alertType;
 
@@ -57,7 +59,12 @@ export default function ApplicationEventListItemContent({ event }) {
           alertConfig={alertConfig}
           isGlobalSmartAlert={isGlobalSmartAlert}
         />
-        <AnalyzeApplicationEventButton {...eventEntity} alertConfig={alertConfig} timeConfig={analyzeTimeConfig} />
+        <AnalyzeApplicationEventButton
+          {...eventEntity}
+          alertConfig={alertConfig}
+          timeConfig={analyzeTimeConfig}
+          adaptiveBaselineInfo={adaptiveBaselineInfo.toJS()}
+        />
       </DescriptionButtons>
       <div className={locals.sectionWrapper}>
         <ApplicationAlertingChartWithErrorMessage

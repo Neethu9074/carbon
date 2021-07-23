@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
 import { Card } from '@instana/components';
@@ -15,10 +16,8 @@ import {
 } from 'in-events/components/AnalyzeApplicationEventButton';
 import { containsTagName, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/applications/tracker';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { groupByEndpointName, groupByServiceName } from 'in-analyze/AnalyzeView/dataSources';
 import AffectedEntities from 'in-events/components/AffectedEntities/AffectedEntities';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { isApplicationEntity } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent } from 'in-events/timeframe';
 import { t } from 'in-i18n';
@@ -33,7 +32,6 @@ export function SmartAlertAffectedEntities({
   endpointId,
   endpointName
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
   const { rule, includeInternal, includeSynthetic } = alertConfig;
 
   if (rule.alertType === 'throughput') {
@@ -44,44 +42,19 @@ export function SmartAlertAffectedEntities({
   }
 
   const eventEntityType = event.get('entityType');
+  const adaptiveBaselineInfo = (event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({})).toJS();
   const timeConfig = getTimeConfigFromEvent(event);
 
-  const tagFilterExpression = toBackendQueryModel(
-    getEnrichedAnalyzeTagFilterFormModel(alertConfig, applicationId, applicationName, serviceId, endpointId, timeConfig)
-  );
-  const totalTagFilterExpression = toBackendQueryModel(
-    getEnrichedAnalyzeTagFilterFormModel(
-      alertConfig,
-      applicationId,
-      applicationName,
-      serviceId,
-      endpointId,
-      timeConfig,
-      true
-    )
-  );
+  const tagFilterExpression = getTagFilterExpression();
+  const totalTagFilterExpression = getTotalTagFilterExpression();
   const needsGroupByEndpoint =
     !isApplicationEntity(eventEntityType) ||
     tagNamesToUseEndpointGrouping.some(tagName => containsTagName(alertConfig.tagFilterExpression, tagName));
 
-  const createItemLink$ = item => {
-    return getLinkToUnboundAnalytics(
-      applicationId,
-      applicationName,
-      needsGroupByEndpoint ? serviceId : item.id,
-      needsGroupByEndpoint ? serviceName : item.name,
-      needsGroupByEndpoint ? item.id : null, // we never have an ID here (e.g. for a PER-SERVICE SmartAlert), because we do a grouping by name.
-      needsGroupByEndpoint ? item.name : null,
-      alertConfig,
-      timeConfig,
-      tagCatalog
-    );
-  };
-
   const renderLinkToAnalyzeAll = total => (
     <Link
       onClick={() => applicationsAlertingEventDetailsGoToAnalyze()}
-      href$={getLinkToUnboundAnalytics(
+      href$={getLinkToUnboundAnalytics({
         applicationId,
         applicationName,
         serviceId,
@@ -90,9 +63,9 @@ export function SmartAlertAffectedEntities({
         endpointName,
         alertConfig,
         timeConfig,
-        tagCatalog,
-        needsGroupByEndpoint ? 'endpoint.name' : 'service.name'
-      )}
+        groupingTagName: needsGroupByEndpoint ? 'endpoint.name' : 'service.name',
+        adaptiveBaselineInfo
+      })}
     >
       {needsGroupByEndpoint
         ? t('in-events:showAllEndpoints', { count: total })
@@ -114,4 +87,47 @@ export function SmartAlertAffectedEntities({
       />
     </Card>
   );
+
+  function getTagFilterExpression() {
+    return toBackendQueryModel(
+      getEnrichedAnalyzeTagFilterFormModel({
+        alertConfig,
+        applicationId,
+        applicationName,
+        serviceId,
+        endpointId,
+        timeConfig,
+        adaptiveBaselineInfo
+      })
+    );
+  }
+
+  function getTotalTagFilterExpression() {
+    return toBackendQueryModel(
+      getEnrichedAnalyzeTagFilterFormModel({
+        alertConfig,
+        applicationId,
+        applicationName,
+        serviceId,
+        endpointId,
+        timeConfig,
+        excludeViolationRelatedFilters: true,
+        adaptiveBaselineInfo
+      })
+    );
+  }
+
+  function createItemLink$(item) {
+    return getLinkToUnboundAnalytics({
+      applicationId,
+      applicationName,
+      serviceId: needsGroupByEndpoint ? serviceId : item.id,
+      serviceName: needsGroupByEndpoint ? serviceName : item.name,
+      endpointId: needsGroupByEndpoint ? item.id : null, // we never have an ID here (e.g. for a PER-SERVICE SmartAlert), because we do a grouping by name.
+      endpointName: needsGroupByEndpoint ? item.name : null,
+      alertConfig,
+      timeConfig,
+      adaptiveBaselineInfo
+    });
+  }
 }

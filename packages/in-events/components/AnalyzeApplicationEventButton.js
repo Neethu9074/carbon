@@ -12,13 +12,11 @@ import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-a
 import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { containsTagName } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Tooltip from 'in-components/Tooltip';
@@ -34,20 +32,18 @@ export default function AnalyzeApplicationEventButton({
   applicationId,
   applicationName,
   serviceId,
-  endpointId
+  endpointId,
+  adaptiveBaselineInfo = {}
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
-  const linkToUA = getLinkToUnboundAnalytics(
+  const linkToUA = getLinkToUnboundAnalytics({
     applicationId,
     applicationName,
     serviceId,
-    null,
     endpointId,
-    null,
     alertConfig,
     timeConfig,
-    tagCatalog
-  );
+    adaptiveBaselineInfo
+  });
   const linkDisabled = !linkToUA;
 
   return (
@@ -79,10 +75,11 @@ AnalyzeApplicationEventButton.propTypes = {
   applicationId: PropTypes.string.isRequired,
   applicationName: PropTypes.string,
   serviceId: PropTypes.string,
+  adaptiveBaselineInfo: PropTypes.object,
   endpointId: PropTypes.string
 };
 
-export function getLinkToUnboundAnalytics(
+export function getLinkToUnboundAnalytics({
   applicationId,
   applicationName,
   serviceId,
@@ -91,9 +88,9 @@ export function getLinkToUnboundAnalytics(
   endpointName, // still used for link in Affected Entities list
   alertConfig,
   timeConfig,
-  tagCatalog,
+  adaptiveBaselineInfo,
   groupingTagName = null
-) {
+}) {
   const { rule, tagFilterExpression, includeInternal, includeSynthetic } = alertConfig;
   const alertType = rule.alertType;
 
@@ -101,22 +98,24 @@ export function getLinkToUnboundAnalytics(
     ? groupingTagName
     : getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId);
 
+  const enrichedAnalyzeTagFilterFormModel = getEnrichedAnalyzeTagFilterFormModel({
+    alertConfig,
+    applicationId,
+    applicationName,
+    serviceId,
+    endpointId,
+    timeConfig,
+    endpointName,
+    serviceName,
+    adaptiveBaselineInfo
+  });
+
   return getLinkToAnalyze({
     dataSource,
     timeConfig,
     groupBy: toGroupByTag(groupByTag),
     chartedMetrics: getChartsParam(alertType),
-    formModel: getEnrichedAnalyzeTagFilterFormModel(
-      alertConfig,
-      applicationId,
-      applicationName,
-      serviceId,
-      endpointId,
-      timeConfig,
-      false,
-      endpointName,
-      serviceName
-    ),
+    formModel: enrichedAnalyzeTagFilterFormModel,
     hiddenCalls: {
       includeInternal,
       includeSynthetic
@@ -124,7 +123,7 @@ export function getLinkToUnboundAnalytics(
   });
 }
 
-export function getEnrichedAnalyzeTagFilterFormModel(
+export function getEnrichedAnalyzeTagFilterFormModel({
   alertConfig,
   applicationId,
   applicationName,
@@ -133,8 +132,9 @@ export function getEnrichedAnalyzeTagFilterFormModel(
   timeConfig,
   excludeViolationRelatedFilters = false,
   endpointName,
-  serviceName
-) {
+  serviceName,
+  adaptiveBaselineInfo = {}
+}) {
   const { rule, tagFilterExpression } = alertConfig;
   const alertType = rule.alertType;
   const blueprintConfig = getBlueprintConfig(alertType);
@@ -156,7 +156,7 @@ export function getEnrichedAnalyzeTagFilterFormModel(
       excludeViolationRelatedFilters ? [] : blueprintConfig.getRuleTagFilterFormModel(rule),
       excludeViolationRelatedFilters
         ? []
-        : blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig)
+        : blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig, adaptiveBaselineInfo)
     ].filter(Boolean)
   });
 }

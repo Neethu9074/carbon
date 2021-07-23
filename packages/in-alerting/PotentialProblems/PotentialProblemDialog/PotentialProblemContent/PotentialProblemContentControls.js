@@ -16,10 +16,8 @@ import {
 } from 'in-alerting/PotentialProblems/PotentialProblemsLane/proptypes';
 import { trackCreateSmartAlert, trackGotoAnalyze } from 'in-alerting/PotentialProblems/tracker';
 import { getLinkToUnboundAnalytics } from 'in-events/components/AnalyzeApplicationEventButton';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { close } from 'in-components/DialogPresenter/store';
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
@@ -37,7 +35,22 @@ export default function PotentialProblemContentControls({
   threshold,
   renderSmartAlertDialogComponent
 }) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
+  const linkToUnboundAnalytics = getLinkToUnboundAnalytics({
+    applicationId,
+    applicationName: applicationLabel,
+    alertConfig: {
+      boundaryScope,
+      applications,
+      rule,
+      threshold,
+      tagFilterExpression,
+      includeSynthetic,
+      includeInternal,
+      granularity: defaultGranularity
+    },
+    timeConfig: getTimeConfigForAnalyzeLink(alert)
+  });
+
   return (
     <>
       <Button
@@ -50,26 +63,7 @@ export default function PotentialProblemContentControls({
           close();
         }}
         icon="lib_analyze"
-        href$={getLinkToUnboundAnalytics(
-          applicationId,
-          applicationLabel,
-          null, // is already included in given tagFilterExpression
-          null,
-          null, // is already included in given tagFilterExpression
-          null,
-          {
-            boundaryScope,
-            applications,
-            rule,
-            threshold,
-            tagFilterExpression,
-            includeSynthetic,
-            includeInternal,
-            granularity: defaultGranularity
-          },
-          getTimeConfigForAnalyzeLink(alert),
-          tagCatalog
-        )}
+        href$={linkToUnboundAnalytics}
       >
         {t('in-alerting:potentialProblems.buttonInvestigate')}
       </Button>

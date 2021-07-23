@@ -20,7 +20,7 @@ export function getBaselineValue(timestamp, baseline, sensitivity, baselineGranu
     : baselineValue - sensitivity * deviationValue;
 }
 
-export function getApproximatedBaselineThresholdValue(alertConfig, timeConfig) {
+export function getApproximatedHistoricBaselineThresholdValue(alertConfig, timeConfig) {
   const { operator, baseline, deviationFactor } = alertConfig.threshold;
   const baselineGranularity = alertConfig.granularity;
   const isGreaterOp = operator === '>=' || operator === '>';
@@ -29,5 +29,13 @@ export function getApproximatedBaselineThresholdValue(alertConfig, timeConfig) {
   for (let time = timeConfig.to - timeConfig.windowSize; time <= timeConfig.to; time += baselineGranularity) {
     baselineValues.push(getBaselineValue(time, baseline, deviationFactor, baselineGranularity, isGreaterOp));
   }
+  return isGreaterOp ? Math.floor(Math.min(...baselineValues)) : Math.ceil(Math.max(...baselineValues));
+}
+
+export function getApproximatedAdaptiveBaselineThresholdValue(alertConfig, adaptiveBaselineInfo) {
+  const { operator } = alertConfig.threshold;
+  const isGreaterOp = operator === '>=' || operator === '>';
+  const baselineValues = Object.values(adaptiveBaselineInfo);
+
   return isGreaterOp ? Math.floor(Math.min(...baselineValues)) : Math.ceil(Math.max(...baselineValues));
 }

@@ -3,19 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  getApproximatedAdaptiveBaselineThresholdValue,
+  getApproximatedHistoricBaselineThresholdValue
+} from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import getApplicationMetricsThresholdSuggestion from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsThresholdSuggestion';
 import {
   firstApplicationId,
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
-import { getApproximatedBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { percentage, millis, number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -208,12 +211,16 @@ function getStatusCodeFormModel(alertRule) {
   });
 }
 
-function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) {
+function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig, adaptiveBaselineInfo = {}) {
   let value;
+
   if (alertConfig.threshold.type === STATIC_THRESHOLD) {
     value = alertConfig.threshold.value;
+  } else if (alertConfig.threshold.type === ADAPTIVE_BASELINE) {
+    value = getApproximatedAdaptiveBaselineThresholdValue(alertConfig, adaptiveBaselineInfo);
   } else {
-    value = getApproximatedBaselineThresholdValue(alertConfig, timeConfig);
+    // HISTORIC_BASELINE
+    value = getApproximatedHistoricBaselineThresholdValue(alertConfig, timeConfig);
   }
 
   return [tagFilter('call.latency', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];

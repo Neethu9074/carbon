@@ -7,7 +7,7 @@ import getWebsiteRateMetricThresholdSuggestion from 'in-alerting/smart-alerts/we
 import getWebsiteMetricsThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricsThresholdSuggestion';
 import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricAlertsPreview';
-import { getApproximatedBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { getApproximatedHistoricBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -212,7 +212,7 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) 
   if (alertConfig.threshold.type === STATIC_THRESHOLD) {
     value = alertConfig.threshold.value;
   } else {
-    value = getApproximatedBaselineThresholdValue(alertConfig, timeConfig);
+    value = getApproximatedHistoricBaselineThresholdValue(alertConfig, timeConfig);
   }
 
   return [tagFilter('beacon.duration', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];

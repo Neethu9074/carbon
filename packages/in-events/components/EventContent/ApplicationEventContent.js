@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Map } from 'immutable';
 import React from 'react';
 
 import { Card } from '@instana/components';
@@ -40,6 +41,8 @@ export default function ApplicationEventContent({ event }) {
   }
 
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
+  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({});
+
   const { applicationId } = eventEntity;
   const { tagFilterExpression, rule, boundaryScope } = alertConfig;
   const alertType = rule.alertType;
@@ -79,6 +82,7 @@ export default function ApplicationEventContent({ event }) {
                 {...eventEntity}
                 alertConfig={alertConfig}
                 timeConfig={analyzeTimeConfig}
+                adaptiveBaselineInfo={adaptiveBaselineInfo.toJS()}
               />
             </DescriptionButtons>
           </Card>
