@@ -1,0 +1,14 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .error {
+    fill: @lib__colors__red800;
+    margin: 0.5rem auto 0;
+    display: block;
+  }
+}

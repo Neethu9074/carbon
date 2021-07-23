@@ -35,6 +35,7 @@ export interface KpiCardProps {
   companionValue?: ReactNode;
   raw?: boolean;
   renderValue?: (value?: any) => ReactNode;
+  children?: ReactNode;
   valuesClassName?: string;
   borderless?: boolean;
   color?: string;
@@ -49,6 +50,7 @@ export default function KpiCard({
   companionValue,
   raw = false,
   renderValue,
+  children,
   valuesClassName,
   borderless = false,
   color,
@@ -62,6 +64,8 @@ export default function KpiCard({
     content = (
       <span className={classNames(locals.minor, valuesClassName)}>{renderValue ? renderValue(value) : value}</span>
     );
+  } else if (children) {
+    content = <span className={classNames(locals.minor, valuesClassName)}>{children}</span>;
   } else {
     let major = valueMissingPlaceholder;
     let minor = null;

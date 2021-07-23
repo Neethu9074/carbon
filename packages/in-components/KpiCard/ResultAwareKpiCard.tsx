@@ -3,28 +3,44 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-import { HorizontalIndicator } from '@instana/components';
+import { SvgIcon } from '@instana/components';
 
-import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import KpiCard from 'in-components/KpiCard/KpiCard';
+import { Result } from 'in-types';
 
-export default function ResultAwareKpiCard({ title, result, renderKpiCard, useMaxAvailableHeight, actions }) {
+// @ts-ignore
+import locals from './ResultAwareKpiCard.mless';
+
+export interface ResultAwareKpiCardProps<T> {
+  title: string;
+  result: Result<T>;
+  /**
+   * Will be called for a non-erroneous/finished Result
+   */
+  renderKpiCard: (result: Result<T>) => ReactNode;
+  useMaxAvailableHeight?: boolean;
+  actions?: ReactNode;
+}
+
+export default function ResultAwareKpiCard<T>({
+  title,
+  result,
+  renderKpiCard,
+  useMaxAvailableHeight,
+  actions
+}: ResultAwareKpiCardProps<T>) {
   if (result.errors.length > 0) {
     return (
       <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
-        <ErroneousResultPresenter errors={result.errors} />
+        <SvgIcon size="l" type="lib_help_error_error_circle" className={locals.error} />
       </KpiCard>
     );
   }
 
   if (result.progress.loading) {
-    return (
-      <KpiCard title={title} withoutPadding useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
-        <HorizontalIndicator progress={result.progress} />
-      </KpiCard>
-    );
+    return <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions} />;
   }
 
   return renderKpiCard(result);
