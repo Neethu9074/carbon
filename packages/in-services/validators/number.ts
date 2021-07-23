@@ -3,17 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ValidationResult } from 'formalistic';
+
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-const failureMessage = [
+const failureMessage: ValidationResult = [
   {
     severity: 'error',
     message: t('in-services:validators.pleaseTypeInANumber')
   }
 ];
 
-export function numericValidator(v) {
+export function numericValidator(v: any): ValidationResult {
   if (!v) {
     return null;
   }
@@ -41,15 +43,15 @@ export function numericValidator(v) {
   return failureMessage;
 }
 
-const positiveNumberFailureMessage = [
+const positiveNumberFailureMessage: ValidationResult = [
   {
     severity: 'error',
     message: t('in-services:validators.pleaseTypeInAPositiveNumber')
   }
 ];
 
-export function minValidator(minInclusive) {
-  return v => {
+export function minValidator(minInclusive: number): ((v: any) => ValidationResult) {
+  return (v: any) => {
     if (typeof v === 'number' && !isNaN(v) && v < minInclusive) {
       return [
         {
@@ -58,11 +60,12 @@ export function minValidator(minInclusive) {
         }
       ];
     }
+    return undefined;
   };
 }
 
-export function maxValidator(maxInclusive) {
-  return v => {
+export function maxValidator(maxInclusive: number): ((v: any) => ValidationResult) {
+  return (v: any) => {
     if (typeof v === 'number' && !isNaN(v) && v > maxInclusive) {
       return [
         {
@@ -71,10 +74,11 @@ export function maxValidator(maxInclusive) {
         }
       ];
     }
+    return undefined;
   };
 }
 
-export function positiveNumberValidator(v) {
+export function positiveNumberValidator(v: string | number): ValidationResult {
   try {
     const num = Number(v);
     if (isNaN(num) || num <= 0) {
@@ -86,7 +90,7 @@ export function positiveNumberValidator(v) {
   }
 }
 
-export function notANumberValidator(v) {
+export function notANumberValidator(v: any): ValidationResult {
   if (typeof v === 'number' && isNaN(v)) {
     return [
       {
@@ -95,4 +99,5 @@ export function notANumberValidator(v) {
       }
     ];
   }
+  return undefined;
 }
