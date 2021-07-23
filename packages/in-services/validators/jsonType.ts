@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ValidationResult } from 'formalistic';
+
 import { notANumberValidator } from 'in-services/validators/number';
 import { t } from 'in-i18n';
 
@@ -19,7 +21,10 @@ export const jsonPrimitiveValidator = createPrototypeCheck(
   notANumberValidator
 );
 
-function createPrototypeCheck(expectedPrototypes, validateTypeDetails) {
+function createPrototypeCheck(
+  expectedPrototypes: any[],
+  validateTypeDetails?: (v: any) => ValidationResult
+): (v: any) => ValidationResult {
   const expectedPrototypesLabel = expectedPrototypes
     .map(p => p.constructor?.name)
     .filter(Boolean)
@@ -62,7 +67,7 @@ function createPrototypeCheck(expectedPrototypes, validateTypeDetails) {
 }
 
 // Exposed for testing purposes
-export function getErrorMessage(expectedType, actualType) {
+export function getErrorMessage(expectedType: string, actualType: string) {
   const message = t('in-services:validators.aValueOfTypeExpectedTypeIsRequired', { expectedType: expectedType });
   if (!actualType) {
     return message;
