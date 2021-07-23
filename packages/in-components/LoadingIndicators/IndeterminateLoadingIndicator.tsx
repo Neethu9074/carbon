@@ -27,7 +27,7 @@ const DEFAULT_STYLES = {
 
 export interface IndeterminateLoadingIndicatorProps {
   /** Size of the loading indicator as a valid CSS value` */
-  size?: string | number;
+  size?: keyof typeof SvgIconSizes | number;
   /** Object of style overrides */
   customStyle?: {
     connectorStrokeColor?: string;
@@ -85,14 +85,15 @@ export default class IndeterminateLoadingIndicator extends PureComponent {
   static displayName = 'IndeterminateLoadingIndicator';
 
   static defaultProps: IndeterminateLoadingIndicatorProps = {
-    size: SvgIconSizes.xxl,
+    size: 'xxl',
     customStyle: {}
   };
 
   state: Record<string, any> = {}; // contains svg path lengths for animation
   props: IndeterminateLoadingIndicatorProps = this.props;
+
   render() {
-    const { size } = this.props;
+    const size = this.getSize();
 
     return (
       <svg
@@ -108,6 +109,14 @@ export default class IndeterminateLoadingIndicator extends PureComponent {
         {this.renderHexagons()}
       </svg>
     );
+  }
+
+  getSize() {
+    const { size = 'xxl' } = this.props;
+    if (typeof size === 'number') {
+      return size;
+    }
+    return SvgIconSizes[size];
   }
 
   getPathLengthCalculatingRef = (id: string) => (r: any) => {

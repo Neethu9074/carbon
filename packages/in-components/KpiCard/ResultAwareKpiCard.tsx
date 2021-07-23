@@ -5,8 +5,9 @@
 
 import React, { ReactNode } from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { Stack, SvgIcon } from '@instana/components';
 
+import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { Result } from 'in-types';
 
@@ -40,7 +41,13 @@ export default function ResultAwareKpiCard<T>({
   }
 
   if (result.progress.loading) {
-    return <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions} />;
+    return (
+      <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
+        <Stack align="center" distribution="center">
+          <IndeterminateLoadingIndicator size="xl" />
+        </Stack>
+      </KpiCard>
+    );
   }
 
   return renderKpiCard(result);
