@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, createListForm } from 'formalistic';
+import { createMapForm, createField, createListForm, ValidationResult, Item } from 'formalistic';
 
 import { stringValidator, arrayValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
@@ -11,7 +11,12 @@ import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-export function createForm(savedState) {
+interface TimeZoneConfiguration {
+  timeZone?: string;
+  label?: string;
+}
+
+export function createForm(savedState: TimeZoneConfiguration[]) {
   let listForm = createListForm({
     validator: composeAndShortCircuitOnError(
       notUndefinedValidator,
@@ -28,7 +33,7 @@ export function createForm(savedState) {
   return listForm;
 }
 
-export function createTimeZoneSubForm({ timeZone, label } = {}) {
+export function createTimeZoneSubForm({ timeZone, label }: TimeZoneConfiguration = {}) {
   return createMapForm()
     .put(
       'timeZone',
@@ -46,7 +51,7 @@ export function createTimeZoneSubForm({ timeZone, label } = {}) {
     );
 }
 
-function atLeastOneTimeZoneRequiredValidator(items) {
+function atLeastOneTimeZoneRequiredValidator(items: Item[]): ValidationResult {
   if (items.length > 0) {
     return null;
   }
@@ -59,7 +64,7 @@ function atLeastOneTimeZoneRequiredValidator(items) {
   ];
 }
 
-function timeZoneRequired(value) {
+function timeZoneRequired(value: string): ValidationResult {
   if (isBlank(value)) {
     return [
       {

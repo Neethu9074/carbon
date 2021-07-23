@@ -74,7 +74,7 @@ declare module 'formalistic' {
     toJS(): { [path: string]: any };
   }
 
-  export function createMapForm(opts: CreateMapFormOpts): MapForm;
+  export function createMapForm(opts?: CreateMapFormOpts): MapForm;
 
   /*
    * ListForm
