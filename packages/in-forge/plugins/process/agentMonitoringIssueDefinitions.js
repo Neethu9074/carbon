@@ -228,5 +228,23 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/prometheus/#prometheus_remote_write_high_delay`
+  },
+  cpp_collector_not_installed: {
+    issueDescription: {
+      Component: function cppCollectorNotInstalled() {
+        return (
+          <span>
+            <Trans
+              i18nKey="in-forge:plugins.process.cppCollectorNotInstalledIssueDescription"
+              components={{
+                code: <code />
+              }}
+            />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
+    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#cpp_collector_not_installed`
   }
 };

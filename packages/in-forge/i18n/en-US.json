@@ -5685,6 +5685,7 @@
       "pythonSensorNotInstalledIssueDescription": "The <code>instana</code> package is not installed in this Python application, or the <code>instana</code> package cannot announce itself to the host agent, for example due to networking issues.",
       "rubySensorNotInstalledIssueDescription": "The <code>instana</code> gem is not installed in this Ruby application, or the <code>instana</code> gem cannot announce itself to the host agent, for example due to networking issues.",
       "prometheusRemoteWriteHighDelayIssueDescription": "The host agent is ingesting Prometheus metrics on the <code>remote_write</code> endpoint, but these metrics are being received with a high delay of {{metricDelayMs}} ms. Please check the Prometheus <code>batch_send_deadline</code> configuration option to limit the delay, or consult our docs for more information.",
+      "cppCollectorNotInstalledIssueDescription": "The <code>libinstana_sensor.so</code> library is not installed in this C++ application, or it cannot announce itself to the host agent, for example due to networking issues.",
       "dashboard": {
         "cpuUsage": "CPU Usage",
         "user": "User",
