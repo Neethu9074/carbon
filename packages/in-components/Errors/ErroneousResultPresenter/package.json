@@ -2,5 +2,5 @@
   "name": "ErroneousResultPresenter",
   "version": "0.0.0",
   "private": true,
-  "main": "./ErroneousResultPresenter.js"
+  "main": "./ErroneousResultPresenter.tsx"
 }
