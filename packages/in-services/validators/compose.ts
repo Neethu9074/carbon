@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-export function composeAndShortCircuitOnError(...validators) {
-  return value => {
-    const result = [];
+import { ValidationMessage, ValidationResult } from 'formalistic';
+
+export function composeAndShortCircuitOnError<VALUE_TYPE>(...validators: ((v: VALUE_TYPE) => ValidationResult)[]) {
+  return (value: VALUE_TYPE) => {
+    const result: ValidationMessage[] = [];
 
     for (const validator of validators) {
       let errorSeen = false;
@@ -25,9 +27,9 @@ export function composeAndShortCircuitOnError(...validators) {
   };
 }
 
-export function anyOf(...validators) {
-  return value => {
-    const result = [];
+export function anyOf<VALUE_TYPE>(...validators: ((v: VALUE_TYPE) => ValidationResult)[]) {
+  return (value: VALUE_TYPE) => {
+    const result: ValidationMessage[] = [];
 
     for (const validator of validators) {
       let errorSeen = false;
