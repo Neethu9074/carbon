@@ -4,8 +4,9 @@
  */
 
 import { indeterminateProgress, emptyArray, finishedProgress } from 'in-services/fixedObjects';
+import { Result, Error } from 'in-types';
 
-export function merge(results, mergeResultData) {
+export function merge<IN, OUT>(results: Result<IN>[], mergeResultData: (data: IN[]) => OUT): Result<OUT> {
   if (isAllFinished(results)) {
     return mergeFinished(results, mergeResultData);
   } else if (hasErrors(results)) {
@@ -14,7 +15,7 @@ export function merge(results, mergeResultData) {
   return mergeProgress(results);
 }
 
-function isAllFinished(results) {
+function isAllFinished<T>(results: Result<T>[]): boolean {
   for (const result of results) {
     if (result.progress.loading || result.errors.length !== 0) {
       return false;
@@ -23,17 +24,17 @@ function isAllFinished(results) {
   return true;
 }
 
-function mergeFinished(results, mergeResultData) {
-  const maxTime = results.reduce((agg, result) => Math.max(result.time, agg), 0);
+function mergeFinished<IN, OUT>(results: Result<IN>[], mergeResultData: (data: IN[]) => OUT): Result<OUT> {
+  const maxTime = results.reduce((agg, result) => Math.max(result.time || 0, agg), 0);
   return {
-    data: mergeResultData(results.map(result => result.data)),
-    errors: emptyArray,
+    data: mergeResultData(results.map(result => result.data as IN)),
+    errors: emptyArray as [],
     time: maxTime,
     progress: finishedProgress
   };
 }
 
-function hasErrors(results) {
+function hasErrors(results: Result<any>[]) {
   for (const result of results) {
     if (result.errors.length > 0) {
       return true;
@@ -42,8 +43,8 @@ function hasErrors(results) {
   return false;
 }
 
-function mergeErrors(results) {
-  let errors = [];
+function mergeErrors<T>(results: Result<any>[]): Result<T> {
+  let errors: Error[] = [];
   for (const result of results) {
     errors = [...errors, ...result.errors];
   }
@@ -53,8 +54,9 @@ function mergeErrors(results) {
   };
 }
 
-function mergeProgress(results) {
+function mergeProgress<T>(results: Result<any>[]): Result<T> {
   let smallestProgress = null;
+
   for (const result of results) {
     if (!result.progress.loading) {
       // Not loading – do not include in progress state.
@@ -76,8 +78,11 @@ function mergeProgress(results) {
       loading: true
     };
   }
+
   return {
-    progress: smallestProgress,
-    errors: emptyArray
+    progress: smallestProgress || {
+      loading: true
+    },
+    errors: emptyArray as []
   };
 }
