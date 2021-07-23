@@ -12,6 +12,7 @@ import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces, percentage 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import PackageRetrievalDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PackageRetrievalDialog';
 import DiagnosticInfoDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/DiagnosticInfoDialog';
+import PrometheusJavaClientMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PrometheusJavaClientMetrics';
 import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
@@ -193,6 +194,7 @@ function JVMDashboard({ snapshot, timeConfig, isInternalVisible, agentSnapshot }
       <JmxMetricsTable snapshot={snapshot} timeConfig={timeConfig} />
 
       <CustomMetricsV2 snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Dropwizard" />
+      <PrometheusJavaClientMetrics snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Prometheus" />
       <MicrometerMetrics snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Micrometer" />
     </div>
   );
