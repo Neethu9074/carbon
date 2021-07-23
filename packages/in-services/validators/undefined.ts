@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ValidationResult } from 'formalistic';
+
 import { t } from 'in-i18n';
 
-export function notUndefinedValidator(v) {
+export function notUndefinedValidator(v: any): ValidationResult {
   if (v === undefined) {
     return [
       {
@@ -14,4 +16,5 @@ export function notUndefinedValidator(v) {
       }
     ];
   }
+  return undefined;
 }

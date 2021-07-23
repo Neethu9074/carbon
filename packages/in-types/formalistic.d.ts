@@ -66,12 +66,12 @@ declare module 'formalistic' {
     get(path: string): Item | undefined;
     getIn(path: string[]): Item;
     remove(path: string): MapForm;
-    reduce<R>(reducer: ((acc: R, cur: Item, key: string) => R), seed: R): R
+    reduce<R>(reducer: (acc: R, cur: Item, key: string) => R, seed: R): R;
     containsKey(key: string): boolean;
-    updateIn(path: string[], updater: ((item: Item) => Item)): MapForm;
+    updateIn(path: string[], updater: (item: Item) => Item): MapForm;
     setTouched(touched: boolean, opts?: SetTouchedOptions): MapForm;
     getAllMessagesInHierarchy(): ValidationMessage[];
-    toJS(): {[path: string]: any};
+    toJS(): { [path: string]: any };
   }
 
   export function createMapForm(opts: CreateMapFormOpts): MapForm;
@@ -103,11 +103,11 @@ declare module 'formalistic' {
     remove(index: number): ListForm;
     get(index: number): Item | undefined;
     getIn(path: string[]): Item;
-    updateIn(path: string[], updater: ((item: Item) => Item)): ListForm;
+    updateIn(path: string[], updater: (item: Item) => Item): ListForm;
     setTouched(touched: boolean, opts?: SetTouchedOptions): ListForm;
     getAllMessagesInHierarchy(): ValidationMessage[];
-    map(mapper: ((item: Item) => any)): any[];
-    reduce<R>(reducer: ((acc: R, cur: Item, index: number) => R), seed: R): R
+    map(mapper: (item: Item) => any): any[];
+    reduce<R>(reducer: (acc: R, cur: Item, index: number) => R, seed: R): R;
     moveUp(index: number): ListForm;
     moveDown(index: number): ListForm;
     toJS(): any[];
@@ -119,7 +119,7 @@ declare module 'formalistic' {
    * Validation
    */
   export type Severity = 'error' | 'warning' | 'info' | 'ok';
-  export type ValidationResult = ValidationMessage[] | null;
+  export type ValidationResult = ValidationMessage[] | null | undefined;
 
   export interface ValidationMessage {
     severity: Severity;
