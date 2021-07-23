@@ -5,40 +5,40 @@
 
 import { create } from '@instana/observables';
 
+import { CustomPayloadConfiguration, CustomPayloadConfigurationWithLastUpdated, Result, TagCatalog } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { Response } from 'in-services/http/types';
 import http from 'in-services/http';
 
 const basePath = '/api/events/settings/custom-payload-configurations';
 
-const refreshCustomPayload = create().emit(true);
+const refreshCustomPayload = create<boolean>().emit(true);
 
-function mapAndRefresh(response) {
+function mapAndRefresh(response: Response<CustomPayloadConfigurationWithLastUpdated>) {
   refreshCustomPayload.emit(true);
   return response.body;
 }
 
-export const getGlobalCustomPayloadAsResultObservable = memoize(
-  getGlobalCustomPayloadAsResultObservableInternal,
-  () => '',
-  60000
-);
+export const getGlobalCustomPayloadAsResultObservable = memoize<
+  void,
+  Result<CustomPayloadConfigurationWithLastUpdated>
+>(getGlobalCustomPayloadAsResultObservableInternal, () => '', 60000);
 function getGlobalCustomPayloadAsResultObservableInternal() {
   return refreshCustomPayload.flatMap(() =>
-    createObservable(
-      http({
-        method: 'GET',
-        url: basePath,
-        maxRetries: 3,
-        headers: getCsrfHeader()
-      })
-    )
+    http<CustomPayloadConfigurationWithLastUpdated>({
+      mapToResultObject: true,
+      method: 'GET',
+      url: basePath,
+      maxRetries: 3,
+      headers: getCsrfHeader()
+    })
   );
 }
 
-export function saveGlobalCustomPayload(customPayload) {
-  return http({
+export function saveGlobalCustomPayload(customPayload: CustomPayloadConfiguration) {
+  return http<CustomPayloadConfigurationWithLastUpdated>({
     method: 'PUT',
     url: basePath,
     data: customPayload,
@@ -49,7 +49,7 @@ export function saveGlobalCustomPayload(customPayload) {
 
 export function getCustomPayloadTagCatalog() {
   return createObservable(
-    http({
+    http<TagCatalog>({
       method: 'GET',
       url: `${basePath}/catalog`,
       maxRetries: 3
