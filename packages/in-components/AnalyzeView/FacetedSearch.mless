@@ -12,6 +12,7 @@
     flex-shrink: 0;
     border-right: 1px solid lightgray;
 
+    margin-right: 1.5rem;
     padding-right: 1.5rem;
     overflow-y: auto;
     height: 100vh;
