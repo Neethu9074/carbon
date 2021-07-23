@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
+import { combineLatest, Observable } from '@instana/observables';
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { GetUnifiedMetricsQuery, MetricResult, Result } from 'in-types';
 import { merge } from 'in-services/util/resultMerger';
 
-const getUnifiedMetricsInternal = createResultSubscriptionFactory({
+const getUnifiedMetricsInternal = createResultSubscriptionFactory<GetUnifiedMetricsQuery, Result<MetricResult[]>>({
   eventId: 'getUnifiedMetrics',
   trackSubscriptionStatistics: true
 });
@@ -20,7 +21,7 @@ const getUnifiedMetricsInternal = createResultSubscriptionFactory({
 //
 // This in turn causes the caching to improve for scenarios where a
 // subset of the metrics may change in response to user input.
-export default function getUnifiedMetrics({ metrics }) {
+export default function getUnifiedMetrics({ metrics }: GetUnifiedMetricsQuery): Observable<Result<MetricResult[]>> {
   const observables = Object.keys(metrics).map(metricId =>
     getUnifiedMetricsInternal({
       metrics: {
@@ -32,11 +33,11 @@ export default function getUnifiedMetrics({ metrics }) {
   return combineLatest(observables).map(mergeResults);
 }
 
-function mergeResults(results) {
+function mergeResults(results: Result<MetricResult[]>[]) {
   return merge(results, mergeResultData);
 }
 
-function mergeResultData(dataSets) {
+function mergeResultData(dataSets: MetricResult[][]): MetricResult[] {
   const merged = [];
   for (const data of dataSets) {
     merged.push(...data);
