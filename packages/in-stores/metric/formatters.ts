@@ -94,6 +94,6 @@ const allFormatters: Formatter[] = [...publicFormatters, ...privateFormatters];
 
 export const publicFormatterIds = Object.values(publicFormatters).map(c => c.id);
 
-export function getFormatter(formatterId: string): FormatterFn {
+export function getFormatter(formatterId?: string): FormatterFn {
   return (allFormatters.find(({ id }) => id === formatterId) || defaultFormatter).formatter;
 }

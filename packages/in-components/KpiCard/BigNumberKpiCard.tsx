@@ -33,12 +33,13 @@ export interface Config {
   companionMetricConfiguration: UnifiedMetricConfiguration;
   comparisonIncreaseColor: string;
   comparisonDecreaseColor: string;
+  formatter?: string;
 }
 
 export interface BigNumberKpiCardProps {
   title: string;
   formatter: FormatterFn;
-  companionFormatter: FormatterFn;
+  companionFormatter?: FormatterFn;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
   config: Config;
