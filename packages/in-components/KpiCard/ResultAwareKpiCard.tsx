@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { ReactNode } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
 
@@ -20,7 +20,7 @@ export interface ResultAwareKpiCardProps<T> {
   /**
    * Will be called for a non-erroneous/finished Result
    */
-  renderKpiCard: (result: Result<T>) => ReactNode;
+  renderKpiCard: (result: Result<T>) => ReactElement;
   useMaxAvailableHeight?: boolean;
   actions?: ReactNode;
 }

@@ -3,19 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import { find } from 'lodash';
-import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
 import { translateOffsetToTimeShiftConfig, getTimeShiftLabel } from 'in-stores/time/shifting';
+import { MetricResult, Result, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
+import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
 import { percentage } from 'in-services/formatters/number';
+import { FormatterFn } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
-import KpiCard from 'in-components/KpiCard/KpiCard';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -23,6 +25,26 @@ import { t } from 'in-i18n';
 export const metricKey = 'bigNumber';
 export const companionMetricKey = 'companion';
 export const comparisonMetricKey = 'comparison';
+
+export interface Config {
+  metricConfiguration: UnifiedMetricConfiguration & {
+    timeShift: number;
+  };
+  companionMetricConfiguration: UnifiedMetricConfiguration;
+  comparisonIncreaseColor: string;
+  comparisonDecreaseColor: string;
+}
+
+export interface BigNumberKpiCardProps {
+  title: string;
+  formatter: FormatterFn;
+  companionFormatter: FormatterFn;
+  useMaxAvailableHeight?: boolean;
+  iconAction?: IconAction;
+  config: Config;
+  actions?: ReactNode;
+  dragHandle?: ReactNode;
+}
 
 export default function BigNumberKpiCard({
   title,
@@ -33,19 +55,18 @@ export default function BigNumberKpiCard({
   config,
   actions,
   dragHandle
-}) {
+}: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
 
-  const metricDefaults = {
+  const metricDefaults: Partial<UnifiedMetricConfiguration> = {
     timeShift: {
       offset: 0
     },
     timeConfig,
-    granularity: null,
     resultType: 'SINGLE_NUMBER'
   };
 
-  const metrics = {
+  const metrics: { [index: string]: UnifiedMetricConfiguration } = {
     [metricKey]: {
       ...config.metricConfiguration,
       ...metricDefaults
@@ -65,7 +86,7 @@ export default function BigNumberKpiCard({
     };
   }
 
-  const result =
+  const result: Result<MetricResult[]> =
     useObservable(() => getUnifiedMetrics({ metrics }), [config, timeConfig, config.metricConfiguration.timeShift]) ??
     pendingResult;
 
@@ -103,16 +124,16 @@ export default function BigNumberKpiCard({
 }
 
 function renderKpiCard(
-  result,
-  config,
-  formatter,
-  title,
-  timeConfig,
-  companionFormatter,
-  iconAction,
-  actions,
-  dragHandle,
-  useMaxAvailableHeight
+  result: Result<MetricResult[]>,
+  config: Config,
+  formatter: FormatterFn,
+  title: string,
+  timeConfig: TimeConfig,
+  companionFormatter: FormatterFn | undefined,
+  iconAction: IconAction | undefined,
+  actions: ReactNode,
+  dragHandle: ReactNode,
+  useMaxAvailableHeight: boolean | undefined
 ) {
   let value = null;
   const dataPoint = find(result.data, ({ id }) => id === metricKey);
@@ -143,17 +164,17 @@ function renderKpiCard(
       companionValue={
         config.metricConfiguration.timeShift
           ? renderTimeShiftValue(config, result, formatter, value, timeConfig)
-          : renderCompanionValue(result, companionFormatter)
+          : renderCompanionValue(result, companionFormatter as FormatterFn)
       }
       iconAction={iconAction}
     />
   );
 }
 
-function renderCompanionValue(result, companionFormatter) {
+function renderCompanionValue(result: Result<MetricResult[]>, companionFormatter: FormatterFn) {
   let value = null;
   const dataPoint = find(result.data, ({ id }) => id === companionMetricKey);
-  if (dataPoint && dataPoint.values.length === 1) {
+  if (dataPoint?.values?.length === 1) {
     value = dataPoint.values[0][1];
   }
 
@@ -165,8 +186,14 @@ function renderCompanionValue(result, companionFormatter) {
   return formattedValue;
 }
 
-function renderTimeShiftValue(config, result, formatter, value, timeConfig) {
-  const timeShift = config.metricConfiguration.timeShift;
+function renderTimeShiftValue(
+  config: Config,
+  result: Result<MetricResult[]>,
+  formatter: FormatterFn,
+  value: number | null,
+  timeConfig: TimeConfig
+) {
+  const timeShift = config.metricConfiguration.timeShift as number;
   if (timeShift === 0 || value == null) {
     return null;
   }
