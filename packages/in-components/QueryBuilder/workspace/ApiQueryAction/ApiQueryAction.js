@@ -11,9 +11,14 @@ import { Action } from 'in-components/workspace/ActionSection/ActionSection';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';
 
-export default function ApiQueryAction({ backendQueryModel, tracking }) {
+export default function ApiQueryAction({ backendQueryModel, backendQueryModelWithFacets, tracking }) {
   return (
-    <Overlay withoutWrapper align="bottomMiddle" content={ApiQueryOverlay} props={{ backendQueryModel }}>
+    <Overlay
+      withoutWrapper
+      align="bottomMiddle"
+      content={ApiQueryOverlay}
+      props={{ backendQueryModel, backendQueryModelWithFacets }}
+    >
       {({ toggle, refSetter }) => (
         <Action
           disabled={!backendQueryModel}
@@ -35,6 +40,7 @@ export default function ApiQueryAction({ backendQueryModel, tracking }) {
 
 ApiQueryAction.propTypes = {
   backendQueryModel: rpt.object,
+  backendQueryModelWithFacets: rpt.object,
   tracking: rpt.shape({
     onClick: rpt.func
   })

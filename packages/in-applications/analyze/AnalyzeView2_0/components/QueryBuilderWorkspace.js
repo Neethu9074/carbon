@@ -154,7 +154,8 @@ export default function ApplicationsQueryBuilderWorkspace(props) {
                 <Stack direction={'horizontal'} gap={'small'}>
                   {CustomAction && <CustomAction {...props} />}
                   <ApiQueryAction
-                    backendQueryModel={backendQueryModelWithFacets}
+                    backendQueryModel={backendQueryModel}
+                    backendQueryModelWithFacets={backendQueryModelWithFacets}
                     tracking={{
                       onClick: () => ua2ApiQueryPressedTracker({ dataSource })
                     }}

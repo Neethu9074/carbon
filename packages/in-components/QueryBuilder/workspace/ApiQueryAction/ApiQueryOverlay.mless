@@ -4,11 +4,12 @@
  */
 
 @import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .header {
     justify-content: space-between;
-    width: 30rem;
+    min-width: 30rem;
     padding: 1rem 1.5rem;
   }
 
@@ -17,6 +18,24 @@
     padding-top: 1rem;
     overflow: auto;
     background: #1b2733;
+  }
+
+  .toggleWrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 2rem;
+    line-height: 1.5rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .toggleWrapperText {
+    max-width: 50%;
+    margin-left: 0.5rem;
+    line-height: 1.5rem;
+    font-size: 0.75rem;
+    color: @lib__colors__N500;
+    .ellipsis();
   }
 }
 

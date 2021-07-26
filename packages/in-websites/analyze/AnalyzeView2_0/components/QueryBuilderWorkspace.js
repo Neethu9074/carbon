@@ -103,7 +103,8 @@ export default function WebsiteQueryBuilderWorkspace(props) {
             <ActionSection
               right={
                 <ApiQueryAction
-                  backendQueryModel={backendQueryModelWithFacets}
+                  backendQueryModel={backendQueryModel}
+                  backendQueryModelWithFacets={backendQueryModelWithFacets}
                   tracking={{
                     onClick: () => ua2ApiQueryPressedTracker({ dataSource })
                   }}
