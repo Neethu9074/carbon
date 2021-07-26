@@ -149,7 +149,7 @@ function _run_docker_build {
 
 function _scan_image() {
   local TAG=$1
-  local INSTANA_TWISTCLI_VERSION='0.0.9'
+  local INSTANA_TWISTCLI_VERSION='0.0.10'
   _log_info "Triggering scan for image ${TAG} with instana-twistcli ${INSTANA_TWISTCLI_VERSION}"
   ${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/instana-twistcli/scanImage.bash ${TAG} ${INSTANA_TWISTCLI_VERSION}
 }
