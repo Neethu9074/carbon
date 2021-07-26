@@ -182,8 +182,28 @@ export interface ApplicationScopeWithId {
   readonly name?: string;
 }
 
+export interface ApplicationSliEntity extends SliEntity {
+  readonly applicationId: string;
+  readonly boundaryScope: AlertingApplicationBoundaryScope;
+  readonly endpointId?: string;
+  readonly serviceId?: string;
+}
+
 export interface ApplicationTimeThreshold extends TimeThreshold {
   readonly type: string;
+}
+
+export interface AvailabilitySliEntity extends SliEntity {
+  readonly applicationId: string;
+  readonly badEventFilterExpression?: TagFilterExpressionElement;
+  readonly badEventFilters?: TagFilter[];
+  readonly boundaryScope: AlertingApplicationBoundaryScope;
+  readonly endpointId?: string;
+  readonly goodEventFilterExpression?: TagFilterExpressionElement;
+  readonly goodEventFilters?: TagFilter[];
+  readonly includeInternal: boolean;
+  readonly includeSynthetic: boolean;
+  readonly serviceId?: string;
 }
 
 export interface AvailableMetrics {
@@ -3001,6 +3021,28 @@ export interface ServiceScopedToWithId {
 export interface ServiceStackItem extends Item {
   readonly endpointTypes?: string[];
   readonly technologies?: string[];
+}
+
+export interface SliConfigMetricConfiguration {
+  readonly metricAggregation?: AggregationType;
+  readonly metricName: string;
+  readonly threshold: number;
+}
+
+export interface SliConfiguration {
+  readonly id: string;
+  readonly initialEvaluationTimestamp: number;
+  readonly metricConfiguration?: SliConfigMetricConfiguration;
+  readonly sliEntity: SliEntity;
+  readonly sliName: string;
+}
+
+export interface SliConfigurationWithLastUpdated extends SliConfiguration {
+  readonly lastUpdated: number;
+}
+
+export interface SliEntity {
+  readonly sliType: string;
 }
 
 export interface SliMetricConfiguration extends UnifiedMetricConfiguration {
