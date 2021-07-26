@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
@@ -16,6 +17,7 @@ export default function GroupedBeacons(props) {
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
+        Sidebar={FacetedSearchPresenter}
         getLabel={getLabel}
         itemlabelColumnId="name"
         getData={getTableData}

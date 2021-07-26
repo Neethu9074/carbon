@@ -7,6 +7,7 @@ import React, { useMemo } from 'react';
 
 import { KeyValue } from '@instana/components';
 
+import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -56,6 +57,7 @@ export default function GroupedLogs(props) {
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
+        Sidebar={FacetedSearchPresenter}
         columnDefinitions={columnDefinitions}
         itemlabelColumnId="label"
         getData={getTableData}

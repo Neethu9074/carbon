@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import { range } from 'lodash';
 import rpt from 'prop-types';
 
-import { ColumnizedContent, KeyValue, Li, LiLoadMore, SvgIcon, Ul } from '@instana/components';
+import { ColumnizedContent, KeyValue, Li, LiLoadMore, Stack, SvgIcon, Ul } from '@instana/components';
 import { empty } from '@instana/observables';
 
 import {
@@ -32,7 +32,6 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
-import FacetedSearch from 'in-components/AnalyzeView/FacetedSearch';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import Header from 'in-components/QueryBuilder/components/Header';
@@ -57,12 +56,11 @@ export default function GroupedAnalyzeView(props) {
     groupBy,
     orderByGroups,
     onOrderByGroupsChange,
-    facets,
     formModel,
     formModelWithFacets,
     getHrefToUngroupedView,
-    getHrefToGroupedView,
     UngroupedView,
+    Sidebar,
     getLabel = ({ name }) => JSON.parse(name),
     isValid,
     selectableFields,
@@ -70,22 +68,16 @@ export default function GroupedAnalyzeView(props) {
     onSelectableFieldsChange,
     metricCatalog,
     dataSource,
-    facetedSearchItems,
-    getFacetedSearchSuggestions,
-    getUpdatedFacetedSearchHref,
     groupedViewConfiguration,
     getCustomMetricUiFormatterName,
     getOrderByGroupId,
     itemlabelColumnId,
     onChartableDataSeriesChange,
-    onFacetedSearchSelectionChange,
-    resetFacets,
     withSamplingTooltip,
     withResultsInGroups,
     withoutSorting = false,
     withoutChartGroupMarkers = false,
     chartedMetrics,
-    filteringTagCatalog,
     tracker,
     groupingTagCatalog
   } = props;
@@ -244,39 +236,12 @@ export default function GroupedAnalyzeView(props) {
 
   return (
     <>
-      <div className={locals.facetedSearchResultContainer}>
-        {facetedSearchItems && facetedSearchItems.length > 0 && (
-          <FacetedSearch
-            facetedSearchItems={facetedSearchItems}
-            facets={facets}
-            formModelWithFacets={formModelWithFacets}
-            resetFacets={resetFacets}
-            onFacetedSearchSelectionChange={onFacetedSearchSelectionChange}
-            getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
-            getHrefToGroupedView={getHrefToGroupedView}
-            getHrefToUngroupedView={getHrefToUngroupedView}
-            dataSource={dataSource}
-            isValid={isValid}
-            getSuggestions={({ tag, entity }) =>
-              getFacetedSearchSuggestions({
-                timeConfig,
-                formModel,
-                tag,
-                facets,
-                facetedSearchItems,
-                excludeMissingGroupingTagFilterExpression,
-                metricKey: 'facetedSearchMetric',
-                group: {
-                  groupbyTag: tag
-                },
-                dataSource,
-                entity
-              })
-            }
-            groupbyTag={groupBy.groupbyTag}
-            tagCatalog={filteringTagCatalog}
-          />
-        )}
+      <Stack direction={'horizontal'} gap={'disabled'}>
+        <Sidebar
+          {...props}
+          groupbyTag={groupBy.groupbyTag}
+          excludeMissingGroupingTagFilterExpression={excludeMissingGroupingTagFilterExpression}
+        />
         <div className={locals.resultContainer}>
           <Header
             {...props}
@@ -385,7 +350,7 @@ export default function GroupedAnalyzeView(props) {
             <QueryProgressIndicator progress={{ ...progress, loading: isLoading }} errors={errors} items={items} />
           )}
         </div>
-      </div>
+      </Stack>
     </>
   );
 }
@@ -575,5 +540,6 @@ GroupedAnalyzeView.propTypes = {
   getItemName: rpt.func,
   CustomHeaderActions: rpt.elementType,
   columnDefinitions: rpt.array,
-  UngroupedView: rpt.elementType.isRequired
+  UngroupedView: rpt.elementType.isRequired,
+  Sidebar: rpt.elementType
 };

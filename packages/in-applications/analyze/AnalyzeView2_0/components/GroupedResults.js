@@ -5,6 +5,7 @@
 
 import React, { useCallback } from 'react';
 
+import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
@@ -32,6 +33,7 @@ export default function GroupedResults(props) {
     >
       <GroupedView
         {...props}
+        Sidebar={FacetedSearchPresenter}
         itemlabelColumnId="name"
         getData={getData}
         getLabel={getLabel}
