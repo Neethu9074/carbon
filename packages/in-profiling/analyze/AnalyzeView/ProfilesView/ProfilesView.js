@@ -86,8 +86,13 @@ function ProfilesView(props) {
   const hierachySnapshots$ = hierachy$.flatMap(hierachy =>
     getSnapshots(hierachy.toJS(), { timeConfig: timeConfigForSnapshots })
   );
-  const deepestTechSnapshot = useObservable(getDeepestTechSnapshot, [hierachy$, timeConfigFields]);
-  const historicalProcessSnapshot = useObservable(getHistoricalProcessSnapshot, [processId, timeConfigFields]);
+  const deepestTechSnapshot = useObservable(() => getDeepestTechSnapshot([hierachy$, timeConfigForSnapshots]), [
+    ...timeConfigFields
+  ]);
+  const historicalProcessSnapshot = useObservable(
+    () => getHistoricalProcessSnapshot([processId, timeConfigForSnapshots]),
+    [processId, ...timeConfigFields]
+  );
   const processSnapshot = useObservable(getProcessSnapshot, [processId, timeConfig]);
   const jvmSnapshot = useObservable(() => getJvmSnapshot([hierachySnapshots$]), timeConfigFields);
   const phpSnapshot = useObservable(() => getPhpSnapshot([hierachySnapshots$]), timeConfigFields);
