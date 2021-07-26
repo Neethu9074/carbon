@@ -46,6 +46,11 @@ export interface AdaptiveBaseline extends Threshold {
   readonly deviationFactor: number;
 }
 
+export interface AdaptiveBaselineData extends ThresholdData {
+  readonly baseline: number[][];
+  readonly deviationFactor: number;
+}
+
 export interface AgentMonitoringIssueWithSnapshot {
   readonly affectedEntityId: string;
   readonly affectedEntitySnapshot?: SnapshotPreview;
@@ -649,7 +654,7 @@ export interface GetApplicationMetricsAlertPreviewQuery extends UiQuery {
   readonly metrics: { [index: string]: AppDataMetricConfiguration };
   readonly rbacRestrictions?: any;
   readonly tagFilterExpression: TagFilterExpressionElement;
-  readonly threshold: Threshold;
+  readonly threshold: ThresholdData;
   readonly timeConfig: TimeConfig;
   readonly timeThreshold: ApplicationTimeThreshold;
 }
@@ -1624,7 +1629,7 @@ export interface GetWebsiteMetricAlertsPreviewQuery extends UiQuery {
   readonly metrics: { [index: string]: WebsiteMonitoringMetricsConfiguration };
   readonly rbacRestrictions?: any;
   readonly tagFilterExpression: TagFilterExpressionElement;
-  readonly threshold: Threshold;
+  readonly threshold: ThresholdData;
   readonly timeConfig: TimeConfig;
   readonly timeThreshold: WebsiteTimeThreshold;
 }
@@ -1666,7 +1671,7 @@ export interface GetWebsiteRateMetricAlertsPreviewQuery extends UiQuery {
   readonly rbacRestrictions?: any;
   readonly tagFilterExpression?: TagFilterExpressionElement;
   readonly tagFilters?: TagFilter[];
-  readonly threshold: Threshold;
+  readonly threshold: ThresholdData;
   readonly timeConfig: TimeConfig;
   readonly timeThreshold: WebsiteTimeThreshold;
 }
@@ -1780,6 +1785,12 @@ export interface HistoricBaseline extends Threshold {
   readonly baseline?: number[][];
   readonly deviationFactor: number;
   readonly lastUpdated: number;
+  readonly seasonality: Seasonality;
+}
+
+export interface HistoricBaselineData extends ThresholdData {
+  readonly baseline: number[][];
+  readonly deviationFactor: number;
   readonly seasonality: Seasonality;
 }
 
@@ -2717,7 +2728,7 @@ export interface PhysicalContext {
 
 export interface PotentialProblems {
   readonly alerts?: Alert[];
-  readonly thresholds?: { [index: string]: Threshold };
+  readonly thresholds?: { [index: string]: ThresholdData };
 }
 
 export interface Problem {
@@ -3107,6 +3118,10 @@ export interface StaticThreshold extends Threshold {
   readonly value: number;
 }
 
+export interface StaticThresholdData extends ThresholdData {
+  readonly value: number;
+}
+
 export interface StatusCodeApplicationAlertRule extends ApplicationAlertRule {
   readonly statusCodeEnd: number;
   readonly statusCodeStart: number;
@@ -3196,6 +3211,11 @@ export interface TenantConfig {
 }
 
 export interface Threshold {
+  readonly operator: ThresholdOperator;
+  readonly type: string;
+}
+
+export interface ThresholdData {
   readonly operator: ThresholdOperator;
   readonly type: string;
 }
