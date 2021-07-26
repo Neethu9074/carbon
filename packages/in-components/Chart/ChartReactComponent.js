@@ -11,6 +11,7 @@ import { HEIGHT as commonLegendHeight } from 'in-components/Chart/components/Leg
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import ChartLegend from 'in-components/Chart/components/ChartLegend';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Chart from 'in-components/Chart/Chart';
 
@@ -24,15 +25,9 @@ export default function ChartReactComponent(props) {
   return <HorizontallyAutomaticallySized {...props} />;
 }
 
-const HorizontallyAutomaticallySized = function HorizontallyAutomaticallySizedChart(props) {
-  const { ref, width } = useResizeObserver();
-  return (
-    // properly size chart component too take up 100% of its parent width
-    <div ref={ref} style={{ flexGrow: 1, width: '100%' }}>
-      {width && <ChartReactWrapper {...props} width={width} height={props.customHeight || defaultChartHeight} />}
-    </div>
-  );
-};
+const HorizontallyAutomaticallySized = getElementDimensions(function HorizontallyAutomaticallySizedChart(props) {
+  return <ChartReactWrapper {...props} width={props.width} height={props.customHeight || defaultChartHeight} />;
+});
 
 function CompletelyAutomaticallySized(props) {
   return (
