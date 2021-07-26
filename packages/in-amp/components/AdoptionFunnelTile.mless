@@ -1,0 +1,36 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .kpiRow {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .kpiActive,
+  .kpiInactive {
+    display: flex;
+    flex-direction: row;
+    color: @lib__colors__white;
+    margin: 0.25rem 0.125rem;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+  }
+
+  .kpiActive {
+    background-color: @lib__colors__green800;
+  }
+
+  .kpiInactive {
+    background-color: @lib__colors__N400;
+  }
+
+  .kpiTitle {
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+}

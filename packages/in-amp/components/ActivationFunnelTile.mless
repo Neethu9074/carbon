@@ -1,0 +1,40 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .dropdown {
+    width: 70%;
+    margin: 1rem;
+  }
+
+  .entriesContainer {
+    margin-top: 1rem;
+  }
+
+  .entry {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0.25rem 0;
+  }
+
+  .iconContainer {
+    width: 1rem;
+    margin-right: 0.5rem;
+  }
+
+  .checkIcon {
+    fill: @lib__colors__green800;
+  }
+}

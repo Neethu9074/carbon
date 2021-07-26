@@ -55,6 +55,56 @@
       "purchased": "Purchased",
       "infrastructureUsage": "Infrastructure Usage",
       "iqmHosts": "IQM Hosts"
+    },
+    "activationAdoption": {
+      "activationAdoption": "Activation & Adoption",
+      "customerAdoption": "Customer Adoption",
+      "activation": "Activation",
+      "adoption": "Adoption",
+      "activationStages": {
+        "createDate": "Create Date",
+        "firstSignIn": "First Sign In",
+        "firstAgentInstalled": "1st Agent Installed",
+        "additionalUserInvited": "Additional User Invited",
+        "threeAgentsInstalled": "3 Agents Installed",
+        "twoApplicationPerspectivesCreated": "2 Application Perspective created",
+        "oneAlertSetUpAndActivated": "1 Alert Set Up And Activated",
+        "oneWebsiteMonitored": "1 Website Monitored",
+        "fiveUsers": "5 Users"
+      },
+      "adoptionKPIs": {
+        "applicationPerspective": "Application Perspective",
+        "eum": "EUM",
+        "alerting": "Alerting",
+        "pipelineFeedback": "Pipeline feedback",
+        "customDashboards": "Custom Dashboards",
+        "mobileEum": "Mobile EUM",
+        "numOfApplicationPerspectives": "# APs",
+        "numOfReportingApplicationPerspectives": "# Reporting APs",
+        "numOfWebsites": "# Websites",
+        "numOfAlertChannels": "# Alert Channels",
+        "numOfAlerts": "# Alerts",
+        "numOfActiveAlerts": "# Active Alerts",
+        "numOfReleases": "# Release Markers / # Releases",
+        "numOfCustomDashboards": "# Custom Dashboards",
+        "numOfMobileApps": "# Apps"
+      },
+      "activationChecklist": "Activation Checklist",
+      "productAdoption": "Product Adoption",
+      "comingSoon": "Coming soon...",
+      "userUsage": "User Usage",
+      "userSummary": "User Summary",
+      "totalUser": "Total User",
+      "weeklyActiveUser": "Weekly Active User",
+      "lastCalendarWeekTopActiveUsers": "Last Calendar Week Top Active Users",
+      "topUsersTable": {
+        "noDataAvailable": "No data available",
+        "noTopActiveUsers": "No top active user data for this account",
+        "name": "Name",
+        "organizationRole": "Organization Role",
+        "daysActive": "Days Active",
+        "notProvided": "(not provided)"
+      }
     }
   }
 }

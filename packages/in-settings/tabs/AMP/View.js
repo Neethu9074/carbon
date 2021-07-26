@@ -5,10 +5,17 @@
 
 import React from 'react';
 
-import { ampSettings, ampAccountSettings, ampUsage, ampTechnologies } from 'in-settings/navigation/paths';
+import {
+  ampSettings,
+  ampAccountSettings,
+  ampUsage,
+  ampTechnologies,
+  ampActivationAdoption
+} from 'in-settings/navigation/paths';
 import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnologiesReporting';
 import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import TechnologiesReporting from 'in-amp/components/TechnologiesReporting';
+import ActivationAdoption from 'in-amp/components/ActivationAdoption';
 import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
 import AccountSettings from 'in-amp/components/AccountSettings';
 import RestrictedUsage from 'in-amp/components/RestrictedUsage';
@@ -30,6 +37,11 @@ export default function View(props) {
                     path: ampUsage,
                     label: t('in-settings:tabs.usage'),
                     component: Usage
+                  },
+                  {
+                    path: ampActivationAdoption,
+                    label: t('in-settings:tabs.activationAdoption'),
+                    component: ActivationAdoption
                   },
                   {
                     path: ampTechnologies,
