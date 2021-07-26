@@ -6,12 +6,26 @@
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
+import { SvgIconSizes } from '@instana/components';
+
+// @ts-expect-error
 import locals from './BasicWrapper.mless';
 
-export default function BasicWrapper({ width, height, title, text, renderIcon, className }) {
-  let size = 'default';
-  let iconSize = 'xl';
-  if (height < 80) {
+export interface BasicWrapperProps {
+  width?: string | number;
+  height?: string | number;
+  title?: string;
+  text?: string;
+  renderIcon: (size: IconSize) => JSX.Element;
+  className?: string;
+}
+
+export type IconSize = keyof typeof SvgIconSizes;
+
+export default function BasicWrapper({ width, height, title, text, renderIcon, className }: BasicWrapperProps) {
+  let size: string = 'default';
+  let iconSize: IconSize = 'xl';
+  if (height && height < 80) {
     size = 'small';
     iconSize = 'regular';
   }
