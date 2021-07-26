@@ -3,17 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import BasicWrapper from 'in-components/Errors/BasicWrapper';
+import BasicWrapper, { BasicWrapperProps } from 'in-components/Errors/BasicWrapper';
 import { t } from 'in-i18n';
 
+// @ts-expect-error
 import locals from './NoDataAvailable.mless';
 
-export default function NoDataAvailable({ width, height, title, text, className, type = 'lib_bar_chart' }) {
+export interface NoDataAvailableProps extends BasicWrapperProps {
+  type?: string;
+}
+
+export default function NoDataAvailable({
+  width,
+  height,
+  title,
+  text,
+  className,
+  type = 'lib_bar_chart'
+}: NoDataAvailableProps) {
   return (
     <BasicWrapper
       className={className}
@@ -25,15 +36,3 @@ export default function NoDataAvailable({ width, height, title, text, className,
     />
   );
 }
-
-NoDataAvailable.propTypes = {
-  className: PropTypes.string,
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  text: PropTypes.string,
-  title: PropTypes.string,
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  /**
-   * Icon type. Default is 'lib_bar_chart'
-   */
-  type: PropTypes.string
-};
