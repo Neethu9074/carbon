@@ -156,7 +156,7 @@ export default function ViewSwitcher({
         )}
         <SubViewItem
           label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
-          href="https://docs.instana.com"
+          href="https://www.instana.com/docs"
           external
           id="main-nav-documentation"
         />
