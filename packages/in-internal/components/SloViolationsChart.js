@@ -9,13 +9,19 @@ import OpenEventsCountChartWrapper from 'in-events/components/OpenEventsCountCha
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
+import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 export default function SloViolationsChart({
   timeConfig,
+  query = '',
   cardTitle = t('in-internal:components.sloViolationsChart.sLOViolations')
 }) {
   const granularity = getInfraGranularity(timeConfig);
+
+  if (isNotBlank(query)) {
+    query = `${query} AND `;
+  }
 
   return (
     <OpenEventsCountChartWrapper
@@ -25,7 +31,7 @@ export default function SloViolationsChart({
         renderer: Renderer.stackedArea,
         formatter: number.forcedCompact,
         labels: [
-          'SREInfaSLO/SRESLO/TUSLO',
+          'SRETUSLO/TUSLO',
           t('in-internal:components.sloViolationsChart.devTUSLOs'),
           t('in-internal:components.sloViolationsChart.expTUSLOs')
         ],
@@ -35,15 +41,15 @@ export default function SloViolationsChart({
         timeConfig,
         metrics: {
           slo: {
-            query: `event.text:"[SREInfaSLO]" OR event.text:"[SRESLO]" OR event.text:"[TUSLO]"`,
+            query: `${query} ( event.text:"[SRETUSLO]" OR event.text:"[TUSLO]" )`,
             granularity
           },
           experimentalSlo: {
-            query: `event.text:"[ExpTUSLO]"`,
+            query: `${query} event.text:"[ExpTUSLO]"`,
             granularity
           },
           developmentSlo: {
-            query: `event.text:"[DevTUSLO]"`,
+            query: `${query} event.text:"[DevTUSLO]"`,
             granularity
           }
         }
