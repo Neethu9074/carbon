@@ -36,6 +36,12 @@ export interface AbstractThresholdSuggestionQuery extends ThresholdSuggestionQue
   readonly type: ThresholdType;
 }
 
+export interface AccessRule {
+  readonly accessType: AccessType;
+  readonly relatedId?: string;
+  readonly relationType: AccessRuleRelationType;
+}
+
 export interface AdaptiveBaseline extends Threshold {
   readonly deviationFactor: number;
 }
@@ -83,6 +89,11 @@ export interface ApiTag {
   readonly label?: string;
   readonly name: string;
   readonly type: TagType;
+}
+
+export interface ApiToken {
+  readonly id: string;
+  readonly name: string;
 }
 
 export interface AppDataEntityChain extends Cursorific<IngestionOffsetCursor> {
@@ -347,6 +358,18 @@ export interface CursoredEvent extends Event, Cursorific<IngestionOffsetCursor> 
 
 export interface Cursorific<T> {
   readonly cursor?: T;
+}
+
+export interface CustomDashboard {
+  readonly accessRules: AccessRule[];
+  readonly id: string;
+  readonly title: string;
+  readonly widgets: Widget[];
+}
+
+export interface CustomDashboardPreview {
+  readonly id: string;
+  readonly title: string;
 }
 
 export interface CustomPayloadConfiguration {
@@ -3343,6 +3366,13 @@ export interface UserImpactThreshold {
 export interface UserImpactWebsiteTimeThreshold extends WebsiteTimeThreshold, UserImpactThreshold {
 }
 
+export interface UserResult {
+  readonly email: string;
+  readonly fullName: string;
+  readonly id: string;
+  readonly lastLoggedIn?: number;
+}
+
 export interface ViolationsInPeriodApplicationTimeThreshold extends ApplicationTimeThreshold {
   readonly violations: number;
 }
@@ -3653,6 +3683,17 @@ export interface WebsiteWebBrowsersItem {
   readonly webBrowser: WebBrowser;
 }
 
+export interface Widget {
+  readonly config: any;
+  readonly height: number;
+  readonly id: string;
+  readonly title?: string;
+  readonly type: string;
+  readonly width: number;
+  readonly x: number;
+  readonly y: number;
+}
+
 export interface WindowWidthBreakdown {
   readonly maxWindowWidth: number;
   readonly minWindowWidth: number;
@@ -3667,6 +3708,10 @@ export interface WorkloadCounters {
   readonly pods: number;
   readonly statefulSets: number;
 }
+
+export type AccessRuleRelationType = 'USER' | 'API_TOKEN' | 'ROLE' | 'TEAM' | 'GLOBAL';
+
+export type AccessType = 'READ' | 'READ_WRITE';
 
 export type AgentMonitoringIssueCategory = 'SENSOR' | 'TRACER' | 'PROFILER' | 'UNKNOWN';
 
