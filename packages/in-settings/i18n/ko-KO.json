@@ -473,8 +473,6 @@
     "permissions": "권한",
     "filterPermissions": "권한 필터링…",
     "addUserToAGroup": "그룹에 사용자 추가",
-    "auditLog": "감사 로그",
-    "logEntry": "로그 항목",
     "alertChannel": "경보 채널",
     "unknownAlertChannel": "알 수 없는 경보 채널",
     "properties": "특성",

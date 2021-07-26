@@ -473,8 +473,6 @@
     "permissions": "许可权",
     "filterPermissions": "过滤器许可权...",
     "addUserToAGroup": "将用户添加到组",
-    "auditLog": "审计日志",
-    "logEntry": "日志条目",
     "alertChannel": "警报通道",
     "unknownAlertChannel": "未知警报通道",
     "properties": "属性",

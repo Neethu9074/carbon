@@ -112,7 +112,8 @@ export const teamSettingsLogManagementHumio = `${logManagement}/humioConfigurati
 export const teamSettingsLogManagementElk = `${logManagement}/elkConfiguration`;
 
 const audit = `${teamSettings}/audit`;
-export const teamSettingsAuditLog = `${audit}/log`;
+export const teamSettingsActionLog = `${audit}/actionlog`;
+export const teamSettingsAccessLog = `${audit}/accessLog`;
 
 export function getEntityHref(path, id) {
   if (id) {

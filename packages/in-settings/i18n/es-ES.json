@@ -473,8 +473,6 @@
     "permissions": "Permisos",
     "filterPermissions": "Filtrar permisos…",
     "addUserToAGroup": "Añadir usuario a un grupo",
-    "auditLog": "Registro de auditoría",
-    "logEntry": "Entrada de registro",
     "alertChannel": "Canal de alertas",
     "unknownAlertChannel": "Canal de alertas desconocido",
     "properties": "Propiedades",

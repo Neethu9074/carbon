@@ -473,8 +473,6 @@
     "permissions": "権限",
     "filterPermissions": "権限のフィルタリング…",
     "addUserToAGroup": "ユーザーをグループに追加",
-    "auditLog": "監査ログ",
-    "logEntry": "ログ・エントリー",
     "alertChannel": "アラート・チャネル",
     "unknownAlertChannel": "不明なアラート・チャネル",
     "properties": "プロパティー",

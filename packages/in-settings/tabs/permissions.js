@@ -8,7 +8,7 @@ import {
   teamSettingsAccessControlApiTokens,
   teamSettingsAlertingEvents,
   teamSettingsAlertingAlertChannels,
-  teamSettingsAuditLog,
+  teamSettingsActionLog,
   teamSettingsLogManagementHumio,
   teamSettingsAccessControlGroups
 } from 'in-settings/navigation/paths';
@@ -43,7 +43,7 @@ export function findFirstPermittedTeamPage() {
     return teamSettingsAlertingAlertChannels;
   }
   if (role.canViewAuditLog) {
-    return teamSettingsAuditLog;
+    return teamSettingsActionLog;
   }
   if (role.canConfigureLogManagement) {
     return teamSettingsLogManagementHumio;

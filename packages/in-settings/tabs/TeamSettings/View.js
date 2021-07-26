@@ -30,7 +30,8 @@ import {
   teamSettingsAlertingMaintenanceConfigurationNew,
   teamSettingsAlertingMaintenanceConfigurations,
   teamSettingsAlertingCustomPayloadConfiguration,
-  teamSettingsAuditLog,
+  teamSettingsActionLog,
+  teamSettingsAccessLog,
   teamSettingsLogManagementCoralogix,
   teamSettingsLogManagementElk,
   teamSettingsLogManagementHumio,
@@ -53,6 +54,8 @@ import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invit
 import { applicationSmartAlertsEnabled, hideEventSettings } from 'in-services/featureFlags';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
+import AccessLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AccessLog/AccessLog';
+import ActionLogPage from 'in-settings/tabs/TeamSettings/pages/audit/ActionLog/ActionLog';
 import AlertPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SplunkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Splunk/Splunk';
 import LogDnaPage from 'in-settings/tabs/TeamSettings/pages/logManagement/LogDna/LogDna';
@@ -64,7 +67,6 @@ import SideNavigationAndContent from 'in-components/layout/SideNavigationAndCont
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
 import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
-import AuditLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AuditLog';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
@@ -298,9 +300,14 @@ function navigationTreeForRole(role) {
       title: t('in-settings:tabs.audit'),
       pages: [
         {
-          path: teamSettingsAuditLog,
-          label: t('in-settings:tabs.auditLog'),
-          component: AuditLogPage
+          path: teamSettingsActionLog,
+          label: t('in-settings:tabs.actionLog'),
+          component: ActionLogPage
+        },
+        {
+          path: teamSettingsAccessLog,
+          label: t('in-settings:tabs.accessLog'),
+          component: AccessLogPage
         }
       ]
     });

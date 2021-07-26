@@ -1,0 +1,28 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  /*
+     Rendered cells from markdown must not have margins
+     before or after so they keep aligned horizontaly
+     with other cells
+   */
+  .markdown {
+    p {
+      white-space: normal;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    p:first-child {
+      margin-top: 0;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

@@ -473,8 +473,6 @@
     "permissions": "權限",
     "filterPermissions": "過濾權限...",
     "addUserToAGroup": "新增使用者至群組",
-    "auditLog": "審核日誌",
-    "logEntry": "日誌項目",
     "alertChannel": "警示通道",
     "unknownAlertChannel": "不明的警示通道",
     "properties": "內容",

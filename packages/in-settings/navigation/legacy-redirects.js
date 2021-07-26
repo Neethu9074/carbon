@@ -92,7 +92,7 @@ const redirects = [
   },
   // additional redirects for merger of "knowledge management" and "alerting" into "events & alerting"
   // we keep this re-directs for a while, so that e.g. existing bookmarks are still working
-  { from: `${settingsPath}/auditlog`, to: paths.teamSettingsAuditLog },
+  { from: `${settingsPath}/auditlog`, to: paths.teamSettingsActionLog },
   { from: paths.teamSettingsKnowledgeManagementBuiltInRules, to: paths.teamSettingsAlertingEvents },
   { from: paths.teamSettingsKnowledgeManagementBuiltInRuleEdit, to: paths.teamSettingsAlertingEvents },
   { from: paths.teamSettingsKnowledgeManagementCustomRules, to: paths.teamSettingsAlertingEvents },
