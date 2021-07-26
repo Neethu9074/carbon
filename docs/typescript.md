@@ -1,7 +1,5 @@
 # TypeScript Usage in ui-client
 
-**Warning:** The guidelines contained within this document are just proposals. We are still aligning these with the UI community of practice. As a consequence, please do not start to use TypeScript yet within this repository!
-
 ## Tooling
 
 - The Webpack dev mode will check for type errors and present them within its dev output (see `/build/gulp/dev.js`).
@@ -13,6 +11,13 @@
 
 - https://github.com/typescript-cheatsheets/react
 - https://react-typescript-cheatsheet.netlify.app/docs/basic/recommended/resources/
+
+## Screencasts
+
+We have a set of screencasts available to explain how to leverage TypeScript within
+ui-client. You can find these screencasts over on [Google Drive].
+
+[Google Drive]: https://drive.google.com/drive/folders/15MEbnrhGV582UaifkUxyelDt1IhuhkWn
 
 ## Educational Material
 
@@ -36,8 +41,6 @@ otherwise documented in this file.
 
 ### Types vs. Interfaces
 
-**State:** This is a non-validated proposal.
-
 - https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces
 - https://github.com/typescript-cheatsheets/react/blob/main/README.md#types-or-interfaces
 
@@ -45,8 +48,6 @@ Type aliases and interfaces are very similar, and in many cases you can choose b
 One example for choosing a type instead of an interface could be that one wants to combine multiple types, e.g. (type CommonMouseEvent : MouseEvent | React.MouseEvent). Using interfaces, one would need to create a new interface and extend from both.
 
 ### Enums
-
-**State:** This is a non-validated proposal.
 
 We prefer **NOT** to use the TypeScript [enums](https://www.typescriptlang.org/docs/handbook/enums.html)
 feature. Also see the [cheat sheet for rationale](https://github.com/typescript-cheatsheets/react/blob/main/README.md#enum-types).
@@ -67,30 +68,75 @@ we hope to avoid some confusion/make debugging easier down the road.
 - Good: `UP` \ `TAG_FILTER`
 - Bad: `up` / `tagFilter`
 
-### Shared Typings
+### Backend Types
 
-**State:** This is a non-validated proposal.
+A lot of types used within the UI are defined within the backend. More specifically,
+within the `ui-model` and `api-model` backend modules. The UI relies heavily on
+these types, e.g., to request data and to process/present data. To account for this,
+we have [a generator] that turns the types found within the backend (Java code/OpenAPI
+specs) into TypeScript type definitions.
 
-TODO where to put types?
-TODO Where to put commonly used types? (timeConfig / tagFilter)
+The generated types reside within the `in-types/backend.d.ts` file and they get updated
+via automatically created pull requests on every delivery branch (`^develop|release-*$`) commit
+in the backend repository.
+
+You can import the backend types via `import { … } from 'in-types';`. Please do not import
+`in-types/backend` directory!
+
+[a generator]: https://github.com/instana/backend/blob/develop/ui/typescript-generation/README.md
+
+### Shared / Global Types
+
+Please avoid putting types in a global package / to define a global unless those types are truly
+undeniably global. In all likelihood, the case you are working on doesn't fit this requirement.
+When in doubt, consult the UI community via `#tech-ui-dev` on Slack. Prefer to place types
+as outlined within the next section.
 
 ### Placement of Types
 
-**State:** This is a non-validated proposal.
+For type definitions (`interface` / `type`), we prefer to place the type definitions next to the
+implementation whenever possible. This means code like the following:
 
-TODO where do types go for react components/files? (same file, next to it…)
+```js
+export interface BananaProps {
+  …
+}
 
-### Backend Types
+export default function Banana({ … }: BananaProps) {
+  return (
+    …
+  );
+}
+```
 
-**State:** This is a non-validated proposal.
+There are cases for which we allow to place type definitions in separate files (`types.ts`).
+However, we should generally try to avoid this.
 
-TODO type generation from backend
+ 1. For complicated sub-systems of the UI for which we didn't want to risk
+    circular import paths (now and down the road). A good example for such a case are our
+    charts.
+ 2. For cases in which users of a package will never have to import any of the types unless
+    they build something advanced on top of it. A good example for such a case are our
+    http and connection module.
 
 ### Declaration for existing JavaScript files
 
-**State:** This is a non-validated proposal.
+We generally prefer not to add separate type declaration files for JavaScript files that
+are under our control. Instead, please translate the JavaScript files to TypeScript.
+Occassionally, this means that translation take a lot more time. We are aware of this
+and accept this downside.
 
-TODO how and when do we wanna use declaration files in favor of translating a JS file to TS? (edited)
+### On React higher-order components (HOCs)
+
+React HOCs, e.g., `recompose`, `connectTo` and others within the `in-hoc` package
+shall not be translated to TypeScript. Instead, refactor the file leveraging HOCs
+to use React hooks instead.
+
+### Stylesheet / CSS Module Imports
+
+At the moment, TypeScript cannot interpret imports to `./Banana.mless` files and others
+properly. Until this is fixed, please add a comment `// @ts-expect-error` above the
+import statement.
 
 ### React Specifics
 
