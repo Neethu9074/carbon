@@ -11,11 +11,11 @@ if (__DEV__) {
   invariant(activeLanguage, 'activeLanguage not defined. Did we establish a circular import problem?');
 }
 
-export function isBlank(s?: string) {
+export function isBlank(s?: string | null) {
   return s == null || s.length === 0 || s.trim().length === 0;
 }
 
-export function isNotBlank(s?: string) {
+export function isNotBlank(s?: string | null) {
   return !isBlank(s);
 }
 

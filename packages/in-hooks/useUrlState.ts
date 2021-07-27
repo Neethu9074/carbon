@@ -9,19 +9,37 @@ import { isEqual } from 'lodash';
 
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { addReset, removeReset } from 'in-stores/navigation/urlParameterResets';
+import { Location, ParameterDefinition } from 'in-stores/navigation/types';
 import { emptyObject, emptyArray } from 'in-services/fixedObjects';
 import { mutateUrl, getModifiedUrl } from 'in-stores/navigation';
 import { identity } from 'in-services/util/function';
 
-export default function useUrlState({
+type StateWithoutGuarantees = Record<string, any>;
+
+export interface Reset<State> {
+  bind: ParameterDefinition<any>[];
+  reset: Partial<State> | ((stateOfResetBoundFields: Partial<State>) => Partial<State>);
+}
+
+export interface Options<State> {
+  bind: ParameterDefinition<any>[];
+  resets: Reset<State>[];
+  reducer?: (prevState: Readonly<State>, change: Readonly<Partial<State>>) => State;
+  onUpdate?: (prevState: Readonly<State>, nextState: Readonly<State>) => void;
+  replaceHistory?: boolean;
+}
+
+export default function useUrlState<State>({
   bind,
-  resets = emptyArray,
+  resets = emptyArray as [],
   reducer = defaultingReducer,
   onUpdate,
   replaceHistory = true
-}) {
+}: Options<State>) {
   const location = useLocation();
-  const [state, setState] = useState(() => determineStateChange(bind, location, emptyObject) || emptyObject);
+  const [state, setState] = useState<StateWithoutGuarantees>(
+    () => determineStateChange(bind, location, emptyObject) || emptyObject
+  );
 
   // Whenever we update the state, we cannot at the same time update the URL. This is caused by……
   //
@@ -41,31 +59,35 @@ export default function useUrlState({
     // manipulating the URL as soon as a component leveraging useUrlState is mounted. This is not the behavior
     // we want. Furthermore, this can have nasty consequences when replaceHistory=false, e.g., back button might
     // break because the previous page will immediately change the URL and through this initiate a 'forward'-action.
-    if (state.__writeToUrl) {
+    if ((state as any).__writeToUrl) {
       mutateUrl(location => modifyLocation(bind, state, location), replaceHistory);
-      state.__writeToUrl = false;
+      (state as any).__writeToUrl = false;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
   useEffect(() => {
     addReset(executeResets);
     return () => removeReset(executeResets);
 
-    function executeResets(previousLocation, nextLocation) {
+    function executeResets(previousLocation: Location, nextLocation: Location) {
       for (const { bind: resetBind, reset } of resets) {
         if (shouldExecuteReset(previousLocation, nextLocation, resetBind)) {
-          let newState = reset;
+          let newState: any = reset;
           if (typeof reset === 'function') {
             const stateOfResetBoundFields = determineStateChange(resetBind, nextLocation, emptyObject) || emptyObject;
-            newState = reset(stateOfResetBoundFields);
+            newState = reset(stateOfResetBoundFields as State);
           }
           for (const key of Object.keys(newState)) {
             const binding = getBind(bind, key);
-            setBindValue(binding, newState[key], nextLocation);
+            if (binding) {
+              setBindValue(binding, newState[key], nextLocation);
+            }
           }
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resets]);
 
   // Keep the state up to date when the location changes.
@@ -76,16 +98,17 @@ export default function useUrlState({
         return prevState;
       }
       if (onUpdate) {
-        onUpdate(prevState, newState);
+        onUpdate(prevState as State, newState as State);
       }
 
       return newState;
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
 
-  return [state, exposedSetState, exposedGetStateChangeUrl];
+  return [state as State, exposedSetState, exposedGetStateChangeUrl];
 
-  function exposedSetState(change) {
+  function exposedSetState(change: Partial<State>): void {
     // Users of useUrlState might memoize an older variant of useUrlState. If we wouldn't use this function variant
     // of setState, we could be losing some prior state updates.
     setState(prev => {
@@ -95,27 +118,27 @@ export default function useUrlState({
       // cases that happen via the Instana user interface. Cases in which this is not a noop are
       // URL changes caused by the browser itself, e.g. browser back button.
       return {
-        ...reducer(prev, change),
+        ...reducer(prev as State, change),
         // We need to instruct our URL-updating useEffect call that a change in state must result in a location update.
         __writeToUrl: true
       };
     });
   }
 
-  function exposedGetStateChangeUrl(change) {
+  function exposedGetStateChangeUrl(change: Partial<State>): string {
     return getModifiedUrl(location, location => {
-      const newState = reducer(state, change);
+      const newState = reducer(state as State, change);
       modifyLocation(bind, newState, location);
     });
   }
 }
 
-function getBind(binds, as) {
+function getBind(binds: ParameterDefinition<any>[], as: string): ParameterDefinition<any> | undefined {
   return binds.find(b => (b.as || b.name) === as);
 }
 
-function determineStateChange(bind, location, prevState) {
-  const newState = {};
+function determineStateChange(bind: ParameterDefinition<any>[], location: Location, prevState: StateWithoutGuarantees) {
+  const newState: StateWithoutGuarantees = {};
 
   for (const { path, name, as, parser = identity, initialState, getInitialState } of bind) {
     let value = undefined;
@@ -134,18 +157,18 @@ function determineStateChange(bind, location, prevState) {
   return isEqual(newState, prevState) ? null : newState;
 }
 
-export function defaultingReducer(state, change) {
+export function defaultingReducer(state: StateWithoutGuarantees, change: any): any {
   return {
     ...state,
     ...change
   };
 }
 
-function modifyLocation(bind, state, location) {
+function modifyLocation(bind: ParameterDefinition<any>[], state: StateWithoutGuarantees, location: Location) {
   bind.forEach(bind => setBindValue(bind, state[bind.as || bind.name], location));
 }
 
-function setBindValue({ path, name, serializer = String }, value, location) {
+function setBindValue({ path, name, serializer = String }: ParameterDefinition<any>, value: any, location: Location) {
   if (path) {
     if (value != null) {
       setOrDeleteMatrixKey(location, path, name, serializer(value));
@@ -161,7 +184,11 @@ function setBindValue({ path, name, serializer = String }, value, location) {
   }
 }
 
-function shouldExecuteReset(previousLocation, nextLocation, bind) {
+function shouldExecuteReset(
+  previousLocation: Location,
+  nextLocation: Location,
+  bind: ParameterDefinition<any>[]
+): boolean {
   for (const { path, name } of bind) {
     let previousValue;
     let nextValue;

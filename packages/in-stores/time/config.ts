@@ -69,7 +69,7 @@ function getInt(query: Parameters, key: string, fallback: number): number;
 function getInt(query: Parameters, key: string, fallback: null): number | null;
 function getInt(query: Parameters, key: string, fallback: number | null): number | null {
   const value = query[key];
-  if (isBlank(value)) {
+  if (value == null || isBlank(value)) {
     return fallback;
   }
 

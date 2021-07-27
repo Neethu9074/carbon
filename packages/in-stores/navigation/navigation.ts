@@ -46,7 +46,7 @@ export function mutateUrl(mutator: LocationMutator, replace = false) {
   });
 }
 
-export function getModifiedUrl(currentLocation: Location, modifyLocation: LocationMutator) {
+export function getModifiedUrl(currentLocation: Location, modifyLocation: LocationMutator): string {
   const newLocation = cloneLocation(currentLocation);
   modifyLocation(newLocation);
   applyResets(currentLocation, newLocation);
