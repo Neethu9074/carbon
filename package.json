@@ -141,6 +141,7 @@
     "@types/chai": "^4.2.20",
     "@types/d3-format": "1.0.4",
     "@types/deep-freeze-strict": "^1.1.0",
+    "@types/fbjs": "^3.0.1",
     "@types/ineum": "^187.0.1",
     "@types/invariant": "^2.2.34",
     "@types/lodash": "^4.14.171",

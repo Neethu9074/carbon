@@ -5,20 +5,42 @@
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import shallowEqual from 'fbjs/lib/shallowEqual';
+
+import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
+import { Progress, Result, Error } from 'in-types';
 
-export default function useCursorPagination(create, deps = []) {
+export interface State {
+  totalRepresentedItemCount?: number;
+  adjustedWindowSize?: number;
+  canLoadMore: boolean;
+  reloadCount: number;
+  nextCursor?: Object;
+  totalHits?: number;
+  progress: Progress;
+  cursor?: Object;
+  errors: Error[];
+  items: Record<string, any>[];
+  time?: number;
+  awaitingData: boolean;
+}
+
+export interface ResultData extends State {
+  next: boolean;
+}
+
+export default function useCursorPagination(create: (v: Object) => Observable<any>, deps: string[] = []) {
   // If 'deps' change, the 'state' will be reset to the 'initialState' value. However, this 'state' change
   // won't be visible until the next re-render. In order to make sure that we won't use the stale value
   // of 'state', we need to track the previous value of 'deps' and perform a shallow comparison with the
   // current 'deps' value. If we detect a change, we will use 'initialState' instead of the stale 'state'
   // value.
-  const [prevDeps, setPrevDeps] = useState([]);
+  const [prevDeps, setPrevDeps] = useState<string[]>([]);
   useEffect(() => setPrevDeps(deps), deps);
 
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState<State>(initialState);
   useEffect(() => setState(initialState), deps);
 
   const {
@@ -35,15 +57,21 @@ export default function useCursorPagination(create, deps = []) {
     time
   } = shallowEqual(prevDeps, deps) ? state : initialState;
 
-  const observable = useMemo(() => create({ cursor }), [cursor, reloadCount, ...deps]);
+  const observable: Observable<any> = useMemo(() => create({ cursor }), [cursor, reloadCount, ...deps]);
   useEffect(() => setState(awaitItems), [observable, ...deps]);
 
-  const result = useObservable(observable, [observable, ...deps]) ?? pendingResult;
-  useEffect(() => setState(prev => updateResult(prev, result)), [result, ...deps]);
+  const result: Result<ResultData> = useObservable(observable, [observable, ...deps]) ?? pendingResult;
+  useEffect(() => setState((prev: State) => updateResult(prev, result)), [result, ...deps]);
 
-  const setCursor = useCallback(cursor => setState(prev => ({ ...prev, cursor })));
-  const loadMore = useCallback(() => setCursor(nextCursor), [nextCursor]);
-  const reload = useCallback(() => setState(prev => ({ ...prev, reloadCount: prev.reloadCount + 1 })));
+  // @ts-expect-error An argument for 'deps' was not provided.
+  const setCursor: (cursor?: Object) => void = useCallback((cursor?: Object) =>
+    setState(prev => ({ ...prev, cursor }))
+  );
+  const loadMore: () => void = useCallback(() => setCursor(nextCursor), [nextCursor]);
+  const reload: () => void = useCallback(
+    () => setState((prev: State) => ({ ...prev, reloadCount: prev.reloadCount + 1 })),
+    []
+  );
 
   return {
     totalRepresentedItemCount,
@@ -60,20 +88,20 @@ export default function useCursorPagination(create, deps = []) {
   };
 }
 
-const initialState = {
-  items: emptyArray,
+const initialState: State = {
+  items: emptyArray as [],
   progress: indeterminateProgress,
-  errors: emptyArray,
+  errors: emptyArray as [],
   awaitingData: true,
   canLoadMore: false,
   reloadCount: 0
 };
 
-function awaitItems(prev) {
+function awaitItems(prev: State) {
   return { ...prev, awaitingData: true, canLoadMore: false };
 }
 
-function updateResult(prev, result) {
+function updateResult(prev: State, result: Result<ResultData>): State {
   if (!prev.awaitingData) {
     return prev;
   }
