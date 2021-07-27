@@ -5,16 +5,21 @@
 
 import { useMemo } from 'react';
 
-import { urlParameter, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
+import { urlParameter, translateOffsetToTimeShiftConfig, TimeShiftOffset } from 'in-stores/time/shifting';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
+import { TimeShift } from 'in-types';
 
 const urlStateDefinition = {
   bind: [urlParameter]
 };
 
-export default function useTimeShiftConfig() {
+interface State {
+  timeShiftOffset: TimeShiftOffset;
+}
+
+export default function useTimeShiftConfig(): TimeShift {
   const timeConfig = useTimeConfig();
-  const [{ timeShiftOffset }] = useUrlState(urlStateDefinition);
+  const [{ timeShiftOffset }] = useUrlState<State>(urlStateDefinition);
   return useMemo(() => translateOffsetToTimeShiftConfig(timeShiftOffset, timeConfig), [timeShiftOffset, timeConfig]);
 }

@@ -23,7 +23,7 @@ export interface Reset<State> {
 
 export interface Options<State> {
   bind: ParameterDefinition<any>[];
-  resets: Reset<State>[];
+  resets?: Reset<State>[];
   reducer?: (prevState: Readonly<State>, change: Readonly<Partial<State>>) => State;
   onUpdate?: (prevState: Readonly<State>, nextState: Readonly<State>) => void;
   replaceHistory?: boolean;
@@ -35,7 +35,7 @@ export default function useUrlState<State>({
   reducer = defaultingReducer,
   onUpdate,
   replaceHistory = true
-}: Options<State>) {
+}: Options<State>): [State, (change: Partial<State>) => void, (change: Partial<State>) => string] {
   const location = useLocation();
   const [state, setState] = useState<StateWithoutGuarantees>(
     () => determineStateChange(bind, location, emptyObject) || emptyObject
