@@ -4,6 +4,7 @@
  */
 
 import { useState, useRef, useEffect } from 'react';
+
 import { create } from '@instana/observables';
 
 // Just a small alias to debounce value setting, similar to rxjs.debounce but
