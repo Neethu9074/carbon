@@ -5,12 +5,20 @@
 
 import { useState, useEffect } from 'react';
 
-export default function useTimeSpentInsideComponent(callbackOnUnmount) {
+/**
+ * Warning: Changing callbackOnUnmount are not supported! This hook will always use the
+ * first version passed in.
+ */
+export default function useTimeSpentInsideComponent(callbackOnUnmount: (duration: number) => void) {
   const [timeStarted] = useState(Date.now());
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       const now = Date.now();
       callbackOnUnmount(now - timeStarted);
-    };
-  }, []);
+    },
+    // This hook does not support changing parameters. It is a limitation of this implementation
+    // approach.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 }
