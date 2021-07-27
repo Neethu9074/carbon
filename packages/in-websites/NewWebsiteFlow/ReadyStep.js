@@ -20,7 +20,7 @@ export default function ReadyStep({ websiteId, websiteName, websiteLink$, trackS
       <Paragraph>
         <Trans
           i18nKey="in-websites:newWebsiteFlow.readyStepParagraphEverythingIsReadyToMonitorYourWebsite"
-          values={{ websiteName: websiteName, httpHeadTag: new SecureString('<head>') }}
+          values={{ websiteName: websiteName, httpHeadTag: new SecureString('<head />') }}
           components={{
             linkToDocs: <Link href="https://instana.com/docs/website_monitoring/" external />
           }}
