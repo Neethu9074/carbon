@@ -45,4 +45,32 @@ describe('in-custom-dashboards/widgets/BigNumber/Widget', () => {
     await screen.findByText('45.00');
     await screen.findByText('+7.14%');
   });
+
+  it('must not fail to render when time shift response is missing', async () => {
+    getUnifiedMetrics.mockReturnValue(
+      successObservable([
+        {
+          id: metricKey,
+          values: [[Date.now(), 45]]
+        },
+        {
+          id: comparisonMetricKey
+        }
+      ])
+    );
+
+    const config = {
+      formatter: 'number.detailed',
+      metricConfiguration: {
+        timeShift: -86400000
+      },
+      comparisonDecreaseColor: 'greenish',
+      comparisonIncreaseColor: 'redish'
+    };
+    const title = 'Number of Calls (globally)';
+
+    render(<Widget title={title} config={config} />);
+    screen.getByText(title);
+    await screen.findByText('45.00');
+  });
 });
