@@ -201,7 +201,7 @@ function renderTimeShiftValue(
 
   let comparisonValue;
   const dataPoint = find(result.data, ({ id }) => id === comparisonMetricKey);
-  if (dataPoint && dataPoint.values.length === 1) {
+  if (dataPoint?.values?.length === 1) {
     comparisonValue = dataPoint.values[0][1];
   }
 
