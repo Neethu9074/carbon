@@ -7,6 +7,12 @@ import { useState, useRef, useEffect } from 'react';
 
 import { create, DebounceOptions, Disposable, Subject } from '@instana/observables';
 
+interface DebounceOutput<T> {
+  value: T;
+  debouncedValue: T;
+  onChange: (v: T) => void;
+}
+
 // Just a small alias to debounce value setting, similar to rxjs.debounce but
 // for functional React components
 export default function<T>(
@@ -15,10 +21,10 @@ export default function<T>(
   delay: number = 1000,
   opts: DebounceOptions,
   pure: boolean = true
-) {
+): DebounceOutput<T> {
   const [value$] = useState<Subject<T>>(create());
-  const [stateValue, setStateValue] = useState(value);
-  const [debouncedStateValue, setDebouncedStateValue] = useState(value);
+  const [stateValue, setStateValue] = useState<T>(value);
+  const [debouncedStateValue, setDebouncedStateValue] = useState<T>(value);
   const [subscription, setSubscription] = useState<Disposable | null>(null);
 
   const onChangeRef = useRef<(v: T) => any>(onChange);
