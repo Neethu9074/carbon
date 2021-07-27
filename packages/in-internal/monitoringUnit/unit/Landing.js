@@ -19,7 +19,7 @@ export default function Landing({ timeConfig, tenant, unit }) {
           <Col lg={12}>
             <SloViolationsChart
               timeConfig={timeConfig}
-              query={`entity.label:"${tenant}-${unit}-*"`}
+              query={`entity.docker.label:"io.kubernetes.pod.name=${tenant}-${unit}-*"`}
               cardTitle={t('in-internal:monitoringUnit.unit.landing.sloViolations', {
                 sloTenant: tenant,
                 sloUnit: unit
