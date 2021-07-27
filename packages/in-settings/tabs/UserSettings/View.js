@@ -63,7 +63,7 @@ const navigationTree = [
       }
     ]
   }
-];
+].filter(Boolean);
 
 export default function View(props) {
   return (
