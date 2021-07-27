@@ -4,11 +4,11 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import shallowEqual from 'fbjs/lib/shallowEqual';
 
 import { useObservable } from '@instana/hooks';
 
 import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
+import { shallowEquals } from 'in-services/util/object';
 
 const initialState = {
   items: emptyArray,
@@ -35,7 +35,7 @@ export function createPageSizeAwareLogsCursorPaginationHook(retrievalSize = 20) 
     const [state, setState] = useState(initialState);
     useEffect(() => setState(initialState), deps);
 
-    const { loadAfterCount, progress, canLoadMore, afterKey, nextAfterKey, errors, items, time } = shallowEqual(
+    const { loadAfterCount, progress, canLoadMore, afterKey, nextAfterKey, errors, items, time } = shallowEquals(
       prevDeps,
       deps
     )

@@ -3,13 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import shallowEqual from 'fbjs/lib/shallowEqual';
-
 import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import { shallowEquals } from 'in-services/util/object';
 
 // Removing facet items for the given tag is required to enable multi-select suggestions
 // Otherwise the tagFilterExpression for the current tag would limit the returned results to already selected items
@@ -36,7 +35,7 @@ export function removeFacetTag(facets, tag) {
 }
 
 export function removeFacetItem(facets, tag, itemToDelete) {
-  const filteredSelection = facets[tag]?.filter(selection => !shallowEqual(selection, itemToDelete));
+  const filteredSelection = facets[tag]?.filter(selection => !shallowEquals(selection, itemToDelete));
   const newFacets = {
     ...facets,
     [tag]: filteredSelection
