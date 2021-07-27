@@ -38,8 +38,8 @@ export interface PaginationReturn extends Partial<State> {
   reload: () => void;
 }
 
-export default function useCursorPagination<T>(
-  create: (v: Partial<State>) => Observable<T>,
+export default function useCursorPagination(
+  create: (v: Partial<State>) => Observable<Result<any>>,
   deps: React.DependencyList = []
 ): PaginationReturn {
   // If 'deps' change, the 'state' will be reset to the 'initialState' value. However, this 'state' change
@@ -67,7 +67,7 @@ export default function useCursorPagination<T>(
     time
   } = shallowEquals(prevDeps, deps) ? state : initialState;
 
-  const observable: Observable<any> = useMemo(() => create({ cursor }), [cursor, reloadCount, ...deps]);
+  const observable: Observable<Result<any>> = useMemo(() => create({ cursor }), [cursor, reloadCount, ...deps]);
   useEffect(() => setState(awaitItems), [observable, ...deps]);
 
   const result: Result<CursorPaginatedWithNext<Item, Cursor>> =
