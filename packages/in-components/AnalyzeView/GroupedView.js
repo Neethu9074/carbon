@@ -274,11 +274,12 @@ export default function GroupedAnalyzeView(props) {
             }}
           />
           {hasItems && (
-            <Ul>
+            <Ul className={locals.resultList}>
               {items.map((item, index) => {
                 const label = getLabel(item);
                 return (
                   <Li
+                    className={locals.stickyHeader}
                     key={`${label}-${index}`}
                     toggleContentOnRowClick
                     renderNestedContent={() => {

@@ -6,11 +6,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .facetedSearchResultContainer {
-    display: flex;
-    flex-direction: row;
-  }
-
   .sparkChartWrapper {
     margin: 0 0.4rem;
     min-width: 9rem;
@@ -44,7 +39,7 @@
   }
 
   .label {
-    width: '30%';
+    width: 30%;
     min-width: 15rem;
     margin-right: 1rem;
     display: flex;
@@ -76,5 +71,18 @@
 
   .focusButton:hover:before {
     opacity: 0.1;
+  }
+
+  .stickyHeader {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .resultList {
+    position: relative;
+    height: fit-content;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
   }
 }
