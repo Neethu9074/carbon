@@ -24,7 +24,7 @@
     "storybookBuild": "cd storybook && unset npm_config_registry && yarn && cd .. && export STORYBOOK='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./storybook/node_modules/.bin/build-storybook -c storybook/config -o storybookTarget",
     "reformat": "prettier --write \"packages/**/*.{js,ts,tsx,less,mless,css}\"",
     "postinstall": "./build/postInstall",
-    "precommit": "yarn run check:yarn-lock-exists && lint-staged && yarn test:lint:typescript && yarn run test:unit && git add README.md "
+    "precommit": "yarn run check:yarn-lock-exists && lint-staged && yarn test:lint:typescript && git add README.md"
   },
   "lint-staged": {
     "{(!(packages)/**/*.js),*.js}": [
