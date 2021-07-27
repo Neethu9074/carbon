@@ -668,7 +668,11 @@ export interface GetApplicationLiveViewQuery extends PaginatedUIQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetApplicationMetricsAlertPreviewQuery extends UiQuery {
+export interface GetApplicationMetricsAlertPreviewQuery extends GetApplicationMetricsNonClusteredAlertPreviewQuery {
+  readonly granularity: number;
+}
+
+export interface GetApplicationMetricsNonClusteredAlertPreviewQuery extends UiQuery {
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
   readonly metrics: { [index: string]: AppDataMetricConfiguration };
@@ -677,10 +681,6 @@ export interface GetApplicationMetricsAlertPreviewQuery extends UiQuery {
   readonly threshold: ThresholdData;
   readonly timeConfig: TimeConfig;
   readonly timeThreshold: ApplicationTimeThreshold;
-}
-
-export interface GetApplicationMetricsAlertPreviewQueryWithClustering extends GetApplicationMetricsAlertPreviewQuery {
-  readonly granularity: number;
 }
 
 export interface GetApplicationMetricsQuery extends QueryWithMetrics, UiQuery, QueryWithPrecision {
