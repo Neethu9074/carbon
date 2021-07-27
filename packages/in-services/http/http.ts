@@ -12,9 +12,11 @@ import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCode
 import HttpRequestTimeoutError from 'in-services/http/HttpRequestTimeoutError';
 import HttpRequestAbortedError from 'in-services/http/HttpRequestAbortedError';
 import createObservableResult from 'in-services/http/observableHttpResult';
+import { Response as ResponseInternal } from 'in-services/http/types';
 import HttpResponseError from 'in-services/http/HttpResponseError';
-import { Response } from 'in-services/http/types';
 import { Result } from 'in-types';
+
+export type Response<T> = ResponseInternal<T>;
 
 const logger = createLogger('xhrService');
 

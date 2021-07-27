@@ -6,10 +6,10 @@
 import { combineLatest, Observable } from '@instana/observables';
 
 import { loading, success, error as createErrorObject } from 'in-services/util/result';
+import { ErrorCode, Error, Result } from 'in-types';
 import { Response } from 'in-services/http/types';
-import { ErrorCode, Error } from 'in-types';
 
-export default function createObservable<T>(observableHttpRequest: Observable<Response<T>>) {
+export default function createObservable<T>(observableHttpRequest: Observable<Response<T>>): Observable<Result<T>> {
   const observable = combineLatest(
     [observableHttpRequest.startWith(null), observableHttpRequest.errors().startWith(null)],
     true

@@ -3,15 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
 import { fromJS } from 'immutable';
+
+import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
+import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
 import http from 'in-services/http';
 
-export const refreshSignalUsers = create().emit(true);
+export { refreshSignalUsers } from 'in-api/usersRefreshSignal';
+
 const refreshSignalInvitations = create().emit(true);
 
 // observables
