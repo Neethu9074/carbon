@@ -8,7 +8,16 @@ import classNames from 'classnames';
 import { range } from 'lodash';
 import rpt from 'prop-types';
 
-import { ColumnizedContent, KeyValue, Li, LiLoadMore, Stack, SvgIcon, Ul } from '@instana/components';
+import {
+  ColumnizedContent,
+  KeyValue,
+  Li,
+  LiLoadMore,
+  Stack,
+  SvgIcon,
+  Ul,
+  LiHorizontalIndicator
+} from '@instana/components';
 import { empty } from '@instana/observables';
 
 import {
@@ -163,7 +172,7 @@ export default function GroupedAnalyzeView(props) {
 
   const isLoading = props.isLoading || progress?.loading;
   const hasErrors = !isLoading && errors?.length > 0;
-  const hasItems = !isLoading && items.length > 0;
+  const hasItems = !props.isLoading && items.length > 0;
 
   useEffect(() => {
     if (isLoading) {
@@ -345,6 +354,7 @@ export default function GroupedAnalyzeView(props) {
                   }}
                 />
               )}
+              {progress.loading && <LiHorizontalIndicator progress={progress} />}
             </Ul>
           )}
           {isValid && (
