@@ -53,7 +53,7 @@ export function updateThresholdInForm(createThresholdForm, form, updateForm, dat
   updateForm(newForm);
 }
 
-export function duplicateConfig(config) {
+export function duplicateAlertConfig(config) {
   const duplicatedConfig = {
     ...config,
     name: t('in-alerting:smartAlerts.titleCopyOf', { smartAlertTitle: config.name })

@@ -32,7 +32,7 @@ export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, loc
       addActiveDialog(
         <SmartAlertConfigDialogWrapper
           isGlobalSmartAlert
-          formData={generateFormData()}
+          alertConfig={generateAlertConfig()}
           onClose={() => {
             close();
             if (location?.pathname === '/application/alerts' || location?.pathname === '/alerts') {
@@ -63,7 +63,7 @@ CreateGlobalSmartAlertButton.propTypes = {
   renderAsSimpleButton: PropTypes.bool
 };
 
-function generateFormData() {
+function generateAlertConfig() {
   return {
     boundaryScope: boundaryScopes.inbound,
     rule: {

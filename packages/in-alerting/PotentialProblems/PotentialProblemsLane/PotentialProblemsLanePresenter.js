@@ -111,7 +111,7 @@ export default function PotentialProblemsLanePresenter({
           return (
             <SmartAlertConfigDialogWrapper
               applicationLabel={applicationLabel}
-              formData={{
+              alertConfig={{
                 ...remainingProps,
                 ...dialogProps
               }}

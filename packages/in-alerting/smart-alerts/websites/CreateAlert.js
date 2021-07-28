@@ -82,7 +82,7 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
                   reload();
                 }
               }}
-              formData={generateFormData(websiteId, tagFilters, error, tagCatalog)}
+              alertConfig={generateAlertConfig(websiteId, tagFilters, error, tagCatalog)}
               websiteLabel={websiteLabel}
               startWithSimpleMode
             />
@@ -108,7 +108,7 @@ CreateAlert.propTypes = {
   websiteErrorResult: PropTypes.object
 };
 
-function generateFormData(websiteId, tagFilters, error, tagCatalog) {
+function generateAlertConfig(websiteId, tagFilters, error, tagCatalog) {
   const tagFiltersWithoutImplicitFilters = tagFilters.filter(({ name }) => !implicitTagFilters.includes(name));
   const tagFilterFormModel = fromTagFiltersArray(tagFiltersWithoutImplicitFilters, tagCatalog);
   const alertType = error?.message ? 'specificJsError' : 'slowness';

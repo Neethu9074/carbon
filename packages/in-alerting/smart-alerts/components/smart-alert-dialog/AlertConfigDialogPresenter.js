@@ -155,7 +155,7 @@ AlertConfigDialogPresenter.propTypes = {
   updateForm: PropTypes.func,
   withTrackClose: PropTypes.func.isRequired,
   withTrackCreate: PropTypes.func.isRequired,
-  simpleMode: PropTypes.bool.isRequired,
+  simpleMode: PropTypes.bool,
   setSimpleMode: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
   featureFeedbackElement: PropTypes.element,

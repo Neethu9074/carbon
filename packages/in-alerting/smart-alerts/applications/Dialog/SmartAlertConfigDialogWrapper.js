@@ -38,11 +38,11 @@ export default function SmartAlertConfigDialogWrapper({
   onClose,
   editMode,
   isGlobalSmartAlert,
-  formData,
-  startWithSimpleMode = false
+  alertConfig,
+  startWithSimpleMode
 }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => createSmartAlertForm(fromAlertConfig(formData), editMode));
+  const [form, setForm] = useState(() => createSmartAlertForm(fromAlertConfig(alertConfig), editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -99,7 +99,7 @@ export default function SmartAlertConfigDialogWrapper({
         createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving });
       }}
       isSaving={isSaving}
-      initialConfiguredApplications={formData?.applications ?? {}}
+      initialConfiguredApplications={alertConfig?.applications ?? {}}
     />
   );
 }
@@ -108,7 +108,7 @@ SmartAlertConfigDialogWrapper.propTypes = {
   editMode: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool,
   startWithSimpleMode: PropTypes.bool,
-  formData: PropTypes.shape({
+  alertConfig: PropTypes.shape({
     applications: PropTypes.object,
     boundaryScope: PropTypes.string,
     calculateThresholdOnBackend: PropTypes.bool,

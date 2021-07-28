@@ -42,7 +42,7 @@ export default function CreateSmartAlert({
       onClick={() => {
         addActiveDialog(
           <SmartAlertConfigDialogWrapper
-            formData={generateFormData({
+            alertConfig={generateAlertConfig({
               boundaryScope: urlBoundaryScope || defaultBoundaryScope,
               applicationId,
               serviceId,
@@ -78,7 +78,7 @@ CreateSmartAlert.propTypes = {
   includeSynthetic: PropTypes.bool
 };
 
-export function generateFormData({ boundaryScope, applicationId, serviceId, endpointId, includeSynthetic }) {
+export function generateAlertConfig({ boundaryScope, applicationId, serviceId, endpointId, includeSynthetic }) {
   return {
     boundaryScope,
     rule: {

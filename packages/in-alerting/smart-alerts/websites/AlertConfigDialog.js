@@ -20,9 +20,9 @@ import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
 
-export default function AlertConfigDialog({ onClose, formData, editMode, startWithSimpleMode = false }) {
+export default function AlertConfigDialog({ onClose, alertConfig, editMode, startWithSimpleMode }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(formData, editMode));
+  const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -119,7 +119,15 @@ function toAlertConfig(form) {
 }
 
 AlertConfigDialog.propTypes = {
-  formData: PropTypes.object.isRequired,
+  alertConfig: PropTypes.shape({
+    websiteId: PropTypes.string,
+    calculateThresholdOnBackend: PropTypes.bool,
+    /**
+     * The backed model of tagFilterExpression
+     */
+    tagFilterExpression: PropTypes.object,
+    name: PropTypes.string
+  }).isRequired,
   onClose: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
   startWithSimpleMode: PropTypes.bool

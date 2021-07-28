@@ -7,7 +7,7 @@ import React from 'react';
 
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
-import { generateFormData } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
+import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 
 export default {
   title: 'Templates|applications/alerting/AlertConfigDialog',
@@ -23,7 +23,7 @@ export const AdvancedAlertConfigDialog = () => {
   return (
     <SmartAlertConfigDialogWrapper
       applicationLabel={'applicationLabel'}
-      formData={generateFormData({
+      alertConfig={generateAlertConfig({
         applicationId,
         boundaryScope: 'urlBoundaryScope'
       })}

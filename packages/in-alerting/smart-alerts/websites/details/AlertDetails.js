@@ -26,8 +26,8 @@ import {
   alertsTabDetailsFullyQualified as detailsPath,
   alertsTabListFullyQualified as listPath
 } from 'in-websites/navigation/paths';
+import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-websites/navigation/matrix';
-import { duplicateConfig } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/websites/details/AlertConfiguration';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/AlertConfigDialog';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
@@ -80,7 +80,7 @@ function renderSmartAlertDialog({ close, alertConfig, setRevision, isCopy, detai
           });
         }
       }}
-      formData={isCopy ? duplicateConfig(alertConfig) : alertConfig}
+      alertConfig={isCopy ? duplicateAlertConfig(alertConfig) : alertConfig}
       editMode={!isCopy}
     />
   );

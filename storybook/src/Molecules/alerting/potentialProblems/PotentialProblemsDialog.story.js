@@ -74,7 +74,7 @@ const props = {
     return (
       <SmartAlertConfigDialogWrapper
         applicationLabel={applicationLabel}
-        formData={{
+        alertConfig={{
           ...props,
           ...dialogProps,
           tagFilters

@@ -9,6 +9,7 @@ import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
+import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { alertRules, potentialProblemsCluster } from './potentialProblemsStorySharedData';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -70,8 +71,8 @@ export const PotentialProblemsMarkerLane = () => {
               alertRules={alertRules}
               renderSmartAlertDialogComponent={() => (
                 <SmartAlertConfigDialogWrapper
-                  applicationLabel={'applicationLabel'}
-                  // formData={generateFormData({ ...laneProps })}
+                  applicationLabel="applicationLabel"
+                  alertConfig={generateAlertConfig({ ...laneProps })}
                   onClose={close}
                   startWithSimpleMode
                 />
