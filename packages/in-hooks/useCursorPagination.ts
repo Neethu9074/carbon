@@ -83,7 +83,6 @@ export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
     adjustedWindowSize,
     canLoadMore,
     reloadCount,
-    nextCursor,
     totalHits,
     progress,
     cursor,
@@ -113,8 +112,8 @@ export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
   ]);
 
   const loadMore: () => void = useCallback(
-    () => setState((prev: State<CURSOR, ITEM>) => ({ ...prev, cursor: nextCursor })),
-    [nextCursor]
+    () => setState((prev: State<CURSOR, ITEM>) => ({ ...prev, cursor: prev.nextCursor, nextCursor: undefined })),
+    []
   );
   const reload: () => void = useCallback(
     () => setState((prev: State<CURSOR, ITEM>) => ({ ...prev, reloadCount: prev.reloadCount + 1 })),
