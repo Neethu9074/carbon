@@ -13,7 +13,6 @@ import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websit
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { changeFormDataByCopyState } from '../components/smart-alert-dialog/sharedFunctions';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
@@ -21,9 +20,9 @@ import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 const logger = createLogger('in-websites/alerting/AlertDialog');
 const initialChartConfigIndex = 0;
 
-export default function AlertConfigDialog({ onClose, formData, editMode, isCopy }) {
+export default function AlertConfigDialog({ onClose, formData, editMode, startWithSimpleMode = false }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => alertFormDefinition(changeFormDataByCopyState(isCopy, formData), editMode));
+  const [form, setForm] = useState(() => alertFormDefinition(formData, editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -41,6 +40,7 @@ export default function AlertConfigDialog({ onClose, formData, editMode, isCopy 
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       websiteLabel={websiteLabel}
       editMode={editMode}
+      startWithSimpleMode={startWithSimpleMode}
       granularity={form.get('granularity').value}
       isSaving={isSaving}
     />
@@ -122,8 +122,5 @@ AlertConfigDialog.propTypes = {
   formData: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
-  /**
-   * Whether the new Smart Alert is a copy of a given Smart Alert
-   */
-  isCopy: PropTypes.bool
+  startWithSimpleMode: PropTypes.bool
 };

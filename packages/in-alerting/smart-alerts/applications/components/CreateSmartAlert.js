@@ -56,6 +56,7 @@ export default function CreateSmartAlert({
                 refreshSmartAlertConfigsList();
               }
             }}
+            startWithSimpleMode
           />
         );
         applicationsAlertingAddAlert(location.pathname);

@@ -41,9 +41,9 @@ const tagSuggestionTimeConfig = {
 };
 
 export default function AlertConfigDialogWithThreshold(props) {
-  const { form, updateForm, onClose, onCreate, editMode } = props;
+  const { form, updateForm, onClose, onCreate, startWithSimpleMode } = props;
 
-  const [simpleMode, setSimpleMode] = useState(!editMode);
+  const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
 
   useCalculateThresholdOnBackendSignalEmitter(form);
 

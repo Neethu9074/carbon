@@ -61,8 +61,8 @@ function SmartAlertConfigDialogWithQueryValidation({
   enrichedTagFilterFormModel,
   ...props
 }) {
-  const { form, updateForm, editMode, isGlobalSmartAlert } = props;
-  const [simpleMode, setSimpleMode] = useState(!editMode && !props.isGlobalSmartAlert);
+  const { form, updateForm, isGlobalSmartAlert, startWithSimpleMode } = props;
+  const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid

@@ -116,6 +116,7 @@ export default function PotentialProblemsLanePresenter({
                 ...dialogProps
               }}
               onClose={close}
+              startWithSimpleMode
             />
           );
         }}

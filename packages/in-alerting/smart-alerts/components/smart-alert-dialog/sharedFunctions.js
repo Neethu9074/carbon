@@ -53,16 +53,13 @@ export function updateThresholdInForm(createThresholdForm, form, updateForm, dat
   updateForm(newForm);
 }
 
-export function changeFormDataByCopyState(isCopy, formData) {
-  if (isCopy) {
-    const changedFormData = {
-      ...formData,
-      name: t('in-alerting:smartAlerts.titleCopyOf', { smartAlertTitle: formData.name })
-    };
-    delete changedFormData.id;
-    return changedFormData;
-  }
-  return formData;
+export function duplicateConfig(config) {
+  const duplicatedConfig = {
+    ...config,
+    name: t('in-alerting:smartAlerts.titleCopyOf', { smartAlertTitle: config.name })
+  };
+  delete duplicatedConfig.id;
+  return duplicatedConfig;
 }
 
 /**

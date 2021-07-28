@@ -73,6 +73,7 @@ export const PotentialProblemsMarkerLane = () => {
                   applicationLabel={'applicationLabel'}
                   // formData={generateFormData({ ...laneProps })}
                   onClose={close}
+                  startWithSimpleMode
                 />
               )}
             />

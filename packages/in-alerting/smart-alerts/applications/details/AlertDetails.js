@@ -39,6 +39,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/tracker';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-applications/navigation/matrix';
+import { duplicateConfig } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
 import { categoryGlobal } from 'in-alerting/smart-alerts/applications/components/list/constants';
 import { alertsCategory as alertsCategoryMatrixParam } from 'in-applications/navigation/matrix';
@@ -135,7 +136,7 @@ function renderSmartAlertDialog({
 }) {
   return (
     <SmartAlertConfigDialogWrapper
-      formData={alertConfig}
+      formData={isCopy ? duplicateConfig(alertConfig) : alertConfig}
       onClose={({ id: copyId } = {}) => {
         close();
         setRevision(null);
@@ -147,8 +148,7 @@ function renderSmartAlertDialog({
         }
       }}
       isGlobalSmartAlert={isGlobalSmartAlert}
-      isCopy={isCopy}
-      editMode
+      editMode={!isCopy}
     />
   );
 }

@@ -24,6 +24,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { refreshSmartAlertConfigsList } from 'in-alerting/smart-alerts/applications/components/list/SmartAlertsBaseList';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
+import { duplicateConfig } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -165,14 +166,13 @@ function openSmartAlertDialog(config, isGlobalSmartAlertConfig, isCopy = false) 
   addActiveDialog(
     <SmartAlertConfigDialogWrapper
       applicationLabel={config.name}
-      formData={config}
+      formData={isCopy ? duplicateConfig(config) : config}
       onClose={() => {
         close();
         refreshSmartAlertConfigsList();
       }}
       isGlobalSmartAlert={isGlobalSmartAlertConfig}
-      isCopy={isCopy}
-      editMode
+      editMode={!isCopy}
     />
   );
 }

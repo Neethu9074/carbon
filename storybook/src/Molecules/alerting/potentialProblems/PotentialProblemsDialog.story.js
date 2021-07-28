@@ -80,6 +80,7 @@ const props = {
           tagFilters
         }}
         onClose={close}
+        startWithSimpleMode
       />
     );
   }

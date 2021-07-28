@@ -84,6 +84,7 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
               }}
               formData={generateFormData(websiteId, tagFilters, error, tagCatalog)}
               websiteLabel={websiteLabel}
+              startWithSimpleMode
             />
           );
 

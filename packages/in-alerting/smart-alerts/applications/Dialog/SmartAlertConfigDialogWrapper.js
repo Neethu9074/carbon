@@ -20,7 +20,6 @@ import {
 import ApplicationsSimpleModeContainer from 'in-alerting/smart-alerts/applications/simple/ApplicationsSimpleModeContainer';
 import { createAlertConfig, updateAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import { changeFormDataByCopyState } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { SmartAlertConfigDialog } from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
@@ -35,9 +34,15 @@ const logger = createLogger('in-alerting/smart-alerts/applications/Dialog/SmartA
 
 const initialChartConfigIndex = 0;
 
-export default function SmartAlertConfigDialogWrapper({ onClose, editMode, isGlobalSmartAlert, formData, isCopy }) {
+export default function SmartAlertConfigDialogWrapper({
+  onClose,
+  editMode,
+  isGlobalSmartAlert,
+  formData,
+  startWithSimpleMode = false
+}) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const [form, setForm] = useState(() => createSmartAlertForm(fromAlertConfig(formData, isCopy), editMode));
+  const [form, setForm] = useState(() => createSmartAlertForm(fromAlertConfig(formData), editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -48,6 +53,7 @@ export default function SmartAlertConfigDialogWrapper({ onClose, editMode, isGlo
       applicationLabel={applicationLabel}
       isGlobalSmartAlert={isGlobalSmartAlert}
       editMode={editMode}
+      startWithSimpleMode={startWithSimpleMode}
       form={form}
       updateForm={updateForm}
       granularity={form.get('granularity').value}
@@ -101,6 +107,7 @@ export default function SmartAlertConfigDialogWrapper({ onClose, editMode, isGlo
 SmartAlertConfigDialogWrapper.propTypes = {
   editMode: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool,
+  startWithSimpleMode: PropTypes.bool,
   formData: PropTypes.shape({
     applications: PropTypes.object,
     boundaryScope: PropTypes.string,
@@ -111,11 +118,7 @@ SmartAlertConfigDialogWrapper.propTypes = {
     tagFilterExpression: PropTypes.object,
     name: PropTypes.string
   }).isRequired,
-  onClose: PropTypes.func.isRequired,
-  /**
-   * Whether the new Smart Alert is a copy of a given Smart Alert
-   */
-  isCopy: PropTypes.bool
+  onClose: PropTypes.func.isRequired
 };
 
 function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving }) {
@@ -182,11 +185,10 @@ function mapStatusCodeSelection(alertConfig) {
   return alertConfig;
 }
 
-function fromAlertConfig(alertConfig, isCopy) {
+function fromAlertConfig(alertConfig) {
   if (alertConfig.rule.alertType === 'statusCode') {
     alertConfig = mapStatusCodeConfig(alertConfig);
   }
-  alertConfig = changeFormDataByCopyState(isCopy, alertConfig);
   return alertConfig;
 }
 

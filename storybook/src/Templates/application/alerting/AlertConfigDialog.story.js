@@ -28,6 +28,7 @@ export const AdvancedAlertConfigDialog = () => {
         boundaryScope: 'urlBoundaryScope'
       })}
       editMode
+      startWithSimpleMode
     />
   );
 };
