@@ -199,7 +199,7 @@ function CodeDialog({ title, content, language, disabledErrorMessage }) {
         <CopyToClipboardButtonInternal getText={() => content} disabledErrorMessage={disabledErrorMessage} />
       )}
     >
-      <CodeComponent code={content} showLineNumbers lang={language} />
+      <CodeComponent code={content} showLineNumbers lang={language} withoutCopyButton />
     </Dialog>
   );
 }
@@ -213,30 +213,23 @@ export function DownloadButton({ href, title = t('in-waiting-for-deployment:down
 }
 
 export function Bash({ lines }) {
-  return <Script lines={['#!/bin/bash', ''].concat(lines)} />;
+  return <Script lines={['#!/bin/bash', ''].concat(lines)} language="bash" />;
 }
 
 export function Cmd({ lines }) {
-  return <Script lines={['@ECHO OFF', ''].concat(lines)} />;
+  return <Script lines={['@ECHO OFF', ''].concat(lines)} language="bash" />;
 }
 
 export function PowershellEC2({ lines }) {
-  return <Script lines={['<powershell>'].concat(lines).concat(['</powershell>'])} />;
+  return <Script lines={['<powershell>'].concat(lines).concat(['</powershell>'])} language="bash" />;
 }
 
 export function Dockerfile({ lines }) {
-  return <Script pre={['# Dockerfile', '']} lines={lines} />;
+  return <Script pre={['# Dockerfile', '']} lines={lines} language="" />;
 }
 
-export function Script({ pre = [], post = [], lines, disabledErrorMessage }) {
-  return (
-    <div className={locals.script}>
-      <pre className={locals.codeWrapper}>
-        <code className={locals.code}>{renderValueLines([...pre, ...lines, ...post])}</code>
-      </pre>
-      <CopyToClipboardButtonInternal getText={() => lines.join('\n')} disabledErrorMessage={disabledErrorMessage} />
-    </div>
-  );
+export function Script({ pre = [], post = [], lines = [], language = 'bash' }) {
+  return <CodeComponent code={[...pre, ...lines, ...post].join('\n')} lang={language} softWrap useDark />;
 }
 
 function CopyToClipboardButtonInternal(props) {

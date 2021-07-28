@@ -45,15 +45,15 @@ export default function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndp
             disabledErrorMessage={clusterNameValidationMessage}
             lines={[
               'helm install instana-agent \\',
-              `--repo https://agents.instana.${instanaDomain}/helm \\`,
-              '--namespace instana-agent \\',
-              '--create-namespace \\',
-              `--set agent.key=${agentKey} \\`,
-              `--set agent.endpointHost=${agentEndpoint} \\`,
-              `--set agent.endpointPort=${agentEndpointPort} \\`,
-              `--set cluster.name='${clusterName}' \\`,
-              `--set zone.name='${zoneName}' \\`,
-              'instana-agent'
+              `   --repo https://agents.instana.${instanaDomain}/helm \\`,
+              '   --namespace instana-agent \\',
+              '   --create-namespace \\',
+              `   --set agent.key=${agentKey} \\`,
+              `   --set agent.endpointHost=${agentEndpoint} \\`,
+              `   --set agent.endpointPort=${agentEndpointPort} \\`,
+              `   --set cluster.name='${clusterName}' \\`,
+              `   --set zone.name='${zoneName}' \\`,
+              '   instana-agent'
             ]}
           />
           <Spacer />

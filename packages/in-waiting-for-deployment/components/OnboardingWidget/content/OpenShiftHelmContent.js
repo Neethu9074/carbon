@@ -45,16 +45,16 @@ export default function OpenShiftHelmContent({ agentKey, agentEndpoint, agentEnd
             disabledErrorMessage={clusterNameValidationMessage}
             lines={[
               'helm install instana-agent \\',
-              `--repo https://agents.instana.${instanaDomain}/helm \\`,
-              '--namespace instana-agent \\',
-              '--create-namespace \\',
-              '--set openshift=true \\',
-              `--set agent.key=${agentKey} \\`,
-              `--set agent.endpointHost=${agentEndpoint} \\`,
-              `--set agent.endpointPort=${agentEndpointPort} \\`,
-              `--set cluster.name='${clusterName}' \\`,
-              `--set zone.name='${zoneName}' \\`,
-              'instana-agent'
+              `   --repo https://agents.instana.${instanaDomain}/helm \\`,
+              '   --namespace instana-agent \\',
+              '   --create-namespace \\',
+              '   --set openshift=true \\',
+              `   --set agent.key=${agentKey} \\`,
+              `   --set agent.endpointHost=${agentEndpoint} \\`,
+              `   --set agent.endpointPort=${agentEndpointPort} \\`,
+              `   --set cluster.name='${clusterName}' \\`,
+              `   --set zone.name='${zoneName}' \\`,
+              '   instana-agent'
             ]}
           />
           <Spacer />

@@ -13,30 +13,12 @@
   }
 
   .checkbox,
-  .codeWrapper,
   .description,
   .row,
   .helpBox,
   .input,
-  .script,
   .textWithLink {
     margin-bottom: 0.5rem;
-  }
-
-  .code {
-    display: block;
-
-    padding: 0.75rem;
-
-    font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
-    font-size: 0.688rem;
-    line-height: 1.4;
-
-    background: @lib__colors__N900Primary;
-    color: @lib__colors__white;
-    overflow: auto;
-    border-radius: 0.125rem;
-    white-space: normal;
   }
 
   .input,

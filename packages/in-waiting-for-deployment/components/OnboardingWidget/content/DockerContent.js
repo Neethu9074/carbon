@@ -12,23 +12,23 @@ export default function DockerContent({ agentKey, agentEndpoint, agentEndpointPo
   const [zoneName, onZoneNameChange] = useState('');
   const lines = [
     'sudo docker run \\',
-    '--detach \\',
-    '--name instana-agent \\',
-    '--volume /var/run:/var/run \\',
-    '--volume /run:/run \\',
-    '--volume /dev:/dev:ro \\',
-    '--volume /sys:/sys:ro \\',
-    '--volume /var/log:/var/log:ro \\',
-    '--privileged \\',
-    '--net=host \\',
-    '--pid=host \\',
-    `--env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
-    `--env="INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort}" \\`,
-    `--env="INSTANA_AGENT_KEY=${agentKey}" \\`,
-    'instana/agent'
+    '   --detach \\',
+    '   --name instana-agent \\',
+    '   --volume /var/run:/var/run \\',
+    '   --volume /run:/run \\',
+    '   --volume /dev:/dev:ro \\',
+    '   --volume /sys:/sys:ro \\',
+    '   --volume /var/log:/var/log:ro \\',
+    '   --privileged \\',
+    '   --net=host \\',
+    '   --pid=host \\',
+    `   --env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
+    `   --env="INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort}" \\`,
+    `   --env="INSTANA_AGENT_KEY=${agentKey}" \\`,
+    '   instana/agent'
   ];
   if (zoneName) {
-    lines.push(`--env="INSTANA_AGENT_ZONE=${zoneName}" \\`, lines.pop());
+    lines.push(`   --env="INSTANA_AGENT_ZONE=${zoneName}" \\`, lines.pop());
   }
 
   return (
