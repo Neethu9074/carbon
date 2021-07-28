@@ -26,6 +26,9 @@ exports.createImportRestrictionRule = ({
         'react-i18next',
         'i18next',
 
+        // forbidden libraries because of complicated update paths
+        'fbjs',
+
         // Some editor/IDE auto imports incorrectly import the commonJS variant of the packages.
         // This ensures that the ESM variant is used.
         '@instana/observables/lib',
