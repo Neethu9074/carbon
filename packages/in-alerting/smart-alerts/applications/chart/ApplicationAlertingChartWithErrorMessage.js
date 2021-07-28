@@ -13,23 +13,25 @@ import {
 import { isAlertQueryValid as isApplicationAlertQueryValid } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { t } from 'in-i18n';
+
+const NoDataPlaceHolder = ({ text }) => <NoDataAvailable text={text} height={230} />;
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {
   const { alertConfigWithFormModel, serviceId, endpointId } = props;
 
+  const isAdaptiveBaseline = alertConfigWithFormModel.threshold?.type === ADAPTIVE_BASELINE;
+  if (isAdaptiveBaseline) {
+    return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noChartForAdaptiveBaseline')} />;
+  }
   if (PER_AP_ENDPOINT === alertConfigWithFormModel.evaluationType && !endpointId) {
-    return (
-      <NoDataAvailable
-        text={t('in-alerting:smartAlerts.applications.chart.noDataWithoutEndpointSelection')}
-        height={230}
-      />
-    );
+    return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataWithoutEndpointSelection')} />;
   }
 
   if (PER_AP_SERVICE === alertConfigWithFormModel.evaluationType && !serviceId) {
-    return <NoDataAvailable text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} height={230} />;
+    return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} />;
   }
 
   const entitySelection = alertConfigWithFormModel?.applications;
@@ -64,6 +66,7 @@ function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
 ApplicationAlertingChartWithErrorMessage.propTypes = {
   alertConfigWithFormModel: PropTypes.shape({
     applications: PropTypes.object.isRequired,
+    threshold: PropTypes.object,
     evaluationType: PropTypes.string.isRequired
   }).isRequired,
 

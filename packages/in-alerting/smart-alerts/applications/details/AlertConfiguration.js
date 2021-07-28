@@ -78,7 +78,6 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
                 badges={getLogLevelAsList(level)}
               />
             )}
-
             <ApplicationAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
                 ...alertConfig,
