@@ -12,9 +12,6 @@
       "name": "Client: Dev Mode",
       "request": "launch",
       "type": "node-terminal",
-      // Set this to 'true' when you are interested in debugging our build process
-      // itself. Otherwise keeping this disabled is most likely going to result
-      // in faster dev environments.
       "autoAttachChildProcesses": false
     },
     {
@@ -34,7 +31,9 @@
       "env": {
         "IS_TEST": "true"
       },
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "outputCapture": "std"
     },
     {
@@ -55,7 +54,9 @@
       "env": {
         "IS_TEST": "true"
       },
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "outputCapture": "std"
     },
     {
@@ -72,7 +73,9 @@
         "test/*"
       ],
       "internalConsoleOptions": "openOnSessionStart",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "outputCapture": "std"
     },
     {
@@ -90,8 +93,25 @@
         "test/*"
       ],
       "internalConsoleOptions": "openOnSessionStart",
-      "skipFiles": ["<node_internals>/**"],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "outputCapture": "std"
+    },
+    {
+      "type": "node",
+      "name": "vscode-jest-tests",
+      "request": "launch",
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "disableOptimisticBPs": true,
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "yarn",
+      "args": [
+        "test:unit",
+        "--runInBand",
+        "--watchAll=false"
+      ]
     }
   ]
 }

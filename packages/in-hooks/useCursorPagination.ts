@@ -8,49 +8,74 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
+import { Progress, Result, Error, CursorPaginatedWithNext, CursorPaginatedResult, Cursor, Cursorific } from 'in-types';
 import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
-import { Progress, Result, Error, CursorPaginatedWithNext, Cursor } from 'in-types';
 import { shallowEquals } from 'in-services/util/object';
 
-interface Item {
+export type GetCursorPaginated<CURSOR extends Cursor, ITEM extends Cursorific<CURSOR>> = (opts: {
   cursor?: Cursor;
-  metrics?: { [index: string]: number[][] };
-  name?: string;
-  timespamp?: number;
-}
-export interface State {
-  totalRepresentedItemCount?: number;
-  adjustedWindowSize?: number;
+}) => Observable<Result<CursorPaginatedResult<ITEM>>>;
+
+export type GetCursorPaginatedWithNext<CURSOR extends Cursor, ITEM> = (opts: {
+  cursor?: Cursor;
+}) => Observable<Result<CursorPaginatedWithNext<ITEM, CURSOR>>>;
+
+type SupportedResponseFormats<ITEM, CURSOR> = CursorPaginatedWithNext<ITEM, CURSOR> | CursorPaginatedResult<ITEM>;
+
+export interface State<CURSOR, ITEM> {
+  cursor?: CURSOR;
+  nextCursor?: CURSOR;
+  items: ITEM[];
+  errors: Error[];
+  progress: Progress;
+
+  awaitingData: boolean;
   canLoadMore: boolean;
   reloadCount: number;
-  nextCursor?: Cursor;
+
+  totalRepresentedItemCount?: number;
+  adjustedWindowSize?: number;
   totalHits?: number;
-  progress: Progress;
-  cursor?: Object;
-  errors: Error[];
-  items: Item[];
   time?: number;
-  awaitingData: boolean;
 }
 
-export interface PaginationReturn extends Partial<State> {
+const initialState: State<any, any> = {
+  items: emptyArray as [],
+  progress: indeterminateProgress,
+  errors: emptyArray as [],
+  awaitingData: true,
+  canLoadMore: false,
+  reloadCount: 0
+};
+
+export default function useCursorPagination<CURSOR extends Cursor, ITEM extends Cursorific<CURSOR>>(
+  create: GetCursorPaginated<CURSOR, ITEM>,
+  deps?: React.DependencyList
+): State<CURSOR, ITEM>;
+export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
+  create: GetCursorPaginatedWithNext<CURSOR, ITEM>,
+  deps?: React.DependencyList
+): State<CURSOR, ITEM>;
+export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
+  create: GetCursorPaginated<CURSOR, ITEM> | GetCursorPaginatedWithNext<CURSOR, ITEM>,
+  deps: React.DependencyList = []
+): State<CURSOR, ITEM> & {
   loadMore: () => void;
   reload: () => void;
-}
-
-export default function useCursorPagination(
-  create: (v: Partial<State>) => Observable<Result<any>>,
-  deps: React.DependencyList = []
-): PaginationReturn {
+} {
   // If 'deps' change, the 'state' will be reset to the 'initialState' value. However, this 'state' change
   // won't be visible until the next re-render. In order to make sure that we won't use the stale value
   // of 'state', we need to track the previous value of 'deps' and perform a shallow comparison with the
   // current 'deps' value. If we detect a change, we will use 'initialState' instead of the stale 'state'
   // value.
   const [prevDeps, setPrevDeps] = useState<React.DependencyList>([]);
+  // Dependencies are externally provided
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setPrevDeps(deps), deps);
 
-  const [state, setState] = useState<State>(initialState);
+  const [state, setState] = useState<State<CURSOR, ITEM>>(initialState);
+  // Dependencies are externally provided
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setState(initialState), deps);
 
   const {
@@ -64,23 +89,35 @@ export default function useCursorPagination(
     cursor,
     errors,
     items,
-    time
+    time,
+    awaitingData
   } = shallowEquals(prevDeps, deps) ? state : initialState;
 
-  const observable: Observable<Result<any>> = useMemo(() => create({ cursor }), [cursor, reloadCount, ...deps]);
+  const observable: Observable<Result<SupportedResponseFormats<ITEM, CURSOR>>> = useMemo(
+    () => create({ cursor }),
+    // eslint cannot statically analyze the following case
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [cursor, reloadCount, ...deps]
+  );
+  // eslint cannot statically analyze the following case
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setState(awaitItems), [observable, ...deps]);
 
-  const result: Result<CursorPaginatedWithNext<Item, Cursor>> =
+  const result: Result<SupportedResponseFormats<ITEM, CURSOR>> =
     useObservable(observable, [observable, ...deps]) ?? pendingResult;
-  useEffect(() => setState((prev: State) => updateResult(prev, result)), [result, ...deps]);
+  useEffect(() => setState((prev: State<CURSOR, ITEM>) => updateResult(prev, result)), [
+    result,
+    // eslint cannot statically analyze the following case
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    ...deps
+  ]);
 
-  // @ts-expect-error An argument for 'deps' was not provided.
-  const setCursor: (cursor?: Cursor) => void = useCallback((cursor?: Cursor) =>
-    setState(prev => ({ ...prev, cursor }))
+  const loadMore: () => void = useCallback(
+    () => setState((prev: State<CURSOR, ITEM>) => ({ ...prev, cursor: nextCursor })),
+    [nextCursor]
   );
-  const loadMore: () => void = useCallback(() => setCursor(nextCursor), [nextCursor]);
   const reload: () => void = useCallback(
-    () => setState((prev: State) => ({ ...prev, reloadCount: prev.reloadCount + 1 })),
+    () => setState((prev: State<CURSOR, ITEM>) => ({ ...prev, reloadCount: prev.reloadCount + 1 })),
     []
   );
 
@@ -95,24 +132,20 @@ export default function useCursorPagination(
     reload,
     items,
     time,
-    cursor
+    cursor,
+    reloadCount,
+    awaitingData
   };
 }
 
-const initialState: State = {
-  items: emptyArray as [],
-  progress: indeterminateProgress,
-  errors: emptyArray as [],
-  awaitingData: true,
-  canLoadMore: false,
-  reloadCount: 0
-};
-
-function awaitItems(prev: State) {
+function awaitItems<CURSOR, ITEM>(prev: State<CURSOR, ITEM>) {
   return { ...prev, awaitingData: true, canLoadMore: false };
 }
 
-function updateResult(prev: State, result: Result<CursorPaginatedWithNext<Item, Cursor>>): State {
+function updateResult<CURSOR extends Cursor, ITEM extends Cursorific<CURSOR> | Object>(
+  prev: State<CURSOR, ITEM>,
+  result: Result<SupportedResponseFormats<ITEM, CURSOR>>
+): State<CURSOR, ITEM> {
   if (!prev.awaitingData) {
     return prev;
   }
@@ -123,13 +156,24 @@ function updateResult(prev: State, result: Result<CursorPaginatedWithNext<Item, 
       ...result
     };
   }
+
+  let nextCursor: CURSOR | undefined;
+  if ('next' in data && data.next) {
+    nextCursor = data.next;
+  } else {
+    const item = data.items?.[data.items.length - 1];
+    if (item && 'cursor' in item) {
+      nextCursor = item.cursor;
+    }
+  }
+
   return {
     ...prev,
     ...result,
     totalRepresentedItemCount: data.totalRepresentedItemCount ?? prev.totalRepresentedItemCount,
     awaitingData: false,
     canLoadMore: data.canLoadMore,
-    nextCursor: data.next ?? data.items?.[data.items.length - 1]?.cursor,
+    nextCursor,
     totalHits: data.totalHits ?? prev.totalHits,
     items: (prev.items ?? []).concat(data.items ?? [])
   };
