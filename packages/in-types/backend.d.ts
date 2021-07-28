@@ -17,7 +17,7 @@ export interface AbstractApplicationAlertConfig {
   readonly severity: number;
   readonly tagFilterExpression?: TagFilterExpressionElement;
   readonly tagFilters?: TagFilter[];
-  readonly threshold: Threshold;
+  readonly threshold: ThresholdConfig;
   readonly timeThreshold: ApplicationTimeThreshold;
   readonly triggering: boolean;
 }
@@ -42,7 +42,7 @@ export interface AccessRule {
   readonly relationType: AccessRuleRelationType;
 }
 
-export interface AdaptiveBaseline extends Threshold {
+export interface AdaptiveBaselineConfig extends ThresholdConfig {
   readonly deviationFactor: number;
 }
 
@@ -1801,7 +1801,7 @@ export interface HealthInfo {
   readonly type: Type;
 }
 
-export interface HistoricBaseline extends Threshold {
+export interface HistoricBaselineConfig extends ThresholdConfig {
   readonly baseline?: number[][];
   readonly deviationFactor: number;
   readonly lastUpdated: number;
@@ -3155,7 +3155,7 @@ export interface StaticStringField extends CustomPayloadField {
   readonly value: string;
 }
 
-export interface StaticThreshold extends Threshold {
+export interface StaticThresholdConfig extends ThresholdConfig {
   readonly lastUpdated: number;
   readonly value: number;
 }
@@ -3252,7 +3252,7 @@ export interface TenantConfig {
   readonly unit?: string;
 }
 
-export interface Threshold {
+export interface ThresholdConfig {
   readonly operator: ThresholdOperator;
   readonly type: string;
 }
