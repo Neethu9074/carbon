@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
 import { withKnobs, number } from '@storybook/addon-knobs';
+import React, { useState } from 'react';
 
+import { generateMetrics, fixedTimestamp, getHardCodedRandomValue } from '../util/generateMetrics';
 import AlertingRenderer from 'in-alerting/components/Chart/renderer/Renderer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -13,7 +14,6 @@ import FormGroup from 'in-components/form/FormGroup/FormGroup';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { percentage } from 'in-services/formatters/number';
-import { compare } from 'in-services/util/number';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { minutes } from 'in-services/time';
@@ -23,14 +23,9 @@ const oneSecond = 1000;
 const oneMinute = oneSecond * 60;
 const oneHour = oneMinute * 60;
 const oneDay = oneHour * 24;
-const now = Date.now(); // TODO: use fixed time (part of https://instana.kanbanize.com/ctrl_board/59/cards/20424)
 
 export default {
   title: 'Organisms|Chart',
-  parameters: {
-    // ignoring this story because it renders differently everytime
-    chromatic: { disable: true }
-  },
   decorators: [withKnobs],
   component: ResultAwareChart
 };
@@ -880,17 +875,6 @@ function generateMetricsWithGaps(numMetrics, maxValue, windowSize) {
     .concat(metrics.slice(27, 30));
 }
 
-function generateMetrics(numMetrics, maxValue, windowSize) {
-  const granularity = windowSize / numMetrics;
-  const metrics = [];
-  for (let i = numMetrics - 1; i >= 0; i--) {
-    let timestamp = Math.floor((now - (i + 1) * (windowSize / numMetrics)) / granularity) * granularity;
-    metrics[i] = [timestamp, ((Math.random() * maxValue * 100) | 0) / 100];
-  }
-  metrics.sort((a, b) => compare(a[0], b[0]));
-  return metrics;
-}
-
 function generateBaselineForMetric(metric, granularity, maxBaselineNoise, deviation, maxDeviationNoise) {
   const to = metric[metric.length - 1][0];
   const windowSize = to - metric[0][0];
@@ -902,8 +886,8 @@ function generateBaselineForMetric(metric, granularity, maxBaselineNoise, deviat
   for (let i = 0; i < baselineLength; ++i) {
     baseline[idx] = [
       idx * granularity,
-      metric[i][1] + Math.random() * maxBaselineNoise,
-      deviation + Math.random() * maxDeviationNoise
+      metric[i][1] + getHardCodedRandomValue(i * 2) * maxBaselineNoise,
+      deviation + getHardCodedRandomValue(i * 2 + 1) * maxDeviationNoise
     ];
     idx = (idx + 1) % baselineLength;
   }
@@ -913,7 +897,7 @@ function generateBaselineForMetric(metric, granularity, maxBaselineNoise, deviat
 function generateTimeframe(windowSize) {
   return {
     windowSize,
-    to: now
+    to: fixedTimestamp
   };
 }
 

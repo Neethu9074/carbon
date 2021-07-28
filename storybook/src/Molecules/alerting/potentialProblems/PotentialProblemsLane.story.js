@@ -12,26 +12,19 @@ import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { alertRules, potentialProblemsCluster } from './potentialProblemsStorySharedData';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import { generateMetrics, fixedTimestamp } from '../../../util/generateMetrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
-import { compare } from 'in-services/util/number';
 import { noop } from 'in-services/fixedObjects';
 import { hours } from 'in-services/time';
 
-/* there are random data */
 export default {
   title: 'Molecules|potentialProblems/PotentialProblemsLane',
   component: PotentialProblemsLanePresenter,
-  parameters: {
-    // ignoring this story because it renders differently everytime
-    chromatic: { disable: true }
-  },
   decorator: { text, action }
 };
-
-const now = 1600667400000;
 
 const halfADay = hours.toMillis(12);
 const timeConfig = generateTimeframe(halfADay);
@@ -117,7 +110,7 @@ function ChartWithSomeData({ renderPostChartContent, renderPreChartContent }) {
 function generateTimeframe(windowSize) {
   return {
     windowSize,
-    to: now
+    to: fixedTimestamp
   };
 }
 
@@ -129,15 +122,4 @@ function constructResult(error, isLoading, windowSize = halfADay) {
     },
     data: { calls: generateMetrics(12, 100, windowSize) }
   };
-}
-
-function generateMetrics(numMetrics, maxValue, windowSize) {
-  const granularity = windowSize / numMetrics;
-  const metrics = [];
-  for (let i = numMetrics - 1; i >= 0; i--) {
-    let timestamp = Math.floor((now - (i + 1) * (windowSize / numMetrics)) / granularity) * granularity;
-    metrics[i] = [timestamp, ((Math.random() * maxValue * 100) | 0) / 100];
-  }
-  metrics.sort((a, b) => compare(a[0], b[0]));
-  return metrics;
 }

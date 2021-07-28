@@ -12,23 +12,16 @@ import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPr
 import ReleasesLanePresenter from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLanePresenter';
 import AlertsLanePresenter from 'in-components/Chart/markerLanes/AlertsLane/AlertsLanePresenter';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
+import { generateMetrics, fixedTimestamp } from '../util/generateMetrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { compare } from 'in-services/util/number';
 import { minutes } from 'in-services/time';
 
-/* there are random data */
 export default {
   title: 'Molecules|MarkerLanes',
   component: MarkerLanesPresenter,
-  parameters: {
-    // ignoring this story because it renders differently everytime
-    chromatic: { disable: true }
-  },
   decorator: { text, action }
 };
-
-const now = 1598609654147;
 
 const oneMinute = minutes.toMillis(1);
 const timeConfig = generateTimeframe(oneMinute);
@@ -104,7 +97,7 @@ function ChartWithSomeData({ renderPostChartContent, renderPreChartContent }) {
 function generateTimeframe(windowSize) {
   return {
     windowSize,
-    to: now
+    to: fixedTimestamp
   };
 }
 
@@ -116,17 +109,6 @@ function constructResult(error, isLoading, windowSize = oneMinute) {
     },
     data: { calls: generateMetrics(12, 100, windowSize) }
   };
-}
-
-function generateMetrics(numMetrics, maxValue, windowSize) {
-  const granularity = windowSize / numMetrics;
-  const metrics = [];
-  for (let i = numMetrics - 1; i >= 0; i--) {
-    let timestamp = Math.floor((now - (i + 1) * (windowSize / numMetrics)) / granularity) * granularity;
-    metrics[i] = [timestamp, ((Math.random() * maxValue * 100) | 0) / 100];
-  }
-  metrics.sort((a, b) => compare(a[0], b[0]));
-  return metrics;
 }
 
 function getReleases(timeConfig) {

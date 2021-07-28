@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { STATIC_THRESHOLD, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 const someFormData = {
@@ -50,6 +50,7 @@ export function someLogsFormData() {
       message: 'dummy message'
     },
     threshold: {
+      type: STATIC_THRESHOLD,
       operator: '>',
       value: 150
     }

@@ -22,6 +22,10 @@ const oneDayTimeConfig = Object.freeze({
 
 export default {
   title: 'Organisms|smartAlerts|ServicesAndEndpointsListPresenter',
+  parameters: {
+    // currently fails to resolve location via useLocation() when run in SB:
+    chromatic: { disable: true }
+  },
   component: ServicesAndEndpointsListPresenter
 };
 

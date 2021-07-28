@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
+import { fixedTimestamp } from '../util/generateMetrics';
 import TimeInput from 'in-components/TimeInput';
 
 export default {
@@ -12,5 +13,12 @@ export default {
   component: TimeInput
 };
 
-// eslint-disable-next-line no-console
-export const timeInput = () => <TimeInput onChange={value => console.log({ value })} />;
+export const TimeInputDefault = () => {
+  const [value, setValue] = useState(fixedTimestamp);
+  return <TimeInput value={value} onChange={value => setValue(value)} />;
+};
+
+export const TimeInputWithError = () => {
+  const [value, setValue] = useState(fixedTimestamp);
+  return <TimeInput value={value} onChange={value => setValue(value)} hasError />;
+};
