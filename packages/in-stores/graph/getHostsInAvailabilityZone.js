@@ -3,16 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { physicalViewStructure$ } from 'in-stores/view';
-
-const mappedView$ = physicalViewStructure$.map(physicalView => {
-  const groups = {};
-  physicalView.children.forEach(group => {
-    groups[group.id] = group.children.map(host => host.id);
-  });
-  return groups;
-});
+import { getViewStructure } from 'in-stores/view/viewStructureStore';
 
 export default function getHostsInAvailabilityZone(zoneSnapshotId) {
-  return mappedView$.map(groupsMap => groupsMap[zoneSnapshotId]);
+  return getViewStructure().map(viewStructure => {
+    const zoneChildren = viewStructure.viewStructure.children.find(child => child.id === zoneSnapshotId);
+    return zoneChildren.children.filter(child => viewStructure.includedIds.hostIds[child.id]).map(child => child.id);
+  });
 }
