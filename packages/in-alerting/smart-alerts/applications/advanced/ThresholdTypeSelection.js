@@ -6,10 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import {
-  getAvailableOptionsForEvaluationType,
-  isOneOfBaselineTypes
-} from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
+import { getAvailableOptionsForEvaluationType } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
@@ -58,7 +55,7 @@ export default function ThresholdTypeSelection({
           trackThresholdTypeChanged?.(getTrackingObject(form, { value: thresholdType }));
         }}
       />
-      {isOneOfBaselineTypes(thresholdType) && (
+      {thresholdType === HISTORIC_BASELINE && (
         <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
       )}
     </ShowLabelOrDropdown>
