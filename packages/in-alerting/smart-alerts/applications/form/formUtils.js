@@ -132,7 +132,7 @@ export function getDescriptionPlaceholder(form) {
       }
 
       const thresholdValue = thresholdForm.get('value').value;
-      if (thresholdOperator === operators.NOT_EMPTY) {
+      if (ruleOperator === operators.NOT_EMPTY) {
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.logsNotEmpty', {
           context: getHigherOrLowerOperatorContext(thresholdOperator),
           levelText: levelText,

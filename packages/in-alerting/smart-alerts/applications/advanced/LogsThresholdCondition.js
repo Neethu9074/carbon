@@ -83,7 +83,6 @@ export default function LogsThresholdCondition({
           metricUnitPostfix={metricUnitPostfix}
           onChange={onChange}
           thresholdValueInputClassName={interactiveChartLocals.narrowControl}
-          percentageMetric
         />
       )}
 
