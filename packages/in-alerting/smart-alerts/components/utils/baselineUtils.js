@@ -10,7 +10,7 @@ import { days } from 'in-services/time';
  */
 const fromMondayToThursdayMillis = days.toMillis(3);
 
-export function getBaselineValue(timestamp, baseline, sensitivity, baselineGranularity, isGreaterOperator) {
+export function getHistoricBaselineValue(timestamp, baseline, sensitivity, baselineGranularity, isGreaterOperator) {
   const baselineWindowSize = baseline.length * baselineGranularity;
   const baselineIdx = Math.floor(((timestamp + fromMondayToThursdayMillis) % baselineWindowSize) / baselineGranularity);
   const baselineValue = baseline[baselineIdx][1];
@@ -27,9 +27,15 @@ export function getApproximatedHistoricBaselineThresholdValue(alertConfig, timeC
 
   const baselineValues = [];
   for (let time = timeConfig.to - timeConfig.windowSize; time <= timeConfig.to; time += baselineGranularity) {
-    baselineValues.push(getBaselineValue(time, baseline, deviationFactor, baselineGranularity, isGreaterOp));
+    baselineValues.push(getHistoricBaselineValue(time, baseline, deviationFactor, baselineGranularity, isGreaterOp));
   }
   return isGreaterOp ? Math.floor(Math.min(...baselineValues)) : Math.ceil(Math.max(...baselineValues));
+}
+
+export function getAdaptiveBaselineValue(baselineValue, deviationValue, sensitivity, isGreaterOperator) {
+  return isGreaterOperator
+    ? baselineValue + sensitivity * deviationValue
+    : baselineValue - sensitivity * deviationValue;
 }
 
 export function getApproximatedAdaptiveBaselineThresholdValue(alertConfig, adaptiveBaselineInfo) {

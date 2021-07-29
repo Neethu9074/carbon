@@ -41,7 +41,7 @@ export default function ApplicationEventContent({ event }) {
   }
 
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
-  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({});
+  const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({}))?.toJS() ?? {};
 
   const { applicationId } = eventEntity;
   const { tagFilterExpression, rule, boundaryScope } = alertConfig;
@@ -82,7 +82,7 @@ export default function ApplicationEventContent({ event }) {
                 {...eventEntity}
                 alertConfig={alertConfig}
                 timeConfig={analyzeTimeConfig}
-                adaptiveBaselineInfo={adaptiveBaselineInfo.toJS()}
+                adaptiveBaselineInfo={adaptiveBaselineInfo}
               />
             </DescriptionButtons>
           </Card>
@@ -102,6 +102,7 @@ export default function ApplicationEventContent({ event }) {
               applicationId={eventEntity.applicationId}
               serviceId={eventEntity.serviceId}
               endpointId={eventEntity.endpointId}
+              eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo)}
             />
           </Card>
         </Col>

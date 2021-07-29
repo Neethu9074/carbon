@@ -5,7 +5,7 @@
 
 import invariant from 'invariant';
 
-import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import line from 'in-components/Chart/renderer/line';
 
@@ -54,7 +54,13 @@ function renderBaseline(axis, config, scale, colors50, colors100) {
   const oneSidedThresholdInTimeframe = [];
 
   for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += thresholdGranularity) {
-    const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, thresholdGranularity, isGreaterOp);
+    const thresholdValue = getHistoricBaselineValue(
+      timestamp,
+      baseline,
+      sensitivity,
+      thresholdGranularity,
+      isGreaterOp
+    );
     oneSidedThresholdInTimeframe.push([timestamp, thresholdValue]);
   }
 

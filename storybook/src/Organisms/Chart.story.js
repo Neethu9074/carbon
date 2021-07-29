@@ -341,7 +341,7 @@ export function BarWithBaseline() {
               theme.lib.colors.lightBlue800,
               theme.lib.colors.pink800
             ],
-            renderer: AlertingRenderer.lineWithBaseline,
+            renderer: AlertingRenderer.lineWithHistoricBaseline,
             metricIds: [],
             metrics: metricsBarWithBaseline,
             baseline: baselineBarWithBaseline,

@@ -3,12 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest, create, just } from '@instana/observables';
 import React from 'react';
 
+import { combineLatest, create, just } from '@instana/observables';
+
 import { finishedProgress, emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
-import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { getThresholdInTimeframe } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
+import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
 
@@ -31,16 +34,12 @@ export default connectTo(
               errors: metrics.errors,
               data: {}
             }
-          : mergeResult(
-              metrics,
-              props.y1.metricIds[0],
-              props.y1.threshold,
-              props.y1.baseline,
-              props.y1.sensitivity,
-              props.y1.thresholdGranularity,
-              props.y1.operator,
-              props.mutateMetrics ?? {}
-            );
+          : mergeResult({
+              result: metrics,
+              y1: props.y1,
+              thresholdType: props.thresholdType,
+              mutateMetrics: props.mutateMetrics ?? {}
+            });
       })
     };
   },
@@ -59,16 +58,48 @@ function extendProps(props) {
   };
 }
 
-function mergeResult(
-  result,
-  metricName,
-  thresholdValue,
-  baseline,
-  sensitivity,
-  thresholdGranularity,
-  operator,
-  mutateMetrics
-) {
+function getThreshold(y1, thresholdType, metricData) {
+  const {
+    threshold: thresholdValue,
+    baseline,
+    sensitivity,
+    thresholdGranularity,
+    operator,
+    eventBasedAdaptiveBaseline
+  } = y1;
+
+  if ((baseline ?? []).length === 0 && (eventBasedAdaptiveBaseline ?? []).length === 0) {
+    return metricData.map(([time]) => [time, thresholdValue]);
+  } else if (thresholdType === ADAPTIVE_BASELINE) {
+    return getThresholdInTimeframe(eventBasedAdaptiveBaseline, baseline, sensitivity, isGreaterOperator(operator));
+  } else {
+    const isGreaterOp = isGreaterOperator(operator);
+
+    return metricData.map(([time]) => {
+      const baselineThresholdValue = getHistoricBaselineValue(
+        time,
+        baseline,
+        sensitivity,
+        thresholdGranularity,
+        isGreaterOp
+      );
+      return [time, baselineThresholdValue];
+    });
+  }
+}
+
+function getMetricData(result, metricName, mutateMetrics) {
+  const metricData = result.data[metricName];
+
+  if (mutateMetrics?.doMutate && mutateMetrics?.metricNames.includes(metricName)) {
+    return mutateMetrics.mutate(metricData);
+  }
+
+  return metricData;
+}
+
+function mergeResult({ result, y1, thresholdType, mutateMetrics }) {
+  const metricName = y1.metricIds[0];
   const mergedResult = {
     time: 0,
     progress: finishedProgress,
@@ -80,28 +111,14 @@ function mergeResult(
     return result;
   }
 
-  let metricData = result.data[metricName];
+  const metricData = getMetricData(result, metricName, mutateMetrics);
 
-  let threshold;
-  if (!baseline || baseline.length === 0) {
-    threshold = metricData.map(([time]) => [time, thresholdValue]);
-  } else {
-    const isGreaterOp = isGreaterOperator(operator);
-    threshold = metricData.map(([time]) => {
-      const baselineThresholdValue = getBaselineValue(time, baseline, sensitivity, thresholdGranularity, isGreaterOp);
-      return [time, baselineThresholdValue];
-    });
-  }
-
-  if (mutateMetrics?.doMutate && mutateMetrics?.metricNames.includes(metricName)) {
-    metricData = mutateMetrics.mutate(metricData);
-  }
-
-  mergedResult.time = Math.max(mergedResult.time, result.time);
-  mergedResult.data = {
-    [metricName]: metricData,
-    threshold
+  return {
+    ...mergedResult,
+    time: Math.max(mergedResult.time, result.time),
+    data: {
+      [metricName]: metricData,
+      threshold: getThreshold(y1, thresholdType, metricData)
+    }
   };
-
-  return mergedResult;
 }

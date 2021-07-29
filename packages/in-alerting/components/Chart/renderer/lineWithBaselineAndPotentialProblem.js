@@ -4,7 +4,7 @@
  */
 
 import { renderStaticThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/lineWithThreshold';
-import { getBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import line from 'in-components/Chart/renderer/line';
 import { hexToRGBA } from 'in-services/util/color';
@@ -163,7 +163,13 @@ function renderBaseline(
   const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
 
   for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += thresholdGranularity) {
-    const thresholdValue = getBaselineValue(timestamp, baseline, sensitivity, thresholdGranularity, isGreaterOp);
+    const thresholdValue = getHistoricBaselineValue(
+      timestamp,
+      baseline,
+      sensitivity,
+      thresholdGranularity,
+      isGreaterOp
+    );
     oneSidedThresholdInTimeframe.push([timestamp, thresholdValue]);
   }
 
