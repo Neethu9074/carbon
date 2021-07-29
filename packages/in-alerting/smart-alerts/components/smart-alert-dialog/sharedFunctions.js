@@ -4,7 +4,7 @@
  */
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { t } from 'in-i18n';
 
 export function updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode) {
@@ -75,7 +75,12 @@ export function applyEditMode(form, editMode) {
     return form
       .updateIn(['threshold', 'value'], f => f.setTouched(true))
       .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)); // request update to show a new suggestion
+  } else if (type === ADAPTIVE_BASELINE) {
+    // In case of adaptive baseline, we don't store it as part of alert config so when we are in edit mode, we need
+    // to request for threshold from the back-end.
+    return form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
   }
+
   return form.updateIn(['threshold', 'baseline'], f => f.setTouched(true));
 }
 
@@ -83,8 +88,10 @@ function shouldAddNewThresholdData(simpleMode, thresholdForm) {
   if (simpleMode) return true;
 
   const type = thresholdForm?.get('type')?.value;
+
   if (type === STATIC_THRESHOLD) {
     return !thresholdForm?.get('value')?.touched;
   }
+
   return !thresholdForm?.get('baseline')?.touched;
 }
