@@ -32,8 +32,7 @@ export default function FacetedFilterMultiSelect(props) {
     getHrefToGroupedView,
     getHrefToUngroupedView,
     groupbyTag,
-    dataSource,
-    stickyHeader
+    dataSource
   } = props;
 
   const [valueFilter, setValueFilter] = useState('');
@@ -88,7 +87,6 @@ export default function FacetedFilterMultiSelect(props) {
       groupByTracker={ua2FacetedTracker.groupClicked}
       getHrefToGroupedView={getHrefToGroupedView}
       getHrefToUngroupedView={getHrefToUngroupedView}
-      stickyHeader={stickyHeader}
     >
       <MultiSelect
         {...props}

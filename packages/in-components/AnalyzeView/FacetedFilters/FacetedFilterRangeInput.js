@@ -28,8 +28,7 @@ export default function FacetedFilterRangeInput({
   resetFacets,
   openByDefault,
   unit,
-  dataSource,
-  stickyHeader
+  dataSource
 }) {
   const [minInput, setMinInput] = useState('');
   const [maxInput, setMaxInput] = useState('');
@@ -64,7 +63,6 @@ export default function FacetedFilterRangeInput({
       openByDefault={openByDefault}
       tag={tag}
       dataSource={dataSource}
-      stickyHeader={stickyHeader}
     >
       <Row withoutTopMargin>
         <Col md={6}>

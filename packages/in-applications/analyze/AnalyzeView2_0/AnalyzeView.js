@@ -365,8 +365,7 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       renderer: FacetedFilterRangeInput,
       title: isCallsDataSource ? t('in-applications:analyze.latency') : t('in-applications:analyze.traceLatency'),
       tag: isCallsDataSource ? 'call.latency' : 'trace.latency',
-      openByDefault: true,
-      stickyHeader: false
+      openByDefault: true
     },
     {
       renderer,
@@ -377,8 +376,7 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       customLabelMapper: () => t('in-applications:analyze.facetedSearch.showOnlyErroneous'),
       getSuggestionName,
       getMetric,
-      openByDefault: true,
-      stickyHeader: false
+      openByDefault: true
     },
     {
       renderer,
