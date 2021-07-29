@@ -119,10 +119,9 @@ export default function AdvancedModeContainer(props) {
                 updateForm={updateForm}
                 onChartViewConfigChange={onChartViewConfigChange}
                 selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                editMode={editMode}
                 renderErrorRate={props => <ErrorRateInteractiveChart {...props} timeConfig={timeConfig} />}
-                renderSlowness={props => (
-                  <SlownessInteractiveChart {...props} editMode={editMode} timeConfig={timeConfig} />
-                )}
+                renderSlowness={props => <SlownessInteractiveChart {...props} timeConfig={timeConfig} />}
                 renderLogs={props => (
                   <>
                     <LightCard
@@ -156,12 +155,10 @@ export default function AdvancedModeContainer(props) {
                     >
                       <ProvideStatusCode form={form} updateForm={updateForm} mode="Advanced" />
                     </LightCard>
-                    <StatusCodeInteractiveChart {...props} editMode={editMode} />
+                    <StatusCodeInteractiveChart {...props} />
                   </>
                 )}
-                renderThroughput={props => (
-                  <ThroughputInteractiveChart {...props} editMode={editMode} timeConfig={timeConfig} />
-                )}
+                renderThroughput={props => <ThroughputInteractiveChart {...props} timeConfig={timeConfig} />}
               />
               {blueprintConfig.baselineEnabled && <BaselineErrorMessage thresholdResult={thresholdResult} />}
             </>
