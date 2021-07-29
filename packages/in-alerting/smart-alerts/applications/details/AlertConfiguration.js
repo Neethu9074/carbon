@@ -88,6 +88,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
               applicationId={applicationId}
               serviceId={serviceId}
               endpointId={endpointId}
+              isAlertDetailView
             />
           </>
         )}

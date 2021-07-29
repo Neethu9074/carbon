@@ -20,10 +20,10 @@ import { t } from 'in-i18n';
 const NoDataPlaceHolder = ({ text }) => <NoDataAvailable text={text} height={230} />;
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {
-  const { alertConfigWithFormModel, serviceId, endpointId } = props;
+  const { alertConfigWithFormModel, serviceId, endpointId, isAlertDetailView } = props;
 
   const isAdaptiveBaseline = alertConfigWithFormModel.threshold?.type === ADAPTIVE_BASELINE;
-  if (isAdaptiveBaseline) {
+  if (isAdaptiveBaseline && isAlertDetailView) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noChartForAdaptiveBaseline')} />;
   }
   if (PER_AP_ENDPOINT === alertConfigWithFormModel.evaluationType && !endpointId) {
@@ -75,6 +75,7 @@ ApplicationAlertingChartWithErrorMessage.propTypes = {
    * to scope down the metric in the chart to a single application config
    **/
   serviceId: PropTypes.string,
+  isAlertDetailView: PropTypes.bool,
 
   /**
    * Optional endpointId
