@@ -102,6 +102,17 @@ router.get('/', async (req, res) => {
     const subRequestPromises = isRequestCarryingAValidSeemingCookie(req)
       ? initializeSubRequestPromises(req)
       : undefined;
+
+    if (subRequestPromises) {
+      // we face uncaught promise rejections whenever users have a valid seeming cookie pointing
+      // to an expired session. In those cases, the subRequestPromises are never handled,
+      // because we return in the function before the subRequestPromises are listened to.
+      //
+      // We do not have to properly handle errors in this code path. Down below we handle
+      // subRequestPromises if (and only if) handling of these errors are truly necessary.
+      subRequestPromises.catch(() => {});
+    }
+
     const [statusCode, userStr] = await getCurrentUser(req);
     if (statusCode === 401) {
       const uiClientBaseUrl = await configResolver.getBaseUrl(req.tenant, req.unit);
