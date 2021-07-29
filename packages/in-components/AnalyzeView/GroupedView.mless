@@ -72,17 +72,4 @@
   .focusButton:hover:before {
     opacity: 0.1;
   }
-
-  .stickyHeader {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-  }
-
-  .resultList {
-    position: relative;
-    height: fit-content;
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
-  }
 }
