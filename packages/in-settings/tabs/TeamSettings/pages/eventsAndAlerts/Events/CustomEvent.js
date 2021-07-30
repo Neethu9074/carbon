@@ -5,25 +5,29 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import {
   createCustomSystemRuleBasedEventSpecification,
+  createCustomSystemRuleBasedEventSpecificationForEntityVerification,
+  createCustomSystemRuleBasedHostAvailability,
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
-  saveCustomEventSpecification,
-  createCustomSystemRuleBasedEventSpecificationForEntityVerification,
-  createCustomSystemRuleBasedHostAvailability
+  saveCustomEventSpecification
 } from 'in-api/eventSpecifications';
 import {
-  dataSourceSystem,
   createEventFormDefinition,
+  dataSourceSystem,
   entityVerification,
   hostAvailabilityDetection
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import { getSeverityText, unmapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
+import { applicationSmartAlertsEnabled, deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -33,8 +37,10 @@ import Notification from 'in-components/form/Notification';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import { submitEventTracker } from 'in-settings/tracker';
 import Section from 'in-settings/components/Section';
+import { getPluginName } from 'in-sdk/pluginName';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -77,13 +83,34 @@ const Form = entityForm(function DetailsForm(props) {
     );
   }
 
+  const entityType = getPluginName(entity.get('entityType'), 1) ?? '';
+  const isOneOfMigratableEntityTypes = ['application', 'service', 'endpoint'].includes(entityType.toLocaleLowerCase());
+  const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
+  const isMigrateableDfqScope = !entity.get('query', '').startsWith('event.');
+
+  const isMigratable =
+    applicationSmartAlertsEnabled &&
+    deprecateAppDataLegacyEvents &&
+    hasPermissionsToEditSmartAlerts &&
+    isOneOfMigratableEntityTypes &&
+    isMigrateableDfqScope &&
+    !entity.isMigrated;
+
   return (
     <SettingsDetailPage>
-      <SubViewHeader>
-        {isCreate
-          ? t('in-settings:tabs.createANewEvent')
-          : t('in-settings:tabs.configureEventEntityName', { entityName: entity.get('name') })}
-      </SubViewHeader>
+      <Stack direction="horizontal" distribution="spaceBetween">
+        <SubViewHeader>
+          {isCreate
+            ? t('in-settings:tabs.createANewEvent')
+            : t('in-settings:tabs.configureEventEntityName', { entityName: entity.get('name') })}
+        </SubViewHeader>
+
+        {isMigratable && (
+          <span style={{ alignSelf: 'center' }}>
+            <MigrateToSmartAlerts eventSpecificationId={props.entityId} />
+          </span>
+        )}
+      </Stack>
       <SectionLine />
 
       {message ? (

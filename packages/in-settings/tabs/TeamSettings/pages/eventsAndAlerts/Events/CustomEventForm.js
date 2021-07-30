@@ -314,7 +314,6 @@ function EventForm({
                       <Spacer horizontal="xxsmall" />
                       <Toggle
                         id="event-triggering"
-                        className={locals.toggle}
                         checked={field.value}
                         onChange={e => onChange('triggering', e.target.checked)}
                       />

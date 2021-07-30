@@ -22,11 +22,6 @@
     background: #203036;
   }
 
-  .toggle {
-    width: 3rem;
-    transform: scale(0.75);
-  }
-
   .queryLoading {
     height: 13px;
     margin: 0.5rem 0;

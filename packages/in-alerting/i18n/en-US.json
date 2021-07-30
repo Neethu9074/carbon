@@ -821,6 +821,10 @@
       "severity": "Severity",
       "created": "Date created",
       "type": "Type"
+    },
+    "migration": {
+      "migrateButton": "Migrate to Smart Alert",
+      "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extend we can. Please double check the result carefully!"
     }
   }
 }
