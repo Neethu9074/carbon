@@ -27,7 +27,8 @@ export default function<T>(
   const [debouncedStateValue, setDebouncedStateValue] = useState<T>(value);
   const [subscription, setSubscription] = useState<Disposable | null>(null);
 
-  const onChangeRef = useRef<(v: T) => void>(onChange);
+  const onChangeRef = useRef<(v: T) => void>();
+  onChangeRef.current = onChange;
 
   if (!subscription) {
     setSubscription(
@@ -38,7 +39,9 @@ export default function<T>(
         })
         .subscribe(v => {
           setDebouncedStateValue(v);
-          onChangeRef.current(v);
+          if (onChangeRef.current) {
+            onChangeRef.current(v);
+          }
         })
     );
   }
