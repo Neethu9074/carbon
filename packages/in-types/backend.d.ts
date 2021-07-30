@@ -420,9 +420,9 @@ export interface DefaultComparator extends Comparator<any> {
 }
 
 export interface Dependency {
-  readonly direction?: string;
+  readonly direction?: Direction;
   readonly key?: string;
-  readonly type?: string;
+  readonly type?: DependencyType;
 }
 
 export interface DfqInfraMetricConfiguration extends UnifiedMetricConfiguration {
@@ -3796,6 +3796,10 @@ export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SLI_MA
 export type ContextScope = 'NONE' | 'UPSTREAM' | 'DOWNSTREAM';
 
 export type DataSource = 'CALLS' | 'TRACES';
+
+export type DependencyType = 'IN' | 'IS' | 'TO' | 'OF' | 'CONNECTED' | 'DESCRIBES' | 'OF20' | 'TO20' | 'DUMMY' | 'PARENT';
+
+export type Direction = 'OUTGOING' | 'INCOMING';
 
 export type EndpointSyntheticType = 'NON_SYNTHETIC' | 'SYNTHETIC' | 'MIXED';
 
