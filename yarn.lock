@@ -6805,10 +6805,10 @@ form-data@~2.3.2:
     combined-stream "^1.0.6"
     mime-types "^2.1.12"
 
-formalistic@1.13.0:
-  version "1.13.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/formalistic/-/formalistic-1.13.0.tgz#5cda3293c9d3cb11c2f25e404286de36dce3ab75"
-  integrity sha1-XNoyk8nTyxHC8l5AQobeNtzjq3U=
+formalistic@^1.13.1:
+  version "1.13.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/formalistic/-/formalistic-1.13.1.tgz#190c01509847c0524586617a17f0a631286f208c"
+  integrity sha1-GQwBUJhHwFJFhmF6F/CmMShvIIw=
 
 forwarded@~0.1.2:
   version "0.1.2"
