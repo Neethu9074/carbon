@@ -25,6 +25,15 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.aceIntegrationServer.messageFlowApplicationName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'applicationName'], missingValue);
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.aceIntegrationServer.status'),
     type: 'string',
     typeArgs: {

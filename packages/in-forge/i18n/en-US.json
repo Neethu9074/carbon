@@ -2339,6 +2339,7 @@
       "cumulativeNumberOfGcCollections": "Garbage Collection Count",
       "cumulativeGCTimeInSeconds": "Garbage Collection Duration",
       "messageFlowName": "Message Flow Name",
+      "messageFlowApplicationName": "Application Name",
       "status": "Status",
       "messageFlowNumber": "Message Flow ({{count}})",
       "messageFlowNumber_plural": "Message Flows ({{count}})"
@@ -2347,6 +2348,7 @@
       "messageFlowInfo": "IBM ACE Message Flow",
       "flowName": "Flow Name",
       "serverName": "Server Name",
+      "applicationName": "Application Name",
       "type": "Type",
       "state": "State",
       "elapsedTime": "Elapsed Time",
@@ -2385,6 +2387,7 @@
       "nodeName": "Node Name",
       "flowName": "Flow Name",
       "serverName": "Server Name",
+      "applicationName": "Application Name",
       "type": "Type",
       "cpuTime": "CPU Time",
       "totalCpuTime": "Total CPU Time",
