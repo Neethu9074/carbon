@@ -60,10 +60,7 @@ export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentIn
 
 export const traceDetailViewV2Enabled = isFeatureFlagEnabled('traceDetailViewV2Enabled');
 export const deprecateAppDataLegacyEvents = isFeatureFlagEnabled('deprecateAppDataLegacyEvents');
-export const potentialProblemsInCustomDashboardEnabled = isFeatureFlagEnabled(
-  'potentialProblemsInCustomDashboardEnabled',
-  true
-);
+export const potentialProblemsEnabled = isFeatureFlagEnabled('potentialProblemsEnabled', true);
 
 export const adaptiveBaselineEnabled = isFeatureFlagEnabled('adaptiveBaselineEnabled');
 export const builtInGlobalApplicationSmartAlertsEnabled = isFeatureFlagEnabled(

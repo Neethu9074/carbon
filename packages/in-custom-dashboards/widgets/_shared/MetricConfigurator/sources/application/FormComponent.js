@@ -18,10 +18,10 @@ import {
   onChangeGrouping
 } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
 import PotentialProblemsConfigurator from 'in-custom-dashboards/widgets/Chart/FormComponent/PotentialProblemsConfigurator';
-import { applicationSmartAlertsEnabled, potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFlags';
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
+import { applicationSmartAlertsEnabled, potentialProblemsEnabled } from 'in-services/featureFlags';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -247,17 +247,15 @@ export default function FormComponent({
 
       {timeShiftConfiguration}
 
-      {withPotentialProblemsConfiguration &&
-        applicationSmartAlertsEnabled &&
-        potentialProblemsInCustomDashboardEnabled && (
-          <PotentialProblemsConfigurator
-            form={form}
-            onChange={onChange}
-            axisForm={axisForm}
-            metricField={metricField}
-            grouping={grouping}
-          />
-        )}
+      {withPotentialProblemsConfiguration && applicationSmartAlertsEnabled && potentialProblemsEnabled && (
+        <PotentialProblemsConfigurator
+          form={form}
+          onChange={onChange}
+          axisForm={axisForm}
+          metricField={metricField}
+          grouping={grouping}
+        />
+      )}
 
       {labelSection}
     </Stack>

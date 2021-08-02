@@ -210,8 +210,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'potentialProblemsInCustomDashboardEnabled',
-    instanaCtlKey: 'feature.potential.problems.in.customDashboard.enabled',
+    uiClientKey: 'potentialProblemsEnabled',
+    instanaCtlKey: 'feature.potential.problems.enabled',
     defaultValue: true
   },
   {

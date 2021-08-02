@@ -6,19 +6,19 @@
 import React from 'react';
 
 import { PotentialProblemsPostChartContent } from 'in-custom-dashboards/widgets/Chart/PotentialProblems/PotentialProblemsPostChartContent';
-import { applicationSmartAlertsEnabled, potentialProblemsInCustomDashboardEnabled } from 'in-services/featureFlags';
+import { applicationSmartAlertsEnabled, potentialProblemsEnabled } from 'in-services/featureFlags';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 
 export default function ChartWidget({ actions, config, title, isPreview, dragHandle, customHeight }) {
-  const potentialProblemsEnabled =
+  const isPotentialProblemsEnabled =
     applicationSmartAlertsEnabled &&
-    potentialProblemsInCustomDashboardEnabled &&
+    potentialProblemsEnabled &&
     anyDatasetWithPotentialProblemsConfigured(config?.y1?.metrics, config?.y2?.metrics);
 
   return (
     <UnifiedMetricsChart
       renderPostChartContent={
-        potentialProblemsEnabled
+        isPotentialProblemsEnabled
           ? markerLaneProps => (
               <PotentialProblemsPostChartContent
                 config={config}
