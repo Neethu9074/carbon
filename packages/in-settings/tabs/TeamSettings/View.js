@@ -141,9 +141,7 @@ function navigationTreeForRole(role) {
     const eventsAndAlertsPages = [];
 
     if (role.canConfigureCustomAlerts) {
-      const showAlertsHub = applicationSmartAlertsEnabled;
-
-      if (showAlertsHub) {
+      if (applicationSmartAlertsEnabled) {
         eventsAndAlertsPages.push({
           path: teamSettingsAlertingHub,
           label: t('in-alerting:smartAlerts.components.alertsHub.title'),
@@ -171,7 +169,7 @@ function navigationTreeForRole(role) {
         });
       }
 
-      if (!(showAlertsHub && hideEventSettings)) {
+      if (!hideEventSettings) {
         eventsAndAlertsPages.push({
           path: teamSettingsAlertingEvents,
           label: t('in-settings:tabs.events'),

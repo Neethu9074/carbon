@@ -40,7 +40,6 @@ export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
-export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const containerLogsEnabled = isFeatureFlagEnabled('containerLogsEnabled');
 export const loggingEnabledOnTrace = isFeatureFlagEnabled('loggingEnabledOnTrace');
@@ -50,19 +49,23 @@ export const authenticationOidcEnabled = isFeatureFlagEnabled('authenticationOid
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
 export const applicationHealthOverviewEnabled = isFeatureFlagEnabled('applicationHealthOverviewEnabled');
 export const pseudoLanguageEnabled = isFeatureFlagEnabled('pseudoLanguageEnabled');
-export const hideEventSettings = isFeatureFlagEnabled('hideEventsSettings', false);
+
 export const openFacetedSearchByDefault = isFeatureFlagEnabled('openFacetedSearchByDefault', false);
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
 export const traceDetailViewV2Enabled = isFeatureFlagEnabled('traceDetailViewV2Enabled');
-export const deprecateAppDataLegacyEvents = isFeatureFlagEnabled('deprecateAppDataLegacyEvents');
-export const potentialProblemsEnabled = isFeatureFlagEnabled('potentialProblemsEnabled', true);
 
-export const adaptiveBaselineEnabled = isFeatureFlagEnabled('adaptiveBaselineEnabled');
-export const builtInGlobalApplicationSmartAlertsEnabled = isFeatureFlagEnabled(
-  'builtInGlobalApplicationSmartAlertsEnabled'
-);
+// SmartAlerts & AP Alert Migration related feature flags
+export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
+export const builtInGlobalApplicationSmartAlertsEnabled =
+  applicationSmartAlertsEnabled && isFeatureFlagEnabled('builtInGlobalApplicationSmartAlertsEnabled');
+export const hideEventSettings = applicationSmartAlertsEnabled && isFeatureFlagEnabled('hideEventsSettings', false);
+export const potentialProblemsEnabled =
+  applicationSmartAlertsEnabled && isFeatureFlagEnabled('potentialProblemsEnabled', true);
+export const deprecateAppDataLegacyEvents =
+  applicationSmartAlertsEnabled && isFeatureFlagEnabled('deprecateAppDataLegacyEvents');
+export const adaptiveBaselineEnabled = applicationSmartAlertsEnabled && isFeatureFlagEnabled('adaptiveBaselineEnabled');
 
 // ########################################################################################
 // Dynamic focus keywords

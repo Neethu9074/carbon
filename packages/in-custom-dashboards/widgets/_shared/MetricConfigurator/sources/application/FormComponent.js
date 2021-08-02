@@ -21,10 +21,10 @@ import PotentialProblemsConfigurator from 'in-custom-dashboards/widgets/Chart/Fo
 import GroupingConfiguration from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/GroupingConfiguration';
 import CallGroupingConfigurator from 'in-applications/analyze/components/workspace/CallGroupingConfigurator';
 import QueryBuilder, { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { applicationSmartAlertsEnabled, potentialProblemsEnabled } from 'in-services/featureFlags';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import { potentialProblemsEnabled } from 'in-services/featureFlags';
 import { availableMetrics } from 'in-applications/analyze/metrics';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -247,7 +247,7 @@ export default function FormComponent({
 
       {timeShiftConfiguration}
 
-      {withPotentialProblemsConfiguration && applicationSmartAlertsEnabled && potentialProblemsEnabled && (
+      {withPotentialProblemsConfiguration && potentialProblemsEnabled && (
         <PotentialProblemsConfigurator
           form={form}
           onChange={onChange}
