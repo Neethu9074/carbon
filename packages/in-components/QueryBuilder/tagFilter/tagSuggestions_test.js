@@ -46,7 +46,7 @@ describe('in-components/QueryBuilder/tagFilter/tagSuggestions#getSuggestionsTagF
     const formModel = [createTagFilter('service.name', '')];
     const expected = {
       type: 'EXPRESSION',
-      logicalOperator: 'OR',
+      logicalOperator: 'AND',
       elements: []
     };
     const result = getSuggestionsTagFilterExpression(formModel, 0);
@@ -322,7 +322,7 @@ describe('in-components/QueryBuilder/tagFilter/tagSuggestions#getSuggestionsTagF
     ];
     const expected = {
       type: 'EXPRESSION',
-      logicalOperator: 'OR',
+      logicalOperator: 'AND',
       elements: []
     };
     const result = getSuggestionsTagFilterExpression(formModel, 3);
@@ -347,7 +347,7 @@ describe('in-components/QueryBuilder/tagFilter/tagSuggestions#getSuggestionsTagF
     ];
     const expected = {
       type: 'EXPRESSION',
-      logicalOperator: 'OR',
+      logicalOperator: 'AND',
       elements: []
     };
     const result = getSuggestionsTagFilterExpression(formModel, 4);
@@ -370,7 +370,7 @@ describe('in-components/QueryBuilder/tagFilter/tagSuggestions#getSuggestionsTagF
     ];
     const expected = {
       type: 'EXPRESSION',
-      logicalOperator: 'OR',
+      logicalOperator: 'AND',
       elements: []
     };
     const result = getSuggestionsTagFilterExpression(formModel, 3);

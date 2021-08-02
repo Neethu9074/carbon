@@ -16,7 +16,7 @@ export const OPERATOR_OR = 'OR';
 export const OPERATOR_AND = 'AND';
 export const OPERATOR_NOT = 'NOT';
 
-export const EMPTY_EXPRESSION = deepFreeze(createTagFilterExpression(OPERATOR_OR, []));
+export const EMPTY_EXPRESSION = deepFreeze(createTagFilterExpression(OPERATOR_AND, []));
 
 export function toBackendQueryModel(formModel, simplify = true) {
   if (!formModel || formModel.length === 0) {

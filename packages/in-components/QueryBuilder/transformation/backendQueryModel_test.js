@@ -28,7 +28,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
   describe('#toBackendQueryModel', () => {
     const emptyTagFilter = {
       type: EXPRESSION,
-      logicalOperator: OPERATOR_OR,
+      logicalOperator: OPERATOR_AND,
       elements: []
     };
 
