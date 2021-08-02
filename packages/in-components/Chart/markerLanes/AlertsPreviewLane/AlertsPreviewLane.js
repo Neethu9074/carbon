@@ -42,7 +42,9 @@ function isConfigValid({ granularity, threshold }) {
     if (baseline[1][0] - baseline[0][0] !== granularity) {
       return false;
     }
-  } else if (type === ADAPTIVE_BASELINE) {
+  }
+
+  if (type === ADAPTIVE_BASELINE) {
     return !((baseline ?? []).length === 0);
   }
 
