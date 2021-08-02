@@ -41,9 +41,6 @@ export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
-export const applicationSmartAlertsPerEndpointsEnabled = isFeatureFlagEnabled(
-  'applicationSmartAlertsPerEndpointsEnabled'
-);
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const containerLogsEnabled = isFeatureFlagEnabled('containerLogsEnabled');
 export const loggingEnabledOnTrace = isFeatureFlagEnabled('loggingEnabledOnTrace');

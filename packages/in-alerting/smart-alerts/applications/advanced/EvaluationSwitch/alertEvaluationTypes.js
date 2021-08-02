@@ -9,7 +9,7 @@ export const PER_AP = 'PER_AP';
 export const PER_AP_SERVICE = 'PER_AP_SERVICE';
 export const PER_AP_ENDPOINT = 'PER_AP_ENDPOINT';
 
-const alertEvaluationTypes = {
+const alertEvaluationTypes = Object.freeze({
   [PER_AP]: {
     selectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.selectionText'
@@ -57,6 +57,6 @@ const alertEvaluationTypes = {
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.globalDescription'
     )
   }
-};
+});
 
 export default alertEvaluationTypes;

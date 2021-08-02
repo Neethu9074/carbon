@@ -8,7 +8,6 @@
 module.exports = {
   agentMonitoringIssuesEnabled: true,
   applicationSmartAlertsEnabled: true,
-  applicationSmartAlertsPerEndpointsEnabled: true,
   containerInfoEnabled: true,
   entityCountWidgetEnabled: true,
   infraMetricsWidgetEnabled: true,
