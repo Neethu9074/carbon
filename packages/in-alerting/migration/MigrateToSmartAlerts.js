@@ -39,7 +39,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
       addActiveDialog(
         <SmartAlertConfigDialogWrapper
           applicationLabel={config.name}
-          formData={config}
+          alertConfig={config}
           onClose={savedAlertConfig => {
             const disableConfig = globalSmartAlert ? disableGlobalAlertConfig : disableAlertConfig;
 
