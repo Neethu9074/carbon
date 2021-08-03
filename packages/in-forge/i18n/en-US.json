@@ -2199,7 +2199,8 @@
       "ejbModules": "EJBs",
       "datasources": "Datasources",
       "installDir": "Install Dir",
-      "startedAt": "Started At"
+      "startedAt": "Started At",
+      "layers": "Layers"
     },
     "ibmDataPowerAppliance": {
       "ibmDataPowerApplianceInfo": "IBM DataPower Appliance",
