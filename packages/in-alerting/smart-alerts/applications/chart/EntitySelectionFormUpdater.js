@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
 import {
+  PER_AP,
   PER_AP_ENDPOINT,
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
@@ -28,8 +29,12 @@ export default function EntitySelectionFormUpdater({ children, form, updateForm 
     }
 
     if (
-      (evaluationType === PER_AP_SERVICE && entitySelection.serviceId) ||
-      (evaluationType === PER_AP_ENDPOINT && entitySelection.serviceId && entitySelection.endpointId)
+      (evaluationType === PER_AP && entitySelection.applicationId) ||
+      (evaluationType === PER_AP_SERVICE && entitySelection.applicationId && entitySelection.serviceId) ||
+      (evaluationType === PER_AP_ENDPOINT &&
+        entitySelection.applicationId &&
+        entitySelection.serviceId &&
+        entitySelection.endpointId)
     ) {
       updateForm(
         form.updateIn(['hiddenFields', 'chartViewEntitySelection'], f => f.setValue(entitySelection).setTouched(true))

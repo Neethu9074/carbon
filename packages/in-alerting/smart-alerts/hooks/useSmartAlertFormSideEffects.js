@@ -3,10 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import {
-  PER_AP_ENDPOINT,
-  PER_AP_SERVICE
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { isOneOfBaselineTypes } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
 import useFormSideEffects, { CHANGE_TYPES } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
@@ -68,7 +64,7 @@ export default function useSmartAlertFormSideEffects(form, setForm) {
     },
     {
       path: ['hiddenFields', 'chartViewEntitySelection'],
-      effects: [requestThresholdSuggestionOnEntitySelectionChange]
+      effects: [requestThresholdSuggestion]
     }
   ];
 
@@ -97,16 +93,6 @@ function requestThresholdOnOperatorChange(form) {
 function requestThresholdSuggestion(form) {
   return resetBaseline(form) // we reset the baseline before new suggestion in order to avoid backend calls with invalid form state
     .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
-}
-
-function requestThresholdSuggestionOnEntitySelectionChange(form) {
-  const hasSubentitySelection = [PER_AP_SERVICE, PER_AP_ENDPOINT].includes(form.get('evaluationType').value);
-
-  if (hasSubentitySelection) {
-    return requestThresholdSuggestion(form);
-  }
-
-  return form;
 }
 
 function resetThreshold(form) {

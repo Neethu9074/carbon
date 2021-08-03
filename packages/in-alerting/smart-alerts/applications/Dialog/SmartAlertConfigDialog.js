@@ -22,10 +22,15 @@ import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 
 export function SmartAlertConfigDialog(props) {
-  useCalculateThresholdOnBackendSignalEmitter(props.form);
-  const alertConfigWithFormModel = props.form.toJS();
+  const { form, isGlobalSmartAlert } = props;
+  useCalculateThresholdOnBackendSignalEmitter(form);
+  const alertConfigWithFormModel = form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
-  const enrichedTagFilterFormModel = getEnrichedTagfilterFormModel(props, alertConfigWithFormModel, blueprintConfig);
+  const enrichedTagFilterFormModel = getEnrichedTagFilterFormModel(
+    isGlobalSmartAlert,
+    alertConfigWithFormModel,
+    blueprintConfig
+  );
 
   return (
     <SmartAlertConfigDialogWithQueryValidation
@@ -37,11 +42,12 @@ export function SmartAlertConfigDialog(props) {
   );
 }
 
-function getEnrichedTagfilterFormModel({ isGlobalSmartAlert, form }, alertConfigWithFormModel, blueprintConfig) {
+function getEnrichedTagFilterFormModel(isGlobalSmartAlert, alertConfigWithFormModel, blueprintConfig) {
   let enrichedTagFilterFormModel = [];
+  const isAdaptiveBaseline = alertConfigWithFormModel.threshold.type === ADAPTIVE_BASELINE;
 
-  if (adaptiveBaselineEnabled || !isGlobalSmartAlert) {
-    const { applicationId, serviceId, endpointId } = form.get('hiddenFields').get('chartViewEntitySelection').value;
+  if (adaptiveBaselineEnabled && isAdaptiveBaseline) {
+    const { applicationId, serviceId, endpointId } = alertConfigWithFormModel.hiddenFields.chartViewEntitySelection;
 
     enrichedTagFilterFormModel = getEnhancedTagFilterFormModel(
       alertConfigWithFormModel,
@@ -50,6 +56,11 @@ function getEnrichedTagfilterFormModel({ isGlobalSmartAlert, form }, alertConfig
       serviceId,
       endpointId
     ).enrichedTagFilterFormModel;
+  } else if (!isGlobalSmartAlert) {
+    // for the threshold (except adaptive baseline), we don't include the sub-entity filters,
+    // because we perform a grouping on the entire scope
+    enrichedTagFilterFormModel = getEnhancedTagFilterFormModel(alertConfigWithFormModel, blueprintConfig)
+      .enrichedTagFilterFormModel;
   }
 
   return enrichedTagFilterFormModel;
@@ -181,10 +192,12 @@ function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
     setThresholdResult(thresholdResult);
     const { data, errors, time } = thresholdResult;
 
-    if (!isGlobalSmartAlert && isValid) {
+    const isAdaptiveBaseline = alertConfigWithFormModel.threshold.type === ADAPTIVE_BASELINE;
+
+    if ((!isGlobalSmartAlert || isAdaptiveBaseline) && isValid) {
       updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
     }
-    if (isGlobalSmartAlert) {
+    if (isGlobalSmartAlert && !isAdaptiveBaseline) {
       thresholdOrBaselineLoadingSignal$.emit(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
