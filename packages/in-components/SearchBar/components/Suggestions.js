@@ -7,6 +7,8 @@ import classNames from 'classnames';
 import { isEqual } from 'lodash';
 import React from 'react';
 
+import { keyCodes } from '@instana/components';
+
 import {
   lex,
   getTokenForColumn,
@@ -18,13 +20,12 @@ import {
 } from 'in-stores/search/lexer';
 import { getSubstringTillDotBackwards, getCursorTillNextDot } from 'in-components/SearchBar/misc/stringUtils';
 import { findNode, operatorTree, getValueSuggestions, node as createNode } from 'in-stores/search/fields';
-import { isArrowDown, isArrowUp, isReturn, isTab } from 'in-components/keyCodes';
 import { emptyArray } from 'in-services/fixedObjects';
 
 import './Suggestions.less';
 
+const { isArrowDown, isArrowUp, isReturn, isTab } = keyCodes;
 const block = 'in-search-suggestions';
-
 export default class extends React.Component {
   static displayName = 'Suggestion';
 

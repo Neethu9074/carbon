@@ -5,19 +5,9 @@
 
 import React from 'react';
 
+import { keyCodes } from '@instana/components';
 import RoEmitter from '@instana/roemitter';
 
-import {
-  isSpace,
-  isCtrl,
-  isReturn,
-  isTab,
-  isArrowUp,
-  isArrowDown,
-  isArrowLeft,
-  isArrowRight,
-  isEscape
-} from 'in-components/keyCodes';
 import { onDown, onMove, onLeave } from 'in-services/util/reactiveMouseEvents';
 import { setQueryInput, unvalidatedQuery$ } from 'in-stores/search/query';
 import Suggestions from 'in-components/SearchBar/components/Suggestions';
@@ -34,6 +24,7 @@ import connectTo from 'in-hoc/connectTo';
 import 'in-components/SearchBar/searchTokenDefinitions.less';
 import './Input.less';
 
+const { isSpace, isCtrl, isReturn, isTab, isArrowUp, isArrowDown, isArrowLeft, isArrowRight, isEscape } = keyCodes;
 const blockEndClass = 'cm-custom-block--end';
 const blockHighlightedClass = 'cm-custom-block--end--highlighted';
 const block = 'in-searchbar-input';

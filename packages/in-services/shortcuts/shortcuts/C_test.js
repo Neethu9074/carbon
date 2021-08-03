@@ -9,7 +9,6 @@ import sinon from 'sinon';
 
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';
 import { resetStoreRegistry } from 'in-stores/store';
-import {} from 'in-components/keyCodes';
 
 describe('shortcuts/C', () => {
   let selectedEntityId;

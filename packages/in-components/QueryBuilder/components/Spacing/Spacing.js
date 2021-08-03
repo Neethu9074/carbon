@@ -6,7 +6,7 @@
 import React, { useRef } from 'react';
 import classNames from 'classnames';
 
-import { isPrimaryInteractiveElement, isDefaultInteractionTrigger } from '@instana/components';
+import { keyCodes, isPrimaryInteractiveElement, isDefaultInteractionTrigger } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -23,10 +23,11 @@ import ConjunctionTagSelectorOverlay from 'in-components/QueryBuilder/Conjunctio
 import { and, or, not } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { isBackspace, isDelete } from 'in-components/keyCodes';
 import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './Spacing.mless';
+
+const { isBackspace, isDelete } = keyCodes;
 
 export default function Spacing({
   element,

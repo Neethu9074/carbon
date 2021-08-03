@@ -6,7 +6,8 @@
 import React, { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
-import { isArrowRight, isReturn, isArrowLeft, isArrowUp } from 'in-components/keyCodes';
+import { keyCodes } from '@instana/components';
+
 import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -19,6 +20,8 @@ import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
 
 import locals from './SelectorOverlay.mless';
+
+const { isArrowRight, isReturn, isArrowLeft, isArrowUp } = keyCodes;
 
 const initialState = {
   focusedNode: null,
