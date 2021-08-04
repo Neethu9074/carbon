@@ -8,6 +8,7 @@ import React from 'react';
 import { DescriptionItem, DescriptionList } from 'in-sdk/components/sidebar/DescriptionList';
 import LambdaFunctionLink from 'in-forge/plugins/awsLambdaVersion/LambdaFunctionLink';
 import { megaBytesZeroDecimalPlaces, seconds } from 'in-services/formatters/number';
+import KeyValueOverlay from 'in-sdk/components/sidebar/KeyValueOverlay';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getRuntimeByKey } from 'in-sdk/snapshot/runtimes';
@@ -17,6 +18,7 @@ import { t } from 'in-i18n';
 export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   const layers = data.get('layers');
+  const envVars = data.get('env_vars');
 
   return (
     <>
@@ -78,6 +80,7 @@ export default function Info({ snapshot }) {
           </Collapsible.Content>
         </Collapsible>
       ) : null}
+      <KeyValueOverlay header={t('in-forge:plugins.process.dashboard.environmentVariables')} data={envVars} />
     </>
   );
 }
