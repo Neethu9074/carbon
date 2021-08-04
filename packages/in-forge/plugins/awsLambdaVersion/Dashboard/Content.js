@@ -144,6 +144,35 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <DashboardSection title={t('in-forge:plugins.awsLambda.titlePostRuntimeExtensionsDuration')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: [
+              'post_runtime_extensions_duration',
+              'post_runtime_extensions_duration_maximum',
+              'post_runtime_extensions_duration_minimum'
+            ],
+            labels: [
+              t('in-forge:plugins.labelAverage'),
+              t('in-forge:plugins.labelMaximum'),
+              t('in-forge:plugins.labelMinimum')
+            ],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          y2={{
+            min: 0,
+            metrics: ['post_runtime_extensions_duration_sum'],
+            labels: [t('in-forge:plugins.labelSum')],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
       <DashboardSection title={t('in-forge:plugins.awsLambda.titleConcurrentExecutions')}>
         <Chart
           snapshotId={snapshotId}

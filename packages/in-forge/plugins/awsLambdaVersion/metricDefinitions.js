@@ -58,5 +58,21 @@ export default [
     ],
     min: 0,
     formatter: millis.compact
+  },
+  {
+    metrics: [
+      'post_runtime_extensions_duration',
+      'post_runtime_extensions_duration_minimum',
+      'post_runtime_extensions_duration_maximum',
+      'post_runtime_extensions_duration_sum'
+    ],
+    labels: [
+      t('in-forge:plugins.awsLambda.labelPostRuntimeExtensionsDurationAverage'),
+      t('in-forge:plugins.awsLambda.labelPostRuntimeExtensionsDurationMinimum'),
+      t('in-forge:plugins.awsLambda.labelPostRuntimeExtensionsDurationMaximum'),
+      t('in-forge:plugins.awsLambda.labelPostRuntimeExtensionsDurationSum')
+    ],
+    min: 0,
+    formatter: millis.compact
   }
 ];
