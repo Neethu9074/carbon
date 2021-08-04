@@ -26,7 +26,14 @@
     "alertPropertyInfosLabelDescription": "Description",
     "noChannelSelectedText": "Currently, you have not selected an alert channel and will not receive any alerts.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional Filters",
-    "revisionDropdownButtonRevision": "Revision {{alertRevision}}",
+    "revisionDropdownButton": {
+      "revision": "Revision {{alertRevision}}",
+      "paused": "Paused",
+      "resumed": "Resumed",
+      "deleted": "Deleted",
+      "update": "Update",
+      "created": "Created"
+    },
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",

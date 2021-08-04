@@ -7,11 +7,36 @@
 @import '~in-themes/mixins.less';
 
 :local {
-  .selectedItem {
+  .textPrimary {
+    color: @lib__colors__N900Primary;
+    font-size: 0.875rem;
     font-weight: bold;
   }
 
-  .createdDate {
-    color: @lib__colors__N500;
+  .textSecondary {
+    color: @lib__colors__N700Medium;
+    font-size: 0.875rem;
+    font-weight: normal;
+  }
+
+  .itemContainer {
+    padding: 0.25rem 0;
+  }
+
+  .description {
+    width: 6.25rem;
+  }
+
+  .date {
+    white-space: nowrap;
+  }
+
+  .name {
+    .breakWord();
+    width: 18.75rem;
+  }
+
+  .icon {
+    fill: @lib__colors__N600Light;
   }
 }
