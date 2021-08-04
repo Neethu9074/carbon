@@ -3802,9 +3802,9 @@ export type ContextScope = 'NONE' | 'UPSTREAM' | 'DOWNSTREAM';
 
 export type DataSource = 'CALLS' | 'TRACES';
 
-export type DependencyType = 'IN' | 'IS' | 'TO' | 'OF' | 'CONNECTED' | 'DESCRIBES' | 'OF20' | 'TO20' | 'DUMMY' | 'PARENT';
+export type DependencyType = 'in' | 'is' | 'to' | 'of' | 'connected' | 'describes' | 'of20' | 'to20' | 'dummy' | 'parent';
 
-export type Direction = 'OUTGOING' | 'INCOMING';
+export type Direction = 'outgoing' | 'incoming';
 
 export type EndpointSyntheticType = 'NON_SYNTHETIC' | 'SYNTHETIC' | 'MIXED';
 
