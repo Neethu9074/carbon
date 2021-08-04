@@ -68,3 +68,40 @@ const hardCodedRandomValues = [
   0.39936423468845916,
   0.5149024801497686
 ];
+
+/**
+ * A baseline based on given metric: an array:
+ *
+ * Each item will be an array of
+ * timestamp: starting from 0, incremented by given granularity
+ * metric: value from given metric[idx*] additional random value multiplied by given maxBaselineNoise
+ * deviation: given deviation plus random value multiplied by given maxDeviationNoise
+ *
+ * e.g.
+ *
+ * 0: (3) [1600652880000, 39.67491387750767, 11.544707440449306]
+ * 1: (3) [1600653240000, 33.20794705408359, 10.22314093365029]
+ * 2: (3) [1600653600000, 27.62038578119151, 11.440462409386374]
+ * 3: (3) [1600653960000, 23.95768201813339, 12.604920986146794]
+ *
+ *
+ * @type ([[number, number]], number, number number, number) => [[number, number, number]]
+ */
+export function generateBaselineForMetric(metric, granularity, maxBaselineNoise, deviation, maxDeviationNoise) {
+  const to = metric[metric.length - 1][0];
+  const windowSize = to - metric[0][0];
+  const from = to - windowSize;
+  const baselineLength = Math.floor(windowSize / granularity) + 1;
+  const baseline = [];
+  const startIdx = Math.floor(from / granularity) % baselineLength;
+  let idx = startIdx;
+  for (let i = 0; i < baselineLength; ++i) {
+    baseline[idx] = [
+      idx * granularity,
+      metric[i][1] + getHardCodedRandomValue(i * 2) * maxBaselineNoise,
+      deviation + getHardCodedRandomValue(i * 2 + 1) * maxDeviationNoise
+    ];
+    idx = (idx + 1) % baselineLength;
+  }
+  return baseline;
+}

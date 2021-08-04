@@ -6,7 +6,7 @@
 import { withKnobs, number } from '@storybook/addon-knobs';
 import React, { useState } from 'react';
 
-import { generateMetrics, fixedTimestamp, getHardCodedRandomValue } from '../util/generateMetrics';
+import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from '../util/generateMetrics';
 import AlertingRenderer from 'in-alerting/components/Chart/renderer/Renderer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -31,28 +31,22 @@ export default {
 };
 
 export function MissingData() {
-  return (
-    <>
-      <ResultAwareChart config={{}} data={{}} result={{ errors: [], progress: { loading: false } }} />
-    </>
-  );
+  return <ResultAwareChart config={{}} data={{}} result={constructResult(null, false)} />;
 }
 
 export function Loading() {
   return (
-    <>
-      <ResultAwareChart
-        config={{}}
-        data={{}}
-        result={{
-          errors: [],
-          progress: {
-            loading: true,
-            percentage: number('percentage', 0.5, { range: true, min: 0, max: 1, step: 0.05 })
-          }
-        }}
-      />
-    </>
+    <ResultAwareChart
+      config={{}}
+      data={{}}
+      result={{
+        errors: [],
+        progress: {
+          loading: true,
+          percentage: number('percentage', 0.5, { range: true, min: 0, max: 1, step: 0.05 })
+        }
+      }}
+    />
   );
 }
 
@@ -80,36 +74,19 @@ export function Simple() {
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          granularity,
-          timeConfig: timeframe,
-          y1: {
-            renderer: Renderer.line,
-            labels: ['Calls'],
-            metricIds: [],
-            metrics: [generateMetrics(60, 20, oneHour)]
-          }
-        }}
-      />
-      {false && (
-        <ResultAwareChart
-          result={constructResult(null, false)}
-          config={{
-            granularity,
-            timeConfig: timeframe,
-            y1: {
-              renderer: Renderer.line,
-              labels: ['Calls'],
-              metricIds: [],
-              metrics: [generateMetrics(200, 20, oneHour)]
-            }
-          }}
-        />
-      )}
-    </>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        granularity,
+        timeConfig: timeframe,
+        y1: {
+          renderer: Renderer.line,
+          labels: ['Calls'],
+          metricIds: [],
+          metrics: [generateMetrics(60, 20, oneHour)]
+        }
+      }}
+    />
   );
 }
 
@@ -128,21 +105,19 @@ export function MultipleSeries() {
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          granularity,
-          timeConfig: timeframe,
-          y1: {
-            renderer: Renderer.line,
-            labels: ['Calls', 'Count'],
-            metricIds: [],
-            metrics: [generateMetrics(60, 5, oneMinute), generateMetrics(60, 5, oneMinute)]
-          }
-        }}
-      />
-    </>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        granularity,
+        timeConfig: timeframe,
+        y1: {
+          renderer: Renderer.line,
+          labels: ['Calls', 'Count'],
+          metricIds: [],
+          metrics: [generateMetrics(60, 5, oneMinute), generateMetrics(60, 5, oneMinute)]
+        }
+      }}
+    />
   );
 }
 
@@ -151,30 +126,28 @@ export function LongSeriesLabels() {
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          granularity,
-          timeConfig: timeframe,
-          renderLegend: false,
-          y1: {
-            renderer: Renderer.line,
-            labels: [
-              'ThisOneUsesLineWrap > ThisOneUsesLineWrap',
-              'ThisOneIsJustWayToLongToFitIntoThisTinyTooltip',
-              'ThisOneUsesLineWrap > ButThisOneIsJustWayToLongToFitIntoThisTinyTooltip'
-            ],
-            metricIds: [],
-            metrics: [
-              generateMetrics(60, 5, oneMinute),
-              generateMetrics(60, 5, oneMinute),
-              generateMetrics(60, 5, oneMinute)
-            ]
-          }
-        }}
-      />
-    </>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        granularity,
+        timeConfig: timeframe,
+        renderLegend: false,
+        y1: {
+          renderer: Renderer.line,
+          labels: [
+            'ThisOneUsesLineWrap > ThisOneUsesLineWrap',
+            'ThisOneIsJustWayToLongToFitIntoThisTinyTooltip',
+            'ThisOneUsesLineWrap > ButThisOneIsJustWayToLongToFitIntoThisTinyTooltip'
+          ],
+          metricIds: [],
+          metrics: [
+            generateMetrics(60, 5, oneMinute),
+            generateMetrics(60, 5, oneMinute),
+            generateMetrics(60, 5, oneMinute)
+          ]
+        }
+      }}
+    />
   );
 }
 
@@ -183,28 +156,26 @@ export function DualAxis() {
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          granularity,
-          timeConfig: timeframe,
-          y1: {
-            renderer: Renderer.line,
-            labels: ['Calls', 'Count'],
-            metricIds: [],
-            metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(60, 5, oneMinute)]
-          },
-          y2: {
-            renderer: Renderer.line,
-            labels: ['Latency'],
-            metricIds: [],
-            metrics: [generateMetrics(60, 1, oneMinute)],
-            formatter: percentage
-          }
-        }}
-      />
-    </>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        granularity,
+        timeConfig: timeframe,
+        y1: {
+          renderer: Renderer.line,
+          labels: ['Calls', 'Count'],
+          metricIds: [],
+          metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(60, 5, oneMinute)]
+        },
+        y2: {
+          renderer: Renderer.line,
+          labels: ['Latency'],
+          metricIds: [],
+          metrics: [generateMetrics(60, 1, oneMinute)],
+          formatter: percentage
+        }
+      }}
+    />
   );
 }
 
@@ -213,67 +184,61 @@ export function DualAxisDifferentMetricCount() {
   const granularity = getChartGranularity(timeframe);
 
   return (
-    <>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          granularity,
-          timeConfig: timeframe,
-          y1: {
-            renderer: Renderer.line,
-            labels: ['Calls', 'Count'],
-            metricIds: [],
-            metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(40, 5, oneMinute)]
-          },
-          y2: {
-            renderer: Renderer.line,
-            labels: ['Latency'],
-            metricIds: [],
-            metrics: [generateMetrics(30, 1, oneMinute)],
-            formatter: percentage
-          }
-        }}
-      />
-    </>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        granularity,
+        timeConfig: timeframe,
+        y1: {
+          renderer: Renderer.line,
+          labels: ['Calls', 'Count'],
+          metricIds: [],
+          metrics: [generateMetrics(60, 10, oneMinute), generateMetrics(40, 5, oneMinute)]
+        },
+        y2: {
+          renderer: Renderer.line,
+          labels: ['Latency'],
+          metricIds: [],
+          metrics: [generateMetrics(30, 1, oneMinute)],
+          formatter: percentage
+        }
+      }}
+    />
   );
 }
 
 export function Gaps() {
   return (
-    <>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          timeConfig: generateTimeframe(oneMinute),
-          y1: {
-            renderer: Renderer.line,
-            labels: ['Calls'],
-            metricIds: [],
-            metrics: [generateMetricsWithGaps(30, 10, oneMinute)]
-          }
-        }}
-      />
-    </>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        timeConfig: generateTimeframe(oneMinute),
+        y1: {
+          renderer: Renderer.line,
+          labels: ['Calls'],
+          metricIds: [],
+          metrics: [generateMetricsWithGaps(30, 10, oneMinute)]
+        }
+      }}
+    />
   );
 }
 
 export function Bar() {
   return (
-    <>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          timeConfig: generateTimeframe(oneMinute),
-          y1: {
-            renderer: Renderer.bar,
-            labels: ['Calls'],
-            metricIds: [],
-            metrics: [generateMetrics(12, 100, oneMinute)],
-            aggregation: 'awesomeAggregation'
-          }
-        }}
-      />
-    </>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        timeConfig: generateTimeframe(oneMinute),
+        y1: {
+          renderer: Renderer.bar,
+          labels: ['Calls'],
+          metricIds: [],
+          metrics: [generateMetrics(12, 100, oneMinute)],
+          aggregation: 'awesomeAggregation'
+        }
+      }}
+    />
   );
 }
 
@@ -368,20 +333,18 @@ export function BarWithBaseline() {
 
 export function Area() {
   return (
-    <>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          timeConfig: generateTimeframe(oneMinute),
-          y1: {
-            renderer: Renderer.area,
-            labels: ['Calls', 'Count'],
-            metricIds: [],
-            metrics: [generateMetrics(30, 10, oneMinute), generateMetricsWithGaps(30, 10, oneMinute)]
-          }
-        }}
-      />
-    </>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        timeConfig: generateTimeframe(oneMinute),
+        y1: {
+          renderer: Renderer.area,
+          labels: ['Calls', 'Count'],
+          metricIds: [],
+          metrics: [generateMetrics(30, 10, oneMinute), generateMetricsWithGaps(30, 10, oneMinute)]
+        }
+      }}
+    />
   );
 }
 
@@ -441,20 +404,18 @@ export function Pie() {
 
 export function StackedBar() {
   return (
-    <>
-      <ResultAwareChart
-        result={constructResult(null, false)}
-        config={{
-          timeConfig: generateTimeframe(oneMinute),
-          y1: {
-            renderer: Renderer.stackedBar,
-            labels: ['foo', 'bar', 'baz'],
-            metricIds: [],
-            metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
-          }
-        }}
-      />
-    </>
+    <ResultAwareChart
+      result={constructResult(null, false)}
+      config={{
+        timeConfig: generateTimeframe(oneMinute),
+        y1: {
+          renderer: Renderer.stackedBar,
+          labels: ['foo', 'bar', 'baz'],
+          metricIds: [],
+          metrics: generateMultipleMetrics(3, 30, 10, oneMinute)
+        }
+      }}
+    />
   );
 }
 
@@ -815,41 +776,6 @@ export function Points() {
   );
 }
 
-/* commented-out, because it fails with a strange error: 'this is undefined'
-export const Resize = connectTo(
-  () => {
-    return {
-      metricIds: [],
-      metricIds: [],metrics: just(generateMetrics(20, 10, oneHour)),
-      size: interval(1000)
-        .map(() => ({ width: Math.max(200, Math.random() * 700) | 0, height: Math.max(60, (Math.random() * 200) | 0) }))
-        .startWith({ width: 400, height: 150 })
-    };
-  },
-  function Resize({ size, metrics }) {
-    const timeframe = generateTimeframe(oneHour);
-
-    return (
-      <div style={{ width: size.width }}>
-        <ResultAwareChart
-          result={constructResult(null, false)}
-          config={{
-            customHeight: size.height,
-            timeframe,
-            y1: {
-              renderer: Renderer.line,
-              labels: ['Calls'],
-              metricIds: [],
-              metricIds: [],metrics: [metrics]
-            }
-          }}
-        />
-      </div>
-    );
-  }
-);
- */
-
 function generateMultipleMetricsWithGaps(numSeries, numMetrics, maxValue, windowSize) {
   const series = [];
   for (let i = 0; i < numSeries; i++) {
@@ -873,25 +799,6 @@ function generateMetricsWithGaps(numMetrics, maxValue, windowSize) {
     .concat(metrics.slice(10, 15))
     .concat(metrics.slice(23, 25))
     .concat(metrics.slice(27, 30));
-}
-
-function generateBaselineForMetric(metric, granularity, maxBaselineNoise, deviation, maxDeviationNoise) {
-  const to = metric[metric.length - 1][0];
-  const windowSize = to - metric[0][0];
-  const from = to - windowSize;
-  const baselineLength = windowSize / granularity + 1;
-  const baseline = [];
-  const startIdx = Math.floor(from / granularity) % baselineLength;
-  let idx = startIdx;
-  for (let i = 0; i < baselineLength; ++i) {
-    baseline[idx] = [
-      idx * granularity,
-      metric[i][1] + getHardCodedRandomValue(i * 2) * maxBaselineNoise,
-      deviation + getHardCodedRandomValue(i * 2 + 1) * maxDeviationNoise
-    ];
-    idx = (idx + 1) % baselineLength;
-  }
-  return baseline;
 }
 
 function generateTimeframe(windowSize) {
