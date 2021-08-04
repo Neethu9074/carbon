@@ -15,5 +15,6 @@
     list-style: none;
     .breakWord();
     padding: 0.1rem 0;
+    font-size: 0.75rem;
   }
 }
