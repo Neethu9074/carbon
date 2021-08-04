@@ -2411,6 +2411,11 @@ export interface LegacyAlertStats {
   readonly legacyAlerts: number;
 }
 
+export interface LightServiceMap {
+  readonly connections: ServiceMapConnection[];
+  readonly services: Service[];
+}
+
 export interface ListItemWithMetric {
   readonly entityIdForMetric?: EntityId;
   readonly snapshotIdForMetric?: string;
