@@ -113,7 +113,7 @@ function getClusterSizeMillis({ windowSize, width, granularity }) {
 
 MarkerLanesPresenter.propTypes = {
   timeConfig: propTypeTimeConfig,
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.arrayOf(PropTypes.element)]),
+  children: PropTypes.node,
   granularity: PropTypes.number,
   chartWidth: PropTypes.number,
   chartBucketWidth: PropTypes.number
