@@ -554,7 +554,6 @@
   "analyze": {
     "loadMoreWithCount": "Load {{count}} more",
     "loadMore": "Load more",
-    "addAsGroup": "Add as Group",
     "activeFacets": "{{count}} Selected",
     "clearFacets": "Clear all",
     "clearFacet": "Clear",

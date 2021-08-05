@@ -11,6 +11,7 @@ import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/Face
 import SuggestionsPresenter from 'in-components/AnalyzeView/FacetedFilters/SuggestionsPresenter';
 import ExistingValue from 'in-components/AnalyzeView/FacetedFilters/ExistingValue';
 import { removeFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
+import { ua2FacetedSearchGroupChangedTracker } from 'in-applications/tracker';
 import { useSuggestions } from 'in-components/AnalyzeView/useSuggestions';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { identity } from 'in-services/util/function';
@@ -31,6 +32,8 @@ export default function FacetedFilterGeneric(props) {
     facets,
     openByDefault,
     enableUseAsGroup = true,
+    getHrefToGroupedView,
+    getHrefToUngroupedView,
     groupbyTag,
     dataSource,
     getUpdatedFacetedSearchHref,
@@ -71,7 +74,13 @@ export default function FacetedFilterGeneric(props) {
       openByDefault={openByDefault}
       disabled={isDisabledWithNoValues}
       tag={tag}
+      entity={entity}
       dataSource={dataSource}
+      isActiveGroup={tag === groupbyTag}
+      enableUseAsGroup={enableUseAsGroup}
+      groupByTracker={ua2FacetedSearchGroupChangedTracker}
+      getHrefToGroupedView={getHrefToGroupedView}
+      getHrefToUngroupedView={getHrefToUngroupedView}
     >
       {selectedValues.length > 0 ? (
         <ExistingFilters
@@ -92,7 +101,6 @@ export default function FacetedFilterGeneric(props) {
           errors={tagSuggestions$?.errors}
           valueFilter={valueFilter}
           setValueFilter={setValueFilter}
-          enableUseAsGroup={enableUseAsGroup && tag !== groupbyTag}
         />
       )}
     </FacetedExpandableCard>
@@ -116,18 +124,15 @@ function ExistingFilters({ selectedValues, facets, tag, getUpdatedFacetedSearchH
 function SearchAndSuggestions(props) {
   const {
     tag,
-    entity,
     isLoading,
     suggestions,
     errors,
     facets,
     getUpdatedFacetedSearchHref,
-    getHrefToGroupedView,
     valueFilter,
     setValueFilter,
     dataSource,
     customLabelMapper = identity,
-    enableUseAsGroup,
     tracker
   } = props;
 
@@ -150,12 +155,9 @@ function SearchAndSuggestions(props) {
         getMetric={props.getMetric}
         facets={facets}
         getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
-        getHrefToGroupedView={getHrefToGroupedView}
         tag={tag}
-        entity={entity}
         customLabelMapper={customLabelMapper}
         dataSource={dataSource}
-        enableUseAsGroup={enableUseAsGroup}
         tracker={tracker}
       />
     </Stack>

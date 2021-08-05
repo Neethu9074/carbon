@@ -32,12 +32,9 @@ export default function SuggestionsPresenter({
   getMetric,
   facets,
   tag,
-  entity,
   getUpdatedFacetedSearchHref,
-  getHrefToGroupedView,
   customLabelMapper,
   dataSource,
-  enableUseAsGroup = true,
   tracker = ua2FacetedTracker
 }) {
   const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
@@ -61,13 +58,10 @@ export default function SuggestionsPresenter({
         orderSuggestions={orderSuggestions}
         facets={facets}
         tag={tag}
-        entity={entity}
         getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
-        getHrefToGroupedView={getHrefToGroupedView}
         setNumberOfPresentedRows={setNumberOfPresentedRows}
         customLabelMapper={customLabelMapper}
         dataSource={dataSource}
-        enableUseAsGroup={enableUseAsGroup}
         tracker={tracker}
       />
     );
@@ -81,14 +75,11 @@ function Results({
   orderSuggestions,
   facets,
   tag,
-  entity,
   getUpdatedFacetedSearchHref,
-  getHrefToGroupedView,
   setNumberOfPresentedRows,
   customLabelMapper = identity,
   dataSource,
-  tracker,
-  enableUseAsGroup
+  tracker
 }) {
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const nextBatch = Math.min(suggestions.length - showMore, 20);
@@ -138,16 +129,6 @@ function Results({
           </Button>
         )}
         <div />
-        {enableUseAsGroup && (
-          <Button
-            className={locals.addAsGroup}
-            kind="action"
-            href={getHrefToGroupedView({ tag, tagEntity: entity })}
-            onClick={() => tracker.groupClicked({ dataSource, tagName: tag })}
-          >
-            {t('in-components:analyze.addAsGroup')}
-          </Button>
-        )}
       </div>
     </Stack>
   );
