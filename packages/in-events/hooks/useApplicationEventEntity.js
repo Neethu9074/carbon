@@ -7,8 +7,8 @@ import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
 import getApplication from 'in-subscription/application/getApplication';
-import getEndpoint from 'in-subscription/application/getEndpoint';
 
 export default function useApplicationEventEntity(event) {
   return useObservable(
@@ -71,7 +71,7 @@ function getEndpointEntity(applicationId, serviceId, entityId, entityLabel) {
   return combineLatest([
     resolveLabel(getApplication({ id: applicationId })),
     serviceId ? resolveLabel(getServiceLabel({ id: serviceId })) : just(null),
-    entityLabel ? just(entityLabel) : resolveLabel(getEndpoint({ id: entityId }))
+    entityLabel ? just(entityLabel) : resolveLabel(getEndpointInfo({ id: entityId }))
   ]).map(([applicationName, serviceName, endpointName]) => {
     return {
       applicationId: applicationId,
