@@ -6,10 +6,8 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import pluralize from 'pluralize';
 
-import { SvgIcon } from '@instana/components';
-import { Card } from '@instana/components';
+import { SvgIcon, Card } from '@instana/components';
 
 import {
   websitesAlertingListAlertResumed,
@@ -23,6 +21,7 @@ import {
   deleteAlertConfig
 } from 'in-websites/api/websiteAlertConfig';
 import { alertCreated as alertCreatedMatrixParam, alertId as alertIdMatrixParam } from 'in-websites/navigation/matrix';
+import { getLimitedNumberOfFilters, getFiltersCount } from 'in-websites/WebsiteDashboard/tabs/Alerts/limitedFilters';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { alertsTab, alertsTabDetailsFullyQualified } from 'in-websites/navigation/paths';
@@ -62,7 +61,7 @@ export default function Alerts({ websiteLabel, websiteId }) {
 
   return (
     <>
-      <Card>
+      <Card size="l">
         <List
           getHeader={() => header}
           getEntityName={getEntityName}
@@ -138,7 +137,7 @@ function getSubtitle(alertConfig) {
 }
 
 function getFiltersContent(config, websiteLabel) {
-  const tagFilterExpression = fromBackendModel(config.tagFilterExpression ?? []);
+  const tagFilterExpression = fromBackendModel(config.tagFilterExpression);
   const pages = tagFilterExpression.filter(
     filter => filter.name === 'beacon.page.name' && filter.operator !== 'NOT_EQUAL'
   );
@@ -160,7 +159,7 @@ function getFiltersContent(config, websiteLabel) {
           className={classNames({
             [locals.centered]: true,
             [locals.space]: pages.length === 0,
-            [locals.devider]: pages.length > 0
+            [locals.divider]: pages.length > 0
           })}
         >
           <SvgIcon className={locals.filterIcon} type="lib_website" />
@@ -174,16 +173,16 @@ function getFiltersContent(config, websiteLabel) {
             {page.stringValue}
           </span>
         ))}
-      {otherTagFiltersCount >= 1 && tagFilterExpression.length > 0 && (
+      {otherTagFiltersCount >= 1 && (
         <Tooltip
           themeStyle="light"
           content={
             <div>
               <QueryBuilder value={filtersToDisplay} readOnly />
-              <span className={locals.moreFilters}>
-                {filterCount > maxFilterToDisplay &&
-                  `+${filterCount - maxFilterToDisplay} more ${pluralize('filter', filterCount, false)}`}
-              </span>
+              {filterCount > maxFilterToDisplay &&
+                t('in-websites:websiteDashboard.tabs.alerts.moreFiltersWithCount', {
+                  count: filterCount - maxFilterToDisplay
+                })}
             </div>
           }
           align="topMiddle"
@@ -191,34 +190,12 @@ function getFiltersContent(config, websiteLabel) {
         >
           <span className={locals.centered}>
             <SvgIcon className={locals.filterIcon} type="lib_actions_filter" />
-            {pluralize('filter', filterCount, true)}
+            {t('in-websites:websiteDashboard.tabs.alerts.filter', {
+              count: filterCount
+            })}
           </span>
         </Tooltip>
       )}
     </div>
   );
-}
-
-function getFiltersCount(tagFilterExpression) {
-  return tagFilterExpression.reduce((count, element) => {
-    return element.type === 'TAG_FILTER' ? count + 1 : count;
-  }, 0);
-}
-
-function getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay) {
-  const filtersToDisplay = [];
-  let tagFilterCount = 0;
-
-  for (const item of tagFilterExpression) {
-    if (tagFilterCount === maxFilterToDisplay) {
-      break;
-    }
-    filtersToDisplay.push(item);
-
-    if (item.type === 'TAG_FILTER') {
-      tagFilterCount++;
-    }
-  }
-
-  return filtersToDisplay;
 }

@@ -99,7 +99,6 @@
     "markdown-it-link-target": "^1.0.1",
     "moment": "^2.14.1",
     "moment-timezone": "^0.5.25",
-    "pluralize": "^8.0.0",
     "prop-types": "^15.7.2",
     "qs": "^6.4.0",
     "react": "^17.0.2",

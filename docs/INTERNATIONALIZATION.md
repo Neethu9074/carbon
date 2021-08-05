@@ -104,7 +104,7 @@ respective json would change as below
 {
   "alerts": {
     "component_smart": "smart",
-    "component_dumb": "dumb",
+    "component_dumb": "dumb"
   }
 }
 ```

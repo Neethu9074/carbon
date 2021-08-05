@@ -24,7 +24,7 @@
     margin-right: 1rem;
   }
 
-  .devider:after {
+  .divider:after {
     content: '/';
     margin-left: 0.5rem;
     margin-right: 0.5rem;
