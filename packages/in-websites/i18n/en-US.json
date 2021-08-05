@@ -288,6 +288,7 @@
         "indexLabelDetails": "Details",
         "labelAnalytics": "Analytics",
         "titlePageLoad": "Page Load",
+        "pageLoadOnResource": "{{page}} on {{resource}}",
         "buttonDownload": "Download",
         "renderTimeSelectionTooltip": "Close page load details",
         "referencedPageLoads": "Referenced Page Loads"

@@ -128,7 +128,7 @@ function calculateLabel(result) {
   if (isNotBlank(page)) {
     const origin = get(result, ['data', 0, 'locationOrigin']);
     if (isNotBlank(origin)) {
-      return `${page} on ${origin}`;
+      return t('in-websites:analyze.analyzeView.pageLoadView.pageLoadOnResource', { page, resource: origin });
     }
     return page;
   } else {
