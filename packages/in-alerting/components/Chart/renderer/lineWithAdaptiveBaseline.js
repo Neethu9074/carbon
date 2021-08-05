@@ -5,6 +5,7 @@
 
 import { getAdaptiveBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { allowedMultiplesOfRollupSizeMissingInCharts } from 'in-services/featureFlags';
 import line from 'in-components/Chart/renderer/line';
 
 export default {
@@ -53,7 +54,7 @@ export function getThresholdInTimeframe(baselineEntriesFromMetadata, baseline, s
 
 function renderAdaptiveBaseline(axis, config, scale, colors50, colors100) {
   const { y1, xScaleBackBuffer, markerPaneHeight, backBufferCtx } = config;
-  const { baseline, sensitivity, thresholdLineWidth, operator, eventBasedAdaptiveBaseline } = y1;
+  const { baseline, sensitivity, thresholdLineWidth, operator, eventBasedAdaptiveBaseline, thresholdGranularity } = y1;
 
   if ((baseline ?? []).length === 0 && (eventBasedAdaptiveBaseline ?? []).length === 0) {
     return;
@@ -64,12 +65,8 @@ function renderAdaptiveBaseline(axis, config, scale, colors50, colors100) {
   const alrightColor = colors50[0];
   const violationColor = colors50[1];
   const isGreaterOp = operator === undefined || isGreaterOperator(operator);
-  const oneSidedThresholdInTimeframe = getThresholdInTimeframe(
-    eventBasedAdaptiveBaseline,
-    baseline,
-    sensitivity,
-    isGreaterOp
-  );
+  const thresholdInTimeframe = getThresholdInTimeframe(eventBasedAdaptiveBaseline, baseline, sensitivity, isGreaterOp);
+  const oneSidedThresholdInTimeframe = updateThresholdPointsIfRequired(thresholdInTimeframe, thresholdGranularity);
 
   // Backgrounds
   const len = oneSidedThresholdInTimeframe.length;
@@ -118,4 +115,46 @@ function renderAdaptiveBaseline(axis, config, scale, colors50, colors100) {
   });
 
   backBufferCtx.restore();
+}
+
+function distanceBetweenThresholdPointsIsTooBig(next, current, thresholdGranularity) {
+  return (
+    !next ||
+    !current ||
+    Number(next[0]) - Number(current[0]) > thresholdGranularity * allowedMultiplesOfRollupSizeMissingInCharts
+  );
+}
+
+/**
+ * We are not passing maxDistanceBetweenDataPointsInMillis explicitly,
+ * in our case granularity * allowedMultiplesOfRollupSizeMissingInCharts would be maxDistanceBetweenDataPointsInMillis
+ */
+export function updateThresholdPointsIfRequired(baseline, thresholdGranularity) {
+  const result = [];
+  const halfBucketInMillis = thresholdGranularity * 0.5;
+
+  let previousThresholdPoint;
+
+  for (let i = 0; i < baseline.length; i++) {
+    const currentThresholdPoint = baseline[i];
+    const nextThresholdPoint = baseline[i + 1];
+
+    // As adaptive baseline might not be continuous, instead of rendering a dot we would render a tiny line
+    // in the event details view so threshold is clearly visible to the user.
+    if (
+      distanceBetweenThresholdPointsIsTooBig(currentThresholdPoint, previousThresholdPoint, thresholdGranularity) &&
+      distanceBetweenThresholdPointsIsTooBig(nextThresholdPoint, currentThresholdPoint, thresholdGranularity)
+    ) {
+      result.push(
+        [Number(currentThresholdPoint[0]) - halfBucketInMillis, currentThresholdPoint[1]],
+        [Number(currentThresholdPoint[0]) + halfBucketInMillis, currentThresholdPoint[1]]
+      );
+    } else {
+      result.push(currentThresholdPoint);
+    }
+
+    previousThresholdPoint = currentThresholdPoint;
+  }
+
+  return result;
 }
