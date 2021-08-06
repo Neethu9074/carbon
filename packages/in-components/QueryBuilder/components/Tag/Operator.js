@@ -18,6 +18,10 @@ export default React.forwardRef(function Operator(
   { element: { operator, renderModelIndex }, allowedOperators, tagType, onChange, focus },
   ref
 ) {
+  if (!tagType) {
+    return null;
+  }
+
   return (
     <Overlay
       withoutWrapper
