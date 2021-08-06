@@ -4,8 +4,12 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { GetWebsiteRateMetricThresholdSuggestionQuery, Result, ThresholdSuggestionResponse } from 'in-types';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<
+  GetWebsiteRateMetricThresholdSuggestionQuery,
+  Result<ThresholdSuggestionResponse>
+>({
   eventId: 'getWebsiteRateMetricThresholdSuggestion',
   trackSubscriptionStatistics: true
 });
