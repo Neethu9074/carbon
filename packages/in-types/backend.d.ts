@@ -2556,11 +2556,11 @@ export interface MetricConfiguration {
 }
 
 export interface MetricDescription {
-  readonly aggregations?: string[];
+  readonly aggregations: AggregationType[];
   readonly description?: string;
-  readonly formatter?: string;
-  readonly label?: string;
-  readonly metricId?: string;
+  readonly formatter: string;
+  readonly label: string;
+  readonly metricId: string;
 }
 
 export interface MetricMetadata {
