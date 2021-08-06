@@ -29,6 +29,7 @@ export default function FacetedFilterGeneric(props) {
     title,
     entity,
     facets,
+    formModelWithFacets,
     openByDefault,
     enableUseAsGroup = true,
     groupbyTag,
@@ -41,20 +42,11 @@ export default function FacetedFilterGeneric(props) {
   const [isDisabledWithNoValues, setIsDisabledWithNoValues] = useState(false);
   const selectedValues = useMemo(() => facets[tag] ?? [], [facets, tag]);
 
-  const tagSuggestions$ = useSuggestions({
-    ...props,
-    valueFilter
-  });
-
   useEffect(() => {
-    setIsDisabledWithNoValues(
-      valueFilter === '' &&
-        !isLoading(tagSuggestions$) &&
-        selectedValues.length === 0 &&
-        tagSuggestions$?.data?.items?.length === 0 &&
-        !hasError(tagSuggestions$)
-    );
-  }, [tagSuggestions$, selectedValues, valueFilter]);
+    // Every time there's a change in formmodel and/or facets
+    // enable facet again to check for possible suggestions
+    setIsDisabledWithNoValues(false);
+  }, [formModelWithFacets]);
 
   const getSubtitle = () => {
     if (isDisabledWithNoValues) {
@@ -87,12 +79,11 @@ export default function FacetedFilterGeneric(props) {
       ) : (
         <SearchAndSuggestions
           {...props}
-          isLoading={tagSuggestions$?.progress?.loading}
-          suggestions={tagSuggestions$?.data?.items}
-          errors={tagSuggestions$?.errors}
           valueFilter={valueFilter}
           setValueFilter={setValueFilter}
           enableUseAsGroup={enableUseAsGroup && tag !== groupbyTag}
+          selectedValues={selectedValues}
+          setIsDisabledWithNoValues={setIsDisabledWithNoValues}
         />
       )}
     </FacetedExpandableCard>
@@ -117,19 +108,37 @@ function SearchAndSuggestions(props) {
   const {
     tag,
     entity,
-    isLoading,
-    suggestions,
-    errors,
     facets,
     getUpdatedFacetedSearchHref,
     getHrefToGroupedView,
     valueFilter,
     setValueFilter,
     dataSource,
+    selectedValues,
+    setIsDisabledWithNoValues,
     customLabelMapper = identity,
     enableUseAsGroup,
     tracker
   } = props;
+
+  const tagSuggestions$ = useSuggestions({
+    ...props,
+    valueFilter
+  });
+
+  useEffect(() => {
+    setIsDisabledWithNoValues(
+      valueFilter === '' &&
+        !isLoading(tagSuggestions$) &&
+        selectedValues.length === 0 &&
+        tagSuggestions$?.data?.items?.length === 0 &&
+        !hasError(tagSuggestions$)
+    );
+  }, [setIsDisabledWithNoValues, selectedValues, valueFilter, tagSuggestions$]);
+
+  const loading = tagSuggestions$?.progress?.loading;
+  const suggestions = tagSuggestions$?.data?.items;
+  const errors = tagSuggestions$?.errors;
 
   return (
     <Stack gap="small">
@@ -143,7 +152,7 @@ function SearchAndSuggestions(props) {
         />
       )}
       <SuggestionsPresenter
-        loading={isLoading}
+        loading={loading}
         errors={errors}
         suggestions={suggestions}
         orderSuggestions={props.orderSuggestions}

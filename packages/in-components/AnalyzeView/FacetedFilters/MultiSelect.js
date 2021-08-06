@@ -3,16 +3,19 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { escapeRegExp } from 'lodash';
 
 import { Button, Link, Stack } from '@instana/components';
 
 import { MultiSelectSuggestions } from 'in-components/AnalyzeView/FacetedFilters/MultiSelectSuggestions';
 import { CheckableSuggestion } from 'in-components/AnalyzeView/FacetedFilters/CheckableSuggestion';
+import { useSuggestions } from 'in-components/AnalyzeView/useSuggestions';
 import { compareIgnoreCase, isBlank } from 'in-services/util/string';
 import { identity } from 'in-services/util/function';
 import SearchInput from 'in-components/SearchInput';
+import { isLoading } from 'in-services/entityUtils';
+import { hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 import locals from './MultiSelect.mless';
@@ -22,16 +25,33 @@ const DEFAULT_SUGGESTIONS_SIZE = 5;
 export function MultiSelect(props) {
   const {
     tag,
-    isLoading,
-    suggestions,
-    errors,
     selectedValues,
+    setIsDisabledWithNoValues,
     removeFromSelection,
     valueFilter,
     setValueFilter,
     resetFacets,
     tracker
   } = props;
+
+  const tagSuggestions$ = useSuggestions({
+    ...props,
+    valueFilter
+  });
+
+  useEffect(() => {
+    setIsDisabledWithNoValues(
+      valueFilter === '' &&
+        !isLoading(tagSuggestions$) &&
+        selectedValues.length === 0 &&
+        tagSuggestions$?.data?.items?.length === 0 &&
+        !hasError(tagSuggestions$)
+    );
+  }, [setIsDisabledWithNoValues, valueFilter, selectedValues, tagSuggestions$]);
+
+  const loading = tagSuggestions$?.progress?.loading;
+  const suggestions = tagSuggestions$?.data?.items;
+  const errors = tagSuggestions$?.errors;
 
   const [showMore, setShowMore] = useState(DEFAULT_SUGGESTIONS_SIZE);
   const [nextBatch, setNextBatch] = useState(0);
@@ -64,7 +84,7 @@ export function MultiSelect(props) {
         )}
         <MultiSelectSuggestions
           suggestions={suggestions}
-          loading={isLoading}
+          loading={loading}
           errors={errors}
           alreadySelectedValues={selectedValues}
           setNextBatch={setNextBatch}
