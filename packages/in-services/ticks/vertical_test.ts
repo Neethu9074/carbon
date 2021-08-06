@@ -7,11 +7,11 @@
 
 import { expect } from 'chai';
 
+import createScale, { ScaleType } from 'in-services/scale';
 import getTickPositions from 'in-services/ticks/vertical';
-import createScale from 'in-services/scale';
 
 describe('timeAxis', () => {
-  let scale;
+  let scale: ScaleType;
 
   beforeEach(() => {
     scale = createScale();
@@ -23,13 +23,13 @@ describe('timeAxis', () => {
     scale.setDomainFrom(0);
     scale.setDomainTo(0);
 
-    const ticks = getTickPositions(scale);
+    const ticks = getTickPositions({ scale });
     expect(ticks).to.have.length(1);
     expect(ticks[0].range).to.equal(0);
   });
 
   it('should always contain the min and max domains', () => {
-    let ticks = getTickPositions(scale);
+    let ticks = getTickPositions({ scale });
     expect(ticks.length).to.be.above(1);
     expect(ticks[0].range).to.equal(0);
     expect(ticks[ticks.length - 1].range).to.equal(1);
@@ -40,7 +40,7 @@ describe('timeAxis', () => {
     scale.setRangeTo(10);
     scale.setDomainFrom(2);
     scale.setDomainTo(-2);
-    ticks = getTickPositions(scale);
+    ticks = getTickPositions({ scale });
     expect(ticks.length).to.be.above(1);
     expect(ticks[0].range).to.equal(-10);
     expect(ticks[ticks.length - 1].range).to.equal(10);

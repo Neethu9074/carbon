@@ -4,15 +4,17 @@
  */
 
 import getTickPositionsDefault from 'in-services/ticks/default';
+import { Tick, TickRequest } from 'in-services/ticks/types';
+import { FormatterFn } from 'in-stores/metric/formatters';
 
-export default function getTickPositions({ scale, formatter }) {
+export default function getTickPositions({ scale, formatter }: TickRequest): Tick[] {
   const domainFrom = scale.getDomainFrom();
   const domainTo = scale.getDomainTo();
   const domainRange = domainTo - domainFrom;
 
   // special case, the range is 1, happens on Calls and Instances frequently
   if (domainRange === 1) {
-    return getTickPositionsDefault(scale);
+    return getTickPositionsDefault({ scale });
   }
 
   const desiredNumberOfTicks = 4;
@@ -34,7 +36,7 @@ export default function getTickPositions({ scale, formatter }) {
 }
 
 const bases = [1, 2, 5];
-function getTicks(min, max, n, formatter) {
+function getTicks(min: number, max: number, n: number, formatter?: FormatterFn) {
   // swap min and max if necessary
   if (min > max) {
     const temp = min;
@@ -61,14 +63,14 @@ function getTicks(min, max, n, formatter) {
 }
 
 // this eliminates floating point errors otherwise accumulated by repeatedly adding the computed interval
-export function precision(interval) {
+export function precision(interval: number) {
   const multiplier = Math.pow(10, Math.ceil(Math.log10(interval)) + 1);
-  return function(value) {
+  return function(value: number) {
     return Math.round(value * multiplier) / multiplier;
   };
 }
 
-export function getNiceInterval(min, max, n, formatter) {
+export function getNiceInterval(min: number, max: number, n: number, formatter?: FormatterFn) {
   const rawInterval = (max - min) / n;
   const rawExponent = Math.log10(rawInterval);
 
@@ -92,11 +94,8 @@ export function getNiceInterval(min, max, n, formatter) {
   });
 
   if (formatter) {
-    if (formatter.__supportsDecimalPlaces == null) {
-      formatter.__supportsDecimalPlaces = formatter(0.3) !== formatter(0.4);
-    }
-
-    if (!formatter.__supportsDecimalPlaces) {
+    const supportsDecimalPlaces: boolean = formatter(0.3) !== formatter(0.4);
+    if (!supportsDecimalPlaces) {
       nicestInterval = Math.max(1, nicestInterval);
     }
   }
@@ -104,11 +103,11 @@ export function getNiceInterval(min, max, n, formatter) {
   return nicestInterval;
 }
 
-export function getFirstTickValue(min, interval) {
+export function getFirstTickValue(min: number, interval: number) {
   return Math.floor(min / interval) * interval;
 }
 
-export function roundMaxValueToNextHighestHumanFriendlyValue(value, ops = { roundToEvenValues: true }) {
+export function roundMaxValueToNextHighestHumanFriendlyValue(value: number, ops = { roundToEvenValues: true }): number {
   if (value <= 0) {
     return value;
   }

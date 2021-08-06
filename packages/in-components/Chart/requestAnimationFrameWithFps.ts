@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-export default function requestAnimationFrameWithFps(fn, fps) {
+export default function requestAnimationFrameWithFps(callbackFn: () => void, fps: number) {
   const fpsInterval = 1000 / fps;
   let prevExecutionTime = Date.now();
-  let requestId;
+  let requestId: number;
 
   animate();
 
@@ -21,7 +21,7 @@ export default function requestAnimationFrameWithFps(fn, fps) {
     const elapsed = now - prevExecutionTime;
     if (elapsed > fpsInterval) {
       prevExecutionTime = now;
-      fn();
+      callbackFn();
     }
   }
 

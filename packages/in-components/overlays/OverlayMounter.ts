@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { OverlayMounterProps } from 'in-components/overlays/Overlay/types';
 import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { set } from 'in-components/overlays/overlayStore';
-import { identity } from 'in-services/util/function';
 
-const useSideEffect = createSideEffectHook(identity, set);
+const useSideEffect = createSideEffectHook((a: OverlayMounterProps[]) => a, set);
 
-export default function OverlayMounter(props) {
+export default function OverlayMounter(props: OverlayMounterProps) {
   useSideEffect(props);
   return null;
 }

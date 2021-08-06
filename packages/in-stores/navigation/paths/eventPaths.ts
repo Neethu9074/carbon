@@ -8,8 +8,9 @@ import { eventId as eventIdMatricParam } from 'in-events/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { eventsPath } from 'in-events/navigation/paths';
 import { setTimeConfig } from 'in-stores/time/config';
+import { TimeConfig } from 'in-types';
 
-export function focusEvent(eventId) {
+export function focusEvent(eventId: string) {
   mutateUrl(params => {
     const match = params.pathname.match(/\/(logical|physical)/i);
     if (match) {
@@ -32,14 +33,7 @@ export function clearSelectedEvent() {
   });
 }
 
-export function getEventViewWithEvent(eventId) {
-  return getModifiedUrlStream(params => {
-    params.pathname = eventsPath;
-    params.eventId = eventId;
-  });
-}
-
-export function getEventsViewFilteredByEntity(entityId, eventTypeFilter) {
+export function getEventsViewFilteredByEntity(entityId: string, eventTypeFilter: string) {
   return getModifiedUrlStream(params => {
     const query = `entity.id:"${entityId}"`;
     params.pathname = eventsPath;
@@ -50,18 +44,28 @@ export function getEventsViewFilteredByEntity(entityId, eventTypeFilter) {
     }
   });
 }
-
+interface GetEventsViewProps {
+  query: string;
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  resolvedEndpointId?: string;
+  snapshotId?: string;
+  eventId?: string;
+  eventTypeFilter: string;
+  timeConfig: TimeConfig;
+}
 export function getEventsViewFilteredBy({
   query = '',
-  applicationId = null,
-  serviceId = null,
-  endpointId = null,
-  resolvedEndpointId = null,
-  snapshotId = null,
-  eventId = null,
-  eventTypeFilter = null,
-  timeConfig = null
-}) {
+  applicationId,
+  serviceId,
+  endpointId,
+  resolvedEndpointId,
+  snapshotId,
+  eventId,
+  eventTypeFilter,
+  timeConfig
+}: GetEventsViewProps) {
   endpointId = resolvedEndpointId ? resolvedEndpointId : endpointId;
   if (endpointId) {
     query += ` entity.endpoint.id:"${endpointId}"`;

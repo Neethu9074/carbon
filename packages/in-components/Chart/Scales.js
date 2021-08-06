@@ -5,8 +5,7 @@
 
 import { get } from 'lodash';
 
-import { getTickStrategyByFormatter } from 'in-services/ticks/vertical';
-import getTickPositions from 'in-services/ticks/vertical';
+import getTickPositions, { getTickStrategyByFormatter } from 'in-services/ticks/vertical';
 import createScale from 'in-services/scale';
 
 export default class Scales {
@@ -52,7 +51,7 @@ export default class Scales {
     scale.setDomainFrom(axis.minValue);
     scale.setDomainTo(axis.maxValue);
 
-    scale.tickPositions = getTickPositions(scale, axis.formatter[0].detailed, 3);
+    scale.tickPositions = getTickPositions({ scale, formatter: axis.formatter[0].detailed, numIntermediateSteps: 3 });
   }
 }
 

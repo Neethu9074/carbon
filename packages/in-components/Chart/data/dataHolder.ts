@@ -3,9 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-export default function createDataHolder({ numberOfSeries }) {
+import { DataColumn } from 'in-components/Chart/data/types';
+interface DataHolderParams {
+  numberOfSeries: number;
+}
+
+export interface DataHolder {
+  insertSorted: (newDataColumns: DataColumn[]) => void;
+  getDataColumns: () => DataColumn[];
+  expireDataPointsOlderThan: (minTimestamp: number) => void;
+  clear: () => void;
+}
+
+export default function createDataHolder({ numberOfSeries }: DataHolderParams): DataHolder {
   // A data column has the form Array<DataPoint>
-  let dataColumns = [];
+  let dataColumns: DataColumn[] = [];
 
   return {
     insertSorted,
@@ -18,17 +30,17 @@ export default function createDataHolder({ numberOfSeries }) {
     return dataColumns;
   }
 
-  function insertSorted(newDataColumns) {
+  function insertSorted(newDataColumns: DataColumn[]) {
     let requiredMerging = false;
 
     for (let newIndex = 0, newLength = newDataColumns.length; newIndex < newLength; newIndex++) {
       const newDataColumn = newDataColumns[newIndex];
-      const newTime = newDataColumn.time;
+      const newTime = newDataColumn.time ?? 0;
       let dataAdded = false;
 
       for (let i = dataColumns.length; i > 0 && !dataAdded; i--) {
         const existingDataColumn = dataColumns[i - 1];
-        const existingTime = existingDataColumn.time;
+        const existingTime = existingDataColumn.time ?? 0;
 
         if (newTime > existingTime) {
           dataColumns.splice(i, 0, newDataColumn);
@@ -50,7 +62,7 @@ export default function createDataHolder({ numberOfSeries }) {
     return requiredMerging;
   }
 
-  function mergeColumns(existingDataColumn, newDataColumn) {
+  function mergeColumns(existingDataColumn: DataColumn, newDataColumn: DataColumn) {
     for (let i = 0; i < numberOfSeries; i++) {
       const newDataPoint = newDataColumn[i];
       if (newDataPoint != null && newDataPoint[1] !== null) {
@@ -59,11 +71,11 @@ export default function createDataHolder({ numberOfSeries }) {
     }
   }
 
-  function expireDataPointsOlderThan(minTimestamp) {
+  function expireDataPointsOlderThan(minTimestamp: number) {
     let i = 0;
     const len = dataColumns.length;
     while (i < len) {
-      if (dataColumns[i].time >= minTimestamp) {
+      if ((dataColumns[i].time ?? 0) >= minTimestamp) {
         break;
       }
       i++;

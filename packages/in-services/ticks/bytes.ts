@@ -21,24 +21,30 @@ import {
   roundMaxValueToNextHighestHumanFriendlyValue as roundMaxValueToNextHighestHumanFriendlyValueNumber
 } from 'in-services/ticks/number';
 import getTickPositionsDefault from 'in-services/ticks/default';
+import { Tick, TickRequest } from 'in-services/ticks/types';
+import { FormatterFn } from 'in-stores/metric/formatters';
 
-const differenceToBytes = {};
-differenceToBytes[megaBytesZeroDecimalPlaces] = byteBase * byteBase;
-differenceToBytes[megaBytesTwoDecimalPlaces] = byteBase * byteBase;
-differenceToBytes[kiloBytesZeroDecimalPlaces] = byteBase;
-differenceToBytes[kiloBytesTwoDecimalPlaces] = byteBase;
-differenceToBytes[bytesZeroDecimalPlaces] = 1;
-differenceToBytes[bytesTwoDecimalPlaces] = 1;
+const differenceToBytes = new Map<FormatterFn, number>([
+  [megaBytesZeroDecimalPlaces, byteBase * byteBase],
+  [megaBytesTwoDecimalPlaces, byteBase * byteBase],
+  [megaBytesZeroDecimalPlaces, byteBase * byteBase],
+  [kiloBytesZeroDecimalPlaces, byteBase],
+  [kiloBytesTwoDecimalPlaces, byteBase],
+  [bytesZeroDecimalPlaces, 1],
+  [bytesTwoDecimalPlaces, 1]
+]);
 
-export default function getTickPositions({ scale, formatter }) {
+export default function getTickPositions({ scale, formatter }: TickRequest): Tick[] {
   // convert to bytes before performing any logic
-  const domainFrom = scale.getDomainFrom() * differenceToBytes[formatter];
-  const domainTo = scale.getDomainTo() * differenceToBytes[formatter];
+
+  const difference: number = formatter ? differenceToBytes.get(formatter) ?? 1 : 1;
+  const domainFrom = scale.getDomainFrom() * difference;
+  const domainTo = scale.getDomainTo() * difference;
   const domainRange = domainTo - domainFrom;
 
   // special case, the range is 1, happens on Calls and Instances frequently
   if (domainRange === 1) {
-    return getTickPositionsDefault(scale);
+    return getTickPositionsDefault({ scale });
   }
 
   const desiredNumberOfTicks = 4;
@@ -57,7 +63,7 @@ export default function getTickPositions({ scale, formatter }) {
   return ticks;
 }
 
-function getTicks(min, max, n, formatter) {
+function getTicks(min: number, max: number, n: number, formatter?: FormatterFn) {
   // swap min and max if necessary
   if (min > max) {
     const temp = min;
@@ -86,14 +92,15 @@ function getTicks(min, max, n, formatter) {
   ticks = filterTicks(ticks, formatter);
 
   // convert back to original unit size (KiB or MiB)
-  ticks = ticks.map(tick => tick / differenceToBytes[formatter]);
+  const difference: number = formatter ? differenceToBytes.get(formatter) ?? 1 : 1;
+  ticks = ticks.map(tick => tick / difference);
 
   return ticks;
 }
 
 const sizeDifferences = [1, 2.4, 4.86, 7.37, 9.95, 12.59, 15.29, 18.06, 20.89]; // size difference in % between bytes and bigger units of measure when converting with byte base of 1024 compared to byte base of 1000
 
-function niceBytes(tick) {
+function niceBytes(tick: number) {
   let conversionLevel = Math.min(Math.floor(Math.log(tick) / Math.log(byteBase)), sizeDifferences.length - 1);
 
   // rounds bytes to new values to get "nice" values when converted to bigger units of measure
@@ -111,8 +118,8 @@ function niceBytes(tick) {
 }
 
 // removes duplicate ticks when zero decimal formatter gets applied eg. [1000GiB, 1500GiB, 2000GiB] -> [1TiB, 1TiB, 2TiB], returns just byte sized of [1TiB, 2TiB].
-function filterTicks(ticks, formatter) {
-  const formattedTicks = ticks.map(tick => ({ value: tick, formattedValue: formatter(tick) }));
+function filterTicks(ticks: number[], formatter?: FormatterFn): number[] {
+  const formattedTicks: TickInternal[] = ticks.map(tick => ({ value: tick, formattedValue: formatter?.(tick) }));
   if (formattedTicks.length < 2) {
     return formattedTicks.map(tick => tick.value);
   }
@@ -128,16 +135,16 @@ function filterTicks(ticks, formatter) {
     return [...remaininingTicks, lastTick].map(tick => tick.value);
   }
 
-  return [...uniqueTicks, lastTick].map(tick => tick.value);
+  return uniqueTicks && lastTick ? [...uniqueTicks, lastTick].map(tick => tick.value) : [];
 }
 
-export function roundMaxValueToNextHighestHumanFriendlyValue(value) {
+export function roundMaxValueToNextHighestHumanFriendlyValue(value: number) {
   const roundedNumberValue = roundMaxValueToNextHighestHumanFriendlyValueNumber(value, { roundToEvenValues: false });
   return roundedNumberValue * Math.pow(byteBase / 1000, getNumberOf1024Blocks(value));
 }
 
 // export for test
-export function getNumberOf1024Blocks(value) {
+export function getNumberOf1024Blocks(value: number) {
   let newValue = value;
   let numBlocks = 0;
   while (newValue >= byteBase) {
@@ -145,4 +152,9 @@ export function getNumberOf1024Blocks(value) {
     numBlocks++;
   }
   return numBlocks;
+}
+
+interface TickInternal {
+  value: number;
+  formattedValue: string | undefined | null;
 }

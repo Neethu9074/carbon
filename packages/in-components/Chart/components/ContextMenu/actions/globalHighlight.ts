@@ -14,6 +14,6 @@ const config = {
 };
 export default config;
 
-function onClick(highlightedTimeframe) {
+function onClick(highlightedTimeframe: [number, number]) {
   setHighlightedTimeframe(highlightedTimeframe[0], highlightedTimeframe[1]);
 }

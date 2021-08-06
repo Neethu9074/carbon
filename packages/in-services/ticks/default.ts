@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-export default function getTickPositions(scale) {
+import { Tick, TickRequest } from 'in-services/ticks/types';
+
+export default function getTickPositions({ scale }: TickRequest): Tick[] {
   const rangeFrom = scale.getRangeFrom();
   const rangeTo = scale.getRangeTo();
   const domainFrom = scale.getDomainFrom();

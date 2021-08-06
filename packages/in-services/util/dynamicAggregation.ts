@@ -5,9 +5,18 @@
 
 import { sortedIndexBy } from 'lodash';
 
+// @ts-ignore
 import { sensibleGranularities } from 'in-stores/metric/metric';
 
-export function getBlockSizeMillis({ windowSize, maxDataPoints, minPixelsPerBlock, width, rollup }) {
+interface Request {
+  windowSize: number;
+  maxDataPoints?: number;
+  width: number;
+  minPixelsPerBlock: number;
+  rollup: number | undefined;
+}
+
+export function getBlockSizeMillis({ windowSize, maxDataPoints, minPixelsPerBlock, width, rollup }: Request) {
   rollup = rollup || 1000;
   const userDefinedMaxDataPoints = maxDataPoints || windowSize / rollup;
   const userDefinedMinPixelsPerBlock = minPixelsPerBlock || 10;
@@ -22,7 +31,7 @@ export function getBlockSizeMillis({ windowSize, maxDataPoints, minPixelsPerBloc
   return dynamicCalculatedBlockSizeMillis;
 }
 
-export function getPredefinedBlockSizeMillisForBlockSize(blockSizeMillis) {
+export function getPredefinedBlockSizeMillisForBlockSize(blockSizeMillis: number) {
   const i = Math.min(
     sensibleGranularities.length - 1,
     sortedIndexBy(sensibleGranularities, blockSizeMillis, column => column)

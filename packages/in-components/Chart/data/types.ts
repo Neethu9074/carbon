@@ -1,0 +1,8 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+export type DataColumn = number[][] & {
+  time?: number;
+};

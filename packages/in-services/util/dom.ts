@@ -77,7 +77,7 @@ export function getCoords(elem: HTMLElement) {
   return { top: Math.round(top), left: Math.round(left) };
 }
 
-export function findParentNodeByClassName(node: HTMLElement | null, className: string) {
+export function findParentNodeByClassName(node: Element | null, className: string) {
   while (node != null) {
     if (node.classList.contains(className)) {
       return node;

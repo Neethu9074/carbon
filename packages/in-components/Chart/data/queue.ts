@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { DataColumn } from 'in-components/Chart/data/types';
+
 /**
  * requireExistenceInAllSeries indicates whether for a time X, data points have
  * to exist in all data series in order for the value to be returned.
@@ -11,14 +13,28 @@
  * charts and stacked bar charts. Line charts and scatter plots can generally
  * work with requireExistenceInAllSeries=false (the default).
  */
-export default function createQueue({ numberOfSeries, requireExistenceInAllSeries = false }) {
+
+interface CreateQueueProps {
+  numberOfSeries: number;
+  requireExistenceInAllSeries: boolean;
+}
+
+export interface Queue {
+  addDataPoints: (seriesIndex: number, dataPoints: [number, number][]) => void;
+  addDataPoint: (seriesIndex: number, dataPoints: [number, number]) => void;
+  clear: () => void;
+  get: () => DataColumn[];
+}
+
+export default function createQueue({ numberOfSeries, requireExistenceInAllSeries = false }: CreateQueueProps): Queue {
   // [
   //   // data series 1
   //   {
   //     <time>: [time, value]
   //   }
   // ]
-  const series = [];
+  const series: Record<number, number[]>[] = [];
+
   clear();
 
   return {
@@ -28,7 +44,7 @@ export default function createQueue({ numberOfSeries, requireExistenceInAllSerie
     get: requireExistenceInAllSeries ? getStrict : getLoose
   };
 
-  function addDataPoints(seriesIndex, dataPoints) {
+  function addDataPoints(seriesIndex: number, dataPoints: number[][]) {
     for (let i = 0, len = dataPoints.length; i < len; i++) {
       const dataPoint = dataPoints[i];
 
@@ -39,7 +55,7 @@ export default function createQueue({ numberOfSeries, requireExistenceInAllSerie
     }
   }
 
-  function addDataPoint(seriesIndex, dataPoint) {
+  function addDataPoint(seriesIndex: number, dataPoint: number[]) {
     series[seriesIndex][dataPoint[0]] = dataPoint;
   }
 
@@ -56,7 +72,7 @@ export default function createQueue({ numberOfSeries, requireExistenceInAllSerie
         continue;
       }
 
-      const column = [];
+      const column: DataColumn = [];
       for (let i = 0; i < numberOfSeries; i++) {
         column[i] = series[i][time];
       }
@@ -72,14 +88,16 @@ export default function createQueue({ numberOfSeries, requireExistenceInAllSerie
     for (let i = 0, len = dataColumns.length; i < len; i++) {
       const time = dataColumns[i].time;
       for (let j = 1; j < numberOfSeries; j++) {
-        delete series[j][time];
+        if (time != undefined && time >= 0) {
+          delete series[j][time];
+        }
       }
     }
 
     return dataColumns;
   }
 
-  function isDataPointInEverySeries(time) {
+  function isDataPointInEverySeries(time: string) {
     for (let i = 0; i < numberOfSeries; i++) {
       if (!Object.prototype.hasOwnProperty.call(series[i], time)) {
         return false;
@@ -93,7 +111,7 @@ export default function createQueue({ numberOfSeries, requireExistenceInAllSerie
 
     // maps time:number => column:DataColumn
     // for fast data column creation.
-    const timeToColumn = {};
+    const timeToColumn: Record<number, DataColumn> = {};
 
     for (let seriesIndex = 0; seriesIndex < numberOfSeries; seriesIndex++) {
       const eachSeries = series[seriesIndex];
@@ -128,8 +146,8 @@ export default function createQueue({ numberOfSeries, requireExistenceInAllSerie
     return dataColumns;
   }
 
-  function dataColumnSorter(a, b) {
-    return a.time - b.time;
+  function dataColumnSorter(a: DataColumn, b: DataColumn) {
+    return (a.time ?? 0) - (b.time ?? 0);
   }
 
   function clear() {

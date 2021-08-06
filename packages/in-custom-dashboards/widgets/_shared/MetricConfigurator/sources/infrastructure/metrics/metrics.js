@@ -5,7 +5,7 @@
 
 import FormComponent from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/FormComponent';
 import { entityCountWidgetEnabled, infraMetricsWidgetEnabled } from 'in-services/featureFlags';
-import { getFinestAvailableGranularity } from 'in-stores/metric/metric.js';
+import { getFinestAvailableGranularity } from 'in-stores/metric/metric';
 import { t } from 'in-i18n';
 
 export { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/form';

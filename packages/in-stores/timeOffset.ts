@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { interval, range } from '@instana/observables';
+import { Disposable, interval, range } from '@instana/observables';
 
-import synchronizeTime from 'in-subscription/timestamp';
+import synchronizeTime, { TimestampReply } from 'in-subscription/timestamp';
 import { createStore } from 'in-stores/store';
 import { connection } from 'in-connection';
 import { seconds } from 'in-services/time';
@@ -35,7 +35,7 @@ const numberOfValuesForOffetMean = 5;
 // new connection is established.
 const numberOfSynchronizationAttemptOnceConnected = 3;
 
-let subscription;
+let subscription: Disposable | null;
 
 // in the beginning we do not know the time offset. We will try to synchronize
 // regularly and we will use the mean of multiple attempts.
@@ -43,7 +43,7 @@ let subscription;
 // A value in milliseconds
 // Positive values indicate that the local clock is ahead of the server clock.
 // Negative values indicate that the local click is behing the server clock.
-let offsets = [];
+let offsets: number[] = [];
 
 const offsetStore = createStore({
   name: 'timeOffsetMillis',
@@ -64,7 +64,7 @@ export function init() {
  * @param {number} off The current offset to the server time in millis
  * @returns {number} The provided time in milliseconds server time.
  */
-export function toServerTime(d, off) {
+export function toServerTime(d: Date | number, off: number) {
   let millis;
   if (d instanceof Date) {
     millis = d.getTime();
@@ -110,7 +110,7 @@ function stop() {
  * @param {object} reply An object with originate, transmit and receive
  *   timestamps as retrieved by the server.
  */
-function processTimestampReply(reply) {
+function processTimestampReply(reply: TimestampReply) {
   const returned = Date.now();
   const sending = reply.receive - reply.originate;
   const receiving = returned - reply.transmit;

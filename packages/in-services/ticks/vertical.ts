@@ -13,36 +13,49 @@ import getTickPositionsBytes, {
   roundMaxValueToNextHighestHumanFriendlyValue as roundMaxValueToNextHighestHumanFriendlyBytes
 } from 'in-services/ticks/bytes';
 import { percentage, bytes, kiloBytes, megaBytes } from 'in-services/formatters/number';
+import { Formatter } from 'in-components/Chart/ResultAwareChart.d';
 import getTickPositionsDefault from 'in-services/ticks/default';
+import { Tick, TickRequest } from 'in-services/ticks/types';
+import { ScaleType } from 'in-services/scale/scale';
 
-const tickPositionStrategies = {
-  default: {
-    getTickPositions: getTickPositionsNumber,
-    roundMaxValueToNextHighestHumanFriendlyValue: roundMaxValueToNextHighestHumanFriendlyValueNumber
-  }
+export interface TickStrategy {
+  getTickPositions: (req: TickRequest) => Tick[];
+  roundMaxValueToNextHighestHumanFriendlyValue: (value: number) => number;
+}
+
+const defaultTickStrategy: TickStrategy = {
+  getTickPositions: getTickPositionsNumber,
+  roundMaxValueToNextHighestHumanFriendlyValue: roundMaxValueToNextHighestHumanFriendlyValueNumber
 };
 
-tickPositionStrategies[percentage] = tickPositionStrategies[percentage.compact] = tickPositionStrategies[
-  percentage.detailed
-] = {
+const percentageStrategy: TickStrategy = {
   getTickPositions: getTickPositionsPercentage,
   roundMaxValueToNextHighestHumanFriendlyValue: roundMaxValueToNextHighestHumanFriendlyValuePercentage
 };
-
-tickPositionStrategies[kiloBytes] = tickPositionStrategies[kiloBytes.compact] = tickPositionStrategies[
-  kiloBytes.detailed
-] = tickPositionStrategies[megaBytes] = tickPositionStrategies[megaBytes.compact] = tickPositionStrategies[
-  megaBytes.detailed
-] = tickPositionStrategies[bytes.compact] = tickPositionStrategies[bytes.detailed] = tickPositionStrategies[bytes] = {
+const bytesStrategy: TickStrategy = {
   getTickPositions: getTickPositionsBytes,
   roundMaxValueToNextHighestHumanFriendlyValue: roundMaxValueToNextHighestHumanFriendlyBytes
 };
+const tickPositionStrategies = new Map<Formatter, TickStrategy>([
+  [percentage, percentageStrategy],
+  [percentage.compact, percentageStrategy],
+  [percentage.detailed, percentageStrategy],
+  [kiloBytes, bytesStrategy],
+  [kiloBytes.compact, bytesStrategy],
+  [kiloBytes.detailed, bytesStrategy],
+  [bytes, bytesStrategy],
+  [bytes.compact, bytesStrategy],
+  [bytes.detailed, bytesStrategy],
+  [megaBytes, bytesStrategy],
+  [megaBytes.compact, bytesStrategy],
+  [megaBytes.detailed, bytesStrategy]
+]);
 
-export function getTickStrategyByFormatter(formatter) {
-  return tickPositionStrategies[formatter] || tickPositionStrategies.default;
+export function getTickStrategyByFormatter(formatter?: Formatter): TickStrategy {
+  return formatter ? tickPositionStrategies.get(formatter) || defaultTickStrategy : defaultTickStrategy;
 }
 
-export default function getTickPositions(scale, formatter, numIntermediateSteps) {
+export default function getTickPositions({ scale, formatter, numIntermediateSteps }: TickRequest) {
   const domainRange = scale.getDomainTo() - scale.getDomainFrom();
   if (domainRange === 0) {
     return [
@@ -68,13 +81,13 @@ export default function getTickPositions(scale, formatter, numIntermediateSteps)
   ticks = removeCloseTicks(ticks);
 
   if (ticks.length < 2) {
-    return getTickPositionsDefault(scale);
+    return getTickPositionsDefault({ scale });
   }
 
   return ticks;
 }
 
-function getEquallyDeferredTicks(scale, numIntermediateSteps) {
+function getEquallyDeferredTicks(scale: ScaleType, numIntermediateSteps: number) {
   const rangeFrom = scale.getRangeFrom();
   const rangeTo = scale.getRangeTo();
   const domainFrom = scale.getDomainFrom();
@@ -90,7 +103,7 @@ function getEquallyDeferredTicks(scale, numIntermediateSteps) {
   return ticks;
 }
 
-function removeCloseTicks(ticks) {
+function removeCloseTicks(ticks: Tick[]) {
   if (ticks.length < 2) {
     return ticks;
   }

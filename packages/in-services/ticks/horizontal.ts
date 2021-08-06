@@ -3,20 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
-export function getTickPositions({ scale, axisConfig }) {
+import { TimeFormat } from 'in-components/Axis/timeFormatting';
+import { ScaleType } from 'in-services/scale';
+
+interface Arguments {
+  scale: ScaleType;
+  axisConfig: TimeFormat;
+}
+
+export function getTickPositions({ scale, axisConfig }: Arguments): number[] {
   const { stepSize, expectLabelWidth = 70 } = axisConfig;
 
   // special case: Trace with 0 time.
   if (scale.getDomainFrom() >= scale.getDomainTo()) {
-    return [
-      {
-        range: scale.getRangeFrom(),
-        domain: scale.getDomainFrom()
-      }
-    ];
+    return [scale.getRangeFrom()];
   }
 
-  const ticks = [];
+  const ticks: number[] = [];
   let lastTickDomain = scale.getDomainFrom();
   let previousTickRange = Number.NEGATIVE_INFINITY;
   let lastTickRange = 0;
@@ -35,7 +38,7 @@ export function getTickPositions({ scale, axisConfig }) {
   return ticks;
 }
 
-export function getTickPositionsAbsolute({ scale, axisConfig }) {
+export function getTickPositionsAbsolute({ scale, axisConfig }: Arguments) {
   const ticks = getTickPositions({ scale, axisConfig });
 
   const windowSize = scale.getDomainTo() - scale.getDomainFrom();

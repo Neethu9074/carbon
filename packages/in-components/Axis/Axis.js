@@ -84,7 +84,7 @@ function calculateTickPositions(_scale, formatter, height) {
   scale.setDomainTo(_scale.to);
   scale.setRangeFrom(height);
   scale.setRangeTo(0);
-  return getTickPositions(scale, formatter.detailed);
+  return getTickPositions({ scale, formatter: formatter.detailed });
 }
 
 // export for test

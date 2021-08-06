@@ -10,6 +10,7 @@ export const eventIdUrlParameter = {
   path: eventsPath,
   name: eventId
 };
+
 export const orderDirectionParameter = {
   path: eventsPath,
   name: 'orderDirection',

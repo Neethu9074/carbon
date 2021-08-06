@@ -3,17 +3,25 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { create, Subject } from '@instana/observables';
 
 import requestAnimationFrameWithFps from 'in-components/Chart/requestAnimationFrameWithFps';
 
-const streams = {};
-export function getAnimationFramesWithAnAnimationDurationOf(animationDuration) {
-  if (streams[animationDuration]) {
-    return streams[animationDuration];
+export interface Signal {
+  timeSinceLastAnimationDurationPassed: number;
+  prev: number;
+  now: number;
+  progress: number;
+}
+
+const streams = new Map<number, Subject<Signal>>();
+export function getAnimationFramesWithAnAnimationDurationOf(animationDuration: number): Subject<Signal> {
+  const signal$ = streams.get(animationDuration);
+  if (signal$) {
+    return signal$;
   }
 
-  const animateSignal$ = create();
+  const animateSignal$ = create<Signal>();
 
   let prev = Date.now();
   function update() {
@@ -27,6 +35,6 @@ export function getAnimationFramesWithAnAnimationDurationOf(animationDuration) {
   }
   requestAnimationFrameWithFps(update, 15); // 15 = fps
 
-  streams[animationDuration] = animateSignal$;
+  streams.set(animationDuration, animateSignal$);
   return animateSignal$;
 }

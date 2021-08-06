@@ -2,5 +2,5 @@
   "name": "scale",
   "version": "0.0.0",
   "private": true,
-  "main": "./scale.js"
+  "main": "./scale.ts"
 }

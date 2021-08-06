@@ -3,17 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { emptyArray } from 'in-services/fixedObjects';
+import { ReactNode } from 'react';
+
 import { createStore } from 'in-stores/store';
 
-const store = createStore({
+const store = createStore<Array<ReactNode>>({
   name: `in-components/overlays/Overlay`,
   isGlobal: false,
-  initialValue: emptyArray
+  initialValue: []
 });
 
 export const overlays$ = store.observable;
 
-export function set(overlays) {
+export function set(overlays: ReactNode[]) {
   store.mutateTo(overlays);
 }

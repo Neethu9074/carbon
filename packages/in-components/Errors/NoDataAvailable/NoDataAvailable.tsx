@@ -7,13 +7,18 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import BasicWrapper, { BasicWrapperProps } from 'in-components/Errors/BasicWrapper';
+import BasicWrapper from 'in-components/Errors/BasicWrapper';
 import { t } from 'in-i18n';
 
 // @ts-expect-error
 import locals from './NoDataAvailable.mless';
 
-export interface NoDataAvailableProps extends BasicWrapperProps {
+export interface NoDataAvailableProps {
+  width?: string | number;
+  height?: string | number;
+  title?: string;
+  text?: string;
+  className?: string;
   type?: string;
 }
 
