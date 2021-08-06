@@ -10,7 +10,7 @@ interface GetWebsiteAlertConfigStatsRequest {}
 
 interface GetWebsiteAlertConfigStatsResponse extends Result<WebsiteAlertStats> {}
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetWebsiteAlertConfigStatsRequest, GetWebsiteAlertConfigStatsResponse>({
   eventId: 'getWebsiteAlertConfigStats',
   trackSubscriptionStatistics: true
 });
