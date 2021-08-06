@@ -3,6 +3,4 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-export interface ResultMap {
-  [metricKey: string]: number[][];
-}
+export type ResultMap = Record<string, number[][]>;
