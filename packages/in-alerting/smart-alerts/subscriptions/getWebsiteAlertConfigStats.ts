@@ -4,6 +4,11 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { Result, WebsiteAlertStats } from 'in-types';
+
+interface GetWebsiteAlertConfigStatsRequest {}
+
+interface GetWebsiteAlertConfigStatsResponse extends Result<WebsiteAlertStats> {}
 
 export default createResultSubscriptionFactory({
   eventId: 'getWebsiteAlertConfigStats',

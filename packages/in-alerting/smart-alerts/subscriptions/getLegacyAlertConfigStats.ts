@@ -6,7 +6,6 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { Result, LegacyAlertStats } from 'in-types';
 
-// yes, indeed, the requests is empty
 interface GetLegacyAlertConfigStatsRequest {}
 
 interface GetLegacyAlertConfigStatsResponse extends Result<LegacyAlertStats> {}
