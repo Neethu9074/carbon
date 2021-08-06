@@ -10,7 +10,6 @@ import http from 'in-services/http';
 const baseUrl = '/api/events/settings/global-alert-configs/applications';
 
 export function createGlobalAlertConfig(data) {
-  // TODO use createObservable
   return http({
     method: 'POST',
     maxRetries: 3,
@@ -21,7 +20,6 @@ export function createGlobalAlertConfig(data) {
 }
 
 export function updateGlobalAlertConfig(data, id) {
-  // TODO use createObservable
   return http({
     method: 'POST',
     maxRetries: 3,
