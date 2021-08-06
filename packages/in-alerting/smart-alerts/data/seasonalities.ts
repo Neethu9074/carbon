@@ -3,5 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-export const DAILY = 'DAILY';
-export const WEEKLY = 'WEEKLY';
+import { Seasonality } from 'in-types';
+
+export const DAILY: Seasonality = 'DAILY';
+export const WEEKLY: Seasonality = 'WEEKLY';
