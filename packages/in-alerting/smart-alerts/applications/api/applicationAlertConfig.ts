@@ -3,14 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Observable } from '@instana/observables';
+
+import { ApplicationAlertConfig, ApplicationAlertConfigWithMetadata, ConfigVersion, Result } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
 
 const baseUrl = 'api/events/settings/application-alert-configs';
 
-export function createAlertConfig(data) {
-  return http({
+export function createAlertConfig(data: ApplicationAlertConfig): Observable<ApplicationAlertConfigWithMetadata> {
+  return http<ApplicationAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -19,8 +22,11 @@ export function createAlertConfig(data) {
   }).map(response => response.body);
 }
 
-export function updateAlertConfig(data, id) {
-  return http({
+export function updateAlertConfig(
+  data: ApplicationAlertConfig,
+  id: string
+): Observable<ApplicationAlertConfigWithMetadata> {
+  return http<ApplicationAlertConfigWithMetadata>({
     method: 'POST',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -29,8 +35,19 @@ export function updateAlertConfig(data, id) {
   }).map(response => response.body);
 }
 
-export function getAllAlertConfigs(applicationId, config = { asObservable: false }) {
-  const requestConfig = {
+export function getAllAlertConfigs(
+  applicationId: string,
+  config: { asObservable: true }
+): Observable<Result<ApplicationAlertConfigWithMetadata[]>>;
+export function getAllAlertConfigs(
+  applicationId: string,
+  config?: { asObservable: false }
+): Observable<ApplicationAlertConfigWithMetadata[]>;
+export function getAllAlertConfigs(
+  applicationId: string,
+  config = { asObservable: false }
+): Observable<Result<ApplicationAlertConfigWithMetadata[]>> | Observable<ApplicationAlertConfigWithMetadata[]> {
+  const request = http<ApplicationAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -38,40 +55,67 @@ export function getAllAlertConfigs(applicationId, config = { asObservable: false
       applicationId
     },
     url: baseUrl
-  };
-  return config.asObservable
-    ? createObservable(http(requestConfig))
-    : http(requestConfig).map(response => response.body);
+  });
+  return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
 
-export function getAllVersionsOfAlertConfig(id, config = { asObservable: false }) {
-  const requestConfig = {
+export function getAllVersionsOfAlertConfig(
+  id: string,
+  config: { asObservable: true }
+): Observable<Result<ConfigVersion[]>>;
+export function getAllVersionsOfAlertConfig(id: string, config?: { asObservable: false }): Observable<ConfigVersion[]>;
+export function getAllVersionsOfAlertConfig(
+  id: string,
+  config = { asObservable: false }
+): Observable<Result<ConfigVersion[]>> | Observable<ConfigVersion[]> {
+  const request = http<ConfigVersion[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}/versions`
-  };
+  });
 
-  return config.asObservable
-    ? createObservable(http(requestConfig))
-    : http(requestConfig).map(response => response.body);
+  return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
 
-export function getLatestAlertConfig(id, config = { asObservable: false }) {
-  const requestConfig = {
+export function getLatestAlertConfig(
+  id: string,
+  config: { asObservable: true }
+): Observable<Result<ApplicationAlertConfigWithMetadata>>;
+export function getLatestAlertConfig(
+  id: string,
+  config?: { asObservable: false }
+): Observable<ApplicationAlertConfigWithMetadata>;
+export function getLatestAlertConfig(
+  id: string,
+  config = { asObservable: false }
+): Observable<Result<ApplicationAlertConfigWithMetadata>> | Observable<ApplicationAlertConfigWithMetadata> {
+  const request = http<ApplicationAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}`
-  };
+  });
 
-  return config.asObservable
-    ? createObservable(http(requestConfig))
-    : http(requestConfig).map(response => response.body);
+  return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
 
-export function getAlertConfigByIdAndTimestamp(id, timestamp, config = { asObservable: false }) {
-  const requestConfig = {
+export function getAlertConfigByIdAndTimestamp(
+  id: string,
+  timestamp: number,
+  config: { asObservable: true }
+): Observable<Result<ApplicationAlertConfigWithMetadata>>;
+export function getAlertConfigByIdAndTimestamp(
+  id: string,
+  timestamp: number,
+  config?: { asObservable: false }
+): Observable<ApplicationAlertConfigWithMetadata>;
+export function getAlertConfigByIdAndTimestamp(
+  id: string,
+  timestamp: number,
+  config = { asObservable: false }
+): Observable<Result<ApplicationAlertConfigWithMetadata>> | Observable<ApplicationAlertConfigWithMetadata> {
+  const request = http<ApplicationAlertConfigWithMetadata>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -79,15 +123,13 @@ export function getAlertConfigByIdAndTimestamp(id, timestamp, config = { asObser
     queryParams: {
       validOn: timestamp
     }
-  };
+  });
 
-  return config.asObservable
-    ? createObservable(http(requestConfig))
-    : http(requestConfig).map(response => response.body);
+  return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
 
-export function enableAlertConfig(id) {
-  return http({
+export function enableAlertConfig(id: string): Observable<void> {
+  return http<void>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -95,8 +137,8 @@ export function enableAlertConfig(id) {
   }).map(response => response.body);
 }
 
-export function disableAlertConfig(id) {
-  return http({
+export function disableAlertConfig(id: string): Observable<void> {
+  return http<void>({
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -104,8 +146,8 @@ export function disableAlertConfig(id) {
   }).map(response => response.body);
 }
 
-export function deleteAlertConfig(id) {
-  return http({
+export function deleteAlertConfig(id: string): Observable<void> {
+  return http<void>({
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
@@ -113,15 +155,21 @@ export function deleteAlertConfig(id) {
   }).map(response => response.body);
 }
 
-export function getAllAlertConfigsForAllApplications(config = { asObservable: false }) {
-  const requestConfig = {
+export function getAllAlertConfigsForAllApplications(config: {
+  asObservable: true;
+}): Observable<Result<ApplicationAlertConfigWithMetadata[]>>;
+export function getAllAlertConfigsForAllApplications(config: {
+  asObservable: false;
+}): Observable<ApplicationAlertConfigWithMetadata[]>;
+export function getAllAlertConfigsForAllApplications(
+  config = { asObservable: false }
+): Observable<Result<ApplicationAlertConfigWithMetadata[]>> | Observable<ApplicationAlertConfigWithMetadata[]> {
+  const request = http<ApplicationAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: baseUrl
-  };
+  });
 
-  return config.asObservable
-    ? createObservable(http(requestConfig))
-    : http(requestConfig).map(response => response.body);
+  return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
