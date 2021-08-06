@@ -5,12 +5,14 @@
 
 import React from 'react';
 
-import { toInteractiveElement } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, toInteractiveElement } from '@instana/components';
 
 import ConjunctionTagSelectorOverlay from 'in-components/QueryBuilder/ConjunctionTagSelectorOverlay/ConjunctionTagSelectorOverlay';
 import { compositeRef } from 'in-services/util/react';
 import Overlay from 'in-components/overlays/Overlay';
+import { isBlank } from 'in-services/util/string';
+import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './Name.mless';
 
@@ -27,10 +29,6 @@ export default React.forwardRef(function Name(
 ) {
   const tagTreeNode = tagCatalog.tagsByName[name];
   const path = tagTreeNode?.path;
-
-  if (!path) {
-    return null;
-  }
 
   return (
     <Overlay
@@ -58,12 +56,29 @@ export default React.forwardRef(function Name(
           })}
           ref={compositeRef(refSetter, ref)}
         >
-          {path
-            .slice(0, path.length - 1)
-            .map(node => node.label)
-            .join(' ')}
-          <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
-          {path[path.length - 1].label}
+          {path ? (
+            <>
+              {path
+                .slice(0, path.length - 1)
+                .map(node => node.label)
+                .join(' ')}
+              <SvgIcon className={locals.icon} type="lib_arrow_drop_right" />
+              {path[path.length - 1].label}
+            </>
+          ) : (
+            <Tooltip
+              delay={500}
+              content={
+                <span>
+                  {name === true || isBlank(name) // empty tags can be boolean=true instead of blank string here somehow
+                    ? t('in-components:queryBuilder.components.unknownEmptyTagTooltip')
+                    : t('in-components:queryBuilder.components.unknownTagTooltip', { tagName: name })}
+                </span>
+              }
+            >
+              <span>{t('in-components:queryBuilder.components.unknownTag')}</span>
+            </Tooltip>
+          )}
         </div>
       )}
     </Overlay>

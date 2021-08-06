@@ -590,7 +590,10 @@
       "filterButtonAddFilter": "Add filter",
       "conjunctionLogicalOperator_OR": "OR",
       "conjunctionLogicalOperator_AND": "AND",
-      "conjunctionLogicalOperator_NOT": "NOT"
+      "conjunctionLogicalOperator_NOT": "NOT",
+      "unknownTag": "?",
+      "unknownTagTooltip": "The tag '{{tagName}}' is either generally unknown or not supported in this context.",
+      "unknownEmptyTagTooltip": "A tag with an empty name is not known."
     },
     "selectorOverlayClear": "Clear",
     "selectorOverlayAnd": "AND",
