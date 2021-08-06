@@ -1481,6 +1481,7 @@
   "tracingTypeName_hz_0": "Hazelcast Java Client calls",
   "tracingTypeName_hz_1": "Hazelcast Java Client call",
   "tracingTypeName_hz_2": "Hazelcast Java Client calls",
+  "tracingTypeName_ibmmq": "IBM MQ",
   "tracingTypeName_ibmdb2": "IBM DB2 Universal Database, IBM Cloudscape, and Apache Derby Call",
   "tracingTypeName_ibmdb2_plural": "IBM DB2 Universal Database, IBM Cloudscape, and Apache Derby Calls",
   "tracingTypeName_ibmdb2_0": "IBM DB2 Universal Database, IBM Cloudscape, and Apache Derby Calls",
