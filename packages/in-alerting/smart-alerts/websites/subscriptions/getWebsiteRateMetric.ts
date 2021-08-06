@@ -4,8 +4,13 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { GetWebsiteRateMetricQuery, Result } from 'in-types';
 
-export default createResultSubscriptionFactory({
+interface ResultMap {
+  [metricKey: string]: number[][];
+}
+
+export default createResultSubscriptionFactory<GetWebsiteRateMetricQuery, Result<ResultMap>>({
   eventId: 'getWebsiteRateMetric',
   trackSubscriptionStatistics: true
 });
