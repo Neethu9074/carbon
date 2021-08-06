@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-export function round(value, decimals) {
-  return parseFloat(Number.parseFloat(value).toPrecision(decimals));
+export function round(value: number | string, decimals: number): number {
+  return parseFloat(Number.parseFloat(`${value}`).toPrecision(decimals));
 }
 
-export function getValueRoundedToDecimals(value, percentageMetric) {
+export function getValueRoundedToDecimals(value: number, percentageMetric: boolean) {
   return percentageMetric ? round(value * 100, 3) : value;
 }
 
-export function getThresholdValueForPercentageMetric(value, percentageMetric) {
+export function getThresholdValueForPercentageMetric(value: number, percentageMetric: boolean) {
   return percentageMetric ? round(value / 100, 3) : value;
 }
