@@ -4,8 +4,17 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { Result, ApplicationAlertStats } from 'in-types';
 
-export default createResultSubscriptionFactory({
+// yes, indeed, the requests is empty
+interface GetApplicationAlertConfigStatsRequest {}
+
+interface GetApplicationAlertConfigStatsResponse extends Result<ApplicationAlertStats> {}
+
+export default createResultSubscriptionFactory<
+  GetApplicationAlertConfigStatsRequest,
+  GetApplicationAlertConfigStatsResponse
+>({
   eventId: 'getApplicationAlertConfigStats',
   trackSubscriptionStatistics: true
 });

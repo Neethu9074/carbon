@@ -7,14 +7,11 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 import { Result, LegacyAlertStats } from 'in-types';
 
 // yes, indeed, the requests is empty
-interface CreateResultSubscriptionFactoryRequest {}
+interface GetLegacyAlertConfigStatsRequest {}
 
-interface CreateResultSubscriptionFactoryResponse extends Result<LegacyAlertStats> {}
+interface GetLegacyAlertConfigStatsResponse extends Result<LegacyAlertStats> {}
 
-export default createResultSubscriptionFactory<
-  CreateResultSubscriptionFactoryRequest,
-  CreateResultSubscriptionFactoryResponse
->({
+export default createResultSubscriptionFactory<GetLegacyAlertConfigStatsRequest, GetLegacyAlertConfigStatsResponse>({
   eventId: 'getLegacyAlertConfigStats',
   trackSubscriptionStatistics: true
 });
