@@ -2555,6 +2555,14 @@ export interface MetricConfiguration {
   readonly metric: string;
 }
 
+export interface MetricDescription {
+  readonly aggregations?: string[];
+  readonly description?: string;
+  readonly formatter?: string;
+  readonly label?: string;
+  readonly metricId?: string;
+}
+
 export interface MetricMetadata {
   readonly category?: string;
   readonly format?: Formatter;
@@ -2686,6 +2694,12 @@ export interface MobileAppMonitoringBeacon {
   readonly view?: string;
   readonly viewportHeight: number;
   readonly viewportWidth: number;
+}
+
+export interface MobileAppMonitoringMetricDescription extends MetricDescription {
+  readonly beaconTypes: string[];
+  readonly pathToValueInBeacon?: string[];
+  readonly tagName?: string;
 }
 
 export interface MobileAppMonitoringMetricsConfiguration extends MetricConfiguration {
@@ -3716,6 +3730,12 @@ export interface WebsiteMonitoringBeacon {
   readonly windowHeight?: number;
   readonly windowHidden?: boolean;
   readonly windowWidth?: number;
+}
+
+export interface WebsiteMonitoringMetricDescription extends MetricDescription {
+  readonly beaconTypes: string[];
+  readonly pathToValueInBeacon?: string[];
+  readonly tagName?: string;
 }
 
 export interface WebsiteMonitoringMetricsConfiguration extends MetricConfiguration {
