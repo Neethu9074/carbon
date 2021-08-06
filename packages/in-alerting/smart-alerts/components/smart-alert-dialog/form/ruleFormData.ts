@@ -6,7 +6,7 @@
 import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
-interface Options {
+export interface Options {
   value: AggregationType;
   label: string;
 }
