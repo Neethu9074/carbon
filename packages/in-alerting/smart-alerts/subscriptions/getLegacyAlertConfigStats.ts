@@ -4,8 +4,17 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { Result, LegacyAlertStats } from 'in-types';
 
-export default createResultSubscriptionFactory({
+// yes, indeed, the requests is empty
+interface CreateResultSubscriptionFactoryRequest {}
+
+interface CreateResultSubscriptionFactoryResponse extends Result<LegacyAlertStats> {}
+
+export default createResultSubscriptionFactory<
+  CreateResultSubscriptionFactoryRequest,
+  CreateResultSubscriptionFactoryResponse
+>({
   eventId: 'getLegacyAlertConfigStats',
   trackSubscriptionStatistics: true
 });
