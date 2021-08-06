@@ -4,9 +4,10 @@
  */
 
 import { Field, MapForm } from 'formalistic';
-import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
-import { t } from 'in-i18n';
 import { AggregationType } from 'in-types';
+import { t } from 'in-i18n';
+
+import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 
 export function getAggregationText(aggregation: AggregationType): string {
   switch (aggregation.toUpperCase()) {

@@ -4,6 +4,7 @@
  */
 
 import { FixedTimeConfig } from 'in-stores/time/config';
+import { ThresholdOperator } from 'in-types';
 import { days } from 'in-services/time';
 
 /**
@@ -29,7 +30,7 @@ export function getHistoricBaselineValue(
 
 export interface AlertConfig {
   threshold: {
-    operator: '>=' | '>' | '<=' | '<' | '=';
+    operator: ThresholdOperator;
     baseline: number[][];
     deviationFactor: number;
   };

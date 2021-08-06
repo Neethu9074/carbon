@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-export function toTagFilterNumberOperator(thresholdOperator: string): string {
+import { ThresholdOperator, TagFilterOperator } from 'in-types';
+
+export function toTagFilterNumberOperator(thresholdOperator: ThresholdOperator): TagFilterOperator {
   switch (thresholdOperator) {
     case '<=':
       return 'LESS_OR_EQUAL_THAN';
@@ -18,6 +20,6 @@ export function toTagFilterNumberOperator(thresholdOperator: string): string {
   }
 }
 
-export function isGreaterOperator(thresholdOperator: string): boolean {
+export function isGreaterOperator(thresholdOperator: ThresholdOperator): boolean {
   return thresholdOperator === '>=' || thresholdOperator === '>';
 }

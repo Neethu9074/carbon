@@ -7,7 +7,7 @@
  * Applies smoothing to the given metrics time series using a gaussian kernel.
  */
 export function smoothMetrics(
-  metrics: number[][],
+  metrics: [number, number][],
   granularity: number,
   weights: number[] = [0.157731, 0.684538, 0.157731]
 ): number[][] {
