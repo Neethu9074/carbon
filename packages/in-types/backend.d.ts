@@ -395,7 +395,7 @@ export interface ComponentStatus {
   readonly name: string;
 }
 
-export interface ConfigKey extends Serializable {
+export interface ConfigKey {
   readonly created: number;
   readonly entityId?: string;
   readonly id?: string;
@@ -613,7 +613,7 @@ export interface EntityId extends Comparable<EntityId> {
 export interface EntityVerificationRule extends AbstractRule {
   readonly matchingEntityLabel: string;
   readonly matchingEntityType: string;
-  readonly matchingOperator: StringMatchingOperator;
+  readonly matchingOperator: AlertingStringMatchingOperator;
   readonly offlineDuration: number;
 }
 
@@ -1900,9 +1900,6 @@ export interface GlobalApplicationsAlertConfig extends AbstractApplicationAlertC
   readonly applications: { [index: string]: ApplicationNode };
 }
 
-export interface GlobalApplicationsAlertConfigBuilder {
-}
-
 export interface Group {
   readonly groupbyTag: string;
   readonly groupbyTagEntity: TagFilterEntity;
@@ -2771,7 +2768,7 @@ export interface MetricMetadata {
 }
 
 export interface MetricPattern {
-  readonly operator: MatchingOperator;
+  readonly operator: AlertingMatchingOperator;
   readonly placeholder?: string;
   readonly postfix?: string;
   readonly prefix: string;
@@ -3166,9 +3163,6 @@ export interface Result<T> {
   readonly time?: number;
 }
 
-export interface Serializable {
-}
-
 export interface Service {
   readonly entityType?: UiEntityType;
   readonly id: string;
@@ -3543,8 +3537,8 @@ export interface ThresholdData {
 }
 
 export interface ThresholdRule extends AbstractRule {
-  readonly aggregation?: Aggregation;
-  readonly conditionOperator: ConditionOperator;
+  readonly aggregation?: AlertingAggregation;
+  readonly conditionOperator: AlertingConditionOperator;
   readonly conditionValue: number;
   readonly metricName?: string;
   readonly metricPattern?: MetricPattern;
@@ -4130,17 +4124,23 @@ export type AccessType = 'READ' | 'READ_WRITE';
 
 export type AgentMonitoringIssueCategory = 'SENSOR' | 'TRACER' | 'PROFILER' | 'UNKNOWN';
 
-export type Aggregation = 'sum' | 'avg' | 'min' | 'max';
-
 export type AggregationType = 'SUM' | 'MEAN' | 'MAX' | 'MIN' | 'P25' | 'P50' | 'P75' | 'P90' | 'P95' | 'P98' | 'P99' | 'P99_9' | 'P99_99' | 'DISTINCT_COUNT' | 'SUM_POSITIVE';
 
 export type AlertEvaluationType = 'PER_AP' | 'PER_AP_SERVICE' | 'PER_AP_ENDPOINT';
 
 export type AlertType = 'Alert' | 'WebsiteSmartAlert' | 'ApplicationSmartAlert' | 'GlobalApplicationSmartAlert';
 
+export type AlertingAggregation = 'sum' | 'avg' | 'min' | 'max';
+
 export type AlertingApplicationBoundaryScope = 'ALL' | 'INBOUND';
 
+export type AlertingConditionOperator = '>' | '>=' | '<' | '<=' | '=' | '!=';
+
 export type AlertingEventTypes = 'incident' | 'critical' | 'warning' | 'change' | 'online' | 'offline' | 'agent_monitoring_issue' | 'none';
+
+export type AlertingMatchingOperator = 'is' | 'contains' | 'startsWith' | 'endsWith' | 'any';
+
+export type AlertingStringMatchingOperator = 'is' | 'contains' | 'startsWith' | 'endsWith';
 
 export type ApplicationBoundaryScope = 'ALL' | 'INBOUND';
 
@@ -4153,8 +4153,6 @@ export type AvailabilitySliEventType = 'GOOD' | 'BAD';
 export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
 
 export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SLI_MANAGEMENT' | 'APPLICATION_CONFIG' | 'APPLICATION_CONFIG_BLUEPRINT';
-
-export type ConditionOperator = '>' | '>=' | '<' | '<=' | '=' | '!=';
 
 export type ContextScope = 'NONE' | 'UPSTREAM' | 'DOWNSTREAM';
 
@@ -4202,8 +4200,6 @@ export type LogsApplicationAlertRuleLogLevel = 'WARN' | 'ERROR' | 'ANY';
 
 export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISHED';
 
-export type MatchingOperator = 'is' | 'contains' | 'startsWith' | 'endsWith' | 'any';
-
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
 export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'DISTRIBUTED_LOGS' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
@@ -4223,8 +4219,6 @@ export type SliMetricType = 'SLI' | 'ERROR_BUDGET_SPENT' | 'ERROR_BUDGET_REMAINI
 export type SpanKind = 'UNKNOWN' | 'ENTRY' | 'EXIT' | 'INTERMEDIATE';
 
 export type SpanModel = 'UNKNOWN' | 'HTTP' | 'DATABASE' | 'RPC' | 'MESSAGING' | 'BATCH' | 'LOG' | 'SDK';
-
-export type StringMatchingOperator = 'is' | 'contains' | 'startsWith' | 'endsWith';
 
 export type TagFilterEntity = 'NOT_APPLICABLE' | 'DESTINATION' | 'SOURCE';
 
