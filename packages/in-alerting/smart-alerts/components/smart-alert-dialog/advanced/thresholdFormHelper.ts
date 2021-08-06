@@ -6,7 +6,7 @@
 import { Field, MapForm } from 'formalistic';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
-export function getFormValueOrDefault(form: MapForm, key: string, defaultValue = null): any {
+export function getFormValueOrDefault(form: MapForm, key: string, defaultValue: any = null): any {
   const item: Field<any> | undefined = form.get(key) as Field<any> | undefined;
   return form.containsKey(key) ? item?.value : defaultValue;
 }

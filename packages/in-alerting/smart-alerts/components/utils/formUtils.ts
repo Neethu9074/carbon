@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Field, MapForm } from 'formalistic';
 import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import { t } from 'in-i18n';
+import { AggregationType } from 'in-types';
 
-export function getAggregationText(aggregation) {
+export function getAggregationText(aggregation: AggregationType): string {
   switch (aggregation.toUpperCase()) {
     case 'P25':
       return t('in-alerting:smartAlerts.components.utils.aggregationTextP25');
@@ -27,29 +29,36 @@ export function getAggregationText(aggregation) {
   }
 }
 
-export function findEntryByValue(valueLabelPairList, value) {
+type ValueLabelPair = {
+  value: string;
+};
+
+export function findEntryByValue(valueLabelPairList: ValueLabelPair[], value: string): ValueLabelPair | undefined {
   const items = valueLabelPairList ?? [];
   return items.find(item => item?.value === value);
 }
 
-export function alertConfigWithDefaultThreshold(form) {
+export function alertConfigWithDefaultThreshold(form: MapForm) {
+  const threshold: MapForm = form.get('threshold') as MapForm;
+  const thresholdValue: Field<any> | undefined = threshold.get('value') as Field<any> | undefined;
   return {
     ...form.toJS(),
     threshold: {
-      ...form.get('threshold').toJS(),
-      value: form.get('threshold').get('value')?.value ?? 0
+      ...threshold.toJS(),
+      value: thresholdValue?.value ?? 0
     }
   };
 }
 
-export function alertConfigWithDefaultValues(form) {
+export function alertConfigWithDefaultValues(form: MapForm) {
+  const threshold: MapForm = form.get('threshold') as MapForm;
   return {
     ...form.toJS(),
     threshold: {
-      ...form.get('threshold').toJS(),
-      value: getFormValueOrDefault(form.get('threshold'), 'value', 0),
-      baseline: getFormValueOrDefault(form.get('threshold'), 'baseline', []),
-      deviationFactor: Number(getFormValueOrDefault(form.get('threshold'), 'deviationFactor', 0))
+      ...threshold.toJS(),
+      value: getFormValueOrDefault(threshold, 'value', 0),
+      baseline: getFormValueOrDefault(threshold, 'baseline', []),
+      deviationFactor: Number(getFormValueOrDefault(threshold, 'deviationFactor', 0))
     }
   };
 }
