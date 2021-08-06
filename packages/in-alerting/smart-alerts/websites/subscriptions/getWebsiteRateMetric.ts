@@ -5,10 +5,7 @@
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { GetWebsiteRateMetricQuery, Result } from 'in-types';
-
-interface ResultMap {
-  [metricKey: string]: number[][];
-}
+import { ResultMap } from 'in-alerting/smart-alerts/websites/subscriptions/metricResponse';
 
 export default createResultSubscriptionFactory<GetWebsiteRateMetricQuery, Result<ResultMap>>({
   eventId: 'getWebsiteRateMetric',

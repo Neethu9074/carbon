@@ -4,8 +4,10 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { GetWebsiteRateMetricQuery, Result } from 'in-types';
+import { ResultMap } from 'in-alerting/smart-alerts/websites/subscriptions/metricResponse';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetWebsiteRateMetricQuery, Result<ResultMap>>({
   eventId: 'getWebsiteRateMetricAlertsPreview',
   trackSubscriptionStatistics: true
 });
