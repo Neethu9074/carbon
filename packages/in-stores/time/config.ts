@@ -51,9 +51,16 @@ export function getTimeConfig(location: Location): TimeConfig {
   };
 }
 
-export function fixateTimeConfig(timeConfig: TimeConfig): TimeConfig {
+export interface FixedTimeConfig {
+  readonly windowSize: number;
+  readonly to: number;
+  readonly focusedMoment?: number;
+  readonly autoRefresh: boolean;
+}
+
+export function fixateTimeConfig(timeConfig: TimeConfig): FixedTimeConfig {
   if (timeConfig.to != null) {
-    return timeConfig;
+    return timeConfig as FixedTimeConfig;
   }
   const now = Date.now();
 
