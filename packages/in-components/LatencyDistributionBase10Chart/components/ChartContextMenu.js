@@ -7,16 +7,15 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button, SvgIcon, keyCodes } from '@instana/components';
 import { on } from '@instana/observables';
 
 import { containsIgnoreCase } from 'in-services/util/string';
-import { isEscape } from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './ChartContextMenu.mless';
 
+const { isEscape } = keyCodes;
 export default function ChartContextMenu({
   immediatelyOpenContextMenu,
   showContextMenu,
