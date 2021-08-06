@@ -2055,6 +2055,11 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/d3-format/-/d3-format-1.0.4.tgz#c5d869808e4373aa77d5768841df7e9dec94ebfb"
   integrity sha1-xdhpgI5Dc6p31XaIQd9+neyU6/s=
 
+"@types/deep-diff@^1.0.1":
+  version "1.0.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/deep-diff/-/deep-diff-1.0.1.tgz#eae15119c68b72b541731872a2883da89dc39396"
+  integrity sha1-6uFRGcaLcrVBcxhyoog9qJ3Dk5Y=
+
 "@types/deep-freeze-strict@^1.1.0":
   version "1.1.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/deep-freeze-strict/-/deep-freeze-strict-1.1.0.tgz#447a6a2576191344aa42310131dd3df5c41492c4"

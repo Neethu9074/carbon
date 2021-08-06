@@ -139,6 +139,7 @@
     "@testing-library/react-hooks": "^3.4.1",
     "@types/chai": "^4.2.20",
     "@types/d3-format": "1.0.4",
+    "@types/deep-diff": "^1.0.1",
     "@types/deep-freeze-strict": "^1.1.0",
     "@types/ineum": "^187.0.1",
     "@types/invariant": "^2.2.34",

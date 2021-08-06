@@ -4,30 +4,46 @@
  */
 
 import { isEqual, uniq } from 'lodash';
-import diff from 'deep-diff';
+import { diff, Diff } from 'deep-diff';
+import { Item } from 'formalistic';
 
-export const CHANGE_TYPES = {
+type ChangeType = 'E' | 'D' | 'N' | 'A';
+type ChangeTypeLong = 'EDIT' | 'DELETE' | 'INSERT' | 'LIST_UPDATE';
+
+export const CHANGE_TYPES: Record<ChangeTypeLong, ChangeType> = {
   EDIT: 'E', // A field's value was changed
   DELETE: 'D', // A field was deleted
   INSERT: 'N', // A field was added
   LIST_UPDATE: 'A' // A list contained in a field was changed
 };
-const allChanges = Object.values(CHANGE_TYPES);
+interface Effect {
+  path: string[];
+  effects: ((form: Item) => Item)[];
+}
+interface UseFormSideEffectsRequest {
+  form: Item;
+  setForm: (field: Item) => void;
+  effects: Effect[];
+  changesToTrack: ChangeType[];
+}
+
+type UseFormSideEffectsResponse = (form: Item) => void;
+
+const allChanges: ChangeType[] = Object.values(CHANGE_TYPES);
 
 /**
  * This hooks allows to execute side-effects based on incoming changes to form values.
  * Side-effects can safely update the form before the update is committed to application state.
  * Changes to form touched state are ignored.
- * @param {MapForm|ListForm} form Formalistic form
- * @param {function(MapForm|ListForm)} setForm The function to commit form updates application state
- * @param {Object[]} effects Effects to execute on form updates
- * @param {string[]} [effects[].path] Optionally filters executions of the effect to changes in or below this path
- * @param {function(MapForm|ListForm): [(MapForm|ListForm)]} effects[].effects The list of effects to execute
- * @param {string[]} changesToTrack The types of changes to trigger effects for. See CHANGE_TYPES
- * @returns {function((MapForm|ListForm))} Wrapped form updated handler to use instead of setForm
  */
-export default function useFormSideEffects({ form, setForm, effects = [], changesToTrack = allChanges }) {
-  return updatedForm => {
+
+export default function useFormSideEffects({
+  form,
+  setForm,
+  effects = [],
+  changesToTrack = allChanges
+}: UseFormSideEffectsRequest): UseFormSideEffectsResponse {
+  return (updatedForm: Item) => {
     if (updatedForm === form) return;
 
     const effectsToExecute = uniq(
@@ -39,14 +55,12 @@ export default function useFormSideEffects({ form, setForm, effects = [], change
   };
 }
 
-function findUpdatedPaths(previousData, updatedData, changesToTrack) {
-  return (
-    diff(previousData, updatedData)
-      ?.filter(({ kind }) => changesToTrack.includes(kind))
-      .map(({ path }) => path) ?? []
-  );
+function findUpdatedPaths(previousData: any, updatedData: any, changesToTrack: ChangeType[]): string[][] {
+  const updatedPaths: Diff<any, any>[] =
+    diff(previousData, updatedData)?.filter(({ kind }) => changesToTrack.includes(kind)) ?? [];
+  return updatedPaths.filter(({ path }) => path != null).map(({ path }) => path as string[]) ?? [];
 }
 
-function findEffectsForPath(path, effects) {
+function findEffectsForPath(path: string[], effects: Effect[]) {
   return effects.filter(({ path: p = [] }) => isEqual(p, path.slice(0, p.length))).flatMap(({ effects }) => effects);
 }
