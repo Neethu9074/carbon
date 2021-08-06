@@ -23,6 +23,8 @@ We do have end to end tests for the Instana user interface. We started maintaini
 
 We provide ready-made launch configurations for Visual Studio Code users (in `.vscode/launch.json`) that you can leverage for better development experiences. You can leverage these to start the client/browser unit tests and the server unit tests from the' Run' menu. Thanks to VS Code's great out-of-the-box integration, you can also set breakpoints to debug your JavaScript -or- to enter a test-driven-development flow.
 
+Also see our screencast about [test execution and debugging in Visual Studio Code](https://drive.google.com/file/d/1JVkTjXGOhqQG4DK8OWEKaCIkf-t2Lki7/view?usp=sharing).
+
 ![VS Code debugger for the server tests](./screenshots/debugger.png)
 
 ## Advanced
