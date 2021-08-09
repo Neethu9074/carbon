@@ -12,9 +12,17 @@ import { Li } from '@instana/components';
 
 import locals from './Section.mless';
 
-export default function Section({ title, titleHtmlFor, hasError, icon, children, actions, iconColor, useAlternateBg }) {
-  let verticalPositionCorrection;
-
+export default function Section({
+  title,
+  titleHtmlFor,
+  hasError,
+  icon,
+  children,
+  actions,
+  iconColor,
+  useAlternateBg,
+  titleWidth = '11rem'
+}) {
   return (
     <Li component="div" noAlternatingBg forceAlternateBg={useAlternateBg}>
       <div className={locals.section}>
@@ -23,7 +31,9 @@ export default function Section({ title, titleHtmlFor, hasError, icon, children,
           className={classNames(locals.title, {
             [locals.hasError]: hasError
           })}
-          style={verticalPositionCorrection}
+          style={{
+            '--titleWidth': titleWidth
+          }}
         >
           {icon && <SvgIcon type={icon} color={iconColor} />}
           <span className={locals.titleText}>{title}</span>
@@ -31,11 +41,7 @@ export default function Section({ title, titleHtmlFor, hasError, icon, children,
 
         <div className={locals.content}>{children}</div>
 
-        {actions && (
-          <div className={locals.actions} style={verticalPositionCorrection}>
-            {actions}
-          </div>
-        )}
+        {actions && <div className={locals.actions}>{actions}</div>}
       </div>
     </Li>
   );
@@ -50,5 +56,6 @@ Section.propTypes = {
   actions: PropTypes.node,
   useAlternateBg: PropTypes.bool,
   children: PropTypes.node.isRequired,
-  iconColor: PropTypes.string
+  iconColor: PropTypes.string,
+  titleWidth: PropTypes.string
 };
