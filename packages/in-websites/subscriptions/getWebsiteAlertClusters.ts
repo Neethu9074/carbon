@@ -4,8 +4,9 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { AlertClusterResponse, GetWebsiteAlertClustersQuery, Result } from 'in-types';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetWebsiteAlertClustersQuery, Result<AlertClusterResponse[]>>({
   eventId: 'getWebsiteAlertClusters',
   trackSubscriptionStatistics: true
 });
