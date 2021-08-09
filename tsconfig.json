@@ -51,6 +51,9 @@
     // web browsers / we do not publish a package.
     "declaration": false,
 
+    // helps with relative imports starting from defined baseUrl in the ts file
+    "baseUrl": "./packages",
+
     // Don't emit .js files. Babel/webpack takes care of this.
     "noEmit": true
   },
