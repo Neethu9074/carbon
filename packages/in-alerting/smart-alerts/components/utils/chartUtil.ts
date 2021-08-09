@@ -5,15 +5,16 @@
 
 /**
  * Applies smoothing to the given metrics time series using a gaussian kernel.
- * @param metrics The metric to smooth.
- * @param granularity The metrics granularity.
- * @param weights The kernel weights, using a gaussian-kernel with ksize=3 and sigma=0.5 by default.
  */
-export function smoothMetrics(metrics, granularity, weights = [0.157731, 0.684538, 0.157731]) {
+export function smoothMetrics(
+  metrics: [number, number][],
+  granularity: number,
+  weights: number[] = [0.157731, 0.684538, 0.157731]
+): number[][] {
   const windowSize = weights.length;
   const metricsLength = metrics.length;
   const leftRightCount = Math.trunc(windowSize / 2);
-  const timeGapTooBig = (k, l) => Math.abs(metrics[k][1] - metrics[l][1]) > granularity;
+  const timeGapTooBig = (k: number, l: number) => Math.abs(metrics[k][1] - metrics[l][1]) > granularity;
 
   return metrics.map((metric, i) => {
     let val = metric[1] * weights[Math.trunc(windowSize / 2)];

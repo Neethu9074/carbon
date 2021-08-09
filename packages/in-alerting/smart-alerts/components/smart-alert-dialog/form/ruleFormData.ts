@@ -3,9 +3,15 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
-export const ruleAggregationOptions = Object.freeze([
+export interface Options {
+  value: AggregationType;
+  label: string;
+}
+
+export const ruleAggregationOptions: readonly Options[] = Object.freeze([
   { value: 'MEAN', label: t('in-alerting:smartAlerts.form.ruleAggregationOptionMEAN') },
   { value: 'MIN', label: t('in-alerting:smartAlerts.form.ruleAggregationOptionMIN') },
   { value: 'P25', label: t('in-alerting:smartAlerts.form.ruleAggregationOptionP25') },
@@ -18,7 +24,7 @@ export const ruleAggregationOptions = Object.freeze([
   { value: 'MAX', label: t('in-alerting:smartAlerts.form.ruleAggregationOptionMAX') }
 ]);
 
-export const ruleAggregationForWeeklySeasonalityOptions = Object.freeze([
+export const ruleAggregationForWeeklySeasonalityOptions: readonly Options[] = Object.freeze([
   {
     value: 'MEAN',
     label: t('in-alerting:smartAlerts.form.ruleAggregationForWeeklySeasonalityOptionMEAN')

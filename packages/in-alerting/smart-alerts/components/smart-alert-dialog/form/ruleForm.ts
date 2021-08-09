@@ -3,15 +3,18 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import {
+  Options,
   ruleAggregationForWeeklySeasonalityOptions,
   ruleAggregationOptions
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleFormData';
-import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import { WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { MapForm } from 'formalistic';
 
-export function getAggregationOptions(form) {
-  if (getFormValueOrDefault(form.get('threshold'), 'seasonality') === WEEKLY) {
+export function getAggregationOptions(form: MapForm): readonly Options[] {
+  const thresholdMapForm: MapForm = form.get('threshold') as MapForm;
+  if (getFormValueOrDefault(thresholdMapForm, 'seasonality') === WEEKLY) {
     return ruleAggregationForWeeklySeasonalityOptions;
   }
   return ruleAggregationOptions;

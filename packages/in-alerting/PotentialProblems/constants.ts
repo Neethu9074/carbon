@@ -3,4 +3,4 @@
  * (c) Copyright Instana Inc.
  */
 
-export const defaultGranularity = 600000;
+export const defaultGranularity: number = 600000;
