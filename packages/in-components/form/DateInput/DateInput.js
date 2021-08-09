@@ -9,18 +9,20 @@ import 'react-day-picker/lib/style.css';
 import { assign } from 'lodash';
 import React from 'react';
 
+import { keyCodes } from '@instana/components';
+
 import { formatDate, parseDate } from 'in-services/formatters/date';
 import { dateValidator } from 'in-services/validators/date';
 import Overlay from 'in-components/overlays/Overlay';
 import { identity } from 'in-services/util/function';
 import { isBlank } from 'in-services/util/string';
-import { isTab } from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
 import { t, activeLanguage } from 'in-i18n';
 import theme from 'in-themes';
 
 import locals from './DateInput.mless';
 
+const { isTab } = keyCodes;
 const modifiersStyles = {
   selected: { backgroundColor: theme.lib.colors.teal800 },
   current: { color: theme.lib.colors.N900Primary }
