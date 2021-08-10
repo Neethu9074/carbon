@@ -56,7 +56,7 @@ const columnDefinitions = [
     getContent({ message }) {
       return (
         <CopyToClipboard getText={() => message}>
-          {copyToClipboardRef => <IconButton ref={copyToClipboardRef} type="lib_actions_copy" />}
+          {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize="s" type="lib_actions_copy" />}
         </CopyToClipboard>
       );
     }
