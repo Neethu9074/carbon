@@ -23,8 +23,4 @@
   .collapsedMessage {
     .ellipsis();
   }
-
-  .expandButton {
-    height: 2.625rem;
-  }
 }

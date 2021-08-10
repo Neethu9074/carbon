@@ -7,7 +7,6 @@ import React, { useState, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames';
 
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
-import IconButton from 'in-components/IconButton/IconButton';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 
 import locals from './LogMessageColumn.mless';
@@ -47,12 +46,6 @@ export default function LogMessageColumn(props) {
           setIsExpanded={setIsExpanded}
         />
       </span>
-
-      <IconButton
-        className={locals.expandButton}
-        type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-        onClick={() => setIsExpanded(!isExpanded)}
-      />
     </div>
   );
 }

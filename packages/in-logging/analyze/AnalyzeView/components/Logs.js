@@ -16,6 +16,8 @@ import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { LOG_CUSTOM, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { formatDateTime } from 'in-services/formatters/date';
+import IconButton from 'in-components/IconButton/IconButton';
+import CopyToClipboard from 'in-components/CopyToClipboard';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 
@@ -46,6 +48,17 @@ const columnDefinitions = [
   {
     id: 'log',
     getContent: LogMessageColumn
+  },
+  {
+    id: 'expandIcon',
+    width: '2.5rem',
+    getContent({ message }) {
+      return (
+        <CopyToClipboard getText={() => message}>
+          {copyToClipboardRef => <IconButton ref={copyToClipboardRef} type="lib_actions_copy" />}
+        </CopyToClipboard>
+      );
+    }
   }
 ];
 
@@ -76,6 +89,7 @@ export default function Logs(props) {
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       tracker={tracker}
+      renderNestedContent={() => <span></span>}
     />
   );
 
