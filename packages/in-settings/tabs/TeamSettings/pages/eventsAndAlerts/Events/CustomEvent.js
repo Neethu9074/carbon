@@ -86,7 +86,7 @@ const Form = entityForm(function DetailsForm(props) {
   const entityType = getPluginName(entity.get('entityType'), 1) ?? '';
   const isOneOfMigratableEntityTypes = ['application', 'service', 'endpoint'].includes(entityType.toLocaleLowerCase());
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
-  const isMigrateableDfqScope = !entity.get('query', '').startsWith('event.');
+  const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
 
   const isMigratable =
     deprecateAppDataLegacyEvents &&
