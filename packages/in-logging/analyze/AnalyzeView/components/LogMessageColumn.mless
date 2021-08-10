@@ -4,7 +4,6 @@
  */
 
 @import '~in-themes/mixins.less';
-@import '~in-themes/active.less';
 
 :local {
   .messageWrapper {
@@ -23,5 +22,9 @@
 
   .collapsedMessage {
     .ellipsis();
+  }
+
+  .expandButton {
+    height: 2.625rem;
   }
 }

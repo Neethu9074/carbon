@@ -49,6 +49,7 @@ export default function LogMessageColumn(props) {
       </span>
 
       <IconButton
+        className={locals.expandButton}
         type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
         onClick={() => setIsExpanded(!isExpanded)}
       />
