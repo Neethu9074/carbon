@@ -37,7 +37,6 @@ import locals from './EventsListRow.mless';
 export default function EventRow({ selectedEventId, onItemClicked, isDenseList, timeScale, timeConfig, event }) {
   const active = event.id === selectedEventId;
   const onClick = () => onItemClicked(event.id);
-
   if (isDenseList) {
     return (
       <EventsListRowDense key={event.id} event={event} active={active} onClick={onClick} timeConfig={timeConfig} />

@@ -177,6 +177,7 @@ export default function Jobs(props) {
   // isLoading is true when data is loaded for the first time and when MORE data is loading
   // Here UL is returned if there is previously loaded data otherwise LoadingIndicator is returned
   const [{ orderBy, orderDirection, page, query }, setUrlState] = useUrlState(urlStateDefinition);
+  // TODO: update global searchinput or sortingconfigurator to align their heights
   return (
     <Stack>
       <HorizontalFlexWrapper className={locals.header}>
