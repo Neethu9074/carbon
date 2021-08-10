@@ -92,7 +92,9 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
           </div>
           <div>
             <FormGroup className={locals.formGroup} withoutBottomMargin>
-              <Label>{t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfUsers')}</Label>
+              <Label>
+                {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigPercentageOfUsers')}
+              </Label>
               <Input
                 className={locals.input}
                 type="number"

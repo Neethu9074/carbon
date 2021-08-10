@@ -539,6 +539,7 @@
         "timeThresholdConfigNumberOfRequests": "# of Requests",
         "timeThresholdConfigMinutes": "{{min}} min",
         "timeThresholdConfigNumberOfUsers": "# of Users",
+        "timeThresholdConfigPercentageOfUsers": "% of Users",
         "timeThresholdConfigPercentageOfRequestsThreshold": "Percentage of Requests Threshold",
         "timeThresholdConfigOff": "off",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Please provide a number >= 1",
