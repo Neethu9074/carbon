@@ -1,0 +1,15 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/mixins.less';
+
+:local {
+  .pill {
+    min-width: 3.125rem;
+    max-width: 3.125rem;
+
+    .ellipsis();
+  }
+}

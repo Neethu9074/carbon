@@ -5,15 +5,29 @@
 
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import rpt from 'prop-types';
 
 import { lighten } from 'in-services/formatters/color';
 
+// @ts-ignore
 import locals from './Pill.mless';
 
 export const kinds = ['primary', 'info'];
 
-function Pill({ id, className, children, color = '#000000', lightenOpacity = 0.1, kind = 'bold', ...props }, ref) {
+type Kind = 'primnary' | 'info' | string;
+
+interface PillProps {
+  id?: string;
+  className?: string;
+  children: React.ReactNode;
+  color?: string;
+  lightenOpacity?: number;
+  kind?: Kind;
+}
+
+export default forwardRef<HTMLSpanElement, PillProps>(function Pill(
+  { id, className, children, color = '#000000', lightenOpacity = 0.1, kind = 'bold', ...props }: PillProps,
+  ref
+) {
   let style;
   // For users leveraging our pre-defined kinds, we do not support the color and lightenOpacity props.
   // Instead, it works similar to our Button component.
@@ -42,21 +56,4 @@ function Pill({ id, className, children, color = '#000000', lightenOpacity = 0.1
       {children}
     </span>
   );
-}
-
-export default forwardRef(Pill);
-
-Pill.propTypes = {
-  id: rpt.string,
-  kind: rpt.string,
-  color: rpt.string,
-  className: rpt.string,
-  children: rpt.node.isRequired,
-  lightenOpacity: rpt.number
-};
-
-Pill.defaultProps = {
-  kind: 'bold',
-  color: '#000000',
-  lightenOpacity: 0.1
-};
+});

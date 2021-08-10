@@ -3452,7 +3452,7 @@ export interface TagCatalog {
 
 export interface TagFilter extends TagFilterExpressionElement {
   readonly booleanValue?: boolean;
-  readonly entity: TagFilterEntity;
+  readonly entity?: TagFilterEntity;
   readonly key?: string;
   readonly name: string;
   readonly numberValue?: number;

@@ -15,7 +15,6 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { formatDateTime } from 'in-services/formatters/date';
-import HealthDot from 'in-components/health/HealthDot';
 import getLogs from 'in-logging/subscriptions/getLogs';
 
 import locals from './Logs.mless';
@@ -23,14 +22,10 @@ import locals from './Logs.mless';
 const columnDefinitions = [
   {
     id: 'logLevel',
-    width: '2.5rem',
+    width: '4.5rem',
     widthInAbsoluteUnit: true,
     getContent({ tags }) {
-      return (
-        <LogHealthColumn tags={tags}>
-          {({ severity }) => <HealthDot severity={severity} iconSize={10} />}
-        </LogHealthColumn>
-      );
+      return <LogHealthColumn tags={tags} />;
     }
   },
   {

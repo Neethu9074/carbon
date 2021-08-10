@@ -13,9 +13,10 @@ import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealth
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import { LOG_CUSTOM, LOG_LEVEL, LOG_TRACE_ID } from 'in-logging/queryBuilder';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
+import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { formatDateTime } from 'in-services/formatters/date';
-import HealthDot from 'in-components/health/HealthDot';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 
@@ -24,13 +25,13 @@ import locals from './Logs.mless';
 const columnDefinitions = [
   {
     id: 'logLevel',
-    width: '2.5rem',
+    width: '4.5rem',
     widthInAbsoluteUnit: true,
-    getContent({ tags }) {
+    getContent({ tags, onSelectTagHref }) {
       return (
-        <LogHealthColumn tags={tags}>
-          {({ severity }) => <HealthDot className={locals.dot} severity={severity} iconSize={10} />}
-        </LogHealthColumn>
+        <div className={locals.healthColumn}>
+          <LogHealthColumn tags={tags} onSelectTagHref={onSelectTagHref} />
+        </div>
       );
     }
   },
@@ -56,6 +57,10 @@ const tracker = {
 };
 
 export default function Logs(props) {
+  const onSelectTagHref = props.getHrefWithAdditionalTagFilter
+    ? tag => props.getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
+    : undefined;
+
   let content = (
     <UngroupedViewList
       {...props}
@@ -71,6 +76,7 @@ export default function Logs(props) {
       DetailView={DetailView}
       getDetailData={detailId => getLog({ itemId: detailId })}
       CustomHeaderActions={TagSelector}
+      onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       tracker={tracker}
     />
@@ -98,4 +104,12 @@ function getTableData(props) {
     tagFilterExpression: backendQueryModel,
     tags: [...selectedTags, LOG_TRACE_ID, LOG_CUSTOM, LOG_LEVEL]
   });
+}
+
+function getTagExpressionWithTag(tag) {
+  return {
+    ...tag,
+    type: TAG,
+    operator: EQUALS
+  };
 }

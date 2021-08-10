@@ -6,22 +6,25 @@
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { EQUALS, NOT_EMPTY, ENDS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { TagFilter } from 'in-types';
 
-export function getTraceIdTagFilter(traceId) {
+export function getTraceIdTagFilter(traceId: string): TagFilter {
   // Until the transition to 128bit trace IDs is complete, only the ID's last 64 bits should
   // be used for finding traces by ID
   traceId = traceId.slice(-16);
-  return getValueMatchTagFilter({ name: LOG_TRACE_ID, value: traceId, operator: ENDS_WITH });
+  return getValueMatchTagFilter({ name: LOG_TRACE_ID, value: traceId, operator: ENDS_WITH, type: 'STRING' });
 }
 
-export function getSpanIdTagFilter(spanId) {
-  return spanId ? getValueMatchTagFilter({ name: LOG_SPAN_ID, value: spanId }) : getEmptyTagFilterExpression();
+export function getSpanIdTagFilter(spanId: string) {
+  return spanId
+    ? getValueMatchTagFilter({ name: LOG_SPAN_ID, value: spanId, operator: EQUALS, type: 'STRING' })
+    : getEmptyTagFilterExpression();
 }
 
-export function getValueMatchTagFilter(tagFilter) {
-  const { name, key, tagType, value, operator = EQUALS, type = 'TAG_FILTER' } = tagFilter;
+export function getValueMatchTagFilter(tagFilter: TagFilter) {
+  const { name, key, value, operator = EQUALS, type = 'TAG_FILTER' } = tagFilter;
   return sanitizeTagFilter(
-    tagType === 'KEY_VALUE_PAIR' && !key
+    type === 'KEY_VALUE_PAIR' && !key
       ? { type, operator: NOT_EMPTY, name, key: value }
       : { type, operator, name, key, value }
   );

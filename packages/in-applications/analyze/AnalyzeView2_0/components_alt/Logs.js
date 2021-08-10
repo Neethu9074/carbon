@@ -29,7 +29,6 @@ import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import IconButton from 'in-components/IconButton/IconButton';
 import { formatDateTime } from 'in-services/formatters/date';
-import HealthDot from 'in-components/health/HealthDot';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import Overlay from 'in-components/overlays/Overlay';
 import Tooltip from 'in-components/Tooltip';
@@ -41,15 +40,11 @@ const columnDefinitions = [
   {
     id: 'logLevel',
     label: 'Level',
-    width: '2rem',
+    width: '4.5rem',
     widthInAbsoluteUnit: true,
     sortable: false,
     getContent({ tags }) {
-      return (
-        <LogHealthColumn tags={tags}>
-          {({ severity }) => <HealthDot severity={severity} iconSize={10} />}
-        </LogHealthColumn>
-      );
+      return <LogHealthColumn tags={tags} />;
     }
   },
   {

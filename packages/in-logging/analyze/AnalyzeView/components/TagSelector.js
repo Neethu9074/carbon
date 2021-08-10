@@ -10,8 +10,8 @@ import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
 import { selectedChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import DropdownButton from 'in-components/Button/DropdownButton';
+import { LOG_MESSAGE, LOG_LEVEL } from 'in-logging/queryBuilder';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import { LOG_MESSAGE } from 'in-logging/queryBuilder';
 import Overlay from 'in-components/overlays/Overlay';
 import SearchInput from 'in-components/SearchInput';
 import { t } from 'in-i18n';
@@ -107,7 +107,7 @@ function mapToName({ name }) {
 }
 
 function isAllowedLogTag({ name }) {
-  return name !== LOG_MESSAGE;
+  return name !== LOG_MESSAGE && name !== LOG_LEVEL;
 }
 
 function getLabelFromTreeOrCatalog(name, tagCatalog, tagTree) {

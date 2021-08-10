@@ -2,5 +2,5 @@
   "name": "Pill",
   "version": "0.0.0",
   "private": true,
-  "main": "./Pill.js"
+  "main": "./Pill.tsx"
 }

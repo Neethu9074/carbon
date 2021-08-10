@@ -131,7 +131,7 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, backendQueryMo
   const topGroups = items.slice(0, 5).map(({ label }) => label);
 
   const tag = groupBy.groupbyTag;
-  const tagType = filteringTagCatalog.tags.find(({ name }) => name === tag)?.type ?? 'STRING';
+  const type = filteringTagCatalog.tags.find(({ name }) => name === tag)?.type ?? 'STRING';
   const key = groupBy.groupbyTagSecondLevelKey;
 
   return (
@@ -140,9 +140,7 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, backendQueryMo
       renderLegend={false}
       config={{
         y1: {
-          metrics: topGroups.map(label =>
-            getMetricConfig({ backendQueryModel, metric, tag, value: label, key, tagType })
-          ),
+          metrics: topGroups.map(label => getMetricConfig({ backendQueryModel, metric, tag, value: label, key, type })),
           formatter: 'number.compact',
           renderer: 'stackedBar'
         },
@@ -153,21 +151,21 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, backendQueryMo
   );
 }
 
-function getMetricConfig({ backendQueryModel, metric, tag, value, label, key, tagType }) {
+function getMetricConfig({ backendQueryModel, metric, tag, value, label, key, type }) {
   return {
     metric: metric.metricId,
     aggregation: metric.aggregationId,
     label: label ?? value,
     source: 'DISTRIBUTED_LOGS_V2',
-    tagFilterExpression: addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModel, key, tagType })
+    tagFilterExpression: addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModel, key, type })
 
     // granularity and timeConfig are send automatically by the chart impl
   };
 }
 
-function addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModel, key, tagType }) {
+function addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModel, key, type }) {
   return {
-    elements: [getValueMatchTagFilter({ name: tag, key, tagType, value }), backendQueryModel],
+    elements: [getValueMatchTagFilter({ name: tag, key, type, value }), backendQueryModel],
     logicalOperator: 'AND',
     type: 'EXPRESSION'
   };

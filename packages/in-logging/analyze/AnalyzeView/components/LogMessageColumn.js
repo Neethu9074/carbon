@@ -8,26 +8,30 @@ import classNames from 'classnames';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
-import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { LOG_LEVEL, LOG_TRACE_ID } from 'in-logging/queryBuilder';
 import IconButton from 'in-components/IconButton/IconButton';
 import useResizeObserver from 'in-hooks/useResizeObserver';
-import { LOG_TRACE_ID } from 'in-logging/queryBuilder';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './LogMessageColumn.mless';
 
 export default function LogMessageColumn(props) {
-  const { itemId, tags, message, selectedTags, getHrefToGroupedView, getHrefWithAdditionalTagFilter } = props;
+  const {
+    itemId,
+    tags,
+    message,
+    onSelectTagHref,
+    selectedTags,
+    getHrefToGroupedView,
+    getHrefWithAdditionalTagFilter
+  } = props;
 
-  const tagListTags = tags.filter(({ name }) => selectedTags.indexOf(name) >= 0);
-
-  const onSelectTagHref = getHrefWithAdditionalTagFilter
-    ? tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
-    : undefined;
+  const tagListTags = tags
+    .filter(({ name }) => selectedTags.indexOf(name) >= 0)
+    .filter(({ name }) => name !== LOG_LEVEL);
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
@@ -80,14 +84,6 @@ export default function LogMessageColumn(props) {
       </HorizontalFlexWrapper>
     </div>
   );
-}
-
-function getTagExpressionWithTag(tag) {
-  return {
-    ...tag,
-    type: TAG,
-    operator: EQUALS
-  };
 }
 
 function TraceIcon({ tags }) {

@@ -17,7 +17,7 @@
     padding: 0.5rem 0 0.5rem 0;
   }
 
-  .dot {
-    margin: 0.75rem 0 0 0.5rem;
+  .healthColumn {
+    margin: 0.5rem 0 0 0.5rem;
   }
 }

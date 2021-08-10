@@ -3,6 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+interface RGB {
+  r: number;
+  g: number;
+  b: number;
+}
+
 /**
  * takes three parameters for red green and blue and transformates them into
  * a string e.g. 0f3ec1
@@ -10,7 +16,7 @@
  * @param {r, g ,b} the values for red green and blue between 0 and 255.
  * @returns {string} the encoded color value as hex.
  */
-export function rgbToHex(r, g, b) {
+export function rgbToHex(r: number, g: number, b: number): string {
   const hex = (r << 16) ^ (g << 8) ^ (b << 0);
   return '#' + ('000000' + hex.toString(16)).slice(-6);
 }
@@ -22,8 +28,8 @@ export function rgbToHex(r, g, b) {
  * @param {style} the hex string to be transformed.
  * @returns {r, g, b} the encoded color values [0, 255].
  */
-export function hexToRGB(style) {
-  const color = /^#([0-9a-f]{6})$/i.exec(style);
+export function hexToRGB(style: string): RGB {
+  const color = /^#([0-9a-f]{6})$/i.exec(style) ?? [];
   let hex = parseInt(color[1], 16);
 
   hex = Math.floor(hex);
@@ -37,7 +43,7 @@ export function hexToRGB(style) {
 /**
  * as hexToRGB, but values are between [0, 1]
  */
-export function hexToRGBNormalized(style) {
+export function hexToRGBNormalized(style: string): RGB {
   const rgb = hexToRGB(style);
   return { r: rgb.r / 255, g: rgb.g / 255, b: rgb.b / 255 };
 }
@@ -47,7 +53,7 @@ export function hexToRGBNormalized(style) {
  * @param {hex} the color as hex string
  * @param {opacity} the mix values between [0, 1]. 0 means pure white, 1 pure color, 0.5 means 50:50, ...
  */
-export function lighten(hex, opacity) {
+export function lighten(hex: string, opacity: number): string {
   const rgb = hexToRGB(hex);
   rgb.r = 255 * (1 - opacity) + rgb.r * opacity;
   rgb.g = 255 * (1 - opacity) + rgb.g * opacity;
