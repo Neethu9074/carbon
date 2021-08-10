@@ -436,6 +436,8 @@
   "pluginName_hAProxy_1": "HAProxy",
   "pluginName_hAProxy_2": "HAProxy",
   "pluginName_hAProxy": "HAProxy",
+  "pluginName_traefik": "Traefik",
+  "pluginName_traefik_plural": "Traefik",
   "pluginName_haskellRuntimePlatform_plural": "Haskell Applications",
   "pluginName_haskellRuntimePlatform_0": "Haskell Applications",
   "pluginName_haskellRuntimePlatform_1": "Haskell Applications",
@@ -7100,6 +7102,23 @@
       "dashboard": {
         "haProxyIsNotConfiguredForSocketAccessPleaseConfigureStatsSocketToPointToAUnixSocket": "HAProxy is not configured for socket access. Please configure <code>{{code}}</code> to point to a UNIX socket.",
         "eGStatsSocketRunHaproxyAdmin1SockMode660LevelAdminProcess1": "E.g. <code>{{code}}</code>"
+      }
+    },
+    "traefik":{
+      "traefik": "Traefik",
+      "processId": "Process ID",
+      "version":"Version",
+      "troubleshootingDocs": "Troubleshooting docs",
+      "traefikMetricsApiNotAccessible": "The metrics API URL <code>{{url}}</code> of this Traefik process is not accessible from the host agent.",
+      "traefikMetricsApiNotEnabled": "Prometheus metrics are not enabled in the configuration.",
+      "traefikTracingNotEnabled": "Instana tracing is not enabled in the configuration.",
+      "config": "Config",
+      "requests": "Requests",
+      "dashboard": {
+        "requestsPerSecond": "Requests per second",
+        "configLastReloadSuccess" : "Config's last reload success",
+        "configReloadsTotal" : "Number of config reloads",
+        "entryPoints": "Entrypoints"
       }
     },
     "haskellRuntimePlatform": {
