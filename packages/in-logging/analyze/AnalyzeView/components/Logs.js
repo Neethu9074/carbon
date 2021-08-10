@@ -10,12 +10,11 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
-import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
-import { LOG_CUSTOM, LOG_LEVEL, LOG_TRACE_ID } from 'in-logging/queryBuilder';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { LOG_CUSTOM, LOG_LEVEL } from 'in-logging/queryBuilder';
 import { formatDateTime } from 'in-services/formatters/date';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
@@ -66,16 +65,14 @@ export default function Logs(props) {
       {...props}
       Sidebar={FacetedSearchPresenter}
       useCursorPaginationStrategy={useLogsCursorPagination}
-      additionalGetDataDependencies={[props.selectedTags]}
       classNames={{ listItem: locals.listItem }}
       withoutSorting
       columnDefinitions={columnDefinitions}
-      getData={params => getTableData({ ...params, selectedTags: props.selectedTags })}
+      getData={params => getTableData(params)}
       getId={item => item.itemId}
       withoutListItemLinkToDetails
       DetailView={DetailView}
       getDetailData={detailId => getLog({ itemId: detailId })}
-      CustomHeaderActions={TagSelector}
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       tracker={tracker}
@@ -94,7 +91,7 @@ function DetailView() {
 }
 
 function getTableData(props) {
-  const { timeConfig, afterKey, backendQueryModel, loadAfterCount, selectedTags, retrievalSize } = props;
+  const { timeConfig, afterKey, backendQueryModel, loadAfterCount, retrievalSize } = props;
 
   return getLogs({
     timeConfig,
@@ -102,7 +99,7 @@ function getTableData(props) {
     afterKey,
     loadAfterCount,
     tagFilterExpression: backendQueryModel,
-    tags: [...selectedTags, LOG_TRACE_ID, LOG_CUSTOM, LOG_LEVEL]
+    tags: [LOG_CUSTOM, LOG_LEVEL]
   });
 }
 

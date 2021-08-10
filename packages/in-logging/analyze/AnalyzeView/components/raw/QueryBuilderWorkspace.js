@@ -5,12 +5,10 @@
 
 import React from 'react';
 
-import { Message } from '@instana/components';
-import { Stack } from '@instana/components';
+import { Message, Stack } from '@instana/components';
 
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
-import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
 import Footer from 'in-components/Footer';
@@ -30,7 +28,6 @@ export default function LoggingQueryBuilderWorkspace(props) {
             QueryBuilder={LogsQueryBuilder}
             useLastValidStateWhenErroneous
             tracking={tracking}
-            actions={<TagSelector {...props} />}
             hasError={!isValid}
           />
         </Sections>
