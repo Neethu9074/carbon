@@ -10,6 +10,7 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
+import LogTagsTable from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -89,7 +90,7 @@ export default function Logs(props) {
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       tracker={tracker}
-      renderNestedContent={() => <span></span>}
+      renderNestedContent={(_, item) => <LogTagsTable item={item} />}
     />
   );
 
