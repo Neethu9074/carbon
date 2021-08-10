@@ -9,9 +9,6 @@ import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import { addFacetItem, removeFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { MultiSelect } from 'in-components/AnalyzeView/FacetedFilters/MultiSelect';
-import { useSuggestions } from 'in-components/AnalyzeView/useSuggestions';
-import { isLoading } from 'in-services/entityUtils';
-import { hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 const ua2FacetedTracker = {
@@ -25,6 +22,7 @@ export default function FacetedFilterMultiSelect(props) {
     tag,
     entity,
     facets,
+    formModelWithFacets,
     updateFacets,
     customLabelMapper,
     openByDefault,
@@ -39,24 +37,15 @@ export default function FacetedFilterMultiSelect(props) {
   const [selectedValues, setSelectedValues] = useState(facets[tag] ?? []);
   const [isDisabledWithNoValues, setIsDisabledWithNoValues] = useState(false);
 
-  const tagSuggestions$ = useSuggestions({
-    ...props,
-    valueFilter
-  });
-
   useEffect(() => {
     setSelectedValues(facets[tag] ?? []);
   }, [facets, tag]);
 
   useEffect(() => {
-    setIsDisabledWithNoValues(
-      valueFilter === '' &&
-        !isLoading(tagSuggestions$) &&
-        selectedValues.length === 0 &&
-        tagSuggestions$?.data?.items?.length === 0 &&
-        !hasError(tagSuggestions$)
-    );
-  }, [valueFilter, selectedValues, tagSuggestions$]);
+    // Every time there's a change in formmodel and/or facets
+    // enable facet again to check for possible suggestions
+    setIsDisabledWithNoValues(false);
+  }, [formModelWithFacets]);
 
   const addItemToSelection = newItem => {
     updateFacets(addFacetItem(facets, tag, newItem));
@@ -92,9 +81,6 @@ export default function FacetedFilterMultiSelect(props) {
         {...props}
         title={title}
         tag={tag}
-        isLoading={tagSuggestions$?.progress?.loading}
-        suggestions={tagSuggestions$?.data?.items}
-        errors={tagSuggestions$?.errors}
         selectedValues={selectedValues}
         addToSelection={addItemToSelection}
         removeFromSelection={removeItemFromSelection}
