@@ -9,7 +9,6 @@ import { Message, Stack } from '@instana/components';
 
 import {
   ua2ApiQueryPressedTracker,
-  ua2ChartChangedTracker,
   ua2GroupChangedTracker,
   ua2NestingDepthTracker,
   ua2QueryBuilderFilterAddedTracker
@@ -20,15 +19,12 @@ import {
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
-import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import * as groupingConfiguratorsByDataSource from 'in-mobile-apps/groupingConfigurators';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
-import { metricRenderers } from 'in-mobile-apps/analyze/AnalyzeView2_0/metrics';
 import * as queryBuildersByDataSource from 'in-mobile-apps/queryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
-import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -48,9 +44,7 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
     dataSource,
     groupBy,
     onGroupByChange,
-    useLastValidStateWhenErroneous,
-    chartedMetrics,
-    chartableDataSeries
+    useLastValidStateWhenErroneous
   } = props;
 
   return (
@@ -86,21 +80,6 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
               }}
             />
 
-            <Charting
-              {...props}
-              chartedMetrics={chartedMetrics.map(chartedMetric => ({
-                ...chartedMetric,
-                rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
-              }))}
-              unifiedMetricsSource="MOBILE_APP"
-              mapMetricConfiguration={mapMetricConfiguration}
-              forceLoadingIndicator={isGrouped && chartableDataSeries == null}
-              tracking={{
-                onChartChanged: ({ metricId, aggregationId }) =>
-                  ua2ChartChangedTracker({ dataSource, metric: metricId, aggregation: aggregationId })
-              }}
-            />
-
             <ActionSection
               right={
                 <ApiQueryAction
@@ -125,15 +104,4 @@ export default function MobileAppsQueryBuilderWorkspace(props) {
       <Footer />
     </Sticky>
   );
-}
-
-function mapMetricConfiguration(metricConfiguration, { dataSource }) {
-  return {
-    ...metricConfiguration,
-    tagFilterExpression: addDataSourceToBackendQueryModel({
-      backendQueryModel: metricConfiguration.tagFilterExpression,
-      dataSource
-    }),
-    beaconType: dataSource
-  };
 }

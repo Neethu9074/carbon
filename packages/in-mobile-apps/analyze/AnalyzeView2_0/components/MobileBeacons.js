@@ -11,6 +11,7 @@ import { FacetedSearchPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/co
 import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
+import { ChartsPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
@@ -167,6 +168,7 @@ export default function MobileBeacons(props) {
     <UngroupedViewTable
       {...props}
       Sidebar={FacetedSearchPresenter}
+      Chart={ChartsPresenter}
       getItemName={({ count }) =>
         t('in-mobile-apps:dataSource', {
           context: props.dataSource,

@@ -7,11 +7,10 @@ import React from 'react';
 
 import { Message, Stack } from '@instana/components';
 
-import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/components/LogsDistributionChartSection';
-import { chartChanged, filterAdded, groupAdded, queryChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { filterAdded, groupAdded, queryChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
@@ -63,15 +62,6 @@ export default function LoggingQueryBuilderWorkspace(props) {
                 onGroupAdded: group => groupAdded({ group: group.groupbyTag })
               }}
             />
-
-            {isValid && (
-              <LogsDistributionChartSection
-                {...props}
-                tracking={{
-                  onChartChanged: chartConfig => chartConfig && chartChanged(chartConfig)
-                }}
-              />
-            )}
           </Sections>
           {!isValid && !isLoading && (
             <Message type="error" withIcon small>

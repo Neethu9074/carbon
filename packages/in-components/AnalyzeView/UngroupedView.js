@@ -46,7 +46,8 @@ export default function UngroupedAnalyzeView(props) {
     withoutHeader,
     withSamplingTooltip,
     ungroupedViewConfiguration,
-    hideMetricAndSortingConfigurator
+    hideMetricAndSortingConfigurator,
+    Chart
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -93,6 +94,7 @@ export default function UngroupedAnalyzeView(props) {
     <Stack direction={'horizontal'} gap={'disabled'}>
       <Sidebar {...props} />
       <div className={locals.resultContainer}>
+        <Chart {...props} />
         {!withoutHeader && (
           <Header
             {...props}

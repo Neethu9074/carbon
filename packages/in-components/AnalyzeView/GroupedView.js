@@ -12,11 +12,11 @@ import {
   ColumnizedContent,
   KeyValue,
   Li,
+  LiHorizontalIndicator,
   LiLoadMore,
   Stack,
   SvgIcon,
-  Ul,
-  LiHorizontalIndicator
+  Ul
 } from '@instana/components';
 import { empty } from '@instana/observables';
 
@@ -88,7 +88,8 @@ export default function GroupedAnalyzeView(props) {
     withoutChartGroupMarkers = false,
     chartedMetrics,
     tracker,
-    groupingTagCatalog
+    groupingTagCatalog,
+    Chart
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -252,6 +253,7 @@ export default function GroupedAnalyzeView(props) {
           excludeMissingGroupingTagFilterExpression={excludeMissingGroupingTagFilterExpression}
         />
         <div className={locals.resultContainer}>
+          <Chart {...props} />
           <Header
             {...props}
             sortOptions={withoutSorting ? undefined : sortOptions}

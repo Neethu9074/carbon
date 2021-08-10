@@ -9,6 +9,7 @@ import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/h
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
+import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import { LOG_CUSTOM, LOG_LEVEL, LOG_TRACE_ID } from 'in-logging/queryBuilder';
@@ -65,6 +66,7 @@ export default function Logs(props) {
     <UngroupedViewList
       {...props}
       Sidebar={FacetedSearchPresenter}
+      Chart={ChartsPresenter}
       useCursorPaginationStrategy={useLogsCursorPagination}
       additionalGetDataDependencies={[props.selectedTags]}
       classNames={{ listItem: locals.listItem }}

@@ -7,6 +7,7 @@ import React, { useCallback } from 'react';
 
 import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
+import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTraceGroups from 'in-subscription/application/getTraceGroups';
@@ -20,6 +21,7 @@ const getDataPerDataSource = {
 
 export default function GroupedResults(props) {
   const { hiddenCalls, previewEnabled, onChangePreviewEnabled } = props;
+
   const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
     hiddenCalls,
     previewEnabled
@@ -34,6 +36,7 @@ export default function GroupedResults(props) {
       <GroupedView
         {...props}
         Sidebar={FacetedSearchPresenter}
+        Chart={ChartsPresenter}
         itemlabelColumnId="name"
         getData={getData}
         getLabel={getLabel}

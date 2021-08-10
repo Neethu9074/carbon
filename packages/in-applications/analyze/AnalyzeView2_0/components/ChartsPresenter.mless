@@ -6,6 +6,10 @@
 @import '~in-themes/active.less';
 
 :local {
+  .chartWrapper {
+    margin-bottom: 24px;
+  }
+
   .latencyDistribution {
     border-top: 1px solid @lib__colors__N400;
     padding: 1rem;
