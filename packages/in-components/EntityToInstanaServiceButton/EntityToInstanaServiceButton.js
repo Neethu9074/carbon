@@ -18,6 +18,7 @@ import { getServiceDashboard } from 'in-applications/navigation/paths';
 import EntityWithType from 'in-components/EntityWithType';
 import Overlay from 'in-components/overlays/Overlay';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 import locals from './EntityToInstanaServiceButton.mless';
 
@@ -37,7 +38,7 @@ export function EntityToInstanaServicesButton({ instanaServices }) {
     <Overlay align="bottomLeft" content={ServiceList} props={{ instanaServices }}>
       {({ toggle, isOpen }) => (
         <Button className={locals.button} kind="primaryv2" icon="lib_application_service" onClick={toggle}>
-          Services ({instanaServices.length})
+          {t('in-components:entityToInstanaServiceButton.services')} ({instanaServices.length})
           <SvgIcon className={locals.icon} type={isOpen ? 'lib_arrow_drop_up' : 'lib_arrow_drop_down'} />
         </Button>
       )}

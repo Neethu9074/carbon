@@ -63,6 +63,15 @@
     "registryCall_0": "Calls",
     "registryCall_1": "Calls",
     "registryCall_2": "Calls"
+  },
+
+  "components": {
+    "codeRetrievalDialog": {
+      "file": "File",
+      "line": "Line",
+      "decompilationNotFullySupported": "Decompilation of class file containing some features in recent Java versions is not fully supported.",
+      "error": "Error"
+    }
   }
 
 }

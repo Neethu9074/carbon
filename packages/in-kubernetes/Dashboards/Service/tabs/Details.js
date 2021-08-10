@@ -53,7 +53,7 @@ const navigationItems = [
   {
     path: `${serviceDashboardDetailsFullyQualified}/ports`,
     icon: 'lib_kubernetes_port',
-    renderLabel: ({ resource }) => `Ports (${resource.ports.length})`,
+    renderLabel: ({ resource }) => `${t('in-kubernetes:dashboards.ports')} (${resource.ports.length})`,
     component: PortsList
   },
   {

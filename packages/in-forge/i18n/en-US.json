@@ -2146,6 +2146,7 @@
     "labelFlush": "Flush",
     "labelSet": "Set",
     "labelList": "List",
+    "labelError": "Error",
     "infoTitle": {
       "arn": "ARN",
       "name": "Name",
@@ -10623,6 +10624,9 @@
     "clickHouseDatabase": {
       "clickHouseServer": "ClickHouse Server",
       "settings": "Settings"
+    },
+    "packageRetrieval": {
+      "package": "Package"
     }
   },
   "tracing": {
