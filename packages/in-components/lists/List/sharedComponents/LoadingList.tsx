@@ -6,12 +6,25 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { LoadingSkeleton } from '@instana/components';
+import { ListSizes, LoadingSkeleton } from '@instana/components';
 import { Ul, Li } from '@instana/components';
 
+// @ts-ignore
 import locals from './LoadingList.mless';
 
-export default function LoadingList({ className, skeletonClassName, size, numSkeletonRows = 3 }) {
+interface LoadingListProps {
+  className?: string;
+  skeletonClassName?: string;
+  size?: keyof typeof ListSizes;
+  numSkeletonRows?: number;
+}
+
+export default function LoadingList({
+  className,
+  skeletonClassName = '',
+  size,
+  numSkeletonRows = 3
+}: LoadingListProps) {
   const loadingRows = [];
   for (let i = 0; i < numSkeletonRows; i++) {
     loadingRows[i] = (
