@@ -9,4 +9,9 @@
   .value {
     .ellipsis();
   }
+
+  .li {
+    min-height: 2rem;
+    max-height: 2rem;
+  }
 }

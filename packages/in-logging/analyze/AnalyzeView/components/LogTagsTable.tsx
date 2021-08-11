@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Link, Stack, Ul, Li, ColumnizedContent } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -38,6 +38,7 @@ interface GetContentType {
   item: LogItem;
   uniqueTagName: string;
   onSelectTagHref: OnSelectTagHref;
+  isHovered: boolean;
 }
 
 const columnDefinitions = [
@@ -56,7 +57,7 @@ function TagName({ tag, uniqueTagName }: GetContentType) {
   return useResolvedName(uniqueTagName, tag);
 }
 
-function TagValue({ tag, uniqueTagName, onSelectTagHref, item }: GetContentType) {
+function TagValue({ tag, uniqueTagName, isHovered, onSelectTagHref, item }: GetContentType) {
   const value = tag.stringValue ?? '';
   const resolvedLink = useResolvedLink(uniqueTagName, tag, item);
   const resolvedValue = useResolvedValue(uniqueTagName, tag);
@@ -75,19 +76,21 @@ function TagValue({ tag, uniqueTagName, onSelectTagHref, item }: GetContentType)
         <span className={locals.value}>{resolvedValue}</span>
       )}
 
-      <Stack direction="horizontal" gap="xxsmall" align="center">
-        <IconLink
-          iconSize={16}
-          type="lib_actions_filter"
-          href={onSelectTagHref({ name: tag.name ?? '', value, key: tag.key ?? '' })}
-          onClick={() =>
-            filterAdded({ source: 'log message filter button', filter: { name: tag.name, value, key: tag.key } })
-          }
-        />
-        <CopyToClipboard getText={() => resolvedValue}>
-          {(copyToClipboardRef: any) => <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />}
-        </CopyToClipboard>
-      </Stack>
+      {isHovered && (
+        <Stack direction="horizontal" gap="xxsmall" align="center">
+          <IconLink
+            iconSize={16}
+            type="lib_actions_filter"
+            href={onSelectTagHref({ name: tag.name ?? '', value, key: tag.key ?? '' })}
+            onClick={() =>
+              filterAdded({ source: 'log message filter button', filter: { name: tag.name, value, key: tag.key } })
+            }
+          />
+          <CopyToClipboard getText={() => resolvedValue}>
+            {(copyToClipboardRef: any) => <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />}
+          </CopyToClipboard>
+        </Stack>
+      )}
     </Stack>
   );
 }
@@ -127,16 +130,26 @@ interface TagEntryProps extends LogTagsTableProps {
 }
 
 function TagEntry({ tag, item, uniqueTagName, onSelectTagHref }: TagEntryProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
-    <Li size="compact">
+    <Li
+      className={locals.li}
+      size="compact"
+      // This is allowed due to otherProps
+      // @ts-ignore
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <ColumnizedContent
-        /* will be fixed with https://github.com/instana/ui-foundation/pull/168 */
-        /* @ts-ignore */
+        // will be fixed with https://github.com/instana/ui-foundation/pull/168
+        // @ts-ignore
         columnDefinitions={columnDefinitions}
         tag={tag}
         item={item}
         onSelectTagHref={onSelectTagHref}
         uniqueTagName={uniqueTagName}
+        isHovered={isHovered}
       />
     </Li>
   );
