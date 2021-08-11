@@ -7453,7 +7453,7 @@
       "vm": "VM",
       "esXiHost": "ESXi Host",
       "datacenter": "Datacenter",
-      "device": "Device",
+      "deviceOrMount": "Device/Mount Point",
       "gpuUuid": "GPU UUID"
     },
     "httpd": {
