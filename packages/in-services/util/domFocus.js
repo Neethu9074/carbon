@@ -3,10 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import { keyCodes } from '@instana/components';
+
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { isArrowUp, isArrowDown } from 'in-components/keyCodes';
 import { getInteractiveElements } from 'in-services/util/dom';
 import { isSafari } from 'in-services/browser';
+
+const { isArrowUp, isArrowDown } = keyCodes;
 
 // Whether or not the browser respects/supports preventScroll: true
 //

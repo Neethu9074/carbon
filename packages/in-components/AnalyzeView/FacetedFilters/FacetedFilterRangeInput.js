@@ -5,6 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { keyCodes } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { addFacetItem, getRangesFromFacets, removeFacetTag } from 'in-components/AnalyzeView/FacetedFilters/facets';
@@ -13,12 +14,13 @@ import { ua2FacetedSearchFilterAddedTracker } from 'in-components/tracker';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Col, Row } from 'in-components/layout/Grid';
 import FormGroup from 'in-components/form/FormGroup';
-import { isReturn } from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
 import locals from './FacetedFilterRangeInput.mless';
+
+const { isReturn } = keyCodes;
 
 export default function FacetedFilterRangeInput({
   title,

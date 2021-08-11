@@ -8,12 +8,12 @@
 import { expect } from 'chai';
 import { spy } from 'sinon';
 
-import { isPrimaryInteractiveElement } from '@instana/components';
-
 import { onKeyDown } from 'in-components/QueryBuilder/keyboardInteraction';
 
-jest.mock('@instana/components');
-isPrimaryInteractiveElement.mockImplementation(e => e.isPrimaryInteractiveElement);
+jest.mock('@instana/components', () => ({
+  ...jest.requireActual('@instana/components'),
+  isPrimaryInteractiveElement: e => e.isPrimaryInteractiveElement
+}));
 
 describe('in-components/QueryBuilder/keyboardInteraction', () => {
   describe('onKeyDown', () => {

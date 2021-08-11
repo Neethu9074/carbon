@@ -6,8 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button, SvgIcon, keyCodes } from '@instana/components';
 import { on } from '@instana/observables';
 
 import globalHighlightAction from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
@@ -17,14 +16,13 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { emptyArray } from 'in-services/fixedObjects';
-import { isEscape } from 'in-components/keyCodes';
 import Tooltip from 'in-components/Tooltip';
 import { minutes } from 'in-services/time';
 
 import locals from './ContextMenu.mless';
 
+const { isEscape } = keyCodes;
 const MAX_ZOOM_LEVEL = minutes.toMillis(1);
-
 export default class extends React.Component {
   static displayName = 'ContextMenu';
 
