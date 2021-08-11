@@ -9,7 +9,8 @@ import { Link, Stack, Ul, Li, ColumnizedContent } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import { filterAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
-import { getResolvedLink } from 'in-logging/analyze/AnalyzeView/components/linkResolver';
+import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
+import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolvedLink';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { ClickedTag } from 'in-logging/analyze/AnalyzeView/components/types';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
@@ -48,44 +49,45 @@ const columnDefinitions = [
   },
   {
     id: 'value',
-    getContent({ tag, item, presentedName, onSelectTagHref }: GetContentType) {
-      const value = tag.stringValue ?? '';
-      const resolvedLink = getResolvedLink(presentedName)?.(tag, item);
-
-      return (
-        <Stack direction="horizontal" gap="xxsmall" align="center" distribution="spaceBetween">
-          {resolvedLink ? (
-            <Link
-              className={locals.value}
-              href$={resolvedLink}
-              onClick={() => logMessageTagClicked({ tag: { name: tag.name, value, key: tag.key } })}
-            >
-              {value}
-            </Link>
-          ) : (
-            <span className={locals.value}>{value}</span>
-          )}
-
-          <Stack direction="horizontal" gap="xxsmall" align="center">
-            <IconLink
-              iconSize={16}
-              type="lib_actions_filter"
-              href={onSelectTagHref({ name: tag.name ?? '', value, key: tag.key ?? '' })}
-              onClick={() =>
-                filterAdded({ source: 'log message filter button', filter: { name: tag.name, value, key: tag.key } })
-              }
-            />
-            <CopyToClipboard getText={() => value}>
-              {(copyToClipboardRef: any) => (
-                <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />
-              )}
-            </CopyToClipboard>
-          </Stack>
-        </Stack>
-      );
-    }
+    getContent: TagValue
   }
 ];
+
+function TagValue({ tag, presentedName, onSelectTagHref, item }: GetContentType) {
+  const value = tag.stringValue ?? '';
+  const resolvedLink = useResolvedLink(presentedName, tag, item);
+  const resolvedValue = useResolvedValue(presentedName, tag);
+
+  return (
+    <Stack direction="horizontal" gap="xxsmall" align="center" distribution="spaceBetween">
+      {resolvedLink ? (
+        <Link
+          className={locals.value}
+          href={resolvedLink}
+          onClick={() => logMessageTagClicked({ tag: { name: tag.name, value: resolvedValue, key: tag.key } })}
+        >
+          {resolvedValue}
+        </Link>
+      ) : (
+        <span className={locals.value}>{resolvedValue}</span>
+      )}
+
+      <Stack direction="horizontal" gap="xxsmall" align="center">
+        <IconLink
+          iconSize={16}
+          type="lib_actions_filter"
+          href={onSelectTagHref({ name: tag.name ?? '', value, key: tag.key ?? '' })}
+          onClick={() =>
+            filterAdded({ source: 'log message filter button', filter: { name: tag.name, value, key: tag.key } })
+          }
+        />
+        <CopyToClipboard getText={() => resolvedValue}>
+          {(copyToClipboardRef: any) => <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />}
+        </CopyToClipboard>
+      </Stack>
+    </Stack>
+  );
+}
 
 export default function LogTagsTable({ item, onSelectTagHref }: LogTagsTableProps) {
   const logResult = useObservable(() => getLog({ itemId: item.itemId }), [item.itemId]) ?? pendingResult;
@@ -98,27 +100,34 @@ export default function LogTagsTable({ item, onSelectTagHref }: LogTagsTableProp
   }
 
   const tags: LogTag[] = logResult.data?.tags;
-
   return (
     <Ul>
-      {tags.map(tag => {
-        const presentedName = getPresentedName(tag);
-
-        return (
-          <Li key={`${tag.name}-${tag.key}`} size="compact">
-            <ColumnizedContent
-              /* will be fixed with https://github.com/instana/ui-foundation/pull/168 */
-              /* @ts-ignore */
-              columnDefinitions={columnDefinitions}
-              tag={tag}
-              item={item}
-              onSelectTagHref={onSelectTagHref}
-              presentedName={presentedName}
-            />
-          </Li>
-        );
-      })}
+      {tags.map(tag => (
+        <TagEntry key={`${tag.name}-${tag.key}`} tag={tag} item={item} onSelectTagHref={onSelectTagHref} />
+      ))}
     </Ul>
+  );
+}
+
+interface TagEntryProps extends LogTagsTableProps {
+  tag: LogTag;
+}
+
+function TagEntry({ tag, item, onSelectTagHref }: TagEntryProps) {
+  const presentedName = getPresentedName(tag);
+
+  return (
+    <Li size="compact">
+      <ColumnizedContent
+        /* will be fixed with https://github.com/instana/ui-foundation/pull/168 */
+        /* @ts-ignore */
+        columnDefinitions={columnDefinitions}
+        tag={tag}
+        item={item}
+        onSelectTagHref={onSelectTagHref}
+        presentedName={presentedName}
+      />
+    </Li>
   );
 }
 

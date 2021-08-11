@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Observable } from '@instana/observables';
+import { just, Observable } from '@instana/observables';
+import { useObservable } from '@instana/hooks';
 
 // This file has too many dependencies to translate yet
 // @ts-ignore
@@ -44,10 +45,15 @@ const tagValueLinkResolver = new Map<string, LinkResolver>([
   [LOG_HOST_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })]
 ]);
 
-export function getResolvedLink(presentedName: string) {
-  return tagValueLinkResolver.get(presentedName);
-}
-
 function getServiceId(tags: LogTag[]): string | null {
   return tags.find(({ name, key }) => name === LOG_CUSTOM && key === LOG_CUSTOM_KEY_SERVICE_ID)?.stringValue ?? null;
+}
+
+export default function useResolvedLink(presentedName: string, tag: LogTag, item: LogItem): string | null {
+  const resolver = tagValueLinkResolver.get(presentedName);
+  return (
+    useObservable(resolver ? resolver(tag, item) : just(null), [presentedName], {
+      resetStateOnObservableChange: true
+    }) ?? null
+  );
 }
