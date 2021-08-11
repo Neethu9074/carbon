@@ -11,6 +11,7 @@ import { useObservable } from '@instana/hooks';
 import { filterAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolvedLink';
+import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolvedName';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { ClickedTag } from 'in-logging/analyze/AnalyzeView/components/types';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
@@ -35,7 +36,7 @@ interface LogTagsTableProps {
 interface GetContentType {
   tag: LogTag;
   item: LogItem;
-  presentedName: string;
+  uniqueTagName: string;
   onSelectTagHref: OnSelectTagHref;
 }
 
@@ -43,9 +44,7 @@ const columnDefinitions = [
   {
     id: 'name',
     width: '30%',
-    getContent({ presentedName }: GetContentType) {
-      return <div>{presentedName}</div>;
-    }
+    getContent: TagName
   },
   {
     id: 'value',
@@ -53,10 +52,14 @@ const columnDefinitions = [
   }
 ];
 
-function TagValue({ tag, presentedName, onSelectTagHref, item }: GetContentType) {
+function TagName({ tag, uniqueTagName }: GetContentType) {
+  return useResolvedName(uniqueTagName, tag);
+}
+
+function TagValue({ tag, uniqueTagName, onSelectTagHref, item }: GetContentType) {
   const value = tag.stringValue ?? '';
-  const resolvedLink = useResolvedLink(presentedName, tag, item);
-  const resolvedValue = useResolvedValue(presentedName, tag);
+  const resolvedLink = useResolvedLink(uniqueTagName, tag, item);
+  const resolvedValue = useResolvedValue(uniqueTagName, tag);
 
   return (
     <Stack direction="horizontal" gap="xxsmall" align="center" distribution="spaceBetween">
@@ -102,20 +105,28 @@ export default function LogTagsTable({ item, onSelectTagHref }: LogTagsTableProp
   const tags: LogTag[] = logResult.data?.tags;
   return (
     <Ul>
-      {tags.map(tag => (
-        <TagEntry key={`${tag.name}-${tag.key}`} tag={tag} item={item} onSelectTagHref={onSelectTagHref} />
-      ))}
+      {tags.map(tag => {
+        const uniqueTagName = tag.key ? `${tag.name}-${tag.key}` : tag.name ?? '';
+        return (
+          <TagEntry
+            key={uniqueTagName}
+            uniqueTagName={uniqueTagName}
+            tag={tag}
+            item={item}
+            onSelectTagHref={onSelectTagHref}
+          />
+        );
+      })}
     </Ul>
   );
 }
 
 interface TagEntryProps extends LogTagsTableProps {
   tag: LogTag;
+  uniqueTagName: string;
 }
 
-function TagEntry({ tag, item, onSelectTagHref }: TagEntryProps) {
-  const presentedName = getPresentedName(tag);
-
+function TagEntry({ tag, item, uniqueTagName, onSelectTagHref }: TagEntryProps) {
   return (
     <Li size="compact">
       <ColumnizedContent
@@ -125,15 +136,8 @@ function TagEntry({ tag, item, onSelectTagHref }: TagEntryProps) {
         tag={tag}
         item={item}
         onSelectTagHref={onSelectTagHref}
-        presentedName={presentedName}
+        uniqueTagName={uniqueTagName}
       />
     </Li>
   );
-}
-
-function getPresentedName(tag: LogTag) {
-  if (tag.key) {
-    return `${tag.name}-${tag.key}`;
-  }
-  return tag.name;
 }

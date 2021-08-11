@@ -49,10 +49,10 @@ function getServiceId(tags: LogTag[]): string | null {
   return tags.find(({ name, key }) => name === LOG_CUSTOM && key === LOG_CUSTOM_KEY_SERVICE_ID)?.stringValue ?? null;
 }
 
-export default function useResolvedLink(presentedName: string, tag: LogTag, item: LogItem): string | null {
-  const resolver = tagValueLinkResolver.get(presentedName);
+export default function useResolvedLink(uniqueTagName: string, tag: LogTag, item: LogItem): string | null {
+  const resolver = tagValueLinkResolver.get(uniqueTagName);
   return (
-    useObservable(resolver ? resolver(tag, item) : just(null), [presentedName], {
+    useObservable(resolver ? resolver(tag, item) : just(null), [uniqueTagName], {
       resetStateOnObservableChange: true
     }) ?? null
   );

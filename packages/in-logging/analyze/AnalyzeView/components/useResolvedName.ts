@@ -9,8 +9,6 @@ import { useObservable } from '@instana/hooks';
 
 // @ts-ignore
 import { getSnapshot } from 'in-stores/snapshot';
-// @ts-ignore
-import { getLabel } from 'in-sdk/snapshot';
 
 import {
   LOG_PROCESS_SNAPSHOT_ID,
@@ -20,14 +18,17 @@ import {
   LOG_CUSTOM_KEY_SERVICE_ID
 } from 'in-logging/queryBuilder';
 import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import { getPluginName } from 'in-sdk/pluginName';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
 
-const tagValueResolver = new Map<string, LinkResolver>([
+const tagNameResolver = new Map<string, LinkResolver>([
   [
     `${LOG_CUSTOM}-${LOG_CUSTOM_KEY_SERVICE_ID}`,
     t =>
-      getServiceLabel({ id: t.stringValue ?? '' }).map((res: Result<ServiceLabel>) => res?.data?.label ?? t.stringValue)
+      getServiceLabel({ id: t.stringValue ?? '' }).map((res: Result<ServiceLabel>) =>
+        res?.data?.label ? `Service` : null
+      )
   ],
   [LOG_PROCESS_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue ?? '')],
   [LOG_DOCKER_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue ?? '')],
@@ -35,15 +36,14 @@ const tagValueResolver = new Map<string, LinkResolver>([
 ]);
 
 function resolveInfraLabel(snapshotId: string) {
-  return getSnapshot(snapshotId).map(getLabel);
+  return getSnapshot(snapshotId).map((snapshot: any) => getPluginName(snapshot.get('plugin'), 1));
 }
 
 export default function useResolvedValue(uniqueTagName: string, tag: LogTag): string {
-  const value = tag.stringValue ?? '';
-  const resolver = tagValueResolver.get(uniqueTagName);
+  const resolver = tagNameResolver.get(uniqueTagName);
   return (
-    useObservable(resolver ? resolver(tag) : just(value), [tag.name], {
+    useObservable(resolver ? resolver(tag) : just(uniqueTagName), [tag.name], {
       resetStateOnObservableChange: true
-    }) ?? value
+    }) ?? uniqueTagName
   );
 }
