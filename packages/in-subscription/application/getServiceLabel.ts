@@ -4,8 +4,18 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { Result, ServiceLabel } from 'in-types';
 
-export default createResultSubscriptionFactory({
+interface CreateResultSubscriptionFactoryRequest {
+  id: string;
+}
+
+interface CreateResultSubscriptionFactoryResponse extends Result<ServiceLabel> {}
+
+export default createResultSubscriptionFactory<
+  CreateResultSubscriptionFactoryRequest,
+  CreateResultSubscriptionFactoryResponse
+>({
   eventId: 'getServiceLabel',
   memoizeFor: 100,
   trackSubscriptionStatistics: true
