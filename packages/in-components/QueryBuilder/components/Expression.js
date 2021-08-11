@@ -6,13 +6,14 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { isPrimaryInteractiveElement } from '@instana/components';
+import { keyCodes, isPrimaryInteractiveElement } from '@instana/components';
 
 import { CLOSE_BRACKET } from 'in-components/QueryBuilder/transformation/renderModel';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { isBackspace, isDelete } from 'in-components/keyCodes';
 
 import locals from './Expression.mless';
+
+const { isBackspace, isDelete } = keyCodes;
 
 export default function Expression({ onRemove, children, element: { elements }, depth }) {
   return (

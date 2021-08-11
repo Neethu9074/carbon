@@ -6,12 +6,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { ListGroup, Li } from '@instana/components';
+import { ListGroup, Li, keyCodes } from '@instana/components';
 
 import useLazyLoadingOfNodeChildren from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/useLazyLoadingOfNodeChildren';
 import EntityItemNode from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntityItemNode';
 import SlideInView, { ListHeader, NoHeader } from 'in-components/SlideInView/SlideInView';
-import { isArrowRight, isReturn, isArrowLeft, isArrowUp } from 'in-components/keyCodes';
 import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
@@ -26,7 +25,14 @@ import { t } from 'in-i18n';
 import threeLevelsSelectorLocals from './ThreeLevelsSelectorOverlay.mless';
 import locals from 'in-components/SelectorOverlay/SelectorOverlay.mless';
 
-const searchEnabled = true;
+const { isArrowRight, isReturn, isArrowLeft, isArrowUp } = keyCodes;
+
+/* we found the current implementation does not fully work with latest, on-demand loading items,
+ * so this is temporary disabled
+ * There is this follow-up task to implement it in a different way:
+ * https://instana.kanbanize.com/ctrl_board/37/cards/57241
+ */
+const searchEnabled = false;
 
 const initialState = {
   focusedNode: null,

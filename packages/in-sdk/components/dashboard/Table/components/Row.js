@@ -5,12 +5,13 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { keyCodes, SvgIcon } from '@instana/components';
 
-import { isArrowUp, isArrowDown, isSpace, isModifierPressed } from 'in-components/keyCodes';
 import { scrollIntoView } from 'in-services/util/dom';
 
 import locals from './Row.mless';
+
+const { isArrowUp, isArrowDown, isSpace, isModifierPressed } = keyCodes;
 
 const isAllowedKeyCodesForKeydown = e => isArrowUp(e) || isArrowDown(e) || isSpace(e);
 

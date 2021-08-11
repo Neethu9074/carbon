@@ -7,15 +7,15 @@ import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { SvgIcon } from '@instana/components';
+import { keyCodes, SvgIcon } from '@instana/components';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
-import { isReturn, isArrowDown } from 'in-components/keyCodes';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
 import locals from './SearchInput.mless';
 
+const { isReturn, isArrowDown } = keyCodes;
 export default function SearchInput({
   className,
   inputClassName,
