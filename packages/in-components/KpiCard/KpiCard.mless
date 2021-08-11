@@ -20,6 +20,14 @@
     border-left: 0;
   }
 
+  .shadowless {
+    box-shadow: none;
+  }
+
+  .centerValue {
+    text-align: center;
+  }
+
   .useMaxAvailableHeight {
     height: 100%;
   }
@@ -31,6 +39,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  .centerTitle {
+    justify-content: center;
   }
 
   .action {

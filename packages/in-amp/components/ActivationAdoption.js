@@ -12,6 +12,7 @@ import WeeklyActiveUserChart from 'in-amp/components/WeeklyActiveUserChart';
 import ActivationFunnelTile from 'in-amp/components/ActivationFunnelTile';
 import TopActiveUsersTable from 'in-amp/components/TopActiveUsersTable';
 import ActivationChecklist from 'in-amp/components/ActivationChecklist';
+import ProductAdoptionKPIs from 'in-amp/components/ProductAdoptionKPIs';
 import AdoptionFunnelTile from 'in-amp/components/AdoptionFunnelTile';
 import UserSummaryChart from 'in-amp/components/UserSummaryChart';
 import { getAccountAsResultObservable } from 'in-amp/api/account';
@@ -65,7 +66,7 @@ export default function ActivationAdoption() {
         </Col>
         <Col xs={6}>
           <Card title={t('in-amp:components.activationAdoption.productAdoption')}>
-            {t('in-amp:components.activationAdoption.comingSoon')}
+            <ProductAdoptionKPIs accountInfo={accountInfo} />
           </Card>
         </Col>
       </Row>

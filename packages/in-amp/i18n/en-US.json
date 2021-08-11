@@ -91,7 +91,17 @@
       },
       "activationChecklist": "Activation Checklist",
       "productAdoption": "Product Adoption",
-      "comingSoon": "Coming soon...",
+      "sparkChartMetrics": {
+        "metric_applications": "Applications",
+        "metric_reportingapplications": "Reporting Applications",
+        "metric_websites": "Websites",
+        "metric_all_alerts": "All Alerts",
+        "metric_active_alerts": "Active Alerts",
+        "metric_mobile_apps": "Mobile Apps",
+        "metric_alert_channels": "Alert Channels",
+        "metric_custom_dashboards": "Custom Dashboards",
+        "metric_releases": "Releases"
+      },
       "userUsage": "User Usage",
       "userSummary": "User Summary",
       "totalUser": "Total User",
