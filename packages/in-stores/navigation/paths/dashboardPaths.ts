@@ -6,10 +6,12 @@
 import { navigationParameters$, mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { urlQueryKeys, setTimeConfig } from 'in-stores/time/config';
 import { emptyObject } from 'in-services/fixedObjects';
+import { Location } from 'in-stores/navigation/types';
+import { TimeConfig } from 'in-types';
 
 export const classicDashboard = '/dashboard';
 
-export function goToDashboard(snapshotId) {
+export function goToDashboard(snapshotId: string) {
   mutateUrl(params => {
     const view = getActiveView(params);
     params.pathname = `/${view}${classicDashboard}`;
@@ -18,9 +20,22 @@ export function goToDashboard(snapshotId) {
   });
 }
 
+interface GetDashboardLinkConfig {
+  windowSize?: number;
+  to?: number;
+  focusedMoment?: number;
+  pathname?: string;
+  autoRefresh?: boolean;
+  timeConfig?: TimeConfig;
+}
+
+interface GetLinkToSnapshotInCurrentViewConfig {
+  timeConfig?: TimeConfig;
+}
+
 export function getDashboardLink(
-  snapshotId,
-  { windowSize, to, focusedMoment, pathname, autoRefresh, timeConfig } = {}
+  snapshotId: string,
+  { windowSize, to, focusedMoment, pathname, autoRefresh, timeConfig }: GetDashboardLinkConfig = {}
 ) {
   return getModifiedUrlStream(params => {
     if (pathname) {
@@ -30,13 +45,13 @@ export function getDashboardLink(
       params.pathname = `/${view}${classicDashboard}`;
     }
     if (windowSize != null) {
-      params.query[urlQueryKeys.windowSize] = windowSize;
+      params.query[urlQueryKeys.windowSize] = String(windowSize);
     }
     if (to !== undefined) {
-      params.query[urlQueryKeys.to] = to == null ? '' : to;
+      params.query[urlQueryKeys.to] = to == null ? '' : String(to);
     }
     if (focusedMoment !== undefined) {
-      params.query[urlQueryKeys.focusedMoment] = focusedMoment == null ? '' : focusedMoment;
+      params.query[urlQueryKeys.focusedMoment] = focusedMoment == null ? '' : String(focusedMoment);
     }
     if (autoRefresh !== undefined) {
       params.query[urlQueryKeys.autoRefresh] = String(Boolean(autoRefresh));
@@ -60,11 +75,14 @@ export function getCloseDashboardLink() {
   });
 }
 
-function getActiveView(params) {
+function getActiveView(params: Location) {
   return params.pathname.replace(/\/dashboard($|\/.*)/, '').replace(/^\//, '');
 }
 
-export function getLinkToSnapshotInCurrentView(snapshotId, { timeConfig } = emptyObject) {
+export function getLinkToSnapshotInCurrentView(
+  snapshotId: string,
+  { timeConfig }: GetLinkToSnapshotInCurrentViewConfig = emptyObject
+) {
   return getModifiedUrlStream(params => {
     params.query.snapshotId = snapshotId;
 
