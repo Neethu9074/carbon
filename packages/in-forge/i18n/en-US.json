@@ -5020,7 +5020,8 @@
       "clientApplName": "Client Application Name",
       "activityState": "Activity State",
       "activityType": "Activity Type",
-      "logBufferWaitTime": "Log Buffer Wait Time"
+      "logBufferWaitTime": "Log Buffer Wait Time",
+      "errorMessage": "Could not extract the query from DB"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
