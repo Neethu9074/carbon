@@ -37,4 +37,9 @@ export const LOG_SPAN_ID = 'log.spanId';
 export const LOG_MESSAGE = 'log.message';
 export const LOG_CUSTOM = 'log.custom';
 export const LOG_DOCKER_SNAPSHOT_ID = 'log.dockerSnapshotId';
+export const LOG_PROCESS_SNAPSHOT_ID = 'log.processSnapshotId';
+export const LOG_HOST_SNAPSHOT_ID = 'log.hostSnapshotId';
 export const LOG_SERVICE_NAME = 'service.name';
+
+export const LOG_CUSTOM_KEY_SERVICE_ID = 'service_id';
+export const LOG_CUSTOM_KEY_ENDPOINT_ID = 'endpoint_name';

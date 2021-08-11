@@ -8,8 +8,9 @@ import React from 'react';
 import { Link, Stack, Ul, Li, ColumnizedContent } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import { filterAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import { getResolvedLink } from 'in-logging/analyze/AnalyzeView/components/linkResolver';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
-import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { ClickedTag } from 'in-logging/analyze/AnalyzeView/components/types';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -32,6 +33,8 @@ interface LogTagsTableProps {
 
 interface GetContentType {
   tag: LogTag;
+  item: LogItem;
+  presentedName: string;
   onSelectTagHref: OnSelectTagHref;
 }
 
@@ -39,18 +42,24 @@ const columnDefinitions = [
   {
     id: 'name',
     width: '30%',
-    getContent({ tag }: GetContentType) {
-      return <div>{tag.name}</div>;
+    getContent({ presentedName }: GetContentType) {
+      return <div>{presentedName}</div>;
     }
   },
   {
     id: 'value',
-    getContent({ tag, onSelectTagHref }: GetContentType) {
+    getContent({ tag, item, presentedName, onSelectTagHref }: GetContentType) {
       const value = tag.stringValue ?? '';
+      const resolvedLink = getResolvedLink(presentedName)?.(tag, item);
+
       return (
         <Stack direction="horizontal" gap="xxsmall" align="center" distribution="spaceBetween">
-          {canBeResolved(tag) ? (
-            <Link href="#" onClick={() => logMessageTagClicked({ name: tag.name, value, key: tag.key })}>
+          {resolvedLink ? (
+            <Link
+              className={locals.value}
+              href$={resolvedLink}
+              onClick={() => logMessageTagClicked({ tag: { name: tag.name, value, key: tag.key } })}
+            >
               {value}
             </Link>
           ) : (
@@ -62,7 +71,9 @@ const columnDefinitions = [
               iconSize={16}
               type="lib_actions_filter"
               href={onSelectTagHref({ name: tag.name ?? '', value, key: tag.key ?? '' })}
-              onClick={() => logMessageTagClicked({ name: tag.name, value, key: tag.key })}
+              onClick={() =>
+                filterAdded({ source: 'log message filter button', filter: { name: tag.name, value, key: tag.key } })
+              }
             />
             <CopyToClipboard getText={() => value}>
               {(copyToClipboardRef: any) => (
@@ -90,17 +101,30 @@ export default function LogTagsTable({ item, onSelectTagHref }: LogTagsTableProp
 
   return (
     <Ul>
-      {tags.map(tag => (
-        <Li key={`${tag.name}-${tag.key}`} size="compact">
-          {/* will be fixed with https://github.com/instana/ui-foundation/pull/168 */}
-          {/* @ts-ignore */}
-          <ColumnizedContent columnDefinitions={columnDefinitions} tag={tag} onSelectTagHref={onSelectTagHref} />
-        </Li>
-      ))}
+      {tags.map(tag => {
+        const presentedName = getPresentedName(tag);
+
+        return (
+          <Li key={`${tag.name}-${tag.key}`} size="compact">
+            <ColumnizedContent
+              /* will be fixed with https://github.com/instana/ui-foundation/pull/168 */
+              /* @ts-ignore */
+              columnDefinitions={columnDefinitions}
+              tag={tag}
+              item={item}
+              onSelectTagHref={onSelectTagHref}
+              presentedName={presentedName}
+            />
+          </Li>
+        );
+      })}
     </Ul>
   );
 }
 
-function canBeResolved(tag: LogTag): boolean {
-  return true;
+function getPresentedName(tag: LogTag) {
+  if (tag.key) {
+    return `${tag.name}-${tag.key}`;
+  }
+  return tag.name;
 }
