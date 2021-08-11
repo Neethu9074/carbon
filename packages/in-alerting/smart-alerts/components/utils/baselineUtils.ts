@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { ThresholdOperator, ThresholdType } from 'in-types';
 import { FixedTimeConfig } from 'in-stores/time/config';
-import { ThresholdOperator } from 'in-types';
 import { days } from 'in-services/time';
 
 /**
@@ -69,4 +70,8 @@ export function getApproximatedAdaptiveBaselineThresholdValue(
   const baselineValues = Object.values(adaptiveBaselineInfo);
 
   return isGreaterOp ? Math.floor(Math.min(...baselineValues)) : Math.ceil(Math.max(...baselineValues));
+}
+
+export function isHistoricBaseline(baseline?: ThresholdType): boolean {
+  return baseline === HISTORIC_BASELINE;
 }

@@ -22,6 +22,7 @@ import {
   getDescriptionPlaceholder,
   getTitlePlaceholder
 } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/HistoricBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig';
 import WebsiteAlertPropertiesTitleRow from 'in-alerting/smart-alerts/websites/advanced/WebsiteAlertPropertiesTitleRow';
@@ -29,7 +30,6 @@ import BlueprintSelection from 'in-alerting/smart-alerts/components/smart-alert-
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/ConfigureAlertChannel';
 import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/ThroughputInteractiveChart';
-import BaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/BaselineErrorMessage';
 import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/SlownessInteractiveChart';
 import JsErrorsInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/JsErrorsInteractiveChart';
@@ -39,6 +39,7 @@ import TimeThresholdConfig from 'in-alerting/smart-alerts/websites/advanced/Time
 import ProvideStatusCode from 'in-alerting/smart-alerts/websites/components/ProvideStatusCode';
 import { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import createBlueprintForm from 'in-alerting/smart-alerts/websites/form/blueprintFormCreator';
+import { isHistoricBaseline } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
@@ -183,7 +184,9 @@ export default function AdvancedModeContainer(props) {
                   </>
                 )}
               />
-              {blueprintConfig.baselineEnabled && <BaselineErrorMessage thresholdResult={thresholdResult} />}
+              {isHistoricBaseline(form.get('threshold').get('type').value) && (
+                <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
+              )}
             </>
           )
         },

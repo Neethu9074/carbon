@@ -10,7 +10,7 @@ import { Message } from '@instana/components';
 import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
 
-export default function BaselineErrorMessage({ thresholdResult }) {
+export default function HistoricBaselineErrorMessage({ thresholdResult }) {
   if (!hasBaselineError(thresholdResult)) {
     return null;
   }
