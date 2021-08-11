@@ -20,7 +20,12 @@ const iconDimensions = new Map<string, SvgIconSizes>([
 ]);
 
 export default function Icon({ type, size = 'normal', iconSize, iconSpinning, kind = 'action', disabled }: IconProps) {
-  const iSize: SvgIconSizes = (iconSize || iconDimensions.get(size)) ?? 24;
+  let iSize: number = 24;
+  if (iconSize) {
+    iSize = iconSize;
+  } else if (size) {
+    iSize = iconDimensions.get(size) ?? 24;
+  }
   return (
     <SvgIcon
       type={type}

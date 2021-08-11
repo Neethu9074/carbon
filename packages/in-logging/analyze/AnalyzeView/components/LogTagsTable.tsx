@@ -12,6 +12,7 @@ import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { hasError, isLoading } from 'in-services/util/result';
 import IconButton from 'in-components/IconButton/IconButton';
+// @ts-ignore
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
@@ -44,7 +45,7 @@ const columnDefinitions = [
         <div>
           {value}
           <CopyToClipboard getText={() => value}>
-            {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize="s" type="lib_actions_copy" />}
+            {(copyToClipboardRef: any) => <IconButton ref={copyToClipboardRef} iconSize={20} type="lib_actions_copy" />}
           </CopyToClipboard>
         </div>
       );
@@ -68,10 +69,11 @@ export default function LogTagsTable({ item }: LogTagsTableProps) {
     <Ul>
       {tags.map(tag => (
         <Li key={`${tag.name}-${tag.key}`}>
+          {/* will be fixed with https://github.com/instana/ui-foundation/pull/168 */}
+          {/* @ts-ignore */}
           <ColumnizedContent columnDefinitions={columnDefinitions} tag={tag} />
         </Li>
       ))}
     </Ul>
   );
 }
-
