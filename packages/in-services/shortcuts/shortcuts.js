@@ -3,9 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+import { keyCodes } from '@instana/components';
 import { on } from '@instana/observables';
 
-import {
+import { onLeftArrow, onRightArrow, onUpArrow, onDownArrow } from 'in-services/shortcuts/shortcuts/navigationViaArrows';
+import onQuestionMarkPressed from 'in-services/shortcuts/shortcuts/QuestionMark';
+import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
+import onFPressed from 'in-services/shortcuts/shortcuts/F';
+import onVPressed from 'in-services/shortcuts/shortcuts/V';
+import onCPressed from 'in-services/shortcuts/shortcuts/C';
+
+const {
   isCtrl,
   isAlt,
   isMeta,
@@ -18,13 +26,7 @@ import {
   isArrowRight,
   isArrowUp,
   isArrowDown
-} from 'in-components/keyCodes';
-import { onLeftArrow, onRightArrow, onUpArrow, onDownArrow } from 'in-services/shortcuts/shortcuts/navigationViaArrows';
-import onQuestionMarkPressed from 'in-services/shortcuts/shortcuts/QuestionMark';
-import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
-import onFPressed from 'in-services/shortcuts/shortcuts/F';
-import onVPressed from 'in-services/shortcuts/shortcuts/V';
-import onCPressed from 'in-services/shortcuts/shortcuts/C';
+} = keyCodes;
 
 export function init() {
   on(window, 'keydown').subscribe(keyEvent => {

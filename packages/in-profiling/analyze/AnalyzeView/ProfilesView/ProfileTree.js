@@ -6,12 +6,15 @@
 import React, { useState } from 'react';
 import { get } from 'lodash';
 
-import { isArrowUp, isArrowDown, isArrowLeft, isArrowRight } from 'in-components/keyCodes';
+import { keyCodes } from '@instana/components';
+
 import ProfileNode from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileNode';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 
 import nodeLocals from './ProfileNode.mless';
 import locals from './ProfileTree.mless';
+
+const { isArrowUp, isArrowDown, isArrowLeft, isArrowRight } = keyCodes;
 
 export default function ProfileNullChecker(props) {
   if (!props.profile) {

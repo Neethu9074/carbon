@@ -13,6 +13,7 @@ import { Link } from '@instana/components';
 
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
@@ -69,7 +70,11 @@ function Tag({ tag, onSelectTagHref }) {
 
   if (onSelectTagHref) {
     return (
-      <Link className={locals.link} href={onSelectTagHref({ name: tag.name, value, key: tag.key })}>
+      <Link
+        className={locals.link}
+        href={onSelectTagHref({ name: tag.name, value, key: tag.key })}
+        onClick={() => logMessageTagClicked({ name: tag.name, value, key: tag.key })}
+      >
         {tagComponent}
       </Link>
     );

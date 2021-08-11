@@ -6,9 +6,12 @@
 import { find } from 'lodash';
 import React from 'react';
 
-import { isModifierPressed, isEscape, isLeftClick } from 'in-components/keyCodes';
+import { keyCodes } from '@instana/components';
+
 import { identifyOverlay } from 'in-components/overlays/dom';
 import { emptyArray } from 'in-services/fixedObjects';
+
+const { isModifierPressed, isEscape, isLeftClick } = keyCodes;
 
 /**
  * The `<OverlayCloseIdentification/>` component registers your callback on the document
