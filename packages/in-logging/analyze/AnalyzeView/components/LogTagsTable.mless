@@ -3,5 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+@import '~in-themes/mixins.less';
+
 :local {
+  .value {
+    .ellipsis();
+  }
 }
