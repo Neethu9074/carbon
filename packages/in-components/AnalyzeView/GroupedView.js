@@ -46,7 +46,7 @@ import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import Header from 'in-components/QueryBuilder/components/Header';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import IconButton from 'in-components/IconButton/IconButton';
+import IconLink from 'in-components/IconButton/IconLink';
 import { getFormatter } from 'in-stores/metric/formatters';
 import { aggregationLabels } from 'in-stores/metric';
 import { identity } from 'in-services/util/function';
@@ -529,7 +529,7 @@ function actionColumns() {
       getContent({ href }) {
         return (
           <Tooltip content={t('in-components:analyze.focusOnGroup')}>
-            <IconButton
+            <IconLink
               type="lib_actions_filter"
               href={href}
               className={locals.focusButton}

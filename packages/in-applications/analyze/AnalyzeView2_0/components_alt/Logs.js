@@ -5,9 +5,7 @@
 
 import React from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
-import { KeyValue } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import { SvgIcon, KeyValue, ColumnizedContent, Ul, Li } from '@instana/components';
 
 import {
   LOG_SERVICE_NAME,
@@ -27,8 +25,8 @@ import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
-import IconButton from 'in-components/IconButton/IconButton';
 import { formatDateTime } from 'in-services/formatters/date';
+import IconLink from 'in-components/IconButton/IconLink';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import Overlay from 'in-components/overlays/Overlay';
 import Tooltip from 'in-components/Tooltip';
@@ -74,7 +72,7 @@ const columnDefinitions = [
     getContent(log) {
       return (
         <Tooltip content={t('in-analyze:logDetails.similarLogs')}>
-          <IconButton
+          <IconLink
             type="lib_analyze"
             href$={getLinkToAnalyze({
               tagFilterExpression: [getValueMatchTagFilter({ name: LOG_MESSAGE, value: log.message })]

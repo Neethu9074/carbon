@@ -11,6 +11,8 @@ import { useObservable } from '@instana/hooks';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 import { hasError, isLoading } from 'in-services/util/result';
+import IconButton from 'in-components/IconButton/IconButton';
+import CopyToClipboard from 'in-components/CopyToClipboard';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
 import { LogItem, LogTag } from 'in-types';
@@ -37,7 +39,15 @@ const columnDefinitions = [
   {
     id: 'value',
     getContent({ tag }: GetContentType) {
-      return <div>{tag.stringValue}</div>;
+      const value = tag.stringValue;
+      return (
+        <div>
+          {value}
+          <CopyToClipboard getText={() => value}>
+            {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize="s" type="lib_actions_copy" />}
+          </CopyToClipboard>
+        </div>
+      );
     }
   }
 ];
@@ -64,3 +74,4 @@ export default function LogTagsTable({ item }: LogTagsTableProps) {
     </Ul>
   );
 }
+

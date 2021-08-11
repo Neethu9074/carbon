@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-export function stopPropagation(e: Event) {
+import { MouseEvent } from 'react';
+
+export function stopPropagation(e: Event | MouseEvent<HTMLElement>) {
   e.stopPropagation();
 }
 
-export function stopPropagationAndPreventDefault(e: Event) {
+export function stopPropagationAndPreventDefault(e: Event | MouseEvent<HTMLElement>) {
   e.stopPropagation();
   e.preventDefault();
 }
