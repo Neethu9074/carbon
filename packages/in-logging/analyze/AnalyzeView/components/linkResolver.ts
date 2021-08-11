@@ -10,7 +10,7 @@ import { Observable } from '@instana/observables';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 // @ts-ignore
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-// @ts-ignore
+
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 
 import {
@@ -37,11 +37,11 @@ const tagValueLinkResolver = new Map<string, LinkResolver>([
       return getServiceDashboard(serviceId);
     }
   ],
-  [`${LOG_CUSTOM}-${LOG_CUSTOM_KEY_SERVICE_ID}`, (t, _) => getServiceDashboard(t.stringValue)],
   [LOG_TRACE_ID, (t, _) => getLinkToTraceDetail(t.stringValue)],
-  [LOG_PROCESS_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue, { pathname: '/physical/dashboard' })],
-  [LOG_DOCKER_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue, { pathname: '/physical/dashboard' })],
-  [LOG_HOST_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue, { pathname: '/physical/dashboard' })]
+  [`${LOG_CUSTOM}-${LOG_CUSTOM_KEY_SERVICE_ID}`, (t, _) => getServiceDashboard(t.stringValue)],
+  [LOG_PROCESS_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
+  [LOG_DOCKER_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })],
+  [LOG_HOST_SNAPSHOT_ID, (t, _) => getDashboardLink(t.stringValue ?? '', { pathname: '/physical/dashboard' })]
 ]);
 
 export function getResolvedLink(presentedName: string) {
