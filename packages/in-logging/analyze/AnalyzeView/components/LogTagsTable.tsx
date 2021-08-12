@@ -97,18 +97,14 @@ function TagEntry({ tag, item, uniqueTagName, onSelectTagHref }: TagEntryProps) 
     <Li
       className={locals.li}
       size="compact"
-      // This is allowed due to otherProps
-      // @ts-ignore
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <ColumnizedContent
-        // will be fixed with https://github.com/instana/ui-foundation/pull/168
-        // @ts-ignore
         columnDefinitions={columnDefinitions}
-        tag={tag}
-        item={item}
         onSelectTagHref={onSelectTagHref}
+        item={item}
+        tag={tag}
         uniqueTagName={uniqueTagName}
         isHovered={isHovered}
       />
