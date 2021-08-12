@@ -5,11 +5,25 @@
 
 :local {
   .controls {
-    padding: 1rem 0;
     position: absolute;
     bottom: 0;
     right: 0;
     left: 0;
+
+    /* override hardcoded size in form-footer, to allow growing when there is an error info */
+    height: unset;
+
+    flex-direction: column;
+  }
+
+  .additionalRow {
+    width: 100%;
+  }
+
+  .buttonRow {
+    padding: 1rem 0;
+    display: flex;
+    height: 4rem;
 
     button {
       min-width: 6.25rem;

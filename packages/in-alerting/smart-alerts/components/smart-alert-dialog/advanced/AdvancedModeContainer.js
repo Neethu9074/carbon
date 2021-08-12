@@ -12,6 +12,7 @@ import { Stack } from '@instana/components';
 
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
 import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
 import SideNav from 'in-components/SideNav';
@@ -25,6 +26,7 @@ export default function AdvancedModeContainer({
   onCreate,
   editMode,
   navItems,
+  error,
   isSaving,
   additionalValidationCheck = () => true
 }) {
@@ -50,6 +52,11 @@ export default function AdvancedModeContainer({
       <div className={locals.sideNav}>
         <SideNav navItems={navItems} renderPostIcon={renderIcon} />
       </div>
+      {error && (
+        <div className={locals.errorInfo}>
+          <ErroneousResultPresenter errors={[error]} />
+        </div>
+      )}
       <FormFooter className={locals.controls}>
         <CancelButton onClick={() => onClose()} />
 
@@ -83,9 +90,10 @@ AdvancedModeContainer.propTypes = {
       content: PropTypes.element
     })
   ).isRequired,
+  error: PropTypes.object,
   isSaving: PropTypes.bool,
   /**
-   * Defines addtional validation logic to control the disabled state of the Create button.
+   * Defines additional validation logic to control the disabled state of the Create button.
    * It enhances the form validation and does not replace it.
    */
   additionalValidationCheck: PropTypes.func

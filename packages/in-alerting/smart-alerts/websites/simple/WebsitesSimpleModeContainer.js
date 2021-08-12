@@ -80,6 +80,7 @@ WebsitesSimpleModeContainer.propTypes = {
   setSliderState: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   isTagFilterFormModelValid: PropTypes.bool.isRequired,
+  error: PropTypes.object,
   isSaving: PropTypes.bool,
   selectedChartViewConfigIndex: PropTypes.number.isRequired,
   QueryBuilderComponent: PropTypes.elementType.isRequired,

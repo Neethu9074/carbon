@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import { createLogger } from '@instana/logger';
 
+import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import {
   applicationsAlertingAlertCreated,
   applicationsAlertingCloseDialog,
@@ -45,6 +46,7 @@ export default function SmartAlertConfigDialogWrapper({
   const [form, setForm] = useState(() => createSmartAlertForm(fromAlertConfig(alertConfig), editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState(null);
 
   const applicationLabel = useApplicationLabel(firstApplicationId(form.get('applications').value), isGlobalSmartAlert);
 
@@ -96,9 +98,10 @@ export default function SmartAlertConfigDialogWrapper({
       }}
       withTrackCreate={simpleMode => {
         applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
-        createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving });
+        createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving, setError });
       }}
       isSaving={isSaving}
+      error={error}
       initialConfiguredApplications={alertConfig?.applications ?? {}}
     />
   );
@@ -121,8 +124,9 @@ SmartAlertConfigDialogWrapper.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving }) {
+function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving, setError }) {
   setIsSaving(true);
+  setError(null);
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
@@ -137,6 +141,7 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
       alertConfig => onClose(alertConfig),
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
+        setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
     );
@@ -145,6 +150,7 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
       alertConfig => onClose(alertConfig),
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
+        setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
     );
