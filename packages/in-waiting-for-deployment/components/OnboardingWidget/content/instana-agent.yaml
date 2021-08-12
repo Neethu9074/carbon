@@ -5,7 +5,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.23
+    app.kubernetes.io/version: 1.2.24
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -14,7 +14,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.23
+    app.kubernetes.io/version: 1.2.24
 ---
 apiVersion: v1
 kind: Secret
@@ -23,7 +23,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.23
+    app.kubernetes.io/version: 1.2.24
 type: Opaque
 data:
   key: ${agentKey}
@@ -36,7 +36,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.23
+    app.kubernetes.io/version: 1.2.24
 data:
   cluster_name: "${clusterName}"
   configuration.yaml: |
@@ -81,7 +81,7 @@ metadata:
   namespace: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.23
+    app.kubernetes.io/version: 1.2.24
 spec:
   selector:
     matchLabels:
@@ -94,7 +94,7 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: instana-agent
-        app.kubernetes.io/version: 1.2.23
+        app.kubernetes.io/version: 1.2.24
         instana/agent-mode: "APM"
       annotations: {}
     spec:
@@ -167,10 +167,13 @@ spec:
               mountPath: /root/configuration.yaml
           livenessProbe:
             httpGet:
+              host: 127.0.0.1 # localhost because Pod has hostNetwork=true
               path: /status
               port: 42699
-            initialDelaySeconds: 300
+            initialDelaySeconds: 300 # startupProbe isnt available before K8s 1.16
             timeoutSeconds: 3
+            periodSeconds: 10
+            failureThreshold: 3
           resources:
             requests:
               memory: "512Mi"
@@ -181,7 +184,7 @@ spec:
           ports:
             - containerPort: 42699
         - name: leader-elector
-          image: "instana/leader-elector:0.5.7"
+          image: "instana/leader-elector:0.5.8"
           env:
             - name: INSTANA_AGENT_POD_NAME
               valueFrom:
@@ -196,11 +199,14 @@ spec:
               cpu: 0.1
               memory: "64Mi"
           livenessProbe:
-            httpGet: # Leader elector liveness is tied to agent, published on localhost:42699
-              path: /com.instana.agent.coordination.sidecar/health
-              port: 42699
-            initialDelaySeconds: 300
+            httpGet: # Leader elector /health endpoint expects version 0.5.8 minimum, otherwise always returns 200 OK
+              host: 127.0.0.1 # localhost because Pod has hostNetwork=true
+              path: /health
+              port: 42655
+            initialDelaySeconds: 30
             timeoutSeconds: 3
+            periodSeconds: 3
+            failureThreshold: 3
           ports:
             - containerPort: 42655
       volumes:
@@ -245,7 +251,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.23
+    app.kubernetes.io/version: 1.2.24
 rules:
 - nonResourceURLs:
     - "/version"
@@ -298,7 +304,7 @@ metadata:
   name: instana-agent
   labels:
     app.kubernetes.io/name: instana-agent
-    app.kubernetes.io/version: 1.2.23
+    app.kubernetes.io/version: 1.2.24
 subjects:
 - kind: ServiceAccount
   name: instana-agent
