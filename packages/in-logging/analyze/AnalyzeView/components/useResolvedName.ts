@@ -4,32 +4,18 @@
  */
 
 import { just, Observable } from '@instana/observables';
-import { LogTag, Result, ServiceLabel } from 'in-types';
 import { useObservable } from '@instana/hooks';
+import { LogTag } from 'in-types';
 
 // @ts-ignore
 import { getSnapshot } from 'in-stores/snapshot';
 
-import {
-  LOG_PROCESS_SNAPSHOT_ID,
-  LOG_DOCKER_SNAPSHOT_ID,
-  LOG_HOST_SNAPSHOT_ID,
-  LOG_CUSTOM,
-  LOG_CUSTOM_KEY_SERVICE_ID
-} from 'in-logging/queryBuilder';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import { LOG_PROCESS_SNAPSHOT_ID, LOG_DOCKER_SNAPSHOT_ID, LOG_HOST_SNAPSHOT_ID } from 'in-logging/queryBuilder';
 import { getPluginName } from 'in-sdk/pluginName';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
 
 const tagNameResolver = new Map<string, LinkResolver>([
-  [
-    `${LOG_CUSTOM}-${LOG_CUSTOM_KEY_SERVICE_ID}`,
-    t =>
-      getServiceLabel({ id: t.stringValue ?? '' }).map((res: Result<ServiceLabel>) =>
-        res?.data?.label ? `Service` : null
-      )
-  ],
   [LOG_PROCESS_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue ?? '')],
   [LOG_DOCKER_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue ?? '')],
   [LOG_HOST_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue ?? '')]

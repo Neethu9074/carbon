@@ -90,7 +90,9 @@ export default function Logs(props) {
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       tracker={tracker}
-      renderNestedContent={(_, item) => <LogTagsTable item={item} onSelectTagHref={onSelectTagHref} />}
+      renderNestedContent={(_, item) => (
+        <LogTagsTable item={item} onSelectTagHref={onSelectTagHref} getHrefToGroupedView={props.getHrefToGroupedView} />
+      )}
     />
   );
 

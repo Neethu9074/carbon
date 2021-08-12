@@ -14,4 +14,11 @@
     min-height: 2rem;
     max-height: 2rem;
   }
+
+  .link {
+    color: @lib__colors__blue800;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
