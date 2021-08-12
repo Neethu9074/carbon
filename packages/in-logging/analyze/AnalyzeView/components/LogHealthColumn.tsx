@@ -24,7 +24,8 @@ interface Props {
 
 const colorMappings = new Map<string, string>([
   ['error', theme.lib.colors.red800],
-  ['warn', theme.lib.colors.yellow800]
+  ['warn', theme.lib.colors.yellow800],
+  ['info', theme.lib.colors.lightBlue800]
 ]);
 
 export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
