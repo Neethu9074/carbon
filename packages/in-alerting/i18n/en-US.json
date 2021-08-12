@@ -28,11 +28,12 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "Additional Filters",
     "revisionDropdownButton": {
       "revision": "Revision {{alertRevision}}",
-      "paused": "Paused",
-      "resumed": "Resumed",
-      "deleted": "Deleted",
+      "pause": "Pause",
+      "resume": "Resume",
+      "delete": "Delete",
       "update": "Update",
-      "created": "Created"
+      "create": "Create",
+      "restore": "Restore"
     },
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
