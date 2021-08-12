@@ -13,10 +13,7 @@ export default function IbmmqSpanDetailView({ span }) {
     <div>
       <Dl>
         <Di title={t('in-forge:tracing.jms.titleDestination')}>{span.getIn(['data', 'ibm-mq', 'queue'])}</Di>
-        {/* <Di title={t('in-forge:tracing.jms.titleMessage')}>{span.getIn(['data', 'ibm-mq', 'message'])}</Di> */}
         <Di title={t('in-forge:tracing.jms.titleType')}>{span.getIn(['data', 'sdk', 'custom', 'tags', 'spanType'])}</Di>
-        {/* <Di title={t('in-forge:tracing.jms.titleSelector')}>{span.getIn(['data', 'ibm-mq', 'selector'])}</Di> */}
-        {/* <ErrorDescriptionItem error={span.getIn(['data', 'ibm-mq', 'error'])} /> */}
       </Dl>
     </div>
   );
