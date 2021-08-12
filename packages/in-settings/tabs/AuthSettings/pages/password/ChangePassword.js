@@ -207,7 +207,11 @@ function saveItem({ form, setMessage }) {
   });
   const setRoleResult$ = changePassword(form.toJS());
   setRoleResult$.once(
-    () => setMessage({ text: t('in-settings:tabs.passwordChanged'), type: 'success' }),
+    response => {
+      // When changing password, token is invalidated
+      // and cookies are deleted so we must redirect to login
+      window.location.href = response.body.loginUrl;
+    },
     error =>
       setMessage({
         text: t('in-settings:tabs.failedToChangePassword', { err: error.message }),
