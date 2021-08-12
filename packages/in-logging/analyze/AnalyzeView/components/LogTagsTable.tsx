@@ -12,6 +12,7 @@ import { filterAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeVie
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolvedLink';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolvedName';
+import { LOG_CUSTOM_KEY_SERVICE_ID, LOG_SPAN_ID } from 'in-logging/queryBuilder';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { ClickedTag } from 'in-logging/analyze/AnalyzeView/components/types';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
@@ -53,47 +54,7 @@ const columnDefinitions = [
   }
 ];
 
-function TagName({ tag, uniqueTagName }: GetContentType) {
-  return useResolvedName(uniqueTagName, tag);
-}
-
-function TagValue({ tag, uniqueTagName, isHovered, onSelectTagHref, item }: GetContentType) {
-  const value = tag.stringValue ?? '';
-  const resolvedLink = useResolvedLink(uniqueTagName, tag, item);
-  const resolvedValue = useResolvedValue(uniqueTagName, tag);
-
-  return (
-    <Stack direction="horizontal" gap="xxsmall" align="center" distribution="spaceBetween">
-      {resolvedLink ? (
-        <Link
-          className={locals.value}
-          href={resolvedLink}
-          onClick={() => logMessageTagClicked({ tag: { name: tag.name, value: resolvedValue, key: tag.key } })}
-        >
-          {resolvedValue}
-        </Link>
-      ) : (
-        <span className={locals.value}>{resolvedValue}</span>
-      )}
-
-      {isHovered && (
-        <Stack direction="horizontal" gap="xxsmall" align="center">
-          <IconLink
-            iconSize={16}
-            type="lib_actions_filter"
-            href={onSelectTagHref({ name: tag.name ?? '', value, key: tag.key ?? '' })}
-            onClick={() =>
-              filterAdded({ source: 'log message filter button', filter: { name: tag.name, value, key: tag.key } })
-            }
-          />
-          <CopyToClipboard getText={() => resolvedValue}>
-            {(copyToClipboardRef: any) => <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />}
-          </CopyToClipboard>
-        </Stack>
-      )}
-    </Stack>
-  );
-}
+const restrictedTags = new Set<string>([LOG_CUSTOM_KEY_SERVICE_ID, LOG_SPAN_ID]);
 
 export default function LogTagsTable({ item, onSelectTagHref }: LogTagsTableProps) {
   const logResult = useObservable(() => getLog({ itemId: item.itemId }), [item.itemId]) ?? pendingResult;
@@ -108,7 +69,7 @@ export default function LogTagsTable({ item, onSelectTagHref }: LogTagsTableProp
   const tags: LogTag[] = logResult.data?.tags;
   return (
     <Ul>
-      {tags.map(tag => {
+      {tags.filter(filterTag).map(tag => {
         const uniqueTagName = tag.key ? `${tag.name}-${tag.key}` : tag.name ?? '';
         return (
           <TagEntry
@@ -153,4 +114,50 @@ function TagEntry({ tag, item, uniqueTagName, onSelectTagHref }: TagEntryProps) 
       />
     </Li>
   );
+}
+
+function TagName({ tag, uniqueTagName }: GetContentType) {
+  return useResolvedName(uniqueTagName, tag);
+}
+
+function TagValue({ tag, uniqueTagName, isHovered, onSelectTagHref, item }: GetContentType) {
+  const value = tag.stringValue ?? '';
+  const resolvedLink = useResolvedLink(uniqueTagName, tag, item);
+  const resolvedValue = useResolvedValue(uniqueTagName, tag);
+
+  return (
+    <Stack direction="horizontal" gap="xxsmall" align="center" distribution="spaceBetween">
+      {resolvedLink ? (
+        <Link
+          className={locals.value}
+          href={resolvedLink}
+          onClick={() => logMessageTagClicked({ tag: { name: tag.name, value: resolvedValue, key: tag.key } })}
+        >
+          {resolvedValue}
+        </Link>
+      ) : (
+        <span className={locals.value}>{resolvedValue}</span>
+      )}
+
+      {isHovered && (
+        <Stack direction="horizontal" gap="xxsmall" align="center">
+          <IconLink
+            iconSize={16}
+            type="lib_actions_filter"
+            href={onSelectTagHref({ name: tag.name ?? '', value, key: tag.key ?? '' })}
+            onClick={() =>
+              filterAdded({ source: 'log message filter button', filter: { name: tag.name, value, key: tag.key } })
+            }
+          />
+          <CopyToClipboard getText={() => resolvedValue}>
+            {(copyToClipboardRef: any) => <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />}
+          </CopyToClipboard>
+        </Stack>
+      )}
+    </Stack>
+  );
+}
+
+function filterTag(tag: LogTag): boolean {
+  return !restrictedTags.has(tag.name ?? '') && !restrictedTags.has(tag.key ?? '');
 }

@@ -13,11 +13,11 @@ import {
 } from 'in-logging/analyze/AnalyzeView/tracker';
 import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
 import TagExpressionValidation from 'in-logging/analyze/AnalyzeView/components/TagExpressionValidation';
+import { LOG_LEVEL, LOG_SERVICE_NAME, LOG_STREAM_NAME } from 'in-logging/queryBuilder';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
 import useTimeSpentInsideComponent from 'in-hooks/useTimeSpentInsideComponent';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
-import { LOG_LEVEL, LOG_STREAM_NAME } from 'in-logging/queryBuilder';
 import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
@@ -47,6 +47,13 @@ const facetedSearchItems = [
     renderer: FacetedFilterRenderer,
     title: 'Stream',
     tag: LOG_STREAM_NAME,
+    getSuggestionName,
+    getMetric
+  },
+  {
+    renderer: FacetedFilterRenderer,
+    title: 'Service',
+    tag: LOG_SERVICE_NAME,
     getSuggestionName,
     getMetric
   }
