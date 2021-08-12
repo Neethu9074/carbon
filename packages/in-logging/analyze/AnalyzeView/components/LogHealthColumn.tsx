@@ -39,7 +39,13 @@ export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
     <Link
       href={
         onSelectTagHref
-          ? onSelectTagHref({ name: LOG_LEVEL, value: logLevel, type: 'STRING', operator: EQUALS })
+          ? onSelectTagHref({
+              name: LOG_LEVEL,
+              value: logLevel,
+              type: 'STRING',
+              operator: EQUALS,
+              entity: 'NOT_APPLICABLE'
+            })
           : undefined
       }
     >
