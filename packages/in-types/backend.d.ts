@@ -1823,8 +1823,7 @@ export interface GetWebsiteRateMetricAlertsPreviewQuery extends UiQuery {
   readonly granularity: number;
   readonly metrics: { [index: string]: WebsiteRateMetricConfiguration };
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly tagFilters?: TagFilter[];
+  readonly tagFilterExpression: TagFilterExpressionElement;
   readonly threshold: ThresholdData;
   readonly timeConfig: TimeConfig;
   readonly timeThreshold: WebsiteTimeThreshold;
@@ -1832,8 +1831,7 @@ export interface GetWebsiteRateMetricAlertsPreviewQuery extends UiQuery {
 
 export interface GetWebsiteRateMetricQuery extends QueryWithMetrics, UiQuery {
   readonly metrics: { [index: string]: WebsiteRateMetricConfiguration };
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly tagFilters?: TagFilter[];
+  readonly tagFilterExpression: TagFilterExpressionElement;
   readonly timeConfig: TimeConfig;
 }
 
@@ -1851,11 +1849,10 @@ export interface GetWebsiteSubdivisionsQuery extends PaginatedUIQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetWebsiteUniqueUsersInSlidingWindowQuery extends QueryWithMetrics, UiQuery {
+export interface GetWebsiteUniqueUsersInSlidingWindowQuery extends QueryWithMetrics {
   readonly metrics: { [index: string]: WebsiteMonitoringMetricsConfiguration };
   readonly slidingWindowSize: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly tagFilters?: TagFilter[];
+  readonly tagFilterExpression: TagFilterExpressionElement;
   readonly timeConfig: TimeConfig;
 }
 
@@ -3452,7 +3449,7 @@ export interface TagCatalog {
 
 export interface TagFilter extends TagFilterExpressionElement {
   readonly booleanValue?: boolean;
-  readonly entity?: TagFilterEntity;
+  readonly entity: TagFilterEntity;
   readonly key?: string;
   readonly name: string;
   readonly numberValue?: number;
