@@ -243,11 +243,13 @@ const columnsPerDataSource = {
 };
 
 export default function Beacons(props) {
+  const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter } = props;
+
   let content = (
     <UngroupedViewTable
       {...props}
-      Sidebar={FacetedSearchPresenter}
-      Chart={ChartsPresenter}
+      Sidebar={Sidebar}
+      Chart={Chart}
       getItemName={({ count }) =>
         t('in-websites:dataSource', {
           context: props.dataSource,
