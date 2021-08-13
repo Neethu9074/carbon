@@ -18,8 +18,9 @@ import { IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operat
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { createChartedMetric } from 'in-analyze/navigation/paths';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { stackedBar, line } from 'in-stores/metric/renderer';
+import { line, stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -213,7 +214,8 @@ export default function HttpSections({
                   }),
                   hiddenCalls,
                   groupBy,
-                  timeConfig: highlightedTime
+                  timeConfig: highlightedTime,
+                  chartedMetrics: [createChartedMetric('calls', 'SUM')]
                 }
               )
           }
