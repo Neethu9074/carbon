@@ -35,7 +35,11 @@ export default function ApiTokenForm({ form, onChange, disabled }) {
             {field.value}
           </Label>
           <Tooltip align="topRight" content={t('in-settings:tabs.copyApiTokenToClipboard')}>
-            <AsyncTokenCopyButton internalId={form.get('internalId').value} />
+            <AsyncTokenCopyButton
+              internalId={form.get('internalId').value}
+              token={form.get('accessGrantingToken').value}
+              updateToken={token => onChange('accessGrantingToken', token)}
+            />
           </Tooltip>
         </FormGroup>
       ))}
