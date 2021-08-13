@@ -15,12 +15,22 @@ import {
   LOG_CALL_ID,
   LOG_CUSTOM_KEY_APPLICATION_ID
 } from 'in-logging/queryBuilder';
+import {
+  ClickedTag,
+  LogTagsTableProps,
+  GetContentType,
+  TagEntryProps,
+  ResolvedLinkProps,
+  ToggleProps,
+  ApplicationsListProps,
+  ApplicationProps
+} from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.d';
 import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolvedLink';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolvedName';
+
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
-import { ClickedTag } from 'in-logging/analyze/AnalyzeView/components/types';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 // @ts-ignore
 import CopyToClipboard from 'in-components/CopyToClipboard';
@@ -33,26 +43,11 @@ import IconButton from 'in-components/IconButton/IconButton';
 import IconLink from 'in-components/IconButton/IconLink';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
-import { LogItem, LogTag } from 'in-types';
+import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
 // @ts-ignore
 import locals from './LogTagsTable.mless';
-
-type OnSelectTagHref = (tag: ClickedTag) => string;
-type GetHrefToGroupedView = (tag: any) => string;
-interface LogTagsTableProps {
-  item: LogItem;
-  onSelectTagHref: OnSelectTagHref;
-  getHrefToGroupedView: GetHrefToGroupedView;
-  tagToLabelMap: Map<string, string>;
-}
-
-interface GetContentType extends LogTagsTableProps {
-  tag: LogTag;
-  uniqueTagName: string;
-  isHovered: boolean;
-}
 
 const columnDefinitions = [
   {
@@ -102,11 +97,6 @@ export default function LogTagsTable({
       })}
     </Ul>
   );
-}
-
-interface TagEntryProps extends LogTagsTableProps {
-  tag: LogTag;
-  uniqueTagName: string;
 }
 
 function TagEntry({ tag, item, uniqueTagName, tagToLabelMap, onSelectTagHref, getHrefToGroupedView }: TagEntryProps) {
@@ -172,17 +162,6 @@ function filterTag(tag: LogTag): boolean {
   return !restrictedTags.has(tag.name || '') && !restrictedTags.has(tag.key || '');
 }
 
-interface ResolvedLinkProps {
-  uniqueTagName: string;
-  resolvedValue: string;
-  tag: LogTag;
-  item: LogItem;
-}
-
-interface ToggleProps {
-  toggle: () => void;
-}
-
 function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkProps) {
   const resolvedLink = useResolvedLink(uniqueTagName, tag, item);
 
@@ -216,11 +195,6 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
   return <span className={locals.value}>{resolvedValue}</span>;
 }
 
-interface ApplicationsListProps {
-  applicationIds: string[];
-  item: LogItem;
-}
-
 function ApplicationsList({ applicationIds, item }: ApplicationsListProps) {
   return (
     <div className={locals.applicationListOverlay}>
@@ -232,11 +206,6 @@ function ApplicationsList({ applicationIds, item }: ApplicationsListProps) {
       </Ul>
     </div>
   );
-}
-
-interface ApplicationProps {
-  applicationId: string;
-  item: LogItem;
 }
 
 function Application({ applicationId, item }: ApplicationProps) {
