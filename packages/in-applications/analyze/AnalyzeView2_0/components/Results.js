@@ -12,6 +12,7 @@ import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/c
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import AlternativeTraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components_alt/TraceDetailView';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
+import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
 import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
@@ -68,6 +69,7 @@ export default function Results(props) {
     <UngroupedViewTable
       {...props}
       Sidebar={FacetedSearchPresenter}
+      Chart={ChartsPresenter}
       getItemName={({ count }) =>
         t('in-applications:analyze.dataSource', {
           context: dataSource,

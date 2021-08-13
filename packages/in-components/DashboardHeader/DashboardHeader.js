@@ -44,7 +44,6 @@ export default function DashboardHeader(props) {
     renderButtonLineSecondary,
     renderTopLevelButtonLine
   } = props;
-
   const isLoading = result && result.data == null;
 
   if (isLoading) {

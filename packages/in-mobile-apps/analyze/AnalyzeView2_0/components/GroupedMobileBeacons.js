@@ -5,8 +5,9 @@
 
 import React from 'react';
 
-import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
+import { FacetedSearchPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
+import { ChartsPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import getMobileAppBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppBeaconGroups';
 import MobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/MobileBeacons';
@@ -18,6 +19,7 @@ export default function GroupedMobileBeacons(props) {
       <GroupedView
         {...props}
         Sidebar={FacetedSearchPresenter}
+        Chart={ChartsPresenter}
         getLabel={getLabel}
         itemlabelColumnId="name"
         getData={getTableData}

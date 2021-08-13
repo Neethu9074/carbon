@@ -3,21 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { isPrimaryInteractiveElement } from '@instana/components';
+import { keyCodes, isPrimaryInteractiveElement } from '@instana/components';
 
-import {
-  isArrowLeft,
-  isHome,
-  isCtrl,
-  isA,
-  isMeta,
-  isArrowRight,
-  isEnd,
-  isE,
-  isBackspace,
-  isDelete
-} from 'in-components/keyCodes';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+
+const { isArrowLeft, isHome, isCtrl, isA, isMeta, isArrowRight, isEnd, isE, isBackspace, isDelete } = keyCodes;
 
 export function onKeyDown(e, stopElement) {
   // Do execute custom focus change logic when typing in regular input fields
@@ -25,7 +15,7 @@ export function onKeyDown(e, stopElement) {
     return;
   }
 
-  if ((e.metaKey && isArrowLeft(e)) || isHome(e) || (isCtrl(e) && isA(e))) {
+  if ((isMeta(e) && isArrowLeft(e)) || isHome(e) || (isCtrl(e) && isA(e))) {
     stopPropagationAndPreventDefault(e);
     focusFirst(stopElement);
   } else if ((isMeta(e) && isArrowRight(e)) || isEnd(e) || (isCtrl(e) && isE(e))) {

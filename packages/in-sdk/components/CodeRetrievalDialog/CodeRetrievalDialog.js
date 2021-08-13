@@ -12,6 +12,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './CodeRetrievalDialog.mless';
 
@@ -31,7 +32,9 @@ export default connectTo(
 
     return (
       <Dialog
-        title={`File: ${file} ${hasLine ? `- Line: ${line}` : ''}`}
+        title={`${t('in-sdk:components.codeRetrievalDialog.file')}: ${file} ${
+          hasLine ? `- ${t('in-sdk:components.codeRetrievalDialog.line')}: ${line}` : ''
+        }`}
         onClose={close}
         renderCustomCloseBehaviour={() => header}
       >
@@ -42,10 +45,12 @@ export default connectTo(
           // Wan't fix it right now so show a explanatory warning message instead of the error.
           response.error.includes('Invalid BootstrapMethods attribute entry') ? (
             <DashboardNotification type="warn">
-              Decompilation of class file containing some features in recent Java versions is not fully supported.
+              {t('in-sdk:components.codeRetrievalDialog.decompilationNotFullySupported')}
             </DashboardNotification>
           ) : (
-            <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
+            <DashboardNotification type="danger">
+              {t('in-sdk:components.codeRetrievalDialog.error')}: {response.error}
+            </DashboardNotification>
           )
         ) : null}
 

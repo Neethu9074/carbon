@@ -18,6 +18,7 @@ import {
   isWebsiteSmartAlertEvent,
   getTimeConfigForSnapshotRetrieval
 } from 'in-events/components/eventUtil';
+import { KubernetesEventContent, isKubernetesEvent } from 'in-events/components/EventContent/KubernetesEventContent';
 import EntityWithParentInformation from 'in-events/components/EntityInformation/EntityWithParentInformation';
 import AgentMonitoringIssueDescription from 'in-events/components/legacy/AgentMonitoringIssueDescription';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
@@ -78,6 +79,7 @@ export default function Summary({ selectedEventId, data: event }) {
 }
 
 function EventContent({ event, latestSnapshot }) {
+  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
   if (isWebsiteSmartAlertEvent(event)) {
     return <WebsiteEventContent event={event} />;
   }
@@ -86,7 +88,9 @@ function EventContent({ event, latestSnapshot }) {
     return <ApplicationEventContent event={event} />;
   }
 
-  const timeConfig = getTimeConfigForSnapshotRetrieval(event, latestSnapshot);
+  if (isKubernetesEvent(event)) {
+    return <KubernetesEventContent event={event} timeConfig={timeConfig} />;
+  }
 
   return (
     <>

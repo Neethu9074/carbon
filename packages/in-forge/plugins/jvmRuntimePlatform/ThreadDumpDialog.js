@@ -41,7 +41,9 @@ export default connectTo(
         {!response && <LoadingIndicator />}
 
         {response && response.error && (
-          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
+          <DashboardNotification type="danger">
+            {t('in-forge:plugins.labelError')}: {response.error}
+          </DashboardNotification>
         )}
 
         {response && response.data && <Code code={response.data} id={codeTargetId} withoutCopyButton />}

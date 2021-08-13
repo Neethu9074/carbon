@@ -38,6 +38,8 @@ export interface KpiCardProps {
   children?: ReactNode;
   valuesClassName?: string;
   borderless?: boolean;
+  shadowless?: boolean;
+  centerLabels?: boolean;
   color?: string;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
@@ -53,6 +55,8 @@ export default function KpiCard({
   children,
   valuesClassName,
   borderless = false,
+  shadowless = false,
+  centerLabels = false,
   color,
   useMaxAvailableHeight = true,
   iconAction
@@ -95,10 +99,18 @@ export default function KpiCard({
       className={classNames({
         [locals.wrapper]: true,
         [locals.borderless]: borderless,
+        [locals.shadowless]: shadowless,
+        [locals.centerValue]: centerLabels,
         [locals.useMaxAvailableHeight]: useMaxAvailableHeight
       })}
     >
-      <div className={locals.title} ref={ref}>
+      <div
+        className={classNames({
+          [locals.title]: true,
+          [locals.centerTitle]: centerLabels
+        })}
+        ref={ref}
+      >
         <>{title}</>
         {iconAction && (
           <div
@@ -140,6 +152,8 @@ KpiCard.propTypes = {
   renderValue: PropTypes.func,
   valuesClassName: PropTypes.string,
   borderless: PropTypes.bool,
+  shadowless: PropTypes.bool,
+  centerLabels: PropTypes.bool,
   color: PropTypes.string,
   useMaxAvailableHeight: PropTypes.bool,
   iconAction: PropTypes.object

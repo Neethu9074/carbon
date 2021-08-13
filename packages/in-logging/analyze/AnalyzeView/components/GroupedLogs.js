@@ -7,13 +7,14 @@ import React, { useMemo } from 'react';
 
 import { KeyValue } from '@instana/components';
 
-import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
+import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
 import { percentage } from 'in-services/formatters/number';
+import { ChartsPresenter } from './ChartsPresenter';
 import { t } from 'in-i18n';
 
 const tracker = {
@@ -57,6 +58,7 @@ export default function GroupedLogs(props) {
       <GroupedView
         {...props}
         Sidebar={FacetedSearchPresenter}
+        Chart={ChartsPresenter}
         columnDefinitions={columnDefinitions}
         itemlabelColumnId="label"
         getData={getTableData}

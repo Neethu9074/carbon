@@ -3,11 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
-import { empty } from '@instana/observables';
 
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { disableGlobalAlertConfig } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
@@ -22,51 +20,8 @@ import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 export default function MigrateToSmartAlerts({ eventSpecificationId }) {
-  const [doMigrate, setDoMigrate] = useState(false);
   const [pausingAlerts, setPausingAlerts] = useState(false);
-
-  const migratedConfigRes = useObservable(
-    () => (doMigrate ? getAlertConfigFromLegacyEvent({ eventSpecificationId }) : empty),
-    [doMigrate]
-  );
-
-  const { globalApplicationsAlertConfig, applicationAlertConfig, globalSmartAlert } = migratedConfigRes?.data ?? {};
-  const config = globalSmartAlert ? globalApplicationsAlertConfig : applicationAlertConfig;
-  const migrating = isLoading(migratedConfigRes);
-
-  useEffect(() => {
-    if (config && !migrating) {
-      addActiveDialog(
-        <SmartAlertConfigDialogWrapper
-          applicationLabel={config.name}
-          alertConfig={config}
-          onClose={savedAlertConfig => {
-            const disableConfig = globalSmartAlert ? disableGlobalAlertConfig : disableAlertConfig;
-
-            setPausingAlerts(true);
-
-            disableConfig(savedAlertConfig.id).once(
-              () => {
-                setCustomEventSpecificationsEnabled(eventSpecificationId, false).once(
-                  () => {
-                    setPausingAlerts(false);
-                    goToPath(teamSettingsAlertingEvents);
-                  },
-                  () => setPausingAlerts(false)
-                );
-              },
-              () => setPausingAlerts(false)
-            );
-
-            setDoMigrate(false);
-            close();
-          }}
-          isGlobalSmartAlert={globalSmartAlert}
-          editMode
-        />
-      );
-    }
-  }, [migrating, config, globalSmartAlert, eventSpecificationId]);
+  const [migrating, setMigrating] = useState(false);
 
   const spinning = migrating || pausingAlerts;
 
@@ -75,7 +30,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
       <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')}>
         <Button
           kind="primaryv2"
-          onClick={() => setDoMigrate(true)}
+          onClick={() => doMigration({ eventSpecificationId, setPausingAlerts, setMigrating })}
           icon={spinning ? 'lib_actions_loading' : null}
           iconSpinning={spinning}
         >
@@ -83,5 +38,56 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
         </Button>
       </Tooltip>
     </div>
+  );
+}
+
+function doMigration({ eventSpecificationId, setPausingAlerts, setMigrating }) {
+  setMigrating(true);
+  getAlertConfigFromLegacyEvent({ eventSpecificationId })
+    .filter(res => !isLoading(res))
+    .tap(() => setMigrating(false))
+    .map(res => res?.data ?? {})
+    .map(({ globalApplicationsAlertConfig, applicationAlertConfig, globalSmartAlert }) => ({
+      globalSmartAlert,
+      config: globalSmartAlert ? globalApplicationsAlertConfig : applicationAlertConfig
+    }))
+    .once(res => showSmartAlertDialog({ eventSpecificationId, setPausingAlerts, ...res }));
+}
+
+function showSmartAlertDialog({ globalSmartAlert, config, eventSpecificationId, setPausingAlerts }) {
+  if (config) {
+    addActiveDialog(
+      <SmartAlertConfigDialogWrapper
+        applicationLabel={config.name}
+        alertConfig={config}
+        onClose={savedAlertConfig => {
+          if (savedAlertConfig.id) {
+            handleSuccessfulMigration(globalSmartAlert, setPausingAlerts, savedAlertConfig, eventSpecificationId);
+          }
+          close();
+        }}
+        isGlobalSmartAlert={globalSmartAlert}
+        editMode
+      />
+    );
+  }
+}
+
+function handleSuccessfulMigration(globalSmartAlert, setPausingAlerts, savedAlertConfig, eventSpecificationId) {
+  const disableConfig = globalSmartAlert ? disableGlobalAlertConfig : disableAlertConfig;
+
+  setPausingAlerts(true);
+
+  disableConfig(savedAlertConfig.id).once(
+    () => {
+      setCustomEventSpecificationsEnabled(eventSpecificationId, false).once(
+        () => {
+          setPausingAlerts(false);
+          goToPath(teamSettingsAlertingEvents);
+        },
+        () => setPausingAlerts(false)
+      );
+    },
+    () => setPausingAlerts(false)
   );
 }

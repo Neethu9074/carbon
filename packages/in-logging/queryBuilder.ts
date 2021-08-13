@@ -12,12 +12,24 @@ export function getTraceIdTagFilter(traceId: string): TagFilter {
   // Until the transition to 128bit trace IDs is complete, only the ID's last 64 bits should
   // be used for finding traces by ID
   traceId = traceId.slice(-16);
-  return getValueMatchTagFilter({ name: LOG_TRACE_ID, value: traceId, operator: ENDS_WITH, type: 'STRING' });
+  return getValueMatchTagFilter({
+    name: LOG_TRACE_ID,
+    value: traceId,
+    operator: ENDS_WITH,
+    type: 'STRING',
+    entity: 'NOT_APPLICABLE'
+  });
 }
 
 export function getSpanIdTagFilter(spanId: string) {
   return spanId
-    ? getValueMatchTagFilter({ name: LOG_SPAN_ID, value: spanId, operator: EQUALS, type: 'STRING' })
+    ? getValueMatchTagFilter({
+        name: LOG_SPAN_ID,
+        value: spanId,
+        operator: EQUALS,
+        type: 'STRING',
+        entity: 'NOT_APPLICABLE'
+      })
     : getEmptyTagFilterExpression();
 }
 
@@ -25,8 +37,8 @@ export function getValueMatchTagFilter(tagFilter: TagFilter) {
   const { name, key, value, operator = EQUALS, type = 'TAG_FILTER' } = tagFilter;
   return sanitizeTagFilter(
     type === 'KEY_VALUE_PAIR' && !key
-      ? { type, operator: NOT_EMPTY, name, key: value }
-      : { type, operator, name, key, value }
+      ? { type, operator: NOT_EMPTY, name, key: value, entity: 'NOT_APPLICABLE' }
+      : { type, operator, name, key, value, entity: 'NOT_APPLICABLE' }
   );
 }
 

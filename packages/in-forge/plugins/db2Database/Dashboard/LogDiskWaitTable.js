@@ -8,12 +8,14 @@ import React from 'react';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, millis, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
-import { emptyList } from 'in-services/fixedImmutables';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';
+import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
 import { t } from 'in-i18n';
 
+let snapshotProps = {};
 const cols = [
   {
     title: t('in-forge:plugins.db2Database.executableId'),
@@ -137,17 +139,28 @@ const cols = [
     }
   }
 ];
-export default function LogDiskWaitTable({ snapshot, timeConfig }) {
-  const snapshotId = snapshot.get('id');
-  const rows = snapshot
-    .getIn(['data', 'logdiskwaitid'], emptyList)
+
+function LogDiskWaitTable({ data, keys }) {
+  if (!data) {
+    return null;
+  }
+
+  if (!keys) {
+    return null;
+  }
+
+  const { snapshot, snapshotId, timeConfig } = snapshotProps;
+  const statements = data.get('raw_payload', []);
+  const rows = keys
+    .get('raw_payload', [])
     .toArray()
-    .map(name => {
+    .map(key => {
       return {
-        key: name,
+        key: key,
         snapshotId,
         timeConfig,
-        snapshot
+        snapshot,
+        value: statements.get(key)
       };
     });
 
@@ -166,14 +179,22 @@ export default function LogDiskWaitTable({ snapshot, timeConfig }) {
   );
 }
 
+export default connectTo(props => {
+  snapshotProps = props;
+  return {
+    data: getRawPayloadWithTimestamp(props.snapshotId, 'logdiskwaitstmts_extracted'),
+    keys: getRawPayloadWithTimestamp(props.snapshotId, 'logdiskwaitid')
+  };
+}, LogDiskWaitTable);
+
+function extractQuery(row) {
+  return row.value ? formatSql(row.value) : t('in-forge:plugins.db2Database.errorMessage');
+}
+
 function getDetails(row) {
   return (
     <div>
-      <Code
-        code={formatSql(row.snapshot.getIn(['data', 'logdiskwait.' + row.key + '.stmtText']))}
-        lang="sql"
-        softWrap
-      />
+      <Code code={extractQuery(row)} lang="sql" softWrap />
       <Chart
         snapshotId={row.snapshotId}
         timeConfig={row.timeConfig}

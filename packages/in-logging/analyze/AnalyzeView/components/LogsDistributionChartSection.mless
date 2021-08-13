@@ -6,9 +6,8 @@
 @import '~in-themes/active.less';
 
 :local {
-  .wrapper,
-  .chartWrapper {
-    border-top: 1px solid @lib__colors__N400;
+  .wrapper {
+    margin-bottom: 24px;
   }
 
   .chartWrapper {

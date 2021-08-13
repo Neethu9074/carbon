@@ -186,6 +186,7 @@ import './mongoDb';
 import './process';
 import './sapHana';
 import './service';
+import './traefik';
 import './varnish';
 import './ibmIOs';
 import './ibmCos';

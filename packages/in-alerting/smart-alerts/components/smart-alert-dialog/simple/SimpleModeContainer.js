@@ -21,6 +21,7 @@ export default function SimpleModeContainer(props) {
     onStepChanged,
     stepRenderers,
     isTagFilterFormModelValid,
+    error,
     isSaving
   } = props;
 
@@ -33,6 +34,7 @@ export default function SimpleModeContainer(props) {
         setSimpleModeStep={setSimpleModeStep}
         updateForm={updateForm}
         stepConfigs={stepConfigs}
+        error={error}
         isSaving={isSaving}
         onStepChanged={onStepChanged}
         renderStep={step => stepRenderers[step](props)}
@@ -59,5 +61,6 @@ SimpleModeContainer.propTypes = {
   ).isRequired,
   stepRenderers: PropTypes.arrayOf(PropTypes.func).isRequired,
   isTagFilterFormModelValid: PropTypes.bool.isRequired,
+  error: PropTypes.object,
   isSaving: PropTypes.bool
 };

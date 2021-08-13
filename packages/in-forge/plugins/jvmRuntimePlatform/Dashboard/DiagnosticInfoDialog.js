@@ -12,6 +12,7 @@ import { close } from 'in-components/DialogPresenter/store';
 import Dialog from 'in-components/Dialog/Dialog';
 import connectTo from 'in-hoc/connectTo';
 import Code from 'in-components/Code';
+import { t } from 'in-i18n';
 
 import locals from './DiagnosticInfoDialog.mless';
 
@@ -36,7 +37,9 @@ export default connectTo(
         {!response ? <LoadingIndicator /> : null}
 
         {response && response.error ? (
-          <DashboardNotification type="danger">Error: {response.error}</DashboardNotification>
+          <DashboardNotification type="danger">
+            {t('in-forge:plugins.labelError')}: {response.error}
+          </DashboardNotification>
         ) : null}
 
         {response && response.data ? (

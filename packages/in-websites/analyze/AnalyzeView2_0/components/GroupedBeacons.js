@@ -5,8 +5,9 @@
 
 import React from 'react';
 
-import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
+import { FacetedSearchPresenter } from 'in-websites/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
+import { ChartsPresenter } from 'in-websites/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import getWebsiteBeaconGroups from 'in-websites/subscriptions/getWebsiteBeaconGroups';
 import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
@@ -18,6 +19,7 @@ export default function GroupedBeacons(props) {
       <GroupedView
         {...props}
         Sidebar={FacetedSearchPresenter}
+        Chart={ChartsPresenter}
         getLabel={getLabel}
         itemlabelColumnId="name"
         getData={getTableData}

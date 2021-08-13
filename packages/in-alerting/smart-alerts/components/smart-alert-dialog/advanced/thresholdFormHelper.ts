@@ -4,19 +4,25 @@
  */
 
 import { Field, MapForm } from 'formalistic';
+
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
-export function getFormValueOrDefault(form: MapForm, key: string, defaultValue: any = null): any {
-  const item: Field<any> | undefined = form.get(key) as Field<any> | undefined;
-  return form.containsKey(key) ? item?.value : defaultValue;
+export function getFormValueOrDefault<T>(form: MapForm, key: string, defaultValue: T | null = null): T | null {
+  const item = form.get(key) as Field<T> | undefined;
+  return item?.value ?? defaultValue;
 }
 
-export function getThresholdComboBoxValue(form: MapForm): string {
-  const thresholdForm: MapForm = form.get('threshold') as MapForm;
-  const thresholdType: Field<any> | undefined = thresholdForm.get('type') as Field<any> | undefined;
-  const seasonality: Field<any> | undefined = thresholdForm.get('seasonality') as Field<any> | undefined;
-  let type: string = thresholdType?.value;
+/**
+ * This heavily depends on the given form having a 'threshold' field, which is a
+ * MapForm, having field 'type' !
+ * optionally it uses its 'seasonality' field in case of a HISTORIC_BASELINE
+ */
+export function getThresholdComboBoxValue(form: MapForm): string | undefined {
+  const thresholdForm = form.get('threshold') as MapForm;
+  const thresholdType = thresholdForm.get('type') as Field<string> | undefined;
+  let type = thresholdType?.value;
   if (type === HISTORIC_BASELINE) {
+    const seasonality = thresholdForm.get('seasonality') as Field<any> | undefined;
     return `${type}.${seasonality?.value}`;
   }
   return type;

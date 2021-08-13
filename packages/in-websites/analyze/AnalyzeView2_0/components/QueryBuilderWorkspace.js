@@ -9,7 +9,6 @@ import { Message, Stack } from '@instana/components';
 
 import {
   ua2ApiQueryPressedTracker,
-  ua2ChartChangedTracker,
   ua2GroupChangedTracker,
   ua2NestingDepthTracker,
   ua2QueryBuilderFilterAddedTracker
@@ -21,14 +20,11 @@ import {
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import ApiQueryAction from 'in-components/QueryBuilder/workspace/ApiQueryAction/ApiQueryAction';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
-import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
 import * as groupingConfiguratorsByDataSource from 'in-websites/groupingConfigurators';
 import { ActionSection } from 'in-components/workspace/ActionSection/ActionSection';
-import { metricRenderers } from 'in-websites/analyze/AnalyzeView2_0/metrics';
 import * as queryBuildersByDataSource from 'in-websites/queryBuilder';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
-import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -47,9 +43,7 @@ export default function WebsiteQueryBuilderWorkspace(props) {
     dataSource,
     groupBy,
     onGroupByChange,
-    useLastValidStateWhenErroneous,
-    chartedMetrics,
-    chartableDataSeries
+    useLastValidStateWhenErroneous
   } = props;
 
   return (
@@ -85,21 +79,6 @@ export default function WebsiteQueryBuilderWorkspace(props) {
               }}
             />
 
-            <Charting
-              {...props}
-              chartedMetrics={chartedMetrics.map(chartedMetric => ({
-                ...chartedMetric,
-                rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
-              }))}
-              unifiedMetricsSource="WEBSITE"
-              mapMetricConfiguration={mapMetricConfiguration}
-              forceLoadingIndicator={isGrouped && chartableDataSeries == null}
-              tracking={{
-                onChartChanged: ({ metricId, aggregationId }) =>
-                  ua2ChartChangedTracker({ dataSource, metric: metricId, aggregation: aggregationId })
-              }}
-            />
-
             <ActionSection
               right={
                 <ApiQueryAction
@@ -124,15 +103,4 @@ export default function WebsiteQueryBuilderWorkspace(props) {
       <Footer />
     </Sticky>
   );
-}
-
-function mapMetricConfiguration(metricConfiguration, { dataSource }) {
-  return {
-    ...metricConfiguration,
-    tagFilterExpression: addDataSourceToBackendQueryModel({
-      backendQueryModel: metricConfiguration.tagFilterExpression,
-      dataSource
-    }),
-    beaconType: dataSource
-  };
 }

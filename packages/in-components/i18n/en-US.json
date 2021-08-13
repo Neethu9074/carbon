@@ -228,6 +228,9 @@
     "explanation": "We could not find a version of this entity in the selected time range. We found other versions in different time ranges:",
     "noDataAvailable": "No data available"
   },
+  "entityToInstanaServiceButton": {
+    "services": "Services"
+  },
   "error": {
     "erroneousResultPresenterMessage": "An unexpected error occurred. Please refresh the page or try again later."
   },

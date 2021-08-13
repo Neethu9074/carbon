@@ -12,6 +12,7 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { pendingResult } from 'in-services/fixedObjects';
+import Sections from 'in-components/workspace/Sections';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { error } from 'in-services/util/result';
 import theme from 'in-themes';
@@ -38,7 +39,7 @@ export default function LogsDistributionChartSection(props) {
   const { chartedMetrics, onChartedMetricsChange, tracking } = props;
 
   return (
-    <div className={locals.wrapper}>
+    <Sections className={locals.wrapper}>
       <ChartingConfiguratorSection
         value={chartedMetrics?.[0]}
         onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
@@ -51,7 +52,7 @@ export default function LogsDistributionChartSection(props) {
       <div className={locals.chartWrapper}>
         <Chart {...props} metric={chartedMetrics && chartedMetrics[0]} />
       </div>
-    </div>
+    </Sections>
   );
 }
 

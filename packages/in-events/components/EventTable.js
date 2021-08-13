@@ -10,6 +10,7 @@ import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 import { on } from '@instana/observables';
 
+import { getKubernetesProblemText, getKubernetesProblemTextReplacement } from './EventContent/KubernetesEventContent';
 import { getEventType, EVENT_TYPES, getEvent, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import NavigatorSplitScreen from 'in-events/components/NavigatorSplitScreen/NavigatorSplitScreen';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
@@ -86,8 +87,8 @@ export default class extends React.Component {
 }
 
 function EventTable(props) {
-  const { selectedEventId, items, onChange, progress } = props;
-
+  const { selectedEventId, onChange, progress } = props;
+  const items = props.items.map(item => updateTitle(item));
   if (!items) {
     return null;
   }
@@ -97,14 +98,14 @@ function EventTable(props) {
   }
 
   if (!selectedEventId) {
-    return <EventsList {...props} onItemClicked={onItemClicked} progress={progress} />;
+    return <EventsList {...props} items={items} onItemClicked={onItemClicked} progress={progress} />;
   }
 
   return (
     <NavigatorSplitScreen
       {...props}
       items={items}
-      navigator={<EventsList {...props} onItemClicked={onItemClicked} />}
+      navigator={<EventsList {...props} items={items} onItemClicked={onItemClicked} />}
       typeLabel="event"
       openItemIndex={findIndex(items, event => event.id === selectedEventId)}
       openItem={e => onChange({ eventId: e.id })}
@@ -144,7 +145,7 @@ function Header(props) {
       event={props.result.data}
       title={t('in-events:titleEvent')}
       renderIcon={() => renderIcon(props.result.data, props.timeConfig)}
-      label={props.result.data.getIn(['problem', 'problemText'], '')}
+      label={getLabelText(props.result.data)}
       renderMetaInformation={renderMetaInformation}
       renderTimeSelection={renderTimeSelection}
       hideUrlShortener
@@ -190,4 +191,20 @@ function renderIcon(event, timeConfig) {
       size="l"
     />
   );
+}
+
+function getLabelText(event) {
+  const kubernetesProblemText = getKubernetesProblemText(event);
+  if (kubernetesProblemText) {
+    return kubernetesProblemText;
+  }
+
+  return event.getIn(['problem', 'problemText'], '');
+}
+function updateTitle(item) {
+  const kubernetesProblemText = getKubernetesProblemTextReplacement(item.title);
+  if (kubernetesProblemText) {
+    return { ...item, title: kubernetesProblemText };
+  }
+  return { ...item };
 }

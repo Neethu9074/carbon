@@ -125,7 +125,6 @@ function EventView(props) {
 
 function EventViewComponent(props) {
   const { eventType, staticTimeConfigToUseForTable, orderBy, orderDirection, query, eventId, timeConfig } = props;
-
   const tableProps = useCursorPagination(
     ({ cursor }) =>
       getRawEvents({
@@ -149,7 +148,6 @@ function EventViewComponent(props) {
       ...spreadTimeConfig(staticTimeConfigToUseForTable, timeConfig)
     ]
   );
-
   return (
     <Sticky
       header={

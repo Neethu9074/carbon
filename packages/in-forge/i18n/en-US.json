@@ -436,6 +436,8 @@
   "pluginName_hAProxy_1": "HAProxy",
   "pluginName_hAProxy_2": "HAProxy",
   "pluginName_hAProxy": "HAProxy",
+  "pluginName_traefik": "Traefik",
+  "pluginName_traefik_plural": "Traefik",
   "pluginName_haskellRuntimePlatform_plural": "Haskell Applications",
   "pluginName_haskellRuntimePlatform_0": "Haskell Applications",
   "pluginName_haskellRuntimePlatform_1": "Haskell Applications",
@@ -2144,6 +2146,7 @@
     "labelFlush": "Flush",
     "labelSet": "Set",
     "labelList": "List",
+    "labelError": "Error",
     "infoTitle": {
       "arn": "ARN",
       "name": "Name",
@@ -5017,7 +5020,8 @@
       "clientApplName": "Client Application Name",
       "activityState": "Activity State",
       "activityType": "Activity Type",
-      "logBufferWaitTime": "Log Buffer Wait Time"
+      "logBufferWaitTime": "Log Buffer Wait Time",
+      "errorMessage": "Could not extract the query from DB"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
@@ -7102,6 +7106,23 @@
         "eGStatsSocketRunHaproxyAdmin1SockMode660LevelAdminProcess1": "E.g. <code>{{code}}</code>"
       }
     },
+    "traefik":{
+      "traefik": "Traefik",
+      "processId": "Process ID",
+      "version":"Version",
+      "troubleshootingDocs": "Troubleshooting docs",
+      "traefikMetricsApiNotAccessible": "The metrics API URL <code>{{url}}</code> of this Traefik process is not accessible from the host agent.",
+      "traefikMetricsApiNotEnabled": "Prometheus metrics are not enabled in the configuration.",
+      "traefikTracingNotEnabled": "Instana tracing is not enabled in the configuration.",
+      "config": "Config",
+      "requests": "Requests",
+      "dashboard": {
+        "requestsPerSecond": "Requests per second",
+        "configLastReloadSuccess" : "Config's last reload success",
+        "configReloadsTotal" : "Number of config reloads",
+        "entryPoints": "Entrypoints"
+      }
+    },
     "haskellRuntimePlatform": {
       "dashboard": {
         "cpuTimeSecond": "CPU Time/second",
@@ -7433,7 +7454,7 @@
       "vm": "VM",
       "esXiHost": "ESXi Host",
       "datacenter": "Datacenter",
-      "device": "Device",
+      "deviceOrMount": "Device/Mount Point",
       "gpuUuid": "GPU UUID"
     },
     "httpd": {
@@ -10604,6 +10625,9 @@
     "clickHouseDatabase": {
       "clickHouseServer": "ClickHouse Server",
       "settings": "Settings"
+    },
+    "packageRetrieval": {
+      "package": "Package"
     }
   },
   "tracing": {

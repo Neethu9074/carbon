@@ -12,11 +12,11 @@ import {
   ColumnizedContent,
   KeyValue,
   Li,
+  LiHorizontalIndicator,
   LiLoadMore,
   Stack,
   SvgIcon,
-  Ul,
-  LiHorizontalIndicator
+  Ul
 } from '@instana/components';
 import { empty } from '@instana/observables';
 
@@ -46,8 +46,8 @@ import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import Header from 'in-components/QueryBuilder/components/Header';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import IconLink from 'in-components/IconButton/IconLink';
 import { getFormatter } from 'in-stores/metric/formatters';
+import IconLink from 'in-components/IconButton/IconLink';
 import { aggregationLabels } from 'in-stores/metric';
 import { identity } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip/Tooltip';
@@ -88,7 +88,8 @@ export default function GroupedAnalyzeView(props) {
     withoutChartGroupMarkers = false,
     chartedMetrics,
     tracker,
-    groupingTagCatalog
+    groupingTagCatalog,
+    Chart
   } = props;
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
@@ -252,6 +253,7 @@ export default function GroupedAnalyzeView(props) {
           excludeMissingGroupingTagFilterExpression={excludeMissingGroupingTagFilterExpression}
         />
         <div className={locals.resultContainer}>
+          <Chart {...props} />
           <Header
             {...props}
             sortOptions={withoutSorting ? undefined : sortOptions}

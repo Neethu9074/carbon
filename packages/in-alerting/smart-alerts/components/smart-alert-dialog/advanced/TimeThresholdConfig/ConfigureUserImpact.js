@@ -33,7 +33,7 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
     <>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
         <div>
-          {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfRequestsThreshold')}
+          {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfImpactedUsersThreshold')}
         </div>
         <div className={locals.configureImpactControlsWrapper}>
           <div className={locals.operatorLabel}>
@@ -84,7 +84,9 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
       </AlertThresholdConfigItemContainer>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
         <div>
-          {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigPercentageOfRequestsThreshold')}
+          {t(
+            'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigPercentageOfImpactedUsersThreshold'
+          )}
         </div>
         <div className={locals.configureImpactControlsWrapper}>
           <div className={locals.operatorLabel}>
@@ -92,7 +94,9 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
           </div>
           <div>
             <FormGroup className={locals.formGroup} withoutBottomMargin>
-              <Label>{t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfUsers')}</Label>
+              <Label>
+                {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigPercentageOfUsers')}
+              </Label>
               <Input
                 className={locals.input}
                 type="number"

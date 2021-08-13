@@ -24,7 +24,8 @@ interface Props {
 
 const colorMappings = new Map<string, string>([
   ['error', theme.lib.colors.red800],
-  ['warn', theme.lib.colors.yellow800]
+  ['warn', theme.lib.colors.yellow800],
+  ['info', theme.lib.colors.lightBlue800]
 ]);
 
 export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
@@ -39,7 +40,13 @@ export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
     <Link
       href={
         onSelectTagHref
-          ? onSelectTagHref({ name: LOG_LEVEL, value: logLevel, type: 'STRING', operator: EQUALS })
+          ? onSelectTagHref({
+              name: LOG_LEVEL,
+              value: logLevel,
+              type: 'STRING',
+              operator: EQUALS,
+              entity: 'NOT_APPLICABLE'
+            })
           : undefined
       }
     >

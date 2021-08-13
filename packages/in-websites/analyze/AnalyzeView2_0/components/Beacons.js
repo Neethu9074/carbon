@@ -20,6 +20,7 @@ import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
+import { ChartsPresenter } from './ChartsPresenter';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -246,6 +247,7 @@ export default function Beacons(props) {
     <UngroupedViewTable
       {...props}
       Sidebar={FacetedSearchPresenter}
+      Chart={ChartsPresenter}
       getItemName={({ count }) =>
         t('in-websites:dataSource', {
           context: props.dataSource,

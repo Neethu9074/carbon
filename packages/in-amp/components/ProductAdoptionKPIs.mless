@@ -1,0 +1,19 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+:local {
+  .kpiContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    margin: 1rem;
+  }
+
+  .kpiValue {
+    font-size: 3rem;
+    text-align: center;
+  }
+}

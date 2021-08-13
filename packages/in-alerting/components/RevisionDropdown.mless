@@ -24,7 +24,7 @@
   }
 
   .description {
-    width: 6.25rem;
+    width: 100px;
   }
 
   .date {

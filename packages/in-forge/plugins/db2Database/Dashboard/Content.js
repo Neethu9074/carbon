@@ -452,12 +452,8 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       {data.get('containerNames', emptyList).size > 0 && (
         <ContainersTable snapshot={snapshot} timeConfig={timeConfig} />
       )}
-      {data.get('toptotalstmtsid', emptyList).size > 0 && (
-        <TopTotalStmtsTable snapshot={snapshot} timeConfig={timeConfig} />
-      )}
-      {data.get('logdiskwaitid', emptyList).size > 0 && (
-        <LogDiskWaitTable snapshot={snapshot} timeConfig={timeConfig} />
-      )}
+      <TopTotalStmtsTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
+      <LogDiskWaitTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <DbUtilitiesTable snapshotId={snapshotId} />
       <DbConfigTable snapshotId={snapshotId} />
       <DbmConfigTable snapshotId={snapshotId} />
