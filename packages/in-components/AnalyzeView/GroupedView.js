@@ -247,13 +247,15 @@ export default function GroupedAnalyzeView(props) {
   return (
     <>
       <Stack direction={'horizontal'} gap={'disabled'}>
-        <Sidebar
-          {...props}
-          groupbyTag={groupBy.groupbyTag}
-          excludeMissingGroupingTagFilterExpression={excludeMissingGroupingTagFilterExpression}
-        />
+        {Sidebar && (
+          <Sidebar
+            {...props}
+            groupbyTag={groupBy.groupbyTag}
+            excludeMissingGroupingTagFilterExpression={excludeMissingGroupingTagFilterExpression}
+          />
+        )}
         <div className={locals.resultContainer}>
-          <Chart {...props} />
+          {Chart && <Chart {...props} />}
           <Header
             {...props}
             sortOptions={withoutSorting ? undefined : sortOptions}
@@ -308,6 +310,7 @@ export default function GroupedAnalyzeView(props) {
                       return (
                         // tagFilterExpression / backendQueryModel must be separately memoized based on hash
                         // within the ungrouped view.
+                        // Charts and sidebar should not be shown in nested ungrouped views
                         <UngroupedView
                           {...props}
                           withoutHeader
@@ -320,6 +323,8 @@ export default function GroupedAnalyzeView(props) {
                           facetedSearchItems={[]}
                           withEmbeddedLoadingIndicator
                           withEmbeddedNoDataIndicator
+                          Chart={null}
+                          Sidebar={null}
                         />
                       );
                     }}

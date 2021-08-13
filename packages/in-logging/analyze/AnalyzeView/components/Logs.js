@@ -8,8 +8,8 @@ import React from 'react';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
-import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
+import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import { LOG_CUSTOM, LOG_LEVEL, LOG_TRACE_ID } from 'in-logging/queryBuilder';
@@ -58,6 +58,8 @@ const tracker = {
 };
 
 export default function Logs(props) {
+  const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter } = props;
+
   const onSelectTagHref = props.getHrefWithAdditionalTagFilter
     ? tag => props.getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
     : undefined;
@@ -65,8 +67,8 @@ export default function Logs(props) {
   let content = (
     <UngroupedViewList
       {...props}
-      Sidebar={FacetedSearchPresenter}
-      Chart={ChartsPresenter}
+      Sidebar={Sidebar}
+      Chart={Chart}
       useCursorPaginationStrategy={useLogsCursorPagination}
       additionalGetDataDependencies={[props.selectedTags]}
       classNames={{ listItem: locals.listItem }}
