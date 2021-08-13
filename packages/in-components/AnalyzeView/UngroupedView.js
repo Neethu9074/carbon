@@ -92,9 +92,9 @@ export default function UngroupedAnalyzeView(props) {
 
   return (
     <Stack direction={'horizontal'} gap={'disabled'}>
-      <Sidebar {...props} />
+      {Sidebar && <Sidebar {...props} />}
       <div className={locals.resultContainer}>
-        <Chart {...props} />
+        {Chart && <Chart {...props} />}
         {!withoutHeader && (
           <Header
             {...props}

@@ -20,7 +20,13 @@ const getDataPerDataSource = {
 };
 
 export default function GroupedResults(props) {
-  const { hiddenCalls, previewEnabled, onChangePreviewEnabled } = props;
+  const {
+    hiddenCalls,
+    previewEnabled,
+    onChangePreviewEnabled,
+    Sidebar = FacetedSearchPresenter,
+    Chart = ChartsPresenter
+  } = props;
 
   const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
     hiddenCalls,
@@ -35,8 +41,8 @@ export default function GroupedResults(props) {
     >
       <GroupedView
         {...props}
-        Sidebar={FacetedSearchPresenter}
-        Chart={ChartsPresenter}
+        Sidebar={Sidebar}
+        Chart={Chart}
         itemlabelColumnId="name"
         getData={getData}
         getLabel={getLabel}

@@ -14,12 +14,14 @@ import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
 
 export default function GroupedBeacons(props) {
+  const { Sidebar = FacetedSearchPresenter, Chart = ChartsPresenter } = props;
+
   return (
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
-        Sidebar={FacetedSearchPresenter}
-        Chart={ChartsPresenter}
+        Sidebar={Sidebar}
+        Chart={Chart}
         getLabel={getLabel}
         itemlabelColumnId="name"
         getData={getTableData}
