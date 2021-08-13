@@ -9,13 +9,6 @@ import { Link, Stack, Ul, Li, ColumnizedContent } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
-  LOG_CUSTOM_KEY_APPLICATION_IDS,
-  LOG_CUSTOM_KEY_SERVICE_ID,
-  LOG_SPAN_ID,
-  LOG_CALL_ID,
-  LOG_CUSTOM_KEY_APPLICATION_ID
-} from 'in-logging/queryBuilder';
-import {
   ClickedTag,
   LogTagsTableProps,
   GetContentType,
@@ -23,13 +16,20 @@ import {
   ResolvedLinkProps,
   ToggleProps,
   ApplicationsListProps,
+  GroupingTag,
   ApplicationProps
 } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.d';
+import {
+  LOG_CUSTOM_KEY_APPLICATION_IDS,
+  LOG_CUSTOM_KEY_SERVICE_ID,
+  LOG_SPAN_ID,
+  LOG_CALL_ID,
+  LOG_CUSTOM_KEY_APPLICATION_ID
+} from 'in-logging/queryBuilder';
 import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolvedLink';
 import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolvedName';
-
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 // @ts-ignore
@@ -66,6 +66,7 @@ const restrictedTags = new Set<string>([LOG_CUSTOM_KEY_SERVICE_ID, LOG_SPAN_ID, 
 export default function LogTagsTable({
   item,
   tagToLabelMap,
+  allowedTagsForGrouping,
   onSelectTagHref,
   getHrefToGroupedView
 }: LogTagsTableProps) {
@@ -90,6 +91,7 @@ export default function LogTagsTable({
             tag={tag}
             item={item}
             tagToLabelMap={tagToLabelMap}
+            allowedTagsForGrouping={allowedTagsForGrouping}
             onSelectTagHref={onSelectTagHref}
             getHrefToGroupedView={getHrefToGroupedView}
           />
@@ -99,7 +101,15 @@ export default function LogTagsTable({
   );
 }
 
-function TagEntry({ tag, item, uniqueTagName, tagToLabelMap, onSelectTagHref, getHrefToGroupedView }: TagEntryProps) {
+function TagEntry({
+  tag,
+  item,
+  uniqueTagName,
+  tagToLabelMap,
+  allowedTagsForGrouping,
+  onSelectTagHref,
+  getHrefToGroupedView
+}: TagEntryProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -116,6 +126,7 @@ function TagEntry({ tag, item, uniqueTagName, tagToLabelMap, onSelectTagHref, ge
         item={item}
         tag={tag}
         tagToLabelMap={tagToLabelMap}
+        allowedTagsForGrouping={allowedTagsForGrouping}
         uniqueTagName={uniqueTagName}
         isHovered={isHovered}
       />
@@ -127,7 +138,15 @@ function TagName({ tag, tagToLabelMap }: GetContentType) {
   return useResolvedName(tag, tagToLabelMap);
 }
 
-function TagValue({ tag, uniqueTagName, isHovered, onSelectTagHref, getHrefToGroupedView, item }: GetContentType) {
+function TagValue({
+  tag,
+  uniqueTagName,
+  isHovered,
+  allowedTagsForGrouping,
+  onSelectTagHref,
+  getHrefToGroupedView,
+  item
+}: GetContentType) {
   const value = tag.stringValue || '';
   const resolvedValue = useResolvedValue(uniqueTagName, tag);
 
@@ -137,17 +156,20 @@ function TagValue({ tag, uniqueTagName, isHovered, onSelectTagHref, getHrefToGro
 
       {isHovered && (
         <Stack direction="horizontal" gap="disabled" align="center">
-          <IconLink
-            iconSize={16}
-            type="lib_group_by"
-            href={getHrefToGroupedView({ tag: tag.name, secondLevelKey: tag.key })}
-            onClick={() => trackFilterClick(tag, value)}
-          />
+          {allowedTagsForGrouping.has(tag.name || '') && (
+            <IconLink
+              iconSize={16}
+              type="lib_group_by"
+              href={getHrefToGroupedView(createGroupingtag(tag.name, tag.key))}
+              onClick={() => trackGroupClick(resolvedValue)}
+            />
+          )}
+
           <IconLink
             iconSize={16}
             type="lib_actions_filter"
             href={onSelectTagHref(createTag(value, tag.name, tag.key))}
-            onClick={() => trackGroupClick(resolvedValue)}
+            onClick={() => trackFilterClick(tag, value)}
           />
           <CopyToClipboard getText={() => resolvedValue}>
             {(copyToClipboardRef: any) => <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />}
@@ -238,6 +260,14 @@ function createTag(value: string, name?: string, key?: string): ClickedTag {
   const tag: ClickedTag = { name: name || '', value };
   if (key) {
     tag.key = key;
+  }
+  return tag;
+}
+
+function createGroupingtag(name?: string, key?: string) {
+  const tag: GroupingTag = { tag: name || '' };
+  if (key) {
+    tag.secondLevelKey = key;
   }
   return tag;
 }

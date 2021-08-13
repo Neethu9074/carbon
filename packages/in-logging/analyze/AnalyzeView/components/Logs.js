@@ -70,7 +70,7 @@ const tracker = {
 };
 
 export default function Logs(props) {
-  const { getHrefWithAdditionalTagFilter, getHrefToGroupedView, filteringTagCatalog } = props;
+  const { getHrefWithAdditionalTagFilter, getHrefToGroupedView, filteringTagCatalog, groupingTagCatalog } = props;
 
   const onSelectTagHref = getHrefWithAdditionalTagFilter
     ? tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
@@ -80,6 +80,10 @@ export default function Logs(props) {
     () => new Map((filteringTagCatalog?.tags || []).map(({ name, label }) => [name, label])),
     [filteringTagCatalog]
   );
+
+  const allowedTagsForGrouping = useMemo(() => new Set((groupingTagCatalog?.tags || []).map(({ name }) => name)), [
+    groupingTagCatalog
+  ]);
 
   let content = (
     <UngroupedViewList
@@ -103,6 +107,7 @@ export default function Logs(props) {
           onSelectTagHref={onSelectTagHref}
           getHrefToGroupedView={getHrefToGroupedView}
           tagToLabelMap={tagToLabelMap}
+          allowedTagsForGrouping={allowedTagsForGrouping}
         />
       )}
     />

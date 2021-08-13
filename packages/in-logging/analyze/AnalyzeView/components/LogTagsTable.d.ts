@@ -11,6 +11,11 @@ export interface ClickedTag {
   key?: string;
 }
 
+export interface GroupingTag {
+  tag: string;
+  secondLevelKey?: string;
+}
+
 export type OnSelectTagHref = (tag: ClickedTag) => string;
 export type GetHrefToGroupedView = (tag: any) => string;
 
@@ -19,6 +24,7 @@ export interface LogTagsTableProps {
   onSelectTagHref: OnSelectTagHref;
   getHrefToGroupedView: GetHrefToGroupedView;
   tagToLabelMap: Map<string, string>;
+  allowedTagsForGrouping: Set<string>;
 }
 
 export interface GetContentType extends LogTagsTableProps {
