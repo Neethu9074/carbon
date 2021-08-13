@@ -18,8 +18,20 @@ import { t } from 'in-i18n';
 
 import locals from './LogMessage.mless';
 
-export default function LogMessage({ tags, message, getHrefWithAdditionalTagFilter, getHrefToGroupedView }) {
-  const filledMessage = useMemo(() => {
+export default function LogMessage({
+  tags,
+  message,
+  getHrefWithAdditionalTagFilter,
+  getHrefToGroupedView,
+  setIsExpanded,
+  isExpanded,
+  isOverflowing,
+  setIsHovered,
+  isHovered
+}) {
+  const providesMessageExpanding = !isExpanded && isOverflowing && isHovered;
+
+  return useMemo(() => {
     const paramTags = tags
       .filter(({ key }) => key && key.indexOf('_msg_param') === 0)
       .sort((paramA, paramB) => compareIgnoreCase(paramA.key, paramB.key));
@@ -28,7 +40,13 @@ export default function LogMessage({ tags, message, getHrefWithAdditionalTagFilt
       <>
         {fillWithParams(toChunks(message, ['{}']), paramTags).map(({ type, value }, i) =>
           type === MESSAGE_CHUNK ? (
-            <MessageTag key={i} message={value} />
+            <MessageTag
+              key={i}
+              message={value}
+              providesMessageExpanding={providesMessageExpanding}
+              setIsHovered={setIsHovered}
+              setIsExpanded={setIsExpanded}
+            />
           ) : (
             <ParamTag
               key={i}
@@ -40,9 +58,7 @@ export default function LogMessage({ tags, message, getHrefWithAdditionalTagFilt
         )}
       </>
     );
-  }, [message, tags, getHrefWithAdditionalTagFilter, getHrefToGroupedView]);
-
-  return filledMessage;
+  }, [message, tags, getHrefWithAdditionalTagFilter, getHrefToGroupedView, providesMessageExpanding]);
 }
 
 function getTagExpressionWithTag(tag) {
@@ -53,8 +69,20 @@ function getTagExpressionWithTag(tag) {
   };
 }
 
-function MessageTag({ message }) {
-  return <span className={locals.message}>{message}</span>;
+function MessageTag({ message, setIsHovered, setIsExpanded, providesMessageExpanding }) {
+  return (
+    <span
+      className={classNames({
+        [locals.message]: true,
+        [locals.hovered]: providesMessageExpanding
+      })}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => providesMessageExpanding && setIsExpanded(true)}
+    >
+      {message}
+    </span>
+  );
 }
 
 function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }) {

@@ -16,6 +16,7 @@ export default function LogMessageColumn(props) {
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const messageRef = useRef();
 
@@ -44,6 +45,9 @@ export default function LogMessageColumn(props) {
           getHrefToGroupedView={getHrefToGroupedView}
           isOverflowing={isOverflowing}
           setIsExpanded={setIsExpanded}
+          isExpanded={isExpanded}
+          setIsHovered={setIsHovered}
+          isHovered={isHovered}
         />
       </span>
     </div>
