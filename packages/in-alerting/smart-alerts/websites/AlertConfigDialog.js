@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 
 import { createLogger } from '@instana/logger';
 
+import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
@@ -25,6 +26,7 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
+  const [error, setError] = useState(null);
 
   const websiteLabel = useWebsiteLabel(form.get('websiteId')?.value);
 
@@ -36,13 +38,14 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       onClose={onClose}
-      onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving)}
+      onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving, setError)}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       websiteLabel={websiteLabel}
       editMode={editMode}
       startWithSimpleMode={startWithSimpleMode}
       granularity={form.get('granularity').value}
       isSaving={isSaving}
+      error={error}
     />
   );
 }
@@ -68,8 +71,9 @@ function createOnChange(setForm, externalForm) {
   };
 }
 
-function createAlert(form, setForm, onClose, editMode, setIsSaving) {
+function createAlert(form, setForm, onClose, editMode, setIsSaving, setError) {
   setIsSaving(true);
+  setError(null);
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
@@ -77,21 +81,23 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving) {
     return;
   }
 
-  const websiteAlertConfig = toAlertConfig(form);
+  const alertConfig = toAlertConfig(form);
 
   if (editMode) {
-    updateAlertConfig(websiteAlertConfig, form.get('id').value).once(
+    updateAlertConfig(alertConfig, form.get('id').value).once(
       alertConfig => onClose(alertConfig),
       error => {
-        logger.error(`failed to update alertConfig: ${websiteAlertConfig} ${error.message}`, error);
+        logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
+        setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
     );
   } else {
-    createAlertConfig(websiteAlertConfig).once(
+    createAlertConfig(alertConfig).once(
       alertConfig => onClose(alertConfig),
       error => {
-        logger.error(`failed to save alertConfig: ${websiteAlertConfig} ${error.message}`, error);
+        logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
+        setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
     );

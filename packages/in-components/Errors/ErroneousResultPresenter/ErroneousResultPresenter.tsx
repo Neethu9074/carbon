@@ -22,7 +22,7 @@ export interface Props {
   addBottomMargin?: boolean;
 }
 
-export default function ErrorneousResultPresenter({ errors, className, addBottomMargin = false }: Props) {
+export default function ErroneousResultPresenter({ errors, className, addBottomMargin = false }: Props) {
   if (errors == null || errors.length === 0) {
     return null;
   }

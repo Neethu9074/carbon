@@ -23,20 +23,24 @@ function DialogFooter(
     secondaryActionText,
     onSecondaryActionClick,
     saving,
+    additionalContent,
     renderCustomSaveAction
   },
   ref
 ) {
   return (
     <FormFooter ref={ref} className={locals.controls}>
-      <Button kind="secondary" onClick={onSecondaryActionClick}>
-        {secondaryActionText}
-      </Button>
-      {renderCustomSaveAction?.() ?? (
-        <SaveButton type="submit" kind="primary" form={form} disabled={primaryActionDisabled} isSaving={saving}>
-          {primaryActionText}
-        </SaveButton>
-      )}
+      {additionalContent && <div className={locals.additionalRow}>{additionalContent}</div>}
+      <div className={locals.buttonRow}>
+        <Button kind="secondary" onClick={onSecondaryActionClick}>
+          {secondaryActionText}
+        </Button>
+        {renderCustomSaveAction?.() ?? (
+          <SaveButton type="submit" kind="primary" form={form} disabled={primaryActionDisabled} isSaving={saving}>
+            {primaryActionText}
+          </SaveButton>
+        )}
+      </div>
     </FormFooter>
   );
 }
@@ -47,6 +51,7 @@ DialogFooter.propTypes = {
   primaryActionDisabled: PropTypes.bool,
   primaryActionText: PropTypes.node.isRequired,
   renderCustomSaveAction: PropTypes.func,
+  additionalContent: PropTypes.node,
   saving: PropTypes.bool,
   secondaryActionText: PropTypes.node.isRequired
 };

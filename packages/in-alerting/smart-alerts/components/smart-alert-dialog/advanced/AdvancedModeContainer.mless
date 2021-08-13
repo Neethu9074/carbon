@@ -29,6 +29,12 @@
     grid-area: sideNav;
   }
 
+  .errorInfo {
+    grid-column-start: 1;
+    grid-column-end: -1;
+    margin: 0 -1.5rem;
+  }
+
   .controls {
     margin-top: 3.75rem;
     grid-column-start: 1;
