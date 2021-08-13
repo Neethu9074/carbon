@@ -6,5 +6,5 @@
 export interface ClickedTag {
   name: string;
   value: string;
-  key: string;
+  key?: string;
 }

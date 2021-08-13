@@ -148,7 +148,7 @@ function TagValue({ tag, uniqueTagName, isHovered, onSelectTagHref, getHrefToGro
           <IconLink
             iconSize={16}
             type="lib_actions_filter"
-            href={onSelectTagHref({ name: tag.name || '', value, key: tag.key || '' })}
+            href={onSelectTagHref(createTag(value, tag.name, tag.key))}
             onClick={() => trackGroupClick(resolvedValue)}
           />
           <CopyToClipboard getText={() => resolvedValue}>
@@ -240,9 +240,17 @@ function ApplicationsList({ applicationIds, item }: ApplicationsListProps) {
 }
 
 function trackFilterClick(tag: LogTag, value: string) {
-  filterAdded({ source: 'log message filter button', filter: { name: tag.name, value, key: tag.key } });
+  filterAdded({ source: 'log message filter button', filter: createTag(value, tag.name, tag.key) });
 }
 
 function trackGroupClick(group: string) {
   groupAdded({ source: 'log message filter button', group });
+}
+
+function createTag(value: string, name?: string, key?: string): ClickedTag {
+  const tag: ClickedTag = { name: name || '', value };
+  if (key) {
+    tag.key = key;
+  }
+  return tag;
 }
