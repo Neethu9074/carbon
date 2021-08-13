@@ -4,13 +4,7 @@
  */
 
 import { just, Observable } from '@instana/observables';
-import { Application, LogTag, Result } from 'in-types';
 import { useObservable } from '@instana/hooks';
-
-// @ts-ignore
-import { getSnapshot } from 'in-stores/snapshot';
-// @ts-ignore
-import { getLabel } from 'in-sdk/snapshot';
 
 import {
   LOG_PROCESS_SNAPSHOT_ID,
@@ -21,6 +15,12 @@ import {
   LOG_CUSTOM_KEY_APPLICATION_IDS
 } from 'in-logging/queryBuilder';
 import getApplication from 'in-subscription/application/getApplication';
+// @ts-ignore
+import { getSnapshot } from 'in-stores/snapshot';
+// @ts-ignore
+import { getLabel } from 'in-sdk/snapshot';
+import { Application, LogTag, Result } from 'in-types';
+import { t as translate } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
 
@@ -32,7 +32,7 @@ const tagValueResolver = new Map<string, LinkResolver>([
   ],
   [
     `${LOG_CUSTOM}-${LOG_CUSTOM_KEY_APPLICATION_IDS}`,
-    t => just(`${(t.stringValue || '').split(',').length} applications`)
+    t => just(translate('in-logging:applicationCounter', { count: (t.stringValue || '').split(',').length }))
   ],
   [LOG_PROCESS_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue || '')],
   [LOG_DOCKER_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue || '')],

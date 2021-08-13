@@ -14,5 +14,6 @@
   "applications": "Applications",
   "endpoint": "Endpoint",
   "endpointType": "Endpoint Type",
-  "messageParam": "Message Parameter"
+  "messageParam": "Message Parameter",
+  "applicationCounter": "{{count}} applications"
 }
