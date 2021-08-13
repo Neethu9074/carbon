@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
@@ -70,9 +70,16 @@ const tracker = {
 };
 
 export default function Logs(props) {
-  const onSelectTagHref = props.getHrefWithAdditionalTagFilter
-    ? tag => props.getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
+  const { getHrefWithAdditionalTagFilter, getHrefToGroupedView, filteringTagCatalog } = props;
+
+  const onSelectTagHref = getHrefWithAdditionalTagFilter
+    ? tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
     : undefined;
+
+  const tagToLabelMap = useMemo(
+    () => new Map((filteringTagCatalog?.tags || []).map(({ name, label }) => [name, label])),
+    [filteringTagCatalog]
+  );
 
   let content = (
     <UngroupedViewList
@@ -91,7 +98,12 @@ export default function Logs(props) {
       withCountHeader={false}
       tracker={tracker}
       renderNestedContent={(_, item) => (
-        <LogTagsTable item={item} onSelectTagHref={onSelectTagHref} getHrefToGroupedView={props.getHrefToGroupedView} />
+        <LogTagsTable
+          item={item}
+          onSelectTagHref={onSelectTagHref}
+          getHrefToGroupedView={getHrefToGroupedView}
+          tagToLabelMap={tagToLabelMap}
+        />
       )}
     />
   );

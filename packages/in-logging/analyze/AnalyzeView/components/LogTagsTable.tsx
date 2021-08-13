@@ -42,14 +42,12 @@ interface LogTagsTableProps {
   item: LogItem;
   onSelectTagHref: OnSelectTagHref;
   getHrefToGroupedView: GetHrefToGroupedView;
+  tagToLabelMap: Map<string, string>;
 }
 
-interface GetContentType {
+interface GetContentType extends LogTagsTableProps {
   tag: LogTag;
-  item: LogItem;
   uniqueTagName: string;
-  onSelectTagHref: OnSelectTagHref;
-  getHrefToGroupedView: GetHrefToGroupedView;
   isHovered: boolean;
 }
 
@@ -67,7 +65,12 @@ const columnDefinitions = [
 
 const restrictedTags = new Set<string>([LOG_CUSTOM_KEY_SERVICE_ID, LOG_SPAN_ID, LOG_CALL_ID]);
 
-export default function LogTagsTable({ item, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps) {
+export default function LogTagsTable({
+  item,
+  tagToLabelMap,
+  onSelectTagHref,
+  getHrefToGroupedView
+}: LogTagsTableProps) {
   const logResult = useObservable(() => getLog({ itemId: item.itemId }), [item.itemId]) ?? pendingResult;
 
   if (!logResult || isLoading(logResult)) {
@@ -88,6 +91,7 @@ export default function LogTagsTable({ item, onSelectTagHref, getHrefToGroupedVi
             uniqueTagName={uniqueTagName}
             tag={tag}
             item={item}
+            tagToLabelMap={tagToLabelMap}
             onSelectTagHref={onSelectTagHref}
             getHrefToGroupedView={getHrefToGroupedView}
           />
@@ -102,7 +106,7 @@ interface TagEntryProps extends LogTagsTableProps {
   uniqueTagName: string;
 }
 
-function TagEntry({ tag, item, uniqueTagName, onSelectTagHref, getHrefToGroupedView }: TagEntryProps) {
+function TagEntry({ tag, item, uniqueTagName, tagToLabelMap, onSelectTagHref, getHrefToGroupedView }: TagEntryProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -118,6 +122,7 @@ function TagEntry({ tag, item, uniqueTagName, onSelectTagHref, getHrefToGroupedV
         getHrefToGroupedView={getHrefToGroupedView}
         item={item}
         tag={tag}
+        tagToLabelMap={tagToLabelMap}
         uniqueTagName={uniqueTagName}
         isHovered={isHovered}
       />
@@ -125,8 +130,8 @@ function TagEntry({ tag, item, uniqueTagName, onSelectTagHref, getHrefToGroupedV
   );
 }
 
-function TagName({ tag, uniqueTagName }: GetContentType) {
-  return useResolvedName(uniqueTagName, tag);
+function TagName({ tag, tagToLabelMap }: GetContentType) {
+  return useResolvedName(tag, tagToLabelMap);
 }
 
 function TagValue({ tag, uniqueTagName, isHovered, onSelectTagHref, getHrefToGroupedView, item }: GetContentType) {
@@ -187,7 +192,7 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
       >
         {({ toggle }: ToggleProps) => (
           <span className={locals.link} onClick={toggle}>
-            {tag.stringValue}
+            {resolvedValue}
           </span>
         )}
       </Overlay>
@@ -215,27 +220,34 @@ interface ApplicationsListProps {
 
 function ApplicationsList({ applicationIds, item }: ApplicationsListProps) {
   return (
-    <Ul>
-      {applicationIds.map(applicationId => {
-        const resolvedLink =
-          useResolvedLink(LOG_CUSTOM_KEY_APPLICATION_ID, { stringValue: applicationId }, item) || undefined;
-        const resolvedValue = useResolvedValue(LOG_CUSTOM_KEY_APPLICATION_ID, { stringValue: applicationId });
-
-        return (
-          <Li key={applicationId}>
-            <Link
-              className={locals.value}
-              href={resolvedLink}
-              onClick={() =>
-                logMessageTagClicked({ tag: { name: LOG_CUSTOM_KEY_APPLICATION_ID, value: resolvedValue } })
-              }
-            >
-              {resolvedValue}
-            </Link>
-          </Li>
-        );
-      })}
+    <Ul className={locals.applicationList}>
+      {applicationIds.map(applicationId => (
+        <Application key={applicationId} applicationId={applicationId} item={item} />
+      ))}
     </Ul>
+  );
+}
+
+interface ApplicationProps {
+  applicationId: string;
+  item: LogItem;
+}
+
+function Application({ applicationId, item }: ApplicationProps) {
+  const resolvedLink =
+    useResolvedLink(LOG_CUSTOM_KEY_APPLICATION_ID, { stringValue: applicationId }, item) || undefined;
+  const resolvedValue = useResolvedValue(LOG_CUSTOM_KEY_APPLICATION_ID, { stringValue: applicationId });
+
+  return (
+    <Li>
+      <Link
+        className={locals.value}
+        href={resolvedLink}
+        onClick={() => logMessageTagClicked({ tag: { name: LOG_CUSTOM_KEY_APPLICATION_ID, value: resolvedValue } })}
+      >
+        {resolvedValue}
+      </Link>
+    </Li>
   );
 }
 

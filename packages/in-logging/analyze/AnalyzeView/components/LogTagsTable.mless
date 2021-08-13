@@ -17,8 +17,17 @@
 
   .link {
     color: @lib__colors__blue800;
+
+    cursor: pointer;
+
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  .applicationList {
+    max-height: 25rem;
+
+    overflow-y: scroll;
   }
 }

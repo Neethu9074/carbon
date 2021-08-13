@@ -45,4 +45,6 @@ export const LOG_SERVICE_NAME = 'service.name';
 export const LOG_CUSTOM_KEY_SERVICE_ID = 'service_id';
 export const LOG_CUSTOM_KEY_APPLICATION_IDS = 'application_ids';
 export const LOG_CUSTOM_KEY_APPLICATION_ID = 'application_id';
-export const LOG_CUSTOM_KEY_ENDPOINT_ID = 'endpoint_name';
+export const LOG_CUSTOM_KEY_ENDPOINT_NAME = 'endpoint_name';
+export const LOG_CUSTOM_KEY_ENDPOINT_TYPE = 'endpoint_type';
+export const LOG_CUSTOM_KEY_MSG_PARAM = '_msg_param';
