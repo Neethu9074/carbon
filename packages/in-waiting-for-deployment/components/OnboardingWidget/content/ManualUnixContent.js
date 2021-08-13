@@ -20,9 +20,13 @@ import { t } from 'in-i18n';
 export default function ManualUnixContent({ agentKey, butlerDomain, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'sparc64', label: t('in-waiting-for-deployment:content.solaris64BitSparc') },
+    { key: 'sparc64Static', label: t('in-waiting-for-deployment:content.solaris64BitSparcStatic') },
     { key: 'sparc32', label: t('in-waiting-for-deployment:content.solaris32BitSparc') },
+    { key: 'sparc32Static', label: t('in-waiting-for-deployment:content.solaris32BitSparcStatic') },
     { key: 'aix64', label: t('in-waiting-for-deployment:content.aix64BitPowerPc') },
-    { key: 'aix32', label: t('in-waiting-for-deployment:content.aix32BitPowerPc') }
+    { key: 'aix64Static', label: t('in-waiting-for-deployment:content.aix64BitPowerPcStatic') },
+    { key: 'aix32', label: t('in-waiting-for-deployment:content.aix32BitPowerPc') },
+    { key: 'aix32Static', label: t('in-waiting-for-deployment:content.aix32BitPowerPcStatic') }
   ];
   const [option, setOption] = useState(agentOptions[0].key);
 

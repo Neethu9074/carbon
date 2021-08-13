@@ -20,13 +20,21 @@ import { t } from 'in-i18n';
 export default function ManualLinuxContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'linux64', label: t('in-waiting-for-deployment:content.linux64Bit') },
+    { key: 'linux64Static', label: t('in-waiting-for-deployment:content.linux64BitStatic') },
     { key: 'linux32', label: t('in-waiting-for-deployment:content.linux32Bit') },
+    { key: 'linux32Static', label: t('in-waiting-for-deployment:content.linux32BitStatic') },
     { key: 'linuxarm64', label: t('in-waiting-for-deployment:content.linux64BitArm') },
+    { key: 'linuxarm64Static', label: t('in-waiting-for-deployment:content.linux64BitArmStatic') },
     { key: 'linuxarm32', label: t('in-waiting-for-deployment:content.linux32BitArm') },
+    { key: 'linuxarm32Static', label: t('in-waiting-for-deployment:content.linux32BitArmStatic') },
     { key: 'linuxppc64', label: t('in-waiting-for-deployment:content.linux64BitPowerPc') },
+    { key: 'linuxppc64Static', label: t('in-waiting-for-deployment:content.linux64BitPowerPcStatic') },
     { key: 'linuxppc32', label: t('in-waiting-for-deployment:content.linux32BitPowerPc') },
+    { key: 'linuxppc32Static', label: t('in-waiting-for-deployment:content.linux32BitPowerPcStatic') },
     { key: 'linuxppcle64', label: t('in-waiting-for-deployment:content.linux64BitPowerPcLittleEndian') },
-    { key: 'linuxs390x', label: t('in-waiting-for-deployment:content.linuxS390X') }
+    { key: 'linuxppcle64Static', label: t('in-waiting-for-deployment:content.linux64BitPowerPcLittleEndianStatic') },
+    { key: 'linuxs390x', label: t('in-waiting-for-deployment:content.linuxS390X') },
+    { key: 'linuxs390xStatic', label: t('in-waiting-for-deployment:content.linuxS390XStatic') }
   ];
   const [option, setOption] = useState(agentOptions[0].key);
 
