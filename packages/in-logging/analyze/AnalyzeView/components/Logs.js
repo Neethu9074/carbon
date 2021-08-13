@@ -8,7 +8,6 @@ import React, { useMemo } from 'react';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
-import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import LogTagsTable from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
@@ -86,7 +85,6 @@ export default function Logs(props) {
     <UngroupedViewList
       {...props}
       Sidebar={FacetedSearchPresenter}
-      Chart={ChartsPresenter}
       useCursorPaginationStrategy={useLogsCursorPagination}
       classNames={{ listItem: locals.listItem }}
       withoutSorting

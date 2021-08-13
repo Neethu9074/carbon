@@ -253,7 +253,7 @@ export default function GroupedAnalyzeView(props) {
           excludeMissingGroupingTagFilterExpression={excludeMissingGroupingTagFilterExpression}
         />
         <div className={locals.resultContainer}>
-          <Chart {...props} />
+          {Chart && <Chart {...props} />}
           <Header
             {...props}
             sortOptions={withoutSorting ? undefined : sortOptions}
