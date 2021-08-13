@@ -5,10 +5,6 @@
 
 import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { LogTag } from 'in-types';
-
-// @ts-ignore
-import { getSnapshot } from 'in-stores/snapshot';
 
 import {
   LOG_CUSTOM_KEY_APPLICATION_IDS,
@@ -20,7 +16,11 @@ import {
   LOG_HOST_SNAPSHOT_ID,
   LOG_CUSTOM
 } from 'in-logging/queryBuilder';
+// @ts-ignore
+import { getSnapshot } from 'in-stores/snapshot';
 import { getPluginName } from 'in-sdk/pluginName';
+import { LogTag } from 'in-types';
+import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
 
@@ -33,13 +33,13 @@ const tagNameResolver = new Map<string, LinkResolver>([
 
 function getCustomKeyLabel(key: string): string {
   if (key === LOG_CUSTOM_KEY_APPLICATION_IDS) {
-    return 'Applications';
+    return t('in-logging:applications');
   } else if (key === LOG_CUSTOM_KEY_ENDPOINT_NAME) {
-    return 'Endpoint';
+    return t('in-logging:endpoint');
   } else if (key === LOG_CUSTOM_KEY_ENDPOINT_TYPE) {
-    return 'Endpoint type';
+    return t('in-logging:endpointType');
   } else if (key.startsWith(LOG_CUSTOM_KEY_MSG_PARAM)) {
-    return 'Message parameter';
+    return t('in-logging:messageParam');
   }
   return `${LOG_CUSTOM}-key`;
 }

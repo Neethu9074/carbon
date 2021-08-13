@@ -26,8 +26,11 @@
   }
 
   .applicationList {
-    max-height: 25rem;
-
     overflow-y: scroll;
+    max-height: 25rem;
+  }
+
+  .applicationListOverlay {
+    width: 25rem;
   }
 }

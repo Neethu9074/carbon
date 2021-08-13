@@ -8,10 +8,6 @@ import React, { useState } from 'react';
 import { Link, Stack, Ul, Li, ColumnizedContent } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
-import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
-import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolvedLink';
-import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolvedName';
 import {
   LOG_CUSTOM_KEY_APPLICATION_IDS,
   LOG_CUSTOM_KEY_SERVICE_ID,
@@ -19,19 +15,26 @@ import {
   LOG_CALL_ID,
   LOG_CUSTOM_KEY_APPLICATION_ID
 } from 'in-logging/queryBuilder';
+import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
+import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
+import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolvedLink';
+import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolvedName';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { ClickedTag } from 'in-logging/analyze/AnalyzeView/components/types';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
+// @ts-ignore
+import CopyToClipboard from 'in-components/CopyToClipboard';
+// @ts-ignore
+import Overlay from 'in-components/overlays/Overlay';
+// @ts-ignore
+import Header from 'in-components/Dialog/Header';
 import { hasError, isLoading } from 'in-services/util/result';
 import IconButton from 'in-components/IconButton/IconButton';
 import IconLink from 'in-components/IconButton/IconLink';
-// @ts-ignore
-import CopyToClipboard from 'in-components/CopyToClipboard';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
-// @ts-ignore
-import Overlay from 'in-components/overlays/Overlay';
 import { LogItem, LogTag } from 'in-types';
+import { t } from 'in-i18n';
 
 // @ts-ignore
 import locals from './LogTagsTable.mless';
@@ -54,7 +57,7 @@ interface GetContentType extends LogTagsTableProps {
 const columnDefinitions = [
   {
     id: 'name',
-    width: '30%',
+    width: '15rem',
     getContent: TagName
   },
   {
@@ -220,11 +223,14 @@ interface ApplicationsListProps {
 
 function ApplicationsList({ applicationIds, item }: ApplicationsListProps) {
   return (
-    <Ul className={locals.applicationList}>
-      {applicationIds.map(applicationId => (
-        <Application key={applicationId} applicationId={applicationId} item={item} />
-      ))}
-    </Ul>
+    <div className={locals.applicationListOverlay}>
+      <Header title={t('in-logging:applications')} />
+      <Ul className={locals.applicationList}>
+        {applicationIds.map(applicationId => (
+          <Application key={applicationId} applicationId={applicationId} item={item} />
+        ))}
+      </Ul>
+    </div>
   );
 }
 

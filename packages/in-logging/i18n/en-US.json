@@ -10,5 +10,9 @@
   "addAsFilter": "Add as filter",
   "addAsGroup": "Add as group",
   "numberOfLogs": "Number of logs",
-  "numberOfLogsPercentage": "Percentage"
+  "numberOfLogsPercentage": "Percentage",
+  "applications": "Applications",
+  "endpoint": "Endpoint",
+  "endpointType": "Endpoint Type",
+  "messageParam": "Message Parameter"
 }
