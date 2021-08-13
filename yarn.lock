@@ -1491,10 +1491,10 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha1-h956+cIxgm/daKxyWPd8Qp4OX88=
 
-"@instana/components@^1.31.1":
-  version "1.31.3"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.31.3.tgz#62b6bf1a095116965028b693a8be0313f753e9f3"
-  integrity sha1-Yra/GglRFpZQKLaTqL4DE/dT6fM=
+"@instana/components@^1.31.4":
+  version "1.31.4"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.31.4.tgz#4c1e2a1d78c0e3d38ea5baac8c66266137521172"
+  integrity sha1-TB4qHXjA49OOpbqsjGYmYTdSEXI=
   dependencies:
     "@instana/design-tokens" "^1.9.1"
     "@instana/format-date" "^1.2.1"
