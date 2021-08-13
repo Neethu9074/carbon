@@ -141,7 +141,7 @@ export default function Pods(props) {
       getTableData({
         timeConfig,
         page: cursor,
-        pageSize: 10,
+        retrievalSize: 5,
         workloadOwnerId: jobId,
         orderBy,
         orderDirection
@@ -194,7 +194,7 @@ export default function Pods(props) {
 function getTableData({
   query = '',
   page = 1,
-  pageSize = 10,
+  retrievalSize = 5,
   orderBy = 'age',
   orderDirection = 'ASC',
   timeConfig,
@@ -210,7 +210,7 @@ function getTableData({
   return getKubernetesPods({
     pagination: {
       page,
-      pageSize
+      retrievalSize
     },
     order: {
       by: orderBy,
