@@ -10,8 +10,8 @@ import { Link } from '@instana/components';
 import { FacetedSearchPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-mobile-apps/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
-import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import { ChartsPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/ChartsPresenter';
+import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
@@ -164,11 +164,13 @@ const columnsPerDataSource = {
 };
 
 export default function MobileBeacons(props) {
+  const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter } = props;
+
   let content = (
     <UngroupedViewTable
       {...props}
-      Sidebar={FacetedSearchPresenter}
-      Chart={ChartsPresenter}
+      Sidebar={Sidebar}
+      Chart={Chart}
       getItemName={({ count }) =>
         t('in-mobile-apps:dataSource', {
           context: props.dataSource,
