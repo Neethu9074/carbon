@@ -63,6 +63,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
                 onGroupAdded: group => groupAdded({ group: group.groupbyTag })
               }}
             />
+
             {isValid && (
               <LogsDistributionChartSection
                 {...props}

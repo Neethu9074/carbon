@@ -7,7 +7,7 @@
 
 :local {
   .wrapper {
-    margin-bottom: 24px;
+    border-top: 1px solid @lib__colors__N400;
   }
 
   .chartWrapper {
