@@ -55,8 +55,6 @@ export default function useResolvedValue(tag: LogTag, tagToLabelMap: Map<string,
   const tagLabel = tagToLabelMap.get(tagName);
   const resolver = tagNameResolver.get(tagName);
 
-  console.log({ tagName, tagLabel, tagToLabelMap });
-
   if (resolver) {
     observable = resolver(tag);
   } else if (tagLabel) {
