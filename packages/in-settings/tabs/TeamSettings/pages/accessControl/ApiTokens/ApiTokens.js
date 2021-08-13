@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { createLogger } from '@instana/logger';
@@ -42,6 +42,17 @@ export default function ApiTokens() {
   );
 }
 
+function GrantingTokenLabelButton({ apiToken }) {
+  const [accessGrantingToken, updateToken] = useState(apiToken.accessGrantingToken);
+
+  return (
+    <div className={locals.apiTokenColContainer}>
+      <div>{accessGrantingToken}</div>
+      <AsyncTokenCopyButton internalId={apiToken.internalId} token={accessGrantingToken} updateToken={updateToken} />
+    </div>
+  );
+}
+
 const columnDefinitions = [
   {
     id: 'name',
@@ -60,12 +71,7 @@ const columnDefinitions = [
     label: t('in-settings:tabs.token'),
     ellipsis: true,
     getContent(apiToken) {
-      return (
-        <div className={locals.apiTokenColContainer}>
-          <div>{apiToken.accessGrantingToken}</div>
-          <AsyncTokenCopyButton internalId={apiToken.internalId} />
-        </div>
-      );
+      return <GrantingTokenLabelButton apiToken={apiToken} />;
     }
   }
 ];
