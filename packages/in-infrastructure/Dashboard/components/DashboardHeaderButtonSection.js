@@ -13,6 +13,7 @@ import EntityVersionDialog from 'in-infrastructure/Dashboard/components/EntityVe
 import { getDashboardHeaderActions, getAnalyzeLogsHref$ } from 'in-sdk/snapshot';
 import { getLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { containerLogsEnabled } from 'in-services/featureFlags';
 import { MoreMenuCollapser } from 'in-components/MoreMenu';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
@@ -66,7 +67,9 @@ export default connectTo(
           analyzeLogsHref && {
             label: t('in-infrastructure:dashboard.analyzeLogs'),
             icon: 'lib_analyze',
-            href: analyzeLogsHref
+            href: analyzeLogsHref,
+            onClick: ({ snapshotId, snapshot }) =>
+              jumpToLogs({ source: 'analyze logs from infra dashboard', plugin: snapshot.get('plugin'), snapshotId })
           }
         ].filter(Boolean)}
         snapshot={snapshot}
