@@ -1,0 +1,36 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/mixins.less';
+
+:local {
+  .value {
+    .ellipsis();
+  }
+
+  .li {
+    min-height: 2rem;
+    max-height: 2rem;
+  }
+
+  .link {
+    color: @lib__colors__blue800;
+
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .applicationList {
+    overflow-y: scroll;
+    max-height: 25rem;
+  }
+
+  .applicationListOverlay {
+    width: 25rem;
+  }
+}

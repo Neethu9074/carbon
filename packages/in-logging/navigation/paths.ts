@@ -4,14 +4,19 @@
  */
 
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
-import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
-import { buildJsonSerializer } from 'in-stores/navigation/matrix';
+import { buildJsonSerializer, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { TagFilterExpression, TimeConfig } from 'in-types';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const logsPath = '/logs';
 export const rawLogsPath = '/rawlogs';
 
-export function getLinkToAnalyze({ tagFilterExpression = null, timeConfig }) {
+interface GetLinkToAnalyzeRequest {
+  timeConfig: TimeConfig;
+  tagFilterExpression?: TagFilterExpression;
+}
+
+export function getLinkToAnalyze({ tagFilterExpression, timeConfig }: GetLinkToAnalyzeRequest) {
   return getModifiedUrlStream(location => {
     location.pathname = logsPath;
 

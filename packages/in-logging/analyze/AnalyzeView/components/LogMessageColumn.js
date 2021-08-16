@@ -6,35 +6,17 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames';
 
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
-import TagList from 'in-logging/analyze/AnalyzeView/components/TagList';
-import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-import { LOG_LEVEL, LOG_TRACE_ID } from 'in-logging/queryBuilder';
-import IconButton from 'in-components/IconButton/IconButton';
 import useResizeObserver from 'in-hooks/useResizeObserver';
-import Tooltip from 'in-components/Tooltip';
-import { t } from 'in-i18n';
 
 import locals from './LogMessageColumn.mless';
 
 export default function LogMessageColumn(props) {
-  const {
-    itemId,
-    tags,
-    message,
-    onSelectTagHref,
-    selectedTags,
-    getHrefToGroupedView,
-    getHrefWithAdditionalTagFilter
-  } = props;
-
-  const tagListTags = tags
-    .filter(({ name }) => selectedTags.indexOf(name) >= 0)
-    .filter(({ name }) => name !== LOG_LEVEL);
+  const { tags, message, getHrefToGroupedView, getHrefWithAdditionalTagFilter } = props;
 
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const messageRef = useRef();
 
@@ -46,51 +28,28 @@ export default function LogMessageColumn(props) {
     setIsExpanded(false);
   }, [wrapperWidth]);
 
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
-    <div className={locals.wrapper} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      <div className={locals.messageWrapper} ref={ref}>
-        <span
-          className={classNames({
-            [locals.message]: true,
-            [locals.collapsedMessage]: !isExpanded,
-            [locals.messageExpanded]: isExpanded
-          })}
-          ref={messageRef}
-        >
-          <LogMessage
-            tags={tags}
-            message={message}
-            getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter}
-            getHrefToGroupedView={getHrefToGroupedView}
-          />
-        </span>
-
-        <div>
-          {isOverflowing && (
-            <IconButton
-              type={isExpanded ? 'lib_arrow_expand_up' : 'lib_arrow_expand_down'}
-              onClick={() => setIsExpanded(!isExpanded)}
-            />
-          )}
-
-          <TraceIcon tags={tags} />
-        </div>
-      </div>
-
-      <HorizontalFlexWrapper className={locals.tagsWrapper}>
-        <TagList itemId={itemId} tags={tagListTags} onSelectTagHref={onSelectTagHref} showLoadMoreAction={isHovered} />
-      </HorizontalFlexWrapper>
+    <div className={locals.messageWrapper} ref={ref}>
+      <span
+        className={classNames({
+          [locals.message]: true,
+          [locals.collapsedMessage]: !isExpanded,
+          [locals.messageExpanded]: isExpanded
+        })}
+        ref={messageRef}
+      >
+        <LogMessage
+          tags={tags}
+          message={message}
+          getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter}
+          getHrefToGroupedView={getHrefToGroupedView}
+          isOverflowing={isOverflowing}
+          setIsExpanded={setIsExpanded}
+          isExpanded={isExpanded}
+          setIsHovered={setIsHovered}
+          isHovered={isHovered}
+        />
+      </span>
     </div>
   );
-}
-
-function TraceIcon({ tags }) {
-  const traceId = tags.filter(({ name }) => name === LOG_TRACE_ID)[0]?.stringValue;
-  return traceId ? (
-    <Tooltip content={t('in-logging:goToTrace')}>
-      <IconButton type="lib_application_trace" href$={getLinkToTraceDetail(traceId)} />
-    </Tooltip>
-  ) : null;
 }

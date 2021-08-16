@@ -5,18 +5,25 @@
 
 import React from 'react';
 
-import { Message } from '@instana/components';
-import { Ul, Li } from '@instana/components';
+import { Ul, Li, Message } from '@instana/components';
 
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
+import { Error } from 'in-types';
 
+// @ts-ignore
 import locals from './ErrorList.mless';
 
-export default function ErrorList({ className, errors }) {
-  errors = getUniqueErrors(errors);
+interface ErrorListProps {
+  className?: string;
+  errors: Error[];
+}
+
+export default function ErrorList({ className, errors }: ErrorListProps) {
+  const errorStrings: string[] = getUniqueErrors(errors);
+
   return (
     <Ul className={className}>
-      {errors.map(error => (
+      {errorStrings.map(error => (
         <Li key={error}>
           <Message className={locals.message} type="error" small>
             {error}

@@ -10,7 +10,6 @@ import { KeyValue } from '@instana/components';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import GroupedView, { GROUP_COLORS } from 'in-components/AnalyzeView/GroupedView';
-import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
@@ -67,7 +66,6 @@ export default function GroupedLogs(props) {
         getData={getTableData}
         iconMap={iconMap}
         UngroupedView={Logs}
-        CustomHeaderActions={TagSelector}
         withoutSorting
         tracker={tracker}
       />

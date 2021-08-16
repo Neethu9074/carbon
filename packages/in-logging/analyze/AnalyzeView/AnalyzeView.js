@@ -13,22 +13,18 @@ import {
 } from 'in-logging/analyze/AnalyzeView/tracker';
 import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
 import TagExpressionValidation from 'in-logging/analyze/AnalyzeView/components/TagExpressionValidation';
-import { logIdMatrixParameter, selectedTags } from 'in-logging/navigation/matrix';
+import { LOG_LEVEL, LOG_SERVICE_NAME, LOG_STREAM_NAME } from 'in-logging/queryBuilder';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
 import useTimeSpentInsideComponent from 'in-hooks/useTimeSpentInsideComponent';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
-import { LOG_LEVEL, LOG_STREAM_NAME } from 'in-logging/queryBuilder';
+import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import { logsPath } from 'in-logging/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import useUrlState from 'in-hooks/useUrlState';
 
-const urlStateDefinition = {
-  bind: [selectedTags]
-};
 const defaultChartedMetrics = [{ metricId: 'logs_distribution', aggregationId: 'SUM' }];
 
 function getMetric({ numberOfLogs }) {
@@ -53,6 +49,13 @@ const facetedSearchItems = [
     tag: LOG_STREAM_NAME,
     getSuggestionName: getLabel,
     getMetric
+  },
+  {
+    renderer: FacetedFilterRenderer,
+    title: 'Service',
+    tag: LOG_SERVICE_NAME,
+    getSuggestionName: getLabel,
+    getMetric
   }
 ];
 
@@ -63,13 +66,6 @@ export default function LoggingAnalyzeView() {
   }, [timeConfig.to, timeConfig.windowSize, timeConfig.autoRefresh, timeConfig.focusedMoment]);
 
   useTimeSpentInsideComponent(millisSpentOnAnalyzeView => timeSpent({ millisSpentOnAnalyzeView }));
-
-  const [{ tags }, onChange] = useUrlState(urlStateDefinition);
-
-  const furtherProps = {
-    selectedTags: tags,
-    onSelectedTagsChange: _tags => onChange({ tags: _tags })
-  };
 
   return (
     <StateManagement
@@ -101,18 +97,12 @@ export default function LoggingAnalyzeView() {
             opts.isGrouped ? (
               <GroupedLogs
                 {...opts}
-                {...furtherProps}
                 {...validationProps}
                 getFacetedSearchSuggestions={getFacetedSearchSuggestions}
                 getLabel={getLabel}
               />
             ) : (
-              <Logs
-                {...opts}
-                {...furtherProps}
-                {...validationProps}
-                getFacetedSearchSuggestions={getFacetedSearchSuggestions}
-              />
+              <Logs {...opts} {...validationProps} getFacetedSearchSuggestions={getFacetedSearchSuggestions} />
             )
           }
         </TagExpressionValidation>

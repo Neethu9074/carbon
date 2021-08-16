@@ -30,7 +30,7 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import IconButton from 'in-components/IconButton/IconButton';
+import IconLink from 'in-components/IconButton/IconLink';
 import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -244,7 +244,7 @@ function columns({ groupBy, type, getParamsForGroup, metrics, timeConfig, granul
         getContent({ group }) {
           return (
             <Tooltip content={t('in-infrastructure:explore.focusOnThisGroup')}>
-              <IconButton
+              <IconLink
                 type="lib_actions_filter"
                 href$={getLinkToExplore(getParamsForGroup(group))}
                 onClick={() => onFocusOnGroup?.(group)}

@@ -20,7 +20,7 @@ export default function DialogHeader({ title, onTitleIconClick, scrollShadow }) 
       })}
     >
       <span className={locals.titleContainer}>
-        <IconButton iconSize="l" type="lib_arrow_left" onClick={onTitleIconClick} leftAligned />
+        <IconButton iconSize="l" type="lib_arrow_left" onClick={onTitleIconClick} alignment="left" />
         <h1 className={locals.title}>{title}</h1>
       </span>
     </div>

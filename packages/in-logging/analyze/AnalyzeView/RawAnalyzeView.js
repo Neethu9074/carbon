@@ -5,25 +5,13 @@
 
 import React from 'react';
 
-import { logIdMatrixParameter, selectedTagsRawLogs } from 'in-logging/navigation/matrix';
 import RawLogs from 'in-logging/analyze/AnalyzeView/components/raw/RawLogs';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
+import { logIdMatrixParameter } from 'in-logging/navigation/matrix';
 import { rawLogsPath } from 'in-logging/navigation/paths';
 import { getTagCatalog } from 'in-logging/api/catalog';
-import useUrlState from 'in-hooks/useUrlState';
-
-const urlStateDefinition = {
-  bind: [selectedTagsRawLogs]
-};
 
 export default function LoggingAnalyzeView() {
-  const [{ tags }, onChange] = useUrlState(urlStateDefinition);
-
-  const furtherProps = {
-    selectedTags: tags,
-    onSelectedTagsChange: _tags => onChange({ tags: _tags })
-  };
-
   return (
     <StateManagement
       path={rawLogsPath}
@@ -47,7 +35,7 @@ export default function LoggingAnalyzeView() {
         }
       }}
     >
-      {opts => <RawLogs {...opts} {...furtherProps} />}
+      {opts => <RawLogs {...opts} />}
     </StateManagement>
   );
 }

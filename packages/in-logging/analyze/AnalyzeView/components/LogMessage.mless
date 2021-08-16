@@ -10,6 +10,11 @@
     color: @lib__colors__N900Primary;
   }
 
+  .hovered {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   .parameter {
     color: @lib__colors__N500;
     font-style: italic;
