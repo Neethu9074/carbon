@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-import { Trans } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 /**
  * When the given Error has a message which contains the
@@ -31,7 +31,9 @@ export function enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(
           <Trans
             i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.pleaseContactSupportToRiseLimit"
             components={{ supportLink: <Link external href="https://support.instana.com" /> }}
-            values={{ instanaSupportPortal: 'Instana support portal' }}
+            values={{
+              instanaSupportPortal: t('in-alerting:smartAlerts.components.smartAlertDialog.instanaSupportPortal')
+            }}
           />
         </>
       )

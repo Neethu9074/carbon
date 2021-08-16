@@ -5,8 +5,6 @@
 
 import React, { forwardRef, useState } from 'react';
 
-import { fromPromise } from '@instana/observables';
-
 import { unmaskApiToken } from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/api';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { addCopiedToClipboardMessage } from 'in-components/CopyToClipboard';
@@ -14,31 +12,51 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import IconButton from 'in-components/IconButton/IconButton';
 import { t } from 'in-i18n';
 
-export default forwardRef(function AsyncTokenCopyButton({ internalId }, ref) {
+export default forwardRef(function AsyncTokenCopyButton({ internalId, token, updateToken }, ref) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isMasked, setIsMasked] = useState(true);
 
   return (
     <IconButton
       ref={ref}
-      type={isLoading ? 'lib_actions_loading' : 'lib_actions_copy'}
+      type={getIcon()}
       iconSpinning={isLoading}
       onClick={e => {
         stopPropagationAndPreventDefault(e);
-        setIsLoading(true);
-        const unMaskToken$ = unmaskApiToken(internalId).flatMap(response =>
-          fromPromise(navigator.clipboard.writeText(response.body))
-        );
-        unMaskToken$.errors().once(() => {
-          setIsLoading(false);
-          addErrorMessage();
-        });
-        unMaskToken$.once(() => {
-          setIsLoading(false);
+        if (isLoading) {
+          return;
+        }
+
+        if (isMasked) {
+          setIsLoading(true);
+          const unMaskedToken$ = unmaskApiToken(internalId);
+          unMaskedToken$.once(
+            response => {
+              updateToken(response.body);
+              setIsLoading(false);
+              setIsMasked(false);
+            },
+            () => addErrorMessage()
+          );
+        } else {
+          navigator.clipboard.writeText(token).catch(() => addErrorMessage());
           addCopiedToClipboardMessage();
-        });
+        }
       }}
     />
   );
+
+  function getIcon() {
+    if (isLoading) {
+      return 'lib_actions_loading';
+    }
+
+    if (isMasked) {
+      return 'lib_views_show';
+    }
+
+    return 'lib_actions_copy';
+  }
 
   function addErrorMessage() {
     addMessage(

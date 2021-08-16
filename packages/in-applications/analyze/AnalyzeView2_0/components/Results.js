@@ -57,7 +57,16 @@ const columnsPerDataSource = {
 };
 
 export default function Results(props) {
-  const { dataSource, hiddenCalls, previewEnabled, onChangePreviewEnabled, withoutHeader, detailId } = props;
+  const {
+    Chart = ChartsPresenter,
+    Sidebar = FacetedSearchPresenter,
+    dataSource,
+    hiddenCalls,
+    previewEnabled,
+    onChangePreviewEnabled,
+    withoutHeader,
+    detailId
+  } = props;
 
   const isInternalVisible = useObservable(isInternalVisible$, []) || false;
   const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
@@ -68,8 +77,8 @@ export default function Results(props) {
   let content = (
     <UngroupedViewTable
       {...props}
-      Sidebar={FacetedSearchPresenter}
-      Chart={ChartsPresenter}
+      Sidebar={Sidebar}
+      Chart={Chart}
       getItemName={({ count }) =>
         t('in-applications:analyze.dataSource', {
           context: dataSource,

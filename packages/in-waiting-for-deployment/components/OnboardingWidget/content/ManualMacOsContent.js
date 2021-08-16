@@ -18,7 +18,10 @@ import {
 import { t } from 'in-i18n';
 
 export default function ManualMacOsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
-  const agentOptions = [{ key: 'mac', label: t('in-waiting-for-deployment:content.macOs64BitIntel') }];
+  const agentOptions = [
+    { key: 'mac', label: t('in-waiting-for-deployment:content.macOs64BitIntel') },
+    { key: 'macStatic', label: t('in-waiting-for-deployment:content.macOs64BitIntelStatic') }
+  ];
   const [option, setOption] = useState(agentOptions[0].key);
 
   return (

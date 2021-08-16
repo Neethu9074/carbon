@@ -48,7 +48,7 @@ const columnDefinitions = [
 ];
 
 export default function GroupedLogs(props) {
-  const { filteringTagCatalog } = props;
+  const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter, filteringTagCatalog } = props;
 
   const iconMap = useMemo(() => createIconMap(filteringTagCatalog), [filteringTagCatalog]);
 
@@ -56,7 +56,7 @@ export default function GroupedLogs(props) {
     <QueryBuilderWorkspace {...props}>
       <GroupedView
         {...props}
-        Sidebar={FacetedSearchPresenter}
+        Sidebar={Sidebar}
         columnDefinitions={columnDefinitions}
         itemlabelColumnId="label"
         getData={getTableData}

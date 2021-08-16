@@ -164,11 +164,13 @@ const columnsPerDataSource = {
 };
 
 export default function MobileBeacons(props) {
+  const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter } = props;
+
   let content = (
     <UngroupedViewTable
       {...props}
-      Sidebar={FacetedSearchPresenter}
-      Chart={ChartsPresenter}
+      Sidebar={Sidebar}
+      Chart={Chart}
       getItemName={({ count }) =>
         t('in-mobile-apps:dataSource', {
           context: props.dataSource,

@@ -70,7 +70,7 @@ const tracker = {
 };
 
 export default function Logs(props) {
-  const { getHrefWithAdditionalTagFilter, getHrefToGroupedView, filteringTagCatalog, groupingTagCatalog } = props;
+  const { getHrefWithAdditionalTagFilter, getHrefToGroupedView, filteringTagCatalog, groupingTagCatalog, Sidebar = FacetedSearchPresenter  } = props;
 
   const onSelectTagHref = getHrefWithAdditionalTagFilter
     ? tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
@@ -88,7 +88,7 @@ export default function Logs(props) {
   let content = (
     <UngroupedViewList
       {...props}
-      Sidebar={FacetedSearchPresenter}
+      Sidebar={Sidebar}
       useCursorPaginationStrategy={useLogsCursorPagination}
       classNames={{ listItem: locals.listItem }}
       withoutSorting
