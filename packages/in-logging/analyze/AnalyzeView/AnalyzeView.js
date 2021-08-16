@@ -31,7 +31,7 @@ function getMetric({ numberOfLogs }) {
   return numberOfLogs;
 }
 
-function getSuggestionName({ label }) {
+function getLabel({ label }) {
   return label;
 }
 
@@ -40,14 +40,14 @@ const facetedSearchItems = [
     renderer: FacetedFilterRenderer,
     title: 'Log levels',
     tag: LOG_LEVEL,
-    getSuggestionName,
+    getSuggestionName: getLabel,
     getMetric
   },
   {
     renderer: FacetedFilterRenderer,
     title: 'Stream',
     tag: LOG_STREAM_NAME,
-    getSuggestionName,
+    getSuggestionName: getLabel,
     getMetric
   },
   {
@@ -99,7 +99,7 @@ export default function LoggingAnalyzeView() {
                 {...opts}
                 {...validationProps}
                 getFacetedSearchSuggestions={getFacetedSearchSuggestions}
-                getLabel={getSuggestionName}
+                getLabel={getLabel}
               />
             ) : (
               <Logs {...opts} {...validationProps} getFacetedSearchSuggestions={getFacetedSearchSuggestions} />

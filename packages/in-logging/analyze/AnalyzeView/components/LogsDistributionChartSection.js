@@ -115,7 +115,7 @@ function LogsChart({ backendQueryModel, metric }) {
   );
 }
 
-function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, backendQueryModel }) {
+function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, backendQueryModel }) {
   const timeConfig = useTimeConfig();
   const { items, progress, errors } = useCursorPagination(
     params => getData({ timeConfig, groupBy, backendQueryModel, ...params }),
@@ -128,7 +128,9 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, backendQueryMo
     return <ResultAwareChart result={error(errors)} config={{ customHeight: 215 }} />;
   }
 
-  const topGroups = items.slice(0, 5).map(({ label }) => label);
+  const topItems = items.slice(0, 5);
+  const topGroups = topItems.map(({ label }) => label);
+  const colors = topItems.map((item, i) => getColor(item, i, groupBy));
 
   const tag = groupBy.groupbyTag;
   const type = filteringTagCatalog.tags.find(({ name }) => name === tag)?.type ?? 'STRING';
@@ -140,6 +142,7 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, backendQueryMo
       renderLegend={false}
       config={{
         y1: {
+          colors,
           metrics: topGroups.map(label => getMetricConfig({ backendQueryModel, metric, tag, value: label, key, type })),
           formatter: 'number.compact',
           renderer: 'stackedBar'
