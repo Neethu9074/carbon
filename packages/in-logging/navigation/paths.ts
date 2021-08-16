@@ -13,10 +13,10 @@ export const rawLogsPath = '/rawlogs';
 
 interface GetLinkToAnalyzeRequest {
   timeConfig: TimeConfig;
-  tagFilterExpression: TagFilterExpression | null;
+  tagFilterExpression?: TagFilterExpression;
 }
 
-export function getLinkToAnalyze({ tagFilterExpression = null, timeConfig }: GetLinkToAnalyzeRequest) {
+export function getLinkToAnalyze({ tagFilterExpression, timeConfig }: GetLinkToAnalyzeRequest) {
   return getModifiedUrlStream(location => {
     location.pathname = logsPath;
 
