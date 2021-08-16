@@ -48,7 +48,7 @@ const columnDefinitions = [
 ];
 
 export default function GroupedLogs(props) {
-  const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter, filteringTagCatalog } = props;
+  const { Sidebar = FacetedSearchPresenter, filteringTagCatalog } = props;
 
   const iconMap = useMemo(() => createIconMap(filteringTagCatalog), [filteringTagCatalog]);
 
