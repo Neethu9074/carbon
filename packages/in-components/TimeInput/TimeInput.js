@@ -75,6 +75,7 @@ const TimeInputField = React.forwardRef(function TimeInputField(
       refSetter={ref}
       className={locals.timeInput}
       type="text"
+      autoComplete="off"
       value={time}
       onChange={e => handleTimeChange(e.target.value)}
       onBlur={e => commitTimeChange(formatInputTime(e.target.value, 'HH:mm'))}
