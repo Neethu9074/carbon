@@ -188,7 +188,7 @@
     "buttonNext": "Next"
   },
   "chartingConfigurator": {
-    "buttonAddChart": "Add chart",
+    "buttonAddChart": "Select chart",
     "labelChangeSelectedMetric": "Change selected metric",
     "labelChangeSelectedAggregation": "Change selected aggregation",
     "labelChangeSelectedRenderer": "Change selected renderer",

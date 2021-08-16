@@ -8,6 +8,7 @@ import React, { useMemo } from 'react';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
+import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import LogTagsTable from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
@@ -70,7 +71,14 @@ const tracker = {
 };
 
 export default function Logs(props) {
-  const { getHrefWithAdditionalTagFilter, getHrefToGroupedView, filteringTagCatalog, groupingTagCatalog, Sidebar = FacetedSearchPresenter  } = props;
+  const {
+    getHrefWithAdditionalTagFilter,
+    getHrefToGroupedView,
+    filteringTagCatalog,
+    groupingTagCatalog,
+    Sidebar = FacetedSearchPresenter,
+    Chart = ChartsPresenter
+  } = props;
 
   const onSelectTagHref = getHrefWithAdditionalTagFilter
     ? tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
@@ -89,6 +97,7 @@ export default function Logs(props) {
     <UngroupedViewList
       {...props}
       Sidebar={Sidebar}
+      Chart={Chart}
       useCursorPaginationStrategy={useLogsCursorPagination}
       classNames={{ listItem: locals.listItem }}
       withoutSorting

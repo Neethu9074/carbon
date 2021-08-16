@@ -47,7 +47,9 @@ export default function ChartingConfigurator({ options, value, onChange, hideRen
       value={value}
       options={options}
       onChange={chartConfig => {
-        tracking?.onChartChanged?.(chartConfig);
+        if (chartConfig != null) {
+          tracking?.onChartChanged?.(chartConfig);
+        }
         onChange(chartConfig);
       }}
       hideRenderer={hideRenderer}

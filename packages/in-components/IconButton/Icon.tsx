@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
+
+import { SvgIcon, SvgIconSizes } from '@instana/components';
 
 import { IconComponentProps } from 'in-components/IconButton/types';
-import { SvgIcon, SvgIconSizes } from '@instana/components';
 
 // @ts-ignore
 import locals from './IconButton.mless';

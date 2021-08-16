@@ -9,6 +9,7 @@ import { KeyValue } from '@instana/components';
 
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
+import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import GroupedView, { GROUP_COLORS } from 'in-components/AnalyzeView/GroupedView';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
@@ -50,7 +51,7 @@ const columnDefinitions = [
 ];
 
 export default function GroupedLogs(props) {
-  const { Sidebar = FacetedSearchPresenter, filteringTagCatalog, groupBy } = props;
+  const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter, filteringTagCatalog, groupBy } = props;
 
   const iconMap = useMemo(() => createIconMap(filteringTagCatalog), [filteringTagCatalog]);
   const getColor = (item, index) => getLogGroupColor(item, index, groupBy);
@@ -59,6 +60,7 @@ export default function GroupedLogs(props) {
     <QueryBuilderWorkspace {...props} getColor={getColor}>
       <GroupedView
         {...props}
+        Chart={Chart}
         Sidebar={Sidebar}
         columnDefinitions={columnDefinitions}
         itemlabelColumnId="label"

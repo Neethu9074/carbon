@@ -34,7 +34,7 @@ export function ChartsPresenter(props) {
       <Charting
         {...props}
         getCustomGroupLabel={groupedViewConfiguration.getCustomGroupLabel}
-        chartedMetrics={chartedMetrics.map(chartedMetric => ({
+        chartedMetrics={chartedMetrics?.map(chartedMetric => ({
           ...chartedMetric,
           rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
         }))}
@@ -46,13 +46,15 @@ export function ChartsPresenter(props) {
           ...hiddenCalls
         })}
         forceLoadingIndicator={isGrouped && chartableDataSeries == null}
+        disableClose={false}
+        hideRenderer
         tracking={{
           onChartChanged: ({ metricId, aggregationId }) =>
             ua2ChartChangedTracker({ dataSource, metric: metricId, aggregation: aggregationId })
         }}
         CustomChart={
-          chartedMetrics[0].metricId === 'latency' &&
-          chartedMetrics[0].aggregationId === 'DISTRIBUTION' &&
+          chartedMetrics?.[0]?.metricId === 'latency' &&
+          chartedMetrics?.[0]?.aggregationId === 'DISTRIBUTION' &&
           (() => (
             <div className={locals.latencyDistribution}>
               <LatencyDistributionChart

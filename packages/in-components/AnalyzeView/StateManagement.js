@@ -232,7 +232,7 @@ function AnalyzeStateManagement({
   const selectableFields = useStableObjectInstance(urlState.fields ?? defaultSelectableFields);
   // charts should be shown, even if not explicitly selected
   const chartedMetrics = useStableObjectInstance(
-    urlState.chartedMetrics?.length > 0 ? urlState.chartedMetrics : defaultChartedMetrics
+    urlState.chartedMetrics ? urlState.chartedMetrics : defaultChartedMetrics
   );
 
   const filteringTagCatalogResult =

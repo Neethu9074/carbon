@@ -15,6 +15,8 @@ export function ChartsPresenter(props) {
     isValid && (
       <LogsDistributionChartSection
         {...props}
+        disableClose={false}
+        hideRenderer
         tracking={{
           onChartChanged: chartConfig => chartConfig && chartChanged(chartConfig)
         }}

@@ -6,10 +6,9 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { IconComponentProps } from 'in-components/IconButton/types';
 import Icon from 'in-components/IconButton/Icon';
-
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 
 // @ts-ignore
 import locals from './IconButton.mless';

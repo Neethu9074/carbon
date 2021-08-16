@@ -6,14 +6,6 @@
 import { just, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-// This file has too many dependencies to translate yet
-// @ts-ignore
-import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
-// @ts-ignore
-import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
-
-import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-
 import {
   LOG_TRACE_ID,
   LOG_CUSTOM,
@@ -24,6 +16,12 @@ import {
   LOG_HOST_SNAPSHOT_ID,
   LOG_CUSTOM_KEY_APPLICATION_ID
 } from 'in-logging/queryBuilder';
+// This file has too many dependencies to translate yet
+// @ts-ignore
+import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+// @ts-ignore
+import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
+import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { LogItem, LogTag } from 'in-types';
 
 type LinkResolver = (tag: LogTag, log: LogItem) => Observable<string>;

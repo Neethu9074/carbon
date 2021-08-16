@@ -20,13 +20,15 @@ export function ChartsPresenter(props) {
     <Sections className={locals.chartWrapper}>
       <Charting
         {...props}
-        chartedMetrics={chartedMetrics.map(chartedMetric => ({
+        chartedMetrics={chartedMetrics?.map(chartedMetric => ({
           ...chartedMetric,
           rendererId: metricRenderers[dataSource][chartedMetric.metricId] ?? 'stackedBar'
         }))}
         unifiedMetricsSource="MOBILE_APP"
         mapMetricConfiguration={mapMetricConfiguration}
         forceLoadingIndicator={isGrouped && chartableDataSeries == null}
+        disableClose={false}
+        hideRenderer
         tracking={{
           onChartChanged: ({ metricId, aggregationId }) =>
             ua2ChartChangedTracker({ dataSource, metric: metricId, aggregation: aggregationId })

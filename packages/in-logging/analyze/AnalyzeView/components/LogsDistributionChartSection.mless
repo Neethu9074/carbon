@@ -7,12 +7,13 @@
 
 :local {
   .wrapper {
-    border-top: 1px solid @lib__colors__N400;
+    margin-bottom: 24px;
   }
 
   .chartWrapper {
     padding: 1rem;
 
     background: @lib__colors__white;
+    border-top: 1px solid @lib__colors__N400;
   }
 }

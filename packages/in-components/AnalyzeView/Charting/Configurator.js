@@ -12,7 +12,14 @@ import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManageme
 import { aggregationLabels } from 'in-stores/metric/metric';
 import { emptyArray } from 'in-services/fixedObjects';
 
-export default function Configurator({ onChartedMetricsChange, chartedMetrics, chartableMetricCatalog, tracking }) {
+export default function Configurator({
+  onChartedMetricsChange,
+  chartedMetrics,
+  chartableMetricCatalog,
+  disableClose,
+  hideRenderer,
+  tracking
+}) {
   return (
     <ChartingConfiguratorSection
       value={chartedMetrics?.[0]}
@@ -30,8 +37,8 @@ export default function Configurator({ onChartedMetricsChange, chartedMetrics, c
       }
       onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
       tracking={tracking}
-      hideRenderer
-      disableClose
+      hideRenderer={hideRenderer}
+      disableClose={disableClose}
     />
   );
 }

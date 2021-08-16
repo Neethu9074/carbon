@@ -6,11 +6,11 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import { IconComponentProps } from 'in-components/IconButton/types';
-import Icon from 'in-components/IconButton/Icon';
 import { useObservable } from '@instana/hooks';
 
+import { IconComponentProps } from 'in-components/IconButton/types';
 import { stopPropagation } from 'in-services/util/function';
+import Icon from 'in-components/IconButton/Icon';
 
 // @ts-ignore
 import locals from './IconButton.mless';
