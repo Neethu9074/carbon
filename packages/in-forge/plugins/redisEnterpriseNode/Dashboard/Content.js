@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -15,12 +14,6 @@ import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 export default function RedisEnterpriseNodeDashboard({ snapshot, timeConfig }) {
-  const data = snapshot.get('data');
-  const sensorConnectionStatus = data.get('sensorConnectionStatus');
-  if (sensorConnectionStatus !== 'OK') {
-    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
-  }
-
   const snapshotId = snapshot.get('id');
 
   return (
