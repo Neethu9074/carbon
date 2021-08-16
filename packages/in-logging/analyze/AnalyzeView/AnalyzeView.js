@@ -54,7 +54,7 @@ const facetedSearchItems = [
     renderer: FacetedFilterRenderer,
     title: 'Service',
     tag: LOG_SERVICE_NAME,
-    getSuggestionName,
+    getSuggestionName: getLabel,
     getMetric
   }
 ];
