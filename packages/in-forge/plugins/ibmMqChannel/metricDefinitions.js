@@ -23,7 +23,14 @@ export default [
   },
   {
     metrics: ['buffersSent', 'buffersReceived'],
-    labels: [t('in-forge:plugins.ibmMqChannel.sent'), t('in-forge:plugins.ibmMqChannel.received')],
+    labels: [t('in-forge:plugins.ibmMqChannel.buffersSent'), t('in-forge:plugins.ibmMqChannel.buffersReceived')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmMqChannel.buffers')],
+    formatter: number
+  },
+  {
+    metrics: ['bytesSent', 'bytesReceived'],
+    labels: [t('in-forge:plugins.ibmMqChannel.bytesSent'), t('in-forge:plugins.ibmMqChannel.bytesReceived')],
     min: 0,
     category: [t('in-forge:plugins.ibmMqChannel.buffers')],
     formatter: number

@@ -11525,6 +11525,27 @@ export default {
               name: 'buffersSent'
             },
             {
+              label: 'Bytes received',
+              description: 'Bytes received.',
+              icon: 'lib_views_tag',
+              type: 'ibmMqChannel',
+              name: 'bytesReceived'
+            },
+            {
+              label: 'Bytes sent',
+              description: 'Bytes sent.',
+              icon: 'lib_views_tag',
+              type: 'ibmMqChannel',
+              name: 'bytesSent'
+            },
+            {
+              label: 'Active conversations',
+              description: 'Active conversations.',
+              icon: 'lib_views_tag',
+              type: 'ibmMqChannel',
+              name: 'activeConversations'
+            },
+            {
               label: 'Messages available',
               description: 'Number of messages queued on transmission queue.',
               icon: 'lib_views_tag',
@@ -25252,6 +25273,20 @@ export default {
       valueType: 'STRING',
       label: 'buffersSent',
       name: 'buffersSent',
+      type: 'ibmMqChannel'
+    },
+    {
+      description: '',
+      valueType: 'STRING',
+      label: 'bytesReceived',
+      name: 'bytesReceived',
+      type: 'ibmMqChannel'
+    },
+    {
+      description: '',
+      valueType: 'STRING',
+      label: 'bytesSent',
+      name: 'bytesSent',
       type: 'ibmMqChannel'
     },
     {

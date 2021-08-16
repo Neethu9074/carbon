@@ -17,11 +17,24 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
   return (
     <div>
       <KpiSection>
-        <KpiKeyValue label={t('in-forge:plugins.ibmMqQueue.dashboard.queueDepth')}>
-          <MetricValue snapshotId={snapshotId} metric="queueDepth" formatter={number.compact} />
-        </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.ibmMqQueue.dashboard.oldestMessage')}>
           <MetricValue snapshotId={snapshotId} metric="oldestMessage" formatter={seconds.fixedCompact} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqQueue.dashboard.in')}>
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="messagesIn"
+            timeWindowAggregation="sum"
+            formatter={number.compact}
+          />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqQueue.dashboard.out')}>
+          <MetricValue
+            snapshotId={snapshotId}
+            metric="messagesOut"
+            timeWindowAggregation="sum"
+            formatter={number.compact}
+          />
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.ibmMqQueue.dashboard.depth')}>

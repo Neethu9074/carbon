@@ -6,6 +6,7 @@
 import React from 'react';
 
 import getIbmMqChannelsForQueueManager from 'in-subscription/ibmMqQueueManager/getIbmMqChannelsForQueueManager';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -61,20 +62,27 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.activeConversations'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'activeConversations';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.ibmMqQueueManager.dashboard.remoteQueueManager'),
     type: 'string',
     typeArgs: {
       getValue(row) {
         return row.snapshot.getIn(['data', 'remoteQM'], missingValue);
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.lastMessageDateTime'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'lastMessage'], missingValue);
       }
     }
   },
