@@ -274,7 +274,11 @@ function getHigherOrLowerOperatorDescriptionContext(operatorDescription, operato
   }
 }
 
-export function isEntitySelectionValid(entitySelection) {
+export function isEntitySelectionValid(entitySelection, isBuiltInAlert) {
+  if (isBuiltInAlert) {
+    return true;
+  }
+
   const hasAtLeastOneValidApplicationSelection = Object.values(entitySelection ?? {}).some(
     ({ inclusive, services }) => {
       return inclusive === true || !isEmpty(services);

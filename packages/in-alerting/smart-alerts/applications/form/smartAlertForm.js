@@ -142,7 +142,7 @@ export function createSmartAlertForm(alertConfig, editMode) {
       createField({
         value: alertConfig.applications ?? {},
         validator: entitySelection => {
-          if (!isEntitySelectionValid(entitySelection)) {
+          if (!isEntitySelectionValid(entitySelection, alertConfig.builtIn)) {
             return [
               {
                 severity: 'error',
