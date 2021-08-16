@@ -32,25 +32,15 @@ export const useObservableConfig = {
 };
 
 export default forwardRef<HTMLAnchorElement, IconLinkProps>(function IconLink(props: IconLinkProps, ref) {
-  const {
-    size = 'normal',
-    kind = 'action',
-    onClick,
-    disabled,
-    leftAligned,
-    rightAligned,
-    href,
-    href$,
-    className = ''
-  } = props;
+  const { size = 'normal', kind = 'action', onClick, disabled, alignment, href, href$, className = '' } = props;
   const resolvedHref = useObservable(href$, [href$], useObservableConfig) || href;
 
   const classes = classNames({
     [locals.iconButton]: true,
     [locals[`iconButton--${kind}`]]: kind,
     [locals[size]]: size,
-    [locals.rightAligned]: rightAligned,
-    [locals.leftAligned]: leftAligned,
+    [locals.rightAligned]: alignment === 'right',
+    [locals.leftAligned]: alignment === 'left',
     [locals.disabled]: disabled,
     [className]: className
   });

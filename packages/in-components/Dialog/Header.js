@@ -24,7 +24,7 @@ export default function Header({ icon, onIconClick, title, renderCustomCloseBeha
       {icon ? (
         <div className={locals.customTitle}>
           {onIconClick ? (
-            <IconButton type={icon} iconSize="l" onClick={onIconClick} kind="info" leftAligned />
+            <IconButton type={icon} iconSize="l" onClick={onIconClick} kind="info" alignment="left" />
           ) : (
             <SvgIcon size="l" type={icon} />
           )}
@@ -36,7 +36,9 @@ export default function Header({ icon, onIconClick, title, renderCustomCloseBeha
       {renderCustomCloseBehaviour && (
         <span className={locals.customCloseBehaviour}>{renderCustomCloseBehaviour()}</span>
       )}
-      {onClose && <IconButton type="lib_openclose_cancel" iconSize="l" onClick={onClose} kind="info" rightAligned />}
+      {onClose && (
+        <IconButton type="lib_openclose_cancel" iconSize="l" onClick={onClose} kind="info" alignment="right" />
+      )}
     </div>
   );
 }

@@ -18,8 +18,7 @@ export interface IconComponentProps {
   kind?: Kind;
   onClick?: (e: MouseEvent<HTMLElement>) => void;
   disabled?: boolean;
-  leftAligned?: boolean;
-  rightAligned?: boolean;
+  alignment?: 'left' | 'right';
   href?: string;
   href$?: Observable<string>;
   className?: string;

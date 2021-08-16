@@ -17,7 +17,7 @@ import locals from './IconButton.mless';
 interface IconButtonProps extends IconComponentProps {}
 
 export default forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(props: IconButtonProps, ref) {
-  const { size = 'normal', kind = 'action', onClick, disabled, leftAligned, rightAligned, className = '' } = props;
+  const { size = 'normal', kind = 'action', onClick, disabled, alignment, className = '' } = props;
 
   return (
     <button
@@ -25,8 +25,8 @@ export default forwardRef<HTMLButtonElement, IconButtonProps>(function IconButto
         [locals.iconButton]: true,
         [locals[`iconButton--${kind}`]]: kind,
         [locals[size]]: size,
-        [locals.rightAligned]: rightAligned,
-        [locals.leftAligned]: leftAligned,
+        [locals.rightAligned]: alignment === 'right',
+        [locals.leftAligned]: alignment === 'left',
         [locals.disabled]: disabled,
         [className]: className
       })}
