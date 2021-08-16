@@ -5,7 +5,6 @@
 
 import React, { useEffect, useMemo } from 'react';
 import classNames from 'classnames';
-import { range } from 'lodash';
 import rpt from 'prop-types';
 
 import {
@@ -58,6 +57,11 @@ import { t } from 'in-i18n';
 
 import locals from './GroupedView.mless';
 
+export const GROUP_COLORS = (() => {
+  const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
+  return theme.lib.colors.chart.strokeColors100.slice(0, maxGroupsOnChart);
+})();
+
 export default function GroupedAnalyzeView(props) {
   const {
     backendQueryModelWithFacets,
@@ -94,8 +98,7 @@ export default function GroupedAnalyzeView(props) {
   const timeConfig = useTimeConfig();
   const fields = [...fixedFields, ...selectableFields];
 
-  const maxGroupsOnChart = Math.min(5, theme.lib.colors.chart.strokeColors100.length);
-  const groupColors = range(maxGroupsOnChart).map(i => theme.lib.colors.chart.strokeColors100[i]);
+  const getColor = props.getColor ?? defaultColorFunction;
   const showChartGroupMarkers =
     !withoutChartGroupMarkers && chartedMetrics?.[0] && chartedMetrics[0].aggregationId !== 'DISTRIBUTION';
 
@@ -113,9 +116,9 @@ export default function GroupedAnalyzeView(props) {
   const labelColumnDefinitions = labelColumns({
     itemlabelColumnId,
     getLabel,
+    getColor,
     getCustomGroupLabel: groupedViewConfiguration.getCustomGroupLabel,
     showChartGroupMarkers,
-    groupColors,
     groupIcon
   });
   const metricColumnDefinitions = metricColumns({
@@ -375,9 +378,9 @@ export default function GroupedAnalyzeView(props) {
 function labelColumns({
   itemlabelColumnId,
   getLabel,
+  getColor,
   getCustomGroupLabel,
   showChartGroupMarkers,
-  groupColors,
   groupIcon
 }) {
   let i = 0;
@@ -386,13 +389,18 @@ function labelColumns({
       ? [
           {
             width: '1.5rem',
-            getContent() {
+            getContent({ item }) {
               const groupIdx = i++;
-              return groupIdx < groupColors.length ? (
+              const color = getColor(item, groupIdx);
+              if (!color) {
+                return null;
+              }
+
+              return (
                 <div className={locals.center}>
-                  <div className={locals.rect} style={{ backgroundColor: groupColors[groupIdx] }} />
+                  <div className={locals.rect} style={{ backgroundColor: color }} />
                 </div>
-              ) : null;
+              );
             }
           }
         ]
@@ -547,6 +555,10 @@ function actionColumns() {
       }
     }
   ];
+}
+
+function defaultColorFunction(_, index) {
+  return GROUP_COLORS[index];
 }
 
 GroupedAnalyzeView.propTypes = {

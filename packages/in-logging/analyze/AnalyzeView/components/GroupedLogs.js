@@ -9,13 +9,14 @@ import { KeyValue } from '@instana/components';
 
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
+import GroupedView, { GROUP_COLORS } from 'in-components/AnalyzeView/GroupedView';
 import TagSelector from 'in-logging/analyze/AnalyzeView/components/TagSelector';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
-import GroupedView from 'in-components/AnalyzeView/GroupedView';
 import { percentage } from 'in-services/formatters/number';
-import { ChartsPresenter } from './ChartsPresenter';
+import { LOG_LEVEL } from 'in-logging/queryBuilder';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 const tracker = {
@@ -50,28 +51,43 @@ const columnDefinitions = [
 ];
 
 export default function GroupedLogs(props) {
-  const { Chart = ChartsPresenter, Sidebar = FacetedSearchPresenter, filteringTagCatalog } = props;
+  const { Sidebar = FacetedSearchPresenter, filteringTagCatalog, groupBy } = props;
 
   const iconMap = useMemo(() => createIconMap(filteringTagCatalog), [filteringTagCatalog]);
+  const getColor = (item, index) => getLogGroupColor(item, index, groupBy);
 
   return (
-    <QueryBuilderWorkspace {...props}>
+    <QueryBuilderWorkspace {...props} getColor={getColor}>
       <GroupedView
         {...props}
         Sidebar={Sidebar}
-        Chart={Chart}
         columnDefinitions={columnDefinitions}
         itemlabelColumnId="label"
+        getColor={getColor}
         getData={getTableData}
         iconMap={iconMap}
         UngroupedView={Logs}
         CustomHeaderActions={TagSelector}
         withoutSorting
-        getItemLabel={({ label }) => label}
         tracker={tracker}
       />
     </QueryBuilderWorkspace>
   );
+}
+function getLogGroupColor(item, index, groupBy) {
+  if (groupBy?.groupbyTag === LOG_LEVEL) {
+    const logLevel = item.label.toLowerCase();
+    if (logLevel === 'error') {
+      return theme.lib.colors.failure;
+    }
+    if (logLevel === 'warn') {
+      return theme.lib.colors.warning;
+    }
+    if (logLevel === 'info') {
+      return theme.lib.colors.lightBlue800;
+    }
+  }
+  return GROUP_COLORS[index];
 }
 
 function createIconMap(tagCatalog) {
