@@ -20,23 +20,23 @@ import { getSnapshot } from 'in-stores/snapshot';
 // @ts-ignore
 import { getLabel } from 'in-sdk/snapshot';
 import { Application, LogTag, Result } from 'in-types';
-import { t as translate } from 'in-i18n';
+import { t } from 'in-i18n';
 
 type LinkResolver = (tag: LogTag) => Observable<string>;
 
 const tagValueResolver = new Map<string, LinkResolver>([
   [
     LOG_CUSTOM_KEY_APPLICATION_ID,
-    t =>
-      getApplication({ id: t.stringValue || '' }).map((res: Result<Application>) => res?.data?.label || t.stringValue)
+    _t =>
+      getApplication({ id: _t.stringValue || '' }).map((res: Result<Application>) => res?.data?.label || _t.stringValue)
   ],
   [
     `${LOG_CUSTOM}-${LOG_CUSTOM_KEY_APPLICATION_IDS}`,
-    t => just(translate('in-logging:applicationCounter', { count: (t.stringValue || '').split(',').length }))
+    _t => just(t('in-logging:applicationCounter', { count: (_t.stringValue || '').split(',').length }))
   ],
-  [LOG_PROCESS_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue || '')],
-  [LOG_DOCKER_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue || '')],
-  [LOG_HOST_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue || '')]
+  [LOG_PROCESS_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],
+  [LOG_DOCKER_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],
+  [LOG_HOST_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')]
 ]);
 
 function resolveInfraLabel(snapshotId: string) {
