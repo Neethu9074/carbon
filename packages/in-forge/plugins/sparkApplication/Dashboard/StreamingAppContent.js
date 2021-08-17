@@ -15,7 +15,7 @@ import ExecutorsStreamingAppTable from './ExecutorsStreamingAppTable';
 import { t } from 'in-i18n';
 
 export default function StreamingAppContent({ snapshot, timeConfig }) {
-  const version = snapshot.getIn(['data', 'version'], '2.0.0');
+  const version = semver.coerce(snapshot.getIn(['data', 'version'], '2.0.0'));
 
   return (
     <div>
