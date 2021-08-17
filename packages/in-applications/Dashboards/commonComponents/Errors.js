@@ -15,8 +15,6 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
@@ -119,10 +117,7 @@ export default function Errors({
                   boundaryScope,
                   groupBy,
                   formModel: joinExpressions({
-                    expressions: [
-                      createFormModelFromSyntheticOption(syntheticCalls),
-                      tagFilter('call.erroneous', EQUALS, true)
-                    ]
+                    expressions: [createFormModelFromSyntheticOption(syntheticCalls)]
                   }),
                   hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
                   fields: [createMetricField('errors', 'MEAN'), createMetricField('latency', 'MEAN')],

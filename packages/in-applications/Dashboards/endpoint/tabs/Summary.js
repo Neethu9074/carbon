@@ -24,7 +24,6 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
@@ -166,11 +165,9 @@ export default connectTo(
                     boundaryScope,
                     groupBy: createGroupBy('call.name'),
                     formModel: joinExpressions({
-                      expressions: [
-                        createFormModelFromSyntheticOption(syntheticCalls),
-                        tagFilter('call.erroneous', EQUALS, true)
-                      ]
+                      expressions: [createFormModelFromSyntheticOption(syntheticCalls)]
                     }),
+                    facets: { 'call.erroneous': [true] },
                     hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
                     fields: [createMetricField('errors', 'MEAN'), createMetricField('latency', 'MEAN')],
                     chartedMetrics: [createChartedMetric('errors', 'MEAN')]
