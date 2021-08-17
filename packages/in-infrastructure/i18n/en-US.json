@@ -70,7 +70,7 @@
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Show counts and averages across the current time window.",
-    "aggregatesForMetricsOver": "Aggregates for metrics over <windowSize />",
+    "aggregatesForMetricsOver": "Aggregates for metrics over {{windowSize}}",
     "noData": "No data.",
     "pleaseSelectForWhichToVisualizeTheChosenMetrics": "Please select {{plugins}} for which to visualize the chosen metrics.",
     "pleaseSelectMetricsToVisualizeForTheSelected": "Please select metrics to visualize for the selected {{plugins}}.",
