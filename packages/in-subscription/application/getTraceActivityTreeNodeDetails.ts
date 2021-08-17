@@ -4,8 +4,19 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { Result, TraceActivityTreeNodeDetails } from 'in-types';
 
-export default createResultSubscriptionFactory({
+interface createResultSubscriptionFactoryRequest {
+  traceId: string;
+  nodeId: string;
+}
+
+type createResultSubscriptionFactoryResponse = Result<TraceActivityTreeNodeDetails>;
+
+export default createResultSubscriptionFactory<
+  createResultSubscriptionFactoryRequest,
+  createResultSubscriptionFactoryResponse
+>({
   eventId: 'getTraceActivityTreeNodeDetails',
   trackSubscriptionStatistics: true,
   disposeSubscriptionOnDocumentHidden: false
