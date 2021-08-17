@@ -17,7 +17,8 @@ import StagesTable from './StagesTable';
 import { t } from 'in-i18n';
 
 export default function BatchAppContent({ snapshot, timeConfig }) {
-  const version = snapshot.getIn(['data', 'version'], '2.0.0');
+  const version = semver.coerce(snapshot.getIn(['data', 'version'], '2.0.0'));
+
   const stagesTable = semver.satisfies(version, '>=1.6.0') ? (
     <StagesTable snapshot={snapshot} />
   ) : (
