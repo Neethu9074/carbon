@@ -12,6 +12,7 @@ import { Card } from '@instana/components';
 import AnalyzeLogsButton from 'in-applications/analyze/components/TraceDetails/components/LogDetails/components/AnalyzeLogsButton';
 import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
 import LoadingCallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/LoadingCallDetails';
+import StackTrace from 'in-applications/analyze/components/TraceDetails/components/LogDetails/StackTrace';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -72,6 +73,8 @@ export default function LogDetails(props) {
             <SidebarTagList tags={parameterTags} />
           </ExpandableGroup>
         )}
+
+        <StackTrace log={log} />
 
         <AnalyzeLogsButton log={log} />
       </Card>
