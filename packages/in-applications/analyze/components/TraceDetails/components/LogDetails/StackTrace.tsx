@@ -8,7 +8,10 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
+// @ts-ignore
+import StackTracePresentation from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTracePresentation';
 import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
+
 import { LOG_CALL_ID, LOG_TRACE_ID } from 'in-logging/queryBuilder';
 import { pendingResult } from 'in-services/fixedObjects';
 import { LogItem, LogTag } from 'in-types';
@@ -32,7 +35,14 @@ export default function StackTrace({ log }: StackTraceProps) {
       [traceId, callId]
     ) || pendingResult;
 
-  console.log(callResult);
+  const stackTrace = callResult?.data?.logs?.[0]?.stackTrace;
+  if (stackTrace) {
+    return (
+      <ExpandableGroup title="Stacktrace" defaultExpanded>
+        <StackTracePresentation stackTrace={stackTrace} isOnline={false} snapshot={null} noPadding />
+      </ExpandableGroup>
+    );
+  }
 
   return <span>{log.itemId}</span>;
 }
@@ -44,3 +54,5 @@ function getTraceId(tags: LogTag[]): string | undefined {
 function getCallId(tags: LogTag[]): string | undefined {
   return tags.find(({ name }) => name === LOG_CALL_ID)?.stringValue;
 }
+
+import ExpandableGroup from 'in-components/ExpandableGroup';
