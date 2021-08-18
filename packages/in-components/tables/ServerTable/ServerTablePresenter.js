@@ -43,6 +43,7 @@ export default function ServerTablePresenter(props) {
     leftHeader,
     numSkeletonRows = 3,
     isSearchable = true,
+    searchAutoFocusDisabled = false,
     searchPlaceholder = '',
     searchMaxWidth,
     size = 'regular',
@@ -124,6 +125,7 @@ export default function ServerTablePresenter(props) {
             query={query}
             placeholder={searchPlaceholder}
             onChange={query => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
+            autoFocus={!searchAutoFocusDisabled}
           />
         )}
       </div>
