@@ -578,6 +578,7 @@
         "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (Weekly Seasonality)",
         "thresholdTypeOptionAdaptiveBaseline": "Adaptive baseline",
         "useSuggestedvalue": "Use suggested value",
+        "loadingThresholdSuggestion": "Loading threshold suggestion",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Edit Smart Alert",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Edit Global Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create New Smart Alert",

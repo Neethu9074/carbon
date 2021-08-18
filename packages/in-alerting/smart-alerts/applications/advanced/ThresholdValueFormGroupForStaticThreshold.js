@@ -19,6 +19,7 @@ export default function ThresholdValueFormGroupForStaticThreshold({
   onChange,
   percentageMetric = false,
   thresholdValueInputClassName,
+  isGlobalSmartAlert,
   label = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdValue')
 }) {
   return (
@@ -37,6 +38,7 @@ export default function ThresholdValueFormGroupForStaticThreshold({
         onChange={onChange}
         metricUnitPostfix={metricUnitPostfix}
         percentageMetric={percentageMetric}
+        isGlobalSmartAlert={isGlobalSmartAlert}
       />
     </ThresholdConditionFormGroup>
   );

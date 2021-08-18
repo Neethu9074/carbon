@@ -81,6 +81,7 @@ export default function ThroughputThresholdCondition({
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
           onChange={onChange}
+          isGlobalSmartAlert={isGlobalSmartAlert}
         />
       )}
 

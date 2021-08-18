@@ -197,8 +197,9 @@ function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
     if ((!isGlobalSmartAlert || isAdaptiveBaseline) && isValid) {
       updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
     }
+
     if (isGlobalSmartAlert && !isAdaptiveBaseline) {
-      thresholdOrBaselineLoadingSignal$.emit(false);
+      updateForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false)));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);

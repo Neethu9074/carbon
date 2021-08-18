@@ -79,6 +79,7 @@ export default function StatusCodeThresholdCondition({
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
           onChange={onChange}
+          isGlobalSmartAlert={isGlobalSmartAlert}
         />
       )}
 
