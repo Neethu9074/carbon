@@ -116,7 +116,7 @@ export default function Summary({ timeConfig, data: namespace }) {
               chartComponent={Chart}
               y1={{
                 formatter: resourceQuotaNumber,
-                metrics: [`cap_requests_cpu`, `cpuRequests`, `cap_limits_cpu`, `cpuLimits`, 'cpu.total_usage'].filter(
+                metrics: ['cap_requests_cpu', 'cpuRequests', 'cap_limits_cpu', 'cpuLimits', 'cpu.total_usage'].filter(
                   Boolean
                 ),
                 labels: [
