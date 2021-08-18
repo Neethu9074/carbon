@@ -17,7 +17,7 @@ import locals from './RawTableFormat.mless';
 
 const cols = [
   {
-    title: t('in-forge:plugins.db2Database.tableName'),
+    title: t('in-forge:plugins.db2Database.tabName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -29,41 +29,48 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.cardTab'),
+    title: t('in-forge:plugins.db2Database.statsTime'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('STATS_TIME');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+
+  {
+    title: t('in-forge:plugins.db2Database.volatile'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('VOLATILE');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.compression'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('COMPRESSION');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.card'),
     type: 'number',
     typeArgs: {
       getValue(row) {
         return row.topQuery.get('CARD');
-      },
-      getContent: number.compact
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.tabSizeKB'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('TABSIZE_KB');
-      },
-      getContent: number.compact
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.tabSizeMB'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('TABSIZE_MB');
-      },
-      getContent: number.compact
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.avgRowSize'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('AVG_ROW_SIZE');
       },
       getContent: number.compact
     }
@@ -73,10 +80,10 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'tablesizes')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'syscatTables')
     };
   },
-  function DbConfigTable({ data }) {
+  function SysCatTable({ snapshot, data }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
@@ -98,13 +105,17 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.db2Database.dashboard.tablesizes')}
-            timestamp={data.get('timestamp')}
+            title={
+              t('in-forge:plugins.db2Database.dashboard.sysCatTables') +
+              '- ' +
+              snapshot.get('data').get('tabschema') +
+              ' Schema'
+            }
           />
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={0}
+        initialSortColumn={1}
         initialSortDirection="asc"
       />
     );

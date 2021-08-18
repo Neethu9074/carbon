@@ -7,7 +7,6 @@ import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
-import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
@@ -17,7 +16,7 @@ import locals from './RawTableFormat.mless';
 
 const cols = [
   {
-    title: t('in-forge:plugins.db2Database.tableName'),
+    title: t('in-forge:plugins.db2Database.tabName'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -29,43 +28,51 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.cardTab'),
-    type: 'number',
+    title: t('in-forge:plugins.db2Database.indSchema'),
+    type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('CARD');
+        return row.topQuery.get('INDSCHEMA');
       },
-      getContent: number.compact
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.tabSizeKB'),
-    type: 'number',
+    title: t('in-forge:plugins.db2Database.indName'),
+    type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('TABSIZE_KB');
+        return row.topQuery.get('INDNAME');
       },
-      getContent: number.compact
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.tabSizeMB'),
-    type: 'number',
+    title: t('in-forge:plugins.db2Database.statsTime'),
+    type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('TABSIZE_MB');
+        return row.topQuery.get('STATS_TIME');
       },
-      getContent: number.compact
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.avgRowSize'),
-    type: 'number',
+    title: t('in-forge:plugins.db2Database.lastUsed'),
+    type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topQuery.get('AVG_ROW_SIZE');
+        return row.topQuery.get('LASTUSED');
       },
-      getContent: number.compact
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
     }
   }
 ];
@@ -73,10 +80,10 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      data: getRawPayloadWithTimestamp(props.snapshotId, 'tablesizes')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'syscatIndex')
     };
   },
-  function DbConfigTable({ data }) {
+  function SysCatIndex({ snapshot, data }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
@@ -98,18 +105,37 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.db2Database.dashboard.tablesizes')}
-            timestamp={data.get('timestamp')}
+            title={
+              t('in-forge:plugins.db2Database.dashboard.sysCatIndex') +
+              '- ' +
+              snapshot.get('data').get('tabschema') +
+              ' Schema'
+            }
           />
         }
         cols={cols}
         rows={rows}
-        initialSortColumn={0}
+        initialSortColumn={3}
+        getRowDetails={getDetails}
         initialSortDirection="asc"
       />
     );
   }
 );
+
+function getDetails(row) {
+  return (
+    <div>
+      <label>Unique Rule:</label>
+      <p />
+      <code className={locals.statement}>{row.topQuery.get('UNIQUERULE')}</code>
+      <p />
+      <label>Column Names:</label>
+      <p />
+      <code className={locals.statement}>{row.topQuery.get('COLNAMES')}</code>
+    </div>
+  );
+}
 
 function Args({ args }) {
   return <code className={locals.statement}>{args}</code>;
