@@ -531,8 +531,8 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       <DbmConfigTable snapshotId={snapshotId} />
       <RunStatsTable snapshotId={snapshotId} />
       <DiagLogInfoTable snapshotId={snapshotId} />
-      <SysCatTable snapshotId={snapshotId} />
-      <SysCatIndex snapshotId={snapshotId} />
+      <SysCatTable snapshotId={snapshotId} snapshot={snapshot} />
+      <SysCatIndex snapshotId={snapshotId} snapshot={snapshot} />
       {data.get('tableSpaceNames', emptyList).size > 0 && (
         <TableSpaceUtil snapshot={snapshot} timeConfig={timeConfig} />
       )}

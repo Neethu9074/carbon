@@ -83,7 +83,7 @@ export default connectTo(
       data: getRawPayloadWithTimestamp(props.snapshotId, 'syscatTables')
     };
   },
-  function SysCatTable({ data }) {
+  function SysCatTable({ snapshot, data }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
@@ -103,7 +103,16 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={<TimeOfLastUpdateCardTitle title={t('in-forge:plugins.db2Database.dashboard.sysCatTables')} />}
+        cardTitle={
+          <TimeOfLastUpdateCardTitle
+            title={
+              t('in-forge:plugins.db2Database.dashboard.sysCatTables') +
+              '- ' +
+              snapshot.get('data').get('tabschema') +
+              ' Schema'
+            }
+          />
+        }
         cols={cols}
         rows={rows}
         initialSortColumn={1}
