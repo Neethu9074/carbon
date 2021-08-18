@@ -8,8 +8,8 @@ import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
 
+import { STARTS_WITH, EQUALS, IS_BLANK, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { CONJUNCTION, joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
-import { EQUALS, IS_BLANK, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { removeFacetTag, tagFiltersFromFacets } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -31,6 +31,9 @@ import { aggregationLabels } from 'in-stores/metric/metric';
 import { isNotBlank } from 'in-services/util/string';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import useUrlState from 'in-hooks/useUrlState';
+
+// The maximum allowed label size for a group is 256.
+const MAX_GROUP_BY_LABEL_LENGTH = 256;
 
 export default function TimeFixatingAnalyzeStateManagement(props) {
   const parameters = useMemo(
@@ -580,7 +583,8 @@ export function addGroupingCriteriaToFormModel(groupBy, groupValue, formModel, g
     }
     newTagFilter = {
       type: TAG,
-      operator: EQUALS,
+      // If the label has this size, we don't know, if it was truncated or not, so we have to assume it was.
+      operator: value.length >= MAX_GROUP_BY_LABEL_LENGTH ? STARTS_WITH : EQUALS,
       name: groupBy.groupbyTag,
       key: groupBy.groupbyTagSecondLevelKey,
       value: value,
