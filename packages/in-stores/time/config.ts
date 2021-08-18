@@ -87,7 +87,7 @@ function getInt(query: Parameters, key: string, fallback: number | null): number
   return parsed;
 }
 
-export function getTimeConfigAtMoment(moment: number): TimeConfig {
+export function getTimeConfigAtMoment(moment: number | null): TimeConfig {
   return {
     windowSize: defaultWindowSize,
     to: moment,
