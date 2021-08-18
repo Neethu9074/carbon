@@ -9,24 +9,18 @@ import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
 import {
-  websitesAlertingAlertCreated,
-  websitesAlertingCloseDialog,
-  websitesAlertingSwitchMode
-} from 'in-alerting/smart-alerts/websites/tracker';
-import {
   createBoundedAlertQueryBuilder,
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
+import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import WebsitesSimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/WebsitesSimpleModeContainer';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -41,9 +35,7 @@ const tagSuggestionTimeConfig = {
 };
 
 export default function AlertConfigDialogWithThreshold(props) {
-  const { form, updateForm, onClose, onCreate, startWithSimpleMode } = props;
-
-  const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
+  const { form } = props;
 
   useCalculateThresholdOnBackendSignalEmitter(form);
 
@@ -52,9 +44,29 @@ export default function AlertConfigDialogWithThreshold(props) {
 
   const { enrichedTagFilterFormModel, numeratorFilter } = getEnhancedTagFilterFormModel(
     alertConfigWithFormModel,
-    blueprintConfig,
-    null
+    blueprintConfig
   );
+
+  return (
+    <SmartAlertConfigDialogWithQueryValidation
+      {...props}
+      numeratorFilter={numeratorFilter}
+      enrichedTagFilterFormModel={enrichedTagFilterFormModel}
+      alertConfigWithFormModel={alertConfigWithFormModel}
+      blueprintConfig={blueprintConfig}
+    />
+  );
+}
+
+function SmartAlertConfigDialogWithQueryValidation({
+  alertConfigWithFormModel,
+  blueprintConfig,
+  enrichedTagFilterFormModel,
+  numeratorFilter,
+  ...props
+}) {
+  const { form, updateForm, startWithSimpleMode, editMode, withTrackCreate, withTrackClose, isSaving } = props;
+  const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
 
   const websiteId = alertConfigWithFormModel.websiteId;
   const beaconType = blueprintConfig.getBeaconType(alertConfigWithFormModel.rule.metricName);
@@ -73,43 +85,36 @@ export default function AlertConfigDialogWithThreshold(props) {
 
   const [thresholdResult, setThresholdResult] = useState();
   useThresholdSuggestion(form, updateForm, setThresholdResult, {
+    numeratorFilter,
+    isValid,
+    simpleMode,
     alertConfigWithFormModel,
     blueprintConfig,
-    enrichedTagFilterFormModel,
-    numeratorFilter,
-    simpleMode,
-    isValid
+    enrichedTagFilterFormModel
   });
+
+  const footer = simpleMode ? null : (
+    <AdvancedModeFooter
+      form={form}
+      onClose={withTrackClose}
+      onCreate={withTrackCreate}
+      isSaving={isSaving}
+      editMode={editMode}
+      additionalValidationCheck={() => isTagFilterFormModelValid}
+    />
+  );
 
   return (
     <AlertConfigDialogPresenter
       {...props}
-      QueryBuilderComponent={AlertQueryBuilder}
-      isQueryValid={isQueryValid}
-      thresholdResult={thresholdResult}
+      footer={footer}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
+      thresholdResult={thresholdResult}
+      QueryBuilderComponent={AlertQueryBuilder}
+      isQueryValid={isQueryValid}
       SimpleModeElement={WebsitesSimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
-      withTrackClose={trackingConfig => {
-        if (trackingConfig) {
-          websitesAlertingCloseDialog(getTrackingObject(form, { step: trackingConfig }));
-        } else {
-          websitesAlertingCloseDialog(getTrackingObject(form, { mode: modeAdvanced }));
-        }
-        onClose({});
-      }}
-      trackModeSwitch={(simpleMode, step) => {
-        if (simpleMode) {
-          websitesAlertingSwitchMode(getTrackingObject(form, { destinationMode: modeAdvanced, step }));
-        } else {
-          websitesAlertingSwitchMode(getTrackingObject(form, { destinationMode: modeSimple }));
-        }
-      }}
-      withTrackCreate={simpleMode => {
-        websitesAlertingAlertCreated(getTrackingObject(form, { mode: simpleMode ? modeSimple : modeAdvanced }));
-        onCreate();
-      }}
       isTagFilterFormModelValid={isTagFilterFormModelValid}
     />
   );
@@ -174,14 +179,13 @@ function useIsTagFilterFormModelValid(tagFilterFormModel, isAlertQueryValid) {
 
 function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
   const {
+    numeratorFilter,
+    isValid,
+    simpleMode,
     alertConfigWithFormModel,
     blueprintConfig,
-    enrichedTagFilterFormModel,
-    numeratorFilter,
-    simpleMode,
-    isValid
+    enrichedTagFilterFormModel
   } = config;
-
   const thresholdResult = useObservable(
     ([simpleMode, isValid]) =>
       resolveThresholdRequest(

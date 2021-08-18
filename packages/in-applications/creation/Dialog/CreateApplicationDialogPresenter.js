@@ -20,6 +20,7 @@ export default function CreateApplicationDialogPresenter(props) {
     simpleMode,
     SimpleModeElement,
     AdvancedModeElement,
+    footer,
     onCreate,
     setSimpleMode,
     trackModeSwitch,
@@ -42,6 +43,7 @@ export default function CreateApplicationDialogPresenter(props) {
 
   return (
     <DialogWithSlideInView
+      footer={footer}
       titleIconType="lib_application"
       title={t('in-applications:creation.newAP')}
       slideInViewVisible={slideInViewVisible}

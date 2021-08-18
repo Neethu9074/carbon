@@ -50,6 +50,26 @@ export default function SmartAlertConfigDialogWrapper({
 
   const applicationLabel = useApplicationLabel(firstApplicationId(form.get('applications').value), isGlobalSmartAlert);
 
+  const withTrackClose = trackingConfig => {
+    applicationsAlertingCloseDialog(
+      getTrackingObject(
+        form,
+        trackingConfig
+          ? {
+              step: trackingConfig
+            }
+          : {
+              mode: 'Advanced'
+            }
+      )
+    );
+    onClose({});
+  };
+  const withTrackCreate = simpleMode => {
+    applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
+    createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving, setError });
+  };
+
   return (
     <SmartAlertConfigDialog
       applicationLabel={applicationLabel}
@@ -66,6 +86,8 @@ export default function SmartAlertConfigDialogWrapper({
       SimpleModeElement={ApplicationsSimpleModeContainer}
       setForm={setForm}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
+      withTrackClose={withTrackClose}
+      withTrackCreate={withTrackCreate}
       trackModeSwitch={(simpleMode, step) => {
         applicationsAlertingSwitchMode(
           getTrackingObject(
@@ -80,25 +102,6 @@ export default function SmartAlertConfigDialogWrapper({
                 }
           )
         );
-      }}
-      withTrackClose={trackingConfig => {
-        applicationsAlertingCloseDialog(
-          getTrackingObject(
-            form,
-            trackingConfig
-              ? {
-                  step: trackingConfig
-                }
-              : {
-                  mode: 'Advanced'
-                }
-          )
-        );
-        onClose({});
-      }}
-      withTrackCreate={simpleMode => {
-        applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
-        createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving, setError });
       }}
       isSaving={isSaving}
       error={error}

@@ -3,15 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
+
 import { createLogger } from '@instana/logger';
 import { useObservable } from '@instana/hooks';
-import React, { useState } from 'react';
 
 import {
   applicationCreationModeSwitch,
   applicationCreationCloseDialogClick,
   applicationCreationCreateClick
 } from 'in-applications/creation/tracker';
+import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
 import CreateApplicationDialogPresenter from 'in-applications/creation/Dialog/CreateApplicationDialogPresenter';
 import { createApplicationPerspectiveForm } from 'in-applications/creation/form/createApplicationForm';
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
@@ -33,6 +35,33 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   const validTagFilterExpressionResult =
     useObservable(isQueryValid, [tagFilterExpression, timeConfig]) ?? pendingResult;
 
+  const onCreate = () =>
+    createApplication(
+      form,
+      getOnSavePath,
+      setForm,
+      isSaving,
+      setIsSaving,
+      applicationCreationCreateClick,
+      onClose,
+      setErrorMessage
+    );
+
+  const withTrackClose = trackingConfig => {
+    applicationCreationCloseDialogClick(trackingConfig ? { step: trackingConfig } : { mode: 'Advanced' });
+    onClose();
+  };
+
+  const footer = simpleMode ? null : (
+    <AdvancedModeFooter
+      form={form}
+      onClose={withTrackClose}
+      onCreate={onCreate}
+      isSaving={isSaving}
+      additionalValidationCheck={() => validTagFilterExpressionResult?.data}
+    />
+  );
+
   return (
     <CreateApplicationDialogPresenter
       SimpleModeElement={SimpleModeContainer}
@@ -41,18 +70,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
       updateForm={setForm}
       timeConfig={timeConfig}
       onClose={onClose}
-      onCreate={() =>
-        createApplication(
-          form,
-          getOnSavePath,
-          setForm,
-          isSaving,
-          setIsSaving,
-          applicationCreationCreateClick,
-          onClose,
-          setErrorMessage
-        )
-      }
+      onCreate={onCreate}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       trackModeSwitch={(simpleMode, step) => {
@@ -67,10 +85,8 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
               }
         );
       }}
-      withTrackClose={trackingConfig => {
-        applicationCreationCloseDialogClick(trackingConfig ? { step: trackingConfig } : { mode: 'Advanced' });
-        onClose();
-      }}
+      withTrackClose={withTrackClose}
+      footer={footer}
       isValidTagFilterExpression={validTagFilterExpressionResult?.data}
       errorMessage={errorMessage}
     />
