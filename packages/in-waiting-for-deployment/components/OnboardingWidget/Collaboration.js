@@ -115,7 +115,7 @@ function onSubmit(form, setForm, email, setIsInvitingUser) {
   }
 
   setIsInvitingUser(true);
-  const invitationResult$ = sendInvitation(email, defaultRoleId);
+  const invitationResult$ = sendInvitation([{ email: email, groupId: defaultRoleId }]);
   invitationResult$.once(() => {
     setIsInvitingUser(false);
   });
