@@ -4895,7 +4895,9 @@
         "toptotalcpu": "Top Total CPU",
         "totalLockWaitElapsedTime": "Queries in lock-wait for more than 100 seconds",
         "logdiskwait": "Log Disk Wait",
-        "dbutilities": "DB Utilities"
+        "reorg": "REORG",
+        "tablesizes": "Table Sizes",
+        "uow": "Unit of Work(UOW)"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -5021,7 +5023,28 @@
       "activityState": "Activity State",
       "activityType": "Activity Type",
       "logBufferWaitTime": "Log Buffer Wait Time",
-      "errorMessage": "Could not extract the query from DB"
+      "errorMessage": "Could not extract the query from DB",
+      "tabName": "Table Name",
+      "tabSchema": "Table Schema",
+      "reorgStatus": "Reorg Status",
+      "reorgCompletion": "Reorg Completion",
+      "reorgStart": "Reorg Start",
+      "reorgEnd": "Reorg End",
+      "reorg": "REORG",
+      "tablesizes": "Table Sizes",
+      "tableName": "Table Name",
+      "card": "Card",
+      "tabSizeKB": "Table Size KB",
+      "tabSizeMB": "Table Size MB",
+      "avgRowSize": "Average Row Size",
+      "uow": "Unit of Work(UOW)",
+      "appHandle": "Application Handle",
+      "appName": "Application Name",
+      "applicationID": "App ID",
+      "numLockHeld": "Number of Locks Held",
+
+      "uowExecTime": "UOW Execution Time",
+      "uowLogSpaceUsed": "Log Space Used UOW"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",

@@ -20,7 +20,10 @@ import RunStatsTable from 'in-forge/plugins/db2Database/Dashboard/RunStatsTable'
 import DbConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbConfigTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import ReorgTable from 'in-forge/plugins/db2Database/Dashboard/ReorgTable';
+import TableSizes from 'in-forge/plugins/db2Database/Dashboard/TableSizes';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import UOWTable from 'in-forge/plugins/db2Database/Dashboard/UOWTable';
 import { number, millis, bytes } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
@@ -459,6 +462,9 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       <DbmConfigTable snapshotId={snapshotId} />
       <RunStatsTable snapshotId={snapshotId} />
       <DiagLogInfoTable snapshotId={snapshotId} />
+      <ReorgTable snapshotId={snapshotId} />
+      <TableSizes snapshotId={snapshotId} />
+      <UOWTable snapshotId={snapshotId} />
     </div>
   );
 }

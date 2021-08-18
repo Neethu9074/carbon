@@ -28,7 +28,10 @@ export default [
       'dbConfig',
       'dbmConfig',
       'lockWaits',
-      'runstats'
+      'runstats',
+      'reorg',
+      'tablesizes',
+      'uow'
     ],
     labels: [
       t('in-forge:plugins.db2Database.status'),
@@ -64,7 +67,31 @@ export default [
       t('in-forge:plugins.db2Database.objName'),
       t('in-forge:plugins.db2Database.startTime'),
       t('in-forge:plugins.db2Database.endTime'),
-      t('in-forge:plugins.db2Database.durationSec')
+      t('in-forge:plugins.db2Database.durationSec'),
+
+      t('in-forge:plugins.db2Database.reorg'),
+      t('in-forge:plugins.db2Database.tabName'),
+      t('in-forge:plugins.db2Database.tabSchema'),
+      t('in-forge:plugins.db2Database.reorgStatus'),
+      t('in-forge:plugins.db2Database.reorgCompletion'),
+      t('in-forge:plugins.db2Database.reorgStart'),
+      t('in-forge:plugins.db2Database.reorgEnd'),
+
+      t('in-forge:plugins.db2Database.tablesizes'),
+      t('in-forge:plugins.db2Database.tableName'),
+      t('in-forge:plugins.db2Database.card'),
+      t('in-forge:plugins.db2Database.tabSizeKB'),
+      t('in-forge:plugins.db2Database.tabSizeMB'),
+      t('in-forge:plugins.db2Database.avgRowSize'),
+
+      t('in-forge:plugins.db2Database.uow'),
+      t('in-forge:plugins.db2Database.appHandle'),
+      t('in-forge:plugins.db2Database.appName'),
+      t('in-forge:plugins.db2Database.applicationID'),
+      t('in-forge:plugins.db2Database.numLockHeld'),
+      t('in-forge:plugins.db2Database.tabSizeKB'),
+      t('in-forge:plugins.db2Database.uowLogSpaceUsed'),
+      t('in-forge:plugins.db2Database.uowExecTime')
     ],
     min: 0,
     formatter: number
