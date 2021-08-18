@@ -419,28 +419,36 @@ function getDashboard({
 
 export function getLinkToAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
   return getModifiedUrlStream(location => {
+    location.pathname = alertsTabDetailsFullyQualified;
     fillAlertTabSpecificValues(location, applicationId, alertConfigId, alertConfigVersion);
     setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryLocal);
-    return location;
   });
 }
 
-export function getLinkToGlobalAlertConfig(alertConfigId, alertConfigVersion, applicationId) {
+export function getLinkToGlobalAlertConfigWithAPDashboard(alertConfigId, alertConfigVersion, applicationId) {
   return getModifiedUrlStream(location => {
+    location.pathname = alertsTabDetailsFullyQualified;
     fillAlertTabSpecificValues(location, applicationId, alertConfigId, alertConfigVersion);
     setOrDeleteMatrixKey(location, alertsTab, alertsCategoryMatrixParam, categoryGlobal);
-    return location;
   });
 }
 
 export function getAlertConfig(alertConfigId, applicationId) {
   return getModifiedUrlStream(params => {
+    params.pathname = alertsTabDetailsFullyQualified;
     fillAlertTabSpecificValues(params, applicationId, alertConfigId, null);
   });
 }
 
+export function getLinkToGlobalAlertConfigWithoutAPDashboard(alertConfigId) {
+  return getModifiedUrlStream(params => {
+    params.pathname = globalAlertDetails;
+    fillAlertTabSpecificValues(params, null, alertConfigId, null);
+    setOrDeleteMatrixKey(params, alertsTab, alertsCategoryMatrixParam, categoryGlobal);
+  });
+}
+
 function fillAlertTabSpecificValues(params, applicationId, alertConfigId, alertConfigVersion) {
-  params.pathname = alertsTabDetailsFullyQualified;
   setOrDeleteMatrixKey(params, applicationDashboard, applicationIdMatrixParam, applicationId);
   setOrDeleteMatrixKey(params, alertsTab, alertIdMatrixParam, alertConfigId);
   setOrDeleteMatrixKey(params, alertsTab, alertCreatedMatrixParam, alertConfigVersion);

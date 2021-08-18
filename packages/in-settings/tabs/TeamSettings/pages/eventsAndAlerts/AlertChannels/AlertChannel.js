@@ -17,6 +17,7 @@ import {
   teamSettingsAlertingConfigurations,
   getModifyAlertChannelUrl
 } from 'in-settings/navigation/paths';
+import { getLinkToGlobalAlertConfigWithoutAPDashboard } from 'in-applications/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
 import { getAlertConfig as getApplicationsAlertConfig } from 'in-applications/navigation/paths';
 import { getAlertChannel, saveAlertChannel, createAlertChannel } from 'in-api/alertChannels';
@@ -198,7 +199,7 @@ const columnDefinitions = [
       } else if (type === 'ApplicationSmartAlert') {
         url = getApplicationsAlertConfig(id, entityId);
       } else if (type === 'GlobalApplicationSmartAlert') {
-        url = '';
+        url = getLinkToGlobalAlertConfigWithoutAPDashboard(id);
       } else {
         url = getEntityIdView(teamSettingsAlertingConfigurations, id);
       }
