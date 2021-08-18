@@ -79,7 +79,7 @@ export default [
 
       t('in-forge:plugins.db2Database.tablesizes'),
       t('in-forge:plugins.db2Database.tableName'),
-      t('in-forge:plugins.db2Database.cardtab'),
+      t('in-forge:plugins.db2Database.cardTab'),
       t('in-forge:plugins.db2Database.tabSizeKB'),
       t('in-forge:plugins.db2Database.tabSizeMB'),
       t('in-forge:plugins.db2Database.avgRowSize'),
