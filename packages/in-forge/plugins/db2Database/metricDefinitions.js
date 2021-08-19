@@ -474,5 +474,31 @@ export default [
     min: 0,
     max: 100,
     formatter: percentage.detailed
+  },
+  {
+    metrics: [
+      'hadrmetrics.sockSendBufReq',
+      'hadrmetrics.sockSendBufActual',
+      'hadrmetrics.sockRecBufReq',
+      'hadrmetrics.sockRecvBufAct'
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.sockSendBufReq'),
+      t('in-forge:plugins.db2Database.sockSendBufActual'),
+      t('in-forge:plugins.db2Database.sockRecBufReq'),
+      t('in-forge:plugins.db2Database.sockRecvBufAct')
+    ],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: ['hadrmetrics.timeSinceLastRecv', 'hadrmetrics.logHadrWaitCur', 'hadrmetrics.logHadrWaitTime'],
+    labels: [
+      t('in-forge:plugins.db2Database.timeSinceLastRecv'),
+      t('in-forge:plugins.db2Database.logHadrWaitCur'),
+      t('in-forge:plugins.db2Database.logHadrWaitTime')
+    ],
+    min: 0,
+    formatter: millis
   }
 ];
