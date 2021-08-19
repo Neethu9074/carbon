@@ -27,12 +27,7 @@ import locals from 'in-components/SelectorOverlay/SelectorOverlay.mless';
 
 const { isArrowRight, isReturn, isArrowLeft, isArrowUp } = keyCodes;
 
-/* we found the current implementation does not fully work with latest, on-demand loading items,
- * so this is temporary disabled
- * There is this follow-up task to implement it in a different way:
- * https://instana.kanbanize.com/ctrl_board/37/cards/57241
- */
-const searchEnabled = false;
+const searchEnabled = true;
 
 const initialState = {
   focusedNode: null,
