@@ -4904,7 +4904,7 @@
         "dbutilities": "DB Utilities",
         "sysCatTables": "SYSCAT.TABLES Catalog View ",
         "sysCatIndex": "SYSCAT.INDEX Catalog View ",
-        "tableSpaceUtil": "Table Space Utlities",
+        "tableSpaceUtil": "Table Space Utilities",
         "hadrGenerics": "HADR General",
         "hadrConnect": "HADR Connection Status",
         "hadrPrimaryLog": "HADR Primary Log Information",
