@@ -24,7 +24,7 @@ export default function Actions({ openIssuesResult, analyzeLink$, getIssueLink, 
   if (openIssues.length === 0) {
     return (
       <div className={locals.actions}>
-        <Button icon="lib_events_inverted" kind="primary" className={locals.button} asBlock href$={analyzeLink$}>
+        <Button icon="lib_events_inverted" kind="primary" className={locals.button} href$={analyzeLink$}>
           {t('in-components:health.openIssuesListPresenterActionsViewIssues', {
             eventType: t('in-components:health.eventType', { context: eventTypeContext, count: openIssues.length })
           })}
