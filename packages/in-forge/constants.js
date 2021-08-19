@@ -18,6 +18,10 @@ export const nonServicePlugins = {
   activeMQ: 'activeMQ',
   activeMQArtemis: 'activeMQArtemis',
   aerospike: 'aerospike',
+  aliCloudRocketMq: 'aliCloudRocketMq',
+  aliCloudRocketMqGroup: 'aliCloudRocketMqGroup',
+  aliCloudRocketMqGroupPerTopic: 'aliCloudRocketMqGroupPerTopic',
+  aliCloudRocketMqTopic: 'aliCloudRocketMqTopic',
   apmProxy: 'apmProxy',
   availabilityZone: 'availabilityZone',
   awsBeanstalk: 'awsBeanstalk',
@@ -264,6 +268,13 @@ export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   activeMQArtemis: 'com.instana.forge.infrastructure.messaging.activemqartemis.ActiveMQArtemis',
   aerospike: 'aerospike',
+  aliCloudRocketMq: 'com.instana.forge.hardware.virtual.alicloud.rocketmq.AliCloudRocketMq',
+  aliCloudRocketMqGroup:
+    'com.instana.forge.hardware.virtual.alicloud.rocketmq.derivedentity.group.AliCloudRocketMqGroup',
+  aliCloudRocketMqGroupPerTopic:
+    'com.instana.forge.hardware.virtual.alicloud.rocketmq.derivedentity.groupPerTopic.AliCloudRocketMqGroupPerTopic',
+  aliCloudRocketMqTopic:
+    'com.instana.forge.hardware.virtual.alicloud.rocketmq.derivedentity.topic.AliCloudRocketMqTopic',
   apmProxy: 'apmProxy',
   application: 'com.instana.forge.application.Application',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
