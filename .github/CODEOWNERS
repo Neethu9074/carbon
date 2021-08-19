@@ -32,6 +32,8 @@ packages/in-custom-dashboards/widgets/Slo @pr-approval @instana/eng-eum @instana
 packages/in-events                  @pr-approval @instana/eng-stan @instana/eng-ui
 # Shared ownership
 # packages/in-forge
+
+packages/in-forge/plugins           @pr-approval @instana/eng-sensors
 packages/in-hoc                     @pr-approval @instana/eng-ui
 packages/in-hooks                   @pr-approval @instana/eng-ui
 packages/in-infrastructure          @pr-approval @instana/eng-infrastructure @instana/eng-ui
