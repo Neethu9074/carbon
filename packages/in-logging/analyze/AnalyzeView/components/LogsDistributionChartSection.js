@@ -76,7 +76,7 @@ function Chart(props) {
   return <LogsChart {...props} />;
 }
 
-function LogsChart({ backendQueryModel, metric }) {
+function LogsChart({ backendQueryModelWithFacets, metric }) {
   return (
     <UnifiedMetricsChart
       automaticallySize={false}
@@ -86,21 +86,21 @@ function LogsChart({ backendQueryModel, metric }) {
         y1: {
           metrics: [
             getMetricConfig({
-              backendQueryModel,
+              backendQueryModelWithFacets,
               metric,
               tag: LOG_LEVEL,
               value: 'ERROR',
               label: t('in-logging:logsOverTime', { context: 'ERROR' })
             }),
             getMetricConfig({
-              backendQueryModel,
+              backendQueryModelWithFacets,
               metric,
               tag: LOG_LEVEL,
               value: 'WARN',
               label: t('in-logging:logsOverTime', { context: 'WARN' })
             }),
             getMetricConfig({
-              backendQueryModel,
+              backendQueryModelWithFacets,
               metric,
               tag: LOG_LEVEL,
               value: 'INFO',
@@ -118,11 +118,11 @@ function LogsChart({ backendQueryModel, metric }) {
   );
 }
 
-function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, backendQueryModel }) {
+function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, backendQueryModelWithFacets }) {
   const timeConfig = useTimeConfig();
   const { items, progress, errors } = useCursorPagination(
-    params => getData({ timeConfig, groupBy, backendQueryModel, ...params }),
-    [timeConfig.to, timeConfig.windowSize, timeConfig.autoRefresh, backendQueryModel, groupBy]
+    params => getData({ timeConfig, groupBy, backendQueryModelWithFacets, ...params }),
+    [timeConfig.to, timeConfig.windowSize, timeConfig.autoRefresh, backendQueryModelWithFacets, groupBy]
   );
 
   if (progress.loading) {
@@ -146,7 +146,9 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
       config={{
         y1: {
           colors,
-          metrics: topGroups.map(label => getMetricConfig({ backendQueryModel, metric, tag, value: label, key, type })),
+          metrics: topGroups.map(label =>
+            getMetricConfig({ backendQueryModelWithFacets, metric, tag, value: label, key, type })
+          ),
           formatter: 'number.compact',
           renderer: 'stackedBar'
         },
@@ -157,31 +159,31 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
   );
 }
 
-function getMetricConfig({ backendQueryModel, metric, tag, value, label, key, type }) {
+function getMetricConfig({ backendQueryModelWithFacets, metric, tag, value, label, key, type }) {
   return {
     metric: metric.metricId,
     aggregation: metric.aggregationId,
     label: label ?? value,
     source: 'DISTRIBUTED_LOGS_V2',
-    tagFilterExpression: addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModel, key, type })
+    tagFilterExpression: addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModelWithFacets, key, type })
 
     // granularity and timeConfig are send automatically by the chart impl
   };
 }
 
-function addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModel, key, type }) {
+function addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModelWithFacets, key, type }) {
   return {
-    elements: [getValueMatchTagFilter({ name: tag, key, type, value }), backendQueryModel],
+    elements: [getValueMatchTagFilter({ name: tag, key, type, value }), backendQueryModelWithFacets],
     logicalOperator: 'AND',
     type: 'EXPRESSION'
   };
 }
 
-function getData({ timeConfig, cursor, backendQueryModel, groupBy }) {
+function getData({ timeConfig, cursor, backendQueryModelWithFacets, groupBy }) {
   return getLogGroups({
     timeConfig,
     group: groupBy,
-    tagFilterExpression: backendQueryModel,
+    tagFilterExpression: backendQueryModelWithFacets,
     pagination: {
       cursor,
       retrievalSize: 20

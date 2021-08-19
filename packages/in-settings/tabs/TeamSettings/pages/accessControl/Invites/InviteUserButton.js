@@ -22,18 +22,7 @@ export default function InviteUserButton({ setMessage, reload }) {
       kind="action"
       onClick={() => {
         track(USER_INVITE);
-        addActiveDialog(
-          <InviteUserDialog
-            onSubmit={invitations =>
-              onDoInviteUser(
-                setMessage,
-                invitations.map(i => i.email),
-                invitations.map(i => i.groupId),
-                reload
-              )
-            }
-          />
-        );
+        addActiveDialog(<InviteUserDialog onSubmit={invitations => onDoInviteUser(setMessage, invitations, reload)} />);
       }}
       icon="lib_openclose_add_circle_outline"
     >
@@ -42,10 +31,10 @@ export default function InviteUserButton({ setMessage, reload }) {
   );
 }
 
-function onDoInviteUser(setMessage, emails, groupId, reload) {
+function onDoInviteUser(setMessage, invitations, reload) {
   close();
   setMessage({ text: t('in-settings:tabs.sendingInvitation'), type: 'success' });
-  const invitationResult$ = sendInvitation(emails, groupId);
+  const invitationResult$ = sendInvitation(invitations);
   invitationResult$.once(() => {
     setMessage({
       text: t('in-settings:tabs.invitationSuccessfullySent'),
