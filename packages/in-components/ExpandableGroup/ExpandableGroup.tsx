@@ -10,9 +10,17 @@ import { SvgIcon } from '@instana/components';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
+// @ts-ignore
 import locals from './ExpandableGroup.mless';
 
-export default function ExpandableGroup({ title, expandedTitle, children, defaultExpanded }) {
+interface ExpandableGroupProps {
+  title: string;
+  expandedTitle?: string;
+  children: React.ReactNode;
+  defaultExpanded?: boolean;
+}
+
+export default function ExpandableGroup({ title, expandedTitle, children, defaultExpanded }: ExpandableGroupProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded ? true : false);
 
   return (

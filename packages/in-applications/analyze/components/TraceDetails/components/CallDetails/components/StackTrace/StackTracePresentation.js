@@ -14,10 +14,6 @@ import locals from './StackTracePresentation.mless';
 const STRIP_QUOTES_REGEX = /`|'/g;
 
 export default function StackTracePresentation({ stackTrace, isOnline, snapshot, noPadding }) {
-  if (!stackTrace) {
-    return null;
-  }
-
   let noCodeLinkMessage;
   if (isOnline === false) {
     noCodeLinkMessage = t(
@@ -30,8 +26,7 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot,
   }
 
   return (
-    <div className={locals.stackTrace}>
-      <p className={locals.title}>{t('in-analyze:traceDetail.components.callDetails.stackTrace')}</p>
+    <>
       <ol
         className={classNames({
           [locals.list]: true,
@@ -59,7 +54,7 @@ export default function StackTracePresentation({ stackTrace, isOnline, snapshot,
       </ol>
 
       {noCodeLinkMessage && <p className={locals.noCodeLinkMessage}>{noCodeLinkMessage}</p>}
-    </div>
+    </>
   );
 }
 
