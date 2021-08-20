@@ -429,7 +429,8 @@
           "duration": "Log cold-tier duration (99th)",
           "skips": {
             "mutations": "Log cold-tier skips (mutations)",
-            "merges": "Log cold-tier skips (merges)"
+            "merges": "Log cold-tier skips (merges)",
+            "moves": "Log cold-tier skips (moves)"
           }
         }
       }
