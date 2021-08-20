@@ -568,7 +568,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       <TopTotalStmtsTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <LogDiskWaitTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <UOWTable snapshotId={snapshotId} />
-      <TableSizes snapshotId={snapshotId} />
+      <TableSizes snapshotId={snapshotId} snapshot={snapshot} />
       <SysCatTable snapshotId={snapshotId} snapshot={snapshot} />
       <SysCatIndex snapshotId={snapshotId} snapshot={snapshot} />
       <DbUtilitiesTable snapshotId={snapshotId} />
