@@ -402,7 +402,6 @@
       "builtInSmartAlertsScope": "5. Built–In Smart Alerts Scope",
       "builtInSmartAlertsScopeDescription": "Choose which Buit–In Global Smart Alerts should include this/part of this in its scope",
       "clear": "Clear",
-      "create": "Create",
       "database": "DATABASE",
       "messaging": "MESSAGING"
     },

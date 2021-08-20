@@ -3,20 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React from 'react';
 
+import { combineLatest } from '@instana/observables';
+
 import createLatestMetricsObservable from 'in-subscription/latestMetrics';
+import { getInfraGranularity } from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
-  ({ snapshotId, timeConfig, filterMetrics, filter, createObservable = createLatestMetricsObservable }) => ({
+  ({ snapshotId, timeConfig, filterMetrics, filter, minRollup, createObservable = createLatestMetricsObservable }) => ({
     filterMetrics: combineLatest(
       filterMetrics.map(metric =>
         createObservable({
           snapshotId,
           metric,
-          rollup: 5000,
+          rollup: getInfraGranularity(timeConfig, minRollup),
           timeConfig
         }).map(metric => metric[1])
       )

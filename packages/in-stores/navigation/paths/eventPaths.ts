@@ -54,6 +54,7 @@ interface GetEventsViewProps {
   eventId?: string;
   eventTypeFilter: string;
   timeConfig: TimeConfig;
+  additionalDFQFilter?: string;
 }
 export function getEventsViewFilteredBy({
   query = '',
@@ -64,7 +65,8 @@ export function getEventsViewFilteredBy({
   snapshotId,
   eventId,
   eventTypeFilter,
-  timeConfig
+  timeConfig,
+  additionalDFQFilter
 }: GetEventsViewProps) {
   endpointId = resolvedEndpointId ? resolvedEndpointId : endpointId;
   if (endpointId) {
@@ -78,6 +80,9 @@ export function getEventsViewFilteredBy({
   }
   if (snapshotId) {
     query += ` entity.id:"${snapshotId}"`;
+  }
+  if (additionalDFQFilter) {
+    query += ` ${additionalDFQFilter}`;
   }
   query = query.trim();
 

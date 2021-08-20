@@ -23,6 +23,8 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
 
+import locals from './ChangePassword.mless';
+
 export default function ChangePassword() {
   return <ApiItemView Content={Content} enrichForm={enrichForm} onSubmit={onSubmit} />;
 }
@@ -42,7 +44,7 @@ function Content({ form, setForm }) {
       <HelpText>{`* ${t('in-settings:tabs.required1Upper')}`}</HelpText>
       <HelpText>{`* ${t('in-settings:tabs.required1SpecialChar')} (!"#$%&'()*+,-./:;<=>?@[\\]^_\`{|}~)`}</HelpText>
       <HelpText>{`* ${t('in-settings:tabs.requiredNoDictionaryWords')}`}</HelpText>
-      <Section restrictWidth="50rem">
+      <Section className={locals.newPasswordInputs} restrictWidth="50rem">
         <InputField
           label={t('in-settings:tabs.password')}
           fieldName="password"

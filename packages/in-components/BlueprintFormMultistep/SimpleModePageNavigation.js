@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 import { useObservable } from '@instana/hooks';
 
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
-import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import StepProgressBar from 'in-components/StepProgressBar/StepProgressBar';
@@ -28,7 +27,6 @@ export default function SimpleModePageNavigation({
   stepConfigs,
   onStepChanged,
   isSaving,
-  error,
   additionalStepCheck = () => true
 }) {
   const [step, setStep] = useState(0);
@@ -83,7 +81,6 @@ export default function SimpleModePageNavigation({
       <form onSubmit={e => handleSubmit(e, step)} className={locals.form}>
         {renderStep(step)}
         <DialogFooter
-          additionalContent={error && <ErroneousResultPresenter errors={[error]} />}
           form={form}
           primaryActionText={
             step === stepConfigs.length - 1
@@ -118,7 +115,6 @@ SimpleModePageNavigation.propTypes = {
     })
   ).isRequired,
   onStepChanged: PropTypes.func,
-  error: PropTypes.object,
   isSaving: PropTypes.bool,
   simpleModeStep: PropTypes.number,
   additionalStepCheck: PropTypes.func

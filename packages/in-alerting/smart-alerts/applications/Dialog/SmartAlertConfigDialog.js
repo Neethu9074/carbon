@@ -9,6 +9,7 @@ import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
+import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
@@ -23,7 +24,9 @@ import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 
 export function SmartAlertConfigDialog(props) {
   const { form, isGlobalSmartAlert } = props;
+
   useCalculateThresholdOnBackendSignalEmitter(form);
+
   const alertConfigWithFormModel = form.toJS();
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);
   const enrichedTagFilterFormModel = getEnrichedTagFilterFormModel(
@@ -72,7 +75,16 @@ function SmartAlertConfigDialogWithQueryValidation({
   enrichedTagFilterFormModel,
   ...props
 }) {
-  const { form, updateForm, isGlobalSmartAlert, startWithSimpleMode } = props;
+  const {
+    isGlobalSmartAlert,
+    form,
+    updateForm,
+    startWithSimpleMode,
+    editMode,
+    withTrackCreate,
+    withTrackClose,
+    isSaving
+  } = props;
   const [simpleMode, setSimpleMode] = useState(startWithSimpleMode);
 
   // we are validating only the user-defined part, not the whole enriched form model here,
@@ -90,9 +102,21 @@ function SmartAlertConfigDialogWithQueryValidation({
     enrichedTagFilterFormModel
   });
 
+  const footer = simpleMode ? null : (
+    <AdvancedModeFooter
+      form={form}
+      onClose={withTrackClose}
+      onCreate={withTrackCreate}
+      isSaving={isSaving}
+      editMode={editMode}
+      additionalValidationCheck={() => isTagFilterFormModelValid}
+    />
+  );
+
   return (
     <AlertConfigDialogPresenter
       {...props}
+      footer={footer}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
@@ -197,8 +221,9 @@ function useThresholdSuggestion(form, updateForm, setThresholdResult, config) {
     if ((!isGlobalSmartAlert || isAdaptiveBaseline) && isValid) {
       updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode);
     }
+
     if (isGlobalSmartAlert && !isAdaptiveBaseline) {
-      thresholdOrBaselineLoadingSignal$.emit(false);
+      updateForm(form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false)));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [thresholdResult, form.get('hiddenFields').get('calculateThresholdOnBackend').value]);

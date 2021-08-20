@@ -13,13 +13,12 @@ import locals from './TreeMap.mless';
 
 export default function TreeMap({ cwidth: customWidth, cheight: customHeight = 300, data, groupProps, nodeProps }) {
   const { ref, width: observedWidth, height: observedHeight } = useResizeObserverCustom();
+  const width = customWidth || observedWidth;
+  const height = customHeight || observedHeight;
 
   if (!width || !data) {
     return <div style={{ height: customHeight || height }} className={locals.treeMap} ref={ref} />;
   }
-
-  const width = customWidth || observedWidth;
-  const height = customHeight || observedHeight;
 
   const root = hierarchy(data.root)
     .sum(d => d.value)

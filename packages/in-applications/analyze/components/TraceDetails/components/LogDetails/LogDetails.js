@@ -5,13 +5,13 @@
 
 import React from 'react';
 
+import { Card, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
-import { Card } from '@instana/components';
 
 import AnalyzeLogsButton from 'in-applications/analyze/components/TraceDetails/components/LogDetails/components/AnalyzeLogsButton';
 import SidebarTagList from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/SidebarTagList';
 import LoadingCallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/LoadingCallDetails';
+import LogStackTrace from 'in-applications/analyze/components/TraceDetails/components/LogDetails/LogStackTrace';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -72,6 +72,8 @@ export default function LogDetails(props) {
             <SidebarTagList tags={parameterTags} />
           </ExpandableGroup>
         )}
+
+        <LogStackTrace log={log} />
 
         <AnalyzeLogsButton log={log} />
       </Card>

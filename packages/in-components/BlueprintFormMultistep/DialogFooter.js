@@ -18,40 +18,48 @@ export default forwardRef(DialogFooter);
 function DialogFooter(
   {
     form,
+    formId,
     primaryActionText,
     primaryActionDisabled,
     secondaryActionText,
     onSecondaryActionClick,
     saving,
-    additionalContent,
     renderCustomSaveAction
   },
   ref
 ) {
   return (
     <FormFooter ref={ref} className={locals.controls}>
-      {additionalContent && <div className={locals.additionalRow}>{additionalContent}</div>}
-      <div className={locals.buttonRow}>
-        <Button kind="secondary" onClick={onSecondaryActionClick}>
-          {secondaryActionText}
-        </Button>
-        {renderCustomSaveAction?.() ?? (
-          <SaveButton type="submit" kind="primary" form={form} disabled={primaryActionDisabled} isSaving={saving}>
-            {primaryActionText}
-          </SaveButton>
-        )}
-      </div>
+      <Button kind="secondary" onClick={onSecondaryActionClick}>
+        {secondaryActionText}
+      </Button>
+      {renderCustomSaveAction?.() ?? (
+        <SaveButton
+          type="submit"
+          kind="primary"
+          form={form}
+          formId={formId}
+          disabled={primaryActionDisabled}
+          isSaving={saving}
+        >
+          {primaryActionText}
+        </SaveButton>
+      )}
     </FormFooter>
   );
 }
 
 DialogFooter.propTypes = {
   form: PropTypes.object.isRequired,
+  /**
+   * to enable browser default form submitting even
+   * when footer is not part of this form
+   */
+  formId: PropTypes.string,
   onSecondaryActionClick: PropTypes.func,
   primaryActionDisabled: PropTypes.bool,
   primaryActionText: PropTypes.node.isRequired,
   renderCustomSaveAction: PropTypes.func,
-  additionalContent: PropTypes.node,
   saving: PropTypes.bool,
   secondaryActionText: PropTypes.node.isRequired
 };

@@ -39,7 +39,6 @@
   }
 
   .label {
-    width: 30%;
     min-width: 15rem;
     margin-right: 1rem;
     display: flex;

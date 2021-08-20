@@ -9,12 +9,19 @@ import PropTypes from 'prop-types';
 import { createLogger } from '@instana/logger';
 
 import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import {
+  websitesAlertingCloseDialog,
+  websitesAlertingAlertCreated,
+  websitesAlertingSwitchMode
+} from 'in-alerting/smart-alerts/websites/tracker';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
 import alertFormDefinition, { fieldNames } from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/websites/form/formUtils';
+import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
+import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 
@@ -30,6 +37,19 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
 
   const websiteLabel = useWebsiteLabel(form.get('websiteId')?.value);
 
+  const withTrackClose = trackingConfig => {
+    if (trackingConfig) {
+      websitesAlertingCloseDialog(getTrackingObject(form, { step: trackingConfig }));
+    } else {
+      websitesAlertingCloseDialog(getTrackingObject(form, { mode: modeAdvanced }));
+    }
+    onClose({});
+  };
+  const withTrackCreate = simpleMode => {
+    websitesAlertingAlertCreated(getTrackingObject(form, { mode: simpleMode ? modeSimple : modeAdvanced }));
+    createAlert(form, setForm, onClose, editMode, setIsSaving, setError);
+  };
+
   return (
     <AlertConfigDialogWithThreshold
       updateForm={updateForm}
@@ -38,12 +58,20 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
       onChartViewConfigChange={setSelectedChartViewConfigIndex}
       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
       onClose={onClose}
-      onCreate={() => createAlert(form, setForm, onClose, editMode, setIsSaving, setError)}
       timeConfig={chartViewConfigs[selectedChartViewConfigIndex].timeConfig}
       websiteLabel={websiteLabel}
       editMode={editMode}
       startWithSimpleMode={startWithSimpleMode}
       granularity={form.get('granularity').value}
+      withTrackClose={withTrackClose}
+      withTrackCreate={withTrackCreate}
+      trackModeSwitch={(simpleMode, step) => {
+        if (simpleMode) {
+          websitesAlertingSwitchMode(getTrackingObject(form, { destinationMode: modeAdvanced, step }));
+        } else {
+          websitesAlertingSwitchMode(getTrackingObject(form, { destinationMode: modeSimple }));
+        }
+      }}
       isSaving={isSaving}
       error={error}
     />

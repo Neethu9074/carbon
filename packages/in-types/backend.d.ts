@@ -249,6 +249,11 @@ export interface ApplicationTimeThreshold extends TimeThreshold {
   readonly type: string;
 }
 
+export interface Author {
+  readonly id?: string;
+  readonly type?: AuthorType;
+}
+
 export interface AvailabilitySliEntity extends SliEntity {
   readonly applicationId: string;
   readonly badEventFilterExpression?: TagFilterExpressionElement;
@@ -315,6 +320,11 @@ export interface CallGroupsItem extends Metricific, Cursorific<IngestionOffsetCu
 export interface CallItem extends Cursorific<IngestionOffsetCursor> {
   readonly call: Call;
   readonly cursor: IngestionOffsetCursor;
+}
+
+export interface ChangeSummary {
+  readonly author: Author;
+  readonly changeType: ChangeType;
 }
 
 export interface CloudfoundryApplication {
@@ -403,8 +413,15 @@ export interface ConfigKey {
 }
 
 export interface ConfigVersion {
+  readonly changeSummary?: ChangeSummary;
   readonly created: number;
+  /**
+   * @deprecated
+   */
   readonly deleted: boolean;
+  /**
+   * @deprecated
+   */
   readonly enabled: boolean;
   readonly id: string;
 }
@@ -456,11 +473,13 @@ export interface Cursorific<T> {
 }
 
 export interface CustomAbstractEventSpecification<T> {
+  readonly applicationAlertConfigId?: string;
   readonly description?: string;
   readonly enabled: boolean;
   readonly entityType: string;
   readonly expirationTime: number;
   readonly id: string;
+  readonly migrated: boolean;
   readonly name: string;
   readonly query?: string;
   readonly rules: T[];
@@ -4107,6 +4126,10 @@ export interface WindowWidthBreakdown {
   readonly users: number;
 }
 
+export interface WithResolvedName extends Author {
+  readonly fullName?: string;
+}
+
 export interface WorkloadCounters {
   readonly daemonSets: number;
   readonly deploymentConfigs: number;
@@ -4145,11 +4168,15 @@ export type ApplicationDataSource = 'CALLS' | 'TRACES';
 
 export type ApplicationDownstreamScope = 'INCLUDE_NO_DOWNSTREAM' | 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING' | 'INCLUDE_ALL_DOWNSTREAM';
 
+export type AuthorType = 'API' | 'USER' | 'INSTANA' | 'UNKNOWN';
+
 export type AvailabilitySliEventType = 'GOOD' | 'BAD';
 
 export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
 
 export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SLI_MANAGEMENT' | 'APPLICATION_CONFIG' | 'APPLICATION_CONFIG_BLUEPRINT';
+
+export type ChangeType = 'CREATE' | 'UPDATE' | 'DELETE' | 'ENABLE' | 'DISABLE' | 'RESTORE' | 'UNKNOWN';
 
 export type ContextScope = 'NONE' | 'UPSTREAM' | 'DOWNSTREAM';
 
@@ -4181,7 +4208,7 @@ export type Granularity = 60000 | 300000 | 600000 | 900000 | 1200000 | 1800000;
 
 export type InfraTabCategory = 'HOST' | 'CONTAINER' | 'PROCESS' | 'CLUSTER';
 
-export type InfraTagCategory = 'OTHERS' | 'KUBERNETES' | 'CLOUD_FOUNDRY' | 'VSHPERE' | 'AWS' | 'AZURE' | 'GCP' | 'CONTAINER' | 'SELF_MONITORING' | 'IBM_CLOUD' | 'IBM_DATAPOWER' | 'IBM_I_SERIES' | 'IBM_MQ' | 'CLR' | 'ACE' | 'CASSANDRA' | 'COCKROACH' | 'CONSUL' | 'COUCHBASE' | 'ELASTICSEARCH' | 'HADOOP_YARN' | 'HAZELCAST' | 'KAFKA_CONNECT' | 'MONGO_DB' | 'REDIS' | 'SOLR' | 'SPARK';
+export type InfraTagCategory = 'OTHERS' | 'KUBERNETES' | 'CLOUD_FOUNDRY' | 'VSHPERE' | 'ALICLOUD' | 'AWS' | 'AZURE' | 'GCP' | 'CONTAINER' | 'SELF_MONITORING' | 'IBM_CLOUD' | 'IBM_DATAPOWER' | 'IBM_I_SERIES' | 'IBM_MQ' | 'CLR' | 'ACE' | 'CASSANDRA' | 'COCKROACH' | 'CONSUL' | 'COUCHBASE' | 'ELASTICSEARCH' | 'HADOOP_YARN' | 'HAZELCAST' | 'KAFKA_CONNECT' | 'MONGO_DB' | 'REDIS' | 'SOLR' | 'SPARK';
 
 export type KubernetesClusterManagementType = 'RANCHER' | 'PKS' | 'NONE';
 

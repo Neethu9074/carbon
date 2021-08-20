@@ -60,7 +60,6 @@ export default function AdvancedModeContainer(props) {
     selectedChartViewConfigIndex,
     thresholdResult,
     QueryBuilderComponent,
-    isTagFilterFormModelValid,
     editMode
   } = props;
   const alertType = form.get('rule').get('alertType').value;
@@ -267,7 +266,6 @@ export default function AdvancedModeContainer(props) {
           content: <AlertConfigCustomPayload form={form} setForm={updateForm} />
         }
       ]}
-      additionalValidationCheck={() => isTagFilterFormModelValid}
     />
   );
 }

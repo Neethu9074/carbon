@@ -83,6 +83,7 @@ export default function LogsThresholdCondition({
           metricUnitPostfix={metricUnitPostfix}
           onChange={onChange}
           thresholdValueInputClassName={interactiveChartLocals.narrowControl}
+          isGlobalSmartAlert={isGlobalSmartAlert}
         />
       )}
 

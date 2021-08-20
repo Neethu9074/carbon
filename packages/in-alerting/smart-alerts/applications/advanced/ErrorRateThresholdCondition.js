@@ -85,6 +85,7 @@ export default function ErrorRateThresholdCondition({
           onChange={onChange}
           thresholdValueInputClassName={interactiveChartLocals.narrowControl}
           percentageMetric
+          isGlobalSmartAlert={isGlobalSmartAlert}
         />
       )}
 
