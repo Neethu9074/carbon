@@ -13,10 +13,13 @@ import {
   createIsAlertQueryValid
 } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
+import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
+import { stepConfigs, onStepChanged, stepRenderers } from 'in-alerting/smart-alerts/websites/simple/simpleModeSteps';
+import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
-import WebsitesSimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/WebsitesSimpleModeContainer';
+import { SimpleDialogFooter } from 'in-alerting/smart-alerts/applications/components/SimpleDialogFooter';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -58,6 +61,8 @@ export default function AlertConfigDialogWithThreshold(props) {
   );
 }
 
+const FORM_ID = 'smart-alert-editor';
+
 function SmartAlertConfigDialogWithQueryValidation({
   alertConfigWithFormModel,
   blueprintConfig,
@@ -93,7 +98,28 @@ function SmartAlertConfigDialogWithQueryValidation({
     enrichedTagFilterFormModel
   });
 
-  const footer = simpleMode ? null : (
+  const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
+    stepConfigs,
+    form,
+    setForm: updateForm,
+    onCreate: withTrackCreate,
+    onClose: withTrackClose,
+    onStepChanged
+  });
+
+  const footer = simpleMode ? (
+    <SimpleDialogFooter
+      step={step}
+      setStep={setStep}
+      backOrCancel={backOrCancel}
+      simpleModeStep={simpleModeStep}
+      stepConfigs={stepConfigs}
+      form={form}
+      isSaving={isSaving}
+      formId={FORM_ID}
+      additionalStepCheck={step => (step === 1 ? true : isTagFilterFormModelValid)}
+    />
+  ) : (
     <AdvancedModeFooter
       form={form}
       onClose={withTrackClose}
@@ -107,13 +133,18 @@ function SmartAlertConfigDialogWithQueryValidation({
   return (
     <AlertConfigDialogPresenter
       {...props}
+      stepConfigs={stepConfigs}
+      stepRenderers={stepRenderers}
+      step={step}
+      formId={FORM_ID}
+      handleSubmit={handleSubmit}
       footer={footer}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
       QueryBuilderComponent={AlertQueryBuilder}
       isQueryValid={isQueryValid}
-      SimpleModeElement={WebsitesSimpleModeContainer}
+      SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
       isTagFilterFormModelValid={isTagFilterFormModelValid}
     />

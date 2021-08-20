@@ -6,53 +6,33 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import StepProgressBar from 'in-components/StepProgressBar';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer.mless';
 
 export default function SimpleModeContainer(props) {
-  const {
-    form,
-    onClose,
-    onCreate,
-    setSimpleModeStep,
-    updateForm,
-    stepConfigs,
-    onStepChanged,
-    stepRenderers,
-    isTagFilterFormModelValid,
-    error,
-    isSaving
-  } = props;
+  const { stepConfigs, stepRenderers, step, error } = props;
 
   return (
     <div className={locals.container}>
-      <SimpleModePageNavigation
-        form={form}
-        onClose={onClose}
-        onCreate={onCreate}
-        setSimpleModeStep={setSimpleModeStep}
-        updateForm={updateForm}
-        stepConfigs={stepConfigs}
-        error={error}
-        isSaving={isSaving}
-        onStepChanged={onStepChanged}
-        renderStep={step => stepRenderers[step](props)}
-        additionalStepCheck={step => {
-          return step === 1 ? true : isTagFilterFormModelValid;
-        }}
-      />
+      <>
+        <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
+
+        <div className={locals.form}>{stepRenderers[step](props)}</div>
+
+        {error && <ErroneousResultPresenter errors={[error]} className={locals.errorInfo} />}
+      </>
     </div>
   );
 }
 
+function mapTitles(stepConfigs) {
+  return stepConfigs.map(stepConfig => stepConfig.title);
+}
+
 SimpleModeContainer.propTypes = {
-  form: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  onStepChanged: PropTypes.func.isRequired,
-  setSimpleModeStep: PropTypes.func.isRequired,
-  updateForm: PropTypes.func.isRequired,
+  step: PropTypes.number.isRequired,
   stepConfigs: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -60,7 +40,5 @@ SimpleModeContainer.propTypes = {
     })
   ).isRequired,
   stepRenderers: PropTypes.arrayOf(PropTypes.func).isRequired,
-  isTagFilterFormModelValid: PropTypes.bool.isRequired,
-  error: PropTypes.object,
-  isSaving: PropTypes.bool
+  error: PropTypes.object
 };

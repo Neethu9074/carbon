@@ -21,6 +21,8 @@ export default function AlertConfigDialogPresenter(props) {
   const {
     editMode,
     form,
+    formId,
+    handleSubmit,
     AdvancedModeElement,
     SimpleModeElement,
     setSimpleMode,
@@ -88,8 +90,14 @@ export default function AlertConfigDialogPresenter(props) {
           )}
         </>
       )}
+      removeBottomPaddingWhenFooterIsShown
     >
-      <div
+      <form
+        id={formId}
+        onSubmit={e => {
+          e.preventDefault();
+          handleSubmit();
+        }}
         className={classNames({
           [locals.dialog]: true,
           [locals.advancedMode]: !simpleMode
@@ -114,7 +122,7 @@ export default function AlertConfigDialogPresenter(props) {
             setCustomSlideInHeaderConfig={setCustomSlideInHeaderConfig}
           />
         )}
-      </div>
+      </form>
     </DialogWithSlideInView>
   );
 
@@ -150,8 +158,18 @@ function getDialogTitle(isGlobalSmartAlert, editMode, builtIn) {
 }
 
 AlertConfigDialogPresenter.propTypes = {
+  stepConfigs: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      validateIntermediately: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string))
+    })
+  ),
+  stepRenderers: PropTypes.arrayOf(PropTypes.func).isRequired,
+  step: PropTypes.number,
   AdvancedModeElement: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  formId: PropTypes.string.isRequired,
   SimpleModeElement: PropTypes.func.isRequired,
   footer: PropTypes.node,
   trackModeSwitch: PropTypes.func.isRequired,

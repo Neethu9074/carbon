@@ -8,11 +8,20 @@ import React, { useEffect, useState } from 'react';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
+import {
+  onStepChanged,
+  stepConfigs,
+  stepRenderers
+} from 'in-alerting/smart-alerts/applications/simple/simpleModeSteps';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
+import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
+import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
+import { SimpleDialogFooter } from 'in-alerting/smart-alerts/applications/components/SimpleDialogFooter';
+import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -69,6 +78,8 @@ function getEnrichedTagFilterFormModel(isGlobalSmartAlert, alertConfigWithFormMo
   return enrichedTagFilterFormModel;
 }
 
+const FORM_ID = 'smart-alert-editor';
+
 function SmartAlertConfigDialogWithQueryValidation({
   alertConfigWithFormModel,
   blueprintConfig,
@@ -102,7 +113,28 @@ function SmartAlertConfigDialogWithQueryValidation({
     enrichedTagFilterFormModel
   });
 
-  const footer = simpleMode ? null : (
+  const { step, setStep, simpleModeStep, backOrCancel, handleSubmit } = useSimpleModePageNavigation({
+    stepConfigs,
+    form,
+    setForm: updateForm,
+    onCreate: withTrackCreate,
+    onClose: withTrackClose,
+    onStepChanged
+  });
+
+  const footer = simpleMode ? (
+    <SimpleDialogFooter
+      step={step}
+      setStep={setStep}
+      backOrCancel={backOrCancel}
+      simpleModeStep={simpleModeStep}
+      stepConfigs={stepConfigs}
+      form={form}
+      isSaving={isSaving}
+      formId={FORM_ID}
+      additionalStepCheck={step => (step === 1 ? true : isTagFilterFormModelValid)}
+    />
+  ) : (
     <AdvancedModeFooter
       form={form}
       onClose={withTrackClose}
@@ -116,6 +148,11 @@ function SmartAlertConfigDialogWithQueryValidation({
   return (
     <AlertConfigDialogPresenter
       {...props}
+      stepConfigs={stepConfigs}
+      stepRenderers={stepRenderers}
+      step={step}
+      formId={FORM_ID}
+      handleSubmit={handleSubmit}
       footer={footer}
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
@@ -128,6 +165,8 @@ function SmartAlertConfigDialogWithQueryValidation({
           }}
         />
       }
+      SimpleModeElement={SimpleModeContainer}
+      AdvancedModeElement={AdvancedModeContainer}
       isTagFilterFormModelValid={isTagFilterFormModelValid}
     />
   );
