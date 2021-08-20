@@ -154,6 +154,7 @@ import './instanaAgent';
 import './kafkaCluster';
 import './perfCounters';
 import './redisCluster';
+import './db2ZDatabase';
 import './aceFlowNode';
 import './application';
 import './awsDynamoDb';

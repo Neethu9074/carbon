@@ -75,6 +75,7 @@ export const nonServicePlugins = {
   couchbaseCluster: 'couchbaseCluster',
   crystalRuntimePlatform: 'crystalRuntimePlatform',
   db2Database: 'db2Database',
+  db2ZDatabase: 'db2ZDatabase',
   docker: 'docker',
   dropwizardApplicationContainer: 'dropwizardApplicationContainer',
   ec2: 'ec2',
@@ -328,6 +329,7 @@ export const fullyQualifiedPlugins = {
   couchbaseNode: 'com.instana.forge.infrastructure.database.couchbase.CouchbaseNode',
   crystalRuntimePlatform: 'com.instana.forge.infrastructure.runtime.crystal.CrystalRuntimePlatform',
   db2Database: 'com.instana.forge.infrastructure.database.db2.Db2Database',
+  db2ZDatabase: 'com.instana.forge.infrastructure.database.db2z.Db2ZDatabase',
   defaultEntity20: 'defaultEntity20',
   docker: 'com.instana.forge.infrastructure.virtualization.docker.Docker',
   dropwizardApplicationContainer:
