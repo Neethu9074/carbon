@@ -22,7 +22,7 @@ export function isBuiltInRule(entity) {
 }
 
 export function isBuiltInRuleType(type) {
-  return type === builtInEnumValue || type == builtInValue;
+  return type === builtInEnumValue || type === builtInValue;
 }
 
 export function isTriggering(entity) {
@@ -63,9 +63,13 @@ export function getDescription(entity) {
   return null;
 }
 
-export function getEntityTypeOptions() {
-  return Object.keys(plugins)
-    .map(k => plugins[k])
+/**
+ * Gets entity type options for entities that have at least one built-in metric definition and is not listed as a disabled plugin.
+ * Consequently, plugins that only have custom-metrics are also not returned by this method.
+ * @return {{label: string|""|string, value: *}[]} Plugin options for built-in metrics in alphabetical order.
+ */
+export function getEntityTypeOptionsOfBuiltInMetrics() {
+  return Object.values(plugins)
     .filter(plugin => hasCategory(plugin))
     .filter(plugin => customIssuesDisabledForPlugins.indexOf(plugin) < 0)
     .sort((a, b) => compareIgnoreCase(getPluginName(a, 1), getPluginName(b, 1)))

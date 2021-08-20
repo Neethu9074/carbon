@@ -52,6 +52,11 @@ import Applications, {
   noRightHeader
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import {
+  getPluginsWithCustomMetricsOptionsObservable,
+  getCustomMetricsOptionsForPluginObservable,
+  createCustomMetricListItem
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
+import {
   applyOnOptions,
   scopeApplication,
   scopeEverything,
@@ -59,17 +64,16 @@ import {
   applyOnOptionsForHostAvailability,
   scopeHostsByTag
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
 import {
   containsMetricInList,
-  createMetricListItem,
   getAllBuiltInMetrics,
   isBuiltInPlainMetric,
   getMetricDefinition,
   isBuiltInDynamicMetric
 } from 'in-sdk/metrics';
-import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
 import {
-  getEntityTypeOptions,
+  getEntityTypeOptionsOfBuiltInMetrics,
   formatterTypeToDefinition
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
@@ -79,7 +83,6 @@ import { putApplicationIdField } from 'in-settings/tabs/TeamSettings/pages/event
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import { getPluginsWithCustomMetrics, getCustomMetricsForPlugin } from 'in-api/infraCatalog';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { combinedValidationResults, valid } from 'in-settings/validation';
@@ -127,37 +130,10 @@ export default compose(
   connectTo(({ form }) => {
     const observables = {};
     if (isCustomDataSourceSelected(form)) {
-      observables.pluginsWithCustomMetrics = getPluginsWithCustomMetrics().map(plugins => {
-        const result = [];
-        if (plugins) {
-          plugins.map(plugin => {
-            result.push({
-              value: plugin.get('plugin'),
-              label: plugin.get('label')
-            });
-          });
-        }
-        return result;
-      });
-      if (form.get('entityType').value) {
-        observables.customMetricsForPlugin = getCustomMetricsForPlugin(form.get('entityType').value).map(
-          metricInstances => {
-            const result = [];
-            if (metricInstances) {
-              metricInstances.map(metricInstance => {
-                result.push(
-                  createCustomMetricListItem(
-                    metricInstance.get('metricId'),
-                    metricInstance.get('formatter'),
-                    metricInstance.get('label'),
-                    metricInstance.get('pluginId')
-                  )
-                );
-              });
-            }
-            return result;
-          }
-        );
+      observables.pluginsWithCustomMetrics = getPluginsWithCustomMetricsOptionsObservable();
+      const entityType = form.get('entityType').value;
+      if (entityType) {
+        observables.customMetricsForPlugin = getCustomMetricsOptionsForPluginObservable(entityType);
       }
     }
     return observables;
@@ -230,7 +206,7 @@ function EventForm({
 
   let pluginsWithMetricDefinitions;
   if (form.get('dataSource') && form.get('dataSource').value !== dataSourceSystem) {
-    pluginsWithMetricDefinitions = getEntityTypeOptions();
+    pluginsWithMetricDefinitions = getEntityTypeOptionsOfBuiltInMetrics();
     updateEntityTypesWithDeprecation(pluginsWithMetricDefinitions, form);
   }
 
@@ -405,7 +381,7 @@ function EventForm({
           {form.get('systemRule') && form.get('systemRule').value === entityVerification.id && (
             <ObserveHostHasMatchingEntitiesRunningFormGroup
               form={form}
-              entityTypes={getEntityTypeOptions()}
+              entityTypes={getEntityTypeOptionsOfBuiltInMetrics()}
               onChange={onChange}
             />
           )}
@@ -908,14 +884,6 @@ function addCurrentCustomMetricToListIfMissing(customMetricsList, form) {
       }
     }
   }
-}
-
-function createCustomMetricListItem(metricName, formatter, label, entityType) {
-  const metricItem = createMetricListItem(metricName, formatter, label, false);
-  return {
-    ...metricItem,
-    entityType
-  };
 }
 
 function startQueryValidation(query, form, onChange, setQueryValidationInProgress, setSaveEnabled) {

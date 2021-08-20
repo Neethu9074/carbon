@@ -6,6 +6,7 @@
 import React, { Fragment, useState } from 'react';
 import classNames from 'classnames';
 
+import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
 import {
@@ -24,14 +25,16 @@ import {
 import {
   customEnumValue,
   builtInEnumValue,
-  getEntityTypeOptions,
+  getEntityTypeOptionsOfBuiltInMetrics,
   isBuiltInRule
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { getSeverityText } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
 import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import WithSubscript from 'in-settings/components/WithSubscript';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { intersperse } from 'in-services/arrayUtils';
 import { getPluginName } from 'in-sdk/pluginName';
 import WithIcon from 'in-components/WithIcon';
@@ -54,7 +57,7 @@ const severityOptions = [
   { value: 10, label: t('in-settings:tabs.critical') }
 ];
 
-const entityTypeOptions = getEntityTypeOptions();
+const entityTypeOptionsOfBuiltInMetrics = getEntityTypeOptionsOfBuiltInMetrics();
 
 const enabledOptions = Object.freeze([
   { value: true, label: t('in-settings:tabs.enabled') },
@@ -79,6 +82,12 @@ export default function Events({
   const [severity, setSeverity] = useState(null);
   const [entityType, setEntityType] = useState(null);
   const [enabled, setEnabled] = useState(null);
+
+  const entityTypeOptionsOfCustomMetrics = useObservable(getPluginsWithCustomMetricsOptionsObservable, []);
+  const allEntityTypeOptions = combineAndSortByLabel(
+    entityTypeOptionsOfBuiltInMetrics,
+    entityTypeOptionsOfCustomMetrics
+  );
 
   return (
     <List
@@ -144,7 +153,7 @@ export default function Events({
         <ComboBox
           name="filter-entity-type"
           value={entityType}
-          options={entityTypeOptions}
+          options={allEntityTypeOptions}
           onChange={e => (e ? setEntityType(e.value) : setEntityType(null))}
           placeholder={t('in-settings:tabs.entityType')}
           className={classNames(locals.entityTypeDropdown, locals.filterDropdown)}
@@ -160,6 +169,12 @@ export default function Events({
       </Fragment>
     );
   }
+}
+
+function combineAndSortByLabel(array1, array2) {
+  return array2 && array2.length > 0
+    ? array1.concat(array2).sort((a, b) => compareIgnoreCase(a.label, b.label))
+    : array1;
 }
 
 function columnDefinitions(hasRowNavigation) {
