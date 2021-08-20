@@ -4899,7 +4899,7 @@
         "totalLockWaitElapsedTime": "Queries in lock-wait for more than 100 seconds",
         "logdiskwait": "Log Disk Wait",
         "reorg": "REORG",
-        "tablesizes": "Table Sizes",
+        "tablesizes": "Table Sizes ",
         "uow": "Unit of Work(UOW)",
         "dbutilities": "DB Utilities",
         "sysCatTables": "Tables Catalog View ",
