@@ -20,6 +20,16 @@ import { t, Trans } from 'in-i18n';
  * @type error: Error => Error | { readonly code: ErrorCode; message: JSX.Element }
  */
 export function enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error) {
+  // in ErrorResultPresenter, there is a similar check to show only a "TechnicalError",
+  // but on __DEV__ it would show an empty box.
+  if (typeof error === 'string' && __DEV__) {
+    // This will help by showing the raw error message on development, instead of an
+    // empty box:
+    return enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError({
+      message: error
+    });
+  }
+
   if (error?.message.indexOf(PLEASE_CONTACT_INSTANA_SUPPORT_ERROR_MSG_PHRASE) >= 0) {
     const errorMessage = error.message.replaceAll(PLEASE_CONTACT_INSTANA_SUPPORT_ERROR_MSG_PHRASE, '');
     return {

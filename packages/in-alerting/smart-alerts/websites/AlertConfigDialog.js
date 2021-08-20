@@ -20,6 +20,7 @@ import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smar
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import useSmartAlertFormSideEffects from 'in-alerting/smart-alerts/hooks/useSmartAlertFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { createAlertConfig, updateAlertConfig } from 'in-websites/api/websiteAlertConfig';
 import { modeAdvanced, modeSimple } from 'in-alerting/smart-alerts/websites/constants';
 import useWebsiteLabel from 'in-alerting/smart-alerts/websites/hooks/useWebsiteLabel';
@@ -113,7 +114,10 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving, setError) {
 
   if (editMode) {
     updateAlertConfig(alertConfig, form.get('id').value).once(
-      alertConfig => onClose(alertConfig),
+      alertConfig => {
+        onClose(alertConfig);
+        showSuccessMessage(alertConfig.name, editMode);
+      },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
         setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -122,7 +126,10 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving, setError) {
     );
   } else {
     createAlertConfig(alertConfig).once(
-      alertConfig => onClose(alertConfig),
+      alertConfig => {
+        onClose(alertConfig);
+        showSuccessMessage(alertConfig.name, editMode);
+      },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
         setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));

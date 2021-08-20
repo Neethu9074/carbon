@@ -592,6 +592,26 @@
         "PreviewSelectLoadingEndpoints": "Loading Endpoints List",
         "thresholdValue": "Threshold Value"
       },
+      "userInfo": {
+        "success": {
+          "create": {
+            "alert": {
+              "title_Local": "Smart Alert created successfully",
+              "message_Local": "Smart Alert <strong>{{name}}</strong> has been created.",
+              "title_Global": "Global Smart Alert created successfully",
+              "message_Global": "Global Smart Alert <strong>{{name}}</strong> has been created."
+            }
+          },
+          "edit": {
+            "alert": {
+              "title_Local": "Smart Alert changed successfully",
+              "message_Local": "Smart Alert <strong>{{name}}</strong> has been changed.",
+              "title_Global": "Global Smart Alert changed successfully",
+              "message_Global": "Global Smart Alert <strong>{{name}}</strong> has been changed."
+            }
+          }
+        }
+      },
       "alertsHub": {
         "title": "Alerts Hub",
         "introText": "Welcome to the Alerting Configuration Hub. This is where you can set up your alerting expectations.",

@@ -21,7 +21,11 @@ export default function SimpleModeContainer(props) {
 
         <div className={locals.form}>{stepRenderers[step](props)}</div>
 
-        {error && <ErroneousResultPresenter errors={[error]} className={locals.errorInfo} />}
+        {error && (
+          <div className={locals.errorInfo}>
+            <ErroneousResultPresenter errors={[error]} />
+          </div>
+        )}
       </>
     </div>
   );

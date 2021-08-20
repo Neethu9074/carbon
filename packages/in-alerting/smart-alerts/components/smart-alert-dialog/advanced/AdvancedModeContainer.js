@@ -61,7 +61,7 @@ AdvancedModeContainer.propTypes = {
     })
   ).isRequired,
   error: PropTypes.shape({
-    message: PropTypes.string.isRequired,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
     code: PropTypes.string
   })
 };

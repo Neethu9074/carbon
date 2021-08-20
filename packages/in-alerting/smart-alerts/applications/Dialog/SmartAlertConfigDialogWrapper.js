@@ -27,6 +27,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
 
 const logger = createLogger('in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog');
@@ -137,7 +138,10 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
 
   if (editMode) {
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
-      alertConfig => onClose(alertConfig),
+      alertConfig => {
+        onClose(alertConfig);
+        showSuccessMessage(alertConfig.name, editMode, isGlobalSmartAlert);
+      },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
         setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
@@ -146,7 +150,10 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
     );
   } else {
     (isGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
-      alertConfig => onClose(alertConfig),
+      alertConfig => {
+        onClose(alertConfig);
+        showSuccessMessage(alertConfig.name, editMode, isGlobalSmartAlert);
+      },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
         setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));

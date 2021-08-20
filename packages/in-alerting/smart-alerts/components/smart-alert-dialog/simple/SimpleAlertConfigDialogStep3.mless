@@ -6,7 +6,7 @@
 :local {
   .alertChannelsContainer {
     grid-column: 1 / span 3;
-    height: 25rem;
     overflow: auto;
+    flex: 1;
   }
 }
