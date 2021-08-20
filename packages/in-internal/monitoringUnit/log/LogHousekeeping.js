@@ -188,19 +188,35 @@ export default connectTo(
           </DashboardSection>
         </Columize>
 
-        <DashboardSection title={t('in-internal:monitoringUnit.log.housekeeping.coldTier.duration')}>
-          <Chart
-            snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: millis.fixedCompact,
-              metrics: rows.map(() => `metrics.timers.logColdTierService.log-cold-tier-timer.99th`),
-              labels: labels,
-              type: 'line'
-            }}
-          />
-        </DashboardSection>
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.housekeeping.coldTier.skips.moves')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(() => `metrics.meters.logColdTierService.number-skips-because-of-running-moves`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.log.housekeeping.coldTier.duration')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: millis.fixedCompact,
+                metrics: rows.map(() => `metrics.timers.logColdTierService.log-cold-tier-timer.99th`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
       </div>
     );
   }
