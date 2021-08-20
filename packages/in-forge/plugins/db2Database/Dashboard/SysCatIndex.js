@@ -107,9 +107,9 @@ export default connectTo(
           <TimeOfLastUpdateCardTitle
             title={
               t('in-forge:plugins.db2Database.dashboard.sysCatIndex') +
-              '- ' +
+              '( ' +
               snapshot.get('data').get('tabschema') +
-              ' Schema'
+              ' )'
             }
           />
         }

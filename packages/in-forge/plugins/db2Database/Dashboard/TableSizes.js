@@ -76,7 +76,7 @@ export default connectTo(
       data: getRawPayloadWithTimestamp(props.snapshotId, 'tablesizes')
     };
   },
-  function DbConfigTable({ data }) {
+  function DbConfigTable({ snapshot, data }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
@@ -98,7 +98,12 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.db2Database.dashboard.tablesizes')}
+            title={
+              t('in-forge:plugins.db2Database.dashboard.tablesizes') +
+              '( ' +
+              snapshot.get('data').get('tabschema') +
+              ' )'
+            }
             timestamp={data.get('timestamp')}
           />
         }
