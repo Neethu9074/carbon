@@ -73,7 +73,6 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="databases.connectionsCount" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
-      <HadrGenericsTable snapshotId={snapshotId} />
       <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.connections')}>
         <Chart
           snapshotId={snapshotId}
@@ -88,6 +87,45 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+      <HadrGenericsTable snapshotId={snapshotId} />
+      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.hadrLogMetrics')}>
+        <Chart
+          snapshotId={snapshotId}
+          timeConfig={timeConfig}
+          y1={{
+            min: 0,
+            metrics: [
+              'hadrmetrics.sockSendBufReq"',
+              'hadrmetrics.sockSendBufActual',
+              'hadrmetrics.sockRecBufReq',
+              'hadrmetrics.sockRecvBufAct'
+            ],
+            labels: [
+              t('in-forge:plugins.db2Database.sockSendBufReq'),
+              t('in-forge:plugins.db2Database.sockSendBufActual'),
+              t('in-forge:plugins.db2Database.sockRecBufReq'),
+              t('in-forge:plugins.db2Database.sockRecvBufAct')
+            ],
+            type: 'line',
+            formatter: bytes.detailed
+          }}
+          y2={{
+            min: 0,
+            metrics: ['hadrmetrics.timeSinceLastRecv', 'hadrmetrics.logHadrWaitCur', 'hadrmetrics.logHadrWaitTime'],
+            labels: [
+              t('in-forge:plugins.db2Database.timeSinceLastRecv'),
+              t('in-forge:plugins.db2Database.logHadrWaitCur'),
+              t('in-forge:plugins.db2Database.logHadrWaitTime')
+            ],
+            type: 'line',
+            formatter: millis.detailed
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+      {data.get('tableSpaceNames', emptyList).size > 0 && (
+        <TableSpaceUtil snapshot={snapshot} timeConfig={timeConfig} />
+      )}
       <Columize>
         <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.rows')}>
           <Chart
@@ -529,19 +567,16 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
       )}
       <TopTotalStmtsTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
       <LogDiskWaitTable snapshotId={snapshotId} snapshot={snapshot} timeConfig={timeConfig} />
+      <UOWTable snapshotId={snapshotId} />
+      <TableSizes snapshotId={snapshotId} />
+      <SysCatTable snapshotId={snapshotId} snapshot={snapshot} />
+      <SysCatIndex snapshotId={snapshotId} snapshot={snapshot} />
       <DbUtilitiesTable snapshotId={snapshotId} />
       <DbConfigTable snapshotId={snapshotId} />
       <DbmConfigTable snapshotId={snapshotId} />
       <RunStatsTable snapshotId={snapshotId} />
-      <DiagLogInfoTable snapshotId={snapshotId} />
       <ReorgTable snapshotId={snapshotId} />
-      <TableSizes snapshotId={snapshotId} />
-      <UOWTable snapshotId={snapshotId} />
-      <SysCatTable snapshotId={snapshotId} snapshot={snapshot} />
-      <SysCatIndex snapshotId={snapshotId} snapshot={snapshot} />
-      {data.get('tableSpaceNames', emptyList).size > 0 && (
-        <TableSpaceUtil snapshot={snapshot} timeConfig={timeConfig} />
-      )}
+      <DiagLogInfoTable snapshotId={snapshotId} />
     </div>
   );
 }

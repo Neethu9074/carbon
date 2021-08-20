@@ -5043,11 +5043,12 @@
         "dbutilities": "DB Utilities",
         "sysCatTables": "SYSCAT.TABLES Catalog View ",
         "sysCatIndex": "SYSCAT.INDEX Catalog View ",
-        "tableSpaceUtil": "Table Space Utlities",
+        "tableSpaceUtil": "Table Space Utilities",
         "hadrGenerics": "HADR General",
         "hadrConnect": "HADR Connection Status",
         "hadrPrimaryLog": "HADR Primary Log Information",
-        "hadrSecondaryLog": "HADR Secondary Log Information"
+        "hadrSecondaryLog": "HADR Secondary Log Information",
+        "hadrLogMetrics": "HADR Log Metrics"
 
       },
       "db2": "DB2",
@@ -5249,7 +5250,14 @@
       "secLogPage": "Secondary Log Page",
       "secLogPos": "Secondary Log Position",
       "secLogTime": "Secondary Log Time",
-      "hadrWaitsTotal": "HADR Waits Total"
+      "hadrWaitsTotal": "HADR Waits Total",
+      "sockSendBufReq": "Requested Send Buffer",
+      "sockSendBufActual": "Actual Send Buffer",
+      "sockRecBufReq": "Requested Receive Buffer",
+      "sockRecvBufAct": "Actual Receive Buffer",
+      "timeSinceLastRecv": "Time Since Last Receive",
+      "logHadrWaitCur": "Current Logger wait Time",
+      "logHadrWaitTime": "Total Logger Wait Time"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
