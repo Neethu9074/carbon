@@ -18,6 +18,7 @@ import DatabasesTable from 'in-forge/plugins/db2Database/Dashboard/DatabasesTabl
 import DbmConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbmConfigTable';
 import LockWaitsTable from 'in-forge/plugins/db2Database/Dashboard/LockWaitsTable';
 import TableSpaceUtil from 'in-forge/plugins/db2Database/Dashboard/TableSpaceUtil';
+import HadrDashboard from 'in-forge/plugins/db2Database/Dashboard/HadrDashboard';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import RunStatsTable from 'in-forge/plugins/db2Database/Dashboard/RunStatsTable';
 import DbConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbConfigTable';
@@ -88,41 +89,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         />
       </DashboardSection>
       <HadrGenericsTable snapshotId={snapshotId} />
-      <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.hadrLogMetrics')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: [
-              'hadrmetrics.sockSendBufReq"',
-              'hadrmetrics.sockSendBufActual',
-              'hadrmetrics.sockRecBufReq',
-              'hadrmetrics.sockRecvBufAct'
-            ],
-            labels: [
-              t('in-forge:plugins.db2Database.sockSendBufReq'),
-              t('in-forge:plugins.db2Database.sockSendBufActual'),
-              t('in-forge:plugins.db2Database.sockRecBufReq'),
-              t('in-forge:plugins.db2Database.sockRecvBufAct')
-            ],
-            type: 'line',
-            formatter: bytes.detailed
-          }}
-          y2={{
-            min: 0,
-            metrics: ['hadrmetrics.timeSinceLastRecv', 'hadrmetrics.logHadrWaitCur', 'hadrmetrics.logHadrWaitTime'],
-            labels: [
-              t('in-forge:plugins.db2Database.timeSinceLastRecv'),
-              t('in-forge:plugins.db2Database.logHadrWaitCur'),
-              t('in-forge:plugins.db2Database.logHadrWaitTime')
-            ],
-            type: 'line',
-            formatter: millis.detailed
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      <HadrDashboard snapshotId={snapshotId} timeConfig={timeConfig} />
       {data.get('tableSpaceNames', emptyList).size > 0 && (
         <TableSpaceUtil snapshot={snapshot} timeConfig={timeConfig} />
       )}
