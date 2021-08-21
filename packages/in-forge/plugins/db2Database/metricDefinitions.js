@@ -172,7 +172,7 @@ export default [
       t('in-forge:plugins.db2Database.loglogUsedTop')
     ],
     min: 0,
-    formatter: bytes,
+    formatter: bytes.detailed,
     category: [t('in-forge:plugins.db2Database.logSpace')]
   },
   {
