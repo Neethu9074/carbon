@@ -55,14 +55,12 @@ const cols = [
   },
   {
     title: t('in-forge:plugins.db2Database.hadrStandbyId'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return yesOrNo(row.hadrGeneric.get('STANDBY_ID'));
+        return row.hadrGeneric.get('STANDBY_ID');
       },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
-      }
+      getContent: number.compact
     }
   },
   {
