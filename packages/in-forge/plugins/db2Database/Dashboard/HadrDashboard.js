@@ -27,11 +27,9 @@ function HadrDashboard({ data }) {
     return null;
   }
   const { snapshotId, timeConfig } = snapshotProps;
-  console.log(data);
 
   const hadrRole = data.get('raw_payload');
-
-  if (hadrRole === 'PRIMARY') {
+  if (hadrRole.get('HADR_ROLE') === 'PRIMARY') {
     return (
       <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.hadrLogMetrics')}>
         <Chart
