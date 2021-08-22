@@ -6,7 +6,7 @@
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { percentagePlain, KILO_BYTES } from 'in-services/formatters/number';
+import { percentagePlain, kiloBytes } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
@@ -32,7 +32,7 @@ const cols = [
       getMetricName(row) {
         return `tablespaceutil.${row.key}.totalSize`;
       },
-      getContent: KILO_BYTES.detailed,
+      getContent: kiloBytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -48,7 +48,7 @@ const cols = [
       getMetricName(row) {
         return `tablespaceutil.${row.key}.usedSpace`;
       },
-      getContent: KILO_BYTES.detailed,
+      getContent: kiloBytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -64,7 +64,7 @@ const cols = [
       getMetricName(row) {
         return `tablespaceutil.${row.key}.freeSpace`;
       },
-      getContent: KILO_BYTES.detailed,
+      getContent: kiloBytes.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -124,7 +124,7 @@ function getDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           min: 0,
-          formatter: KILO_BYTES.detailed,
+          formatter: kiloBytes.detailed,
           metrics: [
             'tablespaceutil.' + row.key + '.totalSize',
             'tablespaceutil.' + row.key + '.usedSpace',
