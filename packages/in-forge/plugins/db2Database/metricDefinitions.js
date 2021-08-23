@@ -92,7 +92,6 @@ export default [
       t('in-forge:plugins.db2Database.numLockHeld'),
       t('in-forge:plugins.db2Database.tabSizeKB'),
       t('in-forge:plugins.db2Database.uowLogSpaceUsed'),
-      t('in-forge:plugins.db2Database.uowExecTime'),
       t('in-forge:plugins.db2Database.clientIdleTimeMin')
     ],
     min: 0,
