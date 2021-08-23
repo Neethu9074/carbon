@@ -87,11 +87,13 @@ export default [
       t('in-forge:plugins.db2Database.uow'),
       t('in-forge:plugins.db2Database.appHandle'),
       t('in-forge:plugins.db2Database.appName'),
+      t('in-forge:plugins.db2Database.clientAppName'),
       t('in-forge:plugins.db2Database.applicationID'),
       t('in-forge:plugins.db2Database.numLockHeld'),
       t('in-forge:plugins.db2Database.tabSizeKB'),
       t('in-forge:plugins.db2Database.uowLogSpaceUsed'),
-      t('in-forge:plugins.db2Database.uowExecTime')
+      t('in-forge:plugins.db2Database.uowExecTime'),
+      t('in-forge:plugins.db2Database.clientIdleTimeMin')
     ],
     min: 0,
     formatter: number

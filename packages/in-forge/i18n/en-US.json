@@ -5069,6 +5069,8 @@
       "applicationID": "App ID",
       "numLockHeld": "Number of Locks Held",
       "uowExecTime": "UOW Execution Time",
+      "clientAppName": "Client App Name",
+      "clientIdleTimeMin": "Client Idle Time Min",
       "uowLogSpaceUsed": "Log Space Used UOW",
       "statsTime": "Stats Time",
       "statsTimeEpoch": "Stats Time Epoch",

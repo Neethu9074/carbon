@@ -7,6 +7,7 @@ import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { number, bytes } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { shorten } from 'in-services/util/string';
 import connectTo from 'in-hoc/connectTo';
@@ -40,6 +41,30 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.db2Database.clientAppName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('CLIENT_APPLNAME');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.appName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('APPLICATION_NAME');
+      },
+      getContent(args) {
+        return <Args args={shorten(args, 128)} />;
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.db2Database.applicationID'),
     type: 'string',
     typeArgs: {
@@ -49,6 +74,46 @@ const cols = [
       getContent(args) {
         return <Args args={shorten(args, 128)} />;
       }
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.numLockHeld'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('NUM_LOCKS_HELD');
+      },
+      getContent: number.compact
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.uowLogSpaceUsed'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('UOW_LOG_SPACE_USED');
+      },
+      getContent: bytes.detailed
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.uowExecTime'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('UOW_EXEC_TIME_MS');
+      },
+      getContent: number.compact
+    }
+  },
+  {
+    title: t('in-forge:plugins.db2Database.clientIdleTimeMin'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.topQuery.get('CON_CLIENT_IDLE_TIME_MIN');
+      },
+      getContent: number.compact
     }
   }
 ];
