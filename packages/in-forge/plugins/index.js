@@ -200,6 +200,7 @@ import './awsRds';
 import './awsSqs';
 import './consul';
 import './docker';
+import './domino';
 import './garden';
 import './packet';
 import './statsd';
