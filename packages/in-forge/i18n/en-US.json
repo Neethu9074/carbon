@@ -5555,7 +5555,10 @@
       "envoy": "Envoy",
       "pid": "Process ID",
       "version": "Version",
-      "configFilePath": "Config File"
+      "configFilePath": "Config File",
+      "troubleshootingDocs": "Troubleshooting docs",
+      "envoyMonitoringRequiresConfiguredAdminInterface": "Envoy monitoring requires a configured admin interface to access the metric data.",
+      "envoyMonitoringRequiresAdminAddressPath": "The Envoy process has to be started with the command line flag <code>--admin-address-path</code>."
     },
     "etcd": {
       "dashboard": {

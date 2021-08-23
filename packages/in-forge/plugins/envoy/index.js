@@ -3,12 +3,14 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/envoy/agentMonitoringIssueDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.envoy,
+  agentMonitoringIssueDefinitions,
   technologyDescriptor: {
     label: t('in-forge:plugins.envoy.envoy')
   }
