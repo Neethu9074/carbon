@@ -173,3 +173,12 @@ export function getAllAlertConfigsForAllApplications(
 
   return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
+
+export function restoreAlertConfigVersion(id: string, created: number): Observable<ApplicationAlertConfigWithMetadata> {
+  return http<ApplicationAlertConfigWithMetadata>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/restore/${created}`
+  }).map(response => response.body);
+}

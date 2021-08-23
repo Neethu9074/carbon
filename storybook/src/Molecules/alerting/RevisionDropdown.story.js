@@ -5,6 +5,7 @@
 
 import React, { useState } from 'react';
 
+import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
 import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
 import { getRevision } from 'in-alerting/components/AlertHeader';
 
@@ -15,11 +16,13 @@ export default {
 
 export const RevisionDropdownNewConfigs = () => {
   const [alertConfig, setAlertConfig] = useState(newVersioningFormatData.alertConfig);
-  const alertRevision = getRevision(alertConfig, newVersioningFormatData.alertConfigVersions) || 1;
+
+  const alertConfigVersions = extendAlertConfigVersions(newVersioningFormatData.alertConfigVersions);
+  const alertRevision = getRevision(alertConfig, alertConfigVersions);
 
   return (
     <RevisionDropdown
-      {...newVersioningFormatData}
+      alertConfigVersions={alertConfigVersions}
       alertRevision={alertRevision}
       setRevision={created => {
         setAlertConfig(newVersioningFormatData.alertConfigVersions.find(acv => acv.created === created));
@@ -30,11 +33,13 @@ export const RevisionDropdownNewConfigs = () => {
 
 export const RevisionDropdownOldConfigs = () => {
   const [alertConfig, setAlertConfig] = useState(oldVersioningFormatData.alertConfig);
-  const alertRevision = getRevision(alertConfig, oldVersioningFormatData.alertConfigVersions) || 1;
+
+  const alertConfigVersions = extendAlertConfigVersions(oldVersioningFormatData.alertConfigVersions);
+  const alertRevision = getRevision(alertConfig, alertConfigVersions);
 
   return (
     <RevisionDropdown
-      {...oldVersioningFormatData}
+      alertConfigVersions={alertConfigVersions}
       alertRevision={alertRevision}
       setRevision={created => {
         setAlertConfig(oldVersioningFormatData.alertConfigVersions.find(acv => acv.created === created));
@@ -45,11 +50,13 @@ export const RevisionDropdownOldConfigs = () => {
 
 export const RevisionDropdownMixedConfigs = () => {
   const [alertConfig, setAlertConfig] = useState(mixedVersioningFormatData.alertConfig);
-  const alertRevision = getRevision(alertConfig, mixedVersioningFormatData.alertConfigVersions) || 1;
+
+  const alertConfigVersions = extendAlertConfigVersions(mixedVersioningFormatData.alertConfigVersions);
+  const alertRevision = getRevision(alertConfig, alertConfigVersions);
 
   return (
     <RevisionDropdown
-      {...mixedVersioningFormatData}
+      alertConfigVersions={alertConfigVersions}
       alertRevision={alertRevision}
       setRevision={created => {
         setAlertConfig(mixedVersioningFormatData.alertConfigVersions.find(acv => acv.created === created));
@@ -58,23 +65,13 @@ export const RevisionDropdownMixedConfigs = () => {
   );
 };
 
-const CHANGE_TYPE = {
-  UPDATE: 'UPDATE',
-  CREATE: 'CREATE',
-  DISABLE: 'DISABLE',
-  ENABLE: 'ENABLE',
-  DELETE: 'DELETE',
-  RESTORE: 'RESTORE',
-  UNKNOWN: 'UNKNOWN'
-};
-
 const newVersioningFormatData = {
   alertConfig: {
     id: 'TMS_EISKQzSAAsBk5qjq7Q',
     created: 1626796474219,
     readOnly: false,
     enabled: true,
-    ...getChangeSummary(CHANGE_TYPE.UPDATE, 'Foo man chu')
+    ...getChangeSummary('UPDATE', 'Foo man chu')
   },
   alertConfigVersions: [
     {
@@ -82,28 +79,28 @@ const newVersioningFormatData = {
       created: 1626796474219,
       enabled: true,
       deleted: false,
-      ...getChangeSummary(CHANGE_TYPE.DELETE, 'Alfred. E. Neumann')
+      ...getChangeSummary('DELETE', 'Alfred. E. Neumann')
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626793047094,
       enabled: true,
       deleted: false,
-      ...getChangeSummary(CHANGE_TYPE.RESTORE, 'D. Snyder')
+      ...getChangeSummary('RESTORE', 'D. Snyder')
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626732000000,
       enabled: true,
       deleted: false,
-      ...getChangeSummary(CHANGE_TYPE.ENABLE, 'D. Snyder')
+      ...getChangeSummary('ENABLE', 'D. Snyder')
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626645600000,
       enabled: true,
       deleted: false,
-      ...getChangeSummary(CHANGE_TYPE.DISABLE, 'Erna')
+      ...getChangeSummary('DISABLE', 'Erna')
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
@@ -111,7 +108,7 @@ const newVersioningFormatData = {
       enabled: true,
       deleted: false,
       ...getChangeSummary(
-        CHANGE_TYPE.UPDATE,
+        'UPDATE',
         'Very Long Name Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo '
       )
     },
@@ -120,21 +117,21 @@ const newVersioningFormatData = {
       created: 1626472800000,
       enabled: true,
       deleted: false,
-      ...getChangeSummary(CHANGE_TYPE.UPDATE, 'Fabolous Mr. Fox')
+      ...getChangeSummary('UPDATE', 'Fabolous Mr. Fox')
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626386400000,
       enabled: true,
       deleted: false,
-      ...getChangeSummary(CHANGE_TYPE.UPDATE, 'Lemmy Kilmister')
+      ...getChangeSummary('UPDATE', 'Lemmy Kilmister')
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626300000000,
       enabled: true,
       deleted: false,
-      ...getChangeSummary(CHANGE_TYPE.CREATE, 'Nina Hagen')
+      ...getChangeSummary('CREATE', 'Nina Hagen')
     }
   ],
   alertRevision: 2
@@ -152,49 +149,97 @@ const oldVersioningFormatData = {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626796474219,
       enabled: true,
-      deleted: false
+      deleted: false,
+      changeSummary: {
+        changeType: 'UNKNOWN',
+        author: {
+          type: 'UNKNOWN'
+        }
+      }
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626793047094,
       enabled: true,
-      deleted: false
+      deleted: false,
+      changeSummary: {
+        changeType: 'UNKNOWN',
+        author: {
+          type: 'UNKNOWN'
+        }
+      }
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626732000000,
       enabled: true,
-      deleted: false
+      deleted: false,
+      changeSummary: {
+        changeType: 'UNKNOWN',
+        author: {
+          type: 'UNKNOWN'
+        }
+      }
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626645600000,
       enabled: true,
-      deleted: false
+      deleted: false,
+      changeSummary: {
+        changeType: 'UNKNOWN',
+        author: {
+          type: 'UNKNOWN'
+        }
+      }
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626559200000,
       enabled: true,
-      deleted: false
+      deleted: false,
+      changeSummary: {
+        changeType: 'UNKNOWN',
+        author: {
+          type: 'UNKNOWN'
+        }
+      }
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626472800000,
       enabled: true,
-      deleted: false
+      deleted: false,
+      changeSummary: {
+        changeType: 'UNKNOWN',
+        author: {
+          type: 'UNKNOWN'
+        }
+      }
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626386400000,
       enabled: true,
-      deleted: false
+      deleted: false,
+      changeSummary: {
+        changeType: 'UNKNOWN',
+        author: {
+          type: 'UNKNOWN'
+        }
+      }
     },
     {
       id: 'TMS_EISKQzSAAsBk5qjq7Q',
       created: 1626300000000,
       enabled: true,
-      deleted: false
+      deleted: false,
+      changeSummary: {
+        changeType: 'UNKNOWN',
+        author: {
+          type: 'UNKNOWN'
+        }
+      }
     }
   ],
   alertRevision: 2

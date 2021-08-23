@@ -7,15 +7,17 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { Message } from '@instana/components';
+import { Message, Spacer } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
-import RevisionDropdown, { toAlertRevision } from 'in-alerting/components/RevisionDropdown';
+import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation';
+import IconButton from 'in-components/IconButton/IconButton';
 import BackButton from 'in-components/BackButton';
 import Tooltip from 'in-components/Tooltip';
 import Pill from 'in-components/Pill';
@@ -40,13 +42,17 @@ export default function AlertHeader({
   onConfigRevisionChanged,
   renderCustomTitle
 }) {
-  const alertRevision = getRevision(alertConfig, alertConfigVersions) || 1;
-  const isDeletedConfig = alertConfigVersions.some(alertConfig => alertConfig.deleted);
-  const isNotLatestRevision = alertRevision < alertConfigVersions.length;
+  const extendedAlertConfigVersions = extendAlertConfigVersions(alertConfigVersions);
+
+  const alertRevision =
+    extendedAlertConfigVersions.find(({ created }) => alertConfig.created === created) ?? alertConfig;
+  const isDeletedConfig = extendedAlertConfigVersions.some(alertConfig => alertConfig.deleted);
+  const isNotLatestRevision = alertRevision.created < extendedAlertConfigVersions[0].created;
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [isToggling, setIsToggling] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(false);
 
   const doToggleEnabled = () => {
     setIsToggling(true);
@@ -75,6 +81,7 @@ export default function AlertHeader({
             alertConfigID: alertConfig.id,
             errorMessage: error.message
           });
+
       setErrorMessage(errorMessage);
     });
   };
@@ -102,8 +109,12 @@ export default function AlertHeader({
   };
 
   const doRestore = () => {
-    doRestoreConfig$(alertConfig, alertConfig.id).once(
-      () => setRevision(null),
+    setIsRestoring(true);
+    doRestoreConfig$(alertConfig.created, alertConfig.id).once(
+      () => {
+        setRevision(null);
+        setIsRestoring(false);
+      },
       error => {
         const errorMessage = t('in-alerting:components.alertHeaderRestoreErrorMessage', {
           alertConfigID: alertConfig.id,
@@ -111,6 +122,7 @@ export default function AlertHeader({
           errorMessage: error.message
         });
         setErrorMessage(errorMessage);
+        setIsRestoring(false);
       }
     );
   };
@@ -137,6 +149,9 @@ export default function AlertHeader({
             })}
             size="l"
             type="lib_alerts_alert"
+            aria-label={t('in-alerting:components.alertHeaderAriaLabelSeverity', {
+              severity: alertConfig.severity <= 5 ? 'low' : 'high'
+            })}
           />
           <div className={locals.name}>{renderCustomTitle?.() ?? alertConfig.name}</div>
         </div>
@@ -146,49 +161,34 @@ export default function AlertHeader({
             {t('in-alerting:components.alertHeaderAlert')}
           </Pill>
 
-          {alertConfigVersions.length > 1 && (
-            <RevisionDropdown
-              alertConfig={alertConfig}
-              alertConfigVersions={alertConfigVersions}
-              setRevision={revision => {
-                setRevision(revision);
-                if (onConfigRevisionChanged) {
-                  onConfigRevisionChanged({ revision });
-                }
-              }}
-              alertRevision={alertRevision}
-            />
+          {extendedAlertConfigVersions.length > 1 && (
+            <>
+              <RevisionDropdown
+                alertConfigVersions={extendedAlertConfigVersions}
+                alertRevision={alertRevision}
+                setRevision={revision => {
+                  setRevision(revision);
+                  if (onConfigRevisionChanged) {
+                    onConfigRevisionChanged({ revision });
+                  }
+                }}
+              />
+              <Spacer horizontal="normal" />
+            </>
           )}
 
           {alertConfig.readOnly && !isDeletedConfig && (
             <Tooltip
               content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip', {
-                alertRevision: alertRevision
+                description: alertRevision.description
               })}
             >
-              <SvgIcon
-                className={locals.actionIcon}
+              <IconButton
+                kind="primaryv2"
                 type="lib_actions_revert"
-                onClick={() => {
-                  addActiveDialog(
-                    <ConfirmationDialog
-                      header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
-                      description={
-                        <Trans
-                          i18nKey="in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogDescription"
-                          values={{ alertRevision: alertRevision }}
-                        />
-                      }
-                      confirmButtonLabel={t(
-                        'in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogConfirmButton'
-                      )}
-                      onSubmit={() => {
-                        close();
-                        doRestore();
-                      }}
-                    />
-                  );
-                }}
+                iconSpinning={isRestoring}
+                onClick={() => openRestoreConfirmationDialog(alertRevision, doRestore)}
+                alignment="right"
               />
             </Tooltip>
           )}
@@ -202,8 +202,8 @@ export default function AlertHeader({
                     : t('in-alerting:components.alertHeaderEnableTooltip')
                 }
               >
-                <SvgIcon
-                  className={locals.actionIcon}
+                <IconButton
+                  kind="primaryv2"
                   type={
                     isToggling ? 'lib_actions_loading' : alertConfig.enabled ? 'lib_actions_pause' : 'lib_actions_play'
                   }
@@ -213,22 +213,24 @@ export default function AlertHeader({
                       doToggleEnabled();
                     }
                   }}
+                  alignment="right"
                 />
               </Tooltip>
               <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')}>
-                <SvgIcon className={locals.actionIcon} type="lib_actions_edit" onClick={openDialog} />
+                <IconButton alignment="right" kind="primaryv2" type="lib_actions_edit" onClick={openDialog} />
               </Tooltip>
               <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')}>
-                <SvgIcon
-                  className={locals.actionIcon}
+                <IconButton
+                  kind="primaryv2"
                   type="lib_actions_copy"
                   onClick={() => openDialog({ isCopy: true })}
+                  alignment="right"
                 />
               </Tooltip>
               {!alertConfig?.builtIn && (
                 <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')}>
-                  <SvgIcon
-                    className={locals.actionIcon}
+                  <IconButton
+                    kind="primaryv2"
                     type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}
                     spinning={isDeleting}
                     onClick={() => {
@@ -253,6 +255,7 @@ export default function AlertHeader({
                         );
                       }
                     }}
+                    alignment="right"
                   />
                 </Tooltip>
               )}
@@ -274,10 +277,22 @@ export default function AlertHeader({
         <Message withIcon className={locals.bottomSpace}>
           <Trans
             i18nKey="in-alerting:components.alertHeaderIsNotLatestRevisionMessage"
-            values={{ alertRevision: alertRevision }}
+            values={{ description: alertRevision.description }}
             components={{
               latestRevisionButton: (
-                <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)} />
+                <Button className={locals.latestButton} kind="action" onClick={() => setRevision(null)} noAutoMargin>
+                  {null /* Children will be injected via react i18n */}
+                </Button>
+              ),
+              restoreRevisionButton: (
+                <Button
+                  className={locals.latestButton}
+                  kind="action"
+                  onClick={() => openRestoreConfirmationDialog(alertRevision, doRestore)}
+                  noAutoMargin
+                >
+                  {null /* Children will be injected via react i18n */}
+                </Button>
               )
             }}
           />
@@ -289,7 +304,14 @@ export default function AlertHeader({
 
 AlertHeader.propTypes = {
   alertConfig: PropTypes.object.isRequired,
-  alertConfigVersions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  alertConfigVersions: PropTypes.arrayOf(
+    PropTypes.shape({
+      deleted: PropTypes.bool,
+      created: PropTypes.number,
+      changeType: PropTypes.string,
+      author: PropTypes.object
+    })
+  ).isRequired,
   setRevision: PropTypes.func.isRequired,
   openDialog: PropTypes.func.isRequired,
   fullyQualifiedAlertsList: PropTypes.string.isRequired,
@@ -303,6 +325,25 @@ AlertHeader.propTypes = {
   renderCustomTitle: PropTypes.func
 };
 
+function openRestoreConfirmationDialog(alertRevision, doRestore) {
+  addActiveDialog(
+    <ConfirmationDialog
+      header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
+      description={
+        <Trans
+          i18nKey="in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogDescription"
+          values={{ alertRevision: alertRevision }}
+        />
+      }
+      confirmButtonLabel={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogConfirmButton')}
+      onSubmit={() => {
+        close();
+        doRestore();
+      }}
+    />
+  );
+}
+
 function getLinkToAlerts(fullyQualifiedAlertsList) {
   return getModifiedUrlStream(params => {
     params.pathname = fullyQualifiedAlertsList;
@@ -310,11 +351,6 @@ function getLinkToAlerts(fullyQualifiedAlertsList) {
 }
 
 // export for test
-export function getRevision(alertConfig, alertConfigVersions) {
-  for (let i = 0; i < alertConfigVersions.length; i++) {
-    if (alertConfig.created === alertConfigVersions[i].created) {
-      return toAlertRevision(i, alertConfigVersions);
-    }
-  }
-  return alertConfigVersions.length;
+export function getRevision(alertConfig, extendedAlertConfigVersions) {
+  return extendedAlertConfigVersions.find(({ created }) => alertConfig.created === created) ?? alertConfig;
 }

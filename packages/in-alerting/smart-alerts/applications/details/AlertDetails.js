@@ -12,7 +12,7 @@ import {
   getAllVersionsOfGlobalAlertConfig,
   getGlobalAlertConfigByIdAndTimestamp,
   getLatestGlobalAlertConfig,
-  updateGlobalAlertConfig
+  restoreGlobalAlertConfigVersion
 } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import {
   alertsList as globalInventoryListPath,
@@ -28,7 +28,7 @@ import {
   getAlertConfigByIdAndTimestamp,
   getAllVersionsOfAlertConfig,
   getLatestAlertConfig,
-  updateAlertConfig
+  restoreAlertConfigVersion
 } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
 import {
   applicationsAlertingAlertDeleted,
@@ -37,12 +37,15 @@ import {
   applicationsAlertingAlertResumed,
   applicationsAlertingAlertRevisionChanged
 } from 'in-alerting/smart-alerts/applications/tracker';
+import {
+  alertCreated as alertCreatedParam,
+  alertId as alertIdParam,
+  alertsCategory as alertsCategoryMatrixParam
+} from 'in-applications/navigation/matrix';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
-import { alertCreated as alertCreatedParam, alertId as alertIdParam } from 'in-applications/navigation/matrix';
 import { duplicateAlertConfig } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import AlertConfiguration from 'in-alerting/smart-alerts/applications/details/AlertConfiguration';
 import { categoryGlobal } from 'in-alerting/smart-alerts/applications/components/list/constants';
-import { alertsCategory as alertsCategoryMatrixParam } from 'in-applications/navigation/matrix';
 import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { mutateUrl, propTypeLocation } from 'in-stores/navigation/navigation';
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
@@ -83,7 +86,7 @@ function GlobalAlertDetails(props) {
       enableConfig={enableGlobalAlertConfig}
       disableConfig={disableGlobalAlertConfig}
       deleteConfig={deleteGlobalAlertConfig}
-      restoreConfig={updateGlobalAlertConfig}
+      restoreConfig={restoreGlobalAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={renderAlertConfiguration}
       tracking={tracking}
@@ -109,7 +112,7 @@ function IndividiualAlertDetails(props) {
       enableConfig={enableAlertConfig}
       disableConfig={disableAlertConfig}
       deleteConfig={deleteAlertConfig}
-      restoreConfig={updateAlertConfig}
+      restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={renderAlertConfiguration}
       tracking={tracking}

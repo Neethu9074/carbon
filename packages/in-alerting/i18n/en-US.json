@@ -6,7 +6,7 @@
     "alertHeaderRestoreErrorMessage": "Failed to restore alert config revision with ID {{alertConfigID}} and version {{alertConfigCreated}}: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Back to list of alerts",
     "alertHeaderAlert": "Alert",
-    "alertHeaderRestoreRevisionTooltip": "Restore Revision {{alertRevision}}",
+    "alertHeaderRestoreRevisionTooltip": "Restore {{description}}",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Please Confirm",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore <strong>\"Revision {{alertRevision}}\"</strong>?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
@@ -18,7 +18,8 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Please Confirm",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the <strong>\"alert {{alertConfigName}}\"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
-    "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{alertRevision}} of this alert configuration. Please select the <latestRevisionButton>latest revision<latestRevisionButton> if you want to make changes.",
+    "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
+    "alertHeaderAriaLabelSeverity": "Event has severity {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alerts Created ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "Title",
     "alertPropertyInfosLabelAlertLevel": "Alert Level",
@@ -31,9 +32,9 @@
       "pause": "Pause",
       "resume": "Resume",
       "delete": "Delete",
-      "update": "Update",
       "create": "Create",
-      "restore": "Restore"
+      "restore": "Restore",
+      "buttonLabel": "Alert History"
     },
     "chart": {
       "alertingChartLabelThreshold": "Threshold",

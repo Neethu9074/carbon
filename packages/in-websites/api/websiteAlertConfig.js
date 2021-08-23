@@ -109,3 +109,12 @@ export function deleteAlertConfig(id) {
     url: `${baseUrl}/${id}`
   }).map(response => response.body);
 }
+
+export function restoreAlertConfigVersion(id, created) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/restore/${created}`
+  }).map(response => response.body);
+}

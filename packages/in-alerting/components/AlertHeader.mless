@@ -8,7 +8,7 @@
 
 :local {
   .latestButton {
-    padding: 0rem 0.25rem;
+    padding: 0rem;
   }
 
   .labelWrapper {
@@ -28,16 +28,6 @@
 
   .alertIcon {
     margin-right: 0.5rem;
-  }
-
-  .actionIcon {
-    margin-left: 2rem;
-
-    & + .actionIcon {
-      margin-left: 0.5rem;
-    }
-
-    fill: @lib__colors__primary2;
   }
 
   .name {

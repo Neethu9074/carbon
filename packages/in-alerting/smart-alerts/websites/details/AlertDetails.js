@@ -12,7 +12,7 @@ import {
   getAlertConfigByIdAndTimestamp,
   getAllVersionsOfAlertConfig,
   getLatestAlertConfig,
-  updateAlertConfig
+  restoreAlertConfigVersion
 } from 'in-websites/api/websiteAlertConfig';
 import {
   websitesAlertingAlertDeleted,
@@ -53,7 +53,7 @@ export default function AlertDetails(props) {
       enableConfig={enableAlertConfig}
       disableConfig={disableAlertConfig}
       deleteConfig={deleteAlertConfig}
-      restoreConfig={updateAlertConfig}
+      restoreConfig={restoreAlertConfigVersion}
       renderSmartAlertDialog={renderSmartAlertDialog}
       renderAlertConfiguration={({ alertConfig }) => <AlertConfiguration alertConfig={alertConfig} />}
       tracking={{

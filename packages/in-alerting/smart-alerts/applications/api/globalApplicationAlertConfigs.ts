@@ -228,3 +228,15 @@ export function getAllBuiltInGlobalSmartAlerts(
 
   return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
+
+export function restoreGlobalAlertConfigVersion(
+  id: string,
+  created: number
+): Observable<GlobalApplicationAlertConfigWithMetadata> {
+  return http<GlobalApplicationAlertConfigWithMetadata>({
+    method: 'POST',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${baseUrl}/${id}/restore/${created}`
+  }).map(response => response.body);
+}
