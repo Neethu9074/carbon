@@ -97,16 +97,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.uowExecTime'),
-    type: 'number',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('UOW_EXEC_TIME_MS');
-      },
-      getContent: number.compact
-    }
-  },
-  {
     title: t('in-forge:plugins.db2Database.clientIdleTimeMin'),
     type: 'number',
     typeArgs: {
