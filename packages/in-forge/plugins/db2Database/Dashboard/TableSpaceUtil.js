@@ -6,8 +6,8 @@
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { percentagePlain, kiloBytes } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import { percentage, kiloBytes } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -80,7 +80,7 @@ const cols = [
       getMetricName(row) {
         return `tablespaceutil.${row.key}.spaceUtilPercent`;
       },
-      getContent: percentagePlain.detailed,
+      getContent: percentage.detailed,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -139,7 +139,7 @@ function getDetails(row) {
         }}
         y2={{
           min: 0,
-          formatter: percentagePlain.detailed,
+          formatter: percentage.detailed,
           metrics: ['tablespaceutil.' + row.key + '.spaceUtilPercent'],
           labels: [t('in-forge:plugins.db2Database.spaceUtilPercent')],
           type: 'line'
