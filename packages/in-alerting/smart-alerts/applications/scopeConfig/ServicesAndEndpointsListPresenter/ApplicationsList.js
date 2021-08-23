@@ -8,25 +8,27 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
 import {
+  createApplicationNameTagFilter,
+  createServiceNameTagFilter,
+  createEndpointNameTagFilter,
+  createApplicationIdTagFilter
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
+import {
   DEFAULT_PAGE_SIZE,
   enrichListWithStaleSelectionData,
   createNoMatchingEntityText,
   sortListBySelectionState
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/utils';
-import {
-  createApplicationNameTagFilter,
-  createServiceNameTagFilter,
-  createEndpointNameTagFilter
-} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { selectApplication } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
 import ServicesList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesList';
 import SharedList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
+import { or, and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { isNotBlank } from 'in-services/util/string';
 import { isLoading } from 'in-services/util/result';
 
 export default function ApplicationsList({
@@ -36,8 +38,9 @@ export default function ApplicationsList({
   appIdForIndividualSmartAlert,
   ...props
 }) {
-  const { timeConfig, includeSynthetic } = props;
+  const { timeConfig, includeSynthetic, stateManagement, boundaryScope, readOnly } = props;
   const searchQuery = props.searchQuery?.trim();
+  const { state } = stateManagement;
   const { items, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
       isGlobalSmartAlert
@@ -55,26 +58,13 @@ export default function ApplicationsList({
               timeConfig,
               includeSyntheticCalls: includeSynthetic
             },
-            tagFilterExpression: searchQuery
-              ? toBackendQueryModel(
-                  joinExpressions({
-                    logicalOperator: or,
-                    expressions: [
-                      createApplicationNameTagFilter(searchQuery),
-                      createServiceNameTagFilter(searchQuery),
-                      createEndpointNameTagFilter(searchQuery)
-                    ]
-                  })
-                )
-              : null
+            tagFilterExpression: buildTagFilterExpression(searchQuery, readOnly, state, boundaryScope)
           })
         : getApplication({ id: appIdForIndividualSmartAlert }).map(result => {
             return { ...result, data: { items: result?.data ? [{ application: result.data }] : [] } };
           }),
-    [searchQuery, isGlobalSmartAlert, includeSynthetic]
+    [searchQuery, isGlobalSmartAlert, includeSynthetic, state, timeConfig]
   );
-
-  const { state } = props.stateManagement;
 
   const listData = useMemo(() => {
     if (items.length === 0) return [];
@@ -133,6 +123,7 @@ export default function ApplicationsList({
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}
       isFramed={false}
+      viewOnly={readOnly}
     />
   );
 }
@@ -145,6 +136,36 @@ function hasUserInteractedWithItem(state) {
   return itemTreeIds => Boolean(selectApplication(state, itemTreeIds));
 }
 
+function buildTagFilterExpression(searchQuery, readOnly, state, boundaryScope) {
+  let tfe = [];
+
+  if (isNotBlank(searchQuery)) {
+    tfe = joinExpressions({
+      logicalOperator: or,
+      expressions: [
+        createApplicationNameTagFilter(searchQuery),
+        createServiceNameTagFilter(searchQuery),
+        createEndpointNameTagFilter(searchQuery)
+      ]
+    });
+  }
+
+  if (readOnly) {
+    tfe = joinExpressions({
+      logicalOperator: and,
+      expressions: [
+        tfe,
+        joinExpressions({
+          logicalOperator: or,
+          expressions: Object.keys(state).map(id => createApplicationIdTagFilter(id, boundaryScope))
+        })
+      ]
+    });
+  }
+
+  return toBackendQueryModel(tfe);
+}
+
 ApplicationsList.propTypes = {
   isGlobalSmartAlert: PropTypes.bool,
   getApplication: PropTypes.func.isRequired,
@@ -155,6 +176,7 @@ ApplicationsList.propTypes = {
   boundaryScope: PropTypes.string.isRequired,
   showInteractedItemsOnly: PropTypes.bool,
   editMode: PropTypes.bool,
+  readOnly: PropTypes.bool,
   appIdForIndividualSmartAlert: PropTypes.string,
   includeSynthetic: PropTypes.bool.isRequired
 };

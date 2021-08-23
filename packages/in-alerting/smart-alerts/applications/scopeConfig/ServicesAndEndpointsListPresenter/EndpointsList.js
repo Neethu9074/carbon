@@ -34,7 +34,7 @@ import { propTypeTimeConfig } from 'in-stores/time/config';
 import { isLoading } from 'in-services/util/result';
 
 export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, ...props }) {
-  const { boundaryScope, timeConfig, includeSynthetic } = props;
+  const { boundaryScope, timeConfig, includeSynthetic, readOnly } = props;
   const searchQuery = props.searchQuery?.trim();
   const applicationIdTagFilter = createApplicationIdTagFilter(parentIds.applicationId, boundaryScope);
   const serviceIdTagFilter = createServiceIdTagFilter(parentIds.serviceId);
@@ -69,7 +69,7 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
           })
         )
       }),
-    [searchQuery, boundaryScope, includeSynthetic]
+    [searchQuery, boundaryScope, includeSynthetic, timeConfig]
   );
 
   const { state } = props.stateManagement;
@@ -149,6 +149,7 @@ export default function EndpointsList({ getEndpointsCursorPaginated, parentIds, 
         getStaleEntity$: getEndpoint
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}
+      viewOnly={readOnly}
     />
   );
 }
@@ -173,5 +174,6 @@ EndpointsList.propTypes = {
   searchQuery: PropTypes.string,
   showInteractedItemsOnly: PropTypes.bool,
   editMode: PropTypes.bool,
+  readOnly: PropTypes.bool,
   includeSynthetic: PropTypes.bool.isRequired
 };

@@ -6,6 +6,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { Stack } from '@instana/components';
+
+import ServicesAndEndpointsListPresenter, {
+  ServicesAndEndpointsSearchInput
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
@@ -13,22 +18,21 @@ import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/a
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
-import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
-import useApplicationLabel from 'in-alerting/smart-alerts/applications/hooks/useApplicationLabel';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import CustomPayloadCard from 'in-alerting/smart-alerts/applications/details/CustomPayloadCard';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import SelectedAlertTypeInfo from 'in-alerting/components/SelectedAlertTypeInfo';
-import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import AlertChannelsViewer from 'in-alerting/components/AlertChannelsViewer';
 import AlertPropertyInfos from 'in-alerting/components/AlertPropertyInfos';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { operators } from 'in-analyze/applicationFilter';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import ListTitle from 'in-components/lists/Title';
+import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/AlertConfiguration.mless';
@@ -38,7 +42,6 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) {
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
-  const applicationName = useApplicationLabel(firstApplicationId(alertConfig.applications), isGlobalSmartAlert);
 
   const {
     rule: { operator, alertType, message, level },
@@ -105,17 +108,11 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           <ReadOnlyAlertEvaluation evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert} />
         </div>
         <div className={locals.paddingBodyWrapper}>
-          <div className={locals.alertFiltersWrapper}>
-            <ScopeConfigPresenter
-              tagFilterFormModel={tagFilterFormModel}
-              queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
-              scopePath={
-                <ApplicationScopePath boundaryScope={alertConfig.boundaryScope} applicationName={applicationName} />
-              }
-            />
-          </div>
-          <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
-          <ReadOnlyIncludeInternalOrSyntheticCallsSwitch alertConfig={alertConfig} />
+          <Stack>
+            <CallsScopeCard alertConfig={alertConfig} />
+            <ServiceEndpointSelectionCard alertConfig={alertConfig} isGlobalSmartAlert={isGlobalSmartAlert} />
+            <AdditionalFiltersCard tagFilterFormModel={tagFilterFormModel} />
+          </Stack>
         </div>
       </ExpandableLightCard>
 
@@ -155,6 +152,57 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
       </ExpandableLightCard>
       <CustomPayloadCard customPayloadFields={customPayloadFields} />
     </AlertDetailsCard>
+  );
+}
+
+function CallsScopeCard({ alertConfig }) {
+  return (
+    <LightCard title={t('in-alerting:smartAlerts.applications.details.callsScopeTitle')} framed darkFrame>
+      <ReadOnlyInboundOrAllCalls alertConfig={alertConfig} />
+      <ReadOnlyIncludeInternalOrSyntheticCallsSwitch alertConfig={alertConfig} />
+    </LightCard>
+  );
+}
+
+function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
+  const timeConfig = useTimeConfig();
+  const [searchQuery, setSearchQuery] = useState(null);
+
+  return (
+    <LightCard
+      title={t('in-alerting:smartAlerts.applications.details.applicationsServiceEndpointScopeTitle')}
+      header={<ServicesAndEndpointsSearchInput onChange={setSearchQuery} />}
+      headerClassName={locals.lightCardHeader}
+      withoutPadding
+      darkFrame
+      framed
+    >
+      <ServicesAndEndpointsListPresenter
+        onChange={noop}
+        applicationsSelection={alertConfig.applications}
+        boundaryScope={alertConfig.boundaryScope}
+        includeSynthetic={alertConfig.includeSynthetic}
+        timeConfig={timeConfig}
+        isGlobalSmartAlert={isGlobalSmartAlert}
+        searchQuery={searchQuery}
+        showInteractedItemsOnly
+        readOnly
+      />
+    </LightCard>
+  );
+}
+
+function AdditionalFiltersCard({ tagFilterFormModel }) {
+  return (
+    <>
+      {tagFilterFormModel.length > 0 && (
+        <LightCard title={t('in-alerting:components.scopeConfigPresenterHelpTextAdditionalFilters')} darkFrame framed>
+          <Stack gap="xsmall">
+            <AlertQueryBuilder value={tagFilterFormModel} readOnly />
+          </Stack>
+        </LightCard>
+      )}
+    </>
   );
 }
 

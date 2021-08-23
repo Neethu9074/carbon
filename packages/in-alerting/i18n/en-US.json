@@ -458,7 +458,9 @@
       },
       "details": {
         "title": "Alert Details",
-        "titleAlertProperties": "Alert Properties"
+        "titleAlertProperties": "Alert Properties",
+        "applicationsServiceEndpointScopeTitle": "Selected Applications/Services/Endpoints",
+        "callsScopeTitle": "Included Calls"
       },
       "apCreation": {
         "addToAllBuiltInAlerts": "Add to all ({{numAlerts}}) Built–In Global Smart Alerts",

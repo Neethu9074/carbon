@@ -36,7 +36,7 @@ import { isNotBlank } from 'in-services/util/string';
 import { isLoading } from 'in-services/util/result';
 
 export default function ServicesList({ getServicesCursorPaginated, parentIds, ...props }) {
-  const { boundaryScope, timeConfig, includeSynthetic } = props;
+  const { boundaryScope, timeConfig, includeSynthetic, readOnly } = props;
   const searchQuery = props.searchQuery?.trim();
   const applicationIdTagFilter = createApplicationIdTagFilter(parentIds.applicationId, boundaryScope);
 
@@ -71,7 +71,7 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
             )
           : applicationIdTagFilter
       }),
-    [searchQuery, boundaryScope, includeSynthetic]
+    [searchQuery, boundaryScope, includeSynthetic, timeConfig]
   );
 
   const { state } = props.stateManagement;
@@ -139,6 +139,7 @@ export default function ServicesList({ getServicesCursorPaginated, parentIds, ..
         getStaleEntity$: getService
       }}
       initiallyOpen={Boolean(searchQuery) && items.length > 0}
+      viewOnly={readOnly}
     />
   );
 }
@@ -162,5 +163,6 @@ ServicesList.propTypes = {
   searchQuery: PropTypes.string,
   showInteractedItemsOnly: PropTypes.bool,
   editMode: PropTypes.bool,
+  readOnly: PropTypes.bool,
   includeSynthetic: PropTypes.bool.isRequired
 };

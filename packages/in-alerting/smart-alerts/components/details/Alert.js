@@ -54,7 +54,6 @@ export default function Alert({
   const alertConfigCreated = getMatrixParameter(location, alertsTabSegment, alertCreatedParam);
 
   const { alertConfig, alertConfigErrors } = useAlertConfig(getConfig, alertConfigId, alertConfigCreated, reload);
-
   const { alertConfigVersions, alertConfigVersionsErrors } = useAlertConfigVersions(
     getConfigVersions,
     alertConfigId,

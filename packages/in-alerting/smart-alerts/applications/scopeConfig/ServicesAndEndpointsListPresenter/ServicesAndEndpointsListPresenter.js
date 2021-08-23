@@ -44,6 +44,7 @@ export default function ServicesAndEndpointsListPresenter({
   boundaryScope,
   editMode,
   initialConfiguredApplications,
+  readOnly,
   ...otherProps
 }) {
   const [state, dispatch] = useReducer(listReducer, {}, () => {
@@ -97,6 +98,7 @@ export default function ServicesAndEndpointsListPresenter({
       timeConfig={{ ...timeConfig, to: timeTo, focusedMoment: timeTo }}
       boundaryScope={boundaryScope}
       editMode={editMode}
+      readOnly={readOnly}
       appIdForIndividualSmartAlert={deriveAppIdForIndividualSmartAlert()}
       {...apiSubscriptions}
       {...otherProps}
@@ -145,5 +147,6 @@ ServicesAndEndpointsListPresenter.propTypes = {
   isGlobalSmartAlert: PropTypes.bool,
   boundaryScope: PropTypes.string.isRequired,
   initialConfiguredApplications: PropTypes.object,
-  editMode: PropTypes.bool
+  editMode: PropTypes.bool,
+  readOnly: PropTypes.bool
 };

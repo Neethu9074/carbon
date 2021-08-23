@@ -33,6 +33,7 @@ const columnDefinitions = [
           onChange={viewOnly ? noop : onChange}
           checked={checked}
           indeterminate={indeterminate}
+          disabled={viewOnly}
           size="large"
           className={classNames({
             [locals.viewOnly]: viewOnly,
