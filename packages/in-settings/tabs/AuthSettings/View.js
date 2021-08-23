@@ -18,14 +18,23 @@ import {
   ldapMapping,
   timeouts
 } from 'in-settings/navigation/paths';
-import { isAvailable as isSamlAvailable, getConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/saml';
+import {
+  isAvailable as isSamlAvailable,
+  getConfigAsResultObservable as getSamlConfig
+} from 'in-settings/tabs/AuthSettings/api/saml';
+import {
+  isAvailable as isLdapAvailable,
+  getConfigAsResultObservable as getLdapConfig
+} from 'in-settings/tabs/AuthSettings/api/ldap';
+import {
+  isAvailable as isOidcAvailable,
+  getConfigAsResultObservable as getOidcConfig
+} from 'in-settings/tabs/AuthSettings/api/oidc';
 import GoogleSSO from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GoogleSSO/GoogleSSO';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import SessionSettings from 'in-settings/tabs/AuthSettings/pages/sessionSettings/SessionSettings';
 import TwoFactorSettings from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Settings';
 import ChangePassword from 'in-settings/tabs/AuthSettings/pages/password/ChangePassword';
-import { isAvailable as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
-import { isAvailable as isOidcAvailable } from 'in-settings/tabs/AuthSettings/api/oidc';
 import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Saml';
 import OIDC from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/OIDC';
@@ -41,25 +50,26 @@ import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 function getNavigationTree(props) {
-  const isAtLeastOneAuthMethogAvailable =
+  const isAtLeastOneAuthMethodAvailable =
     props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable || props.isOidcAvailable;
-
-  const isSamlActivated = props.samlConfig.data?.activated;
+  const hidePassword =
+    props.samlConfig.data?.activated || props.oidcConfig.data?.activated || props.ldapConfig.data?.url;
 
   const navigationTree = [
-    !isSamlActivated && {
-      title: t('in-settings:tabs.password'),
-      pages: [
-        {
-          path: changePassword,
-          label: t('in-settings:tabs.change'),
-          component: ChangePassword
-        }
-      ]
-    },
+    hidePassword !== undefined &&
+      !hidePassword && {
+        title: t('in-settings:tabs.password'),
+        pages: [
+          {
+            path: changePassword,
+            label: t('in-settings:tabs.change'),
+            component: ChangePassword
+          }
+        ]
+      },
 
     role.canConfigureAuthenticationMethods &&
-      isAtLeastOneAuthMethogAvailable && {
+      isAtLeastOneAuthMethodAvailable && {
         title: t('in-settings:tabs.identityProviders'),
         pages: [
           props.isGoogleSSOAvailable && {
@@ -138,9 +148,11 @@ export default connectTo(
   {
     isGoogleSSOAvailable: isGoogleSSOAvailable(),
     isSamlAvailable: isSamlAvailable(),
-    samlConfig: getConfigAsResultObservable(),
+    samlConfig: getSamlConfig(),
     isLdapAvailable: isLdapAvailable(),
-    isOidcAvailable: isOidcAvailable()
+    ldapConfig: getLdapConfig(),
+    isOidcAvailable: isOidcAvailable(),
+    oidcConfig: getOidcConfig()
   },
 
   function View(props) {
@@ -153,7 +165,9 @@ export default connectTo(
             props.isGoogleSSOAvailable,
             props.isSamlAvailable,
             props.isLdapAvailable,
-            props.samlConfig
+            props.samlConfig,
+            props.oidcConfig,
+            props.ldapConfig
           )}
           redirectFrom={authSettings}
           NotFoundPage={NotFoundPage}
@@ -165,8 +179,9 @@ export default connectTo(
   }
 );
 
-function getDefaultPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable, samlConfig) {
-  if (!samlConfig.data?.activated) {
+function getDefaultPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable, samlConfig, oidcConfig, ldapConfig) {
+  const hidePassword = samlConfig.data?.activated || oidcConfig.data?.activated || ldapConfig.data?.url;
+  if (hidePassword !== undefined && !hidePassword) {
     return changePassword;
   }
 
