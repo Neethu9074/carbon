@@ -102,21 +102,28 @@ export default function createServerTableWithUrlState({
   return function ServerTable(props) {
     const [urlState, setUrlState] = useUrlState(urlStateDefinition);
 
-    const propsForObservable = {
-      ...props,
-      ...urlState
-    };
+    const propsForObservable = useMemo(
+      () => ({
+        ...props,
+        ...urlState
+      }),
+      // We use the values from the props object to only rerender if specific values changing
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [...Object.values(props), urlState]
+    );
+
     const observable =
       props.query?.length > 0
         ? timeout(800).flatMap(() => props.get(propsForObservable))
         : props.get(propsForObservable);
-    const result = useObservable(observable, Object.values(propsForObservable)) ?? pendingResult;
+
+    const result = useObservable(observable, [propsForObservable]) ?? pendingResult;
 
     const columnDefinitions =
-      useObservable(
-        props.columnDefinitions && props.columnDefinitions({ ...propsForObservable, result }),
-        Object.values(propsForObservable).concat([result])
-      ) ?? (props.columnDefinitions ? [] : staticColumnDefinitions);
+      useObservable(props.columnDefinitions && props.columnDefinitions({ ...propsForObservable, result }), [
+        propsForObservable,
+        result
+      ]) ?? (props.columnDefinitions ? emptyArray : staticColumnDefinitions);
 
     const optionalColumns = useMemo(() => columnDefinitions.filter(columnDefinition => columnDefinition.optional), [
       columnDefinitions
