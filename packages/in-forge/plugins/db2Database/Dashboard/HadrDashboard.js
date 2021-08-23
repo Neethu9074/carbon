@@ -38,7 +38,7 @@ function HadrDashboard({ data }) {
           y1={{
             min: 0,
             metrics: [
-              'hadrmetrics.sockSendBufReq"',
+              'hadrmetrics.sockSendBufReq',
               'hadrmetrics.sockSendBufActual',
               'hadrmetrics.sockRecBufReq',
               'hadrmetrics.sockRecvBufAct'

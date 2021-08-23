@@ -41,42 +41,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.db2Database.clientAppName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('CLIENT_APPLNAME');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.appName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('APPLICATION_NAME');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.db2Database.applicationID'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.topQuery.get('APPLICATION_ID');
-      },
-      getContent(args) {
-        return <Args args={shorten(args, 128)} />;
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.db2Database.numLockHeld'),
     type: 'number',
     typeArgs: {
@@ -143,11 +107,26 @@ export default connectTo(
         cols={cols}
         rows={rows}
         initialSortColumn={0}
+        getRowDetails={getDetails}
         initialSortDirection="asc"
       />
     );
   }
 );
+
+function getDetails(row) {
+  return (
+    <div>
+      <label>Application ID:</label>
+      <p />
+      <code className={locals.statement}>{row.topQuery.get('APPLICATION_ID')}</code>
+      <p />
+      <label>Client Application Name:</label>
+      <p />
+      <code className={locals.statement}>{row.topQuery.get('CLIENT_APPLNAME')}</code>
+    </div>
+  );
+}
 
 function Args({ args }) {
   return <code className={locals.statement}>{args}</code>;
