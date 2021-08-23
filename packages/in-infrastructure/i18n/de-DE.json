@@ -72,7 +72,7 @@
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Zeigt Zahlen und Durchschnittswerte für das aktuelle Zeitfenster an.",
-    "aggregatesForMetricsOver": "Messdaten über <windowSize /> zusammenfassen",
+    "aggregatesForMetricsOver": "Messdaten über {{windowSize}} zusammenfassen",
     "noData": "Keine Daten.",
     "pleaseSelectForWhichToVisualizeTheChosenMetrics": "Wählen Sie {{plugins}} aus, für die die ausgewählten Messdaten dargestellt werden sollen.",
     "pleaseSelectMetricsToVisualizeForTheSelected": "Wählen Sie Messdaten aus, um die ausgewählten {{plugins}} zu visualisieren.",

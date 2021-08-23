@@ -72,7 +72,7 @@
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "현재 시간 창의 개수 및 평균을 표시합니다.",
-    "aggregatesForMetricsOver": "<windowSize />에 따라 메트릭 집계",
+    "aggregatesForMetricsOver": "{{windowSize}}에 따라 메트릭 집계",
     "noData": "데이터가 없습니다.",
     "pleaseSelectForWhichToVisualizeTheChosenMetrics": "선택한 메트릭을 시각화할 {{plugins}}을(를) 선택하십시오.",
     "pleaseSelectMetricsToVisualizeForTheSelected": "선택한 {{plugins}}에 대해 시각화할 메트릭을 선택하십시오.",

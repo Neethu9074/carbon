@@ -72,7 +72,7 @@
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "显示当前时间窗口内的计数和平均值。",
-    "aggregatesForMetricsOver": "汇总指标：<windowSize />",
+    "aggregatesForMetricsOver": "汇总指标：{{windowSize}}",
     "noData": "无数据。",
     "pleaseSelectForWhichToVisualizeTheChosenMetrics": "请选择要为其直观呈现所选指标的 {{plugins}}。",
     "pleaseSelectMetricsToVisualizeForTheSelected": "请选择要为所选 {{plugins}} 直观呈现的指标。",

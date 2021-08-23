@@ -72,7 +72,7 @@
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "顯示整個現行時間範圍的計數和平均值。",
-    "aggregatesForMetricsOver": " <windowSize />期間的度量聚集",
+    "aggregatesForMetricsOver": " {{windowSize}}期間的度量聚集",
     "noData": "無資料。",
     "pleaseSelectForWhichToVisualizeTheChosenMetrics": "請選取{{plugins}}，以針對它，將所選的度量視覺化。",
     "pleaseSelectMetricsToVisualizeForTheSelected": "請針對選取的{{plugins}}，選取要視覺化的度量。",

@@ -72,7 +72,7 @@
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Afficher les nombres et les moyennes dans la fenêtre de temps en cours.",
-    "aggregatesForMetricsOver": "Agrégats des métriques sur <windowSize />",
+    "aggregatesForMetricsOver": "Agrégats des métriques sur {{windowSize}}",
     "noData": "Aucune donnée.",
     "pleaseSelectForWhichToVisualizeTheChosenMetrics": "Sélectionnez {{plugins}} pour lesquels vous pouvez visualiser les métriques sélectionnées.",
     "pleaseSelectMetricsToVisualizeForTheSelected": "Sélectionnez des métriques à visualiser pour les {{plugins}} sélectionnés.",
