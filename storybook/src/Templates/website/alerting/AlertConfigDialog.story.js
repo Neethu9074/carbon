@@ -6,79 +6,58 @@
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
-import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
+import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
+import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
 import WebsitesSimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/WebsitesSimpleModeContainer';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
+import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import alertFormDefinition from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
+import WebsiteAlertConfig from 'in-alerting/smart-alerts/websites/AlertConfigDialog';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 export default {
   title: 'Templates|website/alerting/AlertConfigDialog',
-  component: AlertConfigDialogPresenter,
-  parameters: {
-    // TODO remove after fixing broken story
-    chromatic: { disable: true }
-  }
+  component: AlertConfigDialogWithThreshold
 };
-
-const timeConfig = {
-  to: null,
-  focusedMoment: null,
-  autoRefresh: false
-};
-function createOnChange(setForm, externalForm) {
-  return (form, fieldName, fieldValue, ...atomicAddFields) => {
-    // Alternative (new and desired) method signature
-    if (form instanceof Array) {
-      const path = form;
-      const fn = fieldName;
-      setForm(externalForm.updateIn(path, fn));
-      return;
-    }
-
-    // old signature, we want to get rid of this
-    let updatedForm = form.updateIn([fieldName], field => field.setValue(fieldValue));
-    if (atomicAddFields.length > 0) {
-      atomicAddFields.forEach(
-        ({ name, value }) => (updatedForm = updatedForm.updateIn([name], field => field.setValue(value)))
-      );
-    }
-    setForm(updatedForm);
-  };
-}
 
 export const AlertConfigDialog = () => {
-  const [form, setForm] = useState(alertFormDefinition(getFormData()));
+  const [form, updateForm] = useState(alertFormDefinition(getFormData()));
 
   return (
-    <AlertConfigDialogPresenter
+    <AlertConfigDialogWithThreshold
+      updateForm={updateForm}
+      alertConfig={alertFormDefinition(getFormData())}
       form={form}
-      updateForm={setForm}
-      onChange={createOnChange(setForm, form)}
-      onClose={action('close')}
-      onCreate={action('create')}
-      timeConfig={timeConfig}
-      websiteLabel={'shop'}
-      SimpleModeElement={WebsitesSimpleModeContainer}
-      AdvancedModeElement={AdvancedModeContainer}
+      withTrackClose={action('close')}
+      withTrackCreate={action('Creact')}
     />
   );
 };
 
-export const SimpleDialogEditMode = () => {
+export const SimpleAlertConfigDialog = () => {
+  return <WebsiteAlertConfig alertConfig={getFormData()} onClose={action('close')} startWithSimpleMode />;
+};
+
+export const SimpleDialogEditModeWithError = () => {
   const [form, setForm] = useState(alertFormDefinition(getFormData()));
 
+  const dummyTestErrorMessageContainingAskSupport =
+    'The maximum number of website alert configurations (9990000) has been reached. Please contact Instana support to request an increase for this limit.'; //.replaceAll('Please contact Instana support to request an increase for this limit.', '');
+  const error = enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError({
+    message: dummyTestErrorMessageContainingAskSupport
+  });
+
   return (
-    <AlertConfigDialogPresenter
+    <AlertConfigDialogWithThreshold
+      error={error}
       form={form}
       updateForm={setForm}
-      onChange={createOnChange(setForm, form)}
-      onClose={action('close')}
-      onCreate={action('create')}
-      timeConfig={timeConfig}
       websiteLabel={'shop'}
+      withTrackClose={action('close')}
+      withTrackCreate={action('Creact')}
       SimpleModeElement={WebsitesSimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
+      startWithSimpleMode
       editMode
     />
   );
@@ -91,18 +70,7 @@ function getFormData() {
     description: 'Foobar',
     severity: 5,
     triggering: false,
-    tagFilters: [
-      {
-        name: 'beacon.website.name',
-        operator: 'EQUALS',
-        stringValue: 'Shop'
-      },
-      {
-        name: 'beacon.page.name',
-        operator: 'EQUALS',
-        stringValue: 'Homepage'
-      }
-    ],
+    tagFilterExpression: emptyTagFilterExpression,
     rule: {
       alertType: 'specificJsError',
       matchingOperator: 'CONTAINS',

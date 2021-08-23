@@ -39,7 +39,7 @@ function getInvitationsInternal() {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/tenant/users/invitations`
+        url: `/api/settings/invitations`
       })
     )
   );
@@ -60,14 +60,6 @@ export function getUsers() {
     method: 'GET',
     maxRetries: 3,
     url: `/api/settings/users`
-  }).map(response => response.body);
-}
-
-export function getInvitations() {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    url: `/api/settings/users/invitations`
   }).map(response => response.body);
 }
 
@@ -93,18 +85,14 @@ export function removeUserFromTenant(userId) {
   });
 }
 
-// it is possible to either pass a string for email and groupId or pass an array for each of them
-export function sendInvitation(emails, groupIds) {
+export function sendInvitation(invitations) {
   return http({
     method: 'POST',
-    url: `/api/settings/users/invitations`,
+    url: `/api/settings/invitations`,
     headers: getCsrfHeader(),
-    queryParams: {
-      email: emails,
-      roleId: groupIds
-    }
+    data: invitations
   }).map(v => {
-    refreshSignalInvitations.emit(emails);
+    refreshSignalInvitations.emit(invitations);
     return v;
   });
 }
@@ -113,7 +101,7 @@ export function revokeInvitation(email) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/settings/users/invitations`,
+    url: `/api/settings/invitations`,
     headers: getCsrfHeader(),
     queryParams: {
       email

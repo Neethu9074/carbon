@@ -29,6 +29,7 @@ export default function AlertConfigDialogPresenter(props) {
     withTrackClose,
     withTrackCreate,
     updateForm,
+    footer,
     featureFeedbackElement, // to be removed after GA
     isGlobalSmartAlert
   } = props;
@@ -53,6 +54,7 @@ export default function AlertConfigDialogPresenter(props) {
 
   return (
     <DialogWithSlideInView
+      footer={footer}
       title={getDialogTitle(isGlobalSmartAlert, editMode, builtIn)}
       slideInViewTitle={customSlideInHeaderConfig.title ?? slideInConfig?.title}
       onSlideInViewTitleClick={() =>
@@ -151,6 +153,7 @@ AlertConfigDialogPresenter.propTypes = {
   AdvancedModeElement: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   SimpleModeElement: PropTypes.func.isRequired,
+  footer: PropTypes.node,
   trackModeSwitch: PropTypes.func.isRequired,
   updateForm: PropTypes.func,
   withTrackClose: PropTypes.func.isRequired,

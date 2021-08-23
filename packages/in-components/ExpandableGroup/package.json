@@ -2,5 +2,5 @@
   "name": "ExpandableGroup",
   "version": "0.0.0",
   "private": true,
-  "main": "./ExpandableGroup.js"
+  "main": "./ExpandableGroup.tsx"
 }

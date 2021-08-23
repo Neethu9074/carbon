@@ -7,29 +7,17 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { SvgIcon } from '@instana/components';
-import { Stack } from '@instana/components';
+import { SvgIcon, Stack } from '@instana/components';
 
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
-import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
 import SideNav from 'in-components/SideNav';
-import { t } from 'in-i18n';
 
 import locals from './AdvancedModeContainer.mless';
 
-export default function AdvancedModeContainer({
-  form,
-  onClose,
-  onCreate,
-  editMode,
-  navItems,
-  error,
-  isSaving,
-  additionalValidationCheck = () => true
-}) {
+export default function AdvancedModeContainer({ navItems, error }) {
   return (
     <nav className={locals.container}>
       <div className={locals.scrollWrapper}>
@@ -57,29 +45,11 @@ export default function AdvancedModeContainer({
           <ErroneousResultPresenter errors={[error]} />
         </div>
       )}
-      <FormFooter className={locals.controls}>
-        <CancelButton onClick={() => onClose()} />
-
-        <SaveButton
-          onClick={() => onCreate()}
-          isSaving={isSaving}
-          form={form}
-          disabled={!form.hierarchyValid || !additionalValidationCheck()}
-        >
-          {editMode
-            ? t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave')
-            : t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate')}
-        </SaveButton>
-      </FormFooter>
     </nav>
   );
 }
 
 AdvancedModeContainer.propTypes = {
-  form: PropTypes.object,
-  onClose: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  editMode: PropTypes.bool,
   navItems: PropTypes.arrayOf(
     PropTypes.shape({
       scrollId: PropTypes.string.isRequired,
@@ -90,13 +60,10 @@ AdvancedModeContainer.propTypes = {
       content: PropTypes.element
     })
   ).isRequired,
-  error: PropTypes.object,
-  isSaving: PropTypes.bool,
-  /**
-   * Defines additional validation logic to control the disabled state of the Create button.
-   * It enhances the form validation and does not replace it.
-   */
-  additionalValidationCheck: PropTypes.func
+  error: PropTypes.shape({
+    message: PropTypes.string.isRequired,
+    code: PropTypes.string
+  })
 };
 
 function renderIcon({ checked, valid }) {

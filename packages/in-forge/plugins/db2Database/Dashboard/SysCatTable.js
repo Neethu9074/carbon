@@ -111,6 +111,7 @@ export default connectTo(
               snapshot.get('data').get('tabschema') +
               ' )'
             }
+            timestamp={data.get('timestamp')}
           />
         }
         cols={cols}

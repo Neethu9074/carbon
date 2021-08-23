@@ -16,22 +16,25 @@ import locals from './ResultAwareTreeMap.mless';
 
 export default function ResultAwareTreeMap({
   result,
-  customHeigt = 300,
+  customHeigt: customHeight = 300,
   TreeMapRenderer = TreeMap,
   treeMapRendererProps
 }) {
+
   const isLoading = result.progress.loading;
   if (isLoading) {
-    return <LoadingSkeleton style={{ height: customHeigt }} className={locals.skeletonTreeMap} />;
+    return <LoadingSkeleton style={{ height: customHeight }} className={locals.skeletonTreeMap} />;
   }
 
   const hasErrors = result.errors.length > 0;
+
   if (hasErrors) {
     return <ErroneousResultPresenter errors={result.errors} />;
   }
 
-  if (get(result.data, ['root', 'children', 'length']) === 0) {
-    return <NoDataAvailable height={customHeigt} />;
+  const hasData = get(result.data, ['root', 'children', 'length']) !== 0;
+  if (!hasData) {
+    return <NoDataAvailable height={customHeight} />;
   }
 
   return <TreeMapRenderer {...treeMapRendererProps} data={addIds(result.data)} />;

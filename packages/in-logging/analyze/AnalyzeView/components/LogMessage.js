@@ -76,8 +76,8 @@ function MessageTag({ message, setIsHovered, setIsExpanded, providesMessageExpan
         [locals.message]: true,
         [locals.hovered]: providesMessageExpanding
       })}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={() => setIsHovered?.(true)}
+      onMouseLeave={() => setIsHovered?.(false)}
       onClick={() => providesMessageExpanding && setIsExpanded(true)}
     >
       {message}

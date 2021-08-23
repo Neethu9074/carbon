@@ -34,6 +34,8 @@ export default connectTo(
     eventId,
     close
   }) {
+    const additionalDFQFilter = getAdditionalFilters({ applicationId, serviceId, endpointId });
+
     return (
       <OpenIssuesListPresenter
         close={close}
@@ -44,7 +46,8 @@ export default connectTo(
           endpointId,
           resolvedEndpointId,
           eventId,
-          eventTypeFilter: 'issue'
+          eventTypeFilter: 'issue',
+          additionalDFQFilter
         })}
         getIssueLink={eventId =>
           getEventsViewFilteredBy({
@@ -53,10 +56,29 @@ export default connectTo(
             endpointId,
             resolvedEndpointId,
             eventId,
-            eventTypeFilter: 'issue'
+            eventTypeFilter: 'issue',
+            additionalDFQFilter
           })
         }
       />
     );
   }
 );
+
+function getAdditionalFilters({ applicationId, serviceId, endpointId }) {
+  const dfq = `event.state:open`;
+
+  if ((applicationId, serviceId, endpointId)) {
+    return `entity.selfType:endpoint ${dfq}`;
+  }
+
+  if ((applicationId, serviceId)) {
+    return `entity.selfType:service ${dfq}`;
+  }
+
+  if (applicationId) {
+    return `entity.selfType:application ${dfq}`;
+  }
+
+  return dfq;
+}

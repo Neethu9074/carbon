@@ -131,6 +131,7 @@ import './servlet';
 import './session';
 import './symfony';
 import './urllib3';
+import './ibm-mq';
 import './cosmos';
 import './django';
 import './g.http';

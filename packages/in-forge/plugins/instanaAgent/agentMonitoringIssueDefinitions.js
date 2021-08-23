@@ -55,6 +55,68 @@ export default {
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/python/troubleshooting/#python_autotrace_prerequisites_failed`
   },
+  ibmdatapower_var_not_defined: {
+    issueDescription: {
+      Component: function ibmDataPowerVarNotDefined({ instanceName, missingVariableKeys }) {
+        const missing = Array.isArray(missingVariableKeys) ? missingVariableKeys.join(', ') : missingVariableKeys;
+        return (
+          <span>
+            <Trans
+              i18nKey="in-forge:plugins.instanaAgent.ibmDataPowerMissingConfig"
+              values={{ instanceName, missing }}
+            />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://instana.com/docs/ecosystem/datapower/#ibmdatapower_var_not_defined`
+  },
+  ibmdatapower_var_invalid_value: {
+    issueDescription: {
+      Component: function ibmDataPowerVarInvalidValue({ instanceName, invalidKey, invalidValue }) {
+        return (
+          <span>
+            <Trans
+              i18nKey="in-forge:plugins.instanaAgent.ibmDataPowerVariablesInvalid"
+              values={{ instanceName, invalidKey, invalidValue }}
+            />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://instana.com/docs/ecosystem/datapower/#ibmdatapower_var_invalid_value`
+  },
+  ibmdatapower_connection_error: {
+    issueDescription: {
+      Component: function ibmDataPowerConnectionError({ url, rtnCode, response }) {
+        return (
+          <span>
+            <Trans
+              i18nKey="in-forge:plugins.instanaAgent.ibmDataPowerConnectionError"
+              values={{ url, rtnCode, response }}
+            />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://instana.com/docs/ecosystem/datapower/#ibmdatapower_connection_error`
+  },
+  ibmdatapower_exception_error: {
+    issueDescription: {
+      Component: function ibmDataPowerExceptionError({ errorMessage }) {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.instanaAgent.ibmDataPowerExceptionError" values={{ errorMessage }} />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://instana.com/docs/ecosystem/datapower/#ibmdatapower_exception_error`
+  },
   agent_process_lookup_prerequisites_failed: {
     issueDescription: {
       Component: function agentProcessLookupPrerequisitesFailed({ missingUtils }) {

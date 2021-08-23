@@ -13,7 +13,6 @@ import BuiltInGlobalSmartAlertsPermissionWrapper from 'in-alerting/smart-alerts/
 import DialogBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/DialogBuiltInSmartAlertsSelectionList';
 import CreateApplicationQueryBuilder from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import ApplicationScopeSelector from 'in-applications/creation/components/ApplicationScopeSelector';
-import FormFooter, { SaveButton, CancelButton } from 'in-components/form/FormFooter/FormFooter';
 import InboundAllCalls from 'in-applications/creation/components/InboundAllCalls';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -27,15 +26,7 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './AdvancedModeContainer.mless';
 
-export default function AdvancedModeContainer({
-  form,
-  updateForm,
-  onClose,
-  onCreate,
-  isSaving,
-  isValidTagFilterExpression,
-  errorMessage
-}) {
+export default function AdvancedModeContainer({ form, updateForm, errorMessage }) {
   const labelField = form.get('label');
 
   const tagFilterExpressionField = form.get('tagFilterExpression');
@@ -144,17 +135,6 @@ export default function AdvancedModeContainer({
         </Stack>
       </div>
       <Spacer vertical="normal" />
-      <FormFooter className={locals.controls}>
-        <CancelButton onClick={() => onClose()} />
-        <SaveButton
-          onClick={() => onCreate()}
-          isSaving={isSaving}
-          form={form}
-          disabled={!form.hierarchyValid || !isValidTagFilterExpression}
-        >
-          {t('in-applications:creation.advanced.create')}
-        </SaveButton>
-      </FormFooter>
     </>
   );
 }

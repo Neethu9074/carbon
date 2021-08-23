@@ -95,6 +95,7 @@ export default function SlownessThresholdCondition({
           metricUnitPostfix={metricUnitPostfix}
           onChange={onChange}
           label={t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold')}
+          isGlobalSmartAlert={isGlobalSmartAlert}
         />
       )}
 
