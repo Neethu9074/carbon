@@ -3945,6 +3945,7 @@ export interface WebsiteBeaconsItem extends Cursorific<IngestionOffsetCursor> {
 }
 
 export interface WebsiteCountryBreakdown {
+  readonly beaconCount: number;
   readonly continent: string;
   readonly continentCode: string;
   readonly country: string;
