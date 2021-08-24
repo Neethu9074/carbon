@@ -27,7 +27,6 @@ export default function DialogBuiltInSmartAlertsSelectionList({
       alertConfigs={builtInAlerts}
       columnDefinitions={getColumnDefinitions()}
       onItemSelect={(selected, alertId) => {
-        console.log({ selected, alertId });
         onChange(selected ? alertIds.concat(alertId) : alertIds.filter(id => id !== alertId));
       }}
       alertIds={alertIds}
