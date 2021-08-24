@@ -31,6 +31,7 @@ export interface Config {
   granularity: number;
   nonInteractive?: boolean;
   metricsConfiguration?: MetricsConfiguration;
+  renderErrorDetail: boolean;
 
   getAllDomainValues: () => number[];
 }

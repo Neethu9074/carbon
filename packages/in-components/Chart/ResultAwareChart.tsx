@@ -28,7 +28,15 @@ interface Props {
 }
 
 export default function ResultAwareChart({ result, config, renderLegend = true }: Props) {
-  let { timeConfig, y1, frontBufferWidth, customHeight, cardTitle, showNoDataInfoWhenEmpty = true } = config;
+  let {
+    timeConfig,
+    y1,
+    frontBufferWidth,
+    customHeight,
+    cardTitle,
+    showNoDataInfoWhenEmpty = true,
+    renderErrorDetail = false
+  } = config;
   let content;
 
   const height = customHeight || 160;
@@ -38,7 +46,11 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
         type="warning"
         withIcon
         title={t('in-components:chart.resultAwareChartSomethingWentWrong')}
-        description={t('in-components:chart.resultAwareChartPleaseTryAgainLater')}
+        description={
+          renderErrorDetail && ['CLIENT', 'VALIDATION'].includes(result.errors[0].code)
+            ? result.errors[0].message
+            : t('in-components:chart.resultAwareChartPleaseTryAgainLater')
+        }
       />
     );
   } else if (result.progress.loading) {

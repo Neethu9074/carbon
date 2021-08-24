@@ -91,7 +91,8 @@ function wrapProps(result, props) {
     return {
       cardTitle: props.cardTitle,
       cardUseMaxAvailableHeight: props.cardUseMaxAvailableHeight,
-      cardHeader: props.cardHeader
+      cardHeader: props.cardHeader,
+      renderErrorDetail: props.renderErrorDetail
     };
   }
 

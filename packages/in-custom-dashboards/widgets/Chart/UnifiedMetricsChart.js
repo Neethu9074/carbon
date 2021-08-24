@@ -83,6 +83,7 @@ export default function UnifiedMetricsChart({
   const granularity = forceLoadingIndicator ? null : Math.max(minimumGranularity, configuredGranularity);
   let result =
     useResultData(config, granularity, timeConfigExtendedForLiveMode, forceLoadingIndicator) ?? pendingResult;
+  const renderErrorDetail = shouldRenderErrorDetail(config);
 
   // Transform result data structure into the structure expected by the chart
   let resultDataAsList = result?.data;
@@ -119,6 +120,7 @@ export default function UnifiedMetricsChart({
       shareMaxAxisDomain={shareMaxAxisDomain}
       reverseLegendOrder={reverseLegendOrder}
       renderLegend={renderLegend}
+      renderErrorDetail={renderErrorDetail}
       reverseTooltipOrder={reverseTooltipOrder}
       tooltipTimeFormatter={tooltipTimeFormatter}
       renderPostChartContent={renderPostChartContent}
@@ -305,6 +307,10 @@ function toMetricsConfiguration(config, resultDataAsList) {
       }
     });
   }
+}
+
+function shouldRenderErrorDetail(config) {
+  return getAllMetricSources(config).reduce((a, source) => a || source.renderErrorDetail, false);
 }
 
 function getSuggestedNumberOfDataPoints(config) {
