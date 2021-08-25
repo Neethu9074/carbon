@@ -18,6 +18,7 @@ export const nonServicePlugins = {
   activeMQ: 'activeMQ',
   activeMQArtemis: 'activeMQArtemis',
   aerospike: 'aerospike',
+  aliCloudMysql: 'aliCloudMysql',
   aliCloudRocketMq: 'aliCloudRocketMq',
   aliCloudRocketMqGroup: 'aliCloudRocketMqGroup',
   aliCloudRocketMqGroupPerTopic: 'aliCloudRocketMqGroupPerTopic',
@@ -269,6 +270,7 @@ export const fullyQualifiedPlugins = {
   activeMQ: 'com.instana.forge.infrastructure.messaging.activemq.ActiveMQ',
   activeMQArtemis: 'com.instana.forge.infrastructure.messaging.activemqartemis.ActiveMQArtemis',
   aerospike: 'aerospike',
+  aliCloudMysql: 'com.instana.forge.hardware.virtual.alicloud.rds.mysql.AliCloudMysql',
   aliCloudRocketMq: 'com.instana.forge.hardware.virtual.alicloud.rocketmq.AliCloudRocketMq',
   aliCloudRocketMqGroup:
     'com.instana.forge.hardware.virtual.alicloud.rocketmq.derivedentity.group.AliCloudRocketMqGroup',
