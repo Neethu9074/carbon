@@ -127,7 +127,7 @@ function Topic({ label, list }) {
   const topic = list[label];
   return (
     <div>
-      <h4 className={`${block}__topic`}>{t('in-map:' + label)}</h4>
+      <h4 className={`${block}__topic`}>{t('in-map:metrics', { context: label })}</h4>
       <ul className={`${block}__list`}>
         {Object.keys(topic).map(metricKey => (
           <Metric key={metricKey} topic={label} metricKey={metricKey} metric={topic} />
@@ -164,7 +164,7 @@ const Metric = connectTo(
           );
         }}
       >
-        {t('in-map:' + metricKey)}
+        {t('in-map:metrics', { context: metricKey })}
       </div>
     );
   }
