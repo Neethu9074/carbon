@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useMemo, useReducer, useState } from 'react';
 import { useLocation } from 'react-router';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
@@ -91,11 +91,16 @@ export default function ServicesAndEndpointsListPresenter({
   const [timeTo] = useState(Date.now());
   const location = useLocation();
 
+  const timeConfigWithFixedFocussedMoment = useMemo(() => ({ ...timeConfig, to: timeTo, focusedMoment: timeTo }), [
+    timeConfig,
+    timeTo
+  ]);
+
   return (
     <ApplicationsList
       isGlobalSmartAlert={isGlobalSmartAlert}
       stateManagement={{ state, dispatch }}
-      timeConfig={{ ...timeConfig, to: timeTo, focusedMoment: timeTo }}
+      timeConfig={timeConfigWithFixedFocussedMoment}
       boundaryScope={boundaryScope}
       editMode={editMode}
       readOnly={readOnly}
