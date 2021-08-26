@@ -190,7 +190,7 @@
         "httpRequestBeaconTotalDurationNameRetrievalTime": "取得時間",
         "pageChangeBeaconHeaderPageTransition": "ページ遷移",
         "pageChangeBeaconHeaderMeta": "メタ",
-        "pageChangeBeaconLabelStartTime": "開始時刻",
+        "pageChangeBeaconLabelStartTime": "開始時間",
         "pageChangeBeaconTitleWindowLocation": "ウィンドウの位置",
         "pageLoadBeaconHeaderDocument": "文書",
         "pageLoadBeaconHeaderMeta": "メタ",
@@ -288,6 +288,7 @@
         "indexLabelDetails": "詳細",
         "labelAnalytics": "分析",
         "titlePageLoad": "ページ・ロード",
+        "pageLoadOnResource": "{{resource}} 上の {{page}}",
         "buttonDownload": "ダウンロード",
         "renderTimeSelectionTooltip": "ページ・ロードの詳細を閉じる",
         "referencedPageLoads": "参照されたページ・ロード"
@@ -345,9 +346,7 @@
     "websitesListLabelOnLoadTime": "onLoad 時間",
     "websitesListLabelHealth": "正常性",
     "websitesListButtonAddWebsite": "Web サイトの追加",
-    "websitesListTitleWebsites": "Web サイト",
-    "websitesListProductAreaEUMWebsites": "EUM: Web サイト",
-    "websitesListPageRootNameWebsites": "Web サイト"
+    "websitesListTitleWebsites": "Web サイト"
   },
   "websiteDashboard": {
     "components": {
@@ -461,6 +460,10 @@
         "alertConfigurationTitleTimeThreshold": "時間しきい値",
         "alertConfigurationTitleAlertChannels": "アラート・チャネル",
         "alertConfigurationTitleAlertProperties": "アラートのプロパティー",
+        "filter": "フィルター",
+        "filter_plural": "フィルター",
+        "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
+        "moreFiltersWithCount_plural": "さらに {{count}} 個のフィルター",
         "alertsLabelName": "名前",
         "alertsLabelFilters": "フィルター",
         "alertsHeaderConfiguredAlerts": "構成済みアラート",
@@ -744,7 +747,19 @@
     "websiteDashboardTitleWebsitePage": "Web サイト・ページ",
     "websiteDashboardTitleWebsite": "Web サイト",
     "websiteDashboardButtonAnalyzePageLoads": "ページ・ロードの分析",
-    "websiteDashboardButtonAnalyzePageTransitions": "ページ遷移の分析"
+    "websiteDashboardButtonAnalyzePageTransitions": "ページ遷移の分析",
+    "noDataAvailable": {
+      "pagesTitle": "使用可能なページがありません",
+      "pagesDescription": "選択された時刻範囲で取得されたページはありません。",
+      "customEventsTitle": "使用可能なカスタム・イベントはありません",
+      "customEventsDescription": "選択された時刻範囲で取得されたカスタム・イベントはありません。",
+      "javascriptErrorsTitle": "選択可能な JavaScript エラーはありません",
+      "javascriptErrorsDescription": "選択された時刻範囲で取得された JavaScript エラーはありません。",
+      "resourcesTitle": "選択可能なリソースはありません",
+      "resourcesDescription": "選択された時刻範囲で取得されたリソースはありません。",
+      "httpRequestsTitle": "選択可能な HTTP 要求がありません",
+      "httpRequestsDescription": "選択された時刻範囲で取得された HTTP 要求はありません。"
+    }
   },
   "rename": {
     "help": "Web サイトの名前変更は、結果的に Instana システム内で整合性が確保される操作です。 そのため、Web サイト名を変更すると、システム全体に変更が反映されるまでに<strong>最大で数分</strong>かかる場合があります。"
@@ -753,7 +768,7 @@
     "help": "以下のトラッキング・スクリプトだけで Web サイト・モニタリングを開始できます。 このスクリプトを HTML 文書の <code>{{htmlElementName}}</code> にコピーしてください。 Web サイト・モニタリングおよびトラッキング・スクリプトの全機能に関する情報は<linkToDocs>こちらの資料</linkToDocs>をご覧ください。"
   },
   "delete": {
-    "disclaimer": "Instana を使用して Web サイト <strong>{{websiteName}}</strong> をモニターすることがなくなった場合は、このフォームを使用して削除してください。 Web サイトの削除は、最終的な一貫性が確保されるアクションです。 そのため、Web サイトは完全に削除されるまでに<strong>最大で数分</strong>かかる場合があります。"
+    "disclaimer": "Instana を使用して Web サイト <strong>{{websiteName}}</strong> をモニターすることがなくなった場合は、このフォームを使用して削除してください。 Web サイトの削除は、結果的に整合性が確保される操作です。 そのため、Web サイトは完全に削除されるまでに<strong>最大で数分</strong>かかる場合があります。"
   },
   "dataSource_pageLoad": "{{formattedCount}} 件のページ・ロード",
   "dataSource_pageLoad_plural": "{{formattedCount}} 件のページ・ロード",

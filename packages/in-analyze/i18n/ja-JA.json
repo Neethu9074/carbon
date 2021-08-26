@@ -125,6 +125,9 @@
         "hideWebsiteInformation": "Web サイト情報を隠す",
         "showWebsiteInformation": "Web サイト情報を表示",
         "viewWebsiteActivity": "Web サイト・アクティビティーを表示"
+      },
+      "logs": {
+        "noDataMessage": "このトレースに使用できるログはありません"
       }
     },
     "components": {
@@ -172,13 +175,22 @@
         "tags": "タグ"
       },
       "callTree": {
-        "expandButtonForRow": "行の展開ボタン",
+        "expandButtonForRow": "すべてのサブ呼び出しを展開",
+        "collapseButtonForRow": "すべてのサブ呼び出しを折りたたみ",
         "of": "/",
-        "inheritedFrom": "継承元"
+        "inheritedFrom": "継承元",
+        "cardTitle": "呼び出し"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "カラー化基準",
-        "endpoint": "エンドポイント"
+        "colorizeByExpl": "呼び出しバーの色を変更",
+        "endpoint": "エンドポイント",
+        "service": "サービス"
+      },
+      "viewToggleButtons": {
+        "expl": "表示形式:",
+        "tree": "ツリー",
+        "chart": "タイムライン"
       },
       "logTooltipContent": {
         "errorLog": "エラー・ログ",
@@ -241,14 +253,6 @@
   "analyzeHeader": {
     "title": "分析"
   },
-  "editTagFilterDialog": {
-    "dialogTitleEdit": "フィルターの編集",
-    "dialogTitleAdd": "{{filterCategory}} フィルターの追加",
-    "messageTitle": "データのフィルタリングに使用するタグを選択します。 タグでは大/小文字が区別されます。",
-    "placeholder": "結果をフィルタリングする条件の入力…",
-    "saveFilter": "フィルターの保存",
-    "addFilter": "フィルターの追加"
-  },
   "filterBar": {
     "keyValueBarItem": {
       "tooltip": "フィルターの削除"
@@ -263,12 +267,6 @@
       "clickToFilter": "クリックして {{itemLabel}} でフィルタリング"
     },
     "allFilters": "すべてのフィルター"
-  },
-  "radioButtons": {
-    "messageFilering": "選択した時間フレームでは、ソースのフィルタリングおよびグループ化は使用できません",
-    "messageIndependent": "このタグは、ソースおよび宛先に依存しません",
-    "fragmentSource": "呼び出しのソースにのみ適用されます",
-    "fragmentCall": "呼び出しのソースまたは宛先に適用されます"
   },
   "dialogs": {
     "tooltip": "現在利用できる提案はありません。値を入力してください",
@@ -286,7 +284,8 @@
     "tooltipCloseLogDetails": "ログの詳細を閉じる",
     "analyzeLogsLabel": "ログの分析",
     "similarLogs": "類似するログ",
-    "similarServiceLogs": "サービスのコンテキスト"
+    "similarServiceLogs": "このサービスのコンテキストでログを表示",
+    "service": "サービスの表示"
   },
   "traceDetails": {
     "labelTotal": "合計",
@@ -301,15 +300,8 @@
     "callDetails": {
       "tooltipCloseCallDetails": "呼び出しの詳細を閉じる"
     },
-
     "callTimeAxis": {
       "started": "開始日時: {{startedTime}}"
-    },
-    "navigatorSplitScreen": {
-      "tooltipViewPrevious": "前の {{viewType}} を表示 (ショートカット: 左矢印キー)",
-      "tooltipViewNext": "次の {{viewType}} を表示 (ショートカット: 右矢印キー)",
-      "tooltipCloseSidebar": "サイドバーを閉じる",
-      "tooltipOpenSidebar": "サイドバーを開く"
     }
   },
   "tabs": {
@@ -332,14 +324,6 @@
       "beta": "ベータ",
       "analytics": "分析"
     },
-    "editTagFilterDialog": {
-      "tag": "タグ",
-      "loadingSuggestions": "提案のロード中…",
-      "operator": "オペレーター",
-      "true": "true",
-      "false": "false",
-      "removeFilter": "フィルターの削除"
-    },
     "filterBar": {
       "group": "グループ",
       "filters": "フィルター",
@@ -361,10 +345,6 @@
     "groupedTraces": {
       "tagPresentWithNoValue": "値のないタグが存在",
       "tagNotPresent": "タグが存在しない"
-    },
-    "radioButtons": {
-      "source": "ソース",
-      "destination": "宛先"
     }
   }
 }

@@ -58,8 +58,11 @@
   "permissionCanConfigureTeamsDescription": "すべてのチームに対するアクセス・スコープとアクセス権の構成を許可します。",
   "permissionCanConfigureTeamsCategory": "アクセス制御",
   "permissionCanConfigureApiTokensLabel": "API トークンの構成",
+  "permissionCanConfigurePersonalApiTokensLabel": "個人用 API トークンの構成",
   "permissionCanConfigureApiTokensDescription": "API トークンの作成と構成を許可します。",
+  "permissionCanConfigurePersonalApiTokensDescription": "ユーザーのアクセス権を継承する個人用 API トークンの作成と構成を許可します。",
   "permissionCanConfigureApiTokensCategory": "アクセス制御",
+  "permissionCanConfigurePersonalApiTokensCategory": "アクセス制御",
   "permissionCanConfigureAuthenticationMethodsLabel": "認証方式の構成",
   "permissionCanConfigureAuthenticationMethodsDescription": "チームの認証方式 (2FA/SSO など) の構成を許可します。",
   "permissionCanConfigureAuthenticationMethodsCategory": "アクセス制御",
@@ -213,7 +216,8 @@
     "shiftingLabelYesterday": "前日",
     "shiftingDescriptionYesterday": "選択した時間枠の 24 時間前に記録されたデータと比較",
     "shiftingLabelLastWeek": "先週",
-    "shiftingDescriptionLastWeek": "選択した時間枠の 1 週間前以降と比較"
+    "shiftingDescriptionLastWeek": "選択した時間枠の 1 週間前以降と比較",
+    "shiftingCustomDuration": "前の {{duration}}"
   },
 
   "view": {

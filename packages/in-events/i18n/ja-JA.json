@@ -15,6 +15,7 @@
   "titleTriggerEvent": "トリガー・イベント",
   "titleRelatedEvents": "関連イベント ({{eventCount}})",
   "titleLastProcess": "最後のプロセス",
+  "titleLastHost": "最後のホスト",
   "titleIncidentTimeline": "インシデント・タイムライン",
   "titleAnalyzeHTTPRequests": "HTTP 要求の分析",
   "titleAnalyzePageLoads": "ページ・ロードの分析",
@@ -71,7 +72,9 @@
   "labelTriggeringEvent": "トリガー・イベント",
   "labelSummary": "サマリー",
   "labelIncidents": "インシデント",
-  "labelIncidentWithSeverity": "{{severityLabel}} 個のインシデント",
+  "labelOpen": "オープン",
+  "labelClosed": "クローズ済み",
+  "labelIncidentWithSeverity": "{{severityLabel}} のインシデント ({{stateLabel}})",
   "labelIssueWithSeverity": "{{severityLabel}} 件の問題",
   "labelChange": "変更",
   "labelCritical": "クリティカル",
@@ -82,7 +85,6 @@
   "labelIssues": "問題",
   "labelMonitoringIssues": "モニタリングの問題",
   "labelAll": "すべて",
-  "labelEvent": "イベント",
   "buttonViewCustomEvent": "カスタム・イベントの表示",
   "buttonViewBuiltInEvent": "組み込みイベントを表示",
   "buttonCollapse": "省略",
@@ -93,15 +95,31 @@
   "buttonFocusTimeToRelease": "リリースの時刻にフォーカス",
   "buttonFollowReleaseLive": "リリースのライブをフォロー",
   "linkViewLastProcess": "最後のプロセスの表示",
+  "linkGoToTheOfflineHost": "オフライン・ホストに移動",
   "headerStarted": "開始済み",
   "headerTitle": "タイトル",
   "headerEnd": "終了",
   "headerOn": "発生場所",
   "headerTimeline": "タイムライン",
+  "hostOffLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたホストの最後のバージョンに移動します。これにより、時間枠の開始が、Instana によってホストがモニターされていた時点に変更されます",
   "offLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたプロセスの最後のバージョンに移動します。 これにより、時間枠の開始が、Instana によってプロセスがモニターされていた時点に変更されます",
   "offLineEventProblemNoMatch": "カスタム・イベントに一致する、以前のエンティティーへの参照を検出できませんでした。",
   "tooltipAnalyzeCalls": "これに対する構成は、クエリー・ビルダー 2 の式を使用して保管されます。 <br /> このボタンは、クエリー・ビルダー 1 に保管されている構成でのみ使用できます。",
   "tooltipCloseEventDetail": "イベントの詳細を閉じる",
   "releaseOccurName": "リリース: {{releaseName}}",
-  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前)"
+  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前)",
+  "navigatorSplitScreen": {
+    "tooltipViewPrevious_event": "前のイベントを表示 (ショートカット: 左矢印キー)",
+    "tooltipViewNext_event": "次のイベントを表示 (ショートカット: 右矢印キー)",
+    "tooltipCloseSidebar": "サイドバーを閉じる",
+    "tooltipOpenSidebar": "サイドバーを開く"
+  },
+  "kubernetesEvent": {
+    "problemText": {
+      "podContainerNotReady": "ポッドのコンテナーが作動不能です"
+    },
+    "fixSuggestion": {
+      "podContainerNotReady": "ポッドのコンテナーが作動不能です。ノードに容量があること、または指定されたイメージ・パスからイメージを取得できること、もしくはその両方を確認してください。"
+    }
+  }
 }

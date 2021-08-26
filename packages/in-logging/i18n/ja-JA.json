@@ -11,5 +11,6 @@
   "goToTrace": "トレースに移動",
   "addAsFilter": "フィルターとして追加",
   "addAsGroup": "グループとして追加",
-  "numberOfLogs": "ログの数"
+  "numberOfLogs": "ログの数",
+  "numberOfLogsPercentage": "パーセンテージ"
 }

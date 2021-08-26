@@ -63,6 +63,15 @@
     "registryCall_0": "呼び出し",
     "registryCall_1": "呼び出し",
     "registryCall_2": "呼び出し"
+  },
+
+  "components": {
+    "codeRetrievalDialog": {
+      "file": "ファイル",
+      "line": "行",
+      "decompilationNotFullySupported": "最新 Java バージョンのいくつかの機能を含むクラス・ファイルの逆コンパイルは、十分にサポートされていません。",
+      "error": "エラー"
+    }
   }
 
 }

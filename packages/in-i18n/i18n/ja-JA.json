@@ -1,4 +1,45 @@
 {
+  "components": {
+    "list": {
+      "loadMore": "さらにロード",
+      "toggleExtraContent": "追加コンテンツの切り替え",
+      "initiateDefaultAction": "デフォルト・アクションの開始"
+    },
+    "table": {
+      "tableErrorRows": {
+        "unexpectedError": "予期しないエラーが発生しました。 ページを最新表示するか、後で再試行してください。"
+      },
+      "tableLoadMoreRow": {
+        "loadMore": "さらにロード"
+      }
+    }
+  },
+  "formatDate": {
+    "date": {
+      "aFewSeconds": "数秒",
+      "time_years": "{{count}} 年",
+      "time_years_plural": "{{count}} 年",
+      "time_y": "{{count}} 年",
+      "time_months": "{{count}} カ月",
+      "time_months_plural": "{{count}} カ月",
+      "time_mo": "{{count}} カ月",
+      "time_days": "{{count}} 日",
+      "time_days_plural": "{{count}} 日",
+      "time_d": "{{count}} 日",
+      "time_hours": "{{count}} 時間",
+      "time_hours_plural": "{{count}} 時間",
+      "time_h": "{{count}} 時間",
+      "time_minutes": "{{count}} 分",
+      "time_minutes_plural": "{{count}} 分",
+      "time_m": "{{count}} 分",
+      "time_seconds": "{{count}} 秒",
+      "time_seconds_plural": "{{count}} 秒",
+      "time_s": "{{count}} 秒",
+      "time_milliseconds": "{{count}} ミリ秒",
+      "time_milliseconds_plural": "{{count}} ミリ秒",
+      "time_ms": "{{millis}} ミリ秒"
+    }
+  },
   "forms": {
     "actions": {
       "save": "保存",

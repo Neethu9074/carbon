@@ -95,7 +95,6 @@
     "container": "コンテナー",
     "loading": "ロード中",
     "ready": "準備完了",
-    "total": "合計",
     "restarts": "再始動",
     "serviceLocation": "サービス・ロケーション",
     "intEndpoints": "内部エンドポイント",
@@ -198,8 +197,29 @@
     "noCpuLimitQuotaMessage": "この名前空間には CPU 制限の割り当て量がありません",
     "noMemoryRequestQuotaMessage": "この名前空間にはメモリー要求の割り当て量がありません",
     "noMemoryLimitQuotaMessage": "この名前空間にはメモリー制限の割り当て量がありません",
-    "completion": "完了",
-    "placeholderPhase": "フェーズ…"
+    "placeholderPhase": "フェーズ…",
+    "podsOnline": "オンライン・ポッド",
+    "podsDesired": "必要なポッド",
+    "noDataAvailable": {
+      "servicesTitle": "使用可能なサービスがありません",
+      "servicesDescription": "選択された時刻範囲で取得されたサービスはありません。",
+      "persistentVolumesTitle": "使用可能な永続ボリュームがありません",
+      "persistentVolumesDescription": "選択された時刻範囲で取得された永続ボリュームはありません。",
+      "conditionsTitle": "使用可能な条件がありません",
+      "conditionsDescription": "選択された時刻範囲で取得された条件はありません。",
+      "cronjobsTitle": "使用可能な cronjob がありません",
+      "cronjobsDescription": "選択された時刻範囲で取得された cronjob はありません。",
+      "eventsTitle": "イベントがありません",
+      "eventsDescription": "選択された時刻範囲で取得されたイベントはありません。",
+      "namespacesTitle": "使用可能な名前空間がありません",
+      "namespacesDescription": "選択された時刻範囲で取得された名前空間はありません。",
+      "nodesTitle": "使用可能なノードがありません",
+      "nodesDescription": "選択された時刻範囲で取得されたノードはありません。",
+      "podsTitle": "使用可能なポッドがありません",
+      "podsDescription": "選択された時刻範囲で取得されたポッドはありません。",
+      "endpointsTitle": "使用可能なエンドポイントがありません",
+      "endpointsDescription": "選択された時刻範囲で取得されたエンドポイントはありません。"
+    }
   },
   "viewAllEntityName_unknownEntity_plural": "すべて",
   "viewAllEntityName_unknownEntity_0": "すべて",
@@ -248,12 +268,16 @@
   "running": "実行中",
   "pending": "保留中",
   "succeeded": "成功",
-  "active": "アクティブ",
   "failed": "失敗",
   "unknown": "不明",
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "使用可能な Kubernetes データがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+  },
+  "pod": {
+    "pending": "保留中のポッド",
+    "active": "アクティブなポッド",
+    "completed": "完了したポッド"
   }
 }

@@ -45,6 +45,8 @@
       "logMonitorWriterDesc": "log-writer は、ClickHouse にログを取り込みます。",
       "logMonitorReader": "log-reader (ログの照会)",
       "logMonitorReaderDesc": "log-reader は、ClickHouse からログを照会します。",
+      "logMonitorHousekeeping": "log-housekeeping (ログの保守)",
+      "logMonitorHousekeepingDesc": "log-housekeeping には、log-writer 内で実行される保守ジョブが含まれています。",
       "infrastructureMetrics": "インフラストラクチャー・メトリック",
       "infrastructureMetricsDesc": "インフラストラクチャー・メトリック・パイプラインに関する情報。",
       "fillerMetricExtraction": "フィラー (メトリック抽出)",
@@ -131,16 +133,6 @@
       "sLOViolations": "SLO 違反",
       "devTUSLOs": "開発 TU SLO",
       "expTUSLOs": "試験 TU SLO"
-    },
-    "timeZones": {
-      "sanFrancisco": "サンフランシスコ",
-      "austin": "オースティン",
-      "newYorkCity": "ニューヨーク市",
-      "uTC": "UTC",
-      "solingen": "ゾーリンゲン",
-      "noviSad": "ノヴィ・サド",
-      "tokyo": "東京",
-      "sydney": "シドニー"
     }
   },
   "monitoringUnit": {
@@ -356,6 +348,8 @@
             "tooOld": "トレース・ログ Kafka コンシューマーが古すぎる"
           }
         },
+        "droppedPast": "過去のタイム・スタンプを持つ除去されたログ",
+        "droppedFuture": "将来のタイム・スタンプを持つ除去されたログ",
         "outgoing": "発信ログ",
         "failOutgoing": "失敗した発信ログ"
       },
@@ -415,6 +409,28 @@
           "mean": "平均",
           "50th": "50 パーセンタイル",
           "99th": "99 パーセンタイル"
+        }
+      },
+      "housekeeping" : {
+        "title": "log-housekeeping (log-writer 内で実行)",
+        "cleanup" : {
+          "success": "ログ・クリーンアップの成功",
+          "failure": "ログ・クリーンアップの失敗",
+          "duration": "ログ・クリーンアップの期間 (99 パーセンタイル)",
+          "skips" : {
+            "mutations": "ログ・クリーンアップのスキップ (ミューテーション)"
+          }
+        },
+        "coldTier" : {
+          "success": "ログ・コールドティアの成功",
+          "failure": "ログ・コールドティアの失敗",
+          "optimize": "ログ・コールドティアの最適化",
+          "move": "ログ・コールドティアの移動",
+          "duration": "ログ・コールドティアの期間 (99 パーセンタイル)",
+          "skips": {
+            "mutations": "ログ・コールドティアのスキップ (ミューテーション)",
+            "merges": "ログ・コールドティアのスキップ (マージ)"
+          }
         }
       }
     },
@@ -893,7 +909,6 @@
       "config": "構成",
       "version": "バージョン",
       "injectorBindings": "インジェクター・バインディング",
-      "hystrix": "Hystrix",
       "agentClockSkew": "エージェント・クロック・スキュー"
     },
     "region": {

@@ -36,9 +36,6 @@
       }
     },
     "widgetEditorDialog": {
-      "widgetTypeSelector": {
-        "showWidgetLabel": "{{label}} ウィジェットのケースを表示"
-      },
       "widgetConfiguration": {
         "widgetName": "ウィジェット名",
         "name": "名前",
@@ -116,10 +113,16 @@
       "hiddenCalls": {
         "includeInternalCalls": "内部呼び出しを含める",
         "includeSyntheticCalls": "シンセティック呼び出しを含める"
+      },
+      "bluePrintForCallsMetric": {
+        "unexpectedLowNumberOfCalls": "予想外に少ない呼び出し数",
+        "unexpectedHighNumberOfCalls": "予想外に多い呼び出し数",
+        "unexpectedLowOrHighNumberOfCalls": "予想外に多いまたは少ない呼び出し数"
       }
     },
     "srcApp": {
       "formComponent": {
+        "needToTurnOffPP": "グループ化を使用するには、最初に潜在的な問題の強調表示をオフにする必要があります。",
         "pleaseSelect": "選択してください",
         "pleaseSelectMetric": "メトリックを選択してください",
         "aggregation": "集約",
@@ -140,7 +143,9 @@
         "pleaseSelectMetric": "メトリックを選択してください",
         "pleaseSelect": "選択してください",
         "helpAction": "イベント・ビュー内で使用するダイナミック・フォーカス・クエリー (DFQ)。",
-        "query": "照会"
+        "query": "照会",
+        "includeK8sInfoEvents": "Kubernetes イベントを含む",
+        "includeAgentMonitoringIssues": "エージェント・モニターの問題を含む"
       }
     },
     "srcInfrastructure": {
@@ -254,7 +259,17 @@
       },
       "atLeastOneDatasetIsRequired": "少なくとも 1 つのデータ・セットが必要です。",
       "errorTitleForConfiguredSliDeletion": "構成済みの SLI が削除されました",
-      "errorDescriptionToConfigureOtherSLI": "別の SLI を選択して SLO ウィジェットを更新してください"
+      "errorDescriptionToConfigureOtherSLI": "別の SLI を選択して SLO ウィジェットを更新してください",
+      "index": {
+        "testTitle": "最も遅い上位 5 個のサービス",
+        "testLabels": {
+          "catalogue": "カタログ",
+          "cart": "カート",
+          "ratings": "レーティング",
+          "discount": "割引",
+          "shipping": "配送"
+        }
+      }
     },
     "formCompChart": {
       "colorConfiguratorChart": {
@@ -277,11 +292,13 @@
         "indigo": "インディゴ"
       },
       "dataConfigChart": {
+        "tooltipDisabledBecausePP": "データ・セットを追加するには、最初に潜在的な問題の強調表示をオフにする必要があります。",
         "addDataset": "データ・セットの追加"
       },
       "indexChart": {
         "datasets": "データ・セット",
-        "axisConfig": "軸の構成"
+        "axisConfig": "軸の構成",
+        "potentialProblems": "潜在的な問題"
       },
       "metricConfigChart": {
         "datasetTimeShift": "データ・セットがタイムシフトされました",
@@ -298,7 +315,20 @@
         "timeShift": "タイムシフト",
         "applyTimeShiftDs": "このデータ系列にタイムシフトを適用",
         "timeShiftHelpAction": "<strong>「現行値の表示」</strong>を選択すると、このデータ系列が同じ軸に自動的に複製されます。 最初のデータ系列ではタイムシフトが無効になり、2 番目のデータ系列ではタイムシフトが有効になります。",
+        "timeShiftDisabledWhilePPon": "タイムシフトを使用するには、最初に潜在的な問題の強調表示をオフにする必要があります。",
         "displayCurrentValues": "現行値の表示"
+      },
+      "potentialProblems": {
+        "potentialProblemsDescription": {
+          "anyMetric": "潜在的な問題の強調表示"
+        },
+        "tooltip": {
+          "needToTurnOffTimeShift": "潜在的な問題の強調表示を使用するには、最初にタイムシフトをオフにする必要があります。",
+          "needToTurnOffGrouping": "潜在的な問題の強調表示を使用するには、最初にグループ化をオフにする必要があります。",
+          "needToRemoveDatasets": "潜在的な問題の強調表示を使用するには、最初に他のデータ・セットを削除する必要があります。",
+          "needToChangeMetric": "潜在的な問題の強調表示を使用するには、メトリックを変更する必要があります。"
+        },
+        "onlyWorksWithOneMetricConfigured": "構成されているのが 1 つのデータ・セットのみである場合のみ、サポートされます。"
       }
     },
     "demo": {
@@ -312,6 +342,10 @@
       "unnamMetric": "名前なしメトリック"
     },
     "markdown": {
+      "demo": {
+        "title": "Instana - はじめに",
+        "text": "Instana は最初で唯一の完全自動化されたアプリケーション・パフォーマンス管理 (APM) ソリューションであり、\nマイクロサービスやクラウドネイティブのアプリケーションを管理するという課題のために特別に設計されています。\n\n始めるのは簡単です。\n\n1. まだ Instana にアクセスできない場合は、[Instana.com](https://www.instana.com) に進み、無料の試用版に登録します。\n2. 多数の [サポート対象テクノロジー] で構成されるエコシステムを探索します (https://www.instana.com/docs/ecosystem)。\n3.いずれかの [エージェント] を使用してデータの収集を開始します (https://www.instana.com/docs/setup_and_manage)。\n4.ユース・ケースでの [Instana の使用方法] を確認します (https://www.instana.com/docs/using_instana)。\n5. 独自の [コア機能] の説明を確認します (https://www.instana.com/docs/core_capabilities/)。\n6. [統合、SDK、および API] で Instana を拡張します (https://www.instana.com/docs/integrations)。\n\nこれで完了です。\n\nお探しのものが見つかりませんか?  [instana.com/docs] (https://www.instana.com/docs/) に進んでください。"
+      },
       "formComp": {
         "whatULikeShow": "表示する項目",
         "markdown": "マークダウン",
@@ -327,10 +361,18 @@
         "formatter": "フォーマッター"
       },
       "index": {
-        "chartPie": "グラフ: 円"
+        "chartPie": "グラフ: 円",
+        "testTitle": "イベント",
+        "testLegendItem1": "インシデント",
+        "testLegendItem2": "問題: クリティカル",
+        "testLegendItem3": "問題: 警告"
       }
     },
     "slo": {
+      "demo": {
+        "title": "SLO のタイトル",
+        "appName": "アプリケーション名の例"
+      },
       "apConfigFormComp": {
         "userJourneyOffering": "ユーザー・ジャーニー/オファリング",
         "appnPerspective": "アプリケーション・パースペクティブ",
@@ -358,7 +400,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "エンドポイント",
-        "allServices": "すべてのサービス",
+        "allEndpoints": "すべてのエンドポイント",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {
@@ -486,6 +528,7 @@
     },
     "timezone": {
       "demo": {
+        "title": "チームのアベイラビリティー",
         "sanFrancisco": "サンフランシスコ",
         "austin": "オースティン",
         "newYorkCity": "ニューヨーク市",
@@ -510,7 +553,8 @@
         "formatter": "フォーマッター"
       },
       "index": {
-        "topListLb": "上位リスト"
+        "topListLb": "上位リスト",
+        "topListItem": "項目 {{itemNumber}}"
       },
       "widget": {
         "aggregOtherGroup": "その他のグループの集約",

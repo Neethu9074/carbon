@@ -106,6 +106,10 @@
       "cursorPaginatedTableFilterByLabel": "このグループの分析",
       "cursorPaginatedTableLoadMoreRowLabel": "さらにロード"
     },
+    "noDataAvailable": {
+      "entititiesTitle": "使用可能なエンティティーがありません",
+      "entititiesDescription": "選択された時刻範囲で取得されたエンティティーはありません。"
+    },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "{{len}} 項目の検索",
       "configurableThNoMatchesTxt": "一致がありません"
@@ -171,7 +175,11 @@
     "labelRegion": "リージョン",
     "labelTag": "タグ",
     "labelCommit": "コミット",
-    "buttonGraphShowcase": "グラフ・ショーケース"
+    "buttonGraphShowcase": "グラフ・ショーケース",
+    "geo": {
+      "title": "ジオデータ",
+      "description": "この製品には、<linkToMaxMind>https://www.maxmind.com</linkToMaxMind> で入手可能な MaxMind で作成される GeoLite2 データが含まれています。"
+    }
   },
   "blueprintFormMultistep": {
     "buttonCancel": "キャンセル",
@@ -219,6 +227,9 @@
     "headingAvailableTimeRanges": "使用可能な時刻範囲",
     "explanation": "選択した時刻範囲にこのエンティティーのバージョンが見つかりませんでした。 異なる時刻範囲で他のバージョンが見つかりました:",
     "noDataAvailable": "使用可能なデータがありません"
+  },
+  "entityToInstanaServiceButton": {
+    "services": "サービス"
   },
   "error": {
     "erroneousResultPresenterMessage": "予期しないエラーが発生しました。 ページを最新表示するか、後で再試行してください。"
@@ -356,6 +367,7 @@
   },
   "selectorOverlay": {
     "placeholderSearch": "検索",
+    "noResults": "結果なし",
     "loadingIndicatorLoadingCatalog": "カタログのロード中"
   },
   "sortingConfigurator": {
@@ -434,7 +446,7 @@
     "previousWeek": "先週",
     "dashboardHeaderButtonLive": "稼働中",
     "customTimeTitleTimeRange": "時刻範囲",
-    "customTimeHistoricDataMessage": "選択した時刻範囲の概算データが表示されます。正確なデータは、過去 {{retention}} 日間使用可能です。",
+    "customTimeHistoricDataMessage": "選択した時刻範囲の概算データが表示されます。 正確なデータは、過去 {{retention}} 日間使用可能です。",
     "to": "から",
     "customTimeButtonSetTime": "時刻の設定",
     "customTimeLabelYesterday": "昨日",
@@ -453,18 +465,25 @@
     "timeSelectionDialogPresenterLabelTimeRange": "時刻範囲",
     "timeSelectionDialogPresenterLabelReleases": "リリース",
     "timeFrameFormatterStarting": "{{fromTime}} の開始中",
-    "timeFrameFormatterLast": "過去 {{duration}}",
-    "timeFrameFormatterLast24Hours": "過去 24 時間",
     "timeIconHistoricDataMessage": "データ保存設定により、概算データを表示しています。 正確なデータは、過去 {{retention}} 日間使用可能です。",
     "timeIconLargeDataMessage": "データ・セットが大規模なため、概算データを表示しています。 正確なデータを表示するには、時刻範囲を狭めてください。",
-    "timePresetsLast": "過去 {{duration}}",
-    "timePresetsLast24Hours": "過去 24 時間",
     "timeUnit_year": "年",
     "timeUnit_month": "月",
     "timeUnit_day": "日",
     "timeUnit_hour": "時間",
     "timeUnit_minute": "分",
-    "timeUnit_second": "秒"
+    "timeUnit_second": "秒",
+
+    "timeFrameFormatterHoursMinutes": "過去 $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+    "hours": "{{count}} 時間",
+    "hours_plural": "{{count}} 時間",
+    "minutes": "{{count}} 分",
+    "minutes_plural": "{{count}} 分",
+
+    "timeFrameFormatterHours": "過去 1 時間",
+    "timeFrameFormatterHours_plural": "過去 {{count}} 時間",
+    "timeFrameFormatterMinutes": "過去 1 分間",
+    "timeFrameFormatterMinutes_plural": "過去 {{count}} 分間"
   },
   "timeShift": {
     "changeSelectedTimeShift": "選択したタイムシフトの変更",
@@ -485,17 +504,17 @@
     "companionMetricLabelErroneousCallRate": "エラーのある呼び出し率: ",
     "metricLabelCallsAndErroneousCalls": "呼び出し数およびエラーのある呼び出し数",
     "metricLabelCallsAndLatency": "呼び出しおよび待ち時間",
-    "linkSeeAllApplications": "すべての {{count}} {{activeTab}} アプリケーションを表示",
-    "linkSeeAllApplications_plural": "すべての {{count}} {{activeTab}} アプリケーションを表示",
-    "linkSeeAllApplications_0": "すべての {{count}} {{activeTab}} アプリケーションを表示",
-    "linkSeeAllApplications_1": "すべての {{count}} {{activeTab}} アプリケーションを表示",
-    "linkSeeAllApplications_2": "すべての {{count}} {{activeTab}} アプリケーションを表示",
+    "linkSeeAllApplications": "全 {{count}} 件の {{activeTab}} アプリケーションを表示",
+    "linkSeeAllApplications_plural": "全 {{count}} 件の {{activeTab}} アプリケーションを表示",
+    "linkSeeAllApplications_0": "全 {{count}} 件の {{activeTab}} アプリケーションを表示",
+    "linkSeeAllApplications_1": "全 {{count}} 件の {{activeTab}} アプリケーションを表示",
+    "linkSeeAllApplications_2": "全 {{count}} 件の {{activeTab}} アプリケーションを表示",
     "linkSeeApplication": "アプリケーションを表示",
-    "linkSeeAllServices": "すべての {{count}} {{activeTab}} サービスを表示",
-    "linkSeeAllServices_plural": "すべての {{count}} {{activeTab}} サービスを表示",
-    "linkSeeAllServices_0": "すべての {{count}} {{activeTab}} サービスを表示",
-    "linkSeeAllServices_1": "すべての {{count}} {{activeTab}} サービスを表示",
-    "linkSeeAllServices_2": "すべての {{count}} {{activeTab}} サービスを表示",
+    "linkSeeAllServices": "全 {{count}} 件の {{activeTab}} サービスを表示",
+    "linkSeeAllServices_plural": "全 {{count}} 件の {{activeTab}} サービスを表示",
+    "linkSeeAllServices_0": "全 {{count}} 件の {{activeTab}} サービスを表示",
+    "linkSeeAllServices_1": "全 {{count}} 件の {{activeTab}} サービスを表示",
+    "linkSeeAllServices_2": "全 {{count}} 件の {{activeTab}} サービスを表示",
     "linkSeeService": "サービスを表示",
     "activeTab_upstream": "アップストリーム",
     "activeTab_downstream": "ダウンストリーム",
@@ -538,20 +557,23 @@
   "analyze": {
     "loadMoreWithCount": "さらに {{count}} 件をロード",
     "loadMore": "さらにロード",
-    "addAsGroup": "グループとして追加",
-    "noResults": "結果なし",
+    "activeFacets": "{{count}} 個を選択済み",
+    "clearFacets": "すべてクリア",
+    "clearFacet": "クリア",
+    "noResults": "提案はありません",
     "from": "始点",
     "fromUnit": "始点 ({{unit}})",
     "to": "終点",
     "toUnit": "終点 ({{unit}})",
+    "rangeSelected": "範囲が選択済み",
     "rangeOrder": "範囲は昇順でなければなりません。",
     "earliestTimestamp": "最初のタイム・スタンプ",
     "timestamp": "タイム・スタンプ",
     "focusOnGroup": "このグループにフォーカス",
     "splitScreen": {
       "sidebarActions": {
-        "prev": "前の {{ itemName }} を表示 (ショートカット: 左矢印キー)",
-        "next": "次の {{ itemName }} を表示 (ショートカット: 右矢印キー)"
+        "prev": "前のエントリーを表示 (ショートカット: 左矢印キー)",
+        "next": "次のエントリーを表示 (ショートカット: 右矢印キー)"
       }
     },
     "groupName": "グループ名",
@@ -571,7 +593,10 @@
       "filterButtonAddFilter": "フィルターの追加",
       "conjunctionLogicalOperator_OR": "OR",
       "conjunctionLogicalOperator_AND": "AND",
-      "conjunctionLogicalOperator_NOT": "NOT"
+      "conjunctionLogicalOperator_NOT": "NOT",
+      "unknownTag": "?",
+      "unknownTagTooltip": "タグ「{{tagName}}」が一般的に知られていないか、このコンテキストでサポートされていません。",
+      "unknownEmptyTagTooltip": "空の名前を持つタグが不明です。"
     },
     "selectorOverlayClear": "クリア",
     "selectorOverlayAnd": "AND",
@@ -579,6 +604,7 @@
     "simpleValueSelectorMore": "詳細",
     "workspaceAPIQuery": "API 照会",
     "workspaceUseThisExpressionToQueryOurAPI": "この式を使用して API を照会します",
+    "workspaceIncludeSidebarFilters": "フィルターのサイドバー項目を含みます",
     "workspaceTitleFilter": "フィルター",
     "workspaceButtonClear": "クリア",
     "errorWithDataYourDefinedQueryIsTooComplex": "定義された照会が複雑すぎます。ネストの量を減らしてください。",

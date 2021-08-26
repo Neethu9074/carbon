@@ -146,8 +146,6 @@
     "noData": "アプリケーション・パースペクティブは、環境、サービスのセット、テナント、その他ほとんどすべての対象をモデル化する手段を提供します。"
   },
   "alert": {
-    "thresholdLabel": "しきい値",
-    "applicationSmartAlert": "アプリケーションのスマート・アラート",
     "tooltipMoreFilter": "さらに {{moreFilterCount}} 個のフィルター",
     "tooltipMoreFilter_plural": "さらに {{moreFilterCount}} 個のフィルター",
     "tooltipMoreFilter_0": "さらに {{moreFilterCount}} 個のフィルター",
@@ -177,6 +175,7 @@
     "erroneous": "エラー",
     "resetUnsupportedTracesFilterContainingOrConjunction": "トレースの分析では論理演算子 OR はサポートされないため、フィルターがクリアされました。",
     "facetedSearch": {
+      "showOnlyErroneous": "エラーのみ",
       "showSyntheticCalls": "シンセティック呼び出しの表示",
       "showInternalCalls": "内部呼び出しの表示",
       "defaultTurnedOnSynthetic": "シンセティック呼び出しを照会したため、このオプションが選択されます。",
@@ -186,17 +185,19 @@
       "erroneous_Erroneous": "エラー"
     },
     "latency": "待ち時間",
+    "traceLatency": "待ち時間のトレース",
     "applications": "アプリケーション",
     "services": "サービス",
     "endpoints": "エンドポイント",
     "types": "タイプ",
     "technologies": "テクノロジー",
-    "httpStatusCode": "HTTP 状況コード",
+    "httpStatusCode": "HTTP 状況",
     "hiddenCalls": "非表示の呼び出し",
     "preview": "プレビュー",
     "listBatchTypeTooltip": "この {{type}} はバッチ処理され、{{batchCount}} 個の個別の {{types}} を表します。",
     "listBatchLatencyTooltip": "{{batchCount}} 個のバッチ処理された {{types}} の合計待ち時間。",
     "traceIdTooltip": "このトレースに関連するデータの一部が遅延しているため、少し時間をおいてからページを再ロードしてください。 例えば、データの一部がまだ処理中の最新のトレースを表示する場合に、このような現象が発生する場合があります。",
+    "downloadTraceTooltip": "トレース全体をダウンロードします。",
     "closeTraceDetail": "トレースの詳細を閉じる",
     "invalidQueryConfig": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
     "errorRateLabel": "エラーのある呼び出し (率)",
@@ -398,6 +399,8 @@
       "downstreamCalls": "3. ダウンストリーム・サービスの呼び出しを保管します。",
       "downstreamCallsDescription": "アプリケーション・パースペクティブに組み込むダウンストリーム・サービスを選択します。",
       "defaultDashboardView": "4 .デフォルト・ダッシュボード・ビューを選択します。",
+      "builtInSmartAlertsScope": "5. 組み込みスマート・アラートのスコープ",
+      "builtInSmartAlertsScopeDescription": "これ (この一部) をスコープに含む組み込みグローバル・スマート・アラートを選択します",
       "clear": "クリア",
       "create": "作成",
       "database": "データベース",
@@ -424,11 +427,21 @@
       "ofEntity": " / <icon /><entityLink>{{entityLabel}}</entityLink>",
       "instanceIndexOfEntity": "<icon /><entityLink>{{entityLabel}}</entityLink> のインスタンス {{cfInstanceIndex}}",
       "instanceOfEntity": "<icon /><entityLink>{{entityLabel}}</entityLink> のインスタンス",
-      "tooltipUnmonitored": "実行中のエージェントの範囲外の情報が原因で、モニター対象外のインフラストラクチャー"
+"tooltipUnmonitored": "実行中のエージェントの範囲外の情報が原因で、モニター対象外のインフラストラクチャー"
     },
     "errorCallWithoutMessage": "エラーのある呼び出し (エラー・メッセージなし)",
     "noLogMessage": "使用可能なログ・メッセージがありません",
-    "includeSyntheticCallsDropDownSyntheticCalls": "シンセティック呼び出し: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "シンセティック呼び出し: {{syntheticCallsOptionLabel}}",
+    "noDataAvailable": {
+      "servicesTitle": "使用可能なサービスがありません",
+      "servicesDescription": "選択された時刻範囲で取得されたサービスはありません。",
+      "errorMessagesTitle": "使用可能なエラー・メッセージがありません",
+      "errorMessagesDescription": "選択された時刻範囲で取得されたエラー・メッセージはありません。",
+      "logMessagesTitle": "使用可能なログ・メッセージがありません",
+      "logMessagesDescription": "選択された時刻範囲で取得されたログ・メッセージはありません。",
+      "endpointsTitle": "使用可能なエンドポイントがありません",
+      "endpointsDescription": "選択された時刻範囲で取得されたエンドポイントはありません。"
+    }
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "サービスが現在のアプリケーションにありません。",
@@ -470,7 +483,7 @@
     },
     "newApplication": {
       "helpApplicationPerspectives": "アプリケーション・パースペクティブは、環境、サービスのセット、テナント、その他ほとんどすべての対象をモデル化する手段を提供します。",
-      "helpRenameApplication": "アプリケーションの名前変更は、結果的に Instana システム内で整合性が確保されるアクションです。 そのため、アプリケーション名への変更がシステム全体に反映されるまでに<italic>最大で数分</italic> かかる場合があります。",
+      "helpRenameApplication": "アプリケーションの名前変更は、結果的に Instana システム内で整合性が確保される操作です。 そのため、アプリケーション名への変更がシステム全体に反映されるまでに<italic>最大で数分</italic> かかる場合があります。",
       "descriptionApplicationName": "アプリケーション・パースペクティブ名は、組織内で明確に定義されている必要があります。 例えば、環境をモデル化する場合は「Production Blue」、一連のサービスをモデル化する場合は「Payment」、テナントをモデル化する場合は「ACME Customer」。",
       "descriptionTags": "例えば、キーが「docker.label」で値が「environment=Production Blue」、またはキーが「call.http.params」で値が「tenant=ACMECustomer」などです。 この定義に一致するサービスから <pillDatabase>DATABASE</pillDatabase> サービスまたは <pillMessage>MESSAGING</pillMessage> サービスへの呼び出しは、すべて自動的に含められます。",
       "descriptionOperatorsCreationEnabled": "大括弧でグループ化されていない場合、AND 演算子が優先され、OR 演算子より前に評価されます",
@@ -480,6 +493,7 @@
       "stepTitleDefineTags": "1 つ以上のタグを使用してアプリケーション・パースペクティブを定義します。",
       "stepTitleDownstreamServices": "ダウンストリーム・サービス。",
       "stepTitleApplicationScope": "アプリケーション・スコープ。",
+"stepTitleBuiltInSmartAlertsScope": "組み込みスマート・アラートのスコープ。",
       "optionNoDownstreamServices": "ダウンストリーム・サービスなし",
       "optionImmediateDownstreamServices": "直接のダウンストリームのデータベースおよびメッセージング・サービス",
       "optionAllDownstreamServices": "すべてのダウンストリーム・サービス",
@@ -504,8 +518,8 @@
   "list": {
     "textNewApplicationPerspective": "アカウント管理者が作成すると、ここに表示されます。",
     "showApplicationsScope": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity>) を表示しています",
-    "showServicesScope": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity>) を表示しています",
-    "showApplicationsScopeWithApplicationLabel": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity> (コンテキスト <linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
+"showServicesScope": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity>) を表示しています",
+"showApplicationsScopeWithApplicationLabel": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity> (コンテキスト <linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
     "showServicesScopeWithServiceLabel": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity> (コンテキスト <linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
     "titleNoService": "サービスがまだありません",
     "servicesNoData": "選択された時刻範囲に使用可能なサービス呼び出しがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
@@ -522,7 +536,8 @@
     "internal": "内部",
     "undefined": "未定義",
     "self": "セルフ",
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "otel": "OpenTelemetry"
   },
   "constants": {
     "exclude": "除外",
@@ -536,7 +551,7 @@
     "tabs": {
       "summary": {
         "duplicateCalls": "重複した呼び出し",
-        "duplicateCallsDesc": "このトレースは、1 つ以上の重複した呼び出し (スパン) で構成されます。 固有の呼び出し: {{traceCallCountIgnoringBatchSize}} - レコード: {{traceCallRecordCount}}。 これにより、呼び出し数 (バッチを含む) とエラー件数が正しくない値になり、その他の異例事態も生じる可能性があります。",
+        "duplicateCallsDesc": "このトレースは、1 つ以上の重複した呼び出し (スパン) で構成されます。固有の呼び出し: {{traceCallCountIgnoringBatchSize}} - レコード: {{traceCallRecordCount}}。 これにより、呼び出し数 (バッチを含む) とエラー件数が正しくない値になり、その他の異例事態も生じる可能性があります。",
         "batchedIngestion": "バッチ取り込み",
         "traceIngestionBatchCount": "このトレースは {{traceIngestionBatchesCount}} 件のバッチで処理されました。 これにより、スパンが単一の呼び出しにマージされない、サービス・マッピングが部分的になる、データ表示が不完全になるなどのその他の不規則性が生じる可能性があります。",
         "subCalls": "サブ呼び出し",
@@ -551,11 +566,22 @@
         "calls": "呼び出し",
         "erroneousTrace": "エラーのあるトレース",
         "attemptToRenderTrace": "トレース・レンダリングの試行"
+      },
+      "calls": {
+        "settings": {
+          "showServiceInformation": "サービス情報",
+          "showServiceInformationExpl": "呼び出しラベルの下にサービス情報を表示します",
+          "showSubCalls": "サブ呼び出しの表示",
+          "showSubCallsExpl": "各行に直接サブ呼び出しを表示します"
+        }
       }
     }
   },
   "tabs": {
-    "labelDetail": "詳細"
+    "labelDetail": "詳細",
+    "labelSummary": "サマリー",
+    "servicesAndEndpoint": "サービスおよびエンドポイント",
+    "logs": "ログ"
   },
   "metrics": {
     "calls_calls": "呼び出し",
