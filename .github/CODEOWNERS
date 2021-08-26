@@ -44,7 +44,7 @@ packages/in-integrations            @pr-approval @instana/eng-sensors @instana/e
 packages/in-kubernetes              @pr-approval @instana/eng-infrastructure @instana/eng-ui
 packages/in-logging                 @pr-approval @instana/eng-logs @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
-packages/in-map                     @pr-approval @instana/eng-ui
+packages/in-map                     @pr-approval @instana/eng-infrastructure @instana/eng-ui
 packages/in-mobile-apps             @pr-approval @instana/eng-eum @instana/eng-application @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-profiling               @pr-approval @instana/eng-ui
