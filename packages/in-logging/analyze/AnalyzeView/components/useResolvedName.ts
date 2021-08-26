@@ -25,10 +25,10 @@ import { t } from 'in-i18n';
 type LinkResolver = (tag: LogTag) => Observable<string>;
 
 const tagNameResolver = new Map<string, LinkResolver>([
-  [LOG_CUSTOM, t => just(getCustomKeyLabel(t.key || ''))],
-  [LOG_PROCESS_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue || '')],
-  [LOG_DOCKER_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue || '')],
-  [LOG_HOST_SNAPSHOT_ID, t => resolveInfraLabel(t.stringValue || '')]
+  [LOG_CUSTOM, _t => just(getCustomKeyLabel(_t.key || ''))],
+  [LOG_PROCESS_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],
+  [LOG_DOCKER_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],
+  [LOG_HOST_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')]
 ]);
 
 function getCustomKeyLabel(key: string): string {
@@ -48,7 +48,7 @@ function resolveInfraLabel(snapshotId: string) {
   return getSnapshot(snapshotId).map((snapshot: any) => getPluginName(snapshot.get('plugin'), 1));
 }
 
-export default function useResolvedValue(tag: LogTag, tagToLabelMap: Map<string, string>): string {
+export default function useResolvedName(tag: LogTag, tagToLabelMap: Map<string, string>): string {
   const tagName = tag.name || '';
   let observable: Observable<string>;
 

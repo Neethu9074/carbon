@@ -22,6 +22,7 @@ import {
 import {
   LOG_CUSTOM_KEY_APPLICATION_IDS,
   LOG_CUSTOM_KEY_SERVICE_ID,
+  LOG_SERVICE_NAME,
   LOG_SPAN_ID,
   LOG_CALL_ID,
   LOG_CUSTOM_KEY_APPLICATION_ID
@@ -154,17 +155,16 @@ function TagValue({
     <Stack direction="horizontal" gap="xxsmall" align="center" distribution="spaceBetween">
       <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
 
-      {isHovered && (
+      {isHovered && tag.key !== LOG_CUSTOM_KEY_APPLICATION_IDS && (
         <Stack direction="horizontal" gap="disabled" align="center">
           {allowedTagsForGrouping.has(tag.name || '') && (
             <IconLink
               iconSize={16}
               type="lib_group_by"
-              href={getHrefToGroupedView(createGroupingtag(tag.name, tag.key))}
+              href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
               onClick={() => trackGroupClick(resolvedValue)}
             />
           )}
-
           <IconLink
             iconSize={16}
             type="lib_actions_filter"
@@ -264,10 +264,13 @@ function createTag(value: string, name?: string, key?: string): ClickedTag {
   return tag;
 }
 
-function createGroupingtag(name?: string, key?: string) {
+function createGroupingTag(name?: string, key?: string) {
   const tag: GroupingTag = { tag: name || '' };
   if (key) {
     tag.secondLevelKey = key;
+  }
+  if (name === LOG_SERVICE_NAME) {
+    tag.tagEntity = 'DESTINATION';
   }
   return tag;
 }
