@@ -117,6 +117,54 @@ const cols = [
         return 'mean';
       }
     }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.activeThreads'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `memoryPoolMetrics.${row.key}.currThreads`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.ineligibleThreads'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `memoryPoolMetrics.${row.key}.currIneligibleThreads`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.maxActiveThreads'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `memoryPoolMetrics.${row.key}.maxActiveThreads`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
   }
 ];
 

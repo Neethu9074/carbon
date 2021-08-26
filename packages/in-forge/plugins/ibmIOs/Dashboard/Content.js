@@ -5,12 +5,18 @@
 
 import React from 'react';
 
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import { number, percentage, bytes } from 'in-services/formatters/number';
+import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
+import UserSpoolSpaceTable from './UserSpoolSpaceTable';
+import MetricValue from 'in-components/MetricValue';
+import OutputQueueTable from './OutputQueueTable';
 import MemoryPoolsTable from './MemoryPoolTable';
+import ActiveJobsTable from './ActiveJobsTable';
+import AspTable from './AspTable';
 import { t } from 'in-i18n';
 
 export default function IbmIOsDashboard({ snapshot, timeConfig }) {
@@ -18,57 +24,87 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
 
   return (
     <div>
-      <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.cpu.name')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['avgCPURate'],
-            labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.cpu.rate')],
-            formatter: percentage.compact,
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.name')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['avgCPUUtil', 'minCPUUtil', 'maxCPUUtil'],
-            labels: [
-              t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.avg'),
-              t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.min'),
-              t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.max')
-            ],
-            formatter: percentage.compact,
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.name')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['activeJobs', 'interactiveJobs', 'totalJobs', 'maxJobs'],
-            labels: [
-              t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.active'),
-              t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.interactive'),
-              t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.total'),
-              t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.max')
-            ],
-            formatter: number.compact,
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      <KpiSection>
+        <KpiKeyValue label={t('in-forge:plugins.ibmIOs.dashboard.avgCpuUtilization')}>
+          <MetricValue snapshotId={snapshotId} metric="avgCPUUtil" formatter={percentage.compact} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.ibmIOs.dashboard.activeJobs')}>
+          <MetricValue snapshotId={snapshotId} metric="activeJobs" formatter={number.compact} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.ibmIOs.dashboard.threads')}>
+          <MetricValue snapshotId={snapshotId} metric="activeThreads" formatter={number.compact} />
+        </KpiKeyValue>
+      </KpiSection>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.cpu.name')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['avgCPURate'],
+              labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.cpu.rate')],
+              formatter: percentage.compact,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.name')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['avgCPUUtil', 'minCPUUtil', 'maxCPUUtil'],
+              labels: [
+                t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.avg'),
+                t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.min'),
+                t('in-forge:plugins.ibmIOs.dashboard.charts.cpuUtilization.max')
+              ],
+              formatter: percentage.compact,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.name')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['activeJobs', 'interactiveJobs', 'totalJobs', 'maxJobs'],
+              labels: [
+                t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.active'),
+                t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.interactive'),
+                t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.total'),
+                t('in-forge:plugins.ibmIOs.dashboard.charts.jobs.max')
+              ],
+              formatter: number.compact,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.threads.name')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['activeThreads'],
+              labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.threads.active')],
+              formatter: number.compact,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      </Columize>
+      <ActiveJobsTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <Columize>
         <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.auxiliaryStoragePool.name')}>
           <Chart
@@ -109,21 +145,26 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       </Columize>
-      <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.threads.name')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['activeThreads'],
-            labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.threads.active')],
-            formatter: number.compact,
-            type: 'line'
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      <AspTable snapshot={snapshot} timeConfig={timeConfig} />
       <MemoryPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <OutputQueueTable snapshot={snapshot} timeConfig={timeConfig} />
+      <Columize>
+        <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.totalSpoolSpace.name')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              metrics: ['totalSpoolSpace'],
+              labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.totalSpoolSpace.totalSize')],
+              formatter: bytes.detailed,
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+        <UserSpoolSpaceTable snapshotId={snapshotId} />
+      </Columize>
     </div>
   );
 }

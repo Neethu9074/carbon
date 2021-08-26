@@ -8222,6 +8222,9 @@
         "restrictedState": "Restricted State"
       },
       "dashboard": {
+        "avgCpuUtilization" : "CPU Utilization (avg)",
+        "activeJobs":"Active Jobs",
+        "threads":"Threads",
         "charts": {
           "cpu": {
             "name": "CPU",
@@ -8241,7 +8244,7 @@
             "max": "Max"
           },
           "auxiliaryStoragePool": {
-            "name": "Auxiliary Storage Pool",
+            "name": "Auxiliary Storage Pool Consumption",
             "capacity": "Capacity",
             "used": "Used"
           },
@@ -8253,6 +8256,10 @@
           "threads": {
             "name": "Threads",
             "active": "Active"
+          },
+          "totalSpoolSpace": {
+            "name": "Total Spool Space",
+            "totalSize": "Spool Size"
           }
         },
         "tables": {
@@ -8276,6 +8283,52 @@
                 "ineligibleThreads": "Ineligible Threads",
                 "maxActiveThreads": "Max Active Threads"
               }
+            }
+          },
+          "aspInfos": {
+              "name": "Auxiliary Storage Pools",
+              "aspInfoName": "Device Description Name",
+              "aspInfoType": "ASP Type",
+              "aspInfoState": "ASP State",
+              "disks": "Number Of Disk Units",
+              "aspNumber" : "ASP Number",
+              "charts": {
+                "storage": {
+                  "totalCapacity": "Total Capacity",
+                  "protectedCapacity": "Protected Capacity",
+                  "unprotectedCapacity": "Unprotected Capacity"
+                },
+                "utilization": {
+                  "totalCapacityUtilization": "Total Capacity Utilization",
+                  "protectedCapacityUtilization": "Protected Capacity Utilization",
+                  "unprotectedCapacityUtilization": "Unprotected Capacity Utilization"
+                }
+              }
+          },
+          "outputQueues": {
+            "name": "Output Queues",
+            "outputQueueName": "Queue Name",
+            "outputLibraryName": "Library Name",
+            "status": "Status",
+            "fileCount": "Files in Queue",
+            "writerJobName": "Writer Job Name",
+            "writerJobStatus": "Writer Job Status"
+          },
+          "userSpoolSpace": {
+            "name": "Top Spool Space Consumption",
+            "userName": "User",
+            "userSpoolSpace": "Spool Space"
+          },
+          "activeJobs": {
+            "name": "Top Active Jobs",
+            "jobName": "Job Name",
+            "jobStatus": "Job Status",
+            "jobType": "Job Type",
+            "userName" : "User Name",
+            "charts": {
+                "elapsedCPU": "Elapsed CPU Percentage",
+                "temporaryStorage": "Temporary Storage",
+                "threadCount": "Thread Count"
             }
           }
         }
