@@ -66,7 +66,11 @@ export default connectTo(
 );
 
 function getAdditionalFilters({ applicationId, serviceId, endpointId }) {
-  const dfq = `event.state:open`;
+  // There is a bug currently which lead to all events are hidden in the event view.
+  // A user wouldn't be able then to investigate further because there is no event to click on.
+  // Till that is solved, we disable this filter.
+  // const dfq = `event.state:open`;
+  const dfq = '';
 
   if ((applicationId, serviceId, endpointId)) {
     return `entity.selfType:endpoint ${dfq}`;
