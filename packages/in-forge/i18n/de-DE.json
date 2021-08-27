@@ -3851,6 +3851,9 @@
       "labelAvAv": "Durchschnittliche Verfügbarkeit",
       "labelAvMi": "Mindestverfügbarkeit",
       "labelAvMx": "Maximale Verfügbarkeit",
+      "labelQuCa": "Durchschnittliche Warteschlangenkapazität",
+      "labelQuCo": "Durchschnittliche Warteschlangenanzahl",
+      "labelQuMeCo": "Durchschnittliche Anzahl von Warteschlangennachrichten",
       "dashboard": {
         "titleTransactions": "Transaktionen",
         "labelTransactions": "Gesamtzahl der Transaktionen",
@@ -3863,7 +3866,10 @@
         "labelEgress": "Das Gesamtvolumen an Ausgangsdaten in Byte",
         "titleServerLatency": "Serverlatenzzeit",
         "titleE2ELatency": "E2E-Latenzzeit",
-        "titleAvailability": "Verfügbarkeit"
+        "titleAvailability": "Verfügbarkeit",
+        "titleQueueCapacity": "Warteschlangenkapazität",
+        "titleQueueCount": "Warteschlangenanzahl",
+        "titleQueueMessageCount": "Anzahl der Warteschlangennachrichten"
       },
       "traffic": "Datenverkehr",
       "latency": "Latenzzeit",

@@ -3851,6 +3851,9 @@
       "labelAvAv": "Disponibilidade média",
       "labelAvMi": "Disponibilidade mínima",
       "labelAvMx": "Disponibilidade máxima",
+      "labelQuCa": "Capacidade média da fila",
+      "labelQuCo": "Contagem média da fila",
+      "labelQuMeCo": "Contagem média de mensagens da fila",
       "dashboard": {
         "titleTransactions": "Transações",
         "labelTransactions": "Número total de transações",
@@ -3863,7 +3866,10 @@
         "labelEgress": "O total de egressos em bytes",
         "titleServerLatency": "Latência do servidor",
         "titleE2ELatency": "Latência do E2E",
-        "titleAvailability": "Disponibilidade"
+        "titleAvailability": "Disponibilidade",
+        "titleQueueCapacity": "Capacidade da fila",
+        "titleQueueCount": "Contagem de filas",
+        "titleQueueMessageCount": "Contagem de mensagens da fila"
       },
       "traffic": "Tráfego",
       "latency": "Latência",

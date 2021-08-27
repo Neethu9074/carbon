@@ -4047,6 +4047,9 @@
       "labelAvAv": "Average Availability",
       "labelAvMi": "Minimum Availability",
       "labelAvMx": "Maximum Availability",
+      "labelQuCa": "Average Queue Capacity",
+      "labelQuCo": "Average Queue Count",
+      "labelQuMeCo": "Average Queue Message Count",
       "dashboard": {
         "titleTransactions": "Transactions",
         "labelTransactions": "Total number of transactions",
@@ -4059,7 +4062,10 @@
         "labelEgress": "The total egress in bytes",
         "titleServerLatency": "Server Latency",
         "titleE2ELatency": "E2E Latency",
-        "titleAvailability": "Availability"
+        "titleAvailability": "Availability",
+        "titleQueueCapacity": "Queue Capacity",
+        "titleQueueCount": "Queue Count",
+        "titleQueueMessageCount": "Queue Message Count"
       },
       "traffic": "Traffic",
       "latency": "Latency",

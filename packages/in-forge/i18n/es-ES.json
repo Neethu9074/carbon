@@ -3851,6 +3851,9 @@
       "labelAvAv": "Promedio de disponibilidad",
       "labelAvMi": "Disponibilidad mínima",
       "labelAvMx": "Disponibilidad máxima",
+      "labelQuCa": "Capacidad de cola promedio",
+      "labelQuCo": "Recuento de cola promedio",
+      "labelQuMeCo": "Recuento medio de mensajes en cola",
       "dashboard": {
         "titleTransactions": "Transacciones",
         "labelTransactions": "Número total de transacciones",
@@ -3863,7 +3866,10 @@
         "labelEgress": "Total de egress en bytes",
         "titleServerLatency": "Latencia del servidor",
         "titleE2ELatency": "Latencia de E2E",
-        "titleAvailability": "Disponibilidad"
+        "titleAvailability": "Disponibilidad",
+        "titleQueueCapacity": "Capacidad de la cola",
+        "titleQueueCount": "Recuento de cola",
+        "titleQueueMessageCount": "Recuento de mensajes en cola"
       },
       "traffic": "Tráfico",
       "latency": "Latencia",
