@@ -8,8 +8,6 @@ import React, { useState } from 'react';
 
 import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
-import WebsitesSimpleModeContainer from 'in-alerting/smart-alerts/websites/simple/WebsitesSimpleModeContainer';
-import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import alertFormDefinition from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import WebsiteAlertConfig from 'in-alerting/smart-alerts/websites/AlertConfigDialog';
@@ -55,8 +53,6 @@ export const SimpleDialogEditModeWithError = () => {
       websiteLabel={'shop'}
       withTrackClose={action('close')}
       withTrackCreate={action('Creact')}
-      SimpleModeElement={WebsitesSimpleModeContainer}
-      AdvancedModeElement={AdvancedModeContainer}
       startWithSimpleMode
       editMode
     />
