@@ -55,7 +55,7 @@ export default function Geography(props) {
                       tagFilters={tagFilters}
                       timeConfig={timeConfig}
                       getData$={getData$}
-                      getValue={v => v.pageLoads}
+                      getValue={v => v.beaconCount}
                     />
                     <Link
                       className={locals.link}
@@ -122,8 +122,8 @@ function getData$({ timeConfig, tagFilters }) {
       pageSize: 200
     },
     order: {
-      by: 'countryName',
-      direction: 'ASC'
+      by: 'beaconCount',
+      direction: 'DESC'
     }
   });
 }
