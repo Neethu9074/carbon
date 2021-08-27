@@ -326,10 +326,13 @@ function getMinGranularity(config, timeConfig) {
 }
 
 function getAllMetricSources(config) {
-  return config.y1.metrics
-    .concat(config.y2?.metrics ?? [])
-    .map(c => sources[c.source])
-    .filter(Boolean);
+  if (config) {
+    return config.y1.metrics
+      .concat(config.y2?.metrics ?? [])
+      .map(c => sources[c.source])
+      .filter(Boolean);
+  }
+  return [];
 }
 
 // For charts in custom dashboards we support a feature called "Display Current Values".
