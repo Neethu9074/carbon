@@ -25,7 +25,8 @@ import {
   LOG_SERVICE_NAME,
   LOG_SPAN_ID,
   LOG_CALL_ID,
-  LOG_CUSTOM_KEY_APPLICATION_ID
+  LOG_CUSTOM_KEY_APPLICATION_ID,
+  LOG_CUSTOM_KEY_ENDPOINT_ID
 } from 'in-logging/queryBuilder';
 import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
@@ -62,7 +63,12 @@ const columnDefinitions = [
   }
 ];
 
-const restrictedTags = new Set<string>([LOG_CUSTOM_KEY_SERVICE_ID, LOG_SPAN_ID, LOG_CALL_ID]);
+const restrictedTags = new Set<string>([
+  LOG_CUSTOM_KEY_SERVICE_ID,
+  LOG_CUSTOM_KEY_ENDPOINT_ID,
+  LOG_SPAN_ID,
+  LOG_CALL_ID
+]);
 
 export default function LogTagsTable({
   item,
@@ -81,6 +87,7 @@ export default function LogTagsTable({
   }
 
   const tags: LogTag[] = logResult.data?.tags;
+
   return (
     <Ul>
       {tags.filter(filterTag).map((tag, i) => {
@@ -90,7 +97,7 @@ export default function LogTagsTable({
             key={i}
             uniqueTagName={uniqueTagName}
             tag={tag}
-            item={item}
+            item={logResult.data}
             tagToLabelMap={tagToLabelMap}
             allowedTagsForGrouping={allowedTagsForGrouping}
             onSelectTagHref={onSelectTagHref}

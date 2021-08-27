@@ -55,6 +55,7 @@ export const LOG_HOST_SNAPSHOT_ID = 'log.hostSnapshotId';
 export const LOG_SERVICE_NAME = 'service.name';
 
 export const LOG_CUSTOM_KEY_SERVICE_ID = 'service_id';
+export const LOG_CUSTOM_KEY_ENDPOINT_ID = 'endpoint_id';
 export const LOG_CUSTOM_KEY_APPLICATION_IDS = 'application_ids';
 export const LOG_CUSTOM_KEY_APPLICATION_ID = 'application_id';
 export const LOG_CUSTOM_KEY_ENDPOINT_NAME = 'endpoint_name';

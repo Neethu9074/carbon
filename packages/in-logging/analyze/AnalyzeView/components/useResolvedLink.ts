@@ -14,11 +14,13 @@ import {
   LOG_PROCESS_SNAPSHOT_ID,
   LOG_DOCKER_SNAPSHOT_ID,
   LOG_HOST_SNAPSHOT_ID,
-  LOG_CUSTOM_KEY_APPLICATION_ID
+  LOG_CUSTOM_KEY_APPLICATION_ID,
+  LOG_CUSTOM_KEY_ENDPOINT_NAME,
+  LOG_CUSTOM_KEY_ENDPOINT_ID
 } from 'in-logging/queryBuilder';
 // This file has too many dependencies to translate yet
 // @ts-ignore
-import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 // @ts-ignore
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -37,6 +39,13 @@ const tagValueLinkResolver = new Map<string, LinkResolver>([
       return getServiceDashboard(serviceId);
     }
   ],
+  [
+    `${LOG_CUSTOM}-${LOG_CUSTOM_KEY_ENDPOINT_NAME}`,
+    (_: LogTag, item: LogItem) => {
+      const endpointId = findTag(item.tags, LOG_CUSTOM, LOG_CUSTOM_KEY_ENDPOINT_ID)?.stringValue;
+      return endpointId ? getEndpointDashboard(endpointId) : just(null);
+    }
+  ],
   [LOG_CUSTOM_KEY_APPLICATION_ID, (t, _) => getApplicationDashboard(t.stringValue)],
   [LOG_TRACE_ID, (t, _) => getLinkToTraceDetail(t.stringValue)],
   [`${LOG_CUSTOM}-${LOG_CUSTOM_KEY_SERVICE_ID}`, (t, _) => getServiceDashboard(t.stringValue)],
@@ -47,6 +56,10 @@ const tagValueLinkResolver = new Map<string, LinkResolver>([
 
 function getServiceId(tags: LogTag[]): string | null {
   return tags.find(({ name, key }) => name === LOG_CUSTOM && key === LOG_CUSTOM_KEY_SERVICE_ID)?.stringValue ?? null;
+}
+
+function findTag(tags: LogTag[], tagName: string, tagKey?: string): LogTag | undefined {
+  return tags.find(tag => (tagKey ? tag.name === tagName && tag.key === tagKey : tag.name === tagName));
 }
 
 export default function useResolvedLink(presentedName: string, tag: LogTag, item: LogItem): string | null {
