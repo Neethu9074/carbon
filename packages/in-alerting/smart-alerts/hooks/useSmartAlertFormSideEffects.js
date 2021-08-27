@@ -68,7 +68,12 @@ export default function useSmartAlertFormSideEffects(form, setForm) {
     }
   ];
 
-  return useFormSideEffects({ form, setForm, effects, changesToTrack: [CHANGE_TYPES.EDIT, CHANGE_TYPES.LIST_UPDATE] });
+  return useFormSideEffects({
+    form,
+    setForm,
+    effects,
+    changesToTrack: [CHANGE_TYPES.EDIT, CHANGE_TYPES.LIST_UPDATE, CHANGE_TYPES.INSERT]
+  });
 }
 
 function resetBaseline(form) {

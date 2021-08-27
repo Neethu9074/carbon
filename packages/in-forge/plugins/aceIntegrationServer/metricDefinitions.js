@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { number } from 'in-services/formatters/number';
 import { bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -30,5 +31,19 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.aceIntegrationServer.jvmNonHeapMemory')],
     formatter: bytes
+  },
+  {
+    metrics: ['stateMetrics'],
+    labels: [t('in-forge:plugins.aceIntegrationServer.stateMetrics')],
+    min: 0,
+    category: [t('in-forge:plugins.aceIntegrationServer.stateMetrics')],
+    formatter: number
+  },
+  {
+    metrics: ['qmStateMetrics'],
+    labels: [t('in-forge:plugins.aceIntegrationServer.qmStateMetrics')],
+    min: 0,
+    category: [t('in-forge:plugins.aceIntegrationServer.qmStateMetrics')],
+    formatter: number
   }
 ];

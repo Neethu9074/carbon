@@ -86,5 +86,12 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.aceMessageFlow.commitsAndBackouts')],
     formatter: number
+  },
+  {
+    metrics: ['stateMetrics'],
+    labels: [t('in-forge:plugins.aceMessageFlow.stateMetrics')],
+    min: 0,
+    category: [t('in-forge:plugins.aceMessageFlow.stateMetrics')],
+    formatter: number
   }
 ];
