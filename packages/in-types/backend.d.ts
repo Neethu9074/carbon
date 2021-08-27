@@ -2718,7 +2718,7 @@ export interface LogsDistributionQuery {
 
 export interface LogsQuery {
   readonly afterKey?: string;
-  readonly beforeKey?: string;
+  readonly orderDirection?: OrderDirection;
   readonly retrievalSize: number;
   readonly tagFilterExpression?: TagFilterExpressionElement;
   readonly tags?: string[];
@@ -2727,7 +2727,6 @@ export interface LogsQuery {
 
 export interface LogsResult {
   readonly afterKey?: string;
-  readonly beforeKey?: string;
   readonly items?: LogItem[];
   readonly percentage: number;
 }
