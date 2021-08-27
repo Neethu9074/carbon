@@ -71,4 +71,4 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli    
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @pr-approval @instana/eng-application @instana/eng-ui
 
 # Container images
-/containers/ @pr-approval @instana/eng-delivery-enablement
+/containers/ @pr-approval @instana/eng-delivery-enablement @instana/eng-ui
