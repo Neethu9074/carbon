@@ -19,7 +19,7 @@ export default function SimpleModeContainer(props) {
       <>
         <StepProgressBar stepTitles={mapTitles(stepConfigs)} step={step} />
 
-        <div className={locals.form}>{stepRenderers[step](props)}</div>
+        <div>{stepRenderers[step](props)}</div>
 
         {error && (
           <div className={locals.errorInfo}>
