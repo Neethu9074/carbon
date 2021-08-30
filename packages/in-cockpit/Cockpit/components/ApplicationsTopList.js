@@ -182,7 +182,7 @@ const columnDefinitions = [
     getContent({ item }) {
       return (
         <KeyValue
-          label={`${get(item, ['metrics', 'services', 0, 1], 0)} Services`}
+          label={t('in-cockpit:component.applTopList.services', { count: get(item, ['metrics', 'services', 0, 1], 0) })}
           value={item.application.label}
           inverted
           accentuated

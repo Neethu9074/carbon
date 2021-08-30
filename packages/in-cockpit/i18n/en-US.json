@@ -6,7 +6,12 @@
       "errCallRate": "Erroneous Call Rate",
       "latency": "Latency",
       "calls": "Calls",
-      "newAppPerspect": "New Application Perspective"
+      "newAppPerspect": "New Application Perspective",
+      "services": "{{count}} Services",
+      "services_plural": "{{count}} Services",
+      "services_0": "{{count}} Services",
+      "services_1": "{{count}} Services",
+      "services_2": "{{count}} Services"
     },
     "eventChartCard": {
       "allEvents": "All Events",

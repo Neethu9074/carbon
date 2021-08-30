@@ -109,6 +109,23 @@ respective json would change as below
 }
 ```
 
+### Pluralization
+
+[Plurals can differ between languages](https://www.i18next.com/translation-function/plurals). Since our current set of automatic translation tools does not add new keys,
+we specify the following set of keys already in english, even though they will be always identical.
+
+```json
+{
+  "component": {
+    "services": "{{count}} Services",
+    "services_plural": "{{count}} Services",
+    "services_0": "{{count}} Services",
+    "services_1": "{{count}} Services",
+    "services_2": "{{count}} Services"
+  }
+}
+```
+
 ## Tips/Gotchas
 
  - Merge in the latest changes from `develop` to ensure that you have the latest and
