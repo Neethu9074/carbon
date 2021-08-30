@@ -182,7 +182,7 @@ function getPoolConfig() {
   };
 
   const ssl = serverConfig.instanactlCockroachDb.ssl;
-  if (ssl && (ssl.cert || ssl.certPath)) {
+  if (ssl) {
     // For details of possible options see:
     // https://nodejs.org/api/tls.html#tls_tls_createsecurecontext_options
     // via
