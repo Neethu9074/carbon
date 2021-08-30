@@ -8,22 +8,22 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
 import {
+  createApplicationIdTagFilter,
   createApplicationNameTagFilter,
-  createServiceNameTagFilter,
   createEndpointNameTagFilter,
-  createApplicationIdTagFilter
+  createServiceNameTagFilter
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
 import {
+  createNoMatchingEntityText,
   DEFAULT_PAGE_SIZE,
   enrichListWithStaleSelectionData,
-  createNoMatchingEntityText,
   sortListBySelectionState
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { selectApplication } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
 import ServicesList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesList';
 import SharedList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
-import { or, and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import useCursorPagination from 'in-hooks/useCursorPagination';
@@ -41,6 +41,7 @@ export default function ApplicationsList({
   const { timeConfig, includeSynthetic, stateManagement, boundaryScope, readOnly } = props;
   const searchQuery = props.searchQuery?.trim();
   const { state } = stateManagement;
+
   const { items, ...tableProps } = useCursorPagination(
     ({ cursor }) =>
       isGlobalSmartAlert
@@ -63,7 +64,7 @@ export default function ApplicationsList({
         : getApplication({ id: appIdForIndividualSmartAlert }).map(result => {
             return { ...result, data: { items: result?.data ? [{ application: result.data }] : [] } };
           }),
-    [searchQuery, isGlobalSmartAlert, includeSynthetic, state, timeConfig]
+    [searchQuery, isGlobalSmartAlert, includeSynthetic, timeConfig]
   );
 
   const listData = useMemo(() => {
