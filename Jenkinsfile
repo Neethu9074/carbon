@@ -45,7 +45,7 @@ pipeline {
           }
 
           // Set up the shared tooling
-          withCredentials([string(credentialsId: 'GH_API_TOKEN', variable: 'GITHUB_API_TOKEN')]) {
+          withCredentials([string(credentialsId: 'GH_IBM_API_TOKEN', variable: 'GITHUB_API_TOKEN')]) {
             sh "./build/download-ci-shared-tools.bash"
             sh "./build/ci-shared-tools/scripts/setup.bash"
           }
