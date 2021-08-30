@@ -56,9 +56,11 @@ const columnDefinitions = [
     width: '2.5rem',
     getContent({ message }) {
       return (
-        <CopyToClipboard getText={() => message}>
-          {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize="s" type="lib_actions_copy" />}
-        </CopyToClipboard>
+        <div className={locals.copyButtonWrapper}>
+          <CopyToClipboard getText={() => message}>
+            {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize="xs" type="lib_actions_copy" />}
+          </CopyToClipboard>
+        </div>
       );
     }
   }
