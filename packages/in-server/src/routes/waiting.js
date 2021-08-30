@@ -61,7 +61,7 @@ router.get('/waiting', (req, res) => {
         }
       })
       .catch(error => {
-        console.log('Failed to fetch user and ToS-acceptance from butler: %s', error.message);
+        req.log.error('Failed to fetch user and ToS-acceptance from butler: %s', error);
         return sendWaitingIndex(req, res, nonce, butlerDomain, reportingEndpoints);
       });
   });

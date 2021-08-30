@@ -4,6 +4,7 @@
  */
 
 const serverConfig = require('../../serverConfig.js');
+const { logger } = require('../../logging');
 
 if (serverConfig.instanactlCockroachDb && serverConfig.instanactlCockroachDb.host) {
   startWith('instanactl');
@@ -14,6 +15,6 @@ if (serverConfig.instanactlCockroachDb && serverConfig.instanactlCockroachDb.hos
 }
 
 function startWith(name) {
-  console.log(`Starting ui-client with **${name}** based configuration and service resolver.`);
+  logger.info(`Starting ui-client with ${name} based configuration and service resolver.`);
   exports.activeResolver = require(`./${name}`);
 }

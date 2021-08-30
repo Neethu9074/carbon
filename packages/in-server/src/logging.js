@@ -1,0 +1,11 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+'use strict';
+
+exports.logger = require('pino')({
+  level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+  redact: ['req.headers.cookie', 'req.headers.authorization', 'res.headers["set-cookie"]']
+});

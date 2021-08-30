@@ -16,17 +16,17 @@ module.exports = exports = async function enrichRequestWithConfig(req, res, next
     if (error.notFound) {
       handleUiBackendNotFound(req.tenant, req.unit, req, res);
     } else {
-      logError(error);
+      logError(req, error);
       errorPages.send500(req, res);
     }
   }
 };
 
-function logError(error) {
+function logError(req, error) {
   if (error.ignoreStackTrace) {
-    console.log('Failed to enrich config with config values: %s', error.message);
+    req.log.error('Failed to enrich config with config values:', error.message);
   } else {
-    console.log('Failed to enrich config with config values', error);
+    req.log.error('Failed to enrich config with config values', error);
   }
 }
 
@@ -34,21 +34,17 @@ function handleUiBackendNotFound(tenant, unit, req, res) {
   return getUnitInfo(tenant, unit).then(
     info => {
       if (!info) {
-        console.log(`Received request for unknown tenant %s / unit %s`, tenant, unit);
+        req.log.info(`Received request for unknown tenant / unit`);
         errorPages.send404(req, res);
       } else if (info.hasLicense) {
         errorPages.sendMaintenance(req, res);
       } else {
-        console.log(
-          `Received request for tenant %s / unit %s without an active license (and no running ui-backend).`,
-          tenant,
-          unit
-        );
+        req.log.info(`Received request for tenant / unit without an active license (and no running ui-backend).`);
         errorPages.send404(req, res);
       }
     },
     error => {
-      logError(error);
+      logError(req, error);
       errorPages.sendMaintenance(req, res);
     }
   );

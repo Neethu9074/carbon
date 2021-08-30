@@ -32,11 +32,15 @@ jest.mock('pg', () => ({
     }
   }))
 }));
-jest.mock('fs', () => ({
-  readFileSync(path) {
-    return `content of ${path}`;
-  }
-}));
+jest.mock('fs', () => {
+  const originalModule = jest.requireActual('fs');
+  return {
+    ...originalModule,
+    readFileSync(path) {
+      return `content of ${path}`;
+    }
+  };
+});
 jest.mock('../../../src/services/reportingEndpoints');
 jest.mock('../../../src/serverConfig');
 jest.mock('../../../src/services/loadingCache', () => ({

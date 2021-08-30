@@ -9,11 +9,12 @@ const fs = require('fs');
 const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
 const featureFlagDefinitions = require('./featureFlags');
 const serverConfig = require('../../serverConfig.js');
+const { logger } = require('../../logging');
 const cache = require('../loadingCache').createLoadingCache({
   ttl: serverConfig.instanactlCockroachDb.cacheExpiry || 60000
 });
 
-console.log('Initializing instanctl CockroachDB resolver against', serverConfig.instanactlCockroachDb.host);
+logger.info(`Initializing instanctl CockroachDB resolver against ${serverConfig.instanactlCockroachDb.host}`);
 
 const pool = new Pool(getPoolConfig());
 

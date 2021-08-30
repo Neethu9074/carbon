@@ -7,6 +7,8 @@ const yaml = require('js-yaml');
 const path = require('path');
 const fs = require('fs');
 
+const { logger } = require('./logging');
+
 const possibleConfigFileLocations = [
   '/etc/instana/ui-client/config.yaml',
   '/etc/instana/ui-client/config.json',
@@ -33,7 +35,7 @@ function getConfigFileContent() {
     try {
       // checks existence and readability at once
       const configFile = fs.readFileSync(location, { encoding: 'utf8' });
-      console.log('Will start with config file from: ' + location);
+      logger.info(`Will start with config file from: ${location}`);
       return configFile;
     } catch (e) {
       continue;

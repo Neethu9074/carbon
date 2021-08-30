@@ -9,8 +9,9 @@ require('@instana/collector')({
   level: 'info'
 });
 
-const express = require('express');
 const cookieParser = require('cookie-parser');
+const { v4: uuidv4 } = require('uuid');
+const express = require('express');
 
 const configEnrichment = require('./middleware/configEnrichment');
 const unitCoordinates = require('./middleware/unitCoordinates');
@@ -23,12 +24,38 @@ const assetRoutes = require('./routes/assets');
 const errorPages = require('./errorPages.js');
 const csrfRoutes = require('./routes/csrf');
 const pingRoutes = require('./routes/ping');
+const { logger } = require('./logging');
 
 require('./admin');
 
 const app = express();
 
 app.set('x-powered-by', false);
+
+app.use((req, res, next) => {
+  // Assign a request ID so that we can correlate logs across multiple log entries
+  req.id = req.get('x-request-id') || uuidv4();
+  next();
+});
+
+app.use(
+  require('pino-http')({
+    logger,
+    customLogLevel(req, err) {
+      if (err || req.statusCode >= 500) {
+        return 'warn';
+      } else if (req.statusCode >= 400) {
+        return 'debug';
+      }
+      return 'trace';
+    },
+    customProps(req) {
+      return {
+        traceId: req.get('x-instana-t')
+      };
+    }
+  })
+);
 
 app.use(cookieParser());
 
@@ -67,5 +94,5 @@ const server = app.listen(serverConfig.port, serverConfig.bindAddress, () => {
   const host = server.address().address;
   const port = server.address().port;
 
-  console.log('ui-client in-server listening at http://%s:%s', host, port);
+  logger.info('ui-client in-server listening at http://%s:%s', host, port);
 });
