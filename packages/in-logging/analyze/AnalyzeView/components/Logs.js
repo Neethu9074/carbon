@@ -22,6 +22,8 @@ import IconButton from 'in-components/IconButton/IconButton';
 import CopyToClipboard from 'in-components/CopyToClipboard';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
+import Tooltip from 'in-components/Tooltip';
+import { t } from 'in-i18n';
 
 import locals from './Logs.mless';
 
@@ -52,14 +54,16 @@ const columnDefinitions = [
     getContent: LogMessageColumn
   },
   {
-    id: 'expandIcon',
+    id: 'copyIcon',
     width: '2.5rem',
     getContent({ message }) {
       return (
         <div className={locals.copyButtonWrapper}>
-          <CopyToClipboard getText={() => message}>
-            {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize="xs" type="lib_actions_copy" />}
-          </CopyToClipboard>
+          <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
+            <CopyToClipboard getText={() => message}>
+              {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize="xs" type="lib_actions_copy" />}
+            </CopyToClipboard>
+          </Tooltip>
         </div>
       );
     }

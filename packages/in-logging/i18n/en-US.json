@@ -17,5 +17,8 @@
   "messageParam": "Message Parameter",
   "applicationCounter": "{{count}} applications",
   "service": "Service",
-  "stream": "Stream"
+  "stream": "Stream",
+  "tooltipCopyToClipboard": "Copy to clipboard",
+  "tooltipAddAsGroup": "Group by tag",
+  "tooltipAddAsFilter": "Add tag as filter"
 }
