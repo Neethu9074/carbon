@@ -14,7 +14,7 @@
     "alertHeaderEnableTooltip": " Abilita",
     "alertHeaderRestoreDeleteTooltip": "Elimina",
     "alertHeaderEditTooltip": "Modifica",
-    "alertHeaderCopyTooltip": "Copia",
+    "alertHeaderDuplicateTooltip": "Duplica",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confermare",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Si è sicuri di voler rimuovere l'<strong>\"avviso {{alertConfigName}}\"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Rimuovi",
@@ -26,7 +26,14 @@
     "alertPropertyInfosLabelDescription": "Descrizione",
     "noChannelSelectedText": "Attualmente, non è stato selezionato un canale di avviso e non verrà ricevuto alcun avviso.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtri aggiuntivi",
-    "revisionDropdownButtonRevision": "Revisione {{alertRevision}}",
+    "revisionDropdownButton": {
+      "revision": "Revisione {{alertRevision}}",
+      "paused": "In sospeso",
+      "resumed": "Ripristinato",
+      "deleted": "Eliminato",
+      "update": "Aggiorna",
+      "created": "Creata"
+    },
     "chart": {
       "alertingChartLabelThreshold": "Soglia",
       "alertingChartLabelViolations": "Violazioni",
@@ -55,7 +62,8 @@
       "theValueMustNotBeBlank": "Il valore non deve essere vuoto.",
       "onlyOrAnyAlphaNumericalAreAllowed": "Sono consentiti solo i caratteri '.', '-', '_' o alfanumerici.",
       "aTagNeedsToBeSelected": "È necessario selezionare un tag.",
-      "aKeyNeedsToBeSpecified": "È necessario specificare una chiave."
+      "aKeyNeedsToBeSpecified": "È necessario specificare una chiave.",
+      "customPayloadTitle": "Payload personalizzati"
     }
   },
   "potentialProblems": {
@@ -101,7 +109,10 @@
     "descriptionUnsupportedOperator": "Operatore non supportato: {{operator}}"
   },
   "smartAlerts": {
+    "applicationSmartAlert": "Avviso Smart dell'applicazione",
+    "globalApplicationSmartAlert": "Avviso Smart dell'applicazione globale",
     "titleNoSmartAlertsConfigured": "Non è stato configurato nessun avviso smart",
+    "titleNoSmartAlertsConfiguredForSearchQuery": "Non sono state rilevate configurazioni dell'avviso smart per una determinata ricerca",
     "titleNoSmartAlertsCreated": "Non è stato creato nessun avviso smart",
     "titleCopyOf": "(Copia di) {{smartAlertTitle}}",
     "applications": {
@@ -190,6 +201,12 @@
         }
       },
       "chart": {
+        "entitySelection": {
+          "tooManyResults": "La ricerca corrisponde a troppi risultati da visualizzare. Restringere i risultati con un termine di ricerca più specifico.",
+          "applications": "Applicazioni:",
+          "services": "Servizi:"
+        },
+        "noChartForAdaptiveBaseline": "Nessuna anteprima disponibile sebbene questo trigger si basa su una baseline adattativa.",
         "noDataWithoutEndpointSelection": "Selezionare un endpoint per visualizzare l'anteprima",
         "noDataAvailable": "Selezionare un servizio per visualizzare l'anteprima"
       },
@@ -402,6 +419,7 @@
         "ruleFormPleaseProvideAStartStatusCode": "Fornire un codice di stato start http",
         "ruleFormPleaseProvideAEndStatusCode": "Fornire un codice di stato end http",
         "smartAlertFormNoEntitiesSelected": "Nessuna entità selezionata",
+        "smartAlertFormValueIsReadOnly": "Il valore è di sola lettura e non può essere modificato",
         "thresholdFormPleaseProvideANumber0": "Fornire un numero >= 0",
         "thresholdFormBaselineIsEmpty": "baseline vuota"
       },
@@ -439,7 +457,21 @@
       "details": {
         "title": "Dettagli avviso",
         "titleAlertProperties": "Proprietà avviso"
+      },
+      "apCreation": {
+        "addToAllBuiltInAlerts": "Aggiungi tutti i gli avvisi smart ({{numAlerts}}) globali incorporati",
+        "addToAllBuiltInAlertsSubText": "({{numDisabled}}/{{numAlerts}} avvisi sono attualmente disabilitati)",
+        "addToAllExplanation": "Includere questa Prospettiva Applicazione nell'ambito di tutti gli",
+        "addToAllExplanationSubText": "Avvisi Smart globali incorporati",
+        "notAllEnitiesSelected": "Non tutti i servizi/endpoint sono selezionati",
+        "alertCurrentlyDisabled": "Avviso attualmente disabilitato",
+        "viewAlertDetails": "Visualizza dettagli avviso per la configurazione: {{name}}",
+        "eventsWarningIcon": "Icona eventi di avviso",
+        "eventsCriticalIcon": "Icona eventi critici"
       }
+    },
+    "details": {
+      "titleBuiltInIndicator": "Integrato"
     },
     "form": {
       "ruleAggregationOptionMEAN": "media",
@@ -457,6 +489,7 @@
     },
     "components": {
       "smartAlertDialog": {
+        "cancelTitle": "Annulla",
         "sharedListTooltip": "{{typeName}} selezionato non più disponibile",
         "clearTagFilterExpressionButton": "Ripulisci",
         "baselineErrorMessageInsufficientDataToCompute": "Dati insufficienti per calcolare la baseline selezionata. Selezionare <em>Soglia statica</em>.",
@@ -464,49 +497,51 @@
         "blueprintDescriptionButtonSelect": "Seleziona",
         "selectAlertChannelButtonTitle": "Seleziona canali di avviso",
         "selectAlertChannelButton": "Seleziona canali di avviso",
+        "createAlertChannelTitle": "Crea canale di avviso ",
+        "alertChannelCreatedSuccess": "Canale di avviso creato",
+        "alertChannelSelectTypeTitle": "Tipo di canale di avviso",
         "addChannel": "Aggiungi {{count}} canale",
         "addChannel_plural": "Aggiungi {{count}} canali",
-        "addChannel_0": "Aggiungi {{count}} canali",
-        "addChannel_1": "Aggiungi {{count}} canali",
-        "addChannel_2": "Aggiungi {{count}} canali",
         "add": "Aggiungi",
         "scopeConfigTitleWithApplications": "Selezionare applicazioni/servizi/endpoint",
         "scopeConfigTitle": "Seleziona servizi/endpoint",
-        "scopeConfigTitleTooltip": "Visualizzazione delle entità disponibili per gli ultimi 7 giorni.",
+        "scopeConfigTitleTooltip": "Visualizzazione delle entità disponibili per le ultime 24 ore",
         "sortByUserSelectionLabel": "Ordina in base alla selezione dell'utente",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Almeno {{count}} utente e {{userPercentage}} di utenti interessati all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Almeno {{count}} utenti e {{userPercentage}} di utenti interessati all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "Almeno {{count}} utenti e {{userPercentage}} di utenti interessati all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "Almeno {{count}} utente e {{userPercentage}} di utenti interessati all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "Almeno {{count}} utenti e {{userPercentage}} di utenti interessati all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "Almeno {{count}} utente interessato all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "Almeno {{count}} utenti interessati all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "Almeno {{count}} utenti interessati all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "Almeno {{count}} utente interessato all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "Almeno {{count}} utenti interessati all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "Almeno {{userPercentage}} di utenti interessati all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "Interessati all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact": "Almeno {{count}} richiesta interessata all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_plural": "Almeno {{count}} richieste interessate all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_0": "Almeno {{count}} richieste interessate all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_1": "Almeno {{count}} richiesta interessata all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_2": "Almeno {{count}} richieste interessate all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod": "Almeno {{count}} violazione all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_plural": "Almeno {{count}} violazioni all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_0": "Almeno {{count}} violazioni all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_1": "Almeno {{count}} violazione all'interno di {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_2": "Almeno {{count}} violazioni all'interno di {{formattedTimeWindow}}",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "Numero di violazioni consecutive",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Almeno {{count}} utente e {{userPercentage}} degli utenti interessati negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Almeno {{count}} utente e {{userPercentage}} degli utenti interessati negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "Almeno {{count}} utente e {{userPercentage}} degli utenti interessati negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "Almeno {{count}} utente e {{userPercentage}} degli utenti interessati negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "Almeno {{count}} utente e {{userPercentage}} degli utenti interessati negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "Almeno {{count}} utente interessato negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "Almeno {{count}} utenti interessati negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "Almeno {{count}} utenti interessati negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "Almeno {{count}} utente interessato negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "Almeno {{count}} utenti interessati negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "Almeno {{userPercentage}} di utenti interessati negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "Interessati negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionRequestImpact": "Almeno {{count}} richiesta interessata negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionRequestImpact_plural": "Almeno {{count}} richieste interessate negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionRequestImpact_0": "Almeno {{count}} richieste interessate negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionRequestImpact_1": "Almeno {{count}} richiesta interessata negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionRequestImpact_2": "Almeno {{count}} richieste interessate negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod": "Almeno {{count}} violazione negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_plural": "Almeno {{count}} violazioni negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_0": "Almeno {{count}} violazioni negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_1": "Almeno {{count}} violazione negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_2": "Almeno {{count}} violazioni negli ultimi {{formattedTimeWindow}}",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "Numero di violazioni metriche consecutive",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Numero di valutazioni consecutive",
-        "timeThresholdConfigNumberOfEvaluationWindows": "Numero di finestre di valutazione",
-        "timeThresholdConfigNumberOfViolations": "Numero di violazioni",
+        "timeThresholdConfigNumberOfEvaluationWindows": "Numero di finestre di valutazione per utente interessato",
+        "timeThresholdConfigNumberOfViolations": "Numero di violazioni metriche",
         "timeThresholdConfigEvaluationGranularity": "Granularità valutazione",
         "timeThresholdConfigNumberOfRequestsThreshold": "Soglia del numero di richieste",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Numero di soglie utente interessate",
         "timeThresholdConfigAtLeast": "Almeno",
         "timeThresholdConfigNumberOfRequests": "# di richieste",
         "timeThresholdConfigMinutes": "{{min}} min",
         "timeThresholdConfigNumberOfUsers": "# di utenti",
-        "timeThresholdConfigPercentageOfRequestsThreshold": "Percentuale della soglia di richieste",
+        "timeThresholdConfigPercentageOfUsers": "% di utenti",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Percentuale di soglie utente interessate",
         "timeThresholdConfigOff": "disattivo",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Fornire un numero >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Fornire un numero compreso tra 1% e 100%",
@@ -538,6 +573,7 @@
         "thresholdTypeOptionStaticThreshold": "Soglia statica",
         "thresholdTypeOptionHistoricBaselineDaily": "Baseline (stagionalità giornaliera)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (stagionalità settimanale)",
+        "thresholdTypeOptionAdaptiveBaseline": "Baseline adattativa",
         "useSuggestedvalue": "Utilizza valore suggerito",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Modifica avviso Smart",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Modifica avviso Smart globale",
@@ -549,7 +585,8 @@
         "PreviewForAP": "Anteprima per la prospettiva applicazione",
         "PreviewForEndpoint": "Anteprima dell'Endpoint:",
         "PreviewForService": "Anteprima per il servizio:",
-        "PreviewSelectLoadingEndpoints": "Caricamento dell'elenco di endpoint"
+        "PreviewSelectLoadingEndpoints": "Caricamento dell'elenco di endpoint",
+        "thresholdValue": "Valore soglia"
       },
       "alertsHub": {
         "title": "Hub avvisi",
@@ -791,7 +828,12 @@
       "enabled": "Abilitato",
       "disabled": "Disabilitato",
       "severity": "Severità",
-      "created": "Data di creazione"
+      "created": "Data di creazione",
+      "type": "Tipo"
+    },
+    "migration": {
+      "migrateButton": "Migra ad Avviso Smart ",
+      "migrateButtonTooltip": "Apre una finestra di dialogo di configurazione dell'Avviso Smart precompilata nel modo migliore possibile con i valori migrati dall'evento corrente. Controllare attentamente il risultato."
     }
   }
 }

@@ -55,6 +55,66 @@
       "purchased": "Comprado",
       "infrastructureUsage": "Uso da infraestrutura",
       "iqmHosts": "Hosts IQM"
+    },
+    "activationAdoption": {
+      "activationAdoption": "Ativação e adoção",
+      "customerAdoption": "Adoção do cliente",
+      "activation": "Ativação",
+      "adoption": "Adoção",
+      "activationStages": {
+        "createDate": "Data de criação",
+        "firstSignIn": "Primeira conexão",
+        "firstAgentInstalled": "1º agente instalado",
+        "additionalUserInvited": "Usuário adicional convidado",
+        "threeAgentsInstalled": "Três agentes instalados",
+        "twoApplicationPerspectivesCreated": "Duas perspectivas de aplicativo criadas",
+        "oneAlertSetUpAndActivated": "Um alerta configurado e ativado",
+        "oneWebsiteMonitored": "Um website monitorado",
+        "fiveUsers": "Cinco usuários"
+      },
+      "adoptionKPIs": {
+        "applicationPerspective": "Perspectiva de aplicativo",
+        "eum": "EUM",
+        "alerting": "Alertando",
+        "pipelineFeedback": "Pipeline Feedback",
+        "customDashboards": "Painéis customizados",
+        "mobileEum": "EUM móvel",
+        "numOfApplicationPerspectives": "Número de APs",
+        "numOfReportingApplicationPerspectives": "Número de APs de relatório",
+        "numOfWebsites": "Número de websites",
+        "numOfAlertChannels": "Número de canais de alerta",
+        "numOfAlerts": "Número de alertas",
+        "numOfActiveAlerts": "Número de alertas ativos",
+        "numOfReleases": "Número de marcadores de liberação/número de liberações",
+        "numOfCustomDashboards": "Número de painéis customizados",
+        "numOfMobileApps": "Número de apps"
+      },
+      "activationChecklist": "Lista de Verificação de ativação",
+      "productAdoption": "Adoção do produto",
+      "sparkChartMetrics": {
+        "metric_applications": "Aplicativos",
+        "metric_reportingapplications": "Aplicativos de relatório",
+        "metric_websites": "Websites",
+        "metric_all_alerts": "Todos os alertas",
+        "metric_active_alerts": "Alertas ativos",
+        "metric_mobile_apps": "Aplicativos móveis",
+        "metric_alert_channels": "Canais de alerta",
+        "metric_custom_dashboards": "Painéis customizados",
+        "metric_releases": "Liberações"
+      },
+      "userUsage": "Uso do usuário",
+      "userSummary": "Resumo do usuário",
+      "totalUser": "Total do Usuário",
+      "weeklyActiveUser": "Usuário ativo semanal",
+      "lastCalendarWeekTopActiveUsers": "Principais usuários ativos da última semana do calendário",
+      "topUsersTable": {
+        "noDataAvailable": "Dados não disponíveis",
+        "noTopActiveUsers": "Nenhum dado de usuário ativo principal para esta conta",
+        "name": "Nome",
+        "organizationRole": "Função de organização",
+        "daysActive": "Dias ativos",
+        "notProvided": "(não fornecido)"
+      }
     }
   }
 }

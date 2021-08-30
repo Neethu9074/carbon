@@ -45,6 +45,8 @@
       "logMonitorWriterDesc": "log-writer는 ClickHouse에 로그를 수집합니다.",
       "logMonitorReader": "log-reader(로그 조회)",
       "logMonitorReaderDesc": "log-reader는 ClickHouse에서 로그를 조회합니다.",
+      "logMonitorHousekeeping": "log-housekeeping(로그 유지보수)",
+      "logMonitorHousekeepingDesc": "log-housekeeping은 log-writer 내부에서 실행되는 유지보수 작업을 포함합니다.",
       "infrastructureMetrics": "인프라 메트릭",
       "infrastructureMetricsDesc": "인프라 메트릭 파이프라인에 대한 정보입니다.",
       "fillerMetricExtraction": "필러(메트릭 추출)",
@@ -131,16 +133,6 @@
       "sLOViolations": "SLO 위반",
       "devTUSLOs": "개발 TU SLO",
       "expTUSLOs": "시범 TU SLO"
-    },
-    "timeZones": {
-      "sanFrancisco": "샌프란시스코",
-      "austin": "오스틴",
-      "newYorkCity": "뉴욕시",
-      "uTC": "UTC",
-      "solingen": "졸링겐",
-      "noviSad": "노비사드",
-      "tokyo": "도쿄",
-      "sydney": "시드니"
     }
   },
   "monitoringUnit": {
@@ -356,6 +348,8 @@
             "tooOld": "추적 로그 Kafka 이용자 너무 오래됨"
           }
         },
+        "droppedPast": "시간소인이 과거인 삭제된 로그",
+        "droppedFuture": "시간소인이 미래인 삭제된 로그",
         "outgoing": "발신 로그",
         "failOutgoing": "실패한 발신 로그"
       },
@@ -415,6 +409,28 @@
           "mean": "평균",
           "50th": "50번째",
           "99th": "99번째"
+        }
+      },
+      "housekeeping" : {
+        "title": "log-housekeeping(log-writer 내부에서 실행 중)",
+        "cleanup" : {
+          "success": "로그 정리 성공",
+          "failure": "로그 정리 실패",
+          "duration": "로그 정리 기간(99번째)",
+          "skips" : {
+            "mutations": "로그 정리 건너뛰기(변형)"
+          }
+        },
+        "coldTier" : {
+          "success": "로그 cold-tier 성공",
+          "failure": "로그 cold-tier 실패",
+          "optimize": "로그 cold-tier 최적화",
+          "move": "로그 cold-tier 이동",
+          "duration": "로그 cold-tier 기간(99번째)",
+          "skips": {
+            "mutations": "로그 cold-tier 건너뛰기(변형)",
+            "merges": "로그 cold-tier 건너뛰기(병합)"
+          }
         }
       }
     },
@@ -797,7 +813,7 @@
         "apiChartExplanation_1": "<em>ui-backend</em>의 <em>rateLimit</em> 구성 섹션에 정의된 대로 비율 한계에 도달하면 API 호출이 차단됩니다.",
         "apiChartExplanation_2": "HTTP 상태 코드 429는 다음 헤더와 함께 응답에 제공됩니다(<linkToDocs>reference</linkToDocs> 참조).",
         "apiChartExplanation_3": "<em>기본</em> 제한이 있지만 <em>구역</em>당 보다 구체적인 제한이 있음: <em>검색</em>, <em>설정</em>, <em>appdata</em> 및 <em>스냅샷</em>.",
-        "apiChartExplanation_4": "아래 차트에서는 호출이 차단되고 있음만 표시되고 어느 한계에 도달했는지는 알지 못합니다. 이를 알아보기 위해서는 구역당 호출 비율을 제공하는 <em>ui-backend</em>의 <em>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</em> 메트릭을 참조하거나, 추적(구체적으로는 상태 코드 및 헤더)를 자세히 살펴볼 수 있습니다. ",
+        "apiChartExplanation_4": "아래 차트에서는 호출이 차단되고 있음만 표시되고 어느 한계에 도달했는지는 알지 못합니다. 이를 알아보기 위해서는 구역당 호출 비율을 제공하는 <em>ui-backend</em>의 <em>com.instana.ui.resource.api.filter.ratelimit.RateLimitingFilter.distinct-client-key-ZONE</em> 메트릭을 참조하거나, 추적(구체적으로는 상태 코드 및 헤더)를 자세히 살펴볼 수 있습니다.",
         "apiChartExplanation_5": "<strong>중요:</strong> HTTP 상태 코드 429를 수신한 호출은 API 비율 제한기에 의해 반드시 차단되는 것은 아니지만, <em>appdata-reader</em>를 보호하는 데 사용된 제한기 중 하나에 의해 차단될 수 있습니다(<em>appDataReaderXXXLimiter</em> 형식인 <em>ui-backend</em>의 해당 메트릭 참조). 추적에 <em>X-RateLimit-XXX</em> 헤더가 있는지를 확인하여 2개 케이스를 구별할 수 있습니다."
       },
       "application": {
@@ -893,7 +909,6 @@
       "config": "구성",
       "version": "버전",
       "injectorBindings": "인젝터 바인딩",
-      "hystrix": "Hystrix",
       "agentClockSkew": "에이전트 클럭 오차"
     },
     "region": {

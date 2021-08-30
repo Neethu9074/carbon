@@ -45,6 +45,8 @@
       "logMonitorWriterDesc": "O log-writer ingere logs no ClickHouse.",
       "logMonitorReader": "log-reader (consulta de log)",
       "logMonitorReaderDesc": "O log-reader consulta logs do ClickHouse.",
+      "logMonitorHousekeeping": "log-housekeeping (manutenção de log)",
+      "logMonitorHousekeepingDesc": "A log-housekeeping contém tarefas de manutenção que são executadas dentro do log-writer.",
       "infrastructureMetrics": "Métricas de infraestrutura",
       "infrastructureMetricsDesc": "Informações sobre nosso pipeline de métricas de infraestrutura.",
       "fillerMetricExtraction": "Preenchimento (extração de métrica)",
@@ -131,16 +133,6 @@
       "sLOViolations": "Violações de SLO",
       "devTUSLOs": "SLOs de TU de desenvolvimento",
       "expTUSLOs": "SLOs de TU experimentais"
-    },
-    "timeZones": {
-      "sanFrancisco": "São Francisco",
-      "austin": "Austin",
-      "newYorkCity": "Cidade de Nova York",
-      "uTC": "UTC",
-      "solingen": "Solingen",
-      "noviSad": "Novi Sad",
-      "tokyo": "Tóquio",
-      "sydney": "Sydney"
     }
   },
   "monitoringUnit": {
@@ -356,6 +348,8 @@
             "tooOld": "Rastrear logs de consumidor Kafka muito antigos"
           }
         },
+        "droppedPast": "Logs descartados com registro de data e hora no passado",
+        "droppedFuture": "Logs descartados com registro de data e hora no futuro",
         "outgoing": "Logs de saída",
         "failOutgoing": "Logs de saída com falha"
       },
@@ -415,6 +409,28 @@
           "mean": "média",
           "50th": "50º",
           "99th": "99º"
+        }
+      },
+      "housekeeping" : {
+        "title": "log-housekeeping (em execução dentro do log-writer)",
+        "cleanup" : {
+          "success": "Sucesso da limpeza do log",
+          "failure": "Falha da limpeza do log",
+          "duration": "Duração da limpeza do log (99ª)",
+          "skips" : {
+            "mutations": "Saltos da limpeza do log (mutações)"
+          }
+        },
+        "coldTier" : {
+          "success": "Sucesso da camada fria do log",
+          "failure": "Falha da camada fria do log",
+          "optimize": "Otimização da camada fria do log",
+          "move": "Movimentação da camada fria do log",
+          "duration": "Duração da camada fria do log (99ª)",
+          "skips": {
+            "mutations": "Saltos da camada fria do log (mutações)",
+            "merges": "Saltos da camada fria do log (mesclagens)"
+          }
         }
       }
     },
@@ -893,7 +909,6 @@
       "config": "Configuração",
       "version": "Versão",
       "injectorBindings": "Ligações injetoras",
-      "hystrix": "Hystrix",
       "agentClockSkew": "Clock skew do agente"
     },
     "region": {

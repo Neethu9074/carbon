@@ -36,9 +36,6 @@
       }
     },
     "widgetEditorDialog": {
-      "widgetTypeSelector": {
-        "showWidgetLabel": "Mostrar caso do widget {{label}}"
-      },
       "widgetConfiguration": {
         "widgetName": "Nome do widget",
         "name": "Nome",
@@ -109,17 +106,23 @@
   "widgets": {
     "metricConfig": {
       "groupingConfig": {
-        "top": "{{number}} superiores ",
+        "top": "{{number}} superiores",
         "bottom": "{{number}} inferiores",
         "showRemainingGroupsAggregOther": "Mostrar grupos restantes agregados como \"Outros\""
       },
       "hiddenCalls": {
         "includeInternalCalls": "Incluir chamadas internas",
         "includeSyntheticCalls": "Incluir chamadas sintéticas"
+      },
+      "bluePrintForCallsMetric": {
+        "unexpectedLowNumberOfCalls": "Número inesperadamente baixo de chamadas",
+        "unexpectedHighNumberOfCalls": "Número inesperadamente alto de chamadas",
+        "unexpectedLowOrHighNumberOfCalls": "Número inesperadamente alto ou baixo de chamadas"
       }
     },
     "srcApp": {
       "formComponent": {
+        "needToTurnOffPP": "Para usar o agrupamento é necessário desligar o destaque de Problemas potenciais primeiro.",
         "pleaseSelect": "Selecione",
         "pleaseSelectMetric": "Selecione uma métrica",
         "aggregation": "Agregação",
@@ -140,7 +143,9 @@
         "pleaseSelectMetric": "Selecione uma métrica",
         "pleaseSelect": "Selecione",
         "helpAction": "Uma consulta de foco dinâmico (DFQ) como você usaria dentro da visualização do evento.",
-        "query": "Consulta"
+        "query": "Consulta",
+        "includeK8sInfoEvents": "Incluir eventos do Kubernetes",
+        "includeAgentMonitoringIssues": "Incluir problemas de monitoramento do agente"
       }
     },
     "srcInfrastructure": {
@@ -254,7 +259,17 @@
       },
       "atLeastOneDatasetIsRequired": "Pelo menos um conjunto de dados é necessário.",
       "errorTitleForConfiguredSliDeletion": "A SLI configurada foi excluída",
-      "errorDescriptionToConfigureOtherSLI": "Atualize o widget SLO selecionando outra SLI"
+      "errorDescriptionToConfigureOtherSLI": "Atualize o widget SLO selecionando outra SLI",
+      "index": {
+        "testTitle": "Cinco principais serviços mais lentos",
+        "testLabels": {
+          "catalogue": "catálogo",
+          "cart": "carrinho",
+          "ratings": "classificações",
+          "discount": "desconto",
+          "shipping": "remessa"
+        }
+      }
     },
     "formCompChart": {
       "colorConfiguratorChart": {
@@ -277,11 +292,13 @@
         "indigo": "Índigo"
       },
       "dataConfigChart": {
+        "tooltipDisabledBecausePP": "Para incluir conjuntos de dados é necessário desligar o destaque de Problemas potenciais primeiro.",
         "addDataset": "Incluir conjunto de dados"
       },
       "indexChart": {
         "datasets": "Conjuntos de dados",
-        "axisConfig": "Configuração do eixo"
+        "axisConfig": "Configuração do eixo",
+        "potentialProblems": "Problemas em potencial"
       },
       "metricConfigChart": {
         "datasetTimeShift": "O conjunto de dados está com deslocamento de tempo",
@@ -298,7 +315,20 @@
         "timeShift": "Deslocamento de tempo",
         "applyTimeShiftDs": "Aplicar deslocamento de tempo a esta série de dados",
         "timeShiftHelpAction": "A seleção de <strong>Exibir valores atuais</strong> duplicará automaticamente esta série de dados sobre o mesmo eixo. O deslocamento de tempo será desativado para a primeira série de dados e ativado para a segunda.",
+        "timeShiftDisabledWhilePPon": "Para usar o deslocamento de tempo é necessário desligar o destaque de Problemas potenciais primeiro.",
         "displayCurrentValues": "Exibir valores atuais"
+      },
+      "potentialProblems": {
+        "potentialProblemsDescription": {
+          "anyMetric": "Destacando problemas potenciais"
+        },
+        "tooltip": {
+          "needToTurnOffTimeShift": "Para usar o destaque de Problemas potenciais é necessário desligar o deslocamento de tempo primeiro.",
+          "needToTurnOffGrouping": "Para usar o destaque de Problemas potenciais é necessário desligar o agrupamento primeiro.",
+          "needToRemoveDatasets": "Para usar o destaque de Problemas potenciais é necessário remover qualquer outro conjunto de dados primeiro.",
+          "needToChangeMetric": "Para usar o destaque de Problemas potenciais é necessário mudar a métrica."
+        },
+        "onlyWorksWithOneMetricConfigured": "Suportado apenas quando somente um conjunto de dados está configurado."
       }
     },
     "demo": {
@@ -312,6 +342,10 @@
       "unnamMetric": "Métrica não nomeada"
     },
     "markdown": {
+      "demo": {
+        "title": "Instana - Introdução",
+        "text": "A Instana é a primeira e única Solução de desempenho do aplicativo (APM) totalmente automatizada projetada\nnespecificamente para os desafios de gerenciamento de microsserviço e aplicativos nativos de cloud.\n\nComeçar é fácil\n\n1. Se você ainda não tiver acesso à Instana, vá em frente para [Instana.com](https://www.instana.com) e registre-se para uma Avaliação grátis.\n2. Explore nosso ecossistema de centenas de [tecnologias suportadas] (https://www.instana.com/docs/ecosystem).\n3. Comece coletando dados com um dos nossos [agentes] (https://www.instana.com/docs/setup_and_manage).\n4. Aprenda [como usar a Instana] (https://www.instana.com/docs/using_instana) para seus casos de uso.\n5. Leia sobre nossos [Recursos principais] exclusivos (https://www.instana.com/docs/core_capabilities/).\n6.  Extenda a Instana com nossas [Integrações, SDK e APIs] (https://www.instana.com/docs/integrations).\n\nÉ isso!\n\nNão é possível localizar o que você está procurando? Pule para [instana.com/docs] (https://www.instana.com/docs/)!"
+      },
       "formComp": {
         "whatULikeShow": "O que você gostaria de mostrar?",
         "markdown": "Markdown",
@@ -327,10 +361,18 @@
         "formatter": "Formatador"
       },
       "index": {
-        "chartPie": "Gráfico: pizza"
+        "chartPie": "Gráfico: pizza",
+        "testTitle": "Eventos",
+        "testLegendItem1": "Incidentes",
+        "testLegendItem2": "Problemas: críticos",
+        "testLegendItem3": "Problemas: aviso"
       }
     },
     "slo": {
+      "demo": {
+        "title": "Título do SLO",
+        "appName": "Nome do aplicativo de exemplo"
+      },
       "apConfigFormComp": {
         "userJourneyOffering": "Jornada do usuário/Oferta",
         "appnPerspective": "Perspectiva de aplicativo",
@@ -358,7 +400,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Terminal",
-        "allServices": "Todos os serviços",
+        "allEndpoints": "Todos os terminais",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {
@@ -486,6 +528,7 @@
     },
     "timezone": {
       "demo": {
+        "title": "Disponibilidade da equipe",
         "sanFrancisco": "São Francisco",
         "austin": "Austin",
         "newYorkCity": "Cidade de Nova York",
@@ -510,7 +553,8 @@
         "formatter": "Formatador"
       },
       "index": {
-        "topListLb": "Lista principal"
+        "topListLb": "Lista principal",
+        "topListItem": "Item {{itemNumber}}"
       },
       "widget": {
         "aggregOtherGroup": "Agregação de outros grupos",

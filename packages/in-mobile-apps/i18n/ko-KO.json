@@ -227,9 +227,6 @@
     }
   },
   "dashboard": {
-    "mobileAppProductArea": "EUM: 모바일 앱",
-    "mobileAppViewPageRootName": "모바일 앱 보기",
-    "mobileAppPageRootName": "모바일 앱",
     "mobileAppViewTitle": "모바일 앱",
     "mobileAppTitle": "보기",
     "analyzeSessions": "세션 분석",
@@ -301,6 +298,12 @@
       "geographyTitle": "지리학",
       "topViewsTitle": "상위 보기",
       "globViewFootertext": "NASA에서 제공한 이미지"
+    },
+    "noDataAvailable": {
+      "viewsTitle": "사용 가능한 보기가 없음",
+      "viewsDescription": "선택한 시간 범위에 대해 검색된 보기가 없습니다.",
+      "httpRequestsTitle": "사용 가능한 HTTP 요청이 없음",
+      "httpRequestsDescription": "선택한 시간 범위에 대해 검색된 HTTP 요청이 없습니다."
     }
   },
   "appsList": {
@@ -308,9 +311,7 @@
     "sessionStartsLabel": "세션 시작",
     "viewTransitionsLabel": "보기 전환",
     "addMobileAppBtn": "모바일 앱 추가",
-    "mobileAppsTitle": "모바일 앱",
-    "mobileAppProductArea": "EUM: 모바일 앱",
-    "mobileAppPageRootName": "모바일 앱"
+    "mobileAppsTitle": "모바일 앱"
   },
   "newAppFlow": {
     "addMobileAppTitle": "모바일 앱 추가",

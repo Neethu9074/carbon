@@ -1,4 +1,45 @@
 {
+  "components": {
+    "list": {
+      "loadMore": "加载更多",
+      "toggleExtraContent": "切换其他内容",
+      "initiateDefaultAction": "启动缺省操作"
+    },
+    "table": {
+      "tableErrorRows": {
+        "unexpectedError": "发生意外错误。请刷新页面或稍后重试。"
+      },
+      "tableLoadMoreRow": {
+        "loadMore": "加载更多"
+      }
+    }
+  },
+  "formatDate": {
+    "date": {
+      "aFewSeconds": "几秒",
+      "time_years": "{{count}} 年",
+      "time_years_plural": "{{count}} 年",
+      "time_y": "{{count}} 年",
+      "time_months": "{{count}} 个月",
+      "time_months_plural": "{{count}} 个月",
+      "time_mo": "{{count}} 个月",
+      "time_days": "{{count}} 天",
+      "time_days_plural": "{{count}} 天",
+      "time_d": "{{count}} 天",
+      "time_hours": "{{count}} 小时",
+      "time_hours_plural": "{{count}} 小时",
+      "time_h": "{{count}} 小时",
+      "time_minutes": "{{count}} 分钟",
+      "time_minutes_plural": "{{count}} 分钟",
+      "time_m": "{{count}} 分钟",
+      "time_seconds": "{{count}} 秒",
+      "time_seconds_plural": "{{count}} 秒",
+      "time_s": "{{count}} 秒",
+      "time_milliseconds": "{{count}} 毫秒",
+      "time_milliseconds_plural": "{{count}} 毫秒",
+      "time_ms": "{{millis}} 毫秒"
+    }
+  },
   "forms": {
     "actions": {
       "save": "保存",

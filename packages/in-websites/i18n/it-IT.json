@@ -288,6 +288,7 @@
         "indexLabelDetails": "Dettagli",
         "labelAnalytics": "Analitica",
         "titlePageLoad": "Caricamento pagina",
+        "pageLoadOnResource": "{{page}} su {{resource}}",
         "buttonDownload": "Scarica",
         "renderTimeSelectionTooltip": "Chiudi dettagli caricamento pagina",
         "referencedPageLoads": "Caricamenti pagina indicata"
@@ -345,9 +346,7 @@
     "websitesListLabelOnLoadTime": "Tempo onLoad",
     "websitesListLabelHealth": "Integrità",
     "websitesListButtonAddWebsite": "Aggiungi sito Web",
-    "websitesListTitleWebsites": "Siti Web",
-    "websitesListProductAreaEUMWebsites": "EUM: Siti Web",
-    "websitesListPageRootNameWebsites": "Siti Web"
+    "websitesListTitleWebsites": "Siti Web"
   },
   "websiteDashboard": {
     "components": {
@@ -461,6 +460,10 @@
         "alertConfigurationTitleTimeThreshold": "Soglia temporale",
         "alertConfigurationTitleAlertChannels": "Canali di avviso",
         "alertConfigurationTitleAlertProperties": "Proprietà avviso",
+        "filter": "filtro ",
+        "filter_plural": "filtri ",
+        "moreFiltersWithCount": "+{{count}} filtro aggiuntivo",
+        "moreFiltersWithCount_plural": "+{{count}} filtri aggiuntivi",
         "alertsLabelName": "Nome",
         "alertsLabelFilters": "Filtri",
         "alertsHeaderConfiguredAlerts": "Avvisi configurati",
@@ -744,7 +747,19 @@
     "websiteDashboardTitleWebsitePage": "Pagina sito Web",
     "websiteDashboardTitleWebsite": "Sito Web",
     "websiteDashboardButtonAnalyzePageLoads": "Analizza caricamenti pagina",
-    "websiteDashboardButtonAnalyzePageTransitions": "Analizzare transizioni pagina"
+    "websiteDashboardButtonAnalyzePageTransitions": "Analizzare transizioni pagina",
+    "noDataAvailable": {
+      "pagesTitle": "Nessuna pagina disponibile ",
+      "pagesDescription": "Non è stata richiamata alcuna pagina per la fascia oraria selezionata.",
+      "customEventsTitle": "Nessun evento personalizzato disponibile",
+      "customEventsDescription": "Non è stato richiamato alcun evento personalizzato per la fascia oraria selezionata.",
+      "javascriptErrorsTitle": "Nessun errore JavaScript disponibile",
+      "javascriptErrorsDescription": "Non è stato richiamato alcun errore JavaScript per la fascia oraria selezionata.",
+      "resourcesTitle": "Nessuna risorsa disponibile ",
+      "resourcesDescription": "Non è stata richiamata alcuna risorsa per la fascia oraria selezionata.",
+      "httpRequestsTitle": "Nessuna richiesta HTTP disponibile",
+      "httpRequestsDescription": "Non è stata richiamata alcuna richiesta HTTP per la fascia oraria selezionata."
+    }
   },
   "rename": {
     "help": "La ridenominazione di un sito Web è un'azione congruente nel sistema Instana. Per questo motivo, una modifica al nome di un sito Web può richiedere <strong>fino ad alcuni minuti</strong> per essere popolata nell'intero sistema."

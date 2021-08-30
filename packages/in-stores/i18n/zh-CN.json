@@ -58,8 +58,11 @@
   "permissionCanConfigureTeamsDescription": "允许配置所有团队的访问作用域和许可权。",
   "permissionCanConfigureTeamsCategory": "访问控制",
   "permissionCanConfigureApiTokensLabel": "配置 API 令牌",
+  "permissionCanConfigurePersonalApiTokensLabel": "个人 API 令牌配置",
   "permissionCanConfigureApiTokensDescription": "允许创建和配置 API 令牌。",
+  "permissionCanConfigurePersonalApiTokensDescription": "允许创建和配置继承用户许可权的个人 API令牌。",
   "permissionCanConfigureApiTokensCategory": "访问控制",
+  "permissionCanConfigurePersonalApiTokensCategory": "访问控制",
   "permissionCanConfigureAuthenticationMethodsLabel": "配置认证方法",
   "permissionCanConfigureAuthenticationMethodsDescription": "允许配置团队认证方法（例如 2FA/SSO）。",
   "permissionCanConfigureAuthenticationMethodsCategory": "访问控制",
@@ -213,7 +216,8 @@
     "shiftingLabelYesterday": "昨天",
     "shiftingDescriptionYesterday": "与所选时间窗口前 24 小时记录的数据进行比较",
     "shiftingLabelLastWeek": "上周",
-    "shiftingDescriptionLastWeek": "与所选时间窗口前一周的数据进行比较"
+    "shiftingDescriptionLastWeek": "与所选时间窗口前一周的数据进行比较",
+    "shiftingCustomDuration": "前一 {{duration}}"
   },
 
   "view": {

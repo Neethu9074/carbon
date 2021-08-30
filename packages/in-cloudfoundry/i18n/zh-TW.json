@@ -25,7 +25,11 @@
     "routes": "路徑",
     "diskLimit": "磁碟限制",
     "createdAt": "建立時間",
-    "analyzeCalls": "分析呼叫"
+    "analyzeCalls": "分析呼叫",
+    "noDataAvailable": {
+      "containersTitle": "沒有可用的儲存器",
+      "containersDescription": "未擷取到所選時間範圍內的儲存器。"
+    }
   },
   "name": "名稱",
   "requestedState": "所要求的狀態",

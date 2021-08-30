@@ -1,7 +1,7 @@
 {
   "analyzeView": {
     "traces": "跟踪",
-    "calls": "调用",
+    "calls": "调用次数",
     "components": {
       "resultHeader": {
         "result": "结果",
@@ -84,7 +84,7 @@
       "pageLoads2": "页面加载数",
       "jsErrors": "JS 错误数",
       "viewTransitions2": "视图转换",
-      "calls": "调用",
+      "calls": "调用次数",
       "traces": "跟踪",
       "console": "控制台"
     }
@@ -99,7 +99,7 @@
         "sourceUnmonitored": "尚未跟踪此调用的源，因此无法提供有关源的信息。所显示的有关此调用的所有信息均由目标提供。",
         "sourceMonitoredByAnotherProvider": "此调用的源由其他分布式跟踪提供程序跟踪。通过在标识为 {{foreignParentId}} 的提供程序中搜索父跨度，您可以找到有关源的更多信息。",
         "notMonitored": "未受 Instana 监视",
-        "source": "来源",
+        "source": "源",
         "destination": "目标",
         "logs": "日志数 ( {{errors}}{{warnings}} )",
         "errors": "{{count}} 个错误",
@@ -125,6 +125,9 @@
         "hideWebsiteInformation": "隐藏 Web 站点信息",
         "showWebsiteInformation": "显示 Web 站点信息",
         "viewWebsiteActivity": "查看 Web 站点活动"
+      },
+      "logs": {
+        "noDataMessage": "没有可用于此跟踪的日志"
       }
     },
     "components": {
@@ -172,13 +175,22 @@
         "tags": "标记"
       },
       "callTree": {
-        "expandButtonForRow": "展开行按钮",
+        "expandButtonForRow": "展开所有子调用",
+        "collapseButtonForRow": "折叠所有子调用",
         "of": "/",
-        "inheritedFrom": "继承自"
+        "inheritedFrom": "继承自",
+        "cardTitle": "调用次数"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "着色方式",
-        "endpoint": "端点"
+        "colorizeByExpl": "更改调用条的颜色",
+        "endpoint": "端点",
+        "service": "服务"
+      },
+      "viewToggleButtons": {
+        "expl": "查看方式",
+        "tree": "Tree",
+        "chart": "时间线"
       },
       "logTooltipContent": {
         "errorLog": "错误日志",
@@ -200,7 +212,7 @@
     "labelEndpoint": "端点",
     "labelSOURCE_AND_DESTINATION": "源和目标",
     "labelDESTINATION": "目标",
-    "labelSOURCE": "来源",
+    "labelSOURCE": "源",
     "labelNOTAPPLICABLE": "",
     "labelStringEQUALS": "等于",
     "labelStringNOT_EQUAL": "不等于",
@@ -241,14 +253,6 @@
   "analyzeHeader": {
     "title": "分析"
   },
-  "editTagFilterDialog": {
-    "dialogTitleEdit": "编辑过滤器",
-    "dialogTitleAdd": "添加 {{filterCategory}} 过滤器",
-    "messageTitle": "选择应作为数据过滤依据的标记。标记区分大小写。",
-    "placeholder": "输入以过滤结果...",
-    "saveFilter": "保存过滤器",
-    "addFilter": "添加过滤器"
-  },
   "filterBar": {
     "keyValueBarItem": {
       "tooltip": "移除过滤器"
@@ -263,12 +267,6 @@
       "clickToFilter": "单击以按 {{itemLabel}} 过滤"
     },
     "allFilters": "所有过滤器"
-  },
-  "radioButtons": {
-    "messageFilering": "源上的过滤和分组不可用于所选时间范围",
-    "messageIndependent": "此标记独立于源和目标",
-    "fragmentSource": "仅适用于调用的源",
-    "fragmentCall": "适用于调用源或目标"
   },
   "dialogs": {
     "tooltip": "建议当前不可用，请输入值",
@@ -286,13 +284,14 @@
     "tooltipCloseLogDetails": "关闭日志详细信息",
     "analyzeLogsLabel": "分析日志",
     "similarLogs": "相似日志",
-    "similarServiceLogs": "在服务上下文中"
+    "similarServiceLogs": "显示此服务上下文中的日志",
+    "service": "显示服务"
   },
   "traceDetails": {
     "labelTotal": "总计",
     "labelNetwork": "网络",
     "labelSelf": "自身",
-    "labelWaiting": "等待",
+    "labelWaiting": "正在等待",
     "labelService": "服务",
     "labelEndpoint": "端点",
     "labelAggregatedTime": "汇总时间",
@@ -301,15 +300,8 @@
     "callDetails": {
       "tooltipCloseCallDetails": "关闭调用详细信息"
     },
-
     "callTimeAxis": {
       "started": "开始：{{startedTime}}"
-    },
-    "navigatorSplitScreen": {
-      "tooltipViewPrevious": "查看上一个“{{viewType}}”（快捷方式：向左方向键）",
-      "tooltipViewNext": "查看下一个“{{viewType}}”（快捷方式：向右方向键）",
-      "tooltipCloseSidebar": "关闭侧边栏",
-      "tooltipOpenSidebar": "打开侧边栏"
     }
   },
   "tabs": {
@@ -332,21 +324,13 @@
       "beta": "BETA",
       "analytics": "分析"
     },
-    "editTagFilterDialog": {
-      "tag": "标记",
-      "loadingSuggestions": "正在加载建议...",
-      "operator": "运算符",
-      "true": "true",
-      "false": "false",
-      "removeFilter": "移除过滤器"
-    },
     "filterBar": {
       "group": "组",
       "filters": "过滤器",
       "clearFilters": "清除过滤器",
       "loadingSuggestions": "正在加载建议...",
       "operator": "运算符",
-      "key": "关键字",
+      "key": "密钥",
       "value": "值",
       "addFilter": "添加过滤器",
       "equalTo": "等于",
@@ -361,10 +345,6 @@
     "groupedTraces": {
       "tagPresentWithNoValue": "存在没有任何值的标记",
       "tagNotPresent": "标记不存在"
-    },
-    "radioButtons": {
-      "source": "来源",
-      "destination": "目标"
     }
   }
 }

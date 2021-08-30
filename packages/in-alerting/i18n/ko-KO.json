@@ -14,7 +14,7 @@
     "alertHeaderEnableTooltip": " 사용",
     "alertHeaderRestoreDeleteTooltip": "삭제",
     "alertHeaderEditTooltip": "편집",
-    "alertHeaderCopyTooltip": "복사",
+    "alertHeaderDuplicateTooltip": "복제",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "확인하시기 바랍니다.",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>\"{{alertConfigName}} 경보\"</strong>를 제거하시겠습니까?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "제거",
@@ -26,7 +26,14 @@
     "alertPropertyInfosLabelDescription": "설명",
     "noChannelSelectedText": "현재 경보 채널을 선택하지 않았으므로 경보를 수신하지 않습니다.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "추가 필터",
-    "revisionDropdownButtonRevision": "{{alertRevision}} 개정",
+    "revisionDropdownButton": {
+      "revision": "{{alertRevision}} 개정",
+      "paused": "일시정지됨",
+      "resumed": "재개됨",
+      "deleted": "삭제됨",
+      "update": "업데이트",
+      "created": "작성됨"
+    },
     "chart": {
       "alertingChartLabelThreshold": "임계값",
       "alertingChartLabelViolations": "위반",
@@ -55,7 +62,8 @@
       "theValueMustNotBeBlank": "값은 공백이 아니어야 합니다.",
       "onlyOrAnyAlphaNumericalAreAllowed": "'.', '-', '_' 또는 영숫자만 허용됩니다.",
       "aTagNeedsToBeSelected": "태그를 선택해야 합니다.",
-      "aKeyNeedsToBeSpecified": "키를 지정해야 합니다."
+      "aKeyNeedsToBeSpecified": "키를 지정해야 합니다.",
+      "customPayloadTitle": "사용자 정의 페이로드"
     }
   },
   "potentialProblems": {
@@ -101,7 +109,10 @@
     "descriptionUnsupportedOperator": "지원되지 않는 연산자: {{operator}}"
   },
   "smartAlerts": {
+    "applicationSmartAlert": "애플리케이션 스마트 경보",
+    "globalApplicationSmartAlert": "글로벌 애플리케이션 스마트 경보",
     "titleNoSmartAlertsConfigured": "스마트 경보가 구성되지 않음",
+    "titleNoSmartAlertsConfiguredForSearchQuery": "지정된 검색에 대한 스마트 경보 구성을 찾을 수 없음",
     "titleNoSmartAlertsCreated": "스마트 경보가 작성되지 않음",
     "titleCopyOf": "{{smartAlertTitle}} (사본)",
     "applications": {
@@ -190,6 +201,12 @@
         }
       },
       "chart": {
+        "entitySelection": {
+          "tooManyResults": "검색이 너무 많은 결과와 일치하여 표시할 수 없습니다. 보다 구체적인 검색어로 결과를 좁히십시오.",
+          "applications": "애플리케이션",
+          "services": "서비스"
+        },
+        "noChartForAdaptiveBaseline": "이 트리거가 적응형 기준선에 기반한 동안 사용 가능한 미리보기가 없습니다.",
         "noDataWithoutEndpointSelection": "미리보기를 표시할 엔드포인트를 선택하십시오.",
         "noDataAvailable": "미리보기를 표시할 서비스를 선택하십시오."
       },
@@ -402,6 +419,7 @@
         "ruleFormPleaseProvideAStartStatusCode": "시작 HTTP 상태 코드를 제공하십시오.",
         "ruleFormPleaseProvideAEndStatusCode": "종료 HTTP 상태 코드를 제공하십시오.",
         "smartAlertFormNoEntitiesSelected": "엔티티를 선택하지 않음",
+        "smartAlertFormValueIsReadOnly": "값은 읽기 전용이며, 변경할 수 없음",
         "thresholdFormPleaseProvideANumber0": "0 이상인 수를 제공하십시오.",
         "thresholdFormBaselineIsEmpty": "기준선이 비어 있음"
       },
@@ -439,7 +457,21 @@
       "details": {
         "title": "경보 세부사항",
         "titleAlertProperties": "경보 특성"
+      },
+      "apCreation": {
+        "addToAllBuiltInAlerts": "모든({{numAlerts}}) 기본 제공 글로벌 스마트 경보에 추가",
+        "addToAllBuiltInAlertsSubText": "({{numDisabled}}/{{numAlerts}}개 경보가 현재 사용 안함으로 설정됨)",
+        "addToAllExplanation": "다음 범위에서 이 애플리케이션 퍼스펙티브 포함",
+        "addToAllExplanationSubText": "기본 제공 글로벌 스마트 경보",
+        "notAllEnitiesSelected": "모든 서비스/엔드포인트가 선택되지 않음",
+        "alertCurrentlyDisabled": "현재 사용 안함으로 설정된 경보",
+        "viewAlertDetails": "구성에 대한 경보 세부사항 보기: {{name}}",
+        "eventsWarningIcon": "이벤트 경고 아이콘",
+        "eventsCriticalIcon": "이벤트 위험 아이콘"
       }
+    },
+    "details": {
+      "titleBuiltInIndicator": "기본 제공"
     },
     "form": {
       "ruleAggregationOptionMEAN": "평균",
@@ -457,6 +489,7 @@
     },
     "components": {
       "smartAlertDialog": {
+        "cancelTitle": "취소",
         "sharedListTooltip": "선택한 {{typeName}}을(를) 더 이상 사용할 수 없음",
         "clearTagFilterExpressionButton": "지우기",
         "baselineErrorMessageInsufficientDataToCompute": "선택한 기준선을 컴퓨팅하기에 데이터가 충분하지 않습니다. 대신 <em>정적 임계값</em>을 선택하십시오.",
@@ -464,49 +497,51 @@
         "blueprintDescriptionButtonSelect": "선택",
         "selectAlertChannelButtonTitle": "경보 채널 선택",
         "selectAlertChannelButton": "경보 채널 선택",
+        "createAlertChannelTitle": "경보 채널 작성",
+        "alertChannelCreatedSuccess": "경보 채널 작성됨",
+        "alertChannelSelectTypeTitle": "경보 채널 유형",
         "addChannel": "{{count}}개 채널 추가",
         "addChannel_plural": "{{count}}개 채널 추가",
-        "addChannel_0": "{{count}}개 채널 추가",
-        "addChannel_1": "{{count}}개 채널 추가",
-        "addChannel_2": "{{count}}개 채널 추가",
         "add": "추가",
         "scopeConfigTitleWithApplications": "애플리케이션/서비스/엔드포인트 선택",
         "scopeConfigTitle": "서비스/엔드포인트 선택",
-        "scopeConfigTitleTooltip": "지난 7일 동안 사용 가능한 엔티티 표시",
+        "scopeConfigTitleTooltip": "지난 24시간 동안 사용 가능한 엔티티 표시",
         "sortByUserSelectionLabel": "사용자 선택별 정렬",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "{{count}}명 이상의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "{{count}}명 이상의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "{{count}}명 이상의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "{{count}}명 이상의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "{{count}}명 이상의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "{{userPercentage}}의 사용자가 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "{{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionRequestImpact": "{{count}}개 이상의 요청이 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionRequestImpact_plural": "{{count}}개 이상의 요청이 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionRequestImpact_0": "{{count}}개 이상의 요청이 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionRequestImpact_1": "{{count}}개 이상의 요청이 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionRequestImpact_2": "{{count}}개 이상의 요청이 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionViolationsInPeriod": "{{count}}개 이상의 위반이 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionViolationsInPeriod_plural": "{{count}}개 이상의 위반이 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionViolationsInPeriod_0": "{{count}}개 이상의 위반이 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionViolationsInPeriod_1": "{{count}}개 이상의 위반이 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdDescriptionViolationsInPeriod_2": "{{count}}개 이상의 위반이 {{formattedTimeWindow}} 내에 영향을 받음",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "연속 위반 수",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "{{count}}명 이상의 사용자 및 {{userPercentage}}의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "{{count}}명 이상의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "{{count}}명 이상의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "{{count}}명 이상의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "{{count}}명 이상의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "{{count}}명 이상의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "{{userPercentage}}의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionRequestImpact": "{{count}}개 이상의 요청이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionRequestImpact_plural": "{{count}}개 이상의 요청이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionRequestImpact_0": "{{count}}개 이상의 요청이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionRequestImpact_1": "{{count}}개 이상의 요청이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionRequestImpact_2": "{{count}}개 이상의 요청이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionViolationsInPeriod": "{{count}}개 이상의 위반이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionViolationsInPeriod_plural": "{{count}}개 이상의 위반이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionViolationsInPeriod_0": "{{count}}개 이상의 위반이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionViolationsInPeriod_1": "{{count}}개 이상의 위반이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionViolationsInPeriod_2": "{{count}}개 이상의 위반이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "연속 메트릭 위반 수",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "연속 평가 수",
-        "timeThresholdConfigNumberOfEvaluationWindows": "평가 Windows 수",
-        "timeThresholdConfigNumberOfViolations": "위반 수",
+        "timeThresholdConfigNumberOfEvaluationWindows": "사용자 영향에 대한 평가 기간 수",
+        "timeThresholdConfigNumberOfViolations": "메트릭 위반 수",
         "timeThresholdConfigEvaluationGranularity": "평가 단위",
         "timeThresholdConfigNumberOfRequestsThreshold": "요청 임계값 수",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "영향을 받는 사용자 임계값 수",
         "timeThresholdConfigAtLeast": "최소",
         "timeThresholdConfigNumberOfRequests": "요청 수",
         "timeThresholdConfigMinutes": "{{min}}분",
         "timeThresholdConfigNumberOfUsers": "사용자 수",
-        "timeThresholdConfigPercentageOfRequestsThreshold": "요청 임계값 백분율",
+        "timeThresholdConfigPercentageOfUsers": "사용자 %",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "영향을 받는 사용자 임계값 백분율",
         "timeThresholdConfigOff": "해제",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "1 이상인 수를 제공하십시오.",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "1% - 100% 사이의 수를 제공하십시오.",
@@ -538,6 +573,7 @@
         "thresholdTypeOptionStaticThreshold": "정적 임계값",
         "thresholdTypeOptionHistoricBaselineDaily": "기준선(일별 계절성)",
         "thresholdTypeOptionHistoricBaselineWeekly": "기준선(주별 계절성)",
+        "thresholdTypeOptionAdaptiveBaseline": "적응형 기준선",
         "useSuggestedvalue": "제안된 값 사용",
         "alertConfigDialogPresenterTitleEditAlert_Local": "스마트 경보 편집",
         "alertConfigDialogPresenterTitleEditAlert_Global": "글로벌 스마트 경보 편집",
@@ -549,7 +585,8 @@
         "PreviewForAP": "애플리케이션 퍼스펙티브에 대한 미리보기:",
         "PreviewForEndpoint": "엔드포인트에 대한 미리보기:",
         "PreviewForService": "서비스에 대한 미리보기:",
-        "PreviewSelectLoadingEndpoints": "엔드포인트 목록 로드"
+        "PreviewSelectLoadingEndpoints": "엔드포인트 목록 로드",
+        "thresholdValue": "임계값"
       },
       "alertsHub": {
         "title": "경보 허브",
@@ -791,7 +828,12 @@
       "enabled": "사용으로 설정됨",
       "disabled": "사용 안함으로 설정됨",
       "severity": "심각도",
-      "created": "작성한 날짜"
+      "created": "작성한 날짜",
+      "type": "유형"
+    },
+    "migration": {
+      "migrateButton": "스마트 경보로 마이그레이션",
+      "migrateButtonTooltip": "현재 이벤트에서 가능한 최대 확장으로 마이그레이션된 값으로 미리 채워진 스마트 경보 구성 대화 상자를 엽니다. 결과를 신중하게 다시 한 번 확인하십시오!"
     }
   }
 }

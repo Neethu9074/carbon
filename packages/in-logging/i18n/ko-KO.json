@@ -11,5 +11,6 @@
   "goToTrace": "추적으로 이동",
   "addAsFilter": "필터로 추가",
   "addAsGroup": "그룹으로 추가",
-  "numberOfLogs": "로그 수"
+  "numberOfLogs": "로그 수",
+  "numberOfLogsPercentage": "백분율"
 }

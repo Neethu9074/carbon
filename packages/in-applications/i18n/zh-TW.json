@@ -146,8 +146,6 @@
     "noData": "藉由應用程式視景，可針對環境、服務集、租戶或任何事物建模。"
   },
   "alert": {
-    "thresholdLabel": "臨界值",
-    "applicationSmartAlert": "應用程式智慧型警示",
     "tooltipMoreFilter": "+{{moreFilterCount}} 個以上的過濾器",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} 個以上的過濾器",
     "tooltipMoreFilter_0": "+{{moreFilterCount}} 個以上的過濾器",
@@ -177,6 +175,7 @@
     "erroneous": "錯誤",
     "resetUnsupportedTracesFilterContainingOrConjunction": "已清除過濾器，因為「分析追蹤」中不支援邏輯運算子 OR。",
     "facetedSearch": {
+      "showOnlyErroneous": "僅限錯誤",
       "showSyntheticCalls": "顯示綜合呼叫",
       "showInternalCalls": "顯示內部呼叫",
       "defaultTurnedOnSynthetic": "此選項已在您查詢綜合呼叫之後選取。",
@@ -186,17 +185,19 @@
       "erroneous_Erroneous": "錯誤"
     },
     "latency": "延遲時間",
+    "traceLatency": "追蹤延遲",
     "applications": "應用程式",
     "services": "服務",
     "endpoints": "端點",
     "types": "類型",
     "technologies": "技術",
-    "httpStatusCode": "HTTP 狀態碼",
+    "httpStatusCode": "HTTP 狀態",
     "hiddenCalls": "隱藏的呼叫",
     "preview": "預覽",
     "listBatchTypeTooltip": "此 {{type}} 已批次處理，代表 {{batchCount}} 個個別的 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 個批次處理 {{types}} 的延遲時間總計。",
     "traceIdTooltip": "此追蹤的某些相關資料有所延遲，請稍後再重新載入頁面。舉例來說，當正在檢視最近的追蹤時，若其某些資料仍在處理中，就可能發生此情況。",
+    "downloadTraceTooltip": "下載完整追蹤。",
     "closeTraceDetail": "關閉追蹤明細",
     "invalidQueryConfig": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "errorRateLabel": "錯誤呼叫（比率）",
@@ -398,6 +399,8 @@
       "downstreamCalls": "3. 儲存下游服務的呼叫",
       "downstreamCallsDescription": "選擇哪些下游服務要包含在「應用程式視景」中。",
       "defaultDashboardView": "4. 選取預設儀表板視圖",
+      "builtInSmartAlertsScope": "5. 內建智慧型警示範圍",
+      "builtInSmartAlertsScopeDescription": "選擇哪一個「內建廣域智慧型警示」應該將此項目或其部分併入到其範圍中",
       "clear": "清除",
       "create": "建立",
       "database": "資料庫",
@@ -428,7 +431,17 @@
     },
     "errorCallWithoutMessage": "沒有錯誤訊息的錯誤呼叫",
     "noLogMessage": "沒有可用的日誌訊息",
-    "includeSyntheticCallsDropDownSyntheticCalls": " 合成呼叫：{{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "合成呼叫：{{syntheticCallsOptionLabel}}",
+    "noDataAvailable": {
+      "servicesTitle": "沒有可用的服務",
+      "servicesDescription": "未擷取到所選時間範圍內的服務。",
+      "errorMessagesTitle": "沒有可用的錯誤訊息",
+      "errorMessagesDescription": "未擷取到所選時間範圍內的錯誤訊息。",
+      "logMessagesTitle": "沒有可用的日誌訊息",
+      "logMessagesDescription": "未擷取到所選時間範圍內的日誌訊息。",
+      "endpointsTitle": "沒有可用的端點",
+      "endpointsDescription": "未擷取到所選時間範圍內的端點。"
+    }
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "服務不在現行應用程式中。",
@@ -476,10 +489,11 @@
       "descriptionOperatorsCreationEnabled": "AND 運算子會優先採用，並在 OR 運算子之前先評估（前提是未以方括弧分組）",
       "descriptionPrepareToMonitor": "我們正在準備一切，以監視您的應用程式視景 <bold>{{decodedLabel}}</bold>。",
       "descriptionRemoveApplicationPerspective": "如果您再也不想監視應用程式視景 <strong>{{application}}</strong>，請使用下方的按鈕來移除它。移除應用程式視景可能需要幾分鐘。",
-      "stepTitleDefineApplicationName": "定義應用程式視景的名稱。",
-      "stepTitleDefineTags": "使用一或多個標籤來定義應用程式視景。",
+      "stepTitleDefineApplicationName": "定義您「應用程式視景」的名稱。",
+      "stepTitleDefineTags": "使用一或多個標籤來定義「應用程式視景」。",
       "stepTitleDownstreamServices": "下游服務。",
       "stepTitleApplicationScope": "應用程式範圍。",
+      "stepTitleBuiltInSmartAlertsScope": "內建智慧型警示範圍。",
       "optionNoDownstreamServices": "無下游服務",
       "optionImmediateDownstreamServices": "直接下游資料庫和傳訊服務",
       "optionAllDownstreamServices": "所有下游服務",
@@ -511,23 +525,24 @@
     "servicesNoData": "在選取的時間範圍內沒有任何可用的服務呼叫。如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
-    "batch": "批次",
+    "batch": "Batch",
     "shell": "Shell",
     "database": "資料庫",
-    "http": "Http",
+    "http": "HTTP",
     "messaging": "傳訊",
-    "rpc": "Rpc",
+    "rpc": "RPC",
     "event": "事件",
     "graphQL": "GraphQL",
     "internal": "內部",
     "undefined": "未定義",
     "self": "自身",
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "otel": "OpenTelemetry"
   },
   "constants": {
     "exclude": "排除",
     "syntheticCallsAreExcludedFromTheMetrics": "合成呼叫會從度量中排除。",
-    "include": "Include",
+    "include": "併入",
     "syntheticCallsAreIncludedInTheMetrics": "合成呼叫會包含在度量中。",
     "only": "唯有",
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "唯有合成呼叫會顯示及包含在度量中"
@@ -551,11 +566,22 @@
         "calls": "呼叫",
         "erroneousTrace": "錯誤追蹤",
         "attemptToRenderTrace": "嘗試呈現追蹤"
+      },
+      "calls": {
+        "settings": {
+          "showServiceInformation": "服務資訊",
+          "showServiceInformationExpl": "在呼叫標籤下方顯示服務資訊",
+          "showSubCalls": "顯示子呼叫",
+          "showSubCallsExpl": "在每一列上顯示直接子呼叫"
+        }
       }
     }
   },
   "tabs": {
-    "labelDetail": "詳細資料"
+    "labelDetail": "詳細資料",
+    "labelSummary": "摘要",
+    "servicesAndEndpoint": "服務和端點",
+    "logs": "日誌"
   },
   "metrics": {
     "calls_calls": "呼叫",

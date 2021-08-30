@@ -11,5 +11,6 @@
   "goToTrace": "Vai alla traccia",
   "addAsFilter": "Aggiungi come filtro",
   "addAsGroup": "Aggiungi come gruppo",
-  "numberOfLogs": "Numero di log"
+  "numberOfLogs": "Numero di log",
+  "numberOfLogsPercentage": "Percentuale"
 }

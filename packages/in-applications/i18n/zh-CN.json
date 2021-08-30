@@ -7,7 +7,7 @@
   "labelCall": "调用",
   "labelTrace": "跟踪",
   "linkDownload": "下载",
-  "labelCalls": "调用",
+  "labelCalls": "调用次数",
   "labelTraces": "跟踪",
   "labelErrorRate": "错误率",
   "labelDisableSizing": "禁用缩放大小",
@@ -146,8 +146,6 @@
     "noData": "应用程序透视图提供了对环境、服务集、租户或几乎所有内容进行建模的方法。"
   },
   "alert": {
-    "thresholdLabel": "阈值",
-    "applicationSmartAlert": "应用程序智能警报",
     "tooltipMoreFilter": "额外 {{moreFilterCount}} 个过滤器",
     "tooltipMoreFilter_plural": "额外 {{moreFilterCount}} 个过滤器",
     "tooltipMoreFilter_0": "额外 {{moreFilterCount}} 个过滤器",
@@ -157,7 +155,7 @@
   "inboundOutboundCalls": {
     "config": {
       "inbound": {
-        "text": "入站调用"
+        "text": "入站调用数"
       },
       "all": {
         "text": "所有调用"
@@ -177,6 +175,7 @@
     "erroneous": "错误",
     "resetUnsupportedTracesFilterContainingOrConjunction": "已清除过滤器，因为“分析跟踪”中不支持逻辑运算符 OR。",
     "facetedSearch": {
+      "showOnlyErroneous": "仅错误",
       "showSyntheticCalls": "显示合成调用",
       "showInternalCalls": "显示内部调用",
       "defaultTurnedOnSynthetic": "由于您查询合成调用，因此将选择此选项。",
@@ -186,17 +185,19 @@
       "erroneous_Erroneous": "错误"
     },
     "latency": "等待时间",
+    "traceLatency": "跟踪等待时间",
     "applications": "应用程序",
     "services": "服务",
     "endpoints": "端点",
     "types": "类型",
     "technologies": "技术",
-    "httpStatusCode": "HTTP 状态码",
+    "httpStatusCode": "HTTP 状态",
     "hiddenCalls": "隐藏的调用",
     "preview": "预览",
     "listBatchTypeTooltip": "此 {{type}} 已批处理，且表示 {{batchCount}} 个个别 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 个批处理的 {{types}} 的总等待时间。",
     "traceIdTooltip": "与此跟踪相关的一些数据发生延迟，请稍后重新装入页面。可能发生此情况的一个示例如下：正在查看最近跟踪，而其部分数据仍在处理中。",
+    "downloadTraceTooltip": "下载完整跟踪。",
     "closeTraceDetail": "关闭跟踪详细信息",
     "invalidQueryConfig": "查询配置无效。请在继续之前处理验证失败。",
     "errorRateLabel": "错误调用数（率）",
@@ -207,20 +208,20 @@
     "erroneousTraceRate": "错误跟踪率",
     "erroneousTrace": "错误跟踪数",
     "metricLabel": "调用",
-    "metricLabel_plural": "调用",
-    "metricLabel_0": "调用",
+    "metricLabel_plural": "调用次数",
+    "metricLabel_0": "调用次数",
     "metricLabel_1": "调用",
-    "metricLabel_2": "调用",
+    "metricLabel_2": "调用次数",
     "traceLabel": "跟踪",
     "traceLabel_plural": "跟踪",
     "traceLabel_0": "跟踪",
     "traceLabel_1": "跟踪",
     "traceLabel_2": "跟踪",
     "typeCall": "调用",
-    "typeCall_plural": "调用",
-    "typeCall_0": "调用",
+    "typeCall_plural": "调用次数",
+    "typeCall_0": "调用次数",
     "typeCall_1": "调用",
-    "typeCall_2": "调用",
+    "typeCall_2": "调用次数",
     "typeTrace": "跟踪",
     "typeTrace_plural": "跟踪",
     "typeTrace_0": "跟踪",
@@ -398,6 +399,8 @@
       "downstreamCalls": "3. 存储下游服务的调用",
       "downstreamCallsDescription": "选择要包含在应用程序透视图中的下游服务。",
       "defaultDashboardView": "4. 选择缺省仪表板视图",
+      "builtInSmartAlertsScope": "5. 内置智能警报范围",
+      "builtInSmartAlertsScopeDescription": "选择哪个内置全局智能警报应在其范围中包含此项/此项的一部分",
       "clear": "清除",
       "create": "创建",
       "database": "DATABASE",
@@ -428,7 +431,17 @@
     },
     "errorCallWithoutMessage": "无错误消息的错误调用",
     "noLogMessage": "未提供日志消息",
-    "includeSyntheticCallsDropDownSyntheticCalls": " 合成调用：{{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "合成调用：{{syntheticCallsOptionLabel}}",
+    "noDataAvailable": {
+      "servicesTitle": "无可用的服务",
+      "servicesDescription": "所选时间范围内未检索到任何服务。",
+      "errorMessagesTitle": "无可用的错误消息",
+      "errorMessagesDescription": "所选时间范围内未检索到任何错误消息。",
+      "logMessagesTitle": "无可用的日志消息",
+      "logMessagesDescription": "所选时间范围内未检索到任何日志消息。",
+      "endpointsTitle": "无可用的端点",
+      "endpointsDescription": "所选时间范围内未检索到任何端点。"
+    }
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "该服务不在当前应用程序中。",
@@ -480,14 +493,15 @@
       "stepTitleDefineTags": "使用一个或多个标记类定义应用程序透视图。",
       "stepTitleDownstreamServices": "下游服务。",
       "stepTitleApplicationScope": "应用程序作用域。",
-      "optionNoDownstreamServices": "无下游无法",
+      "stepTitleBuiltInSmartAlertsScope": "内置智能警报范围。",
+      "optionNoDownstreamServices": "无下游服务",
       "optionImmediateDownstreamServices": "紧接的下游数据库和消息传递服务",
       "optionAllDownstreamServices": "所有下游服务",
       "errorApplicationNameBlank": "应用程序透视图名称不得为空。",
       "errorNameLengthExceeded": "应用程序透视图名称不得超出 128 个字符。",
       "errorInvalidQuery": "查询无效",
       "titleApplicationCreating": "正在创建应用程序透视图…"
-    },
+},
     "customSyntheticRule": {
       "placeholderNameRule": "命名您的规则",
       "placeholderAddDescriptionForRule": "为您的规则添加描述",
@@ -522,12 +536,13 @@
     "internal": "内部",
     "undefined": "未定义",
     "self": "自身",
-    "sdk": "SDK"
-  },
+    "sdk": "SDK",
+    "otel": "OpenTelemetry"
+},
   "constants": {
     "exclude": "排除",
     "syntheticCallsAreExcludedFromTheMetrics": "从指标中排除合成调用。",
-    "include": "包含",
+    "include": "包括",
     "syntheticCallsAreIncludedInTheMetrics": "合成调用包含在指标中。",
     "only": "仅",
     "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "指标中仅显示且仅包含合成调用"
@@ -536,7 +551,7 @@
     "tabs": {
       "summary": {
         "duplicateCalls": "重复调用",
-        "duplicateCallsDesc": "此跟踪包含一个或多个重复调用（跨度）。唯一调用数：{{traceCallCountIgnoringBatchSize}} - 记录数：{{traceCallRecordCount}}。这将导致调用计数不正确（有批处理），出现错误的计数值，且可能出现其他违规。",
+        "duplicateCallsDesc": "此跟踪由一个或多个重复调用（跨度）组成。唯一调用数：{{traceCallCountIgnoringBatchSize}} - 记录数：{{traceCallRecordCount}}。这将导致调用计数不正确（有批处理），出现错误的计数值，且可能出现其他违规。",
         "batchedIngestion": "已批处理数据获取",
         "traceIngestionBatchCount": "已在 {{traceIngestionBatchesCount}} 个批处理中处理此跟踪。这可能导致诸如跨度未合并到单个调用、部分服务映射或其他不完整数据显示等违规。",
         "subCalls": "子调用",
@@ -551,11 +566,22 @@
         "calls": "调用",
         "erroneousTrace": "错误跟踪",
         "attemptToRenderTrace": "尝试呈现跟踪"
+      },
+      "calls": {
+        "settings": {
+          "showServiceInformation": "服务信息",
+          "showServiceInformationExpl": "在调用标签下显示服务信息",
+          "showSubCalls": "显示子调用",
+          "showSubCallsExpl": "在每行中显示直接子调用"
+        }
       }
     }
   },
   "tabs": {
-    "labelDetail": "详细信息"
+    "labelDetail": "详细信息",
+    "labelSummary": "摘要",
+    "servicesAndEndpoint": "服务和端点",
+    "logs": "日志"
   },
   "metrics": {
     "calls_calls": "调用次数",

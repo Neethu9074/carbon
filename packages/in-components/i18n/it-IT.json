@@ -106,6 +106,10 @@
       "cursorPaginatedTableFilterByLabel": "Analizzare questo gruppo",
       "cursorPaginatedTableLoadMoreRowLabel": "Carica altro"
     },
+    "noDataAvailable": {
+      "entititiesTitle": "Nessuna entità disponibile",
+      "entititiesDescription": "Non è stata richiamata alcuna entità per la fascia oraria selezionata."
+    },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "Cerca {{len}} elementi",
       "configurableThNoMatchesTxt": "Nessuna corrispondenza"
@@ -171,7 +175,11 @@
     "labelRegion": "Regione",
     "labelTag": "Tag",
     "labelCommit": "Esegui il commit",
-    "buttonGraphShowcase": "Showcase del grafico"
+    "buttonGraphShowcase": "Showcase del grafico",
+    "geo": {
+      "title": "Dati Geo",
+      "description": "Questo prodotto include i dati GeoLite2 creati da MaxMind, disponibili da <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
+    }
   },
   "blueprintFormMultistep": {
     "buttonCancel": "Annulla",
@@ -219,6 +227,9 @@
     "headingAvailableTimeRanges": "Intervalli di tempo disponibili",
     "explanation": "Impossibile trovare una versione di questa entità nell'intervallo di tempo selezionato. Sono state trovate altre versioni in intervalli di tempo differenti:",
     "noDataAvailable": "Nessun dato disponibile"
+  },
+  "entityToInstanaServiceButton": {
+    "services": "Servizi"
   },
   "error": {
     "erroneousResultPresenterMessage": "Si è verificato un errore non previsto. Aggiornare la pagina o riprovare successivamente."
@@ -356,6 +367,7 @@
   },
   "selectorOverlay": {
     "placeholderSearch": "Cerca",
+    "noResults": "Nessun risultato",
     "loadingIndicatorLoadingCatalog": "Caricamento del catalogo"
   },
   "sortingConfigurator": {
@@ -453,18 +465,25 @@
     "timeSelectionDialogPresenterLabelTimeRange": "Intervallo di tempo",
     "timeSelectionDialogPresenterLabelReleases": "Release",
     "timeFrameFormatterStarting": "Avvio {{fromTime}}",
-    "timeFrameFormatterLast": "Ultima {{duration}}",
-    "timeFrameFormatterLast24Hours": "Ultime 24 ore",
     "timeIconHistoricDataMessage": "Vengono visualizzati dati approssimativi a causa delle impostazioni di conservazione dei dati. I dati precisi sono disponibili all'interno degli ultimi {{retention}} giorni.",
     "timeIconLargeDataMessage": "Vengono visualizzati dati approssimativi a causa di un dataset di grandi dimensioni. Ridurre l'intervallo di tempo per ottenere dati precisi.",
-    "timePresetsLast": "Ultima {{duration}}",
-    "timePresetsLast24Hours": "Ultime 24 ore",
     "timeUnit_year": "anno",
     "timeUnit_month": "mese",
     "timeUnit_day": "giorno",
     "timeUnit_hour": "ora",
     "timeUnit_minute": "minuto",
-    "timeUnit_second": "secondo"
+    "timeUnit_second": "secondo",
+
+    "timeFrameFormatterHoursMinutes": "Ultime $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+    "hours": "{{count}} ora",
+    "hours_plural": "{{count}} ore",
+    "minutes": "{{count}} minuto",
+    "minutes_plural": "{{count}} minuti",
+
+    "timeFrameFormatterHours": "Ultima ora",
+    "timeFrameFormatterHours_plural": "Ultime {{count}} ore",
+    "timeFrameFormatterMinutes": "Ultimo minuto",
+    "timeFrameFormatterMinutes_plural": "Ultimi {{count}} minuti"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Modifica spostamento temporale selezionato",
@@ -492,10 +511,10 @@
     "linkSeeAllApplications_2": "Visualizza tutte le {{count}} {{activeTab}} applicazioni",
     "linkSeeApplication": "Visualizza applicazione",
     "linkSeeAllServices": "Visualizza tutto il {{count}} {{activeTab}} servizio",
-    "linkSeeAllServices_plural": "Visualizza tutti i {{count}} {{activeTab}} servizi",
-    "linkSeeAllServices_0": "Visualizza tutti i {{count}} {{activeTab}} servizi",
-    "linkSeeAllServices_1": "Visualizza tutto il {{count}} {{activeTab}} servizio",
-    "linkSeeAllServices_2": "Visualizza tutti i {{count}} {{activeTab}} servizi",
+    "linkSeeAllServices_plural": "Visualizza tutti i {{count}} servizi {{activeTab}}",
+    "linkSeeAllServices_0": "Visualizza tutti i {{count}} servizi {{activeTab}}",
+    "linkSeeAllServices_1": "Visualizza {{count}} servizio {{activeTab}}",
+    "linkSeeAllServices_2": "Visualizza tutti i {{count}} servizi {{activeTab}}",
     "linkSeeService": "Visualizza servizio",
     "activeTab_upstream": "A monte",
     "activeTab_downstream": "A valle",
@@ -538,20 +557,23 @@
   "analyze": {
     "loadMoreWithCount": "Carica altri {{count}}",
     "loadMore": "Carica altro",
-    "addAsGroup": "Aggiungi come gruppo",
-    "noResults": "Nessun risultato",
+    "activeFacets": "{{count}} selezionati",
+    "clearFacets": "Deseleziona tutto",
+    "clearFacet": "Ripulisci",
+    "noResults": "Nessun suggerimento",
     "from": "Da",
     "fromUnit": "Da ({{unit}})",
     "to": "A",
     "toUnit": "A ({{unit}})",
+    "rangeSelected": "Intervallo selezionato",
     "rangeOrder": "L'intervallo deve essere in ordine crescente.",
     "earliestTimestamp": "Data/ora meno recente",
     "timestamp": "Data/Ora",
     "focusOnGroup": "Attiva questo gruppo",
     "splitScreen": {
       "sidebarActions": {
-        "prev": "Visualizza {{ itemName }} precedente (tasto di scelta rapida: freccia sinistra)",
-        "next": "Visualizza successivo {{ itemName }} (tasto di scelta rapida: tasto freccia destra)"
+        "prev": "Visualizza voce precedente (tasto di scelta rapida: freccia sinistra)",
+        "next": "Visualizza voce successiva (tasto di scelta rapida: freccia destra)"
       }
     },
     "groupName": "Nome gruppo",
@@ -571,7 +593,10 @@
       "filterButtonAddFilter": "Aggiungi filtro",
       "conjunctionLogicalOperator_OR": "OR",
       "conjunctionLogicalOperator_AND": "AND",
-      "conjunctionLogicalOperator_NOT": "NOT"
+      "conjunctionLogicalOperator_NOT": "NOT",
+      "unknownTag": "?",
+      "unknownTagTooltip": "Il tag '{{tagName}}' è sconosciuto o non supportato in questo contesto.",
+      "unknownEmptyTagTooltip": "Impossibile riconoscere un tag con un nome vuoto."
     },
     "selectorOverlayClear": "Cancella",
     "selectorOverlayAnd": "AND",
@@ -579,6 +604,7 @@
     "simpleValueSelectorMore": "Altro",
     "workspaceAPIQuery": "Query API",
     "workspaceUseThisExpressionToQueryOurAPI": "Utilizzare questa espressione per la query dell'API",
+    "workspaceIncludeSidebarFilters": "Includi elementi della barra laterale del filtro",
     "workspaceTitleFilter": "Filtra",
     "workspaceButtonClear": "Cancella",
     "errorWithDataYourDefinedQueryIsTooComplex": "La query definita è troppo complessa, ridurre il numero di nidificazioni.",

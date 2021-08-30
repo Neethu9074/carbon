@@ -25,7 +25,11 @@
     "routes": "Rotas",
     "diskLimit": "Limite de disco",
     "createdAt": "Criado em",
-    "analyzeCalls": "Analisar chamadas"
+    "analyzeCalls": "Analisar chamadas",
+    "noDataAvailable": {
+      "containersTitle": "Nenhum contêiner disponível",
+      "containersDescription": "Não houve nenhum contêiner recuperado para o intervalo de tempo selecionado."
+    }
   },
   "name": "Nome",
   "requestedState": "Estado solicitado",

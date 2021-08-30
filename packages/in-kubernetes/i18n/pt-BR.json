@@ -95,7 +95,6 @@
     "container": "Contêiner",
     "loading": "Carregando",
     "ready": "Pronto",
-    "total": "Total",
     "restarts": "Reinicializações",
     "serviceLocation": "Local do serviço",
     "intEndpoints": "Terminais int.",
@@ -198,8 +197,29 @@
     "noCpuLimitQuotaMessage": "Não há cotas de limite de CPU neste namespace",
     "noMemoryRequestQuotaMessage": "Não há cotas de solicitação de memória neste namespace",
     "noMemoryLimitQuotaMessage": "Não há cotas de limite de memória neste namespace",
-    "completion": "Conclusão",
-    "placeholderPhase": "Fase..."
+    "placeholderPhase": "Fase...",
+    "podsOnline": "Pods on-line",
+    "podsDesired": "Pods desejados",
+    "noDataAvailable": {
+      "servicesTitle": "Nenhum serviço disponível",
+      "servicesDescription": "Não houve nenhum serviço recuperado para o intervalo de tempo selecionado.",
+      "persistentVolumesTitle": "Nenhum volume persistente disponível",
+      "persistentVolumesDescription": "Não houve nenhum volume persistente recuperado para o intervalo de tempo selecionado.",
+      "conditionsTitle": "Nenhuma condição disponível",
+      "conditionsDescription": "Não houve nenhuma condição recuperada para o intervalo de tempo selecionado.",
+      "cronjobsTitle": "Nenhuma tarefa cron disponível",
+      "cronjobsDescription": "Não houve nenhuma tarefa cron recuperada para o intervalo de tempo selecionado.",
+      "eventsTitle": "Nenhum evento disponível",
+      "eventsDescription": "Não houve nenhum evento recuperado para o intervalo de tempo selecionado.",
+      "namespacesTitle": "Nenhum namespace disponível",
+      "namespacesDescription": "Não houve nenhum namespace recuperado para o intervalo de tempo selecionado.",
+      "nodesTitle": "Nenhum nó disponível",
+      "nodesDescription": "Não houve nenhum nó recuperado para o intervalo de tempo selecionado.",
+      "podsTitle": "Nenhum pod disponível",
+      "podsDescription": "Não houve nenhum pod recuperado para o intervalo de tempo selecionado.",
+      "endpointsTitle": "Nenhum terminal disponível",
+      "endpointsDescription": "Não houve nenhum terminal recuperado para o intervalo de tempo selecionado."
+    }
   },
   "viewAllEntityName_unknownEntity_plural": "todos",
   "viewAllEntityName_unknownEntity_0": "todos",
@@ -248,12 +268,16 @@
   "running": "Em execução",
   "pending": "Pendente",
   "succeeded": "Com sucesso",
-  "active": "Ativo",
   "failed": "Com falha",
   "unknown": "Desconhecido",
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "Nenhum dado do Kubernetes está disponível. Para obter informações de resolução de problemas, consulte [documentação][Docs].\n\n[Docs]:https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+  },
+  "pod": {
+    "pending": "Pods pendentes",
+    "active": "Pods ativos",
+    "completed": "Pods concluídos"
   }
 }

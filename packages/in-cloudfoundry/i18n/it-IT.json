@@ -25,7 +25,11 @@
     "routes": "Instradamenti",
     "diskLimit": "Limite disco",
     "createdAt": "Ora di creazione",
-    "analyzeCalls": "Analizza chiamate"
+    "analyzeCalls": "Analizza chiamate",
+    "noDataAvailable": {
+      "containersTitle": "Nessun contenitore disponibile",
+      "containersDescription": "Non è stato richiamato alcun contenitore per la fascia oraria selezionata."
+    }
   },
   "name": "Nome",
   "requestedState": "Stato richiesto",

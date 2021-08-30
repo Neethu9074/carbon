@@ -11,5 +11,6 @@
   "goToTrace": "移至追蹤",
   "addAsFilter": "新增為過濾器",
   "addAsGroup": "新增為群組",
-  "numberOfLogs": "日誌數"
+  "numberOfLogs": "日誌數",
+  "numberOfLogsPercentage": "百分比"
 }

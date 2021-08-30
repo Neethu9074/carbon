@@ -55,6 +55,66 @@
       "purchased": "已购买",
       "infrastructureUsage": "基础架构使用情况",
       "iqmHosts": "IQM 主机"
+    },
+    "activationAdoption": {
+      "activationAdoption": "激活并采用",
+      "customerAdoption": "客户采用",
+      "activation": "激活",
+      "adoption": "Adoption",
+      "activationStages": {
+        "createDate": "创建日期",
+        "firstSignIn": "首次登录",
+        "firstAgentInstalled": "已安装第 1 个代理程序",
+        "additionalUserInvited": "已邀请的其他用户",
+        "threeAgentsInstalled": "已安装 3 个代理程序",
+        "twoApplicationPerspectivesCreated": "已创建 2 各应用程序透视图",
+        "oneAlertSetUpAndActivated": "已设置并激活 1 个警报",
+        "oneWebsiteMonitored": "已监视 1 个 Web 站点",
+        "fiveUsers": "5 个用户"
+      },
+      "adoptionKPIs": {
+        "applicationPerspective": "应用程序透视图",
+        "eum": "EUM",
+        "alerting": "正在发出警报",
+        "pipelineFeedback": "管道反馈",
+        "customDashboards": "定制仪表板",
+        "mobileEum": "移动 EUM",
+        "numOfApplicationPerspectives": "AP 数",
+        "numOfReportingApplicationPerspectives": "报告 AP 数",
+        "numOfWebsites": "Web 站点数",
+        "numOfAlertChannels": "警报通道数",
+        "numOfAlerts": "警报数",
+        "numOfActiveAlerts": "活动警报数",
+        "numOfReleases": "发行版标记数/发行版数",
+        "numOfCustomDashboards": "定制仪表板数",
+        "numOfMobileApps": "应用程序数"
+      },
+      "activationChecklist": "激活核对表",
+      "productAdoption": "产品采用",
+      "sparkChartMetrics": {
+        "metric_applications": "应用程序",
+        "metric_reportingapplications": "报告应用程序",
+        "metric_websites": "Web 站点",
+        "metric_all_alerts": "所有警报",
+        "metric_active_alerts": "活动警报数",
+        "metric_mobile_apps": "移动应用程序",
+        "metric_alert_channels": "警报通道",
+        "metric_custom_dashboards": "定制仪表板",
+        "metric_releases": "版本"
+      },
+      "userUsage": "用户使用情况",
+      "userSummary": "用户摘要",
+      "totalUser": "用户总数",
+      "weeklyActiveUser": "每周活动用户",
+      "lastCalendarWeekTopActiveUsers": "上一日历周顶级活动用户数",
+      "topUsersTable": {
+        "noDataAvailable": "无可用数据",
+        "noTopActiveUsers": "此帐户无顶级活动用户数据",
+        "name": "名称",
+        "organizationRole": "组织角色",
+        "daysActive": "处于活动状态的天数",
+        "notProvided": "（未提供）"
+      }
     }
   }
 }

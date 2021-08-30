@@ -106,6 +106,10 @@
       "cursorPaginatedTableFilterByLabel": "Diese Gruppe analysieren",
       "cursorPaginatedTableLoadMoreRowLabel": "Mehr laden"
     },
+    "noDataAvailable": {
+      "entititiesTitle": "Keine Entitäten verfügbar",
+      "entititiesDescription": "Es wurden keine Entitäten für den ausgewählten Zeitbereich abgerufen."
+    },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "{{len}} Elemente suchen",
       "configurableThNoMatchesTxt": "Keine Übereinstimmungen"
@@ -171,7 +175,11 @@
     "labelRegion": "Region",
     "labelTag": "Tag",
     "labelCommit": "Festschreiben",
-    "buttonGraphShowcase": "Diagramm-Showcase"
+    "buttonGraphShowcase": "Diagramm-Showcase",
+    "geo": {
+      "title": "Geodaten",
+      "description": "Dieses Produkt enthält von MaxMind erstellte GeoLite2-Daten; verfügbar unter <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
+    }
   },
   "blueprintFormMultistep": {
     "buttonCancel": "Abbrechen",
@@ -219,6 +227,9 @@
     "headingAvailableTimeRanges": "Verfügbare Zeitbereiche",
     "explanation": "Wir konnten keine Version dieser Entität im ausgewählten Zeitraum finden. Wir haben andere Versionen in verschiedenen Zeitbereichen gefunden:",
     "noDataAvailable": "Keine Daten verfügbar"
+  },
+  "entityToInstanaServiceButton": {
+    "services": "Services"
   },
   "error": {
     "erroneousResultPresenterMessage": "Ein unerwarteter Fehler ist aufgetreten. Aktualisieren Sie die Seite oder versuchen Sie es später erneut."
@@ -356,6 +367,7 @@
   },
   "selectorOverlay": {
     "placeholderSearch": "Suchen",
+    "noResults": "Keine Ergebnisse",
     "loadingIndicatorLoadingCatalog": "Katalog wird geladen"
   },
   "sortingConfigurator": {
@@ -453,18 +465,25 @@
     "timeSelectionDialogPresenterLabelTimeRange": "Zeitbereich",
     "timeSelectionDialogPresenterLabelReleases": "Releases",
     "timeFrameFormatterStarting": "Start um {{fromTime}}",
-    "timeFrameFormatterLast": "Letzte {{duration}}",
-    "timeFrameFormatterLast24Hours": "Letzte 24 Stunden",
     "timeIconHistoricDataMessage": "Sie zeigen die ungefähren Daten aufgrund der Einstellungen für die Datenaufbewahrung an. Genaue Daten sind innerhalb der letzten {{retention}} Tage verfügbar.",
     "timeIconLargeDataMessage": "Sie zeigen die ungefähren Daten aufgrund einer großen Datenmenge an. Reduzieren Sie den Zeitbereich, um präzise Daten zu erhalten.",
-    "timePresetsLast": "Letzte {{duration}}",
-    "timePresetsLast24Hours": "Letzte 24 Stunden",
     "timeUnit_year": "Jahr",
     "timeUnit_month": "Monat",
     "timeUnit_day": "Tag",
     "timeUnit_hour": "Stunde",
     "timeUnit_minute": "Minute",
-    "timeUnit_second": "Sekunde"
+    "timeUnit_second": "Sekunde",
+
+    "timeFrameFormatterHoursMinutes": "Letzte $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+    "hours": "{{count}} Stunde",
+    "hours_plural": "{{count}} Stunden",
+    "minutes": "{{count}} Minute",
+    "minutes_plural": "{{count}} Minuten",
+
+    "timeFrameFormatterHours": "Letzte Stunde",
+    "timeFrameFormatterHours_plural": "Letzte {{count}} Stunden",
+    "timeFrameFormatterMinutes": "Letzte Minute",
+    "timeFrameFormatterMinutes_plural": "Letzte {{count}} Minuten"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Ausgewählte Zeitverschiebung ändern",
@@ -538,20 +557,23 @@
   "analyze": {
     "loadMoreWithCount": "{{count}} weitere laden",
     "loadMore": "Mehr laden",
-    "addAsGroup": "Als Gruppe hinzufügen",
-    "noResults": "Keine Ergebnisse",
+    "activeFacets": "{{count}} ausgewählt",
+    "clearFacets": "Alle löschen",
+    "clearFacet": "Löschen",
+    "noResults": "Keine Vorschläge",
     "from": "Von",
     "fromUnit": "Von ({{unit}})",
     "to": "Bis",
     "toUnit": "Bis ({{unit}})",
+    "rangeSelected": "Ausgewählter Bereich",
     "rangeOrder": "Der Bereich muss in aufsteigender Reihenfolge geordnet sein.",
     "earliestTimestamp": "Älteste Zeitmarke",
     "timestamp": "Zeitmarke",
     "focusOnGroup": "Auf diese Gruppe konzentrieren",
     "splitScreen": {
       "sidebarActions": {
-        "prev": "Vorherigen {{ itemName }} anzeigen (Direktaufruf: Linkspfeiltaste) ",
-        "next": "Nächsten {{ itemName }} anzeigen (Direktaufruf: Rechtspfeiltaste)"
+        "prev": "Vorherigen Eintrag anzeigen (Direktaufruf: Linkspfeiltaste)",
+        "next": "Nächsten Eintrag anzeigen (Direktaufruf: Rechtspfeiltaste)"
       }
     },
     "groupName": "Gruppenname",
@@ -571,7 +593,10 @@
       "filterButtonAddFilter": "Filter hinzufügen",
       "conjunctionLogicalOperator_OR": "ODER",
       "conjunctionLogicalOperator_AND": "UND",
-      "conjunctionLogicalOperator_NOT": "NICHT"
+      "conjunctionLogicalOperator_NOT": "NICHT",
+      "unknownTag": "?",
+      "unknownTagTooltip": "Der Tag '{{tagName}}' ist in diesem Kontext entweder allgemein unbekannt oder wird nicht unterstützt.",
+      "unknownEmptyTagTooltip": "Ein Tag mit einem leeren Namen ist nicht bekannt."
     },
     "selectorOverlayClear": "Löschen",
     "selectorOverlayAnd": "UND",
@@ -579,6 +604,7 @@
     "simpleValueSelectorMore": "Mehr",
     "workspaceAPIQuery": "API-Abfrage",
     "workspaceUseThisExpressionToQueryOurAPI": "Verwenden Sie diesen Ausdruck, um unsere API abzufragen",
+    "workspaceIncludeSidebarFilters": "Filterseitenleistenelemente einschließen",
     "workspaceTitleFilter": "Filter",
     "workspaceButtonClear": "Löschen",
     "errorWithDataYourDefinedQueryIsTooComplex": "Ihre definierte Abfrage ist zu komplex; reduzieren Sie die Verschachtelungstiefe. ",

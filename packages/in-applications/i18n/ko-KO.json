@@ -146,8 +146,6 @@
     "noData": "애플리케이션 퍼스펙티브에서 환경, 서비스 세트, 테넌트 또는 거의 모든 것을 모델링하는 수단을 제공합니다."
   },
   "alert": {
-    "thresholdLabel": "임계값",
-    "applicationSmartAlert": "애플리케이션 스마트 경보",
     "tooltipMoreFilter": "{{moreFilterCount}}개 추가 필터",
     "tooltipMoreFilter_plural": "{{moreFilterCount}}개 추가 필터",
     "tooltipMoreFilter_0": "{{moreFilterCount}}개 추가 필터",
@@ -177,6 +175,7 @@
     "erroneous": "잘못된",
     "resetUnsupportedTracesFilterContainingOrConjunction": "추적 분석에서는 논리 연산자 OR이 지원되지 않으므로 필터가 해제되었습니다.",
     "facetedSearch": {
+      "showOnlyErroneous": "오류만",
       "showSyntheticCalls": "합성 호출 표시",
       "showInternalCalls": "내부 호출 표시",
       "defaultTurnedOnSynthetic": "합성 호출을 조회하면 이 옵션이 선택됩니다.",
@@ -186,17 +185,19 @@
       "erroneous_Erroneous": "잘못된"
     },
     "latency": "대기 시간",
+    "traceLatency": "추적 대기 시간",
     "applications": "애플리케이션",
     "services": "서비스",
     "endpoints": "엔드포인트",
     "types": "유형",
     "technologies": "기술",
-    "httpStatusCode": "HTTP 상태 코드",
+    "httpStatusCode": "HTTP 상태",
     "hiddenCalls": "숨겨진 호출",
     "preview": "미리보기",
     "listBatchTypeTooltip": "이 {{type}}은(는) 일괄처리되며 {{batchCount}}개 개별 {{types}}을(를) 나타냅니다.",
     "listBatchLatencyTooltip": "일괄처리된 {{batchCount}}개 {{types}}의 총 대기 시간입니다.",
     "traceIdTooltip": "이 추적과 관련된 일부 데이터가 지연되므로 잠시 후에 페이지를 다시 로드하십시오. 이러한 경우가 발생할 수 있는 예제는 해당 데이터의 일부가 처리 중인 매우 최근 추적에서 나타나고 있습니다.",
+    "downloadTraceTooltip": "전체 추적을 다운로드하십시오.",
     "closeTraceDetail": "추적 세부사항 닫기",
     "invalidQueryConfig": "조회 구성이 올바르지 않습니다. 계속하기 전에 유효성 검증 실패를 해결하십시오.",
     "errorRateLabel": "잘못된 호출(비율)",
@@ -398,6 +399,8 @@
       "downstreamCalls": "3. 다운스트림 서비스의 호출 저장",
       "downstreamCallsDescription": "애플리케이션 퍼스펙티브에 포함할 다운스트림 서비스를 선택하십시오.",
       "defaultDashboardView": "4. 기본 대시보드 보기 선택",
+      "builtInSmartAlertsScope": "5. 기본 제공 스마트 경보 범위",
+      "builtInSmartAlertsScopeDescription": "해당 범위에 해당 항목/해당 항목의 일부를 포함해야 하는 기본 제공 글로벌 스마트 경보 선택",
       "clear": "지우기",
       "create": "작성",
       "database": "데이터베이스",
@@ -428,7 +431,17 @@
     },
     "errorCallWithoutMessage": "오류 메시지가 없는 잘못된 호출",
     "noLogMessage": "사용 가능한 로그 메시지가 없음",
-    "includeSyntheticCallsDropDownSyntheticCalls": " 합성 호출: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "합성 호출: {{syntheticCallsOptionLabel}}",
+    "noDataAvailable": {
+      "servicesTitle": "사용 가능한 서비스가 없음",
+      "servicesDescription": "선택한 시간 범위에 대해 검색된 서비스가 없습니다.",
+      "errorMessagesTitle": "사용 가능한 오류 메시지가 없음",
+      "errorMessagesDescription": "선택한 시간 범위에 대해 검색된 오류 메시지가 없습니다.",
+      "logMessagesTitle": "사용 가능한 로그 메시지가 없음",
+      "logMessagesDescription": "선택한 시간 범위에 대해 검색된 로그 메시지가 없습니다.",
+      "endpointsTitle": "사용 가능한 엔드포인트가 없음",
+      "endpointsDescription": "선택한 시간 범위에 대해 검색된 엔드포인트가 없습니다."
+    }
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "현재 애플리케이션에 서비스가 없습니다.",
@@ -480,13 +493,14 @@
       "stepTitleDefineTags": "하나 이상의 태그를 사용하여 애플리케이션 퍼스펙티브를 정의하십시오.",
       "stepTitleDownstreamServices": "다운스트림 서비스.",
       "stepTitleApplicationScope": "애플리케이션 범위.",
+      "stepTitleBuiltInSmartAlertsScope": "기본 제공 스마트 경보 범위.",
       "optionNoDownstreamServices": "다운스트림 서비스 없음",
       "optionImmediateDownstreamServices": "즉각적 다운스트림 데이터베이스 및 메시지 전달 서비스",
       "optionAllDownstreamServices": "모든 다운스트림 서비스",
       "errorApplicationNameBlank": "애플리케이션 퍼스펙티브 이름은 공백이 아니어야 합니다.",
       "errorNameLengthExceeded": "애플리케이션 퍼스펙티브 이름은 128자 미만이어야 합니다.",
       "errorInvalidQuery": "조회가 올바르지 않음",
-      "titleApplicationCreating": "애플리케이션 퍼스펙티브가 작성되고 있습니다."
+      "titleApplicationCreating": "애플리케이션 퍼스펙티브가 작성되는 중..."
     },
     "customSyntheticRule": {
       "placeholderNameRule": "규칙에 이름 지정",
@@ -522,15 +536,16 @@
     "internal": "내부",
     "undefined": "정의되지 않음",
     "self": "셀프",
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "otel": "OpenTelemetry"
   },
   "constants": {
     "exclude": "제외",
-    "syntheticCallsAreExcludedFromTheMetrics": "합성 호출이 메트릭에서 제외됩니다.",
+    "syntheticCallsAreExcludedFromTheMetrics": "메트릭에서 합성 호출이 제외됩니다.",
     "include": "포함",
-    "syntheticCallsAreIncludedInTheMetrics": "합성 호출이 메트릭에 포함됩니다.",
+    "syntheticCallsAreIncludedInTheMetrics": "메트릭에 합성 호출이 포함됩니다.",
     "only": "전용",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "합성 호출만 표시되고 메트릭에 포함됩니다."
+    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "합성 호출만 표시되고 메트릭에 포함됨"
   },
   "traceDetail": {
     "tabs": {
@@ -551,11 +566,22 @@
         "calls": "호출",
         "erroneousTrace": "잘못된 추적",
         "attemptToRenderTrace": "추적을 렌더링하는 시도"
+      },
+      "calls": {
+        "settings": {
+          "showServiceInformation": "서비스 정보",
+          "showServiceInformationExpl": "호출 레이블 아래 서비스 정보 표시",
+          "showSubCalls": "하위 호출 표시",
+          "showSubCallsExpl": "각 행에서 직접 하위 호출 표시"
+        }
       }
     }
   },
   "tabs": {
-    "labelDetail": "세부사항"
+    "labelDetail": "세부사항",
+    "labelSummary": "요약",
+    "servicesAndEndpoint": "서비스 및 엔드포인트",
+    "logs": "로그"
   },
   "metrics": {
     "calls_calls": "호출",

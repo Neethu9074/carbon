@@ -1,4 +1,45 @@
 {
+  "components": {
+    "list": {
+      "loadMore": "載入更多",
+      "toggleExtraContent": "切換額外內容",
+      "initiateDefaultAction": "起始預設動作"
+    },
+    "table": {
+      "tableErrorRows": {
+        "unexpectedError": "發生非預期的錯誤。請重新整理頁面或稍後重試。"
+      },
+      "tableLoadMoreRow": {
+        "loadMore": "載入更多"
+      }
+    }
+  },
+  "formatDate": {
+    "date": {
+      "aFewSeconds": "幾秒鐘",
+      "time_years": "{{count}} 年",
+      "time_years_plural": "{{count}} 年",
+      "time_y": "{{count}} 年",
+      "time_months": "{{count}} 個月",
+      "time_months_plural": "{{count}} 個月",
+      "time_mo": "{{count}} 個月",
+      "time_days": "{{count}} 天",
+      "time_days_plural": "{{count}} 天",
+      "time_d": "{{count}} 天",
+      "time_hours": "{{count}} 小時",
+      "time_hours_plural": "{{count}} 小時",
+      "time_h": "{{count}} 小時",
+      "time_minutes": "{{count}} 分鐘",
+      "time_minutes_plural": "{{count}} 分鐘",
+      "time_m": "{{count}} 分鐘",
+      "time_seconds": "{{count}} 秒",
+      "time_seconds_plural": "{{count}} 秒",
+      "time_s": "{{count}} 秒",
+      "time_milliseconds": "{{count}} 毫秒",
+      "time_milliseconds_plural": "{{count}} 毫秒",
+      "time_ms": "{{millis}} 毫秒"
+    }
+  },
   "forms": {
     "actions": {
       "save": "儲存",

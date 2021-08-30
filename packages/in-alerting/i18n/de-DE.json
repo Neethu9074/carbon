@@ -14,7 +14,7 @@
     "alertHeaderEnableTooltip": " Aktivieren",
     "alertHeaderRestoreDeleteTooltip": "Löschen",
     "alertHeaderEditTooltip": "Bearbeiten",
-    "alertHeaderCopyTooltip": "Kopieren",
+    "alertHeaderDuplicateTooltip": "Duplizieren",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Bitte bestätigen",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Sind Sie sicher, dass Sie <strong>\"Alert {{alertConfigName}}\"</strong> entfernen möchten?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Entfernen",
@@ -26,7 +26,14 @@
     "alertPropertyInfosLabelDescription": "Beschreibung",
     "noChannelSelectedText": "Derzeit haben Sie keinen Alertkanal ausgewählt und erhalten keine Alerts.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Zusätzliche Filter",
-    "revisionDropdownButtonRevision": "Überarbeitung {{alertRevision}}",
+    "revisionDropdownButton": {
+      "revision": "Überarbeitung {{alertRevision}}",
+      "paused": "Angehalten",
+      "resumed": "Wiederaufgenommen",
+      "deleted": "Gelöscht",
+      "update": "Aktualisieren",
+      "created": "Erstellt"
+    },
     "chart": {
       "alertingChartLabelThreshold": "Schwellenwert",
       "alertingChartLabelViolations": "Verstöße",
@@ -55,7 +62,8 @@
       "theValueMustNotBeBlank": "Der Wert darf nicht leer sein.",
       "onlyOrAnyAlphaNumericalAreAllowed": "Nur die Zeichen '.', '-', '_' sowie alphanumerische Zeichen sind zulässig. ",
       "aTagNeedsToBeSelected": "Es muss ein Tag ausgewählt werden.",
-      "aKeyNeedsToBeSpecified": "Es muss ein Schlüssel angegeben werden."
+      "aKeyNeedsToBeSpecified": "Es muss ein Schlüssel angegeben werden.",
+      "customPayloadTitle": "Angepasste Nutzdaten"
     }
   },
   "potentialProblems": {
@@ -101,7 +109,10 @@
     "descriptionUnsupportedOperator": "Nicht unterstützter Operator: {{operator}}"
   },
   "smartAlerts": {
+    "applicationSmartAlert": "Smart Alert für Anwendung",
+    "globalApplicationSmartAlert": "Smart Alert für globale Anwendungen",
     "titleNoSmartAlertsConfigured": "Keine Smart Alerts konfiguriert",
+    "titleNoSmartAlertsConfiguredForSearchQuery": "Für eine bestimmte Suche wurden keine Smart-Alert-Konfigurationen gefunden",
     "titleNoSmartAlertsCreated": "Keine Smart Alerts erstellt",
     "titleCopyOf": "(Kopie von) {{smartAlertTitle}}",
     "applications": {
@@ -190,6 +201,12 @@
         }
       },
       "chart": {
+        "entitySelection": {
+          "tooManyResults": "Für Ihre Suche gibt es zu viele Ergebnisse zum Anzeigen. Grenzen Sie die Ergebnisse ein, indem Sie einen spezifischeren Suchbegriff verwenden. ",
+          "applications": "Anwendungen:",
+          "services": "Services:"
+        },
+        "noChartForAdaptiveBaseline": "Es ist keine Vorschau verfügbar, während dieser Trigger auf adaptiven Vergleichsdaten basiert.",
         "noDataWithoutEndpointSelection": "Wählen Sie einen Endpunkt aus, um die Vorschau anzuzeigen",
         "noDataAvailable": "Wählen Sie einen Service zum Anzeigen der Vorschau aus"
       },
@@ -229,7 +246,7 @@
         "throughput": {
           "name": "Durchsatz",
           "headline": "Automatische Alerts für Aufrufanzahl",
-          "text": "Automatische Alerts bei anomaler oder hoher Anzahl von Aufrufen für ausgewählte Services und Endpunkte dieser Anwendungsperspektive.",
+          "text": "Automatische Alerts bei anomaler oder hoher Anzahl an Aufrufen für ausgewählte Services und Endpunkte dieser Anwendungsperspektive.",
           "metricLabel": "Aufrufe"
         },
         "simpleMode": {
@@ -402,6 +419,7 @@
         "ruleFormPleaseProvideAStartStatusCode": "Geben Sie einen HTTP-Startstatuscode an.",
         "ruleFormPleaseProvideAEndStatusCode": "Geben Sie einen HTTP-Endstatuscode an.",
         "smartAlertFormNoEntitiesSelected": "Keine Entitäten ausgewählt",
+        "smartAlertFormValueIsReadOnly": "Der Wert ist schreibgeschützt und kann nicht geändert werden.",
         "thresholdFormPleaseProvideANumber0": "Geben Sie eine Zahl >= 0 an",
         "thresholdFormBaselineIsEmpty": "Vergleichsdaten sind leer"
       },
@@ -421,7 +439,7 @@
         "provideStatusCodeStatusCode": "Statuscode"
       },
       "inventory": {
-        "noData": "Keine Smart Alerts konfiguriert. Klicken Sie auf die Schaltfläche unten, um den ersten Smart Alert zu konfigurieren.",
+        "noData": "Keine Smart Alerts konfiguriert. Klicken Sie auf die Schaltfläche unten, um Ihren ersten Smart Alert zu konfigurieren.",
         "noPersmissionToCreateGlobalSmartAlert": "Sie verfügen nicht über die Berechtigung zum Konfigurieren von Smart Alerts. Wenden Sie sich an Ihren Administrator.",
         "labelGlobalSmartAlertsList": "Smart Alerts für globale Anwendungen ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Smart Alerts für individuelle Anwendungen ({{numberOfAlerts}})",
@@ -439,7 +457,21 @@
       "details": {
         "title": "Alertdetails",
         "titleAlertProperties": "Alerteigenschaften"
+      },
+      "apCreation": {
+        "addToAllBuiltInAlerts": "Zu allen ({{numAlerts}}) integrierten globalen Smart Alerts hinzufügen",
+        "addToAllBuiltInAlertsSubText": "({{numDisabled}}/{{numAlerts}} Alerts sind derzeit inaktiviert)",
+        "addToAllExplanation": "Diese Anwendungsperspektive aufnehmen in den Bereich aller",
+        "addToAllExplanationSubText": "Integrierte globale Smart Alerts",
+        "notAllEnitiesSelected": "Nicht alle Services/Endpunkte ausgewählt",
+        "alertCurrentlyDisabled": "Alert derzeit inaktiviert",
+        "viewAlertDetails": "Alertdetails zur Konfiguration anzeigen: {{name}}",
+        "eventsWarningIcon": "Symbol für Warnungsereignisse",
+        "eventsCriticalIcon": "Symbol für kritische Ereignisse"
       }
+    },
+    "details": {
+      "titleBuiltInIndicator": "Integriert"
     },
     "form": {
       "ruleAggregationOptionMEAN": "Mittelwert",
@@ -457,6 +489,7 @@
     },
     "components": {
       "smartAlertDialog": {
+        "cancelTitle": "Abbrechen",
         "sharedListTooltip": "Der ausgewählte {{typeName}} ist nicht mehr verfügbar",
         "clearTagFilterExpressionButton": "Löschen",
         "baselineErrorMessageInsufficientDataToCompute": "Unzureichende Daten zur Berechnung der ausgewählten Referenzversion. Wählen Sie stattdessen <em>Statischer Schwellenwert</em> aus.",
@@ -464,49 +497,51 @@
         "blueprintDescriptionButtonSelect": "Auswählen",
         "selectAlertChannelButtonTitle": "Alertkanäle auswählen",
         "selectAlertChannelButton": "Alertkanäle auswählen",
+        "createAlertChannelTitle": "Alertkanal erstellen",
+        "alertChannelCreatedSuccess": "Alertkanal erstellt",
+        "alertChannelSelectTypeTitle": "Alertkanaltyp",
         "addChannel": "{{count}} Kanal hinzufügen",
         "addChannel_plural": "{{count}} Kanäle hinzufügen",
-        "addChannel_0": "{{count}} Kanäle hinzufügen",
-        "addChannel_1": "{{count}} Kanäle hinzufügen",
-        "addChannel_2": "{{count}} Kanäle hinzufügen",
         "add": "Hinzufügen",
         "scopeConfigTitleWithApplications": "Anwendungen/Services/Endpunkte auswählen",
         "scopeConfigTitle": "Services/Endpunkte auswählen",
-        "scopeConfigTitleTooltip": "Verfügbare Entitäten für die letzten 7 Tage anzeigen",
+        "scopeConfigTitleTooltip": "Verfügbare Entitäten für die letzten 24 Stunden anzeigen",
         "sortByUserSelectionLabel": "Nach Benutzerauswahl sortieren",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Mindestens {{count}} Benutzer und {{userPercentage}} der Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Mindestens {{count}} Benutzer und {{userPercentage}} der Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "Mindestens {{count}} Benutzer und {{userPercentage}} der Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "Mindestens {{count}} Benutzer und {{userPercentage}} der Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "Mindestens {{count}} Benutzer und {{userPercentage}} der Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "Mindestens {{count}} Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "Mindestens {{count}} Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "Mindestens {{count}} Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "Mindestens {{count}} Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "Mindestens {{count}} Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "Mindestens {{userPercentage}} der Benutzer innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "Innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionRequestImpact": "Mindestens {{count}} Anforderungen innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionRequestImpact_plural": "Mindestens {{count}} Anforderungen innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionRequestImpact_0": "Mindestens {{count}} Anforderungen innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionRequestImpact_1": "Mindestens {{count}} Anforderungen innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionRequestImpact_2": "Mindestens {{count}} Anforderungen innerhalb von {{formattedTimeWindow}} betroffen",
-        "timeThresholdDescriptionViolationsInPeriod": "Mindestens {{count}} Verstoß innerhalb von {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_plural": "Mindestens {{count}} Verstöße innerhalb von {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_0": "Mindestens {{count}} Verstöße innerhalb von {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_1": "Mindestens {{count}} Verstoß innerhalb von {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_2": "Mindestens {{count}} Verstöße innerhalb von {{formattedTimeWindow}}",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "Anzahl aufeinanderfolgender Verstöße",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Mindestens {{count}} Benutzer und {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Mindestens {{count}} Benutzer und {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "Mindestens {{count}} Benutzer und {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "Mindestens {{count}} Benutzer und {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "Mindestens {{count}} Benutzer und {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "Mindestens {{count}} Benutzer innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "Mindestens {{count}} Benutzer innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "Mindestens {{count}} Benutzer innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "Mindestens {{count}} Benutzer innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "Mindestens {{count}} Benutzer innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "Mindestens {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "Innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionRequestImpact": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionRequestImpact_plural": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionRequestImpact_0": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionRequestImpact_1": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionRequestImpact_2": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionViolationsInPeriod": "Mindestens {{count}} Verstoß innerhalb der letzten {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_plural": "Mindestens {{count}} Verstöße innerhalb der letzten {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_0": "Mindestens {{count}} Verstöße innerhalb der letzten {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_1": "Mindestens {{count}} Verstoß innerhalb der letzten {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_2": "Mindestens {{count}} Verstöße innerhalb der letzten {{formattedTimeWindow}}",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "Anzahl aufeinanderfolgender Messwertverstöße",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Anzahl der aufeinanderfolgenden Auswertungen",
-        "timeThresholdConfigNumberOfEvaluationWindows": "Anzahl der Evaluierungsfenster",
-        "timeThresholdConfigNumberOfViolations": "Anzahl der Verstöße",
+        "timeThresholdConfigNumberOfEvaluationWindows": "Anzahl der Evaluierungsfenster für Auswirkung auf Benutzer",
+        "timeThresholdConfigNumberOfViolations": "Anzahl der Messwertverstöße",
         "timeThresholdConfigEvaluationGranularity": "Evaluierungsgranularität",
         "timeThresholdConfigNumberOfRequestsThreshold": "Schwellenwert für Anzahl der Anforderungen",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Schwellenwert für Anzahl der betroffenen Benutzer",
         "timeThresholdConfigAtLeast": "Mindestens",
         "timeThresholdConfigNumberOfRequests": "Anzahl der Anforderungen",
         "timeThresholdConfigMinutes": "{{min}} Min.",
         "timeThresholdConfigNumberOfUsers": "Anzahl der Benutzer",
-        "timeThresholdConfigPercentageOfRequestsThreshold": "Prozentsatz für Anzahl der Anforderungen",
+        "timeThresholdConfigPercentageOfUsers": "% der Benutzer",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Schwellenwert für Prozentsatz der betroffenen Benutzer",
         "timeThresholdConfigOff": "aus",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Geben Sie eine Zahl >= 1 ein",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Geben Sie eine Zahl zwischen 1 und 100 % an",
@@ -538,6 +573,7 @@
         "thresholdTypeOptionStaticThreshold": "Statischer Schwellenwert",
         "thresholdTypeOptionHistoricBaselineDaily": "Grundlinie (tägliche Saisonalität)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Grundlinie (wöchentliche Saisonalität)",
+        "thresholdTypeOptionAdaptiveBaseline": "Adaptive Vergleichsdaten",
         "useSuggestedvalue": "Vorgeschlagenen Wert verwenden",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Smart Alert bearbeiten",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Globalen Smart Alert bearbeiten",
@@ -549,7 +585,8 @@
         "PreviewForAP": "Vorschau für Anwendungsperspektive:",
         "PreviewForEndpoint": "Vorschau für Endpunkt:",
         "PreviewForService": "Vorschau für Service:",
-        "PreviewSelectLoadingEndpoints": "Endpunktliste wird geladen"
+        "PreviewSelectLoadingEndpoints": "Endpunktliste wird geladen",
+        "thresholdValue": "Schwellenwert"
       },
       "alertsHub": {
         "title": "Alerts-Hub",
@@ -791,7 +828,12 @@
       "enabled": "Aktiviert",
       "disabled": "Inaktiviert",
       "severity": "Schweregrad",
-      "created": "Erstellungsdatum"
+      "created": "Erstellungsdatum",
+      "type": "Typ"
+    },
+    "migration": {
+      "migrateButton": "Zu Smart Alert migrieren",
+      "migrateButtonTooltip": "Öffnet einen Smart Alert-Konfigurationsdialog, der bereits mit den migrierten Werten aus dem aktuellen Ereignis gefüllt wurde, um die bestmögliche Erweiterung zu erzielen. Bitte überprüfen Sie das Ergebnis sorgfältig!"
     }
   }
 }

@@ -15,6 +15,7 @@
   "titleTriggerEvent": "觸發事件",
   "titleRelatedEvents": "相關的事件 ({{eventCount}})",
   "titleLastProcess": "最近一個程序",
+  "titleLastHost": "最後一個主機",
   "titleIncidentTimeline": "事故時間表",
   "titleAnalyzeHTTPRequests": "分析 HTTP 要求",
   "titleAnalyzePageLoads": "分析頁面載入",
@@ -35,11 +36,11 @@
   "titleEmptyEvents_issue": "沒有可用的問題",
   "titleEmptyEvents_change": "沒有可用的變更",
   "titleEmptyEvents_monitoringIssue": "沒有可用的監視問題",
-  "explanationEmptyEvents_event": "在選取的時間範圍內未擷取任何事件",
-  "explanationEmptyEvents_incident": "在選取的時間範圍內未擷取任何事故",
-  "explanationEmptyEvents_issue": "在選取的時間範圍內未擷取任何問題",
-  "explanationEmptyEvents_change": "在選取的時間範圍內未擷取任何變更",
-  "explanationEmptyEvents_monitoringIssue": "在選取的時間範圍內未擷取任何監視問題",
+  "explanationEmptyEvents_event": "未擷取到所選時間範圍內的事件",
+  "explanationEmptyEvents_incident": "未擷取到所選時間範圍內的事故",
+  "explanationEmptyEvents_issue": "未擷取到所選時間範圍內的問題",
+  "explanationEmptyEvents_change": "未擷取到所選時間範圍內的變更",
+  "explanationEmptyEvents_monitoringIssue": "未擷取到所選時間範圍內的監視問題",
   "showAllEndpoints": "顯示所有 {{count}} 個端點",
   "showAllEndpoints_plural": "顯示所有 {{count}} 個端點",
   "showAllEndpoints_0": "顯示所有 {{count}} 個端點",
@@ -71,8 +72,10 @@
   "labelTriggeringEvent": "觸發事件",
   "labelSummary": "摘要",
   "labelIncidents": "事故",
-  "labelIncidentWithSeverity": "{{severityLabel}} 個事故",
-  "labelIssueWithSeverity": "{{severityLabel}} 個問題",
+  "labelOpen": "開啟",
+  "labelClosed": "已關閉",
+  "labelIncidentWithSeverity": "{{severityLabel}} 事件 ({{stateLabel}})",
+  "labelIssueWithSeverity": "{{severityLabel}} 問題",
   "labelChange": "變更",
   "labelCritical": "重大",
   "labelWarning": "警告",
@@ -82,7 +85,6 @@
   "labelIssues": "問題",
   "labelMonitoringIssues": "監視問題",
   "labelAll": "全部",
-  "labelEvent": "event",
   "buttonViewCustomEvent": "檢視自訂事件",
   "buttonViewBuiltInEvent": "檢視內建事件",
   "buttonCollapse": "收合",
@@ -93,15 +95,31 @@
   "buttonFocusTimeToRelease": "聚焦於版本的時間",
   "buttonFollowReleaseLive": "即時追蹤版本",
   "linkViewLastProcess": "檢視最近一個程序",
+  "linkGoToTheOfflineHost": "移至離線主機",
   "headerStarted": "開始時間",
   "headerTitle": "標題",
   "headerEnd": "結束時間",
   "headerOn": "位於",
   "headerTimeline": "時間表",
-  "offLineEventProblemChangeTime": "按一下下方的鏈結，以移至 Instana 所監視之程序的最近一個版本。這樣做會將您時間範圍的開始時間變更為 Instana 監視程序的那個時間點",
+  "hostOffLineEventProblemChangeTime": "按下方的鏈結，以移至 Instana 所監視之主機的最近一個版本。這樣做會將您時間範圍的開始時間變更為 Instana 監視主機的那個時間點",
+  "offLineEventProblemChangeTime": "按下方的鏈結，以移至 Instana 所監視之程序的最近一個版本。這樣做會將您時間範圍的開始時間變更為 Instana 監視程序的那個時間點",
   "offLineEventProblemNoMatch": "Instana 找不到符合自訂事件之任何先前實體的參照。",
   "tooltipAnalyzeCalls": "此項的配置會以「查詢建置器 2」表示式來儲存。<br /> 此按鈕僅適用於儲存在「查詢建置器 1」中的配置",
   "tooltipCloseEventDetail": "關閉事件詳細資料",
   "releaseOccurName": "版本：{{releaseName}}",
-  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）"
+  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
+  "navigatorSplitScreen": {
+    "tooltipViewPrevious_event": "檢視上一個事件（快速鍵：左移鍵）",
+    "tooltipViewNext_event": "檢視下一個事件（快速鍵：右移鍵）",
+    "tooltipCloseSidebar": "關閉資訊看板",
+    "tooltipOpenSidebar": "開啟資訊看板"
+  },
+  "kubernetesEvent": {
+    "problemText": {
+      "podContainerNotReady": "Pod 儲存器未備妥"
+    },
+    "fixSuggestion": {
+      "podContainerNotReady": "Pod 儲存器未備妥。請檢查節點是否具有容量及/或可從指定的映像檔路徑擷取映像檔。"
+    }
+  }
 }

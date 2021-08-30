@@ -45,6 +45,8 @@
       "logMonitorWriterDesc": "log-writer 將日誌汲取到 ClickHouse 中。",
       "logMonitorReader": "log-reader（日誌查詢）",
       "logMonitorReaderDesc": "log-reader 從 ClickHouse 查詢日誌。",
+      "logMonitorHousekeeping": "log-housekeeping（日誌維護）",
+      "logMonitorHousekeepingDesc": "log-housekeeping 包含在 log-writer 內執行的維護工作。",
       "infrastructureMetrics": "基礎架構度量",
       "infrastructureMetricsDesc": "有關我們基礎架構度量管線的資訊。",
       "fillerMetricExtraction": "填充器（度量擷取）",
@@ -131,16 +133,6 @@
       "sLOViolations": "SLO 違規",
       "devTUSLOs": "開發 TU SLO",
       "expTUSLOs": "實驗 TU SLO"
-    },
-    "timeZones": {
-      "sanFrancisco": "舊金山",
-      "austin": "奧斯汀",
-      "newYorkCity": "紐約市",
-      "uTC": "UTC",
-      "solingen": "索林根",
-      "noviSad": "諾維沙德",
-      "tokyo": "東京",
-      "sydney": "雪梨"
     }
   },
   "monitoringUnit": {
@@ -356,6 +348,8 @@
             "tooOld": "追蹤日誌 Kafka Consumer 太舊"
           }
         },
+        "droppedPast": "已捨棄具有過去時間戳記的日誌",
+        "droppedFuture": "已捨棄具有未來時間戳記的日誌",
         "outgoing": "送出的日誌",
         "failOutgoing": "送出的日誌失敗"
       },
@@ -415,6 +409,28 @@
           "mean": "平均值",
           "50th": "第 50 個",
           "99th": "第 99 個"
+        }
+      },
+      "housekeeping" : {
+        "title": "log-housekeeping（在 log-writer 內執行）",
+        "cleanup" : {
+          "success": "日誌清除成功",
+          "failure": "日誌清除失敗",
+          "duration": "日誌清除持續時間（第 99 個）",
+          "skips" : {
+            "mutations": "日誌清除跳過（突變）"
+          }
+        },
+        "coldTier" : {
+          "success": "日誌冷層成功",
+          "failure": "日誌冷層失敗",
+          "optimize": "日誌冷層最佳化",
+          "move": "日誌冷層移動",
+          "duration": "日誌冷層持續時間（第 99 個）",
+          "skips": {
+            "mutations": "日誌冷層跳過（突變）",
+            "merges": "日誌冷層跳過（合併）"
+          }
         }
       }
     },
@@ -893,7 +909,6 @@
       "config": "配置",
       "version": "版本",
       "injectorBindings": "注入器連結",
-      "hystrix": "Hystrix",
       "agentClockSkew": "代理程式時間偏差"
     },
     "region": {

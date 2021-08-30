@@ -58,8 +58,11 @@
   "permissionCanConfigureTeamsDescription": "允許配置所有團隊的存取範圍和權限。",
   "permissionCanConfigureTeamsCategory": "存取控制",
   "permissionCanConfigureApiTokensLabel": "配置 API 記號",
+  "permissionCanConfigurePersonalApiTokensLabel": "配置個人 API 記號",
   "permissionCanConfigureApiTokensDescription": "允許建立及配置 API 記號。",
+  "permissionCanConfigurePersonalApiTokensDescription": "允許建立及配置繼承使用者權限的個人 API 記號。",
   "permissionCanConfigureApiTokensCategory": "存取控制",
+  "permissionCanConfigurePersonalApiTokensCategory": "存取控制",
   "permissionCanConfigureAuthenticationMethodsLabel": "配置鑑別方法",
   "permissionCanConfigureAuthenticationMethodsDescription": "允許配置團隊鑑別方法（例如：2FA/SSO）。",
   "permissionCanConfigureAuthenticationMethodsCategory": "存取控制",
@@ -213,7 +216,8 @@
     "shiftingLabelYesterday": "昨天",
     "shiftingDescriptionYesterday": "與所選時間範圍前 24 小時所記錄的資料比較",
     "shiftingLabelLastWeek": "上週",
-    "shiftingDescriptionLastWeek": "從所選時間範圍前一週開始比較"
+    "shiftingDescriptionLastWeek": "從所選時間範圍前一週開始比較",
+    "shiftingCustomDuration": "前一個 {{duration}}"
   },
 
   "view": {

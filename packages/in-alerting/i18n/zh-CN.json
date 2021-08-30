@@ -14,7 +14,7 @@
     "alertHeaderEnableTooltip": " 启用",
     "alertHeaderRestoreDeleteTooltip": "删除",
     "alertHeaderEditTooltip": "编辑",
-    "alertHeaderCopyTooltip": "复制",
+    "alertHeaderDuplicateTooltip": "复制",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "请确认",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "是否确定要移除<strong>“警报 {{alertConfigName}}”</strong>？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
@@ -26,7 +26,14 @@
     "alertPropertyInfosLabelDescription": "描述",
     "noChannelSelectedText": "当前，您尚未选择警报通道，并且不会接收任何警报。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他过滤器",
-    "revisionDropdownButtonRevision": "修订版 {{alertRevision}}",
+    "revisionDropdownButton": {
+      "revision": "修订版 {{alertRevision}}",
+      "paused": "已暂停",
+      "resumed": "已恢复",
+      "deleted": "已删除",
+      "update": "更新",
+      "created": "已创建"
+    },
     "chart": {
       "alertingChartLabelThreshold": "阈值",
       "alertingChartLabelViolations": "违例",
@@ -55,7 +62,8 @@
       "theValueMustNotBeBlank": "值不能为空。",
       "onlyOrAnyAlphaNumericalAreAllowed": "只允许使用“.”、“-”、“_” 或任何字母数字字符。",
       "aTagNeedsToBeSelected": "需要选择标记。",
-      "aKeyNeedsToBeSpecified": "需要指定键。"
+      "aKeyNeedsToBeSpecified": "需要指定键。",
+      "customPayloadTitle": "定制有效内容"
     }
   },
   "potentialProblems": {
@@ -101,7 +109,10 @@
     "descriptionUnsupportedOperator": "不受支持的运算符：{{operator}}"
   },
   "smartAlerts": {
+    "applicationSmartAlert": "应用程序智能警报",
+    "globalApplicationSmartAlert": "全局应用程序智能警报",
     "titleNoSmartAlertsConfigured": "未配置智能警报",
+    "titleNoSmartAlertsConfiguredForSearchQuery": "找不到给定搜索的智能警报配置",
     "titleNoSmartAlertsCreated": "未创建智能警报",
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
     "applications": {
@@ -135,7 +146,7 @@
         "inboundOutboundCalls": {
           "config": {
             "inbound": {
-              "text": "入站调用",
+              "text": "入站调用数",
               "dashboard": "仅限此应用程序的使用者执行的调用。",
               "overrideDefault": "此应用程序的缺省作用域仅限于“入站调用”。您可以在配置中更改此项。"
             },
@@ -190,6 +201,12 @@
         }
       },
       "chart": {
+        "entitySelection": {
+          "tooManyResults": "您的搜索有太多匹配的结果要显示。请使用更具体的搜索词来缩小结果范围。",
+          "applications": "应用程序：",
+          "services": "服务："
+        },
+        "noChartForAdaptiveBaseline": "此触发器基于自适应基线时不提供预览。",
         "noDataWithoutEndpointSelection": "请选择一个端点以查看预览",
         "noDataAvailable": "请选择服务以查看预览"
       },
@@ -230,7 +247,7 @@
           "name": "吞吐量",
           "headline": "调用计数的自动警报",
           "text": "此应用程序透视图的所选服务和端点的调用数异常低或异常高时自动发出警报。",
-          "metricLabel": "调用"
+          "metricLabel": "调用次数"
         },
         "simpleMode": {
           "unexpectedDrop": {
@@ -402,6 +419,7 @@
         "ruleFormPleaseProvideAStartStatusCode": "请提供启动 HTTP 状态码",
         "ruleFormPleaseProvideAEndStatusCode": "请提供结束 HTTP 状态码",
         "smartAlertFormNoEntitiesSelected": "未选择任何实体",
+        "smartAlertFormValueIsReadOnly": "该值为只读值，无法更改",
         "thresholdFormPleaseProvideANumber0": "请提供大于或等于 0 的数字",
         "thresholdFormBaselineIsEmpty": "基线为空"
       },
@@ -421,7 +439,7 @@
         "provideStatusCodeStatusCode": "状态码"
       },
       "inventory": {
-        "noData": "未配置智能警报。单击以下按钮来配置首个智能警报。",
+        "noData": "未配置智能警报。单击以下按钮来配置您的首个智能警报。",
         "noPersmissionToCreateGlobalSmartAlert": "您无权配置智能警报。请联系您的管理员。",
         "labelGlobalSmartAlertsList": "全局应用程序智能警报数（{{numberOfAlerts}} 个）",
         "labelSmartAlertsList": "应用程序智能警报数（{{numberOfAlerts}} 个）",
@@ -439,7 +457,21 @@
       "details": {
         "title": "警报详细信息",
         "titleAlertProperties": "警报属性"
+      },
+      "apCreation": {
+        "addToAllBuiltInAlerts": "添加到所有（{{numAlerts}} 个）内置全局智能警报",
+        "addToAllBuiltInAlertsSubText": "（{{numDisabled}} 个（共 {{numAlerts}} 个）警报目前已禁用）",
+        "addToAllExplanation": "将此应用程序透视图包含在此范围中",
+        "addToAllExplanationSubText": "内置全局智能警报",
+        "notAllEnitiesSelected": "未选择所有服务/端点",
+        "alertCurrentlyDisabled": "警报当前已禁用",
+        "viewAlertDetails": "查看配置的警报详细信息：{{name}}",
+        "eventsWarningIcon": "事件警告图标",
+        "eventsCriticalIcon": "事件关键图标"
       }
+    },
+    "details": {
+      "titleBuiltInIndicator": "内置"
     },
     "form": {
       "ruleAggregationOptionMEAN": "平均值",
@@ -457,6 +489,7 @@
     },
     "components": {
       "smartAlertDialog": {
+        "cancelTitle": "取消",
         "sharedListTooltip": "选定的 {{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageInsufficientDataToCompute": "数据不足，无法计算所选基线。请改为选择<em>静态阈值</em>。",
@@ -464,49 +497,51 @@
         "blueprintDescriptionButtonSelect": "选择",
         "selectAlertChannelButtonTitle": "选择警报通道",
         "selectAlertChannelButton": "选择警报通道",
+        "createAlertChannelTitle": "创建警报通道",
+        "alertChannelCreatedSuccess": "已创建警报通道",
+        "alertChannelSelectTypeTitle": "警报通道类型",
         "addChannel": "添加 {{count}} 个通道",
         "addChannel_plural": "添加 {{count}} 个通道",
-        "addChannel_0": "添加 {{count}} 个通道",
-        "addChannel_1": "添加 {{count}} 个通道",
-        "addChannel_2": "添加 {{count}} 个通道",
         "add": "添加",
         "scopeConfigTitleWithApplications": "选择应用程序/服务/端点",
         "scopeConfigTitle": "选择服务/端点",
-        "scopeConfigTitleTooltip": "将可用实体至少显示 7 天",
+        "scopeConfigTitleTooltip": "显示过去 24 小时内的可用实体",
         "sortByUserSelectionLabel": "按用户选择排序",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "至少 {{count}} 个用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "至少 {{count}} 个用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "至少 {{count}} 个用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "至少 {{count}} 个用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "至少 {{count}} 个用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "至少 {{userPercentage}} 的用户在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionRequestImpact": "至少 {{count}} 个请求在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionRequestImpact_plural": "至少{{count}} 个请求在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionRequestImpact_0": "至少{{count}} 个请求在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionRequestImpact_1": "至少 {{count}} 个请求在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionRequestImpact_2": "至少{{count}} 个请求在 {{formattedTimeWindow}} 内受影响",
-        "timeThresholdDescriptionViolationsInPeriod": "{{formattedTimeWindow}} 内至少出现 {{count}} 个违例",
-        "timeThresholdDescriptionViolationsInPeriod_plural": "{{formattedTimeWindow}} 内至少出现 {{count}} 个违例",
-        "timeThresholdDescriptionViolationsInPeriod_0": "{{formattedTimeWindow}} 内至少出现 {{count}} 个违例",
-        "timeThresholdDescriptionViolationsInPeriod_1": "{{formattedTimeWindow}} 内至少出现 {{count}} 个违例",
-        "timeThresholdDescriptionViolationsInPeriod_2": "{{formattedTimeWindow}} 内至少出现 {{count}} 个违例",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "连续违例数",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "至少 {{count}} 个用户和 {{userPercentage}} 的用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "至少 {{count}} 个用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "至少 {{count}} 个用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "至少 {{count}} 个用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "至少 {{count}} 个用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "至少 {{count}} 个用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "至少 {{userPercentage}} 的用户在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionRequestImpact": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionRequestImpact_plural": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionRequestImpact_0": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionRequestImpact_1": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionRequestImpact_2": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionViolationsInPeriod": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionViolationsInPeriod_plural": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionViolationsInPeriod_0": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionViolationsInPeriod_1": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionViolationsInPeriod_2": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "连续指标违例数",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "连续评估数",
-        "timeThresholdConfigNumberOfEvaluationWindows": "评估窗口数",
-        "timeThresholdConfigNumberOfViolations": "违例数",
+        "timeThresholdConfigNumberOfEvaluationWindows": "用于用户影响的评估窗口数",
+        "timeThresholdConfigNumberOfViolations": "指标违例数",
         "timeThresholdConfigEvaluationGranularity": "评估详细程度",
         "timeThresholdConfigNumberOfRequestsThreshold": "请求数阈值",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影响用户数阈值",
         "timeThresholdConfigAtLeast": "至少",
         "timeThresholdConfigNumberOfRequests": "请求数",
         "timeThresholdConfigMinutes": "{{min}} 分钟",
         "timeThresholdConfigNumberOfUsers": "用户数",
-        "timeThresholdConfigPercentageOfRequestsThreshold": "请求百分比阈值",
+        "timeThresholdConfigPercentageOfUsers": "用户百分比",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "受影响用户百分比阈值",
         "timeThresholdConfigOff": "关闭",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "请提供大于或等于 1 的数字",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "请提供 1% 到 100% 之间的数字",
@@ -538,6 +573,7 @@
         "thresholdTypeOptionStaticThreshold": "静态阈值",
         "thresholdTypeOptionHistoricBaselineDaily": "基线（每日季节性）",
         "thresholdTypeOptionHistoricBaselineWeekly": "基线（每周季节性）",
+        "thresholdTypeOptionAdaptiveBaseline": "自适应基线",
         "useSuggestedvalue": "使用建议值",
         "alertConfigDialogPresenterTitleEditAlert_Local": "编辑智能警报",
         "alertConfigDialogPresenterTitleEditAlert_Global": "编辑全局智能警报",
@@ -549,7 +585,8 @@
         "PreviewForAP": "应用程序透视图的预览：",
         "PreviewForEndpoint": "端点预览：",
         "PreviewForService": "服务预览：",
-        "PreviewSelectLoadingEndpoints": "正在加载端点列表"
+        "PreviewSelectLoadingEndpoints": "正在加载端点列表",
+        "thresholdValue": "阈值"
       },
       "alertsHub": {
         "title": "警报中心",
@@ -641,7 +678,7 @@
         "slownessBlueprintConfigTextli4": "呈现页面",
         "slownessBlueprintConfigTextli5": "运行在页面加载时运行所需的所有脚本",
         "slownessBlueprintConfigMetricLabel": "onLoad 时间",
-        "jsErrorsBlueprintConfigName": "JS 错误",
+        "jsErrorsBlueprintConfigName": "JS 错误数",
         "jsErrorsBlueprintConfigHeadline": "JS 错误的自动警报",
         "jsErrorsBlueprintConfigText": "每当匹配 JS 错误消息的出现频率超过正常值时，接收警报。",
         "jsErrorsBlueprintConfigIncompleteRuleMessage": "请选择“JS 错误”以查看此警报的触发时间",
@@ -791,7 +828,12 @@
       "enabled": "已启用",
       "disabled": "已禁用",
       "severity": "严重性",
-      "created": "创建日期"
+      "created": "创建日期",
+      "type": "类型"
+    },
+    "migration": {
+      "migrateButton": "迁移到智能警报",
+      "migrateButtonTooltip": "打开“智能警报配置”对话框，其中尽我们所能预填充了来自当前事件的已迁移值。请仔细检查结果！"
     }
   }
 }

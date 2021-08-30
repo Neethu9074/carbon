@@ -125,6 +125,9 @@
         "hideWebsiteInformation": "Nascondi informazioni sul sito Web",
         "showWebsiteInformation": "Mostra informazioni sul sito Web",
         "viewWebsiteActivity": "Visualizza attività del sito Web"
+      },
+      "logs": {
+        "noDataMessage": "Non ci sono log disponibili per questa traccia"
       }
     },
     "components": {
@@ -172,13 +175,22 @@
         "tags": "Tag"
       },
       "callTree": {
-        "expandButtonForRow": "Pulsante Espandi per la riga",
+        "expandButtonForRow": "Espandi tutte le chiamate secondarie ",
+        "collapseButtonForRow": "Comprimi tutte le chiamate secondarie ",
         "of": "di",
-        "inheritedFrom": "Ereditato da"
+        "inheritedFrom": "Ereditato da",
+        "cardTitle": "Chiamate"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Colora per",
-        "endpoint": "Endpoint"
+        "colorizeByExpl": "Cambia il colore delle barre di chiamata",
+        "endpoint": "Endpoint",
+        "service": "Servizio"
+      },
+      "viewToggleButtons": {
+        "expl": "Visualizza come ",
+        "tree": "Struttura ad albero",
+        "chart": "Sequenza temporale"
       },
       "logTooltipContent": {
         "errorLog": "Log di errore",
@@ -241,14 +253,6 @@
   "analyzeHeader": {
     "title": "Analitica"
   },
-  "editTagFilterDialog": {
-    "dialogTitleEdit": "Modifica filtro",
-    "dialogTitleAdd": "Aggiungi filtro {{filterCategory}}",
-    "messageTitle": "Selezionare un tag in base al quale filtrare i dati. I tag sono sensibili al maiuscolo/minuscolo.",
-    "placeholder": "Immettere per filtrare i risultati…",
-    "saveFilter": "Salva filtro",
-    "addFilter": "Aggiungi filtro"
-  },
   "filterBar": {
     "keyValueBarItem": {
       "tooltip": "Rimuovi filtro"
@@ -263,12 +267,6 @@
       "clickToFilter": "Fare clic per filtrare per {{itemLabel}}"
     },
     "allFilters": "Tutti i filtri"
-  },
-  "radioButtons": {
-    "messageFilering": "Il filtro ed il raggruppamento sull'origine non è disponibile per l'intervallo di tempo selezionato",
-    "messageIndependent": "Questo tag è indipendente da origine e destinazione",
-    "fragmentSource": "Si applica solo all'origine della chiamata",
-    "fragmentCall": "Applica all'origine o alla destinazione della chiamata"
   },
   "dialogs": {
     "tooltip": "Suggerimenti attualmente non disponibili, immettere il valore",
@@ -286,7 +284,8 @@
     "tooltipCloseLogDetails": "Chiudi dettagli log",
     "analyzeLogsLabel": "Analizza log",
     "similarLogs": "Log simili",
-    "similarServiceLogs": "Nel contesto del servizio"
+    "similarServiceLogs": "Mostra i log nel contesto di questo servizio",
+    "service": "Mostra servizio "
   },
   "traceDetails": {
     "labelTotal": "Totale",
@@ -301,15 +300,8 @@
     "callDetails": {
       "tooltipCloseCallDetails": "Chiudi dettagli chiamata"
     },
-
     "callTimeAxis": {
       "started": "Avviato: {{startedTime}}"
-    },
-    "navigatorSplitScreen": {
-      "tooltipViewPrevious": "Visualizza {{viewType}} precedente (tasto di scelta rapida: freccia sinistra)",
-      "tooltipViewNext": "Visualizza successivo {{viewType}} (tasto di scelta rapida: tasto freccia destra)",
-      "tooltipCloseSidebar": "Chiudi barra laterale",
-      "tooltipOpenSidebar": "Apri barra laterale"
     }
   },
   "tabs": {
@@ -332,14 +324,6 @@
       "beta": "BETA",
       "analytics": "Analitica"
     },
-    "editTagFilterDialog": {
-      "tag": "Tag",
-      "loadingSuggestions": "Caricamento dei suggerimenti…",
-      "operator": "Operatore",
-      "true": "true",
-      "false": "false",
-      "removeFilter": "Rimuovi filtro"
-    },
     "filterBar": {
       "group": "Gruppo",
       "filters": "Filtri",
@@ -361,10 +345,6 @@
     "groupedTraces": {
       "tagPresentWithNoValue": "Tag presente senza valore",
       "tagNotPresent": "Tag non presente"
-    },
-    "radioButtons": {
-      "source": "Origine",
-      "destination": "Destinazione"
     }
   }
 }

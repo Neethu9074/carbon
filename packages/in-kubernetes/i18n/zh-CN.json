@@ -95,7 +95,6 @@
     "container": "容器",
     "loading": "正在加载",
     "ready": "就绪",
-    "total": "总计",
     "restarts": "重新启动",
     "serviceLocation": "服务位置",
     "intEndpoints": "内部端点",
@@ -126,7 +125,7 @@
     "auto": "自动",
     "selector": "选择器",
     "key": "密钥",
-    "operator": "Operator",
+    "operator": "运算符",
     "topDeployments": "排名靠前的部署",
     "topNamespaces": "排名靠前的名称空间",
     "topNodes": "排名靠前的节点",
@@ -198,8 +197,29 @@
     "noCpuLimitQuotaMessage": "此名称空间中没有 CPU 限制配额",
     "noMemoryRequestQuotaMessage": "此名称空间中没有内存请求配额",
     "noMemoryLimitQuotaMessage": "此名称空间中没有内存限制配额",
-    "completion": "完成",
-    "placeholderPhase": "阶段…"
+    "placeholderPhase": "阶段…",
+    "podsOnline": "联机 Pod",
+    "podsDesired": "期望 Pod",
+    "noDataAvailable": {
+      "servicesTitle": "无可用的服务",
+      "servicesDescription": "所选时间范围内未检索到任何服务。",
+      "persistentVolumesTitle": "无可用的持久卷",
+      "persistentVolumesDescription": "所选时间范围内未检索到任何持久卷。",
+      "conditionsTitle": "无可用的条件",
+      "conditionsDescription": "所选时间范围内未检索到任何条件。",
+      "cronjobsTitle": "无可用的定时作业",
+      "cronjobsDescription": "所选时间范围内未检索到任何定时作业。",
+      "eventsTitle": "无可用事件",
+      "eventsDescription": "所选时间范围内未检索到任何事件。",
+      "namespacesTitle": "无可用的名称空间",
+      "namespacesDescription": "所选时间范围内未检索到任何名称空间。",
+      "nodesTitle": "无可用节点",
+      "nodesDescription": "所选时间范围内未检索到任何节点。",
+      "podsTitle": "无可用的 pod",
+      "podsDescription": "所选时间范围内未检索到任何 pod。",
+      "endpointsTitle": "无可用的端点",
+      "endpointsDescription": "所选时间范围内未检索到任何端点。"
+    }
   },
   "viewAllEntityName_unknownEntity_plural": "所有",
   "viewAllEntityName_unknownEntity_0": "所有",
@@ -248,12 +268,16 @@
   "running": "正在运行",
   "pending": "暂挂",
   "succeeded": "成功",
-  "active": "活动",
   "failed": "失败",
   "unknown": "未知",
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "无可用 Kubernetes 数据。有关故障诊断信息，请参阅[文档]。\n\n[文档]:https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+  },
+  "pod": {
+    "pending": "Pod 处于暂挂状态",
+    "active": "Pod 处于活动状态",
+    "completed": "Pod 已完成"
   }
 }

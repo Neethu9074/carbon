@@ -227,9 +227,6 @@
     }
   },
   "dashboard": {
-    "mobileAppProductArea": "EUM: App mobili",
-    "mobileAppViewPageRootName": "Vista App mobile",
-    "mobileAppPageRootName": "App Mobile",
     "mobileAppViewTitle": "App Mobile",
     "mobileAppTitle": "Vista",
     "analyzeSessions": "Analizza sessioni",
@@ -301,6 +298,12 @@
       "geographyTitle": "Area geografica",
       "topViewsTitle": "Prime Viste",
       "globViewFootertext": "Immagini fornite da NASA"
+    },
+    "noDataAvailable": {
+      "viewsTitle": "Nessuna vista disponibile ",
+      "viewsDescription": "Non è stata richiamata alcuna vista per la fascia oraria selezionata.",
+      "httpRequestsTitle": "Nessuna richiesta HTTP disponibile",
+      "httpRequestsDescription": "Non è stata richiamata alcuna richiesta HTTP per la fascia oraria selezionata."
     }
   },
   "appsList": {
@@ -308,9 +311,7 @@
     "sessionStartsLabel": "Avvii di sessione",
     "viewTransitionsLabel": "Transizioni vista",
     "addMobileAppBtn": "Aggiungi App Mobile",
-    "mobileAppsTitle": "App mobili",
-    "mobileAppProductArea": "EUM: App mobili",
-    "mobileAppPageRootName": "App mobili"
+    "mobileAppsTitle": "App mobili"
   },
   "newAppFlow": {
     "addMobileAppTitle": "Aggiungi App Mobile",

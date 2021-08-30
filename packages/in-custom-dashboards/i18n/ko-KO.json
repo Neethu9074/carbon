@@ -36,9 +36,6 @@
       }
     },
     "widgetEditorDialog": {
-      "widgetTypeSelector": {
-        "showWidgetLabel": "{{label}} 위젯의 케이스 표시"
-      },
       "widgetConfiguration": {
         "widgetName": "위젯 이름",
         "name": "이름",
@@ -116,10 +113,16 @@
       "hiddenCalls": {
         "includeInternalCalls": "내부 호출 포함",
         "includeSyntheticCalls": "합성 호출 포함"
+      },
+      "bluePrintForCallsMetric": {
+        "unexpectedLowNumberOfCalls": "예상치 못하게 낮은 호출 수",
+        "unexpectedHighNumberOfCalls": "예상치 못하게 높은 호출 수",
+        "unexpectedLowOrHighNumberOfCalls": "예상치 못하게 높거나 낮은 호출 수"
       }
     },
     "srcApp": {
       "formComponent": {
+        "needToTurnOffPP": "그룹화를 사용하려면 먼저 잠재적 문제점 강조표시를 꺼야 합니다.",
         "pleaseSelect": "선택하십시오.",
         "pleaseSelectMetric": "메트릭을 선택하십시오.",
         "aggregation": "집계",
@@ -140,7 +143,9 @@
         "pleaseSelectMetric": "메트릭을 선택하십시오.",
         "pleaseSelect": "선택하십시오.",
         "helpAction": "이벤트 보기 내에서 사용하는 DFQ(Dynamic Focus Query)입니다.",
-        "query": "조회"
+        "query": "조회",
+        "includeK8sInfoEvents": "Kubernetes 이벤트 포함",
+        "includeAgentMonitoringIssues": "에이전트 모니터링 문제 포함"
       }
     },
     "srcInfrastructure": {
@@ -254,7 +259,17 @@
       },
       "atLeastOneDatasetIsRequired": "하나 이상의 데이터 세트가 필요합니다.",
       "errorTitleForConfiguredSliDeletion": "구성된 SLI가 삭제되었습니다.",
-      "errorDescriptionToConfigureOtherSLI": "다른 SLI를 선택하여 SLO 위젯을 업데이트하십시오."
+      "errorDescriptionToConfigureOtherSLI": "다른 SLI를 선택하여 SLO 위젯을 업데이트하십시오.",
+      "index": {
+        "testTitle": "상위 5개의 가장 느린 서비스",
+        "testLabels": {
+          "catalogue": "카탈로그",
+          "cart": "카트",
+          "ratings": "등급",
+          "discount": "할인",
+          "shipping": "배송"
+        }
+      }
     },
     "formCompChart": {
       "colorConfiguratorChart": {
@@ -277,11 +292,13 @@
         "indigo": "남색"
       },
       "dataConfigChart": {
+        "tooltipDisabledBecausePP": "데이터 세트를 더 추가하려면 먼저 잠재적 문제점 강조표시를 꺼야 합니다.",
         "addDataset": "데이터 세트 추가"
       },
       "indexChart": {
         "datasets": "데이터 세트",
-        "axisConfig": "축 구성"
+        "axisConfig": "축 구성",
+        "potentialProblems": "잠재적인 문제점"
       },
       "metricConfigChart": {
         "datasetTimeShift": "데이터 세트가 시간 이동됨",
@@ -298,7 +315,20 @@
         "timeShift": "시간 이동",
         "applyTimeShiftDs": "이 데이터 시리즈에 시간 이동 적용",
         "timeShiftHelpAction": "<strong>현재 값 표시</strong>를 선택하면 이 데이터 시리즈가 동일한 축에 자동으로 복제됩니다. 첫 번째 데이터 시리즈의 시간 이동은 비활성화되며 두 번째 시리즈의 시간 이동이 사용으로 설정됩니다.",
+        "timeShiftDisabledWhilePPon": "시간 이동을 사용하려면 먼저 잠재적 문제점 강조표시를 꺼야 합니다.",
         "displayCurrentValues": "현재 값 표시"
+      },
+      "potentialProblems": {
+        "potentialProblemsDescription": {
+          "anyMetric": "잠재적 문제점 강조표시"
+        },
+        "tooltip": {
+          "needToTurnOffTimeShift": "잠재적 문제점 강조표시를 사용하려면 먼저 시간 이동을 꺼야 합니다.",
+          "needToTurnOffGrouping": "잠재적 문제점 강조표시를 사용하려면 먼저 그룹화를 꺼야 합니다.",
+          "needToRemoveDatasets": "잠재적 문제점 강조표시를 사용하려면 먼저 기타 데이터 세트를 제거해야 합니다.",
+          "needToChangeMetric": "잠재적 문제점 강조표시를 사용하려면 메트릭을 변경해야 합니다."
+        },
+        "onlyWorksWithOneMetricConfigured": "데이터 세트만 구성된 경우에만 지원됩니다."
       }
     },
     "demo": {
@@ -312,6 +342,10 @@
       "unnamMetric": "이름이 지정되지 않은 메트릭"
     },
     "markdown": {
+      "demo": {
+        "title": "Instana - 시작하기",
+        "text": "Instana는 마이크로서비스 및 클라우드 네이티브 애플리케이션을 관리하는 과제를 위해 특별히\n설계된 완전히 자동화된 최초의 유일한 애플리케이션 성능(APM) 솔루션입니다.\n\n시작하는 방법은 매우 간단합니다.\n\n1. Instana에 대한 액세스 권한이 아직 없다면 [Instana.com](https://www.instana.com)으로 이동하고 무료 평가판을 등록하십시오.\n2. 수백 개의 [지원되는 기술]로 구성된 에코시스템에 대해 알아보십시오(https://www.instana.com/docs/ecosystem).\n3. [에이전트] 중 하나에서 데이터 수집을 시작하십시오(https://www.instana.com/docs/setup_and_manage).\n4. 사용 사례에 대한 [Instana 사용 방법]에 대해 학습하십시오(https://www.instana.com/docs/using_instana).\n5. 고유한 [핵심 기능]에 대해 알아보십시오(https://www.instana.com/docs/core_capabilities/).\n6. [통합, SDK, API]로 Instana를 확장하십시오(https://www.instana.com/docs/integrations).\n\n이제 됐습니다!\n\n원하는 내용을 찾을 수 없습니까? [instana.com/docs]를 참조하십시오(https://www.instana.com/docs/)!"
+      },
       "formComp": {
         "whatULikeShow": "표시할 항목",
         "markdown": "마크다운",
@@ -327,10 +361,18 @@
         "formatter": "포맷터"
       },
       "index": {
-        "chartPie": "차트: 원형"
+        "chartPie": "차트: 원형",
+        "testTitle": "이벤트",
+        "testLegendItem1": "인시던트",
+        "testLegendItem2": "문제: 위험",
+        "testLegendItem3": "문제: 경고"
       }
     },
     "slo": {
+      "demo": {
+        "title": "SLO 제목",
+        "appName": "예제 애플리케이션 이름"
+      },
       "apConfigFormComp": {
         "userJourneyOffering": "사용자 과정/오퍼링",
         "appnPerspective": "애플리케이션 퍼스펙티브",
@@ -358,7 +400,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "엔드포인트",
-        "allServices": "모든 서비스",
+        "allEndpoints": "모든 엔드포인트",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {
@@ -486,6 +528,7 @@
     },
     "timezone": {
       "demo": {
+        "title": "팀 가용성",
         "sanFrancisco": "샌프란시스코",
         "austin": "오스틴",
         "newYorkCity": "뉴욕시",
@@ -510,7 +553,8 @@
         "formatter": "포맷터"
       },
       "index": {
-        "topListLb": "상위 목록"
+        "topListLb": "상위 목록",
+        "topListItem": "항목 {{itemNumber}}"
       },
       "widget": {
         "aggregOtherGroup": "기타 그룹의 집계",

@@ -45,6 +45,8 @@
       "logMonitorWriterDesc": "log-writer 将日志并入 ClickHouse。",
       "logMonitorReader": "log-reader（日志查询）",
       "logMonitorReaderDesc": "log-reader 从 ClickHouse 查询日志。",
+      "logMonitorHousekeeping": "日志管理（日志维护）",
+      "logMonitorHousekeepingDesc": "日志管理包含在 log-writer 中运行的维护作业。",
       "infrastructureMetrics": "基础架构指标",
       "infrastructureMetricsDesc": "有关基结架构指标管道的信息。",
       "fillerMetricExtraction": "填充板（指标抽取）",
@@ -131,16 +133,6 @@
       "sLOViolations": "SLO 违例",
       "devTUSLOs": "开发 TU SLO",
       "expTUSLOs": "实验性 TU SLO"
-    },
-    "timeZones": {
-      "sanFrancisco": "旧金山",
-      "austin": "奥斯汀",
-      "newYorkCity": "纽约市",
-      "uTC": "世界标准时间",
-      "solingen": "索林根",
-      "noviSad": "诺维萨德",
-      "tokyo": "东京",
-      "sydney": "悉尼"
     }
   },
   "monitoringUnit": {
@@ -356,6 +348,8 @@
             "tooOld": "跟踪日志 Kafka 使用者太旧"
           }
         },
+        "droppedPast": "已删除时间戳记为过去时间的日志",
+        "droppedFuture": "已删除时间戳记为未来时间的日志",
         "outgoing": "出局日志",
         "failOutgoing": "出局日志失败"
       },
@@ -415,6 +409,28 @@
           "mean": "平均值",
           "50th": "第 50 个",
           "99th": "第 99 个"
+        }
+      },
+      "housekeeping" : {
+        "title": "日志管理（在 log-writer 中运行）",
+        "cleanup" : {
+          "success": "日志清除成功",
+          "failure": "日志清除失败",
+          "duration": "日志清除持续时间（第 99 个）",
+          "skips" : {
+            "mutations": "跳过日志清除（突变）"
+          }
+        },
+        "coldTier" : {
+          "success": "日志冷层成功",
+          "failure": "日志冷层失败",
+          "optimize": "日志冷层优化",
+          "move": "日志冷层移动",
+          "duration": "日志冷层持续时间（第 99 个）",
+          "skips": {
+            "mutations": "跳过日志冷层（突变）",
+            "merges": "跳过日志冷层（合并）"
+          }
         }
       }
     },
@@ -893,7 +909,6 @@
       "config": "配置",
       "version": "版本",
       "injectorBindings": "注入器绑定数",
-      "hystrix": "Hystrix",
       "agentClockSkew": "代理程序时钟偏差"
     },
     "region": {

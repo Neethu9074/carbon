@@ -45,6 +45,8 @@
       "logMonitorWriterDesc": "Log-writer inserisce i log in ClickHouse.",
       "logMonitorReader": "log-reader (query log",
       "logMonitorReaderDesc": "Log-reader esegue query da ClickHouse.",
+      "logMonitorHousekeeping": "log-housekeeping (manutenzione log)",
+      "logMonitorHousekeepingDesc": "Log-housekeeping contiene lavori di manutenzione che vengono eseguiti in log-writer.",
       "infrastructureMetrics": "Metriche infrastruttura",
       "infrastructureMetricsDesc": "Informazioni sulla pipeline della metrica dell'infrastruttura.",
       "fillerMetricExtraction": "Filler (estrazione metrica)",
@@ -131,16 +133,6 @@
       "sLOViolations": "Violazioni SLO",
       "devTUSLOs": "SLO TU di sviluppo",
       "expTUSLOs": "SLO TU sperimentali"
-    },
-    "timeZones": {
-      "sanFrancisco": "San Francisco",
-      "austin": "Austin",
-      "newYorkCity": "New York City",
-      "uTC": "UTC",
-      "solingen": "Solingen",
-      "noviSad": "Novi Sad",
-      "tokyo": "Tokyo",
-      "sydney": "Sydney"
     }
   },
   "monitoringUnit": {
@@ -356,6 +348,8 @@
             "tooOld": "Log di traccia Kafka Consumer Troppo vecchi"
           }
         },
+        "droppedPast": "Log eliminati con data/ora nel passato",
+        "droppedFuture": "Log eliminati con data/ora nel futuro",
         "outgoing": "Log in uscita",
         "failOutgoing": "Log in uscita non riusciti"
       },
@@ -415,6 +409,28 @@
           "mean": "media",
           "50th": "50esimo",
           "99th": "99esimo"
+        }
+      },
+      "housekeeping" : {
+        "title": "log-housekeeping (in esecuzione in log-writer)",
+        "cleanup" : {
+          "success": "Pulizia log correttamente eseguita",
+          "failure": "Pulizia log non riuscita",
+          "duration": "Durata pulizia log (99°)",
+          "skips" : {
+            "mutations": "Ignora pulizia del log (mutazioni)"
+          }
+        },
+        "coldTier" : {
+          "success": "Cold-tier log correttamente eseguito",
+          "failure": "Cold-tier log non riuscito",
+          "optimize": "Ottimizza cold-tier log ",
+          "move": "Sposta cold-tier log ",
+          "duration": "Durata cold-tier log (99°)",
+          "skips": {
+            "mutations": "Ignora cold-tier log (mutazioni)",
+            "merges": "Ignora cold-tier log (unioni)"
+          }
         }
       }
     },
@@ -893,7 +909,6 @@
       "config": "Config",
       "version": "Versione",
       "injectorBindings": "Binding iniettore",
-      "hystrix": "Hystrix",
       "agentClockSkew": "Sfasamento orologio agent"
     },
     "region": {

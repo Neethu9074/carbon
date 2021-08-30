@@ -58,7 +58,7 @@
       "mobileAppLabel_1": "移动应用程序",
       "mobileAppLabel_2": "移动应用程序",
       "viewsLabel": "视图",
-      "viewsLabel_plural": "视图",
+      "viewsLabel_plural": "视图数",
       "viewsLabel_0": "视图数",
       "viewsLabel_1": "视图数",
       "viewsLabel_2": "视图数",
@@ -67,16 +67,16 @@
       "platformLabel_0": "平台",
       "platformLabel_1": "平台",
       "platformLabel_2": "平台",
-      "osLabel": "操作系统",
-      "osLabel_plural": "操作系统",
+      "osLabel": "OS",
+      "osLabel_plural": "OS",
       "osLabel_0": "OS",
       "osLabel_1": "OS",
       "osLabel_2": "OS",
       "bundleLabel": "捆绑软件",
       "bundleLabel_plural": "捆绑软件",
-      "bundleLabel_0": "束",
-      "bundleLabel_1": "束",
-      "bundleLabel_2": "束",
+      "bundleLabel_0": "捆绑软件",
+      "bundleLabel_1": "捆绑软件",
+      "bundleLabel_2": "捆绑软件",
       "versionLabel": "版本",
       "versionLabel_plural": "版本",
       "versionLabel_0": "版本",
@@ -89,9 +89,9 @@
       "countryLabel_2": "国家或地区",
       "subdivisionLabel": "子区",
       "subdivisionLabel_plural": "子区",
-      "subdivisionLabel_0": "细分",
-      "subdivisionLabel_1": "细分",
-      "subdivisionLabel_2": "细分",
+      "subdivisionLabel_0": "子区",
+      "subdivisionLabel_1": "子区",
+      "subdivisionLabel_2": "子区",
       "metaLabel": "元"
     },
     "perBeaconTypeConfigs": {
@@ -139,7 +139,7 @@
       "noViewGuide": "了解如何定义视图"
     },
     "tabsSumFilter": {
-      "viewsTitle": "视图",
+      "viewsTitle": "视图数",
       "allOption": "所有",
       "searchTitle": "搜索",
       "typesTitle": "类型"
@@ -227,9 +227,6 @@
     }
   },
   "dashboard": {
-    "mobileAppProductArea": "EUM：移动应用程序",
-    "mobileAppViewPageRootName": "移动应用程序视图",
-    "mobileAppPageRootName": "移动应用程序",
     "mobileAppViewTitle": "移动应用程序",
     "mobileAppTitle": "视图",
     "analyzeSessions": "分析会话",
@@ -239,7 +236,7 @@
       "summaryLabel": "摘要",
       "httpRequestLabel": "HTTP 请求数",
       "geographyLabel": "地理",
-      "viewsLabel": "视图",
+      "viewsLabel": "视图数",
       "configurationLabel": "配置",
       "nameLabel": "名称",
       "occurrencesLabel": "出现次数",
@@ -288,7 +285,7 @@
       "analyzeHTTPRequestsBtn": "分析 HTTP 请求数",
       "pathsTitle": "路径数",
       "viewAllPathsLink": "查看所有路径数",
-      "viewsTitle": "视图",
+      "viewsTitle": "视图数",
       "viewAllViewsLink": "查看所有视图",
       "topHTTPRequestOriginsTitle": "排名靠前的 HTTP 请求源",
       "viewAllOriginsLink": "查看所有源",
@@ -301,6 +298,12 @@
       "geographyTitle": "地理",
       "topViewsTitle": "排名靠前的视图",
       "globViewFootertext": "NASA 提供的图像数"
+    },
+    "noDataAvailable": {
+      "viewsTitle": "无视图可用                                                                                                       ",
+      "viewsDescription": "所选时间范围内未检索到任何视图。",
+      "httpRequestsTitle": "无可用的 HTTP 请求",
+      "httpRequestsDescription": "所选时间范围内未检索到任何 HTTP 请求。"
     }
   },
   "appsList": {
@@ -308,9 +311,7 @@
     "sessionStartsLabel": "会话启动数",
     "viewTransitionsLabel": "视图转换",
     "addMobileAppBtn": "添加移动应用程序",
-    "mobileAppsTitle": "移动应用程序",
-    "mobileAppProductArea": "EUM：移动应用程序",
-    "mobileAppPageRootName": "移动应用程序"
+    "mobileAppsTitle": "移动应用程序"
   },
   "newAppFlow": {
     "addMobileAppTitle": "添加移动应用程序",
@@ -359,7 +360,7 @@
     "mobileApp": "移动应用程序",
     "view": "视图",
     "platform": "平台",
-    "os": "操作系统",
+    "os": "OS",
     "bundle": "捆绑软件",
     "version": "版本",
     "country": "国家或地区",

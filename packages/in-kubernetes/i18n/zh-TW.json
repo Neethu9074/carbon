@@ -95,7 +95,6 @@
     "container": "儲存器",
     "loading": "載入中",
     "ready": "備妥",
-    "total": "總計",
     "restarts": "重新啟動",
     "serviceLocation": "服務位置",
     "intEndpoints": "起始端點",
@@ -198,8 +197,29 @@
     "noCpuLimitQuotaMessage": "此名稱空間中沒有任何 CPU 限制配額",
     "noMemoryRequestQuotaMessage": "此名稱空間中沒有任何記憶體要求配額",
     "noMemoryLimitQuotaMessage": "此名稱空間中沒有任何記憶體限制配額",
-    "completion": "完成",
-    "placeholderPhase": "階段…"
+    "placeholderPhase": "階段…",
+    "podsOnline": "線上 Pod",
+    "podsDesired": "需要的 Pod",
+    "noDataAvailable": {
+      "servicesTitle": "沒有可用的服務",
+      "servicesDescription": "未擷取到所選時間範圍內的服務。",
+      "persistentVolumesTitle": "沒有可用的持續性磁區",
+      "persistentVolumesDescription": "未擷取到所選時間範圍內的持續性磁區。",
+      "conditionsTitle": "沒有可用的條件",
+      "conditionsDescription": "未擷取到所選時間範圍內的條件。",
+      "cronjobsTitle": "沒有可用的 cronjob",
+      "cronjobsDescription": "未擷取到所選時間範圍內的 cronjob。",
+      "eventsTitle": "沒有可用的事件",
+      "eventsDescription": "未擷取到所選時間範圍內的事件。",
+      "namespacesTitle": "沒有可用的名稱空間",
+      "namespacesDescription": "未擷取到所選時間範圍內的名稱空間。",
+      "nodesTitle": "沒有可用的節點",
+      "nodesDescription": "未擷取到所選時間範圍內的節點。",
+      "podsTitle": "沒有可用的 pod",
+      "podsDescription": "未擷取到所選時間範圍內的 pod。",
+      "endpointsTitle": "沒有可用的端點",
+      "endpointsDescription": "未擷取到所選時間範圍內的端點。"
+    }
   },
   "viewAllEntityName_unknownEntity_plural": "全部",
   "viewAllEntityName_unknownEntity_0": "全部",
@@ -248,12 +268,16 @@
   "running": "執行中",
   "pending": "擱置",
   "succeeded": "成功",
-  "active": "作用中",
   "failed": "失敗",
   "unknown": "不明",
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "沒有可用的 Kubernetes 資料。如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+  },
+  "pod": {
+    "pending": "Pods 擱置中",
+    "active": "Pod 作用中",
+    "completed": "Pod 已完成"
   }
 }

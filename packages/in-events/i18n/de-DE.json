@@ -15,6 +15,7 @@
   "titleTriggerEvent": "Auslösendes Ereignis",
   "titleRelatedEvents": "Zugehörige Ereignisse ({{eventCount}})",
   "titleLastProcess": "Letzter Prozess",
+  "titleLastHost": "Letzter Host",
   "titleIncidentTimeline": "Vorfallszeitachse",
   "titleAnalyzeHTTPRequests": "HTTP-Anforderungen analysieren",
   "titleAnalyzePageLoads": "Seitenladevorgänge analysieren",
@@ -71,7 +72,9 @@
   "labelTriggeringEvent": "Auslösendes Ereignis",
   "labelSummary": "Zusammenfassung",
   "labelIncidents": "Vorfälle",
-  "labelIncidentWithSeverity": "{{severityLabel}} Vorfall",
+  "labelOpen": "Offen",
+  "labelClosed": "Geschlossen",
+  "labelIncidentWithSeverity": "{{severityLabel}} Vorfall ({{stateLabel}})",
   "labelIssueWithSeverity": "{{severityLabel}} Problem",
   "labelChange": "Ändern",
   "labelCritical": "Kritisch",
@@ -82,7 +85,6 @@
   "labelIssues": "Probleme",
   "labelMonitoringIssues": "Überwachungsprobleme",
   "labelAll": "Alle",
-  "labelEvent": "Ereignis",
   "buttonViewCustomEvent": "Angepasstes Ereignis anzeigen",
   "buttonViewBuiltInEvent": "Integriertes Ereignis anzeigen",
   "buttonCollapse": "Ausblenden",
@@ -93,15 +95,31 @@
   "buttonFocusTimeToRelease": "Zeit bis zum Release hervorheben",
   "buttonFollowReleaseLive": "Releases live folgen",
   "linkViewLastProcess": "Letzten Prozess anzeigen",
+  "linkGoToTheOfflineHost": "Zum Offline-Host wechseln",
   "headerStarted": "Gestartet",
   "headerTitle": "Titel",
   "headerEnd": "Ende",
   "headerOn": "Unter",
   "headerTimeline": "Zeitachse",
+  "hostOffLineEventProblemChangeTime": "Klicken Sie auf den Link unten, um zur letzten Version des Hosts zu gelangen, der von Instana überwacht wird. Dadurch ändert sich der Start Ihres Zeitfensters in einen Zeitpunkt, zu dem der Host von Instana überwacht wurde",
   "offLineEventProblemChangeTime": "Klicken Sie auf den Link unten, um zur letzten Version des Prozesses zu gelangen, der von Instana überwacht wird. Dadurch ändert sich der Start Ihres Zeitfensters in einen Zeitpunkt, zu dem der Prozess von Instana überwacht wurde",
   "offLineEventProblemNoMatch": "Instana konnte keine Referenz zu einer vorherigen Entität finden, die mit dem angepassten Ereignis übereinstimmt.",
   "tooltipAnalyzeCalls": "Die Konfiguration dafür wird mit Query Builder 2-Ausdrücken gespeichert. <br /> Sie können diese Schaltfläche nur mit den in Query Builder 1 gespeicherten Konfigurationen verwenden.",
   "tooltipCloseEventDetail": "Ereignisdetails schließen",
   "releaseOccurName": "Release: {{releaseName}}",
-  "releaseOccurTime": "{{releaseStartTime}} (vor <timeCount/>)"
+  "releaseOccurTime": "{{releaseStartTime}} (vor <timeCount/>)",
+  "navigatorSplitScreen": {
+    "tooltipViewPrevious_event": "Vorheriges Ereignis anzeigen (Direktaufruf: Linkspfeiltaste)",
+    "tooltipViewNext_event": "Nächstes Ereignis anzeigen (Direktaufruf: Rechtspfeiltaste)",
+    "tooltipCloseSidebar": "Seitenleiste schließen",
+    "tooltipOpenSidebar": "Seitenleiste öffnen"
+  },
+  "kubernetesEvent": {
+    "problemText": {
+      "podContainerNotReady": "Pod-Container sind nicht bereit"
+    },
+    "fixSuggestion": {
+      "podContainerNotReady": "Der Pod-Container ist nicht bereit. Überprüfen Sie, ob der Knoten über Kapazität verfügt und/oder ob das Image aus dem angegebenen Imagepfad abgerufen werden kann."
+    }
+  }
 }

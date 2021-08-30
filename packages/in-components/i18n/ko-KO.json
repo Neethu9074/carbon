@@ -106,6 +106,10 @@
       "cursorPaginatedTableFilterByLabel": "이 그룹 분석",
       "cursorPaginatedTableLoadMoreRowLabel": "추가 로드"
     },
+    "noDataAvailable": {
+      "entititiesTitle": "사용 가능한 엔티티가 없음",
+      "entititiesDescription": "선택한 시간 범위에 대해 검색된 엔티티가 없습니다."
+    },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "{{len}} 항목 검색",
       "configurableThNoMatchesTxt": "일치사항 없음"
@@ -171,7 +175,11 @@
     "labelRegion": "지역",
     "labelTag": "태그",
     "labelCommit": "커미트",
-    "buttonGraphShowcase": "그래프 쇼케이스"
+    "buttonGraphShowcase": "그래프 쇼케이스",
+    "geo": {
+      "title": "지오 데이터",
+      "description": "이 제품은 MaxMind에서 작성한 GeoLite2 데이터를 포함하며, 이는 다음 위치에서 사용 가능합니다. <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
+    }
   },
   "blueprintFormMultistep": {
     "buttonCancel": "취소",
@@ -219,6 +227,9 @@
     "headingAvailableTimeRanges": "사용 가능한 시간 범위",
     "explanation": "선택한 시간 범위에서 이 엔티티의 버전을 찾을 수 없습니다. 다른 시간 범위의 다른 버전을 찾았습니다.",
     "noDataAvailable": "사용 가능한 데이터가 없습니다."
+  },
+  "entityToInstanaServiceButton": {
+    "services": "서비스"
   },
   "error": {
     "erroneousResultPresenterMessage": "예상치 못한 오류가 발생했습니다. 페이지를 새로 고치거나 나중에 다시 시도하십시오."
@@ -356,6 +367,7 @@
   },
   "selectorOverlay": {
     "placeholderSearch": "검색",
+    "noResults": "결과 없음",
     "loadingIndicatorLoadingCatalog": "카탈로그 로드 중"
   },
   "sortingConfigurator": {
@@ -453,18 +465,25 @@
     "timeSelectionDialogPresenterLabelTimeRange": "시간 범위",
     "timeSelectionDialogPresenterLabelReleases": "릴리스",
     "timeFrameFormatterStarting": "{{fromTime}} 시작 중",
-    "timeFrameFormatterLast": "지난 {{duration}}",
-    "timeFrameFormatterLast24Hours": "지난 24시간",
     "timeIconHistoricDataMessage": "데이터 보유 설정으로 인해 대략적인 데이터가 표시되고 있습니다. 최근 {{retention}}일 이내에 정확한 데이터를 사용할 수 있습니다.",
     "timeIconLargeDataMessage": "대형 데이터 설정으로 인해 대략적인 데이터가 표시되고 있습니다. 정확한 데이터를 보려면 시간 범위를 줄이십시오.",
-    "timePresetsLast": "지난 {{duration}}",
-    "timePresetsLast24Hours": "지난 24시간",
     "timeUnit_year": "년",
     "timeUnit_month": "월",
     "timeUnit_day": "일",
     "timeUnit_hour": "시간",
     "timeUnit_minute": "분",
-    "timeUnit_second": "초"
+    "timeUnit_second": "초",
+
+    "timeFrameFormatterHoursMinutes": "지난 $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+    "hours": "{{count}}시간",
+    "hours_plural": "{{count}}시간",
+    "minutes": "{{count}}분",
+    "minutes_plural": "{{count}}분",
+
+    "timeFrameFormatterHours": "마지막 시간",
+    "timeFrameFormatterHours_plural": "마지막 {{count}}시간",
+    "timeFrameFormatterMinutes": "마지막 분",
+    "timeFrameFormatterMinutes_plural": "마지막 {{count}}분"
   },
   "timeShift": {
     "changeSelectedTimeShift": "선택한 시간 이동 변경",
@@ -538,20 +557,23 @@
   "analyze": {
     "loadMoreWithCount": "{{count}}개 추가 로드",
     "loadMore": "추가 로드",
-    "addAsGroup": "그룹으로 추가",
-    "noResults": "결과 없음",
+    "activeFacets": "{{count}}개 선택됨",
+    "clearFacets": "모두 지우기",
+    "clearFacet": "지우기",
+    "noResults": "제안사항 없음",
     "from": "시작",
     "fromUnit": "시작({{unit}})",
     "to": "종료",
     "toUnit": "종료({{unit}})",
+    "rangeSelected": "범위 선택됨",
     "rangeOrder": "범위는 오름차순이어야 합니다.",
     "earliestTimestamp": "최초 시간소인",
     "timestamp": "시간소인",
     "focusOnGroup": "이 그룹에 초점 지정",
     "splitScreen": {
       "sidebarActions": {
-        "prev": "이전 {{ itemName }} 보기(단축키: 왼쪽 화살표 키)",
-        "next": "다음 {{ itemName }} 보기(단축키: 오른쪽 화살표 키)"
+        "prev": "이전 항목 보기(단축키: 왼쪽 화살표 키)",
+        "next": "다음 항목 보기(단축키: 오른쪽 화살표 키)"
       }
     },
     "groupName": "그룹 이름",
@@ -571,7 +593,10 @@
       "filterButtonAddFilter": "필터 추가",
       "conjunctionLogicalOperator_OR": "OR",
       "conjunctionLogicalOperator_AND": "AND",
-      "conjunctionLogicalOperator_NOT": "NOT"
+      "conjunctionLogicalOperator_NOT": "NOT",
+      "unknownTag": "?",
+      "unknownTagTooltip": "태그 '{{tagName}}'은(는) 이 컨텍스트에서 일반적으로 알 수 없거나 지원되지 않습니다.",
+      "unknownEmptyTagTooltip": "이름이 빈 태그는 알 수 없습니다."
     },
     "selectorOverlayClear": "지우기",
     "selectorOverlayAnd": "AND",
@@ -579,6 +604,7 @@
     "simpleValueSelectorMore": "계속",
     "workspaceAPIQuery": "API 조회",
     "workspaceUseThisExpressionToQueryOurAPI": "이 세션을 사용하여 API 조회",
+    "workspaceIncludeSidebarFilters": "필터 사이드바 항목 포함",
     "workspaceTitleFilter": "필터",
     "workspaceButtonClear": "지우기",
     "errorWithDataYourDefinedQueryIsTooComplex": "정의된 조회가 너무 복잡합니다. 네스팅의 수를 줄이십시오.",

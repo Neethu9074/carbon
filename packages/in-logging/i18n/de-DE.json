@@ -11,5 +11,6 @@
   "goToTrace": "Zu Trace wechseln",
   "addAsFilter": "Als Filter hinzufügen",
   "addAsGroup": "Als Gruppe hinzufügen",
-  "numberOfLogs": "Anzahl der Protokolle"
+  "numberOfLogs": "Anzahl der Protokolle",
+  "numberOfLogsPercentage": "Prozentsatz"
 }

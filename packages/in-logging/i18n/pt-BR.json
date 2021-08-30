@@ -11,5 +11,6 @@
   "goToTrace": "Acessar o rastreio",
   "addAsFilter": "Incluir como filtro",
   "addAsGroup": "Incluir como grupo",
-  "numberOfLogs": "Número de logs"
+  "numberOfLogs": "Número de logs",
+  "numberOfLogsPercentage": "Porcentagem"
 }

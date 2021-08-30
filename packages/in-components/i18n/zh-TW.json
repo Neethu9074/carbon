@@ -106,6 +106,10 @@
       "cursorPaginatedTableFilterByLabel": "分析此群組",
       "cursorPaginatedTableLoadMoreRowLabel": "載入更多"
     },
+    "noDataAvailable": {
+      "entititiesTitle": "沒有可用的實體",
+      "entititiesDescription": "未擷取到所選時間範圍內的實體。"
+    },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "搜尋 {{len}} 個項目",
       "configurableThNoMatchesTxt": "無相符項"
@@ -171,7 +175,11 @@
     "labelRegion": "地區",
     "labelTag": "標籤",
     "labelCommit": "確定",
-    "buttonGraphShowcase": "圖形展示"
+    "buttonGraphShowcase": "圖形展示",
+    "geo": {
+      "title": "地理資料",
+      "description": "本產品包含透過 MaxMind 建立的 GeoLite2 資料；如需 MaxMind 相關資訊，請造訪 <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>。"
+    }
   },
   "blueprintFormMultistep": {
     "buttonCancel": "取消",
@@ -219,6 +227,9 @@
     "headingAvailableTimeRanges": "可用的時間範圍",
     "explanation": "我們在選取的時間範圍內找不到此實體的版本。我們在不同的時間範圍內找到其他版本：",
     "noDataAvailable": "沒有可用的資料"
+  },
+  "entityToInstanaServiceButton": {
+    "services": "服務"
   },
   "error": {
     "erroneousResultPresenterMessage": "發生非預期的錯誤。請重新整理頁面或稍後重試。"
@@ -356,6 +367,7 @@
   },
   "selectorOverlay": {
     "placeholderSearch": "搜尋",
+    "noResults": "無結果",
     "loadingIndicatorLoadingCatalog": "正在載入型錄"
   },
   "sortingConfigurator": {
@@ -421,13 +433,13 @@
     "lastMinute": "前一分鐘",
     "lastMinute_plural": "過去 {{count}} 分鐘",
     "lastMinute_0": "過去 {{count}} 分鐘",
-    "lastMinute_1": "過去{{count}} 分鐘",
-    "lastMinute_2": "過去{{count}} 分鐘",
+    "lastMinute_1": "過去 {{count}} 分鐘",
+    "lastMinute_2": "過去 {{count}} 分鐘",
     "lastHour": "前一小時",
     "lastHour_plural": "過去 {{count}} 小時",
-    "lastHour_0": "過去{{count}} 小時",
-    "lastHour_1": "過去{{count}} 小時",
-    "lastHour_2": "過去{{count}} 小時",
+    "lastHour_0": "過去 {{count}} 小時",
+    "lastHour_1": "過去 {{count}} 小時",
+    "lastHour_2": "過去 {{count}} 小時",
     "yesterday": "昨天",
     "twoDaysAgo": "兩天前",
     "lastSevenDays": "過去 7 天",
@@ -453,18 +465,25 @@
     "timeSelectionDialogPresenterLabelTimeRange": "時間範圍",
     "timeSelectionDialogPresenterLabelReleases": "版本",
     "timeFrameFormatterStarting": "從 {{fromTime}} 開始",
-    "timeFrameFormatterLast": "過去 {{duration}}",
-    "timeFrameFormatterLast24Hours": "過去 24 小時",
     "timeIconHistoricDataMessage": "基於資料保留設定，您正在檢視的是大約資料。可提供過去 {{retention}} 天的精確資料。",
     "timeIconLargeDataMessage": "由於資料集龐大，您正在檢視的是大約資料。請縮減時間範圍，以取得精確資料。",
-    "timePresetsLast": "過去 {{duration}}",
-    "timePresetsLast24Hours": "過去 24 小時",
     "timeUnit_year": "年",
     "timeUnit_month": "個月",
     "timeUnit_day": "天",
     "timeUnit_hour": "小時",
     "timeUnit_minute": "分鐘",
-    "timeUnit_second": "秒"
+    "timeUnit_second": "秒",
+
+    "timeFrameFormatterHoursMinutes": "過去 $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+    "hours": "{{count}} 小時",
+    "hours_plural": "{{count}} 小時",
+    "minutes": "{{count}} 分鐘",
+    "minutes_plural": "{{count}} 分鐘",
+
+    "timeFrameFormatterHours": "前一小時",
+    "timeFrameFormatterHours_plural": "過去 {{count}} 小時",
+    "timeFrameFormatterMinutes": "前一分鐘",
+    "timeFrameFormatterMinutes_plural": "過去 {{count}} 分鐘"
   },
   "timeShift": {
     "changeSelectedTimeShift": "變更選取的時間偏移",
@@ -538,20 +557,23 @@
   "analyze": {
     "loadMoreWithCount": "再多載入 {{count}} 筆資料",
     "loadMore": "載入更多",
-    "addAsGroup": "新增為群組",
-    "noResults": "無結果",
+    "activeFacets": "已選取 {{count}} 筆",
+    "clearFacets": "全部清除",
+    "clearFacet": "清除",
+    "noResults": "沒有任何建議",
     "from": "從",
     "fromUnit": "從 ({{unit}})",
     "to": "到",
     "toUnit": "到 ({{unit}})",
+    "rangeSelected": "已選取範圍",
     "rangeOrder": "範圍必須是升冪。",
     "earliestTimestamp": "最早時間戳記",
     "timestamp": "時間戳記",
     "focusOnGroup": "聚焦於此群組",
     "splitScreen": {
       "sidebarActions": {
-        "prev": "檢視前一個 {{ itemName }}（快速鍵：左移鍵）",
-        "next": "檢視下一個 {{ itemName }}（快速鍵：右移鍵）"
+        "prev": "檢視上一個項目（快速鍵：左移鍵）",
+        "next": "檢視下一個項目（快速鍵：右移鍵）"
       }
     },
     "groupName": "群組名稱",
@@ -571,7 +593,10 @@
       "filterButtonAddFilter": "新增過濾器",
       "conjunctionLogicalOperator_OR": "OR",
       "conjunctionLogicalOperator_AND": "AND",
-      "conjunctionLogicalOperator_NOT": "NOT"
+      "conjunctionLogicalOperator_NOT": "NOT",
+      "unknownTag": "?",
+      "unknownTagTooltip": "在此環境定義中，標記 '{{tagName}}' 通常不明或不受支援。",
+      "unknownEmptyTagTooltip": "名稱為空的標記不明。"
     },
     "selectorOverlayClear": "清除",
     "selectorOverlayAnd": "AND",
@@ -579,6 +604,7 @@
     "simpleValueSelectorMore": "更多",
     "workspaceAPIQuery": "API 查詢",
     "workspaceUseThisExpressionToQueryOurAPI": "使用此表示式來查詢我們的 API",
+    "workspaceIncludeSidebarFilters": "包括過濾器資訊看板項目",
     "workspaceTitleFilter": "過濾器",
     "workspaceButtonClear": "清除",
     "errorWithDataYourDefinedQueryIsTooComplex": "您所定義的查詢太複雜，請減少巢狀數量。",

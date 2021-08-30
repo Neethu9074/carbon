@@ -63,6 +63,15 @@
     "registryCall_0": "호출",
     "registryCall_1": "호출",
     "registryCall_2": "호출"
+  },
+
+  "components": {
+    "codeRetrievalDialog": {
+      "file": "파일",
+      "line": "라인",
+      "decompilationNotFullySupported": "최근 Java 버전의 일부 기능을 포함하는 클래스 파일의 디컴파일은 일부 지원되지 않습니다.",
+      "error": "오류"
+    }
   }
 
 }

@@ -36,9 +36,6 @@
       }
     },
     "widgetEditorDialog": {
-      "widgetTypeSelector": {
-        "showWidgetLabel": "{{label}} 窗口小部件展示"
-      },
       "widgetConfiguration": {
         "widgetName": "窗口小部件名称",
         "name": "名称",
@@ -116,10 +113,16 @@
       "hiddenCalls": {
         "includeInternalCalls": "包含内部调用数",
         "includeSyntheticCalls": "包含合成调用数"
+      },
+      "bluePrintForCallsMetric": {
+        "unexpectedLowNumberOfCalls": "调用数异常低",
+        "unexpectedHighNumberOfCalls": "调用数异常高",
+        "unexpectedLowOrHighNumberOfCalls": "调用数异常高或低"
       }
     },
     "srcApp": {
       "formComponent": {
+        "needToTurnOffPP": "要使用分组，首先需要关闭“潜在问题”突出显示。",
         "pleaseSelect": "请选择",
         "pleaseSelectMetric": "请选择指标",
         "aggregation": "汇总",
@@ -140,7 +143,9 @@
         "pleaseSelectMetric": "请选择指标",
         "pleaseSelect": "请选择",
         "helpAction": "您将在事件视图中使用的 Dynamic Focus 查询 (DFQ)。",
-        "query": "查询"
+        "query": "查询",
+        "includeK8sInfoEvents": "包含 Kubernetes 事件",
+        "includeAgentMonitoringIssues": "包含代理程序监视问题"
       }
     },
     "srcInfrastructure": {
@@ -254,7 +259,17 @@
       },
       "atLeastOneDatasetIsRequired": "至少需要一个数据集。",
       "errorTitleForConfiguredSliDeletion": "已删除配置的 SLI",
-      "errorDescriptionToConfigureOtherSLI": "请选择另一 SLI 来更新此 SLO 窗口小部件"
+      "errorDescriptionToConfigureOtherSLI": "请选择另一 SLI 来更新此 SLO 窗口小部件",
+      "index": {
+        "testTitle": "最慢的 5 个服务",
+        "testLabels": {
+          "catalogue": "catalogue",
+          "cart": "购物车",
+          "ratings": "评级",
+          "discount": "discount",
+          "shipping": "发送"
+        }
+      }
     },
     "formCompChart": {
       "colorConfiguratorChart": {
@@ -277,11 +292,13 @@
         "indigo": "靛蓝色"
       },
       "dataConfigChart": {
+        "tooltipDisabledBecausePP": "要添加更多数据集，首先需要关闭对“潜在问题”的突出显示。",
         "addDataset": "添加数据集"
       },
       "indexChart": {
         "datasets": "数据集",
-        "axisConfig": "轴配置"
+        "axisConfig": "轴配置",
+        "potentialProblems": "潜在问题"
       },
       "metricConfigChart": {
         "datasetTimeShift": "数据集已时移",
@@ -298,7 +315,20 @@
         "timeShift": "时移",
         "applyTimeShiftDs": "对该数据序列应用时移",
         "timeShiftHelpAction": "选择<strong>显示当前值</strong>会自动将此数据序列复制到同一个轴上。第一个数据序列会禁用时移，第二个数据序列会启用时移。",
+        "timeShiftDisabledWhilePPon": "要使用时移，首先需要关闭“潜在问题”突出显示。",
         "displayCurrentValues": "显示当前值"
+      },
+      "potentialProblems": {
+        "potentialProblemsDescription": {
+          "anyMetric": "突出显示潜在问题"
+        },
+        "tooltip": {
+          "needToTurnOffTimeShift": "要使用“潜在问题”突出显示，您需要先关闭时移。",
+          "needToTurnOffGrouping": "要使用“潜在问题”突出显示，您需要先关闭分组。",
+          "needToRemoveDatasets": "要使用“潜在问题”突出显示，您需要先移除任何其他数据集。",
+          "needToChangeMetric": "要使用“潜在问题”突出显示，您需要更改指标。"
+        },
+        "onlyWorksWithOneMetricConfigured": "只有在仅配置一个数据集的情况下才受支持。"
       }
     },
     "demo": {
@@ -312,6 +342,10 @@
       "unnamMetric": "未命名指标"
     },
     "markdown": {
+      "demo": {
+        "title": "Instana - 入门",
+        "text": "Instana 是首个也是唯一一个完全自动化的应用程序性能 (APM) 解决方案，\n专用于应对微服务和云原生应用程序管理的相关问题。\n\n入门很简单\n\n1. 如果您尚未访问 Instana，请前往 [Instana.com](https://www.instana.com) 并注册免费试用。\n2. 探索我们包含数百项 [受支持技术](//www.instana.com/docs/ecosystem) 的生态系统。\n3. 开始使用我们的一个 [代理程序](https://www.instana.com/docs/setup_and_manage) 收集数据。\n4. 了解 [如何将 Instana](https://www.instana.com/docs/using_instana) 用于您的用例。\n5. 了解我们独特的 [核心功能](https://www.instana.com/docs/core_capabilities/)。\n6.使用我们的 [集成，SDK & API](https://www.instana.com/docs/integrations) 扩展 Instana。\n\n以上即为全部步骤！\n\n找不到所要查找的内容？转至 [instana.com/docs](https://www.instana.com/docs/)！"
+      },
       "formComp": {
         "whatULikeShow": "您想要显示什么？",
         "markdown": "Markdown",
@@ -327,10 +361,18 @@
         "formatter": "格式化"
       },
       "index": {
-        "chartPie": "图表：饼图"
+        "chartPie": "图表：饼图",
+        "testTitle": "事件",
+        "testLegendItem1": "突发事件",
+        "testLegendItem2": "问题：关键",
+        "testLegendItem3": "问题：警告"
       }
     },
     "slo": {
+      "demo": {
+        "title": "SLO 标题",
+        "appName": "应用程序名称示例"
+      },
       "apConfigFormComp": {
         "userJourneyOffering": "用户旅程/产品",
         "appnPerspective": "应用程序透视图",
@@ -358,7 +400,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "端点",
-        "allServices": "所有服务",
+        "allEndpoints": "所有端点",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {
@@ -405,8 +447,8 @@
         "pleaseSelect": "请选择",
         "boundary": "边界",
         "hiddenCalls": "隐藏的调用",
-        "includeInternalCalls": "包含内部调用",
-        "includeSyntheticCalls": "包含合成调用",
+        "includeInternalCalls": "包含内部调用数",
+        "includeSyntheticCalls": "包含合成调用数",
         "type": "类型",
         "sliEntity": "SLI 实体"
       },
@@ -486,6 +528,7 @@
     },
     "timezone": {
       "demo": {
+        "title": "团队可用性",
         "sanFrancisco": "旧金山",
         "austin": "奥斯汀",
         "newYorkCity": "纽约市",
@@ -510,7 +553,8 @@
         "formatter": "格式化"
       },
       "index": {
-        "topListLb": "最上层列表"
+        "topListLb": "最上层列表",
+        "topListItem": "项目 {{itemNumber}}"
       },
       "widget": {
         "aggregOtherGroup": "汇总其他组",

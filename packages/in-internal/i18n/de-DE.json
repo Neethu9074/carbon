@@ -45,6 +45,8 @@
       "logMonitorWriterDesc": "Das Protokollausgabeprogramm nimmt Protokolle in ClickHouse auf.",
       "logMonitorReader": "Protokollleseprogramm (Protokollabfrage)",
       "logMonitorReaderDesc": "Das Protokollleseprogramm fragt Protokolle von ClickHouse ab.",
+      "logMonitorHousekeeping": "Protokollwartung",
+      "logMonitorHousekeepingDesc": "Die Protokollwartung enthält Wartungsjobs, die innerhalb des Protokollausgabeprogramms ausgeführt werden.",
       "infrastructureMetrics": "Infrastrukturmessdaten",
       "infrastructureMetricsDesc": "Informationen zu unserer metrischen Infrastrukturpipeline.",
       "fillerMetricExtraction": "Füllzeichen (metrische Extraktion)",
@@ -131,16 +133,6 @@
       "sLOViolations": "SLO-Verstöße",
       "devTUSLOs": "Entwicklungs-TU-SLOs",
       "expTUSLOs": "Experimentelle TU-SLOs"
-    },
-    "timeZones": {
-      "sanFrancisco": "San Francisco",
-      "austin": "Austin",
-      "newYorkCity": "New York City",
-      "uTC": "UTC",
-      "solingen": "Solingen",
-      "noviSad": "Novi Sad",
-      "tokyo": "Tokyo",
-      "sydney": "Sydney"
     }
   },
   "monitoringUnit": {
@@ -356,6 +348,8 @@
             "tooOld": "Traceprotokolle Kafka-Konsument Zu alt"
           }
         },
+        "droppedPast": "Gelöschte Protokolle mit Zeitmarke in der Vergangenheit",
+        "droppedFuture": "Gelöschte Protokolle mit Zeitmarke in der Zukunft",
         "outgoing": "Abgehende Protokolle",
         "failOutgoing": "Fehlgeschlagene abgehende Protokolle"
       },
@@ -415,6 +409,28 @@
           "mean": "Mittelwert",
           "50th": "50.",
           "99th": "99."
+        }
+      },
+      "housekeeping" : {
+        "title": "Protokollwartung (im Protokollausgabeprogramm ausgeführt)",
+        "cleanup" : {
+          "success": "Erfolg bei der Protokollbereinigung",
+          "failure": "Fehler bei der Protokollbereinigung",
+          "duration": "Dauer der Protokollbereinigung (99.)",
+          "skips" : {
+            "mutations": "Überspringungsvorgänge im Protokoll (Mutationen)"
+          }
+        },
+        "coldTier" : {
+          "success": "Erfolg im Protokoll für kalte Datenschicht",
+          "failure": "Fehler im Protokoll für kalte Datenschicht",
+          "optimize": "Optimierung im Protokoll für kalte Datenschicht",
+          "move": "Verschiebevorgang im Protokoll für kalte Datenschicht",
+          "duration": "Dauer des Protokolls für kalte Datenschicht (99.)",
+          "skips": {
+            "mutations": "Überspringungsvorgänge im Protokoll für kalte Datenschicht (Mutationen)",
+            "merges": "Überspringungsvorgänge im Protokoll für kalte Datenschicht (Zusammenführungen)"
+          }
         }
       }
     },
@@ -893,7 +909,6 @@
       "config": "Konfiguration",
       "version": "Version",
       "injectorBindings": "Injektorbindungen",
-      "hystrix": "Hystrix",
       "agentClockSkew": "Agentenzeitabweichung"
     },
     "region": {

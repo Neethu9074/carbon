@@ -146,8 +146,6 @@
     "noData": "Anwendungsperspektiven bieten eine Möglichkeit zum Modellieren von Umgebungen, Leistungsgruppen, Tenants und mehr. "
   },
   "alert": {
-    "thresholdLabel": "Schwellenwert",
-    "applicationSmartAlert": "Smart Alert für Anwendung",
     "tooltipMoreFilter": "+{{moreFilterCount}} weiterer Filter",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} weitere Filter",
     "tooltipMoreFilter_0": "+{{moreFilterCount}} weitere Filter",
@@ -177,6 +175,7 @@
     "erroneous": "Fehlerhaft",
     "resetUnsupportedTracesFilterContainingOrConjunction": "Der Filter wurde gelöscht, weil der logische Operator ODER in Analyze Traces nicht unterstützt wird.",
     "facetedSearch": {
+      "showOnlyErroneous": "Nur fehlerhafte",
       "showSyntheticCalls": "Synthetische Aufrufe anzeigen",
       "showInternalCalls": "Interne Aufrufe anzeigen",
       "defaultTurnedOnSynthetic": "Diese Option ist ausgewählt, da Sie synthetische Aufrufe abfragen. ",
@@ -186,17 +185,19 @@
       "erroneous_Erroneous": "Fehlerhaft"
     },
     "latency": "Latenzzeit",
+    "traceLatency": "Latenzzeit für Traces",
     "applications": "Anwendungen",
     "services": "Services",
     "endpoints": "Endpunkte",
     "types": "Typen",
     "technologies": "Technologien",
-    "httpStatusCode": "HTTP-Statuscode",
+    "httpStatusCode": "HTTP-Status",
     "hiddenCalls": "Verborgene Aufrufe",
     "preview": "Vorschau",
     "listBatchTypeTooltip": "Dieser {{type}} wurde gebündelt und stellt {{batchCount}} einzelne {{types}} dar.",
     "listBatchLatencyTooltip": "Gesmatlatenz von {{batchCount}} gebündelten {{types}}.",
     "traceIdTooltip": "Einige Daten, die sich auf diesen Trace beziehen, sind verzögert. Bitte laden Sie die Seite etwas später erneut. Ein Beispiel, bei dem dies vorkommen kann, ist die Anzeige eines sehr aktuellen Trace, bei dem ein Teil der Daten noch verarbeitet wird.",
+    "downloadTraceTooltip": "Vollständigen Trace herunterladen.",
     "closeTraceDetail": "Details zum Trace schließen",
     "invalidQueryConfig": "Die Abfragekonfiguration ist ungültig. Beheben Sie die Gültigkeitsfehler, bevor Sie fortfahren.",
     "errorRateLabel": "Fehlerhafte Aufrufe (Rate)",
@@ -393,11 +394,13 @@
       "apName": "Name der Anwendungsperspektive",
       "apNameDescription": "Namen von Anwendungsperspektiven sollten in einem Unternehmen eine Definition aufweisen, die allgemein etabliert ist. Beispiel: zum Modellieren einer Umgebung: \"Production Blue\", zum Modellieren einer Gruppe von Services: \"Payment\" oder zum Modellieren eines Tenants: \"ACME Customer\".",
       "defineUsingTags": "2. Definieren Sie die Anwendungsperspektive mit einem oder mehreren Tags.",
-      "defineUsingTagsDescription": "Beispiel: Der Schlüssel ist \"docker.label\" und der Wert lautet \"environment=Production Blue\", oder der Schlüssel ist \"call.http.params\" und der Wert lautet \"tenant=ACMECustomer\". Beachten Sie, dass alle Aufrufe eines <pill-database>DATENBANK</pill-database>- oder <pill-messaging>MESSAGING</pill-messaging>-Service von Services, die dieser Definition entsprechen, automatisch eingeschlossen werden.",
+      "defineUsingTagsDescription": "Beispiel: Der Schlüssel ist \"docker.label\" und der Wert lautet \"environment=Production Blue\", oder der Schlüssel ist \"call.http.params\" und der Wert lautet \"tenant=ACMECustomer\". Beachten Sie, dass alle Aufrufe eines <pill-database>DATENBANK</pill-database> oder <pill-messaging>MESSAGING</pill-messaging>-Service von Services, die dieser Definition entsprechen, automatisch eingeschlossen werden. ",
       "andOperatorsPrecedenceBrackets": "UND-Operatoren haben Vorrang und werden vor ODER-Operatoren ausgewertet, wenn diese nicht in eckigen Klammern gruppiert sind.",
       "downstreamCalls": "3. Speichern Sie Aufrufe von nachgeordneten Services",
       "downstreamCallsDescription": "Wählen Sie aus, welche nachgeordneten Services in die Anwendungsperspektive aufgenommen werden sollen.",
       "defaultDashboardView": "4. Wählen Sie die Standard-Dashboardansicht aus",
+      "builtInSmartAlertsScope": "5. Bereich für integrierte Smart Alerts",
+      "builtInSmartAlertsScopeDescription": "Auswählen, welche integrierten Smart Alerts dies/einen Teil davon in ihrem Bereich enthalten sollen",
       "clear": "Löschen",
       "create": "Erstellen",
       "database": "DATENBANK",
@@ -428,7 +431,17 @@
     },
     "errorCallWithoutMessage": "Fehlerhafter Aufruf ohne Fehlernachricht",
     "noLogMessage": "Keine Protokollnachricht verfügbar",
-    "includeSyntheticCallsDropDownSyntheticCalls": "Synthetische Aufrufe: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "Synthetische Aufrufe: {{syntheticCallsOptionLabel}}",
+    "noDataAvailable": {
+      "servicesTitle": "Keine Services verfügbar",
+      "servicesDescription": "Für den ausgewählten Zeitbereich wurden keine Services abgerufen.",
+      "errorMessagesTitle": "Keine Fehlernachrichten verfügbar",
+      "errorMessagesDescription": "Für den ausgewählten Zeitbereich wurden keine Fehlernachrichten abgerufen.",
+      "logMessagesTitle": "Keine Protokollnachrichten verfügbar",
+      "logMessagesDescription": "Für den ausgewählten Zeitbereich wurden keine Protokollnachrichten abgerufen.",
+      "endpointsTitle": "Keine Endpunkte verfügbar",
+      "endpointsDescription": "Für den ausgewählten Zeitbereich wurden keine Endpunkte abgerufen."
+    }
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "Der Service befindet sich nicht in der aktuellen Anwendung.",
@@ -475,18 +488,19 @@
       "descriptionTags": "Beispiel: Der Schlüssel ist \"docker.label\" und der Wert lautet \"environment=Production Blue\" oder der Schlüssel ist \"call.http.params\" und der Wert lautet \"tenant=ACMECustomer\". Beachten Sie, dass alle Aufrufe eines <pillDatabase>DATENBANK</pillDatabase>- oder <pillMessage>NACHRICHTENÜBERTRAGUNGS</pillMessage>-Service von Services, die dieser Definition entsprechen, automatisch eingeschlossen werden.",
       "descriptionOperatorsCreationEnabled": "UND-Operatoren haben Vorrang und werden vor ODER-Operatoren ausgewertet, wenn diese nicht in eckigen Klammern gruppiert sind.",
       "descriptionPrepareToMonitor": "Wir bereiten alles für die Überwachung Ihrer Anwendungsperspektive <bold>{{decodedLabel}}</bold> vor.",
-      "descriptionRemoveApplicationPerspective": "Wenn Sie die Anwendungsperspektive <strong>{{application}}</strong> nicht mehr überwachen möchten, verwenden Sie die Schaltfläche unten, um sie zu entfernen. Das Entfernen einer Anwendungsperspektive kann einige Minuten dauern.",
+      "descriptionRemoveApplicationPerspective": "Wenn Sie die Anwendungsperspektive <strong>{{application}}</strong> nicht mehr überwachen möchten, verwenden Sie die Schaltfläche unten, um sie zu entfernen. Das Entfernen einer Anwendungsperspektive kann bis zu einigen Minuten dauern.",
       "stepTitleDefineApplicationName": "Definieren Sie einen Namen für Ihre Anwendungsperspektive.",
-      "stepTitleDefineTags": "Definieren Sie die Anwendungsperspektive mit einem oder mehreren Tags.",
+      "stepTitleDefineTags": "Definieren Sie die Anwendungsperspektive mit mindestens einem Tag.",
       "stepTitleDownstreamServices": "Nachgeordnete Services.",
       "stepTitleApplicationScope": "Anwendungsbereich.",
+      "stepTitleBuiltInSmartAlertsScope": "Bereich für integrierte Smart Alerts.",
       "optionNoDownstreamServices": "Keine nachgeordneten Services",
       "optionImmediateDownstreamServices": "Unmittelbar nachgeordnete Datenbank- und Messaging-Services",
       "optionAllDownstreamServices": "Alle nachgeordneten Services",
       "errorApplicationNameBlank": "Der Name der Anwendungsperspektive darf nicht leer sein.",
-      "errorNameLengthExceeded": "Der Name der Anwendungsperspektive darf nicht größer als 128 Zeichen sein.",
+      "errorNameLengthExceeded": "Der Name der Anwendungsperspektive darf nicht länger als 128 Zeichen sein.",
       "errorInvalidQuery": "Die Abfrage ist nicht gültig",
-      "titleApplicationCreating": "Anwendungsperspektive wird erstellt..."
+      "titleApplicationCreating": "Die Anwendungsperspektive wird erstellt…"
     },
     "customSyntheticRule": {
       "placeholderNameRule": "Benennen Sie Ihre Regel",
@@ -514,23 +528,24 @@
     "batch": "Batch",
     "shell": "Shell",
     "database": "Datenbank",
-    "http": "Http",
-    "messaging": "Nachrichtenübertragung",
+    "http": "HTTP",
+    "messaging": "Messaging",
     "rpc": "RPC",
     "event": "Ereignis",
     "graphQL": "GraphQL",
     "internal": "Intern",
-    "undefined": "Nicht definiert",
+    "undefined": "Undefininiert",
     "self": "Selbst",
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "otel": "OpenTelemetry"
   },
   "constants": {
     "exclude": "Ausschließen",
-    "syntheticCallsAreExcludedFromTheMetrics": "Synthetische Aufrufe sind von den Messdaten ausgeschlossen.",
-    "include": "Include",
-    "syntheticCallsAreIncludedInTheMetrics": "Synthetische Aufrufe sind in die Messdaten eingeschlossen.",
+    "syntheticCallsAreExcludedFromTheMetrics": "Synthetische Aufrufe werden von den Messdaten ausgeschlossen.",
+    "include": "Einschließen",
+    "syntheticCallsAreIncludedInTheMetrics": "Synthetische Aufrufe werden in die Messdaten eingeschlossen.",
     "only": "Nur",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Nur synthetische Aufrufe werden angezeigt und sind in den Messdaten enthalten."
+    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Nur synthetische Aufrufe werden angezeigt und in die Messdaten eingeschlossen"
   },
   "traceDetail": {
     "tabs": {
@@ -551,11 +566,22 @@
         "calls": "Aufrufe",
         "erroneousTrace": "Fehlerhafter Trace",
         "attemptToRenderTrace": "Versuch, Trace wiederzugeben"
+      },
+      "calls": {
+        "settings": {
+          "showServiceInformation": "Serviceinformationen",
+          "showServiceInformationExpl": "Serviceinformationen unter der Aufrufbezeichnung anzeigen",
+          "showSubCalls": "Untergeordnete Aufrufe anzeigen",
+          "showSubCallsExpl": "Direkte untergeordnete Aufrufe in jeder Zeile anzeigen"
+        }
       }
     }
   },
   "tabs": {
-    "labelDetail": "Details"
+    "labelDetail": "Details",
+    "labelSummary": "Zusammenfassung",
+    "servicesAndEndpoint": "Services und Endpunkte",
+    "logs": "Protokolle"
   },
   "metrics": {
     "calls_calls": "Aufrufe",

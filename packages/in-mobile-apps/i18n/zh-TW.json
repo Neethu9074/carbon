@@ -227,9 +227,6 @@
     }
   },
   "dashboard": {
-    "mobileAppProductArea": "EUM：行動式應用程式",
-    "mobileAppViewPageRootName": "行動式應用程式視圖",
-    "mobileAppPageRootName": "行動式應用程式",
     "mobileAppViewTitle": "行動式應用程式",
     "mobileAppTitle": "視圖",
     "analyzeSessions": "分析階段作業",
@@ -246,7 +243,7 @@
       "configurationTitle": "配置",
       "optionsLabel": "選項",
       "installationInstructionsBtn": "安裝指示",
-      "keyLabel": "金鑰",
+      "keyLabel": "索引鍵",
       "reportingURLLabel": "報告 URL",
       "removeAppTitle": "移除行動式應用程式",
       "removeAppHelp1": "如果您再也不想使用 Instana 來監視行動式應用程式 <strong>{{label}}</strong>，請使用此表單來移除它。「移除行動式應用程式」是最終執行的一致性動作。因此，移除行動式應用程式可能<strong>需要數分鐘</strong>，才能完全移除。",
@@ -301,6 +298,12 @@
       "geographyTitle": "地理位置",
       "topViewsTitle": "排名居前的視圖",
       "globViewFootertext": "NASA 所提供的影像"
+    },
+    "noDataAvailable": {
+      "viewsTitle": "沒有可用的視圖                                                                                                       ",
+      "viewsDescription": "未擷取到所選時間範圍內的視圖。",
+      "httpRequestsTitle": "沒有可用的 HTTP 要求",
+      "httpRequestsDescription": "未擷取到所選時間範圍內的 HTTP 要求。"
     }
   },
   "appsList": {
@@ -308,9 +311,7 @@
     "sessionStartsLabel": "階段作業啟動",
     "viewTransitionsLabel": "視圖轉移",
     "addMobileAppBtn": "新增行動式應用程式",
-    "mobileAppsTitle": "行動式應用程式",
-    "mobileAppProductArea": "EUM：行動式應用程式",
-    "mobileAppPageRootName": "行動式應用程式"
+    "mobileAppsTitle": "行動式應用程式"
   },
   "newAppFlow": {
     "addMobileAppTitle": "新增行動式應用程式",
@@ -320,7 +321,7 @@
     "newMobileAppTitle": "新建行動式應用程式",
     "everythingIsReadyTitle": "一切就緒！",
     "everythingIsReadyMsg": "一切都就緒，可開始監視您的行動式應用程式 <strong>{{mobileAppName}}</strong>。<linkToInstallation>將代理程式新增至行動式應用程式</linkToInstallation>，以追蹤實際使用者，或移至儀表板。",
-    "keyLabel": "金鑰",
+    "keyLabel": "索引鍵",
     "reportingURLLabel": "報告 URL",
     "installationInstructionsBtn": "安裝指示",
     "GoToMobileAppDashboardBtn": "移至行動式應用程式儀表板",

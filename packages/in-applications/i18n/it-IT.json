@@ -146,8 +146,6 @@
     "noData": "Le prospettive applicazione forniscono uno strumento per modellare ambienti, insiemi di servizi, tenant o altro."
   },
   "alert": {
-    "thresholdLabel": "Valore soglia",
-    "applicationSmartAlert": "Avviso Smart dell'applicazione",
     "tooltipMoreFilter": "+{{moreFilterCount}} filtro aggiuntivo",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} filtri aggiuntivi",
     "tooltipMoreFilter_0": "+{{moreFilterCount}} filtri aggiuntivi",
@@ -177,6 +175,7 @@
     "erroneous": "Errato",
     "resetUnsupportedTracesFilterContainingOrConjunction": "Il filtro è stato cancellato perché l'operatore logico OR non è supportato in Analizza tracce.",
     "facetedSearch": {
+      "showOnlyErroneous": "Solo errati",
       "showSyntheticCalls": "Mostra chiamate sintetiche",
       "showInternalCalls": "Mostra chiamate interne",
       "defaultTurnedOnSynthetic": "Questa opzione viene selezionata poiché si è eseguita una query sulle chiamate sintetiche.",
@@ -186,17 +185,19 @@
       "erroneous_Erroneous": "Errato"
     },
     "latency": "Latenza",
+    "traceLatency": "Latenza traccia",
     "applications": "Applicazioni",
     "services": "Servizi",
     "endpoints": "Endpoint",
     "types": "Tipi",
     "technologies": "Tecnologie",
-    "httpStatusCode": "Codice di stato HTTP",
+    "httpStatusCode": "Stato HTTP",
     "hiddenCalls": "Chiamate nascoste",
     "preview": "Anteprima",
     "listBatchTypeTooltip": "Questo {{type}} è stato eseguito in batch e rappresenta {{batchCount}} {{types}} singoli.",
     "listBatchLatencyTooltip": "Latenza totale di {{batchCount}} {{types}} eseguiti in batch.",
     "traceIdTooltip": "Alcuni dati correlati a questa traccia sono ritardati, pertanto ricaricare la pagina tra qualche minuto. Un esempio di questa situazione è la visualizzazione di una traccia molto recente con alcuni di tali dati ancora in fase di elaborazione.",
+    "downloadTraceTooltip": "Scarica traccia completa.",
     "closeTraceDetail": "Chiudi dettagli traccia",
     "invalidQueryConfig": "La configurazione della query non è valida. Correggere gli errori di convalida prima di continuare.",
     "errorRateLabel": "Chiamate errate (tasso)",
@@ -398,6 +399,8 @@
       "downstreamCalls": "3. Archiviare le chiamate dei servizi a valle",
       "downstreamCallsDescription": "Scegliere i servizi a valle da includere nella Prospettiva applicazione.",
       "defaultDashboardView": "4. Selezionare la vista Dashboard predefinita",
+      "builtInSmartAlertsScope": "5. Ambito avvisi smart incorporati",
+      "builtInSmartAlertsScopeDescription": "Scegli quale avviso smart incorporato globale deve includere questo/parte di questo nel suo ambito",
       "clear": "Cancella",
       "create": "Crea",
       "database": "DATABASE",
@@ -428,7 +431,17 @@
     },
     "errorCallWithoutMessage": "Chiamata errata senza messaggio di errore",
     "noLogMessage": "Nessun messaggio di log disponibile",
-    "includeSyntheticCallsDropDownSyntheticCalls": " Chiamate sintetiche: {{syntheticCallsOptionLabel}}"
+    "includeSyntheticCallsDropDownSyntheticCalls": "Chiamate sintetiche: {{syntheticCallsOptionLabel}}",
+    "noDataAvailable": {
+      "servicesTitle": "Nessun servizio disponibile",
+      "servicesDescription": "Non è stato richiamato alcun servizio per la fascia oraria selezionata.",
+      "errorMessagesTitle": "Nessun messaggio di errore disponibile",
+      "errorMessagesDescription": "Nessun messaggio di errore recuperato per la fascia oraria selezionata.",
+      "logMessagesTitle": "Nessun messaggio di log disponibile",
+      "logMessagesDescription": "Nessun messaggio di log recuperato per la fascia oraria selezionata.",
+      "endpointsTitle": "Nessun endpoint disponibile",
+      "endpointsDescription": "Nessun endpoint recuperato per la fascia oraria selezionata"
+    }
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "Il servizio non si trova nell'applicazione corrente.",
@@ -475,11 +488,12 @@
       "descriptionTags": "Ad esempio, dove la chiave è \"docker.label\" ed il valore è \"environment=Production Blue\" o la chiave è \"call.http.params\" ed il valore è \"tenant=ACMECustomer\". Considerare che qualsiasi chiamata al servizio <pillDatabase>DATABASE</pillDatabase> o al servizio <pillMessage>MESSAGING</pillMessage> dai servizi corrispondenti a questa definizione verrà automaticamente incluso.",
       "descriptionOperatorsCreationEnabled": "Gli operatori AND hanno precedenza e vengono valutati prima degli operatori OR se non racchiusi tra parentesi",
       "descriptionPrepareToMonitor": "È in preparazione tutto il necessario per monitorare la prospettiva dell'applicazione <bold>{{decodedLabel}}</bold>.",
-      "descriptionRemoveApplicationPerspective": "Se non si desidera più monitorare la prospettiva applicazione <strong>{{application}}</strong>, utilizzare il pulsante riportato di seguito per rimuoverla. La rimozione di una prospettiva applicazione può richiedere alcuni minuti.",
+      "descriptionRemoveApplicationPerspective": "Se non si desidera più monitorare la prospettiva applicazione <strong>{{application}}</strong>, utilizzare il pulsante riportato di seguito per rimuoverla. La rimozione di una prospettiva applicazione potrebbe richiedere alcuni minuti.",
       "stepTitleDefineApplicationName": "Definire un nome per la prospettiva applicazione.",
       "stepTitleDefineTags": "Definire la prospettiva applicazione utilizzando uno o più tag.",
       "stepTitleDownstreamServices": "Servizi a valle.",
       "stepTitleApplicationScope": "Ambito dell'applicazione.",
+      "stepTitleBuiltInSmartAlertsScope": "Ambito avvisi smart incorporati.",
       "optionNoDownstreamServices": "Nessun servizio a valle",
       "optionImmediateDownstreamServices": "Database a valle immediato e servizi di messaggistica",
       "optionAllDownstreamServices": "Tutti i servizi a valle",
@@ -522,15 +536,16 @@
     "internal": "Interno",
     "undefined": "Indefinito",
     "self": "Automatico",
-    "sdk": "SDK"
+    "sdk": "SDK",
+    "otel": "OpenTelemetry"
   },
   "constants": {
     "exclude": "Escludi",
-    "syntheticCallsAreExcludedFromTheMetrics": "Le chiamate sintetiche sono escluse dalle metriche.",
+    "syntheticCallsAreExcludedFromTheMetrics": "Le chiamate sintetiche sono escluse dalle metriche. ",
     "include": "Includi",
-    "syntheticCallsAreIncludedInTheMetrics": "Le chiamate sintetiche sono escluse dalle metriche.",
+    "syntheticCallsAreIncludedInTheMetrics": "Le chiamate sintetiche sono incluse nelle metriche.",
     "only": "Solo",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Solo le chiamate sintetiche vengono visualizzate e incluse nelle metriche"
+    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Solo le chiamate sintetiche vengono visualizzate e incluse nelle metriche "
   },
   "traceDetail": {
     "tabs": {
@@ -551,11 +566,22 @@
         "calls": "Chiamate",
         "erroneousTrace": "Traccia errata",
         "attemptToRenderTrace": "Tentativo di rendering della traccia"
+      },
+      "calls": {
+        "settings": {
+          "showServiceInformation": "Informazioni sul servizio",
+          "showServiceInformationExpl": "Mostra informazioni di servizio sotto l'etichetta di chiamata",
+          "showSubCalls": "Mostra chiamate secondarie",
+          "showSubCallsExpl": "Mostra chiamate secondarie dirette su ciascuna riga"
+        }
       }
     }
   },
   "tabs": {
-    "labelDetail": "Dettaglio"
+    "labelDetail": "Dettaglio",
+    "labelSummary": "Riepilogo",
+    "servicesAndEndpoint": "Servizi ed Endpoint",
+    "logs": "Log"
   },
   "metrics": {
     "calls_calls": "Chiamate",

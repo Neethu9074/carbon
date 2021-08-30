@@ -106,6 +106,10 @@
       "cursorPaginatedTableFilterByLabel": "分析此组",
       "cursorPaginatedTableLoadMoreRowLabel": "加载更多"
     },
+    "noDataAvailable": {
+      "entititiesTitle": "无可用实体",
+      "entititiesDescription": "所选时间范围内未检索到任何实体。"
+    },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "搜索 {{len}} 项",
       "configurableThNoMatchesTxt": "无匹配项"
@@ -171,7 +175,11 @@
     "labelRegion": "区域",
     "labelTag": "标记",
     "labelCommit": "落实",
-    "buttonGraphShowcase": "图形展示"
+    "buttonGraphShowcase": "图形展示",
+    "geo": {
+      "title": "地理数据",
+      "description": "此产品包含 MaxMind 创建的 GeoLite2 数据，可从以下站点获取：<linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
+    }
   },
   "blueprintFormMultistep": {
     "buttonCancel": "取消",
@@ -219,6 +227,9 @@
     "headingAvailableTimeRanges": "可用时间范围",
     "explanation": "我们在所选时间范围内找不到此实体的版本。我们在不同的时间范围内找到其他版本：",
     "noDataAvailable": "无可用数据"
+  },
+  "entityToInstanaServiceButton": {
+    "services": "服务"
   },
   "error": {
     "erroneousResultPresenterMessage": "发生意外错误。请刷新页面或稍后重试。"
@@ -356,6 +367,7 @@
   },
   "selectorOverlay": {
     "placeholderSearch": "搜索",
+    "noResults": "无结果",
     "loadingIndicatorLoadingCatalog": "正在加载目录"
   },
   "sortingConfigurator": {
@@ -453,18 +465,25 @@
     "timeSelectionDialogPresenterLabelTimeRange": "时间范围",
     "timeSelectionDialogPresenterLabelReleases": "版本",
     "timeFrameFormatterStarting": "{{fromTime}} 开始",
-    "timeFrameFormatterLast": "最近 {{duration}}",
-    "timeFrameFormatterLast24Hours": "过去 24 小时",
     "timeIconHistoricDataMessage": "由于数据保留时间设置，因此您查看的是近似数据。提供了最近 {{retention}} 天内的精确数据。",
     "timeIconLargeDataMessage": "由于数据集较大，因此您查看的是近似数据。请缩小时间范围以获取精确数据。",
-    "timePresetsLast": "最近 {{duration}}",
-    "timePresetsLast24Hours": "过去 24 小时",
     "timeUnit_year": "年",
     "timeUnit_month": "月",
     "timeUnit_day": "天 ",
     "timeUnit_hour": "小时",
     "timeUnit_minute": "分钟",
-    "timeUnit_second": "第二"
+    "timeUnit_second": "秒",
+
+    "timeFrameFormatterHoursMinutes": "最后 $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
+    "hours": "{{count}} 小时",
+    "hours_plural": "{{count}} 小时",
+    "minutes": "{{count}} 分钟",
+    "minutes_plural": "{{count}} 分钟",
+
+    "timeFrameFormatterHours": "最近 1 小时",
+    "timeFrameFormatterHours_plural": "最近 {{count}} 小时",
+    "timeFrameFormatterMinutes": "最近 1 分钟",
+    "timeFrameFormatterMinutes_plural": "最近 {{count}} 分钟"
   },
   "timeShift": {
     "changeSelectedTimeShift": "更改所选时移",
@@ -480,7 +499,7 @@
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "调用",
-    "companionMetricLabelLatency": "延迟",
+    "companionMetricLabelLatency": "等待时间",
     "companionMetricLabelErroneousCalls": "错误调用数",
     "companionMetricLabelErroneousCallRate": "错误调用率：",
     "metricLabelCallsAndErroneousCalls": "调用数和错误调用数",
@@ -538,20 +557,23 @@
   "analyze": {
     "loadMoreWithCount": "加载另外 {{count}} 项",
     "loadMore": "加载更多",
-    "addAsGroup": "添加为组",
-    "noResults": "无结果",
+    "activeFacets": "已选定 {{count}} 个",
+    "clearFacets": "全部清除",
+    "clearFacet": "清除",
+    "noResults": "无建议",
     "from": "自",
     "fromUnit": "自 ({{unit}})",
     "to": "至",
     "toUnit": "至 ({{unit}})",
+    "rangeSelected": "选定范围",
     "rangeOrder": "范围必须采用升序顺序。",
     "earliestTimestamp": "最早时间戳记",
     "timestamp": "时间戳记",
     "focusOnGroup": "关注此组",
     "splitScreen": {
       "sidebarActions": {
-        "prev": "查看上一个“{{ itemName }}”（快捷键：左方向键）",
-        "next": "查看下一个“{{ itemName }}”（快捷方式：右方向键）"
+        "prev": "查看上一个条目（快捷键：左方向键）",
+        "next": "查看下一个条目（快捷方式：右方向键）"
       }
     },
     "groupName": "组名称",
@@ -571,7 +593,10 @@
       "filterButtonAddFilter": "添加过滤器",
       "conjunctionLogicalOperator_OR": "OR",
       "conjunctionLogicalOperator_AND": "AND",
-      "conjunctionLogicalOperator_NOT": "NOT"
+      "conjunctionLogicalOperator_NOT": "NOT",
+      "unknownTag": "?",
+      "unknownTagTooltip": "在此上下文中，标记“{{tagName}}”通常未知或不受支持。",
+      "unknownEmptyTagTooltip": "名称为空的标记未知。"
     },
     "selectorOverlayClear": "清除",
     "selectorOverlayAnd": "AND",
@@ -579,12 +604,13 @@
     "simpleValueSelectorMore": "更多",
     "workspaceAPIQuery": "API 查询",
     "workspaceUseThisExpressionToQueryOurAPI": "使用此表达式查询我们的 API",
+    "workspaceIncludeSidebarFilters": "包含过滤器侧边栏项",
     "workspaceTitleFilter": "过滤",
     "workspaceButtonClear": "清除",
     "errorWithDataYourDefinedQueryIsTooComplex": "定义的查询太复杂，请减少嵌套数量。",
     "sanitizedTagFilterValue": "标记过滤器值已缩短为最大允许长度。",
     "sanitizedTagFilterValueAndOperator": "标记过滤器值已缩短为最大允许长度，并相应地调整了运算符。",
-    "source": "来源",
+    "source": "源",
     "destination": "目标",
     "string": {
       "contains": "包含",
@@ -626,7 +652,7 @@
     "indicatorBar": {
       "label": "运行状态",
       "criticalTooltip": "{{count}} 个出现严重问题",
-      "warningTooltip": "{{count}} 个出现警告",
+      "warningTooltip": "{{count}} 个警告",
       "healthyTooltip": "{{count}} 个正常运行"
     }
   }

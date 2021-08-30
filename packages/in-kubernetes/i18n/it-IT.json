@@ -95,7 +95,6 @@
     "container": "Contenitore",
     "loading": "Caricamento",
     "ready": "Pronto",
-    "total": "Totale",
     "restarts": "Riavvii",
     "serviceLocation": "Ubicazione del servizio",
     "intEndpoints": "Endpoint interni",
@@ -198,8 +197,29 @@
     "noCpuLimitQuotaMessage": "In questo spazio dei nomi non ci sono quote per i limiti della CPU",
     "noMemoryRequestQuotaMessage": "In questo spazio dei nomi non ci sono quote per le richieste della memoria",
     "noMemoryLimitQuotaMessage": "In questo spazio dei nomi non ci sono quote per i limiti della memoria",
-    "completion": "Completamento",
-    "placeholderPhase": "Fase…"
+    "placeholderPhase": "Fase…",
+    "podsOnline": "Pod online",
+    "podsDesired": "Pod desiderati",
+    "noDataAvailable": {
+      "servicesTitle": "Nessun servizio disponibile",
+      "servicesDescription": "Non è stato richiamato alcun servizio per la fascia oraria selezionata.",
+      "persistentVolumesTitle": "Nessun volume persistente disponibile",
+      "persistentVolumesDescription": "Non è stato richiamato alcun volume persistente per la fascia oraria selezionata.",
+      "conditionsTitle": "Nessuna condizione disponibile",
+      "conditionsDescription": "Non è stata richiamata alcuna condizione per la fascia oraria selezionata.",
+      "cronjobsTitle": "Nessun lavoro cron disponibile",
+      "cronjobsDescription": "Non è stato richiamato alcun lavoro cron per la fascia oraria selezionata.",
+      "eventsTitle": "Nessun evento disponibile",
+      "eventsDescription": "Non è stato richiamato alcun evento per la fascia oraria selezionata.",
+      "namespacesTitle": "Nessuno spazio dei nomi disponibile",
+      "namespacesDescription": "Non è stato richiamato alcuno spazio dei nomi per la fascia oraria selezionata.",
+      "nodesTitle": "Nessun nodo disponibile",
+      "nodesDescription": "Non è stato richiamato alcun nodo per la fascia oraria selezionata.",
+      "podsTitle": "Nessun pod disponibile",
+      "podsDescription": "Non è stato richiamato alcun pod per la fascia oraria selezionata.",
+      "endpointsTitle": "Nessun endpoint disponibile",
+      "endpointsDescription": "Non è stato richiamato alcun endpoint per la fascia oraria selezionata."
+    }
   },
   "viewAllEntityName_unknownEntity_plural": "tutti",
   "viewAllEntityName_unknownEntity_0": "tutti",
@@ -248,12 +268,16 @@
   "running": "In esecuzione",
   "pending": "In sospeso",
   "succeeded": "Riuscito",
-  "active": "Attivo",
   "failed": "Non riuscito",
   "unknown": "Sconosciuto",
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "Non è disponibile alcun dato Kubernetes. Per informazioni sulla risoluzione dei problemi, consultare la [documentazione][Doc].\n\n[Docs]:https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+  },
+  "pod": {
+    "pending": "Podi in sospeso",
+    "active": "Podi attivi",
+    "completed": "Podi completati"
   }
 }

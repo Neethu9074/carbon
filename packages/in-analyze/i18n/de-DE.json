@@ -125,6 +125,9 @@
         "hideWebsiteInformation": "Website-Informationen ausblenden",
         "showWebsiteInformation": "Website-Informationen anzeigen",
         "viewWebsiteActivity": "Website-Aktivität anzeigen"
+      },
+      "logs": {
+        "noDataMessage": "Für diesen Trace sind keine Protokolle verfügbar."
       }
     },
     "components": {
@@ -172,13 +175,22 @@
         "tags": "Tags"
       },
       "callTree": {
-        "expandButtonForRow": "Erweiterungsschaltfläche für Zeile",
+        "expandButtonForRow": "Alle untergeordneten Aufrufe einblenden",
+        "collapseButtonForRow": "Alle untergeordneten Aufrufe ausblenden",
         "of": "von",
-        "inheritedFrom": "Übernommen von"
+        "inheritedFrom": "Übernommen von",
+        "cardTitle": "Aufrufe"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Farblich kennzeichnen nach",
-        "endpoint": "Endpunkt"
+        "colorizeByExpl": "Ändert die Farbe für die Aufrufbalken",
+        "endpoint": "Endpunkt",
+        "service": "Service"
+      },
+      "viewToggleButtons": {
+        "expl": "Anzeigen als",
+        "tree": "Baumstruktur",
+        "chart": "Zeitachse"
       },
       "logTooltipContent": {
         "errorLog": "Fehlerprotokoll",
@@ -241,14 +253,6 @@
   "analyzeHeader": {
     "title": "Analyse"
   },
-  "editTagFilterDialog": {
-    "dialogTitleEdit": "Filter bearbeiten",
-    "dialogTitleAdd": "{{filterCategory}}-Filter hinzufügen",
-    "messageTitle": "Wählen Sie einen Tag aus, nach dem Ihre Daten gefiltert werden sollen. Bei Tags muss die Groß-/Kleinschreibung beachtet werden. ",
-    "placeholder": "Eingabe zum Filtern der Ergebnisse...",
-    "saveFilter": "Filter speichern",
-    "addFilter": "Filter hinzufügen"
-  },
   "filterBar": {
     "keyValueBarItem": {
       "tooltip": "Filter entfernen"
@@ -263,12 +267,6 @@
       "clickToFilter": "Klicken Sie hier, um nach {{itemLabel}} zu filtern"
     },
     "allFilters": "Alle Filter"
-  },
-  "radioButtons": {
-    "messageFilering": "Die Filterung und Gruppierung der Quelle ist für den ausgewählten Zeitrahmen nicht verfügbar.",
-    "messageIndependent": "Dieser Tag ist unabhängig von Quelle und Ziel",
-    "fragmentSource": "Gilt nur für die Quelle des Aufrufs",
-    "fragmentCall": "Anwenden zum Aufrufen von Quelle oder Ziel"
   },
   "dialogs": {
     "tooltip": "Derzeit sind keine Vorschläge verfügbar; bitte geben Sie den Wert ein",
@@ -286,7 +284,8 @@
     "tooltipCloseLogDetails": "Protokolldetails schließen",
     "analyzeLogsLabel": "Protokolle analysieren",
     "similarLogs": "Ähnliche Protokolle",
-    "similarServiceLogs": "Im Kontext des Service"
+    "similarServiceLogs": "Protokolle im Kontext dieses Service anzeigen",
+    "service": "Service anzeigen"
   },
   "traceDetails": {
     "labelTotal": "Gesamtzahl",
@@ -301,15 +300,8 @@
     "callDetails": {
       "tooltipCloseCallDetails": "Aufrufdetails schließen"
     },
-
     "callTimeAxis": {
       "started": "Gestartet: {{startedTime}}"
-    },
-    "navigatorSplitScreen": {
-      "tooltipViewPrevious": "Vorherigen {{viewType}} anzeigen (Direktaufruf: Linkspfeiltaste) ",
-      "tooltipViewNext": "Nächsten {{viewType}} anzeigen (Direktaufruf: Rechtspfeiltaste)",
-      "tooltipCloseSidebar": "Seitenleiste schließen",
-      "tooltipOpenSidebar": "Seitenleiste öffnen"
     }
   },
   "tabs": {
@@ -332,14 +324,6 @@
       "beta": "BETA",
       "analytics": "Analyse"
     },
-    "editTagFilterDialog": {
-      "tag": "Tag",
-      "loadingSuggestions": "Vorschläge werden geladen...",
-      "operator": "Operator",
-      "true": "wahr",
-      "false": "falsch",
-      "removeFilter": "Filter entfernen"
-    },
     "filterBar": {
       "group": "Gruppe",
       "filters": "Filter",
@@ -361,10 +345,6 @@
     "groupedTraces": {
       "tagPresentWithNoValue": "Tag ohne Wert vorhanden",
       "tagNotPresent": "Tag nicht vorhanden"
-    },
-    "radioButtons": {
-      "source": "Quelle",
-      "destination": "Ziel"
     }
   }
 }

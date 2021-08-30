@@ -14,7 +14,7 @@
     "alertHeaderEnableTooltip": " 啟用",
     "alertHeaderRestoreDeleteTooltip": "刪除",
     "alertHeaderEditTooltip": "編輯",
-    "alertHeaderCopyTooltip": "複製",
+    "alertHeaderDuplicateTooltip": "複製",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "請確認",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "您確定要移除<strong>「警示 {{alertConfigName}}」</strong>嗎？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
@@ -26,7 +26,14 @@
     "alertPropertyInfosLabelDescription": "說明",
     "noChannelSelectedText": "目前，您尚未選取警示通道，而不會收到任何警示。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他過濾器",
-    "revisionDropdownButtonRevision": "修訂 {{alertRevision}}",
+    "revisionDropdownButton": {
+      "revision": "修訂 {{alertRevision}}",
+      "paused": "已暫停",
+      "resumed": "已回復",
+      "deleted": "已刪除",
+      "update": "更新",
+      "created": "已建立"
+    },
     "chart": {
       "alertingChartLabelThreshold": "臨界值",
       "alertingChartLabelViolations": "違規",
@@ -41,7 +48,7 @@
     "alertPropertyInfosCritical": "重大",
     "customPayload": {
       "deleteRow": "刪除列",
-      "key": "金鑰",
+      "key": "索引鍵",
       "value": "值",
       "unknownTypeTypeItCanNotBeEdited": "不明類型：{{type}} - 無法編輯。",
       "customWithColon": "自訂：",
@@ -55,7 +62,8 @@
       "theValueMustNotBeBlank": "值不得空白。",
       "onlyOrAnyAlphaNumericalAreAllowed": "只接受 '.'、'-'、'_' 或任何英數字元。",
       "aTagNeedsToBeSelected": "需要選取標籤。",
-      "aKeyNeedsToBeSpecified": "需要指定索引鍵。"
+      "aKeyNeedsToBeSpecified": "需要指定索引鍵。",
+      "customPayloadTitle": "自訂有效負載"
     }
   },
   "potentialProblems": {
@@ -101,7 +109,10 @@
     "descriptionUnsupportedOperator": "不支援的運算子：{{operator}}"
   },
   "smartAlerts": {
+    "applicationSmartAlert": "應用程式智慧型警示",
+    "globalApplicationSmartAlert": "廣域應用程式智慧型警示",
     "titleNoSmartAlertsConfigured": "未配置任何智慧型警示",
+    "titleNoSmartAlertsConfiguredForSearchQuery": "找不到給定搜尋的智慧型警示配置",
     "titleNoSmartAlertsCreated": "未建立任何智慧型警示",
     "titleCopyOf": "{{smartAlertTitle}}（的副本）",
     "applications": {
@@ -190,6 +201,12 @@
         }
       },
       "chart": {
+        "entitySelection": {
+          "tooManyResults": "您的搜尋符合太多結果，無法顯示。請使用更具體的搜尋詞彙來縮小結果範圍。",
+          "applications": "應用程式：",
+          "services": "服務："
+        },
+        "noChartForAdaptiveBaseline": "如果此觸發程式以調適性基準線為基礎，則無法使用預覽。",
         "noDataWithoutEndpointSelection": "請選取端點，以查看預覽",
         "noDataAvailable": "請選取服務以查看預覽"
       },
@@ -402,6 +419,7 @@
         "ruleFormPleaseProvideAStartStatusCode": "請提供一個開始 HTTP 狀態碼",
         "ruleFormPleaseProvideAEndStatusCode": "請提供一個結束 HTTP 狀態碼",
         "smartAlertFormNoEntitiesSelected": "未選取實體",
+        "smartAlertFormValueIsReadOnly": "值是唯讀的，無法變更",
         "thresholdFormPleaseProvideANumber0": "請提供大於等於 0 的數字",
         "thresholdFormBaselineIsEmpty": "基準線是空的"
       },
@@ -421,7 +439,7 @@
         "provideStatusCodeStatusCode": "狀態碼"
       },
       "inventory": {
-        "noData": "未配置任何智慧型警示。按一下下面的按鈕以配置您的第一個智慧型警示。",
+        "noData": "未配置任何智慧型警示。按下面的按鈕來配置您的第一個智慧型警示。",
         "noPersmissionToCreateGlobalSmartAlert": "您沒有配置智慧型警示的權限。請與管理者聯絡。",
         "labelGlobalSmartAlertsList": "廣域智慧型警示 ({{numberOfAlerts}})",
         "labelSmartAlertsList": "應用程式智慧型警示 ({{numberOfAlerts}})",
@@ -439,7 +457,21 @@
       "details": {
         "title": "警示詳細資料",
         "titleAlertProperties": "警示內容"
+      },
+      "apCreation": {
+        "addToAllBuiltInAlerts": "新增至所有 ({{numAlerts}}) 內建廣域智慧型警示",
+        "addToAllBuiltInAlertsSubText": "（{{numDisabled}}/{{numAlerts}} 個警示目前已停用）",
+        "addToAllExplanation": "將此「應用程式視景」併入到下列所有項目的範圍：",
+        "addToAllExplanationSubText": "內建廣域智慧型警示",
+        "notAllEnitiesSelected": "未選取所有服務/端點",
+        "alertCurrentlyDisabled": "警示目前已停用",
+        "viewAlertDetails": "檢視配置的警示詳細資料：{{name}}",
+        "eventsWarningIcon": "事件「警告」圖示",
+        "eventsCriticalIcon": "事件「嚴重」圖示"
       }
+    },
+    "details": {
+      "titleBuiltInIndicator": "內建"
     },
     "form": {
       "ruleAggregationOptionMEAN": "平均值",
@@ -457,6 +489,7 @@
     },
     "components": {
       "smartAlertDialog": {
+        "cancelTitle": "取消",
         "sharedListTooltip": "選取的 {{typeName}} 再也無法使用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageInsufficientDataToCompute": "資料不足而無法計算選取的基準線。請改為選取<em>靜態臨界值</em>。",
@@ -464,49 +497,51 @@
         "blueprintDescriptionButtonSelect": "選取",
         "selectAlertChannelButtonTitle": "選取警示通道",
         "selectAlertChannelButton": "選取警示通道",
+        "createAlertChannelTitle": "建立警示通道",
+        "alertChannelCreatedSuccess": "已建立警示通道",
+        "alertChannelSelectTypeTitle": "警示通道類型",
         "addChannel": "新增 {{count}} 個通道",
         "addChannel_plural": "新增 {{count}} 個通道",
-        "addChannel_0": "新增 {{count}} 個通道",
-        "addChannel_1": "新增 {{count}} 個通道",
-        "addChannel_2": "新增 {{count}} 個通道",
         "add": "新增",
         "scopeConfigTitleWithApplications": "選取應用程式/服務/端點",
         "scopeConfigTitle": "選取服務/端點",
-        "scopeConfigTitleTooltip": "顯示過去 7 天的可用實體",
+        "scopeConfigTitleTooltip": "顯示過去 24 小時的可用實體",
         "sortByUserSelectionLabel": "依使用者的選擇排序",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "在 {{formattedTimeWindow}} 內，至少有 {{userPercentage}} 的使用者受到影響",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "在 {{formattedTimeWindow}} 內受到影響",
-        "timeThresholdDescriptionRequestImpact": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 項要求受到影響",
-        "timeThresholdDescriptionRequestImpact_plural": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 項要求受到影響",
-        "timeThresholdDescriptionRequestImpact_0": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 項要求受到影響",
-        "timeThresholdDescriptionRequestImpact_1": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 項要求受到影響",
-        "timeThresholdDescriptionRequestImpact_2": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 項要求受到影響",
-        "timeThresholdDescriptionViolationsInPeriod": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
-        "timeThresholdDescriptionViolationsInPeriod_plural": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
-        "timeThresholdDescriptionViolationsInPeriod_0": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
-        "timeThresholdDescriptionViolationsInPeriod_1": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
-        "timeThresholdDescriptionViolationsInPeriod_2": "在 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "連續違規數",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者和 {{userPercentage}} 的使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "在過去 {{formattedTimeWindow}} 內，至少有 {{userPercentage}} 的使用者受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "在過去 {{formattedTimeWindow}} 內受到影響",
+        "timeThresholdDescriptionRequestImpact": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
+        "timeThresholdDescriptionRequestImpact_plural": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個要求受到影響",
+        "timeThresholdDescriptionRequestImpact_0": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個要求受到影響",
+        "timeThresholdDescriptionRequestImpact_1": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
+        "timeThresholdDescriptionRequestImpact_2": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個要求受到影響",
+        "timeThresholdDescriptionViolationsInPeriod": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
+        "timeThresholdDescriptionViolationsInPeriod_plural": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
+        "timeThresholdDescriptionViolationsInPeriod_0": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
+        "timeThresholdDescriptionViolationsInPeriod_1": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
+        "timeThresholdDescriptionViolationsInPeriod_2": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "連續度量違規數",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "連續評估數",
-        "timeThresholdConfigNumberOfEvaluationWindows": "評估視圖數",
-        "timeThresholdConfigNumberOfViolations": "違規數",
+        "timeThresholdConfigNumberOfEvaluationWindows": "使用者影響的評估時段數",
+        "timeThresholdConfigNumberOfViolations": "度量違規數",
         "timeThresholdConfigEvaluationGranularity": "評估精度",
         "timeThresholdConfigNumberOfRequestsThreshold": "要求數臨界值",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影響的使用者數目臨界值",
         "timeThresholdConfigAtLeast": "至少",
         "timeThresholdConfigNumberOfRequests": "要求數",
         "timeThresholdConfigMinutes": "{{min}} 分鐘",
         "timeThresholdConfigNumberOfUsers": "使用者數目",
-        "timeThresholdConfigPercentageOfRequestsThreshold": "要求百分比臨界值",
+        "timeThresholdConfigPercentageOfUsers": "佔使用者數目的百分比",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "受影響的使用者數目臨界值百分比",
         "timeThresholdConfigOff": "關閉",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "請提供大於等於 1 的數字",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "請提供 1% 到 100% 之間的數字",
@@ -538,6 +573,7 @@
         "thresholdTypeOptionStaticThreshold": "靜態臨界值",
         "thresholdTypeOptionHistoricBaselineDaily": "基準線（每日季節性）",
         "thresholdTypeOptionHistoricBaselineWeekly": "基準線（每週季節性）",
+        "thresholdTypeOptionAdaptiveBaseline": "調適性基準線",
         "useSuggestedvalue": "使用建議值",
         "alertConfigDialogPresenterTitleEditAlert_Local": "編輯智慧型警示",
         "alertConfigDialogPresenterTitleEditAlert_Global": "編輯廣域智慧型警示",
@@ -549,7 +585,8 @@
         "PreviewForAP": "應用程式視景預覽：",
         "PreviewForEndpoint": "端點的預覽：",
         "PreviewForService": "服務的預覽：",
-        "PreviewSelectLoadingEndpoints": "載入端點清單"
+        "PreviewSelectLoadingEndpoints": "載入端點清單",
+        "thresholdValue": "臨界值"
       },
       "alertsHub": {
         "title": "警示中心",
@@ -791,7 +828,12 @@
       "enabled": "已啟用",
       "disabled": "已停用",
       "severity": "嚴重性",
-      "created": "建立日期"
+      "created": "建立日期",
+      "type": "類型"
+    },
+    "migration": {
+      "migrateButton": "移轉至智慧型警示",
+      "migrateButtonTooltip": "開啟一個智慧型警示配置對話框，其中預先填入了從現行事件到我們所能達到最佳延伸的移轉值。請仔細核對結果！"
     }
   }
 }

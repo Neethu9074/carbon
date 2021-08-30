@@ -1,4 +1,45 @@
 {
+  "components": {
+    "list": {
+      "loadMore": "Carica altro",
+      "toggleExtraContent": "Attiva/disattiva contenuto supplementare ",
+      "initiateDefaultAction": "Avvia azione predefinita "
+    },
+    "table": {
+      "tableErrorRows": {
+        "unexpectedError": "Si è verificato un errore non previsto. Aggiornare la pagina o riprovare successivamente."
+      },
+      "tableLoadMoreRow": {
+        "loadMore": "Carica altro"
+      }
+    }
+  },
+  "formatDate": {
+    "date": {
+      "aFewSeconds": "pochi secondi",
+      "time_years": "{{count}} anni",
+      "time_years_plural": "{{count}} anni",
+      "time_y": "{{count}}a",
+      "time_months": "{{count}} mese",
+      "time_months_plural": "{{count}} mesi",
+      "time_mo": "{{count}}lu",
+      "time_days": "{{count}} giorno",
+      "time_days_plural": "{{count}} giorni",
+      "time_d": "{{count}} g",
+      "time_hours": "{{count}} ora",
+      "time_hours_plural": "{{count}} ore",
+      "time_h": "{{count}} h",
+      "time_minutes": "{{count}} minuto",
+      "time_minutes_plural": "{{count}} minuti",
+      "time_m": "{{count}}m",
+      "time_seconds": "{{count}} secondo",
+      "time_seconds_plural": "{{count}} secondi",
+      "time_s": "{{count}}",
+      "time_milliseconds": "{{count}} millisecondo",
+      "time_milliseconds_plural": "{{count}} millisecondi",
+      "time_ms": "{{millis}}ms"
+    }
+  },
   "forms": {
     "actions": {
       "save": "Salva",
@@ -15,11 +56,11 @@
   },
   "language_en-US": "Inglese",
   "language_de-DE": "Tedesco",
-  "language_fr-FR": "Francese ",
-  "language_es-ES": "Spagnolo ",
-  "language_it-IT": "Italiano ",
-  "language_ja-JA": "Giapponese ",
-  "language_ko-KO": "Coreano ",
+  "language_fr-FR": "Francese",
+  "language_es-ES": "Spagnolo",
+  "language_it-IT": "Italiano",
+  "language_ja-JA": "Giapponese",
+  "language_ko-KO": "Coreano",
   "language_zh-CN": "Cinese (Cina)",
   "language_zh-TW": "Cinese (Taiwan)",
   "language_pt-BR": "Portoghese (Brazil)",

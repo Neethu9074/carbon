@@ -19,7 +19,7 @@
       "licenseStartData": "Data di inizio della licenza",
       "licenseEndData": "Data di fine della licenza",
       "licensedApmHosts": "Host APM con licenza",
-      "licensedIqmHosts": "Host IQM con licenza "
+      "licensedIqmHosts": "Host IQM con licenza"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "Tutte le unità pagate (aggregate) (aggregate)",
@@ -55,6 +55,66 @@
       "purchased": "Acquistato",
       "infrastructureUsage": "Utilizzo infrastruttura",
       "iqmHosts": "Host IQM"
+    },
+    "activationAdoption": {
+      "activationAdoption": "Attivazione & Adozione",
+      "customerAdoption": "Adozione del cliente",
+      "activation": "Attivazione",
+      "adoption": "Adozione",
+      "activationStages": {
+        "createDate": "Data di creazione",
+        "firstSignIn": "Primo accesso",
+        "firstAgentInstalled": "1° agent installato",
+        "additionalUserInvited": "Ulteriori utenti invitati",
+        "threeAgentsInstalled": "3 agent installati",
+        "twoApplicationPerspectivesCreated": "2 Prospettive Applicazione create",
+        "oneAlertSetUpAndActivated": "1 Avviso configurato e attivato",
+        "oneWebsiteMonitored": "1 sito web monitorato",
+        "fiveUsers": "5 utenti"
+      },
+      "adoptionKPIs": {
+        "applicationPerspective": "Prospettiva applicazione",
+        "eum": "EUM",
+        "alerting": "Invio di avvisi",
+        "pipelineFeedback": "Feedback pipeline",
+        "customDashboards": "Dashboard personalizzati",
+        "mobileEum": "EUM mobile",
+        "numOfApplicationPerspectives": "N. di PA",
+        "numOfReportingApplicationPerspectives": "N. di PA che riportano",
+        "numOfWebsites": "N. di siti web",
+        "numOfAlertChannels": "N. di canali di avviso",
+        "numOfAlerts": "N. di avvisi",
+        "numOfActiveAlerts": "N. di avvisi attivi",
+        "numOfReleases": "N. Contrassegni di rilascio / N. di rilasci",
+        "numOfCustomDashboards": "N. di dashboard personalizzati",
+        "numOfMobileApps": "N. di app"
+      },
+      "activationChecklist": "Attivazione checklist",
+      "productAdoption": "Adozione prodotto",
+      "sparkChartMetrics": {
+        "metric_applications": "Applicazioni",
+        "metric_reportingapplications": "Applicazioni di report",
+        "metric_websites": "Siti Web",
+        "metric_all_alerts": "Tutti gli avvisi",
+        "metric_active_alerts": "Avvisi attivi ",
+        "metric_mobile_apps": "App mobili",
+        "metric_alert_channels": "Canali di avviso",
+        "metric_custom_dashboards": "Dashboard personalizzati",
+        "metric_releases": "Release"
+      },
+      "userUsage": "Utilizzo utente",
+      "userSummary": "Riepilogo utenti",
+      "totalUser": "Utenti totali",
+      "weeklyActiveUser": "Utenti attivi settimanalmente",
+      "lastCalendarWeekTopActiveUsers": "Utenti maggiormente attivi nell'ultima settimana di calendario",
+      "topUsersTable": {
+        "noDataAvailable": "Nessun dato disponibile",
+        "noTopActiveUsers": "Nessun dato sui principali utenti attivi per questo account",
+        "name": "Nome",
+        "organizationRole": "Ruolo organizzativo",
+        "daysActive": "Giorni nello stato attivo",
+        "notProvided": "(non fornito)"
+      }
     }
   }
 }
