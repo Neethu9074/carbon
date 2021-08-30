@@ -4,6 +4,7 @@
  */
 
 const { Pool } = require('pg');
+const fs = require('fs');
 
 const { getReportingEndpointsFromButler } = require('../reportingEndpoints.js');
 const featureFlagDefinitions = require('./featureFlags');
@@ -14,20 +15,7 @@ const cache = require('../loadingCache').createLoadingCache({
 
 console.log('Initializing instanctl CockroachDB resolver against', serverConfig.instanactlCockroachDb.host);
 
-const pool = new Pool({
-  // client config options
-  host: serverConfig.instanactlCockroachDb.host,
-  port: serverConfig.instanactlCockroachDb.port,
-  user: serverConfig.instanactlCockroachDb.user,
-  password: serverConfig.instanactlCockroachDb.password,
-  database: serverConfig.instanactlCockroachDb.database,
-  statement_timeout: serverConfig.instanactlCockroachDb.statementTimeoutMillis || 15000,
-
-  // pool config options
-  connectionTimeoutMillis: serverConfig.instanactlCockroachDb.connectionTimeoutMillis || 30000,
-  idleTimeoutMillis: serverConfig.instanactlCockroachDb.idleTimeoutMillis || 30000,
-  max: serverConfig.instanactlCockroachDb.maxPooledConnections || 64
-});
+const pool = new Pool(getPoolConfig());
 
 exports.getUiBackendBaseUrl = (tenant, unit) => Promise.resolve(`http://tu-${tenant}-${unit}-ui-backend:8600`);
 
@@ -172,4 +160,49 @@ function toggleValueParser(str) {
  */
 function tenantUnitFeatureFlagForSharedComponentParser(tenant, unit, str) {
   return str === '*' || str.split(/,|\s/).some(s => s === `${tenant}-${unit}`);
+}
+
+// Exported to allow unit testing
+exports.getPoolConfig = getPoolConfig;
+function getPoolConfig() {
+  const poolConfig = {
+    // client config options
+    host: serverConfig.instanactlCockroachDb.host,
+    port: serverConfig.instanactlCockroachDb.port,
+    user: serverConfig.instanactlCockroachDb.user,
+    password: serverConfig.instanactlCockroachDb.password,
+    database: serverConfig.instanactlCockroachDb.database,
+    statement_timeout: serverConfig.instanactlCockroachDb.statementTimeoutMillis || 15000,
+
+    // pool config options
+    connectionTimeoutMillis: serverConfig.instanactlCockroachDb.connectionTimeoutMillis || 30000,
+    idleTimeoutMillis: serverConfig.instanactlCockroachDb.idleTimeoutMillis || 30000,
+    max: serverConfig.instanactlCockroachDb.maxPooledConnections || 64
+  };
+
+  const ssl = serverConfig.instanactlCockroachDb.ssl;
+  if (ssl && (ssl.cert || ssl.certPath)) {
+    // For details of possible options see:
+    // https://nodejs.org/api/tls.html#tls_tls_createsecurecontext_options
+    // via
+    // https://node-postgres.com/features/ssl
+    poolConfig.ssl = {
+      rejectUnauthorized: false,
+      ...resolvePathToFileContent('cert', ssl.certPath),
+      ...resolvePathToFileContent('ca', ssl.caPath),
+      ...resolvePathToFileContent('key', ssl.keyPath),
+      ...ssl
+    };
+  }
+
+  return poolConfig;
+}
+
+function resolvePathToFileContent(key, path) {
+  if (path) {
+    return {
+      [key]: fs.readFileSync(path, { encoding: 'utf8' })
+    };
+  }
+  return {};
 }

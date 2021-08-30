@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-// eslint-disable-next-line no-unused-vars
-const { Pool } = require('pg');
 const instanactl = require('../../../src/services/resolvers/instanactl');
 
 /* eslint-env jest */
@@ -33,6 +31,11 @@ jest.mock('pg', () => ({
       });
     }
   }))
+}));
+jest.mock('fs', () => ({
+  readFileSync(path) {
+    return `content of ${path}`;
+  }
 }));
 jest.mock('../../../src/services/reportingEndpoints');
 jest.mock('../../../src/serverConfig');
@@ -103,6 +106,32 @@ describe('in-server/services/resolvers/instanactl', () => {
       setupMockFlag('deployment', 'feature.shared.singleTU', `${tenant}-${unit}Testing, ${tenant}-demo`);
       const flags = await instanactl.getFeatureFlags(tenant, unit);
       expect(flags['tenantUnitFlagForSharedComponentSingleTU']).toBeFalsy();
+    });
+  });
+
+  describe('getPoolConfig', () => {
+    it('supports passthrough of options in serverconfig for SSL section', () => {
+      expect(instanactl.getPoolConfig()).toMatchInlineSnapshot(`
+        Object {
+          "connectionTimeoutMillis": 30000,
+          "database": undefined,
+          "host": undefined,
+          "idleTimeoutMillis": 30000,
+          "max": 64,
+          "password": undefined,
+          "port": undefined,
+          "ssl": Object {
+            "cert": "content of /etc/ui-client/cert",
+            "certPath": "/etc/ui-client/cert",
+            "dhparam": "foobar",
+            "key": "content of /etc/ui-client/key",
+            "keyPath": "/etc/ui-client/key",
+            "rejectUnauthorized": false,
+          },
+          "statement_timeout": 15000,
+          "user": undefined,
+        }
+      `);
     });
   });
 });
