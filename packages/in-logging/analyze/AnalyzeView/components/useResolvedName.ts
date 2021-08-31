@@ -14,7 +14,9 @@ import {
   LOG_PROCESS_SNAPSHOT_ID,
   LOG_DOCKER_SNAPSHOT_ID,
   LOG_HOST_SNAPSHOT_ID,
-  LOG_CUSTOM
+  LOG_CUSTOM,
+  LOG_SERVICE_NAME,
+  LOG_STREAM_NAME
 } from 'in-logging/queryBuilder';
 // @ts-ignore
 import { getSnapshot } from 'in-stores/snapshot';
@@ -25,6 +27,8 @@ import { t } from 'in-i18n';
 type LinkResolver = (tag: LogTag) => Observable<string>;
 
 const tagNameResolver = new Map<string, LinkResolver>([
+  [LOG_SERVICE_NAME, () => just(t('in-logging:service'))],
+  [LOG_STREAM_NAME, () => just(t('in-logging:stream'))],
   [LOG_CUSTOM, _t => just(getCustomKeyLabel(_t.key || ''))],
   [LOG_PROCESS_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],
   [LOG_DOCKER_SNAPSHOT_ID, _t => resolveInfraLabel(_t.stringValue || '')],

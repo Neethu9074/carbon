@@ -20,4 +20,13 @@
   .healthColumn {
     margin: 0.5rem 0 0 0.5rem;
   }
+
+  .copyButtonWrapper {
+    display: flex;
+    align-items: center;
+
+    height: 100%;
+
+    margin-left: 0.25rem;
+  }
 }

@@ -44,6 +44,7 @@ import IconButton from 'in-components/IconButton/IconButton';
 import IconLink from 'in-components/IconButton/IconLink';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
+import Tooltip from 'in-components/Tooltip';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -158,22 +159,30 @@ function TagValue({
       {isHovered && tag.key !== LOG_CUSTOM_KEY_APPLICATION_IDS && (
         <Stack direction="horizontal" gap="disabled" align="center">
           {allowedTagsForGrouping.has(tag.name || '') && (
+            <Tooltip content={t('in-logging:tooltipAddAsGroup')}>
+              <IconLink
+                iconSize={16}
+                type="lib_group_by"
+                href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
+                onClick={() => trackGroupClick(resolvedValue)}
+              />
+            </Tooltip>
+          )}
+          <Tooltip content={t('in-logging:tooltipAddAsFilter')}>
             <IconLink
               iconSize={16}
-              type="lib_group_by"
-              href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
-              onClick={() => trackGroupClick(resolvedValue)}
+              type="lib_actions_filter"
+              href={onSelectTagHref(createTag(value, tag.name, tag.key))}
+              onClick={() => trackFilterClick(tag, value)}
             />
-          )}
-          <IconLink
-            iconSize={16}
-            type="lib_actions_filter"
-            href={onSelectTagHref(createTag(value, tag.name, tag.key))}
-            onClick={() => trackFilterClick(tag, value)}
-          />
-          <CopyToClipboard getText={() => resolvedValue}>
-            {(copyToClipboardRef: any) => <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />}
-          </CopyToClipboard>
+          </Tooltip>
+          <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
+            <CopyToClipboard getText={() => resolvedValue}>
+              {(copyToClipboardRef: any) => (
+                <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />
+              )}
+            </CopyToClipboard>
+          </Tooltip>
         </Stack>
       )}
     </Stack>
