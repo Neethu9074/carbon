@@ -89,7 +89,7 @@ export default function SlownessThresholdCondition({ form, updateForm, onChange,
           }}
         />
         {thresholdType === HISTORIC_BASELINE && (
-          <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
+          <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
         )}
       </ThresholdConditionFormGroup>
 

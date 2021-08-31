@@ -92,7 +92,7 @@ export default function ThroughputThresholdCondition({ form, updateForm, onChang
           defaultValue={STATIC_THRESHOLD}
         />
         {thresholdType === HISTORIC_BASELINE && (
-          <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
+          <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
         )}
       </ThresholdConditionFormGroup>
       {thresholdType === STATIC_THRESHOLD && (
