@@ -234,7 +234,7 @@ export function restoreGlobalAlertConfigVersion(
   created: number
 ): Observable<GlobalApplicationAlertConfigWithMetadata> {
   return http<GlobalApplicationAlertConfigWithMetadata>({
-    method: 'POST',
+    method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}/restore/${created}`

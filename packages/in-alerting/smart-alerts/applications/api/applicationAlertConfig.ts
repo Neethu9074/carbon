@@ -176,7 +176,7 @@ export function getAllAlertConfigsForAllApplications(
 
 export function restoreAlertConfigVersion(id: string, created: number): Observable<ApplicationAlertConfigWithMetadata> {
   return http<ApplicationAlertConfigWithMetadata>({
-    method: 'POST',
+    method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}/restore/${created}`

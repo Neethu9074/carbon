@@ -112,7 +112,7 @@ export function deleteAlertConfig(id) {
 
 export function restoreAlertConfigVersion(id, created) {
   return http({
-    method: 'POST',
+    method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
     url: `${baseUrl}/${id}/restore/${created}`
