@@ -2384,7 +2384,9 @@
       "rxHCBytes": "RX Bytes",
       "rxDrops": "RX Dropped",
       "txHCBytes": "TX Bytes",
-      "txDrops": "TX Dropped"
+      "txDrops": "TX Dropped",
+      "statusSummaryTitle": "Status Summary",
+      "firmwareVersion": "Firmware Version"
     },
     "ibmDataPowerCluster": {
       "ibmDataPowerClusterInfo": "IBM DataPower Cluster",

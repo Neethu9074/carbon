@@ -16,14 +16,8 @@ export default function Info({ snapshot }) {
         {data.get('applianceName')}
       </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmDataPowerAppliance.status')}>{data.get('status')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmDataPowerAppliance.workList')}>
-        {data.get('workList')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmDataPowerAppliance.quiescedDomains')}>
-        {data.get('quiescedDomains')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.ibmDataPowerAppliance.inactiveObjects')}>
-        {data.get('inactiveObjects')}
+      <DescriptionItem title={t('in-forge:plugins.ibmDataPowerAppliance.firmwareVersion')}>
+        {data.get('firmwareVersion')}
       </DescriptionItem>
     </DescriptionList>
   );
