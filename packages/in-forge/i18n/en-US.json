@@ -9498,7 +9498,12 @@
       "maxHeap": "Max Heap",
       "heapUsed": "Heap Used",
       "threadDump": "Thread dump",
-      "garbageCollector": "Garbage Collector"
+      "garbageCollector": "Garbage Collector",
+      "garbageCollectionHeapMemory": "Garbage Collected Heap Memory",
+      "gcBefore": "Before GC",
+      "gcAfter": "After GC",
+      "gcBeforePercentage": "Before GC percentage",
+      "gcAfterPercentage": "After GC percentage"
     },
     "springbootAppContainer": {
       "titleRequests": "Requests",

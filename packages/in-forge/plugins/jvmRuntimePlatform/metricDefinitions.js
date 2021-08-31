@@ -33,16 +33,25 @@ export default [
     formatter: micros
   },
   {
-    metrics: ['memory.usedPercentage'],
-    labels: [t('in-forge:plugins.jvmRuntimePlatform.usedPercentage')],
+    metrics: ['memory.usedPercentage', 'memory.gc.beforePercentage', 'memory.gc.afterPercentage'],
+    labels: [
+      t('in-forge:plugins.jvmRuntimePlatform.usedPercentage'),
+      t('in-forge:plugins.jvmRuntimePlatform.gcBeforePercentage'),
+      t('in-forge:plugins.jvmRuntimePlatform.gcAfterPercentage')
+    ],
     min: 0,
     max: 1,
     category: [t('in-forge:plugins.jvmRuntimePlatform.memory')],
     formatter: percentage
   },
   {
-    metrics: ['memory.used', 'memory.free'],
-    labels: [t('in-forge:plugins.jvmRuntimePlatform.used'), t('in-forge:plugins.jvmRuntimePlatform.free')],
+    metrics: ['memory.used', 'memory.free', 'memory.gc.before', 'memory.gc.after'],
+    labels: [
+      t('in-forge:plugins.jvmRuntimePlatform.used'),
+      t('in-forge:plugins.jvmRuntimePlatform.free'),
+      t('in-forge:plugins.jvmRuntimePlatform.gcBefore'),
+      t('in-forge:plugins.jvmRuntimePlatform.gcAfter')
+    ],
     min: 0,
     getMax(snapshot) {
       return snapshot.getIn(['data', 'memory.max']);

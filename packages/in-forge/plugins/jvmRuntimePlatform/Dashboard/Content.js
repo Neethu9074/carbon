@@ -9,10 +9,10 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import { bytes, timeByMicroTwoDecimalPlaces, time, twoDecimalPlaces, percentage } from 'in-services/formatters/number';
+import PrometheusJavaClientMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PrometheusJavaClientMetrics';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import PackageRetrievalDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PackageRetrievalDialog';
 import DiagnosticInfoDialog from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/DiagnosticInfoDialog';
-import PrometheusJavaClientMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/PrometheusJavaClientMetrics';
 import MicrometerMetrics from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MicrometerMetrics';
 import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/MemoryPoolsTable';
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
@@ -139,6 +139,37 @@ function JVMDashboard({ snapshot, timeConfig, isInternalVisible, agentSnapshot }
       </DashboardSection>
 
       <MemoryPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
+
+      {isInternalVisible && (
+        <DashboardSection title={t('in-forge:plugins.jvmRuntimePlatform.garbageCollectionHeapMemory')}>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              max: snapshot.getIn(['data', 'memory.max']),
+              formatter: bytes.detailed,
+              tooltipFormatter: bytes.detailedWithRaw,
+              metrics: ['memory.used'],
+              labels: [t('in-forge:plugins.jvmRuntimePlatform.used')],
+              type: 'stackedArea'
+            }}
+            y2={{
+              min: 0,
+              max: snapshot.getIn(['data', 'memory.max']),
+              metrics: ['memory.gc.before', 'memory.gc.after'],
+              labels: [
+                t('in-forge:plugins.jvmRuntimePlatform.gcBefore'),
+                t('in-forge:plugins.jvmRuntimePlatform.gcAfter')
+              ],
+              formatter: bytes.detailed,
+              tooltipFormatter: bytes.detailedWithRaw,
+              type: 'point'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      )}
 
       {collectors ? (
         <DashboardSection title={t('in-forge:plugins.jvmRuntimePlatform.garbageCollection')}>
