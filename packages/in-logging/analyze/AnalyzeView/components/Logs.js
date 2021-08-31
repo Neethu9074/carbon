@@ -106,7 +106,6 @@ export default function Logs(props) {
       Chart={Chart}
       useCursorPaginationStrategy={useLogsCursorPagination}
       classNames={{ listItem: locals.listItem }}
-      withoutSorting
       columnDefinitions={columnDefinitions}
       getData={params => getTableData(params)}
       getId={item => item.itemId}
@@ -115,7 +114,9 @@ export default function Logs(props) {
       getDetailData={detailId => getLog({ itemId: detailId })}
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
+      withoutHeader={false}
       tracker={tracker}
+      sortOptions={[{ label: 'timestamp', value: 'timestamp' }]}
       renderNestedContent={(_, item) => (
         <LogTagsTable
           item={item}
@@ -140,7 +141,7 @@ function DetailView() {
 }
 
 function getTableData(props) {
-  const { timeConfig, afterKey, backendQueryModel, loadAfterCount, retrievalSize } = props;
+  const { timeConfig, afterKey, backendQueryModel, loadAfterCount, retrievalSize, orderBy } = props;
 
   return getLogs({
     timeConfig,
@@ -148,7 +149,8 @@ function getTableData(props) {
     afterKey,
     loadAfterCount,
     tagFilterExpression: backendQueryModel,
-    tags: [LOG_CUSTOM, LOG_LEVEL]
+    tags: [LOG_CUSTOM, LOG_LEVEL],
+    orderDirection: orderBy?.direction
   });
 }
 
