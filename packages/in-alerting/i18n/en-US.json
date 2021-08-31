@@ -8,7 +8,7 @@
     "alertHeaderAlert": "Alert",
     "alertHeaderRestoreRevisionTooltip": "Restore {{description}}",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Please Confirm",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore <strong>\"Revision {{alertRevision}}\"</strong>?",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore <strong>\"{{description}}\"</strong>?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
     "alertHeaderDisableTooltip": " Disable",
     "alertHeaderEnableTooltip": " Enable",

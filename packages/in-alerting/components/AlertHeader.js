@@ -110,7 +110,7 @@ export default function AlertHeader({
 
   const doRestore = () => {
     setIsRestoring(true);
-    doRestoreConfig$(alertConfig.created, alertConfig.id).once(
+    doRestoreConfig$(alertConfig.id, alertConfig.created).once(
       () => {
         setRevision(null);
         setIsRestoring(false);
@@ -332,7 +332,7 @@ function openRestoreConfirmationDialog(alertRevision, doRestore) {
       description={
         <Trans
           i18nKey="in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogDescription"
-          values={{ alertRevision: alertRevision }}
+          values={{ description: alertRevision.description }}
         />
       }
       confirmButtonLabel={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogConfirmButton')}
