@@ -11,7 +11,7 @@
     background: #fff;
     font-size: 0.8rem;
     max-width: 24rem;
-    padding: 0rem 1.2rem;
+    padding: 0.5rem;
     margin: 0 0 1rem;
     border-radius: @lib__shapes__radius_medium;
     overflow: hidden;
@@ -23,6 +23,8 @@
     p {
       margin: 0.75rem 0;
     }
+
+    --line-height-title: 1.5rem;
   }
 
   .info {
@@ -42,11 +44,9 @@
   }
 
   .icon {
+    align-self: flex-start;
     fill: @lib__colors__teal800;
-    margin-top: 0.5625rem;
-    margin-bottom: 0.5625rem;
-    margin-right: 0.75rem;
-    min-width: 1.125rem;
+    vertical-align: middle;
   }
 
   .msg {
@@ -69,7 +69,8 @@
   .title {
     font-size: @lib__typography__h200__font-size;
     font-weight: 600;
-    margin: 0.5rem 0;
+    line-height: var(--line-height-title);
+    margin: 0 0 0.25rem;
   }
 
   .content {
