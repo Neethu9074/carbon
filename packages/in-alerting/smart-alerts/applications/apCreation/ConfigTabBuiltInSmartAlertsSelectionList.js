@@ -16,23 +16,26 @@ import AlertEnabledStateColumn from 'in-alerting/smart-alerts/applications/apCre
 import MainColumn from 'in-alerting/smart-alerts/applications/apCreation/MainColumn';
 import LabelText from 'in-alerting/smart-alerts/applications/apCreation/LabelText';
 import { getLinkToAlertDetails } from './navigation/paths';
+import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 export default function ConfigTabBuiltInSmartAlertsSelectionList({
   onChange,
   alertIds = [],
-  getBuiltInAlerts = getAllBuiltInGlobalSmartAlerts({ asObservable: false })
+  getBuiltInAlerts = getAllBuiltInGlobalSmartAlerts({ asObservable: true }),
+  applicationId
 }) {
-  const builtInAlerts = useObservable(getBuiltInAlerts, []) ?? [];
+  const builtInAlerts = useObservable(getBuiltInAlerts, []) ?? pendingResult;
 
   return (
     <BuiltInSmartAlertsSelectionBaseList
-      alertConfigs={builtInAlerts}
+      alertConfigsResult={builtInAlerts}
       columnDefinitions={columnDefinitions}
       onItemSelect={(selected, alertId) => {
         onChange(selected ? alertIds.concat(alertId) : alertIds.filter(id => id !== alertId));
       }}
       alertIds={alertIds}
+      applicationId={applicationId}
     />
   );
 }
@@ -41,8 +44,8 @@ const columnDefinitions = [
   {
     id: 'id1',
     verticallyCenter: true,
-    getContent({ config, onItemSelect, alertIds }) {
-      const isPartiallySelected = hasPartialEnitySelection(config.applications);
+    getContent({ config, onItemSelect, alertIds, applicationId }) {
+      const isPartiallySelected = hasPartialEnitySelection(config.applications, applicationId);
       return (
         <MainColumn
           {...config}
@@ -82,16 +85,14 @@ const columnDefinitions = [
   }
 ];
 
-function hasPartialEnitySelection(applications) {
-  const applicationConfigs = Object.values(applications);
-  return (
-    applicationConfigs.some(({ inclusive }) => !inclusive) ||
-    applicationConfigs.some(({ services }) => !isEmpty(services))
-  );
+function hasPartialEnitySelection(applications, applicationId) {
+  const { inclusive, services } = Object.values(applications).find(app => app.applicationId === applicationId) ?? {};
+  return inclusive != null && services && (!inclusive || !isEmpty(services));
 }
 
 ConfigTabBuiltInSmartAlertsSelectionList.propTypes = {
   onChange: PropTypes.func,
   alertIds: PropTypes.arrayOf(PropTypes.string),
-  getBuiltInAlerts: PropTypes.func
+  getBuiltInAlerts: PropTypes.func,
+  applicationId: PropTypes.string
 };

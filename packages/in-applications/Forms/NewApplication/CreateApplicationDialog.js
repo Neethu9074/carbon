@@ -212,6 +212,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
                                   )
                                 }
                                 alertIds={field.value}
+                                applicationId={appConfig.id}
                               />
                             );
                           })
