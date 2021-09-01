@@ -11,10 +11,10 @@ import { just } from '@instana/observables';
 import { Card } from '@instana/components';
 
 import {
-  addApplicationConfig,
   createNewApplicationConfig,
-  getApplicationConfig,
-  updateApplicationConfig
+  getApplicationConfigWithAlerting,
+  addApplicationConfigWithAlerting,
+  updateApplicationConfigWithAlerting
 } from 'in-api/applicationConfigs';
 import { hasPermissionToAddBuiltInSmartAlerts } from 'in-alerting/smart-alerts/applications/apCreation/BuiltInGlobalSmartAlertsPermissionWrapper';
 import ConfigTabBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/ConfigTabBuiltInSmartAlertsSelectionList';
@@ -54,7 +54,7 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
           getOnSavePath={getOnSavePath}
           getEntity={() =>
             applicationId
-              ? getApplicationConfig(applicationId)
+              ? getApplicationConfigWithAlerting(applicationId)
               : just({ progress: { loading: false }, errors: [], data: createNewApplicationConfig() })
           }
           updateEntity={applicationConfig => {
@@ -65,9 +65,9 @@ export default function CreateApplicationDialog({ applicationId, onCancelHref$, 
             });
             const isNewConfig = !applicationConfig.id ? true : false;
             if (isNewConfig) {
-              return addApplicationConfig(applicationConfig);
+              return addApplicationConfigWithAlerting(applicationConfig);
             }
-            return updateApplicationConfig(applicationConfig);
+            return updateApplicationConfigWithAlerting(applicationConfig);
           }}
           updateFormOnSubmit={form => {
             const labelField = form.get('label');

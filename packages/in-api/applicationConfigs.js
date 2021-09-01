@@ -91,6 +91,36 @@ export function deleteApplicationConfig(id) {
   });
 }
 
+// application config calls with additional alerting details
+export function getApplicationConfigWithAlerting(id) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `${basePath}/${encodeURIComponent(id)}/withAlerting`,
+    mapToResultObject: true
+  }).map(mapFromServerResponse);
+}
+
+export function addApplicationConfigWithAlerting(config) {
+  config.label = config.label.trim();
+  return http({
+    method: 'POST',
+    url: `${basePath}/withAlerting`,
+    headers: getCsrfHeader(),
+    data: mapToServerResponse(config)
+  }).map(response => deepFreeze(response.body));
+}
+
+export function updateApplicationConfigWithAlerting(config) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `${basePath}/${config.id}/withAlerting`,
+    headers: getCsrfHeader(),
+    data: mapToServerResponse(config)
+  }).map(response => deepFreeze(response.body));
+}
+
 export function createNewApplicationConfig() {
   return {
     label: '',
