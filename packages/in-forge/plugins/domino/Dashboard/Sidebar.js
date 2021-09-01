@@ -11,10 +11,11 @@ import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function DominoSidebar({ snapshot }) {
+  console.log(snapshot);
   return (
     <div>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.prometheus.dashboard.prometheusInfo')}</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.domino.dashboard.dominoInfo')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>
