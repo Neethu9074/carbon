@@ -6,7 +6,7 @@
     "alertHeaderRestoreErrorMessage": "ID가 {{alertConfigID}}이고 버전이 {{alertConfigCreated}}인 경보 구성 개정을 복원하는 데 실패함: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "경보 목록으로 돌아가기",
     "alertHeaderAlert": "경보",
-    "alertHeaderRestoreRevisionTooltip": "{{alertRevision}} 개정 복원",
+    "alertHeaderRestoreRevisionTooltip": "{{description}} 복원",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "확인하시기 바랍니다.",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "<strong>\"{{alertRevision}} 개정\"</strong>을 복원하시겠습니까?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "복원",
@@ -18,7 +18,8 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "확인하시기 바랍니다.",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>\"{{alertConfigName}} 경보\"</strong>를 제거하시겠습니까?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "제거",
-    "alertHeaderIsNotLatestRevisionMessage": "이 경보 구성의 {{alertRevision}} 개정을 보고 계십니다. 변경하려는 경우 <latestRevisionButton>최신 개정<latestRevisionButton>을 선택하십시오.",
+    "alertHeaderIsNotLatestRevisionMessage": "이 경보 구성의 {{description}} 개정을 보고 계십니다. 변경하려는 경우 <latestRevisionButton>최신 버전 선택</latestRevisionButton> 또는 <restoreRevisionButton>현재 버전에서 복원</restoreRevisionButton>을 클릭하십시오.",
+    "alertHeaderAriaLabelSeverity": "이벤트의 심각도가 {{severity}}임",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "경보 작성됨({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "제목",
     "alertPropertyInfosLabelAlertLevel": "경보 레벨",
@@ -28,11 +29,12 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "추가 필터",
     "revisionDropdownButton": {
       "revision": "{{alertRevision}} 개정",
-      "paused": "일시정지됨",
-      "resumed": "재개됨",
-      "deleted": "삭제됨",
-      "update": "업데이트",
-      "created": "작성됨"
+      "pause": "일시정지",
+      "resume": "재개",
+      "delete": "삭제",
+      "create": "작성",
+      "restore": "복원",
+      "buttonLabel": "경보 히스토리"
     },
     "chart": {
       "alertingChartLabelThreshold": "임계값",
@@ -456,7 +458,9 @@
       },
       "details": {
         "title": "경보 세부사항",
-        "titleAlertProperties": "경보 특성"
+        "titleAlertProperties": "경보 특성",
+        "applicationsServiceEndpointScopeTitle": "선택된 애플리케이션/서비스/엔드포인트",
+        "callsScopeTitle": "포함된 호출"
       },
       "apCreation": {
         "addToAllBuiltInAlerts": "모든({{numAlerts}}) 기본 제공 글로벌 스마트 경보에 추가",
@@ -493,6 +497,8 @@
         "sharedListTooltip": "선택한 {{typeName}}을(를) 더 이상 사용할 수 없음",
         "clearTagFilterExpressionButton": "지우기",
         "baselineErrorMessageInsufficientDataToCompute": "선택한 기준선을 컴퓨팅하기에 데이터가 충분하지 않습니다. 대신 <em>정적 임계값</em>을 선택하십시오.",
+        "pleaseContactSupportToRiseLimit": "이 한계 증가를 요청하려면 <supportLink>{{instanaSupportPortal}}</supportLink>에 문의하십시오.",
+        "instanaSupportPortal": "Instana 지원 포털",
         "baselineErrorMessageReason": "이유:",
         "blueprintDescriptionButtonSelect": "선택",
         "selectAlertChannelButtonTitle": "경보 채널 선택",
@@ -575,6 +581,7 @@
         "thresholdTypeOptionHistoricBaselineWeekly": "기준선(주별 계절성)",
         "thresholdTypeOptionAdaptiveBaseline": "적응형 기준선",
         "useSuggestedvalue": "제안된 값 사용",
+        "loadingThresholdSuggestion": "임계값 제안 로드",
         "alertConfigDialogPresenterTitleEditAlert_Local": "스마트 경보 편집",
         "alertConfigDialogPresenterTitleEditAlert_Global": "글로벌 스마트 경보 편집",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "새 스마트 경보 작성",
@@ -587,6 +594,26 @@
         "PreviewForService": "서비스에 대한 미리보기:",
         "PreviewSelectLoadingEndpoints": "엔드포인트 목록 로드",
         "thresholdValue": "임계값"
+      },
+      "userInfo": {
+        "success": {
+          "create": {
+            "alert": {
+              "title_Local": "스마트 경보가 작성됨",
+              "message_Local": "스마트 경보 <strong>{{name}}</strong>이(가) 작성되었습니다.",
+              "title_Global": "글로벌 스마트 경보가 작성됨",
+              "message_Global": "글로벌 스마트 경보 <strong>{{name}}</strong>이(가) 작성되었습니다."
+            }
+          },
+          "edit": {
+            "alert": {
+              "title_Local": "스마트 경보가 변경됨",
+              "message_Local": "스마트 경보 <strong>{{name}}</strong>이(가) 변경되었습니다.",
+              "title_Global": "글로벌 스마트 경보가 변경됨",
+              "message_Global": "글로벌 스마트 경보 <strong>{{name}}</strong>이(가) 변경되었습니다."
+            }
+          }
+        }
       },
       "alertsHub": {
         "title": "경보 허브",

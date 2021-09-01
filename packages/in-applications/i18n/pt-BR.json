@@ -402,7 +402,6 @@
       "builtInSmartAlertsScope": "5. Escopo integrado de Alertas inteligentes",
       "builtInSmartAlertsScopeDescription": "Escolha quais Alertas inteligentes globais integrados devem incluir isso/parte disso em seu escopo",
       "clear": "Limpar",
-      "create": "Criar",
       "database": "BANCO DE DADOS",
       "messaging": "SISTEMA DE MENSAGENS"
     },

@@ -7,10 +7,13 @@
   "logsOverTime_WARN": "Logs de aviso ao longo do tempo",
   "logsOverTime_INFO": "Logs de informações ao longo do tempo",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
-  "selectTags": "Selecionar tags",
-  "goToTrace": "Acessar o rastreio",
   "addAsFilter": "Incluir como filtro",
   "addAsGroup": "Incluir como grupo",
   "numberOfLogs": "Número de logs",
-  "numberOfLogsPercentage": "Porcentagem"
+  "numberOfLogsPercentage": "Porcentagem",
+  "applications": "Aplicativos",
+  "endpoint": "Terminal",
+  "endpointType": "Tipo de terminal",
+  "messageParam": "Parâmetro da mensagem",
+  "applicationCounter": "{{count}} aplicativos"
 }

@@ -188,7 +188,7 @@
     "buttonNext": "下一步"
   },
   "chartingConfigurator": {
-    "buttonAddChart": "添加图表",
+    "buttonAddChart": "选择图表",
     "labelChangeSelectedMetric": "更改所选指标",
     "labelChangeSelectedAggregation": "更改所选汇总",
     "labelChangeSelectedRenderer": "更改所选渲染器",

@@ -402,7 +402,6 @@
       "builtInSmartAlertsScope": "5. 기본 제공 스마트 경보 범위",
       "builtInSmartAlertsScopeDescription": "해당 범위에 해당 항목/해당 항목의 일부를 포함해야 하는 기본 제공 글로벌 스마트 경보 선택",
       "clear": "지우기",
-      "create": "작성",
       "database": "데이터베이스",
       "messaging": "메시징"
     },

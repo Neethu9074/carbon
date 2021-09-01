@@ -119,7 +119,7 @@
       "podContainerNotReady": "Contêineres de pod não estão prontos"
     },
     "fixSuggestion": {
-      "podContainerNotReady": "O contêiner de pods não está pronto. Verifique se o nó tem capacidade e/ou se a imagem pode ser recuperada por meio do caminho de imagem especificado."
+      "podContainerNotReady": "O contêiner do pod não está pronto. Verifique se o nó tem capacidade e/ou se a imagem pode ser recuperada por meio do caminho de imagem especificado."
     }
   }
 }

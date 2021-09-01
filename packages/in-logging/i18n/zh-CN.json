@@ -7,10 +7,13 @@
   "logsOverTime_WARN": "一段时间内的警告日志数",
   "logsOverTime_INFO": "一段时间内的参考日志数",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "查询配置无效。请在继续之前处理验证失败。",
-  "selectTags": "选择标记",
-  "goToTrace": "转至跟踪",
   "addAsFilter": "添加为过滤器",
   "addAsGroup": "添加为组",
   "numberOfLogs": "日志数",
-  "numberOfLogsPercentage": "百分比"
+  "numberOfLogsPercentage": "百分比",
+  "applications": "应用程序",
+  "endpoint": "端点",
+  "endpointType": "端点类型",
+  "messageParam": "消息参数",
+  "applicationCounter": "{{count}} 个应用程序"
 }

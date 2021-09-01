@@ -188,7 +188,7 @@
     "buttonNext": "다음"
   },
   "chartingConfigurator": {
-    "buttonAddChart": "차트 추가",
+    "buttonAddChart": "차트 선택",
     "labelChangeSelectedMetric": "선택한 메트릭 변경",
     "labelChangeSelectedAggregation": "선택한 집계 변경",
     "labelChangeSelectedRenderer": "선택한 렌더러 변경",

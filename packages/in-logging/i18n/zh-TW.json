@@ -7,10 +7,13 @@
   "logsOverTime_WARN": "一段時間的警告日誌",
   "logsOverTime_INFO": "一段時間的資訊日誌",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
-  "selectTags": "選取標籤",
-  "goToTrace": "移至追蹤",
   "addAsFilter": "新增為過濾器",
   "addAsGroup": "新增為群組",
   "numberOfLogs": "日誌數",
-  "numberOfLogsPercentage": "百分比"
+  "numberOfLogsPercentage": "百分比",
+  "applications": "應用程式",
+  "endpoint": "端點",
+  "endpointType": "端點類型",
+  "messageParam": "訊息參數",
+  "applicationCounter": "{{count}} 個應用程式"
 }

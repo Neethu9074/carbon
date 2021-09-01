@@ -6,7 +6,7 @@
     "alertHeaderRestoreErrorMessage": "無法還原 ID 為 {{alertConfigID}} 版本為 {{alertConfigCreated}} 的警示配置修訂：{{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "回到警示清單",
     "alertHeaderAlert": "警示",
-    "alertHeaderRestoreRevisionTooltip": "還原修訂 {{alertRevision}}",
+    "alertHeaderRestoreRevisionTooltip": "還原 {{description}}",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "請確認",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "您確定要還原<strong>「修訂 {{alertRevision}}」</strong>嗎？",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "還原",
@@ -18,7 +18,8 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "請確認",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "您確定要移除<strong>「警示 {{alertConfigName}}」</strong>嗎？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
-    "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警示配置的修訂 {{alertRevision}}。如果您想進行變更，請選取<latestRevisionButton>最新修訂<latestRevisionButton>。",
+    "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警示配置的修訂 {{description}}。如需您想進行變更，請<latestRevisionButton>選取最新修訂</latestRevisionButton>或<restoreRevisionButton>從現行修訂還原</restoreRevisionButton>。",
+    "alertHeaderAriaLabelSeverity": "事件具有嚴重性 {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "已建立的警示 ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "標題",
     "alertPropertyInfosLabelAlertLevel": "警示層次",
@@ -28,11 +29,12 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他過濾器",
     "revisionDropdownButton": {
       "revision": "修訂 {{alertRevision}}",
-      "paused": "已暫停",
-      "resumed": "已回復",
-      "deleted": "已刪除",
-      "update": "更新",
-      "created": "已建立"
+      "pause": "暫停",
+      "resume": "回復",
+      "delete": "刪除",
+      "create": "建立",
+      "restore": "還原",
+      "buttonLabel": "警示歷程"
     },
     "chart": {
       "alertingChartLabelThreshold": "臨界值",
@@ -456,7 +458,9 @@
       },
       "details": {
         "title": "警示詳細資料",
-        "titleAlertProperties": "警示內容"
+        "titleAlertProperties": "警示內容",
+        "applicationsServiceEndpointScopeTitle": "選取的應用程式/服務/端點",
+        "callsScopeTitle": "包含的呼叫"
       },
       "apCreation": {
         "addToAllBuiltInAlerts": "新增至所有 ({{numAlerts}}) 內建廣域智慧型警示",
@@ -493,6 +497,8 @@
         "sharedListTooltip": "選取的 {{typeName}} 再也無法使用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageInsufficientDataToCompute": "資料不足而無法計算選取的基準線。請改為選取<em>靜態臨界值</em>。",
+        "pleaseContactSupportToRiseLimit": "請透過 <supportLink>{{instanaSupportPortal}}</supportLink>聯絡我們以要求增加此限制。",
+        "instanaSupportPortal": "Instana 支援入口網站",
         "baselineErrorMessageReason": "原因：",
         "blueprintDescriptionButtonSelect": "選取",
         "selectAlertChannelButtonTitle": "選取警示通道",
@@ -575,6 +581,7 @@
         "thresholdTypeOptionHistoricBaselineWeekly": "基準線（每週季節性）",
         "thresholdTypeOptionAdaptiveBaseline": "調適性基準線",
         "useSuggestedvalue": "使用建議值",
+        "loadingThresholdSuggestion": "正在載入臨界值建議",
         "alertConfigDialogPresenterTitleEditAlert_Local": "編輯智慧型警示",
         "alertConfigDialogPresenterTitleEditAlert_Global": "編輯廣域智慧型警示",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "建立新的智慧型警示",
@@ -587,6 +594,26 @@
         "PreviewForService": "服務的預覽：",
         "PreviewSelectLoadingEndpoints": "載入端點清單",
         "thresholdValue": "臨界值"
+      },
+      "userInfo": {
+        "success": {
+          "create": {
+            "alert": {
+              "title_Local": "已順利建立智慧型警示",
+              "message_Local": "已建立智慧型警示 <strong>{{name}}</strong>。",
+              "title_Global": "已順利建立廣域智慧型警示",
+              "message_Global": "已建立廣域智慧型警示 <strong>{{name}}</strong>。"
+            }
+          },
+          "edit": {
+            "alert": {
+              "title_Local": "已順利變更智慧型警示",
+              "message_Local": "已變更智慧型警示 <strong>{{name}}</strong>。",
+              "title_Global": "已順利變更廣域智慧型警示",
+              "message_Global": "已變更廣域智慧型警示 <strong>{{name}}</strong>。"
+            }
+          }
+        }
       },
       "alertsHub": {
         "title": "警示中心",

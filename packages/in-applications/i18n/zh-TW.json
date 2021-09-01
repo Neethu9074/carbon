@@ -402,7 +402,6 @@
       "builtInSmartAlertsScope": "5. 內建智慧型警示範圍",
       "builtInSmartAlertsScopeDescription": "選擇哪一個「內建廣域智慧型警示」應該將此項目或其部分併入到其範圍中",
       "clear": "清除",
-      "create": "建立",
       "database": "資料庫",
       "messaging": "傳訊"
     },

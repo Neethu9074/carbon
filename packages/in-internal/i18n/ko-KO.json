@@ -429,7 +429,8 @@
           "duration": "로그 cold-tier 기간(99번째)",
           "skips": {
             "mutations": "로그 cold-tier 건너뛰기(변형)",
-            "merges": "로그 cold-tier 건너뛰기(병합)"
+            "merges": "로그 cold-tier 건너뛰기(병합)",
+            "moves": "로그 cold-tier 건너뛰기(이동)"
           }
         }
       }

@@ -188,7 +188,7 @@
     "buttonNext": "下一步"
   },
   "chartingConfigurator": {
-    "buttonAddChart": "新增圖表",
+    "buttonAddChart": "選取圖表",
     "labelChangeSelectedMetric": "變更選取的度量",
     "labelChangeSelectedAggregation": "變更選取的聚集",
     "labelChangeSelectedRenderer": "變更選取的呈現器",

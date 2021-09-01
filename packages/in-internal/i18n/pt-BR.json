@@ -429,7 +429,8 @@
           "duration": "Duração da camada fria do log (99ª)",
           "skips": {
             "mutations": "Saltos da camada fria do log (mutações)",
-            "merges": "Saltos da camada fria do log (mesclagens)"
+            "merges": "Saltos da camada fria do log (mesclagens)",
+            "moves": "Saltos da camada fria do log (movimentações)"
           }
         }
       }

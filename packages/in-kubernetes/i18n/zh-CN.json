@@ -116,7 +116,7 @@
     "annotationsWithNumber": "注释数 ({{num}})",
     "spec": "规范",
     "viewEntity": "查看{{entityName}}",
-    "missingPermissionMessage": "Instana 代理程序缺少 {{target}} 的许可权。请更新至 Instana Agent YAML、Helm Chart 或 Operator 的最新版本，以确保其具有正确的许可权。参阅我们的 <linkK8s>Kubernetes</linkK8s> 或<linkOpenShift>OpenShift</linkOpenShift> 文档以获取更多信息。",
+    "missingPermissionMessage": "Instana 代理程序缺少 {{target}} 的许可权。请更新至 Instana Agent YAML、Helm Chart 或 Operator 的最新版本，以确保其具有正确的许可权。查看我们的 <linkK8s>Kubernetes</linkK8s> 或<linkOpenShift>OpenShift</linkOpenShift> 文档以获取更多信息。",
     "ports": "端口",
     "port": "端口",
     "protocol": "协议",

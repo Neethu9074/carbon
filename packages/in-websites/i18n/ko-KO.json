@@ -288,7 +288,7 @@
         "indexLabelDetails": "세부사항",
         "labelAnalytics": "분석",
         "titlePageLoad": "페이지 로드",
-        "pageLoadOnResource": "{{resource}}의 {{page}} ",
+        "pageLoadOnResource": "{{resource}}의 {{page}}",
         "buttonDownload": "다운로드",
         "renderTimeSelectionTooltip": "페이지 로드 세부사항 닫기",
         "referencedPageLoads": "참조된 페이지 로드"

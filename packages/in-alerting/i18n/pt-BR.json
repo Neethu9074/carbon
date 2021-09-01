@@ -6,7 +6,7 @@
     "alertHeaderRestoreErrorMessage": "Falha ao restaurar a revisão de configuração de alerta com o ID {{alertConfigID}} e a versão {{alertConfigCreated}}: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Voltar à lista de alertas",
     "alertHeaderAlert": "Alerta",
-    "alertHeaderRestoreRevisionTooltip": "Restaurar Revisão {{alertRevision}}",
+    "alertHeaderRestoreRevisionTooltip": "Restaurar {{description}}",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Confirme",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "Tem certeza de que deseja restaurar <strong>\"Revisão {{alertRevision}}\"</strong>?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restaurar",
@@ -18,7 +18,8 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confirme",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Tem certeza de que deseja remover o <strong>\"alerta {{alertConfigName}}\"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remover",
-    "alertHeaderIsNotLatestRevisionMessage": "Você está consultando a revisão {{alertRevision}} desta configuração de alerta. Selecione a <latestRevisionButton>revisão mais recente<latestRevisionButton> se quiser fazer mudanças.",
+    "alertHeaderIsNotLatestRevisionMessage": "Você está consultando a revisão {{description}} desta configuração de alerta. <latestRevisionButton>Selecione a revisão mais recente</latestRevisionButton> ou <restoreRevisionButton>restaure da revisão atual</restoreRevisionButton> se quiser fazer mudanças.",
+    "alertHeaderAriaLabelSeverity": "O evento tem a severidade {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertas Criados ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "Título",
     "alertPropertyInfosLabelAlertLevel": "Nível de alerta",
@@ -28,11 +29,12 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtros Adicionais",
     "revisionDropdownButton": {
       "revision": "Revisão {{alertRevision}}",
-      "paused": "Pausada",
-      "resumed": "Continuado",
-      "deleted": "Excluído",
-      "update": "Atualizar",
-      "created": "Criado"
+      "pause": "Pausar",
+      "resume": "Continuar",
+      "delete": "Excluir",
+      "create": "Criar",
+      "restore": "Restaurar",
+      "buttonLabel": "Histórico de alerta"
     },
     "chart": {
       "alertingChartLabelThreshold": "Limite",
@@ -456,7 +458,9 @@
       },
       "details": {
         "title": "Detalhes do alerta",
-        "titleAlertProperties": "Propriedades de alerta"
+        "titleAlertProperties": "Propriedades de alerta",
+        "applicationsServiceEndpointScopeTitle": "Aplicativos/Serviços/Terminais selecionados",
+        "callsScopeTitle": "Chamadas incluídas"
       },
       "apCreation": {
         "addToAllBuiltInAlerts": "Incluir em todos ({{numAlerts}}) Alertas globais inteligentes integrados",
@@ -493,6 +497,8 @@
         "sharedListTooltip": "O {{typeName}} selecionado não está mais disponível",
         "clearTagFilterExpressionButton": "Limpar",
         "baselineErrorMessageInsufficientDataToCompute": "Dados insuficientes para computar a linha de base selecionada. Selecione <em>Limite estático</em> como alternativa.",
+        "pleaseContactSupportToRiseLimit": "Entre em contato conosco por meio de nosso <supportLink>{{instanaSupportPortal}}</supportLink> para solicitar um aumento desse limite.",
+        "instanaSupportPortal": "Portal de suporte da Instana",
         "baselineErrorMessageReason": "Razão:",
         "blueprintDescriptionButtonSelect": "Selecionar",
         "selectAlertChannelButtonTitle": "Selecionar canais de alerta",
@@ -575,6 +581,7 @@
         "thresholdTypeOptionHistoricBaselineWeekly": "Linha de base (sazonalidade semanal)",
         "thresholdTypeOptionAdaptiveBaseline": "Linha de base adaptativa",
         "useSuggestedvalue": "Usar valor sugerido",
+        "loadingThresholdSuggestion": "Sugestão de limite de carregamento",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Editar alerta inteligente",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Editar alerta inteligente global",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Criar novo alerta inteligente",
@@ -587,6 +594,26 @@
         "PreviewForService": "Visualização para serviço:",
         "PreviewSelectLoadingEndpoints": "Carregando a lista de terminais",
         "thresholdValue": "Valor do limite"
+      },
+      "userInfo": {
+        "success": {
+          "create": {
+            "alert": {
+              "title_Local": "Alerta inteligente criado com sucesso",
+              "message_Local": "O alerta inteligente <strong>{{name}}</strong> foi criado com sucesso.",
+              "title_Global": "Alerta inteligente global criado com sucesso",
+              "message_Global": "O alerta inteligente global <strong>{{name}}</strong> foi criado."
+            }
+          },
+          "edit": {
+            "alert": {
+              "title_Local": "Alerta inteligente mudado com sucesso",
+              "message_Local": "O alerta inteligente <strong>{{name}}</strong> mudou.",
+              "title_Global": "Alerta inteligente global mudado com sucesso",
+              "message_Global": "O alerta inteligente global <strong>{{name}}</strong> mudou."
+            }
+          }
+        }
       },
       "alertsHub": {
         "title": "Hub de alertas",

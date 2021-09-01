@@ -33,7 +33,7 @@
     "termsPage3": {
       "heading": "Cookies",
       "introduction": "使用我们的产品时，Instana 会使用 cookie 和其他跟踪技术（“Cookie”）。除了产品正常运行所必需的 Cookie 之外，根据您的喜好，Instana 及其授权合作伙伴还可以使用 Cookie 来分析和优化产品功能。",
-      "moreInformation": "有关更多信息，请访问 <privacyButton /> 或 <cookiePolicyButton />。"
+      "moreInformation": "有关更多信息，请访问<privacyButton /> 或<cookiePolicyButton />."
     },
     "termsPage4": {
       "heading": "您的个人档案",
@@ -411,7 +411,6 @@
     "repeatPassword": "重复密码",
     "savingNewPassword": "正在保存新密码",
     "savingNewName": "正在保存新名称",
-    "passwordChanged": "密码已更改。",
     "nameChanged": "名称已更改。",
     "reset": "重置",
     "configureSessionSettings": "配置会话设置",

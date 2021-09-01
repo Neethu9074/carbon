@@ -6,7 +6,7 @@
     "alertHeaderRestoreErrorMessage": "无法复原标识为 {{alertConfigID}} 版本为 {{alertConfigCreated}} 的警报配置修订版：{{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "返回到警报列表",
     "alertHeaderAlert": "警报",
-    "alertHeaderRestoreRevisionTooltip": "复原修订版 {{alertRevision}}",
+    "alertHeaderRestoreRevisionTooltip": "复原 {{description}}",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "请确认",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "是否确定要复原<strong>“修订版 {{alertRevision}}”</strong>？",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "复原",
@@ -18,7 +18,8 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "请确认",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "是否确定要移除<strong>“警报 {{alertConfigName}}”</strong>？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
-    "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警报配置的修订版 {{alertRevision}}。如果要进行更改，请选择<latestRevisionButton>最新修订版<latestRevisionButton>。",
+    "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警报配置的修订版 {{description}}。如果要进行更改，请<latestRevisionButton>选择最新修订版</latestRevisionButton>或<restoreRevisionButton>从当前修订版复原</restoreRevisionButton>。",
+    "alertHeaderAriaLabelSeverity": "事件的严重性为 {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "已创建警报（{{totalRepresentedItemCount}} 个）",
     "alertPropertyInfosLabelTitle": "标题",
     "alertPropertyInfosLabelAlertLevel": "警报级别",
@@ -28,11 +29,12 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "其他过滤器",
     "revisionDropdownButton": {
       "revision": "修订版 {{alertRevision}}",
-      "paused": "已暂停",
-      "resumed": "已恢复",
-      "deleted": "已删除",
-      "update": "更新",
-      "created": "已创建"
+      "pause": "暂停",
+      "resume": "恢复",
+      "delete": "删除",
+      "create": "创建",
+      "restore": "复原",
+      "buttonLabel": "警报历史记录"
     },
     "chart": {
       "alertingChartLabelThreshold": "阈值",
@@ -456,7 +458,9 @@
       },
       "details": {
         "title": "警报详细信息",
-        "titleAlertProperties": "警报属性"
+        "titleAlertProperties": "警报属性",
+        "applicationsServiceEndpointScopeTitle": "所选应用程序/服务/端点",
+        "callsScopeTitle": "包含的调用"
       },
       "apCreation": {
         "addToAllBuiltInAlerts": "添加到所有（{{numAlerts}} 个）内置全局智能警报",
@@ -493,6 +497,8 @@
         "sharedListTooltip": "选定的 {{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageInsufficientDataToCompute": "数据不足，无法计算所选基线。请改为选择<em>静态阈值</em>。",
+        "pleaseContactSupportToRiseLimit": "请通过我们的 <supportLink>{{instanaSupportPortal}}</supportLink>联系我们，以请求增大此限制。",
+        "instanaSupportPortal": "Instana 支持门户网站",
         "baselineErrorMessageReason": "原因：",
         "blueprintDescriptionButtonSelect": "选择",
         "selectAlertChannelButtonTitle": "选择警报通道",
@@ -575,6 +581,7 @@
         "thresholdTypeOptionHistoricBaselineWeekly": "基线（每周季节性）",
         "thresholdTypeOptionAdaptiveBaseline": "自适应基线",
         "useSuggestedvalue": "使用建议值",
+        "loadingThresholdSuggestion": "正在加载阈值建议",
         "alertConfigDialogPresenterTitleEditAlert_Local": "编辑智能警报",
         "alertConfigDialogPresenterTitleEditAlert_Global": "编辑全局智能警报",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "新建智能警报",
@@ -587,6 +594,26 @@
         "PreviewForService": "服务预览：",
         "PreviewSelectLoadingEndpoints": "正在加载端点列表",
         "thresholdValue": "阈值"
+      },
+      "userInfo": {
+        "success": {
+          "create": {
+            "alert": {
+              "title_Local": "已成功创建智能警报",
+              "message_Local": "智能警报 <strong>{{name}}</strong> 已创建。",
+              "title_Global": "已成功创建全局智能警报",
+              "message_Global": "全局智能警报 <strong>{{name}}</strong> 已创建。"
+            }
+          },
+          "edit": {
+            "alert": {
+              "title_Local": "已成功更改智能警报",
+              "message_Local": "智能警报 <strong>{{name}}</strong> 已更改。",
+              "title_Global": "已成功更改全局智能警报",
+              "message_Global": "全局智能警报 <strong>{{name}}</strong> 已更改。"
+            }
+          }
+        }
       },
       "alertsHub": {
         "title": "警报中心",

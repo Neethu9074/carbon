@@ -402,7 +402,6 @@
       "builtInSmartAlertsScope": "5. 内置智能警报范围",
       "builtInSmartAlertsScopeDescription": "选择哪个内置全局智能警报应在其范围中包含此项/此项的一部分",
       "clear": "清除",
-      "create": "创建",
       "database": "DATABASE",
       "messaging": "MESSAGING"
     },
