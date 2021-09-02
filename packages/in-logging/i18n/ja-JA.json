@@ -7,10 +7,13 @@
   "logsOverTime_WARN": "時系列に沿った警告ログ",
   "logsOverTime_INFO": "時系列に沿った情報ログ",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
-  "selectTags": "タグの選択",
-  "goToTrace": "トレースに移動",
   "addAsFilter": "フィルターとして追加",
   "addAsGroup": "グループとして追加",
   "numberOfLogs": "ログの数",
-  "numberOfLogsPercentage": "パーセンテージ"
+  "numberOfLogsPercentage": "パーセンテージ",
+  "applications": "アプリケーション",
+  "endpoint": "エンドポイント",
+  "endpointType": "エンドポイント・タイプ",
+  "messageParam": "メッセージ・パラメーター",
+  "applicationCounter": "{{count}} 個のアプリケーション"
 }

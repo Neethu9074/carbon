@@ -3,12 +3,12 @@
     "alertHeaderToggleDisableErrorMessage": "ID {{alertConfigID}} のアラート構成を無効化できませんでした: {{errorMessage}}",
     "alertHeaderToggleEnableErrorMessage": "ID {{alertConfigID}} のアラート構成を有効化できませんでした: {{errorMessage}}",
     "alertHeaderDeleteErrorMessage": "ID {{alertConfigID}} のアラート構成を削除できませんでした: {{errorMessage}}",
-    "alertHeaderRestoreErrorMessage": "ID {{alertConfigID}} およびバージョン {{alertConfigCreated}} のアラート構成の改訂を復元できませんでした: {{errorMessage}}",
+    "alertHeaderRestoreErrorMessage": "ID {{alertConfigID}} およびバージョン {{alertConfigCreated}} のアラート構成のリビジョンを復元できませんでした: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "アラート・リストに戻る",
     "alertHeaderAlert": "アラート",
-    "alertHeaderRestoreRevisionTooltip": "改訂 {{alertRevision}} を復元する",
+    "alertHeaderRestoreRevisionTooltip": "{{description}} の復元",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "ご確認ください",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "<strong>「改訂 {{alertRevision}}」</strong>を復元しますか?",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "<strong>「リビジョン {{alertRevision}}」</strong>を復元しますか?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "復元",
     "alertHeaderDisableTooltip": " 無効化",
     "alertHeaderEnableTooltip": " 有効化",
@@ -18,7 +18,8 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "ご確認ください",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>「アラート {{alertConfigName}}」</strong>を削除しますか?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "削除",
-    "alertHeaderIsNotLatestRevisionMessage": "このアラート構成の改訂 {{alertRevision}} を表示しています。 変更する場合は、<latestRevisionButton>「最新の改訂」<latestRevisionButton>を選択してください。",
+    "alertHeaderIsNotLatestRevisionMessage": "このアラート構成のリビジョン {{description}} を表示しています。 変更する場合は、<latestRevisionButton>最新の改定を選択</latestRevisionButton>するか、または<restoreRevisionButton>現在のリビジョンから復元</restoreRevisionButton>してください。",
+    "alertHeaderAriaLabelSeverity": "イベントの重大度は {{severity}} です",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "作成済みのアラート ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "タイトル",
     "alertPropertyInfosLabelAlertLevel": "アラート・レベル",
@@ -27,12 +28,13 @@
     "noChannelSelectedText": "現在、アラート・チャネルが選択されていないため、アラートは受信されません。",
     "scopeConfigPresenterHelpTextAdditionalFilters": "追加フィルター",
     "revisionDropdownButton": {
-      "revision": "改訂 {{alertRevision}}",
-      "paused": "一時停止",
-      "resumed": "再開済み",
-      "deleted": "削除済み",
-      "update": "更新",
-      "created": "作成済み"
+      "revision": "リビジョン {{alertRevision}}",
+      "pause": "一時停止",
+      "resume": "再開",
+      "delete": "削除",
+      "create": "作成",
+      "restore": "復元",
+      "buttonLabel": "アラート履歴"
     },
     "chart": {
       "alertingChartLabelThreshold": "しきい値",
@@ -202,7 +204,7 @@
       },
       "chart": {
         "entitySelection": {
-          "tooManyResults": "検索で一致する結果が多すぎて、表示できません。より具体的な検索語を使用して結果を絞り込んでください。",
+          "tooManyResults": "検索で一致する結果が多すぎて、表示できません。 より具体的な検索語を使用して結果を絞り込んでください。",
           "applications": "アプリケーション:",
           "services": "サービス:"
         },
@@ -456,7 +458,9 @@
       },
       "details": {
         "title": "アラート詳細",
-        "titleAlertProperties": "アラートのプロパティー"
+        "titleAlertProperties": "アラートのプロパティー",
+        "applicationsServiceEndpointScopeTitle": "選択されたアプリケーション / サービス/ エンドポイント",
+        "callsScopeTitle": "組み込み呼び出し"
       },
       "apCreation": {
         "addToAllBuiltInAlerts": "({{numAlerts}}) 個の組み込みグローバル・スマート・アラートすべてに追加します",
@@ -493,6 +497,8 @@
         "sharedListTooltip": "選択された {{typeName}} は使用できなくなりました",
         "clearTagFilterExpressionButton": "クリア",
         "baselineErrorMessageInsufficientDataToCompute": "選択したベースラインを計算するにはデータが不十分です。 代わりに<em>静的しきい値</em> を選択してください。",
+        "pleaseContactSupportToRiseLimit": "この上限を増やすには <supportLink>{{instanaSupportPortal}}</supportLink> からお問い合わせください。",
+        "instanaSupportPortal": "Instana サポート・ポータル",
         "baselineErrorMessageReason": "理由:",
         "blueprintDescriptionButtonSelect": "選択",
         "selectAlertChannelButtonTitle": "アラート・チャネルの選択",
@@ -575,6 +581,7 @@
         "thresholdTypeOptionHistoricBaselineWeekly": "ベースライン (毎週の季節性)",
         "thresholdTypeOptionAdaptiveBaseline": "適応ベースライン",
         "useSuggestedvalue": "推奨値を使用",
+        "loadingThresholdSuggestion": "しきい値の提案をロード中",
         "alertConfigDialogPresenterTitleEditAlert_Local": "スマート・アラートの編集",
         "alertConfigDialogPresenterTitleEditAlert_Global": "グローバル・スマート・アラートの編集",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "新規スマート・アラートの作成",
@@ -587,6 +594,26 @@
         "PreviewForService": "サービスのプレビュー:",
         "PreviewSelectLoadingEndpoints": "エンドポイント・リストをロード中",
         "thresholdValue": "しきい値"
+      },
+      "userInfo": {
+        "success": {
+          "create": {
+            "alert": {
+              "title_Local": "スマート・アラートが正常に作成されました",
+              "message_Local": "スマート・アラート <strong>{{name}}</strong> が作成されました。",
+              "title_Global": "グローバル・スマート・アラートが正常に作成されました",
+              "message_Global": "グローバル・スマート・アラート <strong>{{name}}</strong> が作成されました。"
+            }
+          },
+          "edit": {
+            "alert": {
+              "title_Local": "スマート・アラートが正常に変更されました",
+              "message_Local": "スマート・アラート <strong>{{name}}</strong> が変更されました。",
+              "title_Global": "グローバル・スマート・アラートが正常に変更されました",
+              "message_Global": "グローバル・スマート・アラート <strong>{{name}}</strong> が変更されました。"
+            }
+          }
+        }
       },
       "alertsHub": {
         "title": "アラート・ハブ",
@@ -833,7 +860,7 @@
     },
     "migration": {
       "migrateButton": "スマート・アラートにマイグレーション",
-      "migrateButtonTooltip": "スマート・アラート構成ダイアログを開きます。ここには、現行のイベントから可能な限り最良の範囲までマイグレーションされた値が事前に入力されています。結果を慎重に確認してください。"
+      "migrateButtonTooltip": "スマート・アラート構成ダイアログを開きます。ここには、現行のイベントから可能な限り最良の範囲までマイグレーションされた値が事前に入力されています。 結果を慎重に確認してください。"
     }
   }
 }

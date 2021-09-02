@@ -188,7 +188,7 @@
     "buttonNext": "次へ"
   },
   "chartingConfigurator": {
-    "buttonAddChart": "グラフの追加",
+    "buttonAddChart": "グラフの選択",
     "labelChangeSelectedMetric": "選択したメトリックの変更",
     "labelChangeSelectedAggregation": "選択した集約の変更",
     "labelChangeSelectedRenderer": "選択したレンダラーの変更",

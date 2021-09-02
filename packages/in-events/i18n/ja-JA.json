@@ -101,7 +101,7 @@
   "headerEnd": "終了",
   "headerOn": "発生場所",
   "headerTimeline": "タイムライン",
-  "hostOffLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたホストの最後のバージョンに移動します。これにより、時間枠の開始が、Instana によってホストがモニターされていた時点に変更されます",
+  "hostOffLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたホストの最後のバージョンに移動します。 これにより、時間枠の開始が、Instana によってホストがモニターされていた時点に変更されます",
   "offLineEventProblemChangeTime": "以下のリンクをクリックすると、Instana によってモニターされていたプロセスの最後のバージョンに移動します。 これにより、時間枠の開始が、Instana によってプロセスがモニターされていた時点に変更されます",
   "offLineEventProblemNoMatch": "カスタム・イベントに一致する、以前のエンティティーへの参照を検出できませんでした。",
   "tooltipAnalyzeCalls": "これに対する構成は、クエリー・ビルダー 2 の式を使用して保管されます。 <br /> このボタンは、クエリー・ビルダー 1 に保管されている構成でのみ使用できます。",

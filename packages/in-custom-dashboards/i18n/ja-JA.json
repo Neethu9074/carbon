@@ -344,7 +344,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - はじめに",
-        "text": "Instana は最初で唯一の完全自動化されたアプリケーション・パフォーマンス管理 (APM) ソリューションであり、\nマイクロサービスやクラウドネイティブのアプリケーションを管理するという課題のために特別に設計されています。\n\n始めるのは簡単です。\n\n1. まだ Instana にアクセスできない場合は、[Instana.com](https://www.instana.com) に進み、無料の試用版に登録します。\n2. 多数の [サポート対象テクノロジー] で構成されるエコシステムを探索します (https://www.instana.com/docs/ecosystem)。\n3.いずれかの [エージェント] を使用してデータの収集を開始します (https://www.instana.com/docs/setup_and_manage)。\n4.ユース・ケースでの [Instana の使用方法] を確認します (https://www.instana.com/docs/using_instana)。\n5. 独自の [コア機能] の説明を確認します (https://www.instana.com/docs/core_capabilities/)。\n6. [統合、SDK、および API] で Instana を拡張します (https://www.instana.com/docs/integrations)。\n\nこれで完了です。\n\nお探しのものが見つかりませんか?  [instana.com/docs] (https://www.instana.com/docs/) に進んでください。"
+        "text": "Instana は最初で唯一の完全自動化されたアプリケーション・パフォーマンス管理 (APM) ソリューションであり、\nマイクロサービスやクラウドネイティブのアプリケーションを管理するという課題のために特別に設計されています。\n\n始めるのは簡単です。\n\n1. まだ Instana にアクセスできない場合は、[Instana.com](https://www.instana.com) に進み、無料の試用版に登録します。\n2. 多数の [サポート対象テクノロジー] で構成されるエコシステムを探索します (https://www.instana.com/docs/ecosystem)。\n3. いずれかの [エージェント] を使用してデータの収集を開始します (https://www.instana.com/docs/setup_and_manage)。\n4. ユース・ケースでの [Instana の使用方法] を確認します (https://www.instana.com/docs/using_instana)。\n5. 独自の [コア機能] の説明を確認します (https://www.instana.com/docs/core_capabilities/)。\n6. [統合、SDK、および API] で Instana を拡張します (https://www.instana.com/docs/integrations)。\n\nこれで完了です。\n\nお探しのものが見つかりませんか? [instana.com/docs] (https://www.instana.com/docs/) に進んでください。"
       },
       "formComp": {
         "whatULikeShow": "表示する項目",

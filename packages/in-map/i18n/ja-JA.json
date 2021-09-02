@@ -1,4 +1,9 @@
 {
+  "metrics_CPU": "CPU",
+  "metrics_Load": "負荷",
+  "metrics_Usage": "使用状況",
+  "metrics_Memory": "メモリー",
+  "metrics_Used": "使用中",
   "notMonitoringTitle": "モニタリングしていません",
   "noDataTitle": "モニタリング・データが見つかりません",
   "notMonitoringText": "モニター対象のシステムに Instana エージェントをインストールしてください。 インストール手順については、[オンライン文書] [Docs] を参照してください。\n\nさらに支援が必要な場合は、[サポート・ポータル] [サポート] でお問い合わせください。\n\n[Docs]:https://instana.com/docs/setup_and_manage/\n[サポート]:https://support.instana.com",

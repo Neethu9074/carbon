@@ -64,15 +64,13 @@
     "allInfrastructure": "すべてのインフラストラクチャー",
     "name": "名前",
     "search": "検索",
-    "infrastructure": "インフラストラクチャー",
-    "infraExplore": "インフラ探索",
     "explore": "探索",
     "cpuUser": "CPU (ユーザー)",
     "memoryFree": "空きメモリー"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "現在の時間枠でのカウントと平均を表示します。",
-    "aggregatesForMetricsOver": "メトリックを集約 - 範囲: {{windowSize}}",
+    "aggregatesForMetricsOver": "メトリックを集約 - 範囲: {{windowSize}} ",
     "noData": "データがありません。",
     "pleaseSelectForWhichToVisualizeTheChosenMetrics": "選択したメトリックを視覚化する {{plugins}} を選択してください。",
     "pleaseSelectMetricsToVisualizeForTheSelected": "選択した {{plugins}} について視覚化するメトリックを選択してください。",
@@ -100,8 +98,6 @@
     "map": "マップ",
     "comparisonTable": "比較表",
     "entityExploreBeta": "エンティティー探索 (ベータ)",
-    "infrastructure": "インフラストラクチャー",
-    "infraComparisonTable": "インフラ比較表",
     "infrastructureComparisonTable": "インフラストラクチャー比較表"
   }
 }

@@ -402,7 +402,6 @@
       "builtInSmartAlertsScope": "5. 組み込みスマート・アラートのスコープ",
       "builtInSmartAlertsScopeDescription": "これ (この一部) をスコープに含む組み込みグローバル・スマート・アラートを選択します",
       "clear": "クリア",
-      "create": "作成",
       "database": "データベース",
       "messaging": "メッセージング"
     },
@@ -551,7 +550,7 @@
     "tabs": {
       "summary": {
         "duplicateCalls": "重複した呼び出し",
-        "duplicateCallsDesc": "このトレースは、1 つ以上の重複した呼び出し (スパン) で構成されます。固有の呼び出し: {{traceCallCountIgnoringBatchSize}} - レコード: {{traceCallRecordCount}}。 これにより、呼び出し数 (バッチを含む) とエラー件数が正しくない値になり、その他の異例事態も生じる可能性があります。",
+        "duplicateCallsDesc": "このトレースは、1 つ以上の重複した呼び出し (スパン) で構成されます。 固有の呼び出し: {{traceCallCountIgnoringBatchSize}} - レコード: {{traceCallRecordCount}}。 これにより、呼び出し数 (バッチを含む) とエラー件数が正しくない値になり、その他の異例事態も生じる可能性があります。",
         "batchedIngestion": "バッチ取り込み",
         "traceIngestionBatchCount": "このトレースは {{traceIngestionBatchesCount}} 件のバッチで処理されました。 これにより、スパンが単一の呼び出しにマージされない、サービス・マッピングが部分的になる、データ表示が不完全になるなどのその他の不規則性が生じる可能性があります。",
         "subCalls": "サブ呼び出し",
