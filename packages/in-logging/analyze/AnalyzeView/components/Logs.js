@@ -118,10 +118,7 @@ export default function Logs(props) {
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       tracker={tracker}
-<<<<<<< Updated upstream
-=======
       CustomHeaderActions={CustomHeaderActions}
->>>>>>> Stashed changes
       renderNestedContent={(_, item) => (
         <LogTagsTable
           item={item}
