@@ -4197,6 +4197,7 @@
         "labelOverallDiskSize": "Overall Disk Size",
         "titleReplicationFactor": "Replication Factor",
         "titleDiskSize": "Disk Size",
+        "titleKeyspacesCount": "Keyspaces {{keyspacesCount}}",
         "labelDiskSize": "Disk Size"
       },
       "cassandraCluster": "Cassandra Cluster",

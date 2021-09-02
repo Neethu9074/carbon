@@ -71,7 +71,7 @@ export default function KeyspacesTable({ snapshot, timeConfig }) {
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.cassandraCluster.dashboard.labelAvailableNodes', { keyspaceDetails: rows.length })}
+      cardTitle={t('in-forge:plugins.cassandraCluster.dashboard.titleKeyspacesCount', { keyspacesCount: rows.length })}
       cols={cols}
       rows={rows}
       getRowDetails={getRowDetails}
