@@ -3903,9 +3903,6 @@
       "labelAvAv": "平均アベイラビリティー",
       "labelAvMi": "最小アベイラビリティー",
       "labelAvMx": "最大アベイラビリティー",
-      "labelQuCa": "平均キュー容量",
-      "labelQuCo": "平均キュー数",
-      "labelQuMeCo": "平均キューメッセージ数",
       "dashboard": {
         "titleTransactions": "トランザクション数",
         "labelTransactions": "トランザクション合計数",
@@ -3918,10 +3915,7 @@
         "labelEgress": "Egress 合計 (バイト単位)",
         "titleServerLatency": "サーバー待ち時間",
         "titleE2ELatency": "E2E 待ち時間",
-        "titleAvailability": "アベイラビリティー",
-        "titleQueueCapacity": "キュー容量",
-        "titleQueueCount": "キュー数",
-        "titleQueueMessageCount": "キューメッセージ数"
+        "titleAvailability": "アベイラビリティー"
       },
       "traffic": "トラフィック",
       "latency": "待ち時間",

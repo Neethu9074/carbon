@@ -3851,9 +3851,6 @@
       "labelAvAv": "平均可用性",
       "labelAvMi": "最少可用性",
       "labelAvMx": "最多可用性",
-      "labelQuCa": "平均隊列容量",
-      "labelQuCo": "平均隊列數",
-      "labelQuMeCo": "平均隊列消息計數",
       "dashboard": {
         "titleTransactions": "交易",
         "labelTransactions": "交易總數",
@@ -3866,10 +3863,7 @@
         "labelEgress": "流出總計（以位元組為單位）",
         "titleServerLatency": "伺服器延遲時間",
         "titleE2ELatency": "E2E 延遲時間",
-        "titleAvailability": "可用性",
-        "titleQueueCapacity": "隊列容量",
-        "titleQueueCount": "隊列計數",
-        "titleQueueMessageCount": "隊列消息計數"
+        "titleAvailability": "可用性"
       },
       "traffic": "資料流量",
       "latency": "延遲時間",

@@ -3851,9 +3851,6 @@
       "labelAvAv": "Disponibilité moyenne",
       "labelAvMi": "Disponibilité minimum",
       "labelAvMx": "Disponibilité maximum",
-      "labelQuCa": "Capacité moyenne de la file d'attente",
-      "labelQuCo": "Nombre moyen de files d'attente",
-      "labelQuMeCo": "Nombre moyen de messages en file d'attente",
       "dashboard": {
         "titleTransactions": "Transactions",
         "labelTransactions": "Nombre total de transactions",
@@ -3866,10 +3863,7 @@
         "labelEgress": "Nombre total de sorties en octets",
         "titleServerLatency": "Latence du serveur",
         "titleE2ELatency": "Latence E2E",
-        "titleAvailability": "Disponibilité",
-        "titleQueueCapacity": "Capacité de la file d'attente",
-        "titleQueueCount": "Nombre de files d'attente",
-        "titleQueueMessageCount": "Nombre de messages en file d'attente"
+        "titleAvailability": "Disponibilité"
       },
       "traffic": "Trafic",
       "latency": "Latence",

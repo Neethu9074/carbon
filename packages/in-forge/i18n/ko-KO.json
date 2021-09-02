@@ -3851,9 +3851,6 @@
       "labelAvAv": "평균 가용성",
       "labelAvMi": "최소 가용성",
       "labelAvMx": "최대 가용성",
-      "labelQuCa": "평균 대기열 용량",
-      "labelQuCo": "평균 대기열 수",
-      "labelQuMeCo": "평균 대기열 메시지 수",
       "dashboard": {
         "titleTransactions": "트랜잭션",
         "labelTransactions": "총 트랜잭션 수",
@@ -3866,10 +3863,7 @@
         "labelEgress": "총 Egress(바이트)",
         "titleServerLatency": "서버 대기 시간",
         "titleE2ELatency": "E2E 대기 시간",
-        "titleAvailability": "가용성",
-        "titleQueueCapacity": "대기열 용량",
-        "titleQueueCount": "대기열 수",
-        "titleQueueMessageCount": "대기열 메시지 수"
+        "titleAvailability": "가용성"
       },
       "traffic": "트래픽",
       "latency": "대기 시간",

@@ -3851,9 +3851,6 @@
       "labelAvAv": "Disponibilità media",
       "labelAvMi": "Disponibilità minima",
       "labelAvMx": "Disponibilità massima",
-      "labelQuCa": "Capacità media della coda",
-      "labelQuCo": "Conteggio medio della coda",
-      "labelQuMeCo": "Conteggio medio dei messaggi in coda",
       "dashboard": {
         "titleTransactions": "Transazioni",
         "labelTransactions": "Numero totale di transazioni",
@@ -3866,10 +3863,7 @@
         "labelEgress": "Totale in uscita in byte",
         "titleServerLatency": "Latenza del server",
         "titleE2ELatency": "Latenza E2E",
-        "titleAvailability": "Disponibilità",
-        "titleQueueCapacity": "Capacità della coda",
-        "titleQueueCount": "Conteggio coda",
-        "titleQueueMessageCount": "Conteggio messaggi in coda"
+        "titleAvailability": "Disponibilità"
       },
       "traffic": "Traffico",
       "latency": "Latenza",
