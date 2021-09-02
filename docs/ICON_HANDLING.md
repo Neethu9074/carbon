@@ -44,6 +44,8 @@ yarn start
 
 Please open a pull request with the new icon and ping the UI community within `#tech-ui-dev` to get this change merged and released.
 
+Make sure the version in `ui-foundation/packages/components/package.json` is increased and same is used as `@instana/components` version in `ui-client/package.json`.
+
 # (Old) Infrastructure icons
 
 In the older parts of the product [*1], we have icons given in 128x128 pixels and without any paddings inside the icons. In other words, the icon fits perfectly with either side (or both if it's a square one) into the 128x128 view box of the SVG. An example looks like:
