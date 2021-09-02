@@ -5,6 +5,8 @@
 
 import React, { useMemo } from 'react';
 
+import { Button } from '@instana/components';
+
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
@@ -116,6 +118,7 @@ export default function Logs(props) {
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       tracker={tracker}
+      CustomHeaderActions={CustomHeaderActions}
       renderNestedContent={(_, item) => (
         <LogTagsTable
           item={item}
@@ -137,6 +140,23 @@ export default function Logs(props) {
 
 function DetailView() {
   return null;
+}
+
+function CustomHeaderActions({ orderBy, setOrder }) {
+  return (
+    <Button
+      icon={orderBy.direction === 'ASC' ? 'lib_actions_sort_ascending' : 'lib_actions_sort_descending'}
+      kind="secondary"
+      onClick={() =>
+        setOrder({
+          by: orderBy.by,
+          direction: orderBy.direction === 'ASC' ? 'DESC' : 'ASC'
+        })
+      }
+    >
+      {orderBy.direction === 'ASC' ? t('in-logging:sorting.mostRecent') : t('in-logging:sorting.oldest')}
+    </Button>
+  );
 }
 
 function getTableData(props) {
