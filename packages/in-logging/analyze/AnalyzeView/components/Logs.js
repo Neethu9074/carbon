@@ -154,7 +154,7 @@ function CustomHeaderActions({ orderBy, setOrder }) {
         })
       }
     >
-      {orderBy.direction === 'ASC' ? 'Most recent first' : 'Oldest first'}
+      {orderBy.direction === 'ASC' ? t('in-logging:sorting.mostRecent') : t('in-logging:sorting.oldest')}
     </Button>
   );
 }
