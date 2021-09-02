@@ -20,5 +20,9 @@
   "stream": "Stream",
   "tooltipCopyToClipboard": "Copy to clipboard",
   "tooltipAddAsGroup": "Group by tag",
-  "tooltipAddAsFilter": "Add tag as filter"
+  "tooltipAddAsFilter": "Add tag as filter",
+  "sorting": {
+    "mostRecent": "Most recent first",
+    "oldest": "Oldest first"
+  }
 }
