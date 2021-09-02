@@ -22,6 +22,7 @@
     "storybook": "cd storybook && unset npm_config_registry && yarn && cd .. && export STORYBOOK='true' && export BUILD_DEV='true' && export NODE_ENV='development' && gulp prepareTestExecution && export DEV_TOOLS='eval' && node --max-old-space-size=4096 ./storybook/node_modules/.bin/start-storybook -p 9001 -c storybook/config --no-version-updates",
     "storybookTest": "yarn run storybookBuild ; cd storybook ; export STORYBOOK='true' && yarn chromatic -d ../storybookTarget --list --exit-zero-on-changes",
     "storybookBuild": "cd storybook && unset npm_config_registry && yarn && cd .. && export STORYBOOK='true' && gulp prepareTestExecution && node --max-old-space-size=4096 ./storybook/node_modules/.bin/build-storybook -c storybook/config -o storybookTarget",
+    "generateMetricOverview": "GENERATE_METRIC_OVERVIEW=true yarn run test:unit",
     "reformat": "prettier --write \"packages/**/*.{js,ts,tsx,less,mless,css}\"",
     "postinstall": "./build/postInstall",
     "precommit": "yarn run check:yarn-lock-exists && lint-staged && yarn test:lint:typescript && git add README.md"
