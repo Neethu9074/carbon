@@ -65,7 +65,16 @@ function TimeSelection({ timeConfig, historicOrLargeDataResult, isHidden, darkTh
         withoutWrapper
         withoutArrow
       >
-        {TimePresenterWrapper}
+        {({ toggle, refSetter, isOpen }) => (
+          <TimePresenterWrapper
+            isOpen={isOpen}
+            toggle={toggle}
+            timeConfig={timeConfig}
+            historicOrLargeDataResult={historicOrLargeDataResult}
+            darkTheme={darkTheme}
+            refSetter={refSetter}
+          />
+        )}
       </Overlay>
     </ErrorBoundary>
   );

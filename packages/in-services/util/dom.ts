@@ -105,8 +105,10 @@ export function convertRemToPx(rem: number) {
   return rem * getDefaultFontSize();
 }
 
-export function getInteractiveElements(parent: HTMLElement) {
-  return Array.prototype.slice
-    .call(parent.querySelectorAll('a, button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'))
-    .filter(element => !element.hasAttribute('disabled') && element.clientWidth > 0);
+export function getInteractiveElements(parent: HTMLElement): HTMLElement[] {
+  const elements = Array.from(
+    parent.querySelectorAll<HTMLElement>('a, button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])')
+  );
+
+  return elements.filter(element => !element.hasAttribute('disabled') && element.clientWidth > 0);
 }

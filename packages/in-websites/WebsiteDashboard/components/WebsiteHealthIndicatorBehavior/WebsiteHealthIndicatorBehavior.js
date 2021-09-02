@@ -58,24 +58,20 @@ export default connectTo(
 
     return (
       <Overlay props={props} content={Content} withoutWrapper inContentArea={props.inContentArea}>
-        {Indicator}
+        {({ toggle, refSetter }) => (
+          <props.IndicatorPresenter
+            openIssues={t('in-websites:websiteDashboard.components.websiteHealthIndicatorBehaviorNumbersOfIssues', {
+              count: openIssues
+            })}
+            maxSeverity={maxSeverity}
+            onClick={toggle}
+            refSetter={refSetter}
+          />
+        )}
       </Overlay>
     );
   }
 );
-
-function Indicator({ openIssues, maxSeverity, IndicatorPresenter, refSetter, toggle }) {
-  return (
-    <IndicatorPresenter
-      openIssues={t('in-websites:websiteDashboard.components.websiteHealthIndicatorBehaviorNumbersOfIssues', {
-        count: openIssues
-      })}
-      maxSeverity={maxSeverity}
-      onClick={toggle}
-      refSetter={refSetter}
-    />
-  );
-}
 
 function Content(props) {
   return <WebsiteOpenIssuesList {...props} />;

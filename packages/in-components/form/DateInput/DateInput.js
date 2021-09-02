@@ -41,7 +41,16 @@ export default function DatePicker(props) {
   }
   return (
     <Overlay content={DatePickerOverlay} props={{ value, onChange, inputProps, iconType }} withoutWrapper>
-      {DatePickerInput}
+      {({ refSetter }) => (
+        <DatePickerInput
+          open={open}
+          onChange={onChange}
+          refSetter={refSetter}
+          inputProps={inputProps}
+          close={close}
+          iconType={iconType}
+        />
+      )}
     </Overlay>
   );
 }

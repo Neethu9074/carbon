@@ -3,7 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-export function compositeRef(...refs) {
+import { MutableRefObject, RefCallback } from 'react';
+
+type Nullish = null | undefined;
+export type Refs<T> = MutableRefObject<T | Nullish> | RefCallback<T | Nullish> | Nullish;
+
+export function compositeRef<T>(...refs: Refs<T>[]): RefCallback<T> {
   return value => {
     refs.forEach(ref => {
       if (typeof ref === 'function') {

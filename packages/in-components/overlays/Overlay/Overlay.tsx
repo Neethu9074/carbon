@@ -3,24 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
+import React, { Ref } from 'react';
 import { throttle } from 'lodash';
-import React from 'react';
 
-import { create, just, timeout } from '@instana/observables';
+import { create, Disposable, just, timeout } from '@instana/observables';
 import { generateUniqueShortId } from '@instana/utils';
 
+import { OverlayProps, OverlayState } from 'in-components/overlays/Overlay/types';
 import OverlayMounter from 'in-components/overlays/OverlayMounter';
 import { identifyOverlay } from 'in-components/overlays/dom';
 import { emptyObject } from 'in-services/fixedObjects';
+import { Refs } from 'in-services/util/react';
 
 // Usage:
 // <Overlay withoutWrapper content={Component} props={{}} autoOpen wrapperStyle wrapperClassName kind="tooltip">
 //   {({isOpen, close, open, toggle, refSetter}) => <Button refSetter={refSetter} onClick={toggle}>Click to show</Button>}
 // </Overlay>
 
-export default class Overlay extends React.Component {
-  state = {
+export default class Overlay<FORWARDED_CONTENT_PROPS> extends React.Component<
+  OverlayProps<FORWARDED_CONTENT_PROPS>,
+  OverlayState
+> {
+  state: OverlayState = {
     isOpen: false,
     id: generateUniqueShortId(),
     wrapper: null,
@@ -28,6 +32,8 @@ export default class Overlay extends React.Component {
   };
 
   asyncCloseTimeouts = [];
+  unmounted: boolean = false;
+  delayedOpenSubscription?: Disposable;
 
   toggle = () => {
     const newState = !this.state.isOpen;
@@ -36,14 +42,18 @@ export default class Overlay extends React.Component {
       this.onClose();
     }
   };
+
   open = () => this.setOpen(true);
-  close = e => {
+
+  close = () => {
     this.setOpen(false);
-    this.onClose(e);
+    this.onClose();
   };
+
   delayedAutoOpenStateChange$ = create();
-  onClose = e => {
-    this.props.onCloseSideEffect?.(e);
+
+  onClose = () => {
+    this.props.onCloseSideEffect?.();
     if (this.props.focusOnClose) {
       this.state.wrapper?.focus();
     }
@@ -64,9 +74,9 @@ export default class Overlay extends React.Component {
    * frequency competing updates.
    */
   setOpen = throttle(
-    open => {
+    isOpen => {
       if (this.props.onToggle) {
-        this.props.onToggle(open);
+        this.props.onToggle(isOpen);
       }
 
       // The throttle call may finish after the component is already unmounted.
@@ -75,7 +85,7 @@ export default class Overlay extends React.Component {
       // to protect like this from eventual state mutations after the component
       // is already unmounted.
       if (!this.unmounted) {
-        this.setState({ isOpen: open });
+        this.setState({ isOpen });
       }
     },
     30,
@@ -93,7 +103,7 @@ export default class Overlay extends React.Component {
       }
     }, 0);
 
-  refSetter = r => {
+  refSetter: Refs<HTMLElement> = r => {
     if (r === this.state.wrapper || !r) {
       // State updates on ref changes are an anti pattern. It can happen that we end up
       // in cyclic updates to our refs. A workaround to avoid this is to ignore at least
@@ -104,10 +114,11 @@ export default class Overlay extends React.Component {
       return;
     }
 
-    const change = {
+    const change: OverlayState = {
+      ...this.state,
       wrapper: r
     };
-    const parentOverlayDomNode = identifyOverlay(r);
+    const parentOverlayDomNode = identifyOverlay(r) as HTMLElement;
     if (parentOverlayDomNode) {
       change.parentOverlay = parentOverlayDomNode.dataset.overlayId;
     }
@@ -132,38 +143,37 @@ export default class Overlay extends React.Component {
 
   componentWillUnmount() {
     this.unmounted = true;
-    this.delayedOpenSubscription.dispose();
+    this.delayedOpenSubscription?.dispose();
   }
 
   render() {
     const {
+      align,
       autoOpen,
-      inContentArea,
       behindSidebar,
+      children: renderTriggerOverlayAction,
+      content: OverlayContent,
       forceConfiguredAlignment,
-      wrapperStyle,
-      wrapperClassName,
-      withoutWrapper,
-      withoutArrow,
+      inContentArea,
       kind,
-      children,
-      props = emptyObject,
-      align = props.align,
-      content: OverlayContent
+      props: forwardedProps = emptyObject,
+      withoutArrow,
+      withoutWrapper,
+      wrapperClassName,
+      wrapperStyle
     } = this.props;
     const { isOpen, id } = this.state;
     const autoClose = this.props.autoClose === undefined ? autoOpen : this.props.autoClose;
 
     let content;
     if (withoutWrapper) {
-      content = children({
+      content = renderTriggerOverlayAction({
         isOpen: isOpen,
         toggle: this.toggle,
         open: this.open,
         delayedOpen: this.delayedOpen,
         close: this.close,
         delayedClose: this.delayedClose,
-        ...props,
         refSetter: this.refSetter,
         ref: this.refSetter
       });
@@ -174,14 +184,13 @@ export default class Overlay extends React.Component {
           className={wrapperClassName}
           onMouseEnter={autoOpen ? this.delayedOpen : undefined}
           onMouseLeave={autoClose ? this.delayedClose : undefined}
-          ref={this.refSetter}
+          ref={this.refSetter as Ref<HTMLDivElement>}
         >
-          {children({
+          {renderTriggerOverlayAction({
             isOpen,
             toggle: this.toggle,
             open: this.open,
-            close: this.close,
-            ...props
+            close: this.close
           })}
         </div>
       );
@@ -194,7 +203,7 @@ export default class Overlay extends React.Component {
             id={id}
             content={OverlayContent}
             props={{
-              ...props,
+              ...forwardedProps,
               close: this.close,
               asyncClose: this.asyncClose
             }}
@@ -218,38 +227,3 @@ export default class Overlay extends React.Component {
     );
   }
 }
-
-Overlay.propTypes = {
-  children: PropTypes.func.isRequired,
-  content: PropTypes.any,
-  align: PropTypes.oneOf([
-    'leftBottom',
-    'leftMiddle',
-    'leftTop',
-    'topLeft',
-    'topMiddle',
-    'topRight',
-    'rightTop',
-    'rightMiddle',
-    'rightBottom',
-    'bottomLeft',
-    'bottomMiddle',
-    'bottomRight',
-    'auto',
-    'mousePosition'
-  ]),
-  autoClose: PropTypes.bool,
-  autoOpen: PropTypes.bool,
-  forceConfiguredAlignment: PropTypes.bool,
-  inContentArea: PropTypes.bool,
-  behindSidebar: PropTypes.bool,
-  kind: PropTypes.string,
-  onToggle: PropTypes.func,
-  onCloseSideEffect: PropTypes.func,
-  focusOnClose: PropTypes.bool,
-  withoutArrow: PropTypes.bool,
-  withoutWrapper: PropTypes.bool,
-  wrapperClassName: PropTypes.string,
-  wrapperStyle: PropTypes.object,
-  props: PropTypes.any
-};

@@ -205,9 +205,9 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
 
   if (tag.key === LOG_CUSTOM_KEY_APPLICATION_IDS) {
     return (
-      <Overlay
+      <Overlay<ApplicationsListProps>
         content={ApplicationsList}
-        props={{ applicationIds: (tag.stringValue || '').split(',') }}
+        props={{ applicationIds: (tag.stringValue || '').split(','), item }}
         align="leftMiddle"
       >
         {({ toggle }: ToggleProps) => (

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-expect-error
 import { create, on } from '@instana/observables';
 
 const forcedResize$ = create();
@@ -11,11 +12,11 @@ export const debouncedResize$ = on(window, 'resize')
   .merge(forcedResize$);
 export const debouncedScroll$ = on(window, 'scroll').debounce(300);
 
-export function refreshWindowSizeDependingState() {
+export function refreshWindowSizeDependingState(): void {
   forcedResize$.emit(true);
 }
 
-export function init() {
+export function init(): void {
   const browser = getBrowser();
   if (browser) {
     document.documentElement.classList.add('in-browser-' + browser);
@@ -31,7 +32,8 @@ export function init() {
 //
 // User agent string source:
 // http://www.useragentstring.com/
-function getBrowser() {
+export type Browsers = 'edge' | 'chrome' | 'safari' | 'ff' | 'ie';
+function getBrowser(): Browsers | null {
   const ua = window.navigator.userAgent;
   if (/Edge/.test(ua)) {
     return 'edge';
@@ -48,6 +50,6 @@ function getBrowser() {
   return null;
 }
 
-export function isSafari() {
+export function isSafari(): boolean {
   return getBrowser() === 'safari';
 }

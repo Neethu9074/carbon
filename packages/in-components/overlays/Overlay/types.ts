@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { CSSProperties, ReactNode, ReactPropTypes } from 'react';
+import { Refs } from 'in-services/util/react';
+import { CSSProperties, ReactNode } from 'react';
 
-type Align =
+export type Align =
   | 'leftBottom'
   | 'leftMiddle'
   | 'leftTop'
@@ -21,21 +22,21 @@ type Align =
   | 'auto'
   | 'mousePosition';
 
-export interface ExternalContentProps extends ReactPropTypes {
+export interface ExternalContentProps {
   align?: Align;
 }
 
 export interface OverlayContentProps extends ExternalContentProps {
-  align?: Align;
   autoClose?: boolean;
-  refSetter?: (r: Element | null) => void;
-  ref?: (r: Element | null) => void;
+  refSetter?: Refs<HTMLElement>;
+  ref?: Refs<HTMLElement>;
+  delayedOpen?: () => void;
+  delayedClose?: () => void;
+
   isOpen: boolean;
   toggle: () => void;
   open: () => void;
   close: (e?: any) => void;
-  delayedOpen: () => void;
-  delayedClose: () => void;
 }
 
 export interface OverlayProps<FORWARDED_CONTENT_PROPS> {
@@ -50,9 +51,9 @@ export interface OverlayProps<FORWARDED_CONTENT_PROPS> {
   align?: Align;
   kind?: string;
   props?: FORWARDED_CONTENT_PROPS;
-  children: (p: FORWARDED_CONTENT_PROPS & OverlayContentProps) => ReactNode;
+  children: (p: OverlayContentProps) => ReactNode;
   autoClose?: boolean;
-  content?: ReactNode;
+  content: React.ComponentType<OverlayContentProps & OverlayMounterContentProps & FORWARDED_CONTENT_PROPS>;
   focusOnClose?: boolean;
 
   onToggle?: (b: boolean) => void;
@@ -63,7 +64,7 @@ export interface OverlayState {
   id: string;
   isOpen: boolean;
   wrapper: HTMLElement | null;
-  parentOverlay: HTMLElement | null;
+  parentOverlay: string | null | undefined;
 }
 
 export interface OverlayMounterContentProps extends ExternalContentProps {
@@ -77,7 +78,7 @@ export interface OverlayMounterProps {
   props: OverlayMounterContentProps;
   autoClose?: boolean;
   relativeTo: HTMLElement | null;
-  parentOverlay: HTMLElement | null;
+  parentOverlay: string | null | undefined;
   kind?: string;
   close: (e: any) => void;
   delayedOpen: () => void;

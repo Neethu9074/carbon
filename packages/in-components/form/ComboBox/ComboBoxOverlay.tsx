@@ -7,14 +7,36 @@ import React from 'react';
 
 import { Ul } from '@instana/components';
 
+import OverlayOption, { OverlayOptionAlignments } from 'in-components/OverlayOption/OverlayOption';
+import { OverlayMounterContentProps } from 'in-components/overlays/Overlay/types';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
-import OverlayOption from 'in-components/OverlayOption/OverlayOption';
 import { compareIgnoreCase } from 'in-services/util/string';
 
+// @ts-expect-error
 import locals from './ComboBoxOverlay.mless';
 
-export default function ComboBoxOverlay({
+interface Labeled {
+  label: string;
+}
+
+export interface ComboBoxOption<OPTION_VALUE_TYPE> extends Labeled {
+  value: OPTION_VALUE_TYPE;
+}
+
+export interface ComboBoxOverlayProps<OPTION_VALUE_TYPE> {
+  options: ComboBoxOption<OPTION_VALUE_TYPE>[];
+  onChange: (v: any) => void;
+  value?: OPTION_VALUE_TYPE;
+  disableAutomaticOptionSorting?: boolean;
+  listItemClassName?: string;
+  listItemAlignment?: OverlayOptionAlignments;
+}
+
+type InternalComboBoxOverlayProps<OPTION_VALUE_TYPE> = ComboBoxOverlayProps<OPTION_VALUE_TYPE> &
+  OverlayMounterContentProps;
+
+export default function ComboBoxOverlay<OPTION_VALUE_TYPE>({
   options,
   value,
   onChange,
@@ -22,15 +44,17 @@ export default function ComboBoxOverlay({
   disableAutomaticOptionSorting,
   listItemClassName,
   listItemAlignment
-}) {
+}: InternalComboBoxOverlayProps<OPTION_VALUE_TYPE>) {
   if (!disableAutomaticOptionSorting) {
     options = options.sort(optionLabelComparator);
   }
 
   return (
+    // onKeyDown is part of the ...otherProps rest param which is currently not correctly typed.
+    // @ts-expect-error
     <Ul className={locals.list} framed={false} borderRadius="medium" onKeyDown={onKeyDown}>
       {options.map((option, i) => (
-        <OverlayOption
+        <OverlayOption<OPTION_VALUE_TYPE>
           className={listItemClassName}
           onChange={onChange}
           key={i}
@@ -48,11 +72,11 @@ export default function ComboBoxOverlay({
   );
 }
 
-function optionLabelComparator(a, b) {
+function optionLabelComparator(a: Labeled, b: Labeled) {
   return compareIgnoreCase(a.label, b.label);
 }
 
-function onKeyDown(e) {
+function onKeyDown(e: KeyboardEvent): void {
   if (e.defaultPrevented) return;
 
   // Intercept Enter and Escape to prevent accidental closing of a dialog when used inside a dialog
