@@ -37,13 +37,13 @@ export default [
     labels: [t('in-forge:plugins.aceIntegrationServer.stateMetrics')],
     min: 0,
     category: [t('in-forge:plugins.aceIntegrationServer.stateMetrics')],
-    formatter: number
+    formatter: number.compact
   },
   {
     metrics: ['qmStateMetrics'],
     labels: [t('in-forge:plugins.aceIntegrationServer.qmStateMetrics')],
     min: 0,
     category: [t('in-forge:plugins.aceIntegrationServer.qmStateMetrics')],
-    formatter: number
+    formatter: number.compact
   }
 ];
