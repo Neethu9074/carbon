@@ -13,6 +13,7 @@ import { LiLoadMore } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { KeyValue } from '@instana/components';
 import { Stack } from '@instana/components';
+import { Card } from '@instana/components';
 
 import EntityPageMainNotification from 'in-components/EntityPageMainNotification/EntityPageMainNotification';
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
@@ -177,33 +178,34 @@ export default function Jobs(props) {
   // isLoading is true when data is loaded for the first time and when MORE data is loading
   // Here UL is returned if there is previously loaded data otherwise LoadingIndicator is returned
   const [{ orderBy, orderDirection, page, query }, setUrlState] = useUrlState(urlStateDefinition);
-  // TODO: update global searchinput or sortingconfigurator to align their heights
   return (
-    <Stack>
-      <HorizontalFlexWrapper className={locals.header}>
-        <div>
-          <SortingConfigurator
-            options={sortOptions}
-            orderBy={{
-              by: orderBy,
-              direction: orderDirection
-            }}
-            onChange={({ by, direction }) =>
-              setUrlState({
-                orderBy: by,
-                orderDirection: direction
-              })
-            }
+    <Card>
+      <Stack>
+        <HorizontalFlexWrapper className={locals.header}>
+          <div>
+            <SortingConfigurator
+              options={sortOptions}
+              orderBy={{
+                by: orderBy,
+                direction: orderDirection
+              }}
+              onChange={({ by, direction }) =>
+                setUrlState({
+                  orderBy: by,
+                  orderDirection: direction
+                })
+              }
+            />
+          </div>
+          <SearchInput
+            inputClassName={locals.searchInput}
+            query={query}
+            onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })}
           />
-        </div>
-        <SearchInput
-          inputClassName={locals.searchInput}
-          query={query}
-          onChange={updatedQuery => setUrlState({ query: updatedQuery, page: 1 })}
-        />
-      </HorizontalFlexWrapper>
-      <JobList {...props} page={page} query={query} orderBy={orderBy} orderDirection={orderDirection} />
-    </Stack>
+        </HorizontalFlexWrapper>
+        <JobList {...props} page={page} query={query} orderBy={orderBy} orderDirection={orderDirection} />
+      </Stack>
+    </Card>
   );
 }
 
