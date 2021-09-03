@@ -72,6 +72,7 @@ AlertingChartWithErrorMessage.propTypes = {
   viewConfig: chartViewConfigPropType.isRequired,
   alertConfigWithFormModel: PropTypes.object.isRequired,
   blueprintConfig: PropTypes.object.isRequired,
+  useApproximateQueryPrecisionForMetrics: PropTypes.bool,
   /**
    * Optional applicationId, used
    * to scope down the metric in the chart to a single application config

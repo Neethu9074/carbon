@@ -37,6 +37,7 @@ export default function AlertingChart({
   canReload,
   rendererOverride,
   eventBasedAdaptiveBaseline,
+  useApproximateQueryPrecisionForMetrics,
   highlight
 }) {
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
@@ -155,7 +156,12 @@ export default function AlertingChart({
           aggregation,
           numeratorFilter
         }
-      }
+      },
+      // In positive scenario(when evaluations could be performed without sampled data in a given timeout period)
+      // back-end uses FULL precision(PERCENT_100) even if we have passed APPROXIMATE queryPrecision. Otherwise it uses
+      // PERCENT_10 or PERCENT_1. SamplingLevel would be identified using the clusterCapacity and the numCalls.
+      // See https://github.com/instana/backend/blob/develop/appdata-reader/src/main/java/com/instana/application/datareader/service/RetentionAndMaxQueryTimeSamplingLevelChooser.java#L36-L47
+      queryPrecision: useApproximateQueryPrecisionForMetrics ? 'APPROXIMATE' : 'FULL'
     };
   }
 }
@@ -279,6 +285,7 @@ AlertingChart.propTypes = {
   enrichedTagFilterExpression: PropTypes.object,
   rendererOverride: PropTypes.object,
   eventBasedAdaptiveBaseline: PropTypes.array,
+  useApproximateQueryPrecisionForMetrics: PropTypes.bool,
 
   /**
    * Allows to place a highlight area on the alert chart.

@@ -69,6 +69,7 @@ ApplicationAlertingChartWithErrorMessage.propTypes = {
     threshold: PropTypes.object,
     evaluationType: PropTypes.string.isRequired
   }).isRequired,
+  useApproximateQueryPrecisionForMetrics: PropTypes.bool,
 
   /**
    * Optional serviceId, used

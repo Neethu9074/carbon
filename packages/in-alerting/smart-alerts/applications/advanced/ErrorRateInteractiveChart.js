@@ -55,6 +55,7 @@ export default function ErrorRateInteractiveChart({
               blueprintConfig={blueprintConfig}
               alertsPreviewEnabled
               canReload
+              useApproximateQueryPrecisionForMetrics
             />
           )}
         </ChartViewConfiguratorWithEntitySelection>
