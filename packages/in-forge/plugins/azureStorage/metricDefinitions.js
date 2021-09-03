@@ -163,21 +163,21 @@ export default [
   {
     metric: 'qcap_av',
     label: t('in-forge:plugins.azureStorage.labelQuCa'),
-    category: [t('in-forge:plugins.azureStorage.titleQueueCapacity')],
+    category: [t('in-forge:plugins.azureStorage.dashboard.titleQueueCapacity')],
     min: 0,
     formatter: number
   },
   {
     metric: 'qc_av',
     label: t('in-forge:plugins.azureStorage.labelQuCo'),
-    category: [t('in-forge:plugins.azureStorage.titleQueueCount')],
+    category: [t('in-forge:plugins.azureStorage.dashboard.titleQueueCount')],
     min: 0,
     formatter: number
   },
   {
     metric: 'qms_av',
     label: t('in-forge:plugins.azureStorage.labelQuMeCo'),
-    category: [t('in-forge:plugins.azureStorage.titleQueueMessageCount')],
+    category: [t('in-forge:plugins.azureStorage.dashboard.titleQueueMessageCount')],
     min: 0,
     formatter: number
   }
