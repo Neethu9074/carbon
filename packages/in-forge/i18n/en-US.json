@@ -5093,9 +5093,9 @@
       "logIo": "Log IO",
       "logReads": "Log Reads",
       "logWrites": "Log Writes",
-      "logsecLogsUsed": "Secondary Log used",
-      "logsecLogsAlloc": "Secondary Logs allocated",
-      "loglogUsedTop": "Top Log used",
+      "logsecLogsUsed": "Secondary Log Used",
+      "logsecLogsAlloc": "Secondary Logs Allocated",
+      "loglogUsedTop": "Top Log Used",
       "logbufferFull": "Buffer Full",
       "logdataInBuffer": "Data in Buffer",
       "logdiskReads": "Committed Disk Reads",
@@ -5253,7 +5253,7 @@
       "sockRecBufReq": "Requested Receive Buffer",
       "sockRecvBufAct": "Actual Receive Buffer",
       "timeSinceLastRecv": "Time Since Last Receive",
-      "logHadrWaitCur": "Current Logger wait Time",
+      "logHadrWaitCur": "Current Logger Wait Time",
       "logHadrWaitTime": "Total Logger Wait Time"
     },
     "defaultEntity20": {
