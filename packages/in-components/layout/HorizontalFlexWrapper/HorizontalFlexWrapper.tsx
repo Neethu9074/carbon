@@ -15,7 +15,7 @@ interface HorizontalFlexWrapperProps extends React.HTMLAttributes<HTMLDivElement
 }
 
 export default forwardRef<HTMLDivElement, HorizontalFlexWrapperProps>(function HorizontalFlexWrapper(
-  { className, children, ...furtherProps }: HorizontalFlexWrapperProps,
+  { className, children, ...furtherProps },
   ref
 ) {
   return (
