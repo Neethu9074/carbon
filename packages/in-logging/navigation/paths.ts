@@ -13,7 +13,7 @@ export const rawLogsPath = '/rawlogs';
 
 interface GetLinkToAnalyzeRequest {
   timeConfig: TimeConfig;
-  tagFilterExpression?: TagFilterExpression;
+  tagFilterExpression?: TagFilterExpression | TagFilterExpression[];
 }
 
 export function getLinkToAnalyze({ tagFilterExpression, timeConfig }: GetLinkToAnalyzeRequest) {

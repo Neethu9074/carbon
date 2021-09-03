@@ -2260,13 +2260,13 @@
       "receiveMessageCountPerInstance": "Received Messages Count/min per Instance",
       "receiveMessageCountPerInstanceTps": "Received Messages TPS per Instance",
       "messageRetentionPeriod": "Messages Retention Period",
-      "groupId":"Group ID",
+      "groupId": "Group ID",
       "groupType": "Group Type",
       "groupRemark": "Remark",
       "groupCreateTime": "Create Time",
       "groupsNumber": "Group ({{count}})",
       "groupsNumber_plural": "Groups ({{count}})",
-      "topic":"Topic",
+      "topic": "Topic",
       "messageType": "Message Type",
       "messageType_0": "Normal messages",
       "messageType_1": "Partitionally ordered messages",
@@ -2288,8 +2288,8 @@
       "region": "Region",
       "instanceId": "Instance ID",
       "instanceName": "Instance name",
-      "groupId":"Group ID",
-      "groupOwner":"Owner",
+      "groupId": "Group ID",
+      "groupOwner": "Owner",
       "groupType": "Group Type",
       "groupCreateTime": "Create Time",
       "groupRemark": "Remark",
@@ -2313,7 +2313,7 @@
       "region": "Region",
       "instanceId": "Instance ID",
       "instanceName": "Instance name",
-      "groupId":"Group ID",
+      "groupId": "Group ID",
       "sendMessageCountPerGidTopic": "Sent Messages Count/min per Group & Topic",
       "receiveMessageCountPerGidTopic": "Received Messages Count/min per Group & Topic",
       "consumerLagPerGidTopic": "ConsumerLag per Group & Topic",
@@ -2324,8 +2324,8 @@
       "region": "Region",
       "instanceId": "Instance ID",
       "instanceName": "Instance name",
-      "topic":"Topic",
-      "topicOwner":"Owner",
+      "topic": "Topic",
+      "topicOwner": "Owner",
       "messageType": "Message Type",
       "messageType_0": "Normal messages",
       "messageType_1": "Partitionally ordered messages",
@@ -5270,7 +5270,10 @@
         "ports": "Ports",
         "containerLabels": "Container Labels",
         "memory": "Memory",
-        "memoryLimit": "Memory (Limit: {{limitBytes}})"
+        "memoryLimit": "Memory (Limit: {{limitBytes}})",
+        "logs": "Logs",
+        "numberLogs": "{{numberErrorLogs}} Error, {{numberWarnLogs}} Warn",
+        "analyzeLogs": "View in Analyze"
       },
       "image": "Image",
       "command": "Command",
@@ -7301,10 +7304,10 @@
         "eGStatsSocketRunHaproxyAdmin1SockMode660LevelAdminProcess1": "E.g. <code>{{code}}</code>"
       }
     },
-    "traefik":{
+    "traefik": {
       "traefik": "Traefik",
       "processId": "Process ID",
-      "version":"Version",
+      "version": "Version",
       "troubleshootingDocs": "Troubleshooting docs",
       "traefikMetricsApiNotAccessible": "The metrics API URL <code>{{url}}</code> of this Traefik process is not accessible from the host agent.",
       "traefikMetricsApiNotEnabled": "Prometheus metrics are not enabled in the configuration.",
@@ -7313,8 +7316,8 @@
       "requests": "Requests",
       "dashboard": {
         "requestsPerSecond": "Requests per second",
-        "configLastReloadSuccess" : "Config's last reload success",
-        "configReloadsTotal" : "Number of config reloads",
+        "configLastReloadSuccess": "Config's last reload success",
+        "configReloadsTotal": "Number of config reloads",
         "entryPoints": "Entrypoints"
       }
     },
@@ -8239,9 +8242,9 @@
         "restrictedState": "Restricted State"
       },
       "dashboard": {
-        "avgCpuUtilization" : "CPU Utilization (avg)",
-        "activeJobs":"Active Jobs",
-        "threads":"Threads",
+        "avgCpuUtilization": "CPU Utilization (avg)",
+        "activeJobs": "Active Jobs",
+        "threads": "Threads",
         "charts": {
           "cpu": {
             "name": "CPU",
@@ -8303,24 +8306,24 @@
             }
           },
           "aspInfos": {
-              "name": "Auxiliary Storage Pools",
-              "aspInfoName": "Device Description Name",
-              "aspInfoType": "ASP Type",
-              "aspInfoState": "ASP State",
-              "disks": "Number Of Disk Units",
-              "aspNumber" : "ASP Number",
-              "charts": {
-                "storage": {
-                  "totalCapacity": "Total Capacity",
-                  "protectedCapacity": "Protected Capacity",
-                  "unprotectedCapacity": "Unprotected Capacity"
-                },
-                "utilization": {
-                  "totalCapacityUtilization": "Total Capacity Utilization",
-                  "protectedCapacityUtilization": "Protected Capacity Utilization",
-                  "unprotectedCapacityUtilization": "Unprotected Capacity Utilization"
-                }
+            "name": "Auxiliary Storage Pools",
+            "aspInfoName": "Device Description Name",
+            "aspInfoType": "ASP Type",
+            "aspInfoState": "ASP State",
+            "disks": "Number Of Disk Units",
+            "aspNumber": "ASP Number",
+            "charts": {
+              "storage": {
+                "totalCapacity": "Total Capacity",
+                "protectedCapacity": "Protected Capacity",
+                "unprotectedCapacity": "Unprotected Capacity"
+              },
+              "utilization": {
+                "totalCapacityUtilization": "Total Capacity Utilization",
+                "protectedCapacityUtilization": "Protected Capacity Utilization",
+                "unprotectedCapacityUtilization": "Unprotected Capacity Utilization"
               }
+            }
           },
           "outputQueues": {
             "name": "Output Queues",
@@ -8341,11 +8344,11 @@
             "jobName": "Job Name",
             "jobStatus": "Job Status",
             "jobType": "Job Type",
-            "userName" : "User Name",
+            "userName": "User Name",
             "charts": {
-                "elapsedCPU": "Elapsed CPU Percentage",
-                "temporaryStorage": "Temporary Storage",
-                "threadCount": "Thread Count"
+              "elapsedCPU": "Elapsed CPU Percentage",
+              "temporaryStorage": "Temporary Storage",
+              "threadCount": "Thread Count"
             }
           }
         }
@@ -9998,43 +10001,43 @@
     },
     "zHMCApplication": {
       "dashboard": {
-        "logicalPartition":"Logical Partition",
-        "name":"Name",
-        "cpcProcessorUsage":"CPC Processor Usage",
-        "powerConsumptionWatts":"Power Consumption Watts",
-        "temperature":"Temperature",
-        "channelUsage":"CPU Channel Usage",
-        "all":"All CPU Processor Usage",
-        "shared":"Shared CPU Processor Usage",
-        "dedicated":"Dedicated CPU Processor Usage",
-        "processorUsage":"Processor Usage",
-        "zvm":"z/VM Paging rate",
-        "ifl":"Integrated Facility for Linux",
-        "icf":"Integrated Coupling facility of parallel Sysplex",
-        "cbp":"Container Based Processor",
-        "cp":"Central Processor",
-        "iip":"Integrated Information Processor"
-     },
-     "zhmc":"zHMC",
-     "plugin":"Plugin Name",
-     "cpcName":"CPC Name",
-     "cpcId":"CPC Id",
-     "dpmEnabled":"DPM Enabled",
-     "noOfPartitions":"Number of Partitions",
-     "logicalPartition":"Logical Partition",
-     "channelUsage":"Channel Usage",
-     "cpcProcessorUsage":"CPC Processor Usage",
-     "powerConsumptionWatts":"Power Consumption Watts",
-     "temperature":"Temperature",
-     "processorUsage":"Processor Usage",
-     "zvm":"z/VM Paging rate",
-     "ifl":"Integrated Facility for Linux",
-     "icf":"Integrated Coupling facility of parallel Sysplex",
-     "aap":"Application Assist Processor",
-     "cbp":"Container Based Processor",
-     "cp":"Central Processor",
-     "iip":"Integrated Information Processor"
-     },
+        "logicalPartition": "Logical Partition",
+        "name": "Name",
+        "cpcProcessorUsage": "CPC Processor Usage",
+        "powerConsumptionWatts": "Power Consumption Watts",
+        "temperature": "Temperature",
+        "channelUsage": "CPU Channel Usage",
+        "all": "All CPU Processor Usage",
+        "shared": "Shared CPU Processor Usage",
+        "dedicated": "Dedicated CPU Processor Usage",
+        "processorUsage": "Processor Usage",
+        "zvm": "z/VM Paging rate",
+        "ifl": "Integrated Facility for Linux",
+        "icf": "Integrated Coupling facility of parallel Sysplex",
+        "cbp": "Container Based Processor",
+        "cp": "Central Processor",
+        "iip": "Integrated Information Processor"
+      },
+      "zhmc": "zHMC",
+      "plugin": "Plugin Name",
+      "cpcName": "CPC Name",
+      "cpcId": "CPC Id",
+      "dpmEnabled": "DPM Enabled",
+      "noOfPartitions": "Number of Partitions",
+      "logicalPartition": "Logical Partition",
+      "channelUsage": "Channel Usage",
+      "cpcProcessorUsage": "CPC Processor Usage",
+      "powerConsumptionWatts": "Power Consumption Watts",
+      "temperature": "Temperature",
+      "processorUsage": "Processor Usage",
+      "zvm": "z/VM Paging rate",
+      "ifl": "Integrated Facility for Linux",
+      "icf": "Integrated Coupling facility of parallel Sysplex",
+      "aap": "Application Assist Processor",
+      "cbp": "Container Based Processor",
+      "cp": "Central Processor",
+      "iip": "Integrated Information Processor"
+    },
     "zooKeeper": {
       "titleTicks": "Ticks",
       "titleLatency": "Latency",

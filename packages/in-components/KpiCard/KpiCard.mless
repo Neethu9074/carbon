@@ -33,12 +33,13 @@
   }
 
   .title {
+    display: flex;
+    justify-content: space-between;
+
     color: @lib__colors__N700Medium;
     font-size: 1rem;
     font-weight: 200;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    line-height: 1.875rem;
   }
 
   .centerTitle {

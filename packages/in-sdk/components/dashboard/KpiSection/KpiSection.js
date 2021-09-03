@@ -12,10 +12,10 @@ export function KpiHeading({ children }) {
   return <div>{children}</div>;
 }
 
-export function KpiKeyValue({ label, children }) {
+export function KpiKeyValue({ label, iconAction, children }) {
   return (
     <Col xs>
-      <KpiCard title={label} value={children} />
+      <KpiCard title={label} iconAction={iconAction} value={children} />
     </Col>
   );
 }

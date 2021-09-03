@@ -11,18 +11,27 @@ import {
   percentageZeroDecimalPlaces,
   percentageTwoDecimalPlaces
 } from 'in-services/formatters/number';
+import { LOG_DOCKER_SNAPSHOT_ID, getValueMatchTagFilter } from 'in-logging/queryBuilder';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import AnalyzeLogsButton from 'in-forge/plugins/docker/Dashboard/AnalyzeLogsButton';
 import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import LogsKpiCard from 'in-forge/plugins/docker/Dashboard/LogsKpiCard';
+import LogsChart from 'in-forge/plugins/docker/Dashboard/LogsChart';
+import { containerLogsEnabled } from 'in-services/featureFlags';
+import useHasLogs from 'in-logging/hooks/useHasLogs';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 export default function DockerDashboard({ snapshot, timeConfig }) {
   const memoryLimitBytes = snapshot.getIn(['data', 'memory.limit']);
   const snapshotId = snapshot.get('id');
+
+  const tagFilterExpression = getValueMatchTagFilter({ name: LOG_DOCKER_SNAPSHOT_ID, value: snapshot.get('id') });
+  const hasLogs = useHasLogs({ tagFilterExpression, timeConfig });
 
   return (
     <div>
@@ -44,6 +53,14 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
             formatter={percentageZeroDecimalPlaces}
           />
         </KpiKeyValue>
+        {containerLogsEnabled && (
+          <LogsKpiCard
+            hasLogs={hasLogs}
+            tagFilterExpression={tagFilterExpression}
+            timeConfig={timeConfig}
+            snapshot={snapshot}
+          />
+        )}
       </KpiSection>
 
       <DashboardSection title={t('in-forge:plugins.docker.dashboard.cpu')}>
@@ -192,6 +209,15 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
           />
         </DashboardSection>
       ) : null}
+
+      {hasLogs && containerLogsEnabled && (
+        <DashboardSection
+          title={t('in-forge:plugins.docker.dashboard.logs')}
+          button={<AnalyzeLogsButton tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} />}
+        >
+          <LogsChart tagFilterExpression={tagFilterExpression} />
+        </DashboardSection>
+      )}
     </div>
   );
 }
