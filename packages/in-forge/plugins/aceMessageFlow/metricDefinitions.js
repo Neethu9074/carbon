@@ -92,6 +92,6 @@ export default [
     labels: [t('in-forge:plugins.aceMessageFlow.stateMetrics')],
     min: 0,
     category: [t('in-forge:plugins.aceMessageFlow.stateMetrics')],
-    formatter: number
+    formatter: number.compact
   }
 ];
