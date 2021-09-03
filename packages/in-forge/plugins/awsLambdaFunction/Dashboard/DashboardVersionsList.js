@@ -7,6 +7,7 @@ import React from 'react';
 
 import getVersionsForLambdaFunction from 'in-subscription/getVersionsForLambdaFunction';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -22,9 +23,12 @@ export default connectTo(
       .flatMap(getSnapshots)
       .debounce(1000)
       .map(snapshots => snapshots.slice().sort(sorter))
+      .startWith(null)
   }),
   function DashboardVersionsList({ versions }) {
-    if (!versions || versions.length === 0) {
+    if (versions == null) {
+      return <LoadingIndicator />;
+    } else if (versions.length === 0) {
       return (
         <DashboardNotification type="info">
           <Trans
