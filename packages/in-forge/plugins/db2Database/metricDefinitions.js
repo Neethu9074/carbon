@@ -28,7 +28,10 @@ export default [
       'dbConfig',
       'dbmConfig',
       'lockWaits',
-      'runstats'
+      'runstats',
+      'reorg',
+      'tablesizes',
+      'uow'
     ],
     labels: [
       t('in-forge:plugins.db2Database.status'),
@@ -64,7 +67,32 @@ export default [
       t('in-forge:plugins.db2Database.objName'),
       t('in-forge:plugins.db2Database.startTime'),
       t('in-forge:plugins.db2Database.endTime'),
-      t('in-forge:plugins.db2Database.durationSec')
+      t('in-forge:plugins.db2Database.durationSec'),
+
+      t('in-forge:plugins.db2Database.reorg'),
+      t('in-forge:plugins.db2Database.tabName'),
+      t('in-forge:plugins.db2Database.tabSchema'),
+      t('in-forge:plugins.db2Database.reorgStatus'),
+      t('in-forge:plugins.db2Database.reorgCompletion'),
+      t('in-forge:plugins.db2Database.reorgStart'),
+      t('in-forge:plugins.db2Database.reorgEnd'),
+
+      t('in-forge:plugins.db2Database.tablesizes'),
+      t('in-forge:plugins.db2Database.tableName'),
+      t('in-forge:plugins.db2Database.cardTab'),
+      t('in-forge:plugins.db2Database.tabSizeKB'),
+      t('in-forge:plugins.db2Database.tabSizeMB'),
+      t('in-forge:plugins.db2Database.avgRowSize'),
+
+      t('in-forge:plugins.db2Database.uow'),
+      t('in-forge:plugins.db2Database.appHandle'),
+      t('in-forge:plugins.db2Database.appName'),
+      t('in-forge:plugins.db2Database.clientAppName'),
+      t('in-forge:plugins.db2Database.applicationID'),
+      t('in-forge:plugins.db2Database.numLockHeld'),
+      t('in-forge:plugins.db2Database.tabSizeKB'),
+      t('in-forge:plugins.db2Database.uowLogSpaceUsed'),
+      t('in-forge:plugins.db2Database.clientIdleTimeMin')
     ],
     min: 0,
     formatter: number
@@ -137,10 +165,22 @@ export default [
     category: [t('in-forge:plugins.db2Database.bufferPoolTime')]
   },
   {
-    metrics: ['logs.available', 'logs.used'],
-    labels: [t('in-forge:plugins.db2Database.logsAvailable'), t('in-forge:plugins.db2Database.logsUsed')],
+    metrics: ['logs.available', 'logs.used', 'logs.secLogsUsed', 'logs.logUsedTop'],
+    labels: [
+      t('in-forge:plugins.db2Database.logsAvailable'),
+      t('in-forge:plugins.db2Database.logsUsed'),
+      t('in-forge:plugins.db2Database.logsecLogsUsed'),
+      t('in-forge:plugins.db2Database.loglogUsedTop')
+    ],
     min: 0,
-    formatter: bytes,
+    formatter: bytes.detailed,
+    category: [t('in-forge:plugins.db2Database.logSpace')]
+  },
+  {
+    metrics: ['logs.secLogsAlloc'],
+    labels: [t('in-forge:plugins.db2Database.logsecLogsAlloc')],
+    min: 0,
+    formatter: number,
     category: [t('in-forge:plugins.db2Database.logSpace')]
   },
   {
@@ -153,6 +193,46 @@ export default [
   {
     metrics: ['logs.reads', 'logs.writes'],
     labels: [t('in-forge:plugins.db2Database.logReads'), t('in-forge:plugins.db2Database.logWrites')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.db2Database.log')]
+  },
+  {
+    metrics: ['logs.readTime', 'logs.writeTime'],
+    labels: [
+      t('in-forge:plugins.db2Database.dashboard.readTime'),
+      t('in-forge:plugins.db2Database.dashboard.writeTime')
+    ],
+    min: 0,
+    formatter: micros.detailed,
+    category: [t('in-forge:plugins.db2Database.log')]
+  },
+  {
+    metrics: ['logs.bufferFull', 'logs.dataInBuffer'],
+    labels: [t('in-forge:plugins.db2Database.logbufferFull'), t('in-forge:plugins.db2Database.logdataInBuffer')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.db2Database.log')]
+  },
+  {
+    metrics: ['logs.diskReads', 'logs.totalReads', 'logs.buffReads'],
+    labels: [
+      t('in-forge:plugins.db2Database.logdiskReads'),
+      t('in-forge:plugins.db2Database.logtotalReads'),
+      t('in-forge:plugins.db2Database.logbuffReads')
+    ],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.db2Database.log')]
+  },
+  {
+    metrics: ['logs.appIdXact', 'logs.firstActive', 'logs.lastActive', 'logs.currentActive'],
+    labels: [
+      t('in-forge:plugins.db2Database.logappIdXact'),
+      t('in-forge:plugins.db2Database.logfirstActive'),
+      t('in-forge:plugins.db2Database.loglastActive'),
+      t('in-forge:plugins.db2Database.logcurrentActive')
+    ],
     min: 0,
     formatter: number,
     category: [t('in-forge:plugins.db2Database.log')]
@@ -366,5 +446,60 @@ export default [
     ],
     min: 0,
     formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('tablespaceutil', 'totalSize', t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')),
+      getDynamicMetricMatch('tablespaceutil', 'usedSpace', t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')),
+      getDynamicMetricMatch('tablespaceutil', 'freeSpace', t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil'))
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.totalSize'),
+      t('in-forge:plugins.db2Database.usedSpace'),
+      t('in-forge:plugins.db2Database.freeSpace')
+    ],
+    category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
+    min: 0,
+    formatter: bytes.detailed
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'tablespaceutil',
+        'spaceUtilPercent',
+        t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')
+      )
+    ],
+    labels: [t('in-forge:plugins.db2Database.spaceUtilPercent')],
+    category: [t('in-forge:plugins.db2Database.dashboard.tableSpaceUtil')],
+    min: 0,
+    max: 100,
+    formatter: percentage.detailed
+  },
+  {
+    metrics: [
+      'hadrmetrics.sockSendBufReq',
+      'hadrmetrics.sockSendBufActual',
+      'hadrmetrics.sockRecBufReq',
+      'hadrmetrics.sockRecvBufAct'
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.sockSendBufReq'),
+      t('in-forge:plugins.db2Database.sockSendBufActual'),
+      t('in-forge:plugins.db2Database.sockRecBufReq'),
+      t('in-forge:plugins.db2Database.sockRecvBufAct')
+    ],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: ['hadrmetrics.timeSinceLastRecv', 'hadrmetrics.logHadrWaitCur', 'hadrmetrics.logHadrWaitTime'],
+    labels: [
+      t('in-forge:plugins.db2Database.timeSinceLastRecv'),
+      t('in-forge:plugins.db2Database.logHadrWaitCur'),
+      t('in-forge:plugins.db2Database.logHadrWaitTime')
+    ],
+    min: 0,
+    formatter: millis
   }
 ];
