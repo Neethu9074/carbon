@@ -171,7 +171,7 @@ export default function AzureStorageDashboard({ snapshot, timeConfig }) {
               timeConfig={timeConfig}
               y1={{
                 metrics: ['qms_av'],
-                labels: [t('in-forge:plugins.azureStorage.dashboard.labelAverage')],
+                labels: [t('in-forge:plugins.azureStorage.labelQuMeCo')],
                 formatter: number.detailed,
                 type: 'bar'
               }}
