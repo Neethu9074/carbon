@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Row, Col } from 'in-components/layout/Grid';
+
 // @ts-expect-error
 import locals from './KpiGridRow.mless';
 

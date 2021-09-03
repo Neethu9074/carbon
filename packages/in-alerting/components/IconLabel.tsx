@@ -10,6 +10,7 @@ import { SvgIcon } from '@instana/components';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import theme from 'in-themes';
+
 // @ts-expect-error
 import locals from 'in-alerting/components/IconLabel.mless';
 
@@ -28,18 +29,7 @@ interface IconLabelProps {
 }
 
 const IconLabel = forwardRef<HTMLDivElement, IconLabelProps>(
-  (
-    {
-      text = '',
-      type,
-      noBottomMargin,
-      color = theme.lib.colors.N900Primary,
-      iconColor,
-      width,
-      ellipsis
-    },
-    ref
-  ) => {
+  ({ text = '', type, noBottomMargin, color = theme.lib.colors.N900Primary, iconColor, width, ellipsis }, ref) => {
     return (
       <HorizontalFlexWrapper
         ref={ref}
