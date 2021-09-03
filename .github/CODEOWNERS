@@ -33,7 +33,7 @@ packages/in-events                  @pr-approval @instana/eng-stan @instana/eng-
 # Shared ownership
 # packages/in-forge
 
-packages/in-forge/plugins           @pr-approval @instana/eng-sensors
+packages/in-forge/plugins           @pr-approval @instana/eng-ui @instana/eng-sensors
 packages/in-hoc                     @pr-approval @instana/eng-ui
 packages/in-hooks                   @pr-approval @instana/eng-ui
 packages/in-infrastructure          @pr-approval @instana/eng-infrastructure @instana/eng-ui
