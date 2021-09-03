@@ -4,11 +4,12 @@
  */
 
 import createSubscription from 'in-subscription/subscription';
+import { TimeConfig } from 'in-types';
 
 export default createSubscription({
   eventId: 'subscribe-graph',
 
-  getData(subscriptionId, timeConfig) {
+  getData(subscriptionId: number, timeConfig: TimeConfig) {
     return {
       subscriptionId,
       timeConfig
