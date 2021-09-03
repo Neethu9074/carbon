@@ -55,6 +55,7 @@ export default function ThroughputInteractiveChart({
               blueprintConfig={blueprintConfig}
               alertsPreviewEnabled
               canReload
+              useApproximateQueryPrecisionForMetrics
             />
           )}
         </ChartViewConfiguratorWithEntitySelection>
