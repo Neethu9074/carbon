@@ -3,7 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
-export const slideInStates = {
+import { CSSProperties } from 'react';
+
+interface SlideInState {
+  showSlideInContent: boolean;
+  staticContentStyle: CSSProperties;
+  inputBlockerStyle: CSSProperties;
+  headerStyle: CSSProperties;
+  slideInContentStyle: CSSProperties;
+}
+type SlideInStateProvider = (millis: number) => SlideInState;
+type TransitionStates = {
+  before: SlideInStateProvider;
+  transition: SlideInStateProvider;
+  after: SlideInStateProvider;
+};
+
+export const slideInStates: TransitionStates = {
   before: slideTransitionDurationMillis => ({
     showSlideInContent: true,
     staticContentStyle: {
@@ -63,7 +79,7 @@ export const slideInStates = {
   })
 };
 
-export const slideOutStates = {
+export const slideOutStates: TransitionStates = {
   before: slideTransitionDurationMillis => ({
     showSlideInContent: false,
     staticContentStyle: {

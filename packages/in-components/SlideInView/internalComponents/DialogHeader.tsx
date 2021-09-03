@@ -4,14 +4,22 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import { SvgIconSizes } from '@instana/components';
 
 import IconButton from 'in-components/IconButton/IconButton';
 
+// @ts-expect-error
 import locals from './DialogHeader.mless';
 
-export default function DialogHeader({ title, onTitleIconClick, scrollShadow }) {
+interface DialogHeaderProps {
+  scrollShadow?: boolean;
+  title: React.ReactNode;
+  onTitleIconClick?: React.MouseEventHandler<HTMLElement>;
+}
+
+export default function DialogHeader({ title, onTitleIconClick, scrollShadow }: DialogHeaderProps) {
   return (
     <div
       className={classNames({
@@ -20,15 +28,9 @@ export default function DialogHeader({ title, onTitleIconClick, scrollShadow }) 
       })}
     >
       <span className={locals.titleContainer}>
-        <IconButton iconSize="l" type="lib_arrow_left" onClick={onTitleIconClick} alignment="left" />
+        <IconButton iconSize={SvgIconSizes.l} type="lib_arrow_left" onClick={onTitleIconClick} alignment="left" />
         <h1 className={locals.title}>{title}</h1>
       </span>
     </div>
   );
 }
-
-DialogHeader.propTypes = {
-  scrollShadow: PropTypes.bool,
-  title: PropTypes.node.isRequired,
-  onTitleIconClick: PropTypes.func
-};

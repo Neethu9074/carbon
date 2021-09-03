@@ -6,3 +6,4 @@
 export * from 'in-types/backend';
 export * from 'in-types/backendCorrections';
 export * from 'in-types/globals';
+export * from 'in-types/utilities';

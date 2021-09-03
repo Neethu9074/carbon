@@ -4,6 +4,7 @@
  */
 
 import { isInStickyBody, withDisabledStickyBodyTopPadding } from 'in-components/Sticky/scrolling';
+import { Nullish } from 'in-types';
 
 const supportsTransformWithOutPrefix = 'transform' in document.body.style;
 
@@ -105,7 +106,11 @@ export function convertRemToPx(rem: number) {
   return rem * getDefaultFontSize();
 }
 
-export function getInteractiveElements(parent: HTMLElement): HTMLElement[] {
+export function getInteractiveElements(parent: HTMLElement | Nullish): HTMLElement[] {
+  if (!parent) {
+    return [];
+  }
+
   const elements = Array.from(
     parent.querySelectorAll<HTMLElement>('a, button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])')
   );

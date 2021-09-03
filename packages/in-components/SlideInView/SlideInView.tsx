@@ -5,7 +5,6 @@
 
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import DialogHeaderComponent from 'in-components/SlideInView/internalComponents/DialogHeader';
 import ListHeaderComponent from 'in-components/SlideInView/internalComponents/ListHeader';
@@ -13,11 +12,25 @@ import { supportsFocussingWithPreventedScrolling } from 'in-services/util/domFoc
 import { slideInStates, slideOutStates } from 'in-components/SlideInView/states';
 import { getInteractiveElements } from 'in-services/util/dom';
 
+// @ts-expect-error
 import locals from './SlideInView.mless';
 
 export const DialogHeader = DialogHeaderComponent;
 export const ListHeader = ListHeaderComponent;
-export const NoHeader = () => false;
+export const NoHeader = () => null;
+
+interface SlideInViewProps {
+  onAfterSlideIn?: (elements: ReturnType<typeof getInteractiveElements>) => void;
+  onAfterSlideOut?: (elements: ReturnType<typeof getInteractiveElements>) => void;
+  onShowSlideInContentChange: (f: boolean) => void;
+  showSlideInContent?: boolean;
+  slideInContent?: React.ReactNode;
+  slideInContentTitle?: React.ReactNode;
+  slideTransitionDurationMillis?: number;
+  staticContent: React.ReactNode;
+  HeaderComponent: typeof DialogHeader | typeof ListHeader | typeof NoHeader;
+  enforceMaxHeightForStaticContent?: boolean;
+}
 
 export default function SlideInView({
   // Content description
@@ -35,22 +48,22 @@ export default function SlideInView({
   // Behavior modification
   slideTransitionDurationMillis = 500,
   enforceMaxHeightForStaticContent
-}) {
+}: SlideInViewProps) {
   // To ensure that the states' showSlideInContent field matches the possible values provided by
   // component users. Not doing this causes the state to be different and therefore a transition
   // to trigger in unwanted cases.
   showSlideInContent = Boolean(showSlideInContent);
 
-  const headerSize = HeaderComponent === NoHeader ? 0 : HeaderComponent === DialogHeader ? '5rem' : '3.5rem';
+  const headerSize = HeaderComponent === NoHeader ? 0 : HeaderComponent === DialogHeader ? '5rem' : '3.5rem'; // TODO: use dynamic sizing here
 
   // Refs used to allow identification of interactive element for focus handling
   // support.
-  const staticContentWrapperRef = useRef();
-  const slideInContentWrapperRef = useRef();
+  const staticContentWrapperRef = useRef<HTMLDivElement>(null);
+  const slideInContentWrapperRef = useRef<HTMLDivElement>(null);
 
   // An optional side effect that should be executed after a React render, but before
   // the browser render cycle ends.
-  const afterStateChangeEffect = useRef();
+  const afterStateChangeEffect = useRef<(() => void) | null>();
   useLayoutEffect(() => afterStateChangeEffect.current?.(), [afterStateChangeEffect.current]);
 
   const [state, setState] = useState(slideOutStates.after(slideTransitionDurationMillis));
@@ -61,7 +74,7 @@ export default function SlideInView({
     }
     afterStateChangeEffect.current = null;
 
-    const timeouts = [];
+    const timeouts: ReturnType<typeof setTimeout>[] = [];
     if (showSlideInContent) {
       const afterStateChangeEffectFn = () => onAfterSlideIn(getInteractiveElements(slideInContentWrapperRef.current));
       if (supportsFocussingWithPreventedScrolling) {
@@ -129,7 +142,7 @@ export default function SlideInView({
           ...state.slideInContentStyle,
           top: headerSize
         }}
-        onScroll={e => setShowScrollShadow(e.target.scrollTop > 0)}
+        onScroll={e => setShowScrollShadow(e.target instanceof HTMLElement && e.target.scrollTop > 0)}
       >
         {slideInContent}
       </div>
@@ -137,20 +150,7 @@ export default function SlideInView({
   );
 }
 
-SlideInView.propTypes = {
-  onAfterSlideIn: PropTypes.func,
-  onAfterSlideOut: PropTypes.func,
-  onShowSlideInContentChange: PropTypes.func.isRequired,
-  showSlideInContent: PropTypes.bool,
-  slideInContent: PropTypes.node,
-  slideInContentTitle: PropTypes.node,
-  slideTransitionDurationMillis: PropTypes.number,
-  staticContent: PropTypes.node.isRequired,
-  HeaderComponent: PropTypes.oneOf([DialogHeader, ListHeader, NoHeader]),
-  enforceMaxHeightForStaticContent: PropTypes.bool
-};
-
-function focusFirstInteractiveElement(interactiveElements) {
+function focusFirstInteractiveElement(interactiveElements: HTMLElement[]): void {
   interactiveElements[0]?.focus?.({
     preventScroll: true
   });

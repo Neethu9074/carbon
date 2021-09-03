@@ -3,14 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
+import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
 import { SvgIcon } from '@instana/components';
 
+// @ts-expect-error
 import locals from './ListHeader.mless';
 
-export default function ListHeader({ title, onTitleIconClick }) {
+interface ListHeaderProps {
+  title: React.ReactNode;
+  onTitleIconClick?: (e: EventPlaceholder) => void;
+}
+
+export default function ListHeader({ title, onTitleIconClick }: ListHeaderProps) {
   return (
     <div className={locals.header}>
       <span className={locals.titleContainer}>
@@ -20,8 +26,3 @@ export default function ListHeader({ title, onTitleIconClick }) {
     </div>
   );
 }
-
-ListHeader.propTypes = {
-  title: PropTypes.node.isRequired,
-  onTitleIconClick: PropTypes.func
-};

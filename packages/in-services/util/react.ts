@@ -5,7 +5,8 @@
 
 import { MutableRefObject, RefCallback } from 'react';
 
-type Nullish = null | undefined;
+import { Nullish } from 'in-types';
+
 export type Refs<T> = MutableRefObject<T | Nullish> | RefCallback<T | Nullish> | Nullish;
 
 export function compositeRef<T>(...refs: Refs<T>[]): RefCallback<T> {
