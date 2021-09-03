@@ -2,5 +2,5 @@
   "name": "HorizontalFlexWrapper",
   "version": "0.0.0",
   "private": true,
-  "main": "./HorizontalFlexWrapper.js"
+  "main": "./HorizontalFlexWrapper.tsx"
 }
