@@ -39,7 +39,6 @@ export default function SimpleAlertConfigDialogChart({ form, onChartViewConfigCh
                 blueprintConfig={blueprintConfig}
                 alertsPreviewEnabled
                 canReload
-                useApproximateQueryPrecisionForMetrics
               />
             </div>
           ) : (

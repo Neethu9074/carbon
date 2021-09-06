@@ -63,7 +63,6 @@ export default function LogsInteractiveChart({
               blueprintConfig={blueprintConfig}
               alertsPreviewEnabled
               canReload
-              useApproximateQueryPrecisionForMetrics
             />
           )}
         </ChartViewConfiguratorWithEntitySelection>
