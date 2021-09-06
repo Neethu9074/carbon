@@ -5,6 +5,7 @@
 
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { EQUALS, NOT_EMPTY, ENDS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
+import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { TagFilter } from 'in-types';
 
@@ -16,7 +17,7 @@ export function getTraceIdTagFilter(traceId: string): TagFilter {
     name: LOG_TRACE_ID,
     value: traceId,
     operator: ENDS_WITH,
-    type: 'STRING',
+    type: TAG_FILTER_TYPE,
     entity: 'NOT_APPLICABLE'
   });
 }
@@ -27,7 +28,7 @@ export function getSpanIdTagFilter(spanId: string) {
         name: LOG_SPAN_ID,
         value: spanId,
         operator: EQUALS,
-        type: 'STRING',
+        type: TAG_FILTER_TYPE,
         entity: 'NOT_APPLICABLE'
       })
     : getEmptyTagFilterExpression();
