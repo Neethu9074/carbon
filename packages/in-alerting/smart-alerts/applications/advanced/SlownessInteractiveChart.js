@@ -55,7 +55,6 @@ export default function SlownessInteractiveChart({
               blueprintConfig={blueprintConfig}
               alertsPreviewEnabled
               canReload
-              useApproximateQueryPrecisionForMetrics
             />
           )}
         </ChartViewConfiguratorWithEntitySelection>
