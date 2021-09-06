@@ -89,7 +89,6 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
               serviceId={serviceId}
               endpointId={endpointId}
               isAlertDetailView
-              useApproximateQueryPrecisionForMetrics
             />
           </>
         )}

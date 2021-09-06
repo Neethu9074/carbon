@@ -63,7 +63,6 @@ export default function StatusCodeInteractiveChart({
               blueprintConfig={blueprintConfig}
               alertsPreviewEnabled
               canReload
-              useApproximateQueryPrecisionForMetrics
             />
           )}
         </ChartViewConfiguratorWithEntitySelection>
