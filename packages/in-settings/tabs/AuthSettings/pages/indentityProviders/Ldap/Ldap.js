@@ -19,15 +19,19 @@ import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/inden
 import { getConfigAsResultObservable as getOidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 import { getConfigAsResultObservable as getSamlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
+import { notBlankValidator } from 'in-services/validators/string.ts';
+import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { scrollIntoView } from 'in-services/util/dom';
 import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import { isNotBlank } from 'in-services/util/string';
+import HelpText from 'in-components/form/HelpText';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import Title from 'in-components/Title';
@@ -37,7 +41,7 @@ import indentityProvidersLocals from '../indentityProviders.mless';
 import locals from './Ldap.mless';
 
 export default function Ldap() {
-  const [testResultMessage, setTestResultMessage] = useState(null);
+  const [testResultMessage, setTestResultMessage] = useState({ waitingForTest: false, messageProps: null });
   return (
     <ApiItemView
       getObservables={() => ({
@@ -82,6 +86,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
 
           <form>
             <Section restrictWidth="50rem">
+              <SectionHeading withoutTopSpacing>{t('in-settings:tabs.requiredSettings')}</SectionHeading>
               <Row className={indentityProvidersLocals.row}>
                 <Col xs={12}>
                   <FormInput
@@ -90,33 +95,12 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     setForm={setForm}
                     fieldName="url"
                     label={t('in-settings:tabs.url')}
+                    description={t('in-settings:tabs.urlDescription')}
                   />
                 </Col>
               </Row>
+
               <Row className={indentityProvidersLocals.row}>
-                <Col xs={6}>
-                  <FormInput
-                    placeholder="cn=admin,dc=example,dc=com"
-                    className={locals.formGroupWithoutMargin}
-                    form={form}
-                    setForm={setForm}
-                    label={t('in-settings:tabs.user')}
-                    fieldName="roUser"
-                    disabled={form.get('emptyPass').value}
-                  />
-                </Col>
-                <Col xs={6}>
-                  <FormInput
-                    placeholder={t('in-settings:tabs.hidden')}
-                    className={locals.formGroupWithoutMargin}
-                    form={form}
-                    setForm={setForm}
-                    label={t('in-settings:tabs.password')}
-                    fieldName="roPassword"
-                    type="password"
-                    disabled={form.get('emptyPass').value}
-                  />
-                </Col>
                 <Col xs={12}>
                   {form.get('emptyPass').map(field => (
                     <CheckboxFancy
@@ -129,6 +113,34 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                   ))}
                 </Col>
               </Row>
+
+              {!form.get('emptyPass').value && (
+                <Row className={indentityProvidersLocals.firstHideableRow}>
+                  <Col xs={6}>
+                    <FormInput
+                      placeholder="cn=admin,dc=example,dc=com"
+                      className={locals.formGroupWithoutMargin}
+                      form={form}
+                      setForm={setForm}
+                      label={t('in-settings:tabs.user')}
+                      fieldName="roUser"
+                      description={t('in-settings:tabs.userDescription')}
+                    />
+                  </Col>
+                  <Col xs={6}>
+                    <FormInput
+                      placeholder={t('in-settings:tabs.hidden')}
+                      className={locals.formGroupWithoutMargin}
+                      form={form}
+                      setForm={setForm}
+                      label={t('in-settings:tabs.password')}
+                      fieldName="roPassword"
+                      type="password"
+                      description={t('in-settings:tabs.passwordDescription')}
+                    />
+                  </Col>
+                </Row>
+              )}
             </Section>
             <Section restrictWidth="50rem">
               <Row className={indentityProvidersLocals.row}>
@@ -139,6 +151,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     setForm={setForm}
                     fieldName="base"
                     label={t('in-settings:tabs.base')}
+                    description={t('in-settings:tabs.baseDescription')}
                   />
                 </Col>
                 <Col xs={6}>
@@ -148,6 +161,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     setForm={setForm}
                     fieldName="groupQuery"
                     label={t('in-settings:tabs.groupQuery')}
+                    description={t('in-settings:tabs.groupQueryDescription')}
                   />
                 </Col>
               </Row>
@@ -159,6 +173,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     setForm={setForm}
                     fieldName="groupMemberField"
                     label={t('in-settings:tabs.groupMemberField')}
+                    description={t('in-settings:tabs.groupMemberFieldDescription')}
                   />
                 </Col>
                 <Col xs={6}>
@@ -168,6 +183,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     setForm={setForm}
                     fieldName="userQueryTemplate"
                     label={t('in-settings:tabs.userQueryTemplate')}
+                    description={t('in-settings:tabs.userQueryTemplateDescription')}
                   />
                 </Col>
               </Row>
@@ -179,6 +195,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     setForm={setForm}
                     fieldName="emailField"
                     label={t('in-settings:tabs.emailField')}
+                    description={t('in-settings:tabs.emailFieldDescription')}
                   />
                 </Col>
               </Row>
@@ -187,6 +204,13 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
               <h3>{t('in-settings:tabs.ldapUserAccount')}</h3>
 
               <Row className={indentityProvidersLocals.row}>
+                <Col xs={12}>
+                  <DescriptionText>
+                    {t('in-settings:tabs.thisAccountIsAutomaticallyAssignedAnAdminRole')}
+                  </DescriptionText>
+                </Col>
+              </Row>
+              <Row className={indentityProvidersLocals.row}>
                 <Col xs={6}>
                   <FormInput
                     className={locals.formGroupWithoutMargin}
@@ -194,6 +218,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     setForm={setForm}
                     fieldName="testUser"
                     label={t('in-settings:tabs.username')}
+                    description={t('in-settings:tabs.usernameDescription')}
                   />
                 </Col>
                 <Col xs={6}>
@@ -205,43 +230,67 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     fieldName="testPassword"
                     label={t('in-settings:tabs.password')}
                     type="password"
+                    description={t('in-settings:tabs.usernamePasswordDescription')}
                   />
                 </Col>
                 <Col xs={12}>
-                  <DescriptionText>
-                    {t('in-settings:tabs.thisAccountIsAutomaticallyAssignedAnAdminRole')}
-                  </DescriptionText>
-                </Col>
-                <Col xs={12}>
                   <Button
+                    icon={testResultMessage.waitingForTest ? 'lib_actions_loading' : null}
+                    iconSpinning={testResultMessage.waitingForTest}
                     className={locals.testButton}
-                    disabled={!isNotBlank(getConfig(form).testUser) && !isNotBlank(getConfig(form).testPassword)}
+                    disabled={
+                      !isNotBlank(getConfig(form).testUser) ||
+                      !isNotBlank(getConfig(form).testPassword) ||
+                      testResultMessage.waitingForTest
+                    }
                     kind="secondary"
                     onClick={() => {
                       const config = getConfig(form);
                       const result$ = getTestResult(config);
-                      result$.once(({ testPassed, reason }) =>
-                        setTestResultMessage(
-                          testPassed ? { text: reason, type: 'success' } : { text: reason, type: 'errorType' }
-                        )
-                      );
-                      result$.errors().once(e => setTestResultMessage({ text: e, type: 'error' }));
+                      const id = '' + parseInt(Math.random() * 100000);
+                      setTestResultMessage({
+                        id: '',
+                        waitingForTest: true
+                      });
+                      result$.once(({ testPassed, reason }) => {
+                        const msgType = testPassed ? 'success' : 'error';
+                        setTestResultMessage({
+                          waitingForTest: false,
+                          messageProps: {
+                            id,
+                            text: reason,
+                            type: msgType
+                          }
+                        });
+                        setForm(form.setTouched(true, { recurse: true }));
+                      });
+                      result$.errors().once(e => {
+                        setTestResultMessage({
+                          id,
+                          waitingForTest: false,
+                          messageProps: {
+                            text: e,
+                            type: 'error'
+                          }
+                        });
+                        setForm(form.setTouched(true, { recurse: true }));
+                      });
                     }}
                   >
                     {t('in-settings:tabs.testConfiguration')}
                   </Button>
                 </Col>
               </Row>
-              {testResultMessage && (
+              {testResultMessage.messageProps && (
                 <Row className={indentityProvidersLocals.row}>
                   <Col xs={12}>
-                    <TemporaryMessage {...testResultMessage} duration={10000} />
+                    <TemporaryMessage {...testResultMessage.messageProps} duration={10000} />
                   </Col>
                 </Row>
               )}
             </Section>
             <Section restrictWidth="50rem">
-              <h3>{t('in-settings:tabs.optionalSettings')}</h3>
+              <SectionHeading withoutTopSpacing>{t('in-settings:tabs.optionalSettings')}</SectionHeading>
               <Row className={indentityProvidersLocals.row}>
                 <Col xs={6}>
                   <FormInput
@@ -250,6 +299,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     setForm={setForm}
                     fieldName="userDnMapping"
                     label={t('in-settings:tabs.userDnMapping')}
+                    description={t('in-settings:tabs.userDnMappingDescription')}
                   />
                 </Col>
                 <Col xs={6}>
@@ -259,6 +309,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     setForm={setForm}
                     fieldName="userField"
                     label={t('in-settings:tabs.userField')}
+                    description={t('in-settings:tabs.userFieldDescription')}
                   />
                 </Col>
               </Row>
@@ -270,7 +321,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
   );
 }
 
-function FormInput({ form, type, setForm, fieldName, label, className, disabled, placeholder }) {
+function FormInput({ form, type, setForm, fieldName, label, className, disabled, placeholder, description }) {
   return form.get(fieldName).map(field => (
     <FormGroup className={className}>
       <Label htmlFor={`ldap_${fieldName}`} hasError={!field.valid && field.touched}>
@@ -289,17 +340,29 @@ function FormInput({ form, type, setForm, fieldName, label, className, disabled,
         autoComplete="off"
         hasError={!field.valid && field.touched}
       />
+      {description && <HelpText>{description}</HelpText>}
+
       <TouchedMessages field={field} />
     </FormGroup>
   ));
+}
+
+function scrollToResultMessage() {
+  scrollIntoView(document.getElementsByClassName('message')[0]);
 }
 
 function saveItem({ form, setMessage }) {
   setMessage({ message: t('in-settings:tabs.savingConfig'), type: 'neutral', isSaving: true });
   const setConfigResult$ = setConfig(form.toJS());
   setConfigResult$.once(
-    () => setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' }),
-    error => setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' })
+    () => {
+      setMessage({ text: t('in-settings:tabs.configSuccessfullySaved'), type: 'success' });
+      scrollToResultMessage();
+    },
+    error => {
+      setMessage({ text: t('in-settings:tabs.failedToSaveConfig', { err: error.message }), type: 'error' });
+      scrollToResultMessage();
+    }
   );
 }
 
@@ -341,17 +404,17 @@ function enrichForm(form, { setCanDeleteItem, result: { config } }) {
   }
   return form
     .put('emptyPass', createField({ value: config.emptyPass }))
-    .put('base', createField({ value: config.base }))
-    .put('emailField', createField({ value: config.emailField }))
-    .put('groupMemberField', createField({ value: config.groupMemberField }))
-    .put('groupQuery', createField({ value: config.groupQuery }))
+    .put('base', createField({ value: config.base, validator: notBlankValidator }))
+    .put('emailField', createField({ value: config.emailField, validator: notBlankValidator }))
+    .put('groupMemberField', createField({ value: config.groupMemberField, validator: notBlankValidator }))
+    .put('groupQuery', createField({ value: config.groupQuery, validator: notBlankValidator }))
     .put('roPassword', createField({ value: config.roPassword }))
-    .put('testPassword', createField({ value: config.testPassword }))
-    .put('testUser', createField({ value: config.testUser }))
-    .put('url', createField({ value: config.url }))
+    .put('testPassword', createField({ value: config.testPassword || '', validator: notBlankValidator }))
+    .put('testUser', createField({ value: config.testUser || '', validator: notBlankValidator }))
+    .put('url', createField({ value: config.url, validator: notBlankValidator }))
     .put('roUser', createField({ value: config.roUser }))
     .put('userDnMapping', createField({ value: config.userDnMapping }))
     .put('userField', createField({ value: config.userField }))
-    .put('userQueryTemplate', createField({ value: config.userQueryTemplate }))
+    .put('userQueryTemplate', createField({ value: config.userQueryTemplate, validator: notBlankValidator }))
     .put('activated', createField({ value: !!config.base }));
 }
