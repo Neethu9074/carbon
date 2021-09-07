@@ -311,7 +311,7 @@ function Subscript({ entity }) {
   return (
     <Fragment>
       {intersperse(
-        [showBuiltIn(), showDisabled(), showInvalid(), showDeprecated()].filter(elem => elem),
+        [showBuiltIn(), showDisabled(), showInvalid(), showDeprecated(), showMigrated(entity)].filter(elem => elem),
         i => (
           <span key={`comma-${i}`}>, </span>
         )
@@ -339,6 +339,14 @@ function Subscript({ entity }) {
     return deprecateAppDataLegacyEvents && isAppDataEntityType() ? (
       <span key="deprecated" className={locals.deprecated}>
         {t('in-settings:tabs.deprecated')}
+      </span>
+    ) : null;
+  }
+
+  function showMigrated(entity) {
+    return entity.migrated ? (
+      <span key="invalid" className={locals.migrated}>
+        {t('in-settings:tabs.migrated')}
       </span>
     ) : null;
   }

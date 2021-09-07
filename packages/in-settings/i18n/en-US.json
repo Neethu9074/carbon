@@ -200,6 +200,7 @@
     "disabled": "Disabled",
     "invalidQuery": "Invalid Query",
     "deprecated": "Deprecated",
+    "migrated": "Migrated",
     "createAlertChannelLabelAlertChannel": "Create {{alertChannelLabel}} Alert Channel",
     "modifyEntityNameAlertChannel": "Modify {{entityName}} Alert Channel",
     "alertChannels": "Alert Channels",

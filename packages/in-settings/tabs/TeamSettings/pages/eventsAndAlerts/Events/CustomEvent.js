@@ -93,7 +93,7 @@ const Form = entityForm(function DetailsForm(props) {
     hasPermissionsToEditSmartAlerts &&
     isOneOfMigratableEntityTypes &&
     isMigrateableDfqScope &&
-    !entity.isMigrated;
+    entity.get('migrated') === false; // only migrateable entities have this property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
 
   return (
     <SettingsDetailPage>
