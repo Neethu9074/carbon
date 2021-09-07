@@ -7,6 +7,8 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
+import { useObservable } from '@instana/hooks';
+
 import {
   createApplicationIdTagFilter,
   createApplicationNameTagFilter,
@@ -28,44 +30,88 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { pendingResult } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
 import { isLoading } from 'in-services/util/result';
+import { noop } from 'in-services/util/function';
 
-export default function ApplicationsList({
-  getApplicationsCursorPaginated,
-  getApplication,
-  isGlobalSmartAlert,
-  appIdForIndividualSmartAlert,
-  ...props
-}) {
-  const { timeConfig, includeSynthetic, stateManagement, boundaryScope, readOnly } = props;
-  const searchQuery = props.searchQuery?.trim();
-  const { state } = stateManagement;
+export default function ApplicationsList({ isGlobalSmartAlert, searchQuery, ...props }) {
+  const trimmedSearchQuery = searchQuery?.trim();
+  const getStaleEntity = props.getApplication;
 
-  const { items, ...tableProps } = useCursorPagination(
-    ({ cursor }) =>
-      isGlobalSmartAlert
-        ? getApplicationsCursorPaginated({
-            pagination: {
-              cursor,
-              retrievalSize: DEFAULT_PAGE_SIZE
-            },
-            order: {
-              by: 'applicationLabel',
-              direction: 'ASC'
-            },
-            metrics: {},
-            filter: {
-              timeConfig,
-              includeSyntheticCalls: includeSynthetic
-            },
-            tagFilterExpression: buildTagFilterExpression(searchQuery, readOnly, state, boundaryScope)
-          })
-        : getApplication({ id: appIdForIndividualSmartAlert }).map(result => {
-            return { ...result, data: { items: result?.data ? [{ application: result.data }] : [] } };
-          }),
-    [searchQuery, isGlobalSmartAlert, includeSynthetic, timeConfig]
+  return isGlobalSmartAlert ? (
+    <ApplicationListMutlipleApplications {...props} searchQuery={trimmedSearchQuery} getStaleEntity={getStaleEntity} />
+  ) : (
+    <ApplicationListSingleApplication {...props} searchQuery={trimmedSearchQuery} getStaleEntity={getStaleEntity} />
   );
+}
+
+function ApplicationListMutlipleApplications({ getApplicationsCursorPaginated, ...props }) {
+  const { boundaryScope, includeSynthetic, readOnly, stateManagement, timeConfig, searchQuery } = props;
+
+  let { items = [], ...tableProps } = useCursorPagination(
+    ({ cursor }) =>
+      getApplicationsCursorPaginated({
+        pagination: {
+          cursor,
+          retrievalSize: DEFAULT_PAGE_SIZE
+        },
+        order: {
+          by: 'applicationLabel',
+          direction: 'ASC'
+        },
+        metrics: {},
+        filter: {
+          timeConfig,
+          includeSyntheticCalls: includeSynthetic
+        },
+        tagFilterExpression: buildTagFilterExpression(searchQuery, readOnly, stateManagement.state, boundaryScope)
+      }),
+    [searchQuery, includeSynthetic, timeConfig]
+  );
+
+  return (
+    <ApplicationBaseList
+      {...props}
+      {...tableProps}
+      items={items}
+      isLoading={isLoading(tableProps)}
+      initiallyOpen={Boolean(searchQuery) && items.length > 0}
+    />
+  );
+}
+
+function ApplicationListSingleApplication({ appIdForIndividualSmartAlert, getApplication, ...props }) {
+  const applicationResult =
+    useObservable(
+      () =>
+        getApplication({ id: appIdForIndividualSmartAlert }).map(result => {
+          return { ...result, items: result?.data ? [{ application: result.data }] : [] };
+        }),
+      []
+    ) ?? pendingResult;
+
+  const initiallyOpen = Boolean(props.searchQuery) && applicationResult.items.length > 0;
+
+  return (
+    <ApplicationBaseList
+      {...props}
+      key={initiallyOpen} //force rerender to show/render expanded list
+      items={applicationResult.items}
+      isLoading={isLoading(applicationResult)}
+      loadMore={noop}
+      initiallyOpen={initiallyOpen}
+    />
+  );
+}
+
+function ApplicationBaseList({ items = [], isLoading, getStaleEntity, initiallyOpen, ...props }) {
+  const {
+    stateManagement: { state },
+    searchQuery,
+    readOnly,
+    showInteractedItemsOnly
+  } = props;
 
   const listData = useMemo(() => {
     if (items.length === 0) return [];
@@ -78,10 +124,9 @@ export default function ApplicationsList({
   return (
     <SharedList
       {...props}
-      {...tableProps}
-      isLoading={isLoading(tableProps)}
+      isLoading={isLoading}
       listData={
-        props.showInteractedItemsOnly
+        showInteractedItemsOnly
           ? sortListBySelectionState(listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem(state))
           : listData
       }
@@ -120,11 +165,11 @@ export default function ApplicationsList({
         getBadgeElement() {
           return null;
         },
-        getStaleEntity$: getApplication
+        getStaleEntity$: getStaleEntity
       }}
-      initiallyOpen={Boolean(searchQuery) && items.length > 0}
-      isFramed={false}
+      initiallyOpen={initiallyOpen}
       viewOnly={readOnly}
+      isFramed={false}
     />
   );
 }
