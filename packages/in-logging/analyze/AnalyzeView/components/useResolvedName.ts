@@ -45,7 +45,7 @@ function getCustomKeyLabel(key: string): string {
   } else if (key.startsWith(LOG_CUSTOM_KEY_MSG_PARAM)) {
     return t('in-logging:messageParam');
   }
-  return `${LOG_CUSTOM}-key`;
+  return `${LOG_CUSTOM}-${key}`;
 }
 
 function resolveInfraLabel(snapshotId: string) {
