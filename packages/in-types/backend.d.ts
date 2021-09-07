@@ -694,6 +694,7 @@ export interface EventSpecificationInfo {
   readonly entityType: string;
   readonly id: string;
   readonly invalid: boolean;
+  readonly migrated: boolean;
   readonly name: string;
   readonly severity: number;
   readonly triggering: boolean;
@@ -3945,12 +3946,8 @@ export interface WebsiteBeaconsItem extends Cursorific<IngestionOffsetCursor> {
 
 export interface WebsiteCountryBreakdown {
   readonly beaconCount: number;
-  readonly continent: string;
-  readonly continentCode: string;
   readonly country: string;
   readonly countryCode: string;
-  readonly onLoadTime: number;
-  readonly pageLoads: number;
 }
 
 export interface WebsiteErrorsItem {
