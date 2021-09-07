@@ -69,7 +69,7 @@
   "titleRuleTester": "Tester regola",
   "titleTotalCalls": "Numero totale di chiamate",
   "titleErroneousCalls": "Chiamate errate",
-  "titleAvgLatency": "Latenza media ",
+  "titleAvgLatency": "Media. Latenza",
   "titleConfigureCustomServiceRules": "Configura regole di servizio personalizzate",
   "titleCustomServiceRule": "Regola di servizio personalizzata",
   "titleUpdateApplicationPerspective": "Aggiorna prospettiva applicazione",
@@ -402,7 +402,6 @@
       "builtInSmartAlertsScope": "5. Ambito avvisi smart incorporati",
       "builtInSmartAlertsScopeDescription": "Scegli quale avviso smart incorporato globale deve includere questo/parte di questo nel suo ambito",
       "clear": "Cancella",
-      "create": "Crea",
       "database": "DATABASE",
       "messaging": "MESSAGGISTICA"
     },
@@ -541,11 +540,11 @@
   },
   "constants": {
     "exclude": "Escludi",
-    "syntheticCallsAreExcludedFromTheMetrics": "Le chiamate sintetiche sono escluse dalle metriche. ",
+    "syntheticCallsAreExcludedFromTheMetrics": "Le chiamate sintetiche sono escluse dalle metriche.",
     "include": "Includi",
     "syntheticCallsAreIncludedInTheMetrics": "Le chiamate sintetiche sono incluse nelle metriche.",
     "only": "Solo",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Solo le chiamate sintetiche vengono visualizzate e incluse nelle metriche "
+    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Solo le chiamate sintetiche vengono visualizzate e incluse nelle metriche"
   },
   "traceDetail": {
     "tabs": {

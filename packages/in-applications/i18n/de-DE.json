@@ -402,7 +402,6 @@
       "builtInSmartAlertsScope": "5. Bereich für integrierte Smart Alerts",
       "builtInSmartAlertsScopeDescription": "Auswählen, welche integrierten Smart Alerts dies/einen Teil davon in ihrem Bereich enthalten sollen",
       "clear": "Löschen",
-      "create": "Erstellen",
       "database": "DATENBANK",
       "messaging": "NACHRICHTENÜBERTRAGUNG"
     },

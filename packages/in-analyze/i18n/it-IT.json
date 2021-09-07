@@ -175,8 +175,8 @@
         "tags": "Tag"
       },
       "callTree": {
-        "expandButtonForRow": "Espandi tutte le chiamate secondarie ",
-        "collapseButtonForRow": "Comprimi tutte le chiamate secondarie ",
+        "expandButtonForRow": "Espandi tutte le chiamate secondarie",
+        "collapseButtonForRow": "Comprimi tutte le chiamate secondarie",
         "of": "di",
         "inheritedFrom": "Ereditato da",
         "cardTitle": "Chiamate"
@@ -188,7 +188,7 @@
         "service": "Servizio"
       },
       "viewToggleButtons": {
-        "expl": "Visualizza come ",
+        "expl": "Visualizza come",
         "tree": "Struttura ad albero",
         "chart": "Sequenza temporale"
       },
@@ -285,7 +285,7 @@
     "analyzeLogsLabel": "Analizza log",
     "similarLogs": "Log simili",
     "similarServiceLogs": "Mostra i log nel contesto di questo servizio",
-    "service": "Mostra servizio "
+    "service": "Mostra servizio"
   },
   "traceDetails": {
     "labelTotal": "Totale",

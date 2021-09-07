@@ -7,10 +7,13 @@
   "logsOverTime_WARN": "Log delle avvertenze nel tempo",
   "logsOverTime_INFO": "Log informativo nel tempo",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configurazione della query non è valida. Risolvere gli errori di convalida prima di proseguire.",
-  "selectTags": "Seleziona tag",
-  "goToTrace": "Vai alla traccia",
   "addAsFilter": "Aggiungi come filtro",
   "addAsGroup": "Aggiungi come gruppo",
   "numberOfLogs": "Numero di log",
-  "numberOfLogsPercentage": "Percentuale"
+  "numberOfLogsPercentage": "Percentuale",
+  "applications": "Applicazioni",
+  "endpoint": "Endpoint",
+  "endpointType": "Tipo di endpoint ",
+  "messageParam": "Parametro messaggio ",
+  "applicationCounter": "{{count}} applicazioni "
 }

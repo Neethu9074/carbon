@@ -424,12 +424,13 @@
         "coldTier" : {
           "success": "Cold-tier log correttamente eseguito",
           "failure": "Cold-tier log non riuscito",
-          "optimize": "Ottimizza cold-tier log ",
-          "move": "Sposta cold-tier log ",
+          "optimize": "Ottimizza cold-tier log",
+          "move": "Sposta cold-tier log",
           "duration": "Durata cold-tier log (99°)",
           "skips": {
             "mutations": "Ignora cold-tier log (mutazioni)",
-            "merges": "Ignora cold-tier log (unioni)"
+            "merges": "Ignora cold-tier log (unioni)",
+            "moves": "Ignora cold-tier log (spostamenti)"
           }
         }
       }

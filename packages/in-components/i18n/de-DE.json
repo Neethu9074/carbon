@@ -188,7 +188,7 @@
     "buttonNext": "Weiter"
   },
   "chartingConfigurator": {
-    "buttonAddChart": "Diagramm hinzufügen",
+    "buttonAddChart": "Diagramm auswählen",
     "labelChangeSelectedMetric": "Ausgewählten Messwert ändern",
     "labelChangeSelectedAggregation": "Ausgewählte Aggregation ändern",
     "labelChangeSelectedRenderer": "Ausgewählte Wiedergabefunktion ändern",

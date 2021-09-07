@@ -6,7 +6,7 @@
     "alertHeaderRestoreErrorMessage": "Fehler beim Wiederherstellen der Überarbeitung der Alertkonfiguration mit der ID {{alertConfigID}} und der Version {{alertConfigCreated}}: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Zurück zur Liste der Alerts",
     "alertHeaderAlert": "Alert",
-    "alertHeaderRestoreRevisionTooltip": "Überarbeitung {{alertRevision}} wiederherstellen",
+    "alertHeaderRestoreRevisionTooltip": "{{description}} wiederherstellen",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Bitte bestätigen",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "Sind Sie sicher, dass Sie <strong>\"Überarbeitung {{alertRevision}}\"</strong> wiederherstellen möchten?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Wiederherstellen",
@@ -18,7 +18,8 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Bitte bestätigen",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Sind Sie sicher, dass Sie <strong>\"Alert {{alertConfigName}}\"</strong> entfernen möchten?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Entfernen",
-    "alertHeaderIsNotLatestRevisionMessage": "Dies ist die Überarbeitung {{alertRevision}} dieser Alertkonfiguration. Wählen Sie die <latestRevisionButton>neueste Überarbeitung<latestRevisionButton> aus, wenn Sie Änderungen vornehmen möchten. ",
+    "alertHeaderIsNotLatestRevisionMessage": "Dies ist die Überarbeitung {{description}} dieser Alertkonfiguration. Wählen Sie die <latestRevisionButton>aktuelle Überarbeitung aus</latestRevisionButton> oder nehmen Sie eine <restoreRevisionButton>Wiederherstellung aus der aktuellen Überarbeitung vor</restoreRevisionButton>, wenn Sie Änderungen vornehmen möchten. ",
+    "alertHeaderAriaLabelSeverity": "Ereignis hat Schweregrad {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Erstellte Alerts ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "Titel",
     "alertPropertyInfosLabelAlertLevel": "Alertstufe",
@@ -28,11 +29,12 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "Zusätzliche Filter",
     "revisionDropdownButton": {
       "revision": "Überarbeitung {{alertRevision}}",
-      "paused": "Angehalten",
-      "resumed": "Wiederaufgenommen",
-      "deleted": "Gelöscht",
-      "update": "Aktualisieren",
-      "created": "Erstellt"
+      "pause": "Pausieren",
+      "resume": "Wiederaufnehmen",
+      "delete": "Löschen",
+      "create": "Erstellen",
+      "restore": "Wiederherstellen",
+      "buttonLabel": "Alertprotokoll"
     },
     "chart": {
       "alertingChartLabelThreshold": "Schwellenwert",
@@ -456,7 +458,9 @@
       },
       "details": {
         "title": "Alertdetails",
-        "titleAlertProperties": "Alerteigenschaften"
+        "titleAlertProperties": "Alerteigenschaften",
+        "applicationsServiceEndpointScopeTitle": "Ausgewählte Anwendungen/Services/Endpunkte",
+        "callsScopeTitle": "Eingeschlossene Aufrufe"
       },
       "apCreation": {
         "addToAllBuiltInAlerts": "Zu allen ({{numAlerts}}) integrierten globalen Smart Alerts hinzufügen",
@@ -493,6 +497,8 @@
         "sharedListTooltip": "Der ausgewählte {{typeName}} ist nicht mehr verfügbar",
         "clearTagFilterExpressionButton": "Löschen",
         "baselineErrorMessageInsufficientDataToCompute": "Unzureichende Daten zur Berechnung der ausgewählten Referenzversion. Wählen Sie stattdessen <em>Statischer Schwellenwert</em> aus.",
+        "pleaseContactSupportToRiseLimit": "Wenden Sie sich über unser <supportLink>{{instanaSupportPortal}}</supportLink> an uns, um eine Erhöhung dieses Schwellenwerts anzufordern. ",
+        "instanaSupportPortal": "Instana-Support-Portal",
         "baselineErrorMessageReason": "Ursache:",
         "blueprintDescriptionButtonSelect": "Auswählen",
         "selectAlertChannelButtonTitle": "Alertkanäle auswählen",
@@ -575,6 +581,7 @@
         "thresholdTypeOptionHistoricBaselineWeekly": "Grundlinie (wöchentliche Saisonalität)",
         "thresholdTypeOptionAdaptiveBaseline": "Adaptive Vergleichsdaten",
         "useSuggestedvalue": "Vorgeschlagenen Wert verwenden",
+        "loadingThresholdSuggestion": "Vorschlag für Schwellenwert",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Smart Alert bearbeiten",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Globalen Smart Alert bearbeiten",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Neuen Smart Alert erstellen",
@@ -587,6 +594,26 @@
         "PreviewForService": "Vorschau für Service:",
         "PreviewSelectLoadingEndpoints": "Endpunktliste wird geladen",
         "thresholdValue": "Schwellenwert"
+      },
+      "userInfo": {
+        "success": {
+          "create": {
+            "alert": {
+              "title_Local": "Smart Alert erfolgreich erstellt",
+              "message_Local": "Smart Alert <strong>{{name}}</strong> wurde erstellt. ",
+              "title_Global": "Globaler Smart Alert erfolgreich erstellt",
+              "message_Global": "Globaler Smart Alert <strong>{{name}}</strong> wurde erstellt. "
+            }
+          },
+          "edit": {
+            "alert": {
+              "title_Local": "Smart Alert erfolgreich geändert",
+              "message_Local": "Smart Alert <strong>{{name}}</strong> wurde geändert. ",
+              "title_Global": "Globaler Smart Alert erfolgreich geändert",
+              "message_Global": "Globaler Smart Alert <strong>{{name}}</strong> wurde geändert. "
+            }
+          }
+        }
       },
       "alertsHub": {
         "title": "Alerts-Hub",

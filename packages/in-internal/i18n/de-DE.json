@@ -429,7 +429,8 @@
           "duration": "Dauer des Protokolls für kalte Datenschicht (99.)",
           "skips": {
             "mutations": "Überspringungsvorgänge im Protokoll für kalte Datenschicht (Mutationen)",
-            "merges": "Überspringungsvorgänge im Protokoll für kalte Datenschicht (Zusammenführungen)"
+            "merges": "Überspringungsvorgänge im Protokoll für kalte Datenschicht (Zusammenführungen)",
+            "moves": "Überspringungsvorgänge im Protokoll für kalte Datenschicht (Verschiebevorgänge)"
           }
         }
       }

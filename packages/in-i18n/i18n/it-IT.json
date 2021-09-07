@@ -2,8 +2,8 @@
   "components": {
     "list": {
       "loadMore": "Carica altro",
-      "toggleExtraContent": "Attiva/disattiva contenuto supplementare ",
-      "initiateDefaultAction": "Avvia azione predefinita "
+      "toggleExtraContent": "Attiva/disattiva contenuto supplementare",
+      "initiateDefaultAction": "Avvia azione predefinita"
     },
     "table": {
       "tableErrorRows": {
@@ -34,7 +34,7 @@
       "time_m": "{{count}}m",
       "time_seconds": "{{count}} secondo",
       "time_seconds_plural": "{{count}} secondi",
-      "time_s": "{{count}}",
+      "time_s": "{{count}} s",
       "time_milliseconds": "{{count}} millisecondo",
       "time_milliseconds_plural": "{{count}} millisecondi",
       "time_ms": "{{millis}}ms"

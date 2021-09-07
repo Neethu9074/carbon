@@ -194,7 +194,7 @@
     "tabsSumBatchIndicatorTooltip": "{{number}} ricorrenze",
     "tabsSumCustomEventBeacon": {
       "customEventLabel": "Evento personalizzato",
-      "startTimeLabel": "Data/ora di inizio",
+      "startTimeLabel": "Ora di inizio",
       "durationLabel": "Durata",
       "customEventHeader": "Evento personalizzato",
       "eventNameTitle": "Nome evento",
@@ -300,7 +300,7 @@
       "globViewFootertext": "Immagini fornite da NASA"
     },
     "noDataAvailable": {
-      "viewsTitle": "Nessuna vista disponibile ",
+      "viewsTitle": "Nessuna vista disponibile",
       "viewsDescription": "Non è stata richiamata alcuna vista per la fascia oraria selezionata.",
       "httpRequestsTitle": "Nessuna richiesta HTTP disponibile",
       "httpRequestsDescription": "Non è stata richiamata alcuna richiesta HTTP per la fascia oraria selezionata."

@@ -188,7 +188,7 @@
     "buttonNext": "Avanti"
   },
   "chartingConfigurator": {
-    "buttonAddChart": "Aggiungi grafico",
+    "buttonAddChart": "Seleziona grafico ",
     "labelChangeSelectedMetric": "Modifica metrica selezionata",
     "labelChangeSelectedAggregation": "Modifica aggregazione selezionata",
     "labelChangeSelectedRenderer": "Modifica renderer selezionato",
@@ -559,7 +559,7 @@
     "loadMore": "Carica altro",
     "activeFacets": "{{count}} selezionati",
     "clearFacets": "Deseleziona tutto",
-    "clearFacet": "Ripulisci",
+    "clearFacet": "Cancella",
     "noResults": "Nessun suggerimento",
     "from": "Da",
     "fromUnit": "Da ({{unit}})",

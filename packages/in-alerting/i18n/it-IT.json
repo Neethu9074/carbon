@@ -6,7 +6,7 @@
     "alertHeaderRestoreErrorMessage": "Impossibile ripristinare la revisione della configurazione di avvisi con ID {{alertConfigID}} e versione {{alertConfigCreated}}: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Torna all'elenco degli avvisi",
     "alertHeaderAlert": "Avviso",
-    "alertHeaderRestoreRevisionTooltip": "Ripristina revisione {{alertRevision}}",
+    "alertHeaderRestoreRevisionTooltip": "Ripristina {{description}}",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Confermare",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "Si è sicuri di voler ripristinare la <strong>\"Revisione {{alertRevision}}\"</strong>?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Ripristina",
@@ -18,7 +18,8 @@
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confermare",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "Si è sicuri di voler rimuovere l'<strong>\"avviso {{alertConfigName}}\"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Rimuovi",
-    "alertHeaderIsNotLatestRevisionMessage": "Si sta esaminando la revisione {{alertRevision}} di questa configurazione dell'avviso. Selezionare la <latestRevisionButton>revisione più recente<latestRevisionButton> se si desidera apportare modifiche.",
+    "alertHeaderIsNotLatestRevisionMessage": "Si sta esaminando la revisione {{description}} di questa configurazione dell'avviso. Selezionare <latestRevisionButton>la revisione più recente</latestRevisionButton> o <restoreRevisionButton>eseguire il ripristino dalla revisione corrente</restoreRevisionButton> se si desidera apportare modifiche.",
+    "alertHeaderAriaLabelSeverity": "L'evento ha severità {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Avvisi creati ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "Titolo",
     "alertPropertyInfosLabelAlertLevel": "Livello avviso",
@@ -28,11 +29,12 @@
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtri aggiuntivi",
     "revisionDropdownButton": {
       "revision": "Revisione {{alertRevision}}",
-      "paused": "In sospeso",
-      "resumed": "Ripristinato",
-      "deleted": "Eliminato",
-      "update": "Aggiorna",
-      "created": "Creata"
+      "pause": "Pausa ",
+      "resume": "Riprendi ",
+      "delete": "Elimina",
+      "create": "Crea",
+      "restore": "Ripristina",
+      "buttonLabel": "Cronologia avvisi "
     },
     "chart": {
       "alertingChartLabelThreshold": "Soglia",
@@ -456,7 +458,9 @@
       },
       "details": {
         "title": "Dettagli avviso",
-        "titleAlertProperties": "Proprietà avviso"
+        "titleAlertProperties": "Proprietà avviso",
+        "applicationsServiceEndpointScopeTitle": "Applicazioni/Servizi/Endpoint selezionati ",
+        "callsScopeTitle": "Chiamate incluse "
       },
       "apCreation": {
         "addToAllBuiltInAlerts": "Aggiungi tutti i gli avvisi smart ({{numAlerts}}) globali incorporati",
@@ -493,11 +497,13 @@
         "sharedListTooltip": "{{typeName}} selezionato non più disponibile",
         "clearTagFilterExpressionButton": "Ripulisci",
         "baselineErrorMessageInsufficientDataToCompute": "Dati insufficienti per calcolare la baseline selezionata. Selezionare <em>Soglia statica</em>.",
+        "pleaseContactSupportToRiseLimit": "Contattare il supporto tramite <supportLink>{{instanaSupportPortal}}</supportLink> per richiedere di aumentare questo limite. ",
+        "instanaSupportPortal": "Portale di supporto Instana ",
         "baselineErrorMessageReason": "Motivo:",
         "blueprintDescriptionButtonSelect": "Seleziona",
         "selectAlertChannelButtonTitle": "Seleziona canali di avviso",
         "selectAlertChannelButton": "Seleziona canali di avviso",
-        "createAlertChannelTitle": "Crea canale di avviso ",
+        "createAlertChannelTitle": "Crea canale di avviso",
         "alertChannelCreatedSuccess": "Canale di avviso creato",
         "alertChannelSelectTypeTitle": "Tipo di canale di avviso",
         "addChannel": "Aggiungi {{count}} canale",
@@ -575,6 +581,7 @@
         "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (stagionalità settimanale)",
         "thresholdTypeOptionAdaptiveBaseline": "Baseline adattativa",
         "useSuggestedvalue": "Utilizza valore suggerito",
+        "loadingThresholdSuggestion": "Caricamento suggerimento soglia",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Modifica avviso Smart",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Modifica avviso Smart globale",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crea nuovo avviso Smart",
@@ -587,6 +594,26 @@
         "PreviewForService": "Anteprima per il servizio:",
         "PreviewSelectLoadingEndpoints": "Caricamento dell'elenco di endpoint",
         "thresholdValue": "Valore soglia"
+      },
+      "userInfo": {
+        "success": {
+          "create": {
+            "alert": {
+              "title_Local": "Avviso smart creato correttamente ",
+              "message_Local": "L'avviso smart <strong>{{name}}</strong> è stato creato. ",
+              "title_Global": "Avviso smart globale creato correttamente ",
+              "message_Global": "L'avviso smart globale <strong>{{name}}</strong> è stato creato. "
+            }
+          },
+          "edit": {
+            "alert": {
+              "title_Local": "Avviso smart modificato correttamente",
+              "message_Local": "L'avviso smart <strong>{{name}}</strong> è stato modificato. ",
+              "title_Global": "Avviso smart globale modificato correttamente ",
+              "message_Global": "L'avviso smart globale <strong>{{name}}</strong> è stato modificato. "
+            }
+          }
+        }
       },
       "alertsHub": {
         "title": "Hub avvisi",
@@ -832,7 +859,7 @@
       "type": "Tipo"
     },
     "migration": {
-      "migrateButton": "Migra ad Avviso Smart ",
+      "migrateButton": "Migra ad Avviso Smart",
       "migrateButtonTooltip": "Apre una finestra di dialogo di configurazione dell'Avviso Smart precompilata nel modo migliore possibile con i valori migrati dall'evento corrente. Controllare attentamente il risultato."
     }
   }

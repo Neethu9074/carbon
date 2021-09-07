@@ -7,10 +7,13 @@
   "logsOverTime_WARN": "Warnprotokolle im Laufe der Zeit",
   "logsOverTime_INFO": "Informationsprotokolle im Laufe der Zeit",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "Die Abfragekonfiguration ist ungültig. Beheben Sie die Gültigkeitsfehler, bevor Sie fortfahren.",
-  "selectTags": "Tags auswählen",
-  "goToTrace": "Zu Trace wechseln",
   "addAsFilter": "Als Filter hinzufügen",
   "addAsGroup": "Als Gruppe hinzufügen",
   "numberOfLogs": "Anzahl der Protokolle",
-  "numberOfLogsPercentage": "Prozentsatz"
+  "numberOfLogsPercentage": "Prozentsatz",
+  "applications": "Anwendungen",
+  "endpoint": "Endpunkt",
+  "endpointType": "Endpunkttyp",
+  "messageParam": "Nachrichtenparameter",
+  "applicationCounter": "{{count}} Anwendungen"
 }

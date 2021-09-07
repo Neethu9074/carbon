@@ -1,6 +1,6 @@
 {
   "entityFormSaving": "Salvataggio in corso...",
-  "entityFormLoading": "Caricamento in corso... ",
+  "entityFormLoading": "Caricamento in corso...",
   "entityFormFailedToLoadData": "Caricamento dei dati non riuscito.",
   "entityFormFailedToSave": "Impossibile salvare: {{SaveFailureMessage}}"
 }

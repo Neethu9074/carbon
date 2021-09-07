@@ -263,7 +263,7 @@
       "index": {
         "testTitle": "Primi 5 servizi più lenti",
         "testLabels": {
-          "catalogue": "catalogo ",
+          "catalogue": "catalogo",
           "cart": "carrello",
           "ratings": "valutazioni",
           "discount": "sconto",
@@ -344,7 +344,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Introduzione",
-        "text": "Instana è la prima e unica soluzione Application Performance (APM) completamente automatizzata progettata\nspecificamente per le sfide legate alla gestione dei microservizi e delle applicazioni cloud-native.\n\nIniziare è semplice\n\n1. Se non hai ancora accesso a Instana, vai su [Instana.com](https://www.instana.com) e registrati per una Prova Gratuita.\n2. Esplora il nostro ecosistema di centinaia di [tecnologie supportate](https://www.instana.com/docs/ecosystem).\n3. Inizia a raccogliere dati con uno dei nostri [agent](https://www.instana.com/docs/setup_and_manage).\n4. Scopri [come usare Instana](https://www.instana.com/docs/using_instana) per i tuoi casi d'uso.\n5. Leggi le nostre esclusive [Capacità di base](https://www.instana.com/docs/core_capabilities/).\n6. Estendi Instana con le nostre [Integrazioni, SDK & API](https://www.instana.com/docs/integrations).\n\nQuesto è tutto. \n\nNon trovi ciò che stai cercando? Passa a [instana.com/docs](https://www.instana.com/docs/)!"
+        "text": "Instana è la prima e unica soluzione Application Performance (APM) completamente automatizzata progettata\nspecificamente per le sfide legate alla gestione dei microservizi e delle applicazioni cloud-native.\n\nIniziare è semplice\n\n1. Se non hai ancora accesso a Instana, vai su [Instana.com](https://www.instana.com) e registrati per una Prova Gratuita.\n2. Esplora il nostro ecosistema di centinaia di [tecnologie supportate](https://www.instana.com/docs/ecosystem).\n3. Inizia a raccogliere dati con uno dei nostri [agent](https://www.instana.com/docs/setup_and_manage).\n4. Scopri [come usare Instana](https://www.instana.com/docs/using_instana) per i tuoi casi d'uso.\n5. Leggi le nostre esclusive [Capacità di base](https://www.instana.com/docs/core_capabilities/).\n6. Estendi Instana con le nostre [Integrazioni, SDK & API](https://www.instana.com/docs/integrations).\n\nQuesto è tutto.\n\nNon trovi ciò che stai cercando? Passa a [instana.com/docs](https://www.instana.com/docs/)!"
       },
       "formComp": {
         "whatULikeShow": "Cosa si desidera mostrare?",
