@@ -5,8 +5,9 @@
 
 import React from 'react';
 
-import CustomMetricsV2, { AVAILABLE_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
+import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default function DominoCustomMetrics({ snapshot, timeConfig, titlePrefix }) {
@@ -17,4 +18,17 @@ export default function DominoCustomMetrics({ snapshot, timeConfig, titlePrefix 
   return <DashboardNotification>{t('in-forge:plugins.domino.dashboard.noMetricsDomino')}</DashboardNotification>;
 }
 
-export const SPECS = [AVAILABLE_SPECS.COUNTER];
+export const SPECS = [
+  {
+    prefix: 'metrics.counters.',
+    path: ['data', 'metrics.counters'],
+    type: 'counter',
+    color: '#00CC66',
+    metrics: [
+      {
+        label: t('in-sdk:dashboard.customMetricsV2.customMetricsLableCount'),
+        formatter: number.detailed
+      }
+    ]
+  }
+];

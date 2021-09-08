@@ -5158,7 +5158,8 @@
       },
       "troubleshootingDocs": "Troubleshooting docs",
       "metricsIncludeRegexDoesNotMatchAnyMetric": "Regex: {{metrics_include}} from the configuration file does not match any metric in the Domino server",
-      "missingStatPubConfigurationParameters": "Some STATPUB parameters are missing in the configuration file"
+      "missingStatPubConfigurationParameters": "Some STATPUB parameters are missing in the configuration file",
+      "invalidMetricsFileLocation": "Metrics file could not be found in the host"
 
     },
     "dropwizardApplicationContainer": {
