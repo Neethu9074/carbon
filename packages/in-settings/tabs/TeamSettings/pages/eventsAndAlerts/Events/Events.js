@@ -10,6 +10,15 @@ import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
 import {
+  builtInEnumValue,
+  customEnumValue,
+  deprecatedValue,
+  getEntityTypeOptionsOfBuiltInMetrics,
+  getSeverityText,
+  isBuiltInRule,
+  migratedValue
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import {
   getEntityHref,
   getEntityIdView,
   teamSettingsAlertingEventBuiltIn,
@@ -17,28 +26,21 @@ import {
   teamSettingsAlertingEventCustomNew
 } from 'in-settings/navigation/paths';
 import {
-  getEventSpecificationsMutable,
   deleteCustomEventSpecification,
+  getEventSpecificationsMutable,
   setBuiltInEventSpecificationsEnabled,
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
-import {
-  customEnumValue,
-  builtInEnumValue,
-  getEntityTypeOptionsOfBuiltInMetrics,
-  isBuiltInRule
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
-import { getSeverityText } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
 import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { intersperse } from 'in-services/arrayUtils';
 import { getPluginName } from 'in-sdk/pluginName';
-import WithIcon from 'in-components/WithIcon';
 import ComboBox from 'in-components/ComboBox';
+import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -49,6 +51,13 @@ const typeOptions = [
   { value: builtInEnumValue, label: t('in-settings:tabs.builtIn') },
   { value: customEnumValue, label: t('in-settings:tabs.custom') }
 ];
+
+if (deprecateAppDataLegacyEvents) {
+  typeOptions.push(
+    { value: deprecatedValue, label: t('in-settings:tabs.deprecated') },
+    { value: migratedValue, label: t('in-settings:tabs.migrated') }
+  );
+}
 
 const arbitrarySeverityForIncidentsFilter = -13;
 const severityOptions = [
@@ -336,7 +345,7 @@ function Subscript({ entity }) {
   }
 
   function showDeprecated() {
-    return deprecateAppDataLegacyEvents && isAppDataEntityType() ? (
+    return deprecateAppDataLegacyEvents && isAppDataEntityType(entity.entityType) ? (
       <span key="deprecated" className={locals.deprecated}>
         {t('in-settings:tabs.deprecated')}
       </span>
@@ -350,12 +359,10 @@ function Subscript({ entity }) {
       </span>
     ) : null;
   }
+}
 
-  function isAppDataEntityType() {
-    const { entityType } = entity;
-
-    return entityType === 'application' || entityType === 'service' || entityType === 'endpoint';
-  }
+function isAppDataEntityType(entityType) {
+  return entityType === 'application' || entityType === 'service' || entityType === 'endpoint';
 }
 
 function createFilters(hiddenIds, type, severity, entityType, enabled) {
@@ -365,7 +372,11 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
     filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
   }
 
-  if (type) {
+  if (type === migratedValue) {
+    filters.push(entity => Boolean(entity.migrated));
+  } else if (type === deprecatedValue) {
+    filters.push(entity => isAppDataEntityType(entity.entityType));
+  } else if (type) {
     filters.push(entity => entity.type === type);
   }
 

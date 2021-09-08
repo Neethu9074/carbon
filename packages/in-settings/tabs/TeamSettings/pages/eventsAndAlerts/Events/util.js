@@ -17,6 +17,9 @@ export const customEnumValue = 'CUSTOM';
 export const builtInValue = 'built-in';
 export const customValue = 'custom';
 
+export const deprecatedValue = 'deprecated';
+export const migratedValue = 'migrated';
+
 export function isBuiltInRule(entity) {
   return isBuiltInRuleType(entity.type);
 }
