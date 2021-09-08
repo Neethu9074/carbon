@@ -174,7 +174,7 @@ export default function Pods(props) {
       canLoadMore={podsResult.canLoadMore}
       columnDefinitions={columnDefinitions}
       numSkeletonRows={numberOfSkeletonRows}
-      loadMoreLabel={t('in-components:analyze.loadMoreWithCount')}
+      loadMoreLabel={t('in-components:analyze.loadMore')}
       onChange={({ orderBy, orderDirection }) =>
         onOrderByChange({
           by: orderBy,
