@@ -17,7 +17,7 @@
 We have a set of screencasts available to explain how to leverage TypeScript within
 ui-client. You can find these screencasts over on [Google Drive].
 
-[Google Drive]: https://drive.google.com/drive/folders/15MEbnrhGV582UaifkUxyelDt1IhuhkWn
+[google drive]: https://drive.google.com/drive/folders/15MEbnrhGV582UaifkUxyelDt1IhuhkWn
 
 ## Educational Material
 
@@ -38,6 +38,24 @@ Unless otherwise defined within this file, the styleguide from
 applies. For React specific best practices, refer to the
 [React cheat sheet](https://github.com/typescript-cheatsheets/react) unless
 otherwise documented in this file.
+
+### Type Checking
+
+#### Use `@ts-expect-error` over `@ts-ignore`
+
+Sometimes you need to suppress linter warnings, please use `@ts-expect-error` over `@ts-ignore`.
+
+TLDR
+
+> This directive operates in the same manner as @ts-ignore, but will error if the line it's meant to be suppressing doesn't actually contain an error, making it a lot safer.
+
+Description
+
+> TypeScript allows you to suppress all errors on a line by placing a single-line comment or a comment block line starting with @ts-ignore immediately before the erroring line. While powerful, there is no way to know if a @ts-ignore is actually suppressing an error without manually investigating what happens when the @ts-ignore is removed.
+> This means its easy for @ts-ignores to be forgotten about, and remain in code even after the error they were suppressing is fixed. This is dangerous, as if a new error arises on that line it'll be suppressed by the forgotten about @ts-ignore, and so be missed.
+> This directive operates in the same manner as @ts-ignore, but will error if the line it's meant to> be suppressing doesn't actually contain an error, making it a lot safer.
+
+For more information see respective [typescript-eslint page](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-ts-expect-error.md)
 
 ### Types vs. Interfaces
 
@@ -112,10 +130,10 @@ export default function Banana({ … }: BananaProps) {
 There are cases for which we allow to place type definitions in separate files (`types.ts`).
 However, we should generally try to avoid this.
 
- 1. For complicated sub-systems of the UI for which we didn't want to risk
+1.  For complicated sub-systems of the UI for which we didn't want to risk
     circular import paths (now and down the road). A good example for such a case are our
     charts.
- 2. For cases in which users of a package will never have to import any of the types unless
+2.  For cases in which users of a package will never have to import any of the types unless
     they build something advanced on top of it. A good example for such a case are our
     http and connection module.
 
