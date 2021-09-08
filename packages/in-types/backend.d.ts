@@ -1255,11 +1255,11 @@ export interface GetKubernetesPodQuery extends UiQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetKubernetesPodsQuery extends PaginatedQuery {
+export interface GetKubernetesPodsQuery extends CursorPaginatedQuery, QueryWithMetrics {
   readonly filter: KubernetesQueryFilter;
   readonly granularity: number;
   readonly order: Order;
-  readonly pagination: Pagination;
+  readonly pagination: CursorPagination<IngestionOffsetCursor>;
 }
 
 export interface GetKubernetesServiceForApplicationServiceIdQuery extends UiQuery {
@@ -1907,6 +1907,18 @@ export interface GetWiringEdgesQuery extends UiQuery {
   readonly timeframe: Timeframe;
 }
 
+export interface GetZhmcConsolesQuery extends PaginatedQuery {
+  readonly filter: ZhmcQueryFilter;
+  readonly order: Order;
+  readonly pagination: Pagination;
+}
+
+export interface GetZhmcCpcsQuery extends PaginatedQuery {
+  readonly filter: ZhmcQueryFilter;
+  readonly order: Order;
+  readonly pagination: Pagination;
+}
+
 export interface GlobalApplicationAlertConfigWithMetadata extends GlobalApplicationsAlertConfig, VersionedConfig {
   readonly applicationIds?: string[];
   readonly builtIn: boolean;
@@ -2411,6 +2423,17 @@ export interface KubernetesPodCondition {
   readonly reason: string;
   readonly status: string;
   readonly type: string;
+}
+
+export interface KubernetesPodListCursorPaginatedItem extends ListItemWithMetric, FilterableListItem, Cursorific<IngestionOffsetCursor> {
+  readonly age?: number;
+  readonly cursor: IngestionOffsetCursor;
+  readonly entityHealthInfo: EntityHealthInfo;
+  readonly label?: string;
+  readonly namespace?: string;
+  readonly phase?: string;
+  readonly pod: KubernetesPod;
+  readonly statusSummary?: string;
 }
 
 export interface KubernetesPodListItem extends ListItemWithMetric, FilterableListItem {
@@ -4133,6 +4156,60 @@ export interface WorkloadCounters {
   readonly deployments: number;
   readonly pods: number;
   readonly statefulSets: number;
+}
+
+export interface ZhmcConsoleItem {
+  readonly consoleId: string;
+  readonly id: string;
+  readonly label: string;
+  readonly systems: number;
+}
+
+export interface ZhmcConsoleItemCounters extends FilterableListItem {
+  readonly adapters?: number;
+  readonly consoleName: string;
+  readonly id: string;
+  readonly label: string;
+  readonly partitions?: number;
+  readonly systems: number;
+}
+
+export interface ZhmcCpcItem {
+  readonly consoleId?: string;
+  readonly cpcId: string;
+  readonly dpmEnabled?: string;
+  readonly id: string;
+  readonly label: string;
+  readonly name: string;
+  readonly networkPorts?: string[];
+  readonly partitions?: string[];
+  readonly processors?: string[];
+}
+
+export interface ZhmcCpcListItem extends FilterableListItem, ListItemWithMetric {
+  readonly adapters?: number;
+  readonly consoleId?: string;
+  readonly entityId?: EntityId;
+  readonly id: string;
+  readonly ipAddress?: string;
+  readonly label: string;
+  readonly machineSerial?: string;
+  readonly machineTypeModel?: string;
+  readonly mode?: string;
+  readonly partitions?: number;
+  readonly status?: string;
+}
+
+export interface ZhmcPartition {
+  readonly label: string;
+}
+
+export interface ZhmcQueryFilter extends FilterInterface {
+  readonly consoleId?: string;
+  readonly cpcId?: string;
+  readonly label?: string;
+  readonly snapshotId?: string;
+  readonly timeConfig: TimeConfig;
 }
 
 export type AccessRuleRelationType = 'USER' | 'API_TOKEN' | 'ROLE' | 'TEAM' | 'GLOBAL';
