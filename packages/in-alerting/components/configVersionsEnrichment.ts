@@ -9,6 +9,7 @@ import { t } from 'in-i18n';
 export interface ExtendedConfigVersion extends ConfigVersion {
   readonly description: string;
   readonly iconType?: string;
+  readonly disabled?: boolean;
 }
 
 export function extendAlertConfigVersions(alertConfigVersions: ConfigVersion[]): ExtendedConfigVersion[] {
@@ -37,14 +38,16 @@ export function extendAlertConfigVersions(alertConfigVersions: ConfigVersion[]):
           return {
             ...cv,
             description: t('in-alerting:components.revisionDropdownButton.pause'),
-            iconType: 'lib_actions_pause'
+            iconType: 'lib_actions_pause',
+            disabled: true
           };
 
         case 'ENABLE':
           return {
             ...cv,
             description: t('in-alerting:components.revisionDropdownButton.resume'),
-            iconType: 'lib_actions_play'
+            iconType: 'lib_actions_play',
+            disabled: true
           };
 
         case 'DELETE':

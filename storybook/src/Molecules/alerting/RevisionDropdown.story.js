@@ -14,6 +14,10 @@ export default {
   component: RevisionDropdown
 };
 
+function Wrapper({ children }) {
+  return <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>{children}</div>;
+}
+
 export const RevisionDropdownNewConfigs = () => {
   const [alertConfig, setAlertConfig] = useState(newVersioningFormatData.alertConfig);
 
@@ -21,13 +25,15 @@ export const RevisionDropdownNewConfigs = () => {
   const alertRevision = getRevision(alertConfig, alertConfigVersions);
 
   return (
-    <RevisionDropdown
-      alertConfigVersions={alertConfigVersions}
-      alertRevision={alertRevision}
-      setRevision={created => {
-        setAlertConfig(newVersioningFormatData.alertConfigVersions.find(acv => acv.created === created));
-      }}
-    />
+    <Wrapper>
+      <RevisionDropdown
+        alertConfigVersions={alertConfigVersions}
+        alertRevision={alertRevision}
+        setRevision={created => {
+          setAlertConfig(newVersioningFormatData.alertConfigVersions.find(acv => acv.created === created));
+        }}
+      />
+    </Wrapper>
   );
 };
 
@@ -38,13 +44,15 @@ export const RevisionDropdownOldConfigs = () => {
   const alertRevision = getRevision(alertConfig, alertConfigVersions);
 
   return (
-    <RevisionDropdown
-      alertConfigVersions={alertConfigVersions}
-      alertRevision={alertRevision}
-      setRevision={created => {
-        setAlertConfig(oldVersioningFormatData.alertConfigVersions.find(acv => acv.created === created));
-      }}
-    />
+    <Wrapper>
+      <RevisionDropdown
+        alertConfigVersions={alertConfigVersions}
+        alertRevision={alertRevision}
+        setRevision={created => {
+          setAlertConfig(oldVersioningFormatData.alertConfigVersions.find(acv => acv.created === created));
+        }}
+      />
+    </Wrapper>
   );
 };
 
@@ -55,13 +63,15 @@ export const RevisionDropdownMixedConfigs = () => {
   const alertRevision = getRevision(alertConfig, alertConfigVersions);
 
   return (
-    <RevisionDropdown
-      alertConfigVersions={alertConfigVersions}
-      alertRevision={alertRevision}
-      setRevision={created => {
-        setAlertConfig(mixedVersioningFormatData.alertConfigVersions.find(acv => acv.created === created));
-      }}
-    />
+    <Wrapper>
+      <RevisionDropdown
+        alertConfigVersions={alertConfigVersions}
+        alertRevision={alertRevision}
+        setRevision={created => {
+          setAlertConfig(mixedVersioningFormatData.alertConfigVersions.find(acv => acv.created === created));
+        }}
+      />
+    </Wrapper>
   );
 };
 

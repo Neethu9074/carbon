@@ -163,6 +163,16 @@ describe('in-alerting/components/configVersionsEnrichment::extendAlertConfigVers
       newAlertConfigVersions[newAlertConfigVersions.length - 1].created
     );
   });
+
+  test('disabled and paused state should have a "disabled: true" property added ', () => {
+    const versions = extendAlertConfigVersions(newAlertConfigVersions);
+    expect(versions[1].disabled).toBeUndefined();
+    expect(versions[2].disabled).toEqual(true);
+    expect(versions[3].disabled).toEqual(true);
+    expect(versions[versions.length - 1].created).toEqual(
+      newAlertConfigVersions[newAlertConfigVersions.length - 1].created
+    );
+  });
 });
 
 function getChangeSummary(changeType: ChangeType, authorFullName?: string, authorId?: string, authorType?: AuthorType) {

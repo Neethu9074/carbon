@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+@import '~in-themes/active.less';
+
 :local {
   .option {
     font-weight: 600;
@@ -16,5 +18,22 @@
 
   .align-left {
     justify-content: flex-start;
+  }
+
+  .disabled {
+    cursor: not-allowed;
+
+    &:hover,
+    &:focus {
+      outline: 1px @lib__colors__N700Medium dotted;
+      background: unset;
+    }
+
+    & * {
+      color: @lib__colors__N500 !important;
+      svg {
+        fill: @lib__colors__N500 !important;
+      }
+    }
   }
 }

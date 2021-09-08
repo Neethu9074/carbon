@@ -22,6 +22,7 @@ interface Labeled {
 
 export interface ComboBoxOption<OPTION_VALUE_TYPE> extends Labeled {
   value: OPTION_VALUE_TYPE;
+  disabled?: boolean;
 }
 
 export interface ComboBoxOverlayProps<OPTION_VALUE_TYPE> {
@@ -64,6 +65,7 @@ export default function ComboBoxOverlay<OPTION_VALUE_TYPE>({
           close={asyncClose}
           value={option.value}
           alignment={listItemAlignment}
+          disabled={option.disabled}
         >
           {option.label}
         </OverlayOption>

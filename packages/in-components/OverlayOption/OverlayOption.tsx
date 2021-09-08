@@ -5,6 +5,7 @@
 
 import React, { ReactElement } from 'react';
 import classNames from 'classnames';
+import { noop } from 'lodash';
 
 import { Li, ListSizes } from '@instana/components';
 
@@ -27,6 +28,7 @@ interface OverlayOptionProps<VALUE_TYPE> {
   onChange: (value: VALUE_TYPE) => void;
   subList?: React.ReactNode;
   value: VALUE_TYPE;
+  disabled?: boolean;
 }
 
 export default function OverlayOption<VALUE_TYPE>({
@@ -38,20 +40,26 @@ export default function OverlayOption<VALUE_TYPE>({
   close,
   size,
   children,
-  alignment,
-  subList
+  alignment = alignments[0],
+  subList,
+  disabled
 }: OverlayOptionProps<VALUE_TYPE>): ReactElement {
   return (
     <Li
-      className={classNames(locals.option, className, locals[`align-${alignment ?? 'center'}`])}
+      className={classNames(locals.option, className, locals[`align-${alignment}`], disabled ? locals.disabled : '')}
       noAlternatingBg
       autoFocus={autoFocus ?? selectedValue === value}
       subList={subList}
       size={size}
-      onClick={() => {
-        onChange(value);
-        close();
-      }}
+      onClick={
+        disabled
+          ? noop
+          : () => {
+              onChange(value);
+              close();
+            }
+      }
+      aria-disabled={disabled ? 'true' : undefined}
     >
       {children}
     </Li>
