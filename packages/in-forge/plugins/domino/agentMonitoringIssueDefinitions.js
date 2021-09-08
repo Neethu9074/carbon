@@ -37,5 +37,19 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.domino.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/domino/#missing_stat_pub_configuration_parameters`
+  },
+
+  invalid_metrics_file_location: {
+    issueDescription: {
+      Component: function invalidMetricsFileLocation() {
+        return (
+          <span>
+            <Trans i18nKey="in-forge:plugins.domino.invalidMetricsFileLocation" />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.domino.troubleshootingDocs'),
+    explanationLinkHref: `https://instana.com/docs/ecosystem/domino/#invalid_metrics_file_location`
   }
 };
