@@ -194,7 +194,7 @@ export default function Pods(props) {
 function getTableData({
   query = '',
   cursor = null,
-  retrievalSize = 5,
+  retrievalSize = 20,
   orderBy = 'age',
   orderDirection = 'ASC',
   timeConfig,
@@ -207,7 +207,6 @@ function getTableData({
   cronJobId,
   phase
 }) {
-  console.log(retrievalSize);
   return getKubernetesPods({
     pagination: {
       cursor,
