@@ -140,8 +140,8 @@ export default function Pods(props) {
     ({ cursor }) =>
       getTableData({
         timeConfig,
-        page: cursor,
-        pageSize: 10,
+        cursor,
+        retrievalSize: retrievalSize,
         workloadOwnerId: jobId,
         orderBy,
         orderDirection
@@ -174,7 +174,7 @@ export default function Pods(props) {
       canLoadMore={podsResult.canLoadMore}
       columnDefinitions={columnDefinitions}
       numSkeletonRows={numberOfSkeletonRows}
-      loadMoreLabel={t('in-components:analyze.loadMoreWithCount', { count: retrievalSize })}
+      loadMoreLabel={t('in-components:analyze.loadMore')}
       onChange={({ orderBy, orderDirection }) =>
         onOrderByChange({
           by: orderBy,
@@ -193,8 +193,8 @@ export default function Pods(props) {
 
 function getTableData({
   query = '',
-  page = 1,
-  pageSize = 10,
+  cursor = null,
+  retrievalSize = 20,
   orderBy = 'age',
   orderDirection = 'ASC',
   timeConfig,
@@ -209,8 +209,8 @@ function getTableData({
 }) {
   return getKubernetesPods({
     pagination: {
-      page,
-      pageSize
+      cursor,
+      retrievalSize
     },
     order: {
       by: orderBy,
