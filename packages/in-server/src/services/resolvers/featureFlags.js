@@ -170,11 +170,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'authenticationOidcEnabled',
-    instanaCtlKey: 'feature.authentication.oidc.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'syntheticCallsEnabled',
     instanaCtlKey: 'feature.synthetic.calls.enabled',
     defaultValue: false
