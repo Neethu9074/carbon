@@ -36,10 +36,11 @@
     display: flex;
     justify-content: space-between;
 
+    min-height: 1.75rem;
+
     color: @lib__colors__N700Medium;
     font-size: 1rem;
     font-weight: 200;
-    line-height: 1.875rem;
   }
 
   .centerTitle {
