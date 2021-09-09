@@ -18,7 +18,7 @@
       "gatherInsightsVarUnitsProblems": "Recopile información sobre el rendimiento de las distintas unidades e identifique qué unidad genera problemas.",
       "unitList": "Lista de unidades",
       "allowsUnitLevelStability": "Permite obtener información de nivel de unidades, por ejemplo la infraestructura y la estabilidad de la supervisión de aplicaciones.",
-      "agents": "Agentes",
+      "agents": "Agentes.",
       "agentDesc": "Obtenga información sobre qué unidad tiene agentes que generan problemas.",
       "pipelines": "Interconexiones",
       "acceptor": "Aceptadores",
@@ -41,10 +41,12 @@
       "logMonitorDesc": "Paneles de control que muestran cómo se escriben y leen los datos del registro.",
       "logMonitorProcessing": "log-processor (mejora de registros)",
       "logMonitorProcessingDesc": "log-processor lee los registros de los temas de kafka y los mejora y graba en otros tema de kafka.",
-      "logMonitorWriter": "log-writer (ingesta del registro)",
-      "logMonitorWriterDesc": "log-writer realiza la ingesta del registro en ClickHouse.",
+      "logMonitorWriter": "log-writer (ingestión del registro)",
+      "logMonitorWriterDesc": "log-writer realiza la ingestión del registro en ClickHouse.",
       "logMonitorReader": "log-reader (consulta del registro)",
       "logMonitorReaderDesc": "log-reader consulta los registros de ClickHouse.",
+      "logMonitorHousekeeping": "Mantenimiento del registro",
+      "logMonitorHousekeepingDesc": "El mantenimiento del registro contiene trabajos de mantenimiento que se ejecutan dentro de log-writer.",
       "infrastructureMetrics": "Métricas de la infraestructura",
       "infrastructureMetricsDesc": "Información sobre la interconexión de métrica de la infraestructura.",
       "fillerMetricExtraction": "Rellenos (extracción de métricas)",
@@ -60,7 +62,7 @@
       "eumProcessorDesc": "eum-procesador mejora las balizas recibidas y las reenvía a Kafka para su persistencia.",
       "eumHealthHrocessor": "eum-health-processor (ejecución de reglas de salud)",
       "eumHealthHrocessorDesc": "eum-health-processor lee las balizas procesadas desde Kafka y ejecuta reglas en los grupos de balizas.",
-      "appdataWriter": "appdata-writer (ingesta de balizas)",
+      "appdataWriter": "appdata-writer (ingestión de balizas)",
       "appdataWriterDesc": "appdata-writer hace que las balizas mejoradas persistan en ClickHouse.",
       "errorSimulator": "Simulador de errores",
       "errorSimulatorDesc": "Desencadenar errores de JavaScript para verificar el comportamiento de la supervisión del sitio web.",
@@ -131,16 +133,6 @@
       "sLOViolations": "Infracciones de SLO",
       "devTUSLOs": "Desarrollo de SLO de TU",
       "expTUSLOs": "SLO de TU experimentales"
-    },
-    "timeZones": {
-      "sanFrancisco": "San Francisco",
-      "austin": "Austin",
-      "newYorkCity": "Nueva York",
-      "uTC": "UTC",
-      "solingen": "Solingen",
-      "noviSad": "Novi Sad",
-      "tokyo": "Tokio",
-      "sydney": "Sidney"
     }
   },
   "monitoringUnit": {
@@ -356,6 +348,8 @@
             "tooOld": "Consumidor de registros de rastreo de Kafka demasiado antiguo"
           }
         },
+        "droppedPast": "Registros descartados con indicación de fecha y hora en el pasado",
+        "droppedFuture": "Registros descartados con indicación de fecha y hora en el futuro",
         "outgoing": "Registros salientes",
         "failOutgoing": "Registros salientes fallidos"
       },
@@ -415,6 +409,29 @@
           "mean": "media",
           "50th": "50º",
           "99th": "99º"
+        }
+      },
+      "housekeeping" : {
+        "title": "Mantenimiento del registro (ejecutándose dentro de log-writer)",
+        "cleanup" : {
+          "success": "Éxito de limpieza de registro",
+          "failure": "Error de limpieza de registro",
+          "duration": "Duración de limpieza de registro (99º)",
+          "skips" : {
+            "mutations": "Omisiones de limpieza del registro (mutaciones)"
+          }
+        },
+        "coldTier" : {
+          "success": "Éxito de nivel de frío del registro",
+          "failure": "Error de nivel de frío de registro",
+          "optimize": "Optimización de nivel de frío de registro",
+          "move": "Movimiento de nivel de frío de registro",
+          "duration": "Duración de nivel de frío de registro (99º)",
+          "skips": {
+            "mutations": "Omisiones de nivel frío de registro (mutaciones)",
+            "merges": "Omisiones de nivel de frío de registro (fusiones)",
+            "moves": "Omisiones de nivel de frío de registro (movimientos)"
+          }
         }
       }
     },
@@ -496,7 +513,7 @@
         "incomingWebsiteBeacon": "Balizas entrantes del sitio web",
         "outgoingProcessWebsiteBeacon": "Balizas salientes del sitio web procesadas",
         "failOutgoingProcessWebsiteBeacon": "Balizas salientes del sitio web procesadas anómalas",
-        "appdataWriterDataIngest": "appdata-writer (ingesta de datos)",
+        "appdataWriterDataIngest": "appdata-writer (ingestión de datos)",
         "incomingProcessWebsiteBeacon": "Balizas entrantes del sitio web procesadas",
         "failIncomingProcessWebsiteBeacon": "Balizas entrantes del sitio web procesadas anómalas",
         "shortBeaconBatchWrite": "Escrituras por lote de balizas a corto plazo",
@@ -893,7 +910,6 @@
       "config": "Configuración",
       "version": "Versión",
       "injectorBindings": "Enlaces de inyectores",
-      "hystrix": "Hystrix",
       "agentClockSkew": "Diferencia horaria del agente"
     },
     "region": {

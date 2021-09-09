@@ -105,7 +105,7 @@
         "titleBrowser": "Navegador",
         "titleOperatingSystem": "Sistema operativo",
         "titleWindowDimensions": "Dimensiones de ventana",
-        "titlePreferredLanguages": "Lenguajes preferidos",
+        "titlePreferredLanguages": "Idiomas preferidos",
         "titleIPAddress": "Dirección IP",
         "titleEffectiveConnectionType": "Tipo de conexión efectiva",
         "titleSessionID": "ID de sesión",
@@ -139,7 +139,7 @@
         "referencedPageLoadsLabelPage": "Página",
         "referencedPageLoadsValueNA": "N/D",
         "referencedPageLoadsButtonInspect": "Inspeccionar",
-        "stackTrace": "Rastreo de pila",
+        "stackTrace": "StackTrace",
         "timingsPercentageOfTotalDurationName": "{{percentage}} de {{totalDurationName}}",
         "customEventBeaconHeaderCustomEvent": "Suceso personalizado",
         "customEventBeaconHeaderMeta": "Meta",
@@ -199,7 +199,7 @@
         "pageLoadBeaconLabelPageLoad": "Carga de páginas",
         "pageLoadBeaconLabelOnLoadTime": "Tiempo de carga",
         "pageLoadBeaconLabelUnload": "Descargar",
-        "pageLoadBeaconLabelRedirect": "Redireccionar",
+        "pageLoadBeaconLabelRedirect": "Redirección",
         "pageLoadBeaconLabelAppCache": "AppCache",
         "pageLoadBeaconLabelDNS": "DNS",
         "pageLoadBeaconLabelTCP": "TCP",
@@ -271,8 +271,8 @@
         "filterTypeErrorShort": "Err",
         "filterTypeErrorBadgeLabel": "Err",
         "filterTypeErrorLong": "Errores JS captados (no captados)",
-        "filterTypeCustomShort": "Per",
-        "filterTypeCustomBadgeLabel": "Per",
+        "filterTypeCustomShort": "Cus",
+        "filterTypeCustomBadgeLabel": "Cus",
         "filterTypeCustomLong": "Sucesos personalizados",
         "filterTypeOtherShort": "Otros",
         "filterTypeOtherBadgeLabel": "Otr",
@@ -288,6 +288,7 @@
         "indexLabelDetails": "Detalles",
         "labelAnalytics": "Analíticas",
         "titlePageLoad": "Carga de páginas",
+        "pageLoadOnResource": "{{page}} en {{resource}}",
         "buttonDownload": "Descargar",
         "renderTimeSelectionTooltip": "Cerrar detalles de carga de página",
         "referencedPageLoads": "Cargas de páginas referenciadas"
@@ -345,9 +346,7 @@
     "websitesListLabelOnLoadTime": "Tiempo de carga",
     "websitesListLabelHealth": "Salud",
     "websitesListButtonAddWebsite": "Añadir sitio web",
-    "websitesListTitleWebsites": "Sitios web",
-    "websitesListProductAreaEUMWebsites": "EUM: Sitios web",
-    "websitesListPageRootNameWebsites": "Sitios web"
+    "websitesListTitleWebsites": "Sitios web"
   },
   "websiteDashboard": {
     "components": {
@@ -461,6 +460,10 @@
         "alertConfigurationTitleTimeThreshold": "Umbral de tiempo",
         "alertConfigurationTitleAlertChannels": "Canales de alertas",
         "alertConfigurationTitleAlertProperties": "Propiedades de alerta",
+        "filter": "filter",
+        "filter_plural": "filters",
+        "moreFiltersWithCount": "+{{count}} filtro más",
+        "moreFiltersWithCount_plural": "+{{count}} filtros más",
         "alertsLabelName": "Nombre",
         "alertsLabelFilters": "Filtros",
         "alertsHeaderConfiguredAlerts": "Alertas configuradas",
@@ -744,7 +747,19 @@
     "websiteDashboardTitleWebsitePage": "Página web",
     "websiteDashboardTitleWebsite": "Sitio web",
     "websiteDashboardButtonAnalyzePageLoads": "Analizar cargas de páginas",
-    "websiteDashboardButtonAnalyzePageTransitions": "Analizar transiciones de páginas"
+    "websiteDashboardButtonAnalyzePageTransitions": "Analizar transiciones de páginas",
+    "noDataAvailable": {
+      "pagesTitle": "No hay páginas disponibles",
+      "pagesDescription": "No se han recuperado páginas para el rango de tiempo seleccionado.",
+      "customEventsTitle": "No hay sucesos personalizados disponibles",
+      "customEventsDescription": "No se han recuperado sucesos personalizados para el rango de tiempo seleccionado.",
+      "javascriptErrorsTitle": "No hay errores de JavaScript disponibles",
+      "javascriptErrorsDescription": "No se han recuperado errores de JavaScript para el rango de tiempo seleccionado.",
+      "resourcesTitle": "No hay recursos disponibles",
+      "resourcesDescription": "No se han recuperado recursos para el rango de tiempo seleccionado.",
+      "httpRequestsTitle": "No hay solicitudes HTTP disponibles",
+      "httpRequestsDescription": "No se han recuperado solicitudes HTTP para el rango de tiempo seleccionado."
+    }
   },
   "rename": {
     "help": "Cambiar el nombre de un sitio web es una acción consecuente en el sistema Instana. Por este motivo, un cambio en un nombre del sitio web puede tardar <strong>algunos minutos</strong> hasta que se haya rellenado en todo el sistema."

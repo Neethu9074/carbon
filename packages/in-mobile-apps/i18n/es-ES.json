@@ -178,12 +178,12 @@
       "backendTooltipCall": "llamada",
       "backendTooltipCall_plural": "llamadas",
       "backendTooltipCall_0": "llamadas",
-      "backendTooltipCall_1": "llamada",
+      "backendTooltipCall_1": "llamadas",
       "backendTooltipCall_2": "llamadas",
       "backendTooltipError": "error",
       "backendTooltipError_plural": "errores",
       "backendTooltipError_0": "errores",
-      "backendTooltipError_1": "error",
+      "backendTooltipError_1": "errores",
       "backendTooltipError_2": "errores",
       "backendTooltipLink": "{{duration}} para {{callCount}} {{call}} con {{totalErrorCount}} {{error}}."
     },
@@ -227,9 +227,6 @@
     }
   },
   "dashboard": {
-    "mobileAppProductArea": "EUM: Aplicaciones móviles",
-    "mobileAppViewPageRootName": "Vista de aplicación móvil",
-    "mobileAppPageRootName": "Aplicación móvil",
     "mobileAppViewTitle": "Aplicación móvil",
     "mobileAppTitle": "Vista",
     "analyzeSessions": "Analizar sesiones",
@@ -301,6 +298,12 @@
       "geographyTitle": "Geografía",
       "topViewsTitle": "Vistas principales",
       "globViewFootertext": "Imágenes proporcionadas por la NASA"
+    },
+    "noDataAvailable": {
+      "viewsTitle": "No hay vistas disponibles",
+      "viewsDescription": "No se han recuperado vistas para el rango de tiempo seleccionado.",
+      "httpRequestsTitle": "No hay solicitudes HTTP disponibles",
+      "httpRequestsDescription": "No se han recuperado solicitudes HTTP para el rango de tiempo seleccionado."
     }
   },
   "appsList": {
@@ -308,9 +311,7 @@
     "sessionStartsLabel": "Inicios de sesión",
     "viewTransitionsLabel": "Ver transiciones",
     "addMobileAppBtn": "Añadir aplicación móvil",
-    "mobileAppsTitle": "Aplicaciones móviles",
-    "mobileAppProductArea": "EUM: Aplicaciones móviles",
-    "mobileAppPageRootName": "Aplicaciones móviles"
+    "mobileAppsTitle": "Aplicaciones móviles"
   },
   "newAppFlow": {
     "addMobileAppTitle": "Añadir aplicación móvil",

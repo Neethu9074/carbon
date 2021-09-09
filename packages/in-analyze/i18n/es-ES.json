@@ -8,7 +8,7 @@
         "counter_sessionStart": "{{number}} inicio de sesión",
         "counter_sessionStart_plural": "{{number}} inicios de sesiones",
         "counter_sessionStart_0": "{{number}} inicios de sesiones",
-        "counter_sessionStart_1": "{{number}} inicio de sesiones",
+        "counter_sessionStart_1": "{{number}} inicios de sesiones",
         "counter_sessionStart_2": "{{number}} inicios de sesiones",
         "counter_viewChange": "{{number}} transición de vista",
         "counter_viewChange_plural": "{{number}} transiciones de vista",
@@ -125,6 +125,9 @@
         "hideWebsiteInformation": "Ocultar información del sitio web",
         "showWebsiteInformation": "Mostrar información del sitio web",
         "viewWebsiteActivity": "Ver actividad del sitio web"
+      },
+      "logs": {
+        "noDataMessage": "No hay registros disponibles para este rastreo"
       }
     },
     "components": {
@@ -172,13 +175,22 @@
         "tags": "Códigos"
       },
       "callTree": {
-        "expandButtonForRow": "Ampliar botón para fila",
+        "expandButtonForRow": "Expandir todas las subllamadas",
+        "collapseButtonForRow": "Contraer todas las subllamadas",
         "of": "de",
-        "inheritedFrom": "Heredado desde"
+        "inheritedFrom": "Heredado desde",
+        "cardTitle": "Llamadas"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Colorear por",
-        "endpoint": "Punto final"
+        "colorizeByExpl": "Cambia el color de las barras de llamada",
+        "endpoint": "Punto final",
+        "service": "Servicio"
+      },
+      "viewToggleButtons": {
+        "expl": "Ver como",
+        "tree": "Árbol",
+        "chart": "Línea temporal"
       },
       "logTooltipContent": {
         "errorLog": "Registro de errores",
@@ -241,14 +253,6 @@
   "analyzeHeader": {
     "title": "Analíticas"
   },
-  "editTagFilterDialog": {
-    "dialogTitleEdit": "Editar filtro",
-    "dialogTitleAdd": "Añadir filtro {{filterCategory}}",
-    "messageTitle": "Seleccione un código por el que se deben filtrar los datos. Los códigos distinguen entre mayúsculas y minúsculas.",
-    "placeholder": "Escriba para filtrar los resultados...",
-    "saveFilter": "Guardar filtro",
-    "addFilter": "Añadir filtro"
-  },
   "filterBar": {
     "keyValueBarItem": {
       "tooltip": "Eliminar filtro"
@@ -263,12 +267,6 @@
       "clickToFilter": "Pulsar para filtrar por {{itemLabel}}"
     },
     "allFilters": "Todos los filtros"
-  },
-  "radioButtons": {
-    "messageFilering": "El filtrado y la agrupación en origen no está disponible para el periodo de tiempo seleccionado",
-    "messageIndependent": "Este código es independiente del origen y el destino",
-    "fragmentSource": "Sólo se aplica al origen de la llamada",
-    "fragmentCall": "Aplicar para llamar al origen o destino"
   },
   "dialogs": {
     "tooltip": "Las sugerencias no están disponibles, escriba el valor",
@@ -286,7 +284,8 @@
     "tooltipCloseLogDetails": "Cerrar detalles del registro",
     "analyzeLogsLabel": "Analizar registros",
     "similarLogs": "Registros similares",
-    "similarServiceLogs": "En el contexto del servicio"
+    "similarServiceLogs": "Mostrar registros en contexto de este servicio",
+    "service": "Mostrar servicio"
   },
   "traceDetails": {
     "labelTotal": "Total",
@@ -301,15 +300,8 @@
     "callDetails": {
       "tooltipCloseCallDetails": "Cerrar detalles de llamada"
     },
-
     "callTimeAxis": {
       "started": "Iniciado: {{startedTime}}"
-    },
-    "navigatorSplitScreen": {
-      "tooltipViewPrevious": "Ver {{viewType}} anterior (acceso directo: tecla de flecha izquierda)",
-      "tooltipViewNext": "Ver siguiente {{viewType}} (acceso directo: flecha derecha)",
-      "tooltipCloseSidebar": "Cerrar barra lateral",
-      "tooltipOpenSidebar": "Abrir barra lateral"
     }
   },
   "tabs": {
@@ -332,14 +324,6 @@
       "beta": "BETA",
       "analytics": "Analíticas"
     },
-    "editTagFilterDialog": {
-      "tag": "Código",
-      "loadingSuggestions": "Cargando sugerencias...",
-      "operator": "Operador",
-      "true": "true",
-      "false": "false",
-      "removeFilter": "Eliminar filtro"
-    },
     "filterBar": {
       "group": "Agrupar",
       "filters": "Filtros",
@@ -361,10 +345,6 @@
     "groupedTraces": {
       "tagPresentWithNoValue": "Código presente sin valor",
       "tagNotPresent": "Código no presente"
-    },
-    "radioButtons": {
-      "source": "Origen",
-      "destination": "Destino"
     }
   }
 }

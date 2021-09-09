@@ -36,9 +36,6 @@
       }
     },
     "widgetEditorDialog": {
-      "widgetTypeSelector": {
-        "showWidgetLabel": "Mostrar mayúsculas y minúsculas del widget {{label}}"
-      },
       "widgetConfiguration": {
         "widgetName": "Nombre de widget",
         "name": "Nombre",
@@ -116,10 +113,16 @@
       "hiddenCalls": {
         "includeInternalCalls": "Incluir llamadas internas",
         "includeSyntheticCalls": "Incluir llamadas sintéticas"
+      },
+      "bluePrintForCallsMetric": {
+        "unexpectedLowNumberOfCalls": "Número de llamadas inesperadamente bajo",
+        "unexpectedHighNumberOfCalls": "Número de llamadas inesperadamente alto",
+        "unexpectedLowOrHighNumberOfCalls": "Número de llamadas inesperadamente alto o bajo"
       }
     },
     "srcApp": {
       "formComponent": {
+        "needToTurnOffPP": "Para utilizar la agrupación es necesario desactivar primero el resaltado de problemas potenciales.",
         "pleaseSelect": "Seleccione",
         "pleaseSelectMetric": "Seleccione una métrica",
         "aggregation": "Agregación",
@@ -140,7 +143,9 @@
         "pleaseSelectMetric": "Seleccione una métrica",
         "pleaseSelect": "Seleccione",
         "helpAction": "Una consulta de foco dinámico (DFQ) como la que utilizaría en la vista de sucesos.",
-        "query": "Consulta"
+        "query": "Consulta",
+        "includeK8sInfoEvents": "Incluir sucesos de Kubernetes",
+        "includeAgentMonitoringIssues": "Incluir problemas de supervisión del agente"
       }
     },
     "srcInfrastructure": {
@@ -254,7 +259,17 @@
       },
       "atLeastOneDatasetIsRequired": "Se requiere al menos un conjunto de datos.",
       "errorTitleForConfiguredSliDeletion": "Se ha suprimido el SLI configurado",
-      "errorDescriptionToConfigureOtherSLI": "Actualice el widget de SLO seleccionando otro SLI"
+      "errorDescriptionToConfigureOtherSLI": "Actualice el widget de SLO seleccionando otro SLI",
+      "index": {
+        "testTitle": "Los 5 servicios más lentos",
+        "testLabels": {
+          "catalogue": "catalogue",
+          "cart": "cesta",
+          "ratings": "calificaciones",
+          "discount": "descuento",
+          "shipping": "envío"
+        }
+      }
     },
     "formCompChart": {
       "colorConfiguratorChart": {
@@ -277,11 +292,13 @@
         "indigo": "Índigo"
       },
       "dataConfigChart": {
+        "tooltipDisabledBecausePP": "Para añadir más conjuntos de datos, desactive primero el resaltado de problemas potenciales.",
         "addDataset": "Añadir conjunto de datos"
       },
       "indexChart": {
         "datasets": "Conjuntos de datos",
-        "axisConfig": "Configuración de eje"
+        "axisConfig": "Configuración de eje",
+        "potentialProblems": "Problemas potenciales"
       },
       "metricConfigChart": {
         "datasetTimeShift": "Conjunto de datos con salto en el tiempo",
@@ -298,7 +315,20 @@
         "timeShift": "Salto en el tiempo",
         "applyTimeShiftDs": "Aplicar un salto en el tiempo a esta serie de datos",
         "timeShiftHelpAction": "Si selecciona <strong>Visualizar valores actuales</strong>, automáticamente se duplicará esta serie de datos en el mismo eje. La primera serie de datos tendrá el salto en el tiempo desactivado, la segunda tendrá el salto en el tiempo habilitado.",
+        "timeShiftDisabledWhilePPon": "Para utilizar el salto en el tiempo es necesario desactivar primero los problemas potenciales.",
         "displayCurrentValues": "Visualizar valores actuales"
+      },
+      "potentialProblems": {
+        "potentialProblemsDescription": {
+          "anyMetric": "Resaltar problemas potenciales"
+        },
+        "tooltip": {
+          "needToTurnOffTimeShift": "Para utilizar el resaltado de problemas potenciales, desactive primero el salto en el tiempo.",
+          "needToTurnOffGrouping": "Para utilizar el resaltado de problemas potenciales, desactive primero la agrupación.",
+          "needToRemoveDatasets": "Para utilizar el resaltado de problemas potenciales, elimine primero cualquier otro conjunto de datos.",
+          "needToChangeMetric": "Para utilizar el resaltado de problemas potenciales, cambie la métrica."
+        },
+        "onlyWorksWithOneMetricConfigured": "Sólo está soportado cuando sólo se configura un conjunto de datos."
       }
     },
     "demo": {
@@ -312,6 +342,10 @@
       "unnamMetric": "Métrica sin nombre"
     },
     "markdown": {
+      "demo": {
+        "title": "Instana - Cómo empezar",
+        "text": "Instana es la primera y única solución de rendimiento de aplicaciones totalmente automatizada (APM) diseñada \nespecíficamente para los retos de la gestión de microservicios y de aplicaciones nativas en la nube.\n \nEmpezar es fácil \n\n1. Si todavía no tiene acceso a Insana, diríjase a [Instana.com] (https://www.instana.com) y regístrese para una prueba gratuita.\n2. Explore nuestro ecosistema de cientos de [tecnologías soportadas] (https: //www.instana.com/docs/ecosystem).\n3. Empiece a recopilar datos con uno de nuestros [agentes](https: //www.instana.com/docs/setup_and_manage).\n4. Aprenda [cómo utilizar Instana] (https://www.instana.com/docs/using_instana) para sus casos de uso.\n5. Lea acerca de nuestras exclusivas [funciones principales] (https://www.instana.com/docs/core_capabilities/).\n6. Amplíe Instana con nuestras [Integraciones, SDK y API] (https://www.instana.com/docs/integrations).\n \nEso es todo.\n \n¿ No puede encontrar lo que está buscando? Vaya a [instana.com/docs] (https://www.instana.com/docs/)!"
+      },
       "formComp": {
         "whatULikeShow": "¿Qué desea mostrar?",
         "markdown": "Rebaja",
@@ -327,10 +361,18 @@
         "formatter": "Formateador"
       },
       "index": {
-        "chartPie": "Gráfico: Circular"
+        "chartPie": "Gráfico: Circular",
+        "testTitle": "Sucesos",
+        "testLegendItem1": "Incidencias",
+        "testLegendItem2": "Problemas: Crítico",
+        "testLegendItem3": "Problemas: Aviso"
       }
     },
     "slo": {
+      "demo": {
+        "title": "Título de SLO",
+        "appName": "Ejemplo de nombre de aplicación"
+      },
       "apConfigFormComp": {
         "userJourneyOffering": "Trayecto del usuario / Oferta",
         "appnPerspective": "Perspectiva de aplicación",
@@ -358,7 +400,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Punto final",
-        "allServices": "Todos los servicios",
+        "allEndpoints": "Todos los puntos finales",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {
@@ -486,6 +528,7 @@
     },
     "timezone": {
       "demo": {
+        "title": "Disponibilidad de equipo",
         "sanFrancisco": "San Francisco",
         "austin": "Austin",
         "newYorkCity": "Nueva York",
@@ -510,7 +553,8 @@
         "formatter": "Formateador"
       },
       "index": {
-        "topListLb": "Lista de elementos principales"
+        "topListLb": "Lista de elementos principales",
+        "topListItem": "Elemento {{itemNumber}}"
       },
       "widget": {
         "aggregOtherGroup": "Agregación de otros grupos",

@@ -12,14 +12,14 @@
     "issueReported": "{{count}} problema notificado:",
     "issueReported_plural": "{{count}} problemas notificados:",
     "issueReported_0": "{{count}} problemas notificados:",
-    "issueReported_1": "{{count}} problema notificado:",
+    "issueReported_1": "{{count}} problemas notificados:",
     "issueReported_2": "{{count}} problemas notificados:",
     "reporting": "notificar",
     "notReporting": "sin notificaciones",
     "issues": "{{count}} problema",
     "issues_plural": "{{count}} problemas",
     "issues_0": "{{count}} problemas",
-    "issues_1": "{{count}} problema",
+    "issues_1": "{{count}} problemas",
     "issues_2": "{{count}} problemas",
     "agents": "Agentes.",
     "updateAllAgents": "Actualizar todos los agentes",
@@ -64,8 +64,6 @@
     "allInfrastructure": "Todas las infraestructuras",
     "name": "Nombre",
     "search": "Buscar",
-    "infrastructure": "Infraestructura",
-    "infraExplore": "Explorar infraestructura",
     "explore": "Explorar",
     "cpuUser": "CPU (usuario)",
     "memoryFree": "Memoria libre"
@@ -100,8 +98,6 @@
     "map": "Correlación",
     "comparisonTable": "Tabla de comparación",
     "entityExploreBeta": "Explorar entidad (Beta)",
-    "infrastructure": "Infraestructura",
-    "infraComparisonTable": "Tabla de comparación de infraestructura",
     "infrastructureComparisonTable": "Tabla de comparación de infraestructura"
   }
 }

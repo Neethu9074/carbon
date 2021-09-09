@@ -1,4 +1,9 @@
 {
+  "metrics_CPU": "CPU",
+  "metrics_Load": "Cargar",
+  "metrics_Usage": "Uso",
+  "metrics_Memory": "Memoria",
+  "metrics_Used": "Utilizado",
   "notMonitoringTitle": "No hay supervisión",
   "noDataTitle": "No se han encontrado datos de supervisión",
   "notMonitoringText": "Instale el agente Instana en los sistemas que desea supervisar. Las instrucciones de instalación están disponibles en la [documentación en línea][Documentos].\n\nSi necesita ayuda adicional, póngase en contacto a través del [portal de soporte][Soporte].\n\n[Docs]:https://instana.com/docs/setup_and_manage/\n[Support]:https://support.instana.com",

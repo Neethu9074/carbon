@@ -6,7 +6,7 @@
     "alertHeaderRestoreErrorMessage": "No se ha podido restaurar la revisión de la configuración de alertas con el ID {{alertConfigID}} y la versión {{alertConfigCreated}}: {{errorMessage}}",
     "alertHeaderLabelBackToListOfAlerts": "Volver a la lista de alertas",
     "alertHeaderAlert": "Alerta",
-    "alertHeaderRestoreRevisionTooltip": "Restaurar revisión {{alertRevision}}",
+    "alertHeaderRestoreRevisionTooltip": "Restaurar {{description}}",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Confírmelo",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "¿Está seguro de que desea restaurar la <strong>\" Revisión {{alertRevision}} \"</strong>?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restaurar",
@@ -14,11 +14,12 @@
     "alertHeaderEnableTooltip": " Habilitar",
     "alertHeaderRestoreDeleteTooltip": "Suprimir",
     "alertHeaderEditTooltip": "Editar",
-    "alertHeaderCopyTooltip": "Copiar",
+    "alertHeaderDuplicateTooltip": "Duplicar",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confírmelo",
     "alertHeaderRestoreDeleteConfirmationDialogDescription": "¿Está seguro de que desea eliminar la <strong>\" alerta {{alertConfigName}} \"</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Eliminar",
-    "alertHeaderIsNotLatestRevisionMessage": "Está viendo la revisión {{alertRevision}} de esta configuración de alertas. Seleccione <latestRevisionButton>última revisión<latestRevisionButton> si desea realizar cambios.",
+    "alertHeaderIsNotLatestRevisionMessage": "Está viendo la revisión {{description}} de esta configuración de alertas. Por favor, <latestRevisionButton>seleccione la revisión más reciente</latestRevisionButton> o <restoreRevisionButton>restaure desde la revisión actual</restoreRevisionButton> si desea realizar cambios.",
+    "alertHeaderAriaLabelSeverity": "El suceso tiene gravedad {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertas creadas ({{totalRepresentedItemCount}})",
     "alertPropertyInfosLabelTitle": "Título",
     "alertPropertyInfosLabelAlertLevel": "Nivel de alerta",
@@ -26,7 +27,15 @@
     "alertPropertyInfosLabelDescription": "Descripción",
     "noChannelSelectedText": "Actualmente, no ha seleccionado un canal de alertas y no recibirá ninguna alerta.",
     "scopeConfigPresenterHelpTextAdditionalFilters": "Filtros adicionales",
-    "revisionDropdownButtonRevision": "Revisión {{alertRevision}}",
+    "revisionDropdownButton": {
+      "revision": "Revisión {{alertRevision}}",
+      "pause": "Pausar",
+      "resume": "Reanudar",
+      "delete": "Suprimir",
+      "create": "Crear",
+      "restore": "Restaurar",
+      "buttonLabel": "Historial de alertas"
+    },
     "chart": {
       "alertingChartLabelThreshold": "Umbral",
       "alertingChartLabelViolations": "Infracciones",
@@ -55,7 +64,8 @@
       "theValueMustNotBeBlank": "El valor no debe estar en blanco.",
       "onlyOrAnyAlphaNumericalAreAllowed": "Solo se permiten los caracteres '.', '-', '_' o cualquier carácter alfanumérico.",
       "aTagNeedsToBeSelected": "Es necesario seleccionar un código.",
-      "aKeyNeedsToBeSpecified": "Es necesario especificar una clave."
+      "aKeyNeedsToBeSpecified": "Es necesario especificar una clave.",
+      "customPayloadTitle": "Cargas útiles personalizadas"
     }
   },
   "potentialProblems": {
@@ -101,7 +111,10 @@
     "descriptionUnsupportedOperator": "Operador no soportado: {{operator}}"
   },
   "smartAlerts": {
+    "applicationSmartAlert": "Añadir alerta inteligente",
+    "globalApplicationSmartAlert": "Aplicación global SmartAlert",
     "titleNoSmartAlertsConfigured": "No hay alertas inteligentes configuradas",
+    "titleNoSmartAlertsConfiguredForSearchQuery": "No se han encontrado configuraciones de Smart Alert para una búsqueda determinada",
     "titleNoSmartAlertsCreated": "No se han creado alertas inteligentes",
     "titleCopyOf": "(Copia de) {{smartAlertTitle}}",
     "applications": {
@@ -190,6 +203,12 @@
         }
       },
       "chart": {
+        "entitySelection": {
+          "tooManyResults": "Su búsqueda coincide con demasiados resultados para mostrarlos. Reduzca los resultados con un término de búsqueda más específico.",
+          "applications": "Aplicaciones:",
+          "services": "Servicios:"
+        },
+        "noChartForAdaptiveBaseline": "No hay ninguna vista previa disponible mientras este desencadenante se basa en una línea base adaptativa.",
         "noDataWithoutEndpointSelection": "Seleccione un punto final para ver la vista previa",
         "noDataAvailable": "Seleccione un servicio para ver la vista previa"
       },
@@ -402,6 +421,7 @@
         "ruleFormPleaseProvideAStartStatusCode": "Proporcione un código de estado http de inicio",
         "ruleFormPleaseProvideAEndStatusCode": "Proporcione un código de estado http final",
         "smartAlertFormNoEntitiesSelected": "No se ha seleccionado ninguna entidad",
+        "smartAlertFormValueIsReadOnly": "El valor es de sólo lectura y no se puede cambiar",
         "thresholdFormPleaseProvideANumber0": "Proporcione un número >= 0",
         "thresholdFormBaselineIsEmpty": "la línea base está vacía"
       },
@@ -421,8 +441,8 @@
         "provideStatusCodeStatusCode": "Código de estado"
       },
       "inventory": {
-        "noData": "No se ha configurado ninguna alerta inteligente. Pulse el botón que se muestra a continuación para configurar la primera alerta inteligente.",
-        "noPersmissionToCreateGlobalSmartAlert": "No tiene el permiso para configurar alertas inteligentes. Póngase en contacto con su administrador. ",
+        "noData": "No se ha configurado ninguna alerta inteligente. Pulse el botón siguien para configurar su primera alerta inteligente.",
+        "noPersmissionToCreateGlobalSmartAlert": "No tiene el permiso para configurar alertas inteligentes. Póngase en contacto con su administrador.",
         "labelGlobalSmartAlertsList": "Alertas inteligentes de aplicación global ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Alertas inteligentes de aplicación ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
@@ -438,8 +458,24 @@
       },
       "details": {
         "title": "Detalles de alerta",
-        "titleAlertProperties": "Propiedades de alerta"
+        "titleAlertProperties": "Propiedades de alerta",
+        "applicationsServiceEndpointScopeTitle": "Aplicaciones/Servicios/Puntos finales seleccionados",
+        "callsScopeTitle": "Llamadas incluidas"
+      },
+      "apCreation": {
+        "addToAllBuiltInAlerts": "Añadir a todas las ({{numAlerts}}) alertas inteligentes globales incorporadas",
+        "addToAllBuiltInAlertsSubText": "({{numDisabled}}/{{{numAlerts}} alertas están actualmente inhabilitadas)",
+        "addToAllExplanation": "Incluir esta perspectiva de aplicación en el ámbito de todos las",
+        "addToAllExplanationSubText": "Alertas inteligentes globales incorporadas",
+        "notAllEnitiesSelected": "No todos los servicios/puntos finales seleccionados",
+        "alertCurrentlyDisabled": "Alerta actualmente inhabilitada",
+        "viewAlertDetails": "Ver detalles de alerta para la configuración: {{name}}",
+        "eventsWarningIcon": "Icono de aviso de sucesos",
+        "eventsCriticalIcon": "Icono de sucesos críticos"
       }
+    },
+    "details": {
+      "titleBuiltInIndicator": "Integrado"
     },
     "form": {
       "ruleAggregationOptionMEAN": "media",
@@ -457,56 +493,61 @@
     },
     "components": {
       "smartAlertDialog": {
+        "cancelTitle": "Cancelar",
         "sharedListTooltip": "El {{typeName}} seleccionado ya no está disponible",
         "clearTagFilterExpressionButton": "Borrar",
         "baselineErrorMessageInsufficientDataToCompute": "Los datos son insuficientes para calcular la línea base seleccionada. En su lugar, seleccione <em>Umbral estático</em>.",
+        "pleaseContactSupportToRiseLimit": "Póngase en contacto con nosotros a través de nuestro <supportLink>{{instanaSupportPortal}}</supportLink> para solicitar un aumento de este límite.",
+        "instanaSupportPortal": "Portal de soporte de Instana",
         "baselineErrorMessageReason": "Razón:",
         "blueprintDescriptionButtonSelect": "Seleccionar",
         "selectAlertChannelButtonTitle": "Seleccionar canales de alerta",
         "selectAlertChannelButton": "Seleccionar canales de alerta",
+        "createAlertChannelTitle": "Crear canal de alerta",
+        "alertChannelCreatedSuccess": "Canal de alerta creado",
+        "alertChannelSelectTypeTitle": "Tipo de canal de alerta",
         "addChannel": "Añadir {{count}} canal",
         "addChannel_plural": "Añadir {{count}} canales",
-        "addChannel_0": "Añadir {{count}} canales",
-        "addChannel_1": "Añadir {{count}} canales",
-        "addChannel_2": "Añadir {{count}} canales",
         "add": "Añadir",
         "scopeConfigTitleWithApplications": "Seleccionar Aplicaciones/Servicios/Puntos finales",
         "scopeConfigTitle": "Seleccionar servicios/puntos finales",
-        "scopeConfigTitleTooltip": "Mostrar las entidades disponibles durante los últimos 7 días",
+        "scopeConfigTitleTooltip": "Mostrar las entidades disponibles durante las últimas 24 horas",
         "sortByUserSelectionLabel": "Ordenar por selección de usuario",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Al menos {{count}} usuario y el {{userPercentage}} de usuarios afectados en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Al menos {{count}} usuarios y el {{userPercentage}} de usuarios afectados en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "Al menos {{count}} usuarios y el {{userPercentage}} de usuarios afectados en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "Al menos {{count}} usuario y el {{userPercentage}} de usuarios afectados en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "Al menos {{count}} usuarios y el {{userPercentage}} de usuarios afectados en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "Al menos {{count}} usuario afectado en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "Al menos {{count}} usuarios afectados en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "Al menos {{count}} usuarios afectados en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "Al menos {{count}} usuario afectado en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "Al menos {{count}} usuarios afectados en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "Al menos el {{userPercentage}} de usuarios afectados en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "Afectado en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact": "Al menos {{count}} solicitud afectada en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_plural": "Al menos {{count}} solicitudes afectadas en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_0": "Al menos {{count}} solicitudes afectadas en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_1": "Al menos {{count}} solicitud afectada en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionRequestImpact_2": "Al menos {{count}} solicitudes afectadas en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod": "Al menos {{count}} infracción en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_plural": "Al menos {{count}} infracciones en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_0": "Al menos {{count}} infracciones en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_1": "Al menos {{count}} infracción en {{formattedTimeWindow}}",
-        "timeThresholdDescriptionViolationsInPeriod_2": "Al menos {{count}} infracciones en {{formattedTimeWindow}}",
-        "timeThresholdConfigNumberOfConsecutiveViolations": "Número de infracciones consecutivas",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage": "Al menos {{count}} usuario y {{userPercentage}} de usuarios afectados en las últimas {{formattedTimeWindow}}l",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_plural": "Al menos {{count}} usuarios y {{userPercentage}} de usuarios afectados en las útimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_0": "Al menos {{count}} usuarios y {{userPercentage}} de usuarios afectados en las útimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_1": "Al menos {{count}} usuario y {{userPercentage}} de usuarios afectados en las últimas {{formattedTimeWindow}}l",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_2": "Al menos {{count}} usuarios y {{userPercentage}} de usuarios afectados en las útimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser": "Al menos {{count}} usuario se ha visto afectado en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_plural": "Al menos {{count}} usuarios se han visto afectados en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_0": "Al menos {{count}} usuarios se han visto afectados en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_1": "Al menos {{count}} usuario se ha visto afectado en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "Al menos {{count}} usuarios se han visto afectados en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "Al menos {{userPercentage}} de usuarios se han visto afectados en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence": "Afectados en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionRequestImpact": "Al menos {{count}} solicitud se ha visto afectada en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionRequestImpact_plural": "Al menos {{count}} solicitudes afectadas en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionRequestImpact_0": "Al menos {{count}} solicitudes afectadas en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionRequestImpact_1": "Al menos {{count}} solicitud se ha visto afectada en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionRequestImpact_2": "Al menos {{count}} solicitudes afectadas en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod": "Al menos {{count}} infracción en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_plural": "Al menos {{count}} infracciones en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_0": "Al menos {{count}} infracciones en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_1": "Al menos {{count}} infracción en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionViolationsInPeriod_2": "Al menos {{count}} infracciones en las últimas {{formattedTimeWindow}}",
+        "timeThresholdConfigNumberOfConsecutiveViolations": "Número de infracciones consecutivas de la métrica",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Número de evaluaciones consecutivas",
-        "timeThresholdConfigNumberOfEvaluationWindows": "Número de ventanas de evaluación",
-        "timeThresholdConfigNumberOfViolations": "Número de infracciones",
+        "timeThresholdConfigNumberOfEvaluationWindows": "Número de ventanas de evaluación para el impacto del usuario",
+        "timeThresholdConfigNumberOfViolations": "Número de violaciones de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidad de la evaluación",
         "timeThresholdConfigNumberOfRequestsThreshold": "Umbral de número de solicitudes",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de umbrales de usuarios afectados",
         "timeThresholdConfigAtLeast": "Al menos",
         "timeThresholdConfigNumberOfRequests": "Nº de solicitudes",
         "timeThresholdConfigMinutes": "{{min}} min",
         "timeThresholdConfigNumberOfUsers": "Nº de usuarios",
-        "timeThresholdConfigPercentageOfRequestsThreshold": "Umbral de porcentaje de solicitudes",
+        "timeThresholdConfigPercentageOfUsers": "% de usuarios",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Porcentaje de umbral de usuarios afectados",
         "timeThresholdConfigOff": "inactivo",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Proporcione un número >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Proporcione un número entre 1% y 100%",
@@ -538,7 +579,9 @@
         "thresholdTypeOptionStaticThreshold": "Umbral estático",
         "thresholdTypeOptionHistoricBaselineDaily": "Línea base (Temporalidad diaria)",
         "thresholdTypeOptionHistoricBaselineWeekly": "Línea base (Temporalidad semanal)",
+        "thresholdTypeOptionAdaptiveBaseline": "Línea base adaptable",
         "useSuggestedvalue": "Utilizar valor sugerido",
+        "loadingThresholdSuggestion": "Cargando sugerencia de umbral",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Editar alerta inteligente",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Editar alerta inteligente global",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crear nueva alerta inteligente",
@@ -549,7 +592,28 @@
         "PreviewForAP": "Vista previa de la perspectiva de aplicación:",
         "PreviewForEndpoint": "Vista previa para punto final:",
         "PreviewForService": "Vista previa para el servicio:",
-        "PreviewSelectLoadingEndpoints": "Cargando lista de puntos finales"
+        "PreviewSelectLoadingEndpoints": "Cargando lista de puntos finales",
+        "thresholdValue": "Valor de umbral"
+      },
+      "userInfo": {
+        "success": {
+          "create": {
+            "alert": {
+              "title_Local": "La alerta inteligente se ha creado correctamente",
+              "message_Local": "Se ha creado la alerta inteligente <strong>{{name}}</strong>.",
+              "title_Global": "La alerta inteligente global se ha creado correctamente",
+              "message_Global": "Se ha creado la alerta inteligente global <strong>{{name}}</strong>."
+            }
+          },
+          "edit": {
+            "alert": {
+              "title_Local": "La alerta inteligente ha modificado correctamente",
+              "message_Local": "La alerta inteligente <strong>{{name}}</strong> se ha modificado.",
+              "title_Global": "La alerta inteligente global ha modificado correctamente",
+              "message_Global": "La alerta inteligente global <strong>{{name}}</strong> se ha modificado."
+            }
+          }
+        }
       },
       "alertsHub": {
         "title": "Concentrador de alertas",
@@ -791,7 +855,12 @@
       "enabled": "Habilitado",
       "disabled": "Inhabilitado",
       "severity": "Gravedad",
-      "created": "Fecha de creación"
+      "created": "Fecha de creación",
+      "type": "Tipo"
+    },
+    "migration": {
+      "migrateButton": "Migrar a alerta inteligente",
+      "migrateButtonTooltip": "Abre un diálogo de configuración de Alerta inteligente cargado previamente con los valores migrados del suceso actual en la mayor medida posible. Por favor, compruebe el resultado con cuidado."
     }
   }
 }

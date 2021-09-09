@@ -58,8 +58,11 @@
   "permissionCanConfigureTeamsDescription": "Permite configurar los ámbitos de acceso y los permisos para todos los equipos.",
   "permissionCanConfigureTeamsCategory": "Control de acceso",
   "permissionCanConfigureApiTokensLabel": "Configuración de señales de API",
+  "permissionCanConfigurePersonalApiTokensLabel": "Configuración de señales de API personales",
   "permissionCanConfigureApiTokensDescription": "Permite crear y configurar señales de API.",
+  "permissionCanConfigurePersonalApiTokensDescription": "Permite la creación y configuración de señales de API personales que heredan los permisos del usuario.",
   "permissionCanConfigureApiTokensCategory": "Control de acceso",
+  "permissionCanConfigurePersonalApiTokensCategory": "Control de acceso",
   "permissionCanConfigureAuthenticationMethodsLabel": "Configuración de métodos de autenticación",
   "permissionCanConfigureAuthenticationMethodsDescription": "Permite configurar los métodos de autenticación del equipo (por ejemplo, 2FA/SSO).",
   "permissionCanConfigureAuthenticationMethodsCategory": "Control de acceso",
@@ -213,7 +216,8 @@
     "shiftingLabelYesterday": "Ayer",
     "shiftingDescriptionYesterday": "Comparar con datos registrados 24 horas antes de la ventana de tiempo seleccionada",
     "shiftingLabelLastWeek": "Última semana",
-    "shiftingDescriptionLastWeek": "Comparar con una semana anterior a la ventana de tiempo seleccionada"
+    "shiftingDescriptionLastWeek": "Comparar con una semana anterior a la ventana de tiempo seleccionada",
+    "shiftingCustomDuration": "{{duration}} anterior"
   },
 
   "view": {
