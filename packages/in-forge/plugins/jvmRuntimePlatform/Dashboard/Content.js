@@ -187,6 +187,7 @@ function JVMDashboard({ snapshot, timeConfig, isInternalVisible, agentSnapshot }
                 .map(name => t('in-forge:plugins.jvmRuntimePlatform.nameTime', { name: name }))
                 .toArray(),
               type: 'line',
+              aggregation: 'sum',
               formatter: time
             }}
             y2={{
@@ -195,6 +196,7 @@ function JVMDashboard({ snapshot, timeConfig, isInternalVisible, agentSnapshot }
                 .map(name => t('in-forge:plugins.jvmRuntimePlatform.nameInvocations', { name: name }))
                 .toArray(),
               type: 'point',
+              aggregation: 'sum',
               formatter: twoDecimalPlaces
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
