@@ -19,7 +19,7 @@ import {
   hasMobileAppsAccess
 } from 'in-stores/permission';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { pcfEnabled, vsphereEnabled, internalMonitoringUnit } from 'in-services/featureFlags';
+import { pcfEnabled, vsphereEnabled, zhmcEnabled, internalMonitoringUnit } from 'in-services/featureFlags';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
@@ -40,6 +40,7 @@ import vsphereRoutes from 'in-vsphere/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
 import deepLinkRoutes from 'in-client/js/deepLink';
+import zhmcRoutes from 'in-zhmc/navigation/routes';
 
 export default (
   <FragmentSupportingSwitch>
@@ -63,6 +64,7 @@ export default (
     {hasKubernetesAccess && kubernetesRoutes}
     {pcfEnabled && cloudfoundryRoutes}
     {vsphereEnabled && vsphereRoutes}
+    {zhmcEnabled && zhmcRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}
     {integrationRoutes}

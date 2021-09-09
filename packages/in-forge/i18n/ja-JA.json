@@ -1127,11 +1127,11 @@
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty サーバー",
   "pluginName_webSphereLibertyApplicationContainer_2": "WebSphere Liberty サーバー",
   "pluginName_webSphereLibertyApplicationContainer": "WebSphere Liberty サーバー",
-  "pluginName_zHMCApplication_plural": "zHMC",
-  "pluginName_zHMCApplication_0": "zHMC",
-  "pluginName_zHMCApplication_2": "zHMC",
-  "pluginName_zHMCApplication_1": "zHMC",
-  "pluginName_zHMCApplication": "zHMC",
+  "pluginName_zhmcConsole_plural": "zHMC",
+  "pluginName_zhmcConsole_0": "zHMC",
+  "pluginName_zhmcConsole_2": "zHMC",
+  "pluginName_zhmcConsole_1": "zHMC",
+  "pluginName_zhmcConsole": "zHMC",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeeper",
   "pluginName_zooKeeper_0": "ZooKeeper",
@@ -9977,7 +9977,7 @@
       "infoThreadPoolStatesNotAvailable": "スレッド・プール統計は使用できません。 server.xml で monitor-1.0 フィーチャーに加えて JMS フィーチャー (WASJmsClient-1.1 および WASJmsServer-1.0) を有効にした場合には、既知の問題があります。 スレッド・プール統計 mbean はオーバーライドされ、表示されません。",
       "webSphereLiberty": "WebSphere Liberty"
     },
-    "zHMCApplication": {
+    "zhmcConsole": {
       "dashboard": {
         "logicalPartition":"論理区画",
         "name":"名前",

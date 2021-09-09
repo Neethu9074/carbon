@@ -40,6 +40,7 @@ export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
+export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const containerLogsEnabled = isFeatureFlagEnabled('containerLogsEnabled');
 export const loggingEnabledOnTrace = isFeatureFlagEnabled('loggingEnabledOnTrace');

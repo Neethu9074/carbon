@@ -13,7 +13,8 @@ import { SvgIcon } from '@instana/components';
 import {
   kubernetesCluster as kubernetesClusterType,
   pcfApplication as pcfApplicationType,
-  vsphereDatacenter as vsphereDatacenterType
+  vsphereDatacenter as vsphereDatacenterType,
+  zhmcServer as zhmcServerType
 } from 'in-stores/starredItems/types';
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
 import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
@@ -23,19 +24,22 @@ import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfo
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
 import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
+import { pcfEnabled, vsphereEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
-import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
+import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
+import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import { add, remove } from 'in-stores/starredItems';
+import getZhmc from 'in-zhmc/subscriptions/getZhmc';
 import { success } from 'in-services/util/result';
 import { getMetric } from 'in-stores/metric';
 import connectTo from 'in-hoc/connectTo';
@@ -45,7 +49,8 @@ export default function PlatformsTopList({ config }) {
   const pinnedTypes = [
     hasKubernetesAccess && kubernetesClusterType,
     pcfEnabled && pcfApplicationType,
-    vsphereEnabled && vsphereDatacenterType
+    vsphereEnabled && vsphereDatacenterType,
+    zhmcEnabled && zhmcServerType
   ].filter(Boolean);
 
   return (
@@ -69,6 +74,8 @@ export default function PlatformsTopList({ config }) {
           ? getClusterDashboard
           : item.isPcf
           ? getApplicationDashboard
+          : item.isZhmc
+          ? getIbmzZhmcDashboard
           : getVsphereDatacenterDashboard)(getId(item));
       }}
     />
@@ -86,6 +93,9 @@ function getTypeByItem(item) {
   if (item.isPcf) {
     return pcfApplicationType;
   }
+  if (item.isZhmc) {
+    return zhmcServerType;
+  }
   return vsphereDatacenterType;
 }
 
@@ -97,7 +107,9 @@ function getMergedData(params) {
       pcfEnabled && getCloudfoundryApplicationsWithDefaults(params),
       pcfEnabled && 'isPcf',
       vsphereEnabled && getVSphereDatacentersWithDefaults(params),
-      vsphereEnabled && 'isVsphere'
+      vsphereEnabled && 'isVsphere',
+      zhmcEnabled && getZhmcsWithDefaults(params),
+      zhmcEnabled && 'isZhmc'
     ].filter(Boolean)
   )((a, b) => compareIgnoreCase(getLabel(a), getLabel(b)));
 }
@@ -108,6 +120,9 @@ function getItem(id, timeConfig, type) {
   }
   if (type === pcfApplicationType) {
     return getCloudfoundryApplication({ filter: { applicationId: id, timeConfig } }).map(mapPcfResult);
+  }
+  if (type === zhmcServerType) {
+    return getZhmc({ filter: { applicationId: id, timeConfig } }).map(mapZhmcResult);
   }
   return getVsphereDatacenter({ datacenterId: id, timeConfig }).map(mapVsphereResult);
 }
@@ -133,6 +148,10 @@ function mapVsphereResult(result) {
 
 function mapPcfResult(result) {
   return result.data ? success({ ...result.data, isPcf: true }) : result;
+}
+
+function mapZhmcResult(result) {
+  return result.data ? success({ ...result.data, isZhmc: true }) : result;
 }
 
 const columnDefinitions = [
@@ -235,6 +254,9 @@ function getIcon(item) {
   if (item.isPcf) {
     return 'lib_cloudfoundry_application';
   }
+  if (item.isZhmc) {
+    return 'lib_zhmcConsole';
+  }
   return 'lib_vsphere_datacenter';
 }
 
@@ -254,6 +276,9 @@ function getSubTitle(item) {
   }
   if (item.isPcf) {
     return t('in-cockpit:component.platformsTopList.cloudFoundryApplication');
+  }
+  if (item.isZhmc) {
+    return t('in-cockpit:component.platformsTopList.ibmz');
   }
   return t('in-cockpit:component.platformsTopList.vSphereDatacenter');
 }

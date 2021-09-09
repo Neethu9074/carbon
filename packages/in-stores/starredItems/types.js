@@ -12,6 +12,7 @@ export const process = 'PROCESS';
 export const kubernetesCluster = 'KUBERNETES_CLUSTER';
 export const pcfApplication = 'PCF_APPLICATION';
 export const vsphereDatacenter = 'VSPHERE_DATACENTER';
+export const zhmcServer = 'ZHMC';
 
 // Application Perspectives
 export const application = 'APPLICATION';

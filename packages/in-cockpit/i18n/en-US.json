@@ -40,6 +40,7 @@
       "memoryUsage": "Memory Usage",
       "cloudFoundryApplication": "Cloud Foundry Application",
       "vSphereDatacenter": "vSphere Datacenter",
+      "ibmz": "IBM Z",
       "clusterSubTitle": "{{clusterDistribution}} Cluster, {{count}} Node, {{numberOfPods}}",
       "clusterSubTitle_plural": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",
       "clusterSubTitle_0": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",
@@ -81,6 +82,9 @@
     "addUser": "Add User",
     "platforms": "Platforms",
     "cloudFoundry": "Cloud Foundry",
+    "ibmz": "IBM Z",
+    "vsphere": "vSphere",
+    "kubernetes": "Kubernetes",
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
     "websitesMobileApps": "Websites & Mobile Apps"

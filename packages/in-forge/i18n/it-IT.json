@@ -1127,11 +1127,11 @@
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty Server",
   "pluginName_webSphereLibertyApplicationContainer_2": "WebSphere Liberty Server",
   "pluginName_webSphereLibertyApplicationContainer": "WebSphere Liberty Server",
-  "pluginName_zHMCApplication_plural": "zHMCs",
-  "pluginName_zHMCApplication_0": "zHMCs",
-  "pluginName_zHMCApplication_2": "zHMCs",
-  "pluginName_zHMCApplication_1": "zHMCs",
-  "pluginName_zHMCApplication": "zHMC",
+  "pluginName_zhmcConsole_plural": "zHMCs",
+  "pluginName_zhmcConsole_0": "zHMCs",
+  "pluginName_zhmcConsole_2": "zHMCs",
+  "pluginName_zhmcConsole_1": "zHMCs",
+  "pluginName_zhmcConsole": "zHMC",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeeper",
   "pluginName_zooKeeper_0": "ZooKeeper",
@@ -9977,7 +9977,7 @@
       "infoThreadPoolStatesNotAvailable": "Le statistiche del pool di thread non sono disponibili. Vi è un problema noto che si verifica quando le funzioni JMS (WASJmsClient-1.1 e WASJmsServer-1.0) vengono abilitate insieme alla funzione monitor-1.0 nel file server.xml. L'mbean della statistiche del Pool di thread viene sovrascritto e non è visibile.",
       "webSphereLiberty": "WebSphere Liberty"
     },
-    "zHMCApplication": {
+    "zhmcConsole": {
       "dashboard": {
         "logicalPartition":"Partizione logica",
         "name":"Nome",

@@ -328,6 +328,7 @@
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
     "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "Platforms",
     "viewSwitcherButtonSignOut": "Sign Out",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "New version of Instana UI available",

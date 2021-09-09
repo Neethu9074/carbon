@@ -1127,11 +1127,11 @@
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty 서버",
   "pluginName_webSphereLibertyApplicationContainer_2": "WebSphere Liberty 서버",
   "pluginName_webSphereLibertyApplicationContainer": "WebSphere Liberty 서버",
-  "pluginName_zHMCApplication_plural": "zHMC",
-  "pluginName_zHMCApplication_0": "zHMC",
-  "pluginName_zHMCApplication_2": "zHMC",
-  "pluginName_zHMCApplication_1": "zHMC",
-  "pluginName_zHMCApplication": "zHMC",
+  "pluginName_zhmcConsole_plural": "zHMC",
+  "pluginName_zhmcConsole_0": "zHMC",
+  "pluginName_zhmcConsole_2": "zHMC",
+  "pluginName_zhmcConsole_1": "zHMC",
+  "pluginName_zhmcConsole": "zHMC",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeeper",
   "pluginName_zooKeeper_0": "ZooKeeper",
@@ -9977,7 +9977,7 @@
       "infoThreadPoolStatesNotAvailable": "스레드 풀 통계를 사용할 수 없습니다. JMS 기능(WASJmsClient-1.1 and WASJmsServer-1.0)이 monitor-1.0 기능과 함께 server.xml에 사용으로 설정된 경우의 알려진 문제점입니다. 스레드 풀 통계 mbean이 대체되고 표시되지 않습니다.",
       "webSphereLiberty": "WebSphere Liberty"
     },
-    "zHMCApplication": {
+    "zhmcConsole": {
       "dashboard": {
         "logicalPartition":"논리 파티션",
         "name":"이름",

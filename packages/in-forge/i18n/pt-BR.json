@@ -1127,11 +1127,11 @@
   "pluginName_webSphereLibertyApplicationContainer_1": "Servidores WebSphere Liberty",
   "pluginName_webSphereLibertyApplicationContainer_2": "Servidores WebSphere Liberty",
   "pluginName_webSphereLibertyApplicationContainer": "Servidor WebSphere Liberty",
-  "pluginName_zHMCApplication_plural": "zHMCs",
-  "pluginName_zHMCApplication_0": "zHMCs",
-  "pluginName_zHMCApplication_2": "zHMCs",
-  "pluginName_zHMCApplication_1": "zHMCs",
-  "pluginName_zHMCApplication": "zHMC",
+  "pluginName_zhmcConsole_plural": "zHMCs",
+  "pluginName_zhmcConsole_0": "zHMCs",
+  "pluginName_zhmcConsole_2": "zHMCs",
+  "pluginName_zhmcConsole_1": "zHMCs",
+  "pluginName_zhmcConsole": "zHMC",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeepers",
   "pluginName_zooKeeper_0": "ZooKeepers",
@@ -9977,7 +9977,7 @@
       "infoThreadPoolStatesNotAvailable": "As estatísticas do conjunto de encadeamentos não estão disponíveis. Há um problema conhecido quando os recursos JMS (WASJmsClient-1.1 e WASJmsServer-1.0) são ativados com o recurso monitor-1.0 em server.xml. O bean gerenciado de estatísticas do conjunto de encadeamentos foi substituído e não está visível.",
       "webSphereLiberty": "WebSphere Liberty"
     },
-    "zHMCApplication": {
+    "zhmcConsole": {
       "dashboard": {
         "logicalPartition":"Partição lógica",
         "name":"Nome",

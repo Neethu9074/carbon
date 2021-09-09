@@ -1127,11 +1127,11 @@
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty 服务器",
   "pluginName_webSphereLibertyApplicationContainer_2": "WebSphere Liberty 服务器",
   "pluginName_webSphereLibertyApplicationContainer": "WebSphere Liberty 服务器",
-  "pluginName_zHMCApplication_plural": "zHMC",
-  "pluginName_zHMCApplication_0": "zHMC",
-  "pluginName_zHMCApplication_2": "zHMC",
-  "pluginName_zHMCApplication_1": "zHMC",
-  "pluginName_zHMCApplication": "zHMC",
+  "pluginName_zhmcConsole_plural": "zHMC",
+  "pluginName_zhmcConsole_0": "zHMC",
+  "pluginName_zhmcConsole_2": "zHMC",
+  "pluginName_zhmcConsole_1": "zHMC",
+  "pluginName_zhmcConsole": "zHMC",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeeper",
   "pluginName_zooKeeper_0": "ZooKeeper",
@@ -9977,7 +9977,7 @@
       "infoThreadPoolStatesNotAvailable": "线程池统计信息不可用。 当 JMS 功能部件（WASJmsClient-1.1 和 WASJmsServer-1.0）与 server.xml 中的 monitor-1.0 功能部件一起启用时，存在已知问题。线程池统计信息 mbean 被覆盖且不可见。",
       "webSphereLiberty": "WebSphere Liberty"
     },
-    "zHMCApplication": {
+    "zhmcConsole": {
       "dashboard": {
         "logicalPartition":"逻辑分区",
         "name":"名称",

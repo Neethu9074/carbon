@@ -70,6 +70,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'zhmcEnabled',
+    instanaCtlKey: 'feature.zhmc.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'skipOnboardingDialog',
     instanaCtlKey: 'feature.skip.oboarding.dialog',
     defaultValue: false

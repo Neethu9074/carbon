@@ -31,10 +31,16 @@ import {
   isApplicationsView
 } from 'in-applications/navigation/paths';
 import {
+  pcfEnabled,
+  vsphereEnabled,
+  zhmcEnabled,
+  releaseNotesEnabled,
+  tenantSwitcherEnabled
+} from 'in-services/featureFlags';
+import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
 } from 'in-cloudfoundry/navigation/paths';
-import { pcfEnabled, vsphereEnabled, releaseNotesEnabled, tenantSwitcherEnabled } from 'in-services/featureFlags';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from 'in-kubernetes/navigation/paths';
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
@@ -47,6 +53,7 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+import { zhmcListFullyQualified, ibmz } from 'in-zhmc/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
@@ -389,6 +396,7 @@ function Platforms(props) {
   if (hasKubernetesAccess) numPlatformsAvailable++;
   if (pcfEnabled) numPlatformsAvailable++;
   if (vsphereEnabled) numPlatformsAvailable++;
+  if (zhmcEnabled) numPlatformsAvailable++;
   if (numPlatformsAvailable === 0) {
     return null;
   }
@@ -428,6 +436,16 @@ function Platforms(props) {
           {...props}
         />
       )}
+      {zhmcEnabled && (
+        <ViewItemForPlatforms
+          id="main-nav-zhmc"
+          label={t('in-components:mainNavigation.viewSwitcherLabelzhmc')}
+          icon="lib_zhmcConsole"
+          href$={getView(zhmcListFullyQualified)}
+          isActive$={isView(ibmz)}
+          {...props}
+        />
+      )}
     </>
   );
 
@@ -437,7 +455,7 @@ function Platforms(props) {
         id="main-nav-platforms"
         label={t('in-components:mainNavigation.viewSwitcherLabelPlatforms')}
         icon="lib_platforms_inverted"
-        isActive$={any(isView(kubernetes), isView(cloudfoundry), isView(vsphere))}
+        isActive$={any(isView(kubernetes), isView(cloudfoundry), isView(vsphere), isView(ibmz))}
         expandedSubMenu={expandedSubMenu}
         setExpandedSubMenu={setExpandedSubMenu}
         sidebarIsExpanded={sidebarIsExpanded}

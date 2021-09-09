@@ -1127,11 +1127,11 @@
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty 伺服器",
   "pluginName_webSphereLibertyApplicationContainer_2": "WebSphere Liberty 伺服器",
   "pluginName_webSphereLibertyApplicationContainer": "WebSphere Liberty 伺服器",
-  "pluginName_zHMCApplication_plural": "zHMC",
-  "pluginName_zHMCApplication_0": "zHMC",
-  "pluginName_zHMCApplication_2": "zHMC",
-  "pluginName_zHMCApplication_1": "zHMC",
-  "pluginName_zHMCApplication": "zHMC",
+  "pluginName_zhmcConsole_plural": "zHMC",
+  "pluginName_zhmcConsole_0": "zHMC",
+  "pluginName_zhmcConsole_2": "zHMC",
+  "pluginName_zhmcConsole_1": "zHMC",
+  "pluginName_zhmcConsole": "zHMC",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeeper",
   "pluginName_zooKeeper_0": "ZooKeeper",
@@ -9977,7 +9977,7 @@
       "infoThreadPoolStatesNotAvailable": "「執行緒儲存區」統計資料無法使用。當在 server.xml 中啟用 JMS 特性（WASJmsClient-1.1 和 WASJmsServer-1.0）和 monitor-1.0 特性時，就會發生這個已知問題。「執行緒儲存區」統計資料 MBean 會被置換而看不見。",
       "webSphereLiberty": "WebSphere 程式庫"
     },
-    "zHMCApplication": {
+    "zhmcConsole": {
       "dashboard": {
         "logicalPartition":"邏輯分割區",
         "name":"名稱",

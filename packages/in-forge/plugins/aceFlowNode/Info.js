@@ -14,7 +14,9 @@ export default function Info({ snapshot }) {
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.aceFlowNode.nodeName')}>{data.get('nodeName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.aceFlowNode.flowName')}>{data.get('flowName')}</DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.aceFlowNode.applicationName')}>{data.get('applicationName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.aceFlowNode.applicationName')}>
+        {data.get('applicationName')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.aceFlowNode.serverName')}>{data.get('serverName')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.aceFlowNode.type')}>{data.get('type')}</DescriptionItem>
     </DescriptionList>

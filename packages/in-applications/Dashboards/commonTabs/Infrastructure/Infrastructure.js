@@ -22,14 +22,15 @@ import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
+import { pcfEnabled, vsphereEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-applications/subscriptions/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
-import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { getForgeComponent } from 'in-services/getForgeComponent';
+import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -224,6 +225,30 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
                     className={locals.entityLink}
                     href$={vsphereEnabled ? getVsphereDatacenterDashboard(datacenter.id) : null}
                   />
+                )
+              }}
+            />
+          </Fragment>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function WithZhmcPhysicalContext({ children, zhmc }) {
+  return (
+    <div className={locals.linkWithMetaEntities}>
+      {children}
+      <div className={locals.metaRow}>
+        {zhmc && (
+          <Fragment>
+            <Trans
+              i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+              values={{ entityLabel: zhmc.label }}
+              components={{
+                icon: <SvgIcon className={locals.entitiyIcon} type="lib_zhmcConsole" />,
+                entityLink: (
+                  <Link className={locals.entityLink} href$={zhmcEnabled ? getIbmzZhmcDashboard(zhmc.id) : null} />
                 )
               }}
             />
@@ -528,6 +553,9 @@ function getColumnDefinitions(type) {
 
         if (item.physicalContext.vsphere) {
           return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
+        }
+        if (item.physicalContext.zhmc) {
+          return <WithZhmcPhysicalContext {...item.physicalContext.zhmc}>{link}</WithZhmcPhysicalContext>;
         }
 
         return link;
