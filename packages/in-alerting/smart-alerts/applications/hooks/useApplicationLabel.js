@@ -6,7 +6,7 @@
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 
 /**
  * Returns the name of an application for a given applicationId.

@@ -4,7 +4,7 @@
  */
 
 import ServiceListPresenter from 'in-sdk/components/sidebar/ServiceInstancesList/ServiceListPresenter';
-import getServicePreviews from 'in-subscription/application/getServicePreviews';
+import getServicePreviews from 'in-applications/subscriptions/getServicePreviews';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 

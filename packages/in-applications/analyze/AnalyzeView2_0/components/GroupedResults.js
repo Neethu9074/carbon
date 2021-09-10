@@ -10,8 +10,8 @@ import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/compon
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
-import getTraceGroups from 'in-subscription/application/getTraceGroups';
-import getCallGroups from 'in-subscription/application/getCallGroups';
+import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
+import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
 
 const getDataPerDataSource = {

@@ -18,10 +18,10 @@ import isOutsideCallsShortTermStorage from 'in-alerting/PotentialProblems/Potent
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import getPotentialProblems from 'in-alerting/PotentialProblems/subscription/getPotentialProblems';
 import { trackRequestLoadingTime } from 'in-alerting/PotentialProblems/tracker';
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
-import getApplication from 'in-subscription/application/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import useTimeConfig from 'in-hooks/useTimeConfig';

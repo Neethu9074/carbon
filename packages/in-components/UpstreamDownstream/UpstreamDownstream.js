@@ -6,10 +6,10 @@
 import React, { useState } from 'react';
 
 import UpstreamDownstreamPresenter from 'in-components/UpstreamDownstream/UpstreamDownstreamPresenter';
+import getApplications from 'in-applications/subscriptions/getApplications';
 import { relationships } from 'in-components/UpstreamDownstream/constants';
-import getApplications from 'in-subscription/application/getApplications';
+import getServices from 'in-applications/subscriptions/getServices';
 import { getSparkChartGranularity } from 'in-applications/metrics';
-import getServices from 'in-subscription/application/getServices';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import connectTo from 'in-hoc/connectTo';
 

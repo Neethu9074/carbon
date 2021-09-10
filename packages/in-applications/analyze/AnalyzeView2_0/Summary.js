@@ -24,7 +24,7 @@ import LogDetails from 'in-applications/analyze/components/TraceDetails/componen
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
-import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
+import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import Logs from 'in-applications/analyze/components/TraceDetails/components/Logs';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import { refreshWindowSizeDependingState } from 'in-services/browser';

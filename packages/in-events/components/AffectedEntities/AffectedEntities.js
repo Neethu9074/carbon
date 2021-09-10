@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React from 'react';
 
+import { combineLatest } from '@instana/observables';
+
 import AffectedEntitiesPresenter from 'in-events/components/AffectedEntities/AffectedEntitiesPresenter';
-import getCallGroups from 'in-subscription/application/getCallGroups';
+import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { entityTypes } from 'in-analyze/applicationFilter';
 

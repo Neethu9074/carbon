@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import getServices from 'in-subscription/application/getServices';
+import getServices from 'in-applications/subscriptions/getServices';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';

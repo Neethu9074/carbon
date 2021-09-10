@@ -5,7 +5,7 @@
 
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { isIdTag } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
+import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { TRACES } from 'in-applications/analyze/metrics';

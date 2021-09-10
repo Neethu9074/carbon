@@ -10,7 +10,7 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
-import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
+import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';

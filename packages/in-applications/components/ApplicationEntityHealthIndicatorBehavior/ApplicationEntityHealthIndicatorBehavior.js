@@ -8,7 +8,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import ApplicationEntityOpenIssuesList from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior/ApplicationEntityOpenIssuesList';
-import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
+import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
 import Overlay from 'in-components/overlays/Overlay';
 import { t } from 'in-i18n';

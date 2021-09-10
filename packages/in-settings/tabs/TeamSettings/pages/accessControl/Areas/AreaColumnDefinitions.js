@@ -12,7 +12,7 @@ import { just } from '@instana/observables';
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { hasError, isLoading } from 'in-services/util/result';
 import getWebsite from 'in-subscription/website/getWebsite';

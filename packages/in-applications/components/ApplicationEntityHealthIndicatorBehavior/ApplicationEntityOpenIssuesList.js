@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
+import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';

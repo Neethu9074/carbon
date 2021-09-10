@@ -18,7 +18,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import getCallGroups from 'in-subscription/application/getCallGroups';
+import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { createGroupBy } from 'in-analyze/navigation/paths';

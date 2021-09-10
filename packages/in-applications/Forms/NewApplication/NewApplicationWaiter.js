@@ -12,7 +12,7 @@ import { SvgIcon } from '@instana/components';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import { getWaitForEntityCreationTimeConfig } from 'in-stores/time/config';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import connectTo from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 

@@ -26,9 +26,9 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { getTimeConfigAlignedToResultTime } from 'in-stores/time/config';
-import getApplication from 'in-subscription/application/getApplication';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import Badge from 'in-components/tables/ServerTable/components/Badge';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';

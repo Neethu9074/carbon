@@ -9,8 +9,8 @@ import { HorizontalIndicator } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
 
 import IcicleChart from 'in-applications/analyze/AnalyzeView2_0/components_alt/IcicleChart/IcicleChart';
+import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
-import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import { isLoading, hasError } from 'in-services/util/result';
 import connectTo from 'in-hoc/connectTo';
 
