@@ -8,7 +8,7 @@ import { create } from '@instana/observables';
 
 import { LinearFilter, Texture, SphereBufferGeometry, Mesh, MeshBasicMaterial } from 'in-map/3DLibProvider';
 import countryMap from 'in-websites/WebsiteDashboard/components/GlobeView/components/countryConfig.json';
-import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-services/heatMapColors';
+import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-themes/heatMapColors';
 import { copyCanvasIntoShort } from 'in-components/Chart/canvas';
 import { rgbToHex } from 'in-services/formatters/color';
 

@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import geodata from 'promise-loader?global,geonames!in-services/geonames/geodata';
-import { fromPromise } from '@instana/observables';
+import geodata from 'promise-loader?global,geonames!in-components/RequestQuoteDialog/geodata';
 import React from 'react';
 
-import { getCountries, getStatesByCountryName } from 'in-services/geonames/geonames';
+import { fromPromise } from '@instana/observables';
+
+import { getCountries, getStatesByCountryName } from 'in-components/RequestQuoteDialog/geonames';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Section from 'in-settings/components/Section';

@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
+import React from 'react';
+
 import { fromPromise } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import React from 'react';
 
 import SidebarBreadcrumb from 'in-map/components/MapSidebar/components/SidebarBreadcrumb';
 import MapSidebarHeader from 'in-map/components/MapSidebar/components/MapSidebarHeader';
 import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
-import { getForgeComponent } from 'in-services/getForgeComponent';
+import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { debouncedResize$ } from 'in-services/browser';
 import { selectedSnapshot$ } from 'in-stores/snapshot';
 import { timeConfig$ } from 'in-stores/time/config';

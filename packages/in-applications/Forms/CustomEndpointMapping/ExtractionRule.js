@@ -7,8 +7,8 @@ import React, { forwardRef } from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+import { build } from 'in-applications/Forms/validator/urlPath';
 import Rule from 'in-applications/Forms/components/Rule';
-import { build } from 'in-services/validators/urlPath';
 import { Trans, t } from 'in-i18n';
 
 import locals from './ExtractionRule.mless';

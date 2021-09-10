@@ -10,7 +10,7 @@ import { create } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
-import { build, parse, validate } from 'in-services/validators/urlPath';
+import { build, parse, validate } from 'in-applications/Forms/validator/urlPath';
 import { testRules } from 'in-api/endpointConfiguration';
 import FormGroup from 'in-components/form/FormGroup';
 import Input from 'in-components/form/Input';
