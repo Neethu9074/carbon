@@ -22,7 +22,7 @@ import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications
 import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
-import { application as applicationType } from 'in-stores/starredItems/types';
+import { application as applicationType } from 'in-cockpit/starredItems/types';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { getApplicationDashboard } from 'in-applications/navigation/paths';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -35,7 +35,7 @@ import { successObservable } from 'in-services/util/result';
 import { boundaryScopes } from 'in-applications/constants';
 import { getView } from 'in-stores/navigation/navigation';
 import { getTimeConfig } from 'in-stores/time/config';
-import { add, remove } from 'in-stores/starredItems';
+import { add, remove } from 'in-cockpit/starredItems';
 import Tooltip from 'in-components/Tooltip';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';

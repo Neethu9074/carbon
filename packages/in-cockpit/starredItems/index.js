@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createLogger } from '@instana/logger';
 import { get } from 'lodash';
 
-import { add as addApi, remove as removeApi } from 'in-stores/starredItems/api';
+import { createLogger } from '@instana/logger';
+
+import { add as addApi, remove as removeApi } from 'in-cockpit/starredItems/api';
 import { noop } from 'in-services/util/function';
 import { createStore } from 'in-stores/store';
 
-const logger = createLogger('in-stores/starredItems/store');
+const logger = createLogger('in-cockpit/starredItems/store');
 
 const store = createStore({
   initialValue: Array.isArray(get(window, ['instana', 'starredItems'])) ? get(window, ['instana', 'starredItems']) : []
