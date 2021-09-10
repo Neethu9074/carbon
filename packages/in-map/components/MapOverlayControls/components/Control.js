@@ -13,7 +13,7 @@ import {
   toggleContent,
   closeCurrentMenu
 } from 'in-map/components/MapOverlayControls/stores/menuContentStore';
-import { view$, types } from 'in-stores/view/view';
+import { view$, types } from 'in-infrastructure/perspectives/view';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 

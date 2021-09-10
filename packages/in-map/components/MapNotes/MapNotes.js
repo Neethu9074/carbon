@@ -6,9 +6,9 @@
 import React from 'react';
 
 import createViewStructureObservable from 'in-subscription/view';
+import { types, view$ } from 'in-infrastructure/perspectives';
 import { alwaysTrue } from 'in-services/fixedStreams';
 import { timeConfig$ } from 'in-stores/time/config';
-import { types, view$ } from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

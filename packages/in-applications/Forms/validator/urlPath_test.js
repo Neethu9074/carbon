@@ -6,9 +6,9 @@
 /* eslint-env jest, node */
 import { expect } from 'chai';
 
-import { parse, build, validate } from 'in-services/validators/urlPath';
+import { parse, build, validate } from 'in-applications/Forms/validator/urlPath';
 
-describe('in-services/validators/urlPath', () => {
+describe('in-applications/Forms/validator/urlPath', () => {
   describe('parse', () => {
     it('should return an empty array when giving null, undefined, or empty string', () => {
       expect(parse(null)).to.have.length(0);

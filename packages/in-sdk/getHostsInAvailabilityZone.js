@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getViewStructure } from 'in-stores/view/viewStructureStore';
+import { getViewStructure } from 'in-infrastructure/perspectives/viewStructureStore';
 
 export function getHostsInAvailabilityZone(zoneSnapshotId) {
   return getViewStructure().map(viewStructure => {

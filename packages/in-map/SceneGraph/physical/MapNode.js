@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getViewStructure } from 'in-stores/view/viewStructureStore';
+import { getViewStructure } from 'in-infrastructure/perspectives/viewStructureStore';
 import GroupNode from 'in-map/SceneGraph/physical/GroupNode';
 import Map from 'in-map/sceneObjects/physical/Map';
 import Node from 'in-map/SceneGraph/Node';

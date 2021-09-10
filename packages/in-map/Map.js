@@ -9,6 +9,7 @@ import { useObservable } from '@instana/hooks';
 
 import StickyNoteHoster from 'in-map/components/stickyNotes/StickyNoteHoster';
 import MapNoContentMessage from 'in-map/components/MapNoContentMessage';
+import { view$, types as views } from 'in-infrastructure/perspectives';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import TooltipHoster from 'in-map/components/tooltips/TooltipHoster';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
@@ -17,7 +18,6 @@ import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import { setCanvas, clear } from 'in-map/stores/indexStore';
 import { isWebGLSupported } from 'in-map/services/webGL';
-import { view$, types as views } from 'in-stores/view';
 import { getSetting$ } from 'in-services/settings';
 import SceneGraph from 'in-map/SceneGraph';
 import Title from 'in-components/Title';
