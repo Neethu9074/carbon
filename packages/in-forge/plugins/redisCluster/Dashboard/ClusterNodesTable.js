@@ -6,7 +6,7 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
-import { getClusterMembers } from 'in-stores/clusterMembers';
+import { getClusterMembers } from 'in-sdk/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';

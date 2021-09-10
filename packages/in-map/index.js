@@ -6,9 +6,9 @@
 import React from 'react';
 
 import InfraPageHeaderWithTabs from 'in-infrastructure/components/InfraPageHeaderWithTabs';
+import { getViewStructure } from 'in-infrastructure/perspectives/viewStructureStore';
 import useOldBackgroundColor from 'in-infrastructure/hooks/useOldBackgroundColor';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import { getViewStructure } from 'in-stores/view/viewStructureStore';
 import NotMonitoringMap from 'in-map/components/NotMonitoringMap';
 import Controls from 'in-map/components/MapOverlayControls';
 import MapSidebar from 'in-map/components/MapSidebar';

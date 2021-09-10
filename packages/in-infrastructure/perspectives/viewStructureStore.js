@@ -5,15 +5,15 @@
 
 import { combineLatest } from '@instana/observables';
 
+import { viewGrouping$ } from 'in-infrastructure/perspectives/viewGrouping';
 import createViewStructureObservable from 'in-subscription/reducedView';
 import { searchMatches$ } from 'in-stores/search/searchMatches';
-import { viewGrouping$ } from 'in-stores/view/viewGrouping';
+import { view$ } from 'in-infrastructure/perspectives/view';
 import { hasRestrictedAccess } from 'in-stores/permission';
 import { debouncedQuery$ } from 'in-stores/search/query';
 import { timeConfig$ } from 'in-stores/time/config';
 import { isBlank } from 'in-services/util/string';
 import getScope from 'in-subscription/getScope';
-import { view$ } from 'in-stores/view/view';
 
 export function getViewStructure() {
   return combineLatest([

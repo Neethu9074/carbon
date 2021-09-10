@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getViewStructure } from 'in-stores/view/viewStructureStore';
+import { getViewStructure } from 'in-infrastructure/perspectives/viewStructureStore';
 
-export default function getHostsInAvailabilityZone(zoneSnapshotId) {
+export function getHostsInAvailabilityZone(zoneSnapshotId) {
   return getViewStructure().map(viewStructure => {
     const zoneChildren = viewStructure.viewStructure.children.find(child => child.id === zoneSnapshotId);
     return zoneChildren.children.filter(child => viewStructure.includedIds.hostIds[child.id]).map(child => child.id);

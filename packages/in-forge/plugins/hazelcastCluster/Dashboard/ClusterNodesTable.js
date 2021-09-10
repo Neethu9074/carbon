@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React from 'react';
 
-import { getClusterMembers } from 'in-stores/clusterMembers';
+import { combineLatest } from '@instana/observables';
+
+import { getClusterMembers } from 'in-sdk/clusterMembers';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';

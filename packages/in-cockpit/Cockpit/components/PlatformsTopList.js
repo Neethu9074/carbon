@@ -15,7 +15,7 @@ import {
   pcfApplication as pcfApplicationType,
   vsphereDatacenter as vsphereDatacenterType,
   zhmcServer as zhmcServerType
-} from 'in-stores/starredItems/types';
+} from 'in-cockpit/starredItems/types';
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
@@ -38,7 +38,7 @@ import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { hasKubernetesAccess } from 'in-stores/permission';
-import { add, remove } from 'in-stores/starredItems';
+import { add, remove } from 'in-cockpit/starredItems';
 import getZhmc from 'in-zhmc/subscriptions/getZhmc';
 import { success } from 'in-services/util/result';
 import { getMetric } from 'in-stores/metric';

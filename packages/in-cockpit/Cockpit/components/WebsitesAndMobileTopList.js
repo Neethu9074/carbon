@@ -12,7 +12,7 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
 import WebsiteHealthIndicatorBehavior from 'in-websites/WebsiteDashboard/components/WebsiteHealthIndicatorBehavior/WebsiteHealthIndicatorBehavior';
-import { website as websiteType, mobileApp as mobileAppType } from 'in-stores/starredItems/types';
+import { website as websiteType, mobileApp as mobileAppType } from 'in-cockpit/starredItems/types';
 import EmptyStateContent from 'in-cockpit/widgets/WebsitesAndMobileTopList/EmptyStateContent';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { getMobileAppsWithDefaults } from 'in-mobile-apps/subscriptions/getMobileApps';
@@ -36,7 +36,7 @@ import getWebsite from 'in-websites/subscriptions/getWebsite';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { getView } from 'in-stores/navigation/navigation';
 import { websitesOpenAddForm } from 'in-websites/tracker';
-import { add, remove } from 'in-stores/starredItems';
+import { add, remove } from 'in-cockpit/starredItems';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 import { role } from 'in-stores/user';

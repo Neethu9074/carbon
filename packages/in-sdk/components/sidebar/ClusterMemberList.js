@@ -6,7 +6,7 @@
 import React from 'react';
 
 import RelatedSnapshotList from 'in-sdk/components/sidebar/RelatedSnapshotList';
-import { getClusterMembers } from 'in-stores/clusterMembers';
+import { getClusterMembers } from 'in-sdk/clusterMembers';
 import { emptySet } from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 

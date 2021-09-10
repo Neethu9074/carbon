@@ -5,6 +5,8 @@
 
 import { combineLatest } from '@instana/observables';
 
+// eslint-disable-next-line no-restricted-imports
+import { view$ } from 'in-infrastructure/perspectives';
 import { physicalPath, containerPath } from 'in-stores/navigation/paths/mainPaths';
 import createSearchSubscription from 'in-subscription/search';
 import { isView } from 'in-stores/navigation/navigation';
@@ -12,7 +14,6 @@ import { debouncedQuery$ } from 'in-stores/search/query';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { createTrackingStore } from 'in-stores/store';
 import { timeConfig$ } from 'in-stores/time/config';
-import { view$ } from 'in-stores/view';
 
 export const searchMatches$ = createTrackingStore({
   name: 'search/searchMatches',

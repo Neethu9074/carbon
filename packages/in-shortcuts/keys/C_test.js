@@ -88,7 +88,7 @@ describe('shortcuts/C', () => {
       on: () => onKeyPressed
     }));
 
-    shortcuts = require('in-services/shortcuts');
+    shortcuts = require('in-shortcuts');
     shortcuts.init();
   }
 });
