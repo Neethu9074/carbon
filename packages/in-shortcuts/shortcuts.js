@@ -6,12 +6,12 @@
 import { keyCodes } from '@instana/components';
 import { on } from '@instana/observables';
 
-import { onLeftArrow, onRightArrow, onUpArrow, onDownArrow } from 'in-services/shortcuts/shortcuts/navigationViaArrows';
-import onQuestionMarkPressed from 'in-services/shortcuts/shortcuts/QuestionMark';
-import onEscapePressed from 'in-services/shortcuts/shortcuts/Esc';
-import onFPressed from 'in-services/shortcuts/shortcuts/F';
-import onVPressed from 'in-services/shortcuts/shortcuts/V';
-import onCPressed from 'in-services/shortcuts/shortcuts/C';
+import { onLeftArrow, onRightArrow, onUpArrow, onDownArrow } from 'in-shortcuts/keys/navigationViaArrows';
+import onQuestionMarkPressed from 'in-shortcuts/keys/QuestionMark';
+import onEscapePressed from 'in-shortcuts/keys/Esc';
+import onFPressed from 'in-shortcuts/keys/F';
+import onVPressed from 'in-shortcuts/keys/V';
+import onCPressed from 'in-shortcuts/keys/C';
 
 const {
   isCtrl,
