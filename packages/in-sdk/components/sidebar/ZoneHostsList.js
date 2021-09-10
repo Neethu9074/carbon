@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import getHostsInAvailabilityZone from 'in-stores/graph/getHostsInAvailabilityZone';
 import RelatedSnapshotList from 'in-sdk/components/sidebar/RelatedSnapshotList';
+import { getHostsInAvailabilityZone } from 'in-sdk/getHostsInAvailabilityZone';
 import connectTo from 'in-hoc/connectTo';
 
 export default connectTo(
