@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getIbmDataPowerDomainsForAppliance from 'in-subscription/ibmDataPowerAppliance/getIbmDataPowerDomainsForAppliance';
+import getIbmDataPowerDomainsForAppliance from 'in-forge/plugins/ibmDataPowerAppliance/subscriptions/getIbmDataPowerDomainsForAppliance';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
