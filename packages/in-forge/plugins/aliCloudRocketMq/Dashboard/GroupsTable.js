@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getAliCloudRocketMqGroups from 'in-subscription/aliCloudRocketMq/getAliCloudRocketMqGroups';
+import getAliCloudRocketMqGroups from 'in-forge/plugins/aliCloudRocketMqGroup/subscriptions//getAliCloudRocketMqGroups';
 import { formatDateTime } from 'in-services/formatters/date';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
