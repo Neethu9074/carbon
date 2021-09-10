@@ -12,11 +12,11 @@ import {
   getStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
-import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
+import getOpenShiftDeploymentConfigs from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
-import getKubernetesStatefulSets from 'in-subscription/kubernetes/getKubernetesStatefulSets';
-import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
-import getKubernetesDaemonSets from 'in-subscription/kubernetes/getKubernetesDaemonSets';
+import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
+import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
+import getKubernetesDaemonSets from 'in-kubernetes/subscriptions/getKubernetesDaemonSets';
 import { serviceDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
 import { ServiceTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';

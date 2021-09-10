@@ -6,7 +6,7 @@
 import React from 'react';
 
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
-import getKubernetesNodes from 'in-subscription/kubernetes/getKubernetesNodes';
+import getKubernetesNodes from 'in-kubernetes/subscriptions/getKubernetesNodes';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import { t } from 'in-i18n';
 

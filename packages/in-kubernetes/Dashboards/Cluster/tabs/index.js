@@ -12,11 +12,11 @@ import {
   getStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
 import WorkloadControllers from 'in-kubernetes/Dashboards/commonComponents/commonTabs/WorkloadControllers';
-import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
-import getKubernetesStatefulSets from 'in-subscription/kubernetes/getKubernetesStatefulSets';
-import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
+import getOpenShiftDeploymentConfigs from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
+import getKubernetesStatefulSets from 'in-kubernetes/subscriptions/getKubernetesStatefulSets';
+import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
+import getKubernetesDaemonSets from 'in-kubernetes/subscriptions/getKubernetesDaemonSets';
 import Namespaces from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Namespaces';
-import getKubernetesDaemonSets from 'in-subscription/kubernetes/getKubernetesDaemonSets';
 import PersistentVolumes from 'in-kubernetes/Dashboards/Cluster/tabs/PersistentVolumes';
 import CronJobs from 'in-kubernetes/Dashboards/commonComponents/commonTabs/CronJobs';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';

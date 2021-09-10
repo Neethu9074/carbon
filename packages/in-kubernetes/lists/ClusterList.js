@@ -11,8 +11,8 @@ import { SvgIcon } from '@instana/components';
 import { Card } from '@instana/components';
 
 import KubernetesNoDataNotification from 'in-kubernetes/lists/components/KubernetesNoDataNotification';
+import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { getKubernetesClustersWithDefaults } from 'in-subscription/kubernetes/getKubernetesClusters';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';

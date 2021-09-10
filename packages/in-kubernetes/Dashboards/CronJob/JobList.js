@@ -23,7 +23,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import getKubernetesJobs from 'in-subscription/kubernetes/getKubernetesJobs';
+import getKubernetesJobs from 'in-kubernetes/subscriptions/getKubernetesJobs';
 import { retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import useCursorPagination from 'in-hooks/useCursorPagination';

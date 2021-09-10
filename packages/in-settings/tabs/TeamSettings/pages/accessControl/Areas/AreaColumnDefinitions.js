@@ -10,7 +10,7 @@ import { SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
 
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
-import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
+import getKubernetesNamespaces from 'in-kubernetes/subscriptions/getKubernetesNamespaces';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';

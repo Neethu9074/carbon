@@ -10,7 +10,7 @@ import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/Dashb
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
-import getKubernetesCronJob from 'in-subscription/kubernetes/getKubernetesCronJob';
+import getKubernetesCronJob from 'in-kubernetes/subscriptions/getKubernetesCronJob';
 import { cronJobId as matrixCronJobId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { cronJobDashboard } from 'in-kubernetes/navigation/paths';

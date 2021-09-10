@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import getEntityHealthInfo from 'in-subscription/kubernetes/getEntityHealthInfo';
+import getEntityHealthInfo from 'in-kubernetes/subscriptions/getEntityHealthInfo';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 

@@ -6,7 +6,7 @@
 import React from 'react';
 
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
-import getKubernetesNamespaces from 'in-subscription/kubernetes/getKubernetesNamespaces';
+import getKubernetesNamespaces from 'in-kubernetes/subscriptions/getKubernetesNamespaces';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { t } from 'in-i18n';
 

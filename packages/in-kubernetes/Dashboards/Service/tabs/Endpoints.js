@@ -7,8 +7,8 @@ import { get } from 'lodash';
 import React from 'react';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import getKubernetesEndpoints from 'in-kubernetes/subscriptions/getKubernetesEndpoints';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import getKubernetesEndpoints from 'in-subscription/kubernetes/getKubernetesEndpoints';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { serviceIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';

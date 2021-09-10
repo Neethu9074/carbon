@@ -6,7 +6,7 @@
 import React from 'react';
 
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
-import getEntityHealthInfo from 'in-subscription/kubernetes/getEntityHealthInfo';
+import getEntityHealthInfo from 'in-kubernetes/subscriptions/getEntityHealthInfo';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { indeterminateProgress } from 'in-services/fixedObjects';
 import { mapData } from 'in-services/util/result';

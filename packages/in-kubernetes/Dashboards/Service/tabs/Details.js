@@ -10,7 +10,7 @@ import DetailsNavigation, {
   annotationsNavigationItem,
   specNavigationItem
 } from 'in-kubernetes/Dashboards/commonComponents/DetailsNavigation';
-import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
+import getKubernetesServiceItemCounters from 'in-kubernetes/subscriptions/getKubernetesServiceItemCounters';
 import { singletonNavigationTree } from 'in-components/layout/SideNavigationAndContent';
 import { serviceDashboardDetailsFullyQualified } from 'in-kubernetes/navigation/paths';
 import SelectorsList from 'in-kubernetes/Dashboards/commonComponents/SelectorsList';

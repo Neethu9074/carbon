@@ -6,7 +6,7 @@
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
-import getKubernetesCronJob from 'in-subscription/kubernetes/getKubernetesCronJob';
+import getKubernetesCronJob from 'in-kubernetes/subscriptions/getKubernetesCronJob';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

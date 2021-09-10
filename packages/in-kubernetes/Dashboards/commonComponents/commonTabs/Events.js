@@ -12,8 +12,8 @@ import ViewWidthRestrictedColumn from 'in-infrastructure/tableView/components/Ta
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { plugins, translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import getKubernetesEvents from 'in-kubernetes/subscriptions/getKubernetesEvents';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import getKubernetesEvents from 'in-subscription/kubernetes/getKubernetesEvents';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import { getDashboardForEntity } from 'in-kubernetes/navigation/paths';
