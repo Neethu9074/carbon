@@ -5152,8 +5152,18 @@
     },
     "domino": {
       "domino": "Domino",
+      "counters": "Counters",
+      "pid": "Process ID",
+      "installType": "Install Type",
+      "kitType": "Kit Type",
+      "faultRecoveryBuild": "Fault Recovery Build",
+      "mailServer": "Mail Server",
+      "serverKeyFileName": "Server Key File Name",
+      "serverName": "Server Name",
+      "serverRestarted": "Server Restarted",
       "dashboard": {
-        "dominoInfo": "Domino Info",
+        "metricTypes": "Metric Types",
+        "info": "Info",
         "noMetricsDomino": "There are no metrics exposed on the Domino server."
       },
       "troubleshootingDocs": "Troubleshooting docs",
