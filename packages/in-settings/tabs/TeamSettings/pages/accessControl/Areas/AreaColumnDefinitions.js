@@ -15,7 +15,7 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import getMobileApp from 'in-mobile-apps/subscriptions/getMobileApp';
 import { hasError, isLoading } from 'in-services/util/result';
-import getWebsite from 'in-subscription/website/getWebsite';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { timeConfig$ } from 'in-stores/time/config';
 import connecTo from 'in-hoc/connectTo';
 
