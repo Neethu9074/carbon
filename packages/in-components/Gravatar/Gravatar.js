@@ -6,39 +6,61 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+import { create } from '@instana/observables';
+
+import createSubscription from 'in-subscription/subscription';
 import unknown from 'in-components/Gravatar/unknown.png';
-import getGravatarUrl from 'in-subscription/gravatar';
-import { onImageLoad } from 'in-services/image';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './Gravatar.mless';
 
-export default connectTo(
-  props => {
-    return {
-      avatarUrl: props.email
-        ? getGravatarUrl(props.email)
-            .flatMap(url => onImageLoad(url))
-            .startWith(null)
-        : null
-    };
-  },
-  function Gravatar({ className, avatarUrl, email, size }) {
-    className = classNames({
-      [locals.regular]: size !== 'l',
-      [locals.l]: size === 'l',
-      [className]: className
-    });
+const getGravatarUrl = createSubscription({
+  eventId: 'subscribe-gravatar-url',
 
-    if (avatarUrl) {
-      return (
-        <img className={className} src={avatarUrl} alt={t('in-components:gravatar.avatarUrlAlt', { email: email })} />
-      );
+  getId(email) {
+    return email;
+  },
+
+  getData(subscriptionId, email) {
+    return {
+      subscriptionId,
+      email
+    };
+  }
+});
+
+export default function Gravatar({ className, email, size }) {
+  const avatarUrl = useObservable(() => {
+    if (!email) {
+      return null;
     }
 
-    return (
-      <img className={className} src={unknown} alt={t('in-components:gravatar.avatarNullAlt', { email: email })} />
-    );
-  }
-);
+    return getGravatarUrl(email)
+      .flatMap(url => onImageLoad(url))
+      .startWith(null);
+  }, [email]);
+
+  className = classNames(className, {
+    [locals.regular]: size !== 'l',
+    [locals.l]: size === 'l'
+  });
+
+  const src = avatarUrl || unknown;
+  const alt = avatarUrl
+    ? t('in-components:gravatar.avatarUrlAlt', { email: email })
+    : t('in-components:gravatar.avatarNullAlt', { email: email });
+
+  return <img className={className} src={src} alt={alt} />;
+}
+
+function onImageLoad(url) {
+  const result = create();
+
+  const img = new Image();
+  img.onload = () => result.emit(url);
+  img.onerror = () => {};
+  img.src = url;
+
+  return result;
+}
