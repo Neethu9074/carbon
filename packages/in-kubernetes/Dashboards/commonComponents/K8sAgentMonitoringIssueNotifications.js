@@ -10,7 +10,7 @@ import { Message } from '@instana/components';
 import { Button } from '@instana/components';
 
 import getIssueDefinitionForSnapshotAndCode, * as IssueCategories from 'in-sdk/agentMonitoringIssueDefinition';
-import getKubernetesClusterByRelation from 'in-subscription/kubernetes/getKubernetesClusterByRelation';
+import getKubernetesClusterByRelation from 'in-kubernetes/subscriptions/getKubernetesClusterByRelation';
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { getSnapshot } from 'in-stores/snapshot';

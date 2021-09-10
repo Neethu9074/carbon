@@ -6,9 +6,9 @@
 import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import getApplication from 'in-subscription/application/getApplication';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
+import getApplication from 'in-applications/subscriptions/getApplication';
 
 export default function useApplicationEventEntity(event) {
   return useObservable(

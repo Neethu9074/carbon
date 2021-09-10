@@ -17,12 +17,12 @@ import {
   zhmcServer as zhmcServerType
 } from 'in-stores/starredItems/types';
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
-import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
-import { getKubernetesClustersWithDefaults } from 'in-subscription/kubernetes/getKubernetesClusters';
+import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
+import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
-import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
+import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
 import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import { pcfEnabled, vsphereEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';

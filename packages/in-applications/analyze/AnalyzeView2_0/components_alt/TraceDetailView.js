@@ -14,7 +14,7 @@ import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
 import { getIconByType, getLabelByType } from 'in-analyze/AnalyzeView/dataSources';
 import tabs from 'in-applications/analyze/AnalyzeView2_0/components_alt/tabs';
-import getTraceSummary from 'in-subscription/application/getTraceSummary';
+import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getColorPool } from 'in-services/util/ColorGenerator';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';

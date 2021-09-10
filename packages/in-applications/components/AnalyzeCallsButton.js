@@ -13,9 +13,9 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
-import getApplication from 'in-subscription/application/getApplication';
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { syntheticCallsOptions } from 'in-applications/constants';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';

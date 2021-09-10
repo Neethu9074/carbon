@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getRedisEnterpriseNodesForCluster from 'in-subscription/redisEnterpriseCluster/getRedisEnterpriseNodesForCluster';
+import getRedisEnterpriseNodesForCluster from 'in-forge/plugins/redisEnterpriseCluster/subscriptions/getRedisEnterpriseNodesForCluster';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

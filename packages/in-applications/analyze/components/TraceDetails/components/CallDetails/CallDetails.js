@@ -15,7 +15,7 @@ import { getCorrelatedWebsiteBeacons } from 'in-applications/analyze/components/
 import LoadingCallDetails from 'in-applications/analyze/components/TraceDetails/components/CallDetails/LoadingCallDetails';
 import IsSynthetic from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/IsSynthetic';
 import Header from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/Header';
-import getTraceActivityTreeNodeDetails from 'in-subscription/application/getTraceActivityTreeNodeDetails';
+import getTraceActivityTreeNodeDetails from 'in-applications/subscriptions/getTraceActivityTreeNodeDetails';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
 import { pendingResult } from 'in-services/fixedObjects';

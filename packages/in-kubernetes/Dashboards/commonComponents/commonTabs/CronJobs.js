@@ -13,8 +13,8 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import getKubernetesCronJobs from 'in-kubernetes/subscriptions/getKubernetesCronJobs';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import getKubernetesCronJobs from 'in-subscription/kubernetes/getKubernetesCronJobs';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getCronJobDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';

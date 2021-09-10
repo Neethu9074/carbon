@@ -11,7 +11,7 @@ import { Card } from '@instana/components';
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
-import getKubernetesHostsByCluster from 'in-subscription/kubernetes/getKubernetesHostsByCluster';
+import getKubernetesHostsByCluster from 'in-kubernetes/subscriptions/getKubernetesHostsByCluster';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';

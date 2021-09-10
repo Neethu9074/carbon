@@ -10,7 +10,7 @@ import { Td, Table, Tbody, Tr } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
-import getCloudfoundryApplicationForInstanaApplication from 'in-subscription/cloudfoundry/getCloudfoundryApplicationForInstanaApplication';
+import getCloudfoundryApplicationForInstanaApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplicationForInstanaApplication';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';

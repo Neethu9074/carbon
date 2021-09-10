@@ -9,7 +9,7 @@ import ServiceInformation from 'in-applications/ApplicationMap/components/Toolti
 import ApplicationMapTootlip from 'in-applications/ApplicationMap/components/Tooltips/ApplicationMapTootlip';
 import Header from 'in-applications/ApplicationMap/components/Tooltips/ServiceInformation/Header';
 import { getSparkChartGranularity } from 'in-applications/metrics';
-import getMetrics from 'in-subscription/application/getMetrics';
+import getMetrics from 'in-applications/subscriptions/getMetrics';
 import { boundaryScopes } from 'in-applications/constants';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';

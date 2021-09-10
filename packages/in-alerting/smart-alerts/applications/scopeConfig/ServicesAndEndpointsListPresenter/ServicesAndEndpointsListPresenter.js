@@ -14,12 +14,12 @@ import {
   listReducer
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/listReducer';
 import ApplicationsList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ApplicationsList';
-import getApplicationsCursorPaginated from 'in-subscription/application/getApplicationsCursorPaginated';
+import getApplicationsCursorPaginated from 'in-applications/subscriptions/getApplicationsCursorPaginated';
 import getEndpointsCursorPaginated from 'in-applications/subscriptions/getEndpointsCursorPaginated';
-import getServicesCursorPaginated from 'in-subscription/application/getServicesCursorPaginated';
+import getServicesCursorPaginated from 'in-applications/subscriptions/getServicesCursorPaginated';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { applicationId as applicationIdMatrixParam } from 'in-applications/navigation/matrix';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { applicationDashboard } from 'in-applications/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';

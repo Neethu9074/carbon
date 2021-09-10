@@ -24,9 +24,9 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import FloatingActionButtonMenu from 'in-components/FloatingActionButton/FloatingActionButtonMenu';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import { getApplicationDashboard, applicationsList } from 'in-applications/navigation/paths';
+import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { applicationListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
-import { getApplicationsWithDefaults } from 'in-subscription/application/getApplications';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';

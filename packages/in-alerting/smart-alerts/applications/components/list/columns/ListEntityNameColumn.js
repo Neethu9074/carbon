@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 
 import { applicationsItemTreePropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { t } from 'in-i18n';
 

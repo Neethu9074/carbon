@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getIbmMqQueuesForQueueManager from 'in-subscription/ibmMqQueueManager/getIbmMqQueuesForQueueManager';
+import getIbmMqQueuesForQueueManager from 'in-forge/plugins/ibmMqQueueManager/subscriptions/getIbmMqQueuesForQueueManager';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';

@@ -10,8 +10,8 @@ import { HorizontalIndicator } from '@instana/components';
 import { LoadingSkeleton } from '@instana/components';
 
 import IcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart';
+import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
-import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
 import connectTo from 'in-hoc/connectTo';
 
 import locals from './ServerIcicleChart.mless';

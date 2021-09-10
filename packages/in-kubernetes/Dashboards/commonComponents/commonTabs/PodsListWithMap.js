@@ -11,7 +11,7 @@ import { Card } from '@instana/components';
 import ControlFrame from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/ControlFrame';
 import PodTreeMap from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/PodTreeMap';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
-import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
+import getKubernetesPods from 'in-kubernetes/subscriptions/getKubernetesPods';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import ServerTreeMap from 'in-components/TreeMap/ServerTreeMap';

@@ -8,7 +8,7 @@ import React from 'react';
 
 import { LoadingSkeleton } from '@instana/components';
 
-import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
+import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import { resourceQuotaBytes } from 'in-kubernetes/formatters';
 import Delayed from 'in-components/Delayed/Delayed';
 import MetricValue from 'in-components/MetricValue';

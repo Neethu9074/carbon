@@ -13,7 +13,7 @@ import {
   getDeploymentConfigDashboard,
   getStatefulSetDashboard
 } from 'in-kubernetes/navigation/paths';
-import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
+import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
 import WorkloadControllerBreadcrumb from 'in-kubernetes/breadcrumbs/WorkloadControllerBreadcrumb';
 import NamespaceBreadcrumb from 'in-kubernetes/breadcrumbs/NamespaceBreadcrumb';
 import HomeViewBreadcrumb from 'in-kubernetes/breadcrumbs/HomeViewBreadcrumb';

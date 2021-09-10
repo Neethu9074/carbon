@@ -9,7 +9,7 @@ import { useObservable } from '@instana/hooks';
 
 import SimpleModePageNavigation from 'in-components/BlueprintFormMultistep/SimpleModePageNavigation';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import getApplicationLiveView from 'in-subscription/application/getApplicationLiveView';
+import getApplicationLiveView from 'in-applications/subscriptions/getApplicationLiveView';
 import SimpleCreateStep1 from 'in-applications/creation/simple/SimpleCreateStep1';
 import SimpleCreateStep2 from 'in-applications/creation/simple/SimpleCreateStep2';
 import SimpleCreateStep3 from 'in-applications/creation/simple/SimpleCreateStep3';

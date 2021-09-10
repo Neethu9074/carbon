@@ -9,7 +9,7 @@ import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
-import getTraceParticipants from 'in-subscription/application/getTraceParticipants';
+import getTraceParticipants from 'in-applications/subscriptions/getTraceParticipants';
 import { latencyFixed } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
 import { t } from 'in-i18n';

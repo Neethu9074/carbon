@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
 import ApplicationsHealthIndicatorBar from 'in-components/ApplicationHealthOverview/ApplicationsHealthIndicatorBar';
-import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
+import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import ApplicationHealthOverview from 'in-components/ApplicationHealthOverview';
 import { compareIgnoreCase } from 'in-services/util/string';

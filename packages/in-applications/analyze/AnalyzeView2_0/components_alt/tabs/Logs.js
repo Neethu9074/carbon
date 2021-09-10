@@ -11,7 +11,7 @@ import { Button } from '@instana/components';
 import useLogInformation from 'in-applications/analyze/AnalyzeView2_0/components_alt/CallTree/hooks/useLogInformation';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
-import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
+import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import Logs from 'in-applications/analyze/AnalyzeView2_0/components_alt/Logs';
 import { refreshWindowSizeDependingState } from 'in-services/browser';

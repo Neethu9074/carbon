@@ -12,7 +12,7 @@ import { Card } from '@instana/components';
 
 import { percentageZeroDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
-import getHostByKubernetesNode from 'in-subscription/kubernetes/getHostByKubernetesNode';
+import getHostByKubernetesNode from 'in-kubernetes/subscriptions/getHostByKubernetesNode';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';

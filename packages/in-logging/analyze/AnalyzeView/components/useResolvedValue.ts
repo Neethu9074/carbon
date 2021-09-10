@@ -14,7 +14,7 @@ import {
   LOG_CUSTOM,
   LOG_CUSTOM_KEY_APPLICATION_IDS
 } from 'in-logging/queryBuilder';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 // @ts-ignore
 import { getSnapshot } from 'in-stores/snapshot';
 // @ts-ignore
