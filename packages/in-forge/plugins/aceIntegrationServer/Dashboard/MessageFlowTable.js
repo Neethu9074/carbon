@@ -7,7 +7,7 @@ import React from 'react';
 
 import { combineLatest } from '@instana/observables';
 
-import { getClusterMembers } from 'in-stores/clusterMembers';
+import { getClusterMembers } from 'in-sdk/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';

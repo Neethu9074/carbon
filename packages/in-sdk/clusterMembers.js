@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import createClusterMembersObservable from 'in-forge/plugins/redisEnterpriseCluster/Sidebar/in-subscription/clusterMembers';
+import getClusterMembersObservable from 'in-infrastructure/subscriptions/getClusterMembers';
 import { timeConfig$ } from 'in-stores/time/config';
 
 export function getClusterMembers(snapshotId) {
   return timeConfig$.flatMap(timeConfig =>
-    createClusterMembersObservable({
+    getClusterMembersObservable({
       snapshotId,
       timeConfig
     })
