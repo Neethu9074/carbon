@@ -1497,6 +1497,7 @@
   "tracingTypeName_http4sserver_0": "HTTP Calls",
   "tracingTypeName_http4sserver_1": "HTTP Call",
   "tracingTypeName_http4sserver_2": "HTTP Calls",
+  "tracingTypeName_httpd": "HTTP Call",
   "tracingTypeName_httpkitserver": "HTTP Call",
   "tracingTypeName_httpkitserver_plural": "HTTP Calls",
   "tracingTypeName_httpkitserver_0": "HTTP Calls",
