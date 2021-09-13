@@ -55,6 +55,10 @@ export const LOG_PROCESS_SNAPSHOT_ID = 'log.processSnapshotId';
 export const LOG_HOST_SNAPSHOT_ID = 'log.hostSnapshotId';
 export const LOG_SERVICE_NAME = 'service.name';
 
+export const LOG_EXCEPTION_TYPE = 'log.exception.type';
+export const LOG_EXCEPTION_MESSAGE = 'log.exception.message';
+export const LOG_EXCEPTION_STACK_TRACE = 'log.exception.stackTrace';
+
 export const LOG_CUSTOM_KEY_SERVICE_ID = 'service_id';
 export const LOG_CUSTOM_KEY_ENDPOINT_ID = 'endpoint_id';
 export const LOG_CUSTOM_KEY_APPLICATION_IDS = 'application_ids';

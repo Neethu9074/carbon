@@ -3,10 +3,18 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-export const PARAMETER = 'p';
-export const MESSAGE_CHUNK = 'm';
+export const PARAMETER: ParameterChunkType = 'p';
+export const MESSAGE_CHUNK: MessageChunkType = 'm';
 
-export function toChunks(message, matcher) {
+type ParameterChunkType = 'p';
+type MessageChunkType = 'm';
+
+interface Chunk {
+  type: ParameterChunkType | MessageChunkType;
+  value: string;
+}
+
+export function toChunks(message: string, matcher: string[]) {
   if (!message) {
     return [];
   }
@@ -21,10 +29,10 @@ export function toChunks(message, matcher) {
   );
 }
 
-function createChunks(message, matcher) {
-  const chunks = [];
+function createChunks(message: string, matcher: string[]): Chunk[] {
+  const chunks: Chunk[] = [];
 
-  let indexOfNextMatcher = -1;
+  let indexOfNextMatcher: number = -1;
   do {
     const [_indexOfNextMatcher, match] = findNextMatcherIndex(message, matcher);
     indexOfNextMatcher = _indexOfNextMatcher;
@@ -44,8 +52,10 @@ function createChunks(message, matcher) {
   return chunks;
 }
 
-export function findNextMatcherIndex(message, matcher) {
-  const matches = [];
+type Match = [number, string];
+
+export function findNextMatcherIndex(message: string, matcher: string[]) {
+  const matches: Match[] = [];
   for (let i = 0; i < matcher.length; i++) {
     const match = matcher[i];
     const indexOfNextParam = message.indexOf(match);
@@ -53,11 +63,15 @@ export function findNextMatcherIndex(message, matcher) {
       matches[i] = [indexOfNextParam, match];
     }
   }
-  matches.sort(([i1], [i2]) => i1 - i2);
+  matches.sort(sorter);
   return matches[0] ?? [-1, ''];
 }
 
-export function fillWithParams(chunks, params) {
+function sorter(matchA: Match, matchB: Match): number {
+  return matchA[0] - matchB[0];
+}
+
+export function fillWithParams(chunks: Chunk[], params: any[]) {
   let paramIndex = 0;
   for (let i = 0; i < chunks.length; i++) {
     const chunk = chunks[i];

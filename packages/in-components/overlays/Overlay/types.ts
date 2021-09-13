@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Refs } from 'in-services/util/react';
 import { CSSProperties, ReactNode } from 'react';
+
+import { Refs } from 'in-services/util/react';
 
 export type Align =
   | 'leftBottom'

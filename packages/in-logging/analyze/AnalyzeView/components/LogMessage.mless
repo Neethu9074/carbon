@@ -15,10 +15,13 @@
     cursor: pointer;
   }
 
-  .parameter {
+  .parameter,
+  .parameterClickable {
     color: @lib__colors__N500;
     font-style: italic;
+  }
 
+  .parameterClickable {
     cursor: pointer;
   }
 

@@ -6,9 +6,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
+import { LiLoadMore, ColumnizedContent, Ul, Li } from '@instana/components';
 import { generateStableHash } from '@instana/utils';
-import { LiLoadMore } from '@instana/components';
 
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';

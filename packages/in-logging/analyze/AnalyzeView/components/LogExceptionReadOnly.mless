@@ -1,0 +1,22 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .type {
+    font-weight: 600;
+    margin: 0.75rem 1rem 0.75rem 0;
+  }
+
+  .messageWrapper {
+    margin: 0.75rem 0;
+
+    white-space: break-spaces;
+    word-break: break-word;
+    hyphens: auto;
+  }
+}
