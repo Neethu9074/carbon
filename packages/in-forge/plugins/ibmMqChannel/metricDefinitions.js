@@ -8,6 +8,18 @@ import { t } from 'in-i18n';
 
 export default [
   {
+    metrics: ['channelStatusMetric'],
+    labels: [t('in-forge:plugins.ibmMqChannel.status')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['channelInDoubtMetric'],
+    labels: [t('in-forge:plugins.ibmMqChannel.inDoubt')],
+    min: 0,
+    formatter: number
+  },
+  {
     metrics: ['messagesSent', 'messagesAvailable'],
     labels: [t('in-forge:plugins.ibmMqChannel.sentReceived'), t('in-forge:plugins.ibmMqChannel.available')],
     min: 0,
