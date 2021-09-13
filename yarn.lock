@@ -1491,13 +1491,13 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@humanwhocodes/object-schema/-/object-schema-1.2.0.tgz#87de7af9c231826fdd68ac7258f77c429e0e5fcf"
   integrity sha1-h956+cIxgm/daKxyWPd8Qp4OX88=
 
-"@instana/components@^1.33.0":
-  version "1.33.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.33.0.tgz#cb4846b424e74cef51165a928d28c2f35b898444"
-  integrity sha1-y0hGtCTnTO9RFlqSjSjC81uJhEQ=
+"@instana/components@^1.34.0":
+  version "1.34.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.34.0.tgz#4e3658c6c4143e85316b3fe4f5c405833c4cf7af"
+  integrity sha1-TjZYxsQUPoUxaz/k9cQFgzxM968=
   dependencies:
     "@instana/design-tokens" "^1.9.1"
-    "@instana/format-date" "^1.2.2"
+    "@instana/format-date" "^1.2.3"
     "@instana/format-numbers" "^1.2.0"
     "@instana/hooks" "^1.4.9"
     "@instana/i18n-react" "^1.1.8"
@@ -1505,7 +1505,7 @@
     classnames "^2.2.6"
     lodash "^4.17.21"
     prism-react-renderer "^1.2.1"
-    prismjs "^1.23.0"
+    prismjs "^1.24.1"
     react-toggle "^4.1.2"
 
 "@instana/design-tokens@^1.9.1":
@@ -1517,23 +1517,10 @@
     tslib "^2.1.0"
     typescript "^4.1.4"
 
-"@instana/format-date@^1.2.0":
-  version "1.2.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-date/-/@instana/format-date-1.2.0.tgz#fd9bc5c5ba5174fa2544cff51d9827f0be7a4f4d"
-  integrity sha1-/ZvFxbpRdPolRM/1HZgn8L56T00=
-  dependencies:
-    "@instana/i18n" "^1.2.0"
-    "@instana/i18n-react" "^1.1.6"
-    date-fns "^2.22.1"
-    i18next "^20.3.2"
-    ts-node "^9.1.1"
-    tslib "^2.1.0"
-    typescript "^4.1.4"
-
-"@instana/format-date@^1.2.2":
-  version "1.2.2"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-date/-/@instana/format-date-1.2.2.tgz#bdc3b2db4ef541d671fb9b6e8d01418b18345366"
-  integrity sha1-vcOy2071QdZx+5tujQFBixg0U2Y=
+"@instana/format-date@^1.2.3":
+  version "1.2.3"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/format-date/-/@instana/format-date-1.2.3.tgz#0d96fe9d3d8f01269dd1a00cbd36994abcf0ab48"
+  integrity sha1-DZb+nT2PASad0aAMvTaZSrzwq0g=
   dependencies:
     "@instana/i18n" "^1.2.0"
     "@instana/i18n-react" "^1.1.8"
@@ -4354,15 +4341,6 @@ clipboard@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-1.7.1.tgz#360d6d6946e99a7a1fef395e42ba92b5e9b5a16b"
   integrity sha1-Ng1taUbpmnof7zleQrqStem1oWs=
-  dependencies:
-    good-listener "^1.2.2"
-    select "^1.1.2"
-    tiny-emitter "^2.0.0"
-
-clipboard@^2.0.0:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/clipboard/-/clipboard-2.0.6.tgz#52921296eec0fdf77ead1749421b21c968647376"
-  integrity sha512-g5zbiixBRk/wyKakSwCKd7vQXDjFnAMGHoEyBogG/bw9kTD9GvdAvaoRR1ALcEzt3pVKxZR0pViekPMIS0QyGg==
   dependencies:
     good-listener "^1.2.2"
     select "^1.1.2"
@@ -11894,12 +11872,10 @@ prism-react-renderer@^1.2.1:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/prism-react-renderer/-/prism-react-renderer-1.2.1.tgz#392460acf63540960e5e3caa699d851264e99b89"
   integrity sha1-OSRgrPY1QJYOXjyqaZ2FEmTpm4k=
 
-prismjs@^1.23.0:
-  version "1.23.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/prismjs/-/prismjs-1.23.0.tgz#d3b3967f7d72440690497652a9d40ff046067f33"
-  integrity sha1-07OWf31yRAaQSXZSqdQP8EYGfzM=
-  optionalDependencies:
-    clipboard "^2.0.0"
+prismjs@^1.24.1:
+  version "1.24.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/prismjs/-/prismjs-1.24.1.tgz#c4d7895c4d6500289482fa8936d9cdd192684036"
+  integrity sha1-xNeJXE1lACiUgvqJNtnN0ZJoQDY=
 
 private@~0.1.5:
   version "0.1.8"
