@@ -2791,6 +2791,7 @@ export interface MetricConfiguration {
 
 export interface MetricDescription {
   readonly aggregations: AggregationType[];
+  readonly defaultAggregation?: AggregationType;
   readonly description?: string;
   readonly formatter: string;
   readonly label: string;
