@@ -1,9 +1,4 @@
-# Guideline for unit testing
-Some hints and best practices.
-
-While migrating from mocha to jest, we found some test methods which failed when run with jest without the following adaptions:
-
-## How to mock dependencies, migrating from proxyquire
+# How to mock dependencies, migrating from proxyquire
 
 A typical example to manipulate a configuration of a sub-dependency
 
