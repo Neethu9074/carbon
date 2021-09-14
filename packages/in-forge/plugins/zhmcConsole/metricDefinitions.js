@@ -187,13 +187,11 @@ export default [
   },
   {
     metrics: [
-      getDynamicMetricMatch('networkPorts', 'macAddress', t('in-forge:plugins.zhmcConsole.logicalPartition')),
       getDynamicMetricMatch('networkPorts', 'utilization', t('in-forge:plugins.zhmcConsole.logicalPartition')),
       getDynamicMetricMatch('networkPorts', 'flags', t('in-forge:plugins.zhmcConsole.logicalPartition')),
       getDynamicMetricMatch('networkPorts', 'networkPortId', t('in-forge:plugins.zhmcConsole.logicalPartition'))
     ],
     labels: [
-      t('in-forge:plugins.zhmcConsole.macAddress'),
       t('in-forge:plugins.zhmcConsole.utilization'),
       t('in-forge:plugins.zhmcConsole.flags'),
       t('in-forge:plugins.zhmcConsole.networkPortId')
