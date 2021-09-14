@@ -10020,7 +10020,6 @@
       "dewPoint":"Dew Point",
       "humidity":"Humidity",
       "networkPorts":"Network Ports",
-      "macAddress": "MAC Address",
       "networkPortId":"Network Port Id",
       "bytesSent":"Bytes Sent",
       "bytesReceived":"Bytes Received",
