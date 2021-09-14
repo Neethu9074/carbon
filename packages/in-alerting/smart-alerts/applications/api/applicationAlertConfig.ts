@@ -52,7 +52,7 @@ export function getAllAlertConfigs(
     maxRetries: 3,
     headers: getCsrfHeader(),
     queryParams: {
-      applicationId
+      applicationId: applicationId
     },
     url: baseUrl
   });
@@ -155,22 +155,30 @@ export function deleteAlertConfig(id: string): Observable<void> {
   }).map(response => response.body);
 }
 
-export function getAllAlertConfigsForAllApplications(config: {
-  asObservable: true;
-}): Observable<Result<ApplicationAlertConfigWithMetadata[]>>;
-export function getAllAlertConfigsForAllApplications(config: {
-  asObservable: false;
-}): Observable<ApplicationAlertConfigWithMetadata[]>;
 export function getAllAlertConfigsForAllApplications(
+  alertIds: string[],
+  config: { asObservable: true }
+): Observable<Result<ApplicationAlertConfigWithMetadata[]>>;
+export function getAllAlertConfigsForAllApplications(
+  alertIds: string[],
+  config: { asObservable: false }
+): Observable<ApplicationAlertConfigWithMetadata[]>;
+export function getAllAlertConfigsForAllApplications(
+  alertIds: string[],
   config = { asObservable: false }
 ): Observable<Result<ApplicationAlertConfigWithMetadata[]>> | Observable<ApplicationAlertConfigWithMetadata[]> {
   const request = http<ApplicationAlertConfigWithMetadata[]>({
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
+    queryParams: {
+      // @ts-ignore
+      alertIds: alertIds
+    },
     url: baseUrl
   });
 
+  // @ts-ignore
   return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
 

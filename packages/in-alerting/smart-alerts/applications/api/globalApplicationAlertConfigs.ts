@@ -42,13 +42,16 @@ export function updateGlobalAlertConfig(
   }).map(response => response.body);
 }
 
-export function getAllGlobalAlertConfigs(config: {
-  asObservable: true;
-}): Observable<Result<GlobalApplicationAlertConfigWithMetadata[]>>;
-export function getAllGlobalAlertConfigs(config?: {
-  asObservable: false;
-}): Observable<GlobalApplicationAlertConfigWithMetadata[]>;
 export function getAllGlobalAlertConfigs(
+  alertIds: string[],
+  config: { asObservable: true }
+): Observable<Result<GlobalApplicationAlertConfigWithMetadata[]>>;
+export function getAllGlobalAlertConfigs(
+  alertIds: string[],
+  config?: { asObservable: false }
+): Observable<GlobalApplicationAlertConfigWithMetadata[]>;
+export function getAllGlobalAlertConfigs(
+  alertIds: string[],
   config = { asObservable: false }
 ):
   | Observable<Result<GlobalApplicationAlertConfigWithMetadata[]>>
@@ -57,9 +60,13 @@ export function getAllGlobalAlertConfigs(
     method: 'GET',
     maxRetries: 3,
     headers: getCsrfHeader(),
+    queryParams: {
+      // @ts-ignore
+      alertIds
+    },
     url: baseUrl
   });
-
+  // @ts-ignore
   return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
 

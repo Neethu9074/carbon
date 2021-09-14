@@ -23,11 +23,11 @@ import { isLoading, hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 const loadApAlertConfigs = memoize(
-  () => getAllAlertConfigsForAllApplications({ asObservable: true }),
+  entities => getAllAlertConfigsForAllApplications(entities, { asObservable: true }),
   selection => `getAllAlertConfigsForAllApplications-${selection.join('-')}`
 );
 const loadGlobalAlertConfigs = memoize(
-  () => getAllGlobalAlertConfigs({ asObservable: true }),
+  entities => getAllGlobalAlertConfigs(entities, { asObservable: true }),
   selection => `getAllGlobalAlertConfigs-${selection.join('-')}`
 );
 

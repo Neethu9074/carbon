@@ -25,8 +25,8 @@ export default function GlobalInventorySmartAlertsList({ onNoData }) {
   return (
     <SmartAlertsBaseListWithUrlState
       onNoData={onNoData}
-      getLocalAlertConfigsFetchFunction={() => getAllAlertConfigsForAllApplications({ asObservable: true })}
-      getGlobalAlertConfigFetchFunction={() => getAllGlobalAlertConfigs({ asObservable: true })}
+      getLocalAlertConfigsFetchFunction={() => getAllAlertConfigsForAllApplications([], { asObservable: true })}
+      getGlobalAlertConfigFetchFunction={() => getAllGlobalAlertConfigs([], { asObservable: true })}
       columnDefinitions={getColumnDefinitions(location)}
     />
   );
