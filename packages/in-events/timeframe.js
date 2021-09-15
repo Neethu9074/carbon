@@ -44,7 +44,7 @@ export function getTimeConfigFromEvent(event) {
   return {
     to,
     focusedMoment: to,
-    windowSize: toForWs - from,
+    windowSize: Math.max(minEventEntityWindowSize, toForWs - from),
     autoRefresh: false
   };
 }
