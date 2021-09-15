@@ -123,7 +123,7 @@ function CustomHeaderActions({ orderBy, setOrder }) {
         })
       }
     >
-      {orderBy.direction === 'ASC' ? t('in-logging:sorting.mostRecent') : t('in-logging:sorting.oldest')}
+      {orderBy.direction === 'ASC' ? t('in-logging:sorting.oldest') : t('in-logging:sorting.mostRecent')}
     </Button>
   );
 }
