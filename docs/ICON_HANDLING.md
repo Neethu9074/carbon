@@ -15,7 +15,7 @@ The issue with the old icon was that when placing all different icons side by si
 
 ## How to use icons in the code
 
-We have a registry [will all icons plus all the plugin icons](https://github.com/instana/ui-foundation/blob/main/packages/components/src/components/SvgIcon/integratedIcons.ts). Newer icons are prefixed with a "lib\_". When you want to use an icon, you can simply write:
+We have a registry [will all icons plus all the plugin icons](https://github.ibm.com/instana/ui-foundation/blob/main/packages/components/src/components/SvgIcon/integratedIcons.ts). Newer icons are prefixed with a "lib\_". When you want to use an icon, you can simply write:
 
 ```javascript
 <SvgIcon type="lib_arrow_drop_up" width={24} height={24} />
@@ -25,7 +25,7 @@ The `<SvgIcon />` component has several other properties, most of them are only 
 
 ## How to create a new icons
 
-Usually, the design team is responsible to provide new icons in the new (24x24 with baked padding) style. When they send a new icon file (usually xyz.svg), you need to make extract the path from the files content. Just open the .svg file in an editor and copy out the `d="..."` path. Then you create a new entry in the [icon registry within the ui-foundation repository](https://github.com/instana/ui-foundation/blob/main/packages/components/src/components/SvgIcon/integratedIcons.ts):
+Usually, the design team is responsible to provide new icons in the new (24x24 with baked padding) style. When they send a new icon file (usually xyz.svg), you need to make extract the path from the files content. Just open the .svg file in an editor and copy out the `d="..."` path. Then you create a new entry in the [icon registry within the ui-foundation repository](https://github.ibm.com/instana/ui-foundation/blob/main/packages/components/src/components/SvgIcon/integratedIcons.ts):
 
 ```javascript
 lib_my_new_awesome_icon: {

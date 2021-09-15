@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-expect-error
 import { create, on } from '@instana/observables';
 
 const forcedResize$ = create();
