@@ -7,69 +7,38 @@ import React, { useMemo } from 'react';
 
 import { Button } from '@instana/components';
 
+import {
+  LOG_CUSTOM,
+  LOG_EXCEPTION_MESSAGE,
+  LOG_EXCEPTION_STACK_TRACE,
+  LOG_EXCEPTION_TYPE,
+  LOG_LEVEL
+} from 'in-logging/queryBuilder';
+import { logLevelColumn, timestampColumn, copyColumn } from 'in-logging/analyze/AnalyzeView/components/logsColumns';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
-import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
 import LogTagsTable from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { LOG_CUSTOM, LOG_LEVEL } from 'in-logging/queryBuilder';
-import { formatDateTime } from 'in-services/formatters/date';
-import IconButton from 'in-components/IconButton/IconButton';
-import CopyToClipboard from 'in-components/CopyToClipboard';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './Logs.mless';
 
 const columnDefinitions = [
-  {
-    id: 'logLevel',
-    width: '4.5rem',
-    widthInAbsoluteUnit: true,
-    getContent({ tags, onSelectTagHref }) {
-      return (
-        <div className={locals.healthColumn}>
-          <LogHealthColumn tags={tags} onSelectTagHref={onSelectTagHref} />
-        </div>
-      );
-    }
-  },
-  {
-    id: 'timestamp',
-    width: '10rem',
-    useMaxHeight: true,
-    widthInAbsoluteUnit: true,
-    getContent({ timestamp }) {
-      return <div className={locals.dateTime}>{formatDateTime(timestamp)}</div>;
-    }
-  },
+  logLevelColumn,
+  timestampColumn,
   {
     id: 'log',
     getContent: LogMessageColumn
   },
-  {
-    id: 'copyIcon',
-    width: '2.5rem',
-    getContent({ message }) {
-      return (
-        <div className={locals.copyButtonWrapper}>
-          <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
-            <CopyToClipboard getText={() => message}>
-              {copyToClipboardRef => <IconButton ref={copyToClipboardRef} iconSize="xs" type="lib_actions_copy" />}
-            </CopyToClipboard>
-          </Tooltip>
-        </div>
-      );
-    }
-  }
+  copyColumn
 ];
 
 const tracker = {
@@ -168,7 +137,7 @@ function getTableData(props) {
     afterKey,
     loadAfterCount,
     tagFilterExpression: backendQueryModel,
-    tags: [LOG_CUSTOM, LOG_LEVEL],
+    tags: [LOG_CUSTOM, LOG_LEVEL, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE],
     orderDirection: orderBy?.direction
   });
 }

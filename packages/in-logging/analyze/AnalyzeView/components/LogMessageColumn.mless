@@ -8,10 +8,11 @@
 :local {
   .messageWrapper {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
   }
 
-  .message {
+  .messageExpanded,
+  .collapsedMessage {
     margin: 0.5rem 0 0.25rem 0;
   }
 

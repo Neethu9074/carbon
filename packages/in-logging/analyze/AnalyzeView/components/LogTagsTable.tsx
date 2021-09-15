@@ -26,7 +26,10 @@ import {
   LOG_SPAN_ID,
   LOG_CALL_ID,
   LOG_CUSTOM_KEY_APPLICATION_ID,
-  LOG_CUSTOM_KEY_ENDPOINT_ID
+  LOG_CUSTOM_KEY_ENDPOINT_ID,
+  LOG_EXCEPTION_TYPE,
+  LOG_EXCEPTION_MESSAGE,
+  LOG_EXCEPTION_STACK_TRACE
 } from 'in-logging/queryBuilder';
 import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
@@ -66,6 +69,9 @@ const columnDefinitions = [
 
 const restrictedTags = new Set<string>([
   LOG_CUSTOM_KEY_SERVICE_ID,
+  LOG_EXCEPTION_TYPE,
+  LOG_EXCEPTION_MESSAGE,
+  LOG_EXCEPTION_STACK_TRACE,
   LOG_CUSTOM_KEY_ENDPOINT_ID,
   LOG_SPAN_ID,
   LOG_CALL_ID

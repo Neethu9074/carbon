@@ -14,9 +14,28 @@ import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Overlay from 'in-components/overlays/Overlay';
+import { LogTag, TagFilter } from 'in-types';
 import { t } from 'in-i18n';
 
+// @ts-expect-error
 import locals from './LogMessage.mless';
+
+interface GetHrefToGroupedViewParams {
+  tag?: string;
+  secondLevelKey?: string;
+}
+
+interface LogMessageProps {
+  tags: LogTag[];
+  message: string;
+  isExpanded: boolean;
+  isHovered: boolean;
+  isOverflowing: boolean;
+  setIsExpanded?: (v: boolean) => void;
+  setIsHovered?: (v: boolean) => void;
+  getHrefWithAdditionalTagFilter?: (tag: TagFilter) => string;
+  getHrefToGroupedView?: (params: GetHrefToGroupedViewParams) => string;
+}
 
 export default function LogMessage({
   tags,
@@ -28,13 +47,13 @@ export default function LogMessage({
   isOverflowing,
   setIsHovered,
   isHovered
-}) {
+}: LogMessageProps) {
   const providesMessageExpanding = !isExpanded && isOverflowing && isHovered;
 
   return useMemo(() => {
     const paramTags = tags
       .filter(({ key }) => key && key.indexOf('_msg_param') === 0)
-      .sort((paramA, paramB) => compareIgnoreCase(paramA.key, paramB.key));
+      .sort((paramA, paramB) => compareIgnoreCase(paramA.key || '', paramB.key || ''));
 
     return (
       <>
@@ -50,7 +69,7 @@ export default function LogMessage({
           ) : (
             <ParamTag
               key={i}
-              tag={value}
+              tag={value as LogTag}
               getHrefWithAdditionalTagFilter={getHrefWithAdditionalTagFilter}
               getHrefToGroupedView={getHrefToGroupedView}
             />
@@ -61,15 +80,25 @@ export default function LogMessage({
   }, [message, tags, getHrefWithAdditionalTagFilter, getHrefToGroupedView, providesMessageExpanding]);
 }
 
-function getTagExpressionWithTag(tag) {
+function getTagExpressionWithTag(name: string, key?: string, value?: string): TagFilter {
   return {
-    ...tag,
+    key,
+    value,
+    name,
     type: TAG,
-    operator: EQUALS
+    operator: EQUALS,
+    entity: 'NOT_APPLICABLE'
   };
 }
 
-function MessageTag({ message, setIsHovered, setIsExpanded, providesMessageExpanding }) {
+interface MessageTagProps {
+  message: string;
+  setIsExpanded?: (v: boolean) => void;
+  setIsHovered?: (v: boolean) => void;
+  providesMessageExpanding: boolean;
+}
+
+function MessageTag({ message, setIsHovered, setIsExpanded, providesMessageExpanding }: MessageTagProps) {
   return (
     <span
       className={classNames({
@@ -78,17 +107,23 @@ function MessageTag({ message, setIsHovered, setIsExpanded, providesMessageExpan
       })}
       onMouseEnter={() => setIsHovered?.(true)}
       onMouseLeave={() => setIsHovered?.(false)}
-      onClick={() => providesMessageExpanding && setIsExpanded(true)}
+      onClick={() => providesMessageExpanding && setIsExpanded && setIsExpanded(true)}
     >
       {message}
     </span>
   );
 }
 
-function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }) {
-  const value = tag.stringValue ?? tag.doubleValue ?? tag.booleanValue ?? tag.longValue;
+interface ParamTagProps {
+  tag: LogTag;
+  getHrefWithAdditionalTagFilter?: (tag: TagFilter) => string;
+  getHrefToGroupedView?: (params: GetHrefToGroupedViewParams) => string;
+}
 
-  if (getHrefWithAdditionalTagFilter) {
+function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView }: ParamTagProps) {
+  const value = String((tag.stringValue ?? tag.doubleValue ?? tag.booleanValue ?? tag.longValue) || '');
+
+  if (getHrefWithAdditionalTagFilter && getHrefToGroupedView) {
     return (
       <Overlay
         align="bottomLeft"
@@ -96,13 +131,7 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView })
           <Ul className={locals.list}>
             <Li
               className={locals.listItem}
-              href={getHrefWithAdditionalTagFilter(
-                getTagExpressionWithTag({
-                  name: tag.name,
-                  value,
-                  key: tag.key
-                })
-              )}
+              href={getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag.name || '', tag.key, value))}
               onDefaultHrefInteractionSideEffect={() =>
                 logMessageParameterClicked({ name: tag.name, key: tag.key, value })
               }
@@ -125,11 +154,11 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView })
         {({ toggle, refSetter, isOpen }) => (
           <span
             className={classNames({
-              [locals.parameter]: true,
+              [locals.parameterClickable]: true,
               [locals.parameterOpen]: isOpen
             })}
             onClick={toggle}
-            ref={refSetter}
+            ref={refSetter as React.MutableRefObject<HTMLSpanElement>}
           >
             {value}
           </span>
@@ -137,5 +166,6 @@ function ParamTag({ tag, getHrefWithAdditionalTagFilter, getHrefToGroupedView })
       </Overlay>
     );
   }
+
   return <span className={locals.parameter}>{value}</span>;
 }

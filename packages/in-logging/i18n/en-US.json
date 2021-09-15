@@ -16,6 +16,7 @@
   "endpointType": "Endpoint Type",
   "messageParam": "Message Parameter",
   "applicationCounter": "{{count}} applications",
+  "exceptionMessageHeader": "Exception message",
   "service": "Service",
   "stream": "Stream",
   "tooltipCopyToClipboard": "Copy to clipboard",
