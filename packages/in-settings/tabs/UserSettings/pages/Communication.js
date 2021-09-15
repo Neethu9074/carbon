@@ -37,8 +37,8 @@ export default function Communication() {
 }
 
 function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
-  const onChange = (fieldName, fieldValue) => {
-    let updatedForm = form.updateIn([fieldName], field => field.setValue(fieldValue));
+  const onChange = (formToChange, fieldName, fieldValue) => {
+    let updatedForm = formToChange.updateIn([fieldName], field => field.setValue(fieldValue));
     if (fieldName === 'role') {
       updatedForm = addDynamicRoleField(updatedForm, termsAndPrivacySettings);
     }
