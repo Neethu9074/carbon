@@ -16,7 +16,7 @@
     "alertHeaderEditTooltip": "Edit",
     "alertHeaderDuplicateTooltip": "Duplicate",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Please Confirm",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the <strong>\"alert {{alertConfigName}}\"</strong>?",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Are you sure you want to remove the config <strong>{{alertConfigName}}</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Remove",
     "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
     "alertHeaderAriaLabelSeverity": "Event has severity {{severity}}",
