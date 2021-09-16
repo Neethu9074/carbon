@@ -4,19 +4,20 @@
  */
 
 import { withKnobs } from '@storybook/addon-knobs/react';
-import { create } from '@instana/observables';
 import React from 'react';
 
+import { create } from '@instana/observables';
+
+import TraceExamples from 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/TraceExamplesComponent';
 import CallTree from 'in-applications/analyze/components/TraceDetails/components/CallTree';
 import { getColorPool } from 'in-services/util/ColorGenerator';
-import TraceExamples from './TraceExamplesComponent';
 
 const byServiceEndpointCombinationColorPool = getColorPool('serviceAndEndpointCombination');
 const getColorByServiceAndEndpoint = ({ service, endpoint }) =>
   byServiceEndpointCombinationColorPool.getColorHex(`${service.id}__${endpoint.id}`);
 
 export default {
-  title: 'Templates|analyze/CallTree',
+  title: 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/CallTree',
   component: CallTree,
   decorators: [withKnobs]
 };

@@ -6,10 +6,10 @@
 import React from 'react';
 
 import ExpandableStackTrace from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ExpandableStackTrace/ExpandableStackTrace';
-import { callExample } from './StackTrace.story.js';
+import { callExample } from 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/StackTrace.story.js';
 
 export default {
-  title: 'Templates|analyze/ExpandableStackTrace',
+  title: 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/ExpandingStackTrace',
   component: ExpandableStackTrace
 };
 export function ExpandingStackTrace() {

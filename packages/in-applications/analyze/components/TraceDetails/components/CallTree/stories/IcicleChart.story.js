@@ -5,10 +5,10 @@
 
 import React from 'react';
 
+import TraceExamples from 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/TraceExamplesComponent';
 import ServerIcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart/ServerIcicleChart';
 import IcicleChart from 'in-applications/analyze/components/TraceDetails/components/IcicleChart';
 import { getColor } from 'in-applications/endpointTypes';
-import TraceExamples from './TraceExamplesComponent';
 import { always } from 'in-services/fixedStreams';
 import theme from 'in-themes';
 
@@ -16,7 +16,7 @@ const getColorByEndpointType = ({ endpoint }) =>
   !endpoint || !endpoint.type ? theme.lib.colors.N500 : getColor(endpoint.type);
 
 export default {
-  title: 'Templates|analyze/IcicleChart',
+  title: 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/IcicleChart',
   component: IcicleChart
 };
 

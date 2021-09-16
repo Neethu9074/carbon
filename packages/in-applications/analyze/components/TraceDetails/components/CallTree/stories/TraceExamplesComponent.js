@@ -6,9 +6,9 @@
 import { withState } from 'recompose';
 import React from 'react';
 
+import traceExamples from 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/traceExamples';
+import InputHeader from 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/InputHeader';
 import { deepFreeze } from 'in-services/util/object';
-import traceExamples from './traceExamples';
-import InputHeader from './InputHeader';
 
 export default withState(
   'selectedValue',
