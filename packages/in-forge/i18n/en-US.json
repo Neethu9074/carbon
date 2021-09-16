@@ -4404,6 +4404,7 @@
       "infoTCPPort": "TCP Port",
       "infoServerLog": "Server Log",
       "infoErrorLog": "Error Log",
+      "maxConcurrentQueries": "Max concurrent queries",
       "labelQueryThread": "Query Thread",
       "labelQueryPreempted": "Query Preempted",
       "titleHost": "Host",

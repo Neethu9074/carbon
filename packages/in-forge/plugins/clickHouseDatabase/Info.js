@@ -44,6 +44,9 @@ export default function ClickHouseInfo({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.clickhouseDatabase.infoErrorLog')}>
         {data.get('errorlog')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.clickhouseDatabase.maxConcurrentQueries')}>
+        {data.get('max_concurrent_queries')}
+      </DescriptionItem>
     </DescriptionList>
   );
 }
