@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { ReactNode } from 'react-transition-group/node_modules/@types/react';
+import { ReactComponentLike } from 'prop-types';
 import classNames from 'classnames';
 
 import DialogHeaderComponent from 'in-components/SlideInView/internalComponents/DialogHeader';
@@ -24,18 +26,30 @@ interface SlideInViewProps {
   onAfterSlideOut?: (elements: ReturnType<typeof getInteractiveElements>) => void;
   onShowSlideInContentChange: (f: boolean) => void;
   showSlideInContent?: boolean;
+  /**
+   * Default to define slide–in content.
+   * If you need a footer for the slide–in content, please use renderSlideInContent callback instead.
+   */
   slideInContent?: React.ReactNode;
   slideInContentTitle?: React.ReactNode;
   slideTransitionDurationMillis?: number;
   staticContent: React.ReactNode;
   HeaderComponent: typeof DialogHeader | typeof ListHeader | typeof NoHeader;
   enforceMaxHeightForStaticContent?: boolean;
+  /**
+   * Callback to add sliden–in content.
+   * It gets a render callback injected which can be used to add the sticky footer to the slide–in content.
+   *
+   * Use this only if you need to add a footer.
+   */
+  renderSlideInContent?: (setSlideInFooter: (footer: ReactNode) => void) => ReactComponentLike;
 }
 
 export default function SlideInView({
   // Content description
   staticContent,
   slideInContent,
+  renderSlideInContent,
   HeaderComponent = DialogHeader,
   slideInContentTitle,
 
@@ -49,6 +63,10 @@ export default function SlideInView({
   slideTransitionDurationMillis = 500,
   enforceMaxHeightForStaticContent
 }: SlideInViewProps) {
+  const [slideInContentFooter, setSlideInContentFooter] = React.useState<ReactNode>(null);
+  const setSlideInFooter = useCallback((footer: ReactNode) => setSlideInContentFooter(footer), []);
+  const slideInContentFooterRef = useRef<HTMLDivElement>(null);
+
   // To ensure that the states' showSlideInContent field matches the possible values provided by
   // component users. Not doing this causes the state to be different and therefore a transition
   // to trigger in unwanted cases.
@@ -142,9 +160,16 @@ export default function SlideInView({
           ...state.slideInContentStyle,
           top: headerSize
         }}
-        onScroll={e => setShowScrollShadow(e.target instanceof HTMLElement && e.target.scrollTop > 0)}
+        onScrollCapture={e => setShowScrollShadow(e.target instanceof HTMLElement && e.target.scrollTop > 0)}
       >
-        {slideInContent}
+        <div className={locals.slideInContentScrollContainer}>
+          {slideInContent ?? renderSlideInContent?.(setSlideInFooter)}
+        </div>
+        {slideInContentFooter && (
+          <div ref={slideInContentFooterRef} className={locals.footer}>
+            {slideInContentFooter}
+          </div>
+        )}
       </div>
     </div>
   );
