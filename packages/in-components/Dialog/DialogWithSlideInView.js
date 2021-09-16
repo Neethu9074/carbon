@@ -74,8 +74,7 @@ export default function DialogWithSlideInView({
                 className={classNames({
                   [locals.body]: true,
                   [locals.withoutPadding]: withoutBodyPadding,
-                  [locals.withoutBottomPadding]:
-                    withoutBodyPadding ?? (removeBottomPaddingWhenFooterIsShown && !slideInViewVisible && footer),
+                  [locals.withoutBottomPadding]: withoutBodyPadding ?? (removeBottomPaddingWhenFooterIsShown && footer),
                   [locals.showOverflow]: showOverflow,
                   [locals.withRoundedBottomBorder]: slideInViewVisible || !footer
                 })}
