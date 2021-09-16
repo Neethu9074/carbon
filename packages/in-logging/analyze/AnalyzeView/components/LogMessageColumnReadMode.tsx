@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import LogExceptionReadOnly from 'in-logging/analyze/AnalyzeView/components/LogExceptionReadOnly';
+import LogExceptionReadMode from 'in-logging/analyze/AnalyzeView/components/LogExceptionReadMode';
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { LogTag } from 'in-types';
 
@@ -25,7 +25,7 @@ export default function LogMessageColumnReadOnly(props: LogMessageColumnReadOnly
       <span className={locals.messageExpanded}>
         <LogMessage tags={tags} message={message} isExpanded isHovered={false} isOverflowing={false} />
       </span>
-      <LogExceptionReadOnly tags={tags} />
+      <LogExceptionReadMode tags={tags} />
     </div>
   );
 }

@@ -4,10 +4,9 @@
  */
 
 import { CLOSE_BRACKET, OPEN_BRACKET, TAG, CONJUNCTION } from 'in-components/QueryBuilder/transformation/formModel';
+import { toTagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { GREATER_OR_EQUAL_THAN, LESS_THAN, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
-import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { toTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { deepFreeze } from 'in-services/util/object';
 
 export const EXPRESSION = 'EXPRESSION';

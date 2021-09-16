@@ -3,11 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { sanitizeTagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { EQUALS, NOT_EMPTY, ENDS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
-import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { TagFilter } from 'in-types';
+import { TagFilter, TagFilterEntity, TagFilterOperator } from 'in-types';
 
 export function getTraceIdTagFilter(traceId: string): TagFilter {
   // Until the transition to 128bit trace IDs is complete, only the ID's last 64 bits should
@@ -17,8 +16,7 @@ export function getTraceIdTagFilter(traceId: string): TagFilter {
     name: LOG_TRACE_ID,
     value: traceId,
     operator: ENDS_WITH,
-    type: TAG_FILTER_TYPE,
-    entity: 'NOT_APPLICABLE'
+    type: TAG_FILTER_TYPE
   });
 }
 
@@ -28,18 +26,24 @@ export function getSpanIdTagFilter(spanId: string) {
         name: LOG_SPAN_ID,
         value: spanId,
         operator: EQUALS,
-        type: TAG_FILTER_TYPE,
-        entity: 'NOT_APPLICABLE'
+        type: TAG_FILTER_TYPE
       })
     : getEmptyTagFilterExpression();
 }
 
-export function getValueMatchTagFilter(tagFilter: TagFilter) {
-  const { name, key, value, operator = EQUALS, type = 'TAG_FILTER' } = tagFilter;
+interface ReducedTagFilterWithDefaults {
+  name: string;
+  value: string;
+  key?: string;
+  operator?: TagFilterOperator;
+  type?: string;
+  entity?: TagFilterEntity;
+}
+
+export function getValueMatchTagFilter(tagFilter: ReducedTagFilterWithDefaults) {
+  const { name, key, value, operator = EQUALS, type = TAG_FILTER_TYPE, entity = 'NOT_APPLICABLE' } = tagFilter;
   return sanitizeTagFilter(
-    type === 'KEY_VALUE_PAIR' && !key
-      ? { type, operator: NOT_EMPTY, name, key: value, entity: 'NOT_APPLICABLE' }
-      : { type, operator, name, key, value, entity: 'NOT_APPLICABLE' }
+    key ? { type, operator: NOT_EMPTY, name, key: value, entity } : { type, operator, name, value, entity }
   );
 }
 

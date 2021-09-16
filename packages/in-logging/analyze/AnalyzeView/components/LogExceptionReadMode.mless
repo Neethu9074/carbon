@@ -9,11 +9,11 @@
 :local {
   .type {
     font-weight: 600;
-    margin: 0.75rem 1rem 0.75rem 0;
+    margin: 0.75rem 1rem 0 0;
   }
 
   .messageWrapper {
-    margin: 0.75rem 0;
+    margin-bottom: 0.75rem;
 
     white-space: break-spaces;
     word-break: break-word;

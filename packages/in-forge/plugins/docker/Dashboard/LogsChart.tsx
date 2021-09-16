@@ -79,10 +79,7 @@ function addLogLevelFilterTagToQueryModel({ value, tagFilterExpression }: AddLog
     elements: [
       getValueMatchTagFilter({
         name: LOG_LEVEL,
-        value,
-        entity: 'NOT_APPLICABLE',
-        operator: 'EQUALS',
-        type: 'TAG_FILTER'
+        value
       }),
       tagFilterExpression
     ],
