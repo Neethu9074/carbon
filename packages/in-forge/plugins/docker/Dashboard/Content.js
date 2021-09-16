@@ -53,14 +53,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
             formatter={percentageZeroDecimalPlaces}
           />
         </KpiKeyValue>
-        {containerLogsEnabled && (
-          <LogsKpiCard
-            hasLogs={hasLogs}
-            tagFilterExpression={tagFilterExpression}
-            timeConfig={timeConfig}
-            snapshot={snapshot}
-          />
-        )}
+        {containerLogsEnabled && <LogsKpiCard hasLogs={hasLogs} timeConfig={timeConfig} snapshot={snapshot} />}
       </KpiSection>
 
       <DashboardSection title={t('in-forge:plugins.docker.dashboard.cpu')}>
@@ -210,7 +203,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ) : null}
 
-      {hasLogs && containerLogsEnabled && (
+      {containerLogsEnabled && (
         <DashboardSection
           title={t('in-forge:plugins.docker.dashboard.logs')}
           button={<AnalyzeLogsButton tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} />}

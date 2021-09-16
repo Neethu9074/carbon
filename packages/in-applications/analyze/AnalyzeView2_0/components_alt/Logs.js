@@ -140,7 +140,9 @@ function ServiceLabel({ tags }) {
             <Ul>
               <Li
                 href$={getLinkToAnalyze({
-                  tagFilterExpression: [getValueMatchTagFilter({ name: LOG_SERVICE_NAME, value: serviceName })]
+                  tagFilterExpression: [
+                    getValueMatchTagFilter({ name: LOG_SERVICE_NAME, value: serviceName, entity: 'DESTINATION' })
+                  ]
                 })}
               >
                 {t('in-analyze:logDetails.similarServiceLogs')}

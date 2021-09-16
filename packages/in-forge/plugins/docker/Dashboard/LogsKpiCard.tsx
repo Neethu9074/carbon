@@ -9,23 +9,22 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
-//@ts-ignore
-import { KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { LOG_LEVEL, LOG_DOCKER_SNAPSHOT_ID, getValueMatchTagFilter } from 'in-logging/queryBuilder';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import { LogGroupItem, TagFilterExpression, TimeConfig } from 'in-types';
+//@ts-expect-error
+import { KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { isLoading, hasError } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
-import { LOG_LEVEL } from 'in-logging/queryBuilder';
+import { LogGroupItem, TimeConfig } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 interface LogsKpiCardProps {
   hasLogs: boolean | undefined;
-  tagFilterExpression: TagFilterExpression;
   timeConfig: TimeConfig;
   snapshot: Map<string, any>;
 }
@@ -50,14 +49,19 @@ export default function LogsKpiCard(props: LogsKpiCardProps) {
   return <KpiKeyValue label={title}>{value}</KpiKeyValue>;
 }
 
-function LogsWithDataKpiCard({ title, tagFilterExpression, timeConfig, snapshot }: LogsWithDataKpiCardProps) {
+function LogsWithDataKpiCard({ title, timeConfig, snapshot }: LogsWithDataKpiCardProps) {
+  const getLogsTagFilterExpression = getValueMatchTagFilter({
+    name: LOG_DOCKER_SNAPSHOT_ID,
+    value: snapshot.get('id')
+  });
+
   const logGroupsResult =
     useObservable(
       () =>
         getLogGroups({
           timeConfig,
           group: { groupbyTag: LOG_LEVEL, groupbyTagEntity: 'NOT_APPLICABLE' },
-          tagFilterExpression,
+          tagFilterExpression: getLogsTagFilterExpression,
           pagination: {
             retrievalSize: 20
           }
@@ -79,6 +83,35 @@ function LogsWithDataKpiCard({ title, tagFilterExpression, timeConfig, snapshot 
   const numberWarnLogs = getLogsOfType(logGroupsResult.data.items, 'WARN');
   const numberErrorLogs = getLogsOfType(logGroupsResult.data.items, 'ERROR');
 
+  const tagFilterExpression = [
+    getValueMatchTagFilter({
+      name: LOG_DOCKER_SNAPSHOT_ID,
+      value: snapshot.get('id')
+    }),
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'AND'
+    },
+    {
+      type: 'OPEN_BRACKET'
+    },
+    getValueMatchTagFilter({
+      name: LOG_LEVEL,
+      value: 'WARN'
+    }),
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'OR'
+    },
+    getValueMatchTagFilter({
+      name: LOG_LEVEL,
+      value: 'ERROR'
+    }),
+    {
+      type: 'CLOSE_BRACKET'
+    }
+  ];
+
   return (
     <KpiKeyValue
       label={title}
@@ -86,7 +119,7 @@ function LogsWithDataKpiCard({ title, tagFilterExpression, timeConfig, snapshot 
         text: t('in-forge:plugins.docker.dashboard.analyzeLogs'),
         kind: 'subtle',
         icon: 'lib_analyze',
-        href$: getLinkToAnalyze({ timeConfig, tagFilterExpression: [tagFilterExpression] }),
+        href$: getLinkToAnalyze({ timeConfig, tagFilterExpression }),
         onClick: () =>
           jumpToLogs({
             source: 'analyze logs from infra dashboard',

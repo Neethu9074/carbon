@@ -11,34 +11,34 @@ import { LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE } from 'in-logging/queryBuild
 import { LogTag } from 'in-types';
 
 // @ts-expect-error
-import locals from './LogExceptionReadOnly.mless';
+import locals from './LogExceptionReadMode.mless';
 
-interface LogExceptionReadOnlyWrapperProps {
+interface LogExceptionReadModeWrapperProps {
   tags: LogTag[];
 }
 
-interface LogExceptionReadOnlyProps {
+interface LogExceptionReadModeProps {
   type?: string;
   message?: string;
 }
 
-export default function LogExceptionReadOnlyWrapper({ tags }: LogExceptionReadOnlyWrapperProps) {
+export default function LogExceptionReadModeWrapper({ tags }: LogExceptionReadModeWrapperProps) {
   const exceptionTypeTag = useMemo(() => tags.find(({ name }) => name === LOG_EXCEPTION_TYPE), [tags]);
   const exceptionMessageTag = useMemo(() => tags.find(({ name }) => name === LOG_EXCEPTION_MESSAGE), [tags]);
   if (!exceptionTypeTag && !exceptionMessageTag) {
     return null;
   }
 
-  return <LogExceptionReadOnly type={exceptionTypeTag?.stringValue} message={exceptionMessageTag?.stringValue} />;
+  return <LogExceptionReadMode type={exceptionTypeTag?.stringValue} message={exceptionMessageTag?.stringValue} />;
 }
 
-function LogExceptionReadOnly({ type, message }: LogExceptionReadOnlyProps) {
+function LogExceptionReadMode({ type, message }: LogExceptionReadModeProps) {
   if (!type && !message) {
     return null;
   }
 
   return (
-    <Stack direction="horizontal" gap="normal">
+    <Stack direction="vertical" gap="xsmall">
       {type && <span className={locals.type}>{type}:</span>}
       {message && <span className={locals.messageWrapper}>{message}</span>}
     </Stack>

@@ -8,7 +8,7 @@ import React from 'react';
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 
 import { logLevelColumn, timestampColumn, copyColumn } from 'in-logging/analyze/AnalyzeView/components/logsColumns';
-import LogMessageColumnReadOnly from 'in-logging/analyze/AnalyzeView/components/LogMessageColumnReadOnly';
+import LogMessageColumnReadMode from 'in-logging/analyze/AnalyzeView/components/LogMessageColumnReadMode';
 // @ts-expect-error
 import Dialog from 'in-components/Dialog/Dialog';
 import { close } from 'in-components/DialogPresenter/store';
@@ -28,7 +28,7 @@ const columnDefinitions = [
   timestampColumn,
   {
     id: 'log',
-    getContent: LogMessageColumnReadOnly
+    getContent: LogMessageColumnReadMode
   },
   copyColumn
 ];
