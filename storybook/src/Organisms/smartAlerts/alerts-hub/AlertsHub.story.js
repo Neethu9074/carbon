@@ -7,7 +7,6 @@ import React from 'react';
 import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub';
 
 export default {
-  title: 'Organisms|smartAlerts/alerts-hub|AlertsHub',
   component: AlertsHub
 };
 

@@ -10,7 +10,6 @@ import StickySidebarContainer from 'in-components/layout/StickySidebarContainer'
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 
 export default {
-  title: 'Templates|layout/StickySidebar',
   component: StickySidebarContainer
 };
 

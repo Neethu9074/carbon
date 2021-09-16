@@ -8,7 +8,6 @@ import React from 'react';
 import InlineTabNavigation from 'in-components/InlineTabNavigation';
 
 export default {
-  title: 'Molecules|InlineTabNavigation',
   component: InlineTabNavigation
 };
 

@@ -17,7 +17,6 @@ const getColorByServiceAndEndpoint = ({ service, endpoint }) =>
   byServiceEndpointCombinationColorPool.getColorHex(`${service.id}__${endpoint.id}`);
 
 export default {
-  title: 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/CallTree',
   component: CallTree,
   decorators: [withKnobs]
 };

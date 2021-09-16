@@ -8,7 +8,6 @@ import React from 'react';
 import ApplicationsHealthIndicatorBar from 'in-components/ApplicationHealthOverview/ApplicationsHealthIndicatorBar';
 
 export default {
-  title: 'Molecules|health/ApplicationsHealthIndicatorBar',
   component: ApplicationsHealthIndicatorBar
 };
 

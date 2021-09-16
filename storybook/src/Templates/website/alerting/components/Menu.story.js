@@ -9,7 +9,6 @@ import React from 'react';
 import Menu from 'in-alerting/components/Menu';
 
 export default {
-  title: 'Templates|website/alerting/components/Menu',
   component: Menu,
   decorators: [action]
 };

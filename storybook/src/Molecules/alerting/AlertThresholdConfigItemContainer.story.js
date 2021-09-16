@@ -8,7 +8,6 @@ import React from 'react';
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 
 export default {
-  title: 'Molecules|alerting/advanced/AlertThresholdConfigItemContainer',
   component: AlertThresholdConfigItemContainer
 };
 

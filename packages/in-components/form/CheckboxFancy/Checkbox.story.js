@@ -10,7 +10,6 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 const sizes = ['default', 'large', 'larger', 'largest'];
 
 export default {
-  title: 'Atoms|FormControl/Checkbox',
   component: CheckboxFancy
 };
 

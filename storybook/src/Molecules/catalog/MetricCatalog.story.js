@@ -11,7 +11,6 @@ import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/Metr
 import { plugins } from 'in-forge/constants';
 
 export default {
-  title: 'Molecules|Catalog/Metric',
   component: TypeAndMetricConfigurator,
   decorators: [withKnobs]
 };

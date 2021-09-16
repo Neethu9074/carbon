@@ -14,9 +14,7 @@ const lorem = (
   </p>
 );
 
-export default {
-  title: 'DesignTokens|Typography'
-};
+export default {};
 
 export const Typography = () => {
   return (

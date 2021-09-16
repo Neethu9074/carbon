@@ -7,9 +7,7 @@ import React from 'react';
 
 import { Row, Col } from 'in-components/layout/Grid';
 
-export default {
-  title: 'Templates|layout/Grid'
-};
+export default {};
 
 export function MixedGrid() {
   return (

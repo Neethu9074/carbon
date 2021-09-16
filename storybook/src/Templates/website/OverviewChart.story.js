@@ -10,7 +10,6 @@ import OverviewChart from 'in-websites/analyze/PageLoadView/tabs/Summary/Overvie
 import demoCase from './PageLoadView/demoCase.json';
 
 export default {
-  title: 'Templates|website/OverviewChart',
   component: OverviewChart,
   decorators: [withKnobs]
 };

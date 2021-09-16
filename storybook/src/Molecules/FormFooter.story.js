@@ -8,7 +8,6 @@ import React from 'react';
 import FormFooter, { SaveButton, CancelButton, DeleteButton } from 'in-components/form/FormFooter/FormFooter';
 
 export default {
-  title: 'Molecules|FormFooter',
   component: FormFooter
 };
 

@@ -12,7 +12,6 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 
 export default {
-  title: 'Templates|Dashboard Header',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

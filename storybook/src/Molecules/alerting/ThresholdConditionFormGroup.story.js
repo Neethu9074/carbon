@@ -8,7 +8,6 @@ import React from 'react';
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
 
 export default {
-  title: 'Molecules|alerting/advanced/ThresholdConditionFormGroup',
   component: ThresholdConditionFormGroup
 };
 

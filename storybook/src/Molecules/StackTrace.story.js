@@ -8,7 +8,6 @@ import React from 'react';
 import { StackTraceLines, StackTraceLine, InfoIndicator } from 'in-components/StackTrace';
 
 export default {
-  title: 'Molecules|StackTrace',
   component: StackTraceLine
 };
 

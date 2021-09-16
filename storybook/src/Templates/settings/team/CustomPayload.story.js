@@ -19,7 +19,6 @@ import Code from 'in-components/Code';
 const onChange = action('onChange');
 
 export default {
-  title: 'Organisms|CustomPayloadPage',
   component: CustomPayload
 };
 

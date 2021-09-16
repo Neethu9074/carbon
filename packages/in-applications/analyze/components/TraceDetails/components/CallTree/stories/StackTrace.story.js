@@ -8,7 +8,6 @@ import React from 'react';
 import StackTraceBehavior from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/StackTrace/StackTraceBehavior';
 
 export default {
-  title: 'Templates|analyze/StackTraceBehavior',
   parameters: {
     chromatic: { disable: true }
   },

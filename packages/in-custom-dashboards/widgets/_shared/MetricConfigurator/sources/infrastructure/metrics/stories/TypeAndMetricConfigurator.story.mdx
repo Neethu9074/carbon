@@ -4,7 +4,7 @@ import { withKnobs, text, object, boolean, number } from '@storybook/addon-knobs
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator'
 
-<Meta title="Molecules|TypeAndMetricConfigurator"  component={TypeAndMetricConfigurator} decorators={[withKnobs]}/>
+<Meta  component={TypeAndMetricConfigurator} decorators={[withKnobs]}/>
 
 export function generateError() {
   return {errors: [{message: "we have an error", code: "SERVER"}]};

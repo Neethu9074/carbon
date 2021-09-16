@@ -12,7 +12,6 @@ import { noop } from 'in-services/fixedObjects';
 import { globalBuitInAlerts } from './mockData';
 
 export default {
-  title: 'Organisms|smartAlerts/apCreationAddBuiltInAlerts|AddAllBuiltInGlobalSmartAlerts',
   component: AddAllBuiltInGlobalSmartAlerts
 };
 

@@ -9,7 +9,6 @@ import React from 'react';
 import UpstreamDownstreamPresenter from 'in-components/UpstreamDownstream/UpstreamDownstreamPresenter';
 
 export default {
-  title: 'Molecules|UpstreamDownstream',
   component: UpstreamDownstreamPresenter,
   parameters: {
     // Error creating WebGL context. ... at new WebGLRenderer

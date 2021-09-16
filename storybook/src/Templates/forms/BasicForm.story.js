@@ -10,7 +10,6 @@ import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';
 
 export default {
-  title: 'Templates|forms/BasicForm',
   component: BasicForm
 };
 

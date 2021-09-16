@@ -9,7 +9,6 @@ import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullH
 import ResultAwareTreeMap from 'in-components/TreeMap/ResultAwareTreeMap';
 
 export default {
-  title: 'Organisms|TreeMap',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

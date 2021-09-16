@@ -8,7 +8,6 @@ import React from 'react';
 import Select from 'in-components/form/Select';
 
 export default {
-  title: 'Atoms|FormControl/Select',
   component: Select
 };
 

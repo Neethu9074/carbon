@@ -11,7 +11,6 @@ import SliList from 'in-custom-dashboards/widgets/Slo/sli/SliList';
 import { getSliConfigurations } from './apiMock';
 
 export default {
-  title: 'Templates|CustomDashboard/widgets/SLO/SLI-list',
   component: SliList
 };
 

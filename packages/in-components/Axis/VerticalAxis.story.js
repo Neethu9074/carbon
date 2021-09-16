@@ -10,7 +10,6 @@ import { bytes, millis, percentage } from 'in-services/formatters/number';
 import VerticalAxis from 'in-components/Axis/VerticalAxis';
 
 export default {
-  title: 'Atoms|Axis/Vertical',
   component: VerticalAxis,
   decorators: [withKnobs]
 };

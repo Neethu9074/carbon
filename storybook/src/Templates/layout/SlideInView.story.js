@@ -11,7 +11,6 @@ import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFoo
 import SlideInView from 'in-components/SlideInView/SlideInView';
 
 export default {
-  title: 'Templates|layout/SlideInView',
   component: SlideInView
 };
 

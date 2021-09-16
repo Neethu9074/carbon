@@ -8,7 +8,6 @@ import React from 'react';
 import Tooltip from 'in-components/Tooltip';
 
 export default {
-  title: 'Atoms|Tooltip',
   component: Tooltip
 };
 

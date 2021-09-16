@@ -10,7 +10,6 @@ import { Widget, demo } from 'in-custom-dashboards/widgets/Slo';
 import { Stack } from '@instana/components';
 
 export default {
-  title: 'Templates|CustomDashboard/widgets/SLO',
   component: Widget
 };
 const constTimeConfig = {

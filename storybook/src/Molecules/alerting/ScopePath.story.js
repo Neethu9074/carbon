@@ -8,7 +8,6 @@ import React from 'react';
 import ScopePath from 'in-alerting/components/ScopePath';
 
 export default {
-  title: 'Molecules|alerting/ScopePath',
   component: ScopePath
 };
 

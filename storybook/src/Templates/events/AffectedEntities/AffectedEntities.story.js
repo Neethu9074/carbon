@@ -11,7 +11,6 @@ import { indeterminateProgress, finishedProgress } from 'in-services/fixedObject
 import { availableMetrics } from 'in-applications/analyze/metrics';
 
 export default {
-  title: 'Templates|events/AffectedEntities',
   component: AffectedEntitiesPresenter
 };
 

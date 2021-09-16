@@ -9,7 +9,6 @@ import React from 'react';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 
 export default {
-  title: 'Templates|website/BeaconUserSummary',
   component: BeaconUserSummary,
   decorators: [withKnobs]
 };

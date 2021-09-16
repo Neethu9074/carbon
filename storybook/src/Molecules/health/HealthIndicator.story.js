@@ -10,7 +10,6 @@ import HealthIndicatorButtonPresenter from 'in-components/health/HealthIndicator
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 
 export default {
-  title: 'Molecules|health/HealthIndicator',
   component: HealthIndicatorPresenter
 };
 

@@ -9,7 +9,6 @@ import ConfigureTimeWindow from 'in-alerting/smart-alerts/components/smart-alert
 import { minutes } from 'in-services/time';
 
 export default {
-  title: 'Molecules|alerting/interactiveCharts/ConfigureTimeWindow',
   component: ConfigureTimeWindow
 };
 

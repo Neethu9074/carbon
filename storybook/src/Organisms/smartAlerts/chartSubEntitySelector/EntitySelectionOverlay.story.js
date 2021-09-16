@@ -11,7 +11,6 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import PermanentlyVisibleOverlay from '../in-components/overlays/OverlayPresenter/stories/PermanentlyVisibleOverlay';
 
 export default {
-  title: 'Organisms|smartAlerts/EntitySelectionOverlay',
   component: EntitySelectionOverlay
 };
 

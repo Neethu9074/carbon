@@ -11,7 +11,6 @@ import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import { minutes } from 'in-services/time';
 
 export default {
-  title: 'Organisms|time/TimeSelectionDialog',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

@@ -8,7 +8,6 @@ import React from 'react';
 import HelpText from 'in-components/form/HelpText/HelpText';
 
 export default {
-  title: 'Molecules|ProductNotifications/Help',
   component: HelpText
 };
 

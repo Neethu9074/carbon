@@ -16,7 +16,6 @@ import { close } from 'in-components/DialogPresenter/store';
 import { noop } from 'in-services/fixedObjects';
 
 export default {
-  title: 'Molecules|potentialProblems/PotentialProblemsDialogPresenter',
   component: PotentialProblemsDialogPresenter
 };
 

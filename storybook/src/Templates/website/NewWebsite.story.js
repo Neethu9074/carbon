@@ -12,7 +12,6 @@ import ReadyStepComponent from 'in-websites/NewWebsiteFlow/ReadyStep';
 import WaitStepComponent from 'in-websites/NewWebsiteFlow/WaitStep';
 
 export default {
-  title: 'Templates|website/NewWebsite',
   decorators: [withKnobs]
 };
 

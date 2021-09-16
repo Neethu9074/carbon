@@ -11,7 +11,6 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import DialogPresenter from 'in-components/DialogPresenter';
 
 export default {
-  title: 'Templates|selfService/GroupOnboardingWidget',
   component: OnboardingWidgetPresenter
 };
 

@@ -10,7 +10,6 @@ import BadgeList from 'in-components/BadgeList/BadgeList';
 import theme from 'in-themes';
 
 export default {
-  title: 'Molecules|BadgeList',
   component: BadgeList,
   decorators: [withKnobs]
 };

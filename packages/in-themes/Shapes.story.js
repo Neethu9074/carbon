@@ -7,9 +7,7 @@ import React from 'react';
 
 import theme from 'in-themes';
 
-export default {
-  title: 'DesignTokens|Shapes'
-};
+export default {};
 
 export const Shapes = () => {
   return (

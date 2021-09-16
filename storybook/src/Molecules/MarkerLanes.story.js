@@ -18,7 +18,6 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { minutes } from 'in-services/time';
 
 export default {
-  title: 'Molecules|MarkerLanes',
   component: MarkerLanesPresenter,
   decorator: { text, action }
 };

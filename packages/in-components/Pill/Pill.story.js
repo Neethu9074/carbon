@@ -28,7 +28,6 @@ const options = {
 };
 
 export default {
-  title: 'Atoms|Pill',
   component: Pill,
   decorators: [withKnobs]
 };

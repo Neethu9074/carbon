@@ -9,7 +9,6 @@ import ExpandableStackTrace from 'in-applications/analyze/components/TraceDetail
 import { callExample } from 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/StackTrace.story.js';
 
 export default {
-  title: 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/ExpandingStackTrace',
   component: ExpandableStackTrace
 };
 export function ExpandingStackTrace() {

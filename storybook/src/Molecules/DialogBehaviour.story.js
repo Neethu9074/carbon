@@ -14,7 +14,6 @@ import Dialog from 'in-components/Dialog/Dialog';
 import locals from './DialogBehaviour.mless';
 
 export default {
-  title: 'Molecules|Dialogs/Behaviour',
   component: Dialog
 };
 

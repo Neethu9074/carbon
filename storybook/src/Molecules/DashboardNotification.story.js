@@ -8,7 +8,6 @@ import React from 'react';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 
 export default {
-  title: 'Molecules|DashboardNotification',
   component: DashboardNotification
 };
 

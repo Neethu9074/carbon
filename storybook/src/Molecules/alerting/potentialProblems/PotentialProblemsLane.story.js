@@ -22,7 +22,6 @@ import { noop } from 'in-services/fixedObjects';
 import { hours } from 'in-services/time';
 
 export default {
-  title: 'Molecules|potentialProblems/PotentialProblemsLane',
   component: PotentialProblemsLanePresenter,
   decorator: { text, action }
 };

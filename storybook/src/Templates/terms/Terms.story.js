@@ -15,7 +15,6 @@ import TermsPage3 from 'in-settings/terms/dialog/TermsPage3';
 import TermsPage4 from 'in-settings/terms/dialog/TermsPage4';
 
 export default {
-  title: 'Templates|terms/TermsDialog',
   component: TermsDialogPresenter
   // decorators: [action]
 };

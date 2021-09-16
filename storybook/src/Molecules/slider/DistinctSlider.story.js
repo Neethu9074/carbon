@@ -7,9 +7,7 @@ import React, { useState } from 'react';
 
 import DistinctSlider from 'in-components/Slider/DistinctSlider';
 
-export default {
-  title: 'Molecules|slider/Sliders/discreteValues'
-};
+export default {};
 
 export const withPermanentLabel = () => {
   const [value, setValue] = useState(0.26);

@@ -10,7 +10,6 @@ import TraceValidationResult, {
 } from 'in-applications/analyze/components/TraceDetails/tabs/Summary/TraceValidationResult';
 
 export default {
-  title: 'Molecules|ProductNotifications/TraceValidation',
   component: TraceValidationResult
 };
 

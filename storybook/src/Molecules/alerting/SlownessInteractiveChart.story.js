@@ -11,7 +11,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import { someSlownessFormData } from './formSampleData';
 
 export default {
-  title: 'Molecules|alerting/interactiveCharts/SlownessInteractiveChart',
   component: SlownessInteractiveChart
 };
 

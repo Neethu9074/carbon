@@ -10,7 +10,6 @@ import React from 'react';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 
 export default {
-  title: 'Molecules|Dialogs/ConfirmationDialog',
   component: ConfirmationDialog,
   decorator: { text, action }
 };

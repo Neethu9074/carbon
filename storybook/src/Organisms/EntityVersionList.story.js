@@ -10,7 +10,6 @@ import { plugins } from 'in-forge/constants';
 import { minutes } from 'in-services/time';
 
 export default {
-  title: 'Organisms|EntityVersionList',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

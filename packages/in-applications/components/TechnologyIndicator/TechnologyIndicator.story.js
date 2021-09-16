@@ -9,7 +9,6 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import registry from 'in-applications/technologyRegistry';
 
 export default {
-  title: 'Atoms|TechnologyIndicatorList',
   parameters: {
     // when only one icon was added/removed this lead to a failing ui-test,
     // so we disable this, because too many changes break it too easily.

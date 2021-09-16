@@ -14,7 +14,6 @@ import WebsiteAlertConfig from 'in-alerting/smart-alerts/websites/AlertConfigDia
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 export default {
-  title: 'Templates|website/alerting/AlertConfigDialog',
   component: AlertConfigDialogWithThreshold
 };
 

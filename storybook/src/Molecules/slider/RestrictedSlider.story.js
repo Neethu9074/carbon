@@ -8,9 +8,7 @@ import React, { useState } from 'react';
 import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
 import RestrictedSlider from 'in-components/Slider/RestrictedSlider';
 
-export default {
-  title: 'Molecules|slider/Sliders/restrictedValues'
-};
+export default {};
 
 export const withNumericScale = () => {
   const marks = [

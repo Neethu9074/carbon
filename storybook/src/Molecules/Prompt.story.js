@@ -10,7 +10,6 @@ import React from 'react';
 import Prompt from 'in-components/Dialog/Prompt';
 
 export default {
-  title: 'Molecules|Dialogs/Prompt',
   component: Prompt,
   decorator: { text, action }
 };

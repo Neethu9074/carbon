@@ -10,7 +10,6 @@ import FloatingActionButtonPresenter from 'in-components/FloatingActionButton/Fl
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 
 export default {
-  title: 'Atoms|Buttons/Floating Action Button Presenter',
   component: FloatingActionButtonPresenter
 };
 

@@ -8,7 +8,6 @@ import React from 'react';
 import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/sli/CreateSLIForm';
 
 export default {
-  title: 'Templates|CustomDashboard/widgets/SLO/SLI-management/SLIForm',
   component: CreateNewSLIForm
 };
 

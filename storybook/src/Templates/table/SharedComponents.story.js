@@ -8,7 +8,6 @@ import { Table, Thead, Tbody, Tr, Th, Td } from '@instana/components';
 import ConfigurableTh from 'in-components/tables/sharedComponents/ConfigurableTh';
 
 export default {
-  title: 'Templates|table/Table',
   component: Table
 };
 

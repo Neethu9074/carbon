@@ -10,7 +10,6 @@ import LabelText from 'in-alerting/smart-alerts/applications/apCreation/LabelTex
 import { globalBuitInAlerts } from './mockData';
 
 export default {
-  title: 'Organisms|smartAlerts/apCreationAddBuiltInAlerts|MainColumn',
   component: MainColumn
 };
 

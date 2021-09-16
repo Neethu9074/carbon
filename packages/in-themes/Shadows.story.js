@@ -7,9 +7,7 @@ import React from 'react';
 
 import theme from 'in-themes';
 
-export default {
-  title: 'DesignTokens|Shadows'
-};
+export default {};
 
 export const Shadows = () => {
   return (

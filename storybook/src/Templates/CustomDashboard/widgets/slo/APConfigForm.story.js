@@ -13,7 +13,6 @@ import { createForm } from 'in-custom-dashboards/widgets/Slo';
 import { useObservable } from '@instana/hooks';
 
 export default {
-  title: 'Templates|CustomDashboard/widgets/SLO/config/APForm',
   component: APConfigForm
 };
 

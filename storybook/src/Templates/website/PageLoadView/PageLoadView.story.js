@@ -10,7 +10,6 @@ import clockSkewProblemsData from './clockSkewProblems.json';
 import demoCaseData from './demoCase.json';
 
 export default {
-  title: 'Templates|website/PageLoadView',
   parameters: {
     // TODO: repair this broken story, and remove this parameter again
     chromatic: { disable: true }

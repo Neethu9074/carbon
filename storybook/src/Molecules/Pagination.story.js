@@ -11,7 +11,6 @@ import React from 'react';
 import Pagination from 'in-components/Pagination';
 
 export default {
-  title: 'Molecules|Pagination',
   component: Pagination,
   decorators: [withKnobs]
 };

@@ -11,7 +11,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import { someErrorRateFormData } from './formSampleData';
 
 export default {
-  title: 'Molecules|alerting/interactiveCharts/ErrorRateInteractiveChart',
   parameters: {
     // Error: Evaluation failed: TypeError: (void 0) is not a function
     chromatic: { disable: true }

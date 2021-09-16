@@ -13,7 +13,6 @@ import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 
 export default {
-  title: 'Templates|forms/FormGroup',
   component: FormGroup
 };
 

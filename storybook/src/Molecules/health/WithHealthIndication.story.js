@@ -10,7 +10,6 @@ import { getSvgIconNames, SvgIcon } from '@instana/components';
 import WithHealthIndication from 'in-components/health/WithHealthIndication';
 
 export default {
-  title: 'Molecules|health/WithHealthIndication',
   component: WithHealthIndication
 };
 

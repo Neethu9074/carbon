@@ -9,7 +9,6 @@ import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateAppli
 import { boundaryScopes } from 'in-applications/constants';
 
 export default {
-  title: 'Templates|application/CreateApplicationDialog',
   component: CreateApplicationDialog
 };
 

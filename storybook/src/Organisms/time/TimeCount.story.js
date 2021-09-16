@@ -8,7 +8,6 @@ import React from 'react';
 import TimeCount from 'in-components/time/TimeCount';
 
 export default {
-  title: 'Organisms|time/TimeCount',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

@@ -9,7 +9,6 @@ import { Button } from '@instana/components';
 import { Card } from '@instana/components';
 
 export default {
-  title: 'Molecules|Cards/Card',
   component: Card
 };
 

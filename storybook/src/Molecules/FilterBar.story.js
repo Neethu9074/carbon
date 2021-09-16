@@ -17,7 +17,6 @@ import { numericValidator } from 'in-services/validators/number';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 
 export default {
-  title: 'Molecules|FilterBar',
   component: Bar,
   decorator: { action, text, boolean }
 };

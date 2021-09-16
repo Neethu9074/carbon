@@ -11,7 +11,6 @@ import { pendingResult, finishedProgress } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 
 export default {
-  title: 'Molecules|GeoHeatMap',
   component: GeoHeatMapPresenter
 };
 

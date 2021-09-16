@@ -8,7 +8,6 @@ import React from 'react';
 import IconLabel from 'in-alerting/components/IconLabel';
 
 export default {
-  title: 'Molecules|alerting/IconLabel',
   component: IconLabel
 };
 

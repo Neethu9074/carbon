@@ -8,7 +8,6 @@ import React from 'react';
 import ButtonGroup from 'in-components/ButtonGroup';
 
 export default {
-  title: 'Atoms|ButtonGroup',
   component: ButtonGroup
 };
 

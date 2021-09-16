@@ -15,7 +15,6 @@ import BuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alerts/applic
 import { globalBuitInAlerts } from './mockData';
 
 export default {
-  title: 'Organisms|smartAlerts/apCreationAddBuiltInAlerts|BuiltInSmartAlertsSelectionBaseList',
   component: BuiltInSmartAlertsSelectionBaseList
 };
 

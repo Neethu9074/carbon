@@ -8,7 +8,6 @@ import React from 'react';
 import { DestinationLocation } from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/LocationComponents';
 
 export default {
-  title: 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/CallDetail/DestinationLocation',
   component: DestinationLocation
 };
 

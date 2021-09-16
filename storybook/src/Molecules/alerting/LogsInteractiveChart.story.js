@@ -12,7 +12,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import { someLogsFormData } from './formSampleData';
 
 export default {
-  title: 'Molecules|alerting/LogsInteractiveChart',
   component: LogsThresholdCondition
 };
 

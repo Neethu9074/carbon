@@ -9,7 +9,6 @@ import VersionTimeline from 'in-components/VersionTimeline';
 import { hours, minutes } from 'in-services/time';
 
 export default {
-  title: 'Molecules|VersionTimeline',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

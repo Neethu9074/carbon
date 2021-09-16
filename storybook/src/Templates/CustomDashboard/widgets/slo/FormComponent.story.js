@@ -12,7 +12,6 @@ import { Form, createForm } from 'in-custom-dashboards/widgets/Slo';
 import { noop } from 'in-services/util/function';
 
 export default {
-  title: 'Templates|CustomDashboard/widgets/SLO/config',
   component: Form
 };
 export function Default() {

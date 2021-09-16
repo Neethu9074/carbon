@@ -14,7 +14,6 @@ import { ApplicationMapReactComponent } from 'in-applications/ApplicationMap';
 import { deepCopy } from 'in-services/util/object';
 
 export default {
-  title: 'Templates|application/ApplicationMap',
   parameters: {
     // the rendering is based on random values, to will be different every time
     chromatic: { disable: true }

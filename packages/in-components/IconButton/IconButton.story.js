@@ -11,7 +11,6 @@ import IconButton from 'in-components/IconButton/IconButton';
 const kinds = Object.freeze(['primary', 'primaryv2', 'action', 'create', 'danger', 'warning', 'info']);
 
 export default {
-  title: 'Atoms|Buttons/IconButton',
   component: IconButton
 };
 

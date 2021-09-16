@@ -12,7 +12,6 @@ import { pendingResult, finishedProgress } from 'in-services/fixedObjects';
 import { success } from 'in-services/util/result';
 
 export default {
-  title: 'Molecules|health/OpenIssues',
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }

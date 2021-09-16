@@ -9,7 +9,6 @@ import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 
 export default {
-  title: 'Molecules|KpiGridRow',
   component: KpiGridRow
 };
 

@@ -11,9 +11,7 @@ import { just } from '@instana/observables';
 import HostScopeDefinitionSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/HostScopeDefinitionSelector';
 import { putScopeByHostsFields } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 
-export default {
-  title: 'Molecules|alerts/HostScopeDefinition'
-};
+export default {};
 
 export const Default = () => {
   // in real example, it could be extracted from tagCatalog:

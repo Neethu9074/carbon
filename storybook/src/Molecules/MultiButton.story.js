@@ -10,7 +10,6 @@ import { Button } from '@instana/components';
 import MultiButton from 'in-components/MultiButton';
 
 export default {
-  title: 'Molecules|MultiButton',
   component: MultiButton
 };
 const buttons = [

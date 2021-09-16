@@ -18,7 +18,6 @@ const oneHour = oneMinute * 60;
 const oneDay = oneHour * 24;
 
 export default {
-  title: 'Organisms|AlertingChartRenderer',
   component: AlertingRenderer
 };
 

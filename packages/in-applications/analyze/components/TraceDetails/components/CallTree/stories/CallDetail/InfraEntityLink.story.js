@@ -8,7 +8,6 @@ import React from 'react';
 import InfrastructureEntityLinkPresenter from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/InfrastructureEntityLink/InfrastructureEntityLinkPresenter';
 
 export default {
-  title: 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/CallDetail/InfraEntityLink',
   component: InfrastructureEntityLinkPresenter
 };
 

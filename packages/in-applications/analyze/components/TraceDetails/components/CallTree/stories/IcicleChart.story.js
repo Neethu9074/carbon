@@ -16,7 +16,6 @@ const getColorByEndpointType = ({ endpoint }) =>
   !endpoint || !endpoint.type ? theme.lib.colors.N500 : getColor(endpoint.type);
 
 export default {
-  title: 'in-applications/analyze/components/TraceDetails/components/CallTree/stories/IcicleChart',
   component: IcicleChart
 };
 

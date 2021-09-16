@@ -10,7 +10,6 @@ import { Ul, Li } from '@instana/components';
 import { DefaultListRenderer } from 'in-settings/components/ApiList/renderer/renderer';
 
 export default {
-  title: 'Organisms|ApiList',
   component: DefaultListRenderer
 };
 

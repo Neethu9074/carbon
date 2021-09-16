@@ -11,7 +11,6 @@ import KpiCard from 'in-components/KpiCard/KpiCard';
 import theme from 'in-themes';
 
 export default {
-  title: 'Atoms|KpiCard',
   component: KpiCard,
   decorators: [withKnobs]
 };

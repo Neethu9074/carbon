@@ -9,7 +9,6 @@ import React from 'react';
 import FloatingActionButton from 'in-components/FloatingActionButton/FloatingActionButton';
 
 export default {
-  title: 'Atoms|Buttons/Floating Action Button',
   component: FloatingActionButton
 };
 

@@ -9,7 +9,6 @@ import React from 'react';
 import DeprecationsPresenter from 'in-websites/WebsiteDashboard/components/Deprecations/DeprecationsPresenter';
 
 export default {
-  title: 'Templates|website/Deprecations',
   component: DeprecationsPresenter,
   decorators: [withKnobs]
 };

@@ -14,7 +14,6 @@ import { millis, percentage, number } from 'in-services/formatters/number';
 const onChange = action('onChange');
 
 export default {
-  title: 'Organisms|ServerTablePresenter',
   component: ServerTablePresenter
 };
 

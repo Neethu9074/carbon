@@ -10,7 +10,6 @@ import React from 'react';
 import TimePresenter from 'in-components/time/TimePresenter';
 
 export default {
-  title: 'Organisms|time/TimePresenter',
   component: TimePresenter,
   parameters: {
     // ignoring this story because it renders differently everytime

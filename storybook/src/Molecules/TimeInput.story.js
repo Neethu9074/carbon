@@ -9,7 +9,6 @@ import { fixedTimestamp } from '../util/generateMetrics';
 import TimeInput from 'in-components/TimeInput';
 
 export default {
-  title: 'Molecules|TimeInput',
   component: TimeInput
 };
 

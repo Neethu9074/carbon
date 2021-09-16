@@ -10,7 +10,6 @@ import { Button } from '@instana/components';
 import StepProgressBar from 'in-components/StepProgressBar/StepProgressBar';
 
 export default {
-  title: 'Molecules|StepProgressBar',
   component: StepProgressBar
 };
 

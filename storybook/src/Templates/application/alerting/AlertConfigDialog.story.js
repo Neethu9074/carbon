@@ -10,7 +10,6 @@ import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications
 import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 
 export default {
-  title: 'Templates|applications/alerting/AlertConfigDialog',
   component: AlertConfigDialogPresenter,
   parameters: {
     chromatic: { disable: true }

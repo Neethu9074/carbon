@@ -8,7 +8,6 @@ import React from 'react';
 import HorizontalAxis from 'in-components/Axis/HorizontalAxis';
 
 export default {
-  title: 'Atoms|Axis/Horizontal',
   component: HorizontalAxis
 };
 

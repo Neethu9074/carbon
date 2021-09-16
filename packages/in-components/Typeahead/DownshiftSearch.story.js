@@ -8,7 +8,6 @@ import React from 'react';
 import Typeahead from 'in-components/Typeahead';
 
 export default {
-  title: 'Templates|analyze/Typeahead',
   component: Typeahead
 };
 

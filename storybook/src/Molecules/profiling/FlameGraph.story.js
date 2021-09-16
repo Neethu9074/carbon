@@ -8,7 +8,6 @@ import React from 'react';
 import FlameGraph from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfileFlameGraph';
 
 export default {
-  title: 'Molecules|FlameGraph',
   component: FlameGraph
 };
 

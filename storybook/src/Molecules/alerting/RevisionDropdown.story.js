@@ -10,7 +10,6 @@ import RevisionDropdown from 'in-alerting/components/RevisionDropdown';
 import { getRevision } from 'in-alerting/components/AlertHeader';
 
 export default {
-  title: 'Molecules|alerting/RevisionDropdown',
   component: RevisionDropdown
 };
 

@@ -9,7 +9,6 @@ import React, { useState } from 'react';
 import SearchInput from 'in-components/SearchInput';
 
 export default {
-  title: 'Atoms|FormControl/SearchInput',
   component: SearchInput
 };
 

@@ -12,7 +12,6 @@ import { successObservableFactory } from 'in-services/util/result';
 import Form from 'in-components/form/binding/Form';
 
 export default {
-  title: 'Templates|CustomDashboard/widgets/SLO/SLI-management/GoodBadEvents',
   component: GoodBadEventsForm
 };
 

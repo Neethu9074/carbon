@@ -12,9 +12,7 @@ import Input from 'in-components/form/Input/FormBoundInput';
 import SubForm from 'in-components/form/binding/SubForm';
 import Form from 'in-components/form/binding/Form';
 
-export default {
-  title: 'Templates|Form data binding'
-};
+export default {};
 
 export function ExampleForm() {
   const initialForm = createMapForm()

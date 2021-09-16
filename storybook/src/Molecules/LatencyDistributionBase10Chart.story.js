@@ -12,7 +12,6 @@ import { previousHourTimeShift } from 'in-stores/time/shifting';
 import { millis } from 'in-services/formatters/number';
 
 export default {
-  title: 'Molecules|LatencyDistributionBase10Chart',
   component: LatencyDistributionBase10Chart,
   decorators: [withKnobs]
 };

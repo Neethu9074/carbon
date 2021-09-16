@@ -9,7 +9,6 @@ import { colorTranslation, getColor } from 'in-applications/endpointTypes';
 import theme from 'in-themes';
 
 export default {
-  title: 'DesignTokens|Colors',
   component: Colors
 };
 

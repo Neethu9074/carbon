@@ -13,7 +13,6 @@ import Overlay from 'in-components/overlays/Overlay';
 import { Row, Col } from 'in-components/layout/Grid';
 
 export default {
-  title: 'Templates|layout/Overlay',
   component: Overlay
 };
 
