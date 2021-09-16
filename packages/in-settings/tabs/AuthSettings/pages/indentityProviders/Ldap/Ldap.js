@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField } from 'formalistic';
+import { createField, createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { Button, Link } from '@instana/components';
@@ -24,6 +24,7 @@ import SectionHeading from 'in-settings/components/SectionHeading';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
+import ValidationBlock from 'in-components/form/ValidationBlock';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { scrollIntoView } from 'in-services/util/dom';
@@ -61,6 +62,31 @@ export default function Ldap() {
 }
 
 function render({ form, setForm, testResultMessage, setTestResultMessage, result }) {
+  const allFieldsFilled =
+    form.get('url').value &&
+    form.get('url').value !== '' &&
+    form.get('testUser').value &&
+    form.get('testUser').value !== '' &&
+    form.get('testPassword').value &&
+    form.get('testPassword').value !== '' &&
+    form.get('base').value &&
+    form.get('base').value !== '' &&
+    form.get('groupQuery').value &&
+    form.get('groupQuery').value !== '' &&
+    form.get('groupMemberField').value &&
+    form.get('groupMemberField').value !== '' &&
+    form.get('userQueryTemplate').value &&
+    form.get('userQueryTemplate').value !== '' &&
+    form.get('emailField').value &&
+    form.get('emailField').value !== '';
+  // testResultMessage.messageProps exists only when Test configuration is clicked
+  const needsROCredentials = !form.get('emptyPass').value;
+  const shouldDoROUserPassCheck = needsROCredentials && (testResultMessage.messageProps || allFieldsFilled);
+  const hasROUser = form.get('roUser').value && form.get('roUser').value !== '';
+  const hasROPassword = form.get('roPassword').value && form.get('roPassword').value !== '';
+  const shouldShowMissingUserMessage = shouldDoROUserPassCheck && !hasROUser;
+  const shouldShowMissingPasswordMessage = shouldDoROUserPassCheck && !hasROPassword;
+
   return (
     <>
       <Title title={t('in-settings:tabs.configureLdap')} />
@@ -106,9 +132,14 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                     <CheckboxFancy
                       label={t('in-settings:tabs.anonymous')}
                       checked={field.value}
-                      onChange={() =>
-                        setForm(form.updateIn(['emptyPass'], f => f.setValue(!field.value).setTouched(true)))
-                      }
+                      onChange={() => {
+                        let newValues = form.updateIn(['emptyPass'], f => f.setValue(!field.value).setTouched(true));
+                        if (field.value) {
+                          newValues = newValues.updateIn(['roUser'], f => f.setValue('').setTouched(true));
+                          newValues = newValues.updateIn(['roPassword'], f => f.setValue('').setTouched(true));
+                        }
+                        setForm(newValues);
+                      }}
                     />
                   ))}
                 </Col>
@@ -126,6 +157,9 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                       fieldName="roUser"
                       description={t('in-settings:tabs.userDescription')}
                     />
+                    {shouldShowMissingUserMessage && (
+                      <ValidationBlock>{t('in-applications:forms.errorBlankValue')}</ValidationBlock>
+                    )}
                   </Col>
                   <Col xs={6}>
                     <FormInput
@@ -138,6 +172,9 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                       type="password"
                       description={t('in-settings:tabs.passwordDescription')}
                     />
+                    {shouldShowMissingPasswordMessage && (
+                      <ValidationBlock>{t('in-applications:forms.errorBlankValue')}</ValidationBlock>
+                    )}
                   </Col>
                 </Row>
               )}
@@ -398,23 +435,76 @@ function getConfig(form) {
   };
 }
 
+function checkNonAnonymousROUserHasCredentials({ emptyPass, roUser, roPassword }) {
+  if (!emptyPass.value) {
+    if (!roUser.value || !roPassword.value || roUser.value == '' || roPassword.value == '') {
+      return [
+        {
+          severity: 'error',
+          message: t('in-applications:forms.errorBlankValue')
+        }
+      ];
+    }
+  }
+}
+
 function enrichForm(form, { setCanDeleteItem, result: { config } }) {
   if (config.base) {
     setCanDeleteItem(true);
   }
-  return form
-    .put('emptyPass', createField({ value: config.emptyPass }))
-    .put('base', createField({ value: config.base, validator: notBlankValidator }))
-    .put('emailField', createField({ value: config.emailField, validator: notBlankValidator }))
-    .put('groupMemberField', createField({ value: config.groupMemberField, validator: notBlankValidator }))
-    .put('groupQuery', createField({ value: config.groupQuery, validator: notBlankValidator }))
-    .put('roPassword', createField({ value: config.roPassword }))
-    .put('testPassword', createField({ value: config.testPassword || '', validator: notBlankValidator }))
-    .put('testUser', createField({ value: config.testUser || '', validator: notBlankValidator }))
-    .put('url', createField({ value: config.url, validator: notBlankValidator }))
-    .put('roUser', createField({ value: config.roUser }))
-    .put('userDnMapping', createField({ value: config.userDnMapping }))
-    .put('userField', createField({ value: config.userField }))
-    .put('userQueryTemplate', createField({ value: config.userQueryTemplate, validator: notBlankValidator }))
-    .put('activated', createField({ value: !!config.base }));
+  return createMapForm({
+    validator: checkNonAnonymousROUserHasCredentials,
+    items: {
+      url: createField({
+        value: config.url,
+        validator: notBlankValidator
+      }),
+      emptyPass: createField({
+        value: config.emptyPass
+      }),
+      roUser: createField({
+        value: config.roUser
+      }),
+      roPassword: createField({
+        value: config.roPassword
+      }),
+      testUser: createField({
+        value: config.testUser || '',
+        validator: notBlankValidator
+      }),
+      testPassword: createField({
+        value: config.testPassword || '',
+        validator: notBlankValidator
+      }),
+      base: createField({
+        value: config.base,
+        validator: notBlankValidator
+      }),
+      groupQuery: createField({
+        value: config.groupQuery,
+        validator: notBlankValidator
+      }),
+      groupMemberField: createField({
+        value: config.groupMemberField,
+        validator: notBlankValidator
+      }),
+      userQueryTemplate: createField({
+        value: config.userQueryTemplate,
+        validator: notBlankValidator
+      }),
+      emailField: createField({
+        value: config.emailField,
+        validator: notBlankValidator
+      }),
+      userDnMapping: createField({
+        value: config.userDnMapping
+      }),
+      userField: createField({
+        value: config.userField
+      }),
+      activated: createField({
+        value: !!config.base
+      })
+    }
+  });
 }
