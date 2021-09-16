@@ -132,6 +132,7 @@ import './session';
 import './symfony';
 import './urllib3';
 import './ibm-mq';
+import './ace';
 import './cosmos';
 import './django';
 import './g.http';

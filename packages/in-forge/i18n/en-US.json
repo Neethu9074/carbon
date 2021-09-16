@@ -1162,6 +1162,7 @@
   "pluginName_zooKeeper_0": "ZooKeepers",
   "pluginName_zooKeeper_1": "ZooKeepers",
   "pluginName_zooKeeper_2": "ZooKeepers",
+  "tracingTypeName_ace": "IBM ACE",
   "tracingTypeName_actioncontroller": "ActionController",
   "tracingTypeName_actioncontroller_plural": "ActionController Calls",
   "tracingTypeName_actioncontroller_0": "ActionController Calls",
