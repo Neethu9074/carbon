@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 
 import { EntitySelectionOverlay } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntitySelectionOverlay';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import PermanentlyVisibleOverlay from '../../../util/PermanentlyVisibleOverlay';
+import PermanentlyVisibleOverlay from '../in-components/overlays/OverlayPresenter/stories/PermanentlyVisibleOverlay';
 
 export default {
   title: 'Organisms|smartAlerts/EntitySelectionOverlay',
