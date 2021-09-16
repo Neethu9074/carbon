@@ -30,6 +30,7 @@ module.exports = {
     delete globals['name'];
     delete globals['Notification'];
     delete globals['find'];
+    delete globals['open'];
     delete globals['close'];
     delete globals['focus'];
     globals.Promise = false;
