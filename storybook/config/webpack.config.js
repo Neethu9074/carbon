@@ -150,6 +150,10 @@ module.exports = async ({ config }) => {
   };
 
   config.resolve.extensions.push('.ts', '.tsx');
+  config.resolve.modules.push(
+    path.join(__dirname, '..', 'node_modules'),
+    path.join(__dirname, '..', '..', 'node_modules')
+  );
 
   return config;
 };
