@@ -20,8 +20,8 @@ export default function DominoCustomMetrics({ snapshot, timeConfig, titlePrefix 
 
 export const SPECS = [
   {
-    prefix: 'metrics.counters.',
-    path: ['data', 'metrics.counters'],
+    prefix: 'metrics.',
+    path: ['data', 'metrics'],
     type: 'counter',
     color: '#00CC66',
     metrics: [
