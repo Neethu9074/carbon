@@ -42,7 +42,7 @@ module.exports = {
   pseudoLanguageEnabled: true,
   syntheticCallsEnabled: true,
   applicationHealthOverviewEnabled: true,
-  hideEventsSettings: true,
+  hideEventsSettings: false,
   openFacetedSearchByDefault: true,
   agentInstallViewRestrictedToIBMSaas: false,
   traceDetailViewV2Enabled: false,
