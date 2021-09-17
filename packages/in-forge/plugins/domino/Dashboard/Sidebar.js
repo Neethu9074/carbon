@@ -10,7 +10,6 @@ import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function DominoSidebar({ snapshot }) {
-  console.log(snapshot);
   return (
     <div>
       <Collapsible initiallyOpen>
