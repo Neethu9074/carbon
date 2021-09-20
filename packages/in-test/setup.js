@@ -18,6 +18,8 @@ const Enzyme = require('enzyme');
 const chai = require('chai');
 // eslint-disable-next-line no-restricted-imports
 const i18n = require('i18next');
+// eslint-disable-next-line no-restricted-imports
+const { initReactI18next } = require('react-i18next');
 
 const { setOptions, defaultOptions } = require('@instana/i18n');
 
@@ -38,12 +40,12 @@ setOptions({
 
 global.__DEV__ = false;
 global.__HOT_RELOAD__ = false;
-global.window.instana = {
-  config: {
-    environment: 'saas',
-    tenant: 'instana',
-    tenantUnit: 'test'
-  }
+global.window.instana = {};
+
+global.window.instana.config = {
+  environment: 'saas',
+  tenant: 'instana',
+  tenantUnit: 'test'
 };
 
 global.window.instana.user = {
@@ -83,6 +85,12 @@ global.window.instana.user = {
   email: 'stan@instana.com'
 };
 
+global.window.instana.build = {
+  revision: '3211271b9194349877dd5a38431140c789c75bae',
+  date: '2021-09-06T15:34:22.767Z',
+  tag: '1.209.401'
+};
+
 global.requestAnimationFrame = fn => setTimeout(fn, 0);
 global.window.requestAnimationFrame = global.requestAnimationFrame;
 
@@ -96,7 +104,7 @@ global.window.WebSocket = function() {
 // react unit tests with enzyme
 Enzyme.configure({ adapter: new Adapter() });
 
-i18n.init({
+i18n.use(initReactI18next).init({
   lng: 'en-US',
   resources: {
     'en-US': require('../../target/assets/i18n/en-US.json')

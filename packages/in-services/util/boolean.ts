@@ -3,6 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-export function compare(a, b) {
+export function compare(a: boolean, b: boolean) {
   return a === b ? 0 : a ? -1 : 1;
 }

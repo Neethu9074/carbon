@@ -589,6 +589,7 @@
       "tagPlaceholderKey": "Key",
       "tagPlaceholderValue": "Value",
       "spacingSuggestionAnd": "AND",
+      "spacingSuggestionIconAriaLabel": "Add item to query",
       "bracketLabelChosenBracket": "Chosen bracket. Click to change the bracket, to select a conjunction or to remove the bracket.",
       "conjunctionLabelChosenConjunction": "Chosen conjunction. Click to change the conjunction, to select a bracket or to remove the conjunction.",
       "filterButtonAddFilter": "Add filter",
