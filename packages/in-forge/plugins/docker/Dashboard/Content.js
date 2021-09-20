@@ -22,6 +22,7 @@ import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import LogsKpiCard from 'in-forge/plugins/docker/Dashboard/LogsKpiCard';
 import LogsChart from 'in-forge/plugins/docker/Dashboard/LogsChart';
 import { containerLogsEnabled } from 'in-services/featureFlags';
+import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import useHasLogs from 'in-logging/hooks/useHasLogs';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
@@ -32,6 +33,25 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
 
   const tagFilterExpression = getValueMatchTagFilter({ name: LOG_DOCKER_SNAPSHOT_ID, value: snapshot.get('id') });
   const hasLogs = useHasLogs({ tagFilterExpression, timeConfig });
+
+  const additionalContextMenuButtons = [
+    {
+      name: 'analyze',
+      icon: 'lib_analyze',
+      label: t('in-forge:plugins.docker.dashboard.seeLogsInAnalyze'),
+      getHref$: highlightedTime => {
+        return getLinkToAnalyze({
+          tagFilterExpression: [tagFilterExpression],
+          timeConfig: {
+            focusedMoment: highlightedTime.focusedMoment,
+            to: highlightedTime.to,
+            windowSize: highlightedTime.windowSize,
+            autoRefresh: false
+          }
+        });
+      }
+    }
+  ];
 
   return (
     <div>
@@ -60,6 +80,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
+          additionalContextMenuButtons={additionalContextMenuButtons}
           y1={{
             min: 0,
             metrics: ['cpu.total_usage', 'cpu.system_usage', 'cpu.user_usage'],
@@ -87,6 +108,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
+          additionalContextMenuButtons={additionalContextMenuButtons}
           y1={{
             min: 0,
             metrics: ['cpu.throttling_count'],
@@ -116,6 +138,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            additionalContextMenuButtons={additionalContextMenuButtons}
             y1={{
               min: 0,
               metrics: ['memory.usage', 'memory.total_rss', 'memory.total_cache'],
@@ -139,6 +162,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            additionalContextMenuButtons={additionalContextMenuButtons}
             y1={{
               min: 0,
               metrics: ['memory.active_anon', 'memory.active_file', 'memory.inactive_anon', 'memory.inactive_file'],
@@ -160,6 +184,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
+          additionalContextMenuButtons={additionalContextMenuButtons}
           y1={{
             min: 0,
             metrics: ['blkio.blk_read', 'blkio.blk_write'],
@@ -175,6 +200,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
+            additionalContextMenuButtons={additionalContextMenuButtons}
             y1={{
               min: 0,
               formatter: bytesTwoDecimalPlaces,
@@ -208,7 +234,10 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
           title={t('in-forge:plugins.docker.dashboard.logs')}
           button={<AnalyzeLogsButton tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} />}
         >
-          <LogsChart tagFilterExpression={tagFilterExpression} />
+          <LogsChart
+            tagFilterExpression={tagFilterExpression}
+            additionalContextMenuButtons={additionalContextMenuButtons}
+          />
         </DashboardSection>
       )}
     </div>

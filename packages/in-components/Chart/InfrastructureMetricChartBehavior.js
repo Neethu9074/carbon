@@ -78,12 +78,14 @@ class InfrastructureMetricChartBehavior extends React.Component {
       minRollup,
       renderLegend,
       primaryContextMenuAction,
+      additionalContextMenuButtons,
       renderPostChartContent,
       originalTimeConfig
     } = props;
     this.timeConfig = resolveTimeConfig(timeConfig);
     this.granularity = getInfraGranularity(timeConfig, minRollup);
     this.primaryContextMenuAction = primaryContextMenuAction;
+    this.additionalContextMenuButtons = additionalContextMenuButtons;
     this.customHeight = customHeight;
     this.renderLegend = renderLegend;
     this.y1 = mapAxis(y1);
@@ -234,7 +236,8 @@ class InfrastructureMetricChartBehavior extends React.Component {
       primaryContextMenuAction,
       renderPostChartContent,
       originalTimeConfig,
-      granularity
+      granularity,
+      additionalContextMenuButtons
     } = this;
     const { y1Metrics = [], y2Metrics = [] } = this.state;
 
@@ -255,6 +258,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
         primaryContextMenuAction={primaryContextMenuAction}
         renderPostChartContent={renderPostChartContent}
         originalTimeConfig={originalTimeConfig ?? this.props.timeConfig}
+        additionalContextMenuButtons={additionalContextMenuButtons}
       />
     );
   }
