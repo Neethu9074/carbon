@@ -10,9 +10,9 @@ import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
 import { LOG_LEVEL, LOG_DOCKER_SNAPSHOT_ID, getValueMatchTagFilter } from 'in-logging/queryBuilder';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 //@ts-expect-error
 import { KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
@@ -29,27 +29,85 @@ interface LogsKpiCardProps {
   snapshot: Map<string, any>;
 }
 
-interface LogsWithDataKpiCardProps extends LogsKpiCardProps {
-  title: string;
+interface ValueProps {
+  timeConfig: TimeConfig;
+  snapshot: Map<string, any>;
 }
 
 export default function LogsKpiCard(props: LogsKpiCardProps) {
-  const { hasLogs } = props;
+  const { timeConfig, hasLogs, snapshot } = props;
+
+  const tagFilterExpression = [
+    getValueMatchTagFilter({
+      name: LOG_DOCKER_SNAPSHOT_ID,
+      value: snapshot.get('id')
+    }),
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'AND'
+    },
+    {
+      type: 'OPEN_BRACKET'
+    },
+    getValueMatchTagFilter({
+      name: LOG_LEVEL,
+      value: 'WARN'
+    }),
+    {
+      type: 'CONJUNCTION',
+      logicalOperator: 'OR'
+    },
+    getValueMatchTagFilter({
+      name: LOG_LEVEL,
+      value: 'ERROR'
+    }),
+    {
+      type: 'CLOSE_BRACKET'
+    }
+  ];
 
   const title = t('in-forge:plugins.docker.dashboard.logs');
   let value = null;
   if (hasLogs === true) {
-    return <LogsWithDataKpiCard title={title} {...props} />;
+    value = <Value {...props} />;
   } else if (hasLogs === false) {
-    value = valueMissingPlaceholder;
+    value = <ValueNoData />;
   } else if (hasLogs === undefined) {
-    value = <SvgIcon color={theme.lib.colors.lightBlue800} spinning type="lib_actions_loading" />;
+    value = <ValueLoading />;
   }
 
-  return <KpiKeyValue label={title}>{value}</KpiKeyValue>;
+  return (
+    <KpiKeyValue
+      label={title}
+      iconAction={{
+        text: t('in-forge:plugins.docker.dashboard.analyzeLogs'),
+        kind: 'subtle',
+        icon: 'lib_analyze',
+        href$: getLinkToAnalyze({ timeConfig, tagFilterExpression }),
+        onClick: () =>
+          jumpToLogs({
+            source: 'analyze logs from infra dashboard',
+            plugin: snapshot.get('plugin'),
+            snapshotId: snapshot.get('id')
+          })
+      }}
+    >
+      {value}
+    </KpiKeyValue>
+  );
 }
 
-function LogsWithDataKpiCard({ title, timeConfig, snapshot }: LogsWithDataKpiCardProps) {
+function ValueNoData() {
+  return <>{valueMissingPlaceholder}</>;
+}
+
+function ValueLoading() {
+  return <SvgIcon color={theme.lib.colors.lightBlue800} spinning type="lib_actions_loading" />;
+}
+
+function Value({ timeConfig, snapshot }: ValueProps) {
+  const title = t('in-forge:plugins.docker.dashboard.logs');
+
   const getLogsTagFilterExpression = getValueMatchTagFilter({
     name: LOG_DOCKER_SNAPSHOT_ID,
     value: snapshot.get('id')
@@ -83,58 +141,13 @@ function LogsWithDataKpiCard({ title, timeConfig, snapshot }: LogsWithDataKpiCar
   const numberWarnLogs = getLogsOfType(logGroupsResult.data.items, 'WARN');
   const numberErrorLogs = getLogsOfType(logGroupsResult.data.items, 'ERROR');
 
-  const tagFilterExpression = [
-    getValueMatchTagFilter({
-      name: LOG_DOCKER_SNAPSHOT_ID,
-      value: snapshot.get('id')
-    }),
-    {
-      type: 'CONJUNCTION',
-      logicalOperator: 'AND'
-    },
-    {
-      type: 'OPEN_BRACKET'
-    },
-    getValueMatchTagFilter({
-      name: LOG_LEVEL,
-      value: 'WARN'
-    }),
-    {
-      type: 'CONJUNCTION',
-      logicalOperator: 'OR'
-    },
-    getValueMatchTagFilter({
-      name: LOG_LEVEL,
-      value: 'ERROR'
-    }),
-    {
-      type: 'CLOSE_BRACKET'
-    }
-  ];
-
   return (
-    <KpiKeyValue
-      label={title}
-      iconAction={{
-        text: t('in-forge:plugins.docker.dashboard.analyzeLogs'),
-        kind: 'subtle',
-        icon: 'lib_analyze',
-        href$: getLinkToAnalyze({ timeConfig, tagFilterExpression }),
-        onClick: () =>
-          jumpToLogs({
-            source: 'analyze logs from infra dashboard',
-            plugin: snapshot.get('plugin'),
-            snapshotId: snapshot.get('id')
-          })
-      }}
-    >
-      <span>
-        {t('in-forge:plugins.docker.dashboard.numberLogs', {
-          numberErrorLogs: number.compact(numberErrorLogs),
-          numberWarnLogs: number.compact(numberWarnLogs)
-        })}
-      </span>
-    </KpiKeyValue>
+    <span>
+      {t('in-forge:plugins.docker.dashboard.numberLogs', {
+        numberErrorLogs: number.compact(numberErrorLogs),
+        numberWarnLogs: number.compact(numberWarnLogs)
+      })}
+    </span>
   );
 }
 
