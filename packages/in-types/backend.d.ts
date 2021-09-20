@@ -1255,11 +1255,11 @@ export interface GetKubernetesPodQuery extends UiQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetKubernetesPodsQuery extends CursorPaginatedQuery, QueryWithMetrics {
+export interface GetKubernetesPodsQuery extends PaginatedQuery {
   readonly filter: KubernetesQueryFilter;
   readonly granularity: number;
   readonly order: Order;
-  readonly pagination: CursorPagination<IngestionOffsetCursor>;
+  readonly pagination: Pagination;
 }
 
 export interface GetKubernetesServiceForApplicationServiceIdQuery extends UiQuery {
@@ -2423,17 +2423,6 @@ export interface KubernetesPodCondition {
   readonly reason: string;
   readonly status: string;
   readonly type: string;
-}
-
-export interface KubernetesPodListCursorPaginatedItem extends ListItemWithMetric, FilterableListItem, Cursorific<IngestionOffsetCursor> {
-  readonly age?: number;
-  readonly cursor: IngestionOffsetCursor;
-  readonly entityHealthInfo: EntityHealthInfo;
-  readonly label?: string;
-  readonly namespace?: string;
-  readonly phase?: string;
-  readonly pod: KubernetesPod;
-  readonly statusSummary?: string;
 }
 
 export interface KubernetesPodListItem extends ListItemWithMetric, FilterableListItem {
