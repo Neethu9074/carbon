@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { useObservable } from '@instana/hooks';
@@ -26,7 +26,14 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-export default function CreateNewSLIForm({ apName, applicationId, apDefaultBoundaryScope, close, sliConfig }) {
+export default function CreateNewSLIForm({
+  apName,
+  applicationId,
+  apDefaultBoundaryScope,
+  close,
+  sliConfig,
+  setFooter
+}) {
   const timeConfig = useTimeConfig();
   const [form, setForm] = useState(createForm(sliConfig ?? {}, applicationId, apDefaultBoundaryScope));
   const [state, setState] = useState({
@@ -36,6 +43,8 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
   });
 
   const { saving } = state;
+
+  useSetFooter(sliConfig, form, timeConfig, setFooter, close, saving);
 
   const onChange = (path, fn) => {
     setForm(form.updateIn(path, fn));
@@ -100,14 +109,6 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
     }
   };
 
-  const savingStateName = sliConfig?.id
-    ? t('in-custom-dashboards:widgets.slo.createSliForm.cloning')
-    : t('in-custom-dashboards:widgets.slo.createSliForm.creating');
-  const saveButtonLabel = sliConfig?.id
-    ? t('in-custom-dashboards:widgets.slo.createSliForm.clone')
-    : t('in-custom-dashboards:widgets.slo.createSliForm.create');
-  const isValid = useValidateExpressions(form, timeConfig);
-
   return (
     <Form form={form} setForm={setForm} onSubmit={onSubmit}>
       <Stack gap="large">
@@ -116,23 +117,40 @@ export default function CreateNewSLIForm({ apName, applicationId, apDefaultBound
         {sliConfig?.id && <Message>{t('in-custom-dashboards:widgets.slo.createSliForm.sliConfigMsg')}</Message>}
 
         {state?.errors && <ErroneousResultPresenter errors={state.errors} />}
-
-        <FormFooter withRoundedBottomBorder>
-          <CancelButton
-            onClick={() => {
-              const sliEntityForm = form.get('sliEntity');
-              const sliType = sliEntityForm?.get('sliType')?.value;
-              trackSLIEditAbort({ sliId: sliConfig?.id, sliType });
-              close();
-            }}
-          />
-          <SaveButton form={form} isSaving={saving} disabled={!isValid}>
-            {saving ? savingStateName : saveButtonLabel}
-          </SaveButton>
-        </FormFooter>
       </Stack>
     </Form>
   );
+}
+
+function useSetFooter(sliConfig, form, timeConfig, setFooter, close, saving) {
+  const savingStateName = sliConfig?.id
+    ? t('in-custom-dashboards:widgets.slo.createSliForm.cloning')
+    : t('in-custom-dashboards:widgets.slo.createSliForm.creating');
+  const saveButtonLabel = sliConfig?.id
+    ? t('in-custom-dashboards:widgets.slo.createSliForm.clone')
+    : t('in-custom-dashboards:widgets.slo.createSliForm.create');
+  const isValid = useValidateExpressions(form, timeConfig);
+
+  useEffect(() => {
+    setFooter(
+      <FormFooter withRoundedBottomBorder>
+        <CancelButton
+          onClick={() => {
+            const sliEntityForm = form.get('sliEntity');
+            const sliType = sliEntityForm?.get('sliType')?.value;
+            trackSLIEditAbort({ sliId: sliConfig?.id, sliType });
+            close();
+          }}
+        />
+        <SaveButton form={form} isSaving={saving} disabled={!isValid}>
+          {saving ? savingStateName : saveButtonLabel}
+        </SaveButton>
+      </FormFooter>
+    );
+    return () => {
+      setFooter(null);
+    };
+  }, [close, form, isValid, saveButtonLabel, saving, savingStateName, setFooter, sliConfig?.id]);
 }
 
 function toBackendFormat(form) {
