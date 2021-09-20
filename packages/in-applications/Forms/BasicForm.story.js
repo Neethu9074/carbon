@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import React from 'react';
+
+import { just } from '@instana/observables';
 
 import Steps from 'in-applications/Forms/components/Steps';
 import BasicForm from 'in-applications/Forms/BasicForm';

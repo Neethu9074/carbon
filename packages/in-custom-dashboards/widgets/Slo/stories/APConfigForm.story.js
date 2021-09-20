@@ -6,11 +6,12 @@
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
+import { useObservable } from '@instana/hooks';
+
+import { getApplicationConfigsAsResultObservable } from 'in-custom-dashboards/widgets/Slo/stories/apiMock';
 import APConfigForm from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
-import { getApplicationConfigsAsResultObservable } from './apiMock';
 import { apConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { createForm } from 'in-custom-dashboards/widgets/Slo';
-import { useObservable } from '@instana/hooks';
 
 export default {
   component: APConfigForm

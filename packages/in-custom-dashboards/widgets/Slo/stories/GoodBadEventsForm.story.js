@@ -7,8 +7,8 @@ import React, { useState } from 'react';
 
 import GoodBadEventsForm from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
 import { createForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
-import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { successObservableFactory } from 'in-services/util/result';
+import { createQueryBuilder } from 'in-components/QueryBuilder';
 import Form from 'in-components/form/binding/Form';
 
 export default {

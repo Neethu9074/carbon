@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
 import React from 'react';
+
+import { create } from '@instana/observables';
 
 import AffectedEntitiesPresenter from 'in-events/components/AffectedEntities/AffectedEntitiesPresenter';
 import { indeterminateProgress, finishedProgress } from 'in-services/fixedObjects';

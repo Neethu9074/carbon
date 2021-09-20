@@ -7,8 +7,8 @@ import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import { onlyWithAPidAndNameMatchingQuery } from 'in-custom-dashboards/widgets/Slo/sli/SliManageList';
+import { getSliConfigurations } from 'in-custom-dashboards/widgets/Slo/stories/apiMock';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/SliList';
-import { getSliConfigurations } from './apiMock';
 
 export default {
   component: SliList

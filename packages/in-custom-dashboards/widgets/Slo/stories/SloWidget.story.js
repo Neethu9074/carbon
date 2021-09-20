@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import { TimeConfigContext } from 'in-stores/time/TimeConfigContext';
 import { Widget, demo } from 'in-custom-dashboards/widgets/Slo';
-import { Stack } from '@instana/components';
 
 export default {
   component: Widget
