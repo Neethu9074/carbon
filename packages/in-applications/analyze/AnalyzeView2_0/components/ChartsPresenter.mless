@@ -11,6 +11,7 @@
   }
 
   .latencyDistribution {
+    width: 100%;
     border-top: 1px solid @lib__colors__N400;
     padding: 1rem;
     background: white;
