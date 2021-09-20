@@ -5349,7 +5349,6 @@
     },
     "domino": {
       "domino": "Domino",
-      "counters": "Counters",
       "pid": "Process ID",
       "installType": "Install Type",
       "kitType": "Kit Type",
@@ -5360,6 +5359,7 @@
       "serverRestarted": "Server Restarted",
       "dashboard": {
         "info": "Info",
+        "counter": "counter",
         "noMetricsDomino": "There are no metrics exposed on the Domino server."
       },
       "troubleshootingDocs": "Troubleshooting docs",

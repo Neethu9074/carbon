@@ -22,7 +22,7 @@ export const SPECS = [
   {
     prefix: 'metrics.',
     path: ['data', 'metrics'],
-    type: 'counter',
+    type: t('in-forge:plugins.domino.dashboard.counter'),
     color: '#00CC66',
     metrics: [
       {
