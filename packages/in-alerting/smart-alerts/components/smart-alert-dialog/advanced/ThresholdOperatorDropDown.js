@@ -14,7 +14,7 @@ import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-ale
 import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import Dropdown from 'in-alerting/components/Dropdown';
 
-export function ThresholdOperatorDropDown({ form, onChange, customOnChange, trackingCallback, allOptions }) {
+export function ThresholdOperatorDropDown({ form, updateForm, customOnChange, trackingCallback, allOptions }) {
   const operatorValue = form.get('threshold').get('operator').value;
   const options = allOptions ? thresholdOperatorOptions : enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
   const label = (findEntryByValue(options, operatorValue) ?? options[0]).label;
@@ -28,7 +28,7 @@ export function ThresholdOperatorDropDown({ form, onChange, customOnChange, trac
         if (customOnChange) {
           customOnChange(value);
         } else {
-          onChange(['threshold', 'operator'], f => f.setValue(value).setTouched(true));
+          updateForm(form.updateIn(['threshold', 'operator'], f => f.setValue(value).setTouched(true)));
         }
         trackingCallback?.(getTrackingObject(form, { value }));
       }}
@@ -39,7 +39,7 @@ export function ThresholdOperatorDropDown({ form, onChange, customOnChange, trac
 ThresholdOperatorDropDown.propTypes = {
   form: PropTypes.object.isRequired,
   customOnChange: PropTypes.func, // optional, invoked `customOnChange(newValue)`
-  onChange: PropTypes.func, // used by default, when no customOnChange given
+  updateForm: PropTypes.func, // used by default, when no customOnChange given
   trackingCallback: PropTypes.func,
   allOptions: PropTypes.bool
 };

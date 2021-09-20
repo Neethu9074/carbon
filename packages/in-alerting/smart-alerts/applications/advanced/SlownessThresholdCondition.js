@@ -36,7 +36,6 @@ import { t } from 'in-i18n';
 export default function SlownessThresholdCondition({
   form,
   updateForm,
-  onChange,
   blueprintConfig,
   editMode,
   isGlobalSmartAlert
@@ -72,7 +71,7 @@ export default function SlownessThresholdCondition({
             />
             <ThresholdOperatorDropDown
               form={form}
-              onChange={onChange}
+              updateForm={updateForm}
               trackingCallback={applicationsAlertingThresholdOperatorChanged}
             />
             <ThresholdTypeSelection
@@ -93,7 +92,6 @@ export default function SlownessThresholdCondition({
           updateForm={updateForm}
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
-          onChange={onChange}
           label={t('in-alerting:smartAlerts.components.smartAlertDialog.labelThreshold')}
           isGlobalSmartAlert={isGlobalSmartAlert}
         />
@@ -102,7 +100,7 @@ export default function SlownessThresholdCondition({
       {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm
           form={form}
-          onChange={onChange}
+          updateForm={updateForm}
           trackChange={applicationsAlertingThresholdTypeChanged}
           defaultValue={defaultDeviationFactor}
         />
@@ -115,7 +113,6 @@ SlownessThresholdCondition.propTypes = {
   isGlobalSmartAlert: PropTypes.bool,
   blueprintConfig: blueprintConfigPropType.isRequired,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   editMode: PropTypes.bool
 };

@@ -19,14 +19,10 @@ export default {
   component: ErrorRateThresholdCondition
 };
 
-export const thresholdCondition = () => {
+export const ThresholdCondition = () => {
   const [form, setForm] = useState(createSmartAlertForm(someErrorRateFormData()));
 
   return (
-    <ErrorRateThresholdCondition
-      form={form}
-      onChange={(path, fn) => setForm(form.updateIn(path, fn))}
-      blueprintConfig={getBlueprintConfig('errorRate')}
-    />
+    <ErrorRateThresholdCondition form={form} updateForm={setForm} blueprintConfig={getBlueprintConfig('errorRate')} />
   );
 };

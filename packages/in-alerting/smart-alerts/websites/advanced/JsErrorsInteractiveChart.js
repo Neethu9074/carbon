@@ -18,7 +18,6 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/share
 export default function JsErrorsInteractiveChart({
   blueprintConfig,
   form,
-  onChange,
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex
@@ -35,12 +34,7 @@ export default function JsErrorsInteractiveChart({
 
   return (
     <div className={locals.container}>
-      <JsErrorsThresholdCondition
-        form={form}
-        onChange={onChange}
-        blueprintConfig={blueprintConfig}
-        updateForm={updateForm}
-      />
+      <JsErrorsThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
 
       <ChartViewConfigurator
         alertConfigWithFormModel={alertConfigWithFormModel}
@@ -66,7 +60,6 @@ JsErrorsInteractiveChart.propTypes = {
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired
 };

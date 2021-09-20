@@ -32,7 +32,7 @@ import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 import { t } from 'in-i18n';
 
-export default function ThroughputThresholdCondition({ form, updateForm, onChange, blueprintConfig, editMode }) {
+export default function ThroughputThresholdCondition({ form, updateForm, blueprintConfig, editMode }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -107,14 +107,14 @@ export default function ThroughputThresholdCondition({ form, updateForm, onChang
             trackChange={websitesAlertingThresholdValueChanged}
             metricUnitPostfix={metricUnitPostfix}
           />
-          <UseSuggestedValueButton form={form} onChange={onChange} metricUnitPostfix={metricUnitPostfix} />
+          <UseSuggestedValueButton form={form} updateForm={updateForm} metricUnitPostfix={metricUnitPostfix} />
         </ThresholdConditionFormGroup>
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm
           form={form}
-          onChange={onChange}
+          updateForm={updateForm}
           trackChange={websitesAlertingThresholdDeviationFactorChanged}
           defaultValue={defaultDeviationFactor}
         />
@@ -126,7 +126,6 @@ export default function ThroughputThresholdCondition({ form, updateForm, onChang
 ThroughputThresholdCondition.propTypes = {
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   editMode: PropTypes.bool
 };

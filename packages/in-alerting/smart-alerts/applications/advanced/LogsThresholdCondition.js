@@ -30,14 +30,7 @@ import { t } from 'in-i18n';
 
 import interactiveChartLocals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
-export default function LogsThresholdCondition({
-  form,
-  onChange,
-  updateForm,
-  blueprintConfig,
-  editMode,
-  isGlobalSmartAlert
-}) {
+export default function LogsThresholdCondition({ form, updateForm, blueprintConfig, editMode, isGlobalSmartAlert }) {
   const metricName = form.get('rule').get('metricName').value;
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -60,7 +53,7 @@ export default function LogsThresholdCondition({
             <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
             <ThresholdOperatorDropDown
               form={form}
-              onChange={onChange}
+              updateForm={updateForm}
               trackingCallback={applicationsAlertingThresholdOperatorChanged}
             />
             <ThresholdTypeSelection
@@ -81,7 +74,6 @@ export default function LogsThresholdCondition({
           updateForm={updateForm}
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
-          onChange={onChange}
           thresholdValueInputClassName={interactiveChartLocals.narrowControl}
           isGlobalSmartAlert={isGlobalSmartAlert}
         />
@@ -90,7 +82,7 @@ export default function LogsThresholdCondition({
       {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm
           form={form}
-          onChange={onChange}
+          updateForm={updateForm}
           trackChange={applicationsAlertingThresholdTypeChanged}
           defaultValue={defaultDeviationFactor}
         />
@@ -102,7 +94,6 @@ export default function LogsThresholdCondition({
 LogsThresholdCondition.propTypes = {
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool

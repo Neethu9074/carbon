@@ -31,7 +31,6 @@ import { blueprintConfigPropType } from 'in-alerting/components/constants';
 export default function ThroughputThresholdCondition({
   form,
   updateForm,
-  onChange,
   blueprintConfig,
   editMode,
   isGlobalSmartAlert
@@ -80,7 +79,6 @@ export default function ThroughputThresholdCondition({
           updateForm={updateForm}
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
-          onChange={onChange}
           isGlobalSmartAlert={isGlobalSmartAlert}
         />
       )}
@@ -88,7 +86,7 @@ export default function ThroughputThresholdCondition({
       {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm
           form={form}
-          onChange={onChange}
+          updateForm={updateForm}
           trackChange={applicationsAlertingThresholdDeviationFactorChanged}
           defaultValue={defaultDeviationFactor}
         />
@@ -101,7 +99,6 @@ ThroughputThresholdCondition.propTypes = {
   isGlobalSmartAlert: PropTypes.bool,
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   editMode: PropTypes.bool
 };

@@ -18,7 +18,6 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/share
 export default function StatusCodeInteractiveChart({
   blueprintConfig,
   form,
-  onChange,
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex
@@ -35,12 +34,7 @@ export default function StatusCodeInteractiveChart({
 
   return (
     <div className={locals.container}>
-      <StatusCodeThresholdCondition
-        form={form}
-        onChange={onChange}
-        blueprintConfig={blueprintConfig}
-        updateForm={updateForm}
-      />
+      <StatusCodeThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
 
       <ChartViewConfigurator
         alertConfigWithFormModel={alertConfigWithFormModel}
@@ -65,7 +59,6 @@ export default function StatusCodeInteractiveChart({
 StatusCodeInteractiveChart.propTypes = {
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired,
   updateForm: PropTypes.func.isRequired

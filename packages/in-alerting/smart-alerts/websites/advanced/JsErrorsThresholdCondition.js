@@ -22,7 +22,7 @@ import { isPercentageMetric } from 'in-alerting/smart-alerts/websites/form/formU
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
 
-export default function JsErrorsThresholdCondition({ form, onChange, blueprintConfig, updateForm }) {
+export default function JsErrorsThresholdCondition({ form, blueprintConfig, updateForm }) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const percentageMetric = isPercentageMetric(metricName);
@@ -41,7 +41,7 @@ export default function JsErrorsThresholdCondition({ form, onChange, blueprintCo
       />
       <ThresholdOperatorDropDown
         form={form}
-        onChange={onChange}
+        updateForm={updateForm}
         trackingCallback={websitesAlertingThresholdOperatorChanged}
       />
       <ThresholdValueInput
@@ -54,7 +54,7 @@ export default function JsErrorsThresholdCondition({ form, onChange, blueprintCo
       />
       <UseSuggestedValueButton
         form={form}
-        onChange={onChange}
+        updateForm={updateForm}
         metricUnitPostfix={metricUnitPostfix}
         percentageMetric={percentageMetric}
       />
@@ -65,6 +65,5 @@ export default function JsErrorsThresholdCondition({ form, onChange, blueprintCo
 JsErrorsThresholdCondition.propTypes = {
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired
+  updateForm: PropTypes.func.isRequired
 };
