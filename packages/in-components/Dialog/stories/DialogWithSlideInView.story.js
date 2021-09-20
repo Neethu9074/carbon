@@ -8,12 +8,12 @@ import { createMapForm, createField } from 'formalistic';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
+import { Stack, StackItem } from '@instana/components';
 import { Button } from '@instana/components';
 
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import FormBoundInput from 'in-components/form/Input/FormBoundInput';
-import { Stack, StackItem } from '@instana/components';
 import Form from 'in-components/form/binding/Form';
 import FormInput from 'in-components/form/Input';
 import Label from 'in-components/form/Label';

@@ -4,6 +4,7 @@
  */
 
 import { timeout } from '@instana/observables';
+
 import { createApOnlyItem } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/searchResults';
 
 const loadingItems = items => () =>

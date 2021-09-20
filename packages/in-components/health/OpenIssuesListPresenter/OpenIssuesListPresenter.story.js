@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import { range } from 'lodash';
 import React from 'react';
+
+import { just } from '@instana/observables';
 
 import OpenIssuesListPresenter from 'in-components/health/OpenIssuesListPresenter';
 import { pendingResult, finishedProgress } from 'in-services/fixedObjects';

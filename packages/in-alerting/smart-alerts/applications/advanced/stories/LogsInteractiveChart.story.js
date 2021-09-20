@@ -6,10 +6,10 @@
 import React, { useState } from 'react';
 
 import LogsThresholdCondition from 'in-alerting/smart-alerts/applications/advanced/LogsThresholdCondition';
+import { someLogsFormData } from 'in-alerting/smart-alerts/applications/advanced/stories/formSampleData';
 import LogsInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { someLogsFormData } from './formSampleData';
 
 export default {
   component: LogsThresholdCondition

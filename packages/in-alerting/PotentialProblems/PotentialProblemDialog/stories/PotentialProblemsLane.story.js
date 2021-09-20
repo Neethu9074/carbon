@@ -7,11 +7,14 @@ import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
+import {
+  alertRules,
+  potentialProblemsCluster
+} from 'in-alerting/PotentialProblems/PotentialProblemDialog/stories/potentialProblemsStorySharedData';
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/components/CreateSmartAlert';
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { alertRules, potentialProblemsCluster } from './potentialProblemsStorySharedData';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { generateMetrics, fixedTimestamp } from 'in-test/util/generateMetrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';

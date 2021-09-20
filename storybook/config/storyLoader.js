@@ -12,8 +12,9 @@ export function loadStory(id) {
   const defaultExport = {
     ...(storyExports.default || {}),
     title: id
-      .replaceAll(/^.\//g, '')
-      .replaceAll(/\/stor(y|ies)\//ig, '/')
+      .replaceAll(/^.\//gi, '')
+      .replaceAll(/^in-/gi, '')
+      .replaceAll(/\/stor(y|ies)\//gi, '/')
       .replaceAll(/\.story.*$/gi, '')
       .replaceAll(/^\/?([a-z-0-9]+)\/(.*)/gi, (match, p1, p2) => `${p1}|${p2}`)
   };

@@ -6,9 +6,9 @@
 import React, { useState } from 'react';
 
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/SlownessInteractiveChart';
+import { someSlownessFormData } from 'in-alerting/smart-alerts/applications/advanced/stories/formSampleData';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { someSlownessFormData } from './formSampleData';
 
 export default {
   component: SlownessInteractiveChart
