@@ -32,7 +32,6 @@ export default function LogsChart(props: LogsChartProps) {
     <UnifiedMetricsChart
       automaticallySize={false}
       renderLegend={false}
-      excludedContextMenuActions={['globalHighlight', 'download']}
       config={{
         y1: {
           metrics: [
