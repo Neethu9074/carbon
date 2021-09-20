@@ -23,22 +23,34 @@ export default connectTo(
         .map(result => mapData(result, data => data.openIssues))
     };
   },
-  function WebsiteOpenIssuesList({ openIssuesResult, eventId, close }) {
+  function WebsiteOpenIssuesList({ inContentArea, openIssuesResult, eventId, close }) {
+    // A simple solution to avoid some parts of the popup area hidden when too wide.
+    // This workaround tackles it, until
+    // a fix will have been implemented which solves the layout problem on other areas, too
+    // Planned to be tackled in a bigger scope as part of this task:
+    // https://instana.kanbanize.com/ctrl_board/37/cards/73986/details/
+    function WithMaxWidthWhenInContentArea({ children, maxWidth = '80vw' }) {
+      if (inContentArea) return <div style={{ maxWidth }}>{children}</div>;
+      return <>{children}</>;
+    }
+
     return (
-      <OpenIssuesListPresenter
-        close={close}
-        openIssuesResult={openIssuesResult}
-        analyzeLink$={getEventsViewFilteredBy({
-          eventId,
-          eventTypeFilter: 'issue'
-        })}
-        getIssueLink={eventId =>
-          getEventsViewFilteredBy({
+      <WithMaxWidthWhenInContentArea>
+        <OpenIssuesListPresenter
+          close={close}
+          openIssuesResult={openIssuesResult}
+          analyzeLink$={getEventsViewFilteredBy({
             eventId,
             eventTypeFilter: 'issue'
-          })
-        }
-      />
+          })}
+          getIssueLink={eventId =>
+            getEventsViewFilteredBy({
+              eventId,
+              eventTypeFilter: 'issue'
+            })
+          }
+        />
+      </WithMaxWidthWhenInContentArea>
     );
   }
 );

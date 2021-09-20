@@ -26,6 +26,7 @@ export default connectTo(
     };
   },
   function ApplicationEntityOpenIssuesList({
+    inContentArea,
     openIssuesResult,
     resolvedEndpointId,
     applicationId,
@@ -36,21 +37,22 @@ export default connectTo(
   }) {
     const additionalDFQFilter = getAdditionalFilters({ applicationId, serviceId, endpointId });
 
+    // A simple solution to avoid some parts of the popup area hidden when too wide.
+    // This workaround tackles it, until
+    // a fix will have been implemented which solves the layout problem on other areas, too
+    // Planned to be tackled in a bigger scope as part of this task:
+    // https://instana.kanbanize.com/ctrl_board/37/cards/73986/details/
+    function WithMaxWidthWhenInContentArea({ children, maxWidth = '80vw' }) {
+      if (inContentArea) return <div style={{ maxWidth }}>{children}</div>;
+      return <>{children}</>;
+    }
+
     return (
-      <OpenIssuesListPresenter
-        close={close}
-        openIssuesResult={openIssuesResult}
-        analyzeLink$={getEventsViewFilteredBy({
-          applicationId,
-          serviceId,
-          endpointId,
-          resolvedEndpointId,
-          eventId,
-          eventTypeFilter: 'issue',
-          additionalDFQFilter
-        })}
-        getIssueLink={eventId =>
-          getEventsViewFilteredBy({
+      <WithMaxWidthWhenInContentArea>
+        <OpenIssuesListPresenter
+          close={close}
+          openIssuesResult={openIssuesResult}
+          analyzeLink$={getEventsViewFilteredBy({
             applicationId,
             serviceId,
             endpointId,
@@ -58,9 +60,20 @@ export default connectTo(
             eventId,
             eventTypeFilter: 'issue',
             additionalDFQFilter
-          })
-        }
-      />
+          })}
+          getIssueLink={eventId =>
+            getEventsViewFilteredBy({
+              applicationId,
+              serviceId,
+              endpointId,
+              resolvedEndpointId,
+              eventId,
+              eventTypeFilter: 'issue',
+              additionalDFQFilter
+            })
+          }
+        />
+      </WithMaxWidthWhenInContentArea>
     );
   }
 );
