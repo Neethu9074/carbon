@@ -3,17 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import { just } from '@instana/observables';
 import React from 'react';
 
-import ServicesAndEndpointsListPresenter from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
+import { just } from '@instana/observables';
+
 import {
   getApplicationResult,
   getApplicationsResult,
   getEndpointsResult,
   getServicesResult,
   storedApplicationsSelection
-} from './servicesAndEndpointsListData';
+} from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/stories/servicesAndEndpointsListData';
+import ServicesAndEndpointsListPresenter from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
 import { noop } from 'in-services/fixedObjects';
 
 const oneDayTimeConfig = Object.freeze({

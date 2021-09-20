@@ -12,7 +12,7 @@ import { just } from '@instana/observables';
 import ConfigTabBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/ConfigTabBuiltInSmartAlertsSelectionList';
 import DialogBuiltInSmartAlertsSelectionList from 'in-alerting/smart-alerts/applications/apCreation/DialogBuiltInSmartAlertsSelectionList';
 import BuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alerts/applications/apCreation/BuiltInSmartAlertsSelectionBaseList';
-import { globalBuitInAlerts } from './mockData';
+import { globalBuitInAlerts } from 'in-alerting/smart-alerts/applications/apCreation/stories/mockData';
 
 export default {
   component: BuiltInSmartAlertsSelectionBaseList

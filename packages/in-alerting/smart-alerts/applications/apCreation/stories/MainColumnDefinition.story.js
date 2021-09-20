@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import { globalBuitInAlerts } from 'in-alerting/smart-alerts/applications/apCreation/stories/mockData';
 import MainColumn from 'in-alerting/smart-alerts/applications/apCreation/MainColumn';
 import LabelText from 'in-alerting/smart-alerts/applications/apCreation/LabelText';
-import { globalBuitInAlerts } from './mockData';
 
 export default {
   component: MainColumn

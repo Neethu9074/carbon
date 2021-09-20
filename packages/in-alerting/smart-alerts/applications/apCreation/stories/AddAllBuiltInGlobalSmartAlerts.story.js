@@ -8,8 +8,8 @@ import React from 'react';
 import { just } from '@instana/observables';
 
 import AddAllBuiltInGlobalSmartAlerts from 'in-alerting/smart-alerts/applications/apCreation/AddAllBuiltInGlobalSmartAlerts';
+import { globalBuitInAlerts } from 'in-alerting/smart-alerts/applications/apCreation/stories/mockData';
 import { noop } from 'in-services/fixedObjects';
-import { globalBuitInAlerts } from './mockData';
 
 export default {
   component: AddAllBuiltInGlobalSmartAlerts

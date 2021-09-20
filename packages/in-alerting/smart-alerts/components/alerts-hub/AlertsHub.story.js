@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+
 import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub';
 
 export default {

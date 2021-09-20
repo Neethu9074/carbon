@@ -7,8 +7,8 @@ import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
 import { EntitySelectionOverlay } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/EntitySelectionOverlay';
+import PermanentlyVisibleOverlay from 'in-components/overlays/OverlayPresenter/stories/PermanentlyVisibleOverlay';
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
-import PermanentlyVisibleOverlay from '../in-components/overlays/OverlayPresenter/stories/PermanentlyVisibleOverlay';
 
 export default {
   component: EntitySelectionOverlay
