@@ -1,0 +1,52 @@
+import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
+import { action as storybookAction } from '@storybook/addon-actions';
+import { withKnobs, boolean, object} from '@storybook/addon-knobs';
+
+import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
+import PermanentlyVisibleOverlay from 'in-components/overlays/OverlayPresenter/stories/PermanentlyVisibleOverlay';
+import metricCatalogExampleJson from './metricCatalogExample';
+
+<Meta  component={MetricSelectorOverlay} decorators={[withKnobs]}/>
+
+## Metric Selector
+
+This overlay can be used within the query builder to allow selection of a metric by navigating through
+the MetricTree.
+
+<Preview>
+  <Story name="default">
+    <PermanentlyVisibleOverlay>
+      <MetricSelectorOverlay
+        onChange={storybookAction('onChange')}
+        close={storybookAction('close')}
+        metricCatalog={metricCatalogExampleJson}
+        loading={boolean('Loading', false)}
+        onQueryChange={storybookAction('onQueryChange')}
+      />
+    </PermanentlyVisibleOverlay>
+  </Story>
+</Preview>
+
+export function generateEmptyResult() {
+  return {"tree": []};
+}
+
+export const emptyResult = generateEmptyResult();
+
+<Preview>
+  <Story name="WithNoResults">
+    <PermanentlyVisibleOverlay>
+      <MetricSelectorOverlay
+        onChange={storybookAction('onChange')}
+        close={storybookAction('close')}
+        metricCatalog={object('metricCatalog', emptyResult)}
+        loading={boolean('Loading', false)}
+        onQueryChange={v=> console.log(v)}
+      />
+    </PermanentlyVisibleOverlay>
+  </Story>
+</Preview>
+
+### Props
+
+<Props of={MetricSelectorOverlay} />

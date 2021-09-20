@@ -59,9 +59,11 @@ module.exports = {
     path.join(__dirname, 'packages', '**', '*.tsx'),
     // Storybook
     path.join(__dirname, 'storybook', 'config', '**', '*.js'),
-    path.join(__dirname, 'storybook', 'src', '**', '*.mdx'),
-    path.join(__dirname, 'storybook', 'src', '**', '*.js')
+    path.join(__dirname, 'packages', '**', '*.mdx'),
+    path.join(__dirname, 'storybook', 'src', '**', '*.js'),
+    path.join(__dirname, 'storybook', 'src', '**', '*.mdx')
+
     // Note that we deliberately do not transpile everything under node_modules. This is not
-    // forbidden per se, but we should allow this on a case-by-case basis.
+    // forbidden per se, but we should allow this on a case-by-case basis for performance reasons.
   ]
 };
