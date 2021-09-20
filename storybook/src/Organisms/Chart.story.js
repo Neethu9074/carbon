@@ -6,7 +6,7 @@
 import { withKnobs, number } from '@storybook/addon-knobs';
 import React, { useState } from 'react';
 
-import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from '../util/generateMetrics';
+import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from 'in-test/util/generateMetrics';
 import AlertingRenderer from 'in-alerting/components/Chart/renderer/Renderer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';

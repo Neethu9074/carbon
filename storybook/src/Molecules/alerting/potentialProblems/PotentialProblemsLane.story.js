@@ -13,7 +13,7 @@ import { generateAlertConfig } from 'in-alerting/smart-alerts/applications/compo
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { alertRules, potentialProblemsCluster } from './potentialProblemsStorySharedData';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
-import { generateMetrics, fixedTimestamp } from '../../../util/generateMetrics';
+import { generateMetrics, fixedTimestamp } from 'in-test/util/generateMetrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { close } from 'in-components/DialogPresenter/store';

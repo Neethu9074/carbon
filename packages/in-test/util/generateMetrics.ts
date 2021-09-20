@@ -13,7 +13,7 @@ export const fixedTimestamp = 1600667400000;
 /**
  * Recreate always the same number of random values.
  */
-export function generateMetrics(numMetrics, maxValue, windowSize) {
+export function generateMetrics(numMetrics: number, maxValue: number, windowSize: number): number[][] {
   const granularity = windowSize / numMetrics;
   const metrics = [];
   for (let i = numMetrics - 1; i >= 0; i--) {
@@ -30,7 +30,7 @@ export function generateMetrics(numMetrics, maxValue, windowSize) {
  * @param idx !integer number - index into the list of number, could be any number from 0 to e.g. 30
  * @returns {number}
  */
-export function getHardCodedRandomValue(idx) {
+export function getHardCodedRandomValue(idx: number) {
   return hardCodedRandomValues[idx % hardCodedRandomValues.length];
 }
 
@@ -84,10 +84,14 @@ const hardCodedRandomValues = [
  * 2: (3) [1600653600000, 27.62038578119151, 11.440462409386374]
  * 3: (3) [1600653960000, 23.95768201813339, 12.604920986146794]
  *
- *
- * @type ([[number, number]], number, number number, number) => [[number, number, number]]
  */
-export function generateBaselineForMetric(metric, granularity, maxBaselineNoise, deviation, maxDeviationNoise) {
+export function generateBaselineForMetric(
+  metric: number[][],
+  granularity: number,
+  maxBaselineNoise: number,
+  deviation: number,
+  maxDeviationNoise: number
+) {
   const to = metric[metric.length - 1][0];
   const windowSize = to - metric[0][0];
   const from = to - windowSize;

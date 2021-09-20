@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { fixedTimestamp } from '../util/generateMetrics';
+import { fixedTimestamp } from 'in-test/util/generateMetrics';
 import TimeInput from 'in-components/TimeInput';
 
 export default {

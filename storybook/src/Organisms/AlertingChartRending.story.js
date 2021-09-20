@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from '../util/generateMetrics';
+import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from 'in-test/util/generateMetrics';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertingRenderer from 'in-alerting/components/Chart/renderer/Renderer';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';

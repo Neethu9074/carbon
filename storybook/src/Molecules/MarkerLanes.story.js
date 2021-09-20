@@ -12,7 +12,7 @@ import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPr
 import ReleasesLanePresenter from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLanePresenter';
 import AlertsLanePresenter from 'in-components/Chart/markerLanes/AlertsLane/AlertsLanePresenter';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
-import { generateMetrics, fixedTimestamp } from '../util/generateMetrics';
+import { generateMetrics, fixedTimestamp } from 'in-test/util/generateMetrics';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { minutes } from 'in-services/time';
