@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import clockSkewProblemsData from 'in-websites/analyze/PageLoadView/tabs/Summary/stories/clockSkewProblems.json';
+import demoCaseData from 'in-websites/analyze/PageLoadView/tabs/Summary/stories/demoCase.json';
 import Summary from 'in-websites/analyze/PageLoadView/tabs/Summary/Summary';
-import clockSkewProblemsData from './clockSkewProblems.json';
-import demoCaseData from './demoCase.json';
 
 export default {
   parameters: {
