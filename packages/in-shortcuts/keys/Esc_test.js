@@ -6,7 +6,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-/* eslint-env jest, node */
+/* eslint-env node */
 import { create } from '@instana/observables';
 
 import { cloneLocation } from 'in-stores/navigation/routing/clone';

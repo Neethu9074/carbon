@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { expect } from 'chai';
 
 import { search } from 'in-components/SelectorOverlay/search';

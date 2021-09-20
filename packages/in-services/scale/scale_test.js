@@ -4,7 +4,6 @@
  */
 
 /* eslint-disable comma-style */
-/* eslint-env jest */
 
 import { expect } from 'chai';
 

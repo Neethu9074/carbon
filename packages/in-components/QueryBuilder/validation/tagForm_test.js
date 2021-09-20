@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { expect } from 'chai';
 
 import { createTagForm, changeName, changeOperator } from 'in-components/QueryBuilder/validation/tagForm';

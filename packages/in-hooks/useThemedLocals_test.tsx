@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
-
 import { renderHook } from '@testing-library/react-hooks';
 import React from 'react';
 

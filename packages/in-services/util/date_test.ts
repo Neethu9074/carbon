@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import moment from 'moment';
 
 import { isOnSameDay } from 'in-services/util/date';

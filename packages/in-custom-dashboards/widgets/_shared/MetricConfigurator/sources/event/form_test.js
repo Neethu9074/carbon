@@ -5,12 +5,12 @@
 
 import { createMapForm } from 'formalistic';
 
+import { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event/form';
+
 /*
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-/* eslint-env jest */
-import { createForm } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event/form';
 
 test('createForm generation with empty state', () => {
   const form = createForm(createMapForm());

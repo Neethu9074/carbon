@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { expect } from 'chai';
 
 import { fixClockSkewProblems } from 'in-websites/analyze/PageLoadView/tabs/Summary/fixClockSkewProblems';

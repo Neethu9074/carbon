@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env node */
 import { expect } from 'chai';
 
 import { categorise, filter, score } from 'in-waiting-for-deployment/components/OnboardingWidget/contentUtils';

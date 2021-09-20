@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import {
   bytesPerSecondTwoDecimalPlaces,
   bytesPerSecondZeroDecimalPlaces,

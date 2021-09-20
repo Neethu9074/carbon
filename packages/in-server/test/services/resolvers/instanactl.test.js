@@ -5,8 +5,6 @@
 
 const instanactl = require('../../../src/services/resolvers/instanactl');
 
-/* eslint-env jest */
-
 jest.mock('../../../src/services/resolvers/featureFlags', () => [
   {
     uiClientKey: 'simpleBooleanToggle',

@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { expect } from 'chai';
 
 import { getSuggestionsTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/tagSuggestions';

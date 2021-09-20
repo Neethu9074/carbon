@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env node */
 /* eslint-disable no-console */
 
 import path from 'path';

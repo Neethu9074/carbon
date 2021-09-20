@@ -14,8 +14,6 @@ jest.mock('in-services/featureFlags', () => ({
   }
 }));
 
-/* eslint-env jest */
-
 describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormData::getAvailableOptionsForEvaluationType', () => {
   test('Return all options for individual smart alert', () => {
     const thresholdOpts = getAvailableOptionsForEvaluationType(applicationThresholdTypeOptions, null, false);

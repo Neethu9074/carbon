@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest, node */
+/* eslint-env node */
 
 import { expect } from 'chai';
 import fs from 'fs/promises';

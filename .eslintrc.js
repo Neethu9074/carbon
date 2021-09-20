@@ -349,6 +349,13 @@ module.exports = {
 
   overrides: [
     {
+      files: ['packages/**/*_test.js', 'packages/**/*_test.ts?(x)'],
+      env: {
+        jest: true
+      }
+    },
+
+    {
       files: ['packages/**/*.ts?(x)'],
       parser: '@typescript-eslint/parser',
       parserOptions: {

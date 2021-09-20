@@ -3,12 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
-import { create } from '@instana/observables';
 import { fromJS, List } from 'immutable';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+import { create } from '@instana/observables';
 
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getColorBySeverity } from 'in-stores/events';

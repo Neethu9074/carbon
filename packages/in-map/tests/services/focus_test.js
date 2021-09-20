@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+/* eslint-env node */
+
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-/* eslint-env jest,node */
 import { create } from '@instana/observables';
 
 import CameraControllerServiceLocator from 'in-map/misc/serviceLocator/cameraController/CameraControllerServiceLocator';

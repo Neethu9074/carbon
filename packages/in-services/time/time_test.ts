@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { days, hours, minutes, seconds } from 'in-services/time';
 
 describe('in-services/time', () => {

@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest,node */
+/* eslint-env jest, node */
+
 module.exports = {
   coverageDirectory: 'coverage',
   roots: ['packages'],

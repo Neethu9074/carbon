@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
 import { expect } from 'chai';
 
 import FlowMapState from 'in-applications/ServerFlowMap/FlowMapState';

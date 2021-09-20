@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
 import { expect } from 'chai';
 
 import { rgbToHex, hexToRGB, hexToRGBNormalized } from 'in-services/formatters/color';

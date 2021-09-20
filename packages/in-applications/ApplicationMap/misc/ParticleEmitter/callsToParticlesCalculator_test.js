@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
 import { expect } from 'chai';
 
 import calc from 'in-applications/ApplicationMap/misc/ParticleEmitter/callsToParticlesCalculator';

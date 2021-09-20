@@ -5,7 +5,6 @@
 
 import { create } from '@instana/observables';
 
-/* eslint-env jest */
 import { combineDataAndError, CombinedDataAndError } from 'in-services/util/ro';
 
 test('combineDataAndError Creation', () => {

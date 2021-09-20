@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
-
 import { expect } from 'chai';
 
 import { CLOSE_BRACKET, CONJUNCTION, OPEN_BRACKET } from 'in-components/QueryBuilder/transformation/formModel';

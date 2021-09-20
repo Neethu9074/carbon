@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest ,node */
+/* eslint-env node */
+
 import { expect } from 'chai';
 
 describe('viewStructureStore', () => {

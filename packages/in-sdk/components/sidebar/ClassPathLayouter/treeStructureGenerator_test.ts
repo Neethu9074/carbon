@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
-
 import { toClassPathTree } from 'in-sdk/components/sidebar/ClassPathLayouter/treeStructureGenerator';
 
 describe('in-sdk/components/sidebar/ClassPathLayouter/treeStructureGenerator', () => {

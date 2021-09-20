@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
-
 import {
   Bracket,
   CLOSE_BRACKET,

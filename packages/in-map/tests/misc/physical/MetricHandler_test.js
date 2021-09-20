@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
-import { create } from '@instana/observables';
-import RoEmitter from '@instana/roemitter';
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+/* eslint-env node */
+import { create } from '@instana/observables';
+import RoEmitter from '@instana/roemitter';
 
 describe('in-map', () => {
   describe('misc/physical/Layouter', () => {

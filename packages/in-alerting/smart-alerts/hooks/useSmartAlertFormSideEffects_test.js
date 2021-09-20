@@ -5,7 +5,7 @@
 
 // ...to.be.true is a valid syntax in chai, but eslint complains, so we turn this off
 /* eslint-disable babel/no-unused-expressions */
-/* eslint-env jest */
+
 import { expect } from 'chai';
 import sinon from 'sinon';
 

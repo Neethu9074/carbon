@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
-
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import React from 'react';

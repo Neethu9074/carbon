@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { expect } from 'chai';
 
 import * as operatorValueRequirement from 'in-components/QueryBuilder/tagFilter/operatorValueRequirement';

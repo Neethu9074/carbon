@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 /* eslint-disable comma-style, no-sparse-arrays */
 
 import { expect } from 'chai';

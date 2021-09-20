@@ -4,7 +4,7 @@
  */
 
 /* import-sort-ignore */
-/* eslint-env jest, node */
+/* eslint-env node */
 
 // load all the plugins
 import 'in-forge/tracing/index';

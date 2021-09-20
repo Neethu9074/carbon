@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
-
 import { compare } from 'in-services/util/boolean';
 
 test('boolean comparison', () => {

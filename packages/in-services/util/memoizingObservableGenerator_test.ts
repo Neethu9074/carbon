@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { Observable, create } from '@instana/observables';
 
 import memoize from 'in-services/util/memoizingObservableGenerator';

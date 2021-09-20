@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
-import { create } from '@instana/observables';
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getSnapshot } from 'in-stores/snapshot';
 
-import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
+/* eslint-env node */
+import { create } from '@instana/observables';
+
 import SnapshotComponent from 'in-map/sceneObjectComponents/SnapshotComponent';
+import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
+import { getSnapshot } from 'in-stores/snapshot';
 
 jest.mock('in-stores/snapshot');
 

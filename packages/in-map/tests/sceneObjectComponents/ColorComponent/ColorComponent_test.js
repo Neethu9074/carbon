@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env node */
 import proxyquire from 'proxyquire';
 import { expect } from 'chai';
 import sinon from 'sinon';
