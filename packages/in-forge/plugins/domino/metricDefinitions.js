@@ -8,7 +8,7 @@ import { siPrefix } from 'in-services/formatters/number';
 
 export default [
   {
-    metric: getCustomMetricMatch('metrics', 'counters'),
+    metric: getCustomMetricMatch('metrics'),
     label(snapshot, metricMatch) {
       return metricMatch[1];
     },
