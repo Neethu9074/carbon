@@ -5359,7 +5359,6 @@
       "serverName": "Server Name",
       "serverRestarted": "Server Restarted",
       "dashboard": {
-        "metricTypes": "Metric Types",
         "info": "Info",
         "noMetricsDomino": "There are no metrics exposed on the Domino server."
       },
