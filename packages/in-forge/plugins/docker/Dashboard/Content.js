@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
+
+import { create } from '@instana/observables';
 
 import {
   bytesTwoDecimalPlaces,
@@ -204,13 +206,31 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
       ) : null}
 
       {containerLogsEnabled && (
-        <DashboardSection
-          title={t('in-forge:plugins.docker.dashboard.logs')}
-          button={<AnalyzeLogsButton tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} />}
-        >
-          <LogsChart tagFilterExpression={tagFilterExpression} />
-        </DashboardSection>
+        <LogsChartInteractionWrapper tagFilterExpression={tagFilterExpression} timeConfig={timeConfig} />
       )}
+    </div>
+  );
+}
+
+function LogsChartInteractionWrapper({ tagFilterExpression, timeConfig }) {
+  const [isHovered$] = useState(create().emit(false));
+
+  return (
+    <div>
+      <DashboardSection
+        title={t('in-forge:plugins.docker.dashboard.logs')}
+        button={
+          <AnalyzeLogsButton
+            tagFilterExpression={tagFilterExpression}
+            timeConfig={timeConfig}
+            isHovered$={isHovered$}
+          />
+        }
+        onMouseEnter={() => isHovered$.emit(true)}
+        onMouseLeave={() => isHovered$.emit(false)}
+      >
+        <LogsChart tagFilterExpression={tagFilterExpression} />
+      </DashboardSection>
     </div>
   );
 }
