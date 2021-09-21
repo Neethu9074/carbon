@@ -311,7 +311,7 @@ module.exports = {
 
     // warn against using findDOMNode()
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-find-dom-node.md
-    'react/no-find-dom-node': 'warn',
+    'react/no-find-dom-node': 'error',
 
     // Forbid certain props on Components
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-component-props.md
