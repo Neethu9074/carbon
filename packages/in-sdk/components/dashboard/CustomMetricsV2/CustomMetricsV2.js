@@ -126,7 +126,7 @@ export default withUrlState({
 })(CustomMetricsV2);
 
 function CustomMetricsV2(props) {
-  const { titlePrefix, pinnedMetrics, postProcessRow, getRows = getDefaultRows } = props;
+  const { titlePrefix, pinnedMetrics, postProcessRow, getRows = getDefaultRows, customColumns } = props;
 
   const rows = getRows(props);
 
@@ -149,7 +149,7 @@ function CustomMetricsV2(props) {
             pinnedLength: pinnedRows.length
           }).trim()}
           withoutPadding
-          cols={cols}
+          cols={customColumns ? customColumns : cols}
           rows={pinnedRows}
           getRowDetails={getDetails}
           maxItemsPerPage={20}
@@ -164,7 +164,7 @@ function CustomMetricsV2(props) {
           customLength: rows.length
         }).trim()}
         withoutPadding
-        cols={cols}
+        cols={customColumns ? customColumns : cols}
         rows={rows}
         getRowDetails={getDetails}
         maxItemsPerPage={20}
