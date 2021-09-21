@@ -334,6 +334,11 @@
   "pluginName_docker_1": "Docker Containers",
   "pluginName_docker_2": "Docker Containers",
   "pluginName_docker": "Docker Container",
+  "pluginName_domino_plural": "Domino Servers",
+  "pluginName_domino_0": "Domino Server",
+  "pluginName_domino_1": "Domino Server",
+  "pluginName_domino_2": "Domino Server",
+  "pluginName_domino": "Domino Server",
   "pluginName_dropwizardApplicationContainer_plural": "Dropwizard Apps",
   "pluginName_dropwizardApplicationContainer_0": "Dropwizard Apps",
   "pluginName_dropwizardApplicationContainer_1": "Dropwizard Apps",
@@ -5341,6 +5346,25 @@
       "cpuUsage": "CPU Usage",
       "networkReceived": "Network received",
       "networkTransmitted": "Network transmitted"
+    },
+    "domino": {
+      "domino": "Domino",
+      "pid": "Process ID",
+      "installType": "Install Type",
+      "kitType": "Kit Type",
+      "faultRecoveryBuild": "Fault Recovery Build",
+      "mailServer": "Mail Server",
+      "serverKeyFileName": "Server Key File Name",
+      "serverName": "Server Name",
+      "serverRestarted": "Server Restarted",
+      "dashboard": {
+        "info": "Info",
+        "noMetricsDomino": "There are no metrics exposed on the Domino server."
+      },
+      "troubleshootingDocs": "Troubleshooting docs",
+      "metricsIncludeRegexDoesNotMatchAnyMetric": "Regex: {{metrics_include}} from the configuration file does not match any metric",
+      "invalidMetricsFileLocation": "Metrics file could not be found on the host"
+
     },
     "dropwizardApplicationContainer": {
       "dashboard": {

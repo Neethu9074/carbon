@@ -77,6 +77,7 @@ export const nonServicePlugins = {
   db2Database: 'db2Database',
   db2ZDatabase: 'db2ZDatabase',
   docker: 'docker',
+  domino: 'domino',
   dropwizardApplicationContainer: 'dropwizardApplicationContainer',
   ec2: 'ec2',
   elasticsearchNode: 'elasticsearchNode',
@@ -332,6 +333,7 @@ export const fullyQualifiedPlugins = {
   db2ZDatabase: 'com.instana.forge.infrastructure.database.db2z.Db2ZDatabase',
   defaultEntity20: 'defaultEntity20',
   docker: 'com.instana.forge.infrastructure.virtualization.docker.Docker',
+  domino: 'com.instana.forge.infrastructure.custom.domino.Domino',
   dropwizardApplicationContainer:
     'com.instana.forge.infrastructure.application.dropwizard.DropwizardApplicationContainer',
   ec2: 'com.instana.forge.hardware.virtual.ec2.Ec2',
