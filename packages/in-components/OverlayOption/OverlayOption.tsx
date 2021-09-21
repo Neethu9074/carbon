@@ -9,7 +9,6 @@ import { noop } from 'lodash';
 
 import { Li, ListSizes } from '@instana/components';
 
-// @ts-expect-error
 import locals from './OverlayOption.mless';
 
 // https://steveholgado.com/typescript-types-from-arrays/

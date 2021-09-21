@@ -14,7 +14,6 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import { LogItem } from 'in-types';
 
-// @ts-expect-error
 import locals from './LogException.mless';
 
 interface LogExceptionWrapperProps {

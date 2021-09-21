@@ -6,7 +6,6 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-// @ts-expect-error
 import locals from './HorizontalFlexWrapper.mless';
 
 interface HorizontalFlexWrapperProps extends React.HTMLAttributes<HTMLDivElement> {

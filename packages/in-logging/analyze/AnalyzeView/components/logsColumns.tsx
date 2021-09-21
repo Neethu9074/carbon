@@ -16,7 +16,6 @@ import Tooltip from 'in-components/Tooltip';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
-// @ts-expect-error
 import locals from './Logs.mless';
 
 interface LogLevelColumnProps {

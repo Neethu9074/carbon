@@ -8,7 +8,6 @@ import React from 'react';
 import { EventPlaceholder } from '@instana/components/types/components/SvgIcon/types';
 import { SvgIcon } from '@instana/components';
 
-// @ts-expect-error
 import locals from './ListHeader.mless';
 
 interface ListHeaderProps {

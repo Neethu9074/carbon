@@ -14,7 +14,6 @@ import { supportsFocussingWithPreventedScrolling } from 'in-services/util/domFoc
 import { slideInStates, slideOutStates } from 'in-components/SlideInView/states';
 import { getInteractiveElements } from 'in-services/util/dom';
 
-// @ts-expect-error
 import locals from './SlideInView.mless';
 
 export const DialogHeader = DialogHeaderComponent;

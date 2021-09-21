@@ -10,7 +10,6 @@ import { SvgIconSizes } from '@instana/components';
 
 import IconButton from 'in-components/IconButton/IconButton';
 
-// @ts-expect-error
 import locals from './DialogHeader.mless';
 
 interface DialogHeaderProps {

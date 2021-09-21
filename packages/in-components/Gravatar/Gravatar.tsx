@@ -14,7 +14,6 @@ import unknown from 'in-components/Gravatar/unknown.png';
 import createSubscription from 'in-subscription/subscription';
 import { t } from 'in-i18n';
 
-// @ts-expect-error
 import locals from './Gravatar.mless';
 
 export interface Props {

@@ -9,7 +9,6 @@ import LogExceptionReadMode from 'in-logging/analyze/AnalyzeView/components/LogE
 import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import { LogTag } from 'in-types';
 
-// @ts-expect-error
 import locals from './LogMessageColumn.mless';
 
 interface LogMessageColumnReadOnlyProps {
