@@ -52,7 +52,7 @@ export function getAllAlertConfigs(
     maxRetries: 3,
     headers: getCsrfHeader(),
     queryParams: {
-      applicationId: applicationId
+      applicationId
     },
     url: baseUrl
   });
