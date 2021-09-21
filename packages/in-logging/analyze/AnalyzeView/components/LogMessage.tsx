@@ -17,7 +17,6 @@ import Overlay from 'in-components/overlays/Overlay';
 import { LogTag, TagFilter } from 'in-types';
 import { t } from 'in-i18n';
 
-// @ts-expect-error
 import locals from './LogMessage.mless';
 
 interface GetHrefToGroupedViewParams {

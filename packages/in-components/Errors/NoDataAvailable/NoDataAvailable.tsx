@@ -10,7 +10,6 @@ import { SvgIcon } from '@instana/components';
 import BasicWrapper from 'in-components/Errors/BasicWrapper';
 import { t } from 'in-i18n';
 
-// @ts-expect-error
 import locals from './NoDataAvailable.mless';
 
 export interface NoDataAvailableProps {

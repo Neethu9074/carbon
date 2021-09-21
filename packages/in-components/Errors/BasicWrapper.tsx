@@ -8,7 +8,6 @@ import classNames from 'classnames';
 
 import { SvgIconSizes } from '@instana/components';
 
-// @ts-expect-error
 import locals from './BasicWrapper.mless';
 
 export interface BasicWrapperProps {

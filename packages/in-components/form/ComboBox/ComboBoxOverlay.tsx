@@ -13,7 +13,6 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { onArrowKeyDownFocusSiblings } from 'in-services/util/domFocus';
 import { compareIgnoreCase } from 'in-services/util/string';
 
-// @ts-expect-error
 import locals from './ComboBoxOverlay.mless';
 
 interface Labeled {

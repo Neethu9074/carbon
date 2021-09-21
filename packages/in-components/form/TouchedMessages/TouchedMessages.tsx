@@ -9,7 +9,6 @@ import React from 'react';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { Trans } from 'in-i18n';
 
-// @ts-expect-error
 import locals from './TouchedMessages.mless';
 
 export interface TouchedMessagesProps {

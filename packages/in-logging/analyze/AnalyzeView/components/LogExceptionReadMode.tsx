@@ -10,7 +10,6 @@ import { Stack } from '@instana/components';
 import { LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE } from 'in-logging/queryBuilder';
 import { LogTag } from 'in-types';
 
-// @ts-expect-error
 import locals from './LogExceptionReadMode.mless';
 
 interface LogExceptionReadModeWrapperProps {

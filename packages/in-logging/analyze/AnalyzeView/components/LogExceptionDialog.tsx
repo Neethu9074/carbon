@@ -15,7 +15,6 @@ import { close } from 'in-components/DialogPresenter/store';
 import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 
-// @ts-expect-error
 import locals from './LogExceptionDialog.mless';
 
 interface LogExceptionDialogProps {

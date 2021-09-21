@@ -11,9 +11,9 @@ import SearchInput from 'in-components/SearchInput';
 
 import locals from './DashboardSection.mless';
 
-export default function DashboardSection({ title, children, button, searchable }) {
+export default function DashboardSection({ title, children, button, searchable, ...leftProps }) {
   return (
-    <div className={locals.dashboardSection}>
+    <div className={locals.dashboardSection} {...leftProps}>
       <Card title={title} header={headerContent(button, searchable)}>
         {children}
       </Card>

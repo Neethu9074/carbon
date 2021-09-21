@@ -11,8 +11,8 @@ import { HEIGHT as commonLegendHeight } from 'in-components/Chart/components/Leg
 import MetricAwareAxis from 'in-components/Chart/components/MetricAwareAxis';
 import ChartOverlay from 'in-components/Chart/components/ChartOverlay';
 import ChartLegend from 'in-components/Chart/components/ChartLegend';
-import getElementDimensions from 'in-hoc/getElementDimensions';
 import useResizeObserver from 'in-hooks/useResizeObserver';
+import { compositeRef } from 'in-services/util/react';
 import Chart from 'in-components/Chart/Chart';
 
 import locals from './Chart.mless';
@@ -25,9 +25,10 @@ export default function ChartReactComponent(props) {
   return <HorizontallyAutomaticallySized {...props} />;
 }
 
-const HorizontallyAutomaticallySized = getElementDimensions(function HorizontallyAutomaticallySizedChart(props) {
-  return <ChartReactWrapper {...props} width={props.width} height={props.customHeight || defaultChartHeight} />;
-});
+const HorizontallyAutomaticallySized = function HorizontallyAutomaticallySizedChart(props) {
+  const { ref, width } = useResizeObserver();
+  return <ChartReactWrapper ref={ref} {...props} width={width} height={props.customHeight || defaultChartHeight} />;
+};
 
 function CompletelyAutomaticallySized(props) {
   return (
@@ -37,7 +38,7 @@ function CompletelyAutomaticallySized(props) {
   );
 }
 
-function ChartReactWrapper(props) {
+const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, outerRef) {
   const {
     width,
     height: heightOfWrapper,
@@ -114,7 +115,7 @@ function ChartReactWrapper(props) {
   const heightOfDrawableCanvas = chart ? chartHeight - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
 
   return (
-    <div className={locals.chart} ref={chartWrapperRef}>
+    <div className={locals.chart} ref={compositeRef(outerRef, chartWrapperRef)}>
       <div ref={legendRef}>
         {chart && renderLegend && <ChartLegend chart={chart} filteredDataSeries={chart.config.filteredDataSeries} />}
       </div>
@@ -165,4 +166,4 @@ function ChartReactWrapper(props) {
       </div>
     </div>
   );
-}
+});

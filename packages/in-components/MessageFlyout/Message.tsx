@@ -9,7 +9,6 @@ import classNames from 'classnames';
 
 import { Stack, SvgIcon } from '@instana/components';
 
-// @ts-expect-error
 import locals from './Message.mless';
 
 interface Message {

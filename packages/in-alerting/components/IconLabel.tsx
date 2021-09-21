@@ -11,7 +11,6 @@ import { SvgIcon } from '@instana/components';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import theme from 'in-themes';
 
-// @ts-expect-error
 import locals from 'in-alerting/components/IconLabel.mless';
 
 interface IconLabelProps {

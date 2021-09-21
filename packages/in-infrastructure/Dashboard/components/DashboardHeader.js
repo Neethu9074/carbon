@@ -90,7 +90,7 @@ function getSnapshotIdTagFilter(snapshot) {
     plugin === 'awsEcsContainer'
   ) {
     return [{ name: 'container.snapshotId', value: id, operator: 'EQUALS' }];
-  } else if (plugin === 'awsRds') {
+  } else if (plugin === 'awsRds' || plugin === 'awsEs') {
     return [{ name: 'cloud.snapshotId', value: id, operator: 'EQUALS' }];
   } else {
     return [{ name: 'process.snapshotId', value: id, operator: 'EQUALS' }];
