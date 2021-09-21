@@ -61,12 +61,10 @@ export function getAllGlobalAlertConfigs(
     maxRetries: 3,
     headers: getCsrfHeader(),
     queryParams: {
-      // @ts-ignore
       alertIds
     },
     url: baseUrl
   });
-  // @ts-ignore
   return config.asObservable ? createObservable(request) : request.map(response => response.body);
 }
 
