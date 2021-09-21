@@ -21,7 +21,7 @@ export type Response<T> = ResponseInternal<T>;
 const logger = createLogger('xhrService');
 
 interface QueryParams {
-  [k: string]: string | number | boolean | undefined | null;
+  [k: string]: string | string[] | number | boolean | undefined | null;
 }
 
 interface HttpRequestOptions {
