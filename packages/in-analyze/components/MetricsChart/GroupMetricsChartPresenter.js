@@ -7,6 +7,7 @@ import { find } from 'lodash';
 import React from 'react';
 
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
+// eslint-disable-next-line no-restricted-imports
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { identity } from 'in-services/util/function';

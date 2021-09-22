@@ -5,6 +5,7 @@
 
 import { get } from 'lodash';
 
+// eslint-disable-next-line no-restricted-imports
 import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { deepFreeze } from 'in-services/util/object';

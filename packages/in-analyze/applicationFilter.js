@@ -6,6 +6,7 @@
 import { get } from 'lodash';
 
 import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';
+// eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { t } from 'in-i18n';
 

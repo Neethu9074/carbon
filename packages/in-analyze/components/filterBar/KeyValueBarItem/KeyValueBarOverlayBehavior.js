@@ -12,6 +12,7 @@ import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import { isBlank, compareIgnoreCase } from 'in-services/util/string';
 import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import { notBlankValidator } from 'in-services/validators/string';
+// eslint-disable-next-line no-restricted-imports
 import { requiresSecondLevelName } from 'in-applications/tags';
 import connect from 'in-hoc/connectTo';
 

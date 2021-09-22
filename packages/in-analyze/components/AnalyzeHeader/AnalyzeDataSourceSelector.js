@@ -11,22 +11,35 @@ import { SvgIcon } from '@instana/components';
 import { Li, Ul } from '@instana/components';
 
 import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
+// eslint-disable-next-line no-restricted-imports
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
+// eslint-disable-next-line no-restricted-imports
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+// eslint-disable-next-line no-restricted-imports
 import { getLinkToAnalyze as getLinkToLogsAnalyze, getLinkToRawLogs } from 'in-logging/navigation/paths';
 import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
 import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
+// eslint-disable-next-line no-restricted-imports
 import { getLinkToAnalyze as getLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
+// eslint-disable-next-line no-restricted-imports
 import { getLinkToAnalyze as getLinkToMobileAppAnalyze } from 'in-mobile-apps/navigation/paths';
+// eslint-disable-next-line no-restricted-imports
 import { getLinkToAnalyze as getLinkToWebsiteAnalyze } from 'in-websites/navigation/paths';
+// eslint-disable-next-line no-restricted-imports
 import { default as useApplicationTagCatalog } from 'in-applications/hooks/useTagCatalog';
+// eslint-disable-next-line no-restricted-imports
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
+// eslint-disable-next-line no-restricted-imports
 import { defaultGroupings as defaultMobileAppGroupings } from 'in-mobile-apps/tags';
+// eslint-disable-next-line no-restricted-imports
 import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatalog';
+// eslint-disable-next-line no-restricted-imports
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
+// eslint-disable-next-line no-restricted-imports
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+// eslint-disable-next-line no-restricted-imports
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { loggingEnabled } from 'in-services/featureFlags';

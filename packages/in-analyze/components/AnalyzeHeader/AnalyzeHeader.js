@@ -15,18 +15,25 @@ import {
   productAreaIcons,
   productAreaTrackingNames
 } from 'in-analyze/AnalyzeView/dataSources';
+// eslint-disable-next-line no-restricted-imports
 import { logsPath as logsAnalyzePath, rawLogsPath as rawLogsPathAnalyzePath } from 'in-logging/navigation/paths';
+// eslint-disable-next-line no-restricted-imports
 import { analyzePath as mobileAppAnalyzePath, mobileAppMonitoringPath } from 'in-mobile-apps/navigation/paths';
 import { dataSource as dataSourceTypeMatrixParameter } from 'in-components/Profiling/navigation/matrix';
+// eslint-disable-next-line no-restricted-imports
 import { analyzePath as websiteAnalyzePath, websiteMonitoringPath } from 'in-websites/navigation/paths';
 import AnalyzeDataSourceSelector from 'in-analyze/components/AnalyzeHeader/AnalyzeDataSourceSelector';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+// eslint-disable-next-line no-restricted-imports
 import { beaconType as mobileAppBeaconTypeMatrixParameter } from 'in-mobile-apps/navigation/matrix';
 import { analyzePath as profilingAnalyzePath } from 'in-components/Profiling/navigation/paths';
+// eslint-disable-next-line no-restricted-imports
 import { dataSource as logsDataSourceTypeMatrixParameter } from 'in-logging/navigation/matrix';
+// eslint-disable-next-line no-restricted-imports
 import { beaconType as websiteBeaconTypeMatrixParameter } from 'in-websites/navigation/matrix';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
+// eslint-disable-next-line no-restricted-imports
 import { dataSourceMatrixParameter } from 'in-applications/navigation/matrix';
 import FeatureFeedback from 'in-components/FeatureFeedback/FeatureFeedback';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
