@@ -226,5 +226,61 @@ export default [
     min: 0,
     formatter: number,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.outputQueues.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'subsystemMetrics',
+        'activeJobs',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.name')
+      ),
+      getDynamicMetricMatch(
+        'subsystemMetrics',
+        'maxActiveJobs',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.name')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.activeJobs'),
+      t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.maxActiveJobs')
+    ],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('jobQueueMetrics', 'heldJobs', t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name'))
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.charts.heldJobs')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'jobQueueMetrics',
+        'releasedJobs',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.charts.releasedJobs')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'jobQueueMetrics',
+        'scheduledJobs',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.charts.scheduledJobs')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')]
   }
 ];

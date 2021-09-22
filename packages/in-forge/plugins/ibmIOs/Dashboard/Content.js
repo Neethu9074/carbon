@@ -16,6 +16,8 @@ import MetricValue from 'in-components/MetricValue';
 import OutputQueueTable from './OutputQueueTable';
 import MemoryPoolsTable from './MemoryPoolTable';
 import ActiveJobsTable from './ActiveJobsTable';
+import SubsystemTable from './SubsystemTable';
+import JobQueueTable from './JobQueueTable';
 import AspTable from './AspTable';
 import { t } from 'in-i18n';
 
@@ -147,6 +149,7 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       </Columize>
       <AspTable snapshot={snapshot} timeConfig={timeConfig} />
       <MemoryPoolsTable snapshot={snapshot} timeConfig={timeConfig} />
+      <SubsystemTable snapshot={snapshot} timeConfig={timeConfig} />
       <OutputQueueTable snapshot={snapshot} timeConfig={timeConfig} />
       <Columize>
         <DashboardSection title={t('in-forge:plugins.ibmIOs.dashboard.charts.totalSpoolSpace.name')}>
@@ -165,6 +168,7 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
         <UserSpoolSpaceTable snapshotId={snapshotId} />
       </Columize>
+      <JobQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }

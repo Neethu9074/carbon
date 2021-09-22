@@ -8264,6 +8264,11 @@
       "sidebar": {
         "ibmIOSInfo": "IBM i Info",
         "hostName": "Host Name",
+        "osVersion": "OS Version",
+        "totalCPU": "Total CPU",
+        "totalMemory": "Total Memory",
+        "configuredCPU": "Configured CPU",
+        "configuredMemory": "Configured Memory",
         "partitionId": "Partition ID",
         "numberOfPartitions": "Number of Partitions",
         "restrictedState": "Restricted State"
@@ -8361,6 +8366,14 @@
             "writerJobName": "Writer Job Name",
             "writerJobStatus": "Writer Job Status"
           },
+          "subsystems": {
+            "name": "Active Subsystems",
+            "subsystemName": "Name",
+            "libraryName": "Library",
+            "activeJobs": "Active Jobs",
+            "maxActiveJobs": "Max Active Jobs",
+            "description": "Description"
+          },
           "userSpoolSpace": {
             "name": "Top Spool Space Consumption",
             "userName": "User",
@@ -8376,6 +8389,23 @@
               "elapsedCPU": "Elapsed CPU Percentage",
               "temporaryStorage": "Temporary Storage",
               "threadCount": "Thread Count"
+            }
+          },
+          "jobQueue": {
+            "name": "Job Queue",
+            "jobQueueName": "Job Queue Name",
+            "jobQueueLibrary": "Job Queue Library",
+            "subsystemName": "Subsystem Name",
+            "subsystemLibraryName": "Subsystem Library Name",
+            "jobQueueStatus" : "Job Queue Status",
+            "numberOfJobs": "Number Of Jobs",
+            "activeJobs": "Active Jobs",
+            "maximumActiveJobs": "Maximum Active Jobs",
+            "charts": {
+              "textDescription": "Description",
+              "heldJobs": "Held Jobs",
+              "releasedJobs": "Released Jobs",
+              "scheduledJobs": "Scheduled Jobs"
             }
           }
         }
