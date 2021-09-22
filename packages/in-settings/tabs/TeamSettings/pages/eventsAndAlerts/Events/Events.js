@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { useObservable } from '@instana/hooks';
@@ -15,6 +15,7 @@ import {
   deprecatedValue,
   getEntityTypeOptionsOfBuiltInMetrics,
   getSeverityText,
+  isAppDataEntityType,
   isBuiltInRule,
   migratedValue
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
@@ -47,17 +48,10 @@ import { t } from 'in-i18n';
 
 import locals from './Events.mless';
 
-const typeOptions = [
+let typeOptions = [
   { value: builtInEnumValue, label: t('in-settings:tabs.builtIn') },
   { value: customEnumValue, label: t('in-settings:tabs.custom') }
 ];
-
-if (deprecateAppDataLegacyEvents) {
-  typeOptions.push(
-    { value: deprecatedValue, label: t('in-settings:tabs.deprecated') },
-    { value: migratedValue, label: t('in-settings:tabs.migrated') }
-  );
-}
 
 const arbitrarySeverityForIncidentsFilter = -13;
 const severityOptions = [
@@ -85,7 +79,12 @@ export default function Events({
   onRowClick,
   hasRowNavigation = true,
   inSelectListDialog = false,
-  getHeader = defaultGetHeader(inSelectListDialog, tableActions)
+  getHeader = defaultGetHeader(inSelectListDialog, tableActions),
+  /**
+   * 1. Removes filter items for deprected/migrated events
+   * 2. Filters out deprecated/migrated events
+   */
+  withoutDeprecatedEvents
 }) {
   const [type, setType] = useState(null);
   const [severity, setSeverity] = useState(null);
@@ -98,6 +97,9 @@ export default function Events({
     entityTypeOptionsOfCustomMetrics
   );
 
+  const loadEvents = useLoadEventsFunction(withoutDeprecatedEvents, loadEntities);
+  adjustTypeOptions(withoutDeprecatedEvents, typeOptions);
+
   return (
     <List
       title={setTitle ? t('in-settings:tabs.events') : null}
@@ -105,7 +107,7 @@ export default function Events({
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
       tableActions={tableActions}
-      loadEntities={loadEntities ? loadEntities : getEventSpecificationsMutable}
+      loadEntities={loadEvents}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initialOrderBy="name"
@@ -320,7 +322,7 @@ function Subscript({ entity }) {
   return (
     <Fragment>
       {intersperse(
-        [showBuiltIn(), showDisabled(), showInvalid(), showDeprecated(), showMigrated(entity)].filter(elem => elem),
+        [showBuiltIn(), showDisabled(), showInvalid(), showDeprecated(), showMigrated()].filter(elem => elem),
         i => (
           <span key={`comma-${i}`}>, </span>
         )
@@ -352,17 +354,13 @@ function Subscript({ entity }) {
     ) : null;
   }
 
-  function showMigrated(entity) {
+  function showMigrated() {
     return entity.migrated ? (
       <span key="invalid" className={locals.migrated}>
         {t('in-settings:tabs.migrated')}
       </span>
     ) : null;
   }
-}
-
-function isAppDataEntityType(entityType) {
-  return entityType === 'application' || entityType === 'service' || entityType === 'endpoint';
 }
 
 function createFilters(hiddenIds, type, severity, entityType, enabled) {
@@ -395,4 +393,37 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
   }
 
   return filters;
+}
+
+function useLoadEventsFunction(withoutDeprecatedEvents, loadEntities) {
+  const loadEventsFunc = useCallback(() => (loadEntities ? loadEntities : getEventSpecificationsMutable), [
+    loadEntities
+  ]);
+
+  const [loadEvents, setLoadEvents] = useState(loadEventsFunc);
+
+  useEffect(() => {
+    if (deprecateAppDataLegacyEvents && withoutDeprecatedEvents) {
+      setLoadEvents(_loadEvents => () =>
+        _loadEvents().map(es => {
+          return es.filter(({ entityType }) => !isAppDataEntityType(entityType)).filter(Boolean);
+        })
+      );
+    }
+  }, [withoutDeprecatedEvents, loadEventsFunc]);
+
+  return loadEvents;
+}
+
+function adjustTypeOptions(withoutDeprecatedEvents) {
+  if (deprecateAppDataLegacyEvents && withoutDeprecatedEvents) {
+    typeOptions = typeOptions.filter(({ value }) => [builtInEnumValue, customEnumValue].includes(value));
+  } else {
+    if (!typeOptions.some(({ value }) => value === deprecatedValue)) {
+      typeOptions.push(
+        { value: deprecatedValue, label: t('in-settings:tabs.deprecated') },
+        { value: migratedValue, label: t('in-settings:tabs.migrated') }
+      );
+    }
+  }
 }

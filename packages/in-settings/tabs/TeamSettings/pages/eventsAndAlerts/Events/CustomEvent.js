@@ -21,7 +21,11 @@ import {
   entityVerification,
   hostAvailabilityDetection
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
-import { getSeverityText, unmapConditionValue } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
+import {
+  getSeverityText,
+  isAppDataEntityType,
+  unmapConditionValue
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventForm';
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
@@ -84,7 +88,7 @@ const Form = entityForm(function DetailsForm(props) {
   }
 
   const entityType = getPluginName(entity.get('entityType'), 1) ?? '';
-  const isOneOfMigratableEntityTypes = ['application', 'service', 'endpoint'].includes(entityType.toLocaleLowerCase());
+  const isOneOfMigratableEntityTypes = isAppDataEntityType(entityType);
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
   const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
 

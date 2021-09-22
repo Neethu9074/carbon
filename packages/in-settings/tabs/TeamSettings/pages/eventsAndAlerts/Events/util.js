@@ -149,3 +149,8 @@ export function unmapConditionValue(value, formatterType) {
   }
   return value;
 }
+
+const migrateableEntityTypes = ['application', 'service', 'endpoint'];
+export function isAppDataEntityType(entityType = '') {
+  return migrateableEntityTypes.includes(entityType.toLowerCase());
+}

@@ -12,15 +12,15 @@ import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/Team
 import SelectedSmartAlertsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SelectedSmartAlertsList';
 import EventTypesSwitcher from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventTypesSwitcher';
 import { limitForConnectedEvents } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
+import { applicationSmartAlertsEnabled, deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { alwaysEmptyArray } from 'in-services/fixedStreams';
-import { Row, Col } from 'in-components/layout/Grid/Grid';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import ComboBox from 'in-components/ComboBox';
 import { t } from 'in-i18n';
@@ -136,7 +136,7 @@ function EventsSelection({ form, setForm }) {
             onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
             title={t('in-settings:tabs.addEvents')}
             label={t('in-settings:tabs.addEvents')}
-            listComponent={Events}
+            listComponent={() => <Events withoutDeprecatedEvents={deprecateAppDataLegacyEvents} />}
             hiddenIds={selectedEvents}
             limit={limitForConnectedEvents}
             createSubmitLabel={numberOfItems =>

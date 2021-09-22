@@ -784,7 +784,8 @@
     "communication": "Communication",
     "default": "Default",
     "identityProviderType": "Identity Provider Type",
-    "copyApiTokenToClipboardError": "Could not copy API token to clipboard."
+    "copyApiTokenToClipboardError": "Could not copy API token to clipboard.",
+    "depreactedEventHiddenInfo": "Deprecated Events can’t be added to new configs anymore and are hidden from this list."
   },
   "languageSelection": {
     "language": "Language"
