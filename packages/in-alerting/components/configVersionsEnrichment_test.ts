@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { extendAlertConfigVersions } from './configVersionsEnrichment';
+import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
 import { AuthorType, ChangeType } from 'in-types';
 import { t } from 'in-i18n';
 

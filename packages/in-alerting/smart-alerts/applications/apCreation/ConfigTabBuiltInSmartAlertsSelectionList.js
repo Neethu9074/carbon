@@ -13,9 +13,9 @@ import { useObservable } from '@instana/hooks';
 import BuiltInSmartAlertsSelectionBaseList from 'in-alerting/smart-alerts/applications/apCreation/BuiltInSmartAlertsSelectionBaseList';
 import { getAllBuiltInGlobalSmartAlerts } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import AlertEnabledStateColumn from 'in-alerting/smart-alerts/applications/apCreation/AlertEnabledStateColumn';
+import { getLinkToAlertDetails } from 'in-alerting/smart-alerts/applications/apCreation/navigation/paths';
 import MainColumn from 'in-alerting/smart-alerts/applications/apCreation/MainColumn';
 import LabelText from 'in-alerting/smart-alerts/applications/apCreation/LabelText';
-import { getLinkToAlertDetails } from './navigation/paths';
 import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
