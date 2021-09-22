@@ -6,8 +6,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-import { LoadingSkeleton } from '@instana/components';
-
 import {
   SourceLocation,
   DestinationLocation,
@@ -72,16 +70,16 @@ export default function ServiceComponent({ call, websiteBeacon, mobileAppBeacon 
   const sourceProcessSnapshotId = sourcePhysicalContext?.process?.id;
   const destinationProcessSnapshotId = destinationPhysicalContext?.process?.id;
 
-  if (sourcePhysicalContext === null && destinationPhysicalContext === null) {
-    return (
-      <div className={locals.serviceLine}>
-        <div className={locals.skeleton}>
-          <LoadingSkeleton className={locals.skeleton} />
-        </div>
-      </div>
-    );
-  }
-
+  // TODO: temporary fix to show at least part of call details when physicalContext cannot be loaded
+  // if (sourcePhysicalContext === null && destinationPhysicalContext === null) {
+  //   return (
+  //     <div className={locals.serviceLine}>
+  //       <div className={locals.skeleton}>
+  //         <LoadingSkeleton className={locals.skeleton} />
+  //       </div>
+  //     </div>
+  //   );
+  // }
   if (intermediateSpan) {
     return (
       service &&
