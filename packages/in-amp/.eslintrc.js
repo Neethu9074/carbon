@@ -12,16 +12,7 @@ module.exports = {
     ...createImportRestrictionRule({
       enforceAbsoluteImportPaths: true,
 
-      allowedInPackages: [
-        'in-amp',
-        // TODO this import should not exist here
-        'in-custom-dashboards',
-        'in-components',
-        'in-hooks',
-        'in-services',
-        'in-settings',
-        'in-stores'
-      ]
+      allowedInPackages: ['in-amp', 'in-components', 'in-hooks', 'in-services', 'in-settings', 'in-stores']
     })
   }
 };

@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+// eslint-disable-next-line no-restricted-imports
+import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import globalHighlightConfig from 'in-components/Chart/components/ContextMenu/actions/globalHighlight';
 import UsageTimeConfigContextModification from 'in-amp/components/UsageTimeConfigContextModification';
-import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import zoomInConfig from 'in-components/Chart/components/ContextMenu/actions/zoomIn';
 import { formatDate, formatDateTime } from 'in-services/formatters/date';
 import { days, hours } from 'in-services/time';
