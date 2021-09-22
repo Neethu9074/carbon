@@ -7737,7 +7737,8 @@
       "worker": "Worker",
       "cpuLoad": "CPU load",
       "trafficPerRequest": "Traffic per request",
-      "busyWorkers": "Busy workers"
+      "busyWorkers": "Busy workers",
+      "httpd":  "HTTPd"
     },
     "ibmCloudClinicalData": {
       "labelApiCalls": "API Calls",
