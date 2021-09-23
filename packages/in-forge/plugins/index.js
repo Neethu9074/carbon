@@ -124,6 +124,7 @@ import './kubernetesNode';
 import './mongoDbCluster';
 import './nomadScheduler';
 import './pCFApplication';
+import './aliCloudMysql';
 import './awsEcsCluster';
 import './awsEcsService';
 import './awsMskCluster';
