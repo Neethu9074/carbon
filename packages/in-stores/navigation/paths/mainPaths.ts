@@ -16,6 +16,7 @@ export const physicalPath = '/physical';
 export const physicalDashboardPath = `${physicalPath}/dashboard`;
 export const tablePath = '/table';
 export const physicalTablePath = '/table;view=physical;plugin=host';
+export const eventsPath = '/events';
 
 export function getLinkToCurrentViewWithViewGrouping(view: string, vg: string) {
   return getModifiedUrlStream(params => (params.query[view] = vg));
@@ -39,4 +40,8 @@ export function isTableView(type: string) {
 
 export function isInfrastructurePath(path: string) {
   return path.indexOf(physicalPath) === 0 || path.indexOf(tablePath) === 0 || path.indexOf(containerPath) === 0;
+}
+
+export function isEventsPath(path: string) {
+  return path.indexOf(eventsPath) === 0;
 }

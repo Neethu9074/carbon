@@ -28,9 +28,7 @@ export default connectTo(
     presetsVisible: presetsVisible$,
     query: query$.distinct().startWith('')
   },
-  class extends React.Component {
-    static displayName = 'SearchBar';
-
+  class SearchBar extends React.Component {
     componentDidMount() {
       refresh();
     }
