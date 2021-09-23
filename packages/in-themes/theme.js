@@ -236,25 +236,26 @@ function buildLib() {
     lib.colors.red800
   ];
 
-  lib.colors.chart.strokeColors25 = lib.colors.chart.strokeColors100.map(hex => addTransparency(hex, 0.05));
-  lib.colors.chart.strokeColors50 = lib.colors.chart.strokeColors100.map(hex => addTransparency(hex, 0.15));
+  lib.colors.chart.strokeColors25 = lib.colors.chart.strokeColors100.map(hex => lighten(hex, 0.05));
+  lib.colors.chart.strokeColors50 = lib.colors.chart.strokeColors100.map(hex => lighten(hex, 0.15));
 
   // self
   lib.colors.chart.self100 = lib.colors.N500;
-  lib.colors.chart.self25 = addTransparency(lib.colors.chart.self100, 0.05);
+  lib.colors.chart.self25 = lighten(lib.colors.chart.self100, 0.05);
 
   lib.colors.chartSelection = 'rgba(75, 165, 210, 0.2)';
   lib.colors.timeShift = lib.colors.N400;
 
-  lib.colors.primary240 = addTransparency(lib.colors.blue800, 0.4);
-  lib.colors.lightPrimary240 = addTransparency(lib.colors.lightBlue800, 0.4);
-  lib.colors.success40 = addTransparency(lib.colors.success, 0.4);
-  lib.colors.failure10 = addTransparency(lib.colors.failure, 0.1);
+  lib.colors.primary240 = lighten(lib.colors.blue800, 0.4);
+  lib.colors.lightPrimary240 = lighten(lib.colors.lightBlue800, 0.4);
+  lib.colors.success40 = lighten(lib.colors.success, 0.4);
+  lib.colors.failure10 = lighten(lib.colors.failure, 0.1);
 
   return lib;
 }
 
-function addTransparency(hex, opacity) {
+// this was copied over from packages/in-services/formatters/color.ts
+function lighten(hex, opacity) {
   const rgb = hexToRGB(hex);
   rgb.r = 255 * (1 - opacity) + rgb.r * opacity;
   rgb.g = 255 * (1 - opacity) + rgb.g * opacity;
@@ -262,13 +263,8 @@ function addTransparency(hex, opacity) {
   return rgbToHex(rgb.r, rgb.g, rgb.b);
 }
 
-function rgbToHex(r, g, b) {
-  const hex = (r << 16) ^ (g << 8) ^ (b << 0);
-  return '#' + ('000000' + hex.toString(16)).slice(-6);
-}
-
 function hexToRGB(style) {
-  const color = /^#([0-9a-f]{6})$/i.exec(style);
+  const color = /^#([0-9a-f]{6})$/i.exec(style) ?? [];
   let hex = parseInt(color[1], 16);
 
   hex = Math.floor(hex);
@@ -277,4 +273,9 @@ function hexToRGB(style) {
   const g = (hex >> 8) & 255;
   const b = hex & 255;
   return { r, g, b };
+}
+
+function rgbToHex(r, g, b) {
+  const hex = (r << 16) ^ (g << 8) ^ (b << 0);
+  return '#' + ('000000' + hex.toString(16)).slice(-6);
 }

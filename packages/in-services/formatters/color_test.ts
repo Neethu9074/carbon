@@ -5,7 +5,7 @@
 
 import { expect } from 'chai';
 
-import { rgbToHex, hexToRGB, hexToRGBNormalized } from 'in-services/formatters/color';
+import { lighten, rgbToHex, hexToRGBA, hexToRGB, hexToRGBNormalized } from 'in-services/formatters/color';
 
 describe('in-services/formatters/color', () => {
   describe('formatColors', () => {
@@ -25,6 +25,28 @@ describe('in-services/formatters/color', () => {
     it('should return hex as rgb between [0, 1]', () => {
       const rgb = hexToRGBNormalized('#4cccbb');
       expect(rgb.r).to.equal(76 / 255);
+    });
+  });
+
+  describe('lighten', () => {
+    it('should add transparency to a valid hex', () => {
+      const actual = lighten('#000000', 0.5);
+      const expected = '#7f7f7f';
+      expect(actual).to.equal(expected);
+    });
+
+    it('should take the input as #000000 if invalid one provided by the user', () => {
+      const actual = lighten('#hjg332', 0);
+      const expected = '#ffffff';
+      expect(actual).to.equal(expected);
+    });
+  });
+
+  describe('hexToRGBA', () => {
+    it('should convert a valid hex and opactiy', () => {
+      const actual = hexToRGBA('#ffaa88', 0.2);
+      const expected = 'rgba(255, 170, 136, 0.2)';
+      expect(actual).to.equal(expected);
     });
   });
 });

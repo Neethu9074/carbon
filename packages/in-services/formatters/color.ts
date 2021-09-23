@@ -30,7 +30,7 @@ export function rgbToHex(r: number, g: number, b: number): string {
  */
 export function hexToRGB(style: string): RGB {
   const color = /^#([0-9a-f]{6})$/i.exec(style) ?? [];
-  let hex = parseInt(color[1], 16);
+  let hex = parseInt(color[1] || '000000', 16);
 
   hex = Math.floor(hex);
 
@@ -59,4 +59,9 @@ export function lighten(hex: string, opacity: number): string {
   rgb.g = 255 * (1 - opacity) + rgb.g * opacity;
   rgb.b = 255 * (1 - opacity) + rgb.b * opacity;
   return rgbToHex(rgb.r, rgb.g, rgb.b);
+}
+
+export function hexToRGBA(hex: string, opacity: number): string {
+  const rgb = hexToRGB(hex);
+  return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
 }
