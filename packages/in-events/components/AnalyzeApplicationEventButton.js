@@ -23,7 +23,7 @@ import Tooltip from 'in-components/Tooltip';
 import { t, Trans } from 'in-i18n';
 
 const dataSource = 'calls';
-const alertTypeWithDisabledGrouping = ['errorRate', 'slowness'];
+const alertTypeWithDisabledGrouping = ['slowness'];
 export const tagNamesToUseEndpointGrouping = ['endpoint.id', 'endpoint.name', 'service.id', 'service.name'];
 
 export default function AnalyzeApplicationEventButton({
@@ -91,12 +91,12 @@ export function getLinkToUnboundAnalytics({
   adaptiveBaselineInfo,
   groupingTagName = null
 }) {
-  const { rule, tagFilterExpression, includeInternal, includeSynthetic } = alertConfig;
+  const { rule, tagFilterExpression, includeInternal, includeSynthetic, evaluationType } = alertConfig;
   const alertType = rule.alertType;
 
   const groupByTag = groupingTagName
     ? groupingTagName
-    : getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId);
+    : getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId, evaluationType);
 
   const enrichedAnalyzeTagFilterFormModel = getEnrichedAnalyzeTagFilterFormModel({
     alertConfig,
@@ -174,13 +174,30 @@ function getChartsParam(alertType) {
   return [createChartedMetric('calls', 'SUM')];
 }
 
-function getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId) {
-  if (alertTypeWithDisabledGrouping.includes(alertType) || endpointId) {
+function getGroupingTagName(alertType, tagFilterExpression, serviceId, endpointId, evaluationType) {
+  if (alertTypeWithDisabledGrouping.includes(alertType)) {
     return null; // no grouping
+  }
+
+  if (alertType === 'errorRate') {
+    switch (evaluationType) {
+      case 'PER_AP':
+        return 'service.name';
+      case 'PER_AP_SERVICE':
+        return 'endpoint.name';
+      case 'PER_AP_ENDPOINT':
+        return 'call.name';
+      default:
+        break;
+    }
   }
 
   if (serviceId) {
     return 'endpoint.name';
+  }
+
+  if (endpointId) {
+    return null;
   }
 
   if (alertType === 'throughput') {
@@ -201,6 +218,6 @@ function toGroupByTag(tagName) {
 
   return {
     groupbyTag: tagName,
-    groupbyTagEntity: entityTypes.DESTINATION
+    groupbyTagEntity: tagName !== 'call.name' ? entityTypes.DESTINATION : undefined
   };
 }
