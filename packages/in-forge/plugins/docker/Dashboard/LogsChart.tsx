@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Observable } from '@instana/observables';
+
 // @ts-expect-error
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
@@ -12,8 +14,16 @@ import { TagFilterExpression } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
+interface AdditionalContextMenuButtonConfig {
+  name: string;
+  icon: string;
+  label: string;
+  getHref$: () => Observable<string>;
+}
+
 interface LogsChartProps {
   tagFilterExpression: TagFilterExpression;
+  additionalContextMenuButtons: AdditionalContextMenuButtonConfig[];
 }
 
 interface AddLogLevelFilterTagToQueryModelRequest {
@@ -26,14 +36,14 @@ interface GetMetricConfigRequest extends AddLogLevelFilterTagToQueryModelRequest
 }
 
 export default function LogsChart(props: LogsChartProps) {
-  const { tagFilterExpression } = props;
+  const { tagFilterExpression, additionalContextMenuButtons } = props;
 
   return (
     <UnifiedMetricsChart
       automaticallySize={false}
       renderLegend={false}
-      excludedContextMenuActions={['globalHighlight', 'download']}
       config={{
+        additionalContextMenuButtons,
         y1: {
           metrics: [
             getMetricConfig({
