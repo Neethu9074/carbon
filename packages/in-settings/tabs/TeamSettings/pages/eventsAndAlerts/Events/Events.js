@@ -92,13 +92,13 @@ export default function Events({
   const [enabled, setEnabled] = useState(null);
 
   const entityTypeOptionsOfCustomMetrics = useObservable(getPluginsWithCustomMetricsOptionsObservable, []);
-  const allEntityTypeOptions = combineAndSortByLabel(
-    entityTypeOptionsOfBuiltInMetrics,
-    entityTypeOptionsOfCustomMetrics
+  const allEntityTypeOptions = filterEntityTypeOptions(
+    withoutDeprecatedEvents,
+    combineAndSortByLabel(entityTypeOptionsOfBuiltInMetrics, entityTypeOptionsOfCustomMetrics)
   );
 
   const loadEvents = useLoadEventsFunction(withoutDeprecatedEvents, loadEntities);
-  adjustTypeOptions(withoutDeprecatedEvents, typeOptions);
+  adjustTypeOptions(withoutDeprecatedEvents);
 
   return (
     <List
@@ -426,4 +426,11 @@ function adjustTypeOptions(withoutDeprecatedEvents) {
       );
     }
   }
+}
+
+function filterEntityTypeOptions(withoutDeprecatedEvents, options) {
+  if (deprecateAppDataLegacyEvents && withoutDeprecatedEvents) {
+    return options.filter(({ value }) => !['application', 'service', 'endpoint'].includes(value));
+  }
+  return options;
 }
