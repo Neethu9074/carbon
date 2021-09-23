@@ -785,7 +785,8 @@
     "default": "Default",
     "identityProviderType": "Identity Provider Type",
     "copyApiTokenToClipboardError": "Could not copy API token to clipboard.",
-    "depreactedEventHiddenInfo": "Deprecated Events can’t be added to new configs anymore and are hidden from this list."
+    "depreactedEventHiddenInfo": "Deprecated Events can’t be added to new configs anymore and are hidden from this list.",
+    "deprecatedEventMessage": "This Event is deprecated. Please migrate it to a Smart Alert or <documentationLink>refer to our documentation</documentationLink>."
   },
   "languageSelection": {
     "language": "Language"

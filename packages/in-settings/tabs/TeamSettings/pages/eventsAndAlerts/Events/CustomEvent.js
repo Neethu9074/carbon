@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Stack } from '@instana/components';
+import { Link, Message, Stack } from '@instana/components';
 
 import {
   createCustomSystemRuleBasedEventSpecification,
@@ -45,8 +45,8 @@ import { getPluginName } from 'in-sdk/pluginName';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 import { role } from 'in-stores/user';
+import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
@@ -92,12 +92,10 @@ const Form = entityForm(function DetailsForm(props) {
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
   const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
 
+  const isDeprecated = deprecateAppDataLegacyEvents && isOneOfMigratableEntityTypes;
+
   const isMigratable =
-    deprecateAppDataLegacyEvents &&
-    hasPermissionsToEditSmartAlerts &&
-    isOneOfMigratableEntityTypes &&
-    isMigrateableDfqScope &&
-    entity.get('migrated') === false; // only migrateable entities have this property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
+    isDeprecated && hasPermissionsToEditSmartAlerts && isMigrateableDfqScope && entity.get('migrated') === false; // only migrateable entities have this property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
 
   return (
     <SettingsDetailPage>
@@ -115,6 +113,17 @@ const Form = entityForm(function DetailsForm(props) {
         )}
       </Stack>
       <SectionLine />
+
+      {isDeprecated && (
+        <Message type="warning" withIcon small>
+          <Trans
+            i18nKey="in-settings:tabs.deprecatedEventMessage"
+            components={{
+              documentationLink: <Link href="https://www.instana.com/docs/" external />
+            }}
+          />
+        </Message>
+      )}
 
       {message ? (
         <Section>
