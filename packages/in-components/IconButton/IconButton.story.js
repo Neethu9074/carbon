@@ -1,0 +1,53 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import { action } from '@storybook/addon-actions';
+import React from 'react';
+
+import IconButton from 'in-components/IconButton/IconButton';
+
+const kinds = Object.freeze(['primary', 'primaryv2', 'action', 'create', 'danger', 'warning', 'info']);
+
+export default {
+  component: IconButton
+};
+
+const onClick = action('click');
+
+export function Default() {
+  return (
+    <>
+      {kinds.map(kind => (
+        <IconButton kind={kind} key={kind} onClick={onClick} type="lib_release_rocket">
+          {kind}
+        </IconButton>
+      ))}
+    </>
+  );
+}
+
+export function CustomIconSize() {
+  return (
+    <>
+      {kinds.map(kind => (
+        <IconButton kind={kind} key={kind} iconSize="xl" onClick={onClick} type="lib_release_rocket">
+          {kind}
+        </IconButton>
+      ))}
+    </>
+  );
+}
+
+export function Disabled() {
+  return (
+    <>
+      {kinds.map(kind => (
+        <IconButton kind={kind} key={kind} iconSize="l" onClick={onClick} type="lib_release_rocket" disabled>
+          {kind}
+        </IconButton>
+      ))}
+    </>
+  );
+}

@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React, { useState } from 'react';
 import { find } from 'lodash';
+
+import { useObservable } from '@instana/hooks';
 
 import GroupMetricsChartPresenter, {
   getMetricKey
 } from 'in-analyze/components/MetricsChart/GroupMetricsChartPresenter';
-import getCallGroups from 'in-subscription/application/getCallGroups';
+import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { pendingResult } from 'in-services/fixedObjects';
 

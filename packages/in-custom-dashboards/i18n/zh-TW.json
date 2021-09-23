@@ -36,9 +36,6 @@
       }
     },
     "widgetEditorDialog": {
-      "widgetTypeSelector": {
-        "showWidgetLabel": "顯示 {{label}} 小組件的案例"
-      },
       "widgetConfiguration": {
         "widgetName": "小組件名稱",
         "name": "名稱",
@@ -116,10 +113,16 @@
       "hiddenCalls": {
         "includeInternalCalls": "包含內部呼叫",
         "includeSyntheticCalls": "包含合成呼叫"
+      },
+      "bluePrintForCallsMetric": {
+        "unexpectedLowNumberOfCalls": "呼叫數非預期地低",
+        "unexpectedHighNumberOfCalls": "呼叫數非預期地高",
+        "unexpectedLowOrHighNumberOfCalls": "呼叫數非預期地高或低"
       }
     },
     "srcApp": {
       "formComponent": {
+        "needToTurnOffPP": "若要使用分組，您需要先關閉強調顯示的「潛在問題」。",
         "pleaseSelect": "請選取",
         "pleaseSelectMetric": "請選取度量",
         "aggregation": "聚集",
@@ -140,7 +143,9 @@
         "pleaseSelectMetric": "請選取度量",
         "pleaseSelect": "請選取",
         "helpAction": "動態焦點查詢 (DFQ)（當您在事件視圖內使用時）。",
-        "query": "查詢"
+        "query": "查詢",
+        "includeK8sInfoEvents": "包括 Kubernetes 事件",
+        "includeAgentMonitoringIssues": "包括代理程式監視問題"
       }
     },
     "srcInfrastructure": {
@@ -214,7 +219,7 @@
       "ds": "資料來源",
       "pleaseSelect": "請選取",
       "name": "名稱",
-      "pleaseSelectATimeShiftingConfiguration": "請選取時間移位配置。",
+      "pleaseSelectATimeShiftingConfiguration": "請選取時間遷移配置。",
       "pleaseProvideAGroup": "請提供群組。",
       "optional": "選用",
       "theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999": "提供的數字無效。值應該介於 0 到 99.99 之間。"
@@ -254,7 +259,17 @@
       },
       "atLeastOneDatasetIsRequired": "至少需要一個資料集。",
       "errorTitleForConfiguredSliDeletion": "已刪除配置的 SLI",
-      "errorDescriptionToConfigureOtherSLI": "請選取另一個 SLI，以更新 SLO 小組件"
+      "errorDescriptionToConfigureOtherSLI": "請選取另一個 SLI，以更新 SLO 小組件",
+      "index": {
+        "testTitle": "前 5 個最慢的服務",
+        "testLabels": {
+          "catalogue": "catalogue",
+          "cart": "cart",
+          "ratings": "ratings",
+          "discount": "discount",
+          "shipping": "shipping"
+        }
+      }
     },
     "formCompChart": {
       "colorConfiguratorChart": {
@@ -277,11 +292,13 @@
         "indigo": "靛藍色"
       },
       "dataConfigChart": {
+        "tooltipDisabledBecausePP": "若要新增更多資料集，您必須先關閉強調顯示的「潛在問題」。",
         "addDataset": "新增資料集"
       },
       "indexChart": {
         "datasets": "資料集",
-        "axisConfig": "軸配置"
+        "axisConfig": "軸配置",
+        "potentialProblems": "潛在問題"
       },
       "metricConfigChart": {
         "datasetTimeShift": "資料集會隨時間遷移",
@@ -298,7 +315,20 @@
         "timeShift": "時間遷移",
         "applyTimeShiftDs": "將時間遷移套用至這個資料系列",
         "timeShiftHelpAction": "如果選取<strong>顯示現行值</strong>，會自動將此資料系列複製到相同軸上。第一個資料系列將停用時間遷移，第二個資料系列將啟用時間遷移。",
+        "timeShiftDisabledWhilePPon": "若要使用時間遷移，您需要先關閉強調顯示的「潛在問題」。",
         "displayCurrentValues": "顯示現行值"
+      },
+      "potentialProblems": {
+        "potentialProblemsDescription": {
+          "anyMetric": "強調顯示潛在問題"
+        },
+        "tooltip": {
+          "needToTurnOffTimeShift": "若要使用強調顯示的「潛在問題」，您需要先關閉時間遷移。",
+          "needToTurnOffGrouping": "若要使用強調顯示的「潛在問題」，您需要先關閉分組。",
+          "needToRemoveDatasets": "若要使用強調顯示的「潛在問題」，您需要先移除任何其他資料集。",
+          "needToChangeMetric": "若要使用強調顯示的「潛在問題」，您需要先變更度量。"
+        },
+        "onlyWorksWithOneMetricConfigured": "只有在配置一個資料集時才受支援。"
       }
     },
     "demo": {
@@ -312,6 +342,10 @@
       "unnamMetric": "未命名的度量"
     },
     "markdown": {
+      "demo": {
+        "title": "Instana - 入門",
+        "text": "Instana 是第一個且唯一完全自動化的應用程式效能 (APM) 解決方案，專為\n應對管理微服務與雲端原生應用程式所帶來的挑戰而設計。\n\n入門很容易\n\n1. 如果您尚未存取 Instana，請移至 [Instana.com](https://www.instana.com) 並註冊免費試用版。\n2. 探索我們數百種 [支援的技術] 的生態系統 (https://www.instana.com/docs/ecosystem)。\n3. 開始使用我們的其中一個 [代理程式] 收集資料 (https://www.instana.com/docs/setup_and_manage)。\n4. 學習 [如何使用 Instana](https://www.instana.com/docs/using_instana) 來處理您的使用案例。\n5. 瞭解我們特有的 [核心功能](https://www.instana.com/docs/core_capabilities/)。\n6. 使用我們的 [整合、SDK 與 API](https://www.instana.com/docs/integrations) 來延伸 Instana。\n\n沒錯！\n\n找不到您要尋找的資訊嗎？跳至 [instana.com/docs](https://www.instana.com/docs/)！"
+      },
       "formComp": {
         "whatULikeShow": "您想要顯示什麼？",
         "markdown": "Markdown",
@@ -327,10 +361,18 @@
         "formatter": "格式製作程式"
       },
       "index": {
-        "chartPie": "圖表：圓餅圖"
+        "chartPie": "圖表：圓餅圖",
+        "testTitle": "事件",
+        "testLegendItem1": "事故",
+        "testLegendItem2": "問題：嚴重",
+        "testLegendItem3": "問題：警告"
       }
     },
     "slo": {
+      "demo": {
+        "title": "SLO 標題",
+        "appName": "範例應用程式名稱"
+      },
       "apConfigFormComp": {
         "userJourneyOffering": "使用者旅程 / 供應項目",
         "appnPerspective": "應用程式視景",
@@ -358,7 +400,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "端點",
-        "allServices": "所有服務",
+        "allEndpoints": "所有端點",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {
@@ -486,6 +528,7 @@
     },
     "timezone": {
       "demo": {
+        "title": "團隊可用性",
         "sanFrancisco": "舊金山",
         "austin": "奧斯汀",
         "newYorkCity": "紐約市",
@@ -510,7 +553,8 @@
         "formatter": "格式製作程式"
       },
       "index": {
-        "topListLb": "排名居前清單"
+        "topListLb": "排名居前清單",
+        "topListItem": "項目 {{itemNumber}}"
       },
       "widget": {
         "aggregOtherGroup": "其他群組的聚集",

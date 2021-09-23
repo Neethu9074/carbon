@@ -10,7 +10,7 @@ import {
   updateLatencySelection
 } from 'in-applications/analyze/utils/latencyUtils';
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
-import getLatencyDistributionBase10 from 'in-subscription/application/getLatencyDistributionBase10';
+import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import useTimeConfig from 'in-hooks/useTimeConfig';

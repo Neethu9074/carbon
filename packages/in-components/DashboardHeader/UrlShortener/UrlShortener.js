@@ -13,7 +13,7 @@ import Overlay from 'in-components/overlays/Overlay';
 export default function UrlShortener(props) {
   return (
     <Overlay props={props} content={UrlShortenerOverlay} withoutWrapper withoutArrow>
-      {Button}
+      {({ toggle, refSetter }) => <Button toggle={toggle} refSetter={refSetter} darkTheme={props.darkTheme} />}
     </Overlay>
   );
 }

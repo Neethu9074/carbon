@@ -13,6 +13,9 @@ import { t } from 'in-i18n';
 
 export default function AzureStorageDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
+  let hasQueue = false;
+  const metricIds = snapshot.get('metricIds');
+  hasQueue = metricIds.includes('qcap_av') && metricIds.includes('qms_av') && metricIds.includes('qc_av');
 
   return (
     <div>
@@ -131,6 +134,52 @@ export default function AzureStorageDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
+      {hasQueue === true && (
+        <div>
+          <DashboardSection title={t('in-forge:plugins.azureStorage.dashboard.titleQueueCapacity')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: ['qcap_av'],
+                labels: [t('in-forge:plugins.azureStorage.labelQuCa')],
+                formatter: number.detailed,
+                type: 'bar'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-forge:plugins.azureStorage.dashboard.titleQueueCount')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: ['qc_av'],
+                labels: [t('in-forge:plugins.azureStorage.labelQuCo')],
+                formatter: number.detailed,
+                type: 'bar'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-forge:plugins.azureStorage.dashboard.titleQueueMessageCount')}>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                metrics: ['qms_av'],
+                labels: [t('in-forge:plugins.azureStorage.labelQuMeCo')],
+                formatter: number.detailed,
+                type: 'bar'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </DashboardSection>
+        </div>
+      )}
     </div>
   );
 }

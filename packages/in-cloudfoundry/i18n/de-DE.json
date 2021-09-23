@@ -25,7 +25,11 @@
     "routes": "Routen",
     "diskLimit": "Plattenbegrenzung",
     "createdAt": "Erstellt um",
-    "analyzeCalls": "Aufrufe analysieren"
+    "analyzeCalls": "Aufrufe analysieren",
+    "noDataAvailable": {
+      "containersTitle": "Keine Container verfügbar",
+      "containersDescription": "Es wurden keine Container für den ausgewählten Zeitbereich abgerufen."
+    }
   },
   "name": "Name",
   "requestedState": "Angeforderter Status",

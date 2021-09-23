@@ -63,6 +63,15 @@
     "registryCall_0": "Aufrufe",
     "registryCall_1": "Aufrufe",
     "registryCall_2": "Aufrufe"
+  },
+
+  "components": {
+    "codeRetrievalDialog": {
+      "file": "Datei",
+      "line": "Zeile",
+      "decompilationNotFullySupported": "Die Dekompilierung von Klassendateien, die einige Funktionen in neueren Java-Versionen enthalten, wird nicht vollständig unterstützt.",
+      "error": "Fehler"
+    }
   }
 
 }

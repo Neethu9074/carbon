@@ -120,6 +120,7 @@ export const MetricsForm = ({ form, onChange }) => {
                     <Input
                       id="new-sli-metric-threshold"
                       type="number"
+                      min="0"
                       value={field.value}
                       onChange={e => localOnChange(['threshold'], f => f.setValue(e.target.value).setTouched(true))}
                       hasError={!field.valid && field.touched}

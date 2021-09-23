@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import { get } from 'lodash';
 
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
-import getApplication from 'in-subscription/application/getApplication';
+import { combineLatest } from '@instana/observables';
+
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { alwaysNull } from 'in-services/fixedStreams';
 

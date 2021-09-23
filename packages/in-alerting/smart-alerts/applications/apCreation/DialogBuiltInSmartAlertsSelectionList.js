@@ -14,17 +14,18 @@ import { getAllBuiltInGlobalSmartAlerts } from 'in-alerting/smart-alerts/applica
 import AlertEnabledStateColumn from 'in-alerting/smart-alerts/applications/apCreation/AlertEnabledStateColumn';
 import GoToAlertDetailsColumn from 'in-alerting/smart-alerts/applications/apCreation/GoToAlertDetailsColumn';
 import MainColumn from 'in-alerting/smart-alerts/applications/apCreation/MainColumn';
+import { pendingResult } from 'in-services/fixedObjects';
 
 export default function DialogBuiltInSmartAlertsSelectionList({
   onChange,
   alertIds = [],
-  getBuiltInAlerts = getAllBuiltInGlobalSmartAlerts({ asObservable: false })
+  getBuiltInAlerts = getAllBuiltInGlobalSmartAlerts({ asObservable: true })
 }) {
-  const builtInAlerts = useObservable(getBuiltInAlerts, []);
+  const builtInAlerts = useObservable(getBuiltInAlerts, []) ?? pendingResult;
 
   return (
     <BuiltInSmartAlertsSelectionBaseList
-      alertConfigs={builtInAlerts}
+      alertConfigsResult={builtInAlerts}
       columnDefinitions={getColumnDefinitions()}
       onItemSelect={(selected, alertId) => {
         onChange(selected ? alertIds.concat(alertId) : alertIds.filter(id => id !== alertId));

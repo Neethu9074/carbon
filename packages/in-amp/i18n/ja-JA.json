@@ -10,7 +10,7 @@
       "city": "市区町村",
       "address": "住所",
       "additionalAddress": "追加住所",
-      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "このページの情報を訂正する必要がある場合は、<linkToMail>{{salesopsEmail}}</linkToMail> にご連絡ください"
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "このページの情報を訂正する必要がある場合は、<linkToMail> にご連絡ください{{salesopsEmail}}</linkToMail>"
     },
     "activeLicenses": {
       "name": "名前",
@@ -55,6 +55,66 @@
       "purchased": "購入済み",
       "infrastructureUsage": "インフラストラクチャー使用量",
       "iqmHosts": "IQM ホスト"
+    },
+    "activationAdoption": {
+      "activationAdoption": "アクティブ化 & 導入",
+      "customerAdoption": "お客様の導入",
+      "activation": "アクティブ化",
+      "adoption": "導入",
+      "activationStages": {
+        "createDate": "作成日",
+        "firstSignIn": "最初のサインイン",
+        "firstAgentInstalled": "最初のエージェントのインストール",
+        "additionalUserInvited": "追加ユーザーの招待",
+        "threeAgentsInstalled": "3 つのエージェントのインストール",
+        "twoApplicationPerspectivesCreated": "2 つのアプリケーション・パースペクティブの作成",
+        "oneAlertSetUpAndActivated": "1 つのアラートのセットアップとアクティブ化",
+        "oneWebsiteMonitored": "1 つの Web サイトのモニター",
+        "fiveUsers": "5 ユーザー"
+      },
+      "adoptionKPIs": {
+        "applicationPerspective": "アプリケーション・パースペクティブ",
+        "eum": "EUM",
+        "alerting": "アラート",
+        "pipelineFeedback": "パイプラインのフィードバック",
+        "customDashboards": "カスタム・ダッシュボード",
+        "mobileEum": "モバイル EUM",
+        "numOfApplicationPerspectives": "AP 数",
+        "numOfReportingApplicationPerspectives": "報告 AP 数",
+        "numOfWebsites": "Web サイト数",
+        "numOfAlertChannels": "アラート・チャネル数",
+        "numOfAlerts": "アラート数",
+        "numOfActiveAlerts": "アクティブ・アラート数",
+        "numOfReleases": "リリース・マーカー数 / リリース数",
+        "numOfCustomDashboards": "カスタム・ダッシュボード数",
+        "numOfMobileApps": "アプリケーション数"
+      },
+      "activationChecklist": "アクティブ化チェックリスト",
+      "productAdoption": "製品導入",
+      "sparkChartMetrics": {
+        "metric_applications": "アプリケーション",
+        "metric_reportingapplications": "レポート作成アプリケーション",
+        "metric_websites": "Web サイト",
+        "metric_all_alerts": "すべてのアラート",
+        "metric_active_alerts": "アクティブ・アラート",
+        "metric_mobile_apps": "モバイル・アプリケーション",
+        "metric_alert_channels": "アラート・チャネル",
+        "metric_custom_dashboards": "カスタム・ダッシュボード",
+        "metric_releases": "リリース"
+      },
+      "userUsage": "ユーザー使用状況",
+      "userSummary": "ユーザー・サマリー",
+      "totalUser": "合計ユーザー数",
+      "weeklyActiveUser": "毎週のアクティブ・ユーザー",
+      "lastCalendarWeekTopActiveUsers": "最終カレンダー週の上位アクティブ・ユーザー",
+      "topUsersTable": {
+        "noDataAvailable": "使用可能なデータがありません",
+        "noTopActiveUsers": "このアカウントの上位アクティブ・ユーザー・データはありません",
+        "name": "名前",
+        "organizationRole": "組織の役割",
+        "daysActive": "アクティブな日数",
+        "notProvided": "(提供されていません)"
+      }
     }
   }
 }

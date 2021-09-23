@@ -7,9 +7,9 @@ import { get } from 'lodash';
 import React from 'react';
 
 import { getDeploymentDashboard, getDeploymentConfigDashboard, summaryTab } from 'in-kubernetes/navigation/paths';
-import getOpenShiftDeploymentConfigs from 'in-subscription/kubernetes/getOpenShiftDeploymentConfigs';
+import getOpenShiftDeploymentConfigs from 'in-kubernetes/subscriptions/getOpenShiftDeploymentConfigs';
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
-import getKubernetesDeployments from 'in-subscription/kubernetes/getKubernetesDeployments';
+import getKubernetesDeployments from 'in-kubernetes/subscriptions/getKubernetesDeployments';
 import ButtonGroup from 'in-components/ButtonGroup';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';

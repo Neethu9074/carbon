@@ -10,11 +10,9 @@ import { just } from '@instana/observables';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import getProfilesAvailable from 'in-components/Profiling/subscriptions/getProfilesAvailable';
 import EntityVersionDialog from 'in-infrastructure/Dashboard/components/EntityVersionDialog';
-import { getDashboardHeaderActions, getAnalyzeLogsHref$ } from 'in-sdk/snapshot';
 import { getLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
-import { containerLogsEnabled } from 'in-services/featureFlags';
+import { getDashboardHeaderActions } from 'in-sdk/snapshot';
 import { MoreMenuCollapser } from 'in-components/MoreMenu';
 import { getPhysicalHierarchy } from 'in-stores/snapshot';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -29,7 +27,6 @@ export default connectTo(
     return {
       processSnapshotId: processSnapshotId$,
       isInternalVisible: isInternalVisible$,
-      analyzeLogsHref: containerLogsEnabled && getAnalyzeLogsHref$({ snapshot, timeConfig }),
       profilesAvailable: processSnapshotId$.flatMap(processSnapshotId =>
         getProfilesAvailable({
           processSnapshotId,
@@ -44,7 +41,7 @@ export default connectTo(
       snapshot,
       snapshotId,
       processSnapshotId,
-      analyzeLogsHref,
+
       timeConfig,
       profilesAvailable
     } = props;
@@ -63,13 +60,6 @@ export default connectTo(
             label: t('in-infrastructure:dashboard.analyzeProfiles'),
             icon: 'lib_profiling',
             href$: getLinkToProfiles({ processSnapshotId })
-          },
-          analyzeLogsHref && {
-            label: t('in-infrastructure:dashboard.analyzeLogs'),
-            icon: 'lib_analyze',
-            href: analyzeLogsHref,
-            onClick: ({ snapshotId, snapshot }) =>
-              jumpToLogs({ source: 'analyze logs from infra dashboard', plugin: snapshot.get('plugin'), snapshotId })
           }
         ].filter(Boolean)}
         snapshot={snapshot}

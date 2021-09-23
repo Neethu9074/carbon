@@ -10,7 +10,6 @@ import { SvgIconSizes } from '@instana/components';
 
 import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 
-// @ts-expect-error
 import locals from './LoadingIndicator.mless';
 
 export interface LoadingIndicatorProps {

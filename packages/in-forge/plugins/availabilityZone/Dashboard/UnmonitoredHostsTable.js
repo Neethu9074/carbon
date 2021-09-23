@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getHostsInAvailabilityZone from 'in-stores/graph/getHostsInAvailabilityZone';
+import { getHostsInAvailabilityZone } from 'in-sdk/getHostsInAvailabilityZone';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';

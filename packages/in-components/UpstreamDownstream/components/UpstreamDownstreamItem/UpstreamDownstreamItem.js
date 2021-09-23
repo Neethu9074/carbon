@@ -13,10 +13,10 @@ import { getServiceDashboard, getApplicationDashboard } from 'in-applications/na
 import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import { relationships } from 'in-components/UpstreamDownstream/constants';
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import EntityWithIcon from 'in-components/EntityWithIcon';
 import connectTo from 'in-hoc/connectTo';

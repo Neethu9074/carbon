@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
-
 import { shallow } from 'enzyme';
 import React from 'react';
+
 import Alert from 'in-alerting/smart-alerts/components/details/Alert';
 
 const mockTriggerReload = jest.fn();

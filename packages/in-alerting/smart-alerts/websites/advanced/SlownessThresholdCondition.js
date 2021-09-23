@@ -34,7 +34,7 @@ import Dropdown from 'in-alerting/components/Dropdown';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 
-export default function SlownessThresholdCondition({ form, updateForm, onChange, blueprintConfig, editMode }) {
+export default function SlownessThresholdCondition({ form, updateForm, blueprintConfig, editMode }) {
   const metricName = form.get('rule').get('metricName').value;
   const thresholdType = form.get('threshold').get('type')?.value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
@@ -56,7 +56,7 @@ export default function SlownessThresholdCondition({ form, updateForm, onChange,
         />
         <ThresholdOperatorDropDown
           form={form}
-          onChange={onChange}
+          updateForm={updateForm}
           trackingCallback={websitesAlertingThresholdOperatorChanged}
         />
         <Dropdown
@@ -89,7 +89,7 @@ export default function SlownessThresholdCondition({ form, updateForm, onChange,
           }}
         />
         {thresholdType === HISTORIC_BASELINE && (
-          <RecalculateBaselineButton onChange={onChange} editMode={editMode} form={form} />
+          <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
         )}
       </ThresholdConditionFormGroup>
 
@@ -105,14 +105,14 @@ export default function SlownessThresholdCondition({ form, updateForm, onChange,
             trackChange={websitesAlertingThresholdValueChanged}
             metricUnitPostfix={metricUnitPostfix}
           />
-          <UseSuggestedValueButton form={form} onChange={onChange} metricUnitPostfix={metricUnitPostfix} />
+          <UseSuggestedValueButton form={form} updateForm={updateForm} metricUnitPostfix={metricUnitPostfix} />
         </ThresholdConditionFormGroup>
       )}
 
       {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm
           form={form}
-          onChange={onChange}
+          updateForm={updateForm}
           trackChange={websitesAlertingThresholdDeviationFactorChanged}
           defaultValue={defaultDeviationFactor}
         />
@@ -124,7 +124,6 @@ export default function SlownessThresholdCondition({ form, updateForm, onChange,
 SlownessThresholdCondition.propTypes = {
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   editMode: PropTypes.bool
 };

@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { create } from '@instana/observables';
 
 import { createStore, createTrackingStore, allStates } from 'in-stores/store';
@@ -73,40 +71,40 @@ describe('in-stores/store', () => {
       expect(() => createTrackingStore({ name, observable: create() })).toThrow('Store (' + name + ') already exists');
     });
 
-      it('must track the store states', () => {
-        const name = generateStoreName();
-        const observable = create();
+    it('must track the store states', () => {
+      const name = generateStoreName();
+      const observable = create();
 
-        const emittedValue = 42;
-        observable.emit(42);
-        const store = createTrackingStore({ name, observable });
-        store.observable.subscribe(subscriber);
+      const emittedValue = 42;
+      observable.emit(42);
+      const store = createTrackingStore({ name, observable });
+      store.observable.subscribe(subscriber);
 
-        expect(allStates[name]).toEqual(emittedValue);
-      });
+      expect(allStates[name]).toEqual(emittedValue);
+    });
 
-      it('must not incur a performance overhead when no subscribers exist', () => {
-        const name = generateStoreName();
-        const observable = create();
+    it('must not incur a performance overhead when no subscribers exist', () => {
+      const name = generateStoreName();
+      const observable = create();
 
-        observable.emit(42);
-        createTrackingStore({ name, observable });
+      observable.emit(42);
+      createTrackingStore({ name, observable });
 
-        expect(allStates[name]).toEqual(undefined);
-      });
+      expect(allStates[name]).toEqual(undefined);
+    });
 
-      it('must expose a new observable to be subscribed on', () => {
-        const name = generateStoreName();
-        const observable = create();
-        const emittedValue = 42;
-        const store = createTrackingStore({ name, observable });
-        store.observable.subscribe(subscriber);
+    it('must expose a new observable to be subscribed on', () => {
+      const name = generateStoreName();
+      const observable = create();
+      const emittedValue = 42;
+      const store = createTrackingStore({ name, observable });
+      store.observable.subscribe(subscriber);
 
-        observable.emit(42);
+      observable.emit(42);
 
-        expect(subscriber.mock.calls.length).toEqual(1);
-        expect(subscriber.mock.calls[0][0]).toEqual(emittedValue);
-      });
+      expect(subscriber.mock.calls.length).toEqual(1);
+      expect(subscriber.mock.calls[0][0]).toEqual(emittedValue);
+    });
   });
 
   let storeCounter = 0;

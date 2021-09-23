@@ -17,7 +17,7 @@ import { EntitySelectionOverlay } from 'in-alerting/smart-alerts/applications/ch
 import { createApOnlyItem } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/searchResults';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { isBlank, containsIgnoreCase } from 'in-services/util/string';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import Overlay from 'in-components/overlays/Overlay';

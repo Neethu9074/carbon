@@ -26,8 +26,8 @@ import { serviceListPrefix as matrixPrefix } from 'in-applications/navigation/ma
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { getServiceDashboard, servicesList } from 'in-applications/navigation/paths';
 import { percentage, meanLatencyFixed, number } from 'in-services/formatters/number';
+import { getServicesWithDefaults } from 'in-applications/subscriptions/getServices';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';
-import { getServicesWithDefaults } from 'in-subscription/application/getServices';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';

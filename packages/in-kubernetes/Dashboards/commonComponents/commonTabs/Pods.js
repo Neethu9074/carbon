@@ -32,7 +32,7 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
+import getKubernetesPods from 'in-kubernetes/subscriptions/getKubernetesPods';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';

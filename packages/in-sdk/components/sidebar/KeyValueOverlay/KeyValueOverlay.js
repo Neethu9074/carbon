@@ -21,14 +21,14 @@ export default compose(withState('query', 'setQuery', ''))(function KeyValueOver
 
   return (
     <Overlay props={props} content={KeyValueDialogWrapper} withoutWrapper withoutArrow>
-      {KeyValueButtonWrapper}
+      {({ toggle, refSetter, isOpen }) => (
+        <KeyValueButtonWrapper toggle={toggle} refSetter={refSetter} header={props.header} isOpen={isOpen} />
+      )}
     </Overlay>
   );
 });
 
-function KeyValueButtonWrapper(props) {
-  const { header, toggle, isOpen, refSetter } = props;
-
+function KeyValueButtonWrapper({ header, toggle, isOpen, refSetter }) {
   return (
     <div className={locals.wrapper}>
       <div className={locals.item}>

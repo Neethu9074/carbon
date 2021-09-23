@@ -69,7 +69,7 @@
   "titleRuleTester": "Verificador de reglas",
   "titleTotalCalls": "Total de llamadas",
   "titleErroneousCalls": "Llamadas erróneas",
-  "titleAvgLatency": "Promedio de latencia",
+  "titleAvgLatency": "Promedio de Latencia",
   "titleConfigureCustomServiceRules": "Configurar reglas de servicio personalizadas",
   "titleCustomServiceRule": "Regla de servicio personalizado",
   "titleUpdateApplicationPerspective": "Actualizar perspectiva de aplicación",
@@ -146,8 +146,6 @@
     "noData": "Las perspectivas de aplicación proporcionan un medio para modelar entornos, conjuntos de servicios, arrendatarios o prácticamente cualquier cosa."
   },
   "alert": {
-    "thresholdLabel": "Valor de umbral",
-    "applicationSmartAlert": "Añadir alerta inteligente",
     "tooltipMoreFilter": "+{{moreFilterCount}} filtro más",
     "tooltipMoreFilter_plural": "+{{moreFilterCount}} filtros más",
     "tooltipMoreFilter_0": "+{{moreFilterCount}} filtros más",
@@ -177,6 +175,7 @@
     "erroneous": "Erróneo",
     "resetUnsupportedTracesFilterContainingOrConjunction": "El filtro se ha borrado porque el operador lógico OR no se admite en Analizar rastreos.",
     "facetedSearch": {
+      "showOnlyErroneous": "Sólo erróneos",
       "showSyntheticCalls": "Mostrar llamadas sintéticas",
       "showInternalCalls": "Mostrar llamadas internas",
       "defaultTurnedOnSynthetic": "Esta opción está seleccionada ya que consulta las llamadas sintéticas.",
@@ -186,17 +185,19 @@
       "erroneous_Erroneous": "Erróneo"
     },
     "latency": "Latencia",
+    "traceLatency": "Latencia de rastreo",
     "applications": "Aplicaciones",
     "services": "Servicios",
     "endpoints": "Puntos finales",
     "types": "Tipos",
     "technologies": "Tecnologías",
-    "httpStatusCode": "Código de estado HTTP",
+    "httpStatusCode": "Estado HTTP",
     "hiddenCalls": "Llamadas ocultas",
     "preview": "Vista previa",
     "listBatchTypeTooltip": "Este {{type}} está en un lote y representa {{batchCount}} {{types}} individuales.",
     "listBatchLatencyTooltip": "Latencia total de {{batchCount}} {{types}} por lotes.",
     "traceIdTooltip": "Algunos datos relacionados con este rastreo se retrasan, por lo tanto, vuelva a cargar la página más adelante. Por ejemplo, esto puede suceder cuando se visualiza un rastreo muy reciente y algunos de sus datos todavía se están procesando.",
+    "downloadTraceTooltip": "Descargue el rastreo completo.",
     "closeTraceDetail": "Cerrar detalle de rastreo",
     "invalidQueryConfig": "La configuración de la consulta no es válida. Solucione las anomalías de validación antes de continuar.",
     "errorRateLabel": "Llamadas erróneas (tasa)",
@@ -398,8 +399,9 @@
       "downstreamCalls": "3. Almacenar llamadas de los servicios en sentido descendente",
       "downstreamCallsDescription": "Elija qué servicios en sentido descendente se han de incluir en la perspectiva de la aplicación.",
       "defaultDashboardView": "4. Seleccione la vista predeterminada del panel de control",
+      "builtInSmartAlertsScope": "5. Ámbito de alertas inteligentes incorporadas",
+      "builtInSmartAlertsScopeDescription": "Elija qué alertas inteligentes globales incorporadas debe incluir esto/parte de esto en su ámbito",
       "clear": "Borrar",
-      "create": "Crear",
       "database": "DATABASE",
       "messaging": "MESSAGING"
     },
@@ -426,9 +428,19 @@
       "instanceOfEntity": "instancia de <icon /><entityLink>{{entityLabel}}</entityLink>",
       "tooltipUnmonitored": "Infraestructura no supervisada debido a que la información está fuera de la vista de los agentes en ejecución"
     },
-    "errorCallWithoutMessage": "Llamada errónea sin mensaje de error",
-    "noLogMessage": "No hay ningún mensaje de registro disponible",
-    "includeSyntheticCallsDropDownSyntheticCalls": "Llamadas sintéticas: {{syntheticCallsOptionLabel}}"
+      "errorCallWithoutMessage": "Llamada errónea sin mensaje de error",
+      "noLogMessage": "No hay ningún mensaje de registro disponible",
+      "includeSyntheticCallsDropDownSyntheticCalls": "Llamadas sintéticas: {{syntheticCallsOptionLabel}}",
+      "noDataAvailable": {
+      "servicesTitle": "No hay servicios disponibles",
+      "servicesDescription": "No se han recuperado servicios para el rango de tiempo seleccionado.",
+      "errorMessagesTitle": "No hay mensajes de error disponibles",
+      "errorMessagesDescription": "No se han recuperado mensajes de error para el rango de tiempo seleccionado.",
+      "logMessagesTitle": "No hay mensajes de registro disponibles",
+      "logMessagesDescription": "No se han recuperado mensajes de registro para el rango de tiempo seleccionado.",
+      "endpointsTitle": "No hay puntos finales disponibles",
+      "endpointsDescription": "No se han recuperado puntos finales para el rango de tiempo seleccionado."
+}
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "El servicio no está en la aplicación actual.",
@@ -475,18 +487,19 @@
       "descriptionTags": "Por ejemplo, cuando la clave es \"docker.label\" y el valor es \"environment=Production Blue\" o la clave es \"call.http.params\" y el valor es \"tenant=ACMECustomer\". Tenga en cuenta que cualquier llamada a un servicio <pillDatabase>DATABASE</pillDatabase> o <pillMessage>MESSAGING</pillMessage> desde los servicios que coinciden con esta definición se incluirá automáticamente.",
       "descriptionOperatorsCreationEnabled": "Los operadores AND tienen prioridad y se evalúan antes que los operadores OR si no están agrupados entre corchetes",
       "descriptionPrepareToMonitor": "Se está preparando todo para supervisar su perspectiva de aplicación <bold>{{decodedLabel}}</bold>.",
-      "descriptionRemoveApplicationPerspective": "Si ya no desea supervisar la perspectiva de aplicación <strong>{{application}}</strong>, utilice el botón de abajo para eliminarla. Eliminar una perspectiva de aplicación puede tardar algunos minutos.",
+      "descriptionRemoveApplicationPerspective": "Si ya no desea supervisar la perspectiva de aplicación <strong>{{application}}</strong>, utilice el botón de abajo para eliminarla. La eliminación de una perspectiva de aplicación puede tardar unos minutos.",
       "stepTitleDefineApplicationName": "Defina un nombre para su perspectiva de aplicación.",
-      "stepTitleDefineTags": "Defina la perspectiva de la aplicación utilizando uno o más códigos.",
-      "stepTitleDownstreamServices": "Servicios en sentido descendente.",
-      "stepTitleApplicationScope": "Ámbito de la aplicación.",
-      "optionNoDownstreamServices": "Sin servicios en sentido descendente",
-      "optionImmediateDownstreamServices": "Servicios de mensajería y base de datos en sentido descendente inmediato",
+      "stepTitleDefineTags": "Defina la perspectiva de la aplicación utilizando una o más etiquetas.",
+      "stepTitleDownstreamServices": "Servicios de Downstream.",
+      "stepTitleApplicationScope": "Ámbito de aplicación.",
+      "stepTitleBuiltInSmartAlertsScope": "Ámbito de alertas inteligentes incorporadas",
+      "optionNoDownstreamServices": "No hay servicios en sentido descendente",
+      "optionImmediateDownstreamServices": "Servicios de base de datos y mensajería en sentido descendente inmediatos",
       "optionAllDownstreamServices": "Todos los servicios en sentido descendente",
-      "errorApplicationNameBlank": "El nombre de la perspectiva de aplicación no debe estar en blanco.",
-      "errorNameLengthExceeded": "El nombre de la perspectiva de aplicación no debe tener más de 128 caracteres.",
+      "errorApplicationNameBlank": "El nombre de la perspectiva de la aplicación no debe estar en blanco.",
+      "errorNameLengthExceeded": "El nombre de la perspectiva de la aplicación no debe tener más de 128 caracteres.",
       "errorInvalidQuery": "La consulta no es válida",
-      "titleApplicationCreating": "Se está creando la perspectiva de aplicación..."
+      "titleApplicationCreating": "Se está creando la perspectiva de la aplicación..."
     },
     "customSyntheticRule": {
       "placeholderNameRule": "Asignar un nombre a la regla",
@@ -521,23 +534,24 @@
     "graphQL": "GraphQL",
     "internal": "Interno",
     "undefined": "No definido",
-    "self": "Propio",
-    "sdk": "SDK"
+    "self": "Sí mismo",
+    "sdk": "SDK",
+    "otel": "OpenTelemetry"
   },
-  "constants": {
+    "constants": {
     "exclude": "Excluir",
     "syntheticCallsAreExcludedFromTheMetrics": "Las llamadas sintéticas se excluyen de las métricas.",
     "include": "Incluir",
     "syntheticCallsAreIncludedInTheMetrics": "Las llamadas sintéticas se incluyen en las métricas.",
-    "only": "Solo",
-    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Sólo se muestran y se incluyen las llamadas sintéticas en las métricas"
+    "only": "Sólo",
+    "onlySyntheticCallsAreShownAndIncludedInTheMetrics": "Solo se muestran llamadas sintéticas en las métricas"
   },
   "traceDetail": {
     "tabs": {
       "summary": {
         "duplicateCalls": "Llamadas duplicadas",
-        "duplicateCallsDesc": "Este rastreo consta de una o varias llamadas duplicadas (spans). Llamadas exclusivas: {{traceCallCountIgnoringBatchSize}} - Registros: {{traceCallRecordCount}}. Esto genera un número de llamadas incorrecto (con lotes) y valores de recuento de errores, y quizás a otras irregularidades.",
-        "batchedIngestion": "Ingesta por lotes",
+        "duplicateCallsDesc": "Este rastreo consta de más de un llamada duplicada (spans). Llamadas exclusivas: {{traceCallCountIgnoringBatchSize}} - Registros: {{traceCallRecordCount}}. Esto genera un número de llamadas incorrecto (con lotes) y valores de recuento de errores, y quizás a otras irregularidades.",
+        "batchedIngestion": "Ingestión por lotes",
         "traceIngestionBatchCount": "Este rastreo se ha procesado en {{traceIngestionBatchesCount}} lotes. Esto puede generar irregularidades, por ejemplo, spans no fusionados con una única llamada, una correlación de servicios parcial o que se muestren otros datos incompletos.",
         "subCalls": "Subllamadas",
         "erroneousCalls": "Llamadas erróneas",
@@ -551,11 +565,22 @@
         "calls": "Llamadas",
         "erroneousTrace": "Rastreo erróneo",
         "attemptToRenderTrace": "Intento de visualización del rastreo"
+      },
+      "calls": {
+        "settings": {
+          "showServiceInformation": "Información del servicio",
+          "showServiceInformationExpl": "Mostrar información de servicio debajo de la etiqueta de llamada",
+          "showSubCalls": "Mostrar subllamadas",
+          "showSubCallsExpl": "Mostrar subllamadas directas en cada fila"
+        }
       }
     }
   },
   "tabs": {
-    "labelDetail": "Detalle"
+    "labelDetail": "Detalle",
+    "labelSummary": "Resumen",
+    "servicesAndEndpoint": "Servicios y puntos finales",
+    "logs": "Registros"
   },
   "metrics": {
     "calls_calls": "Llamadas",

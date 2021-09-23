@@ -18,7 +18,6 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/share
 export default function SlownessInteractiveChart({
   blueprintConfig,
   form,
-  onChange,
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
@@ -32,7 +31,6 @@ export default function SlownessInteractiveChart({
       <SlownessThresholdCondition
         form={form}
         updateForm={updateForm}
-        onChange={onChange}
         blueprintConfig={blueprintConfig}
         editMode={editMode}
         isGlobalSmartAlert={isGlobalSmartAlert}
@@ -66,7 +64,6 @@ export default function SlownessInteractiveChart({
 SlownessInteractiveChart.propTypes = {
   blueprintConfig: blueprintConfigPropType.isRequired,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired,

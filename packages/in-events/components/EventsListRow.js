@@ -18,13 +18,13 @@ import {
 } from 'in-services/entityUtils';
 import { getEventType, EVENT_TYPES, getEventSeverityLabelWithEventType } from 'in-stores/events';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import EventsListRowDense from 'in-events/components/EventsListRowDense';
-import getApplication from 'in-subscription/application/getApplication';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { formatDateTime } from 'in-services/formatters/date';
-import getWebsite from 'in-subscription/website/getWebsite';
 import EventIcon from 'in-events/components/EventIcon';
 import PluginIcon from 'in-components/PluginIcon';
 import { getSnapshot } from 'in-stores/snapshot';

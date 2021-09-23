@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { expect } from 'chai';
 
 import { mapToScopeBindings } from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';

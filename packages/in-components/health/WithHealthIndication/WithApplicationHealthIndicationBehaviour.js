@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import getApplicationEntityHealthInfo from 'in-subscription/application/getApplicationEntityHealthInfo';
+import getApplicationEntityHealthInfo from 'in-applications/subscriptions/getApplicationEntityHealthInfo';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';
 

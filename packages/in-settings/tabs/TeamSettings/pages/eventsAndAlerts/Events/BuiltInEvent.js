@@ -174,7 +174,7 @@ function formattedColumn(title, attr) {
 
         return {
           value,
-          content: getFormatter(valueFormat)(value)
+          content: getFormatter(valueFormat).detailed(value)
         };
       }
     }

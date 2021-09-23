@@ -1,4 +1,9 @@
 {
+  "metrics_CPU": "CPU",
+  "metrics_Load": "Auslastung",
+  "metrics_Usage": "Nutzung",
+  "metrics_Memory": "Speicher",
+  "metrics_Used": "Verwendet",
   "notMonitoringTitle": "Keine Überwachung",
   "noDataTitle": "Keine Überwachungsdaten gefunden",
   "notMonitoringText": "Installieren Sie den Instana-Agenten auf dem System, das Sie überwachen möchten. Installationsanweisungen sind in unserer [online documentation][Docs] verfügbar.\n\nWenn Sie zusätzliche Hilfe benötigen, wenden Sie sich über [support portal][Support] an uns.\n\n[Docs]:https://instana.com/docs/setup_and_manage/\n[Support]:https://support.instana.com",

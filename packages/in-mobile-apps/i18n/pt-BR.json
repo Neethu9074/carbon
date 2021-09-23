@@ -227,9 +227,6 @@
     }
   },
   "dashboard": {
-    "mobileAppProductArea": "EUM: aplicativos móveis",
-    "mobileAppViewPageRootName": "Visualização do aplicativo móvel",
-    "mobileAppPageRootName": "Aplicativo móvel",
     "mobileAppViewTitle": "Aplicativo móvel",
     "mobileAppTitle": "Visualização",
     "analyzeSessions": "Analisar sessões",
@@ -301,6 +298,12 @@
       "geographyTitle": "Geografia",
       "topViewsTitle": "Principais visualizações",
       "globViewFootertext": "Imagens fornecidas pela NASA"
+    },
+    "noDataAvailable": {
+      "viewsTitle": "Nenhuma visualização disponível",
+      "viewsDescription": "Não houve visualizações recuperadas para o intervalo de tempo selecionado.",
+      "httpRequestsTitle": "Nenhuma solicitação de HTTP disponível",
+      "httpRequestsDescription": "Não houve nenhuma solicitação de HTTP recuperada para o intervalo de tempo selecionado."
     }
   },
   "appsList": {
@@ -308,9 +311,7 @@
     "sessionStartsLabel": "Inícios de sessão",
     "viewTransitionsLabel": "Transições de visualização",
     "addMobileAppBtn": "Incluir aplicativo móvel",
-    "mobileAppsTitle": "Aplicativos móveis",
-    "mobileAppProductArea": "EUM: aplicativos móveis",
-    "mobileAppPageRootName": "Aplicativos móveis"
+    "mobileAppsTitle": "Aplicativos móveis"
   },
   "newAppFlow": {
     "addMobileAppTitle": "Incluir aplicativo móvel",

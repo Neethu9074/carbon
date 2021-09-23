@@ -5,7 +5,7 @@
 
 import invariant from 'invariant';
 
-import { addTransparency } from 'in-services/util/color';
+import { lighten } from 'in-services/formatters/color';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -53,7 +53,7 @@ export function getColorChart(type) {
   if (__DEV__) {
     invariant(colorTranslation[type], `Unknown endpoint type ${type}`);
   }
-  return addTransparency(colorTranslation[type], 0.05) || colorTranslation.sdk;
+  return lighten(colorTranslation[type], 0.05) || colorTranslation.sdk;
 }
 
 export function getEndpointTypesComboBoxItems(restrict = null) {

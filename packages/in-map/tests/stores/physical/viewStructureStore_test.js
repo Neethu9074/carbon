@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest ,node */
+/* eslint-env node */
+
 import { expect } from 'chai';
 
 describe('viewStructureStore', () => {
@@ -19,7 +20,7 @@ describe('viewStructureStore', () => {
         __esModule: true,
         hasRestrictedAccess: true
       }));
-      const store = require('in-stores/view/viewStructureStore');
+      const store = require('in-infrastructure/perspectives/viewStructureStore');
 
       it('should return given search matches on query', () => {
         expect(store.getPermittedIds(match, null, query)).to.equal(match);
@@ -53,7 +54,7 @@ describe('viewStructureStore', () => {
         __esModule: true,
         hasRestrictedAccess: false
       }));
-      const store = require('in-stores/view/viewStructureStore');
+      const store = require('in-infrastructure/perspectives/viewStructureStore');
 
       it('should return given search matches', () => {
         expect(store.getPermittedIds(match, null, '')).to.equal(match);

@@ -1,0 +1,18 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+:local {
+  .listItem {
+    align-items: stretch;
+  }
+
+  .dialog {
+    max-width: 80vw;
+  }
+
+  .message {
+    word-break: break-word;
+  }
+}

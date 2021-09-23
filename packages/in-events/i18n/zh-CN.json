@@ -15,6 +15,7 @@
   "titleTriggerEvent": "触发事件",
   "titleRelatedEvents": "相关事件 ({{eventCount}})",
   "titleLastProcess": "上一个进程",
+  "titleLastHost": "上一个主机",
   "titleIncidentTimeline": "突发事件时间线",
   "titleAnalyzeHTTPRequests": "分析 HTTP 请求数",
   "titleAnalyzePageLoads": "分析页面加载",
@@ -71,7 +72,9 @@
   "labelTriggeringEvent": "触发事件",
   "labelSummary": "摘要",
   "labelIncidents": "突发事件",
-  "labelIncidentWithSeverity": "{{severityLabel}} 个突发事件",
+  "labelOpen": "打开",
+  "labelClosed": "已关闭",
+  "labelIncidentWithSeverity": "{{severityLabel}} 事件 ({{stateLabel}})",
   "labelIssueWithSeverity": "{{severityLabel}} 个问题",
   "labelChange": "更改",
   "labelCritical": "严重",
@@ -82,7 +85,6 @@
   "labelIssues": "问题",
   "labelMonitoringIssues": "监视问题",
   "labelAll": "所有",
-  "labelEvent": "事件（event）",
   "buttonViewCustomEvent": "查看定制事件",
   "buttonViewBuiltInEvent": "查看内置事件",
   "buttonCollapse": "折叠",
@@ -93,15 +95,31 @@
   "buttonFocusTimeToRelease": "关注版本时间",
   "buttonFollowReleaseLive": "实时关注版本",
   "linkViewLastProcess": "查看上一个进程",
+  "linkGoToTheOfflineHost": "转至脱机主机",
   "headerStarted": "开始",
   "headerTitle": "标题",
   "headerEnd": "结束",
   "headerOn": "位置",
   "headerTimeline": "时间线",
+  "hostOffLineEventProblemChangeTime": "单击下面的链接以转至 Instana 所监视的主机的最新版本。这样做会将时间窗口的开始时间更改为 Instana 监视该主机的时间点",
   "offLineEventProblemChangeTime": "单击下面的链接以转至 Instana 所监视的进程的最新版本。这样做会将时间窗口的开始时间更改为 Instana 监视该进程的时间点",
   "offLineEventProblemNoMatch": "Instana 找不到指向任何与该定制事件相匹配的先前实体的引用。",
   "tooltipAnalyzeCalls": "此项的配置与查询构建器 2 表达式存储在一起。<br /> 只能将此按钮用于存储在查询构建器 1 中的配置",
   "tooltipCloseEventDetail": "关闭事件详细信息",
   "releaseOccurName": "版本：{{releaseName}}",
-  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）"
+  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> 前）",
+  "navigatorSplitScreen": {
+    "tooltipViewPrevious_event": "查看上一个事件（快捷键：左方向键）",
+    "tooltipViewNext_event": "查看下一个事件（快捷方式：右方向键）",
+    "tooltipCloseSidebar": "关闭侧边栏",
+    "tooltipOpenSidebar": "打开侧边栏"
+  },
+  "kubernetesEvent": {
+    "problemText": {
+      "podContainerNotReady": "Pod 容器未就绪"
+    },
+    "fixSuggestion": {
+      "podContainerNotReady": "Pod 容器未就绪。请检查节点是否具有容量和/或是否可以从指定的映像路径检索映像。"
+    }
+  }
 }

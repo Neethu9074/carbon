@@ -227,9 +227,6 @@
     }
   },
   "dashboard": {
-    "mobileAppProductArea": "EUM: Mobile Apps",
-    "mobileAppViewPageRootName": "Ansicht für mobile Apps",
-    "mobileAppPageRootName": "Mobile App",
     "mobileAppViewTitle": "Mobile App",
     "mobileAppTitle": "Ansicht",
     "analyzeSessions": "Sitzungen analysieren",
@@ -301,6 +298,12 @@
       "geographyTitle": "Geographie",
       "topViewsTitle": "Wichtigste Ansichten",
       "globViewFootertext": "Abbildungen von NASA bereitgestellt"
+    },
+    "noDataAvailable": {
+      "viewsTitle": "Keine Ansichten verfügbar",
+      "viewsDescription": "Für den ausgewählten Zeitbereich wurden keine Ansichten abgerufen.",
+      "httpRequestsTitle": "Keine HTTP-Anforderungen verfügbar",
+      "httpRequestsDescription": "Es wurden keine HTTP-Anforderungen für den ausgewählten Zeitbereich abgerufen."
     }
   },
   "appsList": {
@@ -308,9 +311,7 @@
     "sessionStartsLabel": "Sitzungsstarts",
     "viewTransitionsLabel": "Anzeigewechsel ",
     "addMobileAppBtn": "Mobile App hinzufügen",
-    "mobileAppsTitle": "Mobile Apps",
-    "mobileAppProductArea": "EUM: Mobile Apps",
-    "mobileAppPageRootName": "Mobile Apps"
+    "mobileAppsTitle": "Mobile Apps"
   },
   "newAppFlow": {
     "addMobileAppTitle": "Mobile App hinzufügen",
@@ -352,9 +353,9 @@
   "dataSource_httpRequest_2": "{{formattedCount}} HTTP-Anforderungen",
   "dataSource_custom": "{{formattedCount}} Angepasstes Ereignis",
   "dataSource_custom_plural": "{{formattedCount}} Angepasste Ereignisse",
-  "dataSource_custom_0": "{{formattedCount}} Angepasste Ereignisse",
-  "dataSource_custom_1": "{{formattedCount}} Angepasste Ereignisse",
-  "dataSource_custom_2": "{{formattedCount}} Angepasste Ereignisse",
+  "dataSource_custom_0": "{{formattedCount}} angepasste Ereignisse",
+  "dataSource_custom_1": "{{formattedCount}} angepasste Ereignisse",
+  "dataSource_custom_2": "{{formattedCount}} angepasste Ereignisse",
   "facetedSearch": {
     "mobileApp": "Mobile App",
     "view": "Ansicht",

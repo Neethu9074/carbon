@@ -4,7 +4,6 @@
  */
 
 /* eslint-disable comma-style */
-/* eslint-env jest */
 
 import { assert } from 'chai';
 

@@ -288,6 +288,7 @@
         "indexLabelDetails": "Details",
         "labelAnalytics": "Analyse",
         "titlePageLoad": "Seitenladevorgang",
+        "pageLoadOnResource": "{{page}} in {{resource}}",
         "buttonDownload": "Herunterladen",
         "renderTimeSelectionTooltip": "Seitenladedetails schließen",
         "referencedPageLoads": "Referenzierte Seitenladevorgänge"
@@ -345,9 +346,7 @@
     "websitesListLabelOnLoadTime": "onLoad-Zeit",
     "websitesListLabelHealth": "Allgemeinzustand",
     "websitesListButtonAddWebsite": "Website hinzufügen",
-    "websitesListTitleWebsites": "Websites",
-    "websitesListProductAreaEUMWebsites": "EUM: Websites",
-    "websitesListPageRootNameWebsites": "Websites"
+    "websitesListTitleWebsites": "Websites"
   },
   "websiteDashboard": {
     "components": {
@@ -461,6 +460,10 @@
         "alertConfigurationTitleTimeThreshold": "Zeitschwellenwert",
         "alertConfigurationTitleAlertChannels": "Alertkanäle",
         "alertConfigurationTitleAlertProperties": "Alerteigenschaften",
+        "filter": "Filter",
+        "filter_plural": "Filter",
+        "moreFiltersWithCount": "+{{count}} weiterer Filter",
+        "moreFiltersWithCount_plural": "+{{count}} weitere Filter",
         "alertsLabelName": "Name",
         "alertsLabelFilters": "Filter",
         "alertsHeaderConfiguredAlerts": "Konfigurierte Alerts",
@@ -744,7 +747,19 @@
     "websiteDashboardTitleWebsitePage": "Website-Seite",
     "websiteDashboardTitleWebsite": "Website",
     "websiteDashboardButtonAnalyzePageLoads": "Seitenladevorgänge analysieren",
-    "websiteDashboardButtonAnalyzePageTransitions": "Seitenwechsel analysieren"
+    "websiteDashboardButtonAnalyzePageTransitions": "Seitenwechsel analysieren",
+    "noDataAvailable": {
+      "pagesTitle": "Keine Seiten verfügbar",
+      "pagesDescription": "Es wurden keine Seiten für den ausgewählten Zeitbereich abgerufen.",
+      "customEventsTitle": "Keine angepassten Ereignisse verfügbar",
+      "customEventsDescription": "Es wurden keine angepassten Ereignisse für den ausgewählten Zeitraum abgerufen.",
+      "javascriptErrorsTitle": "Keine JavaScript-Fehler verfügbar",
+      "javascriptErrorsDescription": "Es wurden keine JavaScript-Fehler für den ausgewählten Zeitraum abgerufen.",
+      "resourcesTitle": "Keine Ressourcen verfügbar",
+      "resourcesDescription": "Es wurden keine Ressourcen für den ausgewählten Zeitbereich abgerufen.",
+      "httpRequestsTitle": "Keine HTTP-Anforderungen verfügbar",
+      "httpRequestsDescription": "Es wurden keine HTTP-Anforderungen für den ausgewählten Zeitbereich abgerufen."
+    }
   },
   "rename": {
     "help": "Die Umbenennung einer Website ist eine letztendlich konsistente Aktion innerhalb des Instana-Systems. Aus diesem Grund kann das Ändern eines Websitenamens <strong>einige Minuten</strong> in Anspruch nehmen, bis es im gesamten System ausgeführt ist. "

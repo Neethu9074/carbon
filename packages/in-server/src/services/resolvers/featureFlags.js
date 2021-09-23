@@ -70,6 +70,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'zhmcEnabled',
+    instanaCtlKey: 'feature.zhmc.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'skipOnboardingDialog',
     instanaCtlKey: 'feature.skip.oboarding.dialog',
     defaultValue: false
@@ -163,11 +168,6 @@ module.exports = exports = [
     uiClientKey: 'pseudoLanguageEnabled',
     instanaCtlKey: 'feature.pseudo.language.enabled',
     defaultValue: false
-  },
-  {
-    uiClientKey: 'authenticationOidcEnabled',
-    instanaCtlKey: 'feature.authentication.oidc.enabled',
-    defaultValue: true
   },
   {
     uiClientKey: 'syntheticCallsEnabled',

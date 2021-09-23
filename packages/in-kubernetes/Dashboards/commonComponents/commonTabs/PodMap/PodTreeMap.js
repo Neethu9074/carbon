@@ -18,7 +18,7 @@ import {
 import DeplayedGroupTooltip from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/GroupTooltip';
 import DeplayedPodTooltip from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/PodTooltip';
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
-import getEntitiesHealthInfo from 'in-subscription/kubernetes/getEntitiesHealthInfo';
+import getEntitiesHealthInfo from 'in-kubernetes/subscriptions/getEntitiesHealthInfo';
 import { getTimeWindowBasedMetricAggregation } from 'in-stores/metric';
 import { createColorPool } from 'in-services/util/ColorGenerator';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';

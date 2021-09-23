@@ -3,12 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
+import {
+  builtInEnumValue,
+  customEnumValue,
+  deprecatedValue,
+  getEntityTypeOptionsOfBuiltInMetrics,
+  getSeverityText,
+  isAppDataEntityType,
+  isBuiltInRule,
+  migratedValue
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import {
   getEntityHref,
   getEntityIdView,
@@ -17,35 +27,28 @@ import {
   teamSettingsAlertingEventCustomNew
 } from 'in-settings/navigation/paths';
 import {
-  getEventSpecificationsMutable,
   deleteCustomEventSpecification,
+  getEventSpecificationsMutable,
   setBuiltInEventSpecificationsEnabled,
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
-import {
-  customEnumValue,
-  builtInEnumValue,
-  getEntityTypeOptionsOfBuiltInMetrics,
-  isBuiltInRule
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
-import { getSeverityText } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
 import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { intersperse } from 'in-services/arrayUtils';
 import { getPluginName } from 'in-sdk/pluginName';
-import WithIcon from 'in-components/WithIcon';
 import ComboBox from 'in-components/ComboBox';
+import WithIcon from 'in-components/WithIcon';
 import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from './Events.mless';
 
-const typeOptions = [
+let typeOptions = [
   { value: builtInEnumValue, label: t('in-settings:tabs.builtIn') },
   { value: customEnumValue, label: t('in-settings:tabs.custom') }
 ];
@@ -76,7 +79,12 @@ export default function Events({
   onRowClick,
   hasRowNavigation = true,
   inSelectListDialog = false,
-  getHeader = defaultGetHeader(inSelectListDialog, tableActions)
+  getHeader = defaultGetHeader(inSelectListDialog, tableActions),
+  /**
+   * 1. Removes filter items for deprected/migrated events
+   * 2. Filters out deprecated/migrated events
+   */
+  withoutDeprecatedEvents
 }) {
   const [type, setType] = useState(null);
   const [severity, setSeverity] = useState(null);
@@ -89,6 +97,9 @@ export default function Events({
     entityTypeOptionsOfCustomMetrics
   );
 
+  const loadEvents = useLoadEventsFunction(withoutDeprecatedEvents, loadEntities);
+  adjustTypeOptions(withoutDeprecatedEvents, typeOptions);
+
   return (
     <List
       title={setTitle ? t('in-settings:tabs.events') : null}
@@ -96,7 +107,7 @@ export default function Events({
       getEntityName={getEntityName}
       columnDefinitions={columnDefinitions(hasRowNavigation)}
       tableActions={tableActions}
-      loadEntities={loadEntities ? loadEntities : getEventSpecificationsMutable}
+      loadEntities={loadEvents}
       noDataMessage={noDataMessage}
       pageSize={pageSize}
       initialOrderBy="name"
@@ -311,7 +322,7 @@ function Subscript({ entity }) {
   return (
     <Fragment>
       {intersperse(
-        [showBuiltIn(), showDisabled(), showInvalid(), showDeprecated()].filter(elem => elem),
+        [showBuiltIn(), showDisabled(), showInvalid(), showDeprecated(), showMigrated()].filter(elem => elem),
         i => (
           <span key={`comma-${i}`}>, </span>
         )
@@ -336,17 +347,19 @@ function Subscript({ entity }) {
   }
 
   function showDeprecated() {
-    return deprecateAppDataLegacyEvents && isAppDataEntityType() ? (
+    return deprecateAppDataLegacyEvents && isAppDataEntityType(entity.entityType) ? (
       <span key="deprecated" className={locals.deprecated}>
         {t('in-settings:tabs.deprecated')}
       </span>
     ) : null;
   }
 
-  function isAppDataEntityType() {
-    const { entityType } = entity;
-
-    return entityType === 'application' || entityType === 'service' || entityType === 'endpoint';
+  function showMigrated() {
+    return entity.migrated ? (
+      <span key="invalid" className={locals.migrated}>
+        {t('in-settings:tabs.migrated')}
+      </span>
+    ) : null;
   }
 }
 
@@ -357,7 +370,11 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
     filters.push(entity => hiddenIds.indexOf(entity.id) < 0);
   }
 
-  if (type) {
+  if (type === migratedValue) {
+    filters.push(entity => Boolean(entity.migrated));
+  } else if (type === deprecatedValue) {
+    filters.push(entity => isAppDataEntityType(entity.entityType));
+  } else if (type) {
     filters.push(entity => entity.type === type);
   }
 
@@ -376,4 +393,37 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
   }
 
   return filters;
+}
+
+function useLoadEventsFunction(withoutDeprecatedEvents, loadEntities) {
+  const loadEventsFunc = useCallback(() => (loadEntities ? loadEntities : getEventSpecificationsMutable), [
+    loadEntities
+  ]);
+
+  const [loadEvents, setLoadEvents] = useState(loadEventsFunc);
+
+  useEffect(() => {
+    if (deprecateAppDataLegacyEvents && withoutDeprecatedEvents) {
+      setLoadEvents(_loadEvents => () =>
+        _loadEvents().map(es => {
+          return es.filter(({ entityType }) => !isAppDataEntityType(entityType)).filter(Boolean);
+        })
+      );
+    }
+  }, [withoutDeprecatedEvents, loadEventsFunc]);
+
+  return loadEvents;
+}
+
+function adjustTypeOptions(withoutDeprecatedEvents) {
+  if (deprecateAppDataLegacyEvents && withoutDeprecatedEvents) {
+    typeOptions = typeOptions.filter(({ value }) => [builtInEnumValue, customEnumValue].includes(value));
+  } else {
+    if (!typeOptions.some(({ value }) => value === deprecatedValue)) {
+      typeOptions.push(
+        { value: deprecatedValue, label: t('in-settings:tabs.deprecated') },
+        { value: migratedValue, label: t('in-settings:tabs.migrated') }
+      );
+    }
+  }
 }

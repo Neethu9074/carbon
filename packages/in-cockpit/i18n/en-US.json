@@ -6,7 +6,12 @@
       "errCallRate": "Erroneous Call Rate",
       "latency": "Latency",
       "calls": "Calls",
-      "newAppPerspect": "New Application Perspective"
+      "newAppPerspect": "New Application Perspective",
+      "services": "{{count}} Services",
+      "services_plural": "{{count}} Services",
+      "services_0": "{{count}} Services",
+      "services_1": "{{count}} Services",
+      "services_2": "{{count}} Services"
     },
     "eventChartCard": {
       "allEvents": "All Events",
@@ -35,6 +40,7 @@
       "memoryUsage": "Memory Usage",
       "cloudFoundryApplication": "Cloud Foundry Application",
       "vSphereDatacenter": "vSphere Datacenter",
+      "ibmz": "IBM Z",
       "clusterSubTitle": "{{clusterDistribution}} Cluster, {{count}} Node, {{numberOfPods}}",
       "clusterSubTitle_plural": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",
       "clusterSubTitle_0": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",
@@ -76,6 +82,9 @@
     "addUser": "Add User",
     "platforms": "Platforms",
     "cloudFoundry": "Cloud Foundry",
+    "ibmz": "IBM Z",
+    "vsphere": "vSphere",
+    "kubernetes": "Kubernetes",
     "websites": "Websites",
     "mobileApps": "Mobile Apps",
     "websitesMobileApps": "Websites & Mobile Apps"

@@ -1,6 +1,6 @@
 # Installation
 
-**Please do not skip any of these steps!**
+**Please do not skip any of these steps and only use `sudo` where this document instructs you to!**
 
 This document lists the technical steps necessary in order to get a local UI development setup running.
 

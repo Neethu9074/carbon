@@ -1,0 +1,31 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React from 'react';
+
+import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+
+export default {};
+
+export function SingleMessage() {
+  return <ErroneousResultPresenter errors={[{ message: 'A backend error occured' }]} />;
+}
+
+export function MultipleMessage() {
+  return (
+    <ErroneousResultPresenter
+      errors={[{ message: 'A backend error occured' }, { message: 'This is another error message' }]}
+    />
+  );
+}
+
+export function NoData() {
+  return <NoDataAvailable width={400} height={100} />;
+}
+
+export function NoDataSmall() {
+  return <NoDataAvailable width={72} height={24} />;
+}

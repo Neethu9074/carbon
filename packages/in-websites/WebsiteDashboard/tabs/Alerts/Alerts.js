@@ -32,7 +32,7 @@ import Tooltip from 'in-components/Tooltip/Tooltip';
 import Footer from 'in-components/Footer/Footer';
 import List from 'in-settings/components/List';
 import { role } from 'in-stores/user';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './Alerts.mless';
 
@@ -69,6 +69,16 @@ export default function Alerts({ websiteLabel, websiteId }) {
           tableActions={
             role.canConfigureCustomAlerts && {
               delete: {
+                dialogMessage(entity) {
+                  return (
+                    <span>
+                      <Trans
+                        i18nKey="in-websites:websiteDashboard.tabs.alerts.labelConfirmRemoveAlertConfigWithName"
+                        values={{ name: entity.name }}
+                      />
+                    </span>
+                  );
+                },
                 deleteEntity: config =>
                   deleteAlertConfig(config.id).tap(() => websitesAlertingListAlertDeleted({ id: config.id }))
               },
@@ -105,7 +115,7 @@ Alerts.propTypes = {
 };
 
 function getEntityName(entity) {
-  return `alert "${entity.name}"`;
+  return t('in-websites:websiteDashboard.tabs.alerts.alertEntityName', { entityName: entity.name });
 }
 
 function getNameContent(config) {

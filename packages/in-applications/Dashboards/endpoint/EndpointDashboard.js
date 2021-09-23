@@ -26,10 +26,10 @@ import { endpointDashboardUrlParameters } from 'in-applications/navigation/urlPa
 import AnalyzeCallsButton from 'in-applications/components/AnalyzeCallsButton';
 import { applicationTimeShiftSelectTracker } from 'in-applications/tracker';
 import TimeShiftDropdown from 'in-components/TimeShift/TimeShiftDropdown';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import ServiceContext from 'in-applications/components/ServiceContext';
+import getEndpoint from 'in-applications/subscriptions/getEndpoint';
 import ContextGuide from 'in-components/ContextGuide/ContextGuide';
-import getEndpoint from 'in-subscription/application/getEndpoint';
 import tabs from 'in-applications/Dashboards/endpoint/tabs/index';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';

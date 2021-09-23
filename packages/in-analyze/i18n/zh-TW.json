@@ -125,6 +125,9 @@
         "hideWebsiteInformation": "隱藏網站資訊",
         "showWebsiteInformation": "顯示網站資訊",
         "viewWebsiteActivity": "檢視網站活動"
+      },
+      "logs": {
+        "noDataMessage": "此追蹤沒有可用的日誌"
       }
     },
     "components": {
@@ -172,13 +175,22 @@
         "tags": "標籤"
       },
       "callTree": {
-        "expandButtonForRow": "列的展開按鈕",
+        "expandButtonForRow": "展開所有子呼叫",
+        "collapseButtonForRow": "收合所有子呼叫",
         "of": "的",
-        "inheritedFrom": "繼承自"
+        "inheritedFrom": "繼承自",
+        "cardTitle": "呼叫"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "著色依據",
-        "endpoint": "端點"
+        "colorizeByExpl": "變更呼叫列的顏色",
+        "endpoint": "端點",
+        "service": "服務"
+      },
+      "viewToggleButtons": {
+        "expl": "檢視方式",
+        "tree": "Tree",
+        "chart": "時間表"
       },
       "logTooltipContent": {
         "errorLog": "錯誤日誌",
@@ -241,14 +253,6 @@
   "analyzeHeader": {
     "title": "分析"
   },
-  "editTagFilterDialog": {
-    "dialogTitleEdit": "編輯過濾器",
-    "dialogTitleAdd": "新增 {{filterCategory}} 過濾器",
-    "messageTitle": "選取標籤以作為資料的過濾依據。標籤有區分大小寫。",
-    "placeholder": "鍵入以過濾結果...",
-    "saveFilter": "儲存過濾器",
-    "addFilter": "新增過濾器"
-  },
   "filterBar": {
     "keyValueBarItem": {
       "tooltip": "移除過濾器"
@@ -263,12 +267,6 @@
       "clickToFilter": "按一下以依 {{itemLabel}} 過濾"
     },
     "allFilters": "所有過濾器"
-  },
-  "radioButtons": {
-    "messageFilering": "在選取的時間範圍內，不提供來源的過濾及分組",
-    "messageIndependent": "此標籤與來源和目的地無關",
-    "fragmentSource": "只套用至呼叫的來源",
-    "fragmentCall": "套用至呼叫的來源或目的地"
   },
   "dialogs": {
     "tooltip": "「建議」目前無法使用，請鍵入值",
@@ -286,7 +284,8 @@
     "tooltipCloseLogDetails": "關閉日誌詳細資料",
     "analyzeLogsLabel": "分析日誌",
     "similarLogs": "類似日誌",
-    "similarServiceLogs": "在服務的環境定義中"
+    "similarServiceLogs": "在此服務的環境定義中顯示日誌",
+    "service": "顯示服務"
   },
   "traceDetails": {
     "labelTotal": "總計",
@@ -301,15 +300,8 @@
     "callDetails": {
       "tooltipCloseCallDetails": "關閉呼叫明細"
     },
-
     "callTimeAxis": {
       "started": "開始於：{{startedTime}}"
-    },
-    "navigatorSplitScreen": {
-      "tooltipViewPrevious": "檢視前一個 {{viewType}}（快速鍵：左移鍵）",
-      "tooltipViewNext": "檢視下一個 {{viewType}}（快速鍵：右移鍵）",
-      "tooltipCloseSidebar": "關閉資訊看板",
-      "tooltipOpenSidebar": "開啟資訊看板"
     }
   },
   "tabs": {
@@ -332,14 +324,6 @@
       "beta": "測試版",
       "analytics": "分析"
     },
-    "editTagFilterDialog": {
-      "tag": "標籤",
-      "loadingSuggestions": "正在載入建議...",
-      "operator": "運算子",
-      "true": "true",
-      "false": "false",
-      "removeFilter": "移除過濾器"
-    },
     "filterBar": {
       "group": "群組",
       "filters": "過濾器",
@@ -361,10 +345,6 @@
     "groupedTraces": {
       "tagPresentWithNoValue": "標籤存在但沒有值",
       "tagNotPresent": "標籤不存在"
-    },
-    "radioButtons": {
-      "source": "來源",
-      "destination": "目的地"
     }
   }
 }

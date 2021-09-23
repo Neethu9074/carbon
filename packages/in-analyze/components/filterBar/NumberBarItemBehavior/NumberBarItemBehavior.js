@@ -14,7 +14,7 @@ import { identity } from 'in-services/util/function';
 export default function NumberBarItemBehavior(props) {
   return (
     <Overlay withoutWrapper content={NumberBarOverlayBehavior} props={props}>
-      {Content}
+      {overlayProps => <Content {...props} {...overlayProps} />}
     </Overlay>
   );
 }

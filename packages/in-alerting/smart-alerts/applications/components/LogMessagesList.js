@@ -14,7 +14,7 @@ import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/s
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import getCallGroups from 'in-subscription/application/getCallGroups';
+import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import List from 'in-settings/components/List';
 import Tooltip from 'in-components/Tooltip';

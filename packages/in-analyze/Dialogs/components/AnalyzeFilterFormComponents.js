@@ -10,6 +10,7 @@ import { SvgIcon } from '@instana/components';
 
 import { TAG_TYPES, getOperatorLabel } from 'in-analyze/applicationFilter';
 import CreatableComboBox from 'in-components/ComboBox/CreatableComboBox';
+// eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import FormGroup from 'in-components/form/FormGroup';

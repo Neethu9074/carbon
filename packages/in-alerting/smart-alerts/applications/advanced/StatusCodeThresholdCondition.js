@@ -30,7 +30,6 @@ import { blueprintConfigPropType } from 'in-alerting/components/constants';
 
 export default function StatusCodeThresholdCondition({
   form,
-  onChange,
   updateForm,
   blueprintConfig,
   editMode,
@@ -56,7 +55,7 @@ export default function StatusCodeThresholdCondition({
             <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
             <ThresholdOperatorDropDown
               form={form}
-              onChange={onChange}
+              updateForm={updateForm}
               trackingCallback={applicationsAlertingThresholdOperatorChanged}
             />
 
@@ -78,7 +77,6 @@ export default function StatusCodeThresholdCondition({
           updateForm={updateForm}
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
-          onChange={onChange}
           isGlobalSmartAlert={isGlobalSmartAlert}
         />
       )}
@@ -86,7 +84,7 @@ export default function StatusCodeThresholdCondition({
       {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm
           form={form}
-          onChange={onChange}
+          updateForm={updateForm}
           defaultValue={defaultDeviationFactor}
           trackChange={applicationsAlertingThresholdDeviationFactorChanged}
         />
@@ -98,7 +96,6 @@ export default function StatusCodeThresholdCondition({
 StatusCodeThresholdCondition.propTypes = {
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool

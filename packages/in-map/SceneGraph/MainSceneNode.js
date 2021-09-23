@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+import { view$, types as views } from 'in-infrastructure/perspectives';
 import ContainerMapNode from 'in-map/SceneGraph/container/MapNode';
 import PhysicalMapNode from 'in-map/SceneGraph/physical/MapNode';
-import { view$, types as views } from 'in-stores/view';
 import Node from 'in-map/SceneGraph/Node';
 
 export default class SceneNode extends Node {

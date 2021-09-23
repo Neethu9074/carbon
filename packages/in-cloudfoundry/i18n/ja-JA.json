@@ -25,7 +25,11 @@
     "routes": "経路",
     "diskLimit": "ディスク制限",
     "createdAt": "作成日時",
-    "analyzeCalls": "呼び出しの分析"
+    "analyzeCalls": "呼び出しの分析",
+    "noDataAvailable": {
+      "containersTitle": "使用可能なコンテナーはありません",
+      "containersDescription": "選択された時刻範囲で取得されたコンテナーはありません。"
+    }
   },
   "name": "名前",
   "requestedState": "要求状態",

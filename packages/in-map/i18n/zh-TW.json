@@ -1,4 +1,9 @@
 {
+  "metrics_CPU": "CPU",
+  "metrics_Load": "負載",
+  "metrics_Usage": "用量",
+  "metrics_Memory": "記憶體",
+  "metrics_Used": "已用",
   "notMonitoringTitle": "未監視",
   "noDataTitle": "找不到監視資料",
   "notMonitoringText": "請在您要監視的系統上安裝 Instana 代理程式。安裝指示可在我們的 [線上文件][文件] 中找到。\n\n 如果您需要其他協助，請透過我們的 [支援入口網站][支援] 聯絡我們。\n\n[文件]:https://instana.com/docs/setup_and_manage/\n[支援]:https://support.instana.com",

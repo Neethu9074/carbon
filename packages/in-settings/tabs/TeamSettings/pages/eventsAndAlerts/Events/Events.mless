@@ -45,4 +45,8 @@
   .deprecated {
     color: @lib__colors__red800;
   }
+
+  .migrated {
+    color: @lib__colors__green800;
+  }
 }

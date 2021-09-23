@@ -10,7 +10,7 @@ import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonC
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/KubernetesIndicator';
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
-import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
+import getKubernetesNamespace from 'in-kubernetes/subscriptions/getKubernetesNamespace';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import { namespaceId as matrixNamespaceId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';

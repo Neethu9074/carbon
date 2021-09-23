@@ -160,8 +160,9 @@ function writeTryBuildServerConfigFile(cb) {
 }
 
 function startTryBuildServer(cb) {
-  execSync('node "' + path.join(paths.targetDir, 'index.js') + '"', {
-    stdio: 'inherit'
+  execSync(`bash -c 'node index.js | node_modules/pino-pretty/bin.js -c --ignore __in,v,module,hostname,pid'`, {
+    stdio: 'inherit',
+    cwd: paths.targetDir
   });
   cb();
 }

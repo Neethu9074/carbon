@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
 /* global __dirname: false */
 
 import proxyquire from 'proxyquire';

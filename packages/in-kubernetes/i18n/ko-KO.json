@@ -95,7 +95,6 @@
     "container": "컨테이너",
     "loading": "로드 중",
     "ready": "준비됨",
-    "total": "총계",
     "restarts": "다시 시작",
     "serviceLocation": "서비스 위치",
     "intEndpoints": "내부 엔드포인트",
@@ -198,8 +197,29 @@
     "noCpuLimitQuotaMessage": "이 네임스페이스에는 CPU 한계 할당량이 없습니다.",
     "noMemoryRequestQuotaMessage": "이 네임스페이스에는 메모리 요청 할당량이 없습니다.",
     "noMemoryLimitQuotaMessage": "이 네임스페이스에는 메모리 한계 할당량이 없습니다.",
-    "completion": "완료",
-    "placeholderPhase": "단계(Phase)…"
+    "placeholderPhase": "단계(Phase)…",
+    "podsOnline": "온라인 팟(Pod)",
+    "podsDesired": "원하는 팟(Pod)",
+    "noDataAvailable": {
+      "servicesTitle": "사용 가능한 서비스가 없음",
+      "servicesDescription": "선택한 시간 범위에 대해 검색된 서비스가 없습니다.",
+      "persistentVolumesTitle": "사용 가능한 지속적 볼륨이 없음",
+      "persistentVolumesDescription": "선택한 시간 범위에 대해 검색된 지속적 볼륨이 없습니다.",
+      "conditionsTitle": "사용 가능한 조건이 없음",
+      "conditionsDescription": "선택한 시간 범위에 대해 검색된 조건이 없습니다.",
+      "cronjobsTitle": "사용 가능한 Cronjob이 없음",
+      "cronjobsDescription": "선택한 시간 범위에 대해 검색된 Cronjob이 없습니다.",
+      "eventsTitle": "사용 가능한 이벤트 없음",
+      "eventsDescription": "선택한 시간 범위에 대해 검색된 이벤트가 없습니다.",
+      "namespacesTitle": "사용 가능한 네임스페이스가 없음",
+      "namespacesDescription": "선택한 시간 범위에 대해 검색된 네임스페이스가 없습니다.",
+      "nodesTitle": "사용 가능한 노드가 없음",
+      "nodesDescription": "선택한 시간 범위에 대해 검색된 노드가 없습니다.",
+      "podsTitle": "사용 가능한 팟(Pod)이 없음",
+      "podsDescription": "선택한 시간 범위에 대해 검색된 팟(Pod)이 없습니다.",
+      "endpointsTitle": "사용 가능한 엔드포인트가 없음",
+      "endpointsDescription": "선택한 시간 범위에 대해 검색된 엔드포인트가 없습니다."
+    }
   },
   "viewAllEntityName_unknownEntity_plural": "모두",
   "viewAllEntityName_unknownEntity_0": "모두",
@@ -248,12 +268,16 @@
   "running": "실행 중",
   "pending": "보류 중",
   "succeeded": "성공",
-  "active": "활성",
   "failed": "실패",
   "unknown": "알 수 없음",
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "사용 가능한 Kubernetes 데이터가 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+  },
+  "pod": {
+    "pending": "팟(Pod) 보류 중",
+    "active": "팟(Pod) 활성",
+    "completed": "팟(Pod) 완료됨"
   }
 }

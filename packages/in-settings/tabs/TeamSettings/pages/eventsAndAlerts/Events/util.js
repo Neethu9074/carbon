@@ -17,6 +17,9 @@ export const customEnumValue = 'CUSTOM';
 export const builtInValue = 'built-in';
 export const customValue = 'custom';
 
+export const deprecatedValue = 'deprecated';
+export const migratedValue = 'migrated';
+
 export function isBuiltInRule(entity) {
   return isBuiltInRuleType(entity.type);
 }
@@ -145,4 +148,9 @@ export function unmapConditionValue(value, formatterType) {
     value *= 1000;
   }
   return value;
+}
+
+const migrateableEntityTypes = ['application', 'service', 'endpoint'];
+export function isAppDataEntityType(entityType = '') {
+  return migrateableEntityTypes.includes(entityType.toLowerCase());
 }

@@ -18,7 +18,6 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/share
 export default function ErrorRateInteractiveChart({
   blueprintConfig,
   form,
-  onChange,
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
@@ -31,7 +30,6 @@ export default function ErrorRateInteractiveChart({
     <div className={locals.container}>
       <ErrorRateThresholdCondition
         form={form}
-        onChange={onChange}
         updateForm={updateForm}
         blueprintConfig={blueprintConfig}
         editMode={editMode}
@@ -66,7 +64,6 @@ export default function ErrorRateInteractiveChart({
 ErrorRateInteractiveChart.propTypes = {
   form: PropTypes.object.isRequired,
   blueprintConfig: blueprintConfigPropType,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired,

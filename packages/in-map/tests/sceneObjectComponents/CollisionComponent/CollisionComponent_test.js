@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env node */
 import { expect } from 'chai';
-import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 
 import { OCTREE_LAYER, PREDEFINED_COLLISION_OBJECTS } from 'in-map/misc/serviceLocator/physics/physicsConstants';
-import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
+import PhysicsServiceLocator from 'in-map/misc/serviceLocator/physics/PhysicsServiceLocator';
 import CollisionComponent from 'in-map/sceneObjectComponents/CollisionComponent';
+import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
 
 jest.mock('in-map/misc/serviceLocator/physics/PhysicsServiceLocator', () => {
   const sinon = jest.requireActual('sinon');

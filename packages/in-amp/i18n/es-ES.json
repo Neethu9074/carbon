@@ -9,7 +9,8 @@
       "zip": "Código postal",
       "city": "Ciudad",
       "address": "Dirección",
-      "additionalAddress": "Dirección adicional"
+      "additionalAddress": "Dirección adicional",
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "Si es necesario corregir cualquier información de esta página, póngase en contacto con <linkToMail>{{salesopsEmail}}</linkToMail>"
     },
     "activeLicenses": {
       "name": "Nombre",
@@ -18,7 +19,7 @@
       "licenseStartData": "Datos de inicio de licencia",
       "licenseEndData": "Datos de fin de licencia",
       "licensedApmHosts": "Hosts APM con licencia",
-      "licensedImHosts": "Hosts IM con licencia"
+      "licensedIqmHosts": "Hosts IQM con licencia"
     },
     "ampInformationModifier": {
       "allPaidUnitsAggregated": "Todas las unidades pagadas (agregadas)",
@@ -53,15 +54,67 @@
       "apmHosts": "Hosts de APM",
       "purchased": "Adquirido",
       "infrastructureUsage": "Uso de la infraestructura",
-      "iqmHosts": "Hosts de IQM",
-      "containerUsage": "Uso del contenedor",
-      "docker": "Docker",
-      "containerD": "ContainerD",
-      "crio": "Crio",
-      "garden": "Garden",
-      "lxc": "LXC",
-      "serverlessUsage": "Uso sin servidor",
-      "serverless": "Sin servidor"
+      "iqmHosts": "Hosts de IQM"
+    },
+    "activationAdoption": {
+      "activationAdoption": "Activación y adopción",
+      "customerAdoption": "Adopción del Cliente",
+      "activation": "Activación",
+      "adoption": "Adopción",
+      "activationStages": {
+        "createDate": "Fecha de creación",
+        "firstSignIn": "Primer inicio de sesión",
+        "firstAgentInstalled": "Primer agente instalado",
+        "additionalUserInvited": "Usuario adicional invitado",
+        "threeAgentsInstalled": "3 Agentes instalados",
+        "twoApplicationPerspectivesCreated": "2 Perspectiva de aplicación creada",
+        "oneAlertSetUpAndActivated": "1 Alerta establecida y activada",
+        "oneWebsiteMonitored": "1 Sitio web supervisado",
+        "fiveUsers": "5 Usuarios"
+      },
+      "adoptionKPIs": {
+        "applicationPerspective": "Perspectiva de aplicación",
+        "eum": "EUM",
+        "alerting": "Alertas",
+        "pipelineFeedback": "Retroalimentación de interconexión",
+        "customDashboards": "Paneles de control personalizados",
+        "mobileEum": "EUM móvil",
+        "numOfApplicationPerspectives": "# APs",
+        "numOfReportingApplicationPerspectives": "# APs de informes",
+        "numOfWebsites": "# Sitios web",
+        "numOfAlertChannels": "# Canales de alerta",
+        "numOfAlerts": "# Alertas",
+        "numOfActiveAlerts": "# Alertas activas",
+        "numOfReleases": "# Marcadores de Release/# Releases",
+        "numOfCustomDashboards": "# Paneles de control personalizados",
+        "numOfMobileApps": "# Aplicaciones"
+      },
+      "activationChecklist": "Lista de comprobación de activación",
+      "productAdoption": "Adopción del producto",
+      "sparkChartMetrics": {
+        "metric_applications": "Aplicaciones",
+        "metric_reportingapplications": "Aplicaciones de informes",
+        "metric_websites": "Sitios web",
+        "metric_all_alerts": "Todas las alertas",
+        "metric_active_alerts": "Alertas activas",
+        "metric_mobile_apps": "Aplicaciones móviles",
+        "metric_alert_channels": "Canales de alertas",
+        "metric_custom_dashboards": "Paneles de control personalizados",
+        "metric_releases": "Releases"
+      },
+      "userUsage": "Uso de usuarios",
+      "userSummary": "Resumen de usuarios",
+      "totalUser": "Total de usuarios",
+      "weeklyActiveUser": "Usuario activo semanal",
+      "lastCalendarWeekTopActiveUsers": "Principales usuarios activos de la última semana del calendario",
+      "topUsersTable": {
+        "noDataAvailable": "No hay datos disponibles.",
+        "noTopActiveUsers": "No hay datos de los principales usuarios activos para esta cuenta",
+        "name": "Nombre",
+        "organizationRole": "Rol de organización",
+        "daysActive": "Días activos",
+        "notProvided": "(no se ha proporcionado)"
+      }
     }
   }
 }

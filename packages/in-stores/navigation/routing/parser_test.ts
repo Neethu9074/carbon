@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { parseUrl } from 'in-stores/navigation/routing/parser';
 
 describe('in-stores/navigation/routing/parser', () => {

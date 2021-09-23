@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env node */
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getFactory } from 'in-map/stores/factoriesStore';
-import Physical from 'in-map/sceneObjectComponents/iconComponents/Physical';
 
 import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
+import Physical from 'in-map/sceneObjectComponents/iconComponents/Physical';
+import { getFactory } from 'in-map/stores/factoriesStore';
 import { plugins } from 'in-forge/constants';
 
 jest.mock('in-map/stores/factoriesStore');

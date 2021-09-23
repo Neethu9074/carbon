@@ -125,6 +125,9 @@
         "hideWebsiteInformation": "웹 사이트 정보 숨기기",
         "showWebsiteInformation": "웹 사이트 정보 표시",
         "viewWebsiteActivity": "웹 사이트 활동 보기"
+      },
+      "logs": {
+        "noDataMessage": "이 추적에 대해 사용 가능한 로그가 없음"
       }
     },
     "components": {
@@ -172,13 +175,22 @@
         "tags": "태그"
       },
       "callTree": {
-        "expandButtonForRow": "행에 대한 단추 펼치기",
+        "expandButtonForRow": "모든 하위 호출 펼치기",
+        "collapseButtonForRow": "모든 하위 호출 접기",
         "of": " -",
-        "inheritedFrom": "다음에서 상속됨"
+        "inheritedFrom": "다음에서 상속됨",
+        "cardTitle": "호출"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "색상화 기준",
-        "endpoint": "엔드포인트"
+        "colorizeByExpl": "호출 막대에 대한 색상 변경",
+        "endpoint": "엔드포인트",
+        "service": "서비스"
+      },
+      "viewToggleButtons": {
+        "expl": "보기 형식",
+        "tree": "트리",
+        "chart": "타임라인"
       },
       "logTooltipContent": {
         "errorLog": "오류 로그",
@@ -241,14 +253,6 @@
   "analyzeHeader": {
     "title": "분석"
   },
-  "editTagFilterDialog": {
-    "dialogTitleEdit": "필터 편집",
-    "dialogTitleAdd": "{{filterCategory}} 필터 추가",
-    "messageTitle": "데이터를 필터링할 태그를 선택하십시오. 태그는 대소문자를 구분합니다.",
-    "placeholder": "결과를 필터링하려면 입력하십시오.",
-    "saveFilter": "필터 저장",
-    "addFilter": "필터 추가"
-  },
   "filterBar": {
     "keyValueBarItem": {
       "tooltip": "필터 제거"
@@ -263,12 +267,6 @@
       "clickToFilter": "{{itemLabel}}별로 필터링하려면 클릭하십시오."
     },
     "allFilters": "모든 필터"
-  },
-  "radioButtons": {
-    "messageFilering": "소스에 대한 필터링 및 그룹화를 선택한 시간 범위에 사용할 수 없습니다.",
-    "messageIndependent": "이 태그는 소스 및 대상과 별개입니다.",
-    "fragmentSource": "호출 소스에만 적용",
-    "fragmentCall": "호출 소스 또는 대상에 적용"
   },
   "dialogs": {
     "tooltip": "현재 제안은 사용할 수 없습니다. 값을 입력해 주시기 바랍니다.",
@@ -286,7 +284,8 @@
     "tooltipCloseLogDetails": "로그 세부사항 닫기",
     "analyzeLogsLabel": "로그 분석",
     "similarLogs": "유사한 로그",
-    "similarServiceLogs": "서비스의 컨텍스트에서"
+    "similarServiceLogs": "이 서비스의 컨텍스트에서 로그인 표시",
+    "service": "서비스 표시"
   },
   "traceDetails": {
     "labelTotal": "총계",
@@ -301,15 +300,8 @@
     "callDetails": {
       "tooltipCloseCallDetails": "호출 세부사항 닫기"
     },
-
     "callTimeAxis": {
       "started": "시작됨: {{startedTime}}"
-    },
-    "navigatorSplitScreen": {
-      "tooltipViewPrevious": "이전 {{viewType}} 보기(단축키: 왼쪽 화살표 키)",
-      "tooltipViewNext": "다음 {{viewType}} 보기(단축키: 오른쪽 화살표 키)",
-      "tooltipCloseSidebar": "사이드바 닫기",
-      "tooltipOpenSidebar": "사이드바 열기"
     }
   },
   "tabs": {
@@ -332,14 +324,6 @@
       "beta": "베타",
       "analytics": "분석"
     },
-    "editTagFilterDialog": {
-      "tag": "태그",
-      "loadingSuggestions": "제안 로드 중…",
-      "operator": "연산자",
-      "true": "true",
-      "false": "false",
-      "removeFilter": "필터 제거"
-    },
     "filterBar": {
       "group": "그룹",
       "filters": "필터",
@@ -361,10 +345,6 @@
     "groupedTraces": {
       "tagPresentWithNoValue": "태그에 값이 없음",
       "tagNotPresent": "태그가 없음"
-    },
-    "radioButtons": {
-      "source": "소스",
-      "destination": "대상"
     }
   }
 }

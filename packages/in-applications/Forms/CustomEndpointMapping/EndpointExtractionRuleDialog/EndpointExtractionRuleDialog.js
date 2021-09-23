@@ -10,7 +10,7 @@ import { Button } from '@instana/components';
 
 import RuleTester from 'in-applications/Forms/CustomEndpointMapping/EndpointExtractionRuleDialog/RuleTester';
 import EditConfigDialog from 'in-applications/Forms/components/EditConfigDialog';
-import { build, parse, validate } from 'in-services/validators/urlPath';
+import { build, parse, validate } from 'in-applications/Forms/validator/urlPath';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { close } from 'in-components/DialogPresenter/store';
 import FormGroup from 'in-components/form/FormGroup';

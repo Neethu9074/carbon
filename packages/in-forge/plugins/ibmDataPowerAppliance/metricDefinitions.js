@@ -48,5 +48,26 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.ibmDataPowerAppliance.status')],
     formatter: number
+  },
+  {
+    metrics: ['workList'],
+    labels: [t('in-forge:plugins.ibmDataPowerAppliance.workList')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmDataPowerAppliance.workList')],
+    formatter: number
+  },
+  {
+    metrics: ['quiescedDomains'],
+    labels: [t('in-forge:plugins.ibmDataPowerAppliance.quiescedDomains')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmDataPowerAppliance.quiescedDomains')],
+    formatter: number
+  },
+  {
+    metrics: ['inactiveObjects'],
+    labels: [t('in-forge:plugins.ibmDataPowerAppliance.inactiveObjects')],
+    min: 0,
+    category: [t('in-forge:plugins.ibmDataPowerAppliance.inactiveObjects')],
+    formatter: number
   }
 ];

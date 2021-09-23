@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env node */
 import { expect } from 'chai';
 
 import { getBigBangTime, getDeltaTime, getFPS, getNow, reset, update } from 'in-map/misc/time';

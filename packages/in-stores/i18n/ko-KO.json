@@ -58,8 +58,11 @@
   "permissionCanConfigureTeamsDescription": "모든 팀에 대한 액세스 범위 및 권한의 구성을 허용합니다.",
   "permissionCanConfigureTeamsCategory": "액세스 제어",
   "permissionCanConfigureApiTokensLabel": "API 토큰 구성",
+  "permissionCanConfigurePersonalApiTokensLabel": "개인 API 토큰 구성",
   "permissionCanConfigureApiTokensDescription": "API 토큰의 작성 및 구성을 허용합니다.",
+  "permissionCanConfigurePersonalApiTokensDescription": "사용자 권한을 상속하는 개인 API 토큰의 작성 및 구성을 허용합니다.",
   "permissionCanConfigureApiTokensCategory": "액세스 제어",
+  "permissionCanConfigurePersonalApiTokensCategory": "액세스 제어",
   "permissionCanConfigureAuthenticationMethodsLabel": "인증 방법 구성",
   "permissionCanConfigureAuthenticationMethodsDescription": "팀 인증 방법의 구성을 허용합니다(예: 2FA/SSO).",
   "permissionCanConfigureAuthenticationMethodsCategory": "액세스 제어",
@@ -213,7 +216,8 @@
     "shiftingLabelYesterday": "어제",
     "shiftingDescriptionYesterday": "선택한 기간 24시간 전에 기록된 데이터와 비교",
     "shiftingLabelLastWeek": "지난 주",
-    "shiftingDescriptionLastWeek": "선택한 기간 1주일 전과 비교"
+    "shiftingDescriptionLastWeek": "선택한 기간 1주일 전과 비교",
+    "shiftingCustomDuration": "이전 {{duration}}"
   },
 
   "view": {

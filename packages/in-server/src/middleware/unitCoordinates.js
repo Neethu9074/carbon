@@ -9,7 +9,7 @@ const errorPages = require('../errorPages');
 module.exports = exports = function enrichRequestWithTenantAndUnit(req, res, next) {
   const coords = getTenantUnitCoordinates(req);
   if (!coords) {
-    console.log(`Could not determine tenant unit coordinates from hostname ${req.hostname}`);
+    req.log.info(`Could not determine tenant unit coordinates from hostname`);
     errorPages.send404(req, res);
     return;
   }

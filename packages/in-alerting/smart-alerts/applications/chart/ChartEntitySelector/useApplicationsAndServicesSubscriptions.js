@@ -14,7 +14,7 @@ import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { isLoading, hasError, errorWithData, success } from 'in-services/util/result';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { pendingResult } from 'in-services/fixedObjects';
 
 export default function useApplicationsAndServicesSubscriptions({

@@ -11,7 +11,7 @@ import KubernetesIndicator from 'in-kubernetes/Dashboards/commonComponents/Kuber
 import KubernetesIdsForBreadcrumb from 'in-kubernetes/breadcrumbs/KubernetesIdsForBreadcrumb';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
+import getKubernetesNode from 'in-kubernetes/subscriptions/getKubernetesNode';
 import { nodeId as matrixNodeId } from 'in-kubernetes/navigation/matrix';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';

@@ -14,7 +14,7 @@ import { SvgIcon } from '@instana/components';
 import { setActiveMetric, clearActiveMetric, activeMetric$ } from 'in-stores/metric';
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { track, MAP_METRICS_SHOW } from 'in-services/tracking/tracking';
-import { types, view$ } from 'in-stores/view';
+import { types, view$ } from 'in-infrastructure/perspectives';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -127,7 +127,7 @@ function Topic({ label, list }) {
   const topic = list[label];
   return (
     <div>
-      <h4 className={`${block}__topic`}>{t('in-map:' + label)}</h4>
+      <h4 className={`${block}__topic`}>{t('in-map:metrics', { context: label })}</h4>
       <ul className={`${block}__list`}>
         {Object.keys(topic).map(metricKey => (
           <Metric key={metricKey} topic={label} metricKey={metricKey} metric={topic} />
@@ -164,7 +164,7 @@ const Metric = connectTo(
           );
         }}
       >
-        {t('in-map:' + metricKey)}
+        {t('in-map:metrics', { context: metricKey })}
       </div>
     );
   }

@@ -5,6 +5,7 @@
 
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
+// eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { entityTypes } from 'in-analyze/applicationFilter';
 

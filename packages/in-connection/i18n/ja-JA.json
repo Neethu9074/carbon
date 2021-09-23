@@ -2,10 +2,10 @@
     "stat": {
         "connectLostState": {
             "connecting":"接続中…",
-            "connectingMsg":"接続試行 {{connectAttempt}} が失敗しました。永続バックエンド接続を確立するための再試行を続行しています。",
-            "connectLostAttempReconnect":"接続が失われました。再接続を試行中…",
+            "connectingMsg":"接続試行 {{connectAttempt}} が失敗しました。 永続バックエンド接続を確立するための再試行を続行しています。",
+            "connectLostAttempReconnect":"接続が失われました。 再接続を試行中…",
             "unauthorized":"無許可…",
-            "unauthorizedMsg":"ユーザーが無許可であるため、永続バックエンド接続を確立できません。ページを更新して続行してください。"
+            "unauthorizedMsg":"ユーザーが無許可であるため、永続バックエンド接続を確立できません。 ページを更新して続行してください。"
         }
     },
     "clientErrMsg": {

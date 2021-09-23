@@ -12,7 +12,7 @@ import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopLi
 import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import getServices from 'in-subscription/application/getServices';
+import getServices from 'in-applications/subscriptions/getServices';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 

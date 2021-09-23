@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import React from 'react';
 
 import KubernetesTopList from 'in-kubernetes/Dashboards/commonComponents/KubernetesTopList';
-import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
+import getKubernetesPods from 'in-kubernetes/subscriptions/getKubernetesPods';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import { t } from 'in-i18n';
 

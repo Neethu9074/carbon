@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { getErrors } from 'in-services/http/observableHttpResult';
 
 describe('in-services/http/observableHttpResult', () => {

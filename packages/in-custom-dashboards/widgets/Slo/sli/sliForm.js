@@ -8,10 +8,10 @@ import { createMapForm, createField } from 'formalistic';
 import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { numericValidator, minValidator } from 'in-services/validators/number';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
-import { numericValidator } from 'in-services/validators/number';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 
@@ -167,7 +167,9 @@ function createMetricsForm(metricConfiguration) {
     .put(
       'threshold',
       createField({
-        validator: composeAndShortCircuitOnError(notBlankValidator, notUndefinedValidator, numericValidator),
+        validator: composeAndShortCircuitOnError(notBlankValidator, notUndefinedValidator, numericValidator, v =>
+          minValidator(0)(Number(v))
+        ),
         value: metricConfiguration.threshold ?? ''
       })
     );

@@ -58,8 +58,11 @@
   "permissionCanConfigureTeamsDescription": "Consente la configurazione degli ambiti di accesso e delle autorizzazioni per tutti i team.",
   "permissionCanConfigureTeamsCategory": "Controllo accessi",
   "permissionCanConfigureApiTokensLabel": "Configurazione dei token API",
+  "permissionCanConfigurePersonalApiTokensLabel": "Configurazione dei token API personale",
   "permissionCanConfigureApiTokensDescription": "Consente la creazione e la configurazione dei token API.",
+  "permissionCanConfigurePersonalApiTokensDescription": "Consente la creazione e la configurazione dei token API personale che eredità le autorizzazioni dell'utente.",
   "permissionCanConfigureApiTokensCategory": "Controllo accessi",
+  "permissionCanConfigurePersonalApiTokensCategory": "Controllo accessi",
   "permissionCanConfigureAuthenticationMethodsLabel": "Configurazione dei metodi di autenticazione",
   "permissionCanConfigureAuthenticationMethodsDescription": "Consente la configurazione dei metodi di autenticazione del team (ad esempio, 2FA/SSO).",
   "permissionCanConfigureAuthenticationMethodsCategory": "Controllo accessi",
@@ -88,15 +91,15 @@
   "permissionRestrictedHelp": "Abilita il controllo degli accessi basato sui ruoli.",
 
   "metric": {
-    "metric_MEAN": "medio",
+    "metric_MEAN": "media",
     "metric_MIN": "min",
-    "metric_P25": "25°",
-    "metric_P50": "50°",
-    "metric_P75": "75°",
-    "metric_P90": "90°",
-    "metric_P95": "95°",
-    "metric_P98": "98°",
-    "metric_P99": "99°",
+    "metric_P25": "25esimo",
+    "metric_P50": "50esimo",
+    "metric_P75": "75esimo",
+    "metric_P90": "90esimo",
+    "metric_P95": "95esimo",
+    "metric_P98": "98esimo",
+    "metric_P99": "99esimo",
     "metric_MAX": "max",
     "metric_DISTINCT_COUNT": "conteggio distinto",
     "metric_SUM": "somma",
@@ -213,7 +216,8 @@
     "shiftingLabelYesterday": "Ieri",
     "shiftingDescriptionYesterday": "Confronta con i dati registrati 24 ore prima della finestra temporale selezionata",
     "shiftingLabelLastWeek": "Ultima settimana",
-    "shiftingDescriptionLastWeek": "Confronta con i dati di una settimana prima della finestra temporale selezionata"
+    "shiftingDescriptionLastWeek": "Confronta con i dati di una settimana prima della finestra temporale selezionata",
+    "shiftingCustomDuration": "Precedente {{duration}}"
   },
 
   "view": {

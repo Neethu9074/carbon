@@ -14,6 +14,7 @@ export interface ClickedTag {
 export interface GroupingTag {
   tag: string;
   secondLevelKey?: string;
+  tagEntity?: string;
 }
 
 export type OnSelectTagHref = (tag: ClickedTag) => string;

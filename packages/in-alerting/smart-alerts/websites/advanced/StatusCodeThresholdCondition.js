@@ -23,7 +23,7 @@ import Dropdown from 'in-alerting/components/Dropdown';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
-export default function StatusCodeThresholdCondition({ form, onChange, blueprintConfig, updateForm }) {
+export default function StatusCodeThresholdCondition({ form, blueprintConfig, updateForm }) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const percentageMetric = isPercentageMetric(metricName);
@@ -43,7 +43,7 @@ export default function StatusCodeThresholdCondition({ form, onChange, blueprint
       />
       <ThresholdOperatorDropDown
         form={form}
-        onChange={onChange}
+        updateForm={updateForm}
         trackingCallback={websitesAlertingThresholdOperatorChanged}
       />
       <ThresholdValueInput
@@ -57,7 +57,7 @@ export default function StatusCodeThresholdCondition({ form, onChange, blueprint
       />
       <UseSuggestedValueButton
         form={form}
-        onChange={onChange}
+        updateForm={updateForm}
         percentageMetric={percentageMetric}
         metricUnitPostfix={metricUnitPostfix}
       />
@@ -68,6 +68,5 @@ export default function StatusCodeThresholdCondition({ form, onChange, blueprint
 StatusCodeThresholdCondition.propTypes = {
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired
 };

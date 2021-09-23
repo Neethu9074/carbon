@@ -63,6 +63,15 @@
     "registryCall_0": "调用次数",
     "registryCall_1": "调用次数",
     "registryCall_2": "调用次数"
+  },
+
+  "components": {
+    "codeRetrievalDialog": {
+      "file": "文件",
+      "line": "行",
+      "decompilationNotFullySupported": "包含最近 Java 版本中某些功能的类文件的反编译不完全受支持。",
+      "error": "错误"
+    }
   }
 
 }

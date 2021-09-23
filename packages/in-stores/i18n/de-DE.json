@@ -57,9 +57,12 @@
   "permissionCanConfigureTeamsLabel": "Zugriffsgruppenkonfiguration",
   "permissionCanConfigureTeamsDescription": "Ermöglicht die Konfiguration von Zugriffsbereichen und Berechtigungen für alle Teams.",
   "permissionCanConfigureTeamsCategory": "Zugriffssteuerung",
-  "permissionCanConfigureApiTokensLabel": "Konfiguration von API-Token",
-  "permissionCanConfigureApiTokensDescription": "Ermöglicht die Erstellung und Konfiguration von API-Token.",
+  "permissionCanConfigureApiTokensLabel": "Konfiguration von API-Tokens",
+  "permissionCanConfigurePersonalApiTokensLabel": "Konfiguration von persönlichen API-Tokens",
+  "permissionCanConfigureApiTokensDescription": "Ermöglicht die Erstellung und Konfiguration von API-Tokens.",
+  "permissionCanConfigurePersonalApiTokensDescription": "Ermöglicht die Erstellung und Konfiguration von persönlichen API-Tokens, die die Berechtigungen des Benutzers übernehmen.",
   "permissionCanConfigureApiTokensCategory": "Zugriffssteuerung",
+  "permissionCanConfigurePersonalApiTokensCategory": "Zugriffssteuerung",
   "permissionCanConfigureAuthenticationMethodsLabel": "Konfiguration der Authentifizierungsmethoden",
   "permissionCanConfigureAuthenticationMethodsDescription": "Ermöglicht die Konfiguration von Teamauthentifizierungsmethoden (z. B. 2FA/SSO).",
   "permissionCanConfigureAuthenticationMethodsCategory": "Zugriffssteuerung",
@@ -213,7 +216,8 @@
     "shiftingLabelYesterday": "Gestern",
     "shiftingDescriptionYesterday": "Vergleichen mit Daten, die 24 Stunden vor dem ausgewählten Zeitfenster aufgezeichnet wurden",
     "shiftingLabelLastWeek": "Letzte Woche",
-    "shiftingDescriptionLastWeek": "Vergleichen mit Daten eine Woche vor dem ausgewählten Zeitfenster"
+    "shiftingDescriptionLastWeek": "Vergleichen mit Daten eine Woche vor dem ausgewählten Zeitfenster",
+    "shiftingCustomDuration": "Vorherige {{duration}}"
   },
 
   "view": {

@@ -33,7 +33,7 @@ packages/in-events                  @pr-approval @instana/eng-stan @instana/eng-
 # Shared ownership
 # packages/in-forge
 
-packages/in-forge/plugins           @pr-approval @instana/eng-sensors
+packages/in-forge/plugins           @pr-approval @instana/eng-ui @instana/eng-sensors
 packages/in-hoc                     @pr-approval @instana/eng-ui
 packages/in-hooks                   @pr-approval @instana/eng-ui
 packages/in-infrastructure          @pr-approval @instana/eng-infrastructure @instana/eng-ui
@@ -44,7 +44,7 @@ packages/in-integrations            @pr-approval @instana/eng-sensors @instana/e
 packages/in-kubernetes              @pr-approval @instana/eng-infrastructure @instana/eng-ui
 packages/in-logging                 @pr-approval @instana/eng-logs @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
-packages/in-map                     @pr-approval @instana/eng-ui
+packages/in-map                     @pr-approval @instana/eng-infrastructure @instana/eng-ui
 packages/in-mobile-apps             @pr-approval @instana/eng-eum @instana/eng-application @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-profiling               @pr-approval @instana/eng-ui
@@ -71,4 +71,4 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli    
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @pr-approval @instana/eng-application @instana/eng-ui
 
 # Container images
-/containers/ @pr-approval @instana/eng-delivery-enablement
+/containers/ @pr-approval @instana/eng-delivery-enablement @instana/eng-ui

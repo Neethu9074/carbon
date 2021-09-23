@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { renderHook, act } from '@testing-library/react-hooks';
 import { expect } from 'chai';
 

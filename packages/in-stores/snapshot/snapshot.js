@@ -10,7 +10,6 @@ import createHighlightedMapEntityObservable from 'in-subscription/highlightedMap
 import createPhysicalHierarchyObservable from 'in-subscription/physicalHierarchy';
 import createRunningComponentsObservable from 'in-subscription/runningComponents';
 import createSnapshotVersionsObservable from 'in-subscription/snapshotVersions';
-import createServiceInstancesObservable from 'in-subscription/serviceInstances';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
 import createDeployedUnitsObservable from 'in-subscription/deployedUnits';
 import { mutateUrl, navigationParameters$ } from 'in-stores/navigation';
@@ -252,10 +251,6 @@ export function getRawPayloadWithTimestamp(snapshotId, payloadName, timeConfig) 
     return createRawPayloadObservable({ snapshotId, payloadName, timeConfig });
   }
   return timeConfig$.flatMap(timeConfig => createRawPayloadObservable({ snapshotId, payloadName, timeConfig }));
-}
-
-export function getServiceInstances(snapshotId) {
-  return timeConfig$.flatMap(timeConfig => createServiceInstancesObservable({ snapshotId, timeConfig }));
 }
 
 export function isEntityOnline(snapshotId) {

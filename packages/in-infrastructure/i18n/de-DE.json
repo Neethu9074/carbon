@@ -64,8 +64,6 @@
     "allInfrastructure": "Gesamte Infrastruktur",
     "name": "Name",
     "search": "Suchen",
-    "infrastructure": "Infrastruktur",
-    "infraExplore": "Infrastruktur durchsuchen",
     "explore": "Durchsuchen",
     "cpuUser": "CPU (Benutzer)",
     "memoryFree": "Freier Speicher"
@@ -100,8 +98,6 @@
     "map": "Zuordnung",
     "comparisonTable": "Vergleichstabelle",
     "entityExploreBeta": "Entität durchsuchen (Beta)",
-    "infrastructure": "Infrastruktur",
-    "infraComparisonTable": "Infrastrukturvergleichstabelle",
     "infrastructureComparisonTable": "Infrastrukturvergleichstabelle"
   }
 }

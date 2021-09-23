@@ -13,7 +13,7 @@ import {
   viewGroupingShort$,
   defaultGrouping,
   humanReadableDescriptions
-} from 'in-stores/view/viewGrouping';
+} from 'in-infrastructure/perspectives/viewGrouping';
 import {
   getLinkToCurrentViewWithViewGrouping,
   physicalPath,
@@ -25,8 +25,8 @@ import MapButtonGroup from 'in-map/components/MapOverlayControls/components/MapB
 import Control from 'in-map/components/MapOverlayControls/components/Control';
 import { track, MAP_GROUPING_CHANGED } from 'in-services/tracking/tracking';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { view$, types } from 'in-infrastructure/perspectives';
 import { getView } from 'in-stores/navigation/navigation';
-import { view$, types } from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 

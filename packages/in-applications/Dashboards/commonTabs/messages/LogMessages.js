@@ -9,9 +9,9 @@ import { get } from 'lodash';
 import { Card } from '@instana/components';
 
 import LogMessagesTable from 'in-applications/Dashboards/commonTabs/messages/components/LogMessagesTable';
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
-import getApplication from 'in-subscription/application/getApplication';
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import Footer from 'in-components/Footer/Footer';
 import connectTo from 'in-hoc/connectTo';
 

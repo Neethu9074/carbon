@@ -25,7 +25,11 @@
     "routes": "路由",
     "diskLimit": "磁盘限制",
     "createdAt": "创建时间",
-    "analyzeCalls": "分析调用"
+    "analyzeCalls": "分析调用",
+    "noDataAvailable": {
+      "containersTitle": "无可用容器",
+      "containersDescription": "所选时间范围内未检索到任何容器。"
+    }
   },
   "name": "名称",
   "requestedState": "请求的状态",

@@ -32,7 +32,6 @@ import interactiveChartLocals from 'in-alerting/smart-alerts/components/smart-al
 
 export default function ErrorRateThresholdCondition({
   form,
-  onChange,
   updateForm,
   blueprintConfig,
   editMode,
@@ -60,7 +59,7 @@ export default function ErrorRateThresholdCondition({
             <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
             <ThresholdOperatorDropDown
               form={form}
-              onChange={onChange}
+              updateForm={updateForm}
               trackingCallback={applicationsAlertingThresholdOperatorChanged}
             />
 
@@ -82,7 +81,6 @@ export default function ErrorRateThresholdCondition({
           updateForm={updateForm}
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
-          onChange={onChange}
           thresholdValueInputClassName={interactiveChartLocals.narrowControl}
           percentageMetric
           isGlobalSmartAlert={isGlobalSmartAlert}
@@ -92,7 +90,7 @@ export default function ErrorRateThresholdCondition({
       {thresholdType !== STATIC_THRESHOLD && (
         <ThresholdDeviationSliderForm
           form={form}
-          onChange={onChange}
+          updateForm={updateForm}
           trackChange={applicationsAlertingThresholdTypeChanged}
           defaultValue={defaultDeviationFactor}
         />
@@ -104,7 +102,6 @@ export default function ErrorRateThresholdCondition({
 ErrorRateThresholdCondition.propTypes = {
   form: PropTypes.object.isRequired,
   blueprintConfig: blueprintConfigPropType,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool

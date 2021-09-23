@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
 import { updateThresholdPointsIfRequired } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { allowedMultiplesOfRollupSizeMissingInCharts } from 'in-services/featureFlags';
 import { minutes } from 'in-services/time';

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getPubSubSubscriptions from 'in-subscription/googleCloudPubSub/getPubSubSubscriptions';
+import getPubSubSubscriptions from 'in-forge/plugins/googleCloudPubSub/subscriptions/getPubSubSubscriptions';
 import { number, bytes, seconds } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

@@ -16,7 +16,6 @@ export default function ThresholdValueFormGroupForStaticThreshold({
   updateForm,
   maxValue,
   metricUnitPostfix,
-  onChange,
   percentageMetric = false,
   thresholdValueInputClassName,
   isGlobalSmartAlert,
@@ -35,7 +34,7 @@ export default function ThresholdValueFormGroupForStaticThreshold({
       />
       <UseSuggestedValueButton
         form={form}
-        onChange={onChange}
+        updateForm={updateForm}
         metricUnitPostfix={metricUnitPostfix}
         percentageMetric={percentageMetric}
         isGlobalSmartAlert={isGlobalSmartAlert}

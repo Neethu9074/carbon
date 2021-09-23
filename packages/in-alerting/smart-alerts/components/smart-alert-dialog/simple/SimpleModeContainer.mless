@@ -11,11 +11,6 @@
     flex-direction: column;
   }
 
-  .form {
-    flex-grow: 1;
-    overflow: auto; // put content into scroll area to limit max height
-  }
-
   .errorInfo {
     margin: 0 -1.5rem; // to fill the whole width of the dialog without any padding
     flex: 0; // do not fill more space than needed, but do not shrink, too

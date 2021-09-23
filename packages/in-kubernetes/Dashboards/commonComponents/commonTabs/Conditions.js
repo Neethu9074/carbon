@@ -14,7 +14,7 @@ import {
   deploymentConfigIdUrlParameter
 } from 'in-kubernetes/navigation/urlParameters';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import getKubernetesConditions from 'in-subscription/kubernetes/getKubernetesConditions';
+import getKubernetesConditions from 'in-kubernetes/subscriptions/getKubernetesConditions';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';

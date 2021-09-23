@@ -5,27 +5,13 @@
 
 import React from 'react';
 
-import CloudControllerTable from 'in-forge/plugins/cloudFoundry/Dashboard/CloudControllerTable';
-import HealthManagerTable from 'in-forge/plugins/cloudFoundry/Dashboard/HealthManagerTable';
-import ApplicationsTable from 'in-forge/plugins/cloudFoundry/Dashboard/ApplicationsTable';
-import DopplerTable from 'in-forge/plugins/cloudFoundry/Dashboard/DopplerTable';
-import DiegoTable from 'in-forge/plugins/cloudFoundry/Dashboard/DiegoTable';
-import DEATable from 'in-forge/plugins/cloudFoundry/Dashboard/DEATable';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import { t } from 'in-i18n';
 
-export default function CloudFoundryDashboard({ snapshot, timeConfig }) {
+export default function CloudFoundryDashboard() {
   return (
-    <div>
-      <ApplicationsTable snapshot={snapshot} timeConfig={timeConfig} />
-
-      <DiegoTable snapshot={snapshot} timeConfig={timeConfig} />
-
-      <DopplerTable snapshot={snapshot} timeConfig={timeConfig} />
-
-      <DEATable snapshot={snapshot} timeConfig={timeConfig} />
-
-      <CloudControllerTable snapshot={snapshot} timeConfig={timeConfig} />
-
-      <HealthManagerTable snapshot={snapshot} timeConfig={timeConfig} />
-    </div>
+    <DashboardNotification type="info">
+      {t('in-forge:plugins.cloudFoundry.dashboard.thereIsNoFurtherInformationAboutThisEntity')}
+    </DashboardNotification>
   );
 }

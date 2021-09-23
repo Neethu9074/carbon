@@ -10,10 +10,10 @@
   .wrapper {
     display: flex;
     align-items: center;
-    border: 1px solid @lib__colors__N400;
-    background: @lib__colors__N050;
-    padding: 2px;
     position: relative;
+
+    background: @lib__colors__N050;
+    border: 1px solid @lib__colors__N400;
   }
 
   .wrapperDisabled {

@@ -25,7 +25,11 @@
     "routes": "라우트",
     "diskLimit": "디스크 한계",
     "createdAt": "작성 시간",
-    "analyzeCalls": "호출 분석"
+    "analyzeCalls": "호출 분석",
+    "noDataAvailable": {
+      "containersTitle": "사용 가능한 컨테이너가 없음",
+      "containersDescription": "선택한 시간 범위에 대해 검색된 컨테이너가 없습니다."
+    }
   },
   "name": "이름",
   "requestedState": "요청된 상태",

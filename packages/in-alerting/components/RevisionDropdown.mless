@@ -37,6 +37,6 @@
   }
 
   .icon {
-    fill: @lib__colors__N600Light;
+    fill: @lib__colors__teal800;
   }
 }

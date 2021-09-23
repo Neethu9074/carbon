@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
 import { createOptionsList } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/createOptions';
 
 describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/createOptions', () => {

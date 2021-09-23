@@ -8,10 +8,8 @@ import React, { useState } from 'react';
 import { Button } from '@instana/components';
 
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
-import { disableGlobalAlertConfig } from 'in-alerting/smart-alerts/applications/api/globalApplicationAlertConfigs';
 import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/getAlertConfigFromLegacyEvent';
-import { disableAlertConfig } from 'in-alerting/smart-alerts/applications/api/applicationAlertConfig';
-import { setCustomEventSpecificationsEnabled } from 'in-api/eventSpecifications';
+import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { isLoading } from 'in-services/util/result';
@@ -74,19 +72,12 @@ function showSmartAlertDialog({ globalSmartAlert, config, eventSpecificationId, 
 }
 
 function handleSuccessfulMigration(globalSmartAlert, setPausingAlerts, savedAlertConfig, eventSpecificationId) {
-  const disableConfig = globalSmartAlert ? disableGlobalAlertConfig : disableAlertConfig;
-
   setPausingAlerts(true);
 
-  disableConfig(savedAlertConfig.id).once(
+  disableMigratedCustomEventSpecification(eventSpecificationId, savedAlertConfig.id).once(
     () => {
-      setCustomEventSpecificationsEnabled(eventSpecificationId, false).once(
-        () => {
-          setPausingAlerts(false);
-          goToPath(teamSettingsAlertingEvents);
-        },
-        () => setPausingAlerts(false)
-      );
+      setPausingAlerts(false);
+      goToPath(teamSettingsAlertingEvents);
     },
     () => setPausingAlerts(false)
   );

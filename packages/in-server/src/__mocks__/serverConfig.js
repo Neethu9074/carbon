@@ -3,9 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-module.exports = {
+module.exports = exports = {
   cookie: {
     name: 'in-token'
   },
-  instanactlCockroachDb: {}
+  instanactlCockroachDb: {
+    ssl: {
+      dhparam: 'foobar',
+      keyPath: '/etc/ui-client/key',
+      certPath: '/etc/ui-client/cert'
+    }
+  }
 };

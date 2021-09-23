@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-services/heatMapColors';
+import getHeatMapColor, { lightGreenToDarkGreenRgb } from 'in-themes/heatMapColors';
 import { rgbToHex } from 'in-services/formatters/color';
 import { number } from 'in-services/formatters/number';
 import connectTo from 'in-hoc/connectTo';

@@ -82,7 +82,7 @@ export default function LoggingAnalyzeView() {
           },
           ungroupedView: {
             defaultOrderBy: 'timestamp',
-            defaultOrderDirection: 'DESC',
+            defaultOrderDirection: 'ASC',
             customFieldRenderingInstructions: {}
           },
           defaultChartedMetrics,

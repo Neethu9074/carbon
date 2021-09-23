@@ -12,7 +12,6 @@ import { IndeterminateLoadingIndicatorLineCoordinates as SVG_LINES } from 'in-co
 import { IndeterminateLoadingIndicatorPaths as SVG_PATHS } from 'in-components/LoadingIndicators/SvgPaths.json';
 import theme from 'in-themes';
 
-// @ts-expect-error
 import locals from './IndeterminateLoadingIndicator.mless';
 
 const {

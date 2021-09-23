@@ -79,7 +79,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
       title={cardTitle}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
       header={config.cardHeader}
-      size="s"
+      size="l"
     >
       {content}
     </Card>

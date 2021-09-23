@@ -4,7 +4,7 @@
  */
 
 import { createGroupingConfigurator } from 'in-components/GroupingConfigurator';
-import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
+import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { CALLS } from 'in-applications/analyze/metrics';
 

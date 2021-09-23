@@ -7,7 +7,7 @@ import { get } from 'lodash';
 
 import { getServiceLocators } from 'in-applications/FlowMap/serviceLocator/serviceLocator';
 import { SIGNALS } from 'in-applications/FlowMap/components/Controls/Controls';
-import getHeatMapColor, { neutralColorRgb } from 'in-services/heatMapColors';
+import getHeatMapColor, { neutralColorRgb } from 'in-themes/heatMapColors';
 import SceneObject from 'in-applications/FlowMap/sceneObjects/SceneObject';
 import { alwaysNull } from 'in-services/fixedStreams';
 import Subscriber from 'in-map/misc/Subscriber';

@@ -18,7 +18,7 @@ import {
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
-import getKubernetesContainers from 'in-subscription/kubernetes/getKubernetesContainers';
+import getKubernetesContainers from 'in-kubernetes/subscriptions/getKubernetesContainers';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import PodMessage from 'in-kubernetes/Dashboards/commonComponents/PodMessage';

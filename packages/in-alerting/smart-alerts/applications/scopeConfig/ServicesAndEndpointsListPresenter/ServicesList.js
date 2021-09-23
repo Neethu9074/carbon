@@ -29,7 +29,7 @@ import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/E
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import getService from 'in-subscription/application/getService';
+import getService from 'in-applications/subscriptions/getService';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';

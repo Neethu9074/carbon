@@ -62,8 +62,8 @@ const cols = [
 ];
 
 export default function CpuTable({ snapshot, timeConfig }) {
-  const cpuCount = snapshot.getIn(['data', 'cpuCount'], 1);
-  if (cpuCount < 2) {
+  const cpuCount = snapshot.getIn(['data', 'cpuCount'], 0);
+  if (cpuCount < 1) {
     return null;
   }
 

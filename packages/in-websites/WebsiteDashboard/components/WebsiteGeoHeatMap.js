@@ -83,7 +83,7 @@ function getData({ countryCode, tagFilters, timeConfig }) {
       pageSize: 200
     },
     order: {
-      by: 'pageLoads',
+      by: 'beaconCount',
       direction: 'DESC'
     }
   }).map(result => {
@@ -96,7 +96,7 @@ function getData({ countryCode, tagFilters, timeConfig }) {
       data: result.data.items.reduce((agg, item) => {
         agg[item.countryCode.toLowerCase()] = {
           title: item.country,
-          value: item.pageLoads
+          value: item.beaconCount
         };
         return agg;
       }, {})

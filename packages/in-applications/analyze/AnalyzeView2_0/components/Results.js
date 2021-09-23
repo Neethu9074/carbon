@@ -17,13 +17,13 @@ import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/Ung
 import TraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components/TraceDetailView';
 import PreviewToggle from 'in-applications/analyze/AnalyzeView2_0/components/PreviewToggle';
 import { getServerity } from 'in-applications/analyze/AnalyzeView2_0/components/utils';
-import getTraceSummary from 'in-subscription/application/getTraceSummary';
+import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import { traceDetailViewV2Enabled } from 'in-services/featureFlags';
-import getTraces from 'in-subscription/application/getTraces';
-import getCalls from 'in-subscription/application/getCalls';
+import getTraces from 'in-applications/subscriptions/getTraces';
+import getCalls from 'in-applications/subscriptions/getCalls';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';

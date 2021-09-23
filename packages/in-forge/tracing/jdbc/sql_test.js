@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
 /* eslint-disable max-len */
 
 import { expect } from 'chai';

@@ -3,9 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
-
-import { extendAlertConfigVersions } from './configVersionsEnrichment';
+import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
 import { AuthorType, ChangeType } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -159,6 +157,16 @@ describe('in-alerting/components/configVersionsEnrichment::extendAlertConfigVers
   test('it should still maintain the correct order after enhancing AlertConfigVersions', () => {
     const versions = extendAlertConfigVersions(newAlertConfigVersions);
     expect(versions[0].created).toEqual(newAlertConfigVersions[0].created);
+    expect(versions[versions.length - 1].created).toEqual(
+      newAlertConfigVersions[newAlertConfigVersions.length - 1].created
+    );
+  });
+
+  test('disabled and paused state should have a "disabled: true" property added ', () => {
+    const versions = extendAlertConfigVersions(newAlertConfigVersions);
+    expect(versions[1].disabled).toBeUndefined();
+    expect(versions[2].disabled).toEqual(true);
+    expect(versions[3].disabled).toEqual(true);
     expect(versions[versions.length - 1].created).toEqual(
       newAlertConfigVersions[newAlertConfigVersions.length - 1].created
     );

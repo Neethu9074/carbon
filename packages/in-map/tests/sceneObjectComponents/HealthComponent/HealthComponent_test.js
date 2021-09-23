@@ -3,15 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
-import { create } from '@instana/observables';
 import { fromJS } from 'immutable';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
+
+/* eslint-env node */
+import { create } from '@instana/observables';
 
 import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
 import HealthComponent from 'in-map/sceneObjectComponents/HealthComponent';
+import { getHealthInfoAtFocusedMoment } from 'in-stores/events';
 
 jest.mock('in-stores/events');
 

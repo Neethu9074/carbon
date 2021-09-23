@@ -12,7 +12,7 @@ import Overlay from 'in-components/overlays/Overlay';
 export default function KeyValueBarItemBehavior(props) {
   return (
     <Overlay withoutWrapper content={KeyValueBarOverlayBehavior} props={props} align="bottomMiddle">
-      {Content}
+      {overlayProps => <Content {...props} {...overlayProps} />}
     </Overlay>
   );
 }

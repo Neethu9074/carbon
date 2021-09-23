@@ -6,6 +6,7 @@
 import { partition, range, uniq } from 'lodash';
 import invariant from 'invariant';
 
+// eslint-disable-next-line no-restricted-imports
 import {
   chartsMatrixParameter,
   dataSourceMatrixParameter,
@@ -42,6 +43,7 @@ import {
   operators,
   SERVICE
 } from 'in-analyze/applicationFilter';
+// eslint-disable-next-line no-restricted-imports
 import { dataSourceConstants, getMetricAndAggregationFromMetricKey } from 'in-applications/analyze/metrics';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { toNewOrderBy } from 'in-components/QueryBuilder/transformation/orderBy';
@@ -50,6 +52,7 @@ import { setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { createParameters } from 'in-components/AnalyzeView/parameters';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { getRootPathPredicate } from 'in-stores/navigation/paths';
+// eslint-disable-next-line no-restricted-imports
 import { boundaryScopes } from 'in-applications/constants';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';

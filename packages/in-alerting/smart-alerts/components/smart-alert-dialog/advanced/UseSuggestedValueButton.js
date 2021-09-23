@@ -16,7 +16,7 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advan
 
 export default function UseSuggestedValueButton({
   form,
-  onChange,
+  updateForm,
   percentageMetric,
   metricUnitPostfix,
   isGlobalSmartAlert = false
@@ -46,7 +46,9 @@ export default function UseSuggestedValueButton({
               <Button
                 kind="secondaryDarker"
                 onClick={() =>
-                  onChange(['threshold', 'value'], f => f.setValue(suggestedThresholdValue).setTouched(true))
+                  updateForm(
+                    form.updateIn(['threshold', 'value'], f => f.setValue(suggestedThresholdValue).setTouched(true))
+                  )
                 }
                 disabled={suggestedThresholdValue === thresholdValue}
               >
@@ -84,7 +86,7 @@ function useShowButton(suggestedThresholdValue, thresholdValueManuallyChanged) {
 
 UseSuggestedValueButton.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired,
   percentageMetric: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool,
   metricUnitPostfix: PropTypes.string

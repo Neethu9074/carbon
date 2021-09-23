@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
-import { create } from '@instana/observables';
 import { expect } from 'chai';
 import sinon from 'sinon';
+
+/* eslint-env node */
+import { create } from '@instana/observables';
 
 import { createSceneObject } from 'in-map/tests/sceneObjectComponents/helper';
 

@@ -3,19 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
 
-import getKubernetesWorkloadControllerItemCounters from 'in-subscription/kubernetes/getKubernetesWorkloadControllerItemCounters';
-import getKubernetesNamespaceItemCounters from 'in-subscription/kubernetes/getKubernetesNamespaceItemCounters';
-import getKubernetesClusterItemCounters from 'in-subscription/kubernetes/getKubernetesClusterItemCounters';
-import getKubernetesServiceItemCounters from 'in-subscription/kubernetes/getKubernetesServiceItemCounters';
-import getKubernetesCronJobItemCounters from 'in-subscription/kubernetes/getKubernetesCronJobItemCounters';
-import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
-import getKubernetesNodeItemCounters from 'in-subscription/kubernetes/getKubernetesNodeItemCounters';
-import getKubernetesCronJob from 'in-subscription/kubernetes/getKubernetesCronJob';
-import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
-import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
+import { useObservable } from '@instana/hooks';
+
+import getKubernetesWorkloadControllerItemCounters from 'in-kubernetes/subscriptions/getKubernetesWorkloadControllerItemCounters';
+import getKubernetesNamespaceItemCounters from 'in-kubernetes/subscriptions/getKubernetesNamespaceItemCounters';
+import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
+import getKubernetesServiceItemCounters from 'in-kubernetes/subscriptions/getKubernetesServiceItemCounters';
+import getKubernetesCronJobItemCounters from 'in-kubernetes/subscriptions/getKubernetesCronJobItemCounters';
+import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
+import getKubernetesNodeItemCounters from 'in-kubernetes/subscriptions/getKubernetesNodeItemCounters';
+import getKubernetesCronJob from 'in-kubernetes/subscriptions/getKubernetesCronJob';
+import getKubernetesNode from 'in-kubernetes/subscriptions/getKubernetesNode';
+import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import { pendingResult } from 'in-services/fixedObjects';
 
 function observe(fn, obj) {

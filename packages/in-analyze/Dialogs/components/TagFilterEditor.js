@@ -12,6 +12,7 @@ import {
   ValueInput,
   KeySelectionSection
 } from 'in-analyze/Dialogs/components/AnalyzeFilterFormComponents';
+// eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
 import { operators } from 'in-analyze/applicationFilter';
 

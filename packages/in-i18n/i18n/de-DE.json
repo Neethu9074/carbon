@@ -1,4 +1,45 @@
 {
+  "components": {
+    "list": {
+      "loadMore": "Mehr laden",
+      "toggleExtraContent": "Zusätzlichen Inhalt ein-/ausschalten",
+      "initiateDefaultAction": "Standardaktion einleiten"
+    },
+    "table": {
+      "tableErrorRows": {
+        "unexpectedError": "Ein unerwarteter Fehler ist aufgetreten. Aktualisieren Sie die Seite oder versuchen Sie es später erneut."
+      },
+      "tableLoadMoreRow": {
+        "loadMore": "Mehr laden"
+      }
+    }
+  },
+  "formatDate": {
+    "date": {
+      "aFewSeconds": "einige Sekunden",
+      "time_years": "{{count}} Jahr",
+      "time_years_plural": "{{count}} Jahre",
+      "time_y": "{{count}} a",
+      "time_months": "{{count}} Monat",
+      "time_months_plural": "{{count}} Monate",
+      "time_mo": "{{count}} m",
+      "time_days": "{{count}} Tag",
+      "time_days_plural": "{{count}} Tage",
+      "time_d": "{{count}} d",
+      "time_hours": "{{count}} Stunde",
+      "time_hours_plural": "{{count}} Stunden",
+      "time_h": "{{count}} h",
+      "time_minutes": "{{count}} Minute",
+      "time_minutes_plural": "{{count}} Minuten",
+      "time_m": "{{count}} min",
+      "time_seconds": "{{count}} Sekunde",
+      "time_seconds_plural": "{{count}} Sekunden",
+      "time_s": "{{count}} s",
+      "time_milliseconds": "{{count}} Millisekunde",
+      "time_milliseconds_plural": "{{count}} Millisekunden",
+      "time_ms": "{{millis}} ms"
+    }
+  },
   "forms": {
     "actions": {
       "save": "Speichern",

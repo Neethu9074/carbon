@@ -6,7 +6,7 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import getApplicationServicesForCloudfoundryApplicationService from 'in-subscription/cloudfoundry/getApplicationServicesForCloudfoundryApplicationService';
+import getApplicationServicesForCloudfoundryApplicationService from 'in-cloudfoundry/subscriptions/getApplicationServicesForCloudfoundryApplicationService';
 import EntityToInstanaServiceButton from 'in-components/EntityToInstanaServiceButton/EntityToInstanaServiceButton';
 import AnalyzeTracesButton from 'in-cloudfoundry/Dashboards/commonComponents/AnalyzeTracesButton';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';

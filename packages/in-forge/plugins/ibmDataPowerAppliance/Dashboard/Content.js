@@ -6,6 +6,7 @@
 import React from 'react';
 
 import EthernetInterfacesTable from 'in-forge/plugins/ibmDataPowerAppliance/Dashboard/EthernetInterfacesTable.js';
+import StatusSummaryTable from 'in-forge/plugins/ibmDataPowerAppliance/Dashboard/StatusSummaryTable';
 import TCPSummaryTable from 'in-forge/plugins/ibmDataPowerAppliance/Dashboard/TCPSummaryTable';
 import DomainsTable from 'in-forge/plugins/ibmDataPowerAppliance/Dashboard/DomainsTable.js';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -28,6 +29,8 @@ export default function IbmDataPowerApplianceDashboard({ snapshot, timeConfig })
           <MetricValue snapshotId={snapshotId} metric="memoryUsage" formatter={percentage.compact} />
         </KpiKeyValue>
       </KpiSection>
+
+      <StatusSummaryTable snapshot={snapshot} timeConfig={timeConfig} />
       <DashboardSection title={t('in-forge:plugins.ibmDataPowerAppliance.systemLoad')}>
         <Chart
           snapshotId={snapshotId}
@@ -64,7 +67,6 @@ export default function IbmDataPowerApplianceDashboard({ snapshot, timeConfig })
           }}
         />
       </DashboardSection>
-
       <DashboardSection title={t('in-forge:plugins.ibmDataPowerAppliance.connectionAccepted')}>
         <Chart
           snapshotId={snapshotId}

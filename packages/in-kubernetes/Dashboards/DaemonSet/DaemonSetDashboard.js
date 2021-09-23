@@ -6,7 +6,7 @@
 import React from 'react';
 
 import WorkloadControllerDashboard from 'in-kubernetes/Dashboards/commonComponents/WorkloadController/WorkloadControllerDashboard';
-import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
+import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
 import { daemonSetId as matrixDaemonSetId } from 'in-kubernetes/navigation/matrix';
 import { WorkloadControllerBreadcrumbs } from 'in-kubernetes/breadcrumbs';
 import { daemonSetDashboard } from 'in-kubernetes/navigation/paths';

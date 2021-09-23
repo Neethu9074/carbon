@@ -23,7 +23,7 @@
   "settings": "Configurações",
   "threshold": "Limite",
   "onlyShowMethodAboveThisThreshold": "Mostrar somente métodos acima deste limite",
-  "on": "ativado",
+  "on": "em",
   "highlightSelfCpu": "Destacar Auto CPU",
   "onFlameGraphHighlightTimeSpentOnMethodsThemselves": "No Gráfico de chama, destaque o tempo gasto nos próprios métodos",
   "cpuGraph": "Gráfico de CPU",

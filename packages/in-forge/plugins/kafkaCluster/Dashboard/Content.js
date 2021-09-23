@@ -6,9 +6,9 @@
 import React from 'react';
 
 import ConsumerGroupsLagPerTopicTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumerGroupsLagPerTopicTable';
+import createClusterClientsSubscription from 'in-forge/plugins/kafkaCluster/subscriptions/getClientsForCluster';
 import PartitionsPerNodeTable from 'in-forge/plugins/kafkaCluster/Dashboard/PartitionsPerNodeTable';
 import { number, bytes, millis, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
-import createClusterClientsSubscription from 'in-subscription/kafkaCluster/getClientsForCluster';
 import ProducersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ProducersTable';
 import ConsumersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumersTable';
 import TopicsTable from 'in-forge/plugins/kafkaCluster/Dashboard/TopicsTable.js';

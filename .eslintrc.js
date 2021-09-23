@@ -30,6 +30,7 @@ module.exports = {
     delete globals['name'];
     delete globals['Notification'];
     delete globals['find'];
+    delete globals['open'];
     delete globals['close'];
     delete globals['focus'];
     globals.Promise = false;
@@ -310,7 +311,7 @@ module.exports = {
 
     // warn against using findDOMNode()
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-find-dom-node.md
-    'react/no-find-dom-node': 'warn',
+    'react/no-find-dom-node': 'error',
 
     // Forbid certain props on Components
     // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-component-props.md
@@ -347,6 +348,13 @@ module.exports = {
   },
 
   overrides: [
+    {
+      files: ['packages/**/*_test.js', 'packages/**/*_test.ts?(x)'],
+      env: {
+        jest: true
+      }
+    },
+
     {
       files: ['packages/**/*.ts?(x)'],
       parser: '@typescript-eslint/parser',

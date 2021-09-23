@@ -15,12 +15,12 @@ import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import { trackSliDeleted } from 'in-custom-dashboards/widgets/Slo/tracker';
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
-import getEndpointInfo from 'in-subscription/application/getEndpointInfo';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
-import getApplication from 'in-subscription/application/getApplication';
 import { deleteSliConfiguration } from 'in-custom-dashboards/api';
 import { isLoading } from 'in-services/util/result';
 import WithIcon from 'in-components/WithIcon';

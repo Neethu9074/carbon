@@ -18,7 +18,6 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/share
 export default function ThroughputInteractiveChart({
   blueprintConfig,
   form,
-  onChange,
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex,
@@ -32,7 +31,6 @@ export default function ThroughputInteractiveChart({
       <ThroughputThresholdCondition
         form={form}
         updateForm={updateForm}
-        onChange={onChange}
         blueprintConfig={blueprintConfig}
         editMode={editMode}
         isGlobalSmartAlert={isGlobalSmartAlert}
@@ -67,7 +65,6 @@ ThroughputInteractiveChart.propTypes = {
   isGlobalSmartAlert: PropTypes.bool,
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
   updateForm: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
   selectedChartViewConfigIndex: PropTypes.number.isRequired,

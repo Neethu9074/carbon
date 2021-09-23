@@ -63,6 +63,15 @@
     "registryCall_0": "Chamadas",
     "registryCall_1": "Chamadas",
     "registryCall_2": "Chamadas"
+  },
+
+  "components": {
+    "codeRetrievalDialog": {
+      "file": "Arquivo",
+      "line": "Linha",
+      "decompilationNotFullySupported": "A descompilação de arquivo de classe contendo alguns recursos em versões Java recentes não é totalmente suportada.",
+      "error": "Erro"
+    }
   }
 
 }

@@ -6,18 +6,6 @@
 @import '~in-themes/active.less';
 
 :local {
-  .container {
-    color: @lib__colors__N700Medium;
-    margin: 0.5rem 0;
-    font-weight: @lib__typography__body__font-size;
-  }
-
-  .title {
-    font-size: @lib__typography__h200__font-size;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-
   .content {
     margin-bottom: 1rem;
   }

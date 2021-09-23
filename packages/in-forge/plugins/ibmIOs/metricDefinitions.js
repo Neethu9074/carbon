@@ -69,6 +69,13 @@ export default [
     formatter: number,
     category: [t('in-forge:plugins.ibmIOs.dashboard.charts.threads.name')]
   },
+  {
+    metrics: ['totalSpoolSpace'],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.charts.totalSpoolSpace.totalSize')],
+    min: 0,
+    formatter: bytes,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.charts.totalSpoolSpace.name')]
+  },
 
   {
     metrics: [
@@ -87,6 +94,60 @@ export default [
   },
   {
     metrics: [
+      getDynamicMetricMatch(
+        'aspInfoMetrics',
+        'totalCapacity',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.name')
+      ),
+      getDynamicMetricMatch(
+        'aspInfoMetrics',
+        'protectedCapacity',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.name')
+      ),
+      getDynamicMetricMatch(
+        'aspInfoMetrics',
+        'unprotectedCapacity',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.name')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.charts.storage.totalCapacity'),
+      t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.charts.storage.protectedCapacity'),
+      t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.charts.storage.unprotectedCapacity')
+    ],
+    min: 0,
+    formatter: bytes,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'aspInfoMetrics',
+        'totalCapacityUtilization',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.name')
+      ),
+      getDynamicMetricMatch(
+        'aspInfoMetrics',
+        'protectedCapacityUtilization',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.name')
+      ),
+      getDynamicMetricMatch(
+        'aspInfoMetrics',
+        'unprotectedCapacityUtilization',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.name')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.charts.utilization.totalCapacityUtilization'),
+      t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.charts.utilization.protectedCapacityUtilization'),
+      t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.charts.utilization.unprotectedCapacityUtilization')
+    ],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.aspInfos.name')]
+  },
+  {
+    metrics: [
       getDynamicMetricMatch('memoryPoolMetrics', 'currThreads', t('in-forge:plugins.ibmIOs.memoryPool')),
       getDynamicMetricMatch('memoryPoolMetrics', 'currIneligibleThreads', t('in-forge:plugins.ibmIOs.memoryPool')),
       getDynamicMetricMatch('memoryPoolMetrics', 'maxActiveThreads', t('in-forge:plugins.ibmIOs.memoryPool'))
@@ -99,5 +160,127 @@ export default [
     min: 0,
     formatter: number,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.memoryPools.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'activeJobsMetrics',
+        'threadCount',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.threadCount')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'activeJobsMetrics',
+        'temporaryStorage',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.temporaryStorage')],
+    min: 0,
+    formatter: bytes,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'activeJobsMetrics',
+        'elapsedCPU',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.charts.elapsedCPU')],
+    min: 0,
+    formatter: percentage,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.activeJobs.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'outputQueueMetrics',
+        'fileCount',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.outputQueues.name')
+      ),
+      getDynamicMetricMatch(
+        'outputQueueMetrics',
+        'status',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.outputQueues.name')
+      ),
+      getDynamicMetricMatch(
+        'outputQueueMetrics',
+        'writerJobStatus',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.outputQueues.name')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.ibmIOs.dashboard.tables.outputQueues.fileCount'),
+      t('in-forge:plugins.ibmIOs.dashboard.tables.outputQueues.status'),
+      t('in-forge:plugins.ibmIOs.dashboard.tables.outputQueues.writerJobStatus')
+    ],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.outputQueues.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'subsystemMetrics',
+        'activeJobs',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.name')
+      ),
+      getDynamicMetricMatch(
+        'subsystemMetrics',
+        'maxActiveJobs',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.name')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.activeJobs'),
+      t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.maxActiveJobs')
+    ],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.subsystems.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch('jobQueueMetrics', 'heldJobs', t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name'))
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.charts.heldJobs')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'jobQueueMetrics',
+        'releasedJobs',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.charts.releasedJobs')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'jobQueueMetrics',
+        'scheduledJobs',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.charts.scheduledJobs')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.jobQueue.name')]
   }
 ];

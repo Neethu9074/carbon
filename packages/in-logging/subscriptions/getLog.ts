@@ -4,16 +4,12 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
-import { Result, LogItem } from 'in-types';
+import { Result, LogItem, LogQuery } from 'in-types';
 import { minutes } from 'in-services/time';
 
-interface CreateResultSubscriptionFactoryRequest {}
-interface CreateResultSubscriptionFactoryResponse extends Result<LogItem> {}
+interface GetLogResponse extends Result<LogItem> {}
 
-export default createResultSubscriptionFactory<
-  CreateResultSubscriptionFactoryRequest,
-  CreateResultSubscriptionFactoryResponse
->({
+export default createResultSubscriptionFactory<LogQuery, GetLogResponse>({
   eventId: 'logsV2.getLog',
   memoizeFor: minutes.toMillis(5)
 });

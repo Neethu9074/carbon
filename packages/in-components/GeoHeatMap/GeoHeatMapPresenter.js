@@ -8,7 +8,7 @@ import React from 'react';
 
 import { amCharts, loadMap, getMapName } from 'in-components/AmMap/libraryWrapper';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { lightGreenToDarkGreenHex } from 'in-services/heatMapColors';
+import { lightGreenToDarkGreenHex } from 'in-themes/heatMapColors';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ButtonGroup from 'in-components/MapControls/ButtonGroup';
 import HeatMapLegend from 'in-components/HeatMapLegend';

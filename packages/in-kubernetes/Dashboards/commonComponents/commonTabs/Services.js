@@ -20,8 +20,8 @@ import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commo
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import EntityHealthIndicator from 'in-components/EntityHealthIndicator/EntityHealthIndicator';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import getKubernetesServices from 'in-kubernetes/subscriptions/getKubernetesServices';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
-import getKubernetesServices from 'in-subscription/kubernetes/getKubernetesServices';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getServiceDashboard } from 'in-kubernetes/navigation/paths';
 import { formatDuration } from 'in-services/formatters/date';

@@ -3,7 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { applicationThresholdTypeOptions, getAvailableOptionsForEvaluationType } from './applicationThresholdFormData';
+import {
+  applicationThresholdTypeOptions,
+  getAvailableOptionsForEvaluationType
+} from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -13,8 +16,6 @@ jest.mock('in-services/featureFlags', () => ({
     return true;
   }
 }));
-
-/* eslint-env jest */
 
 describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormData::getAvailableOptionsForEvaluationType', () => {
   test('Return all options for individual smart alert', () => {

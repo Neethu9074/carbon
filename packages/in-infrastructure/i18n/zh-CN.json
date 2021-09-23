@@ -64,15 +64,13 @@
     "allInfrastructure": "所有基础架构",
     "name": "名称",
     "search": "搜索",
-    "infrastructure": "基础架构",
-    "infraExplore": "基础架构浏览",
     "explore": "浏览",
     "cpuUser": "CPU（用户）",
     "memoryFree": "字节量/秒内存"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "显示当前时间窗口内的计数和平均值。",
-    "aggregatesForMetricsOver": "汇总指标：{{windowSize}}",
+    "aggregatesForMetricsOver": "{{windowSize}} 内的指标汇总",
     "noData": "无数据。",
     "pleaseSelectForWhichToVisualizeTheChosenMetrics": "请选择要为其直观呈现所选指标的 {{plugins}}。",
     "pleaseSelectMetricsToVisualizeForTheSelected": "请选择要为所选 {{plugins}} 直观呈现的指标。",
@@ -100,8 +98,6 @@
     "map": "图",
     "comparisonTable": "比较表",
     "entityExploreBeta": "实体浏览 (Beta)",
-    "infrastructure": "基础架构",
-    "infraComparisonTable": "基础架构比较表",
     "infrastructureComparisonTable": "基础架构比较表"
   }
 }

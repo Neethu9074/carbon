@@ -149,11 +149,6 @@ export function getDashboardHeaderActions(props) {
   return getDashboardHeaderActions ? getDashboardHeaderActions(props) : [];
 }
 
-export function getAnalyzeLogsHref$(props) {
-  const { getAnalyzeLogsHref$ } = getSnapshotDefinition(props.snapshot.get('plugin'));
-  return getAnalyzeLogsHref$?.(props);
-}
-
 /**
  * For metric dashboards we pre-configure certain metric specs. However for some plugins those
  * metric specs are not correct. E.g. the Prometheus entity has HISTOGRAM metrics but without

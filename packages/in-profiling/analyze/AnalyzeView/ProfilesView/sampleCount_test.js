@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env node */
 import { expect } from 'chai';
 
 import countSamples from 'in-profiling/analyze/AnalyzeView/ProfilesView/sampleCount';

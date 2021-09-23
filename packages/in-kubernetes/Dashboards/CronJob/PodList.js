@@ -15,7 +15,7 @@ import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresen
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
-import getKubernetesPods from 'in-subscription/kubernetes/getKubernetesPods';
+import getKubernetesPods from 'in-kubernetes/subscriptions/getKubernetesPods';
 import { retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';

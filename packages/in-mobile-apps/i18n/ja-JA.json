@@ -223,13 +223,10 @@
     },
     "tabsSumViewChangeBeacon": {
       "viewTransitionLabel": "遷移の表示",
-      "startTimeLabel": "開始時刻"
+      "startTimeLabel": "開始時間"
     }
   },
   "dashboard": {
-    "mobileAppProductArea": "EUM: モバイル・アプリケーション",
-    "mobileAppViewPageRootName": "モバイル・アプリケーション・ビュー",
-    "mobileAppPageRootName": "モバイル・アプリケーション",
     "mobileAppViewTitle": "モバイル・アプリケーション",
     "mobileAppTitle": "ビュー",
     "analyzeSessions": "分析セッション",
@@ -249,12 +246,12 @@
       "keyLabel": "キー",
       "reportingURLLabel": "レポート URL",
       "removeAppTitle": "モバイル・アプリケーションの削除",
-      "removeAppHelp1": "Instana を使用してモバイル・アプリケーション <strong>{{label}}</strong> をモニターすることがなくなった場合は、このフォームを使用して削除してください。 モバイル・アプリケーションの削除は、最終的に整合性を確保するアクションです。 そのため、モバイル・アプリケーションは完全に削除されるまでに<strong>数分</strong>かかる場合があります。",
+      "removeAppHelp1": "Instana を使用してモバイル・アプリケーション <strong>{{label}}</strong> をモニターすることがなくなった場合は、このフォームを使用して削除してください。 モバイル・アプリケーションの削除は、結果的に整合性が確保される操作です。 そのため、モバイル・アプリケーションは完全に削除されるまでに<strong>数分</strong>かかる場合があります。",
       "removeAppHelp2": "ご自身でも Instana サポートでもこのアクションを元に戻すことはできませんので、ご注意ください。",
       "confirmUndone": "このアクションは元に戻せないことを理解しています。",
       "removeAppBtn": "モバイル・アプリケーションを削除する",
       "renameAppTitle": "モバイル・アプリケーションを名前変更する",
-      "renameAppHelp": "モバイル・アプリケーションの名前変更は、結果的に Instana システム内で整合性が確保されるアクションです。 そのため、モバイル・アプリケーション名を変更すると、システム全体に反映されるまでに<strong>数分</strong>かかる場合があります。",
+      "renameAppHelp": "モバイル・アプリケーションの名前変更は、結果的に Instana システム内で整合性が確保される操作です。 そのため、モバイル・アプリケーション名を変更すると、システム全体に反映されるまでに<strong>数分</strong>かかる場合があります。",
       "renameAppBtn": "名前を変更",
       "renameSaved": "保存しました",
       "noSessionTitle": "使用可能なセッションがありません",
@@ -301,6 +298,12 @@
       "geographyTitle": "ジオグラフィー",
       "topViewsTitle": "上位ビュー",
       "globViewFootertext": "NASA 提供の画像"
+    },
+    "noDataAvailable": {
+      "viewsTitle": "使用可能なビューはありません",
+      "viewsDescription": "選択された時刻範囲で取得されたビューはありません。",
+      "httpRequestsTitle": "選択可能な HTTP 要求がありません",
+      "httpRequestsDescription": "選択された時刻範囲で取得された HTTP 要求はありません。"
     }
   },
   "appsList": {
@@ -308,9 +311,7 @@
     "sessionStartsLabel": "セッション開始",
     "viewTransitionsLabel": "遷移の表示",
     "addMobileAppBtn": "モバイル・アプリケーションの追加",
-    "mobileAppsTitle": "モバイル・アプリケーション",
-    "mobileAppProductArea": "EUM: モバイル・アプリケーション",
-    "mobileAppPageRootName": "モバイル・アプリケーション"
+    "mobileAppsTitle": "モバイル・アプリケーション"
   },
   "newAppFlow": {
     "addMobileAppTitle": "モバイル・アプリケーションの追加",

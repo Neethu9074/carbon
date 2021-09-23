@@ -13,8 +13,8 @@ import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeader
 import { track, TIME_WINDOW_SIZE_VIA_PICKER } from 'in-services/tracking/tracking';
 import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 import { isApplicationsView } from 'in-applications/navigation/paths';
+import getRetention from 'in-applications/subscriptions/getRetention';
 import { samplingIndicatorEnabled } from 'in-services/featureFlags';
-import getRetention from 'in-subscription/application/getRetention';
 import { isMobileAppsView } from 'in-mobile-apps/navigation/paths';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
 import { isWebsitesView } from 'in-websites/navigation/paths';
@@ -65,7 +65,16 @@ function TimeSelection({ timeConfig, historicOrLargeDataResult, isHidden, darkTh
         withoutWrapper
         withoutArrow
       >
-        {TimePresenterWrapper}
+        {({ toggle, refSetter, isOpen }) => (
+          <TimePresenterWrapper
+            isOpen={isOpen}
+            toggle={toggle}
+            timeConfig={timeConfig}
+            historicOrLargeDataResult={historicOrLargeDataResult}
+            darkTheme={darkTheme}
+            refSetter={refSetter}
+          />
+        )}
       </Overlay>
     </ErrorBoundary>
   );

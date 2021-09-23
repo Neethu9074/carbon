@@ -13,7 +13,7 @@ import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocato
 import { getLinkToAnalyze, getServiceDashboard } from 'in-applications/navigation/paths';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { getButtonKindBySeverity } from 'in-stores/events';
 import { boundaryScopes } from 'in-applications/constants';
 import connectTo from 'in-hoc/connectTo';

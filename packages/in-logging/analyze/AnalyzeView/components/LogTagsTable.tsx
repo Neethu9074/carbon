@@ -22,9 +22,14 @@ import {
 import {
   LOG_CUSTOM_KEY_APPLICATION_IDS,
   LOG_CUSTOM_KEY_SERVICE_ID,
+  LOG_SERVICE_NAME,
   LOG_SPAN_ID,
   LOG_CALL_ID,
-  LOG_CUSTOM_KEY_APPLICATION_ID
+  LOG_CUSTOM_KEY_APPLICATION_ID,
+  LOG_CUSTOM_KEY_ENDPOINT_ID,
+  LOG_EXCEPTION_TYPE,
+  LOG_EXCEPTION_MESSAGE,
+  LOG_EXCEPTION_STACK_TRACE
 } from 'in-logging/queryBuilder';
 import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
@@ -43,6 +48,7 @@ import IconButton from 'in-components/IconButton/IconButton';
 import IconLink from 'in-components/IconButton/IconLink';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
+import Tooltip from 'in-components/Tooltip';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -61,7 +67,15 @@ const columnDefinitions = [
   }
 ];
 
-const restrictedTags = new Set<string>([LOG_CUSTOM_KEY_SERVICE_ID, LOG_SPAN_ID, LOG_CALL_ID]);
+const restrictedTags = new Set<string>([
+  LOG_CUSTOM_KEY_SERVICE_ID,
+  LOG_EXCEPTION_TYPE,
+  LOG_EXCEPTION_MESSAGE,
+  LOG_EXCEPTION_STACK_TRACE,
+  LOG_CUSTOM_KEY_ENDPOINT_ID,
+  LOG_SPAN_ID,
+  LOG_CALL_ID
+]);
 
 export default function LogTagsTable({
   item,
@@ -80,6 +94,7 @@ export default function LogTagsTable({
   }
 
   const tags: LogTag[] = logResult.data?.tags;
+
   return (
     <Ul>
       {tags.filter(filterTag).map((tag, i) => {
@@ -89,7 +104,7 @@ export default function LogTagsTable({
             key={i}
             uniqueTagName={uniqueTagName}
             tag={tag}
-            item={item}
+            item={logResult.data}
             tagToLabelMap={tagToLabelMap}
             allowedTagsForGrouping={allowedTagsForGrouping}
             onSelectTagHref={onSelectTagHref}
@@ -154,26 +169,33 @@ function TagValue({
     <Stack direction="horizontal" gap="xxsmall" align="center" distribution="spaceBetween">
       <ResolvedLink tag={tag} item={item} resolvedValue={resolvedValue} uniqueTagName={uniqueTagName} />
 
-      {isHovered && (
+      {isHovered && tag.key !== LOG_CUSTOM_KEY_APPLICATION_IDS && (
         <Stack direction="horizontal" gap="disabled" align="center">
           {allowedTagsForGrouping.has(tag.name || '') && (
+            <Tooltip content={t('in-logging:tooltipAddAsGroup')}>
+              <IconLink
+                iconSize={16}
+                type="lib_group_by"
+                href={getHrefToGroupedView(createGroupingTag(tag.name, tag.key))}
+                onClick={() => trackGroupClick(resolvedValue)}
+              />
+            </Tooltip>
+          )}
+          <Tooltip content={t('in-logging:tooltipAddAsFilter')}>
             <IconLink
               iconSize={16}
-              type="lib_group_by"
-              href={getHrefToGroupedView(createGroupingtag(tag.name, tag.key))}
-              onClick={() => trackGroupClick(resolvedValue)}
+              type="lib_actions_filter"
+              href={onSelectTagHref(createTag(value, tag.name, tag.key))}
+              onClick={() => trackFilterClick(tag, value)}
             />
-          )}
-
-          <IconLink
-            iconSize={16}
-            type="lib_actions_filter"
-            href={onSelectTagHref(createTag(value, tag.name, tag.key))}
-            onClick={() => trackFilterClick(tag, value)}
-          />
-          <CopyToClipboard getText={() => resolvedValue}>
-            {(copyToClipboardRef: any) => <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />}
-          </CopyToClipboard>
+          </Tooltip>
+          <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
+            <CopyToClipboard getText={() => resolvedValue}>
+              {(copyToClipboardRef: any) => (
+                <IconButton ref={copyToClipboardRef} iconSize={16} type="lib_actions_copy" />
+              )}
+            </CopyToClipboard>
+          </Tooltip>
         </Stack>
       )}
     </Stack>
@@ -189,9 +211,9 @@ function ResolvedLink({ uniqueTagName, resolvedValue, tag, item }: ResolvedLinkP
 
   if (tag.key === LOG_CUSTOM_KEY_APPLICATION_IDS) {
     return (
-      <Overlay
+      <Overlay<ApplicationsListProps>
         content={ApplicationsList}
-        props={{ applicationIds: (tag.stringValue || '').split(',') }}
+        props={{ applicationIds: (tag.stringValue || '').split(','), item }}
         align="leftMiddle"
       >
         {({ toggle }: ToggleProps) => (
@@ -264,10 +286,13 @@ function createTag(value: string, name?: string, key?: string): ClickedTag {
   return tag;
 }
 
-function createGroupingtag(name?: string, key?: string) {
+function createGroupingTag(name?: string, key?: string) {
   const tag: GroupingTag = { tag: name || '' };
   if (key) {
     tag.secondLevelKey = key;
+  }
+  if (name === LOG_SERVICE_NAME) {
+    tag.tagEntity = 'DESTINATION';
   }
   return tag;
 }

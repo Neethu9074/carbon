@@ -27,7 +27,7 @@ import {
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getSliConfiguration } from 'in-custom-dashboards/api';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';

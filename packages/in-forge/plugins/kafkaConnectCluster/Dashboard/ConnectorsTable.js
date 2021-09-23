@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getKafkaConnectConnectorsForCluster from 'in-subscription/kafkaConnectCluster/getKafkaConnectConnectorsForCluster';
+import getKafkaConnectConnectorsForCluster from 'in-forge/plugins/kafkaConnectCluster/subscriptions/getKafkaConnectConnectorsForCluster';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

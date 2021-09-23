@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 import ServiceEndpointList from 'in-applications/analyze/AnalyzeView2_0/components_alt/ServiceEndpointList';
 import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/HeightRestrictedView';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
-import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
+import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import { pendingResult } from 'in-services/fixedObjects';

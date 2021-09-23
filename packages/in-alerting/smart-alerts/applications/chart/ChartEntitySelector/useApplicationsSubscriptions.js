@@ -6,7 +6,7 @@
 import { combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 
 export default function useApplicationsSubscriptions(applications) {
   const apIds = Object.keys(applications);

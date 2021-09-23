@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { isBlank, getAThroughZRepresentation } from 'in-services/util/string';
 
 describe('in-services/util/string', () => {

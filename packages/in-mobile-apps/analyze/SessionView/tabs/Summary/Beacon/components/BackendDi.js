@@ -9,8 +9,8 @@ import { combineLatest } from '@instana/observables';
 import { Link } from '@instana/components';
 
 import getMobileAppBackendTraces from 'in-mobile-apps/subscriptions/getMobileAppBackendTraces';
+import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import { navigateToBackendTraceFromSession } from 'in-mobile-apps/tracker';
-import getTraceSummary from 'in-subscription/application/getTraceSummary';
 import { latencyFixed, number } from 'in-services/formatters/number';
 import { getLinkToTraceDetail } from 'in-analyze/navigation/paths';
 import { Di } from 'in-components/HorizontalDescriptionList';

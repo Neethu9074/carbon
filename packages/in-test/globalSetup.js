@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest,node */
+/* eslint-env node */
 /* eslint-disable no-var, vars-on-top, strict */
 
 'use strict';

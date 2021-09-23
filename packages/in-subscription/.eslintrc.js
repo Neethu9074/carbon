@@ -17,10 +17,7 @@ module.exports = {
         'in-connection',
         'in-types',
         // FIXME Circular import
-        'in-services',
-        // FIXME This import path should not exist in a global package
-        // FIXME Circular import
-        'in-applications'
+        'in-services'
       ]
     })
   }

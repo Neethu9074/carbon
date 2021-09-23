@@ -6,7 +6,7 @@
 import React from 'react';
 
 import WithInfrastructureHealthIndicationBehaviour from 'in-components/health/WithHealthIndication/WithInfrastructureHealthIndicationBehaviour';
-import getKubernetesPod from 'in-subscription/kubernetes/getKubernetesPod';
+import getKubernetesPod from 'in-kubernetes/subscriptions/getKubernetesPod';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';

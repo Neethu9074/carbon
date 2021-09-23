@@ -12,7 +12,7 @@ import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/smart
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { t } from 'in-i18n';
 
-export function ThresholdDeviationSliderForm({ form, onChange, trackChange, defaultValue }) {
+export function ThresholdDeviationSliderForm({ form, updateForm, trackChange, defaultValue }) {
   return (
     <ThresholdConditionFormGroup
       iconType="lib_threshold"
@@ -22,7 +22,7 @@ export function ThresholdDeviationSliderForm({ form, onChange, trackChange, defa
         value={getFormValueOrDefault(form.get('threshold'), 'deviationFactor', '')}
         defaultValue={defaultValue}
         onChange={value => {
-          onChange(['threshold', 'deviationFactor'], f => f.setValue(value).setTouched(true));
+          updateForm(form.updateIn(['threshold', 'deviationFactor'], f => f.setValue(value).setTouched(true)));
           trackChange(getTrackingObject(form, { value }));
         }}
       />
@@ -32,7 +32,7 @@ export function ThresholdDeviationSliderForm({ form, onChange, trackChange, defa
 
 ThresholdDeviationSliderForm.propTypes = {
   form: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  updateForm: PropTypes.func.isRequired,
   defaultValue: PropTypes.number.isRequired,
   trackChange: PropTypes.func.isRequired
 };

@@ -7,9 +7,13 @@
   "logsOverTime_WARN": "Registros de avisos a lo largo del tiempo",
   "logsOverTime_INFO": "Registros de información a lo largo del tiempo",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configuración de la consulta no es válida. Solucione las anomalías de validación antes de continuar.",
-  "selectTags": "Seleccionar códigos",
-  "goToTrace": "Ir a rastrear",
   "addAsFilter": "Añadir como filtro",
   "addAsGroup": "Añadir como grupo",
-  "numberOfLogs": "Número de registros"
+  "numberOfLogs": "Número de registros",
+  "numberOfLogsPercentage": "Porcentaje",
+  "applications": "Aplicaciones",
+  "endpoint": "Punto final",
+  "endpointType": "Tipo de punto final",
+  "messageParam": "Parámetro de mensaje",
+  "applicationCounter": "{{count}} aplicaciones"
 }

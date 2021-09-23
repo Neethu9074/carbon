@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-/* eslint-env jest */
-
 import { useLocation, Router } from 'react-router-dom';
 import { mount } from 'enzyme';
 import { expect } from 'chai';

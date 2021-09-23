@@ -106,6 +106,10 @@
       "cursorPaginatedTableFilterByLabel": "Analizar este grupo",
       "cursorPaginatedTableLoadMoreRowLabel": "Cargar más"
     },
+    "noDataAvailable": {
+      "entititiesTitle": "No hay entidades disponibles",
+      "entititiesDescription": "No se han recuperado entidades para el rango de tiempo seleccionado."
+    },
     "sharedComponents": {
       "configurableThSearchItemPlaceholder": "Buscar elementos {{len}}",
       "configurableThNoMatchesTxt": "No hay coincidencias"
@@ -140,14 +144,14 @@
     "result_1": "{{formattedCount}} resultados",
     "result_2": "{{formattedCount}} resultados",
     "resultRetained": "{{formattedCount}} retenido",
-    "resultRetained_plural": "{{formattedCount}} retenidos",
-    "resultRetained_0": "{{formattedCount}} retenidos",
+    "resultRetained_plural": "{{formattedCount}} retenido",
+    "resultRetained_0": "{{formattedCount}} retenido",
     "resultRetained_1": "{{formattedCount}} retenido",
-    "resultRetained_2": "{{formattedCount}} retenidos",
+    "resultRetained_2": "{{formattedCount}} retenido",
     "groupedViewHeader": "{{formattedCount}} grupo",
     "groupedViewHeader_plural": "{{formattedCount}} grupos",
     "groupedViewHeader_0": "Grupos",
-    "groupedViewHeader_1": "Grupo",
+    "groupedViewHeader_1": "Agrupar",
     "groupedViewHeader_2": "Grupos",
     "resultHeaderLoading": "Cargando…",
     "resultHeaderTooltip": "El rango de tiempo de la consulta se ha redondeado hasta el minuto completo más próximo para permitir que esta vista se cargue más rápidamente.",
@@ -171,7 +175,11 @@
     "labelRegion": "Región",
     "labelTag": "Código",
     "labelCommit": "Confirmar",
-    "buttonGraphShowcase": "Presentación de gráficos"
+    "buttonGraphShowcase": "Presentación de gráficos",
+    "geo": {
+      "title": "Datos geográficos",
+      "description": "Este producto incluye datos de GeoLite2 creados por MaxMind, disponibles en <linkToMaxMind>https://www.maxmind.com</linkToMaxMind>."
+    }
   },
   "blueprintFormMultistep": {
     "buttonCancel": "Cancelar",
@@ -180,7 +188,7 @@
     "buttonNext": "Siguiente"
   },
   "chartingConfigurator": {
-    "buttonAddChart": "Añadir gráfica",
+    "buttonAddChart": "Seleccionar gráfico",
     "labelChangeSelectedMetric": "Cambiar métrica seleccionada",
     "labelChangeSelectedAggregation": "Cambiar agregación seleccionada",
     "labelChangeSelectedRenderer": "Cambiar presentador seleccionado",
@@ -220,6 +228,9 @@
     "explanation": "No se ha podido encontrar una versión de esta entidad en el rango de tiempo seleccionado. Se han encontrado otras versiones en diferentes rangos de tiempo:",
     "noDataAvailable": "No hay datos disponibles."
   },
+  "entityToInstanaServiceButton": {
+    "services": "Servicios"
+  },
   "error": {
     "erroneousResultPresenterMessage": "Se ha producido un error inesperado. Renueve la página o vuelva a intentarlo más tarde."
   },
@@ -254,7 +265,7 @@
     "exampleTagCatalogDescriptionTypeOfEntity": "Tipo de entidad",
     "exampleTagCatalogDescriptionLabelOfEntity": "Etiqueta de entidad",
     "addGroup": "Añadir grupo",
-    "titleGroup": "Grupo",
+    "titleGroup": "Agrupar",
     "loadingIndicatorLoadingTagCatalog": "Cargando catálogo de códigos...",
     "optional": "Opcional"
   },
@@ -356,6 +367,7 @@
   },
   "selectorOverlay": {
     "placeholderSearch": "Buscar",
+    "noResults": "No hay resultados",
     "loadingIndicatorLoadingCatalog": "Cargando catálogo"
   },
   "sortingConfigurator": {
@@ -453,18 +465,25 @@
     "timeSelectionDialogPresenterLabelTimeRange": "Rango de tiempo",
     "timeSelectionDialogPresenterLabelReleases": "Releases",
     "timeFrameFormatterStarting": "Iniciando {{fromTime}}",
-    "timeFrameFormatterLast": "Última {{duration}}",
-    "timeFrameFormatterLast24Hours": "Últimas 24 horas",
     "timeIconHistoricDataMessage": "Está visualizando datos aproximados debido a los valores de retención de datos. Los datos precisos estarán disponibles en los últimos {{retention}} días.",
     "timeIconLargeDataMessage": "Está visualizando datos aproximados debido a que un conjunto de datos de gran tamaño. Reduzca el intervalo de tiempo para obtener datos precisos.",
-    "timePresetsLast": "Última {{duration}}",
-    "timePresetsLast24Hours": "Últimas 24 horas",
     "timeUnit_year": "año",
     "timeUnit_month": "mes",
     "timeUnit_day": "día",
     "timeUnit_hour": "hora",
     "timeUnit_minute": "minuto",
-    "timeUnit_second": "segundo"
+    "timeUnit_second": "segundo",
+
+    "timeFrameFormatterHoursMinutes": "Últimas $t(in-components: time.hours, {\" count \": {{hours}}}) $t(in-components: time.minutes, {\" count \": {{minutes}}})",
+    "hours": "{{count}} hora",
+    "hours_plural": "{{count}} horas",
+    "minutes": "{{count}} minuto",
+    "minutes_plural": "{{count}} minutos",
+
+    "timeFrameFormatterHours": "Última hora",
+    "timeFrameFormatterHours_plural": "Últimas {{count}} horas",
+    "timeFrameFormatterMinutes": "Último minuto",
+    "timeFrameFormatterMinutes_plural": "Últimos {{count}} minutos"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Cambiar salto en el tiempo seleccionado",
@@ -480,7 +499,7 @@
   },
   "upstreamDownstream": {
     "companionMetricLabelCalls": "Llamadas",
-    "companionMetricLabelLatency": "latencia",
+    "companionMetricLabelLatency": "Latencia",
     "companionMetricLabelErroneousCalls": "Llamadas erróneas",
     "companionMetricLabelErroneousCallRate": "Tasa de llamadas erróneas: ",
     "metricLabelCallsAndErroneousCalls": "Llamadas y llamadas erróneas",
@@ -538,20 +557,23 @@
   "analyze": {
     "loadMoreWithCount": "Cargar {{count}} más",
     "loadMore": "Cargar más",
-    "addAsGroup": "Añadir como grupo",
-    "noResults": "No hay resultados",
+    "activeFacets": "{{count}} seleccionados",
+    "clearFacets": "Borrar todo",
+    "clearFacet": "Borrar",
+    "noResults": "No hay sugerencias",
     "from": "Desde",
     "fromUnit": "Desde ({{unit}})",
     "to": "Hasta",
     "toUnit": "Hasta ({{unit}})",
+    "rangeSelected": "Rango seleccionado",
     "rangeOrder": "El rango ha de estar en orden ascendente.",
     "earliestTimestamp": "Primera indicación de fecha y hora",
     "timestamp": "Indicación de fecha y hora",
     "focusOnGroup": "Focalizar este grupo",
     "splitScreen": {
       "sidebarActions": {
-        "prev": "Ver {{ itemName }} anterior (acceso directo: tecla de flecha izquierda)",
-        "next": "Ver siguiente {{ itemName }} (acceso directo: flecha derecha)"
+        "prev": "Ver entrada anterior (atajo: tecla de flecha izquierda)",
+        "next": "Ver entrada siguiente (atajo: tecla de flecha derecha)"
       }
     },
     "groupName": "Nombre de grupo",
@@ -571,7 +593,10 @@
       "filterButtonAddFilter": "Añadir filtro",
       "conjunctionLogicalOperator_OR": "OR",
       "conjunctionLogicalOperator_AND": "AND",
-      "conjunctionLogicalOperator_NOT": "NOT"
+      "conjunctionLogicalOperator_NOT": "NOT",
+      "unknownTag": "?",
+      "unknownTagTooltip": "El código '{{tagName}}' suele ser desconocido o no está soportado en este contexto.",
+      "unknownEmptyTagTooltip": "No se conoce un código con un nombre vacío."
     },
     "selectorOverlayClear": "Borrar",
     "selectorOverlayAnd": "AND",
@@ -579,6 +604,7 @@
     "simpleValueSelectorMore": "Más",
     "workspaceAPIQuery": "Consulta de API",
     "workspaceUseThisExpressionToQueryOurAPI": "Utilice esta expresión para consultar la API",
+    "workspaceIncludeSidebarFilters": "Incluir elementos de la barra lateral de filtro",
     "workspaceTitleFilter": "Filtrar",
     "workspaceButtonClear": "Borrar",
     "errorWithDataYourDefinedQueryIsTooComplex": "La consulta definida es demasiado compleja, reduce la cantidad de anidación.",

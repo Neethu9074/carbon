@@ -9,8 +9,8 @@ import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { just } from '@instana/observables';
 
-import getServiceLabel from 'in-subscription/application/getServiceLabel';
-import getApplication from 'in-subscription/application/getApplication';
+import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
+import getApplication from 'in-applications/subscriptions/getApplication';
 
 import locals from './ReleaseScope.mless';
 

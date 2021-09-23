@@ -26,7 +26,7 @@ import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/Heig
 import SettingsButton from 'in-applications/analyze/AnalyzeView2_0/components_alt/SettingsButton';
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import CallTree from 'in-applications/analyze/AnalyzeView2_0/components_alt/CallTree';
-import getTraceActivityTree from 'in-subscription/application/getTraceActivityTree';
+import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { refreshWindowSizeDependingState } from 'in-services/browser';

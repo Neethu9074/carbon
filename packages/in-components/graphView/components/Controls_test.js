@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
-import { create } from '@instana/observables';
 import { expect } from 'chai';
-import { getDeltaTime } from 'in-map/misc/time';
+
+/* eslint-env node */
+import { create } from '@instana/observables';
+
 import { onWheel, onLeave, onMove, onDown, onUp } from 'in-services/util/reactiveMouseEvents';
 import createControls from 'in-components/graphView/components/Controls';
-
 import { PerspectiveCamera } from 'in-map/3DLibProvider';
+import { getDeltaTime } from 'in-map/misc/time';
 
 jest.mock('in-map/misc/time');
 jest.mock('in-services/util/reactiveMouseEvents');

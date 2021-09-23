@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getIbmDataPowerEthernetInterfacesForAppliance from 'in-subscription/ibmDataPowerAppliance/getIbmDataPowerEthernetInterfacesForAppliance';
+import getIbmDataPowerEthernetInterfacesForAppliance from 'in-forge/plugins/ibmDataPowerAppliance/subscriptions/getIbmDataPowerEthernetInterfacesForAppliance';
 import { bytesTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

@@ -7,64 +7,111 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 
+import { useObservable } from '@instana/hooks';
+
 import {
+  createApplicationIdTagFilter,
   createApplicationNameTagFilter,
-  createServiceNameTagFilter,
   createEndpointNameTagFilter,
-  createApplicationIdTagFilter
+  createServiceNameTagFilter
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/tagFilterCreators';
 import {
+  createNoMatchingEntityText,
   DEFAULT_PAGE_SIZE,
   enrichListWithStaleSelectionData,
-  createNoMatchingEntityText,
   sortListBySelectionState
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { selectApplication } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
 import ServicesList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesList';
 import SharedList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList';
-import { or, and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { propTypeTimeConfig } from 'in-stores/time/config';
+import { pendingResult } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
 import { isLoading } from 'in-services/util/result';
+import { noop } from 'in-services/util/function';
 
-export default function ApplicationsList({
-  getApplicationsCursorPaginated,
-  getApplication,
-  isGlobalSmartAlert,
-  appIdForIndividualSmartAlert,
-  ...props
-}) {
-  const { timeConfig, includeSynthetic, stateManagement, boundaryScope, readOnly } = props;
-  const searchQuery = props.searchQuery?.trim();
-  const { state } = stateManagement;
-  const { items, ...tableProps } = useCursorPagination(
-    ({ cursor }) =>
-      isGlobalSmartAlert
-        ? getApplicationsCursorPaginated({
-            pagination: {
-              cursor,
-              retrievalSize: DEFAULT_PAGE_SIZE
-            },
-            order: {
-              by: 'applicationLabel',
-              direction: 'ASC'
-            },
-            metrics: {},
-            filter: {
-              timeConfig,
-              includeSyntheticCalls: includeSynthetic
-            },
-            tagFilterExpression: buildTagFilterExpression(searchQuery, readOnly, state, boundaryScope)
-          })
-        : getApplication({ id: appIdForIndividualSmartAlert }).map(result => {
-            return { ...result, data: { items: result?.data ? [{ application: result.data }] : [] } };
-          }),
-    [searchQuery, isGlobalSmartAlert, includeSynthetic, state, timeConfig]
+export default function ApplicationsList({ isGlobalSmartAlert, searchQuery, ...props }) {
+  const trimmedSearchQuery = searchQuery?.trim();
+  const getStaleEntity = props.getApplication;
+
+  return isGlobalSmartAlert ? (
+    <ApplicationListMutlipleApplications {...props} searchQuery={trimmedSearchQuery} getStaleEntity={getStaleEntity} />
+  ) : (
+    <ApplicationListSingleApplication {...props} searchQuery={trimmedSearchQuery} getStaleEntity={getStaleEntity} />
   );
+}
+
+function ApplicationListMutlipleApplications({ getApplicationsCursorPaginated, ...props }) {
+  const { boundaryScope, includeSynthetic, readOnly, stateManagement, timeConfig, searchQuery } = props;
+
+  let { items = [], ...tableProps } = useCursorPagination(
+    ({ cursor }) =>
+      getApplicationsCursorPaginated({
+        pagination: {
+          cursor,
+          retrievalSize: DEFAULT_PAGE_SIZE
+        },
+        order: {
+          by: 'applicationLabel',
+          direction: 'ASC'
+        },
+        metrics: {},
+        filter: {
+          timeConfig,
+          includeSyntheticCalls: includeSynthetic
+        },
+        tagFilterExpression: buildTagFilterExpression(searchQuery, readOnly, stateManagement.state, boundaryScope)
+      }),
+    [searchQuery, includeSynthetic, timeConfig]
+  );
+
+  return (
+    <ApplicationBaseList
+      {...props}
+      {...tableProps}
+      items={items}
+      isLoading={isLoading(tableProps)}
+      initiallyOpen={Boolean(searchQuery) && items.length > 0}
+    />
+  );
+}
+
+function ApplicationListSingleApplication({ appIdForIndividualSmartAlert, getApplication, ...props }) {
+  const applicationResult =
+    useObservable(
+      () =>
+        getApplication({ id: appIdForIndividualSmartAlert }).map(result => {
+          return { ...result, items: result?.data ? [{ application: result.data }] : [] };
+        }),
+      []
+    ) ?? pendingResult;
+
+  const initiallyOpen = Boolean(props.searchQuery) && applicationResult.items.length > 0;
+
+  return (
+    <ApplicationBaseList
+      {...props}
+      key={initiallyOpen} //force rerender to show/render expanded list
+      items={applicationResult.items}
+      isLoading={isLoading(applicationResult)}
+      loadMore={noop}
+      initiallyOpen={initiallyOpen}
+    />
+  );
+}
+
+function ApplicationBaseList({ items = [], isLoading, getStaleEntity, initiallyOpen, ...props }) {
+  const {
+    stateManagement: { state },
+    searchQuery,
+    readOnly,
+    showInteractedItemsOnly
+  } = props;
 
   const listData = useMemo(() => {
     if (items.length === 0) return [];
@@ -77,10 +124,9 @@ export default function ApplicationsList({
   return (
     <SharedList
       {...props}
-      {...tableProps}
-      isLoading={isLoading(tableProps)}
+      isLoading={isLoading}
       listData={
-        props.showInteractedItemsOnly
+        showInteractedItemsOnly
           ? sortListBySelectionState(listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem(state))
           : listData
       }
@@ -119,11 +165,11 @@ export default function ApplicationsList({
         getBadgeElement() {
           return null;
         },
-        getStaleEntity$: getApplication
+        getStaleEntity$: getStaleEntity
       }}
-      initiallyOpen={Boolean(searchQuery) && items.length > 0}
-      isFramed={false}
+      initiallyOpen={initiallyOpen}
       viewOnly={readOnly}
+      isFramed={false}
     />
   );
 }

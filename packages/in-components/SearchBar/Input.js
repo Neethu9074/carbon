@@ -33,9 +33,7 @@ const SearchBarInput = connectTo(
   {
     contextQuery: unvalidatedQuery$
   },
-  class extends React.Component {
-    displayname = 'SearchBar-Input';
-
+  class SearchBarInput extends React.Component {
     componentDidMount() {
       const editor = (this.editor = CodeMirror(this.input, {
         mode: 'instanaSearch',
@@ -415,10 +413,10 @@ function trim(str) {
   return str.trimLeft().replace(/\s\s+/g, ' ');
 }
 
-export default function IncidentPopulationChartWrapper(props) {
+export default function Input(props) {
   const { ref, ...dimensions } = useResizeObserverCustom();
   // Note: this is a bit hacky but there is no other way to make this work for this component.
-  // Also we can not use the name refSetter, which is often used in ui-client, because connectTo overrites refSetter internally.
-  // Since we enventually want to get rid of DFQ anyways, it should be OK to handle ref setting this way.
+  // Also we can not use the name refSetter, which is often used in ui-client, because connectTo overwrites refSetter internally.
+  // Since we eventually want to get rid of DFQ anyways, it should be OK to handle ref setting this way.
   return <SearchBarInput {...props} {...dimensions} resizeObserverRef={ref} />;
 }

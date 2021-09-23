@@ -25,19 +25,6 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
   const queryState = useState('');
   const close = () => setSelectedSli(null);
 
-  const sliDetailsViewSlideIn = (
-    <div className={locals.slideInWrapper}>
-      {sliSelected && (
-        <CreateNewSLIForm
-          apName={apName}
-          sliConfig={sliSelected}
-          applicationId={applicationId}
-          apDefaultBoundaryScope={apDefaultBoundaryScope}
-          close={close}
-        />
-      )}
-    </div>
-  );
   const sliManageListMain = (
     <div>
       {!role.canConfigureServiceLevelIndicators && (
@@ -86,7 +73,20 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
       HeaderComponent={NoHeader}
       slideTransitionDurationMillis={500}
       slideInContentTitle={t('in-custom-dashboards:widgets.slo.sliManageList.sliList')}
-      slideInContent={sliDetailsViewSlideIn}
+      renderSlideInContent={setFooter => (
+        <div className={locals.slideInWrapper}>
+          {sliSelected && (
+            <CreateNewSLIForm
+              apName={apName}
+              sliConfig={sliSelected}
+              applicationId={applicationId}
+              apDefaultBoundaryScope={apDefaultBoundaryScope}
+              close={close}
+              setFooter={setFooter}
+            />
+          )}
+        </div>
+      )}
       staticContent={sliManageListMain}
       enforceMaxHeightForStaticContent
     />

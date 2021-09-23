@@ -37,7 +37,7 @@ import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/Gr
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
-import getTagSuggestions from 'in-subscription/application/getTagSuggestions';
+import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';

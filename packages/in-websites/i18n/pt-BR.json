@@ -288,6 +288,7 @@
         "indexLabelDetails": "Detalhes",
         "labelAnalytics": "Análise de dados",
         "titlePageLoad": "Carregamento de página",
+        "pageLoadOnResource": "{{page}} em {{resource}}",
         "buttonDownload": "Fazer download",
         "renderTimeSelectionTooltip": "Fechar detalhes do carregamento de página",
         "referencedPageLoads": "Carregamentos de páginas referenciadas"
@@ -345,9 +346,7 @@
     "websitesListLabelOnLoadTime": "Tempo de onLoad",
     "websitesListLabelHealth": "Funcionamento",
     "websitesListButtonAddWebsite": "Incluir website",
-    "websitesListTitleWebsites": "Websites",
-    "websitesListProductAreaEUMWebsites": "EUM: websites",
-    "websitesListPageRootNameWebsites": "Websites"
+    "websitesListTitleWebsites": "Websites"
   },
   "websiteDashboard": {
     "components": {
@@ -461,6 +460,10 @@
         "alertConfigurationTitleTimeThreshold": "Limite de tempo",
         "alertConfigurationTitleAlertChannels": "Canais de alerta",
         "alertConfigurationTitleAlertProperties": "Propriedades de alerta",
+        "filter": "filtro",
+        "filter_plural": "filtros",
+        "moreFiltersWithCount": "+{{count}} mais filtro",
+        "moreFiltersWithCount_plural": "+{{count}} mais filtros",
         "alertsLabelName": "Nome",
         "alertsLabelFilters": "Filtros",
         "alertsHeaderConfiguredAlerts": "Alertas configurados",
@@ -744,7 +747,19 @@
     "websiteDashboardTitleWebsitePage": "Página do website",
     "websiteDashboardTitleWebsite": "Website",
     "websiteDashboardButtonAnalyzePageLoads": "Analisar carregamentos de página",
-    "websiteDashboardButtonAnalyzePageTransitions": "Analisar transições de página"
+    "websiteDashboardButtonAnalyzePageTransitions": "Analisar transições de página",
+    "noDataAvailable": {
+      "pagesTitle": "Nenhuma página disponível",
+      "pagesDescription": "Não houve páginas recuperadas para o intervalo de tempo selecionado.",
+      "customEventsTitle": "Nenhum evento customizado disponível",
+      "customEventsDescription": "Não houve eventos customizados recuperados para o intervalo de tempo selecionado.",
+      "javascriptErrorsTitle": "Nenhum erro do JavaScript disponível",
+      "javascriptErrorsDescription": "Não houve erros do JavaScript recuperados para o intervalo de tempo selecionado.",
+      "resourcesTitle": "Nenhum recurso disponível",
+      "resourcesDescription": "Não houve recursos recuperados para o intervalo de tempo selecionado.",
+      "httpRequestsTitle": "Nenhuma solicitação de HTTP disponível",
+      "httpRequestsDescription": "Não houve nenhuma solicitação de HTTP recuperada para o intervalo de tempo selecionado."
+    }
   },
   "rename": {
     "help": "A renomeação de um website é uma ação eventualmente consistente dentro do sistema Instana. Por essa razão, uma mudança no nome de um website pode levar <strong>até alguns minutos</strong> até ser preenchida em todo o sistema."

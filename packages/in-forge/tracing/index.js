@@ -160,6 +160,7 @@ import './feign';
 import './g.rpc';
 import './gcpsa';
 import './hbase';
+import './httpd';
 import './kafka';
 import './mongo';
 import './mysql';

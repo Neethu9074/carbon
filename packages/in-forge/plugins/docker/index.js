@@ -12,7 +12,6 @@ import { addMaxValueLocator, addFormattedValueLocator } from 'in-sdk/metrics';
 import metricDefinitions from 'in-forge/plugins/docker/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/docker/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/docker/kpiDefinitions';
-import { getAnalyzeLogsHref$ } from 'in-forge/plugins/docker/util';
 import { isWithinKubernetes } from 'in-forge/plugins/docker/util';
 import { containerInfoEnabled } from 'in-services/featureFlags';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -47,9 +46,7 @@ registerSnapshotDefinition({
       },
       containerInfoEnabled && containerInfoAvailable(snapshot) && !hasRestrictedAccess && containerInfoButtonConfig
     ].filter(Boolean);
-  },
-
-  getAnalyzeLogsHref$
+  }
 });
 
 addMaxValueLocator(/^memory\.usage/, snapshot => snapshot.getIn(['data', 'memory.limit']));

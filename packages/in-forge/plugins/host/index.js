@@ -5,7 +5,7 @@
 
 import { LoggingIntegrationButtonsRenderer, getObservables } from 'in-integrations/logging/LoggingIntegrationButtons';
 import agentMonitoringIssueDefinitions from 'in-forge/plugins/host/agentMonitoringIssueDefinitions';
-import getKubernetesNodeByHost from 'in-subscription/kubernetes/getKubernetesNodeByHost';
+import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
 import metricDefinitions from 'in-forge/plugins/host/metricDefinitions';
 import tableDefinition from 'in-forge/plugins/host/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/host/kpiDefinitions';

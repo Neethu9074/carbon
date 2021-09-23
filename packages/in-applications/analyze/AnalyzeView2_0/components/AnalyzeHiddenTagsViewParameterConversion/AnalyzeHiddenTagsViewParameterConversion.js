@@ -17,10 +17,10 @@ import {
 } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { error, isLoading, noResultObservable } from 'in-services/util/result';
-import getEndpoint from 'in-subscription/application/getEndpoint';
+import getEndpoint from 'in-applications/subscriptions/getEndpoint';
+import getService from 'in-applications/subscriptions/getService';
 import { getModifiedUrl } from 'in-stores/navigation/navigation';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
-import getService from 'in-subscription/application/getService';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';

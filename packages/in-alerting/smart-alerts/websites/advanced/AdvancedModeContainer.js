@@ -73,14 +73,12 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.websites.advanced.scopeLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.scopeTitle'),
           content: (
-            <>
-              <AlertTagFilterExpressionConfig
-                form={form}
-                updateForm={updateForm}
-                websiteLabel={websiteLabel}
-                QueryBuilderComponent={QueryBuilderComponent}
-              />
-            </>
+            <AlertTagFilterExpressionConfig
+              form={form}
+              updateForm={updateForm}
+              websiteLabel={websiteLabel}
+              QueryBuilderComponent={QueryBuilderComponent}
+            />
           ),
           checked: true,
           valid: true
@@ -125,7 +123,6 @@ export default function AdvancedModeContainer(props) {
                       blueprintConfig={blueprintConfig}
                       form={form}
                       timeConfig={timeConfig}
-                      onChange={onChange}
                       updateForm={updateForm}
                       onChartViewConfigChange={onChartViewConfigChange}
                       selectedChartViewConfigIndex={selectedChartViewConfigIndex}
@@ -134,18 +131,15 @@ export default function AdvancedModeContainer(props) {
                   </>
                 )}
                 renderSlowness={() => (
-                  <>
-                    <SlownessInteractiveChart
-                      blueprintConfig={blueprintConfig}
-                      form={form}
-                      timeConfig={timeConfig}
-                      onChange={onChange}
-                      updateForm={updateForm}
-                      onChartViewConfigChange={onChartViewConfigChange}
-                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                      editMode={editMode}
-                    />
-                  </>
+                  <SlownessInteractiveChart
+                    blueprintConfig={blueprintConfig}
+                    form={form}
+                    timeConfig={timeConfig}
+                    updateForm={updateForm}
+                    onChartViewConfigChange={onChartViewConfigChange}
+                    selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                    editMode={editMode}
+                  />
                 )}
                 renderStatusCode={() => (
                   <>
@@ -159,7 +153,6 @@ export default function AdvancedModeContainer(props) {
                     <StatusCodeInteractiveChart
                       blueprintConfig={blueprintConfig}
                       form={form}
-                      onChange={onChange}
                       updateForm={updateForm}
                       timeConfig={timeConfig}
                       onChartViewConfigChange={onChartViewConfigChange}
@@ -169,18 +162,15 @@ export default function AdvancedModeContainer(props) {
                   </>
                 )}
                 renderThroughput={() => (
-                  <>
-                    <ThroughputInteractiveChart
-                      blueprintConfig={blueprintConfig}
-                      form={form}
-                      timeConfig={timeConfig}
-                      onChange={onChange}
-                      updateForm={updateForm}
-                      onChartViewConfigChange={onChartViewConfigChange}
-                      selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                      editMode={editMode}
-                    />
-                  </>
+                  <ThroughputInteractiveChart
+                    blueprintConfig={blueprintConfig}
+                    form={form}
+                    timeConfig={timeConfig}
+                    updateForm={updateForm}
+                    onChartViewConfigChange={onChartViewConfigChange}
+                    selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+                    editMode={editMode}
+                  />
                 )}
               />
               {isHistoricBaseline(form.get('threshold').get('type').value) && (

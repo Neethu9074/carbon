@@ -9,13 +9,13 @@ import React from 'react';
 
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import HighlightSwitch from 'in-kubernetes/Dashboards/commonComponents/commonTabs/PodMap/HighlightSwitch';
-import getKubernetesWorkloadController from 'in-subscription/kubernetes/getKubernetesWorkloadController';
+import getKubernetesWorkloadController from 'in-kubernetes/subscriptions/getKubernetesWorkloadController';
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
-import getKubernetesNamespace from 'in-subscription/kubernetes/getKubernetesNamespace';
-import getKubernetesService from 'in-subscription/kubernetes/getKubernetesService';
+import getKubernetesNamespace from 'in-kubernetes/subscriptions/getKubernetesNamespace';
+import getKubernetesService from 'in-kubernetes/subscriptions/getKubernetesService';
 import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
-import getKubernetesNode from 'in-subscription/kubernetes/getKubernetesNode';
+import getKubernetesNode from 'in-kubernetes/subscriptions/getKubernetesNode';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { compareIgnoreCase } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';

@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React from 'react';
 
-import getKubernetesClusterByNode from 'in-subscription/kubernetes/getKubernetesClusterByNode';
+import { combineLatest } from '@instana/observables';
+
+import getKubernetesClusterByNode from 'in-kubernetes/subscriptions/getKubernetesClusterByNode';
 import { DescriptionList, DescriptionItem } from 'in-sdk/components/sidebar/DescriptionList';
 import KubernetesSnapshotLink from 'in-components/Link/SnapshotLink/KubernetesSnapshotLink';
-import getKubernetesNodeByHost from 'in-subscription/kubernetes/getKubernetesNodeByHost';
+import getKubernetesNodeByHost from 'in-kubernetes/subscriptions/getKubernetesNodeByHost';
 import { getClusterDashboard, getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { timeConfig$ } from 'in-stores/time/config';

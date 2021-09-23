@@ -23,12 +23,12 @@ import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardS
 import InfrastructureTopList from 'in-cockpit/Cockpit/components/InfrastructureTopList';
 import ApplicationsTopList from 'in-cockpit/Cockpit/components/ApplicationsTopList';
 import OpenIncidentsButton from 'in-cockpit/Cockpit/components/OpenIncidentsButton';
+import { pcfEnabled, vsphereEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import PlatformsTopList from 'in-cockpit/Cockpit/components/PlatformsTopList';
 import EventChartCard from 'in-cockpit/Cockpit/components/EventChartCard';
 import SetAsLandingPage from 'in-client/js/LandingPage/SetAsLandingPage';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
-import { pcfEnabled, vsphereEnabled } from 'in-services/featureFlags';
 import { setSingle, settings$ } from 'in-services/settings/settings';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -301,6 +301,7 @@ function getPlatformsTitle() {
   if (hasKubernetesAccess) numPlatformsAvailable++;
   if (pcfEnabled) numPlatformsAvailable++;
   if (vsphereEnabled) numPlatformsAvailable++;
+  if (zhmcEnabled) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
     return t('in-cockpit:cockpit.platforms');
   }
@@ -309,9 +310,12 @@ function getPlatformsTitle() {
     return t('in-cockpit:cockpit.cloudFoundry');
   }
   if (vsphereEnabled) {
-    return 'vSphere';
+    return t('in-cockpit:cockpit.vsphere');
   }
-  return 'Kubernetes';
+  if (zhmcEnabled) {
+    return t('in-cockpit:cockpit.ibmz');
+  }
+  return t('in-cockpit:cockpit.kubernetes');
 }
 
 function getPlatformCardIcon() {
@@ -319,6 +323,7 @@ function getPlatformCardIcon() {
   if (hasKubernetesAccess) numPlatformsAvailable++;
   if (pcfEnabled) numPlatformsAvailable++;
   if (vsphereEnabled) numPlatformsAvailable++;
+  if (zhmcEnabled) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
     return 'lib_platforms';
   }
@@ -327,6 +332,9 @@ function getPlatformCardIcon() {
   }
   if (vsphereEnabled) {
     return 'lib_vsphere';
+  }
+  if (zhmcEnabled) {
+    return 'lib_zhmcConsole';
   }
   return 'lib_kubernetes';
 }

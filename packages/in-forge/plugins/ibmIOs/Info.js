@@ -14,6 +14,17 @@ export default function IbmIOsInfo({ snapshot }) {
   return (
     <DescriptionList>
       <DescriptionItem title={t('in-forge:plugins.ibmIOs.sidebar.hostName')}>{data.get('hostName')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmIOs.sidebar.osVersion')}>{data.get('osVersion')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmIOs.sidebar.totalCPU')}>{data.get('totalCPU')}</DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmIOs.sidebar.totalMemory')}>
+        {data.get('totalMemory')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmIOs.sidebar.configuredCPU')}>
+        {data.get('configuredCPU')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmIOs.sidebar.configuredMemory')}>
+        {data.get('configuredMemory')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmIOs.sidebar.partitionId')}>
         {data.get('partitionId')}
       </DescriptionItem>

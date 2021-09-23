@@ -25,8 +25,7 @@ export default function ReleaseOccurredMessage({ release }) {
   );
 
   return (
-    <div className={locals.container}>
-      <h1 className={locals.title}>{t('in-events:titleReleaseOccurred')}</h1>
+    <div>
       <div className={locals.content}>
         <p>{t('in-events:releaseOccurName', { releaseName: release.name })}</p>
         <p>

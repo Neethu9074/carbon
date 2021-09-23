@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { expandNestedSerializedJson } from 'in-services/util/json/json';
 import { deepFreeze } from 'in-services/util/object';
 

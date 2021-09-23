@@ -9,7 +9,7 @@ import React from 'react';
 import { Message } from '@instana/components';
 import { Link } from '@instana/components';
 
-import getKubernetesClusterByRelation$ from 'in-subscription/kubernetes/getKubernetesClusterByRelation';
+import getKubernetesClusterByRelation$ from 'in-kubernetes/subscriptions/getKubernetesClusterByRelation';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { Row, Col } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';

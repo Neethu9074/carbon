@@ -2,26 +2,24 @@
 
 A small Node.js app responsible for serving of the ui-client.
 
-## Used APIs
+## Logging
 
-### Butler
+We leverage [pino] in combination with [pino-http] to implement logging.
+Whenever you want to log something, prefer usage of `req.log.LEVEL(…)`
+over `console.log` or `logger.LEVEL(…)`. By doing so, you ensure that
+additional request-specific context is getting logged to stdout. Example:
 
- - `/tos-privacy-agreement/checkUserAcceptance`
- - `/tos-privacy-agreement/checkUserAccessPermitted`
- - `/tos-privacy-agreement/csrf/token`
- - `/tos-privacy-agreement/acceptors`
+```js
+router.get('/', (req, res) => {
+  req.log.warn('Something happened', {
+    context: 'foobar'
+  });
+});
+```
 
-### Groundskeeper
- - `/internal/units`
+For local development we are using [pino-pretty] to pretty-print the JSON
+output.
 
-### ui-backend
-  - `/api/ping`
-  - `/api/application-monitoring/catalog/tags`
-  - `/api/csrf/token`
-  - `/api/infrastructure-monitoring/monitoring-state`
-  - `/api/permissions`
-  - `/api/search/fields`
-  - `/api/starred-item`
-  - `/api/tos-privacy-agreement/checkUserAcceptance`
-  - `/api/ui/settings`
-  - `/api/user-settings`
+[pino]: https://github.com/pinojs/pino
+[pino-pretty]: https://github.com/pinojs/pino-pretty
+[pino-http]: https://github.com/pinojs/pino-http

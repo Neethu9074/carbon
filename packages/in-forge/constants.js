@@ -78,6 +78,7 @@ export const nonServicePlugins = {
   db2Database: 'db2Database',
   db2ZDatabase: 'db2ZDatabase',
   docker: 'docker',
+  domino: 'domino',
   dropwizardApplicationContainer: 'dropwizardApplicationContainer',
   ec2: 'ec2',
   elasticsearchNode: 'elasticsearchNode',
@@ -238,7 +239,7 @@ export const nonServicePlugins = {
   webLogicApplicationContainer: 'webLogicApplicationContainer',
   webSphereApplicationContainer: 'webSphereApplicationContainer',
   webSphereLibertyApplicationContainer: 'webSphereLibertyApplicationContainer',
-  zHMCApplication: 'zHMCApplication',
+  zhmcConsole: 'zhmcConsole',
   zooKeeper: 'zooKeeper'
 };
 
@@ -334,6 +335,7 @@ export const fullyQualifiedPlugins = {
   db2ZDatabase: 'com.instana.forge.infrastructure.database.db2z.Db2ZDatabase',
   defaultEntity20: 'defaultEntity20',
   docker: 'com.instana.forge.infrastructure.virtualization.docker.Docker',
+  domino: 'com.instana.forge.infrastructure.custom.domino.Domino',
   dropwizardApplicationContainer:
     'com.instana.forge.infrastructure.application.dropwizard.DropwizardApplicationContainer',
   ec2: 'com.instana.forge.hardware.virtual.ec2.Ec2',
@@ -515,7 +517,7 @@ export const fullyQualifiedPlugins = {
   webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
   webSphereLibertyApplicationContainer:
     'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
-  zHMCApplication: 'com.instana.forge.infrastructure.paas.zhmc.ZHMCApplication',
+  zhmcConsole: 'com.instana.forge.infrastructure.paas.zhmc.derivedentity.console.ZhmcConsole',
   zooKeeper: 'com.instana.forge.infrastructure.database.zookeeper.ZooKeeper'
 };
 

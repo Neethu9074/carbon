@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { getClusterMembers } from 'in-forge/plugins/redisEnterpriseCluster/Sidebar/in-stores/clusterMembers.js';
+import { getClusterMembers } from 'in-forge/plugins/redisEnterpriseCluster/subscriptions/clusterMembers';
 import RelatedSnapshotList from 'in-sdk/components/sidebar/RelatedSnapshotList';
 import { emptySet } from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';

@@ -10,15 +10,15 @@ import { Link } from '@instana/components';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
+import { LogTag, TagFilter } from 'in-types';
 import Pill from 'in-components/Pill';
-import { TagFilter } from 'in-types';
 import theme from 'in-themes';
 
 // @ts-ignore
 import locals from './LogHealthColumn.mless';
 
 interface Props {
-  tags: TagFilter[];
+  tags: LogTag[];
   onSelectTagHref?: (tag: TagFilter) => string;
 }
 

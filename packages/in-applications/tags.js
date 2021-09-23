@@ -47,6 +47,7 @@ export const customServiceMappingTagKeys = [
   'host.name',
   'host.os.name',
   'host.zone',
+  'instana.service.name',
   'agent.zone',
   'aws.ec2.zone',
   'azure.zone',

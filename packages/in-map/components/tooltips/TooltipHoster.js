@@ -5,10 +5,10 @@
 
 import React from 'react';
 
+import { view$ } from 'in-infrastructure/perspectives';
 import { tooltip$ } from 'in-map/stores/tooltipStore';
 import { canvas$ } from 'in-map/stores/indexStore';
 import connectTo from 'in-hoc/connectTo';
-import { view$ } from 'in-stores/view';
 
 export default connectTo(
   {

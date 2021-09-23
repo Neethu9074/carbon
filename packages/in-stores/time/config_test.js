@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
 import { getTimeConfig, urlQueryKeys } from 'in-stores/time/config';
 import { config } from 'in-services/config';
 import { hours } from 'in-services/time';

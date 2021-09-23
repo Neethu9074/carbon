@@ -4,7 +4,9 @@
  */
 
 const express = require('express');
+
 const serverConfig = require('./serverConfig.js');
+const { logger } = require('./logging');
 
 const app = express();
 
@@ -13,5 +15,5 @@ app.get('/healthcheck', (req, res) => res.json({}));
 const server = app.listen(serverConfig.adminPort, '0.0.0.0', () => {
   const host = server.address().address;
   const port = server.address().port;
-  console.log('ui-client admin server listening at http://%s:%s', host, port);
+  logger.info('ui-client admin server listening at http://%s:%s', host, port);
 });

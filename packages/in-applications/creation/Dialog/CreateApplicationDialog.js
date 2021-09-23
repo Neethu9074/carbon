@@ -19,7 +19,7 @@ import { createApplicationPerspectiveForm } from 'in-applications/creation/form/
 import { isQueryValid } from 'in-applications/creation/components/CreateApplicationQueryBuilder';
 import AdvancedModeContainer from 'in-applications/creation/advanced/AdvancedModeContainer';
 import SimpleModeContainer from 'in-applications/creation/simple/SimpleModeContainer';
-import { addApplicationConfig } from 'in-api/applicationConfigs';
+import { addApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import { pendingResult } from 'in-services/fixedObjects';
 import { goToPath } from 'in-stores/navigation';
 
@@ -112,7 +112,7 @@ function createApplication(
     return;
   }
   const entityToUpdate = form.toJS();
-  const result$ = addApplicationConfig(entityToUpdate);
+  const result$ = addApplicationConfigWithAlerting(entityToUpdate);
 
   result$.once(
     result => {

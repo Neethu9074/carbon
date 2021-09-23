@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
-
 import { expect } from 'chai';
 
 import HttpResponseStatusCodeError from 'in-services/http/HttpResponseStatusCodeError';
@@ -30,8 +28,6 @@ describe('in-services/http/HttpResponseStatusCodeError', () => {
     method = 'GET';
     url = 'https://monitoring-instana.instana.io';
   });
-
-
 
   it('must work with additional params in the content type', () => {
     getHeader.mockReturnValueOnce('application/json; charset=utf-8');

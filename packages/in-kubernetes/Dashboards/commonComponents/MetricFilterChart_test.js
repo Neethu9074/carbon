@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
+/* eslint-env node */
 
 import { shallow } from 'enzyme';
 import { expect } from 'chai';

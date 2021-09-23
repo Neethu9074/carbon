@@ -9,7 +9,7 @@ import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/suppo
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
-import getServices from 'in-subscription/application/getServices';
+import getServices from 'in-applications/subscriptions/getServices';
 
 export function getEnrichedFiltersForApplication(alertConfigWithFormModel, applicationId, serviceId) {
   const blueprintConfig = getBlueprintConfig(alertConfigWithFormModel.rule.alertType);

@@ -6,8 +6,6 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { Li } from '@instana/components';
-
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getUiInternalFormatterName } from 'in-services/formatters/backendFormatter';
@@ -78,9 +76,14 @@ export default function Chart({
   }
 
   return (
-    <Li className={locals.chartWrapper} noAlternatingBg>
-      <UnifiedMetricsChart renderLegend={false} config={chartConfig} forceLoadingIndicator={forceLoadingIndicator} />
-    </Li>
+    <div className={locals.chartWrapper}>
+      <UnifiedMetricsChart
+        renderLegend={false}
+        config={chartConfig}
+        forceLoadingIndicator={forceLoadingIndicator}
+        automaticallySize
+      />
+    </div>
   );
 }
 

@@ -10,11 +10,11 @@ import CallQueryBuilder from 'in-applications/analyze/components/workspace/CallQ
 import { newTimeMetric, newNumberMetric } from 'in-analyze/metricDefinitionHelpers';
 import { callClickedTracker, traceClickedTracker } from 'in-analyze/tracker';
 import { number, percentage, millis } from 'in-services/formatters/number';
-import getTraceGroups from 'in-subscription/application/getTraceGroups';
-import getCallGroups from 'in-subscription/application/getCallGroups';
-import getTraces from 'in-subscription/application/getTraces';
+import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
+import getCallGroups from 'in-applications/subscriptions/getCallGroups';
+import getTraces from 'in-applications/subscriptions/getTraces';
+import getCalls from 'in-applications/subscriptions/getCalls';
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import getCalls from 'in-subscription/application/getCalls';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';

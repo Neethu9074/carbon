@@ -288,6 +288,7 @@
         "indexLabelDetails": "詳細資料",
         "labelAnalytics": "分析",
         "titlePageLoad": "頁面載入",
+        "pageLoadOnResource": "{{page}}（位於 {{resource}} 上）",
         "buttonDownload": "下載",
         "renderTimeSelectionTooltip": "關閉頁面載入詳細資料",
         "referencedPageLoads": "參照頁面載入"
@@ -345,9 +346,7 @@
     "websitesListLabelOnLoadTime": "載入時間",
     "websitesListLabelHealth": "性能",
     "websitesListButtonAddWebsite": "新增網站",
-    "websitesListTitleWebsites": "網站",
-    "websitesListProductAreaEUMWebsites": "EUM：網站",
-    "websitesListPageRootNameWebsites": "網站"
+    "websitesListTitleWebsites": "網站"
   },
   "websiteDashboard": {
     "components": {
@@ -461,6 +460,10 @@
         "alertConfigurationTitleTimeThreshold": "時間臨界值",
         "alertConfigurationTitleAlertChannels": "警示通道",
         "alertConfigurationTitleAlertProperties": "警示內容",
+        "filter": "過濾器",
+        "filter_plural": "過濾器",
+        "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
+        "moreFiltersWithCount_plural": "+{{count}} 個以上的過濾器",
         "alertsLabelName": "名稱",
         "alertsLabelFilters": "過濾器",
         "alertsHeaderConfiguredAlerts": "配置的警示",
@@ -744,7 +747,19 @@
     "websiteDashboardTitleWebsitePage": "網站頁面",
     "websiteDashboardTitleWebsite": "網站",
     "websiteDashboardButtonAnalyzePageLoads": "分析頁面載入",
-    "websiteDashboardButtonAnalyzePageTransitions": "分析頁面轉移"
+    "websiteDashboardButtonAnalyzePageTransitions": "分析頁面轉移",
+    "noDataAvailable": {
+      "pagesTitle": "沒有可用的頁面",
+      "pagesDescription": "未擷取到所選時間範圍內的頁面。",
+      "customEventsTitle": "沒有可用的自訂事件",
+      "customEventsDescription": "未擷取到所選時間範圍內的自訂事件。",
+      "javascriptErrorsTitle": "沒有可用的 JavaScript 錯誤",
+      "javascriptErrorsDescription": "未擷取到所選時間範圍內的 JavaScript 錯誤。",
+      "resourcesTitle": "沒有可用的資源",
+      "resourcesDescription": "未擷取到所選時間範圍內的資源。",
+      "httpRequestsTitle": "沒有可用的 HTTP 要求",
+      "httpRequestsDescription": "未擷取到所選時間範圍內的 HTTP 要求。"
+    }
   },
   "rename": {
     "help": "「重新命名網站」是 Instana 系統中最終執行的一致性動作。因此，對網站名稱的變更可能<strong>需要數分鐘</strong>，才能移入至整個系統。"

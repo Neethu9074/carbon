@@ -55,6 +55,66 @@
       "purchased": "Erworben",
       "infrastructureUsage": "Infrastrukturnutzung",
       "iqmHosts": "IQM-Hosts"
+    },
+    "activationAdoption": {
+      "activationAdoption": "Aktivierung und Umsetzung",
+      "customerAdoption": "Kundenumsetzung",
+      "activation": "Aktivierung",
+      "adoption": "Umsetzung",
+      "activationStages": {
+        "createDate": "Erstellungsdatum",
+        "firstSignIn": "Erstanmeldung",
+        "firstAgentInstalled": "1. Agent installiert",
+        "additionalUserInvited": "Zusätzlicher Benutzer eingeladen",
+        "threeAgentsInstalled": "3 Agenten installiert",
+        "twoApplicationPerspectivesCreated": "2 Anwendungsperspektiven erstellt",
+        "oneAlertSetUpAndActivated": "1 Alert eingerichtet und aktiviert",
+        "oneWebsiteMonitored": "1 Website überwacht",
+        "fiveUsers": "5 Benutzer"
+      },
+      "adoptionKPIs": {
+        "applicationPerspective": "Anwendungsperspektive",
+        "eum": "EUM",
+        "alerting": "Alertausgabe",
+        "pipelineFeedback": "Pipeline-Feedback",
+        "customDashboards": "Angepasste Dashboards",
+        "mobileEum": "Mobile EUM",
+        "numOfApplicationPerspectives": "Anzahl APs",
+        "numOfReportingApplicationPerspectives": "Anzahl der berichtenden APs",
+        "numOfWebsites": "Anzahl Websites",
+        "numOfAlertChannels": "Anzahl Alertkanäle",
+        "numOfAlerts": "Anzahl Alerts",
+        "numOfActiveAlerts": "Anzahl aktive Alerts",
+        "numOfReleases": "Anzahl Releasemarker/Anzahl Releases",
+        "numOfCustomDashboards": "Anzahl angepasster Dashboards",
+        "numOfMobileApps": "Anzahl Apps"
+      },
+      "activationChecklist": "Prüfliste für Aktivierung",
+      "productAdoption": "Produktübernahme",
+      "sparkChartMetrics": {
+        "metric_applications": "Anwendungen",
+        "metric_reportingapplications": "Berichtsanwendungen",
+        "metric_websites": "Websites",
+        "metric_all_alerts": "Alle Alerts",
+        "metric_active_alerts": "Aktive Alerts",
+        "metric_mobile_apps": "Mobile Apps",
+        "metric_alert_channels": "Alertkanäle",
+        "metric_custom_dashboards": "Angepasste Dashboards",
+        "metric_releases": "Releases"
+      },
+      "userUsage": "Benutzerverwendung",
+      "userSummary": "Benutzerzusammenfassung",
+      "totalUser": "Benutzer insgesamt",
+      "weeklyActiveUser": "Wöchentlich aktive Benutzer",
+      "lastCalendarWeekTopActiveUsers": "Aktive Benutzer in der letzten Kalenderwoche",
+      "topUsersTable": {
+        "noDataAvailable": "Keine Daten verfügbar",
+        "noTopActiveUsers": "Keine Daten über die wichtigsten Benutzer für diesen Account",
+        "name": "Name",
+        "organizationRole": "Organisationsrolle",
+        "daysActive": "Aktive Tage",
+        "notProvided": "(nicht angegeben)"
+      }
     }
   }
 }

@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest, node */
-import RoEmitter from '@instana/roemitter';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { getFactory } from 'in-map/stores/factoriesStore';
-import createLayouter from 'in-map/misc/physical/LayerLayouter';
+
+/* eslint-env node */
+import RoEmitter from '@instana/roemitter';
 
 import createObjectCollection from 'in-map/stores/ObjectCollectionStream';
+import createLayouter from 'in-map/misc/physical/LayerLayouter';
+import { getFactory } from 'in-map/stores/factoriesStore';
 
 jest.mock('in-map/stores/factoriesStore');
 jest.mock('in-map/misc/TimingConfig', () => ({

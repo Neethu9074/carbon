@@ -63,6 +63,15 @@
     "registryCall_0": "Chiamate",
     "registryCall_1": "Chiamate",
     "registryCall_2": "Chiamate"
+  },
+
+  "components": {
+    "codeRetrievalDialog": {
+      "file": "File",
+      "line": "Riga",
+      "decompilationNotFullySupported": "La decompilazione del file della classe contenente alcune funzioni nelle recenti versioni Java non è pienamente supportata.",
+      "error": "Errore"
+    }
   }
 
 }

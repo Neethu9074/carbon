@@ -10,7 +10,7 @@
       "city": "구/군/시",
       "address": "주소",
       "additionalAddress": "추가 주소",
-      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "이 페이지에 있는 정보를 정정해야 하는 경우 <linkToMail>{{salesopsEmail}}</linkToMail>에 문의하십시오."
+      "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "이 페이지에 있는 정보를 정정해야 하는 경우 <linkToMail>{{salesopsEmail}}</linkToMail>"
     },
     "activeLicenses": {
       "name": "이름",
@@ -55,6 +55,66 @@
       "purchased": "구매",
       "infrastructureUsage": "인프라 사용량",
       "iqmHosts": "IQM 호스트"
+    },
+    "activationAdoption": {
+      "activationAdoption": "활성화 및 채택",
+      "customerAdoption": "고객 채택",
+      "activation": "활성화",
+      "adoption": "채택",
+      "activationStages": {
+        "createDate": "작성 날짜",
+        "firstSignIn": "첫 번째 로그인",
+        "firstAgentInstalled": "처음 설치된 에이전트",
+        "additionalUserInvited": "초대된 추가 사용자",
+        "threeAgentsInstalled": "3개 에이전트 설치됨",
+        "twoApplicationPerspectivesCreated": "2개의 애플리케이션 퍼스펙티브 작성됨",
+        "oneAlertSetUpAndActivated": "1개의 경보 설정 및 활성화됨",
+        "oneWebsiteMonitored": "1개의 웹 사이트 모니터됨",
+        "fiveUsers": "5명의 사용자"
+      },
+      "adoptionKPIs": {
+        "applicationPerspective": "애플리케이션 퍼스펙티브",
+        "eum": "EUM",
+        "alerting": "경보 중",
+        "pipelineFeedback": "파이프라인 피드백",
+        "customDashboards": "사용자 정의 대시보드",
+        "mobileEum": "모바일 EUM",
+        "numOfApplicationPerspectives": "AP 수",
+        "numOfReportingApplicationPerspectives": "AP 보고 수",
+        "numOfWebsites": "웹 사이트 수",
+        "numOfAlertChannels": "경보 채널 수",
+        "numOfAlerts": "경보 수",
+        "numOfActiveAlerts": "활성 경보 수",
+        "numOfReleases": "릴리스 마커 수/릴리스 수",
+        "numOfCustomDashboards": "사용자 정의 대시보드 수",
+        "numOfMobileApps": "앱 수"
+      },
+      "activationChecklist": "활성화 체크리스트",
+      "productAdoption": "제품 채택",
+      "sparkChartMetrics": {
+        "metric_applications": "애플리케이션",
+        "metric_reportingapplications": "보고 애플리케이션",
+        "metric_websites": "웹 사이트",
+        "metric_all_alerts": "모든 경보",
+        "metric_active_alerts": "활성 경보",
+        "metric_mobile_apps": "모바일 앱",
+        "metric_alert_channels": "경보 채널",
+        "metric_custom_dashboards": "사용자 정의 대시보드",
+        "metric_releases": "릴리스"
+      },
+      "userUsage": "사용자 사용",
+      "userSummary": "사용자 요약",
+      "totalUser": "총 사용자",
+      "weeklyActiveUser": "주간 활성 사용자",
+      "lastCalendarWeekTopActiveUsers": "마지막 달력 주의 상위 활성 사용자",
+      "topUsersTable": {
+        "noDataAvailable": "사용 가능한 데이터 없음",
+        "noTopActiveUsers": "이 계정에 대한 상위 활성 사용자 데이터가 없음",
+        "name": "이름",
+        "organizationRole": "조직 역할",
+        "daysActive": "활성 일",
+        "notProvided": "(제공되지 않음)"
+      }
     }
   }
 }

@@ -1,4 +1,45 @@
 {
+  "components": {
+    "list": {
+      "loadMore": "추가 로드",
+      "toggleExtraContent": "추가 컨텐츠 전환",
+      "initiateDefaultAction": "기본 조치 시작"
+    },
+    "table": {
+      "tableErrorRows": {
+        "unexpectedError": "예상치 못한 오류가 발생했습니다. 페이지를 새로 고치거나 나중에 다시 시도하십시오."
+      },
+      "tableLoadMoreRow": {
+        "loadMore": "추가 로드"
+      }
+    }
+  },
+  "formatDate": {
+    "date": {
+      "aFewSeconds": "몇 초",
+      "time_years": "{{count}}년",
+      "time_years_plural": "{{count}}년",
+      "time_y": "{{count}}년",
+      "time_months": "{{count}}개월",
+      "time_months_plural": "{{count}}개월",
+      "time_mo": "{{count}}개월",
+      "time_days": "{{count}}일",
+      "time_days_plural": "{{count}}일",
+      "time_d": "{{count}}일",
+      "time_hours": "{{count}}시간",
+      "time_hours_plural": "{{count}}시간",
+      "time_h": "{{count}}시간",
+      "time_minutes": "{{count}}분",
+      "time_minutes_plural": "{{count}}분",
+      "time_m": "{{count}}분",
+      "time_seconds": "{{count}}초",
+      "time_seconds_plural": "{{count}}초",
+      "time_s": "{{count}}초",
+      "time_milliseconds": "{{count}}밀리초",
+      "time_milliseconds_plural": "{{count}}밀리초",
+      "time_ms": "{{millis}}밀리초"
+    }
+  },
   "forms": {
     "actions": {
       "save": "저장",

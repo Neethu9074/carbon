@@ -11,9 +11,13 @@ import { setTimeConfig } from 'in-stores/time/config';
 export const logsPath = '/logs';
 export const rawLogsPath = '/rawlogs';
 
+interface QueryBuilderTag {
+  type: string;
+  logicalOperator?: string;
+}
 interface GetLinkToAnalyzeRequest {
   timeConfig: TimeConfig;
-  tagFilterExpression?: TagFilterExpression;
+  tagFilterExpression?: QueryBuilderTag | TagFilterExpression | Array<QueryBuilderTag | TagFilterExpression>;
 }
 
 export function getLinkToAnalyze({ tagFilterExpression, timeConfig }: GetLinkToAnalyzeRequest) {

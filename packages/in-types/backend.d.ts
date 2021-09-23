@@ -694,6 +694,7 @@ export interface EventSpecificationInfo {
   readonly entityType: string;
   readonly id: string;
   readonly invalid: boolean;
+  readonly migrated: boolean;
   readonly name: string;
   readonly severity: number;
   readonly triggering: boolean;
@@ -1906,6 +1907,18 @@ export interface GetWiringEdgesQuery extends UiQuery {
   readonly timeframe: Timeframe;
 }
 
+export interface GetZhmcConsolesQuery extends PaginatedQuery {
+  readonly filter: ZhmcQueryFilter;
+  readonly order: Order;
+  readonly pagination: Pagination;
+}
+
+export interface GetZhmcCpcsQuery extends PaginatedQuery {
+  readonly filter: ZhmcQueryFilter;
+  readonly order: Order;
+  readonly pagination: Pagination;
+}
+
 export interface GlobalApplicationAlertConfigWithMetadata extends GlobalApplicationsAlertConfig, VersionedConfig {
   readonly applicationIds?: string[];
   readonly builtIn: boolean;
@@ -2718,7 +2731,7 @@ export interface LogsDistributionQuery {
 
 export interface LogsQuery {
   readonly afterKey?: string;
-  readonly beforeKey?: string;
+  readonly orderDirection?: OrderDirection;
   readonly retrievalSize: number;
   readonly tagFilterExpression?: TagFilterExpressionElement;
   readonly tags?: string[];
@@ -2727,7 +2740,6 @@ export interface LogsQuery {
 
 export interface LogsResult {
   readonly afterKey?: string;
-  readonly beforeKey?: string;
   readonly items?: LogItem[];
   readonly percentage: number;
 }
@@ -2768,6 +2780,7 @@ export interface MetricConfiguration {
 
 export interface MetricDescription {
   readonly aggregations: AggregationType[];
+  readonly defaultAggregation?: AggregationType;
   readonly description?: string;
   readonly formatter: string;
   readonly label: string;
@@ -3946,12 +3959,8 @@ export interface WebsiteBeaconsItem extends Cursorific<IngestionOffsetCursor> {
 
 export interface WebsiteCountryBreakdown {
   readonly beaconCount: number;
-  readonly continent: string;
-  readonly continentCode: string;
   readonly country: string;
   readonly countryCode: string;
-  readonly onLoadTime: number;
-  readonly pageLoads: number;
 }
 
 export interface WebsiteErrorsItem {
@@ -4137,6 +4146,60 @@ export interface WorkloadCounters {
   readonly deployments: number;
   readonly pods: number;
   readonly statefulSets: number;
+}
+
+export interface ZhmcConsoleItem {
+  readonly consoleId: string;
+  readonly id: string;
+  readonly label: string;
+  readonly systems: number;
+}
+
+export interface ZhmcConsoleItemCounters extends FilterableListItem {
+  readonly adapters?: number;
+  readonly consoleName: string;
+  readonly id: string;
+  readonly label: string;
+  readonly partitions?: number;
+  readonly systems: number;
+}
+
+export interface ZhmcCpcItem {
+  readonly consoleId?: string;
+  readonly cpcId: string;
+  readonly dpmEnabled?: string;
+  readonly id: string;
+  readonly label: string;
+  readonly name: string;
+  readonly networkPorts?: string[];
+  readonly partitions?: string[];
+  readonly processors?: string[];
+}
+
+export interface ZhmcCpcListItem extends FilterableListItem, ListItemWithMetric {
+  readonly adapters?: number;
+  readonly consoleId?: string;
+  readonly entityId?: EntityId;
+  readonly id: string;
+  readonly ipAddress?: string;
+  readonly label: string;
+  readonly machineSerial?: string;
+  readonly machineTypeModel?: string;
+  readonly mode?: string;
+  readonly partitions?: number;
+  readonly status?: string;
+}
+
+export interface ZhmcPartition {
+  readonly label: string;
+}
+
+export interface ZhmcQueryFilter extends FilterInterface {
+  readonly consoleId?: string;
+  readonly cpcId?: string;
+  readonly label?: string;
+  readonly snapshotId?: string;
+  readonly timeConfig: TimeConfig;
 }
 
 export type AccessRuleRelationType = 'USER' | 'API_TOKEN' | 'ROLE' | 'TEAM' | 'GLOBAL';

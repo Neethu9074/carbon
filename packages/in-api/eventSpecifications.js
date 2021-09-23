@@ -254,3 +254,15 @@ export function deleteCustomEventSpecification(eventSpecificationId) {
     headers: getCsrfHeader()
   }).map(response => fromJS(response.body));
 }
+
+export function disableMigratedCustomEventSpecification(eventSpecificationId, applicationAlertConfigId) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}/migrate`,
+    headers: getCsrfHeader(),
+    queryParams: {
+      applicationAlertConfigId
+    }
+  }).map(response => response.body);
+}

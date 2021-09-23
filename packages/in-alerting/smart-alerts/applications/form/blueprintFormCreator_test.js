@@ -4,7 +4,6 @@
  */
 
 import { createMapForm, createField } from 'formalistic';
-/* eslint-env jest */
 import { expect } from 'chai';
 
 import {

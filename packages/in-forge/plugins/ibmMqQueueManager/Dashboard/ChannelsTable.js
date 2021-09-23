@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getIbmMqChannelsForQueueManager from 'in-subscription/ibmMqQueueManager/getIbmMqChannelsForQueueManager';
+import getIbmMqChannelsForQueueManager from 'in-forge/plugins/ibmMqQueueManager/subscriptions/getIbmMqChannelsForQueueManager';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

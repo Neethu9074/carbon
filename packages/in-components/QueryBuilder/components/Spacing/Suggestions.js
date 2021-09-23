@@ -20,7 +20,12 @@ export default function Suggestion({ toggle, suggestions, onAddToFormModel }) {
   if (!suggestions || suggestions.length === 0) {
     return (
       <div className={locals.addIndicator} onClick={toggle}>
-        <SvgIcon type="lib_openclose_add" className={locals.addIndicatorIcon} size="xxs" />
+        <SvgIcon
+          type="lib_openclose_add"
+          className={locals.addIndicatorIcon}
+          size="xxs"
+          aria-label={t('in-components:queryBuilder.components.spacingSuggestionIconAriaLabel')}
+        />
       </div>
     );
   }

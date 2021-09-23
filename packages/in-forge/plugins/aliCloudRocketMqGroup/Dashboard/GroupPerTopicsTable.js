@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getAliCloudRocketMqGroupPerTopics from 'in-subscription/aliCloudRocketMq/getAliCloudRocketMqGroupPerTopics';
+import getAliCloudRocketMqGroupPerTopics from 'in-forge/plugins/aliCloudRocketMqGroup/subscriptions//getAliCloudRocketMqGroupPerTopics';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';

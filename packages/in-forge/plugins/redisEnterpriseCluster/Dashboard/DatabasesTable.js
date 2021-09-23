@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getRedisEnterpriseDatabasesForCluster from 'in-subscription/redisEnterpriseCluster/getRedisEnterpriseDatabasesForCluster';
+import getRedisEnterpriseDatabasesForCluster from 'in-forge/plugins/redisEnterpriseCluster/subscriptions/getRedisEnterpriseDatabasesForCluster';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';

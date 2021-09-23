@@ -22,6 +22,7 @@ import './globalTagDefinition';
 // ################################################
 import OverlayPresenter from 'in-components/overlays/OverlayPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
+import { loadStory } from './storyLoader';
 
 import 'in-themes/foundation.less';
 import '@instana/components/esm/index.css';
@@ -50,4 +51,4 @@ addParameters({
   }
 });
 
-configure(require.context('../src', true, /\.story\.(js|ts|tsx|mdx)$/), module);
+configure(loadStory, module);

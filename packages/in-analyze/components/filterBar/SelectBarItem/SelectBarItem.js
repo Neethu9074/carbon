@@ -13,7 +13,18 @@ import Overlay from 'in-components/overlays/Overlay';
 export default function SelectBarItem(props) {
   return (
     <Overlay withoutWrapper content={SelectBarOverlayBehavior} props={props}>
-      {Content}
+      {({ toggle, refSetter, isOpen }) => (
+        <Content
+          toggle={toggle}
+          isOpen={isOpen}
+          refSetter={refSetter}
+          singularLabel={props.singularLabel}
+          tagFilters={props.tagFilters}
+          tag={props.tag}
+          selectedItemRenderer={props.selectedItemRenderer}
+          withoutTextTransform={props.withoutTextTransform}
+        />
+      )}
     </Overlay>
   );
 }

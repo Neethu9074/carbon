@@ -9,7 +9,7 @@ import React from 'react';
 import AnalyzeCallsButton, { getFilters } from 'in-kubernetes/Dashboards/commonComponents/AnalyzeCallsButton';
 import DashboardButtonLine from 'in-kubernetes/Dashboards/commonComponents/DashboardButtonLine';
 import TypesBadgeList from 'in-kubernetes/Dashboards/commonComponents/TypesBadgeList';
-import getKubernetesCluster from 'in-subscription/kubernetes/getKubernetesCluster';
+import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
 import { isOpenshift, clusterBadgeName } from 'in-kubernetes/clusterDistributions';
 import { clusterId as matrixClusterId } from 'in-kubernetes/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';

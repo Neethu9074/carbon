@@ -18,7 +18,8 @@ import locals from 'in-alerting/components/RevisionDropdown.mless';
 export default function RevisionDropdown({ alertConfigVersions, setRevision, alertRevision }) {
   const options = alertConfigVersions.map(v => ({
     value: v,
-    label: renderItemContent(v)
+    label: renderItemContent(v),
+    disabled: v.disabled
   }));
 
   const selectedOption = options.find(({ value }) => value.created === alertRevision.created);
@@ -31,6 +32,7 @@ export default function RevisionDropdown({ alertConfigVersions, setRevision, ale
         setRevision(revision.created);
       }}
       listItemAlignment="left"
+      overlayAlignment="bottomRight"
       disableAutomaticOptionSorting
     >
       {({ elementProps, isOpen }) => (

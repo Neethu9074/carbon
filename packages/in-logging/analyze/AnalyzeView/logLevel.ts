@@ -4,9 +4,18 @@
  */
 
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
-import { TagFilter } from 'in-types';
+import { LogTag } from 'in-types';
 
-export function getLogLevel(tags: TagFilter[]): string {
-  const match: TagFilter | undefined = tags.filter(({ name }) => name === LOG_LEVEL)[0];
-  return match ? match.stringValue ?? match.value ?? match.booleanValue ?? match.numberValue ?? undefined : undefined;
+export function getLogLevel(tags: LogTag[]): string | undefined {
+  const match: LogTag | undefined = tags.filter(({ name }) => name === LOG_LEVEL)[0];
+  if (!match) {
+    return undefined;
+  }
+  if (match.longValue) {
+    return String(match.longValue);
+  }
+  if (match.booleanValue) {
+    return String(match.booleanValue);
+  }
+  return match.stringValue || undefined;
 }

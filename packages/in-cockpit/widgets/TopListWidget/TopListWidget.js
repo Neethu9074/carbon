@@ -13,7 +13,7 @@ import StarredItemList from 'in-cockpit/widgets/TopListWidget/StarredItemList';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ItemList from 'in-cockpit/widgets/TopListWidget/ItemList';
 import Star from 'in-cockpit/widgets/TopListWidget/Star';
-import { starredItems$ } from 'in-stores/starredItems';
+import { starredItems$ } from 'in-cockpit/starredItems';
 import SearchInput from 'in-components/SearchInput';
 import { timeConfig$ } from 'in-stores/time/config';
 import connectTo from 'in-hoc/connectTo';

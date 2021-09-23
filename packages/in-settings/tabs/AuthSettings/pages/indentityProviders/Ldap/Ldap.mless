@@ -11,4 +11,8 @@
   .formGroupWithoutMargin {
     margin-bottom: 0;
   }
+
+  .firstHideableRow {
+    margin-top: 1rem;
+  }
 }

@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import FullHeightWrapper from 'in-applications/Dashboards/commonComponents/FullHeightWrapper';
 import getServiceFlowNodes from 'in-applications/subscriptions/getServiceFlowNodes';
 import { hideUpstream, hideDownstream } from 'in-applications/navigation/matrix';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
-import getMetrics from 'in-subscription/application/getMetrics';
+import getMetrics from 'in-applications/subscriptions/getMetrics';
 import { boundaryScopes } from 'in-applications/constants';
 import ServerFlowMap from 'in-applications/ServerFlowMap';
 import useUrlState from 'in-hooks/useUrlState';

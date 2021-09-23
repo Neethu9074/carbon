@@ -13,7 +13,7 @@ import { createConnectionId } from 'in-applications/FlowMap/sceneObjects/Connect
 import { SIGNALS } from 'in-applications/FlowMap/components/Controls/Controls';
 import Connection from 'in-applications/FlowMap/sceneObjects/Connection';
 import { updateAttribute } from 'in-map/services/geometryAttributes';
-import { neutralColorRgb } from 'in-services/heatMapColors';
+import { neutralColorRgb } from 'in-themes/heatMapColors';
 import Subscriber from 'in-map/misc/Subscriber';
 import { diff } from 'in-services/arrayUtils';
 

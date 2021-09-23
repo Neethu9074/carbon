@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-env jest */
 import { expect } from 'chai';
 
 describe('in-init/steps/InstanaOnboardingComponent_test', () => {

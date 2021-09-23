@@ -6,8 +6,6 @@
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 
-/* eslint-env jest */
-
 const availableTagFilter = {
   type: 'TAG_FILTER',
   name: 'AVAILABLE'

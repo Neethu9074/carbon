@@ -8,8 +8,8 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
+import { createNewApplicationConfig, getApplicationConfigWithAlerting } from 'in-api/applicationConfigs';
 import CreateApplicationDialog from 'in-applications/creation/Dialog/CreateApplicationDialog';
-import { createNewApplicationConfig, getApplicationConfig } from 'in-api/applicationConfigs';
 import { applicationCreationOpenDialogClick } from 'in-applications/creation/tracker';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { newApplicationWaiterView } from 'in-applications/navigation/paths';
@@ -54,5 +54,7 @@ export function getNewApplicationWaiterViewPath(app) {
 }
 
 function getConfig([applicationId]) {
-  return applicationId ? getApplicationConfig(applicationId) : successObservable(createNewApplicationConfig());
+  return applicationId
+    ? getApplicationConfigWithAlerting(applicationId)
+    : successObservable(createNewApplicationConfig());
 }

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getIbmDataPowerServicesForDomain from 'in-subscription/ibmDataPowerDomain/getIbmDataPowerServicesForDomain';
+import getIbmDataPowerServicesForDomain from 'in-forge/plugins/ibmDataPowerDomain/subscriptions/getIbmDataPowerServicesForDomain';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

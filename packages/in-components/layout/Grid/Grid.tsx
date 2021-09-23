@@ -6,7 +6,6 @@
 import classNames from 'classnames';
 import React from 'react';
 
-// @ts-expect-error
 import locals from './Grid.mless';
 
 export interface RowProps {

@@ -24,6 +24,9 @@
     "lodash": "^4.17.21",
     "node-fetch": "2.6.1",
     "pg": "^8.5.1",
+    "pino": "^6.13.1",
+    "pino-http": "^5.7.0",
+    "pino-std-serializers": "^4.0.0",
     "uuid": "^8.3.2"
   },
   "keywords": [
@@ -33,6 +36,7 @@
   ],
   "devDependencies": {
     "fetch-mock-jest": "^1.5.1",
-    "jest": "^26.6.3"
+    "jest": "^26.6.3",
+    "pino-pretty": "^6.0.0"
   }
 }

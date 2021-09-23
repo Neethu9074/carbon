@@ -14,11 +14,11 @@ import {
 import { getApplicationDashboard, getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
-import getApplication from 'in-subscription/application/getApplication';
+import getApplication from 'in-applications/subscriptions/getApplication';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
-import getEndpoint from 'in-subscription/application/getEndpoint';
+import getEndpoint from 'in-applications/subscriptions/getEndpoint';
+import getService from 'in-applications/subscriptions/getService';
 import StackPresenter from 'in-components/Stack/StackPresenter';
-import getService from 'in-subscription/application/getService';
 import { hasError, isLoading } from 'in-services/util/result';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
