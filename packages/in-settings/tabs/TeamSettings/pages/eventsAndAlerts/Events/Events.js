@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import classNames from 'classnames';
 
 import { useObservable } from '@instana/hooks';
@@ -396,23 +396,16 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
 }
 
 function useLoadEventsFunction(withoutDeprecatedEvents, loadEntities) {
-  const loadEventsFunc = useCallback(() => (loadEntities ? loadEntities : getEventSpecificationsMutable), [
-    loadEntities
-  ]);
+  const loadEventsFunc = loadEntities ? loadEntities : getEventSpecificationsMutable;
 
-  const [loadEvents, setLoadEvents] = useState(loadEventsFunc);
+  if (deprecateAppDataLegacyEvents && withoutDeprecatedEvents) {
+    return () =>
+      loadEventsFunc().map(es => {
+        return es.filter(({ entityType }) => !isAppDataEntityType(entityType)).filter(Boolean);
+      });
+  }
 
-  useEffect(() => {
-    if (deprecateAppDataLegacyEvents && withoutDeprecatedEvents) {
-      setLoadEvents(_loadEvents => () =>
-        _loadEvents().map(es => {
-          return es.filter(({ entityType }) => !isAppDataEntityType(entityType)).filter(Boolean);
-        })
-      );
-    }
-  }, [withoutDeprecatedEvents, loadEventsFunc]);
-
-  return loadEvents;
+  return loadEventsFunc;
 }
 
 function adjustTypeOptions(withoutDeprecatedEvents) {

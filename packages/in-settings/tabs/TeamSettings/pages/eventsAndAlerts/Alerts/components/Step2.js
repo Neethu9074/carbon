@@ -136,7 +136,7 @@ function EventsSelection({ form, setForm }) {
             onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
             title={t('in-settings:tabs.addEvents')}
             label={t('in-settings:tabs.addEvents')}
-            listComponent={() => <Events withoutDeprecatedEvents={deprecateAppDataLegacyEvents} />}
+            listComponent={props => <Events {...props} withoutDeprecatedEvents={deprecateAppDataLegacyEvents} />}
             hiddenIds={selectedEvents}
             limit={limitForConnectedEvents}
             createSubmitLabel={numberOfItems =>
