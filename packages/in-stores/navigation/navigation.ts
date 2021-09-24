@@ -72,7 +72,6 @@ export function getView(path: string) {
 /**
  * Modifies the given location - only when navigating away or into
  * either the infrastructure or events - views
- * (Exported for testing purpose only)
  * Returns the modified location instance.
  */
 export function removeDFQueryFromLocationWhenChangingArea(location: Location, path: string): Location {

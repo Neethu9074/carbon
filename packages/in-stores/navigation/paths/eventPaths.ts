@@ -3,7 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { mutateUrl, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import {
+  mutateUrl,
+  getModifiedUrlStream,
+  removeDFQueryFromLocationWhenChangingArea
+} from 'in-stores/navigation/navigation';
 import { eventId as eventIdMatricParam } from 'in-events/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { eventsPath } from 'in-events/navigation/paths';
@@ -87,8 +91,16 @@ export function getEventsViewFilteredBy({
   query = query.trim();
 
   return getModifiedUrlStream(params => {
+    // While tackling QA-finding https://instana.kanbanize.com/ctrl_board/37/cards/69751
+    // we figured out, that the DFQ as part of the URL query
+    // should only be carried over, when navigating inside of events view (or infra),
+    // but not when switching areas.
+    // In the main navigation, for getView, this was already done:
+    removeDFQueryFromLocationWhenChangingArea(params, eventsPath);
+
     params.pathname = eventsPath;
     if (query) {
+      // this would not clean out any existing DFQ if new query is empty:
       params.query.q = query;
     }
 
