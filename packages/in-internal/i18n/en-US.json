@@ -360,10 +360,18 @@
         "host": "Host",
         "garbageCollection": "Garbage Collection",
         "instances": "log-writers ({{length}})",
-        "incoming": "Incoming Processed Logs",
-        "failIncoming": "Failed Incoming Processed Logs",
-        "write": "Log Batch Writes",
-        "failWrite": "Log Batch Write Failures",
+        "messages": {
+          "incoming": "Incoming Processed Logs",
+          "failIncoming": "Failed Incoming Processed Logs",
+          "write": "Log Batch Writes",
+          "failWrite": "Log Batch Write Failures"
+        },
+        "tagsets": {
+          "incoming": "Incoming TagSets",
+          "failIncoming": "Failed Incoming TagSets",
+          "write": "TagSets Batch Writes",
+          "failWrite": "TagSets Batch Write Failures"
+        },
         "clickHouse": {
           "insert": "ClickHouse Inserts",
           "failInsert": "ClickHouse Insert Failures",
