@@ -94,7 +94,7 @@ function EventTable(props) {
   }
 
   function onItemClicked(eventId) {
-    onChange({ eventId: selectedEventId === eventId ? null : eventId });
+    onChange({ eventId });
   }
 
   if (!selectedEventId) {

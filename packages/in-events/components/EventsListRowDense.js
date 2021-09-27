@@ -14,7 +14,7 @@ import EventIcon from 'in-events/components/EventIcon';
 
 import locals from './EventsListRowDense.mless';
 
-export default function EventRow({ event, active, onClick, timeConfig }) {
+export default function EventListRowDense({ event, active, onClick, timeConfig }) {
   return (
     <Tr size="compact" active={active} onClick={onClick}>
       <Td>
