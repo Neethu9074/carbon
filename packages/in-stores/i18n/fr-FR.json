@@ -58,8 +58,11 @@
   "permissionCanConfigureTeamsDescription": "Permet de configurer des portées d'accès et des autorisations pour toutes les équipes.",
   "permissionCanConfigureTeamsCategory": "Contrôle d'accès",
   "permissionCanConfigureApiTokensLabel": "Configuration des jetons d'API",
+  "permissionCanConfigurePersonalApiTokensLabel": "Configuration des jetons d'API personnels",
   "permissionCanConfigureApiTokensDescription": "Permet de créer et de configurer des jetons d'API.",
+  "permissionCanConfigurePersonalApiTokensDescription": "Permet de créer et de configurer des jetons d'API personnels qui héritent des droits de l'utilisateur.",
   "permissionCanConfigureApiTokensCategory": "Contrôle d'accès",
+  "permissionCanConfigurePersonalApiTokensCategory": "Contrôle d'accès",
   "permissionCanConfigureAuthenticationMethodsLabel": "Configuration des méthodes d'authentification",
   "permissionCanConfigureAuthenticationMethodsDescription": "Permet de configurer des méthodes d'authentification d'équipe (par exemple, 2FA/SSO).",
   "permissionCanConfigureAuthenticationMethodsCategory": "Contrôle d'accès",
@@ -213,7 +216,8 @@
     "shiftingLabelYesterday": "Hier",
     "shiftingDescriptionYesterday": "Comparer avec les données enregistrées 24 heures avant la fenêtre de temps sélectionnée",
     "shiftingLabelLastWeek": "Semaine dernière",
-    "shiftingDescriptionLastWeek": "Comparer à une semaine avant la fenêtre de temps sélectionnée"
+    "shiftingDescriptionLastWeek": "Comparer à une semaine avant la fenêtre de temps sélectionnée",
+    "shiftingCustomDuration": "{{duration}} précédente"
   },
 
   "view": {

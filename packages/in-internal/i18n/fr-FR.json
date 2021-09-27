@@ -45,6 +45,8 @@
       "logMonitorWriterDesc": "Le mécanisme d'écriture des journaux ingère les journaux dans ClickHouse.",
       "logMonitorReader": "log-reader (interrogation de journal)",
       "logMonitorReaderDesc": "Le mécanisme de lecture des journaux interroge les journaux de ClickHouse.",
+      "logMonitorHousekeeping": "log-housekeeping (maintenance du journal)",
+      "logMonitorHousekeepingDesc": "La maintenance de journal contient des travaux de maintenance qui s'exécutent à l'intérieur du rédacteur des journaux.",
       "infrastructureMetrics": "Métriques d'infrastructure",
       "infrastructureMetricsDesc": "Informations sur notre pipeline de métriques d'infrastructure.",
       "fillerMetricExtraction": "Filtre (extraction de métrique)",
@@ -131,16 +133,6 @@
       "sLOViolations": "Violations SLO",
       "devTUSLOs": "SLO TU de développement",
       "expTUSLOs": "SLO TU expérimentaux"
-    },
-    "timeZones": {
-      "sanFrancisco": "San Francisco",
-      "austin": "Austin",
-      "newYorkCity": "New York City",
-      "uTC": "Temps universel coordonné",
-      "solingen": "Solingen",
-      "noviSad": "Novi Sad",
-      "tokyo": "Tokyo",
-      "sydney": "Sydney"
     }
   },
   "monitoringUnit": {
@@ -356,6 +348,8 @@
             "tooOld": "Journaux de trace- Consommateur Kafka trop ancien"
           }
         },
+        "droppedPast": "Journaux supprimés avec horodatage dans le passé",
+        "droppedFuture": "Journaux supprimés avec horodatage dans le futur",
         "outgoing": "Journaux sortants",
         "failOutgoing": "Journaux sortants ayant échoué"
       },
@@ -415,6 +409,29 @@
           "mean": "moyenne",
           "50th": "50e",
           "99th": "99e"
+        }
+      },
+      "housekeeping" : {
+        "title": "log-housekeeping (exécution dans log-writer)",
+        "cleanup" : {
+          "success": "Consigner le succès du nettoyage",
+          "failure": "Consigner l'échec du nettoyage",
+          "duration": "Consigner la durée du nettoyage (99e)",
+          "skips" : {
+            "mutations": "Consigner les sauts de nettoyage (mutations)"
+          }
+        },
+        "coldTier" : {
+          "success": "Consigner le succès au niveau froid",
+          "failure": "Consigner l'échec au niveau froid",
+          "optimize": "Consigner l'optimisation au niveau froid",
+          "move": "Consigner le déplacement au niveau froid",
+          "duration": "Consigner la durée du niveau froid (99e)",
+          "skips": {
+            "mutations": "Consigner les sauts au niveau froid (mutations)",
+            "merges": "Consigner les sauts au niveau froid (fusions)",
+            "moves": "Consigner les sauts au niveau froid (déplacements)"
+          }
         }
       }
     },
@@ -893,7 +910,6 @@
       "config": "Config",
       "version": "Version",
       "injectorBindings": "Liaisons d'injecteur",
-      "hystrix": "Hystrix",
       "agentClockSkew": "Décalage d'horloge de l'agent"
     },
     "region": {

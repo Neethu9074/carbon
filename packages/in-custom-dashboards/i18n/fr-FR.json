@@ -36,9 +36,6 @@
       }
     },
     "widgetEditorDialog": {
-      "widgetTypeSelector": {
-        "showWidgetLabel": "Présentation du widget {{label}}"
-      },
       "widgetConfiguration": {
         "widgetName": "Nom du widget",
         "name": "Nom",
@@ -116,10 +113,16 @@
       "hiddenCalls": {
         "includeInternalCalls": "Inclure les appels internes",
         "includeSyntheticCalls": "Inclure les appels synthétiques"
+      },
+      "bluePrintForCallsMetric": {
+        "unexpectedLowNumberOfCalls": "Nombre d'appels anormalement bas",
+        "unexpectedHighNumberOfCalls": "Nombre d'appels anormalement élevé",
+        "unexpectedLowOrHighNumberOfCalls": "Nombre d'appels anormalement élevé ou bas"
       }
     },
     "srcApp": {
       "formComponent": {
+        "needToTurnOffPP": "Pour utiliser le regroupement, vous devez d'abord désactiver la mise en évidence des problèmes potentiels.",
         "pleaseSelect": "Sélectionnez",
         "pleaseSelectMetric": "Sélectionnez une métrique.",
         "aggregation": "Agrégation",
@@ -140,7 +143,9 @@
         "pleaseSelectMetric": "Sélectionnez une métrique.",
         "pleaseSelect": "Sélectionnez",
         "helpAction": "Une requête Dynamic Focus Query (DFQ)  comme vous l'utiliseriez dans la vue des événements.",
-        "query": "Requête"
+        "query": "Requête",
+        "includeK8sInfoEvents": "Inclure les événements Kubernetes",
+        "includeAgentMonitoringIssues": "Inclure les problèmes de surveillance de l'agent"
       }
     },
     "srcInfrastructure": {
@@ -254,7 +259,17 @@
       },
       "atLeastOneDatasetIsRequired": "Au moins un ensemble de données est requis.",
       "errorTitleForConfiguredSliDeletion": "La SLI configurée a été supprimée",
-      "errorDescriptionToConfigureOtherSLI": "Veuillez mettre à jour le widget SLO en sélectionnant une autre SLI"
+      "errorDescriptionToConfigureOtherSLI": "Veuillez mettre à jour le widget SLO en sélectionnant une autre SLI",
+      "index": {
+        "testTitle": "Les 5 services les plus lents",
+        "testLabels": {
+          "catalogue": "catalogue",
+          "cart": "panier",
+          "ratings": "évaluations",
+          "discount": "remise",
+          "shipping": "expédition"
+        }
+      }
     },
     "formCompChart": {
       "colorConfiguratorChart": {
@@ -277,11 +292,13 @@
         "indigo": "Indigo"
       },
       "dataConfigChart": {
+        "tooltipDisabledBecausePP": "Pour ajouter d'autres jeux de données, vous devez d'abord désactiver la mise en évidence des problèmes potentiels.",
         "addDataset": "Ajouter un ensemble de données"
       },
       "indexChart": {
         "datasets": "Ensembles de données",
-        "axisConfig": "Configuration d'axe"
+        "axisConfig": "Configuration d'axe",
+        "potentialProblems": "Incidents potentiels"
       },
       "metricConfigChart": {
         "datasetTimeShift": "L'ensemble de données est décalé dans le temps.",
@@ -298,7 +315,20 @@
         "timeShift": "Rétrospective",
         "applyTimeShiftDs": "Appliquer une rétrospective à cette série de données",
         "timeShiftHelpAction": "Si vous sélectionnez <strong>Afficher les valeurs en cours</strong> , vous dupliquez automatiquement cette série de données sur le même axe. La rétrospective de la première série de données sera désactivée et elle sera activée pour la seconde.",
+        "timeShiftDisabledWhilePPon": "Pour utiliser le décalage horaire, vous devez d'abord désactiver la mise en évidence des problèmes potentiels.",
         "displayCurrentValues": "Afficher les valeurs actuelles"
+      },
+      "potentialProblems": {
+        "potentialProblemsDescription": {
+          "anyMetric": "Mettre en évidence les problèmes potentiels"
+        },
+        "tooltip": {
+          "needToTurnOffTimeShift": "Pour utiliser la mise en évidence des problèmes potentiels, vous devez d'abord désactiver le décalage horaire.",
+          "needToTurnOffGrouping": "Pour utiliser la mise en évidence des problèmes potentiels, vous devez d'abord désactiver le regroupement.",
+          "needToRemoveDatasets": "Pour utiliser la mise en évidence des problèmes potentiels, vous devez d'abord supprimer tout autre jeu de données.",
+          "needToChangeMetric": "Pour utiliser la mise en évidence des problèmes potentiels, vous devez modifier la mesure."
+        },
+        "onlyWorksWithOneMetricConfigured": "Uniquement pris en charge lorsqu'un seul jeu de fichiers est configuré."
       }
     },
     "demo": {
@@ -312,6 +342,10 @@
       "unnamMetric": "Métrique sans nom"
     },
     "markdown": {
+      "demo": {
+        "title": "Instana - Mise en route",
+        "text": "Instana est la première et la seule solution de performances des applications (APM) entièrement automatisée, conçue\nspécifiquement pour relever les défis de la gestion des applications de micro-services et des applications natives du cloud.\n\nLa mise en route est facile\n\n1. Si vous n'avez pas encore accès à Instana, rendez-vous sur [Instana.com](https://www.instana.com) et inscrivez-vous pour un essai gratuit.\n2. Explorez notre écosystème de centaines de [technologies prises en charge](https://www.instana.com/docs/ecosystem).\n3. Commencez à collecter des données avec l'un de nos [agents](https://www.instana.com/docs/setup_and_manage).\n4. Apprenez [comment utiliser Instana](https://www.instana.com/docs/using_instana) pour vos cas d'utilisation.\n5. Découvrez nos [capacités de base] uniques(https://www.instana.com/docs/core_capabilities/).\n6. Etendez Instana avec nos [Intégrations, SDK &amp;TWBAMP; API](https://www.instana.com/docs/integrations).\n\nEt voilà !\n\nVous ne trouvez pas ce que vous cherchez ? Rendez-vous sur [instana.com/docs](https://www.instana.com/docs/) !"
+      },
       "formComp": {
         "whatULikeShow": "Que voulez-vous afficher ?",
         "markdown": "Markdown",
@@ -327,10 +361,18 @@
         "formatter": "Formateur"
       },
       "index": {
-        "chartPie": "Graphique : à secteurs"
+        "chartPie": "Graphique : à secteurs",
+        "testTitle": "Événements",
+        "testLegendItem1": "Incidents",
+        "testLegendItem2": "Problèmes : Critique",
+        "testLegendItem3": "Problèmes : Avertissement"
       }
     },
     "slo": {
+      "demo": {
+        "title": "Titre d'objectif de niveau de service",
+        "appName": "Exemple de nom d'application"
+      },
       "apConfigFormComp": {
         "userJourneyOffering": "Processus utilisateur/offre",
         "appnPerspective": "Perspective d'application",
@@ -358,7 +400,7 @@
       },
       "endpointSelectBox": {
         "endpoint": "Nœud final",
-        "allServices": "Tous les services",
+        "allEndpoints": "Tous les nœuds finaux",
         "loading": "<loading>"
       },
       "goodBadEventsForm": {
@@ -486,6 +528,7 @@
     },
     "timezone": {
       "demo": {
+        "title": "Disponibilité de l'équipe",
         "sanFrancisco": "San Francisco",
         "austin": "Austin",
         "newYorkCity": "New York City",
@@ -510,7 +553,8 @@
         "formatter": "Formateur"
       },
       "index": {
-        "topListLb": "Liste principale"
+        "topListLb": "Liste principale",
+        "topListItem": "Elément {{itemNumber}}"
       },
       "widget": {
         "aggregOtherGroup": "Agrégation d'autres groupes",

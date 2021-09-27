@@ -4,12 +4,12 @@
       "accountSettings": "Paramètres du compte",
       "billingAddress": "Adresse de facturation",
       "shippingAddress": "Adresse d'expédition",
-      "country": "Pays ",
-      "state": "État ",
-      "zip": "Code postal ",
-      "city": "Ville ",
-      "address": "Adresse ",
-      "additionalAddress": "Adresse complémentaire ",
+      "country": "Pays",
+      "state": "État",
+      "zip": "Code postal",
+      "city": "Ville",
+      "address": "Adresse",
+      "additionalAddress": "Adresse complémentaire",
       "ifAnyOfTheInfoOnThisPageNeedsCorrectionsPleaseContact": "Si les informations contenues dans cette page doivent être corrigées, veuillez contacter <linkToMail>{{salesopsEmail}}</linkToMail>"
     },
     "activeLicenses": {
@@ -55,6 +55,66 @@
       "purchased": "Acheté",
       "infrastructureUsage": "Utilisation de l'infrastructure",
       "iqmHosts": "Hôtes IQM"
+    },
+    "activationAdoption": {
+      "activationAdoption": "Activation &amp;TWBAMP; Adoption",
+      "customerAdoption": "Adoption de client",
+      "activation": "Activation",
+      "adoption": "Adoption",
+      "activationStages": {
+        "createDate": "Date création",
+        "firstSignIn": "Première connexion",
+        "firstAgentInstalled": "1er agent installé",
+        "additionalUserInvited": "Utilisateur supplémentaire invité",
+        "threeAgentsInstalled": "3 Agents installés",
+        "twoApplicationPerspectivesCreated": "2 Perspective d'application créée",
+        "oneAlertSetUpAndActivated": "1 Alerte configurée et activée",
+        "oneWebsiteMonitored": "1 Site Web surveillé",
+        "fiveUsers": "5 Utilisateurs"
+      },
+      "adoptionKPIs": {
+        "applicationPerspective": "Perspective d'application",
+        "eum": "EUM",
+        "alerting": "Génération d'alertes",
+        "pipelineFeedback": "Retour d'informations sur les pipelines",
+        "customDashboards": "Tableaux de bord personnalisés",
+        "mobileEum": "EUM mobile",
+        "numOfApplicationPerspectives": "Nb d'applications",
+        "numOfReportingApplicationPerspectives": "Nb d'applications de génération de rapports",
+        "numOfWebsites": "Nb de sites Web",
+        "numOfAlertChannels": "Nb de canaux d'alerte",
+        "numOfAlerts": "Nb d'alertes",
+        "numOfActiveAlerts": "Nb d'alertes actives",
+        "numOfReleases": "Nb de marqueurs d'édition/Nb d'éditions",
+        "numOfCustomDashboards": "Nb de tableaux de bord personnalisés",
+        "numOfMobileApps": "Nb d'applications"
+      },
+      "activationChecklist": "Liste de contrôle d'activation",
+      "productAdoption": "Adoption du produit",
+      "sparkChartMetrics": {
+        "metric_applications": "Applications",
+        "metric_reportingapplications": "Applications de génération de rapports",
+        "metric_websites": "Sites Web",
+        "metric_all_alerts": "Toutes les alertes",
+        "metric_active_alerts": "Alertes actives",
+        "metric_mobile_apps": "Applications mobiles",
+        "metric_alert_channels": "Canaux d'alerte",
+        "metric_custom_dashboards": "Tableaux de bord personnalisés",
+        "metric_releases": "Mises en production"
+      },
+      "userUsage": "Utilisation utilisateurs",
+      "userSummary": "Récapitulatif de l'utilisateur",
+      "totalUser": "Nombre total d'utilisateurs",
+      "weeklyActiveUser": "Utilisateur actif hebdomadaire",
+      "lastCalendarWeekTopActiveUsers": "Utilisateurs les plus actifs de la dernière semaine calendaire",
+      "topUsersTable": {
+        "noDataAvailable": "Aucune donnée disponible",
+        "noTopActiveUsers": "Aucune donnée sur les utilisateurs les plus actifs pour ce compte",
+        "name": "Nom",
+        "organizationRole": "Rôle organisationnel",
+        "daysActive": "Jours actifs",
+        "notProvided": "(non indiqué)"
+      }
     }
   }
 }

@@ -63,6 +63,15 @@
     "registryCall_0": "Appels",
     "registryCall_1": "Appels",
     "registryCall_2": "Appels"
+  },
+
+  "components": {
+    "codeRetrievalDialog": {
+      "file": "Fichier",
+      "line": "Ligne",
+      "decompilationNotFullySupported": "La décompilation du fichier de classe contenant certaines fonctionnalités dans les versions récentes de Java n'est pas entièrement prise en charge.",
+      "error": "Erreur"
+    }
   }
 
 }

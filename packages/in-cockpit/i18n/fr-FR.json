@@ -42,8 +42,8 @@
       "clusterSubTitle_2": "Cluster {{clusterDistribution}}, {{count}} nœuds, {{numberOfPods}}",
       "numberOfPods": "{{count}} pod",
       "numberOfPods_plural": "{{count}} pods",
-      "numberOfPods_0": "{{count}} pod",
-      "numberOfPods_1": "{{count}} pod",
+      "numberOfPods_0": "{{count}} pods",
+      "numberOfPods_1": "{{count}} pods",
       "numberOfPods_2": "{{count}} pods"
     },
     "websiteMobileTopList": {

@@ -15,6 +15,7 @@
   "titleTriggerEvent": "Événement déclencheur",
   "titleRelatedEvents": "Événements associés ({{eventCount}})",
   "titleLastProcess": "Dernier processus",
+  "titleLastHost": "Dernier hôte",
   "titleIncidentTimeline": "Chronologie de l'incident",
   "titleAnalyzeHTTPRequests": "Analyser les demandes HTTP",
   "titleAnalyzePageLoads": "Analyser les chargements de page",
@@ -71,7 +72,9 @@
   "labelTriggeringEvent": "événement déclencheur",
   "labelSummary": "Récapitulatif",
   "labelIncidents": "Incidents",
-  "labelIncidentWithSeverity": "{{severityLabel}} Incident",
+  "labelOpen": "Ouvrir",
+  "labelClosed": "Fermé",
+  "labelIncidentWithSeverity": "Incident {{severityLabel}} ({{stateLabel}})",
   "labelIssueWithSeverity": "{{severityLabel}} Problème",
   "labelChange": "Changer",
   "labelCritical": "Critique",
@@ -82,7 +85,6 @@
   "labelIssues": "Problèmes",
   "labelMonitoringIssues": "Problèmes de surveillance",
   "labelAll": "Tout",
-  "labelEvent": "événement",
   "buttonViewCustomEvent": "Afficher l'événement personnalisé",
   "buttonViewBuiltInEvent": "Afficher l'événement intégré",
   "buttonCollapse": "Réduire",
@@ -93,15 +95,31 @@
   "buttonFocusTimeToRelease": "Mettre en évidence l'heure de mise en production",
   "buttonFollowReleaseLive": "Suivre les mises en production en direct",
   "linkViewLastProcess": "Afficher le dernier processus",
+  "linkGoToTheOfflineHost": "Accéder à l'hôte hors ligne",
   "headerStarted": "Démarré",
   "headerTitle": "Titre",
   "headerEnd": "Fin",
   "headerOn": "Activé",
   "headerTimeline": "Chronologie",
+  "hostOffLineEventProblemChangeTime": "Cliquez sur le lien ci-dessous pour accéder à la dernière version de l'hôte surveillé par Instana. Cela changera le début de votre fenêtre de temps à un moment où l'hôte a été surveillé par Instana.",
   "offLineEventProblemChangeTime": "Cliquez sur le lien ci-dessous pour accéder à la dernière version du processus surveillé par Instana. Cela changera le début de votre fenêtre de temps à un moment où le processus a été surveillé par Instana.",
   "offLineEventProblemNoMatch": "Instana n'a pas trouvé de référence à une entité précédente correspondant à l'événement personnalisé.",
   "tooltipAnalyzeCalls": "La configuration correspondante est stockée avec des expressions Query Builder 2. <br /> Vous pouvez utiliser ce bouton uniquement avec les configurations stockées dans Query Builder 1.",
   "tooltipCloseEventDetail": "Fermer les informations sur l'événement",
   "releaseOccurName": "Mise en production : {{releaseName}}",
-  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> passé)"
+  "releaseOccurTime": "{{releaseStartTime}} (<timeCount/> passé)",
+  "navigatorSplitScreen": {
+    "tooltipViewPrevious_event": "Afficher l'événement précédent (raccourci : touche de flèche vers la gauche)",
+    "tooltipViewNext_event": "Afficher l'événement suivant (raccourci : touche de flèche vers la droite)",
+    "tooltipCloseSidebar": "Fermer la barre latérale",
+    "tooltipOpenSidebar": "Ouvrir la barre latérale"
+  },
+  "kubernetesEvent": {
+    "problemText": {
+      "podContainerNotReady": "Les conteneurs de pods ne sont pas prêts"
+    },
+    "fixSuggestion": {
+      "podContainerNotReady": "Le conteneur de pod n'est pas prêt. Vérifiez que le noeud possède la capacité et/ou que l'image peut être extraite du chemin d'image indiqué."
+    }
+  }
 }

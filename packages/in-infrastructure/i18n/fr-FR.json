@@ -64,15 +64,13 @@
     "allInfrastructure": "Toutes les infrastructures",
     "name": "Nom",
     "search": "Rechercher",
-    "infrastructure": "Infrastructure",
-    "infraExplore": "Exploration de l'infrastructure",
     "explore": "Explorer",
     "cpuUser": "UC (utilisateur)",
     "memoryFree": "Mémoire disponible"
   },
   "tableView": {
     "showCountsAndAveragesAcrossTheCurrentTimeWindow": "Afficher les nombres et les moyennes dans la fenêtre de temps en cours.",
-    "aggregatesForMetricsOver": "Agrégats des métriques sur {{windowSize}}",
+    "aggregatesForMetricsOver": "Agrégats pour métriques supérieures à {{windowSize}} ",
     "noData": "Aucune donnée.",
     "pleaseSelectForWhichToVisualizeTheChosenMetrics": "Sélectionnez {{plugins}} pour lesquels vous pouvez visualiser les métriques sélectionnées.",
     "pleaseSelectMetricsToVisualizeForTheSelected": "Sélectionnez des métriques à visualiser pour les {{plugins}} sélectionnés.",
@@ -100,8 +98,6 @@
     "map": "Mappe",
     "comparisonTable": "Table de comparaison",
     "entityExploreBeta": "Exploration d'entités (bêta)",
-    "infrastructure": "Infrastructure",
-    "infraComparisonTable": "Table de comparaison d'infrastructure",
     "infrastructureComparisonTable": "Table de comparaison d'infrastructure"
   }
 }

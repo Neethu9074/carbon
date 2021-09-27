@@ -14,9 +14,9 @@
   "flameGraph": "Flame graph",
   "cpuUser": "Utilisateur UC",
   "cpuSystem": "Système UC",
-  "virtual": "Virtuelle",
-  "resident": "Résidente",
-  "share": "Partagée",
+  "virtual": "Virtuel",
+  "resident": "Résident",
+  "share": "Partager",
   "profiles": "Profils",
   "profileCollected": "profil collecté",
   "analyzeProfiles": "Profils d'analyse",
@@ -44,5 +44,5 @@
   "numbersOfProfilesCollected_2": "{{count}} profils collectés",
   "profilesOfProcessDeepestTechSnapshot": "Profils de processus {{deepestTechSnapshot}}",
   "noEntityFound": "Aucun {{entityName}} trouvé",
-  "hotspots": "Points d'accès à {{title}}"
+  "hotspots": "Points chauds - {{title}}"
 }

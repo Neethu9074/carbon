@@ -227,9 +227,6 @@
     }
   },
   "dashboard": {
-    "mobileAppProductArea": "EUM : applications mobiles",
-    "mobileAppViewPageRootName": "Vue d'application mobile",
-    "mobileAppPageRootName": "Application mobile",
     "mobileAppViewTitle": "Application mobile",
     "mobileAppTitle": "Vue",
     "analyzeSessions": "Analyser les sessions",
@@ -301,6 +298,12 @@
       "geographyTitle": "Géographie",
       "topViewsTitle": "Principales vues",
       "globViewFootertext": "Images fournies par la NASA"
+    },
+    "noDataAvailable": {
+      "viewsTitle": "Aucune vue disponible",
+      "viewsDescription": "Aucune vue n'a été extraite pour l'intervalle de temps sélectionné.",
+      "httpRequestsTitle": "Aucune demande HTTP disponible",
+      "httpRequestsDescription": "Aucune demande HTTP n'a été extraite pour l'intervalle de temps sélectionné."
     }
   },
   "appsList": {
@@ -308,9 +311,7 @@
     "sessionStartsLabel": "Démarrages de session",
     "viewTransitionsLabel": "Transitions de vue",
     "addMobileAppBtn": "Ajouter une application mobile",
-    "mobileAppsTitle": "Applications mobiles",
-    "mobileAppProductArea": "EUM : applications mobiles",
-    "mobileAppPageRootName": "Applications mobiles"
+    "mobileAppsTitle": "Applications mobiles"
   },
   "newAppFlow": {
     "addMobileAppTitle": "Ajouter une application mobile",
@@ -348,12 +349,12 @@
   "dataSource_httpRequest": "{{formattedCount}} demande HTTP",
   "dataSource_httpRequest_plural": "{{formattedCount}} demandes HTTP",
   "dataSource_httpRequest_0": "{{formattedCount}} demande HTTP",
-  "dataSource_httpRequest_1": "{{formattedCount}} demandes HTTP",
+  "dataSource_httpRequest_1": "{{formattedCount}} demande HTTP",
   "dataSource_httpRequest_2": "{{formattedCount}} demandes HTTP",
   "dataSource_custom": "{{formattedCount}} événement personnalisé",
   "dataSource_custom_plural": "{{formattedCount}} événements personnalisés",
   "dataSource_custom_0": "{{formattedCount}} événement personnalisé",
-  "dataSource_custom_1": "{{formattedCount}} événements personnalisés",
+  "dataSource_custom_1": "{{formattedCount}} événement personnalisé",
   "dataSource_custom_2": "{{formattedCount}} événements personnalisés",
   "facetedSearch": {
     "mobileApp": "Application mobile",

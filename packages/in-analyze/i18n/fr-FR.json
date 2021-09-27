@@ -125,6 +125,9 @@
         "hideWebsiteInformation": "Masquer les informations du site Web",
         "showWebsiteInformation": "Afficher les informations de site Web",
         "viewWebsiteActivity": "Afficher l'activité du site Web"
+      },
+      "logs": {
+        "noDataMessage": "Aucun journal disponible pour cette trace"
       }
     },
     "components": {
@@ -172,13 +175,22 @@
         "tags": "Étiquettes"
       },
       "callTree": {
-        "expandButtonForRow": "Bouton Développer de ligne",
+        "expandButtonForRow": "Développer tous les sous-appels",
+        "collapseButtonForRow": "Réduire tous les sous-appels",
         "of": "sur",
-        "inheritedFrom": "Hérité de"
+        "inheritedFrom": "Hérité de",
+        "cardTitle": "Appels"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Mettre en couleur par",
-        "endpoint": "Nœud final"
+        "colorizeByExpl": "Change la couleur des barres d'appel",
+        "endpoint": "Nœud final",
+        "service": "Service"
+      },
+      "viewToggleButtons": {
+        "expl": "Afficher sous forme de",
+        "tree": "Arbre",
+        "chart": "Chronologie"
       },
       "logTooltipContent": {
         "errorLog": "Journal des erreurs",
@@ -241,14 +253,6 @@
   "analyzeHeader": {
     "title": "Analyse"
   },
-  "editTagFilterDialog": {
-    "dialogTitleEdit": "Modifier le filtre",
-    "dialogTitleAdd": "Ajouter le filtre {{filterCategory}}",
-    "messageTitle": "Sélectionnez l'étiquette en fonction de laquelle vous voulez filtrer les données. Les étiquettes respectent la casse.",
-    "placeholder": "Taper pour filtrer les résultats...",
-    "saveFilter": "Enregistrer le filtre",
-    "addFilter": "Ajouter un filtre"
-  },
   "filterBar": {
     "keyValueBarItem": {
       "tooltip": "Retirer le filtre"
@@ -263,12 +267,6 @@
       "clickToFilter": "Cliquez pour filtrer par {{itemLabel}}"
     },
     "allFilters": "Tous les filtres"
-  },
-  "radioButtons": {
-    "messageFilering": "Le filtrage et le regroupement sur la source n'est pas disponible pour la période sélectionnée.",
-    "messageIndependent": "Cette étiquette est indépendante de la source et de la destination.",
-    "fragmentSource": "S'applique uniquement à la source de l'appel",
-    "fragmentCall": "Appliquer à la source ou à la destination de 'appel"
   },
   "dialogs": {
     "tooltip": "Suggestions actuellement non disponibles. Veuillez taper la valeur.",
@@ -286,7 +284,8 @@
     "tooltipCloseLogDetails": "Fermer les informations de journal",
     "analyzeLogsLabel": "Analyser les journaux",
     "similarLogs": "Journaux similaires",
-    "similarServiceLogs": "Dans le contexte du service"
+    "similarServiceLogs": "Afficher les journaux dans le contexte de ce service",
+    "service": "Afficher le service"
   },
   "traceDetails": {
     "labelTotal": "Total",
@@ -301,15 +300,8 @@
     "callDetails": {
       "tooltipCloseCallDetails": "Fermer les informations d'appel"
     },
-
     "callTimeAxis": {
       "started": "Démarré : {{startedTime}}"
-    },
-    "navigatorSplitScreen": {
-      "tooltipViewPrevious": "Afficher le {{viewType}} précédent (raccourci : flèche gauche)",
-      "tooltipViewNext": "Afficher le {{viewType}} suivant (raccourci : flèche droite)",
-      "tooltipCloseSidebar": "Fermer la barre latérale",
-      "tooltipOpenSidebar": "Ouvrir la barre latérale"
     }
   },
   "tabs": {
@@ -332,14 +324,6 @@
       "beta": "BÊTA",
       "analytics": "Analyse"
     },
-    "editTagFilterDialog": {
-      "tag": "Étiquette",
-      "loadingSuggestions": "Chargement des suggestions en cours...",
-      "operator": "Opérateur",
-      "true": "true",
-      "false": "false",
-      "removeFilter": "Retirer le filtre"
-    },
     "filterBar": {
       "group": "Groupe",
       "filters": "Filtres",
@@ -361,10 +345,6 @@
     "groupedTraces": {
       "tagPresentWithNoValue": "Étiquette présente sans valeur",
       "tagNotPresent": "Étiquette absente"
-    },
-    "radioButtons": {
-      "source": "Source",
-      "destination": "Destination"
     }
   }
 }

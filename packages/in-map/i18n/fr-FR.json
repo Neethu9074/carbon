@@ -1,4 +1,9 @@
 {
+  "metrics_CPU": "UC",
+  "metrics_Load": "Charge",
+  "metrics_Usage": "Utilisation",
+  "metrics_Memory": "Mémoire",
+  "metrics_Used": "Utilisés",
   "notMonitoringTitle": "Pas de surveillance",
   "noDataTitle": "Aucune donnée de surveillance trouvée",
   "notMonitoringText": "Installez l'agent Instana sur les systèmes à surveiller. Les instructions d'installation sont disponibles dans notre [documentation en ligne] [Docs].\n \nSi vous avez besoin d'une assistance supplémentaire, veuillez nous contacter via notre [portail support] [Support ].\n\n[Docs]:https://instana.com/docs/setup_and_manage/\n[Support]:https://support.instana.com",

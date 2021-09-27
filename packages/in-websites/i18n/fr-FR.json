@@ -288,6 +288,7 @@
         "indexLabelDetails": "Informations",
         "labelAnalytics": "Analyse",
         "titlePageLoad": "Chargement de page",
+        "pageLoadOnResource": "{{page}} sur {{resource}}",
         "buttonDownload": "Télécharger",
         "renderTimeSelectionTooltip": "Fermer les informations sur les chargements de page",
         "referencedPageLoads": "Chargements de page référencées"
@@ -345,9 +346,7 @@
     "websitesListLabelOnLoadTime": "Durée de chargement",
     "websitesListLabelHealth": "Intégrité",
     "websitesListButtonAddWebsite": "Ajouter un site Web",
-    "websitesListTitleWebsites": "Sites Web",
-    "websitesListProductAreaEUMWebsites": "EUM : sites Web",
-    "websitesListPageRootNameWebsites": "Sites Web"
+    "websitesListTitleWebsites": "Sites Web"
   },
   "websiteDashboard": {
     "components": {
@@ -461,6 +460,10 @@
         "alertConfigurationTitleTimeThreshold": "Seuil de temps",
         "alertConfigurationTitleAlertChannels": "Canaux d'alerte",
         "alertConfigurationTitleAlertProperties": "Propriétés d'alerte",
+        "filter": "filtre",
+        "filter_plural": "filtres",
+        "moreFiltersWithCount": "+{{count}} filtre supplémentaire",
+        "moreFiltersWithCount_plural": "+{{count}} filtres supplémentaires",
         "alertsLabelName": "Nom",
         "alertsLabelFilters": "Filtres",
         "alertsHeaderConfiguredAlerts": "Alertes configurées",
@@ -744,7 +747,19 @@
     "websiteDashboardTitleWebsitePage": "Page de site Web",
     "websiteDashboardTitleWebsite": "Site Web",
     "websiteDashboardButtonAnalyzePageLoads": "Analyser les chargements de page",
-    "websiteDashboardButtonAnalyzePageTransitions": "Analyser les transitions de page"
+    "websiteDashboardButtonAnalyzePageTransitions": "Analyser les transitions de page",
+    "noDataAvailable": {
+      "pagesTitle": "Aucune page disponible",
+      "pagesDescription": "Aucune page n'a été extraite pour l'intervalle de temps sélectionné.",
+      "customEventsTitle": "Aucun événement personnalisé disponible",
+      "customEventsDescription": "Aucun événement personnalisé n'a été extrait pour l'intervalle de temps sélectionné.",
+      "javascriptErrorsTitle": "Aucune erreur JavaScript disponible",
+      "javascriptErrorsDescription": "Aucune erreur JavaScript n'a été extraite pour l'intervalle de temps sélectionné.",
+      "resourcesTitle": "Aucune ressource disponible",
+      "resourcesDescription": "Aucune ressource n'a été extraite pour l'intervalle de temps sélectionné.",
+      "httpRequestsTitle": "Aucune demande HTTP disponible",
+      "httpRequestsDescription": "Aucune demande HTTP n'a été extraite pour l'intervalle de temps sélectionné."
+    }
   },
   "rename": {
     "help": "Le fait de renommer un site Web est une action cohérente au sein du système Instana. La modification du nom d'un site Web peut ainsi prendre <strong>quelques minutes</strong> jusqu'à ce qu'elle ait été répercutée dans l'ensemble du système."

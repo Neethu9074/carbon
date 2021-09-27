@@ -7,9 +7,13 @@
   "logsOverTime_WARN": "Journaux des avertissements dans le temps",
   "logsOverTime_INFO": "Journaux d'informations dans le temps",
   "theQueryConfigurationIsInvalidPleaseAddressTheValidationFailuresBeforeContinuing": "La configuration de la requête n'est pas valide. Veuillez résoudre les échecs de validation avant de continuer.",
-  "selectTags": "Sélectionner des étiquettes",
-  "goToTrace": "Accéder à la trace",
   "addAsFilter": "Ajouter comme filtre",
   "addAsGroup": "Ajouter comme groupe",
-  "numberOfLogs": "Nombre de journaux"
+  "numberOfLogs": "Nombre de journaux",
+  "numberOfLogsPercentage": "Pourcentage",
+  "applications": "Applications",
+  "endpoint": "Nœud final",
+  "endpointType": "Type de noeud final ",
+  "messageParam": "Paramètre du message",
+  "applicationCounter": "{{count}} applications"
 }

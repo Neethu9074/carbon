@@ -6,7 +6,7 @@
     "daemonSet": "DaemonSet",
     "statefulSet": "StatefulSet",
     "deployment": "Déploiement",
-    "deploymentConfig": "Configuration de déploiement",
+    "deploymentConfig": "DeploymentConfig",
     "namespace": "Espace de nom",
     "node": "Nœud",
     "pod": "Pod",
@@ -95,7 +95,6 @@
     "container": "Conteneur",
     "loading": "Chargement",
     "ready": "Prêt",
-    "total": "Total",
     "restarts": "Redémarrages",
     "serviceLocation": "Emplacement du service",
     "intEndpoints": "Nœuds finaux int.",
@@ -198,8 +197,29 @@
     "noCpuLimitQuotaMessage": "Aucun quota de limite d'UC dans cet espace de nom.",
     "noMemoryRequestQuotaMessage": "Aucun quota de demande de mémoire dans cet espace de nom",
     "noMemoryLimitQuotaMessage": "Aucun quota de limite de mémoire dans cet espace de nom",
-    "completion": "Achèvement",
-    "placeholderPhase": "Phase..."
+    "placeholderPhase": "Phase...",
+    "podsOnline": "Pods en ligne",
+    "podsDesired": "Pods souhaités",
+    "noDataAvailable": {
+      "servicesTitle": "Aucun service disponible",
+      "servicesDescription": "Aucun service n'a été extrait pour l'intervalle de temps sélectionné.",
+      "persistentVolumesTitle": "Aucun volume persistant disponible",
+      "persistentVolumesDescription": "Aucun volume persistant n'a été extrait pour l'intervalle de temps sélectionné.",
+      "conditionsTitle": "Aucune condition disponible",
+      "conditionsDescription": "Aucune condition n'a été extraite pour l'intervalle de temps sélectionné.",
+      "cronjobsTitle": "Aucun travail cron disponible",
+      "cronjobsDescription": "Aucun travail cron n'a été extrait pour l'intervalle de temps sélectionné.",
+      "eventsTitle": "Aucun événement disponible",
+      "eventsDescription": "Aucun événement n'a été extrait pour l'intervalle de temps sélectionné.",
+      "namespacesTitle": "Aucun espace de nom disponible",
+      "namespacesDescription": "Aucun espace de nom n'a été extrait pour l'intervalle de temps sélectionné.",
+      "nodesTitle": "Aucun nœud disponible",
+      "nodesDescription": "Aucun nœud n'a été extrait pour l'intervalle de temps sélectionné.",
+      "podsTitle": "Aucun pod disponible",
+      "podsDescription": "Aucun pod n'a été extrait pour l'intervalle de temps sélectionné.",
+      "endpointsTitle": "Aucun nœud final disponible",
+      "endpointsDescription": "Aucun nœud final n'a été extrait pour l'intervalle de temps sélectionné."
+    }
   },
   "viewAllEntityName_unknownEntity_plural": "tout",
   "viewAllEntityName_unknownEntity_0": "tout",
@@ -248,12 +268,16 @@
   "running": "En cours d'exécution",
   "pending": "En attente",
   "succeeded": "Réussite",
-  "active": "Actif",
   "failed": "Échec",
   "unknown": "Inconnu",
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
     "noData": "Aucune donnée Kubernetes n'est disponible. Pour plus d'informations sur le traitement des incidents, consultez la [documentation] [Docs].\n\n [ Documentations ] :https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-ou-namespaces"
+  },
+  "pod": {
+    "pending": "Pods en attente",
+    "active": "Pods actifs",
+    "completed": "Pods terminés"
   }
 }
