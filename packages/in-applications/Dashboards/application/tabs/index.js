@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import ReadOnlyConfiguration from 'in-applications/Dashboards/application/tabs/ReadOnlyConfiguration';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import Configuration from 'in-applications/Dashboards/application/tabs/Configuration';
@@ -55,9 +56,9 @@ export default [
     path: `${applicationDashboard}/alerts`,
     component: Alerts
   },
-  role.canConfigureApplications && {
+  {
     label: t('in-applications:labelConfiguration'),
     path: `${applicationDashboard}/configuration`,
-    component: Configuration
+    component: role.canConfigureApplications ? Configuration : ReadOnlyConfiguration
   }
 ].filter(Boolean);

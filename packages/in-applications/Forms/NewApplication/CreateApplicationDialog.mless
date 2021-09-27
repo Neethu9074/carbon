@@ -12,6 +12,10 @@
     margin-top: 1rem;
   }
 
+  .readOnlyMessage {
+    margin-bottom: 1rem;
+  }
+
   .applicationNameText {
     margin-top: 1rem;
   }
