@@ -15,11 +15,11 @@ const basePath = '/api/logging-v2/catalog';
 export const getTagCatalog = memoize(
   getTagCatalogInternal,
   // Do not take time configuration into consideration for the hash generation.
-  ({ useCase } = emptyObject) => useCase,
+  ({ useCase, forceIncludeInternalTags } = emptyObject) => useCase + forceIncludeInternalTags,
   minutes.toMillis(10)
 );
 
-function getTagCatalogInternal({ useCase } = emptyObject) {
+function getTagCatalogInternal({ useCase, forceIncludeInternalTags } = emptyObject) {
   return isInternalVisible$.flatMap(includeInternalTags =>
     createObservable(
       http({
@@ -28,7 +28,7 @@ function getTagCatalogInternal({ useCase } = emptyObject) {
         url: basePath,
         queryParams: {
           useCase,
-          includeInternalTags
+          includeInternalTags: forceIncludeInternalTags || includeInternalTags
         }
       })
     )
