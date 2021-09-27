@@ -1,0 +1,89 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React, { useState, useEffect } from 'react';
+import { get } from 'lodash';
+
+import { Button } from '@instana/components';
+import { Card } from '@instana/components';
+
+import MaxWidthFullscreenContainer from 'in-components/layout/MaxWidthFullscreenContainer';
+import { deleteApplicationConfig } from 'in-api/applicationConfigs';
+import { applicationsList } from 'in-applications/navigation/paths';
+import DescriptionText from 'in-components/form/DescriptionText';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { combineDataAndError } from 'in-services/util/ro';
+import SaveError from 'in-components/form/SaveError';
+import { goToPath } from 'in-stores/navigation';
+import { Trans, t } from 'in-i18n';
+
+import locals from './Remove.mless';
+
+export default function RemoveSection({ application }) {
+  const [checkboxChecked, setCheckboxChecked] = useState(false);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [subscription, setSubscription] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      if (subscription) {
+        subscription.dispose();
+      }
+    };
+  });
+
+  if (!application) {
+    return null;
+  }
+
+  return (
+    <MaxWidthFullscreenContainer className={locals.maxWidthFullscreenContainer}>
+      <Card title={t('in-applications:titleRemoveApplicationPerspective')}>
+        <DescriptionText>
+          <Trans
+            i18nKey="in-applications:forms.newApplication.descriptionRemoveApplicationPerspective"
+            values={{ application: application.label }}
+          />
+        </DescriptionText>
+        <CheckboxFancy
+          wrapperClassName={locals.checkbox}
+          label={t('in-applications:forms.understandCheckboxResetToDefaultRule')}
+          checked={checkboxChecked}
+          onChange={onTickChange}
+          disabled={loading}
+        />
+        {error && <SaveError>{error}</SaveError>}
+        <div className={locals.footer}>
+          <Button kind="danger" disabled={loading || !checkboxChecked} onClick={remove} className={locals.removeButton}>
+            {t('in-applications:buttonRemoveApplicationPerspective')}
+          </Button>
+        </div>
+      </Card>
+    </MaxWidthFullscreenContainer>
+  );
+
+  function onTickChange(e) {
+    setCheckboxChecked(e.target.checked);
+  }
+
+  function remove(e) {
+    e.preventDefault();
+
+    setLoading(true);
+    setError(null);
+
+    setSubscription(
+      combineDataAndError(deleteApplicationConfig(application.id)).once(({ error }) => {
+        if (error) {
+          setLoading(false);
+          setError(get(error, ['response', 'body', 'errors', 0]) || String(error));
+        } else {
+          goToPath(applicationsList);
+        }
+      })
+    );
+  }
+}
