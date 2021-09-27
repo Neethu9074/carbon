@@ -30,6 +30,7 @@ export default function FacetedFilterMultiSelect(props) {
     getHrefToGroupedView,
     getHrefToUngroupedView,
     groupbyTag,
+    tracker,
     dataSource
   } = props;
 
@@ -62,6 +63,11 @@ export default function FacetedFilterMultiSelect(props) {
     }
   };
 
+  const trackerMethods = {
+    ...ua2FacetedTracker,
+    ...(tracker ?? {})
+  };
+
   return (
     <FacetedExpandableCard
       title={title}
@@ -73,7 +79,7 @@ export default function FacetedFilterMultiSelect(props) {
       dataSource={dataSource}
       isActiveGroup={tag === groupbyTag}
       enableUseAsGroup={enableUseAsGroup}
-      groupByTracker={ua2FacetedTracker.groupClicked}
+      groupByTracker={trackerMethods.groupClicked}
       getHrefToGroupedView={getHrefToGroupedView}
       getHrefToUngroupedView={getHrefToUngroupedView}
     >
@@ -88,7 +94,7 @@ export default function FacetedFilterMultiSelect(props) {
         setValueFilter={setValueFilter}
         setIsDisabledWithNoValues={setIsDisabledWithNoValues}
         customLabelMapper={customLabelMapper}
-        tracker={ua2FacetedTracker}
+        tracker={trackerMethods}
       />
     </FacetedExpandableCard>
   );
