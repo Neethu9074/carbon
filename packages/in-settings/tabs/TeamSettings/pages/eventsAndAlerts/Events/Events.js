@@ -182,7 +182,13 @@ export default function Events({
 
 function combineAndSortByLabel(array1, array2) {
   return array2 && array2.length > 0
-    ? array1.concat(array2).sort((a, b) => compareIgnoreCase(a.label, b.label))
+    ? array1
+        .concat(array2)
+        .sort((a, b) => compareIgnoreCase(a.label, b.label))
+        // remove duplicates from sorted array
+        .filter(function(item, pos, array) {
+          return !pos || compareIgnoreCase(item.label, array[pos - 1].label) !== 0;
+        })
     : array1;
 }
 
