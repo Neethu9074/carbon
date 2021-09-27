@@ -5,6 +5,7 @@
 
 import React, { useMemo } from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import {
@@ -25,6 +26,8 @@ import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { pendingResult } from 'in-services/fixedObjects';
+import { getTagCatalog } from 'in-logging/api/catalog';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 import { t } from 'in-i18n';
@@ -51,19 +54,32 @@ export default function Logs(props) {
   const {
     getHrefWithAdditionalTagFilter,
     getHrefToGroupedView,
-    filteringTagCatalog,
     groupingTagCatalog,
     Sidebar = FacetedSearchPresenter,
-    Chart = ChartsPresenter
+    Chart = ChartsPresenter,
+    timeConfig,
+    dataSource
   } = props;
 
   const onSelectTagHref = getHrefWithAdditionalTagFilter
     ? tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
     : undefined;
 
+  const internalFilteringTagCatalogResult =
+    useObservable(
+      () =>
+        getTagCatalog({
+          timeConfig,
+          dataSource,
+          useCase: 'FILTERING',
+          forceIncludeInternalTags: true
+        }),
+      [getTagCatalog, timeConfig, dataSource]
+    ) ?? pendingResult;
+
   const tagToLabelMap = useMemo(
-    () => new Map((filteringTagCatalog?.tags || []).map(({ name, label }) => [name, label])),
-    [filteringTagCatalog]
+    () => new Map((internalFilteringTagCatalogResult.data?.tags || []).map(({ name, label }) => [name, label])),
+    [internalFilteringTagCatalogResult]
   );
 
   const allowedTagsForGrouping = useMemo(() => new Set((groupingTagCatalog?.tags || []).map(({ name }) => name)), [
