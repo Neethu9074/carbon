@@ -3,14 +3,30 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ComponentProps } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { Button } from '@instana/components';
 
 import locals from './ButtonGroup.mless';
 
-export default function ButtonGroup({ buttonPropsList, activeKey, segmented, className, ...remainingProps }) {
+type ButtonProps = ComponentProps<typeof Button>;
+type ButtonGroupProps<T> = {
+  buttonPropsList: ({
+    text: ButtonProps['children'];
+  } & Omit<ButtonProps, 'children'>)[];
+  activeKey: ButtonProps['key'];
+  segmented: boolean | undefined;
+  className: string | undefined;
+} & T;
+
+export default function ButtonGroup<RemainingPropsType = {}>({
+  buttonPropsList,
+  activeKey,
+  segmented,
+  className,
+  ...remainingProps
+}: ButtonGroupProps<RemainingPropsType>) {
   return (
     <div
       className={classNames(className, {
