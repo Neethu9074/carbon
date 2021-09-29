@@ -13,13 +13,13 @@ import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/Indet
 import locals from './LoadingIndicator.mless';
 
 export interface LoadingIndicatorProps {
-  size: keyof typeof SvgIconSizes;
-  title?: string;
-  text?: string;
-  className?: string;
-  width?: number;
-  height?: number;
-  style?: Record<string, string | number>;
+  size: keyof typeof SvgIconSizes | undefined;
+  title?: string | undefined;
+  text?: string | undefined;
+  className?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  style?: Record<string, string | number> | undefined;
 }
 
 export default function LoadingIndicator({
@@ -35,7 +35,7 @@ export default function LoadingIndicator({
     size = 'regular';
   }
   return (
-    <div className={classNames(locals.container, className)} style={{ height: height, width: width, ...style }}>
+    <div className={classNames(locals.container, className)} style={{ height, width, ...style }}>
       <div className={locals.content}>
         <IndeterminateLoadingIndicator size={SvgIconSizes[size]} />
         {title && <h2 className={locals.title}>{title}</h2>}
