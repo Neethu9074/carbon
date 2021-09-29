@@ -55,6 +55,7 @@ const facetedSearchItems = [
     title: 'Service',
     tag: LOG_SERVICE_NAME,
     getSuggestionName: getLabel,
+    entity: 'DESTINATION',
     getMetric
   }
 ];
