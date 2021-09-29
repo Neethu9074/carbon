@@ -218,5 +218,10 @@ module.exports = exports = [
     uiClientKey: 'builtInGlobalApplicationSmartAlertsEnabled',
     instanaCtlKey: 'feature.shared.application.smart.alerts.builtIn.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'idpMappingEnabled',
+    instanaCtlKey: 'feature.idp.mapping.enabled',
+    defaultValue: false
   }
 ];

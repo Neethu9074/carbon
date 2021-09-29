@@ -49,5 +49,6 @@ module.exports = {
   deprecateAppDataLegacyEvents: true,
   potentialProblemsEnabled: true,
   adaptiveBaselineEnabled: true,
-  builtInGlobalApplicationSmartAlertsEnabled: true
+  builtInGlobalApplicationSmartAlertsEnabled: true,
+  idpMappingEnabled: true
 };

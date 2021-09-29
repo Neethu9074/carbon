@@ -67,10 +67,19 @@ export function deleteConfig() {
   });
 }
 
-export function isAvailable() {
+function isAvailableQuery() {
   return http({
     method: 'GET',
     maxRetries: 3,
     url: '/api/settings/authentication/ldap/available'
-  }).map(res => res.body);
+  });
+}
+
+export const isAvailableAsResult = memoize(isLdapAvailableInternal, () => '', 60000);
+function isLdapAvailableInternal() {
+  return refreshSignal.flatMap(() => createObservable(isAvailableQuery()));
+}
+
+export function isAvailable() {
+  return isAvailableQuery().map(res => res.body);
 }

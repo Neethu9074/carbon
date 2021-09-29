@@ -41,16 +41,13 @@ export const googleSSO = `${authSettings}/googleSingleSignOn`;
 export const saml = `${authSettings}/saml`;
 export const oidc = `${authSettings}/oidc`;
 export const ldap = `${authSettings}/ldap`;
+export const groupMapping = `${authSettings}/groupMapping`;
 
 export const twoFactorAuth = `${authSettings}/2fa`;
 export const twoFaUsers = `${twoFactorAuth}/users`;
 
 const session = `${authSettings}/session`;
 export const timeouts = `${session}/timeouts`;
-
-const mapping = `${authSettings}/mapping`;
-export const samlMapping = `${mapping}/saml`;
-export const ldapMapping = `${mapping}/ldap`;
 
 export const alerting = `${teamSettings}/alerting`;
 const channels = `/channels`;

@@ -91,3 +91,6 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 
 //Flag which exposes the download button - enables the download of metrics from event view
 export const allowDownloadMetricsFromCharts = isInstanaEmail;
+
+// Identity Provider group mapping editor inside settings
+export const idpMappingEnabled = isFeatureFlagEnabled('idpMappingEnabled', false);

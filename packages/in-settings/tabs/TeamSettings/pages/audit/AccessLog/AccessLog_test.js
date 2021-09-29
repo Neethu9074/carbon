@@ -9,8 +9,8 @@ import React from 'react';
 
 import { create } from '@instana/observables';
 
+import AccessLog from 'in-settings/tabs/TeamSettings/pages/audit/AccessLog/AccessLog';
 import { getAccessLog } from 'in-api/auditLog';
-import AccessLog from './AccessLog';
 
 jest.mock('in-api/auditLog');
 

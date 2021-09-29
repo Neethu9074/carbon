@@ -11,11 +11,10 @@ import {
   saml,
   oidc,
   ldap,
+  groupMapping,
   twoFactorAuth,
   twoFaUsers,
   changePassword,
-  samlMapping,
-  ldapMapping,
   timeouts
 } from 'in-settings/navigation/paths';
 import {
@@ -30,6 +29,7 @@ import {
   isAvailable as isOidcAvailable,
   getConfigAsResultObservable as getOidcConfig
 } from 'in-settings/tabs/AuthSettings/api/oidc';
+import GroupMapping from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/GroupMapping';
 import GoogleSSO from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GoogleSSO/GoogleSSO';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import SessionSettings from 'in-settings/tabs/AuthSettings/pages/sessionSettings/SessionSettings';
@@ -39,9 +39,8 @@ import SideNavigationAndContent from 'in-components/layout/SideNavigationAndCont
 import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Saml';
 import OIDC from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
-import SamlMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Saml/Saml';
-import LdapMapping from 'in-settings/tabs/AuthSettings/pages/mappings/Ldap/Ldap';
 import Users from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Users';
+import { idpMappingEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { isOwner, role } from 'in-stores/user';
@@ -90,6 +89,11 @@ function getNavigationTree(props) {
             path: ldap,
             label: t('in-settings:tabs.ldap'),
             component: Ldap
+          },
+          idpMappingEnabled && {
+            path: groupMapping,
+            label: t('in-settings:tabs.groupMapping'),
+            component: GroupMapping
           }
         ].filter(Boolean)
       },
@@ -122,23 +126,6 @@ function getNavigationTree(props) {
     }
   ].filter(Boolean);
 
-  if (__DEV__) {
-    navigationTree.push({
-      title: t('in-settings:tabs.mapping'),
-      pages: [
-        {
-          path: ldapMapping,
-          label: t('in-settings:tabs.ldapMapping'),
-          component: LdapMapping
-        },
-        {
-          path: samlMapping,
-          label: t('in-settings:tabs.samlMapping'),
-          component: SamlMapping
-        }
-      ]
-    });
-  }
   return navigationTree;
 }
 
