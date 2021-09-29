@@ -3,19 +3,26 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { CSSProperties } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import './FormGroup.less';
 
 const block = 'in-settings-form-group';
 
-export default function FormGroup({ children, className, style, noFlex = false }) {
+type FormGroupProps = {
+  children: React.ReactNode;
+  className?: string | undefined;
+  style?: CSSProperties | undefined;
+  noFlex?: boolean | undefined;
+};
+
+export default function FormGroup({ children, className, style, noFlex = false }: FormGroupProps) {
   return (
     <div
       className={classNames({
         [block]: true,
-        [className]: className,
+        [className ?? '']: className,
         [`${block}--flex`]: !noFlex
       })}
       style={style}
