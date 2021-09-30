@@ -24,9 +24,7 @@ export default function ReadyStep({ mobileAppName, mobileAppId, mobileAppLink$ }
           i18nKey="in-mobile-apps:newAppFlow.everythingIsReadyMsg"
           values={{ mobileAppName: mobileAppName }}
           components={{
-            linkToInstallation: (
-              <Link href="https://instana.com/docs/mobile_app_monitoring/#installation" target="_blank" />
-            )
+            linkToInstallation: <Link href="https://instana.com/docs/mobile_app_monitoring/#installation" external />
           }}
         />
       </Paragraph>

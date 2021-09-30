@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 import { assign, get } from 'lodash';
 
 import { generateUniqueShortId } from '@instana/utils';
-import { Button } from '@instana/components';
+import { Button, Link } from '@instana/components';
 
 import { createNewServiceConfigs, getServiceConfigs, replaceAllServiceConfigs } from 'in-api/serviceConfiguration';
 import DragAndDropRuleList from 'in-applications/Forms/CustomServiceMapping/DragAndDropRuleList';
@@ -67,11 +67,7 @@ export default function CustomServiceMappingDialog() {
                           components={{
                             bold: <strong />,
                             linkToDoc: (
-                              <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href="https://instana.com/docs/application_monitoring/services/"
-                              />
+                              <Link external href="https://instana.com/docs/application_monitoring/services/" />
                             )
                           }}
                         />

@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -27,7 +29,7 @@ export default function AwsLambdaVersionDashboard({ snapshot, timeConfig }) {
         <Trans
           i18nKey="in-forge:plugins.awsLambdaFunction.descriptionLambda"
           components={{
-            installLink: <a href="https://instana.com/docs/ecosystem/aws#installation" />
+            installLink: <Link external href="https://instana.com/docs/ecosystem/aws#installation" />
           }}
         />
       </DashboardNotification>

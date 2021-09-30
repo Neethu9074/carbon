@@ -24,9 +24,7 @@ export default function WaitStep({ mobileAppName, mobileAppId }) {
           i18nKey="in-mobile-apps:newAppFlow.workingMsg"
           values={{ mobileAppName: mobileAppName }}
           components={{
-            linkToInstallation: (
-              <Link href="https://instana.com/docs/mobile_app_monitoring/#installation" target="_blank" />
-            )
+            linkToInstallation: <Link href="https://instana.com/docs/mobile_app_monitoring/#installation" external />
           }}
         />
       </Paragraph>

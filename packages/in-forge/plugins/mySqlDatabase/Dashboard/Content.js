@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DatabasesTable from 'in-forge/plugins/mySqlDatabase/Dashboard/DatabasesTable';
@@ -216,13 +218,7 @@ function getPerformanceSchemaHint(snapshot) {
           i18nKey="in-forge:plugins.mySqlDatabase.instanaMySqlSensorConfigurationHelp"
           values={{ sensorPerformanceSchemaStatus }}
           components={{
-            mysqlConfig: (
-              <a
-                href="https://instana.com/docs/ecosystem/mysql/#configuration"
-                rel="noopener noreferrer"
-                target="_blank"
-              />
-            )
+            mysqlConfig: <Link external href="https://instana.com/docs/ecosystem/mysql/#configuration" />
           }}
         />
       </DashboardNotification>

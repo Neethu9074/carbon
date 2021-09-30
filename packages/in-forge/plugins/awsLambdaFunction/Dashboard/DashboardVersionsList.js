@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import getVersionsForLambdaFunction from 'in-subscription/getVersionsForLambdaFunction';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -34,7 +36,7 @@ export default connectTo(
           <Trans
             i18nKey="in-forge:plugins.awsLambdaFunction.noVersions"
             components={{
-              installLink: <a href="https://instana.com/docs/ecosystem/aws#installation" />
+              installLink: <Link external href="https://instana.com/docs/ecosystem/aws#installation" />
             }}
           />
         </DashboardNotification>

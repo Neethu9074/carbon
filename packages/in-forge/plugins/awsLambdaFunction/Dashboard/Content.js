@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DashboardVersionsList from './DashboardVersionsList';
 import { Trans } from 'in-i18n';
@@ -20,7 +22,7 @@ export default function AwsLambdaFunctionDashboard({ snapshot }) {
         <Trans
           i18nKey="in-forge:plugins.awsLambdaFunction.descriptionLambda"
           components={{
-            installLink: <a href="https://instana.com/docs/ecosystem/aws#installation" />
+            installLink: <Link external href="https://instana.com/docs/ecosystem/aws#installation" />
           }}
         />
       </DashboardNotification>

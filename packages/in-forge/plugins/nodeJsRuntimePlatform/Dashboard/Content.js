@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Button } from '@instana/components';
+import { Button, Link } from '@instana/components';
 
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import HealthchecksTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HealthchecksTable';
@@ -259,9 +259,14 @@ function getInitializedTooLateHint(snapshot, isInternalVisible, monitoringIssues
         i18nKey="in-forge:plugins.nodeJsRuntimePlatform.itSeemsYouHaveInitializedTheInstanaCollectorPackageTooLate"
         components={{
           installLink: (
-            <a href="https://instana.com/docs/ecosystem/node-js/installation/#installing-the-nodejs-collector-package" />
+            <Link
+              external
+              href="https://instana.com/docs/ecosystem/node-js/installation/#installing-the-nodejs-collector-package"
+            />
           ),
-          pitfallsLink: <a href="https://instana.com/docs/ecosystem/node-js/installation/#common-pitfalls" />
+          pitfallsLink: (
+            <Link external href="https://instana.com/docs/ecosystem/node-js/installation/#common-pitfalls" />
+          )
         }}
       />
     </DashboardNotification>
@@ -291,7 +296,7 @@ function getNativeExtensionHint(snapshot) {
         i18nKey="in-forge:plugins.nodeJsRuntimePlatform.nativeExtensionsCouldNotBeLoaded"
         values={{ missingNativeExtensions: missingNativeExtensions.join(' and ') }}
         components={{
-          installLink: <a href="https://instana.com/docs/ecosystem/node-js/installation/#native-addons" />
+          installLink: <Link external href="https://instana.com/docs/ecosystem/node-js/installation/#native-addons" />
         }}
       />
     </DashboardNotification>
