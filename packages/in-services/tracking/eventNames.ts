@@ -18,6 +18,7 @@ export const CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL = 'custom.dashboard.edit.widget
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH = 'custom.dashboard.edit.widget.finish';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
 
+export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
 export const ANALYZE_CALL_CLICK = 'analyze.call.click';
 export const ANALYZE_DETAIL_CALL_CLICK = 'analyze.detail.call.click';
 export const ANALYZE_FILTER_ADDED = 'analyze.filter.added';

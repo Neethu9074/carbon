@@ -10,16 +10,12 @@ import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 import { Li, Ul } from '@instana/components';
 
-import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 // eslint-disable-next-line no-restricted-imports
 import { getTagCatalog as getTracesTagCatalog } from 'in-applications/analyze/components/workspace/TraceQueryBuilder';
 // eslint-disable-next-line no-restricted-imports
 import { getTagCatalog as getCallsTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 // eslint-disable-next-line no-restricted-imports
 import { getLinkToAnalyze as getLinkToLogsAnalyze, getLinkToRawLogs } from 'in-logging/navigation/paths';
-import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
-import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
 // eslint-disable-next-line no-restricted-imports
 import { getLinkToAnalyze as getLinkToApplicationAnalyze } from 'in-applications/navigation/paths';
 // eslint-disable-next-line no-restricted-imports
@@ -38,9 +34,14 @@ import { default as useMobileTagCatalog } from 'in-mobile-apps/hooks/useTagCatal
 import { default as useWebsiteTagCatalog } from 'in-websites/hooks/useTagCatalog';
 // eslint-disable-next-line no-restricted-imports
 import { defaultGroupings as defaultWebsiteGroupings } from 'in-websites/tags';
-import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { getIconByType, getLabelByType, productAreaIcons, productAreaLabels } from 'in-analyze/AnalyzeView/dataSources';
 // eslint-disable-next-line no-restricted-imports
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
+import { getLinkToAnalyze as getLinkToProfilesAnalyze } from 'in-components/Profiling/navigation/paths';
+import { hasApplicationsAccess, hasMobileAppsAccess, hasWebsitesAccess } from 'in-stores/permission';
+import { analyzeViewSelected } from 'in-analyze/components/AnalyzeHeader/tracker';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { loggingEnabled } from 'in-services/featureFlags';
 import Pill from 'in-components/Pill';
@@ -336,6 +337,9 @@ function ProductAreaEntry({
             timeout: 5000
           });
         }
+
+        analyzeViewSelected({ target: dataSource });
+
         if (onClickSideEffect) {
           onClickSideEffect();
         }
