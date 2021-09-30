@@ -75,11 +75,6 @@ function isAvailableQuery() {
   });
 }
 
-export const isAvailableAsResult = memoize(isLdapAvailableInternal, () => '', 60000);
-function isLdapAvailableInternal() {
-  return refreshSignal.flatMap(() => createObservable(isAvailableQuery()));
-}
-
 export function isAvailable() {
   return isAvailableQuery().map(res => res.body);
 }

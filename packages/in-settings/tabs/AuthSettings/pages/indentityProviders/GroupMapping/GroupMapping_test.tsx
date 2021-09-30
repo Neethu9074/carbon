@@ -20,11 +20,11 @@ import {
   IdpGroupMapping
 } from 'in-settings/tabs/AuthSettings/api/groupMappings';
 // @ts-expect-error
-import { isAvailableAsResult as isOidcAvailable } from 'in-settings/tabs/AuthSettings/api/oidc';
+import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 // @ts-expect-error
-import { isAvailableAsResult as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
+import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 // @ts-expect-error
-import { isAvailableAsResult as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { getConfigAsResultObservable as ldapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import GroupMapping from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/GroupMapping';
 // @ts-expect-error
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
@@ -36,12 +36,28 @@ jest.mock('in-settings/tabs/AuthSettings/api/saml');
 jest.mock('in-settings/tabs/AuthSettings/api/ldap');
 jest.mock('in-settings/tabs/AuthSettings/api/oidc');
 
+function getLoadedResult(data: any) {
+  return {
+    progress: {
+      loading: false
+    },
+    errors: [],
+    data
+  };
+}
+
 const setIdpsAvailability = (value: any) => {
-  const obs = create();
-  obs.emit(value);
-  (isSamlAvailable as jest.Mock).mockReturnValue(obs);
-  (isLdapAvailable as jest.Mock).mockReturnValue(obs);
-  (isOidcAvailable as jest.Mock).mockReturnValue(obs);
+  const saml = create();
+  saml.emit(getLoadedResult({ activated: value }));
+  (samlConfig as jest.Mock).mockReturnValue(saml);
+
+  const oidc = create();
+  oidc.emit(getLoadedResult({ activated: value }));
+  (oidcConfig as jest.Mock).mockReturnValue(oidc);
+
+  const ldap = create();
+  ldap.emit(getLoadedResult({ url: value ? 'ldap://ldap.foo.com' : null }));
+  (ldapConfig as jest.Mock).mockReturnValue(ldap);
 };
 
 const setMappingsFromServer = (value: any) => {
@@ -89,7 +105,7 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/Gr
       })
     );
 
-    setIdpsAvailability(getLoadedResult(true));
+    setIdpsAvailability(true);
 
     render(<GroupMapping />);
 
@@ -112,7 +128,7 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/Gr
 
     setMappingsFromServer(getLoadedResult([{ id: 'ABC', key: 'Akey', value: 'AValue', groupId: 'InstaGroupA' }]));
 
-    setIdpsAvailability(getLoadedResult(true));
+    setIdpsAvailability(true);
 
     setGroupsFromServer(
       getLoadedResult([
@@ -154,7 +170,7 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/Gr
 
     setMappingsFromServer(getLoadedResult([{ id: 'ABC', key: 'Akey', value: 'AValue', groupId: 'InstaGroupA' }]));
 
-    setIdpsAvailability(getLoadedResult(true));
+    setIdpsAvailability(true);
 
     setGroupsFromServer(
       getLoadedResult([
@@ -231,7 +247,7 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/Gr
 
     setMappingsFromServer(getLoadedResult([{ key: 'Akey', value: 'AValue', groupId: 'InstaGroupA' }]));
 
-    setIdpsAvailability(getLoadedResult(true));
+    setIdpsAvailability(true);
 
     setGroupsFromServer(
       getLoadedResult([
@@ -269,7 +285,7 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/Gr
 
     setMappingsFromServer(getLoadedResult([]));
 
-    setIdpsAvailability(getLoadedResult(false));
+    setIdpsAvailability(false);
 
     setGroupsFromServer(getLoadedResult([]));
 
@@ -314,15 +330,5 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/Gr
         cancelable: true
       })
     );
-  }
-
-  function getLoadedResult(data: any) {
-    return {
-      progress: {
-        loading: false
-      },
-      errors: [],
-      data
-    };
   }
 });

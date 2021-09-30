@@ -30,11 +30,11 @@ import {
   IdentityProviderPatch
 } from 'in-settings/tabs/AuthSettings/api/groupMappings';
 // @ts-expect-error
-import { isAvailableAsResult as isOidcAvailable } from 'in-settings/tabs/AuthSettings/api/oidc';
+import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 // @ts-expect-error
-import { isAvailableAsResult as isLdapAvailable } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { getConfigAsResultObservable as ldapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 // @ts-expect-error
-import { isAvailableAsResult as isSamlAvailable } from 'in-settings/tabs/AuthSettings/api/saml';
+import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 // @ts-expect-error
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 // @ts-expect-error
@@ -79,9 +79,9 @@ export default function GroupMapping() {
         mappings: getMappings(),
         instanaGroups: getGroupsAsResultObservable(),
         denyCheck: getIdp(),
-        isSamlAvailable: isSamlAvailable(),
-        isLdapAvailable: isLdapAvailable(),
-        isOidcAvailable: isOidcAvailable()
+        samlConfig: samlConfig(),
+        ldapConfig: ldapConfig(),
+        oidcConfig: oidcConfig()
       })}
       enrichForm={enrichForm}
       onCancelClick={refresh}
@@ -359,7 +359,7 @@ function newEntry({ id, key, value, groupId }: IdpGroupMapping): MapForm {
 }
 
 function enrichForm(_form: MapForm, { result }: { result: any }) {
-  const hasIdp = result.isSamlAvailable || result.isLdapAvailable || result.isOidcAvailable;
+  const hasIdp = result.samlConfig?.activated || result.oidcConfig?.activated || result.ldapConfig?.url;
 
   if (!hasIdp) {
     return createMapForm({ items: { hasIdp: createField({ value: false }) } });

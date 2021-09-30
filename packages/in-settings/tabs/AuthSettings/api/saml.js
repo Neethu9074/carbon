@@ -65,11 +65,6 @@ function isAvailableQuery() {
   });
 }
 
-export const isAvailableAsResult = memoize(isSamlAvailableInternal, () => '', 60000);
-function isSamlAvailableInternal() {
-  return refreshSignal.flatMap(() => createObservable(isAvailableQuery()));
-}
-
 export function isAvailable() {
   return isAvailableQuery().map(res => res.body);
 }

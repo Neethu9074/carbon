@@ -61,11 +61,6 @@ function isAvailableQuery() {
   });
 }
 
-export const isAvailableAsResult = memoize(isOidcAvailableInternal, () => '', 60000);
-function isOidcAvailableInternal() {
-  return refreshSignal.flatMap(() => createObservable(isAvailableQuery()));
-}
-
 export function isAvailable() {
   return isAvailableQuery().map(res => res.body);
 }
