@@ -17,7 +17,7 @@ import {
 } from 'in-components/QueryBuilder/tagFilter/operators';
 import { KEY_VALUE_PAIR, BOOLEAN, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
-import { TagCatalog, TagFilter, TagFilterOperator } from 'in-types';
+import { TagCatalog, TagFilter, TagFilterEntity, TagFilterOperator } from 'in-types';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import { isNotBlank } from 'in-services/util/string';
 
@@ -142,6 +142,19 @@ function transformStringValue(tagCatalog: TagCatalog, tagName: string, stringVal
   return { key, value };
 }
 
-export function tagFilter(name: string, operator: TagFilterOperator, value?: any, key?: string) {
-  return { type, name, operator, ...(value != null && { value }), ...(key != null && { key }) };
+export function tagFilter(
+  name: string,
+  operator: TagFilterOperator,
+  value?: any,
+  key?: string,
+  entity?: TagFilterEntity
+) {
+  return {
+    type,
+    name,
+    operator,
+    ...(value != null && { value }),
+    ...(key != null && { key }),
+    ...(entity != null && { entity })
+  };
 }
