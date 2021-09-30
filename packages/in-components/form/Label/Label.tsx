@@ -4,12 +4,16 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import locals from './Label.mless';
 
-export default function Label({ hasError, className, ...labelProps }) {
+type LabelProps = {
+  hasError?: boolean | undefined;
+  className?: string | undefined;
+} & React.LabelHTMLAttributes<HTMLLabelElement>;
+
+export default function Label({ hasError, className, ...labelProps }: LabelProps) {
   return (
     <label
       className={classNames(locals.label, className, {
@@ -19,9 +23,3 @@ export default function Label({ hasError, className, ...labelProps }) {
     />
   );
 }
-
-Label.propTypes = {
-  className: PropTypes.string,
-  hasError: PropTypes.bool,
-  withoutMargin: PropTypes.bool
-};
