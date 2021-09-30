@@ -1,6 +1,6 @@
 {
-  "name": "Input",
+  "name": "form-input",
   "version": "0.0.0",
   "private": true,
-  "main": "./Input.js"
+  "main": "./Input"
 }
