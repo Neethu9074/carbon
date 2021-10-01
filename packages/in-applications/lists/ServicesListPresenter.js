@@ -40,7 +40,6 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { createGroupBy } from 'in-analyze/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Filters from 'in-applications/components/Filters';
-import { timeConfig$ } from 'in-stores/time/config';
 import { isBlank } from 'in-services/util/string';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
@@ -260,7 +259,10 @@ export default function ServicesList({
           }}
         />
 
-        <WithEmptyStateFallback getHasDataToRender={getHasDataToRender} FallbackComponent={ServicesNoDataNotification}>
+        <WithEmptyStateFallback
+          getHasDataToRender={() => getHasDataToRender(timeConfig)}
+          FallbackComponent={ServicesNoDataNotification}
+        >
           <Card useMaxAvailableHeight={false} hasMarginBottom>
             <ServerTableWithUrlState
               get={getTableData}
@@ -288,8 +290,6 @@ function getTableData(params) {
   return getServicesWithDefaults(params);
 }
 
-function getHasDataToRender() {
-  return timeConfig$
-    .flatMap(timeConfig => getServicesWithDefaults({ timeConfig }))
-    .map(result => !result.data || result.data.totalHits > 0);
+function getHasDataToRender(timeConfig) {
+  return getServicesWithDefaults({ timeConfig }).map(result => !result.data || result.data.totalHits > 0);
 }

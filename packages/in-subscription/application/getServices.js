@@ -22,11 +22,11 @@ export function getServicesWithDefaults({
   endpointTypes = [],
   technologies = [],
   timeConfig,
-  applicationId,
-  serviceId,
-  endpointId,
+  applicationId = '',
+  serviceId = '',
+  endpointId = '',
   contextScope,
-  tagFilters
+  tagFilters = []
 }) {
   return getServices({
     pagination: {
