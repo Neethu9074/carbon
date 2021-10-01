@@ -9,16 +9,16 @@ set -euo pipefail
 
 SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
-VERSION="v0.0.1"
+VERSION="v0.0.3"
 PROJECT="ci-shared-tools"
 REPO="instana/${PROJECT}"
 ASSET_FILE="ci-shared-tools-${VERSION}.tar.gz"
-GITHUB_API_URL="https://api.github.com"
+GITHUB_API_URL="api.github.ibm.com"
 
 echo "-- Downloading ${ASSET_FILE}"
 wget -q --auth-no-challenge \
   --header='Accept: application/vnd.github.v3+json' \
-  https://${GITHUB_API_TOKEN}:@api.github.com/repos/$REPO/tarball/${VERSION} \
+  https://${GITHUB_API_TOKEN}:@${GITHUB_API_URL}/repos/$REPO/tarball/${VERSION} \
   -O "${SCRIPTPATH}/${ASSET_FILE}"
 
 echo "-- Extracting ${ASSET_FILE}"
