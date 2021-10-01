@@ -1,0 +1,1 @@
+CVE-2021-41720 # lodash 4.17.21 is still the latest as of Oct 1 2021. We fortunately don't use the template function

@@ -16,7 +16,7 @@ env:
     CONTAINERS_INSTANA_IO_USER: "containers.instana.io.user"
     EFS_DATA_DIR: "efs.data.dir"
     EFS_DNS: "efs.data.dns"
-    GITHUB_API_TOKEN: "instanacd.github.api.token"
+    GITHUB_API_TOKEN: "ibm.github.e.api.token"
     GITHUB_READ_PASSWORD: "github.read.password"
     GITHUB_READ_USER: "github.read.user"
 
