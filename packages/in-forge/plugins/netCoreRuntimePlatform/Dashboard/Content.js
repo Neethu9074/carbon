@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import PrometheusNetCoreClientMetrics from 'in-forge/plugins/netCoreRuntimePlatform/Dashboard/PrometheusNetCoreClientMetrics';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -65,6 +66,8 @@ export default function NetCoreDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
+      <PrometheusNetCoreClientMetrics snapshot={snapshot} timeConfig={timeConfig} titlePrefix="Prometheus" />
     </div>
   );
 }
