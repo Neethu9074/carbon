@@ -12,10 +12,10 @@ import React from 'react';
 import { create } from '@instana/observables';
 
 import {
-  getIdp,
+  getIdpRestriction,
   getMappings,
   setMappings,
-  setIdp,
+  setIdpRestriction,
   IdentityProviderPatch,
   IdpGroupMapping
 } from 'in-settings/tabs/AuthSettings/api/groupMappings';
@@ -69,7 +69,7 @@ const setMappingsFromServer = (value: any) => {
 const setIdpFromServer = (value: any) => {
   const obs = create();
   obs.emit(value);
-  (getIdp as jest.Mock).mockReturnValue(obs);
+  (getIdpRestriction as jest.Mock).mockReturnValue(obs);
 };
 
 const setGroupsFromServer = (value: any) => {
@@ -123,7 +123,7 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/Gr
       }
     }));
 
-    const fakeSetIdp = setIdp as jest.Mock;
+    const fakeSetIdp = setIdpRestriction as jest.Mock;
     fakeSetIdp.mockImplementation(() => ({ once: () => {} }));
 
     setMappingsFromServer(getLoadedResult([{ id: 'ABC', key: 'Akey', value: 'AValue', groupId: 'InstaGroupA' }]));

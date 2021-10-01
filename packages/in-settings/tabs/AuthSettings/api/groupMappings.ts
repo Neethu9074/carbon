@@ -57,25 +57,29 @@ export function setMappings(mappings: IdpGroupMapping[]) {
   });
 }
 
-export const getIdp: ObservableCreator<void, Result<IdentityProviderPatch>> = memoize(getIdpInternal, () => '', 60000);
-function getIdpInternal(): Observable<Result<IdentityProviderPatch>> {
+export const getIdpRestriction: ObservableCreator<void, Result<IdentityProviderPatch>> = memoize(
+  getIdpRestrictionInternal,
+  () => '',
+  60000
+);
+function getIdpRestrictionInternal(): Observable<Result<IdentityProviderPatch>> {
   return refreshSignal.flatMap(
     (): Observable<Result<IdentityProviderPatch>> =>
       createObservable(
         http({
           method: 'GET',
           maxRetries: 3,
-          url: basePath + '/identityProvider'
+          url: basePath + '/identityProvider/restrictEmptyIdpGroups'
         })
       )
   );
 }
 
-export function setIdp(value: IdentityProviderPatch) {
+export function setIdpRestriction(value: IdentityProviderPatch) {
   return http({
-    method: 'PATCH',
+    method: 'PUT',
     maxRetries: 3,
-    url: basePath + '/identityProvider',
+    url: basePath + '/identityProvider/restrictEmptyIdpGroups',
     headers: getCsrfHeader(),
     data: value
   });

@@ -24,8 +24,8 @@ import {
   refresh,
   getMappings,
   setMappings,
-  getIdp,
-  setIdp,
+  getIdpRestriction,
+  setIdpRestriction,
   IdpGroupMapping,
   IdentityProviderPatch
 } from 'in-settings/tabs/AuthSettings/api/groupMappings';
@@ -78,7 +78,7 @@ export default function GroupMapping() {
       getObservables={() => ({
         mappings: getMappings(),
         instanaGroups: getGroupsAsResultObservable(),
-        denyCheck: getIdp(),
+        denyCheck: getIdpRestriction(),
         samlConfig: samlConfig(),
         ldapConfig: ldapConfig(),
         oidcConfig: oidcConfig()
@@ -327,7 +327,7 @@ function saveItem({ form, setMessage }: { form: any; setMessage: any }) {
       const denyCheckValue: IdentityProviderPatch = {
         restrictEmptyIdpGroups: form.get(DENY_ACCESS).toJS()
       };
-      const denyCheckResult = setIdp(denyCheckValue);
+      const denyCheckResult = setIdpRestriction(denyCheckValue);
       denyCheckResult.once(
         () => setMessage({ text: t('in-settings:tabs.groupMappingSuccessfullySaved'), type: 'success' }),
         error =>
