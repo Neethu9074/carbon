@@ -1,1 +1,6 @@
 CVE-2021-41720 # lodash 4.17.21 is still the latest as of Oct 1 2021. We fortunately don't use the template function
+CVE-2021-37713 # tar has been updated in more recent ui-client versions
+CVE-2021-37712 # tar has been updated in more recent ui-client versions
+CVE-2021-37701 # tar has been updated in more recent ui-client versions
+CVE-2021-32804 # tar has been updated in more recent ui-client versions
+CVE-2021-32803 # tar has been updated in more recent ui-client versions
