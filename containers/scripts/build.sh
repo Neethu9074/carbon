@@ -151,7 +151,15 @@ function _scan_image() {
   local TAG=$1
   local INSTANA_TWISTCLI_VERSION='0.1.2'
   _log_info "Triggering scan for image ${TAG} with instana-twistcli ${INSTANA_TWISTCLI_VERSION}"
-  ${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/instana-twistcli/scanImage.bash ${TAG} ${INSTANA_TWISTCLI_VERSION}
+  
+  if [[ -f ${COMPONENT_TWISTLOCK_IGNOREFILE} ]]; then
+    MIN_VULN_SEVERITY=high \
+      IGNOREFILE=${COMPONENT_TWISTLOCK_IGNOREFILE} \
+      ${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/instana-twistcli/scanImage.bash ${TAG} ${INSTANA_TWISTCLI_VERSION}
+  else
+    MIN_VULN_SEVERITY=high \
+      ${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/instana-twistcli/scanImage.bash ${TAG} ${INSTANA_TWISTCLI_VERSION}
+  fi
 }
 
 function build_image {
