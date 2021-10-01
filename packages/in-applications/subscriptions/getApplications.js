@@ -19,11 +19,11 @@ export function getApplicationsWithDefaults({
   pageSize = 20,
   orderBy = 'callsAgg',
   orderDirection = 'DESC',
-  applicationId,
-  serviceId,
-  endpointId,
+  applicationId = '',
+  serviceId = '',
+  endpointId = '',
   contextScope,
-  tagFilters
+  tagFilters = []
 }) {
   return getApplications({
     pagination: {
