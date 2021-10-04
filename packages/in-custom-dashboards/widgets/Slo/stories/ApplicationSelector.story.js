@@ -6,15 +6,13 @@
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
 
-import { useObservable } from '@instana/hooks';
-
 import { getApplicationConfigsAsResultObservable } from 'in-custom-dashboards/widgets/Slo/stories/apiMock';
-import APConfigForm from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
+import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
 import { apConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { createForm } from 'in-custom-dashboards/widgets/Slo';
 
 export default {
-  component: APConfigForm
+  component: ApplicationSelector
 };
 
 export function Default() {
@@ -28,16 +26,11 @@ export function Default() {
     action('selected new apConfig')(newApConfigId);
   };
 
-  const apConfigs = useObservable(getApplicationConfigObservable, []);
   return (
-    <APConfigForm
+    <ApplicationSelector
       apConfigIdField={form.get(apConfigId)}
-      apConfigs={apConfigs}
+      getApConfigs={getApplicationConfigsAsResultObservable}
       onUpdateApConfigId={onUpdateApConfigId}
     />
   );
-}
-
-function getApplicationConfigObservable() {
-  return getApplicationConfigsAsResultObservable().map(({ data }) => data);
 }

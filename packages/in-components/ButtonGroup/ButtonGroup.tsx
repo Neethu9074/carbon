@@ -16,8 +16,8 @@ type ButtonGroupProps<T> = {
     text: ButtonProps['children'];
   } & Omit<ButtonProps, 'children'>)[];
   activeKey: ButtonProps['key'];
-  segmented: boolean | undefined;
-  className: string | undefined;
+  segmented?: boolean | undefined;
+  className?: string | undefined;
 } & T;
 
 export default function ButtonGroup<RemainingPropsType = {}>({

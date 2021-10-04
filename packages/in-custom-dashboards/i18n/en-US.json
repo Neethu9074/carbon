@@ -381,6 +381,13 @@
         "noAppPerspect": "No Application Perspectives!",
         "pleaseSelect": "Please select"
       },
+      "websiteSelector": {
+        "website": "Website",
+        "selectWebsite": "Please select a Website",
+        "websiteHelpAction": "Configure Websites in the Websites & Mobile Apps area of the product.",
+        "noWebsites": "No Websites found",
+        "pleaseSelect": "Please select"
+      },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "Service Level Indicator",
         "selectASli": "Please select a SLI.",
@@ -486,6 +493,7 @@
         "sloConfig": "SLO Configuration",
         "manageSlIs": "Manage SLIs",
         "sloTarget": "SLO Target",
+        "sloType": "SLO Type",
         "enterVal0to100": "Please enter a value between 0 and 100.",
         "timeWindow": "Time Window",
         "helpActionMsg1": "<strong>Fixed time interval:</strong> A time window with a defined start and duration. Eg. monthly starting 2020-01-01. The last partial time interval for the time selection from the global time picker will be displayed.",

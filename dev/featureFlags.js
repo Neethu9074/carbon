@@ -50,5 +50,6 @@ module.exports = {
   potentialProblemsEnabled: true,
   adaptiveBaselineEnabled: true,
   builtInGlobalApplicationSmartAlertsEnabled: true,
-  idpMappingEnabled: true
+  idpMappingEnabled: true,
+  websiteSloEnabled: true
 };

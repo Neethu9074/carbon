@@ -5,25 +5,21 @@
 
 import React, { useState } from 'react';
 
-import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import {
   sloTarget,
-  apConfigId,
   timeWindowType,
   timeWindowDuration,
   timeWindowDurationUnit,
   timeWindowStart,
-  removeFormForStartTimeStamp,
-  addFormForStartTimeStamp,
-  removeFormForTimeDuration,
-  addFormForTimeDuration,
   dynamic,
   fixed,
   rolling,
-  sliConfigId
+  entityId,
+  entityType,
+  getMaxTimeWindowDurationValue
 } from 'in-custom-dashboards/widgets/Slo/form';
 import {
   trackAPSelected,
@@ -33,15 +29,18 @@ import {
   trackTimeWindowTypeChanged
 } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
+import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
+import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
-import APConfigSelector from 'in-custom-dashboards/widgets/Slo/components/APConfigForm';
-import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
+import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/useSloFormSideEffects';
+import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/SliManageList';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
+import { websiteSloEnabled } from 'in-services/featureFlags';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
@@ -55,44 +54,26 @@ import locals from './FormComponent.mless';
 
 export default function FormComponent({ form, onChange: originalOnChange, setSlideInView }) {
   const [configChanged, setConfigChanged] = useState();
-  const onChange = (path, onField) => {
+  const updateForm = useSloFormSideEffects(form, updatedForm => {
     if (!configChanged) {
       trackStartEditingSloWidgetConfig();
       setConfigChanged(true);
     }
-    return originalOnChange(path, onField);
-  };
-  const [apConfig, setApConfig] = useState();
-  const apConfigs = useObservable(getApplicationConfigObservable, []);
+    originalOnChange([], () => updatedForm);
+  });
 
-  const apConfigIdField = form.get(apConfigId);
-  const appConfigIdValue = apConfigIdField?.value;
-  if (apConfigs && !apConfig) {
-    // initial setting
-    const newApConfig = apConfigs.find(apConfig => apConfig.id === appConfigIdValue);
-    if (newApConfig !== apConfig) setApConfig(newApConfig);
-  }
+  // TODO: we can probably remove this once we refactor the sli dialog to support websites as well, for now we need it to provide props to that component
+  const [apConfig, setApConfig] = useState();
+
+  const entityIdField = form.get(entityId);
+  const appConfigIdValue = entityIdField?.value;
 
   const timeWindowTypeValue = form.get(timeWindowType)?.value ?? dynamic;
   const isFixed = timeWindowTypeValue === fixed;
   const isRolling = timeWindowTypeValue === rolling;
 
   const onChangeTimeWindowType = value => {
-    onChange([], form => {
-      let updatedForm;
-      if (value === fixed) {
-        updatedForm = addFormForStartTimeStamp(form);
-        updatedForm = addFormForTimeDuration(updatedForm, {}, false);
-      } else {
-        updatedForm = removeFormForStartTimeStamp(form);
-        if (value === dynamic) {
-          updatedForm = removeFormForTimeDuration(updatedForm);
-        } else {
-          updatedForm = addFormForTimeDuration(updatedForm, {}, false);
-        }
-      }
-      return updatedForm.updateIn([timeWindowType], f => f.setValue(value).setTouched(true));
-    });
+    updateForm(form.updateIn([timeWindowType], f => f.setValue(value).setTouched(true)));
     trackTimeWindowTypeChanged({ type: value });
   };
 
@@ -100,15 +81,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     form.get(timeWindowDurationUnit)?.value ?? t('in-custom-dashboards:widgets.slo.formComponent.weeks');
 
   const onChangeTimeDurationUnit = value => {
-    onChange([], form => {
-      const oldDuration = form.get(timeWindowDuration).value;
-      const maxDurationForThisUnit = getMaxTimeWindowDurationValue(value);
-      return form
-        .updateIn([timeWindowDurationUnit], f => f.setValue(value).setTouched(true))
-        .updateIn([timeWindowDuration], f =>
-          f.setValue(Math.min(oldDuration, maxDurationForThisUnit)).setTouched(true)
-        );
-    });
+    updateForm(form.updateIn([timeWindowDurationUnit], f => f.setValue(value).setTouched(true)));
   };
   const dateField = form.get(timeWindowStart)?.get('date');
   const timeField = form.get(timeWindowStart)?.get('time');
@@ -146,15 +119,10 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     });
   }
 
-  function onUpdateApConfigId(apId) {
-    const newApConfig = apConfigs.find(apConfig => apConfig.id === apId);
-    setApConfig(newApConfig);
-    onChange([], formField =>
-      formField
-        .updateIn([apConfigId], f => f.setValue(apId).setTouched(true))
-        .updateIn([sliConfigId], f => f.setValue('').setTouched(false))
-    );
-    trackAPSelected({ applicationId: apId });
+  function onUpdateAppId(config) {
+    setApConfig(config);
+    updateForm(form.updateIn([entityId], f => f.setValue(config.id).setTouched(true)));
+    trackAPSelected({ applicationId: config.id });
   }
 
   return (
@@ -162,16 +130,35 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
       <Header>{t('in-custom-dashboards:widgets.slo.formComponent.sloConfig')}</Header>
 
       <Stack gap="xsmall">
-        <APConfigSelector
-          apConfigIdField={apConfigIdField}
-          apConfigs={apConfigs}
-          onUpdateApConfigId={onUpdateApConfigId}
-        />
+        {websiteSloEnabled && (
+          <Sections>
+            <Section title={t('in-custom-dashboards:widgets.slo.formComponent.sloType')}>
+              <MonitoringSourceSelector
+                value={form.get(entityType)?.value}
+                onChange={type =>
+                  updateForm(form.updateIn([entityType], field => field.setValue(type).setTouched(true)))
+                }
+              />
+            </Section>
+          </Sections>
+        )}
+
+        {form.get(entityType)?.value === 'Applications' && (
+          <ApplicationSelector apIdField={entityIdField} onChange={onUpdateAppId} />
+        )}
+        {form.get(entityType)?.value === 'Websites' && (
+          <WebsiteSelector
+            websiteIdField={entityIdField}
+            onChange={website =>
+              updateForm(form.updateIn([entityId], field => field.setValue(website.id).setTouched(true)))
+            }
+          />
+        )}
 
         <SliSelectionForm
           form={form}
           applicationId={appConfigIdValue}
-          onChange={onChange}
+          onChange={(path, updater) => updateForm(form.updateIn(path, updater))}
           openManageSLIComponent={
             <Button
               disabled={!apConfig}
@@ -197,7 +184,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 form={form}
                 id={sloTarget}
                 fieldName={sloTarget}
-                onChange={onChange}
+                onChange={(path, updater) => updateForm(form.updateIn(path, updater))}
                 trackChange={debouncedTrackSloChanged}
               />
               <span className={locals.sloUnit}>%</span>
@@ -252,7 +239,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                   <Input
                     id="time-window-size"
                     onChange={e =>
-                      onChange([timeWindowDuration], field => field.setValue(e.target.value).setTouched(true))
+                      updateForm(
+                        form.updateIn([timeWindowDuration], field => field.setValue(e.target.value).setTouched(true))
+                      )
                     }
                     hasError={!field.valid && field.touched}
                     value={field.value}
@@ -293,7 +282,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               <HorizontalFlexWrapper>
                 <DateInput
                   value={dateField?.value}
-                  onChange={v => onChange([timeWindowStart, 'date'], f => f.setValue(v).setTouched(true))}
+                  onChange={v =>
+                    updateForm(form.updateIn([timeWindowStart, 'date'], f => f.setValue(v).setTouched(true)))
+                  }
                   hasError={!dateField.valid && dateField.touched}
                   iconType="lib_datetime_date"
                 />
@@ -303,12 +294,16 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                     type="text"
                     value={timeField.value}
                     onBlur={({ target }) =>
-                      onChange([timeWindowStart, 'time'], f =>
-                        f.setValue(formatInputTime(target.value, 'HH:mm:ss')).setTouched(true)
+                      updateForm(
+                        form.updateIn([timeWindowStart, 'time'], f =>
+                          f.setValue(formatInputTime(target.value, 'HH:mm:ss')).setTouched(true)
+                        )
                       )
                     }
                     onChange={({ target }) =>
-                      onChange([timeWindowStart, 'time'], f => f.setValue(target.value).setTouched(true))
+                      updateForm(
+                        form.updateIn([timeWindowStart, 'time'], f => f.setValue(target.value).setTouched(true))
+                      )
                     }
                     hasError={!timeField.valid && timeField.touched}
                     className={locals.timeInput}
@@ -331,20 +326,4 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
       </Stack>
     </Stack>
   );
-}
-
-function getMaxTimeWindowDurationValue(unit) {
-  switch (unit) {
-    case 'days':
-      return 365;
-    case 'weeks':
-      return 52;
-    case 'months':
-    default:
-      return 12;
-  }
-}
-
-function getApplicationConfigObservable() {
-  return getApplicationConfigsAsResultObservable().map(({ data }) => data);
 }

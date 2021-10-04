@@ -19,6 +19,8 @@ import { t } from 'in-i18n';
 // internal fields just for app-config information used internally
 export const apConfigId = 'apConfigId';
 
+export const entityType = 'entityType';
+export const entityId = 'entityId';
 export const sloTarget = 'slo';
 export const sliConfigId = 'sliConfigId';
 export const timeWindowType = 'timeWindowType';
@@ -32,33 +34,41 @@ export const dynamic = 'dynamic';
 export const rolling = 'rolling';
 
 export function createForm(oldSavedState) {
-  const savedState = oldSavedState ?? {};
+  const savedState = ensureConfigBackwardCompatibility(oldSavedState);
 
   let form = createMapForm({
     validator: validateTimeWindow
   });
 
-  form = form.put(
-    apConfigId,
-    createField({
-      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
-      value: savedState[apConfigId]
-    })
-  );
-  form = form.put(
-    sloTarget,
-    createField({
-      validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator),
-      value: savedState[sloTarget] ?? ''
-    })
-  );
-  form = form.put(
-    sliConfigId,
-    createField({
-      validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
-      value: savedState[sliConfigId]
-    })
-  );
+  form = form
+    .put(
+      entityType,
+      createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
+        value: savedState[entityType]
+      })
+    )
+    .put(
+      entityId,
+      createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
+        value: savedState[entityId]
+      })
+    )
+    .put(
+      sloTarget,
+      createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator),
+        value: savedState[sloTarget] ?? ''
+      })
+    )
+    .put(
+      sliConfigId,
+      createField({
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
+        value: savedState[sliConfigId]
+      })
+    );
   const windowType = savedState[timeWindowType];
   form = form.put(
     timeWindowType,
@@ -171,4 +181,27 @@ export function addFormForTimeDuration(form, savedState, override = true) {
       })
     );
   return form;
+}
+
+export function ensureConfigBackwardCompatibility(savedForm = {}) {
+  const id = savedForm[entityId] ?? savedForm[apConfigId];
+  const type = savedForm[entityType] ?? 'Applications';
+
+  return {
+    ...savedForm,
+    [entityType]: type,
+    [entityId]: id
+  };
+}
+
+export function getMaxTimeWindowDurationValue(unit) {
+  switch (unit) {
+    case 'days':
+      return 365;
+    case 'weeks':
+      return 52;
+    case 'months':
+    default:
+      return 12;
+  }
 }

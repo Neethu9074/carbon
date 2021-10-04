@@ -67,6 +67,8 @@ export const deprecateAppDataLegacyEvents =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('deprecateAppDataLegacyEvents');
 export const adaptiveBaselineEnabled = applicationSmartAlertsEnabled && isFeatureFlagEnabled('adaptiveBaselineEnabled');
 
+export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false);
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

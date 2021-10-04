@@ -5,15 +5,26 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
+import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import HelpAction from 'in-components/workspace/HelpAction';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Sections from 'in-components/workspace/Sections';
 import { t } from 'in-i18n';
 
-export default function APConfigForm({ apConfigIdField: field, apConfigs, onUpdateApConfigId }) {
+export default function ApplicationSelector({
+  apIdField: field,
+  onChange,
+  getApConfigs = getApplicationConfigsAsResultObservable
+}) {
+  const apConfigs = useObservable(
+    getApConfigs().map(({ data }) => data),
+    [getApConfigs]
+  );
   return (
     <Sections>
       <SelectInSection
@@ -26,7 +37,7 @@ export default function APConfigForm({ apConfigIdField: field, apConfigs, onUpda
         value={field?.value}
         onChange={e => {
           const apId = e.target.value;
-          onUpdateApConfigId(apId);
+          onChange(apConfigs.find(({ id }) => id === apId));
         }}
         hasError={!field.valid && field.touched}
         additionalContent={

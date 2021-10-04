@@ -12,7 +12,6 @@ import { Message } from '@instana/components';
 import { Card } from '@instana/components';
 
 import {
-  apConfigId,
   sloTarget,
   sliConfigId,
   timeWindowType,
@@ -22,7 +21,9 @@ import {
   parsedTimestamp,
   fixed,
   rolling,
-  dynamic
+  dynamic,
+  ensureConfigBackwardCompatibility,
+  entityId
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
@@ -48,17 +49,18 @@ const oneWeekTimeConfig = {
 };
 
 export default function Widget({ actions, config, isPreview, title, dragHandle }) {
-  const slo = config?.[sloTarget] ?? '';
-  const applicationId = config?.[apConfigId];
-  const sliConfigIdValue = config?.[sliConfigId];
-  const timeWindowTypeValue = config?.[timeWindowType] ?? dynamic;
+  const compatibleConfig = ensureConfigBackwardCompatibility(config);
+  const slo = compatibleConfig?.[sloTarget] ?? '';
+  const applicationId = compatibleConfig?.[entityId];
+  const sliConfigIdValue = compatibleConfig?.[sliConfigId];
+  const timeWindowTypeValue = compatibleConfig?.[timeWindowType] ?? dynamic;
   const isDynamic = timeWindowTypeValue === dynamic;
   const isRolling = timeWindowTypeValue === rolling;
   const isFixed = timeWindowTypeValue === fixed;
-  const timeWindowDurationValue = config?.[timeWindowDuration] ?? 1;
-  const timeWindowDurationUnitValue = config?.[timeWindowDurationUnit] ?? 'weeks';
-  const timeWindowStartDate = config?.[timeWindowStart]?.date;
-  const timeWindowStartTime = config?.[timeWindowStart]?.time;
+  const timeWindowDurationValue = compatibleConfig?.[timeWindowDuration] ?? 1;
+  const timeWindowDurationUnitValue = compatibleConfig?.[timeWindowDurationUnit] ?? 'weeks';
+  const timeWindowStartDate = compatibleConfig?.[timeWindowStart]?.date;
+  const timeWindowStartTime = compatibleConfig?.[timeWindowStart]?.time;
 
   const currentProductTimeConfig = useTimeConfig();
   const timeConfig = isPreview ? oneWeekTimeConfig : currentProductTimeConfig;
