@@ -5,7 +5,6 @@
 
 import { create, Observable } from '@instana/observables';
 
-import memoize, { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import http from 'in-services/http';
@@ -29,12 +28,7 @@ export interface IdentityProviderPatch {
   restrictEmptyIdpGroups: boolean;
 }
 
-export const getMappings: ObservableCreator<void, Result<IdpGroupMapping[]>> = memoize(
-  getMappingsInternal,
-  () => '',
-  60000
-);
-function getMappingsInternal(): Observable<Result<IdpGroupMapping[]>> {
+export function getMappings(): Observable<Result<IdpGroupMapping[]>> {
   return refreshSignal.flatMap(
     (): Observable<Result<IdpGroupMapping[]>> =>
       createObservable(
@@ -57,12 +51,7 @@ export function setMappings(mappings: IdpGroupMapping[]) {
   });
 }
 
-export const getIdpRestriction: ObservableCreator<void, Result<IdentityProviderPatch>> = memoize(
-  getIdpRestrictionInternal,
-  () => '',
-  60000
-);
-function getIdpRestrictionInternal(): Observable<Result<IdentityProviderPatch>> {
+export function getIdpRestriction(): Observable<Result<IdentityProviderPatch>> {
   return refreshSignal.flatMap(
     (): Observable<Result<IdentityProviderPatch>> =>
       createObservable(
