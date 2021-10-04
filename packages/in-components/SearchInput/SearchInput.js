@@ -32,6 +32,8 @@ export default function SearchInput({
   onBlur,
   withoutIcon = false,
   onArrowDown,
+  id,
+  name,
   inputRef
 }) {
   const fallbackRef = useRef();
@@ -52,6 +54,8 @@ export default function SearchInput({
       style={{ maxWidth, width }}
     >
       <Input
+        id={id}
+        name={name}
         refSetter={inputRef}
         className={classNames({
           [locals.searchInput]: true,
@@ -98,6 +102,8 @@ export default function SearchInput({
 }
 
 SearchInput.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
   autoFocus: PropTypes.bool,
   className: PropTypes.string,
   inputClassName: PropTypes.string,

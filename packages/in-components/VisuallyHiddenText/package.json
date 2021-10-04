@@ -1,0 +1,6 @@
+{
+  "name": "VisuallyHiddenText",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./VisuallyHiddenText.js"
+}
