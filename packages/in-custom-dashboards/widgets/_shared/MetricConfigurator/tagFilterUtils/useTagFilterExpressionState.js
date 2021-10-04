@@ -6,9 +6,8 @@
 import { useState, useEffect } from 'react';
 import { isEqual } from 'lodash';
 
+import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { invalidMarker } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 
@@ -16,7 +15,7 @@ import { validateFormModel } from 'in-components/QueryBuilder/validation/formMod
 // the form model. This disconnect causes the form elements to be unnecessarily complicated.
 export function useTagFilterExpressionState({ tagCatalogResult, onChange, form }) {
   const [tagFilterExpression, setTagFilterExpression] = useState(() => {
-    const tagFilterExpression = form.get('tagFilterExpression').value;
+    const tagFilterExpression = form.get('tagFilterExpression')?.value ?? invalidMarker;
     if (isEqual(tagFilterExpression, invalidMarker)) {
       return fromBackendModel(EMPTY_EXPRESSION);
     } else {
@@ -25,6 +24,11 @@ export function useTagFilterExpressionState({ tagCatalogResult, onChange, form }
   });
 
   useEffect(() => {
+    const field = form.get('tagFilterExpression');
+    if (!field) {
+      return;
+    }
+
     let change;
     if (
       tagCatalogResult.data &&
@@ -38,7 +42,7 @@ export function useTagFilterExpressionState({ tagCatalogResult, onChange, form }
       change = invalidMarker;
     }
 
-    if (!isEqual(change, form.get('tagFilterExpression').value)) {
+    if (!isEqual(change, field.value)) {
       onChange([], form => {
         return form.updateIn(['tagFilterExpression'], field => field.setValue(change).setTouched(true));
       });

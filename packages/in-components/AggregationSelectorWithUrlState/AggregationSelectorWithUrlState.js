@@ -17,7 +17,7 @@ const options = ['MEAN', 'MIN', 'P25', 'P50', 'P75', 'P90', 'P95', 'P98', 'P99',
 export default function AggregationSelectorWithUrlState({
   defaultAggregation,
   urlMatrixParamConfig: { path, paramName },
-  children
+  children: Children
 }) {
   const urlStateDefinition = {
     bind: [
@@ -30,22 +30,24 @@ export default function AggregationSelectorWithUrlState({
   const [urlState, setUrlState] = useUrlState(urlStateDefinition);
   const aggregation = urlState[paramName];
 
-  return children({
-    aggregation: aggregation || defaultAggregation,
-    aggregationSelector: (
-      <Select
-        className={locals.selector}
-        value={aggregation || defaultAggregation}
-        onChange={e => setUrlState({ [paramName]: e.target.value || defaultAggregation })}
-      >
-        {options.map(option => (
-          <option value={option} key={option}>
-            {aggregationLabels[option]}
-          </option>
-        ))}
-      </Select>
-    )
-  });
+  return (
+    <Children
+      aggregation={aggregation || defaultAggregation}
+      aggregationSelector={
+        <Select
+          className={locals.selector}
+          value={aggregation || defaultAggregation}
+          onChange={e => setUrlState({ [paramName]: e.target.value || defaultAggregation })}
+        >
+          {options.map(option => (
+            <option value={option} key={option}>
+              {aggregationLabels[option]}
+            </option>
+          ))}
+        </Select>
+      }
+    />
+  );
 }
 
 AggregationSelectorWithUrlState.propTypes = {
