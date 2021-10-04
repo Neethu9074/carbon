@@ -21,7 +21,7 @@ export default function Chart({
   chartableMetricCatalog,
   chartableDataSeries,
   chartedMetrics,
-  backendQueryModel,
+  backendQueryModelWithFacets,
   mapMetricConfiguration = identity,
   unifiedMetricsSource,
   dataSource,
@@ -65,7 +65,7 @@ export default function Chart({
       mapMetricConfiguration(
         {
           metric: metricId,
-          tagFilterExpression: backendQueryModel,
+          tagFilterExpression: backendQueryModelWithFacets,
           aggregation: aggregationId,
           label: metricDescription.label,
           source: unifiedMetricsSource
