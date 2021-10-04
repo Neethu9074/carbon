@@ -56,6 +56,16 @@ Will produce:
     REPOSITORY                                                                   TAG           IMAGE ID       CREATED             SIZE
     containers.instana.io/instana/develop/product/ui-client                      3.198.10-0    99b577f554e4   About an hour ago   464MB
 
+#### Vulnerability Scanning
+
+Images are scanned using Instana's wrapper of Twistlock `twistcliw-scan` [immediately after they are built](scripts/build.sh).
+If a `.twistlockignore` file is provided for a component in [twistlockignore-files](twistlockignore-files), it will be used as
+a parameter when triggering the scan.
+
+For more details about the configuration options of `twistcliw-scan` (which is distributed via `instana-twistcli`), please see
+the `instana-twistcli` [usage documentation](https://github.ibm.com/instana/instana-twistcli/blob/main/docs/USAGE.md).
+
+
 ### Publishing On CI
 
 By default, images using the `*local*` version tag will _not_ be published to the remote registry at `containers.instana.io`.
