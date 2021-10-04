@@ -57,7 +57,7 @@ pipeline {
           gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
           gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.com/instana/ui-client/commit/%h|%h>): %s'").trim()
-          // https://github.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
+          // https://github.ibm.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
           backendComponents = getBackendComponents()
               .findAll { it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/) }
               .collect { it.name }
