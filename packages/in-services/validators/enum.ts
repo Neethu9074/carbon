@@ -4,8 +4,11 @@
  */
 
 import { t } from 'in-i18n';
+import { ValidationResult } from 'formalistic';
 
-export function buildEnumValidator(allowedValues) {
+type EnumValidator<ValueType> = (value: ValueType) => ValidationResult;
+
+export function buildEnumValidator<T>(allowedValues: T[]): EnumValidator<T> {
   const sortedAllowedValues = allowedValues.slice().sort();
 
   return v => {
@@ -25,5 +28,7 @@ export function buildEnumValidator(allowedValues) {
         }
       ];
     }
+
+    return;
   };
 }
