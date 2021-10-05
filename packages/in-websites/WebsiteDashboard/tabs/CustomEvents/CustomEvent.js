@@ -46,7 +46,10 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
   }
 
   const granularity = getChartGranularity(timeConfig);
-  tagFilters = tagFilters.concat([{ name: 'beacon.customEvent.name', stringValue: customEventId, operator: 'EQUALS' }]);
+  tagFilters = tagFilters.concat([
+    { name: 'beacon.customEvent.name', stringValue: customEventId, operator: 'EQUALS' },
+    { name: 'beacon.type', stringValue: 'custom', operator: 'EQUALS' }
+  ]);
   const viewInAnalytics = {
     websiteLabel,
     group: {

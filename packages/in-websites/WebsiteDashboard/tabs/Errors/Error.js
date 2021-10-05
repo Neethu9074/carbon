@@ -66,7 +66,10 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
   }
 
   const tagFiltersWithErrorId = tagFilters.slice();
-  tagFiltersWithErrorId.push({ name: 'beacon.error.id', stringValue: errorId, operator: 'EQUALS' });
+  tagFiltersWithErrorId.push(
+    { name: 'beacon.error.id', stringValue: errorId, operator: 'EQUALS' },
+    { name: 'beacon.type', stringValue: 'error', operator: 'EQUALS' }
+  );
 
   const MarkerLanes = WebsiteDashboardsMarkerLanes({ websiteId, pageId });
 
