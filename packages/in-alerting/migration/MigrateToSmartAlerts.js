@@ -5,7 +5,7 @@
 
 import React, { useState } from 'react';
 
-import { Button } from '@instana/components';
+import { Button, Stack } from '@instana/components';
 
 import SmartAlertConfigDialogWrapper from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/getAlertConfigFromLegacyEvent';
@@ -18,49 +18,57 @@ import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 export default function MigrateToSmartAlerts({ eventSpecificationId }) {
-  const [pausingAlerts, setPausingAlerts] = useState(false);
+  const [disablingEvent, setDisablingEvent] = useState(false);
   const [migrating, setMigrating] = useState(false);
 
-  const spinning = migrating || pausingAlerts;
-
   return (
-    <div>
+    <Stack direction="horizontal" gap="xsmall">
+      <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')}>
+        <Button
+          kind="secondary"
+          onClick={() => handleDisableCustomEvent(setDisablingEvent, eventSpecificationId)}
+          icon={disablingEvent ? 'lib_actions_loading' : undefined}
+          iconSpinning={disablingEvent}
+        >
+          {t('in-alerting:smartAlerts.migration.markAsMigratedButton')}
+        </Button>
+      </Tooltip>
       <Tooltip content={t('in-alerting:smartAlerts.migration.migrateButtonTooltip')}>
         <Button
           kind="primaryv2"
-          onClick={() => doMigration({ eventSpecificationId, setPausingAlerts, setMigrating })}
-          icon={spinning ? 'lib_actions_loading' : null}
-          iconSpinning={spinning}
+          onClick={() => doMigration({ eventSpecificationId, setMigrating })}
+          icon={migrating ? 'lib_actions_loading' : undefined}
+          iconSpinning={migrating}
         >
           {t('in-alerting:smartAlerts.migration.migrateButton')}
         </Button>
       </Tooltip>
-    </div>
+    </Stack>
   );
 }
 
-function doMigration({ eventSpecificationId, setPausingAlerts, setMigrating }) {
+function doMigration({ eventSpecificationId, setMigrating }) {
   setMigrating(true);
   getAlertConfigFromLegacyEvent({ eventSpecificationId })
     .filter(res => !isLoading(res))
-    .tap(() => setMigrating(false))
     .map(res => res?.data ?? {})
     .map(({ globalApplicationsAlertConfig, applicationAlertConfig, globalSmartAlert }) => ({
       globalSmartAlert,
       config: globalSmartAlert ? globalApplicationsAlertConfig : applicationAlertConfig
     }))
-    .once(res => showSmartAlertDialog({ eventSpecificationId, setPausingAlerts, ...res }));
+    .once(res => showSmartAlertDialog({ eventSpecificationId, setMigrating, ...res }));
 }
 
-function showSmartAlertDialog({ globalSmartAlert, config, eventSpecificationId, setPausingAlerts }) {
+function showSmartAlertDialog({ globalSmartAlert, config, eventSpecificationId, setMigrating }) {
   if (config) {
     addActiveDialog(
       <SmartAlertConfigDialogWrapper
         applicationLabel={config.name}
         alertConfig={config}
         onClose={savedAlertConfig => {
-          if (savedAlertConfig.id) {
-            handleSuccessfulMigration(globalSmartAlert, setPausingAlerts, savedAlertConfig, eventSpecificationId);
+          const applicationAlertConfigId = savedAlertConfig.id;
+          if (applicationAlertConfigId) {
+            handleDisableCustomEvent(setMigrating, eventSpecificationId, applicationAlertConfigId);
           }
           close();
         }}
@@ -71,14 +79,14 @@ function showSmartAlertDialog({ globalSmartAlert, config, eventSpecificationId, 
   }
 }
 
-function handleSuccessfulMigration(globalSmartAlert, setPausingAlerts, savedAlertConfig, eventSpecificationId) {
-  setPausingAlerts(true);
+function handleDisableCustomEvent(setDisablingEvent, eventSpecificationId, applicationAlertConfigId) {
+  setDisablingEvent(true);
 
-  disableMigratedCustomEventSpecification(eventSpecificationId, savedAlertConfig.id).once(
+  disableMigratedCustomEventSpecification(eventSpecificationId, applicationAlertConfigId).once(
     () => {
-      setPausingAlerts(false);
+      setDisablingEvent(false);
       goToPath(teamSettingsAlertingEvents);
     },
-    () => setPausingAlerts(false)
+    () => setDisablingEvent(false)
   );
 }

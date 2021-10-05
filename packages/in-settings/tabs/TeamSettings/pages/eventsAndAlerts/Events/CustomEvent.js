@@ -95,7 +95,13 @@ const Form = entityForm(function DetailsForm(props) {
   const isDeprecated = deprecateAppDataLegacyEvents && isOneOfMigratableEntityTypes;
 
   const isMigratable =
-    isDeprecated && hasPermissionsToEditSmartAlerts && isMigrateableDfqScope && entity.get('migrated') === false; // only migrateable entities have this property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
+    isDeprecated &&
+    hasPermissionsToEditSmartAlerts &&
+    isMigrateableDfqScope &&
+    // only migrateable entities have the 'migrated' property set. For the other ones this prop is `undefined`, thus checking for false and not falsy.
+    entity.get('migrated') === false;
+
+  const isMigrated = !!entity.get('migrated');
 
   return (
     <SettingsDetailPage>
@@ -116,12 +122,21 @@ const Form = entityForm(function DetailsForm(props) {
 
       {isDeprecated && (
         <Message type="warning" withIcon small>
-          <Trans
-            i18nKey="in-settings:tabs.deprecatedEventMessage"
-            components={{
-              documentationLink: <Link href="https://www.instana.com/docs/" external />
-            }}
-          />
+          {isMigrated ? (
+            <Trans
+              i18nKey={'in-settings:tabs.migratedEventMessage'}
+              components={{
+                documentationLink: <Link href="https://www.instana.com/docs/" external />
+              }}
+            />
+          ) : (
+            <Trans
+              i18nKey={'in-settings:tabs.deprecatedEventMessage'}
+              components={{
+                documentationLink: <Link href="https://www.instana.com/docs/" external />
+              }}
+            />
+          )}
         </Message>
       )}
 
