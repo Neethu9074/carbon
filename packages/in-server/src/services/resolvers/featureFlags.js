@@ -228,5 +228,10 @@ module.exports = exports = [
     uiClientKey: 'websiteSloEnabled',
     instanaCtlKey: 'feature.slo.websites.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'disableAppDataLegacyEvents',
+    instanaCtlKey: 'feature.disable.app.data.legacy.events',
+    defaultValue: false
   }
 ];

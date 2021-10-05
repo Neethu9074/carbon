@@ -51,5 +51,6 @@ module.exports = {
   adaptiveBaselineEnabled: true,
   builtInGlobalApplicationSmartAlertsEnabled: true,
   idpMappingEnabled: true,
-  websiteSloEnabled: true
+  websiteSloEnabled: true,
+  disableAppDataLegacyEvents: false
 };

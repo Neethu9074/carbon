@@ -66,6 +66,8 @@ export const potentialProblemsEnabled =
 export const deprecateAppDataLegacyEvents =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('deprecateAppDataLegacyEvents');
 export const adaptiveBaselineEnabled = applicationSmartAlertsEnabled && isFeatureFlagEnabled('adaptiveBaselineEnabled');
+export const disableAppDataLegacyEvents =
+  applicationSmartAlertsEnabled && isFeatureFlagEnabled('disableAppDataLegacyEvents');
 
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false);
 

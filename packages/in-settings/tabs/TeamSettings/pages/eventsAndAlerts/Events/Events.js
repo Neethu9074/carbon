@@ -33,9 +33,9 @@ import {
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
+import { deprecateAppDataLegacyEvents, disableAppDataLegacyEvents } from 'in-services/featureFlags';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
-import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import WithSubscript from 'in-settings/components/WithSubscript';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { intersperse } from 'in-services/arrayUtils';
@@ -415,7 +415,7 @@ function useLoadEventsFunction(withoutDeprecatedEvents, loadEntities) {
 }
 
 function adjustTypeOptions(withoutDeprecatedEvents) {
-  if (deprecateAppDataLegacyEvents && withoutDeprecatedEvents) {
+  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
     typeOptions = typeOptions.filter(({ value }) => [builtInEnumValue, customEnumValue].includes(value));
   } else {
     if (!typeOptions.some(({ value }) => value === deprecatedValue)) {
@@ -428,7 +428,7 @@ function adjustTypeOptions(withoutDeprecatedEvents) {
 }
 
 function filterEntityTypeOptions(withoutDeprecatedEvents, options) {
-  if (deprecateAppDataLegacyEvents && withoutDeprecatedEvents) {
+  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
     return options.filter(({ value }) => !['application', 'service', 'endpoint'].includes(value));
   }
   return options;
