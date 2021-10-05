@@ -8,7 +8,7 @@ import React from 'react';
 import ButtonGroup from 'in-components/ButtonGroup';
 
 const MonitoringSources = ['Applications', 'Websites'] as const;
-type MonitoringSource = typeof MonitoringSources[number];
+export type MonitoringSource = typeof MonitoringSources[number];
 
 export interface MonitoringSourceSelectorProps {
   value: MonitoringSource;
