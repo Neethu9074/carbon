@@ -28,13 +28,8 @@ export const timeWindowStart = 'timeWindowStart';
 export const timeWindowDuration = 'timeWindowDuration';
 export const timeWindowDurationUnit = 'timeWindowDurationUnit';
 
-// time-window types
-export const fixed = 'fixed';
-export const dynamic = 'dynamic';
-export const rolling = 'rolling';
-
 export type TimeWindowDuration = 'days' | 'weeks' | 'months';
-export type TimeWindowType = 'fixed' | 'rolling';
+export type TimeWindowType = 'fixed' | 'rolling' | 'dynamic';
 
 interface SloWidgetConfiguration {
   entityType?: MonitoringSource; // old schema configs might not have this set, it defaults to 'Applications'
@@ -101,13 +96,13 @@ export function createForm(oldSavedState: SloWidgetConfiguration = {}): MapForm 
       value: windowType
     })
   );
-  if (windowType === fixed) {
+  if (windowType === 'fixed') {
     const start = savedState[timeWindowStart];
     // auto-corrects invalid dates:
     const ts = parsedTimestamp(start?.date + ' ' + start?.time);
     form = addFormForStartTimeStamp(form, ts);
   }
-  if (windowType === fixed || windowType === rolling) {
+  if (windowType === 'fixed' || windowType === 'rolling') {
     form = addFormForTimeDuration(form, savedState);
   }
   return form;
@@ -161,7 +156,7 @@ export function removeFormForStartTimeStamp(form: MapForm): MapForm {
   return form;
 }
 
-export function addFormForStartTimeStamp(form: MapForm, ts: number | null): MapForm {
+export function addFormForStartTimeStamp(form: MapForm, ts?: number | null): MapForm {
   const timestamp = ts ?? new Date().setHours(0, 0, 0, 0);
   return form.put(
     timeWindowStart,

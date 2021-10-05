@@ -14,9 +14,6 @@ import {
   timeWindowDuration,
   timeWindowDurationUnit,
   timeWindowStart,
-  dynamic,
-  fixed,
-  rolling,
   entityId,
   entityType,
   getMaxTimeWindowDurationValue
@@ -68,9 +65,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   const entityIdField = form.get(entityId);
   const appConfigIdValue = entityIdField?.value;
 
-  const timeWindowTypeValue = form.get(timeWindowType)?.value ?? dynamic;
-  const isFixed = timeWindowTypeValue === fixed;
-  const isRolling = timeWindowTypeValue === rolling;
+  const timeWindowTypeValue = form.get(timeWindowType)?.value ?? 'dynamic';
+  const isFixed = timeWindowTypeValue === 'fixed';
+  const isRolling = timeWindowTypeValue === 'rolling';
 
   const onChangeTimeWindowType = value => {
     updateForm(form.updateIn([timeWindowType], f => f.setValue(value).setTouched(true)));
@@ -223,9 +220,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               </HelpAction>
             }
           >
-            <option value={fixed}>{t('in-custom-dashboards:widgets.slo.formComponent.fixTimeInterval')}</option>
-            <option value={rolling}>{t('in-custom-dashboards:widgets.slo.formComponent.rollingTimeWindow')}</option>
-            <option value={dynamic}>{t('in-custom-dashboards:widgets.slo.formComponent.dynamicTimeWindow')}</option>
+            <option value="fixed">{t('in-custom-dashboards:widgets.slo.formComponent.fixTimeInterval')}</option>
+            <option value="rolling">{t('in-custom-dashboards:widgets.slo.formComponent.rollingTimeWindow')}</option>
+            <option value="dynamic">{t('in-custom-dashboards:widgets.slo.formComponent.dynamicTimeWindow')}</option>
           </SelectInSection>
 
           {(isRolling || isFixed) && (

@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Field, Item, MapForm } from 'formalistic';
+
 import {
   timeWindowType,
   timeWindowDuration,
@@ -11,51 +13,55 @@ import {
   addFormForStartTimeStamp,
   removeFormForTimeDuration,
   addFormForTimeDuration,
-  dynamic,
-  fixed,
   sliConfigId,
   entityId,
   entityType,
-  getMaxTimeWindowDurationValue
+  getMaxTimeWindowDurationValue,
+  TimeWindowType,
+  TimeWindowDuration
 } from 'in-custom-dashboards/widgets/Slo/form';
-import useFormSideEffects from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
+import useFormSideEffects, { CHANGE_TYPES, EffectFunction } from 'in-alerting/smart-alerts/hooks/useFormSideEffects';
 
 const formSideEffects = [
   {
     path: [timeWindowType],
-    effects: [handleTimeWindowChange]
+    effects: [handleTimeWindowChange as EffectFunction]
   },
   {
     path: [timeWindowDurationUnit],
-    effects: [clampTimeWindowDuration]
+    effects: [clampTimeWindowDuration as EffectFunction]
   },
   {
     path: [entityId],
-    effects: [clearSliConfigId]
+    effects: [clearSliConfigId as EffectFunction]
   },
   {
     path: [entityType],
-    effects: [cleanEntityId]
+    effects: [cleanEntityId as EffectFunction]
   }
 ];
 
-export default function useSloFormSideEffects(form, setForm) {
+export default function useSloFormSideEffects(
+  form: Item,
+  setForm: (field: Item) => void
+): ReturnType<typeof useFormSideEffects> {
   return useFormSideEffects({
     form,
     setForm,
-    effects: formSideEffects
+    effects: formSideEffects,
+    changesToTrack: [CHANGE_TYPES.EDIT, CHANGE_TYPES.LIST_UPDATE, CHANGE_TYPES.INSERT]
   });
 }
 
-function handleTimeWindowChange(form) {
-  const value = form.get(timeWindowType).value;
-  let updatedForm;
-  if (value === fixed) {
-    updatedForm = addFormForStartTimeStamp(form);
+function handleTimeWindowChange(form: MapForm): Item {
+  let updatedForm = form;
+  const value = (updatedForm.get(timeWindowType) as Field<TimeWindowType>).value;
+  if (value === 'fixed') {
+    updatedForm = addFormForStartTimeStamp(updatedForm);
     updatedForm = addFormForTimeDuration(updatedForm, {}, false);
   } else {
-    updatedForm = removeFormForStartTimeStamp(form);
-    if (value === dynamic) {
+    updatedForm = removeFormForStartTimeStamp(updatedForm);
+    if (value === 'dynamic') {
       updatedForm = removeFormForTimeDuration(updatedForm);
     } else {
       updatedForm = addFormForTimeDuration(updatedForm, {}, false);
@@ -64,19 +70,19 @@ function handleTimeWindowChange(form) {
   return updatedForm;
 }
 
-function clampTimeWindowDuration(form) {
-  const unit = form.get(timeWindowDurationUnit).value;
-  const oldDuration = form.get(timeWindowDuration).value;
+function clampTimeWindowDuration(form: MapForm): Item {
+  const unit = (form.get(timeWindowDurationUnit) as Field<TimeWindowDuration>).value;
+  const oldDuration = (form.get(timeWindowDuration) as Field<number>).value;
   const maxDurationForThisUnit = getMaxTimeWindowDurationValue(unit);
   return form.updateIn([timeWindowDuration], f =>
-    f.setValue(Math.min(oldDuration, maxDurationForThisUnit)).setTouched(true)
+    (f as Field<Number>).setValue(Math.min(oldDuration, maxDurationForThisUnit)).setTouched(true)
   );
 }
 
-function clearSliConfigId(form) {
-  return form.updateIn([sliConfigId], f => f.setValue('').setTouched(false));
+function clearSliConfigId(form: MapForm): Item {
+  return form.updateIn([sliConfigId], f => (f as Field<string>).setValue('').setTouched(false));
 }
 
-function cleanEntityId(form) {
-  return form.updateIn([entityId], f => f.setValue('').setTouched(false));
+function cleanEntityId(form: MapForm): Item {
+  return form.updateIn([entityId], f => (f as Field<string>).setValue('').setTouched(false));
 }

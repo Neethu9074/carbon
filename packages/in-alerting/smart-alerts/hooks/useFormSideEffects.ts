@@ -16,15 +16,18 @@ export const CHANGE_TYPES: Record<ChangeTypeLong, ChangeType> = {
   INSERT: 'N', // A field was added
   LIST_UPDATE: 'A' // A list contained in a field was changed
 };
+
+export type EffectFunction = (form: Item) => Item;
+
 interface Effect {
   path: string[];
-  effects: ((form: Item) => Item)[];
+  effects: EffectFunction[];
 }
 interface UseFormSideEffectsRequest {
   form: Item;
   setForm: (field: Item) => void;
   effects: Effect[];
-  changesToTrack: ChangeType[];
+  changesToTrack?: ChangeType[];
 }
 
 type UseFormSideEffectsResponse = (form: Item) => void;
@@ -36,7 +39,6 @@ const allChanges: ChangeType[] = Object.values(CHANGE_TYPES);
  * Side-effects can safely update the form before the update is committed to application state.
  * Changes to form touched state are ignored.
  */
-
 export default function useFormSideEffects({
   form,
   setForm,
