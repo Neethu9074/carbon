@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs, text } from '@storybook/addon-knobs';
 import { createMapForm, createField } from 'formalistic';
 import { action } from '@storybook/addon-actions';
 import React, { useState } from 'react';
@@ -22,8 +21,7 @@ import theme from 'in-themes';
 const WithPadding = ({ children }) => <div style={{ padding: '0 1.5rem 1.5rem' }}>{children}</div>;
 
 export default {
-  component: DialogWithSlideInView,
-  decorators: [withKnobs]
+  component: DialogWithSlideInView
 };
 
 export const TwoLevels = () => {
@@ -82,22 +80,28 @@ export const TwoLevels = () => {
     </div>
   );
 };
-
-export const Default = () => (
+export const Default = args => (
   <div>
-    <DialogWithSlideInView title={text('Title', 'Some title')} onClose={action('onClose')}>
+    <DialogWithSlideInView title={args.title} onClose={action('onClose')}>
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio dolorem
       cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis consequuntur?
     </DialogWithSlideInView>
   </div>
 );
+Default.args = { title: 'Some title' };
 
 export const Custom = () => (
   <div>
     <DialogWithSlideInView
       onClose={action('onClose')}
       renderCustomCloseBehaviour={() => (
-        <Button style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }} onClick={action('onCustomClose')}>
+        <Button
+          style={{
+            cursor: 'pointer',
+            color: theme.lib.colors.N800Dark
+          }}
+          onClick={action('onCustomClose')}
+        >
           Custom close
         </Button>
       )}
@@ -109,7 +113,6 @@ export const Custom = () => (
     </DialogWithSlideInView>
   </div>
 );
-
 export const SlideIn = () => {
   const [slideInVisible, setSlideInVisible] = useState(false);
   return (
@@ -123,7 +126,11 @@ export const SlideIn = () => {
         doNotCloseOnOutsideClick
         slideInViewVisible={slideInVisible}
         slideInViewComponent={
-          <div style={{ marginTop: '5rem' }}>
+          <div
+            style={{
+              marginTop: '5rem'
+            }}
+          >
             Vape single-origin coffee blog disrupt pop-up biodiesel. La croix knausgaard mumblecore microdosing tattooed
             butcher gastropub DIY cronut photo booth put a bird on it 90s edison bulb tbh. Readymade taiyaki try-hard
             ugh. Selfies mumblecore 90s, etsy fam asymmetrical hexagon poutine bushwick wolf air plant. Succulents
@@ -132,7 +139,11 @@ export const SlideIn = () => {
           </div>
         }
       >
-        <div style={{ height: '10rem' }}>
+        <div
+          style={{
+            height: '10rem'
+          }}
+        >
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere accusantium aliquid alias voluptatem odio
           dolorem cumque! Ad temporibus non fuga aut sequi et qui. Eaque fugiat sint, necessitatibus reiciendis
           consequuntur?
@@ -142,7 +153,6 @@ export const SlideIn = () => {
     </div>
   );
 };
-
 export const ResetScrollPosition = () => {
   const inner = React.useRef();
   return (
@@ -151,7 +161,10 @@ export const ResetScrollPosition = () => {
         onClose={action('onClose')}
         renderCustomCloseBehaviour={removeScrollShadow => (
           <Button
-            style={{ cursor: 'pointer', color: theme.lib.colors.N800Dark }}
+            style={{
+              cursor: 'pointer',
+              color: theme.lib.colors.N800Dark
+            }}
             onClick={() => {
               inner.current.parentNode.scrollTo(0, 0);
               removeScrollShadow();
@@ -163,7 +176,12 @@ export const ResetScrollPosition = () => {
         title="Title with icon"
         titleIconType="lib_flame"
       >
-        <div ref={inner} style={{ height: 1000 }}>
+        <div
+          ref={inner}
+          style={{
+            height: 1000
+          }}
+        >
           <p>Please scroll down to see scroll shadow on the header!</p>
           <p>Long text...</p>
           <p>Long text...</p>
@@ -180,10 +198,16 @@ export const ResetScrollPosition = () => {
     </div>
   );
 };
-
 export const FocusingFirstItem = () => {
   const [slideInVisible, setSlideInVisible] = useState(false);
-  const [form, setForm] = useState(createMapForm().put('value', createField({ value: 0 })));
+  const [form, setForm] = useState(
+    createMapForm().put(
+      'value',
+      createField({
+        value: 0
+      })
+    )
+  );
   return (
     <DialogWithSlideInView
       title={'Some title'}

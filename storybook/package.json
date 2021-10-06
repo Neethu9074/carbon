@@ -6,17 +6,12 @@
   "license": "UNLICENSED",
   "scripts": {},
   "dependencies": {
-    "@storybook/addon-actions": "^5.2.6",
-    "@storybook/addon-docs": "^5.2.6",
-    "@storybook/addon-knobs": "^5.2.6",
-    "@storybook/addon-notes": "^5.2.6",
-    "@storybook/addon-options": "^5.2.6",
-    "@storybook/react": "^5.2.6"
+    "@storybook/addon-essentials": "^6.3.9",
+    "@storybook/react": "^6.3.9"
   },
   "devDependencies": {
-    "chromatic": "^5.8.0",
-    "@babel/core": "^7.12.3",
+    "@babel/core": "^7.15.5",
     "babel-loader": "^8.1.0",
-    "@mdx-js/loader": "^1.6.22"
+    "chromatic": "^6.0.0"
   }
 }

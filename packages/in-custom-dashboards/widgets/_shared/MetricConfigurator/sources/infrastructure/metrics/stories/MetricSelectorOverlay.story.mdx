@@ -1,12 +1,11 @@
 import { Meta, Story, Preview, Props } from '@storybook/addon-docs/blocks';
 import { action as storybookAction } from '@storybook/addon-actions';
-import { withKnobs, boolean, object} from '@storybook/addon-knobs';
 
 import MetricSelectorOverlay from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/MetricSelectorOverlay';
 import PermanentlyVisibleOverlay from 'in-components/overlays/OverlayPresenter/stories/PermanentlyVisibleOverlay';
 import metricCatalogExampleJson from './metricCatalogExample';
 
-<Meta  component={MetricSelectorOverlay} decorators={[withKnobs]}/>
+<Meta component={MetricSelectorOverlay} />
 
 ## Metric Selector
 
@@ -20,7 +19,9 @@ the MetricTree.
         onChange={storybookAction('onChange')}
         close={storybookAction('close')}
         metricCatalog={metricCatalogExampleJson}
-        loading={boolean('Loading', false)}
+        loading={false /*boolean('Loading', false)
+        TODO: Later, fully migrate away from storybook-knobs
+        */}
         onQueryChange={storybookAction('onQueryChange')}
       />
     </PermanentlyVisibleOverlay>
@@ -40,7 +41,9 @@ export const emptyResult = generateEmptyResult();
         onChange={storybookAction('onChange')}
         close={storybookAction('close')}
         metricCatalog={object('metricCatalog', emptyResult)}
-        loading={boolean('Loading', false)}
+        loading={false /*boolean('Loading', false)
+        TODO: Later, fully migrate away from storybook-knobs
+        */}
         onQueryChange={v=> console.log(v)}
       />
     </PermanentlyVisibleOverlay>

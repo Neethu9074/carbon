@@ -3,17 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs';
 import React from 'react';
 
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
 
 export default {
-  component: BeaconUserSummary,
-  decorators: [withKnobs]
+  component: BeaconUserSummary
 };
 
-export const standard = () => {
+export const standard = props => {
   const fullBeacon = {
     websiteId: 'WWqjvIHuQfiIEJReNNzX7g',
     websiteLabel: 'Shop Shop',
@@ -29,7 +27,7 @@ export const standard = () => {
     backendTraceId: '1efe58365708ab',
     type: 'pageLoad',
     customEventName: '',
-    meta: boolean('With Meta?', true)
+    meta: props['With Meta?']
       ? {
           primeCustomer: true,
           appVersion: '1.4.1'
@@ -44,39 +42,29 @@ export const standard = () => {
     errorType: '',
     stackTrace: '',
     componentStack: '',
-    userIp: text('User IP', '245.170.13.0'),
-    userId: text('User ID', '03f15da4-a316-4316-bffe-f5eceed78dd0'),
-    userName: text('User Name', 'Jemimah Gellately'),
-    userEmail: text('User Email', 'jgellately9@technorati.com'),
+    userIp: props['User IP'],
+    userId: props['User ID'],
+    userName: props['User Name'],
+    userEmail: props['User Email'],
     userLanguages: ['sr-Latn-RS', 'en-US'],
     deviceType: '',
-    browserName: text('Browser', 'Chromium'),
-    browserVersion: text('Browser Version', '17'),
-    osName: text('OS', 'Ubuntu'),
-    osVersion: text('OS Version', '12.04'),
+    browserName: props['Browser'],
+    browserVersion: props['Browser Version'],
+    osName: props['OS'],
+    osVersion: props['OS Version'],
     windowHidden: false,
     windowWidth: 800,
     windowHeight: 600,
-    latitude: number('Latitude', 51.5788648, {
-      range: true,
-      min: -180,
-      max: 180,
-      step: 1
-    }),
-    longitude: number('Longitude', 6.1597109, {
-      range: true,
-      min: -180,
-      max: 180,
-      step: 1
-    }),
+    latitude: props['Latitude'],
+    longitude: props['Longitude'],
     accuracyRadius: -1,
-    city: text('City', 'Kevelaer'),
-    subdivision: text('Subdivision', 'North Rhine-Westphalia'),
-    subdivisionCode: text('Subdivision Code', 'DE-NW'),
-    country: text('Country', 'Germany'),
-    countryCode: text('Country Code', 'DE'),
-    continent: text('Continent', 'Europe'),
-    continentCode: text('Continent Code', 'EU'),
+    city: props['City'],
+    subdivision: props['Subdivision'],
+    subdivisionCode: props['Subdivision Code'],
+    country: props['Country'],
+    countryCode: props['Country Code'],
+    continent: props['Continent'],
+    continentCode: props['Continent Code'],
     httpCallUrl: '',
     httpCallOrigin: '',
     httpCallPath: '',
@@ -109,8 +97,40 @@ export const standard = () => {
   };
   return <BeaconUserSummary beacon={fullBeacon} />;
 };
+standard.args = {
+  'With Meta?': true,
+  'User IP': '245.170.13.0',
+  'User ID': '03f15da4-a316-4316-bffe-f5eceed78dd0',
+  'User Name': 'Jemimah Gellately',
+  'User Email': 'jgellately9@technorati.com',
+  Browser: 'Chromium',
+  'Browser Version': '17',
+  OS: 'Ubuntu',
+  'OS Version': '12.04',
+  Latitude: 51.5788648 /*{
+      range: true,
+      min: -180,
+      max: 180,
+      step: 1
+    },
+    */,
+  Longitude: 6.1597109 /*{
+      range: true,
+      min: -180,
+      max: 180,
+      step: 1
+    },
+    */,
+  City: 'Kevelaer',
+  Subdivision: 'North Rhine-Westphalia',
+  'Subdivision Code': 'DE-NW',
+  Country: 'Germany',
+  'Country Code': 'DE',
+  Continent: 'Europe',
+  'Continent Code': 'EU'
+};
 
-export const withLateDefinedUserData = () => {
+export const withLateDefinedUserData = props => {
   const fullBeacon = {
     websiteId: 'WWqjvIHuQfiIEJReNNzX7g',
     websiteLabel: 'Shop Shop',
@@ -126,7 +146,7 @@ export const withLateDefinedUserData = () => {
     backendTraceId: '1efe58365708ab',
     type: 'pageLoad',
     customEventName: '',
-    meta: boolean('With Meta?', true)
+    meta: props['With Meta?']
       ? {
           primeCustomer: true,
           appVersion: '1.4.1'
@@ -141,39 +161,29 @@ export const withLateDefinedUserData = () => {
     errorType: '',
     stackTrace: '',
     componentStack: '',
-    userIp: text('User IP', '245.170.13.0'),
-    userId: text('User ID', '03f15da4-a316-4316-bffe-f5eceed78dd0'),
-    userName: text('User Name', 'Jemimah Gellately'),
-    userEmail: text('User Email', 'jgellately9@technorati.com'),
+    userIp: props['User IP'],
+    userId: props['User ID'],
+    userName: props['User Name'],
+    userEmail: props['User Email'],
     userLanguages: ['sr-Latn-RS', 'en-US'],
     deviceType: '',
-    browserName: text('Browser', 'Chromium'),
-    browserVersion: text('Browser Version', '17'),
-    osName: text('OS', 'Ubuntu'),
-    osVersion: text('OS Version', '12.04'),
+    browserName: props['Browser'],
+    browserVersion: props['Browser Version'],
+    osName: props['OS'],
+    osVersion: props['OS Version'],
     windowHidden: false,
     windowWidth: 800,
     windowHeight: 600,
-    latitude: number('Latitude', 51.5788648, {
-      range: true,
-      min: -180,
-      max: 180,
-      step: 1
-    }),
-    longitude: number('Longitude', 6.1597109, {
-      range: true,
-      min: -180,
-      max: 180,
-      step: 1
-    }),
+    latitude: props['Latitude'],
+    longitude: props['Longitude'],
     accuracyRadius: -1,
-    city: text('City', 'Kevelaer'),
-    subdivision: text('Subdivision', 'North Rhine-Westphalia'),
-    subdivisionCode: text('Subdivision Code', 'DE-NW'),
-    country: text('Country', 'Germany'),
-    countryCode: text('Country Code', 'DE'),
-    continent: text('Continent', 'Europe'),
-    continentCode: text('Continent Code', 'EU'),
+    city: props['City'],
+    subdivision: props['Subdivision'],
+    subdivisionCode: props['Subdivision Code'],
+    country: props['Country'],
+    countryCode: props['Country Code'],
+    continent: props['Continent'],
+    continentCode: props['Continent Code'],
     httpCallUrl: '',
     httpCallOrigin: '',
     httpCallPath: '',
@@ -212,4 +222,37 @@ export const withLateDefinedUserData = () => {
   };
 
   return <BeaconUserSummary beacon={beaconWithoutUserData} beacons={[beaconWithoutUserData, fullBeacon]} />;
+};
+
+withLateDefinedUserData.args = {
+  'With Meta?': true,
+  'User IP': '245.170.13.0',
+  'User ID': '03f15da4-a316-4316-bffe-f5eceed78dd0',
+  'User Name': 'Jemimah Gellately',
+  'User Email': 'jgellately9@technorati.com',
+  Browser: 'Chromium',
+  'Browser Version': '17',
+  OS: 'Ubuntu',
+  'OS Version': '12.04',
+  Latitude: 51.5788648 /*{
+      range: true,
+      min: -180,
+      max: 180,
+      step: 1
+    },
+    */,
+  Longitude: 6.1597109 /*{
+      range: true,
+      min: -180,
+      max: 180,
+      step: 1
+    },
+    */,
+  City: 'Kevelaer',
+  Subdivision: 'North Rhine-Westphalia',
+  'Subdivision Code': 'DE-NW',
+  Country: 'Germany',
+  'Country Code': 'DE',
+  Continent: 'Europe',
+  'Continent Code': 'EU'
 };

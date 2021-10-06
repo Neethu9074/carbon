@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs } from '@storybook/addon-knobs/react';
 import React from 'react';
 
 import { create } from '@instana/observables';
@@ -17,8 +16,7 @@ const getColorByServiceAndEndpoint = ({ service, endpoint }) =>
   byServiceEndpointCombinationColorPool.getColorHex(`${service.id}__${endpoint.id}`);
 
 export default {
-  component: CallTree,
-  decorators: [withKnobs]
+  component: CallTree
 };
 
 export function CallTreeStory() {

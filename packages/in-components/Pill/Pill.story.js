@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs, text, select } from '@storybook/addon-knobs';
 import React from 'react';
 
 import Pill, { kinds } from 'in-components/Pill';
@@ -26,10 +25,29 @@ const options = {
   orange800: '#FF8C19',
   red800: '#FF4040'
 };
+const colorArgType = {
+  color: {
+    control: 'select',
+    options: Object.keys(options),
+    mapping: options
+  }
+};
 
 export default {
-  component: Pill,
-  decorators: [withKnobs]
+  component: Pill
+};
+
+export const Default = props => <Pill {...props} />;
+Default.args = {
+  color: Object.keys(options)[0],
+  children: 'some text'
+};
+Default.argTypes = {
+  ...colorArgType,
+  kind: {
+    type: 'select',
+    options: ['', ...kinds]
+  }
 };
 
 export const allPredefinedColorStyles = () => {
@@ -42,21 +60,36 @@ export const allPredefinedColorStyles = () => {
   );
 };
 
-export const bold = () => {
-  return <Pill color={select('Color', options, '#00B3B3')}>{text('Label', 'Placeholder')}</Pill>;
+export const bold = props => {
+  return <Pill color={props.color}>{props.label}</Pill>;
 };
-export const light = () => {
+bold.args = {
+  color: Object.keys(options)[0],
+  label: 'Placeholder'
+};
+bold.argTypes = { ...colorArgType };
+
+export const light = props => {
   return (
-    <Pill kind="light" color={select('Color', options, '#00B3B3')}>
-      {text('Label', 'Placeholder')}
+    <Pill kind="light" color={props.color}>
+      {props.label}
     </Pill>
   );
 };
+light.args = {
+  color: Object.keys(options)[0],
+  label: 'Placeholder'
+};
+light.argTypes = { ...colorArgType };
+
 export const lighter = () => <Pill kind="lighter">Lighter</Pill>;
-export const inverted = () => {
+
+export const inverted = props => {
   return (
-    <Pill kind="inverted" color={select('Color', options, '#00B3B3')}>
-      {text('Label', 'Placeholder')}
+    <Pill kind="inverted" color={props.color}>
+      {props.label}
     </Pill>
   );
 };
+inverted.args = { color: Object.keys(options)[0], label: 'Placeholder' };
+inverted.argTypes = { ...colorArgType };

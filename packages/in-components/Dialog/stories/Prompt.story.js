@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import Prompt from 'in-components/Dialog/Prompt';
 
 export default {
-  component: Prompt,
-  decorator: { text, action }
+  component: Prompt
 };
 
 export const Default = () => (

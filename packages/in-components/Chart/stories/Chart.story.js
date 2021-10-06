@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs, number } from '@storybook/addon-knobs';
 import React, { useState } from 'react';
 
 import { generateMetrics, fixedTimestamp, generateBaselineForMetric } from 'in-test/util/generateMetrics';
@@ -25,7 +24,6 @@ const oneHour = oneMinute * 60;
 const oneDay = oneHour * 24;
 
 export default {
-  decorators: [withKnobs],
   component: ResultAwareChart
 };
 
@@ -33,7 +31,7 @@ export function MissingData() {
   return <ResultAwareChart config={{}} data={{}} result={constructResult(null, false)} />;
 }
 
-export function Loading() {
+export function Loading(props) {
   return (
     <ResultAwareChart
       config={{}}
@@ -42,12 +40,18 @@ export function Loading() {
         errors: [],
         progress: {
           loading: true,
-          percentage: number('percentage', 0.5, { range: true, min: 0, max: 1, step: 0.05 })
+          percentage: props.percentage
         }
       }}
     />
   );
 }
+Loading.args = {
+  percentage: 0.5
+};
+Loading.argTypes = {
+  percentage: { control: { type: 'range', min: 0, max: 1, step: 0.05 } }
+};
 
 export function MissingDataWithoutTextInfo() {
   return (

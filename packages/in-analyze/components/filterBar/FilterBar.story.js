@@ -4,7 +4,6 @@
  */
 
 import { createField, createMapForm, notBlankValidator } from 'formalistic';
-import { text, boolean } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
@@ -17,8 +16,7 @@ import { numericValidator } from 'in-services/validators/number';
 import Bar from 'in-analyze/components/filterBar/Bar/Bar';
 
 export default {
-  component: Bar,
-  decorator: { action, text, boolean }
+  component: Bar
 };
 
 export const Default = () => {
@@ -84,16 +82,16 @@ function OverlayWrapper({ children }) {
   );
 }
 
-export const SelectBarOverlayStory = () => {
+export const SelectBarOverlayStory = props => {
   return (
     <OverlayWrapper>
       <SelectBarOverlay
-        query={text('Query', '')}
-        loading={boolean('Loading?', false)}
+        query={props['Query']}
+        loading={props['Loading']}
         onQueryChange={action('onQueryChange')}
-        selectedItem={boolean('With selected item?', true) && { key: 'b', label: 'England' }}
+        selectedItem={props['With selected item'] && { key: 'b', label: 'England' }}
         items={
-          boolean('With query matches?', true)
+          props['With query matches']
             ? [
                 { key: 'a', label: 'Germany' },
                 { key: 'b', label: 'England' },
@@ -106,19 +104,24 @@ export const SelectBarOverlayStory = () => {
             : []
         }
         onSelectItem={action('onSelectItem')}
-        moreDataAvailable={boolean('More data available?', false)}
-        moreDataMessage={text(
-          'More data message',
-          'More data available. Only the top 200 <things> shown. Filter to see additional <things>.'
-        )}
+        moreDataAvailable={props['More data available']}
+        moreDataMessage={props['More data message']}
       />
     </OverlayWrapper>
   );
 };
+SelectBarOverlayStory.args = {
+  Query: '',
+  Loading: false,
+  'With selected item': true,
+  'With query matches': true,
+  'More data available': false,
+  'More data message': 'More data available. Only the top 200 <things> shown. Filter to see additional <things>.'
+};
 
-export const NumberBarOverlayStory = () => {
-  const showEquality = boolean('Equality?', true);
-  const showRange = boolean('Range?', true);
+export const NumberBarOverlayStory = props => {
+  const showEquality = props['Equality'];
+  const showRange = props['Range'];
   let form = createMapForm();
 
   if (showRange) {
@@ -126,14 +129,14 @@ export const NumberBarOverlayStory = () => {
       .put(
         'lt',
         createField({
-          value: text('LT', '42'),
+          value: props['LT'],
           validator: numericValidator
         })
       )
       .put(
         'gt',
         createField({
-          value: text('GT', '10'),
+          value: props['GT'],
           validator: numericValidator
         })
       );
@@ -144,14 +147,14 @@ export const NumberBarOverlayStory = () => {
       .put(
         'eq',
         createField({
-          value: text('EQ', '5'),
+          value: props['EQ'],
           validator: numericValidator
         })
       )
       .put(
         'neq',
         createField({
-          value: text('NEQ', '4'),
+          value: props['NEQ'],
           validator: numericValidator
         })
       );
@@ -171,33 +174,37 @@ export const NumberBarOverlayStory = () => {
     </OverlayWrapper>
   );
 };
+NumberBarOverlayStory.args = {
+  Equality: true,
+  Range: true
+};
 
-export const KeyValueOverlayStory = () => {
+export const KeyValueOverlayStory = props => {
   let form = createMapForm()
     .put(
       'key',
       createField({
-        value: text('key', 'tenantUnit'),
+        value: props['key'],
         validator: notBlankValidator
       })
     )
     .put(
       'value',
       createField({
-        value: text('value', 'example'),
+        value: props['value'],
         validator: notBlankValidator
       })
     )
     .put(
       'operator',
       createField({
-        value: text('operator', 'EQUALS'),
+        value: props['operator'],
         validator: notBlankValidator
       })
     )
-    .setTouched(boolean('Form Touched?', false), { recurse: true });
+    .setTouched(props['Form Touched'], { recurse: true });
 
-  if (!boolean('With Value?', true)) {
+  if (!props['With Value']) {
     form = form.remove('value');
   }
 
@@ -219,7 +226,7 @@ export const KeyValueOverlayStory = () => {
     }
   ];
 
-  if (!boolean('With existing filters?', true)) {
+  if (!props['With existing filters']) {
     tagFilters = tagFilters.filter(f => f.name !== 'beacon.meta');
   }
 
@@ -234,10 +241,21 @@ export const KeyValueOverlayStory = () => {
         onOperatorChange={action('onOperatorChange')}
         onSubmit={action('onSubmit')}
         onRemoveTagFilter={action('onRemoveTagFilter')}
-        keySuggestionsLoading={boolean('Keys loading?', false)}
-        keySuggestions={boolean('Key Suggestions?', true) && ['environment', 'role']}
-        valueSuggestionsLoading={boolean('Values loading?', false)}
+        keySuggestionsLoading={props['Keys loading']}
+        keySuggestions={props['Key Suggestions'] && ['environment', 'role']}
+        valueSuggestionsLoading={props['Values loading']}
       />
     </OverlayWrapper>
   );
+};
+KeyValueOverlayStory.args = {
+  key: 'tenantUnit',
+  value: 'example',
+  operator: 'EQUALS',
+  'Form Touched': false,
+  'With Value': true,
+  'With existing filters': true,
+  'Keys loading': false,
+  'Key Suggestions': true,
+  'Values loading': false
 };

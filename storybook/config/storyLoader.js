@@ -16,7 +16,7 @@ export function loadStory(id) {
       .replaceAll(/^in-/gi, '')
       .replaceAll(/\/stor(y|ies)\//gi, '/')
       .replaceAll(/\.story.*$/gi, '')
-      .replaceAll(/^\/?([a-z-0-9]+)\/(.*)/gi, (match, p1, p2) => `${p1}|${p2}`)
+      .replaceAll(/^\/?([a-z-0-9]+)\/(.*)/gi, (match, p1, p2) => `${p1}/${p2}`)
   };
   return {
     ...storyExports,

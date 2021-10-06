@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs, select } from '@storybook/addon-knobs';
 import React from 'react';
 
 import UpstreamDownstreamPresenter from 'in-components/UpstreamDownstream/UpstreamDownstreamPresenter';
@@ -13,12 +12,10 @@ export default {
   parameters: {
     // Error creating WebGL context. ... at new WebGLRenderer
     chromatic: { disable: true }
-  },
-  decorators: [withKnobs]
+  }
 };
 
-export const Default = () => {
-  const tabs = select('TabIndex', [0, 1], 0);
+export const Default = props => {
   const prepProgress = {
     loading: false
   };
@@ -27,24 +24,25 @@ export const Default = () => {
       timeConfig={{ windowSize: 60000, to: 60000 }}
       result={upstream}
       resultApplication={applicationUpstream}
-      items={tabs === 0 ? upstream.data.items : downstream.data.items}
-      itemsApplication={tabs === 0 ? applicationUpstream.data.items : applicationDownstream.data.items}
+      items={props.TabIndex === 0 ? upstream.data.items : downstream.data.items}
+      itemsApplication={props.TabIndex === 0 ? applicationUpstream.data.items : applicationDownstream.data.items}
       activeTabIndex={0}
       label="shop-frontend"
       progress={prepProgress}
     />
   );
 };
+Default.args = { TabIndex: 0 };
+Default.argTypes = { TabIndex: { type: 'select', options: [0, 1] } };
 
-export const Loading = () => {
-  const tabs = select('TabIndex', [0, 1], 0);
+export const Loading = props => {
   const prepProgress = {
     loading: true
   };
   return (
     <UpstreamDownstreamPresenter
       timeConfig={{ windowSize: 60000, to: 60000 }}
-      items={tabs === 0 ? upstream.data.items : downstream.data.items}
+      items={props.TabIndex === 0 ? upstream.data.items : downstream.data.items}
       activeTabIndex={0}
       label="shop-frontend"
       progress={prepProgress}
@@ -52,6 +50,8 @@ export const Loading = () => {
     />
   );
 };
+Loading.args = { TabIndex: 0 };
+Loading.argTypes = { TabIndex: { type: 'select', options: [0, 1] } };
 
 const upstream = {
   data: {

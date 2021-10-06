@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { text } from '@storybook/addon-knobs/react';
-import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import {
@@ -25,8 +23,7 @@ import { noop } from 'in-services/fixedObjects';
 import { hours } from 'in-services/time';
 
 export default {
-  component: PotentialProblemsLanePresenter,
-  decorator: { text, action }
+  component: PotentialProblemsLanePresenter
 };
 
 const halfADay = hours.toMillis(12);

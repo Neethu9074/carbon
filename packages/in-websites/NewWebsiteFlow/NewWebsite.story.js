@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs, boolean } from '@storybook/addon-knobs/react';
 import { createField, notBlankValidator } from 'formalistic';
 import React from 'react';
 
@@ -12,26 +11,27 @@ import ReadyStepComponent from 'in-websites/NewWebsiteFlow/ReadyStep';
 import WaitStepComponent from 'in-websites/NewWebsiteFlow/WaitStep';
 
 export default {
-  decorators: [withKnobs]
+  component: InputStep
 };
 
-export function InputStep() {
+export function InputStep(props) {
   let field = createField({
     value: 'shop.example.com',
     validator: notBlankValidator
   });
 
-  if (boolean('With Validation Error?', false)) {
+  if (props.withValidationError) {
     field = field.setValue('').setTouched(true);
   }
 
   let saveError;
-  if (boolean('With Save Error?', false)) {
+  if (props.withSaveError) {
     saveError = 'Website name is already used.';
   }
 
-  return <InputStepComponent field={field} loading={boolean('Loading?', false)} saveError={saveError} />;
+  return <InputStepComponent field={field} loading={props.loading} saveError={saveError} />;
 }
+InputStep.args = { loading: false, withValidationError: false, withSaveError: false };
 
 export function WaitStep() {
   return <WaitStepComponent websiteId="89jkdsa1khj32njk1" websiteName="shop.example.com" />;

@@ -3,19 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs, select } from '@storybook/addon-knobs';
 import React from 'react';
 
 import StackPresenter from 'in-components/Stack/StackPresenter';
 
 export default {
-  component: StackPresenter,
-  decorators: [withKnobs]
+  component: StackPresenter
 };
 
 export const Default = () => {
-  const tabs = select('TabIndex', [0, 1, 2], 0);
-  return <StackPresenter stack={stackResult.data} activeTabIndex={tabs} />;
+  return <StackPresenter stack={stackResult.data} />;
 };
 
 const stackResult = {

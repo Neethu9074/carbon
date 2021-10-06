@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs, number, boolean } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
@@ -14,46 +13,63 @@ export default {
   parameters: {
     // ignoring this story because it renders differently everytime
     chromatic: { disable: true }
-  },
-  decorators: [withKnobs]
+  }
 };
 
-export function Fixed() {
+export function Fixed(props) {
   return (
     <TimePresenter
-      expanded={boolean('Expanded', false)}
-      timeConfig={{ windowSize, to: Date.now() }}
-      historicData={boolean('Historic Data', false)}
-      retention={retention}
-      largeData={boolean('Large Data', false)}
+      expanded={props.expanded}
+      timeConfig={{ windowSize: props.windowSize, to: Date.now() }}
+      historicData={props.historicData}
+      retention={props.retention}
+      largeData={props.largeData}
       onClick={action('click')}
     />
   );
 }
+Fixed.args = {
+  windowSize: 3600000,
+  retention: 7,
+  expanded: false,
+  historicData: false,
+  largeData: false
+};
 
-export function Live() {
+export function Live(props) {
   return (
     <TimePresenter
-      expanded={boolean('Expanded', false)}
-      timeConfig={{ windowSize, to: null }}
-      historicData={boolean('Historic Data', false)}
-      retention={retention}
-      largeData={boolean('Large Data', false)}
+      expanded={props.expanded}
+      timeConfig={{ windowSize: props.windowSize, to: null }}
+      historicData={props.historicData}
+      retention={props.retention}
+      largeData={props.largeData}
       onClick={action('click')}
     />
   );
 }
-
-const windowSize = number('Window Size', 3600000, {
-  range: true,
-  min: 60000,
-  max: 2592000000,
-  step: 60000
-});
-
-const retention = number('Retention', 7, {
-  range: true,
-  min: 1,
-  max: 365,
-  step: 1
-});
+Live.args = {
+  windowSize: 3600000,
+  retention: 7,
+  expanded: false,
+  historicData: false,
+  largeData: false
+};
+Live.argTypes = {
+  windowSize: {
+    control: {
+      type: 'range',
+      min: 60000,
+      max: 2592000000,
+      step: 60000
+    }
+  },
+  retention: {
+    control: {
+      type: 'range',
+      min: 1,
+      max: 365,
+      step: 1
+    }
+  }
+};

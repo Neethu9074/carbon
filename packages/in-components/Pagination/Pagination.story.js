@@ -3,24 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number } from '@storybook/addon-knobs/react';
-import { withKnobs } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import Pagination from 'in-components/Pagination';
 
 export default {
-  component: Pagination,
-  decorators: [withKnobs]
+  component: Pagination
 };
 
-export function Default() {
-  const page = number('Page', 3, {
-    range: true,
-    min: 1,
-    max: 10,
-    step: 1
-  });
-  return <Pagination currentPage={page} numPages={10} onChange={action('onChange')} />;
+export function Default(props) {
+  return <Pagination currentPage={props.page} numPages={10} onChange={action('onChange')} />;
 }
+Default.args = {
+  page: 3
+};
+Default.argTypes = {
+  page: {
+    control: {
+      type: 'range',
+      min: 1,
+      max: 10,
+      step: 1
+    }
+  }
+};

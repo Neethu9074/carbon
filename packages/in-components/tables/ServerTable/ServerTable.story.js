@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { boolean, text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
@@ -17,7 +16,7 @@ export default {
   component: ServerTablePresenter
 };
 
-export function Pending() {
+export function Pending(props) {
   return (
     <>
       <h2>Pending Table</h2>
@@ -26,6 +25,7 @@ export function Pending() {
         server.
       </p>
       <WrappedTable
+        {...props}
         result={{
           progress: {
             loading: true
@@ -36,8 +36,9 @@ export function Pending() {
     </>
   );
 }
+Pending.args = { renderAsCard: false, cardTitle: 'Top Something' };
 
-function WrappedTable(props) {
+function WrappedTable({ renderAsCard, cardTitle, ...props }) {
   return (
     <ServerTablePresenter
       onChange={onChange}
@@ -47,18 +48,19 @@ function WrappedTable(props) {
       orderBy="label"
       orderDirection="ASC"
       pageSize={10}
-      cardTitle={boolean('Render as card?', false) ? text('Card title?', 'Top Something') : null}
+      cardTitle={renderAsCard ? cardTitle : null}
       {...props}
     />
   );
 }
 
-export function Error() {
+export function Error(props) {
   return (
     <>
       <h2>Failed Data Retrieval</h2>
       <p>The following table visualizes what a table looks like when data retrieval has failed.</p>
       <WrappedTable
+        {...props}
         result={{
           progress: {
             loading: false
@@ -74,13 +76,15 @@ export function Error() {
     </>
   );
 }
+Error.args = { renderAsCard: false, cardTitle: 'Top Something' };
 
-export function Empty() {
+export function Empty(props) {
   return (
     <>
       <h2>Empty</h2>
       <p>When no rows could be found, then the table looks like this.</p>
       <WrappedTable
+        {...props}
         result={{
           progress: {
             loading: false
@@ -97,13 +101,15 @@ export function Empty() {
     </>
   );
 }
+Empty.args = { renderAsCard: false, cardTitle: 'Top Something' };
 
-export function EmptyWithNoDataAvailableRenderer() {
+export function EmptyWithNoDataAvailableRenderer(props) {
   return (
     <>
       <h2>Empty with special renderer</h2>
       <p>When no rows exist, then we can tweak the table to look like this.</p>
       <WrappedTable
+        {...props}
         noDataMessage={'Empty bottle.'}
         renderNoDataAvailable={text => (
           <p>
@@ -126,13 +132,15 @@ export function EmptyWithNoDataAvailableRenderer() {
     </>
   );
 }
+EmptyWithNoDataAvailableRenderer.args = { renderAsCard: false, cardTitle: 'Top Something' };
 
-export function WithData() {
+export function WithData(props) {
   return (
     <>
       <h2>With Data</h2>
       <p>Last but not least, a table with some rows.</p>
       <WrappedTable
+        {...props}
         result={{
           progress: {
             loading: false
@@ -149,12 +157,14 @@ export function WithData() {
     </>
   );
 }
+WithData.args = { renderAsCard: false, cardTitle: 'Top Something' };
 
-export function Configurable() {
+export function Configurable(props) {
   return (
     <>
       <h2>Configurable</h2>
       <WrappedTable
+        {...props}
         result={{
           progress: {
             loading: false
@@ -175,6 +185,7 @@ export function Configurable() {
     </>
   );
 }
+Configurable.args = { renderAsCard: false, cardTitle: 'Top Something' };
 
 const items = ['Stan', 'Iron Man', 'Shenlong', 'BB-8', 'R2-D2'].sort();
 

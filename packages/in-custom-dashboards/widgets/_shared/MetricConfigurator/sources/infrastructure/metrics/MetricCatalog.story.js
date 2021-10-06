@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs, number } from '@storybook/addon-knobs';
 import React, { useState } from 'react';
 import { range } from 'lodash';
 
@@ -11,8 +10,7 @@ import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/Metr
 import { plugins } from 'in-forge/constants';
 
 export default {
-  component: TypeAndMetricConfigurator,
-  decorators: [withKnobs]
+  component: TypeAndMetricConfigurator
 };
 
 function metricCatalog(numberOfCategories, numberOfMetricsPerCategory) {
@@ -56,7 +54,7 @@ function metricCatalog(numberOfCategories, numberOfMetricsPerCategory) {
   };
 }
 
-export const Default = () => {
+export const Default = props => {
   const [metric, setMetric] = useState();
   const [type, setType] = useState();
   const [query, onQueryChange] = useState('');
@@ -71,20 +69,7 @@ export const Default = () => {
         type={type}
         metric={metric}
         metricMetadata={{}}
-        metricCatalog={metricCatalog(
-          number('number of categories', 20, {
-            range: true,
-            min: 1,
-            max: 1000,
-            step: 1
-          }),
-          number('number of metrics', 20, {
-            range: true,
-            min: 1,
-            max: 1000,
-            step: 1
-          })
-        )}
+        metricCatalog={metricCatalog(props['number of categories'], props['number of metrics'])}
         label="please select a metric"
         onChange={onChange}
         query={query}
@@ -92,4 +77,27 @@ export const Default = () => {
       />
     </div>
   );
+};
+Default.args = {
+  'number of categories': 20,
+  'number of metrics': 20
+};
+Default.argTypes = {
+  'number of categories': {
+    control: {
+      type: 'range',
+      min: 1,
+      max: 1000,
+      step: 1
+    }
+  },
+  'number of metrics': {
+    control: {
+      type: 'range',
+      range: true,
+      min: 1,
+      max: 1000,
+      step: 1
+    }
+  }
 };

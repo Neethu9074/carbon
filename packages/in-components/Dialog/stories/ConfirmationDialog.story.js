@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { text } from '@storybook/addon-knobs/react';
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 
 export default {
-  component: ConfirmationDialog,
-  decorator: { text, action }
+  component: ConfirmationDialog
 };
 
 export const Default = () => (

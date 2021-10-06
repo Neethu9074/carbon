@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { text } from '@storybook/addon-knobs/react';
-import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
@@ -18,8 +16,7 @@ import Renderer from 'in-components/Chart/renderer/Renderer';
 import { minutes } from 'in-services/time';
 
 export default {
-  component: MarkerLanesPresenter,
-  decorator: { text, action }
+  component: MarkerLanesPresenter
 };
 
 const oneMinute = minutes.toMillis(1);

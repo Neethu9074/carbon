@@ -3,28 +3,31 @@
  * (c) Copyright Instana Inc.
  */
 
-import { withKnobs, boolean } from '@storybook/addon-knobs/react';
 import React from 'react';
 
 import DeprecationsPresenter from 'in-websites/WebsiteDashboard/components/Deprecations/DeprecationsPresenter';
 
 export default {
-  component: DeprecationsPresenter,
-  decorators: [withKnobs]
+  component: DeprecationsPresenter
 };
 
-export function Default() {
+export function Default(props) {
   return (
     <DeprecationsPresenter
       websiteId="790jk_3dsaikhu90321"
       tagFilters={[]}
       result={{
         data: [
-          boolean('Cross Region Forwarding Deprecation?', true) && 'xrf',
-          boolean('Edmunds Hack Deprecation?', true) && 'eh',
-          boolean('Unknown Deprecation?', true) && 'unsupported!'
+          props['Cross Region Forwarding Deprecation?'] && 'xrf',
+          props['Edmunds Hack Deprecation?'] && 'eh',
+          props['Unknown Deprecation?'] && 'unsupported!'
         ]
       }}
     />
   );
 }
+Default.args = {
+  'Cross Region Forwarding Deprecation?': true,
+  'Edmunds Hack Deprecation?': true,
+  'Unknown Deprecation?': true
+};
