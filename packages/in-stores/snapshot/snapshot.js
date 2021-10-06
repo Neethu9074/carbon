@@ -5,7 +5,6 @@
 
 import { timeout, combineLatest } from '@instana/observables';
 
-import createSnapshotsInTimeframeObservable from 'in-subscription/snapshotsInTimeframe';
 import createHighlightedMapEntityObservable from 'in-subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-subscription/physicalHierarchy';
 import createRunningComponentsObservable from 'in-subscription/runningComponents';
@@ -18,12 +17,12 @@ import createrIsEntityOnlineObservable from 'in-subscription/isOnline';
 import createFoundationsObservable from 'in-subscription/foundations';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import createRawPayloadObservable from 'in-subscription/rawPayload';
-import { debouncedQuery$, query$ } from 'in-stores/search/query';
 import createSnapshotObservable from 'in-subscription/snapshot';
 import createSearchObservable from 'in-subscription/search';
 import { pendingResult } from 'in-services/fixedObjects';
 import { createTrackingStore } from 'in-stores/store';
 import { timeConfig$ } from 'in-stores/time/config';
+import { query$ } from 'in-stores/search/query';
 
 const selectedSnapshotIdStore = createTrackingStore({
   name: 'snapshot/selectedSnapshotId',
@@ -264,22 +263,6 @@ export function getSnapshotVersions(snapshotId, timeConfig) {
     );
   }
   return createSnapshotVersionsObservable({ snapshotId, timeConfig });
-}
-
-export function getSnapshotsInTimeframe(customQuery) {
-  return combineLatest([timeConfig$, debouncedQuery$])
-    .nextFrame()
-    .flatMap(([timeConfig, query]) => {
-      query = query == null || query.length === 0 ? '' : query;
-      query = query || '';
-      if (!query) {
-        return createSnapshotsInTimeframeObservable({ timeConfig, query: customQuery });
-      }
-      return createSnapshotsInTimeframeObservable({
-        timeConfig,
-        query: `${customQuery} AND (${query})`
-      });
-    });
 }
 
 export function shouldStayInCurrentTimeModeForNavigationToSnapshot({ snapshotId }) {
