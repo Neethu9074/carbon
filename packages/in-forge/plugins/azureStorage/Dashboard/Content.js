@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import QueuesTable from 'in-forge/plugins/azureStorage/Dashboard/QueuesTable.js';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -178,6 +179,8 @@ export default function AzureStorageDashboard({ snapshot, timeConfig }) {
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </DashboardSection>
+
+          <QueuesTable snapshot={snapshot} timeConfig={timeConfig} />
         </div>
       )}
     </div>
