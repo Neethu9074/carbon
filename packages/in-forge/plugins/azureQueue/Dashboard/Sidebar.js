@@ -1,6 +1,6 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 
 import React, { Fragment } from 'react';
@@ -12,7 +12,7 @@ import Info from '../Info';
 
 export default function AzureQueueSidebarDetails({ snapshot }) {
   return (
-    <Fragment>
+    <>
       <Collapsible initiallyOpen>
         <Collapsible.Header>{t('in-forge:plugins.azureQueue.dashboard.azureQueue')}</Collapsible.Header>
         <Collapsible.Content>
@@ -21,6 +21,6 @@ export default function AzureQueueSidebarDetails({ snapshot }) {
       </Collapsible>
 
       <ServiceInstancesList snapshot={snapshot} />
-    </Fragment>
+    </>
   );
 }
