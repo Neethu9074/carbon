@@ -147,6 +147,7 @@ import './ibmCloudEtcd';
 import './awsBeanstalk';
 import './awsMskBroker';
 import './azureStorage';
+import './azureQueue';
 import './cloudFoundry';
 import './ibmMqChannel';
 import './ibmMqCluster';

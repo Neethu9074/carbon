@@ -204,6 +204,11 @@
   "pluginName_azureCosmosDb_1": "Azure CosmosDb",
   "pluginName_azureCosmosDb_2": "Azure CosmosDb",
   "pluginName_azureCosmosDb": "Azure CosmosDb",
+  "pluginName_azureQueue_plural": "Azure Storage Queue Services",
+  "pluginName_azureQueue_0": "Azure Storage Queue Services",
+  "pluginName_azureQueue_1": "Azure Storage Queue Services",
+  "pluginName_azureQueue_2": "Azure Storage Queue Services",
+  "pluginName_azureQueue": "Azure Storage Queue Service",
   "pluginName_azureRedisCache_plural": "Azure Redis Caches",
   "pluginName_azureRedisCache_0": "Azure Redis Caches",
   "pluginName_azureRedisCache_1": "Azure Redis Caches",
@@ -4091,6 +4096,16 @@
         "titleDatabaseCount": "Databases {{databaseCount}}",
         "titleElasticPoolCount": "Elastic Pools {{elasticPoolCount}}"
       }
+    },
+    "azureQueue": {
+      "dashboard": {
+        "azureQueue": "Azure Storage Queue"
+      },
+      "infoName": "Name",
+      "infoType": "Type",
+      "infoLocation": "Location",
+      "infoSubscriptionID": "Subscription ID",
+      "infoResourceGroup": "Resource Group"
     },
     "azureStorage": {
       "infoName": "Name",
