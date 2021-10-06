@@ -51,6 +51,7 @@ module.exports = {
   adaptiveBaselineEnabled: true,
   builtInGlobalApplicationSmartAlertsEnabled: true,
   idpMappingEnabled: true,
+  websiteSmartAlertsAllowPerWindowUserImpact: true,
   websiteSloEnabled: true,
   disableAppDataLegacyEvents: false
 };
