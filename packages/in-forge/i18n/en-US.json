@@ -4156,7 +4156,11 @@
         "titleAvailability": "Availability",
         "titleQueueCapacity": "Queue Capacity",
         "titleQueueCount": "Queue Count",
-        "titleQueueMessageCount": "Queue Message Count"
+        "titleQueueMessageCount": "Queue Message Count",
+        "name": "Name",
+        "type": "Type",
+        "location": "Location",
+        "queuesWithCount": "Queues ({{len}})"
       },
       "traffic": "Traffic",
       "latency": "Latency",
