@@ -4906,6 +4906,7 @@
       "containerInfoCanOnlyBeRetrievedForEntitiesThatAreStillUnderMonitoringByInstana": "Container info can only be retrieved for entities that are still under monitoring by Instana.",
       "containerInfo": "Container info",
       "dashboard": {
+        "headerContainerLabels": "Container Labels",
         "cpuTotal": "CPU Total",
         "memoryUsage": "Memory Usage",
         "cpuTime": "CPU Time",
