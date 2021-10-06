@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, composeValidators } from 'formalistic';
+import { createMapForm, createField, composeValidators, ValidationResult, MapForm, Field } from 'formalistic';
 import moment from 'moment';
 
-import { sloValidator } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli/form';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { formatDate, formatTime, parseDateTime } from 'in-services/formatters/date';
 import { numberValidator, stringValidator } from 'in-services/validators/jsonType';
@@ -28,12 +28,32 @@ export const timeWindowStart = 'timeWindowStart';
 export const timeWindowDuration = 'timeWindowDuration';
 export const timeWindowDurationUnit = 'timeWindowDurationUnit';
 
-// time-window types
-export const fixed = 'fixed';
-export const dynamic = 'dynamic';
-export const rolling = 'rolling';
+export type TimeWindowDuration = 'days' | 'weeks' | 'months';
+export type TimeWindowType = 'fixed' | 'rolling' | 'dynamic';
 
-export function createForm(oldSavedState) {
+interface SloWidgetConfiguration {
+  entityType?: MonitoringSource; // old schema configs might not have this set, it defaults to 'Applications'
+  entityId?: string; // old schema configs might not have this set and use apConfigId instead
+
+  slo?: number;
+  sliConfigId?: string;
+  timeWindowType?: TimeWindowType;
+
+  // timeWindowType = 'fixed'
+  timeWindowStart?: {
+    date: string;
+    time: string;
+  };
+
+  // timeWindowType = 'fixed' | 'rolling'
+  timeWindowDuration?: number;
+  timeWindowDurationUnit?: TimeWindowDuration;
+
+  // deprecated
+  apConfigId?: string;
+}
+
+export function createForm(oldSavedState: SloWidgetConfiguration = {}): MapForm {
   const savedState = ensureConfigBackwardCompatibility(oldSavedState);
 
   let form = createMapForm({
@@ -59,7 +79,7 @@ export function createForm(oldSavedState) {
       sloTarget,
       createField({
         validator: composeAndShortCircuitOnError(notUndefinedValidator, numberValidator, sloValidator),
-        value: savedState[sloTarget] ?? ''
+        value: savedState[sloTarget]
       })
     )
     .put(
@@ -76,19 +96,23 @@ export function createForm(oldSavedState) {
       value: windowType
     })
   );
-  if (windowType === fixed) {
+  if (windowType === 'fixed') {
     const start = savedState[timeWindowStart];
     // auto-corrects invalid dates:
     const ts = parsedTimestamp(start?.date + ' ' + start?.time);
     form = addFormForStartTimeStamp(form, ts);
   }
-  if (windowType === fixed || windowType === rolling) {
+  if (windowType === 'fixed' || windowType === 'rolling') {
     form = addFormForTimeDuration(form, savedState);
   }
   return form;
 }
 
-function validateTimeWindow({ timeWindowDuration, timeWindowDurationUnit }) {
+interface TimeWindowForm {
+  timeWindowDuration?: Field<number>;
+  timeWindowDurationUnit?: Field<TimeWindowDuration>;
+}
+function validateTimeWindow({ timeWindowDuration, timeWindowDurationUnit }: TimeWindowForm): ValidationResult {
   if (!timeWindowDuration || !timeWindowDurationUnit || !timeWindowDuration.valid || !timeWindowDurationUnit.valid) {
     return null;
   }
@@ -107,7 +131,7 @@ function validateTimeWindow({ timeWindowDuration, timeWindowDurationUnit }) {
   return null;
 }
 
-function getTimeWindowDurationInDays(value, unit) {
+function getTimeWindowDurationInDays(value: number, unit: TimeWindowDuration): number {
   switch (unit) {
     case 'days':
       return value;
@@ -119,20 +143,20 @@ function getTimeWindowDurationInDays(value, unit) {
   }
 }
 
-export const parsedTimestamp = str => {
-  if (!moment().isValid(str)) return null;
+export const parsedTimestamp = (str: string): number | null => {
+  if (!moment(str).isValid()) return null;
 
   return parseDateTime(str).getTime();
 };
 
-export function removeFormForStartTimeStamp(form) {
+export function removeFormForStartTimeStamp(form: MapForm): MapForm {
   if (form.containsKey(timeWindowStart)) {
     return form.remove(timeWindowStart);
   }
   return form;
 }
 
-export function addFormForStartTimeStamp(form, ts) {
+export function addFormForStartTimeStamp(form: MapForm, ts?: number | null): MapForm {
   const timestamp = ts ?? new Date().setHours(0, 0, 0, 0);
   return form.put(
     timeWindowStart,
@@ -154,7 +178,7 @@ export function addFormForStartTimeStamp(form, ts) {
   );
 }
 
-export function removeFormForTimeDuration(form) {
+export function removeFormForTimeDuration(form: MapForm): MapForm {
   if (form.containsKey(timeWindowDuration)) {
     form = form.remove(timeWindowDuration);
   }
@@ -164,7 +188,7 @@ export function removeFormForTimeDuration(form) {
   return form;
 }
 
-export function addFormForTimeDuration(form, savedState, override = true) {
+export function addFormForTimeDuration(form: MapForm, savedState: SloWidgetConfiguration, override = true): MapForm {
   if (override || !form.containsKey(timeWindowDuration))
     form = form.put(
       timeWindowDuration,
@@ -183,7 +207,7 @@ export function addFormForTimeDuration(form, savedState, override = true) {
   return form;
 }
 
-export function ensureConfigBackwardCompatibility(savedForm = {}) {
+export function ensureConfigBackwardCompatibility(savedForm: SloWidgetConfiguration): SloWidgetConfiguration {
   const id = savedForm[entityId] ?? savedForm[apConfigId];
   const type = savedForm[entityType] ?? 'Applications';
 
@@ -194,7 +218,7 @@ export function ensureConfigBackwardCompatibility(savedForm = {}) {
   };
 }
 
-export function getMaxTimeWindowDurationValue(unit) {
+export function getMaxTimeWindowDurationValue(unit: TimeWindowDuration): number {
   switch (unit) {
     case 'days':
       return 365;
@@ -204,4 +228,22 @@ export function getMaxTimeWindowDurationValue(unit) {
     default:
       return 12;
   }
+}
+
+const sloValidatorFailureMessage: ValidationResult = [
+  {
+    severity: 'error',
+    message: t(
+      'in-custom-dashboards:widgets.metricConfigurator.theProvidedNumberIsInvalidTheValueShouldBeBetween0And9999'
+    )
+  }
+];
+
+export function sloValidator(v?: number): ValidationResult {
+  if (v == null) return;
+
+  if (v >= 1 || v < 0) {
+    return sloValidatorFailureMessage;
+  }
+  return;
 }

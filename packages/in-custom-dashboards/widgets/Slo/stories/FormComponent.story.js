@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 
-import { sloTarget, timeWindowType, fixed } from 'in-custom-dashboards/widgets/Slo/form';
+import { sloTarget, timeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
 import { Form, createForm } from 'in-custom-dashboards/widgets/Slo';
 import { noop } from 'in-services/util/function';
 
@@ -17,7 +17,7 @@ export default {
 export function Default() {
   const [form, setForm] = useState(
     createForm({
-      [timeWindowType]: fixed,
+      [timeWindowType]: 'fixed',
       [sloTarget]: ''
     })
   );

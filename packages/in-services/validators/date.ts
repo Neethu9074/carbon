@@ -8,8 +8,9 @@ import moment from 'moment';
 import { timeFormat as defaultTimeFormat, dateFormat } from 'in-services/formatters/date';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
+import { ValidationResult } from 'formalistic';
 
-export function timeValidator(v, timeFormat = defaultTimeFormat) {
+export function timeValidator(v: string, timeFormat = defaultTimeFormat): ValidationResult {
   if (isBlank(v)) {
     return null;
   }
@@ -26,7 +27,7 @@ export function timeValidator(v, timeFormat = defaultTimeFormat) {
   ];
 }
 
-export function dateValidator(v) {
+export function dateValidator(v: string): ValidationResult {
   if (isBlank(v)) {
     return null;
   }

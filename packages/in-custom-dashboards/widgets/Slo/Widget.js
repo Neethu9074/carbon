@@ -19,9 +19,6 @@ import {
   timeWindowDurationUnit,
   timeWindowStart,
   parsedTimestamp,
-  fixed,
-  rolling,
-  dynamic,
   ensureConfigBackwardCompatibility,
   entityId
 } from 'in-custom-dashboards/widgets/Slo/form';
@@ -53,10 +50,10 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const slo = compatibleConfig?.[sloTarget] ?? '';
   const applicationId = compatibleConfig?.[entityId];
   const sliConfigIdValue = compatibleConfig?.[sliConfigId];
-  const timeWindowTypeValue = compatibleConfig?.[timeWindowType] ?? dynamic;
-  const isDynamic = timeWindowTypeValue === dynamic;
-  const isRolling = timeWindowTypeValue === rolling;
-  const isFixed = timeWindowTypeValue === fixed;
+  const timeWindowTypeValue = compatibleConfig?.[timeWindowType] ?? 'dynamic';
+  const isDynamic = timeWindowTypeValue === 'dynamic';
+  const isRolling = timeWindowTypeValue === 'rolling';
+  const isFixed = timeWindowTypeValue === 'fixed';
   const timeWindowDurationValue = compatibleConfig?.[timeWindowDuration] ?? 1;
   const timeWindowDurationUnitValue = compatibleConfig?.[timeWindowDurationUnit] ?? 'weeks';
   const timeWindowStartDate = compatibleConfig?.[timeWindowStart]?.date;
