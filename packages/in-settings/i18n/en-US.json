@@ -176,6 +176,8 @@
     "group": "group",
     "Group": "Group",
     "areYouSureYouWantToDeleteThisUserFromTheGroup": "Are you sure you want to delete this user from the <strong>{{groupName}}</strong> group?",
+    "idp": "IdP",
+    "assignedBy": "Assigned by",
     "failedToRemoveUserFromGroup": "Failed to remove user from group: {{err}}",
     "unableToFindUserUserId": "Unable to find user: {{userId}}",
     "userDoesNotExist": "User does not exist",

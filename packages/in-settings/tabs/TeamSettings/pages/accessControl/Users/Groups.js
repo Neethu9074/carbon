@@ -8,7 +8,10 @@ import React from 'react';
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 import { KeyValue } from '@instana/components';
 
-import { removeUserFromGroup, getStrippedGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
+import {
+  removeUserFromGroup,
+  getStrippedGroupsWithIdpFlagAsResultObservable
+} from 'in-settings/tabs/TeamSettings/api/groups';
 import AddUserToGroupButton from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/AddUserToGroupButton';
 import { getEntityIdView, teamSettingsAccessControlGroups } from 'in-settings/navigation/paths';
 import { ListInsideACardRenderer } from 'in-settings/components/ApiList/renderer/renderer';
@@ -20,7 +23,7 @@ export default function Groups({ userId, refresh }) {
   return (
     <ApiList
       ListRenderer={ListRenderer}
-      getItems={getStrippedGroupsAsResultObservable}
+      getItems={getStrippedGroupsWithIdpFlagAsResultObservable(userId)}
       itemName="Group"
       orderBy="name"
       renderer={ListInsideACardRenderer}
@@ -44,6 +47,16 @@ const columnDefinitions = [
   {
     getContent({ group }) {
       return group.name;
+    }
+  },
+  {
+    width: '8rem',
+    getContent({ group }) {
+      return (
+        group.joinedViaIdpMapping && (
+          <KeyValue value={t('in-settings:tabs.idp')} label={t('in-settings:tabs.assignedBy')} accentuated />
+        )
+      );
     }
   },
   {

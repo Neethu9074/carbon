@@ -15,7 +15,11 @@ import {
   productRestrictions,
   productOwnerPermissions
 } from 'in-stores/permission';
-import { getGroupAsResultObservable, saveGroup, createNewGroup } from 'in-settings/tabs/TeamSettings/api/groups';
+import {
+  getGroupWithIdpFlagAsResultObservable,
+  saveGroup,
+  createNewGroup
+} from 'in-settings/tabs/TeamSettings/api/groups';
 import PermissionsList from 'in-settings/tabs/TeamSettings/pages/accessControl/Permissions/PermissionsList.js';
 import { types } from 'in-settings/tabs/TeamSettings/pages/accessControl/Areas/permissionSetResultFilter';
 import LoadingGroup from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/LoadingGroup';
@@ -51,7 +55,7 @@ export default function Group({ match }) {
         parentViewName={t('in-settings:tabs.groups')}
         parentPath={teamSettingsAccessControlGroups}
         getObservables={() => ({
-          group: groupId ? getGroupAsResultObservable(groupId) : just(successResult(createNewGroup()))
+          group: groupId ? getGroupWithIdpFlagAsResultObservable(groupId) : just(successResult(createNewGroup()))
         })}
         enrichForm={enrichForm}
         saveItem={saveItem}
@@ -345,7 +349,10 @@ function addUsers(users, form, setForm) {
   setForm(
     form.updateIn(['members'], f =>
       f
-        .setValue([...form.get('members').value, ...users.map(({ id, email }) => ({ userId: id, email }))])
+        .setValue([
+          ...form.get('members').value,
+          ...users.map(({ id, email }) => ({ userId: id, email, joinedViaIdpMapping: false }))
+        ])
         .setTouched(true)
     )
   );

@@ -1,27 +1,117 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 
-import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import React from 'react';
 
-import { mapToScopeBindings } from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
+import { useObservable } from '@instana/hooks';
+import { create } from '@instana/observables';
+
+import { getGroupWithIdpFlagAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';
+import Group from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
+import useUrlState from 'in-hooks/useUrlState';
+import { t } from 'in-i18n';
+
+jest.mock('in-hooks/useUrlState');
+jest.mock('in-settings/tabs/TeamSettings/api/groups');
+jest.mock('in-api/users');
+jest.mock('@instana/hooks');
+
+function asLoadedResult(data) {
+  return {
+    progress: {
+      loading: false
+    },
+    errors: [],
+    data
+  };
+}
 
 describe('in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group', () => {
-  it('must', () => {
-    expect(extractIds(mapToScopeBindings(['a', 'b', 'c'], [{ scopeId: 'a' }]))).to.include.members(['a', 'b', 'c']);
-
-    expect(
-      extractIds(mapToScopeBindings(['a', 'b'], [{ scopeId: 'a' }, { scopeId: 'b' }, { scopeId: 'c' }]))
-    ).to.include.members(['a', 'b']);
-
-    expect(extractIds(mapToScopeBindings(['a', 'b'], [{ scopeId: 'a' }, { scopeId: 'b' }]))).to.include.members([
-      'a',
-      'b'
-    ]);
+  it('should render idp flag column when group was mapped by idp', () => {
+    const groupScreen = renderGroupWithAUser(true);
+    expect(groupScreen.getByText(t('in-settings:tabs.idp')));
   });
 
-  function extractIds(a) {
-    return a.map(({ scopeId }) => scopeId);
+  it('should not render idp flag column when group was not mapped by idp', () => {
+    const groupScreen = renderGroupWithAUser(false);
+    expect(groupScreen.queryByText(t('in-settings:tabs.idp'))).not.toBeInTheDocument();
+  });
+
+  it('should render idp flag column for many users that were mapped by idp', () => {
+    useUrlState.mockReturnValue([{ query: '', page: 1 }, jest.fn()]);
+    const groupsWithIpFlagsOnMembers = create();
+    groupsWithIpFlagsOnMembers.emit(
+      asLoadedResult({
+        id: 'Greendale',
+        name: 'Teachers',
+        members: [
+          { userId: '123', email: 'winger@greendale.edu', joinedViaIdpMapping: true },
+          { userId: '456', email: 'chang@greendale.edu', joinedViaIdpMapping: true },
+          { userId: '789', email: 'professorson@greendale.edu', joinedViaIdpMapping: false }
+        ],
+        permissionSet: {
+          permissions: [],
+          applicationIds: [],
+          kubernetesClusterUUIDs: [],
+          kubernetesNamespaceUIDs: [],
+          websiteIds: [],
+          mobileAppIds: [],
+          infraDfqFilter: {
+            scopeId: '',
+            scopeRoleId: ''
+          }
+        }
+      })
+    );
+    getGroupWithIdpFlagAsResultObservable.mockReturnValue(groupsWithIpFlagsOnMembers);
+
+    useObservable.mockReturnValue(
+      asLoadedResult([
+        { id: '123', email: 'winger@greendale.edu', fullName: 'Jeff Winger' },
+        { id: '456', email: 'chang@greendale.edu', fullName: 'Ben Chang' },
+        { id: '789', email: 'professorson@greendale.edu', fullName: 'Sean Garrity' }
+      ])
+    );
+
+    const groupScreen = render(<Group match={{ params: { id: 'Greendale' } }} />);
+    const linesWithIdpTrue = groupScreen.getAllByText(t('in-settings:tabs.idp'));
+    expect(linesWithIdpTrue).toHaveLength(2);
+  });
+
+  function renderGroupWithAUser(joinedViaIdpMapping) {
+    useUrlState.mockReturnValue([{ query: '', page: 1 }, jest.fn()]);
+    const groupsWithIpFlagsOnMembers = create();
+    groupsWithIpFlagsOnMembers.emit(
+      asLoadedResult({
+        id: 'Greendale',
+        name: 'Teachers',
+        members: [{ userId: '123', email: 'winger@greendale.edu', joinedViaIdpMapping: joinedViaIdpMapping }],
+        permissionSet: {
+          permissions: [],
+          applicationIds: [],
+          kubernetesClusterUUIDs: [],
+          kubernetesNamespaceUIDs: [],
+          websiteIds: [],
+          mobileAppIds: [],
+          infraDfqFilter: {
+            scopeId: '',
+            scopeRoleId: ''
+          }
+        }
+      })
+    );
+    getGroupWithIdpFlagAsResultObservable.mockReturnValue(groupsWithIpFlagsOnMembers);
+
+    useObservable.mockReturnValue(
+      asLoadedResult([
+        { id: '123', email: 'winger@greendale.edu', fullName: 'Jeff Winger', lastLoggedIn: 1632798807611 }
+      ])
+    );
+
+    return render(<Group match={{ params: { id: 'Greendale' } }} />);
   }
 });

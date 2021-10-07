@@ -44,6 +44,17 @@ export const labelColumn = {
   }
 };
 
+export const idpGroupColumn = {
+  width: '8rem',
+  getContent({ joinedViaIdpMapping }) {
+    return (
+      joinedViaIdpMapping && (
+        <KeyValue value={t('in-settings:tabs.idp')} label={t('in-settings:tabs.assignedBy')} accentuated />
+      )
+    );
+  }
+};
+
 export const deleteColumn = {
   width: '2rem',
   getContent({ user, deleteItem, currentDeletingItemIds }) {
@@ -64,6 +75,7 @@ const defaultColumnDefinitions = [iconColumn, labelColumn, deleteColumn];
 
 function DefaultListRenderer({
   items,
+  members,
   deleteItem,
   currentDeletingItemIds,
   columnDefinitions = defaultColumnDefinitions,
@@ -84,6 +96,7 @@ function DefaultListRenderer({
               userId={user.id}
               user={user}
               email={user.email}
+              joinedViaIdpMapping={members?.find(m => m.userId === user.id).joinedViaIdpMapping}
               deleteItem={deleteItem}
               currentDeletingItemIds={currentDeletingItemIds}
             />
