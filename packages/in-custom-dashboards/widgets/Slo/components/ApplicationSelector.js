@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -21,10 +21,23 @@ export default function ApplicationSelector({
   onChange,
   getApConfigs = getApplicationConfigsAsResultObservable
 }) {
+  const apId = field?.value;
   const apConfigs = useObservable(
     getApConfigs().map(({ data }) => data),
     [getApConfigs]
   );
+
+  useEffect(
+    () => {
+      if (apConfigs && apId) {
+        onChange(apConfigs.find(({ id }) => id === apId));
+      }
+    },
+    // Not tracking onChange and apId here because this should only the first time apConfigs finished loading
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [apConfigs]
+  );
+
   return (
     <Sections>
       <SelectInSection
@@ -34,10 +47,10 @@ export default function ApplicationSelector({
           </SectionLabelWithSubtext>
         }
         id="sli-config-ap"
-        value={field?.value}
+        value={apId}
         onChange={e => {
-          const apId = e.target.value;
-          onChange(apConfigs.find(({ id }) => id === apId));
+          const newId = e.target.value;
+          onChange(apConfigs.find(({ id }) => id === newId));
         }}
         hasError={!field.valid && field.touched}
         additionalContent={
