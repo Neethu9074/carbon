@@ -8,7 +8,7 @@ import React from 'react';
 
 import { FormContext } from 'in-components/form/binding/FormContext';
 
-export default function Form({ onSubmit, children, form, setForm, disabled }) {
+export default function Form({ onSubmit, children, form, setForm, disabled, formId }) {
   return (
     <FormContext.Provider
       value={{
@@ -19,6 +19,7 @@ export default function Form({ onSubmit, children, form, setForm, disabled }) {
       }}
     >
       <form
+        id={formId}
         onSubmit={event => {
           event.preventDefault();
           event.stopPropagation();
@@ -42,5 +43,6 @@ Form.propTypes = {
   form: PropTypes.object.isRequired,
   setForm: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  formId: PropTypes.string
 };

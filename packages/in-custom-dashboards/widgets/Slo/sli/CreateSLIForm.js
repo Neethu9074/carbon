@@ -110,7 +110,7 @@ export default function CreateNewSLIForm({
   };
 
   return (
-    <Form form={form} setForm={setForm} onSubmit={onSubmit}>
+    <Form form={form} setForm={setForm} onSubmit={onSubmit} formId="createSliForm">
       <Stack gap="large">
         <SliForm form={form} onChange={onChange} onChangeType={onChangeType} apName={apName} />
 
@@ -142,7 +142,7 @@ function useSetFooter(sliConfig, form, timeConfig, setFooter, close, saving) {
             close();
           }}
         />
-        <SaveButton form={form} isSaving={saving} disabled={!isValid}>
+        <SaveButton form={form} isSaving={saving} disabled={!isValid} formId="createSliForm">
           {saving ? savingStateName : saveButtonLabel}
         </SaveButton>
       </FormFooter>
