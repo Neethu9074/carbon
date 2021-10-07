@@ -30,8 +30,8 @@ export function ChartsPresenter(props) {
         disableClose={false}
         hideRenderer
         tracking={{
-          onChartChanged: ({ metricId, aggregationId }) =>
-            ua2ChartChangedTracker({ dataSource, metric: metricId, aggregation: aggregationId })
+          onChartChanged: ({ templateId, metricId, aggregationId }) =>
+            ua2ChartChangedTracker({ dataSource, template: templateId, metric: metricId, aggregation: aggregationId })
         }}
       />
     </Sections>

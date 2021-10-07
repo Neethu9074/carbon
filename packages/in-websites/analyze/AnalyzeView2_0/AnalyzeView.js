@@ -22,6 +22,7 @@ import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers'
 import Beacons from 'in-websites/analyze/AnalyzeView2_0/components/Beacons';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { clsFormatter } from 'in-websites/analyze/AnalyzeView/metrics';
+import { getMetricTemplates } from 'in-websites/api/metricTemplates';
 import { getMetricCatalog } from 'in-websites/api/metricCatalog';
 import { analyzePath } from 'in-websites/navigation/paths';
 import { beaconType } from 'in-websites/navigation/matrix';
@@ -252,6 +253,7 @@ export default function WebsiteAnalyzeView() {
       dataSourceParameter={dataSourceParameter}
       getTagCatalog={getTagCatalog}
       getMetricCatalog={getMetricCatalog}
+      getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
     >
       {opts =>

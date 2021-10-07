@@ -20,6 +20,7 @@ import MobileBeacons from 'in-mobile-apps/analyze/AnalyzeView2_0/components/Mobi
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { wrapToDiscardNegativeValues } from 'in-analyze/metricDefinitionHelpers';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
+import { getMetricTemplates } from 'in-mobile-apps/api/metricTemplates';
 import { getFormatter } from 'in-services/formatters/backendFormatter';
 import { getMetricCatalog } from 'in-mobile-apps/api/metricCatalog';
 import { analyzePath } from 'in-mobile-apps/navigation/paths';
@@ -215,6 +216,7 @@ export default function MobileAnalyzeView() {
       dataSourceParameter={dataSourceParameter}
       getTagCatalog={getTagCatalog}
       getMetricCatalog={getMetricCatalog}
+      getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
     >
       {opts =>

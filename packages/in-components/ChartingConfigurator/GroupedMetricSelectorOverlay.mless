@@ -1,0 +1,47 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .list {
+    max-height: 20rem;
+    overflow-y: auto;
+  }
+
+  .group {
+    font-size: 0.75rem;
+    color: @lib__colors__teal800;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .option {
+    font-size: 0.75rem;
+    max-width: 18rem;
+    justify-content: flex-start;
+  }
+
+  .optionValueMargin {
+    margin-left: 0.5rem;
+  }
+
+  .align-left {
+    justify-content: flex-start;
+  }
+
+  .searchWrapper {
+    padding: 0.5rem;
+  }
+
+  .search {
+    height: 2rem;
+    font-size: 0.875rem;
+  }
+
+  .searchContainer {
+    border-radius: 0.125rem;
+    background-color: @lib__colors__N100;
+  }
+}

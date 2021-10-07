@@ -1,0 +1,39 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .metric,
+  .aggregation,
+  .renderer {
+    line-height: 2;
+    padding: 0 0.375rem;
+
+    &:not(:last-child) {
+      border-right: 1px solid #dfe4e8;
+    }
+
+    &:first-child {
+      padding-left: 0;
+      margin-left: 0.3rem;
+    }
+  }
+
+  .selectable {
+    &:focus,
+    &:active,
+    &:hover {
+      color: @lib__colors__light-blue800;
+
+      .icon {
+        fill: @lib__colors__light-blue800;
+      }
+    }
+  }
+
+  .selectAbleWithIcon {
+    display: flex;
+  }
+}

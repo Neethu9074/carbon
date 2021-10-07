@@ -32,7 +32,8 @@
       "scrollHint": "Scroll using <upArrow /><downArrow /> keys",
       "rollup": "over {{rollup}}",
       "more": "{{number}} more"
-    }
+    },
+    "chartTemplates": "Templates"
   },
   "comboBox": {
     "placeholderSelect": "Select…"

@@ -39,6 +39,7 @@ import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets'
 import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { getMetricTemplates } from 'in-applications/api/metricTemplates';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
@@ -56,7 +57,25 @@ const defaultSelectableFields = [
   { type: 'metric', metricId: 'errors', aggregationId: 'MEAN' }
 ];
 
-const defaultChartedMetrics = [{ metricId: 'latency', aggregationId: 'DISTRIBUTION' }];
+const defaultChartedMetrics = [
+  {
+    templateId: 'red.metrics',
+    metrics: [
+      {
+        metricId: 'calls',
+        aggregationId: 'SUM'
+      },
+      {
+        metricId: 'erroneousCalls',
+        aggregationId: 'SUM'
+      },
+      {
+        metricId: 'latency',
+        aggregationId: 'MEAN'
+      }
+    ]
+  }
+];
 
 const dataSourceParameter = {
   path: analyzePath,
@@ -157,6 +176,7 @@ export default function ApplicationsAnalyzeView() {
       dataSourceParameter={dataSourceParameter}
       getTagCatalog={getTagCatalog}
       getMetricCatalog={getMetricCatalog}
+      getMetricTemplates={getMetricTemplates}
       dataSourceConfigurations={dataSourceConfigurations}
     >
       {opts =>

@@ -17,6 +17,8 @@ export default function ChartingConfiguratorSection({
   onChange,
   hideRenderer,
   disableClose,
+  dataSource,
+  unifiedMetricsSource,
   ChartingConfigurator = DefaultChartingConfigurator,
   // Option to pass in additional buttons. For example to allow configuration of percentile presentation.
   additionalActions = noAdditionalActions,
@@ -32,6 +34,8 @@ export default function ChartingConfiguratorSection({
       <ChartingConfigurator
         value={value}
         options={options}
+        dataSource={dataSource}
+        unifiedMetricsSource={unifiedMetricsSource}
         onChange={onChange}
         hideRenderer={hideRenderer}
         disableClose={disableClose}

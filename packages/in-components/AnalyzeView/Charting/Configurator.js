@@ -7,35 +7,54 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import ChartingConfiguratorSection from 'in-components/ChartingConfigurator/ChartingConfiguratorSection';
+import GroupedChartingConfigurator from 'in-components/ChartingConfigurator/GroupedChartingConfigurator';
 import { userSelectableRenderer } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
-import { aggregationLabels } from 'in-stores/metric/metric';
 import { emptyArray } from 'in-services/fixedObjects';
+import { aggregationLabels } from 'in-stores/metric';
 
 export default function Configurator({
   onChartedMetricsChange,
   chartedMetrics,
+  chartedMetricsTemplate,
+  chartedMetricsTemplates,
   chartableMetricCatalog,
+  dataSource,
+  unifiedMetricsSource,
   disableClose,
   hideRenderer,
   tracking
 }) {
+  const value = chartedMetricsTemplate ?? chartedMetrics?.[0];
+
+  const options = {
+    templates: chartedMetricsTemplates ?? emptyArray,
+    metrics:
+      chartableMetricCatalog?.map(({ metricId, label, description, aggregations }) => ({
+        metricId,
+        label,
+        description,
+        aggregations: aggregations.map(aggregationId => ({
+          id: aggregationId,
+          label: aggregationLabels[aggregationId],
+          renderers: userSelectableRenderer
+        }))
+      })) ?? emptyArray
+  };
+
   return (
     <ChartingConfiguratorSection
-      value={chartedMetrics?.[0]}
-      options={
-        chartableMetricCatalog?.map(({ metricId, label, description, aggregations }) => ({
-          metricId,
-          label,
-          description,
-          aggregations: aggregations.map(aggregationId => ({
-            id: aggregationId,
-            label: aggregationLabels[aggregationId],
-            renderers: userSelectableRenderer
-          }))
-        })) || emptyArray
-      }
-      onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
+      value={value}
+      options={options}
+      dataSource={dataSource}
+      unifiedMetricsSource={unifiedMetricsSource}
+      ChartingConfigurator={GroupedChartingConfigurator}
+      onChange={metric => {
+        if (Array.isArray(metric)) {
+          return onChartedMetricsChange(metric);
+        }
+        return onChartedMetricsChange(metric ? [metric] : []);
+      }}
       tracking={tracking}
       hideRenderer={hideRenderer}
       disableClose={disableClose}

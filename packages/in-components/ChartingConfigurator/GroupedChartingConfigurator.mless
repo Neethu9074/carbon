@@ -1,0 +1,31 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .wrapper {
+    // Visually align group by "box" with the first box of the query builder (which has an offset
+    // due to the leading whitespace).
+    margin-left: 0.125rem;
+    margin-right: 0.25rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 1.6;
+
+    color: var(--query-builder-element-color);
+    max-height: 1.6875rem;
+
+    background: @lib__colors__N050;
+    width: fit-content;
+
+    border: 1px solid @lib__colors__N400;
+    border-radius: @lib__shapes__radius_medium;
+
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+}

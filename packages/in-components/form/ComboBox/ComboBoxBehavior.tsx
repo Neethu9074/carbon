@@ -34,6 +34,8 @@ interface ComboboxBehaviorProps<OPTION_VALUE_TYPE> {
   disableAutomaticOptionSorting?: boolean;
   'aria-label'?: string;
   overlayAlignment?: Align;
+  overlayContent?: typeof ComboBoxOverlay;
+  overlayProps?: any;
   listItemClassName?: string;
   listItemAlignment?: OverlayOptionAlignments;
 }
@@ -47,6 +49,8 @@ export default function ComboBoxBehavior<OPTION_VALUE_TYPE>({
   requiresCustomInteractivity,
   'aria-label': ariaLabel,
   overlayAlignment = 'bottomLeft',
+  overlayContent = ComboBoxOverlay,
+  overlayProps = {},
   listItemClassName,
   listItemAlignment
 }: ComboboxBehaviorProps<OPTION_VALUE_TYPE>) {
@@ -54,8 +58,9 @@ export default function ComboBoxBehavior<OPTION_VALUE_TYPE>({
 
   return (
     <Overlay<ComboBoxOverlayProps<OPTION_VALUE_TYPE>>
-      content={ComboBoxOverlay}
+      content={overlayContent}
       props={{
+        ...overlayProps,
         options,
         value,
         onChange(newValue) {

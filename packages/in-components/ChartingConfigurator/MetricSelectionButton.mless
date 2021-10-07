@@ -1,0 +1,22 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .metricSelectionButton {
+    display: flex;
+  }
+
+  .label {
+    font-weight: 600;
+    margin-left: 0.1875rem;
+  }
+
+  .templateDescription {
+    color: @lib__colors__N500;
+    font-weight: 400;
+    margin-left: 0.375rem;
+  }
+}

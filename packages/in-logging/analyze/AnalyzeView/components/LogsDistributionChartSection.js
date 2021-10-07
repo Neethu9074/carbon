@@ -6,6 +6,7 @@
 import React from 'react';
 
 import ChartingConfiguratorSection from 'in-components/ChartingConfigurator/ChartingConfiguratorSection';
+import GroupedChartingConfigurator from 'in-components/ChartingConfigurator/GroupedChartingConfigurator';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
@@ -20,29 +21,34 @@ import { t } from 'in-i18n';
 
 import locals from './LogsDistributionChartSection.mless';
 
-const options = [
-  {
-    metricId: 'logs_distribution',
-    label: t('in-logging:logs'),
-    formatter: 'number.compact',
-    aggregations: [
-      {
-        id: 'SUM',
-        label: t('in-logging:sum'),
-        renderers: [{ id: 'bar', label: t('in-logging:bar') }]
-      }
-    ]
-  }
-];
+const options = {
+  templates: [],
+  metrics: [
+    {
+      metricId: 'logs_distribution',
+      label: t('in-logging:logs'),
+      formatter: 'number.compact',
+      aggregations: [
+        {
+          id: 'SUM',
+          label: t('in-logging:sum'),
+          renderers: [{ id: 'bar', label: t('in-logging:bar') }]
+        }
+      ]
+    }
+  ]
+};
 
 export default function LogsDistributionChartSection(props) {
-  const { chartedMetrics, onChartedMetricsChange, tracking, hideRenderer, disableClose } = props;
+  const { chartedMetrics, dataSource, onChartedMetricsChange, tracking, hideRenderer, disableClose } = props;
 
   return (
     <Sections className={locals.wrapper}>
       <ChartingConfiguratorSection
         value={chartedMetrics?.[0]}
         onChange={metric => onChartedMetricsChange(metric ? [metric] : [])}
+        dataSource={dataSource}
+        ChartingConfigurator={GroupedChartingConfigurator}
         options={options}
         tracking={tracking}
         hideRenderer={hideRenderer}

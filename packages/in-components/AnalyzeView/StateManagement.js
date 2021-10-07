@@ -8,7 +8,7 @@ import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
 
-import { STARTS_WITH, EQUALS, IS_BLANK, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
+import { EQUALS, IS_BLANK, IS_EMPTY, NOT_EMPTY, STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { CONJUNCTION, joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import FixatedTimeConfigContextModification from 'in-stores/time/FixatedTimeConfigContextModification';
 import { removeFacetTag, tagFiltersFromFacets } from 'in-components/AnalyzeView/FacetedFilters/facets';
@@ -99,10 +99,15 @@ const fieldsPropTypes = rpt.arrayOf(
 );
 
 const chartedMetricsPropTypes = rpt.arrayOf(
-  rpt.shape({
-    metricId: rpt.string.isRequired,
-    aggregationId: rpt.string.isRequired
-  })
+  rpt.oneOfType([
+    rpt.shape({
+      metricId: rpt.string.isRequired,
+      aggregationId: rpt.string.isRequired
+    }),
+    rpt.shape({
+      templateId: rpt.string.isRequired
+    })
+  ])
 );
 
 const groupedViewPropType = rpt.shape({
@@ -184,6 +189,7 @@ function AnalyzeStateManagement({
   defaultDataSource,
   getTagCatalog,
   getMetricCatalog,
+  getMetricTemplates,
   urlStateDefinition,
   dataSourceConfigurations,
   children
@@ -234,9 +240,32 @@ function AnalyzeStateManagement({
   const detailId = useStableObjectInstance(urlState.detailId);
   const selectableFields = useStableObjectInstance(urlState.fields ?? defaultSelectableFields);
   // charts should be shown, even if not explicitly selected
-  const chartedMetrics = useStableObjectInstance(
+  const chartedMetricData = useStableObjectInstance(
     urlState.chartedMetrics ? urlState.chartedMetrics : defaultChartedMetrics
   );
+
+  const metricTemplatesResult =
+    useObservable(() => getMetricTemplates() || noResultObservable(), [getMetricTemplates]) ?? pendingResult;
+
+  const chartedMetricsTemplates = useMemo(() => {
+    if (metricTemplatesResult?.progress.loading) {
+      return;
+    }
+
+    return metricTemplatesResult?.data;
+  }, [metricTemplatesResult]);
+  const currentMetricsTemplate = chartedMetricData?.find(metricData => metricData.templateId != null);
+
+  let chartedMetricsTemplate;
+  let chartedMetrics;
+  if (currentMetricsTemplate) {
+    chartedMetricsTemplate = chartedMetricsTemplates?.find(
+      template => template.templateId === currentMetricsTemplate.templateId
+    );
+    chartedMetrics = currentMetricsTemplate?.metrics;
+  } else {
+    chartedMetrics = chartedMetricData;
+  }
 
   const filteringTagCatalogResult =
     useObservable(
@@ -422,6 +451,8 @@ function AnalyzeStateManagement({
     chartableDataSeries,
     onChartableDataSeriesChange,
     chartedMetrics,
+    chartedMetricsTemplate,
+    chartedMetricsTemplates,
     onChartedMetricsChange: chartedMetrics => onChange({ chartedMetrics }),
 
     detailId,

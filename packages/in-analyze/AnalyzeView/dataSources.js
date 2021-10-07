@@ -139,6 +139,10 @@ export function getEntityNameByType(type) {
     return t('in-analyze:analyzeView.dataSources.customEvents');
   } else if (type === 'profiles') {
     return t('in-analyze:analyzeView.dataSources.profiles');
+  } else if (type === 'calls') {
+    return t('in-analyze:analyzeView.dataSources.calls');
+  } else if (type === 'traces') {
+    return t('in-analyze:analyzeView.dataSources.traces');
   } else if (type === 'logs' || type === 'rawlogs') {
     return t('in-analyze:analyzeView.dataSources.logs');
   } else if (type === 'sessionStart') {

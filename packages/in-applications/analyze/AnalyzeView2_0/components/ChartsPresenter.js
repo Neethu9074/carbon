@@ -9,25 +9,14 @@ import LatencyDistributionChart from 'in-applications/analyze/components/Chartin
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { metricRenderers } from 'in-applications/analyze/AnalyzeView2_0/metrics';
 import { ua2ChartChangedTracker } from 'in-applications/tracker';
+import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
 
 import locals from './ChartsPresenter.mless';
 
 export function ChartsPresenter(props) {
-  const {
-    hiddenCalls,
-    groupedViewConfiguration,
-    chartedMetrics,
-    dataSource,
-    isGrouped,
-    chartableDataSeries,
-    facets,
-    facetsAsTagFilterExpression,
-    formModel,
-    facetedSearchItems,
-    onFacetedSearchSelectionChange
-  } = props;
+  const { hiddenCalls, groupedViewConfiguration, chartedMetrics, dataSource, isGrouped, chartableDataSeries } = props;
 
   return (
     <Sections className={locals.chartWrapper}>
@@ -49,26 +38,31 @@ export function ChartsPresenter(props) {
         disableClose={false}
         hideRenderer
         tracking={{
-          onChartChanged: ({ metricId, aggregationId }) =>
-            ua2ChartChangedTracker({ dataSource, metric: metricId, aggregation: aggregationId })
+          onChartChanged: ({ templateId, metricId, aggregationId }) =>
+            ua2ChartChangedTracker({ dataSource, template: templateId, metric: metricId, aggregation: aggregationId })
         }}
-        CustomChart={
-          chartedMetrics?.[0]?.metricId === 'latency' &&
-          chartedMetrics?.[0]?.aggregationId === 'DISTRIBUTION' &&
-          (() => (
-            <div className={locals.latencyDistribution}>
-              <LatencyDistributionChart
-                dataSource={dataSource}
-                tagFilterExpression={toBackendQueryModel(facetsAsTagFilterExpression) ?? EMPTY_EXPRESSION}
-                hiddenCalls={hiddenCalls}
-                facets={facets}
-                formModel={formModel}
-                facetedSearchItems={facetedSearchItems}
-                updateFilter={onFacetedSearchSelectionChange}
+        CustomChartFactory={({ metricConfig, chartProps }) => {
+          if (metricConfig.metricId === 'latency' && metricConfig.aggregationId === 'DISTRIBUTION') {
+            return (
+              <div key={`${metricConfig.metricId}${metricConfig.aggregationId}`} className={locals.latencyDistribution}>
+                <LatencyDistributionChart
+                  {...chartProps}
+                  tagFilterExpression={toBackendQueryModel(chartProps.facetsAsTagFilterExpression) ?? EMPTY_EXPRESSION}
+                  updateFilter={chartProps.onFacetedSearchSelectionChange}
+                  chartedMetrics={[metricConfig]}
+                />
+              </div>
+            );
+          } else {
+            return (
+              <Chart
+                {...chartProps}
+                key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
+                chartedMetrics={[metricConfig]}
               />
-            </div>
-          ))
-        }
+            );
+          }
+        }}
       />
     </Sections>
   );

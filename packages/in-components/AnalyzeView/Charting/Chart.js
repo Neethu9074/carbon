@@ -6,8 +6,11 @@
 import rpt from 'prop-types';
 import React from 'react';
 
+import { Stack } from '@instana/components';
+
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import AggregationSelector from 'in-components/AnalyzeView/Charting/AggregationSelector';
 import { getUiInternalFormatterName } from 'in-services/formatters/backendFormatter';
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import { identity } from 'in-services/util/function';
@@ -15,6 +18,7 @@ import { identity } from 'in-services/util/function';
 import locals from './Chart.mless';
 
 export default function Chart({
+  title,
   isGrouped,
   getCustomGroupLabel,
   getCustomMetricUiFormatterName,
@@ -25,7 +29,10 @@ export default function Chart({
   mapMetricConfiguration = identity,
   unifiedMetricsSource,
   dataSource,
-  forceLoadingIndicator
+  forceLoadingIndicator,
+  showAggregationSelector,
+  onAggregationChange,
+  aggregations
 }) {
   if (chartedMetrics.length < 1 || !chartableMetricCatalog) {
     return null;
@@ -75,14 +82,32 @@ export default function Chart({
     );
   }
 
+  const header =
+    title || showAggregationSelector ? (
+      <div className={locals.header}>
+        <Stack direction="horizontal" distribution="spaceBetween" align="center">
+          {title && (
+            <div className={locals.titleWrapper}>
+              <span className={locals.title}>{title}</span>
+            </div>
+          )}
+          {showAggregationSelector && (
+            <AggregationSelector
+              selectedAggregation={aggregationId}
+              aggregations={aggregations}
+              onChange={onAggregationChange}
+            />
+          )}
+        </Stack>
+      </div>
+    ) : (
+      <div className={locals.header} />
+    );
+
   return (
     <div className={locals.chartWrapper}>
-      <UnifiedMetricsChart
-        renderLegend={false}
-        config={chartConfig}
-        forceLoadingIndicator={forceLoadingIndicator}
-        automaticallySize
-      />
+      {header}
+      <UnifiedMetricsChart renderLegend={false} config={chartConfig} forceLoadingIndicator={forceLoadingIndicator} />
     </div>
   );
 }

@@ -8,74 +8,77 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+import GroupedMetricSelectorOverlay from 'in-components/ChartingConfigurator/GroupedMetricSelectorOverlay';
+import { MetricSelectionButton } from 'in-components/ChartingConfigurator/MetricSelectionButton';
+import ChartSelectorOverlay from 'in-components/ChartingConfigurator/ChartSelectorOverlay';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import { t } from 'in-i18n';
 
 import locals from './ChartingConfiguratorForm.mless';
 
-export default function ChartingConfiguratorForm({ value, options, onChange, hideRenderer, disableClose }) {
-  const activeMetric = options.find(({ metricId }) => metricId === value.metricId) || options[0];
-  const activeAggregation =
-    activeMetric.aggregations.find(({ id }) => id === value.aggregationId) || activeMetric.aggregations[0];
-  const activeRenderer =
-    activeAggregation.renderers.find(({ id }) => id === value.rendererId) || activeAggregation.renderers[0];
-  const multipleMetrics = options.length > 1;
-  const multipleAggregations = activeMetric.aggregations.length > 1;
+export default function ChartingConfiguratorForm({
+  value,
+  options,
+  onChange,
+  hideRenderer,
+  disableClose,
+  dataSource,
+  unifiedMetricsSource
+}) {
+  const activeTemplate = options?.templates?.find(({ templateId }) => templateId === value.templateId);
+
+  let activeMetric, activeAggregation, activeRenderer;
+  if (!activeTemplate) {
+    activeMetric = options?.metrics?.find(({ metricId }) => metricId === value.metricId) || options?.metrics?.[0];
+    activeAggregation =
+      activeMetric?.aggregations?.find(({ id }) => id === value.aggregationId) || activeMetric?.aggregations?.[0];
+    activeRenderer =
+      activeAggregation?.renderers?.find(({ id }) => id === value.rendererId) || activeAggregation?.renderers?.[0];
+  }
+
+  const multipleMetricsAndTemplates = Object.values(options).reduce((acc, curr) => (acc += curr?.length ?? 0), 0);
+  const multipleAggregations = activeMetric?.aggregations?.length > 1;
 
   return (
-    <div className={locals.wrapper}>
-      {multipleMetrics ? (
-        <ComboBoxBehavior
-          options={options.map(({ metricId, label }) => ({ value: metricId, label }))}
-          value={activeMetric.metricId}
-          onChange={metricId => {
-            const change = {
-              ...value,
-              metricId
-            };
-            const metric = options.find(opt => opt.metricId === metricId);
-            let aggregation = metric.aggregations.find(opt => opt.id === change.aggregationId);
-            if (!aggregation) {
-              aggregation = metric.aggregations[0];
-              change.aggregationId = aggregation.id;
-            }
-
-            const renderer = aggregation.renderers.find(opt => opt.id === change.rendererId);
-            if (!renderer) {
-              change.rendererId = aggregation.renderers[0].id;
-            }
-
-            onChange(change);
-          }}
-          requiresCustomInteractivity
+    <>
+      {multipleMetricsAndTemplates ? (
+        <ChartSelectorOverlay
+          value={value}
+          options={options}
+          dataSource={dataSource}
+          overlayContent={GroupedMetricSelectorOverlay}
+          unifiedMetricsSource={unifiedMetricsSource}
+          overlayProps={{ dataSource, unifiedMetricsSource }}
+          onChange={onChange}
           aria-label={t('in-components:chartingConfigurator.labelChangeSelectedMetric')}
-        >
-          {({ elementProps }) => (
-            <div {...elementProps} className={classNames(locals.metric, locals.selectable)}>
-              {activeMetric.label}
-            </div>
-          )}
-        </ComboBoxBehavior>
+        />
       ) : (
-        <div className={locals.metric}>{activeMetric.label}</div>
+        <div className={classNames(locals.metric, locals.singleMetric)}>
+          <MetricSelectionButton
+            metric={activeMetric}
+            template={activeTemplate}
+            dataSource={dataSource}
+            metricsSource={unifiedMetricsSource}
+          />
+        </div>
       )}
 
-      {multipleAggregations ? (
+      {multipleAggregations && !activeTemplate ? (
         <ComboBoxBehavior
-          options={activeMetric.aggregations
+          options={activeMetric?.aggregations
             .map(({ id, label }) => ({ value: id, label }))
             .sort((agg1, agg2) => agg1.label.localeCompare(agg2.label))}
-          value={activeAggregation.id}
+          value={activeAggregation?.id}
           disableAutomaticOptionSorting
           onChange={aggregationId => {
             const change = {
               ...value,
               aggregationId
             };
-            const aggregation = activeMetric.aggregations.find(opt => opt.id === aggregationId);
-            const renderer = aggregation.renderers.find(opt => opt.id === change.rendererId);
+            const aggregation = activeMetric?.aggregations?.find(opt => opt.id === aggregationId);
+            const renderer = aggregation?.renderers?.find(opt => opt.id === change.rendererId);
             if (!renderer) {
-              change.rendererId = aggregation.renderers[0].id;
+              change.rendererId = aggregation?.renderers?.[0]?.id;
             }
 
             onChange(change);
@@ -85,18 +88,20 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
         >
           {({ elementProps }) => (
             <div {...elementProps} className={classNames(locals.aggregation, locals.selectable)}>
-              {activeAggregation.label}
+              {activeAggregation?.label}
             </div>
           )}
         </ComboBoxBehavior>
       ) : (
-        <div className={classNames(locals.aggregation, locals.singleAggregation)}>{activeAggregation.label}</div>
+        activeAggregation?.label && (
+          <div className={classNames(locals.aggregation, locals.singleAggregation)}>{activeAggregation?.label}</div>
+        )
       )}
 
-      {!hideRenderer && (
+      {!hideRenderer && !activeTemplate && (
         <ComboBoxBehavior
-          options={activeAggregation.renderers.map(({ id, label }) => ({ value: id, label }))}
-          value={activeRenderer.id}
+          options={activeAggregation?.renderers?.map(({ id, label }) => ({ value: id, label }))}
+          value={activeRenderer?.id}
           onChange={rendererId =>
             onChange({
               ...value,
@@ -122,6 +127,6 @@ export default function ChartingConfiguratorForm({ value, options, onChange, hid
           onClick={() => onChange(null)}
         />
       )}
-    </div>
+    </>
   );
 }
