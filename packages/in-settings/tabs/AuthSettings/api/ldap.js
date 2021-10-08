@@ -7,7 +7,6 @@ import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
-import memoize from 'in-services/util/memoizingObservableGenerator';
 import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
@@ -17,8 +16,7 @@ export function refresh() {
 
 // observables
 
-export const getConfigAsResultObservable = memoize(getConfigAsResultObservableInternal, () => '', 60000);
-function getConfigAsResultObservableInternal() {
+export function getConfigAsResultObservable() {
   return refreshSignal.flatMap(() =>
     createObservable(
       http({
@@ -49,9 +47,6 @@ export function setConfig(config) {
     url: `/api/settings/authentication/ldap`,
     headers: getCsrfHeader(),
     data: config
-  }).map(v => {
-    refreshSignal.emit(config);
-    return v;
   });
 }
 

@@ -7,10 +7,11 @@ import { createMapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { combineLatest } from '@instana/observables';
+import { Message } from '@instana/components';
 
 import renderLoadingStateDefault from 'in-settings/components/ApiItemView/FallbackLoadingView';
-import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessageV2';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
+import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import Header from 'in-settings/components/ApiItemView/Header';
 import Footer from 'in-settings/components/ApiItemView/Footer';
 import { isLoading, hasError } from 'in-services/util/result';
@@ -51,9 +52,15 @@ export default connectTo(
 );
 
 function MessageWrapper({ message }) {
-  const id = message?.message || '';
+  if (!message) return null;
+  const id = message.message || '';
+  const text = message.text || message.message;
   return (
-    <div className={locals.messageWrapper}>{message && <TemporaryMessage id={id} {...message} duration={5000} />}</div>
+    <TemporaryPresenter duration={5000} id={id}>
+      <Message className={locals.messageWrapper} type={message.type} withIcon small>
+        {text}
+      </Message>
+    </TemporaryPresenter>
   );
 }
 
