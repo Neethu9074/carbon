@@ -5,9 +5,10 @@
 
 import React from 'react';
 
+import { capitalize } from 'in-services/formatters/string';
 import ButtonGroup from 'in-components/ButtonGroup';
 
-const MonitoringSources = ['Applications', 'Websites'] as const;
+const MonitoringSources = ['application', 'website'] as const;
 export type MonitoringSource = typeof MonitoringSources[number];
 
 export interface MonitoringSourceSelectorProps {
@@ -20,7 +21,7 @@ export default function MonitoringSourceSelector({ value, onChange }: Monitoring
     <ButtonGroup
       buttonPropsList={MonitoringSources.map(source => ({
         key: source,
-        text: source,
+        text: capitalize(source),
         onClick: () => onChange(source)
       }))}
       activeKey={value}
