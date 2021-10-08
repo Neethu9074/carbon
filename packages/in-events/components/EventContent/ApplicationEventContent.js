@@ -11,6 +11,7 @@ import { Card } from '@instana/components';
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
+import { getChartTimeConfigByEvent, getTimeConfigFromEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
 import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
@@ -18,7 +19,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
 import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventAlertConfig';
-import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
@@ -26,7 +26,6 @@ import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
-import { getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -102,7 +101,7 @@ export default function ApplicationEventContent({ event }) {
               applicationId={eventEntity.applicationId}
               serviceId={eventEntity.serviceId}
               endpointId={eventEntity.endpointId}
-              eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo)}
+              eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo).sort((a, b) => a[0] - b[0])}
             />
           </Card>
         </Col>
