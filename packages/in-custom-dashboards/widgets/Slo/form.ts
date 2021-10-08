@@ -209,7 +209,7 @@ export function addFormForTimeDuration(form: MapForm, savedState: SloWidgetConfi
 
 export function ensureConfigBackwardCompatibility(savedForm: SloWidgetConfiguration): SloWidgetConfiguration {
   const id = savedForm[entityId] ?? savedForm[apConfigId];
-  const type = savedForm[entityType] ?? 'Applications';
+  const type = savedForm[entityType] ?? 'application';
 
   return {
     ...savedForm,

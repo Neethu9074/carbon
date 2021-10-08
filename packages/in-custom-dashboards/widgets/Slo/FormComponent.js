@@ -140,10 +140,10 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
           </Sections>
         )}
 
-        {form.get(entityType)?.value === 'Applications' && (
+        {form.get(entityType)?.value === 'application' && (
           <ApplicationSelector apIdField={entityIdField} onChange={onUpdateAppId} />
         )}
-        {form.get(entityType)?.value === 'Websites' && (
+        {form.get(entityType)?.value === 'website' && (
           <WebsiteSelector
             websiteIdField={entityIdField}
             onChange={website =>
