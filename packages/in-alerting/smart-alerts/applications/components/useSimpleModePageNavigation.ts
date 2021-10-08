@@ -3,11 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { useLocation } from 'react-router';
 import { MapForm } from 'formalistic';
 import { Item } from 'formalistic';
 import { useState } from 'react';
-import * as H from 'history';
 
 type FieldPath = string[];
 
@@ -22,7 +20,7 @@ export interface SetupProps {
   setForm: (form: MapForm) => void;
   onCreate: () => void;
   onClose: () => void;
-  onStepChanged: (oldStep: number, newStep: number, location: H.LocationState) => void;
+  onStepChanged: (oldStep: number, newStep: number) => void;
 }
 
 export function useSimpleModePageNavigation({
@@ -35,12 +33,11 @@ export function useSimpleModePageNavigation({
 }: SetupProps) {
   const [step, setStep] = useState<number>(0);
   const [simpleModeStep, setSimpleModeStep] = useState(0);
-  const location: H.LocationState = useLocation(); // this was only needed for a check in onStepChanged, with matrixUrlParams
 
   const handleUpdateState = (oldStep: number, nextStep: number) => {
     setStep(nextStep);
     setSimpleModeStep(nextStep);
-    onStepChanged(oldStep, nextStep, location); // LATER figure out if 'location' was still needed.
+    onStepChanged(oldStep, nextStep);
   };
 
   const backOrCancel = (oldStep: number) => {

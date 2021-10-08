@@ -15,16 +15,17 @@ import {
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
-import { stepConfigs, onStepChanged, stepRenderers } from 'in-alerting/smart-alerts/websites/simple/simpleModeSteps';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { SimpleDialogFooter } from 'in-alerting/smart-alerts/applications/components/SimpleDialogFooter';
+import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/websites/simple/simpleModeSteps';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/websites/advanced/AdvancedModeContainer';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
+import { websitesAlertingStepSwitch } from 'in-alerting/smart-alerts/websites/tracker';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -104,7 +105,7 @@ function SmartAlertConfigDialogWithQueryValidation({
     setForm: updateForm,
     onCreate: withTrackCreate,
     onClose: withTrackClose,
-    onStepChanged
+    onStepChanged: (oldStep, nextStep) => websitesAlertingStepSwitch({ oldStep, nextStep })
   });
 
   const footer = simpleMode ? (
