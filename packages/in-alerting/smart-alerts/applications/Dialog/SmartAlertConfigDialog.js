@@ -8,11 +8,6 @@ import React, { useEffect, useState } from 'react';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
-import {
-  onStepChanged,
-  stepConfigs,
-  stepRenderers
-} from 'in-alerting/smart-alerts/applications/simple/simpleModeSteps';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
@@ -20,11 +15,13 @@ import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
+import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/applications/simple/simpleModeSteps';
 import { SimpleDialogFooter } from 'in-alerting/smart-alerts/applications/components/SimpleDialogFooter';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { applicationsAlertingStepSwitch } from 'in-alerting/smart-alerts/applications/tracker';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import FeatureFeedback from 'in-components/FeatureFeedback/FeatureFeedback';
@@ -119,7 +116,7 @@ function SmartAlertConfigDialogWithQueryValidation({
     setForm: updateForm,
     onCreate: withTrackCreate,
     onClose: withTrackClose,
-    onStepChanged
+    onStepChanged: (oldStep, nextStep) => applicationsAlertingStepSwitch({ oldStep, nextStep })
   });
 
   const footer = simpleMode ? (
