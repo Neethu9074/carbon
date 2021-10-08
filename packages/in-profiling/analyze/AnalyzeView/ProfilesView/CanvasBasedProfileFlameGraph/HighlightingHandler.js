@@ -83,7 +83,7 @@ export default class HighlightingHandler extends React.Component {
       return null;
     }
     return (
-      <Tooltip themeStyle="light" content={`${node.name} (${((node.percent * 100) | 1) / 100}%)`} align="topMiddle">
+      <Tooltip themeStyle="light" content={`${node.name}`} align="topMiddle">
         <div
           className={locals.highlightedNode}
           style={{
