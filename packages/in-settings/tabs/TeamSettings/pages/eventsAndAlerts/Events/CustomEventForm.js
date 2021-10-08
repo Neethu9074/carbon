@@ -88,7 +88,6 @@ import { deprecateAppDataLegacyEvents, disableAppDataLegacyEvents } from 'in-ser
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { combinedValidationResults, valid } from 'in-settings/validation';
-import { disableAppDataLegacyEvents } from 'in-services/featureFlags';
 import EventDescription from 'in-events/components/EventDescription';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { getFormatterType } from 'in-services/formatters/number';
