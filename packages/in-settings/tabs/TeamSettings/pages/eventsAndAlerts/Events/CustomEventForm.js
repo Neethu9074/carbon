@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
 
-import { Toggle, Spacer, Link } from '@instana/components';
+import { Toggle, Spacer, Link, Message } from '@instana/components';
 import { create, just } from '@instana/observables';
 
 import {
@@ -84,6 +84,7 @@ import { putApplicationIdField } from 'in-settings/tabs/TeamSettings/pages/event
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
+import { deprecateAppDataLegacyEvents, disableAppDataLegacyEvents } from 'in-services/featureFlags';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { combinedValidationResults, valid } from 'in-settings/validation';
@@ -522,6 +523,18 @@ function EventForm({
           )}
         </>
       )}
+      {!disableAppDataLegacyEvents &&
+        deprecateAppDataLegacyEvents &&
+        isAppDataEntityType(form.get('entityType')?.value ?? '') && (
+          <Message type="warning" withIcon small>
+            <Trans
+              i18nKey={'in-settings:tabs.deprecatedEventSelectedMessage'}
+              components={{
+                documentationLink: <Link href="https://www.instana.com/docs/" external />
+              }}
+            />
+          </Message>
+        )}
 
       <SectionHeading>{t('in-settings:tabs.3Scope')}</SectionHeading>
       <Row>
