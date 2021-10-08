@@ -64,6 +64,11 @@ import {
   applyOnOptionsForHostAvailability,
   scopeHostsByTag
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
+import {
+  getEntityTypeOptionsOfBuiltInMetrics,
+  formatterTypeToDefinition,
+  isAppDataEntityType
+} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
 import {
   containsMetricInList,
@@ -72,10 +77,6 @@ import {
   getMetricDefinition,
   isBuiltInDynamicMetric
 } from 'in-sdk/metrics';
-import {
-  getEntityTypeOptionsOfBuiltInMetrics,
-  formatterTypeToDefinition
-} from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/BuiltInMetricSelector';
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
@@ -86,6 +87,7 @@ import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/Sel
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { combinedValidationResults, valid } from 'in-settings/validation';
+import { disableAppDataLegacyEvents } from 'in-services/featureFlags';
 import EventDescription from 'in-events/components/EventDescription';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import { getFormatterType } from 'in-services/formatters/number';
@@ -638,7 +640,12 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions, onChange }) {
       <ComboBox
         name="event-entity-type"
         value={field.value}
-        options={pluginsWithMetricDefinitions}
+        options={pluginsWithMetricDefinitions.filter(({ value }) => {
+          if (disableAppDataLegacyEvents) {
+            return !isAppDataEntityType(value);
+          }
+          return true;
+        })}
         onChange={e => {
           onChange('entityType', e ? e.value : null, updatedForm => {
             return updatedForm.updateIn(['metricName'], field => field.setValue(null).setTouched(false));

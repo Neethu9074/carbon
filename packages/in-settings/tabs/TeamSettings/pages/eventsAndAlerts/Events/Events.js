@@ -404,10 +404,10 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
 function useLoadEventsFunction(withoutDeprecatedEvents, loadEntities) {
   const loadEventsFunc = loadEntities ? loadEntities : getEventSpecificationsMutable;
 
-  if (deprecateAppDataLegacyEvents && withoutDeprecatedEvents) {
+  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
     return () =>
       loadEventsFunc().map(es => {
-        return es.filter(({ entityType }) => !isAppDataEntityType(entityType)).filter(Boolean);
+        return es.filter(({ entityType }) => !isAppDataEntityType(entityType));
       });
   }
 
