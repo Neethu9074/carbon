@@ -1,10 +1,13 @@
 # Installation
 
-**Please do not skip any of these steps and only use `sudo` where this document instructs you to!**
+**Please do not skip any of these steps, only use `sudo` where this document instructs you to and do not try to follow this guide with a super-user (root)!**
 
 This document lists the technical steps necessary in order to get a local UI development setup running.
 
 ![Gandalf meme: You shall not skip any steps](./img/youShallNotSkip.jpg)
+
+![Convince me meme: Following these instructions as root will not work](https://user-images.githubusercontent.com/596443/136749896-a29f6859-f1b2-4897-a9ba-8a1f798459d9.png)
+
 
 ## Git Configuration
 
