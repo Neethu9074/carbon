@@ -10,6 +10,7 @@ import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/components/Mo
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { Application, Nullish, Result, Website } from 'in-types';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
+import { pendingResult } from 'in-services/fixedObjects';
 
 interface UseSloEntityRequest {
   entityId: string;
@@ -18,15 +19,15 @@ interface UseSloEntityRequest {
 type SloEntity = Application | Website;
 
 export default function useSloEntity({ entityId, entityType }: UseSloEntityRequest): Result<SloEntity> | Nullish {
-  return useObservable(() => loadEntity(entityType, entityId), [entityType, entityId]);
+  return useObservable(() => loadEntity(entityType, entityId), [entityType, entityId]) ?? pendingResult;
 }
 
 function loadEntity(entityType: MonitoringSource, entityId: string): Observable<Result<SloEntity>> {
   switch (entityType) {
-    case 'Applications':
+    case 'application':
       return getApplication({ id: entityId });
 
-    case 'Websites':
+    case 'website':
       return getWebsite({ id: entityId });
   }
 }

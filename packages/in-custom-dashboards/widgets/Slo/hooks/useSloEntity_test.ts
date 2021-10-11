@@ -34,7 +34,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
 
   it('subscribes to websites for entityType Websites', () => {
     // GIVEN
-    const entityType = 'Websites';
+    const entityType = 'website';
     const entityId = generateUniqueShortId();
 
     // WHEN
@@ -47,7 +47,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
 
   it('subscribes to applications for entityType Applications', () => {
     // GIVEN
-    const entityType = 'Applications';
+    const entityType = 'application';
     const entityId = generateUniqueShortId();
 
     // WHEN
@@ -60,12 +60,12 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
 
   it('updates the subscription on changes to entityType', () => {
     // GIVEN
-    const entityType = 'Applications';
+    const entityType = 'application';
     const entityId = generateUniqueShortId();
 
     // WHEN
     const { rerender } = renderHook(useSloEntity, { initialProps: { entityType, entityId } });
-    rerender({ entityId, entityType: 'Websites' });
+    rerender({ entityId, entityType: 'website' });
 
     // THEN
     expect(getApplication).toHaveBeenLastCalledWith(expect.objectContaining({ id: entityId }));
@@ -74,7 +74,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
 
   it('updates the subscription on changes to entityId', () => {
     // GIVEN
-    const entityType = 'Applications';
+    const entityType = 'application';
     const firstEntityId = generateUniqueShortId();
     const secondEntityId = generateUniqueShortId();
 

@@ -39,13 +39,13 @@ export default function SloEntityInfo({ entity, entityType }: WidgetLeftHeaderPr
 
 function getEntityDisplayData(entityType: MonitoringSource): EntityDisplayData {
   switch (entityType) {
-    case 'Applications':
+    case 'application':
       return {
         iconType: 'lib_application',
         toolTipText: t('in-custom-dashboards:widgets.slo.sloEntityInfo.tooltip.applications')
       };
 
-    case 'Websites':
+    case 'website':
       return {
         iconType: 'lib_website',
         toolTipText: t('in-custom-dashboards:widgets.slo.sloEntityInfo.tooltip.websites')

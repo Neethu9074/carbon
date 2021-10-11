@@ -84,9 +84,9 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const result = useObservable(() => getUnifiedMetricsObservable(metrics), [timeConfig, config]) ?? pendingResult;
 
   const sliConfig = useObservable(getSliConfigurationObservable, [sliConfigIdValue]);
-  const { data: entity } = useSloEntity({ entityId: entityIdValue, entityType: entityTypeValue }) ?? pendingResult;
+  const { data: entity } = useSloEntity({ entityId: entityIdValue, entityType: entityTypeValue });
 
-  const budget = findResultMetric(result, 'budget', result)?.[0][1];
+  const budget = findResultMetric(result, 'budget')?.[0][1];
 
   return (
     <Card
@@ -277,8 +277,8 @@ const WidgetContent = ({ result, sliConfigIdValue, ...otherChartProps }) => {
   return (
     <Chart
       result={result}
-      consumed={filterAvailableData(findResultMetric(result, 'consumed', result))}
-      hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget', result))}
+      consumed={filterAvailableData(findResultMetric(result, 'consumed'))}
+      hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget'))}
       {...otherChartProps}
     />
   );
