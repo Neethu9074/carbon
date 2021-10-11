@@ -27,6 +27,11 @@ git-env.properties
 ui-client-license-report.csv
 ui-server-license-report.csv
 .DS_Store
+# sonarqube scanner output directory
+.scannerwork
+/sonar-scanner-*
+/eslint-report.json
+/out.txt
 
 # ci-shared-tools is dynamically downloaded
 build/ci-shared-tools

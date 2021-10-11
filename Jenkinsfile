@@ -171,8 +171,7 @@ pipeline {
         timeout(time: 30, unit: 'MINUTES') {
           timestamps {
             script {
-              if (branchName == 'develop'
-                  || branchName.startsWith('release-')
+              if (isDeliveryBranch
                   || branchName.startsWith('storybook-')
                   || branchName.startsWith('chromatic-')) {
 
@@ -197,6 +196,29 @@ pipeline {
                     notifyFailure('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy failed: ${gitCommitId}")
                     throw e
                   }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    stage('SonarQube') {
+      steps {
+        milestone(label: "SonarQube", ordinal: null)
+        timeout(time: 2, unit: 'HOURS') {
+          timestamps {
+            script {
+              if (isDeliveryBranch || branchName == 'sonarqube') {
+                awsCodeBuild credentialsType: 'jenkins',
+                  credentialsId: 'codebuild',
+                  projectName: 'ui-client',
+                  region: 'us-west-2',
+                  imageOverride: 'aws/codebuild/standard:5.0',
+                  sourceControlType: 'project',
+                  sourceVersion: gitCommitId,
+                  buildSpecFile: 'buildspec.sonarqube.yml',
+                  envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
               }
             }
           }
@@ -267,7 +289,7 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
     }
     parallel rebuildBackendComponents
 
-    currentBuild.description = "backend: ${backendStableVersion}, ui-client: ${instanaUiClientVersion}, Instana image version: ${instanaImageVersion}"    
+    currentBuild.description = "backend: ${backendStableVersion}, ui-client: ${instanaUiClientVersion}, Instana image version: ${instanaImageVersion}"
     notifySuccess('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Successfully built K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
   } catch(e) {
     notifyFailure('k8s-notification', "<${env.BUILD_URL}|${env.JOB_NAME} #${env.BUILD_NUMBER}>: Failed to build K8S image *${instanaImageVersion}* \n\n${currentBuild.description}")
