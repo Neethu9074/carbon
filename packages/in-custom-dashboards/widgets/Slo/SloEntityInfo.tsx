@@ -1,0 +1,54 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+import { Tooltip } from '@material-ui/core';
+import React from 'react';
+
+import { Stack, SvgIcon } from '@instana/components';
+
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
+import { Application, Website } from 'in-types';
+import { t } from 'in-i18n';
+
+import locals from './SloEntityInfo.mless';
+
+interface WidgetLeftHeaderProps {
+  entity: Application | Website;
+  entityType: MonitoringSource;
+}
+
+type EntityDisplayData = {
+  iconType: string;
+  toolTipText: string;
+};
+
+export default function SloEntityInfo({ entity, entityType }: WidgetLeftHeaderProps) {
+  const { iconType, toolTipText } = getEntityDisplayData(entityType);
+
+  return (
+    <Stack direction="horizontal">
+      <Tooltip title={toolTipText}>
+        <SvgIcon type={iconType} aria-label={toolTipText} />
+      </Tooltip>
+      <span className={locals.entityLabel}>{entity.label}</span>
+    </Stack>
+  );
+}
+
+function getEntityDisplayData(entityType: MonitoringSource): EntityDisplayData {
+  switch (entityType) {
+    case 'Applications':
+      return {
+        iconType: 'lib_application',
+        toolTipText: t('in-custom-dashboards:widgets.slo.sloEntityInfo.tooltip.applications')
+      };
+
+    case 'Websites':
+      return {
+        iconType: 'lib_website',
+        toolTipText: t('in-custom-dashboards:widgets.slo.sloEntityInfo.tooltip.websites')
+      };
+  }
+}

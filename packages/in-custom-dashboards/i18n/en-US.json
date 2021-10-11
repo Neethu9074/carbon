@@ -521,6 +521,12 @@
         "rollingTimeWindow": "Rolling time window",
         "fixedTimeWindow": "Fixed time window"
       },
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "Application SLO",
+          "websites": "Website SLO"
+        }
+      },
       "sliConfig": {
         "sliName": "SLI Name",
         "sliType": "SLI Type",

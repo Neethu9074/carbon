@@ -30,8 +30,8 @@ import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/component
 import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
+import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects';
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
-import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/useSloFormSideEffects';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/SliManageList';
@@ -158,7 +158,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
           onChange={(path, updater) => updateForm(form.updateIn(path, updater))}
           openManageSLIComponent={
             <Button
-              disabled={!apConfig}
+              disabled={!appConfigIdValue}
               kind="primary"
               onClick={() => {
                 activateManageSliSlideIn();

@@ -3,13 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 
+import { Message, Card } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Message } from '@instana/components';
-import { Card } from '@instana/components';
 
 import {
   sloTarget,
@@ -20,20 +18,18 @@ import {
   timeWindowStart,
   parsedTimestamp,
   ensureConfigBackwardCompatibility,
-  entityId
+  entityId,
+  entityType
 } from 'in-custom-dashboards/widgets/Slo/form';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/WidgetLeftHeader';
+import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
-import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
-import getApplication from 'in-applications/subscriptions/getApplication';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getSliConfiguration } from 'in-custom-dashboards/api';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
-import { alwaysNull } from 'in-services/fixedStreams';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { hasError } from 'in-services/util/result';
-import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 import locals from './Widget.mless';
@@ -47,8 +43,9 @@ const oneWeekTimeConfig = {
 
 export default function Widget({ actions, config, isPreview, title, dragHandle }) {
   const compatibleConfig = ensureConfigBackwardCompatibility(config);
+  const entityIdValue = compatibleConfig?.[entityId];
+  const entityTypeValue = compatibleConfig?.[entityType];
   const slo = compatibleConfig?.[sloTarget] ?? '';
-  const applicationId = compatibleConfig?.[entityId];
   const sliConfigIdValue = compatibleConfig?.[sliConfigId];
   const timeWindowTypeValue = compatibleConfig?.[timeWindowType] ?? 'dynamic';
   const isDynamic = timeWindowTypeValue === 'dynamic';
@@ -87,6 +84,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const result = useObservable(() => getUnifiedMetricsObservable(metrics), [timeConfig, config]) ?? pendingResult;
 
   const sliConfig = useObservable(getSliConfigurationObservable, [sliConfigIdValue]);
+  const { data: entity } = useSloEntity({ entityId: entityIdValue, entityType: entityTypeValue }) ?? pendingResult;
 
   const budget = findResultMetric(result, 'budget', result)?.[0][1];
 
@@ -102,10 +100,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
       title={title}
       headerClassName={locals.title}
       leftHeaderContent={
-        <>
-          <LeftHeader applicationId={applicationId} />
-          <SliConfigInfo sliConfig={sliConfig} />
-        </>
+        <WidgetLeftHeader monitoredEntityType={entityTypeValue} monitoredEntity={entity} sliConfig={sliConfig} />
       }
     >
       <WidgetHeader
@@ -183,17 +178,6 @@ function calculateTimeWindowConfig(
   }
   return { timeWindowConfig, fromTimestamp, toTimestamp };
 }
-
-const LeftHeader = connectTo(
-  ({ applicationId }) => ({
-    apName: applicationId
-      ? getApplication({ id: applicationId }).map(result => get(result, ['data', 'label'], null))
-      : alwaysNull
-  }),
-  function leftHeaderApName({ apName }) {
-    return <span className={locals.apName}>{apName ?? valueMissingPlaceholder}</span>;
-  }
-);
 
 const filterAvailableData = dataSeries => {
   if (!dataSeries) {
