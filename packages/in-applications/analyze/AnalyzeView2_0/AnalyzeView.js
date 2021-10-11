@@ -66,8 +66,8 @@ const defaultChartedMetrics = [
         aggregationId: 'SUM'
       },
       {
-        metricId: 'erroneousCalls',
-        aggregationId: 'SUM'
+        metricId: 'errors',
+        aggregationId: 'MEAN'
       },
       {
         metricId: 'latency',
