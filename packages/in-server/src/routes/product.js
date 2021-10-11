@@ -132,7 +132,7 @@ router.get('/', async (req, res) => {
       errorPages.send403(req, res);
       return;
     } else if (statusCode < 200 || statusCode > 299) {
-      console.error(
+      req.log.error(
         `Server returned unknown status code ${statusCode} while trying to receive user info with user cookie.`
       );
       errorPages.send500(req, res);
@@ -182,8 +182,8 @@ router.get('/', async (req, res) => {
         starredItems
       })
     );
-  } catch (e) {
-    console.error('Failed to deliver index.html to user:', e.message, e);
+  } catch (err) {
+    req.log.error({ err }, 'Failed to deliver index.html to user');
     errorPages.send500(req, res);
   }
 });

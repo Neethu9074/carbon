@@ -16,7 +16,7 @@ exports.getReportingEndpointsFromButler = async (req, butlerUrl, tenant, unit) =
     });
 
     if (!response.ok) {
-      console.error(`Could not load reporting config from butler. Got status: %s`, response.status);
+      req.log.error(`Could not load reporting config from butler. Got status: %s`, response.status);
       return getFallbackReportingConfig(tenant, unit);
     }
 
@@ -33,10 +33,10 @@ exports.getReportingEndpointsFromButler = async (req, butlerUrl, tenant, unit) =
       };
     }
 
-    console.error('Failed reading reporting config. Fall back to default.');
+    req.log.error('Failed reading reporting config. Fall back to default.');
     return getFallbackReportingConfig(tenant, unit);
-  } catch (e) {
-    console.error(`Could not load reporting config from butler. Got error`, e);
+  } catch (err) {
+    req.log.error({ err }, `Could not load reporting config from butler. Got error`);
     return getFallbackReportingConfig(tenant, unit);
   }
 };

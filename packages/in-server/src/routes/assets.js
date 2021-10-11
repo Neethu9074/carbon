@@ -47,8 +47,8 @@ router.use('/bundle/internal.*.js', async (req, res, next) => {
     } else {
       res.sendStatus(403);
     }
-  } catch (e) {
-    console.error('Failed to deliver bundle to user:', e);
+  } catch (err) {
+    req.log.error({ err }, 'Failed to deliver bundle to user:');
     res.send500(req, res);
   }
 });
@@ -84,7 +84,7 @@ function checkChecksumAndSend(req, res, checksumToCheck, fileToSend) {
 
   res.sendFile(fileToSend, sendFilesConfig, err => {
     if (err) {
-      console.error('Failed to send file. Cannot complete request.', err);
+      req.log.error({ err }, 'Failed to send file. Cannot complete request.');
     }
   });
 }

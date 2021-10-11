@@ -18,11 +18,11 @@ router.get('/csrf/token', async (req, res) => {
   try {
     const csrfToken = await getCsrfToken(req);
     res.set('x-csrf-token', csrfToken).send();
-  } catch (e) {
-    if (e instanceof UnauthorizedError) {
+  } catch (err) {
+    if (err instanceof UnauthorizedError) {
       res.status(401).send(undefined);
     } else {
-      console.error('Failed to retrieve CSRF token', e);
+      req.log.error({ err }, 'Failed to retrieve CSRF token');
       errorPages.send500(req, res);
     }
   }

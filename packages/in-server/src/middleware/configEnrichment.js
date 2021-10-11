@@ -22,11 +22,11 @@ module.exports = exports = async function enrichRequestWithConfig(req, res, next
   }
 };
 
-function logError(req, error) {
-  if (error.ignoreStackTrace) {
-    req.log.error('Failed to enrich config with config values:', error.message);
+function logError(req, err) {
+  if (err.ignoreStackTrace) {
+    req.log.error('Failed to enrich config with config values: %s', err.message);
   } else {
-    req.log.error('Failed to enrich config with config values', error);
+    req.log.error({ err }, 'Failed to enrich config with config values');
   }
 }
 

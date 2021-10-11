@@ -14,7 +14,7 @@ router.get('/ping', async (req, res) => {
     await uiBackendHealthCheck(req.uiBackendBaseUrl);
     res.status(200).send('pong');
   } catch (e) {
-    console.warn('Failed to communicate with ui-backend for ping/pong: %s', e.message);
+    req.log.warn('Failed to communicate with ui-backend for ping/pong: %s', e.message);
     res.status(500).send('Sorry, internal ping/pong failed 🥺.');
   }
 });
