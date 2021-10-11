@@ -35,5 +35,8 @@
   },
   "[less]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "sonarlint.connectedMode.project": {
+    "projectKey": "ui-client"
   }
 }
