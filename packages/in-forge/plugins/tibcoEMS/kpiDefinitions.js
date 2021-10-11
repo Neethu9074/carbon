@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.tibcoEMS.labelSessions'),
     metric: 'sessionCount',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

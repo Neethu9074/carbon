@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.ibmDataPowerAppliance.cpuUsage'),
     metric: 'cpuUsage',
-    formatters: percentage.compact
+    formatter: percentage.compact
   }
 ];

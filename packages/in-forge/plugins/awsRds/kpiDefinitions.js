@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.awsRds.availableStorageSpace'),
     metric: 'free_storage_space',
-    formatters: bytes.compact
+    formatter: bytes.compact
   }
 ];

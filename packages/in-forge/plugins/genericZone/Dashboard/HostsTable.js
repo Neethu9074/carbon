@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { getHostsInAvailabilityZone } from 'in-sdk/getHostsInAvailabilityZone';
+import { getItemsInAvailabilityZone } from 'in-sdk/getItemsInAvailabilityZone';
 import { percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -68,7 +68,7 @@ const cols = [
 export default connectTo(
   props => {
     return {
-      hosts: getHostsInAvailabilityZone(props.snapshotId).flatMap(snapshotIds => getSnapshots(snapshotIds))
+      hosts: getItemsInAvailabilityZone(props.snapshotId).flatMap(snapshotIds => getSnapshots(snapshotIds))
     };
   },
   function HostsTable({ hosts }) {

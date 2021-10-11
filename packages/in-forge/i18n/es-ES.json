@@ -2665,10 +2665,6 @@
       "inboundCallsLatency99th": "Latencia de llamadas entrantes 99º",
       "inboundErroneousCallRate": "Tasa de llamadas entrantes erróneas"
     },
-    "availabilityZone": {
-      "titleIPAddress": "Dirección IP",
-      "titleDNSName": "Nombre DNS"
-    },
     "awsBeanstalk": {
       "titleInstanceID": "ID de instancia",
       "titleLaunchedAt": "Iniciado el",

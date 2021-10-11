@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.ibmMqChannel.messagesAvailable'),
     metric: 'messagesAvailable',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

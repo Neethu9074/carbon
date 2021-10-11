@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.awsMskBroker.underReplicatedPartitions'),
     metric: 'under_replicated_partitions',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

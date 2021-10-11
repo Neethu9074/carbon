@@ -2665,10 +2665,6 @@
       "inboundCallsLatency99th": "入埠呼叫延遲時間第 99 個",
       "inboundErroneousCallRate": "入埠錯誤呼叫率"
     },
-    "availabilityZone": {
-      "titleIPAddress": "IP 位址",
-      "titleDNSName": "DNS 名稱"
-    },
     "awsBeanstalk": {
       "titleInstanceID": "實例 ID",
       "titleLaunchedAt": "啟動於",

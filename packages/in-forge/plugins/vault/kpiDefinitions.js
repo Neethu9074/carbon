@@ -20,6 +20,6 @@ export default [
   {
     label: t('in-forge:plugins.vault.titleTokensLookup'),
     metric: 'ttoken.lookup.count',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

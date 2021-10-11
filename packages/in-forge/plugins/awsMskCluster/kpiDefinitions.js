@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.awsMskCluster.topics'),
     metric: 'global_topic_count',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

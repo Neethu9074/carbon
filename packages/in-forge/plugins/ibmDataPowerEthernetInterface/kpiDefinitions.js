@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.ibmDataPowerEthernetInterface.transmitThroughput'),
     metric: 'transmitPerSecond',
-    formatters: zeroDecimalPlacesPerSecond
+    formatter: zeroDecimalPlacesPerSecond
   }
 ];

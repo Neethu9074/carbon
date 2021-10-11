@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.httpd.trafficKBytes'),
     metric: 'kBytes',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

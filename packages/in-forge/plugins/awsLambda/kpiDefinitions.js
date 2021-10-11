@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.awsLambda.labelDurationAverage'),
     metric: 'duration',
-    formatters: millis.compact
+    formatter: millis.compact
   }
 ];

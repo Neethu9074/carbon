@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.ibmMqCluster.messagesOut'),
     metric: 'messagesOut',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

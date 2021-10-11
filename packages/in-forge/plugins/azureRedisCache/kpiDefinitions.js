@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.azureRedisCache.labelEvictedKeys'),
     metric: 'evictedKeys',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

@@ -2743,10 +2743,6 @@
       "inboundCallsLatency99th": "Inbound Calls Latency 99th",
       "inboundErroneousCallRate": "Inbound Erroneous Call Rate"
     },
-    "availabilityZone": {
-      "titleIPAddress": "IP Address",
-      "titleDNSName": "DNS Name"
-    },
     "awsBeanstalk": {
       "titleInstanceID": "Instance ID",
       "titleLaunchedAt": "Launched at",

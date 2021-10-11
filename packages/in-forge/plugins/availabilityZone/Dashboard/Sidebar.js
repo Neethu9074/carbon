@@ -5,12 +5,12 @@
 
 import React from 'react';
 
-import ZoneHostsList from 'in-sdk/components/sidebar/ZoneHostsList';
+import ZoneItemsList from 'in-sdk/components/sidebar/ZoneItemsList';
 
 export default function AvailabilityZoneSidebar({ snapshot }) {
   return (
     <div>
-      <ZoneHostsList snapshotId={snapshot.get('id')} />
+      <ZoneItemsList snapshotId={snapshot.get('id')} />
     </div>
   );
 }

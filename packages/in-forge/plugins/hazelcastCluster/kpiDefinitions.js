@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.hazelcastCluster.isClusterSafe'),
     metric: 'isClusterSafe',
-    formatters: siPrefix.compact
+    formatter: siPrefix.compact
   }
 ];

@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.awsS3.downloadedTraffic'),
     metric: 'bytes_downloaded',
-    formatters: bytes.compact
+    formatter: bytes.compact
   }
 ];

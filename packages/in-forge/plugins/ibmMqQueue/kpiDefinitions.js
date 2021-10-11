@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.ibmMqQueue.oldestMessage'),
     metric: 'oldestMessage',
-    formatters: seconds.fixedCompact
+    formatter: seconds.fixedCompact
   }
 ];

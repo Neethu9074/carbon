@@ -5,13 +5,11 @@
 
 import React from 'react';
 
-import { KpiSection, KpiHeading } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { bytes, number, percentage } from 'in-services/formatters/number';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { getLabel } from 'in-sdk/snapshot';
 import QueuesTable from './QueuesTable';
 import TopicsTable from './TopicsTable';
 import { t } from 'in-i18n';
@@ -23,10 +21,6 @@ export default function AwsMqBrokerDashboard({ snapshot, timeConfig, type }) {
 
   return (
     <div>
-      <KpiSection>
-        <KpiHeading>{getLabel(snapshot) + ' ' + type}</KpiHeading>
-      </KpiSection>
-
       <Columize>
         <DashboardSection title={t('in-forge:plugins.awsMq.dashboard.cpu')}>
           <Chart

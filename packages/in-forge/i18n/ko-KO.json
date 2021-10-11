@@ -2665,10 +2665,6 @@
       "inboundCallsLatency99th": "인바운드 호출 대기 시간 99번째",
       "inboundErroneousCallRate": "인바운드 잘못된 호출 비율"
     },
-    "availabilityZone": {
-      "titleIPAddress": "IP 주소",
-      "titleDNSName": "DNS 이름"
-    },
     "awsBeanstalk": {
       "titleInstanceID": "인스턴스 ID",
       "titleLaunchedAt": "실행 시간",

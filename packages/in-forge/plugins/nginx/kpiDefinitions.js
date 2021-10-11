@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.nginx.readingConnections'),
     metric: 'connections.reading',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

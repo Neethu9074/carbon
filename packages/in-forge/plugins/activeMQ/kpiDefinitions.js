@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.activeMQ.allTopicsMessagesEnqueue'),
     metric: 'totalTopicsEnqueueCount',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

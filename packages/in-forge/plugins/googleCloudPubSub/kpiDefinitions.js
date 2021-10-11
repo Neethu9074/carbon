@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.googleCloudPubSub.messagesSize'),
     metric: 'backlog_bytes',
-    formatters: bytes.detailed
+    formatter: bytes.detailed
   }
 ];

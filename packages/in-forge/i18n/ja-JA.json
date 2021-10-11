@@ -2665,10 +2665,6 @@
       "inboundCallsLatency99th": "インバウンド呼び出しの待ち時間 (99 パーセンタイル)",
       "inboundErroneousCallRate": "エラーのあるインバウンド呼び出し率"
     },
-    "availabilityZone": {
-      "titleIPAddress": "IP アドレス",
-      "titleDNSName": "DNS 名"
-    },
     "awsBeanstalk": {
       "titleInstanceID": "インスタンス ID",
       "titleLaunchedAt": "起動時刻",

@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.ibmMqQueueUsage.openOutputs'),
     metric: 'openOutputs',
-    formatters: zeroDecimalPlaces
+    formatter: zeroDecimalPlaces
   }
 ];

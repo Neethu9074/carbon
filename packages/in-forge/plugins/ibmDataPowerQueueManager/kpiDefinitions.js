@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.ibmDataPowerQueueManager.frontendActiveConnections'),
     metric: 'frontendActiveConnections',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

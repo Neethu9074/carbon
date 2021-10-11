@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.ibmMqTopic.publishers'),
     metric: 'publishCount',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];

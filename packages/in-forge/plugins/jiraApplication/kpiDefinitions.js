@@ -15,6 +15,6 @@ export default [
   {
     label: t('in-forge:plugins.jiraApplication.idleConnections'),
     metric: 'instruments.dbcp.numIdle',
-    formatters: number.compact
+    formatter: number.compact
   }
 ];
