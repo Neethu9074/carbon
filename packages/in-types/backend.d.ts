@@ -29,6 +29,11 @@ export interface AbstractKubernetesContainerState {
   readonly waiting: boolean;
 }
 
+export interface AbstractRule {
+  readonly ruleType: string;
+  readonly severity: number;
+}
+
 export interface AbstractThresholdSuggestionQuery extends ThresholdSuggestionQuery, UiQuery {
   readonly operator: ThresholdOperator;
   readonly rbacRestrictions?: any;
@@ -49,6 +54,11 @@ export interface AdaptiveBaselineConfig extends ThresholdConfig {
 export interface AdaptiveBaselineData extends ThresholdData {
   readonly baseline: number[][];
   readonly deviationFactor: number;
+}
+
+export interface AdaptiveBaselineSuggestionResponse extends ThresholdSuggestionResponse {
+  readonly baseline: number[][];
+  readonly message?: string;
 }
 
 export interface AgentMonitoringIssueWithSnapshot {
@@ -74,6 +84,23 @@ export interface Alert {
   readonly start: number;
 }
 
+export interface AlertClusterResponse {
+  readonly incidents: AlertResponse[];
+  readonly smartAlerts: AlertResponse[];
+  readonly timestamp: number;
+}
+
+export interface AlertResponse extends Comparable<AlertResponse> {
+  readonly adjustedStart?: number;
+  readonly adjustedTriggeringTime?: number;
+  readonly duration?: number;
+  readonly end?: number;
+  readonly eventId: string;
+  readonly name: string;
+  readonly start: number;
+  readonly triggeringTime: number;
+}
+
 export interface AlertRule {
   readonly aggregation?: AggregationType;
   readonly metricName: string;
@@ -85,6 +112,30 @@ export interface AlertRuleWithGranularity {
   readonly rule: ApplicationAlertRule;
   readonly seasonality?: Seasonality;
   readonly timeThreshold: ApplicationTimeThreshold;
+}
+
+export interface AlertingChannelInputInfo {
+  readonly enabled: boolean;
+  readonly entityId?: string;
+  readonly eventTypes?: AlertingEventTypes[];
+  readonly id: string;
+  readonly label: string;
+  readonly query?: string;
+  readonly selectedEvents?: number;
+  readonly type: AlertType;
+}
+
+export interface AlertingConfiguration {
+  readonly alertName: string;
+  readonly customPayloadFields: StaticStringField[];
+  readonly eventFilteringConfiguration: EventFilteringConfiguration;
+  readonly id: string;
+  readonly integrationIds: string[];
+  readonly muteUntil: number;
+}
+
+export interface AlertingConfigurationWithLastUpdated extends AlertingConfiguration {
+  readonly lastUpdated: number;
 }
 
 export interface ApiTag {
@@ -136,6 +187,11 @@ export interface ApplicationAlertConfigMigrationItem {
   readonly applicationAlertConfig?: ApplicationAlertConfig;
   readonly globalApplicationsAlertConfig?: GlobalApplicationsAlertConfig;
   readonly globalSmartAlert: boolean;
+}
+
+export interface ApplicationAlertConfigWithMetadata extends ApplicationAlertConfig, VersionedConfig {
+  readonly derivedFromGlobalAlert: boolean;
+  readonly id: string;
 }
 
 export interface ApplicationAlertRule extends AlertRule {
@@ -339,6 +395,20 @@ export interface ComponentStatus {
   readonly name: string;
 }
 
+export interface ConfigKey {
+  readonly created: number;
+  readonly entityId?: string;
+  readonly id?: string;
+  readonly tenantKey?: string;
+}
+
+export interface ConfigVersion {
+  readonly created: number;
+  readonly deleted: boolean;
+  readonly enabled: boolean;
+  readonly id: string;
+}
+
 export interface ContainsPastLiveDataQuery extends UiQuery {
   readonly timeConfig: TimeConfig;
 }
@@ -385,6 +455,19 @@ export interface Cursorific<T> {
   readonly cursor?: T;
 }
 
+export interface CustomAbstractEventSpecification<T> {
+  readonly description?: string;
+  readonly enabled: boolean;
+  readonly entityType: string;
+  readonly expirationTime: number;
+  readonly id: string;
+  readonly name: string;
+  readonly query?: string;
+  readonly rules: T[];
+  readonly triggering: boolean;
+  readonly validVersion: number;
+}
+
 export interface CustomDashboard {
   readonly accessRules: AccessRule[];
   readonly id: string;
@@ -395,6 +478,14 @@ export interface CustomDashboard {
 export interface CustomDashboardPreview {
   readonly id: string;
   readonly title: string;
+}
+
+export interface CustomEventSpecification extends CustomAbstractEventSpecification<AbstractRule> {
+  readonly rules: AbstractRule[];
+}
+
+export interface CustomEventSpecificationWithLastUpdated extends CustomEventSpecification {
+  readonly lastUpdated: number;
 }
 
 export interface CustomPayloadConfiguration {
@@ -519,6 +610,13 @@ export interface EntityId extends Comparable<EntityId> {
   readonly steadyId: string;
 }
 
+export interface EntityVerificationRule extends AbstractRule {
+  readonly matchingEntityLabel: string;
+  readonly matchingEntityType: string;
+  readonly matchingOperator: AlertingStringMatchingOperator;
+  readonly offlineDuration: number;
+}
+
 export interface Error {
   readonly code: ErrorCode;
   readonly message: string;
@@ -547,6 +645,13 @@ export interface Event {
   readonly type: string;
 }
 
+export interface EventFilteringConfiguration {
+  readonly applicationAlertConfigIds?: string[];
+  readonly eventTypes?: AlertingEventTypes[];
+  readonly query?: string;
+  readonly ruleIds?: string[];
+}
+
 export interface EventMetricConfiguration extends UnifiedMetricConfiguration {
   readonly dynamicFocusQuery: string;
   readonly includeAgentMonitoringIssues: boolean;
@@ -554,6 +659,35 @@ export interface EventMetricConfiguration extends UnifiedMetricConfiguration {
 }
 
 export interface EventMetricsCatalog {
+}
+
+export interface EventSpecificationDetails {
+  readonly description?: string;
+  readonly expirationTime: number;
+  readonly severity: number;
+  readonly text: string;
+  readonly triggering: boolean;
+}
+
+export interface EventSpecificationInfo {
+  readonly description?: string;
+  readonly enabled: boolean;
+  readonly entityType: string;
+  readonly id: string;
+  readonly invalid: boolean;
+  readonly name: string;
+  readonly severity: number;
+  readonly triggering: boolean;
+  readonly type: EventSpecificationType;
+}
+
+export interface EventSpecificationMatch {
+  readonly entityType: string;
+  readonly excludedSnapshotIds?: string[];
+  readonly metricName: string;
+  readonly query?: string;
+  readonly queryEvaluationTimestamp?: number;
+  readonly rollup: number;
 }
 
 export interface ExtendedMetricsTimeConfig extends TimeConfig {
@@ -1689,8 +1823,7 @@ export interface GetWebsiteRateMetricAlertsPreviewQuery extends UiQuery {
   readonly granularity: number;
   readonly metrics: { [index: string]: WebsiteRateMetricConfiguration };
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly tagFilters?: TagFilter[];
+  readonly tagFilterExpression: TagFilterExpressionElement;
   readonly threshold: ThresholdData;
   readonly timeConfig: TimeConfig;
   readonly timeThreshold: WebsiteTimeThreshold;
@@ -1698,8 +1831,7 @@ export interface GetWebsiteRateMetricAlertsPreviewQuery extends UiQuery {
 
 export interface GetWebsiteRateMetricQuery extends QueryWithMetrics, UiQuery {
   readonly metrics: { [index: string]: WebsiteRateMetricConfiguration };
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly tagFilters?: TagFilter[];
+  readonly tagFilterExpression: TagFilterExpressionElement;
   readonly timeConfig: TimeConfig;
 }
 
@@ -1717,11 +1849,10 @@ export interface GetWebsiteSubdivisionsQuery extends PaginatedUIQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetWebsiteUniqueUsersInSlidingWindowQuery extends QueryWithMetrics, UiQuery {
+export interface GetWebsiteUniqueUsersInSlidingWindowQuery extends QueryWithMetrics {
   readonly metrics: { [index: string]: WebsiteMonitoringMetricsConfiguration };
   readonly slidingWindowSize: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly tagFilters?: TagFilter[];
+  readonly tagFilterExpression: TagFilterExpressionElement;
   readonly timeConfig: TimeConfig;
 }
 
@@ -1754,6 +1885,12 @@ export interface GetWindowWidthBreakdownQuery extends UiQuery {
 
 export interface GetWiringEdgesQuery extends UiQuery {
   readonly timeframe: Timeframe;
+}
+
+export interface GlobalApplicationAlertConfigWithMetadata extends GlobalApplicationsAlertConfig, VersionedConfig {
+  readonly applicationIds?: string[];
+  readonly builtIn: boolean;
+  readonly id: string;
 }
 
 export interface GlobalApplicationsAlertConfig extends AbstractApplicationAlertConfig {
@@ -1795,10 +1932,33 @@ export interface HasLogsResult {
   readonly hasLogs: boolean;
 }
 
+export interface Health {
+  readonly metadata?: { [index: string]: any };
+  readonly owners?: EntityId[];
+  readonly problems?: ProblemObject[];
+  readonly triggeringTime: number;
+}
+
+export interface HealthDownstreamValue {
+  readonly data?: Health;
+  readonly host_id?: string;
+  readonly path?: string;
+  readonly plugin_id?: string;
+  readonly steady_id?: string;
+  readonly timestamp: number;
+}
+
 export interface HealthInfo {
   readonly explanation: string;
   readonly partOfIncident: boolean;
   readonly type: Type;
+}
+
+export interface HealthRule {
+  readonly allowedSnapshotIds: string[];
+  readonly description: string;
+  readonly id: string;
+  readonly plugin: string;
 }
 
 export interface HistoricBaselineConfig extends ThresholdConfig {
@@ -1812,6 +1972,17 @@ export interface HistoricBaselineData extends ThresholdData {
   readonly baseline: number[][];
   readonly deviationFactor: number;
   readonly seasonality: Seasonality;
+}
+
+export interface HistoricBaselineSuggestionResponse extends ThresholdSuggestionResponse {
+  readonly baseline: number[][];
+  readonly seasonality?: Seasonality;
+}
+
+export interface HostAvailabilityRule extends AbstractRule {
+  readonly closeAfter: number;
+  readonly offlineDuration: number;
+  readonly tagFilter?: TagFilter;
 }
 
 export interface Incident extends Event {
@@ -2411,6 +2582,11 @@ export interface LegacyAlertStats {
   readonly legacyAlerts: number;
 }
 
+export interface LightServiceMap {
+  readonly connections: ServiceMapConnection[];
+  readonly services: Service[];
+}
+
 export interface ListItemWithMetric {
   readonly entityIdForMetric?: EntityId;
   readonly snapshotIdForMetric?: string;
@@ -2537,6 +2713,27 @@ export interface LogsResult {
   readonly percentage: number;
 }
 
+export interface MaintenanceConfig {
+  readonly id: string;
+  readonly name: string;
+  readonly query: string;
+  readonly windows?: MaintenanceWindow[];
+}
+
+export interface MaintenanceConfigWithLastUpdated extends MaintenanceConfig {
+  readonly lastUpdated: number;
+}
+
+export interface MaintenanceConfigWithStatus extends MaintenanceConfigWithLastUpdated {
+  readonly status: MaintenanceStatus;
+}
+
+export interface MaintenanceWindow {
+  readonly end: number;
+  readonly id: string;
+  readonly start: number;
+}
+
 export interface Message {
   readonly errorCode: ErrorCode;
   readonly subscriptionId?: number;
@@ -2550,6 +2747,14 @@ export interface MetricConfiguration {
   readonly metric: string;
 }
 
+export interface MetricDescription {
+  readonly aggregations: AggregationType[];
+  readonly description?: string;
+  readonly formatter: string;
+  readonly label: string;
+  readonly metricId: string;
+}
+
 export interface MetricMetadata {
   readonly category?: string;
   readonly format?: Formatter;
@@ -2557,6 +2762,13 @@ export interface MetricMetadata {
   readonly infraTagCategory: InfraTagCategory;
   readonly label?: string;
   readonly ownerType?: string;
+}
+
+export interface MetricPattern {
+  readonly operator: AlertingMatchingOperator;
+  readonly placeholder?: string;
+  readonly postfix?: string;
+  readonly prefix: string;
 }
 
 export interface MetricQuery {
@@ -2683,6 +2895,12 @@ export interface MobileAppMonitoringBeacon {
   readonly viewportWidth: number;
 }
 
+export interface MobileAppMonitoringMetricDescription extends MetricDescription {
+  readonly beaconTypes: string[];
+  readonly pathToValueInBeacon?: string[];
+  readonly tagName?: string;
+}
+
 export interface MobileAppMonitoringMetricsConfiguration extends MetricConfiguration {
 }
 
@@ -2755,6 +2973,18 @@ export interface Problem {
   readonly fixSuggestion?: string;
   readonly id: string;
   readonly problemText?: string;
+  readonly severity: number;
+}
+
+export interface ProblemObject {
+  readonly experimental: boolean;
+  readonly expiresIn: number;
+  readonly expires_in: number;
+  readonly explanation?: string;
+  readonly fixSuggestion?: string;
+  readonly fix_suggestion?: string;
+  readonly problemText?: string;
+  readonly problem_text?: string;
   readonly severity: number;
 }
 
@@ -3054,6 +3284,10 @@ export interface SlownessApplicationAlertRule extends ApplicationAlertRule {
   readonly aggregation: AggregationType;
 }
 
+export interface SlownessWebsiteAlertRule extends WebsiteAlertRule {
+  readonly aggregation: AggregationType;
+}
+
 export interface Snapshot {
   readonly data?: { [index: string]: any };
   readonly dependencies?: Dependency[];
@@ -3129,6 +3363,11 @@ export interface SpanRelation {
   readonly service?: Service;
 }
 
+export interface SpecificJsErrorsWebsiteAlertRule extends WebsiteAlertRule {
+  readonly operator: TagFilterOperator;
+  readonly value?: string;
+}
+
 export interface Stack {
   readonly application: DomainSpecificStack;
   readonly healthInfo?: HealthInfo;
@@ -3164,9 +3403,30 @@ export interface StaticThresholdData extends ThresholdData {
   readonly value: number;
 }
 
+export interface StaticThresholdSuggestionResponse extends ThresholdSuggestionResponse {
+  readonly value: number;
+}
+
 export interface StatusCodeApplicationAlertRule extends ApplicationAlertRule {
   readonly statusCodeEnd: number;
   readonly statusCodeStart: number;
+}
+
+export interface StatusCodeWebsiteAlertRule extends WebsiteAlertRule {
+  readonly operator: TagFilterOperator;
+  readonly value: string;
+}
+
+export interface SystemRule extends AbstractRule {
+  readonly systemRuleId: string;
+}
+
+export interface SystemRuleLabel {
+  readonly id: string;
+  readonly name: string;
+}
+
+export interface SystemRules {
 }
 
 export interface Tag {
@@ -3252,6 +3512,17 @@ export interface TenantConfig {
   readonly unit?: string;
 }
 
+export interface TenantHealthDownstreamValue {
+  readonly healthDownstreamValue?: HealthDownstreamValue;
+  readonly tenantConfig?: TenantConfig;
+}
+
+export interface ThresholdBounds {
+  readonly empty: boolean;
+  readonly operator: ThresholdOperator;
+  readonly value: number;
+}
+
 export interface ThresholdConfig {
   readonly operator: ThresholdOperator;
   readonly type: string;
@@ -3262,6 +3533,21 @@ export interface ThresholdData {
   readonly type: string;
 }
 
+export interface ThresholdRule extends AbstractRule {
+  readonly aggregation?: AlertingAggregation;
+  readonly conditionOperator: AlertingConditionOperator;
+  readonly conditionValue: number;
+  readonly metricName?: string;
+  readonly metricPattern?: MetricPattern;
+  readonly rollup: number;
+  readonly window: number;
+}
+
+export interface ThresholdRuleWithMetricInfo extends ThresholdRule {
+  readonly metricFormat?: Formatter;
+  readonly metricLabel?: string;
+}
+
 export interface ThresholdSuggestionQuery {
   readonly fallbackOnError: boolean;
   readonly metric?: MetricConfiguration;
@@ -3270,7 +3556,14 @@ export interface ThresholdSuggestionQuery {
   readonly type?: ThresholdType;
 }
 
+export interface ThresholdSuggestionResponse {
+  readonly type?: ThresholdType;
+}
+
 export interface ThroughputApplicationAlertRule extends ApplicationAlertRule {
+}
+
+export interface ThroughputWebsiteAlertRule extends WebsiteAlertRule {
 }
 
 export interface TimeBucket {
@@ -3435,6 +3728,27 @@ export interface UserResult {
   readonly lastLoggedIn?: number;
 }
 
+export interface ValidatedAlertingChannelInputInfo extends AlertingChannelInputInfo {
+  readonly invalid: boolean;
+}
+
+export interface ValidatedAlertingConfiguration extends AlertingConfigurationWithLastUpdated {
+  readonly alertChannelNames?: string[];
+  readonly applicationNames?: string[];
+  readonly invalid: boolean;
+}
+
+export interface ValidatedMaintenanceConfigWithStatus extends MaintenanceConfigWithStatus {
+  readonly invalid: boolean;
+}
+
+export interface VersionedConfig {
+  readonly created: number;
+  readonly enabled: boolean;
+  readonly id?: string;
+  readonly readOnly: boolean;
+}
+
 export interface ViolationsInPeriodApplicationTimeThreshold extends ApplicationTimeThreshold {
   readonly violations: number;
 }
@@ -3565,6 +3879,30 @@ export interface WebBrowser {
 export interface Website {
   readonly id: string;
   readonly label: string;
+}
+
+export interface WebsiteAlertConfig {
+  readonly alertChannelIds: string[];
+  readonly customPayloadFields: StaticStringField[];
+  readonly description: string;
+  readonly granularity?: Granularity;
+  readonly name: string;
+  readonly rule: WebsiteAlertRule;
+  readonly severity: number;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilters?: TagFilter[];
+  readonly threshold: ThresholdConfig;
+  readonly timeThreshold: WebsiteTimeThreshold;
+  readonly triggering: boolean;
+  readonly websiteId: string;
+}
+
+export interface WebsiteAlertConfigWithMetadata extends WebsiteAlertConfig, VersionedConfig {
+  readonly id: string;
+}
+
+export interface WebsiteAlertRule extends AlertRule {
+  readonly alertType: string;
 }
 
 export interface WebsiteAlertStats {
@@ -3713,6 +4051,12 @@ export interface WebsiteMonitoringBeacon {
   readonly windowWidth?: number;
 }
 
+export interface WebsiteMonitoringMetricDescription extends MetricDescription {
+  readonly beaconTypes: string[];
+  readonly pathToValueInBeacon?: string[];
+  readonly tagName?: string;
+}
+
 export interface WebsiteMonitoringMetricsConfiguration extends MetricConfiguration {
 }
 
@@ -3781,13 +4125,27 @@ export type AggregationType = 'SUM' | 'MEAN' | 'MAX' | 'MIN' | 'P25' | 'P50' | '
 
 export type AlertEvaluationType = 'PER_AP' | 'PER_AP_SERVICE' | 'PER_AP_ENDPOINT';
 
+export type AlertType = 'Alert' | 'WebsiteSmartAlert' | 'ApplicationSmartAlert' | 'GlobalApplicationSmartAlert';
+
+export type AlertingAggregation = 'sum' | 'avg' | 'min' | 'max';
+
 export type AlertingApplicationBoundaryScope = 'ALL' | 'INBOUND';
+
+export type AlertingConditionOperator = '>' | '>=' | '<' | '<=' | '=' | '!=';
+
+export type AlertingEventTypes = 'incident' | 'critical' | 'warning' | 'change' | 'online' | 'offline' | 'agent_monitoring_issue' | 'none';
+
+export type AlertingMatchingOperator = 'is' | 'contains' | 'startsWith' | 'endsWith' | 'any';
+
+export type AlertingStringMatchingOperator = 'is' | 'contains' | 'startsWith' | 'endsWith';
 
 export type ApplicationBoundaryScope = 'ALL' | 'INBOUND';
 
 export type ApplicationDataSource = 'CALLS' | 'TRACES';
 
 export type ApplicationDownstreamScope = 'INCLUDE_NO_DOWNSTREAM' | 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING' | 'INCLUDE_ALL_DOWNSTREAM';
+
+export type AvailabilitySliEventType = 'GOOD' | 'BAD';
 
 export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
 
@@ -3810,6 +4168,8 @@ export type EntityContextGuideGroup = 'INFRASTRUCTURE_AVAILABILITY_ZONE' | 'INFR
 export type EntityType = 'Entity10' | 'App20' | 'Service20' | 'Endpoint20' | 'Website';
 
 export type ErrorCode = 'NOT_FOUND' | 'VALIDATION' | 'AUTH' | 'TOO_MANY_REQUESTS' | 'CLIENT' | 'SERVER' | 'UNAVAILABLE' | 'GATEWAY_TIMEOUT' | 'TIMEOUT';
+
+export type EventSpecificationType = 'BUILT_IN' | 'CUSTOM';
 
 export type EventTypes = 'INCIDENT' | 'ISSUE' | 'CHANGE' | 'OBJECTIVE' | 'AGENT_MONITORING_ISSUE';
 
@@ -3834,6 +4194,8 @@ export type LogLevel = 'WARN' | 'ERROR';
 export type LogicalOperator = 'AND' | 'OR';
 
 export type LogsApplicationAlertRuleLogLevel = 'WARN' | 'ERROR' | 'ANY';
+
+export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISHED';
 
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
