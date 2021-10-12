@@ -51,7 +51,7 @@ const hostViewCols = [
 export default connectTo({
   timeConfig: timeConfig$,
   rows: getDropwizardWithContext('entity.label:"appdata-health-processor*"')
-})(function AppdataHealthProcessor({ rows, timeConfig }) {
+})(function AppDataHealthProcessor({ rows, timeConfig }) {
   if (rows.length === 0) {
     return <LoadingIndicator />;
   }

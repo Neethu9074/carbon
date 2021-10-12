@@ -219,6 +219,12 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                             )}
                           />
                           <LinkListItem
+                            label={t('in-internal:components.landing.healthAggregation')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/appdataHealthAggregator')
+                            )}
+                          />
+                          <LinkListItem
                             label={t('in-internal:components.landing.healthProcessing')}
                             href$={getModifiedUrlStream(
                               params => (params.pathname = '/internal/monitoringUnit/appdataHealthProcessor')

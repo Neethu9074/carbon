@@ -50,20 +50,20 @@ const hostViewCols = [
 
 export default connectTo({
   timeConfig: timeConfig$,
-  rows: getDropwizardWithContext('entity.label:"appdata-live-aggregator*"')
-})(function AppDataLiveAggregator({ rows, timeConfig }) {
+  rows: getDropwizardWithContext('entity.label:"appdata-health-aggregator*"')
+})(function AppDataHealthAggregator({ rows, timeConfig }) {
   if (rows.length === 0) {
     return <LoadingIndicator />;
   }
 
   rows = rows.slice().sort((a, b) => compareIgnoreCase(a.host.get('label'), b.host.get('label')));
-  const labels = getLabels(rows, /^.*(live-aggregator-\d+).*$/i);
+  const labels = getLabels(rows, /^.*(health-aggregator-\d+).*$/i);
 
   return (
     <Row>
       <Col xs={12}>
         <div>
-          <h1>appdata-live-aggregator</h1>
+          <h1>appdata-health-aggregator</h1>
 
           <Columize>
             <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.hostCpuLoad')}>
@@ -137,6 +137,51 @@ export default connectTo({
                   metrics: rows.map(
                     () =>
                       'metrics.timers.com.instana.appdata.liveaggregator.aggregation.state.HazelcastAggregationStateStore.sync.99th'
+                  ),
+                  labels: labels,
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+
+          <Columize>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.stateStoreGroupedSyncTime', {
+                aggregation: 'mean'
+              })}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: millis.detailed,
+                  metrics: rows.map(
+                    () =>
+                      'metrics.timers.com.instana.appdata.liveaggregator.aggregation.state.HazelcastAggregationStateStore.sync-grouped.mean'
+                  ),
+                  labels: labels,
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.stateStoreGroupedSyncTime', {
+                aggregation: '99th'
+              })}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: millis.detailed,
+                  metrics: rows.map(
+                    () =>
+                      'metrics.timers.com.instana.appdata.liveaggregator.aggregation.state.HazelcastAggregationStateStore.sync-grouped.99th'
                   ),
                   labels: labels,
                   type: 'line'
@@ -254,7 +299,7 @@ export default connectTo({
                   formatter: number.perSecond.detailed,
                   metrics: rows.map(
                     () =>
-                      `metrics.meters.com.instana.appdata.liveaggregator.aggregation.request.GetApplicationMetricsRetriever.requested-metrics`
+                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetApplicationMetricsRetriever.requested-metrics`
                   ),
                   labels: labels,
                   type: 'stackedArea'
@@ -272,7 +317,7 @@ export default connectTo({
                   formatter: number.perSecond.detailed,
                   metrics: rows.map(
                     () =>
-                      `metrics.meters.com.instana.appdata.liveaggregator.aggregation.request.GetApplicationMetricsRetriever.answered-metric-requests`
+                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetApplicationMetricsRetriever.answered-metric-requests`
                   ),
                   labels: labels,
                   type: 'stackedArea'
@@ -282,26 +327,8 @@ export default connectTo({
           </Columize>
 
           <Columize>
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getMetricsRetriever')}>
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(
-                    () =>
-                      `metrics.meters.com.instana.appdata.liveaggregator.aggregation.request.GetMetricsRetriever.requested-metrics`
-                  ),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-
             <DashboardSection
-              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getMetricsRetrieverMetricReq')}
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.serviceMetricsRetrieverReq')}
             >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -312,7 +339,27 @@ export default connectTo({
                   formatter: number.perSecond.detailed,
                   metrics: rows.map(
                     () =>
-                      `metrics.meters.com.instana.appdata.liveaggregator.aggregation.request.GetMetricsRetriever.answered-metric-requests`
+                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetServicesWithGranularityMetricRetriever.requested-metrics`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getServiceMetricsRetriever')}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetServicesWithGranularityMetricRetriever.answered-metric-requests`
                   ),
                   labels: labels,
                   type: 'stackedArea'
@@ -321,7 +368,49 @@ export default connectTo({
             </DashboardSection>
           </Columize>
 
-          <DashboardSection title={`appdata-live-aggregators (${rows.length})`}>
+          <Columize>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.endpointMetricsRetrieverReq')}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetEndpointsWithGranularityMetricRetriever.requested-metrics`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getEndpointMetricsRetriever')}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetEndpointsWithGranularityMetricRetriever.answered-metric-requests`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+
+          <DashboardSection title={`appdata-health-aggregators (${rows.length})`}>
             <Table cols={hostViewCols} rows={rows} getRowDetails={getRowDetails} />
           </DashboardSection>
         </div>

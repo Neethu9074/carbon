@@ -6,20 +6,21 @@
 import { Route, Redirect } from 'react-router-dom';
 import React from 'react';
 
+// features available on customer units
+import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 // features for monitoring units
 import AppDataLiveAggregatorOverview from 'in-internal/monitoringUnit/Appdata/AppDataLiveAggregatorOverview';
-// features available on customer units
-import SnapshotVersions from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
-import AppDataProcessorStatistics from 'in-internal/monitoringUnit/Appdata/AppDataProcessorStatistics';
 import FillerInfrastructureMetrics from 'in-internal/monitoringUnit/infrastructureMetrics/Filler';
 import AppDataQueryPerformance from 'in-internal/monitoringUnit/Appdata/AppDataQueryPerformance';
 import ClickhouseTotalTableSizes from 'in-internal/monitoringUnit/sre/ClickhouseTotalTableSizes';
+import AppDataHealthAggregator from 'in-internal/monitoringUnit/Appdata/AppDataHealthAggregator';
 // General imports
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
-import AppdataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppdataHealthProcessor';
+import AppDataHealthProcessor from 'in-internal/monitoringUnit/Appdata/AppDataHealthProcessor';
 import ServerlessAcceptors from 'in-internal/monitoringUnit/serverless/ServerlessAcceptors';
 import JsStackTraceTranslator from 'in-internal/monitoringUnit/eum/JsStackTraceTranslator';
 import BeeInstanaAggregators from 'in-internal/monitoringUnit/sre/BeeInstanaAggregators';
+import SnapshotVersions from 'in-internal/thisUnit/SnapshotVersions/SnapshotVersions';
 import BeeInstanaIngestors from 'in-internal/monitoringUnit/sre/BeeInstanaIngestors';
 import EumHealthProcessor from 'in-internal/monitoringUnit/eum/EumHealthProcessor';
 import SloViolations from 'in-internal/monitoringUnit/SloViolations/SloViolations';
@@ -100,8 +101,12 @@ export default function Internal() {
           />
           <Route path="/internal/monitoringUnit/appdata" component={wrapIninternalView(Appdata)} />
           <Route
+            path="/internal/monitoringUnit/appdataHealthAggregator"
+            component={wrapIninternalView(AppDataHealthAggregator)}
+          />
+          <Route
             path="/internal/monitoringUnit/appdataHealthProcessor"
-            component={wrapIninternalView(AppdataHealthProcessor)}
+            component={wrapIninternalView(AppDataHealthProcessor)}
           />
           <Route
             path="/internal/monitoringUnit/appdataProcessing"
