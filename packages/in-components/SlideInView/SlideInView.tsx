@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { ReactNode } from 'react-transition-group/node_modules/@types/react';
+import React, { ReactNode, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { ReactComponentLike } from 'prop-types';
 import classNames from 'classnames';
 

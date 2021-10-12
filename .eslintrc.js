@@ -17,11 +17,15 @@ module.exports = {
 
   extends: ['eslint:recommended', 'prettier', 'plugin:react-hooks/recommended'],
 
-  plugins: ['react', 'jest', 'babel', 'header'],
+  plugins: ['react', 'jest', 'babel', 'header', 'import'],
 
   settings: {
     react: {
       version: '17.0.2'
+    },
+    'import/resolver': ['webpack', 'typescript'],
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx']
     }
   },
 
@@ -82,6 +86,11 @@ module.exports = {
     // prevent from throwing no-unused-expression error when using optional chaining
     'no-unused-expressions': 'off',
     'babel/no-unused-expressions': ['error'],
+
+    // prevent unresolved imports
+    // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-unresolved.md
+    // eslint-disable-next-line no-useless-escape
+    'import/no-unresolved': ['error', { ignore: ['^@storybook'] }],
 
     ...createImportRestrictionRule(),
 
