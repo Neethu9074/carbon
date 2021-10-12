@@ -12,8 +12,17 @@ import { ua2ChartChangedTracker } from 'in-applications/tracker';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
+import theme from 'in-themes';
 
 import locals from './ChartsPresenter.mless';
+
+function isRedMetricsTemplateErroneousChart(chartProps, metricConfig) {
+  return chartProps.chartedMetricsTemplate?.templateId === 'red.metrics' && metricConfig.metricId === 'errors';
+}
+
+function isLatencyDistributionChart(metricConfig) {
+  return metricConfig.metricId === 'latency' && metricConfig.aggregationId === 'DISTRIBUTION';
+}
 
 export function ChartsPresenter(props) {
   const { hiddenCalls, groupedViewConfiguration, chartedMetrics, dataSource, isGrouped, chartableDataSeries } = props;
@@ -42,7 +51,7 @@ export function ChartsPresenter(props) {
             ua2ChartChangedTracker({ dataSource, template: templateId, metric: metricId, aggregation: aggregationId })
         }}
         CustomChartFactory={({ metricConfig, chartProps }) => {
-          if (metricConfig.metricId === 'latency' && metricConfig.aggregationId === 'DISTRIBUTION') {
+          if (isLatencyDistributionChart(metricConfig)) {
             return (
               <div key={`${metricConfig.metricId}${metricConfig.aggregationId}`} className={locals.latencyDistribution}>
                 <LatencyDistributionChart
@@ -52,6 +61,15 @@ export function ChartsPresenter(props) {
                   chartedMetrics={[metricConfig]}
                 />
               </div>
+            );
+          } else if (isRedMetricsTemplateErroneousChart(chartProps, metricConfig)) {
+            return (
+              <Chart
+                {...chartProps}
+                getCustomChartColor={() => !chartProps.isGrouped && [theme.lib.colors.failure]}
+                key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
+                chartedMetrics={[metricConfig]}
+              />
             );
           } else {
             return (

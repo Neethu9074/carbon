@@ -20,6 +20,7 @@ import locals from './Chart.mless';
 export default function Chart({
   title,
   isGrouped,
+  getCustomChartColor,
   getCustomGroupLabel,
   getCustomMetricUiFormatterName,
   chartableMetricCatalog,
@@ -49,7 +50,8 @@ export default function Chart({
     y1: {
       formatter: getCustomMetricUiFormatterName?.(metricId) ?? getUiInternalFormatterName(metricDescription.formatter),
       renderer: rendererId,
-      metrics: []
+      metrics: [],
+      colors: getCustomChartColor?.()
     }
   };
 
