@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-/* eslint-disable react/no-multi-comp */
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
 
@@ -14,7 +13,12 @@ const listClassName = `${block}__description-list`;
 const itemClassName = `${block}__description-item`;
 const noDetailClassName = `${block}__description-no-details`;
 
-export function DescriptionList({ children, className }) {
+interface DescriptionListProps {
+  className?: string;
+  children?: React.ReactNode;
+}
+
+export function DescriptionList({ children, className }: DescriptionListProps): JSX.Element {
   return (
     <Fragment>
       <dl className={classNames(listClassName, className)}>{children}</dl>
@@ -23,8 +27,21 @@ export function DescriptionList({ children, className }) {
   );
 }
 
-export function DescriptionItem({ title, children, onClick, className, addSeparator }) {
-  // return null;
+interface DescriptionItemProps {
+  children: React.ReactNode;
+  addSeparator?: boolean;
+  className?: string;
+  title: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLElement>;
+}
+
+export function DescriptionItem({
+  addSeparator,
+  children,
+  className,
+  onClick,
+  title
+}: DescriptionItemProps): JSX.Element | null {
   if (isItemEmpty(children)) {
     return null;
   }
@@ -34,7 +51,7 @@ export function DescriptionItem({ title, children, onClick, className, addSepara
       className={classNames({
         [itemClassName]: true,
         [`${itemClassName}--with-separator`]: addSeparator,
-        [className]: className
+        [className ?? '']: className
       })}
     >
       <dt className={block + '__description-title'}>{title}</dt>
@@ -45,7 +62,7 @@ export function DescriptionItem({ title, children, onClick, className, addSepara
   );
 }
 
-function isItemEmpty(children) {
+function isItemEmpty(children: React.ReactNode): boolean {
   if (children === null || children === undefined) {
     return true;
   }

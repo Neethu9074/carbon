@@ -12,8 +12,8 @@ import { Trans } from 'in-i18n';
 import locals from './TouchedMessages.mless';
 
 export interface TouchedMessagesProps {
-  field?: Field<any>;
-  className: string;
+  field?: Field<unknown>;
+  className?: string;
 }
 
 export default function TouchedMessages({ field, className }: TouchedMessagesProps) {
@@ -21,29 +21,37 @@ export default function TouchedMessages({ field, className }: TouchedMessagesPro
     return null;
   }
 
-  return field.messages.map((message, i) => {
-    if (message.path) {
-      return (
-        <ValidationBlock key={i} className={className}>
-          {message.path ? (
-            <Trans
-              i18nKey="in-components:touchedMessages.withPath"
-              values={{ message: message.message, path: message.path }}
-              components={{
-                codeWithClass: <code className={locals.path} />
-              }}
-            />
-          ) : (
-            message.message
-          )}
-        </ValidationBlock>
-      );
-    } else {
-      return (
-        <ValidationBlock key={i} className={className}>
-          {message.message}
-        </ValidationBlock>
-      );
-    }
-  });
+  /*
+   Wrapping it into a fragment, to avoid this TS error
+   TS2786: Its return type 'Element[]' is not a valid JSX element.
+   */
+  return (
+    <>
+      {field.messages.map((message, i) => {
+        if (message.path) {
+          return (
+            <ValidationBlock key={i} className={className}>
+              {message.path ? (
+                <Trans
+                  i18nKey="in-components:touchedMessages.withPath"
+                  values={{ message: message.message, path: message.path }}
+                  components={{
+                    codeWithClass: <code className={locals.path} />
+                  }}
+                />
+              ) : (
+                message.message
+              )}
+            </ValidationBlock>
+          );
+        } else {
+          return (
+            <ValidationBlock key={i} className={className}>
+              {message.message}
+            </ValidationBlock>
+          );
+        }
+      })}
+    </>
+  );
 }

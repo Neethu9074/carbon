@@ -1,6 +1,6 @@
 {
-  "name": "Label",
+  "name": "form-label",
   "version": "0.0.0",
   "private": true,
-  "main": "./Label.js"
+  "main": "./Label"
 }
