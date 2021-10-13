@@ -23,6 +23,7 @@ export const defaultGroupings = {
 
 export const customServiceMappingTagKeys = [
   'agent.tag',
+  'aws.tag',
   'cassandra.cluster.name',
   'cloudfoundry.application.id',
   'cloudfoundry.application.name',
