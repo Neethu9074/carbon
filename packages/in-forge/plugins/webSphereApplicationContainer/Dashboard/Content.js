@@ -72,7 +72,7 @@ export default function WebSphereDashboard({ snapshot, timeConfig }) {
             metrics: ['transactions.globalTranTime'],
             labels: [t('in-forge:plugins.webSphereAppContainer.titleTransactionGlobalTranTime')],
             type: 'line'
-          }}		  
+          }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>

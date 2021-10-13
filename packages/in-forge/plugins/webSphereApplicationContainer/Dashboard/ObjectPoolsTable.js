@@ -124,10 +124,10 @@ function getRowDetails(row) {
         y1={{
           formatter: zeroDecimalPlaces,
           metrics: [
-            'objectPools.' + row.key + '.objectsCreatedCount', 
-            'objectPools.' + row.key + '.objectsAllocatedCount', 
-            'objectPools.' + row.key + '.idleObjectsSize', 
-            'objectPools.' + row.key + '.objectsReturnedCount' 
+            'objectPools.' + row.key + '.objectsCreatedCount',
+            'objectPools.' + row.key + '.objectsAllocatedCount',
+            'objectPools.' + row.key + '.idleObjectsSize',
+            'objectPools.' + row.key + '.objectsReturnedCount'
           ],
           labels: [
             t('in-forge:plugins.webSphereAppContainer.titleObjectsCreatedCount'),

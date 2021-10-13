@@ -70,6 +70,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'phmcEnabled',
+    instanaCtlKey: 'feature.phmc.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'zhmcEnabled',
     instanaCtlKey: 'feature.zhmc.enabled',
     defaultValue: false

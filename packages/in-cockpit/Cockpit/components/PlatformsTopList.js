@@ -14,6 +14,7 @@ import {
   kubernetesCluster as kubernetesClusterType,
   pcfApplication as pcfApplicationType,
   vsphereDatacenter as vsphereDatacenterType,
+  phmcServer as phmcServerType,
   zhmcServer as zhmcServerType
 } from 'in-cockpit/starredItems/types';
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
@@ -21,10 +22,10 @@ import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKub
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
+import { pcfEnabled, vsphereEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
 import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
-import { pcfEnabled, vsphereEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
@@ -32,6 +33,7 @@ import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
 import { getZhmcsWithDefaults } from 'in-zhmc/subscriptions/getZhmcs';
+import { getPhmcsWithDefaults } from 'in-phmc/subscriptions/getPhmcs';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import HealthDot from 'in-components/health/HealthDot/HealthDot';
 import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
@@ -39,6 +41,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import TopListWidget from 'in-cockpit/widgets/TopListWidget';
 import { hasKubernetesAccess } from 'in-stores/permission';
 import { add, remove } from 'in-cockpit/starredItems';
+import getPhmc from 'in-phmc/subscriptions/getPhmc';
 import getZhmc from 'in-zhmc/subscriptions/getZhmc';
 import { success } from 'in-services/util/result';
 import { getMetric } from 'in-stores/metric';
@@ -50,6 +53,7 @@ export default function PlatformsTopList({ config }) {
     hasKubernetesAccess && kubernetesClusterType,
     pcfEnabled && pcfApplicationType,
     vsphereEnabled && vsphereDatacenterType,
+    phmcEnabled && phmcServerType,
     zhmcEnabled && zhmcServerType
   ].filter(Boolean);
 
@@ -93,6 +97,9 @@ function getTypeByItem(item) {
   if (item.isPcf) {
     return pcfApplicationType;
   }
+  if (item.isPhmc) {
+    return phmcServerType;
+  }
   if (item.isZhmc) {
     return zhmcServerType;
   }
@@ -108,6 +115,8 @@ function getMergedData(params) {
       pcfEnabled && 'isPcf',
       vsphereEnabled && getVSphereDatacentersWithDefaults(params),
       vsphereEnabled && 'isVsphere',
+      phmcEnabled && getPhmcsWithDefaults(params),
+      phmcEnabled && 'isPhmc',
       zhmcEnabled && getZhmcsWithDefaults(params),
       zhmcEnabled && 'isZhmc'
     ].filter(Boolean)
@@ -120,6 +129,9 @@ function getItem(id, timeConfig, type) {
   }
   if (type === pcfApplicationType) {
     return getCloudfoundryApplication({ filter: { applicationId: id, timeConfig } }).map(mapPcfResult);
+  }
+  if (type === phmcServerType) {
+    return getPhmc({ filter: { applicationId: id, timeConfig } }).map(mapPhmcResult);
   }
   if (type === zhmcServerType) {
     return getZhmc({ filter: { applicationId: id, timeConfig } }).map(mapZhmcResult);
@@ -149,7 +161,9 @@ function mapVsphereResult(result) {
 function mapPcfResult(result) {
   return result.data ? success({ ...result.data, isPcf: true }) : result;
 }
-
+function mapPhmcResult(result) {
+  return result.data ? success({ ...result.data, isPhmc: true }) : result;
+}
 function mapZhmcResult(result) {
   return result.data ? success({ ...result.data, isZhmc: true }) : result;
 }
@@ -254,6 +268,9 @@ function getIcon(item) {
   if (item.isPcf) {
     return 'lib_cloudfoundry_application';
   }
+  if (item.isPhmc) {
+    return 'lib_phmcConsole';
+  }
   if (item.isZhmc) {
     return 'lib_zhmcConsole';
   }
@@ -276,6 +293,9 @@ function getSubTitle(item) {
   }
   if (item.isPcf) {
     return t('in-cockpit:component.platformsTopList.cloudFoundryApplication');
+  }
+  if (item.isPhmc) {
+    return t('in-cockpit:component.platformsTopList.ibmp');
   }
   if (item.isZhmc) {
     return t('in-cockpit:component.platformsTopList.ibmz');

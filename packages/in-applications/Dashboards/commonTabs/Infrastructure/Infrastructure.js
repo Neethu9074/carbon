@@ -19,10 +19,10 @@ import {
 } from 'in-kubernetes/navigation/paths';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
+import { pcfEnabled, vsphereEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
-import { pcfEnabled, vsphereEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-applications/subscriptions/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
@@ -30,6 +30,7 @@ import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
+import { getIbmpPhmcDashboard } from 'in-phmc/navigation/paths';
 import { getTimeConfigAtMoment } from 'in-stores/time/config';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -225,6 +226,30 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
                     className={locals.entityLink}
                     href$={vsphereEnabled ? getVsphereDatacenterDashboard(datacenter.id) : null}
                   />
+                )
+              }}
+            />
+          </Fragment>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function WithPhmcPhysicalContext({ children, phmc }) {
+  return (
+    <div className={locals.linkWithMetaEntities}>
+      {children}
+      <div className={locals.metaRow}>
+        {phmc && (
+          <Fragment>
+            <Trans
+              i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+              values={{ entityLabel: phmc.label }}
+              components={{
+                icon: <SvgIcon className={locals.entitiyIcon} type="lib_phmcConsole" />,
+                entityLink: (
+                  <Link className={locals.entityLink} href$={phmcEnabled ? getIbmpPhmcDashboard(phmc.id) : null} />
                 )
               }}
             />
@@ -553,6 +578,9 @@ function getColumnDefinitions(type) {
 
         if (item.physicalContext.vsphere) {
           return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
+        }
+        if (item.physicalContext.phmc) {
+          return <WithPhmcPhysicalContext {...item.physicalContext.phmc}>{link}</WithPhmcPhysicalContext>;
         }
         if (item.physicalContext.zhmc) {
           return <WithZhmcPhysicalContext {...item.physicalContext.zhmc}>{link}</WithZhmcPhysicalContext>;

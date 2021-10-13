@@ -52,7 +52,7 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.webSphereAppContainer.titleTransactionsModule')],
     formatter: millis
-  },  
+  },
   {
     metric: getDynamicMetricMatch(
       'sessionManagers',
@@ -175,68 +175,68 @@ export default [
     category: [t('in-forge:plugins.webSphereAppContainer.labelObjectPools')],
     min: 0,
     formatter: number
-  },  
+  },
   {
     metric: getDynamicMetricMatch('objectPools', 'objectsAllocatedCount', t('in-forge:plugins.webSphereAppContainer.labelObjectPool')),
     label: t('in-forge:plugins.webSphereAppContainer.titleObjectsAllocatedCount'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelObjectPools')],
     min: 0,
     formatter: number
-  },    
+  },
   {
     metric: getDynamicMetricMatch('objectPools', 'idleObjectsSize', t('in-forge:plugins.webSphereAppContainer.labelObjectPool')),
     label: t('in-forge:plugins.webSphereAppContainer.titleIdleObjectsSize'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelObjectPools')],
     min: 0,
     formatter: number
-  },     
+  },
   {
     metric: getDynamicMetricMatch('objectPools', 'objectsReturnedCount', t('in-forge:plugins.webSphereAppContainer.labelObjectPool')),
     label: t('in-forge:plugins.webSphereAppContainer.titleObjectsReturnedCount'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelObjectPools')],
     min: 0,
     formatter: number
-  },  
+  },
   {
     metric: getDynamicMetricMatch('jcas', 'poolSize', t('in-forge:plugins.webSphereAppContainer.labelJ2CModule')),
     label: t('in-forge:plugins.webSphereAppContainer.titleJ2CPoolSize'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelJ2CModules')],
     min: 0,
     formatter: number
-  },   
+  },
   {
     metric: getDynamicMetricMatch('jcas', 'freePoolSize', t('in-forge:plugins.webSphereAppContainer.labelJ2CModule')),
     label: t('in-forge:plugins.webSphereAppContainer.titleJ2CFreePoolSize'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelJ2CModules')],
     min: 0,
     formatter: number
-  },   
+  },
   {
     metric: getDynamicMetricMatch('jcas', 'faults', t('in-forge:plugins.webSphereAppContainer.labelJ2CModule')),
     label: t('in-forge:plugins.webSphereAppContainer.titleJ2CFaultCount'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelJ2CModules')],
     min: 0,
     formatter: number
-  },    
+  },
   {
     metric: getDynamicMetricMatch('jcas', 'percentUsed', t('in-forge:plugins.webSphereAppContainer.labelJ2CModule')),
     label: t('in-forge:plugins.webSphereAppContainer.titleJ2CPercentUsed'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelJ2CModules')],
     min: 0,
     formatter: number
-  },   
+  },
   {
     metric: getDynamicMetricMatch('jcas', 'useTime', t('in-forge:plugins.webSphereAppContainer.labelJ2CModule')),
     label: t('in-forge:plugins.webSphereAppContainer.titleJ2CUseTime'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelJ2CModules')],
     min: 0,
     formatter: millis
-  },  
+  },
   {
     metric: getDynamicMetricMatch('jcas', 'avgWait', t('in-forge:plugins.webSphereAppContainer.labelJ2CModule')),
     label: t('in-forge:plugins.webSphereAppContainer.titleJ2CWaitTime'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelJ2CModules')],
     min: 0,
     formatter: millis
-  }  
+  }
 ];

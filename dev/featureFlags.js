@@ -24,6 +24,7 @@ module.exports = {
   newApCreationEnabled: true,
   onPremLicenseInformationEnabled: false,
   pcfEnabled: true,
+  phmcEnabled: true,
   releaseNotesEnabled: true,
   routeIdOverPathTplEnabled: false,
   samplingIndicatorEnabled: true,

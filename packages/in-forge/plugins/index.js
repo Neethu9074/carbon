@@ -157,6 +157,7 @@ import './perfCounters';
 import './redisCluster';
 import './db2ZDatabase';
 import './zhmcConsole';
+import './phmcConsole';
 import './aceFlowNode';
 import './application';
 import './awsDynamoDb';

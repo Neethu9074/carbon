@@ -85,7 +85,7 @@ const cols = [
         return 'mean';
       }
     }
-  },  
+  },
   {
     title: t('in-forge:plugins.webSphereAppContainer.titleJ2CUseTime'),
     type: 'metric',
@@ -101,7 +101,7 @@ const cols = [
         return 'mean';
       }
     }
-  },    
+  },
   {
     title: t('in-forge:plugins.webSphereAppContainer.titleJ2CWaitTime'),
     type: 'metric',
@@ -185,7 +185,7 @@ function getRowDetails(row) {
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
-      />	  
+      />
     </div>
   );
 }

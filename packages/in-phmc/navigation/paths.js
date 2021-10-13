@@ -1,0 +1,76 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import { consoleId as matrixConsoleId } from 'in-phmc/navigation/matrix';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { systemId as matrixSystemId } from 'in-phmc/navigation/matrix';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { emptyObject } from 'in-services/fixedObjects';
+import { setTimeConfig } from 'in-stores/time/config';
+
+export const ibmp = '/ibmp';
+
+export const phmcList = '/phmcs';
+export const phmcListFullyQualified = `${ibmp}${phmcList}`;
+export const phmcDashboard = `/phmc`;
+export const phmcDashboardFullyQualified = `${ibmp}${phmcDashboard}`;
+export const systemList = '/systems';
+export const systemListFullyQualified = `${ibmp}${systemList}`;
+export const systemDashboard = `/system`;
+export const systemDashboardFullyQualified = `${ibmp}${systemDashboard}`;
+
+export function getIbmpPhmcDashboard(consoleId, { tab, tabMatrix, timeConfig } = emptyObject) {
+  return getDashboard({
+    base: phmcDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: phmcDashboard,
+    matrixParam: matrixConsoleId,
+    id: consoleId
+  });
+}
+
+export function getIbmpSystemDashboard(systemId, { tab, tabMatrix, timeConfig, consoleId } = emptyObject) {
+  return getDashboard({
+    base: systemDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: systemDashboard,
+    matrixParam: matrixSystemId,
+    id: systemId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, systemDashboard, matrixConsoleId, consoleId);
+    }
+  });
+}
+
+function getDashboard({
+  base,
+  tab = '/summary',
+  tabMatrix = {},
+  timeConfig,
+  matrixSegment,
+  matrixParam,
+  id,
+  paramsCallback
+}) {
+  return getModifiedUrlStream(params => {
+    params.pathname = `${base}${tab}`;
+
+    setOrDeleteMatrixKey(params, matrixSegment, matrixParam, id);
+
+    if (timeConfig != null) {
+      setTimeConfig(params, timeConfig);
+    }
+
+    params.matrix[tab] = tabMatrix;
+
+    if (paramsCallback) {
+      paramsCallback(params);
+    }
+  });
+}

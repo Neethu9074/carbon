@@ -962,6 +962,11 @@
   "pluginName_pCFSpace": "Cloud Foundry Space",
   "pluginName_perfCounters_plural": "PerfCounters",
   "pluginName_perfCounters": "PerfCounters",
+  "pluginName_phmcConsole_plural": "pHMCs",
+  "pluginName_phmcConsole_0": "pHMCs",
+  "pluginName_phmcConsole_2": "pHMCs",
+  "pluginName_phmcConsole_1": "pHMCs",
+  "pluginName_phmcConsole": "pHMC",
   "pluginName_phpFpmRuntimePlatform_plural": "PHP-FPM Runtimes",
   "pluginName_phpFpmRuntimePlatform_0": "PHP-FPM Runtimes",
   "pluginName_phpFpmRuntimePlatform_1": "PHP-FPM Runtimes",
@@ -5761,6 +5766,18 @@
         "finagle": "Finagle"
       },
       "version": "Version"
+    },
+    "phmcConsole": {
+      "logicalPartition": "Logical Partition",
+      "total": "Total",
+      "utilized": "Utilized",
+      "available": "Available",
+      "configurable": "Configurable",
+      "assignedMem": "Assigned memory to LPARs",
+      "backedPhysicalMem": "Backed Physical Memory",
+      "entitledProcUnits": "Entitled Units",
+      "maxVirtualProcessors": "Max Virtual Processors",
+      "currentVirtualProcessors": "Current Virtual Processors"
     },
     "phpFpmRuntimePlatform": {
       "dashboard": {

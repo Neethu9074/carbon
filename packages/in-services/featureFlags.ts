@@ -39,6 +39,7 @@ export const persistentVolumeSupportEnabled = isFeatureFlagEnabled('persistentVo
 export const ampCompanyInfoEnabled = isFeatureFlagEnabled('ampCompanyInfoEnabled');
 export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
+export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');

@@ -19,6 +19,14 @@ import {
   isAnalyzeView as isWebsiteAnalyzeView
 } from 'in-websites/navigation/paths';
 import {
+  pcfEnabled,
+  phmcEnabled,
+  vsphereEnabled,
+  zhmcEnabled,
+  releaseNotesEnabled,
+  tenantSwitcherEnabled
+} from 'in-services/featureFlags';
+import {
   hasApplicationsAccess,
   hasWebsitesAccess,
   hasKubernetesAccess,
@@ -30,13 +38,6 @@ import {
   getLinkToAnalyze as getLinkToApplicationsAnalyze,
   isApplicationsView
 } from 'in-applications/navigation/paths';
-import {
-  pcfEnabled,
-  vsphereEnabled,
-  zhmcEnabled,
-  releaseNotesEnabled,
-  tenantSwitcherEnabled
-} from 'in-services/featureFlags';
 import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
@@ -53,6 +54,7 @@ import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { agentsPath, settingsPath } from 'in-stores/navigation/paths/mainPaths';
 import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
+import { phmcListFullyQualified, ibmp } from 'in-phmc/navigation/paths';
 import { zhmcListFullyQualified, ibmz } from 'in-zhmc/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
@@ -393,10 +395,11 @@ function Platforms(props) {
   const { expandedSubMenu, setExpandedSubMenu, sidebarIsExpanded, onMouseEnter, onMouseLeave } = props;
 
   let numPlatformsAvailable = 0;
-  if (hasKubernetesAccess) numPlatformsAvailable++;
   if (pcfEnabled) numPlatformsAvailable++;
-  if (vsphereEnabled) numPlatformsAvailable++;
+  if (phmcEnabled) numPlatformsAvailable++;
   if (zhmcEnabled) numPlatformsAvailable++;
+  if (hasKubernetesAccess) numPlatformsAvailable++;
+  if (vsphereEnabled) numPlatformsAvailable++;
   if (numPlatformsAvailable === 0) {
     return null;
   }
@@ -404,17 +407,7 @@ function Platforms(props) {
   const ViewItemForPlatforms = numPlatformsAvailable > 1 ? SubViewItem : View;
   const platforms = (
     <>
-      {hasKubernetesAccess && (
-        <ViewItemForPlatforms
-          id="main-nav-kubernetes"
-          label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
-          icon="lib_kubernetes_inverted"
-          href$={getView(kubernetesClusterList)}
-          isActive$={isView(kubernetes)}
-          {...props}
-        />
-      )}
-
+      {/* Keep the list of platforms sorted alphabetically */}
       {pcfEnabled && (
         <ViewItemForPlatforms
           id="main-nav-cloudfoundry"
@@ -425,14 +418,13 @@ function Platforms(props) {
           {...props}
         />
       )}
-
-      {vsphereEnabled && (
+      {phmcEnabled && (
         <ViewItemForPlatforms
-          id="main-nav-vsphere"
-          label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
-          icon="lib_vsphere_inverted"
-          href$={getView(datacenterListFullyQualified)}
-          isActive$={isView(vsphere)}
+          id="main-nav-phmc"
+          label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
+          icon="lib_phmcConsole"
+          href$={getView(phmcListFullyQualified)}
+          isActive$={isView(ibmp)}
           {...props}
         />
       )}
@@ -443,6 +435,26 @@ function Platforms(props) {
           icon="lib_zhmcConsole"
           href$={getView(zhmcListFullyQualified)}
           isActive$={isView(ibmz)}
+          {...props}
+        />
+      )}
+      {hasKubernetesAccess && (
+        <ViewItemForPlatforms
+          id="main-nav-kubernetes"
+          label={t('in-components:mainNavigation.viewSwitcherLabelKubernetes')}
+          icon="lib_kubernetes_inverted"
+          href$={getView(kubernetesClusterList)}
+          isActive$={isView(kubernetes)}
+          {...props}
+        />
+      )}
+      {vsphereEnabled && (
+        <ViewItemForPlatforms
+          id="main-nav-vsphere"
+          label={t('in-components:mainNavigation.viewSwitcherLabelvSphere')}
+          icon="lib_vsphere_inverted"
+          href$={getView(datacenterListFullyQualified)}
+          isActive$={isView(vsphere)}
           {...props}
         />
       )}

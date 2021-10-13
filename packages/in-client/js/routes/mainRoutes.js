@@ -18,8 +18,8 @@ import {
   hasKubernetesAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
+import { pcfEnabled, vsphereEnabled, phmcEnabled, zhmcEnabled, internalMonitoringUnit } from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
-import { pcfEnabled, vsphereEnabled, zhmcEnabled, internalMonitoringUnit } from 'in-services/featureFlags';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
 import FragmentSupportingSwitch from 'in-components/FragmentSupportingSwitch';
@@ -40,6 +40,7 @@ import vsphereRoutes from 'in-vsphere/navigation/routes';
 import { role, isInstanaEmail } from 'in-stores/user';
 import eventRoutes from 'in-events/navigation/routes';
 import deepLinkRoutes from 'in-client/js/deepLink';
+import phmcRoutes from 'in-phmc/navigation/routes';
 import zhmcRoutes from 'in-zhmc/navigation/routes';
 
 export default (
@@ -63,6 +64,7 @@ export default (
     {hasApplicationsAccess && applicationRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
     {pcfEnabled && cloudfoundryRoutes}
+    {phmcEnabled && phmcRoutes}
     {vsphereEnabled && vsphereRoutes}
     {zhmcEnabled && zhmcRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
