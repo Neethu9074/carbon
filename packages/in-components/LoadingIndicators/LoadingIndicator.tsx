@@ -13,13 +13,13 @@ import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/Indet
 import locals from './LoadingIndicator.mless';
 
 export interface LoadingIndicatorProps {
-  size: keyof typeof SvgIconSizes | undefined;
-  title?: string | undefined;
-  text?: string | undefined;
-  className?: string | undefined;
-  width?: number | undefined;
-  height?: number | undefined;
-  style?: Record<string, string | number> | undefined;
+  size: keyof typeof SvgIconSizes;
+  title?: string;
+  text?: string;
+  className?: string;
+  width?: number;
+  height?: number;
+  style?: Record<string, string | number>;
 }
 
 export default function LoadingIndicator({

@@ -31,7 +31,7 @@ interface DescriptionItemProps {
   children: React.ReactNode;
   addSeparator?: boolean;
   className?: string;
-  title: React.ReactChild | React.ReactFragment | string;
+  title: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLElement>;
 }
 
