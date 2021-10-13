@@ -4,23 +4,17 @@
  */
 
 import React, { ReactNode } from 'react';
-import { find } from 'lodash';
 
 import { useObservable } from '@instana/hooks';
 
-import { translateOffsetToTimeShiftConfig, getTimeShiftLabel } from 'in-stores/time/shifting';
-import { MetricResult, Result, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
-import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
-import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
-import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
+import ResultAwareBigNumberKpiCard from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
+import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
+import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
-import Badge from 'in-custom-dashboards/widgets/BigNumber/Badge';
-import { percentage } from 'in-services/formatters/number';
+import { IconAction } from 'in-components/KpiCard/KpiCard';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import Tooltip from 'in-components/Tooltip';
-import { t } from 'in-i18n';
 
 export const metricKey = 'bigNumber';
 export const companionMetricKey = 'companion';
@@ -92,147 +86,24 @@ export default function BigNumberKpiCard({
     pendingResult;
 
   return (
-    <ResultAwareKpiCard
+    <ResultAwareBigNumberKpiCard
       title={title}
       result={result}
+      formatter={formatter}
+      companionFormatter={companionFormatter}
       useMaxAvailableHeight={useMaxAvailableHeight}
-      actions={
-        dragHandle || actions ? (
-          <>
-            {dragHandle}
-            {actions}
-          </>
-        ) : (
-          undefined
-        )
-      }
-      renderKpiCard={result =>
-        renderKpiCard(
-          result,
-          config,
-          formatter,
-          title,
-          timeConfig,
-          companionFormatter,
-          iconAction,
-          actions,
-          dragHandle,
-          useMaxAvailableHeight
-        )
-      }
-    />
-  );
-}
-
-function renderKpiCard(
-  result: Result<MetricResult[]>,
-  config: Config,
-  formatter: FormatterFn,
-  title: string,
-  timeConfig: TimeConfig,
-  companionFormatter: FormatterFn | undefined,
-  iconAction: IconAction | undefined,
-  actions: ReactNode,
-  dragHandle: ReactNode,
-  useMaxAvailableHeight: boolean | undefined
-) {
-  let value = null;
-  const dataPoint = find(result.data, ({ id }) => id === metricKey);
-  if (dataPoint?.values?.length === 1) {
-    value = dataPoint.values[0][1];
-  }
-
-  let formattedValue = null;
-  if (value != null) {
-    formattedValue = formatter(value);
-  }
-
-  return (
-    <KpiCard
-      title={title}
-      value={formattedValue}
-      useMaxAvailableHeight={useMaxAvailableHeight}
-      actions={
-        dragHandle || actions ? (
-          <>
-            {dragHandle}
-            {actions}
-          </>
-        ) : (
-          undefined
-        )
-      }
-      companionValue={
-        config.metricConfiguration.timeShift
-          ? renderTimeShiftValue(config, result, formatter, value, timeConfig)
-          : renderCompanionValue(result, companionFormatter as FormatterFn)
-      }
       iconAction={iconAction}
+      config={config}
+      actions={
+        dragHandle || actions ? (
+          <>
+            {dragHandle}
+            {actions}
+          </>
+        ) : (
+          undefined
+        )
+      }
     />
-  );
-}
-
-function renderCompanionValue(result: Result<MetricResult[]>, companionFormatter: FormatterFn) {
-  let value = null;
-  const dataPoint = find(result.data, ({ id }) => id === companionMetricKey);
-  if (dataPoint?.values?.length === 1) {
-    value = dataPoint.values[0][1];
-  }
-
-  let formattedValue = null;
-  if (value != null) {
-    formattedValue = companionFormatter(value);
-  }
-
-  return formattedValue;
-}
-
-function renderTimeShiftValue(
-  config: Config,
-  result: Result<MetricResult[]>,
-  formatter: FormatterFn,
-  value: number | null,
-  timeConfig: TimeConfig
-) {
-  const timeShift = config.metricConfiguration.timeShift as number;
-  if (timeShift === 0 || value == null) {
-    return null;
-  }
-
-  let comparisonValue;
-  const dataPoint = find(result.data, ({ id }) => id === comparisonMetricKey);
-  if (dataPoint?.values?.length === 1) {
-    comparisonValue = dataPoint.values[0][1];
-  }
-
-  if (comparisonValue == null) {
-    return null;
-  }
-
-  let colorId = blue.id;
-  if (value > comparisonValue) {
-    colorId = config.comparisonIncreaseColor;
-  } else if (value < comparisonValue) {
-    colorId = config.comparisonDecreaseColor;
-  }
-
-  const difference = comparisonValue === 0 ? (value === 0 ? 0 : value / Math.abs(value)) : value / comparisonValue - 1;
-
-  let formattedDifference = percentage.detailed(difference);
-  if (difference > 0) {
-    // force a + sign in front to highlight positive changes
-    formattedDifference = `+${formattedDifference}`;
-  }
-
-  const timeShiftConfig = translateOffsetToTimeShiftConfig(timeShift, timeConfig);
-  const tooltip = t('in-components:kpiCard.tooltipComparedToTimeShift', {
-    timeShift: getTimeShiftLabel(timeShiftConfig).toLowerCase(),
-    comparisonValue: formatter(comparisonValue)
-  });
-
-  return (
-    <Tooltip content={tooltip}>
-      <Badge colorId={colorId}>{formattedDifference}</Badge>
-    </Tooltip>
   );
 }

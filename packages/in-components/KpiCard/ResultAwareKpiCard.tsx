@@ -5,9 +5,9 @@
 
 import React, { ReactElement, ReactNode } from 'react';
 
+import { HorizontalIndicator } from '@instana/components';
 import { Stack, SvgIcon } from '@instana/components';
 
-import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { Result } from 'in-types';
 
@@ -35,7 +35,11 @@ export default function ResultAwareKpiCard<T>({
   if (result.errors.length > 0) {
     return (
       <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
-        <SvgIcon size="l" type="lib_help_error_error_circle" className={locals.error} />
+        <Stack align="center" distribution="center">
+          <span title={result.errors[0].message}>
+            <SvgIcon size="l" type="lib_help_error_error_circle" className={locals.error} />
+          </span>
+        </Stack>
       </KpiCard>
     );
   }
@@ -44,7 +48,9 @@ export default function ResultAwareKpiCard<T>({
     return (
       <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
         <Stack align="center" distribution="center">
-          <IndeterminateLoadingIndicator size="xl" />
+          <div className={locals.loadingBarContainer}>
+            <HorizontalIndicator className={locals.horizontalIndicator} progress={result.progress} rounded />
+          </div>
         </Stack>
       </KpiCard>
     );

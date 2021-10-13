@@ -5,10 +5,10 @@
 
 import React from 'react';
 
-import { Card, Message } from '@instana/components';
+import { Card, HorizontalIndicator, Message } from '@instana/components';
+import { Progress } from '@instana/components/types/util/dataRetrieval';
 
 // @ts-ignore
-import InfiniteCircle from 'in-components/Loading/InfiniteCircle/InfiniteCircle';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 // @ts-ignore
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -20,6 +20,8 @@ import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import PieChart from 'in-components/PieChart';
 import { Result } from 'in-types';
 import { t } from 'in-i18n';
+
+import locals from './ResultAwareChart.mless';
 
 interface Props {
   config: Config;
@@ -54,11 +56,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
       />
     );
   } else if (result.progress.loading) {
-    if (result.progress.percentage) {
-      content = <InfiniteCircle height={height} width={frontBufferWidth} percentage={result.progress.percentage} />;
-    } else {
-      content = <LoadingIndicator height={height} width={frontBufferWidth} size="regular" />;
-    }
+    content = <QueryProgress height={height} progress={result.progress} />;
   } else if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
     content = <NoDataAvailable width={frontBufferWidth} height={height} />;
   } else {
@@ -83,6 +81,26 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     >
       {content}
     </Card>
+  );
+}
+
+const iconSize = 'xl';
+
+interface QueryProgressProps {
+  progress: Progress;
+  height: number;
+}
+
+function QueryProgress(queryProgressProps: QueryProgressProps) {
+  return (
+    <div className={locals.stateWrapper}>
+      <div className={locals.bigIconContainer}>
+        <LoadingIndicator height={queryProgressProps.height} size={iconSize} />
+      </div>
+      <div className={locals.loadingBarContainer}>
+        <HorizontalIndicator className={locals.horizontalIndicator} progress={queryProgressProps.progress} rounded />
+      </div>
+    </div>
   );
 }
 

@@ -31,7 +31,22 @@ export function MissingData() {
   return <ResultAwareChart config={{}} data={{}} result={constructResult(null, false)} />;
 }
 
-export function Loading(props) {
+export function Loading() {
+  return (
+    <ResultAwareChart
+      config={{}}
+      data={{}}
+      result={{
+        errors: [],
+        progress: {
+          loading: true
+        }
+      }}
+    />
+  );
+}
+
+export function LoadingWithPercentage(props) {
   return (
     <ResultAwareChart
       config={{}}
@@ -46,10 +61,10 @@ export function Loading(props) {
     />
   );
 }
-Loading.args = {
+LoadingWithPercentage.args = {
   percentage: 0.5
 };
-Loading.argTypes = {
+LoadingWithPercentage.argTypes = {
   percentage: { control: { type: 'range', min: 0, max: 1, step: 0.05 } }
 };
 
