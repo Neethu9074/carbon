@@ -11,44 +11,46 @@ import { SvgIcon } from '@instana/components';
 
 import locals from './Input.mless';
 
-export default forwardRef<HTMLInputElement, FieldProps>(function FormInput(props: FieldProps, ref) {
-  const {
-    iconType,
-    onIconClick,
-    hasError,
-    refSetter,
-    className,
-    hideValidityInformationOnFocus,
-    ...inputProps
-  } = props;
+export default forwardRef<HTMLInputElement, FieldProps & React.InputHTMLAttributes<HTMLInputElement>>(
+  function FormInput(props: FieldProps & React.InputHTMLAttributes<HTMLInputElement>, ref) {
+    const {
+      iconType,
+      onIconClick,
+      hasError,
+      refSetter,
+      className,
+      hideValidityInformationOnFocus,
+      ...inputProps
+    } = props;
 
-  let content = (
-    <input
-      {...inputProps}
-      ref={ref || refSetter}
-      className={classNames(locals.input, className, {
-        [locals.error]: hasError,
-        [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
-      })}
-    />
-  );
-
-  if (iconType) {
-    content = (
-      <div className={locals.withIcon}>
-        {content} <SvgIcon type={iconType} onClick={onIconClick} className={locals.icon} />
-      </div>
+    let content = (
+      <input
+        {...inputProps}
+        ref={ref || refSetter}
+        className={classNames(locals.input, className, {
+          [locals.error]: hasError,
+          [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
+        })}
+      />
     );
+
+    if (iconType) {
+      content = (
+        <div className={locals.withIcon}>
+          {content} <SvgIcon type={iconType} onClick={onIconClick} className={locals.icon} />
+        </div>
+      );
+    }
+
+    return content;
   }
+);
 
-  return content;
-});
-
-type FieldProps = {
-  className?: string | undefined;
-  hasError?: boolean | undefined;
-  hideValidityInformationOnFocus?: boolean | undefined;
-  refSetter?: React.MutableRefObject<HTMLInputElement> | undefined;
+interface FieldProps {
+  className?: string;
+  hasError?: boolean;
+  hideValidityInformationOnFocus?: boolean;
+  refSetter?: React.MutableRefObject<HTMLInputElement>;
   /**
    * From SvgIcon:
    * Used to select the icon that this component should show.
@@ -58,6 +60,6 @@ type FieldProps = {
    *
    * Alternatively, leverage the `getSvgIconNames` API.
    */
-  iconType?: string | undefined;
-  onIconClick?: (e: EventPlaceholder) => void | undefined;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+  iconType?: string;
+  onIconClick?: (e: EventPlaceholder) => void;
+}

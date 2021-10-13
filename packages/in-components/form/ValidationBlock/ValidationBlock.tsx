@@ -12,7 +12,7 @@ const block = 'in-form-validation-block';
 
 interface ValidationBlockProps {
   children: React.ReactNode;
-  className?: string | undefined;
+  className?: string;
 }
 
 export default function ValidationBlock({ children, className }: ValidationBlockProps) {

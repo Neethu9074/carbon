@@ -8,12 +8,16 @@ import React from 'react';
 
 import locals from './Label.mless';
 
-type LabelProps = {
-  hasError?: boolean | undefined;
-  className?: string | undefined;
-} & React.LabelHTMLAttributes<HTMLLabelElement>;
+interface LabelProps {
+  hasError?: boolean;
+  className?: string;
+}
 
-export default function Label({ hasError, className, ...labelProps }: LabelProps) {
+export default function Label({
+  hasError,
+  className,
+  ...labelProps
+}: LabelProps & React.LabelHTMLAttributes<HTMLLabelElement>) {
   return (
     <label
       className={classNames(locals.label, className, {

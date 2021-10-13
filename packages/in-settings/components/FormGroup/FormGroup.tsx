@@ -10,19 +10,17 @@ import './FormGroup.less';
 
 const block = 'in-settings-form-group';
 
-type FormGroupProps = {
+interface FormGroupProps {
   children: React.ReactNode;
-  className?: string | undefined;
-  style?: CSSProperties | undefined;
-  noFlex?: boolean | undefined;
-};
+  className?: string;
+  style?: CSSProperties;
+  noFlex?: boolean;
+}
 
 export default function FormGroup({ children, className, style, noFlex = false }: FormGroupProps) {
   return (
     <div
-      className={classNames({
-        [block]: true,
-        [className ?? '']: className,
+      className={classNames(block, className, {
         [`${block}--flex`]: !noFlex
       })}
       style={style}

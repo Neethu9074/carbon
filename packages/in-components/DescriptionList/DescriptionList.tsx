@@ -13,10 +13,10 @@ const listClassName = `${block}__description-list`;
 const itemClassName = `${block}__description-item`;
 const noDetailClassName = `${block}__description-no-details`;
 
-type DescriptionListProps = {
-  className?: string | undefined;
-  children?: React.ReactNode | undefined;
-};
+interface DescriptionListProps {
+  className?: string;
+  children?: React.ReactNode;
+}
 
 export function DescriptionList({ children, className }: DescriptionListProps): JSX.Element {
   return (
@@ -27,13 +27,13 @@ export function DescriptionList({ children, className }: DescriptionListProps): 
   );
 }
 
-type DescriptionItemProps = {
+interface DescriptionItemProps {
   children: React.ReactNode;
-  addSeparator?: boolean | undefined;
-  className?: string | undefined;
+  addSeparator?: boolean;
+  className?: string;
   title: React.ReactChild | React.ReactFragment | string;
-  onClick?: React.MouseEventHandler<HTMLElement> | undefined;
-};
+  onClick?: React.MouseEventHandler<HTMLElement>;
+}
 
 export function DescriptionItem({
   addSeparator,

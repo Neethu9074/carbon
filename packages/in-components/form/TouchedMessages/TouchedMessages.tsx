@@ -12,8 +12,8 @@ import { Trans } from 'in-i18n';
 import locals from './TouchedMessages.mless';
 
 export interface TouchedMessagesProps {
-  field?: Field<any> | undefined;
-  className?: string | undefined;
+  field?: Field<unknown>;
+  className?: string;
 }
 
 export default function TouchedMessages({ field, className }: TouchedMessagesProps) {
@@ -21,6 +21,10 @@ export default function TouchedMessages({ field, className }: TouchedMessagesPro
     return null;
   }
 
+  /*
+   Wrapping it into a fragment, to avoid this TS error
+   TS2786: Its return type 'Element[]' is not a valid JSX element.
+   */
   return (
     <>
       {field.messages.map((message, i) => {
