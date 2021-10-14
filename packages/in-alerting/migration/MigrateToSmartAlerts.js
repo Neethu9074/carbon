@@ -48,7 +48,6 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
 }
 
 function doMigration({ eventSpecificationId, setMigrating }) {
-  setMigrating(true);
   getAlertConfigFromLegacyEvent({ eventSpecificationId })
     .filter(res => !isLoading(res))
     .map(res => res?.data ?? {})

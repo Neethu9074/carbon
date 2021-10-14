@@ -8,106 +8,105 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
 
-import { Toggle, Spacer, Link, Message } from '@instana/components';
+import { Link, Message, Spacer, Toggle } from '@instana/components';
 import { create, just } from '@instana/observables';
 
 import {
-  dataSourceCustom,
   dataSourceBuiltIn,
+  dataSourceCustom,
   dataSourceSystem,
+  entityVerification,
+  hostAvailabilityDetection,
   isDeprecatedEntityType,
-  putWindowField,
-  putRollupField,
   putAggregationField,
-  putQueryFields,
   putApplicationField,
+  putApplicationIdField,
   putMetricPatternOperator,
   putMetricPatternPlaceholder,
-  removeQueryFields,
-  updateFormDefinitionForDataSource,
-  updateFormDefinitionForSystemRule,
-  entityVerification,
-  systemRules,
-  hostAvailabilityDetection,
+  putQueryFields,
+  putRollupField,
   putScopeByHostsFields,
-  removeScopeByHostsField
+  putWindowField,
+  removeQueryFields,
+  removeScopeByHostsField,
+  systemRules,
+  updateFormDefinitionForDataSource,
+  updateFormDefinitionForSystemRule
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import {
-  metricPatternMatchingOptions,
-  conditionOperatorOptions,
   aggregationOptions,
-  rollupOptions,
-  windowOptions,
-  gracePeriodOptions,
-  getOptionsWithAdditionalValueIfMissing,
-  severityOptions,
+  conditionOperatorOptions,
   dataSourceOptions,
-  systemRuleOptions
+  getOptionsWithAdditionalValueIfMissing,
+  gracePeriodOptions,
+  metricPatternMatchingOptions,
+  rollupOptions,
+  severityOptions,
+  systemRuleOptions,
+  windowOptions
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import Applications, {
-  getSelectedApplicationConfigsByName,
   applicationSelectionTableActions,
+  getSelectedApplicationConfigsByName,
   getSelectedApplicationsForAlert,
-  submitApplicationSelection,
-  noRightHeader
+  noRightHeader,
+  submitApplicationSelection
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/Applications';
 import {
-  getPluginsWithCustomMetricsOptionsObservable,
+  createCustomMetricListItem,
   getCustomMetricsOptionsForPluginObservable,
-  createCustomMetricListItem
+  getPluginsWithCustomMetricsOptionsObservable
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
 import {
   applyOnOptions,
-  scopeApplication,
-  scopeEverything,
-  scopeDfq,
   applyOnOptionsForHostAvailability,
+  scopeApplication,
+  scopeDfq,
+  scopeEverything,
   scopeHostsByTag
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import {
-  getEntityTypeOptionsOfBuiltInMetrics,
+  containsMetricInList,
+  getAllBuiltInMetrics,
+  getMetricDefinition,
+  isBuiltInDynamicMetric,
+  isBuiltInPlainMetric,
+  isMetricPercentile
+} from 'in-sdk/metrics';
+import {
   formatterTypeToDefinition,
+  getEntityTypeOptionsOfBuiltInMetrics,
   isAppDataEntityType
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
-import {
-  containsMetricInList,
-  getAllBuiltInMetrics,
-  isBuiltInPlainMetric,
-  getMetricDefinition,
-  isBuiltInDynamicMetric
-} from 'in-sdk/metrics';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/BuiltInMetricSelector';
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
-import { putApplicationIdField } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEventFormDefinition';
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import { deprecateAppDataLegacyEvents, disableAppDataLegacyEvents } from 'in-services/featureFlags';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
+import { compareIgnoreCase, isBlank, isNotBlank } from 'in-services/util/string';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import EventDescription from 'in-events/components/EventDescription';
 import SectionHeading from 'in-settings/components/SectionHeading';
-import { getFormatterType } from 'in-services/formatters/number';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import DescriptionText from 'in-components/form/DescriptionText';
-import { isBlank, isNotBlank } from 'in-services/util/string';
-import { compareIgnoreCase } from 'in-services/util/string';
+import TouchedMessages from 'in-components/form/TouchedMessages';
+import { getFormatterType } from 'in-services/formatters/number';
 import HelpText from 'in-components/form/HelpText/HelpText';
-import { Row, Col } from 'in-components/layout/Grid/Grid';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
-import { isMetricPercentile } from 'in-sdk/metrics';
 import TextArea from 'in-components/form/TextArea';
 import { getPluginName } from 'in-sdk/pluginName';
 import Helpify from 'in-components/form/Helpify';
-import { find } from 'in-services/arrayUtils';
 import ComboBox from 'in-components/ComboBox';
-import Label from 'in-components/form/Label';
+import { find } from 'in-services/arrayUtils';
 import Input from 'in-components/form/Input';
-import connectTo from 'in-hoc/connectTo';
+import Label from 'in-components/form/Label';
 import { validate } from 'in-api/search';
+import connectTo from 'in-hoc/connectTo';
 import { t, Trans } from 'in-i18n';
 
 import locals from './CustomEventForm.mless';
@@ -189,7 +188,6 @@ export default compose(
 function EventForm({
   form,
   setForm,
-  entity,
   onChange,
   pluginsWithCustomMetrics,
   customMetricsForPlugin,
@@ -204,7 +202,7 @@ function EventForm({
   // extend custom-metrics list with current selected custom-metric,
   // in case it is not contained in the list. This might happen due to
   // deprecation or there is no such metric anymore
-  addCurrentCustomMetricToListIfMissing(customMetricsForPlugin, form, entity);
+  addCurrentCustomMetricToListIfMissing(customMetricsForPlugin, form);
 
   let pluginsWithMetricDefinitions;
   if (form.get('dataSource') && form.get('dataSource').value !== dataSourceSystem) {
@@ -312,7 +310,7 @@ function EventForm({
                           value={field.value}
                           className={locals.helpified}
                           options={getOptionsWithAdditionalValueIfMissing(gracePeriodOptions, field.value)}
-                          onChange={e => onChange('gracePeriod', (e = e ? e.value : ''))}
+                          onChange={e => onChange('gracePeriod', e?.value ?? '')}
                           isClearable={false}
                         />
                         <TouchedMessages field={field} />
@@ -643,7 +641,7 @@ function EventForm({
   }
 }
 
-function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions, onChange }) {
+function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions = [], onChange }) {
   return form.get('entityType').map(field => (
     <FormGroup>
       <Label htmlFor="event-entity-type" hasError={!field.valid && field.touched}>
