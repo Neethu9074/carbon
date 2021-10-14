@@ -34,6 +34,7 @@ export default function AlertConfiguration({ alertConfig }) {
   const {
     rule: { operator, value, alertType, metricName },
     timeThreshold,
+    granularity,
     alertChannelIds,
     tagFilterExpression,
     websiteId,
@@ -117,7 +118,7 @@ export default function AlertConfiguration({ alertConfig }) {
         darkFrame
         useMaxAvailableHeight={false}
       >
-        <TimeThresholdDescription timeThreshold={timeThreshold} />
+        <TimeThresholdDescription timeThreshold={timeThreshold} granularity={granularity} />
       </ExpandableLightCard>
 
       <ExpandableLightCard

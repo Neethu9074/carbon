@@ -20,16 +20,16 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
 
 export const timeThresholdLabels = Object.freeze({
-  violationsInSequence: t(
+  [timeThresholdTypes.violationsInSequence]: t(
     'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelViolationsInSequence'
   ),
-  violationsInPeriod: t(
+  [timeThresholdTypes.violationsInPeriod]: t(
     'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelViolationsInPeriod'
   ),
-  userImpactOfViolationsInSequence: t(
+  [timeThresholdTypes.userImpactOfViolationsInSequence]: t(
     'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence'
   ),
-  requestImpact: t(
+  [timeThresholdTypes.requestImpact]: t(
     'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelRequestImpact'
   )
 });
@@ -96,16 +96,16 @@ function createOption(form, updateForm, thresholdType, disabled = false) {
 }
 
 function getTimeThresholdFormForType(form, thresholdType) {
-  if (thresholdType === 'violationsInSequence') {
+  if (thresholdType === timeThresholdTypes.violationsInSequence) {
     return createViolationsInSequenceForm(form.get('timeThreshold').toJS());
   }
-  if (thresholdType === 'violationsInPeriod') {
+  if (thresholdType === timeThresholdTypes.violationsInPeriod) {
     return createViolationsInPeriodForm(form.get('timeThreshold').toJS());
   }
-  if (thresholdType === 'userImpactOfViolationsInSequence') {
+  if (thresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
     return createUserImpactOfViolationsInSequenceForm(form.get('timeThreshold').toJS());
   }
-  if (thresholdType === 'requestImpact') {
+  if (thresholdType === timeThresholdTypes.requestImpact) {
     return createRequestImpactForm(form.get('timeThreshold').toJS());
   }
 }

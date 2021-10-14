@@ -4,6 +4,7 @@
  */
 
 import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
@@ -37,7 +38,7 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
   let updatedForm = form.put('rule', newRuleForm).put('threshold', newThresholdForm);
 
   const timeThreshold = updatedForm.get('timeThreshold').toJS();
-  if (blueprintConfig.impactTimeThresholdDisabled && timeThreshold.type === 'requestImpact') {
+  if (blueprintConfig.impactTimeThresholdDisabled && timeThreshold.type === timeThresholdTypes.requestImpact) {
     updatedForm = updatedForm.put('timeThreshold', createViolationsInSequenceForm(timeThreshold));
   }
 

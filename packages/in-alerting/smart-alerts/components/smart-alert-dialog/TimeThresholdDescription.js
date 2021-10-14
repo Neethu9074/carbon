@@ -9,95 +9,127 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import { timeThresholdLabels } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/SelectTimeThreshold';
+import { UserImpactMeasurementMethods } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription.mless';
 
-export default function TimeThresholdDescription({ timeThreshold }) {
+export default function TimeThresholdDescription({ timeThreshold, granularity }) {
   return (
     <div className={locals.container}>
       <SvgIcon className={locals.icon} type={getIconType(timeThreshold.type)} />
       <div>
         <span className={locals.label}>{timeThresholdLabels[timeThreshold.type]}</span>
-        <p>{getDescription(timeThreshold)}</p>
+        <p>{getDescription(timeThreshold, granularity)}</p>
       </div>
     </div>
   );
 }
 
 TimeThresholdDescription.propTypes = {
+  granularity: PropTypes.number,
   timeThreshold: PropTypes.object.isRequired
 };
 
 function getIconType(timeThresholdType) {
   switch (timeThresholdType) {
-    case 'userImpactOfViolationsInSequence':
+    case timeThresholdTypes.userImpactOfViolationsInSequence:
       return 'lib_alerts_user_impacted';
-    case 'requestImpact':
+    case timeThresholdTypes.requestImpact:
       return 'lib_application_boundary_inbound_calls';
-    case 'violationsInPeriod':
+    case timeThresholdTypes.violationsInPeriod:
       return 'lib_alerting_threshold_icon';
-    case 'violationsInSequence':
+    case timeThresholdTypes.violationsInSequence:
     default:
       return 'lib_datetime_timerange';
   }
 }
 
-function getDescription(timeThreshold) {
-  const formattedTimeWindow = formatDurationAccurately(timeThreshold.timeWindow, 60000, false);
-  switch (timeThreshold.type) {
-    case 'userImpactOfViolationsInSequence': {
-      const users = timeThreshold.users;
-      const userPercentage = timeThreshold.userPercentage;
-
+function getDescription(timeThreshold, granularity) {
+  const { users, userPercentage, requests, timeWindow, type, violations, userImpactMeasurementMethod } = timeThreshold;
+  const perWindowEvaluation = userImpactMeasurementMethod === UserImpactMeasurementMethods.PER_WINDOW || true;
+  const formattedTimeWindow = formatDurationAccurately(timeWindow, 60000, false);
+  switch (type) {
+    case timeThresholdTypes.userImpactOfViolationsInSequence: {
       if (users && userPercentage) {
+        if (perWindowEvaluation)
+          return t(
+            'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation',
+            {
+              count: users,
+              userPercentage: percentageZeroDecimalPlaces(userPercentage),
+              numberEvaluationWindows: timeWindow / granularity
+            }
+          );
         return t(
           'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage',
           {
             count: users,
             userPercentage: percentageZeroDecimalPlaces(userPercentage),
-            formattedTimeWindow: formattedTimeWindow
+            formattedTimeWindow
           }
         );
       } else if (users) {
+        if (perWindowEvaluation)
+          return t(
+            'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation',
+            {
+              count: users,
+              numberEvaluationWindows: timeWindow / granularity
+            }
+          );
         return t(
           'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionUserImpactOfViolationsInSequenceUser',
           {
             count: users,
-            formattedTimeWindow: formattedTimeWindow
+            formattedTimeWindow
           }
         );
       } else if (userPercentage) {
+        if (perWindowEvaluation)
+          return t(
+            'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation',
+            {
+              userPercentage: percentageZeroDecimalPlaces(userPercentage),
+              numberEvaluationWindows: timeWindow / granularity
+            }
+          );
         return t(
           'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage',
-          { userPercentage: percentageZeroDecimalPlaces(userPercentage), formattedTimeWindow: formattedTimeWindow }
+          { userPercentage: percentageZeroDecimalPlaces(userPercentage), formattedTimeWindow }
         );
       } else {
+        if (perWindowEvaluation)
+          return t(
+            'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation',
+            {
+              numberEvaluationWindows: timeWindow / granularity
+            }
+          );
         return t(
           'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionUserImpactOfViolationsInSequence',
           {
-            formattedTimeWindow: formattedTimeWindow
+            formattedTimeWindow
           }
         );
       }
     }
-    case 'requestImpact': {
-      const requests = timeThreshold.requests;
+    case timeThresholdTypes.requestImpact: {
       return t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionRequestImpact', {
         count: requests,
-        formattedTimeWindow: formattedTimeWindow
+        formattedTimeWindow
       });
     }
-    case 'violationsInPeriod': {
-      const violations = timeThreshold.violations;
+    case timeThresholdTypes.violationsInPeriod: {
       return t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionViolationsInPeriod', {
         count: violations,
-        formattedTimeWindow: formattedTimeWindow
+        formattedTimeWindow
       });
     }
-    case 'violationsInSequence':
+    case timeThresholdTypes.violationsInSequence:
     default:
       return formattedTimeWindow;
   }
