@@ -6,6 +6,7 @@
 import React from 'react';
 
 import MessageFlowTable from 'in-forge/plugins/aceIntegrationServer/Dashboard/MessageFlowTable';
+import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
@@ -14,6 +15,11 @@ import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 
 export default function AceIntegrationServerDashboard({ snapshot, timeConfig }) {
+  const sensorConnectionStatus = snapshot.getIn(['data', 'sensorConnectionStatus'], 'OK');
+
+  if (sensorConnectionStatus !== 'OK') {
+    return <DashboardNotification type="info">{sensorConnectionStatus}</DashboardNotification>;
+  }
   const snapshotId = snapshot.get('id');
   return (
     <div>
