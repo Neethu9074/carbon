@@ -15,16 +15,10 @@ import { t } from 'in-i18n';
 
 import locals from './TagFilterExpressionConfig.mless';
 
-export default function TagFilterExpressionConfig({
-  applicationLabel,
-  form,
-  updateForm,
-  formFieldName,
-  QueryBuilderComponent
-}) {
+export default function TagFilterExpressionConfig({ label, form, updateForm, formFieldName, QueryBuilderComponent }) {
   return (
     <LightCard
-      title={<IconLabel text={applicationLabel} type="lib_application" noBottomMargin />}
+      title={<IconLabel text={label} type="lib_application" noBottomMargin />}
       headerClassName={locals.header}
       header={
         form.get(formFieldName)?.value.length > 0 && (
@@ -53,7 +47,7 @@ export default function TagFilterExpressionConfig({
 
 TagFilterExpressionConfig.propTypes = {
   QueryBuilderComponent: PropTypes.func.isRequired,
-  applicationLabel: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
   formFieldName: PropTypes.string.isRequired,
   updateForm: PropTypes.func.isRequired

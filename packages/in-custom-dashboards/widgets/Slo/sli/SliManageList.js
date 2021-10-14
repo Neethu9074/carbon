@@ -5,29 +5,29 @@
 
 import React, { useState } from 'react';
 
-import { Message } from '@instana/components';
-import { Button } from '@instana/components';
+import { Message, Button } from '@instana/components';
 
+import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliFormFactory';
 import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
-import CreateNewSLIForm from 'in-custom-dashboards/widgets/Slo/sli/CreateSLIForm';
-import { compareIgnoreCase, containsIgnoreCase } from 'in-services/util/string';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
+import { getSliConfigurationsByEntity } from 'in-custom-dashboards/api';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/SliList';
-import { getSliConfigurations } from 'in-custom-dashboards/api';
 import { isLoading, hasError } from 'in-services/util/result';
+import { containsIgnoreCase } from 'in-services/util/string';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
 import locals from './SliManageList.mless';
 
-export default function SliManageList({ applicationId, apName, apDefaultBoundaryScope, subSlideState }) {
-  const [sliSelected, setSelectedSli] = subSlideState;
-  const queryState = useState('');
+export default function SliManageList({ entityType, entityId, subSlideState }) {
+  const [selectedSli, setSelectedSli] = subSlideState;
+  const [nameQuery, setNameQuery] = useState('');
   const close = () => setSelectedSli(null);
+  const { canConfigureServiceLevelIndicators } = role;
 
   const sliManageListMain = (
     <div>
-      {!role.canConfigureServiceLevelIndicators && (
+      {!canConfigureServiceLevelIndicators && (
         <Message className={locals.message} withIcon>
           <Trans
             i18nKey="in-custom-dashboards:widgets.slo.sliManageList.configSrvLevelIndicatorsMsg"
@@ -36,14 +36,10 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
         </Message>
       )}
       <SliList
-        onChange={({ query }) => {
-          queryState[1](query);
-        }}
-        getItems={() =>
-          getSliConfigurations().map(onlyWithAPidAndNameMatchingQuery(applicationId, queryState[0])) ?? null
-        }
+        onChange={setNameQuery}
+        getItems={() => getSliConfigurationsByEntity({ entityType, entityId }).map(searchBySliName(nameQuery))}
         rightHeader={
-          role.canConfigureServiceLevelIndicators && (
+          canConfigureServiceLevelIndicators && (
             <Button
               kind="action"
               onClick={() => {
@@ -57,7 +53,7 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
             </Button>
           )
         }
-        query={queryState[0]}
+        query={nameQuery}
         selectSli={sliConfig => {
           setSelectedSli(sliConfig);
           trackSliViewSLI({ sliId: sliConfig.id, sliType: sliConfig.sliEntity?.sliType });
@@ -69,22 +65,13 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
   return (
     <SlideInView
       onShowSlideInContentChange={close}
-      showSlideInContent={!!sliSelected}
+      showSlideInContent={selectedSli}
       HeaderComponent={NoHeader}
       slideTransitionDurationMillis={500}
       slideInContentTitle={t('in-custom-dashboards:widgets.slo.sliManageList.sliList')}
       renderSlideInContent={setFooter => (
-        <div className={locals.slideInWrapper}>
-          {sliSelected && (
-            <CreateNewSLIForm
-              apName={apName}
-              sliConfig={sliSelected}
-              applicationId={applicationId}
-              apDefaultBoundaryScope={apDefaultBoundaryScope}
-              close={close}
-              setFooter={setFooter}
-            />
-          )}
+        <div className={locals.formWrapper}>
+          <CreateSliFormFactory {...{ entityType, entityId, close, setFooter, sliConfig: selectedSli }} />
         </div>
       )}
       staticContent={sliManageListMain}
@@ -93,21 +80,17 @@ export default function SliManageList({ applicationId, apName, apDefaultBoundary
   );
 }
 
-export const onlyWithAPidAndNameMatchingQuery = (applicationId, nameQuery = '') => {
-  return sliConfigs => {
-    if (isLoading(sliConfigs) || hasError(sliConfigs)) {
-      return sliConfigs;
+function searchBySliName(query) {
+  return sliConfigResult => {
+    if (isLoading(sliConfigResult) || hasError(sliConfigResult)) {
+      return sliConfigResult;
     }
 
     return {
-      ...sliConfigs,
+      ...sliConfigResult,
       data: {
-        items:
-          sliConfigs?.data
-            ?.filter(sli => sli?.sliEntity?.applicationId === applicationId)
-            .filter(sli => containsIgnoreCase(sli?.sliName, nameQuery))
-            .sort((a, b) => compareIgnoreCase(a.sliName, b.sliName)) ?? []
+        items: sliConfigResult.data.filter(sli => containsIgnoreCase(sli.sliName, query))
       }
     };
   };
-};
+}

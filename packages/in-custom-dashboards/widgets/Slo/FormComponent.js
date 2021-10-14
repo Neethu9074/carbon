@@ -59,11 +59,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     originalOnChange([], () => updatedForm);
   });
 
-  // TODO: we can probably remove this once we refactor the sli dialog to support websites as well, for now we need it to provide props to that component
-  const [apConfig, setApConfig] = useState();
-
   const entityIdField = form.get(entityId);
-  const appConfigIdValue = entityIdField?.value;
+  const entityIdValue = entityIdField?.value;
+  const entityTypeValue = form.get(entityType)?.value;
 
   const timeWindowTypeValue = form.get(timeWindowType)?.value ?? 'dynamic';
   const isFixed = timeWindowTypeValue === 'fixed';
@@ -104,20 +102,12 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         };
       },
       getContent({ subSlideState }) {
-        return (
-          <SliManageList
-            applicationId={appConfigIdValue}
-            apName={apConfig.label}
-            apDefaultBoundaryScope={apConfig.boundaryScope}
-            subSlideState={subSlideState}
-          />
-        );
+        return <SliManageList entityType={entityTypeValue} entityId={entityIdValue} subSlideState={subSlideState} />;
       }
     });
   }
 
   function onUpdateAppId(config) {
-    setApConfig(config);
     updateForm(form.updateIn([entityId], f => f.setValue(config.id).setTouched(true)));
     trackAPSelected({ applicationId: config.id });
   }
@@ -131,7 +121,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
           <Sections>
             <Section title={t('in-custom-dashboards:widgets.slo.formComponent.sloType')}>
               <MonitoringSourceSelector
-                value={form.get(entityType)?.value}
+                value={entityTypeValue}
                 onChange={type =>
                   updateForm(form.updateIn([entityType], field => field.setValue(type).setTouched(true)))
                 }
@@ -140,10 +130,10 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
           </Sections>
         )}
 
-        {form.get(entityType)?.value === 'application' && (
+        {entityTypeValue === 'application' && (
           <ApplicationSelector apIdField={entityIdField} onChange={onUpdateAppId} />
         )}
-        {form.get(entityType)?.value === 'website' && (
+        {entityTypeValue === 'website' && (
           <WebsiteSelector
             websiteIdField={entityIdField}
             onChange={website =>
@@ -154,15 +144,15 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
         <SliSelectionForm
           form={form}
-          applicationId={appConfigIdValue}
+          applicationId={entityIdValue}
           onChange={(path, updater) => updateForm(form.updateIn(path, updater))}
           openManageSLIComponent={
             <Button
-              disabled={!appConfigIdValue}
+              disabled={!entityIdValue}
               kind="primary"
               onClick={() => {
                 activateManageSliSlideIn();
-                trackOpenSLIManagement({ applicationId: appConfigIdValue });
+                trackOpenSLIManagement({ applicationId: entityIdValue });
               }}
             >
               {t('in-custom-dashboards:widgets.slo.formComponent.manageSlIs')}

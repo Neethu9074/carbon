@@ -8,12 +8,16 @@ import React from 'react';
 import { Stack } from '@instana/components';
 
 import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
+import {
+  applicationSliTypeOptions,
+  applicationType,
+  availabilityType
+} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import { sliTypeOptions, applicationType, availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
-import GoodBadEvents from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
+import GoodBadEventsForm from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
@@ -26,7 +30,7 @@ import { Row, Col } from 'in-components/layout/Grid';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
-export function SliForm({ form, onChange, onChangeType, apName }) {
+export function ApplicationSliForm({ form, onChange, apName }) {
   const sliEntityForm = form.get('sliEntity');
   const applicationId = sliEntityForm.get('applicationId')?.value;
   const serviceId = sliEntityForm.get('serviceId')?.value;
@@ -76,7 +80,7 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
               <SelectInSection
                 id="new-sli-type"
                 label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.type')}
-                onChange={e => onChangeType(e.target.value)}
+                onChange={e => onChange(['sliEntity', 'sliType'], f => f.setValue(e.target.value).setTouched(true))}
                 value={field?.value ?? ''}
                 hasError={!field.valid && field.touched}
                 actions={
@@ -92,7 +96,7 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
                 }
               >
                 <option value="">{t('in-custom-dashboards:widgets.slo.sliFormPresenter.pleaseSelect')}</option>
-                {sliTypeOptions.map(({ value, label }) => (
+                {applicationSliTypeOptions.map(({ value, label }) => (
                   <option value={value} key={value}>
                     {label}
                   </option>
@@ -189,7 +193,7 @@ export function SliForm({ form, onChange, onChangeType, apName }) {
 
       <MetricsForm form={form} onChange={onChange} />
 
-      <GoodBadEvents applicationName={apName} form={form} />
+      <GoodBadEventsForm label={apName} form={form} />
     </Stack>
   );
 }

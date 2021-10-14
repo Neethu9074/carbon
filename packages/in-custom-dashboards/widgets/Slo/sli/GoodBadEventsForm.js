@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm.mless';
 
-export default function GoodBadEvents({ applicationName, QueryBuilderComponent = SliEventsQueryBuilder }) {
+export default function GoodBadEventsForm({ label, QueryBuilderComponent = SliEventsQueryBuilder }) {
   return (
     <FormBound path="sliEntity">
       {({ form, setForm, absolutePath, item: sliEntityForm }) => {
@@ -45,7 +45,7 @@ export default function GoodBadEvents({ applicationName, QueryBuilderComponent =
                       setForm(form.updateIn(absolutePath, () => newForm));
                     }}
                     QueryBuilderComponent={QueryBuilderComponent}
-                    applicationLabel={applicationName}
+                    label={label}
                   />
                   {field && <TouchedMessages field={field} className={locals.validationText} />}
                 </div>
@@ -65,7 +65,7 @@ export default function GoodBadEvents({ applicationName, QueryBuilderComponent =
                     updateForm={newForm => {
                       setForm(form.updateIn(absolutePath, () => newForm));
                     }}
-                    applicationLabel={applicationName}
+                    label={label}
                   />
                   {field && <TouchedMessages field={field} className={locals.validationText} />}
                 </div>

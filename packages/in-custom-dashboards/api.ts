@@ -13,6 +13,7 @@ import {
   SliConfigurationWithLastUpdated,
   UserResult
 } from 'in-types';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
@@ -127,6 +128,23 @@ function getConfiguredSlis() {
     })
   );
 }
+
+export const getSliConfigurationsByEntity = memoize<
+  { entityType: MonitoringSource; entityId: string },
+  Result<SliConfigurationWithLastUpdated[]>
+>(
+  ({ entityType, entityId }) =>
+    refreshSignalSlis.flatMap(() => {
+      return http<SliConfigurationWithLastUpdated[]>({
+        method: 'GET',
+        maxRetries: 3,
+        url: `/api/settings/sli/${entityType}/${entityId}`,
+        mapToResultObject: true
+      });
+    }),
+  () => '',
+  60000
+);
 
 export const getSliConfiguration = memoize<string, Result<SliConfigurationWithLastUpdated>>(
   getConfiguredSliById,

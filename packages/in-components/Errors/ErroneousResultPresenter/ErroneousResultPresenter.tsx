@@ -13,7 +13,6 @@ import { isTechnicalError } from 'in-services/util/error';
 import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
-// @ts-ignore
 import locals from './ErroneousResultPresenter.mless';
 
 export interface Props {

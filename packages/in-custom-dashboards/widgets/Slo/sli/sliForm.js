@@ -5,7 +5,12 @@
 
 import { createMapForm, createField } from 'formalistic';
 
-import { availabilityType, applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import {
+  availabilityType,
+  applicationType,
+  websiteEventBased,
+  websiteTimeBased
+} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { numericValidator, minValidator } from 'in-services/validators/number';
@@ -20,16 +25,8 @@ export const sliFieldNames = Object.freeze({
   badEventFilterExpression: 'badEventFilterExpression'
 });
 
-export function createForm(sliConfig, applicationId, apDefaultBoundaryScope) {
-  const sliEntityWithApplicationId = {
-    ...sliConfig,
-    sliEntity: {
-      ...sliConfig?.sliEntity,
-      applicationId
-    }
-  };
-
-  const { id, sliName, sliEntity, metricConfiguration } = sliEntityWithApplicationId;
+export function createForm(sliType, sliConfig, entityId, entity) {
+  const { id, sliName, sliEntity, metricConfiguration } = sliConfig;
 
   let form = createMapForm();
 
@@ -44,15 +41,22 @@ export function createForm(sliConfig, applicationId, apDefaultBoundaryScope) {
       validator: composeAndShortCircuitOnError(notUndefinedValidator, notBlankValidator)
     })
   );
-  form = form.put('sliEntity', createSliEntityForm(sliEntity, apDefaultBoundaryScope));
 
-  if (sliEntity.sliType === applicationType) {
+  if (sliType === 'website') {
+    form = form.put('sliEntity', createWebsiteSliEntityForm(sliEntity, entityId));
+  } else {
+    form = form.put('sliEntity', createApplicationSliEntityForm(sliEntity, entityId, entity));
+  }
+
+  if (sliEntity?.sliType === applicationType || sliEntity?.sliType === websiteTimeBased) {
     form = form.put('metricConfiguration', createMetricsForm(metricConfiguration ?? {}));
   }
+
   return form;
 }
 
-function createSliEntityForm(sliEntity, apDefaultBoundaryScope) {
+function createApplicationSliEntityForm(sliEntity, applicationId, application) {
+  const { boundaryScope: apDefaultBoundaryScope } = application;
   const form = createMapForm()
     .put(
       'sliType',
@@ -62,55 +66,96 @@ function createSliEntityForm(sliEntity, apDefaultBoundaryScope) {
           notNullValidator,
           buildEnumValidator([applicationType, availabilityType])
         ),
-        value: sliEntity.sliType ?? null
+        value: sliEntity?.sliType ?? null
       })
     )
     .put(
       'applicationId',
       createField({
-        value: sliEntity.applicationId
+        value: applicationId
       })
     )
     .put(
       'serviceId',
       createField({
-        value: sliEntity.serviceId ?? null
+        value: sliEntity?.serviceId ?? null
       })
     )
     .put(
       'endpointId',
       createField({
-        value: sliEntity.endpointId ?? null
+        value: sliEntity?.endpointId ?? null
       })
     )
     .put(
       'boundaryScope',
       createField({
         value:
-          sliEntity.boundaryScope ??
+          sliEntity?.boundaryScope ??
           (apDefaultBoundaryScope === 'DEFAULT' ? boundaryScopes.inbound : apDefaultBoundaryScope)
       })
     )
     .put(
       'includeInternal',
       createField({
-        value: Boolean(sliEntity.includeInternal)
+        value: Boolean(sliEntity?.includeInternal)
       })
     )
     .put(
       'includeSynthetic',
       createField({
-        value: Boolean(sliEntity.includeSynthetic)
+        value: Boolean(sliEntity?.includeSynthetic)
       })
     );
 
-  if (sliEntity.sliType === availabilityType) {
+  if (sliEntity?.sliType === availabilityType) {
     return addGoodBadEventsForm(form, sliEntity);
   }
+
   return form;
 }
 
-function addGoodBadEventsForm(form, sliEntity) {
+function createWebsiteSliEntityForm(sliEntity, websiteId) {
+  let form = createMapForm()
+    .put(
+      'sliType',
+      createField({
+        validator: composeAndShortCircuitOnError(
+          notUndefinedValidator,
+          notNullValidator,
+          buildEnumValidator([websiteTimeBased, websiteEventBased])
+        ),
+        value: sliEntity?.sliType ?? null
+      })
+    )
+    .put(
+      'websiteId',
+      createField({
+        value: websiteId
+      })
+    )
+    .put(
+      'beaconType',
+      createField({
+        value: sliEntity?.beaconType ?? null
+      })
+    )
+    .put(
+      'filterExpression',
+      createField({
+        validator: noEmptyFilterExpressionValidator,
+        value: fromBackendModel(sliEntity?.filterExpression)
+      })
+    );
+
+  if (sliEntity?.sliType === websiteEventBased) {
+    return addGoodBadEventsForm(form, sliEntity);
+  }
+
+  return form;
+}
+
+export function addGoodBadEventsForm(form, sliEntity) {
   return form
     .put(
       sliFieldNames.goodEventFilterExpression,
@@ -128,27 +173,7 @@ function addGoodBadEventsForm(form, sliEntity) {
     );
 }
 
-export function resetFormForSliType(sliType, setForm, form) {
-  let newForm = form.updateIn(['sliEntity', 'sliType'], f => f.setValue(sliType).setTouched(true));
-  if (sliType === applicationType) {
-    setForm(
-      newForm
-        .put('metricConfiguration', createMetricsForm({}))
-        .updateIn(['sliEntity'], f => f.remove('goodEventFilterExpression'))
-        .updateIn(['sliEntity'], f => f.remove('badEventFilterExpression'))
-    );
-  } else {
-    setForm(
-      newForm
-        .updateIn(['sliEntity', 'serviceId'], f => f.setValue(null).setTouched(true))
-        .updateIn(['sliEntity', 'endpointId'], f => f.setValue(null).setTouched(true))
-        .remove('metricConfiguration')
-        .updateIn(['sliEntity'], sliEntitySubForm => addGoodBadEventsForm(sliEntitySubForm))
-    );
-  }
-}
-
-function createMetricsForm(metricConfiguration) {
+export function createMetricsForm(metricConfiguration) {
   return createMapForm()
     .put(
       'metricName',
