@@ -9,7 +9,7 @@ import GroupsTable from 'in-forge/plugins/aliCloudRocketMq/Dashboard/GroupsTable
 import TopicsTable from 'in-forge/plugins/aliCloudRocketMq/Dashboard/TopicsTable';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';

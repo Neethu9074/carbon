@@ -8,7 +8,7 @@ import React from 'react';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { number } from 'in-services/formatters/number';

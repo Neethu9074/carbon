@@ -24,7 +24,7 @@ import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';

@@ -18,7 +18,7 @@ import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection'
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Col, Row } from 'in-components/layout/Grid';

@@ -12,7 +12,7 @@ import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';

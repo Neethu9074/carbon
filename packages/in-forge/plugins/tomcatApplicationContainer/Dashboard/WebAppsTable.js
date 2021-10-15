@@ -7,7 +7,7 @@ import React from 'react';
 
 import ServletsInWebAppTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ServletsInWebAppTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, minutes } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';

@@ -9,7 +9,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number, percentage, bytes } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import UserSpoolSpaceTable from './UserSpoolSpaceTable';
 import MetricValue from 'in-components/MetricValue';

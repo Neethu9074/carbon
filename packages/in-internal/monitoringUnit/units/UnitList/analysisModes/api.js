@@ -8,7 +8,7 @@ import React from 'react';
 
 import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisModes/common';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { percentage } from 'in-services/formatters/number';
 import { Trans, t } from 'in-i18n';
 

@@ -31,7 +31,7 @@ import LogMetrics from 'in-forge/plugins/instanaAgent/Dashboard/LogMetrics';
 import SensorList from 'in-forge/plugins/instanaAgent/Dashboard/SensorList';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import IssueList from 'in-forge/plugins/instanaAgent/Dashboard/IssueList';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';

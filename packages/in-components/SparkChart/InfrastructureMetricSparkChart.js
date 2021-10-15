@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import InfrastructureMetricChartBehavior from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import InfrastructureMetricChartBehavior from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 

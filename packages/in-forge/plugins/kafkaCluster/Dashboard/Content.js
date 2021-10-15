@@ -15,7 +15,7 @@ import TopicsTable from 'in-forge/plugins/kafkaCluster/Dashboard/TopicsTable.js'
 import NodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/NodesTable.js';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import ClusterSummary from 'in-forge/plugins/kafkaCluster/ClusterSummary';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';

@@ -9,7 +9,7 @@ import React from 'react';
 import ExecutorsBatchAppTableBeforeV200 from './ExecutorsBatchAppTableBeforeV200';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import ExecutorsBatchAppTable from './ExecutorsBatchAppTable';
 import StagesTableBeforeV160 from './StagesTableBeforeV160';

@@ -15,7 +15,7 @@ import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotifica
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { healthFormatter } from 'in-forge/plugins/ceph/formatters';
 import PoolTable from 'in-forge/plugins/ceph/Dashboard/PoolTable';
 import MetricValue from 'in-components/MetricValue';

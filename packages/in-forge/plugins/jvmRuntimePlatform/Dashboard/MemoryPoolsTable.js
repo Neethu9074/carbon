@@ -7,7 +7,7 @@ import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import TableExplanation from 'in-sdk/components/dashboard/TableExplanation';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';

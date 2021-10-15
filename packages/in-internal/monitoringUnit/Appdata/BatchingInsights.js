@@ -9,7 +9,7 @@ import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetriev
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { number, percentagePlain, millis } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import ExpandableCard from 'in-components/ExpandableCard';
 import { Row, Col } from 'in-components/layout/Grid';

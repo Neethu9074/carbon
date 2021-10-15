@@ -10,7 +10,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import CacheLatencyThroughputTable from './CacheLatencyThroughputTable.js';
 import JgroupsTimerThreadPoolTable from './JgroupsTimerThreadPoolTable.js';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import JgroupsOOBThreadPoolTable from './JgroupsOOBThreadPoolTable.js';
 import CacheHitsAndMissesTable from './CacheHitsAndMissesTable.js';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';

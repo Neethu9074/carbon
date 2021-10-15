@@ -10,7 +10,7 @@ import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotifica
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';
 import TopicsTable from './TopicsTable';

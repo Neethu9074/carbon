@@ -10,7 +10,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import FilesystemsTable from 'in-forge/plugins/lxc/Dashboard/FilesystemsTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 

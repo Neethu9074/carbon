@@ -11,7 +11,7 @@ import {
   percentagePlainTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 

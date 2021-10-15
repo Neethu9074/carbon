@@ -7,7 +7,7 @@ import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { percentage, zeroDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 

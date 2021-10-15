@@ -12,7 +12,7 @@ import {
 } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { t } from 'in-i18n';
 
 export default function F5Dashboard({ snapshot, timeConfig }) {

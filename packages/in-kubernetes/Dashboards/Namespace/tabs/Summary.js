@@ -21,7 +21,7 @@ import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarker
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import TopPodsList from 'in-kubernetes/Dashboards/commonComponents/TopPodsList';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getNamespaceDashboard } from 'in-kubernetes/navigation/paths';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';

@@ -16,7 +16,7 @@ import { getCassandraWithContext } from 'in-internal/monitoringUnit/dataRetrieva
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';
 import { Row, Col } from 'in-components/layout/Grid';

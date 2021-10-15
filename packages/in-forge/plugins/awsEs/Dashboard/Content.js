@@ -16,7 +16,7 @@ import {
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import ESClusterSummary from 'in-forge/plugins/awsEs/ESClusterSummary';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import theme from 'in-themes';

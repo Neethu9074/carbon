@@ -10,7 +10,7 @@ import { SvgIcon } from '@instana/components';
 import { timeByMillisTwoDecimalPlaces, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { snapshotIdUrlParameter } from 'in-stores/snapshot/urlParameters';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import withUrlState from 'in-hoc/withUrlState';

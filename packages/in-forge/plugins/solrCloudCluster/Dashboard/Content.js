@@ -9,7 +9,7 @@ import { number, millis, hitRateZeroDecimalPlaces } from 'in-services/formatters
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import ClusterSummary from 'in-forge/plugins/solrCloudCluster/ClusterSummary';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { t } from 'in-i18n';
 

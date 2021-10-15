@@ -9,7 +9,7 @@ import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotifica
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytes, number } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import DatabaseSizesTable from './DatabaseSizesTable';

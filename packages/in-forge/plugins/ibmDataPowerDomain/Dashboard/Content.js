@@ -10,7 +10,7 @@ import QueueManagersTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/Qu
 import ServicesTable from 'in-forge/plugins/ibmDataPowerDomain/Dashboard/ServicesTable.js';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { percentage } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';

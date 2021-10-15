@@ -24,7 +24,7 @@ import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import DiagnosticCommandPresenter from './DiagnosticCommandPresenter';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';

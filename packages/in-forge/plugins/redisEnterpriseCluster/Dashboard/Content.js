@@ -11,7 +11,7 @@ import ShardsTable from 'in-forge/plugins/redisEnterpriseCluster/Dashboard/Shard
 import ClusterSummary from 'in-forge/plugins/redisEnterpriseCluster/ClusterSummary';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytes, number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

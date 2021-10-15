@@ -7,7 +7,7 @@ import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyList } from 'in-services/fixedImmutables';
 import { number } from 'in-services/formatters/number';

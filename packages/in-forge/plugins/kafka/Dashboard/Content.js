@@ -9,7 +9,7 @@ import { number, bytes, millis, percentageZeroDecimalPlaces } from 'in-services/
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TopicsTable from 'in-forge/plugins/kafka/Dashboard/TopicsTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import MetricValue from 'in-components/MetricValue';

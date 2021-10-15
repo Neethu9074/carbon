@@ -12,7 +12,7 @@ import { Button } from '@instana/components';
 import MetricChartDownloadView from 'in-components/DownloadButton/components/MetricChartDownloadView';
 import { selectedSnapshots$ } from 'in-infrastructure/tableView/stores/selectedSnapshots';
 import { metrics$, removeMetric } from 'in-infrastructure/tableView/stores/metrics';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { plugin$ } from 'in-infrastructure/tableView/stores/snapshotIds';
 import DownloadButton from 'in-components/DownloadButton';
 import { getTableDefinition } from 'in-sdk/snapshot';

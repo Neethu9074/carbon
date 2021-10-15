@@ -21,7 +21,7 @@ import EventMetricChartDownloadView from 'in-components/DownloadButton/component
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import { always, alwaysNull } from 'in-services/fixedStreams';

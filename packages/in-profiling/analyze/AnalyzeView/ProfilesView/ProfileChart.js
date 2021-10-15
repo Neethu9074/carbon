@@ -9,7 +9,7 @@ import globalHighlightAction from 'in-components/Chart/components/ContextMenu/ac
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { percentage, bytesTwoDecimalPlaces, time } from 'in-services/formatters/number';
 import ProfilesLane from 'in-profiling/analyze/AnalyzeView/ProfilesView/ProfilesLane';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { t } from 'in-i18n';
 
 import locals from './ProfileChart.mless';

@@ -9,7 +9,7 @@ import { Card } from '@instana/components';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import MessageTable from '../../tables/MessageTable';

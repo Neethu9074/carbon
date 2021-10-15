@@ -9,7 +9,7 @@ import { bytesZeroDecimalPlaces, timeByNanoTwoDecimalPlaces, zeroDecimalPlaces }
 import StoreTable from 'in-forge/plugins/cockroachDBNode/Dashboard/StoreTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import NodeSummary from '../NodeSummary.js';
 import { t } from 'in-i18n';
 

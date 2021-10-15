@@ -7,7 +7,7 @@ import React from 'react';
 
 import { millis, number, percentagePlain } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { formatDateTime } from 'in-services/formatters/date';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';

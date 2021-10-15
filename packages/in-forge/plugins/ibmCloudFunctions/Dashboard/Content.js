@@ -9,7 +9,7 @@ import PackagesTable from 'in-forge/plugins/ibmCloudFunctions/Dashboard/Packages
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';

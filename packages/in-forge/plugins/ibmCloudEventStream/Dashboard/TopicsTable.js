@@ -6,7 +6,7 @@
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 import { bytes } from 'in-services/formatters/number';
 import { getRawPayload } from 'in-stores/snapshot';

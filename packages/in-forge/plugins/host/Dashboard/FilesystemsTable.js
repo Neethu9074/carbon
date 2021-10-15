@@ -7,7 +7,7 @@ import React from 'react';
 
 import { percentage, bytes, kiloBytes, withSiMultiplyPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { isWindows } from 'in-forge/plugins/host/hostUtils';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';

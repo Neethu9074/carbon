@@ -9,7 +9,7 @@ import { bytesTwoDecimalPlaces, percentageZeroDecimalPlaces, number, siPrefix } 
 import ProcessCompanionMetrics from 'in-sdk/components/dashboard/ProcessCompanionMetrics';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import ProcessesList from 'in-forge/plugins/process/ProcessesList';
 import getHostSnapshotId from 'in-subscription/getHostSnapshotId';

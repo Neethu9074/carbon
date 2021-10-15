@@ -10,7 +10,7 @@ import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection'
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { gaugeMetricNames } from '../metricDefinitions';
 import MetricValue from 'in-components/MetricValue';
 import GaugesTable from './GaugesTable';

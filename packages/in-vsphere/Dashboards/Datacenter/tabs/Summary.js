@@ -16,7 +16,7 @@ import {
 } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';

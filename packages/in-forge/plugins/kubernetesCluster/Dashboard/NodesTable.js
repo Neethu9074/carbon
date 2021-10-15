@@ -7,7 +7,7 @@ import React from 'react';
 
 import { twoDecimalPlaces, bytesTwoDecimalPlaces, percentageTwoDecimalPlaces } from 'in-services/formatters/number';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getClusterMembers } from 'in-sdk/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';

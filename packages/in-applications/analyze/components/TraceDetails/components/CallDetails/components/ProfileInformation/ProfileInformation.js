@@ -16,7 +16,7 @@ import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getLinkToProfiles } from 'in-components/Profiling/navigation/paths';
 import getProfiles from 'in-components/Profiling/subscriptions/getProfiles';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import HotspotList from 'in-components/Profiling/components/HotspotList';
 import ViewAllWrapper from 'in-components/TopListCard/ViewAllWrapper';
 import { hasError, isLoading } from 'in-services/util/result';

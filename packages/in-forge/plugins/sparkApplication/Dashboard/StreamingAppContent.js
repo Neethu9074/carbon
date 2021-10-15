@@ -10,7 +10,7 @@ import { msZeroDecimalPlaces, zeroDecimalPlaces, zeroDecimalPlacesPerSecond } fr
 import ExecutorsStreamingAppTableBeforeV200 from './ExecutorsStreamingAppTableBeforeV200';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import ExecutorsStreamingAppTable from './ExecutorsStreamingAppTable';
 import { t } from 'in-i18n';
 

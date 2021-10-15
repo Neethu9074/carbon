@@ -24,7 +24,7 @@ import {
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';

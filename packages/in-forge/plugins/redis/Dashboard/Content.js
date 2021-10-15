@@ -13,7 +13,7 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DatabasesTable from 'in-forge/plugins/redis/Dashboard/DatabasesTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import SlowLogsTable from 'in-forge/plugins/redis/Dashboard/SlowLogsTable';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';

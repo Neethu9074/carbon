@@ -18,7 +18,7 @@ import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/Condi
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { Row, Col } from 'in-components/layout/Grid';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

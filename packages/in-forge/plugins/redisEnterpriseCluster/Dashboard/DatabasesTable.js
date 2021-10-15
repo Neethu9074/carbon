@@ -8,7 +8,7 @@ import React from 'react';
 import getRedisEnterpriseDatabasesForCluster from 'in-forge/plugins/redisEnterpriseCluster/subscriptions/getRedisEnterpriseDatabasesForCluster';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytes, number, millis } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import Table from 'in-sdk/components/dashboard/Table';

@@ -7,7 +7,7 @@ import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
 import DatasourcesTable from './DatasourcesTable';
 import WebModulesTable from './WebModulesTable';

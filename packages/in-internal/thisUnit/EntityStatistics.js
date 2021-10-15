@@ -8,7 +8,7 @@ import React from 'react';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

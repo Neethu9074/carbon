@@ -7,7 +7,7 @@ import React from 'react';
 
 import DashboardSection from '../../../../in-sdk/components/dashboard/DashboardSection';
 import PluginDashboardsMarkerLanes from '../../../PluginDashboardsMarkerLanes';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytes, number, percentage } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { t } from '../../../../in-i18n';

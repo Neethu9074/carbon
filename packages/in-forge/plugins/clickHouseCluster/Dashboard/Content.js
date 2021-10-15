@@ -9,7 +9,7 @@ import ClusterNodesTable from 'in-forge/plugins/clickHouseCluster/Dashboard/Clus
 import ClusterSummary from 'in-forge/plugins/clickHouseCluster/Dashboard/ClusterSummary';
 import MetricsTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/MetricsTable';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';

@@ -8,7 +8,7 @@ import React from 'react';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import ConnectionPoolsTable from './ConnectionPoolsTable';
 import ServletsTable from './ServletsTable';

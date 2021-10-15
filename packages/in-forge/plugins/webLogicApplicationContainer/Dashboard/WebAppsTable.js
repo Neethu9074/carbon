@@ -6,7 +6,7 @@
 import React from 'react';
 
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import ServletsInWebAppTable from './ServletsInWebAppTable';
 import { emptyMap } from 'in-services/fixedImmutables';

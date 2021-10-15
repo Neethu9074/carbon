@@ -7,7 +7,7 @@ import React from 'react';
 
 import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';

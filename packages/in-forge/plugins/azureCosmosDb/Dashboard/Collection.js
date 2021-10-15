@@ -9,7 +9,7 @@ import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters
 import ResourceType from 'in-forge/plugins/azureCosmosDb/Dashboard/ResourceType';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import StatusCode from 'in-forge/plugins/azureCosmosDb/Dashboard/StatusCode';
-import Chart from 'in-components/Chart/InfrastructureMetricChartBehavior';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { t } from 'in-i18n';
 
 export default function Collection({ snapshot, timeConfig, collection, statusCodes, resourceTypes }) {
