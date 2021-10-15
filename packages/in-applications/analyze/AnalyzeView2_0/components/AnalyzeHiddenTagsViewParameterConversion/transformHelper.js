@@ -3,13 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { isEmpty } from 'lodash';
-
-import { tagFilter as createTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { getMatrixParameter, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
+import { CONJUNCTION, enclose } from 'in-components/QueryBuilder/transformation/formModel';
 import { analyzePath, analyzeTwoParameters } from 'in-applications/navigation/paths';
-import { CONJUNCTION } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 
@@ -17,21 +14,35 @@ export const TAG_SERVICE_NAME = 'service.name';
 export const TAG_SERVICE_ID = 'service.id';
 export const TAG_ENDPOINT_NAME = 'endpoint.name';
 export const TAG_ENDPOINT_ID = 'endpoint.id';
-export const TAG_CALL_TYPE = 'call.type';
 
-export function isAnalyticsWithHiddenTagsLocation(location, tagCatalog, ignoreServiceIds, ignoreEndpointIds) {
+export function isAnalyticsWithHiddenTagsLocation(location, tagCatalog) {
+  return (
+    tagCatalog &&
+    getFormModel(location).some(
+      tagFilter =>
+        (tagFilter.name === TAG_SERVICE_ID &&
+          tagFilter.value != null &&
+          tagFilter.operator === EQUALS &&
+          isHidden(TAG_SERVICE_ID, tagCatalog)) ||
+        (tagFilter.name === TAG_ENDPOINT_ID &&
+          tagFilter.value != null &&
+          tagFilter.operator === EQUALS &&
+          isHidden(TAG_ENDPOINT_ID, tagCatalog))
+    )
+  );
+}
+
+/**
+ * Checks whether the tag-filters in the URL might have been converted already, in case service.name or endpoint.name with EQUALS
+ * matching are already present.
+ */
+export function alreadyConvertedAnalyticsWithHiddenTagsLocation(location) {
+  // This check has the known drawback that in case a user manually provides a service.name or endpoint.name tag already,
+  // then no conversion is applied.
   return getFormModel(location).some(
     tagFilter =>
-      (tagFilter.name === TAG_SERVICE_ID &&
-        tagFilter.value != null &&
-        !ignoreServiceIds.includes(tagFilter.value) &&
-        tagFilter.operator === EQUALS &&
-        isHidden(TAG_SERVICE_ID, tagCatalog)) ||
-      (tagFilter.name === TAG_ENDPOINT_ID &&
-        tagFilter.value != null &&
-        !ignoreEndpointIds.includes(tagFilter.value) &&
-        tagFilter.operator === EQUALS &&
-        isHidden(TAG_ENDPOINT_ID, tagCatalog))
+      (tagFilter.name === TAG_SERVICE_NAME && tagFilter.value != null && tagFilter.operator === EQUALS) ||
+      (tagFilter.name === TAG_ENDPOINT_NAME && tagFilter.value != null && tagFilter.operator === EQUALS)
   );
 }
 
@@ -59,7 +70,7 @@ export function transformHiddenTags({ location, serviceResults, endpointResults 
     if (tagFilter.name === TAG_SERVICE_ID && tagFilter.value != null && tagFilter.operator === EQUALS) {
       transformServiceIdFilter(updatedModel, tagFilter, serviceResults);
     } else if (tagFilter.name === TAG_ENDPOINT_ID && tagFilter.value != null && tagFilter.operator === EQUALS) {
-      transformEndpointIdFilter(updatedModel, tagFilter, serviceResults, endpointResults);
+      transformEndpointIdFilter(updatedModel, tagFilter, endpointResults);
     } else {
       updatedModel.push(tagFilter);
     }
@@ -74,27 +85,28 @@ function transformServiceIdFilter(updatedModel, tagFilter, serviceResults) {
     updatedModel.push(tagFilter);
     return;
   }
-  updatedModel.push({ ...tagFilter, name: TAG_SERVICE_NAME, value: serviceInfo.label });
-  if (!isEmpty(serviceInfo.types)) {
-    updatedModel.push({ type: CONJUNCTION, logicalOperator: and });
-    updatedModel.push(createTagFilter(TAG_CALL_TYPE, EQUALS, serviceInfo.types[0]));
-  }
+  updatedModel.push(
+    ...enclose([
+      { ...tagFilter, name: TAG_SERVICE_NAME, value: serviceInfo.label },
+      { type: CONJUNCTION, logicalOperator: and },
+      tagFilter
+    ])
+  );
 }
 
-function transformEndpointIdFilter(updatedModel, tagFilter, serviceResults, endpointResults) {
+function transformEndpointIdFilter(updatedModel, tagFilter, endpointResults) {
   const endpointInfo = findById(endpointResults, tagFilter.value);
   if (endpointInfo == null) {
     updatedModel.push(tagFilter);
     return;
   }
-  const serviceInfo = findById(serviceResults, endpointInfo.serviceId);
-  if (serviceInfo == null) {
-    updatedModel.push(tagFilter);
-    return;
-  }
-  updatedModel.push({ ...tagFilter, name: TAG_SERVICE_NAME, value: serviceInfo.label });
-  updatedModel.push({ type: CONJUNCTION, logicalOperator: and });
-  updatedModel.push({ ...tagFilter, name: TAG_ENDPOINT_NAME, value: endpointInfo.label });
+  updatedModel.push(
+    ...enclose([
+      { ...tagFilter, name: TAG_ENDPOINT_NAME, value: endpointInfo.label },
+      { type: CONJUNCTION, logicalOperator: and },
+      tagFilter
+    ])
+  );
 }
 
 function findById(results, id) {

@@ -109,7 +109,7 @@ function encloseIfNotAlready(expression: FormModelElement[]): FormModelElement[]
   return enclose(expression);
 }
 
-function enclose(expression: FormModelElement[]): FormModelElement[] {
+export function enclose(expression: FormModelElement[]): FormModelElement[] {
   return [{ type: OPEN_BRACKET }, ...expression, { type: CLOSE_BRACKET }];
 }
 

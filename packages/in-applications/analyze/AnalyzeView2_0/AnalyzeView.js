@@ -7,6 +7,10 @@ import { useLocation } from 'react-router';
 import React, { useState } from 'react';
 import { sortBy } from 'lodash';
 
+import {
+  alreadyConvertedAnalyticsWithHiddenTagsLocation,
+  isAnalyticsWithHiddenTagsLocation
+} from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
 import AnalyzeHiddenTagsViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/AnalyzeHiddenTagsViewParameterConversion';
 import AnalyzeOneToTwoViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/AnalyzeOneToTwoViewParameterConversion';
 import AnalyzeTwoBetaViewParameterConversion from 'in-applications/analyze/AnalyzeView2_0//components/AnalyzeTwoBetaViewParameterConversion/AnalyzeTwoBetaViewParameterConversion';
@@ -16,7 +20,6 @@ import {
   hiddenCallsMatrixParameter,
   previewEnabledMatrixParameter
 } from 'in-applications/navigation/matrix';
-import { isAnalyticsWithHiddenTagsLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
 import { isAnalyticsTwoBetaLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeTwoBetaViewParameterConversion/transformHelper';
 import { isAnalyticsOneLocation } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeOneToTwoViewParameterConversion/transformHelper';
 import {
@@ -47,7 +50,6 @@ import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { analyzePath } from 'in-applications/navigation/paths';
 import { getTagCatalog } from 'in-applications/api/tagCatalog';
 import { latencyFixed } from 'in-services/formatters/number';
-import { emptyArray } from 'in-services/fixedObjects';
 import { getPluginName } from 'in-sdk/pluginName';
 import useUrlState from 'in-hooks/useUrlState';
 import { t } from 'in-i18n';
@@ -125,10 +127,10 @@ export default function ApplicationsAnalyzeView() {
     replaceHistory: false
   });
 
-  const [lastHiddenTagConversionResult, setLastHiddenTagConversionResult] = useState({
-    unresolvedServiceIds: emptyArray,
-    unresolvedEndpointIds: emptyArray
-  });
+  const location = useLocation();
+  const [skipHiddenTagConversion, setSkipHiddenTagConversion] = useState(
+    alreadyConvertedAnalyticsWithHiddenTagsLocation(location)
+  );
 
   const onChangeHiddenCalls = hiddenCalls => {
     onChange({ hiddenCalls });
@@ -142,7 +144,6 @@ export default function ApplicationsAnalyzeView() {
 
   const tagCatalog = useTagCatalog(dataSource === 'traces' ? getTracesTagCatalog : getCallsTagCatalog);
 
-  const location = useLocation();
   if (isAnalyticsOneLocation(location)) {
     return <AnalyzeOneToTwoViewParameterConversion dataSourceConfigurations={dataSourceConfigurations} />;
   }
@@ -151,22 +152,9 @@ export default function ApplicationsAnalyzeView() {
     return <AnalyzeTwoBetaViewParameterConversion />;
   }
 
-  // we have to avoid repeating failing conversion attempts
-  if (
-    isAnalyticsWithHiddenTagsLocation(
-      location,
-      tagCatalog,
-      lastHiddenTagConversionResult.unresolvedServiceIds,
-      lastHiddenTagConversionResult.unresolvedEndpointIds
-    )
-  ) {
-    const isLoading = tagCatalog == null;
-    return (
-      <AnalyzeHiddenTagsViewParameterConversion
-        isLoading={isLoading}
-        onConversionCompleted={setLastHiddenTagConversionResult}
-      />
-    );
+  // we have to avoid repeating conversion attempts
+  if (!skipHiddenTagConversion && isAnalyticsWithHiddenTagsLocation(location, tagCatalog)) {
+    return <AnalyzeHiddenTagsViewParameterConversion onConversionCompleted={setSkipHiddenTagConversion} />;
   }
 
   return (

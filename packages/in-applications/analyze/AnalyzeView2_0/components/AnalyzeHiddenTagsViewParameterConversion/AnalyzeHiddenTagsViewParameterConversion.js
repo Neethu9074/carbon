@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { useLocation } from 'react-router';
 import { isEmpty } from 'lodash';
 
@@ -28,7 +28,7 @@ import Sticky from 'in-components/Sticky';
 
 const pendingResults = [pendingResult];
 
-export default function AnalyzeHiddenTagsViewParameterConversion({ onConversionCompleted, isLoading }) {
+export default function AnalyzeHiddenTagsViewParameterConversion({ onConversionCompleted }) {
   const location = useLocation();
   const timeConfig = useTimeConfig();
   const endpointIds = useMemo(() => getEndpointIds(location), [location]);
@@ -41,28 +41,13 @@ export default function AnalyzeHiddenTagsViewParameterConversion({ onConversionC
     useObservable(getServiceForEndpointObservables, [serviceIds, endpointResults, timeConfig]) ?? pendingResults;
 
   useEffect(() => {
-    if (
-      isLoadingCompleted(endpointResults) &&
-      isLoadingCompleted(serviceResults) &&
-      isLoadingCompleted(serviceForEndpointResults)
-    ) {
-      const resolvedServiceIds = serviceResults.map(res => res.data?.id).filter(Boolean);
-      const resolvedEndpointIds = endpointResults.map(res => res.data?.id).filter(Boolean);
-
-      const unresolvedServiceIds = serviceIds.filter(id => !resolvedServiceIds.includes(id));
-      const unresolvedEndpointIds = endpointIds.filter(id => !resolvedEndpointIds.includes(id));
-
-      onConversionCompleted({ unresolvedServiceIds, unresolvedEndpointIds });
+    if (isReadyToConvert(endpointResults, serviceResults, serviceForEndpointResults)) {
+      onConversionCompleted(true);
     }
-  }, [endpointIds, serviceIds, serviceResults, endpointResults, serviceForEndpointResults, onConversionCompleted]);
+  }, [serviceResults, endpointResults, serviceForEndpointResults, onConversionCompleted]);
 
   let redirectHref;
-  if (
-    !isLoading &&
-    isLoadingCompleted(endpointResults) &&
-    isLoadingCompleted(serviceResults) &&
-    isLoadingCompleted(serviceForEndpointResults)
-  ) {
+  if (isReadyToConvert(endpointResults, serviceResults, serviceForEndpointResults)) {
     redirectHref = getModifiedUrl(location, location =>
       transformHiddenTags({
         location,
@@ -77,6 +62,14 @@ export default function AnalyzeHiddenTagsViewParameterConversion({ onConversionC
       <LoadingIndicator size="xxxl" />
       {redirectHref && <RedirectWithHash href={redirectHref} />}
     </Sticky>
+  );
+}
+
+function isReadyToConvert(endpointResults, serviceResults, serviceForEndpointResults) {
+  return (
+    isLoadingCompleted(endpointResults) &&
+    isLoadingCompleted(serviceResults) &&
+    isLoadingCompleted(serviceForEndpointResults)
   );
 }
 

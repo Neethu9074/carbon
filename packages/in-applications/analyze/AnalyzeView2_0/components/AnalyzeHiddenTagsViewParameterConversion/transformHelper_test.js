@@ -9,6 +9,7 @@ import {
   getEndpointIds,
   getServiceIds,
   isAnalyticsWithHiddenTagsLocation,
+  alreadyConvertedAnalyticsWithHiddenTagsLocation,
   transformHiddenTags
 } from 'in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsViewParameterConversion/transformHelper';
 import { cloneLocation } from 'in-stores/navigation/routing/clone';
@@ -38,7 +39,7 @@ const casesWithHiddenTags = [
         '/analyze': {
           dataSource: 'calls',
           tagFilterExpression:
-            '!(type~TAG*_FILTER~name~service.name~operator~EQUALS~value~nginx-web~entity~DESTINATION)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~call.type~operator~EQUALS~value~HTTP)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~call.erroneous~operator~EQUALS~value)(logicalOperator~AND~type~CONJUNCTION)(type~TAG*_FILTER~name~technology~operator~EQUALS~value~nginx~entity~DESTINATION)~'
+            '!(type~OPEN*_BRACKET)(type~TAG*_FILTER~name~service.name~operator~EQUALS~value~nginx-web~entity~DESTINATION)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~service.id~operator~EQUALS~value~ce4b152bac7b99744d8314838e49b799afd6dd96~entity~DESTINATION)(type~CLOSE*_BRACKET)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~call.erroneous~operator~EQUALS~value)(logicalOperator~AND~type~CONJUNCTION)(type~TAG*_FILTER~name~technology~operator~EQUALS~value~nginx~entity~DESTINATION)~'
         }
       }
     },
@@ -88,7 +89,7 @@ const casesWithHiddenTags = [
         '/analyze': {
           dataSource: 'calls',
           tagFilterExpression:
-            '!(type~TAG*_FILTER~name~service.name~operator~EQUALS~value~groundskeeper~entity~DESTINATION)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~endpoint.name~operator~EQUALS~value~GET_/internal/{tenantName}/{tenantUnit}/precomputedFilter~entity~DESTINATION)(type~CONJUNCTION~logicalOperator~OR)(type~TAG*_FILTER~name~service.name~operator~EQUALS~value~nginx-web~entity~DESTINATION)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~call.type~operator~EQUALS~value~HTTP)(type~CONJUNCTION~logicalOperator~OR)(type~TAG*_FILTER~name~service.name~operator~EQUALS~value~eum-acceptor~entity~DESTINATION)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~endpoint.name~operator~EQUALS~value~GET_/ping~entity~DESTINATION)~'
+            '!(type~OPEN*_BRACKET)(type~TAG*_FILTER~name~endpoint.name~operator~EQUALS~value~GET_/internal/{tenantName}/{tenantUnit}/precomputedFilter~entity~DESTINATION)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~endpoint.id~operator~EQUALS~value~sMU46hsqUgQtvIuQ2q1vbMUD95c~entity~DESTINATION)(type~CLOSE*_BRACKET)(type~CONJUNCTION~logicalOperator~OR)(type~OPEN*_BRACKET)(type~TAG*_FILTER~name~service.name~operator~EQUALS~value~nginx-web~entity~DESTINATION)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~service.id~operator~EQUALS~value~ce4b152bac7b99744d8314838e49b799afd6dd96~entity~DESTINATION)(type~CLOSE*_BRACKET)(type~CONJUNCTION~logicalOperator~OR)(type~OPEN*_BRACKET)(type~TAG*_FILTER~name~endpoint.name~operator~EQUALS~value~GET_/ping~entity~DESTINATION)(type~CONJUNCTION~logicalOperator~AND)(type~TAG*_FILTER~name~endpoint.id~operator~EQUALS~value~PlSjLFOnqvh52NGEE0X0VrHbJnM~entity~DESTINATION)(type~CLOSE*_BRACKET)~'
         }
       }
     },
@@ -165,17 +166,7 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsVie
     describe('UA locations with hidden tags - normal user', () => {
       casesWithHiddenTags.forEach(({ name, before }) => {
         it(`must identify ${name}`, () => {
-          expect(isAnalyticsWithHiddenTagsLocation(before, catalogTagWithHiddenTags, [], [])).to.equal(true);
-        });
-      });
-    });
-
-    describe('UA locations with hidden tags - normal user - ignore previously unresolved serviceIds and endpointIds ', () => {
-      casesWithHiddenTags.forEach(({ name, before, parsedServiceIds, parsedEndpointIds }) => {
-        it(`must ignore previously unresolved IDs ${name}`, () => {
-          expect(
-            isAnalyticsWithHiddenTagsLocation(before, catalogTagWithHiddenTags, parsedServiceIds, parsedEndpointIds)
-          ).to.equal(false);
+          expect(isAnalyticsWithHiddenTagsLocation(before, catalogTagWithHiddenTags)).to.equal(true);
         });
       });
     });
@@ -183,7 +174,7 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsVie
     describe('UA locations with hidden tags - stan user', () => {
       casesWithHiddenTags.forEach(({ name, before }) => {
         it(`must not identify ${name}`, () => {
-          expect(isAnalyticsWithHiddenTagsLocation(before, catalogTagWithoutHiddenTags, [], [])).to.equal(false);
+          expect(isAnalyticsWithHiddenTagsLocation(before, catalogTagWithoutHiddenTags)).to.equal(false);
         });
       });
     });
@@ -191,7 +182,26 @@ describe('in-applications/analyze/AnalyzeView2_0/components/AnalyzeHiddenTagsVie
     describe('UA locations without hidden tags - normal user', () => {
       casesWithoutHiddenTags.forEach(({ name, before }) => {
         it(`must not identify ${name}`, () => {
-          expect(isAnalyticsWithHiddenTagsLocation(before, catalogTagWithHiddenTags, [], [])).to.equal(false);
+          expect(isAnalyticsWithHiddenTagsLocation(before, catalogTagWithHiddenTags)).to.equal(false);
+        });
+      });
+    });
+
+    describe('UA locations without hidden tags - stan user', () => {
+      casesWithoutHiddenTags.forEach(({ name, before }) => {
+        it(`must not identify ${name}`, () => {
+          expect(isAnalyticsWithHiddenTagsLocation(before, catalogTagWithoutHiddenTags)).to.equal(false);
+        });
+      });
+    });
+  });
+
+  describe('alreadyConvertedAnalyticsWithHiddenTagsLocation', () => {
+    describe('before is not recognized as converted but after', () => {
+      casesWithHiddenTags.forEach(({ name, before, after }) => {
+        it(`must recognize ${name} respectively`, () => {
+          expect(alreadyConvertedAnalyticsWithHiddenTagsLocation(before)).to.equal(false);
+          expect(alreadyConvertedAnalyticsWithHiddenTagsLocation(after)).to.equal(true);
         });
       });
     });
