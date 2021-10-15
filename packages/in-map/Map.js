@@ -17,6 +17,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getWebGLCanvasContext } from 'in-map/services/webGL';
 import HelpDialog from 'in-components/helpSystem/HelpDialog';
 import { setCanvas, clear } from 'in-map/stores/indexStore';
+import { getSingle } from 'in-services/settings/settings';
 import { isWebGLSupported } from 'in-map/services/webGL';
 import { getSetting$ } from 'in-services/settings';
 import SceneGraph from 'in-map/SceneGraph';
@@ -29,6 +30,7 @@ import locals from 'in-map/Map.mless';
 export default function Map() {
   const antialias = useObservable(getAntiAliasObservable, []);
   const view = useObservable(view$, []);
+  const adaptToDevicePixelRatio = getSingle('charts_adaptToDevicePixelRatio', true);
   const ref = useRef();
 
   useDisabledBodyScroll();
@@ -74,7 +76,7 @@ export default function Map() {
     }
 
     setCanvas(canvas);
-    const sceneGraph = new SceneGraph(canvas, antialias, webGlContext);
+    const sceneGraph = new SceneGraph(canvas, antialias, webGlContext, adaptToDevicePixelRatio);
 
     return () => {
       clear();

@@ -33,6 +33,8 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
     });
 
     this.points = new Points(this.geometry, this.material);
+
+    this.pixelRatio = options.adaptToDevicePixelRatio && window.devicePixelRatio ? window.devicePixelRatio : 1;
   }
 
   getMesh() {
@@ -71,7 +73,7 @@ export default class IconSingleMeshFactory extends ASingleMeshFactory {
         index += 3;
       }
 
-      pointSizes[i++] = fragment.additionalParams.iconSize;
+      pointSizes[i++] = fragment.additionalParams.iconSize * this.pixelRatio;
 
       const xy = config.LUT[fragment.additionalParams.type];
       if (xy) {

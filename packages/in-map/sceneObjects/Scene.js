@@ -40,6 +40,7 @@ export default class MainScene extends SceneObject {
     this.antialias = params.antialias;
     this.webGlContext = params.webGlContext;
     this.handleAnimationFrames = this.handleAnimationFrames.bind(this);
+    this.pixelRatio = params.adaptToDevicePixelRatio && window.devicePixelRatio ? window.devicePixelRatio : 1;
   }
 
   init() {
@@ -110,6 +111,7 @@ export default class MainScene extends SceneObject {
     }));
 
     renderer.setClearColor(0x445b63, 1.0);
+    renderer.setPixelRatio(this.pixelRatio);
 
     // objects organize matrix updates by themselves
     renderer.autoUpdateObjects = false;
@@ -121,16 +123,11 @@ export default class MainScene extends SceneObject {
   }
 
   onResize() {
-    const canvas = this.canvas;
     const height = window.innerHeight - 150;
     const width = document.body.clientWidth - 72;
 
     this.renderer.setSize(width, height);
     setDimensions(width, height);
-    canvas.setAttribute('width', width);
-    canvas.setAttribute('height', height);
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
 
     // refresh to show the current state
     requestRendering();

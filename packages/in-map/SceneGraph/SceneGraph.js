@@ -8,13 +8,14 @@ import MainSceneNode from 'in-map/SceneGraph/MainSceneNode';
 import Scene from 'in-map/sceneObjects/Scene';
 
 export default class SceneGraph {
-  constructor(canvas, antialias, webGlContext) {
+  constructor(canvas, antialias, webGlContext, adaptToDevicePixelRatio) {
     this.root = webGlContext
       ? new MainSceneNode({
           id: 'mainScene',
           canvas,
           antialias,
           webGlContext,
+          adaptToDevicePixelRatio,
           InstanceType: Scene
         })
       : // if there is no webgl context, gracefully setup an empty scene

@@ -18,6 +18,8 @@ import BaseMap from 'in-map/sceneObjects/common/Map';
 export default class Map extends BaseMap {
   constructor(params) {
     super(params);
+
+    this.adaptToDevicePixelRatio = params.adaptToDevicePixelRatio;
   }
 
   init() {
@@ -31,7 +33,10 @@ export default class Map extends BaseMap {
     addFactory('highlighting', new LineSingleMeshFactory({ useSceneObjectColors: false }));
     addFactory('layer', new BasicSingleMeshFactory({ renderOrder: 2 }));
     addFactory('lines', new LineSingleMeshFactory());
-    addFactory('icons', new IconSingleMeshFactory({ useSceneObjectColors: false }));
+    addFactory(
+      'icons',
+      new IconSingleMeshFactory({ useSceneObjectColors: false, adaptToDevicePixelRatio: this.adaptToDevicePixelRatio })
+    );
   }
 
   initEvents() {
