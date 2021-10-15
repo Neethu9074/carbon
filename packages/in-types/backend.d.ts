@@ -280,23 +280,8 @@ export interface BackendTrace {
 }
 
 export interface Builder {
-  readonly data?: any;
-  readonly dependencies?: Dependency[];
-  readonly entityId?: EntityId;
-  readonly from: number;
-  readonly hostId?: string;
-  readonly id?: string;
-  readonly label?: string;
-  readonly metricIds?: string[];
-  readonly pluginId?: string;
-  readonly processorTags?: string[];
-  readonly sensorName?: string;
-  readonly snapshotId?: string;
-  readonly steadyId?: string;
-  readonly this?: Builder;
-  readonly timestamp: number;
-  readonly to: number;
-  readonly volatileId?: VolatileId;
+  readonly podId?: string;
+  readonly timeConfig?: TimeConfig;
 }
 
 export interface Call {
@@ -474,6 +459,7 @@ export interface Cursorific<T> {
 
 export interface CustomAbstractEventSpecification<T> {
   readonly applicationAlertConfigId?: string;
+  readonly deleted: boolean;
   readonly description?: string;
   readonly enabled: boolean;
   readonly entityType: string;
@@ -2459,6 +2445,7 @@ export interface KubernetesPort {
 }
 
 export interface KubernetesQueryFilter extends FilterInterface {
+  readonly allSnapshotIds?: string[];
   readonly clusterId?: string;
   readonly cronJobId?: string;
   readonly daemonSetId?: string;
@@ -3189,7 +3176,12 @@ export interface Result<T> {
   readonly data?: T;
   readonly errors: Error[];
   readonly progress: Progress;
+  readonly resultPrecisionDetails: ResultPrecisionDetails;
   readonly time?: number;
+}
+
+export interface ResultPrecisionDetails {
+  readonly resultPrecision: ResultPrecision;
 }
 
 export interface Service {
@@ -3339,6 +3331,26 @@ export interface Snapshot {
   readonly to?: number;
   readonly volatileId?: VolatileId;
   readonly volatile_id?: VolatileId;
+}
+
+export interface SnapshotBuilder {
+  readonly data?: any;
+  readonly dependencies?: Dependency[];
+  readonly entityId?: EntityId;
+  readonly from: number;
+  readonly hostId?: string;
+  readonly id?: string;
+  readonly label?: string;
+  readonly metricIds?: string[];
+  readonly pluginId?: string;
+  readonly processorTags?: string[];
+  readonly sensorName?: string;
+  readonly snapshotId?: string;
+  readonly steadyId?: string;
+  readonly this?: SnapshotBuilder;
+  readonly timestamp: number;
+  readonly to: number;
+  readonly volatileId?: VolatileId;
 }
 
 export interface SnapshotItem {
@@ -4297,6 +4309,8 @@ export type OrderDirection = 'ASC' | 'DESC';
 export type QueryPrecision = 'APPROXIMATE' | 'FULL';
 
 export type Relationship = 'CONTAINS' | 'DEFINED_IN' | 'DEPLOYED_ON' | 'DEPLOYED_WITHIN' | 'EXECUTED_BY' | 'EXECUTING' | 'EXPOSED_BY' | 'EXPOSED_THROUGH' | 'EXPOSES' | 'EXPOSING' | 'ORCHESTRATED_IN' | 'ORCHESTRATED_ON' | 'ORCHESTRATING' | 'PART_OF' | 'PROVIDED_BY' | 'PROVIDED_FROM' | 'PROVIDED_ON' | 'PROVIDED_WITHIN' | 'PROVIDES' | 'RUNS' | 'RUNS_IN' | 'RUNS_ON' | 'RUNS_WITHIN' | 'SCHEDULED' | 'SCHEDULED_BY' | 'SCHEDULED_ON' | 'SCHEDULED_WITHIN' | 'SCHEDULES' | 'SCHEDULING_IN' | 'SCHEDULING_ON' | 'SERVED_BY' | 'SERVED_THROUGH' | 'SERVES' | 'SERVES_ON' | 'SERVES_WITHIN' | 'SPANS_ACROSS' | 'WITHIN';
+
+export type ResultPrecision = 'PRECISION_UNKOWN' | 'PRECISION_APPROXIMATE' | 'PRECISION_FULL';
 
 export type ResultType = 'TIME_SERIES' | 'HISTOGRAM' | 'SINGLE_NUMBER';
 
