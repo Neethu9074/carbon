@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { fromPromise, timeout, combineLatest } from '@instana/observables';
+import { fromPromise, combineLatest } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import AgentMonitoringIssueNotifications from 'in-infrastructure/Dashboard/components/AgentMonitoringIssueNotifications';
@@ -13,7 +13,7 @@ import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-
 import DashboardHeader from 'in-infrastructure/Dashboard/components/DashboardHeader';
 import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
 import NotFoundDialog from 'in-infrastructure/Dashboard/components/NotFoundDialog';
-import { alwaysFalse, alwaysEmptyImmutableList } from 'in-services/fixedStreams';
+import { alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
@@ -32,18 +32,11 @@ import locals from './DashboardContent.mless';
 export default connectTo(
   {
     snapshotId: selectedSnapshotId$.tap(scrollToTopSmoothly),
-    // hide temporary unavailability due to loading lag
     snapshot: selectedSnapshot$,
     timeConfig: timeConfig$,
-    showVersionSelector: combineLatest([selectedSnapshotId$, selectedSnapshot$]).flatMap(([snapshotId]) => {
-      if (snapshotId == null) {
-        return alwaysFalse;
-      }
-
-      return timeout(5000)
-        .map(() => true)
-        .startWith(false);
-    }),
+    showVersionSelector: combineLatest([selectedSnapshotId$, selectedSnapshot$]).map(
+      ([snapshotId]) => snapshotId != null
+    ),
 
     // snapshot versions
     versionsForFocusedMoment: getSnapshotVersionsByTime(),

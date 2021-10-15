@@ -44,7 +44,7 @@ export const selectedSnapshot = createTrackingStore({
   observable: selectedSnapshotId
     .flatMap(snapshotId => {
       if (snapshotId) {
-        return timeConfig$.flatMap(timeConfig => createSnapshotObservable({ snapshotId, timeConfig }).startWith(null));
+        return timeConfig$.flatMap(timeConfig => createSnapshotObservable({ snapshotId, timeConfig }));
       }
       return alwaysNull;
     })
