@@ -1623,15 +1623,15 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/observables/-/@instana/observables-1.2.7.tgz#3fceca43d3543950a84618417582facddd40670a"
   integrity sha1-P87KQ9NUOVCoRhhBdYL6zd1AZwo=
 
-"@instana/observables@^1.3.0":
-  version "1.3.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/observables/-/@instana/observables-1.3.0.tgz#6d67922772184fc165e7dc86d83fdca68da36589"
-  integrity sha1-bWeSJ3IYT8Fl59yG2D/cpo2jZYk=
-
 "@instana/observables@^1.3.1":
   version "1.3.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/observables/-/@instana/observables-1.3.1.tgz#bc3fecbff3390d54fb105c894fffe62382615e4b"
   integrity sha1-vD/sv/M5DVT7EFyJT//mI4JhXks=
+
+"@instana/observables@^1.5.0":
+  version "1.5.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/observables/-/@instana/observables-1.5.0.tgz#692129599b02c806c4ff3fb087b7f575792ba9ff"
+  integrity sha1-aSEpWZsCyAbE/z+wh7f1dXkrqf8=
 
 "@instana/pseudo-translation@1.1.1":
   version "1.1.1"
