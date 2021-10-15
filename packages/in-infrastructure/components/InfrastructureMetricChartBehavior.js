@@ -199,7 +199,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
     const from = this.timeConfig.to - this.timeConfig.windowSize;
 
     dataHolder.insertSorted(newDataColumns);
-    dataHolder.expireDataPointsOlderThan(from - this.timeConfig.windowSize * 0.1); // keep 10% of the overall windowsize for a smooth fade out
+    dataHolder.expireDataPointsOlderThan(from - this.granularity);
     const dataColumnsMetrics = dataHolder.getDataColumns();
 
     const numberOfSeries = axis.numberOfSeries;
