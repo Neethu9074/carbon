@@ -77,7 +77,7 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     // Check that the canvas domElement != null. As part of the React lifecycle canvas
     // would rotate constantly between the DOM element and null and our setState call
     // would then causing an infinite update loop.
-    if (canvas && canvas !== chart?.canvas) {
+    if (canvas && canvas !== chart?.canvas && width) {
       chart?.dispose();
       setChart(new Chart(canvas, chartProps));
     }
