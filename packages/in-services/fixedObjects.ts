@@ -22,8 +22,5 @@ export const indeterminateProgress: Progress = Object.freeze({
 
 export const pendingResult: Readonly<Result<any>> = Object.freeze({
   progress: indeterminateProgress,
-  errors: Object.freeze([]) as [],
-  resultPrecisionDetails: {
-    resultPrecision: 'PRECISION_UNKOWN'
-  }
+  errors: Object.freeze([]) as []
 });

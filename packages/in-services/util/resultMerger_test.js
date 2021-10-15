@@ -40,10 +40,7 @@ describe('in-services/util/resultMerger', () => {
         loading: true,
         percentage: 0.5
       },
-      errors: [],
-      resultPrecisionDetails: {
-        resultPrecision: 'PRECISION_UNKOWN'
-      }
+      errors: []
     });
   });
 
@@ -76,10 +73,7 @@ describe('in-services/util/resultMerger', () => {
       progress: {
         loading: true
       },
-      errors: [],
-      resultPrecisionDetails: {
-        resultPrecision: 'PRECISION_UNKOWN'
-      }
+      errors: []
     });
   });
 
@@ -128,10 +122,7 @@ describe('in-services/util/resultMerger', () => {
           message: 'Error',
           code: 'CLIENT'
         }
-      ],
-      resultPrecisionDetails: {
-        resultPrecision: 'PRECISION_UNKOWN'
-      }
+      ]
     });
   });
 
@@ -190,10 +181,7 @@ describe('in-services/util/resultMerger', () => {
         {
           id: 'd'
         }
-      ],
-      resultPrecisionDetails: {
-        resultPrecision: 'PRECISION_UNKOWN'
-      }
+      ]
     });
   });
 });
