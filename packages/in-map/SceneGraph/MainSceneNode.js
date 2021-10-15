@@ -18,9 +18,15 @@ export default class SceneNode extends Node {
         this.disposeChildren();
 
         if (view === views.physical) {
-          this.addChild(PhysicalMapNode, { id: 'physicalMap' });
+          this.addChild(PhysicalMapNode, {
+            id: 'physicalMap',
+            adaptToDevicePixelRatio: params.adaptToDevicePixelRatio
+          });
         } else if (view === views.container) {
-          this.addChild(ContainerMapNode, { id: 'containerMap' });
+          this.addChild(ContainerMapNode, {
+            id: 'containerMap',
+            adaptToDevicePixelRatio: params.adaptToDevicePixelRatio
+          });
         }
 
         // add support for other views
