@@ -59,7 +59,7 @@ const defaultSelectableFields = [
 
 const defaultChartedMetrics = [
   {
-    templateId: 'red.metrics',
+    templateId: 'calls.overview',
     metrics: [
       {
         metricId: 'calls',
