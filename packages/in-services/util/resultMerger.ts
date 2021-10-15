@@ -30,7 +30,10 @@ function mergeFinished<IN, OUT>(results: Result<IN>[], mergeResultData: (data: I
     data: mergeResultData(results.map(result => result.data as IN)),
     errors: emptyArray as [],
     time: maxTime,
-    progress: finishedProgress
+    progress: finishedProgress,
+    resultPrecisionDetails: {
+      resultPrecision: 'PRECISION_UNKOWN'
+    }
   };
 }
 
@@ -50,7 +53,10 @@ function mergeErrors<T>(results: Result<any>[]): Result<T> {
   }
   return {
     errors,
-    progress: finishedProgress
+    progress: finishedProgress,
+    resultPrecisionDetails: {
+      resultPrecision: 'PRECISION_UNKOWN'
+    }
   };
 }
 
@@ -83,6 +89,9 @@ function mergeProgress<T>(results: Result<any>[]): Result<T> {
     progress: smallestProgress || {
       loading: true
     },
-    errors: emptyArray as []
+    errors: emptyArray as [],
+    resultPrecisionDetails: {
+      resultPrecision: 'PRECISION_UNKOWN'
+    }
   };
 }
