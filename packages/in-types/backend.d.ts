@@ -239,7 +239,7 @@ export interface ApplicationScopeWithId {
 }
 
 export interface ApplicationSliEntity extends SliEntity {
-  readonly applicationId: string;
+  readonly applicationId?: string;
   readonly boundaryScope: AlertingApplicationBoundaryScope;
   readonly endpointId?: string;
   readonly serviceId?: string;
@@ -255,7 +255,7 @@ export interface Author {
 }
 
 export interface AvailabilitySliEntity extends SliEntity {
-  readonly applicationId: string;
+  readonly applicationId?: string;
   readonly badEventFilterExpression?: TagFilterExpressionElement;
   readonly badEventFilters?: TagFilter[];
   readonly boundaryScope: AlertingApplicationBoundaryScope;
@@ -277,6 +277,12 @@ export interface AvailablePlugins {
 
 export interface BackendTrace {
   readonly traceId: string;
+}
+
+export interface BrowserScriptConfiguration extends SyntheticTypeConfiguration {
+  readonly browser?: SyntheticBrowserType;
+  readonly script: string;
+  readonly syntheticType: 'BrowserScript';
 }
 
 export interface Builder {
@@ -481,6 +487,7 @@ export interface CustomDashboard {
 }
 
 export interface CustomDashboardPreview {
+  readonly annotations: CustomDashboardPreviewAnnotation[];
   readonly id: string;
   readonly title: string;
 }
@@ -1241,6 +1248,13 @@ export interface GetKubernetesPodQuery extends UiQuery {
   readonly timeConfig: TimeConfig;
 }
 
+export interface GetKubernetesPodsExploreQuery extends CursorPaginatedQuery, QueryWithMetrics {
+  readonly filter: KubernetesQueryFilter;
+  readonly granularity: number;
+  readonly order: Order;
+  readonly pagination: CursorPagination<IngestionOffsetCursor>;
+}
+
 export interface GetKubernetesPodsQuery extends PaginatedQuery {
   readonly filter: KubernetesQueryFilter;
   readonly granularity: number;
@@ -1462,6 +1476,18 @@ export interface GetOpenEventsCountTimeSeriesQuery {
   readonly granularity: number;
   readonly query?: string;
   readonly timeConfig: TimeConfig;
+}
+
+export interface GetPhmcConsolesQuery extends PaginatedQuery {
+  readonly filter: PhmcQueryFilter;
+  readonly order: Order;
+  readonly pagination: Pagination;
+}
+
+export interface GetPhmcSystemsQuery extends PaginatedQuery {
+  readonly filter: PhmcQueryFilter;
+  readonly order: Order;
+  readonly pagination: Pagination;
 }
 
 export interface GetProcessesByIdsQuery extends CursorPaginatedQuery {
@@ -2003,6 +2029,20 @@ export interface HostAvailabilityRule extends AbstractRule {
   readonly tagFilter?: TagFilter;
 }
 
+export interface HttpActionConfiguration extends SyntheticTypeConfiguration {
+  readonly body?: string;
+  readonly headers?: { [index: string]: string };
+  readonly operation?: HttpActionOperation;
+  readonly syntheticType: 'HTTPAction';
+  readonly url: string;
+  readonly validationString?: string;
+}
+
+export interface HttpScriptConfiguration extends SyntheticTypeConfiguration {
+  readonly script: string;
+  readonly syntheticType: 'HTTPScript';
+}
+
 export interface Incident extends Event {
   readonly issueOrderMap?: { [index: string]: number };
   readonly recentEvents?: string[];
@@ -2409,6 +2449,17 @@ export interface KubernetesPodCondition {
   readonly reason: string;
   readonly status: string;
   readonly type: string;
+}
+
+export interface KubernetesPodListCursorPaginatedItem extends ListItemWithMetric, FilterableListItem, Cursorific<IngestionOffsetCursor> {
+  readonly age?: number;
+  readonly cursor: IngestionOffsetCursor;
+  readonly entityHealthInfo: EntityHealthInfo;
+  readonly label?: string;
+  readonly namespace?: string;
+  readonly phase?: string;
+  readonly pod: KubernetesPod;
+  readonly statusSummary?: string;
 }
 
 export interface KubernetesPodListItem extends ListItemWithMetric, FilterableListItem {
@@ -2974,6 +3025,53 @@ export interface Pagination {
   readonly pageSize: number;
 }
 
+export interface PhmcConsoleItem {
+  readonly consoleId: string;
+  readonly id: string;
+  readonly label: string;
+  readonly systems: number;
+}
+
+export interface PhmcConsoleItemCounters extends FilterableListItem {
+  readonly consoleName: string;
+  readonly id: string;
+  readonly label: string;
+  readonly partitions?: number;
+  readonly systems: number;
+  readonly vios?: number;
+}
+
+export interface PhmcQueryFilter extends FilterInterface {
+  readonly consoleId?: string;
+  readonly label?: string;
+  readonly snapshotId?: string;
+  readonly systemId?: string;
+  readonly timeConfig: TimeConfig;
+  readonly viosId?: string;
+}
+
+export interface PhmcSystemItem {
+  readonly consoleId?: string;
+  readonly id: string;
+  readonly label: string;
+  readonly name: string;
+  readonly partitions?: string[];
+  readonly systemId: string;
+  readonly vios?: string[];
+}
+
+export interface PhmcSystemListItem extends FilterableListItem, ListItemWithMetric {
+  readonly consoleId?: string;
+  readonly entityId?: EntityId;
+  readonly id: string;
+  readonly label: string;
+  readonly machineSerial?: string;
+  readonly machineTypeModel?: string;
+  readonly partitions?: number;
+  readonly status?: number;
+  readonly vios?: number;
+}
+
 export interface PhysicalContext {
   readonly cloudfoundry?: CloudfoundryPhysicalContext;
   readonly cluster?: SnapshotPreview;
@@ -3461,6 +3559,57 @@ export interface StatusCodeWebsiteAlertRule extends WebsiteAlertRule {
   readonly value: string;
 }
 
+export interface SyntheticGeoPoint {
+  readonly cityName: string;
+  readonly countryName: string;
+  readonly latitude: number;
+  readonly longitude: number;
+}
+
+export interface SyntheticLocation {
+  readonly createdAt?: Date;
+  readonly customProperties?: { [index: string]: string };
+  readonly description?: string;
+  readonly displayLabel?: string;
+  readonly geoPoint: SyntheticGeoPoint;
+  readonly id?: string;
+  readonly label: string;
+  readonly locationType: string;
+  readonly modifiedAt?: Date;
+  readonly observedAt?: Date;
+  readonly playbackCapabilities: SyntheticPlaybackCapabilities;
+  readonly popVersion?: string;
+}
+
+export interface SyntheticPlaybackCapabilities {
+  readonly browserType: SyntheticBrowserType[];
+  readonly syntheticType: SyntheticType[];
+}
+
+export interface SyntheticTest {
+  readonly active: boolean;
+  readonly applicationId?: string;
+  readonly configuration: SyntheticTypeConfigurationUnion;
+  readonly createdAt?: Date;
+  readonly createdBy?: string;
+  readonly customProperties?: { [index: string]: string };
+  readonly deleted?: boolean;
+  readonly deletedAt?: Date;
+  readonly description?: string;
+  readonly id?: string;
+  readonly label: string;
+  readonly locations: string[];
+  readonly modifiedAt?: Date;
+  readonly modifiedBy?: string;
+  readonly playbackMode: SyntheticPlaybackMode;
+  readonly serviceId?: string;
+  readonly testFrequency: number;
+}
+
+export interface SyntheticTypeConfiguration {
+  readonly syntheticType: 'BrowserScript' | 'HTTPAction' | 'HTTPScript' | 'WebpageConfiguration' | 'WebpageAction' | 'WebpageScript';
+}
+
 export interface SystemRule extends AbstractRule {
   readonly systemRuleId: string;
 }
@@ -3920,6 +4069,29 @@ export interface WebBrowser {
   readonly version?: string;
 }
 
+export interface WebpageActionConfiguration extends WebpageConfiguration {
+  readonly syntheticType: 'WebpageAction';
+  readonly url: string;
+}
+
+export interface WebpageAuthentication {
+  readonly password?: string;
+  readonly username?: string;
+}
+
+export interface WebpageConfiguration extends SyntheticTypeConfiguration {
+  readonly authentication?: WebpageAuthentication;
+  readonly blacklist?: string[];
+  readonly browser?: SyntheticBrowserType;
+  readonly syntheticType: 'WebpageConfiguration' | 'WebpageAction' | 'WebpageScript';
+  readonly whitelist?: string[];
+}
+
+export interface WebpageScriptConfiguration extends WebpageConfiguration {
+  readonly script: string;
+  readonly syntheticType: 'WebpageScript';
+}
+
 export interface Website {
   readonly id: string;
   readonly label: string;
@@ -3978,6 +4150,11 @@ export interface WebsiteCountryBreakdown {
 export interface WebsiteErrorsItem {
   readonly error: JavaScriptError;
   readonly metrics: { [index: string]: number[][] };
+}
+
+export interface WebsiteEventBasedSliEntity extends WebsiteSliEntity {
+  readonly badEventsFilterExpression: TagFilterExpressionElement;
+  readonly goodEventsFilterExpression: TagFilterExpressionElement;
 }
 
 export interface WebsiteItem {
@@ -4111,6 +4288,12 @@ export interface WebsiteRateMetricConfiguration extends WebsiteMonitoringMetrics
   readonly numeratorFilter?: TagFilter;
 }
 
+export interface WebsiteSliEntity extends SliEntity {
+  readonly beaconType: WebsiteMonitoringBeaconType;
+  readonly sliType: string;
+  readonly websiteId?: string;
+}
+
 export interface WebsiteSubdivisionsItem {
   readonly continent: string;
   readonly continentCode: string;
@@ -4119,6 +4302,10 @@ export interface WebsiteSubdivisionsItem {
   readonly metrics: { [index: string]: number[][] };
   readonly subdivision: string;
   readonly subdivisionCode?: string;
+}
+
+export interface WebsiteTimeBasedSliEntity extends WebsiteSliEntity {
+  readonly filterExpression?: TagFilterExpressionElement;
 }
 
 export interface WebsiteTimeThreshold extends TimeThreshold {
@@ -4220,7 +4407,7 @@ export type AccessType = 'READ' | 'READ_WRITE';
 
 export type AgentMonitoringIssueCategory = 'SENSOR' | 'TRACER' | 'PROFILER' | 'UNKNOWN';
 
-export type AggregationType = 'SUM' | 'MEAN' | 'MAX' | 'MIN' | 'P25' | 'P50' | 'P75' | 'P90' | 'P95' | 'P98' | 'P99' | 'P99_9' | 'P99_99' | 'DISTINCT_COUNT' | 'SUM_POSITIVE';
+export type AggregationType = 'SUM' | 'MEAN' | 'MAX' | 'MIN' | 'P25' | 'P50' | 'P75' | 'P90' | 'P95' | 'P98' | 'P99' | 'P99_9' | 'P99_99' | 'DISTRIBUTION' | 'DISTINCT_COUNT' | 'SUM_POSITIVE';
 
 export type AlertEvaluationType = 'PER_AP' | 'PER_AP_SERVICE' | 'PER_AP_ENDPOINT';
 
@@ -4256,6 +4443,8 @@ export type ChangeType = 'CREATE' | 'UPDATE' | 'DELETE' | 'ENABLE' | 'DISABLE' |
 
 export type ContextScope = 'NONE' | 'UPSTREAM' | 'DOWNSTREAM';
 
+export type CustomDashboardPreviewAnnotation = 'SHARED' | 'WRITABLE';
+
 export type DataSource = 'CALLS' | 'TRACES';
 
 export type DependencyType = 'in' | 'is' | 'to' | 'of' | 'connected' | 'describes' | 'of20' | 'to20' | 'dummy' | 'parent';
@@ -4282,9 +4471,11 @@ export type Formatter = 'NUMBER' | 'BYTES' | 'PERCENTAGE' | 'LATENCY' | 'MILLIS'
 
 export type Granularity = 60000 | 300000 | 600000 | 900000 | 1200000 | 1800000;
 
+export type HttpActionOperation = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
 export type InfraTabCategory = 'HOST' | 'CONTAINER' | 'PROCESS' | 'CLUSTER';
 
-export type InfraTagCategory = 'OTHERS' | 'KUBERNETES' | 'CLOUD_FOUNDRY' | 'VSHPERE' | 'ALICLOUD' | 'AWS' | 'AZURE' | 'GCP' | 'CONTAINER' | 'SELF_MONITORING' | 'IBM_CLOUD' | 'IBM_DATAPOWER' | 'IBM_I_SERIES' | 'IBM_MQ' | 'CLR' | 'ACE' | 'CASSANDRA' | 'COCKROACH' | 'CONSUL' | 'COUCHBASE' | 'ELASTICSEARCH' | 'HADOOP_YARN' | 'HAZELCAST' | 'KAFKA_CONNECT' | 'MONGO_DB' | 'REDIS' | 'SOLR' | 'SPARK';
+export type InfraTagCategory = 'OTHERS' | 'KUBERNETES' | 'CLOUD_FOUNDRY' | 'VSHPERE' | 'ALICLOUD' | 'AWS' | 'AZURE' | 'GCP' | 'CONTAINER' | 'SELF_MONITORING' | 'IBM_CLOUD' | 'IBM_DATAPOWER' | 'IBM_I_SERIES' | 'IBM_MQ' | 'IBM_OPENSTACK' | 'CLR' | 'ACE' | 'CASSANDRA' | 'COCKROACH' | 'CONSUL' | 'COUCHBASE' | 'ELASTICSEARCH' | 'HADOOP_YARN' | 'HAZELCAST' | 'KAFKA_CONNECT' | 'MONGO_DB' | 'REDIS' | 'SOLR' | 'SPARK';
 
 export type KubernetesClusterManagementType = 'RANCHER' | 'PKS' | 'NONE';
 
@@ -4318,9 +4509,19 @@ export type Seasonality = 'WEEKLY' | 'DAILY';
 
 export type SliMetricType = 'SLI' | 'ERROR_BUDGET_SPENT' | 'ERROR_BUDGET_REMAINING' | 'TOTAL_ERROR_BUDGET' | 'HOURLY_ERROR_BUDGET_CHART' | 'CONSUMED_ERROR_BUDGET_CHART';
 
+export type SliType = 'APPLICATION' | 'WEBSITE';
+
 export type SpanKind = 'UNKNOWN' | 'ENTRY' | 'EXIT' | 'INTERMEDIATE';
 
 export type SpanModel = 'UNKNOWN' | 'HTTP' | 'DATABASE' | 'RPC' | 'MESSAGING' | 'BATCH' | 'LOG' | 'SDK';
+
+export type SyntheticBrowserType = 'chrome' | 'firefox';
+
+export type SyntheticPlaybackMode = 'Simultaneous' | 'Staggered';
+
+export type SyntheticType = 'HTTPAction';
+
+export type SyntheticTypeConfigurationUnion = BrowserScriptConfiguration | HttpActionConfiguration | HttpScriptConfiguration | WebpageActionConfiguration | WebpageScriptConfiguration;
 
 export type TagFilterEntity = 'NOT_APPLICABLE' | 'DESTINATION' | 'SOURCE';
 
@@ -4337,3 +4538,5 @@ export type ThresholdType = 'staticThreshold' | 'historicBaseline' | 'adaptiveBa
 export type Type = 'HEALTHY' | 'WARNING' | 'CRITICAL' | 'UNKNOWN';
 
 export type UiEntityType = 'APPLICATION' | 'SERVICE' | 'ENDPOINT';
+
+export type WebsiteMonitoringBeaconType = 'PAGE_LOAD' | 'PAGE_RESOURCE' | 'HTTP_REQUEST' | 'JS_ERROR' | 'CUSTOM' | 'PAGE_CHANGE';
