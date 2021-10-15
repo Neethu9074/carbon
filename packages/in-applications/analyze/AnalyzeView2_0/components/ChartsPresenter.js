@@ -16,8 +16,10 @@ import theme from 'in-themes';
 
 import locals from './ChartsPresenter.mless';
 
-function isRedMetricsTemplateErroneousChart(chartProps, metricConfig) {
-  return chartProps.chartedMetricsTemplate?.templateId === 'red.metrics' && metricConfig.metricId === 'errors';
+const erroneousMetricIds = ['errors', 'erroneousCalls'];
+
+function isErroneousMetric(metricConfig) {
+  return erroneousMetricIds.includes(metricConfig.metricId);
 }
 
 function isLatencyDistributionChart(metricConfig) {
@@ -62,7 +64,7 @@ export function ChartsPresenter(props) {
                 />
               </div>
             );
-          } else if (isRedMetricsTemplateErroneousChart(chartProps, metricConfig)) {
+          } else if (isErroneousMetric(metricConfig)) {
             return (
               <Chart
                 {...chartProps}

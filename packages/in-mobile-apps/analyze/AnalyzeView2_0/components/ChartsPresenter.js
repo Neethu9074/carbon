@@ -8,10 +8,18 @@ import React from 'react';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
 import { metricRenderers } from 'in-mobile-apps/analyze/AnalyzeView2_0/metrics';
 import { ua2ChartChangedTracker } from 'in-mobile-apps/tracker';
+import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
+import theme from 'in-themes';
 
 import locals from './ChartsPresenter.mless';
+
+const erroneousMetricIds = ['beaconErrorCount', 'beaconErrorRate', 'http5xx'];
+
+function isErroneousMetric(metricConfig) {
+  return erroneousMetricIds.includes(metricConfig.metricId);
+}
 
 export function ChartsPresenter(props) {
   const { chartedMetrics, dataSource, isGrouped, chartableDataSeries } = props;
@@ -32,6 +40,26 @@ export function ChartsPresenter(props) {
         tracking={{
           onChartChanged: ({ templateId, metricId, aggregationId }) =>
             ua2ChartChangedTracker({ dataSource, template: templateId, metric: metricId, aggregation: aggregationId })
+        }}
+        CustomChartFactory={({ metricConfig, chartProps }) => {
+          if (isErroneousMetric(metricConfig)) {
+            return (
+              <Chart
+                {...chartProps}
+                getCustomChartColor={() => !chartProps.isGrouped && [theme.lib.colors.failure]}
+                key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
+                chartedMetrics={[metricConfig]}
+              />
+            );
+          } else {
+            return (
+              <Chart
+                {...chartProps}
+                key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
+                chartedMetrics={[metricConfig]}
+              />
+            );
+          }
         }}
       />
     </Sections>
