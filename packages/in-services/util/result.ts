@@ -35,10 +35,7 @@ export function success<T>(data: T, time = Date.now()): Result<T> {
     data,
     errors: emptyArray as [],
     progress: finishedProgress,
-    time,
-    resultPrecisionDetails: {
-      resultPrecision: 'PRECISION_UNKOWN'
-    }
+    time
   });
 }
 
@@ -46,10 +43,7 @@ export function error<T>(errors: Error[], time = Date.now()): Result<T> {
   return deepFreeze({
     errors,
     progress: finishedProgress,
-    time,
-    resultPrecisionDetails: {
-      resultPrecision: 'PRECISION_UNKOWN'
-    }
+    time
   });
 }
 
@@ -58,10 +52,7 @@ export function errorWithData<T>(errors: Error[], data: T, time = Date.now()): R
     data,
     errors,
     progress: finishedProgress,
-    time,
-    resultPrecisionDetails: {
-      resultPrecision: 'PRECISION_UNKOWN'
-    }
+    time
   });
 }
 

@@ -3176,7 +3176,7 @@ export interface Result<T> {
   readonly data?: T;
   readonly errors: Error[];
   readonly progress: Progress;
-  readonly resultPrecisionDetails: ResultPrecisionDetails;
+  readonly resultPrecisionDetails?: ResultPrecisionDetails;
   readonly time?: number;
 }
 
@@ -4310,7 +4310,7 @@ export type QueryPrecision = 'APPROXIMATE' | 'FULL';
 
 export type Relationship = 'CONTAINS' | 'DEFINED_IN' | 'DEPLOYED_ON' | 'DEPLOYED_WITHIN' | 'EXECUTED_BY' | 'EXECUTING' | 'EXPOSED_BY' | 'EXPOSED_THROUGH' | 'EXPOSES' | 'EXPOSING' | 'ORCHESTRATED_IN' | 'ORCHESTRATED_ON' | 'ORCHESTRATING' | 'PART_OF' | 'PROVIDED_BY' | 'PROVIDED_FROM' | 'PROVIDED_ON' | 'PROVIDED_WITHIN' | 'PROVIDES' | 'RUNS' | 'RUNS_IN' | 'RUNS_ON' | 'RUNS_WITHIN' | 'SCHEDULED' | 'SCHEDULED_BY' | 'SCHEDULED_ON' | 'SCHEDULED_WITHIN' | 'SCHEDULES' | 'SCHEDULING_IN' | 'SCHEDULING_ON' | 'SERVED_BY' | 'SERVED_THROUGH' | 'SERVES' | 'SERVES_ON' | 'SERVES_WITHIN' | 'SPANS_ACROSS' | 'WITHIN';
 
-export type ResultPrecision = 'PRECISION_UNKOWN' | 'PRECISION_APPROXIMATE' | 'PRECISION_FULL';
+export type ResultPrecision = 'PRECISION_UNKNOWN' | 'PRECISION_APPROXIMATE' | 'PRECISION_FULL';
 
 export type ResultType = 'TIME_SERIES' | 'HISTOGRAM' | 'SINGLE_NUMBER';
 
