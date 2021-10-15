@@ -16,7 +16,7 @@ interface TimeZoneConfiguration {
   label?: string;
 }
 
-export function createForm(savedState: TimeZoneConfiguration[]) {
+export function createForm(savedState?: TimeZoneConfiguration[]) {
   let listForm = createListForm({
     validator: composeAndShortCircuitOnError(
       notUndefinedValidator,
