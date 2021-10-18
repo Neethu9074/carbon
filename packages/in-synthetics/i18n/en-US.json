@@ -78,5 +78,10 @@
   },
   "navigation": {
     "synthetics": "Synthetics"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "Synthetic Tests"
+    }
   }
 }
