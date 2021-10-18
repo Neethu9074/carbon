@@ -13,6 +13,7 @@ type FormatterType =
   | 'MEGA_BYTES'
   | 'MICROS'
   | 'MILLIS'
+  | 'MINUTES'
   | 'NUMBER'
   | 'PERCENTAGE'
   | 'RATE'
@@ -26,7 +27,7 @@ type NumberFormatter =
       detailed?: (...args: any) => string;
 
       // More properties may be defined, but we ignore them.
-      [other: string]: any
+      [other: string]: any;
     };
 
 export const BYTE_RATE_FORMATTER_TYPE: FormatterType = 'BYTE_RATE';
@@ -36,6 +37,7 @@ export const LATENCY_FORMATTER_TYPE: FormatterType = 'LATENCY';
 export const MEGA_BYTES_FORMATTER_TYPE: FormatterType = 'MEGA_BYTES';
 export const MICROS_FORMATTER_TYPE: FormatterType = 'MICROS';
 export const MILLIS_FORMATTER_TYPE: FormatterType = 'MILLIS';
+export const MINUTES_FORMATTER_TYPE: FormatterType = 'MINUTES';
 export const NUMBER_FORMATTER_TYPE: FormatterType = 'NUMBER';
 export const PERCENTAGE_FORMATTER_TYPE: FormatterType = 'PERCENTAGE';
 export const RATE_FORMATTER_TYPE: FormatterType = 'RATE';

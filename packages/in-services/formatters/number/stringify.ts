@@ -19,7 +19,8 @@ import {
   NUMBER_FORMATTER_TYPE,
   PERCENTAGE_FORMATTER_TYPE,
   RATE_FORMATTER_TYPE,
-  SECONDS_FORMATTER_TYPE
+  SECONDS_FORMATTER_TYPE,
+  MINUTES_FORMATTER_TYPE
 } from 'in-services/formatters/number/types';
 import { getSingle } from 'in-services/settings';
 
@@ -232,6 +233,10 @@ export const seconds = markAsFormatterType(
 );
 export const minutes = {
   compact: (v: number) => formatTime(v, timeMinuteUnits, number.compact),
+  fixedCompact: markAsFormatterType(
+    (v: number) => t('in-services:formatters.timeUnits', { context: 'min', num: number.compact(v) }),
+    MINUTES_FORMATTER_TYPE
+  ),
   detailed: timeByMinutesTwoDecimalPlaces
 };
 export const millisToTwoDecimalSeconds = (v: number) => (v > 1000 ? millis.detailed(v) : millis.compact(v));
