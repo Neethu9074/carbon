@@ -6,9 +6,9 @@
 import React from 'react';
 
 import getRedisEnterpriseShardsForCluster from 'in-forge/plugins/redisEnterpriseCluster/subscriptions/getRedisEnterpriseShardsForCluster';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytes, number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

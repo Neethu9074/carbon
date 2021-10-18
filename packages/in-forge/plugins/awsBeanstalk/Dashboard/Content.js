@@ -7,10 +7,10 @@ import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import InstancesTable from 'in-forge/plugins/awsBeanstalk/Dashboard/InstancesTable';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { millis, number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import theme from 'in-themes';

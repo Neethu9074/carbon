@@ -8,9 +8,9 @@ import React from 'react';
 
 import { msZeroDecimalPlaces, zeroDecimalPlaces, zeroDecimalPlacesPerSecond } from 'in-services/formatters/number';
 import ExecutorsStreamingAppTableBeforeV200 from './ExecutorsStreamingAppTableBeforeV200';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import ExecutorsStreamingAppTable from './ExecutorsStreamingAppTable';
 import { t } from 'in-i18n';
 

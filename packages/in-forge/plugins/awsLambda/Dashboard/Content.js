@@ -6,9 +6,9 @@
 import React from 'react';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, millis } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

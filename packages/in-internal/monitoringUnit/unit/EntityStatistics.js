@@ -5,9 +5,9 @@
 
 import React, { Fragment } from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

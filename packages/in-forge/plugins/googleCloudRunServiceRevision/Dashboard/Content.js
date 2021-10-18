@@ -3,14 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import { millis, millisPerSecondZeroDecimalPlaces, number, percentage } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import DashboardRuntimeList from './DashboardRuntimeList';
 import MetricValue from 'in-components/MetricValue';

@@ -18,13 +18,13 @@ import MemoryPoolsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/Memo
 import ThreadDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/ThreadDumpButton';
 import JmxMetricsTable from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/JmxMetricsTable';
 import HeapDumpButton from 'in-forge/plugins/jvmRuntimePlatform/Dashboard/HeapDumpButton';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import CustomMetricsV2 from 'in-sdk/components/dashboard/CustomMetricsV2';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import createAgentResponseObservable from 'in-subscription/agentResponse';
 import DiagnosticCommandPresenter from './DiagnosticCommandPresenter';
 import getAgentSnapshotId from 'in-subscription/getAgentSnapshotId';

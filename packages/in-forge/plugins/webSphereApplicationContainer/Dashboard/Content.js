@@ -5,15 +5,15 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
 import DatasourcesTable from './DatasourcesTable';
+import ObjectPoolsTable from './ObjectPoolsTable';
 import WebModulesTable from './WebModulesTable';
 import EJBModulesTable from './EJBModulesTable';
 import J2CModulesTable from './J2CModulesTable';
-import ObjectPoolsTable from './ObjectPoolsTable';
 import { t } from 'in-i18n';
 
 export default function WebSphereDashboard({ snapshot, timeConfig }) {

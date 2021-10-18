@@ -13,11 +13,11 @@ import {
   getFsDetails
 } from 'in-internal/monitoringUnit/sre/datastores';
 import { number, timeByMicroTwoDecimalPlaces, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getElasticWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getPhysicalStack } from 'in-internal/components/dataRetrieval';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';

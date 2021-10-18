@@ -13,9 +13,9 @@ import { selectedSnapshot$, selectedSnapshotId$, getSnapshotVersions } from 'in-
 import DashboardHeader from 'in-infrastructure/Dashboard/components/DashboardHeader';
 import SidebarContent from 'in-map/components/MapSidebar/components/SidebarContent';
 import NotFoundDialog from 'in-infrastructure/Dashboard/components/NotFoundDialog';
-import { alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { timeConfig$, getTimeConfigAtMoment } from 'in-stores/time/config';
+import { alwaysEmptyImmutableList } from 'in-services/fixedStreams';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { getForgeComponent } from 'in-sdk/getForgeComponent';
 import { scrollToTopSmoothly } from 'in-services/util/dom';

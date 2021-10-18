@@ -14,11 +14,11 @@ import ModuleAnalysisDialog from 'in-forge/plugins/nodeJsRuntimePlatform/ModuleA
 import HeapSpacesTable from 'in-forge/plugins/nodeJsRuntimePlatform/Dashboard/HeapSpacesTable';
 import getMonitoringIssuesForSnapshot from 'in-subscription/getMonitoringIssuesForSnapshot';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { bytes, time, twoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { Col, Row } from 'in-components/layout/Grid';

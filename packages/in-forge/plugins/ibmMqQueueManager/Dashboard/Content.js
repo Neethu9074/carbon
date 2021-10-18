@@ -11,9 +11,9 @@ import ListenersTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/Listene
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import QueuesTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/QueuesTable.js';
 import TopicsTable from 'in-forge/plugins/ibmMqQueueManager/Dashboard/TopicsTable';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';

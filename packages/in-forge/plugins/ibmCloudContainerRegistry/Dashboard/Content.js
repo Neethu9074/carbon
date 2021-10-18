@@ -5,10 +5,10 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiKeyValue, KpiSection } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytes } from 'in-services/formatters/number';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';

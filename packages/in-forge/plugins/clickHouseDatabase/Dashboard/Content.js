@@ -10,9 +10,9 @@ import TablesTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/TablesTab
 import MetricsTable from 'in-forge/plugins/clickHouseDatabase/Dashboard/MetricsTable';
 import { bytes, withSiPrefixThreeDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { t } from 'in-i18n';
 
 export default function ClickHouseDashboard({ snapshot, timeConfig }) {

@@ -6,10 +6,10 @@
 import React from 'react';
 
 import { zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import ResourceType from 'in-forge/plugins/azureCosmosDb/Dashboard/ResourceType';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import StatusCode from 'in-forge/plugins/azureCosmosDb/Dashboard/StatusCode';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { t } from 'in-i18n';
 
 export default function Collection({ snapshot, timeConfig, collection, statusCodes, resourceTypes }) {

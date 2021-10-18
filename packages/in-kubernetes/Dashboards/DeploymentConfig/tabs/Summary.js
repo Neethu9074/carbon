@@ -16,9 +16,9 @@ import {
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getDeploymentConfigDashboard } from 'in-kubernetes/navigation/paths';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { Row, Col } from 'in-components/layout/Grid';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

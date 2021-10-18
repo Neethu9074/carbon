@@ -16,9 +16,9 @@ import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmar
 import TopQueriesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/TopQueriesTable';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import DatabasesTable from 'in-forge/plugins/msSqlDatabase/Dashboard/DatabasesTable';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { t } from 'in-i18n';
 
 export default function MsSqlDashboard({ snapshot, timeConfig }) {

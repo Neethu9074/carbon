@@ -9,10 +9,10 @@ import ClusterNodesTable from 'in-forge/plugins/couchbaseCluster/Dashboard/Clust
 import ClusterSummary from 'in-forge/plugins/couchbaseCluster/Dashboard/ClusterSummary';
 import { BUCKET_METRICS_PREFIX } from 'in-forge/plugins/couchbaseCluster/constants.js';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import BucketsTable from 'in-forge/plugins/couchbaseNode/Dashboard/BucketsTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

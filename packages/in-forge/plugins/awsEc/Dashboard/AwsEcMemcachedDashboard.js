@@ -6,9 +6,9 @@
 import semver from 'semver';
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import AwsEcNewMemcachedDashboard from './AwsEcNewMemcachedDashboard';
 import { number, bytes } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';

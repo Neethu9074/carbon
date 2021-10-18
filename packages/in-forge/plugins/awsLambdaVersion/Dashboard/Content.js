@@ -9,9 +9,9 @@ import { Link } from '@instana/components';
 
 import GetMetricStatisticsInUse from 'in-forge/plugins/awsDynamoDb/GetMetricStatisticsInUse';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { millis, number } from 'in-services/formatters/number';
 import { Trans, t } from 'in-i18n';
 

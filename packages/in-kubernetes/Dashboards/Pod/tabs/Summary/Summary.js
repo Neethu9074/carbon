@@ -14,8 +14,8 @@ import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/Condi
 import ContainerStates from 'in-kubernetes/Dashboards/Pod/tabs/Summary/ContainerStates';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getPodDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';

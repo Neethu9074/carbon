@@ -11,10 +11,10 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { zeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getNodeDashboard } from 'in-kubernetes/navigation/paths';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';

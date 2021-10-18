@@ -13,12 +13,19 @@ import { Route } from 'react-router-dom';
 import React from 'react';
 
 import {
+  pcfEnabled,
+  vsphereEnabled,
+  phmcEnabled,
+  zhmcEnabled,
+  internalMonitoringUnit,
+  syntheticsTestEnabled
+} from 'in-services/featureFlags';
+import {
   hasApplicationsAccess,
   hasWebsitesAccess,
   hasKubernetesAccess,
   hasMobileAppsAccess
 } from 'in-stores/permission';
-import { pcfEnabled, vsphereEnabled, phmcEnabled, zhmcEnabled, internalMonitoringUnit } from 'in-services/featureFlags';
 import { agentsPath, containerPath, graphPath, physicalPath, tablePath } from 'in-stores/navigation/paths/mainPaths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
 import { infraExploreEnabled } from 'in-infrastructure/Explore/services/featureFlags';
@@ -31,6 +38,7 @@ import cloudfoundryRoutes from 'in-cloudfoundry/navigation/routes';
 import integrationRoutes from 'in-integrations/navigation/routes';
 import applicationRoutes from 'in-applications/navigation/routes';
 import configurationRoutes from 'in-settings/navigation/routes';
+import syntheticsRoutes from 'in-synthetics/navigation/routes';
 import LandingPage from 'in-client/js/LandingPage/LandingPage';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import profilingRoutes from 'in-profiling/navigation/routes';
@@ -61,6 +69,7 @@ export default (
 
     {eventRoutes}
 
+    {syntheticsTestEnabled && syntheticsRoutes}
     {hasApplicationsAccess && applicationRoutes}
     {hasKubernetesAccess && kubernetesRoutes}
     {pcfEnabled && cloudfoundryRoutes}

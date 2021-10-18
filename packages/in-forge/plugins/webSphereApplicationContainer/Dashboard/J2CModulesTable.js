@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -174,10 +174,7 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           formatter: millis.compact,
-          metrics: [
-            'jcas.' + row.key + '.useTime',
-            'jcas.' + row.key + '.avgWait'
-          ],
+          metrics: ['jcas.' + row.key + '.useTime', 'jcas.' + row.key + '.avgWait'],
           labels: [
             t('in-forge:plugins.webSphereAppContainer.titleJ2CUseTime'),
             t('in-forge:plugins.webSphereAppContainer.titleJ2CWaitTime')

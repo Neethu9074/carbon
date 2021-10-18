@@ -12,8 +12,8 @@ import { zeroDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/for
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
-import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { getDeploymentDashboard } from 'in-kubernetes/navigation/paths';
 import { Row, Col } from 'in-components/layout/Grid';
 import theme from 'in-themes';

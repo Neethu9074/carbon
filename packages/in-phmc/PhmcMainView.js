@@ -9,8 +9,8 @@ import React, { Fragment } from 'react';
 import { phmcListFullyQualified, systemListFullyQualified } from 'in-phmc/navigation/paths';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewSwitcher from 'in-phmc/lists/components/ViewSwitcher';
-import PhmcList from 'in-phmc/lists/PhmcList';
 import SystemList from 'in-phmc/lists/SystemList';
+import PhmcList from 'in-phmc/lists/PhmcList';
 import Footer from 'in-components/Footer';
 import Sticky from 'in-components/Sticky';
 

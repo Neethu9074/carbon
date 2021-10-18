@@ -10,8 +10,8 @@ import {
   bytesTwoDecimalPlaces,
   percentagePlainTwoDecimalPlaces
 } from 'in-services/formatters/number';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 

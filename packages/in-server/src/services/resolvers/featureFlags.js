@@ -243,5 +243,10 @@ module.exports = exports = [
     uiClientKey: 'disableAppDataLegacyEvents',
     instanaCtlKey: 'feature.disable.app.data.legacy.events',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'syntheticsTestEnabled',
+    instanaCtlKey: 'feature.synthetics.enabled',
+    defaultValue: false
   }
 ];

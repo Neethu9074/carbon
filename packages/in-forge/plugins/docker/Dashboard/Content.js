@@ -17,10 +17,10 @@ import { LOG_DOCKER_SNAPSHOT_ID, getValueMatchTagFilter } from 'in-logging/query
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import AnalyzeLogsButton from 'in-forge/plugins/docker/Dashboard/AnalyzeLogsButton';
 import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LogsKpiCard from 'in-forge/plugins/docker/Dashboard/LogsKpiCard';
 import LogsChart from 'in-forge/plugins/docker/Dashboard/LogsChart';
 import { containerLogsEnabled } from 'in-services/featureFlags';

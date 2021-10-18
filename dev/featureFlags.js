@@ -54,5 +54,6 @@ module.exports = {
   idpMappingEnabled: true,
   websiteSmartAlertsAllowPerWindowUserImpact: true,
   websiteSloEnabled: true,
-  disableAppDataLegacyEvents: false
+  disableAppDataLegacyEvents: false,
+  syntheticsTestEnabled: true
 };

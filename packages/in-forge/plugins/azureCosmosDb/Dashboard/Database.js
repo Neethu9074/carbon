@@ -6,8 +6,8 @@
 import React from 'react';
 
 import CollectionsTable from 'in-forge/plugins/azureCosmosDb/Dashboard/CollectionsTable';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

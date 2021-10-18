@@ -11,11 +11,11 @@ import PartitionsPerNodeTable from 'in-forge/plugins/kafkaCluster/Dashboard/Part
 import { number, bytes, millis, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import ProducersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ProducersTable';
 import ConsumersTable from 'in-forge/plugins/kafkaCluster/Dashboard/ConsumersTable';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TopicsTable from 'in-forge/plugins/kafkaCluster/Dashboard/TopicsTable.js';
 import NodesTable from 'in-forge/plugins/kafkaCluster/Dashboard/NodesTable.js';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import ClusterSummary from 'in-forge/plugins/kafkaCluster/ClusterSummary';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';

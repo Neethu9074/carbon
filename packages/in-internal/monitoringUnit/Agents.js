@@ -7,9 +7,9 @@ import React, { Fragment } from 'react';
 
 import { Link } from '@instana/components';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { linkToTenantUnit } from 'in-internal/components/crossUnitLinks';
 import { percentage, number } from 'in-services/formatters/number';
 import { getModifiedUrlStream } from 'in-stores/navigation';

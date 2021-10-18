@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -133,7 +133,7 @@ function getRowDetails(row) {
             t('in-forge:plugins.webSphereAppContainer.titleObjectsCreatedCount'),
             t('in-forge:plugins.webSphereAppContainer.titleObjectsAllocatedCount'),
             t('in-forge:plugins.webSphereAppContainer.titleIdleObjectsSize'),
-            t('in-forge:plugins.webSphereAppContainer.titleObjectsReturnedCount'),
+            t('in-forge:plugins.webSphereAppContainer.titleObjectsReturnedCount')
           ],
           type: 'line'
         }}

@@ -16,10 +16,10 @@ import {
 } from 'in-services/formatters/number';
 import ClusterNodesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/ClusterNodesTable';
 import IndicesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/IndicesTable.js';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import ClusterSummary from 'in-forge/plugins/elasticsearchCluster/ClusterSummary';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { t } from 'in-i18n';
 

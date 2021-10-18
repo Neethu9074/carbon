@@ -3,16 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import semver from 'semver';
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import { bytesZeroDecimalPlaces, number, percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import MetricValue from 'in-components/MetricValue';
 import { Trans, t } from 'in-i18n';
 

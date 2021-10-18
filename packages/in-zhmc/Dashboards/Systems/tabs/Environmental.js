@@ -7,8 +7,8 @@ import React, { Fragment } from 'react';
 
 import { Card } from '@instana/components';
 
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';

@@ -6,10 +6,10 @@
 import semver from 'semver';
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import ExecutorsBatchAppTableBeforeV200 from './ExecutorsBatchAppTableBeforeV200';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import ExecutorsBatchAppTable from './ExecutorsBatchAppTable';
 import StagesTableBeforeV160 from './StagesTableBeforeV160';

@@ -10,10 +10,10 @@ import ConnectorsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboa
 import ExecutorsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/ExecutorsTable';
 import WebAppsTable from 'in-forge/plugins/tomcatApplicationContainer/Dashboard/WebAppsTable';
 import { twoDecimalPlaces, zeroDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import MetricValue from 'in-components/MetricValue';
 import { t } from 'in-i18n';
 

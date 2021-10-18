@@ -7,8 +7,8 @@ import React from 'react';
 
 import { number, millis, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { timeConfig$ } from 'in-stores/time/config';

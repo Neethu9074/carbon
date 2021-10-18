@@ -3,12 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import React from 'react';
 
+import { Link } from '@instana/components';
+
 import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisModes/common';
-import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import { percentage } from 'in-services/formatters/number';
 import { Trans, t } from 'in-i18n';
 

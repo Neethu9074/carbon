@@ -30,7 +30,7 @@ export default function TouchedMessages({ field, className }: TouchedMessagesPro
       {field.messages.map((message, i) => {
         if (message.path) {
           return (
-            <ValidationBlock key={i} className={className}>
+            <ValidationBlock key={i} className={className ?? ''}>
               {message.path ? (
                 <Trans
                   i18nKey="in-components:touchedMessages.withPath"
@@ -46,7 +46,7 @@ export default function TouchedMessages({ field, className }: TouchedMessagesPro
           );
         } else {
           return (
-            <ValidationBlock key={i} className={className}>
+            <ValidationBlock key={i} className={className ?? ''}>
               {message.message}
             </ValidationBlock>
           );

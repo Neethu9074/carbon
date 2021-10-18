@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { plugins, ID_OF_PROCESSING_STATISTICS } from 'in-forge/constants';
 import { modes } from 'in-forge/plugins/instanaAgent/modes';
 import { debouncedQuery$ } from 'in-stores/search/query';

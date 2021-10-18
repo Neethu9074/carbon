@@ -13,10 +13,10 @@ import {
 import ClusterDownNodesTable from 'in-forge/plugins/cassandraCluster/Dashboard/ClusterDownNodesTable.js';
 import ClusterNodesTable from 'in-forge/plugins/cassandraCluster/Dashboard/ClusterNodesTable.js';
 import KeyspacesTable from 'in-forge/plugins/cassandraCluster/Dashboard/KeyspacesTable.js';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import ClusterSummary from 'in-forge/plugins/cassandraCluster/ClusterSummary';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { capitalize } from 'in-services/formatters/string';
 import { t } from 'in-i18n';
 

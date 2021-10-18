@@ -11,9 +11,9 @@ import {
   resourceQuotaTwoDecimalPlaces
 } from '../formatters/resourceQuota';
 import createNamespacesForClusterSubscription from 'in-subscription/namespacesForCluster';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshots } from 'in-stores/snapshot';

@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import metrics from 'in-forge/plugins/clickHouseDatabase/Dashboard/metrics';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 

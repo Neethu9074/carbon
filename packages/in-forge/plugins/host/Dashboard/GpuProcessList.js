@@ -5,9 +5,9 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import getProcessSnapshotIdForPid from 'in-subscription/processSnapshotIdForPid';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';

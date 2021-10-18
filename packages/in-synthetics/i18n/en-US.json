@@ -1,0 +1,82 @@
+{
+  "dialog": {
+    "createTest": {
+      "dialogTitle": "Create Synthetic Test",
+      "noLocationFound": "Sorry! No locations found",
+      "titles": {
+        "step1": "Step 1: Select type",
+        "step2": "Step 2: Request details",
+        "step3": "Step 3: Scheduling",
+        "step4": "Step 4: Provide details"
+      },
+      "selectTest": {
+        "title": "What kind of synthetic test would you like to create"
+      },
+      "scheduling": {
+        "title": "Scheduling",
+        "playbackMode": "Playback Mode",
+        "labelPlaybackMode": "Select the playback mode",
+        "simultaneous": "Simultaneous",
+        "staggered": "Staggered",
+        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      },
+      "requestStep": {
+        "title": "Specify Request",
+        "subTitle": "Endpoint",
+        "labelOperation": "HTTP Method",
+        "labelUrl": "URL",
+        "popSubTitle": "Point of Presence"
+      },
+      "basicDetails": {
+        "title": "What is the name of this ping test",
+        "labelName": "Name of the test",
+        "labelDescription": "Description",
+        "labelFreequency": "Freequency"
+      },
+      "bluePrint": {
+        "pingApi": {
+          "name": "Ping API",
+          "headline": "HTTP Action",
+          "whenToUse": {
+            "title": "When to use?",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "title": "Who should use?",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
+            "title": "Tips for using",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        }
+      },
+      "form": {
+        "validUrl": "Enter a valid URL"
+      }
+    },
+    "httpMethods": {
+      "get": "GET",
+      "post": "POST",
+      "put": "PUT",
+      "delete": "DELETE"
+    },
+    "feedback": {
+      "successTitle": "Success!",
+      "successMessage": "Successfully created synthetic test",
+      "failureTitle": "Failed!",
+      "failureMessage": "Failed to create a synthetic test. Please try again later"
+    }
+  },
+  "createTest": {
+    "buttonLabel": "Create new Test"
+  },
+  "navigation": {
+    "synthetics": "Synthetics"
+  }
+}

@@ -7,8 +7,8 @@ import React, { Fragment } from 'react';
 
 import { Card } from '@instana/components';
 
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import FlashMemoryUsageTable from '../../tables/FlashMemoryUsageTable';
 import ChannelUsageTable from '../../tables/ChannelUsageTable';
 import CryptoUsageTable from '../../tables/CryptoUsageTable';

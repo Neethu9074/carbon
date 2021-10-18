@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { getDropwizardWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';

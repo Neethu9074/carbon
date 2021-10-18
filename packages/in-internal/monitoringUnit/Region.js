@@ -5,8 +5,8 @@
 
 import React, { Fragment } from 'react';
 
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import { timeConfig$ } from 'in-stores/time/config';

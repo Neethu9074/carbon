@@ -43,12 +43,8 @@ export default [
     formatter: number
   },
   {
-    metrics: [
-      'transactions.globalTranTime'
-    ],
-    labels: [
-      t('in-forge:plugins.webSphereAppContainer.titleTransactionGlobalTranTime')
-    ],
+    metrics: ['transactions.globalTranTime'],
+    labels: [t('in-forge:plugins.webSphereAppContainer.titleTransactionGlobalTranTime')],
     min: 0,
     category: [t('in-forge:plugins.webSphereAppContainer.titleTransactionsModule')],
     formatter: millis
@@ -170,28 +166,44 @@ export default [
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('objectPools', 'objectsCreatedCount', t('in-forge:plugins.webSphereAppContainer.labelObjectPool')),
+    metric: getDynamicMetricMatch(
+      'objectPools',
+      'objectsCreatedCount',
+      t('in-forge:plugins.webSphereAppContainer.labelObjectPool')
+    ),
     label: t('in-forge:plugins.webSphereAppContainer.titleObjectsCreatedCount'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelObjectPools')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('objectPools', 'objectsAllocatedCount', t('in-forge:plugins.webSphereAppContainer.labelObjectPool')),
+    metric: getDynamicMetricMatch(
+      'objectPools',
+      'objectsAllocatedCount',
+      t('in-forge:plugins.webSphereAppContainer.labelObjectPool')
+    ),
     label: t('in-forge:plugins.webSphereAppContainer.titleObjectsAllocatedCount'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelObjectPools')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('objectPools', 'idleObjectsSize', t('in-forge:plugins.webSphereAppContainer.labelObjectPool')),
+    metric: getDynamicMetricMatch(
+      'objectPools',
+      'idleObjectsSize',
+      t('in-forge:plugins.webSphereAppContainer.labelObjectPool')
+    ),
     label: t('in-forge:plugins.webSphereAppContainer.titleIdleObjectsSize'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelObjectPools')],
     min: 0,
     formatter: number
   },
   {
-    metric: getDynamicMetricMatch('objectPools', 'objectsReturnedCount', t('in-forge:plugins.webSphereAppContainer.labelObjectPool')),
+    metric: getDynamicMetricMatch(
+      'objectPools',
+      'objectsReturnedCount',
+      t('in-forge:plugins.webSphereAppContainer.labelObjectPool')
+    ),
     label: t('in-forge:plugins.webSphereAppContainer.titleObjectsReturnedCount'),
     category: [t('in-forge:plugins.webSphereAppContainer.labelObjectPools')],
     min: 0,

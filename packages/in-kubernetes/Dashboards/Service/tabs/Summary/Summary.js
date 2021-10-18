@@ -11,8 +11,8 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import { twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaBytes, resourceQuotaNumber } from 'in-kubernetes/formatters';
-import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import Endpoints from 'in-kubernetes/Dashboards/Service/tabs/Endpoints';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { formatDuration } from 'in-services/formatters/date';

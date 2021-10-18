@@ -72,6 +72,10 @@ export const disableAppDataLegacyEvents =
 
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false);
 
+// Synthetics test and  dashboard
+
+export const syntheticsTestEnabled = isFeatureFlagEnabled('syntheticsTestEnabled');
+
 // ########################################################################################
 // Dynamic focus keywords
 // ########################################################################################

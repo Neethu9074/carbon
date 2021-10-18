@@ -19,9 +19,9 @@ import {
 } from 'in-events/timeframe';
 import EventMetricChartDownloadView from 'in-components/DownloadButton/components/EventMetricChartDownloadView';
 import { translateFullyQualifiedPluginToShortPluginName } from 'in-forge/constants';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { allowDownloadMetricsFromCharts } from 'in-services/featureFlags';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { getMetricDefinition } from 'in-sdk/metrics/metricDefinitions';
 import { always, alwaysNull } from 'in-services/fixedStreams';

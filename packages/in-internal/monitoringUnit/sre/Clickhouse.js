@@ -13,10 +13,10 @@ import {
   getFsDetails
 } from 'in-internal/monitoringUnit/sre/datastores';
 import { getClickhouseWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { number, bytesZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Table from 'in-sdk/components/dashboard/Table';

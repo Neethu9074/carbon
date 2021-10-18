@@ -6,10 +6,10 @@
 import React from 'react';
 
 import { number, millis, hitRateZeroDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import ClusterSummary from 'in-forge/plugins/solrCloudCluster/ClusterSummary';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { t } from 'in-i18n';
 

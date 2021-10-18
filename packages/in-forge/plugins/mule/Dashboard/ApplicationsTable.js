@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { millis, number } from 'in-services/formatters/number';
 import { yesOrNo } from 'in-services/formatters/boolean';
 import { emptyList } from 'in-services/fixedImmutables';

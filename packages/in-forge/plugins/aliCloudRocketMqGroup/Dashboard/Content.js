@@ -6,8 +6,8 @@
 import React from 'react';
 
 import GroupPerTopicsTable from 'in-forge/plugins/aliCloudRocketMqGroup/Dashboard/GroupPerTopicsTable';
-import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { on } from '@instana/observables';
 import React from 'react';
+
+import { on } from '@instana/observables';
 
 import Tooltip from 'in-components/Tooltip';
 

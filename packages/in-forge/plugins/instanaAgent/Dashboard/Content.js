@@ -22,6 +22,7 @@ import ManagementButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/Man
 import ConfigurationManagement from 'in-forge/plugins/instanaAgent/Dashboard/ConfigurationManagement';
 import InfoButtonSection from 'in-forge/plugins/instanaAgent/Dashboard/InfoButtonSection';
 import SensorTimingList from 'in-forge/plugins/instanaAgent/Dashboard/SensorTimingList';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import LogStreamer from 'in-forge/plugins/instanaAgent/Dashboard/LogStreamer';
 import SpanMetrics from 'in-forge/plugins/instanaAgent/Dashboard/SpanMetrics';
@@ -31,7 +32,6 @@ import LogMetrics from 'in-forge/plugins/instanaAgent/Dashboard/LogMetrics';
 import SensorList from 'in-forge/plugins/instanaAgent/Dashboard/SensorList';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import IssueList from 'in-forge/plugins/instanaAgent/Dashboard/IssueList';
 import { agentMonitoringIssuesEnabled } from 'in-services/featureFlags';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';

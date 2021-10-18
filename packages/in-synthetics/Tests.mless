@@ -1,0 +1,11 @@
+:local {
+  .dashboard {
+    height: 100%;
+  }
+
+  .flex {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 2rem;
+  }
+}

@@ -13,9 +13,9 @@ import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/Mis
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
 import TopNamespacesList from 'in-kubernetes/Dashboards/commonComponents/TopNamespacesList';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import TopNodesList from 'in-kubernetes/Dashboards/commonComponents/TopNodesList';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { getClusterDashboard } from 'in-kubernetes/navigation/paths';
 import { k8sClusterUsageEnabled } from 'in-services/featureFlags';
 import { isOpenshift } from 'in-kubernetes/clusterDistributions';

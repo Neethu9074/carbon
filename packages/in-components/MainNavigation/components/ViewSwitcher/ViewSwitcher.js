@@ -9,6 +9,15 @@ import React from 'react';
 import { Spacer } from '@instana/components';
 
 import {
+  pcfEnabled,
+  phmcEnabled,
+  vsphereEnabled,
+  zhmcEnabled,
+  releaseNotesEnabled,
+  tenantSwitcherEnabled,
+  syntheticsTestEnabled
+} from 'in-services/featureFlags';
+import {
   mobileAppMonitoringPath,
   getLinkToAnalyze as getLinkToMobileAppAnalyze,
   isAnalyzeView as isMobileAppAnalyzeView
@@ -18,14 +27,6 @@ import {
   getLinkToAnalyze as getLinkToWebsiteAnalyze,
   isAnalyzeView as isWebsiteAnalyzeView
 } from 'in-websites/navigation/paths';
-import {
-  pcfEnabled,
-  phmcEnabled,
-  vsphereEnabled,
-  zhmcEnabled,
-  releaseNotesEnabled,
-  tenantSwitcherEnabled
-} from 'in-services/featureFlags';
 import {
   hasApplicationsAccess,
   hasWebsitesAccess,
@@ -60,6 +61,7 @@ import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
+import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import { isAnalyzeView } from 'in-analyze/navigation/paths';
 import { openEventsAtServerTime$ } from 'in-stores/events';
 import { showReleaseNotes } from 'in-stores/releaseNotes';
@@ -112,6 +114,7 @@ export default function ViewSwitcher({
         onMouseLeave={onMouseLeave}
       />
       <Infrastructure {...commonProps} />
+      <Synthetics {...commonProps} />
       <SpacerListItem />
       <Analyze {...commonProps} />
       <Incidents {...commonProps} />
@@ -276,6 +279,20 @@ function Infrastructure(props) {
       icon="lib_infrastructure_inverted"
       isActive$={any(isView(physicalPath), isView(containerPath), isTableView('physical'))}
       href$={getView(physicalPath)}
+      {...props}
+    />
+  );
+}
+
+function Synthetics(props) {
+  if (!syntheticsTestEnabled) return null;
+  return (
+    <View
+      id="main-nav-synthetics"
+      label={t('in-synthetics:navigation.synthetics')}
+      icon="lib_infra_ibmCos"
+      isActive$={isView(syntheticsPath)}
+      href$={getView(syntheticsPath)}
       {...props}
     />
   );

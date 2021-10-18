@@ -18,6 +18,7 @@ import DatabasesTable from 'in-forge/plugins/db2Database/Dashboard/DatabasesTabl
 import DbmConfigTable from 'in-forge/plugins/db2Database/Dashboard/DbmConfigTable';
 import LockWaitsTable from 'in-forge/plugins/db2Database/Dashboard/LockWaitsTable';
 import TableSpaceUtil from 'in-forge/plugins/db2Database/Dashboard/TableSpaceUtil';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import HadrDashboard from 'in-forge/plugins/db2Database/Dashboard/HadrDashboard';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import RunStatsTable from 'in-forge/plugins/db2Database/Dashboard/RunStatsTable';
@@ -28,7 +29,6 @@ import SysCatIndex from 'in-forge/plugins/db2Database/Dashboard/SysCatIndex';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ReorgTable from 'in-forge/plugins/db2Database/Dashboard/ReorgTable';
 import TableSizes from 'in-forge/plugins/db2Database/Dashboard/TableSizes';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import UOWTable from 'in-forge/plugins/db2Database/Dashboard/UOWTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';

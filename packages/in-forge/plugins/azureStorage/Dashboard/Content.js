@@ -5,10 +5,10 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import QueuesTable from 'in-forge/plugins/azureStorage/Dashboard/QueuesTable.js';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, bytes, millis } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 

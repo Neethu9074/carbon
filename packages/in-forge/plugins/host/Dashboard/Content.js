@@ -17,6 +17,7 @@ import {
 import { isWindows, isZos, isLinux, supportsOpenFiles } from 'in-forge/plugins/host/hostUtils';
 import NetworkInterfacesTable from 'in-forge/plugins/host/Dashboard/NetworkInterfacesTable';
 import AgentManagementButton from 'in-forge/plugins/host/Dashboard/AgentManagementButton';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import FilesystemsTable from 'in-forge/plugins/host/Dashboard/FilesystemsTable';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
@@ -24,7 +25,6 @@ import CompanionMetrics from 'in-sdk/components/dashboard/CompanionMetrics';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ProcessTopList from 'in-forge/plugins/host/Dashboard/ProcessTopList';
 import GpuProcessList from 'in-forge/plugins/host/Dashboard/GpuProcessList';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import CpuTable from 'in-forge/plugins/host/Dashboard/CpuTable';
 import GpuTable from 'in-forge/plugins/host/Dashboard/GpuTable';
 import { getHostCompanions } from 'in-stores/snapshot/graph';

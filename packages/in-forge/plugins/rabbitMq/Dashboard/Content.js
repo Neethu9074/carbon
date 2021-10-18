@@ -7,12 +7,12 @@ import React from 'react';
 
 import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotification';
 import { zeroDecimalPlaces, twoDecimalPlaces } from 'in-services/formatters/number';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import { greaterThanZeroFormatter } from 'in-forge/plugins/rabbitMq/formatters';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import QueuesTable from 'in-forge/plugins/rabbitMq/Dashboard/QueuesTable';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import NodesTable from 'in-forge/plugins/rabbitMq/Dashboard/NodesTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';

@@ -6,11 +6,11 @@
 import React, { Fragment } from 'react';
 
 import { getBeeInstanaAggregatorWithContext } from 'in-internal/monitoringUnit/dataRetrieval';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import { hostTableCols } from 'in-internal/monitoringUnit/sre/datastores';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { compareIgnoreCase } from 'in-services/util/string';

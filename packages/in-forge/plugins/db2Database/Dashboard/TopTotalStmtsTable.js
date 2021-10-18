@@ -6,8 +6,8 @@
 import React from 'react';
 
 import { number, millis, micros, percentage } from 'in-services/formatters/number';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Table from 'in-sdk/components/dashboard/Table';
 import { formatSql } from 'in-forge/tracing/jdbc/sql';

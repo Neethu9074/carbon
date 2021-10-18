@@ -6,8 +6,8 @@
 import React, { Fragment } from 'react';
 
 import { unitColumn } from 'in-internal/monitoringUnit/units/UnitList/analysisModes/common';
-import { percentage, number, millis } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { percentage, number, millis } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import theme from 'in-themes';
 import { t } from 'in-i18n';

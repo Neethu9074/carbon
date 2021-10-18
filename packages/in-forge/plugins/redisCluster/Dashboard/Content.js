@@ -7,11 +7,11 @@ import React, { Fragment } from 'react';
 
 import { bytesTwoDecimalPlaces, bytesZeroDecimalPlaces, number } from 'in-services/formatters/number';
 import ClusterNodesTable from 'in-forge/plugins/redisCluster/Dashboard/ClusterNodesTable.js';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import ChartExplanation from 'in-sdk/components/dashboard/ChartExplanation';
 import ClusterSummary from 'in-forge/plugins/redisCluster/ClusterSummary';
-import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { t } from 'in-i18n';
 
 export default function RedisClusterDashboard({ snapshot, timeConfig }) {
