@@ -9,7 +9,6 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import GroupedMetricSelectorOverlay from 'in-components/ChartingConfigurator/GroupedMetricSelectorOverlay';
-import { MetricSelectionButton } from 'in-components/ChartingConfigurator/MetricSelectionButton';
 import ChartSelectorOverlay from 'in-components/ChartingConfigurator/ChartSelectorOverlay';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import { t } from 'in-i18n';
@@ -54,11 +53,15 @@ export default function ChartingConfiguratorForm({
         />
       ) : (
         <div className={classNames(locals.metric, locals.singleMetric)}>
-          <MetricSelectionButton
-            metric={activeMetric}
-            template={activeTemplate}
+          <ChartSelectorOverlay
+            value={value}
+            options={options}
             dataSource={dataSource}
-            metricsSource={unifiedMetricsSource}
+            overlayContent={GroupedMetricSelectorOverlay}
+            unifiedMetricsSource={unifiedMetricsSource}
+            overlayProps={{ dataSource, unifiedMetricsSource }}
+            onChange={onChange}
+            aria-label={t('in-components:chartingConfigurator.labelChangeSelectedMetric')}
           />
         </div>
       )}

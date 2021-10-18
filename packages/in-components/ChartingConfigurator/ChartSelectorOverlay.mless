@@ -5,35 +5,22 @@
 @import '~in-themes/active.less';
 
 :local {
-  .metric,
-  .aggregation,
-  .renderer {
-    line-height: 2;
-    padding: 0 0.375rem;
-
-    &:not(:last-child) {
-      border-right: 1px solid #dfe4e8;
-    }
-
-    &:first-child {
-      padding-left: 0;
-      margin-left: 0.3rem;
-    }
+  .buttonWithBorder {
+    border-radius: 0;
+    border-right: 1px solid @lib__colors__N400;
+    font-size: 12px;
+    padding: 0 0.625rem;
+  }
+  .label {
+    font-weight: 600;
+    margin-left: 0.1875rem;
+    color: var(--typography-font-color-dark);
   }
 
-  .selectable {
-    &:focus,
-    &:active,
-    &:hover {
-      color: @lib__colors__light-blue800;
-
-      .icon {
-        fill: @lib__colors__light-blue800;
-      }
-    }
-  }
-
-  .selectAbleWithIcon {
-    display: flex;
+  .templateDescription {
+    color: @lib__colors__N500;
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 0.375rem;
   }
 }
