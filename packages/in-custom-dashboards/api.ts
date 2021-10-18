@@ -142,7 +142,7 @@ export const getSliConfigurationsByEntity = memoize<
         mapToResultObject: true
       });
     }),
-  () => '',
+  ({ entityType, entityId }) => `${entityType}-${entityId}`,
   60000
 );
 

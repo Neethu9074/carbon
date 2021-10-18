@@ -144,15 +144,16 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
         <SliSelectionForm
           form={form}
-          applicationId={entityIdValue}
-          onChange={(path, updater) => updateForm(form.updateIn(path, updater))}
+          entityType={entityTypeValue}
+          entityId={entityIdValue}
+          updateForm={updateForm}
           openManageSLIComponent={
             <Button
               disabled={!entityIdValue}
               kind="primary"
               onClick={() => {
                 activateManageSliSlideIn();
-                trackOpenSLIManagement({ applicationId: entityIdValue });
+                trackOpenSLIManagement({ entityId: entityIdValue });
               }}
             >
               {t('in-custom-dashboards:widgets.slo.formComponent.manageSlIs')}
