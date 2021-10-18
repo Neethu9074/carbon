@@ -247,7 +247,7 @@ function WithPhmcPhysicalContext({ children, phmc }) {
               i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
               values={{ entityLabel: phmc.label }}
               components={{
-                icon: <SvgIcon className={locals.entitiyIcon} type="lib_phmcConsole" />,
+                icon: <SvgIcon className={locals.entitiyIcon} type="lib_phmc_console" />,
                 entityLink: (
                   <Link className={locals.entityLink} href$={phmcEnabled ? getIbmpPhmcDashboard(phmc.id) : null} />
                 )

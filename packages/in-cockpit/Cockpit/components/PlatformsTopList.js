@@ -269,7 +269,7 @@ function getIcon(item) {
     return 'lib_cloudfoundry_application';
   }
   if (item.isPhmc) {
-    return 'lib_phmcConsole';
+    return 'lib_phmc_console';
   }
   if (item.isZhmc) {
     return 'lib_zhmcConsole';

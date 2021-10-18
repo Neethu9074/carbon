@@ -422,7 +422,7 @@ function Platforms(props) {
         <ViewItemForPlatforms
           id="main-nav-phmc"
           label={t('in-components:mainNavigation.viewSwitcherLabelphmc')}
-          icon="lib_phmcConsole"
+          icon="lib_phmc_console"
           href$={getView(phmcListFullyQualified)}
           isActive$={isView(ibmp)}
           {...props}

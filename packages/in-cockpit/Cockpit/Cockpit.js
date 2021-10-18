@@ -339,7 +339,7 @@ function getPlatformCardIcon() {
     return 'lib_vsphere';
   }
   if (phmcEnabled) {
-    return 'lib_phmcConsole';
+    return 'lib_phmc_console';
   }
   if (zhmcEnabled) {
     return 'lib_zhmcConsole';
