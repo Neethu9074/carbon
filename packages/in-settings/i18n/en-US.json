@@ -380,6 +380,7 @@
     "username": "Username",
     "usernameDescription": "The user to be related in instana as owner user. A login is tried as a test before the settings are saved",
     "usernamePasswordDescription": "The password of the Instana owner user",
+    "ldapTestFailed": "LDAP test failed:",
     "thisAccountIsAutomaticallyAssignedAnAdminRole": "This account is automatically assigned an admin role. Please enter the account's e-mail address.",
     "optionalSettings": "Optional settings",
     "optional": "(optional)",

@@ -132,7 +132,7 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap', () 
       jest.advanceTimersByTime(40000);
     });
 
-    expect(screen.queryByText(failReason)).not.toBeInTheDocument();
+    expect(screen.queryByText(`${t('in-settings:tabs.ldapTestFailed')} ${failReason}`)).not.toBeInTheDocument();
 
     // Testing LDAP configuration and getting the same error should show same error message
     await clickOnTestConfigurationAndFail(failReason);
@@ -187,8 +187,10 @@ describe('in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap', () 
       return updateInput;
     });
 
+    const expectedMsg = popupClass === 'message-error' ? `${t('in-settings:tabs.ldapTestFailed')} ${msg}` : msg;
+
     expect(screen.getByText(t('in-settings:tabs.testConfiguration'))).not.toHaveClass('button-disabled');
-    expect(screen.getByText(msg)).toBeInTheDocument();
-    expect(screen.getByText(msg).closest('.' + popupClass)).toBeInTheDocument();
+    expect(screen.getByText(expectedMsg)).toBeInTheDocument();
+    expect(screen.getByText(expectedMsg).closest('.' + popupClass)).toBeInTheDocument();
   }
 });

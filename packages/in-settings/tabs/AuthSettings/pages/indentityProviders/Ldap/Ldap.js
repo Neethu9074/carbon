@@ -295,7 +295,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                           waitingForTest: false,
                           messageProps: {
                             id,
-                            text: reason,
+                            text: testPassed ? reason : `${t('in-settings:tabs.ldapTestFailed')} ${reason}`,
                             type: msgType
                           }
                         });
@@ -306,7 +306,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                           id,
                           waitingForTest: false,
                           messageProps: {
-                            text: e,
+                            text: `${t('in-settings:tabs.ldapTestFailed')} ${e}`,
                             type: 'error'
                           }
                         });
