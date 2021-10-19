@@ -252,8 +252,17 @@ function AnalyzeStateManagement({
       return;
     }
 
+    if (chartableMetricCatalogTransformer != null) {
+      return metricTemplatesResult?.data.map(template => {
+        return {
+          ...template,
+          metrics: template.metrics.map(chartableMetricCatalogTransformer).filter(Boolean)
+        };
+      });
+    }
+
     return metricTemplatesResult?.data;
-  }, [metricTemplatesResult]);
+  }, [metricTemplatesResult, chartableMetricCatalogTransformer]);
   const currentMetricsTemplate = chartedMetricData?.find(metricData => metricData.templateId != null);
 
   let chartedMetricsTemplate;
