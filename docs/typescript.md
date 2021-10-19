@@ -52,7 +52,7 @@ TLDR
 Description
 
 > TypeScript allows you to suppress all errors on a line by placing a single-line comment or a comment block line starting with @ts-ignore immediately before the erroring line. While powerful, there is no way to know if a @ts-ignore is actually suppressing an error without manually investigating what happens when the @ts-ignore is removed.
-> This means its easy for @ts-ignores to be forgotten about, and remain in code even after the error they were suppressing is fixed. This is dangerous, as if a new error arises on that line it'll be suppressed by the forgotten about @ts-ignore, and so be missed.
+> This means it's easy for @ts-ignores to be forgotten about, and remain in code even after the error they were suppressing is fixed. This is dangerous, as if a new error arises on that line it'll be suppressed by the forgotten about @ts-ignore, and so be missed.
 > This directive operates in the same manner as @ts-ignore, but will error if the line it's meant to> be suppressing doesn't actually contain an error, making it a lot safer.
 
 For more information see respective [typescript-eslint page](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/prefer-ts-expect-error.md)
@@ -79,7 +79,7 @@ export type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 #### Naming
 
 We prefer singular nouns shall use all upper snake case (`TAG_FILTER`).
-This is consistent to our previously used constant naming conventions
+This is consistent to our previously used **constant** naming conventions
 and to the naming conventions found within the Instana backend. As a result,
 we hope to avoid some confusion/make debugging easier down the road.
 
@@ -94,7 +94,7 @@ these types, e.g., to request data and to process/present data. To account for t
 we have [a generator] that turns the types found within the backend (Java code/OpenAPI
 specs) into TypeScript type definitions.
 
-The generated types reside within the `in-types/backend.d.ts` file and they get updated
+The generated types reside within the `in-types/backend.d.ts` file, and they get updated
 via automatically created pull requests on every delivery branch (`^develop|release-*$`) commit
 in the backend repository.
 
@@ -115,7 +115,7 @@ as outlined within the next section.
 For type definitions (`interface` / `type`), we prefer to place the type definitions next to the
 implementation whenever possible. This means code like the following:
 
-```js
+```typescript
 export interface BananaProps {
   …
 }
@@ -158,7 +158,7 @@ import statement.
 
 ### React Specifics
 
-#### PropTypes
+#### Defining PropTypes
 
 PropTypes can be easily translated into regular types or interfaces like this.
 Once done, you can delete the React `prop-type` definition, i.e., the non-TypeScript
@@ -167,18 +167,49 @@ prop type definitions.
 ```javascript
 MyComponent.propTypes = {
   title: PropTypes.string.isRequired,
-  subTitle: PropTypes.string
+  optionalText: PropTypes.string
 };
 ```
 
 ```typescript
-const type Props = {
-  title: string,
-  subTitle?: string
+interface Props {
+  title: string;
+  optionalText?: string;  // Recommended format for optional props, see next section
+}
+```
+[More examples](https://github.com/typescript-cheatsheets/react/blob/main/README.md#basic-prop-types-examples)
+
+##### optional props
+There was a confusion, caused by this format which can also be found in React's own .d.ts file:
+```typescript
+interface Context<T> {
+  Provider: Provider<T>;
+  Consumer: Consumer<T>;
+  displayName?: string | undefined; // not recommended
 }
 ```
 
-Prop types can be used like this now
+There is also this new/future (V4.4) compile flag [exactOptionalPropertyTypes](https://www.typescriptlang.org/tsconfig#exactOptionalPropertyTypes) (disabled per default), 
+which would only allow in the format of `| unknown` ...
+
+On the other side, a Sonarqube rule ([typescript:S4782](https://sonarqube.instana.io/coding_rules?open=typescript%3AS4782&rule_key=typescript%3AS4782)) recommends the **shorter version**.
+
+**Here is why:**
+> Using `| undefined` for optional property is redundant, **it can be omitted without change** to the actual type. 
+> Still **if you want to force** the property in the object consider using only `| undefined` without `?`.
+
+So our style guide: Use this short form:
+ ```typescript
+ interface Props {
+  optionalText?: string;
+}
+```
+
+Only in rare cases you may want to use this, but not sure when it really makes sense.
+``` requiredFlag: true | false | undefined; ```
+
+
+#### Using Prop types
 
 ```typescript
 const MyComponent = ({ title }: Props) => <div>{title}</div>;
@@ -186,9 +217,21 @@ const MyComponent = ({ title }: Props) => <div>{title}</div>;
 
 ```typescript
 class MyComponent extends React.Component<Props> {
-  ...
+  // ...
 }
 ```
+
+##### More about Function Components
+Examples can be found here: [React cheat sheet](https://github.com/typescript-cheatsheets/react/blob/main/README.md#function-components)
+
+!! To annotate the return type so an error is raised if you accidentally return some other type:
+```
+const App = ({ message }: AppProps): JSX.Element => <div>{message}</div>;
+```
+
+!! Don't use the `React.FC` type anymore as it also contains a hidden `children` in props list, even when not specified !! ->
+[React cheat sheet](https://github.com/typescript-cheatsheets/react/blob/main/README.md#function-components) -> "Why is `React.FC` discouraged? ...?
+
 
 ## Types extracted from backend
 
