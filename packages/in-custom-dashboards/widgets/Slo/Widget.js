@@ -21,10 +21,10 @@ import {
   entityId,
   entityType
 } from 'in-custom-dashboards/widgets/Slo/form';
+import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscription/getUnifiedSloMetrics';
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/WidgetLeftHeader';
 import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
-import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getSliConfiguration } from 'in-custom-dashboards/api';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -81,12 +81,14 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const granularity = getGranularity(timeWindowConfig);
   const metrics = getMetrics(metricBaseConfig, granularity);
 
-  const result = useObservable(() => getUnifiedMetricsObservable(metrics), [timeConfig, config]) ?? pendingResult;
-
   const sliConfig = useObservable(getSliConfigurationObservable, [sliConfigIdValue]);
   const { data: entity } = useSloEntity({ entityId: entityIdValue, entityType: entityTypeValue });
 
-  const budget = findResultMetric(result, 'budget')?.[0][1];
+  const sloMetricsResult = useObservable(() => getUnifiedSloMetrics({ metrics }), [config]) ?? pendingResult;
+
+  const sloMetrics = sloMetricsResult?.data;
+
+  const budget = getMetricValue(findMetric('budget', sloMetrics));
 
   return (
     <Card
@@ -110,12 +112,14 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
         isRolling={isRolling}
         fromTimestamp={fromTimestamp}
         toTimestamp={toTimestamp}
-        result={result}
         sliEntity={sliConfig?.sliEntity}
+        metricSpent={getMetricValue(findMetric('spent', sloMetrics))}
+        metricSli={getMetricValue(findMetric('sli', sloMetrics))}
+        metricRemaining={getMetricValue(findMetric('remaining', sloMetrics))}
       />
       <div className={locals.chart}>
         <WidgetContent
-          result={result}
+          sloMetricsResult={sloMetricsResult}
           sliConfigIdValue={sliConfigIdValue}
           timeConfig={timeWindowConfig}
           granularity={granularity}
@@ -129,8 +133,13 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   );
 }
 
-export const findResultMetric = (result, id) => {
-  return (result?.data ?? []).find(dataSeries => dataSeries.id === id)?.values;
+const findMetric = (metricName, sloMetrics = []) => {
+  const metric = sloMetrics.find(({ id }) => id === metricName);
+  return metric?.values ?? [];
+};
+
+const getMetricValue = (metric = []) => {
+  return metric[0]?.[1];
 };
 
 function calculateTimeWindowConfig(
@@ -210,10 +219,6 @@ function getGranularity(timeConfig) {
   return oneHour;
 }
 
-function getUnifiedMetricsObservable(metrics) {
-  return getUnifiedMetrics({ metrics });
-}
-
 function getSliConfigurationObservable([sliConfigIdValue]) {
   return getSliConfiguration(sliConfigIdValue).map(({ data }) => data);
 }
@@ -253,17 +258,17 @@ const getMetrics = (metricBaseConfig, granularity) => {
   };
 };
 
-const isConfiguredSliDeleted = (result, sliConfigIdValue) => {
+const isConfiguredSliDeleted = (sloMetricsResult, sliConfigIdValue) => {
   return (
-    hasError(result) &&
-    result.errors.some(
+    hasError(sloMetricsResult) &&
+    sloMetricsResult.errors.some(
       ({ message }) => message === `The SliConfiguration for the id ${sliConfigIdValue} does not exist`
     )
   );
 };
 
-const WidgetContent = ({ result, sliConfigIdValue, ...otherChartProps }) => {
-  if (isConfiguredSliDeleted(result, sliConfigIdValue)) {
+const WidgetContent = ({ sloMetricsResult, sliConfigIdValue, ...otherChartProps }) => {
+  if (isConfiguredSliDeleted(sloMetricsResult, sliConfigIdValue)) {
     return (
       <Message
         type="error"
@@ -276,9 +281,9 @@ const WidgetContent = ({ result, sliConfigIdValue, ...otherChartProps }) => {
 
   return (
     <Chart
-      result={result}
-      consumed={filterAvailableData(findResultMetric(result, 'consumed'))}
-      hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget'))}
+      result={sloMetricsResult}
+      consumed={filterAvailableData(findMetric('consumed', sloMetricsResult?.data))}
+      hourlyBudget={filterAvailableData(findMetric('hourlyBudget', sloMetricsResult?.data))}
       {...otherChartProps}
     />
   );

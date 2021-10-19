@@ -7,7 +7,6 @@ import React from 'react';
 
 import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
 import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
-import { findResultMetric } from 'in-custom-dashboards/widgets/Slo/Widget';
 import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import { percentage } from 'in-services/formatters/number';
 import theme from 'in-themes';
@@ -15,12 +14,20 @@ import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/WidgetHeader.mless';
 
-export function WidgetHeader({ slo, budget, isDynamic, isRolling, fromTimestamp, toTimestamp, result, sliEntity }) {
-  const spent = findResultMetric(result, 'spent')?.[0][1];
-  const sli = findResultMetric(result, 'sli')?.[0][1];
+export function WidgetHeader({
+  slo,
+  budget,
+  isDynamic,
+  isRolling,
+  fromTimestamp,
+  toTimestamp,
+  sliEntity,
+  metricSpent: spent,
+  metricSli: sli,
+  metricRemaining: remaining
+}) {
   const { green800, red800 } = theme.lib.colors;
   const sliColor = slo === null || sli === null ? '' : sli >= slo ? green800 : red800;
-  const remaining = findResultMetric(result, 'remaining')?.[0][1];
   const budgetColor = !remaining ? '' : remaining > 0 ? green800 : red800;
   const sliFormatter = getSliFormatter(sliEntity);
 

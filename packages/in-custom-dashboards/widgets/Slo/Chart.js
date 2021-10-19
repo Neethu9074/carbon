@@ -34,7 +34,9 @@ export default function Chart({
 }) {
   const tagCatalog = useTagCatalog(getTagCatalog);
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
+
   let metrics = [consumed, hourlyBudget];
+
   if (isStaticBudget) {
     // TODO replace with a more elegant way, by moving this feature into the renderer
     metrics = [consumed, consumed.map(timeValue => [timeValue[0], budget])];

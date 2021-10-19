@@ -269,8 +269,8 @@ const WidgetContent = ({ result, ...otherChartProps }) => {
   return (
     <Chart
       result={result}
-      consumed={filterAvailableData(findResultMetric(result, 'consumed', result))}
-      hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget', result))}
+      consumed={filterAvailableData(findResultMetric(result, 'consumed'))}
+      hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget'))}
       {...otherChartProps}
     />
   );
