@@ -25,12 +25,12 @@ export default {
     explanationLinkHref: `https://instana.com/docs/ecosystem/domino/#metrics_include_regex_does_not_match_any_metric`
   },
 
-  invalid_metrics_file_location: {
+  missing_domino_stats_file: {
     issueDescription: {
-      Component: function invalidMetricsFileLocation() {
+      Component: function missingDominoStatsFile() {
         return (
           <span>
-            <Trans i18nKey="in-forge:plugins.domino.invalidMetricsFileLocation" />
+            <Trans i18nKey="in-forge:plugins.domino.missingDominoStatsFile" />
           </span>
         );
       }
