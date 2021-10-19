@@ -24,7 +24,7 @@
     align-items: center;
     cursor: pointer;
 
-    > div {
+    div {
       display: flex;
     }
   }
