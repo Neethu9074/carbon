@@ -14,7 +14,7 @@ import {
   createRequestImpactForm
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
-import CheckboxFancy from 'in-alerting/smart-alerts/components/smart-alert-dialog/CheckboxFancy';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
