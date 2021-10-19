@@ -45,10 +45,8 @@ export default function SelectSmartAlertDialog({ onSubmit, selection: initialSel
         <SmartAlertSelectionList
           selection={selection}
           onChange={setSelection}
-          getLocalAlertConfigsFetchFunction={() =>
-            getAllAlertConfigsForAllApplications(selection, { asObservable: true })
-          }
-          getGlobalAlertConfigFetchFunction={() => getAllGlobalAlertConfigs(selection, { asObservable: true })}
+          getLocalAlertConfigsFetchFunction={() => getAllAlertConfigsForAllApplications([], { asObservable: true })}
+          getGlobalAlertConfigFetchFunction={() => getAllGlobalAlertConfigs([], { asObservable: true })}
           pageSize={20}
         />
       </div>

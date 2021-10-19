@@ -63,14 +63,19 @@ function loadEntities(entities) {
       }
 
       const [apResult, globalResult] = e;
-      return entities.map(id => {
-        const apData = apResult.data?.find(({ id: i }) => i === id);
-        if (apData) {
-          return { config: apData, isGlobalSmartAlertConfig: false };
-        }
-        const globalData = globalResult.data?.find(({ id: i }) => i === id);
-        return { config: globalData, isGlobalSmartAlertConfig: true };
-      });
+      return entities
+        .map(id => {
+          const apData = apResult.data?.find(({ id: i }) => i === id);
+          if (apData) {
+            return { config: apData, isGlobalSmartAlertConfig: false };
+          }
+          const globalData = globalResult.data?.find(({ id: i }) => i === id);
+          if (globalData) {
+            return { config: globalData, isGlobalSmartAlertConfig: true };
+          }
+          return undefined;
+        })
+        .filter(Boolean);
     });
 }
 
