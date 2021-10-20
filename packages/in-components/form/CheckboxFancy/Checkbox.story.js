@@ -9,17 +9,25 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
 const sizes = ['default', 'large', 'larger', 'largest'];
 
+const noControl = { control: false };
+
 export default {
-  component: CheckboxFancy
+  component: CheckboxFancy,
+  argTypes: {
+    checked: noControl,
+    disabled: noControl,
+    indeterminate: noControl
+  }
 };
 
-export const checkbox = () => {
+export const Checkboxes = props => {
   const [value, setValue] = useState(true);
   return sizes.map((size, i) => (
     <Fragment key={i}>
       <h3>Size: {size}</h3>
       <p>
         <CheckboxFancy
+          {...props}
           label="This is a fancy checkbox which is not disabled."
           checked={value}
           onChange={() => setValue(!value)}
@@ -28,6 +36,7 @@ export const checkbox = () => {
       </p>
       <p>
         <CheckboxFancy
+          {...props}
           label="This is a disabled fancy checkbox."
           checked={value}
           onChange={() => setValue(!value)}
@@ -37,6 +46,7 @@ export const checkbox = () => {
       </p>
       <p>
         <CheckboxFancy
+          {...props}
           label="This is a fancy checkbox with an explanation."
           explanation="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
           checked={value}
@@ -49,13 +59,14 @@ export const checkbox = () => {
   ));
 };
 
-export const asRadioButton = () => {
+export const AsRadioButtons = props => {
   const [value, setValue] = useState(true);
   return sizes.map((size, i) => (
     <Fragment key={i}>
       <h3>Size: {size}</h3>
       <p>
         <CheckboxFancy
+          {...props}
           label="This is a fancy radio button which is not disabled"
           checked={value}
           onChange={() => setValue(!value)}
@@ -65,6 +76,7 @@ export const asRadioButton = () => {
       </p>
       <p>
         <CheckboxFancy
+          {...props}
           label="This is a disabled fancy radio button."
           checked={value}
           onChange={() => setValue(!value)}
@@ -75,6 +87,7 @@ export const asRadioButton = () => {
       </p>
       <p>
         <CheckboxFancy
+          {...props}
           label="This is a fancy radio button with gray controls."
           explanation="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
           checked={value}
@@ -88,10 +101,11 @@ export const asRadioButton = () => {
   ));
 };
 
-export const indeterminate = () => {
+export const Indeterminate = props => {
   const [value, setValue] = useState();
   return (
     <CheckboxFancy
+      {...props}
       label="This is a fancy checkbox is initially in an indeterminate state"
       checked={value}
       onChange={e => setValue(e.target.checked)}

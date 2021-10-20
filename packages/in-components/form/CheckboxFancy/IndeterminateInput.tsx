@@ -5,14 +5,19 @@
 
 import React, { useRef, useLayoutEffect } from 'react';
 
-export default function IndeterminateInput(allProps) {
+export type IndeterminateInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+  indeterminate?: boolean;
+  checked?: boolean;
+};
+
+export default function IndeterminateInput(allProps: IndeterminateInputProps): JSX.Element {
   // Strip out the indeterminate prop because it has to be set via
   // JavaScript. It is unsupported as a regular HTML attribute. See
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#Indeterminate_state_checkboxes
   const { indeterminate, ...props } = allProps;
   const { checked } = allProps;
 
-  const ref = useRef();
+  const ref = useRef<HTMLInputElement>(null);
   useLayoutEffect(() => {
     if (ref.current) {
       ref.current.indeterminate = Boolean(indeterminate && checked == null);

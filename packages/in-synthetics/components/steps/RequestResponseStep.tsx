@@ -10,13 +10,12 @@ import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
 // @ts-expect-error module needs to be translated to TS
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-// @ts-expect-error module needs to be translated to TS
 import FormGroup from 'in-components/form/FormGroup';
 // @ts-expect-error module needs to be translated to TS
 import ComboBox from 'in-components/ComboBox';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { HTTPMethods } from 'in-synthetics/form/createSyntheticTestForm';
 import Section, { SubTitle } from 'in-synthetics/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';

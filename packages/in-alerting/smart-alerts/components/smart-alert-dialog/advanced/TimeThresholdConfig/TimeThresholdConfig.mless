@@ -67,12 +67,14 @@
   }
 
   .checkbox {
+    align-items: flex-start; // align top, even when text broken up in lines
     &:hover {
       cursor: pointer;
     }
   }
 
   .checkboxDisabled {
+    align-items: flex-start; // align top, even when text broken up in lines
     color: @lib__colors__N500;
   }
 

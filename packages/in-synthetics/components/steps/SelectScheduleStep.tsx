@@ -9,9 +9,8 @@ import React from 'react';
 // @ts-expect-error module needs to be translated to TS
 import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
 // @ts-expect-error module needs to be translated to TS
-import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
-// @ts-expect-error module needs to be translated to TS
 import FormGroup from 'in-components/form/FormGroup';
+import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { playbackModes } from 'in-synthetics/form/createSyntheticTestForm';
 import Section, { SubTitle } from 'in-synthetics/components/Section';
 import Label from 'in-components/form/Label';
