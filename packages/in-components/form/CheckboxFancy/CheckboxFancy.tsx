@@ -3,11 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ChangeEventHandler, CSSProperties, ReactNode } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
 
-import IndeterminateInput from 'in-components/form/CheckboxFancy/IndeterminateInput';
+import IndeterminateInput, { IndeterminateInputProps } from './IndeterminateInput';
 
 import locals from './CheckboxFancy.mless';
 
@@ -26,6 +25,30 @@ const sizes = {
   }
 };
 
+type CheckboxFancyProps = {
+  asRadioButton?: boolean;
+  /** You *must* defined checked=null or checked=undefined in order to render the
+   * indeterminate state. checked=false or checked=true would imply an inconsistent
+   * UI state. This is because the UI state cannot have a defined value on one side
+   * and present to the user that no value is known.
+   *
+   * Optional, because indeterminate inputs mean checked=null
+   */
+  checked?: boolean;
+  indeterminate?: boolean;
+  className?: string;
+  disabled?: boolean;
+  label?: ReactNode | string;
+  explanation?: ReactNode | string;
+  onChange?: ChangeEventHandler;
+  size?: 'default' | 'large' | 'larger' | 'largest';
+  style?: CSSProperties;
+  verticalLabel?: boolean;
+  wrapperClassName?: string;
+  withControlsGrayscale?: boolean;
+  labelClassName?: string;
+};
+
 export default function CheckboxFancy({
   label,
   explanation,
@@ -41,7 +64,7 @@ export default function CheckboxFancy({
   withControlsGrayscale,
   verticalLabel,
   labelClassName
-}) {
+}: CheckboxFancyProps) {
   const input = (
     <Input
       checked={checked}
@@ -57,9 +80,8 @@ export default function CheckboxFancy({
   );
   return label ? (
     <label
-      className={classNames({
-        [locals.labelWrapper]: true,
-        [wrapperClassName]: wrapperClassName
+      className={classNames(locals.labelWrapper, {
+        [wrapperClassName ?? '']: wrapperClassName
       })}
     >
       {input}
@@ -68,7 +90,7 @@ export default function CheckboxFancy({
           className={classNames({
             [locals.label]: true,
             [locals.verticalLabel]: verticalLabel,
-            [labelClassName]: labelClassName
+            [labelClassName ?? '']: labelClassName
           })}
         >
           {label}
@@ -81,28 +103,12 @@ export default function CheckboxFancy({
   );
 }
 
-CheckboxFancy.propTypes = {
-  asRadioButton: PropTypes.bool,
-
-  // Not required because indeterminate inputs mean checked=null
-  checked: PropTypes.bool,
-  // You *must* defined checked=null or checked=undefined in order to render the
-  // indeterminate state. checked=false or checked=true would imply an inconsistent
-  // UI state. This is because the UI state cannot have a defined value on one side
-  // and present to the user that no value is known.
-  indeterminate: PropTypes.bool,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  explanation: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  onChange: PropTypes.func.isRequired,
-  size: PropTypes.string,
-  style: PropTypes.object,
-  verticalLabel: PropTypes.bool,
-  wrapperClassName: PropTypes.string,
-  withControlsGrayscale: PropTypes.bool,
-  labelClassName: PropTypes.string
-};
+type InputProps = {
+  size?: 'default' | 'large' | 'larger' | 'largest';
+  checked?: boolean;
+  asRadioButton?: boolean;
+  withControlsGrayscale?: boolean;
+} & Omit<Omit<IndeterminateInputProps, 'checked'>, 'size'>;
 
 function Input({
   checked,
@@ -114,7 +120,7 @@ function Input({
   style,
   disabled,
   withControlsGrayscale
-}) {
+}: InputProps): JSX.Element {
   return (
     <IndeterminateInput
       type={asRadioButton ? 'radio' : 'checkbox'}
@@ -131,6 +137,8 @@ function Input({
           [locals.withControlsGrayscale]: withControlsGrayscale
         })
       )}
+      // this seems to have been buggy all the time: TODO: investigate
+      // @ts-expect-error this will never work, because this shorthand form would not create valid css style
       style={{ style }}
     />
   );

@@ -44,13 +44,12 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 // @ts-expect-error
 import ApiItemView from 'in-settings/components/ApiItemView';
 // @ts-expect-error
-import CheckboxFancy from 'in-components/form/CheckboxFancy';
-// @ts-expect-error
 import FormGroup from 'in-components/form/FormGroup';
 // @ts-expect-error
 import Select from 'in-components/form/Select';
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { defaultRoleId } from 'in-stores/user';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
