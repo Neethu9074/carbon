@@ -99,9 +99,9 @@ export function getSnapshot(snapshotId, timeConfig) {
   }
 
   if (timeConfig === undefined) {
-    return timeConfig$.flatMap(timeConfig => createSnapshotObservable({ snapshotId, timeConfig }));
+    return timeConfig$.flatMap(timeConfig => createSnapshotObservable({ snapshotId, timeConfig })).filter(Boolean);
   }
-  return createSnapshotObservable({ snapshotId, timeConfig });
+  return createSnapshotObservable({ snapshotId, timeConfig }).filter(Boolean);
 }
 
 export function getSnapshotOrDefaultOnTimeout(snapshotId, defaultValue, t, timeConfig) {
