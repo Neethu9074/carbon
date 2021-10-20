@@ -11707,6 +11707,21 @@ export default {
           type: 'LEVEL'
         },
         {
+          label: 'IBM MQ Subscription',
+          description: null,
+          icon: 'plugin:ibmMqSubscription',
+          children: [
+            {
+              label: 'Messages count',
+              description: 'Number of messages put to the destination specified by this subscription.',
+              icon: 'lib_views_tag',
+              type: 'ibmMqSubscription',
+              name: 'numberMessages'
+            }
+          ],
+          type: 'LEVEL'
+        },
+        {
           label: 'Internet Information Server',
           description: null,
           icon: 'plugin:msiis',
@@ -29488,6 +29503,13 @@ export default {
       label: 'subscriptionCount',
       name: 'subscriptionCount',
       type: 'ibmMqTopic'
+    },
+    {
+      description: '',
+      valueType: 'STRING',
+      label: 'numberMessages',
+      name: 'numberMessages',
+      type: 'ibmMqSubscription'
     },
     {
       description: '',

@@ -87,6 +87,7 @@ import './kubernetesCronJob';
 import './kubernetesService';
 import './mongoDbReplicaSet';
 import './vsphereDatacenter';
+import './ibmMqSubscription';
 import './aliCloudRocketMq';
 import './ibmCloudCloudant';
 import './ibmCloudRabbitMq';

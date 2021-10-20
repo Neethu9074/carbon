@@ -693,6 +693,11 @@
   "pluginName_ibmMqTopic_1": "IBM MQ Topics",
   "pluginName_ibmMqTopic_2": "IBM MQ Topics",
   "pluginName_ibmMqTopic": "IBM MQ Topic",
+  "pluginName_ibmMqSubscription_plural": "IBM MQ Subscriptions",
+  "pluginName_ibmMqSubscription_0": "IBM MQ Subscriptions",
+  "pluginName_ibmMqSubscription_1": "IBM MQ Subscriptions",
+  "pluginName_ibmMqSubscription_2": "IBM MQ Subscriptions",
+  "pluginName_ibmMqSubscription": "IBM MQ Subscription",
   "pluginName_ibmVsi_plural": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_0": "IBM Cloud Virtual Server Instances",
   "pluginName_ibmVsi_1": "IBM Cloud Virtual Server Instances",
@@ -8669,7 +8674,13 @@
         "handleState": "Handle State",
         "user": "User",
         "queuesUsageWithCount": "Queues Usage ({{len}})",
-        "ibmMqQueueManager": "IBM MQ Queue Manager"
+        "ibmMqQueueManager": "IBM MQ Queue Manager",
+        "subsWithCount": "Subscriptions ({{len}})",
+        "topicString": "Topic String",
+        "subType": "Subscription Type",
+        "durable": "Durable",
+        "subAlternatedAt": "Subscription Alternated At",
+        "numberMessages": "Number of Messages"
       },
       "name": "Name",
       "version": "Version",
@@ -8731,6 +8742,19 @@
       "lastResetTime": "Last Reset Time",
       "reset": "Reset",
       "subscriptions": "Subscriptions"
+    },
+    "ibmMqSubscription": {
+      "dashboard": {
+        "numberMessages": "Number of Messages",
+        "count": "Messages Count",
+        "ibmMqSubscription": "IBM MQ Subscription"
+      },
+      "name": "Name",
+      "queueManager": "Queue Manager",
+      "clusterName": "Cluster Name",
+      "subType": "Subscription Type",
+      "subAlternatedAt": "Subscription Alternated At",
+      "numberMessages": "Number of Messages"
     },
     "ibmVsi": {
       "aggregate": "Aggregate",
