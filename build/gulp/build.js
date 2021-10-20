@@ -115,6 +115,13 @@ function webpackBuild(cb) {
     if (err) {
       throw err;
     }
+    if (stats.hasErrors()) {
+      throw new Error(
+        stats.toString({
+          colors: true
+        })
+      );
+    }
 
     console.log(
       '[webpack:build]',
