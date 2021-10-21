@@ -9,7 +9,7 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import { timeThresholdLabels } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/SelectTimeThreshold';
-import { UserImpactMeasurementMethods } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import { ImpactMeasurementMethods } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDurationAccurately } from 'in-services/formatters/date';
@@ -49,8 +49,8 @@ function getIconType(timeThresholdType) {
 }
 
 function getDescription(timeThreshold, granularity) {
-  const { users, userPercentage, requests, timeWindow, type, violations, userImpactMeasurementMethod } = timeThreshold;
-  const perWindowEvaluation = userImpactMeasurementMethod === UserImpactMeasurementMethods.PER_WINDOW || true;
+  const { users, userPercentage, requests, timeWindow, type, violations, impactMeasurementMethod } = timeThreshold;
+  const perWindowEvaluation = impactMeasurementMethod === ImpactMeasurementMethods.PER_WINDOW || true;
   const formattedTimeWindow = formatDurationAccurately(timeWindow, 60000, false);
   switch (type) {
     case timeThresholdTypes.userImpactOfViolationsInSequence: {
