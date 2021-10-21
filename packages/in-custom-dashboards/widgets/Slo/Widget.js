@@ -22,10 +22,10 @@ import {
   entityType
 } from 'in-custom-dashboards/widgets/Slo/form';
 import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscription/getUnifiedSloMetrics';
+import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/WidgetLeftHeader';
 import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
-import { getSliConfiguration } from 'in-custom-dashboards/api';
 import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
@@ -81,7 +81,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const granularity = getGranularity(timeWindowConfig);
   const metrics = getMetrics(metricBaseConfig, granularity);
 
-  const sliConfig = useObservable(getSliConfigurationObservable, [sliConfigIdValue]);
+  const { sliConfiguration, status: sliConfigurationStatus } = useSliConfiguration(sliConfigIdValue);
   const { data: entity } = useSloEntity({ entityId: entityIdValue, entityType: entityTypeValue });
 
   const sloMetricsResult = useObservable(() => getUnifiedSloMetrics({ metrics }), [config]) ?? pendingResult;
@@ -102,7 +102,13 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
       title={title}
       headerClassName={locals.title}
       leftHeaderContent={
-        <WidgetLeftHeader monitoredEntityType={entityTypeValue} monitoredEntity={entity} sliConfig={sliConfig} />
+        sliConfigurationStatus !== 'rejected' && (
+          <WidgetLeftHeader
+            monitoredEntityType={entityTypeValue}
+            monitoredEntity={entity}
+            sliConfig={sliConfiguration}
+          />
+        )
       }
     >
       <WidgetHeader
@@ -112,7 +118,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
         isRolling={isRolling}
         fromTimestamp={fromTimestamp}
         toTimestamp={toTimestamp}
-        sliEntity={sliConfig?.sliEntity}
+        sliEntity={sliConfiguration?.sliEntity}
         metricSpent={getMetricValue(findMetric('spent', sloMetrics))}
         metricSli={getMetricValue(findMetric('sli', sloMetrics))}
         metricRemaining={getMetricValue(findMetric('remaining', sloMetrics))}
@@ -124,7 +130,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
           timeConfig={timeWindowConfig}
           granularity={granularity}
           budget={budget}
-          sliConfig={sliConfig}
+          sliConfig={sliConfiguration}
           isPreview={isPreview}
           disableZooming={isFixed || isRolling}
         />
@@ -217,10 +223,6 @@ function getGranularity(timeConfig) {
     return oneMinute;
   }
   return oneHour;
-}
-
-function getSliConfigurationObservable([sliConfigIdValue]) {
-  return getSliConfiguration(sliConfigIdValue).map(({ data }) => data);
 }
 
 const getMetrics = (metricBaseConfig, granularity) => {
