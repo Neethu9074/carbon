@@ -326,3 +326,10 @@ export const ANALYZE_LOGGING_FACETTEDSEARCH_GROUP_CLICKED = 'analyze.logging.fac
 export const ANALYZE_LOGGING_JUMP_TO_LOGS = 'analyze.logging.jump.to.logs';
 export const ANALYZE_LOGGING_TIME_SPENT = 'analyze.logging.time.spent';
 export const LOGGING_LOGDNA_BUTTON_CLICKED = 'logging.logDna.clicked';
+
+// ENTERPRISE
+export const ENTERPRISE_IDP_MAPPING_FIRST = 'enterprise.idp.mapping.first';
+export const ENTERPRISE_IDP_MAPPING_CHANGED = 'enterprise.idp.mapping.changed';
+export const ENTERPRISE_IDP_MAPPING_REMOVED = 'enterprise.idp.mapping.removed';
+export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS = 'enterprise.idp.mapping.restrictAccess';
+export const ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE = 'enterprise.idp.mapping.restrictAccess.remove';

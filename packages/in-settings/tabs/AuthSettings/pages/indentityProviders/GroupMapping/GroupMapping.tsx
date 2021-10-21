@@ -21,6 +21,13 @@ import { SvgIcon } from '@instana/components';
 import { Button } from '@instana/components';
 
 import {
+  firstMappingAdded,
+  mappingChanged,
+  mappingRemoved,
+  enabledRestrictedAccess,
+  disabledRestrictedAccess
+} from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/tracker';
+import {
   refresh,
   getMappings,
   setMappings,
@@ -50,6 +57,7 @@ import Select from 'in-components/form/Select';
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { track } from 'in-services/tracking/tracking';
 import { defaultRoleId } from 'in-stores/user';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
@@ -69,6 +77,7 @@ const DENY_ACCESS = 'denyAccess';
 const GROUP_MAPPINGS = 'groupMappings';
 const INSTANA_GROUPS = 'instanaGroups';
 const GROUP_ID = 'groupId';
+const TRACKING = 'tracking';
 
 export default function GroupMapping() {
   return (
@@ -317,15 +326,26 @@ function RightHeader({ addRow }: { addRow: () => void }): JSX.Element {
   );
 }
 
-function saveItem({ form, setMessage }: { form: any; setMessage: any }) {
+function saveItem({ form, setMessage, setForm }: { form: any; setMessage: any; setForm: any }) {
   setMessage({ message: t('in-settings:tabs.savingGroupMapping'), type: 'neutral', isSaving: true });
   const setMappingsResult = setMappings(form.get(GROUP_MAPPINGS).toJS());
+  trackDifference(form);
   setMappingsResult.once(
     () => {
       const denyCheckValue: IdentityProviderPatch = {
         restrictEmptyIdpGroups: form.get(DENY_ACCESS).toJS()
       };
       const denyCheckResult = setIdpRestriction(denyCheckValue);
+      setForm(
+        form.updateIn([TRACKING], () =>
+          createMapForm({
+            items: {
+              initialSize: createField({ value: form.get('groupMappings').size }),
+              initialRestrictAccessFlag: createField({ value: form.get('denyAccess').value })
+            }
+          })
+        )
+      );
       denyCheckResult.once(
         () => setMessage({ text: t('in-settings:tabs.groupMappingSuccessfullySaved'), type: 'success' }),
         error =>
@@ -334,6 +354,30 @@ function saveItem({ form, setMessage }: { form: any; setMessage: any }) {
     },
     error => setMessage({ text: t('in-settings:tabs.groupMappingFailedToSave', { err: error.message }), type: 'error' })
   );
+}
+
+function trackDifference(form: MapForm) {
+  const tracking: MapForm = form.get('tracking') as MapForm;
+
+  if ((form.get('groupMappings') as ListForm).size > 0) {
+    if ((tracking.get('initialSize') as Field<number>).value === 0) {
+      firstMappingAdded({ groupMappings: form.get('groupMappings')?.toJS() });
+    } else {
+      mappingChanged({ groupMappings: form.get('groupMappings')?.toJS() });
+    }
+  } else {
+    mappingRemoved(undefined);
+  }
+
+  const initialRestrictAccessFlag: Field<boolean> = tracking.get('initialRestrictAccessFlag') as Field<boolean>;
+  if ((form.get('denyAccess') as Field<boolean>).value != initialRestrictAccessFlag.value) {
+    if ((form.get('denyAccess') as Field<boolean>).value) {
+      enabledRestrictedAccess(undefined);
+      disabledRestrictedAccess(undefined);
+    } else {
+      track('enterprise.idp.mapping.restrictAccess.removed', 'string');
+    }
+  }
 }
 
 function newEntry({ id, key, value, groupId }: IdpGroupMapping): MapForm {
@@ -374,7 +418,13 @@ function enrichForm(_form: MapForm, { result }: { result: any }) {
       denyAccess: createField({
         value: denyCheck.restrictEmptyIdpGroups
       }),
-      instanaGroups: createField({ value: result.instanaGroups })
+      instanaGroups: createField({ value: result.instanaGroups }),
+      tracking: createMapForm({
+        items: {
+          initialSize: createField({ value: formRows.length }),
+          initialRestrictAccessFlag: createField({ value: denyCheck.restrictEmptyIdpGroups })
+        }
+      })
     }
   });
 }
