@@ -115,7 +115,7 @@ export default connectTo({
                   formatter: millis.detailed,
                   metrics: rows.map(
                     () =>
-                      'metrics.timers.com.instana.appdata.liveaggregator.aggregation.state.HazelcastAggregationStateStore.sync.mean'
+                      'metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync.mean'
                   ),
                   labels: labels,
                   type: 'line'
@@ -136,7 +136,7 @@ export default connectTo({
                   formatter: millis.detailed,
                   metrics: rows.map(
                     () =>
-                      'metrics.timers.com.instana.appdata.liveaggregator.aggregation.state.HazelcastAggregationStateStore.sync.99th'
+                      'metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync.99th'
                   ),
                   labels: labels,
                   type: 'line'
@@ -160,7 +160,7 @@ export default connectTo({
                   formatter: millis.detailed,
                   metrics: rows.map(
                     () =>
-                      'metrics.timers.com.instana.appdata.liveaggregator.aggregation.state.HazelcastAggregationStateStore.sync-grouped.mean'
+                      'metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync-grouped.mean'
                   ),
                   labels: labels,
                   type: 'line'
@@ -181,7 +181,7 @@ export default connectTo({
                   formatter: millis.detailed,
                   metrics: rows.map(
                     () =>
-                      'metrics.timers.com.instana.appdata.liveaggregator.aggregation.state.HazelcastAggregationStateStore.sync-grouped.99th'
+                      'metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync-grouped.99th'
                   ),
                   labels: labels,
                   type: 'line'
