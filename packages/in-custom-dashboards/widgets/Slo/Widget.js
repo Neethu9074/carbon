@@ -93,7 +93,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   return (
     <Card
       bodyClassName={locals.bodyNoPadding}
-      header={
+      rightHeaderContent={
         <>
           {dragHandle}
           {actions}
@@ -134,7 +134,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
 }
 
 const findMetric = (metricName, sloMetrics = []) => {
-  const metric = sloMetrics.find(({ id }) => id === metricName);
+  const metric = sloMetrics?.find(({ id }) => id === metricName);
   return metric?.values ?? [];
 };
 
