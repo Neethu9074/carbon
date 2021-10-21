@@ -3907,11 +3907,13 @@ export interface UsageMetricConfiguration extends UnifiedMetricConfiguration {
 }
 
 export interface UserImpactThreshold {
+  readonly impactMeasurementMethod?: ImpactMeasurementMethod;
   readonly userPercentage?: number;
   readonly users?: number;
 }
 
 export interface UserImpactWebsiteTimeThreshold extends WebsiteTimeThreshold, UserImpactThreshold {
+  readonly impactMeasurementMethod: ImpactMeasurementMethod;
 }
 
 export interface UserResult {
@@ -4472,6 +4474,8 @@ export type Formatter = 'NUMBER' | 'BYTES' | 'PERCENTAGE' | 'LATENCY' | 'MILLIS'
 export type Granularity = 60000 | 300000 | 600000 | 900000 | 1200000 | 1800000;
 
 export type HttpActionOperation = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+export type ImpactMeasurementMethod = 'AGGREGATED' | 'PER_WINDOW';
 
 export type InfraTabCategory = 'HOST' | 'CONTAINER' | 'PROCESS' | 'CLUSTER';
 
