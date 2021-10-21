@@ -12,7 +12,7 @@ import {
   putUsersField,
   putUserPercentageField,
   numberOfUsersDefault,
-  UserImpactMeasurementMethods,
+  ImpactMeasurementMethods,
   percentageOfUserDefault
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
@@ -30,7 +30,7 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advan
 
 export default function ConfigureUserImpact({ form, onChange, updateForm }) {
   const timeThresholdForm = form.get('timeThreshold');
-  const userImpactMeasurementMethod = timeThresholdForm.get('userImpactMeasurementMethod')?.value;
+  const impactMeasurementMethod = timeThresholdForm.get('impactMeasurementMethod')?.value;
   const alertByPercentageOfUsersChecked = timeThresholdForm.containsKey('userPercentage');
   const alertByNumberOfUsersChecked = timeThresholdForm.containsKey('users');
 
@@ -45,23 +45,23 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
             <div>
               <ComboBoxBehavior
                 disableAutomaticOptionSorting
-                value={userImpactMeasurementMethod}
+                value={impactMeasurementMethod}
                 options={[
                   {
                     label: t(
                       'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodAggregated'
                     ),
-                    value: UserImpactMeasurementMethods.AGGREGATED
+                    value: ImpactMeasurementMethods.AGGREGATED
                   },
                   {
                     label: t(
                       'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodPerWindow'
                     ),
-                    value: UserImpactMeasurementMethods.PER_WINDOW
+                    value: ImpactMeasurementMethods.PER_WINDOW
                   }
                 ]}
                 onChange={value => {
-                  onChange(['timeThreshold', 'userImpactMeasurementMethod'], field =>
+                  onChange(['timeThreshold', 'impactMeasurementMethod'], field =>
                     field.setValue(value).setTouched(true)
                   );
                 }}

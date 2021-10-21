@@ -14,14 +14,14 @@ export const numberOfUsersDefault = 20;
 const numberOfRequestsDefault = 20;
 const timeWindowDefault = 600000;
 
-export const UserImpactMeasurementMethods = {
+export const ImpactMeasurementMethods = {
   AGGREGATED: 'AGGREGATED',
   PER_WINDOW: 'PER_WINDOW'
 };
 
 type TimeThresholdConfig = {
   timeWindow: number;
-  userImpactMeasurementMethod?: keyof typeof UserImpactMeasurementMethods;
+  impactMeasurementMethod?: keyof typeof ImpactMeasurementMethods;
   users?: number;
   userPercentage?: number;
   type?: TimeThresholdTypeValue;
@@ -59,7 +59,7 @@ export function createViolationsInPeriodForm({ timeWindow, violations }: TimeThr
 
 export function createUserImpactOfViolationsInSequenceForm({
   timeWindow,
-  userImpactMeasurementMethod,
+  impactMeasurementMethod,
   userPercentage,
   users
 }: TimeThresholdConfig): MapForm {
@@ -69,8 +69,8 @@ export function createUserImpactOfViolationsInSequenceForm({
     .put('timeWindow', createField({ value: timeWindow ?? timeWindowDefault }));
   if (websiteSmartAlertsAllowPerWindowUserImpact) {
     form = form.put(
-      'userImpactMeasurementMethod',
-      createField({ value: userImpactMeasurementMethod ?? UserImpactMeasurementMethods.AGGREGATED })
+      'impactMeasurementMethod',
+      createField({ value: impactMeasurementMethod ?? ImpactMeasurementMethods.AGGREGATED })
     );
   }
 
