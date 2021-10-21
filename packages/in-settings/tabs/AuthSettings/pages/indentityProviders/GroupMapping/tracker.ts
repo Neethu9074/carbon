@@ -14,6 +14,6 @@ import {
 
 export const firstMappingAdded = (e: any) => track(ENTERPRISE_IDP_MAPPING_FIRST, e);
 export const mappingChanged = (e: any) => track(ENTERPRISE_IDP_MAPPING_CHANGED, e);
-export const mappingRemoved = (e: any) => track(ENTERPRISE_IDP_MAPPING_REMOVED, e);
-export const enabledRestrictedAccess = (e: any) => track(ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS, e);
-export const disabledRestrictedAccess = (e: any) => track(ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE, e);
+export const mappingRemoved = () => track(ENTERPRISE_IDP_MAPPING_REMOVED, {});
+export const enabledRestrictedAccess = () => track(ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS, {});
+export const disabledRestrictedAccess = () => track(ENTERPRISE_IDP_MAPPING_RESTRICT_ACCESS_REMOVE, {});

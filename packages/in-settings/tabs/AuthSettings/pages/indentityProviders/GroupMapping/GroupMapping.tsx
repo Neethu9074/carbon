@@ -57,7 +57,6 @@ import Select from 'in-components/form/Select';
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import { track } from 'in-services/tracking/tracking';
 import { defaultRoleId } from 'in-stores/user';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
@@ -366,16 +365,15 @@ function trackDifference(form: MapForm) {
       mappingChanged({ groupMappings: form.get('groupMappings')?.toJS() });
     }
   } else {
-    mappingRemoved(undefined);
+    mappingRemoved();
   }
 
   const initialRestrictAccessFlag: Field<boolean> = tracking.get('initialRestrictAccessFlag') as Field<boolean>;
   if ((form.get('denyAccess') as Field<boolean>).value != initialRestrictAccessFlag.value) {
     if ((form.get('denyAccess') as Field<boolean>).value) {
-      enabledRestrictedAccess(undefined);
-      disabledRestrictedAccess(undefined);
+      enabledRestrictedAccess();
     } else {
-      track('enterprise.idp.mapping.restrictAccess.removed', 'string');
+      disabledRestrictedAccess();
     }
   }
 }
