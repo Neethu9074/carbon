@@ -1,8 +1,17 @@
 ARG base_version
 
+FROM containers.instana.io/instana/product/nodejs:${base_version} AS builder
+
+COPY build/ /
+
+RUN dnf install -y gcc gcc-c++ make
+RUN npm install --prefix /opt/instana/ui-client/target --production
+
 FROM containers.instana.io/instana/product/nodejs:${base_version}
 
-ADD build/ /
+COPY --from=builder /opt/instana/ui-client/target /opt/instana/ui-client
+COPY --from=builder /usr/bin/run.sh /usr/bin/run.sh
+RUN mkdir -p /etc/instana/ui-client
 
 ARG image_version
 ARG branch

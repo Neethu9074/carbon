@@ -34,10 +34,6 @@ function _create_opt_instana_dir {
   mkdir -p ${COMPONENT_OPT_INSTANA_DIR}
 }
 
-function _create_etc_instana_dir {
-  mkdir -p ${COMPONENT_ETC_INSTANA_DIR}
-}
-
 function _get_container_file {
   _log_info "container file ${COMPONENT_CONTAINER_FILE}"
   CONTAINER_FILE=${COMPONENT_CONTAINER_FILE}
@@ -59,7 +55,9 @@ function _get_component_tar_gz {
   if [[ ${ARTIFACT_VERSION} == 'local' ]]; then
       _log_info "Building ${COMPONENT_NAME} tar.gz locally"
       pushd "${UI_CLIENT_ROOT_DIR}"
-      cd packages/in-server && yarn --prod && cd ../..
+      pushd packages/in-server
+      yarn --prod
+      popd
       yarn run build
       FAIL_ON_DELIVERY_BRANCH=true ./build/ci-shared-tools/scripts/isDeliveryBranch.js || yarn run test:compression
       tar -czf "${COMPONENT_WORK_DIR}/${COMPONENT_NAME}.tar.gz" target/*
@@ -75,10 +73,14 @@ function _get_component_tar_gz {
 function _extract_component_tar_gz {
   if [[ -f "${COMPONENT_WORK_DIR}/${COMPONENT_NAME}.tar.gz" ]]; then
     _create_opt_instana_dir
-    _create_etc_instana_dir
 
     _log_info "Extracting ${COMPONENT_NAME}.tar.gz"
-    tar xfz "${COMPONENT_WORK_DIR}/${COMPONENT_NAME}.tar.gz" -C "${COMPONENT_OPT_INSTANA_DIR}"
+    if [[ ${CONTAINER_IMAGE_NAME} == 'ui-client' ]]; then
+      _log_info "Removing *.map files for ${CONTAINER_IMAGE_NAME}"
+      tar -xz --exclude='*.map' -f "${COMPONENT_WORK_DIR}/${COMPONENT_NAME}.tar.gz" -C "${COMPONENT_OPT_INSTANA_DIR}"
+    else
+      tar -xz -f "${COMPONENT_WORK_DIR}/${COMPONENT_NAME}.tar.gz" -C "${COMPONENT_OPT_INSTANA_DIR}"
+    fi
     if [[ ${ARTIFACT_VERSION} != 'local' ]]; then
       COMMIT_ID=$(cat "${COMPONENT_OPT_INSTANA_DIR}/target/assets/build.json" | jq -r '.revision')
     fi
@@ -90,36 +92,6 @@ function _extract_component_tar_gz {
 
 function _get_base_version {
   source "${SCRIPTPATH}/base-version.sh"
-}
-
-function _install_production_binaries {
-  _log_info "Installing production binaries"
-
-  # Get nodejs using the same version as ../container
-  docker create -t --name tmp-nodejs containers.instana.io/instana/product/nodejs:${BASE_VERSION}
-  docker cp tmp-nodejs:/opt/instana/nodejs "${OPT_INSTANA_DIR}"
-  docker rm -f tmp-nodejs
-
-  # Run 'npm install --production' in context of centos to ensure that
-  # the same binaries will function on centos and ubuntu
-  docker build \
-    --build-arg nodejs_bin=/opt/instana/nodejs/bin \
-    -f "${SCRIPTPATH}/container.binaries" \
-    -t ui-client-centos \
-    ${COMPONENT_CONTAINER_DIR}
-
-  # Remove existing files in local /opt/instana and replace ui-client
-  # files with the ones from ui-client-centos container
-  rm -rf ${OPT_INSTANA_DIR}/*
-  docker create -t --name ui-client-centos ui-client-centos
-  docker cp ui-client-centos:/opt/instana/ui-client/target ${COMPONENT_OPT_INSTANA_DIR}
-
-  if [[ ${CONTAINER_IMAGE_NAME} == 'ui-client' ]]; then
-    _log_info "Removing *.map files for ${CONTAINER_IMAGE_NAME}"
-    find ${COMPONENT_OPT_INSTANA_DIR} -name "*.map" -delete
-  fi
-  docker rm -f ui-client-centos
-  docker rmi -f ui-client-centos
 }
 
 function _run_docker_build {
@@ -171,7 +143,6 @@ function build_image {
   _get_component_tar_gz
   _extract_component_tar_gz
   _get_base_version
-  _install_production_binaries
   _docker_login
 
   _run_docker_build ${FULLY_QUALIFIED_TAG} ${CONTAINER_FILE} ${IMAGE_VERSION}
