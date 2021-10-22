@@ -100,6 +100,7 @@ export default function Results(props) {
       getDetailData={getTraceSummary}
       withSamplingTooltip
       hideMetricAndSortingConfigurator
+      withOverflow
     />
   );
 

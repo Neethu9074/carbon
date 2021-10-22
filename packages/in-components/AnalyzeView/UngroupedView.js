@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import classNames from 'classnames';
 import rpt from 'prop-types';
 import React from 'react';
 
@@ -47,7 +48,8 @@ export default function UngroupedAnalyzeView(props) {
     withSamplingTooltip,
     ungroupedViewConfiguration,
     hideMetricAndSortingConfigurator,
-    Chart
+    Chart,
+    withOverflow = false
   } = props;
 
   const timeConfig = useTimeConfig();
@@ -93,7 +95,7 @@ export default function UngroupedAnalyzeView(props) {
   return (
     <Stack direction={'horizontal'} gap={'disabled'}>
       {Sidebar && <Sidebar {...props} />}
-      <div className={locals.resultContainer}>
+      <div className={classNames(locals.resultContainer, { [locals.withOverflow]: withOverflow })}>
         {Chart && <Chart {...props} />}
         {!withoutHeader && (
           <Header

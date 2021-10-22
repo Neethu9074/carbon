@@ -8,6 +8,10 @@
 :local {
   .resultContainer {
     flex: 1;
+    overflow: hidden;
+    &.withOverflow {
+      overflow: visible;
+    }
   }
 
   .helpIcon {
