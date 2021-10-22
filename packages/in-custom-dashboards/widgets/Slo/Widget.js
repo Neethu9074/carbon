@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useMemo } from 'react';
 import moment from 'moment';
-import React from 'react';
 
 import { Message, Card } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -56,35 +56,22 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const timeWindowStartDate = compatibleConfig?.[timeWindowStart]?.date;
   const timeWindowStartTime = compatibleConfig?.[timeWindowStart]?.time;
 
-  const currentProductTimeConfig = useTimeConfig();
-  const timeConfig = isPreview ? oneWeekTimeConfig : currentProductTimeConfig;
-  let { timeWindowConfig, fromTimestamp, toTimestamp } = calculateTimeWindowConfig(
-    timeConfig,
+  const { timeWindowConfig, fromTimestamp, toTimestamp } = useWidgetTimeConfig({
+    isPreview,
     isRolling,
     isFixed,
     timeWindowDurationValue,
     timeWindowDurationUnitValue,
     timeWindowStartDate,
     timeWindowStartTime
-  );
-
-  const metricBaseConfig = {
-    sliConfigId: sliConfigIdValue,
-    timeShift: { offset: 0 },
-    slo,
-    aggregation: 'MEAN', // a value must be sent to the backend - it has no meaning at all
-    source: 'SLI',
-    timeConfig: timeWindowConfig,
-    resultType: 'TIME_SERIES'
-  };
+  });
 
   const granularity = getGranularity(timeWindowConfig);
-  const metrics = getMetrics(metricBaseConfig, granularity);
 
   const { sliConfiguration, status: sliConfigurationStatus } = useSliConfiguration(sliConfigIdValue);
   const { data: entity } = useSloEntity({ entityId: entityIdValue, entityType: entityTypeValue });
 
-  const sloMetricsResult = useObservable(() => getUnifiedSloMetrics({ metrics }), [config]) ?? pendingResult;
+  const sloMetricsResult = useSloMetrics({ slo, sliId: sliConfigIdValue, timeWindowConfig, granularity });
 
   const sloMetrics = sloMetricsResult?.data;
 
@@ -290,3 +277,54 @@ const WidgetContent = ({ sloMetricsResult, sliConfigIdValue, ...otherChartProps 
     />
   );
 };
+
+function useWidgetTimeConfig({
+  isPreview,
+  isRolling,
+  isFixed,
+  timeWindowDurationValue,
+  timeWindowDurationUnitValue,
+  timeWindowStartDate,
+  timeWindowStartTime
+}) {
+  const currentProductTimeConfig = useTimeConfig();
+  const timeConfig = isPreview ? oneWeekTimeConfig : currentProductTimeConfig;
+  return useMemo(
+    () =>
+      calculateTimeWindowConfig(
+        timeConfig,
+        isRolling,
+        isFixed,
+        timeWindowDurationValue,
+        timeWindowDurationUnitValue,
+        timeWindowStartDate,
+        timeWindowStartTime
+      ),
+    [
+      timeConfig,
+      isRolling,
+      isFixed,
+      timeWindowDurationValue,
+      timeWindowDurationUnitValue,
+      timeWindowStartDate,
+      timeWindowStartTime
+    ]
+  );
+}
+
+function useSloMetrics({ slo, sliId, timeWindowConfig, granularity }) {
+  const metrics = useMemo(() => {
+    const metricConfig = {
+      sliConfigId: sliId,
+      timeShift: { offset: 0 },
+      slo,
+      aggregation: 'MEAN', // a value must be sent to the backend - it has no meaning at all
+      source: 'SLI',
+      timeConfig: timeWindowConfig,
+      resultType: 'TIME_SERIES'
+    };
+    return getMetrics(metricConfig, granularity);
+  }, [slo, sliId, timeWindowConfig, granularity]);
+
+  return useObservable(() => getUnifiedSloMetrics({ metrics }), [metrics]) ?? pendingResult;
+}
