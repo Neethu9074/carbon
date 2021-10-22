@@ -50,7 +50,7 @@ function getIconType(timeThresholdType) {
 
 function getDescription(timeThreshold, granularity) {
   const { users, userPercentage, requests, timeWindow, type, violations, impactMeasurementMethod } = timeThreshold;
-  const perWindowEvaluation = impactMeasurementMethod === ImpactMeasurementMethods.PER_WINDOW || true;
+  const perWindowEvaluation = impactMeasurementMethod === ImpactMeasurementMethods.PER_WINDOW;
   const formattedTimeWindow = formatDurationAccurately(timeWindow, 60000, false);
   switch (type) {
     case timeThresholdTypes.userImpactOfViolationsInSequence: {
