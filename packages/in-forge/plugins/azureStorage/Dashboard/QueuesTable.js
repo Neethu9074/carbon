@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getQueuesForStorage from 'in-subscription/azureStorage/getQueuesForStorage';
+import getQueuesForStorage from 'in-forge/plugins/azureStorage/subscriptions/getQueuesForStorage';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
