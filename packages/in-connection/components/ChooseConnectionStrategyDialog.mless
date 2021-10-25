@@ -1,0 +1,16 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+:local {
+  .dialog {
+    max-width: 35rem;
+  }
+
+  .description {
+    margin: 0 0 0;
+    line-height: 1.5;
+    font-size: 0.8rem;
+  }
+}

@@ -1,14 +1,27 @@
 {
-    "stat": {
-        "connectLostState": {
-            "connecting":"Connecting…",
-            "connectingMsg":"Connection attempt {{connectAttempt}} failed. Continuing to retry to establish persistent backend connection.",
-            "connectLostAttempReconnect":"Connection lost. Attempting reconnect…",
-            "unauthorized":"Unauthorized…",
-            "unauthorizedMsg":"Cannot establish persistent backend connection as you are unauthorized. Please refresh the page to continue."
-        }
-    },
-    "clientErrMsg": {
-        "techClientMsgeErrFromBackend":"Technical client message (most likely error details) from backend"
+  "stat": {
+    "connectLostState": {
+      "connecting": "Connecting…",
+      "connectingMsg": "Connection attempt {{connectAttempt}} failed. Continuing to retry to establish persistent backend connection.",
+      "connectLostAttempReconnect": "Connection lost. Attempting reconnect…",
+      "unauthorized": "Unauthorized…",
+      "unauthorizedMsg": "Cannot establish persistent backend connection as you are unauthorized. Please refresh the page to continue.",
+      "chooseConnectionStrategy": "Choose connection strategy"
     }
+  },
+  "clientErrMsg": {
+    "techClientMsgeErrFromBackend": "Technical client message (most likely error details) from backend"
+  },
+  "chooseConnectionStrategyDialog": {
+    "title": "Choose connection strategy",
+    "description": "Instana attempts to retrieve monitoring data via a WebSocket connection. In certain scenarios it can happen that a WebSocket connection cannot be established, e.g., with restrictive corporate proxies. The Instana user interface by default will attempt to leverage a fallback connection strategy to retrieve monitoring data after some retries. You can configure this strategy to improve your experience based on known network and setup realities.",
+    "save": "Save connection strategy",
+    "label": "Connection strategy",
+    "confirmReloadTitle": "Confirm Reload",
+    "confirmReloadDescription": "Connection strategy changes only become active when reloading the page. Do you want to reload the page now?",
+    "confirmReloadButtonLabel": "Reload this page"
+  },
+  "strategy_auto": "Prefer WebSockets, use long-polling as fallback",
+  "strategy_alwaysWebsockets": "Only use WebSockets (faster)",
+  "strategy_alwaysPolling": "Only use long-polling (slower)"
 }

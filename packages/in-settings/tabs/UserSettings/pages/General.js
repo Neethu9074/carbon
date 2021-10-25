@@ -5,12 +5,14 @@
 
 import React from 'react';
 
-import { Toggle } from '@instana/components';
+import { Button, Toggle } from '@instana/components';
 
+import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { t, Trans, supportedLanguages, activeLanguage } from 'in-i18n';
+import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -132,6 +134,12 @@ export default function UiConfigGeneralPage() {
               </option>
             ))}
         </Select>
+      </HorizontalFormGroup>
+      <HorizontalFormGroup noHelpTextSpacer>
+        <Heading text={t('in-settings:tabs.connectionStrategy')} htmlFor="maintenance-notes" />
+        <Button kind="secondary" onClick={() => addActiveDialog(<ChooseConnectionStrategyDialog />)}>
+          {t('in-settings:tabs.configureConnectionStrategy')}
+        </Button>
       </HorizontalFormGroup>
     </SettingsDetailPage>
   );
