@@ -87,7 +87,7 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
   pathSegment: mobileAppsPath
 });
 
-const rightHeader = role.canConfigureEumApplications && (
+const rightHeader = role.canConfigureMobileAppMonitoring && (
   <Button
     kind="action"
     onClick={() => mobileAppsOpenAddForm()}
