@@ -227,7 +227,7 @@ module.exports = exports = [
   {
     uiClientKey: 'websiteSmartAlertsAllowPerWindowUserImpact',
     instanaCtlKey: 'feature.website.smartAlerts.allow.perWindow.userImpact.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'idpMappingEnabled',
