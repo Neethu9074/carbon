@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, ReactElement } from 'react';
+import React, { useState, ReactElement, MouseEvent } from 'react';
 import classNames from 'classnames';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
@@ -15,7 +15,7 @@ export interface Props {
   className?: string;
   title: string | ReactElement;
   titleIconType?: string;
-  onClose: () => void;
+  onClose: (e?: MouseEvent) => void;
   onTitleIconClick?: () => void;
   children: ReactElement;
   renderCustomCloseBehaviour?: () => ReactElement;

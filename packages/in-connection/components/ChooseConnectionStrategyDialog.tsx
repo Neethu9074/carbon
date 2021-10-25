@@ -7,10 +7,9 @@ import React, { useState } from 'react';
 
 import { Stack } from '@instana/components';
 
-// @ts-expect-error Not yet translated
-import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { activeStrategy, setStrategy, ConnectionStrategy } from 'in-connection/strategy';
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import CancelButton from 'in-components/form/CancelButton';
 import SaveButton from 'in-components/form/SaveButton';
 import FormGroup from 'in-components/form/FormGroup';

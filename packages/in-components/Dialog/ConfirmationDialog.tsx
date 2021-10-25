@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactElement } from 'react';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { close } from 'in-components/DialogPresenter/store';
@@ -11,9 +11,23 @@ import CancelButton from 'in-components/form/CancelButton';
 import SaveButton from 'in-components/form/SaveButton';
 import Actions from 'in-components/Dialog/Actions';
 import Dialog from 'in-components/Dialog/Dialog';
+import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './commonDialog.mless';
+import { Item } from 'formalistic';
+
+export interface Props {
+  header: string | ReactElement;
+  headerIcon?: string;
+  description?: string | ReactElement;
+  confirmButtonLabel?: string;
+  onSubmit: () => void;
+  field: Item;
+  isSaving?: boolean;
+  errors?: Error[];
+  onClose?: () => void;
+}
 
 export default function ConfirmationDialog({
   header,
@@ -25,7 +39,7 @@ export default function ConfirmationDialog({
   isSaving,
   errors,
   onClose = close
-}) {
+}: Props) {
   return (
     <Dialog className={locals.dialog} titleIconType={headerIcon} title={header} onClose={onClose}>
       <form
@@ -39,6 +53,7 @@ export default function ConfirmationDialog({
         {description && <p className={locals.description}>{description}</p>}
 
         <Actions>
+          {/** @ts-expect-error Needs upstream fix in ui-foundation */}
           <CancelButton onClick={close} isSaving={isSaving} autoFocus />
           <SaveButton form={field} isSaving={isSaving} kind="danger">
             {confirmButtonLabel}
