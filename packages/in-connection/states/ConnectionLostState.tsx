@@ -22,9 +22,9 @@ import { t } from 'in-i18n';
 const logger = createLogger('connection/states/ConnectionLostState');
 
 const transports: Record<ConnectionStrategy, string[]> = {
-  'auto': ['websocket', 'xhr-polling'],
-  'alwaysWebsockets': ['websocket'],
-  'alwaysPolling': ['xhr-polling']
+  auto: ['websocket', 'xhr-polling'],
+  alwaysWebsockets: ['websocket'],
+  alwaysPolling: ['xhr-polling']
 };
 
 // Do not track the initial enter call as connection lost
@@ -128,7 +128,7 @@ export default class ConnectionLostState extends AbstractConnectionState {
         );
       } else {
         this.sharedState.socket = new SockJS('/api/data', null, {
-          transports: transports[activeStrategy],
+          transports: transports[activeStrategy] || transports.auto,
           // Number of characters used for the randomly generated session IDs
           sessionId: 16,
           // Minimum! timeout for connection establishment. Value can be higher when the RTT

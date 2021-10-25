@@ -9,9 +9,8 @@ import { ColumnizedContent, Ul, Li } from '@instana/components';
 
 import { logLevelColumn, timestampColumn, copyColumn } from 'in-logging/analyze/AnalyzeView/components/logsColumns';
 import LogMessageColumnReadMode from 'in-logging/analyze/AnalyzeView/components/LogMessageColumnReadMode';
-// @ts-expect-error
-import Dialog from 'in-components/Dialog/Dialog';
 import { close } from 'in-components/DialogPresenter/store';
+import Dialog from 'in-components/Dialog/Dialog';
 import { LogItem } from 'in-types';
 import { t } from 'in-i18n';
 

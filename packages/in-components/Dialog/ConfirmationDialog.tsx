@@ -4,6 +4,7 @@
  */
 
 import React, { ReactElement } from 'react';
+import { Item } from 'formalistic';
 
 import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
 import { close } from 'in-components/DialogPresenter/store';
@@ -15,7 +16,6 @@ import { Error } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './commonDialog.mless';
-import { Item } from 'formalistic';
 
 export interface Props {
   header: string | ReactElement;
@@ -23,7 +23,7 @@ export interface Props {
   description?: string | ReactElement;
   confirmButtonLabel?: string;
   onSubmit: () => void;
-  field: Item;
+  field?: Item;
   isSaving?: boolean;
   errors?: Error[];
   onClose?: () => void;
