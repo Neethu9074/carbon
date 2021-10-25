@@ -6,8 +6,8 @@
 import React from 'react';
 
 import {
-  offlineDurationOptions,
-  automaticallyCloseAfterOptions
+  automaticallyCloseAfterOptions,
+  hostAvailabilityOfflineDurationOptions
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customEventFormUtil';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Row, Col } from 'in-components/layout/Grid/Grid';
@@ -32,7 +32,7 @@ export default function HostAvailabilityFormGroup({ form, onChange }) {
             <ComboBox
               name="offline-duration"
               value={offlineDuration.value}
-              options={offlineDurationOptions}
+              options={hostAvailabilityOfflineDurationOptions}
               onChange={e => onChange('offlineDuration', e ? e.value : '')}
               clearable={false}
             />
