@@ -18,10 +18,9 @@ import Actions from 'in-components/Dialog/Actions';
 import { activeStrategy, setStrategy, ConnectionStrategy } from 'in-connection/strategy';
 // @ts-expect-error Not yet translated
 import Dialog from 'in-components/Dialog/Dialog';
-// @ts-expect-error Not yet translated
-import Select from 'in-components/form/Select';
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
 import SaveButton from 'in-components/form/SaveButton';
+import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
 

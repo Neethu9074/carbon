@@ -52,11 +52,10 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
 // @ts-expect-error
 import FormGroup from 'in-components/form/FormGroup';
-// @ts-expect-error
-import Select from 'in-components/form/Select';
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import Select from 'in-components/form/Select';
 import { defaultRoleId } from 'in-stores/user';
 import Input from 'in-components/form/Input';
 import Tooltip from 'in-components/Tooltip';
@@ -232,7 +231,7 @@ function InstanaGroupPick(groups: InstanaGroup[], selectedGroupId: string, onCha
     <div className={locals.instanaGroup}>
       <Select
         value={selectedGroupId}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange={e => {
           onChange([GROUP_ID], (f: Item) => (f as Field<string>).setValue(e.target.value).setTouched(true));
         }}
       >
