@@ -457,7 +457,11 @@
         "includeInternalCalls": "Include Internal Calls",
         "includeSyntheticCalls": "Include Synthetic Calls",
         "type": "Type",
-        "sliEntity": "SLI Entity"
+        "sliEntity": "SLI Entity",
+        "beaconConfigLabel": "Beacon Config",
+        "beaconScopeLabel": "Beacon Scope",
+        "httpRequestsLabel": "HTTP Requests",
+        "beaconFiltersLabel": "Beacon Filters"
       },
       "sliList": {
         "serviceLevelIndicators": "Service Level Indicators",

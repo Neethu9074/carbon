@@ -137,7 +137,7 @@ function createWebsiteSliEntityForm(sliEntity, websiteId) {
     .put(
       'beaconType',
       createField({
-        value: sliEntity?.beaconType ?? null
+        value: sliEntity?.beaconType ?? 'httpRequest' // TODO: the default value will be removed once we add the other option to choose beacon scope
       })
     )
     .put(

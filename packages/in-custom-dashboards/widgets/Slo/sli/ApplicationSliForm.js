@@ -52,7 +52,7 @@ export function ApplicationSliForm({ form, onChange, apName }) {
 
   return (
     <Stack gap="large">
-      <Stack gap="normal">
+      <Stack component="section" gap="normal">
         <Header>{t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomization')}</Header>
 
         <Stack gap="xsmall">
