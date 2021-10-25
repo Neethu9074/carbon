@@ -165,6 +165,16 @@ export const offlineDurationOptions = Object.freeze([
   { value: '86400000', label: t('in-settings:tabs.24H') }
 ]);
 
+export const hostAvailabilityOfflineDurationOptions = Object.freeze([
+  { value: '60000', label: t('in-settings:tabs.1Min') },
+  { value: '120000', label: t('in-settings:tabs.2Min') },
+  { value: '180000', label: t('in-settings:tabs.3Min') },
+  { value: '300000', label: t('in-settings:tabs.5Min') },
+  { value: '600000', label: t('in-settings:tabs.10Min') },
+  { value: '1800000', label: t('in-settings:tabs.30Min') },
+  { value: '3600000', label: t('in-settings:tabs.60Min') }
+]);
+
 export const automaticallyCloseAfterOptions = Object.freeze([...offlineDurationOptions]);
 
 export const metricPatternMatchingOptions = Object.freeze([
