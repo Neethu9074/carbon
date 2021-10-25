@@ -2,5 +2,5 @@
   "name": "FormGroup",
   "version": "0.0.0",
   "private": true,
-  "main": "./FormGroup.js"
+  "main": "./FormGroup.tsx"
 }

@@ -7,11 +7,10 @@ import { Field, MapForm, Item } from 'formalistic';
 import React from 'react';
 
 // @ts-expect-error module needs to be translated to TS
-import FormGroup from 'in-components/form/FormGroup';
-// @ts-expect-error module needs to be translated to TS
 import TextArea from 'in-components/form/TextArea';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Section from 'in-synthetics/components/Section';
+import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';

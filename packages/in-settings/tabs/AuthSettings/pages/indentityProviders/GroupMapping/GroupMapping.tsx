@@ -50,11 +50,10 @@ import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/g
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 // @ts-expect-error
 import ApiItemView from 'in-settings/components/ApiItemView';
-// @ts-expect-error
-import FormGroup from 'in-components/form/FormGroup';
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import FormGroup from 'in-components/form/FormGroup';
 import Select from 'in-components/form/Select';
 import { defaultRoleId } from 'in-stores/user';
 import Input from 'in-components/form/Input';
