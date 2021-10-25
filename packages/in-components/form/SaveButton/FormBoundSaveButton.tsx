@@ -4,14 +4,11 @@
  */
 
 import React, { useContext } from 'react';
-import { omit } from 'lodash';
 
 import { FormContext } from 'in-components/form/binding/FormContext';
-import SaveButton from 'in-components/form/SaveButton';
+import SaveButton, { Props } from 'in-components/form/SaveButton';
 
-export default function FormBoundSaveButton(props) {
-  const { form, disabled } = useContext(FormContext);
-  return <SaveButton {...props} form={form} disabled={disabled} />;
+export default function FormBoundSaveButton(props: Props) {
+  const ctx = useContext(FormContext);
+  return <SaveButton {...props} form={ctx?.form} disabled={ctx?.disabled} />;
 }
-
-FormBoundSaveButton.propTypes = omit(SaveButton.propTypes, ['form', 'disabled']);

@@ -6,4 +6,9 @@
 import { Item } from 'formalistic';
 import React from 'react';
 
-export const FormContext = React.createContext<Item | undefined>(undefined);
+export interface FormContextContent {
+  form: Item;
+  disabled: boolean;
+}
+
+export const FormContext = React.createContext<FormContextContent | undefined>(undefined);
