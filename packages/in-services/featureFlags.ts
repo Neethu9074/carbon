@@ -111,5 +111,5 @@ export const idpMappingEnabled = isFeatureFlagEnabled('idpMappingEnabled', false
  */
 export const websiteSmartAlertsAllowPerWindowUserImpact = isFeatureFlagEnabled(
   'websiteSmartAlertsAllowPerWindowUserImpact',
-  false
+  true
 );
