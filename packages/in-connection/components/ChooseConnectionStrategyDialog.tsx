@@ -10,13 +10,12 @@ import { Stack } from '@instana/components';
 // @ts-expect-error Not yet translated
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { activeStrategy, setStrategy, ConnectionStrategy } from 'in-connection/strategy';
-// @ts-expect-error Not yet translated
-import Dialog from 'in-components/Dialog/Dialog';
 import { close, addActiveDialog } from 'in-components/DialogPresenter/store';
 import CancelButton from 'in-components/form/CancelButton';
 import SaveButton from 'in-components/form/SaveButton';
 import FormGroup from 'in-components/form/FormGroup';
 import Actions from 'in-components/Dialog/Actions';
+import Dialog from 'in-components/Dialog/Dialog';
 import Select from 'in-components/form/Select';
 import Label from 'in-components/form/Label';
 import { t } from 'in-i18n';
