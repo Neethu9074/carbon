@@ -10,14 +10,10 @@ import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error Module needs to be translated to TS
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-// @ts-expect-error Source needs to be converted to TS
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 // @ts-expect-error Module needs to be translated to TS
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 // @ts-expect-error Module needs to be translated to TS
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-// @ts-expect-error Source needs to be converted to TS
-import FloatingActionButton from 'in-components/FloatingActionButton';
 // @ts-expect-error Module needs to be translated to TS
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 // @ts-expect-error Module needs to be translated to TS
@@ -30,10 +26,12 @@ import Pagination from 'in-components/Pagination';
 import Sticky from 'in-components/Sticky';
 // @ts-expect-error Module needs to be translated to TS
 import Footer from 'in-components/Footer';
+import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { UrlState, urlStateDefinition } from 'in-synthetics/utils/constants';
+import FloatingActionButton from 'in-components/FloatingActionButton';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { dummyTests } from 'in-synthetics/utils/constants';
 import { deepFreeze } from 'in-services/util/object';
