@@ -9,8 +9,6 @@ import { Card, HorizontalIndicator, Message } from '@instana/components';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
 
 // @ts-ignore
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-// @ts-ignore
 import Renderer from 'in-components/Chart/renderer/Renderer';
 // @ts-ignore
 import Chart from 'in-components/Chart/ChartReactComponent';
@@ -84,8 +82,6 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
   );
 }
 
-const iconSize = 'xl';
-
 interface QueryProgressProps {
   progress: Progress;
   height: number;
@@ -93,10 +89,7 @@ interface QueryProgressProps {
 
 function QueryProgress(queryProgressProps: QueryProgressProps) {
   return (
-    <div className={locals.stateWrapper}>
-      <div className={locals.bigIconContainer}>
-        <LoadingIndicator height={queryProgressProps.height} size={iconSize} />
-      </div>
+    <div className={locals.stateWrapper} style={{ height: queryProgressProps.height }}>
       <div className={locals.loadingBarContainer}>
         <HorizontalIndicator className={locals.horizontalIndicator} progress={queryProgressProps.progress} rounded />
       </div>
