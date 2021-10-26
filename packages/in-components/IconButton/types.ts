@@ -13,7 +13,7 @@ export type Kind = 'primary' | 'primaryv2' | 'action' | 'create' | 'danger' | 'w
 export interface IconComponentProps {
   type: string;
   size?: 'normal' | 'compact';
-  iconSize?: SvgIconSizes;
+  iconSize?: keyof typeof SvgIconSizes | number;
   iconSpinning?: boolean;
   kind?: Kind;
   onClick?: (e: MouseEvent<HTMLElement>) => void;

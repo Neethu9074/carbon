@@ -8,11 +8,10 @@ import React from 'react';
 
 // @ts-expect-error module needs to be translated to TS
 import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
-// @ts-expect-error module needs to be translated to TS
-import FormGroup from 'in-components/form/FormGroup';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { playbackModes } from 'in-synthetics/form/createSyntheticTestForm';
 import Section, { SubTitle } from 'in-synthetics/components/Section';
+import FormGroup from 'in-components/form/FormGroup';
 import Label from 'in-components/form/Label';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';

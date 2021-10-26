@@ -4,11 +4,14 @@
  */
 
 import SockJS from 'sockjs-client';
+import React from 'react';
 
 import { createLogger } from '@instana/logger';
 
 import { addMessage, removeMessage } from 'in-components/MessageFlyout/stores/messages';
 import AbstractConnectionState from 'in-connection/states/AbstractConnectionState';
+import ReconnectingMessage from 'in-connection/components/ReconnectingMessage';
+import { activeStrategy, ConnectionStrategy } from 'in-connection/strategy';
 import { SubscriptionDescription } from 'in-connection/types';
 import { combineDataAndError } from 'in-services/util/ro';
 import { ineum } from 'in-services/tracking/ineum';
@@ -18,7 +21,11 @@ import { t } from 'in-i18n';
 
 const logger = createLogger('connection/states/ConnectionLostState');
 
-const transports = ['websocket', 'xhr-polling'];
+const transports: Record<ConnectionStrategy, string[]> = {
+  auto: ['websocket', 'xhr-polling'],
+  alwaysWebsockets: ['websocket'],
+  alwaysPolling: ['xhr-polling']
+};
 
 // Do not track the initial enter call as connection lost
 let isInitialEnter = true;
@@ -91,7 +98,7 @@ export default class ConnectionLostState extends AbstractConnectionState {
         {
           type: 'warning',
           title: t('in-connection:stat.connectLostState.connecting'),
-          content: t('in-connection:stat.connectLostState.connectingMsg', { connectAttempt: this.connectionAttempts })
+          content: <ReconnectingMessage attempt={this.connectionAttempts} />
         },
         'connectionStatus'
       );
@@ -121,7 +128,7 @@ export default class ConnectionLostState extends AbstractConnectionState {
         );
       } else {
         this.sharedState.socket = new SockJS('/api/data', null, {
-          transports,
+          transports: transports[activeStrategy] || transports.auto,
           // Number of characters used for the randomly generated session IDs
           sessionId: 16,
           // Minimum! timeout for connection establishment. Value can be higher when the RTT
@@ -159,7 +166,7 @@ export default class ConnectionLostState extends AbstractConnectionState {
   }
 
   onClose = () => {
-    setTimeout(this.attemptConnection, Math.min(30, Math.pow(2, this.connectionAttempts)) * 1000);
+    setTimeout(this.attemptConnection, Math.min(30, Math.pow(1.5, this.connectionAttempts)) * 1000);
   };
 
   forwardMessageToEventHandlers = (e: MessageEvent) => {

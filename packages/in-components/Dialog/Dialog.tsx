@@ -3,14 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useState, ReactElement, MouseEvent } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault } from 'in-services/util/function';
 import Header from 'in-components/Dialog/Header';
 
 import locals from './Dialog.mless';
+
+export interface Props {
+  className?: string;
+  title: string | ReactElement;
+  titleIconType?: string;
+  onClose: (e?: MouseEvent) => void;
+  onTitleIconClick?: () => void;
+  children: ReactElement;
+  renderCustomCloseBehaviour?: () => ReactElement;
+  withoutBodyPadding?: boolean;
+  showOverflow?: boolean;
+  headless?: boolean;
+  doNotCloseOnOutsideClick?: boolean;
+}
 
 export default function Dialog({
   className,
@@ -24,7 +37,7 @@ export default function Dialog({
   showOverflow,
   headless = false,
   doNotCloseOnOutsideClick
-}) {
+}: Props) {
   const [scrollshadow, setScrollshadow] = useState(false);
 
   return (
@@ -59,17 +72,3 @@ export default function Dialog({
     </div>
   );
 }
-
-Dialog.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  renderCustomCloseBehaviour: PropTypes.func,
-  headless: PropTypes.bool,
-  onClose: PropTypes.func,
-  onTitleIconClick: PropTypes.func,
-  showOverflow: PropTypes.bool,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  titleIconType: PropTypes.string,
-  withoutBodyPadding: PropTypes.bool,
-  doNotCloseOnOutsideClick: PropTypes.bool
-};

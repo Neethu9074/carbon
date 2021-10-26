@@ -780,6 +780,8 @@
     "settingsSuccessfullySaved": "Settings successfully saved.",
     "userInterfaceSettings": "User Interface Settings",
     "showMaintenanceNotes": "Show maintenance notes",
+    "connectionStrategy": "Connection Strategy",
+    "configureConnectionStrategy": "Configure Connection Strategy",
     "toggleTheQualityOfChartRenderingDisableThisToHaveFluentChartAnimationsOnSlowerSystems": "Toggle the quality of chart rendering. Disable this to have fluent chart animations on slower systems.",
     "highQualityChartRendering": "High quality chart rendering",
     "formatTimeAccordingToUtc": "Format time according to UTC",

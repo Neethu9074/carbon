@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactElement } from 'react';
 import classNames from 'classnames';
-import rpt from 'prop-types';
-import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
@@ -13,7 +12,23 @@ import IconButton from 'in-components/IconButton/IconButton';
 
 import locals from './Dialog.mless';
 
-export default function Header({ icon, onIconClick, title, renderCustomCloseBehaviour, onClose, addScrollShadow }) {
+export interface Props {
+  icon?: string;
+  onIconClick?: () => void;
+  onClose?: () => void;
+  title: string | ReactElement;
+  renderCustomCloseBehaviour?: () => ReactElement;
+  addScrollShadow?: boolean;
+}
+
+export default function Header({
+  icon,
+  onIconClick,
+  title,
+  renderCustomCloseBehaviour,
+  onClose,
+  addScrollShadow
+}: Props) {
   return (
     <div
       className={classNames({
@@ -43,18 +58,9 @@ export default function Header({ icon, onIconClick, title, renderCustomCloseBeha
   );
 }
 
-export function Title({ title }) {
+export function Title({ title }: { title: string | ReactElement }): ReactElement {
   if (typeof title === 'string') {
     return <h1 className={locals.title}>{title}</h1>;
   }
   return title;
 }
-
-Header.propType = {
-  icon: rpt.string,
-  onIconClick: rpt.func,
-  title: rpt.oneOfType([rpt.string, rpt.object]),
-  renderCustomCloseBehaviour: rpt.func,
-  onClose: rpt.func,
-  addScrollShadow: rpt.bool
-};

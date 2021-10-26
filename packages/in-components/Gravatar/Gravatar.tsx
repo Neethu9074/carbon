@@ -9,9 +9,8 @@ import React from 'react';
 import { create, Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error
-import unknown from 'in-components/Gravatar/unknown.png';
 import createSubscription from 'in-subscription/subscription';
+import unknown from 'in-components/Gravatar/unknown.png';
 import { t } from 'in-i18n';
 
 import locals from './Gravatar.mless';
