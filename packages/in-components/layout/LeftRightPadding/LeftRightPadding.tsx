@@ -8,6 +8,11 @@ import React from 'react';
 
 import locals from './LeftRightPadding.mless';
 
-export default function LeftRightPadding({ children, className }) {
+interface Props {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export default function LeftRightPadding({ children, className = '' }: Props) {
   return <div className={classNames(locals.wrapper, className)}>{children}</div>;
 }

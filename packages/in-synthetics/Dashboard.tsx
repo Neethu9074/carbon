@@ -13,8 +13,6 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 // @ts-expect-error Module needs to be translated to TS
 import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
 // @ts-expect-error Module needs to be translated to TS
-import LeftRightPadding from 'in-components/layout/LeftRightPadding';
-// @ts-expect-error Module needs to be translated to TS
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 // @ts-expect-error Module needs to be translated to TS
 import DashboardHeader from 'in-components/DashboardHeader';
@@ -32,6 +30,7 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { UrlState, urlStateDefinition } from 'in-synthetics/utils/constants';
 import FloatingActionButton from 'in-components/FloatingActionButton';
+import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { dummyTests } from 'in-synthetics/utils/constants';
 import { deepFreeze } from 'in-services/util/object';
