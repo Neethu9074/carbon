@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { create, Observable } from '@instana/observables';
 
 export const floatingActionButtons$ = create();
 
-export function replaceFloatingActionButtons(newFloatingActionButtons) {
+export function replaceFloatingActionButtons(newFloatingActionButtons: Observable<unknown>) {
   floatingActionButtons$.emit(newFloatingActionButtons);
 }
