@@ -1,0 +1,12 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .rightColumn {
+    border-left: 1px solid @lib__colors__N400;
+  }
+}

@@ -12,8 +12,8 @@ import {
   ampTechnologies,
   ampActivationAdoption
 } from 'in-settings/navigation/paths';
+import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import RestrictedTechnologiesReporting from 'in-amp/components/RestrictedTechnologiesReporting';
-import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import TechnologiesReporting from 'in-amp/components/TechnologiesReporting';
 import ActivationAdoption from 'in-amp/components/ActivationAdoption';
 import { ampCompanyInfoEnabled } from 'in-services/featureFlags';
@@ -25,8 +25,7 @@ import { t } from 'in-i18n';
 
 export default function View(props) {
   return (
-    <SideNavigationAndContent
-      stickySidebar
+    <StickySidebarNavigationAndContent
       navigationTree={[
         {
           title: t('in-settings:tabs.accountBilling'),

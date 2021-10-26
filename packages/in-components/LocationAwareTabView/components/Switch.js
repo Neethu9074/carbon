@@ -44,6 +44,7 @@ function ViewWrapper({ tab, data, location, props }) {
     <div
       className={classNames({
         [locals.content]: true,
+        [locals.bottomMargin]: !tab.noBottomMargin,
         [locals.stickToHeader]: tab.stickToHeader,
         [locals.stickToBottom]: tab.stickToBottom,
         [locals.noTopPadding]: tab.noTopPadding

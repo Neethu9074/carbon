@@ -10,6 +10,7 @@ import { combineLatest } from '@instana/observables';
 
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { isViewWithRouteParam } from 'in-components/layout/SideNavigationAndContent/routing';
+import SidebarContainer from 'in-components/layout/SidebarContainer/SidebarContainer';
 import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
 import { getModifiedUrlStream, isView } from 'in-stores/navigation';
 import RedirectWithHash from 'in-components/RedirectWithHash';
@@ -56,14 +57,17 @@ export default function SideNavigationAndContent(props) {
 
   const sideNavigationHasIcons = navigationTree.find(subTree => subTree.pages.find(page => page.icon));
 
+  const sidebar = <SideNavigationPane navigationTree={navigationTree} hasIcons={sideNavigationHasIcons} {...props} />;
+  if (stickySidebar)
+    return (
+      <StickySidebarContainer sidebar={sidebar} sidebarWidth={sidebarWidth}>
+        <ContentPane pages={allContentPages} {...props} />
+      </StickySidebarContainer>
+    );
   return (
-    <StickySidebarContainer
-      sidebar={<SideNavigationPane navigationTree={navigationTree} hasIcons={sideNavigationHasIcons} {...props} />}
-      sidebarWidth={sidebarWidth}
-      stickySidebar={stickySidebar}
-    >
+    <SidebarContainer sidebar={sidebar} sidebarWidth={sidebarWidth}>
       <ContentPane pages={allContentPages} {...props} />
-    </StickySidebarContainer>
+    </SidebarContainer>
   );
 }
 

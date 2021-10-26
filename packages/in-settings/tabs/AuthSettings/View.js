@@ -29,13 +29,13 @@ import {
   isAvailable as isOidcAvailable,
   getConfigAsResultObservable as getOidcConfig
 } from 'in-settings/tabs/AuthSettings/api/oidc';
+import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import GroupMapping from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/GroupMapping';
 import GoogleSSO from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GoogleSSO/GoogleSSO';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
 import SessionSettings from 'in-settings/tabs/AuthSettings/pages/sessionSettings/SessionSettings';
 import TwoFactorSettings from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Settings';
 import ChangePassword from 'in-settings/tabs/AuthSettings/pages/password/ChangePassword';
-import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Saml';
 import OIDC from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
@@ -143,8 +143,7 @@ export default connectTo(
   function View(props) {
     return (
       <Fragment>
-        <SideNavigationAndContent
-          stickySidebar
+        <StickySidebarNavigationAndContent
           navigationTree={getNavigationTree(props)}
           redirectToDefaultPage={getDefaultPage(
             props.isGoogleSSOAvailable,

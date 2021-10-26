@@ -14,8 +14,8 @@ import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation
 import MapListToggle from 'in-kubernetes/Dashboards/commonComponents/commonTabs/MapListToggle';
 import getKubernetesNamespace from 'in-kubernetes/subscriptions/getKubernetesNamespace';
 import getKubernetesService from 'in-kubernetes/subscriptions/getKubernetesService';
-import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
 import getKubernetesNode from 'in-kubernetes/subscriptions/getKubernetesNode';
+import SidebarContainer from 'in-components/layout/SidebarContainer';
 import withUrlDependingState from 'in-hoc/withUrlDependingState';
 import { compareIgnoreCase } from 'in-services/util/string';
 import ComboBox from 'in-components/ComboBox';
@@ -120,7 +120,7 @@ function ControlFrame(props) {
         </div>
       </div>
 
-      <StickySidebarContainer
+      <SidebarContainer
         sidebar={
           <SideNavigation>
             {sizeByConfigs.map(config => (
@@ -136,7 +136,7 @@ function ControlFrame(props) {
         }
       >
         {render(props)}
-      </StickySidebarContainer>
+      </SidebarContainer>
     </div>
   );
 }

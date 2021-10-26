@@ -43,6 +43,7 @@ import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAn
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
 import AlertChannelModificationPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannelModification';
 import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/CustomPayload/GlobalCustomPayloadPage';
+import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
@@ -63,7 +64,6 @@ import GroupsPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups
 import GroupPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Groups/Group';
 import HumioPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Humio/Humio';
 import UsersPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Users';
-import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/User';
 import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
@@ -324,8 +324,7 @@ export default function View(props) {
         }}
       />
 
-      <SideNavigationAndContent
-        stickySidebar
+      <StickySidebarNavigationAndContent
         navigationTree={navigationTreeForRole(role)}
         redirectToDefaultPage={findFirstPermittedTeamPage()}
         redirectFrom={teamSettings}

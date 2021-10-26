@@ -5,50 +5,70 @@
 
 import React, { Fragment } from 'react';
 
+import StickySidebarContainer from 'in-components/layout/StickySidebarContainer/StickySidebarContainer';
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
-import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
 import { scrollToTopSmoothly } from 'in-services/util/dom';
 
 export default {
-  component: StickySidebarContainer
+  component: StickySidebarContainer,
+  // default args:
+  args: {
+    sidebarWidth: 2,
+    topOffset: '6rem',
+    stickySidebar: true
+  }
 };
 
-export function SidebarTaller() {
+export function SidebarTaller(props) {
   return (
-    <StickySidebarContainer sidebar={<SidebarContent navigationTree={navigationTree.concat(navigationTree)} />}>
-      <h1>When The Sidebar Is Taller Than The Viewport</h1>
-      <TallContent />
-    </StickySidebarContainer>
+    <WrapperWithSomeTopHeader {...props}>
+      <StickySidebarContainer
+        {...props}
+        sidebar={<SidebarContent navigationTree={navigationTree.concat(navigationTree)} />}
+      >
+        <h1>When The Sidebar Is Taller Than The Viewport</h1>
+        <TallContent />
+      </StickySidebarContainer>
+    </WrapperWithSomeTopHeader>
   );
 }
 
-export function SidebarShorter() {
+export function SidebarShorter(props) {
   return (
-    <StickySidebarContainer sidebar={<SidebarContent navigationTree={navigationTree.slice(0, 1)} />}>
-      <h1>When Sidebar Is Shorter Than The Viewport</h1>
-      <TallContent />
-    </StickySidebarContainer>
+    <WrapperWithSomeTopHeader {...props}>
+      <StickySidebarContainer {...props} sidebar={<SidebarContent navigationTree={navigationTree.slice(0, 1)} />}>
+        <h1>When Sidebar Is Shorter Than The Viewport</h1>
+        <TallContent />
+      </StickySidebarContainer>
+    </WrapperWithSomeTopHeader>
   );
 }
 
-export function SidebarTallerContentShort() {
+export function SidebarTallerContentShort(props) {
   return (
-    <StickySidebarContainer sidebar={<SidebarContent navigationTree={navigationTree.concat(navigationTree)} />}>
-      <h1>When The Sidebar Is Taller Than The Viewport</h1>
-      <ShortContent />
-    </StickySidebarContainer>
+    <WrapperWithSomeTopHeader {...props}>
+      <StickySidebarContainer
+        {...props}
+        sidebar={<SidebarContent navigationTree={navigationTree.concat(navigationTree)} />}
+      >
+        <h1>When The Sidebar Is Taller Than The Viewport</h1>
+        <ShortContent />
+      </StickySidebarContainer>
+    </WrapperWithSomeTopHeader>
   );
 }
 
-export function SidebarShorterContentShort() {
+export function SidebarShorterContentShort(props) {
   return (
-    <StickySidebarContainer sidebar={<SidebarContent navigationTree={navigationTree.slice(0, 1)} />}>
-      <h1>When The Content And The Sidebar Are Both Shorter Than The Viewport</h1>
-      Note that this example does not render representatively in Storybook, as Storybook adds a div around everything
-      that is larger as the viewport. In our app, this would render without any vertical scrollbar, thus no scrolling at
-      all would happen.
-      <ShortContent />
-    </StickySidebarContainer>
+    <WrapperWithSomeTopHeader {...props}>
+      <StickySidebarContainer {...props} sidebar={<SidebarContent navigationTree={navigationTree.slice(0, 1)} />}>
+        <h1>When The Content And The Sidebar Are Both Shorter Than The Viewport</h1>
+        Note that this example does not render representatively in Storybook, as Storybook adds a div around everything
+        that is larger as the viewport. In our app, this would render without any vertical scrollbar, thus no scrolling
+        at all would happen.
+        <ShortContent />
+      </StickySidebarContainer>
+    </WrapperWithSomeTopHeader>
   );
 }
 
@@ -133,6 +153,36 @@ function SidebarContent({ navigationTree }) {
   );
 }
 
+function WrapperWithSomeTopHeader({ children, topOffset = '6rem' }) {
+  const SomeBoringHeader = () => (
+    <header>
+      <h1
+        style={{
+          position: 'fixed',
+          top: 0,
+          height: `calc(${topOffset} - 2rem)`, // reduced by Storybook's added main 1rem padding + 1rem margin
+          zIndex: 1000,
+          color: 'white',
+          backgroundColor: '#aaa',
+          width: '100vw'
+        }}
+      >
+        Some boring header
+      </h1>
+    </header>
+  );
+
+  return (
+    <div
+      style={{
+        paddingTop: `calc(${topOffset} - 2rem)` // reduced by Storybook's added main 1rem padding + 1rem margin
+      }}
+    >
+      <SomeBoringHeader />
+      {children}
+    </div>
+  );
+}
 function TallContent() {
   return (
     <Fragment>
@@ -166,7 +216,7 @@ function SomeContent() {
     <Fragment>
       <h2>Some Random Content</h2>
 
-      <pre style={{ fontSize: 'larger' }}>
+      <p style={{ fontSize: 'larger' }}>
         This time the bullet cold rocked ya
         <br />A yellow ribbon instead of a swastika
         <br />
@@ -311,7 +361,7 @@ function SomeContent() {
         <br />
         <br />
         Yeah!
-      </pre>
+      </p>
     </Fragment>
   );
 }

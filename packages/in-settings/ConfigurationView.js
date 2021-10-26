@@ -41,7 +41,11 @@ export default connectTo(
       }
     }
 
-    return <TabView HeaderComponent={Header} location={props.location} tabs={getTabs()} props={props} />;
+    const tabs = getTabs().map(tab => ({
+      ...tab,
+      noBottomMargin: true
+    }));
+    return <TabView HeaderComponent={Header} location={props.location} tabs={tabs} props={props} />;
   }
 );
 

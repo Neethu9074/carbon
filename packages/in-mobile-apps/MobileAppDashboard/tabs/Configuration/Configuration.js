@@ -10,7 +10,7 @@ import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Options';
 import { configurationOptionsFullyQualified } from 'in-mobile-apps/navigation/paths';
-import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
+import SidebarContainer from 'in-components/layout/SidebarContainer';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -32,13 +32,13 @@ export default function Configuration(props) {
     </SideNavigation>
   );
   return (
-    <StickySidebarContainer sidebar={sidebar}>
+    <SidebarContainer sidebar={sidebar}>
       <Switch>
         <Route path={configurationOptionsFullyQualified} render={() => <Options {...props} />} />
         <RedirectWithHash
           to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
         />
       </Switch>
-    </StickySidebarContainer>
+    </SidebarContainer>
   );
 }

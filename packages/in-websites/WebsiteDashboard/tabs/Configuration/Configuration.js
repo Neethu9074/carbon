@@ -14,7 +14,7 @@ import StackTraceTranslation from 'in-websites/WebsiteDashboard/tabs/Configurati
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
-import StickySidebarContainer from 'in-components/layout/StickySidebarContainer';
+import SidebarContainer from 'in-components/layout/SidebarContainer';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import Footer from 'in-components/Footer';
 import connectTo from 'in-hoc/connectTo';
@@ -41,7 +41,7 @@ export default function Configuration(props) {
     </SideNavigation>
   );
   return (
-    <StickySidebarContainer sidebar={sidebar}>
+    <SidebarContainer sidebar={sidebar}>
       <Switch>
         <Route path={configurationOptionsFullyQualified} render={() => <Options {...props} lg={7} lgOffset={1} />} />
         <Route
@@ -53,6 +53,6 @@ export default function Configuration(props) {
         />
       </Switch>
       <Footer />
-    </StickySidebarContainer>
+    </SidebarContainer>
   );
 }

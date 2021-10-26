@@ -14,9 +14,9 @@ import {
   userSettingsPersonalApiTokens,
   userSettingsPersonalApiTokenEdit
 } from 'in-settings/navigation/paths';
+import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import PersonalApiTokensPage from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiTokens';
 import PersonalApiTokenPage from 'in-settings/tabs/UserSettings/pages/PersonalApiTokens/PersonalApiToken';
-import SideNavigationAndContent from 'in-components/layout/SideNavigationAndContent';
 import Communication from 'in-settings/tabs/UserSettings/pages/Communication';
 import AdvancedPage from 'in-settings/tabs/UserSettings/pages/Advanced';
 import GeneralPage from 'in-settings/tabs/UserSettings/pages/General';
@@ -75,8 +75,7 @@ export default function View(props) {
         }}
       />
 
-      <SideNavigationAndContent
-        stickySidebar
+      <StickySidebarNavigationAndContent
         navigationTree={navigationTree}
         redirectToDefaultPage={userSettingsGeneral}
         redirectFrom={userSettings}
