@@ -5,7 +5,6 @@
 
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import { SvgIcon } from '@instana/components';
 
@@ -16,7 +15,18 @@ import locals from './FloatingActionButton.mless';
 /* same scheme as used for IconButtons */
 export const kinds = ['primaryv2', 'action'];
 
-function FloatingActionButton({ children, icon, onClick, withBoxShadow, kind = 'primaryv2' }, ref) {
+interface Props {
+  children: Element | string;
+  icon?: string;
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => unknown;
+  withBoxShadow?: boolean;
+  kind?: string;
+}
+
+export default forwardRef<HTMLButtonElement, Props>(function FloatingActionButton(
+  { children, icon, onClick, withBoxShadow, kind = 'primaryv2' },
+  ref
+) {
   return (
     <button
       ref={ref}
@@ -42,14 +52,4 @@ function FloatingActionButton({ children, icon, onClick, withBoxShadow, kind = '
       </div>
     </button>
   );
-}
-
-export default forwardRef(FloatingActionButton);
-
-FloatingActionButton.propTypes = {
-  children: PropTypes.node.isRequired,
-  icon: PropTypes.string,
-  onClick: PropTypes.func,
-  kind: PropTypes.oneOf(kinds),
-  withBoxShadow: PropTypes.bool
-};
+});
