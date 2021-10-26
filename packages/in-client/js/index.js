@@ -6,6 +6,8 @@
 import initialiseSteps from 'in-init/initialiseSteps';
 
 initialiseSteps([
+  'instrumentWebSocketApi',
+
   // Initialize the globalization options
   'globalization',
 
