@@ -3,26 +3,26 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, {ReactElement, MouseEvent} from 'react';
-import {Item} from 'formalistic';
+import React, { ReactElement, MouseEvent } from 'react';
+import { Item } from 'formalistic';
 
 import { Button, ButtonKinds, ButtonTypes } from '@instana/components';
 
 import { t } from 'in-i18n';
 
 export interface Props {
-  children: string | ReactElement,
-  className?: string,
-  form?: Item,
+  children: string | ReactElement;
+  className?: string;
+  form?: Item;
   /**
    * Will be turned into form= attribute on the buttons. Can be used
    * to implement form controls outside of the <form /> HTML sub-tree.
    */
-  formId?: string,
-  icon?: string,
-  isLoading?: boolean,
-  isSaving?: boolean,
-  disabled?: boolean,
+  formId?: string;
+  icon?: string;
+  isLoading?: boolean;
+  isSaving?: boolean;
+  disabled?: boolean;
   kind?: keyof typeof ButtonKinds;
   onClick?: (e: MouseEvent) => void;
   type?: keyof typeof ButtonTypes;

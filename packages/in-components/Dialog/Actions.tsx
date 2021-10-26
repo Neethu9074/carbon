@@ -17,7 +17,7 @@ export default function Actions({ children, noVerticalMargin }: Props) {
   return (
     <div
       className={classNames(locals.actions, {
-        [locals.noVerticalMargin]: noVerticalMargin
+        [locals.verticalMargin]: !noVerticalMargin
       })}
     >
       {children}

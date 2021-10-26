@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { ReactElement, ReactNode, forwardRef } from 'react';
+import React, { ReactElement, ReactNode, forwardRef, CSSProperties } from 'react';
 import classNames from 'classnames';
 
 import './FormGroup.less';
@@ -13,7 +13,7 @@ const block = 'in-form-group';
 export interface Props {
   children: ReactNode | ReactElement;
   className?: string;
-  style?: Object;
+  style?: CSSProperties;
   withoutBottomMargin?: boolean;
 }
 

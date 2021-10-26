@@ -9,7 +9,6 @@ import { Button, Stack } from '@instana/components';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-
 import { t } from 'in-i18n';
 
 export interface Props {
@@ -19,13 +18,15 @@ export interface Props {
 export default function ReconnectingMessage({ attempt }: Props) {
   return (
     <Stack align="start" gap="xsmall">
-      <span>{t('in-connection:stat.connectLostState.connectingMsg', { connectAttempt: attempt })}</span>
+      {t('in-connection:stat.connectLostState.connectingMsg', { connectAttempt: attempt })}
       {attempt >= 3 && (
-        <Button onClick={e => {
-          // do not close the fly-in message
-          e.stopPropagation();
-          addActiveDialog(<ChooseConnectionStrategyDialog />);
-        }}>
+        <Button
+          onClick={e => {
+            // do not close the fly-in message
+            e.stopPropagation();
+            addActiveDialog(<ChooseConnectionStrategyDialog />);
+          }}
+        >
           {t('in-connection:stat.connectLostState.chooseConnectionStrategy')}
         </Button>
       )}
