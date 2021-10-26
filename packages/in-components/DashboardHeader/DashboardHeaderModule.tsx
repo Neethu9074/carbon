@@ -19,7 +19,7 @@ interface Props {
   theme?: 'light' | 'dark' | 'default';
   withTopBorder?: boolean;
   withBottomBorder?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export default function DashboardHeaderModule({
