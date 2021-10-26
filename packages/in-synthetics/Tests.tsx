@@ -3,26 +3,19 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import classNames from 'classnames';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Button, Card } from '@instana/components';
-import { useObservable } from '@instana/hooks';
+import { ColumnizedContent, Ul, Li } from '@instana/components';
 
-// @ts-expect-error Source needs to be converted to TS
-import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
-// @ts-expect-error Source needs to be converted to TS
-import FloatingActionButton from 'in-components/FloatingActionButton';
-import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
-import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { dummyLocations } from 'in-synthetics/utils/contants';
+import {
+  showUpdateErrorMessage,
+  showDeleteSuccessMessage,
+  showDeleteErrorMessage
+} from 'in-synthetics/components/utils/userFeedback';
+import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
+import { columnDefinitions } from 'in-synthetics/utils/columnDefinitions';
+import { updateTest, removeTest } from 'in-synthetics/api';
 import { Progress, SyntheticTest } from 'in-types';
-import { getTests } from 'in-synthetics/api';
-import { t } from 'in-i18n';
-
-import locals from './Tests.mless';
 
 export interface TestsResponse {
   data?: SyntheticTest[];
@@ -31,48 +24,74 @@ export interface TestsResponse {
   time?: number;
 }
 
-export default function Tests() {
-  const tests: TestsResponse = useObservable<any, []>(() => getTests(), []) || dummyLocations;
+interface Props {
+  tests: SyntheticTest[];
+  isLoading: boolean;
+  reloadTests: () => void;
+}
 
-  function onAddWidget() {
-    addActiveDialog(
-      <TestConfigDialogPresenter
-        onClose={() => {
-          close();
-        }}
-      />
+export default function Tests({ tests, isLoading, reloadTests }: Props) {
+  const [edittingTests, setEdittingTests] = useState<Record<string, boolean>>({});
+
+  function pauseOrResume(test: SyntheticTest) {
+    const selectedTest = tests.find(({ id }) => id === test.id);
+    if (!selectedTest) return;
+
+    const { active } = selectedTest;
+
+    setEdittingTests(edittingTests => {
+      return { ...edittingTests, [`${test.id}`]: true };
+    });
+
+    updateTest({ ...selectedTest, active: !active }).once(
+      () => {
+        setEdittingTests(edittingTests => {
+          return { ...edittingTests, [`${test.id}`]: false };
+        });
+        tests = tests.map(eachTest => {
+          if (eachTest.id === test.id) {
+            return { ...eachTest, active: !active };
+          } else {
+            return eachTest;
+          }
+        });
+      },
+      () => {
+        setEdittingTests({ ...edittingTests, [`${test.id}`]: false });
+        showUpdateErrorMessage();
+      }
     );
   }
 
-  if (tests?.progress?.loading) {
-    return <LoadingIndicator size="regular" />;
-  }
-  if (!tests.data?.filter(Boolean)?.length) {
-    return (
-      <div className={classNames(locals.dashboard, locals.flex)}>
-        <NoDataAvailable text={'No tests added'} />
-        <Button onClick={onAddWidget}>{t('in-synthetics:createTest.buttonLabel')}</Button>
-      </div>
+  function deleteTest(id: string) {
+    removeTest(id).once(
+      () => {
+        showDeleteSuccessMessage();
+        reloadTests();
+      },
+      () => {
+        showDeleteErrorMessage();
+      }
     );
+  }
+
+  if (isLoading) {
+    return <LoadingList numSkeletonRows={3} />;
   }
 
   return (
-    <>
-      <div>
-        {tests.data.filter(Boolean)?.map(test => (
-          <Card key={test.id}>
-            <>
-              <h3>{test.label}</h3>
-              <span>{test.description}</span>
-            </>
-          </Card>
-        ))}
-      </div>
-      <FloatingActionButtons>
-        <FloatingActionButton onClick={onAddWidget} withBoxShadow icon="lib_line_chart">
-          {t('in-synthetics:createTest.buttonLabel')}
-        </FloatingActionButton>
-      </FloatingActionButtons>
-    </>
+    <Ul>
+      {tests.map(test => (
+        <Li key={test.id}>
+          <ColumnizedContent
+            columnDefinitions={columnDefinitions}
+            test={test}
+            pauseOrResume={pauseOrResume}
+            isSubmitting={edittingTests[`${test.id}`]}
+            deleteTest={deleteTest}
+          />
+        </Li>
+      ))}
+    </Ul>
   );
 }

@@ -12,7 +12,7 @@ import { createLogger } from '@instana/logger';
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 // @ts-expect-error module need to be translated to TS
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
-import { showSuccessMessage, showErrorMessage } from 'in-synthetics/components/utils/userFeedback';
+import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
 import TestCreationWithSteps from 'in-synthetics/components/TestCreationWithSteps';
 import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
 import { createTest } from 'in-synthetics/api';
@@ -23,10 +23,10 @@ const logger = createLogger('in-synthetics/components/TestConfigDialogPresenter'
 
 interface Props {
   onClose: () => void;
+  reloadTests: () => void;
 }
 
-export default function TestConfigDialogPresenter(props: Props) {
-  const { onClose } = props;
+export default function TestConfigDialogPresenter({ onClose, reloadTests }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [simpleModeStep, setSimpleModeStep] = useState(0);
   const [form, setForm] = useState(() => createForm());
@@ -62,11 +62,12 @@ export default function TestConfigDialogPresenter(props: Props) {
     createTest(testConfig).once(
       () => {
         onClose();
-        showSuccessMessage();
+        reloadTests();
+        showCreateSuccessMessage();
       },
       error => {
         setIsSubmitting(false);
-        showErrorMessage();
+        showCreateErrorMessage();
         logger.error(`failed to save synthetic test: ${testConfig} ${error.message}`, error);
       }
     );

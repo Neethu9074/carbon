@@ -83,7 +83,7 @@ export default function SelectScheduleStep({ form, updateForm }: Props) {
       </div>
 
       <FormGroup>
-        <SubTitle>{t('in-synthetics:dialog.createTest.basicDetails.labelFreequency')}</SubTitle>
+        <SubTitle>{t('in-synthetics:dialog.createTest.basicDetails.labelFrequency')}</SubTitle>
         <DebouncedRestrictedSlider
           marks={marks}
           max={marks[marks.length - 1].value}

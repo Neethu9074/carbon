@@ -37,3 +37,22 @@ export function createTest(testConfig: SyntheticTest) {
     data: testConfig
   }).map(response => deepFreeze(response.body));
 }
+
+export function updateTest(testConfig: SyntheticTest) {
+  return http({
+    method: 'PUT',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: testsUrl,
+    data: testConfig
+  }).map(response => deepFreeze(response.body));
+}
+
+export function removeTest(id: string) {
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    headers: getCsrfHeader(),
+    url: `${testsUrl}/${id}`
+  }).map(response => deepFreeze(response));
+}

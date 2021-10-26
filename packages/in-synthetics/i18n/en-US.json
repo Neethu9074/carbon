@@ -32,7 +32,7 @@
         "title": "What is the name of this ping test",
         "labelName": "Name of the test",
         "labelDescription": "Description",
-        "labelFreequency": "Freequency"
+        "labelFrequency": "Frequency"
       },
       "bluePrint": {
         "pingApi": {
@@ -68,9 +68,12 @@
     },
     "feedback": {
       "successTitle": "Success!",
-      "successMessage": "Successfully created synthetic test",
+      "successMessageCreate": "Successfully created synthetic test",
+      "successMessageDelete": "Successfully deleted the synthetic test",
       "failureTitle": "Failed!",
-      "failureMessage": "Failed to create a synthetic test. Please try again later"
+      "failureMessageCreate": "Failed to create a synthetic test. Please try again later",
+      "failureMessageUpdate": "Failed to update the synthetic test. Please try again later",
+      "failuteMesssageDelete": "Failed to delete the synthetic test. Please try again later"
     }
   },
   "createTest": {
@@ -81,7 +84,17 @@
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "Synthetic Tests"
+      "mainLabel": "Synthetic Tests",
+      "locationsSubText": "{{count}} Location",
+      "locationsSubText_plural": "{{count}} Locations",
+      "frequencySubText": "Every {{count}} Min",
+      "frequencySubText_plural": "Every {{count}} Mins",
+      "pause": "Pause the test",
+      "resume": "Resume the test"
+    },
+    "sortOptions": {
+      "name": "Name",
+      "frequency": "Frequency"
     }
   }
 }

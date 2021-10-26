@@ -17,7 +17,7 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
 import { HTTPMethods } from 'in-synthetics/form/createSyntheticTestForm';
 import Section, { SubTitle } from 'in-synthetics/components/Section';
 import TouchedMessages from 'in-components/form/TouchedMessages';
-import { dummyLocations } from 'in-synthetics/utils/contants';
+import { dummyLocations } from 'in-synthetics/utils/constants';
 import FormGroup from 'in-components/form/FormGroup';
 import { getLocations } from 'in-synthetics/api';
 import Label from 'in-components/form/Label';
