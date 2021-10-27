@@ -7,8 +7,12 @@ import createSideEffectHook from 'in-hooks/createSideEffectHook';
 import { setMeta } from 'in-services/tracking/tracking';
 import { emptyObject } from 'in-services/fixedObjects';
 
+interface Props {
+  data: any;
+}
+
 const useSideEffect = createSideEffectHook(
-  propsList =>
+  (propsList: Props[]) =>
     propsList.reduce(
       (result, props) => ({
         ...result,
@@ -19,7 +23,7 @@ const useSideEffect = createSideEffectHook(
   setMeta
 );
 
-export default function ViewTrackingMeta(props) {
+export default function ViewTrackingMeta(props: Props) {
   useSideEffect(props);
   return null;
 }
