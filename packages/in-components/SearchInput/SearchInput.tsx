@@ -5,7 +5,6 @@
 
 import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import { keyCodes, SvgIcon } from '@instana/components';
 
@@ -16,9 +15,31 @@ import { t } from 'in-i18n';
 import locals from './SearchInput.mless';
 
 const { isReturn, isArrowDown } = keyCodes;
+
+export interface SearchInputProps {
+  className?: string;
+  inputClassName?: string;
+  onChange: (value: string) => void;
+  disabled?: boolean;
+  query?: string;
+  width?: string;
+  maxWidth?: string;
+  autoFocus?: boolean;
+  placeholder?: string;
+  hasError?: boolean;
+  onReturn?: (e: React.KeyboardEvent) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  withoutIcon?: boolean;
+  onArrowDown?: (e: React.KeyboardEvent) => void;
+  id?: string;
+  name?: string;
+  inputRef?: React.MutableRefObject<HTMLInputElement>;
+}
+
 export default function SearchInput({
-  className,
-  inputClassName,
+  className = '',
+  inputClassName = '',
   onChange,
   disabled = false,
   query,
@@ -35,8 +56,8 @@ export default function SearchInput({
   id,
   name,
   inputRef
-}) {
-  const fallbackRef = useRef();
+}: SearchInputProps) {
+  const fallbackRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   inputRef = inputRef ?? fallbackRef;
 
   const [hasFocus, setHasFocus] = useState(false);
@@ -100,24 +121,3 @@ export default function SearchInput({
     </div>
   );
 }
-
-SearchInput.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string,
-  autoFocus: PropTypes.bool,
-  className: PropTypes.string,
-  inputClassName: PropTypes.string,
-  disabled: PropTypes.bool,
-  withoutIcon: PropTypes.bool,
-  hasError: PropTypes.bool,
-  maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onBlur: PropTypes.func,
-  onChange: PropTypes.func,
-  onFocus: PropTypes.func,
-  onReturn: PropTypes.func,
-  onArrowDown: PropTypes.func,
-  placeholder: PropTypes.string,
-  query: PropTypes.string,
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  inputRef: PropTypes.shape()
-};

@@ -11,8 +11,6 @@ import { useObservable } from '@instana/hooks';
 // @ts-expect-error Module needs to be translated to TS
 import DashboardHeader from 'in-components/DashboardHeader';
 // @ts-expect-error Module needs to be translated to TS
-import SearchInput from 'in-components/SearchInput';
-// @ts-expect-error Module needs to be translated to TS
 import Pagination from 'in-components/Pagination';
 import SortingConfigurator, { SortOrderBy } from 'in-components/SortingConfigurator/SortingConfigurator';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -31,6 +29,7 @@ import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { dummyTests } from 'in-synthetics/utils/constants';
 import { deepFreeze } from 'in-services/util/object';
+import SearchInput from 'in-components/SearchInput';
 import { TestsResponse } from 'in-synthetics/Tests';
 import useUrlState from 'in-hooks/useUrlState';
 import { getTests } from 'in-synthetics/api';
