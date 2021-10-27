@@ -9,8 +9,6 @@ import { Card, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error Module needs to be translated to TS
-import SortingConfigurator from 'in-components/SortingConfigurator/SortingConfigurator';
-// @ts-expect-error Module needs to be translated to TS
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 // @ts-expect-error Module needs to be translated to TS
 import DashboardHeader from 'in-components/DashboardHeader';
@@ -18,6 +16,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import SearchInput from 'in-components/SearchInput';
 // @ts-expect-error Module needs to be translated to TS
 import Pagination from 'in-components/Pagination';
+import SortingConfigurator, { SortOrderBy } from 'in-components/SortingConfigurator/SortingConfigurator';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
@@ -101,7 +100,7 @@ export default function Dashboard() {
                     options={sortOptions}
                     orderBy={{
                       by: orderBy,
-                      direction: orderDirection
+                      direction: orderDirection as SortOrderBy
                     }}
                     onChange={({ by, direction }: any) => {
                       setState({

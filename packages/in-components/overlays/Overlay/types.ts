@@ -5,8 +5,6 @@
 
 import { CSSProperties, ReactNode } from 'react';
 
-import { Refs } from 'in-services/util/react';
-
 export type Align =
   | 'leftBottom'
   | 'leftMiddle'
@@ -29,8 +27,8 @@ export interface ExternalContentProps {
 
 export interface OverlayContentProps extends ExternalContentProps {
   autoClose?: boolean;
-  refSetter?: Refs<HTMLElement>;
-  ref?: Refs<HTMLElement>;
+  refSetter?: React.MutableRefObject<HTMLElement> | React.RefCallback<HTMLElement>;
+  ref?: React.MutableRefObject<HTMLElement>;
   delayedOpen?: () => void;
   delayedClose?: () => void;
 

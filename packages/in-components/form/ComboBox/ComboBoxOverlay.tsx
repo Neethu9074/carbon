@@ -51,7 +51,6 @@ export default function ComboBoxOverlay<OPTION_VALUE_TYPE>({
 
   return (
     // onKeyDown is part of the ...otherProps rest param which is currently not correctly typed.
-    // @ts-expect-error
     <Ul className={locals.list} framed={false} borderRadius="medium" onKeyDown={onKeyDown}>
       {options.map((option, i) => (
         <OverlayOption<OPTION_VALUE_TYPE>
@@ -77,7 +76,7 @@ function optionLabelComparator(a: Labeled, b: Labeled) {
   return compareIgnoreCase(a.label, b.label);
 }
 
-function onKeyDown(e: KeyboardEvent): void {
+function onKeyDown(e: React.KeyboardEvent): void {
   if (e.defaultPrevented) return;
 
   // Intercept Enter and Escape to prevent accidental closing of a dialog when used inside a dialog

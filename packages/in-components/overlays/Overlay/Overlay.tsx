@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Ref } from 'react';
+import React, { Ref, RefCallback, MutableRefObject } from 'react';
 import { throttle } from 'lodash';
 
 import { create, Disposable, just, timeout } from '@instana/observables';
@@ -13,7 +13,6 @@ import { OverlayProps, OverlayState } from 'in-components/overlays/Overlay/types
 import OverlayMounter from 'in-components/overlays/OverlayMounter';
 import { identifyOverlay } from 'in-components/overlays/dom';
 import { emptyObject } from 'in-services/fixedObjects';
-import { Refs } from 'in-services/util/react';
 
 // Usage:
 // <Overlay withoutWrapper content={Component} props={{}} autoOpen wrapperStyle wrapperClassName kind="tooltip">
@@ -103,7 +102,7 @@ export default class Overlay<FORWARDED_CONTENT_PROPS> extends React.Component<
       }
     }, 0);
 
-  refSetter: Refs<HTMLElement> = r => {
+  refSetter: RefCallback<HTMLElement> | MutableRefObject<HTMLDivElement> = r => {
     if (r === this.state.wrapper || !r) {
       // State updates on ref changes are an anti pattern. It can happen that we end up
       // in cyclic updates to our refs. A workaround to avoid this is to ignore at least
@@ -175,7 +174,7 @@ export default class Overlay<FORWARDED_CONTENT_PROPS> extends React.Component<
         close: this.close,
         delayedClose: this.delayedClose,
         refSetter: this.refSetter,
-        ref: this.refSetter
+        ref: this.refSetter as MutableRefObject<HTMLDivElement>
       });
     } else {
       content = (

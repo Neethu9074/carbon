@@ -6,20 +6,18 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Button, ButtonSizes } from '@instana/components';
+import { Button, ButtonProps } from '@instana/components';
 import { SvgIcon } from '@instana/components';
 
 import locals from './DropdownButton.mless';
 
-interface Props {
-  children: React.ReactNode;
-  expanded: boolean;
-  size: keyof typeof ButtonSizes;
-  className: string;
+interface Props extends ButtonProps {
+  expanded?: boolean;
+  className?: string;
 }
 
 const DropdownButton = React.forwardRef<HTMLButtonElement, Props>(function DropdownButton(
-  { children, expanded, size, className, ...buttonProps },
+  { children, expanded, size, className = '', ...buttonProps },
   ref
 ) {
   return (

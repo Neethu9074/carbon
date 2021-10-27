@@ -5,11 +5,11 @@
 
 import { MouseEvent } from 'react';
 
-export function stopPropagation(e: Event | MouseEvent<HTMLElement>) {
+export function stopPropagation(e: React.KeyboardEvent | MouseEvent<HTMLElement>) {
   e.stopPropagation();
 }
 
-export function stopPropagationAndPreventDefault(e: Event | MouseEvent<HTMLElement>) {
+export function stopPropagationAndPreventDefault(e: React.KeyboardEvent | MouseEvent<HTMLElement>) {
   e.stopPropagation();
   e.preventDefault();
 }

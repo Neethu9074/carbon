@@ -26,7 +26,7 @@ export const supportsFocussingWithPreventedScrolling = !isSafari();
 // Focuses the previous/next sibling when the arrow up/down arrow keys are pressed.
 // Usage example:
 // onKeyDown={onArrowKeyDownFocusSiblings}
-export function onArrowKeyDownFocusSiblings(event: KeyboardEvent): HTMLElement | void {
+export function onArrowKeyDownFocusSiblings(event: React.KeyboardEvent | KeyboardEvent): HTMLElement | void {
   if (!(event.target instanceof HTMLElement && event.currentTarget instanceof HTMLElement)) {
     return;
   }
@@ -47,7 +47,7 @@ export function onArrowKeyDownFocusSiblings(event: KeyboardEvent): HTMLElement |
   }
 
   if (nextFocusIndex != null) {
-    stopPropagationAndPreventDefault(event);
+    stopPropagationAndPreventDefault(event as React.KeyboardEvent);
     nextFocusIndex = Math.max(0, Math.min(nextFocusIndex, focusableElements.length - 1));
     focusableElements[nextFocusIndex]?.focus();
     return focusableElements[nextFocusIndex];
