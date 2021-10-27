@@ -12,6 +12,7 @@ import getAlertConfigFromLegacyEvent from 'in-alerting/migration/subscriptions/g
 import { disableMigratedCustomEventSpecification } from 'in-api/eventSpecifications';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
+import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { isLoading } from 'in-services/util/result';
 import { goToPath } from 'in-stores/navigation';
 import Tooltip from 'in-components/Tooltip';
@@ -26,7 +27,7 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
       <Tooltip content={t('in-alerting:smartAlerts.migration.markAsMigratedButtonTooltip')}>
         <Button
           kind="secondary"
-          onClick={() => handleDisableCustomEvent(setDisablingEvent, eventSpecificationId)}
+          onClick={() => showMigrationConfirmation({ setDisablingEvent, eventSpecificationId })}
           icon={disablingEvent ? 'lib_actions_loading' : undefined}
           iconSpinning={disablingEvent}
         >
@@ -44,6 +45,20 @@ export default function MigrateToSmartAlerts({ eventSpecificationId }) {
         </Button>
       </Tooltip>
     </Stack>
+  );
+}
+
+function showMigrationConfirmation({ eventSpecificationId, setDisablingEvent }) {
+  addActiveDialog(
+    <ConfirmationDialog
+      header={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationTitle')}
+      description={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationDescription')}
+      confirmButtonLabel={t('in-alerting:smartAlerts.migration.markAsMigratedButtonConfirmationConfirmLabel')}
+      onSubmit={() => {
+        handleDisableCustomEvent(setDisablingEvent, eventSpecificationId);
+        close();
+      }}
+    />
   );
 }
 
@@ -73,6 +88,7 @@ function showSmartAlertDialog({ globalSmartAlert, config, eventSpecificationId, 
         }}
         isGlobalSmartAlert={globalSmartAlert}
         editMode
+        migrationMode
       />
     );
   }

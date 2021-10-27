@@ -266,6 +266,7 @@ function columnDefinitions(hasRowNavigation) {
 const defaultTableActions = {
   toggleEnabled: {
     get: isEnabled,
+    disabled: entity => entity.migrated,
     toggle: entity => {
       if (isBuiltInRule(entity)) {
         return setBuiltInEventSpecificationsEnabled(entity.id, !entity.enabled);

@@ -20,6 +20,7 @@ import locals from './AlertConfigDialogPresenter.mless';
 export default function AlertConfigDialogPresenter(props) {
   const {
     editMode,
+    migrationMode,
     form,
     formId,
     handleSubmit,
@@ -57,7 +58,7 @@ export default function AlertConfigDialogPresenter(props) {
   return (
     <DialogWithSlideInView
       footer={footer}
-      title={getDialogTitle(isGlobalSmartAlert, editMode, builtIn)}
+      title={getDialogTitle({ isGlobalSmartAlert, editMode, migrationMode, builtIn })}
       slideInViewTitle={customSlideInHeaderConfig.title ?? slideInConfig?.title}
       onSlideInViewTitleClick={() =>
         customSlideInHeaderConfig.onClose
@@ -137,21 +138,23 @@ export default function AlertConfigDialogPresenter(props) {
   }
 }
 
-function getDialogTitle(isGlobalSmartAlert, editMode, builtIn) {
+function getDialogTitle({ isGlobalSmartAlert, editMode, migrationMode, builtIn }) {
   const mode = isGlobalSmartAlert ? 'Global' : 'Local';
+  let title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert', {
+    context: mode
+  });
+  if (migrationMode) {
+    title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleMigrateAlert', {
+      context: mode
+    });
+  } else if (editMode) {
+    title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert', {
+      context: mode
+    });
+  }
   return (
     <HorizontalFlexWrapper className={locals.titleWrapper}>
-      <Title
-        title={
-          editMode
-            ? t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert', {
-                context: mode
-              })
-            : t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleCreateNewAlert', {
-                context: mode
-              })
-        }
-      />
+      <Title title={title} />
       <BuiltInIndicator builtIn={builtIn} />
     </HorizontalFlexWrapper>
   );
@@ -179,6 +182,7 @@ AlertConfigDialogPresenter.propTypes = {
   simpleMode: PropTypes.bool,
   setSimpleMode: PropTypes.func.isRequired,
   editMode: PropTypes.bool,
+  migrationMode: PropTypes.bool,
   featureFeedbackElement: PropTypes.element,
   initialConfiguredApplications: PropTypes.object,
   isGlobalSmartAlert: PropTypes.bool

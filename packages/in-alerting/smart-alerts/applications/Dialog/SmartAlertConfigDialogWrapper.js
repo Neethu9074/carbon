@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { createLogger } from '@instana/logger';
@@ -29,6 +29,7 @@ import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form
 import { firstApplicationId } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { showSuccessMessage } from 'in-alerting/smart-alerts/components/utils/userFeedback';
 import { chartViewConfigs } from 'in-alerting/components/Chart/chartViewConfig';
+import { t } from 'in-i18n';
 
 const logger = createLogger('in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialog');
 
@@ -37,6 +38,7 @@ const initialChartConfigIndex = 0;
 export default function SmartAlertConfigDialogWrapper({
   onClose,
   editMode,
+  migrationMode,
   isGlobalSmartAlert,
   alertConfig,
   startWithSimpleMode
@@ -45,7 +47,19 @@ export default function SmartAlertConfigDialogWrapper({
   const [form, setForm] = useState(() => createSmartAlertForm(fromAlertConfig(alertConfig), editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState(null);
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    if (migrationMode) {
+      setMessages(prevMessages => [
+        ...prevMessages,
+        {
+          level: 'warning',
+          message: t('in-alerting:smartAlerts.components.smartAlertDialog.migrationModeWarning')
+        }
+      ]);
+    }
+  }, [migrationMode]);
 
   const applicationLabel = useApplicationLabel(firstApplicationId(form.get('applications').value), isGlobalSmartAlert);
 
@@ -66,7 +80,7 @@ export default function SmartAlertConfigDialogWrapper({
   };
   const withTrackCreate = simpleMode => {
     applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
-    createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving, setError });
+    createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving, setMessages });
   };
 
   return (
@@ -74,6 +88,7 @@ export default function SmartAlertConfigDialogWrapper({
       applicationLabel={applicationLabel}
       isGlobalSmartAlert={isGlobalSmartAlert}
       editMode={editMode}
+      migrationMode={migrationMode}
       startWithSimpleMode={startWithSimpleMode}
       form={form}
       updateForm={updateForm}
@@ -101,7 +116,7 @@ export default function SmartAlertConfigDialogWrapper({
         );
       }}
       isSaving={isSaving}
-      error={error}
+      messages={messages}
       initialConfiguredApplications={alertConfig?.applications ?? {}}
     />
   );
@@ -109,6 +124,7 @@ export default function SmartAlertConfigDialogWrapper({
 
 SmartAlertConfigDialogWrapper.propTypes = {
   editMode: PropTypes.bool,
+  migrationMode: PropTypes.bool,
   isGlobalSmartAlert: PropTypes.bool,
   startWithSimpleMode: PropTypes.bool,
   alertConfig: PropTypes.shape({
@@ -124,9 +140,10 @@ SmartAlertConfigDialogWrapper.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving, setError }) {
+function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving, setMessages }) {
   setIsSaving(true);
-  setError(null);
+  setMessages(prevMessages => prevMessages.filter(m => m.level && m.level !== 'error'));
+  const addMessage = message => prevMessages => [...prevMessages, message];
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
@@ -144,7 +161,7 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
-        setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
+        addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
     );
@@ -156,7 +173,7 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
-        setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
+        addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
     );

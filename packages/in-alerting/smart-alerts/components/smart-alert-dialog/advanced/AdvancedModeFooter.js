@@ -9,7 +9,15 @@ import React from 'react';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { t } from 'in-i18n';
 
-export function AdvancedModeFooter({ onClose, onCreate, isSaving, form, additionalValidationCheck, editMode }) {
+export function AdvancedModeFooter({
+  onClose,
+  onCreate,
+  isSaving,
+  form,
+  additionalValidationCheck,
+  editMode,
+  migrationMode
+}) {
   return (
     <FormFooter>
       <CancelButton onClick={() => onClose()} />
@@ -20,12 +28,16 @@ export function AdvancedModeFooter({ onClose, onCreate, isSaving, form, addition
         form={form}
         disabled={!form.hierarchyValid || !additionalValidationCheck()}
       >
-        {editMode
-          ? t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave')
-          : t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate')}
+        {getSaveButtonLabel({ editMode, migrationMode })}
       </SaveButton>
     </FormFooter>
   );
+}
+
+function getSaveButtonLabel({ editMode, migrationMode }) {
+  if (migrationMode) return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate');
+  if (editMode) return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
+  return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
 }
 
 AdvancedModeFooter.propTypes = {
@@ -34,5 +46,6 @@ AdvancedModeFooter.propTypes = {
   additionalValidationCheck: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   isSaving: PropTypes.bool,
-  editMode: PropTypes.bool
+  editMode: PropTypes.bool,
+  migrationMode: PropTypes.bool
 };

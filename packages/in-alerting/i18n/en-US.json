@@ -585,6 +585,7 @@
         "alertPropertiesAlertProperties": "Alert Properties",
         "buttonSave": "Save",
         "buttonCreate": "Create",
+        "buttonMigrate": "Migrate",
         "selectedBlueprint": "Selected Blueprint",
         "buttonRecalculateBaseline": "Recalculate Baseline",
         "sensitivitySliderLow": "low",
@@ -601,6 +602,8 @@
         "alertConfigDialogPresenterTitleEditAlert_Global": "Edit Global Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Create New Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Create New Global Smart Alert",
+        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migrate to Smart Alert",
+        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migrate to Global Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Switch to Advanced Mode",
         "simpleAlertConfigDialogStep3Headline": "Who should get the alerts?",
         "Loading": "Loading…",
@@ -608,7 +611,8 @@
         "PreviewForEndpoint": "Preview for Endpoint:",
         "PreviewForService": "Preview for Service:",
         "PreviewSelectLoadingEndpoints": "Loading Endpoints List",
-        "thresholdValue": "Threshold Value"
+        "thresholdValue": "Threshold Value",
+        "migrationModeWarning": "Migrating this Custom Event to a Smart Alert will disable it. The event cannot be re-enabled afterwards."
       },
       "userInfo": {
         "success": {
@@ -877,7 +881,10 @@
       "migrateButton": "Migrate to Smart Alert",
       "migrateButtonTooltip": "Opens a Smart Alert config dialog pre–filled with the migrated values from the current event to the best extend we can. Please double check the result carefully!",
       "markAsMigratedButton": "Mark as migrated",
-      "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event."
+      "markAsMigratedButtonTooltip": "Marks the Event as migrated. Please use this in case you have already configured a Smart Alert which will replace this Event.",
+      "markAsMigratedButtonConfirmationTitle": "Please Confirm",
+      "markAsMigratedButtonConfirmationDescription": "Marking this Custom Event as migrated will disable it. The event cannot be re-enabled afterwards. Do you want to proceed?",
+      "markAsMigratedButtonConfirmationConfirmLabel": "Confirm"
     }
   }
 }

@@ -34,7 +34,7 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
   const [form, setForm] = useState(() => alertFormDefinition(alertConfig, editMode));
   const updateForm = useSmartAlertFormSideEffects(form, setForm);
   const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   const websiteLabel = useWebsiteLabel(form.get('websiteId')?.value);
 
@@ -48,7 +48,7 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
   };
   const withTrackCreate = simpleMode => {
     websitesAlertingAlertCreated(getTrackingObject(form, { mode: simpleMode ? modeSimple : modeAdvanced }));
-    createAlert(form, setForm, onClose, editMode, setIsSaving, setError);
+    createAlert(form, setForm, onClose, editMode, setIsSaving, setMessages);
   };
 
   return (
@@ -74,7 +74,7 @@ export default function AlertConfigDialog({ onClose, alertConfig, editMode, star
         }
       }}
       isSaving={isSaving}
-      error={error}
+      messages={messages}
     />
   );
 }
@@ -100,9 +100,10 @@ function createOnChange(setForm, externalForm) {
   };
 }
 
-function createAlert(form, setForm, onClose, editMode, setIsSaving, setError) {
+function createAlert(form, setForm, onClose, editMode, setIsSaving, setMessages) {
   setIsSaving(true);
-  setError(null);
+  setMessages(prevMessages => prevMessages.filter(m => m.level && m.level !== 'error'));
+  const addMessage = message => prevMessages => [...prevMessages, message];
 
   if (!form.hierarchyValid) {
     setForm(form.setTouched(true, { recurse: true }));
@@ -120,7 +121,7 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving, setError) {
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
-        setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
+        addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
     );
@@ -132,7 +133,7 @@ function createAlert(form, setForm, onClose, editMode, setIsSaving, setError) {
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);
-        setError(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
+        addMessage(enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error));
         setIsSaving(false);
       }
     );

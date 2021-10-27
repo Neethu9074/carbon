@@ -7,17 +7,17 @@ import React, { Fragment } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { SvgIcon, Stack } from '@instana/components';
+import { SvgIcon, Stack, Message } from '@instana/components';
 
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
-import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import { compareIgnoreCase } from 'in-services/util/string';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
 import SideNav from 'in-components/SideNav';
 
 import locals from './AdvancedModeContainer.mless';
 
-export default function AdvancedModeContainer({ navItems, error }) {
+export default function AdvancedModeContainer({ navItems, messages = [] }) {
   return (
     <nav className={locals.container}>
       <div className={locals.scrollWrapper}>
@@ -40,9 +40,13 @@ export default function AdvancedModeContainer({ navItems, error }) {
       <div className={locals.sideNav}>
         <SideNav navItems={navItems} renderPostIcon={renderIcon} />
       </div>
-      {error && (
+      {!!messages.length && (
         <div className={locals.errorInfo}>
-          <ErroneousResultPresenter errors={[error]} />
+          {messages
+            .sort((a, b) => -1 * compareIgnoreCase(a.level, b.level))
+            .map((m, i) => (
+              <Message key={i} title={m.message} type={m.level ?? 'error'} withIcon small />
+            ))}
         </div>
       )}
     </nav>
@@ -60,10 +64,13 @@ AdvancedModeContainer.propTypes = {
       content: PropTypes.element
     })
   ).isRequired,
-  error: PropTypes.shape({
-    message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-    code: PropTypes.string
-  })
+  messages: PropTypes.arrayOf(
+    PropTypes.shape({
+      level: PropTypes.oneOf(['warning', 'error']),
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
+      code: PropTypes.string
+    })
+  )
 };
 
 function renderIcon({ checked, valid }) {

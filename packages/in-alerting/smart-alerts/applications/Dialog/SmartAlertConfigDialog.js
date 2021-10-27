@@ -89,6 +89,7 @@ function SmartAlertConfigDialogWithQueryValidation({
     updateForm,
     startWithSimpleMode,
     editMode,
+    migrationMode,
     withTrackCreate,
     withTrackClose,
     isSaving
@@ -138,6 +139,7 @@ function SmartAlertConfigDialogWithQueryValidation({
       onCreate={withTrackCreate}
       isSaving={isSaving}
       editMode={editMode}
+      migrationMode={migrationMode}
       additionalValidationCheck={() => isTagFilterFormModelValid}
     />
   );

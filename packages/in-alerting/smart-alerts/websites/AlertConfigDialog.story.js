@@ -46,7 +46,7 @@ export const SimpleDialogEditModeWithError = () => {
 
   return (
     <AlertConfigDialogWithThreshold
-      error={error}
+      messages={[error]}
       form={form}
       updateForm={setForm}
       websiteLabel={'shop'}

@@ -14,8 +14,7 @@ import { t, Trans } from 'in-i18n';
  * phrase PLEASE_CONTACT_INSTANA_SUPPORT_ERROR_MSG_PHRASE it replaces it with the i18n version and encapsulates it in a
  * <a> html object to render it later in the UI.
  *
- * Without that PHRASE we set the errorCode to 'SERVER' which will be handled as a Technical error in our
- * ErrorResultPresenter, producing a general message.
+ * Without that PHRASE we treat the error as a technical error, which will hide its message behind a generic one in production builds
  *
  * @type error: Error => Error | { readonly code: ErrorCode; message: JSX.Element }
  */
@@ -34,6 +33,7 @@ export function enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(
     const errorMessage = error.message.replaceAll(PLEASE_CONTACT_INSTANA_SUPPORT_ERROR_MSG_PHRASE, '');
     return {
       ...error,
+      level: 'error',
       message: (
         <>
           {errorMessage}
@@ -51,7 +51,10 @@ export function enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(
   }
   return {
     ...error,
-    code: 'SERVER'
+    level: 'error',
+    code: 'SERVER',
+    // In dev builds we show detailed error messages here, in production builds we only show a generic error message
+    message: __DEV__ ? error.message : t('in-components:error.erroneousResultPresenterMessage')
   };
 }
 

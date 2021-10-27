@@ -4,60 +4,48 @@
  */
 
 import React, { forwardRef } from 'react';
-import classNames from 'classnames';
-
-import { SvgIcon } from '@instana/components';
 
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
+import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
+import IconButton from 'in-components/IconButton/IconButton';
 import { t, Trans } from 'in-i18n';
-import theme from 'in-themes';
-
-import locals from './Delete.mless';
 
 export default forwardRef(function Delete(
   { disabled, dialogMessage, entity, getEntityName, confirmLabel, doDelete, deleteEntity, setErrorMessage },
   ref
 ) {
   return (
-    <SvgIcon
+    <IconButton
       ref={ref}
+      disabled={disabled}
       type="lib_actions_delete"
-      color={theme.lib.colors.primary2}
-      className={classNames({
-        [locals.disabled]: disabled
-      })}
-      onClick={
-        disabled
-          ? null
-          : () => {
-              if (disabled) {
-                return;
-              }
-              addActiveDialog(
-                <ConfirmationDialog
-                  header={t('in-settings:components.pleaseConfirm')}
-                  description={
-                    dialogMessage ? (
-                      dialogMessage(entity)
-                    ) : (
-                      <span>
-                        <Trans
-                          i18nKey="in-settings:components.confirmRemoveEntity"
-                          values={{ entity: getEntityName(entity) }}
-                        />
-                      </span>
-                    )
-                  }
-                  confirmButtonLabel={confirmLabel || t('in-settings:components.removeBtn')}
-                  onSubmit={() => {
-                    close();
-                    doDelete(entity, deleteEntity, setErrorMessage);
-                  }}
-                />
-              );
+      kind="primaryv2"
+      onClick={e => {
+        stopPropagationAndPreventDefault(e);
+        addActiveDialog(
+          <ConfirmationDialog
+            header={t('in-settings:components.pleaseConfirm')}
+            description={
+              dialogMessage ? (
+                dialogMessage(entity)
+              ) : (
+                <span>
+                  <Trans
+                    i18nKey="in-settings:components.confirmRemoveEntity"
+                    values={{ entity: getEntityName(entity) }}
+                  />
+                </span>
+              )
             }
-      }
+            confirmButtonLabel={confirmLabel || t('in-settings:components.removeBtn')}
+            onSubmit={() => {
+              close();
+              doDelete(entity, deleteEntity, setErrorMessage);
+            }}
+          />
+        );
+      }}
     />
   );
 });

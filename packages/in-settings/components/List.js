@@ -20,6 +20,7 @@ import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { getModifiedUrlStream, goToPath } from 'in-stores/navigation';
 import { listSuccess, loading } from 'in-services/util/result';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import IconButton from 'in-components/IconButton/IconButton';
 import Delete from 'in-settings/components/actions/Delete';
 import { identity } from 'in-services/util/function';
 import ListTitle from 'in-components/lists/Title';
@@ -375,17 +376,21 @@ function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicat
       if (isCellLoading(perCellLoadingIndicator, entity, 'toggleEnabledAction')) {
         return <TableActionLoadingIndicator />;
       }
-      const enabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
+      const entityEnabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
       return (
         <Tooltip
-          content={enabled ? t('in-settings:components.clickToDisable') : t('in-settings:components.clickToEnable')}
+          content={
+            entityEnabled ? t('in-settings:components.clickToDisable') : t('in-settings:components.clickToEnable')
+          }
         >
-          <SvgIcon
-            type={enabled ? 'lib_actions_pause' : 'lib_actions_play'}
+          <IconButton
+            disabled={actionDefinition.disabled?.(entity)}
+            kind="primaryv2"
+            type={entityEnabled ? 'lib_actions_pause' : 'lib_actions_play'}
             color={theme.lib.colors.primary2}
             onClick={e => {
               stopPropagationAndPreventDefault(e);
-              doToggleEnabled(entity, enabled, actionDefinition.toggle, setErrorMessage);
+              doToggleEnabled(entity, entityEnabled, actionDefinition.toggle, setErrorMessage);
             }}
           />
         </Tooltip>
@@ -420,28 +425,24 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
         return <TableActionLoadingIndicator />;
       }
       // some entities are protected and must not be deleted
-      const disabled = actionDefinition.deleteProtection && actionDefinition.deleteProtection(entity);
+      const disabled =
+        (actionDefinition.deleteProtection && actionDefinition.deleteProtection(entity)) ||
+        actionDefinition.disabled?.(entity);
 
-      let element = (
-        <Delete
-          {...actionDefinition}
-          disabled={disabled}
-          entity={entity}
-          getEntityName={getEntityName}
-          doDelete={doDelete}
-          setErrorMessage={setErrorMessage}
-        />
-      );
-
-      if (!disabled) {
-        element = (
+      return (
+        <div className={locals.deleteWrapper}>
           <Tooltip content={t('in-settings:components.deleteEntity', { entity: getEntityName(entity) })}>
-            {element}
+            <Delete
+              {...actionDefinition}
+              disabled={disabled}
+              entity={entity}
+              getEntityName={getEntityName}
+              doDelete={doDelete}
+              setErrorMessage={setErrorMessage}
+            />
           </Tooltip>
-        );
-      }
-
-      return <div className={locals.deleteWrapper}>{element}</div>;
+        </div>
+      );
     }
   });
 }
@@ -470,7 +471,9 @@ function addDeselectAction(columns, actionDefinition) {
     getContent(entity) {
       return (
         <Tooltip content={t('in-settings:components.clickToDeselect')}>
-          <SvgIcon
+          <IconButton
+            disabled={actionDefinition.disabled?.(entity)}
+            kind="primaryv2"
             type={'lib_openclose_remove_circle_outline'}
             color={theme.lib.colors.primary2}
             onClick={e => {
@@ -500,6 +503,7 @@ function addSelectCheckboxAction(columns, actionDefinition) {
     getContent(entity) {
       return (
         <CheckboxFancy
+          disabled={actionDefinition.disabled?.(entity)}
           checked={actionDefinition.get(entity)}
           onChange={() => actionDefinition.toggle(entity)}
           size="large"
