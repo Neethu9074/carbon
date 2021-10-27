@@ -30,7 +30,8 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
     t('in-waiting-for-deployment:runtime.dotnet'),
     t('in-waiting-for-deployment:runtime.go'),
     t('in-waiting-for-deployment:runtime.java'),
-    t('in-waiting-for-deployment:runtime.nodejs')
+    t('in-waiting-for-deployment:runtime.nodejs'),
+    t('in-waiting-for-deployment:runtime.python')
   ];
   const baseImageOptions = [
     t('in-waiting-for-deployment:baseImg.glibcLinux'),
@@ -260,6 +261,33 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
 
         <Spacer />
 
+        <Description
+          lines={[
+            t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision')
+          ]}
+        />
+        <GridRow>
+          <Col xs={6}>
+            <Description lines={['INSTANA_ENDPOINT_URL']} />
+            <Script lines={[serverlessEndpoint]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[agentKey]} />
+          </Col>
+        </GridRow>
+      </>
+    );
+  } else if (selectedRuntime === runtimeOptions[4]) {
+    steps = (
+      <>
+        <Spacer />
+
+        <TextWithLink
+          i18nKey="in-waiting-for-deployment:content.theSupportForPythonOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe"
+          href="https://instana.com/docs/ecosystem/python"
+        />
+        <Spacer />
         <Description
           lines={[
             t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision')

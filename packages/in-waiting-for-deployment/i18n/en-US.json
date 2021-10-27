@@ -153,6 +153,7 @@
     "setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision": "Set the following environment variables in the Cloud Run Service Revision:",
     "setTheFollowingEnvironmentVariablesOnTheCloudRunServiceDefinition": "Set the following environment variables on the Cloud Run Service Definition:",
     "theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe": "The support for Go on Google Cloud Run (fully managed) works the same way as with any Go application. Follow the instructions of the <go>Go documentation</go>.",
+    "theSupportForPythonOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "The support for Python on Google Cloud Run (fully managed) works the same way as with any Python application. Follow the instructions of the <go>Python documentation</go>.",
     "supportForGoogleCloudRunIsDesignedToWorkWithTheFullyManagedGoogleCloudRunPlatformCloudRunOnAnthosGkeIsCurrentlyNotSupported": "Support for Google Cloud Run is designed to work with the fully managed Google Cloud Run platform. Cloud Run on Anthos/GKE is currently not supported.",
     "makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe": "Make sure you have an Instana agent set up to monitor your GCP project. For details on setting up the Instana agent for GCP, refer to the <go>Instana GCP support documentation</go>.",
     "selectTheInstallationMethod": "Select the installation method:",
