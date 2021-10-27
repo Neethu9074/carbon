@@ -53,16 +53,18 @@ exports.getDevModeConfig = function getDevModeConfig(envConfig) {
   return {
     tenant: envConfig.tenant,
     tenantUnit: envConfig.tenantUnit,
-    tenantUnitDomainSuffix: 'instana.io',
-    region: envConfig.region,
+    tenantUnitDomainSuffix: 'pink.instana.rocks',
     butlerDomain: envConfig.butlerDomain,
     analyticsTrackingId: 'UA-66215232-4',
     mixpanelToken: 'd77cf014d1859ac6ebf349b214579823',
     featureFlags: require(paths.featureFlags),
-    configuration: {},
+    configuration: { maxAllowedAlertingConfigurations: 200 },
 
-    agentEndpoint: 'ingress-red-saas.instana.io',
-    agentEndpointPort: '443',
-    serverlessEndpoint: 'serverless-red-saas.instana.io:443'
+    agentEndpoint: 'ingress-pink-saas.instana.rocks',
+    agentEndpointPort: 443,
+    serverlessEndpoint: 'https://serverless-pink-saas.instana.rocks',
+    mobileEndpoint: 'https://pink.instana.rocks/mobile/',
+    websiteEndpoint: 'https://eum-pink-saas.instana.rocks',
+    websiteScriptSource: 'https://eum.instana.io/eum.min.js'
   };
 };
