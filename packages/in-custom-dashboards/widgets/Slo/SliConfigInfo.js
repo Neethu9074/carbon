@@ -7,7 +7,7 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import SliEventsQueryBuilder from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
+import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
 import { getThresholdLabelWithUnit } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
@@ -65,6 +65,8 @@ const MetricConfig = ({ sliConfig }) => {
 };
 
 const BadEventFilters = ({ sliConfig }) => {
+  const { QueryBuilder: SliEventsQueryBuilder } = useApplicationQueryBuilder();
+
   if (sliConfig.sliEntity?.badEventFilterExpression) {
     const { badEventFilterExpression } = sliConfig.sliEntity;
     const badEventsFilterLabel = `${t(`in-custom-dashboards:widgets.slo.sliConfig.badEventsFilter`)}:`;

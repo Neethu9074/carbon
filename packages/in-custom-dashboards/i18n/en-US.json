@@ -398,8 +398,6 @@
         "sliCreateSuccess": "SLI created successfully",
         "failCreateSli": "Failed to create the SLI.",
         "problemCreateSli": "There was a problem creating this SLI: \"{{sliName}}\"",
-        "cloning": "Cloning…",
-        "creating": "Creating…",
         "clone": "Clone",
         "create": "Create",
         "sliConfigMsg": "The parameters of the SLI cannot be modified to prevent invalidation of the calculated spent budgets. This is why the SLI needs to be cloned when you change any parameter.",

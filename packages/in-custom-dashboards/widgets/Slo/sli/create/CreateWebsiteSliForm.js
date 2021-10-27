@@ -5,11 +5,20 @@
 
 import React, { useState } from 'react';
 
+import { generateUniqueShortId } from '@instana/utils';
+
+import {
+  useValidateWebsiteFilterExpression,
+  useWebsiteQueryBuilder
+} from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
 import useSliFormSideEffects from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
+import { websiteEventBased } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { createForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { createSliConfiguration } from 'in-custom-dashboards/api';
 import useWebsite from 'in-websites/hooks/useWebsite';
 
 export default function CreateWebsiteSliForm({ entityId, close, sliConfig, setFooter }) {
@@ -30,14 +39,55 @@ export default function CreateWebsiteSliForm({ entityId, close, sliConfig, setFo
 }
 
 function CreateWebsiteSliFormComponent({ entityId, website, sliConfig, close, setFooter }) {
-  const { label } = website;
-
   const [form, setForm] = useState(createForm('website', sliConfig ?? {}, entityId, website));
   const updateForm = useSliFormSideEffects(form, setForm);
 
+  const sliEntityForm = form.get('sliEntity').toJS();
+  const { QueryBuilder, isQueryValid } = useWebsiteQueryBuilder(sliEntityForm);
+
+  const filterExpressionValid = useValidateWebsiteFilterExpression({
+    isQueryValid,
+    ...sliEntityForm
+  });
+
   return (
-    <CreateSliForm form={form} updateForm={updateForm} setFooter={setFooter} editMode={!!sliConfig.id} close={close}>
-      <WebsiteSliForm form={form} onChange={(path, fn) => updateForm(form.updateIn(path, fn))} websiteName={label} />
+    <CreateSliForm
+      form={form}
+      updateForm={updateForm}
+      setFooter={setFooter}
+      editMode={!!sliConfig.id}
+      close={close}
+      filterExpressionValid={filterExpressionValid}
+      toBackendFormat={toBackendFormat}
+      onSubmit={submittedFormData =>
+        createSliConfiguration({
+          ...toBackendFormat(submittedFormData),
+          id: generateUniqueShortId(9)
+        })
+      }
+    >
+      <WebsiteSliForm
+        form={form}
+        onChange={(path, fn) => updateForm(form.updateIn(path, fn))}
+        websiteName={website.label}
+        QueryBuilderComponent={QueryBuilder}
+      />
     </CreateSliForm>
   );
+}
+
+function toBackendFormat(formData) {
+  const fData = { ...formData, sliEntity: { ...formData.sliEntity } };
+
+  const sliEntity = fData.sliEntity;
+  const sliType = sliEntity.sliType;
+
+  sliEntity.filterExpression = toBackendQueryModel(sliEntity.filterExpression);
+
+  if (sliType === websiteEventBased) {
+    sliEntity.goodEventFilterExpression = toBackendQueryModel(sliEntity.goodEventFilterExpression);
+    sliEntity.badEventFilterExpression = toBackendQueryModel(sliEntity.badEventFilterExpression);
+  }
+
+  return fData;
 }

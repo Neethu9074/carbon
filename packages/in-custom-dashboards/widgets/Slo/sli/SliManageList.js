@@ -23,6 +23,7 @@ export default function SliManageList({ entityType, entityId, subSlideState }) {
   const [selectedSli, setSelectedSli] = subSlideState;
   const [nameQuery, setNameQuery] = useState('');
   const close = () => setSelectedSli(null);
+
   const { canConfigureServiceLevelIndicators } = role;
 
   const sliManageListMain = (

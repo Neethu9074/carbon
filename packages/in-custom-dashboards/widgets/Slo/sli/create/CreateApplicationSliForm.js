@@ -5,11 +5,20 @@
 
 import React, { useState } from 'react';
 
+import { generateUniqueShortId } from '@instana/utils';
+
+import {
+  useValidateApplicationFilterExpression,
+  useApplicationQueryBuilder
+} from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
 import useSliFormSideEffects from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ApplicationSliForm } from 'in-custom-dashboards/widgets/Slo/sli/ApplicationSliForm';
+import { sliFieldNames, createForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
-import { createForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
+import { createSliConfiguration } from 'in-custom-dashboards/api';
 import useApplication from 'in-applications/hooks/useApplication';
 
 export default function CreateApplicationSliForm({ entityId, close, sliConfig, setFooter }) {
@@ -30,14 +39,69 @@ export default function CreateApplicationSliForm({ entityId, close, sliConfig, s
 }
 
 function CreateApplicationSliFormComponent({ entityId, application, close, sliConfig, setFooter }) {
-  const { label } = application;
-
   const [form, setForm] = useState(createForm('application', sliConfig ?? {}, entityId, application));
   const updateForm = useSliFormSideEffects(form, setForm);
 
+  const { QueryBuilder, isQueryValid } = useApplicationQueryBuilder();
+  const filterExpressionValid = useValidateExpressions({ form, isQueryValid });
+
   return (
-    <CreateSliForm form={form} updateForm={updateForm} setFooter={setFooter} editMode={!!sliConfig?.id} close={close}>
-      <ApplicationSliForm form={form} onChange={(path, fn) => updateForm(form.updateIn(path, fn))} apName={label} />
+    <CreateSliForm
+      form={form}
+      updateForm={updateForm}
+      setFooter={setFooter}
+      editMode={!!sliConfig?.id}
+      close={close}
+      filterExpressionValid={filterExpressionValid}
+      onSubmit={submittedFormData =>
+        createSliConfiguration({
+          ...toBackendFormat(submittedFormData),
+          id: generateUniqueShortId(9)
+        })
+      }
+    >
+      <ApplicationSliForm
+        form={form}
+        onChange={(path, fn) => updateForm(form.updateIn(path, fn))}
+        apName={application.label}
+        QueryBuilderComponent={QueryBuilder}
+      />
     </CreateSliForm>
   );
+}
+
+function useValidateExpressions({ form, isQueryValid }) {
+  const sliEntityForm = form.get('sliEntity');
+  const goodEventFilterExpression = sliEntityForm.get(sliFieldNames.goodEventFilterExpression)?.value;
+  const badEventFilterExpression = sliEntityForm.get(sliFieldNames.badEventFilterExpression)?.value;
+
+  const goodEventsValid = useValidateApplicationFilterExpression({
+    filterExpression: goodEventFilterExpression,
+    isQueryValid
+  });
+
+  const badEventsValid = useValidateApplicationFilterExpression({
+    filterExpression: badEventFilterExpression,
+    isQueryValid
+  });
+
+  return goodEventsValid && badEventsValid;
+}
+
+function toBackendFormat(formData) {
+  const sliEntity = formData.sliEntity;
+  const sliType = sliEntity.sliType;
+
+  if (sliType === availabilityType) {
+    return {
+      ...formData,
+      sliEntity: {
+        ...sliEntity,
+        goodEventFilterExpression: toBackendQueryModel(sliEntity.goodEventFilterExpression),
+        badEventFilterExpression: toBackendQueryModel(sliEntity.badEventFilterExpression)
+      }
+    };
+  }
+
+  return formData;
 }

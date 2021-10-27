@@ -8,7 +8,6 @@ import React from 'react';
 import { Stack } from '@instana/components';
 
 import TagFilterExpressionConfig from 'in-custom-dashboards/widgets/Slo/sli/TagFilterExpressionConfig';
-import SliEventsQueryBuilder from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
 import { availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -19,7 +18,7 @@ import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm.mless';
 
-export default function GoodBadEventsForm({ label, QueryBuilderComponent = SliEventsQueryBuilder }) {
+export default function GoodBadEventsForm({ label, QueryBuilderComponent }) {
   return (
     <FormBound path="sliEntity">
       {({ form, setForm, absolutePath, item: sliEntityForm }) => {

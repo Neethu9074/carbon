@@ -30,7 +30,7 @@ import { Row, Col } from 'in-components/layout/Grid';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
-export function ApplicationSliForm({ form, onChange, apName }) {
+export function ApplicationSliForm({ form, onChange, apName, QueryBuilderComponent }) {
   const sliEntityForm = form.get('sliEntity');
   const applicationId = sliEntityForm.get('applicationId')?.value;
   const serviceId = sliEntityForm.get('serviceId')?.value;
@@ -193,7 +193,7 @@ export function ApplicationSliForm({ form, onChange, apName }) {
 
       <MetricsForm form={form} onChange={onChange} />
 
-      <GoodBadEventsForm label={apName} form={form} />
+      <GoodBadEventsForm label={apName} form={form} QueryBuilderComponent={QueryBuilderComponent} />
     </Stack>
   );
 }

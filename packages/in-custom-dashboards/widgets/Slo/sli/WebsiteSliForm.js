@@ -3,12 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Button, Stack } from '@instana/components';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import { createBoundedQueryBuilder } from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
 import GoodBadEventsForm from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
 import { websiteSliTypeOptions } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
@@ -21,17 +20,10 @@ import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
-export function WebsiteSliForm({ form, onChange, websiteName }) {
+export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderComponent: QueryBuilder }) {
   const sliEntityForm = form.get('sliEntity');
   const sliTypeForm = sliEntityForm.get('sliType');
-  const websiteId = sliEntityForm.get('websiteId').value;
-
   const filterExpression = sliEntityForm.get('filterExpression').value;
-
-  // TODO: currently we use the static beacon type 'httpRequest' till we implement all the other options.
-  const beaconType = sliEntityForm.get('beaconType').value;
-
-  const { QueryBuilder } = useMemo(() => createBoundedQueryBuilder({ websiteId, beaconType }), [websiteId, beaconType]);
 
   return (
     <Stack gap="large">
