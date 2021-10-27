@@ -12,7 +12,20 @@ import locals from './Pagination.mless';
 
 const pagePlaceholder = undefined;
 
-export default function Pagination({ currentPage, numPages, onChange }) {
+export interface PaginationProps {
+  currentPage: number;
+  numPages: number;
+  onChange: (page: number) => void;
+}
+
+export interface PaginationControlProps {
+  disabled?: boolean;
+  isActive?: boolean;
+  onChange: (() => void) | null;
+  children: React.ReactNode;
+}
+
+export default function Pagination({ currentPage, numPages, onChange }: PaginationProps) {
   if (numPages <= 1) {
     return null;
   }
@@ -41,7 +54,7 @@ export default function Pagination({ currentPage, numPages, onChange }) {
   );
 }
 
-export function getSteps(currentPage, numPages) {
+export function getSteps(currentPage: number, numPages: number) {
   const pagesBefore = [];
   for (let i = Math.max(1, currentPage - 2); i < currentPage; i++) {
     pagesBefore.push(i);
@@ -72,7 +85,7 @@ export function getSteps(currentPage, numPages) {
   return [...pagesBefore, currentPage, ...pagesAfter];
 }
 
-function Control({ disabled, isActive, onChange, children }) {
+function Control({ disabled, isActive, onChange, children }: PaginationControlProps) {
   return (
     <div
       className={classNames({

@@ -10,8 +10,6 @@ import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error Module needs to be translated to TS
 import DashboardHeader from 'in-components/DashboardHeader';
-// @ts-expect-error Module needs to be translated to TS
-import Pagination from 'in-components/Pagination';
 import SortingConfigurator, { SortOrderBy } from 'in-components/SortingConfigurator/SortingConfigurator';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 // @ts-expect-error Module needs to be translated to TS
@@ -31,6 +29,7 @@ import { dummyTests } from 'in-synthetics/utils/constants';
 import { deepFreeze } from 'in-services/util/object';
 import SearchInput from 'in-components/SearchInput';
 import { TestsResponse } from 'in-synthetics/Tests';
+import Pagination from 'in-components/Pagination';
 import useUrlState from 'in-hooks/useUrlState';
 import { getTests } from 'in-synthetics/api';
 import { SyntheticTest } from 'in-types';
