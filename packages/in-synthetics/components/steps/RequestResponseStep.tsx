@@ -9,8 +9,6 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 import { Stack } from '@instana/components';
 
-// @ts-expect-error module needs to be translated to TS
-import ComboBox from 'in-components/ComboBox';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable/NoDataAvailable';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import CheckboxFancy from 'in-components/form/CheckboxFancy/CheckboxFancy';
@@ -20,6 +18,7 @@ import TouchedMessages from 'in-components/form/TouchedMessages';
 import { dummyLocations } from 'in-synthetics/utils/constants';
 import FormGroup from 'in-components/form/FormGroup';
 import { getLocations } from 'in-synthetics/api';
+import ComboBox from 'in-components/ComboBox';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { Progress } from 'in-types';
