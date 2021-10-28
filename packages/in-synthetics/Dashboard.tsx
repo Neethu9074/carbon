@@ -14,8 +14,6 @@ import SortingConfigurator, { SortOrderBy } from 'in-components/SortingConfigura
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
-// @ts-expect-error Module needs to be translated to TS
-import Footer from 'in-components/Footer';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -32,6 +30,7 @@ import { TestsResponse } from 'in-synthetics/Tests';
 import Pagination from 'in-components/Pagination';
 import useUrlState from 'in-hooks/useUrlState';
 import { getTests } from 'in-synthetics/api';
+import Footer from 'in-components/Footer';
 import { SyntheticTest } from 'in-types';
 import Tests from 'in-synthetics/Tests';
 import { t } from 'in-i18n';

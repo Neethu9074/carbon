@@ -10,7 +10,6 @@ import React from 'react';
 import { Stack, SvgIcon } from '@instana/components';
 import { empty } from '@instana/observables';
 
-import { optionsPropType } from 'in-components/SortingConfigurator/SortingConfigurator';
 import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
@@ -168,7 +167,7 @@ UngroupedAnalyzeView.propTypes = {
   columnDefinitions: rpt.array.isRequired,
   DetailView: rpt.elementType.isRequired,
   CustomHeaderActions: rpt.elementType,
-  sortOptions: optionsPropType,
+  sortOptions: rpt.arrayOf(rpt.shape({ value: rpt.string.isRequired, label: rpt.node.isRequired }).isRequired),
   Sidebar: rpt.elementType,
 
   // Will be auto-provided by GroupedView in the relevant scenarios.
