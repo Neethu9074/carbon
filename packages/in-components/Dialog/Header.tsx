@@ -17,7 +17,7 @@ export interface Props {
   onIconClick?: () => void;
   onClose?: () => void;
   title: string | ReactElement;
-  renderCustomCloseBehaviour?: () => ReactElement;
+  renderCustomCloseBehaviour?: () => ReactElement | undefined;
   addScrollShadow?: boolean;
 }
 

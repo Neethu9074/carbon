@@ -32,7 +32,7 @@ interface SlideInViewProps {
   slideInContentTitle?: React.ReactNode;
   slideTransitionDurationMillis?: number;
   staticContent: React.ReactNode;
-  HeaderComponent: typeof DialogHeader | typeof ListHeader | typeof NoHeader;
+  HeaderComponent?: typeof DialogHeader | typeof ListHeader | typeof NoHeader;
   enforceMaxHeightForStaticContent?: boolean;
   /**
    * Callback to add sliden–in content.

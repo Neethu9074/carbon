@@ -8,10 +8,9 @@ import React, { useState } from 'react';
 
 import { createLogger } from '@instana/logger';
 
-// @ts-expect-error module need to be translated to TS
-import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
 import TestCreationWithSteps from 'in-synthetics/components/TestCreationWithSteps';
+import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
 import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
 import { createTest } from 'in-synthetics/api';

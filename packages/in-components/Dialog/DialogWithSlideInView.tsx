@@ -5,13 +5,32 @@
 
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import { stopPropagation, stopPropagationAndPreventDefault, noop } from 'in-services/util/function';
 import SlideInView from 'in-components/SlideInView/SlideInView';
 import Header from 'in-components/Dialog/Header';
 
 import locals from './Dialog.mless';
+
+export interface DialogWithSlideInViewProps {
+  children: React.ReactNode;
+  className?: string;
+  renderCustomCloseBehaviour?: (reset: any) => React.ReactElement;
+  headless?: boolean;
+  onClose?: (e?: React.MouseEvent) => void;
+  onTitleIconClick?: () => void;
+  showOverflow?: boolean;
+  title: string | React.ReactElement;
+  titleIconType?: string;
+  withoutBodyPadding?: boolean;
+  removeBottomPaddingWhenFooterIsShown?: boolean;
+  doNotCloseOnOutsideClick?: boolean;
+  onSlideInViewTitleClick?: () => void;
+  slideInViewTitle?: string;
+  slideInViewComponent?: React.ReactNode;
+  slideInViewVisible?: boolean;
+  footer?: React.ReactNode;
+}
 
 export default function DialogWithSlideInView({
   title,
@@ -31,7 +50,7 @@ export default function DialogWithSlideInView({
   slideInViewComponent,
   slideInViewVisible,
   footer
-}) {
+}: DialogWithSlideInViewProps) {
   const [scrollshadow, setScrollshadow] = useState(false);
 
   const resetScrollShadow = () => {
@@ -44,12 +63,12 @@ export default function DialogWithSlideInView({
         [locals.wrapper]: true,
         [locals.cursorDefault]: doNotCloseOnOutsideClick
       })}
-      onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose(e))}
+      onClick={e => (doNotCloseOnOutsideClick ? stopPropagationAndPreventDefault(e) : onClose?.(e))}
     >
       <section
         className={classNames(locals.dialog, className)}
         onClick={stopPropagation}
-        onScrollCapture={e => setScrollshadow(e.target.scrollTop > 0)}
+        onScrollCapture={e => setScrollshadow((e.target as HTMLElement).scrollTop > 0)}
       >
         <SlideInView
           onShowSlideInContentChange={onSlideInViewTitleClick ?? noop}
@@ -90,23 +109,3 @@ export default function DialogWithSlideInView({
     </div>
   );
 }
-
-DialogWithSlideInView.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  renderCustomCloseBehaviour: PropTypes.func,
-  headless: PropTypes.bool,
-  onClose: PropTypes.func,
-  onTitleIconClick: PropTypes.func,
-  showOverflow: PropTypes.bool,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  titleIconType: PropTypes.string,
-  withoutBodyPadding: PropTypes.bool,
-  removeBottomPaddingWhenFooterIsShown: PropTypes.bool,
-  doNotCloseOnOutsideClick: PropTypes.bool,
-  onSlideInViewTitleClick: PropTypes.func,
-  slideInViewTitle: PropTypes.string,
-  slideInViewComponent: PropTypes.node,
-  slideInViewVisible: PropTypes.bool,
-  footer: PropTypes.node
-};
