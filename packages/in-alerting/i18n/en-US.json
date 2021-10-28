@@ -549,7 +549,7 @@
         "timeThresholdDescriptionViolationsInPeriod_2": "At least {{count}} violations within the last {{formattedTimeWindow}}",
         "timeThresholdConfigNumberOfConsecutiveViolations": "Number of Consecutive Metric Violations",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Number of Consecutive Evaluations",
-        "timeThresholdConfigNumberOfEvaluationWindows": "Number of Evaluation Windows for User Impact",
+        "timeThresholdConfigNumberOfEvaluationWindows": "Number of Consecutive Violations",
         "timeThresholdConfigImpactEvaluationMethod": "User Impact Evaluation Method",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Aggregate across all evaluation windows",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculate for each evaluation window",
