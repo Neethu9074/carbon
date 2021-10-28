@@ -42,7 +42,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.netstatInterfaceStringData.get('INTERNET_ADDRESS');
+        return row.netstatInterfaceStringData.get('internetAddress');
       }
     }
   },
@@ -51,7 +51,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.netstatInterfaceStringData.get('SUBNET_MASK');
+        return row.netstatInterfaceStringData.get('subnetMask');
       }
     }
   },
@@ -60,7 +60,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.netstatInterfaceStringData.get('CONNECTION_TYPE');
+        return row.netstatInterfaceStringData.get('connectionType');
       }
     }
   },
@@ -69,7 +69,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.netstatInterfaceStringData.get('INTERFACE_LINE_TYPE');
+        return row.netstatInterfaceStringData.get('InterfaceLineType');
       }
     }
   },
@@ -78,7 +78,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.netstatInterfaceStringData.get('LINE_DESCRIPTION');
+        return row.netstatInterfaceStringData.get('lineDescription');
       }
     }
   },
@@ -87,7 +87,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.netstatInterfaceStringData.get('VIRTUAL_LAN_ID');
+        return row.netstatInterfaceStringData.get('virtualLanId');
       }
     }
   },
