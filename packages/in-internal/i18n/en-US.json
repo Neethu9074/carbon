@@ -171,7 +171,7 @@
       "appDataAggregator": {
         "host": "Host",
         "hostCpuLoad": "Host CPU load",
-        "activeReg": "Active registrations",
+        "activeReg": "Owned active registrations",
         "stateStoreSyncTime": "State Store Sync Time ({{aggregation}})",
         "stateStoreGroupedSyncTime": "State Store Grouped Sync Time ({{aggregation}})",
         "incomingCalls": "Incoming Calls",

@@ -91,10 +91,10 @@ export default connectTo({
                   formatter: number.detailed,
                   metrics: rows.map(
                     () =>
-                      'metrics.gauges.com.instana.appdata.liveaggregator.aggregation.request.AggregationRequestRegistry.aggregation-requests.store-size'
+                      'metrics.gauges.com.instana.appdata.liveaggregator.aggregation.request.AggregationRequestRegistry.aggregation-requests.owned-entry-count'
                   ),
                   labels: labels,
-                  type: 'line'
+                  type: 'stackedArea'
                 }}
               />
             </DashboardSection>
