@@ -4,23 +4,44 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import { Button, ButtonKinds, ButtonSizes, getEnumValues } from '@instana/components';
+import { Button, ButtonKinds, ButtonSizes } from '@instana/components';
 
 import { stopPropagation } from 'in-services/util/function';
 import Overlay from 'in-components/overlays/Overlay';
 
 import locals from './MoreMenu.mless';
 
+export interface MoreMenuProps {
+  children: React.ReactNode;
+  className?: string;
+  kind?: keyof typeof ButtonKinds;
+  size?: keyof typeof ButtonSizes;
+  /**
+   * Renders a custom element to open the menu.
+   * Use this if you need some kind of different button etc.
+   */
+  renderInteractiveElement: (props: InteractiveElementsProps) => React.ReactNode;
+}
+
+export interface InteractiveElementsProps {
+  ref: React.MutableRefObject<HTMLElement> | undefined;
+  toggle: () => void;
+}
+
+interface MoreMenuContentProps {
+  content: React.ReactNode;
+  close: () => void;
+}
+
 export default function MoreMenu({
   children,
   kind = 'secondary',
   size = 'normal',
-  className,
+  className = '',
   renderInteractiveElement
-}) {
+}: MoreMenuProps) {
   return (
     <Overlay
       withoutWrapper
@@ -34,10 +55,11 @@ export default function MoreMenu({
           toggle,
           ref
         }) ?? (
+          // @ts-expect-error This component will be used as a wrapper. "prop children is missing" error can be ignored here
           <Button
             className={classNames(locals.button, className)}
             onClick={e => {
-              stopPropagation(e);
+              stopPropagation(e as React.MouseEvent<HTMLElement>);
               toggle();
             }}
             ref={ref}
@@ -51,19 +73,7 @@ export default function MoreMenu({
   );
 }
 
-MoreMenu.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  kind: PropTypes.oneOf(getEnumValues(ButtonKinds)),
-  size: PropTypes.oneOf(getEnumValues(ButtonSizes)),
-  /**
-   * Renders a custom element to open the menu.
-   * Use this if you need some kind of different button etc.
-   */
-  renderInteractiveElement: PropTypes.func
-};
-
-function MoreMenuContent({ content, close }) {
+function MoreMenuContent({ content, close }: MoreMenuContentProps) {
   return (
     <ul
       className={locals.menu}

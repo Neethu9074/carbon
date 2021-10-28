@@ -7,8 +7,9 @@ import React from 'react';
 
 import { Link, Stack } from '@instana/components';
 
-// @ts-expect-error Module needs to be translated
+// @ts-expect-error Module needs to be translated to TS
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
+import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
 import { SyntheticTest, HttpActionConfiguration } from 'in-types';
 import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
@@ -22,11 +23,6 @@ interface Props {
   isSubmitting: boolean;
   pauseOrResume: (test: SyntheticTest) => void;
   deleteTest: (id: string) => void;
-}
-
-interface MoreMenuProps {
-  ref: React.Ref<HTMLButtonElement>;
-  toggle: () => void;
 }
 
 export const columnDefinitions = [
@@ -97,7 +93,7 @@ export const columnDefinitions = [
             />
           </Tooltip>
           <MoreMenu
-            renderInteractiveElement={({ ref, toggle }: MoreMenuProps) => (
+            renderInteractiveElement={({ ref, toggle }: InteractiveElementsProps) => (
               <IconButton
                 kind="info"
                 type="lib_menu_more_horizontal"
@@ -105,7 +101,7 @@ export const columnDefinitions = [
                   stopPropagation(e);
                   toggle();
                 }}
-                ref={ref}
+                ref={ref as React.MutableRefObject<HTMLButtonElement>}
               />
             )}
           >
