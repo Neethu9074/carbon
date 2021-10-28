@@ -5,12 +5,23 @@
 
 import React, { useState } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
-import locals from 'in-alerting/components/Menu.mless';
+import locals from './Menu.mless';
 
-export default function Menu({ addRightSeparator = false, items, onItemClick, initialItemSelected }) {
+export interface MenuItem {
+  type: string;
+  subType?: string;
+  name: string;
+}
+export interface MenuProps {
+  addRightSeparator: boolean;
+  items: MenuItem[] | readonly MenuItem[];
+  onItemClick: (item: MenuItem) => any;
+  initialItemSelected: MenuItem;
+}
+
+export default function Menu({ addRightSeparator = false, items, onItemClick, initialItemSelected }: MenuProps) {
   validateInitialItemSelected(initialItemSelected, items);
 
   const [itemSelected, setItemSelected] = useState(() => {
@@ -45,23 +56,7 @@ export default function Menu({ addRightSeparator = false, items, onItemClick, in
   );
 }
 
-Menu.propTypes = {
-  addRightSeparator: PropTypes.bool,
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      subType: PropTypes.string,
-      name: PropTypes.string.isRequired
-    })
-  ).isRequired,
-  onItemClick: PropTypes.func.isRequired,
-  initialItemSelected: PropTypes.shape({
-    type: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
-  }).isRequired
-};
-
-function validateInitialItemSelected(initialItemSelected, items) {
+function validateInitialItemSelected(initialItemSelected: MenuItem, items: readonly MenuItem[]) {
   if (__DEV__) {
     invariant(
       items.find(item => item.type === initialItemSelected.type),

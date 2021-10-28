@@ -6,7 +6,7 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import Menu from 'in-alerting/components/Menu';
+import Menu from 'in-components/Menu';
 
 export default {
   component: Menu,

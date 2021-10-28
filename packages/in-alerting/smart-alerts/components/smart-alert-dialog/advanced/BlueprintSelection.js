@@ -11,7 +11,7 @@ import {
   BlueprintText
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/BlueprintDescription';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
-import Menu from 'in-alerting/components/Menu';
+import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/BlueprintSelection.mless';

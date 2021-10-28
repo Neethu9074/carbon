@@ -8,17 +8,16 @@ import React from 'react';
 // @ts-expect-error module needs to be translated to TS
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
-// @ts-expect-error module needs to be translated to TS
-import Menu from 'in-alerting/components/Menu';
 import { blueprintConfig, BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
+import Menu, { MenuItem } from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 import locals from './SelectTestStep.mless';
 
 export interface Props {
   selectedBlueprint: BluePrint;
-  onSelectBluePrint: (item: BluePrint) => void;
+  onSelectBluePrint: (item: MenuItem) => void;
 }
 
 interface Description {
@@ -33,7 +32,7 @@ export default function SelectTestStep({ selectedBlueprint, onSelectBluePrint }:
         items={blueprintConfig}
         addRightSeparator
         initialItemSelected={selectedBlueprint}
-        onItemClick={(item: BluePrint) => {
+        onItemClick={(item: MenuItem) => {
           onSelectBluePrint(item);
         }}
       />

@@ -18,7 +18,7 @@ import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
-import Menu from 'in-alerting/components/Menu';
+import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 export default function SimpleAlertConfigDialogStep1({

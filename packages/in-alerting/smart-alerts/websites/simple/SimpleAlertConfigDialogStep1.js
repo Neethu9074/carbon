@@ -20,7 +20,7 @@ import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertT
 import ProvideJsError from 'in-alerting/smart-alerts/websites/components/ProvideJsError';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { modeSimple } from 'in-alerting/smart-alerts/websites/constants';
-import Menu from 'in-alerting/components/Menu';
+import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 export default function SimpleAlertConfigDialogStep1({
