@@ -4,12 +4,12 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { escapeRegExp } from 'lodash';
 
 import { Button, Link, Stack } from '@instana/components';
 
 import { MultiSelectSuggestions } from 'in-components/AnalyzeView/FacetedFilters/MultiSelectSuggestions';
 import { CheckableSuggestion } from 'in-components/AnalyzeView/FacetedFilters/CheckableSuggestion';
+import { getFuzzyMatchingRegex } from 'in-components/AnalyzeView/fuzzyMatch';
 import { useSuggestions } from 'in-components/AnalyzeView/useSuggestions';
 import { compareIgnoreCase, isBlank } from 'in-services/util/string';
 import { identity } from 'in-services/util/function';
@@ -113,13 +113,7 @@ export function MultiSelect(props) {
 }
 
 function CurrentSelection({ selection, valueFilter, customLabelMapper = identity, onChange }) {
-  const valueRegex = new RegExp(
-    valueFilter
-      .split('')
-      .map(escapeRegExp)
-      .join('.*'),
-    'i'
-  );
+  const valueRegex = getFuzzyMatchingRegex(valueFilter);
 
   return selection
     .filter(suggestion => valueRegex.test(customLabelMapper(suggestion)))

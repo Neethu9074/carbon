@@ -3,10 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { escapeRegExp } from 'lodash';
-
 import { useObservable } from '@instana/hooks';
 
+import { getFuzzyMatchingRegex } from 'in-components/AnalyzeView/fuzzyMatch';
 import { pendingResult } from 'in-services/fixedObjects';
 import { identity } from 'in-services/util/function';
 import { mapDataHO } from 'in-services/util/result';
@@ -29,14 +28,7 @@ export function useSuggestions({
   const timeConfig = useTimeConfig();
   const tagDefinition = tagCatalog?.tags.find(tagEntry => tagEntry.name === tag);
   const isBooleanTag = tagDefinition?.type === 'BOOLEAN';
-
-  const valueRegex = new RegExp(
-    valueFilter
-      .split('')
-      .map(escapeRegExp)
-      .join('.*'),
-    'i'
-  );
+  const valueRegex = getFuzzyMatchingRegex(valueFilter);
 
   return (
     useObservable(

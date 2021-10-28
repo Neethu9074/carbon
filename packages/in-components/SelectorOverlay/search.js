@@ -3,12 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
+import { escapeRegExp } from 'lodash';
+
 export function search(nodes, query) {
   if (!query) {
     return nodes;
   }
 
-  query = query.toLowerCase();
+  query = new RegExp(
+    query
+      .toLowerCase()
+      .split(' ')
+      .map(escapeRegExp)
+      .join('.*'),
+    'i'
+  );
   const result = [];
   searchNodes(nodes, query, result);
   return result;
@@ -29,17 +38,13 @@ function searchNode(node, query, result) {
 }
 
 function matches(leaf, query) {
-  if (leaf.keywords && leaf.keywords.toLowerCase().indexOf(query) !== -1) {
+  if (leaf.keywords && query.test(leaf.keywords.toLowerCase())) {
     return true;
   }
 
-  if (typeof leaf.label === 'string' && leaf.label.toLowerCase().indexOf(query) !== -1) {
+  if (typeof leaf.label === 'string' && query.test(leaf.label.toLowerCase())) {
     return true;
   }
 
-  if (typeof leaf.description === 'string' && leaf.description.toLowerCase().indexOf(query) !== -1) {
-    return true;
-  }
-
-  return false;
+  return typeof leaf.description === 'string' && query.test(leaf.description.toLowerCase());
 }
