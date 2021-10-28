@@ -2,5 +2,5 @@
   "name": "TextArea",
   "version": "0.0.0",
   "private": true,
-  "main": "./TextArea.js"
+  "main": "./TextArea.tsx"
 }

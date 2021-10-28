@@ -6,11 +6,10 @@
 import { Field, MapForm, Item } from 'formalistic';
 import React from 'react';
 
-// @ts-expect-error module needs to be translated to TS
-import TextArea from 'in-components/form/TextArea';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Section from 'in-synthetics/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
+import TextArea from 'in-components/form/TextArea';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
 import { t } from 'in-i18n';
@@ -55,7 +54,7 @@ export default function BasicDetailsStep({ form, updateForm }: Props) {
           <TextArea
             name="description"
             value={field.value}
-            onChange={({ target }: React.ChangeEvent<HTMLInputElement>) => {
+            onChange={({ target }: React.ChangeEvent<HTMLTextAreaElement>) => {
               updateForm(
                 form.updateIn(['description'], (field: Item) =>
                   (field as Field<string>).setValue(target.value).setTouched(true)

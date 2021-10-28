@@ -5,13 +5,21 @@
 
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
 import locals from './TextArea.mless';
 
-export default forwardRef(FormTextArea);
+export interface TextAreaProps extends React.HTMLAttributes<HTMLTextAreaElement> {
+  className?: string;
+  name?: string;
+  value?: string;
+  hasError?: boolean;
+  hideValidityInformationOnFocus?: boolean;
+}
 
-function FormTextArea({ hasError, hideValidityInformationOnFocus, className, ...textAreaProps }, ref) {
+export default forwardRef<HTMLTextAreaElement, TextAreaProps>(function FormTextArea(
+  { hasError, hideValidityInformationOnFocus, className, ...textAreaProps },
+  ref
+) {
   return (
     <textarea
       {...textAreaProps}
@@ -22,10 +30,4 @@ function FormTextArea({ hasError, hideValidityInformationOnFocus, className, ...
       })}
     />
   );
-}
-
-FormTextArea.propTypes = {
-  className: PropTypes.className,
-  hasError: PropTypes.bool,
-  hideValidityInformationOnFocus: PropTypes.bool
-};
+});
