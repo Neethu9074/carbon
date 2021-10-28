@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-// @ts-expect-error module needs to be translated to TS
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import { blueprintConfig, BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
