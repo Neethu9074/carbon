@@ -5,15 +5,14 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
+
 import { floatingActionButtons$ } from 'in-components/FloatingActionButton/stores/floatingActionButtons';
-import connectTo from 'in-hoc/connectTo';
 
 import locals from './Footer.mless';
 
-export default connectTo(() => ({
-  hasFloatingFooter: floatingActionButtons$.map(buttons => buttons && buttons.length > 0)
-}))(Footer);
+export default function Footer() {
+  const floatingActionButtons = useObservable(floatingActionButtons$, []) as unknown[];
 
-function Footer({ hasFloatingFooter }) {
-  return hasFloatingFooter ? <footer className={locals.footer} /> : null;
+  return floatingActionButtons?.length ? <footer className={locals.footer} /> : null;
 }
