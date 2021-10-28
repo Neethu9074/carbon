@@ -31,14 +31,6 @@ export default function Groups({ userId, refresh }) {
       renderAdditionalHeaderContent={renderAdditionalHeaderContent}
       userId={userId}
       refresh={refresh}
-      filterFunction={({ members }) => {
-        for (let i = 0; i < members.length; i++) {
-          if (userId === members[i].userId) {
-            return true;
-          }
-        }
-        return false;
-      }}
     />
   );
 }
@@ -46,7 +38,7 @@ export default function Groups({ userId, refresh }) {
 const columnDefinitions = [
   {
     getContent({ group }) {
-      return group.name;
+      return group.groupName;
     }
   },
   {
@@ -62,7 +54,7 @@ const columnDefinitions = [
   {
     width: '8rem',
     getContent({ group }) {
-      return <KeyValue value={group.members.length} label={t('in-settings:tabs.users')} accentuated />;
+      return <KeyValue value={group.groupSize} label={t('in-settings:tabs.users')} accentuated />;
     }
   },
   {
@@ -70,15 +62,15 @@ const columnDefinitions = [
     getContent({ group, deleteItem, currentDeletingItemIds }) {
       return (
         <Delete
-          itemName={group.name}
+          itemName={group.groupName}
           doDelete={deleteItem}
-          isDeleting={currentDeletingItemIds.has(group.id)}
+          isDeleting={currentDeletingItemIds.has(group.groupId)}
           dialogMessage={() => {
             return (
               <span>
                 <Trans
                   i18nKey="in-settings:tabs.areYouSureYouWantToDeleteThisUserFromTheGroup"
-                  values={{ groupName: group.name }}
+                  values={{ groupName: group.groupName }}
                 />
               </span>
             );
@@ -93,11 +85,11 @@ function ListRenderer({ items, userId, refresh, setErrorMessage, currentDeleting
   return (
     <Ul>
       {items.map(group => (
-        <Li key={group.id} href$={getEntityIdView(teamSettingsAccessControlGroups, group.id)}>
+        <Li key={group.groupId} href$={getEntityIdView(teamSettingsAccessControlGroups, group.groupId)}>
           <ColumnizedContent
             columnDefinitions={columnDefinitions}
             group={group}
-            deleteItem={() => removeUserFromGroupInternal(userId, group.id, refresh, setErrorMessage)}
+            deleteItem={() => removeUserFromGroupInternal(userId, group.groupId, refresh, setErrorMessage)}
             currentDeletingItemIds={currentDeletingItemIds}
           />
         </Li>

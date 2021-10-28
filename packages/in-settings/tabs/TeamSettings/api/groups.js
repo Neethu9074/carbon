@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create, combineLatest } from '@instana/observables';
+import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
@@ -26,30 +26,21 @@ export const getGroupWithIdpFlagAsResultObservable = memoize(
   60000
 );
 function getGroupWithIdpFlagAsResultObservableInternal(groupId) {
-  return refreshSignalTeams.flatMap(() => {
-    return createObservable(
-      combineLatest([
-        http({
-          method: 'GET',
-          maxRetries: 3,
-          url: `${basePath}/${groupId}`
-        }),
-        http({
-          method: 'GET',
-          maxRetries: 3,
-          url: `${basePath}/${groupId}/idp-mapping`
-        })
-      ]).map(r => {
-        const membersWithIdp = r[1].body.members;
-        const idpFlagByMemberId = new Map();
-        membersWithIdp.forEach(m => idpFlagByMemberId.set(m.userId, m.joinedViaIdpMapping));
-        const groupsWithMembers = r[0].body.members;
-        groupsWithMembers.forEach(m => (m.joinedViaIdpMapping = idpFlagByMemberId.get(m.userId) || false));
-
-        return r[0];
+  return refreshSignalTeams.flatMap(() =>
+    createObservable(
+      http({
+        method: 'GET',
+        maxRetries: 3,
+        url: `${basePath}/${groupId}/idp-mapping`
+      }).map(r => {
+        const groupWithRoles = r.body.groupWithRoles;
+        const idpFlagMap = r.body.idpFlagMap;
+        groupWithRoles.members.forEach(m => (m.joinedViaIdpMapping = idpFlagMap[m.userId]));
+        r.body = groupWithRoles;
+        return r;
       })
-    );
-  });
+    )
+  );
 }
 
 export const getGroupsAsResultObservable = memoize(getGroupsAsResultObservableInternal, () => '', 60000);
@@ -103,20 +94,7 @@ function getStrippedGroupsWithIdpFlagAsResultObservableInternal(userId) {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `${basePath}/stripped`
-      }).flatMap(groupsStripped => {
-        return http({
-          method: 'GET',
-          maxRetries: 3,
-          url: `${basePath}/user/${userId}/idp-mapping`
-        }).map(userInfo => {
-          const infos = userInfo.body;
-          const groupsForThisUser = groupsStripped.body.filter(aGroup => aGroup.members.find(m => m.userId == userId));
-          groupsForThisUser.forEach(
-            g => (g.joinedViaIdpMapping = infos.find(i => i.groupId === g.id).joinedViaIdpMapping)
-          );
-          return groupsStripped;
-        });
+        url: `${basePath}/user/${userId}/idp-mapping`
       })
     )
   );
