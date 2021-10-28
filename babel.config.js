@@ -34,6 +34,21 @@ module.exports = {
         loose: true,
         // Set to true to see what kind of presets we are using.
         debug: false,
+        include: [
+          // latest versions of supported browsers already support these
+          // ES2020 features,
+          // so we need to add these plugins, to force babel to
+          // do the backwards-compatible conversion,
+          // because our current Webpack4 version cannot handle the
+          // ?? operator and :? syntax.
+          //
+          // this can be removed after upgrading webpack to v5
+          // further details:
+          // https://github.com/PaulLeCam/react-leaflet/issues/883
+          'proposal-nullish-coalescing-operator',
+          'proposal-optional-chaining'
+        ],
+
         exclude: [
           // excluded so that we can manual include it again with different options
           'transform-block-scoping',

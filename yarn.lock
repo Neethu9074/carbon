@@ -4053,14 +4053,9 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30001084.tgz#f011ad731a4e7f469a12531984db2de2dcb307f0"
   integrity sha512-oxprDntKFaMkhNV0vfFtaKtGDAJda8rdCsWC//6WTXsJgb44NxTImwkYym1uFiKkawI0SsC/y3Lj8gxJjH3w3A==
 
-caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805, caniuse-lite@^1.0.30001125:
-  version "1.0.30001228"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001228.tgz#bfdc5942cd3326fa51ee0b42fbef4da9d492a7fa"
-  integrity sha1-v9xZQs0zJvpR7gtC++9NqdSSp/o=
-
-caniuse-lite@^1.0.30001157:
-  version "1.0.30001211"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001211.tgz"
+caniuse-lite@^1.0.30000792, caniuse-lite@^1.0.30000805, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001157:
+  version "1.0.30001271"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001271.tgz"
 
 capture-exit@^2.0.0:
   version "2.0.0"

@@ -133,6 +133,7 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
+            options: { cacheDirectory: true },
             loader: 'babel-loader'
           }
         ]
