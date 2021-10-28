@@ -10,10 +10,9 @@ import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/S
 // @ts-expect-error module needs to be translated to TS
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 // @ts-expect-error module needs to be translated to TS
-import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-// @ts-expect-error module needs to be translated to TS
 import Menu from 'in-alerting/components/Menu';
 import { blueprintConfig, BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
+import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
 import { t } from 'in-i18n';
 
 import locals from './SelectTestStep.mless';

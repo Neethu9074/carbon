@@ -6,6 +6,11 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 
-export default function DangerousHtmlPresenter({ html, className }) {
+interface Props {
+  html: string;
+  className?: string;
+}
+
+export default function DangerousHtmlPresenter({ html, className }: Props) {
   return <div className={className} dangerouslySetInnerHTML={{ __html: html }} />;
 }

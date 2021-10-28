@@ -2,5 +2,5 @@
   "name": "DangerousHtmlPresenter",
   "version": "0.0.0",
   "private": true,
-  "main": "./DangerousHtmlPresenter.js"
+  "main": "./DangerousHtmlPresenter.tsx"
 }
