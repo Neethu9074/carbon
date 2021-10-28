@@ -24,7 +24,7 @@ import connect from 'in-hoc/connectTo';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-const metrics = ['latency', 'calls', 'errors'];
+const metrics = ['latency', 'calls', 'erroneousCalls'];
 const labels = [
   t('in-applications:labelLatency'),
   t('in-applications:labelCalls'),
