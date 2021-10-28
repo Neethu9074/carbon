@@ -7,7 +7,6 @@ import React from 'react';
 
 // @ts-expect-error module needs to be translated to TS
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
-// @ts-expect-error module needs to be translated to TS
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 // @ts-expect-error module needs to be translated to TS
 import Menu from 'in-alerting/components/Menu';
