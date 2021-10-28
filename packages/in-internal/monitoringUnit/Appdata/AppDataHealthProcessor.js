@@ -130,6 +130,24 @@ export default connectTo({
           </Columize>
 
           <Columize>
+            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.ownedConfig')}>
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.gauges.com.instana.appdata.health.state.AlertConfigurationLoader.alert-configurations.owned-entry-count`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+
             <DashboardSection title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.processedConfig')}>
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -197,63 +215,6 @@ export default connectTo({
 
           <Columize>
             <DashboardSection
-              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataLiveAggreApplMetricsReq')}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(
-                    () => `metrics.meters.grpc.client.appdata-live-aggregator-metricsconcurrencyLimit.acquire.calls`
-                  ),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-
-            <DashboardSection
-              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.noResultAppdataAggreAppMetricsReq')}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(() => `metrics.meters.KPI.processing.fallbacks.calls`),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-
-            <DashboardSection
-              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataLiveAggreAppMetricsReqs')}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(
-                    () => `metrics.meters.grpc.client.appdata-live-aggregator-metricsconcurrencyLimit.acquire.errors`
-                  ),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-          </Columize>
-
-          <Columize>
-            <DashboardSection
               title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataReaderAppMetricsReq')}
             >
               <Chart
@@ -294,7 +255,7 @@ export default connectTo({
 
           <Columize>
             <DashboardSection
-              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appReaderCallGroupsReq')}
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataReaderPerServiceReq')}
             >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -304,7 +265,7 @@ export default connectTo({
                   min: 0,
                   formatter: number.perSecond.detailed,
                   metrics: rows.map(
-                    () => `metrics.meters.grpc.client.appdata-reader-groupsconcurrencyLimit.acquire.calls`
+                    () => `metrics.meters.grpc.client.appdata-reader-per-service-metricsconcurrencyLimit.acquire.calls`
                   ),
                   labels: labels,
                   type: 'stackedArea'
@@ -313,7 +274,7 @@ export default connectTo({
             </DashboardSection>
 
             <DashboardSection
-              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataReaderCallGroupsReq')}
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataReaderPerServiceReq')}
             >
               <Chart
                 snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -323,7 +284,226 @@ export default connectTo({
                   min: 0,
                   formatter: number.perSecond.detailed,
                   metrics: rows.map(
-                    () => `metrics.meters.grpc.client.appdata-reader-groupsconcurrencyLimit.acquire.errors`
+                    () => `metrics.meters.grpc.client.appdata-reader-per-service-metricsconcurrencyLimit.acquire.errors`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+
+          <Columize>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataReaderPerEndpointReq')}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () => `metrics.meters.grpc.client.appdata-reader-per-endpoint-metricsconcurrencyLimit.acquire.calls`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataReaderPerEndpointReq')}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.meters.grpc.client.appdata-reader-per-endpoint-metricsconcurrencyLimit.acquire.errors`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+
+          <Columize>
+            <DashboardSection
+              title={t(
+                'in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataHealthAggregatorAppMetricsReq'
+              )}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () => `metrics.meters.grpc.client.appdata-health-aggregator-metricsconcurrencyLimit.acquire.calls`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+
+            <DashboardSection
+              title={t(
+                'in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdHealthAggregatorAppMetricsReq'
+              )}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () => `metrics.meters.grpc.client.appdata-health-aggregator-metricsconcurrencyLimit.acquire.errors`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+
+          <Columize>
+            <DashboardSection
+              title={t(
+                'in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataHealthAggregatorPerServiceReq'
+              )}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.meters.grpc.client.appdata-health-aggregator-per-service-metricsconcurrencyLimit.acquire.calls`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+
+            <DashboardSection
+              title={t(
+                'in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataHealthAggregatorPerServiceReq'
+              )}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.meters.grpc.client.appdata-health-aggregator-per-service-metricsconcurrencyLimit.acquire.errors`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+
+          <Columize>
+            <DashboardSection
+              title={t(
+                'in-internal:monitoringUnit.appdata.appdataHealthProcessor.appdataHealthAggregatorPerEndpointReq'
+              )}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.meters.grpc.client.appdata-health-aggregator-per-endpoint-metricsconcurrencyLimit.acquire.calls`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+
+            <DashboardSection
+              title={t(
+                'in-internal:monitoringUnit.appdata.appdataHealthProcessor.failAppdataHealthAggregatorPerEndpointReq'
+              )}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.meters.grpc.client.appdata-health-aggregator-per-endpoint-metricsconcurrencyLimit.acquire.errors`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+          </Columize>
+
+          <Columize>
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.evaluationStorageUpdates')}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.meters.com.instana.appdata.health.state.entity.AlertEvaluationEntityStorage.updates.calls`
+                  ),
+                  labels: labels,
+                  type: 'stackedArea'
+                }}
+              />
+            </DashboardSection>
+
+            <DashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appdataHealthProcessor.failEvaluationStorageUpdates')}
+            >
+              <Chart
+                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+                timeConfig={timeConfig}
+                minRollup={5000}
+                y1={{
+                  min: 0,
+                  formatter: number.perSecond.detailed,
+                  metrics: rows.map(
+                    () =>
+                      `metrics.meters.com.instana.appdata.health.state.entity.AlertEvaluationEntityStorage.updates.errors`
                   ),
                   labels: labels,
                   type: 'stackedArea'
