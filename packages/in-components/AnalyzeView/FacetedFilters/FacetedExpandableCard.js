@@ -21,39 +21,45 @@ function HeaderButton({ icon, onClick, href, className }) {
   );
 }
 
-function GroupByHeaderButton({ groupByTracker, tag, dataSource, linkToGroupedView }) {
+function GroupByHeaderButton({ tracker, tag, dataSource, linkToGroupedView }) {
   const onClick = e => {
     // required to hinder the ExpandableCard from collapsing when clicking in its header
     e.stopPropagation();
-    groupByTracker({
-      tag: tag,
-      dataSource: dataSource
+    tracker.groupClicked({
+      tag,
+      dataSource
     });
   };
   const icon = <SvgIcon type={'lib_group_by'} size={'xs'} />;
   return <HeaderButton icon={icon} onClick={onClick} href={linkToGroupedView} className={locals.headerButton} />;
 }
 
-function UngroupHeaderButton({ linkToUngroupedView }) {
+function UngroupHeaderButton({ linkToUngroupedView, tag, dataSource, tracker }) {
   const onClick = e => {
     // required to hinder the ExpandableCard from collapsing when clicking in its header
     e.stopPropagation();
+    tracker.groupRemoved({
+      tag,
+      dataSource
+    });
   };
   const icon = <SvgIcon type={'lib_ungroup'} size={'xs'} />;
   return <HeaderButton icon={icon} onClick={onClick} href={linkToUngroupedView} className={locals.headerButton} />;
 }
 
-function GroupingButton({ isGrouped, groupByTracker, tag, dataSource, linkToGroupedView, linkToUngroupedView }) {
+function GroupingButton({ isGrouped, tracker, tag, dataSource, linkToGroupedView, linkToUngroupedView }) {
   if (isGrouped) {
-    return <UngroupHeaderButton linkToUngroupedView={linkToUngroupedView} />;
+    return (
+      <UngroupHeaderButton
+        linkToUngroupedView={linkToUngroupedView}
+        tag={tag}
+        dataSource={dataSource}
+        tracker={tracker}
+      />
+    );
   }
   return (
-    <GroupByHeaderButton
-      groupByTracker={groupByTracker}
-      tag={tag}
-      dataSource={dataSource}
-      linkToGroupedView={linkToGroupedView}
-    />
+    <GroupByHeaderButton tracker={tracker} tag={tag} dataSource={dataSource} linkToGroupedView={linkToGroupedView} />
   );
 }
 
@@ -66,7 +72,7 @@ export default function FacetedExpandableCard(props) {
     isActiveGroup,
     disabled,
     enableUseAsGroup,
-    groupByTracker,
+    tracker,
     getHrefToGroupedView,
     getHrefToUngroupedView,
     children
@@ -94,7 +100,7 @@ export default function FacetedExpandableCard(props) {
             tag={tag}
             entity={entity}
             dataSource={dataSource}
-            groupByTracker={groupByTracker}
+            tracker={tracker}
             linkToGroupedView={getHrefToGroupedView({
               tag,
               tagEntity: entity

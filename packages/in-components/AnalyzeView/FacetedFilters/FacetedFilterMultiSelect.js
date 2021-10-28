@@ -5,16 +5,11 @@
 
 import React, { useEffect, useState } from 'react';
 
-import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-applications/tracker';
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import { addFacetItem, removeFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
+import { uaFacetedTracker } from 'in-components/AnalyzeView/FacetedFilters/tracking';
 import { MultiSelect } from 'in-components/AnalyzeView/FacetedFilters/MultiSelect';
 import { t } from 'in-i18n';
-
-const ua2FacetedTracker = {
-  groupClicked: ua2FacetedSearchGroupChangedTracker,
-  suggestionClicked: ua2FacetedSearchFilterAddedTracker
-};
 
 export default function FacetedFilterMultiSelect(props) {
   const {
@@ -64,7 +59,7 @@ export default function FacetedFilterMultiSelect(props) {
   };
 
   const trackerMethods = {
-    ...ua2FacetedTracker,
+    ...uaFacetedTracker,
     ...(tracker ?? {})
   };
 
@@ -79,7 +74,7 @@ export default function FacetedFilterMultiSelect(props) {
       dataSource={dataSource}
       isActiveGroup={tag === groupbyTag}
       enableUseAsGroup={enableUseAsGroup}
-      groupByTracker={trackerMethods.groupClicked}
+      tracker={trackerMethods}
       getHrefToGroupedView={getHrefToGroupedView}
       getHrefToUngroupedView={getHrefToUngroupedView}
     >

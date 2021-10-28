@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react';
 
 import { Button, Link, Stack } from '@instana/components';
 
-import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-components/tracker';
 import { Errors, Loading } from 'in-components/AnalyzeView/FacetedFilters/Placeholders';
 import { addFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
@@ -18,11 +17,6 @@ import { t } from 'in-i18n';
 import locals from './SuggestionsPresenter.mless';
 
 const DEFAULT_SUGGESTIONS_SIZE = 5;
-
-const ua2FacetedTracker = {
-  groupClicked: ua2FacetedSearchGroupChangedTracker,
-  suggestionClicked: ua2FacetedSearchFilterAddedTracker
-};
 
 export default function SuggestionsPresenter({
   loading = false,
@@ -35,7 +29,7 @@ export default function SuggestionsPresenter({
   getUpdatedFacetedSearchHref,
   customLabelMapper,
   dataSource,
-  tracker = ua2FacetedTracker
+  tracker
 }) {
   const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {

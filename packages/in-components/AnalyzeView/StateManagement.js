@@ -16,6 +16,7 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { ua2OrderByChangedTracker, ua2OrderByGroupChangedTracker } from 'in-components/tracker';
+import { ua2FacetsChangedTracker, ua2FormModelChangedTracker } from 'in-applications/tracker';
 import { BOOLEAN, KEY_VALUE_PAIR, NUMBER } from 'in-components/QueryBuilder/tagFilter/types';
 import { isValid as isValidGrouping } from 'in-components/GroupingConfigurator/validation';
 import { sanitizeTagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -210,7 +211,10 @@ function AnalyzeStateManagement({
   } = dataSourceConfigurations[dataSource];
 
   const formModel = useStableObjectInstance(urlState.formModel);
-  const onFormModelChange = formModel => onChange({ formModel });
+  const onFormModelChange = formModel => {
+    ua2FormModelChangedTracker({ formModel, url: getChangeAsUrl({ formModel }) });
+    onChange({ formModel });
+  };
   const facets = useStableObjectInstance(urlState.facets);
 
   const resetFacets = tag => {
@@ -222,6 +226,7 @@ function AnalyzeStateManagement({
   };
 
   const onFacetedSearchChange = facets => {
+    ua2FacetsChangedTracker({ facets, url: getChangeAsUrl({ facets }) });
     onChange({ facets });
   };
 

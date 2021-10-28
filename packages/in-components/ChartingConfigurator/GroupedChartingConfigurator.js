@@ -51,6 +51,8 @@ export default function GroupedChartingConfigurator({
         onChange={chartConfig => {
           if (chartConfig != null) {
             tracking?.onChartChanged?.(chartConfig);
+          } else {
+            tracking?.onChartRemoved?.();
           }
           onChange(chartConfig);
         }}

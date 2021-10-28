@@ -7,8 +7,8 @@ import React from 'react';
 
 import LatencyDistributionChart from 'in-applications/analyze/components/ChartingPresenter/LatencyDistributionChart';
 import { EMPTY_EXPRESSION, toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { ua2ChartChangedTracker, ua2ChartRemovedTracker } from 'in-applications/tracker';
 import { metricRenderers } from 'in-applications/analyze/AnalyzeView2_0/metrics';
-import { ua2ChartChangedTracker } from 'in-applications/tracker';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import Charting from 'in-components/AnalyzeView/Charting';
 import Sections from 'in-components/workspace/Sections';
@@ -50,7 +50,13 @@ export function ChartsPresenter(props) {
         hideRenderer
         tracking={{
           onChartChanged: ({ templateId, metricId, aggregationId }) =>
-            ua2ChartChangedTracker({ dataSource, template: templateId, metric: metricId, aggregation: aggregationId })
+            ua2ChartChangedTracker({
+              dataSource,
+              template: templateId,
+              metric: metricId,
+              aggregation: aggregationId
+            }),
+          onChartRemoved: ua2ChartRemovedTracker
         }}
         CustomChartFactory={({ metricConfig, chartProps }) => {
           if (isLatencyDistributionChart(metricConfig)) {

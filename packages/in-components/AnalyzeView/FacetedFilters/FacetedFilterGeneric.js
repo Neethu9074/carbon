@@ -9,9 +9,9 @@ import { Stack } from '@instana/components';
 
 import FacetedExpandableCard from 'in-components/AnalyzeView/FacetedFilters/FacetedExpandableCard';
 import SuggestionsPresenter from 'in-components/AnalyzeView/FacetedFilters/SuggestionsPresenter';
+import { uaFacetedTracker } from 'in-components/AnalyzeView/FacetedFilters/tracking';
 import ExistingValue from 'in-components/AnalyzeView/FacetedFilters/ExistingValue';
 import { removeFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
-import { ua2FacetedSearchGroupChangedTracker } from 'in-applications/tracker';
 import { useSuggestions } from 'in-components/AnalyzeView/useSuggestions';
 import SearchInput from 'in-components/SearchInput/SearchInput';
 import { identity } from 'in-services/util/function';
@@ -38,7 +38,8 @@ export default function FacetedFilterGeneric(props) {
     groupbyTag,
     dataSource,
     getUpdatedFacetedSearchHref,
-    customLabelMapper
+    customLabelMapper,
+    tracker
   } = props;
 
   const [valueFilter, setValueFilter] = useState('');
@@ -59,6 +60,11 @@ export default function FacetedFilterGeneric(props) {
     }
   };
 
+  const trackerMethods = {
+    ...uaFacetedTracker,
+    ...(tracker ?? {})
+  };
+
   return (
     <FacetedExpandableCard
       title={title}
@@ -70,7 +76,7 @@ export default function FacetedFilterGeneric(props) {
       dataSource={dataSource}
       isActiveGroup={tag === groupbyTag}
       enableUseAsGroup={enableUseAsGroup}
-      groupByTracker={ua2FacetedSearchGroupChangedTracker}
+      tracker={trackerMethods}
       getHrefToGroupedView={getHrefToGroupedView}
       getHrefToUngroupedView={getHrefToUngroupedView}
     >
@@ -92,6 +98,7 @@ export default function FacetedFilterGeneric(props) {
           setValueFilter={setValueFilter}
           selectedValues={selectedValues}
           setIsDisabledWithNoValues={setIsDisabledWithNoValues}
+          tracker={uaFacetedTracker}
         />
       )}
     </FacetedExpandableCard>
