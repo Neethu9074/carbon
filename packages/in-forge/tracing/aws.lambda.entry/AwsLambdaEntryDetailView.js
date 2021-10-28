@@ -19,6 +19,7 @@ const TRIGGER_AWS_APPLICATION_LOAD_BALANCER = 'aws:application.load.balancer';
 const TRIGGER_AWS_CLOUDWATCH_EVENTS = 'aws:cloudwatch.events';
 const TRIGGER_AWS_CLOUDWATCH_LOGS = 'aws:cloudwatch.logs';
 const TRIGGER_AWS_S3 = 'aws:s3';
+const TRIGGER_AWS_DYNAMODB = 'aws:dynamodb';
 const TRIGGER_AWS_SQS = 'aws:sqs';
 
 const HTTP_TYPES = [TRIGGER_AWS_API_GATEWAY, TRIGGER_AWS_APPLICATION_LOAD_BALANCER];
@@ -45,6 +46,8 @@ export function TriggerTypeSpecificFields({ span }) {
     return <CloudWatchLogsDetails span={span} />;
   } else if (trigger === TRIGGER_AWS_S3) {
     return <S3EventDetails span={span} />;
+  } else if (trigger === TRIGGER_AWS_DYNAMODB) {
+    return <DynamoDbEventDetails span={span} />;
   } else if (trigger === TRIGGER_AWS_SQS) {
     return <SqsDetails span={span} />;
   } else {
@@ -106,6 +109,26 @@ function S3EventDetails({ span }) {
         pathToMore={['data', 'lambda', 's3', 'more']}
         labelMore={t('in-forge:tracing.aspLambdaEntry.labelS3Events')}
       />
+    </>
+  );
+}
+
+function DynamoDbEventDetails({ span }) {
+  const dynamoDbEvent = span.getIn(['data', 'lambda', 'dynamodb', 'events'], emptyList).toJS()[0];
+  return (
+    <>
+      <Di title={t('in-forge:tracing.aspLambdaEntry.titleEventType')}>
+        {t('in-forge:tracing.aspLambdaEntry.bodyAWSDynamoDbEvents')}
+      </Di>
+      <ListWithMore
+        title={t('in-forge:tracing.aspLambdaEntry.titleDetails')}
+        span={span}
+        pathToItems={['data', 'lambda', 'dynamodb', 'events']}
+        itemMapper={dynamoDbEvent => `${dynamoDbEvent.event}(${dynamoDbEvent.eventid})`}
+        pathToMore={['data', 'lambda', 'dynamodb', 'more']}
+        labelMore={t('in-forge:tracing.aspLambdaEntry.labelDynamoDbEvents')}
+      />
+      <Di title={t('in-forge:tracing.aspLambdaEntry.labelEventSourceARN')}>{dynamoDbEvent.stream}</Di>
     </>
   );
 }
