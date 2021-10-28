@@ -1,0 +1,82 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .list {
+    position: absolute;
+    // avoid list elements to be below tag input fields and make them on the same level as addIndicators
+    z-index: @z-index__overlays;
+    left: 0;
+
+    max-height: 12.875rem;
+    min-width: 15rem;
+    overflow: auto;
+    max-width: 30rem;
+
+    .breakWord();
+
+    cursor: default;
+  }
+
+  .highlighted {
+    background: @lib__colors__faded-blue800;
+  }
+
+  .input,
+  .input_dark {
+    max-width: 7.5rem;
+    padding: 0.0225rem 0.3125rem;
+
+    line-height: 2;
+    border: none;
+
+    &:focus,
+    &:active,
+    &:hover {
+      outline: 0;
+      color: @lib__colors__light-blue800;
+    }
+
+    &::placeholder {
+      color: @lib__colors__N400;
+      opacity: 1; /* Firefox */
+    }
+  }
+
+  .input {
+    background: @lib__colors__white;
+  }
+
+  .input_dark {
+    background: @lib__colors__N800Dark;
+  }
+
+  .invalid:not(:focus),
+  .invalid:focus:not(.hideValidityInformationOnFocus) {
+    margin-left: -1px; // to avoid having two borders next to each other
+    border-left: 1px solid @lib__colors__failure;
+    margin-right: -1px; // to avoid having two borders next to each other
+    border-right: 1px solid @lib__colors__failure;
+    background: @lib__colors__failure10;
+  }
+
+  .option {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .skeleton {
+    margin: 0.375rem 0;
+    height: 0.75rem;
+  }
+
+  .moreOptionsLabel {
+    font-size: 0.6875rem;
+    color: @lib__colors__N600Light;
+  }
+}

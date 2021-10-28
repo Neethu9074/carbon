@@ -4,19 +4,18 @@
  */
 
 /* eslint-disable react/display-name */
-import React, { useRef, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import {
-  changeOperator,
   changeName,
+  changeOperator,
   createTagForm,
   getFormPresentationInformation
 } from 'in-components/QueryBuilder/validation/tagForm';
 import { EQUALS, NOT_EQUAL, NOT_STARTS_WITH, STARTS_WITH } from 'in-components/QueryBuilder/tagFilter/operators';
 import { KEY_VALUE_PAIR, STRING, STRING_LIST, STRING_SET } from 'in-components/QueryBuilder/tagFilter/types';
 import { getSuggestionsTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/tagSuggestions';
-import SimpleValueSelector from 'in-components/QueryBuilder/SimpleValueSelector/SimpleValueSelector';
 import BooleanSelector from 'in-components/QueryBuilder/components/Tag/BooleanSelector';
 import { STRING_MAX_LENGTH } from 'in-components/QueryBuilder/tagFilter/constraints';
 import { onElementKeyUp } from 'in-components/QueryBuilder/keyboardInteraction';
@@ -24,10 +23,10 @@ import NumberInput from 'in-components/QueryBuilder/components/Tag/NumberInput';
 import Operator from 'in-components/QueryBuilder/components/Tag/Operator';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { Input } from 'in-components/QueryBuilder/components/Tag/Input';
 import Entity from 'in-components/QueryBuilder/components/Tag/Entity';
 import Remove from 'in-components/QueryBuilder/components/Tag/Remove';
 import Name from 'in-components/QueryBuilder/components/Tag/Name';
-import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
@@ -363,39 +362,6 @@ function ValueInput({
       value={field.value || ''}
       {...inputProps}
       autoFocus={autoFocus}
-      getSuggestionLabel={getSuggestionLabel}
-    />
-  );
-}
-
-function Input({
-  value,
-  fieldsToWatch,
-  placeholder,
-  onChange,
-  getSuggestions,
-  valid,
-  autoFocus,
-  tagName,
-  getSuggestionLabel
-}) {
-  const result = useDebouncedValue(value, onChange, 500);
-
-  return (
-    <SimpleValueSelector
-      onChange={result.onChange}
-      value={result.value}
-      close={() => {}}
-      getSuggestions={getSuggestions}
-      fieldsToWatch={fieldsToWatch}
-      inputProps={{
-        type: 'text',
-        valid,
-        placeholder,
-        hideValidityInformationOnFocus: true
-      }}
-      autoFocus={autoFocus}
-      tagName={tagName}
       getSuggestionLabel={getSuggestionLabel}
     />
   );
