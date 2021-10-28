@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 
 import K8sAgentMonitoringIssueNotifications from 'in-kubernetes/Dashboards/commonComponents/K8sAgentMonitoringIssueNotifications';
@@ -12,8 +13,11 @@ import getKubernetesPersistentVolumes from 'in-kubernetes/subscriptions/getKuber
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { getHistoricMetric, getInfraGranularity } from 'in-stores/metric/metric';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { clusterIdUrlParameter } from 'in-kubernetes/navigation/urlParameters';
-import { getInfraGranularity } from 'in-stores/metric/metric';
+import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import { t } from 'in-i18n';
 
 const pathSegment = '/nodes';
@@ -46,6 +50,20 @@ const columnDefinitions = [
     label: t('in-kubernetes:dashboards.storageClassName'),
     getContent(item) {
       return item.persistentVolume.storageClassName;
+    }
+  },
+  {
+    id: 'capacity',
+    label: t('in-kubernetes:dashboards.storageCapacity'),
+    sortable: false,
+    getContent(item) {
+      return (
+        <VolumeMetric
+          metric={'capacity.storage'}
+          snapshotId={item.persistentVolume.id}
+          formatter={bytesTwoDecimalPlaces}
+        />
+      );
     }
   }
 ];
@@ -108,4 +126,20 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
+}
+
+function VolumeMetric({ snapshotId, metric, formatter }) {
+  const timeConfig = useTimeConfig();
+  const metricValue = useObservable(
+    getHistoricMetric({
+      snapshotId,
+      metric: metric,
+      timeConfig: timeConfig
+    })
+      .map(v => formatter(v[1]))
+      .distinct(),
+    []
+  );
+
+  return <>{metricValue || valueMissingPlaceholder}</>;
 }

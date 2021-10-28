@@ -45,6 +45,7 @@
     "memoryUsage": "Memory Usage",
     "phase": "Phase",
     "reclaimPolicy": "Reclaim Policy",
+    "storageCapacity": "Storage Capacity",
     "storageClassName": "Storage Class Name",
     "cpuRequests": "CPU Requests",
     "cpuLimitsAlloc": "CPU Limits Alloc.",
