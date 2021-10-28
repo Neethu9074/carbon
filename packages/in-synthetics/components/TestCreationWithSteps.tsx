@@ -6,9 +6,8 @@
 import { MapForm } from 'formalistic';
 import React from 'react';
 
-// @ts-expect-error module needed to be translated to TS
-import StepProgressBar from 'in-components/StepProgressBar';
 import StepwiseTestCreationContainer from 'in-synthetics/components/StepwiseTestCreationContainer';
+import StepProgressBar from 'in-components/StepProgressBar';
 
 import locals from './TestCreationWithSteps.mless';
 

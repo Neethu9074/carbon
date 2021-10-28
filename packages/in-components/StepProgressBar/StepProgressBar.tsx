@@ -4,7 +4,6 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import invariant from 'invariant';
 import React from 'react';
 
@@ -14,7 +13,12 @@ import locals from './StepProgressBar.mless';
 
 const colors = [theme.lib.colors.lightBlue800, theme.lib.colors.cyan800, theme.lib.colors.green800];
 
-export default function StepProgressBar({ stepTitles, step = 0 }) {
+export interface StepProgressBarProps {
+  stepTitles: string[];
+  step?: number;
+}
+
+export default function StepProgressBar({ stepTitles, step = 0 }: StepProgressBarProps) {
   validateStep(stepTitles, step);
 
   return (
@@ -44,18 +48,13 @@ export default function StepProgressBar({ stepTitles, step = 0 }) {
   );
 }
 
-function getWidthInPercent(stepTitles, step) {
+function getWidthInPercent(stepTitles: string[], step: number) {
   return 100 * ((step + 1) / stepTitles.length);
 }
 
-function validateStep(stepTitles, step) {
+function validateStep(stepTitles: string[], step: number) {
   if (__DEV__) {
     const maxLen = stepTitles.length - 1;
     invariant(step >= 0 || step <= maxLen, `step with value "${step}" is out of range. I must be >=0 and <=${maxLen}`);
   }
 }
-
-StepProgressBar.propTypes = {
-  stepTitles: PropTypes.arrayOf(PropTypes.string).isRequired,
-  step: PropTypes.number
-};
