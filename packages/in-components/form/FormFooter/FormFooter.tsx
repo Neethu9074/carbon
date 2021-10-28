@@ -15,7 +15,7 @@ import locals from './FormFooter.mless';
 
 export interface FormFooterProps {
   className?: string;
-  withRoundedBottomBorder: boolean;
+  withRoundedBottomBorder?: boolean;
   children: React.ReactNode;
 }
 

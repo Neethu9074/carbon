@@ -12,7 +12,6 @@ import { Button, ButtonProps } from '@instana/components';
 import { t } from 'in-i18n';
 
 export interface DeleteButtonProps extends Partial<ButtonProps> {
-  children: string | React.ReactElement;
   form: MapForm;
   icon: string;
   isDeleting: boolean;

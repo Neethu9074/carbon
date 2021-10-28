@@ -4,7 +4,7 @@
  */
 
 import React, { forwardRef } from 'react';
-import PropTypes from 'prop-types';
+import { MapForm } from 'formalistic';
 
 import { Button } from '@instana/components';
 
@@ -13,9 +13,22 @@ import SaveButton from 'in-components/form/SaveButton';
 
 import locals from './DialogFooter.mless';
 
-export default forwardRef(DialogFooter);
+export interface DialogFooterProps {
+  form?: MapForm;
+  /**
+   * to enable browser default form submitting even
+   * when footer is not part of this form
+   */
+  formId?: string;
+  onSecondaryActionClick?: () => void;
+  primaryActionDisabled?: boolean;
+  primaryActionText: string | React.ReactElement;
+  renderCustomSaveAction?: () => void;
+  saving?: boolean;
+  secondaryActionText: string | React.ReactElement;
+}
 
-function DialogFooter(
+export default forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
   {
     form,
     formId,
@@ -47,19 +60,4 @@ function DialogFooter(
       )}
     </FormFooter>
   );
-}
-
-DialogFooter.propTypes = {
-  form: PropTypes.object.isRequired,
-  /**
-   * to enable browser default form submitting even
-   * when footer is not part of this form
-   */
-  formId: PropTypes.string,
-  onSecondaryActionClick: PropTypes.func,
-  primaryActionDisabled: PropTypes.bool,
-  primaryActionText: PropTypes.node.isRequired,
-  renderCustomSaveAction: PropTypes.func,
-  saving: PropTypes.bool,
-  secondaryActionText: PropTypes.node.isRequired
-};
+});

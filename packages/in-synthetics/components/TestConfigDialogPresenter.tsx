@@ -10,10 +10,9 @@ import { createLogger } from '@instana/logger';
 
 // @ts-expect-error module need to be translated to TS
 import DialogWithSlideInView from 'in-components/Dialog/DialogWithSlideInView';
-// @ts-expect-error module need to be translated to TS
-import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { showCreateSuccessMessage, showCreateErrorMessage } from 'in-synthetics/components/utils/userFeedback';
 import TestCreationWithSteps from 'in-synthetics/components/TestCreationWithSteps';
+import DialogFooter from 'in-components/BlueprintFormMultistep/DialogFooter';
 import { createForm } from 'in-synthetics/form/createSyntheticTestForm';
 import { createTest } from 'in-synthetics/api';
 import { SyntheticTest } from 'in-types';
