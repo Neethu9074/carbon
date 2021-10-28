@@ -5,10 +5,10 @@
 
 import React, { useContext } from 'react';
 
+import SaveButton, { SaveButtonProps } from 'in-components/form/SaveButton';
 import { FormContext } from 'in-components/form/binding/FormContext';
-import SaveButton, { Props } from 'in-components/form/SaveButton';
 
-export default function FormBoundSaveButton(props: Props) {
+export default function FormBoundSaveButton(props: SaveButtonProps) {
   const ctx = useContext(FormContext);
   return <SaveButton {...props} form={ctx?.form} disabled={ctx?.disabled} />;
 }

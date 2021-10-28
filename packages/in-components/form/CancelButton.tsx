@@ -9,7 +9,7 @@ import { Button, ButtonProps } from '@instana/components';
 
 import { t } from 'in-i18n';
 
-export interface Props extends Partial<ButtonProps> {
+export interface CancelButtonProps extends Partial<ButtonProps> {
   isSaving?: boolean;
   children?: string | ReactElement;
 }
@@ -20,7 +20,7 @@ export default function CancelButton({
   onClick,
   isSaving,
   ...otherProps
-}: Props) {
+}: CancelButtonProps) {
   const disabled = isSaving;
   return (
     <Button {...otherProps} onClick={disabled ? undefined : onClick} disabled={disabled} kind={kind}>

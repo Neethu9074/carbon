@@ -10,7 +10,7 @@ import { Button, ButtonKinds, ButtonTypes } from '@instana/components';
 
 import { t } from 'in-i18n';
 
-export interface Props {
+export interface SaveButtonProps {
   children: string | ReactElement;
   className?: string;
   form?: Item;
@@ -40,7 +40,7 @@ export default function SaveButton({
   type = 'submit',
   onClick,
   disabled
-}: Props) {
+}: SaveButtonProps) {
   return (
     <Button
       formId={formId}

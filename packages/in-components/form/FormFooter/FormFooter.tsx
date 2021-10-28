@@ -6,14 +6,23 @@
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 
-import CancelButtonComponent from 'in-components/form/CancelButton';
-import DeleteButtonComponent from 'in-components/form/DeleteButton';
-import SaveButtonComponent from 'in-components/form/SaveButton';
+import CancelButtonComponent, { CancelButtonProps } from 'in-components/form/CancelButton';
+import DeleteButtonComponent, { DeleteButtonProps } from 'in-components/form/DeleteButton';
+import SaveButtonComponent, { SaveButtonProps } from 'in-components/form/SaveButton';
 import { t } from 'in-i18n';
 
 import locals from './FormFooter.mless';
 
-export default forwardRef(function FormFooter({ className, withRoundedBottomBorder, children }, ref) {
+export interface FormFooterProps {
+  className?: string;
+  withRoundedBottomBorder: boolean;
+  children: React.ReactNode;
+}
+
+export default forwardRef<HTMLElement, FormFooterProps>(function FormFooter(
+  { className, withRoundedBottomBorder, children },
+  ref
+) {
   return (
     <nav
       ref={ref}
@@ -24,7 +33,7 @@ export default forwardRef(function FormFooter({ className, withRoundedBottomBord
   );
 });
 
-export function SaveButton(props) {
+export function SaveButton(props: SaveButtonProps) {
   return (
     <SaveButtonComponent className={locals.button} kind="create" {...props}>
       {props.children || t('forms.actions.save')}
@@ -32,7 +41,7 @@ export function SaveButton(props) {
   );
 }
 
-export function CancelButton(props) {
+export function CancelButton(props: CancelButtonProps) {
   return (
     <CancelButtonComponent className={locals.button} {...props}>
       {props.children || t('forms.actions.cancel')}
@@ -40,7 +49,11 @@ export function CancelButton(props) {
   );
 }
 
-export function DeleteButton(props) {
+interface ExtendedDeleteButtonProps extends DeleteButtonProps {
+  label?: string;
+}
+
+export function DeleteButton(props: ExtendedDeleteButtonProps) {
   return (
     <DeleteButtonComponent className={locals.button} {...props}>
       {props.label || t('forms.actions.delete')}
