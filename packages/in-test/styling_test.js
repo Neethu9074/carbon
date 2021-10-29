@@ -14,29 +14,37 @@ const glob = Promise.promisify(require('glob'));
 Promise.promisifyAll(fs);
 
 describe('CSS modules', () => {
-  it('must define :local wrapper inside *.mless files', () => {
-    return glob(`${__dirname}/../**/*.mless`)
-      .then(files => Promise.all(files.map(getContent)))
-      .then(files => files.filter(f => !isDefiningLocalWrapper(f)))
-      .then(files => {
-        const msg =
-          `The following files do not contain a :local {…} wrapper. This must be defined in order to ` +
-          `avoid CSS class name clashes.\n\n${files.map(extractPath).join('\n')}\n\n`;
-        expect(files).to.have.lengthOf(0, msg);
-      });
-  });
+  it(
+    'must define :local wrapper inside *.mless files',
+    () => {
+      return glob(`${__dirname}/../**/*.mless`)
+        .then(files => Promise.all(files.map(getContent)))
+        .then(files => files.filter(f => !isDefiningLocalWrapper(f)))
+        .then(files => {
+          const msg =
+            `The following files do not contain a :local {…} wrapper. This must be defined in order to ` +
+            `avoid CSS class name clashes.\n\n${files.map(extractPath).join('\n')}\n\n`;
+          expect(files).to.have.lengthOf(0, msg);
+        });
+    },
+    30 * 1000
+  );
 
-  it('must not define :local wrapper inside *.less files', () => {
-    return glob(`${__dirname}/../**/*.less`)
-      .then(files => Promise.all(files.map(getContent)))
-      .then(files => files.filter(isDefiningLocalWrapper))
-      .then(files => {
-        const msg =
-          `The following files contain a :local {…} wrapper. The file name extension must be .mless.` +
-          `Please rename the files to mless.\n\n${files.map(extractPath).join('\n')}\n\n`;
-        expect(files).to.have.lengthOf(0, msg);
-      });
-  });
+  it(
+    'must not define :local wrapper inside *.less files',
+    () => {
+      return glob(`${__dirname}/../**/*.less`)
+        .then(files => Promise.all(files.map(getContent)))
+        .then(files => files.filter(isDefiningLocalWrapper))
+        .then(files => {
+          const msg =
+            `The following files contain a :local {…} wrapper. The file name extension must be .mless.` +
+            `Please rename the files to mless.\n\n${files.map(extractPath).join('\n')}\n\n`;
+          expect(files).to.have.lengthOf(0, msg);
+        });
+    },
+    30 * 1000
+  );
 });
 
 function getContent(path) {
