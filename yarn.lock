@@ -1608,7 +1608,7 @@
     "@emotion/weak-memoize" "^0.2.5"
     hoist-non-react-statics "^3.3.1"
 
-"@emotion/serialize@^1.0.2":
+"@emotion/serialize@^1.0.0", "@emotion/serialize@^1.0.2":
   version "1.0.2"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@emotion/serialize/-/serialize-1.0.2.tgz#77cb21a0571c9f68eb66087754a65fa97bfcd965"
   integrity sha1-d8shoFccn2jrZgh3VKZfqXv82WU=
@@ -2379,6 +2379,13 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
   integrity sha1-Y7t9Bn2xB8weRXwwO8JdUR/r9ss=
 
+"@types/react-dom@*":
+  version "17.0.10"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/react-dom/-/react-dom-17.0.10.tgz#d6972ec018d23cf22b99597f1289343d99ea9d9d"
+  integrity sha1-1pcuwBjSPPIrmVl/Eok0PZnqnZ0=
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router@^5.1.16":
   version "5.1.16"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/react-router/-/react-router-5.1.16.tgz#f3ba045fb96634e38b21531c482f9aeb37608a99"
@@ -2387,10 +2394,27 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-select@4.0.18":
+  version "4.0.18"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/react-select/-/react-select-4.0.18.tgz#f907f406411afa862217a9d86c54a301367a35c1"
+  integrity sha1-+Qf0BkEa+oYiF6nYbFSjATZ6NcE=
+  dependencies:
+    "@emotion/serialize" "^1.0.0"
+    "@types/react" "*"
+    "@types/react-dom" "*"
+    "@types/react-transition-group" "*"
+
 "@types/react-test-renderer@*":
   version "16.9.3"
   resolved "https://registry.yarnpkg.com/@types/react-test-renderer/-/react-test-renderer-16.9.3.tgz#96bab1860904366f4e848b739ba0e2f67bcae87e"
   integrity sha512-wJ7IlN5NI82XMLOyHSa+cNN4Z0I+8/YaLl04uDgcZ+W+ExWCmCiVTLT/7fRNqzy4OhStZcUwIqLNF7q+AdW43Q==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-transition-group@*":
+  version "4.4.4"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/react-transition-group/-/react-transition-group-4.4.4.tgz#acd4cceaa2be6b757db61ed7b432e103242d163e"
+  integrity sha1-rNTM6qK+a3V9th7XtDLhAyQtFj4=
   dependencies:
     "@types/react" "*"
 

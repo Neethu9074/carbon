@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-expect-error Module needs to be translated to TS: https://react-select.com/typescript
-import Select, { Option } from 'react-select';
+import { Option } from 'react-select/src/filters';
+import Select from 'react-select';
 import React from 'react';
 
 import { t } from 'in-i18n';

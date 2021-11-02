@@ -19,7 +19,7 @@
   }
 
   .label {
-    font-weight: 500;
+    font-weight: @lib__typography__h400__font-weight;
     margin-bottom: 0.25rem;
   }
 }

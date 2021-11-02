@@ -27,6 +27,7 @@ import { dummyTests } from 'in-synthetics/utils/constants';
 import { deepFreeze } from 'in-services/util/object';
 import SearchInput from 'in-components/SearchInput';
 import { TestsResponse } from 'in-synthetics/Tests';
+import { compare } from 'in-services/util/number';
 import Pagination from 'in-components/Pagination';
 import useUrlState from 'in-hooks/useUrlState';
 import { getTests } from 'in-synthetics/api';
@@ -136,13 +137,15 @@ export default function Dashboard() {
   );
 }
 
-function sortBy(orderBy: string, orderDirection: string) {
+function sortBy(orderBy: string, orderDirection: string): (a: SyntheticTest, b: SyntheticTest) => -1 | 0 | 1 {
   return (a: SyntheticTest, b: SyntheticTest) => {
     if (orderBy === 'name') {
       return orderDirection === 'ASC' ? compareIgnoreCase(a.label, b.label) : compareIgnoreCase(b.label, a.label);
     }
     if (orderBy === 'frequency') {
-      return orderDirection === 'ASC' ? a.testFrequency - b.testFrequency : b.testFrequency - a.testFrequency;
+      return orderDirection === 'ASC'
+        ? compare(a.testFrequency, b.testFrequency)
+        : compare(b.testFrequency, a.testFrequency);
     }
     return 1;
   };

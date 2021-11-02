@@ -6,13 +6,15 @@
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { t } from 'in-i18n';
 
-export function showSuccessMessage(type?: number) {
+type ActionType = 'create' | 'delete' | 'update';
+
+export function showSuccessMessage(type?: ActionType): void {
   let message = '';
   switch (type) {
-    case 1:
+    case 'create':
       message = t('in-synthetics:dialog.feedback.successMessageCreate');
       break;
-    case 3:
+    case 'delete':
       message = t('in-synthetics:dialog.feedback.successMessageDelete');
       break;
     default:
@@ -27,16 +29,16 @@ export function showSuccessMessage(type?: number) {
   });
 }
 
-export function showErrorMessage(type?: number) {
+export function showErrorMessage(type?: ActionType): void {
   let message = '';
   switch (type) {
-    case 1:
+    case 'create':
       message = t('in-synthetics:dialog.feedback.failureMessageCreate');
       break;
-    case 2:
+    case 'update':
       message = t('in-synthetics:dialog.feedback.failureMessageUpdate');
       break;
-    case 3:
+    case 'delete':
       message = t('in-synthetics:dialog.feedback.failuteMesssageDelete');
       break;
     default:
@@ -51,12 +53,12 @@ export function showErrorMessage(type?: number) {
   });
 }
 
-export const showCreateErrorMessage = () => showErrorMessage(1);
+export const showCreateErrorMessage = () => showErrorMessage('create');
 
-export const showUpdateErrorMessage = () => showErrorMessage(2);
+export const showUpdateErrorMessage = () => showErrorMessage('update');
 
-export const showDeleteErrorMessage = () => showErrorMessage(3);
+export const showDeleteErrorMessage = () => showErrorMessage('delete');
 
-export const showCreateSuccessMessage = () => showSuccessMessage(1);
+export const showCreateSuccessMessage = () => showSuccessMessage('create');
 
-export const showDeleteSuccessMessage = () => showSuccessMessage(3);
+export const showDeleteSuccessMessage = () => showSuccessMessage('delete');

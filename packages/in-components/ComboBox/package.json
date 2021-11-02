@@ -1,6 +1,6 @@
 {
-  "name": "ComboBox",
+  "name": "comboBox",
   "version": "0.0.0",
   "private": true,
-  "main": "./ComboBox.tsx"
+  "main": "./ComboBox"
 }

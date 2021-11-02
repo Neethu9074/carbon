@@ -19,8 +19,10 @@ export function isNotBlank(s?: string | null) {
   return !isBlank(s);
 }
 
-export const compare = new Intl.Collator(activeLanguage).compare;
-export const compareIgnoreCase = new Intl.Collator(activeLanguage, { sensitivity: 'base' }).compare;
+export const compare = new Intl.Collator(activeLanguage).compare as (x: string, y: string) => -1 | 0 | 1;
+export const compareIgnoreCase = new Intl.Collator(activeLanguage, {
+  sensitivity: 'base'
+}).compare as (x: string, y: string) => -1 | 0 | 1;
 
 export function containsIgnoreCase(s: string, search: string) {
   return s.toLowerCase().indexOf(search.toLowerCase()) !== -1;

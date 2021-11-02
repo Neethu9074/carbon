@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Observable } from '@instana/observables';
+
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { deepFreeze } from 'in-services/util/object';
 import { SyntheticTest } from 'in-types';
@@ -10,7 +12,7 @@ import http from 'in-services/http';
 
 const testsUrl = `/api/synthetics/settings/tests`;
 
-export function getLocations() {
+export function getLocations(): Observable<unknown> {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -19,7 +21,7 @@ export function getLocations() {
   }).map(response => deepFreeze(response));
 }
 
-export function getTests() {
+export function getTests(): Observable<unknown> {
   return http({
     method: 'GET',
     maxRetries: 3,
@@ -28,7 +30,7 @@ export function getTests() {
   }).map(response => deepFreeze(response));
 }
 
-export function createTest(testConfig: SyntheticTest) {
+export function createTest(testConfig: SyntheticTest): Observable<unknown> {
   return http({
     method: 'POST',
     maxRetries: 3,
@@ -38,7 +40,7 @@ export function createTest(testConfig: SyntheticTest) {
   }).map(response => deepFreeze(response.body));
 }
 
-export function updateTest(testConfig: SyntheticTest) {
+export function updateTest(testConfig: SyntheticTest): Observable<unknown> {
   return http({
     method: 'PUT',
     maxRetries: 3,
