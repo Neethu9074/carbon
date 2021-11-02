@@ -8,6 +8,7 @@
 module.exports = {
   coverageDirectory: 'coverage',
   roots: ['packages'],
+  testEnvironment: 'jsdom',
   globalSetup: '<rootDir>/packages/in-test/globalSetup.js',
   setupFilesAfterEnv: ['<rootDir>/packages/in-test/setup.js'],
   testMatch: ['**/*_test.js', '**/*_test.ts', '**/*_test.tsx'],
