@@ -13,26 +13,13 @@ import {
   createUserImpactOfViolationsInSequenceForm,
   createRequestImpactForm
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
-import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
+import {
+  timeThresholdTypes,
+  timeThresholdLabels
+} from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/TimeThresholdConfig.mless';
-
-export const timeThresholdLabels = Object.freeze({
-  [timeThresholdTypes.violationsInSequence]: t(
-    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelViolationsInSequence'
-  ),
-  [timeThresholdTypes.violationsInPeriod]: t(
-    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelViolationsInPeriod'
-  ),
-  [timeThresholdTypes.userImpactOfViolationsInSequence]: t(
-    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelUserImpactOfViolationsInSequence'
-  ),
-  [timeThresholdTypes.requestImpact]: t(
-    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigTimeThresholdLabelRequestImpact'
-  )
-});
 
 export default function SelectTimeThreshold({
   form,

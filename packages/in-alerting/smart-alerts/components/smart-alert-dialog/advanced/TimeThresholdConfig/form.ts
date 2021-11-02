@@ -5,8 +5,9 @@
 
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 
-import { TimeThresholdTypeValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
+import { TimeThresholdType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { websiteSmartAlertsAllowPerWindowUserImpact } from 'in-services/featureFlags';
+import { ImpactMeasurementMethod } from 'in-types';
 import { t } from 'in-i18n';
 
 export const percentageOfUserDefault = 0.2;
@@ -14,17 +15,17 @@ export const numberOfUsersDefault = 20;
 const numberOfRequestsDefault = 20;
 const timeWindowDefault = 600000;
 
-export const ImpactMeasurementMethods = {
+export const ImpactMeasurementMethods: Record<ImpactMeasurementMethod, ImpactMeasurementMethod> = {
   AGGREGATED: 'AGGREGATED',
   PER_WINDOW: 'PER_WINDOW'
 };
 
 type TimeThresholdConfig = {
   timeWindow: number;
-  impactMeasurementMethod?: keyof typeof ImpactMeasurementMethods;
+  impactMeasurementMethod?: ImpactMeasurementMethod;
   users?: number;
   userPercentage?: number;
-  type?: TimeThresholdTypeValue;
+  type: TimeThresholdType;
   violations?: number;
   requests?: number;
 };

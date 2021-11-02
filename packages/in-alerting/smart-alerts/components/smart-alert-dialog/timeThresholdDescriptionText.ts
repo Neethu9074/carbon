@@ -1,59 +1,45 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
-
-import { SvgIcon } from '@instana/components';
-
-import { timeThresholdLabels } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/SelectTimeThreshold';
+import {
+  ApplicationTimeThreshold,
+  RequestImpactApplicationTimeThreshold,
+  UserImpactWebsiteTimeThreshold,
+  ViolationsInPeriodWebsiteTimeThreshold,
+  WebsiteTimeThreshold
+} from 'in-types';
 import { ImpactMeasurementMethods } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { formatDurationAccurately } from 'in-services/formatters/date';
 import { t } from 'in-i18n';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription.mless';
+/**
+ * Returns the description string of the given TimeThreshold.
+ *
+ * @param timeThreshold either a Websites- or Applications specific TimeThreshold
+ * @param granularity - required, when timeThreshold is of type UserImpactWebsiteTimeThreshold and for perWindowEvaluation
+ */
+export function getDescription(
+  timeThreshold: WebsiteTimeThreshold | ApplicationTimeThreshold,
+  granularity: number
+): string {
+  const { type, timeWindow } = timeThreshold;
 
-export default function TimeThresholdDescription({ timeThreshold, granularity }) {
-  return (
-    <div className={locals.container}>
-      <SvgIcon className={locals.icon} type={getIconType(timeThreshold.type)} />
-      <div>
-        <span className={locals.label}>{timeThresholdLabels[timeThreshold.type]}</span>
-        <p>{getDescription(timeThreshold, granularity)}</p>
-      </div>
-    </div>
-  );
-}
-
-TimeThresholdDescription.propTypes = {
-  granularity: PropTypes.number,
-  timeThreshold: PropTypes.object.isRequired
-};
-
-function getIconType(timeThresholdType) {
-  switch (timeThresholdType) {
-    case timeThresholdTypes.userImpactOfViolationsInSequence:
-      return 'lib_alerts_user_impacted';
-    case timeThresholdTypes.requestImpact:
-      return 'lib_application_boundary_inbound_calls';
-    case timeThresholdTypes.violationsInPeriod:
-      return 'lib_alerting_threshold_icon';
-    case timeThresholdTypes.violationsInSequence:
-    default:
-      return 'lib_datetime_timerange';
-  }
-}
-
-function getDescription(timeThreshold, granularity) {
-  const { users, userPercentage, requests, timeWindow, type, violations, impactMeasurementMethod } = timeThreshold;
-  const perWindowEvaluation = impactMeasurementMethod === ImpactMeasurementMethods.PER_WINDOW;
   const formattedTimeWindow = formatDurationAccurately(timeWindow, 60000, false);
+
   switch (type) {
     case timeThresholdTypes.userImpactOfViolationsInSequence: {
+      const {
+        users,
+        userPercentage,
+        timeWindow,
+        impactMeasurementMethod
+      } = timeThreshold as UserImpactWebsiteTimeThreshold;
+      const perWindowEvaluation = impactMeasurementMethod === ImpactMeasurementMethods.PER_WINDOW;
+
       if (users && userPercentage) {
         if (perWindowEvaluation)
           return t(
@@ -118,12 +104,16 @@ function getDescription(timeThreshold, granularity) {
       }
     }
     case timeThresholdTypes.requestImpact: {
+      const { requests } = timeThreshold as RequestImpactApplicationTimeThreshold;
+
       return t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionRequestImpact', {
         count: requests,
         formattedTimeWindow
       });
     }
     case timeThresholdTypes.violationsInPeriod: {
+      const { violations } = timeThreshold as ViolationsInPeriodWebsiteTimeThreshold;
+
       return t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdDescriptionViolationsInPeriod', {
         count: violations,
         formattedTimeWindow
@@ -131,6 +121,6 @@ function getDescription(timeThreshold, granularity) {
     }
     case timeThresholdTypes.violationsInSequence:
     default:
-      return formattedTimeWindow;
+      return formattedTimeWindow ?? '';
   }
 }
