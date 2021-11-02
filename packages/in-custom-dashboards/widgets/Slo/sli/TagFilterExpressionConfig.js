@@ -10,15 +10,23 @@ import { Button } from '@instana/components';
 
 import FilterConfigurator from 'in-custom-dashboards/widgets/Slo/sli/FilterConfigurator';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
+import { getIconByType } from 'in-analyze/AnalyzeView/dataSources';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { t } from 'in-i18n';
 
 import locals from './TagFilterExpressionConfig.mless';
 
-export default function TagFilterExpressionConfig({ label, form, updateForm, formFieldName, QueryBuilderComponent }) {
+export default function TagFilterExpressionConfig({
+  entityType,
+  label,
+  form,
+  updateForm,
+  formFieldName,
+  QueryBuilderComponent
+}) {
   return (
     <LightCard
-      title={<IconLabel text={label} type="lib_application" noBottomMargin />}
+      title={<IconLabel text={label} type={getIconType(entityType, form)} noBottomMargin />}
       headerClassName={locals.header}
       header={
         form.get(formFieldName)?.value.length > 0 && (
@@ -47,8 +55,18 @@ export default function TagFilterExpressionConfig({ label, form, updateForm, for
 
 TagFilterExpressionConfig.propTypes = {
   QueryBuilderComponent: PropTypes.func.isRequired,
+  entityType: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
   formFieldName: PropTypes.string.isRequired,
   updateForm: PropTypes.func.isRequired
 };
+
+function getIconType(entityType, form) {
+  if (entityType === 'application') {
+    return 'lib_application';
+  }
+
+  const beaconType = form.get('beaconType')?.value;
+  return getIconByType(beaconType, 'website'); // TODO: check if we want to import this from in-analyze or potentially share it elsewhere
+}

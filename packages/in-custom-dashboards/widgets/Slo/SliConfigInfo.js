@@ -7,10 +7,11 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+import { applicationType, websiteEventBased, availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
+import { useWebsiteQueryBuilder } from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getMetricOptions } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
-import { applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -66,9 +67,17 @@ const MetricConfig = ({ sliConfig, entityType }) => {
   return null;
 };
 
-const BadEventFilters = ({ sliConfig }) => {
-  const { QueryBuilder: SliEventsQueryBuilder } = useApplicationQueryBuilder();
+const WebsiteBadEventFilters = ({ sliConfig }) => {
+  const { QueryBuilder } = useWebsiteQueryBuilder(sliConfig.sliEntity);
+  return <BadEventFilters QueryBuilderComponent={QueryBuilder} sliConfig={sliConfig} />;
+};
 
+const ApplicationBadEventFilters = ({ sliConfig }) => {
+  const { QueryBuilder } = useApplicationQueryBuilder({});
+  return <BadEventFilters QueryBuilderComponent={QueryBuilder} sliConfig={sliConfig} />;
+};
+
+const BadEventFilters = ({ QueryBuilderComponent, sliConfig }) => {
   if (sliConfig.sliEntity?.badEventFilterExpression) {
     const { badEventFilterExpression } = sliConfig.sliEntity;
     const badEventsFilterLabel = `${t(`in-custom-dashboards:widgets.slo.sliConfig.badEventsFilter`)}:`;
@@ -77,7 +86,7 @@ const BadEventFilters = ({ sliConfig }) => {
       <>
         <div className={locals.sliConfigLabel}>{badEventsFilterLabel}</div>
         <div className={locals.sliConfigValue}>
-          <SliEventsQueryBuilder value={fromBackendModel(badEventFilterExpression)} readOnly />
+          <QueryBuilderComponent value={fromBackendModel(badEventFilterExpression)} readOnly />
         </div>
       </>
     );
@@ -89,13 +98,15 @@ const BadEventFilters = ({ sliConfig }) => {
 const SliConfigTooltipContent = ({ sliConfig, entityType }) => {
   const sliNameLabel = `${t(`in-custom-dashboards:widgets.slo.sliConfig.sliName`)}:`;
   const sliTypeLabel = `${t(`in-custom-dashboards:widgets.slo.sliConfig.sliType`)}:`;
+  const sliType = sliConfig.sliEntity.sliType;
 
   return (
     <div className={locals.sliConfigGridContainer}>
       <SliInfo label={sliNameLabel} value={sliConfig.sliName} />
       <SliInfo label={sliTypeLabel} value={getSliTypeToDisplay(sliConfig.sliEntity)} />
       <MetricConfig entityType={entityType} sliConfig={sliConfig} />
-      <BadEventFilters sliConfig={sliConfig} />
+      {sliType === availabilityType && <ApplicationBadEventFilters sliConfig={sliConfig} />}
+      {sliType === websiteEventBased && <WebsiteBadEventFilters sliConfig={sliConfig} />}
     </div>
   );
 };

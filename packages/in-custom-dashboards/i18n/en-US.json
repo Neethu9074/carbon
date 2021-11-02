@@ -410,7 +410,8 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "Good Events",
-        "badEvents": "Bad Events"
+        "badEvents": "Bad Events",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "Latency",

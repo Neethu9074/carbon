@@ -15,9 +15,9 @@ import {
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
+import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
-import GoodBadEventsForm from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
@@ -193,7 +193,12 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
 
       <MetricsForm entityType="application" metricEntityType="calls" form={form} onChange={onChange} />
 
-      <GoodBadEventsForm label={apName} form={form} QueryBuilderComponent={QueryBuilderComponent} />
+      <GoodBadEventsConfigurator
+        entityType="application"
+        label={apName}
+        form={form}
+        QueryBuilderComponent={QueryBuilderComponent}
+      />
     </Stack>
   );
 }

@@ -42,12 +42,12 @@ function CreateWebsiteSliFormComponent({ entityId, website, sliConfig, close, se
   const [form, setForm] = useState(createForm('website', sliConfig ?? {}, entityId, website));
   const updateForm = useWebsiteSliFormSideEffects(form, setForm);
 
-  const sliEntityForm = form.get('sliEntity').toJS();
-  const { QueryBuilder, isQueryValid } = useWebsiteQueryBuilder(sliEntityForm);
+  const sliEntity = form.get('sliEntity').toJS();
+  const { QueryBuilder, isQueryValid } = useWebsiteQueryBuilder(sliEntity);
 
   const filterExpressionValid = useValidateWebsiteFilterExpression({
     isQueryValid,
-    ...sliEntityForm
+    ...sliEntity
   });
 
   return (

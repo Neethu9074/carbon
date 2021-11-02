@@ -42,7 +42,10 @@ function CreateApplicationSliFormComponent({ entityId, application, close, sliCo
   const [form, setForm] = useState(createForm('application', sliConfig ?? {}, entityId, application));
   const updateForm = useApplicationSliFormSideEffects(form, setForm);
 
-  const { QueryBuilder, isQueryValid } = useApplicationQueryBuilder();
+  const { QueryBuilder, isQueryValid } = useApplicationQueryBuilder({
+    applicationId: application.id,
+    boundaryScope: application.boundaryScope
+  });
   const filterExpressionValid = useValidateExpressions({ form, isQueryValid });
 
   return (

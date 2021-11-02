@@ -6,8 +6,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { getApplicationIdTagFilter } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-
 import locals from './FilterConfigurator.mless';
 
 export default function FilterConfigurator({
@@ -17,16 +15,12 @@ export default function FilterConfigurator({
   formFieldName,
   ...remainingProps
 }) {
-  const applicationId = form.get('applicationId').value;
-  const boundaryScope = form.get('boundaryScope').value;
-
   return (
     <div className={locals.querybuilderLayoutWrapper}>
       <QueryBuilderComponent
         {...remainingProps}
         value={form.get(formFieldName)?.value}
         onChange={tfe => updateForm(form.updateIn([formFieldName], f => f.setValue(tfe).setTouched(true)))}
-        additionalTagSuggestionFilters={[getApplicationIdTagFilter(boundaryScope, applicationId)]}
       />
     </div>
   );

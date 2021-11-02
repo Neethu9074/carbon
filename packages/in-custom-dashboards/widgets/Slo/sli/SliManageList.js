@@ -37,7 +37,7 @@ export default function SliManageList({ entityType, entityId, subSlideState }) {
         </Message>
       )}
       <SliList
-        onChange={setNameQuery}
+        onChange={({ query }) => setNameQuery(query)}
         getItems={() => getSliConfigurationsByEntity({ entityType, entityId }).map(searchBySliName(nameQuery))}
         rightHeader={
           canConfigureServiceLevelIndicators && (

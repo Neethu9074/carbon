@@ -16,7 +16,7 @@ import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
-function createBoundedQueryBuilder({ websiteId, beaconType }) {
+function createBoundedQueryBuilder({ websiteId, beaconType } = {}) {
   return createQueryBuilder({
     maxExpressionDepth: DEFAULT_MAX_EXPRESSION_DEPTH,
     getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'SMART_ALERTS' }),

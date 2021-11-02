@@ -8,7 +8,7 @@ import React from 'react';
 import { Stack } from '@instana/components';
 
 import TagFilterExpressionConfig from 'in-custom-dashboards/widgets/Slo/sli/TagFilterExpressionConfig';
-import { availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { availabilityType, websiteEventBased } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { sliFieldNames } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import FormBound from 'in-components/form/binding/FormBound';
@@ -18,14 +18,14 @@ import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm.mless';
 
-export default function GoodBadEventsForm({ label, QueryBuilderComponent }) {
+export default function GoodBadEventsConfigurator({ entityType, label, QueryBuilderComponent }) {
   return (
     <FormBound path="sliEntity">
       {({ form, setForm, absolutePath, item: sliEntityForm }) => {
         const sliTypeForm = sliEntityForm.get('sliType');
         const sliType = sliTypeForm.value;
 
-        if (sliType !== availabilityType) {
+        if (sliType !== availabilityType && sliType !== websiteEventBased) {
           return null;
         }
 
@@ -45,6 +45,7 @@ export default function GoodBadEventsForm({ label, QueryBuilderComponent }) {
                     }}
                     QueryBuilderComponent={QueryBuilderComponent}
                     label={label}
+                    entityType={entityType}
                   />
                   {field && <TouchedMessages field={field} className={locals.validationText} />}
                 </div>
@@ -65,6 +66,7 @@ export default function GoodBadEventsForm({ label, QueryBuilderComponent }) {
                       setForm(form.updateIn(absolutePath, () => newForm));
                     }}
                     label={label}
+                    entityType={entityType}
                   />
                   {field && <TouchedMessages field={field} className={locals.validationText} />}
                 </div>

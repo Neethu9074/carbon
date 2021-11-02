@@ -5,10 +5,11 @@
 
 import React from 'react';
 
-import { Button, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import GoodBadEventsForm from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsForm';
+import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
+import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
 import { websiteSliTypeOptions } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -16,14 +17,12 @@ import InputInSection from 'in-components/form/Input/InputInSection';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Divider from 'in-components/workspace/Divider';
-import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
 export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderComponent: QueryBuilder }) {
   const sliEntityForm = form.get('sliEntity');
   const sliTypeForm = sliEntityForm.get('sliType');
-  const filterExpression = sliEntityForm.get('filterExpression').value;
 
   return (
     <Stack gap="large">
@@ -82,36 +81,7 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
         </Stack>
       </Stack>
       <Divider />
-      <Stack component="section" gap="normal">
-        <Header>{t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconConfigLabel')}</Header>
-        <Stack component="section" gap="xsmall">
-          <Sections>
-            <Section title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconScopeLabel')}>
-              {t('in-custom-dashboards:widgets.slo.sliFormPresenter.httpRequestsLabel')}
-            </Section>
-          </Sections>
-          <Sections>
-            <Section
-              title={t('in-custom-dashboards:widgets.slo.sliFormPresenter.beaconFiltersLabel')}
-              actions={
-                <Button
-                  kind="subtle"
-                  icon="lib_openclose_cancel"
-                  size="compact"
-                  onClick={() => onChange(['sliEntity', 'filterExpression'], f => f.setValue([]).setTouched(true))}
-                >
-                  {t('in-alerting:smartAlerts.components.smartAlertDialog.clearTagFilterExpressionButton')}
-                </Button>
-              }
-            >
-              <QueryBuilder
-                onChange={fe => onChange(['sliEntity', 'filterExpression'], f => f.setValue(fe).setTouched(true))}
-                value={filterExpression}
-              />
-            </Section>
-          </Sections>
-        </Stack>
-      </Stack>
+      <BeaconConfigurator QueryBuilder={QueryBuilder} form={form} onChange={onChange} />
 
       <MetricsForm
         entityType="website"
@@ -119,7 +89,15 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
         form={form}
         onChange={onChange}
       />
-      <GoodBadEventsForm label={websiteName} form={form} />
+      <GoodBadEventsConfigurator
+        entityType="website"
+        label={t('in-custom-dashboards:widgets.slo.goodBadEventsForm.websitesFilterLabel', {
+          websiteLabel: websiteName,
+          beaconType: t('in-custom-dashboards:widgets.slo.sliFormPresenter.httpRequestsLabel')
+        })}
+        form={form}
+        QueryBuilderComponent={QueryBuilder}
+      />
     </Stack>
   );
 }
