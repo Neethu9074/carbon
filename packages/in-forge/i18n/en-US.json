@@ -2412,14 +2412,14 @@
       "mysqlInnoDBRowInsert": "Insert",
       "mysqlInnoDBRowUpdate": "Update",
       "mysqlInnoDBRowDelete": "Delete",
-      "mysqlSessionstitle" : "Sessions",
-      "mysqlActiveSessions" : "Active Sessions",
-      "mysqlTotalSessions" : "Total Sessions",
-      "mysqlThreadsTitle" : "Threads",
-      "mysqlThreadsConnected" : "Threads Connected",
-      "mysqlThreadsRunning" : "Threads Running",
-      "mysqlSlaveIORunning" : "Slave IO Running",
-      "mysqlSlaveSQLRunning" : "Slave SQL Running",
+      "mysqlSessionstitle": "Sessions",
+      "mysqlActiveSessions": "Active Sessions",
+      "mysqlTotalSessions": "Total Sessions",
+      "mysqlThreadsTitle": "Threads",
+      "mysqlThreadsConnected": "Threads Connected",
+      "mysqlThreadsRunning": "Threads Running",
+      "mysqlSlaveIORunning": "Slave IO Running",
+      "mysqlSlaveSQLRunning": "Slave SQL Running",
       "mysqlOperationTitle": "DB Operation",
       "mysqlComSelect": "Read",
       "mysqlComInsert": "Insert",
@@ -2434,7 +2434,6 @@
       "mysqIbufRequestR": "Read Request",
       "mysqIbufRequestW": "Write Request",
       "mysqIbufPoolReads": "Pool Read"
-
     },
     "ibmDataPowerAppliance": {
       "ibmDataPowerApplianceInfo": "IBM DataPower Appliance",
@@ -5105,7 +5104,8 @@
         "hadrConnect": "HADR Connection Status",
         "hadrPrimaryLog": "HADR Primary Log Information",
         "hadrSecondaryLog": "HADR Secondary Log Information",
-        "hadrLogMetrics": "HADR Log Metrics"
+        "hadrLogMetrics": "HADR Log Metrics",
+        "hadrTakeOverTime": "HADR Last Take Over Time"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -5459,7 +5459,6 @@
       "troubleshootingDocs": "Troubleshooting docs",
       "metricsIncludeRegexDoesNotMatchAnyMetric": "Regex: {{metrics_include}} from the configuration file does not match any metric",
       "missingDominoStatsFile": "Metrics file could not be found on the host"
-
     },
     "dropwizardApplicationContainer": {
       "dashboard": {
@@ -7845,7 +7844,7 @@
       "cpuLoad": "CPU load",
       "trafficPerRequest": "Traffic per request",
       "busyWorkers": "Busy workers",
-      "httpd":  "HTTPd"
+      "httpd": "HTTPd"
     },
     "ibmCloudClinicalData": {
       "labelApiCalls": "API Calls",
@@ -8504,7 +8503,7 @@
             "jobQueueLibrary": "Job Queue Library",
             "subsystemName": "Subsystem Name",
             "subsystemLibraryName": "Subsystem Library Name",
-            "jobQueueStatus" : "Job Queue Status",
+            "jobQueueStatus": "Job Queue Status",
             "numberOfJobs": "Number Of Jobs",
             "activeJobs": "Active Jobs",
             "maximumActiveJobs": "Maximum Active Jobs",
@@ -8521,7 +8520,7 @@
             "subnetMask": "Subnet Mask",
             "connectionType": "Connection Type",
             "InterfaceLineType": "Interface Line Type",
-            "lineDescription" : "Line Description",
+            "lineDescription": "Line Description",
             "virtualLanId": "VLAN ID",
             "status": "Status"
           },
@@ -8532,11 +8531,11 @@
             "protocol": "Protocol",
             "remotePortAndAddress": "Remote Port & Address",
             "remotePortName": "Remote Port Name",
-            "localPortAndAddress" : "Local Port & Address",
+            "localPortAndAddress": "Local Port & Address",
             "localPortName": "Local Port Name",
             "tcpState": "Tcp State",
             "bytesSentRemotely": "Bytes Sent Remotely",
-            "bytesReceivedLocally" : "Bytes Received Locally"
+            "bytesReceivedLocally": "Bytes Received Locally"
           }
         }
       },
