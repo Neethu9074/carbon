@@ -163,6 +163,7 @@ export const NumberBarOverlayStory = props => {
   return (
     <OverlayWrapper>
       <NumberBarOverlayPresenter
+        {...props}
         label="Latency"
         form={form}
         showRange={showRange}
@@ -175,6 +176,12 @@ export const NumberBarOverlayStory = props => {
   );
 };
 NumberBarOverlayStory.args = {
+  unit: 123,
+  minValue: 111,
+  LT: 42,
+  GT: 10,
+  EQ: 5,
+  NEQ: 4,
   Equality: true,
   Range: true
 };
