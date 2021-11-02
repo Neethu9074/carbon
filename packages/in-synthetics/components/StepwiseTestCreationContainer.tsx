@@ -11,7 +11,6 @@ import SelectScheduleStep from 'in-synthetics/components/steps/SelectScheduleSte
 import BasicDetailsStep from 'in-synthetics/components/steps/BasicDetailsStep';
 import SelectTestStep from 'in-synthetics/components/steps/SelectTestStep';
 import { blueprintConfig } from 'in-synthetics/data/simpleModeBluePrints';
-import { MenuItem } from 'in-components/Menu';
 
 import locals from './StepwiseTestCreationContainer.mless';
 
@@ -27,12 +26,7 @@ export default function StepwiseTestCreationContainer({ step, form, updateForm }
   function renderSteps() {
     switch (step) {
       case 0:
-        return (
-          <SelectTestStep
-            selectedBlueprint={selectedBlueprint}
-            onSelectBluePrint={setSelectedBlueprint as (item: MenuItem) => void}
-          />
-        );
+        return <SelectTestStep selectedBlueprint={selectedBlueprint} onSelectBluePrint={setSelectedBlueprint} />;
       case 1:
         return <RequestResponseStep form={form} updateForm={updateForm} />;
       case 2:

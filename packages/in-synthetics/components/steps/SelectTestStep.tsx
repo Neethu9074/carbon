@@ -9,14 +9,14 @@ import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/S
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
 import { blueprintConfig, BluePrint } from 'in-synthetics/data/simpleModeBluePrints';
 import DangerousHtmlPresenter from 'in-components/DangerousHtmlPresenter';
-import Menu, { MenuItem } from 'in-components/Menu';
+import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
 import locals from './SelectTestStep.mless';
 
 export interface Props {
   selectedBlueprint: BluePrint;
-  onSelectBluePrint: (item: MenuItem) => void;
+  onSelectBluePrint: (item: BluePrint) => void;
 }
 
 interface Description {
@@ -31,7 +31,7 @@ export default function SelectTestStep({ selectedBlueprint, onSelectBluePrint }:
         items={blueprintConfig}
         addRightSeparator
         initialItemSelected={selectedBlueprint}
-        onItemClick={(item: MenuItem) => {
+        onItemClick={item => {
           onSelectBluePrint(item);
         }}
       />

@@ -9,7 +9,7 @@ const whenToUse = t('in-synthetics:dialog.createTest.bluePrint.pingApi.whenToUse
 const whoShouldUse = t('in-synthetics:dialog.createTest.bluePrint.pingApi.whoShouldUse.title');
 const tipsForUsing = t('in-synthetics:dialog.createTest.bluePrint.pingApi.tipsForUsing.title');
 
-export const blueprintConfig = Object.freeze([
+export const blueprintConfig: readonly BluePrint[] = Object.freeze([
   {
     type: 'Ping API',
     name: t('in-synthetics:dialog.createTest.bluePrint.pingApi.name'),

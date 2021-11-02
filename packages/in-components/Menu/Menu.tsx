@@ -14,14 +14,19 @@ export interface MenuItem {
   subType?: string;
   name: string;
 }
-export interface MenuProps {
+export interface MenuProps<T extends MenuItem> {
   addRightSeparator: boolean;
-  items: MenuItem[] | readonly MenuItem[];
-  onItemClick: (item: MenuItem) => any;
+  items: T[] | readonly T[];
+  onItemClick: (item: T) => any;
   initialItemSelected: MenuItem;
 }
 
-export default function Menu({ addRightSeparator = false, items, onItemClick, initialItemSelected }: MenuProps) {
+export default function Menu<T extends MenuItem>({
+  addRightSeparator = false,
+  items,
+  onItemClick,
+  initialItemSelected
+}: MenuProps<T>) {
   validateInitialItemSelected(initialItemSelected, items);
 
   const [itemSelected, setItemSelected] = useState(() => {
