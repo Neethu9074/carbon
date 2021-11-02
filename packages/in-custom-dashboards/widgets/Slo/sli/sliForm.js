@@ -25,7 +25,7 @@ export const sliFieldNames = Object.freeze({
   badEventFilterExpression: 'badEventFilterExpression'
 });
 
-export function createForm(sliType, sliConfig, entityId, entity) {
+export function createForm(entityType, sliConfig, entityId, entity) {
   const { id, sliName, sliEntity, metricConfiguration } = sliConfig;
 
   let form = createMapForm();
@@ -42,14 +42,15 @@ export function createForm(sliType, sliConfig, entityId, entity) {
     })
   );
 
-  if (sliType === 'website') {
+  if (entityType === 'website') {
     form = form.put('sliEntity', createWebsiteSliEntityForm(sliEntity, entityId));
   } else {
     form = form.put('sliEntity', createApplicationSliEntityForm(sliEntity, entityId, entity));
   }
 
-  if (sliEntity?.sliType === applicationType || sliEntity?.sliType === websiteTimeBased) {
-    form = form.put('metricConfiguration', createMetricsForm(metricConfiguration ?? {}));
+  const sliType = sliEntity?.sliType;
+  if (sliType === applicationType || sliType === websiteTimeBased) {
+    form = form.put('metricConfiguration', createMetricsForm(metricConfiguration ?? {}, sliType));
   }
 
   return form;
@@ -143,7 +144,6 @@ function createWebsiteSliEntityForm(sliEntity, websiteId) {
     .put(
       'filterExpression',
       createField({
-        validator: noEmptyFilterExpressionValidator,
         value: fromBackendModel(sliEntity?.filterExpression)
       })
     );
@@ -173,20 +173,25 @@ export function addGoodBadEventsForm(form, sliEntity) {
     );
 }
 
-export function createMetricsForm(metricConfiguration) {
+export function createMetricsForm(metricConfiguration, sliType) {
+  const defaults =
+    sliType === websiteTimeBased
+      ? { name: 'beaconErrorRate', aggregation: 'MEAN' } // website metrics
+      : { name: 'latency', aggregation: 'P90' }; // application metrics
+
   return createMapForm()
     .put(
       'metricName',
       createField({
         validator: composeAndShortCircuitOnError(notBlankValidator, notUndefinedValidator),
-        value: metricConfiguration.metricName ?? 'latency'
+        value: metricConfiguration.metricName ?? defaults.name
       })
     )
     .put(
       'metricAggregation',
       createField({
         validator: composeAndShortCircuitOnError(notBlankValidator, notUndefinedValidator),
-        value: metricConfiguration.metricAggregation ?? 'P90'
+        value: metricConfiguration.metricAggregation ?? defaults.aggregation
       })
     )
     .put(

@@ -113,7 +113,12 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
         </Stack>
       </Stack>
 
-      <MetricsForm form={form} onChange={onChange} />
+      <MetricsForm
+        entityType="website"
+        metricEntityType={form.get('sliEntity').get('beaconType').value}
+        form={form}
+        onChange={onChange}
+      />
       <GoodBadEventsForm label={websiteName} form={form} />
     </Stack>
   );

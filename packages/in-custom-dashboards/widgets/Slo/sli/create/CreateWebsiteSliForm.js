@@ -11,7 +11,7 @@ import {
   useValidateWebsiteFilterExpression,
   useWebsiteQueryBuilder
 } from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
-import useSliFormSideEffects from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
+import { useWebsiteSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
@@ -40,7 +40,7 @@ export default function CreateWebsiteSliForm({ entityId, close, sliConfig, setFo
 
 function CreateWebsiteSliFormComponent({ entityId, website, sliConfig, close, setFooter }) {
   const [form, setForm] = useState(createForm('website', sliConfig ?? {}, entityId, website));
-  const updateForm = useSliFormSideEffects(form, setForm);
+  const updateForm = useWebsiteSliFormSideEffects(form, setForm);
 
   const sliEntityForm = form.get('sliEntity').toJS();
   const { QueryBuilder, isQueryValid } = useWebsiteQueryBuilder(sliEntityForm);

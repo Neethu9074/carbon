@@ -417,6 +417,8 @@
         "callCount": "Call count",
         "errorRate": "Error rate",
         "erroneousCalls": "Erroneous calls",
+        "beaconErrorRate": "Beacon error rate",
+        "beaconDuration": "Beacon duration",
         "mean": "mean",
         "min": "min",
         "max": "max",

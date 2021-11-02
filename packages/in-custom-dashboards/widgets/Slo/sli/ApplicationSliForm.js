@@ -191,7 +191,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
         </Stack>
       </Stack>
 
-      <MetricsForm form={form} onChange={onChange} />
+      <MetricsForm entityType="application" metricEntityType="calls" form={form} onChange={onChange} />
 
       <GoodBadEventsForm label={apName} form={form} QueryBuilderComponent={QueryBuilderComponent} />
     </Stack>

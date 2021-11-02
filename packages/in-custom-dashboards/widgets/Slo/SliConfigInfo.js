@@ -8,8 +8,8 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
-import { getThresholdLabelWithUnit } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { getMetricOptions } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import { applicationType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
@@ -47,16 +47,18 @@ const SliInfo = ({ label, value }) => {
   );
 };
 
-const MetricConfig = ({ sliConfig }) => {
+const MetricConfig = ({ sliConfig, entityType }) => {
   if (sliConfig?.metricConfiguration) {
-    const { metricConfiguration } = sliConfig;
+    const { metricConfiguration, sliEntity } = sliConfig;
+    const { metricName } = metricConfiguration;
+    const { beaconType } = sliEntity;
+    const { unitLabel } = getMetricOptions(entityType, beaconType)[metricName];
     const metricLabel = `${t(`in-custom-dashboards:widgets.slo.sliConfig.metric`)}:`;
-    const thresholdLabel = `${getThresholdLabelWithUnit(metricConfiguration.metricName)}:`;
 
     return (
       <>
         <SliInfo label={metricLabel} value={getMetricToDisplay(metricConfiguration)} />
-        <SliInfo label={thresholdLabel} value={getThresholdToDisplay(metricConfiguration)} />
+        <SliInfo label={unitLabel} value={getThresholdToDisplay(metricConfiguration)} />
       </>
     );
   }
@@ -84,7 +86,7 @@ const BadEventFilters = ({ sliConfig }) => {
   return null;
 };
 
-const SliConfigTooltipContent = ({ sliConfig }) => {
+const SliConfigTooltipContent = ({ sliConfig, entityType }) => {
   const sliNameLabel = `${t(`in-custom-dashboards:widgets.slo.sliConfig.sliName`)}:`;
   const sliTypeLabel = `${t(`in-custom-dashboards:widgets.slo.sliConfig.sliType`)}:`;
 
@@ -92,17 +94,17 @@ const SliConfigTooltipContent = ({ sliConfig }) => {
     <div className={locals.sliConfigGridContainer}>
       <SliInfo label={sliNameLabel} value={sliConfig.sliName} />
       <SliInfo label={sliTypeLabel} value={getSliTypeToDisplay(sliConfig.sliEntity)} />
-      <MetricConfig sliConfig={sliConfig} />
+      <MetricConfig entityType={entityType} sliConfig={sliConfig} />
       <BadEventFilters sliConfig={sliConfig} />
     </div>
   );
 };
 
-const SliConfigTooltip = ({ sliConfig }) => {
+const SliConfigTooltip = ({ sliConfig, entityType }) => {
   return (
     <Tooltip
       themeStyle="light"
-      content={<SliConfigTooltipContent sliConfig={sliConfig} />}
+      content={<SliConfigTooltipContent sliConfig={sliConfig} entityType={entityType} />}
       align="bottomMiddle"
       delay={250}
     >

@@ -26,16 +26,59 @@ export const meanAggregation = Object.freeze([
   { value: 'MEAN', label: t('in-custom-dashboards:widgets.slo.metricFormData.mean') }
 ]);
 
-export const metricAggregations = Object.freeze({
-  latency: { options: timeAggregationOptions, defaultValue: 'P90' },
-  calls: { options: sumAggregation, defaultValue: 'SUM' },
-  erroneousCalls: { options: sumAggregation, defaultValue: 'SUM' },
-  errors: { options: meanAggregation, defaultValue: 'MEAN' }
+const metricOptions = Object.freeze({
+  application: {
+    calls: {
+      latency: {
+        name: 'latency',
+        options: timeAggregationOptions,
+        defaultValue: 'P90',
+        label: t('in-custom-dashboards:widgets.slo.metricFormData.latency'),
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdMs')
+      },
+      calls: {
+        name: 'calls',
+        options: sumAggregation,
+        defaultValue: 'SUM',
+        label: t('in-custom-dashboards:widgets.slo.metricFormData.callCount'),
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdCount')
+      },
+      erroneousCalls: {
+        name: 'erroneousCalls',
+        options: sumAggregation,
+        defaultValue: 'SUM',
+        label: t('in-custom-dashboards:widgets.slo.metricFormData.erroneousCalls'),
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdCount')
+      },
+      errors: {
+        name: 'errors',
+        options: meanAggregation,
+        defaultValue: 'MEAN',
+        label: t('in-custom-dashboards:widgets.slo.metricFormData.errorRate'),
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdPercent')
+      }
+    }
+  },
+  website: {
+    httpRequest: {
+      beaconErrorRate: {
+        name: 'beaconErrorRate',
+        options: meanAggregation,
+        defaultValue: 'MEAN',
+        label: t('in-custom-dashboards:widgets.slo.metricFormData.beaconErrorRate'),
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdPercent')
+      },
+      beaconDuration: {
+        name: 'beaconDuration',
+        options: timeAggregationOptions,
+        defaultValue: 'P90',
+        label: t('in-custom-dashboards:widgets.slo.metricFormData.beaconDuration'),
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdMs')
+      }
+    }
+  }
 });
 
-export const metricOptions = Object.freeze([
-  { value: 'latency', label: t('in-custom-dashboards:widgets.slo.metricFormData.latency') },
-  { value: 'calls', label: t('in-custom-dashboards:widgets.slo.metricFormData.callCount') },
-  { value: 'errors', label: t('in-custom-dashboards:widgets.slo.metricFormData.errorRate') },
-  { value: 'erroneousCalls', label: t('in-custom-dashboards:widgets.slo.metricFormData.erroneousCalls') }
-]);
+export function getMetricOptions(entityType, metricEntityType = 'calls') {
+  return metricOptions[entityType][metricEntityType];
+}

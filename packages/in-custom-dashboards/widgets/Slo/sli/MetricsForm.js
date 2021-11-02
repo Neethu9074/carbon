@@ -8,8 +8,8 @@ import React from 'react';
 import { Stack } from '@instana/components';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import { metricOptions, metricAggregations } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
+import { getMetricOptions } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import Sections from 'in-components/workspace/Sections';
@@ -19,13 +19,15 @@ import Header from 'in-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
 import { t } from 'in-i18n';
 
-export const MetricsForm = ({ form, onChange }) => {
+export const MetricsForm = ({ entityType, metricEntityType, form, onChange }) => {
   const metricConfiguration = form.get('metricConfiguration');
   if (!metricConfiguration) return null;
 
+  const metricOptions = getMetricOptions(entityType, metricEntityType);
+
   const aggregationValue = metricConfiguration.get('metricAggregation')?.value;
   const metricName = metricConfiguration.get('metricName')?.value;
-  const aggregationData = metricAggregations[metricName];
+  const metricOption = metricOptions[metricName];
   const percentThreshold = metricName === 'errors';
 
   const localOnChange = (path, fn) => {
@@ -51,24 +53,14 @@ export const MetricsForm = ({ form, onChange }) => {
                 onChange={e =>
                   onChange([], form => {
                     const newMetricName = e.target.value;
-                    const aggregationData = metricAggregations[newMetricName];
-                    return (
-                      form
-                        .updateIn(['metricConfiguration', 'metricName'], f =>
-                          f.setValue(newMetricName).setTouched(true)
-                        )
-                        .updateIn(['metricConfiguration', 'metricAggregation'], f =>
-                          f.setValue(aggregationData.defaultValue).setTouched(true)
-                        )
-                        // reset threshold value when metric changed, because value for metric A does not have any meaning
-                        // for metric B, as well as the format of the threshold could have completely changed
-                        .updateIn(['metricConfiguration', 'threshold'], f => f.setValue('').setTouched(false))
+                    return form.updateIn(['metricConfiguration', 'metricName'], f =>
+                      f.setValue(newMetricName).setTouched(true)
                     );
                   })
                 }
               >
-                {metricOptions.map(({ label, value }) => (
-                  <option value={value} key={value}>
+                {Object.values(metricOptions).map(({ label, name }) => (
+                  <option value={name} key={name}>
                     {label}
                   </option>
                 ))}
@@ -81,14 +73,14 @@ export const MetricsForm = ({ form, onChange }) => {
               <SelectInSection
                 label={t('in-custom-dashboards:widgets.slo.metricsForm.aggregation')}
                 id="new-sli-aggregation"
-                value={aggregationValue ?? aggregationData.defaultValue}
+                value={aggregationValue ?? metricOption.defaultValue}
                 hasError={!field.valid && field.touched}
                 additionalContent={<TouchedMessages field={field} />}
                 onChange={({ target }) =>
                   localOnChange?.(['metricAggregation'], f => f.setValue(target.value).setTouched(true))
                 }
               >
-                {aggregationData.options.map(({ label, value }) => (
+                {metricOption?.options.map(({ label, value }) => (
                   <option value={value} key={value}>
                     {label}
                   </option>
@@ -99,10 +91,7 @@ export const MetricsForm = ({ form, onChange }) => {
 
           {metricConfiguration.get('threshold').map(field => (
             <Sections>
-              <Section
-                title={getThresholdLabelWithUnit(metricName ?? 'latency')}
-                titleHtmlFor="new-sli-metric-threshold"
-              >
+              <Section title={metricOption.unitLabel} titleHtmlFor="new-sli-metric-threshold">
                 {percentThreshold && (
                   <>
                     <PercentageFormInput
@@ -138,13 +127,4 @@ export const MetricsForm = ({ form, onChange }) => {
       </Stack>
     </>
   );
-};
-
-export const getThresholdLabelWithUnit = metricName => {
-  if (metricName === 'latency') {
-    return t('in-custom-dashboards:widgets.slo.metricsForm.thresholdMs');
-  } else if (metricName === 'errors') {
-    return t('in-custom-dashboards:widgets.slo.metricsForm.thresholdPercent');
-  }
-  return t('in-custom-dashboards:widgets.slo.metricsForm.thresholdCount');
 };

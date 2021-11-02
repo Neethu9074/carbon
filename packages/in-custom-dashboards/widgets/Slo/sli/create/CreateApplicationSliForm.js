@@ -11,7 +11,7 @@ import {
   useValidateApplicationFilterExpression,
   useApplicationQueryBuilder
 } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
-import useSliFormSideEffects from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
+import { useApplicationSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ApplicationSliForm } from 'in-custom-dashboards/widgets/Slo/sli/ApplicationSliForm';
 import { sliFieldNames, createForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
@@ -40,7 +40,7 @@ export default function CreateApplicationSliForm({ entityId, close, sliConfig, s
 
 function CreateApplicationSliFormComponent({ entityId, application, close, sliConfig, setFooter }) {
   const [form, setForm] = useState(createForm('application', sliConfig ?? {}, entityId, application));
-  const updateForm = useSliFormSideEffects(form, setForm);
+  const updateForm = useApplicationSliFormSideEffects(form, setForm);
 
   const { QueryBuilder, isQueryValid } = useApplicationQueryBuilder();
   const filterExpressionValid = useValidateExpressions({ form, isQueryValid });
