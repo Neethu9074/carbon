@@ -45,6 +45,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const compatibleConfig = ensureConfigBackwardCompatibility(config);
   const entityIdValue = compatibleConfig?.[entityId];
   const entityTypeValue = compatibleConfig?.[entityType];
+
   const slo = compatibleConfig?.[sloTarget] ?? '';
   const sliConfigIdValue = compatibleConfig?.[sliConfigId];
   const timeWindowTypeValue = compatibleConfig?.[timeWindowType] ?? 'dynamic';

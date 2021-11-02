@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
@@ -17,9 +18,29 @@ import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/SliConfigInfo.mless';
 
-export default function SliConfigInfo({ sliConfig }) {
-  return Boolean(sliConfig?.sliEntity) && <SliConfigTooltip sliConfig={sliConfig} />;
+export default function SliConfigInfo({ sliConfig, entityType }) {
+  if (!sliConfig?.sliEntity) {
+    return null;
+  }
+
+  return (
+    <Tooltip
+      themeStyle="light"
+      content={<SliConfigTooltipContent sliConfig={sliConfig} entityType={entityType} />}
+      align="bottomMiddle"
+      delay={250}
+    >
+      <SvgIcon className={locals.sliInfo} type="lib_help_error_info_outline" size="s" />
+    </Tooltip>
+  );
 }
+
+SliConfigInfo.propTypes = {
+  entityType: PropTypes.string.isRequired,
+  sliConfig: PropTypes.shape({
+    sliEntity: PropTypes.object.isRequired
+  }).isRequired
+};
 
 const getSliTypeToDisplay = sliEntity => {
   const sliTypeKey = sliEntity?.sliType === applicationType ? 'timeBased' : 'eventBased';
@@ -108,18 +129,5 @@ const SliConfigTooltipContent = ({ sliConfig, entityType }) => {
       {sliType === availabilityType && <ApplicationBadEventFilters sliConfig={sliConfig} />}
       {sliType === websiteEventBased && <WebsiteBadEventFilters sliConfig={sliConfig} />}
     </div>
-  );
-};
-
-const SliConfigTooltip = ({ sliConfig, entityType }) => {
-  return (
-    <Tooltip
-      themeStyle="light"
-      content={<SliConfigTooltipContent sliConfig={sliConfig} entityType={entityType} />}
-      align="bottomMiddle"
-      delay={250}
-    >
-      <SvgIcon className={locals.sliInfo} type={'lib_help_error_info_outline'} size="s" />
-    </Tooltip>
   );
 };

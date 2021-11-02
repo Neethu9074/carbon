@@ -212,7 +212,7 @@ export default function ShowCase() {
         leftHeaderContent={
           <>
             <span className={locals.apName}>{t('in-custom-dashboards:widgets.slo.demo.appName')}</span>
-            <SliConfigInfo sliConfig={sliConfig} />
+            <SliConfigInfo sliConfig={sliConfig} entityType="application" />
           </>
         }
       >

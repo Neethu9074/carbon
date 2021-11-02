@@ -18,7 +18,7 @@ export default function WidgetLeftHeader({ sliConfig, monitoredEntityType, monit
   return (
     <>
       <SloEntityInfo entityType={monitoredEntityType} entity={monitoredEntity} />
-      <SliConfigInfo sliConfig={sliConfig} enityType={monitoredEntityType} />
+      <SliConfigInfo sliConfig={sliConfig} entityType={monitoredEntityType} />
     </>
   );
 }
