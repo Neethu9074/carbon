@@ -3,14 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
 import React, { Fragment } from 'react';
+
+import { combineLatest } from '@instana/observables';
 
 import CustomMetricsV2, { DEFAULT_SPECS } from 'in-sdk/components/dashboard/CustomMetricsV2';
 import { getCustomMetricsSpecs } from 'in-sdk/snapshot/snapshot';
 import { toTitleCase } from 'in-services/util/string';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
 
 export default connectTo(
   props => {
@@ -28,6 +30,11 @@ export default connectTo(
       return null;
     }
 
+    const resolveTitlePrefix = companion => {
+      const plugin = companion.get('plugin');
+      return t(`in-forge:pluginName_${plugin}`) ?? toTitleCase(companion.get('data')?.get('kind'));
+    };
+
     return (
       <Fragment>
         {companions.map(companion => (
@@ -36,7 +43,7 @@ export default connectTo(
             snapshot={companion}
             timeConfig={timeConfig}
             specs={getCustomMetricsSpecs(companion.get('plugin')) ?? DEFAULT_SPECS}
-            titlePrefix={toTitleCase(companion.get('data')?.get('kind'))} // capitalize first letter
+            titlePrefix={resolveTitlePrefix(companion)}
           />
         ))}
       </Fragment>

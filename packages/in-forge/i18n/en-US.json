@@ -940,6 +940,11 @@
   "pluginName_openshiftDeploymentConfig_1": "Openshift Deployment Configs",
   "pluginName_openshiftDeploymentConfig_2": "Openshift Deployment Configs",
   "pluginName_openshiftDeploymentConfig": "Openshift Deployment Config",
+  "pluginName_openTelemetry_plural": "OpenTelemetry",
+  "pluginName_openTelemetry_0": "OpenTelemetry",
+  "pluginName_openTelemetry_1": "OpenTelemetry",
+  "pluginName_openTelemetry_2": "OpenTelemetry",
+  "pluginName_openTelemetry": "OpenTelemetry",
   "pluginName_oracleDB_plural": "OracleDBs",
   "pluginName_oracleDB_0": "OracleDBs",
   "pluginName_oracleDB_1": "OracleDBs",
@@ -11011,6 +11016,9 @@
       "memoryLimits": "Memory Limits",
       "cpuRequests": "CPU Requests",
       "cpuLimits": "CPU Limits"
+    },
+    "openTelemetry": {
+      "openTelemetry": "OpenTelemetry"
     },
     "oracleDB": {
       "dbTimePerSecond": "DB Time per Second",

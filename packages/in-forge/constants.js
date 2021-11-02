@@ -200,6 +200,7 @@ export const nonServicePlugins = {
   oracleDB: 'oracleDB',
   openLDAP: 'openLDAP',
   openshiftDeploymentConfig: 'openshiftDeploymentConfig',
+  openTelemetry: 'openTelemetry',
   packet: 'packet',
   pCFApplication: 'pCFApplication',
   pCFOrganization: 'pCFOrganization',
@@ -478,6 +479,7 @@ export const fullyQualifiedPlugins = {
   openLDAP: 'com.instana.forge.infrastructure.directory.openldap.OpenLDAP',
   openshiftDeploymentConfig:
     'com.instana.forge.infrastructure.paas.kubernetes.derivedentity.openshift.deploymentconfig.OpenshiftDeploymentConfig',
+  openTelemetry: 'com.instana.forge.infrastructure.custom.opentelemetry.OpenTelemetry',
   packet: 'com.instana.forge.hardware.virtual.Packet',
   pCFApplication: 'com.instana.forge.infrastructure.paas.cloudfoundry.PCFApplication',
   pCFOrganization: 'com.instana.forge.infrastructure.paas.cloudfoundry.PCFOrganization',

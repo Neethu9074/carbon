@@ -144,6 +144,7 @@ import './mySqlDatabase';
 import './natsStreaming';
 import './pingDirectory';
 import './ibmCloudRedis';
+import './openTelemetry';
 import './ibmCloudEtcd';
 import './awsBeanstalk';
 import './awsMskBroker';
