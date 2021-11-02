@@ -8,15 +8,15 @@ import classNames from 'classnames';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { Ul, Li } from '@instana/components';
+import { Li, Ul } from '@instana/components';
 
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import OverlayOption from 'in-components/OverlayOption/OverlayOption';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import { number } from 'in-services/formatters/number';
 import { isLoading } from 'in-services/util/result';
-import { shorten } from 'in-services/util/string';
 import Typeahead from 'in-components/Typeahead';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import styleDefs from './SimpleValueSelector.mless';
@@ -71,6 +71,7 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
     </>
   );
 }
+
 function SuggestionsList({
   lowerCaseInputValue,
   inputValue,
@@ -133,7 +134,9 @@ function SuggestionsList({
             close={close}
             value={item}
           >
-            {shorten(getSuggestionLabel({ item, tagName }), 190)}
+            <Tooltip content={getSuggestionLabel({ item, tagName })} align={'rightMiddle'}>
+              <span className={locals.ellipsis}>{getSuggestionLabel({ item, tagName })}</span>
+            </Tooltip>
           </OverlayOption>
         );
       })}

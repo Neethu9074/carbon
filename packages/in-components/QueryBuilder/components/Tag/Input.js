@@ -12,12 +12,13 @@ import { Li, Ul } from '@instana/components';
 
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import OverlayOption from 'in-components/OverlayOption/OverlayOption';
-import { containsIgnoreCase, shorten } from 'in-services/util/string';
+import { containsIgnoreCase } from 'in-services/util/string';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { number } from 'in-services/formatters/number';
 import useThemedLocals from 'in-hooks/useThemedLocals';
 import { isLoading } from 'in-services/util/result';
 import Typeahead from 'in-components/Typeahead';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import styleDefs from './Input.mless';
@@ -138,7 +139,9 @@ function SuggestionsList({
             close={close}
             value={item}
           >
-            {shorten(getSuggestionLabel({ item, tagName }), 190)}
+            <Tooltip content={getSuggestionLabel({ item, tagName })} align={'rightMiddle'}>
+              <span className={locals.ellipsis}>{getSuggestionLabel({ item, tagName })}</span>
+            </Tooltip>
           </OverlayOption>
         );
       })}
