@@ -13,7 +13,7 @@ module.exports = {
     {},
     {
       get(target, prop) {
-        return `local-css:${prop}`;
+        return `local-css-${prop}`;
       }
     }
   )
