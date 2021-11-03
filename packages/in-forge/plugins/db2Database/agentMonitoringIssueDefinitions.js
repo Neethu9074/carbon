@@ -23,18 +23,5 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.db2Database.troubleshootingDocs'),
     explanationLinkHref: `https://instana.com/docs/ecosystem/db2`
-  },
-  db2luw_unable_to_get_data: {
-    issueDescription: {
-      Component: function UnableToGetData() {
-        return (
-          <span>
-            <Trans i18nKey="in-forge:plugins.db2Database.UnableToGetData" />
-          </span>
-        );
-      }
-    },
-    explanationLinkLabel: t('in-forge:plugins.db2Database.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/db2`
   }
 };

@@ -5313,7 +5313,6 @@
       "logHadrWaitCur": "Current Logger Wait Time",
       "logHadrWaitTime": "Total Logger Wait Time",
       "UnableToConnect": "Cannot connect to {{connectionUrl}} using user {{user}}.",
-      "UnableToGetData": "Error while getting data. Removing sensor.",
       "troubleshootingDocs": "Troubleshooting docs"
     },
     "defaultEntity20": {
