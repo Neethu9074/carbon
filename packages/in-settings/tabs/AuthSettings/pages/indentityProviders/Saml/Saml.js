@@ -49,6 +49,13 @@ export default function Saml() {
         refresh();
       }}
       saveItem={({ setMessage, form, result }) => {
+        if (file == null) {
+          setMessage({
+            text: t('in-settings:tabs.failedToSaveConfig', { err: t('in-settings:tabs.IdPMetadataRequired') }),
+            type: 'error'
+          });
+          return;
+        }
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
         reader.onload = function(evt) {
