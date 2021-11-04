@@ -16,6 +16,9 @@
 const Adapter = require('@wojtekmaj/enzyme-adapter-react-17');
 const Enzyme = require('enzyme');
 const chai = require('chai');
+
+require('@testing-library/jest-dom');
+
 // eslint-disable-next-line no-restricted-imports
 const i18n = require('i18next');
 // eslint-disable-next-line no-restricted-imports

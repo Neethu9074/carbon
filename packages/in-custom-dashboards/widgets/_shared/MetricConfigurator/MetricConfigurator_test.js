@@ -1,0 +1,62 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+import { render } from '@testing-library/react';
+import React from 'react';
+
+import { just } from '@instana/observables';
+
+import { getSliConfigurations } from 'in-custom-dashboards/api';
+import MetricConfigurator from './MetricConfigurator';
+import { success } from 'in-services/util/result';
+import { createForm } from './form';
+
+jest.mock('in-custom-dashboards/api', () => ({
+  getSliConfigurations: jest.fn()
+}));
+
+describe('in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator', () => {
+  describe('SLI Data Source', () => {
+    it('Displays an existing configuration of an SLO', () => {
+      //GIVEN
+      let form = createForm({
+        source: 'SLI',
+        metric: 'SLI',
+        aggregation: 'MEAN',
+        timeShift: 0,
+        sliConfigId: 'sliConfigId',
+        slo: 0.02
+      });
+
+      getSliConfigurations.mockReturnValueOnce(
+        just(
+          success([
+            {
+              id: 'sliConfigId',
+              initialEvaluationTimestamp: 0,
+              sliEntity: {},
+              sliName: 'Stans SLI'
+            }
+          ])
+        )
+      );
+
+      //WHEN
+      const { getByText, getByLabelText } = render(<MetricConfigurator form={form} />);
+
+      //THEN
+      expect(getByText('Service-Level Indicators')).toBeInTheDocument();
+      expect(getByLabelText('Data Source')).toHaveValue('SLI');
+
+      expect(getByText('Stans SLI')).toBeInTheDocument();
+      expect(getByLabelText('Configured SLI')).toHaveValue('sliConfigId');
+
+      expect(getByLabelText('SLO')).toHaveValue(2); // floating point values are converted to percentage values by the UI
+
+      expect(getByText('SLI')).toBeInTheDocument();
+      expect(getByLabelText('Value Type')).toHaveValue('SLI');
+    });
+  });
+});
