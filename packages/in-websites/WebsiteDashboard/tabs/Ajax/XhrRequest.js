@@ -592,6 +592,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 tagFilters={tagFiltersForRequests}
                 timeConfig={timeConfig}
                 urlMatrixParamConfig={{ path: detailsPath, paramTab: 'gqlOpsNamesTab' }}
+                renderHistoricDataIndicator
               />
             </Col>
           </Row>
@@ -606,6 +607,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
                 tagFilters={tagFiltersForRequests}
                 timeConfig={timeConfig}
                 urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pagesTab' }}
+                renderHistoricDataIndicator
               />
             </Col>
           )}
@@ -617,6 +619,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
               timeConfig={timeConfig}
               pageId={pageId}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pathsTab' }}
+              renderHistoricDataIndicator
             />
           </Col>
           <Col lg={pageId == null ? 4 : 6}>
@@ -626,6 +629,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
               tagFilters={tagFiltersForRequests}
               timeConfig={timeConfig}
               pageId={pageId}
+              renderHistoricDataIndicator
             />
           </Col>
         </Row>

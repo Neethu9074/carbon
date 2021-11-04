@@ -4,7 +4,7 @@
  */
 
 import { FormatterFn } from 'in-stores/metric/formatters';
-import { TimeConfig } from 'in-types';
+import {ResultPrecision, TimeConfig} from 'in-types';
 
 export interface MetricsConfiguration {
   reverseOrder?: boolean;
@@ -21,6 +21,8 @@ export interface Config {
   frontBufferWidth?: number;
   customHeight?: number;
   cardTitle?: string;
+  leftHeaderContent?: React.ReactElement;
+  rightHeaderContent?: React.ReactElement;
   cardHeader?: React.ReactElement;
   showNoDataInfoWhenEmpty?: boolean;
 
@@ -34,6 +36,8 @@ export interface Config {
   renderErrorDetail: boolean;
 
   getAllDomainValues: () => number[];
+  renderHistoricDataIndicator?: boolean;
+  resultPrecision?: ResultPrecision;
 }
 
 interface TimeShift {

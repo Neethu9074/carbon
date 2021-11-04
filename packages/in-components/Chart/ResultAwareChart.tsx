@@ -8,6 +8,7 @@ import React from 'react';
 import { Card, HorizontalIndicator, Message } from '@instana/components';
 import { Progress } from '@instana/components/types/util/dataRetrieval';
 
+import HistoricDataIndicator from '../HistoricDataIndicator/HistoricDataIndicator';
 // @ts-ignore
 import Renderer from 'in-components/Chart/renderer/Renderer';
 // @ts-ignore
@@ -35,7 +36,9 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     customHeight,
     cardTitle,
     showNoDataInfoWhenEmpty = true,
-    renderErrorDetail = false
+    renderErrorDetail = false,
+    renderHistoricDataIndicator = false,
+    resultPrecision
   } = config;
   let content;
 
@@ -70,11 +73,15 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     return content;
   }
 
+  const leftHeaderContent =
+    renderHistoricDataIndicator && resultPrecision === 'PRECISION_APPROXIMATE' ? <HistoricDataIndicator /> : undefined;
+
   return (
     <Card
       title={cardTitle}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
-      header={config.cardHeader}
+      leftHeaderContent={leftHeaderContent}
+      rightHeaderContent={config.cardHeader}
       size="l"
     >
       {content}

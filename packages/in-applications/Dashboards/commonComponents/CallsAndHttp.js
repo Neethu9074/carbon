@@ -111,6 +111,7 @@ export default function CallsAndHttp({
     >
       <ChartPresenter
         applicationId={applicationId}
+        cardTitle={cardTitle}
         serviceId={serviceId}
         endpointId={endpointId}
         tagFilters={tagFilters}
@@ -140,8 +141,11 @@ function ChartPresenter({
   selectedTabId, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   selectedMetricValue, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   timeShiftConfig, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
-  syntheticCalls
+  syntheticCalls,
+  cardTitle,
+  selectorComponent
 }) {
+
   return selectedTabId === tabCallCount.id ? (
     <CallsErrorsChart
       applicationId={applicationId}
@@ -155,6 +159,8 @@ function ChartPresenter({
       groupBy={callGroupBy}
       renderPostChartContent={renderPostChartContent}
       syntheticCalls={syntheticCalls}
+      cardTitle={cardTitle}
+      rightHeaderContent={selectorComponent}
     />
   ) : (
     <HttpSections
@@ -171,6 +177,8 @@ function ChartPresenter({
       hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
       showGraph
       syntheticCalls={syntheticCalls}
+      cardTitle={cardTitle}
+      rightHeaderContent={selectorComponent}
     />
   );
 }
