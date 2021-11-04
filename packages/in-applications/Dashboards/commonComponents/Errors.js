@@ -72,6 +72,7 @@ export default function Errors({
 
   return (
     <UnifiedMetricsChart
+      renderHistoricDataIndicator
       renderPostChartContent={props =>
         renderPostChartContent({
           ...props,

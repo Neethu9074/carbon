@@ -114,11 +114,13 @@ function ChartPresenter({
   renderPostChartContent,
   selectedTabId,
   selectedMetricValue,
-  timeShiftConfig
+  timeShiftConfig,
+  cardTitle
 }) {
   return selectedTabId === tabOverTime.id ? (
     <Latency
       applicationId={applicationId}
+      cardTitle={cardTitle}
       serviceId={serviceId}
       endpointId={endpointId}
       tagFilters={tagFilters}
@@ -133,6 +135,7 @@ function ChartPresenter({
   ) : (
     <LatencyDistributionHistogram
       applicationId={applicationId}
+      cardTitle={cardTitle}
       serviceId={serviceId}
       endpointId={endpointId}
       timeConfig={timeConfig}

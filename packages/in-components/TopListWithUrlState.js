@@ -8,10 +8,9 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { track, TOPLIST_ROW_NAVIGATION } from 'in-services/tracking/tracking';
-import { pendingResult } from 'in-services/fixedObjects';
+import { TOPLIST_ROW_NAVIGATION, track } from 'in-services/tracking/tracking';
+import { noop, pendingResult } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
-import { noop } from 'in-services/fixedObjects';
 import useUrlState from 'in-hooks/useUrlState';
 
 export const trackTopListNavigation = () => track(TOPLIST_ROW_NAVIGATION);

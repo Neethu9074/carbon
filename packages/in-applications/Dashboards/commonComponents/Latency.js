@@ -138,6 +138,7 @@ export default function Latency({
   }
   return (
     <UnifiedMetricsChart
+      renderHistoricDataIndicator
       renderPostChartContent={props =>
         renderPostChartContent({
           chartName: cardTitle,
