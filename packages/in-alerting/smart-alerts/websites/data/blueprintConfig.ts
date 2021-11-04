@@ -3,37 +3,62 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import {
+  AggregationType,
+  SlownessWebsiteAlertRule,
+  SpecificJsErrorsWebsiteAlertRule,
+  StaticThresholdConfig,
+  StatusCodeWebsiteAlertRule,
+  TagFilterOperator,
+  ThresholdConfig,
+  ThresholdOperator,
+  WebsiteAlertConfig,
+  WebsiteAlertRule
+} from 'in-types';
 import getWebsiteRateMetricThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricThresholdSuggestion';
 import getWebsiteMetricsThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricsThresholdSuggestion';
 import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricAlertsPreview';
 import { getApproximatedHistoricBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+// @ts-expect-error needs conversion to TS
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
+import { isHistoricBaselineConfig, isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
+// @ts-expect-error needs conversion to TS
+import { availableFilterTags } from 'in-websites/tags';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import { percentage, millis, number } from 'in-services/formatters/number';
-import { availableFilterTags } from 'in-websites/tags';
+import { millis, number, percentage } from 'in-services/formatters/number';
+import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-const jsErrorMetricLabelsByName = Object.freeze({
+const jsErrorMetricLabelsByName: Record<string, string> = Object.freeze({
   errors: t('in-alerting:smartAlerts.websites.data.errorCount'),
   specificJsErrorRate: t('in-alerting:smartAlerts.websites.data.specificJsErrorRate')
 });
 
-const statusCodeMetricLabelsByName = Object.freeze({
+const statusCodeMetricLabelsByName: Record<string, string> = Object.freeze({
   httpxxx: t('in-alerting:smartAlerts.websites.data.statusCodeCount'),
   specificStatusCodeRate: t('in-alerting:smartAlerts.websites.data.specificStatusCodeRate')
 });
 
-const throughputMetricLabelsByName = Object.freeze({
+const throughputMetricLabelsByName: Record<string, string> = Object.freeze({
   pageLoads: t('in-alerting:smartAlerts.websites.data.pageLoads'),
   pageTransitions: t('in-alerting:smartAlerts.websites.data.pageTransitions')
 });
 
-const baseBlueprint = Object.freeze({
+export type MetricName =
+  | 'specificJsErrorRate'
+  | 'specificStatusCodeRate'
+  | 'onLoadTime'
+  | 'pageLoads'
+  | 'httpxxx'
+  | 'errors';
+
+type AlertType = 'slowness' | 'specificJsError' | 'statusCode' | 'throughput';
+
+const baseBlueprint: BluePrintBase = Object.freeze({
   isCustomRateMetric: isCustomRateMetric,
   getMetricsRequest: metricName => (isCustomRateMetric(metricName) ? getWebsiteRateMetric : getWebsiteMetrics),
   getAlertsPreviewRequest: metricName =>
@@ -44,39 +69,25 @@ const baseBlueprint = Object.freeze({
     operator: '>='
   },
   getEntityTagFilterFormModel: alertConfig => tagFilter('beacon.website.id', 'EQUALS', alertConfig.websiteId),
-  getBeaconType: () => 'pageLoad',
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => []
 });
 
-const slownessBlueprintConfig = Object.freeze({
+const slownessBlueprintConfig: BluePrint = Object.freeze({
   ...baseBlueprint,
   type: 'slowness',
   name: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigName'),
   headline: t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigHeadline'),
-  text:
-    `
+  text: `
       <p>
-      ` +
-    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextP') +
-    `
+      ${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextP')}
       </p>
       <ul>
-        <li>` +
-    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli1') +
-    `</li>
-        <li>` +
-    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli2') +
-    `</li>
-        <li>` +
-    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli3') +
-    `</li>
-        <li>` +
-    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli4') +
-    `</li>
-        <li>` +
-    t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli5') +
-    `</li>
+        <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli1')}</li>
+        <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli2')}</li>
+        <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli3')}</li>
+        <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli4')}</li>
+        <li>${t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigTextli5')}</li>
       <ul>
     `,
   getAvailableTags: () => getIncludedTags(availableFilterTags.pageLoad),
@@ -86,14 +97,27 @@ const slownessBlueprintConfig = Object.freeze({
   getMetricLabel: () => t('in-alerting:smartAlerts.websites.data.slownessBlueprintConfigMetricLabel'),
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
-  getAggregation: alertRule => alertRule.aggregation,
+  getAggregation: (alertRule: WebsiteAlertRule) => {
+    // this is always set SlownessWebsiteAlertRule
+    return (alertRule as SlownessWebsiteAlertRule).aggregation;
+  },
   isRuleComplete: () => true,
-  getRuleTagFilterFormModel: () => [],
   getBeaconType: () => 'pageLoad',
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
-const jsErrorsBlueprintConfig = Object.freeze({
+// TODO check if we want to make this type public in constants.ts
+type NumberFormatter =
+  | ((...args: any) => string)
+  | {
+      compact?: (...args: any) => string;
+      detailed?: (...args: any) => string;
+
+      // More properties may be defined, but we ignore them.
+      [other: string]: any;
+    };
+
+const jsErrorsBlueprintConfig: BluePrint = Object.freeze({
   ...baseBlueprint,
   type: 'specificJsError',
   name: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigName'),
@@ -102,19 +126,27 @@ const jsErrorsBlueprintConfig = Object.freeze({
   getAvailableTags: () => getIncludedTags(availableFilterTags.error),
   baselineEnabled: false,
   defaultMetric: 'errors',
-  getMetricName: alertRule => alertRule.metricName,
-  getMetricLabel: metricName => jsErrorMetricLabelsByName[metricName],
-  getMetricFormat: metricName => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
-  getMaxMetricValue: metricName => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
-  getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
-  isRuleComplete: alertRule => isNotBlank(alertRule.value),
+  getMetricName: (alertRule: WebsiteAlertRule) => alertRule.metricName,
+  getMetricLabel: (metricName: MetricName): string => {
+    return jsErrorMetricLabelsByName[metricName];
+  },
+  getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
+  getMaxMetricValue: (metricName: MetricName) => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
+  getAggregation: (alertRule: WebsiteAlertRule) => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
+  isRuleComplete: (alertRule: WebsiteAlertRule) => isNotBlank((alertRule as SpecificJsErrorsWebsiteAlertRule).value),
   incompleteRuleMessage: t('in-alerting:smartAlerts.websites.data.jsErrorsBlueprintConfigIncompleteRuleMessage'),
-  getRuleTagFilterFormModel: alertRule => [tagFilter('beacon.error.message', alertRule.operator, alertRule.value)],
+  getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => [
+    tagFilter(
+      'beacon.error.message',
+      (alertRule as SpecificJsErrorsWebsiteAlertRule).operator,
+      (alertRule as SpecificJsErrorsWebsiteAlertRule).value
+    )
+  ],
   getBeaconType: () => 'error',
   getExtraAnalyzeLinkTagFilterFormModel: () => [] // TODO in AP error blueprint, we add a call.erroneous filter, to only show erroneous calls, in WebsiteSmartAlerts we never did that. Ask PM whether we want to add such filter for Websites as well.
 });
 
-const statusCodeBlueprintConfig = Object.freeze({
+const statusCodeBlueprintConfig: BluePrint = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
   name: t('in-alerting:smartAlerts.websites.data.statusCodeBlueprintConfigName'),
@@ -123,46 +155,95 @@ const statusCodeBlueprintConfig = Object.freeze({
   getAvailableTags: () => getIncludedTags(availableFilterTags.httpRequest),
   baselineEnabled: false,
   defaultMetric: 'httpxxx',
-  getMetricName: alertRule => alertRule.metricName,
-  getMetricLabel: metricName => statusCodeMetricLabelsByName[metricName],
-  getMetricFormat: metricName => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
-  getMaxMetricValue: metricName => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
-  getAggregation: alertRule => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
-  isRuleComplete: alertRule => isNotBlank(alertRule.value),
+  getMetricName: (alertRule: WebsiteAlertRule) => alertRule.metricName,
+  getMetricLabel: (metricName: MetricName) => statusCodeMetricLabelsByName[metricName],
+  getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
+  getMaxMetricValue: (metricName: MetricName) => (isCustomRateMetric(metricName) ? 100 : Number.MAX_SAFE_INTEGER),
+  getAggregation: (alertRule: WebsiteAlertRule) =>
+    isCustomRateMetric((alertRule as StatusCodeWebsiteAlertRule).metricName) ? 'MEAN' : 'SUM',
+  isRuleComplete: (alertRule: WebsiteAlertRule) => isNotBlank((alertRule as StatusCodeWebsiteAlertRule).value),
   incompleteRuleMessage: t('in-alerting:smartAlerts.websites.data.statusCodeBlueprintConfigIncompleteRuleMessage'),
-  getRuleTagFilterFormModel: alertRule => [tagFilter('beacon.http.status', alertRule.operator, alertRule.value)],
+  getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => [
+    tagFilter(
+      'beacon.http.status',
+      (alertRule as StatusCodeWebsiteAlertRule).operator,
+      (alertRule as StatusCodeWebsiteAlertRule).value
+    )
+  ],
   getBeaconType: () => 'httpRequest'
 });
 
-const throughputBlueprintConfig = Object.freeze({
+const throughputBlueprintConfig: BluePrint = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
   name: t('in-alerting:smartAlerts.websites.data.throughputBlueprintConfigName'),
   headline: t('in-alerting:smartAlerts.websites.data.throughputBlueprintConfigHeadline'),
   text: t('in-alerting:smartAlerts.websites.data.throughputBlueprintConfigText'),
-  getAvailableTags: metricName =>
+  getAvailableTags: (metricName: MetricName) =>
     getIncludedTags(metricName === 'pageLoads' ? availableFilterTags.pageLoad : availableFilterTags.pageChange),
   baselineEnabled: true,
   defaultMetric: 'pageLoads',
-  getMetricName: alertRule => alertRule.metricName,
-  getMetricLabel: metricName => throughputMetricLabelsByName[metricName],
+  getMetricName: (alertRule: WebsiteAlertRule) => alertRule.metricName,
+  getMetricLabel: (metricName: MetricName) => throughputMetricLabelsByName[metricName],
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
   isRuleComplete: () => true,
-  getRuleTagFilterFormModel: () => [],
-  getBeaconType: metricName => (metricName === 'pageLoads' ? 'pageLoad' : 'pageChange'),
+  getBeaconType: (metricName: MetricName) => (metricName === 'pageLoads' ? 'pageLoad' : 'pageChange'),
   impactTimeThresholdDisabled: true
 });
 
-export const blueprintConfigs = Object.freeze([
+export const blueprintConfigs: readonly BluePrint[] = Object.freeze([
   slownessBlueprintConfig,
   jsErrorsBlueprintConfig,
   statusCodeBlueprintConfig,
   throughputBlueprintConfig
 ]);
 
-export const simpleModeBlueprintConfigs = Object.freeze([
+interface BluePrintBase {
+  readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
+  readonly thresholdDefaults?: { readonly operator: ThresholdOperator };
+  readonly isCustomRateMetric: typeof isCustomRateMetric;
+  readonly getMetricsRequest: (metricName: MetricName) => typeof getWebsiteRateMetric | typeof getWebsiteMetrics;
+  readonly getAlertsPreviewRequest: (
+    metricName: MetricName
+  ) => typeof getWebsiteRateMetricAlertsPreview | typeof getWebsiteMetricAlertsPreview;
+  readonly getThresholdSuggestionRequest: (
+    metricName: MetricName
+  ) => typeof getWebsiteRateMetricThresholdSuggestion | typeof getWebsiteMetricsThresholdSuggestion;
+  readonly getEntityTagFilterFormModel: (
+    alertConfig: WebsiteAlertConfig
+  ) => { name: string; operator: TagFilterOperator; value?: any };
+  readonly getRuleTagFilterFormModel: (
+    alertRule: WebsiteAlertRule
+  ) => { name: string; operator: TagFilterOperator; value?: any }[];
+  readonly getExtraAnalyzeLinkTagFilterFormModel: (
+    alertConfig: WebsiteAlertConfig,
+    timeConfig: FixedTimeConfig
+  ) => { name: string; type: string; operator: TagFilterOperator; value?: number }[];
+}
+
+interface BluePrint extends BluePrintBase {
+  readonly type: AlertType;
+  readonly name: string;
+  readonly headline?: string;
+  readonly text?: string;
+  readonly subType?: string;
+  readonly incompleteRuleMessage?: string;
+  readonly getAvailableTags: (metricName: MetricName) => string[];
+  readonly baselineEnabled: boolean;
+  readonly getBeaconType: (metricName: MetricName) => string;
+  readonly defaultMetric: MetricName;
+  readonly getMetricName: (alertRule: WebsiteAlertRule) => string;
+  readonly getMetricLabel: (metricName: MetricName) => string;
+  readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
+  readonly getMaxMetricValue: (metricName: MetricName) => number;
+  readonly getAggregation: (alertRule: WebsiteAlertRule) => AggregationType;
+  readonly isRuleComplete: (alertRule: WebsiteAlertRule) => boolean;
+  readonly impactTimeThresholdDisabled?: boolean;
+}
+
+export const simpleModeBlueprintConfigs: readonly BluePrint[] = [
   slownessBlueprintConfig,
   jsErrorsBlueprintConfig,
   statusCodeBlueprintConfig,
@@ -175,7 +256,7 @@ export const simpleModeBlueprintConfigs = Object.freeze([
     thresholdDefaults: {
       operator: '<='
     },
-    isSelected: alertThreshold => alertThreshold.operator === '<=' || alertThreshold.operator === '<'
+    isSelected: ({ operator }) => operator === '<=' || operator === '<'
   },
   {
     ...throughputBlueprintConfig,
@@ -183,37 +264,47 @@ export const simpleModeBlueprintConfigs = Object.freeze([
     name: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberName'),
     headline: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline'),
     text: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberText'),
-    isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
+    isSelected: ({ operator }) => operator === '>=' || operator === '>'
   }
-]);
+];
 
-const excludedWebsiteTags = Object.freeze(['beacon.website.id', 'beacon.website.name']);
+const excludedWebsiteTags: readonly string[] = Object.freeze(['beacon.website.id', 'beacon.website.name']);
 
-function getIncludedTags(tagCatalog) {
-  return tagCatalog.filter(tag => !excludedWebsiteTags.includes(tag));
+function getIncludedTags(tagCatalog: string[]): string[] {
+  return tagCatalog.filter((tag: string) => !excludedWebsiteTags.includes(tag));
 }
 
-export function getBlueprintConfig(alertType) {
+export function getBlueprintConfig(alertType: string): BluePrint | undefined {
   return blueprintConfigs.find(blueprint => blueprint.type === alertType);
 }
 
-export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
+export function getSimpleModeBlueprintConfig(
+  alertType: string,
+  alertThreshold: ThresholdConfig
+): BluePrint | undefined {
   return simpleModeBlueprintConfigs
     .filter(blueprint => blueprint.type === alertType)
     .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
 }
 
-function isCustomRateMetric(metricName) {
+function isCustomRateMetric(metricName: MetricName | string): boolean {
   return metricName === 'specificJsErrorRate' || metricName === 'specificStatusCodeRate';
 }
 
-function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig) {
-  let value;
-  if (alertConfig.threshold.type === STATIC_THRESHOLD) {
-    value = alertConfig.threshold.value;
+function getExtraSlownessAnalyzeLinkTagFilterFormModel(
+  alertConfig: WebsiteAlertConfig,
+  timeConfig: FixedTimeConfig
+): { name: string; type: string; operator: TagFilterOperator; value?: number }[] {
+  let value: number;
+  const { threshold } = alertConfig;
+  if (isStaticThresholdConfig(threshold)) {
+    value = (threshold as StaticThresholdConfig).value;
+  } else if (isHistoricBaselineConfig(threshold)) {
+    value = threshold.deviationFactor;
   } else {
+    // @ts-expect-error TS2345: Argument of type 'WebsiteAlertConfig' is not assignable to parameter of type 'AlertConfig'.
     value = getApproximatedHistoricBaselineThresholdValue(alertConfig, timeConfig);
   }
 
-  return [tagFilter('beacon.duration', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];
+  return [tagFilter('beacon.duration', toTagFilterNumberOperator(threshold.operator), value)];
 }
