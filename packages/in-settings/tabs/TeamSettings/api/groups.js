@@ -31,7 +31,7 @@ function getGroupWithIdpFlagAsResultObservableInternal(groupId) {
       http({
         method: 'GET',
         maxRetries: 3,
-        url: `${basePath}/${groupId}/idp-mapping`
+        url: `${basePath}/${groupId}/group-with-idp-mapping`
       }).map(r => {
         const groupWithRoles = r.body.groupWithRoles;
         const idpFlagMap = r.body.idpFlagMap;
