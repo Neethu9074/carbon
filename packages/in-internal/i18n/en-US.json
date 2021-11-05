@@ -795,6 +795,10 @@
         "websiteBeacons": "Website Beacons",
         "mobileAppBeacons": "Mobile App Beacons"
       },
+      "logging": {
+        "logByteRateLimitAccepted": "Log Bytes accepted",
+        "logByteRateLimitDropped": "Log Bytes dropped"
+      },
       "infraDataStatistics": {
         "numEntities": "Number of Entities",
         "entityUsage": "Entity Usage",
@@ -823,6 +827,7 @@
         "agents": "Agents",
         "application": "Application",
         "endUserMonitor": "End-User Monitoring",
+        "logging": "Logging",
         "entityStatistic": "Entity Statistics",
         "infrastructure": "Infrastructure",
         "profile": "Profile",
@@ -868,6 +873,10 @@
       "eum": {
         "websiteBeacons": "Website Beacons",
         "mobileAppBeacons": "Mobile App Beacons"
+      },
+      "logging": {
+        "logByteRateLimitAccepted": "Log Bytes accepted",
+        "logByteRateLimitDropped": "Log Bytes dropped"
       },
       "infrastructure": {
         "numEntities": "Number of Entities",
@@ -951,7 +960,10 @@
       "processedBeacons": "Processed Beacons",
       "mobileAppMonitoring": "Mobile App Monitoring",
       "profileMonitoring": "Profile Monitoring",
-      "acceptedProfiles": "Accepted Profiles"
+      "acceptedProfiles": "Accepted Profiles",
+      "logs": "Retrieved Log Batches",
+      "logsDropped": "Dropped Log Batches",
+      "processedLogMessages": "Processed Log Messages"
     },
     "thisUnit": {
       "internalEvents": {

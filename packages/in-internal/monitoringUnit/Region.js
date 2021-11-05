@@ -148,6 +148,51 @@ export default connectTo(
             }}
           />
         </DashboardSection>
+        <Row>
+          <Col lg={6}>
+            <DashboardSection title={t('in-internal:monitoringUnit.region.logs')}>
+              <Chart
+                snapshotId={ID_OF_REGION}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  formatter: number.compact,
+                  metrics: ['logs'],
+                  labels: [t('in-internal:monitoringUnit.region.logs')],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+          </Col>
+          <Col lg={6}>
+            <DashboardSection title={t('in-internal:monitoringUnit.region.logsDropped')}>
+              <Chart
+                snapshotId={ID_OF_REGION}
+                timeConfig={timeConfig}
+                y1={{
+                  min: 0,
+                  formatter: number.compact,
+                  metrics: ['logsDropped'],
+                  labels: [t('in-internal:monitoringUnit.region.logsDropped')],
+                  type: 'line'
+                }}
+              />
+            </DashboardSection>
+          </Col>
+        </Row>
+        <DashboardSection title={t('in-internal:monitoringUnit.region.processedLogMessages')}>
+          <Chart
+            snapshotId={ID_OF_REGION}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: ['processedLogMessages'],
+              labels: [t('in-internal:monitoringUnit.region.processedLogMessages')],
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
       </Fragment>
     );
   }
