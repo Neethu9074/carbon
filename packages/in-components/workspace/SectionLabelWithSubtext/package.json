@@ -1,6 +1,6 @@
 {
- "name": "SectionLabelWithSubtext",
- "version": "0.0.0",
- "private": true,
- "main": "./SectionLabelWithSubtext.js"
+  "name": "SectionLabelWithSubtext",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SectionLabelWithSubtext.tsx"
 }
