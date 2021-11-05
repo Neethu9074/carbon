@@ -3,24 +3,24 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { SvgIcon, Link } from '@instana/components';
 
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './HelpAction.mless';
 
-export default function HelpAction({ children, href, external }) {
+interface HelpActionProps {
+  children: ReactNode;
+  href?: string;
+  external?: boolean;
+}
+
+export default function HelpAction({ children, href, external }: HelpActionProps) {
   let content = (
-    <SvgIcon
-      type="lib_help_error_help_outline"
-      content={children}
-      className={classNames(locals.icon, { [locals.clickable]: href })}
-    />
+    <SvgIcon type="lib_help_error_help_outline" className={classNames(locals.icon, { [locals.clickable]: href })} />
   );
 
   if (href) {
@@ -33,9 +33,3 @@ export default function HelpAction({ children, href, external }) {
 
   return <Tooltip content={children}>{content}</Tooltip>;
 }
-
-HelpAction.propTypes = {
-  children: PropTypes.node.isRequired,
-  external: PropTypes.bool,
-  href: PropTypes.string
-};
