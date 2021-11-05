@@ -3,12 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import locals from './SectionLabelWithSubtext.mless';
 
-export default function SectionLabelWithSubtext({ subtext, children }) {
+interface SectionLabelWithSubtextProps {
+  subtext: ReactNode;
+  children: ReactNode;
+}
+
+export default function SectionLabelWithSubtext({ subtext, children }: SectionLabelWithSubtextProps) {
   return (
     <>
       {children}
@@ -16,7 +20,3 @@ export default function SectionLabelWithSubtext({ subtext, children }) {
     </>
   );
 }
-SectionLabelWithSubtext.propTypes = {
-  children: PropTypes.node.isRequired,
-  subtext: PropTypes.node.isRequired
-};
