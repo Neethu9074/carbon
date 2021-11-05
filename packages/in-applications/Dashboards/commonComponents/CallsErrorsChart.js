@@ -31,8 +31,7 @@ export default function CallsErrorsChart({
   groupBy,
   boundaryScope,
   cardTitle,
-  renderPostChartContent,
-  rightHeaderContent
+  renderPostChartContent
 }) {
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
@@ -100,9 +99,6 @@ export default function CallsErrorsChart({
 
   return (
     <UnifiedMetricsChart
-      title={cardTitle}
-      rightHeaderContent={rightHeaderContent}
-      renderHistoricDataIndicator
       renderPostChartContent={props =>
         renderPostChartContent({
           ...props,
@@ -136,6 +132,7 @@ export default function CallsErrorsChart({
           }
         })
       }
+      title={cardTitle}
       automaticallySize={false}
       reverseLegendOrder={timeShiftConfig.offset}
       reverseTooltipOrder={timeShiftConfig.offset}

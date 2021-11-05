@@ -338,7 +338,6 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
                 tagFilters={tagFiltersWithErrorId}
                 timeConfig={timeConfig}
                 urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pagesTab' }}
-                renderHistoricDataIndicator
               />
             </Col>
           )}
@@ -350,7 +349,6 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               timeConfig={timeConfig}
               pageId={pageId}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'browserTab' }}
-              renderHistoricDataIndicator
             />
           </Col>
           <Col lg={pageId == null ? 4 : 6}>
@@ -361,7 +359,6 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
               timeConfig={timeConfig}
               pageId={pageId}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'osTab' }}
-              renderHistoricDataIndicator
             />
           </Col>
         </Row>

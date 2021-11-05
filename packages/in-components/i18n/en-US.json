@@ -659,8 +659,5 @@
       "warningTooltip": "{{count}} warning",
       "healthyTooltip": "{{count}} healthy"
     }
-  },
-  "historicIndicator": {
-    "dataRetention": "You are viewing approximate data due to the data retention settings."
   }
 }

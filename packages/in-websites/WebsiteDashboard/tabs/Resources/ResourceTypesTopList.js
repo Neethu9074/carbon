@@ -11,7 +11,7 @@ import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsit
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
-import { bytes, ms, number } from 'in-services/formatters/number';
+import { number, ms, bytes } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { t } from 'in-i18n';
@@ -51,7 +51,6 @@ export default function ResourceTypesTopList({
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
       tagCatalogResourceLoad={tagCatalogResourceLoad}
-      renderHistoricDataIndicator
     />
   );
 }

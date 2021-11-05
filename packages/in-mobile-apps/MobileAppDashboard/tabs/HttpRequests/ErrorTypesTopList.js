@@ -21,13 +21,7 @@ const labels = ['Calls'];
 const aggregations = ['SUM'];
 const formatters = [number.compact];
 
-export default function ErrorTypesTopList({
-  mobileAppId,
-  mobileAppLabel,
-  timeConfig,
-  tagFilters,
-  renderHistoricDataIndicator
-}) {
+export default function ErrorTypesTopList({ mobileAppId, mobileAppLabel, timeConfig, tagFilters }) {
   return (
     <TopListWithUrlState
       title={t('in-mobile-apps:dashboard.tabs.errorTypesTitle')}
@@ -44,7 +38,6 @@ export default function ErrorTypesTopList({
       mobileAppLabel={mobileAppLabel}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
-      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

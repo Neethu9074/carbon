@@ -85,7 +85,6 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             websiteId={websiteId}
             websiteLabel={websiteLabel}
             urlMatrixParamConfig={{ path: usersTab, paramTab: 'browserTab' }}
-            renderHistoricDataIndicator
           />
         </Col>
         <Col lg={6}>
@@ -95,7 +94,6 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             websiteId={websiteId}
             websiteLabel={websiteLabel}
             urlMatrixParamConfig={{ path: usersTab, paramTab: 'wwTab' }}
-            renderHistoricDataIndicator
           />
         </Col>
       </Row>
@@ -108,7 +106,6 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             websiteId={websiteId}
             websiteLabel={websiteLabel}
             urlMatrixParamConfig={{ path: usersTab, paramTab: 'osTab' }}
-            renderHistoricDataIndicator
           />
         </Col>
         <Col lg={6}>
@@ -118,7 +115,6 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
             websiteId={websiteId}
             websiteLabel={websiteLabel}
             urlMatrixParamConfig={{ path: usersTab, paramTab: 'connTab' }}
-            renderHistoricDataIndicator
           />
         </Col>
       </Row>

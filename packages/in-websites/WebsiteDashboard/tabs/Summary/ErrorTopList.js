@@ -9,7 +9,7 @@ import { Link } from '@instana/components';
 
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { getLinkToError, getLinkToWebsite } from 'in-websites/navigation/paths';
+import { getLinkToWebsite, getLinkToError } from 'in-websites/navigation/paths';
 import getWebsiteErrors from 'in-websites/subscriptions/getWebsiteErrors';
 import { affectedUsers } from 'in-websites/formatters';
 import { number } from 'in-services/formatters/number';
@@ -41,7 +41,6 @@ export default function ErrorTopList({ websiteId, pageId, timeConfig, tagFilters
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
-      renderHistoricDataIndicator
     />
   );
 }

@@ -8,9 +8,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useObservable } from '@instana/hooks';
 
 import {
+  renderer as availableRenderers,
   defaultRenderer,
-  enforceSingleNumberResult,
-  renderer as availableRenderers
+  enforceSingleNumberResult
 } from 'in-custom-dashboards/widgets/Chart/renderer';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
@@ -46,7 +46,7 @@ const defaultNumberOfSuggestedDatapoints = 80;
 export default function UnifiedMetricsChart({
   config,
   title,
-  rightHeaderContent,
+  cardHeader,
   customHeight,
   automaticallySize,
   shareMaxAxisDomain,
@@ -54,7 +54,6 @@ export default function UnifiedMetricsChart({
   reverseTooltipOrder,
   tooltipTimeFormatter,
   renderPostChartContent,
-  renderHistoricDataIndicator,
   cardUseMaxAvailableHeight,
   excludedContextMenuActions,
   renderLegend = true,
@@ -103,9 +102,6 @@ export default function UnifiedMetricsChart({
     };
   }
 
-  // We are using the [0] selector as in this aspect we assume multiple results have the same value
-  const resultPrecision = resultDataAsList?.map(elem => elem.resultPrecisionDetails?.resultPrecision)[0];
-
   return (
     <ChartWrapper
       cardTitle={title}
@@ -118,7 +114,7 @@ export default function UnifiedMetricsChart({
       result={result}
       granularity={granularity}
       // pass through props
-      cardHeader={rightHeaderContent}
+      cardHeader={cardHeader}
       customHeight={customHeight}
       automaticallySize={automaticallySize}
       shareMaxAxisDomain={shareMaxAxisDomain}
@@ -130,8 +126,6 @@ export default function UnifiedMetricsChart({
       renderPostChartContent={renderPostChartContent}
       cardUseMaxAvailableHeight={cardUseMaxAvailableHeight}
       excludedContextMenuActions={excludedContextMenuActions}
-      resultPrecision={resultPrecision}
-      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

@@ -29,9 +29,7 @@ export default connectTo(
       error: useTagCatalog('error'),
       custom: useTagCatalog('custom')
     };
-    return (
-      <ChartWrapper {...props} {...getAdditionalChartActions({ ...props, tagCatalogs })} renderHistoricDataIndicator />
-    );
+    return <ChartWrapper {...props} {...getAdditionalChartActions({ ...props, tagCatalogs })} />;
   }
 );
 
