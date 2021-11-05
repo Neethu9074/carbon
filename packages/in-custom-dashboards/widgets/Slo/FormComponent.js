@@ -27,11 +27,11 @@ import {
 } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
-import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects';
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
+import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/SliManageList';
@@ -168,12 +168,14 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               titleHtmlFor={sloTarget}
               hasError={!field.valid && field.touched}
             >
-              <PercentageFormInput
-                form={form}
+              <PercentageInput
                 id={sloTarget}
-                fieldName={sloTarget}
-                onChange={(path, updater) => updateForm(form.updateIn(path, updater))}
-                trackChange={debouncedTrackSloChanged}
+                value={field.value}
+                onChange={value => {
+                  updateForm(form.updateIn([sloTarget], f => f.setValue(value).setTouched(true)));
+                  debouncedTrackSloChanged(value);
+                }}
+                hasError={!field.valid && field.touched}
               />
               <span className={locals.sloUnit}>%</span>
               <OverridingTextTouchedMessage

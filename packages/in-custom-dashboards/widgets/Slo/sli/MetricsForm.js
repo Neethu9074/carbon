@@ -8,7 +8,7 @@ import React from 'react';
 import { Stack } from '@instana/components';
 
 import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
-import PercentageFormInput from 'in-custom-dashboards/widgets/Slo/components/PercentageFormInput';
+import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import { getMetricOptions } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -94,11 +94,11 @@ export const MetricsForm = ({ entityType, metricEntityType, form, onChange }) =>
               <Section title={metricOption.unitLabel} titleHtmlFor="new-sli-metric-threshold">
                 {percentThreshold && (
                   <>
-                    <PercentageFormInput
+                    <PercentageInput
                       id="new-sli-metric-threshold"
-                      form={metricConfiguration}
-                      onChange={localOnChange}
-                      fieldName="threshold"
+                      value={field.value}
+                      onChange={value => localOnChange(['threshold'], f => f.setValue(value).setTouched(true))}
+                      hasError={!field.valid && field.touched}
                     />
                     <TouchedMessages field={field} />
                   </>
