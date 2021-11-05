@@ -85,15 +85,12 @@ function createOption(form, updateForm, thresholdType, disabled = false) {
 function getTimeThresholdFormForType(form, thresholdType) {
   if (thresholdType === timeThresholdTypes.violationsInSequence) {
     return createViolationsInSequenceForm(form.get('timeThreshold').toJS());
-  }
-  if (thresholdType === timeThresholdTypes.violationsInPeriod) {
+  } else if (thresholdType === timeThresholdTypes.violationsInPeriod) {
     return createViolationsInPeriodForm(form.get('timeThreshold').toJS());
-  }
-  if (thresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
+  } else if (thresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
     return createUserImpactOfViolationsInSequenceForm(form.get('timeThreshold').toJS());
-  }
-  if (thresholdType === timeThresholdTypes.requestImpact) {
-    return createRequestImpactForm(form.get('timeThreshold').toJS());
+  } else if (thresholdType === timeThresholdTypes.requestImpact) {
+    return createRequestImpactForm(form.get('timeThreshold').toJS(), form.get('granularity').value);
   }
 }
 

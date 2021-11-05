@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 
 import ConfigureAlertingThreshold from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/ConfigureAlertingThreshold';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
-import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
+import { createSmartAlertForm, defaultGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 
 export default {
   component: ConfigureAlertingThreshold
@@ -18,8 +18,12 @@ export const Default = props => {
     type: 'userImpactOfViolationsInSequence'
   };
 
+  const alertConfig = {};
   const [form, updateForm] = useState(
-    createSmartAlertForm({}, false).put('timeThreshold', createTimeThresholdForm(timeThresholdConfig))
+    createSmartAlertForm(alertConfig, false).put(
+      'timeThreshold',
+      createTimeThresholdForm(timeThresholdConfig, alertConfig.granularity ?? defaultGranularity)
+    )
   );
 
   return (

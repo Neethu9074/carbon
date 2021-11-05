@@ -8,6 +8,7 @@ import { createField, createMapForm, MapForm, ValidationResult } from 'formalist
 import { TimeThresholdType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { websiteSmartAlertsAllowPerWindowUserImpact } from 'in-services/featureFlags';
 import { ImpactMeasurementMethod } from 'in-types';
+import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { t } from 'in-i18n';
 
 export const percentageOfUserDefault = 0.2;
@@ -86,7 +87,7 @@ export function createUserImpactOfViolationsInSequenceForm({
   return form;
 }
 
-export function createRequestImpactForm(timeThresholdConfig: TimeThresholdConfig): MapForm {
+export function createRequestImpactForm(timeThresholdConfig: TimeThresholdConfig, granularity: number): MapForm {
   return createMapForm()
     .put(
       'type',
@@ -95,9 +96,10 @@ export function createRequestImpactForm(timeThresholdConfig: TimeThresholdConfig
       })
     )
     .put(
+      // For request impact timeWindow is always one bucket which means it would be same as granularity.
       'timeWindow',
       createField({
-        value: timeThresholdConfig.timeWindow ?? timeWindowDefault
+        value: granularity ?? defaultGranularity
       })
     )
     .put(
@@ -109,7 +111,10 @@ export function createRequestImpactForm(timeThresholdConfig: TimeThresholdConfig
     );
 }
 
-export default function createTimeThresholdForm(timeThresholdConfig: TimeThresholdConfig): MapForm | undefined {
+export default function createTimeThresholdForm(
+  timeThresholdConfig: TimeThresholdConfig,
+  granularity: number
+): MapForm | undefined {
   const type = timeThresholdConfig.type ?? 'violationsInSequence';
 
   if (type === 'violationsInSequence') {
@@ -122,7 +127,7 @@ export default function createTimeThresholdForm(timeThresholdConfig: TimeThresho
     return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig);
   }
   if (type === 'requestImpact') {
-    return createRequestImpactForm(timeThresholdConfig);
+    return createRequestImpactForm(timeThresholdConfig, granularity);
   }
   return undefined;
 }
