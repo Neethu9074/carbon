@@ -18,6 +18,7 @@ import InternalViewWrapper from 'in-internal/components/InternalViewWrapper';
 import { linkToTenantUnit } from 'in-internal/components/crossUnitLinks';
 import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import Landing from 'in-internal/monitoringUnit/unit/Landing';
+import Logging from 'in-internal/monitoringUnit/unit/Logging';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
 import Switch from 'in-components/FragmentSupportingSwitch';
 import { getModifiedUrlStream } from 'in-stores/navigation';
@@ -101,6 +102,12 @@ export default connectTo(({ location }) => {
                 render={() => <Eum timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />}
               />
               <Route
+                path="/internal/monitoringUnit/unit/logging"
+                render={() => (
+                  <Logging timeConfig={timeConfig} tenantUnitId={tenantUnitId} tenant={tenant} unit={unit} />
+                )}
+              />
+              <Route
                 path="/internal/monitoringUnit/unit/infrastructureDataStatistics"
                 render={() => (
                   <InfrastructureDataStatistics
@@ -161,6 +168,10 @@ function Navigation({ tenant, unit }) {
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.endUserMonitor')}
         href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/eum'))}
+      />
+      <LinkListItem
+        label={t('in-internal:monitoringUnit.unit.tenantUnit.logging')}
+        href$={getModifiedUrlStream(p => (p.pathname = '/internal/monitoringUnit/unit/logging'))}
       />
       <LinkListItem
         label={t('in-internal:monitoringUnit.unit.tenantUnit.entityStatistic')}
