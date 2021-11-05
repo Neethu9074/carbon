@@ -11,6 +11,7 @@ import { useObservable } from '@instana/hooks';
 import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLanePresenter';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
+import { isLoading } from 'in-services/util/result';
 
 export default function AlertsPreviewLanePropsChecker(props) {
   const { alertsPreviewConfiguration, getAlertsPreview } = props;
@@ -22,14 +23,14 @@ export default function AlertsPreviewLanePropsChecker(props) {
 }
 
 function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
-  const alerts =
-    useObservable(getAlertsPreviewObservable, [
-      getAlertsPreview,
-      alertsPreviewConfiguration,
-      remainingProps.clusterSizeMillis
-    ]) ?? emptyArray;
-
-  return <AlertsPreviewLanePresenter {...remainingProps} alerts={alerts} />;
+  const result = useObservable(getAlertsPreviewObservable, [
+    getAlertsPreview,
+    alertsPreviewConfiguration,
+    remainingProps.clusterSizeMillis
+  ]);
+  return (
+    <AlertsPreviewLanePresenter {...remainingProps} alerts={result?.data ?? emptyArray} isLoading={isLoading(result)} />
+  );
 }
 
 function isConfigValid({ granularity, threshold }) {
@@ -59,11 +60,10 @@ AlertsPreviewLane.propTypes = {
 function getAlertsPreviewObservable([getAlertsPreview, alertsPreviewConfiguration, clusterSizeMillis]) {
   return getAlertsPreview({ ...alertsPreviewConfiguration, granularity: clusterSizeMillis })
     .startWith(pendingResult)
-    .map(
-      ({ data }) =>
-        data?.alerts.map(([timestamp, count]) => ({
-          timestamp,
-          count
-        })) ?? []
-    );
+    .map(result => {
+      return {
+        ...result,
+        data: result.data?.alerts.map(([timestamp, count]) => ({ timestamp, count })) ?? []
+      };
+    });
 }
