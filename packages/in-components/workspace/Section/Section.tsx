@@ -3,14 +3,25 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Li } from '@instana/components';
+import { Li, SvgIcon } from '@instana/components';
 
 import locals from './Section.mless';
+
+interface SectionProps {
+  // Title is desired to be optional to implement some common UX patterns.
+  title: ReactNode;
+  children: ReactNode;
+  useAlternateBg?: boolean;
+  titleWidth?: string;
+  actions?: ReactNode;
+  icon?: string;
+  iconColor?: string;
+  titleHtmlFor?: string;
+  hasError?: boolean;
+}
 
 export default function Section({
   title,
@@ -22,7 +33,7 @@ export default function Section({
   iconColor,
   useAlternateBg,
   titleWidth = '11rem'
-}) {
+}: SectionProps) {
   return (
     <Li component="div" noAlternatingBg forceAlternateBg={useAlternateBg}>
       <div className={locals.section}>
@@ -32,7 +43,7 @@ export default function Section({
             [locals.hasError]: hasError
           })}
           style={{
-            '--titleWidth': titleWidth
+            ['--titleWidth' as any]: titleWidth
           }}
         >
           {icon && <SvgIcon type={icon} color={iconColor} />}
@@ -46,16 +57,3 @@ export default function Section({
     </Li>
   );
 }
-
-Section.propTypes = {
-  // Title is desired to be optional to implement some common UX patterns.
-  title: PropTypes.node,
-  titleHtmlFor: PropTypes.string,
-  hasError: PropTypes.bool,
-  icon: PropTypes.string,
-  actions: PropTypes.node,
-  useAlternateBg: PropTypes.bool,
-  children: PropTypes.node.isRequired,
-  iconColor: PropTypes.string,
-  titleWidth: PropTypes.string
-};
