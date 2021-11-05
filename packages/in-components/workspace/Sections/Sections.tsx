@@ -3,11 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Ul } from '@instana/components';
 
-export default function Sections({ className, children }) {
+interface SectionsProps {
+  className?: string;
+  children: ReactNode;
+}
+
+export default function Sections({ className, children }: SectionsProps) {
   return (
     <Ul className={className} component="div">
       {children}
