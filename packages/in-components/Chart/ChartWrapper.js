@@ -101,8 +101,7 @@ function wrapProps(result, props) {
     // cardHeader can be defined and it could be a React element. Cloning this is a super expensive
     // operation that is getting more and more expensive the more often this is executed.
     // Also, there is no need to clone this React element, as we aren't manipulating it.
-    cardHeader: undefined,
-    rightCardHeader: undefined
+    cardHeader: undefined
   });
 
   if (propsClone.y1 != null) {

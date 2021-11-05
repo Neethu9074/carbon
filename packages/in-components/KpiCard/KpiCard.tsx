@@ -5,17 +5,17 @@
 
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-import { Button, ButtonKinds, Link, SvgIcon } from '@instana/components';
+import { SvgIcon, Button, Link, ButtonKinds } from '@instana/components';
 import { Observable } from '@instana/observables';
 
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
-import HistoricDataIndicator from '../HistoricDataIndicator/HistoricDataIndicator';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
-import { ResultPrecision } from 'in-types';
 
+// @ts-ignore
 import locals from './KpiCard.mless';
 
 const valueSplitRegExp = new RegExp(`^([0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
@@ -43,7 +43,6 @@ export interface KpiCardProps {
   color?: string;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
-  resultPrecision?: ResultPrecision;
 }
 
 export default function KpiCard({
@@ -60,8 +59,7 @@ export default function KpiCard({
   centerLabels = false,
   color,
   useMaxAvailableHeight = true,
-  iconAction,
-  resultPrecision
+  iconAction
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
 
@@ -113,10 +111,7 @@ export default function KpiCard({
         })}
         ref={ref}
       >
-        <div className={locals.innerTitle}>
-          {title}
-          {resultPrecision === 'PRECISION_APPROXIMATE' && <HistoricDataIndicator withMargin />}
-        </div>
+        <>{title}</>
         {iconAction && (
           <div
             className={classNames({
@@ -147,3 +142,19 @@ export default function KpiCard({
     </div>
   );
 }
+
+KpiCard.propTypes = {
+  title: PropTypes.string,
+  value: PropTypes.any,
+  actions: PropTypes.node,
+  companionValue: PropTypes.any,
+  raw: PropTypes.bool,
+  renderValue: PropTypes.func,
+  valuesClassName: PropTypes.string,
+  borderless: PropTypes.bool,
+  shadowless: PropTypes.bool,
+  centerLabels: PropTypes.bool,
+  color: PropTypes.string,
+  useMaxAvailableHeight: PropTypes.bool,
+  iconAction: PropTypes.object
+};

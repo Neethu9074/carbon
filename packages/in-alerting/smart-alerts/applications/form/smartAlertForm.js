@@ -18,7 +18,7 @@ import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
 
 const defaultSeverity = 5;
-const defaultGranularity = 600000;
+export const defaultGranularity = 600000;
 
 export function createSmartAlertForm(alertConfig, editMode) {
   let form = createMapForm()
@@ -156,7 +156,10 @@ export function createSmartAlertForm(alertConfig, editMode) {
       })
     )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
-    .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
+    .put(
+      'timeThreshold',
+      createTimeThresholdForm(alertConfig.timeThreshold ?? {}, alertConfig.granularity ?? defaultGranularity)
+    )
     .put('hiddenFields', createHiddenFieldsForm(alertConfig))
     .put('customPayloadFields', createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 

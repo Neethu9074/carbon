@@ -55,8 +55,7 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
   endpointLabel,
   boundaryScope,
   timeConfig,
-  urlMatrixParamConfig,
-  renderHistoricDataIndicator
+  urlMatrixParamConfig
 }) {
   return (
     <TopListWithUrlState
@@ -81,7 +80,6 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
       boundaryScope={boundaryScope}
       colors={colors}
       urlMatrixParamConfig={urlMatrixParamConfig}
-      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 });

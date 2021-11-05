@@ -7,9 +7,8 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
-import HistoricDataIndicator from 'in-components/HistoricDataIndicator/HistoricDataIndicator';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
+import { track, TOPLIST_METRIC_CHANGED } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ButtonGroup from 'in-components/ButtonGroup';
 import List from 'in-components/TopListCard/List';
@@ -26,8 +25,7 @@ export default function TopListCard(props) {
     header,
     List: ListRenderer = List,
     showMetricSelectorsForSingleMetrics,
-    useMaxAvailableHeight,
-    renderHistoricDataIndicator = false
+    useMaxAvailableHeight
   } = props;
 
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
@@ -67,18 +65,10 @@ export default function TopListCard(props) {
     content = <ListRenderer {...props} />;
   }
 
-  const leftHeaderContent =
-    renderHistoricDataIndicator && result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE' ? (
-      <HistoricDataIndicator />
-    ) : (
-      undefined
-    );
-
   return (
     <Card
       title={title}
-      leftHeaderContent={leftHeaderContent}
-      rightHeaderContent={headerComponent}
+      header={headerComponent}
       withoutPadding={withoutPadding}
       useMaxAvailableHeight={useMaxAvailableHeight}
     >

@@ -113,10 +113,6 @@ export function renderKpiCard(
     formattedValue = formatter(value);
   }
 
-  // We are using the [0] selector as in this aspect we assume multiple results have the same value
-  // Example Mean Latency receive a "Companion", which we assume have the same resultPrecision as it's parent.
-  const resultPrecisions = result?.data?.map(elem => elem.resultPrecisionDetails?.resultPrecision)[0];
-
   return (
     <KpiCard
       title={title}
@@ -138,7 +134,6 @@ export function renderKpiCard(
           : renderCompanionValue(result, companionFormatter as FormatterFn)
       }
       iconAction={iconAction}
-      resultPrecision={resultPrecisions}
     />
   );
 }

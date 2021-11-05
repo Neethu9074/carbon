@@ -37,8 +37,7 @@ export default function EndpointTopList({
   boundaryScope,
   timeConfig,
   urlMatrixParamConfig,
-  syntheticCalls,
-  renderHistoricDataIndicator
+  syntheticCalls
 }) {
   return (
     <TopListWithUrlState
@@ -63,7 +62,6 @@ export default function EndpointTopList({
       colors={colors}
       urlMatrixParamConfig={urlMatrixParamConfig}
       syntheticCalls={syntheticCalls}
-      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

@@ -24,14 +24,14 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import CallsAndHttp from 'in-applications/Dashboards/commonComponents/CallsAndHttp';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { boundaryScopes, syntheticCallsOptions } from 'in-applications/constants';
-import { meanLatency, number, percentage } from 'in-services/formatters/number';
+import { number, meanLatency, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import Errors from 'in-applications/Dashboards/commonComponents/Errors';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { syntheticCallsEnabled } from 'in-services/featureFlags';
 import { summaryTab } from 'in-applications/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { Col, Row } from 'in-components/layout/Grid';
+import { Row, Col } from 'in-components/layout/Grid';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -292,7 +292,6 @@ export default connectTo(
                     endpointId={endpointId}
                     timeConfig={timeConfig}
                     urlMatrixParamConfig={{ path: summaryTab, paramTab: 'stmtTab' }}
-                    renderHistoricDataIndicator
                   />
                 ) : (
                   <TechnologyBreakdown
@@ -301,7 +300,6 @@ export default connectTo(
                     timeConfig={timeConfig}
                     renderPostChartContent={MarkerLanes}
                     syntheticCalls={syntheticCalls}
-                    renderHistoricDataIndicator
                   />
                 )}
               </Col>

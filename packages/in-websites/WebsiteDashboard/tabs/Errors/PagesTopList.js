@@ -10,7 +10,7 @@ import { Link } from '@instana/components';
 import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { getLinkToAnalyze, getLinkToWebsite } from 'in-websites/navigation/paths';
+import { getLinkToWebsite, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-websites/tags';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { affectedUsers } from 'in-websites/formatters';
@@ -43,7 +43,6 @@ export default function PagesTopList({ websiteId, websiteLabel, timeConfig, tagF
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
-      renderHistoricDataIndicator
     />
   );
 }

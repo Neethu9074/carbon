@@ -37,9 +37,7 @@ export default function HttpSections({
   renderPostChartContentHttpStatus,
   timeShiftConfig,
   timeShiftMetric,
-  hasHttpAndOtherEndpoints,
-  cardTitle,
-  rightHeaderContent
+  hasHttpAndOtherEndpoints
 }) {
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
@@ -142,9 +140,6 @@ export default function HttpSections({
 
   return (
     <UnifiedMetricsChart
-      title={cardTitle}
-      rightHeaderContent={rightHeaderContent}
-      renderHistoricDataIndicator
       renderPostChartContent={props =>
         renderPostChartContentHttpStatus({
           ...props,

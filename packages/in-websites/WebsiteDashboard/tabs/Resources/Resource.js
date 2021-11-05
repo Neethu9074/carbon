@@ -423,7 +423,6 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
                 tagFilters={tagFiltersForResource}
                 timeConfig={timeConfig}
                 tab={resourcesTab}
-                renderHistoricDataIndicator
               />
             </Col>
           )}
@@ -435,7 +434,6 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               timeConfig={timeConfig}
               pageId={pageId}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pathsTab' }}
-              renderHistoricDataIndicator
             />
           </Col>
           <Col lg={pageId == null ? 4 : 6}>
@@ -446,7 +444,6 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               timeConfig={timeConfig}
               pageId={pageId}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'typesTab' }}
-              renderHistoricDataIndicator
             />
           </Col>
         </Row>

@@ -19,7 +19,7 @@ const labels = [t('in-mobile-apps:dashboard.tabs.occurrencesLabel')];
 const aggregations = ['SUM'];
 const formatters = [number.compact, number.compact];
 
-export default function ViewsTopList({ mobileAppId, timeConfig, tagFilters, renderHistoricDataIndicator }) {
+export default function ViewsTopList({ mobileAppId, timeConfig, tagFilters }) {
   return (
     <TopListWithUrlState
       title={t('in-mobile-apps:dashboard.tabs.topViewsTitle')}
@@ -35,7 +35,6 @@ export default function ViewsTopList({ mobileAppId, timeConfig, tagFilters, rend
       mobileAppId={mobileAppId}
       timeConfig={timeConfig}
       tagFilters={tagFilters}
-      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

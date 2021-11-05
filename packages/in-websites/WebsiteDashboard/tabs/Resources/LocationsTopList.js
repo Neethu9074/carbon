@@ -44,7 +44,6 @@ export default function LocationsTopList({ websiteId, websiteLabel, timeConfig, 
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
       tagCatalogResourceLoad={tagCatalogResourceLoad}
-      renderHistoricDataIndicator
     />
   );
 }

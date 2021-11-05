@@ -21,13 +21,7 @@ const labels = [t('in-websites:websiteDashboard.tabs.ajax.errorTypesTopListLabel
 const aggregations = ['SUM'];
 const formatters = [number.compact];
 
-export default function ErrorTypesTopList({
-  websiteId,
-  websiteLabel,
-  timeConfig,
-  tagFilters,
-  renderHistoricDataIndicator
-}) {
+export default function ErrorTypesTopList({ websiteId, websiteLabel, timeConfig, tagFilters }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   return (
     <TopListWithUrlState
@@ -46,7 +40,6 @@ export default function ErrorTypesTopList({
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       tagCatalogHttpRequest={tagCatalogHttpRequest}
-      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

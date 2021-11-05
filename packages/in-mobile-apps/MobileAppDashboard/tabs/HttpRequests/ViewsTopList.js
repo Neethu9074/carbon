@@ -9,7 +9,7 @@ import { Link } from '@instana/components';
 
 import getMobileAppPaginatedBeaconGroups from 'in-mobile-apps/subscriptions/getMobileAppPaginatedBeaconGroups';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
-import { getLinkToAnalyze, getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
+import { getLinkToMobileApp, getLinkToAnalyze } from 'in-mobile-apps/navigation/paths';
 import { translateDemocratisationTagFiltersToFormModel } from 'in-mobile-apps/tags';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { number, percentage } from 'in-services/formatters/number';
@@ -21,14 +21,7 @@ const labels = ['Calls', 'Errors'];
 const aggregations = ['SUM', 'MEAN'];
 const formatters = [number.compact, percentage.detailed];
 
-export default function ViewsTopList({
-  mobileAppId,
-  mobileAppLabel,
-  timeConfig,
-  tagFilters,
-  urlMatrixParamConfig,
-  renderHistoricDataIndicator
-}) {
+export default function ViewsTopList({ mobileAppId, mobileAppLabel, timeConfig, tagFilters, urlMatrixParamConfig }) {
   return (
     <TopListWithUrlState
       title={t('in-mobile-apps:dashboard.tabs.viewsTitle')}
@@ -46,7 +39,6 @@ export default function ViewsTopList({
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
-      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

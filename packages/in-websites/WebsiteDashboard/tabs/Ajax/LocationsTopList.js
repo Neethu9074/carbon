@@ -25,14 +25,7 @@ const labels = [
 const aggregations = ['SUM', 'MEAN', 'MEAN'];
 const formatters = [number.compact, ms.compact, percentage.detailed];
 
-export default function LocationsTopList({
-  websiteId,
-  websiteLabel,
-  timeConfig,
-  tagFilters,
-  urlMatrixParamConfig,
-  renderHistoricDataIndicator
-}) {
+export default function LocationsTopList({ websiteId, websiteLabel, timeConfig, tagFilters, urlMatrixParamConfig }) {
   const tagCatalogHttpRequest = useTagCatalog('httpRequest');
   return (
     <TopListWithUrlState
@@ -52,7 +45,6 @@ export default function LocationsTopList({
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
       tagCatalogHttpRequest={tagCatalogHttpRequest}
-      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

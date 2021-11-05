@@ -107,7 +107,7 @@ export default function alertFormDefinition(alertConfig, editMode) {
         value: granularity
       })
     )
-    .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}))
+    .put('timeThreshold', createTimeThresholdForm(alertConfig.timeThreshold ?? {}, granularity))
     .put('threshold', createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule?.alertType))
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
     .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
