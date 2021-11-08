@@ -3,27 +3,67 @@
  * (c) Copyright Instana Inc.
  */
 
+import { TagFilter, TagFilterOperator } from 'in-types';
 import { find, sortBy } from 'lodash';
 
-const valueAsc = t => parseInt(t.value);
-const valueDesc = t => -1 * parseInt(t.value);
+interface NumberTagFiltersArgs {
+  tagFilters: TagFilter;
+  tag: string;
+  showRange?: boolean;
+  showEquality?: boolean;
+}
 
-export function getNumberTagFilters({ tagFilters, tag, showRange, showEquality }) {
-  const eq = showEquality && find(tagFilters, f => f.name === tag && f.operator === 'EQUALS');
-  const neq = showEquality && find(tagFilters, f => f.name === tag && f.operator === 'NOT_EQUAL');
-  const lt = showRange && find(sortBy(tagFilters, valueAsc), f => f.name === tag && f.operator === 'LESS_THAN');
-  const lte =
-    showRange && find(sortBy(tagFilters, valueAsc), f => f.name === tag && f.operator === 'LESS_OR_EQUAL_THAN');
-  const gt = showRange && find(sortBy(tagFilters, valueDesc), f => f.name === tag && f.operator === 'GREATER_THAN');
-  const gte =
-    showRange && find(sortBy(tagFilters, valueDesc), f => f.name === tag && f.operator === 'GREATER_OR_EQUAL_THAN');
+interface NumberTagFilters {
+  eq: TagFilter | undefined;
+  neq: TagFilter | undefined;
+  lt: TagFilter | undefined;
+  lte: TagFilter | undefined;
+  gt: TagFilter | undefined;
+  gte: TagFilter | undefined;
+}
+
+export function getNumberTagFilters({
+  tagFilters,
+  tag,
+  showRange,
+  showEquality
+}: NumberTagFiltersArgs): NumberTagFilters {
+  let eq: TagFilter | undefined,
+    neq: TagFilter | undefined,
+    lt: TagFilter | undefined,
+    lte: TagFilter | undefined,
+    gt: TagFilter | undefined,
+    gte: TagFilter | undefined;
+
+  if (showEquality) {
+    eq = find<TagFilter>(tagFilters, byTagAndOperator(tag, 'EQUALS'));
+    neq = find<TagFilter>(tagFilters, byTagAndOperator(tag, 'NOT_EQUAL'));
+  }
+
+  if (showRange) {
+    const tagFiltersAscending = sortBy<TagFilter>(tagFilters, valueAsc);
+    lt = find<TagFilter>(tagFiltersAscending, byTagAndOperator(tag, 'LESS_THAN'));
+    lte = find<TagFilter>(tagFiltersAscending, byTagAndOperator(tag, 'LESS_OR_EQUAL_THAN'));
+
+    const tagFiltersDescending = sortBy<TagFilter>(tagFilters, valueDesc);
+    gt = find<TagFilter>(tagFiltersDescending, byTagAndOperator(tag, 'GREATER_THAN'));
+    gte = find<TagFilter>(tagFiltersDescending, byTagAndOperator(tag, 'GREATER_OR_EQUAL_THAN'));
+  }
+
   return { eq, neq, lt, lte, gt, gte };
 }
 
-export function showLt(value, other) {
-  return value && (!other || value <= other);
+export function showLt(value: string | number, other: string | number): boolean {
+  return !!value && (!other || value <= other);
 }
 
-export function showGt(value, other) {
-  return value && (!other || value >= other);
+export function showGt(value: string | number, other: string | number): boolean {
+  return !!value && (!other || value >= other);
 }
+
+function byTagAndOperator(tag: string, operator: string): (tf: TagFilter) => boolean {
+  return f => f.name === tag && f.operator === operator;
+}
+
+const valueAsc = (t: TagFilter): number => parseInt(t.value);
+const valueDesc = (t: TagFilter): number => -1 * parseInt(t.value);
