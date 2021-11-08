@@ -13,8 +13,10 @@ import {
 } from 'in-logging/analyze/AnalyzeView/tracker';
 import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
 import TagExpressionValidation from 'in-logging/analyze/AnalyzeView/components/TagExpressionValidation';
+import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { LOG_LEVEL, LOG_SERVICE_NAME, LOG_STREAM_NAME } from 'in-logging/queryBuilder';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
+import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
 import useTimeSpentInsideComponent from 'in-hooks/useTimeSpentInsideComponent';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
@@ -25,6 +27,7 @@ import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import { getTagCatalog } from 'in-logging/api/catalog';
 import { logsPath } from 'in-logging/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { role } from 'in-stores/user';
 
 const defaultChartedMetrics = [{ metricId: 'logs_distribution', aggregationId: 'SUM' }];
 
@@ -96,8 +99,16 @@ export default function LoggingAnalyzeView() {
     >
       {opts => (
         <TagExpressionValidation {...opts}>
-          {validationProps =>
-            opts.isGrouped ? (
+          {validationProps => {
+            if (!role.canViewLogs) {
+              return (
+                <QueryBuilderWorkspace {...opts}>
+                  <RestrictedAccessMessage />
+                </QueryBuilderWorkspace>
+              );
+            }
+
+            return opts.isGrouped ? (
               <GroupedLogs
                 {...opts}
                 {...validationProps}
@@ -106,14 +117,13 @@ export default function LoggingAnalyzeView() {
               />
             ) : (
               <Logs {...opts} {...validationProps} getFacetedSearchSuggestions={getFacetedSearchSuggestions} />
-            )
-          }
+            );
+          }}
         </TagExpressionValidation>
       )}
     </StateManagement>
   );
 }
-
 function getFacetedSearchSuggestions({
   timeConfig,
   formModel,

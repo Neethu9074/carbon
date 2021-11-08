@@ -7,8 +7,8 @@ import { createField, createMapForm, MapForm, ValidationResult } from 'formalist
 
 import { TimeThresholdType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { websiteSmartAlertsAllowPerWindowUserImpact } from 'in-services/featureFlags';
-import { ImpactMeasurementMethod } from 'in-types';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
+import { ImpactMeasurementMethod } from 'in-types';
 import { t } from 'in-i18n';
 
 export const percentageOfUserDefault = 0.2;

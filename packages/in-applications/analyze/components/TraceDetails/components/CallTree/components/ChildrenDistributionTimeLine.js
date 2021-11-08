@@ -12,7 +12,6 @@ import { isFakeRootCall } from 'in-applications/analyze/components/TraceDetails/
 import LogIndicator from 'in-applications/analyze/components/TraceDetails/components/LogIndicator';
 import { latencyFixed } from 'in-services/formatters/number';
 import Tooltip from 'in-components/Tooltip';
-import { role } from 'in-stores/user';
 
 import locals from './ChildrenDistributionTimeLine.mless';
 
@@ -155,6 +154,5 @@ function LogIndicators(props) {
 }
 
 function getTooltipContent(log) {
-  if (!role.canViewLogs) return null;
   return <LogTooltipContent log={log} />;
 }

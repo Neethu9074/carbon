@@ -18,6 +18,7 @@ import DashboardNotification from 'in-sdk/components/dashboard/DashboardNotifica
 import AnalyzeLogsButton from 'in-forge/plugins/docker/Dashboard/AnalyzeLogsButton';
 import { hasNetworkMetrics, hasMemoryMetrics } from 'in-forge/plugins/docker/util';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
@@ -27,6 +28,7 @@ import { containerLogsEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import useHasLogs from 'in-logging/hooks/useHasLogs';
 import MetricValue from 'in-components/MetricValue';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 export default function DockerDashboard({ snapshot, timeConfig }) {
@@ -231,12 +233,17 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ) : null}
 
-      {containerLogsEnabled && (
+      {containerLogsEnabled && role.canViewLogs && (
         <LogsChartInteractionWrapper
           tagFilterExpression={tagFilterExpression}
           additionalContextMenuButtons={additionalContextMenuButtons}
           timeConfig={timeConfig}
         />
+      )}
+      {containerLogsEnabled && !role.canViewLogs && (
+        <DashboardSection title={t('in-forge:plugins.docker.dashboard.logs')}>
+          <RestrictedAccessMessage />
+        </DashboardSection>
       )}
     </div>
   );

@@ -20,11 +20,32 @@ import ExpandableGroup from 'in-components/ExpandableGroup';
 import { pendingResult } from 'in-services/fixedObjects';
 import getLog from 'in-logging/subscriptions/getLog';
 import Tooltip from 'in-components/Tooltip';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './LogDetails.mless';
 
-export default function LogDetails(props) {
+export default function LogDetailsSwitch(props) {
+  return role.canViewLogs ? <LogDetails {...props} /> : <LogDetailsWithNoAccess {...props} />;
+}
+
+function LogDetailsWithNoAccess({ onClose }) {
+  return (
+    <aside className={locals.logDetails}>
+      <Card title={t('in-analyze:logDetails.title')} header={<CloseButton onClick={onClose} />}>
+        <ExpandableGroup title="Message" defaultExpanded>
+          {t('in-analyze:logDetails.restrictedAccessExpl')}
+        </ExpandableGroup>
+
+        <ExpandableGroup title={t('in-analyze:logDetails.titleTags')}>
+          {t('in-analyze:logDetails.restrictedAccessExpl')}
+        </ExpandableGroup>
+      </Card>
+    </aside>
+  );
+}
+
+function LogDetails(props) {
   const { selectedLogIdPair, onClose } = props;
 
   const logResult =

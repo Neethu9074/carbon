@@ -194,7 +194,9 @@
       },
       "logTooltipContent": {
         "errorLog": "Error Log",
-        "warningLog": "Warning Log"
+        "warningLog": "Warning Log",
+        "restrictedAccess": "Restricted access",
+        "restrictedAccessExpl": "You don't have permission to access this information"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} Error",
@@ -285,7 +287,8 @@
     "analyzeLogsLabel": "Analyze logs",
     "similarLogs": "Similar logs",
     "similarServiceLogs": "Show logs in context of this service",
-    "service": "Show service"
+    "service": "Show service",
+    "restrictedAccessExpl": "You don't have permission to access this information"
   },
   "traceDetails": {
     "labelTotal": "Total",

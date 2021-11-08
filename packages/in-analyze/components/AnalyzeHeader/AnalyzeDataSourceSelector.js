@@ -45,6 +45,7 @@ import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { loggingEnabled } from 'in-services/featureFlags';
 import Pill from 'in-components/Pill';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './AnalyzeDataSourceSelector.mless';
@@ -82,7 +83,7 @@ const productAreas = [
       {
         dataSource: 'logs',
         beta: loggingEnabled,
-        enabled: loggingEnabled,
+        enabled: loggingEnabled && role.canViewLogs,
         getHref$: getLinkToLogsAnalyze,
         onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
       },
@@ -90,7 +91,7 @@ const productAreas = [
         dataSource: 'rawlogs',
         beta: loggingEnabled,
         getHref$: getLinkToRawLogs,
-        enabled$: isInternalVisible$.map(isInternalVisible => isInternalVisible && loggingEnabled),
+        enabled$: isInternalVisible$.map(isInternalVisible => isInternalVisible && loggingEnabled && role.canViewLogs),
         onClickSideEffect: () => jumpToLogs({ source: 'navigation' })
       }
     ]

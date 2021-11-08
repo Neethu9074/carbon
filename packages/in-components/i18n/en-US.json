@@ -659,5 +659,10 @@
       "warningTooltip": "{{count}} warning",
       "healthyTooltip": "{{count}} healthy"
     }
+  },
+  "rbac": {
+    "restrictedAccess": "Restricted access",
+    "restrictedAccessMessagePartOne": "You don't have permission to accesss this information.",
+    "restrictedAccessMessagePartTwo": "Request permission to your administrator."
   }
 }

@@ -5,12 +5,9 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { Button, Card, Link, Message } from '@instana/components';
 import { just, create } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
-import { Message } from '@instana/components';
-import { Button } from '@instana/components';
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
 
 import ColorCodingToggleButtons from 'in-applications/analyze/components/TraceDetails/components/ColorCodingToggleButtons';
 import MobileAppMonitoringData from 'in-applications/analyze/components/TraceDetails/tabs/Summary/MobileAppMonitoringData';
@@ -27,6 +24,7 @@ import ContentWrapper from 'in-components/LocationAwareTabView/components/Conten
 import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import Logs from 'in-applications/analyze/components/TraceDetails/components/Logs';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
+import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -43,6 +41,7 @@ import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { minutes } from 'in-services/time';
 import { connection } from 'in-connection';
+import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 import theme from 'in-themes';
 
@@ -148,6 +147,8 @@ export default function Summary({
     focusedMoment: trace.startTime + timeWindowExtend,
     autoRefresh: false
   };
+
+  const hasLogs = loggingEnabledOnTrace && totalNumberOfLogs > 0;
 
   const traceDetails = (
     <ContentWrapper>
@@ -352,35 +353,41 @@ export default function Summary({
           </Row>
         )}
 
-        {loggingEnabledOnTrace && totalNumberOfLogs > 0 && (
+        {hasLogs && (
           <ErrorBoundary name="log section">
             <Row singleRowTopMargin withoutSideMargin>
               <Col lg={12}>
-                <Card
-                  title={t('in-analyze:traceDetail.tabs.summary.logs')}
-                  header={
-                    <Button
-                      kind="secondary"
-                      icon="lib_analyze"
-                      href$={getLinkToAnalyze({
-                        tagFilterExpression: [getTraceIdTagFilter(traceId)],
-                        timeConfig: timeConfigForLogs
-                      })}
-                      onClick={() => jumpToLogs({ source: 'analyze logs' })}
-                    >
-                      {t('in-analyze:traceDetail.tabs.summary.analyzeLogs')}
-                    </Button>
-                  }
-                >
-                  <Logs
-                    traceId={traceId}
-                    selectLogId={selectLogId}
-                    clearSelectedLogId={clearSelectedLogId}
-                    selectedLogIdPair={logIdPair}
-                    timeConfigForLogs={timeConfigForLogs}
-                    totalNumberOfLogs={totalNumberOfLogs}
-                  />
-                </Card>
+                {role.canViewLogs ? (
+                  <Card
+                    title={t('in-analyze:traceDetail.tabs.summary.logs')}
+                    header={
+                      <Button
+                        kind="secondary"
+                        icon="lib_analyze"
+                        href$={getLinkToAnalyze({
+                          tagFilterExpression: [getTraceIdTagFilter(traceId)],
+                          timeConfig: timeConfigForLogs
+                        })}
+                        onClick={() => jumpToLogs({ source: 'analyze logs' })}
+                      >
+                        {t('in-analyze:traceDetail.tabs.summary.analyzeLogs')}
+                      </Button>
+                    }
+                  >
+                    <Logs
+                      traceId={traceId}
+                      selectLogId={selectLogId}
+                      clearSelectedLogId={clearSelectedLogId}
+                      selectedLogIdPair={logIdPair}
+                      timeConfigForLogs={timeConfigForLogs}
+                      totalNumberOfLogs={totalNumberOfLogs}
+                    />
+                  </Card>
+                ) : (
+                  <Card title={t('in-analyze:traceDetail.tabs.summary.logs')}>
+                    <RestrictedAccessMessage />
+                  </Card>
+                )}
               </Col>
             </Row>
           </ErrorBoundary>

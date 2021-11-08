@@ -16,7 +16,12 @@ import UngroupedView from 'in-components/AnalyzeView/UngroupedView';
 export { detailViewProps, retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 
 export default function UngroupedAnalyzeViewList(props) {
-  return <UngroupedView {...props} Presenter={props.Presenter ?? List} />;
+  return (
+    <>
+      sdjsakda
+      <UngroupedView {...props} Presenter={props.Presenter ?? List} />
+    </>
+  );
 }
 
 UngroupedAnalyzeViewList.propTypes = {

@@ -13,6 +13,7 @@ import HeightRestrictedView from 'in-components/layout/HeightRestrictedView/Heig
 import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import getTraceActivityTree from 'in-applications/subscriptions/getTraceActivityTree';
 import SideEffectOnPropertyChange from 'in-components/SideEffectOnPropertyChange';
+import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
 import Logs from 'in-applications/analyze/AnalyzeView2_0/components_alt/Logs';
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -21,11 +22,28 @@ import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Row, Col } from 'in-components/layout/Grid';
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './Logs.mless';
 
-export default function LogsView({ data: trace, callId, traceId }) {
+export default function LogDetailsSwitch(props) {
+  return role.canViewLogs ? <LogsView {...props} /> : <LogsViewWithNoAccess {...props} />;
+}
+
+function LogsViewWithNoAccess() {
+  return (
+    <HeightRestrictedView
+      render={() => (
+        <ContentWrapper>
+          <RestrictedAccessMessage />
+        </ContentWrapper>
+      )}
+    />
+  );
+}
+
+function LogsView({ data: trace, callId, traceId }) {
   const callTreeResult = useObservable(() => getTraceActivityTree({ id: traceId }), [traceId]) ?? pendingResult;
   const effectiveCallId = callId === 'ROOT' && callTreeResult.data ? callTreeResult.data.id : callId;
   const { totalNumberOfLogs, timeConfigForLogs } = useLogInformation(trace, callTreeResult);

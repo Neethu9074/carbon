@@ -5,11 +5,30 @@
 
 import React from 'react';
 
+import { Stack, SvgIcon } from '@instana/components';
+
+import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
 import locals from './LogTooltipContent.mless';
 
 export default function LogTooltipContent({ log }) {
+  if (!role.canViewLogs) {
+    return (
+      <div className={locals.restrictedContent}>
+        <Stack direction="vertical" gap="xxsmall">
+          <Stack direction="horizontal" gap="xxsmall" align="center">
+            <span className={locals.headingLabel}>
+              {t('in-analyze:traceDetail.components.logTooltipContent.restrictedAccess')}
+            </span>
+            <SvgIcon className="icon" type="lib_actions_lock" size="xs" />
+          </Stack>
+          <span>{t('in-analyze:traceDetail.components.logTooltipContent.restrictedAccessExpl')}</span>
+        </Stack>
+      </div>
+    );
+  }
+
   return (
     <div className={locals.content}>
       <div className={log.errorCount > 0 ? locals.severityLabelFailure : locals.severityLabelWarning}>

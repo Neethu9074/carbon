@@ -9,6 +9,7 @@ import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/h
 import { getTraceIdTagFilter, LOG_CUSTOM, LOG_SPAN_ID } from 'in-logging/queryBuilder';
 import { loggingEnabledOnTrace } from 'in-services/featureFlags';
 import getLogs from 'in-logging/subscriptions/getLogs';
+import { role } from 'in-stores/user';
 import theme from 'in-themes';
 
 import locals from './LogIndicator.mless';
@@ -23,7 +24,22 @@ export default forwardRef(function LogIndicator(props, ref) {
 const LogV1Indicator = forwardRef(function LogV1IndicatorFn(props, ref) {
   const { parentCall, onCallClicked } = props;
   return (
-    <div ref={ref} {...getStyleProps(props)} onClick={onCallClicked != null ? () => onCallClicked(parentCall) : null} />
+    <div
+      ref={ref}
+      {...getStyleProps(props)}
+      onClick={
+        onCallClicked != null
+          ? e => {
+              if (!role.canViewLogs) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+              }
+              onCallClicked(parentCall);
+            }
+          : null
+      }
+    />
   );
 });
 
@@ -37,6 +53,12 @@ const LogV2Indicator = forwardRef(function LogV2IndicatorFn(props, ref) {
       ref={ref}
       {...getStyleProps(props)}
       onClick={e => {
+        if (!role.canViewLogs) {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+
         if (logId) {
           e.preventDefault();
           e.stopPropagation();

@@ -8,6 +8,10 @@
 :local {
   .content {
     width: 18rem;
+  }
+
+  .content,
+  .restrictedContent {
     padding: 0.5rem;
   }
 
@@ -27,5 +31,10 @@
 
   .headingLabel {
     font-weight: 600;
+    color: @lib__colors__N900Primary;
+  }
+
+  .icon {
+    fill: @lib__colors__N900Primary;
   }
 }
