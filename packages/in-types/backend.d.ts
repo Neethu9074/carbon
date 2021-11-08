@@ -2852,6 +2852,7 @@ export interface MetricQuery {
 
 export interface MetricResult {
   readonly id: string;
+  readonly resultPrecisionDetails?: ResultPrecisionDetails;
   readonly values: number[][];
 }
 
@@ -3603,7 +3604,6 @@ export interface SyntheticTest {
   readonly modifiedBy?: string;
   readonly playbackMode: SyntheticPlaybackMode;
   readonly serviceId?: string;
-  readonly tenantId?: string;
   readonly testFrequency: number;
 }
 
