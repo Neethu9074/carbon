@@ -1,3 +1,5 @@
 CVE-2021-37701 # Prevented by `npm` according to https://access.redhat.com/security/cve/cve-2021-37701
 CVE-2021-37712 # Prevented by `npm` according to https://access.redhat.com/security/cve/cve-2021-37712
 CVE-2021-37713 # Only affected if running on Windows
+CVE-2021-22930
+CVE-2021-22940
