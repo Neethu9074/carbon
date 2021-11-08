@@ -74,7 +74,11 @@ export default function Saml() {
 }
 
 function Content({ file, form, setForm, input, setCanSaveItem, result }) {
-  useEffect(() => setCanSaveItem(!!file), [file, setCanSaveItem]);
+  useEffect(
+    // allow only saving when idP metadata has been uploaded
+    () => setCanSaveItem(!!file),
+    [file, form, setCanSaveItem]
+  );
 
   return (
     <>
