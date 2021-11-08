@@ -1269,6 +1269,11 @@
   "tracingTypeName_axisserver_0": "HTTP Call",
   "tracingTypeName_axisserver_1": "HTTP Calls",
   "tracingTypeName_axisserver_2": "HTTP Calls",
+  "tracingTypeName_azq": "Azure Queue",	
+  "tracingTypeName_azq_plural": "Azure Queues",	
+  "tracingTypeName_azq_0": "Azure Queue",	
+  "tracingTypeName_azq_1": "Azure Queues",	
+  "tracingTypeName_azq_2": "Azure Queues",
   "tracingTypeName_batchsynthetic": "Internal trigger",
   "tracingTypeName_batchsynthetic_plural": "Internal triggers",
   "tracingTypeName_batchsynthetic_0": "Internal triggers",
@@ -11220,6 +11225,13 @@
       "timeoutMessage": "The Lambda function was still running when only {{milliseconds}} ms were left, it might have ended in a timeout.",
       "yes": "Yes",
       "no": "No"
+    },
+    "azq": {	
+      "queuename": "Queue Name",	
+      "messagesuri": "Messages Uri",	
+      "storageaccountname": "Storage Account Name",	
+      "queueuri": "Queue Uri",	
+      "methodname": "Method Name"	
     },
     "LambdaInvoke": {
       "titleARN": "ARN",

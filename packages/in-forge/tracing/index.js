@@ -32,6 +32,7 @@ import './cics.http.exit';
 import './cics.rpc.entry';
 import './finagle.client';
 import './finagle.server';
+import './azq';
 import './graphql.client';
 import './graphql.server';
 import './httpkit.server';
