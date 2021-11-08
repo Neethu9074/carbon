@@ -121,7 +121,7 @@ function _run_docker_build {
 
 function _scan_image() {
   local TAG=$1
-  local INSTANA_TWISTCLI_VERSION='0.1.2'
+  local INSTANA_TWISTCLI_VERSION='0.2.0'
   _log_info "Triggering scan for image ${TAG} with instana-twistcli ${INSTANA_TWISTCLI_VERSION}"
   
   if [[ -f ${COMPONENT_TWISTLOCK_IGNOREFILE} ]]; then
