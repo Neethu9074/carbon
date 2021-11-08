@@ -3604,6 +3604,7 @@ export interface SyntheticTest {
   readonly modifiedBy?: string;
   readonly playbackMode: SyntheticPlaybackMode;
   readonly serviceId?: string;
+  readonly tenantId?: string;
   readonly testFrequency: number;
 }
 
