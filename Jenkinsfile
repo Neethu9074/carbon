@@ -76,7 +76,7 @@ pipeline {
     stage('Build') {
       steps {
         milestone(label: "Build", ordinal: null)
-        timeout(time: 20, unit: 'MINUTES') {
+        timeout(time: 30, unit: 'MINUTES') {
           timestamps {
             script {
               try {
