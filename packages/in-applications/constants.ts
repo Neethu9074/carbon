@@ -4,6 +4,7 @@
  */
 
 import { t } from 'in-i18n';
+import { ApplicationBoundaryScope } from 'in-types';
 
 export const boundaryScopes = {
   default: 'INBOUND',
@@ -24,9 +25,9 @@ export const boundaryScopes = {
       overrideDefault: t('in-applications:inboundOutboundCalls.constants.allOverrideDefault')
     }
   }
-};
+} as const;
 
-export const switchScope = boundaryScope => {
+export const switchScope = (boundaryScope: ApplicationBoundaryScope): ApplicationBoundaryScope => {
   return boundaryScope === boundaryScopes.all ? boundaryScopes.inbound : boundaryScopes.all;
 };
 
@@ -50,4 +51,4 @@ export const syntheticCallsOptions = {
       description: t('in-applications:constants.onlySyntheticCallsAreShownAndIncludedInTheMetrics')
     }
   }
-};
+} as const;
