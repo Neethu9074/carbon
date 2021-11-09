@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { get } from 'lodash';
 import moment from 'moment';
 
-import { TAG_TYPES, entityTypes } from 'in-analyze/applicationFilter';
+import { EntityType, entityTypes, TAG_TYPES } from 'in-analyze/applicationFilter';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { deepCopy } from 'in-services/util/object';
 import { role } from 'in-stores/user';
+import { Nullish, TagFilter, TagType, TimeConfig } from 'in-types';
 
 export const defaultGroupings = {
   calls: {
@@ -19,7 +19,7 @@ export const defaultGroupings = {
   traces: {
     groupbyTag: 'trace.endpoint.name'
   }
-};
+} as const;
 
 export const customServiceMappingTagKeys = [
   'agent.tag',
@@ -76,7 +76,7 @@ export const customServiceMappingTagKeys = [
   'service.default_name',
   'springboot.name',
   'tanzu.foundation.name'
-];
+] as const;
 
 export const callAnalysisDisabledTags = [
   'trace.id',
@@ -86,59 +86,59 @@ export const callAnalysisDisabledTags = [
   'trace.latency',
   'trace.erroneous',
   'call.inbound_of_application'
-];
+] as const;
 
-export const traceAnalysisDisabledTags = ['call.latency'];
+export const traceAnalysisDisabledTags = ['call.latency'] as const;
 
 const disabledLists = {
   general: (() => {
-    const disabledList = {
-      'application.id': !role.canSeeInternalTags,
-      'boundary.application.id': !role.canSeeInternalTags,
-      'service.id': !role.canSeeInternalTags,
-      'service.rule_id': !role.canSeeInternalTags,
-      'endpoint.id': !role.canSeeInternalTags,
-      'endpoint.type': !role.canSeeInternalTags,
+    const disabledList: Record<string, boolean> = {
+      'application.id': !role?.canSeeInternalTags,
+      'boundary.application.id': !role?.canSeeInternalTags,
+      'service.id': !role?.canSeeInternalTags,
+      'service.rule_id': !role?.canSeeInternalTags,
+      'endpoint.id': !role?.canSeeInternalTags,
+      'endpoint.type': !role?.canSeeInternalTags,
       'process.id': true,
       'docker.container.id': true,
       'containerd.container.id': true,
       'garden.container.id': true,
       'crio.container.id': true,
-      'host.snapshotId': !role.canSeeInternalTags,
-      'container.snapshotId': !role.canSeeInternalTags,
-      'process.snapshotId': !role.canSeeInternalTags,
-      'cluster.snapshotId': !role.canSeeInternalTags,
-      'cloud.snapshotId': !role.canSeeInternalTags,
-      'call.span_type': !role.canSeeInternalTags,
-      'call.http.hostCapturedFromSource': !role.canSeeInternalTags,
-      'call.meta_tags': !role.canSeeInternalTags,
-      'call.ingestion_time': !role.canSeeInternalTags,
-      'log.span_type': !role.canSeeInternalTags,
-      'related.infra.entity.snapshotId': !role.canSeeInternalTags,
-      'related.infra.entity.pluginId': !role.canSeeInternalTags,
-      'eum.correlation.id': !role.canSeeInternalTags,
-      'eum.correlation.type': !role.canSeeInternalTags,
-      'trace.service.id': !role.canSeeInternalTags,
-      'call.id': !role.canSeeInternalTags
+      'host.snapshotId': !role?.canSeeInternalTags,
+      'container.snapshotId': !role?.canSeeInternalTags,
+      'process.snapshotId': !role?.canSeeInternalTags,
+      'cluster.snapshotId': !role?.canSeeInternalTags,
+      'cloud.snapshotId': !role?.canSeeInternalTags,
+      'call.span_type': !role?.canSeeInternalTags,
+      'call.http.hostCapturedFromSource': !role?.canSeeInternalTags,
+      'call.meta_tags': !role?.canSeeInternalTags,
+      'call.ingestion_time': !role?.canSeeInternalTags,
+      'log.span_type': !role?.canSeeInternalTags,
+      'related.infra.entity.snapshotId': !role?.canSeeInternalTags,
+      'related.infra.entity.pluginId': !role?.canSeeInternalTags,
+      'eum.correlation.id': !role?.canSeeInternalTags,
+      'eum.correlation.type': !role?.canSeeInternalTags,
+      'trace.service.id': !role?.canSeeInternalTags,
+      'call.id': !role?.canSeeInternalTags
     };
-    return tag => disabledList[tag];
+    return (tag?: string) => !!tag && disabledList[tag];
   })(),
   callGroup: (() => {
-    const disabledList = callAnalysisDisabledTags.reduce((agg, k) => {
+    const disabledList = callAnalysisDisabledTags.reduce((agg: Partial<Record<string, boolean>>, k) => {
       agg[k] = true;
       return agg;
     }, {});
-    return tag => disabledList[tag] || isBeaconTag(tag);
+    return (tag?: string): boolean => !!tag && (disabledList[tag] || isBeaconTag(tag));
   })(),
   analyzeFilter: isBeaconTag
 };
 
-function isBeaconTag(tag) {
-  return tag.indexOf('beacon.') === 0 || tag.indexOf('mobileBeacon.') === 0;
+function isBeaconTag(tag?: string): boolean {
+  return tag?.indexOf('beacon.') === 0 || tag?.indexOf('mobileBeacon.') === 0;
 }
 
 const latencyTags = ['call.latency', 'trace.latency', 'beacon.duration'];
-export function isLatencyTag(tag) {
+export function isLatencyTag(tag: string): boolean {
   return latencyTags.includes(tag);
 }
 
@@ -154,8 +154,8 @@ export const getAnalyzeFilterTagKeys = () =>
     .getChildren({ isTagOnDisabledList: disabledLists.analyzeFilter })
     .map(node => node.name);
 
-export function getApplicationCreationTagKeys() {
-  const applicationCreationDisabledlist = {
+export function getApplicationCreationTagKeys(): string[] {
+  const applicationCreationDisabledlist: Record<string, boolean> = {
     'host.mac': true,
     'docker.container.name': true,
     'crio.container.name': true,
@@ -173,10 +173,9 @@ export function getApplicationCreationTagKeys() {
     'cloudfoundry.container.garden.id': true
   };
   getTagTree();
-  let tagKeys = [];
-  const keys = Object.keys(tagMap);
-  for (let i = 0; i < keys.length; i++) {
-    const tag = tagMap[keys[i]];
+  let tagKeys: string[] = [];
+  Object.keys(tagMap!).forEach(item => {
+    const tag = tagMap![item];
     if (
       tag.type &&
       (tag.type === TAG_TYPES.STRING.technicalName ||
@@ -187,31 +186,35 @@ export function getApplicationCreationTagKeys() {
     ) {
       tagKeys.push(tag.fullyQualifiedName);
     }
-  }
+  });
   return tagKeys;
 }
 
-function isDisabled(serverTag, isTagOnDisabledList) {
+interface TagKey {
+  fullyQualifiedName?: string;
+  name?: string;
+}
+function isDisabled(serverTag: TagKey, isTagOnDisabledList: (tagName?: string) => boolean): boolean {
   return isTagOnDisabledList(serverTag.fullyQualifiedName) || isTagOnDisabledList(serverTag.name);
 }
 
-let tagTree = null;
-let tagMap = null;
+let tagTree: TagTreeNode | null = null;
+let tagMap: Record<string, TagTreeNode> | null = null;
 
-export function getTagTree() {
+export function getTagTree(): TagTreeNode {
   if (tagTree == null) {
     buildTagTree();
   }
 
-  return tagTree;
+  return tagTree!; // buildTagTree will ensure TagTree has been generated before
 }
 
-export function getTagMap() {
+export function getTagMap(): Record<string, TagTreeNode> {
   if (tagMap == null) {
     buildTagTree();
   }
 
-  return tagMap;
+  return tagMap!; // buildTagTree will ensure TagTree has been generated before
 }
 
 function buildTagTree() {
@@ -219,38 +222,54 @@ function buildTagTree() {
   tagTree = rootNode;
   tagMap = {};
 
-  let tags = get(window, ['instana', 'tags'], []);
-  if (!(tags instanceof Array)) {
-    tags = [];
-  }
+  let tags = window?.instana?.tags ?? [];
 
   tags = deepCopy(tags)
     .filter(tag => !isDisabled(tag, disabledLists.general))
+    // @ts-expect-error The backend type is missing annotations, which makes the name optional. This is very hard to deal with for sorting purposes, because a fallback cannot be defined without changing sort order. I.e. and empty string is sorted differently from undefined
     .sort((a, b) => compareIgnoreCase(a.name, b.name));
 
-  for (let i = 0; i < tags.length; i++) {
-    const tag = tags[i];
-
-    const node = createNode(tag.name, {
+  tags.forEach(tag => {
+    const node = createNode(tag.name ?? '', {
       fullyQualifiedName: tag.name,
-      rootNode
+      parentNode: rootNode
     });
 
-    tagMap[node.fullyQualifiedName] = node;
+    tagMap![node.fullyQualifiedName] = node;
     node.type = tag.type;
     node.canApplyToSource = tag.canApplyToSource;
     node.canApplyToDestination = tag.canApplyToDestination;
     node.sourceValueAvailableFrom = tag.sourceValueAvailableFrom;
     rootNode.addChild(node);
-  }
+  });
 }
 
-function createNode(name, props = {}) {
+interface GetChildrenArgs {
+  isTagOnDisabledList?: (tagName?: string) => boolean;
+}
+interface TagTreeNodeProps {
+  children?: TagTreeNode[];
+  parentNode?: TagTreeNode;
+  fullyQualifiedName?: string;
+}
+type TagTreeNode = {
+  name: string;
+  parentNode?: TagTreeNode;
+  fullyQualifiedName: string;
+  getChildren: (args: GetChildrenArgs) => TagTreeNode[];
+  addChild: (child: TagTreeNode) => void;
+  type?: TagType;
+  canApplyToSource?: boolean;
+  canApplyToDestination?: boolean;
+  sourceValueAvailableFrom?: number;
+};
+
+function createNode(name: string, props: TagTreeNodeProps = {}): TagTreeNode {
   let children = props.children || [];
   return {
     name,
     parentNode: props.parentNode,
-    fullyQualifiedName: props.fullyQualifiedName,
+    fullyQualifiedName: props.fullyQualifiedName ?? '',
     getChildren({ isTagOnDisabledList } = {}) {
       let _children = children;
       if (isTagOnDisabledList) {
@@ -264,22 +283,22 @@ function createNode(name, props = {}) {
   };
 }
 
-export function findSubTreeByFullyQualifiedName(fullyQualifiedName) {
+export function findSubTreeByFullyQualifiedName(fullyQualifiedName: string): TagTreeNode {
   getTagTree();
-  return tagMap[fullyQualifiedName];
+  return tagMap![fullyQualifiedName];
 }
 
-export function requiresSecondLevelName(fullyQualifiedName) {
+export function requiresSecondLevelName(fullyQualifiedName: string): boolean {
   const node = findSubTreeByFullyQualifiedName(fullyQualifiedName);
   return node && node.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName;
 }
 
-export function getTagType(fullyQualifiedName) {
+export function getTagType(fullyQualifiedName: string): TagType | Nullish {
   const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
   return definition ? definition.type : null;
 }
 
-export function getTagEntity(fullyQualifiedName) {
+export function getTagEntity(fullyQualifiedName: string): EntityType {
   const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
   if (definition && definition.canApplyToDestination && definition.canApplyToSource) {
     return entityTypes.SOURCE_AND_DESTINATION;
@@ -292,23 +311,18 @@ export function getTagEntity(fullyQualifiedName) {
   }
 }
 
-export function getSourceEntityAvailability(fullyQualifiedName, timeConfig) {
+export function getSourceEntityAvailability(fullyQualifiedName: string, timeConfig: TimeConfig): boolean {
   const definition = findSubTreeByFullyQualifiedName(fullyQualifiedName);
   const sourceEntityAvailability = definition ? definition.sourceValueAvailableFrom : null;
 
   const to = timeConfig.to || Date.now();
   const from = to - timeConfig.windowSize;
 
-  if (moment(sourceEntityAvailability).isAfter(from)) {
-    return false;
-  }
-  return true;
+  return !moment(sourceEntityAvailability).isAfter(from);
 }
 
-export function getTagFromList(tagFilter, _tag) {
-  for (let i = 0; i < tagFilter.length; i++) {
-    const tag = tagFilter[i];
-
+export function getTagFromList(tagFilter: TagFilter[], _tag: TagFilter): TagFilter | null {
+  for (const tag of tagFilter) {
     if (_tag.name && _tag.name !== tag.name) {
       continue;
     }
@@ -325,28 +339,27 @@ export function getTagFromList(tagFilter, _tag) {
   return null;
 }
 
-export function getMultipleTagFromList(tagFilter, _tag) {
-  const result = [];
+export function getMultipleTagFromList(tagFilter: TagFilter[], _tag: TagFilter): TagFilter[] {
+  const result: TagFilter[] = [];
 
-  for (let i = 0; i < tagFilter.length; i++) {
-    const tag = tagFilter[i];
+  tagFilter.forEach(tag => {
     if (_tag.name && _tag.name !== tag.name) {
-      continue;
+      return;
     }
     if (_tag.value && _tag.value !== tag.value) {
-      continue;
+      return;
     }
     if (_tag.operator && _tag.operator !== tag.operator) {
-      continue;
+      return;
     }
 
     result.push(tag);
-  }
+  });
 
   return result;
 }
 
-export function getKeyValuePairTag(_tag) {
+export function getKeyValuePairTag(_tag: string[]): TagTreeNode | null {
   const tagMap = getTagMap();
   const tags = Object.keys(tagMap).map(key => tagMap[key]);
   for (let i = 0; i < tags.length; i++) {
@@ -360,6 +373,6 @@ export function getKeyValuePairTag(_tag) {
   return null;
 }
 
-export function isIdTag(tagName) {
+export function isIdTag(tagName: string): boolean {
   return tagName.endsWith('.id') || tagName.endsWith('.snapshotId');
 }

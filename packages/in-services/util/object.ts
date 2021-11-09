@@ -13,11 +13,12 @@ const hasOwnProperty = Object.prototype.hasOwnProperty;
 // reexporting because I am not sure whether deep-freeze-strict is a good choice.
 export const deepFreeze = deepFreezeStrict;
 
+export function deepCopy<T>(obj: T): T;
 export function deepCopy(obj: any) {
   return cloneDeep(obj);
 }
 
-type MapLike = {[k: string]: any};
+type MapLike = { [k: string]: any };
 export function sortKeys(obj: MapLike): MapLike {
   return Object.keys(obj)
     .sort(compareIgnoreCase)
