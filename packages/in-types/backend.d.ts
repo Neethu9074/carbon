@@ -3604,6 +3604,7 @@ export interface SyntheticTest {
   readonly modifiedBy?: string;
   readonly playbackMode: SyntheticPlaybackMode;
   readonly serviceId?: string;
+  readonly tenantId?: string;
   readonly testFrequency: number;
 }
 
@@ -4524,7 +4525,7 @@ export type SyntheticBrowserType = 'chrome' | 'firefox';
 
 export type SyntheticPlaybackMode = 'Simultaneous' | 'Staggered';
 
-export type SyntheticType = 'HTTPAction';
+export type SyntheticType = 'HTTPAction' | 'HTTPScript';
 
 export type SyntheticTypeConfigurationUnion = BrowserScriptConfiguration | HttpActionConfiguration | HttpScriptConfiguration | WebpageActionConfiguration | WebpageScriptConfiguration;
 
