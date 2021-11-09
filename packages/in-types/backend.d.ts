@@ -4525,7 +4525,7 @@ export type SyntheticBrowserType = 'chrome' | 'firefox';
 
 export type SyntheticPlaybackMode = 'Simultaneous' | 'Staggered';
 
-export type SyntheticType = 'HTTPAction';
+export type SyntheticType = 'HTTPAction' | 'HTTPScript';
 
 export type SyntheticTypeConfigurationUnion = BrowserScriptConfiguration | HttpActionConfiguration | HttpScriptConfiguration | WebpageActionConfiguration | WebpageScriptConfiguration;
 
