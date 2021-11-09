@@ -2630,7 +2630,8 @@
       "flowNodeName": "Flow Node Name",
       "nodeType": "Node Type",
       "flowNodeNumber": "Flow Node ({{count}})",
-      "flowNodeNumber_plural": "Flow Nodes ({{count}})"
+      "flowNodeNumber_plural": "Flow Nodes ({{count}})",
+      "messageFlowThreadUtilization": "Thread Utilization"
     },
     "aceFlowNode": {
       "flowNodeInfo": "IBM ACE Flow Node",

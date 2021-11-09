@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, micros, bytes } from 'in-services/formatters/number';
+import { number, micros, bytes, percentage } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
@@ -63,10 +63,20 @@ export default [
   },
   {
     metrics: ['threadsInPool', 'timesMaxNumberOfThreadsReached'],
-    labels: [t('in-forge:plugins.aceMessageFlow.threadsInPool'), t('in-forge:plugins.aceMessageFlow.threadsInPool')],
+    labels: [
+      t('in-forge:plugins.aceMessageFlow.threadsInPool'),
+      t('in-forge:plugins.aceMessageFlow.timesMaxNumberOfThreadsReached')
+    ],
     min: 0,
     category: [t('in-forge:plugins.aceMessageFlow.threads')],
     formatter: number
+  },
+  {
+    metrics: ['threadUtilization'],
+    labels: [t('in-forge:plugins.aceMessageFlow.messageFlowThreadUtilization')],
+    min: 0,
+    category: [t('in-forge:plugins.aceMessageFlow.threads')],
+    formatter: percentage
   },
   {
     metrics: ['mqErrors', 'msgWithErrors', 'processingMsgErrors', 'timeOutsWaitingForRepliesToAggregateMsgs'],

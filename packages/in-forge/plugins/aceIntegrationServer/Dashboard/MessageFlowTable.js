@@ -7,43 +7,64 @@ import React from 'react';
 
 import { combineLatest } from '@instana/observables';
 
+import { percentageZeroDecimalPlaces } from 'in-services/formatters/number';
 import { getClusterMembers } from 'in-sdk/clusterMembers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getSnapshot } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-const missingValue = '/';
+const missingValue = 'N/A';
 
-const cols = [
-  {
-    title: t('in-forge:plugins.aceIntegrationServer.messageFlowName'),
-    type: 'snapshotLink',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.aceIntegrationServer.messageFlowApplicationName'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'applicationName'], missingValue);
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.aceIntegrationServer.status'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'state'], missingValue);
-      }
+const msgflowName_Col = {
+  title: t('in-forge:plugins.aceIntegrationServer.messageFlowName'),
+  type: 'snapshotLink',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.key;
     }
   }
-];
+};
+const msgflowAppName_Col = {
+  title: t('in-forge:plugins.aceIntegrationServer.messageFlowApplicationName'),
+  type: 'string',
+  typeArgs: {
+    getValue(row) {
+      return row.snapshot.getIn(['data', 'applicationName'], missingValue);
+    }
+  }
+};
+const msgflowStatus_Col = {
+  title: t('in-forge:plugins.aceIntegrationServer.status'),
+  type: 'string',
+  typeArgs: {
+    getValue(row) {
+      return row.snapshot.getIn(['data', 'state'], missingValue);
+    }
+  }
+};
+const msgflowThreadUtilization_Col = {
+  title: t('in-forge:plugins.aceMessageFlow.messageFlowThreadUtilization'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName() {
+      return 'threadUtilization';
+    },
+    getContent: function(threadUtilization) {
+      if (threadUtilization < 0) {
+        return missingValue;
+      } else {
+        return percentageZeroDecimalPlaces(threadUtilization);
+      }
+    },
+    getTimeWindowAggregation() {
+      return 'mean';
+    }
+  }
+};
 
 export default connectTo(
   props => ({
@@ -54,7 +75,7 @@ export default connectTo(
       .throttle(1000)
   }),
 
-  function MessageFlowTable({ messageFlows, timeConfig }) {
+  function MessageFlowTable({ messageFlows, timeConfig, isCloud }) {
     if (messageFlows == null || messageFlows.length === 0) {
       return null;
     }
@@ -68,6 +89,10 @@ export default connectTo(
         timeConfig
       };
     });
+    const cols = [msgflowName_Col, msgflowAppName_Col, msgflowStatus_Col];
+    if (!isCloud) {
+      cols.push(msgflowThreadUtilization_Col);
+    }
 
     return (
       <Table

@@ -72,7 +72,11 @@ export default function AceIntegrationServerDashboard({ snapshot, timeConfig }) 
           }}
         />
       </DashboardSection>
-      <MessageFlowTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <MessageFlowTable
+        snapshotId={snapshotId}
+        timeConfig={timeConfig}
+        isCloud={snapshot.getIn(['data', 'cloudNative'])}
+      />
     </div>
   );
 }
