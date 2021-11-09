@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { expect } from 'chai';
-
 import {
   toBackendQueryModel,
   addTagFilters,
@@ -12,7 +10,9 @@ import {
   EXPRESSION,
   OPERATOR_AND,
   OPERATOR_OR,
-  OPERATOR_NOT
+  OPERATOR_NOT,
+  isTagFilterExpression,
+  isTagFilter
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import {
   TAG as FM_TAG,
@@ -600,9 +600,9 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
     };
 
     it('should handle undefined or empty expression and return false', () => {
-      expect(containsTagName(null, tagName)).to.equal(false);
-      expect(containsTagName(undefined, tagName)).to.equal(false);
-      expect(containsTagName(emptyTagFilter, tagName)).to.equal(false);
+      expect(containsTagName(null, tagName)).toEqual(false);
+      expect(containsTagName(undefined, tagName)).toEqual(false);
+      expect(containsTagName(emptyTagFilter, tagName)).toEqual(false);
     });
 
     it('should handle single tag filter', () => {
@@ -616,7 +616,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(true);
+      ).toEqual(true);
       expect(
         containsTagName(
           {
@@ -627,7 +627,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(false);
+      ).toEqual(false);
     });
 
     it('should handle simple expression', () => {
@@ -643,7 +643,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(true);
+      ).toEqual(true);
       expect(
         containsTagName(
           {
@@ -656,7 +656,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(false);
+      ).toEqual(false);
     });
 
     it('should handle nested expression', () => {
@@ -679,7 +679,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(true);
+      ).toEqual(true);
       expect(
         containsTagName(
           {
@@ -699,7 +699,53 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(false);
+      ).toEqual(false);
+    });
+  });
+
+  describe('#isTagFilterExpression', () => {
+    it('returns true for TagFilterExpression', () => {
+      expect(
+        isTagFilterExpression({
+          type: EXPRESSION,
+          logicalOperator: OPERATOR_AND,
+          elements: []
+        })
+      ).toBeTruthy();
+    });
+
+    it('returns false for TagFilter', () => {
+      expect(
+        isTagFilterExpression({
+          type: TAG_FILTER,
+          name: 'abc',
+          operator: 'EQUALS',
+          value: 'value'
+        })
+      ).not.toBeTruthy();
+    });
+  });
+
+  describe('#isTagFilter', () => {
+    it('returns false for TagFilterExpression', () => {
+      expect(
+        isTagFilter({
+          type: EXPRESSION,
+          logicalOperator: OPERATOR_AND,
+          elements: []
+        })
+      ).not.toBeTruthy();
+    });
+
+    it('returns true for TagFilter', () => {
+      expect(
+        isTagFilter({
+          type: TAG_FILTER,
+          name: 'abc',
+          operator: 'EQUALS',
+          value: 'value'
+        })
+      ).toBeTruthy();
     });
   });
 });

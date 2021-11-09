@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TagFilter, TagFilterOperator } from 'in-types';
+import { TagFilter } from 'in-types';
 import { find, sortBy } from 'lodash';
 
 interface NumberTagFiltersArgs {
-  tagFilters: TagFilter;
+  tagFilters: TagFilter[];
   tag: string;
   showRange?: boolean;
   showEquality?: boolean;
