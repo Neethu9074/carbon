@@ -12,6 +12,7 @@ import { getThresholdInTimeframe } from 'in-alerting/components/Chart/renderer/l
 import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { applyPostProcessing } from 'in-alerting/components/Chart/chartUtils';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import connectTo from 'in-hoc/connectTo';
 
@@ -35,7 +36,7 @@ export default connectTo(
               data: {}
             }
           : mergeResult({
-              result: metrics,
+              result: applyPostProcessing(metrics, props.postProcessMetric, props.timeConfig, props.granularity),
               y1: props.y1,
               thresholdType: props.thresholdType,
               mutateMetrics: props.mutateMetrics ?? {}

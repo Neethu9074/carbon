@@ -15,6 +15,7 @@ import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrap
 import { smoothMetrics } from 'in-alerting/smart-alerts/components/utils/chartUtil';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
+import { zeroFillMetric } from 'in-alerting/components/Chart/chartUtils';
 import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -47,6 +48,9 @@ export default function AlertingChart({
   const aggregation = blueprintConfig.getAggregation(rule);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);
   const renderer = rendererOverride || getRendererBasedOnThresholdType(threshold.type);
+
+  // only apply zero filling to count metrics
+  const requiresZeroFilling = aggregation === 'SUM';
 
   return (
     <AlertingChartWrapper
@@ -83,6 +87,7 @@ export default function AlertingChart({
       timeConfig={viewConfig.timeConfig}
       granularity={metricChartGranularity}
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
+      postProcessMetric={requiresZeroFilling && zeroFillMetric}
       metricsConfiguration={getMetricsConfiguration()}
       y1={getY1()}
       canReload={canReload}

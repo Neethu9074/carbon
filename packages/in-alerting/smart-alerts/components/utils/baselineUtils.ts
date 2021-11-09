@@ -72,6 +72,6 @@ export function getApproximatedAdaptiveBaselineThresholdValue(
   return isGreaterOp ? Math.floor(Math.min(...baselineValues)) : Math.ceil(Math.max(...baselineValues));
 }
 
-export function isHistoricBaseline(baseline?: ThresholdType): boolean {
-  return baseline === HISTORIC_BASELINE;
+export function isHistoricBaseline(type?: ThresholdType): boolean {
+  return type === HISTORIC_BASELINE;
 }
