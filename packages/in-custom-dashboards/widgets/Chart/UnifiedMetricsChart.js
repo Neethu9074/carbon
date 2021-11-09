@@ -16,6 +16,7 @@ import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sou
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
+import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -165,10 +166,12 @@ function useResultData(config, granularity, timeConfig, forceLoadingIndicator) {
     );
   }
 
+  const stableConfig = useStableObjectInstance(config);
+
   // do not execute the query while the parent component is still loading data for the chart configuration
   return useObservable(() => (forceLoadingIndicator ? null : getUnifiedMetrics({ metrics })), [
     timeConfig,
-    config,
+    stableConfig,
     forceLoadingIndicator
   ]);
 }
