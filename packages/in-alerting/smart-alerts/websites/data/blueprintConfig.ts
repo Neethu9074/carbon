@@ -7,7 +7,6 @@ import {
   AggregationType,
   SlownessWebsiteAlertRule,
   SpecificJsErrorsWebsiteAlertRule,
-  StaticThresholdConfig,
   StatusCodeWebsiteAlertRule,
   TagFilterOperator,
   ThresholdConfig,
@@ -22,11 +21,11 @@ import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/sub
 import { getApproximatedHistoricBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 // @ts-expect-error needs conversion to TS
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
-import { isHistoricBaselineConfig, isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
 // @ts-expect-error needs conversion to TS
 import { availableFilterTags } from 'in-websites/tags';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { FixedTimeConfig } from 'in-stores/time/config';
@@ -201,8 +200,7 @@ export const blueprintConfigs: readonly BluePrint[] = Object.freeze([
 ]);
 
 interface BluePrintBase {
-  readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
-  readonly thresholdDefaults?: { readonly operator: ThresholdOperator };
+  readonly thresholdDefaults: { readonly operator: ThresholdOperator };
   readonly isCustomRateMetric: typeof isCustomRateMetric;
   readonly getMetricsRequest: (metricName: MetricName) => typeof getWebsiteRateMetric | typeof getWebsiteMetrics;
   readonly getAlertsPreviewRequest: (
@@ -226,9 +224,12 @@ interface BluePrintBase {
 interface BluePrint extends BluePrintBase {
   readonly type: AlertType;
   readonly name: string;
+
   readonly headline?: string;
   readonly text?: string;
   readonly subType?: string;
+  readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
+
   readonly incompleteRuleMessage?: string;
   readonly getAvailableTags: (metricName: MetricName) => string[];
   readonly baselineEnabled: boolean;
@@ -296,11 +297,11 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
   timeConfig: FixedTimeConfig
 ): { name: string; type: string; operator: TagFilterOperator; value?: number }[] {
   let value: number;
+
   const { threshold } = alertConfig;
+
   if (isStaticThresholdConfig(threshold)) {
-    value = (threshold as StaticThresholdConfig).value;
-  } else if (isHistoricBaselineConfig(threshold)) {
-    value = threshold.deviationFactor;
+    value = threshold.value;
   } else {
     // @ts-expect-error TS2345: Argument of type 'WebsiteAlertConfig' is not assignable to parameter of type 'AlertConfig'.
     value = getApproximatedHistoricBaselineThresholdValue(alertConfig, timeConfig);
