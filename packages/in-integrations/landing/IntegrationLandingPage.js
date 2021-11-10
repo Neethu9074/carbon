@@ -4,18 +4,28 @@
  */
 
 import { compose, withProps } from 'recompose';
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import { SecondLevelNavigation, SecondLevelNavigationItem } from 'in-components/SecondLevelNavigation';
-import HeaderWithTimeSelection from 'in-components/time/TimeSelection/HeaderWithTimeSelection';
+import ContentWrapper from 'in-components/LocationAwareTabView/components/ContentWrapper';
 import IntegrationDashboardList from 'in-integrations/landing/IntegrationDashboardList';
 import { landingConfigUrlParameter } from 'in-integrations/navigation/matrix';
 import getReferences from 'in-integrations/subscriptions/getReferences';
-import LeftRightPadding from 'in-components/layout/LeftRightPadding';
+import TabView from 'in-components/LocationAwareTabView/TabView';
+import DashboardHeader from 'in-components/DashboardHeader';
 import { setTimeConfig } from 'in-stores/time/config';
 import withUrlState from 'in-hoc/withUrlState';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+
+const tabs = [
+  {
+    label: t('in-integrations:landing.results'),
+    icon: 'lib_actions_search',
+    path: '/',
+    component: Summary,
+    noTopPadding: true
+  }
+];
 
 export default compose(
   withUrlState({
@@ -43,16 +53,28 @@ function IntegrationLandingPage({ flattenedConfig, references }) {
   }
 
   return (
-    <Fragment>
-      <HeaderWithTimeSelection>
-        <SecondLevelNavigation>
-          <SecondLevelNavigationItem isActive icon="lib_actions_search" label={t('in-integrations:landing.results')} />
-        </SecondLevelNavigation>
-      </HeaderWithTimeSelection>
-      <LeftRightPadding>
-        <IntegrationDashboardList entities={infrastructureSnapshots} query={parseQueryConfig(flattenedConfig)} />
-      </LeftRightPadding>
-    </Fragment>
+    <TabView
+      props={{
+        entities: infrastructureSnapshots,
+        query: parseQueryConfig(flattenedConfig)
+      }}
+      HeaderComponent={Header}
+      tabs={tabs}
+      withoutBreadcrumb
+      withoutPadding
+    />
+  );
+}
+
+function Header() {
+  return <DashboardHeader />;
+}
+
+function Summary({ entities, query }) {
+  return (
+    <ContentWrapper>
+      <IntegrationDashboardList entities={entities} query={query} />
+    </ContentWrapper>
   );
 }
 
