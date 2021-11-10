@@ -22,7 +22,7 @@ export const ImpactMeasurementMethods: Record<ImpactMeasurementMethod, ImpactMea
 };
 
 /**
- * Create the form for the specific threshold config depending on
+ * Creates the form for the specific threshold config depending on
  * its type.
  *
  * @param timeThresholdConfig has a different fields depending on its type
@@ -32,24 +32,17 @@ export default function createTimeThresholdForm(
   timeThresholdConfig: TimeThresholdConfig,
   granularity: number
 ): MapForm {
-  if (timeThresholdConfig.type === 'violationsInSequence') {
-    return createViolationsInSequenceForm(timeThresholdConfig as ViolationsInSequenceTimeThreshold);
-  } else if (timeThresholdConfig.type === 'violationsInPeriod') {
-    return createViolationsInPeriodForm(timeThresholdConfig as ViolationsInPeriodTimeThreshold);
-  } else if (timeThresholdConfig.type === 'userImpactOfViolationsInSequence') {
-    return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig as UserImpactTimeThreshold);
-  } else if (timeThresholdConfig.type === 'requestImpact') {
-    return createRequestImpactForm(timeThresholdConfig as RequestImpactTimeThreshold, granularity);
+  switch (timeThresholdConfig.type) {
+    case 'violationsInPeriod':
+      return createViolationsInPeriodForm(timeThresholdConfig as ViolationsInPeriodTimeThreshold);
+    case 'userImpactOfViolationsInSequence':
+      return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig as UserImpactTimeThreshold);
+    case 'requestImpact':
+      return createRequestImpactForm(timeThresholdConfig as RequestImpactTimeThreshold, granularity);
+    case 'violationsInSequence':
+    default:
+      return createViolationsInSequenceForm(timeThresholdConfig as ViolationsInSequenceTimeThreshold);
   }
-
-  // default, if there was no type specified
-
-  const defaultThresholdConfig: ViolationsInPeriodTimeThreshold = {
-    ...(timeThresholdConfig as TimeThresholdConfig),
-    violations: 1,
-    type: 'violationsInSequence'
-  };
-  return createViolationsInPeriodForm(defaultThresholdConfig);
 }
 
 interface TimeThresholdConfig {
