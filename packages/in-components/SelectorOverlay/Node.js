@@ -113,5 +113,7 @@ Node.propTypes = {
   focusNode: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   withIcons: PropTypes.bool.isRequired,
-  asListGroup: PropTypes.bool.isRequired
+  asListGroup: PropTypes.bool.isRequired,
+  withBreadcrumbs: PropTypes.bool,
+  height: PropTypes.string
 };

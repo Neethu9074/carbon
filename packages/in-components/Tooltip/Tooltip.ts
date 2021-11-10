@@ -70,7 +70,9 @@ export default function Tooltip({ align = 'auto', delay = 0, themeStyle, childre
         } catch (e) {
           // We are currently seeing errors being thrown at this location. Trying to drill down on the reason for this error…
           logger.debug(
-            `Failed to add listeners for tooltip. Message: '${e.message}'. Tooltip content: ${String(content)}`,
+            `Failed to add listeners for tooltip. Message: '${(e as Error).message}'. Tooltip content: ${String(
+              content
+            )}`,
             e
           );
         }

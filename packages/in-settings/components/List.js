@@ -540,7 +540,7 @@ function areAllRowsSelected(entities, tableActions, startIndex, endIndex) {
 }
 
 export function leftHeaderWithSelectAll(entityName, inSelectListDialog, tableActions) {
-  return function(totalHits, filteredHits, entitiesBeforePagination) {
+  return function LeftHeaderWithSelectAll(totalHits, filteredHits, entitiesBeforePagination) {
     const allSelected = areAllRowsOnAllPagesSelected(entitiesBeforePagination, tableActions);
     if (
       inSelectListDialog &&
