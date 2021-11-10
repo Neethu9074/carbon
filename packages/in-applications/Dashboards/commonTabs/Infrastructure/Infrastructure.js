@@ -49,7 +49,7 @@ import locals from './Infrastructure.mless';
 const selectedTypeUrlParameter = {
   path: '/infrastructure',
   name: 'selectedType',
-  initialState: 'PROCESS'
+  initialState: null
 };
 
 const tablesByType = {
