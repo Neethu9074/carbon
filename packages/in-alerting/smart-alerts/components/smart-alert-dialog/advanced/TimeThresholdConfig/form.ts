@@ -21,42 +21,64 @@ export const ImpactMeasurementMethods: Record<ImpactMeasurementMethod, ImpactMea
   PER_WINDOW: 'PER_WINDOW'
 };
 
-type TimeThresholdConfig = {
+/**
+ * Creates the form for the specific threshold config depending on
+ * its type.
+ *
+ * @param timeThresholdConfig has a different fields depending on its type
+ * @param granularity only for requestImpact: used as the default windowType, fallback is defaultGranularity
+ */
+export default function createTimeThresholdForm(
+  timeThresholdConfig: TimeThresholdConfig,
+  granularity: number
+): MapForm {
+  switch (timeThresholdConfig.type) {
+    case 'violationsInPeriod':
+      return createViolationsInPeriodForm(timeThresholdConfig as ViolationsInPeriodTimeThreshold);
+    case 'userImpactOfViolationsInSequence':
+      return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig as UserImpactTimeThreshold);
+    case 'requestImpact':
+      return createRequestImpactForm(timeThresholdConfig as RequestImpactTimeThreshold, granularity);
+    case 'violationsInSequence':
+    default:
+      return createViolationsInSequenceForm(timeThresholdConfig as ViolationsInSequenceTimeThreshold);
+  }
+}
+
+interface TimeThresholdConfig {
   timeWindow: number;
+  type: TimeThresholdType;
+}
+
+interface RequestImpactTimeThreshold extends TimeThresholdConfig {
+  requests?: number;
+}
+
+interface UserImpactTimeThreshold extends TimeThresholdConfig {
   impactMeasurementMethod?: ImpactMeasurementMethod;
   users?: number;
   userPercentage?: number;
-  type: TimeThresholdType;
-  violations?: number;
-  requests?: number;
-};
-
-export function createViolationsInSequenceForm({ timeWindow }: TimeThresholdConfig) {
-  return createMapForm()
-    .put(
-      'type',
-      createField({
-        value: 'violationsInSequence'
-      })
-    )
-    .put(
-      'timeWindow',
-      createField({
-        value: timeWindow ?? timeWindowDefault
-      })
-    );
 }
 
-export function createViolationsInPeriodForm({ timeWindow, violations }: TimeThresholdConfig) {
+interface ViolationsInPeriodTimeThreshold extends TimeThresholdConfig {
+  violations?: number;
+}
+
+interface ViolationsInSequenceTimeThreshold extends TimeThresholdConfig {}
+
+function createMapBase(type: TimeThresholdType, timeWindow?: number | undefined) {
   return createMapForm()
-    .put('type', createField({ value: 'violationsInPeriod' }))
-    .put('timeWindow', createField({ value: timeWindow ?? timeWindowDefault }))
-    .put(
-      'violations',
-      createField({
-        value: violations ?? 1
-      })
-    );
+    .put('type', createField({ value: type }))
+    .put('timeWindow', createField({ value: timeWindow ?? timeWindowDefault }));
+}
+
+export function createViolationsInPeriodForm({ timeWindow, violations }: ViolationsInPeriodTimeThreshold): MapForm {
+  return createMapBase('violationsInPeriod', timeWindow).put(
+    'violations',
+    createField({
+      value: violations ?? 1
+    })
+  );
 }
 
 export function createUserImpactOfViolationsInSequenceForm({
@@ -64,15 +86,15 @@ export function createUserImpactOfViolationsInSequenceForm({
   impactMeasurementMethod,
   userPercentage,
   users
-}: TimeThresholdConfig): MapForm {
-  let form = createMapForm();
-  form = form
-    .put('type', createField({ value: 'userImpactOfViolationsInSequence' }))
-    .put('timeWindow', createField({ value: timeWindow ?? timeWindowDefault }));
+}: UserImpactTimeThreshold): MapForm {
+  let form = createMapBase('userImpactOfViolationsInSequence', timeWindow);
+
   if (websiteSmartAlertsAllowPerWindowUserImpact) {
     form = form.put(
       'impactMeasurementMethod',
-      createField({ value: impactMeasurementMethod ?? ImpactMeasurementMethods.AGGREGATED })
+      createField({
+        value: impactMeasurementMethod ?? ImpactMeasurementMethods.AGGREGATED
+      })
     );
   }
 
@@ -87,49 +109,20 @@ export function createUserImpactOfViolationsInSequenceForm({
   return form;
 }
 
-export function createRequestImpactForm(timeThresholdConfig: TimeThresholdConfig, granularity: number): MapForm {
-  return createMapForm()
-    .put(
-      'type',
-      createField({
-        value: 'requestImpact'
-      })
-    )
-    .put(
-      // For request impact timeWindow is always one bucket which means it would be same as granularity.
-      'timeWindow',
-      createField({
-        value: granularity ?? defaultGranularity
-      })
-    )
+export function createRequestImpactForm({ requests }: RequestImpactTimeThreshold, granularity: number): MapForm {
+  // For request impact timeWindow is always one bucket which means it would be same as granularity.
+  return createMapBase('requestImpact', granularity ?? defaultGranularity) //
     .put(
       'requests',
       createField({
-        value: timeThresholdConfig.requests ?? numberOfRequestsDefault,
+        value: requests ?? numberOfRequestsDefault,
         validator: provideNumberGreaterEqualsOneValidator
       })
     );
 }
 
-export default function createTimeThresholdForm(
-  timeThresholdConfig: TimeThresholdConfig,
-  granularity: number
-): MapForm | undefined {
-  const type = timeThresholdConfig.type ?? 'violationsInSequence';
-
-  if (type === 'violationsInSequence') {
-    return createViolationsInSequenceForm(timeThresholdConfig);
-  }
-  if (type === 'violationsInPeriod') {
-    return createViolationsInPeriodForm(timeThresholdConfig);
-  }
-  if (type === 'userImpactOfViolationsInSequence') {
-    return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig);
-  }
-  if (type === 'requestImpact') {
-    return createRequestImpactForm(timeThresholdConfig, granularity);
-  }
-  return undefined;
+export function createViolationsInSequenceForm(thresholdConfig: ViolationsInSequenceTimeThreshold) {
+  return createMapBase('violationsInSequence', thresholdConfig.timeWindow);
 }
 
 const provideNumberGreaterEqualsOneValidator = (num: number | string): ValidationResult => {
