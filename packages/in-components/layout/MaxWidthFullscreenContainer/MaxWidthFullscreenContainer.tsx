@@ -8,6 +8,11 @@ import React from 'react';
 
 import locals from './MaxWidthFullscreenContainer.mless';
 
-export default function MaxWidthFullscreenContainer({ children, className }) {
+export interface MaxWidthFullscreenContainerProps {
+  children: React.ReactChildren;
+  className?: string;
+}
+
+export default function MaxWidthFullscreenContainer({ children, className }: MaxWidthFullscreenContainerProps) {
   return <div className={classNames(locals.wrapper, className)}>{children}</div>;
 }
