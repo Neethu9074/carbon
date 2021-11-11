@@ -12,8 +12,7 @@ export function search(nodes, query) {
 
   query = new RegExp(
     query
-      .toLowerCase()
-      .split(' ')
+      .split('')
       .map(escapeRegExp)
       .join('.*'),
     'i'
@@ -38,13 +37,13 @@ function searchNode(node, query, result) {
 }
 
 function matches(leaf, query) {
-  if (leaf.keywords && query.test(leaf.keywords.toLowerCase())) {
+  if (leaf.keywords && query.test(leaf.keywords)) {
     return true;
   }
 
-  if (typeof leaf.label === 'string' && query.test(leaf.label.toLowerCase())) {
+  if (typeof leaf.label === 'string' && query.test(leaf.label)) {
     return true;
   }
 
-  return typeof leaf.description === 'string' && query.test(leaf.description.toLowerCase());
+  return typeof leaf.description === 'string' && query.test(leaf.description);
 }
