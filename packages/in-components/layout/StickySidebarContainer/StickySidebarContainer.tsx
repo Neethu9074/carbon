@@ -9,7 +9,14 @@ import { Col, Row } from 'in-components/layout/Grid';
 
 import locals from './StickySidebarContainer.mless';
 
-export default function StickySidebarContainer(props) {
+export interface StickySidebarContainerProps {
+  sidebar: React.ReactChild;
+  children: React.ReactChildren;
+  sidebarWidth?: number;
+  topOffset?: string;
+}
+
+export default function StickySidebarContainer(props: StickySidebarContainerProps) {
   const { sidebar, children, sidebarWidth = 2, topOffset = '11rem' } = props;
 
   return (
