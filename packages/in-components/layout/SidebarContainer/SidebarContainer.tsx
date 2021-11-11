@@ -9,7 +9,13 @@ import { Col, Row } from 'in-components/layout/Grid';
 
 import locals from 'in-components/layout/SidebarContainer/SidebarContainer.mless';
 
-export default function SidebarContainer(props) {
+export interface SidebarContainerProps {
+  sidebar: React.ReactChild;
+  children: React.ReactChildren;
+  sidebarWidth: number;
+}
+
+export default function SidebarContainer(props: SidebarContainerProps) {
   const { sidebar, children, sidebarWidth = 2 } = props;
 
   return (
