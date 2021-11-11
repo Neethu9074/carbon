@@ -10,7 +10,7 @@ import './CenterAlignmentColumn.less';
 const block = 'in-center-alignment';
 
 export interface Props {
-  children: React.ReactChild;
+  children: React.ReactChildren;
 }
 
 export default function CenterAlignmentColumn({ children }: Props) {
