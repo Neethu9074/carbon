@@ -6,12 +6,20 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { Observable } from '@instana/observables';
 import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 import locals from './BackButton.mless';
 
-export default function BackButton({ label, href, href$, withoutMargin }) {
+export interface BackButtonProps {
+  label: string;
+  href: string;
+  href$: Observable<string>;
+  withoutMargin: boolean;
+}
+
+export default function BackButton({ label, href, href$, withoutMargin }: BackButtonProps) {
   return (
     <Link
       className={classNames({
