@@ -79,7 +79,7 @@ describe('in-components/SelectorOverlay/search', () => {
 
   it('should fuzzy filter by label', () => {
     // GIVEN
-    const filterQuery = 'thir le lea';
+    const filterQuery = 'thirLEL lea';
 
     // WHEN
     const result = search(nodes, filterQuery);
@@ -114,7 +114,7 @@ describe('in-components/SelectorOverlay/search', () => {
 
   it('should fuzzy filter by keyword', () => {
     // GIVEN
-    const filterQuery = 'ch le lea';
+    const filterQuery = 'Chldle lea';
 
     // WHEN
     const result = search(nodes, filterQuery);
@@ -148,7 +148,7 @@ describe('in-components/SelectorOverlay/search', () => {
 
   it('should fuzzy filter by description', () => {
     // GIVEN
-    const filterQuery = 'so desc';
+    const filterQuery = 'so dscION';
 
     // WHEN
     const result = search(nodes, filterQuery);
