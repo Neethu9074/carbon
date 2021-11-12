@@ -14,7 +14,7 @@ export default {
         return (
           <span>
             <Trans
-              i18nKey="in-forge:plugins.db2Database.UnableToConnect"
+              i18nKey="in-forge:plugins.db2Database.unableToConnect"
               values={{ connectionUrl: connectionUrl, user: user }}
             />
           </span>

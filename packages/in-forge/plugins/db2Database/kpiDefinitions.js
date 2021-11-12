@@ -16,5 +16,10 @@ export default [
     label: t('in-forge:plugins.db2Database.queries'),
     metric: 'databases.queries',
     formatter: number.compact
+  },
+  {
+    labels: t('in-forge:plugins.db2Database.logHadrWaitTime'),
+    metrics: ['hadrmetrics.hadrLastTakeOverTime'],
+    formatter: undefined
   }
 ];
