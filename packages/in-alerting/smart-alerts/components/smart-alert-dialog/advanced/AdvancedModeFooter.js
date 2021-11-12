@@ -36,8 +36,8 @@ export function AdvancedModeFooter({
 
 function getSaveButtonLabel({ editMode, migrationMode }) {
   if (migrationMode) return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate');
-  if (editMode) return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
-  return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
+  if (editMode) return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
+  return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
 }
 
 AdvancedModeFooter.propTypes = {
