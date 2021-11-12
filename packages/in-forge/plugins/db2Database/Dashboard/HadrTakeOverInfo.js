@@ -26,7 +26,7 @@ function HadrTakeOverInfo({ data }) {
   if (hadrRole.get('HADR_ROLE') === 'PRIMARY' && hadrRole.get('HADR_LAST_TAKEOVER_TIME') !== 'NA') {
     return (
       <KpiKeyValue label={t('in-forge:plugins.db2Database.dashboard.hadrTakeOverTime')}>
-        {formatDateTime(hadrRole.get('HADR_LAST_TAKEOVER_TIME'))}
+        <div> {formatDateTime(hadrRole.get('HADR_LAST_TAKEOVER_TIME'))} </div>
       </KpiKeyValue>
     );
   }
