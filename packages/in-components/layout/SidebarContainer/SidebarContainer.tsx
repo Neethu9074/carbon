@@ -12,7 +12,7 @@ import locals from 'in-components/layout/SidebarContainer/SidebarContainer.mless
 export interface SidebarContainerProps {
   sidebar: React.ReactChild;
   children: React.ReactChildren;
-  sidebarWidth: number;
+  sidebarWidth?: number;
 }
 
 export default function SidebarContainer(props: SidebarContainerProps) {

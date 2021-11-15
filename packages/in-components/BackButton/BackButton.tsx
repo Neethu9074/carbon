@@ -14,9 +14,9 @@ import locals from './BackButton.mless';
 
 export interface BackButtonProps {
   label: string;
-  href: string;
-  href$: Observable<string>;
-  withoutMargin: boolean;
+  href?: string;
+  href$?: Observable<string>;
+  withoutMargin?: boolean;
 }
 
 export default function BackButton({ label, href, href$, withoutMargin }: BackButtonProps) {
