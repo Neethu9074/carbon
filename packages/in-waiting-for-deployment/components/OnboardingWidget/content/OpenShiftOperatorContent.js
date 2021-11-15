@@ -25,7 +25,7 @@ export default function OpenShiftOperatorContent({ agentKey, agentEndpoint, agen
       <Spacer />
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.theFollowingConfigurationValuesWillBeNeededToBePopulatedInThe"
-        href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
+        href="https://github.com/instana/instana-agent-operator/blob/main/config/samples/instana_v1_instanaagent.yaml"
       />
       <Spacer />
       <GridRow>
@@ -46,7 +46,7 @@ export default function OpenShiftOperatorContent({ agentKey, agentEndpoint, agen
       <HelpBox title={t('in-waiting-for-deployment:content.nameYourOpenShiftCluster')}>
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.youWillAlsoWantToProvideADescriptiveNameForYourClusterLikeProdEuOrDevUsingTheClusterNameOptionInThe"
-          href="https://github.com/instana/instana-agent-operator/blob/master/deploy/instana-agent.customresource.yaml"
+          href="https://github.com/instana/instana-agent-operator/blob/main/config/samples/instana_v1_instanaagent.yaml"
         />
       </HelpBox>
     </>
