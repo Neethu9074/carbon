@@ -12,12 +12,22 @@ import { Link } from '@instana/components';
 
 import locals from './BackButton.mless';
 
-export interface BackButtonProps {
+interface GeneralProps {
   label: string;
-  href?: string;
-  href$?: Observable<string>;
   withoutMargin?: boolean;
 }
+
+interface WithHref extends GeneralProps {
+  href: string;
+  href$?: Observable<string>;
+}
+
+interface WithHref$ extends GeneralProps {
+  href$: Observable<string>;
+  href?: string;
+}
+
+export type BackButtonProps = WithHref | WithHref$;
 
 export default function BackButton({ label, href, href$, withoutMargin }: BackButtonProps) {
   return (
