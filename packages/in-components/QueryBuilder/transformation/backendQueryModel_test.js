@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { expect } from 'chai';
+
 import {
   toBackendQueryModel,
   addTagFilters,
