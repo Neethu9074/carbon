@@ -49,6 +49,7 @@
   }
 
   .input {
+    .ellipsis();
     background: @lib__colors__white;
   }
 
