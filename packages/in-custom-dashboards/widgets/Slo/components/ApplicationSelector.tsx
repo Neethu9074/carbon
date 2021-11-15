@@ -3,22 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Field } from 'formalistic';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { Spacer } from '@instana/components';
 
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
-import { Spacer } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
+import { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import HelpAction from 'in-components/workspace/HelpAction';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Sections from 'in-components/workspace/Sections';
-import { t } from 'in-i18n';
-import { Field } from 'formalistic';
 import { Result } from 'in-types';
-import { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
+import { t } from 'in-i18n';
 
 interface ApData {
   id: string;

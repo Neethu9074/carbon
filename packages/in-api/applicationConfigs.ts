@@ -28,8 +28,6 @@ import { deepFreeze, deepCopy } from 'in-services/util/object';
 import { boundaryScopes } from 'in-applications/constants';
 import { getKeyValuePairTag } from 'in-applications/tags';
 import { emptyArray } from 'in-services/fixedObjects';
-import { deepFreeze } from 'in-services/util/object';
-import { deepCopy } from 'in-services/util/object';
 import http, { Response } from 'in-services/http';
 
 const basePath = '/api/application-monitoring/settings/application';

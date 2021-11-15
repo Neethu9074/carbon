@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { expect } from 'chai';
-
 import {
   toBackendQueryModel,
   addTagFilters,
@@ -33,16 +31,16 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
     };
 
     it('should map null or undefined form model to an empty tag filter expression element', () => {
-      expect(toBackendQueryModel(null)).to.deep.equal(emptyTagFilter);
-      expect(toBackendQueryModel(undefined)).to.deep.equal(emptyTagFilter);
+      expect(toBackendQueryModel(null)).toStrictEqual(emptyTagFilter);
+      expect(toBackendQueryModel(undefined)).toStrictEqual(emptyTagFilter);
     });
 
     it('should map an empty form model to an empty tag filter expression element', () => {
-      expect(toBackendQueryModel([])).to.deep.equal(emptyTagFilter);
+      expect(toBackendQueryModel([])).toStrictEqual(emptyTagFilter);
     });
 
     it('should map a form model with empty brackets to an empty tag filter expression element', () => {
-      expect(toBackendQueryModel([{ type: FM_OPEN_BRACKET }, { type: FM_CLOSE_BRACKET }])).to.deep.equal(
+      expect(toBackendQueryModel([{ type: FM_OPEN_BRACKET }, { type: FM_CLOSE_BRACKET }])).toStrictEqual(
         emptyTagFilter
       );
     });
@@ -58,7 +56,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
       };
       expect(
         toBackendQueryModel([{ ...tagFilter, otherPropertyWhichIsOnlyPartOfTheFormModel: 'foobar' }])
-      ).to.deep.equal(tagFilter);
+      ).toStrictEqual(tagFilter);
     });
 
     it('should map a single negated tag filter', () => {
@@ -77,7 +75,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             key: undefined
           }
         ])
-      ).to.deep.equal({
+      ).toStrictEqual({
         elements: [
           {
             entity: 'DESTINATION',
@@ -116,7 +114,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           key: undefined
         }
       ];
-      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+      expect(toBackendQueryModel(tagFilters)).toStrictEqual({
         type: EXPRESSION,
         logicalOperator: OPERATOR_OR,
         elements: [
@@ -163,7 +161,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           key: undefined
         }
       ];
-      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+      expect(toBackendQueryModel(tagFilters)).toStrictEqual({
         type: EXPRESSION,
         logicalOperator: OPERATOR_AND,
         elements: [
@@ -227,7 +225,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           type: FM_CLOSE_BRACKET
         }
       ];
-      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+      expect(toBackendQueryModel(tagFilters)).toStrictEqual({
         type: EXPRESSION,
         logicalOperator: OPERATOR_OR,
         elements: [
@@ -315,7 +313,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           type: FM_CLOSE_BRACKET
         }
       ];
-      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+      expect(toBackendQueryModel(tagFilters)).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'AND',
         elements: [
@@ -402,7 +400,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           value: 'c'
         }
       ];
-      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+      expect(toBackendQueryModel(tagFilters)).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'OR',
         elements: [
@@ -476,7 +474,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             type: FM_CLOSE_BRACKET
           }
         ])
-      ).to.deep.equal({
+      ).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'AND',
         elements: [
@@ -514,7 +512,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           { type: TAG_FILTER, name: 'name', value: 'b', operator: 'EQUALS' },
           { type: TAG_FILTER, name: 'name', value: 'c', operator: 'EQUALS' }
         ])
-      ).to.deep.equals({
+      ).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'AND',
         elements: [
@@ -539,7 +537,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           [{ type: TAG_FILTER, name: 'name', value: 'c', operator: 'EQUALS' }],
           OPERATOR_OR
         )
-      ).to.deep.equals({
+      ).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'OR',
         elements: [
@@ -566,7 +564,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           [{ type: TAG_FILTER, name: 'name', value: 'c', operator: 'EQUALS' }]
         )
-      ).to.deep.equals({ type: TAG_FILTER, name: 'name', value: 'c', operator: 'EQUALS' });
+      ).toStrictEqual({ type: TAG_FILTER, name: 'name', value: 'c', operator: 'EQUALS' });
     });
 
     it('should drop empty expression when adding multiple filters', () => {
@@ -582,7 +580,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             { type: TAG_FILTER, name: 'name', value: 'd', operator: 'EQUALS' }
           ]
         )
-      ).to.deep.equals({
+      ).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'AND',
         elements: [
