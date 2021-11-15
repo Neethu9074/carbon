@@ -63,7 +63,7 @@ export function refresh() {
   refreshSignalTeams.emit(true);
 }
 
-export const getApplicationConfigsAsResultObservable = memoize(
+export const getApplicationConfigsAsResultObservable = memoize<void, Result<ApplicationConfig[]>>(
   getApplicationConfigsAsResultObservableInternal,
   () => '',
   60000

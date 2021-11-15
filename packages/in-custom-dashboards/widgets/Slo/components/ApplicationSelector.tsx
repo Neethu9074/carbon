@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
@@ -16,27 +16,29 @@ import HelpAction from 'in-components/workspace/HelpAction';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Sections from 'in-components/workspace/Sections';
 import { t } from 'in-i18n';
+import { Field } from 'formalistic';
+import { Result } from 'in-types';
+import { ObservableCreator } from 'in-services/util/memoizingObservableGenerator';
+
+interface ApData {
+  id: string;
+  label: string;
+}
+interface ApplicationSelectorProps {
+  apIdField: Field<string>;
+  onChange: (id: string | undefined) => void;
+  getApConfigs: ObservableCreator<void, Result<ApData[]>>;
+}
 
 export default function ApplicationSelector({
   apIdField: field,
   onChange,
   getApConfigs = getApplicationConfigsAsResultObservable
-}) {
+}: ApplicationSelectorProps) {
   const apId = field?.value;
   const apConfigs = useObservable(
     getApConfigs().map(({ data }) => data),
     [getApConfigs]
-  );
-
-  useEffect(
-    () => {
-      if (apConfigs && apId) {
-        onChange(apConfigs.find(({ id }) => id === apId));
-      }
-    },
-    // Not tracking onChange and apId here because this should only the first time apConfigs finished loading
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [apConfigs]
   );
 
   return (
@@ -50,8 +52,7 @@ export default function ApplicationSelector({
         id="sli-config-ap"
         value={apId}
         onChange={e => {
-          const newId = e.target.value;
-          onChange(apConfigs.find(({ id }) => id === newId));
+          onChange(e.target.value);
         }}
         hasError={!field.valid && field.touched}
         additionalContent={
@@ -68,10 +69,9 @@ export default function ApplicationSelector({
           </HelpAction>
         }
       >
-        {(apConfigs?.length ?? 0) === 0 && (
+        {(apConfigs?.length ?? 0) === 0 ? (
           <option value="">{t('in-custom-dashboards:widgets.slo.apConfigFormComp.noAppPerspect')}</option>
-        )}
-        {apConfigs?.length > 0 && (
+        ) : (
           <option value="">{t('in-custom-dashboards:widgets.slo.apConfigFormComp.pleaseSelect')}</option>
         )}
         {[...(apConfigs ?? [])] // need to clone: readonly array may not be sorted
