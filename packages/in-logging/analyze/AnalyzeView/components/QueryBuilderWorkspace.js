@@ -9,10 +9,11 @@ import { Message, Stack } from '@instana/components';
 
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
+import { ua2QueryBuilderFilterAddedTracker, ua2GroupChangedTracker } from 'in-applications/tracker';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { filterAdded, groupAdded, queryChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
+import { queryChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
@@ -31,6 +32,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
     isValid,
     validationError,
     children,
+    dataSource,
     isLoading,
     groupBy
   } = props;
@@ -48,7 +50,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
               useLastValidStateWhenErroneous
               getSuggestionLabel={({ item }) => item}
               tracking={{
-                onTagAdded: tagFilterExpression => filterAdded({ tagFilterExpression }),
+                onTagAdded: tagFilter => ua2QueryBuilderFilterAddedTracker({ dataSource, tagName: tagFilter.name }),
                 onQueryChanged: fm => queryChanged({ formModel: fm })
               }}
             />
@@ -59,7 +61,7 @@ export default function LoggingQueryBuilderWorkspace(props) {
               GroupingConfigurator={LogsGroupingConfigurator}
               tagFilterExpression={backendQueryModel || toBackendQueryModel([])}
               tracking={{
-                onGroupAdded: group => groupAdded({ group: group.groupbyTag })
+                onGroupAdded: group => ua2GroupChangedTracker({ dataSource, tagName: group.groupbyTag })
               }}
             />
           </Sections>
