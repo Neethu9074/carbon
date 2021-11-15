@@ -10,11 +10,15 @@ import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import { getAvailableOptionsForEvaluationType } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
+import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
 import ShowLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowLabelOrDropdown';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { tagKeysSupportedByMaterializedView } from 'in-alerting/smart-alerts/applications/tags';
 import { createSlownessForm } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
-import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Dropdown from 'in-alerting/components/Dropdown';
 
 export default function ThresholdTypeSelection({
@@ -50,7 +54,23 @@ export default function ThresholdTypeSelection({
 
           const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });
 
-          updateForm(form.put('threshold', newThresholdForm).put('rule', newRuleForm));
+          let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
+
+          if (thresholdType === ADAPTIVE_BASELINE) {
+            const tagFilterExpression = form.get('tagFilterExpression').value;
+            // TODO when switching the blueprint, we currently do a cleanup based on the UI catalog. However, we should rely on
+            //      the backend catalog instead.
+            const availableTagFilters = tagKeysSupportedByMaterializedView;
+            const backendModel = toBackendQueryModel(tagFilterExpression);
+            const cleanedUpExpression = removeExcludedFilters(backendModel, availableTagFilters);
+            const updatedTagFilterExpression = fromBackendModel(cleanedUpExpression);
+
+            updatedForm = updatedForm.updateIn(['tagFilterExpression'], f =>
+              f.setValue(updatedTagFilterExpression).setTouched(true)
+            );
+          }
+
+          updateForm(updatedForm);
 
           trackThresholdTypeChanged?.(getTrackingObject(form, { value: thresholdType }));
         }}

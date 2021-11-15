@@ -32,7 +32,14 @@ import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfi
 const scopeSelectionTimeConfig = {
   windowSize: days.toMillis(1)
 };
-export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, editMode, initialConfiguredApplications }) {
+export default function ScopeConfig({
+  form,
+  updateForm,
+  isGlobalSmartAlert,
+  editMode,
+  initialConfiguredApplications,
+  thresholdType
+}) {
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
@@ -44,8 +51,8 @@ export default function ScopeConfig({ form, updateForm, isGlobalSmartAlert, edit
   const shouldDisplayAlertConfigurator = !isBuiltIn || tagFilterExpression.length > 0;
 
   const AlertQueryBuilder = useMemo(() => {
-    return createBoundedAlertQueryBuilder(applications, boundaryScope, scopeSelectionTimeConfig);
-  }, [applications, boundaryScope]);
+    return createBoundedAlertQueryBuilder(applications, boundaryScope, scopeSelectionTimeConfig, thresholdType);
+  }, [applications, boundaryScope, thresholdType]);
 
   return (
     <LightCard
@@ -145,5 +152,6 @@ ScopeConfig.propTypes = {
   editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
-  initialConfiguredApplications: PropTypes.object
+  initialConfiguredApplications: PropTypes.object,
+  thresholdType: PropTypes.string.isRequired
 };

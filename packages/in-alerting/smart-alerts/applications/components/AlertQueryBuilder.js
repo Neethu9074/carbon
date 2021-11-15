@@ -31,11 +31,13 @@ export const isAlertQueryValid = ([tagFilterFormModel, timeConfig]) => isQueryVa
  * @param applications         The application/service/endpoint-selection scope this alert is bound to.
  * @param boundaryScope        The applications boundary-scope this alert is bound to.
  * @param suggestionTimeConfig The timeframe used for resolving tag-suggestions.
+ * @param thresholdType        The selected threshold type.
  * @returns A QueryBuilder where the scope is bound to a single application.
  */
-export function createBoundedAlertQueryBuilder(applications, boundaryScope, suggestionTimeConfig) {
+export function createBoundedAlertQueryBuilder(applications, boundaryScope, suggestionTimeConfig, thresholdType) {
   const { QueryBuilder } = createQueryBuilder({
-    getTagCatalog: props => getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS' })(props),
+    getTagCatalog: props =>
+      getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SMART_ALERTS', thresholdType })(props),
     getSuggestions: args =>
       isIdTag(args.name)
         ? null

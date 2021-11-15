@@ -64,6 +64,7 @@ export default function AdvancedModeContainer(props) {
     initialConfiguredApplications = {}
   } = props;
   const alertType = form.get('rule').get('alertType').value;
+  const thresholdType = form.get('threshold').get('type').value;
   const blueprintConfig = getBlueprintConfig(alertType);
   return (
     <GlobalAdvancedModeContainer
@@ -85,6 +86,7 @@ export default function AdvancedModeContainer(props) {
                 isGlobalSmartAlert={isGlobalSmartAlert}
                 editMode={editMode}
                 initialConfiguredApplications={initialConfiguredApplications}
+                thresholdType={thresholdType}
               />
             </>
           ),
