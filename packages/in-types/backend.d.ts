@@ -219,6 +219,10 @@ export interface ApplicationConfig extends AbstractApplicationConfig {
   readonly id: string;
 }
 
+export interface ApplicationConfigWithAlertingDetails extends ApplicationConfig {
+  readonly builtInAlertIds: string[];
+}
+
 export interface ApplicationCursorPaginatedItem extends Metricific, Cursorific<IngestionOffsetCursor> {
   readonly application: Application;
   readonly cursor: IngestionOffsetCursor;
@@ -3041,6 +3045,13 @@ export interface MobileAppSubdivisionsItem {
   readonly metrics: { [index: string]: number[][] };
   readonly subdivision: string;
   readonly subdivisionCode?: string;
+}
+
+export interface NewApplicationConfig extends AbstractApplicationConfig {
+}
+
+export interface NewApplicationConfigWithAlertingDetails extends NewApplicationConfig {
+  readonly builtInAlertIds: string[];
 }
 
 export interface OperatingSystem {
