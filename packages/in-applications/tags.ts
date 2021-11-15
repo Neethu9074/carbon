@@ -6,10 +6,10 @@
 import moment from 'moment';
 
 import { EntityType, entityTypes, TAG_TYPES } from 'in-analyze/applicationFilter';
+import { Nullish, TagFilter, TagType, TimeConfig } from 'in-types';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { deepCopy } from 'in-services/util/object';
 import { role } from 'in-stores/user';
-import { Nullish, TagFilter, TagType, TimeConfig } from 'in-types';
 
 export const defaultGroupings = {
   calls: {
@@ -359,7 +359,7 @@ export function getMultipleTagFromList(tagFilter: TagFilter[], _tag: TagFilter):
   return result;
 }
 
-export function getKeyValuePairTag(_tag: string[]): TagTreeNode | null {
+export function getKeyValuePairTag(_tag: string): TagTreeNode | null {
   const tagMap = getTagMap();
   const tags = Object.keys(tagMap).map(key => tagMap[key]);
   for (let i = 0; i < tags.length; i++) {

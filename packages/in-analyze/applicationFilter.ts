@@ -5,11 +5,11 @@
 
 import { get } from 'lodash';
 
-import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';
 // eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
-import { t } from 'in-i18n';
+import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';
 import { TagFilter } from 'in-types';
+import { t } from 'in-i18n';
 
 export const APPLICATION = {
   id: applicationId,
@@ -203,7 +203,7 @@ export function getOperatorLabel(type: TagType, operator: Operator): string {
   return get(operatorLabelLUT, [type, operator], operator);
 }
 
-interface ApplicationTagFilter extends Omit<TagFilter, 'name'> {
+export interface ApplicationTagFilter extends Omit<TagFilter, 'name'> {
   secondLevelName?: string;
   name?: string; // Usage suggests that name is actually optional here
 } // TODO: remove this once better typing is available

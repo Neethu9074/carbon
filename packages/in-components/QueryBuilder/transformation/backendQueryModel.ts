@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
-import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import {
   CLOSE_BRACKET,
   Conjunction,
@@ -14,8 +12,10 @@ import {
   TAG
 } from 'in-components/QueryBuilder/transformation/formModel';
 import { toTagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { deepFreeze } from 'in-services/util/object';
+import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { LogicalOperator, TagFilter, TagFilterExpression, TagFilterExpressionElement } from 'in-types';
+import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
+import { deepFreeze } from 'in-services/util/object';
 
 export const EXPRESSION = 'EXPRESSION';
 
@@ -25,7 +25,7 @@ export const OPERATOR_NOT = 'NOT';
 
 export const EMPTY_EXPRESSION = deepFreeze(createTagFilterExpression(OPERATOR_AND, []));
 
-export function toBackendQueryModel(formModel: FormModelElement[], simplify = true) {
+export function toBackendQueryModel(formModel?: FormModelElement[], simplify = true) {
   if (!formModel || formModel.length === 0) {
     return EMPTY_EXPRESSION;
   }
