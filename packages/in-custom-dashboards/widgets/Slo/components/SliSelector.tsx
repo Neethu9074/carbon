@@ -4,18 +4,18 @@
  */
 
 import React, { ReactNode, useEffect } from 'react';
+import { Field, MapForm } from 'formalistic';
 
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import useSliConfigurations, { ResultStatus } from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { trackSliChanged } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { sliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { SliConfigurationWithLastUpdated } from 'in-types';
 import Sections from 'in-components/workspace/Sections';
 import { t } from 'in-i18n';
-import { Field, MapForm } from 'formalistic';
-import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
-import { SliConfigurationWithLastUpdated } from 'in-types';
 
 interface SliSelectorProps {
   form: MapForm;
