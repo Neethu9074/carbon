@@ -54,6 +54,7 @@ function TabComponent(props) {
     <SecondLevelNavigationItem
       key={tab.label}
       label={tab.header ? tab.header(props) : tab.label}
+      icon={tab.icon}
       isActive={isActive}
       isDisabled={isDisabled}
       href$={

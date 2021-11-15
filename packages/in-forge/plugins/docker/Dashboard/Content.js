@@ -242,7 +242,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
       )}
       {containerLogsEnabled && !role.canViewLogs && (
         <DashboardSection title={t('in-forge:plugins.docker.dashboard.logs')}>
-          <RestrictedAccessMessage />
+          <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
         </DashboardSection>
       )}
     </div>

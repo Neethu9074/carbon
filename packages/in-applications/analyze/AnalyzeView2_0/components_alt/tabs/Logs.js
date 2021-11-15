@@ -36,7 +36,7 @@ function LogsViewWithNoAccess() {
     <HeightRestrictedView
       render={() => (
         <ContentWrapper>
-          <RestrictedAccessMessage />
+          <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
         </ContentWrapper>
       )}
     />

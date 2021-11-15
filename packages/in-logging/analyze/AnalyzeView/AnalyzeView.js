@@ -28,6 +28,7 @@ import { getTagCatalog } from 'in-logging/api/catalog';
 import { logsPath } from 'in-logging/navigation/paths';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { role } from 'in-stores/user';
+import { t } from 'in-i18n';
 
 const defaultChartedMetrics = [{ metricId: 'logs_distribution', aggregationId: 'SUM' }];
 
@@ -103,7 +104,7 @@ export default function LoggingAnalyzeView() {
             if (!role.canViewLogs) {
               return (
                 <QueryBuilderWorkspace {...opts}>
-                  <RestrictedAccessMessage />
+                  <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
                 </QueryBuilderWorkspace>
               );
             }

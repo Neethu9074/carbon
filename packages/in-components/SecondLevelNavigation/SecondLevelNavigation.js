@@ -68,8 +68,8 @@ export function SecondLevelNavigationItem({
         })}
       >
         <div className={locals.content}>
-          {icon && <SvgIcon className={locals.icon} type={icon} />}
           {label}
+          {icon && <SvgIcon className={locals.icon} type={icon} size="s" />}
         </div>
       </div>
     </Link>

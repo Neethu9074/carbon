@@ -13,7 +13,11 @@ import { t } from 'in-i18n';
 
 import locals from './RestrictedAccessMessage.mless';
 
-export default function RestrictedAccessMessage() {
+interface RestrictedAccessMessageProps {
+  permission?: string;
+}
+
+export default function RestrictedAccessMessage({ permission }: RestrictedAccessMessageProps) {
   return (
     <div className={locals.wrapper}>
       <EntityPageMainNotification
@@ -22,7 +26,11 @@ export default function RestrictedAccessMessage() {
         explanation={() => (
           <Stack direction="vertical" gap="xxsmall" align="center">
             <span>{t('in-components:rbac.restrictedAccessMessagePartOne')}</span>
-            <span>{t('in-components:rbac.restrictedAccessMessagePartTwo')}</span>
+            {permission ? (
+              <span>{t('in-components:rbac.restrictedAccessMessagePartTwoWithPermission', { permission })}</span>
+            ) : (
+              <span>{t('in-components:rbac.restrictedAccessMessagePartTwo')}</span>
+            )}
           </Stack>
         )}
       />

@@ -385,7 +385,7 @@ export default function Summary({
                   </Card>
                 ) : (
                   <Card title={t('in-analyze:traceDetail.tabs.summary.logs')}>
-                    <RestrictedAccessMessage />
+                    <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
                   </Card>
                 )}
               </Col>
