@@ -39,7 +39,7 @@ export default function createBlueprintForm(form, alertType, alertThreshold = {}
 
   const timeThreshold = updatedForm.get('timeThreshold').toJS();
   if (blueprintConfig.impactTimeThresholdDisabled && timeThreshold.type === timeThresholdTypes.requestImpact) {
-    updatedForm = updatedForm.put('timeThreshold', createViolationsInSequenceForm(timeThreshold));
+    updatedForm = updatedForm.put('timeThreshold', createViolationsInSequenceForm(timeThreshold, threshold.type));
   }
 
   return updatedForm;

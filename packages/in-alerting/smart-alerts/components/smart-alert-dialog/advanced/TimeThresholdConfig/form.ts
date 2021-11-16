@@ -7,19 +7,25 @@ import { createField, createMapForm, MapForm, ValidationResult } from 'formalist
 
 import { TimeThresholdType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { websiteSmartAlertsAllowPerWindowUserImpact } from 'in-services/featureFlags';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
-import { ImpactMeasurementMethod } from 'in-types';
+import { ImpactMeasurementMethod, ThresholdType } from 'in-types';
 import { t } from 'in-i18n';
 
 export const percentageOfUserDefault = 0.2;
 export const numberOfUsersDefault = 20;
 const numberOfRequestsDefault = 20;
-const timeWindowDefault = 600000;
+const defaultTimeWindow = 600000;
+export const defaultAdaptiveBaselineTimeWindow = 1200000;
 
 export const ImpactMeasurementMethods: Record<ImpactMeasurementMethod, ImpactMeasurementMethod> = {
   AGGREGATED: 'AGGREGATED',
   PER_WINDOW: 'PER_WINDOW'
 };
+
+export function getDefaultTimeWindow(thresholdType: ThresholdType | undefined) {
+  return thresholdType === ADAPTIVE_BASELINE ? defaultAdaptiveBaselineTimeWindow : defaultTimeWindow;
+}
 
 /**
  * Creates the form for the specific threshold config depending on
@@ -27,21 +33,23 @@ export const ImpactMeasurementMethods: Record<ImpactMeasurementMethod, ImpactMea
  *
  * @param timeThresholdConfig has a different fields depending on its type
  * @param granularity only for requestImpact: used as the default windowType, fallback is defaultGranularity
+ * @param thresholdType type of threshold ('staticThreshold' | 'historicBaseline' | 'adaptiveBaseline' | undefined)
  */
 export default function createTimeThresholdForm(
   timeThresholdConfig: TimeThresholdConfig,
-  granularity: number
+  granularity: number,
+  thresholdType: ThresholdType | undefined
 ): MapForm {
   switch (timeThresholdConfig.type) {
     case 'violationsInPeriod':
-      return createViolationsInPeriodForm(timeThresholdConfig as ViolationsInPeriodTimeThreshold);
+      return createViolationsInPeriodForm(timeThresholdConfig as ViolationsInPeriodTimeThreshold, thresholdType);
     case 'userImpactOfViolationsInSequence':
-      return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig as UserImpactTimeThreshold);
+      return createUserImpactOfViolationsInSequenceForm(timeThresholdConfig as UserImpactTimeThreshold, thresholdType);
     case 'requestImpact':
-      return createRequestImpactForm(timeThresholdConfig as RequestImpactTimeThreshold, granularity);
+      return createRequestImpactForm(timeThresholdConfig as RequestImpactTimeThreshold, granularity, thresholdType);
     case 'violationsInSequence':
     default:
-      return createViolationsInSequenceForm(timeThresholdConfig as ViolationsInSequenceTimeThreshold);
+      return createViolationsInSequenceForm(timeThresholdConfig as ViolationsInSequenceTimeThreshold, thresholdType);
   }
 }
 
@@ -66,14 +74,21 @@ interface ViolationsInPeriodTimeThreshold extends TimeThresholdConfig {
 
 interface ViolationsInSequenceTimeThreshold extends TimeThresholdConfig {}
 
-function createMapBase(type: TimeThresholdType, timeWindow?: number | undefined) {
+function createMapBase(
+  type: TimeThresholdType,
+  thresholdType: ThresholdType | undefined,
+  timeWindow?: number | undefined
+) {
   return createMapForm()
     .put('type', createField({ value: type }))
-    .put('timeWindow', createField({ value: timeWindow ?? timeWindowDefault }));
+    .put('timeWindow', createField({ value: timeWindow ?? getDefaultTimeWindow(thresholdType) }));
 }
 
-export function createViolationsInPeriodForm({ timeWindow, violations }: ViolationsInPeriodTimeThreshold): MapForm {
-  return createMapBase('violationsInPeriod', timeWindow).put(
+export function createViolationsInPeriodForm(
+  { timeWindow, violations }: ViolationsInPeriodTimeThreshold,
+  thresholdType: ThresholdType | undefined
+): MapForm {
+  return createMapBase('violationsInPeriod', thresholdType, timeWindow).put(
     'violations',
     createField({
       value: violations ?? 1
@@ -81,13 +96,11 @@ export function createViolationsInPeriodForm({ timeWindow, violations }: Violati
   );
 }
 
-export function createUserImpactOfViolationsInSequenceForm({
-  timeWindow,
-  impactMeasurementMethod,
-  userPercentage,
-  users
-}: UserImpactTimeThreshold): MapForm {
-  let form = createMapBase('userImpactOfViolationsInSequence', timeWindow);
+export function createUserImpactOfViolationsInSequenceForm(
+  { timeWindow, impactMeasurementMethod, userPercentage, users }: UserImpactTimeThreshold,
+  thresholdType: ThresholdType | undefined
+): MapForm {
+  let form = createMapBase('userImpactOfViolationsInSequence', thresholdType, timeWindow);
 
   if (websiteSmartAlertsAllowPerWindowUserImpact) {
     form = form.put(
@@ -109,20 +122,26 @@ export function createUserImpactOfViolationsInSequenceForm({
   return form;
 }
 
-export function createRequestImpactForm({ requests }: RequestImpactTimeThreshold, granularity: number): MapForm {
+export function createRequestImpactForm(
+  { requests }: RequestImpactTimeThreshold,
+  granularity: number,
+  thresholdType: ThresholdType | undefined
+): MapForm {
   // For request impact timeWindow is always one bucket which means it would be same as granularity.
-  return createMapBase('requestImpact', granularity ?? defaultGranularity) //
-    .put(
-      'requests',
-      createField({
-        value: requests ?? numberOfRequestsDefault,
-        validator: provideNumberGreaterEqualsOneValidator
-      })
-    );
+  return createMapBase('requestImpact', thresholdType, granularity ?? defaultGranularity).put(
+    'requests',
+    createField({
+      value: requests ?? numberOfRequestsDefault,
+      validator: provideNumberGreaterEqualsOneValidator
+    })
+  );
 }
 
-export function createViolationsInSequenceForm(thresholdConfig: ViolationsInSequenceTimeThreshold) {
-  return createMapBase('violationsInSequence', thresholdConfig.timeWindow);
+export function createViolationsInSequenceForm(
+  thresholdConfig: ViolationsInSequenceTimeThreshold,
+  thresholdType: ThresholdType | undefined
+) {
+  return createMapBase('violationsInSequence', thresholdType, thresholdConfig.timeWindow);
 }
 
 const provideNumberGreaterEqualsOneValidator = (num: number | string): ValidationResult => {

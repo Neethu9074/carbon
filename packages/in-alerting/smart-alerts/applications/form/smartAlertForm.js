@@ -9,18 +9,22 @@ import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-a
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
+import createRuleForm, { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
 import { t } from 'in-i18n';
 
 const defaultSeverity = 5;
 export const defaultGranularity = 600000;
+export const defaultAdaptiveBaselineGranularity = 1200000;
 
 export function createSmartAlertForm(alertConfig, editMode) {
+  const granularity = alertConfig.granularity ?? getDefaultGranularity(alertConfig);
+
   let form = createMapForm()
     .put(
       'name',
@@ -93,7 +97,7 @@ export function createSmartAlertForm(alertConfig, editMode) {
     .put(
       'granularity',
       createField({
-        value: alertConfig.granularity ?? defaultGranularity
+        value: granularity
       })
     )
     .put(
@@ -155,10 +159,10 @@ export function createSmartAlertForm(alertConfig, editMode) {
         }
       })
     )
-    .put('rule', createRuleForm(alertConfig.rule ?? {}))
+    .put('rule', createRuleForm(alertConfig.rule ?? defaultAlertRule))
     .put(
       'timeThreshold',
-      createTimeThresholdForm(alertConfig.timeThreshold ?? {}, alertConfig.granularity ?? defaultGranularity)
+      createTimeThresholdForm(alertConfig.timeThreshold ?? {}, granularity, alertConfig.threshold?.type)
     )
     .put('hiddenFields', createHiddenFieldsForm(alertConfig))
     .put('customPayloadFields', createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
@@ -167,6 +171,10 @@ export function createSmartAlertForm(alertConfig, editMode) {
   form = form.put('threshold', createThresholdForm(alertConfig.threshold, alertType));
 
   return applyEditMode(form, editMode);
+}
+
+function getDefaultGranularity(alertConfig) {
+  return alertConfig.threshold?.type === ADAPTIVE_BASELINE ? defaultAdaptiveBaselineGranularity : defaultGranularity;
 }
 
 function createHiddenFieldsForm(alertConfig) {

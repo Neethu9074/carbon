@@ -8,19 +8,32 @@ import React from 'react';
 
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import DebouncedRestrictedSlider from 'in-components/Slider/DebouncedRestrictedSlider';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { minutes } from 'in-services/time';
 import { t } from 'in-i18n';
 
-const marks = Object.freeze(
-  [5, 10, 15, 20, 30].map(min => ({
+const defaultAllowedGranularity = [5, 10, 15, 20, 30];
+const adaptiveBaselineAllowedGranularity = [20, 30];
+
+function getMarksForThresholdType(thresholdType) {
+  const allowedGranularities =
+    thresholdType === ADAPTIVE_BASELINE ? adaptiveBaselineAllowedGranularity : defaultAllowedGranularity;
+
+  return allowedGranularities.map(min => ({
     value: min,
     label: `${min} min`,
     millis: minutes.toMillis(min)
-  }))
-);
+  }));
+}
 
-export default function ConfigureGranularity({ onChange, granularity }) {
-  const currentValue = marks.find((i => i.millis === granularity) ?? marks[1]).value;
+function getDefaultMark(marks, thresholdType) {
+  return thresholdType === ADAPTIVE_BASELINE ? marks[0] : marks[1];
+}
+
+export default function ConfigureGranularity({ onChange, granularity, thresholdType }) {
+  const marks = getMarksForThresholdType(thresholdType);
+  const currentValue = marks.find((i => i.millis === granularity) ?? getDefaultMark(marks, thresholdType)).value;
+
   return (
     <AlertThresholdConfigItemContainer noIcon>
       <label>{t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigEvaluationGranularity')}</label>
@@ -40,5 +53,6 @@ export default function ConfigureGranularity({ onChange, granularity }) {
 
 ConfigureGranularity.propTypes = {
   onChange: PropTypes.func,
-  granularity: PropTypes.number.isRequired
+  granularity: PropTypes.number.isRequired,
+  thresholdType: PropTypes.string
 };

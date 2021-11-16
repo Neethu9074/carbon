@@ -19,6 +19,7 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advan
 export default function ConfigureAlertingThreshold({ form, onChange, updateForm }) {
   const granularity = form.get('granularity')?.value;
   const timeThresholdForm = form.get('timeThreshold');
+  const thresholdType = form.get('threshold').get('type')?.value;
   const timeThresholdType = timeThresholdForm.get('type')?.value;
   const timeThresholdTimeWindow = timeThresholdForm.get('timeWindow').value;
   const timeThresholdViolations = timeThresholdForm.get('violations')?.value;
@@ -27,7 +28,11 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
     <div className={locals.alertThresholdConfigContainer}>
       {granularity && (
         <>
-          <ConfigureGranularity onChange={onChangeGranularity} granularity={granularity} />
+          <ConfigureGranularity
+            onChange={onChangeGranularity}
+            granularity={granularity}
+            thresholdType={thresholdType}
+          />
           {getConfigureTimeWindow(timeThresholdType)}
           {getConfigureViolationsOrUserImpact(timeThresholdType)}
         </>
@@ -81,14 +86,17 @@ export default function ConfigureAlertingThreshold({ form, onChange, updateForm 
 
   function onChangeTimeWindow(timeWindowValue) {
     let updatedForm = timeThresholdForm.updateIn(['timeWindow'], f => f.setValue(timeWindowValue).setTouched(true));
+
     if (timeThresholdType === timeThresholdTypes.violationsInPeriod) {
       const granularity = form.get('granularity').value;
       const oldViolations = timeThresholdForm.get('violations').value;
       const maxViolations = parseInt(timeWindowValue / granularity);
+
       updatedForm = updatedForm.updateIn(['violations'], f =>
         f.setValue(Math.min(oldViolations, maxViolations)).setTouched(true)
       );
     }
+
     updateForm(form.put('timeThreshold', updatedForm));
   }
 

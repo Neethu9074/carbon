@@ -137,3 +137,9 @@ function extendForStatusCode(baseForm, rule) {
   });
   return baseForm.put('statusCode', statusCodeForm);
 }
+
+export const defaultAlertRule = {
+  alertType: 'slowness',
+  operator: 'EQUALS',
+  metricName: 'latency'
+};

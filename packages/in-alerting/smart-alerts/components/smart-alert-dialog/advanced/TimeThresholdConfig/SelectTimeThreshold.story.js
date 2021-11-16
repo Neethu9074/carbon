@@ -8,13 +8,14 @@ import React, { useState } from 'react';
 
 import SelectTimeThreshold from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/SelectTimeThreshold';
 import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export default {
   component: SelectTimeThreshold
 };
 
 export const Default = props => {
-  const init = createMapForm().put('timeThreshold', createViolationsInSequenceForm({}));
+  const init = createMapForm().put('timeThreshold', createViolationsInSequenceForm({}, STATIC_THRESHOLD));
 
   let [form, updateForm] = useState(init);
   return <SelectTimeThreshold {...props} form={form} updateForm={updateForm} />;

@@ -82,15 +82,18 @@ function createOption(form, updateForm, thresholdType, disabled = false) {
   };
 }
 
-function getTimeThresholdFormForType(form, thresholdType) {
-  if (thresholdType === timeThresholdTypes.violationsInSequence) {
-    return createViolationsInSequenceForm(form.get('timeThreshold').toJS());
-  } else if (thresholdType === timeThresholdTypes.violationsInPeriod) {
-    return createViolationsInPeriodForm(form.get('timeThreshold').toJS());
-  } else if (thresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
-    return createUserImpactOfViolationsInSequenceForm(form.get('timeThreshold').toJS());
-  } else if (thresholdType === timeThresholdTypes.requestImpact) {
-    return createRequestImpactForm(form.get('timeThreshold').toJS(), form.get('granularity').value);
+function getTimeThresholdFormForType(form, timeThresholdType) {
+  const timeThreshold = form.get('timeThreshold').toJS();
+  const thresholdType = form.get('threshold').toJS().type;
+
+  if (timeThresholdType === timeThresholdTypes.violationsInSequence) {
+    return createViolationsInSequenceForm(timeThreshold, thresholdType);
+  } else if (timeThresholdType === timeThresholdTypes.violationsInPeriod) {
+    return createViolationsInPeriodForm(timeThreshold, thresholdType);
+  } else if (timeThresholdType === timeThresholdTypes.userImpactOfViolationsInSequence) {
+    return createUserImpactOfViolationsInSequenceForm(timeThreshold, thresholdType);
+  } else if (timeThresholdType === timeThresholdTypes.requestImpact) {
+    return createRequestImpactForm(timeThreshold, form.get('granularity').value, thresholdType);
   }
 }
 

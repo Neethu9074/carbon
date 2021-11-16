@@ -22,7 +22,11 @@ export const Default = props => {
   const [form, updateForm] = useState(
     createSmartAlertForm(alertConfig, false).put(
       'timeThreshold',
-      createTimeThresholdForm(timeThresholdConfig, alertConfig.granularity ?? defaultGranularity)
+      createTimeThresholdForm(
+        timeThresholdConfig,
+        alertConfig.granularity ?? defaultGranularity,
+        alertConfig.threshold?.type
+      )
     )
   );
 

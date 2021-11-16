@@ -135,7 +135,7 @@ function createAdaptiveBaselineForm(threshold) {
     .put(
       'baseline',
       createField({
-        // For adaptiveBaseline an empty lisy (baseline)is legit. No validation needed.
+        // For adaptiveBaseline an empty list (baseline)is legit. No validation needed.
         value: threshold.baseline
       })
     )

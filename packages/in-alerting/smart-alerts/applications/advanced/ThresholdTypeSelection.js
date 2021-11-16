@@ -6,9 +6,14 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  createViolationsInSequenceForm,
+  defaultAdaptiveBaselineTimeWindow
+} from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import { getAvailableOptionsForEvaluationType } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
+import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
 import ShowLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowLabelOrDropdown';
@@ -38,48 +43,61 @@ export default function ThresholdTypeSelection({
         asSimpleDropdown
         label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
         items={getAvailableOptionsForEvaluationType(thresholdTypeOptions, evaluationType, isGlobalSmartAlert)}
-        onChange={({ value = '' }) => {
-          const valueParts = value.split('.');
-          const thresholdType = valueParts[0];
-
-          let newThresholdForm = createSlownessForm({
-            ...form.get('threshold').toJS(),
-            type: thresholdType
-          });
-
-          if (thresholdType === HISTORIC_BASELINE) {
-            const seasonality = valueParts[1];
-            newThresholdForm = newThresholdForm.updateIn(['seasonality'], f => f.setValue(seasonality).setTouched());
-          }
-
-          const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });
-
-          let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
-
-          if (thresholdType === ADAPTIVE_BASELINE) {
-            const tagFilterExpression = form.get('tagFilterExpression').value;
-            // TODO when switching the blueprint, we currently do a cleanup based on the UI catalog. However, we should rely on
-            //      the backend catalog instead.
-            const availableTagFilters = tagKeysSupportedByMaterializedView;
-            const backendModel = toBackendQueryModel(tagFilterExpression);
-            const cleanedUpExpression = removeExcludedFilters(backendModel, availableTagFilters);
-            const updatedTagFilterExpression = fromBackendModel(cleanedUpExpression);
-
-            updatedForm = updatedForm.updateIn(['tagFilterExpression'], f =>
-              f.setValue(updatedTagFilterExpression).setTouched(true)
-            );
-          }
-
-          updateForm(updatedForm);
-
-          trackThresholdTypeChanged?.(getTrackingObject(form, { value: thresholdType }));
-        }}
+        onChange={({ value = '' }) => onThresholdTypeChange(value)}
       />
       {thresholdType === HISTORIC_BASELINE && (
         <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
       )}
     </ShowLabelOrDropdown>
   );
+
+  function onThresholdTypeChange(value) {
+    const valueParts = value.split('.');
+    const updatedThresholdType = valueParts[0];
+
+    let newThresholdForm = createSlownessForm({
+      ...form.get('threshold').toJS(),
+      type: updatedThresholdType
+    });
+
+    if (updatedThresholdType === HISTORIC_BASELINE) {
+      const seasonality = valueParts[1];
+      newThresholdForm = newThresholdForm.updateIn(['seasonality'], f => f.setValue(seasonality).setTouched());
+    }
+
+    const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });
+
+    let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
+
+    if (updatedThresholdType === ADAPTIVE_BASELINE) {
+      // resetting granularity, tagFilterExpression and timeThreshold when threshold type is switched to adaptive-baseline
+      const tagFilterExpression = form.get('tagFilterExpression').value;
+      // TODO when switching the blueprint, we currently do a cleanup based on the UI catalog. However, we should rely on
+      //      the backend catalog instead.
+      const availableTagFilters = tagKeysSupportedByMaterializedView;
+      const backendModel = toBackendQueryModel(tagFilterExpression);
+      const cleanedUpExpression = removeExcludedFilters(backendModel, availableTagFilters);
+      const updatedTagFilterExpression = fromBackendModel(cleanedUpExpression);
+
+      updatedForm = updatedForm
+        .put(
+          'timeThreshold',
+          createViolationsInSequenceForm(
+            {
+              timeWindow: defaultAdaptiveBaselineTimeWindow,
+              type: 'violationsInSequence'
+            },
+            ADAPTIVE_BASELINE
+          )
+        )
+        .updateIn(['granularity'], f => f.setValue(defaultAdaptiveBaselineGranularity).setTouched(true))
+        .updateIn(['tagFilterExpression'], f => f.setValue(updatedTagFilterExpression).setTouched(true));
+    }
+
+    updateForm(updatedForm);
+
+    trackThresholdTypeChanged?.(getTrackingObject(form, { value: updatedThresholdType }));
+  }
 }
 
 ThresholdTypeSelection.propTypes = {
