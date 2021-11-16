@@ -30,7 +30,7 @@ import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/component
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects';
-import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelectionForm';
+import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
 import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
