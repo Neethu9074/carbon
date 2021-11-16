@@ -7,7 +7,7 @@ import React, { useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import SectionLabelWithSubtext from 'in-components/workspace/SectionLabelWithSubtext';
 import { getApplicationConfigsAsResultObservable } from 'in-api/applicationConfigs';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -54,7 +54,7 @@ export default function ApplicationSelector({
         }}
         hasError={!field.valid && field.touched}
         additionalContent={
-          <OverridingTextTouchedMessage
+          <OverridingFieldValidationMessage
             field={field}
             message={t('in-custom-dashboards:widgets.slo.apConfigFormComp.selectAppPerspect')}
           />

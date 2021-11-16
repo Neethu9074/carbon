@@ -13,7 +13,7 @@ import {
   applicationType,
   availabilityType
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
 import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
 import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSelectBox';
@@ -66,7 +66,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
                 hasError={!field.valid && field.touched}
                 maxLength={256}
                 additionalContent={
-                  <OverridingTextTouchedMessage
+                  <OverridingFieldValidationMessage
                     field={field}
                     message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliNameNotEmpty')}
                   />
@@ -89,7 +89,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
                   </HelpAction>
                 }
                 additionalContent={
-                  <OverridingTextTouchedMessage
+                  <OverridingFieldValidationMessage
                     field={sliTypeForm}
                     message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliTimeBasedOrAnEventBasedSli')}
                   />

@@ -7,7 +7,7 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
@@ -28,7 +28,7 @@ export default function WebsiteSelector({ websiteIdField: field, onChange, getWe
         }}
         hasError={!field.valid && field.touched}
         additionalContent={
-          <OverridingTextTouchedMessage
+          <OverridingFieldValidationMessage
             field={field}
             message={t('in-custom-dashboards:widgets.slo.websiteSelector.selectWebsite')}
           />

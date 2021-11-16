@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
 import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
 import { websiteSliTypeOptions } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
@@ -40,7 +40,7 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
                 hasError={!field.valid && field.touched}
                 maxLength={256}
                 additionalContent={
-                  <OverridingTextTouchedMessage
+                  <OverridingFieldValidationMessage
                     field={field}
                     message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliNameNotEmpty')}
                   />
@@ -63,7 +63,7 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
                   </HelpAction>
                 }
                 additionalContent={
-                  <OverridingTextTouchedMessage
+                  <OverridingFieldValidationMessage
                     field={sliTypeForm}
                     message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliTimeBasedOrAnEventBasedSli')}
                   />

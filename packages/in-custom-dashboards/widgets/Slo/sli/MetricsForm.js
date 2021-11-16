@@ -7,7 +7,7 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import { getMetricOptions } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -114,7 +114,7 @@ export const MetricsForm = ({ entityType, metricEntityType, form, onChange }) =>
                       onChange={e => localOnChange(['threshold'], f => f.setValue(e.target.value).setTouched(true))}
                       hasError={!field.valid && field.touched}
                     />
-                    <OverridingTextTouchedMessage
+                    <OverridingFieldValidationMessage
                       field={field}
                       message={t('in-custom-dashboards:widgets.slo.metricsForm.valThresholdNotInvalidEmpty')}
                     />

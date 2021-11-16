@@ -5,7 +5,7 @@
 
 import React, { useEffect } from 'react';
 
-import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import useSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations';
 import { trackSliChanged } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
@@ -41,7 +41,7 @@ export default function SliSelectionForm({ form, updateForm, entityType, entityI
         }}
         hasError={!sliField.valid && sliField.touched}
         additionalContent={
-          <OverridingTextTouchedMessage
+          <OverridingFieldValidationMessage
             field={sliField}
             message={t('in-custom-dashboards:widgets.slo.sliSelectionFormComp.selectASli')}
           />

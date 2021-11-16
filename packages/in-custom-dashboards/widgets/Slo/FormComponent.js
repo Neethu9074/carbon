@@ -25,7 +25,7 @@ import {
   trackStartEditingSloWidgetConfig,
   trackTimeWindowTypeChanged
 } from 'in-custom-dashboards/widgets/Slo/tracker';
-import { OverridingTextTouchedMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingTextTouchedMessage';
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
@@ -178,7 +178,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 hasError={!field.valid && field.touched}
               />
               <span className={locals.sloUnit}>%</span>
-              <OverridingTextTouchedMessage
+              <OverridingFieldValidationMessage
                 field={form.get(sloTarget)}
                 message={t('in-custom-dashboards:widgets.slo.formComponent.enterVal0to100')}
               />
@@ -257,7 +257,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               </HorizontalFlexWrapper>
 
               <TouchedMessages field={form.get(timeWindowDuration)} />
-              <OverridingTextTouchedMessage
+              <OverridingFieldValidationMessage
                 field={form.get(timeWindowDuration)}
                 message={t('in-custom-dashboards:widgets.slo.formComponent.pleaseSpecifyTheNumber', {
                   timeValue: timeWindowDurationUnitValue
@@ -302,11 +302,11 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 )}
               </HorizontalFlexWrapper>
 
-              <OverridingTextTouchedMessage
+              <OverridingFieldValidationMessage
                 field={dateField}
                 message={t('in-custom-dashboards:widgets.slo.formComponent.enterDateFormatYyyyMmDd')}
               />
-              <OverridingTextTouchedMessage
+              <OverridingFieldValidationMessage
                 field={timeField}
                 message={t('in-custom-dashboards:widgets.slo.formComponent.enterTimeInFormatHhMmSs')}
               />
