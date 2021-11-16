@@ -15,7 +15,7 @@ interface SelectInSectionProps extends SelectProps {
   label: ReactNode;
   additionalContent: ReactNode;
   actions: ReactNode;
-  useAlternateBg: boolean;
+  useAlternateBg?: boolean;
 }
 
 export default forwardRef<HTMLSelectElement, SelectInSectionProps>(function SelectInSection(
