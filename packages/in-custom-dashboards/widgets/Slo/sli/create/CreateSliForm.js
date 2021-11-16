@@ -42,9 +42,7 @@ export default function CreateSliForm({
 
     const submittedFormData = submittedForm.toJS();
     onSubmit(submittedFormData).once(
-      onSaveSuccess(submittedFormData, editMode, setFormSubmitState, function setFormUntouched() {
-        updateForm(form.setTouched(false, { recurse: true }));
-      }),
+      onSaveSuccess(submittedFormData, editMode, setFormSubmitState, close),
       onSaveFailure(submittedFormData, setFormSubmitState)
     );
   };
@@ -91,7 +89,7 @@ function useSetFooter({ form, filterExpressionValid, setFooter, close, saving, e
   }, [close, form, filterExpressionValid, saving, setFooter, editMode]);
 }
 
-function onSaveSuccess(submittedFormData, editMode, setFormSubmitState, setFormUntouched) {
+function onSaveSuccess(submittedFormData, editMode, setFormSubmitState, close) {
   return () => {
     addMessage(
       {
@@ -114,7 +112,6 @@ function onSaveSuccess(submittedFormData, editMode, setFormSubmitState, setFormU
       saving: false,
       error: false
     }));
-    setFormUntouched();
     close();
   };
 }
