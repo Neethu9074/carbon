@@ -543,7 +543,11 @@
       "atLeastOneFilterExpressionMustBeConfigured": "At least one filter expression must be configured.",
       "timeBased": "Time-based",
       "eventBased": "Event-based",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "Application",
+        "source_website": "Website"
+      }
     },
     "timezone": {
       "demo": {
