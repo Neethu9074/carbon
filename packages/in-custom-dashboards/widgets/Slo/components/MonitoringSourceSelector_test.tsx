@@ -1,0 +1,71 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+import { shallow } from 'enzyme';
+import React from 'react';
+
+import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
+import { MonitoringSources } from 'in-custom-dashboards/widgets/Slo/constants';
+import { noop } from 'in-services/util/function';
+
+describe('in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector', () => {
+  it('renders a button for every monitoring source', () => {
+    // Given
+    const value = MonitoringSources[0];
+    const onChange = noop;
+
+    // When
+    const wrapper = shallow(<MonitoringSourceSelector value={value} onChange={onChange} />);
+
+    // Then
+    expect(wrapper.first().props()).toEqual(
+      expect.objectContaining({
+        buttonPropsList: [
+          expect.objectContaining({
+            key: 'application',
+            text: 'Application'
+          }),
+          expect.objectContaining({
+            key: 'website',
+            text: 'Website'
+          })
+        ]
+      })
+    );
+  });
+
+  it('calls onChange with the correct monitoring source if a button is clicked', () => {
+    // Given
+    const value = MonitoringSources[0];
+    const onChange = jest.fn();
+
+    // When
+    const wrapper = shallow(<MonitoringSourceSelector value={value} onChange={onChange} />);
+    wrapper
+      .first()
+      .props()
+      .buttonPropsList[1].onClick();
+
+    // Then
+    expect(onChange).toHaveBeenLastCalledWith('website');
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('selects the button matching its value', () => {
+    // Given
+    const value = 'website';
+    const onChange = noop;
+
+    // When
+    const wrapper = shallow(<MonitoringSourceSelector value={value} onChange={onChange} />);
+
+    // Then
+    expect(wrapper.first().props()).toEqual(
+      expect.objectContaining({
+        activeKey: 'website'
+      })
+    );
+  });
+});
