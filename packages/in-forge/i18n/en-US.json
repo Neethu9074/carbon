@@ -5116,7 +5116,8 @@
         "hadrConnect": "HADR Connection Status",
         "hadrPrimaryLog": "HADR Primary Log Information",
         "hadrSecondaryLog": "HADR Secondary Log Information",
-        "hadrLogMetrics": "HADR Log Metrics"
+        "hadrLogMetrics": "HADR Log Metrics",
+        "hadrTakeOverTime": "HADR Last Take Over Time"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -5322,7 +5323,9 @@
       "sockRecvBufAct": "Actual Receive Buffer",
       "timeSinceLastRecv": "Time Since Last Receive",
       "logHadrWaitCur": "Current Logger Wait Time",
-      "logHadrWaitTime": "Total Logger Wait Time"
+      "logHadrWaitTime": "Total Logger Wait Time",
+      "unableToConnect": "Cannot connect to {{connectionUrl}} using user {{user}}.",
+      "troubleshootingDocs": "Troubleshooting docs"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",

@@ -33,6 +33,7 @@ import UOWTable from 'in-forge/plugins/db2Database/Dashboard/UOWTable';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyList } from 'in-services/fixedImmutables';
 import MetricValue from 'in-components/MetricValue';
+import HadrTakeOverInfo from './HadrTakeOverInfo';
 import { t } from 'in-i18n';
 
 export default function Db2Dashboard({ snapshot, timeConfig }) {
@@ -73,6 +74,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label={t('in-forge:plugins.db2Database.dashboard.clientConnections')}>
           <MetricValue snapshotId={snapshotId} metric="databases.connectionsCount" formatter={number.compact} />
         </KpiKeyValue>
+        <HadrTakeOverInfo snapshotId={snapshotId} timeConfig={timeConfig} />
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.connections')}>
         <Chart

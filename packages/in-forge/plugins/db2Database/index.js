@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import agentMonitoringIssueDefinitions from 'in-forge/plugins/db2Database/agentMonitoringIssueDefinitions';
 import metricDefinitions from 'in-forge/plugins/db2Database/metricDefinitions';
 import kpiDefinitions from 'in-forge/plugins/db2Database/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
@@ -14,6 +15,7 @@ registerSnapshotDefinition({
 
   kpiDefinitions,
   metricDefinitions,
+  agentMonitoringIssueDefinitions,
   technologyDescriptor: {
     label: t('in-forge:plugins.db2Database.db2')
   }
