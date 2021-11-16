@@ -2908,7 +2908,6 @@ export interface MetricQuery {
 
 export interface MetricResult {
   readonly id: string;
-  readonly resultPrecisionDetails?: ResultPrecisionDetails;
   readonly values: number[][];
 }
 
