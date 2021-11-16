@@ -4481,6 +4481,7 @@ export interface ZhmcCpcItem {
   readonly label: string;
   readonly name: string;
   readonly networkPorts?: string[];
+  readonly partitionNetworks?: string[];
   readonly partitions?: string[];
   readonly processors?: string[];
 }
