@@ -5,11 +5,9 @@
 
 import React from 'react';
 
+import { MonitoringSource, MonitoringSources } from 'in-custom-dashboards/widgets/Slo/constants';
 import { capitalize } from 'in-services/formatters/string';
 import ButtonGroup from 'in-components/ButtonGroup';
-
-const MonitoringSources = ['application', 'website'] as const;
-export type MonitoringSource = typeof MonitoringSources[number];
 
 export interface MonitoringSourceSelectorProps {
   value: MonitoringSource;

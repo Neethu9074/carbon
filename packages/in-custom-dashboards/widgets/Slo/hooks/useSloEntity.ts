@@ -6,7 +6,7 @@
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { Application, Nullish, Result, Website } from 'in-types';
 import getWebsite from 'in-websites/subscriptions/getWebsite';

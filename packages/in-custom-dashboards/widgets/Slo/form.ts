@@ -6,11 +6,11 @@
 import { createMapForm, createField, composeValidators, ValidationResult, MapForm, Field } from 'formalistic';
 import moment from 'moment';
 
-import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
 import { formatDate, formatTime, parseDateTime } from 'in-services/formatters/date';
 import { numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
