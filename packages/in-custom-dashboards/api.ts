@@ -13,7 +13,7 @@ import {
   SliConfigurationWithLastUpdated,
   UserResult
 } from 'in-types';
-import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';

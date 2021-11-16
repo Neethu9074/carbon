@@ -5,11 +5,9 @@
 
 import React from 'react';
 
-import { capitalize } from 'in-services/formatters/string';
+import { MonitoringSource, MonitoringSources } from 'in-custom-dashboards/widgets/Slo/constants';
 import ButtonGroup from 'in-components/ButtonGroup';
-
-const MonitoringSources = ['application', 'website'] as const;
-export type MonitoringSource = typeof MonitoringSources[number];
+import { t } from 'in-i18n';
 
 export interface MonitoringSourceSelectorProps {
   value: MonitoringSource;
@@ -21,7 +19,7 @@ export default function MonitoringSourceSelector({ value, onChange }: Monitoring
     <ButtonGroup
       buttonPropsList={MonitoringSources.map(source => ({
         key: source,
-        text: capitalize(source),
+        text: t('in-custom-dashboards:widgets.slo.monitoringSourceSelector.source', { context: source }),
         onClick: () => onChange(source)
       }))}
       activeKey={value}

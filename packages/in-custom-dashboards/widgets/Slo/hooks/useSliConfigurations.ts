@@ -6,7 +6,7 @@
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
-import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { getSliConfigurationsByEntity } from 'in-custom-dashboards/api';
 import { hasError, isLoading, success } from 'in-services/util/result';
 import { Error, SliConfigurationWithLastUpdated } from 'in-types';

@@ -8,7 +8,7 @@ import React from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
 
-import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { Application, Website } from 'in-types';
 import { t } from 'in-i18n';
 
