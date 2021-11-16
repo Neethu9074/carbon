@@ -7,6 +7,8 @@ import { consoleId as matrixConsoleId } from 'in-phmc/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { systemId as matrixSystemId } from 'in-phmc/navigation/matrix';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { viosId as matrixViosId } from 'in-phmc/navigation/matrix';
+import { lparId as matrixLparId } from 'in-phmc/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
@@ -20,6 +22,10 @@ export const systemList = '/systems';
 export const systemListFullyQualified = `${ibmp}${systemList}`;
 export const systemDashboard = `/system`;
 export const systemDashboardFullyQualified = `${ibmp}${systemDashboard}`;
+export const viosDashboard = `/vios`;
+export const viosDashboardFullyQualified = `${ibmp}${viosDashboard}`;
+export const lparDashboard = `/lpar`;
+export const lparDashboardFullyQualified = `${ibmp}${lparDashboard}`;
 
 export function getIbmpPhmcDashboard(consoleId, { tab, tabMatrix, timeConfig } = emptyObject) {
   return getDashboard({
@@ -48,6 +54,37 @@ export function getIbmpSystemDashboard(systemId, { tab, tabMatrix, timeConfig, c
   });
 }
 
+export function getIbmpViosDashboard(viosId, { tab, tabMatrix, timeConfig, consoleId, systemId } = emptyObject) {
+  return getDashboard({
+    base: viosDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: viosDashboard,
+    matrixParam: matrixViosId,
+    id: viosId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, viosDashboard, matrixConsoleId, consoleId);
+      setOrDeleteMatrixKey(params, viosDashboard, matrixSystemId, systemId);
+    }
+  });
+}
+
+export function getIbmpLparDashboard(lparId, { tab, tabMatrix, timeConfig, consoleId, systemId } = emptyObject) {
+  return getDashboard({
+    base: lparDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: lparDashboard,
+    matrixParam: matrixLparId,
+    id: lparId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, lparDashboard, matrixConsoleId, consoleId);
+      setOrDeleteMatrixKey(params, lparDashboard, matrixSystemId, systemId);
+    }
+  });
+}
 function getDashboard({
   base,
   tab = '/summary',

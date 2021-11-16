@@ -3,79 +3,143 @@
  * (c) Copyright Instana Inc.
  */
 
+import { get } from 'lodash';
 import React from 'react';
 
-import { number, bytes } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
+import { number, percentage } from 'in-services/formatters/number';
+import { getIbmpViosDashboard } from 'in-phmc/navigation/paths';
+import getVIOServers from 'in-phmc/subscriptions/getVIOServers';
+import { getInfraGranularity } from 'in-stores/metric/metric';
+import EntityLink from 'in-components/EntityLink/EntityLink';
 import { t } from 'in-i18n';
 
-const cols = [
+const pathSegment = '/vios';
+const matrixPrefix = 'vios.';
+
+const columnDefinitions = [
   {
-    title: t('in-phmc:dashboards.name'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.key;
-      }
+    id: 'label',
+    label: t('in-phmc:name'),
+    getContent(item) {
+      const systemId = item.systemId;
+      const consoleId = item.consoleId;
+      return <EntityLink label={item.label} href$={getIbmpViosDashboard(item.id, { systemId, consoleId })} />;
     }
   },
   {
-    title: t('in-phmc:dashboards.utilized'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.data.id;
-      },
-      getMetricName(row) {
-        return `vios.${row.key}.utilizedMem`;
-      },
-      getContent: bytes.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+    id: 'utilizedMemory',
+    label: t('in-phmc:utilized'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="utilizedMemPercentage"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentage.compact}
+        />
+      );
     }
   },
   {
-    title: t('in-phmc:dashboards.maxVirtualProcessors'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.data.id;
-      },
-      getMetricName(row) {
-        return `vios.${row.key}.maxVirtualProcessors`;
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+    id: 'entitledProcUnits',
+    label: t('in-phmc:entitledProc'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="entitledProcUnitsPercentage"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentage.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'mode',
+    label: t('in-phmc:mode'),
+    getContent(item) {
+      return item.mode;
+    }
+  },
+  {
+    id: 'maxVirtualProcessor',
+    label: t('in-phmc:maxVirtualProcessor'),
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="maxVirtualProcessors"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={number.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'state',
+    label: t('in-phmc:dashboards.state'),
+    getContent(item) {
+      return item.state;
     }
   }
 ];
 
-export default function Vios({ data, timeConfig }) {
-  const rows = [
-    ...data.vios.map(flag => {
-      return {
-        key: flag,
-        flag,
-        timeConfig,
-        data
-      };
-    })
-  ];
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, consoleIdUrlParameter],
+  columnDefinitions,
+  defaultOrderBy: 'label',
+  defaultOrderDirection: 'ASC',
+  pathSegment,
+  matrixPrefix
+});
 
-  if (rows.length === 0) {
-    return null;
-  }
-
+export default function Vios(props) {
   return (
-    <Table
-      cardTitle={t('in-phmc:dashboards.vios')}
-      withoutPadding
-      cols={cols}
-      rows={rows}
-      initialSortDirection="desc"
+    <ServerTableWithUrlState
+      get={getTableData}
+      timeConfig={props.timeConfig}
+      consoleId={isWithinConsole(props) ? props.consoleId : undefined}
+      systemId={props.systemId}
     />
   );
+}
+
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'label',
+  orderDirection = 'ASC',
+  timeConfig,
+  consoleId,
+  systemId
+}) {
+  return getVIOServers({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      consoleId,
+      systemId,
+      timeConfig
+    },
+    granularity: getInfraGranularity(timeConfig)
+  });
+}
+
+function isWithinConsole(props) {
+  const pathname = get(props, ['location', 'pathname'], '/ibmp/console/vios');
+  return pathname && pathname.toLowerCase().includes('console');
 }

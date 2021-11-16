@@ -8,8 +8,10 @@ import React from 'react';
 import { TableEntityCounter } from '@instana/components';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
+import { percentage, megaBytes } from 'in-services/formatters/number';
 import { getIbmpSystemDashboard } from 'in-phmc/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -32,6 +34,48 @@ const columnDefinitions = [
     label: t('in-phmc:partitions'),
     getContent(item) {
       return <TableEntityCounter count={item.partitions} />;
+    }
+  },
+  {
+    id: 'utilizedProcUnits',
+    label: t('in-phmc:utilizedProc'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentage.compact}
+          metric="utilizedProcUnitsPercent"
+        />
+      );
+    }
+  },
+  {
+    id: 'availableMem',
+    label: t('in-phmc:memAvailable'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={megaBytes.compact}
+          metric="availableMem"
+        />
+      );
+    }
+  },
+  {
+    id: 'availableMemPercentage',
+    label: t('in-phmc:memAvailablePercentage'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentage.compact}
+          metric="availableMemPercentage"
+        />
+      );
     }
   },
   {
@@ -69,7 +113,7 @@ function getTableData({
   orderBy = 'label',
   orderDirection = 'ASC',
   timeConfig,
-  datacenterId
+  consoleId
 }) {
   return getSystems({
     pagination: {
@@ -82,7 +126,7 @@ function getTableData({
     },
     filter: {
       label: query,
-      datacenterId,
+      consoleId,
       timeConfig
     },
     granularity: getInfraGranularity(timeConfig)

@@ -5,3 +5,5 @@
 
 export const consoleId = 'consoleId';
 export const systemId = 'systemId';
+export const viosId = 'viosId';
+export const lparId = 'lparId';

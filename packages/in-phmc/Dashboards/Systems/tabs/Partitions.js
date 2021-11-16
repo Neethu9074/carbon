@@ -3,111 +3,143 @@
  * (c) Copyright Instana Inc.
  */
 
+import { get } from 'lodash';
 import React from 'react';
 
-import { number, percentage, bytes } from 'in-services/formatters/number';
-import Table from 'in-sdk/components/dashboard/Table';
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
+import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { bytes, percentage, number } from 'in-services/formatters/number';
+import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
+import { getIbmpLparDashboard } from 'in-phmc/navigation/paths';
+import { getInfraGranularity } from 'in-stores/metric/metric';
+import EntityLink from 'in-components/EntityLink/EntityLink';
+import getLpars from 'in-phmc/subscriptions/getLpars';
 import { t } from 'in-i18n';
 
-const cols = [
+const pathSegment = '/lpar';
+const matrixPrefix = 'lpar.';
+
+const columnDefinitions = [
   {
-    title: t('in-phmc:dashboards.name'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.key;
-      }
+    id: 'label',
+    label: t('in-phmc:name'),
+    getContent(item) {
+      const systemId = item.systemId;
+      const consoleId = item.consoleId;
+      return <EntityLink label={item.label} href$={getIbmpLparDashboard(item.id, { systemId, consoleId })} />;
     }
   },
   {
-    title: t('in-phmc:dashboards.backedPhysicalMem'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.data.id;
-      },
-      getMetricName(row) {
-        return `logicalPartition.${row.key}.backedPhysicalMem`;
-      },
-      getContent: bytes.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+    id: 'logicalMem',
+    label: t('in-phmc:logicalMem'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="logicalMem"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={bytes.compact}
+        />
+      );
     }
   },
   {
-    title: t('in-phmc:dashboards.entitledProcUnits'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.data.id;
-      },
-      getMetricName(row) {
-        return `logicalPartition.${row.key}.entitledProcUnits`;
-      },
-      getContent: number.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+    id: 'entitledProcUnits',
+    label: t('in-phmc:entitledProc'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="entitledProcUnitsPercentage"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentage.compact}
+        />
+      );
     }
   },
   {
-    title: t('in-phmc:dashboards.maxVirtualProcessors'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.data.id;
-      },
-      getMetricName(row) {
-        return `logicalPartition.${row.key}.maxVirtualProcessors`;
-      },
-      getContent: percentage.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+    id: 'mode',
+    label: t('in-phmc:mode'),
+    getContent(item) {
+      return item.mode;
     }
   },
   {
-    title: t('in-phmc:dashboards.currentVirtualProcessors'),
-    type: 'metric',
-    typeArgs: {
-      getSnapshotId(row) {
-        return row.data.id;
-      },
-      getMetricName(row) {
-        return `logicalPartition.${row.key}.currentVirtualProcessors`;
-      },
-      getContent: percentage.detailed,
-      getTimeWindowAggregation() {
-        return 'mean';
-      }
+    id: 'maxVirtualProcessor',
+    label: t('in-phmc:maxVirtualProcessor'),
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="maxVirtualProcessors"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={number.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'state',
+    label: t('in-phmc:dashboards.state'),
+    getContent(item) {
+      return item.state;
     }
   }
 ];
 
-export default function Partitions({ data, timeConfig }) {
-  const rows = [
-    ...data.partitions.map(partition => {
-      return {
-        key: partition,
-        partition,
-        timeConfig,
-        data
-      };
-    })
-  ];
+const ServerTableWithUrlState = createServerTableWithUrlState({
+  paginationResettingUrlParameters: [...timeConfigUrlParameters, consoleIdUrlParameter],
+  columnDefinitions,
+  defaultOrderBy: 'label',
+  defaultOrderDirection: 'ASC',
+  pathSegment,
+  matrixPrefix
+});
 
-  if (rows.length === 0) {
-    return null;
-  }
-
+export default function Partitions(props) {
   return (
-    <Table
-      cardTitle={t('in-phmc:dashboards.logicalPartition')}
-      withoutPadding
-      cols={cols}
-      rows={rows}
-      initialSortDirection="desc"
+    <ServerTableWithUrlState
+      get={getTableData}
+      timeConfig={props.timeConfig}
+      consoleId={isWithinConsole(props) ? props.consoleId : undefined}
+      systemId={props.systemId}
     />
   );
+}
+
+function getTableData({
+  query = '',
+  page = 1,
+  pageSize = 20,
+  orderBy = 'label',
+  orderDirection = 'ASC',
+  timeConfig,
+  consoleId,
+  systemId
+}) {
+  return getLpars({
+    pagination: {
+      page,
+      pageSize
+    },
+    order: {
+      by: orderBy,
+      direction: orderDirection
+    },
+    filter: {
+      label: query,
+      consoleId,
+      systemId,
+      timeConfig
+    },
+    granularity: getInfraGranularity(timeConfig)
+  });
+}
+
+function isWithinConsole(props) {
+  const pathname = get(props, ['location', 'pathname'], '/ibmp/console/lpar');
+  return pathname && pathname.toLowerCase().includes('console');
 }

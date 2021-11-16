@@ -8,11 +8,13 @@ import React, { Fragment } from 'react';
 import { TableEntityCounter } from '@instana/components';
 
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
+import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import PhmcNoDataNotification from 'in-phmc/lists/components/PhmcNoDataNotification';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { systemList, getIbmpSystemDashboard } from 'in-phmc/navigation/paths';
 import { getSystemsSubscribeEvent } from 'in-phmc/subscriptions/getSystems';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import { percentage, megaBytes } from 'in-services/formatters/number';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -42,6 +44,48 @@ const columnDefinitions = [
     label: t('in-phmc:vios'),
     getContent(item) {
       return <TableEntityCounter count={item.vios} />;
+    }
+  },
+  {
+    id: 'utilizedProcUnits',
+    label: t('in-phmc:utilizedProc'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentage.compact}
+          metric="utilizedProcUnitsPercent"
+        />
+      );
+    }
+  },
+  {
+    id: 'availableMem',
+    label: t('in-phmc:memAvailable'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={megaBytes.compact}
+          metric="availableMem"
+        />
+      );
+    }
+  },
+  {
+    id: 'availableMemPercentage',
+    label: t('in-phmc:memAvailablePercentage'),
+    getContent(item, { timeConfig }) {
+      return (
+        <InfrastructureMetricSparkChart
+          snapshotId={item.id}
+          timeConfig={timeConfig}
+          formatter={percentage.compact}
+          metric="availableMemPercentage"
+        />
+      );
     }
   },
   {

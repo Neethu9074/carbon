@@ -6,7 +6,7 @@
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
 const getPhmcs = createResultSubscriptionFactory({
-  eventId: 'getPhmcConsoles'
+  eventId: 'getPhmcs'
 });
 export default getPhmcs;
 
