@@ -3,24 +3,46 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
+import { Field, MapForm } from 'formalistic';
 
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
-import useSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations';
+import useSliConfigurations, { ResultStatus } from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { trackSliChanged } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { sliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { SliConfigurationWithLastUpdated } from 'in-types';
 import Sections from 'in-components/workspace/Sections';
 import { t } from 'in-i18n';
 
-export default function SliSelectionForm({ form, updateForm, entityType, entityId, openManageSLIComponent }) {
+interface SliSelectorProps {
+  form: MapForm;
+  updateForm: (updatedForm: MapForm) => void;
+  entityType: MonitoringSource;
+  entityId: string;
+  openManageSLIComponent: ReactNode;
+}
+
+type SliConfigIdFieldValue = string | undefined;
+export default function SliSelector({
+  form,
+  updateForm,
+  entityType,
+  entityId,
+  openManageSLIComponent
+}: SliSelectorProps) {
   const { sliConfigurations, status } = useSliConfigurations(entityType, entityId);
-  const sliField = form.get(sliConfigId);
+  const sliField = form.get(sliConfigId) as Field<SliConfigIdFieldValue>;
 
   useEffect(() => {
     if (isSliConfigDeselected(sliField, sliConfigurations, status)) {
-      updateForm(form.updateIn([sliConfigId], field => field.setValue(undefined).setTouched(true)));
+      updateForm(
+        form.updateIn([sliConfigId], field =>
+          (field as Field<SliConfigIdFieldValue>).setValue(undefined).setTouched(true)
+        )
+      );
     }
 
     // ignoring form and updateForm in the watcher params here, because including them would cause unnecessary evaluations
@@ -36,7 +58,11 @@ export default function SliSelectionForm({ form, updateForm, entityType, entityI
         disabled={!entityId}
         value={sliField.value}
         onChange={e => {
-          updateForm(form.updateIn([sliConfigId], field => field.setValue(e.target.value).setTouched(true)));
+          updateForm(
+            form.updateIn([sliConfigId], field =>
+              (field as Field<SliConfigIdFieldValue>).setValue(e.target.value).setTouched(true)
+            )
+          );
           trackSliChanged({ sliConfigId: e.target.value });
         }}
         hasError={!sliField.valid && sliField.touched}
@@ -67,6 +93,10 @@ export default function SliSelectionForm({ form, updateForm, entityType, entityI
   );
 }
 
-const isSliConfigDeselected = (sliField, sliConfigurations, status) => {
-  return sliField.value && status === 'resolved' && !sliConfigurations.some(({ id }) => sliField.value === id);
+const isSliConfigDeselected = (
+  sliField: Field<SliConfigIdFieldValue>,
+  sliConfigurations: SliConfigurationWithLastUpdated[],
+  status: ResultStatus
+): boolean => {
+  return !!sliField.value && status === 'resolved' && !sliConfigurations.some(({ id }) => sliField.value === id);
 };

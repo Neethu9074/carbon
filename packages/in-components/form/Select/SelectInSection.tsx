@@ -3,18 +3,25 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, ReactNode } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
+import Select, { Props as SelectProps } from 'in-components/form/Select';
 import Section from 'in-components/workspace/Section';
-import Select from 'in-components/form/Select';
 
 import locals from './SelectInSection.mless';
 
-export default forwardRef(SelectInSection);
+interface SelectInSectionProps extends SelectProps {
+  label: ReactNode;
+  additionalContent: ReactNode;
+  actions: ReactNode;
+  useAlternateBg?: boolean;
+}
 
-function SelectInSection({ label, additionalContent, actions, useAlternateBg, ...selectProps }, ref) {
+export default forwardRef<HTMLSelectElement, SelectInSectionProps>(function SelectInSection(
+  { label, additionalContent, actions, useAlternateBg, ...selectProps }: SelectInSectionProps,
+  ref
+) {
   const { id, hasError } = selectProps;
 
   if (actions) {
@@ -27,12 +34,4 @@ function SelectInSection({ label, additionalContent, actions, useAlternateBg, ..
       {additionalContent}
     </Section>
   );
-}
-
-SelectInSection.propTypes = {
-  ...Select.propTypes,
-  label: Section.propTypes.title,
-  additionalContent: PropTypes.node,
-  actions: Section.propTypes.actions,
-  useAlternateBg: Section.propTypes.useAlternateBg
-};
+});

@@ -33,5 +33,5 @@ TextAreaInSection.propTypes = {
   ...TextArea.propTypes,
   label: PropTypes.string.isRequired,
   additionalContent: PropTypes.node,
-  actions: Section.propTypes.actions
+  actions: PropTypes.node
 };

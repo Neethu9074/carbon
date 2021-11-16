@@ -12,7 +12,7 @@ import { hasError, isLoading, success } from 'in-services/util/result';
 import { Error, SliConfigurationWithLastUpdated } from 'in-types';
 import { pendingResult } from 'in-services/fixedObjects';
 
-type ResultStatus = 'pending' | 'resolved' | 'rejected';
+export type ResultStatus = 'pending' | 'resolved' | 'rejected';
 interface UseSliConfigurationsResult {
   readonly sliConfigurations: SliConfigurationWithLastUpdated[];
   readonly status: ResultStatus;

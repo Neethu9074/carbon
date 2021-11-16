@@ -2,5 +2,5 @@
   "name": "Sections",
   "version": "0.0.0",
   "private": true,
-  "main": "./Sections.js"
+  "main": "Sections.tsx"
 }
