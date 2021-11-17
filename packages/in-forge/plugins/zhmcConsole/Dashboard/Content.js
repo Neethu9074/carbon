@@ -5,9 +5,9 @@
 
 import React from 'react';
 
-import { getIbmzCpcDashboard } from 'in-zhmc/navigation/paths';
+import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 
 export default function SystemDashboard({ snapshot }) {
-  return <RedirectWithHash to$={getIbmzCpcDashboard(snapshot.get('id'))} />;
+  return <RedirectWithHash to$={getIbmzZhmcDashboard(snapshot.get('id'))} />;
 }

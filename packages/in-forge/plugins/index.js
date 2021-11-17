@@ -187,6 +187,7 @@ import './oracleDB';
 import './pCFSpace';
 import './rabbitMq';
 import './tibcoEMS';
+import './zhmcCpc';
 import './ibmIDb2';
 import './bizTalk';
 import './hAProxy';

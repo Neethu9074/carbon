@@ -69,6 +69,13 @@ const columnDefinitions = [
     getContent(item) {
       return item.machineSerial;
     }
+  },
+  {
+    id: 'status',
+    label: t('in-zhmc:status'),
+    getContent(item) {
+      return item.status;
+    }
   }
 ];
 

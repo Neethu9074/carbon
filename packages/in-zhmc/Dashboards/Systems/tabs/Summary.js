@@ -12,7 +12,6 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { number, percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
-import MessageTable from '../../tables/MessageTable';
 import Processors from '../../tables/Processors';
 import { t } from 'in-i18n';
 
@@ -111,7 +110,6 @@ export default function Summary({ timeConfig, data: cpc }) {
         </Row>
         <Row />
         <Processors data={cpc} timeConfig={timeConfig} />
-        <MessageTable snapshotId={cpc.id} />
       </Fragment>
     );
   } else {
@@ -172,7 +170,6 @@ export default function Summary({ timeConfig, data: cpc }) {
         </Row>
         <Row />
         <Processors data={cpc} timeConfig={timeConfig} />
-        <MessageTable snapshotId={cpc.id} />
       </Fragment>
     );
   }

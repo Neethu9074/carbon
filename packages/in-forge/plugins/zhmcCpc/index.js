@@ -3,14 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import metricDefinitions from 'in-forge/plugins/zhmcConsole/metricDefinitions';
-import kpiDefinitions from 'in-forge/plugins/zhmcConsole/kpiDefinitions';
+import metricDefinitions from 'in-forge/plugins/zhmcCpc/metricDefinitions';
+import kpiDefinitions from 'in-forge/plugins/zhmcCpc/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.zhmcConsole,
-
+  plugin: plugins.zhmcCpc,
   kpiDefinitions,
   metricDefinitions
 });

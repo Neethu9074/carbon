@@ -9,10 +9,10 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import AdpaterUsageTable from '../../tables/AdapterUsageTable';
+import AdpaterUsageTable from 'in-zhmc/Dashboards/tables/AdapterUsageTable';
+import RoceAdapter from 'in-zhmc/Dashboards/tables/RoceAdapter';
 import { percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
-import NoData from '../../commonComponents/NoData';
 import { t } from 'in-i18n';
 
 export default function Adapter({ timeConfig, data: cpc }) {
@@ -92,6 +92,6 @@ export default function Adapter({ timeConfig, data: cpc }) {
       </Fragment>
     );
   } else {
-    return <NoData />;
+    return <RoceAdapter />;
   }
 }

@@ -12,29 +12,20 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-zhmc:dashboards.messageId'),
+    title: t('in-zhmc:dashboards.channelId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.message.get('messageId');
+        return row.roceUsages.get('channelId');
       }
     }
   },
   {
-    title: t('in-zhmc:dashboards.timestamp'),
+    title: t('in-zhmc:dashboards.adapterUsage'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.message.get('timestamp');
-      }
-    }
-  },
-  {
-    title: t('in-zhmc:dashboards.messages'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.message.get('message');
+        return row.roceUsages.get('adapterUsage');
       }
     }
   }
@@ -43,29 +34,29 @@ const cols = [
 export default connectTo(
   ({ snapshotId }) => {
     return {
-      data: getRawPayload(snapshotId, 'messages')
+      data: getRawPayload(snapshotId, 'roceUsage')
     };
   },
-  function Messages({ data }) {
+  function RoceAdapter({ data }) {
     if (!data) {
       return null;
     }
-    const messages = data.toArray();
+    const roceUsage = data.toArray();
 
-    if (messages.size === 0) {
+    if (roceUsage.size === 0) {
       return null;
     }
-    const rows = messages.map((message, idx) => {
+    const rows = roceUsage.map((roceUsages, idx) => {
       return {
         key: String(idx),
-        message
+        roceUsages
       };
     });
 
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-zhmc:dashboards.hwMessage')}
+        cardTitle={t('in-zhmc:dashboards.roceAdapter')}
         cols={cols}
         rows={rows}
         initialSortColumn={0}

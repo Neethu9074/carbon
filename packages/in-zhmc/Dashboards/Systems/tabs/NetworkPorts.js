@@ -5,10 +5,11 @@
 
 import React, { Fragment } from 'react';
 
-import AdapterInfoTable from '../../tables/AdapterInfoTable';
-import PacketsTable from '../../tables/PacketsTable';
-import NoData from '../../commonComponents/NoData';
-import BytesTable from '../../tables/BytesTable';
+import PartitionNetworks from 'in-zhmc/Dashboards/tables/PartitionNetworks';
+import AdapterInfoTable from 'in-zhmc/Dashboards/tables/AdapterInfoTable';
+import PacketsTable from 'in-zhmc/Dashboards/tables/PacketsTable';
+import NoData from 'in-zhmc/Dashboards/commonComponents/NoData';
+import BytesTable from 'in-zhmc/Dashboards/tables/BytesTable';
 
 export default function NetworkPorts({ data }) {
   if (data.dpmEnabled === 'false') {
@@ -19,6 +20,7 @@ export default function NetworkPorts({ data }) {
         <BytesTable data={data} />
         <PacketsTable data={data} />
         <AdapterInfoTable data={data} />
+        <PartitionNetworks data={data} />
       </Fragment>
     );
   }

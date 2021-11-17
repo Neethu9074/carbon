@@ -97,6 +97,46 @@ export default [
     formatter: number
   },
   {
+    metrics: ['processorUsage', 'networkUsage'],
+    labels: [t('in-forge:plugins.zhmcConsole.processorUsage'), t('in-forge:plugins.zhmcConsole.networkUsage')],
+    min: 0,
+    formatter: percentage
+  },
+  {
+    metrics: ['dpmPowerConsumptionWatts', 'dpmTemperatureCelsius'],
+    labels: [t('in-forge:plugins.zhmcConsole.powerConsumptionWatts'), t('in-forge:plugins.zhmcConsole.temperature')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['storageUsage', 'acceleratorUsage', 'dpmCryptoUsage'],
+    labels: [
+      t('in-forge:plugins.zhmcConsole.storageUsage'),
+      t('in-forge:plugins.zhmcConsole.acceleratorUsage'),
+      t('in-forge:plugins.zhmcConsole.cryptoUsage')
+    ],
+    min: 0,
+    formatter: percentage
+  },
+  {
+    metrics: [
+      'dpmCpSharedProcessorUsage',
+      'dpmCpAllProcessorUsage',
+      'dpmIflSharedProcessorUsage',
+      'dpmIflAllProcessorUsage',
+      'dpmAllSharedProcessorUsage'
+    ],
+    labels: [
+      t('in-forge:plugins.zhmcConsole.cpSharedProcessorUsage'),
+      t('in-forge:plugins.zhmcConsole.cpAllProcessorUsage'),
+      t('in-forge:plugins.zhmcConsole.iflSharedProcessorUsage'),
+      t('in-forge:plugins.zhmcConsole.iflAllProcessorUsage'),
+      t('in-forge:plugins.zhmcConsole.allSharedProcessorUsage')
+    ],
+    min: 0,
+    formatter: percentage
+  },
+  {
     metrics: [
       getDynamicMetricMatch('logicalPartition', 'processor', t('in-forge:plugins.zhmcConsole.logicalPartition'))
     ],
@@ -230,6 +270,6 @@ export default [
     ],
     category: [t('in-forge:plugins.zhmcConsole.networkPorts')],
     min: 0,
-    formatter: bytes
+    formatter: number
   }
 ];
