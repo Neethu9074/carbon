@@ -1509,13 +1509,7 @@ export interface GetOpenEventsCountTimeSeriesQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetPhmcConsolesQuery extends PaginatedQuery {
-  readonly filter: PhmcQueryFilter;
-  readonly order: Order;
-  readonly pagination: Pagination;
-}
-
-export interface GetPhmcSystemsQuery extends PaginatedQuery {
+export interface GetPhmcQuery extends PaginatedQuery {
   readonly filter: PhmcQueryFilter;
   readonly order: Order;
   readonly pagination: Pagination;
@@ -3122,9 +3116,35 @@ export interface PhmcConsoleItemCounters extends FilterableListItem {
   readonly vios?: number;
 }
 
+export interface PhmcItem {
+  readonly id: string;
+  readonly label: string;
+  readonly mode?: string;
+  readonly name: string;
+  readonly partitionId?: number;
+  readonly state?: string;
+  readonly systemId?: string;
+}
+
+export interface PhmcListItem extends FilterableListItem, ListItemWithMetric {
+  readonly consoleId?: string;
+  readonly entityId?: EntityId;
+  readonly id: string;
+  readonly label: string;
+  readonly mode?: string;
+  readonly state?: string;
+  readonly systemId?: string;
+}
+
+export interface PhmcLparItem extends PhmcItem {
+  readonly lparId: string;
+  readonly viosId?: string;
+}
+
 export interface PhmcQueryFilter extends FilterInterface {
   readonly consoleId?: string;
   readonly label?: string;
+  readonly lparId?: string;
   readonly snapshotId?: string;
   readonly systemId?: string;
   readonly timeConfig: TimeConfig;
@@ -3149,8 +3169,11 @@ export interface PhmcSystemListItem extends FilterableListItem, ListItemWithMetr
   readonly machineSerial?: string;
   readonly machineTypeModel?: string;
   readonly partitions?: number;
-  readonly status?: number;
   readonly vios?: number;
+}
+
+export interface PhmcViosItem extends PhmcItem {
+  readonly viosId: string;
 }
 
 export interface PhysicalContext {
