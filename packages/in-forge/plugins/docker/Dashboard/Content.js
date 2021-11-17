@@ -24,8 +24,8 @@ import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
 import LogsKpiCard from 'in-forge/plugins/docker/Dashboard/LogsKpiCard';
 import LogsChart from 'in-forge/plugins/docker/Dashboard/LogsChart';
-import { containerLogsEnabled } from 'in-services/featureFlags';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
+import { loggingEnabled } from 'in-services/featureFlags';
 import useHasLogs from 'in-logging/hooks/useHasLogs';
 import MetricValue from 'in-components/MetricValue';
 import { role } from 'in-stores/user';
@@ -77,7 +77,7 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
             formatter={percentageZeroDecimalPlaces}
           />
         </KpiKeyValue>
-        {containerLogsEnabled && <LogsKpiCard hasLogs={hasLogs} timeConfig={timeConfig} snapshot={snapshot} />}
+        {loggingEnabled && <LogsKpiCard hasLogs={hasLogs} timeConfig={timeConfig} snapshot={snapshot} />}
       </KpiSection>
 
       <DashboardSection title={t('in-forge:plugins.docker.dashboard.cpu')}>
@@ -233,14 +233,14 @@ export default function DockerDashboard({ snapshot, timeConfig }) {
         </DashboardSection>
       ) : null}
 
-      {containerLogsEnabled && role.canViewLogs && (
+      {loggingEnabled && role.canViewLogs && (
         <LogsChartInteractionWrapper
           tagFilterExpression={tagFilterExpression}
           additionalContextMenuButtons={additionalContextMenuButtons}
           timeConfig={timeConfig}
         />
       )}
-      {containerLogsEnabled && !role.canViewLogs && (
+      {loggingEnabled && !role.canViewLogs && (
         <DashboardSection title={t('in-forge:plugins.docker.dashboard.logs')}>
           <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
         </DashboardSection>

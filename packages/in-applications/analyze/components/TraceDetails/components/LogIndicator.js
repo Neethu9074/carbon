@@ -7,7 +7,7 @@ import React, { forwardRef } from 'react';
 
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { getTraceIdTagFilter, LOG_CUSTOM, LOG_SPAN_ID } from 'in-logging/queryBuilder';
-import { loggingEnabledOnTrace } from 'in-services/featureFlags';
+import { loggingEnabled } from 'in-services/featureFlags';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import { role } from 'in-stores/user';
 import theme from 'in-themes';
@@ -15,7 +15,7 @@ import theme from 'in-themes';
 import locals from './LogIndicator.mless';
 
 export default forwardRef(function LogIndicator(props, ref) {
-  if (loggingEnabledOnTrace && props.totalNumberOfLogs > 0) {
+  if (loggingEnabled && props.totalNumberOfLogs > 0) {
     return <LogV2Indicator {...props} ref={ref} />;
   }
   return <LogV1Indicator {...props} ref={ref} />;

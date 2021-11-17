@@ -28,12 +28,12 @@ import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage'
 import { refreshWindowSizeDependingState } from 'in-services/browser';
 import TwoColumnView from 'in-components/TwoColumnView/TwoColumnView';
 import { jumpToLogs } from 'in-logging/analyze/AnalyzeView/tracker';
-import { loggingEnabledOnTrace } from 'in-services/featureFlags';
 import { number, latency } from 'in-services/formatters/number';
 import { getLinkToAnalyze } from 'in-logging/navigation/paths';
 import { callDetailClickedTracker } from 'in-analyze/tracker';
 import { isLoading, hasError } from 'in-services/util/result';
 import { getTraceIdTagFilter } from 'in-logging/queryBuilder';
+import { loggingEnabled } from 'in-services/featureFlags';
 import { pendingResult } from 'in-services/fixedObjects';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import { scrollIntoView } from 'in-services/util/dom';
@@ -148,7 +148,7 @@ export default function Summary({
     autoRefresh: false
   };
 
-  const hasLogs = loggingEnabledOnTrace && totalNumberOfLogs > 0;
+  const hasLogs = loggingEnabled && totalNumberOfLogs > 0;
 
   const traceDetails = (
     <ContentWrapper>

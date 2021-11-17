@@ -43,8 +43,6 @@ export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
-export const containerLogsEnabled = isFeatureFlagEnabled('containerLogsEnabled');
-export const loggingEnabledOnTrace = isFeatureFlagEnabled('loggingEnabledOnTrace');
 
 export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
