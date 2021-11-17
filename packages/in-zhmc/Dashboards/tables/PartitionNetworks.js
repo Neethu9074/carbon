@@ -75,7 +75,7 @@ const cols = [
         return row.data.id;
       },
       getMetricName(row) {
-        return `partitionNetworks.${row.key}.packetsRecieved`;
+        return `partitionNetworks.${row.key}.packetsReceived`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -107,7 +107,7 @@ const cols = [
         return row.data.id;
       },
       getMetricName(row) {
-        return `partitionNetworks.${row.key}.packetsRecievedDropped`;
+        return `partitionNetworks.${row.key}.packetsReceivedDropped`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -139,7 +139,7 @@ const cols = [
         return row.data.id;
       },
       getMetricName(row) {
-        return `partitionNetworks.${row.key}.packetsRecievedDiscarded`;
+        return `partitionNetworks.${row.key}.packetsReceivedDiscarded`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
