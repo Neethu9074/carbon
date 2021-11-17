@@ -14,6 +14,18 @@ export default [
     formatter: number
   },
   {
+    metrics: ['chInitStatus'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.channelInitiatorStatus')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['pubsubStatus'],
+    labels: [t('in-forge:plugins.ibmMqQueueManager.pubsubStatus')],
+    min: 0,
+    formatter: number
+  },
+  {
     metrics: ['connectionCount'],
     labels: [t('in-forge:plugins.ibmMqQueueManager.connections')],
     min: 0,

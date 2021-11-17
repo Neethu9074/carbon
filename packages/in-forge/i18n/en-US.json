@@ -8723,6 +8723,8 @@
       "name": "Name",
       "version": "Version",
       "status": "Status",
+      "channelInitiatorStatus": "Channel Initiator Status",
+      "pubsubStatus": "Publish/Subscribe Engine Status",
       "startedAt": "Started At",
       "alternatedAt": "Alternated At",
       "platform": "Platform",
