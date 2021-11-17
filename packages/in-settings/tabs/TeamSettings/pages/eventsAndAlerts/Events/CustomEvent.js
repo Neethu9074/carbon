@@ -154,7 +154,7 @@ const Form = entityForm(function DetailsForm(props) {
         form={form}
         message={message}
         loading={loading}
-        saveEnabled={saveEnabled}
+        saveEnabled={saveEnabled && !isMigrated}
         isCreate={isCreate}
         listPath={teamSettingsAlertingEvents}
       />
