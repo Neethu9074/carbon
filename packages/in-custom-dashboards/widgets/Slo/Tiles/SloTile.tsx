@@ -3,14 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 
 import locals from './SloTile.mless';
 
-export default function SloTile({ smallRowStyle, title, value, color, targetInfo, targetValue }) {
+interface SloTileProps {
+  title: string;
+  value?: string | number;
+  targetValue?: string | number;
+  targetInfo: string;
+  color?: string;
+  smallRowStyle?: boolean;
+}
+
+export default function SloTile({ smallRowStyle, title, value, color, targetInfo, targetValue }: SloTileProps) {
   if (smallRowStyle) {
     return (
       <div className={locals.oneRow}>
@@ -41,12 +49,3 @@ export default function SloTile({ smallRowStyle, title, value, color, targetInfo
     </div>
   );
 }
-
-SloTile.propTypes = {
-  smallRowStyle: PropTypes.bool,
-  title: PropTypes.string.isRequired,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  targetInfo: PropTypes.string.isRequired,
-  targetValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  color: PropTypes.string
-};
