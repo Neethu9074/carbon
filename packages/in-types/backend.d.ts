@@ -2853,6 +2853,16 @@ export interface MatchExpressionDTO {
   readonly type?: string;
 }
 
+export interface MatchingRule {
+  readonly allowTransmissionViaInsecureChannel: boolean;
+  readonly hostEquality?: string;
+  readonly hostPrefix?: string;
+  readonly hostSuffix?: string;
+  readonly pathEquality?: string;
+  readonly pathPrefix?: string;
+  readonly pathSuffix?: string;
+}
+
 export interface Message {
   readonly errorCode: ErrorCode;
   readonly subscriptionId?: number;
@@ -3583,6 +3593,20 @@ export interface SnapshotPreview {
   readonly time: number;
 }
 
+export interface SourceMapDownloadConfig {
+  readonly basicAuthPassword?: string;
+  readonly basicAuthPasswordEncrypted: boolean;
+  readonly basicAuthUserName?: string;
+  readonly headers: { [index: string]: string };
+  readonly id: string;
+  readonly matchingRules: MatchingRule[];
+}
+
+export interface SourceMapDownloadConfigs {
+  readonly config?: SourceMapDownloadConfig[];
+  readonly configs: SourceMapDownloadConfig[];
+}
+
 export interface Span {
   readonly batchSelfTime?: number;
   readonly batchSize: number;
@@ -4272,6 +4296,15 @@ export interface WebsiteBeaconTagGroup extends Group {
 export interface WebsiteBeaconsItem extends Cursorific<IngestionOffsetCursor> {
   readonly beacon: WebsiteMonitoringBeacon;
   readonly cursor: IngestionOffsetCursor;
+}
+
+export interface WebsiteConfiguration {
+  /**
+   * @deprecated
+   */
+  readonly appName?: string;
+  readonly id: string;
+  readonly name: string;
 }
 
 export interface WebsiteCountryBreakdown {
