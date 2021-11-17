@@ -136,9 +136,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         {entityTypeValue === 'website' && (
           <WebsiteSelector
             websiteIdField={entityIdField}
-            onChange={website =>
-              updateForm(form.updateIn([entityId], field => field.setValue(website.id).setTouched(true)))
-            }
+            onChange={id => updateForm(form.updateIn([entityId], field => field.setValue(id).setTouched(true)))}
           />
         )}
 
