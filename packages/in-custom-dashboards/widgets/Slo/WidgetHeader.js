@@ -48,7 +48,7 @@ export function WidgetHeader({
         />
         <SloTimeTile
           title={t('in-custom-dashboards:widgets.slo.widgetHeader.timeWindow')}
-          info={
+          timeFrameLabel={
             isDynamic
               ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow')
               : isRolling
@@ -77,7 +77,7 @@ export function WidgetHeader({
           compact
         />
         <SloTimeTile
-          info={
+          timeFrameLabel={
             isDynamic
               ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow')
               : isRolling
@@ -86,7 +86,7 @@ export function WidgetHeader({
           }
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
-          smallRowStyle
+          compact
         />
       </div>
     </>

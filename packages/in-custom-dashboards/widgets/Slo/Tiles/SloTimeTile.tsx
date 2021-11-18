@@ -14,26 +14,18 @@ import locals from './SloTile.mless';
 type Timestamp = number | Date;
 interface SloTimeTileProps {
   title: string;
-  info: string;
+  timeFrameLabel: string;
   fromTimestamp?: Timestamp;
   toTimestamp?: Timestamp;
-  smallRowStyle?: boolean;
-  color?: string;
+  compact?: boolean;
 }
 
-export default function SloTimeTile({
-  smallRowStyle,
-  title,
-  fromTimestamp,
-  toTimestamp,
-  color,
-  info
-}: SloTimeTileProps) {
-  if (smallRowStyle) {
+export default function SloTimeTile({ compact, title, fromTimestamp, toTimestamp, timeFrameLabel }: SloTimeTileProps) {
+  if (compact) {
     return (
       <div className={locals.oneRow}>
-        <div style={{ color }} className={locals.titleValue}>
-          <span>{info}:</span>
+        <div className={locals.titleValue}>
+          <span>{timeFrameLabel}:</span>
           <span className={locals.value}>
             <CompactFromToDates from={fromTimestamp} to={toTimestamp} />
           </span>
@@ -45,7 +37,7 @@ export default function SloTimeTile({
     <div className={locals.tile}>
       <div className={locals.title}>{title}</div>
 
-      <div style={{ color }} className={locals.value}>
+      <div className={locals.value}>
         <div className={locals.timeRangeValue}>
           <Trans
             i18nKey="in-custom-dashboards:widgets.slo.sloTimeTile.sloTime"
@@ -57,7 +49,7 @@ export default function SloTimeTile({
         </div>
       </div>
 
-      <div className={locals.targetInfo}>{info}</div>
+      <div className={locals.targetInfo}>{timeFrameLabel}</div>
     </div>
   );
 }
@@ -77,9 +69,8 @@ export function compactTimeInterval(from: Timestamp, to: Timestamp): CompactTime
   const toDate = new Date(to);
   const fromYear = fromDate.getFullYear();
   const toYear = toDate.getFullYear();
-  const sameYear = fromYear === toYear;
-  const fromStr = fmt(from, '');
-  const toStr = fmt(to, !sameYear ? '' : ', ' + toYear);
+  const fromStr = fmt(from, fromYear);
+  const toStr = fmt(to, toYear);
   return { fromStr, toStr };
 }
 
@@ -97,9 +88,9 @@ function CompactFromToDates({ from, to }: CompactFromToDatesProps) {
     const toDate = new Date(to);
     return (
       <>
-        {from && <time dateTime={fromDate.toISOString()}>{fromStr}</time>}
+        <time dateTime={fromDate.toISOString()}>{fromStr}</time>
         {' – '}
-        {to && <time dateTime={toDate.toISOString()}>{toStr}</time>}
+        <time dateTime={toDate.toISOString()}>{toStr}</time>
       </>
     );
   }
@@ -112,6 +103,6 @@ function CompactFromToDates({ from, to }: CompactFromToDatesProps) {
   );
 }
 
-function fmt(timestamp: Timestamp, appendYear: string): string {
-  return `${formatDateShort(timestamp)}${appendYear} ${formatTimeWithoutSeconds(timestamp)}`;
+function fmt(timestamp: Timestamp, appendYear: number): string {
+  return `${formatDateShort(timestamp)}${', ' + appendYear} ${formatTimeWithoutSeconds(timestamp)}`;
 }

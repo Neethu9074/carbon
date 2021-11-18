@@ -23,7 +23,7 @@ describe('in-custom-dashboards/widgets/Slo/Tiles/SloTile', () => {
     expect(wrapper.find(`.${locals.value}`).text()).toContain(valueMissingPlaceholder);
   });
 
-  it('renders a placeholder is budget is undefined', () => {
+  it('renders a placeholder if budget is undefined', () => {
     // Given
     const budget = undefined;
 
@@ -100,11 +100,11 @@ describe('in-custom-dashboards/widgets/Slo/Tiles/SloTile', () => {
 
   it('renders in a compact style if compact is true', () => {
     // Given
-    const smallRowStyle = true;
+    const compact = true;
 
     // When
     const wrapper = shallow(
-      <SloTile title="" budgetTitle="" value="something" budget="somethingElse" compact={smallRowStyle} />
+      <SloTile title="" budgetTitle="" value="something" budget="somethingElse" compact={compact} />
     );
 
     // Then
