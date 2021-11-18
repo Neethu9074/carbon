@@ -9,6 +9,9 @@
  - [Markdown/FormComponent](../../packages/in-custom-dashboards/widgets/Markdown/FormComponent_test.js) (input change events)
  - [useUrlState](../../packages/in-hooks/useUrlState_test.js) (button clicks)
 
+## Observables
+ - [Testing functions that return observables](../../packages/in-sdk/getItemsInAvailabilityZone_test.js)
+
 ## Mocking WebSocket APIs
 
  - [BigNumber/Widget](../../packages/in-custom-dashboards/widgets/BigNumber/Widget_test.js)
