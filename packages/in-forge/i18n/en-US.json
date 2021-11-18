@@ -1274,10 +1274,10 @@
   "tracingTypeName_axisserver_0": "HTTP Call",
   "tracingTypeName_axisserver_1": "HTTP Calls",
   "tracingTypeName_axisserver_2": "HTTP Calls",
-  "tracingTypeName_azq": "Azure Queue",	
-  "tracingTypeName_azq_plural": "Azure Queues",	
-  "tracingTypeName_azq_0": "Azure Queue",	
-  "tracingTypeName_azq_1": "Azure Queues",	
+  "tracingTypeName_azq": "Azure Queue",
+  "tracingTypeName_azq_plural": "Azure Queues",
+  "tracingTypeName_azq_0": "Azure Queue",
+  "tracingTypeName_azq_1": "Azure Queues",
   "tracingTypeName_azq_2": "Azure Queues",
   "tracingTypeName_batchsynthetic": "Internal trigger",
   "tracingTypeName_batchsynthetic_plural": "Internal triggers",
@@ -8553,6 +8553,18 @@
             "tcpState": "Tcp State",
             "bytesSentRemotely": "Bytes Sent Remotely",
             "bytesReceivedLocally" : "Bytes Received Locally"
+          },
+          "messageQueue": {
+            "name": "Message Queue",
+            "messageId": "ID",
+            "messageType": "Type",
+            "severity": "Severity",
+            "messageQueueLibrary": "Library Name",
+            "messageQueueName" : "Queue Name",
+            "messageTimestamp": "Timestamp",
+            "messageText": "Text",
+            "messageSecondLevelText" : "Second Level Text",
+            "messageKey": "Key"
           }
         }
       },
@@ -11246,12 +11258,12 @@
       "yes": "Yes",
       "no": "No"
     },
-    "azq": {	
-      "queuename": "Queue Name",	
-      "messagesuri": "Messages Uri",	
-      "storageaccountname": "Storage Account Name",	
-      "queueuri": "Queue Uri",	
-      "methodname": "Method Name"	
+    "azq": {
+      "queuename": "Queue Name",
+      "messagesuri": "Messages Uri",
+      "storageaccountname": "Storage Account Name",
+      "queueuri": "Queue Uri",
+      "methodname": "Method Name"
     },
     "LambdaInvoke": {
       "titleARN": "ARN",

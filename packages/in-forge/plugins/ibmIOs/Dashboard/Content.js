@@ -16,6 +16,7 @@ import NetstatBytesOutTable from './NetstatBytesOutTable';
 import NetstatBytesInTable from './NetstatBytesInTable';
 import UserSpoolSpaceTable from './UserSpoolSpaceTable';
 import MetricValue from 'in-components/MetricValue';
+import MessageQueueTable from './MessageQueueTable';
 import OutputQueueTable from './OutputQueueTable';
 import MemoryPoolsTable from './MemoryPoolTable';
 import ActiveJobsTable from './ActiveJobsTable';
@@ -175,6 +176,7 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       <NetstatInterfaceTable snapshot={snapshot} timeConfig={timeConfig} />
       <NetstatBytesInTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <NetstatBytesOutTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <MessageQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }

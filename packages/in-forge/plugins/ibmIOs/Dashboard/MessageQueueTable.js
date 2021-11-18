@@ -1,0 +1,186 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React from 'react';
+
+import TimeOfLastUpdateCardTitle from 'in-sdk/components/dashboard/TimeOfLastUpdateCardTitle';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
+import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
+
+const MessageTypeEnum = jobType => {
+  switch (jobType) {
+    case 1:
+      return 'COMPLETION';
+    case 2:
+      return 'DIAGNOSTIC';
+    case 3:
+      return 'ESCAPE';
+    case 4:
+      return 'INFORMATIONAL';
+    case 5:
+      return 'INQUIRY';
+    case 6:
+      return 'NOTIFY';
+    case 7:
+      return 'REPLY';
+    case 8:
+      return 'REQUEST';
+    case 9:
+      return 'SENDER';
+    default:
+      return '-';
+  }
+};
+
+const cols = [
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageId'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.messageQueueStringData.get('messageId');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageQueueLibrary'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.messageQueueStringData.get('messageQueueLibrary');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageQueueName'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.messageQueueStringData.get('messageQueueName');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageKey'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.messageQueueStringData.get('messageKey');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageType'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `messageQueueMetrics.${row.key}.messageType`;
+      },
+      getContent: MessageTypeEnum,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.severity'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName(row) {
+        return `messageQueueMetrics.${row.key}.severity`;
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageTimestamp'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.messageQueueStringData.get('messageTimestamp');
+      }
+    }
+  }
+];
+
+export default connectTo(
+  props => {
+    const { snapshotId } = props;
+    return {
+      data: getRawPayloadWithTimestamp(snapshotId, 'messageQueueInfoRawPayload')
+    };
+  },
+  function jobQueueTable({ data, snapshotId, timeConfig }) {
+    if (!data || !data.get('raw_payload')) {
+      return null;
+    }
+    const messageQueueInfoRawPayload = data.get('raw_payload');
+    if (messageQueueInfoRawPayload.size === 0) {
+      return null;
+    }
+
+    const rows = messageQueueInfoRawPayload
+      .map((messageQueueStringData, key) => {
+        return {
+          key,
+          messageQueueStringData,
+          timeConfig,
+          snapshotId
+        };
+      })
+      .valueSeq()
+      .toArray();
+
+    return (
+      <Table
+        withoutPadding
+        cardTitle={
+          <TimeOfLastUpdateCardTitle
+            title={t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.name')}
+            timestamp={data.get('timestamp')}
+          />
+        }
+        cols={cols}
+        rows={rows}
+        initialSortColumn={6}
+        initialSortDirection="desc"
+        getRowDetails={getRowDetails}
+      />
+    );
+  }
+);
+
+function getRowDetails(row) {
+  return (
+    <div>
+      <p>
+        <label>
+          <strong>{t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageText')}</strong>
+          {' : '}
+        </label>
+        {row.messageQueueStringData.get('messageText')}
+      </p>
+      <p>
+        <label>
+          <strong>{t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageSecondLevelText')}</strong>
+          {' : '}
+        </label>
+        {row.messageQueueStringData.get('messageSecondLevelText')}
+      </p>
+    </div>
+  );
+}
