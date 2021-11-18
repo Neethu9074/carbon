@@ -19,11 +19,11 @@ import {
   IdpGroupMapping
 } from 'in-settings/tabs/AuthSettings/api/groupMappings';
 // @ts-expect-error
+import { getConfigAsResultObservableNotMemoized as ldapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+// @ts-expect-error
 import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 // @ts-expect-error
 import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
-// @ts-expect-error
-import { getConfigAsResultObservable as ldapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 import GroupMapping from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/GroupMapping';
 // @ts-expect-error
 import { getGroupsAsResultObservable } from 'in-settings/tabs/TeamSettings/api/groups';

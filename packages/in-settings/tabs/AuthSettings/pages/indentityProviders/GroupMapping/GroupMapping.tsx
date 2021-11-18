@@ -37,9 +37,9 @@ import {
   IdentityProviderPatch
 } from 'in-settings/tabs/AuthSettings/api/groupMappings';
 // @ts-expect-error
-import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
+import { getConfigAsResultObservableNotMemoized as ldapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
 // @ts-expect-error
-import { getConfigAsResultObservable as ldapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { getConfigAsResultObservable as oidcConfig } from 'in-settings/tabs/AuthSettings/api/oidc';
 // @ts-expect-error
 import { getConfigAsResultObservable as samlConfig } from 'in-settings/tabs/AuthSettings/api/saml';
 // @ts-expect-error
