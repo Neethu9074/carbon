@@ -377,14 +377,16 @@
         "userJourneyOffering": "User Journey / Offering",
         "appnPerspective": "Application Perspective",
         "selectAppPerspect": "Please select an Application Perspective.",
-        "appPerspectHelpAction": "Set up user journeys / offerings by modeling them as an Application Perspective in the Applications area of the product.",
+        "appPerspectHelpAction": "Set up user journeys / offerings by modeling them as an Application Perspective in the Applications area.",
+        "rbacHint": "Applications shown may be limited by permissions.",
         "noAppPerspect": "No Application Perspectives!",
         "pleaseSelect": "Please select"
       },
       "websiteSelector": {
         "website": "Website",
         "selectWebsite": "Please select a Website",
-        "websiteHelpAction": "Configure Websites in the Websites & Mobile Apps area of the product.",
+        "websiteHelpAction": "Configure Websites in the Websites & Mobile Apps area.",
+        "rbacHint": "Websites shown may be limited by permissions.",
         "noWebsites": "No Websites found",
         "pleaseSelect": "Please select"
       },

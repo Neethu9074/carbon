@@ -8,6 +8,7 @@ import React from 'react';
 import { useObservable } from '@instana/hooks';
 
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
+import { Spacer } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
@@ -33,7 +34,13 @@ export default function WebsiteSelector({ websiteIdField: field, onChange, getWe
             message={t('in-custom-dashboards:widgets.slo.websiteSelector.selectWebsite')}
           />
         }
-        actions={<HelpAction>{t('in-custom-dashboards:widgets.slo.websiteSelector.websiteHelpAction')}</HelpAction>}
+        actions={
+          <HelpAction>
+            {t('in-custom-dashboards:widgets.slo.websiteSelector.websiteHelpAction')}
+            <Spacer />
+            {t('in-custom-dashboards:widgets.slo.websiteSelector.rbacHint')}
+          </HelpAction>
+        }
       >
         {!configs?.length && (
           <option value="">{t('in-custom-dashboards:widgets.slo.websiteSelector.noWebsites')}</option>
