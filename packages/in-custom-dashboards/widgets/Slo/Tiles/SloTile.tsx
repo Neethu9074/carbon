@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import classNames from 'classnames';
 import React from 'react';
 
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
@@ -12,25 +13,33 @@ import locals from './SloTile.mless';
 interface SloTileProps {
   title: string;
   value?: string | number;
-  targetValue?: string | number;
-  targetInfo: string;
-  color?: string;
-  smallRowStyle?: boolean;
+  budget?: string | number;
+  budgetTitle: string;
+  compact?: boolean;
+  budgetSpent?: boolean;
 }
 
-export default function SloTile({ smallRowStyle, title, value, color, targetInfo, targetValue }: SloTileProps) {
-  if (smallRowStyle) {
+export default function SloTile({ compact, title, value, budgetTitle, budget, budgetSpent }: SloTileProps) {
+  const valuesPresent = value && budget;
+
+  if (compact) {
     return (
       <div className={locals.oneRow}>
         <div className={locals.titleValueBorder}>
           <span>{title}:</span>
-          <span className={locals.value} style={{ color }}>
+          <span
+            className={classNames({
+              [locals.value]: true,
+              [locals.budgetAvailable]: valuesPresent && !budgetSpent,
+              [locals.budgetSpent]: valuesPresent && budgetSpent
+            })}
+          >
             {value || valueMissingPlaceholder}
           </span>
         </div>
         <div className={locals.targetInfo}>
-          <span>{targetInfo}</span>
-          <span className={locals.targetInfoValue}>{targetValue || valueMissingPlaceholder}</span>
+          <span>{budgetTitle}</span>
+          <span className={locals.targetInfoValue}>{budget || valueMissingPlaceholder}</span>
         </div>
       </div>
     );
@@ -39,12 +48,18 @@ export default function SloTile({ smallRowStyle, title, value, color, targetInfo
     <div className={locals.tile}>
       <div className={locals.title}>{title}</div>
 
-      <div className={locals.value} style={{ color }}>
+      <div
+        className={classNames({
+          [locals.value]: true,
+          [locals.budgetAvailable]: valuesPresent && !budgetSpent,
+          [locals.budgetSpent]: valuesPresent && budgetSpent
+        })}
+      >
         <span>{value || valueMissingPlaceholder}</span>
       </div>
 
       <div className={locals.targetInfo}>
-        <span>{targetInfo}</span> <span className={locals.leftSpace}>{targetValue || valueMissingPlaceholder}</span>
+        <span>{budgetTitle}</span> <span className={locals.leftSpace}>{budget || valueMissingPlaceholder}</span>
       </div>
     </div>
   );

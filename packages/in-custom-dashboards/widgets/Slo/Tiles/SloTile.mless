@@ -54,6 +54,14 @@
       color: @lib__colors__N600Light;
       font-size: @lib__typography__body__font-size;
     }
+
+    .budgetAvailable {
+      color: @lib__colors__green800;
+    }
+
+    .budgetSpent {
+      color: @lib__colors__red800;
+    }
   }
 
   .oneRow {
@@ -102,6 +110,14 @@
         padding-left: 1em;
         color: @lib__colors__N600Light;
       }
+    }
+
+    .budgetAvailable {
+      color: @lib__colors__green800;
+    }
+
+    .budgetSpent {
+      color: @lib__colors__red800;
     }
   }
 }
