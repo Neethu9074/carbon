@@ -9,7 +9,7 @@ import { compactTimeInterval } from 'in-custom-dashboards/widgets/Slo/Tiles/SloT
 
 describe('in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile', function() {
   describe('#compactTimeInterval', function() {
-    function testConversionResule(fromDate, toDate) {
+    function testConversionResule(fromDate: Date, toDate: Date): string {
       const { fromStr, toStr } = compactTimeInterval(fromDate.getTime(), toDate.getTime());
       return fromStr + ' - ' + toStr;
     }
