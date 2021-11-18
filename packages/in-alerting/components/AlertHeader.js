@@ -273,7 +273,7 @@ export default function AlertHeader({
           )}
         />
       )}
-      {isNotLatestRevision && (
+      {!isDeletedConfig && isNotLatestRevision && (
         <Message withIcon className={locals.bottomSpace}>
           <Trans
             i18nKey="in-alerting:components.alertHeaderIsNotLatestRevisionMessage"
