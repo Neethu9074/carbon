@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { formatDateTime, formatDateShort, formatTimeWithoutSeconds } from 'in-services/formatters/date';
@@ -12,7 +11,24 @@ import { Trans } from 'in-i18n';
 
 import locals from './SloTile.mless';
 
-export default function SloTimeTile({ smallRowStyle, title, fromTimestamp, toTimestamp, color, info }) {
+type Timestamp = number | Date;
+interface SloTimeTileProps {
+  title: string;
+  info: string;
+  fromTimestamp?: Timestamp;
+  toTimestamp?: Timestamp;
+  smallRowStyle?: boolean;
+  color?: string;
+}
+
+export default function SloTimeTile({
+  smallRowStyle,
+  title,
+  fromTimestamp,
+  toTimestamp,
+  color,
+  info
+}: SloTimeTileProps) {
   if (smallRowStyle) {
     return (
       <div className={locals.oneRow}>
@@ -46,11 +62,17 @@ export default function SloTimeTile({ smallRowStyle, title, fromTimestamp, toTim
   );
 }
 
-function DateTime({ timeStamp }) {
-  return timeStamp && <time dateTime={new Date(timeStamp).toISOString()}>{formatDateTime(timeStamp)}</time>;
+interface DateTimeProps {
+  timeStamp?: Timestamp;
+}
+function DateTime({ timeStamp }: DateTimeProps) {
+  if (!timeStamp) return null;
+
+  return <time dateTime={new Date(timeStamp).toISOString()}>{formatDateTime(timeStamp)}</time>;
 }
 
-export function compactTimeInterval(from, to) {
+type CompactTimeInterval = { fromStr: string; toStr: string };
+export function compactTimeInterval(from: Timestamp, to: Timestamp): CompactTimeInterval {
   const fromDate = new Date(from);
   const toDate = new Date(to);
   const fromYear = fromDate.getFullYear();
@@ -61,9 +83,13 @@ export function compactTimeInterval(from, to) {
   return { fromStr, toStr };
 }
 
-function CompactFromToDates({ from, to }) {
+interface CompactFromToDatesProps {
+  from?: Timestamp;
+  to?: Timestamp;
+}
+function CompactFromToDates({ from, to }: CompactFromToDatesProps) {
   if (!from && !to) {
-    return valueMissingPlaceholder;
+    return <>{valueMissingPlaceholder}</>;
   }
   if (from && to) {
     const { fromStr, toStr } = compactTimeInterval(from, to);
@@ -86,15 +112,6 @@ function CompactFromToDates({ from, to }) {
   );
 }
 
-function fmt(timestamp, appendYear) {
+function fmt(timestamp: Timestamp, appendYear: string): string {
   return `${formatDateShort(timestamp)}${appendYear} ${formatTimeWithoutSeconds(timestamp)}`;
 }
-
-SloTimeTile.propTypes = {
-  smallRowStyle: PropTypes.bool,
-  title: PropTypes.string,
-  fromTimestamp: PropTypes.number,
-  toTimestamp: PropTypes.number,
-  info: PropTypes.string.isRequired,
-  color: PropTypes.string
-};
