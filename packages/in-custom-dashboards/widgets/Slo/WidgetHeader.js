@@ -9,7 +9,6 @@ import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
 import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
 import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import { percentage } from 'in-services/formatters/number';
-import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/WidgetHeader.mless';
@@ -26,9 +25,8 @@ export function WidgetHeader({
   metricSli: sli,
   metricRemaining: remaining
 }) {
-  const { green800, red800 } = theme.lib.colors;
-  const sliColor = slo === null || sli === null ? '' : sli >= slo ? green800 : red800;
-  const budgetColor = !remaining ? '' : remaining > 0 ? green800 : red800;
+  const sloSpent = slo != null && sli != null && sli < slo;
+  const budgetSpent = remaining != null && remaining <= 0;
   const sliFormatter = getSliFormatter(sliEntity);
 
   return (
@@ -37,20 +35,20 @@ export function WidgetHeader({
         <SloTile
           title={t('in-custom-dashboards:widgets.slo.widgetHeader.status')}
           value={sli && percentage.detailed(sli)}
-          targetInfo={t('in-custom-dashboards:widgets.slo.widgetHeader.target')}
-          targetValue={slo && percentage.detailed(slo)}
-          color={sliColor}
+          budgetTitle={t('in-custom-dashboards:widgets.slo.widgetHeader.target')}
+          budget={slo && percentage.detailed(slo)}
+          budgetSpent={sloSpent}
         />
         <SloTile
           title={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudgetSpent')}
           value={spent && sliFormatter(spent)}
-          targetInfo={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudget')}
-          targetValue={budget && sliFormatter(budget)}
-          color={budgetColor}
+          budgetTitle={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudget')}
+          budget={budget && sliFormatter(budget)}
+          budgetSpent={budgetSpent}
         />
         <SloTimeTile
           title={t('in-custom-dashboards:widgets.slo.widgetHeader.timeWindow')}
-          info={
+          timeFrameLabel={
             isDynamic
               ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow')
               : isRolling
@@ -65,21 +63,21 @@ export function WidgetHeader({
         <SloTile
           title={t('in-custom-dashboards:widgets.slo.widgetHeader.status')}
           value={sli && percentage.detailed(sli)}
-          targetInfo={t('in-custom-dashboards:widgets.slo.widgetHeader.target')}
-          targetValue={slo && percentage.detailed(slo)}
-          color={sliColor}
-          smallRowStyle
+          budgetTitle={t('in-custom-dashboards:widgets.slo.widgetHeader.target')}
+          budget={slo && percentage.detailed(slo)}
+          budgetSpent={sloSpent}
+          compact
         />
         <SloTile
           title={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudgetSpent')}
           value={spent && sliFormatter(spent)}
-          targetInfo={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudget')}
-          targetValue={budget && sliFormatter(budget)}
-          color={budgetColor}
-          smallRowStyle
+          budgetTitle={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudget')}
+          budget={budget && sliFormatter(budget)}
+          budgetSpent={budgetSpent}
+          compact
         />
         <SloTimeTile
-          info={
+          timeFrameLabel={
             isDynamic
               ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow')
               : isRolling
@@ -88,7 +86,7 @@ export function WidgetHeader({
           }
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
-          smallRowStyle
+          compact
         />
       </div>
     </>

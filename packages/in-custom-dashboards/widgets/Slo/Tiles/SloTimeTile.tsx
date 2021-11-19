@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { formatDateTime, formatDateShort, formatTimeWithoutSeconds } from 'in-services/formatters/date';
@@ -12,12 +11,21 @@ import { Trans } from 'in-i18n';
 
 import locals from './SloTile.mless';
 
-export default function SloTimeTile({ smallRowStyle, title, fromTimestamp, toTimestamp, color, info }) {
-  if (smallRowStyle) {
+type Timestamp = number | Date;
+interface SloTimeTileProps {
+  title: string;
+  timeFrameLabel: string;
+  fromTimestamp?: Timestamp;
+  toTimestamp?: Timestamp;
+  compact?: boolean;
+}
+
+export default function SloTimeTile({ compact, title, fromTimestamp, toTimestamp, timeFrameLabel }: SloTimeTileProps) {
+  if (compact) {
     return (
       <div className={locals.oneRow}>
-        <div style={{ color }} className={locals.titleValue}>
-          <span>{info}:</span>
+        <div className={locals.titleValue}>
+          <span>{timeFrameLabel}:</span>
           <span className={locals.value}>
             <CompactFromToDates from={fromTimestamp} to={toTimestamp} />
           </span>
@@ -29,7 +37,7 @@ export default function SloTimeTile({ smallRowStyle, title, fromTimestamp, toTim
     <div className={locals.tile}>
       <div className={locals.title}>{title}</div>
 
-      <div style={{ color }} className={locals.value}>
+      <div className={locals.value}>
         <div className={locals.timeRangeValue}>
           <Trans
             i18nKey="in-custom-dashboards:widgets.slo.sloTimeTile.sloTime"
@@ -41,29 +49,38 @@ export default function SloTimeTile({ smallRowStyle, title, fromTimestamp, toTim
         </div>
       </div>
 
-      <div className={locals.targetInfo}>{info}</div>
+      <div className={locals.targetInfo}>{timeFrameLabel}</div>
     </div>
   );
 }
 
-function DateTime({ timeStamp }) {
-  return timeStamp && <time dateTime={new Date(timeStamp).toISOString()}>{formatDateTime(timeStamp)}</time>;
+interface DateTimeProps {
+  timeStamp?: Timestamp;
+}
+function DateTime({ timeStamp }: DateTimeProps) {
+  if (!timeStamp) return null;
+
+  return <time dateTime={new Date(timeStamp).toISOString()}>{formatDateTime(timeStamp)}</time>;
 }
 
-export function compactTimeInterval(from, to) {
+type CompactTimeInterval = { fromStr: string; toStr: string };
+export function compactTimeInterval(from: Timestamp, to: Timestamp): CompactTimeInterval {
   const fromDate = new Date(from);
   const toDate = new Date(to);
   const fromYear = fromDate.getFullYear();
   const toYear = toDate.getFullYear();
-  const sameYear = fromYear === toYear;
-  const fromStr = fmt(from, '');
-  const toStr = fmt(to, !sameYear ? '' : ', ' + toYear);
+  const fromStr = fmt(from, fromYear);
+  const toStr = fmt(to, toYear);
   return { fromStr, toStr };
 }
 
-function CompactFromToDates({ from, to }) {
+interface CompactFromToDatesProps {
+  from?: Timestamp;
+  to?: Timestamp;
+}
+function CompactFromToDates({ from, to }: CompactFromToDatesProps) {
   if (!from && !to) {
-    return valueMissingPlaceholder;
+    return <>{valueMissingPlaceholder}</>;
   }
   if (from && to) {
     const { fromStr, toStr } = compactTimeInterval(from, to);
@@ -71,9 +88,9 @@ function CompactFromToDates({ from, to }) {
     const toDate = new Date(to);
     return (
       <>
-        {from && <time dateTime={fromDate.toISOString()}>{fromStr}</time>}
+        <time dateTime={fromDate.toISOString()}>{fromStr}</time>
         {' – '}
-        {to && <time dateTime={toDate.toISOString()}>{toStr}</time>}
+        <time dateTime={toDate.toISOString()}>{toStr}</time>
       </>
     );
   }
@@ -86,15 +103,6 @@ function CompactFromToDates({ from, to }) {
   );
 }
 
-function fmt(timestamp, appendYear) {
-  return `${formatDateShort(timestamp)}${appendYear} ${formatTimeWithoutSeconds(timestamp)}`;
+function fmt(timestamp: Timestamp, appendYear: number): string {
+  return `${formatDateShort(timestamp)}${', ' + appendYear} ${formatTimeWithoutSeconds(timestamp)}`;
 }
-
-SloTimeTile.propTypes = {
-  smallRowStyle: PropTypes.bool,
-  title: PropTypes.string,
-  fromTimestamp: PropTypes.number,
-  toTimestamp: PropTypes.number,
-  info: PropTypes.string.isRequired,
-  color: PropTypes.string
-};
