@@ -94,6 +94,9 @@ pipeline {
                 }
               } catch (e) {
                 setBuildStatus('Build Failure', 'FAILURE')
+                if ( branchName.startsWith('typescript-typedefinitions-')) {
+                  notifyTsUpdateFailure(branchName)
+                }
                 throw e
               }
             }
@@ -344,4 +347,13 @@ def notifySuccess(channel, message) {
 
 def notifyFailure(channel, message) {
   slackSend channel: channel, color: 'danger', message: message
+}
+
+def notifyTsUpdateFailure(branchName) {
+  def message = new StringBuilder()
+  message.append(":typescript: update failed on `${branchName}` :boom:\n")
+  message.append("<https://github.com/instana/ui-client/pulls?q=is%3Apr+is%3Aopen+%5BTypeDefs%5D|:octocat: View PR on github>\n")
+  message.append("<${env.BUILD_URL}|:mag: Open jenkins build #${env.BUILD_NUMBER}>")
+
+  notifyFailure('tech-ui-dev', message.toString())
 }
