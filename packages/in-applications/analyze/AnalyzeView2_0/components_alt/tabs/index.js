@@ -25,7 +25,7 @@ export default [
   },
   loggingEnabled && {
     label: t('in-applications:tabs.logs'),
-    icon: !role.canViewLogs ? 'lib_actions_lock' : undefined,
+    postIcon: !role.canViewLogs ? 'lib_actions_lock' : undefined,
     path: '/analyze/logs',
     component: Logs,
     noTopPadding: true

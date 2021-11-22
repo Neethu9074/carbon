@@ -45,6 +45,7 @@ export function SecondLevelNavigationItem({
   isDisabled,
   label,
   icon,
+  postIcon,
   addSeparator,
   addGroupSeparator
 }) {
@@ -68,8 +69,9 @@ export function SecondLevelNavigationItem({
         })}
       >
         <div className={locals.content}>
-          {label}
           {icon && <SvgIcon className={locals.icon} type={icon} size="s" />}
+          {label}
+          {postIcon && <SvgIcon className={locals.postIcon} type={postIcon} size="s" />}
         </div>
       </div>
     </Link>
