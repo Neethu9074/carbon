@@ -219,6 +219,10 @@ export interface ApplicationConfig extends AbstractApplicationConfig {
   readonly id: string;
 }
 
+export interface ApplicationConfigWithAlertingDetails extends ApplicationConfig {
+  readonly builtInAlertIds: string[];
+}
+
 export interface ApplicationCursorPaginatedItem extends Metricific, Cursorific<IngestionOffsetCursor> {
   readonly application: Application;
   readonly cursor: IngestionOffsetCursor;
@@ -293,6 +297,9 @@ export interface AvailablePlugins {
 
 export interface BackendTrace {
   readonly traceId: string;
+}
+
+export interface BeaconTypeSerializer extends JsonSerializer<BeaconType> {
 }
 
 export interface BinaryOperatorDTO extends MatchExpressionDTO {
@@ -1505,13 +1512,7 @@ export interface GetOpenEventsCountTimeSeriesQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetPhmcConsolesQuery extends PaginatedQuery {
-  readonly filter: PhmcQueryFilter;
-  readonly order: Order;
-  readonly pagination: Pagination;
-}
-
-export interface GetPhmcSystemsQuery extends PaginatedQuery {
+export interface GetPhmcQuery extends PaginatedQuery {
   readonly filter: PhmcQueryFilter;
   readonly order: Order;
   readonly pagination: Pagination;
@@ -2151,6 +2152,14 @@ export interface JavaScriptError {
   readonly parsedStackTrace?: StackTraceLine[];
   readonly stackTrace?: string;
   readonly stackTraceParsingStatus: number;
+}
+
+export interface JsonFormatVisitable {
+}
+
+export interface JsonSerializer<T> extends JsonFormatVisitable {
+  readonly delegatee?: JsonSerializer<any>;
+  readonly unwrappingSerializer: boolean;
 }
 
 export interface KubernetesAnnotation {
@@ -2855,6 +2864,16 @@ export interface MatchExpressionDTO {
   readonly type?: string;
 }
 
+export interface MatchingRule {
+  readonly allowTransmissionViaInsecureChannel: boolean;
+  readonly hostEquality?: string;
+  readonly hostPrefix?: string;
+  readonly hostSuffix?: string;
+  readonly pathEquality?: string;
+  readonly pathPrefix?: string;
+  readonly pathSuffix?: string;
+}
+
 export interface Message {
   readonly errorCode: ErrorCode;
   readonly subscriptionId?: number;
@@ -2904,6 +2923,7 @@ export interface MetricQuery {
 
 export interface MetricResult {
   readonly id: string;
+  readonly resultPrecisionDetails?: ResultPrecisionDetails;
   readonly values: number[][];
 }
 
@@ -3042,6 +3062,13 @@ export interface MobileAppSubdivisionsItem {
   readonly subdivisionCode?: string;
 }
 
+export interface NewApplicationConfig extends AbstractApplicationConfig {
+}
+
+export interface NewApplicationConfigWithAlertingDetails extends NewApplicationConfig {
+  readonly builtInAlertIds: string[];
+}
+
 export interface OperatingSystem {
   readonly name: string;
   readonly version?: string;
@@ -3110,9 +3137,35 @@ export interface PhmcConsoleItemCounters extends FilterableListItem {
   readonly vios?: number;
 }
 
+export interface PhmcItem {
+  readonly id: string;
+  readonly label: string;
+  readonly mode?: string;
+  readonly name: string;
+  readonly partitionId?: number;
+  readonly state?: string;
+  readonly systemId?: string;
+}
+
+export interface PhmcListItem extends FilterableListItem, ListItemWithMetric {
+  readonly consoleId?: string;
+  readonly entityId?: EntityId;
+  readonly id: string;
+  readonly label: string;
+  readonly mode?: string;
+  readonly state?: string;
+  readonly systemId?: string;
+}
+
+export interface PhmcLparItem extends PhmcItem {
+  readonly lparId: string;
+  readonly viosId?: string;
+}
+
 export interface PhmcQueryFilter extends FilterInterface {
   readonly consoleId?: string;
   readonly label?: string;
+  readonly lparId?: string;
   readonly snapshotId?: string;
   readonly systemId?: string;
   readonly timeConfig: TimeConfig;
@@ -3137,8 +3190,11 @@ export interface PhmcSystemListItem extends FilterableListItem, ListItemWithMetr
   readonly machineSerial?: string;
   readonly machineTypeModel?: string;
   readonly partitions?: number;
-  readonly status?: number;
   readonly vios?: number;
+}
+
+export interface PhmcViosItem extends PhmcItem {
+  readonly viosId: string;
 }
 
 export interface PhysicalContext {
@@ -3546,6 +3602,20 @@ export interface SnapshotPreview {
   readonly label?: string;
   readonly plugin?: string;
   readonly time: number;
+}
+
+export interface SourceMapDownloadConfig {
+  readonly basicAuthPassword?: string;
+  readonly basicAuthPasswordEncrypted: boolean;
+  readonly basicAuthUserName?: string;
+  readonly headers: { [index: string]: string };
+  readonly id: string;
+  readonly matchingRules: MatchingRule[];
+}
+
+export interface SourceMapDownloadConfigs {
+  readonly config?: SourceMapDownloadConfig[];
+  readonly configs: SourceMapDownloadConfig[];
 }
 
 export interface Span {
@@ -4239,6 +4309,15 @@ export interface WebsiteBeaconsItem extends Cursorific<IngestionOffsetCursor> {
   readonly cursor: IngestionOffsetCursor;
 }
 
+export interface WebsiteConfiguration {
+  /**
+   * @deprecated
+   */
+  readonly appName?: string;
+  readonly id: string;
+  readonly name: string;
+}
+
 export interface WebsiteCountryBreakdown {
   readonly beaconCount: number;
   readonly country: string;
@@ -4251,8 +4330,8 @@ export interface WebsiteErrorsItem {
 }
 
 export interface WebsiteEventBasedSliEntity extends WebsiteSliEntity {
-  readonly badEventsFilterExpression: TagFilterExpressionElement;
-  readonly goodEventsFilterExpression: TagFilterExpressionElement;
+  readonly badEventFilterExpression: TagFilterExpressionElement;
+  readonly goodEventFilterExpression: TagFilterExpressionElement;
 }
 
 export interface WebsiteItem {
@@ -4469,6 +4548,7 @@ export interface ZhmcCpcItem {
   readonly label: string;
   readonly name: string;
   readonly networkPorts?: string[];
+  readonly partitionNetworks?: string[];
   readonly partitions?: string[];
   readonly processors?: string[];
 }
