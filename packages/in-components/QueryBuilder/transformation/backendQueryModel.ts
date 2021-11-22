@@ -3,9 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { CLOSE_BRACKET, OPEN_BRACKET, TAG, CONJUNCTION } from 'in-components/QueryBuilder/transformation/formModel';
+import {
+  CLOSE_BRACKET,
+  Conjunction,
+  CONJUNCTION,
+  FormModelElement,
+  OPEN_BRACKET,
+  TAG
+} from 'in-components/QueryBuilder/transformation/formModel';
 import { toTagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { GREATER_OR_EQUAL_THAN, LESS_THAN, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
+import { LogicalOperator, TagFilter, TagFilterExpression, TagFilterExpressionElement } from 'in-types';
 import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import { deepFreeze } from 'in-services/util/object';
 
@@ -17,14 +25,17 @@ export const OPERATOR_NOT = 'NOT';
 
 export const EMPTY_EXPRESSION = deepFreeze(createTagFilterExpression(OPERATOR_AND, []));
 
-export function toBackendQueryModel(formModel, simplify = true) {
+export function toBackendQueryModel(formModel?: FormModelElement[], simplify = true) {
   if (!formModel || formModel.length === 0) {
     return EMPTY_EXPRESSION;
   }
   return parseOrExpression(formModel.slice(), simplify);
 }
 
-export function createTagFilterExpression(logicalOperator, elements) {
+export function createTagFilterExpression(
+  logicalOperator: LogicalOperator,
+  elements: TagFilterExpressionElement[]
+): TagFilterExpression {
   return {
     type: EXPRESSION,
     logicalOperator,
@@ -32,7 +43,11 @@ export function createTagFilterExpression(logicalOperator, elements) {
   };
 }
 
-export function addTagFilters(backendQueryModel, tagFilters, logicalOperator = OPERATOR_AND) {
+export function addTagFilters(
+  backendQueryModel: TagFilterExpression,
+  tagFilters: TagFilterExpressionElement[],
+  logicalOperator: LogicalOperator = OPERATOR_AND
+): TagFilterExpression | TagFilterExpressionElement {
   if (isEmptyExpression(backendQueryModel)) {
     if (tagFilters.length == 1) {
       return tagFilters[0];
@@ -51,7 +66,7 @@ export function addTagFilters(backendQueryModel, tagFilters, logicalOperator = O
   };
 }
 
-function isEmptyExpression(backendQueryModel) {
+function isEmptyExpression(backendQueryModel: TagFilterExpression): boolean {
   return !backendQueryModel || (backendQueryModel.type === EXPRESSION && backendQueryModel.elements.length === 0);
 }
 
@@ -62,11 +77,11 @@ function isEmptyExpression(backendQueryModel) {
 // not_expression := ["NOT"] term .
 // term := tag | "(" { expression } ")" .
 
-function parseOrExpression(tokens, simplify = true) {
-  const elements = [];
+function parseOrExpression(tokens: FormModelElement[], simplify = true): TagFilterExpressionElement {
+  const elements: TagFilterExpressionElement[] = [];
   elements.push(parseAndExpression(tokens, simplify));
-  let next = peek(tokens);
-  while (next?.type === CONJUNCTION && next?.logicalOperator === OPERATOR_OR) {
+  let next = peek<FormModelElement>(tokens);
+  while (next?.type === CONJUNCTION && (next as Conjunction)?.logicalOperator === OPERATOR_OR) {
     tokens.shift();
     elements.push(parseAndExpression(tokens, simplify));
     next = peek(tokens);
@@ -77,11 +92,11 @@ function parseOrExpression(tokens, simplify = true) {
   return createTagFilterExpression(OPERATOR_OR, elements);
 }
 
-function parseAndExpression(tokens, simplify = true) {
-  const elements = [];
+function parseAndExpression(tokens: FormModelElement[], simplify = true): TagFilterExpressionElement {
+  const elements: TagFilterExpressionElement[] = [];
   elements.push(parseNotExpression(tokens, simplify));
-  let next = peek(tokens);
-  while (next?.type === CONJUNCTION && next?.logicalOperator === OPERATOR_AND) {
+  let next = peek<FormModelElement>(tokens);
+  while (next?.type === CONJUNCTION && (next as Conjunction)?.logicalOperator === OPERATOR_AND) {
     tokens.shift();
     elements.push(parseNotExpression(tokens, simplify));
     next = peek(tokens);
@@ -92,23 +107,27 @@ function parseAndExpression(tokens, simplify = true) {
   return createTagFilterExpression(OPERATOR_AND, elements);
 }
 
+// @ts-expect-error waitiong for reply on: https://instana.slack.com/archives/G5LCSUJGY/p1636447650143600
 function parseNotExpression(tokens, simplify = true) {
   const next = peek(tokens);
+  // @ts-expect-error
   if (next?.type === CONJUNCTION && next?.logicalOperator === OPERATOR_NOT) {
     tokens.shift();
+    // @ts-expect-error
     return createTagFilterExpression(OPERATOR_NOT, [parseTerm(tokens, simplify)]);
   }
   return parseTerm(tokens, simplify);
 }
 
-function parseTerm(tokens, simplify = true) {
+function parseTerm(tokens: FormModelElement[], simplify = true): TagFilterExpressionElement {
   const next = tokens.shift();
-  if (next.type === TAG) {
+
+  if (next?.type === TAG) {
     return toTagFilter(next);
   }
-  if (next.type === OPEN_BRACKET) {
+  if (next?.type === OPEN_BRACKET) {
     const next = peek(tokens);
-    if (next.type === CLOSE_BRACKET) {
+    if (next?.type === CLOSE_BRACKET) {
       return EMPTY_EXPRESSION;
     }
     const term = parseOrExpression(tokens, simplify);
@@ -120,10 +139,10 @@ function parseTerm(tokens, simplify = true) {
     }
     return createTagFilterExpression(OPERATOR_AND, [term]);
   }
-  throw new Error('Unexpected token ' + next.type);
+  throw new Error('Unexpected token ' + next?.type);
 }
 
-function peek(arr) {
+function peek<T>(arr: T[]): T | undefined {
   if (arr.length > 0) {
     return arr[0];
   } else {
@@ -131,16 +150,24 @@ function peek(arr) {
   }
 }
 
-export function getRangeFromBackendQueryModel(tag, backendQueryModel) {
-  if (backendQueryModel.type === EXPRESSION && backendQueryModel.logicalOperator === OPERATOR_AND) {
-    return getRangeFromFilters(tag, backendQueryModel.elements);
-  }
-  if (backendQueryModel.type === TAG_FILTER_TYPE && backendQueryModel.name === tag) {
-    return getRangeFromFilters(tag, [backendQueryModel]);
-  }
+interface Range {
+  from?: number | null;
+  to?: number | null;
 }
 
-export function getRangeFromFilters(tag, tagFilter) {
+export function getRangeFromBackendQueryModel(tag: string, backendQueryModel: TagFilterExpressionElement): Range {
+  if (isTagFilterExpression(backendQueryModel) && backendQueryModel.logicalOperator === OPERATOR_AND) {
+    return getRangeFromFilters(tag, backendQueryModel.elements as TagFilter[]);
+  }
+
+  if (isTagFilter(backendQueryModel) && backendQueryModel.name === tag) {
+    return getRangeFromFilters(tag, [backendQueryModel]);
+  }
+
+  return {};
+}
+
+export function getRangeFromFilters(tag: string, tagFilter: TagFilter[]): Range {
   // find the most significant filters for each operator type, e.g.
   // call.latency > 2 is more significant than call.latency > 1
   const filters = getNumberTagFilters({
@@ -156,8 +183,8 @@ export function getRangeFromFilters(tag, tagFilter) {
   }
 
   // values can come as numbers or/and strings
-  let from = null;
-  let to = null;
+  let from: Range['from'] = null;
+  let to: Range['to'] = null;
   if (filters.lt) {
     to = parseInt(filters.lt.value);
   } else if (filters.lte) {
@@ -169,7 +196,7 @@ export function getRangeFromFilters(tag, tagFilter) {
     from = parseInt(filters.gte.value);
   }
 
-  const selection = {};
+  const selection: Range = {};
 
   if (filters.eq) {
     if (!from && !to) {
@@ -192,10 +219,21 @@ export function getRangeFromFilters(tag, tagFilter) {
   return selection;
 }
 
-export function updateRange({ tag, selection, backendQueryModel, updateFilter }) {
+type MinMaxFilterType = Omit<TagFilter, 'entity'> | undefined;
+
+interface UpdateRangeArgs {
+  tag: string;
+  selection: Range;
+  backendQueryModel: TagFilterExpressionElement;
+  updateFilter: (updateConfig: { add?: MinMaxFilterType[]; remove?: TagFilterExpressionElement[] }) => void;
+}
+
+export function updateRange({ tag, selection, backendQueryModel, updateFilter }: UpdateRangeArgs): void {
   const { from, to } = selection;
   const removedFilters = getFiltersToRemove(tag, backendQueryModel);
-  let minFilter, maxFilter;
+  let minFilter: MinMaxFilterType;
+  let maxFilter: MinMaxFilterType;
+
   if (typeof from === 'number') {
     minFilter = {
       type: TAG,
@@ -248,36 +286,54 @@ export function updateRange({ tag, selection, backendQueryModel, updateFilter })
   }
 }
 
-function getFiltersToRemove(tag, backendQueryModel) {
-  if (backendQueryModel.type === EXPRESSION && backendQueryModel.logicalOperator === OPERATOR_AND) {
-    return backendQueryModel.elements.filter(element => element.type === TAG_FILTER_TYPE && element.name === tag);
-  } else if (backendQueryModel.type === TAG_FILTER_TYPE && backendQueryModel.name === tag) {
+function getFiltersToRemove(tag: string, backendQueryModel: TagFilterExpressionElement): TagFilterExpressionElement[] {
+  if (isTagFilterExpression(backendQueryModel) && backendQueryModel.logicalOperator === OPERATOR_AND) {
+    return backendQueryModel.elements.filter(element => isTagFilter(element) && element.name === tag);
+  }
+
+  if (isTagFilter(backendQueryModel) && backendQueryModel.name === tag) {
     return [backendQueryModel];
   }
+
+  return [];
 }
 
-export function getMaximumExpressionDepth(expression) {
+export function getMaximumExpressionDepth(expression: TagFilterExpressionElement): number {
   let max = 0;
-  if (expression.type !== EXPRESSION) {
+  if (isTagFilter(expression)) {
     return 0;
   }
 
-  expression.elements
-    .filter(element => element.type === EXPRESSION)
-    .forEach(element => {
+  if (isTagFilterExpression(expression)) {
+    expression.elements.filter(isTagFilterExpression).forEach(element => {
       max = Math.max(max, getMaximumExpressionDepth(element));
     });
-  return max + 1;
+
+    max++;
+  }
+  return max;
 }
 
-export function containsTagName(expression, tagName) {
+export function containsTagName(expression: TagFilterExpressionElement, tagName: string): boolean {
   if (!expression || !tagName) {
     return false;
   }
 
-  if (expression.type !== EXPRESSION) {
+  if (isTagFilter(expression)) {
     return expression.name === tagName;
   }
 
-  return expression.elements.some(element => containsTagName(element, tagName));
+  if (isTagFilterExpression(expression)) {
+    return expression.elements.some(element => containsTagName(element, tagName));
+  }
+
+  return false;
+}
+
+export function isTagFilterExpression(element: TagFilterExpressionElement): element is TagFilterExpression {
+  return element.type === EXPRESSION;
+}
+
+export function isTagFilter(element: TagFilterExpressionElement): element is TagFilter {
+  return element.type === TAG_FILTER_TYPE;
 }

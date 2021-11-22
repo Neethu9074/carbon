@@ -107,9 +107,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     });
   }
 
-  function onUpdateAppId(config) {
-    updateForm(form.updateIn([entityId], f => f.setValue(config.id).setTouched(true)));
-    trackAPSelected({ applicationId: config.id });
+  function onUpdateAppId(id) {
+    updateForm(form.updateIn([entityId], f => f.setValue(id).setTouched(true)));
+    trackAPSelected({ applicationId: id });
   }
 
   return (

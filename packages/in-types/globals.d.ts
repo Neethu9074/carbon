@@ -4,6 +4,7 @@
  */
 
 import { FormatLocaleDefinition } from 'd3-format';
+import { Tag } from 'in-types/backend';
 
 export interface UiSettings {
   [key: string]: any;
@@ -16,6 +17,7 @@ export interface Tenant {
 
 export interface Role {
   id: string;
+  canSeeInternalTags: boolean;
 }
 
 export interface User {
@@ -29,6 +31,7 @@ declare interface InstanaGlobals {
   settings?: UiSettings;
   numberLocale?: FormatLocaleDefinition;
   dev: any;
+  tags: Tag[];
 }
 
 declare global {

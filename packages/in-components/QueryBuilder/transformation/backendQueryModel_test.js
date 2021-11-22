@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { expect } from 'chai';
-
 import {
   toBackendQueryModel,
   addTagFilters,
@@ -12,7 +10,9 @@ import {
   EXPRESSION,
   OPERATOR_AND,
   OPERATOR_OR,
-  OPERATOR_NOT
+  OPERATOR_NOT,
+  isTagFilterExpression,
+  isTagFilter
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import {
   TAG as FM_TAG,
@@ -31,16 +31,16 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
     };
 
     it('should map null or undefined form model to an empty tag filter expression element', () => {
-      expect(toBackendQueryModel(null)).to.deep.equal(emptyTagFilter);
-      expect(toBackendQueryModel(undefined)).to.deep.equal(emptyTagFilter);
+      expect(toBackendQueryModel(null)).toStrictEqual(emptyTagFilter);
+      expect(toBackendQueryModel(undefined)).toStrictEqual(emptyTagFilter);
     });
 
     it('should map an empty form model to an empty tag filter expression element', () => {
-      expect(toBackendQueryModel([])).to.deep.equal(emptyTagFilter);
+      expect(toBackendQueryModel([])).toStrictEqual(emptyTagFilter);
     });
 
     it('should map a form model with empty brackets to an empty tag filter expression element', () => {
-      expect(toBackendQueryModel([{ type: FM_OPEN_BRACKET }, { type: FM_CLOSE_BRACKET }])).to.deep.equal(
+      expect(toBackendQueryModel([{ type: FM_OPEN_BRACKET }, { type: FM_CLOSE_BRACKET }])).toStrictEqual(
         emptyTagFilter
       );
     });
@@ -56,7 +56,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
       };
       expect(
         toBackendQueryModel([{ ...tagFilter, otherPropertyWhichIsOnlyPartOfTheFormModel: 'foobar' }])
-      ).to.deep.equal(tagFilter);
+      ).toStrictEqual(tagFilter);
     });
 
     it('should map a single negated tag filter', () => {
@@ -75,7 +75,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             key: undefined
           }
         ])
-      ).to.deep.equal({
+      ).toStrictEqual({
         elements: [
           {
             entity: 'DESTINATION',
@@ -114,7 +114,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           key: undefined
         }
       ];
-      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+      expect(toBackendQueryModel(tagFilters)).toStrictEqual({
         type: EXPRESSION,
         logicalOperator: OPERATOR_OR,
         elements: [
@@ -161,7 +161,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           key: undefined
         }
       ];
-      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+      expect(toBackendQueryModel(tagFilters)).toStrictEqual({
         type: EXPRESSION,
         logicalOperator: OPERATOR_AND,
         elements: [
@@ -225,7 +225,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           type: FM_CLOSE_BRACKET
         }
       ];
-      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+      expect(toBackendQueryModel(tagFilters)).toStrictEqual({
         type: EXPRESSION,
         logicalOperator: OPERATOR_OR,
         elements: [
@@ -313,7 +313,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           type: FM_CLOSE_BRACKET
         }
       ];
-      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+      expect(toBackendQueryModel(tagFilters)).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'AND',
         elements: [
@@ -400,7 +400,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           value: 'c'
         }
       ];
-      expect(toBackendQueryModel(tagFilters)).to.deep.equal({
+      expect(toBackendQueryModel(tagFilters)).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'OR',
         elements: [
@@ -474,7 +474,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             type: FM_CLOSE_BRACKET
           }
         ])
-      ).to.deep.equal({
+      ).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'AND',
         elements: [
@@ -512,7 +512,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           { type: TAG_FILTER, name: 'name', value: 'b', operator: 'EQUALS' },
           { type: TAG_FILTER, name: 'name', value: 'c', operator: 'EQUALS' }
         ])
-      ).to.deep.equals({
+      ).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'AND',
         elements: [
@@ -537,7 +537,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           [{ type: TAG_FILTER, name: 'name', value: 'c', operator: 'EQUALS' }],
           OPERATOR_OR
         )
-      ).to.deep.equals({
+      ).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'OR',
         elements: [
@@ -564,7 +564,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           [{ type: TAG_FILTER, name: 'name', value: 'c', operator: 'EQUALS' }]
         )
-      ).to.deep.equals({ type: TAG_FILTER, name: 'name', value: 'c', operator: 'EQUALS' });
+      ).toStrictEqual({ type: TAG_FILTER, name: 'name', value: 'c', operator: 'EQUALS' });
     });
 
     it('should drop empty expression when adding multiple filters', () => {
@@ -580,7 +580,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             { type: TAG_FILTER, name: 'name', value: 'd', operator: 'EQUALS' }
           ]
         )
-      ).to.deep.equals({
+      ).toStrictEqual({
         type: 'EXPRESSION',
         logicalOperator: 'AND',
         elements: [
@@ -600,9 +600,9 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
     };
 
     it('should handle undefined or empty expression and return false', () => {
-      expect(containsTagName(null, tagName)).to.equal(false);
-      expect(containsTagName(undefined, tagName)).to.equal(false);
-      expect(containsTagName(emptyTagFilter, tagName)).to.equal(false);
+      expect(containsTagName(null, tagName)).toEqual(false);
+      expect(containsTagName(undefined, tagName)).toEqual(false);
+      expect(containsTagName(emptyTagFilter, tagName)).toEqual(false);
     });
 
     it('should handle single tag filter', () => {
@@ -616,7 +616,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(true);
+      ).toEqual(true);
       expect(
         containsTagName(
           {
@@ -627,7 +627,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(false);
+      ).toEqual(false);
     });
 
     it('should handle simple expression', () => {
@@ -643,7 +643,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(true);
+      ).toEqual(true);
       expect(
         containsTagName(
           {
@@ -656,7 +656,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(false);
+      ).toEqual(false);
     });
 
     it('should handle nested expression', () => {
@@ -679,7 +679,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(true);
+      ).toEqual(true);
       expect(
         containsTagName(
           {
@@ -699,7 +699,53 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           },
           tagName
         )
-      ).to.equal(false);
+      ).toEqual(false);
+    });
+  });
+
+  describe('#isTagFilterExpression', () => {
+    it('returns true for TagFilterExpression', () => {
+      expect(
+        isTagFilterExpression({
+          type: EXPRESSION,
+          logicalOperator: OPERATOR_AND,
+          elements: []
+        })
+      ).toBeTruthy();
+    });
+
+    it('returns false for TagFilter', () => {
+      expect(
+        isTagFilterExpression({
+          type: TAG_FILTER,
+          name: 'abc',
+          operator: 'EQUALS',
+          value: 'value'
+        })
+      ).not.toBeTruthy();
+    });
+  });
+
+  describe('#isTagFilter', () => {
+    it('returns false for TagFilterExpression', () => {
+      expect(
+        isTagFilter({
+          type: EXPRESSION,
+          logicalOperator: OPERATOR_AND,
+          elements: []
+        })
+      ).not.toBeTruthy();
+    });
+
+    it('returns true for TagFilter', () => {
+      expect(
+        isTagFilter({
+          type: TAG_FILTER,
+          name: 'abc',
+          operator: 'EQUALS',
+          value: 'value'
+        })
+      ).toBeTruthy();
     });
   });
 });

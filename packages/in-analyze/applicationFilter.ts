@@ -5,9 +5,10 @@
 
 import { get } from 'lodash';
 
-import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';
 // eslint-disable-next-line no-restricted-imports
 import { findSubTreeByFullyQualifiedName } from 'in-applications/tags';
+import { applicationId, serviceId, endpointId } from 'in-analyze/navigation/matrix';
+import { TagFilter } from 'in-types';
 import { t } from 'in-i18n';
 
 export const APPLICATION = {
@@ -15,28 +16,28 @@ export const APPLICATION = {
   name: 'application.name',
   technicalName: 'application.name',
   label: t('in-analyze:applicationFilter.labelApplication')
-};
+} as const;
 
 export const APPLICATION_INBOUND = {
   id: applicationId,
   name: 'call.inbound_of_application',
   technicalName: 'call.inbound_of_application',
   label: t('in-analyze:applicationFilter.labelApplicationInbound')
-};
+} as const;
 
 export const SERVICE = {
   id: serviceId,
   name: 'service.name',
   technicalName: 'service.name',
   label: t('in-analyze:applicationFilter.labelService')
-};
+} as const;
 
 export const ENDPOINT = {
   id: endpointId,
   name: 'endpoint.name',
   technicalName: 'endpoint.name',
   label: t('in-analyze:applicationFilter.labelEndpoint')
-};
+} as const;
 
 export const operators = {
   EQUALS: 'EQUALS',
@@ -55,25 +56,27 @@ export const operators = {
   NOT_ENDS_WITH: 'NOT_ENDS_WITH',
   GREATER_OR_EQUAL_THAN: 'GREATER_OR_EQUAL_THAN',
   LESS_OR_EQUAL_THAN: 'LESS_OR_EQUAL_THAN'
-};
+} as const;
+export type Operator = keyof typeof operators;
 
 export const entityTypes = {
   SOURCE_AND_DESTINATION: 'SOURCE_AND_DESTINATION',
   DESTINATION: 'DESTINATION',
   SOURCE: 'SOURCE',
   NOT_APPLICABLE: 'NOT_APPLICABLE'
-};
+} as const;
+export type EntityType = keyof typeof entityTypes;
 
-export const entityTypesLUT = {
+export const entityTypesLUT: Record<EntityType, string> = {
   SOURCE_AND_DESTINATION: t('in-analyze:applicationFilter.labelSOURCE_AND_DESTINATION'),
   DESTINATION: t('in-analyze:applicationFilter.labelDESTINATION'),
   SOURCE: t('in-analyze:applicationFilter.labelSOURCE'),
   NOT_APPLICABLE: t('in-analyze:applicationFilter.labelNOTAPPLICABLE')
-};
+} as const;
 
 export const disabledOperators = {
   syntheticEndpointConfig: [operators.NOT_EQUAL, operators.NOT_CONTAIN, operators.NOT_EMPTY, operators.IS_EMPTY]
-};
+} as const;
 
 export const TAG_TYPES = {
   STRING: {
@@ -122,7 +125,7 @@ export const TAG_TYPES = {
       operators.NOT_BLANK,
       operators.IS_BLANK
     ],
-    splitValue: value => {
+    splitValue: (value: string) => {
       if (value.indexOf('=') === -1) {
         return {
           key: '',
@@ -138,7 +141,8 @@ export const TAG_TYPES = {
       return { key, value };
     }
   }
-};
+} as const;
+export type TagType = keyof typeof TAG_TYPES;
 
 const operatorLabelLUT = {
   STRING: {
@@ -185,55 +189,67 @@ const operatorLabelLUT = {
     STARTS_WITH: t('in-analyze:applicationFilter.labelKeyPairSTARTS_WITH'),
     ENDS_WITH: t('in-analyze:applicationFilter.labelKeyPairENDS_WITH')
   }
-};
+} as const;
 
-export function getEntityLabel(entity) {
+export function getEntityLabel(entity: EntityType): string {
   return get(entityTypes, [entity]);
 }
 
-export function getEntityLabelLUT(entity) {
+export function getEntityLabelLUT(entity: EntityType): string {
   return get(entityTypesLUT, [entity]);
 }
 
-export function getOperatorLabel(type, operator) {
+export function getOperatorLabel(type: TagType, operator: Operator): string {
   return get(operatorLabelLUT, [type, operator], operator);
 }
 
-export function getTagFilterListForBackendSubscription(tagFilters = [], defaultFilters = []) {
+export interface ApplicationTagFilter extends Omit<TagFilter, 'name'> {
+  secondLevelName?: string;
+  name?: string; // Usage suggests that name is actually optional here
+} // TODO: remove this once better typing is available
+export function getTagFilterListForBackendSubscription(
+  tagFilters: ApplicationTagFilter[] = [],
+  defaultFilters: ApplicationTagFilter[] = []
+): TagFilter[] {
   if (!tagFilters) tagFilters = [];
   const tagFilterKeys = tagFilters.map(tagFilter => tagFilter.name);
   // user provided tag filters will override default ones
   const defaultFiltersToAdd = defaultFilters.filter(defaultFilter => !tagFilterKeys.includes(defaultFilter.name));
 
   return tagFilters.concat(defaultFiltersToAdd).map(tag => {
-    const backendTagFilter = { name: tag.name || tag.key, operator: tag.operator, entity: tag.entity };
-    addValue(backendTagFilter, tag);
-    return backendTagFilter;
+    const backendTagFilter: TagFilter = {
+      name: tag.name || tag.key!, // TODO: clean this up, for now it can be assumed that either name or key will be present
+      operator: tag.operator,
+      entity: tag.entity,
+      type: 'TagFilter'
+    };
+    return addValue(backendTagFilter, tag);
   });
 }
 
-function addValue(backendTagFilter, tag) {
+function addValue(backendTagFilter: TagFilter, tag: ApplicationTagFilter): TagFilter {
   const node = findSubTreeByFullyQualifiedName(backendTagFilter.name);
   const type = node ? node.type : TAG_TYPES.STRING.technicalName;
 
   if (type === TAG_TYPES.NUMBER.technicalName) {
-    backendTagFilter.numberValue = tag.value ?? tag.numberValue;
+    return { ...backendTagFilter, numberValue: tag.value ?? tag.numberValue };
   } else if (type === TAG_TYPES.BOOLEAN.technicalName) {
-    backendTagFilter.booleanValue = tag.value ?? tag.booleanValue;
+    return { ...backendTagFilter, booleanValue: tag.value ?? tag.booleanValue };
   } else {
-    backendTagFilter.stringValue = tag.secondLevelName
-      ? `${tag.secondLevelName}=${tag.value}`
-      : tag.value || tag.stringValue;
+    return {
+      ...backendTagFilter,
+      stringValue: tag.secondLevelName ? `${tag.secondLevelName}=${tag.value}` : tag.value || tag.stringValue
+    };
   }
 }
 
-export function convertToApplicationAreaSpecificTagFilter(tagFilters) {
-  return tagFilters.map(({ name, operator, entity, stringValue, booleanValue, numberValue }) => {
+export function convertToApplicationAreaSpecificTagFilter(tagFilters: TagFilter[]): ApplicationTagFilter[] {
+  return tagFilters.map(({ name, operator, entity, stringValue, booleanValue, numberValue, type }) => {
     const node = findSubTreeByFullyQualifiedName(name);
     let value = stringValue ?? booleanValue ?? numberValue;
     let secondLevelName;
     if (node?.type === TAG_TYPES.KEY_VALUE_PAIR.technicalName && value) {
-      const parts = stringValue.split('=', 2);
+      const parts = stringValue?.split('=', 2) ?? [];
       if (parts.length === 2) {
         value = parts[1];
         secondLevelName = parts[0];
@@ -244,7 +260,8 @@ export function convertToApplicationAreaSpecificTagFilter(tagFilters) {
       secondLevelName,
       operator,
       value,
-      entity
+      entity,
+      type
     };
   });
 }
