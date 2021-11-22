@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { RenderArguments } from 'in-components/Chart/renderer/types';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { TimeConfig } from 'in-types';
 
@@ -54,6 +55,7 @@ export type Formatter = FormatterObject | FormatterFn;
 
 export interface Renderer {
   id?: string;
+  render?: (args: RenderArguments) => void;
 }
 
 export interface Axis {
@@ -62,4 +64,5 @@ export interface Axis {
   timeShifts: TimeShift[] | null;
   metricIds: string[];
   labels: string[];
+  colors: sting[];
 }

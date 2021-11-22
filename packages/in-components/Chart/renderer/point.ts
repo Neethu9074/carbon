@@ -3,10 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { RenderArguments, RenderConfig } from 'in-components/Chart/renderer/types';
+
 const CIRCLE_ARC = 2 * Math.PI;
 
 export default {
-  render: ({ dataSeries, color, scale, config, minSpaceBetweenPoints = 0 }) => {
+  render: ({ dataSeries, color, scale, config, minSpaceBetweenPoints = 0 }: RenderArguments) => {
     let lastXPos;
 
     for (let i = 0; i < dataSeries.length; i++) {
@@ -26,13 +28,13 @@ export default {
 
       lastXPos = xPos;
     }
-    function pointsAreTooCloseTogether(x1, x2) {
+    function pointsAreTooCloseTogether(x1?: number, x2?: number) {
       return x1 == null || x2 == null || x2 - x1 < minSpaceBetweenPoints;
     }
   }
 };
 
-export function drawPoint(config, xPos, yPos, color) {
+export function drawPoint(config: RenderConfig, xPos: number, yPos: number, color: string) {
   config.backBufferCtx.lineWidth = 1;
   config.backBufferCtx.arc(xPos - 2, yPos, 2, 0, CIRCLE_ARC);
   config.backBufferCtx.fillStyle = color;
