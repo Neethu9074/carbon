@@ -13,7 +13,6 @@ import ErrorIndicator from 'in-applications/analyze/components/TraceDetails/comp
 import LogIndicator from 'in-applications/analyze/components/TraceDetails/components/LogIndicator';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
-import { role } from 'in-stores/user';
 import theme from 'in-themes';
 
 import locals from './CallFrame.mless';
@@ -93,7 +92,6 @@ function LogIndicators(props) {
 }
 
 function getTooltipContent(log) {
-  if (!role.canViewLogs) return null;
   return <LogTooltipContent log={log} />;
 }
 
