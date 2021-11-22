@@ -87,7 +87,7 @@ function render({ form, setForm, termsAndPrivacySettings, setCanSaveItem }) {
       <MarketingMessageBox />
 
       <div className={locals.role}>
-        <RolesSelector form={form} onChange={onChange} />
+        <RolesSelector form={form} onChange={(fieldName, value) => onChange(form, fieldName, value)} />
       </div>
     </SettingsDetailPage>
   );

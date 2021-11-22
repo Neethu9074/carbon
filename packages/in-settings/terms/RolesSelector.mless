@@ -4,12 +4,7 @@
  */
 
 :local {
-  .roleTitle {
-    margin-top: 1rem;
-  }
-
-  .comboBox,
-  .dynamicRoleInput {
+  .wrapper {
     width: 21.25rem;
   }
 }
