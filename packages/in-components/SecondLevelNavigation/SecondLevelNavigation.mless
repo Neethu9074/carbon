@@ -102,6 +102,10 @@
   }
 
   .icon {
+    margin-right: 0.25rem;
+  }
+
+  .postIcon {
     margin-left: 0.25rem;
   }
 

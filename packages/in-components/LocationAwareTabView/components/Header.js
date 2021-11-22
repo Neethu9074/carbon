@@ -55,6 +55,7 @@ function TabComponent(props) {
       key={tab.label}
       label={tab.header ? tab.header(props) : tab.label}
       icon={tab.icon}
+      postIcon={tab.postIcon}
       isActive={isActive}
       isDisabled={isDisabled}
       href$={
