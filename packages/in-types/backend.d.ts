@@ -299,6 +299,9 @@ export interface BackendTrace {
   readonly traceId: string;
 }
 
+export interface BeaconTypeSerializer extends JsonSerializer<BeaconType> {
+}
+
 export interface BinaryOperatorDTO extends MatchExpressionDTO {
   readonly conjunction: Conjunction;
   readonly left: MatchExpressionDTO;
@@ -2149,6 +2152,14 @@ export interface JavaScriptError {
   readonly parsedStackTrace?: StackTraceLine[];
   readonly stackTrace?: string;
   readonly stackTraceParsingStatus: number;
+}
+
+export interface JsonFormatVisitable {
+}
+
+export interface JsonSerializer<T> extends JsonFormatVisitable {
+  readonly delegatee?: JsonSerializer<any>;
+  readonly unwrappingSerializer: boolean;
 }
 
 export interface KubernetesAnnotation {
@@ -4319,8 +4330,8 @@ export interface WebsiteErrorsItem {
 }
 
 export interface WebsiteEventBasedSliEntity extends WebsiteSliEntity {
-  readonly badEventsFilterExpression: TagFilterExpressionElement;
-  readonly goodEventsFilterExpression: TagFilterExpressionElement;
+  readonly badEventFilterExpression: TagFilterExpressionElement;
+  readonly goodEventFilterExpression: TagFilterExpressionElement;
 }
 
 export interface WebsiteItem {
