@@ -257,6 +257,10 @@ function AnalyzeStateManagement({
       return;
     }
 
+    if (metricTemplatesResult?.errors.length > 0) {
+      return;
+    }
+
     if (chartableMetricCatalogTransformer != null) {
       return metricTemplatesResult?.data.map(template => {
         return {
