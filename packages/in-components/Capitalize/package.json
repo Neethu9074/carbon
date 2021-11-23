@@ -2,5 +2,5 @@
   "name": "Capitalize",
   "version": "0.0.0",
   "private": true,
-  "main": "./Capitalize.js"
+  "main": "./Capitalize"
 }

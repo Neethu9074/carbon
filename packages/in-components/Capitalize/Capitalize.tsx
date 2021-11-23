@@ -8,6 +8,11 @@ import React from 'react';
 
 import locals from './Capitalize.mless';
 
-export default function Capitalize({ children, className }) {
+export interface CapitalizeProps {
+  children: React.ReactChildren;
+  className?: string;
+}
+
+export default function Capitalize({ children, className }: CapitalizeProps) {
   return <span className={classNames(locals.wrapper, className)}>{children}</span>;
 }
