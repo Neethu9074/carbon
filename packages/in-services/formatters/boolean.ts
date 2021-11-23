@@ -11,7 +11,7 @@
  */
 import { t } from 'in-i18n';
 
-export function yesOrNo(value: any): string {
+export function yesOrNo(value: unknown): string {
   return value ? t('in-services:formatters.yes') : t('in-services:formatters.no');
 }
 

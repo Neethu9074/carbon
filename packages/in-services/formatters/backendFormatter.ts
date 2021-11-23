@@ -21,7 +21,7 @@ interface FormatterWithDefault {
   detailed: (v: number) => string;
 }
 
-const mappings: { [key in FormatterType]?: FormatterWithDefault } = {
+const mappings: { readonly [key in FormatterType]?: FormatterWithDefault } = {
   NUMBER: createFormatterWithDefault(number, 'compact'),
   RATE: createFormatterWithDefault(number.perSecond, 'detailed'),
 
@@ -55,7 +55,7 @@ function createFormatterWithDefault<T extends NumberFormatter>(formatters: T, pr
 // is millis, micros, nanos, seconds, minutes…
 // Consider cleaning this up for users instead of exposing them to our
 // failure to consistently model the data.
-const mappingsToUiInternalNames: { [key in FormatterType]?: string } = {
+const mappingsToUiInternalNames: { readonly [key in FormatterType]?: string } = {
   NUMBER: 'number.compact',
   PERCENTAGE: 'percentage.detailed',
   BYTES: 'bytes.detailed',
