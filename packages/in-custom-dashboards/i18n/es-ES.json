@@ -381,6 +381,13 @@
         "noAppPerspect": "¡No hay perspectivas de aplicación!",
         "pleaseSelect": "Seleccione"
       },
+      "websiteSelector": {
+        "website": "Sitio web",
+        "selectWebsite": "Seleccione un sitio web",
+        "websiteHelpAction": "Configure los sitios web en el área Sitios web y aplicaciones móviles del producto.",
+        "noWebsites": "No se han encontrado sitios web",
+        "pleaseSelect": "Seleccione"
+      },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "Indicador de nivel de servicio",
         "selectASli": "Seleccione un SLI.",
@@ -450,7 +457,11 @@
         "includeInternalCalls": "Incluir llamadas internas",
         "includeSyntheticCalls": "Incluir llamadas sintéticas",
         "type": "Tipo",
-        "sliEntity": "Entidad de SLI"
+        "sliEntity": "Entidad de SLI",
+        "beaconConfigLabel": "Configuración de baliza",
+        "beaconScopeLabel": "Ámbito de baliza",
+        "httpRequestsLabel": "Solicitudes HTTP",
+        "beaconFiltersLabel": "Filtros de baliza"
       },
       "sliList": {
         "serviceLevelIndicators": "Indicadores de nivel de servicio",
@@ -486,6 +497,7 @@
         "sloConfig": "Configuración de SLO",
         "manageSlIs": "Gestionar SLI",
         "sloTarget": "Destino de SLO",
+        "sloType": "Tipo de SLO",
         "enterVal0to100": "Especifique un valor entre 0 y 100.",
         "timeWindow": "Ventana de tiempo",
         "helpActionMsg1": "<strong>Intervalo de tiempo fijo: </strong> Una ventana de tiempo con un inicio y duración definidos. Por ejemplo, mensualmente a partir de 2020-01-01. Se mostrará el último intervalo de tiempo parcial para la selección de tiempo del selector de tiempo global.",
@@ -512,6 +524,12 @@
         "dynamicTimeWindow": "Ventana de tiempo dinámico",
         "rollingTimeWindow": "Ventana de tiempo de desplazable",
         "fixedTimeWindow": "Ventana de tiempo fijo"
+      },
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "SLO de aplicación",
+          "websites": "Sitio web SLO"
+        }
       },
       "sliConfig": {
         "sliName": "Nombre de SLI",

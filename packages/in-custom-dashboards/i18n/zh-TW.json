@@ -381,6 +381,13 @@
         "noAppPerspect": "無應用程式視景！",
         "pleaseSelect": "請選取"
       },
+      "websiteSelector": {
+        "website": "網站",
+        "selectWebsite": "請選取網站",
+        "websiteHelpAction": "在產品的「網站及行動式應用程式」區域中配置網站。",
+        "noWebsites": "找不到網站",
+        "pleaseSelect": "請選取"
+      },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "服務水準指標",
         "selectASli": "請選取 SLI。",
@@ -450,7 +457,11 @@
         "includeInternalCalls": "包含內部呼叫",
         "includeSyntheticCalls": "包含合成呼叫",
         "type": "類型",
-        "sliEntity": "SLI 實體"
+        "sliEntity": "SLI 實體",
+        "beaconConfigLabel": "引標配置",
+        "beaconScopeLabel": "引標範圍",
+        "httpRequestsLabel": "HTTP 要求",
+        "beaconFiltersLabel": "引標過濾器"
       },
       "sliList": {
         "serviceLevelIndicators": "服務水準指標",
@@ -486,6 +497,7 @@
         "sloConfig": "SLO 配置",
         "manageSlIs": "管理 SLI",
         "sloTarget": "SLO 目標",
+        "sloType": "SLO 類型",
         "enterVal0to100": "請輸入 0 到 100 之間的值。",
         "timeWindow": "時間範圍",
         "helpActionMsg1": "<strong>固定時間間隔：</strong>具有既定開始及持續時間的時間範圍。例如：每月從 2020-01-01 開始。會顯示從全球時間選取器所選時間的前次局部時間間隔。",
@@ -512,6 +524,12 @@
         "dynamicTimeWindow": "動態時間範圍",
         "rollingTimeWindow": "輪詢時間範圍",
         "fixedTimeWindow": "固定時間範圍"
+      },
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "應用程式 SLO",
+          "websites": "網站 SLO"
+        }
       },
       "sliConfig": {
         "sliName": "SLI 名稱",

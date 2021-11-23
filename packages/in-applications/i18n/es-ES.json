@@ -73,6 +73,7 @@
   "titleConfigureCustomServiceRules": "Configurar reglas de servicio personalizadas",
   "titleCustomServiceRule": "Regla de servicio personalizado",
   "titleUpdateApplicationPerspective": "Actualizar perspectiva de aplicación",
+  "titleApplicationPerspectiveConfiguration": "Configuración de Perspectiva de aplicación",
   "titleCreateApplicationPerspective": "Crear perspectiva de aplicación",
   "titleRemoveApplicationPerspective": "Eliminar perspectiva de aplicación",
   "titleCustomSyntheticRule": "Regla sintética personalizada",
@@ -428,10 +429,10 @@
       "instanceOfEntity": "instancia de <icon /><entityLink>{{entityLabel}}</entityLink>",
       "tooltipUnmonitored": "Infraestructura no supervisada debido a que la información está fuera de la vista de los agentes en ejecución"
     },
-      "errorCallWithoutMessage": "Llamada errónea sin mensaje de error",
-      "noLogMessage": "No hay ningún mensaje de registro disponible",
-      "includeSyntheticCallsDropDownSyntheticCalls": "Llamadas sintéticas: {{syntheticCallsOptionLabel}}",
-      "noDataAvailable": {
+    "errorCallWithoutMessage": "Llamada errónea sin mensaje de error",
+    "noLogMessage": "No hay ningún mensaje de registro disponible",
+    "includeSyntheticCallsDropDownSyntheticCalls": "Llamadas sintéticas: {{syntheticCallsOptionLabel}}",
+    "noDataAvailable": {
       "servicesTitle": "No hay servicios disponibles",
       "servicesDescription": "No se han recuperado servicios para el rango de tiempo seleccionado.",
       "errorMessagesTitle": "No hay mensajes de error disponibles",
@@ -440,7 +441,7 @@
       "logMessagesDescription": "No se han recuperado mensajes de registro para el rango de tiempo seleccionado.",
       "endpointsTitle": "No hay puntos finales disponibles",
       "endpointsDescription": "No se han recuperado puntos finales para el rango de tiempo seleccionado."
-}
+    }
   },
   "flowMap": {
     "tooltipServiceNotInApplication": "El servicio no está en la aplicación actual.",
@@ -489,10 +490,15 @@
       "descriptionPrepareToMonitor": "Se está preparando todo para supervisar su perspectiva de aplicación <bold>{{decodedLabel}}</bold>.",
       "descriptionRemoveApplicationPerspective": "Si ya no desea supervisar la perspectiva de aplicación <strong>{{application}}</strong>, utilice el botón de abajo para eliminarla. La eliminación de una perspectiva de aplicación puede tardar unos minutos.",
       "stepTitleDefineApplicationName": "Defina un nombre para su perspectiva de aplicación.",
+      "stepTitleApplicationName": "Nombre de perspectiva de la aplicación.",
       "stepTitleDefineTags": "Defina la perspectiva de la aplicación utilizando una o más etiquetas.",
       "stepTitleDownstreamServices": "Servicios de Downstream.",
+      "stepTitleApplicationUsesDownstreamServices": "Esta perspectiva de aplicación utiliza <strong>{{scope}}</strong>.",
       "stepTitleApplicationScope": "Ámbito de aplicación.",
+      "stepTitleApplicationUsesBoundaryScope": "Esta perspectiva de aplicación utiliza <strong>{{boundaryScope}}</strong>",
+      "readOnlyApplicationConfiguration": "Está viendo esta configuración de perspectiva de la aplicación en modalidad de sólo lectura.",
       "stepTitleBuiltInSmartAlertsScope": "Ámbito de alertas inteligentes incorporadas",
+      "noBuiltInSmartAlertsActive": "No hay alertas inteligentes activas incorporadas para esta perspectiva de aplicación.",
       "optionNoDownstreamServices": "No hay servicios en sentido descendente",
       "optionImmediateDownstreamServices": "Servicios de base de datos y mensajería en sentido descendente inmediatos",
       "optionAllDownstreamServices": "Todos los servicios en sentido descendente",
@@ -538,7 +544,7 @@
     "sdk": "SDK",
     "otel": "OpenTelemetry"
   },
-    "constants": {
+  "constants": {
     "exclude": "Excluir",
     "syntheticCallsAreExcludedFromTheMetrics": "Las llamadas sintéticas se excluyen de las métricas.",
     "include": "Incluir",

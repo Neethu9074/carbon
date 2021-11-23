@@ -1,0 +1,38 @@
+{
+  "phmcs": "pHMC",
+  "hostname": "Nome host",
+  "name": "Nome",
+  "systems": "Sistemi",
+  "partitions": "Partizioni",
+  "vios": "Server I/O virtuali",
+  "ibmpPhmcs": "IBM Power HMC",
+  "noMonitoringDataFound": "Nessun dato di monitoraggio trovato",
+  "noData": "Nessun dato pHMC disponibile.",
+  "machineTypeModel": "Modello tipo di macchina",
+  "machineSerial": "Numero di serie macchina",
+  "total": "Totale",
+  "available": "Disponibile",
+  "utilized": "Utilizzato",
+  "configurable": "Configurabile",
+  "assignedMem": "Memoria assegnata a LPAR",
+  "breadcrumbs": {
+    "phmc": "pHMC",
+    "phmcs": "pHMC",
+    "systems": "Sistemi"
+  },
+  "dashboards": {
+    "phmc": "pHMC",
+    "systems": "Sistemi",
+    "summary": "Riepilogo",
+    "logicalPartition": "Partizione logica",
+    "processorUsage": "Utilizzo processore",
+    "memoryUsage": "Utilizzo memoria",
+    "name": "Nome",
+    "backedPhysicalMem": "Memoria fisica supportata",
+    "entitledProcUnits": "Unità autorizzate",
+    "utilized": "Utilizzato",
+    "currentVirtualProcessors": "Processori virtuali correnti",
+    "maxVirtualProcessors": "Numero massimo processori virtuali",
+    "vios": "VIOS"
+  }
+}

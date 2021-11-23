@@ -6,7 +6,12 @@
       "errCallRate": "错误调用率",
       "latency": "等待时间",
       "calls": "调用",
-      "newAppPerspect": "新建应用程序透视图"
+      "newAppPerspect": "新建应用程序透视图",
+      "services": "{{count}} 个服务",
+      "services_plural": "{{count}} 个服务",
+      "services_0": "{{count}} 个服务",
+      "services_1": "{{count}} 个服务",
+      "services_2": "{{count}} 个服务"
     },
     "eventChartCard": {
       "allEvents": "所有事件",
@@ -35,6 +40,8 @@
       "memoryUsage": "内存使用率",
       "cloudFoundryApplication": "Cloud Foundry 应用程序",
       "vSphereDatacenter": "vSphere 数据中心",
+      "ibmz": "IBM Z",
+      "ibmp": "IBM Power",
       "clusterSubTitle": "{{clusterDistribution}} 集群，{{count}} 个节点，{{numberOfPods}}",
       "clusterSubTitle_plural": "{{clusterDistribution}} 集群，{{count}} 个节点，{{numberOfPods}}",
       "clusterSubTitle_0": "{{clusterDistribution}} 集群，{{count}} 个节点，{{numberOfPods}}",
@@ -76,6 +83,10 @@
     "addUser": "添加用户",
     "platforms": "平台",
     "cloudFoundry": "Cloud Foundry",
+    "ibmz": "IBM Z",
+    "ibmp": "IBM Power",
+    "vsphere": "vSphere",
+    "kubernetes": "Kubernetes",
     "websites": "Web 站点",
     "mobileApps": "移动应用程序",
     "websitesMobileApps": "Web 站点和移动应用程序"

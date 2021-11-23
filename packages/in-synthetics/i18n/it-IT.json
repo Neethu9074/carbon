@@ -1,0 +1,82 @@
+{
+  "dialog": {
+    "createTest": {
+      "dialogTitle": "Crea prova sintetica",
+      "noLocationFound": "Spiacenti. Nessuna ubicazione trovata",
+      "titles": {
+        "step1": "Passo 1: Selezionare il tipo",
+        "step2": "Passo 2: Dettagli della richiesta",
+        "step3": "Passo 3: Pianificazione",
+        "step4": "Passo 4: Fornire i dettagli"
+      },
+      "selectTest": {
+        "title": "Quale tipo di prova sintetica si desidera creare"
+      },
+      "scheduling": {
+        "title": "Pianificazione",
+        "playbackMode": "Modalità di riproduzione",
+        "labelPlaybackMode": "Selezionare la modalità di riproduzione",
+        "simultaneous": "Simultanea",
+        "staggered": "Sfalsata",
+        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      },
+      "requestStep": {
+        "title": "Specifica richiesta",
+        "subTitle": "Endpoint",
+        "labelOperation": "Metodo HTTP",
+        "labelUrl": "URL",
+        "popSubTitle": "PoP (Point of Presence)"
+      },
+      "basicDetails": {
+        "title": "Qual è il nome di questa prova di ping",
+        "labelName": "Nome della prova",
+        "labelDescription": "Descrizione",
+        "labelFreequency": "Frequenza"
+      },
+      "bluePrint": {
+        "pingApi": {
+          "name": "API di ping",
+          "headline": "Azione HTTP",
+          "whenToUse": {
+            "title": "Quando utilizzare?",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "title": "Chi deve utilizzare?",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
+            "title": "Consigli per l'uso",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        }
+      },
+      "form": {
+        "validUrl": "Immettere un URL valido"
+      }
+    },
+    "httpMethods": {
+      "get": "GET",
+      "post": "POST",
+      "put": "PUT",
+      "delete": "DELETE"
+    },
+    "feedback": {
+      "successTitle": "Operazione riuscita.",
+      "successMessage": "Prova sintetica creata correttamente",
+      "failureTitle": "Non riuscito.",
+      "failureMessage": "Impossibile creare una prova sintetica. Riprovare successivamente"
+    }
+  },
+  "createTest": {
+    "buttonLabel": "Crea nuova prova"
+  },
+  "navigation": {
+    "synthetics": "Sintetici"
+  }
+}

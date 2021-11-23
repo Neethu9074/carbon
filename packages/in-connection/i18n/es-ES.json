@@ -1,14 +1,27 @@
 {
-    "stat": {
-        "connectLostState": {
-            "connecting":"Conectando…",
-            "connectingMsg":"Ha fallado el intento de conexión {{connectAttempt}}. Se continúa reintentado el establecimiento de una conexión de fondo persistente.",
-            "connectLostAttempReconnect":"Se ha perdido la conexión. Intentando la reconexión...",
-            "unauthorized":"No autorizado...",
-            "unauthorizedMsg":"No puede establecer una conexión de fondo persistente debido a que no está autorizado. Renueve la página para continuar."
-        }
-    },
-    "clientErrMsg": {
-        "techClientMsgeErrFromBackend":"Mensaje del cliente técnico (probablemente detalles del error) desde el programa de fondo"
+  "stat": {
+    "connectLostState": {
+      "connecting": "Conectando…",
+      "connectingMsg": "Ha fallado el intento de conexión {{connectAttempt}}. Se continúa reintentado el establecimiento de una conexión de fondo persistente.",
+      "connectLostAttempReconnect": "Se ha perdido la conexión. Intentando la reconexión...",
+      "unauthorized": "No autorizado...",
+      "unauthorizedMsg": "No puede establecer una conexión de fondo persistente debido a que no está autorizado. Renueve la página para continuar.",
+      "chooseConnectionStrategy": "Elegir estrategia de conexión"
     }
+  },
+  "clientErrMsg": {
+    "techClientMsgeErrFromBackend": "Mensaje del cliente técnico (probablemente detalles del error) desde el programa de fondo"
+  },
+  "chooseConnectionStrategyDialog": {
+    "title": "Elegir estrategia de conexión",
+    "description": "Instana intenta recuperar los datos de supervisión a través de una conexión WebSocket. En determinados escenarios puede suceder que no se pueda establecer una conexión WebSocket, por ejemplo, con proxies corporativos restrictivos. La interfaz de usuario de Instana de forma predeterminada intentará aprovechar una estrategia de conexión como alternativa para recuperar los datos de supervisión después de algunos reintentos. Puede configurar esta estrategia para mejorar su experiencia en base a las realidades de red y configuración conocidas.",
+    "save": "Guardar estrategia de conexión",
+    "label": "Estrategia de conexión",
+    "confirmReloadTitle": "Confirmar recarga",
+    "confirmReloadDescription": "Los cambios de estrategia de conexión solo se activan cuando se vuelve a cargar la página. ¿Desea volver a cargar la página ahora?",
+    "confirmReloadButtonLabel": "Volver a cargar esta página"
+  },
+  "strategy_auto": "Es preferible WebSockets, utilizar sondeo de larga duración como alternativa",
+  "strategy_alwaysWebsockets": "Utilizar solo WebSockets (más rápido)",
+  "strategy_alwaysPolling": "Utilizar solo sondeo de larga duración (más lento)"
 }

@@ -8,7 +8,7 @@
     "alertHeaderAlert": "アラート",
     "alertHeaderRestoreRevisionTooltip": "{{description}} の復元",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "ご確認ください",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "<strong>「リビジョン {{alertRevision}}」</strong>を復元しますか?",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "<strong>「{{description}}」</strong>を復元しますか？",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "復元",
     "alertHeaderDisableTooltip": " 無効化",
     "alertHeaderEnableTooltip": " 有効化",
@@ -16,7 +16,7 @@
     "alertHeaderEditTooltip": "編集",
     "alertHeaderDuplicateTooltip": "複製",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "ご確認ください",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>「アラート {{alertConfigName}}」</strong>を削除しますか?",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "アラート<strong>{{alertConfigName}}</strong>を削除しますか？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "削除",
     "alertHeaderIsNotLatestRevisionMessage": "このアラート構成のリビジョン {{description}} を表示しています。 変更する場合は、<latestRevisionButton>最新の改定を選択</latestRevisionButton>するか、または<restoreRevisionButton>現在のリビジョンから復元</restoreRevisionButton>してください。",
     "alertHeaderAriaLabelSeverity": "イベントの重大度は {{severity}} です",
@@ -451,7 +451,7 @@
         "labelActionButtonDelete": "削除",
         "labelAlertFilters": "フィルター",
         "labelConfirm": "ご確認ください",
-        "labelConfirmRemoveConfig": "構成 <strong>{{configName}}</strong> を削除しますか?",
+        "labelConfirmRemoveConfig": "アラート<strong>{{configName}}</strong>を削除しますか？",
         "labelRemove": "削除",
         "numberOfApplicationsSelected": "{{count}} 個のアプリケーションが選択されています",
         "numberOfApplicationsSelected_plural": "{{count}} 個のアプリケーションが選択されています"
@@ -525,6 +525,18 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "少なくとも {{count}} 人のユーザーが過去 {{formattedTimeWindow}}以内に影響を受けました",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "少なくとも {{userPercentage}} のユーザーが過去 {{formattedTimeWindow}}以内に影響を受けました",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence": "過去 {{formattedTimeWindow}}以内に影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーおよび {{userPercentage}} ユーザーが影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_plural": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーおよび {{userPercentage}} ユーザーが影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_0": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーおよび {{userPercentage}} ユーザーが影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_1": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーおよび {{userPercentage}} ユーザーが影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_2": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーおよび {{userPercentage}} ユーザーが影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーが影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_plural": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーが影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_0": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーが影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_1": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーが影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウでは、ウィンドウごとに少なくとも {{count}} ユーザーが影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "ウィンドウごとに少なくとも {{userPercentage}} ユーザーが最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウで影響を受けました",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "ウィンドウごとに、最後の {{numberEvaluationWindows}} 評価ウィンドウのウィンドウで影響を受けました",
         "timeThresholdDescriptionRequestImpact": "少なくとも {{count}} 個の要求が過去 {{formattedTimeWindow}}以内に影響を受けました",
         "timeThresholdDescriptionRequestImpact_plural": "少なくとも {{count}} 個の要求が過去 {{formattedTimeWindow}}以内に影響を受けました",
         "timeThresholdDescriptionRequestImpact_0": "少なくとも {{count}} 個の要求が過去 {{formattedTimeWindow}}以内に影響を受けました",
@@ -538,6 +550,9 @@
         "timeThresholdConfigNumberOfConsecutiveViolations": "連続したメトリック違反の数",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "連続した評価の数",
         "timeThresholdConfigNumberOfEvaluationWindows": "ユーザーへの影響の評価ウィンドウの数",
+        "timeThresholdConfigImpactEvaluationMethod": "ユーザー・インパクト評価方法",
+        "timeThresholdConfigImpactEvaluationMethodAggregated": "すべての評価ウィンドウで集計",
+        "timeThresholdConfigImpactEvaluationMethodPerWindow": "評価ウィンドウごとに計算",
         "timeThresholdConfigNumberOfViolations": "メトリック違反の数",
         "timeThresholdConfigEvaluationGranularity": "評価の粒度",
         "timeThresholdConfigNumberOfRequestsThreshold": "要求数のしきい値",
@@ -860,7 +875,9 @@
     },
     "migration": {
       "migrateButton": "スマート・アラートにマイグレーション",
-      "migrateButtonTooltip": "スマート・アラート構成ダイアログを開きます。ここには、現行のイベントから可能な限り最良の範囲までマイグレーションされた値が事前に入力されています。 結果を慎重に確認してください。"
+      "migrateButtonTooltip": "スマート・アラート構成ダイアログを開きます。ここには、現行のイベントから可能な限り最良の範囲までマイグレーションされた値が事前に入力されています。 結果を慎重に確認してください。",
+      "markAsMigratedButton": "移行済みとしてマーク",
+      "markAsMigratedButtonTooltip": "イベントを移行済みとしてマークします。 このイベントに置き換わるスマート・アラートを既に構成している場合は、これを使用してください。"
     }
   }
 }

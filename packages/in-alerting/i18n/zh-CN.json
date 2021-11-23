@@ -8,7 +8,7 @@
     "alertHeaderAlert": "警报",
     "alertHeaderRestoreRevisionTooltip": "复原 {{description}}",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "请确认",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "是否确定要复原<strong>“修订版 {{alertRevision}}”</strong>？",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "确定要复原 <strong>“{{description}}”</strong>吗？",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "复原",
     "alertHeaderDisableTooltip": " 禁用",
     "alertHeaderEnableTooltip": " 启用",
@@ -16,7 +16,7 @@
     "alertHeaderEditTooltip": "编辑",
     "alertHeaderDuplicateTooltip": "复制",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "请确认",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "是否确定要移除<strong>“警报 {{alertConfigName}}”</strong>？",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "确定要除去警报 <strong>{{alertConfigName}}</strong> 吗？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警报配置的修订版 {{description}}。如果要进行更改，请<latestRevisionButton>选择最新修订版</latestRevisionButton>或<restoreRevisionButton>从当前修订版复原</restoreRevisionButton>。",
     "alertHeaderAriaLabelSeverity": "事件的严重性为 {{severity}}",
@@ -451,7 +451,7 @@
         "labelActionButtonDelete": "删除",
         "labelAlertFilters": "过滤器",
         "labelConfirm": "请确认",
-        "labelConfirmRemoveConfig": "确定要移除配置 <strong>{{configName}}</strong> 吗？",
+        "labelConfirmRemoveConfig": "确定要除去警报 <strong>{{configName}}</strong> 吗？",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已选择 {{count}} 个应用程序",
         "numberOfApplicationsSelected_plural": "已选定 {{count}} 个应用程序"
@@ -525,6 +525,18 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "至少 {{count}} 个用户在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "至少 {{userPercentage}} 的用户在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence": "在过去 {{formattedTimeWindow}} 内受影响",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户和 {{userPercentage}} 的用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_plural": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户和 {{userPercentage}} 的用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_0": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户和 {{userPercentage}} 的用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_1": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户和 {{userPercentage}} 的用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_2": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户和 {{userPercentage}} 的用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_plural": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_0": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_1": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{count}} 个用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响至少 {{userPercentage}} 的用户",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "对于最后 {{numberEvaluationWindows}} 个评估窗口，每个窗口影响的数量",
         "timeThresholdDescriptionRequestImpact": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdDescriptionRequestImpact_plural": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdDescriptionRequestImpact_0": "至少 {{count}} 个请求在过去 {{formattedTimeWindow}} 内受影响",
@@ -538,6 +550,9 @@
         "timeThresholdConfigNumberOfConsecutiveViolations": "连续指标违例数",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "连续评估数",
         "timeThresholdConfigNumberOfEvaluationWindows": "用于用户影响的评估窗口数",
+        "timeThresholdConfigImpactEvaluationMethod": "用户影响评估方法",
+        "timeThresholdConfigImpactEvaluationMethodAggregated": "在所有评估窗口中聚集",
+        "timeThresholdConfigImpactEvaluationMethodPerWindow": "为每个评估窗口计算",
         "timeThresholdConfigNumberOfViolations": "指标违例数",
         "timeThresholdConfigEvaluationGranularity": "评估详细程度",
         "timeThresholdConfigNumberOfRequestsThreshold": "请求数阈值",
@@ -860,7 +875,9 @@
     },
     "migration": {
       "migrateButton": "迁移到智能警报",
-      "migrateButtonTooltip": "打开“智能警报配置”对话框，其中尽我们所能预填充了来自当前事件的已迁移值。请仔细检查结果！"
+      "migrateButtonTooltip": "打开“智能警报配置”对话框，其中尽我们所能预填充了来自当前事件的已迁移值。请仔细检查结果！",
+      "markAsMigratedButton": "标记为已迁移",
+      "markAsMigratedButtonTooltip": "将事件标记为已迁移。 如果您已配置将替换此事件的智能警报，请使用此方法。"
     }
   }
 }

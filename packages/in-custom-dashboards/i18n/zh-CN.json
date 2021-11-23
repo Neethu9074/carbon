@@ -381,6 +381,13 @@
         "noAppPerspect": "无应用程序透视图！",
         "pleaseSelect": "请选择"
       },
+      "websiteSelector": {
+        "website": "Web 站点",
+        "selectWebsite": "请选择 Web 站点",
+        "websiteHelpAction": "在产品的“Web 站点和移动应用程序”区域中配置 Web 站点。",
+        "noWebsites": "找不到 Web 站点",
+        "pleaseSelect": "请选择"
+      },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "服务级别指示符",
         "selectASli": "请选择 SLI。",
@@ -450,7 +457,11 @@
         "includeInternalCalls": "包含内部调用数",
         "includeSyntheticCalls": "包含合成调用数",
         "type": "类型",
-        "sliEntity": "SLI 实体"
+        "sliEntity": "SLI 实体",
+        "beaconConfigLabel": "信标配置",
+        "beaconScopeLabel": "信标作用域",
+        "httpRequestsLabel": "HTTP 请求",
+        "beaconFiltersLabel": "信标过滤器"
       },
       "sliList": {
         "serviceLevelIndicators": "服务级别指示符",
@@ -486,6 +497,7 @@
         "sloConfig": "SLO 配置",
         "manageSlIs": "管理 SLI",
         "sloTarget": "SLO 目标",
+        "sloType": "SLO 类型",
         "enterVal0to100": "请输入介于 0 到 100 之间的值。",
         "timeWindow": "时间窗口",
         "helpActionMsg1": "<strong>固定时间间隔：</strong>定义了开始时间和持续时间的时间窗口。例如，自 2020 年 1 月 1 日起每月一次。将显示从全局时间选取器中选择的时间的最后部分时间间隔。",
@@ -512,6 +524,12 @@
         "dynamicTimeWindow": "动态时间窗口",
         "rollingTimeWindow": "滚动时间窗口",
         "fixedTimeWindow": "固定时间窗口"
+      },
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "应用程序 SLO",
+          "websites": "Web 站点 SLO"
+        }
       },
       "sliConfig": {
         "sliName": "SLI 名称",

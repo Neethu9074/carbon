@@ -381,6 +381,13 @@
         "noAppPerspect": "Aucune perspective d'application.",
         "pleaseSelect": "Sélectionnez"
       },
+      "websiteSelector": {
+        "website": "Site Web",
+        "selectWebsite": "Sélectionner un site Web",
+        "websiteHelpAction": "Configurez les sites Web dans la zone Websites &amp; Mobile Apps du produit.",
+        "noWebsites": "Aucun site Web trouvé",
+        "pleaseSelect": "Veuillez sélectionner"
+      },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "Indicateur de niveau de service (SLI)",
         "selectASli": "Sélectionnez un SLI.",
@@ -450,7 +457,11 @@
         "includeInternalCalls": "Inclure les appels internes",
         "includeSyntheticCalls": "Inclure les appels synthétiques",
         "type": "Type",
-        "sliEntity": "Entité SLI"
+        "sliEntity": "Entité SLI",
+        "beaconConfigLabel": "Configuration d'alarme",
+        "beaconScopeLabel": "Portée de l'alarme",
+        "httpRequestsLabel": "Demandes HTTP",
+        "beaconFiltersLabel": "Filtres d'alarmes"
       },
       "sliList": {
         "serviceLevelIndicators": "Indicateurs du niveau de service (SLI)",
@@ -486,6 +497,7 @@
         "sloConfig": "Configuration SLO",
         "manageSlIs": "Gérer les SLI",
         "sloTarget": "Cible SLO",
+        "sloType": "Type SLO",
         "enterVal0to100": "Entrez une valeur comprise entre 0 et 100.",
         "timeWindow": "Fenêtre de temps",
         "helpActionMsg1": "<strong>Intervalle de temps fixe :</strong> fenêtre de temps avec un début et une durée définis. Exemple : mensuel commençant le 01-01-2020. Le dernier intervalle de temps partiel pour la sélection de temps à partir du sélecteur de temps global s'affiche.",
@@ -512,6 +524,12 @@
         "dynamicTimeWindow": "Fenêtre de temps dynamique",
         "rollingTimeWindow": "Fenêtre de temps glissante",
         "fixedTimeWindow": "Fenêtre de temps fixe"
+      },
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "SLO de l'application",
+          "websites": "SLO du site Web"
+        }
       },
       "sliConfig": {
         "sliName": "Nom du SLI",

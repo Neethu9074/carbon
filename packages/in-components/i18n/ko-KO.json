@@ -32,7 +32,8 @@
       "scrollHint": "<upArrow /><downArrow /> 키를 사용하여 스크롤",
       "rollup": "{{rollup}} 초과",
       "more": "{{number}}개 더"
-    }
+    },
+    "chartTemplates": "템플리트"
   },
   "comboBox": {
     "placeholderSelect": "선택…"
@@ -327,7 +328,9 @@
     "viewSwitcherLabelMobileApps": "모바일 앱",
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "플랫폼",
     "viewSwitcherButtonSignOut": "로그아웃",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "새 Instana UI 버전 사용 가능",
@@ -473,13 +476,11 @@
     "timeUnit_hour": "시간",
     "timeUnit_minute": "분",
     "timeUnit_second": "초",
-
     "timeFrameFormatterHoursMinutes": "지난 $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
     "hours": "{{count}}시간",
     "hours_plural": "{{count}}시간",
     "minutes": "{{count}}분",
     "minutes_plural": "{{count}}분",
-
     "timeFrameFormatterHours": "마지막 시간",
     "timeFrameFormatterHours_plural": "마지막 {{count}}시간",
     "timeFrameFormatterMinutes": "마지막 분",
@@ -588,6 +589,7 @@
       "tagPlaceholderKey": "키",
       "tagPlaceholderValue": "값",
       "spacingSuggestionAnd": "AND",
+      "spacingSuggestionIconAriaLabel": "쿼리에 항목 추가",
       "bracketLabelChosenBracket": "선택한 대괄호. 대괄호를 변경하거나, 접속사를 선택하거나, 대괄호를 제거하려면 클릭하십시오.",
       "conjunctionLabelChosenConjunction": "선택한 접속사. 접속사를 변경하거나, 대괄호를 선택하거나, 접속사를 제거하려면 클릭하십시오.",
       "filterButtonAddFilter": "필터 추가",

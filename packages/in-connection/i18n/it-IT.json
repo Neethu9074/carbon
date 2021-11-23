@@ -1,14 +1,27 @@
 {
-    "stat": {
-        "connectLostState": {
-            "connecting":"Connessione…",
-            "connectingMsg":"Tentativo di connessione a {{connectAttempt}} non riuscito. Si prosegue nel tentativo di stabilire una connessione di backend persistente.",
-            "connectLostAttempReconnect":"Connessione interrotta. Tentativo di ricollegamento...",
-            "unauthorized":"Non autorizzato...",
-            "unauthorizedMsg":"Impossibile stabilire una connessione di backend persistente poiché non si è autorizzati. Aggiornare la pagina per continuare."
-        }
-    },
-    "clientErrMsg": {
-        "techClientMsgeErrFromBackend":"Messaggio client tecnico (i dettagli sugli errori più probabili) dal backend"
+  "stat": {
+    "connectLostState": {
+      "connecting": "Connessione…",
+      "connectingMsg": "Tentativo di connessione a {{connectAttempt}} non riuscito. Si prosegue nel tentativo di stabilire una connessione di backend persistente.",
+      "connectLostAttempReconnect": "Connessione interrotta. Tentativo di ricollegamento...",
+      "unauthorized": "Non autorizzato...",
+      "unauthorizedMsg": "Impossibile stabilire una connessione di backend persistente poiché non si è autorizzati. Aggiornare la pagina per continuare.",
+      "chooseConnectionStrategy": "Scegli strategia di connessione"
     }
+  },
+  "clientErrMsg": {
+    "techClientMsgeErrFromBackend": "Messaggio client tecnico (i dettagli sugli errori più probabili) dal backend"
+  },
+  "chooseConnectionStrategyDialog": {
+    "title": "Scegli strategia di connessione",
+    "description": "Instana cerca di richiamare i dati di monitoraggio tramite una connessione WebSocket. In certi scenari è possibile che una connessione WebSocket non possa essere stabilita, ad esempio, con proxy aziendali restrittivi. L'interfaccia utente Instana per impostazione predefinita proverà ad utilizzare una strategia di connessione di fallback per richiamare i dati di monitoraggio dopo alcuni tentativi. È possibile configurare questa strategia per migliorare l'esperienza dell'utente in base alle situazioni di rete e configurazione note.",
+    "save": "Salva strategia di connessione",
+    "label": "Strategia di connessione",
+    "confirmReloadTitle": "Conferma ricaricamento",
+    "confirmReloadDescription": "Le modifiche della strategia di connessione diventano attive solo quando si ricarica la pagina. Si desidera ricaricare la pagina adesso?",
+    "confirmReloadButtonLabel": "Ricarica questa pagina"
+  },
+  "strategy_auto": "Preferisci WebSocket, utilizza long-polling come fallback",
+  "strategy_alwaysWebsockets": "Utilizza solo WebSocket (più veloce)",
+  "strategy_alwaysPolling": "Utilizza solo long-polling (più lento)"
 }

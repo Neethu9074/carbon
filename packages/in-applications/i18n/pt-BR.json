@@ -73,6 +73,7 @@
   "titleConfigureCustomServiceRules": "Configurar regras de serviço customizado",
   "titleCustomServiceRule": "Regra de serviço customizado",
   "titleUpdateApplicationPerspective": "Atualizar perspectiva de aplicativo",
+  "titleApplicationPerspectiveConfiguration": "Configuração da perspectiva do aplicativo",
   "titleCreateApplicationPerspective": "Criar perspectiva de aplicativo",
   "titleRemoveApplicationPerspective": "Remover perspectiva de aplicativo",
   "titleCustomSyntheticRule": "Regra sintética customizada",
@@ -489,10 +490,15 @@
       "descriptionPrepareToMonitor": "Estamos preparando tudo para monitorar sua perspectiva de aplicativo <bold>{{decodedLabel}}</bold>.",
       "descriptionRemoveApplicationPerspective": "Caso não queira mais monitorar a perspectiva de aplicativo <strong>{{application}}</strong>, use o botão abaixo para removê-la. A remoção de uma perspectiva de aplicativo pode levar alguns minutos.",
       "stepTitleDefineApplicationName": "Defina um nome para sua perspectiva de aplicativo.",
+      "stepTitleApplicationName": "Nome para a sua perspectiva de aplicativo.",
       "stepTitleDefineTags": "Defina a perspectiva de aplicativo usando uma ou mais tags.",
       "stepTitleDownstreamServices": "Serviços de recebimento de dados.",
+      "stepTitleApplicationUsesDownstreamServices": "Esta perspectiva de aplicativo usa <strong>{{scope}}</strong>.",
       "stepTitleApplicationScope": "Escopo do aplicativo.",
+      "stepTitleApplicationUsesBoundaryScope": "Esta perspectiva de aplicativo usa <strong>{{boundaryScope}}</strong>",
+      "readOnlyApplicationConfiguration": "Você está visualizando essa configuração de perspectiva de aplicativo no modo de somente leitura.",
       "stepTitleBuiltInSmartAlertsScope": "Escopo de Alertas inteligentes integrados.",
+      "noBuiltInSmartAlertsActive": "Nenhum Alerta Inteligente integrado ativo para essa perspectiva de aplicativo.",
       "optionNoDownstreamServices": "Nenhum serviço de recebimento de dados",
       "optionImmediateDownstreamServices": "Serviços imediatos de banco de dados de recebimento de dados e de sistema de mensagens",
       "optionAllDownstreamServices": "Todos os serviços de recebimento de dados",
@@ -504,7 +510,7 @@
     "customSyntheticRule": {
       "placeholderNameRule": "Dê um nome à sua regra",
       "placeholderAddDescriptionForRule": "Inclua uma descrição para sua regra",
-"helpSpecifyRule": "Especifique as regras para corresponder, por exemplo. endpoint.name contém funcionamento",
+      "helpSpecifyRule": "Especifique as regras para corresponder, por exemplo. endpoint.name contém funcionamento",
       "messageNoMatchRule": "Nenhum terminal corresponde a esta regra.",
       "messageNoRule": "Nenhuma regra especificada.",
       "stepTitleConfigureSyntheticEndpoints": "Configure terminais sintéticos para ignorar chamadas para eles de KPIs de serviço e de aplicativo",
@@ -512,7 +518,7 @@
       "descriptionEndpointsRule": "Chamadas para os terminais que correspondem a esta regra gerada automaticamente não contribuem para o seu aplicativo ou KPIs de serviço dentro da Instana e são desconsiderados.",
       "errorConditionRequired": "É necessária pelo menos uma condição de correspondência."
     },
-    "AND": "E"
+    "and": "E"
   },
   "list": {
     "textNewApplicationPerspective": "Elas aparecerão aqui assim que um administrador de conta criá-las.",

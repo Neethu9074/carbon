@@ -15,5 +15,15 @@
   "endpoint": "엔드포인트",
   "endpointType": "엔드포인트 유형",
   "messageParam": "메시지 매개변수",
-  "applicationCounter": "{{count}}개의 애플리케이션"
+  "applicationCounter": "{{count}}개의 애플리케이션",
+  "exceptionMessageHeader": "예외 메시지",
+  "service": "서비스",
+  "stream": "스트림",
+  "tooltipCopyToClipboard": "클립보드에 복사",
+  "tooltipAddAsGroup": "태그별 그룹",
+  "tooltipAddAsFilter": "필터로 태그 추가",
+  "sorting": {
+    "mostRecent": "가장 최근 항목 먼저",
+    "oldest": "가장 이전 항목 먼저"
+  }
 }

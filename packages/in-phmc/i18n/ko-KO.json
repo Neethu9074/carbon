@@ -1,0 +1,38 @@
+{
+  "phmcs": "pHMC",
+  "hostname": "호스트 이름",
+  "name": "이름",
+  "systems": "시스템",
+  "partitions": "파티션",
+  "vios": "가상 입/출력 서버",
+  "ibmpPhmcs": "IBM 전원 HMC",
+  "noMonitoringDataFound": "모니터링 데이터를 찾을 수 없음",
+  "noData": "사용 가능한 pHMC 데이터가 없습니다.",
+  "machineTypeModel": "기계 유형 모델",
+  "machineSerial": "기계 일련 번호",
+  "total": "총계",
+  "available": "사용 가능",
+  "utilized": "활용",
+  "configurable": "구성 가능",
+  "assignedMem": "LPAR에 지정된 메모리",
+  "breadcrumbs": {
+    "phmc": "pHMC",
+    "phmcs": "pHMC",
+    "systems": "시스템"
+  },
+  "dashboards": {
+    "phmc": "pHMC",
+    "systems": "시스템",
+    "summary": "요약",
+    "logicalPartition": "논리 파티션",
+    "processorUsage": "프로세서 사용량",
+    "memoryUsage": "메모리 사용량",
+    "name": "이름",
+    "backedPhysicalMem": "백업된 실제 메모리",
+    "entitledProcUnits": "제목이 지정된 단위",
+    "utilized": "활용",
+    "currentVirtualProcessors": "현재 가상 프로세서",
+    "maxVirtualProcessors": "최대 가상 프로세서",
+    "vios": "VIOS"
+  }
+}

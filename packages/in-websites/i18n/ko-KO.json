@@ -464,6 +464,8 @@
         "filter_plural": "필터",
         "moreFiltersWithCount": "{{count}}개 추가 필터",
         "moreFiltersWithCount_plural": "{{count}}개 추가 필터",
+        "labelConfirmRemoveAlertConfigWithName": "<strong>{{name}}</strong> 경보를 제거하시겠습니까?",
+        "alertEntityName": "경고 {{entityName}}",
         "alertsLabelName": "이름",
         "alertsLabelFilters": "필터",
         "alertsHeaderConfiguredAlerts": "구성된 경보",

@@ -32,7 +32,8 @@
       "scrollHint": "Faire défiler en utilisant les touches <upArrow /><downArrow /> ",
       "rollup": "sur {{rollup}}",
       "more": "{{number}} de plus"
-    }
+    },
+    "chartTemplates": "Modèles"
   },
   "comboBox": {
     "placeholderSelect": "Sélectionner..."
@@ -327,7 +328,9 @@
     "viewSwitcherLabelMobileApps": "Applications mobiles",
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "Plateformes",
     "viewSwitcherButtonSignOut": "Se déconnecter",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Nouvelle version de l'interface utilisateur Instana disponible",
@@ -473,13 +476,11 @@
     "timeUnit_hour": "heure",
     "timeUnit_minute": "minute",
     "timeUnit_second": "seconde",
-
     "timeFrameFormatterHoursMinutes": "Dernier $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
     "hours": "{{count}} heure",
     "hours_plural": "{{count}} heures",
     "minutes": "{{count}} minute",
     "minutes_plural": "{{count}} minutes",
-
     "timeFrameFormatterHours": "Dernière heure",
     "timeFrameFormatterHours_plural": "{{count}} dernières heures",
     "timeFrameFormatterMinutes": "Dernière minute",
@@ -588,6 +589,7 @@
       "tagPlaceholderKey": "Clé",
       "tagPlaceholderValue": "Valeur",
       "spacingSuggestionAnd": "ET",
+      "spacingSuggestionIconAriaLabel": "Ajouter un élément à la requête",
       "bracketLabelChosenBracket": "Crochet choisi. Cliquez pour changer le crochets, sélectionner une conjonction ou retirer le crochet.",
       "conjunctionLabelChosenConjunction": "Conjonction choisie. Cliquez pour changer la conjonction, sélectionner un crochet ou retirer la conjonction.",
       "filterButtonAddFilter": "Ajouter un filtre",

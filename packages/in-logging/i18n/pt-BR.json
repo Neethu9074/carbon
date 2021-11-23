@@ -15,5 +15,15 @@
   "endpoint": "Terminal",
   "endpointType": "Tipo de terminal",
   "messageParam": "Parâmetro da mensagem",
-  "applicationCounter": "{{count}} aplicativos"
+  "applicationCounter": "{{count}} aplicativos",
+  "exceptionMessageHeader": "Mensagem de exceção",
+  "service": "Serviço",
+  "stream": "Fluxo",
+  "tooltipCopyToClipboard": "Copiar para a área de transferência",
+  "tooltipAddAsGroup": "Agrupar por tag",
+  "tooltipAddAsFilter": "Adicionar tag como filtro",
+  "sorting": {
+    "mostRecent": "Mais recente primeiro",
+    "oldest": "Mais antigo primeiro"
+  }
 }

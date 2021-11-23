@@ -8,7 +8,7 @@
     "alertHeaderAlert": "Alert",
     "alertHeaderRestoreRevisionTooltip": "{{description}} wiederherstellen",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Bitte bestätigen",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "Sind Sie sicher, dass Sie <strong>\"Überarbeitung {{alertRevision}}\"</strong> wiederherstellen möchten?",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "Soll <strong>\"{{description}}\"</strong> wiederhergestellt werden?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Wiederherstellen",
     "alertHeaderDisableTooltip": " Inaktivieren",
     "alertHeaderEnableTooltip": " Aktivieren",
@@ -16,7 +16,7 @@
     "alertHeaderEditTooltip": "Bearbeiten",
     "alertHeaderDuplicateTooltip": "Duplizieren",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Bitte bestätigen",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Sind Sie sicher, dass Sie <strong>\"Alert {{alertConfigName}}\"</strong> entfernen möchten?",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "Soll der Alert <strong>{{alertConfigName}}</strong> entfernt werden?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Entfernen",
     "alertHeaderIsNotLatestRevisionMessage": "Dies ist die Überarbeitung {{description}} dieser Alertkonfiguration. Wählen Sie die <latestRevisionButton>aktuelle Überarbeitung aus</latestRevisionButton> oder nehmen Sie eine <restoreRevisionButton>Wiederherstellung aus der aktuellen Überarbeitung vor</restoreRevisionButton>, wenn Sie Änderungen vornehmen möchten. ",
     "alertHeaderAriaLabelSeverity": "Ereignis hat Schweregrad {{severity}}",
@@ -451,7 +451,7 @@
         "labelActionButtonDelete": "Löschen",
         "labelAlertFilters": "Filter",
         "labelConfirm": "Bitte bestätigen",
-        "labelConfirmRemoveConfig": "Sind Sie sicher, dass Sie die Konfiguration <strong>{{configName}}</strong> entfernen möchten?",
+        "labelConfirmRemoveConfig": "Soll der Alert <strong>{{configName}}</strong> entfernt werden?",
         "labelRemove": "Entfernen",
         "numberOfApplicationsSelected": "{{count}} Anwendung ausgewählt",
         "numberOfApplicationsSelected_plural": "{{count}} Anwendungen ausgewählt"
@@ -525,6 +525,18 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "Mindestens {{count}} Benutzer innerhalb der letzten {{formattedTimeWindow}} betroffen",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "Mindestens {{userPercentage}} der innerhalb der letzten {{formattedTimeWindow}} betroffenen Benutzer",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence": "Innerhalb der letzten {{formattedTimeWindow}} betroffen",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation": "Mindestens {{count}} betroffener Benutzer und {{userPercentage}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_plural": "Mindestens {{count}} betroffene Benutzer und {{userPercentage}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_0": "Mindestens {{count}} betroffene Benutzer und {{userPercentage}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_1": "Mindestens {{count}} betroffener Benutzer und {{userPercentage}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_2": "Mindestens {{count}} betroffene Benutzer und {{userPercentage}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation": "Mindestens {{count}} betroffener Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_plural": "Mindestens {{count}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_0": "Mindestens {{count}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_1": "Mindestens {{count}} betroffener Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "Mindestens {{count}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "Mindestens {{userPercentage}} betroffene Benutzer pro Fenster bei den letzten {{numberEvaluationWindows}} Auswertungsfenstern",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "Betroffen pro Fenster bei den letzten {{numberEvaluationWindows}}-Auswertungsfenstern",
         "timeThresholdDescriptionRequestImpact": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
         "timeThresholdDescriptionRequestImpact_plural": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
         "timeThresholdDescriptionRequestImpact_0": "Mindestens {{count}} Anforderungen innerhalb der letzten {{formattedTimeWindow}} betroffen",
@@ -538,6 +550,9 @@
         "timeThresholdConfigNumberOfConsecutiveViolations": "Anzahl aufeinanderfolgender Messwertverstöße",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Anzahl der aufeinanderfolgenden Auswertungen",
         "timeThresholdConfigNumberOfEvaluationWindows": "Anzahl der Evaluierungsfenster für Auswirkung auf Benutzer",
+        "timeThresholdConfigImpactEvaluationMethod": "Auswertungsmethode für die Auswirkungen auf Benutzer",
+        "timeThresholdConfigImpactEvaluationMethodAggregated": "Für alle Auswertungsfenster aggregieren",
+        "timeThresholdConfigImpactEvaluationMethodPerWindow": "Für jedes Auswertungsfenster berechnen",
         "timeThresholdConfigNumberOfViolations": "Anzahl der Messwertverstöße",
         "timeThresholdConfigEvaluationGranularity": "Evaluierungsgranularität",
         "timeThresholdConfigNumberOfRequestsThreshold": "Schwellenwert für Anzahl der Anforderungen",
@@ -860,7 +875,9 @@
     },
     "migration": {
       "migrateButton": "Zu Smart Alert migrieren",
-      "migrateButtonTooltip": "Öffnet einen Smart Alert-Konfigurationsdialog, der bereits mit den migrierten Werten aus dem aktuellen Ereignis gefüllt wurde, um die bestmögliche Erweiterung zu erzielen. Bitte überprüfen Sie das Ergebnis sorgfältig!"
+      "migrateButtonTooltip": "Öffnet einen Smart Alert-Konfigurationsdialog, der bereits mit den migrierten Werten aus dem aktuellen Ereignis gefüllt wurde, um die bestmögliche Erweiterung zu erzielen. Bitte überprüfen Sie das Ergebnis sorgfältig!",
+      "markAsMigratedButton": "Als migriert markieren",
+      "markAsMigratedButtonTooltip": "Kennzeichnet das Ereignis als migriertes Ereignis. Verwenden Sie dies, falls Sie bereits einen Smart Alert konfiguriert haben. Das Ereignis wird dadurch ersetzt."
     }
   }
 }

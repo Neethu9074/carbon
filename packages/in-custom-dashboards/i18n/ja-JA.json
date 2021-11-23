@@ -381,6 +381,13 @@
         "noAppPerspect": "アプリケーション・パースペクティブがありません。",
         "pleaseSelect": "選択してください"
       },
+      "websiteSelector": {
+        "website": "Web サイト",
+        "selectWebsite": "Web サイトを選択してください",
+        "websiteHelpAction": "本製品の「Web サイト ＆ モバイル・アプリケーション」領域で Web サイトを構成します。",
+        "noWebsites": "Web サイトが見つかりません",
+        "pleaseSelect": "選択してください"
+      },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "サービス・レベル指標",
         "selectASli": "SLI を選択してください。",
@@ -450,7 +457,11 @@
         "includeInternalCalls": "内部呼び出しを含める",
         "includeSyntheticCalls": "シンセティック呼び出しを含める",
         "type": "タイプ",
-        "sliEntity": "SLI エンティティー"
+        "sliEntity": "SLI エンティティー",
+        "beaconConfigLabel": "Beacon Config",
+        "beaconScopeLabel": "Beacon Scope",
+        "httpRequestsLabel": "HTTP リクエスト",
+        "beaconFiltersLabel": "Beacon フィルター"
       },
       "sliList": {
         "serviceLevelIndicators": "サービス・レベル指標",
@@ -486,6 +497,7 @@
         "sloConfig": "SLO の構成",
         "manageSlIs": "SLI の管理",
         "sloTarget": "SLO ターゲット",
+        "sloType": "SLO タイプ",
         "enterVal0to100": "0 から 100 までの値を入力してください。",
         "timeWindow": "時間枠",
         "helpActionMsg1": "<strong>固定時間間隔:</strong> 開始と期間が定義された時間枠。 例: 2020-01-01 開始で毎月。 グローバル時間ピッカーで選択した時間の最後の部分的な時間間隔が表示されます。",
@@ -512,6 +524,12 @@
         "dynamicTimeWindow": "動的時間枠",
         "rollingTimeWindow": "ローリング時間枠",
         "fixedTimeWindow": "固定時間枠"
+      },
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "アプリケーション SLO",
+          "websites": "Web サイト SLO"
+        }
       },
       "sliConfig": {
         "sliName": "SLI 名",

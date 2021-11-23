@@ -15,5 +15,15 @@
   "endpoint": "Punto final",
   "endpointType": "Tipo de punto final",
   "messageParam": "Parámetro de mensaje",
-  "applicationCounter": "{{count}} aplicaciones"
+  "applicationCounter": "{{count}} aplicaciones",
+  "exceptionMessageHeader": "Mensaje de excepción",
+  "service": "Service",
+  "stream": "Ruta",
+  "tooltipCopyToClipboard": "Copiar en el portapapeles",
+  "tooltipAddAsGroup": "Grupo por etiqueta",
+  "tooltipAddAsFilter": "Añadir etiqueta como filtro",
+  "sorting": {
+    "mostRecent": "Más reciente primero",
+    "oldest": "Más antiguo primero"
+  }
 }

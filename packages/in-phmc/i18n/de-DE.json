@@ -1,0 +1,38 @@
+{
+  "phmcs": "pHMC-Plug-ins",
+  "hostname": "Hostname",
+  "name": "Name",
+  "systems": "Systeme",
+  "partitions": "Partitionen",
+  "vios": "Virtuelle E/A-Server",
+  "ibmpPhmcs": "IBM Power HMC",
+  "noMonitoringDataFound": "Keine Überwachungsdaten gefunden",
+  "noData": "Es sind keine pHMC-Daten verfügbar.",
+  "machineTypeModel": "Maschinentypmodell",
+  "machineSerial": "Seriennummer",
+  "total": "Summe",
+  "available": "Verfügbar",
+  "utilized": "Verwendet",
+  "configurable": "Konfigurierbar",
+  "assignedMem": "Zugeordneter Speicher für LPARs",
+  "breadcrumbs": {
+    "phmc": "pHMC",
+    "phmcs": "pHMC-Plug-ins",
+    "systems": "Systeme"
+  },
+  "dashboards": {
+    "phmc": "pHMC",
+    "systems": "Systeme",
+    "summary": "Zusammenfassung",
+    "logicalPartition": "Logische Partition",
+    "processorUsage": "Prozessorauslastung",
+    "memoryUsage": "Speichernutzung",
+    "name": "Name",
+    "backedPhysicalMem": "Gesicherter physischer Speicher",
+    "entitledProcUnits": "Berechtigte Einheiten",
+    "utilized": "Verwendet",
+    "currentVirtualProcessors": "Aktuelle virtuelle Prozessoren",
+    "maxVirtualProcessors": "Max. virtuelle Prozessoren",
+    "vios": "VIOS"
+  }
+}

@@ -8,7 +8,7 @@
     "alertHeaderAlert": "경보",
     "alertHeaderRestoreRevisionTooltip": "{{description}} 복원",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "확인하시기 바랍니다.",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "<strong>\"{{alertRevision}} 개정\"</strong>을 복원하시겠습니까?",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "<strong>\"{{description}}\"</strong>을(를) 복원하시겠습니까?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "복원",
     "alertHeaderDisableTooltip": " 사용 안함",
     "alertHeaderEnableTooltip": " 사용",
@@ -16,7 +16,7 @@
     "alertHeaderEditTooltip": "편집",
     "alertHeaderDuplicateTooltip": "복제",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "확인하시기 바랍니다.",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>\"{{alertConfigName}} 경보\"</strong>를 제거하시겠습니까?",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "<strong>{{alertConfigName}}</strong> 경보를 제거하시겠습니까?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "제거",
     "alertHeaderIsNotLatestRevisionMessage": "이 경보 구성의 {{description}} 개정을 보고 계십니다. 변경하려는 경우 <latestRevisionButton>최신 버전 선택</latestRevisionButton> 또는 <restoreRevisionButton>현재 버전에서 복원</restoreRevisionButton>을 클릭하십시오.",
     "alertHeaderAriaLabelSeverity": "이벤트의 심각도가 {{severity}}임",
@@ -451,7 +451,7 @@
         "labelActionButtonDelete": "삭제",
         "labelAlertFilters": "필터",
         "labelConfirm": "확인하시기 바랍니다.",
-        "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 구성을 제거하시겠습니까?",
+        "labelConfirmRemoveConfig": "<strong>{{configName}}</strong> 경보를 제거하시겠습니까?",
         "labelRemove": "제거",
         "numberOfApplicationsSelected": "{{count}}개 애플리케이션이 선택됨",
         "numberOfApplicationsSelected_plural": "{{count}}개 애플리케이션이 선택됨"
@@ -525,6 +525,18 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "{{count}}명 이상의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "{{userPercentage}}의 사용자가 지난 {{formattedTimeWindow}} 내에 영향을 받음",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence": "지난 {{formattedTimeWindow}} 내에 영향을 받음",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{count}} 사용자 및 {{userPercentage}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_plural": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{count}} 사용자 및 {{userPercentage}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_0": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{count}} 사용자 및 {{userPercentage}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_1": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{count}} 사용자 및 {{userPercentage}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_2": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{count}} 사용자 및 {{userPercentage}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{count}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_plural": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{count}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_0": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{count}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_1": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{count}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{count}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 최소 {{userPercentage}} 사용자가 영향을 받습니다.",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "마지막 {{numberEvaluationWindows}} 평가 창의 경우 창별로 영향을 받음",
         "timeThresholdDescriptionRequestImpact": "{{count}}개 이상의 요청이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
         "timeThresholdDescriptionRequestImpact_plural": "{{count}}개 이상의 요청이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
         "timeThresholdDescriptionRequestImpact_0": "{{count}}개 이상의 요청이 지난 {{formattedTimeWindow}} 내에 영향을 받음",
@@ -538,6 +550,9 @@
         "timeThresholdConfigNumberOfConsecutiveViolations": "연속 메트릭 위반 수",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "연속 평가 수",
         "timeThresholdConfigNumberOfEvaluationWindows": "사용자 영향에 대한 평가 기간 수",
+        "timeThresholdConfigImpactEvaluationMethod": "사용자 영향 평가 방법",
+        "timeThresholdConfigImpactEvaluationMethodAggregated": "모든 평가 창에서 집계",
+        "timeThresholdConfigImpactEvaluationMethodPerWindow": "각 평가 창에 대한 계산",
         "timeThresholdConfigNumberOfViolations": "메트릭 위반 수",
         "timeThresholdConfigEvaluationGranularity": "평가 단위",
         "timeThresholdConfigNumberOfRequestsThreshold": "요청 임계값 수",
@@ -860,7 +875,9 @@
     },
     "migration": {
       "migrateButton": "스마트 경보로 마이그레이션",
-      "migrateButtonTooltip": "현재 이벤트에서 가능한 최대 확장으로 마이그레이션된 값으로 미리 채워진 스마트 경보 구성 대화 상자를 엽니다. 결과를 신중하게 다시 한 번 확인하십시오!"
+      "migrateButtonTooltip": "현재 이벤트에서 가능한 최대 확장으로 마이그레이션된 값으로 미리 채워진 스마트 경보 구성 대화 상자를 엽니다. 결과를 신중하게 다시 한 번 확인하십시오!",
+      "markAsMigratedButton": "마이그레이션됨으로 표시",
+      "markAsMigratedButtonTooltip": "이벤트를 마이그레이션됨으로 표시합니다. 이 이벤트를 대체할 스마트 경보를 이미 구성한 경우에 이를 사용하십시오."
     }
   }
 }

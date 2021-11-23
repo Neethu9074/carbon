@@ -32,7 +32,8 @@
       "scrollHint": "使用 <upArrow /><downArrow /> 键滚动",
       "rollup": "超出 {{rollup}}",
       "more": "另外 {{number}} 项"
-    }
+    },
+    "chartTemplates": "模板"
   },
   "comboBox": {
     "placeholderSelect": "选择…"
@@ -327,7 +328,9 @@
     "viewSwitcherLabelMobileApps": "移动应用程序",
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherButtonSignOut": "注销",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "Instana UI 存在可用的新版本",
@@ -473,13 +476,11 @@
     "timeUnit_hour": "小时",
     "timeUnit_minute": "分钟",
     "timeUnit_second": "秒",
-
     "timeFrameFormatterHoursMinutes": "最后 $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
     "hours": "{{count}} 小时",
     "hours_plural": "{{count}} 小时",
     "minutes": "{{count}} 分钟",
     "minutes_plural": "{{count}} 分钟",
-
     "timeFrameFormatterHours": "最近 1 小时",
     "timeFrameFormatterHours_plural": "最近 {{count}} 小时",
     "timeFrameFormatterMinutes": "最近 1 分钟",
@@ -588,6 +589,7 @@
       "tagPlaceholderKey": "密钥",
       "tagPlaceholderValue": "值",
       "spacingSuggestionAnd": "AND",
+      "spacingSuggestionIconAriaLabel": "将项添加到查询",
       "bracketLabelChosenBracket": "已选括号。单击此项可更改括号、选择连词或移除括号。",
       "conjunctionLabelChosenConjunction": "已选连词。单击此项可更改连词、选择括号或移除连词。",
       "filterButtonAddFilter": "添加过滤器",

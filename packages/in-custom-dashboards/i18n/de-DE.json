@@ -381,6 +381,13 @@
         "noAppPerspect": "Keine Anwendungsperspektiven!",
         "pleaseSelect": "Bitte auswählen"
       },
+      "websiteSelector": {
+        "website": "Website",
+        "selectWebsite": "Wählen Sie eine Website aus",
+        "websiteHelpAction": "Konfigurieren Sie Websites im Bereich des Produkts für Websites und mobile Apps.",
+        "noWebsites": "Keine Websites gefunden",
+        "pleaseSelect": "Bitte auswählen"
+      },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "Service-Level-Indikator",
         "selectASli": "Wählen Sie einen SLI aus.",
@@ -450,7 +457,11 @@
         "includeInternalCalls": "Interne Aufrufe einschließen",
         "includeSyntheticCalls": "Synthetische Aufrufe einschließen",
         "type": "Typ",
-        "sliEntity": "SLI-Entität"
+        "sliEntity": "SLI-Entität",
+        "beaconConfigLabel": "Beaconkonfiguration",
+        "beaconScopeLabel": "Beaconbereich",
+        "httpRequestsLabel": "HTTP-Anforderungen",
+        "beaconFiltersLabel": "Beaconfilter"
       },
       "sliList": {
         "serviceLevelIndicators": "Service-Level-Indikatoren",
@@ -486,6 +497,7 @@
         "sloConfig": "SLO-Konfiguration",
         "manageSlIs": "SLIs verwalten",
         "sloTarget": "SLO-Ziel",
+        "sloType": "SLO-Typ",
         "enterVal0to100": "Geben Sie einen Wert zwischen 0 und 100 ein.",
         "timeWindow": "Zeitfenster",
         "helpActionMsg1": "<strong>Festes Zeitfenster:</strong> Ein Zeitfenster mit einem definierten Start und einer definierten Dauer. Z. B. monatlicher Start 01.01.2020. Das letzte Teilzeitintervall für die Zeitauswahl aus dem globalen Zeitauswahlfeld wird angezeigt.",
@@ -512,6 +524,12 @@
         "dynamicTimeWindow": "Dynamisches Zeitfenster",
         "rollingTimeWindow": "Rotierendes Zeitfenster",
         "fixedTimeWindow": "Festes Zeitfenster"
+      },
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "Anwendungs-SLO",
+          "websites": "Website-SLO"
+        }
       },
       "sliConfig": {
         "sliName": "SLI-Name",

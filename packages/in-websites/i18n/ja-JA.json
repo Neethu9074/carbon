@@ -464,6 +464,8 @@
         "filter_plural": "フィルター",
         "moreFiltersWithCount": "さらに {{count}} 個のフィルター",
         "moreFiltersWithCount_plural": "さらに {{count}} 個のフィルター",
+        "labelConfirmRemoveAlertConfigWithName": "アラート<strong>{{name}}</strong>を削除しますか？",
+        "alertEntityName": "アラート {{entityName}}",
         "alertsLabelName": "名前",
         "alertsLabelFilters": "フィルター",
         "alertsHeaderConfiguredAlerts": "構成済みアラート",

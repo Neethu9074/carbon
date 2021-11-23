@@ -464,6 +464,8 @@
         "filter_plural": "過濾器",
         "moreFiltersWithCount": "+{{count}} 個以上的過濾器",
         "moreFiltersWithCount_plural": "+{{count}} 個以上的過濾器",
+        "labelConfirmRemoveAlertConfigWithName": "您確定要移除警示 <strong>{{name}}</strong> 嗎？",
+        "alertEntityName": "警示 {{entityName}}",
         "alertsLabelName": "名稱",
         "alertsLabelFilters": "過濾器",
         "alertsHeaderConfiguredAlerts": "配置的警示",

@@ -464,6 +464,8 @@
         "filter_plural": "过滤器",
         "moreFiltersWithCount": "额外 {{count}} 个过滤器",
         "moreFiltersWithCount_plural": "额外 {{count}} 个过滤器",
+        "labelConfirmRemoveAlertConfigWithName": "确定要除去警报 <strong>{{name}}</strong> 吗？",
+        "alertEntityName": "警报 {{entityName}}",
         "alertsLabelName": "名称",
         "alertsLabelFilters": "过滤器",
         "alertsHeaderConfiguredAlerts": "已配置的警报",

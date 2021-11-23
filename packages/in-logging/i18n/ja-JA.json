@@ -15,5 +15,15 @@
   "endpoint": "エンドポイント",
   "endpointType": "エンドポイント・タイプ",
   "messageParam": "メッセージ・パラメーター",
-  "applicationCounter": "{{count}} 個のアプリケーション"
+  "applicationCounter": "{{count}} 個のアプリケーション",
+  "exceptionMessageHeader": "例外メッセージ",
+  "service": "サービス",
+  "stream": "ストリーム",
+  "tooltipCopyToClipboard": "クリップボードにコピー",
+  "tooltipAddAsGroup": "タグで分類",
+  "tooltipAddAsFilter": "タグをフィルターとして追加",
+  "sorting": {
+    "mostRecent": "新しい順",
+    "oldest": "古い順"
+  }
 }

@@ -8,7 +8,7 @@
     "alertHeaderAlert": "警示",
     "alertHeaderRestoreRevisionTooltip": "還原 {{description}}",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "請確認",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "您確定要還原<strong>「修訂 {{alertRevision}}」</strong>嗎？",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "您確定要還原 <strong>\"{{description}}\"</strong> 嗎？",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "還原",
     "alertHeaderDisableTooltip": " 停用",
     "alertHeaderEnableTooltip": " 啟用",
@@ -16,7 +16,7 @@
     "alertHeaderEditTooltip": "編輯",
     "alertHeaderDuplicateTooltip": "複製",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "請確認",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "您確定要移除<strong>「警示 {{alertConfigName}}」</strong>嗎？",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "您確定要移除警示 <strong>{{alertConfigName}}</strong> 嗎？",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "移除",
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警示配置的修訂 {{description}}。如需您想進行變更，請<latestRevisionButton>選取最新修訂</latestRevisionButton>或<restoreRevisionButton>從現行修訂還原</restoreRevisionButton>。",
     "alertHeaderAriaLabelSeverity": "事件具有嚴重性 {{severity}}",
@@ -451,7 +451,7 @@
         "labelActionButtonDelete": "刪除",
         "labelAlertFilters": "過濾器",
         "labelConfirm": "請確認",
-        "labelConfirmRemoveConfig": "您確定要移除配置 <strong>{{configName}}</strong> 嗎？",
+        "labelConfirmRemoveConfig": "您確定要移除警示 <strong>{{configName}}</strong> 嗎？",
         "labelRemove": "移除",
         "numberOfApplicationsSelected": "已選取 {{count}} 個應用程式",
         "numberOfApplicationsSelected_plural": "已選取 {{count}} 個應用程式"
@@ -525,6 +525,18 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "在過去 {{formattedTimeWindow}} 內，至少有 {{userPercentage}} 的使用者受到影響",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence": "在過去 {{formattedTimeWindow}} 內受到影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者，且 {{userPercentage}} 使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_plural": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者，且 {{userPercentage}} 使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_0": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者，且 {{userPercentage}} 使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_1": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者，且 {{userPercentage}} 使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_2": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者，且 {{userPercentage}} 使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_plural": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_0": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_1": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{count}} 個使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍至少 {{userPercentage}} 使用者受影響",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "針對最後 {{numberEvaluationWindows}} 個評估範圍，每個範圍的受影響程度",
         "timeThresholdDescriptionRequestImpact": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個使用者受到影響",
         "timeThresholdDescriptionRequestImpact_plural": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個要求受到影響",
         "timeThresholdDescriptionRequestImpact_0": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 個要求受到影響",
@@ -538,6 +550,9 @@
         "timeThresholdConfigNumberOfConsecutiveViolations": "連續度量違規數",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "連續評估數",
         "timeThresholdConfigNumberOfEvaluationWindows": "使用者影響的評估時段數",
+        "timeThresholdConfigImpactEvaluationMethod": "使用者影響評估方法",
+        "timeThresholdConfigImpactEvaluationMethodAggregated": "針對所有評估範圍進行總計",
+        "timeThresholdConfigImpactEvaluationMethodPerWindow": "針對每個評估範圍計算",
         "timeThresholdConfigNumberOfViolations": "度量違規數",
         "timeThresholdConfigEvaluationGranularity": "評估精度",
         "timeThresholdConfigNumberOfRequestsThreshold": "要求數臨界值",
@@ -860,7 +875,9 @@
     },
     "migration": {
       "migrateButton": "移轉至智慧型警示",
-      "migrateButtonTooltip": "開啟一個智慧型警示配置對話框，其中預先填入了從現行事件到我們所能達到最佳延伸的移轉值。請仔細核對結果！"
+      "migrateButtonTooltip": "開啟一個智慧型警示配置對話框，其中預先填入了從現行事件到我們所能達到最佳延伸的移轉值。請仔細核對結果！",
+      "markAsMigratedButton": "標示為已移轉",
+      "markAsMigratedButtonTooltip": "將事件標示為已移轉。 如果您已配置將取代此事件的「智慧型警示」，請使用此選項。"
     }
   }
 }

@@ -1,0 +1,82 @@
+{
+  "dialog": {
+    "createTest": {
+      "dialogTitle": "シンセティック・テストの作成",
+      "noLocationFound": "申し訳ありません アプリケーションが見つかりません",
+      "titles": {
+        "step1": "ステップ 1：タイプの選択",
+        "step2": "ステップ 2：要求の詳細",
+        "step3": "ステップ 3：スケジューリング",
+        "step4": "ステップ 4：詳細の入力"
+      },
+      "selectTest": {
+        "title": "どのような種類のシンセティック・テストを作成しますか"
+      },
+      "scheduling": {
+        "title": "スケジューリング",
+        "playbackMode": "プレイバック・モード",
+        "labelPlaybackMode": "プレイバック・モードの選択",
+        "simultaneous": "同時",
+        "staggered": "時間差",
+        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      },
+      "requestStep": {
+        "title": "要求の指定",
+        "subTitle": "エンドポイント",
+        "labelOperation": "HTTP メソッド",
+        "labelUrl": "URL",
+        "popSubTitle": "ポイント・オブ・プレゼンス"
+      },
+      "basicDetails": {
+        "title": "この ping テストの名前は何ですか",
+        "labelName": "テストの名前",
+        "labelDescription": "説明",
+        "labelFreequency": "頻度"
+      },
+      "bluePrint": {
+        "pingApi": {
+          "name": "Ping API",
+          "headline": "HTTP アクション",
+          "whenToUse": {
+            "title": "いつ使用するか。",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "title": "誰が使用すべきか",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
+            "title": "使用のヒント",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        }
+      },
+      "form": {
+        "validUrl": "有効なURLを入力してください"
+      }
+    },
+    "httpMethods": {
+      "get": "GET",
+      "post": "POST",
+      "put": "PUT",
+      "delete": "DELETE"
+    },
+    "feedback": {
+      "successTitle": "成功",
+      "successMessage": "シンセティック・テストの作成に成功しました",
+      "failureTitle": "失敗",
+      "failureMessage": "シンセティック・テストの作成に失敗しました。 後で再試行してください"
+    }
+  },
+  "createTest": {
+    "buttonLabel": "新規テストの作成"
+  },
+  "navigation": {
+    "synthetics": "シンセティック"
+  }
+}

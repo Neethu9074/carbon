@@ -32,7 +32,8 @@
       "scrollHint": "<upArrow /><downArrow /> キーを使用してスクロール",
       "rollup": "{{rollup}} 以上",
       "more": "さらに {{number}} 件"
-    }
+    },
+    "chartTemplates": "テンプレート"
   },
   "comboBox": {
     "placeholderSelect": "選択…"
@@ -327,7 +328,9 @@
     "viewSwitcherLabelMobileApps": "モバイル・アプリケーション",
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "プラットフォーム",
     "viewSwitcherButtonSignOut": "サインアウト",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "新規バージョンの Instana UI が使用可能です",
@@ -473,13 +476,11 @@
     "timeUnit_hour": "時間",
     "timeUnit_minute": "分",
     "timeUnit_second": "秒",
-
     "timeFrameFormatterHoursMinutes": "過去 $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
     "hours": "{{count}} 時間",
     "hours_plural": "{{count}} 時間",
     "minutes": "{{count}} 分",
     "minutes_plural": "{{count}} 分",
-
     "timeFrameFormatterHours": "過去 1 時間",
     "timeFrameFormatterHours_plural": "過去 {{count}} 時間",
     "timeFrameFormatterMinutes": "過去 1 分間",
@@ -588,6 +589,7 @@
       "tagPlaceholderKey": "キー",
       "tagPlaceholderValue": "値",
       "spacingSuggestionAnd": "AND",
+      "spacingSuggestionIconAriaLabel": "項目をクエリに追加",
       "bracketLabelChosenBracket": "選択した大括弧。 大括弧を変更する場合、結合を選択する場合、または大括弧を削除する場合にクリックします。",
       "conjunctionLabelChosenConjunction": "選択した結合。 結合を変更する場合、大括弧を選択する場合、または結合を削除する場合にクリックします。",
       "filterButtonAddFilter": "フィルターの追加",

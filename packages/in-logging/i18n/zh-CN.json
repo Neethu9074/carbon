@@ -15,5 +15,15 @@
   "endpoint": "端点",
   "endpointType": "端点类型",
   "messageParam": "消息参数",
-  "applicationCounter": "{{count}} 个应用程序"
+  "applicationCounter": "{{count}} 个应用程序",
+  "exceptionMessageHeader": "异常消息",
+  "service": "服务",
+  "stream": "流",
+  "tooltipCopyToClipboard": "复制到剪贴板",
+  "tooltipAddAsGroup": "按标记分组",
+  "tooltipAddAsFilter": "将标记添加为过滤器",
+  "sorting": {
+    "mostRecent": "最新的放在最前面",
+    "oldest": "最旧的放在最前面"
+  }
 }

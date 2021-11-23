@@ -464,6 +464,8 @@
         "filter_plural": "filters",
         "moreFiltersWithCount": "+{{count}} filtro más",
         "moreFiltersWithCount_plural": "+{{count}} filtros más",
+        "labelConfirmRemoveAlertConfigWithName": "¿Está seguro de que desea eliminar la alerta <strong>{{name}}</strong>?",
+        "alertEntityName": "alerta {{entityName}}",
         "alertsLabelName": "Nombre",
         "alertsLabelFilters": "Filtros",
         "alertsHeaderConfiguredAlerts": "Alertas configuradas",

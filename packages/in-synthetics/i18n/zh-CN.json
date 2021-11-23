@@ -1,0 +1,82 @@
+{
+  "dialog": {
+    "createTest": {
+      "dialogTitle": "创建合成测试",
+      "noLocationFound": "对不起！ 找不到任何位置",
+      "titles": {
+        "step1": "步骤 1：选择类型",
+        "step2": "步骤 2：请求详细信息",
+        "step3": "步骤 3：调度",
+        "step4": "步骤 4：提供详细信息"
+      },
+      "selectTest": {
+        "title": "您想创建什么样的合成测试"
+      },
+      "scheduling": {
+        "title": "调度",
+        "playbackMode": "回放方式",
+        "labelPlaybackMode": "选择回放方式",
+        "simultaneous": "同时",
+        "staggered": "错开",
+        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      },
+      "requestStep": {
+        "title": "指定请求",
+        "subTitle": "端点",
+        "labelOperation": "HTTP 方法",
+        "labelUrl": "URL",
+        "popSubTitle": "存在点"
+      },
+      "basicDetails": {
+        "title": "此 ping 测试的名称是什么",
+        "labelName": "测试的名称",
+        "labelDescription": "描述",
+        "labelFreequency": "频率"
+      },
+      "bluePrint": {
+        "pingApi": {
+          "name": "Ping API",
+          "headline": "HTTP 操作",
+          "whenToUse": {
+            "title": "何时使用？",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "title": "谁应该使用？",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
+            "title": "使用提示",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        }
+      },
+      "form": {
+        "validUrl": "请输入有效的 URL"
+      }
+    },
+    "httpMethods": {
+      "get": "GET",
+      "post": "POST",
+      "put": "PUT",
+      "delete": "DELETE"
+    },
+    "feedback": {
+      "successTitle": "成功！",
+      "successMessage": "已成功创建合成测试",
+      "failureTitle": "失败！",
+      "failureMessage": "未能创建合成测试。 请稍后重试"
+    }
+  },
+  "createTest": {
+    "buttonLabel": "创建新测试"
+  },
+  "navigation": {
+    "synthetics": "合成"
+  }
+}

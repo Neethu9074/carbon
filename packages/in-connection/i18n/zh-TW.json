@@ -1,14 +1,27 @@
 {
-    "stat": {
-        "connectLostState": {
-            "connecting":"連接中...",
-            "connectingMsg":"嘗試連線 {{connectAttempt}} 次失敗。正在繼續重試建立持續性後端連線。",
-            "connectLostAttempReconnect":"連線遺失。正在嘗試重新連接...",
-            "unauthorized":"未獲授權...",
-            "unauthorizedMsg":"無法建立持續性後端連線，因為您未獲授權。請重新整理頁面以繼續。"
-        }
-    },
-    "clientErrMsg": {
-        "techClientMsgeErrFromBackend":"來自後端的技術用戶端訊息（很可能是錯誤詳細資料）"
+  "stat": {
+    "connectLostState": {
+      "connecting": "連接中...",
+      "connectingMsg": "嘗試連線 {{connectAttempt}} 次失敗。正在繼續重試建立持續性後端連線。",
+      "connectLostAttempReconnect": "連線遺失。正在嘗試重新連接...",
+      "unauthorized": "未獲授權...",
+      "unauthorizedMsg": "無法建立持續性後端連線，因為您未獲授權。請重新整理頁面以繼續。",
+      "chooseConnectionStrategy": "選擇連線策略"
     }
+  },
+  "clientErrMsg": {
+    "techClientMsgeErrFromBackend": "來自後端的技術用戶端訊息（很可能是錯誤詳細資料）"
+  },
+  "chooseConnectionStrategyDialog": {
+    "title": "選擇連線策略",
+    "description": "Instana 嘗試透過 WebSocket 連線來擷取監視資料。 在某些情境中，可能無法建立 WebSocket 連線，例如，具有限制性的公司 Proxy。 依預設，Instana 使用者介面會在重試幾次之後，嘗試利用撤回連線策略擷取監視資料。 您可以配置此策略，以根據已知網路和設定實際情況來改善您的體驗。",
+    "save": "儲存連線策略",
+    "label": "連線策略",
+    "confirmReloadTitle": "確認重新載入",
+    "confirmReloadDescription": "連線策略變更唯有在重新載入頁面時才會變成作用中。 您要立即重新載入頁面嗎？",
+    "confirmReloadButtonLabel": "重新載入此頁面"
+  },
+  "strategy_auto": "偏好 WebSocket，使用長時間輪詢作為撤回",
+  "strategy_alwaysWebsockets": "僅使用 WebSocket（較快）",
+  "strategy_alwaysPolling": "僅使用長時間輪詢（較慢）"
 }

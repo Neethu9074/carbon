@@ -381,6 +381,13 @@
         "noAppPerspect": "애플리케이션 퍼스펙티브 없음!",
         "pleaseSelect": "선택하십시오."
       },
+      "websiteSelector": {
+        "website": "웹 사이트",
+        "selectWebsite": "웹 사이트를 선택하십시오.",
+        "websiteHelpAction": "제품의 웹 사이트 및 모바일 앱 영역에서 웹 사이트를 구성하십시오.",
+        "noWebsites": "웹 사이트를 찾을 수 없음",
+        "pleaseSelect": "선택"
+      },
       "sliSelectionFormComp": {
         "srvLevelIndicator": "SLI(Service Level Indicator)",
         "selectASli": "SLI를 선택하십시오.",
@@ -450,7 +457,11 @@
         "includeInternalCalls": "내부 호출 포함",
         "includeSyntheticCalls": "합성 호출 포함",
         "type": "유형",
-        "sliEntity": "SLI 엔티티"
+        "sliEntity": "SLI 엔티티",
+        "beaconConfigLabel": "비콘 구성",
+        "beaconScopeLabel": "비콘 범위",
+        "httpRequestsLabel": "HTTP 요청",
+        "beaconFiltersLabel": "비콘 필터"
       },
       "sliList": {
         "serviceLevelIndicators": "SLI(Service Level Indicator)",
@@ -486,6 +497,7 @@
         "sloConfig": "SLO 구성",
         "manageSlIs": "SLI 관리",
         "sloTarget": "SLO 대상",
+        "sloType": "SLO 유형",
         "enterVal0to100": "0 - 100 사이 값을 입력하십시오.",
         "timeWindow": "시간 창",
         "helpActionMsg1": "<strong>고정된 시간 간격:</strong> 시작 및 기간이 정의된 시간 창. 예: 2020-01-01부터 매월. 글로벌 시간 선택기의 시간 선택에 대한 마지막 부분 시간 간격이 표시됩니다.",
@@ -512,6 +524,12 @@
         "dynamicTimeWindow": "동적 시간 창",
         "rollingTimeWindow": "롤링 시간 창",
         "fixedTimeWindow": "고정 시간 창"
+      },
+      "sloEntityInfo": {
+        "tooltip": {
+          "applications": "애플리케이션 SLO",
+          "websites": "웹 사이트 SLO"
+        }
       },
       "sliConfig": {
         "sliName": "SLI 이름",

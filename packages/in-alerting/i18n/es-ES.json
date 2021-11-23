@@ -8,7 +8,7 @@
     "alertHeaderAlert": "Alerta",
     "alertHeaderRestoreRevisionTooltip": "Restaurar {{description}}",
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Confírmelo",
-    "alertHeaderRestoreRevisionConfirmationDialogDescription": "¿Está seguro de que desea restaurar la <strong>\" Revisión {{alertRevision}} \"</strong>?",
+    "alertHeaderRestoreRevisionConfirmationDialogDescription": "¿Está seguro de que desea restaurar <strong>\"{{description}}\"</strong>?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restaurar",
     "alertHeaderDisableTooltip": " Inhabilitar",
     "alertHeaderEnableTooltip": " Habilitar",
@@ -16,7 +16,7 @@
     "alertHeaderEditTooltip": "Editar",
     "alertHeaderDuplicateTooltip": "Duplicar",
     "alertHeaderRestoreDeleteConfirmationDialogHeader": "Confírmelo",
-    "alertHeaderRestoreDeleteConfirmationDialogDescription": "¿Está seguro de que desea eliminar la <strong>\" alerta {{alertConfigName}} \"</strong>?",
+    "alertHeaderRestoreDeleteConfirmationDialogDescription": "¿Está seguro de que desea eliminar la alerta <strong>{{alertConfigName}}</strong>?",
     "alertHeaderRestoreDeleteConfirmationDialogConfirmButton": "Eliminar",
     "alertHeaderIsNotLatestRevisionMessage": "Está viendo la revisión {{description}} de esta configuración de alertas. Por favor, <latestRevisionButton>seleccione la revisión más reciente</latestRevisionButton> o <restoreRevisionButton>restaure desde la revisión actual</restoreRevisionButton> si desea realizar cambios.",
     "alertHeaderAriaLabelSeverity": "El suceso tiene gravedad {{severity}}",
@@ -451,7 +451,7 @@
         "labelActionButtonDelete": "Suprimir",
         "labelAlertFilters": "Filtros",
         "labelConfirm": "Confírmelo",
-        "labelConfirmRemoveConfig": "¿Está seguro de que desea eliminar la configuración <strong>{{configName}}</strong>?",
+        "labelConfirmRemoveConfig": "¿Está seguro de que desea eliminar la alerta <strong>{{configName}}</strong>?",
         "labelRemove": "Eliminar",
         "numberOfApplicationsSelected": "{{count}} aplicación seleccionada",
         "numberOfApplicationsSelected_plural": "{{count}} aplicaciones seleccionadas"
@@ -525,6 +525,18 @@
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_2": "Al menos {{count}} usuarios se han visto afectados en las últimas {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage": "Al menos {{userPercentage}} de usuarios se han visto afectados en las últimas {{formattedTimeWindow}}",
         "timeThresholdDescriptionUserImpactOfViolationsInSequence": "Afectados en las últimas {{formattedTimeWindow}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation": "Al menos {{count}} usuario y {{userPercentage}} de los usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_plural": "Al menos {{count}} usuarios y {{userPercentage}} de los usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_0": "Al menos {{count}} usuarios y {{userPercentage}} de los usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_1": "Al menos {{count}} usuario y {{userPercentage}} de los usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserAndUserPercentage_perWindowEvaluation_2": "Al menos {{count}} usuarios y {{userPercentage}} de los usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation": "Al menos {{count}} usuario se ha visto afectado por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_plural": "Al menos {{count}} usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_0": "Al menos {{count}} usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_1": "Al menos {{count}} usuario se ha visto afectado por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUser_perWindowEvaluation_2": "Al menos {{count}} usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequenceUserPercentage_perWindowEvaluation": "Al menos {{userPercentage}} de usuarios se han visto afectados por ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
+        "timeThresholdDescriptionUserImpactOfViolationsInSequence_perWindowEvaluation": "Afectados por cada ventana, para las últimas ventanas de evaluación de {{numberEvaluationWindows}}",
         "timeThresholdDescriptionRequestImpact": "Al menos {{count}} solicitud se ha visto afectada en las últimas {{formattedTimeWindow}}",
         "timeThresholdDescriptionRequestImpact_plural": "Al menos {{count}} solicitudes afectadas en las últimas {{formattedTimeWindow}}",
         "timeThresholdDescriptionRequestImpact_0": "Al menos {{count}} solicitudes afectadas en las últimas {{formattedTimeWindow}}",
@@ -538,6 +550,9 @@
         "timeThresholdConfigNumberOfConsecutiveViolations": "Número de infracciones consecutivas de la métrica",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Número de evaluaciones consecutivas",
         "timeThresholdConfigNumberOfEvaluationWindows": "Número de ventanas de evaluación para el impacto del usuario",
+        "timeThresholdConfigImpactEvaluationMethod": "Método de evaluación Impacto de usuario",
+        "timeThresholdConfigImpactEvaluationMethodAggregated": "Agregar en todas las ventanas de evaluación",
+        "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada ventana de evaluación",
         "timeThresholdConfigNumberOfViolations": "Número de violaciones de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidad de la evaluación",
         "timeThresholdConfigNumberOfRequestsThreshold": "Umbral de número de solicitudes",
@@ -860,7 +875,9 @@
     },
     "migration": {
       "migrateButton": "Migrar a alerta inteligente",
-      "migrateButtonTooltip": "Abre un diálogo de configuración de Alerta inteligente cargado previamente con los valores migrados del suceso actual en la mayor medida posible. Por favor, compruebe el resultado con cuidado."
+      "migrateButtonTooltip": "Abre un diálogo de configuración de Alerta inteligente cargado previamente con los valores migrados del suceso actual en la mayor medida posible. Por favor, compruebe el resultado con cuidado.",
+      "markAsMigratedButton": "Marcar como migrado",
+      "markAsMigratedButtonTooltip": "Marca el suceso como migrado. Por favor, utilice esta opción en caso de que ya haya configurado una alerta inteligente que vaya a sustituir este suceso."
     }
   }
 }

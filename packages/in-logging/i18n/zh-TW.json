@@ -15,5 +15,15 @@
   "endpoint": "端點",
   "endpointType": "端點類型",
   "messageParam": "訊息參數",
-  "applicationCounter": "{{count}} 個應用程式"
+  "applicationCounter": "{{count}} 個應用程式",
+  "exceptionMessageHeader": "異常狀況訊息",
+  "service": "服務",
+  "stream": "串流",
+  "tooltipCopyToClipboard": "複製到剪貼簿",
+  "tooltipAddAsGroup": "依標籤分組",
+  "tooltipAddAsFilter": "新增標籤作為過濾器",
+  "sorting": {
+    "mostRecent": "最近的優先",
+    "oldest": "最久的優先"
+  }
 }

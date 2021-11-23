@@ -15,5 +15,15 @@
   "endpoint": "Nœud final",
   "endpointType": "Type de noeud final ",
   "messageParam": "Paramètre du message",
-  "applicationCounter": "{{count}} applications"
+  "applicationCounter": "{{count}} applications",
+  "exceptionMessageHeader": "Message d'exception",
+  "service": "Service",
+  "stream": "Flux",
+  "tooltipCopyToClipboard": "Copier dans le presse-papiers",
+  "tooltipAddAsGroup": "Regrouper par indicateur",
+  "tooltipAddAsFilter": "Ajouter un indicateur comme filtre",
+  "sorting": {
+    "mostRecent": "Le plus récent en premier",
+    "oldest": "Les plus anciens en premier"
+  }
 }

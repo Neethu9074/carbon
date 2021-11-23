@@ -1,0 +1,38 @@
+{
+  "phmcs": "pHMC",
+  "hostname": "主機名稱",
+  "name": "名稱",
+  "systems": "系統",
+  "partitions": "分割區",
+  "vios": "虛擬 I/O 伺服器",
+  "ibmpPhmcs": "IBM Power HMC",
+  "noMonitoringDataFound": "找不到監視資料",
+  "noData": "沒有 pHMC 資料可用。",
+  "machineTypeModel": "機型型號",
+  "machineSerial": "機器序號",
+  "total": "總計",
+  "available": "可用",
+  "utilized": "已使用",
+  "configurable": "可配置",
+  "assignedMem": "已指派記憶體給 LPAR",
+  "breadcrumbs": {
+    "phmc": "pHMC",
+    "phmcs": "pHMC",
+    "systems": "系統"
+  },
+  "dashboards": {
+    "phmc": "pHMC",
+    "systems": "系統",
+    "summary": "摘要",
+    "logicalPartition": "邏輯分割區",
+    "processorUsage": "處理器用量",
+    "memoryUsage": "記憶體用量",
+    "name": "名稱",
+    "backedPhysicalMem": "支持的實體記憶體",
+    "entitledProcUnits": "授與的單位",
+    "utilized": "已使用",
+    "currentVirtualProcessors": "現行虛擬處理器",
+    "maxVirtualProcessors": "虛擬處理器上限",
+    "vios": "VIOS"
+  }
+}

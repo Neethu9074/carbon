@@ -1,0 +1,38 @@
+{
+  "phmcs": "複数の pHMC",
+  "hostname": "ホスト名",
+  "name": "名前",
+  "systems": "システム",
+  "partitions": "パーティション",
+  "vios": "バーチャル I/O サーバー",
+  "ibmpPhmcs": "IBM Power HMC",
+  "noMonitoringDataFound": "監視データが見つかりません",
+  "noData": "使用可能な pHMC データがありません。",
+  "machineTypeModel": "マシン・タイプ・モデル",
+  "machineSerial": "マシン・シリアル",
+  "total": "合計",
+  "available": "使用可能",
+  "utilized": "使用された",
+  "configurable": "構成可能",
+  "assignedMem": "LPAR に割り当てられたメモリ",
+  "breadcrumbs": {
+    "phmc": "pHMC",
+    "phmcs": "複数の pHMC",
+    "systems": "システム"
+  },
+  "dashboards": {
+    "phmc": "pHMC",
+    "systems": "システム",
+    "summary": "サマリー",
+    "logicalPartition": "論理パーティション",
+    "processorUsage": "プロセッサー使用状況",
+    "memoryUsage": "メモリー使用量",
+    "name": "名前",
+    "backedPhysicalMem": "バックアップ済み物理メモリー",
+    "entitledProcUnits": "使用権のあるユニット",
+    "utilized": "使用された",
+    "currentVirtualProcessors": "現在の仮想プロセッサー数",
+    "maxVirtualProcessors": "最大仮想プロセッサー数",
+    "vios": "VIOS"
+  }
+}

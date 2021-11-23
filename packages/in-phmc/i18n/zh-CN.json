@@ -1,0 +1,38 @@
+{
+  "phmcs": "pHMC",
+  "hostname": "主机名",
+  "name": "名称",
+  "systems": "系统",
+  "partitions": "分区",
+  "vios": "虚拟 I/O 服务器",
+  "ibmpPhmcs": "IBM Power HMC",
+  "noMonitoringDataFound": "找不到监视数据",
+  "noData": "没有可用的 pHMC 数据。",
+  "machineTypeModel": "机器类型模型",
+  "machineSerial": "机器序列号",
+  "total": "总计",
+  "available": "可用",
+  "utilized": "已使用",
+  "configurable": "可配置",
+  "assignedMem": "分配给 LPAR 的内存",
+  "breadcrumbs": {
+    "phmc": "pHMC",
+    "phmcs": "pHMC",
+    "systems": "系统"
+  },
+  "dashboards": {
+    "phmc": "pHMC",
+    "systems": "系统",
+    "summary": "目录",
+    "logicalPartition": "逻辑分区",
+    "processorUsage": "处理器使用情况",
+    "memoryUsage": "内存使用情况",
+    "name": "名称",
+    "backedPhysicalMem": "支持的物理内存",
+    "entitledProcUnits": "授权单位",
+    "utilized": "已使用",
+    "currentVirtualProcessors": "当前虚拟处理器数",
+    "maxVirtualProcessors": "最大虚拟处理器数",
+    "vios": "VIOS"
+  }
+}

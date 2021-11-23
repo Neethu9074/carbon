@@ -73,6 +73,7 @@
   "titleConfigureCustomServiceRules": "配置定制服务规则",
   "titleCustomServiceRule": "定制服务规则",
   "titleUpdateApplicationPerspective": "更新应用程序透视图",
+  "titleApplicationPerspectiveConfiguration": "应用程序透视图配置",
   "titleCreateApplicationPerspective": "创建应用程序透视图",
   "titleRemoveApplicationPerspective": "删除应用程序透视图",
   "titleCustomSyntheticRule": "定制合成规则",
@@ -489,10 +490,15 @@
       "descriptionPrepareToMonitor": "一切准备就绪，可监视应用程序透视图 <bold>{{decodedLabel}}</bold>。",
       "descriptionRemoveApplicationPerspective": "如果您不再希望监视应用程序透视图 <strong>{{application}}</strong>，请使用下面的按钮将其删除。删除应用程序透视图可能需要花费几分钟时间。",
       "stepTitleDefineApplicationName": "为您的应用程序定义名称。",
+      "stepTitleApplicationName": "应用程序透视图的名称。",
       "stepTitleDefineTags": "使用一个或多个标记类定义应用程序透视图。",
       "stepTitleDownstreamServices": "下游服务。",
+      "stepTitleApplicationUsesDownstreamServices": "此应用程序透视图使用 <strong>{{scope}}</strong>。",
       "stepTitleApplicationScope": "应用程序作用域。",
+      "stepTitleApplicationUsesBoundaryScope": "此应用程序透视图使用 <strong>{{boundaryScope}}</strong>",
+      "readOnlyApplicationConfiguration": "您正在以只读方式查看此应用程序透视图配置。",
       "stepTitleBuiltInSmartAlertsScope": "内置智能警报范围。",
+      "noBuiltInSmartAlertsActive": "没有针对此应用程序透视图处于活动状态的内置智能警报。",
       "optionNoDownstreamServices": "无下游服务",
       "optionImmediateDownstreamServices": "紧接的下游数据库和消息传递服务",
       "optionAllDownstreamServices": "所有下游服务",
@@ -500,7 +506,7 @@
       "errorNameLengthExceeded": "应用程序透视图名称不得超出 128 个字符。",
       "errorInvalidQuery": "查询无效",
       "titleApplicationCreating": "正在创建应用程序透视图…"
-},
+    },
     "customSyntheticRule": {
       "placeholderNameRule": "命名您的规则",
       "placeholderAddDescriptionForRule": "为您的规则添加描述",
@@ -537,7 +543,7 @@
     "self": "自身",
     "sdk": "SDK",
     "otel": "OpenTelemetry"
-},
+  },
   "constants": {
     "exclude": "排除",
     "syntheticCallsAreExcludedFromTheMetrics": "从指标中排除合成调用。",

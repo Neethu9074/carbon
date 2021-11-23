@@ -1,14 +1,27 @@
 {
-    "stat": {
-        "connectLostState": {
-            "connecting":"Verbindung wird hergestellt...",
-            "connectingMsg":"Verbindungsversuch {{connectAttempt}} fehlgeschlagen. Es wird weiterhin versucht, die persistente Back-End-Verbindung herzustellen.",
-            "connectLostAttempReconnect":"Verbindung unterbrochen. Es wird versucht, die Verbindung wiederherzustellen...",
-            "unauthorized":"Nicht berechtigt...",
-            "unauthorizedMsg":"Es kann keine persistente Back-End-Verbindung hergestellt werden, weil Sie nicht berechtigt sind. Aktualisieren Sie die Seite, um fortzufahren. "
-        }
-    },
-    "clientErrMsg": {
-        "techClientMsgeErrFromBackend":"Technische Clientnachricht (höchstwahrscheinlich Fehlerdetails) vom Back-End"
+  "stat": {
+    "connectLostState": {
+      "connecting": "Verbindung wird hergestellt...",
+      "connectingMsg": "Verbindungsversuch {{connectAttempt}} fehlgeschlagen. Es wird weiterhin versucht, die persistente Back-End-Verbindung herzustellen.",
+      "connectLostAttempReconnect": "Verbindung unterbrochen. Es wird versucht, die Verbindung wiederherzustellen...",
+      "unauthorized": "Nicht berechtigt...",
+      "unauthorizedMsg": "Es kann keine persistente Back-End-Verbindung hergestellt werden, weil Sie nicht berechtigt sind. Aktualisieren Sie die Seite, um fortzufahren. ",
+      "chooseConnectionStrategy": "Verbindungsstrategie auswählen"
     }
+  },
+  "clientErrMsg": {
+    "techClientMsgeErrFromBackend": "Technische Clientnachricht (höchstwahrscheinlich Fehlerdetails) vom Back-End"
+  },
+  "chooseConnectionStrategyDialog": {
+    "title": "Verbindungsstrategie auswählen",
+    "description": "Instana versucht, Überwachungsdaten über eine WebSocket-Verbindung abzurufen. In bestimmten Szenarios, z. B. in Szenarios mit restriktiven Unternehmensproxys kann es vorkommen, dass eine WebSocket-Verbindung nicht hergestellt werden kann. Die Instana-Benutzerschnittstelle nutzt standardmäßig eine Fallbackverbindungsstrategie, um zu erreichen, dass Überwachungsdaten spätestens nach einigen Wiederholungen erfolgreich abgerufen werden können. Sie können diese Strategie so konfigurieren, dass ausgerichtet an bekannten netz- und setupbezogenen Sachverhalten bessere Ergebnisse erzielt werden.",
+    "save": "Verbindungsstrategie speichern",
+    "label": "Verbindungsstrategie",
+    "confirmReloadTitle": "Erneutes Laden bestätigen",
+    "confirmReloadDescription": "Änderungen der Verbindungsstrategie werden erst beim erneuten Laden der Seite aktiv. Soll die Seite jetzt neu geladen werden?",
+    "confirmReloadButtonLabel": "Seite neu laden"
+  },
+  "strategy_auto": "WebSockets bevorzugen, Long Polling als Ausweichlösung verwenden",
+  "strategy_alwaysWebsockets": "Nur WebSockets verwenden (schneller)",
+  "strategy_alwaysPolling": "Nur Long Polling verwenden (langsamer)"
 }

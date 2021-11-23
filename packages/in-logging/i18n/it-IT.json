@@ -15,5 +15,15 @@
   "endpoint": "Endpoint",
   "endpointType": "Tipo di endpoint ",
   "messageParam": "Parametro messaggio ",
-  "applicationCounter": "{{count}} applicazioni "
+  "applicationCounter": "{{count}} applicazioni ",
+  "exceptionMessageHeader": "Messaggio di eccezione",
+  "service": "Servizio",
+  "stream": "Flusso",
+  "tooltipCopyToClipboard": "Copia negli appunti",
+  "tooltipAddAsGroup": "Raggruppa per tag",
+  "tooltipAddAsFilter": "Aggiungi tag come filtro",
+  "sorting": {
+    "mostRecent": "Prima il più recente",
+    "oldest": "Prima il più vecchio"
+  }
 }

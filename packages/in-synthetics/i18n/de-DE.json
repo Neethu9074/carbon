@@ -1,0 +1,82 @@
+{
+  "dialog": {
+    "createTest": {
+      "dialogTitle": "Synthetischen Test erstellen",
+      "noLocationFound": "Entschuldigung. Es wurden keine Standorte gefunden",
+      "titles": {
+        "step1": "Schritt 1: Typ auswählen",
+        "step2": "Schritt 2: Details anfordern",
+        "step3": "Schritt 3: Zeitplanung",
+        "step4": "Schritt 4: Details bereitstellen"
+      },
+      "selectTest": {
+        "title": "Welche Art von synthetischem Test soll erstellt werden"
+      },
+      "scheduling": {
+        "title": "Zeitplanung",
+        "playbackMode": "Wiedergabemodus",
+        "labelPlaybackMode": "Wählen Sie den Wiedergabemodus aus",
+        "simultaneous": "Gleichzeitig",
+        "staggered": "Gestaffelt",
+        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      },
+      "requestStep": {
+        "title": "Anforderung angeben",
+        "subTitle": "Endpunkt",
+        "labelOperation": "HTTP-Methode",
+        "labelUrl": "URL",
+        "popSubTitle": "Bereitstellungspunkt"
+      },
+      "basicDetails": {
+        "title": "Wie lautet der Name dieses Ping-Tests",
+        "labelName": "Name des Tests",
+        "labelDescription": "Beschreibung",
+        "labelFreequency": "Frequenz"
+      },
+      "bluePrint": {
+        "pingApi": {
+          "name": "Ping-API",
+          "headline": "HTTP-Aktion",
+          "whenToUse": {
+            "title": "Wann zu verwenden?",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "title": "Von wem zu verwenden?",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
+            "title": "Verwendungstipps",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        }
+      },
+      "form": {
+        "validUrl": "Geben Sie eine gültige URL ein"
+      }
+    },
+    "httpMethods": {
+      "get": "GET",
+      "post": "VERÖFFENTLICHEN",
+      "put": "EINREIHEN",
+      "delete": "DELETE"
+    },
+    "feedback": {
+      "successTitle": "Erfolgreich!",
+      "successMessage": "Synthetischer Test wurde erfolgreich erstellt",
+      "failureTitle": "Fehlgeschlagen!",
+      "failureMessage": "Synthetischer Test konnte nicht erstellt werden. Versuchen Sie es zu einem späteren Zeitpunkt erneut"
+    }
+  },
+  "createTest": {
+    "buttonLabel": "Neuen Test erstellen"
+  },
+  "navigation": {
+    "synthetics": "Synthetics"
+  }
+}

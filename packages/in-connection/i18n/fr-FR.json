@@ -1,14 +1,27 @@
 {
-    "stat": {
-        "connectLostState": {
-            "connecting":"Connexion en cours...",
-            "connectingMsg":"La tentative de connexion {{connectAttempt}} a échoué. Poursuite de la tentative d'établissement d'une connexion back-end persistante.",
-            "connectLostAttempReconnect":"Connexion perdue. Tentative de reconnexion en cours...",
-            "unauthorized":"Non autorisé...",
-            "unauthorizedMsg":"Impossible d'établir une connexion back-end persistante, car vous n'êtes pas autorisé. Actualisez la page pour continuer."
-        }
-    },
-    "clientErrMsg": {
-        "techClientMsgeErrFromBackend":"Message technique du client (informations sur l'erreur la plus probable) du back-end"
+  "stat": {
+    "connectLostState": {
+      "connecting": "Connexion en cours...",
+      "connectingMsg": "La tentative de connexion {{connectAttempt}} a échoué. Poursuite de la tentative d'établissement d'une connexion back-end persistante.",
+      "connectLostAttempReconnect": "Connexion perdue. Tentative de reconnexion en cours...",
+      "unauthorized": "Non autorisé...",
+      "unauthorizedMsg": "Impossible d'établir une connexion back-end persistante, car vous n'êtes pas autorisé. Actualisez la page pour continuer.",
+      "chooseConnectionStrategy": "Choisir une stratégie de connexion"
     }
+  },
+  "clientErrMsg": {
+    "techClientMsgeErrFromBackend": "Message technique du client (informations sur l'erreur la plus probable) du back-end"
+  },
+  "chooseConnectionStrategyDialog": {
+    "title": "Choisir une stratégie de connexion",
+    "description": "Instana tente d'extraire les données de surveillance via une connexion WebSocket. Dans certains cas, il peut arriver qu'une connexion WebSocket ne puisse pas être établie, par exemple avec des proxys d'entreprise restrictifs. L'interface utilisateur Instana par défaut tente de tirer parti d'une stratégie de connexion de rétromigration pour extraire les données de surveillance après certaines tentatives. Vous pouvez configurer cette stratégie pour améliorer votre expérience en fonction des réalités de réseau et de configuration connues.",
+    "save": "Enregistrer la stratégie de connexion",
+    "label": "Stratégie de connexion",
+    "confirmReloadTitle": "Confirmer le rechargement",
+    "confirmReloadDescription": "Les modifications de la stratégie de connexion ne deviennent actives que lors du rechargement de la page. Voulez-vous recharger la page maintenant ?",
+    "confirmReloadButtonLabel": "Recharger cette page"
+  },
+  "strategy_auto": "Préférer les WebSockets, utiliser l'interrogation longue comme rétromigration",
+  "strategy_alwaysWebsockets": "Utiliser uniquement les WebSockets (plus rapide)",
+  "strategy_alwaysPolling": "Utiliser uniquement l'interrogation longue (plus lent)"
 }

@@ -1,14 +1,27 @@
 {
-    "stat": {
-        "connectLostState": {
-            "connecting":"正在连接...",
-            "connectingMsg":"连接尝试 {{connectAttempt}} 失败。正在继续重新尝试建立持久后端连接。",
-            "connectLostAttempReconnect":"连接丢失。正在尝试重新连接...",
-            "unauthorized":"未经授权...",
-            "unauthorizedMsg":"由于您未经授权，因此无法建立持久后端连接。请刷新页面以继续。"
-        }
-    },
-    "clientErrMsg": {
-        "techClientMsgeErrFromBackend":"来自后端的技术客户机消息（很可能是错误详细信息）"
+  "stat": {
+    "connectLostState": {
+      "connecting": "正在连接...",
+      "connectingMsg": "连接尝试 {{connectAttempt}} 失败。正在继续重新尝试建立持久后端连接。",
+      "connectLostAttempReconnect": "连接丢失。正在尝试重新连接...",
+      "unauthorized": "未经授权...",
+      "unauthorizedMsg": "由于您未经授权，因此无法建立持久后端连接。请刷新页面以继续。",
+      "chooseConnectionStrategy": "选择连接策略"
     }
+  },
+  "clientErrMsg": {
+    "techClientMsgeErrFromBackend": "来自后端的技术客户机消息（很可能是错误详细信息）"
+  },
+  "chooseConnectionStrategyDialog": {
+    "title": "选择连接策略",
+    "description": "Instana 尝试通过 WebSocket 连接检索监视数据。 在某些场景中，可能无法建立 WebSocket 连接，例如，使用限制性的公司代理时无法建立。 缺省情况下，Instana 用户界面将在几次重试后尝试利用回退连接策略检索监视数据。 您可以配置此策略以根据已知网络和设置现实改进您的体验。",
+    "save": "保存连接策略",
+    "label": "连接策略",
+    "confirmReloadTitle": "确认重新装入",
+    "confirmReloadDescription": "仅当重新装入页面时，连接策略更改才会变为活动状态。 要立即重新装入该页面吗？",
+    "confirmReloadButtonLabel": "重新装入此页面"
+  },
+  "strategy_auto": "首选 WebSocket，使用长轮询作为回退",
+  "strategy_alwaysWebsockets": "仅使用 WebSocket（较快）",
+  "strategy_alwaysPolling": "仅使用长轮询（较慢）"
 }

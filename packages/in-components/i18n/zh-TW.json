@@ -32,7 +32,8 @@
       "scrollHint": "捲動請使用 <upArrow /><downArrow /> 索引鍵",
       "rollup": "超過 {{rollup}}",
       "more": "{{number}} 以上"
-    }
+    },
+    "chartTemplates": "範本"
   },
   "comboBox": {
     "placeholderSelect": "選取…"
@@ -327,7 +328,9 @@
     "viewSwitcherLabelMobileApps": "行動式應用程式",
     "viewSwitcherLabelKubernetes": "Kubernetes",
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
+    "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "平台",
     "viewSwitcherButtonSignOut": "登出",
     "newUiClientVersionAvailableLabelNewVersionOfInstanaUIAvailable": "有新的 Instana 使用者介面版本可用",
@@ -473,13 +476,11 @@
     "timeUnit_hour": "小時",
     "timeUnit_minute": "分鐘",
     "timeUnit_second": "秒",
-
     "timeFrameFormatterHoursMinutes": "過去 $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
     "hours": "{{count}} 小時",
     "hours_plural": "{{count}} 小時",
     "minutes": "{{count}} 分鐘",
     "minutes_plural": "{{count}} 分鐘",
-
     "timeFrameFormatterHours": "前一小時",
     "timeFrameFormatterHours_plural": "過去 {{count}} 小時",
     "timeFrameFormatterMinutes": "前一分鐘",
@@ -588,6 +589,7 @@
       "tagPlaceholderKey": "索引鍵",
       "tagPlaceholderValue": "值",
       "spacingSuggestionAnd": "AND",
+      "spacingSuggestionIconAriaLabel": "新增項目至查詢",
       "bracketLabelChosenBracket": "已選擇方括弧。請按一下來變更方括弧以選取連結，或移除方括弧。",
       "conjunctionLabelChosenConjunction": "已選擇連結。請按一下來變更連結以選取方括弧，或移除連結。",
       "filterButtonAddFilter": "新增過濾器",

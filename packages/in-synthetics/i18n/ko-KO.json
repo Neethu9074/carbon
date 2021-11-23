@@ -1,0 +1,82 @@
+{
+  "dialog": {
+    "createTest": {
+      "dialogTitle": "합성 테스트 작성",
+      "noLocationFound": "죄송합니다! 위치를 발견할 수 없음",
+      "titles": {
+        "step1": "단계 1: 유형 선택",
+        "step2": "단계 2: 세부사항 요청",
+        "step3": "단계 3: 스케줄링",
+        "step4": "4단계: 세부사항 제공"
+      },
+      "selectTest": {
+        "title": "작성하려는 합성 테스트 종류"
+      },
+      "scheduling": {
+        "title": "스케줄링",
+        "playbackMode": "재생 모드",
+        "labelPlaybackMode": "재생 모드 선택",
+        "simultaneous": "동시",
+        "staggered": "시차 실행",
+        "simultaneousDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+        "staggeredDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+      },
+      "requestStep": {
+        "title": "요청 지정",
+        "subTitle": "엔드포인트",
+        "labelOperation": "HTTP 메소드",
+        "labelUrl": "URL",
+        "popSubTitle": "인식 위치"
+      },
+      "basicDetails": {
+        "title": "ping 테스트 이름",
+        "labelName": "테스트 이름",
+        "labelDescription": "설명",
+        "labelFreequency": "빈도"
+      },
+      "bluePrint": {
+        "pingApi": {
+          "name": "Ping API",
+          "headline": "HTTP 조치",
+          "whenToUse": {
+            "title": "사용 시기",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "whoShouldUse": {
+            "title": "사용자",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          },
+          "tipsForUsing": {
+            "title": "사용 팁",
+            "line1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line2": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line3": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line4": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
+            "line5": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+          }
+        }
+      },
+      "form": {
+        "validUrl": "올바른 URL을 입력하십시오."
+      }
+    },
+    "httpMethods": {
+      "get": "GET",
+      "post": "POST",
+      "put": "PUT",
+      "delete": "DELETE"
+    },
+    "feedback": {
+      "successTitle": "완료!",
+      "successMessage": "합성 테스트가 성공적으로 작성됨",
+      "failureTitle": "실패함",
+      "failureMessage": "합성 테스트를 작성하는 데 실패했습니다. 나중에 다시 시도하십시오."
+    }
+  },
+  "createTest": {
+    "buttonLabel": "새 테스트 작성"
+  },
+  "navigation": {
+    "synthetics": "합성"
+  }
+}

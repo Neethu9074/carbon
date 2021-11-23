@@ -1,14 +1,27 @@
 {
-    "stat": {
-        "connectLostState": {
-            "connecting":"接続中…",
-            "connectingMsg":"接続試行 {{connectAttempt}} が失敗しました。 永続バックエンド接続を確立するための再試行を続行しています。",
-            "connectLostAttempReconnect":"接続が失われました。 再接続を試行中…",
-            "unauthorized":"無許可…",
-            "unauthorizedMsg":"ユーザーが無許可であるため、永続バックエンド接続を確立できません。 ページを更新して続行してください。"
-        }
-    },
-    "clientErrMsg": {
-        "techClientMsgeErrFromBackend":"バックエンドからの技術的クライアント・メッセージ (最も可能性が高いエラー詳細)"
+  "stat": {
+    "connectLostState": {
+      "connecting": "接続中…",
+      "connectingMsg": "接続試行 {{connectAttempt}} が失敗しました。 永続バックエンド接続を確立するための再試行を続行しています。",
+      "connectLostAttempReconnect": "接続が失われました。 再接続を試行中…",
+      "unauthorized": "無許可…",
+      "unauthorizedMsg": "ユーザーが無許可であるため、永続バックエンド接続を確立できません。 ページを更新して続行してください。",
+      "chooseConnectionStrategy": "接続ストラテジーを選択"
     }
+  },
+  "clientErrMsg": {
+    "techClientMsgeErrFromBackend": "バックエンドからの技術的クライアント・メッセージ (最も可能性が高いエラー詳細)"
+  },
+  "chooseConnectionStrategyDialog": {
+    "title": "接続ストラテジーを選択",
+    "description": "Instana は、WebSocket 接続を介して監視データをを取得しようとします。 特定のシナリオでは、WebSocket 接続を確立できないことがあります。例えば、制限のある企業プロキシーを使用する場合などです。 Instana ユーザー・インターフェースは、デフォルトで、フォールバック接続ストラテジーを利用して、再試行の後に監視データを取得しようとします。 このストラテジーを構成して、既知のネットワークおよびセットアップの実態に基づいてエクスペリエンスを向上させることができます。",
+    "save": "接続ストラテジーを保存",
+    "label": "接続ストラテジー",
+    "confirmReloadTitle": "再ロードの確認",
+    "confirmReloadDescription": "接続ストラテジーの変更は、ページの再ロード時にのみアクティブになります。 今すぐページを再ロードしますか？",
+    "confirmReloadButtonLabel": "このページを再ロード"
+  },
+  "strategy_auto": "WebSockets を優先し、フォールバックとしてロング・ポーリングを使用します",
+  "strategy_alwaysWebsockets": "WebSockets のみを使用する（高速）",
+  "strategy_alwaysPolling": "ロング・ポーリングのみを使用する（低速）"
 }
