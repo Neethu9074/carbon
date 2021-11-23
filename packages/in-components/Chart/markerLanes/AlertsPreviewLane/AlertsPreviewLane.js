@@ -11,7 +11,8 @@ import { useObservable } from '@instana/hooks';
 import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLanePresenter';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
-import { isLoading } from 'in-services/util/result';
+import { isLoading, hasError } from 'in-services/util/result';
+import { t } from 'in-i18n';
 
 export default function AlertsPreviewLanePropsChecker(props) {
   const { alertsPreviewConfiguration, getAlertsPreview } = props;
@@ -29,7 +30,12 @@ function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...re
     remainingProps.clusterSizeMillis
   ]);
   return (
-    <AlertsPreviewLanePresenter {...remainingProps} alerts={result?.data ?? emptyArray} isLoading={isLoading(result)} />
+    <AlertsPreviewLanePresenter
+      {...remainingProps}
+      alerts={result?.data ?? emptyArray}
+      errorMessage={hasError(result) && t('in-components:chart.chartAlertsLaneErrorMessage')}
+      isLoading={isLoading(result)}
+    />
   );
 }
 
