@@ -11,17 +11,31 @@ import {
   seconds,
   micros,
   latency,
-  NumberFormatter,
-  FormatterType
+  NumberFormatter
 } from 'in-services/formatters/number';
 
 interface FormatterWithDefault {
-  (v: number): any;
+  (v: number): unknown;
   compact: (v: number) => string;
   detailed: (v: number) => string;
 }
 
-const mappings: { readonly [key in FormatterType]?: FormatterWithDefault } = {
+export type BackendFormatterType =
+  | 'BYTE_RATE'
+  | 'BYTES'
+  | 'LATENCY'
+  | 'MICROS'
+  | 'MILLIS'
+  | 'NUMBER'
+  | 'PERCENTAGE'
+  | 'RATE'
+  | 'SECONDS';
+
+export type InternalFormatterTypes = 'NUMBER' | 'PERCENTAGE' | 'BYTES' | 'MILLIS' | 'LATENCY';
+
+const mappings: {
+  readonly [key in BackendFormatterType]: FormatterWithDefault;
+} = {
   NUMBER: createFormatterWithDefault(number, 'compact'),
   RATE: createFormatterWithDefault(number.perSecond, 'detailed'),
 
@@ -37,15 +51,18 @@ const mappings: { readonly [key in FormatterType]?: FormatterWithDefault } = {
   SECONDS: createFormatterWithDefault(seconds, 'fixedCompact')
 };
 
-export function getFormatter(backendType: FormatterType) {
+export function getFormatter(backendType: BackendFormatterType): FormatterWithDefault {
   return mappings[backendType] ?? mappings.NUMBER;
 }
 
-function createFormatterWithDefault<T extends NumberFormatter>(formatters: T, preferred: string): FormatterWithDefault {
-  const result = (v: number) => (formatters as any)[preferred](v);
-  result.compact = (formatters as any).compact;
-  result.detailed = (formatters as any).detailed;
-  return result;
+function createFormatterWithDefault<T extends NumberFormatter>(
+  formatters: Extract<T, { compact?: (v: number) => string; detailed?: (v: number) => string }>,
+  preferred: 'compact' | 'detailed' | 'fixedCompact'
+): FormatterWithDefault {
+  const result = (v: number) => formatters[preferred](v);
+  result.compact = formatters.compact;
+  result.detailed = formatters.detailed;
+  return result as FormatterWithDefault;
 }
 
 // BEFORE YOU EXTEND THIS!
@@ -55,7 +72,9 @@ function createFormatterWithDefault<T extends NumberFormatter>(formatters: T, pr
 // is millis, micros, nanos, seconds, minutes…
 // Consider cleaning this up for users instead of exposing them to our
 // failure to consistently model the data.
-const mappingsToUiInternalNames: { readonly [key in FormatterType]?: string } = {
+const mappingsToUiInternalNames: {
+  readonly [key in InternalFormatterTypes]?: string;
+} = {
   NUMBER: 'number.compact',
   PERCENTAGE: 'percentage.detailed',
   BYTES: 'bytes.detailed',
@@ -63,6 +82,6 @@ const mappingsToUiInternalNames: { readonly [key in FormatterType]?: string } = 
   LATENCY: 'latency.detailed'
 };
 
-export function getUiInternalFormatterName(backendType: FormatterType) {
+export function getUiInternalFormatterName(backendType: InternalFormatterTypes): string {
   return mappingsToUiInternalNames[backendType] || 'number.detailed';
 }
