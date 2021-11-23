@@ -3,19 +3,23 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-// TODO: this is very likely incomplete
+import { Config } from 'in-components/Chart/ResultAwareChart.d';
 import { ScaleType } from 'in-services/scale';
 
-export interface RenderConfig {
+// TODO: this is very likely incomplete
+
+export interface RenderConfig extends Config {
   xScaleBackBuffer: ScaleType;
   backBufferCtx: CanvasRenderingContext2D;
+
+  markerPaneHeight: number;
 }
 
-export interface RenderArguments {
+export interface RenderProps {
   dataSeries: [number, number][];
   color: string;
   scale: ScaleType;
   config: RenderConfig;
 
-  minSpaceBetweenPoints?: number;
+  metricId?: string;
 }

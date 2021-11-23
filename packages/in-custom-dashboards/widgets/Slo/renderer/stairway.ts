@@ -3,12 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
+import { RenderConfig, RenderProps } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
+import { Axis } from 'in-components/Chart/ResultAwareChart.d';
 
 export const hourlyBudgetMetricId = 'hourlyBudget';
 
+interface StairwayAxis extends Axis {
+  isStaticBudget?: boolean;
+  lineWidth?: number;
+}
+
+interface StairwayRenderConfig extends RenderConfig {
+  y1: StairwayAxis;
+}
+
+interface StairwayRenderProps extends RenderProps {
+  config: StairwayRenderConfig;
+}
+
+type Verticle = [number, number];
+
 export default {
-  render: ({ color, scale, config, dataSeries, metricId }) => {
+  render: ({ color, scale, config, dataSeries, metricId }: StairwayRenderProps) => {
     if (!dataSeries || dataSeries.length === 0) {
       return;
     }
@@ -33,8 +50,8 @@ export default {
       config.xScaleBackBuffer.getRange(dataSeries[1][0]) - config.xScaleBackBuffer.getRange(dataSeries[0][0]);
     const shiftX = stepDelta / 2.0;
 
-    let previousPosY;
-    const lineVertices = [];
+    let previousPosY: number | undefined = undefined;
+    const lineVertices: Verticle[] = [];
 
     // extend first value by half a bucket
     const firstDataPoint = dataSeries[0];
@@ -68,7 +85,7 @@ export default {
 
     // extend last value by half a bucket
     const posX = config.xScaleBackBuffer.getRange(dataSeries[dataSeries.length - 1][0]);
-    lineVertices.push([posX + shiftX, previousPosY]);
+    lineVertices.push([posX + shiftX, previousPosY!]);
 
     config.backBufferCtx.beginPath();
     config.backBufferCtx.strokeStyle = color;
@@ -100,7 +117,7 @@ export default {
   }
 };
 
-function drawLines(lineVertices, config) {
+function drawLines(lineVertices: Verticle[], config: RenderConfig) {
   const startVertex = lineVertices[0];
   config.backBufferCtx.moveTo(startVertex[0], startVertex[1]);
   for (let i = 1; i < lineVertices.length; i++) {

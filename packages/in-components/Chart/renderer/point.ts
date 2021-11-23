@@ -3,12 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { RenderArguments, RenderConfig } from 'in-components/Chart/renderer/types';
+import { RenderProps, RenderConfig } from 'in-components/Chart/renderer/types';
 
 const CIRCLE_ARC = 2 * Math.PI;
 
+interface PointRenderProps extends RenderProps {
+  minSpaceBetweenPoints?: number;
+}
+
 export default {
-  render: ({ dataSeries, color, scale, config, minSpaceBetweenPoints = 0 }: RenderArguments) => {
+  render: ({ dataSeries, color, scale, config, minSpaceBetweenPoints = 0 }: PointRenderProps) => {
     let lastXPos;
 
     for (let i = 0; i < dataSeries.length; i++) {

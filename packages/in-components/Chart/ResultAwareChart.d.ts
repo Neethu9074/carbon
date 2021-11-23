@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { RenderArguments } from 'in-components/Chart/renderer/types';
+import { RenderProps } from 'in-components/Chart/renderer/types';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { TimeConfig } from 'in-types';
 
@@ -55,7 +55,7 @@ export type Formatter = FormatterObject | FormatterFn;
 
 export interface Renderer {
   id?: string;
-  render?: (args: RenderArguments) => void;
+  render?: (args: RenderProps) => void;
 }
 
 export interface Axis {
