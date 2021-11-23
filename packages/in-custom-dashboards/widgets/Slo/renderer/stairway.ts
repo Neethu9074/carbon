@@ -9,16 +9,16 @@ import { Axis } from 'in-components/Chart/ResultAwareChart.d';
 
 export const hourlyBudgetMetricId = 'hourlyBudget';
 
-interface StairwayAxis extends Axis {
+export interface StairwayAxis extends Axis {
   isStaticBudget?: boolean;
   lineWidth?: number;
 }
 
-interface StairwayRenderConfig extends RenderConfig {
+export interface StairwayRenderConfig extends RenderConfig {
   y1: StairwayAxis;
 }
 
-interface StairwayRenderProps extends RenderProps {
+export interface StairwayRenderProps extends RenderProps {
   config: StairwayRenderConfig;
 }
 
@@ -83,7 +83,7 @@ export default {
       previousPosY = posY;
     }
 
-    // extend last value by half a bucket
+    // extend last value by a bucket
     const posX = config.xScaleBackBuffer.getRange(dataSeries[dataSeries.length - 1][0]);
     lineVertices.push([posX + shiftX, previousPosY!]);
 

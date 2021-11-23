@@ -8,6 +8,8 @@ import { ScaleType } from 'in-services/scale';
 
 // TODO: this is very likely incomplete
 
+export type DataSeries = [number, number][];
+
 export interface RenderConfig extends Config {
   xScaleBackBuffer: ScaleType;
   backBufferCtx: CanvasRenderingContext2D;
@@ -16,7 +18,7 @@ export interface RenderConfig extends Config {
 }
 
 export interface RenderProps {
-  dataSeries: [number, number][];
+  dataSeries: DataSeries;
   color: string;
   scale: ScaleType;
   config: RenderConfig;
