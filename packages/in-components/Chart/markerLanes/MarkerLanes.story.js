@@ -36,12 +36,57 @@ export const MarkerLanesBelowChart = () => {
   );
 };
 
+export const MarkerLanesBelowChartWithError = () => {
+  return (
+    <ChartWithSomeData
+      renderPostChartContent={props => (
+        <MarkerLanesPresenter {...props}>
+          <ReleasesLanePresenter releases={getReleases(timeConfig)} errorMessage={"Releases couldn't be loaded"} />
+          <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} errorMessage={"Alerts couldn't be loaded"} />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+MarkerLanesBelowChartWithError.args = {};
+
 export const MarkerLanesAboveChart = () => {
   return (
     <ChartWithSomeData
       renderPreChartContent={props => (
         <MarkerLanesPresenter {...props}>
           <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+export const MarkerLanesAboveChartWithError = () => {
+  return (
+    <ChartWithSomeData
+      renderPreChartContent={props => (
+        <MarkerLanesPresenter {...props} laneLabelsVisible>
+          <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} errorMessage={"Alerts couldn't be loaded"} />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+
+export const MarkerLanesAboveChartWithLongError = () => {
+  return (
+    <ChartWithSomeData
+      renderPreChartContent={props => (
+        <MarkerLanesPresenter {...props} laneLabelsVisible>
+          <AlertsPreviewLanePresenter
+            alerts={getAlerts(timeConfig)}
+            errorMessage={
+              'An error with a long message ' +
+              'which is very, very long ' +
+              'and will not fit into the lane, ' +
+              'because it is very, very long.'
+            }
+          />
         </MarkerLanesPresenter>
       )}
     />

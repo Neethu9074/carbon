@@ -22,6 +22,7 @@
       "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+{{leftCount}} more {{moreMsg}}"
     },
+    "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
     "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} more Releases",

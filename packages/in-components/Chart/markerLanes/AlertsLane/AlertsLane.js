@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { useObservable } from '@instana/hooks';
 import PropTypes from 'prop-types';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
 
 import AlertsLanePresenter from 'in-components/Chart/markerLanes/AlertsLane/AlertsLanePresenter';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';

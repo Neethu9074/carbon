@@ -7,12 +7,14 @@ import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { HorizontalIndicator } from '@instana/components';
+import { HorizontalIndicator, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import theme from 'in-themes';
 
 import locals from './MarkerLane.mless';
 
@@ -71,6 +73,7 @@ function MarkersLanePresenter({
   selectedEventData,
   laneLabelsVisible,
   isLoading,
+  errorMessage,
   trackMarkerHoverEvent,
   ...remainingProps
 }) {
@@ -115,39 +118,40 @@ function MarkersLanePresenter({
           [locals.lanePostChart]: chartContentPosition === 'post'
         })}
       >
-        {events.map(eventData => {
-          const showIconForCluster = eventData?.count > 1;
-          const xPos = isClustered ? getXposCluster(eventData.timestamp) : xScale?.getRange(eventData.timestamp);
+        {!errorMessage &&
+          events.map(eventData => {
+            const showIconForCluster = eventData?.count > 1;
+            const xPos = isClustered ? getXposCluster(eventData.timestamp) : xScale?.getRange(eventData.timestamp);
 
-          return (
-            <Tooltip
-              align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
-              key={`${eventData.id ?? eventData.timestamp}`}
-              content={
-                TooltipContent ? (
-                  <div>
-                    <TooltipContent {...eventData} />
-                  </div>
-                ) : null
-              }
-            >
-              <LaneItem
-                xPos={xPos}
-                onHover={s => {
-                  setHoveredEventData(s);
-                  trackMarkerHoverEvent?.(eventData);
-                }}
-                showIconForCluster={showIconForCluster}
-                chartContentPosition={chartContentPosition}
-                isClustered={isClustered}
-                eventData={eventData}
-                xScale={xScale}
-                {...remainingProps}
-              />
-            </Tooltip>
-          );
-        })}
-        {laneLabelsVisible && (
+            return (
+              <Tooltip
+                align={getTooltipAlignmentForChartContentPosition(chartContentPosition)}
+                key={`${eventData.id ?? eventData.timestamp}`}
+                content={
+                  TooltipContent ? (
+                    <div>
+                      <TooltipContent {...eventData} />
+                    </div>
+                  ) : null
+                }
+              >
+                <LaneItem
+                  xPos={xPos}
+                  onHover={s => {
+                    setHoveredEventData(s);
+                    trackMarkerHoverEvent?.(eventData);
+                  }}
+                  showIconForCluster={showIconForCluster}
+                  chartContentPosition={chartContentPosition}
+                  isClustered={isClustered}
+                  eventData={eventData}
+                  xScale={xScale}
+                  {...remainingProps}
+                />
+              </Tooltip>
+            );
+          })}
+        {!errorMessage && laneLabelsVisible && (
           <div className={locals.laneLabel} style={{ [labelAlignment]: 0 }}>
             <div
               className={locals.laneLabelText}
@@ -159,6 +163,7 @@ function MarkersLanePresenter({
             </div>
           </div>
         )}
+        {errorMessage && MarkerLaneErrorMessage({ errorMessage })}
         <div className={locals.loadingIndicatorContainer}>
           <HorizontalIndicator progress={{ loading: isLoading }} />
         </div>
@@ -174,6 +179,24 @@ function MarkersLanePresenter({
     if (chartContentPosition === 'pre') return 'topMiddle';
     if (chartContentPosition === 'post') return 'bottomMiddle';
   }
+}
+
+function MarkerLaneErrorMessage({ errorMessage }) {
+  return (
+    <div className={locals.laneError}>
+      <div className={locals.laneErrorIconText}>
+        <HorizontalFlexWrapper className={locals.laneErrorIconTextWrapper}>
+          <SvgIcon
+            className={locals.laneErrorIcon}
+            color={theme.lib.colors.N600Light}
+            type="lib_help_error_info_outline"
+            size="xs"
+          />
+          <span className={locals.laneErrorLabelText}>{errorMessage}</span>
+        </HorizontalFlexWrapper>
+      </div>
+    </div>
+  );
 }
 
 MarkersLane.propTypes = {
@@ -194,6 +217,8 @@ MarkersLane.propTypes = {
   laneLabelsVisible: PropTypes.bool,
   onLaneHasMarkersToRender: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
+  /* if present, wil show this message instead of any events */
+  errorMessage: PropTypes.string,
   // Tracking
   trackMarkerHoverEvent: PropTypes.func
 };

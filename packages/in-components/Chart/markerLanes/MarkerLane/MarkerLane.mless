@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
 
 :local {
   .lane {
@@ -28,6 +28,33 @@
   .laneLabelText {
     color: @lib__colors__N600Light;
     background: rgba(253, 253, 253, 0.8);
+  }
+
+  .laneError {
+    background: var(--colors-transparent);
+    display: flex;
+    justify-content: center;
+  }
+
+  .laneErrorIconText {
+    color: @lib__colors__N600Light;
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .laneErrorIconTextWrapper {
+    width: 100%;
+  }
+
+  .laneErrorIcon {
+    flex: 0;
+    margin-right: 0.25rem;
+  }
+
+  .laneErrorLabelText {
+    flex-shrink: 1;
+    .ellipsis();
   }
 
   .hoverAreaContainer {
