@@ -565,10 +565,6 @@ export interface DistributedLogsMetricConfiguration extends UnifiedMetricConfigu
   readonly tagFilterExpression?: TagFilterExpressionElement;
 }
 
-export interface DistributedLogsV2MetricConfiguration extends UnifiedMetricConfiguration {
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-}
-
 export interface DomainSpecificStack {
   readonly groups: ContextGuideGroup[];
   readonly healthInfo?: HealthInfo;
@@ -799,13 +795,6 @@ export interface FlowNode {
   readonly relatedNodes?: FlowNode[];
   readonly relatedNodesCount: number;
   readonly service: Service;
-}
-
-export interface FullLogItem {
-  readonly content: string;
-  readonly id: string;
-  readonly tags: LoggingTag[];
-  readonly timestamp: number;
 }
 
 export interface FullTrace {
@@ -1377,43 +1366,12 @@ export interface GetLatencyHeatMapOverTimeQuery extends FilteredQuery {
   readonly maxTimeBuckets: number;
 }
 
-export interface GetLogGroupsQuery extends CursorPaginatedQuery, FilteredQuery {
-  readonly groupBy?: string;
-  readonly pagination: CursorPagination<IngestionOffsetCursor>;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly timeConfig: TimeConfig;
-}
-
 export interface GetLogMessagesQuery extends PaginatedQuery {
   readonly filter: Filter;
   readonly metrics: { [index: string]: MetricConfiguration };
   readonly order: Order;
   readonly pagination: Pagination;
   readonly supportedOrderByCriteria: boolean;
-}
-
-export interface GetLogQuery extends FilteredQuery {
-  readonly id: string;
-  readonly timeConfig?: TimeConfig;
-}
-
-export interface GetLogsDistributionQuery extends FilteredQuery {
-  readonly granularity: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly timeConfig: TimeConfig;
-}
-
-export interface GetLogsForConsoleQuery extends CursorPaginatedQuery, FilteredQuery {
-  readonly pagination: CursorPagination<IngestionOffsetCursor>;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly timeConfig: TimeConfig;
-}
-
-export interface GetLogsQuery extends CursorPaginatedQuery, FilteredQuery {
-  readonly order: Order;
-  readonly pagination: CursorPagination<IngestionOffsetCursor>;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly timeConfig: TimeConfig;
 }
 
 export interface GetMetricMetadataQuery {
@@ -1673,15 +1631,6 @@ export interface GetTagSuggestionsQuery extends FilteredQuery {
   readonly tagFilters?: TagFilter[];
   readonly tagName: string;
   readonly valueFilter?: string;
-}
-
-export interface GetTagValueSuggestionsQuery extends FilteredQuery {
-  readonly key?: string;
-  readonly propose: TagSuggestionProposeType;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly tagName: string;
-  readonly timeConfig: TimeConfig;
-  readonly value?: string;
 }
 
 export interface GetTechnologyBreakdownQuery extends FilteredQuery {
@@ -2713,13 +2662,6 @@ export interface ListWithTotal<T> {
   readonly totalHits: number;
 }
 
-export interface Log {
-  readonly content: string;
-  readonly id: string;
-  readonly tags: LoggingTag[];
-  readonly timestamp: number;
-}
-
 export interface LogGroupItem extends Cursorific<IngestionOffsetCursor> {
   readonly cursor: IngestionOffsetCursor;
   readonly label: string;
@@ -2771,39 +2713,11 @@ export interface LogTagSuggestionsQuery {
   readonly value?: string;
 }
 
-export interface LoggingGroup {
-  readonly label: string;
-}
-
-export interface LoggingLogGroupItem extends Cursorific<IngestionOffsetCursor> {
-  readonly cursor: IngestionOffsetCursor;
-  readonly group: LoggingGroup;
-}
-
-export interface LoggingLogItem extends Cursorific<IngestionOffsetCursor> {
-  readonly cursor: IngestionOffsetCursor;
-  readonly log: Log;
-}
-
-export interface LoggingLogTag {
-  readonly label?: string;
-  readonly name?: string;
-}
-
-export interface LoggingTag {
-  readonly tag: LoggingLogTag;
-  readonly value: string;
-}
-
 export interface LogsApplicationAlertRule extends ApplicationAlertRule {
   readonly level: LogsApplicationAlertRuleLogLevel;
   readonly loglevel?: LogsApplicationAlertRuleLogLevel;
   readonly message?: string;
   readonly operator: TagFilterOperator;
-}
-
-export interface LogsAvailable {
-  readonly containsLogs: boolean;
 }
 
 export interface LogsDistributionQuery {
