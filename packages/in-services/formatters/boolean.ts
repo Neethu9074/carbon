@@ -11,10 +11,10 @@
  */
 import { t } from 'in-i18n';
 
-export function yesOrNo(value) {
+export function yesOrNo(value: any): string {
   return value ? t('in-services:formatters.yes') : t('in-services:formatters.no');
 }
 
-export function compare(b1, b2) {
+export function compare(b1: boolean, b2: boolean): -1 | 0 | 1 {
   return b1 === b2 ? 0 : b1 ? -1 : 1;
 }
