@@ -5,16 +5,12 @@
 
 import React, { useEffect } from 'react';
 
-import {
-  facettedSearchGroupClicked,
-  facettedSearchItemClicked,
-  timeframeUsed,
-  timeSpent
-} from 'in-logging/analyze/AnalyzeView/tracker';
+import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-applications/tracker';
 import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
 import TagExpressionValidation from 'in-logging/analyze/AnalyzeView/components/TagExpressionValidation';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { LOG_LEVEL, LOG_SERVICE_NAME, LOG_STREAM_NAME } from 'in-logging/queryBuilder';
+import { timeframeUsed, timeSpent } from 'in-logging/analyze/AnalyzeView/tracker';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import RestrictedAccessMessage from 'in-components/rbac/RestrictedAccessMessage';
 import GroupedLogs from 'in-logging/analyze/AnalyzeView/components/GroupedLogs';
@@ -160,8 +156,8 @@ function FacetedFilterRenderer(props) {
       {...props}
       openByDefault={false}
       tracker={{
-        suggestionClicked: facettedSearchItemClicked,
-        groupClicked: facettedSearchGroupClicked
+        suggestionClicked: ua2FacetedSearchFilterAddedTracker,
+        groupClicked: ua2FacetedSearchGroupChangedTracker
       }}
     />
   );
