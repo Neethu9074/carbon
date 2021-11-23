@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-// @ts-expect-error Module doesn't has any types exported
+// @ts-expect-error Module doesn't has any types exported, TODO: Package is deprecated: https://www.npmjs.com/package/markdown-it-link-target
 import linkTarget from 'markdown-it-link-target';
 import MarkdownIt from 'markdown-it';
 
