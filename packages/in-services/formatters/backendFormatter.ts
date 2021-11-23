@@ -3,9 +3,25 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { number, bytes, percentage, millis, seconds, micros, latency } from 'in-services/formatters/number';
+import {
+  number,
+  bytes,
+  percentage,
+  millis,
+  seconds,
+  micros,
+  latency,
+  NumberFormatter,
+  FormatterType
+} from 'in-services/formatters/number';
 
-const mappings = {
+interface FormatterWithDefault {
+  (v: number): any;
+  compact: (v: number) => string;
+  detailed: (v: number) => string;
+}
+
+const mappings: { [key in FormatterType]?: FormatterWithDefault } = {
   NUMBER: createFormatterWithDefault(number, 'compact'),
   RATE: createFormatterWithDefault(number.perSecond, 'detailed'),
 
@@ -21,14 +37,14 @@ const mappings = {
   SECONDS: createFormatterWithDefault(seconds, 'fixedCompact')
 };
 
-export function getFormatter(backendType) {
+export function getFormatter(backendType: FormatterType) {
   return mappings[backendType] ?? mappings.NUMBER;
 }
 
-function createFormatterWithDefault(formatters, preferred) {
-  const result = v => formatters[preferred](v);
-  result.compact = formatters.compact;
-  result.detailed = formatters.detailed;
+function createFormatterWithDefault<T extends NumberFormatter>(formatters: T, preferred: string): FormatterWithDefault {
+  const result = (v: number) => (formatters as any)[preferred](v);
+  result.compact = (formatters as any).compact;
+  result.detailed = (formatters as any).detailed;
   return result;
 }
 
@@ -39,7 +55,7 @@ function createFormatterWithDefault(formatters, preferred) {
 // is millis, micros, nanos, seconds, minutes…
 // Consider cleaning this up for users instead of exposing them to our
 // failure to consistently model the data.
-const mappingsToUiInternalNames = {
+const mappingsToUiInternalNames: { [key in FormatterType]?: string } = {
   NUMBER: 'number.compact',
   PERCENTAGE: 'percentage.detailed',
   BYTES: 'bytes.detailed',
@@ -47,6 +63,6 @@ const mappingsToUiInternalNames = {
   LATENCY: 'latency.detailed'
 };
 
-export function getUiInternalFormatterName(backendType) {
+export function getUiInternalFormatterName(backendType: FormatterType) {
   return mappingsToUiInternalNames[backendType] || 'number.detailed';
 }

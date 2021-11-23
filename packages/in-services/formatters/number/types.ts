@@ -5,7 +5,7 @@
 
 const markStorageLocation = '__instanaFormatterType';
 
-type FormatterType =
+export type FormatterType =
   | 'BYTE_RATE'
   | 'BYTES'
   | 'KILO_BYTES'
@@ -20,7 +20,7 @@ type FormatterType =
   | 'SECONDS'
   | 'UNDEFINED';
 
-type NumberFormatter =
+export type NumberFormatter =
   | ((...args: any) => string)
   | {
       compact?: (...args: any) => string;
