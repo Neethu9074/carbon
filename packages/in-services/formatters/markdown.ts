@@ -1,8 +1,9 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 
+// @ts-expect-error Module doesn't has any types exported
 import linkTarget from 'markdown-it-link-target';
 import MarkdownIt from 'markdown-it';
 
@@ -15,7 +16,7 @@ md.use(linkTarget, {
   target: '_blank'
 });
 
-export function toHtml(markdown) {
+export function toHtml(markdown?: string) {
   if (typeof markdown !== 'string') {
     return '';
   }

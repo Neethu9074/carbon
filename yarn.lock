@@ -1791,10 +1791,28 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
 
+"@types/linkify-it@*":
+  version "3.0.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/linkify-it/-/linkify-it-3.0.2.tgz#fd2cd2edbaa7eaac7e7f3c1748b52a19143846c9"
+  integrity sha1-/SzS7bqn6qx+fzwXSLUqGRQ4Rsk=
+
 "@types/lodash@^4.14.171":
   version "4.14.176"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/lodash/-/lodash-4.14.176.tgz#641150fc1cda36fbfa329de603bbb175d7ee20c0"
   integrity sha1-ZBFQ/BzaNvv6Mp3mA7uxddfuIMA=
+
+"@types/markdown-it@^12.2.3":
+  version "12.2.3"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/markdown-it/-/markdown-it-12.2.3.tgz#0d6f6e5e413f8daaa26522904597be3d6cd93b51"
+  integrity sha1-DW9uXkE/jaqiZSKQRZe+PWzZO1E=
+  dependencies:
+    "@types/linkify-it" "*"
+    "@types/mdurl" "*"
+
+"@types/mdurl@*":
+  version "1.0.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/mdurl/-/mdurl-1.0.2.tgz#e2ce9d83a613bacf284c7be7d491945e39e1f8e9"
+  integrity sha1-4s6dg6YTus8oTHvn1JGUXjnh+Ok=
 
 "@types/minimatch@*":
   version "3.0.5"

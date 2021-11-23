@@ -150,6 +150,7 @@
     "@types/ineum": "^187.0.1",
     "@types/invariant": "^2.2.34",
     "@types/lodash": "^4.14.171",
+    "@types/markdown-it": "^12.2.3",
     "@types/prop-types": "^15.7.4",
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.14",
