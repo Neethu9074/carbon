@@ -3,16 +3,39 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Field, MapForm } from 'formalistic';
+
+// @ts-expect-error Needs to be converted to typescript
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
+import {
+  AdaptiveBaselineConfig,
+  HistoricBaselineConfig,
+  StaticThresholdConfig,
+  ThresholdConfig,
+  ThresholdType,
+  VersionedConfig
+} from 'in-types';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { t } from 'in-i18n';
 
-export function updateThresholdInForm(createThresholdForm, form, updateForm, data, errors, time, simpleMode) {
+export function updateThresholdInForm(
+  createThresholdForm: (
+    threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
+    alertType: WebsitesAlertType
+  ) => MapForm | void,
+  form: MapForm,
+  updateForm: (form: MapForm) => void,
+  data: { type: string; value: any },
+  errors: string | any[],
+  time: number,
+  simpleMode: boolean
+): void {
   thresholdOrBaselineLoadingSignal$.emit(false);
 
-  const alertType = form.get('rule').get('alertType').value;
-  const thresholdForm = form.get('threshold');
-  const currentThreshold = thresholdForm.toJS();
+  const alertType = ((form.get('rule') as MapForm).get('alertType') as Field<WebsitesAlertType>).value;
+  const thresholdForm = form.get('threshold') as MapForm;
+  const currentThreshold = thresholdForm.toJS() as ThresholdConfig;
 
   let thresholdData;
   if (errors.length === 0) {
@@ -41,56 +64,58 @@ export function updateThresholdInForm(createThresholdForm, form, updateForm, dat
   // and because we use the touched state to decide if we should overwrite the current threshold input with new suggestions
   // automatically
   if (data?.type === STATIC_THRESHOLD && thresholdForm.containsKey('value')) {
-    const oldState = thresholdForm.get('value').touched;
-    updatedThresholdForm = updatedThresholdForm.updateIn(['value'], f => f.setTouched(oldState));
+    const oldState = (thresholdForm.get('value') as Field<string>).touched;
+    updatedThresholdForm = updatedThresholdForm!.updateIn(['value'], f => (f as Field<any>).setTouched(oldState));
   }
 
   let newForm = form
-    .put('threshold', updatedThresholdForm)
-    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(false))
-    .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => f.setValue(data?.value));
+    .put('threshold', updatedThresholdForm!)
+    .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(false))
+    .updateIn(['hiddenFields', 'suggestedThresholdValue'], f => (f as Field<number>).setValue(data?.value));
 
   updateForm(newForm);
 }
 
-export function duplicateAlertConfig(config) {
-  const duplicatedConfig = {
-    ...config,
+export function duplicateAlertConfig<
+  T extends VersionedConfig & {
+    name: string;
+  }
+>({ ...config }: T) {
+  const { id, ...withoutId } = config;
+
+  return {
+    ...withoutId,
     name: t('in-alerting:smartAlerts.titleCopyOf', { smartAlertTitle: config.name }),
     builtIn: false
   };
-
-  delete duplicatedConfig.id;
-
-  return duplicatedConfig;
 }
 
 /**
  * Apply editMode to form state. We use the touched state of the value and baseline fields to indicate if they should be
  * updated with new suggestions.
  */
-export function applyEditMode(form, editMode) {
+export function applyEditMode(form: MapForm, editMode: boolean): MapForm {
   if (!editMode) return form;
 
-  const type = form.get('threshold').get('type').value;
+  const type = ((form.get('threshold') as MapForm).get('type') as Field<ThresholdType>).value;
 
   if (type === STATIC_THRESHOLD) {
     return form
       .updateIn(['threshold', 'value'], f => f.setTouched(true))
-      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true)); // request update to show a new suggestion
+      .updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(true)); // request update to show a new suggestion
   } else if (type === ADAPTIVE_BASELINE) {
     // In case of adaptive baseline, we don't store it as part of alert config so when we are in edit mode, we need
     // to request for threshold from the back-end.
-    return form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => f.setValue(true));
+    return form.updateIn(['hiddenFields', 'calculateThresholdOnBackend'], f => (f as Field<boolean>).setValue(true));
   }
 
   return form.updateIn(['threshold', 'baseline'], f => f.setTouched(true));
 }
 
-function shouldAddNewThresholdData(simpleMode, thresholdForm) {
+function shouldAddNewThresholdData(simpleMode: boolean, thresholdForm: MapForm): boolean {
   if (simpleMode) return true;
 
-  const type = thresholdForm?.get('type')?.value;
+  const type = (thresholdForm?.get('type') as Field<ThresholdType>)?.value;
 
   if (type === STATIC_THRESHOLD) {
     return !thresholdForm?.get('value')?.touched;
