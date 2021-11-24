@@ -6,6 +6,7 @@
 import React, { Fragment } from 'react';
 
 import ConfigurationGuidance from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/ConfigurationGuidance';
+import MobileAppIpMasking from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/MobileAppIpMasking';
 import Rename from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Rename';
 import Remove from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Remove';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -21,6 +22,11 @@ export default function Options(props) {
       <Row>
         <Col lg={7} lgOffset={1}>
           <ConfigurationGuidance {...props} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={7} lgOffset={1}>
+          <MobileAppIpMasking {...props} />
         </Col>
       </Row>
       <Row>

@@ -1,0 +1,10 @@
+:local {
+  .successIcon {
+    fill: #5dbe64;
+  }
+
+  .sucessLabel {
+    color: #5dbe64;
+    font-weight: bold;
+  }
+}

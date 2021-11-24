@@ -5,6 +5,7 @@
 
 import React, { Fragment } from 'react';
 
+import WebsiteIpMasking from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/WebsiteIpMasking';
 import TrackingScript from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/TrackingScript';
 import Rename from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Rename';
 import Remove from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Remove';
@@ -19,6 +20,9 @@ export default function Options(props) {
       </Row>
       <Row>
         <TrackingScript {...props} />
+      </Row>
+      <Row>
+        <WebsiteIpMasking {...props} />
       </Row>
       <Row>
         <Remove {...props} />

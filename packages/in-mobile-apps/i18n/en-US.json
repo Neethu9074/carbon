@@ -253,7 +253,6 @@
       "renameAppTitle": "Rename Mobile App",
       "renameAppHelp": "Renaming a mobile app is an eventually consistent action within the Instana system. For this reason, a change to a mobile app name may take <strong>up to a few minutes</strong> until it has populated throughout the whole system.",
       "renameAppBtn": "Rename",
-      "renameSaved": "Saved",
       "noSessionTitle": "No sessions available",
       "noSessionExplanation": "There were no sessions found in the selected time range.",
       "noSessionExplanationWithFilters": "There were no sessions found in the selected time range matching your filters.",

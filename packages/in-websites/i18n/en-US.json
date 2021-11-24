@@ -479,6 +479,14 @@
         "configurationRenameTitle": "Rename Website",
         "configurationRenameButton": "Rename",
         "configurationTrackingScriptTitle": "Tracking Script",
+        "saved": "Saved",
+        "ipMasking": {
+          "title": "IP Masking",
+          "help": "IP masking protects end-user privacy by masking (anonymizing) segments of IP addresses. This happens at the earliest possible point within Instana’s ingestion pipeline so that full IP addresses are never stored. Instana always masks IP addresses using rules commonly used in the industry. You can configure stricter IP masking rules if your organization requires this.",
+          "option_DEFAULT": "Default, mask the last 8 bits for IPv4 and the last 80 bits for IPv6",
+          "option_STRICT": "Strict, mask the last 16 bits for IPv4 and the last 96 bits for IPv6",
+          "option_REMOVE_ALL_DETAILS": "Remove IP addresses (only a hint of IPv4 and IPv6 usage remains)"
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Saving configuration…",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "ConfigurationUpdated.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "New configuration saved.",

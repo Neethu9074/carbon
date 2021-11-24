@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import NumberBarOverlayBehavior from 'in-analyze/components/filterBar/NumberBarItemBehavior/NumberBarOverlayBehavior';
 import { getNumberTagFilters, showGt, showLt } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
@@ -19,8 +19,8 @@ export default function NumberBarItemBehavior(props) {
   );
 }
 
-function Content(props) {
-  const { singularLabel, toggle, isOpen, refSetter, formatter = identity, minValue } = props;
+const Content = forwardRef(function Content(props, ref) {
+  const { singularLabel, toggle, isOpen, formatter = identity, minValue } = props;
   const { gt, gte, lt, lte, neq, eq } = getNumberTagFilters(props);
 
   let label = singularLabel;
@@ -47,11 +47,11 @@ function Content(props) {
       isOpen={isOpen}
       active={isOpen || eq || neq || lt || gt}
       onClick={toggle}
-      refSetter={refSetter}
+      ref={ref}
       withoutTextTransform={!!formatter}
       minValue={minValue}
     >
       {label}
     </BarItem>
   );
-}
+});

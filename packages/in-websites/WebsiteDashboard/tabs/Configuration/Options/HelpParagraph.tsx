@@ -3,10 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactChild } from 'react';
 
 import locals from './HelpParagraph.mless';
 
-export default function HelpParagraph({ children }) {
+export interface Props {
+  children: ReactChild;
+}
+
+export default function HelpParagraph({ children }: Props) {
   return <p className={locals.para}>{children}</p>;
 }

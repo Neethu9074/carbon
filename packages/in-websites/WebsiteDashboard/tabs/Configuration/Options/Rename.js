@@ -7,14 +7,12 @@ import { createField } from 'formalistic';
 import { get, find } from 'lodash';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
-import { Card } from '@instana/components';
+import { Button, Stack, Card } from '@instana/components';
 
+import SaveIndicator from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/SaveIndicator';
 import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/HelpParagraph';
 import { renameWebsite as renameWebsiteTracker } from 'in-websites/tracker';
 import { renameWebsite, getWebsites } from 'in-websites/api/websites';
-import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import { notBlankValidator } from 'in-services/validators/string';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 import { combineDataAndError } from 'in-services/util/ro';
@@ -129,7 +127,7 @@ export default class Rename extends React.PureComponent {
               <Trans i18nKey="in-websites:rename.help" />
             </HelpParagraph>
 
-            <div className={locals.actionWrapper}>
+            <Stack direction="horizontal" align="center">
               <Input
                 id="website-name"
                 type="text"
@@ -143,17 +141,11 @@ export default class Rename extends React.PureComponent {
                 type="submit"
                 kind="create"
                 disabled={loading || (field.touched && !field.valid) || savedLabel === field.value}
-                className={locals.button}
               >
                 {t('in-websites:websiteDashboard.tabs.configuration.configurationRenameButton')}
               </Button>
-              {this.state.saveResult != null ? (
-                <TemporaryPresenter duration={5000} id={`${this.state.saveResult}`}>
-                  <SvgIcon type="lib_check" size="s" className={locals.successIcon} />{' '}
-                  <span className={locals.sucessLabel}>Saved</span>
-                </TemporaryPresenter>
-              ) : null}
-            </div>
+              <SaveIndicator id={this.state.saveResult} />
+            </Stack>
 
             {field.touched &&
               field.messages.map((message, i) => (

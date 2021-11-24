@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import KeyValueBarOverlayBehavior from 'in-analyze/components/filterBar/KeyValueBarItem/KeyValueBarOverlayBehavior';
 import BarItem from 'in-analyze/components/filterBar/BarItem/BarItem';
@@ -17,13 +17,13 @@ export default function KeyValueBarItemBehavior(props) {
   );
 }
 
-function Content(props) {
-  const { label, toggle, isOpen, refSetter, tagFilters, tag } = props;
+const Content = forwardRef(function Content(props, ref) {
+  const { label, toggle, isOpen, tagFilters, tag } = props;
   const hasFilters = tagFilters.reduce((agg, f) => agg || f.name === tag, false);
 
   return (
-    <BarItem showArrow isOpen={isOpen} active={isOpen || hasFilters} onClick={toggle} refSetter={refSetter}>
+    <BarItem showArrow isOpen={isOpen} active={isOpen || hasFilters} onClick={toggle} ref={ref}>
       {label}
     </BarItem>
   );
-}
+});

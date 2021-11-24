@@ -5,7 +5,14 @@
 
 import { Observable } from '@instana/observables';
 
-import { SourceMapDownloadConfig, SourceMapDownloadConfigs, WebsiteConfiguration } from 'in-types';
+import {
+  SourceMapDownloadConfig,
+  SourceMapDownloadConfigs,
+  WebsiteConfiguration,
+  IpMaskingConfiguration,
+  GeoLocationConfiguration,
+  Result
+} from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import { compareIgnoreCase } from 'in-services/util/string';
 import http, { Response } from 'in-services/http';
@@ -96,4 +103,52 @@ export function removeSourceMapConfiguration(websiteId: string, sourceMapConfigI
     )}`,
     headers: getCsrfHeader()
   }).map(response => response.body);
+}
+
+export function getIpMaskingConfiguration(websiteId: string): Observable<Result<IpMaskingConfiguration>> {
+  return http<IpMaskingConfiguration>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/ip-masking`,
+    headers: getCsrfHeader(),
+    mapToResultObject: true
+  });
+}
+
+export function updateIpMaskingConfiguration(
+  websiteId: string,
+  ipMaskingConfiguration: IpMaskingConfiguration
+): Observable<Result<IpMaskingConfiguration>> {
+  return http<IpMaskingConfiguration>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/ip-masking`,
+    headers: getCsrfHeader(),
+    mapToResultObject: true,
+    data: ipMaskingConfiguration
+  });
+}
+
+export function getGeoLocationConfiguration(websiteId: string): Observable<Result<GeoLocationConfiguration>> {
+  return http<GeoLocationConfiguration>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/geo-location`,
+    headers: getCsrfHeader(),
+    mapToResultObject: true
+  });
+}
+
+export function updateGeoLocationConfiguration(
+  websiteId: string,
+  ipMaskingConfiguration: GeoLocationConfiguration
+): Observable<Result<GeoLocationConfiguration>> {
+  return http<GeoLocationConfiguration>({
+    method: 'PUT',
+    maxRetries: 3,
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/geo-location`,
+    headers: getCsrfHeader(),
+    mapToResultObject: true,
+    data: ipMaskingConfiguration
+  });
 }
