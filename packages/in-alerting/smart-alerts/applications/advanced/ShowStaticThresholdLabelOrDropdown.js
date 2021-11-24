@@ -13,9 +13,8 @@ import { t } from 'in-i18n';
  * This component is needed till adaptive–baselines are available.
  * It keeps the current behavior which is showing a label if only staticThreshold can be selected if adaptiveBaselineEnabled is turned off.
  */
-export default function ShowLabelOrDropdown({ children, form, isGlobalSmartAlert }) {
-  const canSelectBaseline =
-    adaptiveBaselineEnabled || (form.get('evaluationType').value === PER_AP && !isGlobalSmartAlert);
+export default function ShowStaticThresholdLabelOrDropdown({ children, evaluationType, isGlobalSmartAlert }) {
+  const canSelectBaseline = adaptiveBaselineEnabled || (evaluationType === PER_AP && !isGlobalSmartAlert);
 
   return canSelectBaseline ? (
     <>{children}</>

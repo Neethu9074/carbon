@@ -57,3 +57,12 @@ export function withoutHistoricBaselineOptions(thresholdTypeOptions = []) {
     [ADAPTIVE_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0])
   );
 }
+
+/**
+ * @param {[{value: string, label: string}]} thresholdTypeOptions
+ */
+export function withoutAdaptiveBaselineOptions(thresholdTypeOptions = []) {
+  return thresholdTypeOptions.filter(({ value }) =>
+    [HISTORIC_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0])
+  );
+}

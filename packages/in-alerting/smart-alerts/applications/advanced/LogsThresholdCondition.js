@@ -7,10 +7,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {
-  applicationThresholdTypeOptions,
-  withoutHistoricBaselineOptions
-} from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import {
   applicationsAlertingThresholdOperatorChanged,
   applicationsAlertingThresholdTypeChanged
 } from 'in-alerting/smart-alerts/applications/tracker';
@@ -36,6 +32,7 @@ export default function LogsThresholdCondition({ form, updateForm, blueprintConf
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
   const isBuiltIn = form.get('builtIn').value;
+  const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
 
   return (
     <>
@@ -60,7 +57,7 @@ export default function LogsThresholdCondition({ form, updateForm, blueprintConf
               form={form}
               updateForm={updateForm}
               editMode={editMode}
-              thresholdTypeOptions={withoutHistoricBaselineOptions(applicationThresholdTypeOptions)}
+              thresholdTypeOptions={thresholdTypeOptions}
               trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
               isGlobalSmartAlert={isGlobalSmartAlert}
             />

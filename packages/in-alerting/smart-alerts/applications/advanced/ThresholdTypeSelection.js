@@ -10,13 +10,13 @@ import {
   createViolationsInSequenceForm,
   defaultAdaptiveBaselineTimeWindow
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import ShowStaticThresholdLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowStaticThresholdLabelOrDropdown';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import { getAvailableOptionsForEvaluationType } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
-import ShowLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowLabelOrDropdown';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { tagKeysSupportedByMaterializedView } from 'in-alerting/smart-alerts/applications/tags';
@@ -36,19 +36,24 @@ export default function ThresholdTypeSelection({
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const evaluationType = form.get('evaluationType').value;
+  const options = getAvailableOptionsForEvaluationType(thresholdTypeOptions, evaluationType, isGlobalSmartAlert);
 
   return (
-    <ShowLabelOrDropdown form={form} isGlobalSmartAlert={isGlobalSmartAlert}>
-      <Dropdown
-        asSimpleDropdown
-        label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
-        items={getAvailableOptionsForEvaluationType(thresholdTypeOptions, evaluationType, isGlobalSmartAlert)}
-        onChange={({ value = '' }) => onThresholdTypeChange(value)}
-      />
+    <ShowStaticThresholdLabelOrDropdown evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert}>
+      {options.length === 1 ? (
+        <span>{options[0].label}</span>
+      ) : (
+        <Dropdown
+          asSimpleDropdown
+          label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
+          items={options}
+          onChange={({ value = '' }) => onThresholdTypeChange(value)}
+        />
+      )}
       {thresholdType === HISTORIC_BASELINE && (
         <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
       )}
-    </ShowLabelOrDropdown>
+    </ShowStaticThresholdLabelOrDropdown>
   );
 
   function onThresholdTypeChange(value) {

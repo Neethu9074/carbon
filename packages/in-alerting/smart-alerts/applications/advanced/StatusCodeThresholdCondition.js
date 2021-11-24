@@ -20,7 +20,6 @@ import {
   getConfiguredThreshold,
   getOperatorLabel
 } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
-import { applicationThresholdTypeOptions } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import ThresholdLabel from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdLabel';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/applications/advanced/ThresholdTypeSelection';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
@@ -40,6 +39,7 @@ export default function StatusCodeThresholdCondition({
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
   const thresholdType = form.get('threshold').get('type')?.value;
   const isBuiltIn = form.get('builtIn').value;
+  const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
 
   return (
     <>
@@ -64,7 +64,7 @@ export default function StatusCodeThresholdCondition({
               updateForm={updateForm}
               editMode={editMode}
               trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
-              thresholdTypeOptions={applicationThresholdTypeOptions}
+              thresholdTypeOptions={thresholdTypeOptions}
               isGlobalSmartAlert={isGlobalSmartAlert}
             />
           </>

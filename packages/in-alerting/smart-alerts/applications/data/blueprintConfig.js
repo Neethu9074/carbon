@@ -4,6 +4,11 @@
  */
 
 import {
+  applicationThresholdTypeOptions,
+  withoutHistoricBaselineOptions,
+  withoutAdaptiveBaselineOptions
+} from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
+import {
   getApproximatedAdaptiveBaselineThresholdValue,
   getApproximatedHistoricBaselineThresholdValue
 } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
@@ -57,6 +62,7 @@ const slownessBlueprintConfig = Object.freeze({
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: alertRule => alertRule.aggregation,
+  getThresholdTypeOptions: () => applicationThresholdTypeOptions,
   isRuleComplete: () => true,
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
@@ -75,6 +81,8 @@ const errorRateBlueprintConfig = Object.freeze({
   getMetricFormat: () => percentage,
   getMaxMetricValue: () => 100,
   getAggregation: () => 'MEAN',
+  getThresholdTypeOptions: () =>
+    withoutHistoricBaselineOptions(withoutAdaptiveBaselineOptions(applicationThresholdTypeOptions)),
   isRuleComplete: () => true,
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => [tagFilter('call.erroneous', 'EQUALS', true)]
@@ -93,6 +101,8 @@ const logsBlueprintConfig = Object.freeze({
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
+  getThresholdTypeOptions: () =>
+    withoutHistoricBaselineOptions(withoutAdaptiveBaselineOptions(applicationThresholdTypeOptions)),
   isRuleComplete: alertRule => isNotBlank(alertRule.message),
   incompleteRuleMessage: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.incompleteRuleMessage'),
   getRuleTagFilterFormModel: getLogLevelFormModel
@@ -111,6 +121,7 @@ const statusCodeBlueprintConfig = Object.freeze({
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
+  getThresholdTypeOptions: () => applicationThresholdTypeOptions,
   isRuleComplete: alertRule => !!(alertRule.statusCode?.statusCodeStart && alertRule.statusCode?.statusCodeEnd),
   incompleteRuleMessage: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.incompleteRuleMessage'),
   getRuleTagFilterFormModel: getStatusCodeFormModel
@@ -129,6 +140,7 @@ const throughputBlueprintConfig = Object.freeze({
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
+  getThresholdTypeOptions: () => applicationThresholdTypeOptions,
   isRuleComplete: () => true,
   getRuleTagFilterFormModel: () => [],
   impactTimeThresholdDisabled: true
