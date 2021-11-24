@@ -4,8 +4,12 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { Result } from 'in-types';
 
-export default createResultSubscriptionFactory({
+interface GetWebsiteMetricsRequest {}
+interface GetWebsiteMetricsResponse extends Result<Map<String, Number[][]>> {}
+
+export default createResultSubscriptionFactory<GetWebsiteMetricsRequest, GetWebsiteMetricsResponse>({
   eventId: 'getWebsiteMetrics',
   trackSubscriptionStatistics: true
 });
