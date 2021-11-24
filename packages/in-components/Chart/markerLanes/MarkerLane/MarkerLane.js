@@ -189,7 +189,7 @@ function MarkerLaneErrorMessage({ errorMessage }) {
           <SvgIcon
             className={locals.laneErrorIcon}
             color={theme.lib.colors.N600Light}
-            type="lib_help_error_info_outline"
+            type="lib_help_error_warning_outline"
             size="xs"
           />
           <span className={locals.laneErrorLabelText}>{errorMessage}</span>
