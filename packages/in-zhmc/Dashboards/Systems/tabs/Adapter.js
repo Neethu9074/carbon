@@ -92,6 +92,6 @@ export default function Adapter({ timeConfig, data: cpc }) {
       </Fragment>
     );
   } else {
-    return <RoceAdapter />;
+    return <RoceAdapter snapshotId={cpc.id}/>;
   }
 }
