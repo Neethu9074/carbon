@@ -117,10 +117,10 @@ export const ruleMetricNameOptions = Object.freeze({
   ]
 });
 
-export function getStatusCodeLabel(value) {
+export function getStatusCodeLabel(value: string) {
   return ruleStatusCodeValueOptions.filter(entry => entry.value === value)[0].label;
 }
 
-export function getRuleOperatorLabel(value) {
+export function getRuleOperatorLabel(value: string) {
   return ruleJsErrorsOperatorOptions.filter(entry => entry.value === value)[0].label;
 }
