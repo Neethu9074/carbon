@@ -59,7 +59,7 @@ const cols = [
         return row.data.id;
       },
       getMetricName(row) {
-        return `processors.${row.key}.thread0Usage`;
+        return `processors.${row.key}.threadOUsage`;
       },
       getContent: percentage.detailed,
       getTimeWindowAggregation() {

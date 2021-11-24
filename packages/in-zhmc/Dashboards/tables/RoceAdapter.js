@@ -34,19 +34,19 @@ const cols = [
 export default connectTo(
   ({ snapshotId }) => {
     return {
-      data: getRawPayload(snapshotId, 'roceUsage')
+      data: getRawPayload(snapshotId, 'roces')
     };
   },
   function RoceAdapter({ data }) {
     if (!data) {
       return null;
     }
-    const roceUsage = data.toArray();
+    const roces = data.toArray();
 
-    if (roceUsage.size === 0) {
+    if (roces.size === 0) {
       return null;
     }
-    const rows = roceUsage.map((roceUsages, idx) => {
+    const rows = roces.map((roceUsages, idx) => {
       return {
         key: String(idx),
         roceUsages
