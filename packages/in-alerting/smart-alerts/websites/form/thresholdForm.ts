@@ -3,15 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
+import {
+  AdaptiveBaselineConfig,
+  HistoricBaselineConfig,
+  Seasonality,
+  StaticThresholdConfig,
+  ThresholdConfig,
+  ThresholdOperator
+} from 'in-types';
+import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 
 export const defaultDeviationFactor = 3;
 
-export default function createThresholdForm(threshold, alertType) {
+export default function createThresholdForm(
+  threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
+  alertType: WebsitesAlertType
+): MapForm | void {
   let form = createBaseForm(threshold);
 
   if (alertType === 'slowness') {
@@ -19,11 +31,11 @@ export default function createThresholdForm(threshold, alertType) {
   }
 
   if (alertType === 'specificJsError') {
-    return createSpecificJsErrorForm(form, threshold);
+    return createSpecificJsErrorForm(form, threshold as { value?: number });
   }
 
   if (alertType === 'statusCode') {
-    return createStatusCodeForm(form, threshold);
+    return createStatusCodeForm(form, threshold as { value?: number });
   }
 
   if (alertType === 'throughput') {
@@ -31,7 +43,7 @@ export default function createThresholdForm(threshold, alertType) {
   }
 }
 
-function createBaseForm(threshold) {
+function createBaseForm(threshold: { type?: string; operator?: ThresholdOperator; lastUpdated?: number }): MapForm {
   return createMapForm()
     .put(
       'type',
@@ -53,25 +65,25 @@ function createBaseForm(threshold) {
     );
 }
 
-function createBaselineEnabledForm(baseForm, threshold) {
+function createBaselineEnabledForm(baseForm: MapForm, threshold: ThresholdConfig): MapForm | void {
   const thresholdType = threshold.type;
 
   if (thresholdType === STATIC_THRESHOLD) {
-    return createThresholdFormStaticThreshold(baseForm, threshold);
+    return createThresholdFormStaticThreshold(baseForm, threshold as StaticThresholdConfig);
   }
 
   if (thresholdType === HISTORIC_BASELINE) {
-    return createThresholdFormHistoricBaseline(baseForm, threshold);
+    return createThresholdFormHistoricBaseline(baseForm, threshold as HistoricBaselineConfig);
   }
 }
 
-function createThresholdFormStaticThreshold(baseForm, threshold) {
+function createThresholdFormStaticThreshold(baseForm: MapForm, threshold: { value?: number }) {
   return baseForm.put(
     'value',
     createField({
       value: threshold.value ?? null,
-      validator: num => {
-        if (num === '' || num < 0) {
+      validator: (num: number | string | null) => {
+        if (num === '' || num === null || num < 0) {
           return [
             {
               severity: 'error',
@@ -79,12 +91,20 @@ function createThresholdFormStaticThreshold(baseForm, threshold) {
             }
           ];
         }
+        return null;
       }
     })
   );
 }
 
-function createThresholdFormHistoricBaseline(baseForm, threshold) {
+function createThresholdFormHistoricBaseline(
+  baseForm: MapForm,
+  threshold: {
+    seasonality?: Seasonality;
+    baseline?: number[][];
+    deviationFactor?: number;
+  }
+) {
   return baseForm
     .put(
       'seasonality',
@@ -104,6 +124,7 @@ function createThresholdFormHistoricBaseline(baseForm, threshold) {
               }
             ];
           }
+          return null;
         },
         value: threshold.baseline
       })
@@ -116,10 +137,10 @@ function createThresholdFormHistoricBaseline(baseForm, threshold) {
     );
 }
 
-function createSpecificJsErrorForm(baseForm, threshold) {
+function createSpecificJsErrorForm(baseForm: MapForm, threshold: { value?: number }) {
   return createThresholdFormStaticThreshold(baseForm, threshold);
 }
 
-function createStatusCodeForm(baseForm, threshold) {
+function createStatusCodeForm(baseForm: MapForm, threshold: { value?: number }) {
   return createThresholdFormStaticThreshold(baseForm, threshold);
 }
