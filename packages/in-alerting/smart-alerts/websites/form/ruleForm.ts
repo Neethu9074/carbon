@@ -3,14 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, MapForm } from 'formalistic';
 
+import {
+  SpecificJsErrorsWebsiteAlertRule,
+  StatusCodeWebsiteAlertRule,
+  TagFilterOperator,
+  WebsiteAlertRule
+} from 'in-types';
+import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { notBlankValidator } from 'in-services/validators/string';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
-export default function createRuleForm(rule) {
-  const { alertType } = rule;
+// @ts-expect-error TS2366: Function lacks ending return statement and return type does not include 'undefined' - should never happen, because each WebsiteAlertType gets mapped to a form which gets returned.
+export default function createRuleForm(rule: WebsiteAlertRule): MapForm {
+  const alertType = rule.alertType as WebsitesAlertType;
+
   const baseForm = createBaseForm(rule);
 
   if (alertType === 'throughput') {
@@ -22,15 +31,15 @@ export default function createRuleForm(rule) {
   }
 
   if (alertType === 'specificJsError') {
-    return extendForSpecificJsError(baseForm, rule);
+    return extendForSpecificJsError(baseForm, rule as SpecificJsErrorsWebsiteAlertRule);
   }
 
   if (alertType === 'statusCode') {
-    return extendForSpecificStatusCode(baseForm, rule);
+    return extendForSpecificStatusCode(baseForm, rule as StatusCodeWebsiteAlertRule);
   }
 }
 
-function createBaseForm(rule) {
+function createBaseForm(rule: WebsiteAlertRule) {
   return createMapForm()
     .put(
       'alertType',
@@ -46,7 +55,7 @@ function createBaseForm(rule) {
     );
 }
 
-function extendForSlowness(baseForm, rule) {
+function extendForSlowness(baseForm: MapForm, rule: WebsiteAlertRule) {
   return baseForm.put(
     'aggregation',
     createField({
@@ -55,7 +64,7 @@ function extendForSlowness(baseForm, rule) {
   );
 }
 
-function extendForSpecificJsError(baseForm, rule) {
+function extendForSpecificJsError(baseForm: MapForm, rule: { operator?: TagFilterOperator; value?: string }) {
   return baseForm
     .put(
       'operator',
@@ -67,7 +76,7 @@ function extendForSpecificJsError(baseForm, rule) {
       'value',
       createField({
         value: rule.value ?? '',
-        validator: value => {
+        validator: (value: string) => {
           if (!value || value.trim().length === 0) {
             return [
               {
@@ -83,7 +92,7 @@ function extendForSpecificJsError(baseForm, rule) {
     );
 }
 
-function extendForSpecificStatusCode(baseForm, rule) {
+function extendForSpecificStatusCode(baseForm: MapForm, rule: { operator?: TagFilterOperator; value?: string }) {
   return baseForm
     .put(
       'operator',
