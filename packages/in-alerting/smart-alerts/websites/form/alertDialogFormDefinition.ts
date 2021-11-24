@@ -3,16 +3,19 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField } from 'formalistic';
+import { createField, createMapForm, MapForm } from 'formalistic';
 
-import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+// @ts-expect-error file will need to be converted to typescript
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
+import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
+import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { stringMaxLengthValidator } from 'in-services/validators/string';
+import { ThresholdType, WebsiteAlertConfigWithMetadata } from 'in-types';
 
 const severityWarning = 5;
 
@@ -30,7 +33,7 @@ export const fieldNames = Object.freeze({
   customPayloadFields: 'customPayloadFields'
 });
 
-export default function alertFormDefinition(alertConfig, editMode) {
+export default function alertFormDefinition(alertConfig: WebsiteAlertConfigWithMetadata, editMode: boolean): MapForm {
   const {
     tagFilterExpression,
     alertChannelIds = [],
@@ -48,7 +51,7 @@ export default function alertFormDefinition(alertConfig, editMode) {
     .put(
       fieldNames.tagFilterExpression,
       createField({
-        value: fromBackendModel(tagFilterExpression),
+        value: tagFilterExpression ? fromBackendModel(tagFilterExpression) : [],
         validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
       })
     )
@@ -109,11 +112,21 @@ export default function alertFormDefinition(alertConfig, editMode) {
     )
     .put(
       'timeThreshold',
-      createTimeThresholdForm(alertConfig.timeThreshold ?? {}, granularity, alertConfig.threshold?.type)
+      createTimeThresholdForm(alertConfig.timeThreshold, granularity, alertConfig.threshold?.type as ThresholdType)
     )
-    .put('threshold', createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule?.alertType))
+    .put(
+      'threshold',
+      createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule.alertType as WebsitesAlertType)!
+    )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
-    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
+    .put(
+      'hiddenFields',
+      createHiddenFieldsForm(
+        (alertConfig as {
+          calculateThresholdOnBackend?: boolean; // an optional, "hidden" from field - it will need
+        }).calculateThresholdOnBackend
+      )
+    )
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 
   return applyEditMode(form, editMode);
