@@ -55,7 +55,7 @@ export default function createTimeThresholdForm(
 
 interface TimeThresholdConfig {
   timeWindow: number;
-  type: TimeThresholdType;
+  type: string;
 }
 
 interface RequestImpactTimeThreshold extends TimeThresholdConfig {
