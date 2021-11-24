@@ -133,7 +133,7 @@ export function formatterTypeToDefinition(formatterType) {
 export function mapConditionValue(value, formatterType) {
   if (formatterType === 'PERCENTAGE') {
     // we use a scale of [0, 100.0], but we only store the value in range [0, 1.0]
-    value *= 100;
+    value = formatNumber(value, getNumberOfDigits(value));
   } else if (formatterType === 'MICROS') {
     // convert to millis
     value /= 1000;
@@ -143,7 +143,7 @@ export function mapConditionValue(value, formatterType) {
 
 export function unmapConditionValue(value, formatterType) {
   if (formatterType === 'PERCENTAGE') {
-    value /= 100;
+    value = round(value / 100, getNumberOfDigits(value) + 2);
   } else if (formatterType === 'MICROS') {
     value *= 1000;
   }
@@ -153,4 +153,17 @@ export function unmapConditionValue(value, formatterType) {
 const migrateableEntityTypes = ['application', 'service', 'endpoint'];
 export function isAppDataEntityType(entityType = '') {
   return migrateableEntityTypes.includes(entityType.toLowerCase());
+}
+
+function formatNumber(value, decimalPrecision) {
+  return round(value * 100, decimalPrecision);
+}
+
+function round(value, decimals) {
+  return parseFloat(Number.parseFloat(`${value}`).toFixed(decimals));
+}
+
+function getNumberOfDigits(value) {
+  const [, digits] = value?.toString()?.split('.') ?? [];
+  return digits.length;
 }
