@@ -803,6 +803,34 @@ export interface FullTrace {
   readonly totalErrorCount: number;
 }
 
+export interface GeoInformation {
+  readonly accuracyRadius: number;
+  readonly city?: string;
+  readonly continent?: string;
+  readonly continentCode?: string;
+  readonly country?: string;
+  readonly countryCode?: string;
+  readonly latitude: number;
+  readonly leastSpecificSubdivision?: GeoSubdivision;
+  readonly longitude: number;
+  readonly subdivisions?: GeoSubdivision[];
+}
+
+export interface GeoLocationConfiguration {
+  readonly geoDetailRemoval: GeoDetailRemoval;
+  readonly geoMappingRules?: GeoMappingRule[];
+}
+
+export interface GeoMappingRule extends GeoInformation {
+  readonly cidr: string;
+  readonly subdivisions: GeoSubdivision[];
+}
+
+export interface GeoSubdivision {
+  readonly code?: string;
+  readonly name?: string;
+}
+
 export interface GetAppDataEntityChainsQuery extends CursorPaginatedQuery {
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
@@ -2074,6 +2102,10 @@ export interface InfrastructureItem {
 export interface IngestionOffsetCursor extends Cursor {
   readonly ingestionTime: number;
   readonly offset: number;
+}
+
+export interface IpMaskingConfiguration {
+  readonly ipMasking: IpMasking;
 }
 
 export interface Item {
@@ -4561,6 +4593,8 @@ export type FlowDirection = 'INCOMING' | 'OUTGOING';
 
 export type Formatter = 'NUMBER' | 'BYTES' | 'PERCENTAGE' | 'LATENCY' | 'MILLIS' | 'SECONDS' | 'MICROS' | 'RATE' | 'BYTE_RATE' | 'UNDEFINED';
 
+export type GeoDetailRemoval = 'NO_REMOVAL' | 'REMOVE_COORDINATES' | 'REMOVE_CITY' | 'REMOVE_ALL';
+
 export type Granularity = 60000 | 300000 | 600000 | 900000 | 1200000 | 1800000;
 
 export type HttpActionOperation = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -4572,6 +4606,8 @@ export type ImpactMeasurementMethod = 'AGGREGATED' | 'PER_WINDOW';
 export type InfraTabCategory = 'HOST' | 'CONTAINER' | 'PROCESS' | 'CLUSTER';
 
 export type InfraTagCategory = 'OTHERS' | 'KUBERNETES' | 'CLOUD_FOUNDRY' | 'VSHPERE' | 'ALICLOUD' | 'AWS' | 'AZURE' | 'GCP' | 'CONTAINER' | 'SELF_MONITORING' | 'IBM_CLOUD' | 'IBM_DATAPOWER' | 'IBM_I_SERIES' | 'IBM_MQ' | 'IBM_OPENSTACK' | 'CLR' | 'ACE' | 'CASSANDRA' | 'COCKROACH' | 'CONSUL' | 'COUCHBASE' | 'ELASTICSEARCH' | 'HADOOP_YARN' | 'HAZELCAST' | 'KAFKA_CONNECT' | 'MONGO_DB' | 'REDIS' | 'SOLR' | 'SPARK';
+
+export type IpMasking = 'DEFAULT' | 'STRICT' | 'REMOVE_ALL_DETAILS';
 
 export type KubernetesClusterManagementType = 'RANCHER' | 'PKS' | 'NONE';
 
