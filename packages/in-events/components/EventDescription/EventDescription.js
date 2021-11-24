@@ -65,9 +65,9 @@ export default connectTo(
         }}
       >
         <SvgIcon
-          className={classNames({ [`${block}__icon`]: true, [`${block}__icon_in_preview`]: isPreview })}
+          className={classNames({ [`${block}__icon_in_preview`]: isPreview })}
           type={getIcon({ eventType })}
-          size="xs"
+          size="m"
           color={color}
         />
         <div className={`${block}__description`}>
