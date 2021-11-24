@@ -33,7 +33,7 @@ function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...re
     <AlertsPreviewLanePresenter
       {...remainingProps}
       alerts={result?.data ?? emptyArray}
-      errorMessage={hasError(result) && t('in-components:chart.chartAlertsLaneErrorMessage')}
+      errorMessage={hasError(result) ? t('in-components:chart.chartAlertsLaneErrorMessage') : undefined}
       isLoading={isLoading(result)}
     />
   );
