@@ -21,7 +21,7 @@ import {
   entityId,
   entityType
 } from 'in-custom-dashboards/widgets/Slo/form';
-import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscription/getUnifiedSloMetrics';
+import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscriptions/getUnifiedSloMetrics';
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/WidgetLeftHeader';
 import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
