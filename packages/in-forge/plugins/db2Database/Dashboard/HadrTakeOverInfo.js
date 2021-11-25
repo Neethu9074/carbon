@@ -23,12 +23,16 @@ function HadrTakeOverInfo({ data }) {
   }
 
   const hadrRole = data.get('raw_payload');
-  if (hadrRole.get('HADR_ROLE') === 'PRIMARY' && hadrRole.get('HADR_LAST_TAKEOVER_TIME') !== 'NA') {
-    return (
-      <KpiKeyValue label={t('in-forge:plugins.db2Database.dashboard.hadrTakeOverTime')}>
-        <div> {formatDateTime(hadrRole.get('HADR_LAST_TAKEOVER_TIME'))} </div>
-      </KpiKeyValue>
-    );
+  if (hadrRole.get('HADR_ROLE') === 'PRIMARY') {
+    if (!hadrRole.get('HADR_LAST_TAKEOVER_TIME')) {
+      return null;
+    } else {
+      return (
+        <KpiKeyValue label={t('in-forge:plugins.db2Database.dashboard.hadrTakeOverTime')}>
+          <div> {formatDateTime(hadrRole.get('HADR_LAST_TAKEOVER_TIME'))} </div>
+        </KpiKeyValue>
+      );
+    }
   }
   return null;
 }
