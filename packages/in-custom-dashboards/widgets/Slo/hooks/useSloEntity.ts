@@ -12,11 +12,12 @@ import { Application, Nullish, Result, Website } from 'in-types';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { pendingResult } from 'in-services/fixedObjects';
 
+export type SloEntity = Application | Website;
+
 interface UseSloEntityRequest {
   entityId: string;
   entityType: MonitoringSource;
 }
-type SloEntity = Application | Website;
 
 export default function useSloEntity({ entityId, entityType }: UseSloEntityRequest): Result<SloEntity> | Nullish {
   return useObservable(() => loadEntity(entityType, entityId), [entityType, entityId]) ?? pendingResult;

@@ -53,7 +53,7 @@ export function fromTagFiltersArray(tagFilters: TagFilter[], tagCatalog: TagCata
   return formModel;
 }
 
-export function fromBackendModel(backendModel: TagFilterExpressionElement): FormModelElement[] {
+export function fromBackendModel(backendModel?: TagFilterExpressionElement): FormModelElement[] {
   if (!backendModel) {
     return [];
   }

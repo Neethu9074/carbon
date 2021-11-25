@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField } from 'formalistic';
+import { createMapForm, createField, MapForm, ValidationResult } from 'formalistic';
 
 import {
   availabilityType,
@@ -11,7 +11,7 @@ import {
   websiteEventBased,
   websiteTimeBased
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { numericValidator, minValidator } from 'in-services/validators/number';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
@@ -19,13 +19,52 @@ import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
+import {
+  Application,
+  ApplicationSliEntity,
+  AvailabilitySliEntity,
+  SliConfigMetricConfiguration,
+  SliConfiguration,
+  TagFilterExpressionElement,
+  Website,
+  WebsiteEventBasedSliEntity,
+  WebsiteSliEntity,
+  WebsiteTimeBasedSliEntity
+} from 'in-types';
+import { SloEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
+
+type CombinedApplicationSliEntity = (ApplicationSliEntity | AvailabilitySliEntity) &
+  Partial<ApplicationSliEntity & AvailabilitySliEntity>;
+type CombinedWebsiteSliEntity = WebsiteSliEntity & Partial<WebsiteTimeBasedSliEntity & WebsiteEventBasedSliEntity>;
+interface EventBasedSliEntity {
+  readonly badEventFilterExpression: TagFilterExpressionElement;
+  readonly goodEventFilterExpression: TagFilterExpressionElement;
+}
 
 export const sliFieldNames = Object.freeze({
   goodEventFilterExpression: 'goodEventFilterExpression',
   badEventFilterExpression: 'badEventFilterExpression'
-});
+} as const);
 
-export function createForm(entityType, sliConfig, entityId, entity) {
+export function createForm(
+  entityType: 'application',
+  sliConfig: SliConfiguration,
+  entityId: string,
+  entity: Application
+): MapForm;
+export function createForm(
+  entityType: 'website',
+  sliConfig: SliConfiguration,
+  entityId: string,
+  entity: Website
+): MapForm;
+export function createForm(
+  entityType: MonitoringSource,
+  sliConfig: SliConfiguration,
+  entityId: string,
+  entity: SloEntity
+): MapForm {
   const { id, sliName, sliEntity, metricConfiguration } = sliConfig;
 
   let form = createMapForm();
@@ -38,14 +77,17 @@ export function createForm(entityType, sliConfig, entityId, entity) {
     'sliName',
     createField({
       value: sliName ?? '',
-      validator: composeAndShortCircuitOnError(notUndefinedValidator, notBlankValidator)
+      validator: composeAndShortCircuitOnError<string>(notUndefinedValidator, notBlankValidator)
     })
   );
 
   if (entityType === 'website') {
-    form = form.put('sliEntity', createWebsiteSliEntityForm(sliEntity, entityId));
+    form = form.put('sliEntity', createWebsiteSliEntityForm(sliEntity as CombinedWebsiteSliEntity, entityId));
   } else {
-    form = form.put('sliEntity', createApplicationSliEntityForm(sliEntity, entityId, entity));
+    form = form.put(
+      'sliEntity',
+      createApplicationSliEntityForm(sliEntity as CombinedApplicationSliEntity, entityId, entity as Application)
+    );
   }
 
   const sliType = sliEntity?.sliType;
@@ -56,13 +98,17 @@ export function createForm(entityType, sliConfig, entityId, entity) {
   return form;
 }
 
-function createApplicationSliEntityForm(sliEntity, applicationId, application) {
+function createApplicationSliEntityForm(
+  sliEntity: CombinedApplicationSliEntity,
+  applicationId: string,
+  application: Application
+): MapForm {
   const { boundaryScope: apDefaultBoundaryScope } = application;
   const form = createMapForm()
     .put(
       'sliType',
       createField({
-        validator: composeAndShortCircuitOnError(
+        validator: composeAndShortCircuitOnError<string>(
           notUndefinedValidator,
           notNullValidator,
           buildEnumValidator([applicationType, availabilityType])
@@ -110,13 +156,13 @@ function createApplicationSliEntityForm(sliEntity, applicationId, application) {
     );
 
   if (sliEntity?.sliType === availabilityType) {
-    return addGoodBadEventsForm(form, sliEntity);
+    return addGoodBadEventsForm(form, sliEntity as AvailabilitySliEntity);
   }
 
   return form;
 }
 
-function createWebsiteSliEntityForm(sliEntity, websiteId) {
+function createWebsiteSliEntityForm(sliEntity: CombinedWebsiteSliEntity, websiteId: string): MapForm {
   let form = createMapForm()
     .put(
       'sliType',
@@ -149,13 +195,13 @@ function createWebsiteSliEntityForm(sliEntity, websiteId) {
     );
 
   if (sliEntity?.sliType === websiteEventBased) {
-    return addGoodBadEventsForm(form, sliEntity);
+    return addGoodBadEventsForm(form, sliEntity as WebsiteEventBasedSliEntity);
   }
 
   return form;
 }
 
-export function addGoodBadEventsForm(form, sliEntity) {
+export function addGoodBadEventsForm(form: MapForm, sliEntity: Partial<EventBasedSliEntity>) {
   return form
     .put(
       sliFieldNames.goodEventFilterExpression,
@@ -173,7 +219,10 @@ export function addGoodBadEventsForm(form, sliEntity) {
     );
 }
 
-export function createMetricsForm(metricConfiguration, sliType) {
+export function createMetricsForm(
+  metricConfiguration: Partial<SliConfigMetricConfiguration>,
+  sliType: string
+): MapForm {
   const defaults =
     sliType === websiteTimeBased
       ? { name: 'beaconErrorRate', aggregation: 'MEAN' } // website metrics
@@ -205,7 +254,7 @@ export function createMetricsForm(metricConfiguration, sliType) {
     );
 }
 
-const notNullValidator = v => {
+const notNullValidator = (v: any): ValidationResult => {
   if (v === null) {
     return [
       {
@@ -217,7 +266,7 @@ const notNullValidator = v => {
   return null;
 };
 
-const noEmptyFilterExpressionValidator = model => {
+const noEmptyFilterExpressionValidator = (model: FormModelElement[]): ValidationResult => {
   if (model?.find(element => element.type === 'TAG_FILTER')) return null;
   return [
     {
