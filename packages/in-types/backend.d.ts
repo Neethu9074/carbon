@@ -1660,14 +1660,6 @@ export interface GetStackQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetTagAvailabilityQuery extends UiQuery {
-  readonly tagNames?: string[];
-}
-
-export interface GetTagAvailabilityResult {
-  readonly tagAvailabilities?: { [index: string]: TagAvailability };
-}
-
 export interface GetTagSuggestionsQuery extends FilteredQuery {
   readonly entity: TagFilterEntity;
   readonly filter: Filter;
@@ -3783,10 +3775,6 @@ export interface Tag {
   readonly name?: string;
   readonly sourceValueAvailableFrom: number;
   readonly type?: TagType;
-}
-
-export interface TagAvailability {
-  readonly availableFrom: number;
 }
 
 export interface TagCatalog {
