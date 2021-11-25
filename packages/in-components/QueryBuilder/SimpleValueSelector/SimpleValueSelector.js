@@ -4,8 +4,8 @@
  */
 
 import AutosizeInput from 'react-input-autosize';
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Li, Ul } from '@instana/components';
@@ -52,21 +52,24 @@ export default function SimpleValueSelector({
 }
 
 function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps }) {
+  const { inputValue } = remainingProps;
   const { locals, valid, hideValidityInformationOnFocus, autoFocus, ...remainingInputProps } = inputProps;
 
   return (
     <>
-      <AutosizeInput
-        minWidth={32}
-        inputClassName={classNames({
-          [locals.input]: true,
-          [locals.invalid]: !valid,
-          [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
-        })}
-        {...remainingInputProps}
-        {...getInputProps({ onFocus: openMenu })}
-        autoFocus={autoFocus}
-      />
+      <Tooltip content={inputValue} align={'topMiddle'} delay={300}>
+        <AutoSizeInput
+          minWidth={32}
+          inputClassName={classNames({
+            [locals.input]: true,
+            [locals.invalid]: !valid,
+            [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
+          })}
+          {...remainingInputProps}
+          {...getInputProps({ onFocus: openMenu })}
+          autoFocus={autoFocus}
+        />
+      </Tooltip>
       {isOpen && <SuggestionsList {...remainingProps} />}
     </>
   );
@@ -148,3 +151,7 @@ function SuggestionsList({
     </Ul>
   );
 }
+
+const AutoSizeInput = forwardRef(function AutoSizeInput(props, ref) {
+  return <AutosizeInput {...props} inputRef={ref} />;
+});
