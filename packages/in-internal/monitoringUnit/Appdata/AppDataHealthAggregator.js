@@ -48,6 +48,25 @@ const hostViewCols = [
   }
 ];
 
+function ADHADashboardSection({ title, metric, type, formatter, timeConfig, rows, labels }) {
+  return (
+    <DashboardSection title={title}>
+      <Chart
+        snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+        timeConfig={timeConfig}
+        minRollup={5000}
+        y1={{
+          min: 0,
+          formatter: formatter,
+          metrics: rows.map(() => metric),
+          labels: labels,
+          type: type
+        }}
+      />
+    </DashboardSection>
+  );
+}
+
 export default connectTo({
   timeConfig: timeConfig$,
   rows: getDropwizardWithContext('entity.label:"appdata-health-aggregator*"')
@@ -66,348 +85,242 @@ export default connectTo({
           <h1>appdata-health-aggregator</h1>
 
           <Columize>
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.hostCpuLoad')}>
-              <Chart
-                snapshotIds={rows.map(r => r.host.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.detailed,
-                  metrics: rows.map(() => 'load.1min'),
-                  labels: labels,
-                  type: 'line'
-                }}
-              />
-            </DashboardSection>
-
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.activeReg')}>
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.detailed,
-                  metrics: rows.map(
-                    () =>
-                      'metrics.gauges.com.instana.appdata.liveaggregator.aggregation.request.AggregationRequestRegistry.aggregation-requests.owned-entry-count'
-                  ),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.hostCpuLoad')}
+              type="line"
+              metric="load.1min"
+              formatter={number.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.activeReg')}
+              type="stackedArea"
+              metric="metrics.gauges.com.instana.appdata.liveaggregator.aggregation.request.AggregationRequestRegistry.aggregation-requests.owned-entry-count"
+              formatter={number.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <Columize>
-            <DashboardSection
+            <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.stateStoreSyncTime', {
                 aggregation: 'mean'
               })}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: millis.detailed,
-                  metrics: rows.map(
-                    () =>
-                      'metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync.mean'
-                  ),
-                  labels: labels,
-                  type: 'line'
-                }}
-              />
-            </DashboardSection>
-            <DashboardSection
+              type="line"
+              metric="metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync.mean"
+              formatter={millis.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.stateStoreSyncTime', {
                 aggregation: '99th'
               })}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: millis.detailed,
-                  metrics: rows.map(
-                    () =>
-                      'metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync.99th'
-                  ),
-                  labels: labels,
-                  type: 'line'
-                }}
-              />
-            </DashboardSection>
+              type="line"
+              metric="metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync.99th"
+              formatter={millis.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <Columize>
-            <DashboardSection
+            <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.stateStoreGroupedSyncTime', {
                 aggregation: 'mean'
               })}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: millis.detailed,
-                  metrics: rows.map(
-                    () =>
-                      'metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync-grouped.mean'
-                  ),
-                  labels: labels,
-                  type: 'line'
-                }}
-              />
-            </DashboardSection>
-            <DashboardSection
+              type="line"
+              metric="metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync-grouped.mean"
+              formatter={millis.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.stateStoreGroupedSyncTime', {
                 aggregation: '99th'
               })}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: millis.detailed,
-                  metrics: rows.map(
-                    () =>
-                      'metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync-grouped.99th'
-                  ),
-                  labels: labels,
-                  type: 'line'
-                }}
-              />
-            </DashboardSection>
+              type="line"
+              metric="metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.sync-grouped.99th"
+              formatter={millis.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <Columize>
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.incomingCalls')}>
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(() => `metrics.meters.KPI.incoming.calls.calls`),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.droppedIncomingCalls')}>
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(() => `metrics.meters.KPI.incoming.calls.errors`),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.localStateCleanupTime')}
+              type="line"
+              metric="metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.cleanup-local.mean"
+              formatter={millis.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.distributedStateCleanupTime')}
+              type="line"
+              metric="metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.cleanup-distributed.mean"
+              formatter={millis.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <Columize>
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.deserializingCalls')}>
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(() => `metrics.meters.KPI.deserializing.calls.calls`),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.groupedLocalStateCleanupTime')}
+              type="line"
+              metric="metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.cleanup-grouped-local.mean"
+              formatter={millis.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.distributedGroupedStateCleanupTime')}
+              type="line"
+              metric="metrics.timers.com.instana.appdata.health.aggregator.aggregation.state.HazelcastAggregationStateStore.cleanup-grouped-distributed.mean"
+              formatter={millis.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+          </Columize>
 
-            <DashboardSection
+          <Columize>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.incomingCalls')}
+              type="stackedArea"
+              metric="metrics.meters.KPI.incoming.calls.calls"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.droppedIncomingCalls')}
+              type="stackedArea"
+              metric="metrics.meters.KPI.incoming.calls.errors"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+          </Columize>
+
+          <Columize>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.deserializingCalls')}
+              type="stackedArea"
+              metric="metrics.meters.KPI.deserializing.calls.calls"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.deserializingCallsErrors')}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(() => `metrics.meters.KPI.deserializing.calls.errors`),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
+              type="stackedArea"
+              metric="metrics.meters.KPI.deserializing.calls.errors"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <Columize>
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.gRPCCalls')}>
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(() => `metrics.meters.grpc.server.calls`),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.gRPCErrors')}>
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(() => `metrics.meters.grpc.server.errors`),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.gRPCCalls')}
+              type="stackedArea"
+              metric="metrics.meters.grpc.server.calls"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.gRPCErrors')}
+              type="stackedArea"
+              metric="metrics.meters.grpc.server.errors"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <Columize>
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.appMetricsRetrieverReq')}>
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(
-                    () =>
-                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetApplicationMetricsRetriever.requested-metrics`
-                  ),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-
-            <DashboardSection title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getAppMetricsRetriever')}>
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(
-                    () =>
-                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetApplicationMetricsRetriever.answered-metric-requests`
-                  ),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.appMetricsRetrieverReq')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetApplicationMetricsRetriever.requested-metrics"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
+              title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getAppMetricsRetriever')}
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetApplicationMetricsRetriever.answered-metric-requests"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <Columize>
-            <DashboardSection
+            <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.serviceMetricsRetrieverReq')}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(
-                    () =>
-                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetServicesWithGranularityMetricRetriever.requested-metrics`
-                  ),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-
-            <DashboardSection
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetServicesWithGranularityMetricRetriever.requested-metrics"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getServiceMetricsRetriever')}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(
-                    () =>
-                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetServicesWithGranularityMetricRetriever.answered-metric-requests`
-                  ),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetServicesWithGranularityMetricRetriever.answered-metric-requests"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <Columize>
-            <DashboardSection
+            <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.endpointMetricsRetrieverReq')}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(
-                    () =>
-                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetEndpointsWithGranularityMetricRetriever.requested-metrics`
-                  ),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
-
-            <DashboardSection
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetEndpointsWithGranularityMetricRetriever.requested-metrics"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
+            <ADHADashboardSection
               title={t('in-internal:monitoringUnit.appdata.appDataAggregator.getEndpointMetricsRetriever')}
-            >
-              <Chart
-                snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-                timeConfig={timeConfig}
-                minRollup={5000}
-                y1={{
-                  min: 0,
-                  formatter: number.perSecond.detailed,
-                  metrics: rows.map(
-                    () =>
-                      `metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetEndpointsWithGranularityMetricRetriever.answered-metric-requests`
-                  ),
-                  labels: labels,
-                  type: 'stackedArea'
-                }}
-              />
-            </DashboardSection>
+              type="stackedArea"
+              metric="metrics.meters.com.instana.appdata.health.aggregator.aggregation.request.GetEndpointsWithGranularityMetricRetriever.answered-metric-requests"
+              formatter={number.perSecond.detailed}
+              timeConfig={timeConfig}
+              rows={rows}
+              labels={labels}
+            />
           </Columize>
 
           <DashboardSection title={`appdata-health-aggregators (${rows.length})`}>
