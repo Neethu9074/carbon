@@ -40,7 +40,6 @@ import Saml from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Saml/Sa
 import OIDC from 'in-settings/tabs/AuthSettings/pages/indentityProviders/OIDC/OIDC';
 import Ldap from 'in-settings/tabs/AuthSettings/pages/indentityProviders/Ldap/Ldap';
 import Users from 'in-settings/tabs/AuthSettings/pages/twoFactorAuth/Users';
-import { idpMappingEnabled } from 'in-services/featureFlags';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
 import { isOwner, role } from 'in-stores/user';
@@ -90,7 +89,7 @@ function getNavigationTree(props) {
             label: t('in-settings:tabs.ldap'),
             component: Ldap
           },
-          idpMappingEnabled && {
+          {
             path: groupMapping,
             label: t('in-settings:tabs.groupMapping'),
             component: GroupMapping

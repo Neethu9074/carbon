@@ -220,11 +220,6 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'idpMappingEnabled',
-    instanaCtlKey: 'feature.idp.mapping.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'websiteSloEnabled',
     instanaCtlKey: 'feature.slo.websites.enabled',
     defaultValue: false
