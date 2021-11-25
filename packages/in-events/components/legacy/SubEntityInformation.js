@@ -17,14 +17,15 @@ export default function SubEntityInformation({ event }) {
   }
 
   const { metricPattern } = getMetricDefinition(metric.plugin, metric.metricName);
-  if (!metricPattern) {
-    // only show sub-entity information for metrics which have a metricPattern definition
+  const { placeholderLabel, pattern } = metricPattern ?? {};
+  if (!metricPattern || !placeholderLabel || !pattern) {
+    // only show sub-entity information for metrics which have a metricPattern definition with additional data
     return null;
   }
   return (
     <div className={locals.container}>
-      <span className={locals.label}>{`${metricPattern.placeholderLabel}:`}</span>
-      <span className={locals.entity}>{matchPlaceholder(metricPattern.pattern, metric.metricName)}</span>
+      <span className={locals.label}>{`${placeholderLabel}:`}</span>
+      <span className={locals.entity}>{matchPlaceholder(pattern, metric.metricName)}</span>
     </div>
   );
 }
