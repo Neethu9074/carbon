@@ -3,37 +3,25 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import ConfigurationGuidance from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/ConfigurationGuidance';
-import MobileAppIpMasking from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/MobileAppIpMasking';
 import Rename from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Rename';
 import Remove from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Remove';
-import { Row, Col } from 'in-components/layout/Grid';
+import Row from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/OptionsRow';
 
 export default function Options(props) {
   return (
-    <Fragment>
+    <>
       <Row>
-        <Col lg={7} lgOffset={1}>
-          <Rename {...props} />
-        </Col>
+        <Rename {...props} />
       </Row>
       <Row>
-        <Col lg={7} lgOffset={1}>
-          <ConfigurationGuidance {...props} />
-        </Col>
+        <ConfigurationGuidance {...props} />
       </Row>
       <Row>
-        <Col lg={7} lgOffset={1}>
-          <MobileAppIpMasking {...props} />
-        </Col>
+        <Remove {...props} />
       </Row>
-      <Row>
-        <Col lg={7} lgOffset={1}>
-          <Remove {...props} />
-        </Col>
-      </Row>
-    </Fragment>
+    </>
   );
 }

@@ -3,18 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React from 'react';
 
-import WebsiteIpMasking from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/WebsiteIpMasking';
 import TrackingScript from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/TrackingScript';
+import Row from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/OptionsRow';
 import Rename from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Rename';
 import Remove from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Remove';
 
-import locals from './Options.mless';
-
 export default function Options(props) {
   return (
-    <Fragment>
+    <>
       <Row>
         <Rename {...props} />
       </Row>
@@ -22,15 +20,8 @@ export default function Options(props) {
         <TrackingScript {...props} />
       </Row>
       <Row>
-        <WebsiteIpMasking {...props} />
-      </Row>
-      <Row>
         <Remove {...props} />
       </Row>
-    </Fragment>
+    </>
   );
-}
-
-function Row({ children }) {
-  return <div className={locals.row}>{children}</div>;
 }

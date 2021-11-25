@@ -6,10 +6,14 @@
 import { Route, Switch } from 'react-router-dom';
 import React from 'react';
 
+import {
+  configurationOptionsFullyQualified,
+  configurationPrivacyFullyQualified
+} from 'in-mobile-apps/navigation/paths';
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Options';
-import { configurationOptionsFullyQualified } from 'in-mobile-apps/navigation/paths';
+import Privacy from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Privacy';
 import SidebarContainer from 'in-components/layout/SidebarContainer';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import connectTo from 'in-hoc/connectTo';
@@ -29,12 +33,17 @@ export default function Configuration(props) {
         label={t('in-mobile-apps:dashboard.tabs.optionsLabel')}
         path={configurationOptionsFullyQualified}
       />
+      <NavigationItem
+        label={t('in-mobile-apps:dashboard.tabs.privacyLabel')}
+        path={configurationPrivacyFullyQualified}
+      />
     </SideNavigation>
   );
   return (
     <SidebarContainer sidebar={sidebar}>
       <Switch>
         <Route path={configurationOptionsFullyQualified} render={() => <Options {...props} />} />
+        <Route path={configurationPrivacyFullyQualified} render={() => <Privacy {...props} />} />
         <RedirectWithHash
           to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
         />

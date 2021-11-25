@@ -8,12 +8,14 @@ import React from 'react';
 
 import {
   configurationOptionsFullyQualified,
-  configurationJsStackTraceTranslationFullyQualified
+  configurationJsStackTraceTranslationFullyQualified,
+  configurationPrivacyFullyQualified
 } from 'in-websites/navigation/paths';
 import StackTraceTranslation from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/StackTraceTranslation';
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Options';
+import Privacy from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/Privacy';
 import SidebarContainer from 'in-components/layout/SidebarContainer';
 import RedirectWithHash from 'in-components/RedirectWithHash';
 import Footer from 'in-components/Footer';
@@ -35,6 +37,10 @@ export default function Configuration(props) {
         path={configurationOptionsFullyQualified}
       />
       <NavigationItem
+        label={t('in-websites:websiteDashboard.tabs.configuration.configurationLabelPrivacy')}
+        path={configurationPrivacyFullyQualified}
+      />
+      <NavigationItem
         label={t('in-websites:websiteDashboard.tabs.configuration.configurationLabelJSStackTraceTranslation')}
         path={configurationJsStackTraceTranslationFullyQualified}
       />
@@ -43,7 +49,8 @@ export default function Configuration(props) {
   return (
     <SidebarContainer sidebar={sidebar}>
       <Switch>
-        <Route path={configurationOptionsFullyQualified} render={() => <Options {...props} lg={7} lgOffset={1} />} />
+        <Route path={configurationOptionsFullyQualified} render={() => <Options {...props} />} />
+        <Route path={configurationPrivacyFullyQualified} render={() => <Privacy {...props} />} />
         <Route
           path={configurationJsStackTraceTranslationFullyQualified}
           render={() => <StackTraceTranslation {...props} />}

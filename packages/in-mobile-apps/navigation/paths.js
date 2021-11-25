@@ -57,6 +57,8 @@ export const configurationTab = '/configuration';
 export const configurationTabFullyQualified = `${mobileAppPathFullyQualified}${configurationTab}`;
 export const configurationOptions = '/options';
 export const configurationOptionsFullyQualified = `${configurationTabFullyQualified}${configurationOptions}`;
+export const configurationPrivacy = '/privacy';
+export const configurationPrivacyFullyQualified = `${configurationTabFullyQualified}${configurationPrivacy}`;
 
 export const linkToMobileApps$ = getModifiedUrlStream(params => {
   params.pathname = mobileAppsPathFullyQualified;

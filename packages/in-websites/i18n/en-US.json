@@ -487,6 +487,14 @@
           "option_STRICT": "Strict, mask the last 16 bits for IPv4 and the last 96 bits for IPv6",
           "option_REMOVE_ALL_DETAILS": "Remove IP addresses (only a hint of IPv4 and IPv6 usage remains)"
         },
+        "geoDetailRemoval": {
+          "title": "Geographic Detail Removal",
+          "help": "Instana determines an approximate geographic location for incoming data based on end-user IP addresses. This includes information about end-user coordinates, city, state, country and continent information. Some organizations may consider this data to be end-user identifiable and may therefore desire to further anonymize this approximate location information. This can be achieved using our geographic detail removal.",
+          "option_NO_REMOVAL": "No geographic detail removal",
+          "option_REMOVE_COORDINATES": "Remove latitude, longitude and accuracy information",
+          "option_REMOVE_CITY": "Remove city, latitude, longitude and accuracy information",
+          "option_REMOVE_ALL": "Remove all geographic details"
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Saving configuration…",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "ConfigurationUpdated.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "New configuration saved.",
@@ -527,6 +535,7 @@
         "stackTraceTranslationLabelOr": " or ",
         "configurationTitle": "Configuration",
         "configurationLabelOptions": "Options",
+        "configurationLabelPrivacy": "Privacy",
         "configurationLabelJSStackTraceTranslation": "JS Stack Trace Translation"
       },
       "customEvents": {
