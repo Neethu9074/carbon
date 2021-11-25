@@ -189,7 +189,11 @@
         "getMetricsRetriever": "GetMetricsRetriever requested metrics",
         "getMetricsRetrieverMetricReq": "GetMetricsRetriever answered metric requests",
         "hostLoad": "Host Load",
-        "garbageCollection": "Garbage Collection"
+        "garbageCollection": "Garbage Collection",
+        "localStateCleanupTime": "Local State Cache Cleanup Time",
+        "distributedStateCleanupTime": "Distributed State Cache Cleanup Time",
+        "groupedLocalStateCleanupTime": "Grouped Local State Cache Cleanup Time",
+        "distributedGroupedStateCleanupTime": "Distributed Grouped State Cache Cleanup Time"
       },
       "appDataLiveAggreValid": {
         "validMetrics": "Validated metrics",
