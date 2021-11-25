@@ -13,9 +13,9 @@ export const websiteEventBased = 'websiteEventBased';
 export const applicationSliTypeOptions = Object.freeze([
   { value: applicationType, label: t('in-custom-dashboards:widgets.slo.timeBased') },
   { value: availabilityType, label: t('in-custom-dashboards:widgets.slo.eventBased') }
-]);
+] as const);
 
 export const websiteSliTypeOptions = Object.freeze([
   { value: websiteTimeBased, label: t('in-custom-dashboards:widgets.slo.timeBased') },
   { value: websiteEventBased, label: t('in-custom-dashboards:widgets.slo.eventBased') }
-]);
+] as const);
