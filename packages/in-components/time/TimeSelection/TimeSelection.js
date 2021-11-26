@@ -64,6 +64,8 @@ function TimeSelection({ timeConfig, historicOrLargeDataResult, isHidden, darkTh
         content={TimeSelectionDialogPresenterWrapper}
         withoutWrapper
         withoutArrow
+        align="topRight"
+        forceConfiguredAlignment
       >
         {({ toggle, refSetter, isOpen }) => (
           <TimePresenterWrapper
