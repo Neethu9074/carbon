@@ -79,7 +79,7 @@ export default function Summary({ timeConfig, data: lpar }) {
         </Col>
       </Row>
       <Row>
-        <Col lg={4}>
+        <Col lg={12}>
           <Card title={t('in-phmc:dashboards.memoryUsage')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
