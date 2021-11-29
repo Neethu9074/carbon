@@ -30,7 +30,7 @@ export default function Summary({ timeConfig, data: lpar }) {
           title={t('in-phmc:logicalMem')}
           snapshotId={snapshotId}
           metric="logicalMem"
-          formatter={number.detailed}
+          formatter={number.compact}
         />
         <InfraMetricKpiCard
           title={t('in-phmc:entitledUsed')}
@@ -88,7 +88,7 @@ export default function Summary({ timeConfig, data: lpar }) {
                 min: 0,
                 metrics: ['logicalMem', 'backedPhysicalMem', 'totalIOMem', 'mappedIOMem'],
                 labels: [t('in-phmc:logical'), t('in-phmc:backedPhy'), t('in-phmc:totalIO'), t('in-phmc:mappedIO')],
-                formatter: number.detailed,
+                formatter: number.compact,
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}

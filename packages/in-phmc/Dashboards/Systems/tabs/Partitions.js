@@ -40,7 +40,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="logicalMem"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={number.detailed}
+          formatter={number.compact}
         />
       );
     }

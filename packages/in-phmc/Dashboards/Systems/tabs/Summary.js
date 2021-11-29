@@ -53,7 +53,7 @@ export default function Summary({ timeConfig, data: system }) {
                 min: 0,
                 metrics: ['availableMem', 'configurableMem', 'assignedMemToLpars'],
                 labels: [t('in-phmc:available'), t('in-phmc:configurable'), t('in-phmc:assignedMem')],
-                formatter: number.detailed,
+                formatter: number.compact,
                 type: 'line'
               }}
               y2={{

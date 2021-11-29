@@ -88,7 +88,7 @@ export default function Summary({ timeConfig, data: vios }) {
                 min: 0,
                 metrics: ['utilizedMem', 'assignedMem'],
                 labels: [t('in-phmc:utilized'), t('in-phmc:assigned')],
-                formatter: number.detailed,
+                formatter: number.compact,
                 type: 'line'
               }}
               y2={{
