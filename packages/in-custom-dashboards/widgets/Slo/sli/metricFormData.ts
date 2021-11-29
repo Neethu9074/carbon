@@ -4,8 +4,11 @@
  */
 
 import { t } from 'in-i18n';
+import { deepFreeze } from 'in-services/util/object';
+import { AggregationType } from 'in-types';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 
-export const timeAggregationOptions = Object.freeze([
+export const timeAggregationOptions = deepFreeze([
   { value: 'MEAN', label: t('in-custom-dashboards:widgets.slo.metricFormData.mean') },
   { value: 'MIN', label: t('in-custom-dashboards:widgets.slo.metricFormData.min') },
   { value: 'P25', label: t('in-custom-dashboards:widgets.slo.metricFormData.25th') },
@@ -16,17 +19,33 @@ export const timeAggregationOptions = Object.freeze([
   { value: 'P98', label: t('in-custom-dashboards:widgets.slo.metricFormData.98th') },
   { value: 'P99', label: t('in-custom-dashboards:widgets.slo.metricFormData.99th') },
   { value: 'MAX', label: t('in-custom-dashboards:widgets.slo.metricFormData.max') }
-]);
+] as const);
 
-export const sumAggregation = Object.freeze([
+export const sumAggregation = deepFreeze([
   { value: 'SUM', label: t('in-custom-dashboards:widgets.slo.metricFormData.sum') }
-]);
+] as const);
 
-export const meanAggregation = Object.freeze([
+export const meanAggregation = deepFreeze([
   { value: 'MEAN', label: t('in-custom-dashboards:widgets.slo.metricFormData.mean') }
-]);
+] as const);
 
-const metricOptions = Object.freeze({
+interface AggregationOption {
+  value: AggregationType;
+  label: string;
+}
+
+interface MetricOption<S extends MonitoringSource, E extends MetricEntityType<S>> {
+  readonly name: MetricType<S, E>;
+  readonly options: AggregationOption[];
+  readonly defaultValue: AggregationType;
+  readonly label: string;
+  readonly unitLabel: string;
+}
+
+type MetricEntityType<S extends MonitoringSource> = keyof typeof metricOptions[S];
+type MetricType<S extends MonitoringSource, E extends MetricEntityType<S>> = keyof typeof metricOptions[S][E];
+
+const metricOptions = deepFreeze({
   application: {
     calls: {
       latency: {
@@ -77,8 +96,15 @@ const metricOptions = Object.freeze({
       }
     }
   }
-});
+} as const);
 
-export function getMetricOptions(entityType, metricEntityType = 'calls') {
+export function getDefaultMetricEntityType<S extends MonitoringSource>(entityType: S): MetricEntityType<S> {
+  return Object.keys(metricOptions[entityType])[0] as MetricEntityType<S>;
+}
+
+export function getMetricOptions<S extends MonitoringSource, E extends MetricEntityType<S>>(
+  entityType: S,
+  metricEntityType: E
+): Record<MetricType<S, E>, MetricOption<S, E>> {
   return metricOptions[entityType][metricEntityType];
 }

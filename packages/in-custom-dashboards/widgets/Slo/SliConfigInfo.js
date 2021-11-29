@@ -12,7 +12,7 @@ import { applicationType, websiteEventBased, availabilityType } from 'in-custom-
 import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
 import { useWebsiteQueryBuilder } from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { getMetricOptions } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
+import { getMetricOptions, getDefaultMetricEntityType } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -74,7 +74,8 @@ const MetricConfig = ({ sliConfig, entityType }) => {
     const { metricConfiguration, sliEntity } = sliConfig;
     const { metricName } = metricConfiguration;
     const { beaconType } = sliEntity;
-    const { unitLabel } = getMetricOptions(entityType, beaconType)[metricName];
+    const metricEntityType = beaconType ?? getDefaultMetricEntityType(entityType);
+    const { unitLabel } = getMetricOptions(entityType, metricEntityType)[metricName];
     const metricLabel = `${t(`in-custom-dashboards:widgets.slo.sliConfig.metric`)}:`;
 
     return (
