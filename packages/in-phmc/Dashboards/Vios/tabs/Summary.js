@@ -10,8 +10,8 @@ import { Card } from '@instana/components';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { kiloBytes, number, percentage } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
+import { number, percentage } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -88,7 +88,7 @@ export default function Summary({ timeConfig, data: vios }) {
                 min: 0,
                 metrics: ['utilizedMem', 'assignedMem'],
                 labels: [t('in-phmc:utilized'), t('in-phmc:assigned')],
-                formatter: kiloBytes.detailed,
+                formatter: number.detailed,
                 type: 'line'
               }}
               y2={{

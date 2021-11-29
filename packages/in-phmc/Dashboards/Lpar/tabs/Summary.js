@@ -10,8 +10,8 @@ import { Card } from '@instana/components';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, percentage, kiloBytes } from 'in-services/formatters/number';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
+import { number, percentage } from 'in-services/formatters/number';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
@@ -30,7 +30,7 @@ export default function Summary({ timeConfig, data: lpar }) {
           title={t('in-phmc:logicalMem')}
           snapshotId={snapshotId}
           metric="logicalMem"
-          formatter={kiloBytes.detailed}
+          formatter={number.detailed}
         />
         <InfraMetricKpiCard
           title={t('in-phmc:entitledUsed')}
@@ -88,7 +88,7 @@ export default function Summary({ timeConfig, data: lpar }) {
                 min: 0,
                 metrics: ['logicalMem', 'backedPhysicalMem', 'totalIOMem', 'mappedIOMem'],
                 labels: [t('in-phmc:logical'), t('in-phmc:backedPhy'), t('in-phmc:totalIO'), t('in-phmc:mappedIO')],
-                formatter: kiloBytes.detailed,
+                formatter: number.detailed,
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}

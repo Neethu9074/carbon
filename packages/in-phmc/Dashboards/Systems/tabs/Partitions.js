@@ -9,8 +9,8 @@ import React from 'react';
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
-import { bytes, percentage, number } from 'in-services/formatters/number';
 import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
+import { percentage, number } from 'in-services/formatters/number';
 import { getIbmpLparDashboard } from 'in-phmc/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -40,7 +40,7 @@ const columnDefinitions = [
           snapshotId={item.id}
           metric="logicalMem"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
-          formatter={bytes.compact}
+          formatter={number.detailed}
         />
       );
     }
