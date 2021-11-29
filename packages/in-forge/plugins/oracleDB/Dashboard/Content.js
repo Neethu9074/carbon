@@ -52,7 +52,6 @@ export default function OracleDBDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             min: 0,
-            max: 1,
             formatter: hitRateTwoDecimalPlaces,
             metrics: ['stats.cpuTimeDbTimeRatio'],
             labels: [t('in-forge:plugins.oracleDB.ratio')],

@@ -20,7 +20,6 @@ export default [
     min: 0
   },
   {
-    max: 1,
     formatter: hitRate,
     metrics: ['stats.cpuTimeDbTimeRatio'],
     labels: [t('in-forge:plugins.oracleDB.dbCpuTimeDbTimeRatio')],
