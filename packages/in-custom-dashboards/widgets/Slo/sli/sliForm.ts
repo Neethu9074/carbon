@@ -201,7 +201,7 @@ function createWebsiteSliEntityForm(sliEntity: CombinedWebsiteSliEntity, website
   return form;
 }
 
-export function addGoodBadEventsForm(form: MapForm, sliEntity: Partial<EventBasedSliEntity>) {
+export function addGoodBadEventsForm(form: MapForm, sliEntity?: Partial<EventBasedSliEntity>) {
   return form
     .put(
       sliFieldNames.goodEventFilterExpression,

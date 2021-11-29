@@ -42,8 +42,8 @@ interface MetricOption<S extends MonitoringSource, E extends MetricEntityType<S>
   readonly unitLabel: string;
 }
 
-type MetricEntityType<S extends MonitoringSource> = keyof typeof metricOptions[S];
-type MetricType<S extends MonitoringSource, E extends MetricEntityType<S>> = keyof typeof metricOptions[S][E];
+export type MetricEntityType<S extends MonitoringSource> = keyof typeof metricOptions[S];
+export type MetricType<S extends MonitoringSource, E extends MetricEntityType<S>> = keyof typeof metricOptions[S][E];
 
 const metricOptions = deepFreeze({
   application: {

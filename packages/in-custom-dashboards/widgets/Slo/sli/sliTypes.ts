@@ -10,6 +10,12 @@ export const availabilityType = 'availability';
 export const websiteTimeBased = 'websiteTimeBased';
 export const websiteEventBased = 'websiteEventBased';
 
+export type SliEntityType =
+  | typeof applicationType
+  | typeof availabilityType
+  | typeof websiteTimeBased
+  | typeof websiteEventBased;
+
 export const applicationSliTypeOptions = Object.freeze([
   { value: applicationType, label: t('in-custom-dashboards:widgets.slo.timeBased') },
   { value: availabilityType, label: t('in-custom-dashboards:widgets.slo.eventBased') }
