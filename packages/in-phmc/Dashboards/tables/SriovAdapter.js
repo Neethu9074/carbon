@@ -21,7 +21,7 @@ const cols = [
     }
   },
   {
-    title: t('in-phmc:id'),
+    title: t('in-phmc:physicalPortId'),
     type: 'string',
     typeArgs: {
       getValue(row) {

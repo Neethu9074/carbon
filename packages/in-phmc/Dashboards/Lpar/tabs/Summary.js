@@ -22,7 +22,7 @@ export default function Summary({ timeConfig, data: lpar }) {
   return (
     <Fragment>
       <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
-        <KpiCard title={t('in-phmc:partitionId')} value={lpar.id || valueMissingPlaceholder} raw borderless />
+        <KpiCard title={t('in-phmc:partitionId')} value={lpar.lparId || valueMissingPlaceholder} raw borderless />
         <KpiCard title={t('in-phmc:dashboards.name')} value={lpar.name || valueMissingPlaceholder} raw borderless />
         <KpiCard title={t('in-phmc:state')} value={lpar.state || valueMissingPlaceholder} raw borderless />
         <KpiCard title={t('in-phmc:mode')} value={lpar.mode || valueMissingPlaceholder} raw borderless />
