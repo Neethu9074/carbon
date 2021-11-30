@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { t } from 'in-i18n';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { deepFreeze } from 'in-services/util/object';
 import { AggregationType } from 'in-types';
-import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
+import { t } from 'in-i18n';
 
 export const timeAggregationOptions = deepFreeze([
   { value: 'MEAN', label: t('in-custom-dashboards:widgets.slo.metricFormData.mean') },
@@ -30,11 +30,11 @@ export const meanAggregation = deepFreeze([
 ] as const);
 
 interface AggregationOption {
-  value: AggregationType;
-  label: string;
+  readonly value: AggregationType;
+  readonly label: string;
 }
 
-interface MetricOption<S extends MonitoringSource, E extends MetricEntityType<S>> {
+export interface MetricOption<S extends MonitoringSource, E extends MetricEntityType<S>> {
   readonly name: MetricType<S, E>;
   readonly options: AggregationOption[];
   readonly defaultValue: AggregationType;

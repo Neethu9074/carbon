@@ -9,10 +9,10 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import { applicationType, websiteEventBased, availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { getMetricOptions, getDefaultMetricEntityType } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
 import { useWebsiteQueryBuilder } from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { getMetricOptions, getDefaultMetricEntityType } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
