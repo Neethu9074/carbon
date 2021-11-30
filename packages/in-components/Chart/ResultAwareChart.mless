@@ -6,27 +6,40 @@
 @import '~in-themes/active.less';
 
 :local {
-  .stateWrapper {
+  .loadingBarContainer {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: left;
+    justify-content: flex-start;
+  }
+
+  .skeletonWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: space-around;
+  }
+
+  .legendSkeleton {
+    margin-top: 0;
+    display: block;
+    width: 20%;
+    height: 1rem;
+  }
+
+  .chartSkeleton {
+    margin-top: 1.375rem;
+    display: block;
+    width: 100%;
     height: 100%;
   }
 
-  .progressText {
-    font-size: 1.125rem;
-    padding-bottom: 0.5rem;
-  }
-
-  .loadingBarContainer {
-    width: 15rem;
-    height: 0.625rem;
-    margin: 1rem 0 0.5rem;
-  }
-
-  .horizontalIndicator {
-    height: 0.5rem;
-    border-radius: 0.3125rem;
+  .pieSkeleton {
+    display: block;
+    border-radius: 50%;
+    padding: 1rem;
+    margin: 0 auto;
   }
 }
