@@ -828,7 +828,7 @@ export interface GeoMappingRule extends GeoInformation {
 
 export interface GeoSubdivision {
   readonly code?: string;
-  readonly name?: string;
+  readonly name: string;
 }
 
 export interface GetAppDataEntityChainsQuery extends CursorPaginatedQuery {
