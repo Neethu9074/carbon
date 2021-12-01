@@ -19,14 +19,13 @@ import getWebsiteMetricsThresholdSuggestion from 'in-alerting/smart-alerts/websi
 import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricAlertsPreview';
 import { getApproximatedHistoricBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
-// @ts-expect-error needs conversion to TS
-import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
 // @ts-expect-error needs conversion to TS
 import { availableFilterTags } from 'in-websites/tags';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
