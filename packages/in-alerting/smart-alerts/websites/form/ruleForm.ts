@@ -39,7 +39,7 @@ export default function createRuleForm(rule: WebsiteAlertRule): MapForm {
   }
 }
 
-function createBaseForm(rule: WebsiteAlertRule) {
+function createBaseForm(rule: WebsiteAlertRule): MapForm {
   return createMapForm()
     .put(
       'alertType',
@@ -55,7 +55,7 @@ function createBaseForm(rule: WebsiteAlertRule) {
     );
 }
 
-function extendForSlowness(baseForm: MapForm, rule: WebsiteAlertRule) {
+function extendForSlowness(baseForm: MapForm, rule: WebsiteAlertRule): MapForm {
   return baseForm.put(
     'aggregation',
     createField({
@@ -64,7 +64,7 @@ function extendForSlowness(baseForm: MapForm, rule: WebsiteAlertRule) {
   );
 }
 
-function extendForSpecificJsError(baseForm: MapForm, rule: { operator?: TagFilterOperator; value?: string }) {
+function extendForSpecificJsError(baseForm: MapForm, rule: { operator?: TagFilterOperator; value?: string }): MapForm {
   return baseForm
     .put(
       'operator',
@@ -92,7 +92,10 @@ function extendForSpecificJsError(baseForm: MapForm, rule: { operator?: TagFilte
     );
 }
 
-function extendForSpecificStatusCode(baseForm: MapForm, rule: { operator?: TagFilterOperator; value?: string }) {
+function extendForSpecificStatusCode(
+  baseForm: MapForm,
+  rule: { operator?: TagFilterOperator; value?: string }
+): MapForm {
   return baseForm
     .put(
       'operator',
