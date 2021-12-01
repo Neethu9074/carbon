@@ -22,6 +22,18 @@ export interface AbstractApplicationAlertConfig {
   readonly triggering: boolean;
 }
 
+export interface AbstractApplicationConfig {
+  readonly accessRules: AccessRule[];
+  readonly boundaryScope: BoundaryScope;
+  readonly label: string;
+  /**
+   * @deprecated
+   */
+  readonly matchSpecification?: MatchExpressionDTO;
+  readonly scope: ApplicationConfigScope;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+}
+
 export interface AbstractKubernetesContainerState {
   readonly running: boolean;
   readonly status?: string;
@@ -203,6 +215,14 @@ export interface ApplicationAlertStats {
   readonly smartAlerts: number;
 }
 
+export interface ApplicationConfig extends AbstractApplicationConfig {
+  readonly id: string;
+}
+
+export interface ApplicationConfigWithAlertingDetails extends ApplicationConfig {
+  readonly builtInAlertIds: string[];
+}
+
 export interface ApplicationCursorPaginatedItem extends Metricific, Cursorific<IngestionOffsetCursor> {
   readonly application: Application;
   readonly cursor: IngestionOffsetCursor;
@@ -277,6 +297,15 @@ export interface AvailablePlugins {
 
 export interface BackendTrace {
   readonly traceId: string;
+}
+
+export interface BeaconTypeSerializer extends JsonSerializer<BeaconType> {
+}
+
+export interface BinaryOperatorDTO extends MatchExpressionDTO {
+  readonly conjunction: Conjunction;
+  readonly left: MatchExpressionDTO;
+  readonly right: MatchExpressionDTO;
 }
 
 export interface BrowserScriptConfiguration extends SyntheticTypeConfiguration {
@@ -755,6 +784,11 @@ export interface FilterableListItem {
 
 export interface FilteredQuery extends UiQuery {
   readonly filter?: FilterInterface;
+}
+
+export interface FixedHttpPathSegmentMatchingRule extends HttpPathSegmentMatchingRule {
+  readonly name: string;
+  readonly type: 'FIXED';
 }
 
 export interface FlowNode {
@@ -1478,13 +1512,7 @@ export interface GetOpenEventsCountTimeSeriesQuery {
   readonly timeConfig: TimeConfig;
 }
 
-export interface GetPhmcConsolesQuery extends PaginatedQuery {
-  readonly filter: PhmcQueryFilter;
-  readonly order: Order;
-  readonly pagination: Pagination;
-}
-
-export interface GetPhmcSystemsQuery extends PaginatedQuery {
+export interface GetPhmcQuery extends PaginatedQuery {
   readonly filter: PhmcQueryFilter;
   readonly order: Order;
   readonly pagination: Pagination;
@@ -1630,14 +1658,6 @@ export interface GetStackForServiceQuery extends GetStackQuery {
 export interface GetStackQuery {
   readonly id: string;
   readonly timeConfig: TimeConfig;
-}
-
-export interface GetTagAvailabilityQuery extends UiQuery {
-  readonly tagNames?: string[];
-}
-
-export interface GetTagAvailabilityResult {
-  readonly tagAvailabilities?: { [index: string]: TagAvailability };
 }
 
 export interface GetTagSuggestionsQuery extends FilteredQuery {
@@ -2038,6 +2058,23 @@ export interface HttpActionConfiguration extends SyntheticTypeConfiguration {
   readonly validationString?: string;
 }
 
+export interface HttpEndpointConfig {
+  readonly endpointNameByCollectedPathTemplateRuleEnabled: boolean;
+  readonly endpointNameByFirstPathSegmentRuleEnabled: boolean;
+  readonly rules: HttpEndpointRule[];
+  readonly serviceId: string;
+}
+
+export interface HttpEndpointRule {
+  readonly enabled: boolean;
+  readonly pathSegments: HttpPathSegmentMatchingRuleUnion[];
+  readonly testCases?: string[];
+}
+
+export interface HttpPathSegmentMatchingRule {
+  readonly type: 'UNSUPPORTED' | 'MATCH_ALL' | 'PARAMETER' | 'FIXED';
+}
+
 export interface HttpScriptConfiguration extends SyntheticTypeConfiguration {
   readonly script: string;
   readonly syntheticType: 'HTTPScript';
@@ -2107,6 +2144,14 @@ export interface JavaScriptError {
   readonly parsedStackTrace?: StackTraceLine[];
   readonly stackTrace?: string;
   readonly stackTraceParsingStatus: number;
+}
+
+export interface JsonFormatVisitable {
+}
+
+export interface JsonSerializer<T> extends JsonFormatVisitable {
+  readonly delegatee?: JsonSerializer<any>;
+  readonly unwrappingSerializer: boolean;
 }
 
 export interface KubernetesAnnotation {
@@ -2803,6 +2848,24 @@ export interface MaintenanceWindow {
   readonly start: number;
 }
 
+export interface MatchAllHttpPathSegmentMatchingRule extends HttpPathSegmentMatchingRule {
+  readonly type: 'MATCH_ALL';
+}
+
+export interface MatchExpressionDTO {
+  readonly type?: string;
+}
+
+export interface MatchingRule {
+  readonly allowTransmissionViaInsecureChannel: boolean;
+  readonly hostEquality?: string;
+  readonly hostPrefix?: string;
+  readonly hostSuffix?: string;
+  readonly pathEquality?: string;
+  readonly pathPrefix?: string;
+  readonly pathSuffix?: string;
+}
+
 export interface Message {
   readonly errorCode: ErrorCode;
   readonly subscriptionId?: number;
@@ -2991,6 +3054,13 @@ export interface MobileAppSubdivisionsItem {
   readonly subdivisionCode?: string;
 }
 
+export interface NewApplicationConfig extends AbstractApplicationConfig {
+}
+
+export interface NewApplicationConfigWithAlertingDetails extends NewApplicationConfig {
+  readonly builtInAlertIds: string[];
+}
+
 export interface OperatingSystem {
   readonly name: string;
   readonly version?: string;
@@ -3026,6 +3096,23 @@ export interface Pagination {
   readonly pageSize: number;
 }
 
+export interface PartialSliReport {
+  readonly badEvents?: number[];
+  readonly badMinuteTimestamps?: number[];
+  readonly from: number;
+  readonly goodEvents?: number[];
+  readonly goodMinuteTimestamps?: number[];
+  readonly sliId?: string;
+  readonly sliTitle?: string;
+  readonly to: number;
+  readonly totalMinutes: number;
+}
+
+export interface PathParameterHttpPathSegmentMatchingRule extends HttpPathSegmentMatchingRule {
+  readonly name: string;
+  readonly type: 'PARAMETER';
+}
+
 export interface PhmcConsoleItem {
   readonly consoleId: string;
   readonly id: string;
@@ -3042,9 +3129,35 @@ export interface PhmcConsoleItemCounters extends FilterableListItem {
   readonly vios?: number;
 }
 
+export interface PhmcItem {
+  readonly id: string;
+  readonly label: string;
+  readonly mode?: string;
+  readonly name: string;
+  readonly partitionId?: number;
+  readonly state?: string;
+  readonly systemId?: string;
+}
+
+export interface PhmcListItem extends FilterableListItem, ListItemWithMetric {
+  readonly consoleId?: string;
+  readonly entityId?: EntityId;
+  readonly id: string;
+  readonly label: string;
+  readonly mode?: string;
+  readonly state?: string;
+  readonly systemId?: string;
+}
+
+export interface PhmcLparItem extends PhmcItem {
+  readonly lparId: string;
+  readonly viosId?: string;
+}
+
 export interface PhmcQueryFilter extends FilterInterface {
   readonly consoleId?: string;
   readonly label?: string;
+  readonly lparId?: string;
   readonly snapshotId?: string;
   readonly systemId?: string;
   readonly timeConfig: TimeConfig;
@@ -3069,8 +3182,11 @@ export interface PhmcSystemListItem extends FilterableListItem, ListItemWithMetr
   readonly machineSerial?: string;
   readonly machineTypeModel?: string;
   readonly partitions?: number;
-  readonly status?: number;
   readonly vios?: number;
+}
+
+export interface PhmcViosItem extends PhmcItem {
+  readonly viosId: string;
 }
 
 export interface PhysicalContext {
@@ -3291,6 +3407,15 @@ export interface Service {
   readonly types: EndpointType[];
 }
 
+export interface ServiceConfig {
+  readonly comment?: string;
+  readonly enabled: boolean;
+  readonly id: string;
+  readonly label: string;
+  readonly matchSpecification: ServiceMatchingRule[];
+  readonly name: string;
+}
+
 export interface ServiceCursorPaginatedItem extends Metricific, Cursorific<IngestionOffsetCursor> {
   readonly cursor: IngestionOffsetCursor;
   readonly metrics: { [index: string]: number[][] };
@@ -3336,6 +3461,11 @@ export interface ServiceMapService extends Service {
   readonly applications: string[];
   readonly maxSeverity: number;
   readonly numberOfOpenIssues: number;
+}
+
+export interface ServiceMatchingRule {
+  readonly key: string;
+  readonly value: string;
 }
 
 export interface ServiceNode {
@@ -3398,7 +3528,7 @@ export interface SliEntity {
   readonly sliType: string;
 }
 
-export interface SliMetricConfiguration extends UnifiedMetricConfiguration {
+export interface SliUnifiedMetricConfiguration extends UnifiedMetricConfiguration {
   readonly sliConfigId: string;
   readonly slo: number;
 }
@@ -3464,6 +3594,20 @@ export interface SnapshotPreview {
   readonly label?: string;
   readonly plugin?: string;
   readonly time: number;
+}
+
+export interface SourceMapDownloadConfig {
+  readonly basicAuthPassword?: string;
+  readonly basicAuthPasswordEncrypted: boolean;
+  readonly basicAuthUserName?: string;
+  readonly headers: { [index: string]: string };
+  readonly id: string;
+  readonly matchingRules: MatchingRule[];
+}
+
+export interface SourceMapDownloadConfigs {
+  readonly config?: SourceMapDownloadConfig[];
+  readonly configs: SourceMapDownloadConfig[];
 }
 
 export interface Span {
@@ -3604,6 +3748,7 @@ export interface SyntheticTest {
   readonly modifiedBy?: string;
   readonly playbackMode: SyntheticPlaybackMode;
   readonly serviceId?: string;
+  readonly tenantId?: string;
   readonly testFrequency: number;
 }
 
@@ -3632,10 +3777,6 @@ export interface Tag {
   readonly type?: TagType;
 }
 
-export interface TagAvailability {
-  readonly availableFrom: number;
-}
-
 export interface TagCatalog {
   readonly tagTree: TagTreeLevel[];
   readonly tags: ApiTag[];
@@ -3659,6 +3800,13 @@ export interface TagFilterExpression extends TagFilterExpressionElement {
 
 export interface TagFilterExpressionElement {
   readonly type: string;
+}
+
+export interface TagMatcherDTO extends MatchExpressionDTO {
+  readonly entity: ApplicationTagFilterEntity;
+  readonly key: string;
+  readonly operator: ApplicationTagFilterOperator;
+  readonly value?: string;
 }
 
 export interface TagSetFilter {
@@ -3896,6 +4044,11 @@ export interface UnifiedMetricConfiguration {
   readonly source: MetricSource;
   readonly timeConfig: TimeConfig;
   readonly timeShift: TimeShift;
+}
+
+export interface UnsupportedHttpPathSegmentMatchingRule extends HttpPathSegmentMatchingRule {
+  readonly type: 'UNSUPPORTED';
+  readonly unsupportedType?: string;
 }
 
 export interface UnsupportedMetricSource extends UnifiedMetricConfiguration {
@@ -4144,6 +4297,15 @@ export interface WebsiteBeaconsItem extends Cursorific<IngestionOffsetCursor> {
   readonly cursor: IngestionOffsetCursor;
 }
 
+export interface WebsiteConfiguration {
+  /**
+   * @deprecated
+   */
+  readonly appName?: string;
+  readonly id: string;
+  readonly name: string;
+}
+
 export interface WebsiteCountryBreakdown {
   readonly beaconCount: number;
   readonly country: string;
@@ -4156,8 +4318,8 @@ export interface WebsiteErrorsItem {
 }
 
 export interface WebsiteEventBasedSliEntity extends WebsiteSliEntity {
-  readonly badEventsFilterExpression: TagFilterExpressionElement;
-  readonly goodEventsFilterExpression: TagFilterExpressionElement;
+  readonly badEventFilterExpression: TagFilterExpressionElement;
+  readonly goodEventFilterExpression: TagFilterExpressionElement;
 }
 
 export interface WebsiteItem {
@@ -4292,7 +4454,7 @@ export interface WebsiteRateMetricConfiguration extends WebsiteMonitoringMetrics
 }
 
 export interface WebsiteSliEntity extends SliEntity {
-  readonly beaconType: WebsiteMonitoringBeaconType;
+  readonly beaconType: BeaconType;
   readonly sliType: string;
   readonly websiteId?: string;
 }
@@ -4374,6 +4536,7 @@ export interface ZhmcCpcItem {
   readonly label: string;
   readonly name: string;
   readonly networkPorts?: string[];
+  readonly partitionNetworks?: string[];
   readonly partitions?: string[];
   readonly processors?: string[];
 }
@@ -4430,19 +4593,31 @@ export type AlertingStringMatchingOperator = 'is' | 'contains' | 'startsWith' | 
 
 export type ApplicationBoundaryScope = 'ALL' | 'INBOUND';
 
+export type ApplicationConfigScope = 'INCLUDE_NO_DOWNSTREAM' | 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING' | 'INCLUDE_ALL_DOWNSTREAM';
+
 export type ApplicationDataSource = 'CALLS' | 'TRACES';
 
 export type ApplicationDownstreamScope = 'INCLUDE_NO_DOWNSTREAM' | 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING' | 'INCLUDE_ALL_DOWNSTREAM';
 
+export type ApplicationTagFilterEntity = 'NOT_APPLICABLE' | 'DESTINATION' | 'SOURCE';
+
+export type ApplicationTagFilterOperator = 'EQUALS' | 'NOT_EQUAL' | 'CONTAINS' | 'NOT_CONTAIN' | 'IS_EMPTY' | 'NOT_EMPTY' | 'IS_BLANK' | 'NOT_BLANK' | 'STARTS_WITH' | 'ENDS_WITH' | 'NOT_STARTS_WITH' | 'NOT_ENDS_WITH' | 'GREATER_OR_EQUAL_THAN' | 'LESS_OR_EQUAL_THAN' | 'LESS_THAN' | 'GREATER_THAN';
+
 export type AuthorType = 'API' | 'USER' | 'INSTANA' | 'UNKNOWN';
 
 export type AvailabilitySliEventType = 'GOOD' | 'BAD';
+
+export type BeaconType = 'PAGELOAD' | 'RESOURCELOAD' | 'HTTPREQUEST' | 'ERROR' | 'CUSTOM' | 'PAGE_CHANGE';
+
+export type BoundaryScope = 'ALL' | 'INBOUND' | 'DEFAULT';
 
 export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
 
 export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SLI_MANAGEMENT' | 'APPLICATION_CONFIG' | 'APPLICATION_CONFIG_BLUEPRINT';
 
 export type ChangeType = 'CREATE' | 'UPDATE' | 'DELETE' | 'ENABLE' | 'DISABLE' | 'RESTORE' | 'UNKNOWN';
+
+export type Conjunction = 'AND' | 'OR';
 
 export type ContextScope = 'NONE' | 'UPSTREAM' | 'DOWNSTREAM';
 
@@ -4476,6 +4651,8 @@ export type Granularity = 60000 | 300000 | 600000 | 900000 | 1200000 | 1800000;
 
 export type HttpActionOperation = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
+export type HttpPathSegmentMatchingRuleUnion = UnsupportedHttpPathSegmentMatchingRule | MatchAllHttpPathSegmentMatchingRule | PathParameterHttpPathSegmentMatchingRule | FixedHttpPathSegmentMatchingRule;
+
 export type ImpactMeasurementMethod = 'AGGREGATED' | 'PER_WINDOW';
 
 export type InfraTabCategory = 'HOST' | 'CONTAINER' | 'PROCESS' | 'CLUSTER';
@@ -4502,6 +4679,8 @@ export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLIC
 
 export type OrderDirection = 'ASC' | 'DESC';
 
+export type PathSegmentType = 'UNSUPPORTED' | 'FIXED' | 'PARAMETER' | 'MATCH_ALL';
+
 export type QueryPrecision = 'APPROXIMATE' | 'FULL';
 
 export type Relationship = 'CONTAINS' | 'DEFINED_IN' | 'DEPLOYED_ON' | 'DEPLOYED_WITHIN' | 'EXECUTED_BY' | 'EXECUTING' | 'EXPOSED_BY' | 'EXPOSED_THROUGH' | 'EXPOSES' | 'EXPOSING' | 'ORCHESTRATED_IN' | 'ORCHESTRATED_ON' | 'ORCHESTRATING' | 'PART_OF' | 'PROVIDED_BY' | 'PROVIDED_FROM' | 'PROVIDED_ON' | 'PROVIDED_WITHIN' | 'PROVIDES' | 'RUNS' | 'RUNS_IN' | 'RUNS_ON' | 'RUNS_WITHIN' | 'SCHEDULED' | 'SCHEDULED_BY' | 'SCHEDULED_ON' | 'SCHEDULED_WITHIN' | 'SCHEDULES' | 'SCHEDULING_IN' | 'SCHEDULING_ON' | 'SERVED_BY' | 'SERVED_THROUGH' | 'SERVES' | 'SERVES_ON' | 'SERVES_WITHIN' | 'SPANS_ACROSS' | 'WITHIN';
@@ -4524,7 +4703,7 @@ export type SyntheticBrowserType = 'chrome' | 'firefox';
 
 export type SyntheticPlaybackMode = 'Simultaneous' | 'Staggered';
 
-export type SyntheticType = 'HTTPAction';
+export type SyntheticType = 'HTTPAction' | 'HTTPScript';
 
 export type SyntheticTypeConfigurationUnion = BrowserScriptConfiguration | HttpActionConfiguration | HttpScriptConfiguration | WebpageActionConfiguration | WebpageScriptConfiguration;
 
@@ -4543,5 +4722,3 @@ export type ThresholdType = 'staticThreshold' | 'historicBaseline' | 'adaptiveBa
 export type Type = 'HEALTHY' | 'WARNING' | 'CRITICAL' | 'UNKNOWN';
 
 export type UiEntityType = 'APPLICATION' | 'SERVICE' | 'ENDPOINT';
-
-export type WebsiteMonitoringBeaconType = 'PAGE_LOAD' | 'PAGE_RESOURCE' | 'HTTP_REQUEST' | 'JS_ERROR' | 'CUSTOM' | 'PAGE_CHANGE';
