@@ -16,26 +16,20 @@ import { notBlankValidator } from 'in-services/validators/string';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
-// @ts-expect-error TS2366: Function lacks ending return statement and return type does not include 'undefined' - should never happen, because each WebsiteAlertType gets mapped to a form which gets returned.
 export default function createRuleForm(rule: WebsiteAlertRule): MapForm {
   const alertType = rule.alertType as WebsitesAlertType;
 
   const baseForm = createBaseForm(rule);
 
-  if (alertType === 'throughput') {
-    return baseForm;
-  }
-
-  if (alertType === 'slowness') {
-    return extendForSlowness(baseForm, rule);
-  }
-
-  if (alertType === 'specificJsError') {
-    return extendForSpecificJsError(baseForm, rule as SpecificJsErrorsWebsiteAlertRule);
-  }
-
-  if (alertType === 'statusCode') {
-    return extendForSpecificStatusCode(baseForm, rule as StatusCodeWebsiteAlertRule);
+  switch (alertType) {
+    case 'throughput':
+      return baseForm;
+    case 'slowness':
+      return extendForSlowness(baseForm, rule);
+    case 'specificJsError':
+      return extendForSpecificJsError(baseForm, rule as SpecificJsErrorsWebsiteAlertRule);
+    case 'statusCode':
+      return extendForSpecificStatusCode(baseForm, rule as StatusCodeWebsiteAlertRule);
   }
 }
 
