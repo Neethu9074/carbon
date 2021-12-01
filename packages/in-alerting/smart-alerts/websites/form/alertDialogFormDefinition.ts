@@ -33,7 +33,14 @@ export const fieldNames = Object.freeze({
   customPayloadFields: 'customPayloadFields'
 });
 
-export default function alertFormDefinition(alertConfig: WebsiteAlertConfigWithMetadata, editMode: boolean): MapForm {
+export type AlertConfigHiddenFields = {
+  calculateThresholdOnBackend?: boolean; // an optional, "hidden" from field, will not be part with server communication
+};
+
+export default function alertFormDefinition(
+  alertConfig: WebsiteAlertConfigWithMetadata & AlertConfigHiddenFields,
+  editMode: boolean
+): MapForm {
   const {
     tagFilterExpression,
     alertChannelIds = [],
@@ -119,14 +126,7 @@ export default function alertFormDefinition(alertConfig: WebsiteAlertConfigWithM
       createThresholdForm(alertConfig.threshold ?? {}, alertConfig.rule.alertType as WebsitesAlertType)!
     )
     .put('rule', createRuleForm(alertConfig.rule ?? {}))
-    .put(
-      'hiddenFields',
-      createHiddenFieldsForm(
-        (alertConfig as {
-          calculateThresholdOnBackend?: boolean; // an optional, "hidden" from field - it will need
-        }).calculateThresholdOnBackend
-      )
-    )
+    .put('hiddenFields', createHiddenFieldsForm(alertConfig.calculateThresholdOnBackend))
     .put(fieldNames.customPayloadFields, createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
 
   return applyEditMode(form, editMode);
