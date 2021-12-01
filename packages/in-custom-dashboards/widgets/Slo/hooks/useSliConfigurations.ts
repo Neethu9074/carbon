@@ -6,37 +6,19 @@
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
+import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { getSliConfigurationsByEntity } from 'in-custom-dashboards/api';
-import { hasError, isLoading, success } from 'in-services/util/result';
-import { Error, SliConfigurationWithLastUpdated } from 'in-types';
-import { pendingResult } from 'in-services/fixedObjects';
-
-export type ResultStatus = 'pending' | 'resolved' | 'rejected';
-interface UseSliConfigurationsResult {
-  readonly sliConfigurations: SliConfigurationWithLastUpdated[];
-  readonly status: ResultStatus;
-  readonly errors: Error[];
-}
+import { SliConfigurationWithLastUpdated } from 'in-types';
+import { FetchedState } from 'in-hooks/utils/types';
+import { error } from 'in-services/util/result';
 
 export default function useSliConfigurations(
   entityType: MonitoringSource,
   entityId: string
-): UseSliConfigurationsResult {
-  const getSli = entityType && entityId ? getSliConfigurationsByEntity : () => just(success([]));
-  const result = useObservable(() => getSli({ entityType, entityId }), [entityType, entityId]) ?? pendingResult;
-
-  let status: ResultStatus = 'resolved';
-  if (isLoading(result)) {
-    status = 'pending';
-  }
-  if (hasError(result)) {
-    status = 'rejected';
-  }
-
-  return Object.freeze({
-    sliConfigurations: result.data,
-    status,
-    errors: result.errors
-  });
+): FetchedState<SliConfigurationWithLastUpdated[]> {
+  const getSli =
+    entityType && entityId ? getSliConfigurationsByEntity : () => just(error<SliConfigurationWithLastUpdated[]>([]));
+  const result = useObservable(() => getSli({ entityType, entityId }), [entityType, entityId]);
+  return resultToFetchedStateResponse(result);
 }

@@ -22,7 +22,7 @@ import { createSliConfiguration } from 'in-custom-dashboards/api';
 import useApplication from 'in-applications/hooks/useApplication';
 
 export default function CreateApplicationSliForm({ entityId, close, sliConfig, setFooter }) {
-  const { application, status } = useApplication(entityId);
+  const [application, status] = useApplication(entityId);
 
   if (status !== 'resolved' || sliConfig == null) {
     return <LoadingIndicator size="xl" />;

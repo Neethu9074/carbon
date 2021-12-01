@@ -6,11 +6,12 @@
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
+import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import getApplication from 'in-applications/subscriptions/getApplication';
-import { Application, Nullish, Result, Website } from 'in-types';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
-import { pendingResult } from 'in-services/fixedObjects';
+import { Application, Result, Website } from 'in-types';
+import { FetchedState } from 'in-hooks/utils/types';
 
 export type SloEntity = Application | Website;
 
@@ -19,8 +20,9 @@ interface UseSloEntityRequest {
   entityType: MonitoringSource;
 }
 
-export default function useSloEntity({ entityId, entityType }: UseSloEntityRequest): Result<SloEntity> | Nullish {
-  return useObservable(() => loadEntity(entityType, entityId), [entityType, entityId]) ?? pendingResult;
+export default function useSloEntity({ entityId, entityType }: UseSloEntityRequest): FetchedState<SloEntity> {
+  const result = useObservable(() => loadEntity(entityType, entityId), [entityType, entityId]);
+  return resultToFetchedStateResponse(result);
 }
 
 function loadEntity(entityType: MonitoringSource, entityId: string): Observable<Result<SloEntity>> {

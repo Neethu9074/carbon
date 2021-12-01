@@ -1,0 +1,49 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+import { renderHook } from '@testing-library/react-hooks';
+
+import { just } from '@instana/observables';
+
+import { Result, SliConfigMetricConfiguration, SliConfigurationWithLastUpdated, SliEntity } from 'in-types';
+import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
+import { getSliConfiguration } from 'in-custom-dashboards/api';
+
+jest.mock('in-custom-dashboards/api', () => {
+  return {
+    ...jest.requireActual('in-custom-dashboards/api'),
+    getSliConfiguration: jest.fn(),
+    __esModule: true
+  };
+});
+
+const getSliConfigurationMock = getSliConfiguration as jest.MockedFunction<typeof getSliConfiguration>;
+
+describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration', () => {
+  it('returns a SLI configuration if request is successfully resolved.', () => {
+    // GIVEN
+    const mockSli: Result<SliConfigurationWithLastUpdated> = {
+      data: {
+        id: 'id',
+        initialEvaluationTimestamp: 123,
+        metricConfiguration: {} as SliConfigMetricConfiguration,
+        sliEntity: {} as SliEntity,
+        sliName: 'Awesome SLI',
+        lastUpdated: 123
+      },
+      errors: [],
+      progress: { loading: false }
+    };
+
+    getSliConfigurationMock.mockReturnValueOnce(just(mockSli));
+
+    // WHEN
+    const { result } = renderHook(() => useSliConfiguration('sliConfigId'));
+
+    // THEN
+    const [sliConfiguration] = result.current;
+    expect(sliConfiguration).toMatchObject(mockSli.data!);
+  });
+});

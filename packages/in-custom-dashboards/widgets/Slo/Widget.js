@@ -69,8 +69,8 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
 
   const granularity = getGranularity(timeWindowConfig);
 
-  const { sliConfiguration, status: sliConfigurationStatus } = useSliConfiguration(sliConfigIdValue);
-  const { data: entity } = useSloEntity({ entityId: entityIdValue, entityType: entityTypeValue });
+  const [sliConfiguration, sliConfigurationStatus] = useSliConfiguration(sliConfigIdValue);
+  const [entity] = useSloEntity({ entityId: entityIdValue, entityType: entityTypeValue });
 
   const sloMetricsResult = useSloMetrics({ slo, sliId: sliConfigIdValue, timeWindowConfig, granularity });
 
