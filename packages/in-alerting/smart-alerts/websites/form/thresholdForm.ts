@@ -5,9 +5,6 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
-import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
-import { t } from 'in-i18n';
 import {
   AdaptiveBaselineConfig,
   HistoricBaselineConfig,
@@ -16,7 +13,10 @@ import {
   ThresholdConfig,
   ThresholdOperator
 } from 'in-types';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { t } from 'in-i18n';
 
 export const defaultDeviationFactor = 3;
 
@@ -77,7 +77,7 @@ function createBaselineEnabledForm(baseForm: MapForm, threshold: ThresholdConfig
   }
 }
 
-function createThresholdFormStaticThreshold(baseForm: MapForm, threshold: { value?: number }) {
+function createThresholdFormStaticThreshold(baseForm: MapForm, threshold: { value?: number }): MapForm {
   return baseForm.put(
     'value',
     createField({
@@ -104,7 +104,7 @@ function createThresholdFormHistoricBaseline(
     baseline?: number[][];
     deviationFactor?: number;
   }
-) {
+): MapForm {
   return baseForm
     .put(
       'seasonality',
@@ -137,10 +137,10 @@ function createThresholdFormHistoricBaseline(
     );
 }
 
-function createSpecificJsErrorForm(baseForm: MapForm, threshold: { value?: number }) {
+function createSpecificJsErrorForm(baseForm: MapForm, threshold: { value?: number }): MapForm {
   return createThresholdFormStaticThreshold(baseForm, threshold);
 }
 
-function createStatusCodeForm(baseForm: MapForm, threshold: { value?: number }) {
+function createStatusCodeForm(baseForm: MapForm, threshold: { value?: number }): MapForm {
   return createThresholdFormStaticThreshold(baseForm, threshold);
 }
