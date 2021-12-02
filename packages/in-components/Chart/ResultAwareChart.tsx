@@ -52,14 +52,14 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
         }
       />
     );
-  } else if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
-    content = <NoDataAvailable width={frontBufferWidth} height={height} />;
   } else if (result.progress.loading) {
-    if (config.y1.renderer.id === Renderer.pie.id) {
+    if (config?.y1?.renderer.id === Renderer.pie.id) {
       content = <PieSkeleton height={height} />;
     } else {
       content = <ChartSkeleton height={height} />;
     }
+  } else if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
+    content = <NoDataAvailable width={frontBufferWidth} height={height} />;
   } else {
     if (config.y1.renderer.id === Renderer.pie.id) {
       content = <PieChart renderLegend={renderLegend} config={config} />;
