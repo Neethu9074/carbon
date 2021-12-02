@@ -480,9 +480,9 @@
     "minutes": "{{count}} 分钟",
     "minutes_plural": "{{count}} 分钟",
 
-    "timeFrameFormatterHours": "最近 1 小时",
+    "timeFrameFormatterHours": "最近 {{count}} 小时",
     "timeFrameFormatterHours_plural": "最近 {{count}} 小时",
-    "timeFrameFormatterMinutes": "最近 1 分钟",
+    "timeFrameFormatterMinutes": "最近 {{count}} 分钟",
     "timeFrameFormatterMinutes_plural": "最近 {{count}} 分钟"
   },
   "timeShift": {
