@@ -109,7 +109,7 @@ export default function DatasourcesTable({ snapshot, timeConfig }) {
 
   return (
     <Table
-      cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.datasourceConnectionPoolsWithCount', {
+      cardTitle={t('in-forge:plugins.jBossAsApplicationContainer.datasourcesWithCount', {
         len: rows.length
       })}
       cols={cols}
