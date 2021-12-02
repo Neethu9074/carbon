@@ -1,0 +1,13 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .error {
+    display: block;
+    margin: 0.313rem 0;
+    color: #a94442;
+    font-weight: bold;
+  }
+}

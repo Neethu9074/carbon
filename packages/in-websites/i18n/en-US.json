@@ -495,6 +495,20 @@
           "option_REMOVE_CITY": "Remove city, latitude, longitude and accuracy information",
           "option_REMOVE_ALL": "Remove all geographic details"
         },
+        "customGeoDetails": {
+          "title": "Custom Geographic Details",
+          "help1": "Instana maps end-user IP addresses to geographic details, e.g., city and country names. This is done by inspecting various HTTP headers to retrieve the end-user IP addresses. These IP addresses are then translated to geographic details with the help of <maxmind>Maxmind's geographic databases</maxmind>. The main use case for these custom mapping rules are private networks. For example, when accessing (self-hosted) Instana installations through private networks. In such cases, public geographic databases will never contain relevant information and as such the translation process will provide either no results or only wrong/unhelpful results.",
+          "help2": "Rules for custom geographic details are always expressed through comma-separated values (CSV). The CSV format and usage of our Web REST API is defined within our <documentation>documentation</documentation>.",
+          "download": "Download active configuration (CSV)",
+          "documentation": "Documentation",
+          "uploader": {
+            "title": "Upload New Rules",
+            "help": "Custom geographic detail rules are defined CSV files and uploaded through our Web REST API or through this form. For more information on the file structure, limits and Web REST API please refer to our <documentation>documentation</documentation>.",
+            "failureToReadFileContent": "Failed to read file content: {{error}}",
+            "failureToCallApiForTechnicalReason": "Failed to execute HTTP call: {{error}}",
+            "failureToCallApiForStatusCodeReason": "HTTP call returned with erroneous result: {{error}}"
+          }
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Saving configuration…",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "ConfigurationUpdated.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "New configuration saved.",
@@ -536,7 +550,8 @@
         "configurationTitle": "Configuration",
         "configurationLabelOptions": "Options",
         "configurationLabelPrivacy": "Privacy",
-        "configurationLabelJSStackTraceTranslation": "JS Stack Trace Translation"
+        "configurationLabelJSStackTraceTranslation": "JS Stack Trace Translation",
+        "configurationLabelCustomGeoDetails": "Custom Geographic Details"
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "Website Custom Event Details",

@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { ReactChild } from 'react';
+import React, { ReactNode } from 'react';
 
 import locals from './HelpParagraph.mless';
 
 export interface Props {
-  children: ReactChild;
+  children: ReactNode;
 }
 
 export default function HelpParagraph({ children }: Props) {

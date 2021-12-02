@@ -1,4 +1,12 @@
 {
+  "fileInputButton": {
+    "label": {
+      "chooseSingle": "Choose file…",
+      "chooseMultiple": "Choose files…",
+      "multipleSelected_1": "{{countFormatted}} file selected",
+      "multipleSelected_plural": "{{countFormatted}} files selected"
+    }
+  },
   "chart": {
     "chartWrapperMetricNotfound": "Metric id {{metricId}} not found.",
     "chartWrapperSameAxisSameValue": "All aggregation types for one axis must have the same value.",
