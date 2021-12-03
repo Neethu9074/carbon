@@ -3,10 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { ReactChildren } from 'react';
 
 import locals from './Header.mless';
 
-export default function Header({ children }) {
+interface HeaderProps {
+  children: ReactChildren;
+}
+
+export default function Header({ children }: HeaderProps) {
   return <h2 className={locals.header}>{children}</h2>;
 }
