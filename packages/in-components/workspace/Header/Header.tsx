@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { ReactChildren } from 'react';
+import React, { ReactNode } from 'react';
 
 import locals from './Header.mless';
 
 interface HeaderProps {
-  children: ReactChildren;
+  children: ReactNode;
 }
 
 export default function Header({ children }: HeaderProps) {

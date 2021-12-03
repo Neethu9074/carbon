@@ -7,15 +7,26 @@ import React from 'react';
 
 import { Stack, Button } from '@instana/components';
 
-import { websiteTimeBased } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { SliEntityType, websiteTimeBased } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
+import { Field, Item, MapForm } from 'formalistic';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 
-export default function BeaconConfigurator({ QueryBuilder, form, onChange }) {
-  const sliEntityForm = form.get('sliEntity');
-  const sliType = sliEntityForm.get('sliType').value;
+type OnChange = (path: string[], updater: (item: Item) => Item) => void;
+
+interface BeaconConfiguratorProps {
+  QueryBuilder: unknown;
+  form: MapForm;
+  onChange: OnChange;
+}
+
+export default function BeaconConfigurator({ QueryBuilder, form, onChange }: BeaconConfiguratorProps) {
+  const sliEntityForm = form.get('sliEntity') as MapForm;
+  const sliType = (sliEntityForm.get('sliType') as Field<SliEntityType>).value;
+  const filterExpression = (sliEntityForm.get('filterExpression') as Field<FormModelElement[]>).value;
 
   return (
     <Stack component="section" gap="normal">
@@ -35,15 +46,23 @@ export default function BeaconConfigurator({ QueryBuilder, form, onChange }) {
                   kind="subtle"
                   icon="lib_openclose_cancel"
                   size="compact"
-                  onClick={() => onChange(['sliEntity', 'filterExpression'], f => f.setValue([]).setTouched(true))}
+                  onClick={() =>
+                    onChange(['sliEntity', 'filterExpression'], f =>
+                      (f as Field<FormModelElement[]>).setValue([]).setTouched(true)
+                    )
+                  }
                 >
                   {t('in-alerting:smartAlerts.components.smartAlertDialog.clearTagFilterExpressionButton')}
                 </Button>
               }
             >
               <QueryBuilder
-                onChange={fe => onChange(['sliEntity', 'filterExpression'], f => f.setValue(fe).setTouched(true))}
-                value={sliEntityForm.get('filterExpression').value}
+                onChange={fe =>
+                  onChange(['sliEntity', 'filterExpression'], f =>
+                    (f as Field<FormModelElement[]>).setValue(fe).setTouched(true)
+                  )
+                }
+                value={filterExpression}
               />
             </Section>
           </Sections>
