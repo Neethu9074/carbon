@@ -49,6 +49,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
 
   const sliTypeForm = sliEntityForm.get('sliType');
   const sliType = sliTypeForm.value;
+  const endpointIdField = sliEntityForm.get('endpointId');
 
   return (
     <Stack gap="large">
@@ -178,7 +179,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
                   applicationId={applicationId}
                   serviceId={serviceId}
                   value={endpointId}
-                  field={sliEntityForm.get('endpointId')}
+                  hasError={!endpointIdField.valid && endpointIdField.touched}
                   onChange={value =>
                     onChange(['sliEntity', 'endpointId'], f =>
                       f.setValue(convertEmptyStringToNull(value)).setTouched(true)

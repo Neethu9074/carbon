@@ -4,8 +4,9 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { EndpointItem, GetEndpointsQuery, PaginatedResult, Result } from 'in-types';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetEndpointsQuery, Result<PaginatedResult<EndpointItem>>>({
   eventId: 'getEndpoints',
   trackSubscriptionStatistics: true
 });
