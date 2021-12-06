@@ -3,23 +3,23 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useRef, useLayoutEffect, useState, useEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import rpt from 'prop-types';
 
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
 
 import {
-  toRenderModel,
+  CLOSE_BRACKET,
+  CONJUNCTION,
+  EXPRESSION,
+  OPEN_BRACKET,
   SPACING,
   TAG,
-  CONJUNCTION,
-  OPEN_BRACKET,
-  CLOSE_BRACKET,
-  EXPRESSION
+  toRenderModel
 } from 'in-components/QueryBuilder/transformation/renderModel';
 import QueryBuilderDragAndDropBehaviour from 'in-components/QueryBuilder/QueryBuilderDragAndDropBehaviour';
-import { onKeyDown, onClickQueryBuilderContent } from 'in-components/QueryBuilder/keyboardInteraction';
+import { onClickQueryBuilderContent, onKeyDown } from 'in-components/QueryBuilder/keyboardInteraction';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { validateFormModel } from 'in-components/QueryBuilder/validation/formModel';
 import DragAndDropBehaviour from 'in-components/QueryBuilder/DragAndDropBehaviour';

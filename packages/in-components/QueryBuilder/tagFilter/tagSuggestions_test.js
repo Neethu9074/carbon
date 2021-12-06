@@ -374,4 +374,48 @@ describe('in-components/QueryBuilder/tagFilter/tagSuggestions#getSuggestionsTagF
     const result = getSuggestionsTagFilterExpression(formModel, 3);
     expect(result).to.deep.equal(expected);
   });
+
+  /**
+   * Query:
+   * ActiveTag AND ( Tag OR)
+   */
+  it('must skip invalid bracket expression', () => {
+    const formModel = [
+      createTagFilter('application.name', ''),
+      CONJUNCTION_AND,
+      OPEN_BRACKET,
+      createTagFilter('endpoint.name', '/GET'),
+      CONJUNCTION_OR,
+      CLOSE_BRACKET
+    ];
+    const expected = {
+      type: 'EXPRESSION',
+      logicalOperator: 'AND',
+      elements: []
+    };
+    const result = getSuggestionsTagFilterExpression(formModel, 0);
+    expect(result).to.deep.equal(expected);
+  });
+
+  /**
+   * Query:
+   * (OR Tag) AND ActiveTag
+   */
+  it('must skip invalid bracket expression', () => {
+    const formModel = [
+      CLOSE_BRACKET,
+      CONJUNCTION_OR,
+      createTagFilter('endpoint.name', '/GET'),
+      OPEN_BRACKET,
+      CONJUNCTION_AND,
+      createTagFilter('application.name', '')
+    ];
+    const expected = {
+      type: 'EXPRESSION',
+      logicalOperator: 'AND',
+      elements: []
+    };
+    const result = getSuggestionsTagFilterExpression(formModel, 0);
+    expect(result).to.deep.equal(expected);
+  });
 });

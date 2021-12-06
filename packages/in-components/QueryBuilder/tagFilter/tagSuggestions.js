@@ -343,8 +343,13 @@ function evaluateNextBracketElement(formModel, index, directionalModifier, brack
   const currentElement = formModel[index];
   const nextElement = formModel[nextElementIndex];
 
-  //Checks if the next element is the closing bracket.
-  if (isCloseBracketInDirection(nextElement, directionalModifier) && bracketLevel === 0) {
+  // Checks if the next element is the closing bracket and the current one is no conjunction
+  // Having a closing bracket following a conjunction would be invalid
+  if (
+    currentElement.type !== CONJUNCTION &&
+    isCloseBracketInDirection(nextElement, directionalModifier) &&
+    bracketLevel === 0
+  ) {
     return {
       terminatingBracketIndex: nextElementIndex,
       missingBrackets: 0,
