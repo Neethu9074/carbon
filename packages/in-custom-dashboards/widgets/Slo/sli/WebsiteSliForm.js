@@ -81,7 +81,12 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
         </Stack>
       </Stack>
       <Divider />
-      <BeaconConfigurator QueryBuilder={QueryBuilder} form={form} onChange={onChange} />
+      <BeaconConfigurator
+        QueryBuilder={QueryBuilder}
+        value={sliEntityForm.get('filterExpression').value}
+        onChange={fe => onChange(['sliEntity', 'filterExpression'], f => f.setValue(fe).setTouched(true))}
+        sliType={sliEntityForm.get('sliType').value}
+      />
 
       <MetricsForm
         entityType="website"
