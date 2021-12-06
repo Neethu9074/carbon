@@ -119,6 +119,7 @@ export default function Errors({
                   formModel: joinExpressions({
                     expressions: [createFormModelFromSyntheticOption(syntheticCalls)]
                   }),
+                  facets: { 'call.erroneous': [true] },
                   hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
                   fields: [createMetricField('errors', 'MEAN'), createMetricField('latency', 'MEAN')],
                   chartedMetrics: [createChartedMetric('errors', 'MEAN')]
