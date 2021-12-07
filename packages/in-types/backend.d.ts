@@ -561,10 +561,6 @@ export interface DfqInfraMetricConfiguration extends UnifiedMetricConfiguration 
   readonly dynamicFocusQuery: string;
 }
 
-export interface DistributedLogsMetricConfiguration extends UnifiedMetricConfiguration {
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-}
-
 export interface DomainSpecificStack {
   readonly groups: ContextGuideGroup[];
   readonly healthInfo?: HealthInfo;
@@ -2722,6 +2718,26 @@ export interface LogMessageItem {
   readonly metrics: { [index: string]: number[][] };
 }
 
+export interface LogMetricConfig {
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+}
+
+export interface LogMetricConfiguration extends UnifiedMetricConfiguration {
+  readonly metricTagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+}
+
+export interface LogMetricsQuery {
+  readonly configs: { [index: string]: LogMetricConfig };
+  readonly granularity: number;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly timeConfig: TimeConfig;
+}
+
+export interface LogMetricsResult {
+  readonly metrics: { [index: string]: number[][] };
+}
+
 export interface LogQuery {
   readonly itemId: string;
   readonly tagFilterExpression?: TagFilterExpressionElement;
@@ -2750,12 +2766,6 @@ export interface LogsApplicationAlertRule extends ApplicationAlertRule {
   readonly loglevel?: LogsApplicationAlertRuleLogLevel;
   readonly message?: string;
   readonly operator: TagFilterOperator;
-}
-
-export interface LogsDistributionQuery {
-  readonly granularity: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly timeConfig: TimeConfig;
 }
 
 export interface LogsQuery {
@@ -4625,7 +4635,7 @@ export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISH
 
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
-export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'DISTRIBUTED_LOGS' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
+export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
 
 export type OrderDirection = 'ASC' | 'DESC';
 
