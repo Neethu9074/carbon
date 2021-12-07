@@ -1,0 +1,13 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+:local {
+  .actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 1.3rem;
+  }
+}

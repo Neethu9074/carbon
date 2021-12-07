@@ -9,6 +9,7 @@ import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matri
 export const mobileAppId = 'mobileAppId';
 export const viewId = 'viewId';
 export const httpRequestId = 'httpRequestId';
+export const customEventId = 'customEventId';
 
 // analyze
 export const tagFilters = 'tagFilters';
