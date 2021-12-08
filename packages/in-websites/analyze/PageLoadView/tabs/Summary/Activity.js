@@ -13,12 +13,12 @@ import BeaconPageGroup from 'in-websites/analyze/PageLoadView/tabs/Summary/Beaco
 import OverviewChart from 'in-websites/analyze/PageLoadView/tabs/Summary/OverviewChart';
 import { getType } from 'in-websites/analyze/PageLoadView/tabs/Summary/filterableTypes';
 import Filter from 'in-websites/analyze/PageLoadView/tabs/Summary/Filter';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 import locals from './Activity.mless';
 
-export default function Activity({ beacons, firstBeacon, pageLoad, filter, setFilter }) {
+export default function Activity({ detailId, beacons, firstBeacon, pageLoad, filter, setFilter }) {
   const filteredBeacons = beacons
     .filter(beacon => {
       if (filter.types.length > 0 && filter.types.indexOf(getType(beacon)) === -1) {
@@ -62,6 +62,7 @@ export default function Activity({ beacons, firstBeacon, pageLoad, filter, setFi
               beacons={group.beacons}
               pageLoad={pageLoad}
               earliestTimestamp={firstBeacon.timestamp}
+              detailId={detailId}
             />
           ))}
         </Card>

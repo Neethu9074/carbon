@@ -11,9 +11,7 @@ import { FacetedSearchPresenter } from 'in-websites/analyze/AnalyzeView2_0/compo
 import QueryBuilderWorkspace from 'in-websites/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import getWebsiteBeaconsForPageLoad from 'in-websites/subscriptions/getWebsiteBeaconsForPageLoad';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
-import { getHighlighterId } from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/Beacon';
 import { addDataSourceToBackendQueryModel } from 'in-websites/analyze/AnalyzeView2_0/util';
-import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import getWebsiteBeacons from 'in-websites/subscriptions/getWebsiteBeacons';
 import PageLoadView from 'in-websites/analyze/PageLoadView/PageLoadView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
@@ -303,11 +301,6 @@ function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel }) 
         },
         groupLabel
       )}
-      onClick={() => {
-        if (beacon.type !== 'pageLoad') {
-          triggerHighlight(getHighlighterId(beacon.beaconId));
-        }
-      }}
     >
       {linkLabel}
     </Link>

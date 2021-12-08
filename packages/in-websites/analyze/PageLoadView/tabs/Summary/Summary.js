@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { compose, withState } from 'recompose';
-import { find, debounce } from 'lodash';
+import { debounce, find } from 'lodash';
 
 import { Link, Message } from '@instana/components';
 
@@ -16,7 +16,7 @@ import Activity from 'in-websites/analyze/PageLoadView/tabs/Summary/Activity';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number } from 'in-services/formatters/number';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { openPageLoad } from 'in-websites/tracker';
 import KpiCard from 'in-components/KpiCard';
 import { t } from 'in-i18n';
@@ -29,7 +29,7 @@ const debouncedOpenPageLoad = debounce(openPageLoad, 1000);
 
 export default compose(withState('filter', 'setFilter', { query: '', page: '', types: [] }))(Summary);
 
-function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
+function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId, detailId }) {
   // Fixing is expensive. Luckily it is easy to avoid this via memoization.
   const fixResult = useMemo(() => fixClockSkewProblems(beacons), [beacons]);
   beacons = fixResult.beacons;
@@ -100,7 +100,14 @@ function Summary({ beacons, filter, setFilter, pageLoadLabel, pageLoadId }) {
 
       <BeaconUserSummary beacon={firstBeacon} beacons={beacons} />
 
-      <Activity beacons={beacons} pageLoad={pageLoad} firstBeacon={firstBeacon} filter={filter} setFilter={setFilter} />
+      <Activity
+        beacons={beacons}
+        detailId={detailId}
+        pageLoad={pageLoad}
+        firstBeacon={firstBeacon}
+        filter={filter}
+        setFilter={setFilter}
+      />
     </ContentWrapper>
   );
 }

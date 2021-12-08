@@ -3,12 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo, useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { compose, withState } from 'recompose';
-import { find, debounce } from 'lodash';
+import { debounce, find } from 'lodash';
 
-import { Message } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, Message } from '@instana/components';
 
 import { fixClockSkewProblems } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/fixClockSkewProblems';
 import BeaconUserSummary from 'in-mobile-apps/analyze/BeaconUserSummary/BeaconUserSummary';
@@ -17,7 +16,7 @@ import Activity from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Activity';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
 import DateTimeKpiCard from 'in-components/KpiCard/DateTimeKpiCard';
 import { number } from 'in-services/formatters/number';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { openSession } from 'in-mobile-apps/tracker';
 import KpiCard from 'in-components/KpiCard';
 import { t } from 'in-i18n';
@@ -30,7 +29,7 @@ const debouncedOpenSession = debounce(openSession, 1000);
 
 export default compose(withState('filter', 'setFilter', { query: '', view: '', types: [] }))(Summary);
 
-function Summary({ beacons, filter, setFilter, sessionLabel, sessionId }) {
+function Summary({ beacons, filter, setFilter, sessionLabel, sessionId, detailId }) {
   // Fixing is expensive. Luckily it is easy to avoid this via memoization.
   const fixResult = useMemo(() => fixClockSkewProblems(beacons), [beacons]);
   beacons = fixResult.beacons;
@@ -88,6 +87,7 @@ function Summary({ beacons, filter, setFilter, sessionLabel, sessionId }) {
 
       <Activity
         beacons={beacons}
+        detailId={detailId}
         sessionStart={sessionStart}
         firstBeacon={firstBeacon}
         filter={filter}

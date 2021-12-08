@@ -4,23 +4,29 @@
  */
 
 import { compose, withState } from 'recompose';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { toInteractiveElement } from '@instana/components';
 
 import BackendTraceButton from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/BackendTraceButton';
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import TypeHeader from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/TypeHeader';
+import { HighlightedEffect, triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import renderers from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/perTypeRenderers';
-import { HighlightedEffect } from 'in-components/SelectedElementHighlighter';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './Beacon.mless';
 
 export default compose(withState('expanded', 'setExpanded', false))(function Beacon(props) {
-  const { beacon, expanded, setExpanded } = props;
+  const { detailId, beacon, expanded, setExpanded } = props;
+
+  useEffect(() => {
+    if (detailId.beaconId === beacon.beaconId && beacon.type !== 'pageLoad') {
+      triggerHighlight(getHighlighterId(beacon.beaconId));
+    }
+  }, [beacon, detailId]);
 
   const beaconRenderers = renderers[beacon.type];
   if (!beaconRenderers) {
