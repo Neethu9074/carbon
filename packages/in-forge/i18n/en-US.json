@@ -8793,7 +8793,7 @@
         "connection": "Connection",
         "handleState": "Handle State",
         "user": "User",
-        "queuesUsageWithCount": "Queues Usage by application ({{len}})",
+        "queuesUsageWithCount": "Queue Usage by application ({{len}})",
         "ibmMqQueueManager": "IBM MQ Queue Manager",
         "subsWithCount": "Subscriptions ({{len}})",
         "topicString": "Topic String",
