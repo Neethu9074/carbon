@@ -1663,6 +1663,16 @@ export interface GetTechnologyBreakdownQuery extends FilteredQuery {
   readonly granularity?: number;
 }
 
+export interface GetTestResultQuery extends UiQuery {
+  readonly applicationId?: string;
+  readonly locationId?: string[];
+  readonly metrics: { [index: string]: SyntheticMetricConfiguration };
+  readonly order?: Order;
+  readonly serviceId?: string;
+  readonly testId: string;
+  readonly timeConfig: TimeConfig;
+}
+
 export interface GetTraceActivityTreeQuery extends UiQuery {
   readonly id?: string;
 }
@@ -3682,6 +3692,9 @@ export interface SyntheticLocation {
   readonly popVersion?: string;
 }
 
+export interface SyntheticMetricConfiguration extends MetricConfiguration {
+}
+
 export interface SyntheticPlaybackCapabilities {
   readonly browserType: SyntheticBrowserType[];
   readonly syntheticType: SyntheticType[];
@@ -3813,6 +3826,19 @@ export interface TenantConfig {
 export interface TenantHealthDownstreamValue {
   readonly healthDownstreamValue?: HealthDownstreamValue;
   readonly tenantConfig?: TenantConfig;
+}
+
+export interface TestResult {
+  readonly testResult?: TestResultItem[];
+  readonly testResultItems?: TestResultItem[];
+}
+
+export interface TestResultItem {
+  readonly applicationId?: string;
+  readonly locationId?: string[];
+  readonly metrics?: { [index: string]: any }[];
+  readonly serviceId?: string;
+  readonly testId: string;
 }
 
 export interface ThresholdBounds {
