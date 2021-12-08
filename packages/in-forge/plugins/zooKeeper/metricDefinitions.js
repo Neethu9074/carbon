@@ -49,5 +49,15 @@ export default [
     category: [t('in-forge:plugins.zooKeeper.titleTicks')],
     min: 0,
     formatter: number
+  },
+  {
+    metric: 'zxid',
+    label: t('in-forge:plugins.zooKeeper.zxid'),
+    formatter: number
+  },
+  {
+    metric: 'zxid_overflow_limit',
+    label: t('in-forge:plugins.zooKeeper.zxidOverflowLimit'),
+    formatter: number
   }
 ];

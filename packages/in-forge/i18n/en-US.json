@@ -10374,7 +10374,9 @@
       "labelAliveConnections": "Alive connections",
       "labelPacketsReceived": "Packets Received",
       "labelPacketsSent": "Packets Sent",
-      "labelPeer": "Peer"
+      "labelPeer": "Peer",
+      "zxid": "zxid",
+      "zxidOverflowLimit": "zxid Overflow Limit"
     },
     "lxc": {
       "networkWithNetworkInterface": "Network ({{networkInterface}})",
