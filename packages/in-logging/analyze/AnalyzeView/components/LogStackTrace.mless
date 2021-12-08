@@ -1,6 +1,6 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 
 @import '~in-themes/active.less';
@@ -12,7 +12,7 @@
     margin: 0.75rem 1rem 0 0;
   }
 
-  .message {
+  .stackTrace {
     margin-bottom: 0.75rem;
 
     white-space: break-spaces;

@@ -12,12 +12,10 @@
     margin: 0.75rem 1rem 0.75rem 0;
   }
 
-  .messageWrapper {
+  .message {
     .ellipsis();
     margin: 0.75rem 0;
-  }
 
-  .overflowingMessage {
     &:hover {
       text-decoration: underline;
       cursor: pointer;

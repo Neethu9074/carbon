@@ -60,14 +60,32 @@ export const copyColumn = {
   getContent({ message }: CopyColumnProps) {
     return (
       <div className={locals.copyButtonWrapper}>
-        <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
-          <CopyToClipboard getText={() => message}>
-            {(copyToClipboardRef: React.MutableRefObject<HTMLButtonElement>) => (
-              <IconButton ref={copyToClipboardRef} iconSize={SvgIconSizes.xs} type="lib_actions_copy" />
-            )}
-          </CopyToClipboard>
-        </Tooltip>
+        <CopyButton message={message} />
       </div>
     );
   }
 };
+
+export const centerAlignedCopyColumn = {
+  id: 'copyIcon',
+  width: '2.5rem',
+  getContent({ message }: CopyColumnProps) {
+    return (
+      <div className={locals.centeredCopyButtonWrapper}>
+        <CopyButton message={message} />
+      </div>
+    );
+  }
+};
+
+function CopyButton({ message }: CopyColumnProps) {
+  return (
+    <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
+      <CopyToClipboard getText={() => message}>
+        {(copyToClipboardRef: React.MutableRefObject<HTMLButtonElement>) => (
+          <IconButton ref={copyToClipboardRef} iconSize={SvgIconSizes.xs} type="lib_actions_copy" />
+        )}
+      </CopyToClipboard>
+    </Tooltip>
+  );
+}

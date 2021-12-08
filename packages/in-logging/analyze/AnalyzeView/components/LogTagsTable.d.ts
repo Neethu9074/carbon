@@ -22,8 +22,8 @@ export type GetHrefToGroupedView = (tag: any) => string;
 
 export interface LogTagsTableProps {
   item: LogItem;
-  onSelectTagHref: OnSelectTagHref;
-  getHrefToGroupedView: GetHrefToGroupedView;
+  onSelectTagHref: OnSelectTagHref | undefined;
+  getHrefToGroupedView: GetHrefToGroupedView | undefined;
   tagToLabelMap: Map<string, string>;
   allowedTagsForGrouping: Set<string>;
 }
