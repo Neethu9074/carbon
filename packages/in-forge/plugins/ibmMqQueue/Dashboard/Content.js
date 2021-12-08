@@ -90,19 +90,6 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.ibmMqQueue.dashboard.reset')}>
-        <Chart
-          snapshotId={snapshotId}
-          timeConfig={timeConfig}
-          y1={{
-            formatter: seconds.fixedCompact,
-            tooltipFormatter: seconds.fixedCompact,
-            metrics: [`lastResetTime`],
-            labels: [t('in-forge:plugins.ibmMqQueue.dashboard.last')],
-            type: 'line'
-          }}
-        />
-      </DashboardSection>
       <DashboardSection title={t('in-forge:plugins.ibmMqQueue.dashboard.calls')}>
         <Chart
           snapshotId={snapshotId}
