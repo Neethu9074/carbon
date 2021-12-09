@@ -192,7 +192,16 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
         </Stack>
       </Stack>
 
-      <MetricsForm entityType="application" metricEntityType="calls" form={form} onChange={onChange} />
+      <Divider />
+
+      {form.get('metricConfiguration') && (
+        <MetricsForm
+          entityType="application"
+          metricEntityType="calls"
+          form={form.get('metricConfiguration')}
+          onChange={mc => onChange([], f => f.put('metricConfiguration', mc))}
+        />
+      )}
 
       <GoodBadEventsConfigurator
         entityType="application"

@@ -88,12 +88,17 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
         sliType={sliEntityForm.get('sliType').value}
       />
 
-      <MetricsForm
-        entityType="website"
-        metricEntityType={form.get('sliEntity').get('beaconType').value}
-        form={form}
-        onChange={onChange}
-      />
+      <Divider />
+
+      {form.get('metricConfiguration') && (
+        <MetricsForm
+          entityType="website"
+          metricEntityType={form.get('sliEntity').get('beaconType').value}
+          form={form.get('metricConfiguration')}
+          onChange={mc => onChange([], f => f.put('metricConfiguration', mc))}
+        />
+      )}
+
       <GoodBadEventsConfigurator
         entityType="website"
         label={t('in-custom-dashboards:widgets.slo.goodBadEventsForm.websitesFilterLabel', {

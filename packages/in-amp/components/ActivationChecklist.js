@@ -8,9 +8,9 @@ import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
 
-import Divider from 'in-components/workspace/Divider';
 import activationStages from 'in-amp/api/activationStages';
 import { formatDate } from 'in-services/formatters/date';
+import Divider from 'in-components/workspace/Divider';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './ActivationChecklist.mless';
