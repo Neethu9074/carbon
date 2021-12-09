@@ -319,7 +319,6 @@ export const SLI_MANAGEMENT_EDIT_ABORT = 'sli.management.editAbort';
 
 // Logging
 export const ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED = 'analyze.logging.queryBuilder.filter.added';
-export const ANALYZE_LOGGING_QUERY_BUILDER_QUERY_CHANGED = 'analyze.logging.queryBuilder.query.changed';
 export const ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED = 'analyze.logging.queryBuilder.group.added';
 export const ANALYZE_LOGGING_SELECTED_TAGS_CHANGED = 'analyze.logging.selected.tags.changed';
 export const ANALYZE_LOGGING_TIMEFRAME_USED = 'analyze.logging.timeframe.used';

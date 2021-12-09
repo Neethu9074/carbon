@@ -6,7 +6,6 @@
 import {
   track,
   ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED,
-  ANALYZE_LOGGING_QUERY_BUILDER_QUERY_CHANGED,
   ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED,
   ANALYZE_LOGGING_SELECTED_TAGS_CHANGED,
   ANALYZE_LOGGING_TIMEFRAME_USED,
@@ -17,7 +16,6 @@ import {
 } from 'in-services/tracking/tracking';
 
 export const filterAdded = (e: any) => track(ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED, e);
-export const queryChanged = (e: any) => track(ANALYZE_LOGGING_QUERY_BUILDER_QUERY_CHANGED, e);
 export const groupAdded = (e: any) => track(ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED, e);
 export const selectedChanged = (e: any) => track(ANALYZE_LOGGING_SELECTED_TAGS_CHANGED, e);
 export const timeframeUsed = (e: any) => track(ANALYZE_LOGGING_TIMEFRAME_USED, e);
