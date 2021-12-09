@@ -19,7 +19,7 @@ describe('in-settings/tabs/UserSettings/pages/Communication', () => {
     saveUserSettings.mockReturnValue(nothing);
     render(<Communication />);
     const htmlElement = screen.getByLabelText(t('in-settings:terms.role'));
-    expect(htmlElement.value).toEqual(roles[0].value);
+    expect(htmlElement.value).toEqual('');
 
     // change role and hit save
     fireEvent.change(htmlElement, {
