@@ -3,10 +3,20 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
+import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { QueryBuilderComponent, QueryBuilderProps } from 'in-components/QueryBuilder';
+
 import locals from './FilterConfigurator.mless';
+
+interface FilterConfiguratorProps extends Omit<QueryBuilderProps, 'value' | 'onChange'> {
+  QueryBuilderComponent: QueryBuilderComponent;
+  form: MapForm;
+  updateForm: (f: MapForm) => MapForm;
+  formFieldName: string;
+}
 
 export default function FilterConfigurator({
   QueryBuilderComponent,
@@ -14,21 +24,18 @@ export default function FilterConfigurator({
   updateForm,
   formFieldName,
   ...remainingProps
-}) {
+}: FilterConfiguratorProps) {
   return (
     <div className={locals.querybuilderLayoutWrapper}>
       <QueryBuilderComponent
         {...remainingProps}
-        value={form.get(formFieldName)?.value}
-        onChange={tfe => updateForm(form.updateIn([formFieldName], f => f.setValue(tfe).setTouched(true)))}
+        value={(form.get(formFieldName) as Field<FormModelElement[]>)?.value}
+        onChange={tfe =>
+          updateForm(
+            form.updateIn([formFieldName], f => (f as Field<FormModelElement[]>).setValue(tfe).setTouched(true))
+          )
+        }
       />
     </div>
   );
 }
-
-FilterConfigurator.propTypes = {
-  QueryBuilderComponent: PropTypes.func.isRequired,
-  formFieldName: PropTypes.string.isRequired,
-  updateForm: PropTypes.func.isRequired,
-  form: PropTypes.object.isRequired
-};
