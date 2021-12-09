@@ -27,7 +27,6 @@ import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessa
 import LogTagsTable from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
-import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
@@ -44,12 +43,6 @@ const columnDefinitions = [
   },
   centerAlignedCopyColumn
 ];
-
-const tracker = {
-  loadMoreClicked: () => {
-    loadMoreClicked({ view: 'Logs view' });
-  }
-};
 
 export default function Logs(props) {
   const {
@@ -79,7 +72,6 @@ export default function Logs(props) {
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       withoutHeader={false}
-      tracker={tracker}
       CustomHeaderActions={CustomHeaderActions}
       renderNestedContent={(_, item) => (
         <LogTagsTable item={item} onSelectTagHref={onSelectTagHref} getHrefToGroupedView={getHrefToGroupedView} />

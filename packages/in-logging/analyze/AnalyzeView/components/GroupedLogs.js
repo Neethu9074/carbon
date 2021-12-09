@@ -11,19 +11,12 @@ import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/component
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import GroupedView, { GROUP_COLORS } from 'in-components/AnalyzeView/GroupedView';
-import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import Logs from 'in-logging/analyze/AnalyzeView/components/Logs';
 import getLogGroups from 'in-logging/subscriptions/getLogGroups';
 import { percentage } from 'in-services/formatters/number';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
-
-const tracker = {
-  loadMoreClicked: () => {
-    loadMoreClicked({ view: 'Grouped logs view' });
-  }
-};
 
 const columnDefinitions = [
   {
@@ -69,7 +62,6 @@ export default function GroupedLogs(props) {
         iconMap={iconMap}
         UngroupedView={Logs}
         withoutSorting
-        tracker={tracker}
       />
     </QueryBuilderWorkspace>
   );

@@ -12,6 +12,7 @@ import { generateStableHash } from '@instana/utils';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import UngroupedView from 'in-components/AnalyzeView/UngroupedView';
+import { ua2LoadMoreClicked } from 'in-components/tracker';
 
 export { detailViewProps, retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 
@@ -37,6 +38,7 @@ function List(props) {
     getId,
     classNames,
     isLoading,
+    dataSource,
     groupLabel,
     canLoadMore,
     columnDefinitions,
@@ -44,8 +46,7 @@ function List(props) {
     loadMore,
     withoutListItemLinkToDetails,
     progress,
-    withEmbeddedLoadingIndicator = false,
-    tracker
+    withEmbeddedLoadingIndicator = false
   } = props;
   return (
     <>
@@ -69,7 +70,7 @@ function List(props) {
             <LiLoadMore
               loadMore={() => {
                 loadMore();
-                tracker?.loadMoreClicked();
+                ua2LoadMoreClicked({ dataSource });
               }}
             />
           )}

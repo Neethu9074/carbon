@@ -26,12 +26,12 @@ import {
   groupName
 } from 'in-components/AnalyzeView/metrics';
 import { addGroupingCriteriaToFormModel, childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
+import { ua2MetricAddedTracker, ua2MetricRemovedTracker, ua2LoadMoreClicked } from 'in-components/tracker';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { getFormatter as getBackendFormatter } from 'in-services/formatters/backendFormatter';
 import { joinExpressions, TAG } from 'in-components/QueryBuilder/transformation/formModel';
-import { ua2MetricAddedTracker, ua2MetricRemovedTracker } from 'in-components/tracker';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import { BOOLEAN, KEY_VALUE_PAIR } from 'in-components/QueryBuilder/tagFilter/types';
 import { EQUALS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -91,7 +91,6 @@ export default function GroupedAnalyzeView(props) {
     withoutSorting = false,
     withoutChartGroupMarkers = false,
     chartedMetrics,
-    tracker,
     groupingTagCatalog,
     Chart
   } = props;
@@ -359,7 +358,11 @@ export default function GroupedAnalyzeView(props) {
                 <LiLoadMore
                   loadMore={() => {
                     loadMore();
-                    tracker?.loadMoreClicked();
+                    ua2LoadMoreClicked({
+                      dataSource,
+                      groupbyTag: groupBy.groupbyTag,
+                      groupbyTagSecondLevelKey: groupBy.groupbyTagSecondLevelKey
+                    });
                   }}
                 />
               )}
