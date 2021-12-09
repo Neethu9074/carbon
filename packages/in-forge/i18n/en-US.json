@@ -4257,6 +4257,13 @@
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
       "infoTitle": "Process ID",
+      "table": {
+        "host": "Host",
+        "name": "Name",
+        "metrics": "Managed Metrics",
+        "cpu": "Host CPU Uitilization",
+        "memory": "Host Memory Uitilization"
+      },
       "dashboard": {
         "labelMetrics": "Metrics",
         "labelMessages": "Messages",
