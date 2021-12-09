@@ -38,7 +38,7 @@ registerSnapshotDefinition({
     const os = snapshot.getIn(['data', 'os.name'], '');
     if (os.match(/aix/i)) {
       return aixPlugin;
-    } else if (os.match(/solaris/i)) {
+    } else if (os.match(/solaris/i) || os.match(/sunos/i)) {
       return solarisPlugin;
     } else if (os.match(/linux/i)) {
       return linuxPlugin;
