@@ -40,7 +40,7 @@ export default function createTimeThresholdForm(
   granularity: number,
   thresholdType: ThresholdType | undefined
 ): MapForm {
-  switch (timeThresholdConfig.type) {
+  switch (timeThresholdConfig?.type) {
     case 'violationsInPeriod':
       return createViolationsInPeriodForm(timeThresholdConfig as ViolationsInPeriodTimeThreshold, thresholdType);
     case 'userImpactOfViolationsInSequence':
@@ -138,10 +138,10 @@ export function createRequestImpactForm(
 }
 
 export function createViolationsInSequenceForm(
-  thresholdConfig: ViolationsInSequenceTimeThreshold,
+  timeThresholdConfig: ViolationsInSequenceTimeThreshold | undefined,
   thresholdType: ThresholdType | undefined
 ) {
-  return createMapBase('violationsInSequence', thresholdType, thresholdConfig.timeWindow);
+  return createMapBase('violationsInSequence', thresholdType, timeThresholdConfig?.timeWindow);
 }
 
 const provideNumberGreaterEqualsOneValidator = (num: number | string): ValidationResult => {
