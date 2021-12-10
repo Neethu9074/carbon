@@ -9,5 +9,5 @@ import { Result, HasLogsResult, HasLogsQuery } from 'in-types';
 interface HasLogsResponse extends Result<HasLogsResult> {}
 
 export default createResultSubscriptionFactory<HasLogsQuery, HasLogsResponse>({
-  eventId: 'logsV2.hasLogs'
+  eventId: 'logs.hasLogs'
 });

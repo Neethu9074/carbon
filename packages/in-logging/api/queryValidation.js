@@ -8,7 +8,7 @@ import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import http from 'in-services/http';
 
-const basePath = '/api/logging-v2/validation';
+const basePath = '/api/logging/validation';
 
 export const getValidationAsResultObservable = memoize(getValidationAsResultObservableInternal, q => q, 10000);
 function getValidationAsResultObservableInternal(data) {

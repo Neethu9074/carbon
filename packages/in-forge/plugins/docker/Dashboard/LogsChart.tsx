@@ -78,7 +78,7 @@ function getMetricConfig({ tagFilterExpression, value, label }: GetMetricConfigR
     metric: 'logs_distribution',
     aggregation: 'SUM',
     label: label ?? value,
-    source: 'DISTRIBUTED_LOGS_V2',
+    source: 'LOG',
     tagFilterExpression: addLogLevelFilterTagToQueryModel({ value, tagFilterExpression })
     // granularity and timeConfig are send automatically by the chart impl
   };

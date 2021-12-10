@@ -170,7 +170,7 @@ function getMetricConfig({ backendQueryModelWithFacets, metric, tag, value, labe
     metric: metric.metricId,
     aggregation: metric.aggregationId,
     label: label ?? value,
-    source: 'DISTRIBUTED_LOGS_V2',
+    source: 'LOG',
     tagFilterExpression: addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModelWithFacets, key, type })
 
     // granularity and timeConfig are send automatically by the chart impl

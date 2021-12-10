@@ -14,7 +14,7 @@ import { emptyObject } from 'in-services/fixedObjects';
 import { minutes } from 'in-services/time/time';
 import http from 'in-services/http';
 
-const basePath = '/api/logging-v2/catalog';
+const basePath = '/api/logging/catalog';
 interface GetTagCatalogParams {
   useCase?: CatalogUseCase;
   forceIncludeInternalTags?: boolean;
