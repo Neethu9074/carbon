@@ -65,6 +65,7 @@ export const potentialProblemsEnabled =
 export const deprecateAppDataLegacyEvents =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('deprecateAppDataLegacyEvents');
 export const adaptiveBaselineEnabled = applicationSmartAlertsEnabled && isFeatureFlagEnabled('adaptiveBaselineEnabled');
+export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const disableAppDataLegacyEvents =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('disableAppDataLegacyEvents');
 

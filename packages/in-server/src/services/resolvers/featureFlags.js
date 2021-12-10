@@ -150,6 +150,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'kubernetesExploreEnabled',
+    instanaCtlKey: 'feature.kubernetes.explore.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'loggingEnabled',
     instanaCtlKey: 'feature.logging.enabled',
     defaultValue: true
