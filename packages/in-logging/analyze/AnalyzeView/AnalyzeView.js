@@ -7,7 +7,6 @@ import React, { useEffect } from 'react';
 
 import { ua2FacetedSearchFilterAddedTracker, ua2FacetedSearchGroupChangedTracker } from 'in-applications/tracker';
 import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterMultiSelect';
-import TagExpressionValidation from 'in-logging/analyze/AnalyzeView/components/TagExpressionValidation';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { LOG_LEVEL, LOG_SERVICE_NAME, LOG_STREAM_NAME } from 'in-logging/queryBuilder';
 import { timeframeUsed, timeSpent } from 'in-logging/analyze/AnalyzeView/tracker';
@@ -94,30 +93,17 @@ export default function LoggingAnalyzeView() {
         }
       }}
     >
-      {opts => (
-        <TagExpressionValidation {...opts}>
-          {validationProps => {
-            if (!role.canViewLogs) {
-              return (
-                <QueryBuilderWorkspace {...opts}>
-                  <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
-                </QueryBuilderWorkspace>
-              );
-            }
-
-            return opts.isGrouped ? (
-              <GroupedLogs
-                {...opts}
-                {...validationProps}
-                getFacetedSearchSuggestions={getFacetedSearchSuggestions}
-                getLabel={getLabel}
-              />
-            ) : (
-              <Logs {...opts} {...validationProps} getFacetedSearchSuggestions={getFacetedSearchSuggestions} />
-            );
-          }}
-        </TagExpressionValidation>
-      )}
+      {opts =>
+        !role.canViewLogs ? (
+          <QueryBuilderWorkspace {...opts}>
+            <RestrictedAccessMessage permission={t('in-stores:permissionCanViewLogsLabel')} />
+          </QueryBuilderWorkspace>
+        ) : opts.isGrouped ? (
+          <GroupedLogs {...opts} getFacetedSearchSuggestions={getFacetedSearchSuggestions} getLabel={getLabel} />
+        ) : (
+          <Logs {...opts} getFacetedSearchSuggestions={getFacetedSearchSuggestions} />
+        )
+      }
     </StateManagement>
   );
 }
