@@ -40,7 +40,7 @@
       "memoryUsage": "Memory Usage",
       "cloudFoundryApplication": "Cloud Foundry Application",
       "vSphereDatacenter": "vSphere Datacenter",
-      "ibmz": "IBM Z",
+      "ibmz": "IBM Z HMC",
       "ibmp": "IBM Power",
       "clusterSubTitle": "{{clusterDistribution}} Cluster, {{count}} Node, {{numberOfPods}}",
       "clusterSubTitle_plural": "{{clusterDistribution}} Cluster, {{count}} Nodes, {{numberOfPods}}",

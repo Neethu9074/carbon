@@ -26,7 +26,7 @@ export default function Environmental({ timeConfig, data: cpc }) {
               y1={{
                 min: 0,
                 metrics: ['heatLoad', 'heatLoadForcedAir', 'heatLoadWater'],
-                labels: [t('in-zhmc:heatLoad'), t('in-zhmc:heatLoadForcedAir'), t('in-zhmc:heatLoadWater')],
+                labels: [t('in-zhmc:totalHeatLoad'), t('in-zhmc:heatLoadForcedAir'), t('in-zhmc:heatLoadWater')],
                 formatter: number.detailed,
                 type: 'line'
               }}
@@ -94,14 +94,14 @@ export default function Environmental({ timeConfig, data: cpc }) {
         )}
 
         <Col lg={6}>
-          <Card title={t('in-zhmc:powerConsumptionWatts')} useMaxAvailableHeight>
+          <Card title={t('in-zhmc:dashboards.powerConsumptionWatts')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['envPowerConsumptionWatts'],
-                labels: [t('in-zhmc:powerConsumptionWatts')],
+                labels: [t('in-zhmc:powerConsumption')],
                 formatter: number.detailed,
                 type: 'line'
               }}
