@@ -6,15 +6,15 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { QueryBuilderComponent, QueryBuilderComponentProps } from 'in-components/QueryBuilder';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import { QueryBuilderComponent, QueryBuilderProps } from 'in-components/QueryBuilder';
 
 import locals from './FilterConfigurator.mless';
 
-interface FilterConfiguratorProps extends Omit<QueryBuilderProps, 'value' | 'onChange'> {
+interface FilterConfiguratorProps extends Omit<QueryBuilderComponentProps, 'value' | 'onChange'> {
   QueryBuilderComponent: QueryBuilderComponent;
   form: MapForm;
-  updateForm: (f: MapForm) => MapForm;
+  updateForm: (f: MapForm) => void;
   formFieldName: string;
 }
 
