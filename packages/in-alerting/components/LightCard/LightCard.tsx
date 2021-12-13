@@ -3,15 +3,32 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
 
 import { toInteractiveElement } from '@instana/components';
 
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 
 import locals from './LightCard.mless';
+
+interface LightCardProps {
+  title?: ReactNode;
+  titleSubContent?: ReactNode;
+  children?: ReactNode;
+  header?: ReactNode;
+  label?: string;
+
+  onHeaderBackgroundClicked?: () => void;
+
+  className?: string;
+  headerClassName?: string;
+  bodyClassName?: string;
+  withoutPadding?: boolean;
+  darkFrame?: boolean;
+  framed?: boolean;
+  useMaxAvailableHeight?: boolean;
+}
 
 export default function LightCard({
   title,
@@ -27,7 +44,7 @@ export default function LightCard({
   framed = true,
   useMaxAvailableHeight,
   label
-}) {
+}: LightCardProps) {
   const isInteractiveCard = !!onHeaderBackgroundClicked;
   const onClickPrevented = isInteractiveCard ? stopPropagationAndPreventDefault : undefined;
   const headerProps = isInteractiveCard
@@ -40,6 +57,7 @@ export default function LightCard({
     <div
       className={classNames({
         [locals.card]: true,
+        // @ts-ignore this creates an undefined: undefined key value pair if className is undefined. TS errors on this, but in the context of class names it is acceptable.
         [className]: className,
         [locals.framed]: framed,
         [locals.darkFrame]: darkFrame,
@@ -50,6 +68,7 @@ export default function LightCard({
         className={classNames({
           [locals.header]: true,
           [locals.clickableHeader]: isInteractiveCard,
+          // @ts-ignore this creates an undefined: undefined key value pair if className is undefined. TS errors on this, but in the context of class names it is acceptable.
           [headerClassName]: headerClassName,
           [locals.noSubContent]: !titleSubContent
         })}
@@ -81,6 +100,7 @@ export default function LightCard({
         className={classNames({
           [locals.body]: children,
           [locals.bodyWithoutPadding]: withoutPadding,
+          // @ts-ignore this creates an undefined: undefined key value pair if className is undefined. TS errors on this, but in the context of class names it is acceptable.
           [bodyClassName]: bodyClassName
         })}
       >
@@ -89,20 +109,3 @@ export default function LightCard({
     </div>
   );
 }
-
-LightCard.propTypes = {
-  bodyClassName: PropTypes.string,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  icon: PropTypes.string,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  darkFrame: PropTypes.bool,
-  framed: PropTypes.bool,
-  header: PropTypes.node,
-  headerClassName: PropTypes.string,
-  label: PropTypes.string,
-  onHeaderBackgroundClicked: PropTypes.func,
-  titleSubContent: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.node]),
-  useMaxAvailableHeight: PropTypes.bool,
-  withoutPadding: PropTypes.bool
-};
