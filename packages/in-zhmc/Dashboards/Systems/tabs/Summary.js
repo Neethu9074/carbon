@@ -75,9 +75,19 @@ export default function Summary({ timeConfig, data: cpc }) {
                     'icfSharedProcessorUsage',
                     'cbpSharedProcessorUsage',
                     'cpSharedProcessorUsage',
-                    'aapSharedProcessorUsage'
+                    'aapSharedProcessorUsage',
+                    'iipSharedProcessorUsage',
+                    'allSharedProcessorUsage'
                   ],
-                  labels: [t('in-zhmc:ifl'), t('in-zhmc:icf'), t('in-zhmc:cbp'), t('in-zhmc:cp'), t('in-zhmc:aap')],
+                  labels: [
+                    t('in-zhmc:ifl'),
+                    t('in-zhmc:icf'),
+                    t('in-zhmc:cbp'),
+                    t('in-zhmc:cp'),
+                    t('in-zhmc:aap'),
+                    t('in-zhmc:iip'),
+                    t('in-zhmc:allProc')
+                  ],
                   formatter: percentage.detailed,
                   type: 'line'
                 }}
@@ -97,9 +107,19 @@ export default function Summary({ timeConfig, data: cpc }) {
                     'icfDedicatedProcessorUsage',
                     'cbpDedicatedProcessorUsage',
                     'cpDedicatedProcessorUsage',
-                    'aapDedicatedProcessorUsage'
+                    'aapDedicatedProcessorUsage',
+                    'iipDedicatedProcessorUsage',
+                    'allDedicatedProcessorUsage'
                   ],
-                  labels: [t('in-zhmc:ifl'), t('in-zhmc:icf'), t('in-zhmc:cbp'), t('in-zhmc:cp'), t('in-zhmc:aap')],
+                  labels: [
+                    t('in-zhmc:ifl'),
+                    t('in-zhmc:icf'),
+                    t('in-zhmc:cbp'),
+                    t('in-zhmc:cp'),
+                    t('in-zhmc:aap'),
+                    t('in-zhmc:iip'),
+                    t('in-zhmc:allProc')
+                  ],
                   formatter: percentage.detailed,
                   type: 'line'
                 }}
