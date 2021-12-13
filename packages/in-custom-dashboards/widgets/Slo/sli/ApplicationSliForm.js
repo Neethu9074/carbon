@@ -206,7 +206,8 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
       <GoodBadEventsConfigurator
         entityType="application"
         label={apName}
-        form={form}
+        form={form.get('sliEntity')}
+        updateForm={updatedForm => onChange(['sliEntity'], updatedForm)}
         QueryBuilderComponent={QueryBuilderComponent}
       />
     </Stack>

@@ -105,7 +105,8 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
           websiteLabel: websiteName,
           beaconType: t('in-custom-dashboards:widgets.slo.sliFormPresenter.httpRequestsLabel')
         })}
-        form={form}
+        form={form.get('sliEntity')}
+        updateForm={updatedForm => onChange(['sliEntity'], updatedForm)}
         QueryBuilderComponent={QueryBuilder}
       />
     </Stack>
