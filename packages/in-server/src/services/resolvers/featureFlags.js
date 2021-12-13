@@ -230,6 +230,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'smartAlertsLogsBlueprintEnabled',
+    instanaCtlKey: 'feature.application.smartAlerts.logsBlueprint.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'disableAppDataLegacyEvents',
     instanaCtlKey: 'feature.disable.app.data.legacy.events',
     defaultValue: false
