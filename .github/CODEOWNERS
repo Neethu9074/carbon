@@ -53,7 +53,7 @@ packages/in-server                  @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-services                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-settings                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-stan @instana/eng-alerting @instana/eng-enterprise @instana/eng-application
 packages/in-stores                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-stores/snapshot         @pr-approval @instana/eng-infrastructure
+packages/in-stores/snapshot         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure
 # Deprecated: We should not make any more changes within this package (aside from code removal)
 packages/in-subscription            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-test                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
