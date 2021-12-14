@@ -10375,8 +10375,7 @@
       "labelPacketsReceived": "Packets Received",
       "labelPacketsSent": "Packets Sent",
       "labelPeer": "Peer",
-      "zxid": "zxid",
-      "zxidOverflowLimit": "zxid Overflow Limit"
+      "zxid": "zxid"
     },
     "lxc": {
       "networkWithNetworkInterface": "Network ({{networkInterface}})",
