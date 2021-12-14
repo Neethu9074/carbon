@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Instead of using ci-shared-tools as a git submodule, we now download a versioned
-# GitHub Release of that project from https://github.com/instana/ci-shared-tools/releases.
+# GitHub Release of that project from https://github.ibm.com/instana/ci-shared-tools/releases.
 # This will hopefully avoid submodule version clobbering when Pull Requests or older
 # release branches are merged.
 

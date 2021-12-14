@@ -1,10 +1,10 @@
 # Component Images
 
-This directory contains all code necessary to build Instana `ui-client` component images based off of Instana runtime images. The `ui-client` component uses a similar `container` definition file as the [default backend one](https://github.com/instana/backend/blob/develop/containers/components/default/container) except that it's using the `nodejs` image instead of `jdk11` as the base.
+This directory contains all code necessary to build Instana `ui-client` component images based off of Instana runtime images. The `ui-client` component uses a similar `container` definition file as the [default backend one](https://github.ibm.com/instana/backend/blob/develop/containers/components/default/container) except that it's using the `nodejs` image instead of `jdk11` as the base.
 
 ## Base Image
 
-All Instana component images use one of the [Instana runtime images](https://github.com/instana/backend/blob/develop/containers/runtimes) as its base. The version of that base image is controlled by the value in the [`BASE_VERSION`](BASE_VERSION) file.
+All Instana component images use one of the [Instana runtime images](https://github.ibm.com/instana/backend/blob/develop/containers/runtimes) as its base. The version of that base image is controlled by the value in the [`BASE_VERSION`](BASE_VERSION) file.
 
 ## Usage
 
