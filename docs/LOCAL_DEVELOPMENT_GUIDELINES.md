@@ -17,7 +17,7 @@ Tasks are defined in the `package.json`. They can be executed via `yarn run <tas
 
 ## End to End Tests
 
-We do have end to end tests for the Instana user interface. We started maintaining these within the [backend repository](https://github.com/instana/backend/tree/develop/e2e-tests/ui#readme). This was done in preparation for an eventual merge of the backend and UI repositories into a real *product* repository.
+We do have end to end tests for the Instana user interface. We started maintaining these within the [backend repository](https://github.ibm.com/instana/backend/tree/develop/e2e-tests/ui#readme). This was done in preparation for an eventual merge of the backend and UI repositories into a real *product* repository.
 
 ## Visual Studio Code Integration
 
