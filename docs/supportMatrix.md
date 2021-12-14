@@ -48,5 +48,5 @@ to support screen dimensions `<1280px`.
 [browserslist]: https://github.com/browserslist/browserslist
 [.browserslistrc]: ./.browserslistrc
 [usage statistics]: https://instana.io/s/iG_dWhR-Sg-7Ja-Jtu0Yrg
-[fixed minimum width]: https://github.com/instana/ui-client/blob/23bdff8df3e34a607306fb31f745ba8d1db9533b/packages/in-themes/foundation.less#L14-L17
-[web browser scaling is supported]: https://github.com/instana/ui-client/blob/23bdff8df3e34a607306fb31f745ba8d1db9533b/packages/in-server/src/templates/index.hbs#L4-L6
+[fixed minimum width]: https://github.ibm.com/instana/ui-client/blob/23bdff8df3e34a607306fb31f745ba8d1db9533b/packages/in-themes/foundation.less#L14-L17
+[web browser scaling is supported]: https://github.ibm.com/instana/ui-client/blob/23bdff8df3e34a607306fb31f745ba8d1db9533b/packages/in-server/src/templates/index.hbs#L4-L6

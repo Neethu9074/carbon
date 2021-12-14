@@ -40,7 +40,7 @@ export const aggregationIcons = {
 };
 
 // Ensure that this is kept in sync with the backend:
-// - https://github.com/instana/backend/blob/1f04be562b1310cbd7dd00ab3208c82042197b00/ui-backend/src/main/java/com/instana/ui/service/EventMetricService.java#L59
+// - https://github.ibm.com/instana/backend/blob/1f04be562b1310cbd7dd00ab3208c82042197b00/ui-backend/src/main/java/com/instana/ui/service/EventMetricService.java#L59
 export const sensibleGranularities = [
   seconds.toMillis(1),
   seconds.toMillis(5),

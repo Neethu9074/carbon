@@ -93,7 +93,7 @@ Now that you have access to our artifact registry, it is time to download all ou
 
 You will also need to have Nginx installed and its CLI on the path. Installation instructions can be found in the [proxrox repository](https://github.com/bripkens/proxrox/blob/master/INSTALLATION.md#installation-of-nginx).
 
-As an alternative (especially for Linux), you might use the `nginx` script as provided in the [internal-tools repository](https://github.com/instana/internal-tools/tree/master/proxrox-nginx), which will run Nginx as Docker container. **For regular/repeated UI development however we do not recommend this option.**
+As an alternative (especially for Linux), you might use the `nginx` script as provided in the [internal-tools repository](https://github.ibm.com/instana/internal-tools/tree/master/proxrox-nginx), which will run Nginx as Docker container. **For regular/repeated UI development however we do not recommend this option.**
 
 On Linux, it might be required to do the following to allow `yarn` to run the ngnix-docker container without sudo:
 
