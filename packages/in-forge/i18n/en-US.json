@@ -8731,8 +8731,6 @@
         "messageTime": "Message Time",
         "oldest": "Oldest",
         "onQueue": "On Queue",
-        "reset": "Reset",
-        "last": "Last",
         "calls": "Calls",
         "openInputs": "Open Inputs",
         "openOutputs": "Open Outputs",
@@ -8760,8 +8758,6 @@
       "messages": "Messages",
       "messageTime": "Message Time",
       "onQueueMessageTime": "On Queue Message Time",
-      "lastResetTime": "Last Reset Time",
-      "reset": "Reset",
       "openInputCount": "Open Input Count",
       "openOutputCount": "Open Output Count",
       "calls": "Calls"

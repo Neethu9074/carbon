@@ -11582,13 +11582,6 @@ export default {
           icon: 'plugin:ibmMqQueue',
           children: [
             {
-              label: 'Last reset time',
-              description: 'Time since reset.',
-              icon: 'lib_views_tag',
-              type: 'ibmMqQueue',
-              name: 'lastResetTime'
-            },
-            {
               label: 'Max queue depth',
               description: 'Maximum queue depth.',
               icon: 'lib_views_tag',
