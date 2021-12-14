@@ -88,27 +88,23 @@ export default function ZKStandaloneDashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.zooKeeper.zxid')}>
-        <Chart
-          snapshotId={snapshot.get('id')}
-          timeConfig={timeConfig}
-          y1={{
-            min: 0,
-            metrics: ['zxid'],
-            labels: [t('in-forge:plugins.zooKeeper.zxid')],
-            type: 'line',
-            formatter: zeroDecimalPlaces
-          }}
-          y2={{
-            min: 0,
-            max: zxidOverflowLimit,
-            labels: [t('in-forge:plugins.zooKeeper.zxidOverflowLimit')],
-            type: 'line',
-            formatter: zeroDecimalPlaces
-          }}
-          renderPostChartContent={PluginDashboardsMarkerLanes}
-        />
-      </DashboardSection>
+      {zxidOverflowLimit ? (
+        <DashboardSection title={t('in-forge:plugins.zooKeeper.zxid')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              max: zxidOverflowLimit,
+              metrics: ['zxid'],
+              labels: [t('in-forge:plugins.zooKeeper.zxid')],
+              type: 'line',
+              formatter: zeroDecimalPlaces
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      ) : null}
     </div>
   );
 }
