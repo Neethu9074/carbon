@@ -101,7 +101,7 @@ in the backend repository.
 You can import the backend types via `import { … } from 'in-types';`. Please do not import
 `in-types/backend` directory!
 
-[a generator]: https://github.com/instana/backend/blob/develop/ui/typescript-generation/README.md
+[a generator]: https://github.ibm.com/instana/backend/blob/develop/ui/typescript-generation/README.md
 
 ### Shared / Global Types
 
@@ -194,21 +194,21 @@ class MyComponent extends React.Component<Props> {
 
 Our backend repository contains a lot of type definitions of models that are used throughout the UI. Some examples:
 
-- [Result](https://github.com/instana/backend/blob/b8f5e05818bacd199d7c2b97fc93d538913dea87/ui-model/src/main/java/com/instana/ui/model/result/Result.java)
+- [Result](https://github.ibm.com/instana/backend/blob/b8f5e05818bacd199d7c2b97fc93d538913dea87/ui-model/src/main/java/com/instana/ui/model/result/Result.java)
 
-- [TimeConfig](https://github.com/instana/backend/blob/b8f5e05818bacd199d7c2b97fc93d538913dea87/ui-model/src/main/java/com/instana/ui/model/query/TimeConfig.java)
+- [TimeConfig](https://github.ibm.com/instana/backend/blob/b8f5e05818bacd199d7c2b97fc93d538913dea87/ui-model/src/main/java/com/instana/ui/model/query/TimeConfig.java)
 
-- [GetUnifiedMetricsQuery](https://github.com/instana/backend/blob/b8f5e05818bacd199d7c2b97fc93d538913dea87/ui-model/src/main/java/com/instana/ui/model/unifiedmetrics/GetUnifiedMetricsQuery.java)
+- [GetUnifiedMetricsQuery](https://github.ibm.com/instana/backend/blob/b8f5e05818bacd199d7c2b97fc93d538913dea87/ui-model/src/main/java/com/instana/ui/model/unifiedmetrics/GetUnifiedMetricsQuery.java)
 
 Instead of manually defining all of these APIs within ui-client, it makes more sense to automatically generate them from the Java code. Not only does this save time, but it would also implicitly turn into a kind of contract test between user interface and backend.
 
-In the [backend](https://github.com/instana/backend/tree/develop/ui/typescript-generation) repository, we have added a script to generate typescript type definitions out of the java code and create a PR to `ui-client` every time there is a change detected in delivery branches.
+In the [backend](https://github.ibm.com/instana/backend/tree/develop/ui/typescript-generation) repository, we have added a script to generate typescript type definitions out of the java code and create a PR to `ui-client` every time there is a change detected in delivery branches.
 
-Sample PR: https://github.com/instana/ui-client/pull/6779
+Sample PR: https://github.ibm.com/instana/ui-client/pull/6779
 
 This PR will update the `ui-client/in-types.d.ts` file.
 
-More details about the type-def generation can be found in our [backend repo](https://github.com/instana/backend/tree/develop/ui/typescript-generation)
+More details about the type-def generation can be found in our [backend repo](https://github.ibm.com/instana/backend/tree/develop/ui/typescript-generation)
 
 ### Sample TS output from Java
 
