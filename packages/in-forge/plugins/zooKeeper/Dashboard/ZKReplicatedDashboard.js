@@ -15,6 +15,7 @@ import { t } from 'in-i18n';
 export default function ZKReplicatedDashboard({ snapshot, timeConfig }) {
   const snapshotId = snapshot.get('id');
   const localPeerNames = extractLocalPeerNames(snapshot);
+  const zxidOverflowLimit = snapshot.getIn(['data', 'zxid_overflow_limit']);
 
   return (
     <div>
@@ -35,6 +36,24 @@ export default function ZKReplicatedDashboard({ snapshot, timeConfig }) {
           />
         ))}
       </DashboardSection>
+
+      {zxidOverflowLimit ? (
+        <DashboardSection title={t('in-forge:plugins.zooKeeper.zxid')}>
+          <Chart
+            snapshotId={snapshot.get('id')}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              max: zxidOverflowLimit,
+              metrics: ['zxid'],
+              labels: [t('in-forge:plugins.zooKeeper.zxid')],
+              type: 'line',
+              formatter: zeroDecimalPlaces
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        </DashboardSection>
+      ) : null}
     </div>
   );
 }
