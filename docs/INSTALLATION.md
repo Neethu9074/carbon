@@ -8,19 +8,10 @@ This document lists the technical steps necessary in order to get a local UI dev
 
 ![Convince me meme: Following these instructions as root will not work](https://user-images.githubusercontent.com/596443/136749896-a29f6859-f1b2-4897-a9ba-8a1f798459d9.png)
 
-
-## Git Configuration
-
-This repository is using Git submodules. If you prefer to interact with GitHub via SSH (or if you don't know what this means), then we recommend that you add the following to your Git configuration in order to always use SSH instead of HTTPS access for GitHub.
-
-```sh
-git config --global url.git@github.com:.insteadof https://github.com/
-```
-
 ## Cloning the Repository
 
 ```sh
-git clone git@github.com:instana/ui-client.git
+git clone git@github.ibm.com:instana/ui-client.git
 cd ui-client
 ```
 
