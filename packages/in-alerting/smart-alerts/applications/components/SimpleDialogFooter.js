@@ -43,7 +43,7 @@ export function SimpleDialogFooter({
   const isCalculatingThreshold = useObservable(thresholdOrBaselineLoadingSignal$, []);
 
   // TODO: investigate: This was copied from SimpleModePageNavigation, and might not be need anymore
-  // see also https://github.com/instana/ui-client/pull/7185/files/474e0a1c80115372cc3e1c9fe472ad90a296c8c2#r692886769
+  // see also https://github.ibm.com/instana/ui-client/pull/7185/files/474e0a1c80115372cc3e1c9fe472ad90a296c8c2#r692886769
   useEffect(() => {
     if (simpleModeStep && simpleModeStep > step) {
       setStep(simpleModeStep);
