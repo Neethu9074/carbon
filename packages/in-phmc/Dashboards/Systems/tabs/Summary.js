@@ -72,6 +72,24 @@ export default function Summary({ timeConfig, data: system }) {
           </Card>
         </Col>
       </Row>
+      <Row>
+        <Col lg={12}>
+          <Card title={t('in-phmc:dashboards.hypervisor')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['utilizedProcUnits', 'assignedMem'],
+                labels: [t('in-phmc:utilized'),t('in-phmc:assignedMem')],
+                formatter: number.compact,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Col>
+      </Row>
       <SharedProcessorPool snapshotId={system.id} />
     </Fragment>
   );

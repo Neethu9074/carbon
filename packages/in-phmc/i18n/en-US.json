@@ -106,7 +106,8 @@
     "genericVirtualAdapter": "Generic Virtual Adapters",
     "fiberChannelAdapter": "Fiber Channel Adapters",
     "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapters",
-    "sharedStoragePool": "Shared Storage Pools"
+    "sharedStoragePool": "Shared Storage Pools",
+    "hypervisor": "Hypervisors"
   }
 }
 
