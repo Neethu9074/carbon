@@ -94,7 +94,7 @@
   "cbp":"CBP Processor Usage",
   "cp":"CP Processor Usage",
   "iip":"IIP Processor Usage",
-  "allproc": "All Processor Usage",
+  "allProc": "All Processor Usage",
   "temperature":"Temperature",
   "totalHeatLoad":"Total Heat Load",
   "heatLoadForcedAir": "Heat Load (Forced Air)",
