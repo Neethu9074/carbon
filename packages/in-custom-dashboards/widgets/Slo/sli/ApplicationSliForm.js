@@ -194,7 +194,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
 
       <Divider />
 
-      {form.get('metricConfiguration') && (
+      {form.getIn(['sliEntity', 'sliType'])?.value === applicationType && (
         <MetricsForm
           entityType="application"
           metricEntityType="calls"
@@ -203,13 +203,15 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
         />
       )}
 
-      <GoodBadEventsConfigurator
-        entityType="application"
-        label={apName}
-        form={form.get('sliEntity')}
-        updateForm={updatedForm => onChange(['sliEntity'], updatedForm)}
-        QueryBuilderComponent={QueryBuilderComponent}
-      />
+      {form.getIn(['sliEntity', 'sliType'])?.value === availabilityType && (
+        <GoodBadEventsConfigurator
+          entityType="application"
+          label={apName}
+          form={form.get('sliEntity')}
+          updateForm={updatedForm => onChange([], f => f.put('sliEntity', updatedForm))}
+          QueryBuilderComponent={QueryBuilderComponent}
+        />
+      )}
     </Stack>
   );
 }

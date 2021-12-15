@@ -57,7 +57,7 @@ export default function LightCard({
     <div
       className={classNames({
         [locals.card]: true,
-        // @ts-ignore this creates an undefined: undefined key value pair if className is undefined. TS errors on this, but in the context of class names it is acceptable.
+        // @ts-expect-error this creates an undefined: undefined key value pair if className is undefined. TS errors on this, but in the context of class names it is acceptable.
         [className]: className,
         [locals.framed]: framed,
         [locals.darkFrame]: darkFrame,
@@ -68,7 +68,7 @@ export default function LightCard({
         className={classNames({
           [locals.header]: true,
           [locals.clickableHeader]: isInteractiveCard,
-          // @ts-ignore this creates an undefined: undefined key value pair if className is undefined. TS errors on this, but in the context of class names it is acceptable.
+          // @ts-expect-error this creates an undefined: undefined key value pair if className is undefined. TS errors on this, but in the context of class names it is acceptable.
           [headerClassName]: headerClassName,
           [locals.noSubContent]: !titleSubContent
         })}
@@ -100,7 +100,7 @@ export default function LightCard({
         className={classNames({
           [locals.body]: children,
           [locals.bodyWithoutPadding]: withoutPadding,
-          // @ts-ignore this creates an undefined: undefined key value pair if className is undefined. TS errors on this, but in the context of class names it is acceptable.
+          // @ts-expect-error this creates an undefined: undefined key value pair if className is undefined. TS errors on this, but in the context of class names it is acceptable.
           [bodyClassName]: bodyClassName
         })}
       >

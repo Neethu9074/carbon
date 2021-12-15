@@ -7,10 +7,14 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import {
+  websiteSliTypeOptions,
+  websiteEventBased,
+  websiteTimeBased
+} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
 import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
-import { websiteSliTypeOptions } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
@@ -90,7 +94,7 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
 
       <Divider />
 
-      {form.get('metricConfiguration') && (
+      {form.getIn(['sliEntity', 'sliType'])?.value === websiteTimeBased && (
         <MetricsForm
           entityType="website"
           metricEntityType={form.get('sliEntity').get('beaconType').value}
@@ -99,16 +103,18 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
         />
       )}
 
-      <GoodBadEventsConfigurator
-        entityType="website"
-        label={t('in-custom-dashboards:widgets.slo.goodBadEventsForm.websitesFilterLabel', {
-          websiteLabel: websiteName,
-          beaconType: t('in-custom-dashboards:widgets.slo.sliFormPresenter.httpRequestsLabel')
-        })}
-        form={form.get('sliEntity')}
-        updateForm={updatedForm => onChange(['sliEntity'], updatedForm)}
-        QueryBuilderComponent={QueryBuilder}
-      />
+      {form.getIn(['sliEntity', 'sliType'])?.value === websiteEventBased && (
+        <GoodBadEventsConfigurator
+          entityType="website"
+          label={t('in-custom-dashboards:widgets.slo.goodBadEventsForm.websitesFilterLabel', {
+            websiteLabel: websiteName,
+            beaconType: t('in-custom-dashboards:widgets.slo.sliFormPresenter.httpRequestsLabel')
+          })}
+          form={form.get('sliEntity')}
+          updateForm={updatedForm => onChange([], f => f.put('sliEntity', updatedForm))}
+          QueryBuilderComponent={QueryBuilder}
+        />
+      )}
     </Stack>
   );
 }
