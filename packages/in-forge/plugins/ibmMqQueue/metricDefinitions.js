@@ -47,13 +47,6 @@ export default [
     formatter: micros
   },
   {
-    metrics: ['lastResetTime'],
-    labels: [t('in-forge:plugins.ibmMqQueue.lastResetTime')],
-    min: 0,
-    category: [t('in-forge:plugins.ibmMqQueue.reset')],
-    formatter: seconds
-  },
-  {
     metrics: ['openInputCount', 'openOutputCount'],
     labels: [t('in-forge:plugins.ibmMqQueue.openInputCount'), t('in-forge:plugins.ibmMqQueue.openOutputCount')],
     min: 0,

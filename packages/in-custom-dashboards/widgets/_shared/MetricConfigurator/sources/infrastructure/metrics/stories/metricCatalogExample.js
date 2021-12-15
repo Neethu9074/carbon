@@ -28065,13 +28065,6 @@ export default {
     {
       description: '',
       valueType: 'STRING',
-      label: 'lastResetTime',
-      name: 'lastResetTime',
-      type: 'ibmMqQueue'
-    },
-    {
-      description: '',
-      valueType: 'STRING',
       label: 'maxQueueDepth',
       name: 'maxQueueDepth',
       type: 'ibmMqQueue'
