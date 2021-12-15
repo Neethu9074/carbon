@@ -6,7 +6,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import IconLabel from 'in-alerting/components/IconLabel';
 import Tooltip from 'in-components/Tooltip';
@@ -15,12 +15,14 @@ import { t } from 'in-i18n';
 import locals from './ListColumns.mless';
 
 const maxFilterToDisplay = 3;
-export default function ListFilterColumn({ tagFilterExpression: backendModelTagFilterExpression = [] }) {
+export default function ListFilterColumn({ tagFilterExpression: backendModelTagFilterExpression = [], rule }) {
   const tagFilterExpression = fromBackendModel(backendModelTagFilterExpression);
 
   if (!tagFilterExpression.length) {
     return null;
   }
+
+  const { QueryBuilder } = getQueryBuilderForAlertType(rule.alertType);
 
   const filtersToDisplay = getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay);
   const filterCount = getFiltersCount(tagFilterExpression);
@@ -30,7 +32,7 @@ export default function ListFilterColumn({ tagFilterExpression: backendModelTagF
       themeStyle="light"
       content={
         <div>
-          <AlertQueryBuilder value={filtersToDisplay} readOnly />
+          <QueryBuilder value={filtersToDisplay} readOnly />
           <span className={locals.moreItems}>
             {filterCount > maxFilterToDisplay &&
               t('in-applications:alert.tooltipMoreFilter', {
@@ -77,5 +79,6 @@ function getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay) {
 }
 
 ListFilterColumn.propTypes = {
+  rule: PropTypes.object.isRequired,
   tagFilterExpression: PropTypes.object.isRequired
 };

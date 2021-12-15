@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
@@ -14,6 +14,7 @@ import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-al
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
+import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/applications/simple/simpleModeSteps';
 import { SimpleDialogFooter } from 'in-alerting/smart-alerts/applications/components/SimpleDialogFooter';
@@ -98,8 +99,14 @@ function SmartAlertConfigDialogWithQueryValidation({
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
-  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(alertConfigWithFormModel.tagFilterExpression);
-  const isValid = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule) && isTagFilterFormModelValid;
+  const { rule, tagFilterExpression } = alertConfigWithFormModel;
+  const { isQueryValid } = useMemo(() => {
+    return getQueryBuilderForAlertType(rule.alertType);
+  }, [rule.alertType]);
+
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
+
+  const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 
   const [thresholdResult, setThresholdResult] = useState();
   useThresholdSuggestion(form, updateForm, setThresholdResult, {
