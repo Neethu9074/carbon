@@ -103,13 +103,3 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 
 //Flag which exposes the download button - enables the download of metrics from event view
 export const allowDownloadMetricsFromCharts = isInstanaEmail;
-
-/* Websites Smart Alerts:
-   Show an extended UI for make it possible to configure the
-   measurement for the user impact:
-   Aggregated(default) or per_window
- */
-export const websiteSmartAlertsAllowPerWindowUserImpact = isFeatureFlagEnabled(
-  'websiteSmartAlertsAllowPerWindowUserImpact',
-  true
-);

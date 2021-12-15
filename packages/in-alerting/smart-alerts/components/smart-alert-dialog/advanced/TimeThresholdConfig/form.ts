@@ -6,7 +6,6 @@
 import { createField, createMapForm, MapForm, ValidationResult } from 'formalistic';
 
 import { TimeThresholdType } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
-import { websiteSmartAlertsAllowPerWindowUserImpact } from 'in-services/featureFlags';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { defaultGranularity } from 'in-alerting/PotentialProblems/constants';
 import { ImpactMeasurementMethod, ThresholdType } from 'in-types';
@@ -102,14 +101,12 @@ export function createUserImpactOfViolationsInSequenceForm(
 ): MapForm {
   let form = createMapBase('userImpactOfViolationsInSequence', thresholdType, timeWindow);
 
-  if (websiteSmartAlertsAllowPerWindowUserImpact) {
-    form = form.put(
-      'impactMeasurementMethod',
-      createField({
-        value: impactMeasurementMethod ?? ImpactMeasurementMethods.AGGREGATED
-      })
-    );
-  }
+  form = form.put(
+    'impactMeasurementMethod',
+    createField({
+      value: impactMeasurementMethod ?? ImpactMeasurementMethods.AGGREGATED
+    })
+  );
 
   if (users) {
     form = putUsersField(form, users);
