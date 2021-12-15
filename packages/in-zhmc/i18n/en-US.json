@@ -95,6 +95,8 @@
   "cp":"CP Processor Usage",
   "iip":"IIP Processor Usage",
   "allProc": "All Processor Usage",
+  "hmcVersion": "HMC Version",
+  "apiVersion": "API Version",
   "temperature":"Temperature",
   "totalHeatLoad":"Total Heat Load",
   "heatLoadForcedAir": "Heat Load (Forced Air)",

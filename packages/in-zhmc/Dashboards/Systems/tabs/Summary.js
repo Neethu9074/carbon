@@ -13,6 +13,9 @@ import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { number, percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import Processors from '../../tables/Processors';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import KpiCard from 'in-components/KpiCard/KpiCard';
+
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: cpc }) {
@@ -21,25 +24,22 @@ export default function Summary({ timeConfig, data: cpc }) {
   if (cpc.dpmEnabled === 'false') {
     return (
       <Fragment>
-        <Row>
-          <Col lg={4}>
+        <KpiGridRow sizes={[4, 4, 4, 4]}>
+           <KpiCard title={t('in-zhmc:hmcVersion')} value={cpc.hmcVersion || valueMissingPlaceholder} raw borderless />
+           <KpiCard title={t('in-zhmc:apiVersion')} value={cpc.apiVersion || valueMissingPlaceholder} raw borderless />
             <InfraMetricKpiCard
               title={t('in-zhmc:dashboards.cpcProcessorUsage')}
               snapshotId={snapshotId}
               metric="cpcProcessorUsage"
               formatter={percentage.detailed}
             />
-          </Col>
-          <Col lg={4}>
             <InfraMetricKpiCard
               title={t('in-zhmc:dashboards.powerConsumptionWatts')}
               snapshotId={snapshotId}
               metric="powerConsumptionWatts"
               formatter={number.compact}
             />
-          </Col>
-        </Row>
-
+          </KpiGridRow>
         <Row verticallyStretchColumns>
           <Col lg={4}>
             <Card title={t('in-zhmc:dashboards.all')} useMaxAvailableHeight>

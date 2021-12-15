@@ -21,7 +21,7 @@ export default function Summary({ timeConfig, data: lpar }) {
   const snapshotId = lpar.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
+      <KpiGridRow sizes={[4, 2, 2, 2, 2, 2]}>
         <KpiCard title={t('in-phmc:partitionId')} value={lpar.id || valueMissingPlaceholder} raw borderless />
         <KpiCard title={t('in-phmc:dashboards.name')} value={lpar.name || valueMissingPlaceholder} raw borderless />
         <KpiCard title={t('in-phmc:state')} value={lpar.state || valueMissingPlaceholder} raw borderless />
