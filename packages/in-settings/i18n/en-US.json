@@ -25,7 +25,8 @@
       "heading": "Terms of Service",
       "introduction": "Before moving forward, and before using Instana products and services, you need to read and agree to our Terms of Service.",
       "documents": "Please take a moment to read the following documents:",
-      "agreeToS": "I have read and agree to Instana's <tosButton />"
+      "agreeToS": "I have read and agree to Instana's <tosButton />.",
+      "ibmTos": "IBM’s Terms of Service will govern for IBM clients."
     },
     "termsPage2": {
       "heading": "Messaging"
