@@ -9,7 +9,7 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -41,14 +41,16 @@ export default function Environmental({ timeConfig, data: cpc }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['envTemperatureCelsius', 'dewPointCelsius', 'humidity', 'exhaustTemperatureCelsius'],
-                labels: [
-                  t('in-zhmc:temperature'),
-                  t('in-zhmc:dewPoint'),
-                  t('in-zhmc:humidity'),
-                  t('in-zhmc:exhaustTemperature')
-                ],
+                metrics: ['envTemperatureCelsius', 'dewPointCelsius', 'exhaustTemperatureCelsius'],
+                labels: [t('in-zhmc:temperature'), t('in-zhmc:dewPoint'), t('in-zhmc:exhaustTemperature')],
                 formatter: number.detailed,
+                type: 'line'
+              }}
+              y2={{
+                min: 0,
+                metrics: ['humidity'],
+                labels: [t('in-zhmc:humidity')],
+                formatter: percentage.detailed,
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}

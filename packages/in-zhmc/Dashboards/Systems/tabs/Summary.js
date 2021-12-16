@@ -8,14 +8,14 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { number, percentage } from 'in-services/formatters/number';
-import { Row, Col } from 'in-components/layout/Grid';
-import Processors from '../../tables/Processors';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
-
+import Processors from '../../tables/Processors';
 import { t } from 'in-i18n';
 
 export default function Summary({ timeConfig, data: cpc }) {
@@ -24,22 +24,22 @@ export default function Summary({ timeConfig, data: cpc }) {
   if (cpc.dpmEnabled === 'false') {
     return (
       <Fragment>
-        <KpiGridRow sizes={[4, 4, 4, 4]}>
-           <KpiCard title={t('in-zhmc:hmcVersion')} value={cpc.hmcVersion || valueMissingPlaceholder} raw borderless />
-           <KpiCard title={t('in-zhmc:apiVersion')} value={cpc.apiVersion || valueMissingPlaceholder} raw borderless />
-            <InfraMetricKpiCard
-              title={t('in-zhmc:dashboards.cpcProcessorUsage')}
-              snapshotId={snapshotId}
-              metric="cpcProcessorUsage"
-              formatter={percentage.detailed}
-            />
-            <InfraMetricKpiCard
-              title={t('in-zhmc:dashboards.powerConsumptionWatts')}
-              snapshotId={snapshotId}
-              metric="powerConsumptionWatts"
-              formatter={number.compact}
-            />
-          </KpiGridRow>
+        <KpiGridRow sizes={[2, 2, 2, 2]}>
+          <KpiCard title={t('in-zhmc:hmcVersion')} value={cpc.hmcVersion || valueMissingPlaceholder} raw borderless />
+          <KpiCard title={t('in-zhmc:apiVersion')} value={cpc.apiVersion || valueMissingPlaceholder} raw borderless />
+          <InfraMetricKpiCard
+            title={t('in-zhmc:dashboards.cpcProcessorUsage')}
+            snapshotId={snapshotId}
+            metric="cpcProcessorUsage"
+            formatter={percentage.detailed}
+          />
+          <InfraMetricKpiCard
+            title={t('in-zhmc:dashboards.powerConsumptionWatts')}
+            snapshotId={snapshotId}
+            metric="powerConsumptionWatts"
+            formatter={number.compact}
+          />
+        </KpiGridRow>
         <Row verticallyStretchColumns>
           <Col lg={4}>
             <Card title={t('in-zhmc:dashboards.all')} useMaxAvailableHeight>
