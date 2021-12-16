@@ -8,6 +8,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useObservable } from '@instana/hooks';
 import { empty } from '@instana/observables';
 
+import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-alerts/applications/hooks/useRemoveInvalidTagsFromFilterExpression';
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
@@ -105,6 +106,13 @@ function SmartAlertConfigDialogWithQueryValidation({
   }, [rule.alertType]);
 
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
+
+  const updateTagFilterExpression = filteredTagFilterExpression => {
+    let updatedForm = form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression));
+    updateForm(updatedForm);
+  };
+
+  useRemoveInvalidTagsFromFilterExpression(rule, tagFilterExpression, updateTagFilterExpression);
 
   const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 
