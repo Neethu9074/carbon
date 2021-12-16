@@ -6,7 +6,7 @@
 import { buildJsonSerializer, buildJsonParser } from 'in-stores/navigation/matrix';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 
-export function createParameters(path) {
+export function createParameters(path: string) {
   return {
     tagFilterExpression: {
       path,
@@ -67,5 +67,5 @@ export function createParameters(path) {
       serializer: buildJsonSerializer(),
       parser: buildJsonParser(null)
     }
-  };
+  } as const;
 }

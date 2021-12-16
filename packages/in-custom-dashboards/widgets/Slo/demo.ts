@@ -9,4 +9,4 @@ export const demo = {
   [apConfigId]: '',
   [sliConfigId]: '',
   [sloTarget]: 0.995
-};
+} as const;

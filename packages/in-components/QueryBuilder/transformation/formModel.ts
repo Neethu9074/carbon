@@ -82,8 +82,8 @@ export function joinExpressions({
   logicalOperator = and,
   expressions = []
 }: {
-  logicalOperator: LogicalOperator;
-  expressions: FormModelElement[][];
+  logicalOperator?: LogicalOperator;
+  expressions?: (FormModelElement | FormModelElement[])[];
 }): FormModelElement[] {
   const nonEmptyExpressions = expressions
     .map(expression => (Array.isArray(expression) ? expression : [expression]))
