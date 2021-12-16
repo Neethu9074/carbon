@@ -24,7 +24,7 @@ export default function Summary({ timeConfig, data: cpc }) {
   if (cpc.dpmEnabled === 'false') {
     return (
       <Fragment>
-        <KpiGridRow sizes={[2, 2, 2, 2]}>
+        <KpiGridRow sizes={[2, 2, 2, 4]}>
           <KpiCard title={t('in-zhmc:hmcVersion')} value={cpc.hmcVersion || valueMissingPlaceholder} raw borderless />
           <KpiCard title={t('in-zhmc:apiVersion')} value={cpc.apiVersion || valueMissingPlaceholder} raw borderless />
           <InfraMetricKpiCard
@@ -135,24 +135,22 @@ export default function Summary({ timeConfig, data: cpc }) {
   } else {
     return (
       <Fragment>
-        <Row>
-          <Col lg={4}>
+        <KpiGridRow sizes={[2, 2, 2, 4]}>
+          <KpiCard title={t('in-zhmc:hmcVersion')} value={cpc.hmcVersion || valueMissingPlaceholder} raw borderless />
+          <KpiCard title={t('in-zhmc:apiVersion')} value={cpc.apiVersion || valueMissingPlaceholder} raw borderless />
             <InfraMetricKpiCard
               title={t('in-zhmc:dashboards.cpcProcessorUsage')}
               snapshotId={snapshotId}
               metric="processorUsage"
               formatter={percentage.detailed}
             />
-          </Col>
-          <Col lg={4}>
             <InfraMetricKpiCard
               title={t('in-zhmc:dashboards.powerConsumptionWatts')}
               snapshotId={snapshotId}
               metric="dpmPowerConsumptionWatts"
               formatter={number.compact}
             />
-          </Col>
-        </Row>
+        </KpiGridRow>
 
         <Row verticallyStretchColumns>
           <Col lg={6}>
