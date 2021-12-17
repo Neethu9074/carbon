@@ -542,9 +542,10 @@ export interface CustomPayloadField {
   readonly type: string;
 }
 
-export interface DatabaseStatementTopListItem {
+export interface DatabaseStatementTopListItem extends Metricific {
   readonly id: string;
-  readonly metricValue: number;
+  readonly metricValue?: number;
+  readonly metrics: { [index: string]: number[][] };
   readonly statement: string;
 }
 
@@ -1025,7 +1026,8 @@ export interface GetCloudfoundryContainersQuery extends PaginatedQuery {
 
 export interface GetDatabaseStatementTopListQuery extends TopListQuery {
   readonly filter: Filter;
-  readonly metric: MetricConfiguration;
+  readonly metrics: { [index: string]: MetricConfiguration };
+  readonly order: Order;
 }
 
 export interface GetDeprecationsQuery extends UiQuery {
