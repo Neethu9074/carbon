@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { useMemo } from 'react';
+
 import { combineLatest, just } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
@@ -12,6 +14,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/selectionApi';
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { isLoading, hasError, errorWithData, success } from 'in-services/util/result';
 import getApplication from 'in-applications/subscriptions/getApplication';
@@ -22,11 +25,14 @@ export default function useApplicationsAndServicesSubscriptions({
   applicationIds,
   queryWindowSize
 }) {
-  const { applications, boundaryScope, tagFilterExpression, includeSynthetic } = alertConfigWithFormModel;
+  const { applications, boundaryScope, tagFilterExpression, includeSynthetic, rule } = alertConfigWithFormModel;
 
-  // only pass the user-defined part of the query, because the generated part is valid anyways, and the validation
-  // would reject the entity-filter anyways, because the user is not allowed to use them
-  const isQueryValid = useIsTagFilterFormModelValid(tagFilterExpression);
+  // only pass the user-defined part of the query, because the generated part is valid anyway, and the validation
+  // would reject the entity-filter anyway, because the user is not allowed to use them
+  const { isQueryValid } = useMemo(() => {
+    return getQueryBuilderForAlertType(rule.alertType);
+  }, [rule.alertType]);
+  const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
 
   const fetchAppsAndServices = applicationIds.map(applicationId => {
     const scopeDownEnrichedTagFilterFormModel = joinExpressions({
@@ -37,7 +43,7 @@ export default function useApplicationsAndServicesSubscriptions({
     });
     return combineLatest([
       getApplication({ id: applicationId }),
-      isQueryValid
+      isTagFilterFormModelValid
         ? getServiceList(queryWindowSize, scopeDownEnrichedTagFilterFormModel, includeSynthetic)
         : just(pendingResult)
     ]).map(([app, services]) => {

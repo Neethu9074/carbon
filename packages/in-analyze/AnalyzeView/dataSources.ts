@@ -7,12 +7,45 @@ import { get } from 'lodash';
 
 // eslint-disable-next-line no-restricted-imports
 import { getAnalyzeFilterTagKeys, getCallGroupTagKeys, getTraceGroupTagKeys } from 'in-applications/tags';
+import { ApplicationTagFilterEntity, CallItem, DataSource, TagFilter, TraceItem } from 'in-types';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
-let configs;
-export default function getByDataSource(dataSource) {
+type AnalyzeDataSource = Lowercase<DataSource | 'profiles'>;
+interface FilterTagKeysConfig {
+  filterTagKeys: ReturnType<typeof getAnalyzeFilterTagKeys>;
+}
+interface DataSourceConfig<Entity> extends FilterTagKeysConfig {
+  groupTagKeys: string[];
+  errorneousTagPreset: string;
+  latencyTagPreset: string;
+  isSyntheticTagPreset: string;
+  countMetricText: string;
+  countMetricKey: string;
+  defaultGrouping: {
+    name: string;
+    value: string;
+    entity: ApplicationTagFilterEntity;
+  };
+  defaultFilters: TagFilter[];
+  breadcrumbLabel: string;
+  getMatcher: (traceId: string, callId?: string) => (item: Entity) => boolean;
+  typeLabel: string;
+  getTraceIdByItem: (item: Entity) => string | undefined;
+  getCallIdByItem: (item: Entity) => string | undefined;
+}
+type AnalyzeDataSourceConfig<Source extends AnalyzeDataSource> = Source extends Lowercase<DataSource>
+  ? DataSourceConfig<Source extends 'traces' ? TraceItem : CallItem>
+  : FilterTagKeysConfig;
+
+let configs: {
+  [Source in AnalyzeDataSource]: AnalyzeDataSourceConfig<Source>;
+};
+
+export default function getByDataSource<Source extends AnalyzeDataSource>(
+  dataSource: Source
+): AnalyzeDataSourceConfig<Source> | {} {
   if (!configs) {
     const filterTagKeys = getAnalyzeFilterTagKeys();
     configs = {
@@ -25,11 +58,11 @@ export default function getByDataSource(dataSource) {
         countMetricText: t('in-analyze:analyzeView.traces'),
         countMetricKey: 'traces',
         defaultGrouping: { name: 'trace.endpoint.name', value: '', entity: entityTypes.NOT_APPLICABLE },
-        defaultFilters: [],
+        defaultFilters: [] as TagFilter[],
         breadcrumbLabel: t('in-analyze:analyzeView.dataSources.traceAnalytics'),
-        getMatcher: traceId => item => item.trace.id === traceId,
+        getMatcher: (traceId: string) => (item: TraceItem) => item.trace.id === traceId,
         typeLabel: t('in-analyze:analyzeView.dataSources.trace'),
-        getTraceIdByItem: item => item.trace.id,
+        getTraceIdByItem: (item: TraceItem) => item.trace.id,
         getCallIdByItem: () => undefined
       },
       calls: {
@@ -41,17 +74,18 @@ export default function getByDataSource(dataSource) {
         countMetricText: t('in-analyze:analyzeView.calls'),
         countMetricKey: 'calls',
         defaultGrouping: groupByEndpointName,
-        defaultFilters: [],
+        defaultFilters: [] as TagFilter[],
         breadcrumbLabel: t('in-analyze:analyzeView.dataSources.callAnalytics'),
-        getMatcher: (traceId, callId) => item => item.call.id === callId && item.call.traceId === traceId,
+        getMatcher: (traceId: string, callId: string | undefined) => (item: CallItem) =>
+          item.call.id === callId && item.call.traceId === traceId,
         typeLabel: t('in-analyze:analyzeView.dataSources.call'),
-        getTraceIdByItem: item => item.call.traceId,
-        getCallIdByItem: item => item.call.id
+        getTraceIdByItem: (item: CallItem) => item.call.traceId,
+        getCallIdByItem: (item: CallItem) => item.call.id
       },
       profiles: {
         filterTagKeys
       }
-    };
+    } as const;
   }
   return configs[dataSource] || {};
 }
@@ -60,13 +94,13 @@ export const groupByEndpointName = {
   name: 'endpoint.name',
   value: '',
   entity: entityTypes.DESTINATION
-};
+} as const;
 
 export const groupByServiceName = {
   name: 'service.name',
   value: '',
   entity: entityTypes.DESTINATION
-};
+} as const;
 
 export const productAreaLabels = Object.freeze({
   application: t('in-analyze:analyzeView.dataSources.applications'),
@@ -74,7 +108,7 @@ export const productAreaLabels = Object.freeze({
   mobileApp: t('in-analyze:analyzeView.dataSources.mobileApps'),
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
   logs: t('in-analyze:analyzeView.dataSources.logs')
-});
+} as const);
 
 export const productAreaTrackingNames = Object.freeze({
   application: t('in-analyze:analyzeView.dataSources.applications'),
@@ -82,7 +116,7 @@ export const productAreaTrackingNames = Object.freeze({
   mobileApp: t('in-analyze:analyzeView.dataSources.eumMobileApps'),
   profiles: t('in-analyze:analyzeView.dataSources.profiles'),
   logs: t('in-analyze:analyzeView.dataSources.logs')
-});
+} as const);
 
 export const productAreaIcons = Object.freeze({
   application: 'lib_application_invert',
@@ -90,7 +124,7 @@ export const productAreaIcons = Object.freeze({
   mobileApp: 'lib_mobile_app',
   profiles: 'lib_profiling',
   logs: 'lib_application_logging'
-});
+} as const);
 
 const icons = deepFreeze({
   application: {
@@ -118,13 +152,16 @@ const icons = deepFreeze({
   profiles: {
     profiles: 'lib_profiling'
   }
-});
+} as const);
 
-export function getIconByType(type, productArea) {
-  return get(icons, [productArea, type]);
+export type ProductArea = keyof typeof icons;
+export type DataSourceType<T extends ProductArea> = keyof typeof icons[T];
+
+export function getIconByType<P extends ProductArea>(type: DataSourceType<P>, productArea: P): string {
+  return (get<typeof icons, P, DataSourceType<P>>(icons, [productArea, type]) as unknown) as string;
 }
 
-export function getEntityNameByType(type) {
+export function getEntityNameByType(type: DataSourceType<ProductArea>): string {
   if (type === 'pageLoad') {
     return t('in-analyze:analyzeView.dataSources.pageLoads');
   } else if (type === 'pageChange') {
@@ -154,7 +191,7 @@ export function getEntityNameByType(type) {
   return type;
 }
 
-export function getLabelByType(type) {
+export function getLabelByType(type: DataSourceType<ProductArea>): string {
   if (type === 'pageLoad') {
     return t('in-analyze:analyzeView.dataSources.pageLoads2');
   } else if (type === 'pageChange') {

@@ -18,8 +18,8 @@ import ChartViewConfiguratorWithEntitySelection from 'in-alerting/smart-alerts/a
 import AlertTitleWithPlaceholderHighlighting from 'in-alerting/smart-alerts/applications/inventory/AlertTitleWithPlacholderHighlighting';
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
+import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
-import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import CustomPayloadCard from 'in-alerting/smart-alerts/applications/details/CustomPayloadCard';
@@ -111,7 +111,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           <Stack>
             <CallsScopeCard alertConfig={alertConfig} />
             <ServiceEndpointSelectionCard alertConfig={alertConfig} isGlobalSmartAlert={isGlobalSmartAlert} />
-            <AdditionalFiltersCard tagFilterFormModel={tagFilterFormModel} />
+            <AdditionalFiltersCard tagFilterFormModel={tagFilterFormModel} alertType={alertType} />
           </Stack>
         </div>
       </ExpandableLightCard>
@@ -192,13 +192,14 @@ function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
   );
 }
 
-function AdditionalFiltersCard({ tagFilterFormModel }) {
+function AdditionalFiltersCard({ tagFilterFormModel, alertType }) {
+  const { QueryBuilder } = getQueryBuilderForAlertType(alertType);
   return (
     <>
       {tagFilterFormModel.length > 0 && (
         <LightCard title={t('in-alerting:components.scopeConfigPresenterHelpTextAdditionalFilters')} darkFrame framed>
           <Stack gap="xsmall">
-            <AlertQueryBuilder value={tagFilterFormModel} readOnly />
+            <QueryBuilder value={tagFilterFormModel} readOnly />
           </Stack>
         </LightCard>
       )}

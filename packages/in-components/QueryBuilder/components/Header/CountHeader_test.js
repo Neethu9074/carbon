@@ -12,6 +12,8 @@ import CountHeader from 'in-components/QueryBuilder/components/Header/CountHeade
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
+import locals from './CountHeader.mless';
+
 jest.mock('@instana/hooks');
 
 describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
@@ -19,9 +21,15 @@ describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
     jest.clearAllMocks();
   });
 
-  it('Renders count header with placeholder text if there is no data', () => {
-    const { getByText } = render(<CountHeader totalRepresentedItemCount={null} totalHits={null} />);
+  it('Renders count header with placeholder text if data is loading', () => {
+    const { getByText } = render(<CountHeader isLoading />);
     expect(getByText(t('in-components:analyzeView.resultHeaderLoading'))).toBeInTheDocument();
+  });
+
+  it('Renders empty count header as placeholder in case of errors', () => {
+    const { container } = render(<CountHeader hasErrors />);
+    const heading = container.querySelector(`.${locals.topText}`);
+    expect(heading).toBeEmptyDOMElement();
   });
 
   it('Render count header with placeholder text if the observable didnt emit', () => {

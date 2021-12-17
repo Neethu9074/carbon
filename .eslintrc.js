@@ -90,7 +90,15 @@ module.exports = {
     // prevent unresolved imports
     // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-unresolved.md
     // eslint-disable-next-line no-useless-escape
-    'import/no-unresolved': ['error', { ignore: ['^@storybook'] }],
+    'import/no-unresolved': [
+      'error',
+      {
+        ignore: ['^@storybook'],
+        // disable case sensitivity checks, because they cause false positives
+        // and this class of errors should be mostly covered by git already
+        caseSensitive: false
+      }
+    ],
 
     ...createImportRestrictionRule(),
 

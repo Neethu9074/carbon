@@ -30,7 +30,7 @@ export const dataSourceMatrixParameter = {
   path: '/analyze',
   name: 'dataSource',
   initialState: 'calls'
-};
+} as const;
 
 export const tagFilterExpressionMatrixParameter = {
   path: '/analyze',
@@ -38,7 +38,7 @@ export const tagFilterExpressionMatrixParameter = {
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
   initialState: emptyArray
-};
+} as const;
 
 export const facetedSearchMatrixParameter = {
   path: '/analyze',
@@ -46,21 +46,21 @@ export const facetedSearchMatrixParameter = {
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
   initialState: emptyObject
-};
+} as const;
 
 export const groupByMatrixParameter = {
   path: '/analyze',
   name: 'groupBy',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray)
-};
+} as const;
 
 export const orderByGroupsMatrixParameter = {
   path: '/analyze',
   name: 'orderByGroups',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject)
-};
+} as const;
 
 export const orderByMatrixParameter = {
   path: '/analyze',
@@ -68,14 +68,14 @@ export const orderByMatrixParameter = {
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
   initialState: { by: 'latency', direction: 'DESC' }
-};
+} as const;
 
 export const metricsMatrixParameter = {
   path: '/analyze',
   name: 'metrics',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyArray)
-};
+} as const;
 
 export const hiddenCallsMatrixParameter = {
   path: '/analyze',
@@ -83,26 +83,26 @@ export const hiddenCallsMatrixParameter = {
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject),
   initialState: { includeInternal: false, includeSynthetic: false }
-};
+} as const;
 
 export const chartsMatrixParameter = {
   path: '/analyze',
   name: 'charts',
   serializer: buildJsonSerializer(),
   parser: buildJsonParser(emptyObject)
-};
+} as const;
 
 export const previewEnabledMatrixParameter = {
   path: '/analyze',
   name: 'previewEnabled',
   initialState: false,
-  parser: v => v === 'true',
+  parser: (v: 'true' | 'false') => v === 'true',
   serializer: Boolean
-};
+} as const;
 
 export const colorCodeMatrixParameter = {
   path: '/trace',
   name: 'colorCode'
-};
+} as const;
 
 export const dataSource = 'dataSource';

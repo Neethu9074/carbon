@@ -265,6 +265,8 @@ export default function GroupedAnalyzeView(props) {
             metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
             totalHits={totalHits}
             totalRepresentedItemCount={totalRepresentedItemCount}
+            hasErrors={hasErrors}
+            isLoading={isLoading}
             order={orderByGroups}
             setOrder={onOrderByGroupsChange}
             setMetrics={metrics =>
