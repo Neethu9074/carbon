@@ -561,10 +561,6 @@ export interface DfqInfraMetricConfiguration extends UnifiedMetricConfiguration 
   readonly dynamicFocusQuery: string;
 }
 
-export interface DistributedLogsMetricConfiguration extends UnifiedMetricConfiguration {
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-}
-
 export interface DomainSpecificStack {
   readonly groups: ContextGuideGroup[];
   readonly healthInfo?: HealthInfo;
@@ -1667,6 +1663,16 @@ export interface GetTechnologyBreakdownQuery extends FilteredQuery {
   readonly granularity?: number;
 }
 
+export interface GetTestResultQuery extends UiQuery {
+  readonly applicationId?: string;
+  readonly locationId?: string[];
+  readonly metrics: { [index: string]: SyntheticMetricConfiguration };
+  readonly order?: Order;
+  readonly serviceId?: string;
+  readonly testId: string;
+  readonly timeConfig: TimeConfig;
+}
+
 export interface GetTraceActivityTreeQuery extends UiQuery {
   readonly id?: string;
 }
@@ -2722,6 +2728,26 @@ export interface LogMessageItem {
   readonly metrics: { [index: string]: number[][] };
 }
 
+export interface LogMetricConfig {
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+}
+
+export interface LogMetricConfiguration extends UnifiedMetricConfiguration {
+  readonly metricTagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+}
+
+export interface LogMetricsQuery {
+  readonly configs: { [index: string]: LogMetricConfig };
+  readonly granularity: number;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly timeConfig: TimeConfig;
+}
+
+export interface LogMetricsResult {
+  readonly metrics: { [index: string]: number[][] };
+}
+
 export interface LogQuery {
   readonly itemId: string;
   readonly tagFilterExpression?: TagFilterExpressionElement;
@@ -2750,12 +2776,6 @@ export interface LogsApplicationAlertRule extends ApplicationAlertRule {
   readonly loglevel?: LogsApplicationAlertRuleLogLevel;
   readonly message?: string;
   readonly operator: TagFilterOperator;
-}
-
-export interface LogsDistributionQuery {
-  readonly granularity: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly timeConfig: TimeConfig;
 }
 
 export interface LogsQuery {
@@ -3672,6 +3692,9 @@ export interface SyntheticLocation {
   readonly popVersion?: string;
 }
 
+export interface SyntheticMetricConfiguration extends MetricConfiguration {
+}
+
 export interface SyntheticPlaybackCapabilities {
   readonly browserType: SyntheticBrowserType[];
   readonly syntheticType: SyntheticType[];
@@ -3803,6 +3826,19 @@ export interface TenantConfig {
 export interface TenantHealthDownstreamValue {
   readonly healthDownstreamValue?: HealthDownstreamValue;
   readonly tenantConfig?: TenantConfig;
+}
+
+export interface TestResult {
+  readonly testResult?: TestResultItem[];
+  readonly testResultItems?: TestResultItem[];
+}
+
+export interface TestResultItem {
+  readonly applicationId?: string;
+  readonly locationId?: string[];
+  readonly metrics?: { [index: string]: any }[];
+  readonly serviceId?: string;
+  readonly testId: string;
 }
 
 export interface ThresholdBounds {
@@ -4625,7 +4661,7 @@ export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISH
 
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
-export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'DISTRIBUTED_LOGS' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
+export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
 
 export type OrderDirection = 'ASC' | 'DESC';
 
@@ -4653,7 +4689,7 @@ export type SyntheticBrowserType = 'chrome' | 'firefox';
 
 export type SyntheticPlaybackMode = 'Simultaneous' | 'Staggered';
 
-export type SyntheticType = 'HTTPAction' | 'HTTPScript';
+export type SyntheticType = 'BrowserScript' | 'HTTPAction' | 'HTTPScript';
 
 export type SyntheticTypeConfigurationUnion = BrowserScriptConfiguration | HttpActionConfiguration | HttpScriptConfiguration | WebpageActionConfiguration | WebpageScriptConfiguration;
 

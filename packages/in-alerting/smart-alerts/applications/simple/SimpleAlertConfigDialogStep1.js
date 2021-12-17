@@ -18,6 +18,7 @@ import ProvideStatusCode from 'in-alerting/smart-alerts/applications/components/
 import createBlueprintForm from 'in-alerting/smart-alerts/applications/form/blueprintFormCreator';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
+import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import Menu from 'in-components/Menu';
 import { t } from 'in-i18n';
 
@@ -33,10 +34,15 @@ export default function SimpleAlertConfigDialogStep1({
   const alertThreshold = form.get('threshold').toJS();
   const blueprintConfig = getSimpleModeBlueprintConfig(alertType, alertThreshold);
 
+  const blueprintConfigList =
+    smartAlertsLogsBlueprintEnabled || blueprintConfig?.type === 'logs'
+      ? simpleModeBlueprintConfigs
+      : simpleModeBlueprintConfigs.filter(config => config.type !== 'logs');
+
   return (
     <SimpleModeStepContentWrapper headline={t('in-alerting:smartAlerts.applications.simple.simpleAlertStep1Headline')}>
       <Menu
-        items={simpleModeBlueprintConfigs}
+        items={blueprintConfigList}
         onItemClick={item => {
           updateForm(createBlueprintForm(form, item.type, item.thresholdDefaults));
 

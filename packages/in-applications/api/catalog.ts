@@ -15,10 +15,12 @@ const basePath = '/api/application-monitoring/catalog';
 export const getApplicationTagCatalog = ({
   dataSource,
   useCase,
+  ruleType,
   thresholdType
 }: {
   dataSource: ApplicationDataSource;
   useCase: CatalogUseCase;
+  ruleType?: string; // There is no existing Type for that, so string will be sufficient
   thresholdType?: ThresholdType;
 }) => ({ timeConfig }: { timeConfig: TimeConfig }): Observable<Result<TagCatalog>> => {
   // round down the from timestamp to the beginning of the week to make the caching more efficient
@@ -35,6 +37,7 @@ export const getApplicationTagCatalog = ({
         dataSource,
         useCase,
         includeInternalTags,
+        ruleType,
         thresholdType
       }
     })

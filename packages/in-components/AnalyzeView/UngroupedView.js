@@ -102,6 +102,8 @@ export default function UngroupedAnalyzeView(props) {
             order={orderBy}
             totalHits={totalHits}
             totalRepresentedItemCount={totalRepresentedItemCount}
+            hasErrors={hasErrors}
+            isLoading={isLoading}
             setOrder={onOrderByChange}
             availableMetrics={hideMetricAndSortingConfigurator ? [] : availableMetrics}
             metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}

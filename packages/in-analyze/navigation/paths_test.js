@@ -90,11 +90,28 @@ describe('in-analyze/navigation/paths', () => {
           { name: TAG_CALL_HTTP_STATUS, operator: NOT_EMPTY }
         ])
       ).to.deep.equal([
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, operator: NOT_EMPTY, key: undefined, value: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          operator: NOT_EMPTY,
+          key: undefined,
+          value: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 200, operator: GREATER_OR_EQUAL_THAN },
+        {
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 200,
+          operator: GREATER_OR_EQUAL_THAN
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 299, operator: LESS_OR_EQUAL_THAN }
+        {
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 299,
+          operator: LESS_OR_EQUAL_THAN
+        }
       ]);
     });
 
@@ -109,17 +126,59 @@ describe('in-analyze/navigation/paths', () => {
           { name: TAG_CALL_HTTP_STATUS, value: 599, operator: LESS_OR_EQUAL_THAN }
         ])
       ).to.deep.equal([
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 100, operator: EQUALS, key: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 100,
+          operator: EQUALS,
+          key: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 200, operator: NOT_EQUAL, key: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 200,
+          operator: NOT_EQUAL,
+          key: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 300, operator: LESS_THAN, key: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 300,
+          operator: LESS_THAN,
+          key: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 400, operator: GREATER_THAN, key: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 400,
+          operator: GREATER_THAN,
+          key: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 500, operator: GREATER_OR_EQUAL_THAN, key: undefined },
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 500,
+          operator: GREATER_OR_EQUAL_THAN,
+          key: undefined
+        },
         EXP_AND_CONJUNCTION,
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, value: 599, operator: LESS_OR_EQUAL_THAN, key: undefined }
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          value: 599,
+          operator: LESS_OR_EQUAL_THAN,
+          key: undefined
+        }
       ]);
     });
 
@@ -140,16 +199,30 @@ describe('in-analyze/navigation/paths', () => {
     });
 
     it('not empty', () => {
-      expect(
-        httpStatusCodeTagFiltersToExpression([{ name: TAG_CALL_HTTP_STATUS, operator: NOT_EMPTY }])
-      ).to.deep.equal([
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, operator: NOT_EMPTY, key: undefined, value: undefined }
-      ]);
+      expect(httpStatusCodeTagFiltersToExpression([{ name: TAG_CALL_HTTP_STATUS, operator: NOT_EMPTY }])).to.deep.equal(
+        [
+          {
+            entity: 'NOT_APPLICABLE',
+            type: TAG_FILTER,
+            name: TAG_CALL_HTTP_STATUS,
+            operator: NOT_EMPTY,
+            key: undefined,
+            value: undefined
+          }
+        ]
+      );
     });
 
     it('is empty', () => {
       expect(httpStatusCodeTagFiltersToExpression([{ name: TAG_CALL_HTTP_STATUS, operator: IS_EMPTY }])).to.deep.equal([
-        { type: TAG_FILTER, name: TAG_CALL_HTTP_STATUS, operator: IS_EMPTY, key: undefined, value: undefined }
+        {
+          entity: 'NOT_APPLICABLE',
+          type: TAG_FILTER,
+          name: TAG_CALL_HTTP_STATUS,
+          operator: IS_EMPTY,
+          key: undefined,
+          value: undefined
+        }
       ]);
     });
 

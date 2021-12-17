@@ -61,7 +61,8 @@ export default function UnifiedMetricsChart({
   // In some cases the parent component needs to signal to this component that it is loading data needed for the chart
   // configuration, e.g. list of groups for group charts. While this flag is set, no back-end queries should be executed
   // and a loading indicator should be displayed.
-  forceLoadingIndicator = false
+  forceLoadingIndicator = false,
+  bulkRequest = false
 }) {
   config = useMemo(() => (forceLoadingIndicator ? null : duplicateTimeShiftComparedMetrics(config)), [
     config,
@@ -83,7 +84,8 @@ export default function UnifiedMetricsChart({
   const minimumGranularity = forceLoadingIndicator ? null : getMinGranularity(config, timeConfig);
   const granularity = forceLoadingIndicator ? null : Math.max(minimumGranularity, configuredGranularity);
   let result =
-    useResultData(config, granularity, timeConfigExtendedForLiveMode, forceLoadingIndicator) ?? pendingResult;
+    useResultData(config, granularity, timeConfigExtendedForLiveMode, forceLoadingIndicator, bulkRequest) ??
+    pendingResult;
   const renderErrorDetail = shouldRenderErrorDetail(config);
 
   // Transform result data structure into the structure expected by the chart
@@ -127,11 +129,12 @@ export default function UnifiedMetricsChart({
       renderPostChartContent={renderPostChartContent}
       cardUseMaxAvailableHeight={cardUseMaxAvailableHeight}
       excludedContextMenuActions={excludedContextMenuActions}
+      bulkRequest={bulkRequest}
     />
   );
 }
 
-function useResultData(config, granularity, timeConfig, forceLoadingIndicator) {
+function useResultData(config, granularity, timeConfig, forceLoadingIndicator, bulkRequest) {
   const metrics = {};
   const resultType = forceLoadingIndicator
     ? null
@@ -169,7 +172,7 @@ function useResultData(config, granularity, timeConfig, forceLoadingIndicator) {
   const stableConfig = useStableObjectInstance(config);
 
   // do not execute the query while the parent component is still loading data for the chart configuration
-  return useObservable(() => (forceLoadingIndicator ? null : getUnifiedMetrics({ metrics })), [
+  return useObservable(() => (forceLoadingIndicator ? null : getUnifiedMetrics({ metrics }, bulkRequest)), [
     timeConfig,
     stableConfig,
     forceLoadingIndicator

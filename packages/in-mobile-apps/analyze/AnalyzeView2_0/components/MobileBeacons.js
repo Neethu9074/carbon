@@ -13,9 +13,7 @@ import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobil
 import { ChartsPresenter } from 'in-mobile-apps/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
 import { addDataSourceToBackendQueryModel } from 'in-mobile-apps/analyze/AnalyzeView2_0/util';
-import { getHighlighterId } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
 import getMobileAppBeacons from 'in-mobile-apps/subscriptions/getMobileAppBeacons';
-import { triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import SessionView from 'in-mobile-apps/analyze/SessionView/SessionView';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getLinkToMobileApp } from 'in-mobile-apps/navigation/paths';
@@ -224,11 +222,6 @@ function LinkToDetailPage({ beacon, getHrefToDetailId, linkLabel, groupLabel }) 
         },
         groupLabel
       )}
-      onClick={() => {
-        if (beacon.type !== 'sessionStart') {
-          triggerHighlight(getHighlighterId(beacon.beaconId));
-        }
-      }}
     >
       {linkLabel}
     </Link>

@@ -3,15 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useLayoutEffect, useRef, useMemo, useState } from 'react';
-import classNames from 'classnames';
+import React, { useMemo } from 'react';
 
 import { Stack } from '@instana/components';
 
 import LogExceptionDialog from 'in-logging/analyze/AnalyzeView/components/LogExceptionDialog';
 import { LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE } from 'in-logging/queryBuilder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import useResizeObserver from 'in-hooks/useResizeObserver';
 import { LogItem } from 'in-types';
 
 import locals from './LogException.mless';
@@ -38,16 +36,6 @@ export default function LogExceptionWrapper({ item }: LogExceptionWrapperProps) 
 }
 
 function LogException({ type, message, item }: LogExceptionProps) {
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const messageRef = useRef<HTMLSpanElement>(null);
-  const { ref, width: wrapperWidth } = useResizeObserver<HTMLSpanElement>();
-
-  useLayoutEffect(() => {
-    const messageDOMElement = messageRef.current;
-
-    setIsOverflowing((messageDOMElement && wrapperWidth && wrapperWidth < messageDOMElement.offsetWidth) || false);
-  }, [wrapperWidth]);
-
   if (!type && !message) {
     return null;
   }
@@ -56,18 +44,11 @@ function LogException({ type, message, item }: LogExceptionProps) {
     <Stack direction="horizontal" gap="normal">
       {type && <span className={locals.type}>{type}:</span>}
       {message && (
-        <span className={locals.messageWrapper} ref={ref}>
-          <span
-            className={classNames({ [locals.overflowingMessage]: isOverflowing })}
-            ref={messageRef}
-            onClick={() => {
-              if (isOverflowing) {
-                addActiveDialog(<LogExceptionDialog onClose={close} item={item} />);
-              }
-            }}
-          >
-            {message}
-          </span>
+        <span
+          className={locals.message}
+          onClick={() => addActiveDialog(<LogExceptionDialog onClose={close} item={item} />)}
+        >
+          {message}
         </span>
       )}
     </Stack>

@@ -39,6 +39,9 @@ export const namespaceDashboard = `/namespace`;
 export const namespaceDashboardFullyQualified = `${kubernetes}${namespaceDashboard}`;
 export const namespaceDashboardDetailsFullyQualified = `${namespaceDashboardFullyQualified}/details`;
 
+export const explore = '/explore';
+export const exploreFullyQualified = `${kubernetes}${explore}`;
+
 export const podDashboard = `/pod`;
 export const podDashboardFullyQualified = `${kubernetes}${podDashboard}`;
 export const podDashboardDetailsFullyQualified = `${podDashboardFullyQualified}/details`;

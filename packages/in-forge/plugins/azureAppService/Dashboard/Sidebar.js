@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import ServiceInstancesList from 'in-sdk/components/sidebar/ServiceInstancesList';
 import TagList from 'in-sdk/components/sidebar/TagList';
 import Info from '../Info';
 
@@ -13,6 +14,7 @@ export default function AzureAppServiceSidebarDetails({ snapshot }) {
     <div>
       <Info snapshot={snapshot} />
       <TagList snapshot={snapshot} />
+      <ServiceInstancesList snapshot={snapshot} />
     </div>
   );
 }

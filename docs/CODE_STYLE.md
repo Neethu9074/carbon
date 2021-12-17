@@ -103,6 +103,30 @@ export default createResultSubscriptionFactory({
 }
 ```
 
+Derived from the backend:
+```java
+  @OnEvent("getReleases")
+  public Observable<Result<PaginatedResult<ReleaseWithIdInternal>>> getReleases(GetReleasesSubscribeEvent event) {}
+```
+
+```typescript
+import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { GetReleasesQuery, Release, Result } from 'in-types';
+import { Observable } from '@instana/observables';
+
+const getReleases: (
+  parameter: GetReleasesQuery
+) => Observable<Result<PaginatedResult<Release>>> = createResultSubscriptionFactory<
+  GetReleasesQuery,
+  Result<PaginatedResult<Release>>
+  >({
+  eventId: 'getReleases',
+  disposeSubscriptionOnDocumentHidden: false
+});
+
+export default getReleases;
+```
+
 ## Always use CSS Modules for new Components
 
 We use Less as CSS preprocessor. Every Less (CSS)-Module has the file extension .mless.
@@ -126,7 +150,7 @@ import locals from './Button.mless';
 function Button() {
   ...
   return(
-    <button className={locals.button} > {children} </button>
+    <button className={locals.button}> {children} </button>
   )
 }
 ```
@@ -157,6 +181,7 @@ Bad:
 
 ```javascript
 /* less module file */
+
 :local {
   .container {
     ...;
@@ -174,6 +199,7 @@ Good:
 
 ```javascript
 /* less module file */
+
 :local {
   .container {
     ...;
@@ -190,6 +216,7 @@ Good:
 ## Directly export default
 
 Directly export default. We do not assign it to a variable beforehand.
+We use **named functions**, so it will show up in react dev tools with its name (compared to exporting an anonymous function or an arrow function) 
 
 ```javascript
 /* Function/Class components */

@@ -5,13 +5,16 @@
 
 import { availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { minutes, number } from 'in-services/formatters/number';
+import { SliEntity } from 'in-types';
 
-export function getSliFormatter(sliEntity) {
-  const isAvailabilitySli = sliEntity?.sliType === availabilityType;
+type FormatterFunction = (value: number) => string;
+
+export function getSliFormatter(sliEntity: SliEntity): FormatterFunction {
+  const isAvailabilitySli = sliEntity.sliType === availabilityType;
   return isAvailabilitySli ? callsFormatter : minutesFormatter;
 }
 
-function callsFormatter(value) {
+function callsFormatter(value: number): string {
   const unit = value === 1 ? 'call' : 'calls';
 
   if (value >= 10000) {
@@ -21,7 +24,7 @@ function callsFormatter(value) {
   return `${number.compact(value)} ${unit}`;
 }
 
-function minutesFormatter(value) {
+function minutesFormatter(value: number): string {
   // not using the existing minutes formatter, because it starts rounding values to hours when >= 60, and also does not
   // include a whitespace between the value and the unit
   // return `${number.compact(value)} m`;

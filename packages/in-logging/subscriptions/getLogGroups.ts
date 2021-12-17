@@ -9,5 +9,5 @@ import { Result, LogGroupItem, PaginatedResult, LogGroupsQuery } from 'in-types'
 interface GetLogGroupsResponse extends Result<PaginatedResult<LogGroupItem>> {}
 
 export default createResultSubscriptionFactory<LogGroupsQuery, GetLogGroupsResponse>({
-  eventId: 'logsV2.getLogGroups'
+  eventId: 'logs.getLogGroups'
 });

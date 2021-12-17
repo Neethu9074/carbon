@@ -13,12 +13,12 @@ import BeaconViewGroup from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Bea
 import OverviewChart from 'in-mobile-apps/analyze/SessionView/tabs/Summary/OverviewChart';
 import { getType } from 'in-mobile-apps/analyze/SessionView/tabs/Summary/filterableTypes';
 import Filter from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Filter';
-import { Row, Col } from 'in-components/layout/Grid';
+import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 import locals from './Activity.mless';
 
-export default function Activity({ beacons, firstBeacon, sessionStart, filter, setFilter }) {
+export default function Activity({ beacons, detailId, firstBeacon, sessionStart, filter, setFilter }) {
   const filteredBeacons = beacons
     .filter(beacon => {
       if (filter.types.length > 0 && filter.types.indexOf(getType(beacon)) === -1) {
@@ -62,6 +62,7 @@ export default function Activity({ beacons, firstBeacon, sessionStart, filter, s
               beacons={group.beacons}
               sessionStart={sessionStart}
               earliestTimestamp={firstBeacon.timestamp}
+              detailId={detailId}
             />
           ))}
         </Card>

@@ -51,8 +51,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
         name: 'service.name',
         operator: 'EQUALS',
         value: 'shop',
-        entity: 'DESTINATION',
-        key: undefined
+        entity: 'DESTINATION'
       };
       expect(
         toBackendQueryModel([{ ...tagFilter, otherPropertyWhichIsOnlyPartOfTheFormModel: 'foobar' }])
@@ -79,7 +78,6 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
         elements: [
           {
             entity: 'DESTINATION',
-            key: undefined,
             name: 'service.name',
             operator: 'EQUALS',
             type: TAG_FILTER,
@@ -98,8 +96,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           name: 'service.name',
           operator: 'EQUALS',
           value: 'shop',
-          entity: 'DESTINATION',
-          key: undefined
+          entity: 'DESTINATION'
         },
         {
           type: FM_CONJUNCTION,
@@ -110,8 +107,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           name: 'service.name',
           operator: 'EQUALS',
           value: 'shipping',
-          entity: 'DESTINATION',
-          key: undefined
+          entity: 'DESTINATION'
         }
       ];
       expect(toBackendQueryModel(tagFilters)).toStrictEqual({
@@ -123,16 +119,14 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             name: 'service.name',
             operator: 'EQUALS',
             value: 'shop',
-            entity: 'DESTINATION',
-            key: undefined
+            entity: 'DESTINATION'
           },
           {
             type: FM_TAG,
             name: 'service.name',
             operator: 'EQUALS',
             value: 'shipping',
-            entity: 'DESTINATION',
-            key: undefined
+            entity: 'DESTINATION'
           }
         ]
       });
@@ -170,16 +164,14 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             name: 'service.name',
             operator: 'EQUALS',
             value: 'shop',
-            entity: 'DESTINATION',
-            key: undefined
+            entity: 'DESTINATION'
           },
           {
             type: FM_TAG,
             name: 'service.name',
             operator: 'EQUALS',
             value: 'shipping',
-            entity: 'DESTINATION',
-            key: undefined
+            entity: 'DESTINATION'
           }
         ]
       });
@@ -195,8 +187,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           name: 'service.name',
           operator: 'EQUALS',
           value: 'shop',
-          entity: 'DESTINATION',
-          key: undefined
+          entity: 'DESTINATION'
         },
         {
           type: FM_CONJUNCTION,
@@ -207,8 +198,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           name: 'service.name',
           operator: 'EQUALS',
           value: 'shipping',
-          entity: 'DESTINATION',
-          key: undefined
+          entity: 'DESTINATION'
         },
         {
           type: FM_CONJUNCTION,
@@ -234,16 +224,14 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             name: 'service.name',
             operator: 'EQUALS',
             value: 'shop',
-            entity: 'DESTINATION',
-            key: undefined
+            entity: 'DESTINATION'
           },
           {
             type: FM_TAG,
             name: 'service.name',
             operator: 'EQUALS',
             value: 'shipping',
-            entity: 'DESTINATION',
-            key: undefined
+            entity: 'DESTINATION'
           },
           {
             type: FM_TAG,
@@ -263,8 +251,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           name: 'key',
           operator: 'EQUALS',
           value: 'A',
-          entity: 'DESTINATION',
-          key: undefined
+          entity: 'DESTINATION'
         },
         {
           type: FM_CONJUNCTION,
@@ -282,8 +269,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           name: 'key',
           operator: 'EQUALS',
           value: 'B',
-          entity: 'DESTINATION',
-          key: undefined
+          entity: 'DESTINATION'
         },
         {
           type: FM_CONJUNCTION,
@@ -294,8 +280,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           name: 'key',
           operator: 'EQUALS',
           value: 'C',
-          entity: 'DESTINATION',
-          key: undefined
+          entity: 'DESTINATION'
         },
         {
           type: FM_CONJUNCTION,
@@ -306,8 +291,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           name: 'key',
           operator: 'EQUALS',
           value: 'D',
-          entity: 'DESTINATION',
-          key: undefined
+          entity: 'DESTINATION'
         },
         {
           type: FM_CLOSE_BRACKET
@@ -320,7 +304,6 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
           {
             type: TAG_FILTER,
             name: 'key',
-            key: undefined,
             value: 'A',
             operator: 'EQUALS',
             entity: 'DESTINATION'
@@ -340,7 +323,6 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
                       {
                         type: TAG_FILTER,
                         name: 'key',
-                        key: undefined,
                         value: 'B',
                         operator: 'EQUALS',
                         entity: 'DESTINATION'
@@ -348,7 +330,6 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
                       {
                         type: TAG_FILTER,
                         name: 'key',
-                        key: undefined,
                         value: 'C',
                         operator: 'EQUALS',
                         entity: 'DESTINATION'
@@ -358,7 +339,6 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
                   {
                     type: TAG_FILTER,
                     name: 'key',
-                    key: undefined,
                     value: 'D',
                     operator: 'EQUALS',
                     entity: 'DESTINATION'
@@ -405,6 +385,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
         logicalOperator: 'OR',
         elements: [
           {
+            entity: 'NOT_APPLICABLE',
             type: TAG_FILTER,
             name: 'name',
             value: 'a',
@@ -415,12 +396,14 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             logicalOperator: 'AND',
             elements: [
               {
+                entity: 'NOT_APPLICABLE',
                 type: TAG_FILTER,
                 name: 'name',
                 value: 'b',
                 operator: 'EQUALS'
               },
               {
+                entity: 'NOT_APPLICABLE',
                 type: TAG_FILTER,
                 name: 'name',
                 value: 'c',
@@ -483,12 +466,14 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             logicalOperator: 'AND',
             elements: [
               {
+                entity: 'NOT_APPLICABLE',
                 type: TAG_FILTER,
                 name: 'name',
                 value: 'a',
                 operator: 'EQUALS'
               },
               {
+                entity: 'NOT_APPLICABLE',
                 type: TAG_FILTER,
                 name: 'name',
                 value: 'b',
@@ -497,6 +482,7 @@ describe('in-components/QueryBuilder/transformation/backendQueryModel', () => {
             ]
           },
           {
+            entity: 'NOT_APPLICABLE',
             type: TAG_FILTER,
             name: 'name',
             value: 'c',

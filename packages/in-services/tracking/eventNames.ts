@@ -51,6 +51,7 @@ export const ANALYZE_UA2_ORDER_BY_CHANGED = 'analyze.ua2.orderBy.changed';
 export const ANALYZE_UA2_ORDER_BY_GROUP_CHANGED = 'analyze.ua2.orderByGroup.changed';
 export const ANALYZE_UA2_API_QUERY_PRESSED = 'analyze.ua2.apiQuery.pressed';
 export const ANALYZE_UA2_NESTING_DEPTH = 'analyze.ua2.nesting.depth';
+export const ANALYZE_UA2_LOAD_MORE_CLICKED = 'analyze.ua2.load.more.clicked';
 
 export const ANALYZE_UA2_FORMMODEL_CHANGED = 'analyze.ua2.formmodel.changed';
 export const ANALYZE_UA2_FACETS_CHANGED = 'analyze.ua2.facets.changed';
@@ -318,10 +319,8 @@ export const SLI_MANAGEMENT_EDIT_ABORT = 'sli.management.editAbort';
 
 // Logging
 export const ANALYZE_LOGGING_QUERY_BUILDER_FILTER_ADDED = 'analyze.logging.queryBuilder.filter.added';
-export const ANALYZE_LOGGING_QUERY_BUILDER_QUERY_CHANGED = 'analyze.logging.queryBuilder.query.changed';
 export const ANALYZE_LOGGING_QUERY_BUILDER_GROUP_ADDED = 'analyze.logging.queryBuilder.group.added';
 export const ANALYZE_LOGGING_SELECTED_TAGS_CHANGED = 'analyze.logging.selected.tags.changed';
-export const ANALYZE_LOGGING_LOAD_MORE_CLICKED = 'analyze.logging.load.more.clicked';
 export const ANALYZE_LOGGING_TIMEFRAME_USED = 'analyze.logging.timeframe.used';
 export const ANALYZE_LOGGING_LOG_MESSAGE_PARAMETER_CLICKED = 'analyze.logging.log.message.parameter.clicked';
 export const ANALYZE_LOGGING_LOG_MESSAGE_TAG_CLICKED = 'analyze.logging.log.message.tag.clicked';

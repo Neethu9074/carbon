@@ -7,7 +7,7 @@ import rpt from 'prop-types';
 import React from 'react';
 
 import { trackingProps as metricConfiguratorTrackingProps } from 'in-components/MetricConfigurator/MetricConfigurator';
-import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';
+import { average, defaultFormatter, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
@@ -42,11 +42,16 @@ export default function InfrastructureList({
     totalRepresentedItemCount,
     loadMore: cursorPaginationDefaultLoadMore,
     cursor,
+    errors,
+    progress,
     ...tableProps
   } = useCursorPagination(
     ({ cursor }) => getTableData({ timeConfig, retrievalSize, backendQueryModel, order, type, metrics, cursor }),
     [timeConfig, retrievalSize, backendQueryModel, type, order, metrics]
   );
+
+  const hasErrors = errors?.length > 0;
+  const isLoading = progress?.loading;
 
   const columnDefinitions = [
     getLabelColumn({ timeConfig }, tracking?.onNavigateToEntity),
@@ -61,6 +66,8 @@ export default function InfrastructureList({
           setMetrics={setMetrics}
           totalRepresentedItemCount={totalRepresentedItemCount}
           totalHits={totalHits}
+          hasErrors={hasErrors}
+          isLoading={isLoading}
           metrics={metrics}
           tracking={tracking}
         />

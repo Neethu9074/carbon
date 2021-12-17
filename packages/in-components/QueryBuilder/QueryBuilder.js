@@ -400,12 +400,6 @@ function Elements({
   );
 }
 
-export const trackingProps = {
-  onTagAdded: rpt.func,
-  onTagRemoved: rpt.func,
-  onQueryChanged: rpt.func
-};
-
 QueryBuilder.propTypes = {
   value: rpt.array.isRequired,
   getTagCatalog: rpt.func.isRequired,
@@ -413,7 +407,11 @@ QueryBuilder.propTypes = {
   getSuggestionsProps: rpt.object,
   onChange: rpt.func.isRequired,
   onError: rpt.func,
-  tracking: rpt.shape(trackingProps),
+  tracking: rpt.shape({
+    onTagAdded: rpt.func,
+    onTagRemoved: rpt.func,
+    onQueryChanged: rpt.func
+  }),
   withoutOrConjunction: rpt.bool,
   withoutBrackets: rpt.bool,
   useLastValidStateWhenErroneous: rpt.bool,

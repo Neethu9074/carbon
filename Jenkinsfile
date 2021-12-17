@@ -19,7 +19,7 @@ void setBuildStatus(String message, String state) {
 
   step([
       $class: "GitHubCommitStatusSetter",
-      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://api.github.com/instana/ui-client"],
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.ibm.com/instana/ui-client"],
       commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
       contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
       errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
@@ -56,7 +56,7 @@ pipeline {
           majorReleaseVersion = instanaUiClientVersion.tokenize('.')[1].toInteger()
           gitCommitId         = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           gitCommitAuthor     = sh(returnStdout: true, script: "git --no-pager show -s --format='%ae' $gitCommitId").trim()
-          gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.com/instana/ui-client/commit/%h|%h>): %s'").trim()
+          gitMessage          = sh(returnStdout: true, script: "git log -1 --pretty=format:'%an (<https://github.ibm.com/instana/ui-client/commit/%h|%h>): %s'").trim()
           // https://github.ibm.com/instana/jenkins/blob/develop/vars/getBackendComponents.groovy
           backendComponents = getBackendComponents()
               .findAll { it.isIncludedInRelease(majorReleaseVersion) && !(it.name ==~ /^ui-client.*/) }
@@ -352,7 +352,7 @@ def notifyFailure(channel, message) {
 def notifyTsUpdateFailure(branchName) {
   def message = new StringBuilder()
   message.append(":typescript: update failed on `${branchName}` :boom:\n")
-  message.append("<https://github.com/instana/ui-client/pulls?q=is%3Apr+is%3Aopen+%5BTypeDefs%5D|:octocat: View PR on github>\n")
+  message.append("<https://github.ibm.com/instana/ui-client/pulls?q=is%3Apr+is%3Aopen+%5BTypeDefs%5D|:octocat: View PR on github>\n")
   message.append("<${env.BUILD_URL}|:mag: Open jenkins build #${env.BUILD_NUMBER}>")
 
   notifyFailure('tech-ui-dev', message.toString())

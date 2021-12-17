@@ -3,9 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useMemo } from 'react';
+import React from 'react';
 
-import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
 
 import {
@@ -15,7 +14,11 @@ import {
   LOG_EXCEPTION_TYPE,
   LOG_LEVEL
 } from 'in-logging/queryBuilder';
-import { logLevelColumn, timestampColumn, copyColumn } from 'in-logging/analyze/AnalyzeView/components/logsColumns';
+import {
+  logLevelColumn,
+  timestampColumn,
+  centerAlignedCopyColumn
+} from 'in-logging/analyze/AnalyzeView/components/logsColumns';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
@@ -24,10 +27,7 @@ import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessa
 import LogTagsTable from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
-import { loadMoreClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { pendingResult } from 'in-services/fixedObjects';
-import { getTagCatalog } from 'in-logging/api/catalog';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
 import { t } from 'in-i18n';
@@ -41,50 +41,20 @@ const columnDefinitions = [
     id: 'log',
     getContent: LogMessageColumn
   },
-  copyColumn
+  centerAlignedCopyColumn
 ];
-
-const tracker = {
-  loadMoreClicked: () => {
-    loadMoreClicked({ view: 'Logs view' });
-  }
-};
 
 export default function Logs(props) {
   const {
     getHrefWithAdditionalTagFilter,
     getHrefToGroupedView,
-    groupingTagCatalog,
     Sidebar = FacetedSearchPresenter,
-    Chart = ChartsPresenter,
-    timeConfig,
-    dataSource
+    Chart = ChartsPresenter
   } = props;
 
   const onSelectTagHref = getHrefWithAdditionalTagFilter
     ? tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
     : undefined;
-
-  const internalFilteringTagCatalogResult =
-    useObservable(
-      () =>
-        getTagCatalog({
-          timeConfig,
-          dataSource,
-          useCase: 'FILTERING',
-          forceIncludeInternalTags: true
-        }),
-      [getTagCatalog, timeConfig, dataSource]
-    ) ?? pendingResult;
-
-  const tagToLabelMap = useMemo(
-    () => new Map((internalFilteringTagCatalogResult.data?.tags || []).map(({ name, label }) => [name, label])),
-    [internalFilteringTagCatalogResult]
-  );
-
-  const allowedTagsForGrouping = useMemo(() => new Set((groupingTagCatalog?.tags || []).map(({ name }) => name)), [
-    groupingTagCatalog
-  ]);
 
   let content = (
     <UngroupedViewList
@@ -102,16 +72,9 @@ export default function Logs(props) {
       onSelectTagHref={onSelectTagHref}
       withCountHeader={false}
       withoutHeader={false}
-      tracker={tracker}
       CustomHeaderActions={CustomHeaderActions}
       renderNestedContent={(_, item) => (
-        <LogTagsTable
-          item={item}
-          onSelectTagHref={onSelectTagHref}
-          getHrefToGroupedView={getHrefToGroupedView}
-          tagToLabelMap={tagToLabelMap}
-          allowedTagsForGrouping={allowedTagsForGrouping}
-        />
+        <LogTagsTable item={item} onSelectTagHref={onSelectTagHref} getHrefToGroupedView={getHrefToGroupedView} />
       )}
     />
   );

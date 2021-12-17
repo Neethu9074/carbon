@@ -418,4 +418,25 @@ describe('in-components/QueryBuilder/tagFilter/tagSuggestions#getSuggestionsTagF
     const result = getSuggestionsTagFilterExpression(formModel, 0);
     expect(result).to.deep.equal(expected);
   });
+
+  /**
+   * Query:
+   * ActiveTag AND (Tag OR
+   */
+  it('must skip incomplete bracket expression', () => {
+    const formModel = [
+      createTagFilter('endpoint.name', ''),
+      CONJUNCTION_AND,
+      OPEN_BRACKET,
+      createTagFilter('application.name', 'foo'),
+      CONJUNCTION_OR
+    ];
+    const expected = {
+      type: 'EXPRESSION',
+      logicalOperator: 'AND',
+      elements: []
+    };
+    const result = getSuggestionsTagFilterExpression(formModel, 0);
+    expect(result).to.deep.equal(expected);
+  });
 });

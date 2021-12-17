@@ -32,14 +32,10 @@ export default function LogExceptionReadModeWrapper({ tags }: LogExceptionReadMo
 }
 
 function LogExceptionReadMode({ type, message }: LogExceptionReadModeProps) {
-  if (!type && !message) {
-    return null;
-  }
-
   return (
     <Stack direction="vertical" gap="xsmall">
-      {type && <span className={locals.type}>{type}:</span>}
-      {message && <span className={locals.messageWrapper}>{message}</span>}
+      {type && <span className={locals.title}>{type}:</span>}
+      {message && <span className={locals.message}>{message}</span>}
     </Stack>
   );
 }

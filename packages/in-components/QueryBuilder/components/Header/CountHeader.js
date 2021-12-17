@@ -21,13 +21,19 @@ import locals from './CountHeader.mless';
 export default function CountHeader({
   totalRepresentedItemCount,
   totalHits,
+  isLoading,
+  hasErrors,
   withGrouping = false,
   withResultsInGroups = false,
   withSamplingTooltip = false,
   withAdjustedWindowSizeTooltip = false
 }) {
   const historicOrLargeDataResult = useObservable(historicOrLargeDataResult$, []);
-  if ((totalHits == null && totalRepresentedItemCount == null) || historicOrLargeDataResult == null) {
+
+  if (hasErrors) {
+    return <ErroneousResult />;
+  }
+  if (isLoading || historicOrLargeDataResult == null) {
     return <Placeholder />;
   }
 
@@ -72,6 +78,10 @@ export default function CountHeader({
 
 function Placeholder() {
   return <Presenter topText={t('in-components:analyzeView.resultHeaderLoading')} />;
+}
+
+function ErroneousResult() {
+  return <Presenter />;
 }
 
 function Presenter({

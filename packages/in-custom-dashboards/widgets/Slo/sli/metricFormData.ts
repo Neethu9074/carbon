@@ -40,6 +40,7 @@ export interface MetricOption<S extends MonitoringSource, E extends MetricEntity
   readonly defaultValue: AggregationType;
   readonly label: string;
   readonly unitLabel: string;
+  readonly type: 'rate' | 'count';
 }
 
 export type MetricEntityType<S extends MonitoringSource> = keyof typeof metricOptions[S];
@@ -53,28 +54,32 @@ const metricOptions = deepFreeze({
         options: timeAggregationOptions,
         defaultValue: 'P90',
         label: t('in-custom-dashboards:widgets.slo.metricFormData.latency'),
-        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdMs')
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdMs'),
+        type: 'count'
       },
       calls: {
         name: 'calls',
         options: sumAggregation,
         defaultValue: 'SUM',
         label: t('in-custom-dashboards:widgets.slo.metricFormData.callCount'),
-        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdCount')
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdCount'),
+        type: 'count'
       },
       erroneousCalls: {
         name: 'erroneousCalls',
         options: sumAggregation,
         defaultValue: 'SUM',
         label: t('in-custom-dashboards:widgets.slo.metricFormData.erroneousCalls'),
-        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdCount')
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdCount'),
+        type: 'count'
       },
       errors: {
         name: 'errors',
         options: meanAggregation,
         defaultValue: 'MEAN',
         label: t('in-custom-dashboards:widgets.slo.metricFormData.errorRate'),
-        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdPercent')
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdPercent'),
+        type: 'rate'
       }
     }
   },
@@ -85,14 +90,16 @@ const metricOptions = deepFreeze({
         options: meanAggregation,
         defaultValue: 'MEAN',
         label: t('in-custom-dashboards:widgets.slo.metricFormData.beaconErrorRate'),
-        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdPercent')
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdPercent'),
+        type: 'rate'
       },
       beaconDuration: {
         name: 'beaconDuration',
         options: timeAggregationOptions,
         defaultValue: 'P90',
         label: t('in-custom-dashboards:widgets.slo.metricFormData.beaconDuration'),
-        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdMs')
+        unitLabel: t('in-custom-dashboards:widgets.slo.metricsForm.thresholdMs'),
+        type: 'count'
       }
     }
   }

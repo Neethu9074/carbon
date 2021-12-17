@@ -150,6 +150,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'kubernetesExploreEnabled',
+    instanaCtlKey: 'feature.kubernetes.explore.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'loggingEnabled',
     instanaCtlKey: 'feature.logging.enabled',
     defaultValue: true
@@ -215,13 +220,13 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'websiteSmartAlertsAllowPerWindowUserImpact',
-    instanaCtlKey: 'feature.website.smartAlerts.allow.perWindow.userImpact.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'websiteSloEnabled',
     instanaCtlKey: 'feature.slo.websites.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'smartAlertsLogsBlueprintEnabled',
+    instanaCtlKey: 'feature.application.smart.alerts.logs.blueprint.enabled',
     defaultValue: false
   },
   {

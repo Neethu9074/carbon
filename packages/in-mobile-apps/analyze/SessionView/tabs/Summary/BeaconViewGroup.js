@@ -6,9 +6,7 @@
 import { withState } from 'recompose';
 import React from 'react';
 
-import { toInteractiveElement } from '@instana/components';
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon, toInteractiveElement } from '@instana/components';
 
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import Beacon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon';
@@ -18,7 +16,7 @@ import locals from './BeaconViewGroup.mless';
 
 export default withState('expanded', 'setExpanded', true)(BeaconViewGroup);
 
-function BeaconViewGroup({ view, beacons, earliestTimestamp, sessionStart, expanded, setExpanded }) {
+function BeaconViewGroup({ view, beacons, detailId, earliestTimestamp, sessionStart, expanded, setExpanded }) {
   return (
     <div className={locals.group}>
       <div
@@ -55,6 +53,7 @@ function BeaconViewGroup({ view, beacons, earliestTimestamp, sessionStart, expan
           {beacons.map(beacon => (
             <Beacon
               beacon={beacon}
+              detailId={detailId}
               sessionStart={sessionStart}
               earliestTimestamp={earliestTimestamp}
               key={beacon.beaconId}

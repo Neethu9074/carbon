@@ -30,7 +30,9 @@ export default function Header(props) {
     withGrouping,
     withResultsInGroups,
     withCountHeader = true,
-    MetricConfiguratorHint
+    MetricConfiguratorHint,
+    hasErrors,
+    isLoading
   } = props;
   return (
     <div className={locals.wrapper}>
@@ -52,6 +54,8 @@ export default function Header(props) {
         <CountHeader
           totalRepresentedItemCount={totalRepresentedItemCount}
           totalHits={totalHits}
+          isLoading={isLoading}
+          hasErrors={hasErrors}
           getItemName={getItemName}
           getHitName={getHitName}
           withSamplingTooltip={withSamplingTooltip}

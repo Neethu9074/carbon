@@ -4,8 +4,9 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { Endpoint, Result } from 'in-types';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<{ id: string }, Result<Endpoint>>({
   eventId: 'getEndpointInfo',
   memoizeFor: 100,
   trackSubscriptionStatistics: true

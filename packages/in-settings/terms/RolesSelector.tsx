@@ -34,6 +34,11 @@ export default function RolesSelector({ form, onChange }: Props) {
               onChange={e => onChange('role', e.target.value || '')}
               id="role-selection"
             >
+              {!value && (
+                <option disabled value="">
+                  {t('in-settings:tabs.pleaseSelect')}
+                </option>
+              )}
               {roles.map(({ value, label }) => (
                 <option key={value} value={value}>
                   {label}

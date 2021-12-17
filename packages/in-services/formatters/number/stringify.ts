@@ -30,7 +30,7 @@ interface CompactAndDetailedFormatter {
 }
 
 const isLocaleAware = !getSingle('formatNumbersAccordingToEnUs') && window.instana.numberLocale;
-const format = isLocaleAware
+const format: (specifier: string) => (num: number) => string = isLocaleAware
   ? createCustomLocaleFormat({
       ...window.instana.numberLocale,
       // Some languages have alternative numerals, e.g., east arabic.

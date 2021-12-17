@@ -5,8 +5,16 @@
 
 import React, { forwardRef } from 'react';
 
+import {
+  getTraceIdTagFilter,
+  LOG_CUSTOM,
+  LOG_SPAN_ID,
+  LOG_LEVEL,
+  LOG_EXCEPTION_TYPE,
+  LOG_EXCEPTION_MESSAGE,
+  LOG_EXCEPTION_STACK_TRACE
+} from 'in-logging/queryBuilder';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
-import { getTraceIdTagFilter, LOG_CUSTOM, LOG_SPAN_ID } from 'in-logging/queryBuilder';
 import { loggingEnabled } from 'in-services/featureFlags';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import { role } from 'in-stores/user';
@@ -100,6 +108,6 @@ function getData({ traceId, timeConfigForLogs, totalNumberOfLogs }) {
     timeConfig: timeConfigForLogs,
     retrievalSize: totalNumberOfLogs,
     tagFilterExpression: getTraceIdTagFilter(traceId),
-    tags: [LOG_SPAN_ID, LOG_CUSTOM]
+    tags: [LOG_CUSTOM, LOG_LEVEL, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE]
   });
 }
