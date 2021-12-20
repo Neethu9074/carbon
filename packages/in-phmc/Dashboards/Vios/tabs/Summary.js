@@ -33,7 +33,7 @@ export default function Summary({ timeConfig, data: vios }) {
           formatter={percentage.detailed}
         />
         <InfraMetricKpiCard
-          title={t('in-phmc:entitledUsed')}
+          title={t('in-phmc:entitledProc')}
           snapshotId={snapshotId}
           metric="entitledProcUnitsPercentage"
           formatter={percentage.detailed}

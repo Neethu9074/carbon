@@ -48,6 +48,15 @@ const cols = [
     }
   },
   {
+    title: t('in-phmc:physicalLocation'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.sriovLogicalPort.get('physicalLocation');
+      }
+    }
+  },
+  {
     title: t('in-phmc:sentPackets'),
     type: 'string',
     typeArgs: {

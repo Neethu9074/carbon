@@ -30,6 +30,15 @@ const cols = [
     }
   },
   {
+    title: t('in-phmc:physicalLocation'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.genericAdapter.get('physicalLocation');
+      }
+    }
+  },
+  {
     title: t('in-phmc:sentPackets'),
     type: 'string',
     typeArgs: {

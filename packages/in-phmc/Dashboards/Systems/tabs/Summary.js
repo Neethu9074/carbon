@@ -80,8 +80,8 @@ export default function Summary({ timeConfig, data: system }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['utilizedProcUnits', 'assignedMem'],
-                labels: [t('in-phmc:utilized'),t('in-phmc:assignedMem')],
+                metrics: ['utilizedProcUnitsHypervisor', 'assignedMemHypervisor'],
+                labels: [t('in-phmc:utilized'), t('in-phmc:assignedMem')],
                 formatter: number.compact,
                 type: 'line'
               }}

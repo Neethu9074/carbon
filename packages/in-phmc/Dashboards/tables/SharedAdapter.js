@@ -39,11 +39,20 @@ const cols = [
     }
   },
   {
-    title: t('in-phmc:sentPackets'),
+    title: t('in-phmc:bridgedAdapters'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.sharedAdapter.get('sentPackets');
+        return row.sharedAdapter.get('bridgedAdapter');
+      }
+    }
+  },
+  {
+    title: t('in-phmc:physicalLocation'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.sharedAdapter.get('physicalLocation');
       }
     }
   },

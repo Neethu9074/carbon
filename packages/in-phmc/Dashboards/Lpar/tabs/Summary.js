@@ -33,7 +33,7 @@ export default function Summary({ timeConfig, data: lpar }) {
           formatter={number.compact}
         />
         <InfraMetricKpiCard
-          title={t('in-phmc:entitledUsed')}
+          title={t('in-phmc:entitledProc')}
           snapshotId={snapshotId}
           metric="entitledProcUnitsPercentage"
           formatter={percentage.detailed}
