@@ -9,6 +9,7 @@ import {
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
@@ -40,9 +41,7 @@ export function createBoundedAlertQueryBuilder(
     getTagCatalog: props =>
       getApplicationTagCatalog({
         dataSource: CALLS,
-        useCase: 'SMART_ALERTS',
-        ruleType,
-        thresholdType
+        useCase: getUseCase(thresholdType, ruleType)
       })(props),
     getSuggestions: args =>
       isIdTag(args.name)
@@ -57,6 +56,16 @@ export function createBoundedAlertQueryBuilder(
   });
 
   return { QueryBuilder, isQueryValid, toFormModel, getTagCatalog };
+}
+
+function getUseCase(thresholdType, ruleType) {
+  if (ruleType === 'logs') {
+    return 'SMART_ALERTS_LOGS';
+  } else if (thresholdType === ADAPTIVE_BASELINE) {
+    return 'SMART_ALERTS_ADAPTIVE_BASELINE';
+  } else {
+    return 'SMART_ALERTS';
+  }
 }
 
 function tagSuggestionArgs(args, suggestionTimeConfig) {
