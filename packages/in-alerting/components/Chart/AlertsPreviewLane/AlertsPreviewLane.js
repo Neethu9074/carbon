@@ -8,8 +8,9 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLanePresenter';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import AlertsPreviewLanePresenter from 'in-alerting/components/Chart/AlertsPreviewLane/AlertsPreviewLanePresenter';
+import { trackAlertPreviewMarkerFetchRetry } from 'in-alerting/components/Chart/AlertsPreviewLane/tracker';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import { isLoading, hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
@@ -24,16 +25,27 @@ export default function AlertsPreviewLanePropsChecker(props) {
 }
 
 function AlertsPreviewLane({ alertsPreviewConfiguration, getAlertsPreview, ...remainingProps }) {
+  const [retryCounter, setRetryCounter] = React.useState(0);
+
   const result = useObservable(getAlertsPreviewObservable, [
     getAlertsPreview,
     alertsPreviewConfiguration,
-    remainingProps.clusterSizeMillis
+    remainingProps.clusterSizeMillis,
+    // we use this counter also to trigger the reloading when the counter was changed.
+    retryCounter
   ]);
+
+  const onRetry = () => {
+    trackAlertPreviewMarkerFetchRetry(retryCounter + 1);
+    setRetryCounter(retryCounter + 1);
+  };
+
   return (
     <AlertsPreviewLanePresenter
       {...remainingProps}
+      onRetry={onRetry}
       alerts={result?.data ?? emptyArray}
-      errorMessage={hasError(result) ? t('in-components:chart.chartAlertsLaneErrorMessage') : undefined}
+      errorMessage={hasError(result) ? t('in-alerting:components.chart.chartAlertsLaneErrorMessage') : undefined}
       isLoading={isLoading(result)}
     />
   );

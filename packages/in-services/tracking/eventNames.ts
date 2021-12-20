@@ -302,6 +302,9 @@ export const POTENTIAL_PROBLEMS_REQUEST_LOADING_TIME = 'potential.problems.reque
 export const POTENTIAL_PROBLEMS_SELECTED = 'potential.problems.selected';
 export const POTENTIAL_PROBLEMS_DIALOG_CLOSED = 'potential.problems.dialog.closed';
 
+// Alert Preview Marker Lane
+export const ALERT_PREVIEW_MARKER_FETCH_RETRY = 'alert.preview.marker.fetch.retry';
+
 // SLI Widget and SLI Management
 export const SLI_WIDGET_JUMP_TO_UNBOUNDED_ANALYTICS = 'sli.widget.chart.jumpToUA';
 export const SLI_WIDGET_START_EDITING = 'sli.widget.editStart';

@@ -6,7 +6,6 @@
 import React from 'react';
 
 import PotentialProblemsLanePresenter from 'in-alerting/PotentialProblems/PotentialProblemsLane/PotentialProblemsLanePresenter';
-import AlertsPreviewLanePresenter from 'in-components/Chart/markerLanes/AlertsPreviewLane/AlertsPreviewLanePresenter';
 import ReleasesLanePresenter from 'in-components/Chart/markerLanes/ReleasesLane/ReleasesLanePresenter';
 import AlertsLanePresenter from 'in-components/Chart/markerLanes/AlertsLane/AlertsLanePresenter';
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
@@ -22,6 +21,14 @@ export default {
 const oneMinute = minutes.toMillis(1);
 const timeConfig = generateTimeframe(oneMinute);
 
+// optional retry feature and helper for storybook
+const RETRY_ARGS = {
+  withOnRetryButton: false
+};
+function getOnRetryFeedbackHelper(args) {
+  return args?.withOnRetryButton && (() => alert('Retry was triggered.'));
+}
+
 export const MarkerLanesBelowChart = () => {
   return (
     <ChartWithSomeData
@@ -36,62 +43,79 @@ export const MarkerLanesBelowChart = () => {
   );
 };
 
-export const MarkerLanesBelowChartWithError = () => {
+export const MarkerLanesBelowChartWithError = args => {
   return (
     <ChartWithSomeData
       renderPostChartContent={props => (
         <MarkerLanesPresenter {...props}>
-          <ReleasesLanePresenter releases={getReleases(timeConfig)} errorMessage={"Releases couldn't be loaded"} />
-          <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} errorMessage={"Alerts couldn't be loaded"} />
-        </MarkerLanesPresenter>
-      )}
-    />
-  );
-};
-MarkerLanesBelowChartWithError.args = {};
-
-export const MarkerLanesAboveChart = () => {
-  return (
-    <ChartWithSomeData
-      renderPreChartContent={props => (
-        <MarkerLanesPresenter {...props}>
-          <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} />
-        </MarkerLanesPresenter>
-      )}
-    />
-  );
-};
-export const MarkerLanesAboveChartWithError = () => {
-  return (
-    <ChartWithSomeData
-      renderPreChartContent={props => (
-        <MarkerLanesPresenter {...props} laneLabelsVisible>
-          <AlertsPreviewLanePresenter alerts={getAlerts(timeConfig)} errorMessage={"Alerts couldn't be loaded"} />
-        </MarkerLanesPresenter>
-      )}
-    />
-  );
-};
-
-export const MarkerLanesAboveChartWithLongError = () => {
-  return (
-    <ChartWithSomeData
-      renderPreChartContent={props => (
-        <MarkerLanesPresenter {...props} laneLabelsVisible>
-          <AlertsPreviewLanePresenter
-            alerts={getAlerts(timeConfig)}
-            errorMessage={
-              'An error with a long message ' +
-              'which is very, very long ' +
-              'and will not fit into the lane, ' +
-              'because it is very, very long.'
-            }
+          <ReleasesLanePresenter
+            releases={getReleases(timeConfig)}
+            errorMessage={"Releases couldn't be loaded"}
+            onRetry={getOnRetryFeedbackHelper(args)}
+          />
+          <AlertsLanePresenter
+            alerts={getAlertsAndIncidents(timeConfig)}
+            errorMessage={"Alerts couldn't be loaded"}
+            onRetry={getOnRetryFeedbackHelper(args)}
           />
         </MarkerLanesPresenter>
       )}
     />
   );
 };
+MarkerLanesBelowChartWithError.args = { ...RETRY_ARGS };
+
+export const MarkerLanesAboveChart = () => {
+  return (
+    <ChartWithSomeData
+      renderPreChartContent={props => (
+        <MarkerLanesPresenter {...props}>
+          <AlertsLanePresenter alerts={getAlertsAndIncidents(timeConfig)} />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+
+export const MarkerLanesAboveChartWithError = args => {
+  return (
+    <ChartWithSomeData
+      renderPreChartContent={props => (
+        <MarkerLanesPresenter {...props} laneLabelsVisible>
+          <AlertsLanePresenter
+            alerts={getAlertsAndIncidents(timeConfig)}
+            errorMessage={"Alerts couldn't be loaded"}
+            onRetry={getOnRetryFeedbackHelper(args)}
+          />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+MarkerLanesAboveChartWithError.args = { ...RETRY_ARGS };
+
+export const MarkerLanesAboveChartWithLongError = args => {
+  return (
+    <ChartWithSomeData
+      renderPreChartContent={props => (
+        <MarkerLanesPresenter {...props} laneLabelsVisible>
+          <AlertsLanePresenter
+            alerts={getAlertsAndIncidents(timeConfig)}
+            errorMessage={
+              'You can add a Retry button in the control addon... ' +
+              'An error with a long message ' +
+              'which is very, very long ' +
+              'and will not fit into the lane, ' +
+              'because it is very, very long.'
+            }
+            onRetry={getOnRetryFeedbackHelper(args)}
+          />
+        </MarkerLanesPresenter>
+      )}
+    />
+  );
+};
+MarkerLanesAboveChartWithLongError.args = { ...RETRY_ARGS };
 
 export const WidthLoadingIndicator = () => {
   return (
@@ -169,19 +193,6 @@ function getReleases(timeConfig) {
       ]
     };
   }
-  return events;
-}
-
-function getAlerts(timeConfig) {
-  const events = [];
-  const numEvents = 18;
-  for (let i = 0; i < numEvents; i++) {
-    events[i] = {
-      timestamp: timeConfig.to - timeConfig.windowSize + timeConfig.windowSize * (i / 8),
-      numAlertsInCluster: i
-    };
-  }
-
   return events;
 }
 
