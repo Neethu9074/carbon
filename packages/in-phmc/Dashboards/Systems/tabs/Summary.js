@@ -81,7 +81,7 @@ export default function Summary({ timeConfig, data: system }) {
               y1={{
                 min: 0,
                 metrics: ['utilizedProcUnitsHypervisor', 'assignedMemHypervisor'],
-                labels: [t('in-phmc:utilized'), t('in-phmc:assignedMem')],
+                labels: [t('in-phmc:utilizedProcessor'), t('in-phmc:assignedMemory')],
                 formatter: number.compact,
                 type: 'line'
               }}

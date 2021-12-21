@@ -13,7 +13,7 @@
   "available": "Available",
   "utilized": "Utilized",
   "configurable": "Configurable",
-  "assignedMem": "Assigned memory to LPARs",
+  "assignedMem": "Assigned Memory To LPARs",
   "availablePercentage": "Available (%)",
   "configurablePercentage": "Configurable (%)",
   "assignedMemPercentage": "Assigned memory to LPARs (%)",
@@ -21,7 +21,7 @@
   "state": "State",
   "utilizedMem": "Utilized Memory",
   "mode": "Mode",
-  "maxVirtualProcessor": "Maximum Virtual Processor",
+  "maxVirtualProcessor": "Maximum Virtual Processors",
   "max": "Max",
   "entitled": "Entitled",
   "capped": "Capped",
@@ -31,12 +31,14 @@
   "entitledProc": "Entitled Processor Units Used",
   "entitledPercent": "Entitled Processor Units Used (%)",
   "utilizedPercent": "Utilized (%)",
-  "logicalMem": "Logical Memory(MB)",
+  "logicalMem": "Logical Memory (MB)",
   "logical": "Logical",
   "backedPhy": "Backed Physical",
   "totalIO": "Total IO",
   "mappedIO": "Mapped IO",
   "utilizedProc": "Utilized Processor Units (%)",
+  "utilizedProcessor": "Utilized Processor",
+  "assignedMemory": "Assigned Memory(MB)",
   "availableProc": "Available Processor Units (%)",
   "configurableProc": "Configurable Processor Units (%)",
   "memAvailable": "Memory Available (MB)",
@@ -89,7 +91,7 @@
     "name": "Name",
     "logicalPartition": "Logical Partition",
     "processorUsage": "Processor Usage",
-    "memoryUsage": "Memory Usage(MB)",
+    "memoryUsage": "Memory Usage (MB)",
     "vios": "Virtual I/O Server",
     "network": "Network",
     "storage": "Storage",
@@ -107,7 +109,7 @@
     "fiberChannelAdapter": "Fiber Channel Adapters",
     "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapters",
     "sharedStoragePool": "Shared Storage Pools",
-    "hypervisor": "Hypervisors"
+    "hypervisor": "Hypervisor"
   }
 }
 
