@@ -5,8 +5,9 @@
 
 import { isEmpty } from 'lodash';
 
+import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { ApplicationNode, BoundaryScope, EndpointNode, ServiceNode, TagFilter } from 'in-types';
 import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes } from 'in-applications/constants';
@@ -14,7 +15,11 @@ import { boundaryScopes } from 'in-applications/constants';
 /**
  * Creates the entity selection model expected by the backend.
  */
-export function getEntitySelection(applicationId, serviceId = null, endpointId = null) {
+export function getEntitySelection<Id extends string>(
+  applicationId: Id,
+  serviceId?: string,
+  endpointId?: string
+): Record<string, ApplicationNode> {
   if (!serviceId && !endpointId) {
     return {
       [applicationId]: {
@@ -25,7 +30,7 @@ export function getEntitySelection(applicationId, serviceId = null, endpointId =
     };
   }
 
-  if (!endpointId) {
+  if (serviceId && !endpointId) {
     return {
       [applicationId]: {
         applicationId,
@@ -46,12 +51,12 @@ export function getEntitySelection(applicationId, serviceId = null, endpointId =
       applicationId,
       inclusive: false,
       services: {
-        [serviceId]: {
-          serviceId,
+        [serviceId!]: {
+          serviceId: serviceId!,
           inclusive: false,
           endpoints: {
-            [endpointId]: {
-              endpointId,
+            [endpointId!]: {
+              endpointId: endpointId!,
               inclusive: true
             }
           }
@@ -77,13 +82,13 @@ export function getEntitySelection(applicationId, serviceId = null, endpointId =
  * @returns The FormModel of the resulting QB2 query.
  */
 export function getEntitySelectionAsTagFilterFormModel(
-  applications,
-  boundaryScope,
-  applicationId,
-  applicationName,
-  serviceId,
-  endpointId
-) {
+  applications: Record<string, ApplicationNode>,
+  boundaryScope: BoundaryScope,
+  applicationId: string,
+  applicationName?: string,
+  serviceId?: string,
+  endpointId?: string
+): FormModelElement[] {
   const application = applications[applicationId];
 
   if (application && serviceId) {
@@ -112,7 +117,7 @@ export function getEntitySelectionAsTagFilterFormModel(
     return getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, applicationName, serviceId, endpointId);
   }
 
-  // at this point, we make the assumption that we would have an endpointId always together with a serviceId and and applicationId
+  // at this point, we make the assumption that we would have an endpointId always together with a serviceId and applicationId
   // so we have the logic above and could ignore handling endpointId here.
   // In a follow-up this could easily be extended to me more accurate to the
   // documentation of this method above.
@@ -130,13 +135,19 @@ export function getEntitySelectionAsTagFilterFormModel(
   return joinExpressions({
     logicalOperator: or,
     expressions: applicationArray.map(app => {
-      return getApplicationTagFilterFormModel(boundaryScope, app.applicationId, null, app.inclusive, app.services);
+      return getApplicationTagFilterFormModel(boundaryScope, app.applicationId, undefined, app.inclusive, app.services);
     })
   });
 }
 
-function getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, applicationName, serviceId, endpointId) {
-  if (endpointId) {
+function getExplicitEntityTagFilterFormModel(
+  boundaryScope: BoundaryScope,
+  applicationId: string,
+  applicationName?: string,
+  serviceId?: string,
+  endpointId?: string
+): FormModelElement[] {
+  if (serviceId && endpointId) {
     return joinExpressions({
       logicalOperator: and,
       expressions: [
@@ -159,7 +170,13 @@ function getExplicitEntityTagFilterFormModel(boundaryScope, applicationId, appli
   return [getApplicationTagFilter(boundaryScope, applicationId, applicationName)];
 }
 
-function getApplicationTagFilterFormModel(boundaryScope, applicationId, applicationName, inclusive, services) {
+function getApplicationTagFilterFormModel(
+  boundaryScope: BoundaryScope,
+  applicationId: string,
+  applicationName?: string,
+  inclusive?: boolean,
+  services?: Record<string, ServiceNode>
+): FormModelElement[] {
   const relevantServiceTagFilterFormModels =
     services &&
     Object.values(services)
@@ -168,7 +185,7 @@ function getApplicationTagFilterFormModel(boundaryScope, applicationId, applicat
 
   const applicationFilter = getApplicationTagFilter(boundaryScope, applicationId, applicationName);
 
-  if (isEmpty(relevantServiceTagFilterFormModels)) {
+  if (!relevantServiceTagFilterFormModels || isEmpty(relevantServiceTagFilterFormModels)) {
     return [applicationFilter];
   }
 
@@ -193,18 +210,23 @@ function getApplicationTagFilterFormModel(boundaryScope, applicationId, applicat
   });
 }
 
-function hasAnyChildrenOfInclusionType(service, included) {
+function hasAnyChildrenOfInclusionType(service: ServiceNode, included: boolean): boolean {
   return service.endpoints && Object.values(service.endpoints).some(endpoint => endpoint.inclusive === included);
 }
 
-function getServiceTagFilterFormModel(serviceId, inclusive, endpoints, parentInclusive) {
+function getServiceTagFilterFormModel(
+  serviceId: string,
+  inclusive: boolean,
+  endpoints?: Record<string, EndpointNode>,
+  parentInclusive?: boolean
+): FormModelElement[] {
   const relevantEndpointFilters =
     endpoints &&
     Object.values(endpoints)
       .filter(endpoint => endpoint.inclusive !== inclusive)
       .map(endpoint => getEndpointIdTagFilter(endpoint.endpointId, endpoint.inclusive));
 
-  if (isEmpty(relevantEndpointFilters)) {
+  if (!relevantEndpointFilters || isEmpty(relevantEndpointFilters)) {
     return [getServiceIdTagFilter(serviceId, inclusive)];
   }
 
@@ -246,15 +268,15 @@ function getServiceTagFilterFormModel(serviceId, inclusive, endpoints, parentInc
   });
 }
 
-function getServiceIdTagFilter(serviceId, inclusive) {
+function getServiceIdTagFilter(serviceId: string, inclusive: boolean): TagFilter {
   return tagFilter('service.id', inclusive ? EQUALS : NOT_EQUAL, serviceId);
 }
 
-function getEndpointIdTagFilter(endpointId, inclusive) {
+function getEndpointIdTagFilter(endpointId: string, inclusive: boolean): TagFilter {
   return tagFilter('endpoint.id', inclusive ? EQUALS : NOT_EQUAL, endpointId);
 }
 
-export function getApplicationIdTagFilter(boundaryScope, applicationId) {
+export function getApplicationIdTagFilter(boundaryScope: BoundaryScope, applicationId: string): TagFilter {
   return tagFilter(
     boundaryScope === boundaryScopes.inbound ? 'boundary.application.id' : 'application.id',
     EQUALS,
@@ -262,7 +284,7 @@ export function getApplicationIdTagFilter(boundaryScope, applicationId) {
   );
 }
 
-export function getApplicationNameTagFilter(boundaryScope, applicationName) {
+export function getApplicationNameTagFilter(boundaryScope: BoundaryScope, applicationName: string): TagFilter {
   return tagFilter(
     boundaryScope === 'INBOUND' ? 'call.inbound_of_application' : 'application.name',
     EQUALS,
@@ -270,12 +292,16 @@ export function getApplicationNameTagFilter(boundaryScope, applicationName) {
   );
 }
 
-function getApplicationTagFilter(boundaryScope, applicationId, applicationName) {
+function getApplicationTagFilter(
+  boundaryScope: BoundaryScope,
+  applicationId: string,
+  applicationName?: string
+): TagFilter {
   return applicationName
     ? getApplicationNameTagFilter(boundaryScope, applicationName)
     : getApplicationIdTagFilter(boundaryScope, applicationId);
 }
 
-export function firstApplicationId(applications) {
+export function firstApplicationId(applications?: Record<string, ApplicationNode>): string | undefined {
   return applications && Object.values(applications)[0]?.applicationId;
 }
