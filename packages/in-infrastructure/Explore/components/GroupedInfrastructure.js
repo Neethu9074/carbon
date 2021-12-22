@@ -5,15 +5,19 @@
 
 import React, { useCallback } from 'react';
 
-import { ColumnizedContent, Ul, Li } from '@instana/components';
-import { LiHorizontalIndicator } from '@instana/components';
-import { LiLoadingSkeleton } from '@instana/components';
-import { LiLoadMore } from '@instana/components';
-import { KeyValue } from '@instana/components';
-import { Message } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import {
+  ColumnizedContent,
+  KeyValue,
+  Li,
+  LiHorizontalIndicator,
+  LiLoadingSkeleton,
+  LiLoadMore,
+  Message,
+  SvgIcon,
+  Ul
+} from '@instana/components';
 
-import { average, getGranularity, getMetricKey, defaultFormatter } from 'in-infrastructure/Explore/services/metrics';
+import { average, defaultFormatter, getGranularity, getMetricKey } from 'in-infrastructure/Explore/services/metrics';
 import InfrastructureList, { pagesLoaded } from 'in-infrastructure/Explore/components/InfrastructureList';
 import { type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -21,17 +25,16 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import createGetGroupsSubscription from 'in-infrastructure/subscriptions/getGroups';
 import { getUniqueErrors } from 'in-components/Errors/ErroneousResultPresenter';
 import { LOAD_MORE_CONTEXT } from 'in-infrastructure/Explore/services/tracking';
-import { pluginTag, defaultOrder } from 'in-infrastructure/Explore/constants';
+import { defaultOrder, pluginTag } from 'in-infrastructure/Explore/constants';
+import { emptyObject, indeterminateProgress } from 'in-services/fixedObjects';
 import MetricLabel from 'in-infrastructure/Explore/components/MetricLabel';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLinkToExplore } from 'in-infrastructure/navigation/paths';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import Header from 'in-components/QueryBuilder/components/Header';
-import { indeterminateProgress } from 'in-services/fixedObjects';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import IconLink from 'in-components/IconButton/IconLink';
-import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getPluginName } from 'in-sdk/pluginName';
@@ -125,6 +128,8 @@ function Presenter({
     <>
       <Header
         totalRepresentedItemCount={totalRepresentedItemCount}
+        hasErrors={hasErrors}
+        isLoading={isLoading}
         availableMetrics={availableMetrics}
         sortOptions={sortOptions}
         setMetrics={setMetrics}

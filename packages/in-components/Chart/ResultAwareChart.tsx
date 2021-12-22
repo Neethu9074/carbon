@@ -23,7 +23,7 @@ import locals from './ResultAwareChart.mless';
 interface Props {
   config: Config;
   renderLegend?: boolean;
-  result: Result<null>;
+  result: Result<unknown>;
 }
 
 export default function ResultAwareChart({ result, config, renderLegend = true }: Props) {

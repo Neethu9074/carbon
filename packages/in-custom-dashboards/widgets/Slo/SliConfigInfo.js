@@ -10,7 +10,7 @@ import { SvgIcon } from '@instana/components';
 
 import { applicationType, websiteEventBased, availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { getMetricOptions, getDefaultMetricEntityType } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
-import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
+import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
 import { useWebsiteQueryBuilder } from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import Tooltip from 'in-components/Tooltip';

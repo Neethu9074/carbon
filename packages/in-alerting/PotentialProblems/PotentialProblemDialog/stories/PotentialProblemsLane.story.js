@@ -19,7 +19,6 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { close } from 'in-components/DialogPresenter/store';
 import DialogPresenter from 'in-components/DialogPresenter';
-import { noop } from 'in-services/fixedObjects';
 import { hours } from 'in-services/time';
 
 export default {
@@ -63,7 +62,6 @@ export const PotentialProblemsMarkerLane = () => {
           <MarkerLanesPresenter {...props}>
             <PotentialProblemsLanePresenter
               {...laneProps}
-              queryValidator={noop}
               tagFilterExpression={EMPTY_EXPRESSION}
               applications={{}}
               potentialProblems={potentialProblemsCluster}

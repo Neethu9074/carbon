@@ -45,14 +45,21 @@ export default function ScopeConfig({
   const tagFilterExpression = form.get('tagFilterExpression').value;
   const includeSynthetic = form.get('includeSynthetic').value;
   const isBuiltIn = form.get('builtIn').value;
+  const alertType = form.get('rule').get('alertType').value;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [filterBySelectionState, setFilterBySelectionState] = useState(Boolean(editMode));
   const shouldDisplayAlertConfigurator = !isBuiltIn || tagFilterExpression.length > 0;
 
-  const AlertQueryBuilder = useMemo(() => {
-    return createBoundedAlertQueryBuilder(applications, boundaryScope, scopeSelectionTimeConfig, thresholdType);
-  }, [applications, boundaryScope, thresholdType]);
+  const { QueryBuilder } = useMemo(() => {
+    return createBoundedAlertQueryBuilder(
+      applications,
+      boundaryScope,
+      scopeSelectionTimeConfig,
+      thresholdType,
+      alertType
+    );
+  }, [applications, boundaryScope, thresholdType, alertType]);
 
   return (
     <LightCard
@@ -110,7 +117,7 @@ export default function ScopeConfig({
                 [locals.alertFilterConfiguratorWrapperBottomPadding]: !tagFilterExpression.length || isBuiltIn
               })}
             >
-              <AlertFilterConfigurator QueryBuilderComponent={AlertQueryBuilder} form={form} updateForm={updateForm} />
+              <AlertFilterConfigurator QueryBuilderComponent={QueryBuilder} form={form} updateForm={updateForm} />
             </div>
           )}
         </Stack>

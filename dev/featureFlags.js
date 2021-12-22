@@ -49,9 +49,9 @@ module.exports = {
   potentialProblemsEnabled: true,
   adaptiveBaselineEnabled: true,
   builtInGlobalApplicationSmartAlertsEnabled: true,
-  websiteSmartAlertsAllowPerWindowUserImpact: true,
   websiteSloEnabled: true,
   disableAppDataLegacyEvents: false,
+  smartAlertsLogsBlueprintEnabled: true,
   syntheticsTestEnabled: true,
   kubernetesExploreEnabled: true
 };

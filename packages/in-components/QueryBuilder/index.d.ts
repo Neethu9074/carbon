@@ -7,12 +7,20 @@ import { ComponentType } from 'react';
 
 import { Observable } from '@instana/observables';
 
-import { TagFilterEntity, TagFilterExpression, TagSuggestionProposeType, TagSuggestions, TimeConfig } from 'in-types';
+import {
+  Nullish,
+  TagFilterEntity,
+  TagFilterExpression,
+  TagSuggestionProposeType,
+  TagSuggestions,
+  TimeConfig,
+  Filter
+} from 'in-types';
 import { FormModelElement } from './transformation/formModel';
 
 export type GetSuggestionsProps = { [key: string]: unknown };
 
-interface GetTagSuggestionsProps {
+interface GetTagSuggestionsProps<ADDITIONAL_PROPS extends {} = {}> extends ADDITIONAL_PROPS {
   tagFilterExpression: TagFilterExpression;
   name: string;
   tagName: string;
@@ -21,14 +29,11 @@ interface GetTagSuggestionsProps {
   timeConfig: TimeConfig;
   propose: TagSuggestionProposeType;
   getSuggestionsProps?: GetSuggestionsProps;
+  value?: any;
+  filter?: Filter;
 }
 
 type GetTagCatalog = (tc: { timeConfig: TimeConfig }) => Observable<Result<TagCatalog>>;
-
-type CreateQueryBuilderProps = Extract<
-  QueryBuilderProps,
-  'getTagCatalog' | 'getSuggestions' | 'withoutOrConjunction' | 'withoutBrackets' | 'maxExpressionDepth'
->;
 
 export type QueryBuilderTrackingFunctions = {
   onTagAdded?: (newFormModel: FormModelElement, updatedFormModel: FormModelElement[]) => void;
@@ -38,13 +43,15 @@ export type QueryBuilderTrackingFunctions = {
 
 type GetSuggestionLabel = (props: { item: string; tagName: string }) => string;
 
-interface QueryBuilderProps {
-  value: formModel;
+interface QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS extends {} = {}> {
+  value: FormModelElement[];
   onChange: (formModel: FormModelElement[]) => void;
   onError?: (props: { hasError: boolean; errors: string[] }) => void;
 
   getTagCatalog: GetTagCatalog;
-  getSuggestions: (props: GetTagSuggestionsProps) => Observable<Result<TagSuggestions>>;
+  getSuggestions: (
+    props: GetTagSuggestionsProps<ADDITIONAL_TAG_SUGGESTION_PROPS>
+  ) => Observable<Result<TagSuggestions>> | Nullish;
   getSuggestionLabel?: GetSuggestionLabel;
   getSuggestionsProps?: GetSuggestionsProps;
 
@@ -57,18 +64,27 @@ interface QueryBuilderProps {
   withoutBrackets?: boolean;
 }
 
-type QueryBuilderComponentProps = Omit<
-  QueryBuilderProps,
+type CreateQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> = Pick<
+  QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS>,
   'getTagCatalog' | 'getSuggestions' | 'withoutOrConjunction' | 'withoutBrackets' | 'maxExpressionDepth'
 >;
 
-export type QueryBuilderComponent = ComponentType<QueryBuilderComponentProps>;
+type QueryBuilderComponentProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> = Omit<
+  QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS>,
+  'getTagCatalog' | 'getSuggestions' | 'withoutOrConjunction' | 'withoutBrackets' | 'maxExpressionDepth'
+>;
 
-interface CreateQueryBuilderResponse {
+export type QueryBuilderComponent<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> = ComponentType<
+  QueryBuilderComponentProps<ADDITIONAL_TAG_SUGGESTION_PROPS>
+>;
+
+interface CreateQueryBuilderResponse<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> {
   getTagCatalog: GetTagCatalog;
-  QueryBuilder: QueryBuilderComponent;
+  QueryBuilder: QueryBuilderComponent<ADDITIONAL_TAG_SUGGESTION_PROPS>;
   isQueryValid: (formModel, timeConfig) => Observable<Result<boolean>>;
   toFormModel: (tagFilterArray, timeConfig) => Observable<Result<FormModelElement[]>>;
 }
 
-export function createQueryBuilder(props: CreateQueryBuilderProps): CreateQueryBuilderResponse;
+export function createQueryBuilder<ADDITIONAL_TAG_SUGGESTION_PROPS = {}>(
+  props: CreateQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS>
+): CreateQueryBuilderResponse;

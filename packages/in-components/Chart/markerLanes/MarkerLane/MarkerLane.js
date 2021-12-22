@@ -7,7 +7,7 @@ import React, { useRef, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import { HorizontalIndicator, SvgIcon } from '@instana/components';
+import { HorizontalIndicator, Button, SvgIcon } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
@@ -15,6 +15,7 @@ import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 import locals from './MarkerLane.mless';
 
@@ -74,6 +75,7 @@ function MarkersLanePresenter({
   laneLabelsVisible,
   isLoading,
   errorMessage,
+  onRetry,
   trackMarkerHoverEvent,
   ...remainingProps
 }) {
@@ -163,7 +165,7 @@ function MarkersLanePresenter({
             </div>
           </div>
         )}
-        {errorMessage && MarkerLaneErrorMessage({ errorMessage })}
+        {errorMessage && <MarkerLaneErrorMessage errorMessage={errorMessage} onRetry={onRetry} />}
         <div className={locals.loadingIndicatorContainer}>
           <HorizontalIndicator progress={{ loading: isLoading }} />
         </div>
@@ -181,19 +183,26 @@ function MarkersLanePresenter({
   }
 }
 
-function MarkerLaneErrorMessage({ errorMessage }) {
+function MarkerLaneErrorMessage({ errorMessage, onRetry }) {
   return (
     <div className={locals.laneError}>
       <div className={locals.laneErrorIconText}>
-        <HorizontalFlexWrapper className={locals.laneErrorIconTextWrapper}>
-          <SvgIcon
-            className={locals.laneErrorIcon}
-            color={theme.lib.colors.N600Light}
-            type="lib_help_error_warning_outline"
-            size="xs"
-          />
-          <span className={locals.laneErrorLabelText}>{errorMessage}</span>
-        </HorizontalFlexWrapper>
+        <Tooltip content={errorMessage}>
+          <HorizontalFlexWrapper className={locals.laneErrorIconTextWrapper}>
+            <SvgIcon
+              className={locals.laneErrorIcon}
+              color={theme.lib.colors.N600Light}
+              type="lib_help_error_warning_outline"
+              size="xs"
+            />
+            <span className={locals.laneErrorLabelText}>{errorMessage}</span>
+            {onRetry && (
+              <Button kind="action" size="compact" onClick={() => onRetry()} className={locals.tryAgain}>
+                {t('in-components:chart.chartMarkerLane.retryButtonLabel')}
+              </Button>
+            )}
+          </HorizontalFlexWrapper>
+        </Tooltip>
       </div>
     </div>
   );
@@ -217,8 +226,10 @@ MarkersLane.propTypes = {
   laneLabelsVisible: PropTypes.bool,
   onLaneHasMarkersToRender: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
-  /* if present, wil show this message instead of any events */
+  /* when present, this message will be shown instead of any events */
   errorMessage: PropTypes.string,
+  /* when present, a retry button will be rendered */
+  onRetry: PropTypes.func,
   // Tracking
   trackMarkerHoverEvent: PropTypes.func
 };

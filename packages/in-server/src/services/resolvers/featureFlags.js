@@ -220,13 +220,13 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'websiteSmartAlertsAllowPerWindowUserImpact',
-    instanaCtlKey: 'feature.website.smartAlerts.allow.perWindow.userImpact.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'websiteSloEnabled',
     instanaCtlKey: 'feature.slo.websites.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'smartAlertsLogsBlueprintEnabled',
+    instanaCtlKey: 'feature.application.smart.alerts.logs.blueprint.enabled',
     defaultValue: false
   },
   {

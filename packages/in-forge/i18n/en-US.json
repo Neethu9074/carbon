@@ -8703,7 +8703,7 @@
         "ibmMqCluster": "IBM MQ Cluster",
         "type": "Type",
         "messages": "Messages",
-        "publishers": "Publishers",
+        "publishers": "Publications",
         "subscriptions": "Subscriptions",
         "topicsWithCount": "Topics ({{len}})"
       },
@@ -8738,8 +8738,6 @@
         "messageTime": "Message Time",
         "oldest": "Oldest",
         "onQueue": "On Queue",
-        "reset": "Reset",
-        "last": "Last",
         "calls": "Calls",
         "openInputs": "Open Inputs",
         "openOutputs": "Open Outputs",
@@ -8767,8 +8765,6 @@
       "messages": "Messages",
       "messageTime": "Message Time",
       "onQueueMessageTime": "On Queue Message Time",
-      "lastResetTime": "Last Reset Time",
-      "reset": "Reset",
       "openInputCount": "Open Input Count",
       "openOutputCount": "Open Output Count",
       "calls": "Calls"
@@ -8800,7 +8796,7 @@
         "connection": "Connection",
         "handleState": "Handle State",
         "user": "User",
-        "queuesUsageWithCount": "Queues Usage ({{len}})",
+        "queuesUsageWithCount": "Queue Usage by application ({{len}})",
         "ibmMqQueueManager": "IBM MQ Queue Manager",
         "subsWithCount": "Subscriptions ({{len}})",
         "topicString": "Topic String",
@@ -8855,7 +8851,7 @@
     "ibmMqTopic": {
       "dashboard": {
         "messages": "Messages",
-        "publishers": "Publishers",
+        "publishers": "Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
         "ibmMqTopic": "IBM MQ Topic"
@@ -8866,7 +8862,7 @@
       "topicType": "Topic Type",
       "topicAlternatedAt": "Topic Alternated At",
       "messages": "Messages",
-      "publishers": "Publishers",
+      "publishers": "Publications",
       "count": "Count",
       "lastResetTime": "Last Reset Time",
       "reset": "Reset",
@@ -10374,7 +10370,8 @@
       "labelAliveConnections": "Alive connections",
       "labelPacketsReceived": "Packets Received",
       "labelPacketsSent": "Packets Sent",
-      "labelPeer": "Peer"
+      "labelPeer": "Peer",
+      "zxid": "zxid"
     },
     "lxc": {
       "networkWithNetworkInterface": "Network ({{networkInterface}})",

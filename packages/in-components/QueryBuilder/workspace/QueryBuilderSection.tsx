@@ -3,21 +3,40 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import rpt from 'prop-types';
-
-import { Message } from '@instana/components';
-import { Button } from '@instana/components';
-import { Stack } from '@instana/components';
-
-import { trackingProps as queryBuilderTrackingProps } from 'in-components/QueryBuilder/QueryBuilder';
+import { Button, Message, Stack } from '@instana/components';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import { emptyObject } from 'in-services/fixedObjects';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
+import { emptyObject } from 'in-services/fixedObjects';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { GetSuggestionLabel, GetSuggestionsProps, QueryBuilderComponent, QueryBuilderTrackingFunctions } from '..';
+import { FormModelElement } from '../transformation/formModel';
 
 export const DEFAULT_MAX_EXPRESSION_DEPTH = 5;
+
+interface QueryBuilderSectionTrackingProps {
+  queryBuilderTrackingProps: QueryBuilderTrackingFunctions;
+  onQueryCleared: () => void;
+}
+
+interface QueryBuilderSectionProps {
+  value: FormModelElement[];
+  QueryBuilder: QueryBuilderComponent;
+  getSuggestionsProps?: GetSuggestionsProps;
+  getSuggestionLabel?: GetSuggestionLabel;
+  onChange: (formModel: FormModelElement[]) => void;
+  tracking?: QueryBuilderSectionTrackingProps;
+
+  useLastValidStateWhenErroneous?: boolean;
+  // Allows to limit the depth of expression nesting. It is unlimited by default.
+  maxExpressionDepth?: number;
+
+  hasError?: boolean;
+  errors?: string[];
+
+  actions?: ReactNode;
+  withoutIcon?: boolean;
+}
 
 export default function QueryBuilderSection({
   value: tagFilterExpression,
@@ -31,9 +50,14 @@ export default function QueryBuilderSection({
   errors: exteralErrors,
   getSuggestionsProps = {},
   getSuggestionLabel
-}) {
-  const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState(emptyObject);
+}: QueryBuilderSectionProps) {
+  const [{ hasError: hasInternalError, errors: internalErrors }, setInternalError] = useState<{
+    hasError?: boolean;
+    errors?: string[];
+  }>(emptyObject);
+
   const [clearRequested, setClearRequested] = useState(false);
+
   useEffect(() => {
     if (clearRequested) {
       setClearRequested(false);
@@ -64,14 +88,14 @@ export default function QueryBuilderSection({
             // This is needed, because the parent components can reuse the same 'tagFilterExpression' instance,
             // e.g. using the 'useStableObjectInstance' hook.
             value={clearRequested ? [] : tagFilterExpression}
-            onChange={tagFilterExpression => {
+            onChange={(tagFilterExpression: FormModelElement[]) => {
               // If the tag filter expression changes, reset the 'queryHasErrors' flag. In case that the updated
               // is invalid, the 'queryHasErrors' flag will be set again by the `onError` callback.
               setInternalError(emptyObject);
               onChange(tagFilterExpression);
             }}
             onError={setInternalError}
-            tracking={tracking}
+            tracking={tracking?.queryBuilderTrackingProps}
             useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
             getSuggestionsProps={getSuggestionsProps}
             getSuggestionLabel={getSuggestionLabel}
@@ -92,22 +116,3 @@ export default function QueryBuilderSection({
     onChange([]);
   }
 }
-
-QueryBuilderSection.propTypes = {
-  value: rpt.array.isRequired,
-  actions: rpt.node,
-  QueryBuilder: rpt.func.isRequired,
-  onChange: rpt.func.isRequired,
-  withoutIcon: rpt.bool,
-  tracking: rpt.shape({
-    ...queryBuilderTrackingProps,
-    onQueryCleared: rpt.func
-  }),
-  useLastValidStateWhenErroneous: rpt.bool,
-  // Allows to limit the depth of expression nesting. It is unlimited by default.
-  maxExpressionDepth: rpt.number,
-  hasError: rpt.bool,
-  errors: rpt.array,
-  getSuggestionsProps: rpt.object,
-  getSuggestionLabel: rpt.func
-};

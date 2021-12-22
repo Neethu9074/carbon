@@ -9,9 +9,11 @@ import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavio
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Columize from 'in-sdk/components/dashboard/Columize';
-import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
+import { just } from '@instana/observables';
+import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 const cols = [
@@ -106,29 +108,43 @@ const cols = [
   }
 ];
 
-export default function QueuesTable({ snapshot, timeConfig }) {
-  const queueNames = snapshot.getIn(['data', 'queueNames'], emptyMap);
-  if (queueNames.size === 0) {
-    return null;
-  }
-  const rows = queueNames.toArray().map(key => {
+export default connectTo(
+  props => {
     return {
-      key,
-      snapshotId: snapshot.get('id'),
-      timeConfig
+      data: getRawPayloadWithTimestamp(props.snapshot.get('id'), 'queueNames'),
+      snapshot: just(props.snapshot),
+      timeConfig: just(props.timeConfig)
     };
-  });
+  },
+  function QueuesTable({ data, snapshot, timeConfig }) {
+    if (!data || !data.get('raw_payload')) {
+      return null;
+    }
 
-  return (
-    <Table
-      withoutPadding
-      cardTitle={t('in-forge:plugins.tibcoEMS.titleQueuesCount', { len: rows.length })}
-      cols={cols}
-      rows={rows}
-      getRowDetails={getRowDetails}
-    />
-  );
-}
+    const queueNames = data.get('raw_payload');
+    if (queueNames.size === 0) {
+      return null;
+    }
+
+    const rows = queueNames.toArray().map(key => {
+      return {
+        key,
+        snapshotId: snapshot.get('id'),
+        timeConfig
+      };
+    });
+
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.tibcoEMS.titleQueuesCount', { len: rows.length })}
+        cols={cols}
+        rows={rows}
+        getRowDetails={getRowDetails}
+      />
+    );
+  }
+);
 
 function getRowDetails(row) {
   const snapshotId = row.snapshotId;

@@ -12,9 +12,9 @@ import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-ale
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
 import { getChartTimeConfigByEvent, getTimeConfigFromEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
+import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
-import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
@@ -45,6 +45,7 @@ export default function ApplicationEventContent({ event }) {
   const { applicationId } = eventEntity;
   const { tagFilterExpression, rule, boundaryScope } = alertConfig;
   const alertType = rule.alertType;
+  const { QueryBuilder } = getQueryBuilderForAlertType(alertType);
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const timeConfig = {
@@ -113,7 +114,7 @@ export default function ApplicationEventContent({ event }) {
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter
                 tagFilterFormModel={tagFilterFormModel}
-                queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+                queryBuilder={<QueryBuilder value={tagFilterFormModel} readOnly />}
                 scopePath={<ApplicationScopePath boundaryScope={alertConfig.boundaryScope} {...eventEntity} />}
               />
             </div>

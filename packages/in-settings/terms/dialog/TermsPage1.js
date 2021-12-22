@@ -52,6 +52,7 @@ export default function TermsPage1({ form, onChange, onNext, nrPages }) {
                       }}
                     />
                   }
+                  explanation={<Trans i18nKey="in-settings:termsDialog.termsPage1.ibmTos" />}
                   checked={value}
                   onChange={() => onChange(form, 'tosAccepted', !value)}
                   size="large"
