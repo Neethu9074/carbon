@@ -8,40 +8,31 @@ import React from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 
+import {
+  LOG_SPAN_ID,
+  LOG_CUSTOM,
+  getTraceIdTagFilter,
+  LOG_LEVEL,
+  LOG_EXCEPTION_TYPE,
+  LOG_EXCEPTION_MESSAGE,
+  LOG_EXCEPTION_STACK_TRACE
+} from 'in-logging/queryBuilder';
 import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
-import { LOG_SPAN_ID, LOG_CUSTOM, getTraceIdTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
-import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
+import { logLevelColumn, timestampColumn } from 'in-logging/analyze/AnalyzeView/components/logsColumns';
+import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
+import LogTagsTable from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
-import LogMessage from 'in-logging/analyze/AnalyzeView/components/LogMessage';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
-import { formatDateTime } from 'in-services/formatters/date';
 import getLogs from 'in-logging/subscriptions/getLogs';
 
 import locals from './Logs.mless';
 
 const columnDefinitions = [
-  {
-    id: 'logLevel',
-    width: '4.5rem',
-    widthInAbsoluteUnit: true,
-    getContent({ tags }) {
-      return <LogHealthColumn tags={tags} />;
-    }
-  },
-  {
-    id: 'timestamp',
-    width: '10rem',
-    useMaxHeight: true,
-    widthInAbsoluteUnit: true,
-    getContent({ timestamp }) {
-      return <div>{formatDateTime(timestamp)}</div>;
-    }
-  },
+  logLevelColumn,
+  timestampColumn,
   {
     id: 'log',
-    getContent({ message, tags }) {
-      return <LogMessage tags={tags} message={message} />;
-    }
+    getContent: LogMessageColumn
   }
 ];
 
@@ -76,6 +67,7 @@ export default function Logs(props) {
               [locals.selectedRow]: isSelected
             })}
             onClick={() => selectLogId({ logId: id, spanId })}
+            renderNestedContent={() => <LogTagsTable item={log} />}
           >
             <ColumnizedContent columnDefinitions={columnDefinitions} {...log} />
           </Li>
@@ -84,13 +76,12 @@ export default function Logs(props) {
     </Ul>
   );
 }
-
 function getData({ traceId, totalNumberOfLogs, timeConfigForLogs }) {
   return getLogs({
     timeConfig: timeConfigForLogs,
     retrievalSize: totalNumberOfLogs,
     tagFilterExpression: getTraceIdTagFilter(traceId),
-    tags: [LOG_SPAN_ID, LOG_LEVEL, LOG_CUSTOM]
+    tags: [LOG_SPAN_ID, LOG_LEVEL, LOG_CUSTOM, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE]
   });
 }
 

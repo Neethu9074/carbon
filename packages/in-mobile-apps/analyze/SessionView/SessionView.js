@@ -6,14 +6,12 @@
 import { get } from 'lodash';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
-import { Link } from '@instana/components';
+import { Button, Link, SvgIcon } from '@instana/components';
 
 import {
-  sessionIdUrlParameter,
   beaconIdUrlParameter,
-  beaconTimestampUrlParameter
+  beaconTimestampUrlParameter,
+  sessionIdUrlParameter
 } from 'in-mobile-apps/navigation/urlParameters';
 import getMobileAppBeaconsForSession from 'in-mobile-apps/subscriptions/getMobileAppBeaconsForSession';
 import SplitScreenSessionContent from 'in-mobile-apps/analyze/SessionView/SplitScreenSessionContent';
@@ -170,9 +168,9 @@ function renderButtonLine({ sessionLabel, detailId, sessionId, beaconTimestamp }
   );
 }
 
-function renderTimeSelection() {
+function renderTimeSelection({ getHrefToUngroupedView }) {
   return (
-    <Link href$={closeSessionViewLink}>
+    <Link href={getHrefToUngroupedView()}>
       <Tooltip content={t('in-mobile-apps:sessionView.closeSessionDetailsTooltip')}>
         <SvgIcon
           className={locals.closeIcon}

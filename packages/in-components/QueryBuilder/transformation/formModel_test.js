@@ -60,6 +60,7 @@ describe('in-components/QueryBuilder/transformation/formModel', () => {
       ];
       expect(fromTagFiltersArray(tagFilters, tagCatalog)).to.deep.equal([
         {
+          entity: 'NOT_APPLICABLE',
           name: 'service.name',
           operator: EQUALS,
           type: TAG_FILTER_TYPE,
@@ -71,6 +72,7 @@ describe('in-components/QueryBuilder/transformation/formModel', () => {
           type: CONJUNCTION_TYPE
         },
         {
+          entity: 'NOT_APPLICABLE',
           name: 'call.latency',
           operator: EQUALS,
           type: TAG_FILTER_TYPE,
@@ -82,6 +84,7 @@ describe('in-components/QueryBuilder/transformation/formModel', () => {
           type: CONJUNCTION_TYPE
         },
         {
+          entity: 'NOT_APPLICABLE',
           name: 'http.headers',
           operator: EQUALS,
           type: TAG_FILTER_TYPE,
@@ -259,7 +262,13 @@ function createFormModel(stringExpression) {
   const TOKENS = {
     ' and ': () => ({ type: CONJUNCTION_TYPE, logicalOperator: and }),
     ' or ': () => ({ type: CONJUNCTION_TYPE, logicalOperator: or }),
-    '=': el => ({ type: TAG, name: el.before.trim(), operator: EQUALS, value: el.after.trim() }),
+    '=': el => ({
+      entity: 'NOT_APPLICABLE',
+      type: TAG,
+      name: el.before.trim(),
+      operator: EQUALS,
+      value: el.after.trim()
+    }),
     '(': () => ({ type: OPEN_BRACKET_TYPE }),
     ')': () => ({ type: CLOSE_BRACKET_TYPE })
   };

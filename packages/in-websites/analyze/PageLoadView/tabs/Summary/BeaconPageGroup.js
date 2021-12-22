@@ -6,9 +6,7 @@
 import { withState } from 'recompose';
 import React from 'react';
 
-import { toInteractiveElement } from '@instana/components';
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon, toInteractiveElement } from '@instana/components';
 
 import HeaderToggleIcon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import Beacon from 'in-websites/analyze/PageLoadView/tabs/Summary/Beacon';
@@ -18,7 +16,7 @@ import locals from './BeaconPageGroup.mless';
 
 export default withState('expanded', 'setExpanded', true)(BeaconPageGroup);
 
-function BeaconPageGroup({ page, beacons, earliestTimestamp, pageLoad, expanded, setExpanded }) {
+function BeaconPageGroup({ detailId, page, beacons, earliestTimestamp, pageLoad, expanded, setExpanded }) {
   return (
     <div className={locals.group}>
       <div
@@ -49,7 +47,13 @@ function BeaconPageGroup({ page, beacons, earliestTimestamp, pageLoad, expanded,
       {expanded && (
         <div className={locals.beacons}>
           {beacons.map(beacon => (
-            <Beacon beacon={beacon} pageLoad={pageLoad} earliestTimestamp={earliestTimestamp} key={beacon.beaconId} />
+            <Beacon
+              detailId={detailId}
+              beacon={beacon}
+              pageLoad={pageLoad}
+              earliestTimestamp={earliestTimestamp}
+              key={beacon.beaconId}
+            />
           ))}
         </div>
       )}

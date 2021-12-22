@@ -20,7 +20,7 @@ export default [
   {
     metric: getDynamicMetricMatch('datasources', 'active', t('in-forge:plugins.tomcatAppContainer.labelDatasource')),
     label: t('in-forge:plugins.tomcatAppContainer.labelActiveDatasources'),
-    category: [t('in-forge:plugins.tomcatAppContainer.categoryDatasourceConnectionPools')],
+    category: [t('in-forge:plugins.tomcatAppContainer.categoryDatasources')],
     min: 0,
     formatter: number
   },

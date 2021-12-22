@@ -8,8 +8,10 @@ import React from 'react';
 
 import {
   configurationOptionsFullyQualified,
-  configurationPrivacyFullyQualified
+  configurationPrivacyFullyQualified,
+  configurationCustomGeoDetailsFullyQualified
 } from 'in-mobile-apps/navigation/paths';
+import MobileAppCustomGeoDetails from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/MobileAppCustomGeoDetails';
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
 import Options from 'in-mobile-apps/MobileAppDashboard/tabs/Configuration/Options/Options';
@@ -37,6 +39,10 @@ export default function Configuration(props) {
         label={t('in-mobile-apps:dashboard.tabs.privacyLabel')}
         path={configurationPrivacyFullyQualified}
       />
+      <NavigationItem
+        label={t('in-mobile-apps:dashboard.tabs.customGeoDetailsLabel')}
+        path={configurationCustomGeoDetailsFullyQualified}
+      />
     </SideNavigation>
   );
   return (
@@ -44,6 +50,10 @@ export default function Configuration(props) {
       <Switch>
         <Route path={configurationOptionsFullyQualified} render={() => <Options {...props} />} />
         <Route path={configurationPrivacyFullyQualified} render={() => <Privacy {...props} />} />
+        <Route
+          path={configurationCustomGeoDetailsFullyQualified}
+          render={() => <MobileAppCustomGeoDetails {...props} />}
+        />
         <RedirectWithHash
           to$={getModifiedUrlStream(params => (params.pathname = configurationOptionsFullyQualified))}
         />

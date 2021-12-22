@@ -85,6 +85,8 @@ function Chart(props) {
 function LogsChart({ backendQueryModelWithFacets, metric }) {
   return (
     <UnifiedMetricsChart
+      // Log metrics do not support request collapsing.
+      bulkRequest
       automaticallySize={false}
       renderLegend={false}
       excludedContextMenuActions={['globalHighlight', 'download']}
@@ -147,6 +149,8 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
 
   return (
     <UnifiedMetricsChart
+      // Log metrics do not support request collapsing.
+      bulkRequest
       automaticallySize={false}
       renderLegend={false}
       config={{
@@ -170,18 +174,11 @@ function getMetricConfig({ backendQueryModelWithFacets, metric, tag, value, labe
     metric: metric.metricId,
     aggregation: metric.aggregationId,
     label: label ?? value,
-    source: 'DISTRIBUTED_LOGS_V2',
-    tagFilterExpression: addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModelWithFacets, key, type })
+    source: 'LOG',
+    metricTagFilterExpression: getValueMatchTagFilter({ name: tag, key, type, value }),
+    tagFilterExpression: backendQueryModelWithFacets
 
     // granularity and timeConfig are send automatically by the chart impl
-  };
-}
-
-function addLogLevelFilterTagToQueryModel({ tag, value, backendQueryModelWithFacets, key, type }) {
-  return {
-    elements: [getValueMatchTagFilter({ name: tag, key, type, value }), backendQueryModelWithFacets],
-    logicalOperator: 'AND',
-    type: 'EXPRESSION'
   };
 }
 

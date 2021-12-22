@@ -10,6 +10,6 @@ import { minutes } from 'in-services/time';
 interface GetLogResponse extends Result<LogItem> {}
 
 export default createResultSubscriptionFactory<LogQuery, GetLogResponse>({
-  eventId: 'logsV2.getLog',
+  eventId: 'logs.getLog',
   memoizeFor: minutes.toMillis(5)
 });

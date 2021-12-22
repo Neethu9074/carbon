@@ -12,9 +12,9 @@ import {
   PowershellEC2,
   Row,
   Spacer,
-  TextWithLink
+  TextWithLink,
+  getAgentDownloadURL
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
-import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import { t } from 'in-i18n';
 
 export default function ElasticComputingWindowsContent({
@@ -22,13 +22,15 @@ export default function ElasticComputingWindowsContent({
   agentEndpoint,
   agentEndpointPort,
   tenant,
-  tenantUnit
+  tenantUnit,
+  butlerDomain
 }) {
   const agentModeOptions = [
     t('in-waiting-for-deployment:content.dynamicAgent'),
     t('in-waiting-for-deployment:content.staticAgent')
   ];
   const [agentMode, setMode] = useState(agentModeOptions[0]);
+  const agentModeOption = `exe64${agentMode === agentModeOptions[0] ? '' : 'offline'}`;
 
   return (
     <>
@@ -39,9 +41,13 @@ export default function ElasticComputingWindowsContent({
       <Description lines={[t('in-waiting-for-deployment:content.useTheFollowingScriptAsUserDataForTheEc2Instance')]} />
       <PowershellEC2
         lines={[
-          `Invoke-WebRequest -OutFile "$env:TEMP\\AgentBootstrap.exe" -Uri "https://instana.${instanaDomain}/assets/agent/${tenant}/${tenantUnit}?agentKey=${agentKey}&type=exe64${
-            agentMode === agentModeOptions[0] ? '' : 'offline'
-          }"`,
+          `Invoke-WebRequest -OutFile "$env:TEMP\\AgentBootstrap.exe" -Uri "${getAgentDownloadURL(
+            tenant,
+            tenantUnit,
+            agentKey,
+            agentModeOption,
+            butlerDomain
+          )}"`,
           `Invoke-Expression -Command "$env:TEMP\\AgentBootstrap.exe INSTANA_AGENT_ENDPOINT=${agentEndpoint} INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort} INSTANA_AGENT_KEY=${agentKey} /quiet"`
         ]}
       />

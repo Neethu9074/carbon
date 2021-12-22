@@ -14,7 +14,8 @@ import {
   sessionId as sessionIdMatrixParameter,
   beaconId as beaconIdMatrixParameter,
   beaconTimestamp as beaconTimestampMatrixParameter,
-  httpRequestId as httpRequestIdMatrixParameter
+  httpRequestId as httpRequestIdMatrixParameter,
+  customEventId as customEventIdMatrixParameter
 } from 'in-mobile-apps/navigation/matrix';
 import { setOrDeleteMatrixKey, setOrDeleteMatrixParameter } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
@@ -52,6 +53,8 @@ export const usersTab = '/users';
 export const usersTabFullyQualified = `${mobileAppPathFullyQualified}${usersTab}`;
 export const httpRequestsTab = '/httpRequests';
 export const httpRequestsTabFullyQualified = `${mobileAppPathFullyQualified}${httpRequestsTab}`;
+export const customEventsTab = '/customEvents';
+export const customEventsTabFullyQualified = `${mobileAppPathFullyQualified}${customEventsTab}`;
 
 export const configurationTab = '/configuration';
 export const configurationTabFullyQualified = `${mobileAppPathFullyQualified}${configurationTab}`;
@@ -59,6 +62,8 @@ export const configurationOptions = '/options';
 export const configurationOptionsFullyQualified = `${configurationTabFullyQualified}${configurationOptions}`;
 export const configurationPrivacy = '/privacy';
 export const configurationPrivacyFullyQualified = `${configurationTabFullyQualified}${configurationPrivacy}`;
+export const configurationCustomGeoDetails = '/customGeoDetails';
+export const configurationCustomGeoDetailsFullyQualified = `${configurationTabFullyQualified}${configurationCustomGeoDetails}`;
 
 export const linkToMobileApps$ = getModifiedUrlStream(params => {
   params.pathname = mobileAppsPathFullyQualified;
@@ -160,5 +165,18 @@ export function getLinkToHttpRequest(mobileAppId, { httpRequestId, viewId } = em
     }
 
     setOrDeleteMatrixKey(params, '/details', httpRequestIdMatrixParameter, httpRequestId);
+  });
+}
+
+export function getLinkToCustomEvent(mobileAppId, { customEventId, viewId } = emptyObject) {
+  return getModifiedUrlStream(params => {
+    params.pathname = `${mobileAppPathFullyQualified}/customEvents/details`;
+    setOrDeleteMatrixKey(params, mobileAppPath, mobileAppIdMatrixParameter, mobileAppId);
+
+    if (viewId !== undefined) {
+      setOrDeleteMatrixKey(params, mobileAppPath, viewIdMatrixParameter, viewId);
+    }
+
+    setOrDeleteMatrixKey(params, '/details', customEventIdMatrixParameter, customEventId);
   });
 }

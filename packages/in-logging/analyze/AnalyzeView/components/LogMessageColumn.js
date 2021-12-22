@@ -54,7 +54,7 @@ export default function LogMessageColumn(props) {
         item={{
           tags,
           timestamp,
-          message
+          message: message
         }}
       />
     </div>

@@ -4,15 +4,11 @@
  */
 
 :local {
-  .listItem {
-    align-items: stretch;
-  }
-
   .dialog {
     max-width: 80vw;
   }
 
-  .message {
-    word-break: break-word;
+  .listItem {
+    align-items: stretch;
   }
 }

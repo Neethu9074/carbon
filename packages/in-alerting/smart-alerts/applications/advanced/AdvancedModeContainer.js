@@ -41,6 +41,7 @@ import { isHistoricBaseline } from 'in-alerting/smart-alerts/components/utils/ba
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { alertingDialogItemPickerTimeframe } from 'in-alerting/components/constants';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
@@ -66,6 +67,11 @@ export default function AdvancedModeContainer(props) {
   const alertType = form.get('rule').get('alertType').value;
   const thresholdType = form.get('threshold').get('type').value;
   const blueprintConfig = getBlueprintConfig(alertType);
+  const blueprintConfigList =
+    smartAlertsLogsBlueprintEnabled || blueprintConfig?.type === 'logs'
+      ? blueprintConfigs
+      : blueprintConfigs.filter(config => config?.type !== 'logs');
+
   return (
     <GlobalAdvancedModeContainer
       {...props}
@@ -107,7 +113,7 @@ export default function AdvancedModeContainer(props) {
               <BlueprintSelection
                 form={form}
                 updateForm={updateForm}
-                blueprintConfigs={blueprintConfigs}
+                blueprintConfigs={blueprintConfigList}
                 createBlueprintForm={createBlueprintForm}
                 trackBlueprintChange={newBlueprint =>
                   applicationsAlertingBlueprintChanged({ newBlueprint, mode: 'advanced' })

@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
-import { isAlertQueryValid as isApplicationAlertQueryValid } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
+import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -20,34 +20,52 @@ import { t } from 'in-i18n';
 const NoDataPlaceHolder = ({ text }) => <NoDataAvailable text={text} height={230} />;
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {
-  const { alertConfigWithFormModel, serviceId, endpointId, isAlertDetailView } = props;
+  const {
+    alertConfigWithFormModel: { evaluationType, threshold },
+    serviceId,
+    endpointId,
+    isAlertDetailView
+  } = props;
 
-  const isAdaptiveBaseline = alertConfigWithFormModel.threshold?.type === ADAPTIVE_BASELINE;
+  const isAdaptiveBaseline = threshold?.type === ADAPTIVE_BASELINE;
   if (isAdaptiveBaseline && isAlertDetailView) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noChartForAdaptiveBaseline')} />;
   }
-  if (PER_AP_ENDPOINT === alertConfigWithFormModel.evaluationType && !endpointId) {
+  if (PER_AP_ENDPOINT === evaluationType && !endpointId) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataWithoutEndpointSelection')} />;
   }
-
-  if (PER_AP_SERVICE === alertConfigWithFormModel.evaluationType && !serviceId) {
+  if (PER_AP_SERVICE === evaluationType && !serviceId) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} />;
   }
 
-  const entitySelection = alertConfigWithFormModel?.applications;
+  return <ApplicationAlertingChartWithErrorMessageAndData {...props} />;
+}
+
+// Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering
+function ApplicationAlertingChartWithErrorMessageAndData(props) {
+  const { alertConfigWithFormModel } = props;
+
+  const {
+    rule: { alertType }
+  } = alertConfigWithFormModel;
+
+  const isApplicationAlertQueryValid = useMemo(() => {
+    const { isQueryValid } = getQueryBuilderForAlertType(alertType);
+    return ([tagFilterFormModel, timeConfig]) => isQueryValid(tagFilterFormModel, timeConfig);
+  }, [alertType]);
+
+  const entitySelection = alertConfigWithFormModel.applications;
   // If a user deselected all entities from entitySelection we have an empty object
   // If a user has never interacted with entitySelection or is in websites smart alert, the value is undefined
   // For example we don't want to hide the chart when we are in simple mode step 1
   const isServicesAndEndpointsSelectionValid = isEntitySelectionValid(
     entitySelection,
-    alertConfigWithFormModel?.builtIn
+    alertConfigWithFormModel.builtIn
   );
 
   return (
     <AlertingChartWithErrorMessage
       {...props}
-      serviceId={serviceId}
-      endpointId={endpointId}
       getErrorMessage={isValidDependingOnMode =>
         getErrorMessage(!isValidDependingOnMode, !isServicesAndEndpointsSelectionValid)
       }
@@ -69,6 +87,10 @@ function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
 ApplicationAlertingChartWithErrorMessage.propTypes = {
   alertConfigWithFormModel: PropTypes.shape({
     applications: PropTypes.object.isRequired,
+    rule: PropTypes.shape({
+      alertType: PropTypes.string
+    }),
+    boundaryScope: PropTypes.string,
     threshold: PropTypes.object,
     builtIn: PropTypes.bool,
     evaluationType: PropTypes.string.isRequired

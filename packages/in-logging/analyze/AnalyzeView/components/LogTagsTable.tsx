@@ -3,22 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 
 import { Link, Stack, Ul, Li, ColumnizedContent } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import {
-  ClickedTag,
-  LogTagsTableProps,
-  GetContentType,
-  TagEntryProps,
-  ResolvedLinkProps,
-  ToggleProps,
-  ApplicationsListProps,
-  GroupingTag,
-  ApplicationProps
-} from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.d';
 import {
   LOG_CUSTOM_KEY_APPLICATION_IDS,
   LOG_CUSTOM_KEY_SERVICE_ID,
@@ -31,6 +20,17 @@ import {
   LOG_EXCEPTION_MESSAGE,
   LOG_EXCEPTION_STACK_TRACE
 } from 'in-logging/queryBuilder';
+import {
+  ClickedTag,
+  LogTagsTableProps,
+  GetContentType,
+  TagEntryProps,
+  ResolvedLinkProps,
+  ToggleProps,
+  ApplicationsListProps,
+  GroupingTag,
+  ApplicationProps
+} from 'in-logging/analyze/AnalyzeView/components/LogTagsTable.d';
 import { filterAdded, groupAdded, logMessageTagClicked } from 'in-logging/analyze/AnalyzeView/tracker';
 import useResolvedValue from 'in-logging/analyze/AnalyzeView/components/useResolvedValue';
 import useResolvedLink from 'in-logging/analyze/AnalyzeView/components/useResolvedLink';
@@ -47,7 +47,9 @@ import { hasError, isLoading } from 'in-services/util/result';
 import IconButton from 'in-components/IconButton/IconButton';
 import IconLink from 'in-components/IconButton/IconLink';
 import { pendingResult } from 'in-services/fixedObjects';
+import { getTagCatalog } from 'in-logging/api/catalog';
 import getLog from 'in-logging/subscriptions/getLog';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import Tooltip from 'in-components/Tooltip';
 import { LogTag } from 'in-types';
 import { t } from 'in-i18n';
@@ -77,13 +79,39 @@ const restrictedTags = new Set<string>([
   LOG_CALL_ID
 ]);
 
-export default function LogTagsTable({
-  item,
-  tagToLabelMap,
-  allowedTagsForGrouping,
-  onSelectTagHref,
-  getHrefToGroupedView
-}: LogTagsTableProps) {
+interface LogTagMapperParams {
+  name: string;
+  label: string;
+}
+
+export default function LogTagsTable({ item, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps) {
+  const timeConfig = useTimeConfig();
+
+  const internalFilteringTagCatalogResult =
+    useObservable(() => getTagCatalog({ useCase: 'FILTERING', forceIncludeInternalTags: true }), [
+      getTagCatalog,
+      timeConfig
+    ]) ?? pendingResult;
+
+  const groupingTagCatalogResult =
+    useObservable(() => getTagCatalog({ useCase: 'GROUPING', forceIncludeInternalTags: true }), [
+      getTagCatalog,
+      timeConfig
+    ]) ?? pendingResult;
+
+  const tagToLabelMap: Map<string, string> = useMemo(
+    () =>
+      new Map(
+        (internalFilteringTagCatalogResult.data?.tags || []).map(({ name, label }: LogTagMapperParams) => [name, label])
+      ),
+    [internalFilteringTagCatalogResult]
+  );
+
+  const allowedTagsForGrouping: Set<string> = useMemo(
+    () => new Set((groupingTagCatalogResult.data?.tags || []).map(({ name }: LogTagMapperParams) => name)),
+    [groupingTagCatalogResult]
+  );
+
   const logResult = useObservable(() => getLog({ itemId: item.itemId }), [item.itemId]) ?? pendingResult;
 
   if (!logResult || isLoading(logResult)) {
@@ -171,7 +199,7 @@ function TagValue({
 
       {isHovered && tag.key !== LOG_CUSTOM_KEY_APPLICATION_IDS && (
         <Stack direction="horizontal" gap="disabled" align="center">
-          {allowedTagsForGrouping.has(tag.name || '') && (
+          {allowedTagsForGrouping.has(tag.name || '') && getHrefToGroupedView && (
             <Tooltip content={t('in-logging:tooltipAddAsGroup')}>
               <IconLink
                 iconSize={16}
@@ -181,14 +209,16 @@ function TagValue({
               />
             </Tooltip>
           )}
-          <Tooltip content={t('in-logging:tooltipAddAsFilter')}>
-            <IconLink
-              iconSize={16}
-              type="lib_actions_filter"
-              href={onSelectTagHref(createTag(value, tag.name, tag.key))}
-              onClick={() => trackFilterClick(tag, value)}
-            />
-          </Tooltip>
+          {onSelectTagHref && (
+            <Tooltip content={t('in-logging:tooltipAddAsFilter')}>
+              <IconLink
+                iconSize={16}
+                type="lib_actions_filter"
+                href={onSelectTagHref(createTag(value, tag.name, tag.key))}
+                onClick={() => trackFilterClick(tag, value)}
+              />
+            </Tooltip>
+          )}
           <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
             <CopyToClipboard getText={() => resolvedValue}>
               {(copyToClipboardRef: any) => (

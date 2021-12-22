@@ -29,7 +29,8 @@ export const entityTypeToFullyQualifiedPlugin = {
   containerd: fullyQualifiedPlugins.containerd,
   crio: fullyQualifiedPlugins.crio,
   garden: fullyQualifiedPlugins.garden,
-  lxc: fullyQualifiedPlugins.lxc
+  lxc: fullyQualifiedPlugins.lxc,
+  beeInstanaNode: fullyQualifiedPlugins.beeInstanaNode
 };
 
 const pluginsRequiringTableViewInSearch = ['ping'];

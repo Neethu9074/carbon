@@ -3,6 +3,14 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+/**
+ * This type represents what the backend returns in case of technical errors, i.e., through
+ * usage of the RestUtil.error(...) calls.
+ */
+export interface TechnicalHttpApiError {
+  errors: string[];
+}
+
 // TagType from in-types.d.ts is incomplete. We therefore have to redefine it here.
 export type TagType = 'BOOLEAN' | 'STRING' | 'NUMBER' | 'STRING_SET' | 'STRING_LIST' | 'KEY_VALUE_PAIR';
 

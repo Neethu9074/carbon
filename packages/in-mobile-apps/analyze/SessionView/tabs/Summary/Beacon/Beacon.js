@@ -4,8 +4,8 @@
  */
 
 import { compose, withState } from 'recompose';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
-import React from 'react';
 
 import { toInteractiveElement } from '@instana/components';
 
@@ -13,14 +13,20 @@ import BackendTraceButton from 'in-mobile-apps/analyze/SessionView/tabs/Summary/
 import HeaderToggleIcon from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HeaderToggleIcon';
 import TypeHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/TypeHeader';
 import renderers from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/perTypeRenderers';
-import { HighlightedEffect } from 'in-components/SelectedElementHighlighter';
+import { HighlightedEffect, triggerHighlight } from 'in-components/SelectedElementHighlighter';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './Beacon.mless';
 
 export default compose(withState('expanded', 'setExpanded', false))(function Beacon(props) {
-  const { beacon, expanded, setExpanded } = props;
+  const { beacon, detailId, expanded, setExpanded } = props;
+
+  useEffect(() => {
+    if (detailId.beaconId === beacon.beaconId && beacon.type !== 'sessionStart') {
+      triggerHighlight(getHighlighterId(beacon.beaconId));
+    }
+  }, [beacon, detailId]);
 
   const beaconRenderers = renderers[beacon.type];
   if (!beaconRenderers) {

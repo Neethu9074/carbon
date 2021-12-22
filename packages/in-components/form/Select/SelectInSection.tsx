@@ -13,8 +13,8 @@ import locals from './SelectInSection.mless';
 
 interface SelectInSectionProps extends SelectProps {
   label: ReactNode;
-  additionalContent: ReactNode;
-  actions: ReactNode;
+  additionalContent?: ReactNode;
+  actions?: ReactNode;
   useAlternateBg?: boolean;
 }
 

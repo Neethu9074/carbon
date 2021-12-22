@@ -34,7 +34,7 @@ export function MissingData() {
 export function Loading() {
   return (
     <ResultAwareChart
-      config={{}}
+      config={{ cardTitle: 'Loading chart', customHeight: '200px' }}
       data={{}}
       result={{
         errors: [],
@@ -49,7 +49,7 @@ export function Loading() {
 export function LoadingWithPercentage(props) {
   return (
     <ResultAwareChart
-      config={{}}
+      config={{ cardTitle: 'Loading chart with percentage', customHeight: '200px' }}
       data={{}}
       result={{
         errors: [],
@@ -95,6 +95,7 @@ export function Simple() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
+        cardTitle: 'Simple chart',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -108,14 +109,14 @@ export function Simple() {
   );
 }
 
-export function States() {
+export function ErrorState() {
   return (
-    <>
-      <ResultAwareChart result={constructResult('Some error happened.', false)} config={{}} />
-      <br />
-      <ResultAwareChart result={constructResult(null, true)} config={{}} />
-    </>
+    <ResultAwareChart result={constructResult('Some error happened.', false)} config={{ customHeight: '200px' }} />
   );
+}
+
+export function UnknownState() {
+  return <ResultAwareChart result={constructResult(null, true)} config={{ customHeight: '200px' }} />;
 }
 
 export function MultipleSeries() {
@@ -126,6 +127,7 @@ export function MultipleSeries() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
+        cardTitle: 'Many time series',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -147,6 +149,7 @@ export function LongSeriesLabels() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
+        cardTitle: 'Chart with long series',
         granularity,
         timeConfig: timeframe,
         renderLegend: false,
@@ -177,6 +180,7 @@ export function DualAxis() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
+        cardTitle: 'Dual axis',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -205,6 +209,7 @@ export function DualAxisDifferentMetricCount() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
+        cardTitle: 'Dual axis with different metric count',
         granularity,
         timeConfig: timeframe,
         y1: {
@@ -230,6 +235,7 @@ export function Gaps() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
+        cardTitle: 'Gaps',
         timeConfig: generateTimeframe(oneMinute),
         y1: {
           renderer: Renderer.line,
@@ -247,6 +253,7 @@ export function Bar() {
     <ResultAwareChart
       result={constructResult(null, false)}
       config={{
+        cardTitle: 'Bar',
         timeConfig: generateTimeframe(oneMinute),
         y1: {
           renderer: Renderer.bar,
@@ -397,6 +404,31 @@ export function StackedArea() {
   );
 }
 
+export function LoadingPie() {
+  return (
+    <>
+      <TooltipPresenter />
+      <ResultAwareChart
+        result={constructResult(null, true)}
+        config={{
+          cardTitle: 'Loading pie',
+          customHeight: '200px',
+          timeConfig: generateTimeframe(oneMinute),
+          y1: {
+            renderer: Renderer.pie,
+            labels: ['foo', 'bar', 'baz'],
+            metricIds: [],
+            metrics: generateMultipleMetrics(3, 30, 10, oneMinute),
+
+            colors: ['#ff0000', '#00ff00', '#0000ff'],
+            formatter: x => x
+          }
+        }}
+      />
+    </>
+  );
+}
+
 export function Pie() {
   return (
     <>
@@ -404,6 +436,7 @@ export function Pie() {
       <ResultAwareChart
         result={constructResult(null, false)}
         config={{
+          cardTitle: 'Pie',
           timeConfig: generateTimeframe(oneMinute),
           y1: {
             renderer: Renderer.pie,

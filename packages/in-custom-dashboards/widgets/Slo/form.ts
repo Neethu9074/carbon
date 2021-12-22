@@ -194,7 +194,7 @@ export function addFormForTimeDuration(form: MapForm, savedState: SloWidgetConfi
       timeWindowDuration,
       createField({
         validator: composeAndShortCircuitOnError(numericValidator, positiveNumberValidator),
-        value: savedState[timeWindowDuration] ?? '1'
+        value: savedState[timeWindowDuration] ?? 1
       })
     );
   if (override || !form.containsKey(timeWindowDurationUnit))

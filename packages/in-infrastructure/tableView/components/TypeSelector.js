@@ -15,17 +15,18 @@ const block = 'in-table-view-type-selector';
 const id = 'table-view-type-selector';
 
 const physicalDomains = {
-  host: t('in-infrastructure:tableView.physicalDomains.host'),
-  jvm: t('in-infrastructure:tableView.physicalDomains.jvm'),
-  nodejs: t('in-infrastructure:tableView.physicalDomains.nodejs'),
+  beeInstanaNode: t('in-infrastructure:tableView.physicalDomains.beeInstanaNode'),
+  clickHouseDatabase: t('in-infrastructure:tableView.physicalDomains.clickHouseDatabase'),
   containerd: t('in-infrastructure:tableView.physicalDomains.containerd'),
   crio: t('in-infrastructure:tableView.physicalDomains.crio'),
   docker: t('in-infrastructure:tableView.physicalDomains.docker'),
   garden: t('in-infrastructure:tableView.physicalDomains.garden'),
+  host: t('in-infrastructure:tableView.physicalDomains.host'),
+  jvm: t('in-infrastructure:tableView.physicalDomains.jvm'),
   lxc: t('in-infrastructure:tableView.physicalDomains.lxc'),
-  process: t('in-infrastructure:tableView.physicalDomains.process'),
-  clickHouseDatabase: t('in-infrastructure:tableView.physicalDomains.clickHouseDatabase'),
-  ping: t('in-infrastructure:tableView.physicalDomains.ping')
+  nodejs: t('in-infrastructure:tableView.physicalDomains.nodejs'),
+  ping: t('in-infrastructure:tableView.physicalDomains.ping'),
+  process: t('in-infrastructure:tableView.physicalDomains.process')
 };
 
 export default connectTo(

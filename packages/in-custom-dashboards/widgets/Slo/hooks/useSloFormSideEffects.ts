@@ -75,7 +75,7 @@ function clampTimeWindowDuration(form: MapForm): Item {
   const oldDuration = (form.get(timeWindowDuration) as Field<number>).value;
   const maxDurationForThisUnit = getMaxTimeWindowDurationValue(unit);
   return form.updateIn([timeWindowDuration], f =>
-    (f as Field<Number>).setValue(Math.min(oldDuration, maxDurationForThisUnit)).setTouched(true)
+    (f as Field<number>).setValue(Math.min(oldDuration, maxDurationForThisUnit)).setTouched(true)
   );
 }
 

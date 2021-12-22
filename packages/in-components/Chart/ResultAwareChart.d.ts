@@ -32,9 +32,10 @@ export interface Config {
   granularity: number;
   nonInteractive?: boolean;
   metricsConfiguration?: MetricsConfiguration;
-  renderErrorDetail: boolean;
+  renderErrorDetail?: boolean;
+  withoutPadding?: boolean;
 
-  getAllDomainValues: () => number[];
+  getAllDomainValues?: () => number[];
 }
 
 interface TimeShift {
@@ -58,11 +59,21 @@ export interface Renderer {
   render?: (args: RenderProps) => void;
 }
 
+type AxisIcons = {
+  colors?: string[];
+  types: string[];
+};
+
 export interface Axis {
   renderer: Renderer;
   metrics: [number, number][][];
-  timeShifts: TimeShift[] | null;
+  timeShifts?: TimeShift[] | null;
   metricIds: string[];
   labels: string[];
   colors: sting[];
+  icons?: AxisIcons;
+  formatter?: Formatter;
+
+  // Sometimes use–case specific props are added to the Axis
+  [key: string]: unknown;
 }

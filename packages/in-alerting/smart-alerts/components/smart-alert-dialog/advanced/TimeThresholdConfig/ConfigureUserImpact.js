@@ -17,7 +17,6 @@ import {
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import AlertThresholdConfigItemContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/AlertThresholdConfigItemContainer';
 import { getValueRoundedToDecimals, round } from 'in-alerting/smart-alerts/components/utils/formatUtils';
-import { websiteSmartAlertsAllowPerWindowUserImpact } from 'in-services/featureFlags';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import DropdownButton from 'in-components/Button/DropdownButton';
@@ -36,46 +35,42 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
 
   return (
     <>
-      {websiteSmartAlertsAllowPerWindowUserImpact && (
-        <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
-          <label>
-            {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethod')}
-          </label>
-          <div className={locals.configureSingleControlWrapper}>
-            <div>
-              <ComboBoxBehavior
-                disableAutomaticOptionSorting
-                value={impactMeasurementMethod}
-                options={[
-                  {
-                    label: t(
-                      'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodAggregated'
-                    ),
-                    value: ImpactMeasurementMethods.AGGREGATED
-                  },
-                  {
-                    label: t(
-                      'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodPerWindow'
-                    ),
-                    value: ImpactMeasurementMethods.PER_WINDOW
-                  }
-                ]}
-                onChange={value => {
-                  onChange(['timeThreshold', 'impactMeasurementMethod'], field =>
-                    field.setValue(value).setTouched(true)
-                  );
-                }}
-              >
-                {({ elementProps, options, value, isOpen }) => (
-                  <DropdownButton kind="secondary" expanded={isOpen} {...elementProps}>
-                    {(value && options?.find?.(opt => opt.value === value)?.label) ?? 'Please select a '}
-                  </DropdownButton>
-                )}
-              </ComboBoxBehavior>
-            </div>
+      <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
+        <label>
+          {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethod')}
+        </label>
+        <div className={locals.configureSingleControlWrapper}>
+          <div>
+            <ComboBoxBehavior
+              disableAutomaticOptionSorting
+              value={impactMeasurementMethod}
+              options={[
+                {
+                  label: t(
+                    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodAggregated'
+                  ),
+                  value: ImpactMeasurementMethods.AGGREGATED
+                },
+                {
+                  label: t(
+                    'in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigImpactEvaluationMethodPerWindow'
+                  ),
+                  value: ImpactMeasurementMethods.PER_WINDOW
+                }
+              ]}
+              onChange={value => {
+                onChange(['timeThreshold', 'impactMeasurementMethod'], field => field.setValue(value).setTouched(true));
+              }}
+            >
+              {({ elementProps, options, value, isOpen }) => (
+                <DropdownButton kind="secondary" expanded={isOpen} {...elementProps}>
+                  {(value && options?.find?.(opt => opt.value === value)?.label) ?? 'Please select a '}
+                </DropdownButton>
+              )}
+            </ComboBoxBehavior>
           </div>
-        </AlertThresholdConfigItemContainer>
-      )}
+        </div>
+      </AlertThresholdConfigItemContainer>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
         <div>
           {t('in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNumberOfImpactedUsersThreshold')}

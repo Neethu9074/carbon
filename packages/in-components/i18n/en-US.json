@@ -1,4 +1,12 @@
 {
+  "fileInputButton": {
+    "label": {
+      "chooseSingle": "Choose file…",
+      "chooseMultiple": "Choose files…",
+      "multipleSelected_1": "{{countFormatted}} file selected",
+      "multipleSelected_plural": "{{countFormatted}} files selected"
+    }
+  },
   "chart": {
     "chartWrapperMetricNotfound": "Metric id {{metricId}} not found.",
     "chartWrapperSameAxisSameValue": "All aggregation types for one axis must have the same value.",
@@ -22,8 +30,9 @@
       "msg": "{{smartAlertsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countSmartAlert, { \"count\": {{smartAlertsCount}} }) & {{incidentsCount}} $t(in-components:chart.chartAlertsLaneTooltipContent.countIncident, { \"count\": {{incidentsCount}} })",
       "itemMsg": "+{{leftCount}} more {{moreMsg}}"
     },
-    "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
-    "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
+    "chartMarkerLane": {
+      "retryButtonLabel": "Retry"
+    },
     "chartReleasesLanePresenterReleasesLabel": "Releases",
     "chartReleasesLanePresenterTooltip": "+{{len}} more Releases",
     "highlightedTimeframeCloseButtonClearHighlight": "Clear highlight",
@@ -477,13 +486,11 @@
     "timeUnit_hour": "hour",
     "timeUnit_minute": "minute",
     "timeUnit_second": "second",
-
     "timeFrameFormatterHoursMinutes": "Last $t(in-components:time.hours, {\"count\": {{hours}} }) $t(in-components:time.minutes, {\"count\": {{minutes}} })",
     "hours": "{{count}} hour",
     "hours_plural": "{{count}} hours",
     "minutes": "{{count}} minute",
     "minutes_plural": "{{count}} minutes",
-
     "timeFrameFormatterHours": "Last hour",
     "timeFrameFormatterHours_plural": "Last {{count}} hours",
     "timeFrameFormatterMinutes": "Last minute",
@@ -581,7 +588,11 @@
       }
     },
     "groupName": "Group Name",
-    "groupedOnly": "Metric only available when analyzing groups."
+    "groupedOnly": "Metric only available when analyzing groups.",
+    "filterSidebar": {
+      "groupingButton": "Group by {{group}}",
+      "ungroupButton": "Remove grouping"
+    }
   },
   "copyToClipboardButtonCopy": "Copy",
   "withEmptyStateFallbackTitleNoDataAvailable": "No data available",

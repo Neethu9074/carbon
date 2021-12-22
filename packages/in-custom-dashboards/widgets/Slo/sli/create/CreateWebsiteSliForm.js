@@ -22,7 +22,7 @@ import { createSliConfiguration } from 'in-custom-dashboards/api';
 import useWebsite from 'in-websites/hooks/useWebsite';
 
 export default function CreateWebsiteSliForm({ entityId, close, sliConfig, setFooter }) {
-  const { website, status } = useWebsite(entityId);
+  const [website, status] = useWebsite(entityId);
 
   if (status !== 'resolved' || sliConfig == null) {
     return <LoadingIndicator size="xl" />;

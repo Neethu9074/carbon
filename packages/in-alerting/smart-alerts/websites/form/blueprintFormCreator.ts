@@ -1,0 +1,67 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
+// @ts-expect-error file will need to be converted to typescript
+import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
+import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { getBlueprintConfig, WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
+import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
+import { Field, MapForm } from 'formalistic';
+import { AdaptiveBaselineConfig, HistoricBaselineConfig, StaticThresholdConfig, ThresholdConfig } from 'in-types';
+
+export default function createBlueprintForm(form: MapForm, alertType: WebsitesAlertType, alertThreshold = {}) {
+  const threshold = (form.get('threshold') as MapForm).toJS();
+  const tagFilterExpression = (form.get('tagFilterExpression') as Field<FormModelElement[]>).value;
+
+  const blueprintConfig = getBlueprintConfig(alertType)!;
+
+  const newThresholdForm: MapForm = createThresholdForm(
+    {
+      ...threshold,
+      ...alertThreshold,
+      type: blueprintConfig.baselineEnabled ? threshold.type : STATIC_THRESHOLD
+    } as ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
+    // while the alertType and the Type of thresholdConfig are not combined in a parent Alert Config, this is
+    // currently a too complicated typing, and will need further refactoring and improving!
+    alertType
+  )!;
+
+  const metricName = blueprintConfig.defaultMetric;
+  const newRuleForm = createRuleForm({
+    ...(form.get('rule') as MapForm)
+      .remove('operator')
+      .remove('value')
+      .toJS(),
+    alertType,
+    metricName
+  });
+
+  // TODO when switching the blueprint, we currently do a cleanup based on the UI catalog. However, we should rely on
+  //      the backend catalog instead. And then blueprintConfig.getAvailableTags(metricName) can be removed.
+  const availableTagFilters = blueprintConfig.getAvailableTags(metricName);
+  const backendModel = toBackendQueryModel(tagFilterExpression);
+  const cleanedUpExpression = removeExcludedFilters(backendModel, availableTagFilters);
+  const filteredTagFilterExpression = fromBackendModel(cleanedUpExpression);
+
+  let updatedForm = form
+    .updateIn(['tagFilterExpression'], f => (f as Field<FormModelElement[]>).setValue(filteredTagFilterExpression))
+    .put('rule', newRuleForm)
+    .put('threshold', newThresholdForm);
+
+  const timeThreshold = updatedForm.get('timeThreshold')!.toJS();
+  if (
+    blueprintConfig.impactTimeThresholdDisabled &&
+    timeThreshold.type === timeThresholdTypes.userImpactOfViolationsInSequence
+  ) {
+    updatedForm = updatedForm.put('timeThreshold', createViolationsInSequenceForm(timeThreshold, threshold.type));
+  }
+
+  return updatedForm;
+}

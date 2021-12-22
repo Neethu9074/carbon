@@ -9,8 +9,10 @@ import React from 'react';
 import {
   configurationOptionsFullyQualified,
   configurationJsStackTraceTranslationFullyQualified,
-  configurationPrivacyFullyQualified
+  configurationPrivacyFullyQualified,
+  configurationCustomGeoDetailsFullyQualified
 } from 'in-websites/navigation/paths';
+import WebsiteCustomGeoDetails from 'in-websites/WebsiteDashboard/tabs/Configuration/Options/CustomGeoDetails/WebsiteCustomGeoDetails';
 import StackTraceTranslation from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/StackTraceTranslation';
 import { SideNavigation, SideNavigationItem } from 'in-components/SideNavigation/SideNavigation';
 import { getModifiedUrlStream, navigationParameters$ } from 'in-stores/navigation/navigation';
@@ -44,6 +46,10 @@ export default function Configuration(props) {
         label={t('in-websites:websiteDashboard.tabs.configuration.configurationLabelJSStackTraceTranslation')}
         path={configurationJsStackTraceTranslationFullyQualified}
       />
+      <NavigationItem
+        label={t('in-websites:websiteDashboard.tabs.configuration.configurationLabelCustomGeoDetails')}
+        path={configurationCustomGeoDetailsFullyQualified}
+      />
     </SideNavigation>
   );
   return (
@@ -51,6 +57,10 @@ export default function Configuration(props) {
       <Switch>
         <Route path={configurationOptionsFullyQualified} render={() => <Options {...props} />} />
         <Route path={configurationPrivacyFullyQualified} render={() => <Privacy {...props} />} />
+        <Route
+          path={configurationCustomGeoDetailsFullyQualified}
+          render={() => <WebsiteCustomGeoDetails {...props} />}
+        />
         <Route
           path={configurationJsStackTraceTranslationFullyQualified}
           render={() => <StackTraceTranslation {...props} />}

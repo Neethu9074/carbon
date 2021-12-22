@@ -8,19 +8,10 @@ This document lists the technical steps necessary in order to get a local UI dev
 
 ![Convince me meme: Following these instructions as root will not work](https://user-images.githubusercontent.com/596443/136749896-a29f6859-f1b2-4897-a9ba-8a1f798459d9.png)
 
-
-## Git Configuration
-
-This repository is using Git submodules. If you prefer to interact with GitHub via SSH (or if you don't know what this means), then we recommend that you add the following to your Git configuration in order to always use SSH instead of HTTPS access for GitHub.
-
-```sh
-git config --global url.git@github.com:.insteadof https://github.com/
-```
-
 ## Cloning the Repository
 
 ```sh
-git clone git@github.com:instana/ui-client.git
+git clone git@github.ibm.com:instana/ui-client.git
 cd ui-client
 ```
 
@@ -93,7 +84,7 @@ Now that you have access to our artifact registry, it is time to download all ou
 
 You will also need to have Nginx installed and its CLI on the path. Installation instructions can be found in the [proxrox repository](https://github.com/bripkens/proxrox/blob/master/INSTALLATION.md#installation-of-nginx).
 
-As an alternative (especially for Linux), you might use the `nginx` script as provided in the [internal-tools repository](https://github.com/instana/internal-tools/tree/master/proxrox-nginx), which will run Nginx as Docker container. **For regular/repeated UI development however we do not recommend this option.**
+As an alternative (especially for Linux), you might use the `nginx` script as provided in the [internal-tools repository](https://github.ibm.com/instana/internal-tools/tree/master/proxrox-nginx), which will run Nginx as Docker container. **For regular/repeated UI development however we do not recommend this option.**
 
 On Linux, it might be required to do the following to allow `yarn` to run the ngnix-docker container without sudo:
 

@@ -5,8 +5,7 @@
 
 import React from 'react';
 
-import { Card, HorizontalIndicator, Message } from '@instana/components';
-import { Progress } from '@instana/components/types/util/dataRetrieval';
+import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
 
 // @ts-ignore
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -24,7 +23,7 @@ import locals from './ResultAwareChart.mless';
 interface Props {
   config: Config;
   renderLegend?: boolean;
-  result: Result<null>;
+  result: Result<unknown>;
 }
 
 export default function ResultAwareChart({ result, config, renderLegend = true }: Props) {
@@ -39,7 +38,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
   } = config;
   let content;
 
-  const height = customHeight || 160;
+  const height = customHeight || '100%';
   if (result.errors.length > 0) {
     content = (
       <Message
@@ -54,7 +53,11 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
       />
     );
   } else if (result.progress.loading) {
-    content = <QueryProgress height={height} progress={result.progress} />;
+    if (config?.y1?.renderer.id === Renderer.pie.id) {
+      content = <PieSkeleton height={height} />;
+    } else {
+      content = <ChartSkeleton height={height} />;
+    }
   } else if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
     content = <NoDataAvailable width={frontBufferWidth} height={height} />;
   } else {
@@ -70,7 +73,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     return content;
   }
 
-  return (
+  const card = (
     <Card
       title={cardTitle}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
@@ -80,19 +83,38 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
       {content}
     </Card>
   );
-}
 
-interface QueryProgressProps {
-  progress: Progress;
-  height: number;
-}
-
-function QueryProgress(queryProgressProps: QueryProgressProps) {
-  return (
-    <div className={locals.stateWrapper} style={{ height: queryProgressProps.height }}>
+  if (result.progress.loading) {
+    return (
       <div className={locals.loadingBarContainer}>
-        <HorizontalIndicator className={locals.horizontalIndicator} progress={queryProgressProps.progress} rounded />
+        <HorizontalIndicator progress={result.progress} />
+        {card}
       </div>
+    );
+  } else {
+    return card;
+  }
+}
+
+interface SkeletonProps {
+  height: string | number;
+}
+
+function ChartSkeleton(skeletonProps: SkeletonProps) {
+  return (
+    <div className={locals.skeletonWrapper} style={{ height: skeletonProps.height }}>
+      <LoadingSkeleton className={locals.legendSkeleton} />
+      <LoadingSkeleton className={locals.chartSkeleton} />
+    </div>
+  );
+}
+
+function PieSkeleton(skeletonProps: SkeletonProps) {
+  const pieSize = `calc(${skeletonProps.height} - 2rem)`;
+  return (
+    <div className={locals.skeletonWrapper} style={{ height: skeletonProps.height }}>
+      <LoadingSkeleton className={locals.legendSkeleton} />
+      <LoadingSkeleton className={locals.pieSkeleton} style={{ height: pieSize, width: pieSize }} />
     </div>
   );
 }

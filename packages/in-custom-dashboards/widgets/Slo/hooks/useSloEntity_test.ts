@@ -10,21 +10,18 @@ import { generateUniqueShortId } from '@instana/utils';
 import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
-import { pendingResult } from 'in-services/fixedObjects';
 
 jest.mock('in-applications/subscriptions/getApplication', () => {
-  const { pendingResult } = require('in-services/fixedObjects');
   const { just } = require('@instana/observables');
   return {
-    default: jest.fn(() => just(pendingResult)),
+    default: jest.fn(() => just('applicationResult')),
     __esModule: true
   };
 });
 jest.mock('in-websites/subscriptions/getWebsite', () => {
-  const { pendingResult } = require('in-services/fixedObjects');
   const { just } = require('@instana/observables');
   return {
-    default: jest.fn(() => just(pendingResult)),
+    default: jest.fn(() => just('websiteResult')),
     __esModule: true
   };
 });
@@ -41,7 +38,8 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
     const { result } = renderHook(() => useSloEntity({ entityType, entityId }));
 
     // THEN
-    expect(result.current).toBe(pendingResult);
+    const [, status] = result.current;
+    expect(status).toBe('resolved');
     expect(getWebsite).toHaveBeenLastCalledWith(expect.objectContaining({ id: entityId }));
   });
 
@@ -54,7 +52,8 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
     const { result } = renderHook(() => useSloEntity({ entityType, entityId }));
 
     // THEN
-    expect(result.current).toBe(pendingResult);
+    const [, status] = result.current;
+    expect(status).toBe('resolved');
     expect(getApplication).toHaveBeenLastCalledWith(expect.objectContaining({ id: entityId }));
   });
 

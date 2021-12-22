@@ -202,17 +202,17 @@ function evaluateNextElement(formModel, index, directionalModifier, filterFormMo
         const isGoingRight = bracketStartIndex === conjunctedElementIndex;
         const bracketExpression = [];
         if (!isGoingRight) {
-          for (var bracketLeft = 0; bracketLeft < missingBrackets; bracketLeft++) {
+          for (let bracketLeft = 0; bracketLeft < missingBrackets; bracketLeft++) {
             bracketExpression.push({
               type: OPEN_BRACKET
             });
           }
         }
-        for (var i = bracketStartIndex; i <= bracketEndIndex; i++) {
+        for (let i = bracketStartIndex; i <= bracketEndIndex; i++) {
           bracketExpression.push(formModel[i]);
         }
         if (isGoingRight) {
-          for (var bracketRight = 0; bracketRight < missingBrackets; bracketRight++) {
+          for (let bracketRight = 0; bracketRight < missingBrackets; bracketRight++) {
             bracketExpression.push({
               type: CLOSE_BRACKET
             });
@@ -319,7 +319,7 @@ function isCloseBracketInDirection(element, directionalModifier) {
 /**
  * Recurses through a bracket expression in the query form model.
  * Returns the index of the other "side" of the bracket expression,
- * the number of missing brackets if the recursion has sucessfully hit the end of the query,
+ * the number of missing brackets if the recursion has successfully hit the end of the query,
  * and if the bracket expression is valid at all.
  * @param {*} formModel The complete, current form model, as displayed in the UI.
  * @param {*} index The index to check from in this recursion. Initially, this should be an opening bracket, depending on the direction.
@@ -329,6 +329,9 @@ function isCloseBracketInDirection(element, directionalModifier) {
 function evaluateNextBracketElement(formModel, index, directionalModifier, bracketLevel) {
   const nextElementIndex = index + directionalModifier;
 
+  const currentElement = formModel[index];
+  const nextElement = formModel[nextElementIndex];
+
   //Checks if the next element exists, if not, the left/right end of the query was reached.
   if (!checkIndexWithinBounds(formModel, nextElementIndex)) {
     //If no next index exists, the end was reached before the bracket was terminated. More brackets can then be added.
@@ -336,12 +339,15 @@ function evaluateNextBracketElement(formModel, index, directionalModifier, brack
     return {
       terminatingBracketIndex: terminatingEnd,
       missingBrackets: bracketLevel + 1,
-      valid: true
+      // Only report the subexpression valid if it does not end with a trailing conjunction
+      // Ending at a conjunction would mean we've evaluated a subexpression like e.g. "(TAG CONJUNCTION"
+      // Reporting this subexpression as valid would automatically add a missing closing parenthesis to the subexpression
+      // and add it to the filtered formModel
+      // Passing this invalid filtered formModel to `toBackendQueryModel` will crash with an unexpected token as it is
+      // an invalid formModel and `toBackendQueryModel` only expects valid ones by design
+      valid: currentElement.type !== CONJUNCTION
     };
   }
-
-  const currentElement = formModel[index];
-  const nextElement = formModel[nextElementIndex];
 
   // Checks if the next element is the closing bracket and the current one is no conjunction
   // Having a closing bracket following a conjunction would be invalid

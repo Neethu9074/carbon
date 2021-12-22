@@ -49,6 +49,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
 
   const sliTypeForm = sliEntityForm.get('sliType');
   const sliType = sliTypeForm.value;
+  const endpointIdField = sliEntityForm.get('endpointId');
 
   return (
     <Stack gap="large">
@@ -178,7 +179,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
                   applicationId={applicationId}
                   serviceId={serviceId}
                   value={endpointId}
-                  field={sliEntityForm.get('endpointId')}
+                  hasError={!endpointIdField.valid && endpointIdField.touched}
                   onChange={value =>
                     onChange(['sliEntity', 'endpointId'], f =>
                       f.setValue(convertEmptyStringToNull(value)).setTouched(true)
@@ -191,14 +192,26 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
         </Stack>
       </Stack>
 
-      <MetricsForm entityType="application" metricEntityType="calls" form={form} onChange={onChange} />
+      <Divider />
 
-      <GoodBadEventsConfigurator
-        entityType="application"
-        label={apName}
-        form={form}
-        QueryBuilderComponent={QueryBuilderComponent}
-      />
+      {form.getIn(['sliEntity', 'sliType'])?.value === applicationType && (
+        <MetricsForm
+          entityType="application"
+          metricEntityType="calls"
+          form={form.get('metricConfiguration')}
+          onChange={mc => onChange([], f => f.put('metricConfiguration', mc))}
+        />
+      )}
+
+      {form.getIn(['sliEntity', 'sliType'])?.value === availabilityType && (
+        <GoodBadEventsConfigurator
+          entityType="application"
+          label={apName}
+          form={form.get('sliEntity')}
+          updateForm={updatedForm => onChange([], f => f.put('sliEntity', updatedForm))}
+          QueryBuilderComponent={QueryBuilderComponent}
+        />
+      )}
     </Stack>
   );
 }

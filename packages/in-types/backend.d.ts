@@ -542,9 +542,10 @@ export interface CustomPayloadField {
   readonly type: string;
 }
 
-export interface DatabaseStatementTopListItem {
+export interface DatabaseStatementTopListItem extends Metricific {
   readonly id: string;
-  readonly metricValue: number;
+  readonly metricValue?: number;
+  readonly metrics: { [index: string]: number[][] };
   readonly statement: string;
 }
 
@@ -559,10 +560,6 @@ export interface Dependency {
 
 export interface DfqInfraMetricConfiguration extends UnifiedMetricConfiguration {
   readonly dynamicFocusQuery: string;
-}
-
-export interface DistributedLogsMetricConfiguration extends UnifiedMetricConfiguration {
-  readonly tagFilterExpression?: TagFilterExpressionElement;
 }
 
 export interface DomainSpecificStack {
@@ -828,7 +825,7 @@ export interface GeoMappingRule extends GeoInformation {
 
 export interface GeoSubdivision {
   readonly code?: string;
-  readonly name?: string;
+  readonly name: string;
 }
 
 export interface GetAppDataEntityChainsQuery extends CursorPaginatedQuery {
@@ -1029,7 +1026,8 @@ export interface GetCloudfoundryContainersQuery extends PaginatedQuery {
 
 export interface GetDatabaseStatementTopListQuery extends TopListQuery {
   readonly filter: Filter;
-  readonly metric: MetricConfiguration;
+  readonly metrics: { [index: string]: MetricConfiguration };
+  readonly order: Order;
 }
 
 export interface GetDeprecationsQuery extends UiQuery {
@@ -1665,6 +1663,16 @@ export interface GetTechnologyBreakdownQuery extends FilteredQuery {
   readonly breakdownType: BreakdownType;
   readonly filter: Filter;
   readonly granularity?: number;
+}
+
+export interface GetTestResultQuery extends UiQuery {
+  readonly applicationId?: string;
+  readonly locationId?: string[];
+  readonly metrics: { [index: string]: SyntheticMetricConfiguration };
+  readonly order?: Order;
+  readonly serviceId?: string;
+  readonly testId: string;
+  readonly timeConfig: TimeConfig;
 }
 
 export interface GetTraceActivityTreeQuery extends UiQuery {
@@ -2722,6 +2730,26 @@ export interface LogMessageItem {
   readonly metrics: { [index: string]: number[][] };
 }
 
+export interface LogMetricConfig {
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+}
+
+export interface LogMetricConfiguration extends UnifiedMetricConfiguration {
+  readonly metricTagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+}
+
+export interface LogMetricsQuery {
+  readonly configs: { [index: string]: LogMetricConfig };
+  readonly granularity: number;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly timeConfig: TimeConfig;
+}
+
+export interface LogMetricsResult {
+  readonly metrics: { [index: string]: number[][] };
+}
+
 export interface LogQuery {
   readonly itemId: string;
   readonly tagFilterExpression?: TagFilterExpressionElement;
@@ -2750,12 +2778,6 @@ export interface LogsApplicationAlertRule extends ApplicationAlertRule {
   readonly loglevel?: LogsApplicationAlertRuleLogLevel;
   readonly message?: string;
   readonly operator: TagFilterOperator;
-}
-
-export interface LogsDistributionQuery {
-  readonly granularity: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly timeConfig: TimeConfig;
 }
 
 export interface LogsQuery {
@@ -3672,6 +3694,9 @@ export interface SyntheticLocation {
   readonly popVersion?: string;
 }
 
+export interface SyntheticMetricConfiguration extends MetricConfiguration {
+}
+
 export interface SyntheticPlaybackCapabilities {
   readonly browserType: SyntheticBrowserType[];
   readonly syntheticType: SyntheticType[];
@@ -3803,6 +3828,19 @@ export interface TenantConfig {
 export interface TenantHealthDownstreamValue {
   readonly healthDownstreamValue?: HealthDownstreamValue;
   readonly tenantConfig?: TenantConfig;
+}
+
+export interface TestResult {
+  readonly testResult?: TestResultItem[];
+  readonly testResultItems?: TestResultItem[];
+}
+
+export interface TestResultItem {
+  readonly applicationId?: string;
+  readonly locationId?: string[];
+  readonly metrics?: { [index: string]: any }[];
+  readonly serviceId?: string;
+  readonly testId: string;
 }
 
 export interface ThresholdBounds {
@@ -4559,7 +4597,7 @@ export type BoundaryScope = 'ALL' | 'INBOUND' | 'DEFAULT';
 
 export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
 
-export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SLI_MANAGEMENT' | 'APPLICATION_CONFIG' | 'APPLICATION_CONFIG_BLUEPRINT';
+export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SMART_ALERTS_LOGS' | 'SMART_ALERTS_ADAPTIVE_BASELINE' | 'SLI_MANAGEMENT' | 'APPLICATION_CONFIG' | 'APPLICATION_CONFIG_BLUEPRINT';
 
 export type ChangeType = 'CREATE' | 'UPDATE' | 'DELETE' | 'ENABLE' | 'DISABLE' | 'RESTORE' | 'UNKNOWN';
 
@@ -4625,7 +4663,7 @@ export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISH
 
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
-export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'DISTRIBUTED_LOGS' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
+export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
 
 export type OrderDirection = 'ASC' | 'DESC';
 
@@ -4653,7 +4691,7 @@ export type SyntheticBrowserType = 'chrome' | 'firefox';
 
 export type SyntheticPlaybackMode = 'Simultaneous' | 'Staggered';
 
-export type SyntheticType = 'HTTPAction' | 'HTTPScript';
+export type SyntheticType = 'BrowserScript' | 'HTTPAction' | 'HTTPScript';
 
 export type SyntheticTypeConfigurationUnion = BrowserScriptConfiguration | HttpActionConfiguration | HttpScriptConfiguration | WebpageActionConfiguration | WebpageScriptConfiguration;
 

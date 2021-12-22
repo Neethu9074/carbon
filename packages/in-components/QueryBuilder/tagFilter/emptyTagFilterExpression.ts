@@ -4,8 +4,9 @@
  */
 
 import { deepFreeze } from 'in-services/util/object';
+import { TagFilterExpression } from 'in-types';
 
-const _tagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
+const _tagFilterExpression: TagFilterExpression = { type: 'EXPRESSION', logicalOperator: 'AND', elements: [] };
 
 export default deepFreeze(_tagFilterExpression);
 

@@ -129,7 +129,7 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                       <LinkListItem
                         label={t('in-internal:components.landing.definition')}
                         external
-                        href="https://github.com/instana/backend/tree/develop/objectives"
+                        href="https://github.ibm.com/instana/backend/tree/develop/objectives"
                         description={t('in-internal:components.landing.learnEvolveSLOs')}
                       />
                     </LinkList>

@@ -287,7 +287,6 @@
     "analyzeLogsLabel": "Analyze logs",
     "similarLogs": "Similar logs",
     "similarServiceLogs": "Show logs in context of this service",
-    "service": "Show service",
     "restrictedAccessExpl": "You don't have permission to access this information"
   },
   "traceDetails": {

@@ -5,8 +5,7 @@
 
 import React, { ReactElement, ReactNode } from 'react';
 
-import { HorizontalIndicator } from '@instana/components';
-import { Stack, SvgIcon } from '@instana/components';
+import { HorizontalIndicator, LoadingSkeleton, Stack, SvgIcon } from '@instana/components';
 
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { Result } from 'in-types';
@@ -46,13 +45,14 @@ export default function ResultAwareKpiCard<T>({
 
   if (result.progress.loading) {
     return (
-      <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
-        <Stack align="center" distribution="center">
-          <div className={locals.loadingBarContainer}>
-            <HorizontalIndicator className={locals.horizontalIndicator} progress={result.progress} rounded />
-          </div>
-        </Stack>
-      </KpiCard>
+      <div className={locals.loadingBarContainer}>
+        <HorizontalIndicator progress={result.progress} />
+        <KpiCard title={title} useMaxAvailableHeight={useMaxAvailableHeight} actions={actions}>
+          <Stack align="start" distribution="center">
+            <LoadingSkeleton className={locals.skeleton} />
+          </Stack>
+        </KpiCard>
+      </div>
     );
   }
 

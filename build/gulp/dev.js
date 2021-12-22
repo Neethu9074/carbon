@@ -117,8 +117,8 @@ function startDevProxy(cb) {
   let websocketEndpoint = envConfig.websocketEndpoint || uiBackendUrl;
 
   const httpProxy = {
-    '/': `http://127.0.0.1:${webpackDevServerPort}`,
-    '/waiting/': `http://127.0.0.1:${webpackDevServerPort}/waiting/`,
+    '/': `http://localhost:${webpackDevServerPort}`,
+    '/waiting/': `http://localhost:${webpackDevServerPort}/waiting/`,
     '/api/': `${uiBackendUrl}/api/`,
     '/auth/': butlerUrl + '/auth/',
     '/assets/': butlerUrl + '/assets/',

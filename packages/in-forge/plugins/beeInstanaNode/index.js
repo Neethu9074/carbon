@@ -4,6 +4,7 @@
  */
 
 import metricDefinitions from 'in-forge/plugins/beeInstanaNode/metricDefinitions';
+import tableDefinition from 'in-forge/plugins/beeInstanaNode/tableDefinition';
 import kpiDefinitions from 'in-forge/plugins/beeInstanaNode/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
@@ -14,6 +15,7 @@ registerSnapshotDefinition({
 
   kpiDefinitions,
   metricDefinitions,
+  tableDefinition,
   technologyDescriptor: {
     label: t('in-forge:plugins.beeInstana.labelBeeInstana')
   }

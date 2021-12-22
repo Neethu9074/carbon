@@ -19,14 +19,13 @@ import getWebsiteMetricsThresholdSuggestion from 'in-alerting/smart-alerts/websi
 import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricAlertsPreview';
 import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricAlertsPreview';
 import { getApproximatedHistoricBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
-// @ts-expect-error needs conversion to TS
-import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
 // @ts-expect-error needs conversion to TS
 import { availableFilterTags } from 'in-websites/tags';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { millis, number, percentage } from 'in-services/formatters/number';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
@@ -55,7 +54,7 @@ export type MetricName =
   | 'httpxxx'
   | 'errors';
 
-type AlertType = 'slowness' | 'specificJsError' | 'statusCode' | 'throughput';
+export type WebsitesAlertType = 'slowness' | 'specificJsError' | 'statusCode' | 'throughput';
 
 const baseBlueprint: BluePrintBase = Object.freeze({
   isCustomRateMetric: isCustomRateMetric,
@@ -222,7 +221,7 @@ interface BluePrintBase {
 }
 
 interface BluePrint extends BluePrintBase {
-  readonly type: AlertType;
+  readonly type: WebsitesAlertType;
   readonly name: string;
 
   readonly headline?: string;
@@ -235,7 +234,7 @@ interface BluePrint extends BluePrintBase {
   readonly baselineEnabled: boolean;
   readonly getBeaconType: (metricName: MetricName) => string;
   readonly defaultMetric: MetricName;
-  readonly getMetricName: (alertRule: WebsiteAlertRule) => string;
+  readonly getMetricName: (alertRule: WebsiteAlertRule) => string; // TODO figure out if the backend type could be a enum which could map to MetricName?
   readonly getMetricLabel: (metricName: MetricName) => string;
   readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
   readonly getMaxMetricValue: (metricName: MetricName) => number;

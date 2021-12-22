@@ -10,7 +10,7 @@ export function getNearestDataPointDomainForTimestamp(config: Config, timestamp:
     return null;
   }
 
-  const allDomainValues = config.getAllDomainValues();
+  const allDomainValues = config.getAllDomainValues?.() ?? [];
   let domainValues = allDomainValues;
   if (floor) {
     domainValues = allDomainValues.filter(domain => domain <= timestamp);

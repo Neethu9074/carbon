@@ -7,13 +7,19 @@ import React from 'react';
 
 import { Message, Stack } from '@instana/components';
 
+import {
+  ua2QueryBuilderFilterAddedTracker,
+  ua2GroupChangedTracker,
+  ua2NestingDepthTracker
+} from 'in-applications/tracker';
+import {
+  toBackendQueryModel,
+  getMaximumExpressionDepth
+} from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfiguratorSection from 'in-components/GroupingConfigurator/GroupingConfiguratorSection';
 import LogsGroupingConfigurator from 'in-logging/analyze/AnalyzeView/workspace/LogsGroupingConfigurator';
-import { ua2QueryBuilderFilterAddedTracker, ua2GroupChangedTracker } from 'in-applications/tracker';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import LogsQueryBuilder from 'in-logging/analyze/AnalyzeView/workspace/LogsQueryBuilder';
-import { queryChanged } from 'in-logging/analyze/AnalyzeView/tracker';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import AnalyzeHeader from 'in-analyze/components/AnalyzeHeader';
 import Sections from 'in-components/workspace/Sections';
@@ -51,7 +57,11 @@ export default function LoggingQueryBuilderWorkspace(props) {
               getSuggestionLabel={({ item }) => item}
               tracking={{
                 onTagAdded: tagFilter => ua2QueryBuilderFilterAddedTracker({ dataSource, tagName: tagFilter.name }),
-                onQueryChanged: fm => queryChanged({ formModel: fm })
+                onQueryChanged: _formModel =>
+                  ua2NestingDepthTracker({
+                    dataSource,
+                    nestingDepth: getMaximumExpressionDepth(toBackendQueryModel(_formModel))
+                  })
               }}
             />
 

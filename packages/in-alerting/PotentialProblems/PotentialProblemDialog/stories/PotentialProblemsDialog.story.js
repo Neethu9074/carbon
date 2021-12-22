@@ -16,7 +16,6 @@ import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes'
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import DialogPresenter from 'in-components/DialogPresenter';
 import { close } from 'in-components/DialogPresenter/store';
-import { noop } from 'in-services/fixedObjects';
 
 export default {
   component: PotentialProblemsDialogPresenter
@@ -93,7 +92,6 @@ export const PotentialProblemsSingleItemDialog = () => {
     <>
       <PotentialProblemsDialogPresenter
         {...props}
-        queryValidator={noop}
         tagFilterExpression={EMPTY_EXPRESSION}
         alertRules={alertRules}
         alerts={potentialProblemsSingle.alerts}
@@ -109,7 +107,6 @@ export const PotentialProblemsClusterDialog = () => {
     <>
       <PotentialProblemsDialogPresenter
         {...props}
-        queryValidator={noop}
         tagFilterExpression={EMPTY_EXPRESSION}
         alertRules={clusterAlertRules}
         alerts={potentialProblemsCluster.alerts}

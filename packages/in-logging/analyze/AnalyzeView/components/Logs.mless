@@ -21,12 +21,16 @@
     margin: 0.5rem 0 0 0.5rem;
   }
 
-  .copyButtonWrapper {
+  .copyButtonWrapper,
+  .centeredCopyButtonWrapper {
     display: flex;
-    align-items: flex-start;
-
-    height: 100%;
 
     margin-left: 0.25rem;
+  }
+
+  .centeredCopyButtonWrapper {
+    align-items: center;
+
+    height: 100%;
   }
 }
