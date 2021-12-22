@@ -7,6 +7,8 @@ import { eventsPath, physicalPath, physicalTablePath } from 'in-stores/navigatio
 import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/navigation';
 import { Location } from 'in-stores/navigation/types';
 
+const analyzePath = '/analyze';
+
 function dfQueryAfterNavigating(fromPath: string, toPath: string) {
   const location: Location = {
     matrix: {},
@@ -16,7 +18,6 @@ function dfQueryAfterNavigating(fromPath: string, toPath: string) {
   removeDFQueryFromLocationWhenChangingArea(location, toPath);
   return location.query.q;
 }
-
 
 describe('in-stores/navigation/navigation#removeDFQueryFromLocationWhenChangingArea', () => {
   describe('should NOT remove query (q=) parameter when', () => {
@@ -35,23 +36,35 @@ describe('in-stores/navigation/navigation#removeDFQueryFromLocationWhenChangingA
     it('navigate from events to another events page', () => {
       expect(dfQueryAfterNavigating(eventsPath + '/another', eventsPath)).toBe('legacyWithDFQ');
     });
+
+    it('navigate from analyze to another analyze page', () => {
+      expect(dfQueryAfterNavigating(analyzePath + '/another', analyzePath)).toBe('legacyWithDFQ');
+    });
   });
 
   describe('should remove the query (q=) parameter when', () => {
-    it('should remove when going from non-infra to an infra page', () => {
+    it('navigate from non-infra to an infra page', () => {
       expect(dfQueryAfterNavigating(physicalTablePath, '/anyOtherPage')).toBeUndefined();
     });
 
-    it('should remove when going from infra to another, non-infra page', () => {
+    it('navigate from infra to another, non-infra page', () => {
       expect(dfQueryAfterNavigating(physicalTablePath, '/anotherPath')).toBeUndefined();
     });
 
-    it('should remove when going from non-events to an events page', () => {
+    it('navigate from non-events to an events page', () => {
       expect(dfQueryAfterNavigating('/anyOtherPage', eventsPath)).toBeUndefined();
     });
 
-    it('should remove when going from events to an non-events page', () => {
+    it('navigate from events to a non-events page', () => {
       expect(dfQueryAfterNavigating(eventsPath, '/anyOtherPage')).toBeUndefined();
+    });
+
+    it('navigate from events to a analyze page', () => {
+      expect(dfQueryAfterNavigating(eventsPath, analyzePath)).toBeUndefined();
+    });
+
+    it('navigate from infra page to a analyze page', () => {
+      expect(dfQueryAfterNavigating(physicalTablePath, analyzePath)).toBeUndefined();
     });
   });
 });

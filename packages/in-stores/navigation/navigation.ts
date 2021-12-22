@@ -5,8 +5,6 @@
 
 import PropTypes from 'prop-types';
 
-// @ts-expect-error file will need to be converted to typescript
-import { profilingPath } from 'in-components/Profiling/navigation/paths';
 import { isEventsPath, isInfrastructurePath } from 'in-stores/navigation/paths/mainPaths';
 import { applyResets } from 'in-stores/navigation/urlParameterResets';
 import { stringify } from 'in-stores/navigation/routing/stringifier';
@@ -77,16 +75,16 @@ export function getView(path: string) {
  * Returns the modified location instance.
  */
 export function removeDFQueryFromLocationWhenChangingArea(location: Location, path: string): Location {
-  const isProfilingPath = (path: string) => path.indexOf(profilingPath) === 0;
+  const isAnalyticsPath = (path: string) => path.indexOf('/analyze') === 0;
   const { pathname: currentPath } = location;
   if (
     location.query.q &&
     // delete the DF query when
     // * navigation from an infrastructure view (map, table) to another, non-infrastructure view, or the other way around or
-    // * navigating from an analytics-profiling-page to any other page, or the other way around
+    // * navigating from an analytics-page to any other page, or the other way around
     // * navigating from an events-page to any other page, or the other way around
     (isInfrastructurePath(path) !== isInfrastructurePath(currentPath) ||
-      isProfilingPath(path) !== isProfilingPath(currentPath) ||
+      isAnalyticsPath(path) !== isAnalyticsPath(currentPath) ||
       isEventsPath(path) !== isEventsPath(currentPath))
   ) {
     delete location.query.q;
