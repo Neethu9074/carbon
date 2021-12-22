@@ -48,7 +48,7 @@ interface ChartProps {
   consumed: [number, number][];
   hourlyBudget: [number, number][];
   budget: number;
-  sliConfig: SliConfigurationWithLastUpdated;
+  sliConfig?: SliConfigurationWithLastUpdated;
   isPreview?: boolean;
   disableZooming?: boolean;
 }
@@ -80,7 +80,6 @@ export default function Chart({
       config={{
         granularity,
         timeConfig,
-        customHeight: 50,
         y1: {
           metricIds: ['consumed', hourlyBudgetMetricId],
           labels: [
@@ -104,7 +103,7 @@ export default function Chart({
 }
 
 function getCustomAnalyzeContextMenuProperties(
-  sliConfig: SliConfigurationWithLastUpdated,
+  sliConfig?: SliConfigurationWithLastUpdated,
   disableZooming?: boolean,
   tagCatalog?: TagCatalog
 ) {

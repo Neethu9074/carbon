@@ -21,7 +21,7 @@ export default function AlertsPreviewLanePresenter({ alerts, ...remainingProps }
     <MarkerLane
       {...remainingProps}
       events={alerts}
-      label={t('in-components:chart.chartAlertsPreviewLanePresenterAlertsLabel')}
+      label={t('in-alerting:components.chart.chartAlertsPreviewLanePresenterAlertsLabel')}
       iconConfig={{
         type: 'lib_events_warning',
         typeCluster: 'lib_alerts_multiple_alerts',

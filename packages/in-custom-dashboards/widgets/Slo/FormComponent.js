@@ -228,11 +228,13 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                     id="time-window-size"
                     onChange={e =>
                       updateForm(
-                        form.updateIn([timeWindowDuration], field => field.setValue(e.target.value).setTouched(true))
+                        form.updateIn([timeWindowDuration], field =>
+                          field.setValue(e.target.valueAsNumber).setTouched(true)
+                        )
                       )
                     }
                     hasError={!field.valid && field.touched}
-                    value={field.value}
+                    value={field.value ?? ''}
                     type="number"
                     step="1"
                     min="1"
