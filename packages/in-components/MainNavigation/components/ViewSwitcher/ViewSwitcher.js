@@ -48,6 +48,7 @@ import { clusterListFullyQualified as kubernetesClusterList, kubernetes } from '
 import { isAnalyzeView as isProfileAnalyzeView } from 'in-components/Profiling/navigation/paths';
 import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/paths/mainPaths';
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
+import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
@@ -337,7 +338,7 @@ function Analyze(props) {
           hasApplicationsAccess &&
             getLinkToApplicationsAnalyze({
               dataSource: 'calls'
-            }),
+            }).map(urlWithoutQueryParameter),
           hasWebsitesAccess &&
             getLinkToWebsiteAnalyze({
               beaconType: 'pageLoad'
