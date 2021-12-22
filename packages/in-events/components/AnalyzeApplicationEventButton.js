@@ -12,13 +12,12 @@ import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-a
 import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { containsTagName } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
-import { stringify } from 'in-stores/navigation/routing/stringifier';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
-import { parseUrl } from 'in-stores/navigation/routing/parser';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { entityTypes } from 'in-analyze/applicationFilter';
 import Tooltip from 'in-components/Tooltip';
@@ -45,14 +44,7 @@ export default function AnalyzeApplicationEventButton({
     alertConfig,
     timeConfig,
     adaptiveBaselineInfo
-  }).map(location => {
-    const filteredLoc = parseUrl(location);
-    if (filteredLoc?.query?.q) {
-      delete filteredLoc.query.q;
-    }
-    const newLocation = stringify(filteredLoc);
-    return newLocation;
-  });
+  }).map(urlWithoutQueryParameter);
 
   const linkDisabled = !linkToUA;
 
