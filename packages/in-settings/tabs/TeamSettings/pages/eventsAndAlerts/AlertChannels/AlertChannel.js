@@ -17,8 +17,8 @@ import {
   teamSettingsAlertingConfigurations,
   getModifyAlertChannelUrl
 } from 'in-settings/navigation/paths';
-import { getLinkToGlobalAlertConfigWithoutAPDashboard } from 'in-applications/navigation/paths';
 import { fullyQualified } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/configs';
+import { getLinkToGlobalAlertConfigWithoutAPDashboard } from 'in-applications/navigation/paths';
 import { getAlertConfig as getApplicationsAlertConfig } from 'in-applications/navigation/paths';
 import { getAlertChannel, saveAlertChannel, createAlertChannel } from 'in-api/alertChannels';
 import { getAlertConfig as getWebsiteAlertConfig } from 'in-websites/navigation/paths';
@@ -217,8 +217,11 @@ const columnDefinitions = [
   {
     id: 'kind',
     label: t('in-settings:tabs.type'),
+    getValue({ type }) {
+      return typeLabels[type] ?? type;
+    },
     getContent({ type }) {
-      return typeLabels[type] || type;
+      return typeLabels[type] ?? type;
     }
   },
   {
