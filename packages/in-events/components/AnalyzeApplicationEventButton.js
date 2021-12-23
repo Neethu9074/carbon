@@ -122,7 +122,7 @@ export function getLinkToUnboundAnalytics({
       includeInternal,
       includeSynthetic
     }
-  });
+  }).map(urlWithoutQueryParameter);
 }
 
 export function getEnrichedAnalyzeTagFilterFormModel({

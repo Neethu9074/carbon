@@ -11,6 +11,7 @@ import { Button } from '@instana/components';
 import { fromBackendModel, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alerts/websites/tracker';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { propTypeTimeConfig } from 'in-stores/time/config';
@@ -43,7 +44,7 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
         groupBy: getGrouping(alertType, metricName),
         chartedMetrics: getChartedMetrics(alertType, aggregation),
         timeConfig
-      })}
+      }).map(urlWithoutQueryParameter)}
     >
       {getLinkTitle(alertType, metricName)}
     </Button>
