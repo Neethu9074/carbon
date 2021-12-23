@@ -8638,6 +8638,19 @@
             "messageText": "Text",
             "messageSecondLevelText" : "Second Level Text",
             "messageKey": "Key"
+          },
+          "historyLog": {
+            "name": "History Log",
+            "messageId": "ID",
+            "messageType": "Type",
+            "severity": "Severity",
+            "fromUser": "User",
+            "fromJob" : "Job",
+            "fromProgram": "Program",
+            "messageTimestamp": "Timestamp",
+            "messageText": "Text",
+            "messageSecondLevelText" : "Second Level Text"
+
           }
         }
       },
