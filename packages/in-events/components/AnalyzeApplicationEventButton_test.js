@@ -10,7 +10,7 @@ import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
 
 jest.mock('in-applications/navigation/paths', () => ({
-  getLinkToAnalyze: jest.fn()
+  getLinkToAnalyze: jest.fn().mockReturnValue([])
 }));
 
 describe('AnalyzeApplicationEventButton', () => {
