@@ -239,7 +239,7 @@ export interface ApplicationScopeWithId {
 }
 
 export interface ApplicationSliEntity extends SliEntity {
-  readonly applicationId: string;
+  readonly applicationId?: string;
   readonly boundaryScope: AlertingApplicationBoundaryScope;
   readonly endpointId?: string;
   readonly serviceId?: string;
@@ -255,7 +255,7 @@ export interface Author {
 }
 
 export interface AvailabilitySliEntity extends SliEntity {
-  readonly applicationId: string;
+  readonly applicationId?: string;
   readonly badEventFilterExpression?: TagFilterExpressionElement;
   readonly badEventFilters?: TagFilter[];
   readonly boundaryScope: AlertingApplicationBoundaryScope;
@@ -1246,6 +1246,13 @@ export interface GetKubernetesPodQuery extends UiQuery {
   readonly metrics?: { [index: string]: MetricConfiguration };
   readonly rbacRestrictions?: any;
   readonly timeConfig: TimeConfig;
+}
+
+export interface GetKubernetesPodsExploreQuery extends CursorPaginatedQuery, QueryWithMetrics {
+  readonly filter: KubernetesQueryFilter;
+  readonly granularity: number;
+  readonly order: Order;
+  readonly pagination: CursorPagination<IngestionOffsetCursor>;
 }
 
 export interface GetKubernetesPodsQuery extends PaginatedQuery {
@@ -2442,6 +2449,17 @@ export interface KubernetesPodCondition {
   readonly reason: string;
   readonly status: string;
   readonly type: string;
+}
+
+export interface KubernetesPodListCursorPaginatedItem extends ListItemWithMetric, FilterableListItem, Cursorific<IngestionOffsetCursor> {
+  readonly age?: number;
+  readonly cursor: IngestionOffsetCursor;
+  readonly entityHealthInfo: EntityHealthInfo;
+  readonly label?: string;
+  readonly namespace?: string;
+  readonly phase?: string;
+  readonly pod: KubernetesPod;
+  readonly statusSummary?: string;
 }
 
 export interface KubernetesPodListItem extends ListItemWithMetric, FilterableListItem {
@@ -4136,6 +4154,11 @@ export interface WebsiteErrorsItem {
   readonly metrics: { [index: string]: number[][] };
 }
 
+export interface WebsiteEventBasedSliEntity extends WebsiteSliEntity {
+  readonly badEventsFilterExpression: TagFilterExpressionElement;
+  readonly goodEventsFilterExpression: TagFilterExpressionElement;
+}
+
 export interface WebsiteItem {
   readonly healthInfo?: EntityHealthInfo;
   readonly metrics: { [index: string]: number[][] };
@@ -4267,6 +4290,12 @@ export interface WebsiteRateMetricConfiguration extends WebsiteMonitoringMetrics
   readonly numeratorFilter?: TagFilter;
 }
 
+export interface WebsiteSliEntity extends SliEntity {
+  readonly beaconType: WebsiteMonitoringBeaconType;
+  readonly sliType: string;
+  readonly websiteId?: string;
+}
+
 export interface WebsiteSubdivisionsItem {
   readonly continent: string;
   readonly continentCode: string;
@@ -4275,6 +4304,10 @@ export interface WebsiteSubdivisionsItem {
   readonly metrics: { [index: string]: number[][] };
   readonly subdivision: string;
   readonly subdivisionCode?: string;
+}
+
+export interface WebsiteTimeBasedSliEntity extends WebsiteSliEntity {
+  readonly filterExpression?: TagFilterExpressionElement;
 }
 
 export interface WebsiteTimeThreshold extends TimeThreshold {
@@ -4376,7 +4409,7 @@ export type AccessType = 'READ' | 'READ_WRITE';
 
 export type AgentMonitoringIssueCategory = 'SENSOR' | 'TRACER' | 'PROFILER' | 'UNKNOWN';
 
-export type AggregationType = 'SUM' | 'MEAN' | 'MAX' | 'MIN' | 'P25' | 'P50' | 'P75' | 'P90' | 'P95' | 'P98' | 'P99' | 'P99_9' | 'P99_99' | 'DISTINCT_COUNT' | 'SUM_POSITIVE';
+export type AggregationType = 'SUM' | 'MEAN' | 'MAX' | 'MIN' | 'P25' | 'P50' | 'P75' | 'P90' | 'P95' | 'P98' | 'P99' | 'P99_9' | 'P99_99' | 'DISTRIBUTION' | 'DISTINCT_COUNT' | 'SUM_POSITIVE';
 
 export type AlertEvaluationType = 'PER_AP' | 'PER_AP_SERVICE' | 'PER_AP_ENDPOINT';
 
@@ -4446,7 +4479,7 @@ export type ImpactMeasurementMethod = 'AGGREGATED' | 'PER_WINDOW';
 
 export type InfraTabCategory = 'HOST' | 'CONTAINER' | 'PROCESS' | 'CLUSTER';
 
-export type InfraTagCategory = 'OTHERS' | 'KUBERNETES' | 'CLOUD_FOUNDRY' | 'VSHPERE' | 'ALICLOUD' | 'AWS' | 'AZURE' | 'GCP' | 'CONTAINER' | 'SELF_MONITORING' | 'IBM_CLOUD' | 'IBM_DATAPOWER' | 'IBM_I_SERIES' | 'IBM_MQ' | 'CLR' | 'ACE' | 'CASSANDRA' | 'COCKROACH' | 'CONSUL' | 'COUCHBASE' | 'ELASTICSEARCH' | 'HADOOP_YARN' | 'HAZELCAST' | 'KAFKA_CONNECT' | 'MONGO_DB' | 'REDIS' | 'SOLR' | 'SPARK';
+export type InfraTagCategory = 'OTHERS' | 'KUBERNETES' | 'CLOUD_FOUNDRY' | 'VSHPERE' | 'ALICLOUD' | 'AWS' | 'AZURE' | 'GCP' | 'CONTAINER' | 'SELF_MONITORING' | 'IBM_CLOUD' | 'IBM_DATAPOWER' | 'IBM_I_SERIES' | 'IBM_MQ' | 'IBM_OPENSTACK' | 'CLR' | 'ACE' | 'CASSANDRA' | 'COCKROACH' | 'CONSUL' | 'COUCHBASE' | 'ELASTICSEARCH' | 'HADOOP_YARN' | 'HAZELCAST' | 'KAFKA_CONNECT' | 'MONGO_DB' | 'REDIS' | 'SOLR' | 'SPARK';
 
 export type KubernetesClusterManagementType = 'RANCHER' | 'PKS' | 'NONE';
 
@@ -4480,6 +4513,8 @@ export type Seasonality = 'WEEKLY' | 'DAILY';
 
 export type SliMetricType = 'SLI' | 'ERROR_BUDGET_SPENT' | 'ERROR_BUDGET_REMAINING' | 'TOTAL_ERROR_BUDGET' | 'HOURLY_ERROR_BUDGET_CHART' | 'CONSUMED_ERROR_BUDGET_CHART';
 
+export type SliType = 'APPLICATION' | 'WEBSITE';
+
 export type SpanKind = 'UNKNOWN' | 'ENTRY' | 'EXIT' | 'INTERMEDIATE';
 
 export type SpanModel = 'UNKNOWN' | 'HTTP' | 'DATABASE' | 'RPC' | 'MESSAGING' | 'BATCH' | 'LOG' | 'SDK';
@@ -4507,3 +4542,5 @@ export type ThresholdType = 'staticThreshold' | 'historicBaseline' | 'adaptiveBa
 export type Type = 'HEALTHY' | 'WARNING' | 'CRITICAL' | 'UNKNOWN';
 
 export type UiEntityType = 'APPLICATION' | 'SERVICE' | 'ENDPOINT';
+
+export type WebsiteMonitoringBeaconType = 'PAGE_LOAD' | 'PAGE_RESOURCE' | 'HTTP_REQUEST' | 'JS_ERROR' | 'CUSTOM' | 'PAGE_CHANGE';
