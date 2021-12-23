@@ -75,16 +75,13 @@ export function getView(path: string) {
  * Returns the modified location instance.
  */
 export function removeDFQueryFromLocationWhenChangingArea(location: Location, path: string): Location {
-  const isAnalyticsPath = (path: string) => path.indexOf('/analyze') === 0;
   const { pathname: currentPath } = location;
   if (
     location.query.q &&
     // delete the DF query when
     // * navigation from an infrastructure view (map, table) to another, non-infrastructure view, or the other way around or
-    // * navigating from an analytics-page to any other page, or the other way around
     // * navigating from an events-page to any other page, or the other way around
     (isInfrastructurePath(path) !== isInfrastructurePath(currentPath) ||
-      isAnalyticsPath(path) !== isAnalyticsPath(currentPath) ||
       isEventsPath(path) !== isEventsPath(currentPath))
   ) {
     delete location.query.q;

@@ -7,8 +7,6 @@ import { eventsPath, physicalPath, physicalTablePath } from 'in-stores/navigatio
 import { removeDFQueryFromLocationWhenChangingArea } from 'in-stores/navigation/navigation';
 import { Location } from 'in-stores/navigation/types';
 
-const analyzePath = '/analyze';
-
 function dfQueryAfterNavigating(fromPath: string, toPath: string) {
   const location: Location = {
     matrix: {},
@@ -36,10 +34,6 @@ describe('in-stores/navigation/navigation#removeDFQueryFromLocationWhenChangingA
     it('navigate from events to another events page', () => {
       expect(dfQueryAfterNavigating(eventsPath + '/another', eventsPath)).toBe('legacyWithDFQ');
     });
-
-    it('navigate from analyze to another analyze page', () => {
-      expect(dfQueryAfterNavigating(analyzePath + '/another', analyzePath)).toBe('legacyWithDFQ');
-    });
   });
 
   describe('should remove the query (q=) parameter when', () => {
@@ -57,14 +51,6 @@ describe('in-stores/navigation/navigation#removeDFQueryFromLocationWhenChangingA
 
     it('navigate from events to a non-events page', () => {
       expect(dfQueryAfterNavigating(eventsPath, '/anyOtherPage')).toBeUndefined();
-    });
-
-    it('navigate from events to a analyze page', () => {
-      expect(dfQueryAfterNavigating(eventsPath, analyzePath)).toBeUndefined();
-    });
-
-    it('navigate from infra page to a analyze page', () => {
-      expect(dfQueryAfterNavigating(physicalTablePath, analyzePath)).toBeUndefined();
     });
   });
 });
