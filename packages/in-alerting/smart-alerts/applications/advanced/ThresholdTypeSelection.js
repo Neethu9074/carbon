@@ -75,15 +75,7 @@ export default function ThresholdTypeSelection({
     let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
 
     if (updatedThresholdType === ADAPTIVE_BASELINE) {
-      // resetting granularity, tagFilterExpression and timeThreshold when threshold type is switched to adaptive-baseline
-      const tagFilterExpression = form.get('tagFilterExpression').value;
-      // TODO when switching the blueprint, we currently do a cleanup based on the UI catalog. However, we should rely on
-      //      the backend catalog instead.
-      const availableTagFilters = tagKeysSupportedByMaterializedView;
-      const backendModel = toBackendQueryModel(tagFilterExpression);
-      const cleanedUpExpression = removeExcludedFilters(backendModel, availableTagFilters);
-      const updatedTagFilterExpression = fromBackendModel(cleanedUpExpression);
-
+      // resetting granularity and timeThreshold when threshold type is switched to adaptive-baseline
       updatedForm = updatedForm
         .put(
           'timeThreshold',
@@ -95,8 +87,7 @@ export default function ThresholdTypeSelection({
             ADAPTIVE_BASELINE
           )
         )
-        .updateIn(['granularity'], f => f.setValue(defaultAdaptiveBaselineGranularity).setTouched(true))
-        .updateIn(['tagFilterExpression'], f => f.setValue(updatedTagFilterExpression).setTouched(true));
+        .updateIn(['granularity'], f => f.setValue(defaultAdaptiveBaselineGranularity).setTouched(true));
     }
 
     updateForm(updatedForm);
