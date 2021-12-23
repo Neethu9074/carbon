@@ -209,7 +209,7 @@ const InternalView = connectTo({ isInternalVisible: isInternalVisible$ }, functi
       label={t('in-components:mainNavigation.viewSwitcherLabelInternal')}
       icon="lib_actions_lock"
       isActive$={isView('/internal')}
-      href$={getModifiedUrlStream(p => (p.pathname = '/internal'))}
+      href$={getModifiedUrlStream(p => (p.pathname = '/internal')).map(urlWithoutQueryParameter)}
       sidebarIsExpanded={sidebarIsExpanded}
       onClick={onClick}
       onMouseLeave={onMouseLeave}
