@@ -100,19 +100,20 @@ function SmartAlertConfigDialogWithQueryValidation({
 
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
-  const { rule, tagFilterExpression } = alertConfigWithFormModel;
+  const { rule, tagFilterExpression, threshold } = alertConfigWithFormModel;
   const { isQueryValid } = useMemo(() => {
-    return getQueryBuilderForAlertType(rule.alertType);
+    const thresholdType = threshold.type;
+    return getQueryBuilderForAlertType(rule.alertType, thresholdType);
   }, [rule.alertType]);
 
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
 
   const updateTagFilterExpression = filteredTagFilterExpression => {
-    let updatedForm = form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression));
-    updateForm(updatedForm);
+    updateForm(form.updateIn(['tagFilterExpression'], f => f.setValue(filteredTagFilterExpression)));
   };
+  const thresholdType = alertConfigWithFormModel.threshold.type;
 
-  useRemoveInvalidTagsFromFilterExpression(rule, tagFilterExpression, updateTagFilterExpression);
+  useRemoveInvalidTagsFromFilterExpression(rule, thresholdType, tagFilterExpression, updateTagFilterExpression);
 
   const isValid = blueprintConfig.isRuleComplete(rule) && isTagFilterFormModelValid;
 

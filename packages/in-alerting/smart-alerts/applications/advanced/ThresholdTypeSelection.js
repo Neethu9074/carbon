@@ -16,13 +16,9 @@ import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/s
 import { getAvailableOptionsForEvaluationType } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
-import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils/tagfilterExpressionUtils';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { tagKeysSupportedByMaterializedView } from 'in-alerting/smart-alerts/applications/tags';
 import { createSlownessForm } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import Dropdown from 'in-alerting/components/Dropdown';
 

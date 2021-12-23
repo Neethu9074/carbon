@@ -46,13 +46,14 @@ function ApplicationAlertingChartWithErrorMessageAndData(props) {
   const { alertConfigWithFormModel } = props;
 
   const {
-    rule: { alertType }
+    rule: { alertType },
+    threshold: { type: thresholdType }
   } = alertConfigWithFormModel;
 
   const isApplicationAlertQueryValid = useMemo(() => {
-    const { isQueryValid } = getQueryBuilderForAlertType(alertType);
+    const { isQueryValid } = getQueryBuilderForAlertType(alertType, thresholdType);
     return ([tagFilterFormModel, timeConfig]) => isQueryValid(tagFilterFormModel, timeConfig);
-  }, [alertType]);
+  }, [alertType, thresholdType]);
 
   const entitySelection = alertConfigWithFormModel.applications;
   // If a user deselected all entities from entitySelection we have an empty object
