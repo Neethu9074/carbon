@@ -86,13 +86,13 @@ function create(alertType, thresholdType) {
   return createBoundedAlertQueryBuilder(undefined, undefined, undefined, thresholdType, alertType);
 }
 
-const queryBuildersByAlertType = {
-  'SMART_ALERTS_LOGS': create('logs'),
-  'SMART_ALERTS_ADAPTIVE_BASELINE': create('', ADAPTIVE_BASELINE),
-  'SMART_ALERTS': defaultQueryBuilder
-};
-
 const defaultQueryBuilder = create(undefined);
+
+const queryBuildersByAlertType = {
+  SMART_ALERTS_LOGS: create('logs'),
+  SMART_ALERTS_ADAPTIVE_BASELINE: create('', ADAPTIVE_BASELINE),
+  SMART_ALERTS: defaultQueryBuilder
+};
 
 /**
  * Provides the default, alert-type/blueprint specific QueryBuilder with its specific
