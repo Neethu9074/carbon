@@ -15,14 +15,18 @@ import { t } from 'in-i18n';
 import locals from './ListColumns.mless';
 
 const maxFilterToDisplay = 3;
-export default function ListFilterColumn({ tagFilterExpression: backendModelTagFilterExpression = [], rule }) {
+export default function ListFilterColumn({
+  tagFilterExpression: backendModelTagFilterExpression = [],
+  rule,
+  threshold
+}) {
   const tagFilterExpression = fromBackendModel(backendModelTagFilterExpression);
 
   if (!tagFilterExpression.length) {
     return null;
   }
 
-  const { QueryBuilder } = getQueryBuilderForAlertType(rule.alertType);
+  const { QueryBuilder } = getQueryBuilderForAlertType(rule.alertType, threshold.type);
 
   const filtersToDisplay = getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay);
   const filterCount = getFiltersCount(tagFilterExpression);
@@ -80,5 +84,6 @@ function getLimitedNumberOfFilters(tagFilterExpression, maxFilterToDisplay) {
 
 ListFilterColumn.propTypes = {
   rule: PropTypes.object.isRequired,
+  threshold: PropTypes.object.isRequired,
   tagFilterExpression: PropTypes.object.isRequired
 };
