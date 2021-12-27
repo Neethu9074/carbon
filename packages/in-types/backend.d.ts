@@ -4514,9 +4514,11 @@ export interface ZhmcConsoleItemCounters extends FilterableListItem {
 }
 
 export interface ZhmcCpcItem {
+  readonly apiVersion?: string;
   readonly consoleId?: string;
   readonly cpcId: string;
   readonly dpmEnabled?: string;
+  readonly hmcVersion?: string;
   readonly id: string;
   readonly label: string;
   readonly name: string;
@@ -4524,6 +4526,7 @@ export interface ZhmcCpcItem {
   readonly partitionNetworks?: string[];
   readonly partitions?: string[];
   readonly processors?: string[];
+  readonly version?: string;
 }
 
 export interface ZhmcCpcListItem extends FilterableListItem, ListItemWithMetric {
