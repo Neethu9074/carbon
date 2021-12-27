@@ -14,7 +14,7 @@ import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config'
 import { systemList, getIbmpSystemDashboard } from 'in-phmc/navigation/paths';
 import { getSystemsSubscribeEvent } from 'in-phmc/subscriptions/getSystems';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
-import { percentage, megaBytes } from 'in-services/formatters/number';
+import { percentage, number } from 'in-services/formatters/number';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -68,7 +68,7 @@ const columnDefinitions = [
         <InfrastructureMetricSparkChart
           snapshotId={item.id}
           timeConfig={timeConfig}
-          formatter={megaBytes.compact}
+          formatter={number.compact}
           metric="availableMem"
         />
       );

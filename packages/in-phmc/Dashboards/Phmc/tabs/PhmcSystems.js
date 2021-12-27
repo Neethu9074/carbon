@@ -11,7 +11,7 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import InfrastructureMetricSparkChart from 'in-components/SparkChart/InfrastructureMetricSparkChart';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { consoleIdUrlParameter } from 'in-phmc/navigation/urlParameters';
-import { percentage, megaBytes } from 'in-services/formatters/number';
+import { percentage, number } from 'in-services/formatters/number';
 import { getIbmpSystemDashboard } from 'in-phmc/navigation/paths';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
@@ -58,7 +58,7 @@ const columnDefinitions = [
         <InfrastructureMetricSparkChart
           snapshotId={item.id}
           timeConfig={timeConfig}
-          formatter={megaBytes.compact}
+          formatter={number.compact}
           metric="availableMem"
         />
       );
