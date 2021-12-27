@@ -4368,6 +4368,7 @@ export interface WebsiteMonitoringBeacon {
   readonly graphqlOperationType?: string;
   readonly httpCallAsynchronous?: boolean;
   readonly httpCallCorrelationAttempted?: boolean;
+  readonly httpCallHeaders?: { [index: string]: string };
   readonly httpCallMethod?: string;
   readonly httpCallOrigin?: string;
   readonly httpCallPath?: string;

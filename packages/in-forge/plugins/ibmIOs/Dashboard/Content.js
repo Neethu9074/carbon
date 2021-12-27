@@ -20,6 +20,7 @@ import MessageQueueTable from './MessageQueueTable';
 import OutputQueueTable from './OutputQueueTable';
 import MemoryPoolsTable from './MemoryPoolTable';
 import ActiveJobsTable from './ActiveJobsTable';
+import HistoryLogTable from './HistoryLogTable';
 import SubsystemTable from './SubsystemTable';
 import JobQueueTable from './JobQueueTable';
 import AspTable from './AspTable';
@@ -177,6 +178,7 @@ export default function IbmIOsDashboard({ snapshot, timeConfig }) {
       <NetstatBytesInTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <NetstatBytesOutTable snapshotId={snapshotId} timeConfig={timeConfig} />
       <MessageQueueTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <HistoryLogTable snapshotId={snapshotId} timeConfig={timeConfig} />
     </div>
   );
 }

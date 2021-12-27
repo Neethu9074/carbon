@@ -63,7 +63,7 @@ export function goToPath(path: string) {
 
 export function getView(path: string) {
   return getModifiedUrlStream((location: Location) => {
-    // checks the the current and next path if navigating into another area.
+    // checks the current and next path if navigating into another area.
     removeDFQueryFromLocationWhenChangingArea(location, path);
     location.pathname = path;
   });
@@ -80,7 +80,7 @@ export function removeDFQueryFromLocationWhenChangingArea(location: Location, pa
     location.query.q &&
     // delete the DF query when
     // * navigation from an infrastructure view (map, table) to another, non-infrastructure view, or the other way around or
-    // * navigating from an events page to any other page, or the other way around
+    // * navigating from an events-page to any other page, or the other way around
     (isInfrastructurePath(path) !== isInfrastructurePath(currentPath) ||
       isEventsPath(path) !== isEventsPath(currentPath))
   ) {

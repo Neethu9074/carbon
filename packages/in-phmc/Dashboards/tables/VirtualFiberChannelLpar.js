@@ -12,15 +12,6 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-phmc:id'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.virtualFiberChannelAdapter.get('id');
-      }
-    }
-  },
-  {
     title: t('in-phmc:wwpn'),
     type: 'string',
     typeArgs: {
@@ -53,6 +44,15 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.virtualFiberChannelAdapter.get('viosId');
+      }
+    }
+  },
+  {
+    title: t('in-phmc:physicalLocation'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.virtualFiberChannelAdapter.get('physicalLocation');
       }
     }
   },

@@ -43,9 +43,10 @@ export default function ApplicationEventContent({ event }) {
   const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({}))?.toJS() ?? {};
 
   const { applicationId } = eventEntity;
-  const { tagFilterExpression, rule, boundaryScope } = alertConfig;
+  const { tagFilterExpression, rule, boundaryScope, threshold } = alertConfig;
   const alertType = rule.alertType;
-  const { QueryBuilder } = getQueryBuilderForAlertType(alertType);
+  const thresholdType = threshold.type;
+  const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const timeConfig = {
