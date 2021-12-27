@@ -58,6 +58,15 @@ export default function OIDC() {
           const reader = new FileReader();
           reader.readAsText(file, 'UTF-8');
           reader.onload = function(evt) {
+            if (evt.target.result.length > 2000000) {
+              setMessage({
+                text: t('in-settings:tabs.failedToSaveConfig', {
+                  err: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
+                }),
+                type: 'error'
+              });
+              return;
+            }
             saveItem({
               result,
               setMessage,
