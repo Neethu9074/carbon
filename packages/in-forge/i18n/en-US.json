@@ -2864,7 +2864,14 @@
       "labelNoDataInstances": "No Data Instances",
       "labelWarningInstances": "Warning Instances",
       "labelInstanceHealth": "Instance Health",
-      "labelInstanceDiskUsage": "Instance Disk Usage"
+      "labelInstanceDiskUsage": "Instance Disk Usage",
+      "labelOK": "OK (0)",
+      "labelInfo": "Info (1)",
+      "labelUnknown": "Unknown (5)",
+      "labelNoData": "No data (10)",
+      "labelWarning": "Warning (15)",
+      "labelDegraded": "Degraded (20)",
+      "labelSevere": "Severe (25)"
     },
     "awsDynamoDb": {
       "labelProvisioned": "Provisioned",
@@ -3108,23 +3115,23 @@
       "total": "Instance Requests Total"
     },
     "labelCPUStatesMetric": {
-      "irq": "CPU irq",
-      "idle": "CPU idle",
-      "user": "CPU user",
-      "system": "CPU system",
-      "softirq": "CPU softirq",
-      "iowait": "CPU iowait",
-      "nice": "CPU nice",
-      "load": "CPU Load"
+      "irq": "IRQ",
+      "idle": "Idle",
+      "user": "User",
+      "system": "System",
+      "softirq": "SoftIRQ",
+      "iowait": "IOWait",
+      "nice": "Nice",
+      "load": "Load"
     },
     "labelInstanceCPUStatesMetric": {
-      "irq": "Instance CPU irq",
-      "idle": "Instance CPU idle",
-      "user": "Instance CPU user",
-      "system": "Instance CPU system",
-      "softirq": "Instance CPU softirq",
-      "iowait": "Instance CPU iowait",
-      "nice": "Instance CPU nice",
+      "irq": "Instance CPU IRQ",
+      "idle": "Instance CPU Idle",
+      "user": "Instance CPU User",
+      "system": "Instance CPU System",
+      "softirq": "Instance CPU SoftIRQ",
+      "iowait": "Instance CPU IOWait",
+      "nice": "Instance CPU Nice",
       "load": "Instance CPU Load"
     },
     "labelLatencyMetric": {
