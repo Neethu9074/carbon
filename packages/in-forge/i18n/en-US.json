@@ -10211,6 +10211,13 @@
       "labelDataSource": "Data Source",
       "labelJMSDestination": "JMS Destination",
       "labelSAFAgent": "SAF Agent",
+      "labelHealthState": "Health State",
+      "labelUnknown": "UNKNOWN",
+      "labelOK": "OK (0)",
+      "labelWarning": "WARNING (1)",
+      "labelCritical": "CRITICAL (2)",
+      "labelFailed": "FAILED (3)",
+      "labelOverloaded": "OVERLOADED (4)",
       "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {

@@ -6,10 +6,13 @@
 import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import DashboardSection from 'in-sdk/components/dashboard/DashboardSection';
-import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import { healthStateFormatter } from '../healthStateFormatter';
 import JMSDestinationsTable from './JMSDestinationsTable';
+import { number } from 'in-services/formatters/number';
+import MetricValue from 'in-components/MetricValue';
 import DatasourcesTable from './DatasourcesTable';
 import SAFAgentsTable from './SAFAgentsTable';
 import WebAppsTable from './WebAppsTable';
@@ -17,6 +20,8 @@ import { t } from 'in-i18n';
 
 export default function Dashboard({ snapshot, timeConfig }) {
   const threadPoolStuckThreadsMetricAvailable = snapshot.getIn(['data', 'threadPool.stuckThreadsAvailable'], false);
+  const snapshotId = snapshot.get('id');
+
   const threadPoolMetrics = [
     'threadPool.idleThreads',
     'threadPool.totalThreads',
@@ -37,16 +42,40 @@ export default function Dashboard({ snapshot, timeConfig }) {
     ['data', 'serverLogMessages.serverLogRuntimeMBeanAvailable'],
     false
   );
+
   return (
     <div>
+      <KpiSection>
+        <KpiKeyValue label={t('in-forge:plugins.webLogicAppContainer.labelIdleThreads')}>
+          <MetricValue snapshotId={snapshotId} metric="threadPool.idleThreads" formatter={number.compact} />
+        </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.webLogicAppContainer.labelHealthState')}>
+          <MetricValue snapshotId={snapshotId} metric="health.state" formatter={healthStateFormatter} />
+        </KpiKeyValue>
+      </KpiSection>
+
       <DashboardSection title={t('in-forge:plugins.webLogicAppContainer.titleThreadPool')}>
         <Chart
           snapshotId={snapshot.get('id')}
           timeConfig={timeConfig}
           y1={{
-            formatter: zeroDecimalPlaces,
+            formatter: number.compact,
             metrics: threadPoolMetrics,
             labels: threadPoolLabels,
+            type: 'line'
+          }}
+          renderPostChartContent={PluginDashboardsMarkerLanes}
+        />
+      </DashboardSection>
+
+      <DashboardSection title={t('in-forge:plugins.webLogicAppContainer.labelHealthState')}>
+        <Chart
+          snapshotId={snapshot.get('id')}
+          timeConfig={timeConfig}
+          y1={{
+            formatter: healthStateFormatter,
+            metrics: ['health.state'],
+            labels: [t('in-forge:plugins.webLogicAppContainer.labelHealthState')],
             type: 'line'
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
@@ -59,7 +88,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
             snapshotId={snapshot.get('id')}
             timeConfig={timeConfig}
             y1={{
-              formatter: zeroDecimalPlaces,
+              formatter: number.compact,
               metrics: [
                 'serverLogMessages.warnings',
                 'serverLogMessages.errors',
@@ -82,11 +111,8 @@ export default function Dashboard({ snapshot, timeConfig }) {
       ) : null}
 
       <WebAppsTable snapshot={snapshot} timeConfig={timeConfig} />
-
       <DatasourcesTable snapshot={snapshot} timeConfig={timeConfig} />
-
       <JMSDestinationsTable snapshot={snapshot} timeConfig={timeConfig} />
-
       <SAFAgentsTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
