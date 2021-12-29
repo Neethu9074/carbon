@@ -1981,15 +1981,15 @@ export interface HasLogsResult {
   readonly hasLogs: boolean;
 }
 
-export interface Health {
+export interface HealthData {
   readonly metadata?: { [index: string]: any };
-  readonly owners?: EntityId[];
   readonly problems?: ProblemObject[];
+  readonly triggering: boolean;
   readonly triggeringTime: number;
 }
 
 export interface HealthDownstreamValue {
-  readonly data?: Health;
+  readonly data?: HealthData;
   readonly host_id?: string;
   readonly path?: string;
   readonly plugin_id?: string;
