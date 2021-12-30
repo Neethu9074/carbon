@@ -16,12 +16,11 @@ import MetricValue from 'in-components/MetricValue';
 import DatasourcesTable from './DatasourcesTable';
 import SAFAgentsTable from './SAFAgentsTable';
 import WebAppsTable from './WebAppsTable';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function Dashboard({ snapshot, timeConfig }) {
   const threadPoolStuckThreadsMetricAvailable = snapshot.getIn(['data', 'threadPool.stuckThreadsAvailable'], false);
-  const snapshotId = snapshot.get('id');
-
   const threadPoolMetrics = [
     'threadPool.idleThreads',
     'threadPool.totalThreads',
@@ -43,6 +42,7 @@ export default function Dashboard({ snapshot, timeConfig }) {
     false
   );
 
+  const snapshotId = snapshot.get('id');
   return (
     <div>
       <KpiSection>
@@ -102,6 +102,13 @@ export default function Dashboard({ snapshot, timeConfig }) {
                 t('in-forge:plugins.webLogicAppContainer.labelAlert'),
                 t('in-forge:plugins.webLogicAppContainer.labelCritical'),
                 t('in-forge:plugins.webLogicAppContainer.labelEmergency')
+              ],
+              colors: [
+                theme.lib.colors.pink800,
+                theme.lib.colors.orange800,
+                theme.lib.colors.yellow800,
+                theme.lib.colors.red800,
+                theme.lib.colors.indigo800
               ],
               type: 'line'
             }}

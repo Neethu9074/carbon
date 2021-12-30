@@ -10219,12 +10219,12 @@
       "labelJMSDestination": "JMS Destination",
       "labelSAFAgent": "SAF Agent",
       "labelHealthState": "Health State",
-      "labelUnknown": "UNKNOWN",
-      "labelOK": "OK (0)",
-      "labelWarning": "WARNING (1)",
-      "labelCritical": "CRITICAL (2)",
-      "labelFailed": "FAILED (3)",
-      "labelOverloaded": "OVERLOADED (4)",
+      "labelHealthStateUnknown": "UNKNOWN",
+      "labelHealthStateOK": "OK (0)",
+      "labelHealthStateWarning": "WARNING (1)",
+      "labelHealthStateCritical": "CRITICAL (2)",
+      "labelHealthStateFailed": "FAILED (3)",
+      "labelHealthStateOverloaded": "OVERLOADED (4)",
       "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
