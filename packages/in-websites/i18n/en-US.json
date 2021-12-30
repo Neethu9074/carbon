@@ -162,6 +162,7 @@
         "httpRequestBeaconHeaderRequest": "Request",
         "httpRequestBeaconHeaderCallDetails": "Call Details",
         "httpRequestBeaconHeaderMeta": "Meta",
+        "httpRequestBeaconHeaderHttpHeaders": "HTTP Headers",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "Resource Timing",
         "httpRequestBeaconHeaderNetworkInsights": "Network Insights",

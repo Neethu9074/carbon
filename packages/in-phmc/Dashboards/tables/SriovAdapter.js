@@ -21,11 +21,20 @@ const cols = [
     }
   },
   {
-    title: t('in-phmc:id'),
+    title: t('in-phmc:physicalPortId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
         return row.sriovAdapter.get('id');
+      }
+    }
+  },
+  {
+    title: t('in-phmc:physicalLocation'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.sriovAdapter.get('physicalLocation');
       }
     }
   },

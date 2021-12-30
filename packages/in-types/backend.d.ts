@@ -1981,15 +1981,15 @@ export interface HasLogsResult {
   readonly hasLogs: boolean;
 }
 
-export interface Health {
+export interface HealthData {
   readonly metadata?: { [index: string]: any };
-  readonly owners?: EntityId[];
   readonly problems?: ProblemObject[];
+  readonly triggering: boolean;
   readonly triggeringTime: number;
 }
 
 export interface HealthDownstreamValue {
-  readonly data?: Health;
+  readonly data?: HealthData;
   readonly host_id?: string;
   readonly path?: string;
   readonly plugin_id?: string;
@@ -4368,6 +4368,7 @@ export interface WebsiteMonitoringBeacon {
   readonly graphqlOperationType?: string;
   readonly httpCallAsynchronous?: boolean;
   readonly httpCallCorrelationAttempted?: boolean;
+  readonly httpCallHeaders?: { [index: string]: string };
   readonly httpCallMethod?: string;
   readonly httpCallOrigin?: string;
   readonly httpCallPath?: string;
@@ -4513,9 +4514,11 @@ export interface ZhmcConsoleItemCounters extends FilterableListItem {
 }
 
 export interface ZhmcCpcItem {
+  readonly apiVersion?: string;
   readonly consoleId?: string;
   readonly cpcId: string;
   readonly dpmEnabled?: string;
+  readonly hmcVersion?: string;
   readonly id: string;
   readonly label: string;
   readonly name: string;
@@ -4523,6 +4526,7 @@ export interface ZhmcCpcItem {
   readonly partitionNetworks?: string[];
   readonly partitions?: string[];
   readonly processors?: string[];
+  readonly version?: string;
 }
 
 export interface ZhmcCpcListItem extends FilterableListItem, ListItemWithMetric {

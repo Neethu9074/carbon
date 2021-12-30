@@ -17,6 +17,7 @@ import {
   hasErrors
 } from 'in-services/entityUtils';
 import { getTimeConfigFromEvent, getTimeConfigFromEventForSnapshotRetrieval } from 'in-events/timeframe';
+import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
@@ -92,7 +93,7 @@ export default connectTo(
           orderBy,
           orderByGroups,
           timeConfig: getTimeConfigFromEvent(event)
-        })}
+        }).map(urlWithoutQueryParameter)}
       >
         {t('in-events:analyzeCalls')}
       </Button>

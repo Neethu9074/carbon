@@ -25,13 +25,20 @@ export default function useApplicationsAndServicesSubscriptions({
   applicationIds,
   queryWindowSize
 }) {
-  const { applications, boundaryScope, tagFilterExpression, includeSynthetic, rule } = alertConfigWithFormModel;
+  const {
+    applications,
+    boundaryScope,
+    tagFilterExpression,
+    includeSynthetic,
+    rule,
+    threshold
+  } = alertConfigWithFormModel;
 
   // only pass the user-defined part of the query, because the generated part is valid anyway, and the validation
   // would reject the entity-filter anyway, because the user is not allowed to use them
   const { isQueryValid } = useMemo(() => {
-    return getQueryBuilderForAlertType(rule.alertType);
-  }, [rule.alertType]);
+    return getQueryBuilderForAlertType(rule.alertType, threshold.type);
+  }, [rule.alertType, threshold.type]);
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(tagFilterExpression, isQueryValid);
 
   const fetchAppsAndServices = applicationIds.map(applicationId => {

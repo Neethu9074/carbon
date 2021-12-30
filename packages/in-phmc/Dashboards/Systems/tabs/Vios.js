@@ -32,7 +32,7 @@ const columnDefinitions = [
   },
   {
     id: 'utilizedMemory',
-    label: t('in-phmc:utilized'),
+    label: t('in-phmc:utilizedMem'),
     sortable: true,
     getContent(item, props, columnId) {
       return (

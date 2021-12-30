@@ -111,7 +111,11 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
           <Stack>
             <CallsScopeCard alertConfig={alertConfig} />
             <ServiceEndpointSelectionCard alertConfig={alertConfig} isGlobalSmartAlert={isGlobalSmartAlert} />
-            <AdditionalFiltersCard tagFilterFormModel={tagFilterFormModel} alertType={alertType} />
+            <AdditionalFiltersCard
+              tagFilterFormModel={tagFilterFormModel}
+              alertType={alertType}
+              thresholdType={alertConfig.threshold.type}
+            />
           </Stack>
         </div>
       </ExpandableLightCard>
@@ -192,8 +196,8 @@ function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
   );
 }
 
-function AdditionalFiltersCard({ tagFilterFormModel, alertType }) {
-  const { QueryBuilder } = getQueryBuilderForAlertType(alertType);
+function AdditionalFiltersCard({ tagFilterFormModel, alertType, thresholdType }) {
+  const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
   return (
     <>
       {tagFilterFormModel.length > 0 && (

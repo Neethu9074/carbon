@@ -9,8 +9,8 @@ import React from 'react';
 import ReadOnlyIncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch';
 import ApplicationAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/applications/chart/ApplicationAlertingChartWithErrorMessage';
 import ReadOnlyInboundOrAllCalls from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls';
+import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
-import AlertQueryBuilder from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import { getChartTimeConfigByEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
@@ -39,7 +39,8 @@ export default function ApplicationEventListItemContent({ event }) {
   const isGlobalSmartAlert = event.getIn(['metadata', 'globalSmartAlert'], false);
   const adaptiveBaselineInfo = event.getIn(['metadata', 'adaptiveBaselineInfo'], Map({})) ?? Map({});
   const { applicationId } = eventEntity;
-  const alertType = alertConfig.rule.alertType;
+  const { rule, threshold } = alertConfig;
+  const { alertType } = rule;
 
   const blueprintConfig = getBlueprintConfig(alertType);
   const timeConfig = {
@@ -50,6 +51,8 @@ export default function ApplicationEventListItemContent({ event }) {
   const chartViewConfig = createDefaultChartConfig(timeConfig);
   const tagFilterFormModel = fromBackendModel(alertConfig.tagFilterExpression);
 
+  const thresholdType = threshold.type;
+  const { QueryBuilder } = getQueryBuilderForAlertType(alertType, thresholdType);
   return (
     <>
       <ProblemDescription event={event} />
@@ -85,7 +88,7 @@ export default function ApplicationEventListItemContent({ event }) {
             <div className={locals.alertFiltersWrapper}>
               <ScopeConfigPresenter
                 tagFilterFormModel={tagFilterFormModel}
-                queryBuilder={<AlertQueryBuilder value={tagFilterFormModel} readOnly />}
+                queryBuilder={<QueryBuilder value={tagFilterFormModel} readOnly />}
                 scopePath={<ApplicationScopePath boundaryScope={alertConfig.boundaryScope} {...eventEntity} />}
               />
             </div>

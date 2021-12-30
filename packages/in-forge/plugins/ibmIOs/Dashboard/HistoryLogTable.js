@@ -15,50 +15,50 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageId'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.messageId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.messageQueueStringData.get('messageId');
+        return row.historyLogRawData.get('messageId');
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageQueueLibrary'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.fromUser'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.messageQueueStringData.get('messageQueueLibrary');
+        return row.historyLogRawData.get('fromUser');
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageQueueName'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.fromJob'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.messageQueueStringData.get('messageQueueName');
+        return row.historyLogRawData.get('fromJob');
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageKey'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.fromProgram'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.messageQueueStringData.get('messageKey');
+        return row.historyLogRawData.get('fromProgram');
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageType'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.messageType'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `messageQueueMetrics.${row.key}.messageType`;
+        return `historyLogMetrics.${row.key}.messageType`;
       },
       getContent: MessageTypeEnum,
       getTimeWindowAggregation() {
@@ -67,14 +67,14 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.severity'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.severity'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.snapshotId;
       },
       getMetricName(row) {
-        return `messageQueueMetrics.${row.key}.severity`;
+        return `historyLogMetrics.${row.key}.severity`;
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
@@ -83,11 +83,11 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageTimestamp'),
+    title: t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.messageTimestamp'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.messageQueueStringData.get('messageTimestamp');
+        return row.historyLogRawData.get('messageTimestamp');
       }
     }
   }
@@ -97,23 +97,23 @@ export default connectTo(
   props => {
     const { snapshotId } = props;
     return {
-      data: getRawPayloadWithTimestamp(snapshotId, 'messageQueueInfoRawPayload')
+      data: getRawPayloadWithTimestamp(snapshotId, 'historyLogInfoRawPayload')
     };
   },
-  function jobQueueTable({ data, snapshotId, timeConfig }) {
+  function HistoryLogTable({ data, snapshotId, timeConfig }) {
     if (!data || !data.get('raw_payload')) {
       return null;
     }
-    const messageQueueInfoRawPayload = data.get('raw_payload');
-    if (messageQueueInfoRawPayload.size === 0) {
+    const historyLogInfoRawPayload = data.get('raw_payload');
+    if (historyLogInfoRawPayload.size === 0) {
       return null;
     }
 
-    const rows = messageQueueInfoRawPayload
-      .map((messageQueueStringData, key) => {
+    const rows = historyLogInfoRawPayload
+      .map((historyLogRawData, key) => {
         return {
           key,
-          messageQueueStringData,
+          historyLogRawData,
           timeConfig,
           snapshotId
         };
@@ -126,7 +126,7 @@ export default connectTo(
         withoutPadding
         cardTitle={
           <TimeOfLastUpdateCardTitle
-            title={t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.name')}
+            title={t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.name')}
             timestamp={data.get('timestamp')}
           />
         }
@@ -145,17 +145,17 @@ function getRowDetails(row) {
     <div>
       <p>
         <label>
-          <strong>{t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageText')}</strong>
+          <strong>{t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.messageText')}</strong>
           {' : '}
         </label>
-        {row.messageQueueStringData.get('messageText')}
+        {row.historyLogRawData.get('messageText')}
       </p>
       <p>
         <label>
-          <strong>{t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.messageSecondLevelText')}</strong>
+          <strong>{t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.messageSecondLevelText')}</strong>
           {' : '}
         </label>
-        {row.messageQueueStringData.get('messageSecondLevelText')}
+        {row.historyLogRawData.get('messageSecondLevelText')}
       </p>
     </div>
   );
