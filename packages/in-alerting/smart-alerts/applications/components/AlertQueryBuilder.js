@@ -9,6 +9,7 @@ import {
   toBackendQueryModel
 } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getEntitySelectionAsTagFilterFormModel } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import { createQueryBuilder } from 'in-components/QueryBuilder';
@@ -40,9 +41,7 @@ export function createBoundedAlertQueryBuilder(
     getTagCatalog: props =>
       getApplicationTagCatalog({
         dataSource: CALLS,
-        useCase: 'SMART_ALERTS',
-        ruleType,
-        thresholdType
+        useCase: getUseCase(thresholdType, ruleType)
       })(props),
     getSuggestions: args =>
       isIdTag(args.name)
@@ -59,6 +58,16 @@ export function createBoundedAlertQueryBuilder(
   return { QueryBuilder, isQueryValid, toFormModel, getTagCatalog };
 }
 
+function getUseCase(thresholdType, ruleType) {
+  if (ruleType === 'logs') {
+    return 'SMART_ALERTS_LOGS';
+  } else if (thresholdType === ADAPTIVE_BASELINE) {
+    return 'SMART_ALERTS_ADAPTIVE_BASELINE';
+  } else {
+    return 'SMART_ALERTS';
+  }
+}
+
 function tagSuggestionArgs(args, suggestionTimeConfig) {
   return {
     entity: args.entity,
@@ -73,25 +82,26 @@ function tagSuggestionArgs(args, suggestionTimeConfig) {
   };
 }
 
-function create(alertType) {
-  return createBoundedAlertQueryBuilder(undefined, undefined, undefined, undefined, alertType);
+function create(alertType, thresholdType) {
+  return createBoundedAlertQueryBuilder(undefined, undefined, undefined, thresholdType, alertType);
 }
 
-const queryBuildersByAlertType = {
-  slowness: create('slowness'),
-  errorRate: create('errorRate'),
-  logs: create('logs'),
-  statusCode: create('statusCode'),
-  throughput: create('throughput')
-};
 const defaultQueryBuilder = create(undefined);
+
+const queryBuildersByAlertType = {
+  SMART_ALERTS_LOGS: create('logs'),
+  SMART_ALERTS_ADAPTIVE_BASELINE: create('', ADAPTIVE_BASELINE),
+  SMART_ALERTS: defaultQueryBuilder
+};
 
 /**
  * Provides the default, alert-type/blueprint specific QueryBuilder with its specific
  * tagCatalog and query validation.
+ * Currently, there are only 3 different use cases supported, see {@link #getUseCase()}
  *
- * @return returns a {@link defaultQueryBuilder} (no "ruleType") or the queryBuilder for the given alertType if it exists
+ * @return returns a {@link defaultQueryBuilder} or the queryBuilder for the given alertType + thresholdType if it exists
  */
-export function getQueryBuilderForAlertType(alertType = 'slowness') {
-  return queryBuildersByAlertType[alertType] ?? defaultQueryBuilder;
+export function getQueryBuilderForAlertType(alertType = 'slowness', thresholdType = STATIC_THRESHOLD) {
+  const useCase = getUseCase(thresholdType, alertType);
+  return queryBuildersByAlertType[useCase] ?? defaultQueryBuilder;
 }

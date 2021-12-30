@@ -17,36 +17,40 @@ function dfQueryAfterNavigating(fromPath: string, toPath: string) {
   return location.query.q;
 }
 
-describe('getModifiedUrlStream removing q_ query param', () => {
-  it('should NOT remove when going from infra to same infra page', () => {
-    expect(dfQueryAfterNavigating(physicalPath, physicalPath)).toBe('legacyWithDFQ');
+describe('in-stores/navigation/navigation#removeDFQueryFromLocationWhenChangingArea', () => {
+  describe('should NOT remove query (q=) parameter when', () => {
+    it('navigate from infra to same infra page', () => {
+      expect(dfQueryAfterNavigating(physicalPath, physicalPath)).toBe('legacyWithDFQ');
+    });
+
+    it('navigate from infra to another infra page', () => {
+      expect(dfQueryAfterNavigating(physicalTablePath, physicalPath)).toBe('legacyWithDFQ');
+    });
+
+    it('navigate from events to same events page', () => {
+      expect(dfQueryAfterNavigating(eventsPath, eventsPath)).toBe('legacyWithDFQ');
+    });
+
+    it('navigate from events to another events page', () => {
+      expect(dfQueryAfterNavigating(eventsPath + '/another', eventsPath)).toBe('legacyWithDFQ');
+    });
   });
 
-  it('should NOT remove when going from infra to another infra page', () => {
-    expect(dfQueryAfterNavigating(physicalTablePath, physicalPath)).toBe('legacyWithDFQ');
-  });
+  describe('should remove the query (q=) parameter when', () => {
+    it('navigate from non-infra to an infra page', () => {
+      expect(dfQueryAfterNavigating(physicalTablePath, '/anyOtherPage')).toBeUndefined();
+    });
 
-  it('should remove when going from non-infra to an infra page', () => {
-    expect(dfQueryAfterNavigating(physicalTablePath, '/anyOtherPage')).toBeUndefined();
-  });
+    it('navigate from infra to another, non-infra page', () => {
+      expect(dfQueryAfterNavigating(physicalTablePath, '/anotherPath')).toBeUndefined();
+    });
 
-  it('should remove when going from infra to another, non-infra page', () => {
-    expect(dfQueryAfterNavigating(physicalTablePath, '/anotherPath')).toBeUndefined();
-  });
+    it('navigate from non-events to an events page', () => {
+      expect(dfQueryAfterNavigating('/anyOtherPage', eventsPath)).toBeUndefined();
+    });
 
-  it('should NOT remove when going from events to same events page', () => {
-    expect(dfQueryAfterNavigating(eventsPath, eventsPath)).toBe('legacyWithDFQ');
-  });
-
-  it('should NOT remove when going from events to another events page', () => {
-    expect(dfQueryAfterNavigating(eventsPath + '/another', eventsPath)).toBe('legacyWithDFQ');
-  });
-
-  it('should remove when going from non-events to an events page', () => {
-    expect(dfQueryAfterNavigating('/anyOtherPage', eventsPath)).toBeUndefined();
-  });
-
-  it('should remove when going from events to an non-events page', () => {
-    expect(dfQueryAfterNavigating(eventsPath, '/anyOtherPage')).toBeUndefined();
+    it('navigate from events to a non-events page', () => {
+      expect(dfQueryAfterNavigating(eventsPath, '/anyOtherPage')).toBeUndefined();
+    });
   });
 });

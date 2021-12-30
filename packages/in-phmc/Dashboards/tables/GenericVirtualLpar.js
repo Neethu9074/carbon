@@ -39,6 +39,15 @@ const cols = [
     }
   },
   {
+    title: t('in-phmc:physicalLocation'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.genericVirtualAdapter.get('physicalLocation');
+      }
+    }
+  },
+  {
     title: t('in-phmc:reads'),
     type: 'string',
     typeArgs: {

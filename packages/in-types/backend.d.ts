@@ -542,9 +542,10 @@ export interface CustomPayloadField {
   readonly type: string;
 }
 
-export interface DatabaseStatementTopListItem {
+export interface DatabaseStatementTopListItem extends Metricific {
   readonly id: string;
-  readonly metricValue: number;
+  readonly metricValue?: number;
+  readonly metrics: { [index: string]: number[][] };
   readonly statement: string;
 }
 
@@ -1025,7 +1026,8 @@ export interface GetCloudfoundryContainersQuery extends PaginatedQuery {
 
 export interface GetDatabaseStatementTopListQuery extends TopListQuery {
   readonly filter: Filter;
-  readonly metric: MetricConfiguration;
+  readonly metrics: { [index: string]: MetricConfiguration };
+  readonly order: Order;
 }
 
 export interface GetDeprecationsQuery extends UiQuery {
@@ -1979,15 +1981,15 @@ export interface HasLogsResult {
   readonly hasLogs: boolean;
 }
 
-export interface Health {
+export interface HealthData {
   readonly metadata?: { [index: string]: any };
-  readonly owners?: EntityId[];
   readonly problems?: ProblemObject[];
+  readonly triggering: boolean;
   readonly triggeringTime: number;
 }
 
 export interface HealthDownstreamValue {
-  readonly data?: Health;
+  readonly data?: HealthData;
   readonly host_id?: string;
   readonly path?: string;
   readonly plugin_id?: string;
@@ -4366,6 +4368,7 @@ export interface WebsiteMonitoringBeacon {
   readonly graphqlOperationType?: string;
   readonly httpCallAsynchronous?: boolean;
   readonly httpCallCorrelationAttempted?: boolean;
+  readonly httpCallHeaders?: { [index: string]: string };
   readonly httpCallMethod?: string;
   readonly httpCallOrigin?: string;
   readonly httpCallPath?: string;
@@ -4511,9 +4514,11 @@ export interface ZhmcConsoleItemCounters extends FilterableListItem {
 }
 
 export interface ZhmcCpcItem {
+  readonly apiVersion?: string;
   readonly consoleId?: string;
   readonly cpcId: string;
   readonly dpmEnabled?: string;
+  readonly hmcVersion?: string;
   readonly id: string;
   readonly label: string;
   readonly name: string;
@@ -4521,6 +4526,7 @@ export interface ZhmcCpcItem {
   readonly partitionNetworks?: string[];
   readonly partitions?: string[];
   readonly processors?: string[];
+  readonly version?: string;
 }
 
 export interface ZhmcCpcListItem extends FilterableListItem, ListItemWithMetric {
@@ -4595,7 +4601,7 @@ export type BoundaryScope = 'ALL' | 'INBOUND' | 'DEFAULT';
 
 export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
 
-export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SLI_MANAGEMENT' | 'APPLICATION_CONFIG' | 'APPLICATION_CONFIG_BLUEPRINT';
+export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SMART_ALERTS_LOGS' | 'SMART_ALERTS_ADAPTIVE_BASELINE' | 'SLI_MANAGEMENT' | 'APPLICATION_CONFIG' | 'APPLICATION_CONFIG_BLUEPRINT';
 
 export type ChangeType = 'CREATE' | 'UPDATE' | 'DELETE' | 'ENABLE' | 'DISABLE' | 'RESTORE' | 'UNKNOWN';
 

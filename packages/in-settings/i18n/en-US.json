@@ -112,6 +112,7 @@
   "tabs": {
     "failedToSaveConfig": "Failed to save config: {{err}}",
     "IdPMetadataRequired": "IdP Metadata file is required",
+    "IdPMetadataLargerThanTwoMega": "IdP Metadata file can't be larger than 2 megabytes",
     "ldapHelpDoc": "Help and support is available in our <docLink>documentation pages</docLink>.",
     "testConfiguration": "Test configuration",
     "requiredSettings": "Required settings",

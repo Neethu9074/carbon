@@ -10,7 +10,7 @@ import { Card } from '@instana/components';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import SharedProcessorPool from 'in-phmc/Dashboards/tables/SharedProcessorPool';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { kiloBytes, number, percentage } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -53,7 +53,7 @@ export default function Summary({ timeConfig, data: system }) {
                 min: 0,
                 metrics: ['availableMem', 'configurableMem', 'assignedMemToLpars'],
                 labels: [t('in-phmc:available'), t('in-phmc:configurable'), t('in-phmc:assignedMem')],
-                formatter: kiloBytes.detailed,
+                formatter: number.compact,
                 type: 'line'
               }}
               y2={{
@@ -65,6 +65,24 @@ export default function Summary({ timeConfig, data: system }) {
                   t('in-phmc:assignedMemPercentage')
                 ],
                 formatter: percentage.detailed,
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col lg={12}>
+          <Card title={t('in-phmc:dashboards.hypervisor')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                metrics: ['utilizedProcUnitsHypervisor', 'assignedMemHypervisor'],
+                labels: [t('in-phmc:utilizedProcessor'), t('in-phmc:assignedMemory')],
+                formatter: number.compact,
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}

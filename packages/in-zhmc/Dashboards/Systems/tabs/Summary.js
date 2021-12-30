@@ -8,10 +8,13 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import { number, percentage } from 'in-services/formatters/number';
+import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { Row, Col } from 'in-components/layout/Grid';
+import KpiCard from 'in-components/KpiCard/KpiCard';
 import Processors from '../../tables/Processors';
 import { t } from 'in-i18n';
 
@@ -21,25 +24,22 @@ export default function Summary({ timeConfig, data: cpc }) {
   if (cpc.dpmEnabled === 'false') {
     return (
       <Fragment>
-        <Row>
-          <Col lg={4}>
-            <InfraMetricKpiCard
-              title={t('in-zhmc:dashboards.cpcProcessorUsage')}
-              snapshotId={snapshotId}
-              metric="cpcProcessorUsage"
-              formatter={percentage.detailed}
-            />
-          </Col>
-          <Col lg={4}>
-            <InfraMetricKpiCard
-              title={t('in-zhmc:dashboards.powerConsumptionWatts')}
-              snapshotId={snapshotId}
-              metric="powerConsumptionWatts"
-              formatter={number.compact}
-            />
-          </Col>
-        </Row>
-
+        <KpiGridRow sizes={[2, 2, 2, 4]}>
+          <KpiCard title={t('in-zhmc:hmcVersion')} value={cpc.hmcVersion || valueMissingPlaceholder} raw borderless />
+          <KpiCard title={t('in-zhmc:apiVersion')} value={cpc.apiVersion || valueMissingPlaceholder} raw borderless />
+          <InfraMetricKpiCard
+            title={t('in-zhmc:dashboards.cpcProcessorUsage')}
+            snapshotId={snapshotId}
+            metric="cpcProcessorUsage"
+            formatter={percentage.detailed}
+          />
+          <InfraMetricKpiCard
+            title={t('in-zhmc:dashboards.powerConsumptionWatts')}
+            snapshotId={snapshotId}
+            metric="powerConsumptionWatts"
+            formatter={number.compact}
+          />
+        </KpiGridRow>
         <Row verticallyStretchColumns>
           <Col lg={4}>
             <Card title={t('in-zhmc:dashboards.all')} useMaxAvailableHeight>
@@ -75,9 +75,19 @@ export default function Summary({ timeConfig, data: cpc }) {
                     'icfSharedProcessorUsage',
                     'cbpSharedProcessorUsage',
                     'cpSharedProcessorUsage',
-                    'aapSharedProcessorUsage'
+                    'aapSharedProcessorUsage',
+                    'iipSharedProcessorUsage',
+                    'allSharedProcessorUsage'
                   ],
-                  labels: [t('in-zhmc:ifl'), t('in-zhmc:icf'), t('in-zhmc:cbp'), t('in-zhmc:cp'), t('in-zhmc:aap')],
+                  labels: [
+                    t('in-zhmc:ifl'),
+                    t('in-zhmc:icf'),
+                    t('in-zhmc:cbp'),
+                    t('in-zhmc:cp'),
+                    t('in-zhmc:aap'),
+                    t('in-zhmc:iip'),
+                    t('in-zhmc:allProc')
+                  ],
                   formatter: percentage.detailed,
                   type: 'line'
                 }}
@@ -97,9 +107,19 @@ export default function Summary({ timeConfig, data: cpc }) {
                     'icfDedicatedProcessorUsage',
                     'cbpDedicatedProcessorUsage',
                     'cpDedicatedProcessorUsage',
-                    'aapDedicatedProcessorUsage'
+                    'aapDedicatedProcessorUsage',
+                    'iipDedicatedProcessorUsage',
+                    'allDedicatedProcessorUsage'
                   ],
-                  labels: [t('in-zhmc:ifl'), t('in-zhmc:icf'), t('in-zhmc:cbp'), t('in-zhmc:cp'), t('in-zhmc:aap')],
+                  labels: [
+                    t('in-zhmc:ifl'),
+                    t('in-zhmc:icf'),
+                    t('in-zhmc:cbp'),
+                    t('in-zhmc:cp'),
+                    t('in-zhmc:aap'),
+                    t('in-zhmc:iip'),
+                    t('in-zhmc:allProc')
+                  ],
                   formatter: percentage.detailed,
                   type: 'line'
                 }}
@@ -115,24 +135,22 @@ export default function Summary({ timeConfig, data: cpc }) {
   } else {
     return (
       <Fragment>
-        <Row>
-          <Col lg={4}>
+        <KpiGridRow sizes={[2, 2, 2, 4]}>
+          <KpiCard title={t('in-zhmc:hmcVersion')} value={cpc.hmcVersion || valueMissingPlaceholder} raw borderless />
+          <KpiCard title={t('in-zhmc:apiVersion')} value={cpc.apiVersion || valueMissingPlaceholder} raw borderless />
             <InfraMetricKpiCard
               title={t('in-zhmc:dashboards.cpcProcessorUsage')}
               snapshotId={snapshotId}
               metric="processorUsage"
               formatter={percentage.detailed}
             />
-          </Col>
-          <Col lg={4}>
             <InfraMetricKpiCard
               title={t('in-zhmc:dashboards.powerConsumptionWatts')}
               snapshotId={snapshotId}
               metric="dpmPowerConsumptionWatts"
               formatter={number.compact}
             />
-          </Col>
-        </Row>
+        </KpiGridRow>
 
         <Row verticallyStretchColumns>
           <Col lg={6}>

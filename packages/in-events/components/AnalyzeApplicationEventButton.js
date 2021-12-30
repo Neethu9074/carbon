@@ -12,6 +12,7 @@ import { applicationsAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-a
 import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { containsTagName } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
@@ -43,7 +44,8 @@ export default function AnalyzeApplicationEventButton({
     alertConfig,
     timeConfig,
     adaptiveBaselineInfo
-  });
+  }).map(urlWithoutQueryParameter);
+
   const linkDisabled = !linkToUA;
 
   return (
@@ -120,7 +122,7 @@ export function getLinkToUnboundAnalytics({
       includeInternal,
       includeSynthetic
     }
-  });
+  }).map(urlWithoutQueryParameter);
 }
 
 export function getEnrichedAnalyzeTagFilterFormModel({

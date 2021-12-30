@@ -10,7 +10,7 @@ import { generateUniqueShortId } from '@instana/utils';
 import {
   useValidateApplicationFilterExpression,
   useApplicationQueryBuilder
-} from 'in-custom-dashboards/widgets/Slo/sli/SliEventsQueryBuilder';
+} from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
 import { useApplicationSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ApplicationSliForm } from 'in-custom-dashboards/widgets/Slo/sli/ApplicationSliForm';

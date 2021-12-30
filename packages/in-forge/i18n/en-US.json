@@ -2864,7 +2864,14 @@
       "labelNoDataInstances": "No Data Instances",
       "labelWarningInstances": "Warning Instances",
       "labelInstanceHealth": "Instance Health",
-      "labelInstanceDiskUsage": "Instance Disk Usage"
+      "labelInstanceDiskUsage": "Instance Disk Usage",
+      "labelOK": "OK (0)",
+      "labelInfo": "Info (1)",
+      "labelUnknown": "Unknown (5)",
+      "labelNoData": "No data (10)",
+      "labelWarning": "Warning (15)",
+      "labelDegraded": "Degraded (20)",
+      "labelSevere": "Severe (25)"
     },
     "awsDynamoDb": {
       "labelProvisioned": "Provisioned",
@@ -3108,23 +3115,23 @@
       "total": "Instance Requests Total"
     },
     "labelCPUStatesMetric": {
-      "irq": "CPU irq",
-      "idle": "CPU idle",
-      "user": "CPU user",
-      "system": "CPU system",
-      "softirq": "CPU softirq",
-      "iowait": "CPU iowait",
-      "nice": "CPU nice",
-      "load": "CPU Load"
+      "irq": "IRQ",
+      "idle": "Idle",
+      "user": "User",
+      "system": "System",
+      "softirq": "SoftIRQ",
+      "iowait": "IOWait",
+      "nice": "Nice",
+      "load": "Load"
     },
     "labelInstanceCPUStatesMetric": {
-      "irq": "Instance CPU irq",
-      "idle": "Instance CPU idle",
-      "user": "Instance CPU user",
-      "system": "Instance CPU system",
-      "softirq": "Instance CPU softirq",
-      "iowait": "Instance CPU iowait",
-      "nice": "Instance CPU nice",
+      "irq": "Instance CPU IRQ",
+      "idle": "Instance CPU Idle",
+      "user": "Instance CPU User",
+      "system": "Instance CPU System",
+      "softirq": "Instance CPU SoftIRQ",
+      "iowait": "Instance CPU IOWait",
+      "nice": "Instance CPU Nice",
       "load": "Instance CPU Load"
     },
     "labelLatencyMetric": {
@@ -7735,6 +7742,7 @@
     },
     "host": {
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "The Operating System of this host does not seem to offer the extended Berkeley Packet Filter (eBPF) functionality that is required by the Process Abnormal Termination detection.",
+      "theHostAgentIsVulnerableToLog4jCVE": "The host agent is vulnerable to Log4j CVE-2021-44228 and CVE-2021-45046, please update the Agent installation to a newer version to mitigate these vulnerabilities.",
       "troubleshootingDocs": "Troubleshooting docs",
       "dashboard": {
         "gpuMemoryProcess": "GPU Memory/Process",
@@ -8637,6 +8645,19 @@
             "messageText": "Text",
             "messageSecondLevelText" : "Second Level Text",
             "messageKey": "Key"
+          },
+          "historyLog": {
+            "name": "History Log",
+            "messageId": "ID",
+            "messageType": "Type",
+            "severity": "Severity",
+            "fromUser": "User",
+            "fromJob" : "Job",
+            "fromProgram": "Program",
+            "messageTimestamp": "Timestamp",
+            "messageText": "Text",
+            "messageSecondLevelText" : "Second Level Text"
+
           }
         }
       },
@@ -8703,7 +8724,7 @@
         "ibmMqCluster": "IBM MQ Cluster",
         "type": "Type",
         "messages": "Messages",
-        "publishers": "Publishers",
+        "publishers": "Publications",
         "subscriptions": "Subscriptions",
         "topicsWithCount": "Topics ({{len}})"
       },
@@ -8738,8 +8759,6 @@
         "messageTime": "Message Time",
         "oldest": "Oldest",
         "onQueue": "On Queue",
-        "reset": "Reset",
-        "last": "Last",
         "calls": "Calls",
         "openInputs": "Open Inputs",
         "openOutputs": "Open Outputs",
@@ -8767,8 +8786,6 @@
       "messages": "Messages",
       "messageTime": "Message Time",
       "onQueueMessageTime": "On Queue Message Time",
-      "lastResetTime": "Last Reset Time",
-      "reset": "Reset",
       "openInputCount": "Open Input Count",
       "openOutputCount": "Open Output Count",
       "calls": "Calls"
@@ -8800,7 +8817,7 @@
         "connection": "Connection",
         "handleState": "Handle State",
         "user": "User",
-        "queuesUsageWithCount": "Queues Usage ({{len}})",
+        "queuesUsageWithCount": "Queue Usage by application ({{len}})",
         "ibmMqQueueManager": "IBM MQ Queue Manager",
         "subsWithCount": "Subscriptions ({{len}})",
         "topicString": "Topic String",
@@ -8855,7 +8872,7 @@
     "ibmMqTopic": {
       "dashboard": {
         "messages": "Messages",
-        "publishers": "Publishers",
+        "publishers": "Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
         "ibmMqTopic": "IBM MQ Topic"
@@ -8866,7 +8883,7 @@
       "topicType": "Topic Type",
       "topicAlternatedAt": "Topic Alternated At",
       "messages": "Messages",
-      "publishers": "Publishers",
+      "publishers": "Publications",
       "count": "Count",
       "lastResetTime": "Last Reset Time",
       "reset": "Reset",
@@ -10201,6 +10218,13 @@
       "labelDataSource": "Data Source",
       "labelJMSDestination": "JMS Destination",
       "labelSAFAgent": "SAF Agent",
+      "labelHealthState": "Health State",
+      "labelUnknown": "UNKNOWN",
+      "labelOK": "OK (0)",
+      "labelWarning": "WARNING (1)",
+      "labelCritical": "CRITICAL (2)",
+      "labelFailed": "FAILED (3)",
+      "labelOverloaded": "OVERLOADED (4)",
       "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {

@@ -14,18 +14,19 @@ import { removeExcludedFilters } from 'in-alerting/smart-alerts/components/utils
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { countTagFilters } from 'in-alerting/smart-alerts/components/utils/countTagFilters';
+import { ApplicationAlertRule, Result, ThresholdType } from 'in-types';
 import { EnrichedTagCatalog } from 'in-services/tags/tagCatalog';
-import { ApplicationAlertRule, Result } from 'in-types';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 export function useRemoveInvalidTagsFromFilterExpression(
   rule: ApplicationAlertRule,
+  thresholdType: ThresholdType,
   tagFilterExpression: FormModelElement[],
   updateTagFilterExpression: (updatedExpression: FormModelElement[]) => void
 ) {
   const timeConfig = useTimeConfig();
 
-  const { getTagCatalog } = getQueryBuilderForAlertType(rule.alertType);
+  const { getTagCatalog } = getQueryBuilderForAlertType(rule.alertType, thresholdType);
 
   // in the background, this will automatically handle the "race-condition", when getTagCatalog was
   // changed more than once while still loading, and it will automatically safely only

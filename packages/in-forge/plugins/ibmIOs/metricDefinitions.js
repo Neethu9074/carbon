@@ -373,5 +373,31 @@ export default [
     min: 0,
     formatter: number,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.messageQueue.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'historyLogMetrics',
+        'severity',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.severity')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'historyLogMetrics',
+        'messageType',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.messageType')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.name')]
   }
 ];

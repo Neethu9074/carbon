@@ -9,8 +9,8 @@ import { SliEntity } from 'in-types';
 
 type FormatterFunction = (value: number) => string;
 
-export function getSliFormatter(sliEntity: SliEntity): FormatterFunction {
-  const isAvailabilitySli = sliEntity.sliType === availabilityType;
+export function getSliFormatter(sliEntity?: SliEntity): FormatterFunction {
+  const isAvailabilitySli = sliEntity?.sliType === availabilityType;
   return isAvailabilitySli ? callsFormatter : minutesFormatter;
 }
 
