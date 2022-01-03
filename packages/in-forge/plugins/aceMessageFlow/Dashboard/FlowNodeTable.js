@@ -58,7 +58,7 @@ export default function FlowNodesTable({ snapshot, snapshotId, timeConfig }) {
       cols={cols}
       rows={rows}
       getRowDetails={getDetails}
-      initialSortDirection="desc"
+      initialSortDirection="asc"
       initialSortColumn={cols.indexOf(nodeNameCol)}
     />
   );
