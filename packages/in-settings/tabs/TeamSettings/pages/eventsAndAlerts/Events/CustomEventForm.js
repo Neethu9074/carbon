@@ -650,7 +650,7 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions = [], onChange
       <ComboBox
         name="event-entity-type"
         value={field.value}
-        options={pluginsWithMetricDefinitions.filter(({ value }) => {
+        options={pluginsWithMetricDefinitions?.filter(({ value }) => {
           if (disableAppDataLegacyEvents) {
             return !isAppDataEntityType(value);
           }
