@@ -5,7 +5,7 @@
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
-import { activeLanguage } from 'in-i18n';
+import { collationLanguage } from 'in-i18n';
 
 const getWebsites = createResultSubscriptionFactory({
   eventId: 'getWebsites',
@@ -29,7 +29,7 @@ export function getWebsitesWithDefaults({
     order: {
       by: orderBy,
       direction: orderDirection,
-      collation: activeLanguage
+      collation: collationLanguage
     },
     metrics: {
       pageViewsAgg: {

@@ -5,6 +5,7 @@
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
+import { collationLanguage } from 'in-i18n';
 
 const getMobileApps = createResultSubscriptionFactory({
   eventId: 'getMobileApps',
@@ -27,7 +28,8 @@ export function getMobileAppsWithDefaults({
     },
     order: {
       by: orderBy,
-      direction: orderDirection
+      direction: orderDirection,
+      collation: collationLanguage
     },
     metrics: {
       sessionsAgg: {
