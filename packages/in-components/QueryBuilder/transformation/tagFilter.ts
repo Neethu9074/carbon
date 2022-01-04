@@ -143,7 +143,7 @@ export function tagFilter(
   name: string,
   operator: TagFilterOperator,
   value?: any,
-  key?: string,
+  key?: string | null,
   entity: TagFilterEntity = NOT_APPLICABLE
 ): TagFilter {
   return {
