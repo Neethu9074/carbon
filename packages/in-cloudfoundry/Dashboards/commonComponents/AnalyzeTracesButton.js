@@ -11,6 +11,7 @@ import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfo
 import { defaultGroupings as defaultApplicationGroupings } from 'in-applications/tags';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import connect from 'in-hoc/connectTo';
@@ -33,8 +34,8 @@ export default connect(({ applicationId, timeConfig }) => ({
         dataSource: 'calls',
         formModel: joinExpressions({
           expressions: [
-            tagFilter('cloudfoundry.application.id', EQUALS, application?.guid),
-            tagFilter('cloudfoundry.application.name', EQUALS, application?.label)
+            tagFilter('cloudfoundry.application.id', EQUALS, application?.guid, null, DESTINATION),
+            tagFilter('cloudfoundry.application.name', EQUALS, application?.label, null, DESTINATION)
           ]
         }),
         groupBy: defaultApplicationGroupings.calls

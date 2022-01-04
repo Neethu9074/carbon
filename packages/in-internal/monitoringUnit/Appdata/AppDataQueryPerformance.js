@@ -12,6 +12,7 @@ import { joinExpressions } from 'in-components/QueryBuilder/transformation/formM
 import { CONTAINS, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number, millis } from 'in-services/formatters/number';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -37,7 +38,7 @@ export default connectTo({
                   href$={getLinkToAnalyze({
                     dataSource: 'calls',
                     timeConfig,
-                    formModel: [tagFilter('service.name', CONTAINS, 'clickhouse')],
+                    formModel: [tagFilter('service.name', CONTAINS, 'clickhouse', null, DESTINATION)],
                     groupBy: { groupbyTag: 'call.tag', groupbyTagSecondLevelKey: 'tenantUnit' },
                     fields: [createMetricField('latency', 'SUM')],
                     orderByGroups: createOrderBy('latency_SUM', 'DESC')
@@ -84,7 +85,7 @@ export default connectTo({
                     timeConfig,
                     formModel: joinExpressions({
                       expressions: [
-                        tagFilter('service.name', CONTAINS, 'ui-backend'),
+                        tagFilter('service.name', CONTAINS, 'ui-backend', null, DESTINATION),
                         tagFilter('call.tag', NOT_EMPTY, undefined, 'eventClass')
                       ]
                     }),

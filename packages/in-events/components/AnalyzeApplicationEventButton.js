@@ -14,6 +14,7 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import { containsTagName } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
@@ -152,8 +153,8 @@ export function getEnrichedAnalyzeTagFilterFormModel({
             endpointId
           )
         : null,
-      serviceName ? tagFilter('service.name', EQUALS, serviceName) : null, // service.name is still used by the affected entities list
-      endpointName ? tagFilter('endpoint.name', EQUALS, endpointName) : null, // endpoint.name is still used by the affected entities list
+      serviceName ? tagFilter('service.name', EQUALS, serviceName, null, DESTINATION) : null, // service.name is still used by the affected entities list
+      endpointName ? tagFilter('endpoint.name', EQUALS, endpointName, null, DESTINATION) : null, // endpoint.name is still used by the affected entities list
       fromBackendModel(tagFilterExpression),
       excludeViolationRelatedFilters ? [] : blueprintConfig.getRuleTagFilterFormModel(rule),
       excludeViolationRelatedFilters

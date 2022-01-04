@@ -13,6 +13,7 @@ import { CONJUNCTION, OPEN_BRACKET, CLOSE_BRACKET } from 'in-components/QueryBui
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { boundaryScopes } from 'in-applications/constants';
 
 describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
@@ -33,7 +34,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         null
       );
 
-      expect(actualFormModel).to.deep.equal([tagFilter('application.id', EQUALS, 'app1')]);
+      expect(actualFormModel).to.deep.equal([destinationTagFilter('application.id', EQUALS, 'app1')]);
     });
 
     it('should allow to select full application but exclude service', () => {
@@ -58,9 +59,9 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
       );
 
       expect(actualFormModel).to.deep.equal([
-        tagFilter('application.id', EQUALS, 'app1'),
+        destinationTagFilter('application.id', EQUALS, 'app1'),
         { type: CONJUNCTION, logicalOperator: and },
-        tagFilter('service.id', NOT_EQUAL, 'service1')
+        destinationTagFilter('service.id', NOT_EQUAL, 'service1')
       ]);
     });
 
@@ -90,12 +91,12 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
       );
 
       expect(actualFormModel).to.deep.equal([
-        tagFilter('application.id', EQUALS, 'app1'),
+        destinationTagFilter('application.id', EQUALS, 'app1'),
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
-        tagFilter('service.id', EQUALS, 'service1'),
+        destinationTagFilter('service.id', EQUALS, 'service1'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('service.id', EQUALS, 'service2'),
+        destinationTagFilter('service.id', EQUALS, 'service2'),
         { type: CLOSE_BRACKET }
       ]);
     });
@@ -174,49 +175,49 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
       );
 
       expect(actualFormModel).to.deep.equal([
-        tagFilter('application.name', EQUALS, 'appName'),
+        destinationTagFilter('application.name', EQUALS, 'appName'),
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
-        tagFilter('service.id', NOT_EQUAL, 'service1'),
+        destinationTagFilter('service.id', NOT_EQUAL, 'service1'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('endpoint.id', NOT_EQUAL, 'endpoint11'),
+        destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint11'),
         { type: CLOSE_BRACKET },
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
-        tagFilter('service.id', NOT_EQUAL, 'service2'),
+        destinationTagFilter('service.id', NOT_EQUAL, 'service2'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('endpoint.id', NOT_EQUAL, 'endpoint21'),
+        destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint21'),
         { type: CLOSE_BRACKET },
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
-        tagFilter('service.id', NOT_EQUAL, 'service2'),
+        destinationTagFilter('service.id', NOT_EQUAL, 'service2'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('endpoint.id', NOT_EQUAL, 'endpoint22'),
+        destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint22'),
         { type: CLOSE_BRACKET },
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
-        tagFilter('service.id', NOT_EQUAL, 'service2'),
+        destinationTagFilter('service.id', NOT_EQUAL, 'service2'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('endpoint.id', NOT_EQUAL, 'endpoint23'),
+        destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint23'),
         { type: CLOSE_BRACKET },
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
-        tagFilter('service.id', NOT_EQUAL, 'service3'),
+        destinationTagFilter('service.id', NOT_EQUAL, 'service3'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('endpoint.id', EQUALS, 'endpoint31'),
+        destinationTagFilter('endpoint.id', EQUALS, 'endpoint31'),
         { type: CLOSE_BRACKET },
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
-        tagFilter('service.id', NOT_EQUAL, 'service4'),
+        destinationTagFilter('service.id', NOT_EQUAL, 'service4'),
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
-        tagFilter('endpoint.id', EQUALS, 'endpoint41'),
+        destinationTagFilter('endpoint.id', EQUALS, 'endpoint41'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('endpoint.id', EQUALS, 'endpoint42'),
+        destinationTagFilter('endpoint.id', EQUALS, 'endpoint42'),
         { type: CLOSE_BRACKET },
         { type: CLOSE_BRACKET },
         { type: CONJUNCTION, logicalOperator: and },
-        tagFilter('service.id', NOT_EQUAL, 'service5')
+        destinationTagFilter('service.id', NOT_EQUAL, 'service5')
       ]);
     });
 
@@ -294,36 +295,36 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
       );
 
       expect(actualFormModel).to.deep.equal([
-        tagFilter('application.id', EQUALS, 'app1'),
+        destinationTagFilter('application.id', EQUALS, 'app1'),
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
-        tagFilter('service.id', EQUALS, 'service1'),
+        destinationTagFilter('service.id', EQUALS, 'service1'),
         { type: CONJUNCTION, logicalOperator: and },
-        tagFilter('endpoint.id', EQUALS, 'endpoint11'),
+        destinationTagFilter('endpoint.id', EQUALS, 'endpoint11'),
         { type: CONJUNCTION, logicalOperator: or },
         { type: OPEN_BRACKET },
-        tagFilter('service.id', EQUALS, 'service2'),
+        destinationTagFilter('service.id', EQUALS, 'service2'),
         { type: CONJUNCTION, logicalOperator: and },
         { type: OPEN_BRACKET },
-        tagFilter('endpoint.id', EQUALS, 'endpoint21'),
+        destinationTagFilter('endpoint.id', EQUALS, 'endpoint21'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('endpoint.id', EQUALS, 'endpoint22'),
+        destinationTagFilter('endpoint.id', EQUALS, 'endpoint22'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('endpoint.id', EQUALS, 'endpoint23'),
+        destinationTagFilter('endpoint.id', EQUALS, 'endpoint23'),
         { type: CLOSE_BRACKET },
         { type: CLOSE_BRACKET },
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('service.id', EQUALS, 'service3'),
+        destinationTagFilter('service.id', EQUALS, 'service3'),
         { type: CONJUNCTION, logicalOperator: and },
-        tagFilter('endpoint.id', NOT_EQUAL, 'endpoint31'),
+        destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint31'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('service.id', EQUALS, 'service4'),
+        destinationTagFilter('service.id', EQUALS, 'service4'),
         { type: CONJUNCTION, logicalOperator: and },
-        tagFilter('endpoint.id', NOT_EQUAL, 'endpoint41'),
+        destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint41'),
         { type: CONJUNCTION, logicalOperator: and },
-        tagFilter('endpoint.id', NOT_EQUAL, 'endpoint42'),
+        destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint42'),
         { type: CONJUNCTION, logicalOperator: or },
-        tagFilter('service.id', EQUALS, 'service5'),
+        destinationTagFilter('service.id', EQUALS, 'service5'),
         { type: CLOSE_BRACKET }
       ]);
     });
@@ -346,9 +347,9 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         );
 
         expect(actualFormModel).to.deep.equal([
-          tagFilter('application.id', EQUALS, 'app1'),
+          destinationTagFilter('application.id', EQUALS, 'app1'),
           { type: CONJUNCTION, logicalOperator: and },
-          tagFilter('service.id', EQUALS, 'service1')
+          destinationTagFilter('service.id', EQUALS, 'service1')
         ]);
       });
 
@@ -380,7 +381,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         expect(actualFormModel).to.deep.equal([
           tagFilter('boundary.application.id', EQUALS, 'app1'),
           { type: CONJUNCTION, logicalOperator: and },
-          tagFilter('service.id', EQUALS, 'service2')
+          destinationTagFilter('service.id', EQUALS, 'service2')
         ]);
       });
 
@@ -424,13 +425,13 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         );
 
         expect(actualFormModel).to.deep.equal([
-          tagFilter('application.id', EQUALS, 'app1'),
+          destinationTagFilter('application.id', EQUALS, 'app1'),
           { type: CONJUNCTION, logicalOperator: and },
-          tagFilter('service.id', EQUALS, 'service1'),
+          destinationTagFilter('service.id', EQUALS, 'service1'),
           { type: CONJUNCTION, logicalOperator: and },
-          tagFilter('endpoint.id', NOT_EQUAL, 'endpoint11'),
+          destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint11'),
           { type: CONJUNCTION, logicalOperator: and },
-          tagFilter('endpoint.id', NOT_EQUAL, 'endpoint12')
+          destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint12')
         ]);
       });
 
@@ -474,15 +475,15 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         );
 
         expect(actualFormModel).to.deep.equal([
-          tagFilter('application.id', EQUALS, 'app1'),
+          destinationTagFilter('application.id', EQUALS, 'app1'),
           { type: CONJUNCTION, logicalOperator: and },
           { type: OPEN_BRACKET },
-          tagFilter('service.id', EQUALS, 'service1'),
+          destinationTagFilter('service.id', EQUALS, 'service1'),
           { type: CONJUNCTION, logicalOperator: and },
           { type: OPEN_BRACKET },
-          tagFilter('endpoint.id', EQUALS, 'endpoint11'),
+          destinationTagFilter('endpoint.id', EQUALS, 'endpoint11'),
           { type: CONJUNCTION, logicalOperator: or },
-          tagFilter('endpoint.id', EQUALS, 'endpoint12'),
+          destinationTagFilter('endpoint.id', EQUALS, 'endpoint12'),
           { type: CLOSE_BRACKET },
           { type: CLOSE_BRACKET }
         ]);
@@ -528,13 +529,13 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         );
 
         expect(actualFormModel).to.deep.equal([
-          tagFilter('application.id', EQUALS, 'app1'),
+          destinationTagFilter('application.id', EQUALS, 'app1'),
           { type: CONJUNCTION, logicalOperator: and },
-          tagFilter('service.id', EQUALS, 'service1'),
+          destinationTagFilter('service.id', EQUALS, 'service1'),
           { type: CONJUNCTION, logicalOperator: and },
-          tagFilter('endpoint.id', NOT_EQUAL, 'endpoint11'),
+          destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint11'),
           { type: CONJUNCTION, logicalOperator: and },
-          tagFilter('endpoint.id', NOT_EQUAL, 'endpoint12')
+          destinationTagFilter('endpoint.id', NOT_EQUAL, 'endpoint12')
         ]);
       });
 
@@ -578,15 +579,15 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         );
 
         expect(actualFormModel).to.deep.equal([
-          tagFilter('application.id', EQUALS, 'app1'),
+          destinationTagFilter('application.id', EQUALS, 'app1'),
           { type: CONJUNCTION, logicalOperator: and },
           { type: OPEN_BRACKET },
-          tagFilter('service.id', EQUALS, 'service1'),
+          destinationTagFilter('service.id', EQUALS, 'service1'),
           { type: CONJUNCTION, logicalOperator: and },
           { type: OPEN_BRACKET },
-          tagFilter('endpoint.id', EQUALS, 'endpoint11'),
+          destinationTagFilter('endpoint.id', EQUALS, 'endpoint11'),
           { type: CONJUNCTION, logicalOperator: or },
-          tagFilter('endpoint.id', EQUALS, 'endpoint12'),
+          destinationTagFilter('endpoint.id', EQUALS, 'endpoint12'),
           { type: CLOSE_BRACKET },
           { type: CLOSE_BRACKET }
         ]);
@@ -649,3 +650,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
     });
   });
 });
+
+function destinationTagFilter(name, operator, value) {
+  return tagFilter(name, operator, value, null, DESTINATION);
+}
