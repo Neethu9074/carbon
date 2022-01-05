@@ -5,9 +5,10 @@
 
 import { isEmpty } from 'lodash';
 
+import { ApplicationNode, BoundaryScope, EndpointNode, ServiceNode, TagFilter, TagFilterEntity } from 'in-types';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import { ApplicationNode, BoundaryScope, EndpointNode, ServiceNode, TagFilter } from 'in-types';
+import { DESTINATION, NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { boundaryScopes } from 'in-applications/constants';
@@ -269,18 +270,20 @@ function getServiceTagFilterFormModel(
 }
 
 function getServiceIdTagFilter(serviceId: string, inclusive: boolean): TagFilter {
-  return tagFilter('service.id', inclusive ? EQUALS : NOT_EQUAL, serviceId);
+  return tagFilter('service.id', inclusive ? EQUALS : NOT_EQUAL, serviceId, null, DESTINATION);
 }
 
 function getEndpointIdTagFilter(endpointId: string, inclusive: boolean): TagFilter {
-  return tagFilter('endpoint.id', inclusive ? EQUALS : NOT_EQUAL, endpointId);
+  return tagFilter('endpoint.id', inclusive ? EQUALS : NOT_EQUAL, endpointId, null, DESTINATION);
 }
 
 export function getApplicationIdTagFilter(boundaryScope: BoundaryScope, applicationId: string): TagFilter {
   return tagFilter(
     boundaryScope === boundaryScopes.inbound ? 'boundary.application.id' : 'application.id',
     EQUALS,
-    applicationId
+    applicationId,
+    null,
+    tagFilterEntity(boundaryScope)
   );
 }
 
@@ -288,8 +291,14 @@ export function getApplicationNameTagFilter(boundaryScope: BoundaryScope, applic
   return tagFilter(
     boundaryScope === 'INBOUND' ? 'call.inbound_of_application' : 'application.name',
     EQUALS,
-    applicationName
+    applicationName,
+    null,
+    tagFilterEntity(boundaryScope)
   );
+}
+
+function tagFilterEntity(boundaryScope: BoundaryScope): TagFilterEntity {
+  return boundaryScope === boundaryScopes.inbound ? NOT_APPLICABLE : DESTINATION;
 }
 
 function getApplicationTagFilter(
