@@ -2699,22 +2699,13 @@
       "messageFlowThreadUtilization": "Thread Utilization"
     },
     "aceFlowNode": {
-      "flowNodeInfo": "IBM ACE Flow Node",
-      "nodeName": "Node Name",
-      "flowName": "Flow Name",
-      "serverName": "Server Name",
-      "applicationName": "Application Name",
-      "type": "Type",
-      "cpuTime": "CPU Time",
       "totalCpuTime": "Total CPU Time",
       "maxCpuTime": "Max CPU Time",
       "minCpuTime": "Min CPU Time",
-      "elapsedTime": "Elapsed Time",
       "totalElapsedTime": "Total Elapsed Time",
       "maxElapsedTime": "Maximum Elapsed Time",
       "minElapsedTime": "Minimum Elapsed Time",
       "invocations": "Invocations",
-      "terminals": "Terminals",
       "inputTerminals": "Number of Input-type Terminals",
       "outputTerminals": "Number of Output-type Terminals"
     },
