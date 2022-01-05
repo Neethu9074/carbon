@@ -5,6 +5,9 @@
 
 import React from 'react';
 
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { bytes, number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -133,7 +136,33 @@ export default connectTo(
         rows={rows}
         initialSortColumn={0}
         initialSortDirection="asc"
+        getRowDetails={getDetails}
+
       />
     );
   }
 );
+function getDetails(row) {
+  return (
+    <div>
+      <Chart
+        snapshotId={row.snapshotId}
+        timeConfig={row.timeConfig}
+        y1={{
+          min: 0,
+          metrics: ['sentPacket, recievedPacket, sentBytes, recievedBytes'],
+          labels: [
+            'Packet Sent',
+            'Packet Recieved',
+            'Bytes Sent',
+            'Bytes Recieved'
+          ],
+          type: 'line',
+          formatter: number.detailed
+        }}
+        renderPostChartContent={PluginDashboardsMarkerLanes}
+      />
+    </div>
+  );
+}
+
