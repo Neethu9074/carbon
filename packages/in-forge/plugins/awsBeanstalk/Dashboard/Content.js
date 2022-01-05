@@ -142,8 +142,8 @@ export default function AwsBeanstalkDashboard({ snapshot, timeConfig }) {
               theme.lib.colors.lightBlue800
             ],
             min: 0,
-            type: 'stackedBar',
-            aggregation: 'sum',
+            type: 'line',
+            aggregation: 'avg',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
