@@ -14,3 +14,15 @@ export function changePassword(config) {
     data: config
   });
 }
+
+function isAvailableQuery() {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: '/api/settings/authentication/password/available'
+  });
+}
+
+export function isAvailable() {
+  return isAvailableQuery().map(res => res.body);
+}
