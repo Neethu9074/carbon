@@ -329,6 +329,11 @@
   "pluginName_crio_1": "CRI-O Containers",
   "pluginName_crio_2": "CRI-O Containers",
   "pluginName_crio": "CRI-O Container",
+  "pluginName_crowdStrikeFalcon_plural": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon_0": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon_1": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon_2": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon": "CrowdStrike Falcon",
   "pluginName_crystalRuntimePlatform_plural": "Crystal Apps",
   "pluginName_crystalRuntimePlatform_0": "Crystal Apps",
   "pluginName_crystalRuntimePlatform_1": "Crystal Apps",
@@ -5060,6 +5065,20 @@
       "created": "Created",
       "cpuUsage": "CPU Usage",
       "memoryUsage": "Memory Usage"
+    },
+    "crowdStrikeFalcon": {
+      "dashboard": {
+        "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
+      },
+      "table": {
+        "host": "Host",
+        "name": "Name"
+      },
+      "rfm-state": "Reduced Functonality Mode",
+      "rfm-reason": "Reduced Functonality Reason",
+      "aid": "Agent Identifier",
+      "cid": "Customer Identifer",
+      "version": "Version"
     },
     "crystalRuntimePlatform": {
       "dashboard": {
