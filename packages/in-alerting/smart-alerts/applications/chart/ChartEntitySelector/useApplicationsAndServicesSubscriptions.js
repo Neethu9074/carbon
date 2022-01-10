@@ -69,6 +69,7 @@ export default function useApplicationsAndServicesSubscriptions({
   });
 
   return useObservable(combineLatest(fetchAppsAndServices), [
+    isTagFilterFormModelValid,
     applications,
     isQueryValid,
     boundaryScope,
