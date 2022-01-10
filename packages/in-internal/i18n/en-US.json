@@ -94,6 +94,8 @@
       "unitMonitoringGreenDesc": "Unit monitoring the Green (GCP) SaaS installation.",
       "unitMonitoringOrange": "Orange",
       "unitMonitoringOrangeDesc": "Unit monitoring the Orange (GCP) SaaS installation.",
+      "unitMonitoringCoral": "Coral",
+      "unitMonitoringCoralDesc": "Unit monitoring the Coral (GCP) SaaS installation.",
       "unitMonitoringRed": "Red",
       "unitMonitoringRedDesc": "Unit monitoring the Red (AWS US) SaaS installation.",
       "unitMonitoringBlue": "Blue",

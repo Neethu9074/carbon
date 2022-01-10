@@ -505,6 +505,12 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                     >
                       <LinkList>
                         <LinkListItem
+                          label={' ' + t('in-internal:components.landing.unitMonitoringCoral')}
+                          href="https://coral-instanaops.instana.io"
+                          external
+                          description={t('in-internal:components.landing.unitMonitoringCoralDesc')}
+                        />
+                        <LinkListItem
                           label={'🟢 ' + t('in-internal:components.landing.unitMonitoringGreen')}
                           href="https://green-instanaops.instana.io"
                           external
