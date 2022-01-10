@@ -30,6 +30,7 @@ import {
   getConfigAsResultObservable as getOidcConfig
 } from 'in-settings/tabs/AuthSettings/api/oidc';
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
+import { isAvailable as isChangePasswordAvailable } from 'in-settings/tabs/AuthSettings/api/changePassword';
 import GroupMapping from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GroupMapping/GroupMapping';
 import GoogleSSO from 'in-settings/tabs/AuthSettings/pages/indentityProviders/GoogleSSO/GoogleSSO';
 import { isAvailable as isGoogleSSOAvailable } from 'in-settings/tabs/AuthSettings/api/googleSSO';
@@ -49,21 +50,20 @@ import { t } from 'in-i18n';
 function getNavigationTree(props) {
   const isAtLeastOneAuthMethodAvailable =
     props.isGoogleSSOAvailable || props.isSamlAvailable || props.isLdapAvailable || props.isOidcAvailable;
-  const hidePassword =
-    props.samlConfig.data?.activated || props.oidcConfig.data?.activated || props.ldapConfig.data?.url;
+
+  const showPassword = props.isChangePasswordAvailable;
 
   const navigationTree = [
-    hidePassword !== undefined &&
-      !hidePassword && {
-        title: t('in-settings:tabs.password'),
-        pages: [
-          {
-            path: changePassword,
-            label: t('in-settings:tabs.change'),
-            component: ChangePassword
-          }
-        ]
-      },
+    showPassword && {
+      title: t('in-settings:tabs.password'),
+      pages: [
+        {
+          path: changePassword,
+          label: t('in-settings:tabs.change'),
+          component: ChangePassword
+        }
+      ]
+    },
 
     role.canConfigureAuthenticationMethods &&
       isAtLeastOneAuthMethodAvailable && {
@@ -136,7 +136,8 @@ export default connectTo(
     isLdapAvailable: isLdapAvailable(),
     ldapConfig: getLdapConfig(),
     isOidcAvailable: isOidcAvailable(),
-    oidcConfig: getOidcConfig()
+    oidcConfig: getOidcConfig(),
+    isChangePasswordAvailable: isChangePasswordAvailable()
   },
 
   function View(props) {
@@ -148,9 +149,7 @@ export default connectTo(
             props.isGoogleSSOAvailable,
             props.isSamlAvailable,
             props.isLdapAvailable,
-            props.samlConfig,
-            props.oidcConfig,
-            props.ldapConfig
+            props.isChangePasswordAvailable
           )}
           redirectFrom={authSettings}
           NotFoundPage={NotFoundPage}
@@ -162,9 +161,8 @@ export default connectTo(
   }
 );
 
-function getDefaultPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable, samlConfig, oidcConfig, ldapConfig) {
-  const hidePassword = samlConfig.data?.activated || oidcConfig.data?.activated || ldapConfig.data?.url;
-  if (hidePassword !== undefined && !hidePassword) {
+function getDefaultPage(isGoogleSSOAvailable, isSamlAvailable, isLdapAvailable, isChangePasswordAvailable) {
+  if (isChangePasswordAvailable) {
     return changePassword;
   }
 
