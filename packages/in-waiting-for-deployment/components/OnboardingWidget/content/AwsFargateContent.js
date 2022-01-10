@@ -190,7 +190,7 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
           lines={[
             'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
             '',
-            'COPY --from=instana/aws-fargate-nodejs:latest /instana /instana',
+            'COPY --from=icr.io/instana/aws-fargate-nodejs:latest /instana /instana',
             'RUN /instana/setup.sh',
             'ENV NODE_OPTIONS="--require /instana/node_modules/@instana/aws-fargate"',
             '',

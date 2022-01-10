@@ -25,7 +25,7 @@ export default function DockerContent({ agentKey, agentEndpoint, agentEndpointPo
     `   --env="INSTANA_AGENT_ENDPOINT=${agentEndpoint}" \\`,
     `   --env="INSTANA_AGENT_ENDPOINT_PORT=${agentEndpointPort}" \\`,
     `   --env="INSTANA_AGENT_KEY=${agentKey}" \\`,
-    '   instana/agent'
+    '   icr.io/instana/agent'
   ];
   if (zoneName) {
     lines.push(`   --env="INSTANA_AGENT_ZONE=${zoneName}" \\`, lines.pop());
