@@ -66,6 +66,11 @@ exports = module.exports = {
     unit: 'orange',
     baseDomain: 'instana.io'
   },
+  'coral-instanaops (US GCP)': {
+    tenant: 'instanaops',
+    unit: 'coral',
+    baseDomain: 'instana.io'
+  },
   'internal-instanaops': {
     tenant: 'instanaops',
     unit: 'internal',
