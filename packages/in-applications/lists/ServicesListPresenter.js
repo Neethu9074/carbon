@@ -9,7 +9,6 @@ import React from 'react';
 import { SeverityIndicatorCellContentWrapper } from '@instana/components';
 import { TableEntityCounter } from '@instana/components';
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -263,21 +262,20 @@ export default function ServicesList({
           getHasDataToRender={() => getHasDataToRender(timeConfig)}
           FallbackComponent={ServicesNoDataNotification}
         >
-          <Card useMaxAvailableHeight={false} hasMarginBottom>
-            <ServerTableWithUrlState
-              get={getTableData}
-              timeConfig={timeConfig}
-              endpointTypes={endpointTypes}
-              technologies={technologies}
-              applicationId={applicationId}
-              serviceId={serviceId}
-              endpointId={endpointId}
-              contextScope={contextScope}
-              rightHeader={rightHeader}
-              scopeNotification={scopeNotification}
-              tagFilters={tagFilters}
-            />
-          </Card>
+          <ServerTableWithUrlState
+            get={getTableData}
+            timeConfig={timeConfig}
+            endpointTypes={endpointTypes}
+            technologies={technologies}
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            contextScope={contextScope}
+            rightHeader={rightHeader}
+            scopeNotification={scopeNotification}
+            tagFilters={tagFilters}
+            cardTitle={t('in-applications:viewLists.services')}
+          />
         </WithEmptyStateFallback>
       </LeftRightPadding>
 

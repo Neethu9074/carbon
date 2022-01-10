@@ -8,7 +8,16 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
-import { Progress, Result, Error, CursorPaginatedWithNext, CursorPaginatedResult, Cursor, Cursorific } from 'in-types';
+import {
+  Progress,
+  Result,
+  Error,
+  CursorPaginatedWithNext,
+  CursorPaginatedResult,
+  Cursor,
+  Cursorific,
+  ResultPrecisionDetails
+} from 'in-types';
 import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import { shallowEquals } from 'in-services/util/object';
 
@@ -28,6 +37,7 @@ export interface State<CURSOR, ITEM> {
   items: ITEM[];
   errors: Error[];
   progress: Progress;
+  resultPrecisionDetails: ResultPrecisionDetails;
 
   awaitingData: boolean;
   canLoadMore: boolean;
@@ -45,7 +55,8 @@ const initialState: State<any, any> = {
   errors: emptyArray as [],
   awaitingData: true,
   canLoadMore: false,
-  reloadCount: 0
+  reloadCount: 0,
+  resultPrecisionDetails: { resultPrecision: 'PRECISION_UNKNOWN' }
 };
 
 export default function useCursorPagination<CURSOR extends Cursor, ITEM extends Cursorific<CURSOR>>(
@@ -89,7 +100,8 @@ export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
     errors,
     items,
     time,
-    awaitingData
+    awaitingData,
+    resultPrecisionDetails
   } = shallowEquals(prevDeps, deps) ? state : initialState;
 
   const observable: Observable<Result<SupportedResponseFormats<ITEM, CURSOR>>> = useMemo(
@@ -133,7 +145,8 @@ export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
     time,
     cursor,
     reloadCount,
-    awaitingData
+    awaitingData,
+    resultPrecisionDetails
   };
 }
 

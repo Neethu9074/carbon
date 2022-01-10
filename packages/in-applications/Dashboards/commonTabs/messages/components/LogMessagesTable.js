@@ -113,6 +113,7 @@ export default function LogMessagesTable({
       endpointName={endpointName}
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
+      cardTitle={t('in-applications:viewLists.logMessages')}
       rightHeader={({ query }) => (
         <AnalyzeMessagesButton
           groupByTagName="log.message"

@@ -9,10 +9,8 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import { historicOrLargeDataResult$ } from 'in-components/time/TimeSelection/TimeSelection';
-import { samplingIndicatorEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import { emptyObject } from 'in-services/fixedObjects';
-import TimeIcon from 'in-components/time/TimeIcon';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
@@ -35,12 +33,12 @@ export default connectTo(
     adjustedWindowSize
   }) {
     let counter = '';
-    const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult ?? emptyObject;
+    const { containsHistoricData, samplingLevel } = historicOrLargeDataResult ?? emptyObject;
 
     if (itemType === 'Group') {
       counter = formatCounter(nbRows, 'Group', resultCountLimit);
     } else {
-      if (containsHistoricData || (samplingIndicatorEnabled && samplingLevel && samplingLevel.samplingRatio < 1)) {
+      if (containsHistoricData || (samplingLevel && samplingLevel.samplingRatio < 1)) {
         counter = formatCounter(nbRows, 'Row', resultCountLimit);
       } else {
         counter = formatCounter(nbItems, itemType, resultCountLimit);
@@ -63,9 +61,6 @@ export default connectTo(
         >
           {counter}
         </span>
-        {!samplingIndicatorEnabled && containsHistoricData && (
-          <TimeIcon theme="light" containsHistoricData retention={retention} />
-        )}
         {adjustedWindowSize && (
           <Tooltip content={t('in-analyze:resultHeaderTooltip')} align="bottomMiddle">
             <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />

@@ -14,6 +14,7 @@ import PercentileMenu, {
 import LatencyChartOverlay from 'in-components/LatencyDistributionBase10Chart/components/LatencyChartOverlay';
 import PercentileMarkers from 'in-components/LatencyDistributionBase10Chart/components/PercentileMarkers';
 import HorizontalAxis from 'in-components/LatencyDistributionBase10Chart/components/HorizontalAxis';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import LineChart from 'in-components/LatencyDistributionBase10Chart/components/LineChart';
 import BarChart from 'in-components/LatencyDistributionBase10Chart/components/BarChart';
 import Tooltip from 'in-components/LatencyDistributionBase10Chart/components/Tooltip';
@@ -45,7 +46,10 @@ export default function LatencyDistributionBase10ChartPresenter({
   onSelectionChanged,
   selection,
   dataSource,
-  timeShiftConfig = defaultTimeShift
+  timeShiftConfig = defaultTimeShift,
+  title,
+  aggregation,
+  showHeader
 }) {
   // which metrics to hide on the chart
   const filteredDataSeries$ = create();
@@ -55,6 +59,8 @@ export default function LatencyDistributionBase10ChartPresenter({
 
   const subscriptionResult = useObservable(subscription, [subscription]);
   const timeShiftSubscriptionResult = useObservable(timeShiftSubscription, [timeShiftSubscription]);
+
+  const hasApproximateData = subscriptionResult?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
   const timeShiftEnabled = !!timeShiftConfig.offset;
 
@@ -166,19 +172,35 @@ export default function LatencyDistributionBase10ChartPresenter({
     enabledTimeShiftMetric ? getMaxCallCount(timeShiftBuckets) : 0
   );
 
-  return (
-    <>
-      <div className={locals.header}>
-        {showLegend && <ChartLegend chart={chartConfig} />}
-        {showPercentileMenu && (
-          <div className={locals.percentileButton}>
-            <PercentileMenu
-              percentilesShown={percentilesShown}
-              onChange={percentiles => setPercentilesShown(percentiles)}
-            />
-          </div>
+  const header = showHeader && (
+    <div className={locals.header}>
+      <div className={locals.titleWrapper}>
+        <span className={locals.title}>
+          {title} <span className={locals.aggregation}>({aggregation})</span>
+        </span>
+        {hasApproximateData && (
+          <MultiLineToolTipIcon
+            lines={[t('in-components:approximateDataIndicator.dataRetention')]}
+            withMargin
+            iconSize="xs"
+          />
         )}
       </div>
+      {showLegend && <ChartLegend chart={chartConfig} />}
+      {showPercentileMenu && (
+        <div className={locals.percentileButton}>
+          <PercentileMenu
+            percentilesShown={percentilesShown}
+            onChange={percentiles => setPercentilesShown(percentiles)}
+          />
+        </div>
+      )}
+    </div>
+  );
+
+  return (
+    <>
+      {header}
       <div className={locals.container} style={{ width: chartWidth }}>
         {// for consistency with other charts hide the vertical axis when no metric is selected
         (enabledMetric || enabledTimeShiftMetric) && (

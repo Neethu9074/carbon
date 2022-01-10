@@ -5,6 +5,8 @@
 
 import React, { useState } from 'react';
 
+import { Card } from '@instana/components';
+
 import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
@@ -27,7 +29,9 @@ export default function LatencyDistributionHistogram({
   serviceId,
   endpointId,
   boundaryScope,
-  syntheticCalls
+  syntheticCalls,
+  rightHeaderContent,
+  cardTitle
 }) {
   const [selectedLatencyRange, setSelectedLatencyRange] = useState({ from: null, to: null });
   const timeShiftConfig = useTimeShiftConfig();
@@ -77,43 +81,45 @@ export default function LatencyDistributionHistogram({
     timeShift: translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig)
   };
   return (
-    <LatencyDistributionBase10Chart
-      dataSource="calls"
-      subscription={getLatencyDistributionBase10(latencyDistRequest)}
-      timeShiftSubscription={timeShiftConfig.offset && getLatencyDistributionBase10(timeShiftLatencyDistRequest)}
-      selectionMenuItems={[
-        {
-          name: 'analyze',
-          icon: 'lib_analyze',
-          label: t('in-applications:lineViewInAnalyze'),
-          getHref$: () =>
-            getJumpToAnalyzeHref$(
-              { applicationId: applicationId, serviceId: serviceId, endpointId: endpointId },
-              {
-                timeConfig: fixateTimeConfig(timeConfig),
-                boundaryScope,
-                formModel: createFormModelFromSyntheticOption(syntheticCalls),
-                facets: latencyFacet,
-                hiddenCalls,
-                chartedMetrics: [createChartedMetric('latency', 'DISTRIBUTION')],
-                orderBy: createOrderBy('latency', 'DESC')
-              }
-            ),
-          onClick: () => {
-            jumpToUnboundedAnalyticsFromLatencyTracker({
-              applicationId: applicationId,
-              serviceId: serviceId,
-              endpointId: endpointId,
-              boundaryScope: boundaryScope,
-              from: selectedLatencyRange.from,
-              to: selectedLatencyRange.to
-            });
+    <Card title={cardTitle} rightHeaderContent={rightHeaderContent} size="l">
+      <LatencyDistributionBase10Chart
+        dataSource="calls"
+        subscription={getLatencyDistributionBase10(latencyDistRequest)}
+        timeShiftSubscription={timeShiftConfig.offset && getLatencyDistributionBase10(timeShiftLatencyDistRequest)}
+        selectionMenuItems={[
+          {
+            name: 'analyze',
+            icon: 'lib_analyze',
+            label: t('in-applications:lineViewInAnalyze'),
+            getHref$: () =>
+              getJumpToAnalyzeHref$(
+                { applicationId: applicationId, serviceId: serviceId, endpointId: endpointId },
+                {
+                  timeConfig: fixateTimeConfig(timeConfig),
+                  boundaryScope,
+                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                  facets: latencyFacet,
+                  hiddenCalls,
+                  chartedMetrics: [createChartedMetric('latency', 'DISTRIBUTION')],
+                  orderBy: createOrderBy('latency', 'DESC')
+                }
+              ),
+            onClick: () => {
+              jumpToUnboundedAnalyticsFromLatencyTracker({
+                applicationId: applicationId,
+                serviceId: serviceId,
+                endpointId: endpointId,
+                boundaryScope: boundaryScope,
+                from: selectedLatencyRange.from,
+                to: selectedLatencyRange.to
+              });
+            }
           }
-        }
-      ]}
-      onSelectionChanged={setSelectedLatencyRange}
-      showLegend
-      timeShiftConfig={timeShiftConfig}
-    />
+        ]}
+        onSelectionChanged={setSelectedLatencyRange}
+        showLegend
+        timeShiftConfig={timeShiftConfig}
+      />
+    </Card>
   );
 }

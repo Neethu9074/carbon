@@ -11,7 +11,7 @@ import {
   getTagFiltersForSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import { createMetricField, createChartedMetric, createGroupBy, createOrderBy } from 'in-analyze/navigation/paths';
+import { createChartedMetric, createGroupBy, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
@@ -272,6 +272,7 @@ export default connectTo(
               timeConfig={timeConfig}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'endpointsTab' }}
               syntheticCalls={syntheticCalls}
+              renderHistoricDataIndicator
             />
           </Col>
           <Col lg={4}>
@@ -280,6 +281,7 @@ export default connectTo(
                 boundaryScope={boundaryScope}
                 {...props}
                 urlMatrixParamConfig={{ path: summaryTab, paramTab: 'stmtTab' }}
+                renderHistoricDataIndicator
               />
             ) : (
               <TechnologyBreakdown
@@ -288,6 +290,7 @@ export default connectTo(
                 timeConfig={timeConfig}
                 renderPostChartContent={MarkerLanes}
                 syntheticCalls={syntheticCalls}
+                renderHistoricDataIndicator
               />
             )}
           </Col>

@@ -32,7 +32,8 @@ export default function Latency({
   timeShiftAggregation,
   tagFilters,
   groupBy,
-  renderPostChartContent
+  renderPostChartContent,
+  rightHeaderContent
 }) {
   const granularity = getChartGranularity(timeConfig);
   const slownessBlueprintConfig = getBlueprintConfig('slowness');
@@ -138,6 +139,7 @@ export default function Latency({
   }
   return (
     <UnifiedMetricsChart
+      renderHistoricDataIndicator
       renderPostChartContent={props =>
         renderPostChartContent({
           chartName: cardTitle,
@@ -147,6 +149,7 @@ export default function Latency({
         })
       }
       title={cardTitle}
+      rightHeaderContent={rightHeaderContent}
       timeConfig={timeConfig}
       automaticallySize={false}
       reverseLegendOrder={timeShiftConfig.offset}

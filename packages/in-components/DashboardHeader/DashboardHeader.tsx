@@ -1,19 +1,19 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
 
-import { LoadingSkeleton } from '@instana/components';
-import { SvgIcon } from '@instana/components';
+import { LoadingSkeleton, SvgIcon } from '@instana/components';
 
+// @ts-expect-error
 import UrlShortener from 'in-components/DashboardHeader/UrlShortener/UrlShortener';
 import TimeSelection from 'in-components/time/TimeSelection/TimeSelection';
 import Tooltip from 'in-components/Tooltip/Tooltip';
 import Title from 'in-components/Title';
+import { Result } from 'in-types';
 
 import locals from './DashboardHeader.mless';
 
@@ -21,9 +21,50 @@ export const themes = {
   light: 'light',
   dark: 'dark',
   default: 'default'
+} as const;
+
+interface ContextProps extends ContextConfiguration, DashboardHeaderProps {
+  // shouldRenderDelimiter allows to toggle rendering a delimiter between context elements
+  // These delimiters are used for a breadcrumb style context in the dashboard header, e.g. Analytics > Applications / Calls
+  // Here, the `>` is the rendered delimiter and `Applications / Calls` is the label
+  shouldRenderDelimiter: boolean;
+}
+
+interface RenderContextIconProps extends ContextProps {
+  className: string;
+}
+
+export interface ContextConfiguration {
+  renderContext: (props: ContextProps) => {};
+  renderContextIcon?: (props: RenderContextIconProps) => JSX.Element;
+  contextIcon: string;
+}
+
+export interface DashboardHeaderProps {
+  theme?: keyof typeof themes;
+  result?: Result<any>;
+  icon?: string;
+  renderIcon?: (() => JSX.Element) | typeof getSkeletonIcon;
+  showHistoricDataWarning?: boolean;
+  title: string;
+  renderTimeSelection?: (props: any) => JSX.Element;
+  label: string | JSX.Element;
+  labelForTitle?: string;
+  renderMetaInformation?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
+  renderButtonLine?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
+  renderButtonLineSecondary?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
+  renderTopLevelButtonLine?: ((props: any) => JSX.Element) | typeof getSkeletonButton;
+  hideUrlShortener?: boolean;
+  contextConfigurations?: ContextConfiguration[];
+  className?: string;
+  withBorderBottom?: boolean;
+}
+
+const isNotLastElement = (index: number, array: any[]) => {
+  return index < array.length - 1;
 };
 
-export default function DashboardHeader(props) {
+export default function DashboardHeader(props: DashboardHeaderProps) {
   const {
     theme = themes.default,
     icon,
@@ -31,6 +72,7 @@ export default function DashboardHeader(props) {
     className,
     contextConfigurations,
     renderTimeSelection,
+    showHistoricDataWarning,
     result,
     labelForTitle,
     hideUrlShortener,
@@ -76,7 +118,11 @@ export default function DashboardHeader(props) {
                 key={i}
                 {...config}
                 {...props}
-                renderLastIconDelimiter={i < contextConfigurations.length - 1 || label || icon || renderIcon}
+                shouldRenderDelimiter={
+                  // Render the delimiter for all context items except the last one
+                  // Except the last element is followed by an icon or a label
+                  isNotLastElement(i, contextConfigurations) || label != null || icon != null || renderIcon != null
+                }
               />
             ))}
           {renderIcon ? renderIcon() : icon ? <SvgIcon className={locals.icon} type={icon} size="l" /> : null}
@@ -92,7 +138,11 @@ export default function DashboardHeader(props) {
         <div className={locals.rightContent}>
           {!hideUrlShortener && <UrlShortener darkTheme={theme === themes.dark} />}
           {renderTopLevelButtonLine && renderTopLevelButtonLine(props)}
-          {renderTimeSelection ? renderTimeSelection(props) : <TimeSelection darkTheme={theme === themes.dark} />}
+          {renderTimeSelection ? (
+            renderTimeSelection(props)
+          ) : (
+            <TimeSelection showHistoricDataWarning={showHistoricDataWarning} darkTheme={theme === themes.dark} />
+          )}
         </div>
       </div>
       {(renderButtonLine || renderButtonLineSecondary) && (
@@ -122,8 +172,8 @@ function getSkeletonIcon() {
   return <LoadingSkeleton className={locals.iconSkeleton} />;
 }
 
-function Context(props) {
-  const { renderContext, contextIcon, renderContextIcon, renderLastIconDelimiter } = props;
+function Context(props: ContextProps) {
+  const { renderContext, contextIcon, renderContextIcon, shouldRenderDelimiter } = props;
 
   return (
     <div className={locals.contextWrapper}>
@@ -133,32 +183,7 @@ function Context(props) {
         <SvgIcon className={locals.contextIcon} size="l" type={contextIcon} />
       )}
       <span className={locals.context}>{renderContext(props)}</span>
-      {renderLastIconDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
+      {shouldRenderDelimiter && <SvgIcon className={locals.contextEndIcon} size="l" type="lib_arrow_expand_right" />}
     </div>
   );
 }
-
-DashboardHeader.propTypes = {
-  theme: PropTypes.oneOf(Object.values(themes)),
-  result: PropTypes.any,
-  icon: PropTypes.string,
-  renderIcon: PropTypes.func,
-  title: PropTypes.string,
-  renderTimeSelection: PropTypes.func,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  labelForTitle: PropTypes.string,
-  renderMetaInformation: PropTypes.func,
-  renderButtonLine: PropTypes.func,
-  renderButtonLineSecondary: PropTypes.func,
-  renderTopLevelButtonLine: PropTypes.func,
-  hideUrlShortener: PropTypes.bool,
-  contextConfigurations: PropTypes.arrayOf(
-    PropTypes.shape({
-      renderContext: PropTypes.func.isRequired,
-      renderContextIcon: PropTypes.func,
-      contextIcon: PropTypes.string
-    })
-  ),
-  className: PropTypes.string,
-  withBorderBottom: PropTypes.bool
-};

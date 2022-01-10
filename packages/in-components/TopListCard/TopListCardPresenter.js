@@ -7,8 +7,9 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
-import { track, TOPLIST_METRIC_CHANGED } from 'in-services/tracking/tracking';
+import { TOPLIST_METRIC_CHANGED, track } from 'in-services/tracking/tracking';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import ButtonGroup from 'in-components/ButtonGroup';
 import List from 'in-components/TopListCard/List';
@@ -25,7 +26,8 @@ export default function TopListCard(props) {
     header,
     List: ListRenderer = List,
     showMetricSelectorsForSingleMetrics,
-    useMaxAvailableHeight
+    useMaxAvailableHeight,
+    renderHistoricDataIndicator = false
   } = props;
 
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
@@ -65,10 +67,18 @@ export default function TopListCard(props) {
     content = <ListRenderer {...props} />;
   }
 
+  const leftHeaderContent =
+    renderHistoricDataIndicator || result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE' ? (
+      <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+    ) : (
+      undefined
+    );
+
   return (
     <Card
       title={title}
-      header={headerComponent}
+      leftHeaderContent={leftHeaderContent}
+      rightHeaderContent={headerComponent}
       withoutPadding={withoutPadding}
       useMaxAvailableHeight={useMaxAvailableHeight}
     >

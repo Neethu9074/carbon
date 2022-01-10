@@ -30,7 +30,8 @@ export default function LocationsTopList({
   mobileAppLabel,
   timeConfig,
   tagFilters,
-  urlMatrixParamConfig
+  urlMatrixParamConfig,
+  renderHistoricDataIndicator
 }) {
   return (
     <TopListWithUrlState
@@ -49,6 +50,7 @@ export default function LocationsTopList({
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

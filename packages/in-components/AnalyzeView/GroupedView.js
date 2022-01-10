@@ -86,7 +86,6 @@ export default function GroupedAnalyzeView(props) {
     getOrderByGroupId,
     itemlabelColumnId,
     onChartableDataSeriesChange,
-    withSamplingTooltip,
     withResultsInGroups,
     withoutSorting = false,
     withoutChartGroupMarkers = false,
@@ -156,7 +155,8 @@ export default function GroupedAnalyzeView(props) {
     loadMore,
     totalHits,
     totalRepresentedItemCount,
-    adjustedWindowSize
+    adjustedWindowSize,
+    resultPrecisionDetails
   } = useCursorPagination(
     ({ cursor }) =>
       isValid
@@ -281,7 +281,6 @@ export default function GroupedAnalyzeView(props) {
             }
             withGrouping
             withResultsInGroups={withResultsInGroups}
-            withSamplingTooltip={withSamplingTooltip}
             withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
             tracking={{
               onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
@@ -289,6 +288,7 @@ export default function GroupedAnalyzeView(props) {
                 ua2MetricAddedTracker({ dataSource, metric, aggregation }),
               onMetricRemoved: ({ metric, aggregation }) => ua2MetricRemovedTracker({ dataSource, metric, aggregation })
             }}
+            renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
           />
           {hasItems && (
             <Ul>

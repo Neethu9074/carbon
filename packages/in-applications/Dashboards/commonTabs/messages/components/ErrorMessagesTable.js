@@ -106,6 +106,7 @@ export default function ErrorMessagesTable({
       endpointName={endpointName}
       boundaryScope={boundaryScope}
       timeConfig={timeConfig}
+      cardTitle={t('in-applications:viewLists.errorMessages')}
       rightHeader={({ query }) => (
         <AnalyzeMessagesButton
           groupByTagName="call.error.message"

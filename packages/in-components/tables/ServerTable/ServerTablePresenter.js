@@ -12,6 +12,7 @@ import { Card } from '@instana/components';
 
 import { filterColumns } from 'in-components/tables/ServerTable/internalComponents/columnBehavior';
 import EmptyContent from 'in-components/tables/ServerTable/internalComponents/EmptyContent';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
@@ -19,6 +20,7 @@ import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
+import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenter.mless';
 
@@ -53,6 +55,7 @@ export default function ServerTablePresenter(props) {
     setSelectedStateForRows,
     renderNoDataAvailable,
     scopeNotification,
+    resultPrecision,
 
     // events
     onChange,
@@ -154,6 +157,11 @@ export default function ServerTablePresenter(props) {
     );
   }
 
+  const leftHeaderContent =
+    resultPrecision === 'PRECISION_APPROXIMATE' ? (
+      <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+    ) : null;
+
   let scope;
   if (scopeNotification) {
     scope = scopeNotification;
@@ -167,7 +175,7 @@ export default function ServerTablePresenter(props) {
       );
     }
     return (
-      <Card title={cardTitle} header={header} withoutPadding>
+      <Card title={cardTitle} leftHeaderContent={leftHeaderContent} rightHeaderContent={header} withoutPadding>
         {tableElement}
         {pagination}
       </Card>

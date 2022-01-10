@@ -8,9 +8,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useObservable } from '@instana/hooks';
 
 import {
-  renderer as availableRenderers,
   defaultRenderer,
-  enforceSingleNumberResult
+  enforceSingleNumberResult,
+  renderer as availableRenderers
 } from 'in-custom-dashboards/widgets/Chart/renderer';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
@@ -19,10 +19,10 @@ import { getMetricLabel } from 'in-custom-dashboards/widgets/Chart/util';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
+import { noop, pendingResult } from 'in-services/fixedObjects';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import ChartWrapper from 'in-components/Chart/ChartWrapper';
 import { getFormatter } from 'in-stores/metric/formatters';
-import { pendingResult } from 'in-services/fixedObjects';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 const defaultNumberOfSuggestedDatapoints = 80;
@@ -47,7 +47,7 @@ const defaultNumberOfSuggestedDatapoints = 80;
 export default function UnifiedMetricsChart({
   config,
   title,
-  cardHeader,
+  rightHeaderContent,
   customHeight,
   automaticallySize,
   shareMaxAxisDomain,
@@ -55,6 +55,7 @@ export default function UnifiedMetricsChart({
   reverseTooltipOrder,
   tooltipTimeFormatter,
   renderPostChartContent,
+  renderHistoricDataIndicator,
   cardUseMaxAvailableHeight,
   excludedContextMenuActions,
   renderLegend = true,
@@ -62,7 +63,8 @@ export default function UnifiedMetricsChart({
   // configuration, e.g. list of groups for group charts. While this flag is set, no back-end queries should be executed
   // and a loading indicator should be displayed.
   forceLoadingIndicator = false,
-  bulkRequest = false
+  bulkRequest = false,
+  onApproximateDataChange = noop
 }) {
   config = useMemo(() => (forceLoadingIndicator ? null : duplicateTimeShiftComparedMetrics(config)), [
     config,
@@ -105,6 +107,14 @@ export default function UnifiedMetricsChart({
     };
   }
 
+  const hasApproximateData =
+    resultDataAsList?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length >
+    0;
+
+  useEffect(() => {
+    onApproximateDataChange(hasApproximateData);
+  }, [hasApproximateData, onApproximateDataChange]);
+
   return (
     <ChartWrapper
       cardTitle={title}
@@ -117,7 +127,7 @@ export default function UnifiedMetricsChart({
       result={result}
       granularity={granularity}
       // pass through props
-      cardHeader={cardHeader}
+      cardHeader={rightHeaderContent}
       customHeight={customHeight}
       automaticallySize={automaticallySize}
       shareMaxAxisDomain={shareMaxAxisDomain}
@@ -130,6 +140,8 @@ export default function UnifiedMetricsChart({
       cardUseMaxAvailableHeight={cardUseMaxAvailableHeight}
       excludedContextMenuActions={excludedContextMenuActions}
       bulkRequest={bulkRequest}
+      hasApproximateData={hasApproximateData}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

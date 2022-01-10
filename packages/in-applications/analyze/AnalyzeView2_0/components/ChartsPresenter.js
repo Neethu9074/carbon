@@ -64,9 +64,12 @@ export function ChartsPresenter(props) {
               <div key={`${metricConfig.metricId}${metricConfig.aggregationId}`} className={locals.latencyDistribution}>
                 <LatencyDistributionChart
                   {...chartProps}
+                  title={metricConfig.metricId}
+                  aggregation={metricConfig.aggregationId}
                   tagFilterExpression={toBackendQueryModel(chartProps.facetsAsTagFilterExpression) ?? EMPTY_EXPRESSION}
                   updateFilter={chartProps.onFacetedSearchSelectionChange}
                   chartedMetrics={[metricConfig]}
+                  showHeader
                 />
               </div>
             );

@@ -3,28 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm, composeValidators } from 'formalistic';
-import React, { useMemo, useState, useEffect } from 'react';
+import { composeValidators, createField, createMapForm } from 'formalistic';
+import React, { useEffect, useMemo, useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
 
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
-import { Button } from '@instana/components';
+import { Button, SvgIcon } from '@instana/components';
 
 import {
-  formatTime,
   formatDate,
   formatDateShort,
-  parseDateTime,
-  formatTimeWithoutSeconds
+  formatTime,
+  formatTimeWithoutSeconds,
+  parseDateTime
 } from 'in-services/formatters/date';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
 import { getHistoricOrLargeDataResult } from 'in-components/time/TimeSelection/TimeSelection';
 import DateTimeInput from 'in-components/time/TimeSelectionDialogPresenter/DateTimeInput';
 import Section from 'in-components/time/TimeSelectionDialogPresenter/Section';
-import { timeValidator, dateValidator } from 'in-services/validators/date';
+import { dateValidator, timeValidator } from 'in-services/validators/date';
 import DistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { notBlankValidator } from 'in-services/validators/string';
 import { LARGE_DATA_MESSAGE } from 'in-components/time/TimeIcon';
@@ -42,7 +41,7 @@ const maximumWindow = days.toMillis(32);
 const historicDataMessage = retention =>
   t('in-components:time.customTimeHistoricDataMessage', { retention: retention });
 
-export default function CustomTime({ timeConfig, onChange }) {
+export default function CustomTime({ timeConfig, onChange, showHistoricDataWarning = true }) {
   const [form, setForm] = useState(createForm(timeConfig));
   useEffect(() => setForm(createForm(timeConfig)), [timeConfig]);
 
@@ -59,7 +58,7 @@ export default function CustomTime({ timeConfig, onChange }) {
   const to = getTime(form.get('to'));
   const updatedTimeConfig = { to, windowSize: to - from, focusedMoment: to };
 
-  const historicOrLargeDataResult = useObservable(getHistoricOrLargeDataResult(updatedTimeConfig), [form]);
+  const historicOrLargeDataResult = useObservable(showHistoricDataWarning && getHistoricOrLargeDataResult(updatedTimeConfig), [form]);
   const { containsHistoricData, retention } = historicOrLargeDataResult || emptyObject;
 
   return (

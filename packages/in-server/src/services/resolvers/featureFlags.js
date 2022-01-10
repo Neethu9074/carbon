@@ -45,11 +45,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'samplingIndicatorEnabled',
-    instanaCtlKey: 'feature.sampling.indicator.enabled',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'pcfEnabled',
     instanaCtlKey: 'feature.pcf.enabled',
     defaultValue: false

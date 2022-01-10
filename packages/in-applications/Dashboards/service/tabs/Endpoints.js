@@ -8,7 +8,6 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 
 import {
   applicationDashboardUrlParameters,
@@ -245,20 +244,19 @@ export default function Endpoints(props) {
   );
 
   return (
-    <Card>
-      <ServerTableWithUrlState
-        get={getTableData}
-        applicationId={applicationId}
-        serviceId={serviceId}
-        endpointId={endpointId}
-        boundaryScope={boundaryScope}
-        syntheticCalls={syntheticCalls}
-        timeConfig={timeConfig}
-        rightHeader={rightHeader}
-        endpointTypes={endpointTypes}
-        technologies={technologies}
-      />
-    </Card>
+    <ServerTableWithUrlState
+      get={getTableData}
+      applicationId={applicationId}
+      serviceId={serviceId}
+      endpointId={endpointId}
+      boundaryScope={boundaryScope}
+      syntheticCalls={syntheticCalls}
+      timeConfig={timeConfig}
+      rightHeader={rightHeader}
+      endpointTypes={endpointTypes}
+      technologies={technologies}
+      cardTitle={t('in-applications:viewLists.endpoints')}
+    />
   );
 }
 

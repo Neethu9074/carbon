@@ -677,5 +677,8 @@
     "restrictedAccessMessagePartOne": "You don't have permission to accesss this information.",
     "restrictedAccessMessagePartTwo": "Request permission to your administrator.",
     "restrictedAccessMessagePartTwoWithPermission": "Request permission \"{{permission}}\" to your administrator."
+  },
+  "approximateDataIndicator": {
+    "dataRetention": "You are viewing approximate data due to the data retention settings."
   }
 }

@@ -16,4 +16,14 @@
     background: @lib__colors__white;
     border-top: 1px solid @lib__colors__N400;
   }
+
+  .header {
+    &:empty {
+      height: 1rem;
+    }
+  }
+
+  .title {
+    font-weight: 600;
+  }
 }

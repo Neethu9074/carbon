@@ -35,3 +35,6 @@ export const WithIconAction = () => (
     }}
   />
 );
+export const WithApproximateData = () => (
+  <KpiCard title="Title" value="Value" resultPrecision={'PRECISION_APPROXIMATE'} />
+);

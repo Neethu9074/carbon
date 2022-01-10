@@ -22,7 +22,10 @@ export default function LatencyDistributionChart({
   facetedSearchItems,
   formModel,
   hiddenCalls,
-  updateFilter
+  updateFilter,
+  title,
+  aggregation,
+  showHeader
 }) {
   const timeConfig = useTimeConfig();
   const latencyTag = dataSourceConstants[dataSource].latencyTag;
@@ -49,6 +52,9 @@ export default function LatencyDistributionChart({
       showPercentileMenu
       selectionAdjustable
       dataSource={dataSource}
+      title={title}
+      aggregation={aggregation}
+      showHeader={showHeader}
       onSelectionChanged={selection =>
         updateLatencySelection({
           dataSource: dataSource,

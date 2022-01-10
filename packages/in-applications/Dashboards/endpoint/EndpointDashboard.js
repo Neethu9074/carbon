@@ -167,6 +167,7 @@ function Header(props) {
       renderButtonLineSecondary={renderButtonLineSecondary}
       renderMetaInformation={renderMetaInformation}
       contextConfigurations={contextConfigurations}
+      showHistoricDataWarning={false}
     />
   );
 }

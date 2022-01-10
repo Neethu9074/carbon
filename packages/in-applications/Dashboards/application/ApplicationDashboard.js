@@ -117,6 +117,7 @@ function Header(props) {
       label={get(props.result, ['data', 'label'])}
       renderButtonLine={renderButtonLine}
       renderButtonLineSecondary={renderButtonLineSecondary}
+      showHistoricDataWarning={false}
     />
   );
 }

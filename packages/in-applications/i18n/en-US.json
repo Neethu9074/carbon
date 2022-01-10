@@ -598,5 +598,12 @@
     "traces_latency": "Latency",
     "traces_erroneousCalls": "Erroneous Traces",
     "traces_errors": "Erroneous Traces Rate"
+  },
+  "viewLists": {
+    "application": "Applications",
+    "services": "Services",
+    "errorMessages": "Error Messages",
+    "logMessages": "Log Messages",
+    "endpoints": "Endpoints"
   }
 }

@@ -1,12 +1,11 @@
 /*
  * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright Instana Inc. 2021
  */
 
 import classNames from 'classnames';
 import React from 'react';
 
-// @ts-expect-error Module needs to be translated to TS
 import { themes as headerThemes } from 'in-components/DashboardHeader/DashboardHeader';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 

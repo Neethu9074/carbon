@@ -27,7 +27,6 @@ module.exports = {
   phmcEnabled: true,
   releaseNotesEnabled: true,
   routeIdOverPathTplEnabled: false,
-  samplingIndicatorEnabled: true,
   skipOnboardingDialog: false,
   tenantSwitcherEnabled: true,
   useInstanaSaasEumTrackingUrlEnabled: true,

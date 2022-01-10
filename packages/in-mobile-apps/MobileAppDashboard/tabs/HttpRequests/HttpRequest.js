@@ -322,6 +322,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
               tagFilters={tagFiltersForRequests}
               timeConfig={timeConfig}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'viewsTab' }}
+              renderHistoricDataIndicator
             />
           </Col>
         )}
@@ -333,6 +334,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
             timeConfig={timeConfig}
             viewId={viewId}
             urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pathsTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
         <Col lg={viewId == null ? 4 : 6}>
@@ -342,6 +344,7 @@ function HttpRequestTab({ mobileAppId, mobileAppLabel, viewId, tagFilters, timeC
             tagFilters={tagFiltersForRequests}
             timeConfig={timeConfig}
             viewId={viewId}
+            renderHistoricDataIndicator
           />
         </Col>
       </Row>

@@ -36,7 +36,8 @@ export default function ServiceTopList({
   boundaryScope,
   timeConfig,
   urlMatrixParamConfig,
-  syntheticCalls
+  syntheticCalls,
+  renderHistoricDataIndicator
 }) {
   return (
     <TopListWithUrlState
@@ -60,6 +61,7 @@ export default function ServiceTopList({
       colors={colors}
       urlMatrixParamConfig={urlMatrixParamConfig}
       syntheticCalls={syntheticCalls}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }

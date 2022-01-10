@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 import { Card, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error Module needs to be translated to TS
 import DashboardHeader from 'in-components/DashboardHeader';
 import SortingConfigurator, { SortOrderBy } from 'in-components/SortingConfigurator/SortingConfigurator';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
@@ -18,22 +17,20 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { UrlState, urlStateDefinition } from 'in-synthetics/utils/constants';
+import { dummyTests, UrlState, urlStateDefinition } from 'in-synthetics/utils/constants';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { compareIgnoreCase } from 'in-services/util/string';
-import { dummyTests } from 'in-synthetics/utils/constants';
 import { deepFreeze } from 'in-services/util/object';
 import SearchInput from 'in-components/SearchInput';
-import { TestsResponse } from 'in-synthetics/Tests';
+import Tests, { TestsResponse } from 'in-synthetics/Tests';
 import { compare } from 'in-services/util/number';
 import Pagination from 'in-components/Pagination';
 import useUrlState from 'in-hooks/useUrlState';
 import { getTests } from 'in-synthetics/api';
 import Footer from 'in-components/Footer';
 import { SyntheticTest } from 'in-types';
-import Tests from 'in-synthetics/Tests';
 import { t } from 'in-i18n';
 
 import locals from './Dashboard.mless';

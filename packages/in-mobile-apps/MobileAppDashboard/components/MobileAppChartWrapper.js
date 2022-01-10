@@ -27,7 +27,9 @@ export default connectTo(
       httpRequest: useTagCatalog('httpRequest'),
       custom: useTagCatalog('custom')
     };
-    return <ChartWrapper {...props} {...getAdditionalChartActions({ ...props, tagCatalogs })} />;
+    return (
+      <ChartWrapper {...props} {...getAdditionalChartActions({ ...props, tagCatalogs })} renderHistoricDataIndicator />
+    );
   }
 );
 

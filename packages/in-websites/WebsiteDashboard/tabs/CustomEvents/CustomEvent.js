@@ -327,6 +327,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
               tagFilters={tagFilters}
               timeConfig={timeConfig}
               urlMatrixParamConfig={{ path: detailsPath, paramTab: 'pagesTab' }}
+              renderHistoricDataIndicator
             />
           </Col>
         )}
@@ -338,6 +339,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             timeConfig={timeConfig}
             pageId={pageId}
             urlMatrixParamConfig={{ path: detailsPath, paramTab: 'browserTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
         <Col lg={pageId == null ? 4 : 6}>
@@ -348,6 +350,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
             timeConfig={timeConfig}
             pageId={pageId}
             urlMatrixParamConfig={{ path: detailsPath, paramTab: 'osTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
       </Row>

@@ -37,4 +37,19 @@
     right: 0;
     height: 2rem;
   }
+
+  .titleWrapper {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.5rem;
+  }
+
+  .title {
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+
+  .aggregation {
+    text-transform: lowercase;
+  }
 }

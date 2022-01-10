@@ -6,14 +6,10 @@
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { SvgIcon } from '@instana/components';
 
 import { historicOrLargeDataResult$ } from 'in-components/time/TimeSelection/TimeSelection';
-import { samplingIndicatorEnabled } from 'in-services/featureFlags';
-import { emptyObject } from 'in-services/fixedObjects';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { number } from 'in-services/formatters/number';
-import TimeIcon from 'in-components/time/TimeIcon';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './CountHeader.mless';
@@ -25,8 +21,8 @@ export default function CountHeader({
   hasErrors,
   withGrouping = false,
   withResultsInGroups = false,
-  withSamplingTooltip = false,
-  withAdjustedWindowSizeTooltip = false
+  withAdjustedWindowSizeTooltip = false,
+  renderHistoricDataIndicator = false
 }) {
   const historicOrLargeDataResult = useObservable(historicOrLargeDataResult$, []);
 
@@ -69,9 +65,8 @@ export default function CountHeader({
     <Presenter
       topText={topText}
       bottomText={bottomText}
-      historicOrLargeDataResult={historicOrLargeDataResult}
-      withSamplingTooltip={withSamplingTooltip}
       withAdjustedWindowSizeTooltip={withAdjustedWindowSizeTooltip}
+      renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }
@@ -84,34 +79,25 @@ function ErroneousResult() {
   return <Presenter />;
 }
 
-function Presenter({
-  topText,
-  bottomText,
-  historicOrLargeDataResult,
-  withSamplingTooltip,
-  withAdjustedWindowSizeTooltip
-}) {
-  const { containsHistoricData, retention } = historicOrLargeDataResult ?? emptyObject;
-  const showSamplingTooltip = withSamplingTooltip && !samplingIndicatorEnabled && containsHistoricData;
+function generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator) {
+  const lines = [];
+  if (withAdjustedWindowSizeTooltip) {
+    lines.push(t('in-components:analyzeView.resultHeaderTooltip'));
+  }
+  if (renderHistoricDataIndicator) {
+    lines.push(t('in-components:approximateDataIndicator.dataRetention'));
+  }
+  if (lines.length > 0) {
+    return <MultiLineToolTipIcon lines={lines} />;
+  }
+}
 
+function Presenter({ topText, bottomText, withAdjustedWindowSizeTooltip, renderHistoricDataIndicator }) {
   return (
     <div className={locals.header}>
       <div className={locals.topTextWithTooltip}>
         <h3 className={locals.topText}>{topText}</h3>
-        {showSamplingTooltip && (
-          <TimeIcon
-            theme="light"
-            tooltipTheme="dark"
-            tooltipAlign="rightMiddle"
-            containsHistoricData
-            retention={retention}
-          />
-        )}
-        {withAdjustedWindowSizeTooltip && (
-          <Tooltip content={t('in-components:analyzeView.resultHeaderTooltip')} align="rightMiddle">
-            <SvgIcon className={locals.adjustmentIcon} type="lib_approximately_equal" />
-          </Tooltip>
-        )}
+        {generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator)}
       </div>
       {bottomText ? <span className={locals.bottomText}>{bottomText}</span> : null}
     </div>
