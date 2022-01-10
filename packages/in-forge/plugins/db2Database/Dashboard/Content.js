@@ -75,6 +75,9 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="databases.connectionsCount" formatter={number.compact} />
         </KpiKeyValue>
         {data.get('versionCheck') && <HadrTakeOverInfo snapshotId={snapshotId} timeConfig={timeConfig} />}
+        <KpiKeyValue label={t('in-forge:plugins.db2Database.daysLastBackup')}>
+          <MetricValue snapshotId={snapshotId} metric="databases.daysLastBackup" formatter={number.compact} />
+        </KpiKeyValue>
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.connections')}>
         <Chart
