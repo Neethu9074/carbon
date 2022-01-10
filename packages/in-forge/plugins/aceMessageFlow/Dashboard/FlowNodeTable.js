@@ -31,7 +31,7 @@ const nodeTypeCol = {
   }
 };
 
-export default function FlowNodesTable({ snapshot, snapshotId, timeConfig }) {
+export default function FlowNodeTable({ snapshot, snapshotId, timeConfig }) {
   const rows = snapshot
     .getIn(['data', 'flowNodes'], emptyMap)
     .map((flowNode, name) => {
