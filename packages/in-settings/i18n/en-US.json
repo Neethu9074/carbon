@@ -807,7 +807,7 @@
   },
   "languageSelection": {
     "language": "Language",
-    "collationLanguage": "Collation Language"
+    "collationLanguage": "Language for sorting"
   },
   "terms": {
     "failedToSaveSettings": "failed to save settings: {{settings}} {{err}}",
