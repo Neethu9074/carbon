@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Router } from 'react-router-dom';
 import React from 'react';
 
 import { just } from '@instana/observables';
@@ -15,17 +16,22 @@ import {
   storedApplicationsSelection
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/stories/servicesAndEndpointsListData';
 import ServicesAndEndpointsListPresenter from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesAndEndpointsListPresenter';
+import history from 'in-stores/navigation/history';
 import { noop } from 'in-services/fixedObjects';
 
 const oneDayTimeConfig = Object.freeze({
   windowSize: 86400000
 });
 
+// for enabling use of useLocation-hook
+const routerDecorator = Story => (
+  <Router history={history}>
+    <Story />
+  </Router>
+);
+
 export default {
-  parameters: {
-    // currently fails to resolve location via useLocation() when run in SB:
-    chromatic: { disable: true }
-  },
+  decorators: [routerDecorator],
   component: ServicesAndEndpointsListPresenter
 };
 
