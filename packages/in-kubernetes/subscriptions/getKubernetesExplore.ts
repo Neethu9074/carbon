@@ -14,6 +14,7 @@ export interface KubernetesListItemWithCursor {
 export interface KubernetesClusterListItem {
   snapshotId: number;
   label: string;
+  clusterDistribution?: string;
   namespaces?: number;
   nodes?: number;
   services?: number;
