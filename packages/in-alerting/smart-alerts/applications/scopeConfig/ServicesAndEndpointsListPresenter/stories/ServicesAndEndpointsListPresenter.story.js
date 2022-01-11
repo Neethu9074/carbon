@@ -40,6 +40,7 @@ export function servicesAndEndpointsListGlobalAlerts() {
     <ServicesAndEndpointsListPresenter
       apiSubscriptions={{
         getApplicationsCursorPaginated: () => just(getApplicationsResult),
+        getApplication: () => just(getApplicationResult),
         getServicesCursorPaginated: () => just(getServicesResult),
         getEndpointsCursorPaginated: () => just(getEndpointsResult)
       }}
