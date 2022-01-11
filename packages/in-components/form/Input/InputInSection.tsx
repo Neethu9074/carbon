@@ -16,7 +16,7 @@ export default forwardRef<HTMLInputElement, InputInSectionProps>(InputInSection)
 interface InputInSectionProps extends InputProps {
   label: string;
   additionalContent: ReactNode;
-  actions: ReactNode;
+  actions?: ReactNode;
 }
 
 function InputInSection(

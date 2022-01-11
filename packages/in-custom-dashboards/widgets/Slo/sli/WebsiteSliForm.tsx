@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Stack } from '@instana/components';
@@ -10,23 +11,41 @@ import { Stack } from '@instana/components';
 import {
   websiteSliTypeOptions,
   websiteEventBased,
-  websiteTimeBased
+  websiteTimeBased,
+  SliEntityType
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
 import BeaconConfigurator from 'in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { MetricEntityType } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
+import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
-export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderComponent: QueryBuilder }) {
-  const sliEntityForm = form.get('sliEntity');
-  const sliTypeForm = sliEntityForm.get('sliType');
+interface WebsiteSliFormProps {
+  websiteName: string;
+  form: MapForm;
+  onChange: (path: string[], updater: (i: Item) => Item) => void;
+  QueryBuilderComponent: QueryBuilderComponent;
+}
+
+export function WebsiteSliForm({
+  form,
+  onChange,
+  websiteName,
+  QueryBuilderComponent: QueryBuilder
+}: WebsiteSliFormProps) {
+  const sliEntityForm = form.get('sliEntity') as MapForm;
+  const sliNameField = form.get('sliName') as Field<string>;
+
+  const sliTypeField = sliEntityForm.get('sliType') as Field<SliEntityType>;
 
   return (
     <Stack gap="large">
@@ -35,83 +54,87 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
 
         <Stack gap="xsmall">
           <Sections>
-            {form.get('sliName').map(field => (
-              <InputInSection
-                id="new-sli-name"
-                label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.name')}
-                onChange={e => onChange(['sliName'], f => f.setValue(e.target.value).setTouched(true))}
-                value={field?.value}
-                hasError={!field.valid && field.touched}
-                maxLength={256}
-                additionalContent={
-                  <OverridingFieldValidationMessage
-                    field={field}
-                    message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliNameNotEmpty')}
-                  />
-                }
-              />
-            ))}
+            <InputInSection
+              id="new-sli-name"
+              label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.name')}
+              onChange={e => onChange(['sliName'], f => (f as Field<string>).setValue(e.target.value).setTouched(true))}
+              value={sliNameField?.value}
+              hasError={!sliNameField.valid && sliNameField.touched}
+              maxLength={256}
+              additionalContent={
+                <OverridingFieldValidationMessage
+                  field={sliNameField}
+                  message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliNameNotEmpty')}
+                />
+              }
+            />
           </Sections>
 
           <Sections>
-            {sliEntityForm.get('sliType').map(field => (
-              <SelectInSection
-                id="new-sli-type"
-                label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.type')}
-                onChange={e => onChange(['sliEntity', 'sliType'], f => f.setValue(e.target.value).setTouched(true))}
-                value={field?.value ?? ''}
-                hasError={!field.valid && field.touched}
-                actions={
-                  <HelpAction href="https://instana.com/docs/service_level_objectives/#sli-configuration/" external>
-                    {t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomHelpAction')}
-                  </HelpAction>
-                }
-                additionalContent={
-                  <OverridingFieldValidationMessage
-                    field={sliTypeForm}
-                    message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliTimeBasedOrAnEventBasedSli')}
-                  />
-                }
-              >
-                <option value="">{t('in-custom-dashboards:widgets.slo.sliFormPresenter.pleaseSelect')}</option>
-                {websiteSliTypeOptions.map(({ value, label }) => (
-                  <option value={value} key={value}>
-                    {label}
-                  </option>
-                ))}
-              </SelectInSection>
-            ))}
+            <SelectInSection
+              id="new-sli-type"
+              label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.type')}
+              onChange={e =>
+                onChange(['sliEntity', 'sliType'], f => (f as Field<string>).setValue(e.target.value).setTouched(true))
+              }
+              value={sliTypeField?.value ?? ''}
+              hasError={!sliTypeField.valid && sliTypeField.touched}
+              actions={
+                <HelpAction href="https://instana.com/docs/service_level_objectives/#sli-configuration/" external>
+                  {t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomHelpAction')}
+                </HelpAction>
+              }
+              additionalContent={
+                <OverridingFieldValidationMessage
+                  field={sliTypeField}
+                  message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliTimeBasedOrAnEventBasedSli')}
+                />
+              }
+            >
+              <option value="">{t('in-custom-dashboards:widgets.slo.sliFormPresenter.pleaseSelect')}</option>
+              {websiteSliTypeOptions.map(({ value, label }) => (
+                <option value={value} key={value}>
+                  {label}
+                </option>
+              ))}
+            </SelectInSection>
           </Sections>
         </Stack>
       </Stack>
+
       <Divider />
+
       <BeaconConfigurator
         QueryBuilder={QueryBuilder}
-        value={sliEntityForm.get('filterExpression').value}
-        onChange={fe => onChange(['sliEntity', 'filterExpression'], f => f.setValue(fe).setTouched(true))}
-        sliType={sliEntityForm.get('sliType').value}
+        value={(sliEntityForm.get('filterExpression') as Field<FormModelElement[]>).value}
+        onChange={fe =>
+          onChange(['sliEntity', 'filterExpression'], f =>
+            (f as Field<FormModelElement[]>).setValue(fe).setTouched(true)
+          )
+        }
+        sliType={sliTypeField.value}
       />
 
       <Divider />
 
-      {form.getIn(['sliEntity', 'sliType'])?.value === websiteTimeBased && (
+      {sliTypeField.value === websiteTimeBased && (
         <MetricsForm
           entityType="website"
-          metricEntityType={form.get('sliEntity').get('beaconType').value}
-          form={form.get('metricConfiguration')}
-          onChange={mc => onChange([], f => f.put('metricConfiguration', mc))}
+          metricEntityType={(sliEntityForm.get('beaconType') as Field<MetricEntityType<'website'>>).value}
+          form={form.get('metricConfiguration') as MapForm}
+          onChange={mc => onChange([], f => (f as MapForm).put('metricConfiguration', mc))}
         />
       )}
 
-      {form.getIn(['sliEntity', 'sliType'])?.value === websiteEventBased && (
+      {sliTypeField.value === websiteEventBased && (
         <GoodBadEventsConfigurator
           entityType="website"
           label={t('in-custom-dashboards:widgets.slo.goodBadEventsForm.websitesFilterLabel', {
             websiteLabel: websiteName,
             beaconType: t('in-custom-dashboards:widgets.slo.sliFormPresenter.httpRequestsLabel')
           })}
-          form={form.get('sliEntity')}
-          updateForm={updatedForm => onChange([], f => f.put('sliEntity', updatedForm))}
+          form={sliEntityForm}
+          updateForm={updatedForm => onChange([], f => (f as MapForm).put('sliEntity', updatedForm))}
           QueryBuilderComponent={QueryBuilder}
         />
       )}
