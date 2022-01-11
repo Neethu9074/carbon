@@ -20,6 +20,7 @@ import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { noop } from 'in-services/util/function';
 import Tooltip from 'in-components/Tooltip';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList.mless';
@@ -47,6 +48,7 @@ const columnDefinitions = [
     getContent({ label, tooltipSettings, isStaleItem, touched }) {
       return (
         <Tooltip
+          align="topLeft"
           content={
             isStaleItem ? (
               <span>
@@ -62,7 +64,14 @@ const columnDefinitions = [
               [locals.iconLabelTouched]: touched
             })}
           >
-            <IconLabel text={label} type={tooltipSettings.iconType} width="100%" noBottomMargin ellipsis />
+            <IconLabel
+              text={label}
+              type={tooltipSettings.iconType}
+              width="100%"
+              color={isStaleItem ? theme.lib.colors.N400 : undefined}
+              noBottomMargin
+              ellipsis
+            />
           </div>
         </Tooltip>
       );
