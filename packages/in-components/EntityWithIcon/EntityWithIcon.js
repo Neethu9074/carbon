@@ -13,13 +13,13 @@ import { shorten } from 'in-services/util/string';
 
 import locals from './EntityWithIcon.mless';
 
-export default function EntityWithIcon({ label, type, technologies, rootOrUnknown, length, icon, size }) {
+export default function EntityWithIcon({ label, tooltip, type, technologies, rootOrUnknown, length, icon, size }) {
   return (
     <div className={locals.wrapper}>
       {(type || technologies || icon) && (
         <MultipleTechnologiesIcon type={type} icon={icon} technologies={technologies} size={size} />
       )}
-      <Tooltip content={label} delay={500}>
+      <Tooltip content={tooltip ?? label} delay={500}>
         <span
           className={classNames({
             [locals.label]: true,
@@ -39,6 +39,7 @@ EntityWithIcon.propTypes = {
   size: PropTypes.string,
   technologies: PropTypes.array,
   label: PropTypes.string,
+  tooltip: PropTypes.string,
   rootOrUnknown: PropTypes.bool,
   length: PropTypes.number
 };
