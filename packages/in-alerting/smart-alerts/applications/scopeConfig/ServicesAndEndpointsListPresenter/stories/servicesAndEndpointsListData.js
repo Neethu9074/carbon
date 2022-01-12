@@ -31,6 +31,7 @@ export const getApplicationsResult = {
       },
       {
         application: {
+          isStaleItem: true,
           id: '4i2Oy5MuSLi0g2PPSgk9kg',
           label: 'Stepans AP',
           boundaryScope: 'INBOUND',
@@ -113,6 +114,7 @@ export const getServicesResult = {
       },
       {
         service: {
+          isStaleItem: true,
           id: '7bad5981bde769adba9a1894eb16db3c628c1846',
           label: 'eum-acceptor',
           types: ['HTTP', 'SDK'],
@@ -204,6 +206,7 @@ export const getEndpointsResult = {
       },
       {
         endpoint: {
+          isStaleItem: true,
           id: '3kUbLmFHBLYLrkasPXeuZWR8zDE',
           label: 'POST /traces',
           type: 'HTTP',
