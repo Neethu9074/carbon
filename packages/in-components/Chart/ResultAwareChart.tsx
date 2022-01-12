@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
 
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 // @ts-ignore
 import Renderer from 'in-components/Chart/renderer/Renderer';
 // @ts-ignore
@@ -34,7 +35,9 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     customHeight,
     cardTitle,
     showNoDataInfoWhenEmpty = true,
-    renderErrorDetail = false
+    renderErrorDetail = false,
+    renderHistoricDataIndicator = false,
+    hasApproximateData
   } = config;
   let content;
 
@@ -73,11 +76,19 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     return content;
   }
 
+  const leftHeaderContent =
+    renderHistoricDataIndicator && hasApproximateData ? (
+      <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+    ) : (
+      undefined
+    );
+
   const card = (
     <Card
       title={cardTitle}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
-      header={config.cardHeader}
+      leftHeaderContent={leftHeaderContent}
+      rightHeaderContent={config.cardHeader}
       size="l"
     >
       {content}

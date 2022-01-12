@@ -35,7 +35,7 @@ function GetMetrics({ snapshotId, metric, timeConfig }: MetricsParams): ReactEle
       metric,
       timeConfig
     })
-      .map((v: number[]) => v[1])
+      .map((v: number[]) => Math.round(v[1]))
       .distinct(),
     []
   );
@@ -72,12 +72,11 @@ export function ClusterRow({ item }: KubernetesListItemWithCursor) {
   let appWorkloadCount = GetK8sClusterItemCounters({ snapshotId: item.snapshotId, metric: 'appWorkloads', timeConfig });
   let batchWorkloadCount = GetK8sClusterItemCounters({ snapshotId: item.snapshotId, metric: 'cronJobs', timeConfig });
   let serviceCount = GetK8sClusterItemCounters({ snapshotId: item.snapshotId, metric: 'services', timeConfig });
-
   return (
     <Li key={item.snapshotId} roundShadow toggleContentOnRowClick>
       <div className={locals.list}>
         <div className={locals.label}>
-          <WithIcon icon={'lib_kubernetes_cluster'}>
+          <WithIcon icon={`lib_${item.clusterDistribution}`}>
             <KeyValue
               label={t('in-kubernetes:dashboards.name')}
               value={<a href={'#/kubernetes/cluster;clusterId=' + item.snapshotId + '/summary'}>{item.label}</a>}

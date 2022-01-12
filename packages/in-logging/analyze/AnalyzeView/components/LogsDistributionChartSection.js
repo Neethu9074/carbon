@@ -82,47 +82,58 @@ function Chart(props) {
   return <LogsChart {...props} />;
 }
 
-function LogsChart({ backendQueryModelWithFacets, metric }) {
+function LogsChart({ backendQueryModelWithFacets, metric, showHeader }) {
+  const header = showHeader && (
+    <div className={locals.header}>
+      <span className={locals.title}>
+        {t('in-logging:logs')} ({t('in-logging:sum')})
+      </span>
+    </div>
+  );
+
   return (
-    <UnifiedMetricsChart
-      // Log metrics do not support request collapsing.
-      bulkRequest
-      automaticallySize={false}
-      renderLegend={false}
-      excludedContextMenuActions={['globalHighlight', 'download']}
-      config={{
-        y1: {
-          metrics: [
-            getMetricConfig({
-              backendQueryModelWithFacets,
-              metric,
-              tag: LOG_LEVEL,
-              value: 'ERROR',
-              label: t('in-logging:logsOverTime', { context: 'ERROR' })
-            }),
-            getMetricConfig({
-              backendQueryModelWithFacets,
-              metric,
-              tag: LOG_LEVEL,
-              value: 'WARN',
-              label: t('in-logging:logsOverTime', { context: 'WARN' })
-            }),
-            getMetricConfig({
-              backendQueryModelWithFacets,
-              metric,
-              tag: LOG_LEVEL,
-              value: 'INFO',
-              label: t('in-logging:logsOverTime', { context: 'INFO' })
-            })
-          ],
-          colors: [theme.lib.colors.failure, theme.lib.colors.warning, theme.lib.colors.lightBlue800],
-          formatter: 'number.compact',
-          renderer: 'stackedBar'
-        },
-        y2: { metrics: [] },
-        type: 'TIME_SERIES'
-      }}
-    />
+    <>
+      {header}
+      <UnifiedMetricsChart
+        // Log metrics do not support request collapsing.
+        bulkRequest
+        automaticallySize={false}
+        renderLegend={false}
+        excludedContextMenuActions={['globalHighlight', 'download']}
+        config={{
+          y1: {
+            metrics: [
+              getMetricConfig({
+                backendQueryModelWithFacets,
+                metric,
+                tag: LOG_LEVEL,
+                value: 'ERROR',
+                label: t('in-logging:logsOverTime', { context: 'ERROR' })
+              }),
+              getMetricConfig({
+                backendQueryModelWithFacets,
+                metric,
+                tag: LOG_LEVEL,
+                value: 'WARN',
+                label: t('in-logging:logsOverTime', { context: 'WARN' })
+              }),
+              getMetricConfig({
+                backendQueryModelWithFacets,
+                metric,
+                tag: LOG_LEVEL,
+                value: 'INFO',
+                label: t('in-logging:logsOverTime', { context: 'INFO' })
+              })
+            ],
+            colors: [theme.lib.colors.failure, theme.lib.colors.warning, theme.lib.colors.lightBlue800],
+            formatter: 'number.compact',
+            renderer: 'stackedBar'
+          },
+          y2: { metrics: [] },
+          type: 'TIME_SERIES'
+        }}
+      />
+    </>
   );
 }
 

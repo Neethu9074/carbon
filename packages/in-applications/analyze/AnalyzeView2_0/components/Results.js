@@ -98,7 +98,6 @@ export default function Results(props) {
       }}
       DetailView={traceDetailViewV2Enabled || isInternalVisible ? AlternativeTraceDetailView : TraceDetailView}
       getDetailData={getTraceSummary}
-      withSamplingTooltip
       hideMetricAndSortingConfigurator
       withOverflow
     />

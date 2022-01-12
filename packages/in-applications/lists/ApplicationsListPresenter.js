@@ -9,7 +9,6 @@ import React from 'react';
 import { SeverityIndicatorCellContentWrapper } from '@instana/components';
 import { TableEntityCounter } from '@instana/components';
 import { SvgIcon } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import ApplicationEntityHealthIndicatorBehavior from 'in-applications/components/ApplicationEntityHealthIndicatorBehavior';
@@ -216,18 +215,17 @@ export default function ApplicationsListPresenter({
           getHasDataToRender={() => getHasDataToRender(timeConfig)}
           FallbackComponent={ApplicationsNoDataNotification}
         >
-          <Card useMaxAvailableHeight={false} hasMarginBottom>
-            <ServerTableWithUrlState
-              get={getTableData}
-              timeConfig={timeConfig}
-              applicationId={applicationId}
-              serviceId={serviceId}
-              endpointId={endpointId}
-              contextScope={contextScope}
-              scopeNotification={scopeNotification}
-              tagFilters={tagFilters}
-            />
-          </Card>
+          <ServerTableWithUrlState
+            get={getTableData}
+            timeConfig={timeConfig}
+            applicationId={applicationId}
+            serviceId={serviceId}
+            endpointId={endpointId}
+            contextScope={contextScope}
+            scopeNotification={scopeNotification}
+            tagFilters={tagFilters}
+            cardTitle={t('in-applications:viewLists.application')}
+          />
         </WithEmptyStateFallback>
       </LeftRightPadding>
 

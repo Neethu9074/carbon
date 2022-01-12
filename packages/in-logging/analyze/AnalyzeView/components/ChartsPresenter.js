@@ -10,5 +10,5 @@ import LogsDistributionChartSection from 'in-logging/analyze/AnalyzeView/compone
 export function ChartsPresenter(props) {
   const { isValid } = props;
 
-  return isValid && <LogsDistributionChartSection {...props} disableClose={false} hideRenderer />;
+  return isValid && <LogsDistributionChartSection {...props} disableClose={false} hideRenderer showHeader />;
 }

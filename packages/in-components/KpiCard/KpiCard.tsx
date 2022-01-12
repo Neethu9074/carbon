@@ -5,17 +5,18 @@
 
 import React, { ReactNode } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
-import { SvgIcon, Button, Link, ButtonKinds } from '@instana/components';
+import { Button, ButtonKinds, Link, SvgIcon } from '@instana/components';
 import { Observable } from '@instana/observables';
 
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { decimalSeparator, thousandsSeparator } from 'in-services/formatters/number';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import useResizeObserver from 'in-hooks/useResizeObserver';
 import Tooltip from 'in-components/Tooltip';
+import { ResultPrecision } from 'in-types';
+import { t } from 'in-i18n';
 
-// @ts-ignore
 import locals from './KpiCard.mless';
 
 const valueSplitRegExp = new RegExp(`^([0-9\\${decimalSeparator}\\${thousandsSeparator}]+)(.*)$`);
@@ -43,6 +44,7 @@ export interface KpiCardProps {
   color?: string;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
+  resultPrecision?: ResultPrecision;
 }
 
 export default function KpiCard({
@@ -59,7 +61,8 @@ export default function KpiCard({
   centerLabels = false,
   color,
   useMaxAvailableHeight = true,
-  iconAction
+  iconAction,
+  resultPrecision
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
 
@@ -111,7 +114,14 @@ export default function KpiCard({
         })}
         ref={ref}
       >
-        <>{title}</>
+        <div className={locals.innerTitle}>
+          <Tooltip content={title} align="bottomMiddle">
+            <span className={locals.truncatedTitle}>{title}</span>
+          </Tooltip>
+          {resultPrecision === 'PRECISION_APPROXIMATE' && (
+            <MultiLineToolTipIcon withMargin lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+          )}
+        </div>
         {iconAction && (
           <div
             className={classNames({
@@ -142,19 +152,3 @@ export default function KpiCard({
     </div>
   );
 }
-
-KpiCard.propTypes = {
-  title: PropTypes.string,
-  value: PropTypes.any,
-  actions: PropTypes.node,
-  companionValue: PropTypes.any,
-  raw: PropTypes.bool,
-  renderValue: PropTypes.func,
-  valuesClassName: PropTypes.string,
-  borderless: PropTypes.bool,
-  shadowless: PropTypes.bool,
-  centerLabels: PropTypes.bool,
-  color: PropTypes.string,
-  useMaxAvailableHeight: PropTypes.bool,
-  iconAction: PropTypes.object
-};

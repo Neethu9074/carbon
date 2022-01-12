@@ -47,7 +47,6 @@ export default function GroupedResults(props) {
         getData={getData}
         getLabel={getLabel}
         UngroupedView={Results}
-        withSamplingTooltip
       />
     </QueryBuilderWorkspace>
   );

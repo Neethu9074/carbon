@@ -52,6 +52,9 @@ export default function ListWidget({ config, title, actions, dragHandle }) {
 }
 
 export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, title, actions, dragHandle }) {
+  const hasApproximateData =
+    result?.data?.filter(elem => elem?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE').length > 0;
+
   return (
     <TopListCardPresenter
       title={title}
@@ -64,6 +67,7 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       Metric={Metric}
       config={config}
       tagCatalog={tagCatalog}
+      renderHistoricDataIndicator={hasApproximateData}
       header={
         <>
           {dragHandle}

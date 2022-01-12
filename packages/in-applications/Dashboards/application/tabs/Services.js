@@ -7,7 +7,6 @@ import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
 import { TableEntityCounter } from '@instana/components';
-import { Card } from '@instana/components';
 
 import {
   applicationDashboardUrlParameters,
@@ -254,20 +253,19 @@ export default function ServiceList(props) {
 
   return (
     <>
-      <Card>
-        <ServerTableWithUrlState
-          get={getTableData}
-          timeConfig={timeConfig}
-          applicationId={applicationId}
-          serviceId={serviceId}
-          endpointId={endpointId}
-          boundaryScope={boundaryScope}
-          rightHeader={rightHeader}
-          endpointTypes={endpointTypes}
-          technologies={technologies}
-          syntheticCalls={syntheticCalls}
-        />
-      </Card>
+      <ServerTableWithUrlState
+        get={getTableData}
+        timeConfig={timeConfig}
+        applicationId={applicationId}
+        serviceId={serviceId}
+        endpointId={endpointId}
+        boundaryScope={boundaryScope}
+        rightHeader={rightHeader}
+        endpointTypes={endpointTypes}
+        technologies={technologies}
+        syntheticCalls={syntheticCalls}
+        cardTitle={t('in-applications:viewLists.services')}
+      />
       <Footer />
     </>
   );

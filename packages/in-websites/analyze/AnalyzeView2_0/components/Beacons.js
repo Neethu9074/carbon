@@ -266,7 +266,6 @@ export default function Beacons(props) {
       }}
       DetailView={PageLoadView}
       getDetailData={getWebsiteBeaconsForPageLoad}
-      withSamplingTooltip
     />
   );
 

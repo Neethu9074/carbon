@@ -251,7 +251,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
           lines={[
             'FROM <base-image> # This is the *last* FROM clause in your Dockerfile',
             '',
-            'COPY --from=instana/google-cloud-run-nodejs:latest /instana /instana\n',
+            'COPY --from=icr.io/instana/google-cloud-run-nodejs:latest /instana /instana\n',
             'RUN /instana/setup.sh',
             'ENV NODE_OPTIONS="--require /instana/node_modules/@instana/google-cloud-run"',
             '',

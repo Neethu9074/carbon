@@ -144,7 +144,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
       containerDefinitions: [
         {
           name: 'aws-sensor',
-          image: 'instana/agent',
+          image: 'icr.io/instana/agent',
           environment: [
             {
               name: 'INSTANA_AGENT_ENDPOINT',

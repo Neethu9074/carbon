@@ -187,7 +187,6 @@ export default function MobileBeacons(props) {
       }}
       DetailView={SessionView}
       getDetailData={getMobileAppBeaconsForSession}
-      withSamplingTooltip
     />
   );
 

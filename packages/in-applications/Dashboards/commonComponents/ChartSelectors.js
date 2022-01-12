@@ -6,8 +6,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { Card } from '@instana/components';
-
 import { urlParameter as timeShiftUrlParameter } from 'in-stores/time/shifting';
 import ComboBoxBehavior from 'in-components/form/ComboBox/ComboBoxBehavior';
 import DropdownButton from 'in-components/Button/DropdownButton';
@@ -99,7 +97,9 @@ export function TimeShiftAwareChartSelectorWithUrlState({
   const additionalProps = {
     selectedTabId: timeShiftEnabled ? findTabByMetric(getActiveMetric()) : getActiveTab(),
     selectedMetricValue: metrics.find(m => m.id === getActiveMetric())?.value,
-    timeShiftConfig: timeShiftConfig
+    timeShiftConfig: timeShiftConfig,
+    selectorComponent: selectorComponent,
+    cardTitle: cardTitle
   };
 
   const childrenWithProps = React.Children.map(children, child => {
@@ -110,11 +110,7 @@ export function TimeShiftAwareChartSelectorWithUrlState({
     );
   });
 
-  return (
-    <Card title={cardTitle} header={selectorComponent}>
-      {childrenWithProps}
-    </Card>
-  );
+  return <React.Fragment>{childrenWithProps}</React.Fragment>;
 }
 
 TimeShiftAwareChartSelectorWithUrlState.propTypes = {

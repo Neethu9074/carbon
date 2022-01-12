@@ -25,15 +25,16 @@ export default function Header(props) {
     metrics,
     order,
     tracking,
-    withSamplingTooltip,
     withAdjustedWindowSizeTooltip,
     withGrouping,
     withResultsInGroups,
     withCountHeader = true,
     MetricConfiguratorHint,
     hasErrors,
-    isLoading
+    isLoading,
+    renderHistoricDataIndicator = false
   } = props;
+
   return (
     <div className={locals.wrapper}>
       <HorizontalFlexWrapper>
@@ -58,10 +59,10 @@ export default function Header(props) {
           hasErrors={hasErrors}
           getItemName={getItemName}
           getHitName={getHitName}
-          withSamplingTooltip={withSamplingTooltip}
           withAdjustedWindowSizeTooltip={withAdjustedWindowSizeTooltip}
           withGrouping={withGrouping}
           withResultsInGroups={withResultsInGroups}
+          renderHistoricDataIndicator={renderHistoricDataIndicator}
         />
       )}
     </div>

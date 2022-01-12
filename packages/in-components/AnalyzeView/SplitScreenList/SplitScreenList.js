@@ -85,7 +85,7 @@ function ExpandedList(props) {
       <Sticky
         header={
           <div className={locals.header}>
-            <ResultHeader label="" {...props} withSamplingTooltip />
+            <ResultHeader label="" {...props} />
 
             <div className={locals.actions}>
               {hasPrev && (

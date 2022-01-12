@@ -52,6 +52,14 @@ export default function Charting(props) {
       ?.sort((agg1, agg2) => agg1.label.localeCompare(agg2.label));
   };
 
+  const getChartTitle = metricConfig => {
+    if (metricConfig.label === 'Latency') {
+      return `${getMetricLabel(metricConfig.metricId)}`;
+    }
+
+    return `${getMetricLabel(metricConfig.metricId)} (${aggregationLabels[metricConfig.aggregationId]})`;
+  };
+
   return (
     <>
       <Configurator {...props} />
@@ -60,7 +68,7 @@ export default function Charting(props) {
           {chartedMetrics.map(metricConfig => {
             const chartProps = {
               ...props,
-              title: chartedMetricsTemplate?.metrics?.length > 1 && getMetricLabel(metricConfig.metricId),
+              title: getChartTitle(metricConfig),
               showAggregationSelector:
                 metricAggregations?.find(agg => agg.metricId === metricConfig.metricId)?.aggregations?.length > 1,
               onAggregationChange: change => {

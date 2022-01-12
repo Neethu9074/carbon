@@ -44,7 +44,6 @@ export default function UngroupedAnalyzeView(props) {
     SplitScreenListItemContent,
     useCursorPaginationStrategy,
     withoutHeader,
-    withSamplingTooltip,
     ungroupedViewConfiguration,
     hideMetricAndSortingConfigurator,
     Chart,
@@ -59,7 +58,15 @@ export default function UngroupedAnalyzeView(props) {
         : empty,
     [isValid, timeConfig, backendQueryModelWithFacets, orderBy, dataSource, getData]
   );
-  const { items, errors, progress, totalHits, totalRepresentedItemCount, adjustedWindowSize } = cursorPaginationState;
+  const {
+    items,
+    errors,
+    progress,
+    totalHits,
+    totalRepresentedItemCount,
+    adjustedWindowSize,
+    resultPrecisionDetails
+  } = cursorPaginationState;
 
   const isLoading = props.isLoading || progress?.loading;
   // We deliberately use props.isLoading, because we do not want to remove all loaded entries
@@ -117,7 +124,6 @@ export default function UngroupedAnalyzeView(props) {
                 }))
               )
             }
-            withSamplingTooltip={withSamplingTooltip}
             withAdjustedWindowSizeTooltip={Boolean(adjustedWindowSize)}
             tracking={{
               onMetricAdded: ({ metric, aggregation }) => ua2MetricAddedTracker({ dataSource, metric, aggregation }),
@@ -132,6 +138,7 @@ export default function UngroupedAnalyzeView(props) {
                 metricCatalog={metricCatalog}
               />
             )}
+            renderHistoricDataIndicator={resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE'}
           />
         )}
         <Presenter

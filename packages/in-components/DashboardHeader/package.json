@@ -2,5 +2,5 @@
   "name": "DashboardHeader",
   "version": "0.0.0",
   "private": true,
-  "main": "./DashboardHeader.js"
+  "main": "./DashboardHeader.tsx"
 }

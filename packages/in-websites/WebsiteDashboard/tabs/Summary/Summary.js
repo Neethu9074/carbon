@@ -400,6 +400,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
             websiteId={websiteId}
             pageId={pageId}
             urlMatrixParamConfig={{ path: summaryTab, paramTab: 'jsErrorsTab' }}
+            renderHistoricDataIndicator
           />
         </Col>
         {pageId == null && (
@@ -409,6 +410,7 @@ export default function Summary({ websiteId, tagFilters, timeConfig, pageId, web
               timeConfig={timeConfig}
               websiteId={websiteId}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'pagesTab' }}
+              renderHistoricDataIndicator
             />
           </Col>
         )}

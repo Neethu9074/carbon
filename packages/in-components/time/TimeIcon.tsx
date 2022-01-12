@@ -8,14 +8,26 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
+import { Align, ThemeStyle } from 'in-components/Tooltip/store';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from './TimeIcon.mless';
 
-export const historicDataMessage = retention =>
+export const historicDataMessage = (retention: number) =>
   t('in-components:time.timeIconHistoricDataMessage', { retention: retention });
 export const LARGE_DATA_MESSAGE = t('in-components:time.timeIconLargeDataMessage');
+
+export interface TimeIconProps {
+  selected?: boolean;
+  containsHistoricData?: boolean;
+  retention: number;
+  largeData?: boolean;
+  theme: ThemeStyle;
+  tooltipTheme?: ThemeStyle;
+  tooltipAlign?: Align;
+  className: string;
+}
 
 export default function TimeIcon({
   selected,
@@ -26,7 +38,7 @@ export default function TimeIcon({
   tooltipTheme = 'light',
   tooltipAlign = 'leftMiddle',
   className
-}) {
+}: TimeIconProps) {
   const content = (
     <div
       className={classNames({
@@ -72,6 +84,8 @@ export default function TimeIcon({
   return content;
 }
 
-function TooltipContent({ message }) {
+type TooltipContentProps = { message: string };
+
+function TooltipContent({ message }: TooltipContentProps) {
   return <div>{message}</div>;
 }

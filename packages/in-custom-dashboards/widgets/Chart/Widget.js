@@ -39,6 +39,7 @@ export default function ChartWidget({ actions, config, title, isPreview, dragHan
       automaticallySize={!isPreview && !customHeight}
       customHeight={customHeight}
       shareMaxAxisDomain={config?.shareMaxAxisDomain}
+      renderHistoricDataIndicator
     />
   );
 }

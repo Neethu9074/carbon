@@ -40,6 +40,7 @@ export default function PagesTopList({ websiteId, timeConfig, tagFilters, urlMat
       timeConfig={timeConfig}
       tagFilters={tagFilters}
       urlMatrixParamConfig={urlMatrixParamConfig}
+      renderHistoricDataIndicator
     />
   );
 }

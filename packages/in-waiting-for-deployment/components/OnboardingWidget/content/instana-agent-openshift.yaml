@@ -104,7 +104,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: instana-agent
-          image: "instana/agent:latest"
+          image: "icr.io/instana/agent:latest"
           imagePullPolicy: Always
           env:
             - name: INSTANA_AGENT_LEADER_ELECTOR_PORT
@@ -182,7 +182,7 @@ spec:
           ports:
             - containerPort: 42699
         - name: leader-elector
-          image: "instana/leader-elector:0.5.10"
+          image: "icr.io/instana/leader-elector:0.5.13"
           env:
             - name: INSTANA_AGENT_POD_NAME
               valueFrom:

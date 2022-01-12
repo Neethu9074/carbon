@@ -97,7 +97,7 @@ const cols = [
       },
       getContent: number.compact,
       getTimeWindowAggregation() {
-        return 'sum';
+        return 'avg';
       }
     }
   }
@@ -254,8 +254,8 @@ function getDetails(row) {
               theme.lib.colors.red800,
               theme.lib.colors.lightBlue800
             ],
-            type: 'stackedBar',
-            aggregation: 'sum',
+            type: 'line',
+            aggregation: 'avg',
             formatter: number.compact
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}

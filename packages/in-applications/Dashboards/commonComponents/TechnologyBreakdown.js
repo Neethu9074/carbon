@@ -10,6 +10,7 @@ import {
   createHiddenCallsFromSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+import { extendWindowSizeOnLiveMode, getResolvedTimeConfig } from 'in-applications/metrics';
 import getTechnologyBreakdown from 'in-applications/subscriptions/getTechnologyBreakdown';
 import { endpointNameTranslations, getColorChart } from 'in-applications/endpointTypes';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -17,10 +18,8 @@ import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHr
 import { createChartedMetric, createGroupBy } from 'in-analyze/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
-import { millis, meanLatencyFixed } from 'in-services/formatters/number';
-import { extendWindowSizeOnLiveMode } from 'in-applications/metrics';
+import { meanLatencyFixed, millis } from 'in-services/formatters/number';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { getResolvedTimeConfig } from 'in-applications/metrics';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -51,7 +50,8 @@ export default connectTo(
     result,
     boundaryScope,
     syntheticCalls,
-    renderPostChartContent
+    renderPostChartContent,
+    renderHistoricDataIndicator
   }) {
     let config = {
       cardTitle: t('in-applications:titleProcessingTime')
@@ -77,6 +77,8 @@ export default connectTo(
         originalTimeConfig: timeConfig,
         timeConfig: getResolvedTimeConfig(timeConfig, result),
         granularity: getChartGranularity(timeConfig),
+        renderHistoricDataIndicator: renderHistoricDataIndicator,
+        resultPrecision: result?.resultPrecisionDetails?.resultPrecision,
         y1: {
           renderer: Renderer.stackedArea,
           labels,
@@ -116,7 +118,13 @@ export default connectTo(
       };
     }
 
-    return <ResultAwareChart result={result} config={config} />;
+    return (
+      <ResultAwareChart
+        result={result}
+        config={config}
+        resultPrecision={result?.resultPrecisionDetails?.resultPrecision}
+      />
+    );
   }
 );
 

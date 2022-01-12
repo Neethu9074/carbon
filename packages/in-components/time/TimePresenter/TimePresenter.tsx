@@ -6,28 +6,46 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { timeDisplayTopFormat, timeDisplayBottomFormat } from 'in-components/time/timeframeFormatter';
+// @ts-expect-error
+import { timeDisplayBottomFormat, timeDisplayTopFormat } from 'in-components/time/timeframeFormatter';
+// @ts-expect-error
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
 import TimeIcon from 'in-components/time/TimeIcon';
+import { TimeConfig } from 'in-types';
 
 import locals from './TimePresenter.mless';
+
+export interface TimePresenterProps {
+  onClick: (args: void) => void;
+  timeConfig: TimeConfig;
+  historicData: boolean;
+  showHistoricDataWarning?: boolean;
+  retention: number;
+  largeData: boolean;
+  expanded: boolean;
+  refSetter?: React.MutableRefObject<HTMLElement> | ((instance: HTMLElement | null) => void);
+  darkTheme?: boolean;
+}
+
+type FirstArgumentType<T> = T extends (first: infer ArgType, ...args: any[]) => any ? ArgType : never;
 
 export default function TimePresenter({
   onClick,
   timeConfig,
   historicData,
+  showHistoricDataWarning = true,
   retention,
   largeData,
   expanded,
   refSetter,
   darkTheme
-}) {
+}: TimePresenterProps) {
   return (
     <DashboardHeaderButton
       expanded={expanded}
       darkTheme={darkTheme}
-      onClick={e => {
+      onClick={(e: FirstArgumentType<typeof stopPropagationAndPreventDefault>) => {
         stopPropagationAndPreventDefault(e);
         onClick();
       }}
@@ -38,7 +56,7 @@ export default function TimePresenter({
       <div className={locals.outerWrapper}>
         <TimeIcon
           className={locals.timeIcon}
-          containsHistoricData={historicData}
+          containsHistoricData={historicData && showHistoricDataWarning}
           retention={retention}
           largeData={largeData}
           theme={darkTheme ? 'dark' : 'light'}

@@ -3,12 +3,11 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { get } from 'lodash';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
 import SplitScreenTraceDetailContent from 'in-applications/analyze/AnalyzeView2_0/components/SplitScreenTraceDetailContent';
 import SplitScreenList from 'in-components/AnalyzeView/SplitScreenList/SplitScreenList';
@@ -61,6 +60,7 @@ export default function TraceDetailView(props) {
             label={getLabelByType(dataSource)}
             contextConfigurations={[{ renderContext, contextIcon: 'lib_analyze_inverted' }]}
             withBorderBottom
+            showHistoricDataWarning={false}
           />
         }
       >
