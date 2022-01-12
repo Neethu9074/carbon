@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
-
 import { t } from 'in-i18n';
 
 export const boundaryScopes = {
@@ -29,6 +27,4 @@ export const boundaryScopes = {
       )
     }
   }
-};
-
-export const boundaryScopePropType = PropTypes.oneOf(['ALL', 'INBOUND']);
+} as const;
