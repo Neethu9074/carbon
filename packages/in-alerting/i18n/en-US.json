@@ -496,7 +496,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Cancel",
-        "sharedListTooltip": "Selected {{typeName}} is not available anymore",
+        "sharedListTooltip": "{{typeName}} is not available anymore",
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
         "pleaseContactSupportToRiseLimit": "Please contact us via our <supportLink>{{instanaSupportPortal}}</supportLink> to request an increase of this limit.",
