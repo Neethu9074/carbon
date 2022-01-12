@@ -14,6 +14,7 @@ import IncludeInternalOrSyntheticCallsSwitch from 'in-alerting/smart-alerts/appl
 import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/TimeThresholdConfigPresenter';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
+import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import ApplicationAlertPropertiesTitleRow from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPropertiesTitleRow';
 import GlobalAdvancedModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeContainer';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/HistoricBaselineErrorMessage';
@@ -37,6 +38,7 @@ import { isHistoricBaseline } from 'in-alerting/smart-alerts/components/utils/ba
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
+import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
@@ -75,13 +77,16 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.title'),
           content: (
-            <BluePrintSelectionSection
-              alertType={alertType}
-              blueprintConfigList={blueprintConfigList}
-              form={form}
-              updateForm={updateForm}
-              setSliderState={setSliderState}
-            />
+            <>
+              <BluePrintSelectionSection
+                alertType={alertType}
+                blueprintConfigList={blueprintConfigList}
+                form={form}
+                updateForm={updateForm}
+                setSliderState={setSliderState}
+              />
+              {adaptiveBaselineEnabled && <StaticOrAdaptiveSwitch form={form} setForm={updateForm} />}
+            </>
           )
         },
         {

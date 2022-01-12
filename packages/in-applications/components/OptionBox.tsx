@@ -12,15 +12,16 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
 import locals from './OptionBox.mless';
 
-type OptionBoxProps = {
-  checked?: boolean;
+interface OptionBoxProps {
+  checked?: boolean | undefined;
   icon: string;
   title: string;
   description: string;
   onChange: (checked: boolean) => void;
   asRadioButton?: boolean;
   className?: string;
-};
+}
+
 export default function OptionBox({
   checked,
   icon,

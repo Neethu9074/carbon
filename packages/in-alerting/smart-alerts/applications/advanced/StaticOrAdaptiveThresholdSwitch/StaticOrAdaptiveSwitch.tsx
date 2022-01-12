@@ -1,0 +1,61 @@
+/*
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
+ */
+
+import { Field, MapForm } from 'formalistic';
+import React from 'react';
+
+import {
+  StaticOrAdaptiveType,
+  staticOrAdaptiveThresholds
+} from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/config';
+import StaticOrAdaptiveOption from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveOption';
+import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
+import { STATIC_THRESHOLD, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { Col, Row } from 'in-components/layout/Grid';
+import { noop } from 'in-services/util/function';
+import { ThresholdType } from 'in-types';
+
+import locals from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch.mless';
+
+interface Props {
+  form: MapForm;
+  setForm: (updatedForm: MapForm) => void;
+}
+
+export default function StaticOrAdaptiveSwitch({ form, setForm }: Props) {
+  const thresholdType = ((form.get('threshold') as MapForm)?.get('type') as Field<ThresholdType>)?.value;
+  const currentType =
+    thresholdType === ADAPTIVE_BASELINE ? staticOrAdaptiveThresholds.adaptive : staticOrAdaptiveThresholds.static;
+
+  return (
+    <div className={locals.staticOrAdaptiveSwitchContainer}>
+      <Row>
+        <Col lg={6}>
+          <StaticOrAdaptiveOption
+            currentType={currentType}
+            onChange={updateThresholdType}
+            baselineType={staticOrAdaptiveThresholds.static}
+          />
+        </Col>
+        <Col lg={6} className={locals.staticOrAdaptiveOption}>
+          <StaticOrAdaptiveOption
+            currentType={currentType}
+            onChange={updateThresholdType}
+            baselineType={staticOrAdaptiveThresholds.adaptive}
+          />
+        </Col>
+      </Row>
+    </div>
+  );
+
+  function updateThresholdType(baselineType: StaticOrAdaptiveType) {
+    if (baselineType === staticOrAdaptiveThresholds.static) {
+      onThresholdTypeChange(STATIC_THRESHOLD, form, setForm, noop);
+    }
+    if (baselineType === staticOrAdaptiveThresholds.adaptive) {
+      onThresholdTypeChange(ADAPTIVE_BASELINE, form, setForm, noop);
+    }
+  }
+}

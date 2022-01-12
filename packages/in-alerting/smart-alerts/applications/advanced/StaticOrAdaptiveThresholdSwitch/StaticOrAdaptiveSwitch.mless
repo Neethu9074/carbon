@@ -1,0 +1,34 @@
+/*
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .optionBox {
+    &.optionBox {
+      border: none;
+      border-radius: 0;
+    }
+
+    &.optionBoxUnchecked {
+      svg {
+        fill: @lib__colors__N600Light;
+      }
+
+      * {
+        color: @lib__colors__N600Light;
+      }
+    }
+  }
+
+  .staticOrAdaptiveOption {
+    align-self: center;
+  }
+
+  .staticOrAdaptiveSwitchContainer {
+    border: 1px solid @lib__colors__N300;
+    border-radius: @lib__shapes__radius_small;
+  }
+}
