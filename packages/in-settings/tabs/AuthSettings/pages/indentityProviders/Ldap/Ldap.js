@@ -103,7 +103,7 @@ function render({ form, setForm, testResultMessage, setTestResultMessage, result
                   <Link
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://instana.com/docs/self_hosted_instana/ldap/"
+                    href="https://www.ibm.com/docs/en/obi/current?topic=installer-configuring-ldap"
                   />
                 )
               }}

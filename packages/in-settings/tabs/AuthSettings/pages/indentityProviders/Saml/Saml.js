@@ -103,8 +103,15 @@ function Content({ file, form, setForm, input, setCanSaveItem, result }) {
             <Trans
               i18nKey="in-settings:tabs.samlHelpDoc"
               components={{
-                activeDirectoryLink: <Link external href="https://instana.com/docs/admin/active-directory/" />,
-                oktaLink: <Link external href="https://instana.com/docs/admin/okta/" />
+                activeDirectoryLink: (
+                  <Link
+                    external
+                    href="https://www.ibm.com/docs/en/obi/current?topic=authentication-configuring-active-directory"
+                  />
+                ),
+                oktaLink: (
+                  <Link external href="https://www.ibm.com/docs/en/obi/current?topic=authentication-integrating-okta" />
+                )
               }}
             />
           </p>
