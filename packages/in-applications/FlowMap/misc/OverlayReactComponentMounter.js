@@ -21,6 +21,9 @@ export default class OverlayReactComponentMounter {
   ) {
     this.nodesReactComponentWrapper = nodesReactComponentWrapper;
     this.serviceLocatorUid = serviceLocatorUid;
+    // Setting PRECISION to UNKNOWN by default
+    this.resultPrecisionDetails = 'PRECISION_UNKNOWN';
+
     ReactDOM.render(
       <Fragment>
         <Nodes
@@ -31,10 +34,14 @@ export default class OverlayReactComponentMounter {
           expandChildRight={expandChildRight}
           loadMore={loadMore}
         />
-        <Controls serviceLocatorUid={this.serviceLocatorUid} />
+        <Controls serviceLocatorUid={this.serviceLocatorUid} resultPrecisionDetails={this.resultPrecisionDetails} />
       </Fragment>,
       this.nodesReactComponentWrapper
     );
+  }
+
+  updateResultPrecision(resultPrecision) {
+    this.resultPrecisionDetails = resultPrecision;
   }
 
   dispose() {}

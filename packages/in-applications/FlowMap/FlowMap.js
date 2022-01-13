@@ -153,6 +153,7 @@ export default class FlowMap {
 
   updateState(nextFlowMapState) {
     this.sceneGraph.updateState(nextFlowMapState);
+    this.overlayReactComponentMounter.updateResultPrecision(nextFlowMapState.resultPrecision);
 
     getServiceLocators(this.serviceLocatorUid).eventBusServiceLocator.emit(
       'rootNodeId',

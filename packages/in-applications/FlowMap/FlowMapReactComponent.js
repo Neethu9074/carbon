@@ -94,7 +94,8 @@ class FlowMapReactComponent extends React.Component {
         expandNodeRight: props.expandNodeRight,
         expandChildLeft: props.expandChildLeft,
         expandChildRight: props.expandChildRight,
-        loadMore: props.loadMore
+        loadMore: props.loadMore,
+        resultPrecisionDetails: props?.flowMapState?.resultPrecision
       });
     }
   }
