@@ -7,9 +7,7 @@ import React from 'react';
 
 import { entityCount as infrastructureEntityCount } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure';
 import { metrics as infrastructureMetrics } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure';
-import { source as mobileApp } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp';
 import MetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/MetricConfigurator';
-import { source as website } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/website';
 import { source as event } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event';
 import { source as sli } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli';
 import { onChangeSource } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/form';
@@ -50,14 +48,7 @@ export default function ListWidgetFormComponent({ form, onChange }) {
             ))}
           </SelectInSection>
         ))}
-        disabledDataSources={[
-          infrastructureMetrics.source,
-          infrastructureEntityCount.source,
-          mobileApp,
-          website,
-          event,
-          sli
-        ]}
+        disabledDataSources={[infrastructureMetrics.source, infrastructureEntityCount.source, event, sli]}
         maxGrouping={10}
       />
     </>
