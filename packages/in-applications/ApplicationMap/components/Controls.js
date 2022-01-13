@@ -9,6 +9,7 @@ import { SIGNALS } from 'in-applications/ApplicationMap/serviceLocator/EventBusS
 import { getServiceLocators } from 'in-applications/ApplicationMap/serviceLocator/serviceLocator';
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import NodeSizeButton from 'in-applications/ApplicationMap/components/NodeSizeButton';
 import ButtonGroup from 'in-components/MapControls/ButtonGroup';
 import Button from 'in-components/MapControls/Button';
@@ -16,8 +17,10 @@ import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
-export default function Controls({ serviceLocatorUid, onChangeUrlProperties }) {
+export default function Controls({ serviceLocatorUid, onChangeUrlProperties, result }) {
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
+  const hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
   return (
     <>
       <HorizontalControlsPresenter position="topLeft">
@@ -25,10 +28,17 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties }) {
           <NodeSizeButton
             eventBusServiceLocator={eventBusServiceLocator}
             onChangeUrlProperties={onChangeUrlProperties}
+            appendLeft
           />
-
+          {hasApproximateData && (
+            <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+          )}
+        </ButtonGroup>
+      </HorizontalControlsPresenter>
+      <VerticalControlsPresenter position="leftTop">
+        <ButtonGroup vertical>
           <LayoutButton
-            appendRight
+            appendLeft
             icon="lib_actions_flow_layout"
             eventBusServiceLocator={eventBusServiceLocator}
             layouter="flow"
@@ -41,19 +51,22 @@ export default function Controls({ serviceLocatorUid, onChangeUrlProperties }) {
             layouter="force"
             onChangeUrlProperties={onChangeUrlProperties}
           />
+
+          <ParticlesButton
+            appendLeft
+            eventBusServiceLocator={eventBusServiceLocator}
+            onChangeUrlProperties={onChangeUrlProperties}
+          />
+
+          <TrafficButton
+            appendLeft
+            eventBusServiceLocator={eventBusServiceLocator}
+            onChangeUrlProperties={onChangeUrlProperties}
+          />
         </ButtonGroup>
-
-        <ParticlesButton
-          eventBusServiceLocator={eventBusServiceLocator}
-          onChangeUrlProperties={onChangeUrlProperties}
-        />
-
-        <TrafficButton eventBusServiceLocator={eventBusServiceLocator} onChangeUrlProperties={onChangeUrlProperties} />
-      </HorizontalControlsPresenter>
-      <VerticalControlsPresenter position="leftTop">
         <ButtonGroup vertical>
-          <Button appendBottom icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
-          <Button appendTop icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
+          <Button appendLeft icon="lib_actions_zoom_in" onClick={() => zoomIn(serviceLocatorUid)} />
+          <Button appendLeft icon="lib_actions_zoom_out" onClick={() => zoomOut(serviceLocatorUid)} />
         </ButtonGroup>
       </VerticalControlsPresenter>
     </>
@@ -82,6 +95,7 @@ const ParticlesButton = connectTo(
         icon="lib_actions_particles"
         onClick={() => onChangeUrlProperties({ particles: !isActive })}
         isActive={isActive}
+        appendLeft
       />
     );
   }
@@ -98,6 +112,7 @@ const TrafficButton = connectTo(
           icon="lib_actions_traffic"
           onClick={() => onChangeUrlProperties({ traffic: !isActive })}
           isActive={isActive}
+          appendLeft
         />
       </Tooltip>
     );
