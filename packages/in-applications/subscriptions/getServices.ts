@@ -3,16 +3,44 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Observable } from '@instana/observables';
+
+import {
+  ContextScope,
+  EndpointType,
+  GetServicesQuery,
+  OrderDirection,
+  PaginatedResult,
+  Result,
+  ServiceItem,
+  TagFilter,
+  TimeConfig
+} from 'in-types';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 
-const getServices = createResultSubscriptionFactory({
+const getServices = createResultSubscriptionFactory<GetServicesQuery, Result<PaginatedResult<ServiceItem>>>({
   eventId: 'getServices',
   trackSubscriptionStatistics: true
 });
 
 export default getServices;
 
+interface GetServicesWithDefaultsProps {
+  query?: string;
+  page?: number;
+  pageSize?: number;
+  orderBy?: string;
+  orderDirection?: OrderDirection;
+  endpointTypes?: EndpointType[];
+  technologies?: string[];
+  timeConfig: TimeConfig;
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  contextScope?: ContextScope;
+  tagFilters?: TagFilter[];
+}
 export function getServicesWithDefaults({
   query = '',
   page = 1,
@@ -27,7 +55,7 @@ export function getServicesWithDefaults({
   endpointId = '',
   contextScope,
   tagFilters = []
-}) {
+}: GetServicesWithDefaultsProps): Observable<Result<PaginatedResult<ServiceItem>>> {
   return getServices({
     pagination: {
       page,
@@ -89,9 +117,12 @@ export function getServicesWithDefaults({
       service: serviceId,
       endpoint: endpointId,
       endpointTypes,
-      technologies
+      technologies,
+      includeInternalCalls: false,
+      includeSyntheticCalls: false,
+      useLongTermDataOnly: false
     },
     contextScope: contextScope ? contextScope : 'NONE',
-    tagFilters: tagFilters ? [...tagFilters] : null
+    tagFilters: tagFilters ? [...tagFilters] : undefined
   });
 }
