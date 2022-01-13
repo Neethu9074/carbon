@@ -7820,6 +7820,7 @@
       "fqdn": "FQDN",
       "machineId": "Machine ID",
       "bootId": "Boot ID",
+      "systemId": "System ID",
       "startedAt": "Started At",
       "interfacesWithSize": "Interfaces ({{size}})",
       "cpuUsed": "CPU Used",
