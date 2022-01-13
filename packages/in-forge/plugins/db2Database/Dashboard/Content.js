@@ -75,7 +75,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="databases.connectionsCount" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.db2Database.daysLastBackup')}>
-          <MetricValue snapshotId={snapshotId} metric="databases.daysLastBackup" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="databases.daysLastBackup" formatter={number.compact} /> days ago
         </KpiKeyValue>
         {data.get('versionCheck') && <HadrTakeOverInfo snapshotId={snapshotId} timeConfig={timeConfig} />}
       </KpiSection>
