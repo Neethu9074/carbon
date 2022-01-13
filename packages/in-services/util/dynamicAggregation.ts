@@ -13,7 +13,7 @@ interface Request {
   maxDataPoints?: number;
   width: number;
   minPixelsPerBlock: number;
-  rollup: number | undefined;
+  rollup?: number | undefined;
 }
 
 export function getBlockSizeMillis({ windowSize, maxDataPoints, minPixelsPerBlock, width, rollup }: Request) {

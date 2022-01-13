@@ -12,10 +12,10 @@ import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineTo
 import Renderer from 'in-components/Chart/renderer/Renderer';
 // @ts-ignore
 import Chart from 'in-components/Chart/ChartReactComponent';
-import { Axis, Config } from 'in-components/Chart/ResultAwareChart.d';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 // @ts-ignore
 import PieChart from 'in-components/PieChart';
+import { Axis, Config } from 'in-components/Chart/types';
 import { Result } from 'in-types';
 import { t } from 'in-i18n';
 

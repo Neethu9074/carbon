@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Axis, Config } from 'in-components/Chart/ResultAwareChart.d';
+import { Axis, Config } from 'in-components/Chart/types';
 
 export function getNearestDataPointDomainForTimestamp(config: Config, timestamp: number, floor = false) {
   if (timeIsNotDefined(timestamp)) {
