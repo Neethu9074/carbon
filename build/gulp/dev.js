@@ -182,7 +182,6 @@ function getDevUrl() {
 function webpackDev() {
   // modify some webpack config options
   const config = clone(webpackConfig);
-  config.devtool = 'eval';
 
   // Start a webpack-dev-server
   new WebpackDevServer(createWebpackCompiler(config), {

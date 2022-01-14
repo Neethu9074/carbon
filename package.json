@@ -18,6 +18,7 @@
     "check:bundle-size": "ANALYZE_BUNDLE=true yarn run build",
     "check:yarn-lock-exists": "./build/precommit/checkYarnLock.js",
     "dev": "unset npm_config_registry && yarn && export BUILD_DEV='true' && export NODE_ENV='development' && node --max-old-space-size=4096 node_modules/gulp/bin/gulp.js dev",
+    "debug": "DETAILED_SOURCEMAPS='true' && export DONT_OPEN_BROWSER='true' && yarn dev",
     "start": "yarn dev",
     "dev:watch": "HOT_RELOAD=true yarn dev",
     "storybook": "cd storybook && unset npm_config_registry && yarn && cd .. && export STORYBOOK='true' && export BUILD_DEV='true' && export NODE_ENV='development' && gulp prepareTestExecution && export DEV_TOOLS='eval' && node --max-old-space-size=4096 ./storybook/node_modules/.bin/start-storybook -p 9001 -c storybook/config --no-version-updates",

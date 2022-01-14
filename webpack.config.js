@@ -15,7 +15,7 @@ const {
   localIdentName,
   getLocalIdent
 } = require('./build/webpack/cssIdentifiers');
-const { isDevModeBuild } = require('./build/webpack/opts');
+const { isDevModeBuild, hasDetailedSourceMaps } = require('./build/webpack/opts');
 const hotReload = isDevModeBuild && !!process.env.HOT_RELOAD;
 
 const definePlugin = new webpack.DefinePlugin({
@@ -75,6 +75,16 @@ const postCssLoader = {
   }
 };
 
+const determineDevTool = () => {
+  if (isDevModeBuild && hasDetailedSourceMaps) {
+    return 'eval-source-map';
+  }
+  if (isDevModeBuild) {
+    return 'eval';
+  }
+  return 'source-map';
+};
+
 module.exports = {
   entry,
   mode: process.env.NODE_ENV,
@@ -85,7 +95,7 @@ module.exports = {
     filename: '[name].js',
     chunkFilename: '[name].[contenthash].js'
   },
-  devtool: isDevModeBuild ? 'eval' : 'source-map',
+  devtool: determineDevTool(),
   module: {
     rules: [
       {

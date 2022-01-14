@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Debug Test" type="JavascriptDebugType" uri="https://local-instana.pink.instana.rocks:4000/">
+    <method v="2" />
+  </configuration>
+</component>
