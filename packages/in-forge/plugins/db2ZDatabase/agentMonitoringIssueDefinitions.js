@@ -22,7 +22,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.db2ZDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/db2z`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-db2-zos`
   },
   db2z_unable_to_get_data: {
     issueDescription: {
@@ -35,6 +35,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.db2ZDatabase.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/db2z`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-db2-zos`
   }
 };

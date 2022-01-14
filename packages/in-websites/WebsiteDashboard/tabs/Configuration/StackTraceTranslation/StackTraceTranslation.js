@@ -52,7 +52,7 @@ export default compose(withState('message', 'setMessage', null))(function StackT
           'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJavaScriptStackTraceTranslation'
         )}
         explanation={explanation}
-        learnMoreHref="https://instana.com/docs/website_monitoring/faq/#javascript-stack-trace-translation"
+        learnMoreHref="https://www.ibm.com/docs/en/obi/current?topic=websites-website-monitoring-faq#what-is-javascript-stack-trace-translation"
         learnMoreLabel={t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLearnMoreLabel')}
       />
 

@@ -3,10 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import ConfigureAlertingThreshold from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/ConfigureAlertingThreshold';
 import SelectTimeThreshold from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/SelectTimeThreshold';
@@ -60,10 +61,16 @@ export default function TimeThresholdConfigPresenter({
               i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.timeThresholdConfigNoUserSessionDetected"
               components={{
                 linkToIdentifyingUsers: (
-                  <Link external href="https://instana.com/docs/website_monitoring/api/#identifying-users" />
+                  <Link
+                    external
+                    href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#identifying-users"
+                  />
                 ),
                 linkToSessionTracking: (
-                  <Link external href="https://instana.com/docs/website_monitoring/api/#session-tracking" />
+                  <Link
+                    external
+                    href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#session-tracking"
+                  />
                 )
               }}
             />

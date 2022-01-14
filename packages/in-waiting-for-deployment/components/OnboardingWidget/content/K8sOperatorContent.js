@@ -20,7 +20,7 @@ export default function K8sOperatorContent({ agentKey, agentEndpoint, agentEndpo
     <>
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.installingTheInstanaAgentUsingTheKubernetesOperatorIsDescribedIn"
-        href="https://instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#install-using-the-operator"
+        href="https://www.ibm.com/docs/en/obi/current?topic=requirements-installing-host-agent-kubernetes#install-using-the-operator"
       />
       <Spacer />
       <TextWithLink
