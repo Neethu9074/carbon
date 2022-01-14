@@ -5,10 +5,9 @@
 
 import React from 'react';
 
-import EJBBeanTable from 'in-forge/plugins/webSphereApplicationContainer/Dashboard/EJBBeanTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
+import { millis, zeroDecimalPlaces } from 'in-services/formatters/number';
 import { emptyList } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
@@ -31,7 +30,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'ejbs.' + row.key + '.responseTime';
+        return `ejbBeans.${row.ejbBeanKey}.responseTime`;
       },
       getContent: millis.compact,
       getTimeWindowAggregation() {
@@ -47,7 +46,7 @@ const cols = [
         return row.snapshotId;
       },
       getMetricName(row) {
-        return 'ejbs.' + row.key + '.responseCount';
+        return `ejbBeans.${row.ejbBeanKey}.responseCount`;
       },
       getContent: zeroDecimalPlaces,
       getTimeWindowAggregation() {
@@ -57,25 +56,30 @@ const cols = [
   }
 ];
 
-export default function EJBModulesTable({ snapshot, timeConfig }) {
-  const ejbModules = snapshot.getIn(['data', 'ejbModules'], emptyList);
-  if (ejbModules.size === 0) {
+export default function EJBBeanTable({ ejbContext, snapshot, timeConfig }) {
+  const snapshotId = snapshot.get('id');
+  const rows = snapshot
+    .getIn(['data', 'ejbBeans', ejbContext], emptyList)
+    .toArray()
+    .map(key => {
+      return {
+        key,
+        ejbBeanKey: `${ejbContext}.${key}`,
+        ejbContext,
+        snapshotId,
+        timeConfig
+      };
+    });
+
+  if (rows.length === 0) {
     return null;
   }
-
-  const rows = ejbModules.toArray().map(key => {
-    return {
-      key,
-      snapshot,
-      snapshotId: snapshot.get('id'),
-      timeConfig
-    };
-  });
 
   return (
     <Table
       withoutPadding
-      cardTitle={t('in-forge:plugins.webSphereAppContainer.titleEJBModulesCount', {
+      cardTitle={t('in-forge:plugins.webSphereAppContainer.titleEJBBeansCount', {
+        ejbContext: ejbContext,
         len: rows.length
       })}
       cols={cols}
@@ -93,20 +97,18 @@ function getRowDetails(row) {
         timeConfig={row.timeConfig}
         y1={{
           formatter: millis.compact,
-          metrics: ['ejbs.' + row.key + '.responseTime'],
+          metrics: ['ejbBeans.' + row.ejbBeanKey + '.responseTime'],
           labels: [t('in-forge:plugins.webSphereAppContainer.labelResponseTime')],
           type: 'line'
         }}
         y2={{
           formatter: zeroDecimalPlaces,
-          metrics: ['ejbs.' + row.key + '.responseCount'],
+          metrics: ['ejbBeans.' + row.ejbBeanKey + '.responseCount'],
           labels: [t('in-forge:plugins.webSphereAppContainer.lableResponseCount')],
           type: 'line'
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />
-
-      <EJBBeanTable ejbContext={row.key} snapshot={row.snapshot} timeConfig={row.timeConfig} />
     </div>
   );
 }
