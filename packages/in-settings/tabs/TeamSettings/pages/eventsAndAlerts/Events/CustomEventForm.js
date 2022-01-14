@@ -527,7 +527,7 @@ function EventForm({
             <Trans
               i18nKey={'in-settings:tabs.deprecatedEventSelectedMessage'}
               components={{
-                documentationLink: <Link href="https://www.instana.com/docs/" external />
+                documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current" external />
               }}
             />
           </Message>

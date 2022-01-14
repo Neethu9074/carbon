@@ -132,6 +132,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    // TODO fix this link with IBM when https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana works!!
     explanationLinkHref: `https://www.instana.com/docs/setup_and_manage/host_agent`
   },
   apmproxy_missing_config: {
@@ -146,7 +147,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/ibm-apmproxy/#apmproxy_missing_config`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-integrating-apm-v8#missing-configuration`
   },
   apmproxy_connection_error: {
     issueDescription: {
