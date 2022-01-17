@@ -165,5 +165,5 @@ function round(value, decimals) {
 
 function getNumberOfDigits(value) {
   const [, digits] = value?.toString()?.split('.') ?? [];
-  return digits.length;
+  return digits?.length || 0;
 }
