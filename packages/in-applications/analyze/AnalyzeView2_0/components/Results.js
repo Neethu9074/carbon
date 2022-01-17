@@ -26,8 +26,8 @@ import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
+import { t, collationLanguage } from 'in-i18n';
 import Tooltip from 'in-components/Tooltip';
-import { t } from 'in-i18n';
 
 import locals from './Results.mless';
 
@@ -127,7 +127,7 @@ function getTableData({ timeConfig, backendQueryModel, orderBy, cursor, dataSour
       cursor,
       retrievalSize
     },
-    order: orderBy,
+    order: { ...orderBy, collation: collationLanguage },
     tagFilterExpression: backendQueryModel,
     filter: {
       timeConfig: timeConfig

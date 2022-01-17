@@ -26,7 +26,7 @@ import changeExplanation from 'in-websites/emptyListExplanation';
 import useTagCatalog from 'in-websites/hooks/useTagCatalog';
 import { number } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
-import { t } from 'in-i18n';
+import { t, collationLanguage } from 'in-i18n';
 
 const columnDefinitions = [
   {
@@ -169,7 +169,8 @@ function getTableData({
     },
     order: {
       by: orderBy,
-      direction: orderDirection
+      direction: orderDirection,
+      collation: collationLanguage
     },
     group: {
       groupbyTag: 'beacon.customEvent.name'

@@ -13,6 +13,7 @@ import Results from 'in-applications/analyze/AnalyzeView2_0/components/Results';
 import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import GroupedView from 'in-components/AnalyzeView/GroupedView';
+import { collationLanguage } from 'in-i18n';
 
 const getDataPerDataSource = {
   calls: getCallGroups,
@@ -79,7 +80,7 @@ function getTableData({
       timeConfig
     },
     tagFilterExpression: backendQueryModel,
-    order: orderByGroups,
+    order: { ...orderByGroups, collation: collationLanguage },
     metrics,
     includeSynthetic,
     includeInternal,

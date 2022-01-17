@@ -5,6 +5,7 @@
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
+import { collationLanguage } from 'in-i18n';
 
 const getApplications = createResultSubscriptionFactory({
   eventId: 'getApplications',
@@ -32,7 +33,8 @@ export function getApplicationsWithDefaults({
     },
     order: {
       by: orderBy,
-      direction: orderDirection
+      direction: orderDirection,
+      collation: collationLanguage
     },
     metrics: {
       services: {
