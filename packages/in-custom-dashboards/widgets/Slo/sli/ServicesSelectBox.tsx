@@ -3,22 +3,15 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Field } from 'formalistic';
 import React from 'react';
 
-import { Observable } from '@instana/observables';
-import { useObservable } from '@instana/hooks';
-
-import { ApplicationBoundaryScope, PaginatedResult, Result, ServiceItem, TimeConfig } from 'in-types';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
-import getServices from 'in-applications/subscriptions/getServices';
-import { hasError, isLoading } from 'in-services/util/result';
-import { pendingResult } from 'in-services/fixedObjects';
-import useTimeConfig from 'in-hooks/useTimeConfig';
+import useServices from 'in-applications/hooks/useServices';
+import { ApplicationBoundaryScope } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ServicesSelectBoxProps {
-  field: Field<never>;
+  hasError?: boolean;
   applicationId: string;
   boundaryScope: ApplicationBoundaryScope;
   value?: string;
@@ -26,68 +19,38 @@ interface ServicesSelectBoxProps {
 }
 
 export default function ServicesSelectBox({
-  field,
   applicationId,
+  hasError,
   boundaryScope,
   value,
   onChange
 }: ServicesSelectBoxProps) {
-  const timeConfig = useTimeConfig();
-
-  const result: Result<PaginatedResult<ServiceItem>> =
-    useObservable(getServicesObservable, [applicationId, boundaryScope, timeConfig]) ?? pendingResult;
+  const [servicesPage, status] = useServices({
+    application: applicationId,
+    filter: {
+      applicationBoundaryScope: boundaryScope
+    }
+  });
 
   return (
     <SelectInSection
       id="new-sli-service-selection"
       label={t('in-custom-dashboards:widgets.slo.servicesSelectBox.service')}
-      disabled={hasError(result) || isLoading(result)}
+      disabled={status !== 'resolved'}
       value={value ?? ''}
       onChange={({ target }) => onChange?.(target?.value)}
-      hasError={!field.valid && field.touched}
+      hasError={hasError}
     >
-      {isLoading(result) ? (
+      {status === 'pending' ? (
         <option value="">{t('in-custom-dashboards:widgets.slo.servicesSelectBox.loading')}</option>
       ) : (
         <option value="">{t('in-custom-dashboards:widgets.slo.servicesSelectBox.allServices')}</option>
       )}
-      {result.data?.items?.map(({ service }) => (
+      {servicesPage?.items?.map(({ service }) => (
         <option value={service.id} key={service.id}>
           {service.label}
         </option>
       ))}
     </SelectInSection>
   );
-}
-
-type GetServicesObservableProps = [string, ApplicationBoundaryScope, TimeConfig];
-
-function getServicesObservable([applicationId, boundaryScope, timeConfig]: GetServicesObservableProps): Observable<
-  Result<PaginatedResult<ServiceItem>>
-> {
-  return getServices({
-    pagination: {
-      page: 1,
-      pageSize: 100
-    },
-    order: {
-      by: 'serviceLabel',
-      direction: 'ASC'
-    },
-    metrics: {
-      applications: {
-        metric: 'applications',
-        aggregation: 'DISTINCT_COUNT'
-      }
-    },
-    filter: {
-      application: applicationId,
-      applicationBoundaryScope: boundaryScope,
-      timeConfig,
-      includeInternalCalls: false,
-      includeSyntheticCalls: false,
-      useLongTermDataOnly: false
-    },
-    contextScope: 'NONE'
-  });
 }

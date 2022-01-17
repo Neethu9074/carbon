@@ -32,9 +32,15 @@ import { t } from 'in-i18n';
 
 export function ApplicationSliForm({ form, onChange, apName, QueryBuilderComponent }) {
   const sliEntityForm = form.get('sliEntity');
+
+  const sliTypeForm = sliEntityForm.get('sliType');
+  const sliType = sliTypeForm.value;
+  const endpointIdField = sliEntityForm.get('endpointId');
+  const serviceIdField = sliEntityForm.get('serviceId');
+
   const applicationId = sliEntityForm.get('applicationId')?.value;
-  const serviceId = sliEntityForm.get('serviceId')?.value;
-  const endpointId = sliEntityForm.get('endpointId')?.value;
+  const serviceId = serviceIdField?.value;
+  const endpointId = endpointIdField?.value;
   const boundaryScope = sliEntityForm.get('boundaryScope')?.value;
   const includeInternal = sliEntityForm.get('includeInternal').value;
   const includeSynthetic = sliEntityForm.get('includeSynthetic').value;
@@ -46,10 +52,6 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
   const onUpdateSliEntityField = (fieldName, value) => {
     onChange(['sliEntity', fieldName], f => f.setValue(value).setTouched(true));
   };
-
-  const sliTypeForm = sliEntityForm.get('sliType');
-  const sliType = sliTypeForm.value;
-  const endpointIdField = sliEntityForm.get('endpointId');
 
   return (
     <Stack gap="large">
@@ -163,7 +165,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
                   boundaryScope={boundaryScope}
                   applicationId={applicationId}
                   value={serviceId}
-                  field={sliEntityForm.get('serviceId')}
+                  field={!serviceIdField.valid && serviceIdField.touched}
                   onChange={value =>
                     onChange(['sliEntity', 'serviceId'], f =>
                       f.setValue(convertEmptyStringToNull(value)).setTouched(true)
@@ -174,7 +176,6 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
 
               <Sections>
                 <EndpointSelectBox
-                  apName={apName}
                   boundaryScope={boundaryScope}
                   applicationId={applicationId}
                   serviceId={serviceId}
