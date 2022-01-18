@@ -80,6 +80,7 @@
       "clickHouseDatabase": "ClickHouse",
       "containerd": "Containerd Containers",
       "crio": "CRI-O Containers",
+      "crowdStrikeFalcon": "CrowdStrike Falcon",
       "docker": "Docker Containers",
       "garden": "Garden Containers",
       "host": "Hosts",
