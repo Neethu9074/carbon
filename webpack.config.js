@@ -16,6 +16,7 @@ const {
   getLocalIdent
 } = require('./build/webpack/cssIdentifiers');
 const { isDevModeBuild, hasDetailedSourceMaps } = require('./build/webpack/opts');
+const forkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const hotReload = isDevModeBuild && !!process.env.HOT_RELOAD;
 
 const definePlugin = new webpack.DefinePlugin({
@@ -33,13 +34,20 @@ const plugins = [
   new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^$/),
   new CaseSensitivePathsPlugin(),
   cssIdentWebpackPlugin,
-  process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin()
+  process.env.ANALYZE_BUNDLE && new BundleAnalyzerPlugin(),
+  isDevModeBuild &&
+    new forkTsCheckerWebpackPlugin({
+      async: true,
+      typescript: {
+        diagnosticOptions: {
+          semantic: true,
+          syntactic: true
+        },
+        mode: 'write-references',
+        memoryLimit: 4096
+      }
+    })
 ].filter(Boolean);
-
-if (hotReload) {
-  plugins.push(new webpack.HotModuleReplacementPlugin());
-  plugins.push(new webpack.NamedModulesPlugin());
-}
 
 const entry = hotReload
   ? {
@@ -63,15 +71,24 @@ const postCssLoader = {
   loader: 'postcss-loader',
   options: {
     sourceMap: true,
-    ident: 'postcss',
-    plugins: [
-      require('postcss-discard-comments')({
-        removeAll: true
-      }),
-      require('autoprefixer')({
-        browsers: ['last 2 versions']
-      })
-    ]
+    postcssOptions: {
+      plugins: [
+        require('postcss-discard-comments')({
+          removeAll: true
+        }),
+        require('autoprefixer')()
+      ]
+    }
+  }
+};
+
+const cssLoader = {
+  loader: 'css-loader',
+  options: {
+    modules: {
+      localIdentName,
+      getLocalIdent
+    }
   }
 };
 
@@ -92,10 +109,14 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'target/assets/bundle/'),
     publicPath: 'bundle/',
-    filename: '[name].js',
     chunkFilename: '[name].[contenthash].js'
   },
   devtool: determineDevTool(),
+  infrastructureLogging: isDevModeBuild
+    ? {
+        level: 'warn'
+      }
+    : undefined,
   module: {
     rules: [
       {
@@ -104,19 +125,7 @@ module.exports = {
       },
       {
         test: /\.mless$/i,
-        use: [
-          styleLoader,
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              localIdentName,
-              getLocalIdent
-            }
-          },
-          postCssLoader,
-          'less-loader'
-        ]
+        use: [styleLoader, cssLoader, postCssLoader, 'less-loader']
       },
       {
         test: /\.less$/i,
@@ -153,17 +162,6 @@ module.exports = {
         use: [
           {
             loader: 'raw-loader'
-          }
-        ]
-      },
-      {
-        test: /\.mmd$/,
-        use: [
-          {
-            loader: 'json-loader'
-          },
-          {
-            loader: 'meta-marked-loader'
           }
         ]
       },
