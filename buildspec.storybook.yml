@@ -3,7 +3,8 @@ version: 0.2
 env:
   variables:
     CODEBUILD_PROJECT_NAME: "ui-client-storybook"
-    RUN_UI_TEST_ON_DELIVERY: "false"
+    DEPLOY_STORYBOOK: "false"
+    RUN_UI_STORYBOOK_TEST: "false"
   parameter-store:
     ARTIFACT_INSTANA_IO_PASSWORD: "artifact.instana.io.password"
     ARTIFACT_INSTANA_IO_USER: "artifact.instana.io.user"
@@ -50,7 +51,5 @@ phases:
       - yarn
   build:
     commands:
-      - yarn run storybookBuild
-      - npm install s3-deploy@1.4.0 -g
-      - s3-deploy './storybookTarget/**' --cwd './storybookTarget/' --bucket instana-devinfra-ui-client-playground --deleteRemoved --invalidate
-      - 'test -n "$RUN_UI_TEST_ON_DELIVERY" -a "$RUN_UI_TEST_ON_DELIVERY" = "true" && yarn run storybookTest || true # ignore failing build'
+      - test -n "$DEPLOY_STORYBOOK" -a "$DEPLOY_STORYBOOK" = "true" && yarn run storybookBuild && npm install s3-deploy@1.4.0 -g && s3-deploy './storybookTarget/**' --cwd './storybookTarget/' --bucket instana-devinfra-ui-client-playground --deleteRemoved --invalidate || true
+      - test -n "$RUN_UI_STORYBOOK_TEST" -a "$RUN_UI_STORYBOOK_TEST" = "true" && yarn run storybookTest
