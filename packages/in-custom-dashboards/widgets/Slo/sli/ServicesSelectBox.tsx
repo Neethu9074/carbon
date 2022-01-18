@@ -6,15 +6,15 @@
 import React from 'react';
 
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import { ApplicationBoundaryScope, Nullish } from 'in-types';
 import useServices from 'in-applications/hooks/useServices';
-import { ApplicationBoundaryScope } from 'in-types';
 import { t } from 'in-i18n';
 
 interface ServicesSelectBoxProps {
   hasError?: boolean;
   applicationId: string;
   boundaryScope: ApplicationBoundaryScope;
-  value?: string;
+  value?: string | Nullish;
   onChange: (application?: string) => void;
 }
 
