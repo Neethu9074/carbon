@@ -39,7 +39,7 @@ const someFormData = {
   },
   alertChannelIds: [],
   enabled: true
-};
+} as const;
 
 export function someLogsFormData() {
   return {
@@ -99,4 +99,4 @@ export const someSlownessFormData = {
     ],
     deviationFactor: 4
   }
-};
+} as const;
