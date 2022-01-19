@@ -7,10 +7,12 @@ import React, { useState } from 'react';
 
 import { SvgIcon, Button, Th, SortableTh } from '@instana/components';
 
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import useDisabledBodyScroll from 'in-hooks/useDisabledBodyScroll';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { compareIgnoreCase } from 'in-services/util/string';
+import { OrderDirection, SortComparator } from 'in-types';
 import Overlay from 'in-components/overlays/Overlay';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
@@ -18,7 +20,19 @@ import { t } from 'in-i18n';
 
 import locals from './ConfigurableTh.mless';
 
-export default function ConfigurableTh(props) {
+interface ConfigurableThProps<ItemType extends Object> extends Omit<ConfigurableButtonProps<ItemType>, 'children'> {
+  sortDirection: OrderDirection;
+  onClick: React.EventHandler<React.MouseEvent<Element, MouseEvent>>;
+  children: React.ReactNode;
+  width?: number;
+  widthInAbsoluteUnit?: boolean;
+  className?: string;
+  sortable?: boolean;
+  isSortedByThisColumn?: boolean;
+  noWrap?: boolean;
+}
+
+export default function ConfigurableTh<ItemType extends Object>(props: ConfigurableThProps<ItemType>) {
   const {
     isSortedByThisColumn,
     sortDirection,
@@ -31,7 +45,7 @@ export default function ConfigurableTh(props) {
     widthInAbsoluteUnit
   } = props;
 
-  const wrapContent = content => <ConfigureButton {...props}>{content}</ConfigureButton>;
+  const wrapContent = (content: React.ReactNode) => <ConfigureButton {...props}>{content}</ConfigureButton>;
 
   if (sortable === false) {
     return (
@@ -50,7 +64,7 @@ export default function ConfigurableTh(props) {
   return (
     <SortableTh
       {...props}
-      isSortedByThisColumn={isSortedByThisColumn}
+      isSortedByThisColumn={isSortedByThisColumn ?? false}
       sortDirection={sortDirection}
       onClick={onClick}
       wrapContent={wrapContent}
@@ -60,7 +74,16 @@ export default function ConfigurableTh(props) {
   );
 }
 
-function ConfigureButton({ availableColumnDefinitions, columnDefinitions, children, onColumnChecked }) {
+interface ConfigurableButtonProps<ItemType extends Object> extends ContentProps<ItemType> {
+  children?: React.ReactNode;
+}
+
+function ConfigureButton<ItemType extends Object>({
+  availableColumnDefinitions,
+  columnDefinitions,
+  children,
+  onColumnChecked
+}: ConfigurableButtonProps<ItemType>) {
   return (
     <div className={locals.wrapper}>
       {children}
@@ -72,7 +95,13 @@ function ConfigureButton({ availableColumnDefinitions, columnDefinitions, childr
         props={{ availableColumnDefinitions, columnDefinitions, onColumnChecked }}
       >
         {({ toggle, refSetter }) => (
-          <Button className={locals.button} kind="secondary" onClick={toggle} refSetter={refSetter}>
+          <Button
+            className={locals.button}
+            kind="secondary"
+            onClick={toggle}
+            // Casting here because ts has trouble handling the inverted information flow of refs. I.e. ts should accept more narrow types as values for refs specifying a wider accepted type, but fails to do that
+            refSetter={refSetter as React.MutableRefObject<HTMLButtonElement>}
+          >
             <SvgIcon type="lib_actions_settings" />
           </Button>
         )}
@@ -81,7 +110,17 @@ function ConfigureButton({ availableColumnDefinitions, columnDefinitions, childr
   );
 }
 
-function Content({ availableColumnDefinitions, columnDefinitions, onColumnChecked }) {
+interface ContentProps<ItemType extends Object> {
+  availableColumnDefinitions: ColumnDefinition<ItemType>[];
+  columnDefinitions: ColumnDefinition<ItemType>[];
+  onColumnChecked: (id: string, isEnabled: boolean) => void;
+}
+
+function Content<ItemType extends Object>({
+  availableColumnDefinitions,
+  columnDefinitions,
+  onColumnChecked
+}: ContentProps<ItemType>) {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   useDisabledBodyScroll();
@@ -140,7 +179,13 @@ function Content({ availableColumnDefinitions, columnDefinitions, onColumnChecke
   );
 }
 
-function SearchBar({ query, placeholder, onChange }) {
+interface SearchBarProps {
+  query?: string;
+  placeholder?: string;
+  onChange: (query: string) => void;
+}
+
+function SearchBar({ query, placeholder, onChange }: SearchBarProps) {
   return (
     <div className={locals.search}>
       <SearchInput query={query} placeholder={placeholder} onChange={query => onChange(query)} />
@@ -148,7 +193,7 @@ function SearchBar({ query, placeholder, onChange }) {
   );
 }
 
-function compareCheckedAndLabel(selectedIds) {
+function compareCheckedAndLabel(selectedIds: string[]): SortComparator<ColumnDefinition<never>> {
   return (defA, defB) => {
     const aIsChecked = isChecked(selectedIds, defA);
     const bIsChecked = isChecked(selectedIds, defB);
@@ -162,14 +207,14 @@ function compareCheckedAndLabel(selectedIds) {
   };
 }
 
-function isDisabled(def) {
+function isDisabled(def: ColumnDefinition<never>): boolean {
   return !def.optional;
 }
 
-function isEnabled(selectedIds, def) {
+function isEnabled(selectedIds: string[], def: ColumnDefinition<never>): boolean {
   return selectedIds.indexOf(def.id) >= 0;
 }
 
-function isChecked(selectedIds, def) {
+function isChecked(selectedIds: string[], def: ColumnDefinition<never>): boolean {
   return isDisabled(def) || isEnabled(selectedIds, def);
 }
