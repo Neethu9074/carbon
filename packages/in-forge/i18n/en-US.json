@@ -8672,7 +8672,7 @@
     },
     "ibmMqChannel": {
       "dashboard": {
-        "messagesSent": "Messages Sent",
+        "messagesSent": "Messages Sent/Received",
         "messagesAvailable": "Messages Available",
         "messages": "Messages",
         "sentReceived": "Sent/Received",
@@ -8730,7 +8730,7 @@
         "ibmMqCluster": "IBM MQ Cluster",
         "type": "Type",
         "messages": "Messages",
-        "publishers": "Publications",
+        "publications": "Publications",
         "subscriptions": "Subscriptions",
         "topicsWithCount": "Topics ({{len}})"
       },
@@ -8818,6 +8818,9 @@
         "usage": "Usage",
         "monitoring": "Monitoring",
         "queuesWithCount": "Queues ({{len}})",
+        "queueFullPercentage": "Depth Percentage",
+        "openInputCount": "Open Input",
+        "openOutputCount": "Open Output",
         "application": "Application",
         "channel": "Channel",
         "connection": "Connection",
@@ -8878,7 +8881,7 @@
     "ibmMqTopic": {
       "dashboard": {
         "messages": "Messages",
-        "publishers": "Publications",
+        "publications": "Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
         "ibmMqTopic": "IBM MQ Topic"
@@ -8889,7 +8892,7 @@
       "topicType": "Topic Type",
       "topicAlternatedAt": "Topic Alternated At",
       "messages": "Messages",
-      "publishers": "Publications",
+      "publications": "Publications",
       "count": "Count",
       "lastResetTime": "Last Reset Time",
       "reset": "Reset",

@@ -20,7 +20,7 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label={t('in-forge:plugins.ibmMqTopic.dashboard.messages')}>
           <MetricValue snapshotId={snapshotId} metric="messagesCount" formatter={number.compact} />
         </KpiKeyValue>
-        <KpiKeyValue label={t('in-forge:plugins.ibmMqTopic.dashboard.publishers')}>
+        <KpiKeyValue label={t('in-forge:plugins.ibmMqTopic.dashboard.publications')}>
           <MetricValue snapshotId={snapshotId} metric="publishCount" formatter={number.compact} />
         </KpiKeyValue>
       </KpiSection>
@@ -37,7 +37,7 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
           }}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.ibmMqTopic.dashboard.publishers')}>
+      <DashboardSection title={t('in-forge:plugins.ibmMqTopic.dashboard.publications')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
