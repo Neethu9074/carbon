@@ -5,12 +5,21 @@
 
 import React from 'react';
 
-export interface ColumnDefinition<ColumnProps extends Object> {
+import { ThProps } from '@instana/components';
+
+import { OrderDirection } from 'in-types';
+
+export interface ColumnDefinition<ColumnPropsType extends Object> {
   id: string;
   width: string;
+  widthInAbsoluteUnit?: boolean;
+  useMinimumAmountOfHorizontalSpace?: boolean;
   sortable?: boolean;
   optional?: boolean;
-  getContent(props: ColumnProps): React.ReactNode;
+  selectAllCheckbox?: boolean;
+  defaultOrderDirection?: OrderDirection;
+  getContent(props: ColumnPropsType): React.ReactNode;
   label: string;
-  renderLabel?: (definition: ColumnDefinition<ColumnProps>) => React.ReactNode;
+  renderLabel?: (definition: ColumnDefinition<ColumnPropsType>) => React.ReactNode;
+  headCellProps?: Omit<ThProps, 'width' | 'widthInAbsoluteUnit' | 'useMinimumAmountOfHorizontalSpace'>;
 }

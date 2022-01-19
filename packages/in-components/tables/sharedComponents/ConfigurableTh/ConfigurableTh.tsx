@@ -24,7 +24,7 @@ interface ConfigurableThProps<ItemType extends Object> extends Omit<Configurable
   sortDirection: OrderDirection;
   onClick: React.EventHandler<React.MouseEvent<Element, MouseEvent>>;
   children: React.ReactNode;
-  width?: number;
+  width?: number | string;
   widthInAbsoluteUnit?: boolean;
   className?: string;
   sortable?: boolean;

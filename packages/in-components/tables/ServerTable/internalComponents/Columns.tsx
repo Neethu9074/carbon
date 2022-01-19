@@ -6,15 +6,31 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Th, SortableTh } from '@instana/components';
+import { Tr, Th, SortableTh, ThProps } from '@instana/components';
 
 import ConfigurableTh from 'in-components/tables/sharedComponents/ConfigurableTh';
 import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import { OrderDirection } from 'in-types';
 
 import locals from './Columns.mless';
 
-export default function Columns(props) {
+type OrderSetter = (columnId: string, direction: OrderDirection) => void;
+
+interface ColumnsProps<ItemType extends Object> {
+  setOrder: OrderSetter;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  columnDefinitions: ColumnDefinition<ItemType>[];
+  availableColumnDefinitions: ColumnDefinition<ItemType>[];
+  onColumnChecked: (id: string, isEnabled: boolean) => void;
+  optionalColumns?: never[];
+  allRowsAreSelected?: boolean;
+  setSelectedStateForRows: (allRowsAreSelected: boolean) => void;
+}
+
+export default function Columns<ItemType extends Object>(props: ColumnsProps<ItemType>) {
   const {
     setOrder,
     orderBy,
@@ -88,7 +104,13 @@ export default function Columns(props) {
   );
 }
 
-function onClick(e, setOrder, columnDefinition, isSortedByThisColumn, orderDirection) {
+function onClick(
+  e: React.MouseEvent<Element, MouseEvent>,
+  setOrder: OrderSetter,
+  columnDefinition: ColumnDefinition<never>,
+  isSortedByThisColumn: boolean,
+  orderDirection: OrderDirection
+): void {
   stopPropagationAndPreventDefault(e);
 
   setOrder(
@@ -97,19 +119,26 @@ function onClick(e, setOrder, columnDefinition, isSortedByThisColumn, orderDirec
   );
 }
 
-function getHeadCellProps(columnDefinition) {
-  const headCellProps = columnDefinition.headCellProps ? columnDefinition.headCellProps : {};
-  headCellProps.className = classNames({
-    [headCellProps.className]: headCellProps.className,
+function getHeadCellProps(columnDefinition: ColumnDefinition<never>): ThProps {
+  const className = classNames({
+    [columnDefinition.headCellProps?.className as any]: columnDefinition.headCellProps?.className,
     [locals.th]: true
   });
-  headCellProps.width = columnDefinition.width;
-  headCellProps.widthInAbsoluteUnit = columnDefinition.widthInAbsoluteUnit;
-  headCellProps.useMinimumAmountOfHorizontalSpace = columnDefinition.useMinimumAmountOfHorizontalSpace;
-  return headCellProps;
+
+  return {
+    ...columnDefinition.headCellProps,
+    className,
+    width: columnDefinition.width,
+    widthInAbsoluteUnit: columnDefinition.widthInAbsoluteUnit,
+    useMinimumAmountOfHorizontalSpace: columnDefinition.useMinimumAmountOfHorizontalSpace
+  };
 }
 
-function getOrderDirection(isAlreadyOrderedBy, currentOrderDirection, defaultOrderDirection = 'ASC') {
+function getOrderDirection(
+  isAlreadyOrderedBy: boolean,
+  currentOrderDirection: OrderDirection,
+  defaultOrderDirection: OrderDirection = 'ASC'
+): OrderDirection {
   if (!isAlreadyOrderedBy) {
     return defaultOrderDirection;
   }
