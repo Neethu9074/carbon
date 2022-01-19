@@ -279,6 +279,12 @@ export interface BackendTrace {
   readonly traceId: string;
 }
 
+export interface BrowserScriptConfiguration extends SyntheticTypeConfiguration {
+  readonly browser?: SyntheticBrowserType;
+  readonly script: string;
+  readonly syntheticType: 'BrowserScript';
+}
+
 export interface Builder {
   readonly podId?: string;
   readonly timeConfig?: TimeConfig;
@@ -481,6 +487,7 @@ export interface CustomDashboard {
 }
 
 export interface CustomDashboardPreview {
+  readonly annotations: CustomDashboardPreviewAnnotation[];
   readonly id: string;
   readonly title: string;
 }
@@ -1471,6 +1478,18 @@ export interface GetOpenEventsCountTimeSeriesQuery {
   readonly timeConfig: TimeConfig;
 }
 
+export interface GetPhmcConsolesQuery extends PaginatedQuery {
+  readonly filter: PhmcQueryFilter;
+  readonly order: Order;
+  readonly pagination: Pagination;
+}
+
+export interface GetPhmcSystemsQuery extends PaginatedQuery {
+  readonly filter: PhmcQueryFilter;
+  readonly order: Order;
+  readonly pagination: Pagination;
+}
+
 export interface GetProcessesByIdsQuery extends CursorPaginatedQuery {
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
   readonly processSnapshotIds: string[];
@@ -2008,6 +2027,20 @@ export interface HostAvailabilityRule extends AbstractRule {
   readonly closeAfter: number;
   readonly offlineDuration: number;
   readonly tagFilter?: TagFilter;
+}
+
+export interface HttpActionConfiguration extends SyntheticTypeConfiguration {
+  readonly body?: string;
+  readonly headers?: { [index: string]: string };
+  readonly operation?: HttpActionOperation;
+  readonly syntheticType: 'HTTPAction';
+  readonly url: string;
+  readonly validationString?: string;
+}
+
+export interface HttpScriptConfiguration extends SyntheticTypeConfiguration {
+  readonly script: string;
+  readonly syntheticType: 'HTTPScript';
 }
 
 export interface Incident extends Event {
@@ -2992,6 +3025,53 @@ export interface Pagination {
   readonly pageSize: number;
 }
 
+export interface PhmcConsoleItem {
+  readonly consoleId: string;
+  readonly id: string;
+  readonly label: string;
+  readonly systems: number;
+}
+
+export interface PhmcConsoleItemCounters extends FilterableListItem {
+  readonly consoleName: string;
+  readonly id: string;
+  readonly label: string;
+  readonly partitions?: number;
+  readonly systems: number;
+  readonly vios?: number;
+}
+
+export interface PhmcQueryFilter extends FilterInterface {
+  readonly consoleId?: string;
+  readonly label?: string;
+  readonly snapshotId?: string;
+  readonly systemId?: string;
+  readonly timeConfig: TimeConfig;
+  readonly viosId?: string;
+}
+
+export interface PhmcSystemItem {
+  readonly consoleId?: string;
+  readonly id: string;
+  readonly label: string;
+  readonly name: string;
+  readonly partitions?: string[];
+  readonly systemId: string;
+  readonly vios?: string[];
+}
+
+export interface PhmcSystemListItem extends FilterableListItem, ListItemWithMetric {
+  readonly consoleId?: string;
+  readonly entityId?: EntityId;
+  readonly id: string;
+  readonly label: string;
+  readonly machineSerial?: string;
+  readonly machineTypeModel?: string;
+  readonly partitions?: number;
+  readonly status?: number;
+  readonly vios?: number;
+}
+
 export interface PhysicalContext {
   readonly cloudfoundry?: CloudfoundryPhysicalContext;
   readonly cluster?: SnapshotPreview;
@@ -3479,6 +3559,57 @@ export interface StatusCodeWebsiteAlertRule extends WebsiteAlertRule {
   readonly value: string;
 }
 
+export interface SyntheticGeoPoint {
+  readonly cityName: string;
+  readonly countryName: string;
+  readonly latitude: number;
+  readonly longitude: number;
+}
+
+export interface SyntheticLocation {
+  readonly createdAt?: Date;
+  readonly customProperties?: { [index: string]: string };
+  readonly description?: string;
+  readonly displayLabel?: string;
+  readonly geoPoint: SyntheticGeoPoint;
+  readonly id?: string;
+  readonly label: string;
+  readonly locationType: string;
+  readonly modifiedAt?: Date;
+  readonly observedAt?: Date;
+  readonly playbackCapabilities: SyntheticPlaybackCapabilities;
+  readonly popVersion?: string;
+}
+
+export interface SyntheticPlaybackCapabilities {
+  readonly browserType: SyntheticBrowserType[];
+  readonly syntheticType: SyntheticType[];
+}
+
+export interface SyntheticTest {
+  readonly active: boolean;
+  readonly applicationId?: string;
+  readonly configuration: SyntheticTypeConfigurationUnion;
+  readonly createdAt?: Date;
+  readonly createdBy?: string;
+  readonly customProperties?: { [index: string]: string };
+  readonly deleted?: boolean;
+  readonly deletedAt?: Date;
+  readonly description?: string;
+  readonly id?: string;
+  readonly label: string;
+  readonly locations: string[];
+  readonly modifiedAt?: Date;
+  readonly modifiedBy?: string;
+  readonly playbackMode: SyntheticPlaybackMode;
+  readonly serviceId?: string;
+  readonly testFrequency: number;
+}
+
+export interface SyntheticTypeConfiguration {
+  readonly syntheticType: 'BrowserScript' | 'HTTPAction' | 'HTTPScript' | 'WebpageConfiguration' | 'WebpageAction' | 'WebpageScript';
+}
+
 export interface SystemRule extends AbstractRule {
   readonly systemRuleId: string;
 }
@@ -3776,11 +3907,13 @@ export interface UsageMetricConfiguration extends UnifiedMetricConfiguration {
 }
 
 export interface UserImpactThreshold {
+  readonly impactMeasurementMethod?: ImpactMeasurementMethod;
   readonly userPercentage?: number;
   readonly users?: number;
 }
 
 export interface UserImpactWebsiteTimeThreshold extends WebsiteTimeThreshold, UserImpactThreshold {
+  readonly impactMeasurementMethod: ImpactMeasurementMethod;
 }
 
 export interface UserResult {
@@ -3936,6 +4069,29 @@ export interface VsphereVmListItem extends FilterableListItem, ListItemWithMetri
 export interface WebBrowser {
   readonly name: string;
   readonly version?: string;
+}
+
+export interface WebpageActionConfiguration extends WebpageConfiguration {
+  readonly syntheticType: 'WebpageAction';
+  readonly url: string;
+}
+
+export interface WebpageAuthentication {
+  readonly password?: string;
+  readonly username?: string;
+}
+
+export interface WebpageConfiguration extends SyntheticTypeConfiguration {
+  readonly authentication?: WebpageAuthentication;
+  readonly blacklist?: string[];
+  readonly browser?: SyntheticBrowserType;
+  readonly syntheticType: 'WebpageConfiguration' | 'WebpageAction' | 'WebpageScript';
+  readonly whitelist?: string[];
+}
+
+export interface WebpageScriptConfiguration extends WebpageConfiguration {
+  readonly script: string;
+  readonly syntheticType: 'WebpageScript';
 }
 
 export interface Website {
@@ -4289,6 +4445,8 @@ export type ChangeType = 'CREATE' | 'UPDATE' | 'DELETE' | 'ENABLE' | 'DISABLE' |
 
 export type ContextScope = 'NONE' | 'UPSTREAM' | 'DOWNSTREAM';
 
+export type CustomDashboardPreviewAnnotation = 'SHARED' | 'WRITABLE';
+
 export type DataSource = 'CALLS' | 'TRACES';
 
 export type DependencyType = 'in' | 'is' | 'to' | 'of' | 'connected' | 'describes' | 'of20' | 'to20' | 'dummy' | 'parent';
@@ -4314,6 +4472,10 @@ export type FlowDirection = 'INCOMING' | 'OUTGOING';
 export type Formatter = 'NUMBER' | 'BYTES' | 'PERCENTAGE' | 'LATENCY' | 'MILLIS' | 'SECONDS' | 'MICROS' | 'RATE' | 'BYTE_RATE' | 'UNDEFINED';
 
 export type Granularity = 60000 | 300000 | 600000 | 900000 | 1200000 | 1800000;
+
+export type HttpActionOperation = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+export type ImpactMeasurementMethod = 'AGGREGATED' | 'PER_WINDOW';
 
 export type InfraTabCategory = 'HOST' | 'CONTAINER' | 'PROCESS' | 'CLUSTER';
 
@@ -4356,6 +4518,14 @@ export type SliType = 'APPLICATION' | 'WEBSITE';
 export type SpanKind = 'UNKNOWN' | 'ENTRY' | 'EXIT' | 'INTERMEDIATE';
 
 export type SpanModel = 'UNKNOWN' | 'HTTP' | 'DATABASE' | 'RPC' | 'MESSAGING' | 'BATCH' | 'LOG' | 'SDK';
+
+export type SyntheticBrowserType = 'chrome' | 'firefox';
+
+export type SyntheticPlaybackMode = 'Simultaneous' | 'Staggered';
+
+export type SyntheticType = 'HTTPAction';
+
+export type SyntheticTypeConfigurationUnion = BrowserScriptConfiguration | HttpActionConfiguration | HttpScriptConfiguration | WebpageActionConfiguration | WebpageScriptConfiguration;
 
 export type TagFilterEntity = 'NOT_APPLICABLE' | 'DESTINATION' | 'SOURCE';
 
