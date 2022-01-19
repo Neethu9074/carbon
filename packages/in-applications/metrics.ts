@@ -14,7 +14,7 @@ import { Mutable, TimeConfig } from 'in-types';
 
 const EXTEND_TIME_WINDOW_CUTOFF = 24 * 3600 * 1000;
 
-interface TimeResult {
+export interface TimeResult {
   time: number;
 }
 
@@ -86,7 +86,7 @@ export function getSparkChartGranularity(timeConfig: TimeConfig): number {
   return minutes.toMillis(roundedBlockSize);
 }
 
-export function extendMetricConfigurationOnLiveMode(metricsConfiguration: MetricsConfiguration) {
+export function extendMetricConfigurationOnLiveMode(metricsConfiguration: MetricsConfiguration): MetricsConfiguration {
   const timeConfig = metricsConfiguration.filter.timeConfig;
   if (!timeConfig?.autoRefresh) {
     return metricsConfiguration;
