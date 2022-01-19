@@ -8672,7 +8672,7 @@
     },
     "ibmMqChannel": {
       "dashboard": {
-        "messagesSent": "Messages Sent",
+        "messagesSent": "Messages Sent/Received",
         "messagesAvailable": "Messages Available",
         "messages": "Messages",
         "sentReceived": "Sent/Received",
