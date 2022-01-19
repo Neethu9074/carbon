@@ -1134,10 +1134,10 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz#b520529ec21d8e5945a1851dfd1c32e94e39ff45"
   integrity sha1-tSBSnsIdjllFoYUd/Rwy6U45/0U=
 
-"@instana/components@1.39.2":
-  version "1.39.2"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.39.2.tgz#c71ecbdb7c3cf1b6a50a219ac827b886ecdc5bc6"
-  integrity sha1-xx7L23w88balCiGayCe4huzcW8Y=
+"@instana/components@1.40.1":
+  version "1.40.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@instana/components/-/@instana/components-1.40.1.tgz#2d1d1e8101b57f29057edcf1623ed7b45e8cad9d"
+  integrity sha1-LR0egQG1fykFftzxYj7XtF6MrZ0=
   dependencies:
     "@instana/design-tokens" "^1.10.0"
     "@instana/format-date" "^1.3.0"
@@ -10627,9 +10627,9 @@ prism-react-renderer@^1.2.1:
   integrity sha1-OSRgrPY1QJYOXjyqaZ2FEmTpm4k=
 
 prismjs@^1.24.1:
-  version "1.25.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/prismjs/-/prismjs-1.25.0.tgz#6f822df1bdad965734b310b315a23315cf999756"
-  integrity sha1-b4It8b2tllc0sxCzFaIzFc+Zl1Y=
+  version "1.26.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/prismjs/-/prismjs-1.26.0.tgz#16881b594828bb6b45296083a8cbab46b0accd47"
+  integrity sha1-FogbWUgou2tFKWCDqMurRrCszUc=
 
 process-nextick-args@^2.0.0, process-nextick-args@~2.0.0:
   version "2.0.1"
