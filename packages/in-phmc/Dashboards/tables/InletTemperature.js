@@ -5,27 +5,26 @@
 
 import React from 'react';
 
-import Table from 'in-sdk/components/dashboard/Table';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { number } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-import { number } from 'in-services/formatters/number';
 
 let snapshotMap = {};
 
 const cols = [
   {
-    title: 'Entity ID',
+    title: t('in-phmc:entityId'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        console.log('type of ',typeof(row.inletTemperature.get('entityId')));
         return row.inletTemperature.get('entityId');
       }
     }
   },
   {
-    title:'Entity Instance',
+    title: t('in-phmc:entityInstance'),
     type: 'string',
     typeArgs: {
       getValue(row) {
@@ -34,7 +33,7 @@ const cols = [
     }
   },
   {
-    title:'Temperature Reading',
+    title: t('in-phmc:temperatureReading'),
     type: 'number',
     typeArgs: {
       getValue(row) {
@@ -46,15 +45,13 @@ const cols = [
 ];
 
 export default connectTo(
-  (props) => {
+  props => {
     snapshotMap = props;
-    // console.log('timeConfig' , timeConfig);
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'inletTemperatures')
     };
   },
   function InletTemperature({ data }) {
-
     if (!data) {
       return null;
     }

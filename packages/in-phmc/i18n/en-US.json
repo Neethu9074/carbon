@@ -84,6 +84,9 @@
   "model": "Model",
   "serialNumber": "Serial Number",
   "sampleType": "Sample Type",
+  "entityId": "Entity ID",
+  "entityInstance": "Entity Instance",
+  "temperatureReading": "Temperature Reading",
   "breadcrumbs": {
     "phmc": "Power HMC",
     "phmcs": "Power HMCs",
