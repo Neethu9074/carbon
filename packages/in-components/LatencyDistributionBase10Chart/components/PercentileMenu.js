@@ -27,7 +27,13 @@ export default function PercentileMenu(props) {
           toggle();
         };
         return (
-          <Button refSetter={refSetter} onClick={trackAndToggle} kind="secondary" size="compact">
+          <Button
+            refSetter={refSetter}
+            onClick={trackAndToggle}
+            className={locals.percentileButton}
+            kind="secondary"
+            size="compact"
+          >
             {t('in-components:latencyDistributionBase10Chart.percentileMenuButtonPercentileView')}
           </Button>
         );
@@ -35,6 +41,7 @@ export default function PercentileMenu(props) {
     </Overlay>
   );
 }
+
 function PercentileMenuContent({ percentilesShown, onChange }) {
   const indeterminateAll = 0 < percentilesShown.count() && percentilesShown.count() < ALL_PERCENTILES.count();
   return (
