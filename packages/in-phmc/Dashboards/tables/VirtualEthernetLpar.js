@@ -31,11 +31,12 @@ const cols = [
   },
   {
     title: t('in-phmc:viosId'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('viosId');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
@@ -58,99 +59,201 @@ const cols = [
   },
   {
     title: t('in-phmc:sentPackets'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('sentPackets');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:recievedPackets'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('receivedPackets');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:droppedPackets'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('droppedPackets');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:sentBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('sentBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:recievedBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('receivedBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:transferredBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('transferredBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:transferredPhysicalBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('transferredPhysicalBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   }
 ];
 
+// export default connectTo(
+//   ({ snapshotId }) => {
+//     return {
+//       data: getRawPayload(snapshotId, 'virtualEthernetAdapters')
+//     };
+//   },
+//   function VirtualEthernetLpar({ data }) {
+//     if (!data) {
+//       return null;
+//     }
+//     const virtualEthernetAdapters = data.toArray();
+
+//     if (virtualEthernetAdapters.size === 0) {
+//       return null;
+//     }
+//     const rows = virtualEthernetAdapters.map((virtualEthernetAdapter, idx) => {
+//       return {
+//         key: String(idx),
+//         virtualEthernetAdapter
+//       };
+//     });
+
+//     return (
+//       <Table
+//         withoutPadding
+//         cardTitle={t('in-phmc:dashboards.virtualEthernetAdapter')}
+//         cols={cols}
+//         rows={rows}
+//         initialSortColumn={0}
+//         initialSortDirection="asc"
+//       />
+//     );
+//   }
+// );
+
 export default connectTo(
-  ({ snapshotId }) => {
+  (props) => {
+    snapshotMap = props;
     return {
-      data: getRawPayload(snapshotId, 'virtualEthernetAdapters')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'virtualEthernetAdapters')
     };
   },
-  function VirtualEthernetLpar({ data }) {
+
+  function VirtualEhternetLpar({ data }) {
     if (!data) {
       return null;
     }
-    const virtualEthernetAdapters = data.toArray();
 
-    if (virtualEthernetAdapters.size === 0) {
-      return null;
-    }
-    const rows = virtualEthernetAdapters.map((virtualEthernetAdapter, idx) => {
-      return {
-        key: String(idx),
-        virtualEthernetAdapter
+    const { snapshotId, timeConfig } = snapshotMap;
+    const virtualEthernet = data.get('raw_payload', []);
+    const rows = virtualEthernet
+      .keySeq()
+      .toArray()
+      .map(key => {
+        const virtualEthernetAdapter = virtualEthernet.get(key);
+        return {
+          key: String(key),
+          snapshotId,
+          timeConfig,
+          virtualEthernetAdapter
+        };
+      });
+
+    const getDetails = (row) => {
+
+      if(!snapshotMap?.timeConfig){
+         return;
+      }
+        return (
+         <Columize>
+          <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number,
+              metrics: [
+                'virtualEthernetAdapters.' + row.key + '.sentPackets',
+                'virtualEthernetAdapters.' + row.key + '.receivedPackets',
+                'virtualEthernetAdapters.' + row.key + '.droppedPackets'
+                ],
+              labels: [
+                t('in-phmc:sentPackets'),
+                t('in-phmc:recievedPackets'),
+                t('in-phmc:droppedPackets')
+                  ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          </Card>
+          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+            <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number,
+              metrics: [
+                'virtualEthernetAdapters.' + row.key + '.sentBytes',
+                'virtualEthernetAdapters.' + row.key + '.receivedBytes',
+                'virtualEthernetAdapters.' + row.key + '.transferredBytes'],
+              labels: [
+                t('in-phmc:sentBytes'),
+                t('in-phmc:recievedBytes'),
+                t('in-phmc:transferredBytes')
+                  ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          </Card>
+          </Columize>
+        );
       };
-    });
-
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-phmc:dashboards.virtualEthernetAdapter')}
+        cardTitle={t('in-phmc:dashboards.sriovAdapter')}
         cols={cols}
         rows={rows}
         initialSortColumn={0}
         initialSortDirection="asc"
+        getRowDetails={getDetails}
       />
     );
   }

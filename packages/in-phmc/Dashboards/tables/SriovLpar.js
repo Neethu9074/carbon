@@ -58,100 +58,167 @@ const cols = [
   },
   {
     title: t('in-phmc:sentPackets'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sriovLogicalPort.get('sentPackets');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:recievedPackets'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sriovLogicalPort.get('receivedPackets');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:sentBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sriovLogicalPort.get('sentBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:recievedBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sriovLogicalPort.get('receivedBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:transferredBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sriovLogicalPort.get('transferredBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:errorIn'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sriovLogicalPort.get('errorIn');
-      }
+      },
+      getContent: number.detailed
     }
   },
   {
     title: t('in-phmc:errorOut'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sriovLogicalPort.get('errorOut');
-      }
+      },
+      getContent: number.detailed
     }
   }
 ];
 
+
 export default connectTo(
-  ({ snapshotId }) => {
+  (props) => {
+    snapshotMap = props;
     return {
-      data: getRawPayload(snapshotId, 'sriovLogicalPorts')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'sriovLogicalPorts')
     };
   },
+
   function SriovLogicalPort({ data }) {
     if (!data) {
       return null;
     }
-    const sriovLogicalPorts = data.toArray();
 
-    if (sriovLogicalPorts.size === 0) {
-      return null;
-    }
-    const rows = sriovLogicalPorts.map((sriovLogicalPort, idx) => {
-      return {
-        key: String(idx),
-        sriovLogicalPort
+    const { snapshotId, timeConfig } = snapshotMap;
+    const sriov = data.get('raw_payload', []);
+    const rows = sriov
+      .keySeq()
+      .toArray()
+      .map(key => {
+        const sriovLogicalPort = sriov.get(key);
+        return {
+          key: String(key),
+          snapshotId,
+          timeConfig,
+          sriovLogicalPort
+        };
+      });
+
+    const getDetails = (row) => {
+
+      if(!snapshotMap?.timeConfig){
+         return;
+      }
+        return (
+           <Columize>
+          <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number,
+              metrics: [
+                'sriovLogicalPorts.' + row.key + '.sentPackets',
+                'sriovLogicalPorts.' + row.key + '.receivedPackets'
+                ],
+              labels: [
+                t('in-phmc:sentPackets'),
+                t('in-phmc:recievedPackets')
+                  ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          </Card>
+          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+            <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number,
+              metrics: [
+                'sriovLogicalPorts.' + row.key + '.sentBytes',
+                'sriovLogicalPorts.' + row.key + '.receivedBytes',
+                'sriovLogicalPorts.' + row.key + '.transferredBytes'],
+              labels: [
+                t('in-phmc:sentBytes'),
+                t('in-phmc:recievedBytes'),
+                t('in-phmc:transferredBytes')
+                  ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          </Card>
+          </Columize>
+        );
       };
-    });
-
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-phmc:dashboards.sriovLogicalPort')}
+        cardTitle={t('in-phmc:dashboards.sriovAdapter')}
         cols={cols}
         rows={rows}
         initialSortColumn={0}
         initialSortDirection="asc"
+        getRowDetails={getDetails}
       />
     );
   }
 );
+

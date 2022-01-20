@@ -9,6 +9,7 @@ import Table from 'in-sdk/components/dashboard/Table';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+import { number } from 'in-services/formatters/number';
 
 let snapshotMap = {};
 
@@ -38,7 +39,8 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.inletTemperature.get('temperatureReading');
-      }
+      },
+      getContent: number.detailed
     }
   }
 ];

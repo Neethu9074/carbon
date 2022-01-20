@@ -9,8 +9,8 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { bytes, number } from 'in-services/formatters/number';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
@@ -53,7 +53,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('sentPackets');
       },
-      getContent: number.compact
+      getContent: bytes.compact
     }
   },
   {
@@ -63,7 +63,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('receivedPackets');
       },
-      getContent: number.compact
+      getContent: bytes.compact
     }
   },
   {
@@ -103,7 +103,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('errorIn');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   },
   {
@@ -113,7 +113,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('errorOut');
       },
-      getContent: number.compact
+      getContent: number.detailed
     }
   }
 ];
@@ -179,7 +179,7 @@ export default connectTo(
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: bytes.compact,
+              formatter: number,
               metrics: [
                 'sriovAdapters.' + row.key + '.sentBytes',
                 'sriovAdapters.' + row.key + '.receivedBytes',
