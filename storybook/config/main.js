@@ -9,5 +9,8 @@ module.exports = {
   /* usually "stories" are defined here, but we do some
     adaption, and configure that in preview.js
    */
+  core: {
+    builder: 'webpack5'
+  },
   addons: ['@storybook/addon-essentials']
 };

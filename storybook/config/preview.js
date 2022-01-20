@@ -7,8 +7,7 @@
 /* import-sort-ignore */
 
 import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
-import { configure, addDecorator } from '@storybook/react';
-import { addParameters } from '@storybook/react';
+import { configure, addDecorator, addParameters } from '@storybook/react';
 import { themes } from '@storybook/theming';
 import React from 'react';
 

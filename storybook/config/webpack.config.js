@@ -13,6 +13,37 @@ const {
   getLocalIdent
 } = require('../../build/webpack/cssIdentifiers');
 const createCompiler = require('@storybook/addon-docs/mdx-compiler-plugin');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+
+const styleLoader = {
+  loader: 'style-loader',
+  options: { injectType: 'singletonStyleTag' }
+};
+
+const postCssLoader = {
+  loader: 'postcss-loader',
+  options: {
+    sourceMap: true,
+    postcssOptions: {
+      plugins: [
+        require('postcss-discard-comments')({
+          removeAll: true
+        }),
+        require('autoprefixer')()
+      ]
+    }
+  }
+};
+
+const cssLoader = {
+  loader: 'css-loader',
+  options: {
+    modules: {
+      localIdentName,
+      getLocalIdent
+    }
+  }
+};
 
 // This is a modified set of loaders. It specifically excludes some special cases around CSS extraction
 // and CSS names.
@@ -23,18 +54,7 @@ const necessaryLoaders = [
   },
   {
     test: /\.mless$/i,
-    use: [
-      'style-loader',
-      {
-        loader: 'css-loader',
-        options: {
-          modules: true,
-          localIdentName,
-          getLocalIdent
-        }
-      },
-      'less-loader'
-    ]
+    use: [styleLoader, cssLoader, postCssLoader, 'less-loader']
   },
   {
     test: /\.less$/i,
@@ -61,6 +81,7 @@ const necessaryLoaders = [
     exclude: /node_modules/,
     use: [
       {
+        options: { cacheDirectory: true },
         loader: 'babel-loader'
       }
     ]
@@ -77,24 +98,7 @@ const necessaryLoaders = [
     test: /\.md$/,
     use: [
       {
-        loader: 'html-loader'
-      },
-      {
-        loader: 'markdown-loader',
-        options: {
-          /* your options here */
-        }
-      }
-    ]
-  },
-  {
-    test: /\.mmd$/,
-    use: [
-      {
-        loader: 'json-loader'
-      },
-      {
-        loader: 'meta-marked-loader'
+        loader: 'html-loader!markdown-loader'
       }
     ]
   },
@@ -118,9 +122,7 @@ const necessaryLoaders = [
         // the root ui-client dir. Referencing the dependency relative to this file
         // provides an escape hatch.
         loader: path.join(__dirname, '..', 'node_modules', '@mdx-js', 'loader'),
-        options: {
-          compilers: [createCompiler({})]
-        }
+        options: { compilers: [createCompiler({})] }
       }
     ]
   },
@@ -135,25 +137,20 @@ const necessaryLoaders = [
 ];
 
 module.exports = async ({ config }) => {
-  config.plugins.push(
-    new webpack.DefinePlugin({
-      __DEV__: 'false',
-      __HOT_RELOAD__: 'false'
-    })
-  );
-  config.module.rules = necessaryLoaders;
-  config.plugins.push(cssIdentWebpackPlugin);
-  config.watchOptions = {
-    ignored: /node_modules/,
-    aggregateTimeout: 300,
-    poll: 2000
+  const defs = {
+    // this is necessary for the React and Invariant modules
+    __DEV__: 'false',
+    __HOT_RELOAD__: 'false'
   };
+  config.plugins.push(new webpack.DefinePlugin(defs));
+  config.plugins.push(new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /^$/));
+  config.plugins.push(new CaseSensitivePathsPlugin());
+  config.plugins.push(cssIdentWebpackPlugin);
+
+  config.module.rules = necessaryLoaders;
 
   config.resolve.extensions.push('.ts', '.tsx');
-  config.resolve.modules.push(
-    path.join(__dirname, '..', 'node_modules'),
-    path.join(__dirname, '..', '..', 'node_modules')
-  );
+  config.resolve.modules.push(path.join(__dirname, '..', 'node_modules'));
 
   return config;
 };
