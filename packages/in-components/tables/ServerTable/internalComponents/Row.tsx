@@ -10,12 +10,15 @@ import { Tr, Td, TrProps } from '@instana/components';
 
 import locals from './Row.mless';
 import { TrSizes } from '@instana/components/types/components/Table/types';
-import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
 
-interface RowProps<ItemType extends Object, AdditionalColumnPropsType = unknown> {
+interface RowProps<
+  ItemType extends Object,
+  AdditionalColumnPropsType extends TableProps<ItemType> = TableProps<ItemType>
+> {
   item: ItemType;
   size?: keyof typeof TrSizes;
-  columnDefinitions: Array<ColumnDefinition<ItemType>>;
+  columnDefinitions: ColumnDefinition<ItemType>[];
   getRowProps?: (item: ItemType) => TrProps;
   cellOpts: AdditionalColumnPropsType;
   onRowClick?: (item: ItemType, e: React.MouseEvent) => void;
@@ -23,7 +26,10 @@ interface RowProps<ItemType extends Object, AdditionalColumnPropsType = unknown>
   onMouseLeave: (item: ItemType) => void;
 }
 
-export default function Row<ItemType extends Object, AdditionalColumnPropsType = unknown>({
+export default function Row<
+  ItemType extends Object,
+  AdditionalColumnPropsType extends TableProps<ItemType> = TableProps<ItemType>
+>({
   item,
   size,
   columnDefinitions,

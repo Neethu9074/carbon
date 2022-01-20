@@ -25,7 +25,7 @@ interface ColumnsProps<ItemType extends Object> {
   columnDefinitions: ColumnDefinition<ItemType>[];
   availableColumnDefinitions: ColumnDefinition<ItemType>[];
   onColumnChecked: (id: string, isEnabled: boolean) => void;
-  optionalColumns?: never[];
+  optionalColumns?: unknown[];
   allRowsAreSelected?: boolean;
   setSelectedStateForRows: (allRowsAreSelected: boolean) => void;
 }
@@ -107,7 +107,7 @@ export default function Columns<ItemType extends Object>(props: ColumnsProps<Ite
 function onClick(
   e: React.MouseEvent<Element, MouseEvent>,
   setOrder: OrderSetter,
-  columnDefinition: ColumnDefinition<never>,
+  columnDefinition: ColumnDefinition<any>,
   isSortedByThisColumn: boolean,
   orderDirection: OrderDirection
 ): void {
@@ -119,7 +119,7 @@ function onClick(
   );
 }
 
-function getHeadCellProps(columnDefinition: ColumnDefinition<never>): ThProps {
+function getHeadCellProps(columnDefinition: ColumnDefinition<any>): ThProps {
   const className = classNames({
     [columnDefinition.headCellProps?.className as any]: columnDefinition.headCellProps?.className,
     [locals.th]: true
