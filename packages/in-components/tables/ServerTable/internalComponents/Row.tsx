@@ -6,11 +6,24 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { Tr, Td } from '@instana/components';
+import { Tr, Td, TrProps } from '@instana/components';
 
 import locals from './Row.mless';
+import { TrSizes } from '@instana/components/types/components/Table/types';
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 
-export default function Row({
+interface RowProps<ItemType extends Object, AdditionalColumnPropsType = unknown> {
+  item: ItemType;
+  size?: keyof typeof TrSizes;
+  columnDefinitions: Array<ColumnDefinition<ItemType>>;
+  getRowProps?: (item: ItemType) => TrProps;
+  cellOpts: AdditionalColumnPropsType;
+  onRowClick?: (item: ItemType, e: React.MouseEvent) => void;
+  onMouseEnter: (item: ItemType) => void;
+  onMouseLeave: (item: ItemType) => void;
+}
+
+export default function Row<ItemType extends Object, AdditionalColumnPropsType = unknown>({
   item,
   size,
   columnDefinitions,
@@ -19,10 +32,9 @@ export default function Row({
   cellOpts,
   onMouseEnter,
   onMouseLeave
-}) {
+}: RowProps<ItemType, AdditionalColumnPropsType>) {
   const rowProps = getRowProps ? getRowProps(item) : {};
-  const rowClickHandler = onRowClick ? { onClick: e => onRowClick(item, e) } : {};
-  const keys = Object.keys(columnDefinitions);
+  const rowClickHandler = onRowClick ? { onClick: (e: React.MouseEvent) => onRowClick(item, e) } : {};
   return (
     <Tr
       onMouseEnter={() => onMouseEnter(item)}
@@ -31,32 +43,23 @@ export default function Row({
       {...rowClickHandler}
       {...rowProps}
     >
-      {keys.map(key => {
-        const {
-          id,
-          noWrap,
-          ellipsis,
-          cellClassName,
-          tableAction,
-          useMinimumAmountOfHorizontalSpace,
-          getContent
-        } = columnDefinitions[key];
-        return (
+      {columnDefinitions.map(
+        ({ id, noWrap, ellipsis, cellClassName, tableAction, useMinimumAmountOfHorizontalSpace, getContent }) => (
           <Td
             key={id}
             noWrap={noWrap}
             ellipsis={ellipsis}
             useMinimumAmountOfHorizontalSpace={useMinimumAmountOfHorizontalSpace}
             className={classNames({
-              [cellClassName]: cellClassName,
+              [cellClassName as any]: cellClassName,
               [locals.tableActionCell]: tableAction,
               [locals.clickable]: onRowClick
             })}
           >
             {getContent(item, cellOpts, id)}
           </Td>
-        );
-      })}
+        )
+      )}
     </Tr>
   );
 }
