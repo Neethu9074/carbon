@@ -2,14 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
+
 import React from 'react';
-import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import Table from 'in-sdk/components/dashboard/Table';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { getRawPayload, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { number, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-import { number, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 
 let snapshotMap = {};
 
@@ -77,16 +79,16 @@ export default connectTo(
   },
   function SharedProcessorPool({ data, data2 }) {
 
-    
+
     // if(data2){
     //   console.log('data2 ',data2);
-     
+
     // }
     // if(data){
-   
+
     //   data = data.get('raw_payload');
     //   //console.log('raw payload data ',data, 'typeof', typeof(data));
-     
+
     // }
 
     if (!data) {
@@ -120,15 +122,15 @@ export default connectTo(
     //     sharedProcessorPool
     //   };
     // });
-  
+
     const getDetails = (row) => {
- 
+
       if(!snapshotMap?.timeConfig){
          return;
       }
-      
+
          console.log('JSON ' ,JSON.stringify(row));
-        
+
         return (
           <Chart
             snapshotId={snapshotId}

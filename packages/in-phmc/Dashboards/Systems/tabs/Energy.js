@@ -8,11 +8,10 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import InletTemperature from 'in-phmc/Dashboards/tables/InletTemperature';
-import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { number, percentage } from 'in-services/formatters/number';
+import InletTemperature from 'in-phmc/Dashboards/tables/InletTemperature';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
+import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
@@ -22,25 +21,25 @@ export default function Summary({ timeConfig, data: system }) {
   return (
     <Fragment>
         <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
-          <KpiCard title={'UUID'} value={231} raw borderless />
-          <KpiCard title={'Power Consumption'} value={7262} raw borderless />
-          <KpiCard title={'Machine Type'} value={'Abcd*bw'} raw borderless />
-          <KpiCard title={'Model'} value={'XYZ'} raw borderless />
-          <KpiCard title={'Serial number'} value={'snksmsd'} raw borderless />
-          <KpiCard title={'Sample Type'} value={'qwerty'} raw borderless />
+          <KpiCard title={ t('in-phmc:uuid')} value={231} raw borderless />
+          <KpiCard title={t('in-phmc:powerConsumption')} value={7262} raw borderless />
+          <KpiCard title={t('in-phmc:machineType')} value={'Abcd*bw'} raw borderless />
+          <KpiCard title={t('in-phmc:model')} value={'XYZ'} raw borderless />
+          <KpiCard title={t('in-phmc:serialNumber')} value={'snksmsd'} raw borderless />
+          <KpiCard title={t('in-phmc:sampleType')} value={'qwerty'} raw borderless />
 
       </KpiGridRow>
 
       <Row verticallyStretchColumns>
         <Col lg={12}>
-          <Card title={'Power Utilization'} useMaxAvailableHeight>
+          <Card title={t('in-phmc:powerUtilization')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
               y1={{
                 min: 0,
                 metrics: ['utilizedProcUnits'],
-                labels: ['Power'],
+                labels: [t('in-phmc:powerConsumption')],
                 formatter: number.detailed,
                 type: 'line'
               }}

@@ -5,10 +5,18 @@
 
 import React from 'react';
 
+import { Card } from '@instana/components';
+
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { bytes, number } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+
+let snapshotMap = {};
 
 const cols = [
   {
@@ -40,52 +48,57 @@ const cols = [
   },
   {
     title: t('in-phmc:sentPackets'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('sentPackets');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
     title: t('in-phmc:recievedPackets'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('receivedPackets');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
     title: t('in-phmc:droppedPackets'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('droppedPackets');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
     title: t('in-phmc:sentBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('sentBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:recievedBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('receivedBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
     title: t('in-phmc:transferredBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('transferredBytes');
@@ -94,37 +107,98 @@ const cols = [
   },
   {
     title: t('in-phmc:transferredPhysicalBytes'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('transferredPhysicalBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   }
 ];
 
 export default connectTo(
-  ({ snapshotId }) => {
+  (props) => {
+    snapshotMap = props;
     return {
-      data: getRawPayload(snapshotId, 'virtualEthernetAdapters')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'virtualEthernetAdapters')
     };
   },
   function VirtualEthernetAdapter({ data }) {
     if (!data) {
       return null;
     }
-    const virtualEthernetAdapters = data.toArray();
 
-    if (virtualEthernetAdapters.size === 0) {
-      return null;
-    }
-    const rows = virtualEthernetAdapters.map((virtualEthernetAdapter, idx) => {
-      return {
-        key: String(idx),
-        virtualEthernetAdapter
+    const { snapshotId, timeConfig } = snapshotMap;
+    const virtualEthernetVios = data.get('raw_payload', []);
+    const rows = virtualEthernetVios
+      .keySeq()
+      .toArray()
+      .map(key => {
+        const virtualEthernetAdapter = virtualEthernetVios.get(key);
+        return {
+          key: String(key),
+          snapshotId,
+          timeConfig,
+          virtualEthernetAdapter
+        };
+      });
+
+    const getDetails = (row) => {
+
+      if(!snapshotMap?.timeConfig){
+         return;
+      }
+        return (
+          <Columize>
+          <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number,
+              metrics: [
+                'virtualEthernetAdapter.' + row.key + '.sentPackets',
+                'virtualEthernetAdapter.' + row.key + '.receivedPackets',
+                'virtualEthernetAdapter.' + row.key + '.droppedPackets'],
+
+              labels: [
+                t('in-phmc:sentPackets'),
+                t('in-phmc:recievedPackets'),
+                t('in-phmc:droppedPackets')
+                  ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          </Card>
+          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+            <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: bytes.compact,
+              metrics: [
+                'virtualEthernetAdapter.' + row.key + '.sentBytes',
+                'virtualEthernetAdapter.' + row.key + '.receivedBytes',
+                'virtualEthernetAdapter.' + row.key + '.transferredBytes',
+                'virtualEthernetAdapter.' + row.key + '.transferredPhysicalBytes'],
+              labels: [
+                t('in-phmc:sentBytes'),
+                t('in-phmc:recievedBytes'),
+                t('in-phmc:transferredBytes'),
+                t('in-phmc:transferredPhysicalBytes')
+                  ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          </Card>
+          </Columize>
+        );
       };
-    });
-
     return (
       <Table
         withoutPadding
@@ -133,6 +207,7 @@ export default connectTo(
         rows={rows}
         initialSortColumn={0}
         initialSortDirection="asc"
+        getRowDetails={getDetails}
       />
     );
   }

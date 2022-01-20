@@ -9,8 +9,8 @@ import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import { bytesTwoDecimalPlaces, number } from 'in-services/formatters/number';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { bytes, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
@@ -53,7 +53,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('sentPackets');
       },
-      getContent: bytesTwoDecimalPlaces
+      getContent: number.compact
     }
   },
   {
@@ -63,7 +63,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('receivedPackets');
       },
-      getContent: bytesTwoDecimalPlaces
+      getContent: number.compact
     }
   },
   {
@@ -73,7 +73,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('sentBytes');
       },
-      getContent: bytesTwoDecimalPlaces
+      getContent: bytes.compact
     }
   },
   {
@@ -83,7 +83,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('receivedBytes');
       },
-      getContent: bytesTwoDecimalPlaces
+      getContent: bytes.compact
     }
   },
   {
@@ -93,7 +93,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('transferredBytes');
       },
-      getContent: bytesTwoDecimalPlaces
+      getContent: bytes.compact
     }
   },
   {
@@ -103,7 +103,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('errorIn');
       },
-      getContent: bytesTwoDecimalPlaces
+      getContent: number.compact
     }
   },
   {
@@ -113,7 +113,7 @@ const cols = [
       getValue(row) {
         return row.sriovAdapter.get('errorOut');
       },
-      getContent: bytesTwoDecimalPlaces
+      getContent: number.compact
     }
   }
 ];
@@ -127,7 +127,7 @@ export default connectTo(
     };
   },
 
-  function SharedProcessorPool({ data }) {
+  function SriovAdapter({ data }) {
     if (!data) {
       return null;
     }
@@ -179,7 +179,7 @@ export default connectTo(
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              formatter: number,
+              formatter: bytes.compact,
               metrics: [
                 'sriovAdapters.' + row.key + '.sentBytes',
                 'sriovAdapters.' + row.key + '.receivedBytes',
@@ -200,7 +200,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-phmc:dashboards.sharedProcessorPool')}
+        cardTitle={t('in-phmc:dashboards.sriovAdapter')}
         cols={cols}
         rows={rows}
         initialSortColumn={0}

@@ -77,6 +77,13 @@
   "configurationType": "Configuration Type",
   "physicalPortId": "Physical Port ID",
   "physicalLocation":"Physical Location",
+  "uuid": "UUID",
+  "powerConsumption": "Power Consumption",
+  "powerUtilization": "Power Utilization",
+  "machineType": "Machine Type",
+  "model": "Model",
+  "serialNumber": "Serial Number",
+  "sampleType": "Sample Type",
   "breadcrumbs": {
     "phmc": "Power HMC",
     "phmcs": "Power HMCs",
@@ -112,7 +119,8 @@
     "fiberChannelAdapter": "Fiber Channel Adapters",
     "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapters",
     "sharedStoragePool": "Shared Storage Pools",
-    "hypervisor": "Hypervisor"
+    "hypervisor": "Hypervisor",
+    "energy": "Energy"
   }
 }
 
