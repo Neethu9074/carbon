@@ -5,9 +5,14 @@
 
 import React from 'react';
 
-import Table from 'in-sdk/components/dashboard/Table';
+import { Card } from '@instana/components';
+
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import { bytes, number } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
+import Table from 'in-sdk/components/dashboard/Table';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -103,17 +108,14 @@ const cols = [
   }
 ];
 
-
 export default connectTo(
-  (props) => {
+  props => {
     snapshotMap = props;
-    // console.log('timeConfig' , timeConfig);
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'genericVirtualAdapters')
     };
   },
-  function GenericVirtualLpars({ data }) {
-
+  function GenericVirtualLpar({ data }) {
     if (!data) {
       return null;
     }
@@ -132,40 +134,51 @@ export default connectTo(
           genericVirtualAdapter
         };
       });
-  
-    const getDetails = (row) => {
- 
-      if(!snapshotMap?.timeConfig){
-         return;
+
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
       }
-      
-        return (
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number,
-              metrics: [
-               'genericVirtualAdapters.' + row.key + '.numOfReads', 
-               'genericVirtualAdapters.' + row.key + '.numOfWrites', 
-               'genericVirtualAdapters.' + row.key + '.readBytes',
-               'genericVirtualAdapters.' + row.key + '.writeBytes',
-               'genericVirtualAdapters.' + row.key + '.transmittedBytes'
-               ],
-              labels: [
-                  'Number of Reads',
-                  'Number of Writes',
-                  'Bytes Read',
-                  'Bytes Write',
-                  'Bytes Transmitted'
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-        );
-      }
+      return (
+        <Columize>
+          <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: [
+                  'genericVirtualAdapter.' + row.key + '.sentPackets',
+                  'genericVirtualAdapter.' + row.key + '.receivedPackets'
+                ],
+                labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: [
+                  'genericVirtualAdapter.' + row.key + '.sentBytes',
+                  'genericVirtualAdapter.' + row.key + '.receivedBytes',
+                  'genericVirtualAdapter.' + row.key + '.transferredBytes'
+                ],
+                labels: [t('in-phmc:sentBytes'), t('in-phmc:recievedBytes'), t('in-phmc:transferredBytes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Columize>
+      );
+    };
     return (
       <Table
         withoutPadding
@@ -179,4 +192,3 @@ export default connectTo(
     );
   }
 );
-

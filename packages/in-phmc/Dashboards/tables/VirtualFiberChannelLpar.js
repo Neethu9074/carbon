@@ -5,12 +5,18 @@
 
 import React from 'react';
 
+import { Card } from '@instana/components';
+
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import { bytes, number } from 'in-services/formatters/number';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
-import { bytes, number } from 'in-services/formatters/number';
 
+let snapshotMap = {};
 const cols = [
   {
     title: t('in-phmc:wwpn'),
@@ -120,9 +126,8 @@ const cols = [
   }
 ];
 
-
 export default connectTo(
-  (props) => {
+  props => {
     snapshotMap = props;
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'virtualFiberChannelAdapters')
@@ -149,46 +154,54 @@ export default connectTo(
         };
       });
 
-    const getDetails = (row) => {
-
-      if(!snapshotMap?.timeConfig){
-         return;
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
       }
-        return (
-          <Columize>
+      return (
+        <Columize>
           <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number,
-              metrics: [
-               'virtualFiberChannelAdapters.' + row.key + '.numOfReads', 
-               'virtualFiberChannelAdapters.' + row.key + '.numOfWrites', 
-               'virtualFiberChannelAdapters.' + row.key + '.readBytes',
-               'virtualFiberChannelAdapters.' + row.key + '.writeBytes',
-               'virtualFiberChannelAdapters.' + row.key + '.transmittedBytes'
-               ],
-              labels: [
-               'Number of Reads',
-               'Number of Writes',
-               'Bytes Read',
-               'Bytes Write',
-               'Bytes Transmitted'
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: [
+                  'virtualFiberChannelAdapter.' + row.key + '.numOfReads',
+                  'virtualFiberChannelAdapter.' + row.key + '.numOfWrites'
+                ],
+                labels: [t('in-phmc:reads'), t('in-phmc:writes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
           </Card>
-          </Columize>
-        );
-      };
+          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: [
+                  'virtualFiberChannelAdapter.' + row.key + '.readBytes',
+                  'virtualFiberChannelAdapter.' + row.key + '.writeBytes',
+                  'virtualFiberChannelAdapter.' + row.key + '.transmittedBytes'
+                ],
+                labels: [t('in-phmc:readBytes'), t('in-phmc:writeBytes'), t('in-phmc:transmittedBytes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Columize>
+      );
+    };
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-phmc:dashboards.sriovAdapter')}
+        cardTitle={t('in-phmc:dashboards.virtualFiberChannelAdapter')}
         cols={cols}
         rows={rows}
         initialSortColumn={0}
