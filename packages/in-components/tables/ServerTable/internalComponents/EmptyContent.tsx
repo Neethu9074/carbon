@@ -8,8 +8,16 @@ import React from 'react';
 import { Tr, Td } from '@instana/components';
 
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { TrSizes } from '@instana/components/types/components/Table/types';
 
-export default function EmptyContent({ cols, size, renderNoDataAvailable, noDataMessage }) {
+interface EmptyContentProps {
+  cols?: number;
+  size?: keyof typeof TrSizes;
+  renderNoDataAvailable?: (message?: string) => React.ReactNode;
+  noDataMessage?: string;
+}
+
+export default function EmptyContent({ cols, size, renderNoDataAvailable, noDataMessage }: EmptyContentProps) {
   return (
     <Tr size={size}>
       <Td colSpan={cols}>
