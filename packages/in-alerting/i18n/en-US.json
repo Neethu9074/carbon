@@ -186,6 +186,10 @@
             "logMessageCardTitle": "Log Message",
             "httpStatusCodesCardTitle": "HTTP Status Codes"
           },
+          "threshold": {
+            "label": "Threshold",
+            "title": "Threshold: When is the condition violated?"
+          },
           "timeThreshold": {
             "label": "Time Threshold",
             "title": "Time Threshold: When do you want to be alerted?"
@@ -689,6 +693,8 @@
         "slownessInteractiveChartThresholdValue": "Threshold Value",
         "scopeLabel": "Scope",
         "scopeTitle": "Scope: Where is the condition happening?",
+        "thresholdLabel": "Threshold",
+        "thresholdTitle": "Threshold: When is the condition violated?",
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: What do you want to be alerted on?",
         "JSErrorMessage": "JS Error Message",
