@@ -6,8 +6,15 @@
 import React, { Fragment } from 'react';
 
 import { TableHorizontalIndicatorRow, TableLoadingSkeletonRows } from '@instana/components';
+import { Progress } from 'in-types';
 
-export default function LoadingRows({ cols, progress, numSkeletonRows }) {
+interface LoadingRowsProps {
+  cols: number;
+  progress: Progress;
+  numSkeletonRows: number;
+}
+
+export default function LoadingRows({ cols, progress, numSkeletonRows }: LoadingRowsProps) {
   return (
     <Fragment>
       <TableHorizontalIndicatorRow cols={cols} progress={progress} />
