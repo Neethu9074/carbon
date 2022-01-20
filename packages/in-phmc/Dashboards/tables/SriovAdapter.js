@@ -5,11 +5,14 @@
 
 import React from 'react';
 
+import { Card } from '@instana/components';
+
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { bytesTwoDecimalPlaces, number } from 'in-services/formatters/number';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
+import Columize from 'in-sdk/components/dashboard/Columize';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayloadWithTimestamp} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -119,13 +122,12 @@ const cols = [
 export default connectTo(
   (props) => {
     snapshotMap = props;
-    // console.log('timeConfig' , timeConfig);
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'sriovAdapters')
     };
   },
-  function SharedProcessorPool({ data }) {
 
+  function SharedProcessorPool({ data }) {
     if (!data) {
       return null;
     }
@@ -144,37 +146,57 @@ export default connectTo(
           sriovAdapter
         };
       });
-  
+
     const getDetails = (row) => {
- 
+
       if(!snapshotMap?.timeConfig){
          return;
       }
-      
-         console.log('JSON ' ,JSON.stringify(row));
-         console.log('Chart value ','sriovAdapters.' + row.key + '.sentPackets');
-        
         return (
+          <Columize>
+          <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
           <Chart
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
               min: 0,
               formatter: number,
-              //'sharedProcessorPools.' + row.key + '.assignedProcUnits'
-              metrics: ['sriovAdapters.' + row.key + '.sentPackets', 'sriovAdapters.' + row.key + '.receivedPackets', 'sriovAdapters.' + row.key + '.sentBytes','sriovAdapters.' + row.key + '.receivedBytes'],
+              metrics: [
+                'sriovAdapters.' + row.key + '.sentPackets',
+                'sriovAdapters.' + row.key + '.receivedPackets'],
               labels: [
-                  'Packet Sent',
-                  'Packet Recieved',
-                  'Bytes Sent',
-                  'Bytes Recieved'
+                t('in-phmc:sentPackets'),
+                t('in-phmc:recievedPackets'),
                   ],
               type: 'line'
             }}
             renderPostChartContent={PluginDashboardsMarkerLanes}
           />
+          </Card>
+          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+            <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number,
+              metrics: [
+                'sriovAdapters.' + row.key + '.sentBytes',
+                'sriovAdapters.' + row.key + '.receivedBytes',
+                'sriovAdapters.' + row.key + '.transferredBytes'],
+              labels: [
+                t('in-phmc:sentBytes'),
+                t('in-phmc:recievedBytes'),
+                t('in-phmc:transferredBytes')
+                  ],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+          </Card>
+          </Columize>
         );
-      }
+      };
     return (
       <Table
         withoutPadding

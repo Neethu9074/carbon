@@ -95,6 +95,8 @@
     "vios": "Virtual I/O Server",
     "network": "Network",
     "storage": "Storage",
+    "packets": "Packets",
+    "bytes": "Bytes",
     "processorUnits": "Processor Units",
     "sharedProcessorPool": "Shared Processor Pool",
     "inletTemperatures": "Inlet Temperatures",
