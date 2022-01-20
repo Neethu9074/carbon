@@ -324,6 +324,11 @@
   "pluginName_crio_1": "CRI-O Containers",
   "pluginName_crio_2": "CRI-O Containers",
   "pluginName_crio": "CRI-O Container",
+  "pluginName_crowdStrikeFalcon_plural": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon_0": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon_1": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon_2": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon": "CrowdStrike Falcon",
   "pluginName_crystalRuntimePlatform_plural": "Crystal Apps",
   "pluginName_crystalRuntimePlatform_0": "Crystal Apps",
   "pluginName_crystalRuntimePlatform_1": "Crystal Apps",
@@ -5047,6 +5052,20 @@
       "cpuUsage": "CPU Usage",
       "memoryUsage": "Memory Usage"
     },
+    "crowdStrikeFalcon": {
+      "dashboard": {
+        "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
+      },
+      "table": {
+        "host": "Host",
+        "name": "Name"
+      },
+      "rfm-state": "Reduced Functonality Mode",
+      "rfm-reason": "Reduced Functonality Reason",
+      "aid": "Agent Identifier",
+      "cid": "Customer Identifer",
+      "version": "Version"
+    },
     "crystalRuntimePlatform": {
       "dashboard": {
         "heap": "Heap",
@@ -7820,6 +7839,7 @@
       "fqdn": "FQDN",
       "machineId": "Machine ID",
       "bootId": "Boot ID",
+      "systemId": "System ID",
       "startedAt": "Started At",
       "interfacesWithSize": "Interfaces ({{size}})",
       "cpuUsed": "CPU Used",
@@ -8652,7 +8672,7 @@
     },
     "ibmMqChannel": {
       "dashboard": {
-        "messagesSent": "Messages Sent",
+        "messagesSent": "Messages Sent/Received",
         "messagesAvailable": "Messages Available",
         "messages": "Messages",
         "sentReceived": "Sent/Received",
@@ -8710,7 +8730,7 @@
         "ibmMqCluster": "IBM MQ Cluster",
         "type": "Type",
         "messages": "Messages",
-        "publishers": "Publications",
+        "publications": "Publications",
         "subscriptions": "Subscriptions",
         "topicsWithCount": "Topics ({{len}})"
       },
@@ -8798,6 +8818,9 @@
         "usage": "Usage",
         "monitoring": "Monitoring",
         "queuesWithCount": "Queues ({{len}})",
+        "queueFullPercentage": "Depth Percentage",
+        "openInputCount": "Open Input",
+        "openOutputCount": "Open Output",
         "application": "Application",
         "channel": "Channel",
         "connection": "Connection",
@@ -8858,7 +8881,7 @@
     "ibmMqTopic": {
       "dashboard": {
         "messages": "Messages",
-        "publishers": "Publications",
+        "publications": "Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
         "ibmMqTopic": "IBM MQ Topic"
@@ -8869,7 +8892,7 @@
       "topicType": "Topic Type",
       "topicAlternatedAt": "Topic Alternated At",
       "messages": "Messages",
-      "publishers": "Publications",
+      "publications": "Publications",
       "count": "Count",
       "lastResetTime": "Last Reset Time",
       "reset": "Reset",

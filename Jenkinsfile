@@ -169,29 +169,22 @@ pipeline {
       }
     }
 
-    stage('Storybook') {
+    stage('Deploy Storybook') {
       steps {
         timeout(time: 30, unit: 'MINUTES') {
           timestamps {
             script {
-              if (isDeliveryBranch
-                  || branchName.startsWith('storybook-')
-                  || branchName.startsWith('chromatic-')) {
-
+              if (isDeliveryBranch) {
                   try {
-                    def RUN_UI_TEST_ON_DELIVERY =
-                      (branchName.startsWith('storybook-') || branchName.startsWith('chromatic-')) ? "true" : "false"
-
                     awsCodeBuild credentialsType: 'jenkins',
                       credentialsId: 'codebuild',
                       projectName: 'ui-client-storybook',
                       region: 'us-west-2',
                       imageOverride: 'aws/codebuild/standard:5.0',
                       sourceControlType: 'project',
-                      envVariables: '[ {RUN_UI_TEST_ON_DELIVERY, ' + RUN_UI_TEST_ON_DELIVERY + '} ]',
+                      envVariables: '[ {DEPLOY_STORYBOOK, true} ]',
                       sourceVersion: gitCommitId,
                       privilegedModeOverride: 'True'
-
                     if ( currentBuild.currentResult == 'SUCCESS' ) {
                       notifySuccess('dev-notification', "<${env.BUILD_URL}|${env.JOB_NAME} : Storybook build & deploy success: ${gitCommitId}")
                     }

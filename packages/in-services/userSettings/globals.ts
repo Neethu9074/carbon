@@ -7,6 +7,7 @@
 
 export interface UserSettings {
   preferredLanguage?: string;
+  collationLanguage?: string;
 }
 
 // userSettings does not exist in the waiting mode of the Instana UI

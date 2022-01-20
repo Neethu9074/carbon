@@ -55,7 +55,6 @@ export default function StackItem({
           )}
           <EntityWithIcon
             label={shortLabel || label}
-            tooltip={label}
             type={type}
             technologies={technologiesNoK8s}
             length={100}

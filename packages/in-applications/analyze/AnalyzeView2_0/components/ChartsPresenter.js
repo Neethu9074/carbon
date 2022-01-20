@@ -22,8 +22,19 @@ function isErroneousMetric(metricConfig) {
   return erroneousMetricIds.includes(metricConfig.metricId);
 }
 
+function isErroneousCallsRateMetric(metricConfig) {
+  return metricConfig.metricId === 'errors';
+}
+
 function isLatencyDistributionChart(metricConfig) {
   return metricConfig.metricId === 'latency' && metricConfig.aggregationId === 'DISTRIBUTION';
+}
+
+function getGroupedErroneousCallsRateConfig(metricConfig) {
+  return {
+    ...metricConfig,
+    rendererId: 'line'
+  };
 }
 
 export function ChartsPresenter(props) {
@@ -74,12 +85,16 @@ export function ChartsPresenter(props) {
               </div>
             );
           } else if (isErroneousMetric(metricConfig)) {
+            let metricConfiguration = metricConfig;
+            if (chartProps.isGrouped && isErroneousCallsRateMetric(metricConfig)) {
+              metricConfiguration = getGroupedErroneousCallsRateConfig(metricConfig);
+            }
             return (
               <Chart
                 {...chartProps}
                 getCustomChartColor={() => !chartProps.isGrouped && [theme.lib.colors.failure]}
                 key={`${metricConfig.metricId}${metricConfig.aggregationId}`}
-                chartedMetrics={[metricConfig]}
+                chartedMetrics={[metricConfiguration]}
               />
             );
           } else {

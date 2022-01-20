@@ -806,7 +806,8 @@
     "deprecatedEventSelectedMessage": "The entity types <em>Application, Service and Endpoint</em> are deprecated for custom events and need to be migrated to a Smart Alert soon. We advise to configure a respective Smart Alert instead of a custom Event. For more information please <documentationLink>refer to our documentation</documentationLink>."
   },
   "languageSelection": {
-    "language": "Language"
+    "language": "Language",
+    "collationLanguage": "Language for sorting"
   },
   "terms": {
     "failedToSaveSettings": "failed to save settings: {{settings}} {{err}}",

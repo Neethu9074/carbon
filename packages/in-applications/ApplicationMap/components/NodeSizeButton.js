@@ -26,6 +26,7 @@ export default connectTo(
       <Overlay content={ContextMenu} props={props}>
         {({ toggle, isOpen }) => (
           <Button
+            {...props}
             icon="lib_actions_map_node_size"
             onClick={toggle}
             renderContent={() => (

@@ -8,10 +8,10 @@ import React from 'react';
 import { Button, Toggle } from '@instana/components';
 
 import ChooseConnectionStrategyDialog from 'in-connection/components/ChooseConnectionStrategyDialog';
+import { t, Trans, supportedLanguages, activeLanguage, collationLanguage } from 'in-i18n';
 import useSettingsEditor from 'in-settings/tabs/UserSettings/pages/useSettingsEditor';
 import HorizontalFormGroup from 'in-settings/components/HorizontalFormGroup';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { t, Trans, supportedLanguages, activeLanguage } from 'in-i18n';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import Heading from 'in-settings/tabs/UserSettings/pages/Heading';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -119,7 +119,36 @@ export default function UiConfigGeneralPage() {
           id="language"
           name="language"
           value={activeLanguage}
-          onChange={e => saveUserSettings({ preferredLanguage: e.target.value }, () => window.location.reload())}
+          onChange={e =>
+            saveUserSettings(
+              collationLanguage === activeLanguage
+                ? { preferredLanguage: e.target.value, collationLanguage: e.target.value }
+                : { preferredLanguage: e.target.value },
+              () => window.location.reload()
+            )
+          }
+        >
+          {supportedLanguages
+            .map(code => ({
+              code,
+              label: t('language', { context: code, lng: 'en-US' }),
+              localizedLabel: t('language', { context: code })
+            }))
+            .sort((a, b) => compareIgnoreCase(a.label, b.label))
+            .map(({ code, label, localizedLabel }) => (
+              <option key={code} value={code}>
+                {label} {label !== localizedLabel && ` / ${localizedLabel}`}
+              </option>
+            ))}
+        </Select>
+      </HorizontalFormGroup>
+      <HorizontalFormGroup noHelpTextSpacer>
+        <Heading text={t('in-settings:languageSelection.collationLanguage')} htmlFor="collation-language" />
+        <Select
+          id="collation-language"
+          name="collation-language"
+          value={collationLanguage}
+          onChange={e => saveUserSettings({ collationLanguage: e.target.value }, () => window.location.reload())}
         >
           {supportedLanguages
             .map(code => ({

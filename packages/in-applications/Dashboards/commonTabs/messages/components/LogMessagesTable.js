@@ -19,8 +19,8 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getLogMessages from 'in-applications/subscriptions/getLogMessages';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { number } from 'in-services/formatters/number';
+import { t, collationLanguage } from 'in-i18n';
 import Pill from 'in-components/Pill';
-import { t } from 'in-i18n';
 
 import locals from './MessagesTable.mless';
 
@@ -150,7 +150,8 @@ function getTableData({
     },
     order: {
       by: orderBy,
-      direction: orderDirection
+      direction: orderDirection,
+      collation: collationLanguage
     },
     filter: {
       label: query,

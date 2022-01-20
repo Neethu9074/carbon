@@ -4,8 +4,8 @@
  */
 
 import AutosizeInput from 'react-input-autosize';
-import React, { forwardRef } from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { Li, Ul } from '@instana/components';
@@ -69,17 +69,22 @@ function render({ inputProps, getInputProps, isOpen, openMenu, ...remainingProps
   return (
     <>
       <Tooltip content={inputValue} align={'topMiddle'} delay={300}>
-        <AutoSizeInput
-          minWidth={32}
-          inputClassName={classNames({
-            [locals.input]: true,
-            [locals.invalid]: !valid,
-            [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
-          })}
-          {...remainingInputProps}
-          {...getInputProps({ onFocus: openMenu })}
-          autoFocus={autoFocus}
-        />
+        {/*This div is used to attach the tooltip to AutosizeInput*/}
+        {/*We do not want to mess with passing refs down to 3rd party dependencies which could possible break in the future,*/}
+        {/*so we're using this workaround*/}
+        <div>
+          <AutosizeInput
+            minWidth={32}
+            inputClassName={classNames({
+              [locals.input]: true,
+              [locals.invalid]: !valid,
+              [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
+            })}
+            {...remainingInputProps}
+            {...getInputProps({ onFocus: openMenu })}
+            autoFocus={autoFocus}
+          />
+        </div>
       </Tooltip>
       {isOpen && <SuggestionsList locals={locals} {...remainingProps} />}
     </>
@@ -108,7 +113,13 @@ function SuggestionsList({
     item =>
       !inputValue ||
       containsIgnoreCase(item, inputValue) ||
-      containsIgnoreCase(getSuggestionLabel({ item, tagName }), inputValue)
+      containsIgnoreCase(
+        getSuggestionLabel({
+          item,
+          tagName
+        }),
+        inputValue
+      )
   );
   if (filteredOptions.length === 0) {
     return null;
@@ -156,7 +167,3 @@ function SuggestionsList({
     </Ul>
   );
 }
-
-const AutoSizeInput = forwardRef(function AutoSizeInput(props, ref) {
-  return <AutosizeInput {...props} inputRef={ref} />;
-});

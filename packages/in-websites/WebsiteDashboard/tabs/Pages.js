@@ -23,8 +23,8 @@ import changeExplanation from 'in-websites/emptyListExplanation';
 import { getLinkToWebsite } from 'in-websites/navigation/paths';
 import { number, ms } from 'in-services/formatters/number';
 import { isNotBlank } from 'in-services/util/string';
+import { t, collationLanguage } from 'in-i18n';
 import Footer from 'in-components/Footer';
-import { t } from 'in-i18n';
 
 const columnDefinitions = [
   {
@@ -164,7 +164,8 @@ function getTableData({
     },
     order: {
       by: orderBy,
-      direction: orderDirection
+      direction: orderDirection,
+      collation: collationLanguage
     },
     group: {
       groupbyTag: 'beacon.page.name'

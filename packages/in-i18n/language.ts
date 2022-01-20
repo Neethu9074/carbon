@@ -9,3 +9,4 @@ import { userSettings } from 'in-services/userSettings/globals';
 
 export const fallbackLanguage = 'en-US';
 export const activeLanguage = userSettings.preferredLanguage || fallbackLanguage;
+export const collationLanguage = userSettings.collationLanguage || activeLanguage;

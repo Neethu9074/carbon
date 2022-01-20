@@ -75,6 +75,7 @@ import './phpRuntimePlatform';
 import './postgreSqlDatabase';
 import './ibmCloudPostgreSql';
 import './ibmCloudSchematics';
+import './crowdStrikeFalcon';
 import './ibmCloudFunctions';
 import './awsLambdaFunction';
 import './clickHouseCluster';

@@ -118,11 +118,11 @@ export function ApplicationMapReactComponent(props) {
 
   const [map, setMap] = useState(null);
   useEffect(() => {
-    if (!map && webGlContext) {
+    if (!map && webGlContext && result.data) {
       setMap(initMap({ ...props, map, canvasNode, overlayNode, webGlContext }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canvasNode, overlayNode, webGlContext]); // not passing props as deps is wanted here!
+  }, [canvasNode, overlayNode, webGlContext, result]); // not passing props as deps is wanted here!
 
   const isLoading = get(result, ['progress', 'loading'], false);
   const hasErrors = get(result, ['errors', 'length'], 0) > 0;

@@ -11,6 +11,7 @@ import ServerListPresenter from 'in-components/lists/List/ServerListPresenter';
 import getMobileApps from 'in-mobile-apps/subscriptions/getMobileApps';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { collationLanguage } from 'in-i18n';
 
 const columnDefinitions = [
   {
@@ -56,7 +57,8 @@ function getTableData({ page, pageSize, orderBy, orderDirection, query, timeConf
     },
     order: {
       by: orderBy,
-      direction: orderDirection
+      direction: orderDirection,
+      collation: collationLanguage
     },
     metrics: {},
     labelFilter: query,

@@ -12,6 +12,10 @@ import Configurator from 'in-components/AnalyzeView/Charting/Configurator';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import { aggregationLabels } from 'in-stores/metric';
 
+function isCallOverviewTemplate(template) {
+  return template.templateId === 'calls.overview';
+}
+
 export default function Charting(props) {
   const {
     chartedMetricsTemplate,
@@ -27,7 +31,9 @@ export default function Charting(props) {
     metricAggregations =
       chartedMetricsTemplate.metrics?.map(metric => ({
         metricId: metric.metricId,
-        aggregations: metric.aggregations
+        aggregations: isCallOverviewTemplate(chartedMetricsTemplate)
+          ? metric.aggregations.filter(agg => agg !== 'DISTRIBUTION')
+          : metric.aggregations
       })) ?? [];
   } else {
     metricAggregations =
