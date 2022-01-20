@@ -30,14 +30,6 @@
     height: 2rem;
   }
 
-  .percentileButton {
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    right: 0;
-    height: 2rem;
-  }
-
   .titleWrapper {
     display: inline-flex;
     align-items: center;

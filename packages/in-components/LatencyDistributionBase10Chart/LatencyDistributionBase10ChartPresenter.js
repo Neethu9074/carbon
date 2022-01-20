@@ -188,12 +188,10 @@ export default function LatencyDistributionBase10ChartPresenter({
       </div>
       {showLegend && <ChartLegend chart={chartConfig} />}
       {showPercentileMenu && (
-        <div className={locals.percentileButton}>
-          <PercentileMenu
-            percentilesShown={percentilesShown}
-            onChange={percentiles => setPercentilesShown(percentiles)}
-          />
-        </div>
+        <PercentileMenu
+          percentilesShown={percentilesShown}
+          onChange={percentiles => setPercentilesShown(percentiles)}
+        />
       )}
     </div>
   );
