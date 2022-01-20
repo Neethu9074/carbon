@@ -6,9 +6,11 @@
 import React from 'react';
 
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
+import { getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+
+let snapshotMap = {};
 
 const cols = [
   {
@@ -16,7 +18,8 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.sharedProcessorPool.get('id');
+        console.log('type of ',typeof(row.inletTemperature.get('entityId')));
+        return row.inletTemperature.get('entityId');
       }
     }
   },
@@ -25,47 +28,53 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.sharedProcessorPool.get('name');
+        return row.inletTemperature.get('entityInstance')?.toString() ?? '';
       }
     }
   },
   {
     title:'Temperature Reading',
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
-        return row.sharedProcessorPool.get('assignedProcUnits');
+        return row.inletTemperature.get('temperatureReading');
       }
     }
   }
 ];
 
 export default connectTo(
-  ({ snapshotId }) => {
+  (props) => {
+    snapshotMap = props;
+    // console.log('timeConfig' , timeConfig);
     return {
-      data: getRawPayload(snapshotId, 'sharedProcessorPools')
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'inletTemperatures')
     };
   },
-  function SharedProcessorPool({ data }) {
+  function InletTemperature({ data }) {
+
     if (!data) {
       return null;
     }
-    const sharedProcessorPools = data.toArray();
 
-    if (sharedProcessorPools.size === 0) {
-      return null;
-    }
-    const rows = sharedProcessorPools.map((sharedProcessorPool, idx) => {
-      return {
-        key: String(idx),
-        sharedProcessorPool
-      };
-    });
-
+    const { snapshotId, timeConfig } = snapshotMap;
+    const inlet = data.get('raw_payload', []);
+    const rows = inlet
+      .keySeq()
+      .toArray()
+      .map(key => {
+        const inletTemperature = inlet.get(key);
+        return {
+          key: String(key),
+          snapshotId,
+          timeConfig,
+          inletTemperature
+        };
+      });
     return (
       <Table
         withoutPadding
-        cardTitle={'Inlet Temperature'}
+        cardTitle={t('in-phmc:dashboards.inletTemperatures')}
         cols={cols}
         rows={rows}
         initialSortColumn={0}

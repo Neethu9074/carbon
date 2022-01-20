@@ -2,13 +2,16 @@
  * (c) Copyright IBM Corp. 2021
  * (c) Copyright Instana Inc.
  */
-
 import React from 'react';
-
+import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
+import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import Table from 'in-sdk/components/dashboard/Table';
-import { getRawPayload } from 'in-stores/snapshot';
+import { getRawPayload, getRawPayloadWithTimestamp } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
+import { number, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+
+let snapshotMap = {};
 
 const cols = [
   {
@@ -16,7 +19,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.sharedProcessorPool.get('id');
+        return row.sharedProcessorPool.get('id')?.toString() ?? '';
       }
     }
   },
@@ -31,55 +34,117 @@ const cols = [
   },
   {
     title: t('in-phmc:assignedProc'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedProcessorPool.get('assignedProcUnits');
-      }
+      },
+      getMetricName(row) {
+        return 'sharedProcessorPools.' + row.key + '.assignedProcUnits';
+      },
+      getContent: bytesTwoDecimalPlaces
     }
   },
   {
     title: t('in-phmc:utilizedProc'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedProcessorPool.get('utilizedProcUnitsPercentage');
-      }
+      },
+      getContent: bytesTwoDecimalPlaces
     }
   },
   {
     title: t('in-phmc:availableProc'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedProcessorPool.get('availableProcUnitsPercentage');
-      }
+      },
+      getContent: bytesTwoDecimalPlaces
     }
   }
 ];
-
 export default connectTo(
-  ({ snapshotId }) => {
+  (props) => {
+    snapshotMap = props;
+    // console.log('timeConfig' , timeConfig);
     return {
-      data: getRawPayload(snapshotId, 'sharedProcessorPools')
+      data2: getRawPayload(props.snapshotId, 'sharedProcessorPools'),
+      data: getRawPayloadWithTimestamp(props.snapshotId, 'sharedProcessorPools')
     };
   },
-  function SharedProcessorPool({ data }) {
+  function SharedProcessorPool({ data, data2 }) {
+
+    
+    // if(data2){
+    //   console.log('data2 ',data2);
+     
+    // }
+    // if(data){
+   
+    //   data = data.get('raw_payload');
+    //   //console.log('raw payload data ',data, 'typeof', typeof(data));
+     
+    // }
+
     if (!data) {
       return null;
     }
-    const sharedProcessorPools = data.toArray();
 
-    if (sharedProcessorPools.size === 0) {
-      return null;
-    }
-    const rows = sharedProcessorPools.map((sharedProcessorPool, idx) => {
-      return {
-        key: String(idx),
-        sharedProcessorPool
-      };
-    });
+    const { snapshot, snapshotId, timeConfig } = snapshotMap;
+    const sharedPool = data.get('raw_payload', []);
+    const rows = sharedPool
+      .keySeq()
+      .toArray()
+      .map(key => {
+        const sharedProcessorPool = sharedPool.get(key);
+        return {
+          key: String(key),
+          snapshotId,
+          timeConfig,
+          snapshot,
+          sharedProcessorPool
+        };
+      });
 
+      //console.log('rows ',rows);
+    // const sharedProcessorPools = data.toArray();
+    // if (sharedProcessorPools.size === 0) {
+    //   return null;
+    // }
+    // const rows = sharedProcessorPools.map((sharedProcessorPool, idx) => {
+    //   return {
+    //     key: String(idx),
+    //     sharedProcessorPool
+    //   };
+    // });
+  
+    const getDetails = (row) => {
+ 
+      if(!snapshotMap?.timeConfig){
+         return;
+      }
+      
+         console.log('JSON ' ,JSON.stringify(row));
+        
+        return (
+          <Chart
+            snapshotId={snapshotId}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number,
+              //'sharedProcessorPools.' + row.key + '.assignedProcUnits'
+              metrics: ['sharedProcessorPools.' + row.key + '.assignedProcUnits'],
+              labels: ['assignedProcUnits'],
+              type: 'line'
+            }}
+            renderPostChartContent={PluginDashboardsMarkerLanes}
+          />
+        );
+      }
     return (
       <Table
         withoutPadding
@@ -88,6 +153,7 @@ export default connectTo(
         rows={rows}
         initialSortColumn={0}
         initialSortDirection="asc"
+        getRowDetails={getDetails}
       />
     );
   }

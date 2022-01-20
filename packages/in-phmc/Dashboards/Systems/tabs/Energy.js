@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import SharedProcessorPool from 'in-phmc/Dashboards/tables/SharedProcessorPool';
+import InletTemperature from 'in-phmc/Dashboards/tables/InletTemperature';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { number, percentage } from 'in-services/formatters/number';
@@ -49,7 +49,7 @@ export default function Summary({ timeConfig, data: system }) {
           </Card>
         </Col>
       </Row>
-      <SharedProcessorPool snapshotId={system.id} />
+      <InletTemperature snapshotId={system.id} timeConfig={timeConfig}/>
     </Fragment>
   );
 }

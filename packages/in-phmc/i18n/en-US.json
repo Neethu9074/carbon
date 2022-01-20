@@ -97,6 +97,7 @@
     "storage": "Storage",
     "processorUnits": "Processor Units",
     "sharedProcessorPool": "Shared Processor Pool",
+    "inletTemperatures": "Inlet Temperatures",
     "id": "ID",
     "state": "State",
     "sriovAdapter": "SR-IOV Adapters",
