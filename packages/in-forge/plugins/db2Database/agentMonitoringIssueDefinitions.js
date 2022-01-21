@@ -22,6 +22,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.db2Database.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/db2`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-db2`
   }
 };

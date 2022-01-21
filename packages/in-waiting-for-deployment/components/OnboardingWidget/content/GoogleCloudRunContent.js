@@ -162,7 +162,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/go"
+          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-go"
         />
         <Spacer />
         <Description
@@ -285,7 +285,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForPythonOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/python"
+          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-python-instana-python-package"
         />
         <Spacer />
         <Description
@@ -335,7 +335,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
       <HelpBox>
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe"
-          href="https://instana.com/docs/ecosystem/gcp"
+          href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-google-cloud-platform-gcp"
         />
       </HelpBox>
 
@@ -354,7 +354,7 @@ export default function GoogleCloudRunContent({ agentKey, serverlessEndpoint }) 
 
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.integrateTheInstanaInProcessCollectorForGoogleCloudRunAsDescribedBelowMoreDetailsAreAvailableInThe"
-        href="https://instana.com/docs/ecosystem/google-cloud-run"
+        href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-google-cloud-run"
       />
       <Spacer />
 

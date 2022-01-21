@@ -18,7 +18,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_attach_generic`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#generic-jvm-attachment-issue`
   },
   jvm_attach_container_command: {
     issueDescription: {
@@ -41,7 +41,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_attach_container_command`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#container-attachment-failed`
   },
   jvm_attach_tools: {
     issueDescription: {
@@ -59,7 +59,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_attach_tools`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#attach-tools-missing`
   },
   jvm_attach_socket: {
     issueDescription: {
@@ -68,7 +68,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_attach_socket`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#restart-needed`
   },
   jvm_attach_network: {
     issueDescription: {
@@ -89,7 +89,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_attach_network`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#network-visibility-issues`
   },
   ibm_jvm_class_sharing_enabled: {
     issueDescription: {
@@ -107,7 +107,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#ibm_jvm_class_sharing_enabled`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#ibm-j9-class-sharing-enabled`
   },
   nodejs_collector_not_installed: {
     issueDescription: {
@@ -125,7 +125,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/node-js/#nodejs_collector_not_installed`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nodejs#nodejs-collector-not-installed`
   },
   python_autotrace_failed: {
     issueDescription: {
@@ -134,7 +134,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/python/troubleshooting#python_autotrace_failed`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=package-python-troubleshooting#autotrace%E2%84%A2-failed`
   },
   python_sensor_not_installed: {
     issueDescription: {
@@ -190,7 +190,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/python/troubleshooting#python_sensor_not_installed`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=package-python-troubleshooting#python-sensor-not-installed`
   },
   ruby_sensor_not_installed: {
     issueDescription: {
@@ -208,7 +208,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/ruby/#ruby_sensor_not_installed`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-ruby#ruby-sensor-not-installed`
   },
   prometheus_remote_write_high_delay: {
     issueDescription: {
@@ -227,7 +227,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/prometheus/#prometheus_remote_write_high_delay`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=apis-prometheus#remote-write-high-metric-delay`
   },
   cpp_collector_not_installed: {
     issueDescription: {
@@ -245,6 +245,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.process.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#cpp_collector_not_installed`
+    // TODO verify! There is no section like #cpp_collector_not_installed
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nginx#troubleshooting`
   }
 };

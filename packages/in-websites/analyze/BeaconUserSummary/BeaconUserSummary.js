@@ -111,7 +111,7 @@ export default function BeaconUserSummary({ beacon, beacons, withoutSideMargin }
           {!hasMeta && (
             <NotDefined
               explanation={t('in-websites:analyze.analyzeView.beaconUserSummary.explanationNoMetaDataDefined')}
-              learnMoreHref="https://instana.com/docs/website_monitoring/api/#metadata"
+              learnMoreHref="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#metadata"
               learnMoreLabel={t('in-websites:analyze.analyzeView.beaconUserSummary.labelLearnHowToAddMetaData')}
             />
           )}

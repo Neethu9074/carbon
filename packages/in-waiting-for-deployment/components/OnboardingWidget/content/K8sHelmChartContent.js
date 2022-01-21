@@ -60,7 +60,7 @@ export default function K8sHelmChartContent({ agentKey, agentEndpoint, agentEndp
           <HelpBox>
             <TextWithLink
               i18nKey="in-waiting-for-deployment:content.helmVersion3IsRequiredForMoreInformationVisitThe"
-              href="https://instana.com/docs/ecosystem/kubernetes/"
+              href="https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes"
             />
           </HelpBox>
         </>

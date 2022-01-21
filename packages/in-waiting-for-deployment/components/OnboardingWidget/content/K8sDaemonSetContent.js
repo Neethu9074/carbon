@@ -56,7 +56,7 @@ export default function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndp
           <HelpBox>
             <TextWithLink
               i18nKey="in-waiting-for-deployment:content.forMoreInformationVisitThe"
-              href="https://instana.com/docs/ecosystem/kubernetes/"
+              href="https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes"
             />
           </HelpBox>
         </>

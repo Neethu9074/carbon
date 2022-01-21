@@ -19,6 +19,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.gce.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem//google-compute-engine/#compute_instance_get_permission_missing`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-google-compute-engine#required-permissions`
   }
 };

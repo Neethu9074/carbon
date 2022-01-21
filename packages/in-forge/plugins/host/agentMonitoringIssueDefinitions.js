@@ -21,7 +21,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.host.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/host#ebpf_not_supported`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-host#ebpf-not-supported`
   },
   agent_log4j_vulnerability: {
     issueDescription: {
@@ -30,6 +30,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.host.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/setup_and_manage/host_agent/managing/#agent_log4j_vulnerability`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=agent-managing-host-agents#instana-agent-contains-vulnerable-log4j-library`
   }
 };

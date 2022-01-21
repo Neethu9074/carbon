@@ -23,7 +23,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net/#clr_instana_pcp_not_running`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-net#instanapcp-not-running`
   },
   clr_instana_pcp_not_connected: {
     issueDescription: {
@@ -38,7 +38,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/dot-net/#clr_instana_pcp_not_connected`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-net#instanapcp-not-connected`
   },
   python_autotrace_prerequisites_failed: {
     issueDescription: {
@@ -53,7 +53,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/python/troubleshooting/#python_autotrace_prerequisites_failed`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=package-python-troubleshooting#python_autotrace_prerequisites_failed`
   },
   ibmdatapower_var_not_defined: {
     issueDescription: {
@@ -70,7 +70,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/datapower/#ibmdatapower_var_not_defined`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#variable-not-defined`
   },
   ibmdatapower_var_invalid_value: {
     issueDescription: {
@@ -86,7 +86,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/datapower/#ibmdatapower_var_invalid_value`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#variable-has-an-invalid-value`
   },
   ibmdatapower_connection_error: {
     issueDescription: {
@@ -102,7 +102,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/datapower/#ibmdatapower_connection_error`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#connection-error`
   },
   ibmdatapower_exception_error: {
     issueDescription: {
@@ -115,7 +115,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/datapower/#ibmdatapower_exception_error`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-datapower#other-exception`
   },
   agent_process_lookup_prerequisites_failed: {
     issueDescription: {
@@ -132,8 +132,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
-    // TODO fix this link with IBM when https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana works!!
-    explanationLinkHref: `https://www.instana.com/docs/setup_and_manage/host_agent`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=instana-host-agent`
   },
   apmproxy_missing_config: {
     issueDescription: {
@@ -160,7 +159,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/ibm-apmproxy/#apmproxy_connection_error`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-integrating-apm-v8#connection-error`
   },
   apmproxy_exception_error: {
     issueDescription: {
@@ -173,6 +172,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/ibm-apmproxy/#apmproxy_exception_error`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-integrating-apm-v8#other-exception`
   }
 };

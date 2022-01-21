@@ -149,7 +149,8 @@ export const blueprintConfig = Object.freeze([
           <ul>
             <li>${t('in-applications:creation.simple.blueprints.customerOrTenant.whenToUse.httpParam')}</li>
             <li>${t('in-applications:creation.simple.blueprints.customerOrTenant.whenToUse.manual', {
-              url: 'https://instana.com/docs/tracing/tracing-sdks/#searchable-content-wrapper'
+              // TODO verify the link, does not have #searchable-content-wrapper!
+              url: 'https://www.ibm.com/docs/en/obi/current?topic=tracing-instana-sdk'
             })}</li>
           </ul>
           ${t('in-applications:creation.simple.blueprints.customerOrTenant.whenToUse.footer')}

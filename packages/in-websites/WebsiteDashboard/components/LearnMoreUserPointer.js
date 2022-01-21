@@ -66,7 +66,7 @@ function LearnMoreUserPointer({ totalBeaconsResult, totalBeaconsWithUserResult }
       className={locals.wrapper}
       title={t('in-websites:websiteDashboard.components.learnMoreUserPointerTitle')}
       explanation={explanation}
-      learnMoreHref="https://instana.com/docs/website_monitoring/api/#identifying-users"
+      learnMoreHref="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#identifying-users"
       learnMoreLabel={t('in-websites:websiteDashboard.components.learnMoreUserPointerLearnMoreLabel')}
     />
   );

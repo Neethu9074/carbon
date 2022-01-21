@@ -35,7 +35,11 @@ function BeaconPageGroup({ detailId, page, beacons, earliestTimestamp, pageLoad,
           </span>
 
           {!page && (
-            <Link external href="https://instana.com/docs/website_monitoring/api/#page" className={locals.learnHow}>
+            <Link
+              external
+              href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#page"
+              className={locals.learnHow}
+            >
               {t('in-websites:analyze.analyzeView.pageLoadView.beaconPageGroupLinkLearnHowToDefinePages')}
             </Link>
           )}

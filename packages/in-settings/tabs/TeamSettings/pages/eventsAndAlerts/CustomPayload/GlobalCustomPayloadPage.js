@@ -80,7 +80,12 @@ export function CustomPayload(props) {
           <Trans
             i18nKey="in-settings:tabs.eachKeyValuePairWillBeIncludedAsAdditionalPayload"
             components={{
-              docLink: <Link href="https://instana.com/docs/events_alerts/custom-payload" external />
+              docLink: (
+                <Link
+                  href="https://www.ibm.com/docs/en/obi/current?topic=alerts-configuring-custom-payloads"
+                  external
+                />
+              )
             }}
           />
         </Message>
