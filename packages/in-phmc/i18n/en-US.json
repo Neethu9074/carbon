@@ -80,8 +80,6 @@
   "uuid": "UUID",
   "powerConsumption": "Power Consumption",
   "powerUtilization": "Power Utilization",
-  "machineType": "Machine Type",
-  "model": "Model",
   "serialNumber": "Serial Number",
   "sampleType": "Sample Type",
   "entityId": "Entity ID",

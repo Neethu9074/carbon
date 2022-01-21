@@ -31,7 +31,7 @@ export default function Summary({ timeConfig, data: system }) {
           raw
           borderless
         />
-        <KpiCard title={t('in-phmc:machineType')} value={system.mtms || valueMissingPlaceholder} raw borderless />
+        <KpiCard title={t('in-phmc:machineTypeModel')} value={system.mtms || valueMissingPlaceholder} raw borderless />
         <KpiCard title={t('in-phmc:serialNumber')} value={system.id || valueMissingPlaceholder} raw borderless />
         <KpiCard title={t('in-phmc:sampleType')} value={system.sampleType || valueMissingPlaceholder} raw borderless />
       </KpiGridRow>
