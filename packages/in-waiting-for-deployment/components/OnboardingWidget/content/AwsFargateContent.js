@@ -48,7 +48,7 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForGoOnFargateOnEcsWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/go"
+          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-go"
         />
         <Spacer />
         <Description
@@ -220,7 +220,7 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
       <>
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/python"
+          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-python-instana-python-package"
         />
         <Spacer />
         <Description
@@ -245,7 +245,7 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
 
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe"
-          href="https://instana.com/docs/ecosystem/ruby"
+          href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-ruby"
         />
         <Spacer />
         <Description

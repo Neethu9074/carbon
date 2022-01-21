@@ -216,7 +216,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
       <HelpBox>
         <TextWithLink
           i18nKey="in-waiting-for-deployment:content.theAwsAgentMonitorsLotsOfDifferentAwsTechnologiesInOneSinglePackageForTheFullListReferToThe"
-          href="https://instana.com/docs/ecosystem/aws/#monitored-services"
+          href="https://www.ibm.com/docs/en/obi/current?topic=agents-monitoring-amazon-web-services-aws#monitored-services"
         />
       </HelpBox>
 

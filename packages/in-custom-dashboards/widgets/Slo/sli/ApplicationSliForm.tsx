@@ -100,7 +100,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
               value={sliType ?? ''}
               hasError={!sliTypeForm.valid && sliTypeForm.touched}
               actions={
-                <HelpAction href="https://instana.com/docs/service_level_objectives/#sli-configuration/" external>
+                <HelpAction href="https://www.ibm.com/docs/en/obi/current?topic=instana-service-level-objectives-slo#sli-configuration" external>
                   {t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomHelpAction')}
                 </HelpAction>
               }

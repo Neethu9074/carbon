@@ -39,13 +39,13 @@ function WarningMessage(props) {
               components={{
                 linkK8s: (
                   <Link
-                    href="https://instana.com/docs/setup_and_manage/host_agent/on/kubernetes/#current-versions-of-installation-methods"
+                    href="https://www.ibm.com/docs/en/obi/current?topic=requirements-installing-host-agent-kubernetes#current-versions-of-installation-methods"
                     external
                   />
                 ),
                 linkOpenShift: (
                   <Link
-                    href="https://instana.com/docs/setup_and_manage/host_agent/on/openshift/#current-versions-of-installation-methods"
+                    href="https://www.ibm.com/docs/en/obi/current?topic=requirements-installing-host-agent-openshift#current-versions-of-installation-methods"
                     external
                   />
                 )

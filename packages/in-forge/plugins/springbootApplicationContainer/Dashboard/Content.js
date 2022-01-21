@@ -126,7 +126,12 @@ function getActuatorConfiguredHint(snapshot, monitoringIssues) {
         <Trans
           i18nKey="in-forge:plugins.springbootAppContainer.warningSpringbootConfig"
           components={{
-            linkToSpringboot: <Link href="https://instana.com/docs/ecosystem/spring-boot/#configuration" external />
+            linkToSpringboot: (
+              <Link
+                href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-spring-boot#configuration"
+                external
+              />
+            )
           }}
         />
       </DashboardNotification>

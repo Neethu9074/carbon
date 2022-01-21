@@ -123,7 +123,12 @@ export default function MaintenanceConfigurationForm(props) {
               <Trans
                 i18nKey="in-settings:tabs.aNonEmptyFilterQueryWhichDefinesTheMatchingAlerts"
                 components={{
-                  docLink: <Link href="https://instana.com/docs/dynamic_focus/#syntax" external />
+                  docLink: (
+                    <Link
+                      href="https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus#syntax"
+                      external
+                    />
+                  )
                 }}
               />
             </DescriptionText>

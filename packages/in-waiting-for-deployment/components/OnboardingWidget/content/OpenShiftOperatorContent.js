@@ -20,7 +20,7 @@ export default function OpenShiftOperatorContent({ agentKey, agentEndpoint, agen
     <>
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.installingTheInstanaAgentUsingTheOpenShiftOperatorIsDescribedIn"
-        href="https://instana.com/docs/setup_and_manage/host_agent/on/openshift/#install-using-the-operator"
+        href="https://www.ibm.com/docs/en/obi/current?topic=requirements-installing-host-agent-openshift#install-using-the-operator"
       />
       <Spacer />
       <TextWithLink

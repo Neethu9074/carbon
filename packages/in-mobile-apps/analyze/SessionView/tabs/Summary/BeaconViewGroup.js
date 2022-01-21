@@ -37,7 +37,7 @@ function BeaconViewGroup({ view, beacons, detailId, earliestTimestamp, sessionSt
           {!view && (
             <Link
               external
-              href="https://instana.com/docs/mobile_app_monitoring/ios_api/#views"
+              href="https://www.ibm.com/docs/en/obi/current?topic=monitoring-ios-api#views"
               className={locals.learnHow}
             >
               {t('in-mobile-apps:sessionView.tabsSumBeaconViewGroup.noViewGuide')}

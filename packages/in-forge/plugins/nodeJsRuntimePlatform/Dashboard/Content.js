@@ -261,11 +261,14 @@ function getInitializedTooLateHint(snapshot, isInternalVisible, monitoringIssues
           installLink: (
             <Link
               external
-              href="https://instana.com/docs/ecosystem/node-js/installation/#installing-the-nodejs-collector-package"
+              href="https://www.ibm.com/docs/en/obi/current?topic=nodejs-collector-installation#installing-the-nodejs-collector-package"
             />
           ),
           pitfallsLink: (
-            <Link external href="https://instana.com/docs/ecosystem/node-js/installation/#common-pitfalls" />
+            <Link
+              external
+              href="https://www.ibm.com/docs/en/obi/current?topic=nodejs-collector-installation#common-pitfalls"
+            />
           )
         }}
       />
@@ -296,7 +299,12 @@ function getNativeExtensionHint(snapshot) {
         i18nKey="in-forge:plugins.nodeJsRuntimePlatform.nativeExtensionsCouldNotBeLoaded"
         values={{ missingNativeExtensions: missingNativeExtensions.join(' and ') }}
         components={{
-          installLink: <Link external href="https://instana.com/docs/ecosystem/node-js/installation/#native-addons" />
+          installLink: (
+            <Link
+              external
+              href="https://www.ibm.com/docs/en/obi/current?topic=nodejs-collector-installation#native-addons"
+            />
+          )
         }}
       />
     </DashboardNotification>

@@ -22,7 +22,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.jvmRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#java_8_unmonitored_version`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#unsupported-java-virtual-machine-version-8`
   },
   jvm_incompatible_agent_detected: {
     issueDescription: {
@@ -42,6 +42,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.jvmRuntimePlatform.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/jvm/#jvm_incompatible_agent_detected`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-java-virtual-machine#incompatible-agent-detected`
   }
 };

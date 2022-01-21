@@ -223,7 +223,7 @@ export default function CfAndBoshContent({ agentKey, agentEndpoint }) {
               </Row>
               <TextWithLink
                 i18nKey="in-waiting-for-deployment:content.forMoreInformationOnHowToSetUpBoshRuntimeConfigurationsReferToThe"
-                href="https://instana.com/docs/setup_and_manage/host_agent/on/cloud-foundry#applying-the-instana-agent-runtime-configurations"
+                href="https://www.ibm.com/docs/en/obi/current?topic=requirements-installing-host-agent-cloud-foundry#applying-the-instana-agent-runtime-configurations"
               />
             </HelpBox>
             <Spacer />
@@ -240,7 +240,7 @@ export default function CfAndBoshContent({ agentKey, agentEndpoint }) {
               />
               <TextWithLink
                 i18nKey="in-waiting-for-deployment:content.forMoreInformationOnHostConfigurationsThatYouCanApplyOverTheInstanaAgentBoshReleaseConsultThe"
-                href="https://instana.com/docs/ecosystem/cloudfoundry/"
+                href="https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-cloud-foundry-vmware-tanzu"
               />
             </HelpBox>
           </>

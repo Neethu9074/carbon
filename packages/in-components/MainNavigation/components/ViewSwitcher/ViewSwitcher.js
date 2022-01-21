@@ -169,7 +169,7 @@ export default function ViewSwitcher({
         )}
         <SubViewItem
           label={t('in-components:mainNavigation.viewSwitcherLabelDocumentation')}
-          href="https://www.instana.com/docs"
+          href="https://www.ibm.com/docs/en/obi/current"
           external
           id="main-nav-documentation"
         />
