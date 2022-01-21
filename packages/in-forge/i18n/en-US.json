@@ -5231,6 +5231,8 @@
       "staticQueries": "Static Queries",
       "dynamicQueries": "Dynamic Queries",
       "failedQueries": "Failed Queries",
+      "daysLastBackup": "Last Backup",
+      "daysAgo": "days ago",
       "physicalWrites": "Physical Writes",
       "physicalReads": "Physical Reads",
       "logicalReads": "Logical Reads",
