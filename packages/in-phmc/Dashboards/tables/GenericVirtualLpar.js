@@ -141,7 +141,7 @@ export default connectTo(
       }
       return (
         <Columize>
-          <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
+          <Card title={t('in-phmc:dashboards.noOfReadWrite')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -149,16 +149,16 @@ export default connectTo(
                 min: 0,
                 formatter: number,
                 metrics: [
-                  'genericVirtualAdapter.' + row.key + '.sentPackets',
-                  'genericVirtualAdapter.' + row.key + '.receivedPackets'
+                  'genericVirtualAdapter.' + row.key + '.numOfReads',
+                  'genericVirtualAdapter.' + row.key + '.numOfWrites'
                 ],
-                labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets')],
+                labels: [t('in-phmc:reads'), t('in-phmc:writes')],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </Card>
-          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+          <Card title={t('in-phmc:dashboards.noOfByte')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -168,9 +168,9 @@ export default connectTo(
                 metrics: [
                   'genericVirtualAdapter.' + row.key + '.sentBytes',
                   'genericVirtualAdapter.' + row.key + '.receivedBytes',
-                  'genericVirtualAdapter.' + row.key + '.transferredBytes'
+                  'genericVirtualAdapter.' + row.key + '.transmittedBytes'
                 ],
-                labels: [t('in-phmc:sentBytes'), t('in-phmc:recievedBytes'), t('in-phmc:transferredBytes')],
+                labels: [t('in-phmc:sentBytes'), t('in-phmc:recievedBytes'), t('in-phmc:transmittedBytes')],
                 type: 'line'
               }}
               renderPostChartContent={PluginDashboardsMarkerLanes}

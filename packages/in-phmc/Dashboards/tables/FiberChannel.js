@@ -19,104 +19,104 @@ import { t } from 'in-i18n';
 let snapshotMap = {};
 
 const cols = [
-    {
-      title: t('in-phmc:id'),
-      type: 'string',
-      typeArgs: {
-        getValue(row) {
-          return row.fiberChannelAdapter.get('id');
-        }
-      }
-    },
-    {
-      title: t('in-phmc:wwpn'),
-      type: 'string',
-      typeArgs: {
-        getValue(row) {
-          return row.fiberChannelAdapter.get('wwpn');
-        }
-      }
-    },
-    {
-      title: t('in-phmc:ports'),
-      type: 'string',
-      typeArgs: {
-        getValue(row) {
-          return row.fiberChannelAdapter.get('numOfPorts');
-        }
-      }
-    },
-    {
-      title: t('in-phmc:physicalLocation'),
-      type: 'string',
-      typeArgs: {
-        getValue(row) {
-          return row.fiberChannelAdapter.get('physicalLocation');
-        }
-      }
-    },
-    {
-      title: t('in-phmc:reads'),
-      type: 'number',
-      typeArgs: {
-        getValue(row) {
-          return row.fiberChannelAdapter.get('numOfReads');
-        },
-        getContent: number.compact
-      }
-    },
-    {
-      title: t('in-phmc:writes'),
-      type: 'number',
-      typeArgs: {
-        getValue(row) {
-          return row.fiberChannelAdapter.get('numOfWrites');
-        },
-        getContent: number.compact
-      }
-    },
-    {
-      title: t('in-phmc:readBytes'),
-      type: 'number',
-      typeArgs: {
-        getValue(row) {
-          return row.fiberChannelAdapter.get('readBytes');
-        },
-        getContent: bytes.compact
-      }
-    },
-    {
-      title: t('in-phmc:writeBytes'),
-      type: 'number',
-      typeArgs: {
-        getValue(row) {
-          return row.fiberChannelAdapter.get('writeBytes');
-        },
-        getContent: bytes.compact
-      }
-    },
-    {
-      title: t('in-phmc:transmittedBytes'),
-      type: 'number',
-      typeArgs: {
-        getValue(row) {
-          return row.fiberChannelAdapter.get('transmittedBytes');
-        },
-        getContent: bytes.compact
-      }
-    },
-    {
-      title: t('in-phmc:runningSpeed'),
-      type: 'string',
-      typeArgs: {
-        getValue(row) {
-          return row.fiberChannelAdapter.get('runningSpeed');
-        }
+  {
+    title: t('in-phmc:id'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.fiberChannelAdapter.get('id');
       }
     }
-  ];
+  },
+  {
+    title: t('in-phmc:wwpn'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.fiberChannelAdapter.get('wwpn');
+      }
+    }
+  },
+  {
+    title: t('in-phmc:ports'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.fiberChannelAdapter.get('numOfPorts');
+      }
+    }
+  },
+  {
+    title: t('in-phmc:physicalLocation'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.fiberChannelAdapter.get('physicalLocation');
+      }
+    }
+  },
+  {
+    title: t('in-phmc:reads'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.fiberChannelAdapter.get('numOfReads');
+      },
+      getContent: number.compact
+    }
+  },
+  {
+    title: t('in-phmc:writes'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.fiberChannelAdapter.get('numOfWrites');
+      },
+      getContent: number.compact
+    }
+  },
+  {
+    title: t('in-phmc:readBytes'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.fiberChannelAdapter.get('readBytes');
+      },
+      getContent: bytes.compact
+    }
+  },
+  {
+    title: t('in-phmc:writeBytes'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.fiberChannelAdapter.get('writeBytes');
+      },
+      getContent: bytes.compact
+    }
+  },
+  {
+    title: t('in-phmc:transmittedBytes'),
+    type: 'number',
+    typeArgs: {
+      getValue(row) {
+        return row.fiberChannelAdapter.get('transmittedBytes');
+      },
+      getContent: bytes.compact
+    }
+  },
+  {
+    title: t('in-phmc:runningSpeed'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.fiberChannelAdapter.get('runningSpeed');
+      }
+    }
+  }
+];
 export default connectTo(
-  (props) => {
+  props => {
     snapshotMap = props;
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'fiberChannelAdapters')
@@ -142,56 +142,47 @@ export default connectTo(
         };
       });
 
-    const getDetails = (row) => {
-
-      if(!snapshotMap?.timeConfig){
-         return;
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
       }
-        return (
-          <Columize>
-          <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number,
-              metrics: [
-                'fiberChannelAdapter.' + row.key + '.reads',
-                'fiberChannelAdapter.' + row.key + '.writes'],
-              labels: [
-                t('in-phmc:reads'),
-                t('in-phmc:writes'),
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-          </Card>
-          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+      return (
+        <Columize>
+          <Card title={t('in-phmc:dashboards.noOfReadWrite')} useMaxAvailableHeight>
             <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytes.compact,
-              metrics: [
-                'fiberChannelAdapter.' + row.key + '.readBytes',
-                'fiberChannelAdapter.' + row.key + '.writeBytes',
-                'fiberChannelAdapter.' + row.key + '.transmittedBytes'],
-              labels: [
-                t('in-phmc:readBytes'),
-                t('in-phmc:writeBytes'),
-                t('in-phmc:transmittedBytes'),
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: ['fiberChannelAdapter.' + row.key + '.reads', 'fiberChannelAdapter.' + row.key + '.writes'],
+                labels: [t('in-phmc:reads'), t('in-phmc:writes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
           </Card>
-          </Columize>
-        );
-      };
+          <Card title={t('in-phmc:dashboards.noOfByte')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytes.compact,
+                metrics: [
+                  'fiberChannelAdapter.' + row.key + '.readBytes',
+                  'fiberChannelAdapter.' + row.key + '.writeBytes',
+                  'fiberChannelAdapter.' + row.key + '.transmittedBytes'
+                ],
+                labels: [t('in-phmc:readBytes'), t('in-phmc:writeBytes'), t('in-phmc:transmittedBytes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Columize>
+      );
+    };
     return (
       <Table
         withoutPadding

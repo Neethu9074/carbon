@@ -8,8 +8,11 @@ import React, { Fragment } from 'react';
 import { Card } from '@instana/components';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
+import BaseboardTemperature from 'in-phmc/Dashboards/tables/BaseboardTemperature';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import InletTemperature from 'in-phmc/Dashboards/tables/InletTemperature';
+import CpuTemperature from 'in-phmc/Dashboards/tables/CpuTemperature';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { number } from 'in-services/formatters/number';
 import { Row, Col } from 'in-components/layout/Grid';
@@ -20,14 +23,17 @@ export default function Summary({ timeConfig, data: system }) {
   const snapshotId = system.id;
   return (
     <Fragment>
-        <KpiGridRow sizes={[2, 2, 2, 2, 2, 2]}>
-          <KpiCard title={ t('in-phmc:uuid')} value={231} raw borderless />
-          <KpiCard title={t('in-phmc:powerConsumption')} value={7262} raw borderless />
-          <KpiCard title={t('in-phmc:machineType')} value={'Abcd*bw'} raw borderless />
-          <KpiCard title={t('in-phmc:model')} value={'XYZ'} raw borderless />
-          <KpiCard title={t('in-phmc:serialNumber')} value={'snksmsd'} raw borderless />
-          <KpiCard title={t('in-phmc:sampleType')} value={'qwerty'} raw borderless />
-
+      <KpiGridRow sizes={[2, 2, 4, 2, 2]}>
+        <KpiCard title={t('in-phmc:uuid')} value={system.uuid || valueMissingPlaceholder} raw borderless />
+        <KpiCard
+          title={t('in-phmc:powerConsumption')}
+          value={system.powerReading || valueMissingPlaceholder}
+          raw
+          borderless
+        />
+        <KpiCard title={t('in-phmc:machineType')} value={system.mtms || valueMissingPlaceholder} raw borderless />
+        <KpiCard title={t('in-phmc:serialNumber')} value={system.id || valueMissingPlaceholder} raw borderless />
+        <KpiCard title={t('in-phmc:sampleType')} value={system.sampleType || valueMissingPlaceholder} raw borderless />
       </KpiGridRow>
 
       <Row verticallyStretchColumns>
@@ -38,7 +44,7 @@ export default function Summary({ timeConfig, data: system }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['utilizedProcUnits'],
+                metrics: ['powerReading'],
                 labels: [t('in-phmc:powerConsumption')],
                 formatter: number.detailed,
                 type: 'line'
@@ -48,7 +54,9 @@ export default function Summary({ timeConfig, data: system }) {
           </Card>
         </Col>
       </Row>
-      <InletTemperature snapshotId={system.id} timeConfig={timeConfig}/>
+      <InletTemperature snapshotId={system.id} timeConfig={timeConfig} />
+      <CpuTemperature snapshotId={system.id} timeConfig={timeConfig} />
+      <BaseboardTemperature snapshotId={system.id} timeConfig={timeConfig} />
     </Fragment>
   );
 }

@@ -160,7 +160,7 @@ export default connectTo(
       }
       return (
         <Columize>
-          <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
+          <Card title={t('in-phmc:dashboards.noOfReadWrite')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}
@@ -177,7 +177,7 @@ export default connectTo(
               renderPostChartContent={PluginDashboardsMarkerLanes}
             />
           </Card>
-          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+          <Card title={t('in-phmc:dashboards.noOfByte')} useMaxAvailableHeight>
             <Chart
               snapshotId={snapshotId}
               timeConfig={timeConfig}

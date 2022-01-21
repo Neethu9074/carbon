@@ -99,7 +99,7 @@ const cols = [
 ];
 
 export default connectTo(
-  (props) => {
+  props => {
     snapshotMap = props;
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'sharedStoragePools')
@@ -125,56 +125,47 @@ export default connectTo(
         };
       });
 
-    const getDetails = (row) => {
-
-      if(!snapshotMap?.timeConfig){
-         return;
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
       }
-        return (
-          <Columize>
-          <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number,
-              metrics: [
-                'sharedStoragePool.' + row.key + '.reads',
-                'sharedStoragePool.' + row.key + '.writes'],
-              labels: [
-                t('in-phmc:reads'),
-                t('in-phmc:writes'),
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
-          </Card>
-          <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
+      return (
+        <Columize>
+          <Card title={t('in-phmc:dashboards.noOfReadWrite')} useMaxAvailableHeight>
             <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytes.compact,
-              metrics: [
-                'sharedStoragePool.' + row.key + '.readBytes',
-                'sharedStoragePool.' + row.key + '.writeBytes',
-                'sharedStoragePool.' + row.key + '.transmittedBytes'],
-              labels: [
-                t('in-phmc:readBytes'),
-                t('in-phmc:writeBytes'),
-                t('in-phmc:transmittedBytes'),
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: ['sharedStoragePool.' + row.key + '.reads', 'sharedStoragePool.' + row.key + '.writes'],
+                labels: [t('in-phmc:reads'), t('in-phmc:writes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
           </Card>
-          </Columize>
-        );
-      };
+          <Card title={t('in-phmc:dashboards.noOfByte')} useMaxAvailableHeight>
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytes.compact,
+                metrics: [
+                  'sharedStoragePool.' + row.key + '.readBytes',
+                  'sharedStoragePool.' + row.key + '.writeBytes',
+                  'sharedStoragePool.' + row.key + '.transmittedBytes'
+                ],
+                labels: [t('in-phmc:readBytes'), t('in-phmc:writeBytes'), t('in-phmc:transmittedBytes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
+          </Card>
+        </Columize>
+      );
+    };
     return (
       <Table
         withoutPadding
