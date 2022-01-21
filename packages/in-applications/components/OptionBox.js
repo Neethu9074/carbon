@@ -12,25 +12,7 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 
 import locals from './OptionBox.mless';
 
-interface OptionBoxProps {
-  checked?: boolean | undefined;
-  icon: string;
-  title: string;
-  description: string;
-  onChange: (checked: boolean) => void;
-  asRadioButton?: boolean;
-  className?: string;
-}
-
-export default function OptionBox({
-  checked,
-  icon,
-  title,
-  description,
-  onChange,
-  asRadioButton,
-  className
-}: OptionBoxProps) {
+export default function OptionBox({ checked, icon, title, description, onChange, asRadioButton, className }) {
   const labelContent = (
     <Fragment>
       <SvgIcon type={icon} className={locals.icon} />

@@ -40,7 +40,7 @@ type CheckboxFancyProps = {
   disabled?: boolean;
   label?: ReactNode | string;
   explanation?: ReactNode | string;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onChange?: ChangeEventHandler;
   size?: 'default' | 'large' | 'larger' | 'largest';
   style?: CSSProperties;
   verticalLabel?: boolean;

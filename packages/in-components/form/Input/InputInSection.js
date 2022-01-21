@@ -3,26 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { ForwardedRef, forwardRef, ReactNode } from 'react';
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 
-import Input, { InputProps } from 'in-components/form/Input/Input';
 import Section from 'in-components/workspace/Section';
+import Input from 'in-components/form/Input/Input';
 
 import locals from './InputInSection.mless';
 
-export default forwardRef<HTMLInputElement, InputInSectionProps>(InputInSection);
+export default forwardRef(InputInSection);
 
-interface InputInSectionProps extends InputProps {
-  label: string;
-  additionalContent?: ReactNode;
-  actions?: ReactNode;
-}
-
-function InputInSection(
-  { label, additionalContent, actions, ...inputProps }: InputInSectionProps,
-  ref: ForwardedRef<HTMLInputElement>
-) {
+function InputInSection({ label, additionalContent, actions, ...inputProps }, ref) {
   const { id, hasError } = inputProps;
 
   if (actions) {
@@ -36,3 +28,10 @@ function InputInSection(
     </Section>
   );
 }
+
+InputInSection.propTypes = {
+  ...Input.propTypes,
+  label: PropTypes.string.isRequired,
+  additionalContent: PropTypes.node,
+  actions: PropTypes.node
+};

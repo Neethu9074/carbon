@@ -5,7 +5,7 @@
 
 import { RenderConfig, RenderProps } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
-import { Axis } from 'in-components/Chart/types';
+import { Axis } from 'in-components/Chart/ResultAwareChart.d';
 
 export const hourlyBudgetMetricId = 'hourlyBudget';
 

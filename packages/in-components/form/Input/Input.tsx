@@ -11,38 +11,40 @@ import { SvgIcon } from '@instana/components';
 
 import locals from './Input.mless';
 
-export default forwardRef<HTMLInputElement, InputProps>(function FormInput(props: InputProps, ref) {
-  const {
-    iconType,
-    onIconClick,
-    hasError,
-    refSetter,
-    className,
-    hideValidityInformationOnFocus,
-    ...inputProps
-  } = props;
+export default forwardRef<HTMLInputElement, FieldProps & React.InputHTMLAttributes<HTMLInputElement>>(
+  function FormInput(props: FieldProps & React.InputHTMLAttributes<HTMLInputElement>, ref) {
+    const {
+      iconType,
+      onIconClick,
+      hasError,
+      refSetter,
+      className,
+      hideValidityInformationOnFocus,
+      ...inputProps
+    } = props;
 
-  let content = (
-    <input
-      {...inputProps}
-      ref={ref || refSetter}
-      className={classNames(locals.input, className, {
-        [locals.error]: hasError,
-        [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
-      })}
-    />
-  );
-
-  if (iconType) {
-    content = (
-      <div className={locals.withIcon}>
-        {content} <SvgIcon type={iconType} onClick={onIconClick} className={locals.icon} />
-      </div>
+    let content = (
+      <input
+        {...inputProps}
+        ref={ref || refSetter}
+        className={classNames(locals.input, className, {
+          [locals.error]: hasError,
+          [locals.hideValidityInformationOnFocus]: hideValidityInformationOnFocus
+        })}
+      />
     );
-  }
 
-  return content;
-});
+    if (iconType) {
+      content = (
+        <div className={locals.withIcon}>
+          {content} <SvgIcon type={iconType} onClick={onIconClick} className={locals.icon} />
+        </div>
+      );
+    }
+
+    return content;
+  }
+);
 
 interface FieldProps {
   className?: string;
@@ -61,5 +63,3 @@ interface FieldProps {
   iconType?: string;
   onIconClick?: (e: EventPlaceholder) => void;
 }
-
-export type InputProps = FieldProps & React.InputHTMLAttributes<HTMLInputElement>;

@@ -4,6 +4,3 @@
  */
 
 export type Nullish = null | undefined;
-export type Mutable<T> = {
-  -readonly [Property in keyof T]: T[Property];
-};

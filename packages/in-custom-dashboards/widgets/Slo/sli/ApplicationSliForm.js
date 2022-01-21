@@ -3,18 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Field, Item, MapForm } from 'formalistic';
 import React from 'react';
 
 import { Stack } from '@instana/components';
 
+import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import {
   applicationSliTypeOptions,
   applicationType,
-  availabilityType,
-  SliEntityType
+  availabilityType
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
 import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
@@ -23,9 +21,7 @@ import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSele
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
-import { QueryBuilderComponent } from 'in-components/QueryBuilder';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
-import { ApplicationBoundaryScope, Nullish } from 'in-types';
 import HelpAction from 'in-components/workspace/HelpAction';
 import Sections from 'in-components/workspace/Sections';
 import Divider from 'in-components/workspace/Divider';
@@ -34,38 +30,26 @@ import { Row, Col } from 'in-components/layout/Grid';
 import Header from 'in-components/workspace/Header';
 import { t } from 'in-i18n';
 
-interface ApplicationSliFormProps {
-  form: MapForm;
-  onChange: (path: string[], updater: (i: Item) => Item) => void;
-  apName: string;
-  QueryBuilderComponent: QueryBuilderComponent;
-}
+export function ApplicationSliForm({ form, onChange, apName, QueryBuilderComponent }) {
+  const sliEntityForm = form.get('sliEntity');
+  const applicationId = sliEntityForm.get('applicationId')?.value;
+  const serviceId = sliEntityForm.get('serviceId')?.value;
+  const endpointId = sliEntityForm.get('endpointId')?.value;
+  const boundaryScope = sliEntityForm.get('boundaryScope')?.value;
+  const includeInternal = sliEntityForm.get('includeInternal').value;
+  const includeSynthetic = sliEntityForm.get('includeSynthetic').value;
 
-export function ApplicationSliForm({ form, onChange, apName, QueryBuilderComponent }: ApplicationSliFormProps) {
-  const sliEntityForm = form.get('sliEntity') as MapForm;
+  const onUpdateBoundaryScope = value => {
+    onChange(['sliEntity', 'boundaryScope'], f => f.setValue(value).setTouched(true));
+  };
 
-  const sliTypeForm = sliEntityForm.get('sliType') as Field<SliEntityType>;
+  const onUpdateSliEntityField = (fieldName, value) => {
+    onChange(['sliEntity', fieldName], f => f.setValue(value).setTouched(true));
+  };
+
+  const sliTypeForm = sliEntityForm.get('sliType');
   const sliType = sliTypeForm.value;
-  const endpointIdField = sliEntityForm.get('endpointId') as Field<string | Nullish>;
-  const serviceIdField = sliEntityForm.get('serviceId') as Field<string | Nullish>;
-  const sliNameField = form.get('sliName') as Field<string>;
-
-  const applicationId = (sliEntityForm.get('applicationId') as Field<string>)?.value;
-  const serviceId = serviceIdField?.value;
-  const endpointId = endpointIdField?.value;
-  const boundaryScope = (sliEntityForm.get('boundaryScope') as Field<ApplicationBoundaryScope>)?.value;
-  const includeInternal = (sliEntityForm.get('includeInternal') as Field<boolean>).value;
-  const includeSynthetic = (sliEntityForm.get('includeSynthetic') as Field<boolean>).value;
-
-  const onUpdateBoundaryScope = (value: ApplicationBoundaryScope) => {
-    onChange(['sliEntity', 'boundaryScope'], f =>
-      (f as Field<ApplicationBoundaryScope>).setValue(value).setTouched(true)
-    );
-  };
-
-  const onUpdateSliEntityField = <T extends unknown>(fieldName: string, value: T) => {
-    onChange(['sliEntity', fieldName], f => (f as Field<T>).setValue(value).setTouched(true));
-  };
+  const endpointIdField = sliEntityForm.get('endpointId');
 
   return (
     <Stack gap="large">
@@ -74,50 +58,52 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
 
         <Stack gap="xsmall">
           <Sections>
-            <InputInSection
-              id="new-sli-name"
-              label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.name')}
-              onChange={e => onChange(['sliName'], f => (f as Field<string>).setValue(e.target.value).setTouched(true))}
-              value={sliNameField?.value}
-              hasError={!sliNameField.valid && sliNameField.touched}
-              maxLength={256}
-              additionalContent={
-                <OverridingFieldValidationMessage
-                  field={sliNameField}
-                  message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliNameNotEmpty')}
-                />
-              }
-            />
+            {form.get('sliName').map(field => (
+              <InputInSection
+                id="new-sli-name"
+                label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.name')}
+                onChange={e => onChange(['sliName'], f => f.setValue(e.target.value).setTouched(true))}
+                value={field?.value}
+                hasError={!field.valid && field.touched}
+                maxLength={256}
+                additionalContent={
+                  <OverridingFieldValidationMessage
+                    field={field}
+                    message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliNameNotEmpty')}
+                  />
+                }
+              />
+            ))}
           </Sections>
 
           <Sections>
-            <SelectInSection
-              id="new-sli-type"
-              label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.type')}
-              onChange={e =>
-                onChange(['sliEntity', 'sliType'], f => (f as Field<string>).setValue(e.target.value).setTouched(true))
-              }
-              value={sliType ?? ''}
-              hasError={!sliTypeForm.valid && sliTypeForm.touched}
-              actions={
-                <HelpAction href="https://instana.com/docs/service_level_objectives/#sli-configuration/" external>
-                  {t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomHelpAction')}
-                </HelpAction>
-              }
-              additionalContent={
-                <OverridingFieldValidationMessage
-                  field={sliTypeForm}
-                  message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliTimeBasedOrAnEventBasedSli')}
-                />
-              }
-            >
-              <option value="">{t('in-custom-dashboards:widgets.slo.sliFormPresenter.pleaseSelect')}</option>
-              {applicationSliTypeOptions.map(({ value, label }) => (
-                <option value={value} key={value}>
-                  {label}
-                </option>
-              ))}
-            </SelectInSection>
+            {sliEntityForm.get('sliType').map(field => (
+              <SelectInSection
+                id="new-sli-type"
+                label={t('in-custom-dashboards:widgets.slo.sliFormPresenter.type')}
+                onChange={e => onChange(['sliEntity', 'sliType'], f => f.setValue(e.target.value).setTouched(true))}
+                value={field?.value ?? ''}
+                hasError={!field.valid && field.touched}
+                actions={
+                  <HelpAction href="https://instana.com/docs/service_level_objectives/#sli-configuration/" external>
+                    {t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomHelpAction')}
+                  </HelpAction>
+                }
+                additionalContent={
+                  <OverridingFieldValidationMessage
+                    field={sliTypeForm}
+                    message={t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliTimeBasedOrAnEventBasedSli')}
+                  />
+                }
+              >
+                <option value="">{t('in-custom-dashboards:widgets.slo.sliFormPresenter.pleaseSelect')}</option>
+                {applicationSliTypeOptions.map(({ value, label }) => (
+                  <option value={value} key={value}>
+                    {label}
+                  </option>
+                ))}
+              </SelectInSection>
+            ))}
           </Sections>
         </Stack>
       </Stack>
@@ -177,10 +163,10 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
                   boundaryScope={boundaryScope}
                   applicationId={applicationId}
                   value={serviceId}
-                  hasError={!serviceIdField.valid && serviceIdField.touched}
+                  field={sliEntityForm.get('serviceId')}
                   onChange={value =>
                     onChange(['sliEntity', 'serviceId'], f =>
-                      (f as Field<string | Nullish>).setValue(convertEmptyStringToNull(value)).setTouched(true)
+                      f.setValue(convertEmptyStringToNull(value)).setTouched(true)
                     )
                   }
                 />
@@ -188,6 +174,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
 
               <Sections>
                 <EndpointSelectBox
+                  apName={apName}
                   boundaryScope={boundaryScope}
                   applicationId={applicationId}
                   serviceId={serviceId}
@@ -195,7 +182,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
                   hasError={!endpointIdField.valid && endpointIdField.touched}
                   onChange={value =>
                     onChange(['sliEntity', 'endpointId'], f =>
-                      (f as Field<string | Nullish>).setValue(convertEmptyStringToNull(value)).setTouched(true)
+                      f.setValue(convertEmptyStringToNull(value)).setTouched(true)
                     )
                   }
                 />
@@ -207,21 +194,21 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
 
       <Divider />
 
-      {sliType === applicationType && (
+      {form.getIn(['sliEntity', 'sliType'])?.value === applicationType && (
         <MetricsForm
           entityType="application"
           metricEntityType="calls"
-          form={form.get('metricConfiguration') as MapForm}
-          onChange={mc => onChange([], f => (f as MapForm).put('metricConfiguration', mc))}
+          form={form.get('metricConfiguration')}
+          onChange={mc => onChange([], f => f.put('metricConfiguration', mc))}
         />
       )}
 
-      {sliType === availabilityType && (
+      {form.getIn(['sliEntity', 'sliType'])?.value === availabilityType && (
         <GoodBadEventsConfigurator
           entityType="application"
           label={apName}
-          form={sliEntityForm}
-          updateForm={updatedForm => onChange([], f => (f as MapForm).put('sliEntity', updatedForm))}
+          form={form.get('sliEntity')}
+          updateForm={updatedForm => onChange([], f => f.put('sliEntity', updatedForm))}
           QueryBuilderComponent={QueryBuilderComponent}
         />
       )}
@@ -229,4 +216,4 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
   );
 }
 
-const convertEmptyStringToNull = (value: string | Nullish): string | Nullish => (value === '' ? null : value);
+const convertEmptyStringToNull = value => (value === '' ? null : value);

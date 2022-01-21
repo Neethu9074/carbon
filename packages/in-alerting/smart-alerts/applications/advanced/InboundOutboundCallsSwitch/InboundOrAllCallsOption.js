@@ -8,21 +8,10 @@ import React from 'react';
 
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
 import OptionBox from 'in-applications/components/OptionBox';
-import { BoundaryScope } from 'in-types';
 
 import locals from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsSwitch.mless';
 
-interface InboundOrAllCallsOptionProps {
-  boundaryScope: BoundaryScope; // This is the currently selected value
-  scope: Exclude<BoundaryScope, 'DEFAULT'>; // This is the scope to display in this option
-  onBoundaryStateChange: (newValue: { boundaryScope: Exclude<BoundaryScope, 'DEFAULT'> }) => void;
-}
-
-export default function InboundOrAllCallsOption({
-  boundaryScope,
-  onBoundaryStateChange,
-  scope
-}: InboundOrAllCallsOptionProps) {
+export default function InboundOrAllCallsOption({ boundaryScope, onBoundaryStateChange, scope }) {
   const { icon, text, dashboard } = boundaryScopes.info[scope];
   return (
     <OptionBox

@@ -5,11 +5,10 @@
 
 import { RenderProps } from 'in-components/Chart/renderer/types';
 import { FormatterFn } from 'in-stores/metric/formatters';
-import { FilterInterface, TimeConfig } from 'in-types';
+import { TimeConfig } from 'in-types';
 
 export interface MetricsConfiguration {
   reverseOrder?: boolean;
-  filter: FilterInterface;
 }
 
 export interface ContextMenuButton {
