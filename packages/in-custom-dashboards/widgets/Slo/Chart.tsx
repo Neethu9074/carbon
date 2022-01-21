@@ -36,8 +36,8 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
 import { ChartedMetric } from 'in-applications/navigation/paths';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { Axis } from 'in-components/Chart/ResultAwareChart.d';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import { Axis } from 'in-components/Chart/types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
