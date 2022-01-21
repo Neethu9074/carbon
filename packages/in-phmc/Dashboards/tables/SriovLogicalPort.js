@@ -99,7 +99,7 @@ const cols = [
   },
   {
     title: t('in-phmc:errorOut'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sriovLogicalPort.get('errorOut');
@@ -109,9 +109,8 @@ const cols = [
   }
 ];
 
-
 export default connectTo(
-  (props) => {
+  props => {
     snapshotMap = props;
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'sriovLogicalPorts')
@@ -137,56 +136,50 @@ export default connectTo(
         };
       });
 
-    const getDetails = (row) => {
-
-      if(!snapshotMap?.timeConfig){
-         return;
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
       }
-        return (
-          <Columize>
+      return (
+        <Columize>
           <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number,
-              metrics: [
-                'sriovLogicalPort.' + row.key + '.sentPackets',
-                'sriovLogicalPort.' + row.key + '.receivedPackets'],
-              labels: [
-                t('in-phmc:sentPackets'),
-                t('in-phmc:recievedPackets'),
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: [
+                  'sriovLogicalPort.' + row.key + '.sentPackets',
+                  'sriovLogicalPort.' + row.key + '.receivedPackets'
+                ],
+                labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
           </Card>
           <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
             <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytes.compact,
-              metrics: [
-                'sriovLogicalPort.' + row.key + '.sentBytes',
-                'sriovLogicalPort.' + row.key + '.receivedBytes',
-                'sriovLogicalPort.' + row.key + '.transferredBytes'],
-              labels: [
-                t('in-phmc:sentBytes'),
-                t('in-phmc:recievedBytes'),
-                t('in-phmc:transferredBytes'),
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytes.compact,
+                metrics: [
+                  'sriovLogicalPort.' + row.key + '.sentBytes',
+                  'sriovLogicalPort.' + row.key + '.receivedBytes',
+                  'sriovLogicalPort.' + row.key + '.transferredBytes'
+                ],
+                labels: [t('in-phmc:sentBytes'), t('in-phmc:recievedBytes'), t('in-phmc:transferredBytes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
           </Card>
-          </Columize>
-        );
-      };
+        </Columize>
+      );
+    };
     return (
       <Table
         withoutPadding
