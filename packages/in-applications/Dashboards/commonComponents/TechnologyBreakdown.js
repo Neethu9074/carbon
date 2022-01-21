@@ -70,6 +70,7 @@ export default connectTo(
       const metricIds = endpointTypes.map(type => endpointNameTranslations[type]);
       const metrics = endpointTypes.map(type => result.data[type]);
       const colors = endpointTypes.map(type => (type === 'SELF' ? theme.lib.colors.chart.self25 : getColorChart(type)));
+      const hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
       config = {
         renderPostChartContent,
@@ -78,7 +79,7 @@ export default connectTo(
         timeConfig: getResolvedTimeConfig(timeConfig, result),
         granularity: getChartGranularity(timeConfig),
         renderHistoricDataIndicator: renderHistoricDataIndicator,
-        resultPrecision: result?.resultPrecisionDetails?.resultPrecision,
+        hasApproximateData,
         y1: {
           renderer: Renderer.stackedArea,
           labels,
