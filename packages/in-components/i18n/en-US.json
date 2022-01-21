@@ -73,7 +73,8 @@
     "infrastructurePageName": "Infrastructure",
     "eumPageName": "EUM",
     "settingsPageName": "Settings",
-    "requestQuoteBtn": "Request a quote"
+    "requestQuoteBtn": "Request a quote",
+    "alreadyHaveLicense": "Already have a license? Activate it on <linkToDocker>Docker</linkToDocker> or <linkToKubernetes>Kubernetes</linkToKubernetes>."
   },
   "releaseNotesDialog": {
     "releaseNotesTitle": "Release Notes"
