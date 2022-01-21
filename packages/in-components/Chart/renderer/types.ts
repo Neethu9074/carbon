@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Config } from 'in-components/Chart/ResultAwareChart.d';
+import { Config } from 'in-components/Chart/types';
 import { ScaleType } from 'in-services/scale';
 
 // TODO: this is very likely incomplete

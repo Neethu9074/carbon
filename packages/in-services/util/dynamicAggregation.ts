@@ -5,7 +5,6 @@
 
 import { sortedIndexBy } from 'lodash';
 
-// @ts-ignore
 import { sensibleGranularities } from 'in-stores/metric/metric';
 
 interface Request {
@@ -13,7 +12,7 @@ interface Request {
   maxDataPoints?: number;
   width: number;
   minPixelsPerBlock: number;
-  rollup: number | undefined;
+  rollup?: number;
 }
 
 export function getBlockSizeMillis({ windowSize, maxDataPoints, minPixelsPerBlock, width, rollup }: Request) {
