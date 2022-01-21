@@ -33,13 +33,13 @@ export default function Summary({ timeConfig, data: system }) {
         />
         <KpiCard
           title={t('in-phmc:machineTypeModel')}
-          value={system.machineTypeModel || valueMissingPlaceholder}
+          value={system.machineModelType || valueMissingPlaceholder}
           raw
           borderless
         />
         <KpiCard
           title={t('in-phmc:serialNumber')}
-          value={system.machineSerial || valueMissingPlaceholder}
+          value={system.serialNumber || valueMissingPlaceholder}
           raw
           borderless
         />
