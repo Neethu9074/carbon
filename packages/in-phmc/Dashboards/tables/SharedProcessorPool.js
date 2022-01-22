@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { getRawPayload } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -13,11 +14,12 @@ import { t } from 'in-i18n';
 const cols = [
   {
     title: t('in-phmc:dashboards.id'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedProcessorPool.get('id');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
@@ -31,29 +33,32 @@ const cols = [
   },
   {
     title: t('in-phmc:assignedProc'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedProcessorPool.get('assignedProcUnits');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
     title: t('in-phmc:utilizedProc'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedProcessorPool.get('utilizedProcUnitsPercentage');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
     title: t('in-phmc:availableProc'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedProcessorPool.get('availableProcUnitsPercentage');
-      }
+      },
+      getContent: number.compact
     }
   }
 ];

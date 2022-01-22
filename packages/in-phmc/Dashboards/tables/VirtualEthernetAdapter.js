@@ -21,11 +21,12 @@ let snapshotMap = {};
 const cols = [
   {
     title: t('in-phmc:vlanId'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('vlanId');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
@@ -34,7 +35,8 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('vswitchId');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
@@ -102,7 +104,8 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.virtualEthernetAdapter.get('transferredBytes');
-      }
+      },
+      getContent: bytes.compact
     }
   },
   {
@@ -118,7 +121,7 @@ const cols = [
 ];
 
 export default connectTo(
-  (props) => {
+  props => {
     snapshotMap = props;
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'virtualEthernetAdapters')
@@ -144,61 +147,58 @@ export default connectTo(
         };
       });
 
-    const getDetails = (row) => {
-
-      if(!snapshotMap?.timeConfig){
-         return;
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
       }
-        return (
-          <Columize>
+      return (
+        <Columize>
           <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number,
-              metrics: [
-                'virtualEthernetAdapter.' + row.key + '.sentPackets',
-                'virtualEthernetAdapter.' + row.key + '.receivedPackets',
-                'virtualEthernetAdapter.' + row.key + '.droppedPackets'],
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: [
+                  'virtualEthernetAdapter.' + row.key + '.sentPackets',
+                  'virtualEthernetAdapter.' + row.key + '.receivedPackets',
+                  'virtualEthernetAdapter.' + row.key + '.droppedPackets'
+                ],
 
-              labels: [
-                t('in-phmc:sentPackets'),
-                t('in-phmc:recievedPackets'),
-                t('in-phmc:droppedPackets')
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+                labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets'), t('in-phmc:droppedPackets')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
           </Card>
           <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
             <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytes.compact,
-              metrics: [
-                'virtualEthernetAdapter.' + row.key + '.sentBytes',
-                'virtualEthernetAdapter.' + row.key + '.receivedBytes',
-                'virtualEthernetAdapter.' + row.key + '.transferredBytes',
-                'virtualEthernetAdapter.' + row.key + '.transferredPhysicalBytes'],
-              labels: [
-                t('in-phmc:sentBytes'),
-                t('in-phmc:recievedBytes'),
-                t('in-phmc:transferredBytes'),
-                t('in-phmc:transferredPhysicalBytes')
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytes.compact,
+                metrics: [
+                  'virtualEthernetAdapter.' + row.key + '.sentBytes',
+                  'virtualEthernetAdapter.' + row.key + '.receivedBytes',
+                  'virtualEthernetAdapter.' + row.key + '.transferredBytes',
+                  'virtualEthernetAdapter.' + row.key + '.transferredPhysicalBytes'
+                ],
+                labels: [
+                  t('in-phmc:sentBytes'),
+                  t('in-phmc:recievedBytes'),
+                  t('in-phmc:transferredBytes'),
+                  t('in-phmc:transferredPhysicalBytes')
+                ],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
           </Card>
-          </Columize>
-        );
-      };
+        </Columize>
+      );
+    };
     return (
       <Table
         withoutPadding

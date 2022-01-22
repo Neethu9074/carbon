@@ -12,6 +12,7 @@ import BaseboardTemperature from 'in-phmc/Dashboards/tables/BaseboardTemperature
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import InletTemperature from 'in-phmc/Dashboards/tables/InletTemperature';
+import InfraMetricKpiCard from 'in-components/KpiCard/InfraMetricKpiCard';
 import CpuTemperature from 'in-phmc/Dashboards/tables/CpuTemperature';
 import KpiGridRow from 'in-components/KpiGridRow/KpiGridRow';
 import { number } from 'in-services/formatters/number';
@@ -19,31 +20,36 @@ import { Row, Col } from 'in-components/layout/Grid';
 import KpiCard from 'in-components/KpiCard/KpiCard';
 import { t } from 'in-i18n';
 
-export default function Summary({ timeConfig, data: system }) {
+export default function Energy({ timeConfig, data: system }) {
   const snapshotId = system.id;
   return (
     <Fragment>
       <KpiGridRow sizes={[2, 2, 4, 2, 2]}>
-        <KpiCard title={t('in-phmc:uuid')} value={system.uuid || valueMissingPlaceholder} raw borderless />
-        <KpiCard
+        <KpiCard title={t('in-phmc:uuid')} value={system.energy.uuid || valueMissingPlaceholder} raw borderless />
+        <InfraMetricKpiCard
           title={t('in-phmc:powerConsumption')}
-          value={system.powerReading || valueMissingPlaceholder}
-          raw
-          borderless
+          snapshotId={snapshotId}
+          metric="powerReading"
+          formatter={number.compact}
         />
         <KpiCard
           title={t('in-phmc:machineTypeModel')}
-          value={system.machineModelType || valueMissingPlaceholder}
+          value={system.energy.machineTypeModel || valueMissingPlaceholder}
           raw
           borderless
         />
         <KpiCard
           title={t('in-phmc:serialNumber')}
-          value={system.serialNumber || valueMissingPlaceholder}
+          value={system.energy.machineSerial || valueMissingPlaceholder}
           raw
           borderless
         />
-        <KpiCard title={t('in-phmc:sampleType')} value={system.sampleType || valueMissingPlaceholder} raw borderless />
+        <KpiCard
+          title={t('in-phmc:sampleType')}
+          value={system.energy.sampleType || valueMissingPlaceholder}
+          raw
+          borderless
+        />
       </KpiGridRow>
 
       <Row verticallyStretchColumns>
