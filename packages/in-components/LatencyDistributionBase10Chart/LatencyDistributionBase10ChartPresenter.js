@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
@@ -24,6 +24,7 @@ import ChartLegend from 'in-components/Chart/components/ChartLegend';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import VerticalAxis from 'in-components/Axis/VerticalAxis';
 import { defaultTimeShift } from 'in-stores/time/shifting';
+import { noop } from 'in-services/fixedObjects';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -49,7 +50,8 @@ export default function LatencyDistributionBase10ChartPresenter({
   timeShiftConfig = defaultTimeShift,
   title,
   aggregation,
-  showHeader
+  showHeader,
+  setApproximateData = noop
 }) {
   // which metrics to hide on the chart
   const filteredDataSeries$ = create();
@@ -61,6 +63,10 @@ export default function LatencyDistributionBase10ChartPresenter({
   const timeShiftSubscriptionResult = useObservable(timeShiftSubscription, [timeShiftSubscription]);
 
   const hasApproximateData = subscriptionResult?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
+  useEffect(() => {
+    setApproximateData(hasApproximateData);
+  }, [hasApproximateData, setApproximateData]);
 
   const timeShiftEnabled = !!timeShiftConfig.offset;
 

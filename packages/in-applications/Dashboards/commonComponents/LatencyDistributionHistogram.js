@@ -13,6 +13,7 @@ import {
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
@@ -31,9 +32,11 @@ export default function LatencyDistributionHistogram({
   boundaryScope,
   syntheticCalls,
   rightHeaderContent,
-  cardTitle
+  cardTitle,
+  renderHistoricDataIndicator = false
 }) {
   const [selectedLatencyRange, setSelectedLatencyRange] = useState({ from: null, to: null });
+  const [hasApproximateData, setApproximateData] = useState(false);
   const timeShiftConfig = useTimeShiftConfig();
 
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
@@ -80,8 +83,16 @@ export default function LatencyDistributionHistogram({
     includePercentiles: false,
     timeShift: translateOffsetToTimeShiftConfig(timeShiftConfig.offset, timeConfig)
   };
+
+  const leftHeaderContent =
+    renderHistoricDataIndicator && hasApproximateData ? (
+      <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+    ) : (
+      undefined
+    );
+
   return (
-    <Card title={cardTitle} rightHeaderContent={rightHeaderContent} size="l">
+    <Card title={cardTitle} leftHeaderContent={leftHeaderContent} rightHeaderContent={rightHeaderContent} size="l">
       <LatencyDistributionBase10Chart
         dataSource="calls"
         subscription={getLatencyDistributionBase10(latencyDistRequest)}
@@ -119,6 +130,7 @@ export default function LatencyDistributionHistogram({
         onSelectionChanged={setSelectedLatencyRange}
         showLegend
         timeShiftConfig={timeShiftConfig}
+        setApproximateData={setApproximateData}
       />
     </Card>
   );
