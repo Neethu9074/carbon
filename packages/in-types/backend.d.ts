@@ -3036,7 +3036,6 @@ export interface OperatingSystem {
 
 export interface Order {
   readonly by: string;
-  readonly collation?: string;
   readonly direction: OrderDirection;
 }
 
