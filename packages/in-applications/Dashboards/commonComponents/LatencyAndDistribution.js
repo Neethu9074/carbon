@@ -144,6 +144,7 @@ function ChartPresenter({
       timeConfig={timeConfig}
       boundaryScope={boundaryScope}
       syntheticCalls={syntheticCalls}
+      renderHistoricDataIndicator
     />
   );
 }
