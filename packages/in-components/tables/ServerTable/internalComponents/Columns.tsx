@@ -27,7 +27,7 @@ interface ColumnsProps<ItemType extends Object> {
   onColumnChecked: (id: string, isEnabled: boolean) => void;
   optionalColumns?: unknown[];
   allRowsAreSelected?: boolean;
-  setSelectedStateForRows: (allRowsAreSelected: boolean) => void;
+  setSelectedStateForRows?: (allRowsAreSelected: boolean) => void;
 }
 
 export default function Columns<ItemType extends Object>(props: ColumnsProps<ItemType>) {
@@ -57,7 +57,7 @@ export default function Columns<ItemType extends Object>(props: ColumnsProps<Ite
             <Th key={columnDefinition.id} {...headCellProps}>
               <CheckboxFancy
                 checked={allRowsAreSelected}
-                onChange={() => setSelectedStateForRows(!allRowsAreSelected)}
+                onChange={() => setSelectedStateForRows?.(!allRowsAreSelected)}
                 size="large"
               />
             </Th>

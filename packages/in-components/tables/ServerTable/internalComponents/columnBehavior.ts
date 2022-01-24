@@ -4,6 +4,7 @@
  */
 
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { noop } from 'in-services/util/function';
 
 type OnColumnChange = (p: { disabledColumns?: string[]; enabledColumns?: string[] }) => void;
 
@@ -15,7 +16,7 @@ interface FilterColumnsProps<ColumnDefinitionType extends ColumnDefinition<any>>
   optionalColumns?: string[];
   disabledColumns?: string[];
   enabledColumns?: string[];
-  onChange: OnColumnChange;
+  onChange?: OnColumnChange;
 }
 
 interface FilteredColumns<ColumnDefinitionType extends ColumnDefinition<any>> {
@@ -51,7 +52,7 @@ export function filterColumns<ColumnDefinitionType extends ColumnDefinition<any>
     visibleColumns,
     optionalColumns,
     onColumnChecked: (columnId, checked) =>
-      onColumnChecked(onChange, disabledColumns, enabledColumns, columnId, checked)
+      onColumnChecked(onChange ?? noop, disabledColumns, enabledColumns, columnId, checked)
   };
 }
 
