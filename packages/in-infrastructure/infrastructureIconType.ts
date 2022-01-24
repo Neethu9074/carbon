@@ -3,11 +3,15 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import * as Immutable from 'immutable';
+
 import { getSvgIcon } from '@instana/components';
 
 import { getIconTypeCallback } from 'in-sdk/iconType';
 
-export function getIconType(snapshotOrPlugin) {
+type SnapshotOrPlugin = Immutable.Map<string, string> | string;
+
+export function getIconType(snapshotOrPlugin: SnapshotOrPlugin): string {
   let plugin = snapshotOrPlugin;
   if (typeof snapshotOrPlugin === 'object') {
     plugin = snapshotOrPlugin.get('plugin');

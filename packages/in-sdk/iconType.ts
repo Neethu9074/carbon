@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import * as Immutable from 'immutable';
+
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 
-type IconTypeGetter = (plugin: string) => string;
+type IconTypeGetter = (plugin: string | Immutable.Map<string, unknown>) => string;
 const registry: Record<string, IconTypeGetter> = {};
 
 export function registerIconType(plugin: string, getIconType: IconTypeGetter): void {
