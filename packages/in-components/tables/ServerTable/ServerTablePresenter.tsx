@@ -16,8 +16,8 @@ import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineTo
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
 import { TableProps, TableState } from 'in-components/tables/ServerTable/types';
+import { Nullish, PaginatedResult, Result, ResultPrecision } from 'in-types';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
-import { PaginatedResult, Result, ResultPrecision } from 'in-types';
 import { noop, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
 import SearchInput from 'in-components/SearchInput';
@@ -35,7 +35,7 @@ export interface ServerTablePresenterProps<ItemType extends ListItem> extends Ta
   query?: string;
   page: number;
   pageSize: number;
-  result: Result<PaginatedResult<ItemType>>;
+  result?: Result<PaginatedResult<ItemType>> | Nullish;
   renderPagination?: (p: TableState) => React.ReactNode;
   fixedLayout?: boolean;
   rightHeader?: ((p: ServerTablePresenterProps<ItemType>) => React.ReactNode) | React.ReactNode;
@@ -64,7 +64,6 @@ export default function ServerTablePresenter<
 
     getRowProps,
     onRowClick,
-    result = pendingResult as Result<PaginatedResult<ItemType>>,
     renderPagination,
     fixedLayout,
     rightHeader,
@@ -88,6 +87,7 @@ export default function ServerTablePresenter<
     onRowMouseEnter = noop,
     onRowMouseLeave = noop
   } = props;
+  const result = props.result ?? (pendingResult as Result<PaginatedResult<ItemType>>);
   const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
 
   let body = null;

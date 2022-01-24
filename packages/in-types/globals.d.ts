@@ -4,6 +4,7 @@
  */
 
 import { FormatLocaleDefinition } from 'd3-format';
+
 import { Tag } from 'in-types/backend';
 
 export interface UiSettings {
@@ -18,6 +19,7 @@ export interface Tenant {
 export interface Role {
   id: string;
   canSeeInternalTags: boolean;
+  canConfigureServiceLevelIndicators: boolean;
 }
 
 export interface User {

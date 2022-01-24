@@ -15,7 +15,7 @@ export interface ColumnDefinition<
   AdditionalContentPropsType extends TableProps<ItemType> = TableProps<ItemType>
 > {
   id: string;
-  width?: string;
+  width?: string | number;
   widthInAbsoluteUnit?: boolean;
   useMinimumAmountOfHorizontalSpace?: boolean;
   sortable?: boolean;
