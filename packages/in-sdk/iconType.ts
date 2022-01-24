@@ -5,13 +5,14 @@
 
 import { ensureInfraPluginsAreEvaluated } from 'in-sdk/asyncEvaluation';
 
-const registry = {};
+type IconTypeGetter = (plugin: string) => string;
+const registry: Record<string, IconTypeGetter> = {};
 
-export function registerIconType(plugin, getIconType) {
+export function registerIconType(plugin: string, getIconType: IconTypeGetter): void {
   registry[plugin] = getIconType;
 }
 
-export function getIconTypeCallback(plugin) {
+export function getIconTypeCallback(plugin: string): IconTypeGetter {
   ensureInfraPluginsAreEvaluated();
   return registry[plugin];
 }
