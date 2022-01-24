@@ -12,7 +12,7 @@ import { SvgIcon } from '@instana/components';
 import { getIconType } from 'in-infrastructure/infrastructureIconType';
 import theme from 'in-themes';
 
-interface PluginIconProps {
+interface PluginIconProps extends Omit<React.ComponentProps<typeof SvgIcon>, 'type'> {
   size?: Size;
   color?: string;
   snapshot?: Immutable.Map<string, unknown>;
