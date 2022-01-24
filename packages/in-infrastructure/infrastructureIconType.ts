@@ -9,12 +9,12 @@ import { getSvgIcon } from '@instana/components';
 
 import { getIconTypeCallback } from 'in-sdk/iconType';
 
-type SnapshotOrPlugin = Immutable.Map<string, string> | string;
+type SnapshotOrPlugin = Immutable.Map<string, unknown> | string;
 
 export function getIconType(snapshotOrPlugin: SnapshotOrPlugin): string {
   let plugin = snapshotOrPlugin;
   if (typeof snapshotOrPlugin === 'object') {
-    plugin = snapshotOrPlugin.get('plugin');
+    plugin = snapshotOrPlugin.get('plugin') as string;
     const callback = getIconTypeCallback(plugin);
     if (callback) {
       plugin = callback(snapshotOrPlugin);
