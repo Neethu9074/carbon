@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { AlertEvaluationType } from 'in-types';
 import { t } from 'in-i18n';
 
-export const PER_AP = 'PER_AP';
-export const PER_AP_SERVICE = 'PER_AP_SERVICE';
-export const PER_AP_ENDPOINT = 'PER_AP_ENDPOINT';
+export const PER_AP: AlertEvaluationType = 'PER_AP';
+export const PER_AP_SERVICE: AlertEvaluationType = 'PER_AP_SERVICE';
+export const PER_AP_ENDPOINT: AlertEvaluationType = 'PER_AP_ENDPOINT';
 
 const alertEvaluationTypes = Object.freeze({
   [PER_AP]: {

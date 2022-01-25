@@ -9,11 +9,17 @@ import alertEvaluationTypes, {
   PER_AP
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import IconLabel from 'in-alerting/components/IconLabel';
+import { AlertEvaluationType } from 'in-types';
 import theme from 'in-themes';
 
 import locals from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation.mless';
 
-export default function ReadOnlyAlertEvaluation({ evaluationType = PER_AP, isGlobalSmartAlert }) {
+interface Props {
+  evaluationType?: AlertEvaluationType;
+  isGlobalSmartAlert?: boolean;
+}
+
+export default function ReadOnlyAlertEvaluation({ evaluationType = PER_AP, isGlobalSmartAlert }: Props) {
   const { description, globalDescription } = alertEvaluationTypes[evaluationType];
 
   return (
