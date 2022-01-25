@@ -243,6 +243,8 @@ function AnalyzeStateManagement({
 
   const groupBy = useStableObjectInstance(urlState.groupBy);
   const detailId = useStableObjectInstance(urlState.detailId);
+  const selectedId = useStableObjectInstance(urlState.selectedId);
+  const initialLogPages = useStableObjectInstance(urlState.initialLogPages);
   const selectableFields = useStableObjectInstance(urlState.fields ?? defaultSelectableFields);
   // charts should be shown, even if not explicitly selected
   const chartedMetricData = useStableObjectInstance(
@@ -474,6 +476,8 @@ function AnalyzeStateManagement({
     onChartedMetricsChange: chartedMetrics => onChange({ chartedMetrics }),
 
     detailId,
+    selectedId,
+    initialLogPages,
     getHrefToDetailId: (detailId, groupValue) => {
       return getChangeAsUrl({
         ...(groupValue != null ? getStateChangeForUngroupedView(groupValue) : emptyObject),

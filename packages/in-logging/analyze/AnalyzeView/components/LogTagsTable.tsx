@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, forwardRef } from 'react';
 
 import { Link, Stack, Ul, Li, ColumnizedContent } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -84,7 +84,10 @@ interface LogTagMapperParams {
   label: string;
 }
 
-export default function LogTagsTable({ item, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps) {
+export const LogTagsTable = forwardRef<HTMLElement, LogTagsTableProps>(function LogTagsTable(
+  { item, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps,
+  ref
+) {
   const timeConfig = useTimeConfig();
 
   const internalFilteringTagCatalogResult =
@@ -124,7 +127,7 @@ export default function LogTagsTable({ item, onSelectTagHref, getHrefToGroupedVi
   const tags: LogTag[] = logResult.data?.tags;
 
   return (
-    <Ul>
+    <Ul ref={ref}>
       {tags.filter(filterTag).map((tag, i) => {
         const uniqueTagName = tag.key ? `${tag.name}-${tag.key}` : tag.name ?? '';
         return (
@@ -142,7 +145,7 @@ export default function LogTagsTable({ item, onSelectTagHref, getHrefToGroupedVi
       })}
     </Ul>
   );
-}
+});
 
 function TagEntry({
   tag,

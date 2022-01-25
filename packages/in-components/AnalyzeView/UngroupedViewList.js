@@ -61,6 +61,7 @@ function List(props) {
                 size="compact"
                 href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
                 renderNestedContent={renderNestedContent ? () => renderNestedContent(id, item) : undefined}
+                initiallyOpen={id === props.selectedId}
               >
                 <ColumnizedContent columnDefinitions={columnDefinitions} {...item} {...props} />
               </Li>

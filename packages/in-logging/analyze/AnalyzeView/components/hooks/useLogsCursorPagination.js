@@ -10,19 +10,20 @@ import { useObservable } from '@instana/hooks';
 import { pendingResult, emptyArray, indeterminateProgress } from 'in-services/fixedObjects';
 import { shallowEquals } from 'in-services/util/object';
 
-const initialState = {
-  items: emptyArray,
-  progress: indeterminateProgress,
-  errors: emptyArray,
-  awaitingData: true,
-  canLoadMore: false,
-  loadAfterCount: 0
-};
-
 const defaultUseLogsCursorPaginationHook = createPageSizeAwareLogsCursorPaginationHook();
 export default defaultUseLogsCursorPaginationHook;
 
-export function createPageSizeAwareLogsCursorPaginationHook(retrievalSize = 20) {
+export function createPageSizeAwareLogsCursorPaginationHook(initialLogPages = 2, retrievalSize = 20) {
+  const initialState = {
+    items: emptyArray,
+    progress: indeterminateProgress,
+    errors: emptyArray,
+    awaitingData: true,
+    canLoadMore: false,
+    loadAfterCount: initialLogPages,
+    currentRetrievalSize: initialLogPages * retrievalSize
+  };
+
   return function useLogsCursorPagination(create, deps = []) {
     // If 'deps' change, the 'state' will be reset to the 'initialState' value. However, this 'state' change
     // won't be visible until the next re-render. In order to make sure that we won't use the stale value
@@ -35,14 +36,19 @@ export function createPageSizeAwareLogsCursorPaginationHook(retrievalSize = 20) 
     const [state, setState] = useState(initialState);
     useEffect(() => setState(initialState), deps);
 
-    const { loadAfterCount, progress, canLoadMore, afterKey, nextAfterKey, errors, items, time } = shallowEquals(
-      prevDeps,
-      deps
-    )
-      ? state
-      : initialState;
+    const {
+      loadAfterCount,
+      progress,
+      canLoadMore,
+      afterKey,
+      nextAfterKey,
+      errors,
+      items,
+      time,
+      currentRetrievalSize
+    } = shallowEquals(prevDeps, deps) ? state : initialState;
 
-    const observable = useMemo(() => create({ afterKey, loadAfterCount, retrievalSize }), [
+    const observable = useMemo(() => create({ afterKey, loadAfterCount, retrievalSize: currentRetrievalSize }), [
       afterKey,
       loadAfterCount,
       ...deps
@@ -50,17 +56,17 @@ export function createPageSizeAwareLogsCursorPaginationHook(retrievalSize = 20) 
     useEffect(() => setState(awaitItems), [observable, ...deps]);
 
     const result = useObservable(observable, [observable, ...deps]) ?? pendingResult;
-    useEffect(() => setState(prev => updateResult(prev, result, retrievalSize)), [result, ...deps]);
+    useEffect(() => setState(prev => updateResult(prev, result, currentRetrievalSize)), [result, ...deps]);
 
     const setAfterKey = useCallback(_afterKey =>
       setState(prev => ({
         ...prev,
         afterKey: _afterKey,
-        loadAfterCount: loadAfterCount + 1
+        loadAfterCount: loadAfterCount + 1,
+        currentRetrievalSize: retrievalSize
       }))
     );
     const loadMoreAfter = useCallback(() => setAfterKey(nextAfterKey), [nextAfterKey, loadAfterCount]);
-
     return {
       progress,
       loadMore: loadMoreAfter,

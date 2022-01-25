@@ -7,7 +7,7 @@ import React, { useMemo } from 'react';
 
 import { ColumnizedContent, Ul, Li } from '@instana/components';
 
-import { logLevelColumn, timestampColumn, copyColumn } from 'in-logging/analyze/AnalyzeView/components/logsColumns';
+import { logLevelColumn, timestampColumn, copyColumn } from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
 import LogMessageColumnReadMode from 'in-logging/analyze/AnalyzeView/components/LogMessageColumnReadMode';
 import LogStackTrace from 'in-logging/analyze/AnalyzeView/components/LogStackTrace';
 import { LOG_EXCEPTION_STACK_TRACE } from 'in-logging/queryBuilder';
@@ -28,9 +28,9 @@ const columnDefinitions = [
   timestampColumn,
   {
     id: 'log',
-    getContent: LogMessageColumnReadMode,
+    getContent: LogMessageColumnReadMode
   },
-  copyColumn,
+  copyColumn
 ];
 
 const columnDefinitions2 = [
@@ -40,20 +40,19 @@ const columnDefinitions2 = [
     widthInAbsoluteUnit: true,
     getContent() {
       return null;
-    },
+    }
   },
   {
     id: 'log',
-    getContent: LogStackTrace,
+    getContent: LogStackTrace
   },
-  copyColumn,
+  copyColumn
 ];
 
 export default function LogExceptionDialog({ item, onClose = close }: LogExceptionDialogProps) {
-  const stackTraceMessageTag = useMemo(
-    () => item.tags.find(({ name }) => name === LOG_EXCEPTION_STACK_TRACE),
-    [item.tags]
-  );
+  const stackTraceMessageTag = useMemo(() => item.tags.find(({ name }) => name === LOG_EXCEPTION_STACK_TRACE), [
+    item.tags
+  ]);
 
   return (
     <Dialog className={locals.dialog} title={t('in-logging:exceptionMessageHeader')} onClose={onClose}>

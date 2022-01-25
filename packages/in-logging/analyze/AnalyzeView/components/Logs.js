@@ -3,10 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { Button } from '@instana/components';
 
+import {
+  logLevelColumn,
+  timestampColumn,
+  centerAlignedCopyColumn,
+  centerAlignedLinkColumn
+} from 'in-logging/analyze/AnalyzeView/utils/logsColumnUtils';
 import {
   LOG_CUSTOM,
   LOG_EXCEPTION_MESSAGE,
@@ -14,22 +20,18 @@ import {
   LOG_EXCEPTION_TYPE,
   LOG_LEVEL
 } from 'in-logging/queryBuilder';
-import {
-  logLevelColumn,
-  timestampColumn,
-  centerAlignedCopyColumn
-} from 'in-logging/analyze/AnalyzeView/components/logsColumns';
-import useLogsCursorPagination from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
+import { createPageSizeAwareLogsCursorPaginationHook } from 'in-logging/analyze/AnalyzeView/components/hooks/useLogsCursorPagination';
 import { FacetedSearchPresenter } from 'in-logging/analyze/AnalyzeView/components/FacetedSearchPresenter';
 import QueryBuilderWorkspace from 'in-logging/analyze/AnalyzeView/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-logging/analyze/AnalyzeView/components/ChartsPresenter';
 import LogMessageColumn from 'in-logging/analyze/AnalyzeView/components/LogMessageColumn';
-import LogTagsTable from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
+import { LogTagsTable } from 'in-logging/analyze/AnalyzeView/components/LogTagsTable';
 import UngroupedViewList from 'in-components/AnalyzeView/UngroupedViewList';
 import { TAG } from 'in-components/QueryBuilder/transformation/formModel';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import getLogs from 'in-logging/subscriptions/getLogs';
 import getLog from 'in-logging/subscriptions/getLog';
+import { ScrollIntoView } from './ScrollIntoView';
 import { t } from 'in-i18n';
 
 import locals from './Logs.mless';
@@ -41,6 +43,7 @@ const columnDefinitions = [
     id: 'log',
     getContent: LogMessageColumn
   },
+  centerAlignedLinkColumn,
   centerAlignedCopyColumn
 ];
 
@@ -49,19 +52,22 @@ export default function Logs(props) {
     getHrefWithAdditionalTagFilter,
     getHrefToGroupedView,
     Sidebar = FacetedSearchPresenter,
-    Chart = ChartsPresenter
+    Chart = ChartsPresenter,
+    initialLogPages = 1
   } = props;
 
   const onSelectTagHref = getHrefWithAdditionalTagFilter
     ? tag => getHrefWithAdditionalTagFilter(getTagExpressionWithTag(tag))
     : undefined;
 
+  const selectedWasOpened = useRef(false);
+
   let content = (
     <UngroupedViewList
       {...props}
       Sidebar={Sidebar}
       Chart={Chart}
-      useCursorPaginationStrategy={useLogsCursorPagination}
+      useCursorPaginationStrategy={createPageSizeAwareLogsCursorPaginationHook(initialLogPages)}
       classNames={{ listItem: locals.listItem }}
       columnDefinitions={columnDefinitions}
       getData={params => getTableData(params)}
@@ -73,11 +79,29 @@ export default function Logs(props) {
       withCountHeader={false}
       withoutHeader={false}
       CustomHeaderActions={CustomHeaderActions}
-      renderNestedContent={(_, item) => (
-        <LogTagsTable item={item} onSelectTagHref={onSelectTagHref} getHrefToGroupedView={getHrefToGroupedView} />
-      )}
+      renderNestedContent={(_, item) =>
+        scrollIntoViewIfSelected(
+          ref => (
+            <LogTagsTable
+              ref={ref}
+              item={item}
+              onSelectTagHref={onSelectTagHref}
+              getHrefToGroupedView={getHrefToGroupedView}
+            />
+          ),
+          item.itemId === props.selectedId
+        )
+      }
     />
   );
+
+  function scrollIntoViewIfSelected(renderElement, selected) {
+    if (selected && !selectedWasOpened.current) {
+      selectedWasOpened.current = true;
+      return <ScrollIntoView renderChildren={ref => renderElement(ref)} />;
+    }
+    return renderElement(null);
+  }
 
   if (!props.withoutHeader && !props.detailId) {
     content = <QueryBuilderWorkspace {...props}>{content}</QueryBuilderWorkspace>;

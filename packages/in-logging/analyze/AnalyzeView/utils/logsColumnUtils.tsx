@@ -5,18 +5,14 @@
 
 import React from 'react';
 
-import { SvgIconSizes } from '@instana/components';
+import { formatDateTime } from '@instana/format-date';
 
+import { LinkButton, LinkButtonProps } from 'in-logging/analyze/AnalyzeView/components/LinkButton';
+import { CopyButton, CopyColumnProps } from 'in-logging/analyze/AnalyzeView/components/CopyButton';
 import LogHealthColumn from 'in-logging/analyze/AnalyzeView/components/LogHealthColumn';
-// @ts-expect-error
-import CopyToClipboard from 'in-components/CopyToClipboard';
-import { formatDateTime } from 'in-services/formatters/date';
-import IconButton from 'in-components/IconButton/IconButton';
-import Tooltip from 'in-components/Tooltip';
 import { LogTag } from 'in-types';
-import { t } from 'in-i18n';
 
-import locals from './Logs.mless';
+import locals from '../components/Logs.mless';
 
 interface LogLevelColumnProps {
   tags: LogTag[];
@@ -50,9 +46,17 @@ export const timestampColumn = {
   }
 };
 
-interface CopyColumnProps {
-  message: string;
-}
+export const centerAlignedLinkColumn = {
+  id: 'linkIcon',
+  width: '2.5rem',
+  getContent({ itemId, time, loadAfterCount }: LinkButtonProps) {
+    return (
+      <div className={locals.centeredCopyButtonWrapper}>
+        <LinkButton itemId={itemId} time={time} loadAfterCount={loadAfterCount} />
+      </div>
+    );
+  }
+};
 
 export const copyColumn = {
   id: 'copyIcon',
@@ -77,15 +81,3 @@ export const centerAlignedCopyColumn = {
     );
   }
 };
-
-function CopyButton({ message }: CopyColumnProps) {
-  return (
-    <Tooltip content={t('in-logging:tooltipCopyToClipboard')}>
-      <CopyToClipboard getText={() => message}>
-        {(copyToClipboardRef: React.MutableRefObject<HTMLButtonElement>) => (
-          <IconButton ref={copyToClipboardRef} iconSize={SvgIconSizes.xs} type="lib_actions_copy" />
-        )}
-      </CopyToClipboard>
-    </Tooltip>
-  );
-}
