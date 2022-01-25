@@ -102,6 +102,23 @@ pipeline {
       }
     }
 
+    stage ('Mark stable ui-client version') {
+      steps {
+        milestone(label: "Mark stable ui-client version", ordinal: null)
+        timeout(time: 10, unit: 'MINUTES') {
+          timestamps {
+            script {
+              if (isDeliveryBranch) {
+                // Mark stable version in Instana's own versioning system only on delivery branches
+                // as this value is only used on further build stages on delivery branches
+                sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaUiClientVersion}"
+              }
+            }
+          }
+        }
+      }
+    }
+
     stage('Build & Push ui-client images') {
       steps {
         // Only allow 1 concurrent build is allowed to build images at a time and newer
