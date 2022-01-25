@@ -28,7 +28,7 @@ export default function ChartWidget({ actions, config, title, isPreview, dragHan
           : undefined
       }
       cardUseMaxAvailableHeight={!isPreview}
-      cardHeader={
+      rightHeaderContent={
         <>
           {dragHandle}
           {actions}
