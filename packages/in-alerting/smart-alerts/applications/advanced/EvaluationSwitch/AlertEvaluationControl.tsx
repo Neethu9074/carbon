@@ -3,45 +3,71 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-// @ts-expect-error source needs to be converted to TS
+import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
+import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-import { AlertEvaluationControlPresenter } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControlPresenter';
-import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { AlertEvaluationType, ThresholdType } from 'in-types';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import IconLabel from 'in-alerting/components/IconLabel';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
 
-interface Props {
-  form: MapForm;
-  updateForm: (form: MapForm) => void;
-  isGlobalSmartAlert?: boolean;
-}
+import locals from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControl.mless';
 
-export default function AlertEvaluationControl({ form, updateForm, isGlobalSmartAlert }: Props) {
-  const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>).value;
-  const alertType = ((form.get('rule') as MapForm)!.get('alertType') as Field<string>)!.value;
-  const isBuiltIn = (form.get('builtIn') as Field<boolean>).value;
-  const thresholdType = ((form.get('threshold') as MapForm).get('type') as Field<ThresholdType>)?.value;
-  const isAdaptiveThreshold = thresholdType === ADAPTIVE_BASELINE;
+export default function AlertEvaluationControl({ form, updateForm, isGlobalSmartAlert }) {
+  const evaluationType = form.get('evaluationType').value;
+  const alertType = form.get('rule').get('alertType').value;
+  const isBuiltIn = form.get('builtIn').value;
 
-  const setEvaluationType = (type: AlertEvaluationType) =>
-    updateForm(
-      form
-        .updateIn(['evaluationType'], f => (f as Field<AlertEvaluationType>).setValue(type).setTouched(true))
-        .put(
-          'threshold',
-          createThresholdForm({ ...(form.get('threshold') as Field<object>).toJS(), type: STATIC_THRESHOLD }, alertType)
-        )
+  if (isBuiltIn) {
+    return (
+      <div className={locals.readOnlyAlertEvaluationContainer}>
+        <ReadOnlyAlertEvaluation evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert} />
+      </div>
     );
+  }
 
   return (
-    <AlertEvaluationControlPresenter
-      evaluationType={evaluationType}
-      isAdaptiveThreshold={isAdaptiveThreshold}
-      isBuiltIn={isBuiltIn}
-      isGlobalSmartAlert={isGlobalSmartAlert}
-      setEvaluationType={setEvaluationType}
-    />
+    <div className={locals.container}>
+      <IconLabel
+        type="lib_alerts_multiple_alerts"
+        text={t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.individual')}
+        noBottomMargin
+        color={theme.lib.colors.N600Light}
+      />
+      <div className={locals.options}>
+        {Object.keys(alertEvaluationTypes).map(type => (
+          <CheckboxFancy
+            key={type}
+            label={
+              isGlobalSmartAlert
+                ? alertEvaluationTypes[type].globalSelectionText
+                : alertEvaluationTypes[type].selectionText
+            }
+            checked={type === evaluationType}
+            onChange={() =>
+              updateForm(
+                form
+                  .updateIn(['evaluationType'], f => f.setValue(type).setTouched(true))
+                  // As of now, we only support static-threshold when Per-Entity grouping is used.
+                  .put(
+                    'threshold',
+                    createThresholdForm(
+                      {
+                        ...form.get('threshold').toJS(),
+                        type: STATIC_THRESHOLD
+                      },
+                      alertType
+                    )
+                  )
+              )
+            }
+            asRadioButton
+          />
+        ))}
+      </div>
+    </div>
   );
 }
