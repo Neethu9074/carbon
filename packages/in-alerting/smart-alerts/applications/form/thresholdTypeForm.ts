@@ -17,8 +17,9 @@ import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-ale
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 // @ts-expect-error file needs to be converted into typescript
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
+import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { ThresholdType } from 'in-types';
+import { AlertEvaluationType, ThresholdType } from 'in-types';
 
 export function onThresholdTypeChange(
   value: string,
@@ -62,6 +63,7 @@ export function onThresholdTypeChange(
           ADAPTIVE_BASELINE
         )
       )
+      .updateIn(['evaluationType'], f => (f as Field<AlertEvaluationType>).setValue(PER_AP).setTouched(true))
       .updateIn(['granularity'], f =>
         (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
       );

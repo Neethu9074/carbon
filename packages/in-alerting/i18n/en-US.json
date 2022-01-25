@@ -125,6 +125,7 @@
         "alertPropertyInsertPlaceholderLabel": "Insert placeholder",
         "evaluationSwitch": {
           "individual": "Individual Alerts",
+          "optionNotAvailableForAdaptiveThreshold": "This option is not available with adaptive threshold",
           "evaluationTypePERAP": {
             "selectionText": "for this Application Perspective",
             "globalSelectionText": "per Application Perspective",
