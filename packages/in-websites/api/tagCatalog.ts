@@ -14,8 +14,10 @@ import http from 'in-services/http';
 
 interface GetTagCatalogProps {
   useCase: CatalogUseCase;
-  beaconType: string;
-  dataSource: DataSource;
+
+  // Provide either beaconType or dataSource
+  beaconType?: string;
+  dataSource?: DataSource;
 }
 
 export const getTagCatalog = memoize(
