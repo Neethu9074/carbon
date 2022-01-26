@@ -4,11 +4,19 @@
  */
 
 import { generateStableHash } from '@instana/utils';
+import { Observable } from '@instana/observables';
 
+import { CatalogUseCase, DataSource, Result, TagCatalog } from 'in-types';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { minutes } from 'in-services/time/time';
 import http from 'in-services/http';
+
+interface GetTagCatalogProps {
+  useCase: CatalogUseCase;
+  beaconType: string;
+  dataSource: DataSource;
+}
 
 export const getTagCatalog = memoize(
   getTagCatalogInternal,
@@ -22,9 +30,13 @@ export const getTagCatalog = memoize(
   minutes.toMillis(10)
 );
 
-function getTagCatalogInternal({ useCase, beaconType, dataSource }) {
+function getTagCatalogInternal({
+  useCase,
+  beaconType,
+  dataSource
+}: GetTagCatalogProps): Observable<Result<TagCatalog>> {
   return createObservable(
-    http({
+    http<TagCatalog>({
       method: 'GET',
       maxRetries: 3,
       url: `/api/website-monitoring/catalog`,
