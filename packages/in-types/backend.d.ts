@@ -4689,6 +4689,8 @@ export type Seasonality = 'WEEKLY' | 'DAILY';
 
 export type SliMetricType = 'SLI' | 'ERROR_BUDGET_SPENT' | 'ERROR_BUDGET_REMAINING' | 'TOTAL_ERROR_BUDGET' | 'HOURLY_ERROR_BUDGET_CHART' | 'CONSUMED_ERROR_BUDGET_CHART';
 
+export type SliScope = 'TIME' | 'GOOD' | 'BAD';
+
 export type SliType = 'APPLICATION' | 'WEBSITE';
 
 export type SpanKind = 'UNKNOWN' | 'ENTRY' | 'EXIT' | 'INTERMEDIATE';
