@@ -53,8 +53,7 @@ const entry = hotReload
   ? {
       // the 'webpack/hot/only-dev-server' part prevents reload on syntax errors
       index: ['./packages/in-client/js/index.js', 'webpack/hot/only-dev-server'],
-      waiting: ['./packages/in-waiting-for-deployment/index.js', 'webpack/hot/only-dev-server'],
-      // WebpackDevServer host and port
+      waiting: ['./packages/in-waiting-for-deployment/index.js', 'webpack/hot/only-dev-server'], // WebpackDevServer host and port
       devServerClient: 'webpack-dev-server/client?https://local-instana.instana.io:4000'
     }
   : {
@@ -102,85 +101,101 @@ const determineDevTool = () => {
   return 'source-map';
 };
 
+const infrastructureLogging = isDevModeBuild ? { level: 'warn' } : undefined;
+
+const webpackFontsRules = [
+  {
+    test: /\.(ttf|eot|obj)$/i,
+    use: [{ loader: 'url-loader?limit=3000' }]
+  },
+  {
+    test: /\.woff?$/,
+    use: [
+      {
+        loader: 'url-loader?limit=3000&mimetype=application/font-woff'
+      }
+    ]
+  }
+];
+
+const webpackStyleRules = [
+  {
+    test: /\.mless$/i,
+    use: [styleLoader, cssLoader, postCssLoader, 'less-loader']
+  },
+  {
+    test: /\.less$/i,
+    use: [styleLoader, 'css-loader', postCssLoader, 'less-loader']
+  },
+  {
+    test: /\.css$/i,
+    use: [styleLoader, 'css-loader', postCssLoader]
+  }
+];
+
+const webpackImageRule = {
+  test: /\.(jpe?g|gif|png|svg)$/i,
+  use: [{ loader: 'url-loader?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false' }]
+};
+
+const webpackShaderRule = {
+  test: /\.glsl$/i,
+  use: [
+    {
+      loader: 'raw-loader'
+    }
+  ]
+};
+
+const webpackSourcesRule = {
+  test: /\.(js|ts|tsx)$/i,
+  exclude: /node_modules/,
+  use: [
+    {
+      options: { cacheDirectory: true },
+      loader: 'babel-loader'
+    }
+  ]
+};
+
+const webpackYamlRule = {
+  test: /\.yaml$/i,
+  use: [
+    {
+      loader: 'raw-loader'
+    }
+  ]
+};
+
+const webpackMarkdownRule = {
+  test: /\.md$/,
+  use: [
+    {
+      loader: 'html-loader!markdown-loader'
+    }
+  ]
+};
+
 module.exports = {
   entry,
   mode: process.env.NODE_ENV,
   context: __dirname,
   output: {
     path: path.join(__dirname, 'target/assets/bundle/'),
-    publicPath: 'bundle/',
+    publicPath: 'auto',
     chunkFilename: '[name].[contenthash].js'
   },
   devtool: determineDevTool(),
-  infrastructureLogging: isDevModeBuild
-    ? {
-        level: 'warn'
-      }
-    : undefined,
+  infrastructureLogging,
   module: {
     rules: [
-      {
-        test: /\.(ttf|eot|obj)$/i,
-        use: [{ loader: 'url-loader?limit=3000' }]
-      },
-      {
-        test: /\.mless$/i,
-        use: [styleLoader, cssLoader, postCssLoader, 'less-loader']
-      },
-      {
-        test: /\.less$/i,
-        use: [styleLoader, 'css-loader', postCssLoader, 'less-loader']
-      },
-      {
-        test: /\.css$/i,
-        use: [styleLoader, 'css-loader', postCssLoader]
-      },
-      {
-        test: /\.(jpe?g|gif|png|svg)$/i,
-        use: [{ loader: 'url-loader?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false' }]
-      },
-      {
-        test: /\.glsl$/i,
-        use: [
-          {
-            loader: 'raw-loader'
-          }
-        ]
-      },
-      {
-        test: /\.(js|ts|tsx)$/i,
-        exclude: /node_modules/,
-        use: [
-          {
-            options: { cacheDirectory: true },
-            loader: 'babel-loader'
-          }
-        ]
-      },
-      {
-        test: /\.yaml$/i,
-        use: [
-          {
-            loader: 'raw-loader'
-          }
-        ]
-      },
-      {
-        test: /\.md$/,
-        use: [
-          {
-            loader: 'html-loader!markdown-loader'
-          }
-        ]
-      },
-      {
-        test: /\.woff?$/,
-        use: [
-          {
-            loader: 'url-loader?limit=3000&mimetype=application/font-woff'
-          }
-        ]
-      }
+      ...webpackFontsRules,
+      ...webpackStyleRules,
+      webpackImageRule,
+      webpackShaderRule,
+      webpackSourcesRule,
+      webpackYamlRule,
+      webpackMarkdownRule
     ]
   },
   plugins,

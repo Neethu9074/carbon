@@ -12,7 +12,6 @@ const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const clearConsole = require('react-dev-utils/clearConsole');
 const WebpackDevServer = require('webpack-dev-server');
 const detectPort = require('detect-port-alt');
-const { clone } = require('lodash');
 const webpack = require('webpack');
 const chalk = require('chalk');
 const gulp = require('gulp');
@@ -177,9 +176,6 @@ function getDevUrl() {
 }
 
 function webpackDev() {
-  // modify some webpack config options
-  const config = clone(webpackConfig);
-
   // Start a webpack-dev-server
   const server = new WebpackDevServer(
     {
@@ -202,7 +198,7 @@ function webpackDev() {
       port: webpackDevServerPort,
       host: 'localhost'
     },
-    createWebpackCompiler(config)
+    createWebpackCompiler(webpackConfig)
   );
 
   return new Promise((resolve, reject) => {
@@ -212,12 +208,14 @@ function webpackDev() {
         console.log();
         console.log(chalk.blue('Will now execute first compilation. This can take a few minutes.'));
         console.log(chalk.blue('The terminal output will change once completed.'));
+        resolve();
       });
     } catch (exception) {
       if (exception.signal === 'SIGINT') {
         resolve();
+      } else {
+        reject(exception);
       }
-      reject(exception);
     }
   });
 }
