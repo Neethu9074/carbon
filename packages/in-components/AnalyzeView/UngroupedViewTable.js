@@ -5,6 +5,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import UngroupedView, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
@@ -41,7 +42,9 @@ function Table(props) {
     items,
     isLoading,
     withEmbeddedLoadingIndicator = false,
-    withEmbeddedNoDataIndicator = false
+    withEmbeddedNoDataIndicator = false,
+    withEmbeddedApproximateDataIndicator,
+    resultPrecisionDetails
   } = props;
   const fields = [...fixedFields, ...selectableFields];
 
@@ -103,8 +106,23 @@ function Table(props) {
     }
   }, [items]);
 
+  const hasApproximateData =
+    withEmbeddedApproximateDataIndicator && resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
   return (
     <>
+      {hasApproximateData && (
+        <div className={locals.approximateData}>
+          <MultiLineToolTipIcon
+            lines={[t('in-components:approximateDataIndicator.dataRetention')]}
+            iconSize="s"
+            label={t('in-components:approximateDataIndicator.retainedLabel', {
+              totalHits: props.totalHits,
+              representedHits: props.totalRepresentedItemCount
+            })}
+          />
+        </div>
+      )}
       {items?.length > 0 ||
       (withEmbeddedLoadingIndicator && isLoading === true) ||
       (withEmbeddedNoDataIndicator && isLoading === false && items?.length === 0) ? (

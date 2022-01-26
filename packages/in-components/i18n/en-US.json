@@ -680,6 +680,7 @@
     "restrictedAccessMessagePartTwoWithPermission": "Request permission \"{{permission}}\" to your administrator."
   },
   "approximateDataIndicator": {
-    "dataRetention": "You are viewing approximate data due to the data retention settings."
+    "dataRetention": "You are viewing approximate data due to the data retention settings.",
+    "retainedLabel": "Approximated data ({{totalHits}} calls retained from {{representedHits}})"
   }
 }

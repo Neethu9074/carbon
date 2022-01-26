@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, Fragment } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
@@ -327,6 +327,7 @@ export default function GroupedAnalyzeView(props) {
                           facetedSearchItems={[]}
                           withEmbeddedLoadingIndicator
                           withEmbeddedNoDataIndicator
+                          withEmbeddedApproximateDataIndicator
                           Chart={null}
                           Sidebar={null}
                         />

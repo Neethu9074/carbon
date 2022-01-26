@@ -26,4 +26,16 @@
     }
     font-weight: 300;
   }
+
+  .label {
+    margin: 0 0 0 0.5rem;
+    font-size: 10px;
+    color: @lib__colors__N500;
+    font-weight: 500;
+  }
+
+  .container {
+    display: inline-flex;
+    align-items: center;
+  }
 }

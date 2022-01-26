@@ -16,12 +16,16 @@ interface Props {
   withMargin?: boolean;
   lines: string[];
   iconSize?: SvgIconSizes;
+  icon?: string;
+  label?: string;
 }
 
 export default function MultiLineToolTipIcon({
   withMargin = false,
   lines = [],
-  iconSize = SvgIconSizes.regular
+  iconSize = SvgIconSizes.regular,
+  icon = 'lib_approximately_equal',
+  label
 }: Props) {
   return (
     <Tooltip
@@ -32,13 +36,16 @@ export default function MultiLineToolTipIcon({
         </p>
       ))}
     >
-      <SvgIcon
-        type="lib_approximately_equal"
-        size={iconSize}
-        className={classNames(locals.indicator, {
-          [locals.withMargin]: withMargin
-        })}
-      />
+      <div className={locals.container}>
+        <SvgIcon
+          type={icon}
+          size={iconSize}
+          className={classNames(locals.indicator, {
+            [locals.withMargin]: withMargin
+          })}
+        />
+        {label && <p className={locals.label}>{label}</p>}
+      </div>
     </Tooltip>
   );
 }
