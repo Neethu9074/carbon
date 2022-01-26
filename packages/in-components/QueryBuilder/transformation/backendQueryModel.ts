@@ -44,7 +44,7 @@ export function createTagFilterExpression(
 }
 
 export function addTagFilters(
-  backendQueryModel: TagFilterExpression | Nullish,
+  backendQueryModel: TagFilterExpressionElement | Nullish,
   tagFilters: TagFilterExpressionElement[],
   logicalOperator: LogicalOperator = OPERATOR_AND
 ): TagFilterExpression | TagFilterExpressionElement {
@@ -66,8 +66,8 @@ export function addTagFilters(
   };
 }
 
-function isEmptyExpression(backendQueryModel: TagFilterExpression | Nullish): boolean {
-  return !backendQueryModel || (backendQueryModel.type === EXPRESSION && backendQueryModel.elements.length === 0);
+function isEmptyExpression(backendQueryModel: TagFilterExpressionElement | Nullish): boolean {
+  return !backendQueryModel || (isTagFilterExpression(backendQueryModel) && backendQueryModel.elements.length === 0);
 }
 
 // grammar

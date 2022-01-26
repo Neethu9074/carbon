@@ -9,7 +9,7 @@ import {
   CursorPaginatedResult,
   DataSource,
   Result,
-  TagFilterExpression,
+  TagFilterExpressionElement,
   TagSuggestionProposeType,
   TimeConfig,
   WebsiteBeaconGroupsItem
@@ -46,7 +46,7 @@ interface GetSuggestionsProps {
   key?: string;
   timeConfig: TimeConfig;
   propose?: TagSuggestionProposeType;
-  tagFilterExpression?: TagFilterExpression;
+  tagFilterExpression?: TagFilterExpressionElement;
   dataSource?: DataSource;
   beaconType?: string;
 }
