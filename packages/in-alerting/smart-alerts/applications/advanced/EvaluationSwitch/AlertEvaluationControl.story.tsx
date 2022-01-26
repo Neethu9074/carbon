@@ -40,7 +40,7 @@ Default.argTypes = {
   }
 };
 
-export const InteractiveXXX = () => {
+export const Interactive = () => {
   const [form, setForm] = useState(createSmartAlertForm(someErrorRateFormData()));
 
   return <AlertEvaluationControl form={form} updateForm={setForm} />;

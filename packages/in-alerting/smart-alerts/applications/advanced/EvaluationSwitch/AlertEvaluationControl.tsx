@@ -9,7 +9,7 @@ import React from 'react';
 // @ts-expect-error source needs to be converted to TS
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { AlertEvaluationControlPresenter } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControlPresenter';
-import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { AlertEvaluationType, ThresholdType } from 'in-types';
 
 interface Props {
@@ -25,15 +25,15 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
   const thresholdType = ((form.get('threshold') as MapForm).get('type') as Field<ThresholdType>)?.value;
   const isAdaptiveThreshold = thresholdType === ADAPTIVE_BASELINE;
 
-  const setEvaluationType = (type: AlertEvaluationType) =>
-    updateForm(
-      form
-        .updateIn(['evaluationType'], f => (f as Field<AlertEvaluationType>).setValue(type).setTouched(true))
-        .put(
-          'threshold',
-          createThresholdForm({ ...(form.get('threshold') as Field<object>).toJS(), type: STATIC_THRESHOLD }, alertType)
-        )
-    );
+  const setEvaluationType = (type: AlertEvaluationType) => {
+    // only update, when value changed
+    if (type !== evaluationType)
+      updateForm(
+        form
+          .updateIn(['evaluationType'], f => (f as Field<AlertEvaluationType>).setValue(type).setTouched(true))
+          .put('threshold', createThresholdForm({ ...(form.get('threshold') as Field<object>).toJS() }, alertType))
+      );
+  };
 
   return (
     <AlertEvaluationControlPresenter

@@ -5,10 +5,8 @@
 
 import React from 'react';
 
-import alertEvaluationTypes, {
-  PER_AP
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/ReadOnlyAlertEvaluation';
+import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { AlertEvaluationType } from 'in-types';
@@ -33,6 +31,14 @@ export function AlertEvaluationControlPresenter({
   isGlobalSmartAlert,
   setEvaluationType
 }: Props) {
+  if (isBuiltIn) {
+    return (
+      <div className={locals.readOnlyAlertEvaluationContainer}>
+        <ReadOnlyAlertEvaluation evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert} />
+      </div>
+    );
+  }
+
   const Checkbox = ({ type, disabled }: { type: AlertEvaluationType; disabled?: boolean }) => (
     <CheckboxFancy
       key={type}
@@ -46,14 +52,6 @@ export function AlertEvaluationControlPresenter({
     />
   );
 
-  if (isBuiltIn) {
-    return (
-      <div className={locals.readOnlyAlertEvaluationContainer}>
-        <ReadOnlyAlertEvaluation evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert} />
-      </div>
-    );
-  }
-
   return (
     <div className={locals.container}>
       <IconLabel
@@ -66,7 +64,8 @@ export function AlertEvaluationControlPresenter({
       <div className={locals.options}>
         {Object.keys(alertEvaluationTypes).map(evalType => {
           const type = evalType as AlertEvaluationType;
-          const notAvailableWithAdaptiveThreshold = isAdaptiveThreshold && type !== PER_AP;
+          const notAvailableWithAdaptiveThreshold =
+            isAdaptiveThreshold && !alertEvaluationTypes[type].enabledForAdaptiveThreshold;
 
           return notAvailableWithAdaptiveThreshold ? (
             <Tooltip

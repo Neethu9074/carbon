@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { perEntityAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { AlertEvaluationType } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -10,7 +11,18 @@ export const PER_AP: AlertEvaluationType = 'PER_AP';
 export const PER_AP_SERVICE: AlertEvaluationType = 'PER_AP_SERVICE';
 export const PER_AP_ENDPOINT: AlertEvaluationType = 'PER_AP_ENDPOINT';
 
-const alertEvaluationTypes = Object.freeze({
+export type Info = {
+  selectionText: string;
+  globalSelectionText: string;
+  columnText: string;
+  description: string;
+  globalDescription: string;
+  enabledForAdaptiveThreshold: boolean;
+};
+
+export type AlertEvaluationInfos = Readonly<Record<AlertEvaluationType, Info>>;
+
+const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
   [PER_AP]: {
     selectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.selectionText'
@@ -18,6 +30,7 @@ const alertEvaluationTypes = Object.freeze({
     globalSelectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.globalSelectionText'
     ),
+    enabledForAdaptiveThreshold: true,
     columnText: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.columnText'),
     description: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.description'),
     globalDescription: t(
@@ -31,6 +44,7 @@ const alertEvaluationTypes = Object.freeze({
     globalSelectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.globalSelectionText'
     ),
+    enabledForAdaptiveThreshold: perEntityAdaptiveBaselineEnabled,
     columnText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.columnText'
     ),
@@ -48,6 +62,7 @@ const alertEvaluationTypes = Object.freeze({
     globalSelectionText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.globalSelectionText'
     ),
+    enabledForAdaptiveThreshold: perEntityAdaptiveBaselineEnabled,
     columnText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.columnText'
     ),
