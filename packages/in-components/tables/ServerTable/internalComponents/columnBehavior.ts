@@ -3,7 +3,32 @@
  * (c) Copyright Instana Inc.
  */
 
-export function filterColumns(props) {
+import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
+import { noop } from 'in-services/util/function';
+
+type OnColumnChange = (p: { disabledColumns?: string[]; enabledColumns?: string[] }) => void;
+
+interface FilterColumnsProps<ColumnDefinitionType extends ColumnDefinition<any>> {
+  columnDefinitions: ColumnDefinitionType[];
+  filterColumnDefinitions?: (
+    props: FilterColumnsProps<ColumnDefinitionType>
+  ) => (definition: ColumnDefinitionType) => boolean;
+  optionalColumns?: string[];
+  disabledColumns?: string[];
+  enabledColumns?: string[];
+  onChange?: OnColumnChange;
+}
+
+interface FilteredColumns<ColumnDefinitionType extends ColumnDefinition<any>> {
+  availableColumns: ColumnDefinitionType[];
+  visibleColumns: ColumnDefinitionType[];
+  optionalColumns?: string[];
+  onColumnChecked: (columnId: string, checked: boolean) => void;
+}
+
+export function filterColumns<ColumnDefinitionType extends ColumnDefinition<any>>(
+  props: FilterColumnsProps<ColumnDefinitionType>
+): FilteredColumns<ColumnDefinitionType> {
   const {
     columnDefinitions,
     filterColumnDefinitions = () => () => true,
@@ -27,11 +52,17 @@ export function filterColumns(props) {
     visibleColumns,
     optionalColumns,
     onColumnChecked: (columnId, checked) =>
-      onColumnChecked(onChange, disabledColumns, enabledColumns, columnId, checked)
+      onColumnChecked(onChange ?? noop, disabledColumns, enabledColumns, columnId, checked)
   };
 }
 
-function onColumnChecked(onChange, disabledColumns, enabledColumns, columnId, checked) {
+function onColumnChecked(
+  onChange: OnColumnChange,
+  disabledColumns: string[],
+  enabledColumns: string[],
+  columnId: string,
+  checked: boolean
+): void {
   const disabledIdx = disabledColumns.indexOf(columnId);
   const enabledIdx = enabledColumns.indexOf(columnId);
   if (checked) {

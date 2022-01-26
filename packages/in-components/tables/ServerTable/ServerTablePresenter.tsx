@@ -15,16 +15,42 @@ import EmptyContent from 'in-components/tables/ServerTable/internalComponents/Em
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import LoadingRows from 'in-components/tables/ServerTable/internalComponents/LoadingRows';
 import Columns from 'in-components/tables/ServerTable/internalComponents/Columns';
+import { TableProps, TableState } from 'in-components/tables/ServerTable/types';
+import { Nullish, PaginatedResult, Result, ResultPrecision } from 'in-types';
 import Row from 'in-components/tables/ServerTable/internalComponents/Row';
+import { noop, pendingResult } from 'in-services/fixedObjects';
 import { hasError, isLoading } from 'in-services/util/result';
-import { pendingResult } from 'in-services/fixedObjects';
 import SearchInput from 'in-components/SearchInput';
 import Pagination from 'in-components/Pagination';
 import { t } from 'in-i18n';
 
 import locals from './ServerTablePresenter.mless';
 
-export default function ServerTablePresenter(props) {
+interface ListItem extends Object {
+  id?: string;
+}
+
+export interface ServerTablePresenterProps<ItemType extends ListItem> extends TableProps<ItemType> {
+  headerClassName?: string;
+  query?: string;
+  page: number;
+  pageSize: number;
+  result?: Result<PaginatedResult<ItemType>> | Nullish;
+  renderPagination?: (p: TableState) => React.ReactNode;
+  fixedLayout?: boolean;
+  rightHeader?: ((p: ServerTablePresenterProps<ItemType>) => React.ReactNode) | React.ReactNode;
+  leftHeader?: React.ReactNode;
+  isSearchable?: boolean;
+  searchPlaceholder?: string;
+  searchMaxWidth?: string | number;
+  scopeNotification?: React.ReactNode;
+  resultPrecision?: ResultPrecision;
+}
+
+export default function ServerTablePresenter<
+  ItemType extends ListItem,
+  PropsType extends ServerTablePresenterProps<ItemType>
+>(props: PropsType) {
   const {
     // custom classnames
     headerClassName,
@@ -38,7 +64,6 @@ export default function ServerTablePresenter(props) {
 
     getRowProps,
     onRowClick,
-    result = pendingResult,
     renderPagination,
     fixedLayout,
     rightHeader,
@@ -58,10 +83,11 @@ export default function ServerTablePresenter(props) {
     resultPrecision,
 
     // events
-    onChange,
-    onRowMouseEnter = () => {},
-    onRowMouseLeave = () => {}
+    onChange = noop,
+    onRowMouseEnter = noop,
+    onRowMouseLeave = noop
   } = props;
+  const result = props.result ?? (pendingResult as Result<PaginatedResult<ItemType>>);
   const { availableColumns, visibleColumns, optionalColumns, onColumnChecked } = filterColumns(props);
 
   let body = null;
@@ -69,7 +95,11 @@ export default function ServerTablePresenter(props) {
   if (isLoading(result)) {
     body = <LoadingRows cols={visibleColumns.length} progress={result.progress} numSkeletonRows={numSkeletonRows} />;
   } else if (hasError(result)) {
-    body = <TableErrorRows cols={visibleColumns.length} errors={result.errors} size={size} />;
+    body = (
+      <>
+        <TableErrorRows cols={visibleColumns.length} errors={result.errors} size={size} />
+      </>
+    );
   } else if (result?.data?.items?.length === 0) {
     body = (
       <EmptyContent
@@ -80,7 +110,7 @@ export default function ServerTablePresenter(props) {
       />
     );
   } else {
-    body = result.data.items.map((item, i) => (
+    body = result.data!.items.map((item, i) => (
       <Row
         key={item.id || i}
         item={item}
@@ -97,7 +127,7 @@ export default function ServerTablePresenter(props) {
 
   const tableElement = (
     <div className={locals.scrollableTable}>
-      <Table fixedLayout={fixedLayout} tableInCard={tableInCard || cardTitle != null}>
+      <Table fixedLayout={fixedLayout} tableInCard={tableInCard || cardTitle != null} className="">
         <Thead>
           <Columns
             setOrder={(orderBy, orderDirection) => onChange({ query, orderBy, orderDirection, page: 1, pageSize })}
@@ -160,12 +190,9 @@ export default function ServerTablePresenter(props) {
   const leftHeaderContent =
     resultPrecision === 'PRECISION_APPROXIMATE' ? (
       <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
-    ) : null;
-
-  let scope;
-  if (scopeNotification) {
-    scope = scopeNotification;
-  }
+    ) : (
+      undefined
+    );
 
   if (cardTitle != null) {
     if (__DEV__) {
@@ -175,7 +202,7 @@ export default function ServerTablePresenter(props) {
       );
     }
     return (
-      <Card title={cardTitle} leftHeaderContent={leftHeaderContent} rightHeaderContent={header} withoutPadding>
+      <Card title={cardTitle} leftHeaderContent={leftHeaderContent} rightHeaderContent={header}>
         {tableElement}
         {pagination}
       </Card>
@@ -189,7 +216,7 @@ export default function ServerTablePresenter(props) {
           {header}
         </div>
       )}
-      {scope}
+      {scopeNotification}
       {tableElement}
       {pagination}
     </Fragment>

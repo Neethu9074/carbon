@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { MouseEvent } from 'react';
+import { MouseEvent, KeyboardEvent } from 'react';
 
-export function stopPropagation(e: React.KeyboardEvent | MouseEvent<HTMLElement>) {
+export function stopPropagation(e: KeyboardEvent | MouseEvent) {
   e.stopPropagation();
 }
 
-export function stopPropagationAndPreventDefault(e: React.KeyboardEvent | MouseEvent<HTMLElement>) {
+export function stopPropagationAndPreventDefault(e: KeyboardEvent | MouseEvent) {
   e.stopPropagation();
   e.preventDefault();
 }
