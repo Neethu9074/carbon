@@ -225,6 +225,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'perEntityAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.adaptive.baseline.per.entity.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'syntheticsTestEnabled',
     instanaCtlKey: 'feature.synthetics.enabled',
     defaultValue: false
