@@ -10,13 +10,13 @@ import GenericVirtualAdapter from 'in-phmc/Dashboards/tables/GenericVirtualAdapt
 import SharedStoragePool from 'in-phmc/Dashboards/tables/SharedStoragePool';
 import FiberChannel from 'in-phmc/Dashboards/tables/FiberChannel';
 
-export default function Storage({ data: vios }) {
+export default function Storage({ timeConfig, data: vios }) {
   return (
     <Fragment>
-      <GenericPhysicalAdapter snapshotId={vios.id} />
-      <GenericVirtualAdapter snapshotId={vios.id} />
-      <FiberChannel snapshotId={vios.id} />
-      <SharedStoragePool snapshotId={vios.id} />
+      <GenericPhysicalAdapter snapshotId={vios.id} timeConfig={timeConfig} />
+      <GenericVirtualAdapter snapshotId={vios.id} timeConfig={timeConfig} />
+      <FiberChannel snapshotId={vios.id} timeConfig={timeConfig} />
+      <SharedStoragePool snapshotId={vios.id} timeConfig={timeConfig} />
     </Fragment>
   );
 }

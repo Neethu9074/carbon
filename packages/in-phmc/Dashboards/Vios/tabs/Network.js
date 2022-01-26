@@ -10,13 +10,13 @@ import SriovLogicalPort from 'in-phmc/Dashboards/tables/SriovLogicalPort';
 import GenericAdapter from 'in-phmc/Dashboards/tables/GenericAdapter';
 import SharedAdapter from 'in-phmc/Dashboards/tables/SharedAdapter';
 
-export default function Network({ data: vios }) {
+export default function Network({ timeConfig, data: vios }) {
   return (
     <Fragment>
-      <GenericAdapter snapshotId={vios.id} />
-      <SharedAdapter snapshotId={vios.id} />
-      <VirtualEthernetAdapter snapshotId={vios.id} />
-      <SriovLogicalPort snapshotId={vios.id} />
+      <GenericAdapter snapshotId={vios.id} timeConfig={timeConfig} />
+      <SharedAdapter snapshotId={vios.id} timeConfig={timeConfig} />
+      <VirtualEthernetAdapter snapshotId={vios.id} timeConfig={timeConfig} />
+      <SriovLogicalPort snapshotId={vios.id} timeConfig={timeConfig} />
     </Fragment>
   );
 }

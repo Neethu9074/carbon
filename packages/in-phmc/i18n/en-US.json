@@ -77,6 +77,13 @@
   "configurationType": "Configuration Type",
   "physicalPortId": "Physical Port ID",
   "physicalLocation":"Physical Location",
+  "uuid": "UUID",
+  "powerConsumption": "Power Consumption",
+  "powerUtilization": "Power Utilization",
+  "sampleType": "Sample Type",
+  "entityId": "Entity ID",
+  "entityInstance": "Entity Instance",
+  "temperatureReading": "Temperature Reading",
   "breadcrumbs": {
     "phmc": "Power HMC",
     "phmcs": "Power HMCs",
@@ -95,8 +102,15 @@
     "vios": "Virtual I/O Server",
     "network": "Network",
     "storage": "Storage",
+    "packets": "Packets Transmission Rate",
+    "bytes": "Bytes Transfer Rate",
+    "noOfReadWrite": "Number Of Read/Write Requests",
+    "noOfByte": "Number Of Bytes Read/Written",
     "processorUnits": "Processor Units",
     "sharedProcessorPool": "Shared Processor Pool",
+    "inletTemperatures": "Inlet Temperatures",
+    "cpuTemperatures": "CPU Temperatures",
+    "baseboardTemperatures": "Baseboard Temperatures",
     "id": "ID",
     "state": "State",
     "sriovAdapter": "SR-IOV Adapters",
@@ -109,7 +123,8 @@
     "fiberChannelAdapter": "Fiber Channel Adapters",
     "virtualFiberChannelAdapter": "Virtual Fiber Channel Adapters",
     "sharedStoragePool": "Shared Storage Pools",
-    "hypervisor": "Hypervisor"
+    "hypervisor": "Hypervisor",
+    "energy": "Energy"
   }
 }
 
