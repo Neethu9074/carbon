@@ -43,7 +43,7 @@ export function createForm(form, savedState) {
         value:
           savedState?.aggregation === 'SUM' && !savedState.crossSeriesAggregation
             ? 'SUM' // migrate to new cross-series aggregation sum
-            : savedState?.crossSeriesAggregation || '',
+            : savedState?.crossSeriesAggregation || savedState?.aggregation || '',
         validator: composeAndShortCircuitOnError(
           notUndefinedValidator,
           stringValidator,
