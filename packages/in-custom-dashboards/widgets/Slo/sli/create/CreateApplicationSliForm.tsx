@@ -37,7 +37,7 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import useApplication from 'in-applications/hooks/useApplication';
 
-interface CreateApplicationSliFormProps {
+export interface CreateApplicationSliFormProps {
   entityId: string;
   close: () => void;
   sliConfig?: SliConfig<ApplicationSliEntity | AvailabilitySliEntity>;

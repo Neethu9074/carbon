@@ -29,7 +29,7 @@ import { createSliConfiguration } from 'in-custom-dashboards/api';
 import useWebsite from 'in-websites/hooks/useWebsite';
 import { Website, WebsiteSliEntity } from 'in-types';
 
-interface CreateWebsiteSliFormProps {
+export interface CreateWebsiteSliFormProps {
   entityId: string;
   close: () => void;
   sliConfig?: SliConfig<WebsiteSliEntity>;
