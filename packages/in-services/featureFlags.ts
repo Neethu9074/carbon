@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 import { isFeatureFlagEnabled } from 'in-services/config';
@@ -58,7 +58,6 @@ export const traceDetailViewV2Enabled = isFeatureFlagEnabled('traceDetailViewV2E
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
 export const builtInGlobalApplicationSmartAlertsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('builtInGlobalApplicationSmartAlertsEnabled');
-export const hideEventSettings = applicationSmartAlertsEnabled && isFeatureFlagEnabled('hideEventsSettings', false);
 export const potentialProblemsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('potentialProblemsEnabled', true);
 export const deprecateAppDataLegacyEvents =

@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 // the keys (not the values) need to be kept in sync with
@@ -40,7 +40,6 @@ module.exports = {
   pseudoLanguageEnabled: true,
   syntheticCallsEnabled: true,
   applicationHealthOverviewEnabled: true,
-  hideEventsSettings: true,
   openFacetedSearchByDefault: true,
   agentInstallViewRestrictedToIBMSaas: false,
   traceDetailViewV2Enabled: false,

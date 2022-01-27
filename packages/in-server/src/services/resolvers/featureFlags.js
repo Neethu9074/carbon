@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 module.exports = exports = [
@@ -172,11 +172,6 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationHealthOverviewEnabled',
     instanaCtlKey: 'feature.application.health.overview.enabled',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'hideEventsSettings',
-    instanaCtlKey: 'feature.settings.team.events.hide',
     defaultValue: false
   },
   {
