@@ -11,12 +11,13 @@ import { useObservable } from '@instana/hooks';
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { createQueryBuilder, CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { getSuggestions as getWebsiteSuggestions } from 'in-websites/queryBuilder';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { Result, TagFilterExpressionElement, TimeConfig } from 'in-types';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { Result, TimeConfig } from 'in-types';
 
 interface CreateBoundedQueryBuilderProps {
   websiteId?: string;
@@ -47,8 +48,8 @@ export function useWebsiteQueryBuilder({
 }
 
 interface UseValidateWebsiteFilterExpressionProps {
-  isQueryValid: (tfe: TagFilterExpressionElement | undefined, tc: TimeConfig) => Observable<Result<boolean>>;
-  filterExpression?: TagFilterExpressionElement;
+  isQueryValid: (filterExpression: FormModelElement[] | undefined, tc: TimeConfig) => Observable<Result<boolean>>;
+  filterExpression?: FormModelElement[];
 }
 
 export function useValidateWebsiteFilterExpression({
