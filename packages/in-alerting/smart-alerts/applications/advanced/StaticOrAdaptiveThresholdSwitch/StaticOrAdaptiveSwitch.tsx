@@ -8,7 +8,7 @@ import React from 'react';
 
 import {
   StaticOrAdaptiveType,
-  staticOrAdaptiveThresholds
+  staticOrAdaptiveThresholds as types
 } from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/config';
 import StaticOrAdaptiveOption from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveOption';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
@@ -22,12 +22,18 @@ import locals from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdapt
 interface Props {
   form: MapForm;
   setForm: (updatedForm: MapForm) => void;
+  blueprintConfig: {
+    baselineEnabled: boolean;
+  };
 }
 
-export default function StaticOrAdaptiveSwitch({ form, setForm }: Props) {
+export default function StaticOrAdaptiveSwitch({ form, setForm, blueprintConfig }: Props) {
   const thresholdType = ((form.get('threshold') as MapForm)?.get('type') as Field<ThresholdType>)?.value;
   const currentType =
-    thresholdType === ADAPTIVE_BASELINE ? staticOrAdaptiveThresholds.adaptive : staticOrAdaptiveThresholds.static;
+    thresholdType === ADAPTIVE_BASELINE //
+      ? types.adaptive
+      : types.static;
+  const adaptiveValid = blueprintConfig?.baselineEnabled;
 
   return (
     <div className={locals.staticOrAdaptiveSwitchContainer}>
@@ -36,25 +42,27 @@ export default function StaticOrAdaptiveSwitch({ form, setForm }: Props) {
           <StaticOrAdaptiveOption
             currentType={currentType}
             onChange={updateThresholdType}
-            baselineType={staticOrAdaptiveThresholds.static}
+            baselineType={types.static}
           />
         </Col>
         <Col lg={6} className={locals.staticOrAdaptiveOption}>
-          <StaticOrAdaptiveOption
-            currentType={currentType}
-            onChange={updateThresholdType}
-            baselineType={staticOrAdaptiveThresholds.adaptive}
-          />
+          {adaptiveValid && (
+            <StaticOrAdaptiveOption
+              currentType={currentType}
+              onChange={updateThresholdType}
+              baselineType={types.adaptive}
+            />
+          )}
         </Col>
       </Row>
     </div>
   );
 
   function updateThresholdType(baselineType: StaticOrAdaptiveType) {
-    if (baselineType === staticOrAdaptiveThresholds.static) {
+    if (baselineType === types.static) {
       onThresholdTypeChange(STATIC_THRESHOLD, form, setForm, noop);
     }
-    if (baselineType === staticOrAdaptiveThresholds.adaptive) {
+    if (baselineType === types.adaptive) {
       onThresholdTypeChange(ADAPTIVE_BASELINE, form, setForm, noop);
     }
   }

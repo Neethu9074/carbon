@@ -64,6 +64,7 @@ export default function StatusCodeThresholdCondition({
               updateForm={updateForm}
               editMode={editMode}
               trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
+              thresholdType={thresholdType}
               thresholdTypeOptions={thresholdTypeOptions}
               isGlobalSmartAlert={isGlobalSmartAlert}
             />

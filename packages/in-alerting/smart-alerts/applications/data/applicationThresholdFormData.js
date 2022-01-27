@@ -66,3 +66,11 @@ export function withoutAdaptiveBaselineOptions(thresholdTypeOptions = []) {
     [HISTORIC_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0])
   );
 }
+
+const isAdaptiveBaselineOption = optionValue => ADAPTIVE_BASELINE === optionValue.value;
+
+/* filter-out any option which does not match depending on the type: (adaptive) or (historic|static) */
+export const optionsValidForThresholdTyp = type =>
+  type === ADAPTIVE_BASELINE //
+    ? isAdaptiveBaselineOption
+    : option => !isAdaptiveBaselineOption(option);

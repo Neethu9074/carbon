@@ -22,13 +22,13 @@ import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/d
 import { AlertEvaluationType, ThresholdType } from 'in-types';
 
 export function onThresholdTypeChange(
-  value: string,
+  typeWithOptionalSeasonality: string,
   form: MapForm,
   updateForm: (form: MapForm) => void,
   trackThresholdTypeChanged: (trackingObject: any) => void
 ): void {
-  const valueParts = value.split('.');
-  const updatedThresholdType: ThresholdType = valueParts[0] as ThresholdType;
+  const typeSeasonalityParts = typeWithOptionalSeasonality.split('.');
+  const updatedThresholdType: ThresholdType = typeSeasonalityParts[0] as ThresholdType;
 
   const rule = form.get('rule')!.toJS();
   const { alertType } = rule;
@@ -44,7 +44,7 @@ export function onThresholdTypeChange(
   let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
 
   if (updatedThresholdType === HISTORIC_BASELINE) {
-    const seasonality = valueParts[1];
+    const seasonality = typeSeasonalityParts[1];
     newThresholdForm = newThresholdForm.updateIn(['seasonality'], f =>
       (f as Field<string>).setValue(seasonality).setTouched(true)
     );

@@ -6,10 +6,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import {
+  getAvailableOptionsForEvaluationType,
+  optionsValidForThresholdTyp
+} from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import ShowStaticThresholdLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowStaticThresholdLabelOrDropdown';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
-import { getAvailableOptionsForEvaluationType } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
@@ -25,8 +28,9 @@ export default function ThresholdTypeSelection({
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const evaluationType = form.get('evaluationType').value;
-  const options = getAvailableOptionsForEvaluationType(thresholdTypeOptions, evaluationType, isGlobalSmartAlert);
-
+  const options = getAvailableOptionsForEvaluationType(thresholdTypeOptions, evaluationType, isGlobalSmartAlert).filter(
+    optionsValidForThresholdTyp(thresholdType)
+  );
   return (
     <ShowStaticThresholdLabelOrDropdown evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert}>
       {options.length === 1 ? (
