@@ -5,8 +5,8 @@
 
 import React, { useEffect } from 'react';
 
+import { Spacer, Stack, Toggle } from '@instana/components';
 import { useObservable } from '@instana/hooks';
-import { Stack } from '@instana/components';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
@@ -27,12 +27,16 @@ import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { aggregationLabels } from 'in-stores/metric/beeInstant';
+import HelpAction from 'in-components/workspace/HelpAction';
 import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { pendingResult } from 'in-services/fixedObjects';
 import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import { noop } from 'in-services/util/function';
+import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
+
+import locals from './FormComponent.mless';
 
 export default function FormComponent({
   form,
@@ -47,12 +51,15 @@ export default function FormComponent({
   const typeField = form.get('type');
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
+  const crossSeriesAggregationField = form.get('crossSeriesAggregation');
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const groupingField = form.get('grouping');
   const grouping = getGrouping(form);
   const onDirectionChange = (direction, maxResults) =>
     onChangeGrouping(onChange, { ...grouping, direction, maxResults });
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
+  const isSumAggregation = aggregationField.value === 'SUM';
+  const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
 
   const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
   const [tagFilterExpression, setTagFilterExpression] = useTagFilterExpressionState({
@@ -98,6 +105,9 @@ export default function FormComponent({
                   .updateIn(['aggregation'], field =>
                     field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true)
                   )
+                  .updateIn(['crossSeriesAggregation'], field =>
+                    field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true)
+                  )
               )
             }
             query={catalogQuery.value}
@@ -110,7 +120,13 @@ export default function FormComponent({
           label={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.aggregation')}
           id="metric-configurator-infra-aggregation"
           value={aggregationField.value}
-          onChange={e => onChange(['aggregation'], field => field.setValue(e.target.value).setTouched(true))}
+          onChange={e =>
+            onChange([], form =>
+              form
+                .updateIn(['aggregation'], field => field.setValue(e.target.value).setTouched(true))
+                .updateIn(['crossSeriesAggregation'], field => field.setValue(e.target.value).setTouched(true))
+            )
+          }
           additionalContent={<TouchedMessages field={aggregationField} />}
           useAlternateBg
           disabled={!metricField.valid}
@@ -126,6 +142,34 @@ export default function FormComponent({
             </>
           )}
         </SelectInSection>
+        <Section useAlternateBg>
+          <div className={locals.wrapper}>
+            <Tooltip content={getCrossSeriesAggregationTooltip(isSumAggregation)}>
+              <span>
+                <Toggle
+                  id="metric-configurator-cross-series-aggregation"
+                  checked={isSumCrossSeriesAggregation}
+                  disabled={isSumAggregation}
+                  onChange={e => {
+                    let newCrossSeriesAggregation = aggregationField.value;
+                    if (e.target.checked) {
+                      newCrossSeriesAggregation = 'SUM';
+                    }
+                    onChange(['crossSeriesAggregation'], field =>
+                      field.setValue(newCrossSeriesAggregation).setTouched(true)
+                    );
+                  }}
+                />
+              </span>
+            </Tooltip>
+            <Spacer horizontal="xxsmall" />
+            {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregation')}
+            <Spacer horizontal="small" />
+            <HelpAction>
+              {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationHelp')}
+            </HelpAction>
+          </div>
+        </Section>
         {formatterSection}
       </Sections>
 
@@ -164,4 +208,10 @@ function getGrouping(form) {
     .get('grouping')
     ?.get(0)
     ?.toJS();
+}
+
+function getCrossSeriesAggregationTooltip(isSumAggregation) {
+  return isSumAggregation
+    ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp')
+    : '';
 }
