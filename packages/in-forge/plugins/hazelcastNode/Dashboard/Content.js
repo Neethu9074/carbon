@@ -13,19 +13,22 @@ import Columize from 'in-sdk/components/dashboard/Columize';
 import NodeSummary from '../NodeSummary.js';
 import { t } from 'in-i18n';
 
-function isAtLeastMinorVersion(version, minorVersion) {
+function isApplicableAccordingToVersion(version, minorVersion) {
   if (version == undefined || version.startsWith('pre-')) {
     return false;
   }
   const versionArray = version.split('.', 2);
-  return versionArray.length > 1 && versionArray[1] >= minorVersion;
+  if (versionArray.length > 1) {
+    return versionArray[0] >= 4 || versionArray[1] >= minorVersion;
+  }
+  return false;
 }
 
 export default function HazelcastDashboard({ snapshot, timeConfig }) {
   const version = snapshot.getIn(['data', 'version']);
   const eventQueueCapacity = snapshot.getIn(['data', 'eventQueueCapacity']);
-  const hasDistributedObject = isAtLeastMinorVersion(version, 5);
-  const hasExecutionQueueSize = isAtLeastMinorVersion(version, 2);
+  const hasDistributedObject = isApplicableAccordingToVersion(version, 5);
+  const hasExecutionQueueSize = isApplicableAccordingToVersion(version, 2);
   const hasOperationCount = eventQueueCapacity != null;
 
   return (
@@ -73,7 +76,7 @@ export default function HazelcastDashboard({ snapshot, timeConfig }) {
             timeConfig={timeConfig}
             y1={{
               min: 0,
-              max: { eventQueueCapacity },
+              max: eventQueueCapacity,
               formatter: withSiPrefixZeroDecimalPlaces,
               tooltipFormatter: withSiPrefixZeroDecimalPlaces,
               metrics: ['nodeMetrics.eventQueueSize'],
