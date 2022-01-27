@@ -1157,6 +1157,14 @@
   "pluginName_webSphereApplicationContainer_1": "WebSpheres",
   "pluginName_webSphereApplicationContainer_2": "WebSpheres",
   "pluginName_webSphereApplicationContainer": "WebSphere",
+  "pluginName_webSphereDeploymentManager": "WebSphere Deployment Manager",
+  "pluginName_webSphereDeploymentManager_plural": "WebSphere Deployment Managers",
+  "pluginName_webSphereInfrastructureManager": "WebSphere Infrastructure Manager",
+  "pluginName_webSphereInfrastructureManager_plural": "WebSphere Infrastructure Managers",
+  "pluginName_webSphereCluster": "WebSphere Cluster Manager",
+  "pluginName_webSphereCluster_plural": "WebSphere Cluster Managers",
+  "pluginName_webSphereClusterMember": "Member",
+  "pluginName_webSphereClusterMember_plural": "Members",
   "pluginName_webSphereLibertyApplicationContainer_plural": "WebSphere Liberty Servers",
   "pluginName_webSphereLibertyApplicationContainer_0": "WebSphere Liberty Servers",
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty Servers",
@@ -10282,6 +10290,42 @@
       "labelObjectPools": "Object Pools",
       "labelJ2CModule": "J2C Module",
       "labelJ2CModules": "J2C Modules"
+    },
+    "webSphereCluster": {
+      "webSphereClusterInfo": "WebSphere Cluster",
+      "membersWithCount": "Members ({{len}})",
+      "clusterName": "Cluster Name",
+      "status": "Status",
+      "memberCount": "Members",
+      "dashboard": {
+        "memberName": "Member Name",
+        "nodeName": "Node Name",
+        "status": "Status",
+        "weight": "Weight"
+      }
+    },
+    "webSphereDeploymentManager": {
+      "webSphereDeploymentManagerInfo": "WebSphere Deployment Manager",
+      "clustersWithCount": "Clusters ({{len}})",
+      "pid": "PID",
+      "serverName": "Server Name",
+      "hostName": "Host Name",
+      "cellName": "Cell Name",
+      "version": "Version",
+      "serverType": "Server Type",
+      "dashboard": {
+        "clusterName": "Cluster Name",
+        "status": "Status",
+        "memberCount": "Members"
+      }
+    },
+    "webSphereInfrastructureManager": {
+        "hostName": "Host Name",
+        "cellName": "Cell Name",
+        "serverName": "Server Name",
+        "webSphereInfrastructureManagerInfo": "WebSphere Infrastructure Manager",
+        "deploymentManagerNumber": "Deployment Manager ({{count}})",
+        "deploymentManagerNumber_plural": "Deployment Managers ({{count}})"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "Name",

@@ -244,6 +244,9 @@ export const nonServicePlugins = {
   vsphereVM: 'vsphereVM',
   webLogicApplicationContainer: 'webLogicApplicationContainer',
   webSphereApplicationContainer: 'webSphereApplicationContainer',
+  webSphereInfrastructureManager: 'webSphereInfrastructureManager',
+  webSphereDeploymentManager: 'webSphereDeploymentManager',
+  webSphereCluster: 'webSphereCluster',
   webSphereLibertyApplicationContainer: 'webSphereLibertyApplicationContainer',
   zhmcConsole: 'zhmcConsole',
   zhmcCpc: 'zhmcCpc',
@@ -527,6 +530,13 @@ export const fullyQualifiedPlugins = {
   vsphereVM: 'com.instana.forge.infrastructure.paas.vsphere.derivedentity.vm.VsphereVM',
   webLogicApplicationContainer: 'com.instana.forge.infrastructure.application.weblogic.WebLogicApplicationContainer',
   webSphereApplicationContainer: 'com.instana.forge.infrastructure.application.websphere.WebSphereApplicationContainer',
+  webSphereInfrastructureManager:
+    'com.instana.forge.infrastructure.application.webspheredmgr.WebSphereInfrastructureManager',
+  webSphereDeploymentManager:
+    'com.instana.forge.infrastructure.application.webspheredmgr.derivedentity.dmgr.WebSphereDeploymentManager',
+  webSphereCluster: 'com.instana.forge.infrastructure.application.webspheredmgr.derivedentity.cluster.WebSphereCluster',
+  webSphereClusterMember:
+    'com.instana.forge.infrastructure.application.webspheredmgr.derivedentity.member.WebSphereMember',
   webSphereLibertyApplicationContainer:
     'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
   zhmcConsole: 'com.instana.forge.infrastructure.paas.zhmc.derivedentity.console.ZhmcConsole',
