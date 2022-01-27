@@ -47,8 +47,8 @@ export function useWebsiteQueryBuilder({
 }
 
 interface UseValidateWebsiteFilterExpressionProps {
-  isQueryValid: (tfe: TagFilterExpressionElement, tc: TimeConfig) => Observable<Result<boolean>>;
-  filterExpression: TagFilterExpressionElement;
+  isQueryValid: (tfe: TagFilterExpressionElement | undefined, tc: TimeConfig) => Observable<Result<boolean>>;
+  filterExpression?: TagFilterExpressionElement;
 }
 
 export function useValidateWebsiteFilterExpression({

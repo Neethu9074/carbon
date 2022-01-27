@@ -11,10 +11,10 @@ import { Observable } from '@instana/observables';
 
 import { trackSLICloned, trackSLIEditAbort, trackSliNewCreated } from 'in-custom-dashboards/widgets/Slo/tracker';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import { SliEntityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { SliConfig, SliEntityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { SliConfiguration, SliEntity } from 'in-types';
 import Form from 'in-components/form/binding/Form';
-import { SliConfiguration } from 'in-types';
 import { t } from 'in-i18n';
 
 interface FormSubmitState {
@@ -23,18 +23,18 @@ interface FormSubmitState {
   error: boolean;
 }
 
-interface CreateSliFormProps {
+interface CreateSliFormProps<SLI_ENTITY_TYPE extends SliEntity> {
   form: MapForm;
   updateForm: (updatedForm: MapForm) => void;
   setFooter: (footer: React.ReactNode) => void;
   close: () => void;
   children: React.ReactNode;
-  onSubmit: (submittedData: SliConfiguration) => Observable<unknown>;
+  onSubmit: (submittedData: SliConfig<SLI_ENTITY_TYPE>) => Observable<unknown>;
   filterExpressionValid?: boolean;
   editMode?: boolean;
 }
 
-export default function CreateSliForm({
+export default function CreateSliForm<SLI_ENTITY_TYPE extends SliEntity>({
   form,
   updateForm,
   editMode = false,
@@ -43,7 +43,7 @@ export default function CreateSliForm({
   children,
   filterExpressionValid,
   onSubmit
-}: CreateSliFormProps) {
+}: CreateSliFormProps<SLI_ENTITY_TYPE>) {
   const [formSubmitState, setFormSubmitState] = useState<FormSubmitState>({
     success: false,
     saving: false,
@@ -59,7 +59,7 @@ export default function CreateSliForm({
       error: false
     });
 
-    const submittedFormData = submittedForm.toJS() as SliConfiguration;
+    const submittedFormData = submittedForm.toJS() as SliConfig<SLI_ENTITY_TYPE>;
     onSubmit(submittedFormData).once(
       onSaveSuccess(submittedFormData, editMode, setFormSubmitState, close),
       onSaveFailure(submittedFormData, setFormSubmitState)
@@ -83,7 +83,7 @@ export default function CreateSliForm({
 }
 
 type UseSetFooterProps = Pick<
-  CreateSliFormProps,
+  CreateSliFormProps<SliEntity>,
   'form' | 'filterExpressionValid' | 'setFooter' | 'close' | 'editMode'
 > & { saving: boolean };
 
