@@ -27,8 +27,16 @@ export default connectTo(
       httpRequest: useTagCatalog('httpRequest'),
       custom: useTagCatalog('custom')
     };
+
+    const hasApproximateData = props?.result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
     return (
-      <ChartWrapper {...props} {...getAdditionalChartActions({ ...props, tagCatalogs })} renderHistoricDataIndicator />
+      <ChartWrapper
+        {...props}
+        {...getAdditionalChartActions({ ...props, tagCatalogs })}
+        renderHistoricDataIndicator
+        hasApproximateData={hasApproximateData}
+      />
     );
   }
 );
