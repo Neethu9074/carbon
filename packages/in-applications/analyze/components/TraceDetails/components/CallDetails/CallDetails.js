@@ -56,7 +56,9 @@ export default compose(
         },
         order: {
           by: 'mobileBeacon.timestamp',
-          direction: 'DESC'
+          // Get the oldest beacon, which is most likely the one that triggered this trace. Please note that if a request
+          // is served from a cache, the given beacon will be linked to the old trace (the one whose response was cached).
+          direction: 'ASC'
         },
         pagination: {
           retrievalSize: 1
