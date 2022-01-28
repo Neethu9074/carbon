@@ -103,8 +103,8 @@ export default function FormComponent({
             </>
           )}
         </SelectInSection>
+        {formatterSection}
       </Sections>
-      {formatterSection}
 
       {timeShiftConfiguration}
 

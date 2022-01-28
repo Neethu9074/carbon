@@ -118,10 +118,10 @@ export default function FormComponent({
                 </option>
               ))}
           </SelectInSection>
+          {formatterSection}
         </Sections>
       ))}
 
-      {formatterSection}
       {timeShiftConfiguration}
       {labelSection}
     </Stack>
