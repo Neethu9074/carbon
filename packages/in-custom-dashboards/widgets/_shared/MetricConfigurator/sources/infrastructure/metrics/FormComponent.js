@@ -58,7 +58,7 @@ export default function FormComponent({
   const onDirectionChange = (direction, maxResults) =>
     onChangeGrouping(onChange, { ...grouping, direction, maxResults });
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
-  const isSumAggregation = aggregationField.value === 'SUM';
+  const isCrossSeriesAggregationToggleEnabled = ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
   const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
 
   const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
@@ -127,7 +127,43 @@ export default function FormComponent({
                 .updateIn(['crossSeriesAggregation'], field => field.setValue(e.target.value).setTouched(true))
             )
           }
-          additionalContent={<TouchedMessages field={aggregationField} />}
+          additionalContent={
+            <>
+              <TouchedMessages field={aggregationField} />
+              <div className={locals.crossSeriesAggregationWrapper}>
+                <Tooltip
+                  content={getCrossSeriesAggregationTooltip(
+                    isCrossSeriesAggregationToggleEnabled,
+                    aggregationField.value
+                  )}
+                >
+                  <span>
+                    <Toggle
+                      id="metric-configurator-cross-series-aggregation"
+                      checked={isSumCrossSeriesAggregation}
+                      disabled={!isCrossSeriesAggregationToggleEnabled}
+                      onChange={e => {
+                        let newCrossSeriesAggregation = aggregationField.value;
+                        if (e.target.checked) {
+                          newCrossSeriesAggregation = 'SUM';
+                        }
+                        onChange(['crossSeriesAggregation'], field =>
+                          field.setValue(newCrossSeriesAggregation).setTouched(true)
+                        );
+                      }}
+                    />
+                  </span>
+                </Tooltip>
+                <Spacer horizontal="xxsmall" />
+                {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregation')}
+                <Spacer horizontal="small" />
+                <HelpAction>
+                  {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationHelp')}
+                </HelpAction>
+              </div>
+              <TouchedMessages field={crossSeriesAggregationField} />
+            </>
+          }
           useAlternateBg
           disabled={!metricField.valid}
         >
@@ -142,34 +178,6 @@ export default function FormComponent({
             </>
           )}
         </SelectInSection>
-        <Section useAlternateBg>
-          <div className={locals.wrapper}>
-            <Tooltip content={getCrossSeriesAggregationTooltip(isSumAggregation)}>
-              <span>
-                <Toggle
-                  id="metric-configurator-cross-series-aggregation"
-                  checked={isSumCrossSeriesAggregation}
-                  disabled={isSumAggregation}
-                  onChange={e => {
-                    let newCrossSeriesAggregation = aggregationField.value;
-                    if (e.target.checked) {
-                      newCrossSeriesAggregation = 'SUM';
-                    }
-                    onChange(['crossSeriesAggregation'], field =>
-                      field.setValue(newCrossSeriesAggregation).setTouched(true)
-                    );
-                  }}
-                />
-              </span>
-            </Tooltip>
-            <Spacer horizontal="xxsmall" />
-            {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregation')}
-            <Spacer horizontal="small" />
-            <HelpAction>
-              {t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationHelp')}
-            </HelpAction>
-          </div>
-        </Section>
         {formatterSection}
       </Sections>
 
@@ -210,8 +218,10 @@ function getGrouping(form) {
     ?.toJS();
 }
 
-function getCrossSeriesAggregationTooltip(isSumAggregation) {
-  return isSumAggregation
-    ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp')
+function getCrossSeriesAggregationTooltip(isCrossSeriesAggregationEnabled, aggregation) {
+  return !isCrossSeriesAggregationEnabled && aggregation !== 'SUM'
+    ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp', {
+        aggregation: aggregationLabels[aggregation]
+      })
     : '';
 }
