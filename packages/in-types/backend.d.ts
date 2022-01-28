@@ -190,7 +190,7 @@ export interface Application {
   readonly label: string;
 }
 
-export interface ApplicationAlertConfig extends AbstractApplicationAlertConfig {
+export interface ApplicationAlertConfig extends AbstractApplicationAlertConfig, StableHashable {
   readonly applicationId?: string;
   readonly applications: { [index: string]: ApplicationNode };
 }
@@ -206,7 +206,7 @@ export interface ApplicationAlertConfigWithMetadata extends ApplicationAlertConf
   readonly id: string;
 }
 
-export interface ApplicationAlertRule extends AlertRule {
+export interface ApplicationAlertRule extends AlertRule, StableHashable {
   readonly alertType: string;
 }
 
@@ -628,6 +628,13 @@ export interface EndpointQueryConstants {
 export interface EndpointTypeSummary {
   readonly metrics: { [index: string]: number[][] };
   readonly type: EndpointType;
+}
+
+export interface Energy {
+  readonly machineSerial?: string;
+  readonly machineTypeModel?: string;
+  readonly sampleType?: string;
+  readonly uuid?: string;
 }
 
 export interface EntityHealthInfo {
@@ -3138,6 +3145,7 @@ export interface PhmcQueryFilter extends FilterInterface {
 
 export interface PhmcSystemItem {
   readonly consoleId?: string;
+  readonly energy?: Energy;
   readonly id: string;
   readonly label: string;
   readonly name: string;
@@ -3625,6 +3633,13 @@ export interface SpanRelation {
 export interface SpecificJsErrorsWebsiteAlertRule extends WebsiteAlertRule {
   readonly operator: TagFilterOperator;
   readonly value?: string;
+}
+
+export interface StableHashable {
+  readonly stableHash: number;
+}
+
+export interface StableHasher {
 }
 
 export interface Stack {
