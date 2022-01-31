@@ -185,11 +185,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'traceDetailViewV2Enabled',
-    instanaCtlKey: 'feature.trace.detail.view.v2.enabled',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'deprecateAppDataLegacyEvents',
     instanaCtlKey: 'feature.deprecated.appdata.legacy.events',
     defaultValue: false

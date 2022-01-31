@@ -125,9 +125,6 @@
         "hideWebsiteInformation": "Hide Website Information",
         "showWebsiteInformation": "Show Website Information",
         "viewWebsiteActivity": "View Website Activity"
-      },
-      "logs": {
-        "noDataMessage": "There are no logs available for this trace"
       }
     },
     "components": {
@@ -176,21 +173,12 @@
       },
       "callTree": {
         "expandButtonForRow": "Expand all Sub Calls",
-        "collapseButtonForRow": "Collapse all Sub Calls",
         "of": "of",
-        "inheritedFrom": "Inherited from",
-        "cardTitle": "Calls"
+        "inheritedFrom": "Inherited from"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Colorize by",
-        "colorizeByExpl": "Changes the color for the call bars",
-        "endpoint": "Endpoint",
-        "service": "Service"
-      },
-      "viewToggleButtons": {
-        "expl": "View as",
-        "tree": "Tree",
-        "chart": "Timeline"
+        "endpoint": "Endpoint"
       },
       "logTooltipContent": {
         "errorLog": "Error Log",

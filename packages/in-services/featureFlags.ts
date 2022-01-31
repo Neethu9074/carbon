@@ -52,8 +52,6 @@ export const openFacetedSearchByDefault = isFeatureFlagEnabled('openFacetedSearc
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
-export const traceDetailViewV2Enabled = isFeatureFlagEnabled('traceDetailViewV2Enabled');
-
 // SmartAlerts & AP Alert Migration related feature flags
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
 export const builtInGlobalApplicationSmartAlertsEnabled =
@@ -85,6 +83,7 @@ export const syntheticsTestEnabled = isFeatureFlagEnabled('syntheticsTestEnabled
 export function getHiddenSearchFieldKeywords() {
   return ['selfMonitoring'];
 }
+
 export const hiddenSearchFieldValues = {
   'event.type': ['objectiveViolation', 'event', 'changeDetected', 'changeAndPresence'],
   'entity.type': ['agent', 'beeinstana'],
