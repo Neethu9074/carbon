@@ -5,9 +5,6 @@
 
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
-
-import { historicOrLargeDataResult$ } from 'in-components/time/TimeSelection/TimeSelection';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -24,12 +21,10 @@ export default function CountHeader({
   withAdjustedWindowSizeTooltip = false,
   renderHistoricDataIndicator = false
 }) {
-  const historicOrLargeDataResult = useObservable(historicOrLargeDataResult$, []);
-
   if (hasErrors) {
     return <ErroneousResult />;
   }
-  if (isLoading || historicOrLargeDataResult == null) {
+  if (isLoading) {
     return <Placeholder />;
   }
 
@@ -51,8 +46,7 @@ export default function CountHeader({
       count: totalRepresentedItemCount,
       formattedCount: number.compact(totalRepresentedItemCount)
     });
-    const showRetainedItemsCount =
-      historicOrLargeDataResult.containsHistoricData && totalRepresentedItemCount > totalHits;
+    const showRetainedItemsCount = renderHistoricDataIndicator && totalRepresentedItemCount > totalHits;
     if (showRetainedItemsCount) {
       bottomText = t('in-components:analyzeView.resultRetained', {
         count: totalHits,

@@ -9,8 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import moment from 'moment';
 
-import { useObservable } from '@instana/hooks';
-import { Button, SvgIcon } from '@instana/components';
+import { Button } from '@instana/components';
 
 import {
   formatDate,
@@ -19,17 +18,13 @@ import {
   formatTimeWithoutSeconds,
   parseDateTime
 } from 'in-services/formatters/date';
-import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper/HorizontalFlexWrapper';
-import { getHistoricOrLargeDataResult } from 'in-components/time/TimeSelection/TimeSelection';
 import DateTimeInput from 'in-components/time/TimeSelectionDialogPresenter/DateTimeInput';
 import Section from 'in-components/time/TimeSelectionDialogPresenter/Section';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
 import DistinctSlider from 'in-components/Slider/DebouncedDistinctSlider';
 import { notBlankValidator } from 'in-services/validators/string';
-import { LARGE_DATA_MESSAGE } from 'in-components/time/TimeIcon';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { days, hours, minutes } from 'in-services/time';
-import { emptyObject } from 'in-services/fixedObjects';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -38,10 +33,7 @@ import locals from './CustomTime.mless';
 const oneHour = hours.toMillis(1);
 const maximumWindow = days.toMillis(32);
 
-const historicDataMessage = retention =>
-  t('in-components:time.customTimeHistoricDataMessage', { retention: retention });
-
-export default function CustomTime({ timeConfig, onChange, showHistoricDataWarning = true }) {
+export default function CustomTime({ timeConfig, onChange }) {
   const [form, setForm] = useState(createForm(timeConfig));
   useEffect(() => setForm(createForm(timeConfig)), [timeConfig]);
 
@@ -56,10 +48,6 @@ export default function CustomTime({ timeConfig, onChange, showHistoricDataWarni
 
   const from = getTime(form.get('from'));
   const to = getTime(form.get('to'));
-  const updatedTimeConfig = { to, windowSize: to - from, focusedMoment: to };
-
-  const historicOrLargeDataResult = useObservable(showHistoricDataWarning && getHistoricOrLargeDataResult(updatedTimeConfig), [form]);
-  const { containsHistoricData, retention } = historicOrLargeDataResult || emptyObject;
 
   return (
     <Section title={t('in-components:time.customTimeTitleTimeRange')} light>
@@ -78,11 +66,7 @@ export default function CustomTime({ timeConfig, onChange, showHistoricDataWarni
         </div>
 
         <div className={locals.notes}>
-          {form.touched && form.messages.length > 0 ? (
-            <TouchedMessages className={locals.error} field={form} />
-          ) : (
-            <HistoricOrLargeDataMessage containsHistoricData={containsHistoricData} retention={retention} />
-          )}
+          {form.touched && form.messages.length > 0 && <TouchedMessages className={locals.error} field={form} />}
         </div>
       </form>
     </Section>
@@ -267,26 +251,4 @@ function validateForm({ from: fromForm, to: toForm }) {
 
 function getTime(form) {
   return parseDateTime(`${form.get('date').value} ${form.get('time').value}`).getTime();
-}
-
-function HistoricOrLargeDataMessage(props) {
-  if (props.containsHistoricData) {
-    return (
-      <HorizontalFlexWrapper>
-        <SvgIcon className={locals.icon} type="lib_help_error_info_circle" size="xs" />
-        <span className={locals.help}>{historicDataMessage(props.retention)}</span>
-      </HorizontalFlexWrapper>
-    );
-  }
-
-  if (props.largeData) {
-    return (
-      <HorizontalFlexWrapper>
-        <SvgIcon className={locals.icon} type="lib_help_error_info_circle" size="xs" />
-        <span className={locals.help}>{LARGE_DATA_MESSAGE}</span>
-      </HorizontalFlexWrapper>
-    );
-  }
-
-  return null;
 }

@@ -5,79 +5,42 @@
 
 import React, { useState } from 'react';
 
-import { just, Observable } from '@instana/observables';
-
 // @ts-expect-error
-import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter';
-// @ts-expect-error
-import { isAnalyzeView as isAnalyzeApplicationsView } from 'in-analyze/navigation/paths';
+import TimeSelectionDialogPresenter from 'in-components/time/TimeSelectionDialogPresenter/TimeSelectionDialogPresenter';
 // @ts-expect-error
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
-import { getModifiedUrlStream, isView, mutateUrl } from 'in-stores/navigation/navigation';
-// @ts-expect-error
-import { isApplicationsView } from 'in-applications/navigation/paths';
-// @ts-expect-error
-import { isMobileAppsView } from 'in-mobile-apps/navigation/paths';
 import { TIME_WINDOW_SIZE_VIA_PICKER, track } from 'in-services/tracking/tracking';
-// @ts-expect-error
-import { isWebsitesView } from 'in-websites/navigation/paths';
+import { getModifiedUrlStream, mutateUrl } from 'in-stores/navigation/navigation';
 // @ts-expect-error
 import ErrorBoundary from 'in-components/ErrorBoundary';
-import getRetention from 'in-applications/subscriptions/getRetention';
 import { timeConfig$, urlQueryKeys } from 'in-stores/time/config';
-import { GetRetentionResult, Result, TimeConfig } from 'in-types';
 import TimePresenter from 'in-components/time/TimePresenter';
 // @ts-expect-error
 import connect from 'in-hoc/connectTo';
-import { emptyObject } from 'in-services/fixedObjects';
 import Overlay from 'in-components/overlays/Overlay';
+import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './TimeSelection.mless';
 
-export function getHistoricOrLargeDataResult(timeConfig: TimeConfig): Observable<GetRetentionResult | {} | undefined> {
-  return isView(isApplicationsView, isAnalyzeApplicationsView, isWebsitesView, isMobileAppsView).flatMap(
-    supportsHistoricData => {
-      if (!supportsHistoricData) {
-        return just({});
-      }
-
-      return getRetention({ timeConfig })
-        .map((result: Result<GetRetentionResult>) => result?.data)
-        .filter(Boolean);
-    }
-  );
-}
-
-export const historicOrLargeDataResult$ = timeConfig$.flatMap(timeConfig => getHistoricOrLargeDataResult(timeConfig));
-
 export default connect({
-  timeConfig: timeConfig$,
-  historicOrLargeDataResult: historicOrLargeDataResult$
+  timeConfig: timeConfig$
 })(TimeSelection);
 
 export interface TimeSelectionProps {
   timeConfig: TimeConfig;
-  historicOrLargeDataResult: any;
   isHidden: boolean;
-  showHistoricDataWarning: boolean;
   darkTheme: boolean;
 }
 
-function TimeSelection({
-  timeConfig,
-  historicOrLargeDataResult,
-  isHidden,
-  showHistoricDataWarning,
-  darkTheme
-}: TimeSelectionProps) {
+function TimeSelection({ timeConfig, isHidden, darkTheme }: TimeSelectionProps) {
   if (isHidden) {
     return null;
   }
   return (
     <ErrorBoundary name="time-selection">
       <Overlay
-        props={{ timeConfig, historicOrLargeDataResult, darkTheme, showHistoricDataWarning }}
+        props={{ timeConfig, darkTheme }}
         content={TimeSelectionDialogPresenterWrapper}
         withoutWrapper
         withoutArrow
@@ -89,9 +52,7 @@ function TimeSelection({
             isOpen={isOpen}
             toggle={toggle}
             timeConfig={timeConfig}
-            historicOrLargeDataResult={historicOrLargeDataResult}
             darkTheme={darkTheme}
-            showHistoricDataWarning={showHistoricDataWarning}
             refSetter={refSetter}
           />
         )}
@@ -104,32 +65,16 @@ interface TimePresenterWrapperProps {
   isOpen: boolean;
   toggle: () => void;
   timeConfig: TimeConfig;
-  historicOrLargeDataResult: any;
-  showHistoricDataWarning: boolean;
   darkTheme: boolean;
   refSetter?: React.MutableRefObject<HTMLElement> | ((instance: HTMLElement | null) => void);
 }
 
-function TimePresenterWrapper({
-  isOpen,
-  toggle,
-  timeConfig,
-  historicOrLargeDataResult,
-  showHistoricDataWarning,
-  darkTheme,
-  refSetter
-}: TimePresenterWrapperProps) {
-  const { containsHistoricData, retention, samplingLevel } = historicOrLargeDataResult || emptyObject;
-  const largeData = samplingLevel && samplingLevel.samplingRatio < 1;
+function TimePresenterWrapper({ isOpen, toggle, timeConfig, darkTheme, refSetter }: TimePresenterWrapperProps) {
   return (
     <>
       <TimePresenter
         expanded={isOpen}
         timeConfig={timeConfig}
-        historicData={containsHistoricData}
-        showHistoricDataWarning={showHistoricDataWarning}
-        retention={retention}
-        largeData={largeData}
         onClick={toggle}
         refSetter={refSetter}
         darkTheme={darkTheme}
@@ -179,25 +124,10 @@ function LiveModeToggle({ isLive, darkTheme }: LiveModeToggleProps) {
 interface TimeSelectionDialogPresenterWrapperProps {
   timeConfig: TimeConfig;
   close: any;
-  historicOrLargeDataResult: boolean;
-  showHistoricDataWarning: boolean;
 }
 
-function TimeSelectionDialogPresenterWrapper({
-  timeConfig,
-  close,
-  historicOrLargeDataResult,
-  showHistoricDataWarning
-}: TimeSelectionDialogPresenterWrapperProps) {
-  return (
-    <TimeSelectionDialogPresenter
-      timeConfig={timeConfig}
-      onChange={onChange}
-      closeOverlay={close}
-      historicOrLargeDataResult={historicOrLargeDataResult}
-      showHistoricDataWarning={showHistoricDataWarning}
-    />
-  );
+function TimeSelectionDialogPresenterWrapper({ timeConfig, close }: TimeSelectionDialogPresenterWrapperProps) {
+  return <TimeSelectionDialogPresenter timeConfig={timeConfig} onChange={onChange} closeOverlay={close} />;
 
   function onChange(timeConfig: TimeConfig) {
     close();

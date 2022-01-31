@@ -19,10 +19,6 @@ import locals from './TimePresenter.mless';
 export interface TimePresenterProps {
   onClick: (args: void) => void;
   timeConfig: TimeConfig;
-  historicData: boolean;
-  showHistoricDataWarning?: boolean;
-  retention: number;
-  largeData: boolean;
   expanded: boolean;
   refSetter?: React.MutableRefObject<HTMLElement> | ((instance: HTMLElement | null) => void);
   darkTheme?: boolean;
@@ -30,17 +26,7 @@ export interface TimePresenterProps {
 
 type FirstArgumentType<T> = T extends (first: infer ArgType, ...args: any[]) => any ? ArgType : never;
 
-export default function TimePresenter({
-  onClick,
-  timeConfig,
-  historicData,
-  showHistoricDataWarning = true,
-  retention,
-  largeData,
-  expanded,
-  refSetter,
-  darkTheme
-}: TimePresenterProps) {
+export default function TimePresenter({ onClick, timeConfig, expanded, refSetter, darkTheme }: TimePresenterProps) {
   return (
     <DashboardHeaderButton
       expanded={expanded}
@@ -54,13 +40,7 @@ export default function TimePresenter({
       noAutoMargin
     >
       <div className={locals.outerWrapper}>
-        <TimeIcon
-          className={locals.timeIcon}
-          containsHistoricData={historicData && showHistoricDataWarning}
-          retention={retention}
-          largeData={largeData}
-          theme={darkTheme ? 'dark' : 'light'}
-        />
+        <TimeIcon className={locals.timeIcon} theme={darkTheme ? 'dark' : 'light'} />
         <div className={locals.displayTimeWrapper}>
           <div
             className={classNames({

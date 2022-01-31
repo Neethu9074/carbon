@@ -32,13 +32,6 @@ describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
     expect(heading).toBeEmptyDOMElement();
   });
 
-  it('Render count header with placeholder text if the observable didnt emit', () => {
-    useObservable.mockReturnValue(undefined);
-
-    const { getByText } = render(<CountHeader totalRepresentedItemCount={null} totalHits={123} />);
-    expect(getByText(t('in-components:analyzeView.resultHeaderLoading'))).toBeInTheDocument();
-  });
-
   it('Should display group count if grouping is true', () => {
     useObservable.mockReturnValue('');
     const totalHits = 125;
@@ -99,11 +92,14 @@ describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
   });
 
   it('When is not grouped and it has historical data should display the total represented item count and retained items', () => {
-    useObservable.mockReturnValue({ containsHistoricData: true });
     const totalRepresentedItemCount = 125;
     const totalHits = 0;
     const { getByText } = render(
-      <CountHeader totalRepresentedItemCount={totalRepresentedItemCount} totalHits={totalHits} />
+      <CountHeader
+        totalRepresentedItemCount={totalRepresentedItemCount}
+        totalHits={totalHits}
+        renderHistoricDataIndicator
+      />
     );
 
     expect(

@@ -64,7 +64,8 @@ function NavigatorSplitScreen({
   progress,
   children,
   expanded,
-  setExpanded
+  setExpanded,
+  resultPrecisionDetails
 }) {
   const nextOpenItemIndex = findNextIndexToOpen(openItemIndex, items);
   const prevOpenItemIndex = findPrevIndexToOpen(openItemIndex, items);
@@ -83,6 +84,7 @@ function NavigatorSplitScreen({
                   nbRows={totalHits}
                   nbItems={totalRepresentedItemCount}
                   resultCountLimit={resultCountLimit}
+                  resultPrecisionDetails={resultPrecisionDetails}
                   withoutMargin
                   withMaxWidth
                 />
