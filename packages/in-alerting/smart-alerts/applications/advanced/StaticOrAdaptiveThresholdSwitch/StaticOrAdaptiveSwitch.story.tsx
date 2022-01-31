@@ -17,22 +17,19 @@ export default {
   component: StaticOrAdaptiveSwitch
 };
 
-export const Default = ({ type, baselineEnabled }: { type: ThresholdType; baselineEnabled: boolean }) => {
+export const Default = ({ type }: { type: ThresholdType }) => {
   const defaultSmartAlertForm = createSmartAlertForm({
     ...someErrorRateFormData(),
     threshold: {
       type
     }
   });
-  const blueprintConfig = {
-    baselineEnabled
-  };
 
-  return <StaticOrAdaptiveSwitch form={defaultSmartAlertForm} setForm={noop} blueprintConfig={blueprintConfig} />;
+  return <StaticOrAdaptiveSwitch form={defaultSmartAlertForm} setForm={noop} />;
 };
 
 Default.args = {
-  baselineEnabled: false
+  type: STATIC_THRESHOLD
 };
 
 Default.argTypes = {
@@ -50,9 +47,6 @@ export const Adaptive = () => {
     }
   });
   const [form, setForm] = useState(() => smartAlertFormWithAdaptiveBaseline);
-  const blueprintConfig = {
-    baselineEnabled: false
-  };
 
-  return <StaticOrAdaptiveSwitch form={form} setForm={setForm} blueprintConfig={blueprintConfig} />;
+  return <StaticOrAdaptiveSwitch form={form} setForm={setForm} />;
 };
