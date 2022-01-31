@@ -549,6 +549,9 @@ export interface DatabaseStatementTopListItem extends Metricific {
   readonly statement: string;
 }
 
+export interface Default {
+}
+
 export interface DefaultComparator extends Comparator<any> {
 }
 
@@ -3045,6 +3048,9 @@ export interface NewApplicationConfigWithAlertingDetails extends NewApplicationC
   readonly builtInAlertIds: string[];
 }
 
+export interface NoId extends Default {
+}
+
 export interface OperatingSystem {
   readonly name: string;
   readonly version?: string;
@@ -4510,6 +4516,9 @@ export interface WindowWidthBreakdown {
   readonly users: number;
 }
 
+export interface WithId extends Default {
+}
+
 export interface WithResolvedName extends Author {
   readonly fullName?: string;
 }
@@ -4692,7 +4701,7 @@ export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISH
 
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
-export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
+export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'UNKNOWN';
 
 export type OrderDirection = 'ASC' | 'DESC';
 
