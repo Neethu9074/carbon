@@ -22,18 +22,11 @@ import locals from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdapt
 interface Props {
   form: MapForm;
   setForm: (updatedForm: MapForm) => void;
-  blueprintConfig: {
-    baselineEnabled: boolean;
-  };
 }
 
-export default function StaticOrAdaptiveSwitch({ form, setForm, blueprintConfig }: Props) {
+export default function StaticOrAdaptiveSwitch({ form, setForm }: Props) {
   const thresholdType = ((form.get('threshold') as MapForm)?.get('type') as Field<ThresholdType>)?.value;
-  const currentType =
-    thresholdType === ADAPTIVE_BASELINE //
-      ? types.adaptive
-      : types.static;
-  const adaptiveValid = blueprintConfig?.baselineEnabled;
+  const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
 
   return (
     <div className={locals.staticOrAdaptiveSwitchContainer}>
@@ -46,13 +39,11 @@ export default function StaticOrAdaptiveSwitch({ form, setForm, blueprintConfig 
           />
         </Col>
         <Col lg={6} className={locals.staticOrAdaptiveOption}>
-          {adaptiveValid && (
-            <StaticOrAdaptiveOption
-              currentType={currentType}
-              onChange={updateThresholdType}
-              baselineType={types.adaptive}
-            />
-          )}
+          <StaticOrAdaptiveOption
+            currentType={currentType}
+            onChange={updateThresholdType}
+            baselineType={types.adaptive}
+          />
         </Col>
       </Row>
     </div>

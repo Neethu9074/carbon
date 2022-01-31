@@ -85,8 +85,8 @@ export default function AdvancedModeContainer(props) {
                 updateForm={updateForm}
                 setSliderState={setSliderState}
               />
-              {adaptiveBaselineEnabled && (
-                <StaticOrAdaptiveSwitch form={form} setForm={updateForm} blueprintConfig={blueprintConfig} />
+              {adaptiveBaselineEnabled && blueprintConfig?.baselineEnabled && (
+                <StaticOrAdaptiveSwitch form={form} setForm={updateForm} />
               )}
             </>
           )
