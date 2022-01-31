@@ -6,11 +6,12 @@
 import classNames from 'classnames';
 import React from 'react';
 
+import { TrSizes } from '@instana/components/types/components/Table/types';
 import { Tr, Td, TrProps } from '@instana/components';
 
-import locals from './Row.mless';
-import { TrSizes } from '@instana/components/types/components/Table/types';
 import { ColumnDefinition, TableProps } from 'in-components/tables/ServerTable/types';
+
+import locals from './Row.mless';
 
 interface RowProps<
   ItemType extends Object,
@@ -41,6 +42,7 @@ export default function Row<
 }: RowProps<ItemType, AdditionalColumnPropsType>) {
   const rowProps = getRowProps ? getRowProps(item) : {};
   const rowClickHandler = onRowClick ? { onClick: (e: React.MouseEvent) => onRowClick(item, e) } : {};
+
   return (
     <Tr
       onMouseEnter={() => onMouseEnter(item)}
