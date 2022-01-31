@@ -190,7 +190,7 @@ export interface Application {
   readonly label: string;
 }
 
-export interface ApplicationAlertConfig extends AbstractApplicationAlertConfig {
+export interface ApplicationAlertConfig extends AbstractApplicationAlertConfig, StableHashable {
   readonly applicationId?: string;
   readonly applications: { [index: string]: ApplicationNode };
 }
@@ -206,7 +206,7 @@ export interface ApplicationAlertConfigWithMetadata extends ApplicationAlertConf
   readonly id: string;
 }
 
-export interface ApplicationAlertRule extends AlertRule {
+export interface ApplicationAlertRule extends AlertRule, StableHashable {
   readonly alertType: string;
 }
 
@@ -630,6 +630,13 @@ export interface EndpointTypeSummary {
   readonly type: EndpointType;
 }
 
+export interface Energy {
+  readonly machineSerial?: string;
+  readonly machineTypeModel?: string;
+  readonly sampleType?: string;
+  readonly uuid?: string;
+}
+
 export interface EntityHealthInfo {
   readonly maxSeverity: number;
   readonly openIssues: Event[];
@@ -725,6 +732,9 @@ export interface EventSpecificationMatch {
   readonly rollup: number;
 }
 
+export interface ExpressionElementFunnel extends Funnel<TagFilterExpressionElement> {
+}
+
 export interface ExtendedMetricsTimeConfig extends TimeConfig {
   readonly autoRefresh: boolean;
   readonly focusedMoment?: number;
@@ -798,6 +808,9 @@ export interface FullTrace {
   readonly id: string;
   readonly rootSpan: Span;
   readonly totalErrorCount: number;
+}
+
+export interface Funnel<T> {
 }
 
 export interface GeoInformation {
@@ -2072,6 +2085,8 @@ export interface Incident extends Event {
 }
 
 export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
+  readonly crossSeriesAggregation?: AggregationType;
+  readonly crossSeriesAggregationValid: boolean;
   readonly grouping?: Grouping[];
   readonly tagFilterExpression: TagFilterExpressionElement;
   readonly type: string;
@@ -2079,6 +2094,7 @@ export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
 
 export interface InfraMetricQuery {
   readonly aggregation: AggregationType;
+  readonly crossSeriesAggregation?: AggregationType;
   readonly granularity?: number;
   readonly metric: string;
 }
@@ -3135,6 +3151,7 @@ export interface PhmcQueryFilter extends FilterInterface {
 
 export interface PhmcSystemItem {
   readonly consoleId?: string;
+  readonly energy?: Energy;
   readonly id: string;
   readonly label: string;
   readonly name: string;
@@ -3622,6 +3639,13 @@ export interface SpanRelation {
 export interface SpecificJsErrorsWebsiteAlertRule extends WebsiteAlertRule {
   readonly operator: TagFilterOperator;
   readonly value?: string;
+}
+
+export interface StableHashable {
+  readonly stableHash: number;
+}
+
+export interface StableHasher {
 }
 
 export interface Stack {
@@ -4685,6 +4709,8 @@ export type ResultType = 'TIME_SERIES' | 'HISTOGRAM' | 'SINGLE_NUMBER';
 export type Seasonality = 'WEEKLY' | 'DAILY';
 
 export type SliMetricType = 'SLI' | 'ERROR_BUDGET_SPENT' | 'ERROR_BUDGET_REMAINING' | 'TOTAL_ERROR_BUDGET' | 'HOURLY_ERROR_BUDGET_CHART' | 'CONSUMED_ERROR_BUDGET_CHART';
+
+export type SliScope = 'TIME' | 'GOOD' | 'BAD';
 
 export type SliType = 'APPLICATION' | 'WEBSITE';
 
