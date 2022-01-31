@@ -732,6 +732,9 @@ export interface EventSpecificationMatch {
   readonly rollup: number;
 }
 
+export interface ExpressionElementFunnel extends Funnel<TagFilterExpressionElement> {
+}
+
 export interface ExtendedMetricsTimeConfig extends TimeConfig {
   readonly autoRefresh: boolean;
   readonly focusedMoment?: number;
@@ -805,6 +808,9 @@ export interface FullTrace {
   readonly id: string;
   readonly rootSpan: Span;
   readonly totalErrorCount: number;
+}
+
+export interface Funnel<T> {
 }
 
 export interface GeoInformation {
