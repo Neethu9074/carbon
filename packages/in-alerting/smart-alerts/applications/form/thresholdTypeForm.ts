@@ -40,15 +40,16 @@ export function onThresholdTypeChange(
     alertType
   );
 
-  const newRuleForm = createRuleForm({ ...rule });
-  let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
-
   if (updatedThresholdType === HISTORIC_BASELINE) {
     const seasonality = typeSeasonalityParts[1];
     newThresholdForm = newThresholdForm.updateIn(['seasonality'], f =>
       (f as Field<string>).setValue(seasonality).setTouched(true)
     );
   }
+
+  const newRuleForm = createRuleForm({ ...rule });
+
+  let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
 
   if (updatedThresholdType === ADAPTIVE_BASELINE) {
     // resetting granularity and timeThreshold when threshold type is switched to adaptive-baseline

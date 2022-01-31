@@ -7,8 +7,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { SvgIcon, Link } from '@instana/components';
 
 import {
   alertsTab,
@@ -21,9 +20,12 @@ import {
   alertCreated as alertCreatedMatrixParam,
   alertId as alertIdMatrixParam
 } from 'in-applications/navigation/matrix';
+import { STATIC_THRESHOLD, ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import BuiltInIndicator from 'in-alerting/smart-alerts/components/details/BuiltInIndicator';
+import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation';
 import Tooltip from 'in-components/Tooltip';
@@ -32,7 +34,7 @@ import { t } from 'in-i18n';
 import locals from './ListColumns.mless';
 
 export function ListNameColumn({ config, configsCategory, additionalMatrixKeys = () => [], goToGlobalAlertDetails }) {
-  const { description, enabled, name, severity, rule, id, created, builtIn } = config;
+  const { description, enabled, name, severity, rule, threshold, id, created, builtIn } = config;
 
   return (
     <HorizontalFlexWrapper className={locals.nameListColumn}>
@@ -63,17 +65,51 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
             <AlertTitleWithPlaceholderHighlighting configName={name} />
           </Link>
         </Tooltip>
-        <div className={locals.nameSubtext}>{getSubtitle(rule)}</div>
+        <div className={locals.nameSubtext}>{getSubtitle(rule, threshold)}</div>
       </div>
       <BuiltInIndicator builtIn={builtIn} />
     </HorizontalFlexWrapper>
   );
 }
 
-function getSubtitle(rule) {
-  const alertType = rule.alertType;
+function getSubtitle(rule, threshold) {
+  const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
-  const metricLabel = blueprintConfig.getMetricLabel(rule.metricName);
+  const metricLabel = blueprintConfig.getMetricLabel(metricName);
+
+  const { operator, seasonality, type, value } = threshold;
+  if (type === STATIC_THRESHOLD) {
+    const metricFormat = blueprintConfig.getMetricFormat(metricName);
+    let formattedValue = metricFormat.compact(value);
+    return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticThreshold', {
+      metricLabel: metricLabel,
+      operator: operator,
+      value: formattedValue
+    });
+  }
+
+  if (type === ADAPTIVE_BASELINE) {
+    return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForAdaptiveThreshold', {
+      metricLabel: metricLabel,
+      aggregation: getAggregationText(aggregation)
+    });
+  }
+
+  if (type === HISTORIC_BASELINE) {
+    if (seasonality === DAILY) {
+      return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticDailySeasonality', {
+        metricLabel: metricLabel,
+        aggregation: getAggregationText(aggregation)
+      });
+    }
+
+    return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticWeeklySeasonality', {
+      metricLabel: metricLabel,
+      aggregation: getAggregationText(aggregation)
+    });
+  }
+
+  // Simple fallback, should not be needed, except when there was no type
   return t('in-alerting:smartAlerts.applications.inventory.getSubtitle', {
     blueprintConfigName: blueprintConfig.name,
     metricLabel: metricLabel
@@ -89,6 +125,11 @@ ListNameColumn.propTypes = {
     rule: PropTypes.shape({
       alertType: PropTypes.string.isRequired,
       metricName: PropTypes.string.isRequired
+    }).isRequired,
+    threshold: PropTypes.shape({
+      operator: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      value: PropTypes.number
     }).isRequired,
     id: PropTypes.string.isRequired,
     created: PropTypes.number.isRequired,
