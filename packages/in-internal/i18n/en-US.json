@@ -501,12 +501,18 @@
       "eumHealthProcessor": {
         "incomingBeacons": "Incoming Beacons",
         "droppedIncomingBeacon": "Dropped Incoming Beacons",
+        "outgoingMatchedBeacons": "Outgoing Matched Beacons",
+        "failOutgoingMatchedBeacons": "Outgoing Matched Beacons Failures",
+        "incomingMatchedBeacons": "Incoming Matched Beacons",
+        "droppedIncomingMatchedBeacons": "Dropped Incoming Matched Beacons",
         "beaconProcessing": "Beacon Processing",
         "beaconProcessFail": "Beacon Processing Failures",
         "configEval": "Config Evaluations",
         "configEvalFail": "Config Evaluation Failures",
         "outgoingEvent": "Outgoing Events",
-        "failOutgoingEvent": "Failed Outgoing Events"
+        "failOutgoingEvent": "Failed Outgoing Events",
+        "assignedConfigs": "Assigned Configurations",
+        "hostCpuLoad": "Host CPU load"
       },
       "eumProcessor": {
         "hostCpuLoad": "Host CPU load",
