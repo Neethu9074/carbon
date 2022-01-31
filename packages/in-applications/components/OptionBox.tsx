@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { forwardRef, Fragment } from 'react';
 import classNames from 'classnames';
 
 import { SvgIcon } from '@instana/components';
@@ -13,7 +13,8 @@ import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import locals from './OptionBox.mless';
 
 interface OptionBoxProps {
-  checked?: boolean | undefined;
+  checked?: boolean;
+  disabled?: boolean;
   icon: string;
   title: string;
   description: string;
@@ -22,15 +23,10 @@ interface OptionBoxProps {
   className?: string;
 }
 
-export default function OptionBox({
-  checked,
-  icon,
-  title,
-  description,
-  onChange,
-  asRadioButton,
-  className
-}: OptionBoxProps) {
+const OptionBoxWithRef = forwardRef(function OptionBox(
+  { checked, disabled, icon, title, description, onChange, asRadioButton, className }: OptionBoxProps,
+  ref: React.ForwardedRef<HTMLDivElement>
+) {
   const labelContent = (
     <Fragment>
       <SvgIcon type={icon} className={locals.icon} />
@@ -42,15 +38,18 @@ export default function OptionBox({
   );
 
   return (
-    <div className={classNames(className, locals.wrapper)}>
+    <div className={classNames(className, locals.wrapper)} ref={ref}>
       <CheckboxFancy
         label={labelContent}
         asRadioButton={asRadioButton}
         checked={checked}
+        disabled={disabled}
         onChange={e => onChange(e.target.checked)}
-        size={'large'}
+        size="large"
         verticalLabel
       />
     </div>
   );
-}
+});
+
+export default OptionBoxWithRef;
