@@ -190,7 +190,7 @@ export interface Application {
   readonly label: string;
 }
 
-export interface ApplicationAlertConfig extends AbstractApplicationAlertConfig, StableHashable {
+export interface ApplicationAlertConfig extends AbstractApplicationAlertConfig {
   readonly applicationId?: string;
   readonly applications: { [index: string]: ApplicationNode };
 }
@@ -206,8 +206,9 @@ export interface ApplicationAlertConfigWithMetadata extends ApplicationAlertConf
   readonly id: string;
 }
 
-export interface ApplicationAlertRule extends AlertRule, StableHashable {
+export interface ApplicationAlertRule extends AlertRule {
   readonly alertType: string;
+  readonly stableHash: number;
 }
 
 export interface ApplicationAlertStats {
@@ -732,9 +733,6 @@ export interface EventSpecificationMatch {
   readonly rollup: number;
 }
 
-export interface ExpressionElementFunnel extends Funnel<TagFilterExpressionElement> {
-}
-
 export interface ExtendedMetricsTimeConfig extends TimeConfig {
   readonly autoRefresh: boolean;
   readonly focusedMoment?: number;
@@ -808,9 +806,6 @@ export interface FullTrace {
   readonly id: string;
   readonly rootSpan: Span;
   readonly totalErrorCount: number;
-}
-
-export interface Funnel<T> {
 }
 
 export interface GeoInformation {
@@ -3639,13 +3634,6 @@ export interface SpanRelation {
 export interface SpecificJsErrorsWebsiteAlertRule extends WebsiteAlertRule {
   readonly operator: TagFilterOperator;
   readonly value?: string;
-}
-
-export interface StableHashable {
-  readonly stableHash: number;
-}
-
-export interface StableHasher {
 }
 
 export interface Stack {
