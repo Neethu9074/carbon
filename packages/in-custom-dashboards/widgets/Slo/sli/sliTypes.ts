@@ -3,48 +3,75 @@
  * (c) Copyright Instana Inc.
  */
 
-import { t } from 'in-i18n';
 import {
   AvailabilitySliEntity,
   ApplicationSliEntity,
   WebsiteEventBasedSliEntity,
-  WebsiteSliEntity,
-  SliConfigurationWithLastUpdated,
-  SliConfiguration
+  SliConfiguration,
+  SliEntity,
+  WebsiteTimeBasedSliEntity,
+  WebsiteSliEntity
 } from 'in-types';
+import { t } from 'in-i18n';
 
 export const applicationType = 'application';
 export const availabilityType = 'availability';
 export const websiteTimeBased = 'websiteTimeBased';
 export const websiteEventBased = 'websiteEventBased';
 
+export type CombinedApplicationSliEntity = (ApplicationSliEntity | AvailabilitySliEntity) &
+  Partial<ApplicationSliEntity & AvailabilitySliEntity>;
+export type CombinedWebsiteSliEntity = WebsiteSliEntity &
+  Partial<WebsiteTimeBasedSliEntity & WebsiteEventBasedSliEntity>;
+
 export function isAvailabilitySliConfig(
   sliConfiguration: SliConfiguration
 ): sliConfiguration is SliConfig<AvailabilitySliEntity> {
-  return sliConfiguration.sliEntity.sliType === availabilityType;
+  return isAvailabilitySliEntity(sliConfiguration.sliEntity);
+}
+
+export function isAvailabilitySliEntity(sliEntity: SliEntity): sliEntity is AvailabilitySliEntity {
+  return sliEntity.sliType === availabilityType;
 }
 
 export function isApplicationSliConfig(
   sliConfiguration: SliConfiguration
 ): sliConfiguration is SliConfig<ApplicationSliEntity> {
-  return sliConfiguration.sliEntity.sliType === applicationType;
+  return isApplicationSliEntity(sliConfiguration.sliEntity);
 }
 
-export function isWebsiteSliEntity(
+export function isApplicationSliEntity(sliEntity: SliEntity): sliEntity is ApplicationSliEntity {
+  return sliEntity.sliType === applicationType;
+}
+
+export function isWebsiteSliConfig(
   sliConfiguration: SliConfiguration
-): sliConfiguration is SliConfig<WebsiteSliEntity> {
-  return sliConfiguration.sliEntity.sliType === websiteTimeBased;
+): sliConfiguration is SliConfig<WebsiteTimeBasedSliEntity> {
+  return isWebsiteSliEntity(sliConfiguration.sliEntity);
 }
 
-export function isWebsiteEventBasedSliEntity(
+export function isWebsiteSliEntity(sliEntity: SliEntity): sliEntity is WebsiteTimeBasedSliEntity {
+  return sliEntity.sliType === websiteTimeBased;
+}
+
+export function isWebsiteEventBasedSliConfig(
   sliConfiguration: SliConfiguration
 ): sliConfiguration is SliConfig<WebsiteEventBasedSliEntity> {
-  return sliConfiguration.sliEntity.sliType === websiteEventBased;
+  return isWebsiteEventBasedSliEntity(sliConfiguration.sliEntity);
 }
 
-export interface SliConfig<SLI_ENTITY_TYPE> extends Omit<SliConfigurationWithLastUpdated, 'sliEntity'> {
+export function isWebsiteEventBasedSliEntity(sliEntity: SliEntity): sliEntity is WebsiteEventBasedSliEntity {
+  return sliEntity.sliType === websiteEventBased;
+}
+
+export interface SliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntity> extends Omit<SliConfiguration, 'sliEntity'> {
   readonly sliEntity: SLI_ENTITY_TYPE;
 }
+
+export type NewSliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntity> = Omit<
+  SliConfig<SLI_ENTITY_TYPE>,
+  'initialEvaluationTimestamp'
+>;
 
 export type SliEntityType =
   | typeof applicationType

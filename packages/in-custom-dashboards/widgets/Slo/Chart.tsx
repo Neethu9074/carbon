@@ -8,22 +8,23 @@ import React from 'react';
 import { Observable, just } from '@instana/observables';
 
 import {
-  isApplicationSliConfig,
-  isAvailabilitySliConfig,
-  isWebsiteEventBasedSliEntity,
-  isWebsiteSliEntity,
-  SliConfig
-} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import {
   ApplicationSliEntity,
   AvailabilitySliEntity,
   MetricResult,
   Result,
+  SliConfiguration,
   SliConfigurationWithLastUpdated,
   TagCatalog,
   TagFilter,
   TimeConfig
 } from 'in-types';
+import {
+  isApplicationSliConfig,
+  isAvailabilitySliConfig,
+  isWebsiteEventBasedSliConfig,
+  isWebsiteSliConfig,
+  SliConfig
+} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href';
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { tagFilter, toNewTagFilterFormat } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -141,7 +142,7 @@ function getCustomAnalyzeContextMenuProperties(
 }
 
 function getLinkToUnboundAnalytics(
-  sliConfig: SliConfigurationWithLastUpdated,
+  sliConfig: SliConfiguration,
   tagCatalog: TagCatalog,
   highlightedTime: TimeConfig
 ): Observable<string> | undefined {
@@ -153,12 +154,12 @@ function getLinkToUnboundAnalytics(
     return buildApplicationSliEntityUA2Link(sliConfig, tagCatalog, highlightedTime);
   }
 
-  if (isWebsiteSliEntity(sliConfig)) {
+  if (isWebsiteSliConfig(sliConfig)) {
     // TODO: soon to be implemented
     return just('');
   }
 
-  if (isWebsiteEventBasedSliEntity(sliConfig)) {
+  if (isWebsiteEventBasedSliConfig(sliConfig)) {
     // TODO: soon to be implemented
     return just('');
   }
@@ -184,7 +185,7 @@ function getAdditionalFiltersForApplicationSli(sliConfig: SliConfig<ApplicationS
   }
 }
 
-function getChartsParam(sliConfig: SliConfigurationWithLastUpdated): ChartedMetric[] {
+function getChartsParam(sliConfig: SliConfiguration): ChartedMetric[] {
   if (isApplicationSliConfig(sliConfig)) {
     const metricName = sliConfig.metricConfiguration?.metricName;
     if (metricName === 'latency') {

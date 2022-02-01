@@ -5,18 +5,29 @@
 
 import { useMemo } from 'react';
 
+import { Observable } from '@instana/observables';
 import { useObservable } from '@instana/hooks';
 
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { createQueryBuilder, CreateQueryBuilderResponse } from 'in-components/QueryBuilder';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { getSuggestions as getWebsiteSuggestions } from 'in-websites/queryBuilder';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { createQueryBuilder } from 'in-components/QueryBuilder';
 import { getTagCatalog } from 'in-websites/api/tagCatalog';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import { Result, TimeConfig } from 'in-types';
 
-function createBoundedQueryBuilder({ websiteId, beaconType } = {}) {
+interface CreateBoundedQueryBuilderProps {
+  websiteId?: string;
+  beaconType?: string;
+}
+
+function createBoundedQueryBuilder({
+  websiteId,
+  beaconType
+}: CreateBoundedQueryBuilderProps = {}): CreateQueryBuilderResponse {
   return createQueryBuilder({
     maxExpressionDepth: DEFAULT_MAX_EXPRESSION_DEPTH,
     getTagCatalog: () => getTagCatalog({ beaconType, useCase: 'SMART_ALERTS' }),
@@ -29,11 +40,22 @@ function createBoundedQueryBuilder({ websiteId, beaconType } = {}) {
   });
 }
 
-export function useWebsiteQueryBuilder({ beaconType, websiteId }) {
+export function useWebsiteQueryBuilder({
+  beaconType,
+  websiteId
+}: CreateBoundedQueryBuilderProps): CreateQueryBuilderResponse {
   return useMemo(() => createBoundedQueryBuilder({ websiteId, beaconType }), [websiteId, beaconType]);
 }
 
-export function useValidateWebsiteFilterExpression({ isQueryValid, filterExpression }) {
+interface UseValidateWebsiteFilterExpressionProps {
+  isQueryValid: (filterExpression: FormModelElement[] | undefined, tc: TimeConfig) => Observable<Result<boolean>>;
+  filterExpression?: FormModelElement[];
+}
+
+export function useValidateWebsiteFilterExpression({
+  isQueryValid,
+  filterExpression
+}: UseValidateWebsiteFilterExpressionProps): boolean {
   const timeConfig = useTimeConfig();
   return !!useObservable(() => isQueryValid(filterExpression, timeConfig), [filterExpression, timeConfig])?.data;
 }

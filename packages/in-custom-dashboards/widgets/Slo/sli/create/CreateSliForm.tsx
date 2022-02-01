@@ -4,28 +4,48 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { Field, Item, MapForm } from 'formalistic';
 
-import { Message, Stack } from '@instana/components';
+import { Message, Stack, Spacer } from '@instana/components';
+import { Observable } from '@instana/observables';
 
 import { trackSLICloned, trackSLIEditAbort, trackSliNewCreated } from 'in-custom-dashboards/widgets/Slo/tracker';
-import { Spacer } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
-import ErroneousResultPresenter from 'in-components/Errors/ErroneousResultPresenter';
+import { SliEntityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { SliFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import Form from 'in-components/form/binding/Form';
+import { SliType } from 'in-types';
 import { t } from 'in-i18n';
 
-export default function CreateSliForm({
+interface FormSubmitState {
+  success: boolean;
+  saving: boolean;
+  error: boolean;
+}
+
+interface CreateSliFormProps<SLI_TYPE extends SliType> {
+  form: MapForm;
+  updateForm: (updatedForm: MapForm) => void;
+  setFooter: (footer: React.ReactNode) => void;
+  close: () => void;
+  children: React.ReactNode;
+  onSubmit: (submittedData: SliFormData<SLI_TYPE>) => Observable<unknown>;
+  filterExpressionValid?: boolean;
+  editMode?: boolean;
+}
+
+export default function CreateSliForm<SLI_TYPE extends SliType>({
   form,
   updateForm,
-  editMode,
+  editMode = false,
   setFooter,
   close,
   children,
   filterExpressionValid,
   onSubmit
-}) {
-  const [formSubmitState, setFormSubmitState] = useState({
+}: CreateSliFormProps<SLI_TYPE>) {
+  const [formSubmitState, setFormSubmitState] = useState<FormSubmitState>({
     success: false,
     saving: false,
     error: false
@@ -33,14 +53,14 @@ export default function CreateSliForm({
   const { saving } = formSubmitState;
   useSetFooter({ form, filterExpressionValid, setFooter, close, saving, editMode });
 
-  const handleSubmit = submittedForm => {
+  const handleSubmit = (submittedForm: MapForm) => {
     setFormSubmitState({
       saving: true,
       success: false,
       error: false
     });
 
-    const submittedFormData = submittedForm.toJS();
+    const submittedFormData = submittedForm.toJS() as SliFormData<SLI_TYPE>;
     onSubmit(submittedFormData).once(
       onSaveSuccess(submittedFormData, editMode, setFormSubmitState, close),
       onSaveFailure(submittedFormData, setFormSubmitState)
@@ -48,25 +68,34 @@ export default function CreateSliForm({
   };
 
   return (
-    <Form form={form} setForm={updateForm} onSubmit={handleSubmit} formId="createSliForm">
+    <Form
+      form={form}
+      setForm={updateForm as (f: Item) => void}
+      onSubmit={handleSubmit as (f: Item) => void}
+      formId="createSliForm"
+    >
       <Stack gap="large">
         {children}
         {editMode && <Message>{t('in-custom-dashboards:widgets.slo.createSliForm.sliConfigMsg')}</Message>}
-        <ErroneousResultPresenter errors={formSubmitState.errors} />
         <Spacer />
       </Stack>
     </Form>
   );
 }
 
-function useSetFooter({ form, filterExpressionValid, setFooter, close, saving, editMode }) {
+type UseSetFooterProps = Pick<
+  CreateSliFormProps<SliType>,
+  'form' | 'filterExpressionValid' | 'setFooter' | 'close' | 'editMode'
+> & { saving: boolean };
+
+function useSetFooter({ form, filterExpressionValid, setFooter, close, saving, editMode }: UseSetFooterProps): void {
   useEffect(() => {
     setFooter(
       <FormFooter withRoundedBottomBorder>
         <CancelButton
           onClick={() => {
-            const sliEntityForm = form.get('sliEntity');
-            const sliType = sliEntityForm?.get('sliType')?.value;
+            const sliEntityForm = form.get('sliEntity') as MapForm;
+            const sliType = (sliEntityForm?.get('sliType') as Field<SliEntityType>)?.value;
             trackSLIEditAbort({ sliId: editMode, sliType });
             close();
           }}
@@ -89,7 +118,12 @@ function useSetFooter({ form, filterExpressionValid, setFooter, close, saving, e
   }, [close, form, filterExpressionValid, saving, setFooter, editMode]);
 }
 
-function onSaveSuccess(submittedFormData, editMode, setFormSubmitState, close) {
+function onSaveSuccess(
+  submittedFormData: SliFormData<SliType>,
+  editMode: boolean,
+  setFormSubmitState: React.Dispatch<React.SetStateAction<FormSubmitState>>,
+  close: () => void
+): () => void {
   return () => {
     addMessage(
       {
@@ -116,7 +150,10 @@ function onSaveSuccess(submittedFormData, editMode, setFormSubmitState, close) {
   };
 }
 
-function onSaveFailure(submittedFormData, setFormSubmitState) {
+function onSaveFailure(
+  submittedFormData: SliFormData<SliType>,
+  setFormSubmitState: React.Dispatch<React.SetStateAction<FormSubmitState>>
+): () => void {
   return () => {
     addMessage(
       {

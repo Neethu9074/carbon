@@ -3,12 +3,21 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
+import { Item } from 'formalistic';
 import React from 'react';
 
 import { FormContext } from 'in-components/form/binding/FormContext';
 
-export default function Form({ onSubmit, children, form, setForm, disabled, formId }) {
+interface FormProps {
+  onSubmit: (form: Item) => void;
+  children: React.ReactNode;
+  form: Item;
+  setForm: (form: Item) => void;
+  formId?: string;
+  disabled?: boolean;
+}
+
+export default function Form({ onSubmit, children, form, setForm, disabled, formId }: FormProps) {
   return (
     <FormContext.Provider
       value={{
@@ -37,12 +46,3 @@ export default function Form({ onSubmit, children, form, setForm, disabled, form
     </FormContext.Provider>
   );
 }
-
-Form.propTypes = {
-  children: PropTypes.node.isRequired,
-  form: PropTypes.object.isRequired,
-  setForm: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  formId: PropTypes.string
-};

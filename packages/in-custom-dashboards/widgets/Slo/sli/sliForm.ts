@@ -9,37 +9,57 @@ import {
   availabilityType,
   applicationType,
   websiteEventBased,
-  websiteTimeBased
+  websiteTimeBased,
+  CombinedWebsiteSliEntity,
+  CombinedApplicationSliEntity
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import {
+  Application,
+  AvailabilitySliEntity,
+  SliConfigMetricConfiguration,
+  SliConfiguration,
+  SliType,
+  TagFilterExpressionElement,
+  Website,
+  WebsiteEventBasedSliEntity
+} from 'in-types';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { SloEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { numericValidator, minValidator } from 'in-services/validators/number';
+import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
-import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
-import {
-  Application,
-  ApplicationSliEntity,
-  AvailabilitySliEntity,
-  SliConfigMetricConfiguration,
-  SliConfiguration,
-  TagFilterExpressionElement,
-  Website,
-  WebsiteEventBasedSliEntity,
-  WebsiteSliEntity,
-  WebsiteTimeBasedSliEntity
-} from 'in-types';
-import { SloEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 
-type CombinedApplicationSliEntity = (ApplicationSliEntity | AvailabilitySliEntity) &
-  Partial<ApplicationSliEntity & AvailabilitySliEntity>;
-type CombinedWebsiteSliEntity = WebsiteSliEntity & Partial<WebsiteTimeBasedSliEntity & WebsiteEventBasedSliEntity>;
 interface EventBasedSliEntity {
   readonly badEventFilterExpression: TagFilterExpressionElement;
   readonly goodEventFilterExpression: TagFilterExpressionElement;
+}
+
+export interface SliFormData<SLI_TYPE extends SliType> {
+  id: string;
+  sliName: string;
+  sliEntity: SLI_TYPE extends 'APPLICATION' ? ApplicationSliEntityFormData : WebsiteSliEntityFormData;
+  metricConfiguration?: SliConfigMetricConfiguration;
+}
+
+export interface ApplicationSliEntityFormData
+  extends Omit<CombinedApplicationSliEntity, 'goodEventFilterExpression' | 'badEventFilterExpression'> {
+  readonly badEventFilterExpression?: FormModelElement[];
+  readonly goodEventFilterExpression?: FormModelElement[];
+}
+
+export interface WebsiteSliEntityFormData
+  extends Omit<
+    CombinedWebsiteSliEntity,
+    'filterExpression' | 'goodEventFilterExpression' | 'badEventFilterExpression'
+  > {
+  readonly filterExpression?: FormModelElement[];
+  readonly badEventFilterExpression?: FormModelElement[];
+  readonly goodEventFilterExpression?: FormModelElement[];
 }
 
 export const sliFieldNames = Object.freeze({
@@ -49,19 +69,19 @@ export const sliFieldNames = Object.freeze({
 
 export function createForm(
   entityType: 'application',
-  sliConfig: SliConfiguration,
+  sliConfig: Partial<SliConfiguration>,
   entityId: string,
   entity: Application
 ): MapForm;
 export function createForm(
   entityType: 'website',
-  sliConfig: SliConfiguration,
+  sliConfig: Partial<SliConfiguration>,
   entityId: string,
   entity: Website
 ): MapForm;
 export function createForm(
   entityType: MonitoringSource,
-  sliConfig: SliConfiguration,
+  sliConfig: Partial<SliConfiguration>,
   entityId: string,
   entity: SloEntity
 ): MapForm {

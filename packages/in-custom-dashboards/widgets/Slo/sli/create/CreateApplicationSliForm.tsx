@@ -3,25 +3,53 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
 import { generateUniqueShortId } from '@instana/utils';
+import { Observable } from '@instana/observables';
 
 import {
   useValidateApplicationFilterExpression,
   useApplicationQueryBuilder
 } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
+import {
+  CombinedApplicationSliEntity,
+  isAvailabilitySliEntity,
+  NewSliConfig,
+  SliConfig
+} from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import {
+  Application,
+  ApplicationBoundaryScope,
+  ApplicationSliEntity,
+  AvailabilitySliEntity,
+  Result,
+  TimeConfig
+} from 'in-types';
 import { useApplicationSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
+import { sliFieldNames, createForm, SliFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ApplicationSliForm } from 'in-custom-dashboards/widgets/Slo/sli/ApplicationSliForm';
-import { sliFieldNames, createForm } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
-import { availabilityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import useApplication from 'in-applications/hooks/useApplication';
 
-export default function CreateApplicationSliForm({ entityId, close, sliConfig, setFooter }) {
+export interface CreateApplicationSliFormProps {
+  entityId: string;
+  close: () => void;
+  sliConfig?: SliConfig<ApplicationSliEntity | AvailabilitySliEntity>;
+  setFooter: (footer: React.ReactNode) => void;
+}
+
+export default function CreateApplicationSliForm({
+  entityId,
+  close,
+  sliConfig,
+  setFooter
+}: CreateApplicationSliFormProps) {
   const [application, status] = useApplication(entityId);
 
   if (status !== 'resolved' || sliConfig == null) {
@@ -30,7 +58,7 @@ export default function CreateApplicationSliForm({ entityId, close, sliConfig, s
   return (
     <CreateApplicationSliFormComponent
       entityId={entityId}
-      application={application}
+      application={application!}
       close={close}
       sliConfig={sliConfig}
       setFooter={setFooter}
@@ -38,18 +66,24 @@ export default function CreateApplicationSliForm({ entityId, close, sliConfig, s
   );
 }
 
-function CreateApplicationSliFormComponent({ entityId, application, close, sliConfig, setFooter }) {
+function CreateApplicationSliFormComponent({
+  entityId,
+  application,
+  close,
+  sliConfig,
+  setFooter
+}: CreateApplicationSliFormProps & { application: Application }) {
   const [form, setForm] = useState(createForm('application', sliConfig ?? {}, entityId, application));
-  const updateForm = useApplicationSliFormSideEffects(form, setForm);
+  const updateForm = useApplicationSliFormSideEffects(form, setForm as (f: Item) => void);
 
   const { QueryBuilder, isQueryValid } = useApplicationQueryBuilder({
     applicationId: application.id,
-    boundaryScope: application.boundaryScope
+    boundaryScope: application.boundaryScope as ApplicationBoundaryScope
   });
   const filterExpressionValid = useValidateExpressions({ form, isQueryValid });
 
   return (
-    <CreateSliForm
+    <CreateSliForm<'APPLICATION'>
       form={form}
       updateForm={updateForm}
       setFooter={setFooter}
@@ -73,10 +107,19 @@ function CreateApplicationSliFormComponent({ entityId, application, close, sliCo
   );
 }
 
-function useValidateExpressions({ form, isQueryValid }) {
-  const sliEntityForm = form.get('sliEntity');
-  const goodEventFilterExpression = sliEntityForm.get(sliFieldNames.goodEventFilterExpression)?.value;
-  const badEventFilterExpression = sliEntityForm.get(sliFieldNames.badEventFilterExpression)?.value;
+interface UseValidateExpressionsProps {
+  form: MapForm;
+  isQueryValid: (filterExpression: FormModelElement[], timeConfig: TimeConfig) => Observable<Result<boolean>>;
+}
+
+function useValidateExpressions({ form, isQueryValid }: UseValidateExpressionsProps): boolean {
+  const sliEntityForm = form.get('sliEntity') as MapForm;
+  const goodEventFilterExpression = (sliEntityForm.get(sliFieldNames.goodEventFilterExpression) as Field<
+    FormModelElement[]
+  >)?.value;
+  const badEventFilterExpression = (sliEntityForm.get(sliFieldNames.badEventFilterExpression) as Field<
+    FormModelElement[]
+  >)?.value;
 
   const goodEventsValid = useValidateApplicationFilterExpression({
     filterExpression: goodEventFilterExpression,
@@ -91,11 +134,10 @@ function useValidateExpressions({ form, isQueryValid }) {
   return goodEventsValid && badEventsValid;
 }
 
-function toBackendFormat(formData) {
+function toBackendFormat(formData: SliFormData<'APPLICATION'>): NewSliConfig<CombinedApplicationSliEntity> {
   const sliEntity = formData.sliEntity;
-  const sliType = sliEntity.sliType;
 
-  if (sliType === availabilityType) {
+  if (isAvailabilitySliEntity(sliEntity)) {
     return {
       ...formData,
       sliEntity: {
@@ -106,5 +148,5 @@ function toBackendFormat(formData) {
     };
   }
 
-  return formData;
+  return formData as NewSliConfig<ApplicationSliEntity>;
 }
