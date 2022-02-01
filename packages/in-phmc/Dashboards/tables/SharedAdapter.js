@@ -108,7 +108,7 @@ const cols = [
 ];
 
 export default connectTo(
-  (props) => {
+  props => {
     snapshotMap = props;
     return {
       data: getRawPayloadWithTimestamp(props.snapshotId, 'sharedAdapters')
@@ -134,59 +134,52 @@ export default connectTo(
         };
       });
 
-    const getDetails = (row) => {
-
-      if(!snapshotMap?.timeConfig){
-         return;
+    const getDetails = row => {
+      if (!snapshotMap?.timeConfig) {
+        return;
       }
-        return (
-          <Columize>
+      return (
+        <Columize>
           <Card title={t('in-phmc:dashboards.packets')} useMaxAvailableHeight>
-          <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: number,
-              metrics: [
-                'sharedAdapter.' + row.key + '.sentPackets',
-                'sharedAdapter.' + row.key + '.receivedPackets',
-                'sharedAdapter.' + row.key + '.droppedPackets'],
+            <Chart
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number,
+                metrics: [
+                  'sharedAdapters.' + row.key + '.sentPackets',
+                  'sharedAdapters.' + row.key + '.receivedPackets',
+                  'sharedAdapters.' + row.key + '.droppedPackets'
+                ],
 
-              labels: [
-                t('in-phmc:sentPackets'),
-                t('in-phmc:recievedPackets'),
-                t('in-phmc:droppedPackets')
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+                labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets'), t('in-phmc:droppedPackets')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
           </Card>
           <Card title={t('in-phmc:dashboards.bytes')} useMaxAvailableHeight>
             <Chart
-            snapshotId={snapshotId}
-            timeConfig={timeConfig}
-            y1={{
-              min: 0,
-              formatter: bytes.compact,
-              metrics: [
-                'sharedAdapter.' + row.key + '.sentBytes',
-                'sharedAdapter.' + row.key + '.receivedBytes',
-                'sharedAdapter.' + row.key + '.transferredBytes'],
-              labels: [
-                t('in-phmc:sentBytes'),
-                t('in-phmc:recievedBytes'),
-                t('in-phmc:transferredBytes')
-                  ],
-              type: 'line'
-            }}
-            renderPostChartContent={PluginDashboardsMarkerLanes}
-          />
+              snapshotId={snapshotId}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: bytes.compact,
+                metrics: [
+                  'sharedAdapters.' + row.key + '.sentBytes',
+                  'sharedAdapters.' + row.key + '.receivedBytes',
+                  'sharedAdapters.' + row.key + '.transferredBytes'
+                ],
+                labels: [t('in-phmc:sentBytes'), t('in-phmc:recievedBytes'), t('in-phmc:transferredBytes')],
+                type: 'line'
+              }}
+              renderPostChartContent={PluginDashboardsMarkerLanes}
+            />
           </Card>
-          </Columize>
-        );
-      };
+        </Columize>
+      );
+    };
     return (
       <Table
         withoutPadding

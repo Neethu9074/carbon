@@ -139,8 +139,8 @@ export default connectTo(
                 min: 0,
                 formatter: number,
                 metrics: [
-                  'genericPhysicalAdapter.' + row.key + '.reads',
-                  'genericPhysicalAdapter.' + row.key + '.writes'
+                  'genericPhysicalAdapters.' + row.key + '.numOfReads',
+                  'genericPhysicalAdapters.' + row.key + '.numOfWrites'
                 ],
                 labels: [t('in-phmc:reads'), t('in-phmc:writes')],
                 type: 'line'
@@ -156,9 +156,9 @@ export default connectTo(
                 min: 0,
                 formatter: bytes.compact,
                 metrics: [
-                  'genericPhysicalAdapter.' + row.key + '.readBytes',
-                  'genericPhysicalAdapter.' + row.key + '.writeBytes',
-                  'genericPhysicalAdapter.' + row.key + '.transmittedBytes'
+                  'genericPhysicalAdapters.' + row.key + '.readBytes',
+                  'genericPhysicalAdapters.' + row.key + '.writeBytes',
+                  'genericPhysicalAdapters.' + row.key + '.transmittedBytes'
                 ],
                 labels: [t('in-phmc:readBytes'), t('in-phmc:writeBytes'), t('in-phmc:transmittedBytes')],
                 type: 'line'

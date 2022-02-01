@@ -21,11 +21,12 @@ let snapshotMap = {};
 const cols = [
   {
     title: t('in-phmc:id'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedStoragePool.get('id');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
@@ -80,20 +81,22 @@ const cols = [
   },
   {
     title: t('in-phmc:totalSpace'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedStoragePool.get('totalSpace');
-      }
+      },
+      getContent: number.compact
     }
   },
   {
     title: t('in-phmc:usedSpace'),
-    type: 'string',
+    type: 'number',
     typeArgs: {
       getValue(row) {
         return row.sharedStoragePool.get('usedSpace');
-      }
+      },
+      getContent: number.compact
     }
   }
 ];
@@ -138,7 +141,10 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: number,
-                metrics: ['sharedStoragePool.' + row.key + '.reads', 'sharedStoragePool.' + row.key + '.writes'],
+                metrics: [
+                  'sharedStoragePools.' + row.key + '.numOfReads',
+                  'sharedStoragePools.' + row.key + '.numOfReads'
+                ],
                 labels: [t('in-phmc:reads'), t('in-phmc:writes')],
                 type: 'line'
               }}
@@ -153,9 +159,9 @@ export default connectTo(
                 min: 0,
                 formatter: bytes.compact,
                 metrics: [
-                  'sharedStoragePool.' + row.key + '.readBytes',
-                  'sharedStoragePool.' + row.key + '.writeBytes',
-                  'sharedStoragePool.' + row.key + '.transmittedBytes'
+                  'sharedStoragePools.' + row.key + '.readBytes',
+                  'sharedStoragePools.' + row.key + '.writeBytes',
+                  'sharedStoragePools.' + row.key + '.transmittedBytes'
                 ],
                 labels: [t('in-phmc:readBytes'), t('in-phmc:writeBytes'), t('in-phmc:transmittedBytes')],
                 type: 'line'

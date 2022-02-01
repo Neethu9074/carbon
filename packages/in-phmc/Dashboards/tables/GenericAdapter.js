@@ -83,9 +83,9 @@ const cols = [
     typeArgs: {
       getValue(row) {
         return row.genericAdapter.get('sentBytes');
-      }
-    },
-    getContent: bytes.compact
+      },
+      getContent: bytes.compact
+    }
   },
   {
     title: t('in-phmc:recievedBytes'),
@@ -150,9 +150,9 @@ export default connectTo(
                 min: 0,
                 formatter: number,
                 metrics: [
-                  'genericAdapter.' + row.key + '.sentPackets',
-                  'genericAdapter.' + row.key + '.receivedPackets',
-                  'genericAdapter.' + row.key + '.droppedPackets'
+                  'genericAdapters.' + row.key + '.sentPackets',
+                  'genericAdapters.' + row.key + '.receivedPackets',
+                  'genericAdapters.' + row.key + '.droppedPackets'
                 ],
 
                 labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets'), t('in-phmc:droppedPackets')],
@@ -169,9 +169,9 @@ export default connectTo(
                 min: 0,
                 formatter: bytes.compact,
                 metrics: [
-                  'genericAdapter.' + row.key + '.sentBytes',
-                  'genericAdapter.' + row.key + '.receivedBytes',
-                  'genericAdapter.' + row.key + '.transferredBytes'
+                  'genericAdapters.' + row.key + '.sentBytes',
+                  'genericAdapters.' + row.key + '.receivedBytes',
+                  'genericAdapters.' + row.key + '.transferredBytes'
                 ],
                 labels: [t('in-phmc:sentBytes'), t('in-phmc:recievedBytes'), t('in-phmc:transferredBytes')],
                 type: 'line'

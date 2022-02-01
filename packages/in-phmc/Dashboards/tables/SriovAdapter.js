@@ -159,7 +159,7 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: number,
-                metrics: ['sriovAdapter.' + row.key + '.sentPackets', 'sriovAdapter.' + row.key + '.receivedPackets'],
+                metrics: ['sriovAdapters.' + row.key + '.sentPackets', 'sriovAdapters.' + row.key + '.receivedPackets'],
                 labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets')],
                 type: 'line'
               }}
@@ -174,9 +174,9 @@ export default connectTo(
                 min: 0,
                 formatter: number,
                 metrics: [
-                  'sriovAdapter.' + row.key + '.sentBytes',
-                  'sriovAdapter.' + row.key + '.receivedBytes',
-                  'sriovAdapter.' + row.key + '.transferredBytes'
+                  'sriovAdapters.' + row.key + '.sentBytes',
+                  'sriovAdapters.' + row.key + '.receivedBytes',
+                  'sriovAdapters.' + row.key + '.transferredBytes'
                 ],
                 labels: [t('in-phmc:sentBytes'), t('in-phmc:recievedBytes'), t('in-phmc:transferredBytes')],
                 type: 'line'
