@@ -177,8 +177,8 @@ export default connectTo(
                 min: 0,
                 formatter: number,
                 metrics: [
-                  'sriovLogicalPort.' + row.key + '.sentPackets',
-                  'sriovLogicalPort.' + row.key + '.receivedPackets'
+                  'sriovLogicalPorts.' + row.key + '.sentPackets',
+                  'sriovLogicalPorts.' + row.key + '.receivedPackets'
                 ],
                 labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets')],
                 type: 'line'
@@ -194,9 +194,9 @@ export default connectTo(
                 min: 0,
                 formatter: number,
                 metrics: [
-                  'sriovLogicalPort.' + row.key + '.sentBytes',
-                  'sriovLogicalPort.' + row.key + '.receivedBytes',
-                  'sriovLogicalPort.' + row.key + '.transferredBytes'
+                  'sriovLogicalPorts.' + row.key + '.sentBytes',
+                  'sriovLogicalPorts.' + row.key + '.receivedBytes',
+                  'sriovLogicalPorts.' + row.key + '.transferredBytes'
                 ],
                 labels: [t('in-phmc:sentBytes'), t('in-phmc:recievedBytes'), t('in-phmc:transferredBytes')],
                 type: 'line'

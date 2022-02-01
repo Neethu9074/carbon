@@ -155,7 +155,10 @@ export default connectTo(
               y1={{
                 min: 0,
                 formatter: number,
-                metrics: ['fiberChannelAdapter.' + row.key + '.reads', 'fiberChannelAdapter.' + row.key + '.writes'],
+                metrics: [
+                  'fiberChannelAdapters.' + row.key + '.numOfReads',
+                  'fiberChannelAdapters.' + row.key + '.numOfWrites'
+                ],
                 labels: [t('in-phmc:reads'), t('in-phmc:writes')],
                 type: 'line'
               }}
@@ -170,9 +173,9 @@ export default connectTo(
                 min: 0,
                 formatter: bytes.compact,
                 metrics: [
-                  'fiberChannelAdapter.' + row.key + '.readBytes',
-                  'fiberChannelAdapter.' + row.key + '.writeBytes',
-                  'fiberChannelAdapter.' + row.key + '.transmittedBytes'
+                  'fiberChannelAdapters.' + row.key + '.readBytes',
+                  'fiberChannelAdapters.' + row.key + '.writeBytes',
+                  'fiberChannelAdapters.' + row.key + '.transmittedBytes'
                 ],
                 labels: [t('in-phmc:readBytes'), t('in-phmc:writeBytes'), t('in-phmc:transmittedBytes')],
                 type: 'line'
