@@ -78,7 +78,7 @@
   "physicalPortId": "Physical Port ID",
   "physicalLocation":"Physical Location",
   "uuid": "UUID",
-  "powerConsumption": "Power Consumption",
+  "powerConsumption": "Power Consumption (Watt)",
   "powerUtilization": "Power Utilization",
   "sampleType": "Sample Type",
   "entityId": "Entity ID",

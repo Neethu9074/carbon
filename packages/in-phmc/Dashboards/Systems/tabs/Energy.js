@@ -24,7 +24,7 @@ export default function Energy({ timeConfig, data: system }) {
   const snapshotId = system.id;
   return (
     <Fragment>
-      <KpiGridRow sizes={[2, 2, 2, 2, 2]}>
+      <KpiGridRow sizes={[2, 3, 2, 3, 2]}>
         <KpiCard title={t('in-phmc:uuid')} value={system.energy.uuid || valueMissingPlaceholder} raw borderless />
         <InfraMetricKpiCard
           title={t('in-phmc:powerConsumption')}
