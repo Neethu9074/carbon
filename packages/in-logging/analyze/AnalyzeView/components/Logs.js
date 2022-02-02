@@ -62,6 +62,18 @@ export default function Logs(props) {
 
   const selectedWasOpened = useRef(false);
 
+  const initiallyToggled = props.selectedId !== undefined ? [props.selectedId] : [];
+  const toggledEntries = useRef(new Set(initiallyToggled));
+
+  function onToggleHandler(toggled, item) {
+    const itemId = getItemId(item);
+    if (toggled) {
+      toggledEntries.current.add(itemId);
+    } else {
+      toggledEntries.current.delete(itemId);
+    }
+  }
+
   let content = (
     <UngroupedViewList
       {...props}
@@ -71,7 +83,7 @@ export default function Logs(props) {
       classNames={{ listItem: locals.listItem }}
       columnDefinitions={columnDefinitions}
       getData={params => getTableData(params)}
-      getId={item => item.itemId}
+      getId={getItemId}
       withoutListItemLinkToDetails
       DetailView={DetailView}
       getDetailData={detailId => getLog({ itemId: detailId })}
@@ -79,6 +91,8 @@ export default function Logs(props) {
       withCountHeader={false}
       withoutHeader={false}
       CustomHeaderActions={CustomHeaderActions}
+      initiallyOpenedItemIds={[...toggledEntries.current]}
+      onToggleContentRow={onToggleHandler}
       renderNestedContent={(_, item) =>
         scrollIntoViewIfSelected(
           ref => (
@@ -151,4 +165,8 @@ function getTagExpressionWithTag(tag) {
     type: TAG,
     operator: EQUALS
   };
+}
+
+function getItemId(item) {
+  return item.itemId;
 }

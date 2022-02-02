@@ -157,7 +157,6 @@ function TagEntry({
   getHrefToGroupedView
 }: TagEntryProps) {
   const [isHovered, setIsHovered] = useState(false);
-
   return (
     <Li
       className={locals.li}
