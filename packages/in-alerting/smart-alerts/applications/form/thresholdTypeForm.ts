@@ -19,6 +19,7 @@ import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thre
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { perEntityAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { AlertEvaluationType, ThresholdType } from 'in-types';
 
 export function onThresholdTypeChange(
@@ -53,21 +54,27 @@ export function onThresholdTypeChange(
 
   if (updatedThresholdType === ADAPTIVE_BASELINE) {
     // resetting granularity and timeThreshold when threshold type is switched to adaptive-baseline
-    updatedForm = updatedForm
-      .put(
-        'timeThreshold',
-        createViolationsInSequenceForm(
-          {
-            timeWindow: defaultAdaptiveBaselineTimeWindow,
-            type: 'violationsInSequence'
-          },
-          ADAPTIVE_BASELINE
-        )
+    updatedForm = updatedForm.put(
+      'timeThreshold',
+      createViolationsInSequenceForm(
+        {
+          timeWindow: defaultAdaptiveBaselineTimeWindow,
+          type: 'violationsInSequence'
+        },
+        ADAPTIVE_BASELINE
       )
-      .updateIn(['evaluationType'], f => (f as Field<AlertEvaluationType>).setValue(PER_AP).setTouched(true))
-      .updateIn(['granularity'], f =>
-        (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
+    );
+
+    if (!perEntityAdaptiveBaselineEnabled) {
+      // reset if there is only PER_AP supported
+      updatedForm = updatedForm.updateIn(['evaluationType'], f =>
+        (f as Field<AlertEvaluationType>).setValue(PER_AP).setTouched(true)
       );
+    }
+
+    updatedForm = updatedForm.updateIn(['granularity'], f =>
+      (f as Field<number>).setValue(defaultAdaptiveBaselineGranularity).setTouched(true)
+    );
   }
 
   updateForm(updatedForm);
