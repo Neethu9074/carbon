@@ -73,38 +73,39 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
 }
 
 function getSubtitle(rule, threshold) {
-  const { alertType, aggregation, metricName } = rule;
+  const { alertType, aggregation } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
-  const metricLabel = blueprintConfig.getMetricLabel(metricName);
+  const metricLabel = blueprintConfig.getMetricLabel();
+  const formattedMetricLabel =
+    alertType === 'slowness' ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 
   const { operator, seasonality, type, value } = threshold;
   if (type === STATIC_THRESHOLD) {
-    const metricFormat = blueprintConfig.getMetricFormat(metricName);
-    let formattedValue = metricFormat.compact(value);
+    const metricFormat = blueprintConfig.getMetricFormat();
+    const formattedValue = metricFormat.compact(value);
     return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticThreshold', {
-      metricLabel: metricLabel,
-      operator: operator,
+      metricLabel: formattedMetricLabel,
+      operator,
       value: formattedValue
     });
   }
 
   if (type === ADAPTIVE_BASELINE) {
     return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForAdaptiveThreshold', {
-      metricLabel: metricLabel,
-      aggregation: getAggregationText(aggregation)
+      metricLabel: formattedMetricLabel
     });
   }
 
   if (type === HISTORIC_BASELINE) {
     if (seasonality === DAILY) {
       return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticDailySeasonality', {
-        metricLabel: metricLabel,
+        metricLabel: formattedMetricLabel,
         aggregation: getAggregationText(aggregation)
       });
     }
 
     return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticWeeklySeasonality', {
-      metricLabel: metricLabel,
+      metricLabel: formattedMetricLabel,
       aggregation: getAggregationText(aggregation)
     });
   }
@@ -112,7 +113,7 @@ function getSubtitle(rule, threshold) {
   // Simple fallback, should not be needed, except when there was no type
   return t('in-alerting:smartAlerts.applications.inventory.getSubtitle', {
     blueprintConfigName: blueprintConfig.name,
-    metricLabel: metricLabel
+    metricLabel: formattedMetricLabel
   });
 }
 

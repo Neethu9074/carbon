@@ -468,7 +468,7 @@
         "getSubtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
         "getSubtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
-        "getSubtitleForAdaptiveThreshold": "Adaptive Baseline, {{metricLabel}} ({{aggregation}})",
+        "getSubtitleForAdaptiveThreshold": "Adaptive Baseline, {{metricLabel}}",
         "labelActionButtonEdit": "Edit",
         "labelActionButtonDuplicate": "Duplicate",
         "labelActionButtonDelete": "Delete",
