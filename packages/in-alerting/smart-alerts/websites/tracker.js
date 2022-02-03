@@ -15,6 +15,7 @@ import {
   WEBSITES_ALERTING_THRESHOLD_METRIC_CHANGED,
   WEBSITES_ALERTING_THRESHOLD_OPERATOR_CHANGED,
   WEBSITES_ALERTING_THRESHOLD_VALUE_CHANGED,
+  WEBSITES_ALERTING_THRESHOLD_TYPE_HELP_ICON_HOVERED,
   WEBSITES_ALERTING_AGGREGATION_CHANGED,
   WEBSITES_ALERTING_THRESHOLD_TYPE_CHANGED,
   WEBSITES_ALERTING_FILTER_ADD,
@@ -60,6 +61,8 @@ export const websitesAlertingThresholdOperatorChanged = e => track(WEBSITES_ALER
 export const websitesAlertingThresholdValueChanged = e => track(WEBSITES_ALERTING_THRESHOLD_VALUE_CHANGED, e);
 export const websitesAlertingAggregationChanged = e => track(WEBSITES_ALERTING_AGGREGATION_CHANGED, e);
 export const websitesAlertingThresholdTypeChanged = e => track(WEBSITES_ALERTING_THRESHOLD_TYPE_CHANGED, e);
+export const websitesAlertingThresholdTypeHelpIconHovered = e =>
+  track(WEBSITES_ALERTING_THRESHOLD_TYPE_HELP_ICON_HOVERED, e);
 export const websitesAlertingThresholdDeviationFactorChanged = e =>
   track(WEBSITES_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED, e);
 export const websitesAlertingFilterAdd = e => track(WEBSITES_ALERTING_FILTER_ADD, e);

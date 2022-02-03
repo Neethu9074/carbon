@@ -167,7 +167,7 @@
             "description": "Modifying boundary scope would reset application selection.",
             "confirmButtonLabel": "Confirm"
           }
-        }   ,
+        },
         "staticOrAdaptive": {
           "config": {
             "static": {
@@ -507,7 +507,7 @@
       "ruleAggregationOptionP25": "25th",
       "ruleAggregationOptionP50": "50th",
       "ruleAggregationOptionP75": "75th",
-      "ruleAggregationOptionP90": "90th (recommended)",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "95th",
       "ruleAggregationOptionP98": "98th",
       "ruleAggregationOptionP99": "99th",
@@ -616,10 +616,11 @@
         "sensitivitySliderHigh": "high",
         "labelThreshold": "Threshold",
         "labelSensitivity": "Sensitivity",
+        "staticThresholdTypeOptionsTooltip": "A Static Daily / Weekly Threshold is a time dependent threshold based on historical data. The threshold does not change automatically and can be manually recalculated if required.",
         "thresholdTypeOptionStaticThreshold": "Static Threshold",
-        "thresholdTypeOptionHistoricBaselineDaily": "Baseline (Daily Seasonality)",
-        "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (Weekly Seasonality)",
-        "thresholdTypeOptionAdaptiveBaseline": "Adaptive baseline",
+        "thresholdTypeOptionHistoricBaselineDaily": "Static Daily Seasonality",
+        "thresholdTypeOptionHistoricBaselineWeekly": "Static Weekly Seasonality",
+        "thresholdTypeOptionAdaptiveBaseline": "Adaptive Threshold",
         "useSuggestedvalue": "Use suggested value",
         "loadingThresholdSuggestion": "Loading threshold suggestion",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Edit Smart Alert",

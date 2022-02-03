@@ -6,6 +6,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Stack, Spacer } from '@instana/components';
+
 import {
   getAvailableOptionsForEvaluationType,
   optionsValidForThresholdTyp
@@ -13,9 +15,11 @@ import {
 import ShowStaticThresholdLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowStaticThresholdLabelOrDropdown';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
+import { applicationsAlertingThresholdTypeHelpIconHovered } from 'in-alerting/smart-alerts/applications/tracker';
+import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ThresholdTypesHelp';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
+import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import Dropdown from 'in-alerting/components/Dropdown';
 
 export default function ThresholdTypeSelection({
@@ -23,6 +27,8 @@ export default function ThresholdTypeSelection({
   updateForm,
   editMode,
   isGlobalSmartAlert,
+  showThresholdsHint,
+  blueprintType,
   trackThresholdTypeChanged,
   thresholdTypeOptions
 }) {
@@ -31,6 +37,7 @@ export default function ThresholdTypeSelection({
   const options = getAvailableOptionsForEvaluationType(thresholdTypeOptions, evaluationType, isGlobalSmartAlert).filter(
     optionsValidForThresholdTyp(thresholdType)
   );
+
   return (
     <ShowStaticThresholdLabelOrDropdown evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert}>
       {options.length === 1 ? (
@@ -45,9 +52,17 @@ export default function ThresholdTypeSelection({
           }}
         />
       )}
-      {thresholdType === HISTORIC_BASELINE && (
-        <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
-      )}
+      <Spacer vertical size="xxsmall" />
+      <Stack space="xxsmall" align="center" direction="horizontal">
+        {options.length > 1 && showThresholdsHint && thresholdType !== ADAPTIVE_BASELINE && (
+          <ThresholdTypesHelp
+            trackHover={() => applicationsAlertingThresholdTypeHelpIconHovered({ blueprintType, thresholdType })}
+          />
+        )}
+        {thresholdType === HISTORIC_BASELINE && (
+          <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+        )}
+      </Stack>
     </ShowStaticThresholdLabelOrDropdown>
   );
 }
@@ -56,6 +71,9 @@ ThresholdTypeSelection.propTypes = {
   editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
   isGlobalSmartAlert: PropTypes.bool,
+  showThresholdsHint: PropTypes.bool,
+  /** optional, only used when tracking the hovering of the help icon */
+  blueprintType: PropTypes.string,
   thresholdTypeOptions: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string.isRequired,

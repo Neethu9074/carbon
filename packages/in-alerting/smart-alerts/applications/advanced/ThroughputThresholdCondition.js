@@ -69,6 +69,8 @@ export default function ThroughputThresholdCondition({
               thresholdType={thresholdType}
               thresholdTypeOptions={thresholdTypeOptions}
               isGlobalSmartAlert={isGlobalSmartAlert}
+              blueprintType={blueprintConfig.type}
+              showThresholdsHint
             />
           </>
         )}

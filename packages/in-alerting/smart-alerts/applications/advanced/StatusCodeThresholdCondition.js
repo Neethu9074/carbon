@@ -67,6 +67,8 @@ export default function StatusCodeThresholdCondition({
               thresholdType={thresholdType}
               thresholdTypeOptions={thresholdTypeOptions}
               isGlobalSmartAlert={isGlobalSmartAlert}
+              blueprintType={blueprintConfig.type}
+              showThresholdsHint
             />
           </>
         )}

@@ -82,6 +82,8 @@ export default function SlownessThresholdCondition({
               thresholdType={thresholdType}
               thresholdTypeOptions={thresholdTypeOptions}
               isGlobalSmartAlert={isGlobalSmartAlert}
+              blueprintType={blueprintConfig.type}
+              showThresholdsHint
             />
           </>
         )}
