@@ -21,6 +21,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
     "alertHeaderAriaLabelSeverity": "Event has severity {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alerts Created ({{totalRepresentedItemCount}})",
+    "alertStateActive": "active",
     "alertPropertyInfosLabelTitle": "Title",
     "alertPropertyInfosLabelAlertLevel": "Alert Level",
     "alertPropertyInfosLabelTriggersIncident": "Triggers Incident",
