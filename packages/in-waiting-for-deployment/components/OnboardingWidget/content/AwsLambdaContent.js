@@ -65,7 +65,7 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
   const nodejsLayerArn = useLambdaLayerVersionObservable('instana-nodejs', nodejsLayerVersionFallback);
   const pythonLayerVersion = '27';
   const pythonLayerArn = useLambdaLayerVersionObservable('instana-python', pythonLayerVersion);
-  const javaLayerVersion = '25';
+  const javaLayerVersion = '36';
   const javaLayerArn = useLambdaLayerVersionObservable('instana-java', javaLayerVersion);
 
   if (selectedRuntime === runtimeOptions[0]) {
