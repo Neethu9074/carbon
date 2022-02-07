@@ -11,6 +11,7 @@ import UngroupedView, { retrievalSize } from 'in-components/AnalyzeView/Ungroupe
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { number } from 'in-services/formatters/number';
 import { scrollToTop } from 'in-services/util/dom';
 import { t } from 'in-i18n';
 
@@ -117,8 +118,8 @@ function Table(props) {
             lines={[t('in-components:approximateDataIndicator.dataRetention')]}
             iconSize="s"
             label={t('in-components:approximateDataIndicator.retainedLabel', {
-              totalHits: props.totalHits,
-              representedHits: props.totalRepresentedItemCount
+              totalHits: number.compact(props.totalHits),
+              representedHits: number.compact(props.totalRepresentedItemCount)
             })}
           />
         </div>
