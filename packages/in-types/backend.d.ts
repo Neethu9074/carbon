@@ -46,6 +46,12 @@ export interface AbstractRule {
   readonly severity: number;
 }
 
+export interface AbstractSliConfiguration {
+  readonly metricConfiguration?: SliConfigMetricConfiguration;
+  readonly sliEntity: SliEntity;
+  readonly sliName: string;
+}
+
 export interface AbstractThresholdSuggestionQuery extends ThresholdSuggestionQuery, UiQuery {
   readonly operator: ThresholdOperator;
   readonly rbacRestrictions?: any;
@@ -548,9 +554,6 @@ export interface DatabaseStatementTopListItem extends Metricific {
   readonly metricValue?: number;
   readonly metrics: { [index: string]: number[][] };
   readonly statement: string;
-}
-
-export interface Default {
 }
 
 export interface DefaultComparator extends Comparator<any> {
@@ -3043,9 +3046,6 @@ export interface NewApplicationConfigWithAlertingDetails extends NewApplicationC
   readonly builtInAlertIds: string[];
 }
 
-export interface NoId extends Default {
-}
-
 export interface OperatingSystem {
   readonly name: string;
   readonly version?: string;
@@ -3499,12 +3499,12 @@ export interface SliConfigMetricConfiguration {
   readonly threshold: number;
 }
 
-export interface SliConfiguration {
+export interface SliConfiguration extends AbstractSliConfiguration {
   readonly id: string;
   readonly initialEvaluationTimestamp: number;
-  readonly metricConfiguration?: SliConfigMetricConfiguration;
-  readonly sliEntity: SliEntity;
-  readonly sliName: string;
+}
+
+export interface SliConfigurationInput extends AbstractSliConfiguration {
 }
 
 export interface SliConfigurationWithLastUpdated extends SliConfiguration {
@@ -4502,9 +4502,6 @@ export interface WindowWidthBreakdown {
   readonly minWindowWidth: number;
   readonly pageLoads: number;
   readonly users: number;
-}
-
-export interface WithId extends Default {
 }
 
 export interface WithResolvedName extends Author {
