@@ -117,7 +117,7 @@ function getConfiguredSlis() {
     http<SliConfigurationWithLastUpdated[]>({
       method: 'GET',
       maxRetries: 3,
-      url: '/api/settings/sli',
+      url: '/api/settings/v2/sli',
       mapToResultObject: true
     })
   );
@@ -132,7 +132,7 @@ export const getSliConfigurationsByEntity = memoize<
       return http<SliConfigurationWithLastUpdated[]>({
         method: 'GET',
         maxRetries: 3,
-        url: `/api/settings/sli/${entityType}/${entityId}`,
+        url: `/api/settings/v2/sli/${entityType}/${entityId}`,
         mapToResultObject: true
       });
     }),
@@ -150,7 +150,7 @@ function getConfiguredSliById(sliConfigId: string) {
     http<SliConfigurationWithLastUpdated>({
       method: 'GET',
       maxRetries: 3,
-      url: `/api/settings/sli/${encodeURIComponent(sliConfigId)}`,
+      url: `/api/settings/v2/sli/${encodeURIComponent(sliConfigId)}`,
       headers: getCsrfHeader(),
       mapToResultObject: true
     })
@@ -163,7 +163,7 @@ export function createSliConfiguration(
   return http<SliConfigurationWithLastUpdated>({
     method: 'POST',
     maxRetries: 3,
-    url: `/api/settings/sli`,
+    url: `/api/settings/v2/sli`,
     headers: getCsrfHeader(),
     data: sliConfiguration
   }).map(res => {
@@ -178,7 +178,7 @@ export function deleteSliConfiguration(id: string): Observable<true> {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/settings/sli/${encodeURIComponent(id)}`,
+    url: `/api/settings/v2/sli/${encodeURIComponent(id)}`,
     headers: getCsrfHeader()
   }).map(() => {
     refreshSignalSlis.emit(id);

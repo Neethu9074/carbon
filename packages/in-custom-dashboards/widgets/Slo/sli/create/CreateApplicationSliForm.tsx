@@ -6,7 +6,6 @@
 import { Field, Item, MapForm } from 'formalistic';
 import React, { useState } from 'react';
 
-import { generateUniqueShortId } from '@instana/utils';
 import { Observable } from '@instana/observables';
 
 import {
@@ -92,8 +91,7 @@ function CreateApplicationSliFormComponent({
       filterExpressionValid={filterExpressionValid}
       onSubmit={submittedFormData =>
         createSliConfiguration({
-          ...toBackendFormat(submittedFormData),
-          id: generateUniqueShortId(9)
+          ...toBackendFormat(submittedFormData)
         })
       }
     >

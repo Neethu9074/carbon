@@ -10,7 +10,8 @@ import {
   SliConfiguration,
   SliEntity,
   WebsiteTimeBasedSliEntity,
-  WebsiteSliEntity
+  WebsiteSliEntity,
+  SliConfigurationInput
 } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -68,10 +69,10 @@ export interface SliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntity> extend
   readonly sliEntity: SLI_ENTITY_TYPE;
 }
 
-export type NewSliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntity> = Omit<
-  SliConfig<SLI_ENTITY_TYPE>,
-  'initialEvaluationTimestamp'
->;
+export interface NewSliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntity>
+  extends Omit<SliConfigurationInput, 'sliEntity'> {
+  readonly sliEntity: SLI_ENTITY_TYPE;
+}
 
 export type SliEntityType =
   | typeof applicationType

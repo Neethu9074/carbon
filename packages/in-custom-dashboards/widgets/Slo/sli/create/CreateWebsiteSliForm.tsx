@@ -6,8 +6,6 @@
 import React, { useState } from 'react';
 import { Item } from 'formalistic';
 
-import { generateUniqueShortId } from '@instana/utils';
-
 import {
   CombinedWebsiteSliEntity,
   isWebsiteEventBasedSliEntity,
@@ -81,8 +79,7 @@ function CreateWebsiteSliFormComponent({
       filterExpressionValid={filterExpressionValid}
       onSubmit={submittedFormData =>
         createSliConfiguration({
-          ...toBackendFormat(submittedFormData),
-          id: generateUniqueShortId(9)
+          ...toBackendFormat(submittedFormData)
         })
       }
     >
