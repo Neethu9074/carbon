@@ -284,15 +284,13 @@ export default [
   },
   {
     metrics: [
-      'dbmconfigusage.omsCons',
-      'dbmconfigusage.omsConsExec',
+      'dbmconfigusage.totalConnections',
       'dbmconfigusage.agentHighWmark',
       'dbmconfigusage.coordAgentsHighWmark',
       'dbmconfigusage.agentCreatedVSReused'
     ],
     labels: [
-      t('in-forge:plugins.db2Database.omsCons'),
-      t('in-forge:plugins.db2Database.omsConsExec'),
+      t('in-forge:plugins.db2Database.totalConnections'),
       t('in-forge:plugins.db2Database.agentHighWmark'),
       t('in-forge:plugins.db2Database.coordAgentsHighWmark'),
       t('in-forge:plugins.db2Database.agentCreatedVSReused')
