@@ -4,9 +4,8 @@
  */
 
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import React, { useMemo, useState } from 'react';
 import classNames from 'classnames';
-import { useMemo } from 'react';
-import React from 'react';
 
 import { Button, SvgIcon } from '@instana/components';
 
@@ -168,8 +167,11 @@ function Header() {
 }
 
 const Content = function Content({ itemOrder, applicationId, width }) {
+  const [internalItemOrder, setItemOrder] = useState(itemOrder);
+
   const setNewItemOrder = items => {
     setSingle(settingsKey, { ordering: items.map(({ id }, i) => ({ id, x: 0, y: i * 10 })) });
+    setItemOrder(items);
   };
 
   const renderNavigation = width > 1200;
@@ -192,16 +194,16 @@ const Content = function Content({ itemOrder, applicationId, width }) {
                 return;
               }
 
-              const copiedItems = itemOrder.slice();
-              copiedItems[source.index] = itemOrder[destination.index];
-              copiedItems[destination.index] = itemOrder[source.index];
+              const copiedItems = internalItemOrder.slice();
+              copiedItems[source.index] = internalItemOrder[destination.index];
+              copiedItems[destination.index] = internalItemOrder[source.index];
               setNewItemOrder(copiedItems);
             }}
           >
             <Droppable droppableId="droppable">
               {provided => (
                 <div ref={provided.innerRef}>
-                  {itemOrder.map((_config, i) => {
+                  {internalItemOrder.map((_config, i) => {
                     const Widget = LUT[_config.id];
                     if (!Widget) {
                       return null;
