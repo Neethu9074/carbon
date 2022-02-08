@@ -14,34 +14,21 @@ const getUnifiedMetricsInternal = createResultSubscriptionFactory<GetUnifiedMetr
   trackSubscriptionStatistics: true
 });
 
-export default function getUnifiedMetrics(
-  { metrics }: GetUnifiedMetricsQuery,
-  bulkRequest = false
-): Observable<Result<MetricResult[]>> {
-  const observables = [];
-
-  if (bulkRequest) {
-    if (Object.keys(metrics).length > 0) {
-      observables.push(getUnifiedMetricsInternal({ metrics }));
-    }
-  } else {
-    // Split a single getUnifiedMetrics call into multiple subscriptions.
-    // Splitting the getUnifiedMetrics call into multiple subscriptions
-    // improves UI caching. Instead of caching one getUnifiedMetrics call
-    // for multiple metrics, we cache one getUnifiedMetrics for one metric.
-    //
-    // This in turn causes the caching to improve for scenarios where a
-    // subset of the metrics may change in response to user input.
-    for (const metricId of Object.keys(metrics)) {
-      observables.push(
-        getUnifiedMetricsInternal({
-          metrics: {
-            [metricId]: metrics[metricId]
-          }
-        })
-      );
-    }
-  }
+// Split a single getUnifiedMetrics call into multiple subscriptions.
+// Splitting the getUnifiedMetrics call into multiple subscriptions
+// improves UI caching. Instead of caching one getUnifiedMetrics call
+// for multiple metrics, we cache one getUnifiedMetrics for one metric.
+//
+// This in turn causes the caching to improve for scenarios where a
+// subset of the metrics may change in response to user input.
+export default function getUnifiedMetrics({ metrics }: GetUnifiedMetricsQuery): Observable<Result<MetricResult[]>> {
+  const observables = Object.keys(metrics).map(metricId =>
+    getUnifiedMetricsInternal({
+      metrics: {
+        [metricId]: metrics[metricId]
+      }
+    })
+  );
 
   return combineLatest(observables).map(mergeResults);
 }

@@ -63,7 +63,6 @@ export default function UnifiedMetricsChart({
   // configuration, e.g. list of groups for group charts. While this flag is set, no back-end queries should be executed
   // and a loading indicator should be displayed.
   forceLoadingIndicator = false,
-  bulkRequest = false,
   onApproximateDataChange = noop
 }) {
   config = useMemo(() => (forceLoadingIndicator ? null : duplicateTimeShiftComparedMetrics(config)), [
@@ -86,8 +85,7 @@ export default function UnifiedMetricsChart({
   const minimumGranularity = forceLoadingIndicator ? null : getMinGranularity(config, timeConfig);
   const granularity = forceLoadingIndicator ? null : Math.max(minimumGranularity, configuredGranularity);
   let result =
-    useResultData(config, granularity, timeConfigExtendedForLiveMode, forceLoadingIndicator, bulkRequest) ??
-    pendingResult;
+    useResultData(config, granularity, timeConfigExtendedForLiveMode, forceLoadingIndicator) ?? pendingResult;
   const renderErrorDetail = shouldRenderErrorDetail(config);
 
   // Transform result data structure into the structure expected by the chart
@@ -139,14 +137,13 @@ export default function UnifiedMetricsChart({
       renderPostChartContent={renderPostChartContent}
       cardUseMaxAvailableHeight={cardUseMaxAvailableHeight}
       excludedContextMenuActions={excludedContextMenuActions}
-      bulkRequest={bulkRequest}
       hasApproximateData={hasApproximateData}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
 }
 
-function useResultData(config, granularity, timeConfig, forceLoadingIndicator, bulkRequest) {
+function useResultData(config, granularity, timeConfig, forceLoadingIndicator) {
   const metrics = {};
   const resultType = forceLoadingIndicator
     ? null
@@ -184,7 +181,7 @@ function useResultData(config, granularity, timeConfig, forceLoadingIndicator, b
   const stableConfig = useStableObjectInstance(config);
 
   // do not execute the query while the parent component is still loading data for the chart configuration
-  return useObservable(() => (forceLoadingIndicator ? null : getUnifiedMetrics({ metrics }, bulkRequest)), [
+  return useObservable(() => (forceLoadingIndicator ? null : getUnifiedMetrics({ metrics })), [
     timeConfig,
     stableConfig,
     forceLoadingIndicator
