@@ -46,6 +46,12 @@ export interface AbstractRule {
   readonly severity: number;
 }
 
+export interface AbstractSliConfiguration {
+  readonly metricConfiguration?: SliConfigMetricConfiguration;
+  readonly sliEntity: SliEntity;
+  readonly sliName: string;
+}
+
 export interface AbstractThresholdSuggestionQuery extends ThresholdSuggestionQuery, UiQuery {
   readonly operator: ThresholdOperator;
   readonly rbacRestrictions?: any;
@@ -3493,12 +3499,12 @@ export interface SliConfigMetricConfiguration {
   readonly threshold: number;
 }
 
-export interface SliConfiguration {
+export interface SliConfiguration extends AbstractSliConfiguration {
   readonly id: string;
   readonly initialEvaluationTimestamp: number;
-  readonly metricConfiguration?: SliConfigMetricConfiguration;
-  readonly sliEntity: SliEntity;
-  readonly sliName: string;
+}
+
+export interface SliConfigurationInput extends AbstractSliConfiguration {
 }
 
 export interface SliConfigurationWithLastUpdated extends SliConfiguration {
@@ -4680,7 +4686,7 @@ export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISH
 
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
-export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
+export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'UNKNOWN';
 
 export type OrderDirection = 'ASC' | 'DESC';
 
