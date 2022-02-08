@@ -21,3 +21,8 @@ export interface TimeConfig {
   readonly focusedMoment?: number | null;
   readonly autoRefresh: boolean;
 }
+
+// Beacon types are serialized via their internal type field, and not by the enum value name.
+// Therefor we redefine the possible values to use the actual casing used in the api.
+// See: https://github.ibm.com/instana/backend/blob/251e4b43db264e43a72f53db8bcebb9172e12008/service-level-objectives/slo-shared/src/main/java/com/instana/slo/model/sli/WebsiteSliEntity.java#L78
+export type BeaconType = 'pageLoad' | 'resourceLoad' | 'httpRequest' | 'error' | 'custom' | 'pageChange';
