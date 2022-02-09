@@ -16,15 +16,15 @@ import locals from 'in-custom-dashboards/widgets/Slo/WidgetHeader.mless';
 
 interface WidgetHeaderProps {
   slo: number | '';
-  budget: number | undefined;
-  isDynamic: boolean;
-  isRolling: boolean;
+  budget?: number;
+  isDynamic?: boolean;
+  isRolling?: boolean;
   fromTimestamp: number;
   toTimestamp: number;
-  sliEntity: SliEntity;
-  metricSpent: number | undefined;
-  metricSli: number | undefined;
-  metricRemaining: number | undefined;
+  sliEntity?: SliEntity;
+  metricSpent?: number;
+  metricSli?: number;
+  metricRemaining?: number;
 }
 
 export function WidgetHeader({

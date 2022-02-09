@@ -116,6 +116,6 @@ export function getDefaultMetricEntityType<S extends MonitoringSource>(entityTyp
 export function getMetricOptions<S extends MonitoringSource, E extends MetricEntityType<S>>(
   entityType: S,
   metricEntityType: E
-): Record<MetricType<S, E>, MetricOption<S, E>> {
+): MetricOptions<S, E> {
   return metricOptions[entityType][metricEntityType];
 }

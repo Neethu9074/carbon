@@ -14,9 +14,9 @@ import SloEntityInfo from 'in-custom-dashboards/widgets/Slo/SloEntityInfo';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
 
 interface WidgetLeftHeaderProps {
-  sliConfig: SliConfig<CombinedSliEntity>;
+  sliConfig?: SliConfig<CombinedSliEntity>;
   monitoredEntityType: MonitoringSource;
-  monitoredEntity: SloEntity;
+  monitoredEntity?: SloEntity;
 }
 
 export default function WidgetLeftHeader({ sliConfig, monitoredEntityType, monitoredEntity }: WidgetLeftHeaderProps) {
