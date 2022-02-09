@@ -66,7 +66,7 @@ export default [
     formatter: bytes
   },
   {
-    metric: 'unreachableNodes',
+    metric: 'unreachableNodeCount',
     label: t('in-forge:plugins.cassandraCluster.labelUnreachable'),
     min: 0,
     formatter: number
