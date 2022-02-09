@@ -9,9 +9,23 @@ import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
 import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
 import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import { percentage } from 'in-services/formatters/number';
+import { SliEntity } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/WidgetHeader.mless';
+
+interface WidgetHeaderProps {
+  slo: number | '';
+  budget: number | undefined;
+  isDynamic: boolean;
+  isRolling: boolean;
+  fromTimestamp: number;
+  toTimestamp: number;
+  sliEntity: SliEntity;
+  metricSpent: number | undefined;
+  metricSli: number | undefined;
+  metricRemaining: number | undefined;
+}
 
 export function WidgetHeader({
   slo,
@@ -24,7 +38,7 @@ export function WidgetHeader({
   metricSpent: spent,
   metricSli: sli,
   metricRemaining: remaining
-}) {
+}: WidgetHeaderProps) {
   const sloSpent = slo != null && sli != null && sli < slo;
   const budgetSpent = remaining != null && remaining <= 0;
   const sliFormatter = getSliFormatter(sliEntity);
