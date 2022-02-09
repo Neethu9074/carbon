@@ -42,6 +42,10 @@ export interface MetricOption<S extends MonitoringSource, E extends MetricEntity
   readonly unitLabel: string;
   readonly type: 'rate' | 'count';
 }
+export type MetricOptions<S extends MonitoringSource, E extends MetricEntityType<S>> = Record<
+  MetricType<S, E>,
+  MetricOption<S, E>
+>;
 
 export type MetricEntityType<S extends MonitoringSource> = keyof typeof metricOptions[S];
 export type MetricType<S extends MonitoringSource, E extends MetricEntityType<S>> = keyof typeof metricOptions[S][E];

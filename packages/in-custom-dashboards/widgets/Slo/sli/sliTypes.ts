@@ -24,6 +24,8 @@ export type CombinedApplicationSliEntity = (ApplicationSliEntity | AvailabilityS
   Partial<ApplicationSliEntity & AvailabilitySliEntity>;
 export type CombinedWebsiteSliEntity = WebsiteSliEntity &
   Partial<WebsiteTimeBasedSliEntity & WebsiteEventBasedSliEntity>;
+export type CombinedSliEntity = (CombinedApplicationSliEntity | CombinedWebsiteSliEntity) &
+  Partial<CombinedApplicationSliEntity & CombinedWebsiteSliEntity>;
 
 export function isAvailabilitySliConfig(
   sliConfiguration: SliConfiguration

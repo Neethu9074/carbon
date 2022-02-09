@@ -45,7 +45,7 @@ type GetSuggestionLabel = (props: { item: string; tagName: string }) => string;
 
 interface QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS extends {} = {}> {
   value: FormModelElement[];
-  onChange: (formModel: FormModelElement[]) => void;
+  onChange?: (formModel: FormModelElement[]) => void;
   onError?: (props: { hasError: boolean; errors: string[] }) => void;
 
   getTagCatalog: GetTagCatalog;
@@ -62,6 +62,7 @@ interface QueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS extends {} = {}> {
   autoFocusInput?: boolean;
   withoutOrConjunction?: boolean;
   withoutBrackets?: boolean;
+  readOnly?: boolean;
 }
 
 type CreateQueryBuilderProps<ADDITIONAL_TAG_SUGGESTION_PROPS = {}> = Pick<
