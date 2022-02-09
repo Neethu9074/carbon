@@ -12,6 +12,7 @@ import alertEvaluationTypes from 'in-alerting/smart-alerts/applications/advanced
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/AlertConfiguration.mless';
 
@@ -43,17 +44,27 @@ export function AlertThresholdInfos({ ...props }) {
     <div className={locals.tilesRow}>
       <div className={locals.tile}>
         <KeyValue
-          label="Threshold Type" //
+          label={t('in-alerting:smartAlerts.details.thresholdTypeTitle')}
           value={thresholdTypeLabel}
           className={locals.keyValueExtraGap}
           multilineLabel
         />
       </div>
       <div className={locals.tile}>
-        <KeyValue label="Metric" value={formattedMetricLabel} className={locals.keyValueExtraGap} multilineLabel />
+        <KeyValue
+          label={t('in-alerting:smartAlerts.details.metricTitle')}
+          value={formattedMetricLabel}
+          className={locals.keyValueExtraGap}
+          multilineLabel
+        />
       </div>
       <div className={locals.tile}>
-        <KeyValue label="Entity" value={entityLabel} className={locals.keyValueExtraGap} multilineLabel />
+        <KeyValue
+          label={t('in-alerting:smartAlerts.details.entityTitle')}
+          value={entityLabel}
+          className={locals.keyValueExtraGap}
+          multilineLabel
+        />
       </div>
     </div>
   );

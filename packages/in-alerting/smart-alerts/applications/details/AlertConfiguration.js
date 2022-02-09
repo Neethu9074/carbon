@@ -45,7 +45,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
 
   const {
-    rule: { operator, alertType, message, level },
+    rule: { operator, alertType, message, level, aggregation },
     threshold,
     evaluationType,
     timeThreshold,
@@ -61,13 +61,13 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
     <AlertDetailsCard>
       <ListTitle>{t('in-alerting:smartAlerts.applications.alertConfiguration')} </ListTitle>
       <ExpandableLightCard
-        title={t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.detailsHeader')}
+        title={t('in-alerting:smartAlerts.details.header')}
         useMaxAvailableHeight={false}
         openByDefault
         bodyWithoutPadding
         darkFrame
       >
-        <AlertThresholdInfos threshold={threshold} evaluationType={evaluationType} rule={{ alertType }} />
+        <AlertThresholdInfos threshold={threshold} evaluationType={evaluationType} rule={{ alertType, aggregation }} />
       </ExpandableLightCard>
 
       <ChartViewConfiguratorWithEntitySelection

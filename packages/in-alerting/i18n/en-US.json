@@ -193,7 +193,6 @@
           "includeOnlySynthetic": "Include synthetic calls"
         },
         "advancedModeContainer": {
-          "detailsHeader": "Details",
           "scope": {
             "label": "Scope",
             "title": "Scope: Where is the condition happening?"
@@ -503,6 +502,10 @@
       }
     },
     "details": {
+      "header": "Details",
+      "thresholdTypeTitle" : "Threshold Type",
+      "metricTitle": "Metric",
+      "entityTitle": "Entity",
       "titleBuiltInIndicator": "Built-in"
     },
     "form": {
