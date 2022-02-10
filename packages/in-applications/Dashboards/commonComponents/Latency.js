@@ -10,8 +10,8 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -119,8 +119,7 @@ export default function Latency({
       {
         ...timeShiftMetricConfig,
         timeShift: timeShiftConfig.offset
-      },
-      // make sure the main metric renders over the time shifted metric
+      }, // make sure the main metric renders over the time shifted metric
       {
         ...timeShiftMetricConfig
       }
@@ -181,6 +180,7 @@ export default function Latency({
                   timeConfig: highlightedTime,
                   boundaryScope,
                   groupBy,
+                  orderByGroups: createOrderBy('latency_P50', 'DESC'),
                   formModel: createFormModelFromSyntheticOption(syntheticCalls),
                   hiddenCalls,
                   fields: getFields(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),

@@ -149,6 +149,7 @@ export default connectTo(
                     timeConfig,
                     boundaryScope,
                     groupBy: createGroupBy('endpoint.name', DESTINATION),
+                    orderByGroups: createOrderBy('errors_MEAN', 'DESC'),
                     formModel: joinExpressions({
                       expressions: [createFormModelFromSyntheticOption(syntheticCalls)]
                     }),

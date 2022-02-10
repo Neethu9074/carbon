@@ -10,10 +10,10 @@ import {
   createHiddenCallsFromSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -117,6 +117,7 @@ export default function Errors({
                   timeConfig: highlightedTime,
                   boundaryScope,
                   groupBy,
+                  orderByGroups: createOrderBy('errors_MEAN', 'DESC'),
                   formModel: joinExpressions({
                     expressions: [createFormModelFromSyntheticOption(syntheticCalls)]
                   }),
