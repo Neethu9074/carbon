@@ -505,7 +505,7 @@
       "header": "Details",
       "thresholdTypeTitle" : "Threshold Type",
       "metricTitle": "Metric",
-      "entityTitle": "Entity",
+      "entityTitle": "Scope",
       "titleBuiltInIndicator": "Built-in"
     },
     "form": {
