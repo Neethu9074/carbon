@@ -130,6 +130,7 @@
           "evaluationTypePERAP": {
             "selectionText": "for this Application Perspective",
             "globalSelectionText": "per Application Perspective",
+            "shortText": "Application Perspective",
             "columnText": "aggregated",
             "description": "Alert individually for this Application Perspective",
             "globalDescription": "Alert individually per Application Perspective"
@@ -137,6 +138,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per Service for this Application Perspective",
             "globalSelectionText": "per Service in the context of each Application Perspective",
+            "shortText": "Service",
             "columnText": "per Service",
             "description": "Alert individually per Service for this Application Perspective",
             "globalDescription": "Alert individually per Service in the context of each Application Perspective"
@@ -144,6 +146,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per Endpoint for this Application Perspective",
             "globalSelectionText": "per Endpoint in the context of each Application Perspective",
+            "shortText": "Endpoint",
             "columnText": "per Endpoint",
             "description": "Alert individually per Endpoint for this Application Perspective",
             "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective"
@@ -499,6 +502,10 @@
       }
     },
     "details": {
+      "header": "Details",
+      "thresholdTypeTitle" : "Threshold Type",
+      "metricTitle": "Metric",
+      "entityTitle": "Scope",
       "titleBuiltInIndicator": "Built-in"
     },
     "form": {

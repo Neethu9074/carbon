@@ -15,6 +15,7 @@ export type Info = {
   selectionText: string;
   globalSelectionText: string;
   columnText: string;
+  shortText: string;
   description: string;
   globalDescription: string;
   enabledForAdaptiveThreshold: boolean;
@@ -32,6 +33,7 @@ const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
     ),
     enabledForAdaptiveThreshold: true,
     columnText: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.columnText'),
+    shortText: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.shortText'),
     description: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.description'),
     globalDescription: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAP.globalDescription'
@@ -48,6 +50,7 @@ const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
     columnText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.columnText'
     ),
+    shortText: t('in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.shortText'),
     description: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPSERVICE.description'
     ),
@@ -65,6 +68,9 @@ const alertEvaluationTypes: AlertEvaluationInfos = Object.freeze({
     enabledForAdaptiveThreshold: perEntityAdaptiveBaselineEnabled,
     columnText: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.columnText'
+    ),
+    shortText: t(
+      'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.shortText'
     ),
     description: t(
       'in-alerting:smartAlerts.applications.advanced.evaluationSwitch.evaluationTypePERAPENDPOINT.description'
