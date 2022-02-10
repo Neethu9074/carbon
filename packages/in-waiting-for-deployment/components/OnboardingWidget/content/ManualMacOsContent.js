@@ -17,7 +17,7 @@ import {
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { t } from 'in-i18n';
 
-export default function ManualMacOsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
+export default function ManualMacOsContent({ butlerDomain, agentKey, downloadKey, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'mac', label: t('in-waiting-for-deployment:content.macOs64BitIntel') },
     { key: 'macStatic', label: t('in-waiting-for-deployment:content.macOs64BitIntelStatic') }
@@ -28,7 +28,7 @@ export default function ManualMacOsContent({ butlerDomain, agentKey, tenant, ten
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, downloadKey, option, butlerDomain)} />
       </Row>
       <HelpBox title={t('in-waiting-for-deployment:content.requiresAJava8Runtime')}>
         <Listing

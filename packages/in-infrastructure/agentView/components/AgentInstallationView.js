@@ -9,7 +9,7 @@ import { useObservable } from '@instana/hooks';
 
 import InstallDocumentation from 'in-waiting-for-deployment/components/OnboardingWidget/InstallDocumentation';
 import OnboardingWidget from 'in-waiting-for-deployment/components/OnboardingWidget/OnboardingWidget';
-import { getAgentKey } from 'in-api/agentKey';
+import { getUnitKeys } from 'in-api/unitKeys';
 import config from 'in-services/config';
 
 import locals from './AgentInstallationView.mless';
@@ -19,13 +19,14 @@ export default function AgentInstallationView() {
 }
 
 function Renderer(props) {
-  const agentKey = useObservable(getAgentKey(), []) ?? 'AGENT_KEY';
+  const unitKeys = useObservable(getUnitKeys(), []) ?? '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}';
 
   return (
     <div className={locals.wrapper}>
       <InstallDocumentation
         {...props}
-        agentKey={agentKey}
+        agentKey={unitKeys.agentKey}
+        downloadKey={unitKeys.downloadKey}
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}
         butlerDomain={config.butlerDomain}

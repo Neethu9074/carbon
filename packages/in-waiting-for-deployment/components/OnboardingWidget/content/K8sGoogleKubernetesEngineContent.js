@@ -15,7 +15,7 @@ import {
 import { Col, Row as GridRow } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-export default function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function K8sGoogleKubernetesEngineContent({ downloadKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <TextWithLink
@@ -42,7 +42,7 @@ export default function K8sGoogleKubernetesEngineContent({ agentKey, agentEndpoi
         </Col>
         <Col xs={4}>
           <Description lines={[t('in-waiting-for-deployment:content.instanaApplicationKey')]} />
-          <Script lines={[agentKey]} />
+          <Script lines={[downloadKey]} />
         </Col>
       </GridRow>
       <Spacer />

@@ -47,7 +47,7 @@ function validateNotEmpty(value, message) {
   return null;
 }
 
-export default function CfAndBoshContent({ agentKey, agentEndpoint }) {
+export default function CfAndBoshContent({ agentKey, downloadKey, agentEndpoint }) {
   return (
     <>
       <ValidatedInputFields
@@ -111,11 +111,11 @@ export default function CfAndBoshContent({ agentKey, agentEndpoint }) {
               <Description lines={[t('in-waiting-for-deployment:content.downloadTheFollowingBoshReleases')]} />
               <DownloadButton
                 title={t('in-waiting-for-deployment:content.downloadInstanaAgentRelease')}
-                href={`https://_:${agentKey}@artifact-public.instana.${instanaDomain}/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
+                href={`https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/shared/com/instana/bosh/agent-bosh/${agentReleaseVersion}/agent-bosh-${agentReleaseVersion}.tar.gz`}
               />
               <DownloadButton
                 title={t('in-waiting-for-deployment:content.downloadInstanaLeadershipElectionRelease')}
-                href={`https://_:${agentKey}@artifact-public.instana.${instanaDomain}/artifactory/shared/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
+                href={`https://_:${downloadKey}@artifact-public.instana.${instanaDomain}/artifactory/shared/com/instana/bosh/leadership-election/${agentReleaseVersion}/leadership-election-${agentReleaseVersion}.tar.gz`}
               />
               <Spacer />
               <Description

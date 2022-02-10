@@ -16,7 +16,7 @@ import {
 import { Col, Row as GridRow } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-export default function PcfContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function PcfContent({ agentKey, downloadKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <TextWithLink
@@ -37,17 +37,21 @@ export default function PcfContent({ agentKey, agentEndpoint, agentEndpointPort 
       />
       <Spacer />
       <GridRow>
-        <Col xs={4}>
+        <Col xs={6}>
           <Description lines={[t('in-waiting-for-deployment:content.endpointHost')]} />
           <Script lines={[agentEndpoint]} />
         </Col>
-        <Col xs={4}>
+        <Col xs={6}>
           <Description lines={[t('in-waiting-for-deployment:content.endpointPort')]} />
           <Script lines={[agentEndpointPort]} />
         </Col>
-        <Col xs={4}>
+        <Col xs={6}>
           <Description lines={[t('in-waiting-for-deployment:content.agentKey')]} />
           <Script lines={[agentKey]} />
+        </Col>
+        <Col xs={6}>
+          <Description lines={[t('in-waiting-for-deployment:content.downloadKey')]} />
+          <Script lines={[downloadKey]} />
         </Col>
       </GridRow>
       <Spacer />

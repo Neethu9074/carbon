@@ -27,7 +27,7 @@ import { t, Trans } from 'in-i18n';
 
 const lambdaLayerVersionApiBaseUrl = `https://lambda-layers.instana.${instanaDomain}`;
 
-export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
+export default function AwsLambdaContent({ agentKey, downloadKey, serverlessEndpoint }) {
   const runtimeOptions = [
     t('in-waiting-for-deployment:runtime.go'),
     t('in-waiting-for-deployment:runtime.java'),
@@ -87,13 +87,17 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
           ]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -169,6 +173,10 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
                   <Col xs={4}>
                     <Description lines={['INSTANA_AGENT_KEY']} />
                     <Script lines={[agentKey]} />
+                  </Col>
+                  <Col xs={4}>
+                    <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+                    <Script lines={[downloadKey]} />
                   </Col>
                   <Col xs={4}>
                     <Description lines={['JAVA_TOOL_OPTIONS']} />
@@ -457,15 +465,19 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
                 {t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInYourLambdaFunction')}
                 <Spacer />
                 <GridRow>
-                  <Col xs={4}>
+                  <Col xs={6}>
                     <Description lines={['INSTANA_ENDPOINT_URL']} />
                     <Script lines={[serverlessEndpoint]} />
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={6}>
                     <Description lines={['INSTANA_AGENT_KEY']} />
                     <Script lines={[agentKey]} />
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={6}>
+                    <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+                    <Script lines={[downloadKey]} />
+                  </Col>
+                  <Col xs={6}>
                     <Description lines={['LAMBDA_HANDLER']} />
                     <Script lines={[lambdaHandler]} />
                   </Col>
@@ -551,6 +563,10 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
           <Col xs={6}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
