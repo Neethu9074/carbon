@@ -16,28 +16,23 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/AlertConfiguration.mless';
 
-export function AlertThresholdInfos({ ...props }) {
-  const { threshold, rule, evaluationType } = props;
+export function AlertThresholdInfos({ threshold, rule, evaluationType }) {
   const { operator, type: thresholdType, seasonality, value } = threshold;
 
-  let thresholdAndSeasonality = thresholdType + (seasonality ? '.' + seasonality : '');
-
-  let thresholdTypeLabel = applicationThresholdTypeOptions.find(type => type.value === thresholdAndSeasonality)?.label;
+  const thresholdAndSeasonality = thresholdType + (seasonality ? '.' + seasonality : '');
+  const thresholdTypeLabel = applicationThresholdTypeOptions.find(type => type.value === thresholdAndSeasonality)
+    ?.label;
 
   const { alertType, aggregation } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
-
-  let formattedMetricLabel = blueprintConfig.getMetricLabel();
-
-  if (alertType === 'slowness') {
-    formattedMetricLabel += ` (${getAggregationText(aggregation)})`;
-  }
-
-  if (thresholdType === STATIC_THRESHOLD) {
-    const metricFormat = blueprintConfig.getMetricFormat();
-    const formattedValue = metricFormat.compact(value);
-    formattedMetricLabel += ` ${operator} ${formattedValue}`;
-  }
+  const formattedMetricLabel = createFormattedMetricLabel(
+    blueprintConfig,
+    alertType,
+    aggregation,
+    thresholdType,
+    value,
+    operator
+  );
 
   const entityLabel = alertEvaluationTypes[evaluationType]?.shortText;
   return (
@@ -68,4 +63,19 @@ export function AlertThresholdInfos({ ...props }) {
       </div>
     </div>
   );
+}
+
+function createFormattedMetricLabel(blueprintConfig, alertType, aggregation, thresholdType, value, operator) {
+  let formattedMetricLabel = blueprintConfig.getMetricLabel();
+
+  if (alertType === 'slowness') {
+    formattedMetricLabel += ` (${getAggregationText(aggregation)})`;
+  }
+
+  if (thresholdType === STATIC_THRESHOLD) {
+    const metricFormat = blueprintConfig.getMetricFormat();
+    const formattedValue = metricFormat.compact(value);
+    formattedMetricLabel += ` ${operator} ${formattedValue}`;
+  }
+  return formattedMetricLabel;
 }
