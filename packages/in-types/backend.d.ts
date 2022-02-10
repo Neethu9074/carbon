@@ -481,6 +481,7 @@ export interface CursorPaginatedResult<ITEM> {
   readonly items: ITEM[];
   readonly totalHits: number;
   readonly totalRepresentedItemCount: number;
+  readonly totalRetainedItemCount: number;
 }
 
 export interface CursorPaginatedWithNext<ITEM, CURSOR> {
