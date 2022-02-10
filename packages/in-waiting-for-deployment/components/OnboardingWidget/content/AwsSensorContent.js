@@ -159,6 +159,10 @@ export default function AwsSensorContent({ agentKey, downloadKey, agentEndpoint,
               value: agentKey
             },
             {
+              name: 'INSTANA_DOWNLOAD_KEY',
+              value: downloadKey
+            },
+            {
               name: 'INSTANA_AGENT_MODE',
               value: 'AWS'
             }

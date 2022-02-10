@@ -96,7 +96,7 @@ export default function AwsLambdaContent({ agentKey, downloadKey, serverlessEndp
             <Script lines={[agentKey]} />
           </Col>
           <Col xs={4}>
-            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
             <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
@@ -173,6 +173,10 @@ export default function AwsLambdaContent({ agentKey, downloadKey, serverlessEndp
                   <Col xs={4}>
                     <Description lines={['INSTANA_AGENT_KEY']} />
                     <Script lines={[agentKey]} />
+                  </Col>
+                  <Col xs={4}>
+                    <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+                    <Script lines={[downloadKey]} />
                   </Col>
                   <Col xs={4}>
                     <Description lines={['JAVA_TOOL_OPTIONS']} />
@@ -461,15 +465,19 @@ export default function AwsLambdaContent({ agentKey, downloadKey, serverlessEndp
                 {t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInYourLambdaFunction')}
                 <Spacer />
                 <GridRow>
-                  <Col xs={4}>
+                  <Col xs={6}>
                     <Description lines={['INSTANA_ENDPOINT_URL']} />
                     <Script lines={[serverlessEndpoint]} />
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={6}>
                     <Description lines={['INSTANA_AGENT_KEY']} />
                     <Script lines={[agentKey]} />
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={6}>
+                    <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+                    <Script lines={[downloadKey]} />
+                  </Col>
+                  <Col xs={6}>
                     <Description lines={['LAMBDA_HANDLER']} />
                     <Script lines={[lambdaHandler]} />
                   </Col>
@@ -555,6 +563,10 @@ export default function AwsLambdaContent({ agentKey, downloadKey, serverlessEndp
           <Col xs={6}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={6}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>

@@ -102,7 +102,7 @@ export default function AwsFargateContent({ agentKey, downloadKey, serverlessEnd
             )
           ]}
         />
-        <Bash lines={[`docker login containers.instana.${instanaDomain} --username _ --password ${agentKey}`]} />
+        <Bash lines={[`docker login containers.instana.${instanaDomain} --username _ --password ${downloadKey}`]} />
 
         <Spacer />
 
@@ -110,13 +110,17 @@ export default function AwsFargateContent({ agentKey, downloadKey, serverlessEnd
           lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
@@ -158,6 +162,10 @@ export default function AwsFargateContent({ agentKey, downloadKey, serverlessEnd
           <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
           <Col xs={4}>
             <Description lines={['DOTNET_STARTUP_HOOKS']} />
@@ -208,13 +216,17 @@ export default function AwsFargateContent({ agentKey, downloadKey, serverlessEnd
           lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>
