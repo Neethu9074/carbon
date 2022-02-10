@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useObservable } from '@instana/hooks';
 import { create } from '@instana/observables';
@@ -54,7 +54,8 @@ export default function LatencyDistributionBase10ChartPresenter({
   setApproximateData = noop
 }) {
   // which metrics to hide on the chart
-  const filteredDataSeries$ = create();
+  const filteredDataSeriesRef = useRef(create());
+  const filteredDataSeries$ = filteredDataSeriesRef.current;
   const [filteredDataSeries, setFilteredDataSeries] = useState(new Set([]));
 
   const [percentilesShown, setPercentilesShown] = useState(ALL_PERCENTILES);
@@ -178,21 +179,23 @@ export default function LatencyDistributionBase10ChartPresenter({
     enabledTimeShiftMetric ? getMaxCallCount(timeShiftBuckets) : 0
   );
 
-  const header = showHeader && (
+  const header = (showHeader || showPercentileMenu) && (
     <div className={locals.header}>
-      <div className={locals.titleWrapper}>
-        <span className={locals.title}>
-          {title} <span className={locals.aggregation}>({aggregation})</span>
-        </span>
-        {hasApproximateData && (
-          <MultiLineToolTipIcon
-            lines={[t('in-components:approximateDataIndicator.dataRetention')]}
-            withMargin
-            iconSize="xs"
-          />
-        )}
-      </div>
-      {showLegend && <ChartLegend chart={chartConfig} />}
+      {showHeader && (
+        <div className={locals.titleWrapper}>
+          <span className={locals.title}>
+            {title}
+            {aggregation && <span className={locals.aggregation}> ({aggregation})</span>}
+          </span>
+          {hasApproximateData && (
+            <MultiLineToolTipIcon
+              lines={[t('in-components:approximateDataIndicator.dataRetention')]}
+              withMargin
+              iconSize="xs"
+            />
+          )}
+        </div>
+      )}
       {showPercentileMenu && (
         <PercentileMenu
           percentilesShown={percentilesShown}
@@ -205,6 +208,7 @@ export default function LatencyDistributionBase10ChartPresenter({
   return (
     <>
       {header}
+      {showLegend && <ChartLegend chart={chartConfig} />}
       <div className={locals.container} style={{ width: chartWidth }}>
         {// for consistency with other charts hide the vertical axis when no metric is selected
         (enabledMetric || enabledTimeShiftMetric) && (
