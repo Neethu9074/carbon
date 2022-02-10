@@ -79,6 +79,11 @@ export interface AdaptiveBaselineSuggestionResponse extends ThresholdSuggestionR
   readonly message?: string;
 }
 
+export interface AdjustedTimeframe {
+  readonly to: number;
+  readonly windowSize: number;
+}
+
 export interface AgentMonitoringIssueWithSnapshot {
   readonly affectedEntityId: string;
   readonly affectedEntitySnapshot?: SnapshotPreview;
@@ -476,6 +481,7 @@ export interface CursorPaginatedResult<ITEM> {
   readonly items: ITEM[];
   readonly totalHits: number;
   readonly totalRepresentedItemCount: number;
+  readonly totalRetainedItemCount: number;
 }
 
 export interface CursorPaginatedWithNext<ITEM, CURSOR> {
@@ -2899,6 +2905,7 @@ export interface MetricQuery {
 }
 
 export interface MetricResult {
+  readonly adjustedTimeframe?: AdjustedTimeframe;
   readonly id: string;
   readonly resultPrecisionDetails?: ResultPrecisionDetails;
   readonly values: number[][];
