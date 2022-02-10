@@ -18,23 +18,15 @@ import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/share
 
 export function AlertThresholdInfos({ threshold, rule, evaluationType }) {
   const { operator, type: thresholdType, seasonality, value } = threshold;
+  const { alertType, aggregation } = rule;
 
   const thresholdAndSeasonality = thresholdType + (seasonality ? '.' + seasonality : '');
   const thresholdTypeLabel = applicationThresholdTypeOptions.find(type => type.value === thresholdAndSeasonality)
     ?.label;
 
-  const { alertType, aggregation } = rule;
-  const blueprintConfig = getBlueprintConfig(alertType);
-  const formattedMetricLabel = createFormattedMetricLabel(
-    blueprintConfig,
-    alertType,
-    aggregation,
-    thresholdType,
-    value,
-    operator
-  );
-
+  const formattedMetricLabel = createMetricLabel(alertType, aggregation, thresholdType, value, operator);
   const entityLabel = alertEvaluationTypes[evaluationType]?.shortText;
+
   return (
     <div className={locals.tilesRow}>
       <div className={locals.tile}>
@@ -65,7 +57,9 @@ export function AlertThresholdInfos({ threshold, rule, evaluationType }) {
   );
 }
 
-function createFormattedMetricLabel(blueprintConfig, alertType, aggregation, thresholdType, value, operator) {
+export function createMetricLabel(alertType, aggregation, thresholdType, value, operator) {
+  const blueprintConfig = getBlueprintConfig(alertType);
+
   let formattedMetricLabel = blueprintConfig.getMetricLabel();
 
   if (alertType === 'slowness') {
@@ -77,5 +71,6 @@ function createFormattedMetricLabel(blueprintConfig, alertType, aggregation, thr
     const formattedValue = metricFormat.compact(value);
     formattedMetricLabel += ` ${operator} ${formattedValue}`;
   }
+
   return formattedMetricLabel;
 }
