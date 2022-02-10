@@ -1,14 +1,14 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 import http from 'in-services/http';
 
-export function getAgentKey() {
+export function getUnitKeys() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/agentKey`
+    url: `/api/keys`
   }).map(response => response.body);
 }

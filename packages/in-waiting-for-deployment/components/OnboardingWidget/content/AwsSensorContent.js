@@ -18,7 +18,7 @@ import {
 import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import { t } from 'in-i18n';
 
-export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function AwsSensorContent({ agentKey, downloadKey, agentEndpoint, agentEndpointPort }) {
   const platformOptions = [t('in-waiting-for-deployment:content.ec2'), t('in-waiting-for-deployment:content.ecs')];
 
   const [selectedPlatform, setPlatform] = useState(platformOptions[0]);
@@ -117,7 +117,7 @@ export default function AwsSensorContent({ agentKey, agentEndpoint, agentEndpoin
           lines={[
             `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent`,
             'chmod 700 ./setup_agent.sh',
-            `sudo ./setup_agent.sh -y -a ${agentKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`
+            `sudo ./setup_agent.sh -y -a ${agentKey} -d ${downloadKey} -m aws -t dynamic -e ${agentEndpoint}:${agentEndpointPort} -s`
           ]}
         />
         <Spacer />

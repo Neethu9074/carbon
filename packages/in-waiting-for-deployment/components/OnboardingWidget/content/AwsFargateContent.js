@@ -21,7 +21,7 @@ import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWi
 import { Col, Row as GridRow } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
+export default function AwsFargateContent({ agentKey, downloadKey, serverlessEndpoint }) {
   const runtimeOptions = [
     t('in-waiting-for-deployment:runtime.go'),
     t('in-waiting-for-deployment:runtime.java'),
@@ -55,13 +55,17 @@ export default function AwsFargateContent({ agentKey, serverlessEndpoint }) {
           lines={[t('in-waiting-for-deployment:content.setTheFollowingEnvironmentVariablesInTheEcsTaskDefinition')]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>

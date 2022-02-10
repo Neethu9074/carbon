@@ -27,7 +27,7 @@ import { t, Trans } from 'in-i18n';
 
 const lambdaLayerVersionApiBaseUrl = `https://lambda-layers.instana.${instanaDomain}`;
 
-export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
+export default function AwsLambdaContent({ agentKey, downloadKey, serverlessEndpoint }) {
   const runtimeOptions = [
     t('in-waiting-for-deployment:runtime.go'),
     t('in-waiting-for-deployment:runtime.java'),
@@ -87,13 +87,17 @@ export default function AwsLambdaContent({ agentKey, serverlessEndpoint }) {
           ]}
         />
         <GridRow>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_ENDPOINT_URL']} />
             <Script lines={[serverlessEndpoint]} />
           </Col>
-          <Col xs={6}>
+          <Col xs={4}>
             <Description lines={['INSTANA_AGENT_KEY']} />
             <Script lines={[agentKey]} />
+          </Col>
+          <Col xs={4}>
+            <Description lines={['INSTANA_AGENT_KEY']} />
+            <Script lines={[downloadKey]} />
           </Col>
         </GridRow>
       </>

@@ -17,7 +17,7 @@ import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWi
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { t } from 'in-i18n';
 
-export default function GoogleComputeEngineContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function GoogleComputeEngineContent({ agentKey, downloadKey, agentEndpoint, agentEndpointPort }) {
   const agentModeOptions = ['dynamic', 'static'];
   const [agentMode, setAgentMode] = useState(agentModeOptions[0]);
 
@@ -76,7 +76,7 @@ export default function GoogleComputeEngineContent({ agentKey, agentEndpoint, ag
       />
       <Bash
         lines={[
-          `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -t ${
+          `curl -o setup_agent.sh https://setup.instana.${instanaDomain}/agent && chmod 700 ./setup_agent.sh && sudo apt-get install apt-transport-https ca-certificates && sudo ./setup_agent.sh -a ${agentKey} -d ${downloadKey} -t ${
             agentMode === 'dynamic' ? 'dynamic' : 'static'
           } -e ${agentEndpoint}:${agentEndpointPort} -s -y ${jvmVendor === jvmVendorOptions[0] ? '' : '-j'}`
         ]}

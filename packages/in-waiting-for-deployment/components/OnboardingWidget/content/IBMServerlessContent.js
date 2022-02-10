@@ -8,16 +8,20 @@ import React from 'react';
 import { Description, Script } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { Col, Row as GridRow } from 'in-components/layout/Grid';
 
-export default function IBMServerlessContent({ agentKey, serverlessEndpoint }) {
+export default function IBMServerlessContent({ agentKey, downloadKey, serverlessEndpoint }) {
   return (
     <GridRow>
-      <Col xs={6}>
+      <Col xs={4}>
         <Description lines={['INSTANA_ENDPOINT_URL']} />
         <Script lines={[serverlessEndpoint]} />
       </Col>
-      <Col xs={6}>
+      <Col xs={4}>
         <Description lines={['INSTANA_AGENT_KEY']} />
         <Script lines={[agentKey]} />
+      </Col>
+      <Col xs={4}>
+        <Description lines={['INSTANA_DOWNLOAD_KEY']} />
+        <Script lines={[downloadKey]} />
       </Col>
     </GridRow>
   );

@@ -18,7 +18,7 @@ import { getKubernetesYamlConfig } from 'in-waiting-for-deployment/components/On
 import { clusterNameValidator } from 'in-waiting-for-deployment/components/OnboardingWidget/content/validators';
 import { t } from 'in-i18n';
 
-export default function OpenShiftDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function OpenShiftDaemonSetContent({ agentKey, downloadKey, agentEndpoint, agentEndpointPort }) {
   const [zoneName, onZoneNameChange] = useState('');
 
   return (
@@ -46,6 +46,7 @@ export default function OpenShiftDaemonSetContent({ agentKey, agentEndpoint, age
             disabledErrorMessage={clusterNameValidationMessage}
             content={getKubernetesYamlConfig(
               agentKey,
+              downloadKey,
               agentEndpoint,
               agentEndpointPort,
               clusterName,

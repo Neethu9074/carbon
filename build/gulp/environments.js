@@ -36,6 +36,11 @@ exports = module.exports = {
     unit: 'release',
     baseDomain: 'instana.rocks'
   },
+  'K8s Release (acme)': {
+    tenant: 'acme',
+    unit: 'release',
+    baseDomain: 'instana.rocks'
+  },
   'K8s Staging (peach)': {
     tenant: 'instana',
     unit: 'staging',

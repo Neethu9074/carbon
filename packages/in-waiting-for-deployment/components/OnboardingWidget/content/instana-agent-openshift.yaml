@@ -27,7 +27,7 @@ metadata:
 type: Opaque
 data:
   key: ${agentKey}
-  downloadKey: ''
+  downloadKey: ${downloadKey}
 ---
 apiVersion: v1
 kind: ConfigMap

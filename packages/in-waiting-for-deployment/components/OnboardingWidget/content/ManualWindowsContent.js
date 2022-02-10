@@ -17,7 +17,7 @@ import {
 } from 'in-waiting-for-deployment/components/OnboardingWidget/contentComponents';
 import { t } from 'in-i18n';
 
-export default function ManualWindowsContent({ butlerDomain, agentKey, tenant, tenantUnit }) {
+export default function ManualWindowsContent({ butlerDomain, agentKey, downloadKey, tenant, tenantUnit }) {
   const agentOptions = [
     { key: 'win64', label: t('in-waiting-for-deployment:content.windowsZip64Bit') },
     { key: 'win32', label: t('in-waiting-for-deployment:content.windowsZip32Bit') },
@@ -30,7 +30,7 @@ export default function ManualWindowsContent({ butlerDomain, agentKey, tenant, t
     <>
       <Row>
         <DropDown value={option} options={agentOptions} onChange={setOption} />
-        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, option, butlerDomain)} />
+        <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, downloadKey, option, butlerDomain)} />
       </Row>
       <HelpBox title={t('in-waiting-for-deployment:content.requiresAJava8Runtime')}>
         <Listing

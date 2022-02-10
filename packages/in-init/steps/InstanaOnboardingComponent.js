@@ -13,7 +13,7 @@ import checkIfUserCanPass from 'in-init/steps/checkUserPass';
 import DialogPresenter from 'in-components/DialogPresenter';
 import ErrorBoundary from 'in-components/ErrorBoundary';
 import MessageFlyout from 'in-components/MessageFlyout';
-import { getAgentKey } from 'in-api/agentKey';
+import { getUnitKeys } from 'in-api/unitKeys';
 import config from 'in-services/config';
 import connect from 'in-hoc/connectTo';
 
@@ -23,10 +23,14 @@ export default compose(
     // users who ever had something monitoring can skip the dialog. Also engineers
     checkResult: result => checkIfUserCanPass(result.firstKnownReportingTime)
   }),
-  connect({ agentKey: getAgentKey() })
+  connect({ keys: getUnitKeys() })
 )(InstanaOnboardingComponent);
 
-function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey = 'AGENT_KEY' }) {
+function InstanaOnboardingComponent({
+  onDialogSkip,
+  apiCallSatisfied,
+  keys = '{agentKey:AGENT_KEY,downloadKey:DOWNLOAD_KEY}'
+}) {
   useDisabledBodyScroll();
 
   return (
@@ -39,7 +43,8 @@ function InstanaOnboardingComponent({ onDialogSkip, apiCallSatisfied, agentKey =
         isAgentDeployed={apiCallSatisfied}
         isBackendAvailable
         disableAwsSensorDocumentation
-        agentKey={agentKey}
+        agentKey={keys.agentKey}
+        downloadKey={keys.downloadKey}
         tenant={config.tenant}
         tenantUnit={config.tenantUnit}
         butlerDomain={config.butlerDomain}

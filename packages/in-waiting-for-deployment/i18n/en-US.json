@@ -207,6 +207,7 @@
     "endpointHost": "Endpoint host",
     "endpointPort": "Endpoint port",
     "agentKey": "Agent key",
+    "downlodaKey": "Download key",
     "finallyYouWillNeedToGiveYourVMwareTanzuFoundationANameForExampleProdEuOrDev01ViaTheAgentZoneSettingInTheAgentConfigurationTab": "Finally, you will need to give your VMware Tanzu foundation a name, for example \"prod-eu\" or \"dev01\", via the Agent Zone setting in the Agent Configuration tab.",
     "applyTheChangesIntroducedByTheInstanaMicroservicesApplicationMonitoringTileToAllTilesInTheOpsManagerTilesThatAreNotSelectedForTheApplyChangesStepInOpsManagerWillNotBeVisibleInInstana": "Apply the changes introduced by the \"Instana Microservices Application Monitoring\" tile to all tiles in the Ops Manager. Tiles that are not selected for the \"Apply changes\" step in Ops Manager will not be visible in Instana.",
     "supportedOpsManagerVersions": "Supported Ops Manager versions",
