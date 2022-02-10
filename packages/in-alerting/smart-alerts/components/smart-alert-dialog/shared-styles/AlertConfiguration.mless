@@ -25,11 +25,10 @@
   }
 
   .tilesRow {
-    padding: 1rem 1rem;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: 0.5rem; // minimal gap
+    gap: 0.5rem; // a minimal horizontal gap
     justify-content: space-between;
   }
 

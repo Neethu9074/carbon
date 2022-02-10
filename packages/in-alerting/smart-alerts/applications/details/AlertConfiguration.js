@@ -64,7 +64,6 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
         title={t('in-alerting:smartAlerts.details.header')}
         useMaxAvailableHeight={false}
         openByDefault
-        bodyWithoutPadding
         darkFrame
       >
         <AlertThresholdInfos threshold={threshold} evaluationType={evaluationType} rule={{ alertType, aggregation }} />
