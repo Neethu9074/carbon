@@ -173,5 +173,37 @@ export default {
     },
     explanationLinkLabel: t('in-forge:plugins.apmProxy.troubleShootingDocs'),
     explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-integrating-apm-v8#other-exception`
+  },
+  agent_tls_cert_expired: {
+    issueDescription: {
+      Component: function agentTlsCertExpired({ context, cert}) {
+        return (
+          <span>
+            <Trans
+              i18nKey="in-forge:plugins.instanaAgent.agentTlsExpired"
+              values={{ context, cert }}
+            />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=agent-host-configuration`
+  },
+  agent_tls_cert_about_to_expire: {
+    issueDescription: {
+      Component: function agentTlsCertAboutToExpire({ context, cert }) {
+        return (
+          <span>
+            <Trans
+              i18nKey="in-forge:plugins.instanaAgent.agentTlsAboutToExpire"
+              values={{ context, cert}}
+            />
+          </span>
+        );
+      }
+    },
+    explanationLinkLabel: t('in-forge:plugins.instanaAgent.troubleshootingDocs'),
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=agent-host-configuration`
   }
 };
