@@ -19,8 +19,21 @@ import {
   parsedTimestamp,
   ensureConfigBackwardCompatibility,
   entityId,
-  entityType
+  entityType,
+  SloWidgetConfiguration,
+  TimeWindowDuration
 } from 'in-custom-dashboards/widgets/Slo/form';
+import {
+  AggregationType,
+  MetricResult,
+  MetricSource,
+  Result,
+  ResultType,
+  SliConfigurationWithLastUpdated,
+  TimeConfig,
+  TimeShift,
+  UnifiedMetricConfiguration
+} from 'in-types';
 import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscriptions/getUnifiedSloMetrics';
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/WidgetLeftHeader';
@@ -34,28 +47,39 @@ import { t } from 'in-i18n';
 
 import locals from './Widget.mless';
 
+type MetricTuples = [number, number][];
+
 const oneMinute = 60 * 1000;
 const oneHour = 60 * oneMinute;
 const oneDay = 24 * oneHour;
 const oneWeekTimeConfig = {
-  windowSize: 7 * oneDay
+  windowSize: 7 * oneDay,
+  autoRefresh: false
 };
 
-export default function Widget({ actions, config, isPreview, title, dragHandle }) {
-  const compatibleConfig = ensureConfigBackwardCompatibility(config);
-  const entityIdValue = compatibleConfig?.[entityId];
-  const entityTypeValue = compatibleConfig?.[entityType];
+interface WidgetProps {
+  actions: React.ReactNode;
+  config: SloWidgetConfiguration;
+  isPreview?: boolean;
+  title: string;
+  dragHandle: React.ReactNode;
+}
 
-  const slo = compatibleConfig?.[sloTarget] ?? '';
-  const sliConfigIdValue = compatibleConfig?.[sliConfigId];
-  const timeWindowTypeValue = compatibleConfig?.[timeWindowType] ?? 'dynamic';
+export default function Widget({ actions, config, isPreview, title, dragHandle }: WidgetProps) {
+  const compatibleConfig = ensureConfigBackwardCompatibility(config);
+  const entityIdValue = compatibleConfig[entityId];
+  const entityTypeValue = compatibleConfig[entityType];
+
+  const slo = compatibleConfig[sloTarget] ?? '';
+  const sliConfigIdValue = compatibleConfig[sliConfigId];
+  const timeWindowTypeValue = compatibleConfig[timeWindowType] ?? 'dynamic';
   const isDynamic = timeWindowTypeValue === 'dynamic';
   const isRolling = timeWindowTypeValue === 'rolling';
   const isFixed = timeWindowTypeValue === 'fixed';
-  const timeWindowDurationValue = compatibleConfig?.[timeWindowDuration] ?? 1;
-  const timeWindowDurationUnitValue = compatibleConfig?.[timeWindowDurationUnit] ?? 'weeks';
-  const timeWindowStartDate = compatibleConfig?.[timeWindowStart]?.date;
-  const timeWindowStartTime = compatibleConfig?.[timeWindowStart]?.time;
+  const timeWindowDurationValue = compatibleConfig[timeWindowDuration] ?? 1;
+  const timeWindowDurationUnitValue = compatibleConfig[timeWindowDurationUnit] ?? 'weeks';
+  const timeWindowStartDate = compatibleConfig[timeWindowStart]?.date;
+  const timeWindowStartTime = compatibleConfig[timeWindowStart]?.time;
 
   const { timeWindowConfig, fromTimestamp, toTimestamp } = useWidgetTimeConfig({
     isPreview,
@@ -90,12 +114,14 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
       title={title}
       headerClassName={locals.title}
       leftHeaderContent={
-        sliConfigurationStatus !== 'rejected' && (
+        sliConfigurationStatus !== 'rejected' ? (
           <WidgetLeftHeader
             monitoredEntityType={entityTypeValue}
             monitoredEntity={entity}
             sliConfig={sliConfiguration}
           />
+        ) : (
+          undefined
         )
       }
     >
@@ -127,27 +153,27 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   );
 }
 
-const findMetric = (metricName, sloMetrics = []) => {
+const findMetric = (metricName: string, sloMetrics: MetricResult[] = []): MetricTuples => {
   const metric = sloMetrics?.find(({ id }) => id === metricName);
-  return metric?.values ?? [];
+  return (metric?.values ?? []) as MetricTuples;
 };
 
-const getMetricValue = (metric = []) => {
+const getMetricValue = (metric: MetricTuples = []): number => {
   return metric[0]?.[1];
 };
 
 function calculateTimeWindowConfig(
-  timeConfig,
-  isRolling,
-  isFixed,
-  timeWindowDurationValue,
-  timeWindowDurationUnitValue,
-  timeWindowStartDate,
-  timeWindowStartTime
+  timeConfig: TimeConfig,
+  isRolling: boolean | undefined,
+  isFixed: boolean | undefined,
+  timeWindowDurationValue: number,
+  timeWindowDurationUnitValue: TimeWindowDuration,
+  timeWindowStartDate: string | undefined,
+  timeWindowStartTime: string | undefined
 ) {
   const timeWindowConfig = { ...timeConfig };
 
-  let fromTimestamp = timeConfig.from ?? (timeConfig.to ?? new Date().getTime()) - timeConfig.windowSize;
+  let fromTimestamp = (timeConfig.to ?? new Date().getTime()) - timeConfig.windowSize;
   let toTimestamp = timeConfig.to ?? fromTimestamp + timeConfig.windowSize;
 
   if (isRolling) {
@@ -155,7 +181,6 @@ function calculateTimeWindowConfig(
       .subtract(timeWindowDurationValue, timeWindowDurationUnitValue)
       .valueOf();
     timeWindowConfig.windowSize = toTimestamp - fromTimestamp;
-    timeWindowConfig.from = fromTimestamp;
   }
 
   if (isFixed) {
@@ -171,7 +196,6 @@ function calculateTimeWindowConfig(
 
       fromTimestamp = latestIntervalStart.valueOf();
       toTimestamp = nextStart.valueOf();
-      timeWindowConfig.from = fromTimestamp;
       timeWindowConfig.windowSize = nextStart.valueOf() - fromTimestamp;
     }
   }
@@ -182,7 +206,7 @@ function calculateTimeWindowConfig(
   return { timeWindowConfig, fromTimestamp, toTimestamp };
 }
 
-const filterAvailableData = dataSeries => {
+const filterAvailableData = (dataSeries: MetricTuples): MetricTuples => {
   if (!dataSeries) {
     return [];
   }
@@ -199,7 +223,7 @@ const filterAvailableData = dataSeries => {
   return dataSeries.filter(([ts]) => ts <= now);
 };
 
-function getGranularity(timeConfig) {
+function getGranularity(timeConfig: TimeConfig): number {
   const now = Date.now();
   const toOrNow = timeConfig.to ?? now;
   const from = toOrNow - timeConfig.windowSize;
@@ -213,7 +237,21 @@ function getGranularity(timeConfig) {
   return oneHour;
 }
 
-const getMetrics = (metricBaseConfig, granularity) => {
+interface MetricBaseConfig {
+  sliConfigId: string;
+  timeShift: TimeShift;
+  slo: number;
+  aggregation: AggregationType;
+  source: MetricSource;
+  timeConfig: TimeConfig;
+  resultType: ResultType;
+}
+
+interface UnifiedMetricConfigurations {
+  [index: string]: UnifiedMetricConfiguration;
+}
+
+const getMetrics = (metricBaseConfig: MetricBaseConfig, granularity: number): UnifiedMetricConfigurations => {
   return {
     consumed: {
       ...metricBaseConfig,
@@ -248,7 +286,7 @@ const getMetrics = (metricBaseConfig, granularity) => {
   };
 };
 
-const isConfiguredSliDeleted = (sloMetricsResult, sliConfigIdValue) => {
+const isConfiguredSliDeleted = (sloMetricsResult: Result<MetricResult[]>, sliConfigIdValue: string): boolean => {
   return (
     hasError(sloMetricsResult) &&
     sloMetricsResult.errors.some(
@@ -257,7 +295,18 @@ const isConfiguredSliDeleted = (sloMetricsResult, sliConfigIdValue) => {
   );
 };
 
-const WidgetContent = ({ sloMetricsResult, sliConfigIdValue, ...otherChartProps }) => {
+interface WidgetContentProps {
+  sloMetricsResult: Result<MetricResult[]>;
+  sliConfigIdValue: string;
+  timeConfig: TimeConfig;
+  granularity: number;
+  budget: number;
+  sliConfig?: SliConfigurationWithLastUpdated;
+  isPreview?: boolean;
+  disableZooming?: boolean;
+}
+
+const WidgetContent = ({ sloMetricsResult, sliConfigIdValue, ...otherChartProps }: WidgetContentProps) => {
   if (isConfiguredSliDeleted(sloMetricsResult, sliConfigIdValue)) {
     return (
       <Message
@@ -279,6 +328,16 @@ const WidgetContent = ({ sloMetricsResult, sliConfigIdValue, ...otherChartProps 
   );
 };
 
+interface UseWidgetTimeConfigProps {
+  isPreview?: boolean;
+  isRolling?: boolean;
+  isFixed?: boolean;
+  timeWindowDurationValue: number;
+  timeWindowDurationUnitValue: TimeWindowDuration;
+  timeWindowStartDate?: string;
+  timeWindowStartTime?: string;
+}
+
 function useWidgetTimeConfig({
   isPreview,
   isRolling,
@@ -287,7 +346,7 @@ function useWidgetTimeConfig({
   timeWindowDurationUnitValue,
   timeWindowStartDate,
   timeWindowStartTime
-}) {
+}: UseWidgetTimeConfigProps) {
   const currentProductTimeConfig = useTimeConfig();
   const timeConfig = isPreview ? oneWeekTimeConfig : currentProductTimeConfig;
   return useMemo(
@@ -313,9 +372,16 @@ function useWidgetTimeConfig({
   );
 }
 
-function useSloMetrics({ slo, sliId, timeWindowConfig, granularity }) {
+interface UseSloMetricsProps {
+  slo: number;
+  sliId: string;
+  timeWindowConfig: TimeConfig;
+  granularity: number;
+}
+
+function useSloMetrics({ slo, sliId, timeWindowConfig, granularity }: UseSloMetricsProps): Result<MetricResult[]> {
   const metrics = useMemo(() => {
-    const metricConfig = {
+    const metricConfig: MetricBaseConfig = {
       sliConfigId: sliId,
       timeShift: { offset: 0 },
       slo,

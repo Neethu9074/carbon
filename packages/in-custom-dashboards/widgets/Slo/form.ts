@@ -31,13 +31,13 @@ export const timeWindowDurationUnit = 'timeWindowDurationUnit';
 export type TimeWindowDuration = 'days' | 'weeks' | 'months';
 export type TimeWindowType = 'fixed' | 'rolling' | 'dynamic';
 
-interface SloWidgetConfiguration {
-  entityType?: MonitoringSource; // old schema configs might not have this set, it defaults to 'Applications'
-  entityId?: string; // old schema configs might not have this set and use apConfigId instead
+export interface SloWidgetConfiguration {
+  entityType: MonitoringSource; // old schema configs might not have this set, it defaults to 'Applications'
+  entityId: string; // old schema configs might not have this set and use apConfigId instead
 
-  slo?: number;
-  sliConfigId?: string;
-  timeWindowType?: TimeWindowType;
+  slo: number;
+  sliConfigId: string;
+  timeWindowType: TimeWindowType;
 
   // timeWindowType = 'fixed'
   timeWindowStart?: {
@@ -53,7 +53,7 @@ interface SloWidgetConfiguration {
   apConfigId?: string;
 }
 
-export function createForm(oldSavedState: SloWidgetConfiguration = {}): MapForm {
+export function createForm(oldSavedState: Partial<SloWidgetConfiguration> = {}): MapForm {
   const savedState = ensureConfigBackwardCompatibility(oldSavedState);
 
   let form = createMapForm({
@@ -188,7 +188,11 @@ export function removeFormForTimeDuration(form: MapForm): MapForm {
   return form;
 }
 
-export function addFormForTimeDuration(form: MapForm, savedState: SloWidgetConfiguration, override = true): MapForm {
+export function addFormForTimeDuration(
+  form: MapForm,
+  savedState: Partial<SloWidgetConfiguration>,
+  override = true
+): MapForm {
   if (override || !form.containsKey(timeWindowDuration))
     form = form.put(
       timeWindowDuration,
@@ -207,7 +211,7 @@ export function addFormForTimeDuration(form: MapForm, savedState: SloWidgetConfi
   return form;
 }
 
-export function ensureConfigBackwardCompatibility(savedForm: SloWidgetConfiguration): SloWidgetConfiguration {
+export function ensureConfigBackwardCompatibility<C extends Partial<SloWidgetConfiguration>>(savedForm: C): C {
   const id = savedForm[entityId] ?? savedForm[apConfigId];
   const type = savedForm[entityType] ?? 'application';
 
