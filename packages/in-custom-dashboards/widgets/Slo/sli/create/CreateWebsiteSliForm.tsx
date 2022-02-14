@@ -6,12 +6,15 @@
 import React, { useState } from 'react';
 import { Item } from 'formalistic';
 
+import { Observable } from '@instana/observables';
+
 import {
   CombinedWebsiteSliEntity,
   isWebsiteEventBasedSliEntity,
-  isWebsiteSliEntity,
+  isWebsiteTimeBasedSliEntity,
   NewSliConfig,
-  SliConfig
+  SliConfig,
+  websiteTimeBased
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import {
   useValidateWebsiteFilterExpression,
@@ -20,12 +23,13 @@ import {
 import { createForm, SliFormData, WebsiteSliEntityFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { useWebsiteSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
+import { Result, TimeConfig, Website, WebsiteSliEntity } from 'in-types';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import useWebsite from 'in-websites/hooks/useWebsite';
-import { Website, WebsiteSliEntity } from 'in-types';
 
 export interface CreateWebsiteSliFormProps {
   entityId: string;
@@ -64,10 +68,7 @@ function CreateWebsiteSliFormComponent({
   const sliEntity = form.get('sliEntity')?.toJS() as WebsiteSliEntityFormData;
   const { QueryBuilder, isQueryValid } = useWebsiteQueryBuilder(sliEntity);
 
-  const filterExpressionValid = useValidateWebsiteFilterExpression({
-    isQueryValid,
-    ...sliEntity
-  });
+  const filterExpressionValid = useValidateExpressions({ sliEntity, isQueryValid });
 
   return (
     <CreateSliForm<'WEBSITE'>
@@ -93,10 +94,35 @@ function CreateWebsiteSliFormComponent({
   );
 }
 
+interface UseValidateExpressionsProps {
+  sliEntity: WebsiteSliEntityFormData;
+  isQueryValid: (filterExpression: FormModelElement[] | undefined, tc: TimeConfig) => Observable<Result<boolean>>;
+}
+
+function useValidateExpressions({ sliEntity, isQueryValid }: UseValidateExpressionsProps): boolean {
+  const { filterExpression, goodEventFilterExpression, badEventFilterExpression, sliType } = sliEntity;
+
+  const filterExpressionValid = useValidateWebsiteFilterExpression({
+    filterExpression: filterExpression,
+    isQueryValid
+  });
+
+  const goodEventsValid = useValidateWebsiteFilterExpression({
+    filterExpression: goodEventFilterExpression,
+    isQueryValid
+  });
+  const badEventsValid = useValidateWebsiteFilterExpression({
+    filterExpression: badEventFilterExpression,
+    isQueryValid
+  });
+
+  return sliType === websiteTimeBased ? filterExpressionValid : goodEventsValid && badEventsValid;
+}
+
 function toBackendFormat(formData: SliFormData<'WEBSITE'>): NewSliConfig<CombinedWebsiteSliEntity> {
   const sliEntity = formData.sliEntity;
 
-  if (isWebsiteSliEntity(sliEntity)) {
+  if (isWebsiteTimeBasedSliEntity(sliEntity)) {
     const { filterExpression, ...entity } = sliEntity as Omit<
       WebsiteSliEntityFormData,
       'goodEventFilterExpression' | 'badEventFilterExpression'

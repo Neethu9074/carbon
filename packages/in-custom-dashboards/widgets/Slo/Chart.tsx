@@ -22,7 +22,7 @@ import {
   isApplicationSliConfig,
   isAvailabilitySliConfig,
   isWebsiteEventBasedSliConfig,
-  isWebsiteSliConfig,
+  isWebsiteTimeBasedSliConfig,
   SliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href';
@@ -154,7 +154,7 @@ function getLinkToUnboundAnalytics(
     return buildApplicationSliEntityUA2Link(sliConfig, tagCatalog, highlightedTime);
   }
 
-  if (isWebsiteSliConfig(sliConfig)) {
+  if (isWebsiteTimeBasedSliConfig(sliConfig)) {
     // TODO: soon to be implemented
     return just('');
   }

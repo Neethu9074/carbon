@@ -46,13 +46,13 @@ export function isApplicationSliEntity(sliEntity: SliEntity): sliEntity is Appli
   return sliEntity.sliType === applicationType;
 }
 
-export function isWebsiteSliConfig(
+export function isWebsiteTimeBasedSliConfig(
   sliConfiguration: SliConfiguration
 ): sliConfiguration is SliConfig<WebsiteTimeBasedSliEntity> {
-  return isWebsiteSliEntity(sliConfiguration.sliEntity);
+  return isWebsiteTimeBasedSliEntity(sliConfiguration.sliEntity);
 }
 
-export function isWebsiteSliEntity(sliEntity: SliEntity): sliEntity is WebsiteTimeBasedSliEntity {
+export function isWebsiteTimeBasedSliEntity(sliEntity: SliEntity): sliEntity is WebsiteTimeBasedSliEntity {
   return sliEntity.sliType === websiteTimeBased;
 }
 
