@@ -90,6 +90,7 @@ export default function CheckboxFancy({
           className={classNames({
             [locals.label]: true,
             [locals.verticalLabel]: verticalLabel,
+            [locals.disabledLabel]: disabled,
             [labelClassName ?? '']: labelClassName
           })}
         >
