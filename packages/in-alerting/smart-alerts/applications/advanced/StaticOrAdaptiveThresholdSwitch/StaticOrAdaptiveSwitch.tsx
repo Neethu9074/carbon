@@ -29,24 +29,18 @@ export default function StaticOrAdaptiveSwitch({ form, setForm }: Props) {
   const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
 
   return (
-    <div className={locals.staticOrAdaptiveSwitchContainer}>
-      <Row>
-        <Col lg={6}>
-          <StaticOrAdaptiveOption
-            currentType={currentType}
-            onChange={updateThresholdType}
-            baselineType={types.static}
-          />
-        </Col>
-        <Col lg={6} className={locals.staticOrAdaptiveOption}>
-          <StaticOrAdaptiveOption
-            currentType={currentType}
-            onChange={updateThresholdType}
-            baselineType={types.adaptive}
-          />
-        </Col>
-      </Row>
-    </div>
+    <Row>
+      <Col lg={6}>
+        <StaticOrAdaptiveOption currentType={currentType} onChange={updateThresholdType} baselineType={types.static} />
+      </Col>
+      <Col lg={6} className={locals.staticOrAdaptiveOption}>
+        <StaticOrAdaptiveOption
+          currentType={currentType}
+          onChange={updateThresholdType}
+          baselineType={types.adaptive}
+        />
+      </Col>
+    </Row>
   );
 
   function updateThresholdType(baselineType: StaticOrAdaptiveType) {
