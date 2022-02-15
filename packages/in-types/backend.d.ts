@@ -490,6 +490,7 @@ export interface CursorPaginatedWithNext<ITEM, CURSOR> {
   readonly next?: CURSOR;
   readonly totalHits: number;
   readonly totalRepresentedItemCount: number;
+  readonly totalRetainedItemCount: number;
 }
 
 export interface CursorPagination<CURSOR_TYPE> {
