@@ -39,6 +39,7 @@ import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/Scope
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
+import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
@@ -86,7 +87,15 @@ export default function AdvancedModeContainer(props) {
                 setSliderState={setSliderState}
               />
               {adaptiveBaselineEnabled && blueprintConfig?.baselineEnabled && (
-                <StaticOrAdaptiveSwitch form={form} setForm={updateForm} />
+                <LightCard
+                  title={t(
+                    'in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.staticOrAdaptiveTitle'
+                  )}
+                  withoutPadding
+                  darkFrame
+                >
+                  <StaticOrAdaptiveSwitch form={form} setForm={updateForm} />
+                </LightCard>
               )}
             </>
           )
