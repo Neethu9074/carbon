@@ -162,9 +162,9 @@
     "resultRetained_2": "{{formattedCount}} Retained",
     "groupedViewHeader": "{{formattedCount}} Group",
     "groupedViewHeader_plural": "{{formattedCount}} Groups",
-    "groupedViewHeader_0": "Groups",
-    "groupedViewHeader_1": "Group",
-    "groupedViewHeader_2": "Groups",
+    "groupedViewHeader_0": "{{formattedCount}} Groups",
+    "groupedViewHeader_1": "{{formattedCount}} Groups",
+    "groupedViewHeader_2": "{{formattedCount}} Groups",
     "resultHeaderLoading": "Loading…",
     "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
     "queryProgress": {
@@ -492,8 +492,14 @@
     "minutes_plural": "{{count}} minutes",
     "timeFrameFormatterHours": "Last hour",
     "timeFrameFormatterHours_plural": "Last {{count}} hours",
+    "timeFrameFormatterHours_0": "Last {{count}} hours",
+    "timeFrameFormatterHours_1": "Last {{count}} hours",
+    "timeFrameFormatterHours_2": "Last {{count}} hours",
     "timeFrameFormatterMinutes": "Last minute",
-    "timeFrameFormatterMinutes_plural": "Last {{count}} minutes"
+    "timeFrameFormatterMinutes_plural": "Last {{count}} minutes",
+    "timeFrameFormatterMinutes_0": "Last {{count}} minutes",
+    "timeFrameFormatterMinutes_1": "Last {{count}} minutes",
+    "timeFrameFormatterMinutes_2": "Last {{count}} minutes"
   },
   "timeShift": {
     "changeSelectedTimeShift": "Change selected time shift",
