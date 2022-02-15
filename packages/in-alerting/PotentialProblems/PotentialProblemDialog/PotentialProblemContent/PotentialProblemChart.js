@@ -54,8 +54,7 @@ export default function PotentialProblemChart({
     <AlertingChartWithErrorMessage
       alertConfigWithFormModel={alertConfig}
       viewConfig={{
-        ...createDefaultChartConfig(getTimeConfig()),
-        smoothMetric: false
+        ...createDefaultChartConfig(getTimeConfig())
       }}
       blueprintConfig={blueprintConfig}
       rendererOverride={Renderer.lineWithBaselineAndPotentialProblem}

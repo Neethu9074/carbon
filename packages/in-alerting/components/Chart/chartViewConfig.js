@@ -12,8 +12,7 @@ import { t } from 'in-i18n';
 export const chartViewConfigPropType = PropTypes.shape({
   label: PropTypes.string,
   timeConfig: propTypeTimeConfig.isRequired,
-  minChartMetricGranularity: PropTypes.number.isRequired,
-  smoothMetric: PropTypes.bool
+  minChartMetricGranularity: PropTypes.number.isRequired
 });
 
 /**
@@ -35,8 +34,7 @@ export const chartViewConfigs = Object.freeze([
     timeConfig: {
       windowSize: days.toMillis(7)
     },
-    minChartMetricGranularity: 0, // at the moment we don't use a higher granularity for the metric, because we don't handle that properly for count metrics (using SUM)
-    smoothMetric: true
+    minChartMetricGranularity: 0 // at the moment we don't use a higher granularity for the metric, because we don't handle that properly for count metrics (using SUM)
   }
 ]);
 

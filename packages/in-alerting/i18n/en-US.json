@@ -40,7 +40,6 @@
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
-      "alertingChartTooltipSmoothedMetric": "Smoothed metric",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
       "alertingChartMessageEntitySelectionInvalid": "No entities selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
