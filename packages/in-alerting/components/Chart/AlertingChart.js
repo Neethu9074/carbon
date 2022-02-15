@@ -12,7 +12,6 @@ import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/ale
 import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPresenter';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrapper';
-import { smoothMetrics } from 'in-alerting/smart-alerts/components/utils/chartUtil';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
 import { zeroFillMetric } from 'in-alerting/components/Chart/chartUtils';
@@ -79,11 +78,6 @@ export default function AlertingChart({
         );
       }}
       thresholdType={threshold.type}
-      mutateMetrics={{
-        doMutate: viewConfig.smoothMetric,
-        metricNames: [metricName],
-        mutate: smoothMetrics
-      }}
       timeConfig={viewConfig.timeConfig}
       granularity={metricChartGranularity}
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
@@ -100,12 +94,8 @@ export default function AlertingChart({
       colors: chartColors,
       metricIds: [metricName, 'threshold'],
       excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
-      nonToggleableSeries: enhanceNonToggleableSeries(
-        metricName,
-        getSmoothedMetricTooltipContent(viewConfig.smoothMetric),
-        highlight
-      ),
-      labels: enhanceLabels(metricLabel, viewConfig.smoothMetric, highlight),
+      nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
+      labels: enhanceLabels(metricLabel, highlight),
       tooltipFormatter: value => (value < 0 ? valueMissingPlaceholder : formatter.detailed(value)),
       renderer,
       icons: {
@@ -209,9 +199,9 @@ function getAlertsPreviewQuery({
   return null;
 }
 
-function enhanceLabels(label, smoothMetric, highlight) {
+function enhanceLabels(label, highlight) {
   const labels = [
-    `${label}${smoothMetric ? '*' : ''}`,
+    label,
     t('in-alerting:components.chart.alertingChartLabelThreshold'),
     t('in-alerting:components.chart.alertingChartLabelViolations')
   ];
@@ -223,22 +213,19 @@ function enhanceLabels(label, smoothMetric, highlight) {
   return labels;
 }
 
-function enhanceNonToggleableSeries(metricName, tooltipContent, highlight) {
+function enhanceNonToggleableSeries(metricName, highlight) {
   const labels = new Map([
     ['threshold', null],
     ['alerts', null],
-    ['Violations', null]
-  ]).set(metricName, tooltipContent);
+    ['Violations', null],
+    [metricName, null]
+  ]);
 
   if (highlight) {
     labels.set(highlight.label, null);
   }
 
   return labels;
-}
-
-function getSmoothedMetricTooltipContent(isSmoothedMetric) {
-  return isSmoothedMetric ? [t('in-alerting:components.chart.alertingChartTooltipSmoothedMetric')] : null;
 }
 
 function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivity }) {
