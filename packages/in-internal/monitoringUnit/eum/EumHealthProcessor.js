@@ -159,7 +159,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.beaconProcessing')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.processedMatchedBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -173,7 +173,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.beaconProcessFail')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.eum.eumHealthProcessor.failProcessedMatchedBeacons')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
