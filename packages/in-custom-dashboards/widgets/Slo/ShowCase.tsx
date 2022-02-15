@@ -7,9 +7,13 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
+import { MetricDataSeries } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
-import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
+import Chart, { ChartProps } from 'in-custom-dashboards/widgets/Slo/Chart';
+import { SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { AvailabilitySliEntity, MetricResult, Result } from 'in-types';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
@@ -156,45 +160,18 @@ export default function ShowCase() {
     }
   ]);
 
-  const sliConfig = {
+  const sliConfig: SliConfig<AvailabilitySliEntity> = {
     id: '1',
     sliName: 'grafanatest',
     initialEvaluationTimestamp: 1608719460000,
-    metricConfiguration: null,
     sliEntity: {
       sliType: 'availability',
-      applicationId: null,
-      serviceId: null,
-      endpointId: null,
       boundaryScope: 'INBOUND',
-      goodEventFilters: null,
-      badEventFilters: null,
       includeInternal: false,
       includeSynthetic: false,
-      goodEventFilterExpression: {
-        type: 'TAG_FILTER',
-        name: 'call.erroneous',
-        stringValue: null,
-        numberValue: null,
-        booleanValue: false,
-        key: null,
-        value: false,
-        operator: 'EQUALS',
-        entity: 'NOT_APPLICABLE'
-      },
-      badEventFilterExpression: {
-        type: 'TAG_FILTER',
-        name: 'call.erroneous',
-        stringValue: null,
-        numberValue: null,
-        booleanValue: true,
-        key: null,
-        value: true,
-        operator: 'EQUALS',
-        entity: 'NOT_APPLICABLE'
-      }
-    },
-    lastUpdated: 1608719447835
+      goodEventFilterExpression: tagFilter('call.erroneous', 'EQUALS', false),
+      badEventFilterExpression: tagFilter('call.erroneous', 'EQUALS', true)
+    }
   };
 
   const budget = 240436;
@@ -223,13 +200,11 @@ export default function ShowCase() {
           isRolling
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
-          result={result}
           sliEntity={sliConfig?.sliEntity}
         />
         <div className={locals.chart}>
           <WidgetContent
             result={result}
-            sliConfigIdValue="1"
             timeConfig={timeWindowConfig}
             granularity={60000}
             budget={budget}
@@ -243,11 +218,11 @@ export default function ShowCase() {
   );
 }
 
-export const findResultMetric = (result, id) => {
-  return (result?.data ?? []).find(dataSeries => dataSeries.id === id)?.values;
+export const findResultMetric = (result: Result<MetricResult[]>, id: string): MetricDataSeries | undefined => {
+  return (result?.data ?? []).find(dataSeries => dataSeries.id === id)?.values as MetricDataSeries;
 };
 
-const filterAvailableData = dataSeries => {
+const filterAvailableData = (dataSeries: MetricDataSeries): MetricDataSeries => {
   if (!dataSeries) {
     return [];
   }
@@ -265,12 +240,14 @@ const filterAvailableData = dataSeries => {
   return dataSeries.filter(([ts]) => ts <= now);
 };
 
-const WidgetContent = ({ result, ...otherChartProps }) => {
+interface WidgetContentProps extends Omit<ChartProps, 'consumed' | 'hourlyBudget'> {}
+
+const WidgetContent = ({ result, ...otherChartProps }: WidgetContentProps) => {
   return (
     <Chart
       result={result}
-      consumed={filterAvailableData(findResultMetric(result, 'consumed'))}
-      hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget'))}
+      consumed={filterAvailableData(findResultMetric(result, 'consumed') || [])}
+      hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget') || [])}
       {...otherChartProps}
     />
   );

@@ -8,23 +8,22 @@ import React from 'react';
 import { Observable, just } from '@instana/observables';
 
 import {
-  ApplicationSliEntity,
-  AvailabilitySliEntity,
-  MetricResult,
-  Result,
-  SliConfiguration,
-  SliConfigurationWithLastUpdated,
-  TagCatalog,
-  TagFilter,
-  TimeConfig
-} from 'in-types';
-import {
   isApplicationSliConfig,
   isAvailabilitySliConfig,
   isWebsiteEventBasedSliConfig,
   isWebsiteTimeBasedSliConfig,
   SliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import {
+  ApplicationSliEntity,
+  AvailabilitySliEntity,
+  MetricResult,
+  Result,
+  SliConfiguration,
+  TagCatalog,
+  TagFilter,
+  TimeConfig
+} from 'in-types';
 import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href';
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { tagFilter, toNewTagFilterFormat } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -42,14 +41,14 @@ import { Axis } from 'in-components/Chart/types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-interface ChartProps {
+export interface ChartProps {
   result: Result<MetricResult[]>;
   timeConfig: TimeConfig;
   granularity: number;
   consumed: [number, number][];
   hourlyBudget: [number, number][];
   budget: number;
-  sliConfig?: SliConfigurationWithLastUpdated;
+  sliConfig?: SliConfig;
   isPreview?: boolean;
   disableZooming?: boolean;
 }
@@ -104,7 +103,7 @@ export default function Chart({
 }
 
 function getCustomAnalyzeContextMenuProperties(
-  sliConfig?: SliConfigurationWithLastUpdated,
+  sliConfig?: SliConfig,
   disableZooming?: boolean,
   tagCatalog?: TagCatalog
 ) {

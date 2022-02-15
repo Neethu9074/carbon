@@ -36,6 +36,7 @@ import {
 } from 'in-types';
 import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscriptions/getUnifiedSloMetrics';
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
+import { MetricDataSeries } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/WidgetLeftHeader';
 import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
@@ -46,8 +47,6 @@ import { hasError } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
 import locals from './Widget.mless';
-
-type MetricTuples = [number, number][];
 
 const oneMinute = 60 * 1000;
 const oneHour = 60 * oneMinute;
@@ -153,12 +152,12 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   );
 }
 
-const findMetric = (metricName: string, sloMetrics: MetricResult[] = []): MetricTuples => {
+const findMetric = (metricName: string, sloMetrics: MetricResult[] = []): MetricDataSeries => {
   const metric = sloMetrics?.find(({ id }) => id === metricName);
-  return (metric?.values ?? []) as MetricTuples;
+  return (metric?.values ?? []) as MetricDataSeries;
 };
 
-const getMetricValue = (metric: MetricTuples = []): number => {
+const getMetricValue = (metric: MetricDataSeries = []): number => {
   return metric[0]?.[1];
 };
 
@@ -206,7 +205,7 @@ function calculateTimeWindowConfig(
   return { timeWindowConfig, fromTimestamp, toTimestamp };
 }
 
-const filterAvailableData = (dataSeries: MetricTuples): MetricTuples => {
+const filterAvailableData = (dataSeries: MetricDataSeries): MetricDataSeries => {
   if (!dataSeries) {
     return [];
   }
