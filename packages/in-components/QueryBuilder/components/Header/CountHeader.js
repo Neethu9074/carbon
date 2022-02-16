@@ -19,7 +19,6 @@ export default function CountHeader({
   isLoading,
   hasErrors,
   withGrouping = false,
-  withResultsInGroups = false,
   withAdjustedWindowSizeTooltip = false,
   renderHistoricDataIndicator = false
 }) {
@@ -31,27 +30,22 @@ export default function CountHeader({
   }
 
   let topText;
-  let bottomText;
   let totalCountText;
+
+  const showRetainedItemsCount = renderHistoricDataIndicator && totalRepresentedItemCount > totalRetainedItemCount;
+
   if (withGrouping) {
     topText = t('in-components:analyzeView.groupedViewHeader', {
       count: totalHits,
       formattedCount: number.compact(totalHits)
     });
-    if (withResultsInGroups) {
-      bottomText = t('in-components:analyzeView.result', {
-        count: totalRepresentedItemCount,
-        formattedCount: number.compact(totalRepresentedItemCount),
-        dataSource: dataSource
-      });
-    }
   } else {
     topText = t('in-components:analyzeView.result', {
       count: totalRetainedItemCount,
       formattedCount: number.compact(totalRetainedItemCount),
       dataSource: dataSource
     });
-    const showRetainedItemsCount = renderHistoricDataIndicator && totalRepresentedItemCount > totalHits;
+
     if (showRetainedItemsCount) {
       totalCountText = t('in-components:analyzeView.groupedViewHeaderRetained', {
         count: totalRepresentedItemCount,
@@ -64,7 +58,6 @@ export default function CountHeader({
     <Presenter
       topText={topText}
       totalCountText={totalCountText}
-      bottomText={bottomText}
       withAdjustedWindowSizeTooltip={withAdjustedWindowSizeTooltip}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
@@ -76,7 +69,13 @@ function Placeholder() {
 }
 
 function ErroneousResult() {
-  return <Presenter />;
+  return (
+    <div className={locals.header}>
+      <div className={locals.topTextWithTooltip}>
+        <h3 className={locals.topText} />
+      </div>
+    </div>
+  );
 }
 
 function generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator) {
@@ -89,22 +88,15 @@ function generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndic
   }
 }
 
-function Presenter({
-  topText,
-  bottomText,
-  totalCountText,
-  withAdjustedWindowSizeTooltip,
-  renderHistoricDataIndicator
-}) {
+function Presenter({ topText, totalCountText, withAdjustedWindowSizeTooltip, renderHistoricDataIndicator }) {
   return (
     <div className={locals.header}>
       <div className={locals.topTextWithTooltip}>
         <h3 className={locals.topText}>
-          {topText} <span className={locals.totalCountText}>{totalCountText}</span>
+          {topText} {totalCountText && <span className={locals.totalCountText}>{totalCountText}</span>}
         </h3>
         {generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator)}
       </div>
-      {bottomText ? <span className={locals.bottomText}>{bottomText}</span> : null}
     </div>
   );
 }
