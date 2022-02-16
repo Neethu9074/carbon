@@ -2701,7 +2701,8 @@
       "nodeType": "Node Type",
       "flowNodeNumber": "Flow Node ({{count}})",
       "flowNodeNumber_plural": "Flow Nodes ({{count}})",
-      "messageFlowThreadUtilization": "Thread Utilization"
+      "messageFlowThreadUtilization": "Thread Utilization",
+      "messageFlowHealth": "Health"
     },
     "aceFlowNode": {
       "totalCpuTime": "Total CPU Time",
