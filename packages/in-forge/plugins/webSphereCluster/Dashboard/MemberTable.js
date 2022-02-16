@@ -6,6 +6,7 @@
 import React from 'react';
 
 import getWebSphereMembersForCluster from 'in-forge/plugins/webSphereCluster/subscriptions/getWebSphereMembersForCluster';
+import getProcessSnapshotIdForPid from 'in-subscription/processSnapshotIdForPid';
 import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
@@ -18,8 +19,19 @@ const cols = [
     title: t('in-forge:plugins.webSphereCluster.dashboard.memberName'),
     type: 'snapshotLink',
     typeArgs: {
-      getSnapshotId(row) {
-        return row.key;
+      getSnapshotId$(row) {
+        return getProcessSnapshotIdForPid({
+          pid: row.member.getIn(['data', 'pid']),
+          hostSnapshot: row.member
+        });
+      },
+      withHierarchy: true,
+      pathname: '/physical/dashboard',
+      useSnapshotFromHierarchyCallback(snapshot, hierarchy) {
+        if (hierarchy && hierarchy.length > 0) {
+          return hierarchy[0];
+        }
+        return snapshot;
       }
     }
   },
@@ -62,7 +74,7 @@ const cols = [
 export default connectTo(
   props => ({
     members: timeConfig$
-      .flatMap(timeConfig => getWebSphereMembersForCluster({ snapshotId: props.snapshotId, timeConfig }))
+      .flatMap(timeConfig => getWebSphereMembersForCluster({ snapshotId: props.snapshot.get('id'), timeConfig }))
       .flatMap(getSnapshots)
   }),
 

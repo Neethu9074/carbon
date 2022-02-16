@@ -5,13 +5,12 @@
 
 import React from 'react';
 
-import ClusterTable from 'in-forge/plugins/webSphereCluster/Dashboard/MemberTable';
+import MemberTable from 'in-forge/plugins/webSphereCluster/Dashboard/MemberTable';
 
 export default function WebSphereClusterDashboard({ snapshot, timeConfig }) {
-  const snapshotId = snapshot.get('id');
   return (
     <div>
-      <ClusterTable snapshotId={snapshotId} timeConfig={timeConfig} />
+      <MemberTable snapshot={snapshot} timeConfig={timeConfig} />
     </div>
   );
 }
