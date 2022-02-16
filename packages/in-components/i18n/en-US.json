@@ -207,11 +207,6 @@
     "resultTitle_viewChange_2": "View Transitions",
 
     "result": "{{formattedCount}} $t(in-components:analyzeView.resultTitle, { \"context\": \"{{dataSource}}\" })",
-    "resultRetained": "{{formattedCount}} Retained",
-    "resultRetained_plural": "{{formattedCount}} Retained",
-    "resultRetained_0": "{{formattedCount}} Retained",
-    "resultRetained_1": "{{formattedCount}} Retained",
-    "resultRetained_2": "{{formattedCount}} Retained",
     "groupedViewHeader": "{{formattedCount}} Groups",
     "groupedViewHeader_plural": "{{formattedCount}} Groups",
     "groupedViewHeader_0": "Groups",
