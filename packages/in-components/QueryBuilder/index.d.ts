@@ -8,13 +8,13 @@ import { ComponentType } from 'react';
 import { Observable } from '@instana/observables';
 
 import {
+  Filter,
   Nullish,
   TagFilterEntity,
   TagFilterExpression,
   TagSuggestionProposeType,
   TagSuggestions,
-  TimeConfig,
-  Filter
+  TimeConfig
 } from 'in-types';
 import { FormModelElement } from './transformation/formModel';
 
@@ -39,6 +39,7 @@ export type QueryBuilderTrackingFunctions = {
   onTagAdded?: (newFormModel: FormModelElement, updatedFormModel: FormModelElement[]) => void;
   onTagRemoved?: (elementToRemove: FormModelElement, formModel: FormModelElement[]) => void;
   onQueryChanged?: (formModel: FormModelElement[]) => void;
+  onQueryCleared?: () => void;
 };
 
 type GetSuggestionLabel = (props: { item: string; tagName: string }) => string;

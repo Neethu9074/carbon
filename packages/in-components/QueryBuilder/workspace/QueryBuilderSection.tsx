@@ -3,21 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { ReactNode, useEffect, useState } from 'react';
+
 import { Button, Message, Stack } from '@instana/components';
+
+import { GetSuggestionLabel, GetSuggestionsProps, QueryBuilderComponent, QueryBuilderTrackingFunctions } from '..';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { FormModelElement } from '../transformation/formModel';
+import { emptyObject } from 'in-services/fixedObjects';
 import Section from 'in-components/workspace/Section';
 import { t } from 'in-i18n';
-import { emptyObject } from 'in-services/fixedObjects';
-import React, { ReactNode, useEffect, useState } from 'react';
-import { GetSuggestionLabel, GetSuggestionsProps, QueryBuilderComponent, QueryBuilderTrackingFunctions } from '..';
-import { FormModelElement } from '../transformation/formModel';
 
 export const DEFAULT_MAX_EXPRESSION_DEPTH = 5;
-
-interface QueryBuilderSectionTrackingProps {
-  queryBuilderTrackingProps: QueryBuilderTrackingFunctions;
-  onQueryCleared: () => void;
-}
 
 interface QueryBuilderSectionProps {
   value: FormModelElement[];
@@ -25,7 +22,7 @@ interface QueryBuilderSectionProps {
   getSuggestionsProps?: GetSuggestionsProps;
   getSuggestionLabel?: GetSuggestionLabel;
   onChange: (formModel: FormModelElement[]) => void;
-  tracking?: QueryBuilderSectionTrackingProps;
+  tracking?: QueryBuilderTrackingFunctions;
 
   useLastValidStateWhenErroneous?: boolean;
   // Allows to limit the depth of expression nesting. It is unlimited by default.
@@ -95,7 +92,7 @@ export default function QueryBuilderSection({
               onChange(tagFilterExpression);
             }}
             onError={setInternalError}
-            tracking={tracking?.queryBuilderTrackingProps}
+            tracking={tracking}
             useLastValidStateWhenErroneous={useLastValidStateWhenErroneous}
             getSuggestionsProps={getSuggestionsProps}
             getSuggestionLabel={getSuggestionLabel}
