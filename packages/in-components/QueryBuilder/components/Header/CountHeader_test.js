@@ -49,7 +49,7 @@ describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
     );
   });
 
-  it('When is not grouped and has no historical data should display the total represented item count', () => {
+  it('When is not grouped and has no historical data should display the total retained item count', () => {
     useObservable.mockReturnValue({ containsHistoricData: false });
     const totalRepresentedItemCount = 1000;
     const totalHits = 100;
