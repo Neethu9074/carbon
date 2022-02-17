@@ -1691,6 +1691,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/clipboard@^1.5.36":
+  version "1.5.36"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/clipboard/-/clipboard-1.5.36.tgz#e79fffc758e94e7ff9de9898ae7561db3c2bdd51"
+  integrity sha1-55//x1jpTn/53piYrnVh2zwr3VE=
+
 "@types/d3-format@1.0.4":
   version "1.0.4"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/d3-format/-/d3-format-1.0.4.tgz#c5d869808e4373aa77d5768841df7e9dec94ebfb"
