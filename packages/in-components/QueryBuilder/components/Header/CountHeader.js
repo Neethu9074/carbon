@@ -30,7 +30,7 @@ export default function CountHeader({
   }
 
   let topText;
-  let totalCountText;
+  let totalRepresentedText;
 
   const showRetainedItemsCount = renderHistoricDataIndicator && totalRepresentedItemCount > totalRetainedItemCount;
 
@@ -47,7 +47,7 @@ export default function CountHeader({
     });
 
     if (showRetainedItemsCount) {
-      totalCountText = t('in-components:analyzeView.groupedViewHeaderRetained', {
+      totalRepresentedText = t('in-components:analyzeView.groupedViewHeaderRetained', {
         count: totalRepresentedItemCount,
         formattedCount: number.compact(totalRepresentedItemCount)
       });
@@ -57,7 +57,7 @@ export default function CountHeader({
   return (
     <Presenter
       topText={topText}
-      totalCountText={totalCountText}
+      totalRepresentedText={totalRepresentedText}
       withAdjustedWindowSizeTooltip={withAdjustedWindowSizeTooltip}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
@@ -88,12 +88,13 @@ function generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndic
   }
 }
 
-function Presenter({ topText, totalCountText, withAdjustedWindowSizeTooltip, renderHistoricDataIndicator }) {
+function Presenter({ topText, totalRepresentedText, withAdjustedWindowSizeTooltip, renderHistoricDataIndicator }) {
   return (
     <div className={locals.header}>
       <div className={locals.topTextWithTooltip}>
         <h3 className={locals.topText}>
-          {topText} {totalCountText && <span className={locals.totalCountText}>{totalCountText}</span>}
+          {topText}{' '}
+          {totalRepresentedText && <span className={locals.totalRepresentedText}>{totalRepresentedText}</span>}
         </h3>
         {generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator)}
       </div>
