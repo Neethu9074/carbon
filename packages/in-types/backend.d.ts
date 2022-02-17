@@ -1140,9 +1140,10 @@ export interface GetInfrastructureExploreQuery {
 }
 
 export interface GetInfrastructureExploreTagValueSuggestionsQuery {
+  readonly fetchKeySuggestions: boolean;
   readonly partialValue?: string;
-  readonly tagName?: string;
-  readonly timeConfig?: TimeConfig;
+  readonly tagName: string;
+  readonly timeConfig: TimeConfig;
   readonly valueCount: number;
 }
 
