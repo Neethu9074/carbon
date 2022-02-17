@@ -5,12 +5,14 @@
 
 import React from 'react';
 
+import { micros, number, timeByMicroTwoDecimalPlaces } from 'in-services/formatters/number';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
-import { micros, number } from 'in-services/formatters/number';
 import Columize from 'in-sdk/components/dashboard/Columize';
 import { emptyMap } from 'in-services/fixedImmutables';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
+
+const missingValue = 'N/A';
 
 const nodeNameCol = {
   title: t('in-forge:plugins.aceMessageFlow.flowNodeName'),
@@ -27,6 +29,28 @@ const nodeTypeCol = {
   typeArgs: {
     getValue(row) {
       return row.flowNode.get('type');
+    }
+  }
+};
+const nodeMaxElapsedTime_Col = {
+  title: t('in-forge:plugins.aceFlowNode.maxElapsedTime'),
+  type: 'metric',
+  typeArgs: {
+    getSnapshotId(row) {
+      return row.snapshotId;
+    },
+    getMetricName(row) {
+      return 'flowNodes.' + row.key + '.maxElapsedTime';
+    },
+    getContent: function(maxElapsedTime) {
+      if (maxElapsedTime < 0) {
+        return missingValue;
+      } else {
+        return timeByMicroTwoDecimalPlaces(maxElapsedTime);
+      }
+    },
+    getTimeWindowAggregation() {
+      return 'mean';
     }
   }
 };
@@ -49,7 +73,7 @@ export default function FlowNodeTable({ snapshot, snapshotId, timeConfig }) {
     return null;
   }
 
-  const cols = [nodeNameCol, nodeTypeCol];
+  const cols = [nodeNameCol, nodeTypeCol, nodeMaxElapsedTime_Col];
 
   return (
     <Table
