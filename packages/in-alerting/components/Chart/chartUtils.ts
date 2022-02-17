@@ -52,7 +52,7 @@ export const zeroFillMetric: MetricPostProcessor = (metricData, timeConfig, gran
   const adjustedTimeframe = getAdjustedTimeframe(to ?? Date.now(), windowSize, granularity);
 
   if (metricData.length === adjustedTimeframe.numBuckets) {
-    // do  not modify the metric data when it is already complete
+    // do not modify the metric data when it is already complete
     return metricData;
   }
 
