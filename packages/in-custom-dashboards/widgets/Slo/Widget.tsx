@@ -95,7 +95,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const [sliConfiguration, sliConfigurationStatus] = useSliConfiguration(sliConfigIdValue);
   const [entity] = useSloEntity({ entityId: entityIdValue, entityType: entityTypeValue });
 
-  const sloMetricsResult = useSloMetrics({ slo, sliId: sliConfigIdValue, timeWindowConfig, granularity });
+  const sloMetricsResult = useSloMetrics({ slo, sliId: sliConfigIdValue, timeWindowConfig, granularity, isPreview });
 
   const sloMetrics = sloMetricsResult?.data;
 
@@ -244,6 +244,7 @@ interface MetricBaseConfig {
   source: MetricSource;
   timeConfig: TimeConfig;
   resultType: ResultType;
+  isPreview?: boolean;
 }
 
 interface UnifiedMetricConfigurations {
@@ -376,9 +377,16 @@ interface UseSloMetricsProps {
   sliId: string;
   timeWindowConfig: TimeConfig;
   granularity: number;
+  isPreview?: boolean;
 }
 
-function useSloMetrics({ slo, sliId, timeWindowConfig, granularity }: UseSloMetricsProps): Result<MetricResult[]> {
+function useSloMetrics({
+  slo,
+  sliId,
+  timeWindowConfig,
+  granularity,
+  isPreview
+}: UseSloMetricsProps): Result<MetricResult[]> {
   const metrics = useMemo(() => {
     const metricConfig: MetricBaseConfig = {
       sliConfigId: sliId,
@@ -387,10 +395,11 @@ function useSloMetrics({ slo, sliId, timeWindowConfig, granularity }: UseSloMetr
       aggregation: 'MEAN', // a value must be sent to the backend - it has no meaning at all
       source: 'SLI',
       timeConfig: timeWindowConfig,
-      resultType: 'TIME_SERIES'
+      resultType: 'TIME_SERIES',
+      isPreview
     };
     return getMetrics(metricConfig, granularity);
-  }, [slo, sliId, timeWindowConfig, granularity]);
+  }, [slo, sliId, timeWindowConfig, granularity, isPreview]);
 
   return useObservable(() => getUnifiedSloMetrics({ metrics }), [metrics]) ?? pendingResult;
 }
