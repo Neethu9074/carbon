@@ -35,7 +35,9 @@ describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
   it('Should display group count if grouping is true', () => {
     useObservable.mockReturnValue('');
     const totalHits = 125;
-    const { getByText } = render(<CountHeader totalRepresentedItemCount={null} totalHits={totalHits} withGrouping />);
+    const { getByText } = render(
+      <CountHeader totalRepresentedItemCount={null} totalHits={totalHits} totalRetainedItemCount={null} withGrouping />
+    );
 
     expect(
       getByText(
@@ -47,36 +49,27 @@ describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
     );
   });
 
-  it('Should display count of visible items if grouping and withResultsInGroups is true', () => {
-    useObservable.mockReturnValue('');
-    const totalRepresentedItemCount = 125;
-    const { getByText } = render(
-      <CountHeader totalRepresentedItemCount={totalRepresentedItemCount} withGrouping withResultsInGroups />
-    );
-
-    expect(
-      getByText(
-        t('in-components:analyzeView.result', {
-          count: totalRepresentedItemCount,
-          formattedCount: number.compact(totalRepresentedItemCount)
-        })
-      )
-    );
-  });
-
-  it('When is not grouped and has no historical data should display the total represented item count', () => {
+  it('When is not grouped and has no historical data should display the total retained item count', () => {
     useObservable.mockReturnValue({ containsHistoricData: false });
-    const totalRepresentedItemCount = 125;
-    const totalHits = 0;
+    const totalRepresentedItemCount = 1000;
+    const totalHits = 100;
+    const totalRetainedItemCount = 100;
+    const dataSource = 'calls';
     const { getByText, queryByText } = render(
-      <CountHeader totalRepresentedItemCount={totalRepresentedItemCount} totalHits={totalHits} />
+      <CountHeader
+        totalRepresentedItemCount={totalRepresentedItemCount}
+        totalHits={totalHits}
+        totalRetainedItemCount={totalRetainedItemCount}
+        dataSource={dataSource}
+      />
     );
 
     expect(
       getByText(
         t('in-components:analyzeView.result', {
-          count: totalRepresentedItemCount,
-          formattedCount: number.compact(totalRepresentedItemCount)
+          count: totalRetainedItemCount,
+          formattedCount: number.compact(totalRetainedItemCount),
+          dataSource: dataSource
         })
       )
     );
@@ -93,11 +86,15 @@ describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
 
   it('When is not grouped and it has historical data should display the total represented item count and retained items', () => {
     const totalRepresentedItemCount = 125;
-    const totalHits = 0;
+    const totalHits = 100;
+    const totalRetainedItemCount = 100;
+    const dataSource = 'calls';
     const { getByText } = render(
       <CountHeader
         totalRepresentedItemCount={totalRepresentedItemCount}
         totalHits={totalHits}
+        totalRetainedItemCount={totalRetainedItemCount}
+        dataSource={dataSource}
         renderHistoricDataIndicator
       />
     );
@@ -105,35 +102,41 @@ describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
     expect(
       getByText(
         t('in-components:analyzeView.result', {
-          count: totalRepresentedItemCount,
-          formattedCount: number.compact(totalRepresentedItemCount)
+          count: totalRetainedItemCount,
+          formattedCount: number.compact(totalRetainedItemCount),
+          dataSource: dataSource
         })
       )
     );
 
     expect(
       getByText(
-        t('in-components:analyzeView.resultRetained', {
-          count: totalHits,
-          formattedCount: number.compact(totalHits)
+        t('in-components:analyzeView.groupedViewHeaderRetained', {
+          count: totalRepresentedItemCount,
+          formattedCount: number.compact(totalRepresentedItemCount)
         })
       )
     );
   });
 
-  it('When is not grouped and it has historical data but represented item count is the same as total hits should not display the retained items', () => {
+  it('When is not grouped and it has historical data but retained item count is the same as represented item count should not display the retained items', () => {
     useObservable.mockReturnValue({ containsHistoricData: true });
-    const totalRepresentedItemCount = 125;
-    const totalHits = 125;
+    const totalRepresentedItemCount = 1000;
+    const totalHits = 100;
+    const totalRetainedItemCount = 100;
     const { getByText, queryByText } = render(
-      <CountHeader totalRepresentedItemCount={totalRepresentedItemCount} totalHits={totalHits} />
+      <CountHeader
+        totalRepresentedItemCount={totalRepresentedItemCount}
+        totalHits={totalHits}
+        totalRetainedItemCount={totalRetainedItemCount}
+      />
     );
 
     expect(
       getByText(
         t('in-components:analyzeView.result', {
-          count: totalRepresentedItemCount,
-          formattedCount: number.compact(totalRepresentedItemCount)
+          count: totalRetainedItemCount,
+          formattedCount: number.compact(totalRetainedItemCount)
         })
       )
     );
@@ -141,8 +144,8 @@ describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
     expect(
       queryByText(
         t('in-components:analyzeView.resultRetained', {
-          count: totalHits,
-          formattedCount: number.compact(totalHits)
+          count: totalRepresentedItemCount,
+          formattedCount: number.compact(totalRepresentedItemCount)
         })
       )
     ).not.toBeInTheDocument();

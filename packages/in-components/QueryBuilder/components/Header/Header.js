@@ -19,6 +19,7 @@ export default function Header(props) {
     sortOptions,
     setMetrics,
     totalHits,
+    totalRetainedItemCount,
     getHitName,
     getItemName,
     setOrder,
@@ -32,6 +33,7 @@ export default function Header(props) {
     MetricConfiguratorHint,
     hasErrors,
     isLoading,
+    dataSource,
     renderHistoricDataIndicator = false
   } = props;
 
@@ -54,7 +56,9 @@ export default function Header(props) {
       {withCountHeader && (
         <CountHeader
           totalRepresentedItemCount={totalRepresentedItemCount}
+          totalRetainedItemCount={totalRetainedItemCount}
           totalHits={totalHits}
+          dataSource={dataSource}
           isLoading={isLoading}
           hasErrors={hasErrors}
           getItemName={getItemName}
