@@ -33,7 +33,7 @@ packages/in-events                  @pr-approval @Instana-IBM-GitHub-Enterprise 
 # Shared ownership
 # packages/in-forge
 
-packages/in-forge/plugins           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors
+packages/in-forge/plugins           @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-sensors @instana/eng-ibm-cdl-sensors
 packages/in-hoc                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-hooks                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-infrastructure          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
