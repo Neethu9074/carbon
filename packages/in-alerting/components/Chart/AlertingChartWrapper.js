@@ -38,7 +38,8 @@ export default connectTo(
           : mergeResult({
               result: applyPostProcessing(metrics, props.postProcessMetric, props.timeConfig, props.granularity),
               y1: props.y1,
-              thresholdType: props.thresholdType
+              thresholdType: props.thresholdType,
+              setMetricResultPrecision: props.setMetricResultPrecision
             });
       })
     };
@@ -88,7 +89,7 @@ function getThreshold(y1, thresholdType, metricData) {
   }
 }
 
-function mergeResult({ result, y1, thresholdType }) {
+function mergeResult({ result, y1, thresholdType, setMetricResultPrecision }) {
   const metricName = y1.metricIds[0];
   const mergedResult = {
     time: 0,
@@ -100,6 +101,8 @@ function mergeResult({ result, y1, thresholdType }) {
   if (result.errors.length > 0 || result.progress.loading) {
     return result;
   }
+
+  setMetricResultPrecision?.(result?.resultPrecisionDetails?.resultPrecision);
 
   const metricData = result.data[metricName];
 

@@ -16,6 +16,7 @@ import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
 import { zeroFillMetric } from 'in-alerting/components/Chart/chartUtils';
 import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
+import { noop } from 'in-services/util/function';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -37,7 +38,8 @@ export default function AlertingChart({
   canReload,
   rendererOverride,
   eventBasedAdaptiveBaseline,
-  highlight
+  highlight,
+  setMetricResultPrecision = noop
 }) {
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
@@ -86,6 +88,7 @@ export default function AlertingChart({
       y1={getY1()}
       canReload={canReload}
       nonInteractive
+      setMetricResultPrecision={setMetricResultPrecision}
     />
   );
 
@@ -289,5 +292,6 @@ AlertingChart.propTypes = {
     }),
     color: PropTypes.arrayOf(PropTypes.string).isRequired,
     label: PropTypes.string.isRequired
-  })
+  }),
+  setMetricResultPrecision: PropTypes.func
 };
