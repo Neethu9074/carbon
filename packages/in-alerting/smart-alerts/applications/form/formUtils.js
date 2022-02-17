@@ -153,18 +153,19 @@ export function getDescriptionPlaceholder(form) {
       const statusCodeStart = ruleForm.get('statusCode').get('statusCodeStart').value;
       const statusCodeEnd = ruleForm.get('statusCode').get('statusCodeEnd').value;
 
+      const statusCodeFullText = getStatusCodeFullText(statusCodeStart, statusCodeEnd);
       if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeStaticThreshold', {
           context: getHigherOrLowerOperatorContext(thresholdOperator),
-          statusCodeFullText: getStatusCodeFullText(statusCodeStart, statusCodeEnd),
+          statusCodeFullText,
           thresholdValue: thresholdValue
         });
       }
 
       return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.statusCodeDefault', {
         context: getHigherOrLowerOperatorContext(thresholdOperator),
-        statusCodeFullText: getStatusCodeFullText(statusCodeStart, statusCodeEnd)
+        statusCodeFullText
       });
     }
     case 'throughput': {
@@ -190,28 +191,38 @@ export function getDescriptionPlaceholder(form) {
 }
 
 function getStatusCodeShortText(statusCodeStart, statusCodeEnd) {
-  if (statusCodeStart === statusCodeEnd) {
+  if (statusCodeStart && statusCodeStart === statusCodeEnd) {
     return statusCodeStart.toString();
-  } else if (statusCodeStart % 100 === 0 && statusCodeEnd - statusCodeStart === 99) {
+  } else if (
+    statusCodeStart &&
+    statusCodeEnd &&
+    statusCodeStart % 100 === 0 &&
+    statusCodeEnd - statusCodeStart === 99
+  ) {
     // predefined ranges (e.g. 400 - 499): 4XX
     return `${parseInt(statusCodeStart / 100).toString()}XX`;
   } else {
     // custom ranges
-    return `${statusCodeStart} - ${statusCodeEnd}`;
+    return `${statusCodeStart ?? '?'} - ${statusCodeEnd ?? '?'}`;
   }
 }
 
 function getStatusCodeFullText(statusCodeStart, statusCodeEnd) {
-  if (statusCodeStart === statusCodeEnd) {
+  if (statusCodeStart && statusCodeStart === statusCodeEnd) {
     return getStatusCodeLabel(statusCodeStart.toString());
-  } else if (statusCodeStart % 100 === 0 && statusCodeEnd - statusCodeStart === 99) {
+  } else if (
+    statusCodeStart &&
+    statusCodeEnd &&
+    statusCodeStart % 100 === 0 &&
+    statusCodeEnd - statusCodeStart === 99
+  ) {
     // predefined ranges (e.g. 400 - 499): 4XX
     return getStatusCodeLabel(parseInt(statusCodeStart / 100).toString());
   } else {
     // custom ranges
     return t('in-alerting:smartAlerts.applications.formUtils.customStatusCodeFullText', {
-      statusCodeStart: statusCodeStart,
-      statusCodeEnd: statusCodeEnd
+      statusCodeStart: statusCodeStart ?? '?',
+      statusCodeEnd: statusCodeEnd ?? '?'
     });
   }
 }
