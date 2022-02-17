@@ -119,7 +119,7 @@ describe('in-components/QueryBuilder/components/Header/CountHeader', () => {
     );
   });
 
-  it('When is not grouped and it has historical data but represented item count is the same as total hits should not display the retained items', () => {
+  it('When is not grouped and it has historical data but retained item count is the same as represented item count should not display the retained items', () => {
     useObservable.mockReturnValue({ containsHistoricData: true });
     const totalRepresentedItemCount = 1000;
     const totalHits = 100;
