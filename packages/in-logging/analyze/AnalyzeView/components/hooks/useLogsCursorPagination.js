@@ -13,15 +13,15 @@ import { shallowEquals } from 'in-services/util/object';
 const defaultUseLogsCursorPaginationHook = createPageSizeAwareLogsCursorPaginationHook();
 export default defaultUseLogsCursorPaginationHook;
 
-export function createPageSizeAwareLogsCursorPaginationHook(initialLogPages = 2, retrievalSize = 20) {
+export function createPageSizeAwareLogsCursorPaginationHook(initialLogLines, retrievalSize = 20) {
   const initialState = {
     items: emptyArray,
     progress: indeterminateProgress,
     errors: emptyArray,
     awaitingData: true,
     canLoadMore: false,
-    loadAfterCount: initialLogPages,
-    currentRetrievalSize: initialLogPages * retrievalSize
+    initialLogLines: initialLogLines || retrievalSize,
+    currentRetrievalSize: initialLogLines || retrievalSize
   };
 
   return function useLogsCursorPagination(create, deps = []) {
@@ -37,7 +37,6 @@ export function createPageSizeAwareLogsCursorPaginationHook(initialLogPages = 2,
     useEffect(() => setState(initialState), deps);
 
     const {
-      loadAfterCount,
       progress,
       canLoadMore,
       afterKey,
@@ -45,12 +44,13 @@ export function createPageSizeAwareLogsCursorPaginationHook(initialLogPages = 2,
       errors,
       items,
       time,
+      initialLogLines,
       currentRetrievalSize
     } = shallowEquals(prevDeps, deps) ? state : initialState;
 
-    const observable = useMemo(() => create({ afterKey, loadAfterCount, retrievalSize: currentRetrievalSize }), [
+    const observable = useMemo(() => create({ afterKey, initialLogLines, retrievalSize: currentRetrievalSize }), [
       afterKey,
-      loadAfterCount,
+      initialLogLines,
       ...deps
     ]);
     useEffect(() => setState(awaitItems), [observable, ...deps]);
@@ -62,15 +62,15 @@ export function createPageSizeAwareLogsCursorPaginationHook(initialLogPages = 2,
       setState(prev => ({
         ...prev,
         afterKey: _afterKey,
-        loadAfterCount: loadAfterCount + 1,
+        initialLogLines: initialLogLines + retrievalSize,
         currentRetrievalSize: retrievalSize
       }))
     );
-    const loadMoreAfter = useCallback(() => setAfterKey(nextAfterKey), [nextAfterKey, loadAfterCount]);
+    const loadMoreAfter = useCallback(() => setAfterKey(nextAfterKey), [nextAfterKey, setAfterKey]);
     return {
       progress,
       loadMore: loadMoreAfter,
-      loadAfterCount,
+      initialLogLines,
       canLoadMore,
       afterKey,
       errors,
