@@ -7,7 +7,7 @@ import React from 'react';
 
 import { combineLatest, create, just } from '@instana/observables';
 
-import { finishedProgress, emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
+import { finishedProgress, emptyArray, indeterminateProgress, pendingResult, noop } from 'in-services/fixedObjects';
 import { getThresholdInTimeframe } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
@@ -89,7 +89,7 @@ function getThreshold(y1, thresholdType, metricData) {
   }
 }
 
-function mergeResult({ result, y1, thresholdType, setMetricResultPrecision }) {
+function mergeResult({ result, y1, thresholdType, setMetricResultPrecision = noop }) {
   const metricName = y1.metricIds[0];
   const mergedResult = {
     time: 0,
@@ -102,7 +102,7 @@ function mergeResult({ result, y1, thresholdType, setMetricResultPrecision }) {
     return result;
   }
 
-  setMetricResultPrecision?.(result?.resultPrecisionDetails?.resultPrecision);
+  setMetricResultPrecision(result?.resultPrecisionDetails?.resultPrecision);
 
   const metricData = result.data[metricName];
 
