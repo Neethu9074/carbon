@@ -535,8 +535,6 @@ export const fullyQualifiedPlugins = {
   webSphereDeploymentManager:
     'com.instana.forge.infrastructure.application.webspheredmgr.derivedentity.dmgr.WebSphereDeploymentManager',
   webSphereCluster: 'com.instana.forge.infrastructure.application.webspheredmgr.derivedentity.cluster.WebSphereCluster',
-  webSphereClusterMember:
-    'com.instana.forge.infrastructure.application.webspheredmgr.derivedentity.member.WebSphereMember',
   webSphereLibertyApplicationContainer:
     'com.instana.forge.infrastructure.application.websphere.WebSphereLibertyApplicationContainer',
   zhmcConsole: 'com.instana.forge.infrastructure.paas.zhmc.derivedentity.console.ZhmcConsole',
