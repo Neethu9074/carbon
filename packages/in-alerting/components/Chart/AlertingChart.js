@@ -37,7 +37,8 @@ export default function AlertingChart({
   canReload,
   rendererOverride,
   eventBasedAdaptiveBaseline,
-  highlight
+  highlight,
+  setMetricResultPrecision
 }) {
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
@@ -86,6 +87,7 @@ export default function AlertingChart({
       y1={getY1()}
       canReload={canReload}
       nonInteractive
+      setMetricResultPrecision={setMetricResultPrecision}
     />
   );
 
@@ -289,5 +291,6 @@ AlertingChart.propTypes = {
     }),
     color: PropTypes.arrayOf(PropTypes.string).isRequired,
     label: PropTypes.string.isRequired
-  })
+  }),
+  setMetricResultPrecision: PropTypes.func
 };

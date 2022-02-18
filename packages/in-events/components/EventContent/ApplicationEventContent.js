@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useState } from 'react';
 import { Map } from 'immutable';
-import React from 'react';
 
 import { Card } from '@instana/components';
 
@@ -15,6 +15,7 @@ import { getChartTimeConfigByEvent, getTimeConfigFromEvent, getSmartAlertAnalyze
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { SmartAlertAffectedEntities } from 'in-events/components/EventContent/SmartAlertAffectedEntities';
 import ApplicationScopePath from 'in-alerting/smart-alerts/applications/components/ApplicationScopePath';
+import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import AnalyzeApplicationEventButton from 'in-events/components/AnalyzeApplicationEventButton';
 import ApplicationAlertConfigButton from 'in-events/components/ApplicationAlertConfigButton';
@@ -34,6 +35,7 @@ import locals from './ApplicationEventContent.mless';
 export default function ApplicationEventContent({ event }) {
   const alertConfig = useApplicationEventAlertConfig(event);
   const eventEntity = useApplicationEventEntity(event);
+  const [metricResultPrecision, setMetricResultPrecision] = useState();
 
   if (!eventEntity || !alertConfig) {
     return null;
@@ -92,7 +94,10 @@ export default function ApplicationEventContent({ event }) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:titleMetrics')}>
+          <Card
+            title={t('in-events:titleMetrics')}
+            leftHeaderContent={<HighlightDataRetention metricResultPrecision={metricResultPrecision} />}
+          >
             <ApplicationAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
                 ...alertConfig,
@@ -104,6 +109,7 @@ export default function ApplicationEventContent({ event }) {
               serviceId={eventEntity.serviceId}
               endpointId={eventEntity.endpointId}
               eventBasedAdaptiveBaseline={Object.entries(adaptiveBaselineInfo).sort((a, b) => a[0] - b[0])}
+              setMetricResultPrecision={setMetricResultPrecision}
             />
           </Card>
         </Col>
@@ -128,7 +134,12 @@ export default function ApplicationEventContent({ event }) {
       {!isEndpointType && (
         <Row withoutSideMargin>
           <Col xs>
-            <SmartAlertAffectedEntities {...eventEntity} alertConfig={alertConfig} event={event} />
+            <SmartAlertAffectedEntities
+              leftHeaderContent={<HighlightDataRetention metricResultPrecision={metricResultPrecision} />}
+              alertConfig={alertConfig}
+              event={event}
+              {...eventEntity}
+            />
           </Col>
         </Row>
       )}

@@ -6,8 +6,7 @@
 import { Map } from 'immutable';
 import React from 'react';
 
-import { Card } from '@instana/components';
-import { Link } from '@instana/components';
+import { Card, Link } from '@instana/components';
 
 import {
   getLinkToUnboundAnalytics,
@@ -30,7 +29,8 @@ export function SmartAlertAffectedEntities({
   serviceId,
   serviceName,
   endpointId,
-  endpointName
+  endpointName,
+  leftHeaderContent
 }) {
   const { rule, includeInternal, includeSynthetic } = alertConfig;
 
@@ -74,7 +74,10 @@ export function SmartAlertAffectedEntities({
   );
 
   return (
-    <Card title={needsGroupByEndpoint ? t('in-events:affectedEndpoints') : t('in-events:affectedServices')}>
+    <Card
+      title={needsGroupByEndpoint ? t('in-events:affectedEndpoints') : t('in-events:affectedServices')}
+      leftHeaderContent={leftHeaderContent}
+    >
       <AffectedEntities
         tagFilterExpression={tagFilterExpression}
         totalTagFilterExpression={totalTagFilterExpression}
