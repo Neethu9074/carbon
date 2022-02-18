@@ -100,12 +100,11 @@ function ErrorListItems({ errors }) {
   );
 }
 
-function getTableData({ timeConfig, afterKey, backendQueryModel, loadAfterCount, retrievalSize }) {
+function getTableData({ timeConfig, afterKey, backendQueryModel, retrievalSize }) {
   return getLogs({
     timeConfig,
     retrievalSize,
     afterKey,
-    loadAfterCount,
     tagFilterExpression: backendQueryModel,
     tags: []
   });
