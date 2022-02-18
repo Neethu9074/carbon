@@ -1477,6 +1477,9 @@ export interface GetMobileAppMetricsQuery extends QueryWithMetrics, UiQuery {
   readonly timeShift: TimeShift;
 }
 
+export interface GetMobileAppMetricsQueryBuilder {
+}
+
 export interface GetMobileAppPaginatedBeaconGroupsQuery extends PaginatedUIQuery {
   readonly group: MobileAppBeaconTagGroup;
   readonly metrics: { [index: string]: MobileAppMonitoringMetricsConfiguration };
@@ -3525,6 +3528,8 @@ export interface SliEntity {
 }
 
 export interface SliUnifiedMetricConfiguration extends UnifiedMetricConfiguration {
+  readonly isPreview: boolean;
+  readonly preview: boolean;
   readonly sliConfigId: string;
   readonly slo: number;
 }
