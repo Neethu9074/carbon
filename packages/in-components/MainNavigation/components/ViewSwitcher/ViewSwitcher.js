@@ -12,6 +12,7 @@ import {
   pcfEnabled,
   phmcEnabled,
   vsphereEnabled,
+  openstackEnabled,
   zhmcEnabled,
   releaseNotesEnabled,
   tenantSwitcherEnabled,
@@ -50,6 +51,7 @@ import { physicalPath, containerPath, isTableView } from 'in-stores/navigation/p
 import { SubViewItem } from 'in-components/MainNavigation/components/ViewSwitcher/SubView';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { getView, isView, getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { regionListFullyQualified, openstack } from 'in-openstack/navigation/paths';
 import { datacenterListFullyQualified, vsphere } from 'in-vsphere/navigation/paths';
 import { isAnalyzeView as isLogsAnalyzeView } from 'in-logging/navigation/paths';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
@@ -413,6 +415,7 @@ function Platforms(props) {
   const { expandedSubMenu, setExpandedSubMenu, sidebarIsExpanded, onMouseEnter, onMouseLeave } = props;
 
   let numPlatformsAvailable = 0;
+  if (openstackEnabled) numPlatformsAvailable++;
   if (pcfEnabled) numPlatformsAvailable++;
   if (phmcEnabled) numPlatformsAvailable++;
   if (zhmcEnabled) numPlatformsAvailable++;
@@ -426,6 +429,16 @@ function Platforms(props) {
   const platforms = (
     <>
       {/* Keep the list of platforms sorted alphabetically */}
+      {openstackEnabled && (
+        <ViewItemForPlatforms
+          id="main-nav-openstack"
+          label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
+          icon="lib_openstack"
+          href$={getView(regionListFullyQualified)}
+          isActive$={isView(openstack)}
+          {...props}
+        />
+      )}
       {pcfEnabled && (
         <ViewItemForPlatforms
           id="main-nav-cloudfoundry"

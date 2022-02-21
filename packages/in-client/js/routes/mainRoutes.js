@@ -15,6 +15,7 @@ import React from 'react';
 import {
   pcfEnabled,
   vsphereEnabled,
+  openstackEnabled,
   phmcEnabled,
   zhmcEnabled,
   internalMonitoringUnit,
@@ -42,6 +43,7 @@ import syntheticsRoutes from 'in-synthetics/navigation/routes';
 import LandingPage from 'in-client/js/LandingPage/LandingPage';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
 import profilingRoutes from 'in-profiling/navigation/routes';
+import openstackRoutes from 'in-openstack/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
 import cockpitRoutes from 'in-cockpit/navigation/routes';
 import vsphereRoutes from 'in-vsphere/navigation/routes';
@@ -75,6 +77,7 @@ export default (
     {pcfEnabled && cloudfoundryRoutes}
     {phmcEnabled && phmcRoutes}
     {vsphereEnabled && vsphereRoutes}
+    {openstackEnabled && openstackRoutes}
     {zhmcEnabled && zhmcRoutes}
     {hasWebsitesAccess && websiteMonitoringRoutes}
     {hasMobileAppsAccess && mobileAppMonitoringRoutes}

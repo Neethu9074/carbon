@@ -31,6 +31,7 @@ module.exports = {
   tenantSwitcherEnabled: true,
   useInstanaSaasEumTrackingUrlEnabled: true,
   vsphereEnabled: true,
+  openstackEnabled: true,
   zhmcEnabled: true,
   websiteUserBreakdownEnabled: true,
   ampCompanyInfoEnabled: true,

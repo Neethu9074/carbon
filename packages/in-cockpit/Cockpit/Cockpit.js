@@ -15,9 +15,9 @@ import {
   hasMobileAppsAccess,
   hasWebsitesAccess
 } from 'in-stores/permission';
+import { pcfEnabled, vsphereEnabled, openstackEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import { isLandingPage, setLandingPage } from 'in-client/js/LandingPage/supportedLandingPages/cockpit';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
-import { pcfEnabled, vsphereEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import WebsitesAndMobileTopList from 'in-cockpit/Cockpit/components/WebsitesAndMobileTopList';
 import DashboardSwitcher from 'in-custom-dashboards/DashboardSwitcher/DashboardSwitcher';
 import InfrastructureTopList from 'in-cockpit/Cockpit/components/InfrastructureTopList';
@@ -303,6 +303,7 @@ function getPlatformsTitle() {
   if (hasKubernetesAccess) numPlatformsAvailable++;
   if (pcfEnabled) numPlatformsAvailable++;
   if (vsphereEnabled) numPlatformsAvailable++;
+  if (openstackEnabled) numPlatformsAvailable++;
   if (phmcEnabled) numPlatformsAvailable++;
   if (zhmcEnabled) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
@@ -314,6 +315,9 @@ function getPlatformsTitle() {
   }
   if (vsphereEnabled) {
     return t('in-cockpit:cockpit.vsphere');
+  }
+  if (openstackEnabled) {
+    return t('in-cockpit:cockpit.openstack');
   }
   if (phmcEnabled) {
     return t('in-cockpit:cockpit.ibmp');
@@ -329,6 +333,7 @@ function getPlatformCardIcon() {
   if (hasKubernetesAccess) numPlatformsAvailable++;
   if (pcfEnabled) numPlatformsAvailable++;
   if (vsphereEnabled) numPlatformsAvailable++;
+  if (openstackEnabled) numPlatformsAvailable++;
   if (phmcEnabled) numPlatformsAvailable++;
   if (zhmcEnabled) numPlatformsAvailable++;
   if (numPlatformsAvailable > 1) {
@@ -339,6 +344,9 @@ function getPlatformCardIcon() {
   }
   if (vsphereEnabled) {
     return 'lib_vsphere';
+  }
+  if (openstackEnabled) {
+    return 'lib_openstack';
   }
   if (phmcEnabled) {
     return 'lib_phmc_console';
