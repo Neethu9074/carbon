@@ -1444,6 +1444,9 @@ export interface GetMobileAppBeaconGroupsQuery extends QueryWithMetrics, CursorP
   readonly timeShift: TimeShift;
 }
 
+export interface GetMobileAppBeaconGroupsQueryBuilder {
+}
+
 export interface GetMobileAppBeaconsForSessionQuery extends UiQuery {
   readonly beaconTimestamp?: number;
   readonly rbacRestrictions?: any;
@@ -1458,6 +1461,9 @@ export interface GetMobileAppBeaconsQuery extends CursorPaginatedQuery {
   readonly tagFilterExpression?: TagFilterExpressionElement;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
+}
+
+export interface GetMobileAppBeaconsQueryBuilder {
 }
 
 export interface GetMobileAppCountryBreakdownQuery extends PaginatedUIQuery {
