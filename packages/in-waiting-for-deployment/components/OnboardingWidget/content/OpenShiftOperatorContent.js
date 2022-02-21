@@ -15,12 +15,12 @@ import {
 import { Col, Row as GridRow } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
-export default function OpenShiftOperatorContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function OpenShiftOperatorContent({ downloadKey, agentEndpoint, agentEndpointPort }) {
   return (
     <>
       <TextWithLink
         i18nKey="in-waiting-for-deployment:content.installingTheInstanaAgentUsingTheOpenShiftOperatorIsDescribedIn"
-        href="https://instana.com/docs/setup_and_manage/host_agent/on/openshift/#install-using-the-operator"
+        href="https://www.ibm.com/docs/en/obi/current?topic=requirements-installing-host-agent-openshift#install-using-the-operator"
       />
       <Spacer />
       <TextWithLink
@@ -39,7 +39,7 @@ export default function OpenShiftOperatorContent({ agentKey, agentEndpoint, agen
         </Col>
         <Col xs={4}>
           <Description lines={[t('in-waiting-for-deployment:content.instanaApplicationKey')]} />
-          <Script lines={[agentKey]} />
+          <Script lines={[downloadKey]} />
         </Col>
       </GridRow>
       <Spacer />

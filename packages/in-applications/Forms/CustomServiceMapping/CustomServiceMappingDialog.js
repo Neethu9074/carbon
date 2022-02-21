@@ -67,7 +67,10 @@ export default function CustomServiceMappingDialog() {
                           components={{
                             bold: <strong />,
                             linkToDoc: (
-                              <Link external href="https://instana.com/docs/application_monitoring/services/" />
+                              <Link
+                                external
+                                href="https://www.ibm.com/docs/en/obi/current?topic=applications-services"
+                              />
                             )
                           }}
                         />

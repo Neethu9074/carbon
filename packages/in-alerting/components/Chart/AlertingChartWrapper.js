@@ -7,7 +7,7 @@ import React from 'react';
 
 import { combineLatest, create, just } from '@instana/observables';
 
-import { finishedProgress, emptyArray, indeterminateProgress, pendingResult } from 'in-services/fixedObjects';
+import { finishedProgress, emptyArray, indeterminateProgress, pendingResult, noop } from 'in-services/fixedObjects';
 import { getThresholdInTimeframe } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
@@ -39,7 +39,7 @@ export default connectTo(
               result: applyPostProcessing(metrics, props.postProcessMetric, props.timeConfig, props.granularity),
               y1: props.y1,
               thresholdType: props.thresholdType,
-              mutateMetrics: props.mutateMetrics ?? {}
+              setMetricResultPrecision: props.setMetricResultPrecision
             });
       })
     };
@@ -89,17 +89,7 @@ function getThreshold(y1, thresholdType, metricData) {
   }
 }
 
-function getMetricData(result, metricName, mutateMetrics) {
-  const metricData = result.data[metricName];
-
-  if (mutateMetrics?.doMutate && mutateMetrics?.metricNames.includes(metricName)) {
-    return mutateMetrics.mutate(metricData);
-  }
-
-  return metricData;
-}
-
-function mergeResult({ result, y1, thresholdType, mutateMetrics }) {
+function mergeResult({ result, y1, thresholdType, setMetricResultPrecision = noop }) {
   const metricName = y1.metricIds[0];
   const mergedResult = {
     time: 0,
@@ -112,7 +102,9 @@ function mergeResult({ result, y1, thresholdType, mutateMetrics }) {
     return result;
   }
 
-  const metricData = getMetricData(result, metricName, mutateMetrics);
+  setMetricResultPrecision(result?.resultPrecisionDetails?.resultPrecision);
+
+  const metricData = result.data[metricName];
 
   return {
     ...mergedResult,

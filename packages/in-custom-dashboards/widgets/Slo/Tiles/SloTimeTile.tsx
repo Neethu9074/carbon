@@ -13,7 +13,7 @@ import locals from './SloTile.mless';
 
 type Timestamp = number | Date;
 interface SloTimeTileProps {
-  title: string;
+  title?: string;
   timeFrameLabel: string;
   fromTimestamp?: Timestamp;
   toTimestamp?: Timestamp;

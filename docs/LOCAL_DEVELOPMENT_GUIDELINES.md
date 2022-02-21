@@ -81,7 +81,7 @@ that, `openssl version` should say something like `OpenSSL 1.0.2o 27 Mar 2018`.
 ### Preferences/Environment Variables
 
 A few environment variables are used to tweak the UI development workflow to your personal preferences. These are used
-for `yarn run dev`:
+for `yarn dev / yarn debug`:
 
 - `TARGET`:
   - If this is set to `test` (non case-sensitive) the UI client will connect to the test environment automatically
@@ -107,3 +107,55 @@ For maximum convenience, you can create aliases like this for your shell:
 alias uit="cd /Users/name/path/to/ui-client && TARGET=test yarn run dev"
 alias uil="cd /Users/name/path/to/ui-client && TARGET=local yarn run dev"
 ```
+
+## Debugging ui-client
+
+We provide the ability to debug ui-client in your IDE. To do so, we have a dedicated `debug` target with high quality
+source maps enabled for best debugging quality.
+
+`yarn debug`
+
+`yarn debug` simply wraps around `yarn dev`, so you can still select your desired environment. However, it won't open
+ui-client in your default browser, as this is a bit different when starting a debugging session.
+
+### IntelliJ
+
+Ready to use run configurations for IntelliJ are contained in the `.run` folder on root level.
+
+In case these configs are not picked up automatically by IntelliJ (depends on your version), you'll have to copy them
+to `.idea/runConfigurations` ([IntelliJ Docs](https://www.jetbrains.com/help/idea/run-debug-configuration.html#share-configurations))
+.
+
+![IntelliJ run configurations](./screenshots/debugging/intellij/intellij_run_configs.png)
+
+![Run configuration](./screenshots/debugging/intellij/intellij_config.png)
+
+These run configurations are pretty straight forward:
+
+1. Add a new `JavaScript Debug` goal
+2. Configure the URL to open, e.g. for Pink `https://local-instana.pink.instana.rocks:4000/` and which browser to use
+3. You should make sure to uncheck the `Ensure breakpoins are detected when loading scripts` box, otherwise you'll hit
+   quite a lot of breakpoints on the initial load
+
+Debugging a ui-client that has been started via `yarn debug` boils down to the following steps:
+
+1. Start a debugging session for your desired environment
+   ![IntelliJ debugging](./screenshots/debugging/intellij/debug.png)
+3. Set breakpoints
+4. [Debug!](https://www.jetbrains.com/help/idea/debugging-code.html)
+
+### VSCode
+
+We added debugging configs to the `launch.json` configs for VSCode, so they are immediately available in the debug menu.
+
+![VS Code debug menu](./screenshots/debugging/vscode/debug_menu.png)
+![Ready to use debug configs](./screenshots/debugging/vscode/debug_configs.png)
+
+Debugging a ui-client that has been started via `yarn debug` boils down to the following steps:
+
+![VS Code debugging](./screenshots/debugging/vscode/run_debugging.png)
+
+1. Start a debugging session for your desired environment
+2. Select a browser to use
+3. Set breakpoints
+4. [Debug!](https://code.visualstudio.com/Docs/editor/debugging)

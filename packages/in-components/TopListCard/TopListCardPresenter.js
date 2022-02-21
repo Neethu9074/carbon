@@ -68,7 +68,7 @@ export default function TopListCard(props) {
   }
 
   const leftHeaderContent =
-    renderHistoricDataIndicator || result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE' ? (
+    renderHistoricDataIndicator && result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE' ? (
       <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
     ) : (
       undefined

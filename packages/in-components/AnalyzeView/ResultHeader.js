@@ -6,11 +6,8 @@
 import rpt from 'prop-types';
 import React from 'react';
 
-import { useObservable } from '@instana/hooks';
 import { SvgIcon } from '@instana/components';
 
-import { historicOrLargeDataResult$ } from 'in-components/time/TimeSelection/TimeSelection';
-import { emptyObject } from 'in-services/fixedObjects';
 import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
@@ -22,17 +19,18 @@ export default function ResultHeader({
   totalRepresentedItemCount,
   totalHits,
   adjustedWindowSize,
-  isLoading = true
+  isLoading = true,
+  resultPrecisionDetails
 }) {
-  const historicOrLargeDataResult = useObservable(historicOrLargeDataResult$, []);
-  const { containsHistoricData } = historicOrLargeDataResult ?? emptyObject;
   // for historic data show number of retained items
   // otherwise show total represented item count (a single batched call can represent multiple items)
-  const resultCount = containsHistoricData ? totalHits : totalRepresentedItemCount;
+  const isApproximateData = resultPrecisionDetails === 'PRECISION_APPROXIMATE';
+  const resultCount = isApproximateData ? totalHits : totalRepresentedItemCount;
+
   return (
     <div className={locals.wrapper}>
       {label && <span className={locals.result}>{label}</span>}
-      {(totalHits == null && totalRepresentedItemCount == null) || historicOrLargeDataResult == null ? (
+      {(totalHits == null && totalRepresentedItemCount == null) || isApproximateData == null ? (
         <span className={locals.number}>
           {isLoading ? t('in-components:analyzeView.resultHeaderLoading') : t('in-components:analyze.noResults')}
         </span>
@@ -56,5 +54,6 @@ ResultHeader.propTypes = {
   totalRepresentedItemCount: rpt.number,
   totalHits: rpt.number,
   adjustedWindowSize: rpt.number,
-  isLoading: rpt.bool
+  isLoading: rpt.bool,
+  resultPrecisionDetails: rpt.string
 };

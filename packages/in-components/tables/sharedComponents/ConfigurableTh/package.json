@@ -2,5 +2,5 @@
   "name": "ConfigurableTh",
   "version": "0.0.0",
   "private": true,
-  "main": "./ConfigurableTh.js"
+  "main": "ConfigurableTh.tsx"
 }

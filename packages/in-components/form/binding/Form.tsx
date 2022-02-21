@@ -1,0 +1,48 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import { Item } from 'formalistic';
+import React from 'react';
+
+import { FormContext } from 'in-components/form/binding/FormContext';
+
+interface FormProps {
+  onSubmit: (form: Item) => void;
+  children: React.ReactNode;
+  form: Item;
+  setForm: (form: Item) => void;
+  formId?: string;
+  disabled?: boolean;
+}
+
+export default function Form({ onSubmit, children, form, setForm, disabled, formId }: FormProps) {
+  return (
+    <FormContext.Provider
+      value={{
+        form,
+        rootPath: [],
+        setForm,
+        disabled
+      }}
+    >
+      <form
+        id={formId}
+        onSubmit={event => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          if (!form.hierarchyValid) {
+            setForm(form.setTouched(true, { recurse: true }));
+            return;
+          }
+
+          onSubmit(form);
+        }}
+      >
+        {children}
+      </form>
+    </FormContext.Provider>
+  );
+}

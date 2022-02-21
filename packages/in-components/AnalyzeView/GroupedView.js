@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, Fragment } from 'react';
 import classNames from 'classnames';
 import rpt from 'prop-types';
 
@@ -155,6 +155,7 @@ export default function GroupedAnalyzeView(props) {
     loadMore,
     totalHits,
     totalRepresentedItemCount,
+    totalRetainedItemCount,
     adjustedWindowSize,
     resultPrecisionDetails
   } = useCursorPagination(
@@ -265,6 +266,7 @@ export default function GroupedAnalyzeView(props) {
             metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
             totalHits={totalHits}
             totalRepresentedItemCount={totalRepresentedItemCount}
+            totalRetainedItemCount={totalRetainedItemCount}
             hasErrors={hasErrors}
             isLoading={isLoading}
             order={orderByGroups}
@@ -327,6 +329,7 @@ export default function GroupedAnalyzeView(props) {
                           facetedSearchItems={[]}
                           withEmbeddedLoadingIndicator
                           withEmbeddedNoDataIndicator
+                          withEmbeddedApproximateDataIndicator
                           Chart={null}
                           Sidebar={null}
                         />

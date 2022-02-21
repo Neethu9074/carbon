@@ -324,6 +324,11 @@
   "pluginName_crio_1": "CRI-O Containers",
   "pluginName_crio_2": "CRI-O Containers",
   "pluginName_crio": "CRI-O Container",
+  "pluginName_crowdStrikeFalcon_plural": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon_0": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon_1": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon_2": "CrowdStrike Falcon Agents",
+  "pluginName_crowdStrikeFalcon": "CrowdStrike Falcon",
   "pluginName_crystalRuntimePlatform_plural": "Crystal Apps",
   "pluginName_crystalRuntimePlatform_0": "Crystal Apps",
   "pluginName_crystalRuntimePlatform_1": "Crystal Apps",
@@ -1206,10 +1211,10 @@
   "tracingTypeName_activerecord_0": "ActiveRecord Calls",
   "tracingTypeName_activerecord_1": "ActiveRecord",
   "tracingTypeName_activerecord_2": "ActiveRecord Calls",
-  "tracingTypeName_adonet": "ADO Call'",
+  "tracingTypeName_adonet": "ADO Call",
   "tracingTypeName_adonet_plural": "ADO Calls",
   "tracingTypeName_adonet_0": "ADO Calls",
-  "tracingTypeName_adonet_1": "ADO Call'",
+  "tracingTypeName_adonet_1": "ADO Call",
   "tracingTypeName_adonet_2": "ADO Calls",
   "tracingTypeName_aerospike": "Aerospike Call",
   "tracingTypeName_aerospike_plural": "Aerospike Calls",
@@ -2281,7 +2286,7 @@
       "serverName": "Server Name",
       "cellName": "Cell Name",
       "webModules": "Web Modules",
-      "ejbModules": "EJBs",
+      "ejbModules": "EJB Modules",
       "datasources": "Datasources",
       "installDir": "Install Dir",
       "startedAt": "Started At",
@@ -2704,7 +2709,8 @@
       "nodeType": "Node Type",
       "flowNodeNumber": "Flow Node ({{count}})",
       "flowNodeNumber_plural": "Flow Nodes ({{count}})",
-      "messageFlowThreadUtilization": "Thread Utilization"
+      "messageFlowThreadUtilization": "Thread Utilization",
+      "messageFlowHealth": "Health"
     },
     "aceFlowNode": {
       "totalCpuTime": "Total CPU Time",
@@ -5055,6 +5061,20 @@
       "cpuUsage": "CPU Usage",
       "memoryUsage": "Memory Usage"
     },
+    "crowdStrikeFalcon": {
+      "dashboard": {
+        "thereIsNoFurtherInformationAboutThisEntity": "There is no further information about this entity."
+      },
+      "table": {
+        "host": "Host",
+        "name": "Name"
+      },
+      "rfm-state": "Reduced Functonality Mode",
+      "rfm-reason": "Reduced Functonality Reason",
+      "aid": "Agent Identifier",
+      "cid": "Customer Identifer",
+      "version": "Version"
+    },
     "crystalRuntimePlatform": {
       "dashboard": {
         "heap": "Heap",
@@ -5220,6 +5240,8 @@
       "staticQueries": "Static Queries",
       "dynamicQueries": "Dynamic Queries",
       "failedQueries": "Failed Queries",
+      "daysLastBackup": "Last Backup",
+      "daysAgo": "days ago",
       "physicalWrites": "Physical Writes",
       "physicalReads": "Physical Reads",
       "logicalReads": "Logical Reads",
@@ -5277,8 +5299,7 @@
       "totalIOTime": "IO Time",
       "lockTimeouts": "Lock Timeouts",
       "deadlocks": "Deadlocks",
-      "omsCons": "Remote Connections",
-      "omsConsExec": "Remote Connections Executing",
+      "totalConnections": "Total Connections",
       "agentHighWmark": "Agents Max Number",
       "coordAgentsHighWmark": "Coordinating Agents Max Number",
       "agentCreatedVSReused": "Agents Created V/S Agents Reused",
@@ -8661,7 +8682,7 @@
     },
     "ibmMqChannel": {
       "dashboard": {
-        "messagesSent": "Messages Sent",
+        "messagesSent": "Messages Sent/Received",
         "messagesAvailable": "Messages Available",
         "messages": "Messages",
         "sentReceived": "Sent/Received",
@@ -8719,7 +8740,7 @@
         "ibmMqCluster": "IBM MQ Cluster",
         "type": "Type",
         "messages": "Messages",
-        "publishers": "Publications",
+        "publications": "Publications",
         "subscriptions": "Subscriptions",
         "topicsWithCount": "Topics ({{len}})"
       },
@@ -8807,6 +8828,9 @@
         "usage": "Usage",
         "monitoring": "Monitoring",
         "queuesWithCount": "Queues ({{len}})",
+        "queueFullPercentage": "Depth Percentage",
+        "openInputCount": "Open Input",
+        "openOutputCount": "Open Output",
         "application": "Application",
         "channel": "Channel",
         "connection": "Connection",
@@ -8867,7 +8891,7 @@
     "ibmMqTopic": {
       "dashboard": {
         "messages": "Messages",
-        "publishers": "Publications",
+        "publications": "Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
         "ibmMqTopic": "IBM MQ Topic"
@@ -8878,7 +8902,7 @@
       "topicType": "Topic Type",
       "topicAlternatedAt": "Topic Alternated At",
       "messages": "Messages",
-      "publishers": "Publications",
+      "publications": "Publications",
       "count": "Count",
       "lastResetTime": "Last Reset Time",
       "reset": "Reset",
@@ -9081,6 +9105,8 @@
       "ibmDataPowerVariablesInvalid": "IBM DataPower instance is not correctly configured. The variable <code>{{invalidKey}}</code> of instance <code>{{instanceName}}</code> has the wrong value <code>{{invalidValue}}</code>.",
       "ibmDataPowerConnectionError": "Error occurred when query the IBM DataPower with url <code>{{url}}</code>, return code <code>{{rtnCode}}</code>, and response is <code>{{response}}</code>. Check your sensor's configuration e.g. host/port or IBM DataPower instance",
       "ibmDataPowerExceptionError": "The Sensor produced the following exception: <code>{{errorMessage}}</code>.",
+	  "agentTlsExpired": "The Agent TLS certificate <code>{{cert}}</code> expired in <code>{{context}}</code>.",
+	  "agentTlsAboutToExpire": "The Agent TLS certificate <code>{{cert}}</code> is about to expire in <code>{{context}}</code> days.",
       "agentVersion": "Agent Version",
       "bootVersion": "Boot Version",
       "origin": "Origin",
@@ -10234,7 +10260,8 @@
       "titleAverageWaitingTime": "Average Waiting Time",
       "titleDatasourcesCount": "Datasources ({{len}})",
       "titleWebModulesCount": "Web Modules ({{len}})",
-      "titleEJBModulesCount": "EJBs ({{len}})",
+      "titleEJBModulesCount": "EJB Modules ({{len}})",
+      "titleEJBBeansCount": "EJB Beans ({{len}})",
       "titleObjectPoolsCount": "Object Pools ({{len}})",
       "titleJ2CModulesCount": "J2C Modules ({{len}})",
       "titleMaxConnections": "Max Connections",
@@ -10284,8 +10311,10 @@
       "labelResponseTime": "Response Time",
       "lableResponseCount": "Response Count",
       "webSphere": "WebSphere",
-      "labelEJB": "EJB",
-      "labelEJBs": "EJBs",
+      "labelEjbModule": "EJB Module",
+      "labelEjbModules": "EJB Modules",
+      "labelEjbBean": "EJB Bean",
+      "labelEjbBeans": "EJB Beans",
       "labelObjectPool": "Object Pool",
       "labelObjectPools": "Object Pools",
       "labelJ2CModule": "J2C Module",

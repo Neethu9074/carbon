@@ -66,8 +66,11 @@ export default function ThroughputThresholdCondition({
               updateForm={updateForm}
               editMode={editMode}
               trackThresholdTypeChanged={applicationsAlertingThresholdTypeChanged}
+              thresholdType={thresholdType}
               thresholdTypeOptions={thresholdTypeOptions}
               isGlobalSmartAlert={isGlobalSmartAlert}
+              blueprintType={blueprintConfig.type}
+              showThresholdsHint
             />
           </>
         )}

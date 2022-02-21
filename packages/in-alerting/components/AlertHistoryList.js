@@ -6,17 +6,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { LiLoadMore } from '@instana/components';
-import { Li, Ul } from '@instana/components';
-import { Link } from '@instana/components';
+import { Li, LiLoadMore, Link, Ul } from '@instana/components';
 
 import SmartAlertsNoDataAvailable from 'in-alerting/smart-alerts/applications/components/SmartAlertsNoDataAvailable';
+import { formatDateTime, formatDurationAccurately } from 'in-services/formatters/date';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import { getEventsViewFilteredBy } from 'in-stores/navigation/paths/eventPaths';
 import { getDesignLibraryColorBySeverity, getIcon } from 'in-stores/events';
 import AlertDetailsCard from 'in-alerting/components/AlertDetailsCard';
 import useCursorPagination from 'in-hooks/useCursorPagination';
-import { formatDateTime } from 'in-services/formatters/date';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import getRawEvents from 'in-subscription/getRawEvents';
 import { isLoading } from 'in-services/util/result';
@@ -55,6 +53,8 @@ export const AlertHistoryListPresenter = ({ timeConfig, tableProps }) => {
                 <WithIcon icon={getIcon({ event: e })} iconColor={getDesignLibraryColorBySeverity(e.severity)}>
                   <div className={locals.label}>
                     <time dateTime={new Date(e.start).toISOString()}>{formatDateTime(e.start)}</time>
+                    &nbsp;
+                    <span>{`(${getDurationOrActive(e)})`}</span>
                   </div>
                 </WithIcon>
               </Link>
@@ -83,6 +83,13 @@ AlertHistoryListPresenter.propTypes = {
     loadMore: PropTypes.func
   })
 };
+
+function getDurationOrActive(event) {
+  if (event.state === 'closed') {
+    return formatDurationAccurately(event.end - event.start, 60000);
+  }
+  return t('in-alerting:components.alertStateActive');
+}
 
 export default function AlertHistoryList(props) {
   const { alertConfigId, timeConfig } = props;

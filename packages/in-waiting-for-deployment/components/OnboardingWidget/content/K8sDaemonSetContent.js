@@ -18,7 +18,7 @@ import instanaAgentYaml from 'in-waiting-for-deployment/components/OnboardingWid
 import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import { t } from 'in-i18n';
 
-export default function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function K8sDaemonSetContent({ agentKey, downloadKey, agentEndpoint, agentEndpointPort }) {
   const [zoneName, onZoneNameChange] = useState('');
 
   return (
@@ -46,6 +46,7 @@ export default function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndp
             disabledErrorMessage={clusterNameValidationMessage}
             content={getKubernetesYamlConfig(
               agentKey,
+              downloadKey,
               agentEndpoint,
               agentEndpointPort,
               clusterName,
@@ -56,7 +57,7 @@ export default function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndp
           <HelpBox>
             <TextWithLink
               i18nKey="in-waiting-for-deployment:content.forMoreInformationVisitThe"
-              href="https://instana.com/docs/ecosystem/kubernetes/"
+              href="https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes"
             />
           </HelpBox>
         </>
@@ -65,9 +66,18 @@ export default function K8sDaemonSetContent({ agentKey, agentEndpoint, agentEndp
   );
 }
 
-export function getKubernetesYamlConfig(agentKey, agentEndpoint, agentEndpointPort, clusterName, zoneName, yamlConfig) {
+export function getKubernetesYamlConfig(
+  agentKey,
+  downloadKey,
+  agentEndpoint,
+  agentEndpointPort,
+  clusterName,
+  zoneName,
+  yamlConfig
+) {
   return yamlConfig
     .replace('${agentKey}', btoa(agentKey))
+    .replace('${downloadKey}', btoa(downloadKey))
     .replace('${agentEndpoint}', agentEndpoint)
     .replace('${agentEndpointPort}', agentEndpointPort)
     .replace('${clusterName}', clusterName)

@@ -89,7 +89,7 @@ for above code respective en-US.json would look something like this.
 }
 ```
 
-We need to replace above part as below using context.
+👍 We need to replace above part as below using context.
 
 ```js
 import { t } from 'in-i18n';
@@ -117,7 +117,7 @@ we specify the following set of keys already in english, even though they will b
 ```json
 {
   "component": {
-    "services": "{{count}} Services",
+    "services": "{{count}} Service",
     "services_plural": "{{count}} Services",
     "services_0": "{{count}} Services",
     "services_1": "{{count}} Services",
@@ -125,6 +125,8 @@ we specify the following set of keys already in english, even though they will b
   }
 }
 ```
+❗️️ The texts for `_0`, `_1`, `_2` should be a copy of the `_plural` text and contain the `{{count}}` parameter. 
+This will be used in other translations (e.g. Japanese) 
 
 ## Tips/Gotchas
 

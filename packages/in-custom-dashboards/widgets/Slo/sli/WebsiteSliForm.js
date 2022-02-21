@@ -62,7 +62,10 @@ export function WebsiteSliForm({ form, onChange, websiteName, QueryBuilderCompon
                 value={field?.value ?? ''}
                 hasError={!field.valid && field.touched}
                 actions={
-                  <HelpAction href="https://instana.com/docs/service_level_objectives/#sli-configuration/" external>
+                  <HelpAction
+                    href="https://www.ibm.com/docs/en/obi/current?topic=instana-service-level-objectives-slo#sli-configuration"
+                    external
+                  >
                     {t('in-custom-dashboards:widgets.slo.sliFormPresenter.sliCustomHelpAction')}
                   </HelpAction>
                 }

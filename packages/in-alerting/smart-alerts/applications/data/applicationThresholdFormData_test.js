@@ -5,11 +5,14 @@
 
 import {
   applicationThresholdTypeOptions,
-  getAvailableOptionsForEvaluationType
+  getAvailableOptionsForEvaluationType,
+  optionsValidForThresholdTyp
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
+import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { t } from 'in-i18n';
 
 jest.mock('in-services/featureFlags', () => ({
   get adaptiveBaselineEnabled() {
@@ -54,15 +57,29 @@ describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormDat
   });
 });
 
-describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormData::withoutHistoricBaselineOptions', () => {
-  test('Return only Adaptive–Baseline and Static–Threshold options ', () => {
-    const thresholdOpts = getAvailableOptionsForEvaluationType(applicationThresholdTypeOptions, PER_AP_SERVICE, false);
-    expect(thresholdOpts).toHaveLength(2);
-    expect(thresholdOpts).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ value: STATIC_THRESHOLD }),
-        expect.objectContaining({ value: ADAPTIVE_BASELINE })
-      ])
+describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormData::optionsValidForThresholdTyp', () => {
+  // contains all, independent of the feature-flag
+  const allApplicationThresholdTypeOptions = [
+    ...thresholdTypeOptions,
+    {
+      value: ADAPTIVE_BASELINE,
+      label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline')
+    }
+  ];
+
+  test('Return only Adaptive–Baseline option for AdaptiveBaseline Threshold', () => {
+    const thresholdOpts = allApplicationThresholdTypeOptions.filter(optionsValidForThresholdTyp(ADAPTIVE_BASELINE));
+
+    expect(thresholdOpts).toHaveLength(1);
+    expect(thresholdOpts.map(option => option.value)).toEqual(['adaptiveBaseline']);
+  });
+
+  test('Return no Adaptive option for Static–Threshold', () => {
+    const thresholdOpts = allApplicationThresholdTypeOptions.filter(optionsValidForThresholdTyp(STATIC_THRESHOLD));
+
+    expect(thresholdOpts).toHaveLength(3);
+    expect(thresholdOpts.map(option => option.value)).toEqual(
+      expect.arrayContaining(['staticThreshold', 'historicBaseline.DAILY', 'historicBaseline.WEEKLY'])
     );
   });
 });

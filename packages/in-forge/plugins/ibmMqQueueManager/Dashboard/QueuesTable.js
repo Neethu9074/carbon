@@ -6,6 +6,7 @@
 import React from 'react';
 
 import getIbmMqQueuesForQueueManager from 'in-forge/plugins/ibmMqQueueManager/subscriptions/getIbmMqQueuesForQueueManager';
+import { number, percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -19,6 +20,54 @@ const cols = [
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.queueFullPercentage'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'queueFullPercentage';
+      },
+      getContent: percentage.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.openInputCount'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'openInputCount';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.openOutputCount'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'openOutputCount';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },

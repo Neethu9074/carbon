@@ -16,10 +16,16 @@ import {
   navigateToPageLoadFromBackendTrace
 } from 'in-websites/tracker';
 import { getCorrelatedWebsiteBeacons } from 'in-applications/analyze/components/TraceDetails/tabs/Summary/websiteCorrelation';
+import { getLinkToWebsite, getLinkToPageLoad, getLinkToAnalyze } from 'in-websites/navigation/paths';
 import BeaconUserSummary from 'in-websites/analyze/BeaconUserSummary/BeaconUserSummary';
-import { getLinkToWebsite, getLinkToPageLoad } from 'in-websites/navigation/paths';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { getAdjustedTimeConfigToIncludeTimestamp } from 'in-stores/time/config';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { getChartGranularity } from 'in-stores/metric/metric';
 import { tryGet, trySet } from 'in-services/localStorage';
 import { Row, Col } from 'in-components/layout/Grid';
+import useTimeConfig from 'in-hooks/useTimeConfig';
 import connect from 'in-hoc/connectTo';
 import { Trans, t } from 'in-i18n';
 
@@ -45,12 +51,15 @@ export default compose(
       setShowDetails(show);
     }
   }))
-)(function WebsiteMonitoringData({ result, showDetails, setShowDetails }) {
+)(function WebsiteMonitoringData({ result, showDetails, setShowDetails, traceId }) {
+  const timeConfig = useTimeConfig();
+
   if (!result || result.data == null || result.data.items.length === 0) {
     return null;
   }
 
   const beacon = result.data.items[0].beacon;
+  const adjustedTimeConfig = getAdjustedTimeConfigToIncludeTimestamp(timeConfig, beacon.timestamp, getChartGranularity);
 
   return (
     <Fragment>
@@ -82,6 +91,35 @@ export default compose(
                 size="compact"
               >
                 {t('in-analyze:traceDetail.tabs.summary.viewWebsiteActivity')}
+              </Button>
+              <Button
+                onClick={() => {
+                  if (adjustedTimeConfig !== timeConfig) {
+                    addMessage(
+                      {
+                        type: 'info',
+                        timeout: 5000,
+                        content: t('in-applications:traceDetail.tabs.summary.adjustedTimeConfig')
+                      },
+                      'adjustedTimeConfig'
+                    );
+                  }
+                }}
+                href$={getLinkToAnalyze({
+                  groupBy: {},
+                  // Intentionally using "traceId" passed from the trace detail page instead of "beacon.backendTraceId". Note that the latter
+                  // can hold a different "traceId" in some cases. For example in case of cache revalidation, the backend request can be served
+                  // from cache, while the request will still be forwarded to the backend.
+                  // Even though linking to the new trace might be a useful feature, the "Analyze Beacons" button should filter calls only by the
+                  // original "traceId".
+                  formModel: [tagFilter('beacon.backend.traceId', EQUALS, traceId)],
+                  beaconType: beacon.type,
+                  timeConfig: adjustedTimeConfig
+                })}
+                kind="secondary"
+                size="compact"
+              >
+                {t('in-applications:traceDetail.tabs.summary.analyzeBeacons')}
               </Button>
             </span>
           </Card>

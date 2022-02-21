@@ -30,7 +30,7 @@ export default function TrackingSnippetPresenter({ websiteId, trackSessions, set
             {t('in-websites:trackingSnippet.trackingSnippetPresenterLabelTrackSessions')}&nbsp;
             <Tooltip content={t('in-websites:trackingSnippet.trackingSnippetPresenterTooltip')}>
               <Link
-                href="https://instana.com/docs/website_monitoring/api/#session-tracking"
+                href="https://www.ibm.com/docs/en/obi/current?topic=websites-javascript-agent-api#session-tracking"
                 external
                 className={locals.helpWrapper}
               >

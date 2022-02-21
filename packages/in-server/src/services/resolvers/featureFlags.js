@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 module.exports = exports = [
@@ -175,11 +175,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'hideEventsSettings',
-    instanaCtlKey: 'feature.settings.team.events.hide',
-    defaultValue: false
-  },
-  {
     uiClientKey: 'openFacetedSearchByDefault',
     instanaCtlKey: 'feature.facetedsearch.open.default',
     defaultValue: false
@@ -187,11 +182,6 @@ module.exports = exports = [
   {
     uiClientKey: 'agentInstallViewRestrictedToIBMSaas',
     instanaCtlKey: 'feature.agent.install.view.restricted.to.ibm.saas',
-    defaultValue: false
-  },
-  {
-    uiClientKey: 'traceDetailViewV2Enabled',
-    instanaCtlKey: 'feature.trace.detail.view.v2.enabled',
     defaultValue: false
   },
   {
@@ -227,6 +217,11 @@ module.exports = exports = [
   {
     uiClientKey: 'disableAppDataLegacyEvents',
     instanaCtlKey: 'feature.disable.app.data.legacy.events',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'perEntityAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.adaptive.baseline.per.entity.enabled',
     defaultValue: false
   },
   {

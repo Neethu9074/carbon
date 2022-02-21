@@ -174,6 +174,7 @@ function Header(props) {
         renderButtonLine={renderButtonLine}
         contextConfigurations={contextConfigurations}
         tagCatalogPageLoad={tagCatalogPageLoad}
+        showHistoricDataWarning={false}
       />
       <DashboardHeaderModule>
         <QuickFilterBar

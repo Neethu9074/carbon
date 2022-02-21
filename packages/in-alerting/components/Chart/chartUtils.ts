@@ -52,37 +52,32 @@ export const zeroFillMetric: MetricPostProcessor = (metricData, timeConfig, gran
   const adjustedTimeframe = getAdjustedTimeframe(to ?? Date.now(), windowSize, granularity);
 
   if (metricData.length === adjustedTimeframe.numBuckets) {
-    // do  not modify the metric data when it is already complete
+    // do not modify the metric data when it is already complete
     return metricData;
   }
 
   // complete time-series with all values set to zero
   const resultMetricData: [number, number][] = Array(adjustedTimeframe.numBuckets)
     .fill(0)
-    .map((_, idx) => [
-      //
-      adjustedTimeframe.from + idx * granularity,
-      0
-    ]);
+    .map((_, idx) => [adjustedTimeframe.from + idx * granularity, 0]);
 
   // apply values that are actually present in the metric
-  for (let i = 0; i < metricData.length; ++i) {
-    const timestamp = metricData[i][0];
-    const value = metricData[i][1];
+  for (const item of metricData) {
+    const timestamp = item[0];
+    const value = item[1];
     const index = (timestamp - adjustedTimeframe.from) / granularity;
+
     resultMetricData[index][1] = value;
   }
 
   return resultMetricData;
 };
 
-/**
- * Adjusts the metric timeframe the same way as it is defined in AdjustedMetricsTimeframe of the backend.
- */
 function getAdjustedTimeframe(to: number, windowSize: number, granularity: number): AdjustedTimeframe {
-  const adjustedTo = Math.floor(to / granularity) * granularity;
-  const adjustedFrom = Math.floor((to - windowSize + granularity - 1) / granularity) * granularity;
-  const numberOfBuckets = Math.floor((adjustedTo - adjustedFrom) / granularity);
+  const adjustedTo: number = Math.floor(to / granularity) * granularity;
+  const adjustedFrom: number = adjustedTo - windowSize;
+  const numberOfBuckets: number = Math.floor(windowSize / granularity);
+
   return {
     to: adjustedTo,
     from: adjustedFrom,

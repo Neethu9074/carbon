@@ -142,6 +142,7 @@ export const WEBSITES_ALERTING_THRESHOLD_OPERATOR_CHANGED = 'websites.alerting.t
 export const WEBSITES_ALERTING_THRESHOLD_VALUE_CHANGED = 'websites.alerting.thresholdValueChanged';
 export const WEBSITES_ALERTING_AGGREGATION_CHANGED = 'websites.alerting.thresholdAggregationChanged';
 export const WEBSITES_ALERTING_THRESHOLD_TYPE_CHANGED = 'websites.alerting.thresholdTypeChanged';
+export const WEBSITES_ALERTING_THRESHOLD_TYPE_HELP_ICON_HOVERED = 'websites.alerting.thresholdTypeHelpIconHovered';
 export const WEBSITES_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED = 'websites.alerting.thresholdDeviationFactorChanged';
 export const WEBSITES_ALERTING_FILTER_ADD = 'websites.alerting.filter.add';
 export const WEBSITES_ALERTING_FILTER_REMOVE = 'websites.alerting.filter.remove';
@@ -192,6 +193,8 @@ export const APPLICATIONS_ALERTING_THRESHOLD_OPERATOR_CHANGED = 'applications.al
 export const APPLICATIONS_ALERTING_THRESHOLD_VALUE_CHANGED = 'applications.alerting.thresholdValueChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_AGGREGATION_CHANGED = 'applications.alerting.thresholdAggregationChanged';
 export const APPLICATIONS_ALERTING_THRESHOLD_TYPE_CHANGED = 'applications.alerting.thresholdTypeChanged';
+export const APPLICATIONS_ALERTING_THRESHOLD_TYPE_HELP_ICON_HOVERED =
+  'applications.alerting.thresholdTypeHelpIconHovered';
 export const APPLICATIONS_ALERTING_THRESHOLD_DEVIATION_FACTOR_CHANGED =
   'applications.alerting.thresholdDeviationFactorChanged';
 export const APPLICATIONS_ALERTING_LOG_MSG_CHANGED = 'applications.alerting.logMessageChanged';

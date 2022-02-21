@@ -21,6 +21,7 @@
   "service": "Service",
   "stream": "Stream",
   "tooltipCopyToClipboard": "Copy to clipboard",
+  "tooltipCopyLinkToClipboard": "Copy log link",
   "tooltipAddAsGroup": "Group by tag",
   "tooltipAddAsFilter": "Add tag as filter",
   "sorting": {

@@ -3,6 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import fuzzysort from 'fuzzysort';
+
+// Taken from docs at https://github.com/farzher/fuzzysort#how-to-go-fast--performance-tips
+const FUZZY_SEARCH_THRESHOLD = 10_000;
+const FUZZY_SEARCH_MARGIN = FUZZY_SEARCH_THRESHOLD * 1.5;
+
 export function search(nodes, query) {
   if (!query) {
     return nodes;
@@ -20,8 +26,15 @@ function searchNodes(nodes, query, result) {
 
 function searchNode(node, query, result) {
   if (node.children == null || node.children.length === 0) {
-    if (matches(node, query)) {
+    const matchResult = matches(node, query);
+    if (matchResult.validResults?.length > 0) {
       result.push(node);
+    } else if (matchResult.marginResults?.length > 0) {
+      // TODO: Remove this part once we're finished evaluating fuzzy search precision
+      result.push({
+        ...node,
+        disabled: true
+      });
     }
   } else {
     searchNodes(node.children, query, result);
@@ -29,17 +42,15 @@ function searchNode(node, query, result) {
 }
 
 function matches(leaf, query) {
-  if (leaf.keywords && leaf.keywords.toLowerCase().indexOf(query) !== -1) {
-    return true;
-  }
+  // Uses https://github.com/farzher/fuzzysort
+  const result = fuzzysort.go(query, [leaf.label, leaf.keywords, leaf.description, leaf.tagName], {
+    threshold: -FUZZY_SEARCH_MARGIN // Don't return matches worse than this (higher is faster)
+  });
 
-  if (typeof leaf.label === 'string' && leaf.label.toLowerCase().indexOf(query) !== -1) {
-    return true;
-  }
-
-  if (typeof leaf.description === 'string' && leaf.description.toLowerCase().indexOf(query) !== -1) {
-    return true;
-  }
-
-  return false;
+  const validResults = result.filter(res => res.score > -FUZZY_SEARCH_THRESHOLD);
+  const marginResults = result.filter(res => res.score <= -FUZZY_SEARCH_THRESHOLD);
+  return {
+    validResults,
+    marginResults
+  };
 }

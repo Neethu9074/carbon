@@ -144,6 +144,7 @@ export default function Summary({
                   timeConfig,
                   boundaryScope,
                   groupBy: createGroupBy('service.name', DESTINATION),
+                  orderByGroups: createOrderBy('errors_MEAN', 'DESC'),
                   formModel: joinExpressions({
                     expressions: [createFormModelFromSyntheticOption(syntheticCalls)]
                   }),

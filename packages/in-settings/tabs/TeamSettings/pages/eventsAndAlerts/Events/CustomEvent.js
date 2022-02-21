@@ -126,14 +126,14 @@ const Form = entityForm(function DetailsForm(props) {
             <Trans
               i18nKey={'in-settings:tabs.migratedEventMessage'}
               components={{
-                documentationLink: <Link href="https://www.instana.com/docs/" external />
+                documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current" external />
               }}
             />
           ) : (
             <Trans
               i18nKey={'in-settings:tabs.deprecatedEventMessage'}
               components={{
-                documentationLink: <Link href="https://www.instana.com/docs/" external />
+                documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current" external />
               }}
             />
           )}

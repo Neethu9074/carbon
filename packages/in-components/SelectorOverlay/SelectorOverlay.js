@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { keyCodes } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
+import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import { nodeArray as nodeArrayPropType } from 'in-components/SelectorOverlay/props';
 import SlideInView, { ListHeader } from 'in-components/SlideInView/SlideInView';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -41,13 +43,28 @@ export default function SelectorOverlay({
   query,
   onQueryChange
 }) {
+  const isInternalVisible = useObservable(isInternalVisible$, []) ?? false;
   const [{ focusedNode, showFocusedNode: showFocusedNode }, setState] = useState(initialState);
   options = useMemo(() => {
     if (isNotBlank(query)) {
-      return search(options, query);
+      const results = search(options, query);
+      // TODO: Remove this part once we're finished evaluating fuzzy search precision
+      if (isInternalVisible) {
+        return [
+          {
+            label: 'Results',
+            children: results.filter(node => !node.disabled)
+          },
+          {
+            label: 'Filtered results',
+            children: results.filter(node => node.disabled)
+          }
+        ].filter(item => item.children.length > 0);
+      }
+      return results.filter(node => !node.disabled);
     }
     return options;
-  }, [options, query]);
+  }, [options, query, isInternalVisible]);
 
   // Used to jump to the first available group when clicking enter in the input field.
   const staticContentWrapperRef = useRef();

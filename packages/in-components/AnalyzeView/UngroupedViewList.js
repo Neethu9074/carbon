@@ -46,7 +46,9 @@ function List(props) {
     loadMore,
     withoutListItemLinkToDetails,
     progress,
-    withEmbeddedLoadingIndicator = false
+    withEmbeddedLoadingIndicator = false,
+    initiallyOpenedItemIds,
+    onToggleContentRow // (toogled: boolean, item: any) => void
   } = props;
   return (
     <>
@@ -61,6 +63,8 @@ function List(props) {
                 size="compact"
                 href={withoutListItemLinkToDetails ? undefined : getHrefToDetailId(id, groupLabel)}
                 renderNestedContent={renderNestedContent ? () => renderNestedContent(id, item) : undefined}
+                initiallyOpen={initiallyOpenedItemIds.includes(id)}
+                tracking={{ onToggleContentRow: toggled => onToggleContentRow(toggled, item) }}
               >
                 <ColumnizedContent columnDefinitions={columnDefinitions} {...item} {...props} />
               </Li>

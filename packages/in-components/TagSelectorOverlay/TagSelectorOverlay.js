@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { get } from 'lodash';
 
@@ -81,9 +81,7 @@ function toOptions(tagCatalog, tagTreeNodes, parentLabels = [], showTypeBadge, q
               />
             ),
             description: tagTreeNode.description,
-            keywords: [joinedParentLabels, tagTreeNode.label, tagTreeNode.description, tagTreeNode.tagName]
-              .filter(Boolean)
-              .join(' '),
+            keywords: [joinedParentLabels, tagTreeNode.label].filter(Boolean).join(' '),
             tagName: tagTreeNode.tagName,
             icon: tagTreeNode.icon,
             children: filteredChildren

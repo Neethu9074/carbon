@@ -58,7 +58,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqCluster.dashboard.publishers'),
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.publications'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {

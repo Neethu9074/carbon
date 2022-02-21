@@ -22,8 +22,8 @@ export interface SearchInputProps {
   onChange: (value: string) => void;
   disabled?: boolean;
   query?: string;
-  width?: string;
-  maxWidth?: string;
+  width?: string | number;
+  maxWidth?: string | number;
   autoFocus?: boolean;
   placeholder?: string;
   hasError?: boolean;

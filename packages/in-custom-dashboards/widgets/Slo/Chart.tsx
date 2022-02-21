@@ -10,8 +10,8 @@ import { Observable, just } from '@instana/observables';
 import {
   isApplicationSliConfig,
   isAvailabilitySliConfig,
-  isWebsiteEventBasedSliEntity,
-  isWebsiteSliEntity,
+  isWebsiteEventBasedSliConfig,
+  isWebsiteTimeBasedSliConfig,
   SliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import {
@@ -19,7 +19,7 @@ import {
   AvailabilitySliEntity,
   MetricResult,
   Result,
-  SliConfigurationWithLastUpdated,
+  SliConfiguration,
   TagCatalog,
   TagFilter,
   TimeConfig
@@ -36,19 +36,19 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
 import { ChartedMetric } from 'in-applications/navigation/paths';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { Axis } from 'in-components/Chart/ResultAwareChart.d';
 import { entityTypes } from 'in-analyze/applicationFilter';
+import { Axis } from 'in-components/Chart/types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-interface ChartProps {
+export interface ChartProps {
   result: Result<MetricResult[]>;
   timeConfig: TimeConfig;
   granularity: number;
   consumed: [number, number][];
   hourlyBudget: [number, number][];
   budget: number;
-  sliConfig?: SliConfigurationWithLastUpdated;
+  sliConfig?: SliConfig;
   isPreview?: boolean;
   disableZooming?: boolean;
 }
@@ -103,7 +103,7 @@ export default function Chart({
 }
 
 function getCustomAnalyzeContextMenuProperties(
-  sliConfig?: SliConfigurationWithLastUpdated,
+  sliConfig?: SliConfig,
   disableZooming?: boolean,
   tagCatalog?: TagCatalog
 ) {
@@ -141,7 +141,7 @@ function getCustomAnalyzeContextMenuProperties(
 }
 
 function getLinkToUnboundAnalytics(
-  sliConfig: SliConfigurationWithLastUpdated,
+  sliConfig: SliConfiguration,
   tagCatalog: TagCatalog,
   highlightedTime: TimeConfig
 ): Observable<string> | undefined {
@@ -153,12 +153,12 @@ function getLinkToUnboundAnalytics(
     return buildApplicationSliEntityUA2Link(sliConfig, tagCatalog, highlightedTime);
   }
 
-  if (isWebsiteSliEntity(sliConfig)) {
+  if (isWebsiteTimeBasedSliConfig(sliConfig)) {
     // TODO: soon to be implemented
     return just('');
   }
 
-  if (isWebsiteEventBasedSliEntity(sliConfig)) {
+  if (isWebsiteEventBasedSliConfig(sliConfig)) {
     // TODO: soon to be implemented
     return just('');
   }
@@ -184,7 +184,7 @@ function getAdditionalFiltersForApplicationSli(sliConfig: SliConfig<ApplicationS
   }
 }
 
-function getChartsParam(sliConfig: SliConfigurationWithLastUpdated): ChartedMetric[] {
+function getChartsParam(sliConfig: SliConfiguration): ChartedMetric[] {
   if (isApplicationSliConfig(sliConfig)) {
     const metricName = sliConfig.metricConfiguration?.metricName;
     if (metricName === 'latency') {

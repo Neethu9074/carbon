@@ -8,11 +8,11 @@ import React, { Fragment } from 'react';
 import VirtualFiberChannelLpar from 'in-phmc/Dashboards/tables/VirtualFiberChannelLpar';
 import GenericVirtualLpar from 'in-phmc/Dashboards/tables/GenericVirtualLpar';
 
-export default function Storage({ data: lpar }) {
+export default function Storage({ timeConfig, data: lpar }) {
   return (
     <Fragment>
-      <GenericVirtualLpar snapshotId={lpar.id} />
-      <VirtualFiberChannelLpar snapshotId={lpar.id} />
+      <GenericVirtualLpar snapshotId={lpar.id} timeConfig={timeConfig}/>
+      <VirtualFiberChannelLpar snapshotId={lpar.id} timeConfig={timeConfig}/>
     </Fragment>
   );
 }

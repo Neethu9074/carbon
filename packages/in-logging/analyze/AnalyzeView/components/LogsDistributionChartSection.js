@@ -95,8 +95,6 @@ function LogsChart({ backendQueryModelWithFacets, metric, showHeader }) {
     <>
       {header}
       <UnifiedMetricsChart
-        // Log metrics do not support request collapsing.
-        bulkRequest
         automaticallySize={false}
         renderLegend={false}
         excludedContextMenuActions={['globalHighlight', 'download']}
@@ -160,8 +158,6 @@ function GroupedLogsChart({ filteringTagCatalog, metric, groupBy, getColor, back
 
   return (
     <UnifiedMetricsChart
-      // Log metrics do not support request collapsing.
-      bulkRequest
       automaticallySize={false}
       renderLegend={false}
       config={{

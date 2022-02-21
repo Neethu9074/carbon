@@ -74,6 +74,10 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
         <KpiKeyValue label={t('in-forge:plugins.db2Database.dashboard.clientConnections')}>
           <MetricValue snapshotId={snapshotId} metric="databases.connectionsCount" formatter={number.compact} />
         </KpiKeyValue>
+        <KpiKeyValue label={t('in-forge:plugins.db2Database.daysLastBackup')}>
+          <MetricValue snapshotId={snapshotId} metric="databases.daysLastBackup" formatter={number.compact} />{' '}
+          {t('in-forge:plugins.db2Database.daysAgo')}
+        </KpiKeyValue>
         {data.get('versionCheck') && <HadrTakeOverInfo snapshotId={snapshotId} timeConfig={timeConfig} />}
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.connections')}>
@@ -438,15 +442,13 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: [
-              'dbmconfigusage.omsCons',
-              'dbmconfigusage.omsConsExec',
+              'dbmconfigusage.totalConnections',
               'dbmconfigusage.agentHighWmark',
               'dbmconfigusage.coordAgentsHighWmark',
               'dbmconfigusage.agentCreatedVSReused'
             ],
             labels: [
-              t('in-forge:plugins.db2Database.omsCons'),
-              t('in-forge:plugins.db2Database.omsConsExec'),
+              t('in-forge:plugins.db2Database.totalConnections'),
               t('in-forge:plugins.db2Database.agentHighWmark'),
               t('in-forge:plugins.db2Database.coordAgentsHighWmark'),
               t('in-forge:plugins.db2Database.agentCreatedVSReused')

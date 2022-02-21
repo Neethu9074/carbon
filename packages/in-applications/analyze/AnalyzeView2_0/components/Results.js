@@ -6,11 +6,8 @@
 import React, { useCallback } from 'react';
 
 import { Link, SvgIcon } from '@instana/components';
-import { useObservable } from '@instana/hooks';
 
 import { FacetedSearchPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/FacetedSearchPresenter';
-import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import AlternativeTraceDetailView from 'in-applications/analyze/AnalyzeView2_0/components_alt/TraceDetailView';
 import QueryBuilderWorkspace from 'in-applications/analyze/AnalyzeView2_0/components/QueryBuilderWorkspace';
 import { ChartsPresenter } from 'in-applications/analyze/AnalyzeView2_0/components/ChartsPresenter';
 import UngroupedViewTable, { retrievalSize } from 'in-components/AnalyzeView/UngroupedViewTable';
@@ -21,12 +18,11 @@ import getTraceSummary from 'in-applications/subscriptions/getTraceSummary';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator';
 import { getServiceDashboard } from 'in-applications/navigation/paths';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
-import { traceDetailViewV2Enabled } from 'in-services/featureFlags';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
 import HealthDot from 'in-components/health/HealthDot';
 import { number } from 'in-services/formatters/number';
-import { t, collationLanguage } from 'in-i18n';
+import { collationLanguage, t } from 'in-i18n';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './Results.mless';
@@ -68,7 +64,6 @@ export default function Results(props) {
     detailId
   } = props;
 
-  const isInternalVisible = useObservable(isInternalVisible$, []) || false;
   const getData = useCallback(params => getTableData({ ...params, hiddenCalls, previewEnabled }), [
     hiddenCalls,
     previewEnabled
@@ -96,8 +91,9 @@ export default function Results(props) {
           ...(dataSource !== 'traces' && { callId: item[type].id })
         };
       }}
-      DetailView={traceDetailViewV2Enabled || isInternalVisible ? AlternativeTraceDetailView : TraceDetailView}
+      DetailView={TraceDetailView}
       getDetailData={getTraceSummary}
+      dataSource={dataSource}
       hideMetricAndSortingConfigurator
       withOverflow
     />

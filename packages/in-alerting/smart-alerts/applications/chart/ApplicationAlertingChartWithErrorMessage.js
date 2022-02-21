@@ -103,6 +103,7 @@ ApplicationAlertingChartWithErrorMessage.propTypes = {
    **/
   serviceId: PropTypes.string,
   isAlertDetailView: PropTypes.bool,
+  setMetricResultPrecision: PropTypes.func,
 
   /**
    * Optional endpointId

@@ -22,7 +22,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.nginx.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#nginx_api_not_accessible`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nginx#nginx-api-is-not-accessible`
   },
   nginx_status_not_accessible: {
     issueDescription: {
@@ -38,7 +38,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.nginx.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#nginx_status_not_accessible`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nginx#nginx-status-endpoint-is-not-accessible`
   },
 
   nginx_api_not_found: {
@@ -55,7 +55,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.nginx.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#nginx_api_not_found`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nginx#nginx-api-is-not-found`
   },
   nginx_status_not_found: {
     issueDescription: {
@@ -71,7 +71,7 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.nginx.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#nginx_status_not_found`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nginx#nginx-status-is-not-found`
   },
   nginx_config_location_not_discovered: {
     issueDescription: {
@@ -84,6 +84,6 @@ export default {
       }
     },
     explanationLinkLabel: t('in-forge:plugins.nginx.troubleshootingDocs'),
-    explanationLinkHref: `https://instana.com/docs/ecosystem/nginx/#nginx_config_location_not_discovered`
+    explanationLinkHref: `https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-nginx#nginx-config-location-not-discovered`
   }
 };

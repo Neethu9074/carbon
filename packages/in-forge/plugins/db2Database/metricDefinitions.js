@@ -25,6 +25,7 @@ export default [
       'databases.staticQueries',
       'databases.dynamicQueries',
       'databases.failedQueries',
+      'databases.daysLastBackup',
       'dbConfig',
       'dbmConfig',
       'lockWaits',
@@ -49,6 +50,7 @@ export default [
       t('in-forge:plugins.db2Database.staticQueries'),
       t('in-forge:plugins.db2Database.dynamicQueries'),
       t('in-forge:plugins.db2Database.failedQueries'),
+      t('in-forge:plugins.db2Database.daysLastBackup'),
       t('in-forge:plugins.db2Database.dbConfig'),
       t('in-forge:plugins.db2Database.dbConfigName'),
       t('in-forge:plugins.db2Database.value'),
@@ -282,15 +284,13 @@ export default [
   },
   {
     metrics: [
-      'dbmconfigusage.omsCons',
-      'dbmconfigusage.omsConsExec',
+      'dbmconfigusage.totalConnections',
       'dbmconfigusage.agentHighWmark',
       'dbmconfigusage.coordAgentsHighWmark',
       'dbmconfigusage.agentCreatedVSReused'
     ],
     labels: [
-      t('in-forge:plugins.db2Database.omsCons'),
-      t('in-forge:plugins.db2Database.omsConsExec'),
+      t('in-forge:plugins.db2Database.totalConnections'),
       t('in-forge:plugins.db2Database.agentHighWmark'),
       t('in-forge:plugins.db2Database.coordAgentsHighWmark'),
       t('in-forge:plugins.db2Database.agentCreatedVSReused')

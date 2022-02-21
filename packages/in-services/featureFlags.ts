@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 import { isFeatureFlagEnabled } from 'in-services/config';
@@ -52,13 +52,10 @@ export const openFacetedSearchByDefault = isFeatureFlagEnabled('openFacetedSearc
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
-export const traceDetailViewV2Enabled = isFeatureFlagEnabled('traceDetailViewV2Enabled');
-
 // SmartAlerts & AP Alert Migration related feature flags
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
 export const builtInGlobalApplicationSmartAlertsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('builtInGlobalApplicationSmartAlertsEnabled');
-export const hideEventSettings = applicationSmartAlertsEnabled && isFeatureFlagEnabled('hideEventsSettings', false);
 export const potentialProblemsEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('potentialProblemsEnabled', true);
 export const deprecateAppDataLegacyEvents =
@@ -67,6 +64,8 @@ export const adaptiveBaselineEnabled = applicationSmartAlertsEnabled && isFeatur
 export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreEnabled', false);
 export const disableAppDataLegacyEvents =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('disableAppDataLegacyEvents');
+export const perEntityAdaptiveBaselineEnabled =
+  applicationSmartAlertsEnabled && isFeatureFlagEnabled('perEntityAdaptiveBaselineEnabled', false);
 
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false);
 
@@ -84,6 +83,7 @@ export const syntheticsTestEnabled = isFeatureFlagEnabled('syntheticsTestEnabled
 export function getHiddenSearchFieldKeywords() {
   return ['selfMonitoring'];
 }
+
 export const hiddenSearchFieldValues = {
   'event.type': ['objectiveViolation', 'event', 'changeDetected', 'changeAndPresence'],
   'entity.type': ['agent', 'beeinstana'],

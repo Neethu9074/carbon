@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, forwardRef } from 'react';
 
 import { Link, Stack, Ul, Li, ColumnizedContent } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -38,13 +38,12 @@ import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolv
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 // @ts-ignore
-import CopyToClipboard from 'in-components/CopyToClipboard';
-// @ts-ignore
 import Overlay from 'in-components/overlays/Overlay';
 // @ts-ignore
 import Header from 'in-components/Dialog/Header';
 import { hasError, isLoading } from 'in-services/util/result';
 import IconButton from 'in-components/IconButton/IconButton';
+import CopyToClipboard from 'in-components/CopyToClipboard';
 import IconLink from 'in-components/IconButton/IconLink';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getTagCatalog } from 'in-logging/api/catalog';
@@ -84,7 +83,10 @@ interface LogTagMapperParams {
   label: string;
 }
 
-export default function LogTagsTable({ item, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps) {
+export const LogTagsTable = forwardRef<HTMLElement, LogTagsTableProps>(function LogTagsTable(
+  { item, onSelectTagHref, getHrefToGroupedView }: LogTagsTableProps,
+  ref
+) {
   const timeConfig = useTimeConfig();
 
   const internalFilteringTagCatalogResult =
@@ -124,7 +126,7 @@ export default function LogTagsTable({ item, onSelectTagHref, getHrefToGroupedVi
   const tags: LogTag[] = logResult.data?.tags;
 
   return (
-    <Ul>
+    <Ul ref={ref}>
       {tags.filter(filterTag).map((tag, i) => {
         const uniqueTagName = tag.key ? `${tag.name}-${tag.key}` : tag.name ?? '';
         return (
@@ -142,7 +144,7 @@ export default function LogTagsTable({ item, onSelectTagHref, getHrefToGroupedVi
       })}
     </Ul>
   );
-}
+});
 
 function TagEntry({
   tag,
@@ -154,7 +156,6 @@ function TagEntry({
   getHrefToGroupedView
 }: TagEntryProps) {
   const [isHovered, setIsHovered] = useState(false);
-
   return (
     <Li
       className={locals.li}

@@ -151,7 +151,7 @@
     "resultRetained_2": "{{formattedCount}} 件保存済み",
     "groupedViewHeader": "{{formattedCount}} 個のグループ",
     "groupedViewHeader_plural": "{{formattedCount}} 個のグループ",
-    "groupedViewHeader_0": "グループ",
+    "groupedViewHeader_0": "{{formattedCount}} 個のグループ",
     "groupedViewHeader_1": "グループ",
     "groupedViewHeader_2": "グループ",
     "resultHeaderLoading": "ロード中…",
@@ -481,9 +481,9 @@
     "hours_plural": "{{count}} 時間",
     "minutes": "{{count}} 分",
     "minutes_plural": "{{count}} 分",
-    "timeFrameFormatterHours": "過去 1 時間",
+    "timeFrameFormatterHours": "過去 {{count}} 時間",
     "timeFrameFormatterHours_plural": "過去 {{count}} 時間",
-    "timeFrameFormatterMinutes": "過去 1 分間",
+    "timeFrameFormatterMinutes": "過去 {{count}} 分間",
     "timeFrameFormatterMinutes_plural": "過去 {{count}} 分間"
   },
   "timeShift": {

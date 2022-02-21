@@ -18,7 +18,7 @@ import { clusterNameValidator } from 'in-waiting-for-deployment/components/Onboa
 import { instanaDomain } from 'in-waiting-for-deployment/components/OnboardingWidget/content/configuration';
 import { t } from 'in-i18n';
 
-export default function OpenShiftHelmContent({ agentKey, agentEndpoint, agentEndpointPort }) {
+export default function OpenShiftHelmContent({ agentKey, downloadKey, agentEndpoint, agentEndpointPort }) {
   const [zoneName, onZoneNameChange] = useState('');
 
   return (
@@ -50,6 +50,7 @@ export default function OpenShiftHelmContent({ agentKey, agentEndpoint, agentEnd
               '   --create-namespace \\',
               '   --set openshift=true \\',
               `   --set agent.key=${agentKey} \\`,
+              `   --set agent.downloadKey=${downloadKey} \\`,
               `   --set agent.endpointHost=${agentEndpoint} \\`,
               `   --set agent.endpointPort=${agentEndpointPort} \\`,
               `   --set cluster.name='${clusterName}' \\`,
@@ -61,7 +62,7 @@ export default function OpenShiftHelmContent({ agentKey, agentEndpoint, agentEnd
           <HelpBox>
             <TextWithLink
               i18nKey="in-waiting-for-deployment:content.helmVersion3IsRequiredForMoreInformationVisitTheOpenShift"
-              href="https://instana.com/docs/ecosystem/openshift/"
+              href="https://www.ibm.com/docs/en/obi/current?topic=technologies-monitoring-openshift"
             />
           </HelpBox>
         </>

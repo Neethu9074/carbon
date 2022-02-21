@@ -527,7 +527,7 @@ function EventForm({
             <Trans
               i18nKey={'in-settings:tabs.deprecatedEventSelectedMessage'}
               components={{
-                documentationLink: <Link href="https://www.instana.com/docs/" external />
+                documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current" external />
               }}
             />
           </Message>
@@ -591,7 +591,12 @@ function EventForm({
                   <Trans
                     i18nKey="in-settings:tabs.aNonEmptyFilterQueryWhichDefinesForWhichEntitiesTheRuleWillBeApplied"
                     components={{
-                      docLink: <Link href="https://instana.com/docs/dynamic_focus/#syntax" external />
+                      docLink: (
+                        <Link
+                          href="https://www.ibm.com/docs/en/obi/current?topic=instana-filtering-dynamic-focus#syntax"
+                          external
+                        />
+                      )
                     }}
                   />
                 </DescriptionText>

@@ -11,9 +11,9 @@ import {
   OPEN_BRACKET,
   TAG
 } from 'in-components/QueryBuilder/transformation/formModel';
+import { LogicalOperator, Nullish, TagFilter, TagFilterExpression, TagFilterExpressionElement } from 'in-types';
 import { toTagFilter, type as TAG_FILTER_TYPE } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
-import { LogicalOperator, TagFilter, TagFilterExpression, TagFilterExpressionElement } from 'in-types';
 import { getNumberTagFilters } from 'in-analyze/components/filterBar/NumberBarItemBehavior/util';
 import { deepFreeze } from 'in-services/util/object';
 
@@ -44,7 +44,7 @@ export function createTagFilterExpression(
 }
 
 export function addTagFilters(
-  backendQueryModel: TagFilterExpression,
+  backendQueryModel: TagFilterExpressionElement | Nullish,
   tagFilters: TagFilterExpressionElement[],
   logicalOperator: LogicalOperator = OPERATOR_AND
 ): TagFilterExpression | TagFilterExpressionElement {
@@ -62,12 +62,12 @@ export function addTagFilters(
   return {
     type: EXPRESSION,
     logicalOperator,
-    elements: [backendQueryModel, ...tagFilters]
+    elements: [backendQueryModel!, ...tagFilters]
   };
 }
 
-function isEmptyExpression(backendQueryModel: TagFilterExpression): boolean {
-  return !backendQueryModel || (backendQueryModel.type === EXPRESSION && backendQueryModel.elements.length === 0);
+function isEmptyExpression(backendQueryModel: TagFilterExpressionElement | Nullish): boolean {
+  return !backendQueryModel || (isTagFilterExpression(backendQueryModel) && backendQueryModel.elements.length === 0);
 }
 
 // grammar

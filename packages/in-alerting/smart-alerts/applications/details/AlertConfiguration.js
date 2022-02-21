@@ -20,6 +20,7 @@ import ReadOnlyAlertEvaluation from 'in-alerting/smart-alerts/applications/advan
 import TimeThresholdDescription from 'in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDescription';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import { getLogMessageRuleOperatorLabel } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
+import { AlertThresholdInfos } from 'in-alerting/smart-alerts/applications/details/AlertThresholdInfos';
 import ExpandableLightCard from 'in-alerting/components/ExpandableLightCard/ExpandableLightCard';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import CustomPayloadCard from 'in-alerting/smart-alerts/applications/details/CustomPayloadCard';
@@ -44,7 +45,8 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
 
   const {
-    rule: { operator, alertType, message, level },
+    rule: { operator, alertType, message, level, aggregation },
+    threshold,
     evaluationType,
     timeThreshold,
     alertChannelIds,
@@ -58,6 +60,14 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
   return (
     <AlertDetailsCard>
       <ListTitle>{t('in-alerting:smartAlerts.applications.alertConfiguration')} </ListTitle>
+      <ExpandableLightCard
+        title={t('in-alerting:smartAlerts.details.header')}
+        useMaxAvailableHeight={false}
+        openByDefault
+        darkFrame
+      >
+        <AlertThresholdInfos threshold={threshold} evaluationType={evaluationType} rule={{ alertType, aggregation }} />
+      </ExpandableLightCard>
 
       <ChartViewConfiguratorWithEntitySelection
         alertConfigWithFormModel={{

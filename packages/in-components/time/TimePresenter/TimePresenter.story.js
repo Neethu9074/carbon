@@ -21,9 +21,6 @@ export function Fixed(props) {
     <TimePresenter
       expanded={props.expanded}
       timeConfig={{ windowSize: props.windowSize, to: Date.now() }}
-      historicData={props.historicData}
-      retention={props.retention}
-      largeData={props.largeData}
       onClick={action('click')}
     />
   );
@@ -31,9 +28,7 @@ export function Fixed(props) {
 Fixed.args = {
   windowSize: 3600000,
   retention: 7,
-  expanded: false,
-  historicData: false,
-  largeData: false
+  expanded: false
 };
 
 export function Live(props) {
@@ -41,9 +36,6 @@ export function Live(props) {
     <TimePresenter
       expanded={props.expanded}
       timeConfig={{ windowSize: props.windowSize, to: null }}
-      historicData={props.historicData}
-      retention={props.retention}
-      largeData={props.largeData}
       onClick={action('click')}
     />
   );
@@ -51,9 +43,7 @@ export function Live(props) {
 Live.args = {
   windowSize: 3600000,
   retention: 7,
-  expanded: false,
-  historicData: false,
-  largeData: false
+  expanded: false
 };
 Live.argTypes = {
   windowSize: {

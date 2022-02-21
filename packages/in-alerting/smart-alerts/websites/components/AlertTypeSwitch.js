@@ -12,21 +12,23 @@ export default function AlertTypeSwitch({
   renderStatusCode,
   renderThroughput
 }) {
+  let render;
   if (alertType === 'specificJsError') {
-    return renderJsErrors();
+    render = renderJsErrors;
   } else if (alertType === 'statusCode') {
-    return renderStatusCode();
+    render = renderStatusCode;
   } else if (alertType === 'slowness') {
-    return renderSlowness();
+    render = renderSlowness;
   } else if (alertType === 'throughput') {
-    return renderThroughput();
+    render = renderThroughput;
   }
+  return render?.() ?? null;
 }
 
 AlertTypeSwitch.propTypes = {
   alertType: PropTypes.string.isRequired,
-  renderJsErrors: PropTypes.func.isRequired,
-  renderSlowness: PropTypes.func.isRequired,
-  renderStatusCode: PropTypes.func.isRequired,
-  renderThroughput: PropTypes.func.isRequired
+  renderJsErrors: PropTypes.func,
+  renderSlowness: PropTypes.func,
+  renderStatusCode: PropTypes.func,
+  renderThroughput: PropTypes.func
 };

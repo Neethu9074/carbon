@@ -44,6 +44,7 @@ export interface State<CURSOR, ITEM> {
   reloadCount: number;
 
   totalRepresentedItemCount?: number;
+  totalRetainedItemCount?: number;
   adjustedWindowSize?: number;
   totalHits?: number;
   time?: number;
@@ -91,6 +92,7 @@ export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
 
   const {
     totalRepresentedItemCount,
+    totalRetainedItemCount,
     adjustedWindowSize,
     canLoadMore,
     reloadCount,
@@ -134,6 +136,7 @@ export default function useCursorPagination<CURSOR extends Cursor, ITEM>(
 
   return {
     totalRepresentedItemCount,
+    totalRetainedItemCount,
     adjustedWindowSize,
     canLoadMore,
     totalHits,
@@ -183,6 +186,7 @@ function updateResult<CURSOR extends Cursor, ITEM extends Cursorific<CURSOR> | O
     ...prev,
     ...result,
     totalRepresentedItemCount: data.totalRepresentedItemCount ?? prev.totalRepresentedItemCount,
+    totalRetainedItemCount: data.totalRetainedItemCount ?? prev.totalRetainedItemCount,
     awaitingData: false,
     canLoadMore: data.canLoadMore,
     nextCursor,

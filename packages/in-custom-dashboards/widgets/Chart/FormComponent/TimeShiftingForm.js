@@ -35,7 +35,10 @@ export default function TimeShiftingForm({ axisName, index, indexInAxis, onChang
       >
         <div className={locals.timeShiftHelpText}>
           <Tooltip
-            content={t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShiftDisabledWhilePPon')}
+            content={
+              disabled &&
+              t('in-custom-dashboards:widgets.formCompChart.timeShiftingFormChart.timeShiftDisabledWhilePPon')
+            }
           >
             <div>
               <Toggle

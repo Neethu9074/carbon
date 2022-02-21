@@ -7,8 +7,7 @@ import { compose } from 'recompose';
 import { get } from 'lodash';
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Card } from '@instana/components';
+import { Card, Stack, SvgIcon } from '@instana/components';
 
 import ServiceComponent from 'in-applications/analyze/components/TraceDetails/components/CallDetails/components/ServiceComponent';
 import { getCorrelatedWebsiteBeacons } from 'in-applications/analyze/components/TraceDetails/tabs/Summary/websiteCorrelation';
@@ -55,8 +54,9 @@ export default compose(
           focusedMoment: startTime + minutes.toMillis(10)
         },
         order: {
-          by: 'mobileBeacon.timestamp',
-          direction: 'DESC'
+          by: 'mobileBeacon.timestamp', // Get the oldest beacon, which is most likely the one that triggered this trace. Please note that if a request
+          // is served from a cache, the given beacon will be linked to the old trace (the one whose response was cached).
+          direction: 'ASC'
         },
         pagination: {
           retrievalSize: 1
@@ -95,8 +95,10 @@ function CallDetails(props) {
   return (
     <aside className={locals.callDetails}>
       <Card title={<Header call={call} getColor={getColor} />} header={<CloseButton onClick={onClose} />}>
-        <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
-        <IsSynthetic call={call} />
+        <Stack direction="vertical" gap="normal">
+          <ServiceComponent call={call} websiteBeacon={websiteBeacon} mobileAppBeacon={mobileAppBeacon} />
+          <IsSynthetic call={call} />
+        </Stack>
       </Card>
     </aside>
   );

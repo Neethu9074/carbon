@@ -54,6 +54,20 @@ export function createParameters(path: string) {
       parser: buildJsonParser(null)
     },
 
+    selectedId: {
+      path,
+      name: 'selectedId',
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser(null)
+    },
+
+    initialLogLines: {
+      path,
+      name: 'initialLogLines',
+      serializer: buildJsonSerializer(),
+      parser: buildJsonParser(20)
+    },
+
     fields: {
       path,
       name: 'fields',

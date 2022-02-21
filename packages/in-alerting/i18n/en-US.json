@@ -21,6 +21,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "You are looking at revision {{description}} of this alert configuration. Please <latestRevisionButton>select the latest revision</latestRevisionButton> or <restoreRevisionButton>restore from current revision</restoreRevisionButton> if you want to make changes.",
     "alertHeaderAriaLabelSeverity": "Event has severity {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alerts Created ({{totalRepresentedItemCount}})",
+    "alertStateActive": "active",
     "alertPropertyInfosLabelTitle": "Title",
     "alertPropertyInfosLabelAlertLevel": "Alert Level",
     "alertPropertyInfosLabelTriggersIncident": "Triggers Incident",
@@ -39,7 +40,6 @@
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
-      "alertingChartTooltipSmoothedMetric": "Smoothed metric",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
       "alertingChartMessageEntitySelectionInvalid": "No entities selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
@@ -125,9 +125,11 @@
         "alertPropertyInsertPlaceholderLabel": "Insert placeholder",
         "evaluationSwitch": {
           "individual": "Individual Alerts",
+          "optionNotAvailableForAdaptiveThreshold": "This option is not available with adaptive threshold",
           "evaluationTypePERAP": {
             "selectionText": "for this Application Perspective",
             "globalSelectionText": "per Application Perspective",
+            "shortText": "Per Application Perspective",
             "columnText": "aggregated",
             "description": "Alert individually for this Application Perspective",
             "globalDescription": "Alert individually per Application Perspective"
@@ -135,6 +137,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per Service for this Application Perspective",
             "globalSelectionText": "per Service in the context of each Application Perspective",
+            "shortText": "Per Service",
             "columnText": "per Service",
             "description": "Alert individually per Service for this Application Perspective",
             "globalDescription": "Alert individually per Service in the context of each Application Perspective"
@@ -142,6 +145,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per Endpoint for this Application Perspective",
             "globalSelectionText": "per Endpoint in the context of each Application Perspective",
+            "shortText": "Per Endpoint",
             "columnText": "per Endpoint",
             "description": "Alert individually per Endpoint for this Application Perspective",
             "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective"
@@ -166,6 +170,18 @@
             "confirmButtonLabel": "Confirm"
           }
         },
+        "staticOrAdaptive": {
+          "config": {
+            "static": {
+              "title": "Static",
+              "description": "Threshold is either a fixed or time-dependent threshold value. Instana helps you pick the right threshold value based on recent data"
+            },
+            "adaptive": {
+              "title": "Adaptive",
+              "description": "Threshold automatically adapts to the changes of the underlying metric"
+            }
+          }
+        },
         "includeInternalOrSynthethicCalls": {
           "includeInternalCalls": "Include Internal Calls",
           "includeSyntethicCalls": "Include Synthetic Calls"
@@ -185,6 +201,11 @@
             "title": "Trigger: What do you want to be alerted on?",
             "logMessageCardTitle": "Log Message",
             "httpStatusCodesCardTitle": "HTTP Status Codes"
+          },
+          "threshold": {
+            "staticOrAdaptiveTitle": "Type of Threshold",
+            "label": "Threshold",
+            "title": "Threshold: When is the condition violated?"
           },
           "timeThreshold": {
             "label": "Time Threshold",
@@ -210,7 +231,7 @@
           "applications": "Applications:",
           "services": "Services:"
         },
-        "noChartForAdaptiveBaseline": "No preview available while this trigger is based on an adaptive baseline.",
+        "noChartForAdaptiveBaseline": "No preview available while this trigger is based on an adaptive threshold.",
         "noDataWithoutEndpointSelection": "Please select an endpoint to see the preview",
         "noDataAvailable": "Please select a service to see the preview"
       },
@@ -448,6 +469,10 @@
         "labelGlobalSmartAlertsList": "Global Application Smart Alerts ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Application Smart Alerts ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}",
         "labelActionButtonEdit": "Edit",
         "labelActionButtonDuplicate": "Duplicate",
         "labelActionButtonDelete": "Delete",
@@ -477,6 +502,10 @@
       }
     },
     "details": {
+      "header": "Details",
+      "thresholdTypeTitle" : "Threshold Type",
+      "metricTitle": "Metric",
+      "entityTitle": "Scope",
       "titleBuiltInIndicator": "Built-in"
     },
     "form": {
@@ -485,7 +514,7 @@
       "ruleAggregationOptionP25": "25th",
       "ruleAggregationOptionP50": "50th",
       "ruleAggregationOptionP75": "75th",
-      "ruleAggregationOptionP90": "90th (recommended)",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "95th",
       "ruleAggregationOptionP98": "98th",
       "ruleAggregationOptionP99": "99th",
@@ -594,10 +623,11 @@
         "sensitivitySliderHigh": "high",
         "labelThreshold": "Threshold",
         "labelSensitivity": "Sensitivity",
+        "staticThresholdTypeOptionsTooltip": "A Static Daily / Weekly Threshold is a time dependent threshold based on historical data. The threshold does not change automatically and can be manually recalculated if required.",
         "thresholdTypeOptionStaticThreshold": "Static Threshold",
-        "thresholdTypeOptionHistoricBaselineDaily": "Baseline (Daily Seasonality)",
-        "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (Weekly Seasonality)",
-        "thresholdTypeOptionAdaptiveBaseline": "Adaptive baseline",
+        "thresholdTypeOptionHistoricBaselineDaily": "Static Daily Seasonality",
+        "thresholdTypeOptionHistoricBaselineWeekly": "Static Weekly Seasonality",
+        "thresholdTypeOptionAdaptiveBaseline": "Adaptive Threshold",
         "useSuggestedvalue": "Use suggested value",
         "loadingThresholdSuggestion": "Loading threshold suggestion",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Edit Smart Alert",
@@ -689,6 +719,8 @@
         "slownessInteractiveChartThresholdValue": "Threshold Value",
         "scopeLabel": "Scope",
         "scopeTitle": "Scope: Where is the condition happening?",
+        "thresholdLabel": "Threshold",
+        "thresholdTitle": "Threshold: When is the condition violated?",
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: What do you want to be alerted on?",
         "JSErrorMessage": "JS Error Message",

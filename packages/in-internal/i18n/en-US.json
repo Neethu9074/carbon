@@ -176,8 +176,8 @@
         "activeReg": "Owned active registrations",
         "stateStoreSyncTime": "State Store Sync Time ({{aggregation}})",
         "stateStoreGroupedSyncTime": "State Store Grouped Sync Time ({{aggregation}})",
-        "incomingCalls": "Incoming Calls",
-        "droppedIncomingCalls": "Dropped Incoming Calls",
+        "incomingCalls": "Incoming Call Records",
+        "droppedIncomingCalls": "Dropped Incoming Call Records",
         "deserializingCalls": "Deserializing Calls",
         "deserializingCallsErrors": "Deserializing Calls errors",
         "gRPCCalls": "gRPC calls",
@@ -499,14 +499,20 @@
         "kafka": "Kafka"
       },
       "eumHealthProcessor": {
-        "incomingBeacons": "Incoming Beacons",
-        "droppedIncomingBeacon": "Dropped Incoming Beacons",
-        "beaconProcessing": "Beacon Processing",
-        "beaconProcessFail": "Beacon Processing Failures",
+        "incomingBeacons": "Incoming Beacon Records",
+        "droppedIncomingBeacon": "Dropped Incoming Beacon Records",
+        "outgoingMatchedBeacons": "Outgoing Matched Beacons",
+        "failOutgoingMatchedBeacons": "Outgoing Matched Beacon Failures",
+        "incomingMatchedBeacons": "Incoming Matched Beacon Records",
+        "droppedIncomingMatchedBeacons": "Dropped Incoming Matched Beacon Records",
+        "processedMatchedBeacons": "Processed Matched Beacons",
+        "failProcessedMatchedBeacons": "Processed Matched Beacon Failures",
         "configEval": "Config Evaluations",
         "configEvalFail": "Config Evaluation Failures",
         "outgoingEvent": "Outgoing Events",
-        "failOutgoingEvent": "Failed Outgoing Events"
+        "failOutgoingEvent": "Failed Outgoing Events",
+        "assignedConfigs": "Assigned Configurations",
+        "hostCpuLoad": "Host CPU load"
       },
       "eumProcessor": {
         "hostCpuLoad": "Host CPU load",

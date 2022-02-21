@@ -6,20 +6,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import { Stack, Spacer } from '@instana/components';
+
 import {
-  createViolationsInSequenceForm,
-  defaultAdaptiveBaselineTimeWindow
-} from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
+  getAvailableOptionsForEvaluationType,
+  optionsValidForThresholdTyp
+} from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import ShowStaticThresholdLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowStaticThresholdLabelOrDropdown';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
 import { getThresholdComboBoxValue } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
-import { getAvailableOptionsForEvaluationType } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
-import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
-import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
-import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { createSlownessForm } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { applicationsAlertingThresholdTypeHelpIconHovered } from 'in-alerting/smart-alerts/applications/tracker';
+import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ThresholdTypesHelp';
+import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
+import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
-import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import Dropdown from 'in-alerting/components/Dropdown';
 
 export default function ThresholdTypeSelection({
@@ -27,12 +27,16 @@ export default function ThresholdTypeSelection({
   updateForm,
   editMode,
   isGlobalSmartAlert,
+  showThresholdsHint,
+  blueprintType,
   trackThresholdTypeChanged,
   thresholdTypeOptions
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const evaluationType = form.get('evaluationType').value;
-  const options = getAvailableOptionsForEvaluationType(thresholdTypeOptions, evaluationType, isGlobalSmartAlert);
+  const options = getAvailableOptionsForEvaluationType(thresholdTypeOptions, evaluationType, isGlobalSmartAlert).filter(
+    optionsValidForThresholdTyp(thresholdType)
+  );
 
   return (
     <ShowStaticThresholdLabelOrDropdown evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert}>
@@ -43,59 +47,33 @@ export default function ThresholdTypeSelection({
           asSimpleDropdown
           label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
           items={options}
-          onChange={({ value = '' }) => onThresholdTypeChange(value)}
+          onChange={({ value = '' }) => {
+            onThresholdTypeChange(value, form, updateForm, trackThresholdTypeChanged);
+          }}
         />
       )}
-      {thresholdType === HISTORIC_BASELINE && (
-        <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
-      )}
+      <Spacer vertical size="xxsmall" />
+      <Stack space="xxsmall" align="center" direction="horizontal">
+        {options.length > 1 && showThresholdsHint && thresholdType !== ADAPTIVE_BASELINE && (
+          <ThresholdTypesHelp
+            trackHover={() => applicationsAlertingThresholdTypeHelpIconHovered({ blueprintType, thresholdType })}
+          />
+        )}
+        {thresholdType === HISTORIC_BASELINE && (
+          <RecalculateBaselineButton updateForm={updateForm} editMode={editMode} form={form} />
+        )}
+      </Stack>
     </ShowStaticThresholdLabelOrDropdown>
   );
-
-  function onThresholdTypeChange(value) {
-    const valueParts = value.split('.');
-    const updatedThresholdType = valueParts[0];
-
-    let newThresholdForm = createSlownessForm({
-      ...form.get('threshold').toJS(),
-      type: updatedThresholdType
-    });
-
-    if (updatedThresholdType === HISTORIC_BASELINE) {
-      const seasonality = valueParts[1];
-      newThresholdForm = newThresholdForm.updateIn(['seasonality'], f => f.setValue(seasonality).setTouched());
-    }
-
-    const newRuleForm = createRuleForm({ ...form.get('rule').toJS() });
-
-    let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
-
-    if (updatedThresholdType === ADAPTIVE_BASELINE) {
-      // resetting granularity and timeThreshold when threshold type is switched to adaptive-baseline
-      updatedForm = updatedForm
-        .put(
-          'timeThreshold',
-          createViolationsInSequenceForm(
-            {
-              timeWindow: defaultAdaptiveBaselineTimeWindow,
-              type: 'violationsInSequence'
-            },
-            ADAPTIVE_BASELINE
-          )
-        )
-        .updateIn(['granularity'], f => f.setValue(defaultAdaptiveBaselineGranularity).setTouched(true));
-    }
-
-    updateForm(updatedForm);
-
-    trackThresholdTypeChanged?.(getTrackingObject(form, { value: updatedThresholdType }));
-  }
 }
 
 ThresholdTypeSelection.propTypes = {
   editMode: PropTypes.bool,
   form: PropTypes.object.isRequired,
   isGlobalSmartAlert: PropTypes.bool,
+  showThresholdsHint: PropTypes.bool,
+  /** optional, only used when tracking the hovering of the help icon */
+  blueprintType: PropTypes.string,
   thresholdTypeOptions: PropTypes.arrayOf(
     PropTypes.shape({
       value: PropTypes.string.isRequired,

@@ -5,11 +5,13 @@
 
 import React, { useEffect, useState } from 'react';
 
+import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
 import CursorPaginatedTable from 'in-components/tables/ServerTable/CursorPaginatedTable';
 import UngroupedView, { retrievalSize } from 'in-components/AnalyzeView/UngroupedView';
 import QueryProgressIndicator from 'in-components/AnalyzeView/QueryProgressIndicator';
 import { metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { number } from 'in-services/formatters/number';
 import { scrollToTop } from 'in-services/util/dom';
 import { t } from 'in-i18n';
 
@@ -41,7 +43,10 @@ function Table(props) {
     items,
     isLoading,
     withEmbeddedLoadingIndicator = false,
-    withEmbeddedNoDataIndicator = false
+    withEmbeddedNoDataIndicator = false,
+    withEmbeddedApproximateDataIndicator,
+    resultPrecisionDetails,
+    dataSource
   } = props;
   const fields = [...fixedFields, ...selectableFields];
 
@@ -103,8 +108,24 @@ function Table(props) {
     }
   }, [items]);
 
+  const hasApproximateData =
+    withEmbeddedApproximateDataIndicator && resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
   return (
     <>
+      {hasApproximateData && (
+        <div className={locals.approximateData}>
+          <MultiLineToolTipIcon
+            lines={[t('in-components:approximateDataIndicator.dataRetention')]}
+            iconSize="s"
+            label={t('in-components:approximateDataIndicator.retainedLabel', {
+              totalHits: number.compact(props.totalHits),
+              representedHits: number.compact(props.totalRepresentedItemCount),
+              context: dataSource
+            })}
+          />
+        </div>
+      )}
       {items?.length > 0 ||
       (withEmbeddedLoadingIndicator && isLoading === true) ||
       (withEmbeddedNoDataIndicator && isLoading === false && items?.length === 0) ? (
