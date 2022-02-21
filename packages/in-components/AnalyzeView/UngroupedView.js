@@ -64,6 +64,7 @@ export default function UngroupedAnalyzeView(props) {
     progress,
     totalHits,
     totalRepresentedItemCount,
+    totalRetainedItemCount,
     adjustedWindowSize,
     resultPrecisionDetails
   } = cursorPaginationState;
@@ -109,9 +110,11 @@ export default function UngroupedAnalyzeView(props) {
             order={orderBy}
             totalHits={totalHits}
             totalRepresentedItemCount={totalRepresentedItemCount}
+            totalRetainedItemCount={totalRetainedItemCount}
             hasErrors={hasErrors}
             isLoading={isLoading}
             setOrder={onOrderByChange}
+            dataSource={dataSource}
             availableMetrics={hideMetricAndSortingConfigurator ? [] : availableMetrics}
             metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
             setMetrics={metrics =>

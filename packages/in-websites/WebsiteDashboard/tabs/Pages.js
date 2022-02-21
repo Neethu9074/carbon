@@ -134,6 +134,7 @@ export default function Pages({ timeConfig, tagFilters, websiteId }) {
           get={getTableData}
           websiteId={websiteId}
           tagFilters={tagFilters}
+          cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelPages')}
           timeConfig={timeConfig}
         />
       </Card>

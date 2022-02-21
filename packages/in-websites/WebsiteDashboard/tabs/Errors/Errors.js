@@ -137,6 +137,7 @@ export default function Errors({ timeConfig, tagFilters, websiteId, websiteLabel
           websiteId={websiteId}
           tagFilters={tagFilters}
           timeConfig={timeConfig}
+          cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelJSErrors')}
           rightHeader={rightHeader}
         />
       </Card>

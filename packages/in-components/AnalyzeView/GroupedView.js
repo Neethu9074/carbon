@@ -155,6 +155,7 @@ export default function GroupedAnalyzeView(props) {
     loadMore,
     totalHits,
     totalRepresentedItemCount,
+    totalRetainedItemCount,
     adjustedWindowSize,
     resultPrecisionDetails
   } = useCursorPagination(
@@ -265,6 +266,7 @@ export default function GroupedAnalyzeView(props) {
             metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
             totalHits={totalHits}
             totalRepresentedItemCount={totalRepresentedItemCount}
+            totalRetainedItemCount={totalRetainedItemCount}
             hasErrors={hasErrors}
             isLoading={isLoading}
             order={orderByGroups}

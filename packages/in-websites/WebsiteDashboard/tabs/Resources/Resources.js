@@ -171,6 +171,7 @@ function Resources({ timeConfig, tagFilters, websiteId, resourceType, setFilter,
         websiteId={websiteId}
         tagFilters={tagFiltersForResourceList}
         timeConfig={timeConfig}
+        cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelResources')}
         rightHeader={resourcesListRightHeader}
       />
     </Card>
