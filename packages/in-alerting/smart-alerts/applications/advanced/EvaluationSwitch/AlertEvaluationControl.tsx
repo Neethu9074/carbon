@@ -6,13 +6,14 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
+import { AlertEvaluationControlPresenter } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControlPresenter';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 // @ts-expect-error source needs to be converted to TS
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import { AlertEvaluationControlPresenter } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControlPresenter';
 // @ts-expect-error source needs to be converted to TS
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { AlertEvaluationType, ThresholdType } from 'in-types';
+
 
 interface Props {
   form: MapForm;
@@ -35,11 +36,11 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
       const threshold = (form.get('threshold') as Field<object>).toJS();
 
       // reset to static threshold
-      const thresholdType = blueprintConfig?.baselineEnabled ? type : STATIC_THRESHOLD;
+      const newThresholdType = blueprintConfig?.baselineEnabled ? type : STATIC_THRESHOLD;
 
       const newThreshold = {
         ...threshold,
-        type: thresholdType
+        type: newThresholdType
       };
 
       updateForm(
