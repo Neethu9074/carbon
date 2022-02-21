@@ -53,7 +53,7 @@ export default function Logs(props) {
     getHrefToGroupedView,
     Sidebar = FacetedSearchPresenter,
     Chart = ChartsPresenter,
-    initialLogLines
+    initialLogPages = 1
   } = props;
 
   const onSelectTagHref = getHrefWithAdditionalTagFilter
@@ -79,7 +79,7 @@ export default function Logs(props) {
       {...props}
       Sidebar={Sidebar}
       Chart={Chart}
-      useCursorPaginationStrategy={createPageSizeAwareLogsCursorPaginationHook(initialLogLines)}
+      useCursorPaginationStrategy={createPageSizeAwareLogsCursorPaginationHook(initialLogPages)}
       classNames={{ listItem: locals.listItem }}
       columnDefinitions={columnDefinitions}
       getData={params => getTableData(params)}
@@ -146,12 +146,13 @@ function CustomHeaderActions({ orderBy, setOrder }) {
 }
 
 function getTableData(props) {
-  const { timeConfig, afterKey, backendQueryModel, retrievalSize, orderBy } = props;
+  const { timeConfig, afterKey, backendQueryModel, loadAfterCount, retrievalSize, orderBy } = props;
 
   return getLogs({
     timeConfig,
     retrievalSize,
     afterKey,
+    loadAfterCount,
     tagFilterExpression: backendQueryModel,
     tags: [LOG_CUSTOM, LOG_LEVEL, LOG_EXCEPTION_TYPE, LOG_EXCEPTION_MESSAGE, LOG_EXCEPTION_STACK_TRACE],
     orderDirection: orderBy?.direction
