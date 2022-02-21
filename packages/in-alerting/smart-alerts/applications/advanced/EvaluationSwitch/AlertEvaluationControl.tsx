@@ -7,9 +7,11 @@ import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
 // @ts-expect-error source needs to be converted to TS
-import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { AlertEvaluationControlPresenter } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControlPresenter';
-import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+// @ts-expect-error source needs to be converted to TS
+import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { AlertEvaluationType, ThresholdType } from 'in-types';
 
 interface Props {
@@ -27,12 +29,25 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
 
   const setEvaluationType = (type: AlertEvaluationType) => {
     // only update, when value changed
-    if (type !== evaluationType)
+    if (type !== evaluationType) {
+      // we need to reset the type, if only Static Threshold is
+      const blueprintConfig = getBlueprintConfig(alertType);
+      const threshold = (form.get('threshold') as Field<object>).toJS();
+
+      // reset to static threshold
+      const thresholdType = blueprintConfig?.baselineEnabled ? type : STATIC_THRESHOLD;
+
+      const newThreshold = {
+        ...threshold,
+        type: thresholdType
+      };
+
       updateForm(
         form
           .updateIn(['evaluationType'], f => (f as Field<AlertEvaluationType>).setValue(type).setTouched(true))
-          .put('threshold', createThresholdForm({ ...(form.get('threshold') as Field<object>).toJS() }, alertType))
+          .put('threshold', createThresholdForm(newThreshold, alertType))
       );
+    }
   };
 
   return (
