@@ -10,12 +10,12 @@ import {
   createHiddenCallsFromSyntheticOption,
   isSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+import { createChartedMetric, createGroupBy, createOrderBy } from 'in-analyze/navigation/paths';
 import { extendWindowSizeOnLiveMode, getResolvedTimeConfig } from 'in-applications/metrics';
 import getTechnologyBreakdown from 'in-applications/subscriptions/getTechnologyBreakdown';
 import { endpointNameTranslations, getColorChart } from 'in-applications/endpointTypes';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { createChartedMetric, createGroupBy } from 'in-analyze/navigation/paths';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { meanLatencyFixed, millis } from 'in-services/formatters/number';
@@ -111,6 +111,7 @@ export default connectTo(
                   }),
                   hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
                   groupBy: createGroupBy('call.type'),
+                  orderByGroups: createOrderBy('latency_MEAN', 'DESC'),
                   chartedMetrics: [createChartedMetric('latency', 'MEAN')]
                 }
               )
