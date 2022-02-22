@@ -3,3 +3,4 @@ CVE-2021-37712 # Prevented by `npm` according to https://access.redhat.com/secur
 CVE-2021-37713 # Only affected if running on Windows
 CVE-2021-22930 # Twistlock wrongly identifies the Node.js version used. We are on version 14.17.5 which contains the fix https://github.ibm.com/instana/backend/blob/acf9868e22855512bde8b22cd225dd6aacdf3f8b/containers/runtimes/nodejs/container#L8
 CVE-2021-22940 # Twistlock wrongly identifies the Node.js version used. We are on version 14.17.5 which contains the fix https://github.ibm.com/instana/backend/blob/acf9868e22855512bde8b22cd225dd6aacdf3f8b/containers/runtimes/nodejs/container#L8
+PRISMA-2022-0039 # Will be patched after the release. See this slack thread for why: https://instana.slack.com/archives/GKKKN695Y/p1645455937429659
