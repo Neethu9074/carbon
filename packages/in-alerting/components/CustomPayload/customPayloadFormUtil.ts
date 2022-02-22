@@ -3,21 +3,30 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createMapForm, createField, createListForm } from 'formalistic';
+import {
+  createField,
+  createListForm,
+  createMapForm,
+  Field,
+  Item,
+  ListForm,
+  MapForm,
+  ValidationResult
+} from 'formalistic';
 
 import { generateUniqueShortId } from '@instana/utils';
 
 import { isBlank, isNotBlank } from 'in-services/util/string';
+import { Nullish, StaticStringField } from 'in-types';
 import { t } from 'in-i18n';
 
-export const staticType = 'staticString';
-export const dynamicType = 'dynamic';
-export const defaultType = staticType;
+export type FieldType = string | 'staticString' | 'dynamic'; // currently, there is no Enum type on backend side
 
-const staticBooleanType = 'staticBoolean';
-const staticNumberType = 'staticNumber';
+export const staticType: FieldType = 'staticString';
+export const dynamicType: FieldType = 'dynamic';
+export const defaultType: FieldType = staticType;
 
-function createValidationError(errorMessage) {
+function createValidationError(errorMessage: string): ValidationResult {
   return [
     {
       severity: 'error',
@@ -26,48 +35,54 @@ function createValidationError(errorMessage) {
   ];
 }
 
-const keyNamesMustBeUnique = createValidationError(t('in-alerting:components.customPayload.keyNamesMustBeUnique'));
-const notBlankError = createValidationError(t('in-alerting:components.customPayload.theValueMustNotBeBlank'));
-const invalidCharsValidator = createValidationError(
+const keyNamesMustBeUnique: ValidationResult = createValidationError(
+  t('in-alerting:components.customPayload.keyNamesMustBeUnique')
+);
+const notBlankError: ValidationResult = createValidationError(
+  t('in-alerting:components.customPayload.theValueMustNotBeBlank')
+);
+const invalidCharsValidator: ValidationResult = createValidationError(
   t('in-alerting:components.customPayload.onlyOrAnyAlphaNumericalAreAllowed')
 );
-const tagNeedsToBeSelectedError = createValidationError(
+const tagNeedsToBeSelectedError: ValidationResult = createValidationError(
   t('in-alerting:components.customPayload.aTagNeedsToBeSelected')
 );
-const secondKeyMayNotBeMissingError = createValidationError(
+const secondKeyMayNotBeMissingError: ValidationResult = createValidationError(
   t('in-alerting:components.customPayload.aKeyNeedsToBeSpecified')
 );
 
-function nonBlankValidator(s) {
+function nonBlankValidator(s: string | Nullish): ValidationResult {
   if (isBlank(s)) {
     return notBlankError;
   }
+  return null;
 }
 
-function needsTagAndSecondKeyMayNotBeMissingValidator(tagObject) {
+function needsTagAndSecondKeyMayNotBeMissingValidator(tagObject?: {
+  tagName: string | Nullish;
+  key: string | Nullish;
+}): ValidationResult {
   if (!tagObject || !tagObject.tagName) {
     return tagNeedsToBeSelectedError;
   }
   if (tagObject.key != null && isBlank(tagObject.key)) {
     return secondKeyMayNotBeMissingError;
   }
+  return null;
 }
 
-function keyNameValidator(s) {
+function keyNameValidator(s: string | null): ValidationResult {
   if (isBlank(s)) {
     return notBlankError;
   }
-  if (!/^[\w-.]+$/im.test(s)) {
+  if (!/^[\w-.]+$/im.test(s!)) {
     return invalidCharsValidator;
   }
+  return null;
 }
 
-function getFieldType(field) {
-  return [staticBooleanType, staticNumberType].includes(field.type) ? staticType : field.type;
-}
-
-function createFormFieldForField(field) {
-  const fieldType = getFieldType(field);
+function createFormFieldForField(field: StaticStringField & { id?: string }): MapForm {
+  const fieldType = field.type ?? staticType;
 
   return createMapForm()
     .put(
@@ -86,41 +101,41 @@ function createFormFieldForField(field) {
     .put(
       'type',
       createField({
-        value: fieldType ?? defaultType
+        value: fieldType
       })
     )
     .put(
       'value',
       createField({
-        value:
-          (fieldType === staticType ? field.value?.toString() : field.value) ??
-          defaultValueForType(fieldType ?? defaultType),
-        validator: validatorForType[fieldType ?? defaultType] ?? undefined
+        value: (fieldType === staticType ? field.value?.toString() : field.value) ?? defaultValueForType(fieldType),
+        validator: validatorForType[fieldType] ?? undefined
       })
     );
 }
 
-function onlyUniqueKeyNames(payloadItems) {
+function onlyUniqueKeyNames(payloadItems: Item[]): ValidationResult {
   if (!payloadItems) return;
 
-  const keys = payloadItems.map(item => item.get('key').value).filter(isNotBlank);
+  const keys = payloadItems.map(item => ((item as MapForm).get('key') as Field<string>).value).filter(isNotBlank);
   const keySet = new Set(keys);
 
   if (keys.length > keySet.size) {
     return keyNamesMustBeUnique;
   }
+  return null;
 }
 
-export function defaultValueForType(type) {
+export function defaultValueForType(type?: FieldType): {} | '' {
   return type === dynamicType ? {} : '';
 }
 
-export function createNewFormEntry() {
+export function createNewFormEntry(): MapForm {
   return createFormFieldForField(enrichedWithUniqId({}));
 }
 
-export function createForm(payloadFields, addEmptyEntry = true) {
-  const initializeListForm = createListForm({
+/** ListForm<MapForm>, if ListForm would be typed */
+export function createForm(payloadFields: StaticStringField[], addEmptyEntry = true): ListForm {
+  const initializeListForm: ListForm = createListForm({
     validator: onlyUniqueKeyNames
   });
 
@@ -129,26 +144,27 @@ export function createForm(payloadFields, addEmptyEntry = true) {
     return initializeListForm.push(createNewFormEntry());
   }
 
-  return payloadFields.reduce(
+  return payloadFields.reduce<ListForm>(
     (result, payloadField) => result.push(createFormFieldForField(payloadField)),
     initializeListForm
   );
 }
 
-export function validateCheckForCustomPayload(form) {
-  const listForm = form.get('customPayloadFields');
+export function validateCheckForCustomPayload(form: MapForm): boolean {
+  const listForm = form.get('customPayloadFields') as ListForm;
 
+  // @ts-expect-error ListForm does not contain items in is type definition, yet
   return listForm.hierarchyValid && listForm.items.length > 0;
 }
 
-export const enrichedWithUniqId = (item = {}) => {
+export const enrichedWithUniqId = (item: any = {}): StaticStringField => {
   return {
     ...item,
-    id: item.key + generateUniqueShortId()
+    id: item?.key + generateUniqueShortId()
   };
 };
 
-export const validatorForType = {
+export const validatorForType: Record<any, (value: any) => ValidationResult> = {
   [staticType]: nonBlankValidator,
   [dynamicType]: needsTagAndSecondKeyMayNotBeMissingValidator
 };
