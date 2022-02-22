@@ -3,15 +3,25 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { Stack } from '@instana/components';
 
+import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
+import { QueryBuilderComponent } from 'in-components/QueryBuilder';
+// @ts-expect-error this component needs to be converted to typescript
 import HelpText from 'in-components/form/HelpText';
 import { t } from 'in-i18n';
 
-export default function ScopeConfigPresenter({ tagFilterFormModel, queryBuilder, scopePath }) {
+export default function ScopeConfigPresenter({
+  tagFilterFormModel,
+  queryBuilder,
+  scopePath
+}: {
+  tagFilterFormModel: FormModelElement[];
+  queryBuilder: QueryBuilderComponent;
+  scopePath: ReactNode;
+}) {
   return (
     <Stack gap="xsmall">
       {scopePath}
@@ -24,9 +34,3 @@ export default function ScopeConfigPresenter({ tagFilterFormModel, queryBuilder,
     </Stack>
   );
 }
-
-ScopeConfigPresenter.propTypes = {
-  scopePath: PropTypes.element,
-  queryBuilder: PropTypes.element,
-  tagFilterFormModel: PropTypes.array
-};
