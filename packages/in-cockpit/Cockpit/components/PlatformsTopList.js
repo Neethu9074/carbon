@@ -320,6 +320,9 @@ function getSubTitle(item) {
   if (item.isZhmc) {
     return t('in-cockpit:component.platformsTopList.ibmz');
   }
+  if (item.isOpenstack) {
+    return t('in-cockpit:component.platformsTopList.openstackRegion');
+  }
   return t('in-cockpit:component.platformsTopList.vSphereDatacenter');
 }
 

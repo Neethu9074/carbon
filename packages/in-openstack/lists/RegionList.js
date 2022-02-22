@@ -28,7 +28,7 @@ const matrixPrefix = 'region.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: t('in-vsphere:name'),
+    label: t('in-openstack:name'),
     getContent(item) {
       return <EntityLink label={item.label} href$={getOpenstackRegionDashboard(item.id)} />;
     }
@@ -55,7 +55,7 @@ export default connectTo(
         <ViewTrackingMeta
           data={{
             productArea: 'openstack',
-            pageRootName: t('in-vsphere:regions')
+            pageRootName: t('in-openstack:regions')
           }}
         />
 

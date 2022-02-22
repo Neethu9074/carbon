@@ -14,8 +14,8 @@ export default function OpenstackViewSwitcher() {
     <>
       <DashboardHeader
         icon="lib_openstack"
-        label={t('in-openstack:OpenstackRegions')}
-        title={t('in-openstack:OpenstackRegions')}
+        label={t('in-openstack:openstackRegions')}
+        title={t('in-openstack:openstackRegions')}
       />
       <DashboardHeaderShadowModule />
     </>

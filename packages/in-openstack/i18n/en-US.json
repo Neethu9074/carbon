@@ -1,0 +1,20 @@
+{
+  "breadcrumbs": {
+    "regions": "Regions"
+  },
+  "name": "Name",
+  "regions": "Regions",
+  "noMonitoringDataFound": "No Monitoring Data Found",
+  "noData": "No OpenStack data is available.",
+  "openstackRegions": "OpenStack Regions",
+  "dashboards": {
+    "regions": "Regions",
+    "openstackRegions": "OpenStack Regions",
+    "name": "Name",
+    "hypervisors": "Hypervisors",
+    "noDataAvailable": {
+      "hypervisorTitle": "No OpenStack Hypervisor available",
+      "hypervisorDescription": "There were no OpenStack Hypervisor retrieved for the selected time range."
+    }
+  }
+}
