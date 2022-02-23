@@ -38,7 +38,7 @@ export const thresholdTypeOptions = Object.freeze([
  * We removed LT/LTE operators. To don't break older configs which have one of those operators,
  * we add it to the options object. The backend will still handle these options for API users.
  */
-export function enrichThresholdOperatorOptionsForApiConfigs(operator) {
+export function enrichThresholdOperatorOptionsForApiConfigs(operator: string) {
   let legacyOperator = null;
 
   if (operator === '<=') {
