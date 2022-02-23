@@ -12,7 +12,7 @@ export default ({ name, key, timeConfig, value, propose }) => {
     tagName: key !== undefined ? name + '.' + key : name,
     timeConfig: timeConfig,
     partialTagValue: value,
-    valueCount: 10,
+    valueCount: fetchKeySuggestions ? 1000 : 10,
     fetchKeySuggestions
   }).map(dropTagPrefixIfNecessary(fetchKeySuggestions, name));
 };
