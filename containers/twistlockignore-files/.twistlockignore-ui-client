@@ -6,3 +6,5 @@ CVE-2021-22940 # Twistlock wrongly identifies the Node.js version used. We are o
 PRISMA-2022-0039 # Will be patched after the release. See this slack thread for why: https://instana.slack.com/archives/GKKKN695Y/p1645455937429659
 CVE-2022-25315 # Will be patched after the release. See this slack thread for why: https://instana.slack.com/archives/GKKKN695Y/p1645523433822589
 CVE-2021-44568 # Will be patched after the release. See this slack thread for why: https://instana.slack.com/archives/GKKKN695Y/p1645523433822589
+CVE-2022-25235 # Will be patched after the release. See this slack thread for why: https://instana.slack.com/archives/GKKKN695Y/p1645523433822589
+CVE-2022-25236 # Will be patched after the release. See this slack thread for why: https://instana.slack.com/archives/GKKKN695Y/p1645523433822589
