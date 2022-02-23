@@ -4,3 +4,4 @@
  */
 
 export const regionId = 'regionId';
+export const hypervisorId = 'hypervisorId';
