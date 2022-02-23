@@ -69,9 +69,11 @@ type AxisIcons = {
   types: string[];
 };
 
+export type MetricDataSeries = [number, number][];
+
 export interface Axis {
   renderer: Renderer;
-  metrics: [number, number][][];
+  metrics: MetricDataSeries[];
   timeShifts?: TimeShift[] | null;
   metricIds: string[];
   labels: string[];

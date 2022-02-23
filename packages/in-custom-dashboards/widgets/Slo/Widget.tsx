@@ -8,20 +8,23 @@ import React from 'react';
 import { Message, Card } from '@instana/components';
 
 import { ensureConfigBackwardCompatibility, SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/form';
+import { isApplicationSliEntity, isAvailabilitySliEntity } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { MetricResult, Result, SliConfigurationWithLastUpdated, TimeConfig } from 'in-types';
 import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
-import { MetricDataSeries } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/WidgetLeftHeader';
+import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
 import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
+import Chart, { ChartTrackers } from 'in-custom-dashboards/widgets/Slo/Chart';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
 import { days, hours, minutes } from 'in-services/time/time';
-import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
+import { MetricDataSeries } from 'in-components/Chart/types';
 import { hasError } from 'in-services/util/result';
-import useSloMetrics from './hooks/useSloMetrics';
 import { t } from 'in-i18n';
 
 import locals from './Widget.mless';
+
 
 interface WidgetProps {
   actions: React.ReactNode;
@@ -199,7 +202,23 @@ const WidgetContent = ({ sloMetricsResult, sliConfigId, ...otherChartProps }: Wi
       result={sloMetricsResult}
       consumed={filterAvailableData(findMetric('consumed', sloMetricsResult?.data))}
       hourlyBudget={filterAvailableData(findMetric('hourlyBudget', sloMetricsResult?.data))}
+      trackers={chartTrackers}
       {...otherChartProps}
     />
   );
+};
+
+const chartTrackers: ChartTrackers = {
+  trackJumpToUnboundedAnalytics: entity => {
+    if (isAvailabilitySliEntity(entity) || isApplicationSliEntity(entity)) {
+      const { sliType, applicationId, serviceId, endpointId, boundaryScope } = entity;
+      trackJumpToUnboundedAnalyticsFromSloWidget({
+        sliType,
+        applicationId,
+        serviceId,
+        endpointId,
+        boundaryScope
+      });
+    }
+  }
 };

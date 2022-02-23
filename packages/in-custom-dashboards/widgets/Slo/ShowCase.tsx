@@ -7,13 +7,13 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
-import { MetricDataSeries } from 'in-custom-dashboards/widgets/Slo/sli/metricFormData';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
 import Chart, { ChartProps } from 'in-custom-dashboards/widgets/Slo/Chart';
 import { SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { AvailabilitySliEntity, MetricResult, Result } from 'in-types';
+import { MetricDataSeries } from 'in-components/Chart/types';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
