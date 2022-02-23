@@ -10,12 +10,16 @@ import {
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
+import { AlertEvaluationType, ThresholdType } from 'in-types';
 import { deepFreeze } from 'in-services/util/object';
 import { t } from 'in-i18n';
 
+type Option = { readonly value: string; readonly label: string };
+type Options = readonly Option[];
+
 const baselineTypes = [HISTORIC_BASELINE, ADAPTIVE_BASELINE];
 
-export const applicationThresholdTypeOptions = adaptiveBaselineEnabled
+export const applicationThresholdTypeOptions: Options = adaptiveBaselineEnabled
   ? deepFreeze([
       ...thresholdTypeOptions,
       {
@@ -26,51 +30,41 @@ export const applicationThresholdTypeOptions = adaptiveBaselineEnabled
   : thresholdTypeOptions;
 
 /**
- *
- * @param {string} thresholdType
- * @returns true if thresholdType is one of types HISTORIC_BASELINE or ADAPTIVE_BASELINE, else false
+ * @returns true only if thresholdType is one of types 'historicBaseline' | 'adaptiveBaseline'
  */
-export function isOneOfBaselineTypes(thresholdType) {
+export function isOneOfBaselineTypes(thresholdType: ThresholdType): boolean {
   return baselineTypes.includes(thresholdType);
 }
 
-/**
- *
- * @param {[{value: string, label: string}]} thresholdTypeOptions
- * @param {string} evaluationType
- * @returns list containing only thresholdTypeOptions which are available for a given evaluationType.
- */
-export function getAvailableOptionsForEvaluationType(thresholdTypeOptions = [], evaluationType, isGlobalSmartAlert) {
+export function getAvailableOptionsForEvaluationType(
+  thresholdTypeOptions: Options = [],
+  evaluationType: AlertEvaluationType,
+  isGlobalSmartAlert: boolean
+): Options {
   return thresholdTypeOptions.filter(({ value }) => {
     if (isGlobalSmartAlert || [PER_AP_SERVICE, PER_AP_ENDPOINT].includes(evaluationType)) {
-      return [ADAPTIVE_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0]);
+      return [ADAPTIVE_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0] as ThresholdType);
     }
     return true;
   });
 }
 
-/**
- * @param {[{value: string, label: string}]} thresholdTypeOptions
- */
-export function withoutHistoricBaselineOptions(thresholdTypeOptions = []) {
+export function withoutHistoricBaselineOptions(thresholdTypeOptions: Options = []): Options {
   return thresholdTypeOptions.filter(({ value }) =>
-    [ADAPTIVE_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0])
+    [ADAPTIVE_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0] as ThresholdType)
   );
 }
 
-/**
- * @param {[{value: string, label: string}]} thresholdTypeOptions
- */
-export function withoutAdaptiveBaselineOptions(thresholdTypeOptions = []) {
+export function withoutAdaptiveBaselineOptions(thresholdTypeOptions: Options = []): Options {
   return thresholdTypeOptions.filter(({ value }) =>
-    [HISTORIC_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0])
+    [HISTORIC_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0] as ThresholdType)
   );
 }
 
-const isAdaptiveBaselineOption = optionValue => ADAPTIVE_BASELINE === optionValue.value;
+const isAdaptiveBaselineOption = (option: Option) => ADAPTIVE_BASELINE === option.value;
 
 /* filter-out any option which does not match depending on the type: (adaptive) or (historic|static) */
-export const optionsValidForThresholdTyp = type =>
+export const optionsValidForThresholdTyp = (type: string | ThresholdType): ((option: Option) => boolean) =>
   type === ADAPTIVE_BASELINE //
     ? isAdaptiveBaselineOption
-    : option => !isAdaptiveBaselineOption(option);
+    : (option: Option) => !isAdaptiveBaselineOption(option);
