@@ -56,6 +56,7 @@ packages/in-stores                  @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-stores/snapshot         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure
 # Deprecated: We should not make any more changes within this package (aside from code removal)
 packages/in-subscription            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
+packages/in-synthetics              @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-synthetics-server @instana/eng-ui
 packages/in-test                    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-themes                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-types                   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
