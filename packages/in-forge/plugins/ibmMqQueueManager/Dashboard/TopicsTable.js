@@ -24,6 +24,15 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.topicString'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.subName.getIn(['data', 'topicString']);
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.ibmMqCluster.dashboard.type'),
     type: 'string',
     typeArgs: {

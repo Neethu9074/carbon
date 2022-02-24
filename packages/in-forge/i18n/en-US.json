@@ -682,7 +682,6 @@
   "pluginName_ibmMqListener_1": "IBM MQ Listeners",
   "pluginName_ibmMqListener_2": "IBM MQ Listeners",
   "pluginName_ibmMqListener": "IBM MQ Listener",
-  "pluginName_ibmMqManager": "IBM MQ Queue Manager",
   "pluginName_ibmMqQueue_plural": "IBM MQ Queues",
   "pluginName_ibmMqQueue_0": "IBM MQ Queues",
   "pluginName_ibmMqQueue_1": "IBM MQ Queues",
@@ -8886,7 +8885,8 @@
         "publications": "Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
-        "ibmMqTopic": "IBM MQ Topic"
+        "ibmMqTopic": "IBM MQ Topic",
+        "topicString": "Topic String"
       },
       "name": "Name",
       "queueManager": "Queue Manager",
@@ -8898,7 +8898,8 @@
       "count": "Count",
       "lastResetTime": "Last Reset Time",
       "reset": "Reset",
-      "subscriptions": "Subscriptions"
+      "subscriptions": "Subscriptions",
+      "topicString": "Topic String"
     },
     "ibmMqSubscription": {
       "dashboard": {
