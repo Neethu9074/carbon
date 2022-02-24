@@ -25,7 +25,6 @@ import { t } from 'in-i18n';
 
 import locals from './Widget.mless';
 
-
 interface WidgetProps {
   actions: React.ReactNode;
   config: SloWidgetConfiguration;
@@ -185,7 +184,7 @@ interface WidgetContentProps {
   disableZooming?: boolean;
 }
 
-const WidgetContent = ({ sloMetricsResult, sliConfigId, ...otherChartProps }: WidgetContentProps) => {
+const WidgetContent = ({ sloMetricsResult, sliConfigId, isPreview, ...otherChartProps }: WidgetContentProps) => {
   if (isConfiguredSliDeleted(sloMetricsResult, sliConfigId)) {
     return (
       <Message
@@ -203,6 +202,7 @@ const WidgetContent = ({ sloMetricsResult, sliConfigId, ...otherChartProps }: Wi
       consumed={filterAvailableData(findMetric('consumed', sloMetricsResult?.data))}
       hourlyBudget={filterAvailableData(findMetric('hourlyBudget', sloMetricsResult?.data))}
       trackers={chartTrackers}
+      automaticallySize={!isPreview}
       {...otherChartProps}
     />
   );

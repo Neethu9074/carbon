@@ -44,6 +44,7 @@ export interface ChartProps {
   isPreview?: boolean;
   disableZooming?: boolean;
   trackers?: ChartTrackers;
+  automaticallySize?: boolean;
 }
 
 export default function Chart({
@@ -56,7 +57,8 @@ export default function Chart({
   sliConfig,
   isPreview,
   disableZooming,
-  trackers
+  trackers,
+  automaticallySize
 }: ChartProps) {
   const tagCatalogLoader = useTagCatalogLoader(sliConfig);
   const tagCatalog = useTagCatalog(tagCatalogLoader);
@@ -74,6 +76,7 @@ export default function Chart({
     <ResultAwareChart
       result={result}
       config={{
+        automaticallySize,
         granularity,
         timeConfig,
         y1: {
