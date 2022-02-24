@@ -22,6 +22,7 @@ export interface ContextMenuButton {
 export interface Config {
   frontBufferWidth?: number;
   customHeight?: number;
+  automaticallySize?: boolean;
   cardTitle?: string;
   leftHeaderContent?: React.ReactElement;
   rightHeaderContent?: React.ReactElement;
