@@ -23,6 +23,7 @@ import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventA
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
+import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
@@ -36,6 +37,7 @@ export default function ApplicationEventContent({ event }) {
   const alertConfig = useApplicationEventAlertConfig(event);
   const eventEntity = useApplicationEventEntity(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState();
+  const [hasApproxDataForAffectedEntities, setApproxDataForAffectedEntities] = useState();
 
   if (!eventEntity || !alertConfig) {
     return null;
@@ -96,7 +98,9 @@ export default function ApplicationEventContent({ event }) {
         <Col xs>
           <Card
             title={t('in-events:titleMetrics')}
-            leftHeaderContent={<HighlightDataRetention metricResultPrecision={metricResultPrecision} />}
+            leftHeaderContent={
+              <HighlightDataRetention hasApproximateData={isApproximatePrecision(metricResultPrecision)} />
+            }
           >
             <ApplicationAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
@@ -135,9 +139,10 @@ export default function ApplicationEventContent({ event }) {
         <Row withoutSideMargin>
           <Col xs>
             <SmartAlertAffectedEntities
-              leftHeaderContent={<HighlightDataRetention metricResultPrecision={metricResultPrecision} />}
+              leftHeaderContent={<HighlightDataRetention hasApproximateData={hasApproxDataForAffectedEntities} />}
               alertConfig={alertConfig}
               event={event}
+              setApproxDataForAffectedEntities={setApproxDataForAffectedEntities}
               {...eventEntity}
             />
           </Col>

@@ -30,7 +30,8 @@ export function SmartAlertAffectedEntities({
   serviceName,
   endpointId,
   endpointName,
-  leftHeaderContent
+  leftHeaderContent,
+  setApproxDataForAffectedEntities
 }) {
   const { rule, includeInternal, includeSynthetic } = alertConfig;
 
@@ -87,6 +88,7 @@ export function SmartAlertAffectedEntities({
         filterGroup={needsGroupByEndpoint ? groupByEndpointName : groupByServiceName}
         createItemLink$={createItemLink$}
         renderLinkToAnalyzeAll={renderLinkToAnalyzeAll}
+        setApproxDataForAffectedEntities={setApproxDataForAffectedEntities}
       />
     </Card>
   );
