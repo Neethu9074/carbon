@@ -1637,6 +1637,19 @@ export interface GetServiceQuery extends FilteredQuery {
   readonly id: string;
 }
 
+export interface GetServicesCorrelatedByTagQuery extends PaginatedQuery, QueryWithPrecision {
+  readonly correlationTag: string;
+  readonly correlationTagEntity: TagFilterEntity;
+  readonly correlationTagSecondLevelKey?: string;
+  readonly filter: Filter;
+  readonly metrics: { [index: string]: AppDataMetricConfiguration };
+  readonly order: Order;
+  readonly pagination: Pagination;
+  readonly queryPrecision: QueryPrecision;
+  readonly serviceId: string;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+}
+
 export interface GetServicesCursorPaginatedQuery extends CursorPaginatedQuery, QueryWithMetrics, QueryWithPrecision {
   readonly contextScope?: ContextScope;
   readonly filter: Filter;
