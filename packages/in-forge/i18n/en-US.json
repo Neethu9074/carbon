@@ -8420,6 +8420,7 @@
     "ibmIDb2": {
       "troubleshootingDocs": "Troubleshooting docs",
       "collectionServicesNotEnabledDescription": "Agent could not obtain Db2 on i metrics. Please turn on Collection Services in order to monitor Db2 on i.",
+      "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "name": "Db2 on i",
       "sidebar": {
         "ibmIDb2Info": "Db2 on i Info",
@@ -8670,7 +8671,9 @@
         }
       },
       "name": "IBM i",
-      "memoryPool": "Memory Pool"
+      "memoryPool": "Memory Pool",
+      "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
+      "troubleshootingDocs": "Troubleshooting docs"
     },
     "ibmMqChannel": {
       "dashboard": {
