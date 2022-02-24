@@ -3,6 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React from 'react';
+
 import { RenderProps } from 'in-components/Chart/renderer/types';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { FilterInterface, TimeConfig } from 'in-types';
@@ -38,6 +40,9 @@ export interface Config {
   metricsConfiguration?: MetricsConfiguration;
   renderErrorDetail?: boolean;
   withoutPadding?: boolean;
+
+  renderPreChartContent?: (props: AdditionChartContentProps) => React.ReactNode;
+  renderPostChartContent?: (props: AdditionChartContentProps) => React.ReactNode;
 
   getAllDomainValues?: () => number[];
   renderHistoricDataIndicator?: boolean;
@@ -84,4 +89,15 @@ export interface Axis {
 
   // Sometimes use–case specific props are added to the Axis
   [key: string]: unknown;
+}
+
+export interface AdditionChartContentProps {
+  timeConfig: TimeConfig;
+  granularity?: number;
+  chartBucketWidth?: number;
+  chartWidth?: number;
+  chartHeight?: number;
+  timeAxisHeight?: number;
+  markerPaneHeight?: number;
+  chartContentPosition: 'pre' | 'post';
 }
