@@ -28,7 +28,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.subName.getIn(['data', 'topicString']);
+        return row.topic.getIn(['data', 'topicString']);
       }
     }
   },
