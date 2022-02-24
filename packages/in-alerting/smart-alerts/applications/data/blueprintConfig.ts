@@ -4,9 +4,21 @@
  */
 
 import {
+  AdaptiveBaselineConfig,
+  AggregationType,
+  ApplicationAlertConfig,
+  ApplicationAlertRule,
+  HistoricBaselineData,
+  LogsApplicationAlertRule,
+  StaticThresholdConfig,
+  StatusCodeApplicationAlertRule,
+  ThresholdConfig,
+  ThresholdOperator
+} from 'in-types';
+import {
   applicationThresholdTypeOptions,
-  withoutHistoricBaselineOptions,
-  withoutAdaptiveBaselineOptions
+  withoutAdaptiveBaselineOptions,
+  withoutHistoricBaselineOptions
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import {
   getApproximatedAdaptiveBaselineThresholdValue,
@@ -18,17 +30,71 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
+// @ts-expect-error file needs to be migrated
+import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
+import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
-import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import { millis, number, NumberFormatter, percentage } from 'in-services/formatters/number';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { percentage, millis, number } from 'in-services/formatters/number';
+import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-const baseBlueprint = Object.freeze({
+export type MetricName = 'latency' | 'errors' | 'calls';
+
+interface BluePrintBase {
+  readonly isCustomRateMetric: () => boolean;
+  readonly getMetricsRequest: () => typeof getApplicationMetrics;
+  readonly getAlertsPreviewRequest: (metricName: MetricName) => typeof getApplicationMetricsAlertPreview;
+  readonly getThresholdSuggestionRequest: (metricName: MetricName) => typeof getApplicationMetricsThresholdSuggestion;
+  readonly thresholdDefaults: { readonly operator: ThresholdOperator };
+  readonly getEntityTagFilterFormModel: (
+    alertConfig: ApplicationAlertConfig,
+    applicationId: string,
+    applicationName: string,
+    serviceId: string,
+    endpointId: string // TODO optional?
+  ) => FormModelElement[];
+  readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
+  readonly getExtraAnalyzeLinkTagFilterFormModel: (
+    alertConfig: ApplicationAlertConfig,
+    timeConfig: FixedTimeConfig
+  ) => FormModelElement[];
+}
+
+export type ApplicationAlertType = 'slowness' | 'errorRate' | 'logs' | 'statusCode' | 'throughput';
+
+interface Option<VALUE_TYPE> {
+  value: VALUE_TYPE;
+  label: string;
+}
+
+type ThresholdTypeOptions = readonly Option<string>[]; // LATER replace with Option<ThresholdTypeOptions>[];
+
+interface BluePrint extends BluePrintBase {
+  readonly type: ApplicationAlertType;
+  readonly name: string;
+  readonly headline?: string;
+  readonly text?: string;
+  readonly subType?: string;
+  readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
+  readonly baselineEnabled: boolean;
+  readonly defaultMetric: MetricName;
+  readonly getMetricName: (alertRule: ApplicationAlertRule) => string; // TODO figure out if the backend type could be a enum which could map to MetricName?
+  readonly getMetricLabel: (metricName: MetricName) => string;
+  readonly getMetricFormat: (metricName: MetricName) => NumberFormatter;
+  readonly getMaxMetricValue: (metricName: MetricName) => number;
+  readonly getAggregation: (alertRule: ApplicationAlertRule) => AggregationType;
+  readonly getThresholdTypeOptions: () => ThresholdTypeOptions; // applicationThresholdTypeOptions,
+  readonly isRuleComplete: (alertRule: ApplicationAlertRule) => boolean;
+  readonly incompleteRuleMessage?: string;
+  readonly impactTimeThresholdDisabled?: boolean;
+  readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
+}
+
+const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   isCustomRateMetric: () => false,
   getMetricsRequest: () => getApplicationMetrics,
   getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
@@ -36,7 +102,13 @@ const baseBlueprint = Object.freeze({
   thresholdDefaults: {
     operator: '>='
   },
-  getEntityTagFilterFormModel: (alertConfig, applicationId, applicationName, serviceId, endpointId) =>
+  getEntityTagFilterFormModel: (
+    alertConfig: ApplicationAlertConfig,
+    applicationId: string,
+    applicationName: string,
+    serviceId: string,
+    endpointId: string
+  ) =>
     getEntitySelectionAsTagFilterFormModel(
       alertConfig.applications,
       alertConfig.boundaryScope,
@@ -49,7 +121,7 @@ const baseBlueprint = Object.freeze({
   getExtraAnalyzeLinkTagFilterFormModel: () => []
 });
 
-const slownessBlueprintConfig = Object.freeze({
+const slownessBlueprintConfig: Readonly<BluePrint> = Object.freeze<BluePrint>({
   ...baseBlueprint,
   type: 'slowness',
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.slowness.name'),
@@ -61,14 +133,14 @@ const slownessBlueprintConfig = Object.freeze({
   getMetricLabel: () => t('in-applications:analyze.quickFilter.labelLatency'),
   getMetricFormat: () => millis.forcedFixedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
-  getAggregation: alertRule => alertRule.aggregation,
+  getAggregation: alertRule => alertRule.aggregation!, // for latency, there is always an aggregation set
   getThresholdTypeOptions: () => applicationThresholdTypeOptions,
   isRuleComplete: () => true,
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: getExtraSlownessAnalyzeLinkTagFilterFormModel
 });
 
-const errorRateBlueprintConfig = Object.freeze({
+const errorRateBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'errorRate',
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.errorRate.name'),
@@ -88,7 +160,7 @@ const errorRateBlueprintConfig = Object.freeze({
   getExtraAnalyzeLinkTagFilterFormModel: () => [tagFilter('call.erroneous', 'EQUALS', true)]
 });
 
-const logsBlueprintConfig = Object.freeze({
+const logsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'logs',
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.name'),
@@ -103,12 +175,13 @@ const logsBlueprintConfig = Object.freeze({
   getAggregation: () => 'SUM',
   getThresholdTypeOptions: () =>
     withoutHistoricBaselineOptions(withoutAdaptiveBaselineOptions(applicationThresholdTypeOptions)),
-  isRuleComplete: alertRule => isNotBlank(alertRule.message),
+  isRuleComplete: (alertRule: ApplicationAlertRule) => isNotBlank((alertRule as LogsApplicationAlertRule).message),
   incompleteRuleMessage: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.incompleteRuleMessage'),
-  getRuleTagFilterFormModel: getLogLevelFormModel
+  getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) =>
+    getLogLevelFormModel(alertRule as LogsApplicationAlertRule)
 });
 
-const statusCodeBlueprintConfig = Object.freeze({
+const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'statusCode',
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.name'),
@@ -122,12 +195,23 @@ const statusCodeBlueprintConfig = Object.freeze({
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
   getThresholdTypeOptions: () => applicationThresholdTypeOptions,
-  isRuleComplete: alertRule => !!(alertRule.statusCode?.statusCodeStart && alertRule.statusCode?.statusCodeEnd),
+  isRuleComplete: (alertRule: ApplicationAlertRule) => {
+    // TODO replace by introducing a new type reflecting the client-side view model
+    const rule = (alertRule as unknown) as {
+      statusCode: {
+        statusCodeStart: string;
+        statusCodeEnd: string;
+      };
+    };
+    const { statusCodeStart, statusCodeEnd } = rule.statusCode ?? {}; // safe against missing statusCode
+    return !!(statusCodeStart && statusCodeEnd);
+  },
   incompleteRuleMessage: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.incompleteRuleMessage'),
-  getRuleTagFilterFormModel: getStatusCodeFormModel
+  getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) =>
+    getStatusCodeFormModel(alertRule as StatusCodeApplicationAlertRule)
 });
 
-const throughputBlueprintConfig = Object.freeze({
+const throughputBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   ...baseBlueprint,
   type: 'throughput',
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.throughput.name'),
@@ -146,7 +230,7 @@ const throughputBlueprintConfig = Object.freeze({
   impactTimeThresholdDisabled: true
 });
 
-export const blueprintConfigs = Object.freeze([
+export const blueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
   slownessBlueprintConfig,
   errorRateBlueprintConfig,
   logsBlueprintConfig,
@@ -154,7 +238,7 @@ export const blueprintConfigs = Object.freeze([
   throughputBlueprintConfig
 ]);
 
-export const simpleModeBlueprintConfigs = Object.freeze([
+export const simpleModeBlueprintConfigs: readonly Readonly<BluePrint>[] = Object.freeze([
   slownessBlueprintConfig,
   errorRateBlueprintConfig,
   logsBlueprintConfig,
@@ -168,7 +252,7 @@ export const simpleModeBlueprintConfigs = Object.freeze([
     thresholdDefaults: {
       operator: '<='
     },
-    isSelected: alertThreshold => alertThreshold.operator === '<=' || alertThreshold.operator === '<'
+    isSelected: (alertThreshold: ThresholdConfig) => alertThreshold.operator === '<=' || alertThreshold.operator === '<'
   },
   {
     ...throughputBlueprintConfig,
@@ -176,21 +260,24 @@ export const simpleModeBlueprintConfigs = Object.freeze([
     name: t('in-alerting:smartAlerts.applications.blueprintConfig.simpleMode.unexpectedlyHighNumber.name'),
     headline: t('in-alerting:smartAlerts.applications.blueprintConfig.simpleMode.unexpectedlyHighNumber.headline'),
     text: t('in-alerting:smartAlerts.applications.blueprintConfig.simpleMode.unexpectedlyHighNumber.text'),
-    isSelected: alertThreshold => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
+    isSelected: (alertThreshold: ThresholdConfig) => alertThreshold.operator === '>=' || alertThreshold.operator === '>'
   }
 ]);
 
-export function getBlueprintConfig(alertType) {
+export function getBlueprintConfig(alertType: ApplicationAlertType): BluePrint | undefined {
   return blueprintConfigs.find(blueprint => blueprint.type === alertType);
 }
 
-export function getSimpleModeBlueprintConfig(alertType, alertThreshold) {
+export function getSimpleModeBlueprintConfig(
+  alertType: ApplicationAlertType,
+  alertThreshold: ThresholdConfig
+): BluePrint | undefined {
   return simpleModeBlueprintConfigs
     .filter(blueprint => blueprint.type === alertType)
     .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
 }
 
-function getLogLevelFormModel(alertRule) {
+function getLogLevelFormModel(alertRule: LogsApplicationAlertRule): FormModelElement[] {
   if (alertRule.level === 'ANY') {
     return [tagFilter('log.message', alertRule.operator, alertRule.message)];
   }
@@ -204,11 +291,20 @@ function getLogLevelFormModel(alertRule) {
   });
 }
 
-function getStatusCodeFormModel(alertRule) {
+function getStatusCodeFormModel(alertRule: StatusCodeApplicationAlertRule): FormModelElement[] {
   // This fix is a workaround because we do not exactly distinguish between form model and backend model
   // for alert configurations. To fix this, we need a bigger refactoring which will be tackled separately
-  const start = alertRule.statusCode?.statusCodeStart ?? alertRule.statusCodeStart;
-  const end = alertRule.statusCode?.statusCodeEnd ?? alertRule?.statusCodeEnd;
+
+  // TODO replace by introducing a new type reflecting the client-side view model
+  const rule = (alertRule as unknown) as {
+    statusCode: {
+      statusCodeStart: string;
+      statusCodeEnd: string;
+    };
+  };
+
+  const start = rule.statusCode?.statusCodeStart ?? alertRule.statusCodeStart;
+  const end = rule.statusCode?.statusCodeEnd ?? alertRule?.statusCodeEnd;
 
   if (start === end) {
     return [tagFilter('call.http.status', 'EQUALS', start)];
@@ -223,16 +319,25 @@ function getStatusCodeFormModel(alertRule) {
   });
 }
 
-function getExtraSlownessAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig, adaptiveBaselineInfo = {}) {
+function getExtraSlownessAnalyzeLinkTagFilterFormModel(
+  alertConfig: ApplicationAlertConfig,
+  timeConfig: FixedTimeConfig,
+  adaptiveBaselineInfo = {}
+): FormModelElement[] {
   let value;
 
   if (alertConfig.threshold.type === STATIC_THRESHOLD) {
-    value = alertConfig.threshold.value;
+    value = (alertConfig.threshold as StaticThresholdConfig).value;
   } else if (alertConfig.threshold.type === ADAPTIVE_BASELINE) {
-    value = getApproximatedAdaptiveBaselineThresholdValue(alertConfig, adaptiveBaselineInfo);
+    const threshold = alertConfig.threshold as AdaptiveBaselineConfig;
+    value = getApproximatedAdaptiveBaselineThresholdValue(threshold, adaptiveBaselineInfo);
   } else {
     // HISTORIC_BASELINE
-    value = getApproximatedHistoricBaselineThresholdValue(alertConfig, timeConfig);
+    value = getApproximatedHistoricBaselineThresholdValue(
+      alertConfig.threshold as HistoricBaselineData,
+      alertConfig.granularity!, // worked before, so type check can be overruled
+      timeConfig
+    );
   }
 
   return [tagFilter('call.latency', toTagFilterNumberOperator(alertConfig.threshold.operator), value)];
