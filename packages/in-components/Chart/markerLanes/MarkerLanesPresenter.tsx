@@ -3,27 +3,71 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, Children, cloneElement, useRef } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, Children, cloneElement, useRef, isValidElement } from 'react';
 
 import { SvgIconSizes } from '@instana/components';
 
 import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
-import { propTypeTimeConfig } from 'in-stores/time/config';
+import { TimeConfig } from 'in-types';
 
 import locals from './MarkerLanesPresenter.mless';
 
 const minBlockWidth = SvgIconSizes.xs;
 
-export default function MarkerLanesPresenterPropsChecker(props) {
+type LabelAlignment = 'right' | 'left';
+
+/**
+ * These are the props added to the individual MarkerLanes by this component
+ */
+export interface PresentedLaneProps {
+  labelAlignment: LabelAlignment;
+  clusterSizeMillis: number;
+  isClustered: boolean;
+  chartWidth: number;
+  chartBucketWidth: number;
+  granularity: number;
+  timeConfig: TimeConfig;
+  laneLabelsVisible: boolean;
+  onLaneHasMarkersToRender: () => void;
+}
+
+type PartialMarkerLanesPresenterProps = Omit<MarkerLanesPresenterProps, 'children' | 'granularity'> & {
+  children?: React.ReactNode;
+  granularity?: number;
+};
+
+type MarkerLanesPresenterProps = {
+  children: React.ReactNode;
+  granularity: number;
+  chartWidth: number;
+  chartBucketWidth: number;
+  timeConfig: TimeConfig;
+};
+
+type MarkerLanesWrapperProps = Omit<MarkerLanesPresenterProps, 'children'> & {
+  lanes: React.ReactNode;
+  setLaneLabelsVisibility: (isVisible: boolean) => void;
+  labelAlignment: LabelAlignment;
+  laneLabelsVisible: boolean;
+  onLaneHasMarkersToRender: () => void;
+  hasMarkersToRender: boolean;
+};
+
+export default function MarkerLanesPresenterPropsChecker(props: PartialMarkerLanesPresenterProps) {
   if (!props.children || !props.granularity) {
     return null;
   }
 
-  return <MarkerLanesPresenter {...props} />;
+  return <MarkerLanesPresenter {...(props as MarkerLanesPresenterProps)} />;
 }
-function MarkerLanesPresenter({ children, granularity, chartWidth, chartBucketWidth, ...remainingProps }) {
-  const [labelAlignment, setLabelAligment] = useState('left');
+function MarkerLanesPresenter({
+  children,
+  granularity,
+  chartWidth,
+  chartBucketWidth,
+  ...remainingProps
+}: MarkerLanesPresenterProps) {
+  const [labelAlignment, setLabelAligment] = useState<LabelAlignment>('left');
   const [hasMarkersToRender, setHasMarkersToRender] = useState(false);
   const [laneLabelsVisible, setLaneLabelsVisibility] = useState(false);
 
@@ -35,6 +79,7 @@ function MarkerLanesPresenter({ children, granularity, chartWidth, chartBucketWi
       }}
     >
       <MarkerLanesWrapper
+        {...remainingProps}
         lanes={children}
         setLaneLabelsVisibility={isVisible => setLaneLabelsVisibility(isVisible)}
         labelAlignment={labelAlignment}
@@ -44,7 +89,6 @@ function MarkerLanesPresenter({ children, granularity, chartWidth, chartBucketWi
         laneLabelsVisible={(hasMarkersToRender && laneLabelsVisible) || (!hasMarkersToRender && !laneLabelsVisible)}
         onLaneHasMarkersToRender={() => setHasMarkersToRender(true)}
         hasMarkersToRender={hasMarkersToRender}
-        {...remainingProps}
       />
       <div
         className={locals[labelAlignment]}
@@ -65,11 +109,31 @@ function MarkerLanesWrapper({
   chartBucketWidth,
   laneLabelsVisible,
   hasMarkersToRender,
+  timeConfig,
   ...remainingProps
-}) {
+}: MarkerLanesWrapperProps) {
   const isClustered = chartBucketWidth < minBlockWidth - 2;
 
-  const markerLanesWrapperRef = useRef(null);
+  const markerLanesWrapperRef = useRef<HTMLDivElement>(null);
+
+  const additionalChildProps: PresentedLaneProps = {
+    ...remainingProps,
+    labelAlignment,
+    clusterSizeMillis: isClustered
+      ? getClusterSizeMillis({
+          width: chartWidth || (markerLanesWrapperRef.current?.getBoundingClientRect()?.width ?? 0),
+          windowSize: timeConfig.windowSize,
+          granularity
+        })
+      : granularity,
+    isClustered,
+    chartBucketWidth,
+    chartWidth,
+    granularity,
+    timeConfig,
+    laneLabelsVisible
+  };
+
   return (
     <div
       ref={markerLanesWrapperRef}
@@ -81,28 +145,19 @@ function MarkerLanesWrapper({
       {Children.toArray(lanes)
         .filter(Boolean)
         .map(child => {
-          return cloneElement(child, {
-            ...remainingProps,
-            labelAlignment,
-            clusterSizeMillis: isClustered
-              ? getClusterSizeMillis({
-                  width: chartWidth || markerLanesWrapperRef.current?.getBoundingClientRect()?.width,
-                  windowSize: remainingProps.timeConfig.windowSize,
-                  granularity
-                })
-              : granularity,
-            isClustered,
-            chartBucketWidth,
-            chartWidth,
-            granularity,
-            laneLabelsVisible
-          });
+          return isValidElement(child) ? cloneElement(child, additionalChildProps) : child;
         })}
     </div>
   );
 }
 
-function getClusterSizeMillis({ windowSize, width, granularity }) {
+interface GetClusterSizeMillisProps {
+  windowSize: number;
+  width: number;
+  granularity: number;
+}
+
+function getClusterSizeMillis({ windowSize, width, granularity }: GetClusterSizeMillisProps) {
   return getBlockSizeMillis({
     windowSize,
     minPixelsPerBlock: minBlockWidth,
@@ -110,11 +165,3 @@ function getClusterSizeMillis({ windowSize, width, granularity }) {
     rollup: granularity
   });
 }
-
-MarkerLanesPresenter.propTypes = {
-  timeConfig: propTypeTimeConfig,
-  children: PropTypes.node,
-  granularity: PropTypes.number,
-  chartWidth: PropTypes.number,
-  chartBucketWidth: PropTypes.number
-};
