@@ -3,22 +3,46 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
+import { create, Disposable, Subject } from '@instana/observables';
 
 import { getAnimationFramesWithAnAnimationDurationOf } from 'in-services/chartRenderingAnimationFrames';
 import { WIGGLE_ROOM, ANIMATION_DURATION } from 'in-components/Chart/Configuration';
 import { toServerTime, offset$ } from 'in-stores/timeOffset';
-import createScale from 'in-services/scale';
+import createScale, { ScaleType } from 'in-services/scale';
+import { Nullish, TimeConfig } from 'in-types';
+
+type CallbackHolder = Record<string, (a: unknown) => void>;
+
+interface AnimateProps {
+  timeSinceLastAnimationDurationPassed: number;
+  progress: number;
+}
 
 export default class RenderScheduler {
-  constructor(callbackHolder) {
+  callbackHolder: CallbackHolder;
+  timeConfig: TimeConfig | Nullish;
+  isLive: boolean;
+  isLive$: Subject<boolean>;
+  serverTimeOffset: number;
+  serverTimeOffsetSubscription: Disposable | Nullish;
+
+  xScaleBackBuffer: ScaleType;
+  xScaleBackBuffer$: Subject<ScaleType>;
+
+  updateSubscription: Disposable | Nullish;
+
+  constructor(callbackHolder: CallbackHolder) {
     this.callbackHolder = callbackHolder;
     this.timeConfig = null;
 
     this.isLive = false;
-    this.isLive$ = create().emit(this.isLive);
+    this.isLive$ = create<boolean>().emit(this.isLive);
 
-    this.initScale();
+    this.xScaleBackBuffer = createScale();
+    this.xScaleBackBuffer.setRangeFrom(0);
+    // other places like the chart overlay are not directly controlled my the scheduler but organize themselves.
+    // therefore, we expose the current up-2-date scale via an observable
+    this.xScaleBackBuffer$ = create<ScaleType>().emit(this.xScaleBackBuffer);
 
     this.serverTimeOffset = 0;
     this.serverTimeOffsetSubscription = offset$.nextFrame().subscribe(serverTimeOffset => {
@@ -33,15 +57,7 @@ export default class RenderScheduler {
     });
   }
 
-  initScale() {
-    this.xScaleBackBuffer = createScale();
-    this.xScaleBackBuffer.setRangeFrom(0);
-    // other places like the chart overlay are not directly controlled my the scheduler but organize themselves.
-    // therefore, we expose the current up-2-date scale via an observable
-    this.xScaleBackBuffer$ = create().emit(this.xScaleBackBuffer);
-  }
-
-  update(timeConfig, width) {
+  update(timeConfig: TimeConfig, width: number) {
     this.xScaleBackBuffer.setRangeTo(width);
     this.xScaleBackBuffer$.emit(this.xScaleBackBuffer);
     this.timeConfig = timeConfig;
@@ -101,7 +117,7 @@ export default class RenderScheduler {
     this.setXDomainToLiveMode();
 
     let initialRenderDone = false;
-    const animate = ({ timeSinceLastAnimationDurationPassed, progress }) => {
+    const animate = ({ timeSinceLastAnimationDurationPassed, progress }: AnimateProps) => {
       this.onProgress(progress);
 
       if (timeSinceLastAnimationDurationPassed >= ANIMATION_DURATION || !initialRenderDone) {
@@ -118,7 +134,8 @@ export default class RenderScheduler {
     this.updateSubscription = getAnimationFramesWithAnAnimationDurationOf(ANIMATION_DURATION).subscribe(animate);
   }
 
-  onProgress() {}
+  // @ts-expect-error Expecting unused parameter error here, but since this is a dummy method it is ok
+  onProgress(progress: number) {}
 
   stopLiveMode() {
     if (this.updateSubscription) {
@@ -130,7 +147,7 @@ export default class RenderScheduler {
 
   setXDomainToLiveMode() {
     const now = Date.now();
-    const windowSize = this.timeConfig.windowSize;
+    const windowSize = this.timeConfig?.windowSize ?? 0;
     const to = toServerTime(now, this.serverTimeOffset);
     this.xScaleBackBuffer.setDomainFrom(to - windowSize - WIGGLE_ROOM);
     this.xScaleBackBuffer.setDomainTo(to - WIGGLE_ROOM);
@@ -143,7 +160,7 @@ export default class RenderScheduler {
     };
   }
 
-  call(method, args) {
+  call(method: string, args?: unknown) {
     if (this.callbackHolder[method]) {
       this.callbackHolder[method](args);
     }
@@ -152,7 +169,7 @@ export default class RenderScheduler {
   dispose() {
     this.stopLiveMode();
 
-    this.serverTimeOffsetSubscription.dispose();
+    this.serverTimeOffsetSubscription?.dispose();
     this.serverTimeOffsetSubscription = null;
   }
 }
