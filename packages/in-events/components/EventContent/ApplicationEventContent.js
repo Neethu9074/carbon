@@ -37,7 +37,6 @@ export default function ApplicationEventContent({ event }) {
   const alertConfig = useApplicationEventAlertConfig(event);
   const eventEntity = useApplicationEventEntity(event);
   const [metricResultPrecision, setMetricResultPrecision] = useState();
-  const [hasApproxDataForAffectedEntities, setApproxDataForAffectedEntities] = useState();
 
   if (!eventEntity || !alertConfig) {
     return null;
@@ -135,19 +134,25 @@ export default function ApplicationEventContent({ event }) {
         </Col>
       </Row>
 
-      {!isEndpointType && (
-        <Row withoutSideMargin>
-          <Col xs>
-            <SmartAlertAffectedEntities
-              leftHeaderContent={<HighlightDataRetention hasApproximateData={hasApproxDataForAffectedEntities} />}
-              alertConfig={alertConfig}
-              event={event}
-              setApproxDataForAffectedEntities={setApproxDataForAffectedEntities}
-              {...eventEntity}
-            />
-          </Col>
-        </Row>
-      )}
+      {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
     </>
+  );
+}
+
+function AffectedEntitiesRow({ alertConfig, event, eventEntity }) {
+  const [hasApproxDataForAffectedEntities, setApproxDataForAffectedEntities] = useState();
+
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <SmartAlertAffectedEntities
+          leftHeaderContent={<HighlightDataRetention hasApproximateData={hasApproxDataForAffectedEntities} />}
+          alertConfig={alertConfig}
+          event={event}
+          setApproxDataForAffectedEntities={setApproxDataForAffectedEntities}
+          {...eventEntity}
+        />
+      </Col>
+    </Row>
   );
 }
