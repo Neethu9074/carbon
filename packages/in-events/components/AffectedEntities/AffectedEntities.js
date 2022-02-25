@@ -91,7 +91,9 @@ function enrichMetricResults([affected, total], setApproxDataForAffectedEntities
   const approxDataForAffectedEntities =
     isApproximatePrecision(getResultPrecision(affected)) || isApproximatePrecision(getResultPrecision(total));
 
-  setApproxDataForAffectedEntities(approxDataForAffectedEntities);
+  if (!loading) {
+    setApproxDataForAffectedEntities(approxDataForAffectedEntities);
+  }
 
   return {
     ...affected,
