@@ -281,7 +281,8 @@ function mapAxis(axis) {
     min: axis.min || 0,
     metricIds: axis.metrics,
     renderer: Renderer[axis.type] || Renderer.point,
-    minPixelsPerBlock: axis.minPixelsPerBlock || 5
+    minPixelsPerBlock: axis.minPixelsPerBlock || 5,
+    aggregations: axis.metrics.map(() => axis.aggregation?.toUpperCase() || 'MEAN')
   };
 }
 
