@@ -78,6 +78,7 @@ function getThreshold(y1, thresholdType, metricData, timeConfig) {
       baseline,
       sensitivity,
       isGreaterOperator(operator),
+      thresholdGranularity,
       timeConfig
     );
   } else {
