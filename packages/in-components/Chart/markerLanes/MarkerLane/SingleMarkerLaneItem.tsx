@@ -5,12 +5,36 @@
 
 import React, { forwardRef } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
+
+import { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
+import { ChartContentPostition } from 'in-components/Chart/types';
+import { ScaleType } from 'in-services/scale';
+import { Nullish } from 'in-types';
 
 import locals from './SingleMarkerLaneItem.mless';
 
-const SingleMarkerLaneItem = forwardRef(function SingleMarkerLaneItem(
-  { xPos, onHover, eventData, renderMarkerItem: MarkerItem, hideDefaultHoverStyle, ...remainingProps },
+export interface MarkerItemProps {
+  eventData: MarkerLaneEvent;
+  showIconForCluster?: boolean;
+  chartContentPosition: ChartContentPostition;
+  isClustered?: boolean;
+  xScale: ScaleType | Nullish;
+}
+
+interface SingleMarkerLaneItemProps extends LaneItemProps {
+  renderMarkerItem: React.JSXElementConstructor<MarkerItemProps>;
+  hideDefaultHoverStyle?: boolean;
+}
+
+const SingleMarkerLaneItem = forwardRef<HTMLDivElement, SingleMarkerLaneItemProps>(function SingleMarkerLaneItem(
+  {
+    xPos,
+    onHover,
+    eventData,
+    renderMarkerItem: MarkerItem,
+    hideDefaultHoverStyle,
+    ...remainingProps
+  }: SingleMarkerLaneItemProps,
   ref
 ) {
   return (
@@ -34,11 +58,3 @@ const SingleMarkerLaneItem = forwardRef(function SingleMarkerLaneItem(
 });
 
 export default SingleMarkerLaneItem;
-
-SingleMarkerLaneItem.propTypes = {
-  eventData: PropTypes.object.isRequired,
-  hideDefaultHoverStyle: PropTypes.bool,
-  onHover: PropTypes.func,
-  renderMarkerItem: PropTypes.func.isRequired,
-  xPos: PropTypes.number
-};

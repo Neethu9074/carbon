@@ -67,9 +67,9 @@ interface MarkerLaneHoverOverlayConfig {
  * Note: This is missing props provided through the restProps mechanism, because this would create a very messy type structure.
  *       Please only add the needed props from the restProps when migrating marker lane items.
  */
-interface LaneItemProps {
+export interface LaneItemProps {
   xPos?: number;
-  onHover: (event: MarkerLaneEvent) => void;
+  onHover: (event: MarkerLaneEvent | Nullish) => void;
   showIconForCluster?: boolean;
   chartContentPosition: ChartContentPostition;
   isClustered?: boolean;
@@ -143,7 +143,7 @@ function MarkersLanePresenter({
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [timeConfig!.autoRefresh], {
     pure: !timeConfig!.autoRefresh
   });
-  const [hoveredEventData, setHoveredEventData] = useState<MarkerLaneEvent | null>(null);
+  const [hoveredEventData, setHoveredEventData] = useState<MarkerLaneEvent | Nullish>(null);
 
   const clusterAreaWidth = xScale?.getRangeArea(clusterSizeMillis) ?? 0;
 
