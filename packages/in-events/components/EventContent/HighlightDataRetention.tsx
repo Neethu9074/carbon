@@ -9,12 +9,10 @@ import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineTo
 import { t } from 'in-i18n';
 
 type HighlightDataRetentionProps = {
-  metricResultPrecision: string;
+  hasApproximateData: boolean;
 };
 
-export function HighlightDataRetention({ metricResultPrecision }: HighlightDataRetentionProps) {
-  const hasApproximateData = metricResultPrecision === 'PRECISION_APPROXIMATE';
-
+export function HighlightDataRetention({ hasApproximateData }: HighlightDataRetentionProps) {
   if (hasApproximateData) {
     return <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />;
   }

@@ -50,8 +50,6 @@ export type MetricOptions<S extends MonitoringSource, E extends MetricEntityType
 export type MetricEntityType<S extends MonitoringSource> = keyof typeof metricOptions[S];
 export type MetricType<S extends MonitoringSource, E extends MetricEntityType<S>> = keyof typeof metricOptions[S][E];
 
-export type MetricDataSeries = [number, number][];
-
 const metricOptions = deepFreeze({
   application: {
     calls: {

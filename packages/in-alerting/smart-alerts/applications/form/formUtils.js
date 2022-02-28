@@ -9,10 +9,10 @@ import {
   getLogLevelRuleOperatorLabel,
   getStatusCodeLabel
 } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
-import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { getValueRoundedToDecimals } from 'in-alerting/smart-alerts/components/utils/formatUtils';
 import { getAggregationText } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
@@ -94,10 +94,6 @@ export function getDescriptionPlaceholder(form) {
 
   switch (alertType) {
     case 'errorRate': {
-      if (thresholdType === ADAPTIVE_BASELINE) {
-        // TODO: NEW TEXT NEEDED?
-        return '';
-      }
       const thresholdValue = thresholdForm.get('value').value;
       return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.errorRate', {
         context: getHigherOrLowerOperatorContext(thresholdOperator),
@@ -125,11 +121,6 @@ export function getDescriptionPlaceholder(form) {
       const ruleOperator = ruleForm.get('operator').value;
       const level = ruleForm.get('level').value;
       const levelText = getLogLevelRuleOperatorLabel(level);
-
-      if (thresholdType === ADAPTIVE_BASELINE) {
-        // TODO: NEW TEXT NEEDED?
-        return '';
-      }
 
       const thresholdValue = thresholdForm.get('value').value;
       if (ruleOperator === operators.NOT_EMPTY) {
@@ -169,11 +160,6 @@ export function getDescriptionPlaceholder(form) {
       });
     }
     case 'throughput': {
-      if (thresholdType === ADAPTIVE_BASELINE) {
-        // TODO: NEW TEXT NEEDED?
-        return '';
-      }
-
       if (thresholdType === STATIC_THRESHOLD) {
         const thresholdValue = thresholdForm.get('value').value;
         return t('in-alerting:smartAlerts.applications.formUtils.descriptionPlaceholder.throughputStaticThreshold', {

@@ -159,6 +159,7 @@ export default function XhrRequests({ timeConfig, tagFilters, websiteId, website
         websiteId={websiteId}
         tagFilters={tagFilters}
         timeConfig={timeConfig}
+        cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelHTTPRequests')}
         rightHeader={rightHeader}
       />
     </Card>

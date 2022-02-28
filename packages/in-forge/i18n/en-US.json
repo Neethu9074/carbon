@@ -8428,6 +8428,7 @@
     "ibmIDb2": {
       "troubleshootingDocs": "Troubleshooting docs",
       "collectionServicesNotEnabledDescription": "Agent could not obtain Db2 on i metrics. Please turn on Collection Services in order to monitor Db2 on i.",
+      "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "name": "Db2 on i",
       "sidebar": {
         "ibmIDb2Info": "Db2 on i Info",
@@ -8678,7 +8679,9 @@
         }
       },
       "name": "IBM i",
-      "memoryPool": "Memory Pool"
+      "memoryPool": "Memory Pool",
+      "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
+      "troubleshootingDocs": "Troubleshooting docs"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -8996,7 +8999,10 @@
         "info": "Info",
         "cpuLoad": "CPU Load",
         "load": "Load",
-        "memory": "Memory",
+        "memory": "JVM Memory",
+        "systemMemory": "System Memory",
+        "userAndSystemShowLoadInPercentWhere100EqualASingleCoreAtFullLoad":"User and System show load in percent where 100% equal a single core at full load. ",
+        "LoadIsComputedInTheJVMRelatedToTheCombinedProcessingPowerAndNormalizedTo1":"Load is computed in the JVM related to the combined processing power and normalized to 1.",
         "heap": "Heap",
         "directBuffers": "Direct Buffers",
         "offHeap": "Off Heap",
@@ -9132,7 +9138,8 @@
       "sensorCount": "Sensor Count",
       "discoveryCount": "Discovery Count",
       "sensors": "Sensors",
-      "hostname": "Hostname"
+      "hostname": "Hostname",
+      "startType": "Start Type"
     },
     "sparkStandalone": {
       "titleApplicationId": "Application Id",

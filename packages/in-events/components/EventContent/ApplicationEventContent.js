@@ -23,6 +23,7 @@ import useApplicationEventAlertConfig from 'in-events/hooks/useApplicationEventA
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
+import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
@@ -96,7 +97,9 @@ export default function ApplicationEventContent({ event }) {
         <Col xs>
           <Card
             title={t('in-events:titleMetrics')}
-            leftHeaderContent={<HighlightDataRetention metricResultPrecision={metricResultPrecision} />}
+            leftHeaderContent={
+              <HighlightDataRetention hasApproximateData={isApproximatePrecision(metricResultPrecision)} />
+            }
           >
             <ApplicationAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
@@ -131,18 +134,25 @@ export default function ApplicationEventContent({ event }) {
         </Col>
       </Row>
 
-      {!isEndpointType && (
-        <Row withoutSideMargin>
-          <Col xs>
-            <SmartAlertAffectedEntities
-              leftHeaderContent={<HighlightDataRetention metricResultPrecision={metricResultPrecision} />}
-              alertConfig={alertConfig}
-              event={event}
-              {...eventEntity}
-            />
-          </Col>
-        </Row>
-      )}
+      {!isEndpointType && <AffectedEntitiesRow alertConfig={alertConfig} event={event} eventEntity={eventEntity} />}
     </>
+  );
+}
+
+function AffectedEntitiesRow({ alertConfig, event, eventEntity }) {
+  const [hasApproxDataForAffectedEntities, setApproxDataForAffectedEntities] = useState();
+
+  return (
+    <Row withoutSideMargin>
+      <Col xs>
+        <SmartAlertAffectedEntities
+          leftHeaderContent={<HighlightDataRetention hasApproximateData={hasApproxDataForAffectedEntities} />}
+          alertConfig={alertConfig}
+          event={event}
+          setApproxDataForAffectedEntities={setApproxDataForAffectedEntities}
+          {...eventEntity}
+        />
+      </Col>
+    </Row>
   );
 }

@@ -121,9 +121,11 @@ export default function AlertingChart({
     if (threshold.type === STATIC_THRESHOLD) {
       return threshold.value >= metricsMaxValue ? Math.max(metricsMaxValue, threshold.value * 1.2) : metricsMaxValue;
     } else if (threshold.type === ADAPTIVE_BASELINE) {
+      const fromTime = Date.now() - viewConfig.timeConfig.windowSize;
       return getMaxForAdaptiveBaselineChart({
         metricsMaxValue,
         operator: threshold.operator,
+        fromTime,
         baseline: threshold.baseline,
         baselineEntriesFromMetadata: eventBasedAdaptiveBaseline,
         sensitivity: threshold.deviationFactor
@@ -230,9 +232,10 @@ function enhanceNonToggleableSeries(metricName, highlight) {
   return labels;
 }
 
-function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivity }) {
+function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivity, fromTime }) {
   const opSign = isGreaterOperator(operator) ? 1 : -1;
   const overallMaxValue = (baseline || [])
+    .filter(v => !fromTime || fromTime < v[0])
     .map(v => v[1] + opSign * v[2] * sensitivity)
     .reduce((prevMax, computedMax) => (prevMax > computedMax ? prevMax : computedMax), metricsMaxValue);
 
@@ -242,6 +245,7 @@ function getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivi
 function getMaxForAdaptiveBaselineChart({
   metricsMaxValue,
   operator,
+  fromTime,
   baseline,
   baselineEntriesFromMetadata,
   sensitivity
@@ -249,7 +253,13 @@ function getMaxForAdaptiveBaselineChart({
   const eventBasedAdaptiveBaseline = baselineEntriesFromMetadata ?? [];
 
   if (eventBasedAdaptiveBaseline.length === 0) {
-    return getMaxForBaselineChart({ metricsMaxValue, operator, baseline, sensitivity });
+    return getMaxForBaselineChart({
+      metricsMaxValue,
+      operator,
+      fromTime,
+      baseline,
+      sensitivity
+    });
   }
 
   const opSign = isGreaterOperator(operator) ? 1 : -1;

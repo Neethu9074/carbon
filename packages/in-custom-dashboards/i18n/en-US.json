@@ -552,6 +552,14 @@
       "monitoringSourceSelector": {
         "source_application": "Application",
         "source_website": "Website"
+      },
+      "sliFormatter":  {
+        "unit": "call",
+        "unit_plural": "calls",
+        "unit_0": "calls",
+        "unit_1": "call",
+        "unit_2": "calls",
+        "thousandCallsFormat": "{{count}}K calls"
       }
     },
     "timezone": {

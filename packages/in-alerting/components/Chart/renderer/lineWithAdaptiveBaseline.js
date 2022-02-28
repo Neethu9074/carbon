@@ -31,7 +31,7 @@ function drawLineGraph(len, config, oneSidedThresholdInTimeframe, scale) {
   }
 }
 
-export function getThresholdInTimeframe(baselineEntriesFromMetadata, baseline, sensitivity, isGreaterOp) {
+export function getThresholdInTimeframe(baselineEntriesFromMetadata, baseline, sensitivity, isGreaterOp, timeConfig) {
   const thresholdInTimeframe = [];
   const eventBasedAdaptiveBaseline = baselineEntriesFromMetadata ?? [];
 
@@ -39,9 +39,19 @@ export function getThresholdInTimeframe(baselineEntriesFromMetadata, baseline, s
   // 1) In SA Dialogue via fetching the threshold suggestion
   // 2) In event details view using event metadata
   if (eventBasedAdaptiveBaseline.length === 0) {
-    for (let [timestamp, baselineValue, deviationValue] of baseline) {
-      const thresholdValue = getAdaptiveBaselineValue(baselineValue, deviationValue, sensitivity, isGreaterOp);
-      thresholdInTimeframe.push([timestamp, thresholdValue]);
+    if (timeConfig) {
+      const from = Date.now() - timeConfig.windowSize;
+      for (let [timestamp, baselineValue, deviationValue] of baseline) {
+        if (timestamp >= from) {
+          const thresholdValue = getAdaptiveBaselineValue(baselineValue, deviationValue, sensitivity, isGreaterOp);
+          thresholdInTimeframe.push([timestamp, thresholdValue]);
+        }
+      }
+    } else {
+      for (let [timestamp, baselineValue, deviationValue] of baseline) {
+        const thresholdValue = getAdaptiveBaselineValue(baselineValue, deviationValue, sensitivity, isGreaterOp);
+        thresholdInTimeframe.push([timestamp, thresholdValue]);
+      }
     }
   } else {
     for (const [timestamp, thresholdValue] of eventBasedAdaptiveBaseline) {

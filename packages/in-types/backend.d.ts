@@ -1444,6 +1444,9 @@ export interface GetMobileAppBeaconGroupsQuery extends QueryWithMetrics, CursorP
   readonly timeShift: TimeShift;
 }
 
+export interface GetMobileAppBeaconGroupsQueryBuilder {
+}
+
 export interface GetMobileAppBeaconsForSessionQuery extends UiQuery {
   readonly beaconTimestamp?: number;
   readonly rbacRestrictions?: any;
@@ -1458,6 +1461,9 @@ export interface GetMobileAppBeaconsQuery extends CursorPaginatedQuery {
   readonly tagFilterExpression?: TagFilterExpressionElement;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
+}
+
+export interface GetMobileAppBeaconsQueryBuilder {
 }
 
 export interface GetMobileAppCountryBreakdownQuery extends PaginatedUIQuery {
@@ -1629,6 +1635,19 @@ export interface GetServiceMapQuery extends FilteredQuery {
 export interface GetServiceQuery extends FilteredQuery {
   readonly filter: Filter;
   readonly id: string;
+}
+
+export interface GetServicesCorrelatedByTagQuery extends PaginatedQuery, QueryWithPrecision {
+  readonly correlationTag: string;
+  readonly correlationTagEntity: TagFilterEntity;
+  readonly correlationTagSecondLevelKey?: string;
+  readonly filter: Filter;
+  readonly metrics: { [index: string]: AppDataMetricConfiguration };
+  readonly order: Order;
+  readonly pagination: Pagination;
+  readonly queryPrecision: QueryPrecision;
+  readonly serviceId: string;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
 }
 
 export interface GetServicesCursorPaginatedQuery extends CursorPaginatedQuery, QueryWithMetrics, QueryWithPrecision {

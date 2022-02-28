@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
+import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
 import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
 import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import { percentage } from 'in-services/formatters/number';
@@ -41,7 +41,7 @@ export function WidgetHeader({
 }: WidgetHeaderProps) {
   const sloSpent = slo != null && sli != null && sli < slo;
   const budgetSpent = remaining != null && remaining <= 0;
-  const sliFormatter = getSliFormatter(sliEntity);
+  const sliFormatter = useSliFormatter(sliEntity);
 
   return (
     <>
