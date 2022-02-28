@@ -53,9 +53,9 @@ interface BluePrintBase {
   readonly getEntityTagFilterFormModel: (
     alertConfig: ApplicationAlertConfig,
     applicationId: string,
-    applicationName: string,
-    serviceId: string,
-    endpointId: string // TODO optional?
+    applicationName?: string,
+    serviceId?: string,
+    endpointId?: string
   ) => FormModelElement[];
   readonly getRuleTagFilterFormModel: (alertRule: ApplicationAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
@@ -76,8 +76,8 @@ type ThresholdTypeOptions = readonly Option<string>[]; // LATER replace with Opt
 interface BluePrint extends BluePrintBase {
   readonly type: ApplicationAlertType;
   readonly name: string;
-  readonly headline?: string;
-  readonly text?: string;
+  readonly headline: string;
+  readonly text: string;
   readonly subType?: string;
   readonly isSelected?: (alertThreshold: ThresholdConfig) => boolean;
   readonly baselineEnabled: boolean;
@@ -105,9 +105,9 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   getEntityTagFilterFormModel: (
     alertConfig: ApplicationAlertConfig,
     applicationId: string,
-    applicationName: string,
-    serviceId: string,
-    endpointId: string
+    applicationName?: string,
+    serviceId?: string,
+    endpointId?: string
   ) =>
     getEntitySelectionAsTagFilterFormModel(
       alertConfig.applications,

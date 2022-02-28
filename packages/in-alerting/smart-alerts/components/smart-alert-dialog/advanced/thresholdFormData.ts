@@ -5,6 +5,7 @@
 
 import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { ThresholdOperator } from 'in-types';
 import { t } from 'in-i18n';
 
 export const thresholdGreaterOperatorOptions = Object.freeze([
@@ -38,7 +39,7 @@ export const thresholdTypeOptions = Object.freeze([
  * We removed LT/LTE operators. To don't break older configs which have one of those operators,
  * we add it to the options object. The backend will still handle these options for API users.
  */
-export function enrichThresholdOperatorOptionsForApiConfigs(operator: string) {
+export function enrichThresholdOperatorOptionsForApiConfigs(operator: ThresholdOperator) {
   let legacyOperator = null;
 
   if (operator === '<=') {
