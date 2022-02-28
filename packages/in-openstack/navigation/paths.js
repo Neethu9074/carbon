@@ -5,7 +5,7 @@
 
 // import { vmId as matrixVmId } from 'in-vsphere/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
-import { hypervsorId as matrixHypervisorId } from 'in-vsphere/navigation/matrix';
+import { hypervisorId as matrixHypervisorId } from 'in-openstack/navigation/matrix';
 import { regionId as matrixRegionId } from 'in-openstack/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -17,7 +17,10 @@ export const regionList = '/regions';
 export const regionListFullyQualified = `${openstack}${regionList}`;
 export const regionDashboard = `/region`;
 export const regionDashboardFullyQualified = `${openstack}${regionDashboard}`;
-export const hypervisorDashboard = `/host`;
+
+export const hypervisorList = '/hypervisors';
+export const hypervisorListFullyQualified = `${openstack}${hypervisorList}`;
+export const hypervisorDashboard = `/hypervisor`;
 export const hypervisorDashboardFullyQualified = `${openstack}${hypervisorDashboard}`;
 
 export function getOpenstackRegionDashboard(regionId, { tab, tabMatrix, timeConfig } = emptyObject) {
