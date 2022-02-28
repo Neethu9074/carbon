@@ -9,11 +9,14 @@ import { Link, Stack } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
+import { testResultSummaryPath, syntheticsPath } from 'in-synthetics/navigation/paths';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
-import { SyntheticTest, HttpActionConfiguration } from 'in-types';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
+import { getModifiedUrlStream } from 'in-stores/navigation';
 import Tooltip from 'in-components/Tooltip';
+import { SyntheticTest } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './columnDefinitions.mless';
@@ -31,12 +34,16 @@ export const columnDefinitions = [
     width: '35%',
     sortable: false,
     getContent({ test }: Props) {
-      const configuration = test.configuration as HttpActionConfiguration;
       return (
         <div>
-          <h4 className={locals.label}>{test.label}</h4>
-          <Link href={configuration?.url ?? ''} target="_blank" className={locals.ellipsis}>
-            {configuration?.url ?? ''}
+          <Link
+            href$={getModifiedUrlStream(_location => {
+              _location.pathname = testResultSummaryPath;
+              setOrDeleteMatrixKey(_location, syntheticsPath, 'testId', test.id);
+              return _location;
+            })}
+          >
+            <h4 className={locals.label}>{test.label}</h4>
           </Link>
         </div>
       );

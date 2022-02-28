@@ -4,3 +4,4 @@
  */
 
 export const syntheticsPath = '/synthetics';
+export const testResultSummaryPath = `${syntheticsPath}/summary`;

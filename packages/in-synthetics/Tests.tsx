@@ -48,13 +48,7 @@ export default function Tests({ tests, isLoading, reloadTests }: Props) {
         setEdittingTests(edittingTests => {
           return { ...edittingTests, [`${test.id}`]: false };
         });
-        tests = tests.map(eachTest => {
-          if (eachTest.id === test.id) {
-            return { ...eachTest, active: !active };
-          } else {
-            return eachTest;
-          }
-        });
+        reloadTests();
       },
       () => {
         setEdittingTests({ ...edittingTests, [`${test.id}`]: false });
