@@ -50,7 +50,7 @@ export default connectTo(
   {
     timeConfig: timeConfig$
   },
-  function RegionList({ timeConfig }) {
+  function HypervisorList({ timeConfig }) {
     return (
       <Fragment>
         <Title title={t('in-openstack:regions')} />
