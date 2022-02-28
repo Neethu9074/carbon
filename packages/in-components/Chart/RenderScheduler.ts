@@ -11,15 +11,25 @@ import { toServerTime, offset$ } from 'in-stores/timeOffset';
 import createScale, { ScaleType } from 'in-services/scale';
 import { Nullish, TimeConfig } from 'in-types';
 
-type CallbackHolder = Record<string, (a: unknown) => void>;
+export interface RenderProps {
+  xScaleBackBuffer: ScaleType;
+}
+
+export interface Renderable {
+  atomicRender: (props: RenderProps) => void;
+  render: (props: RenderProps) => void;
+  renderAfterAnimationTimePassed: (props: RenderProps) => void;
+
+  stopLiveMode: () => void;
+}
 
 interface AnimateProps {
   timeSinceLastAnimationDurationPassed: number;
   progress: number;
 }
 
-export default class RenderScheduler {
-  callbackHolder: CallbackHolder;
+export default class RenderScheduler<CallbackHolderType extends Partial<Renderable>> {
+  callbackHolder: CallbackHolderType;
   timeConfig: TimeConfig | Nullish;
   isLive: boolean;
   isLive$: Subject<boolean>;
@@ -31,7 +41,7 @@ export default class RenderScheduler {
 
   updateSubscription: Disposable | Nullish;
 
-  constructor(callbackHolder: CallbackHolder) {
+  constructor(callbackHolder: CallbackHolderType) {
     this.callbackHolder = callbackHolder;
     this.timeConfig = null;
 
@@ -160,9 +170,9 @@ export default class RenderScheduler {
     };
   }
 
-  call(method: string, args?: unknown) {
+  call<Method extends keyof Renderable>(method: Method, args?: Parameters<Renderable[Method]>[0]) {
     if (this.callbackHolder[method]) {
-      this.callbackHolder[method](args);
+      this.callbackHolder[method]?.(args!);
     }
   }
 

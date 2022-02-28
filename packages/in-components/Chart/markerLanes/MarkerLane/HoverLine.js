@@ -6,8 +6,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { commonOverlayStylesPropType } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
-
 import locals from './HoverLine.mless';
 
 export default function HoverLine({
@@ -39,5 +37,8 @@ HoverLine.propTypes = {
   markerPaneHeight: PropTypes.number,
   timeAxisHeight: PropTypes.number,
   xPos: PropTypes.number,
-  commonOverlayStyles: commonOverlayStylesPropType
+  commonOverlayStyles: PropTypes.shape({
+    zIndex: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    color: PropTypes.string
+  })
 };

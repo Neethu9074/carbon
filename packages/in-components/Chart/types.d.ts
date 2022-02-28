@@ -91,6 +91,8 @@ export interface Axis {
   [key: string]: unknown;
 }
 
+export type ChartContentPostition = 'pre' | 'post';
+
 export interface AdditionChartContentProps {
   timeConfig: TimeConfig;
   granularity?: number;
@@ -99,5 +101,5 @@ export interface AdditionChartContentProps {
   chartHeight?: number;
   timeAxisHeight?: number;
   markerPaneHeight?: number;
-  chartContentPosition: 'pre' | 'post';
+  chartContentPosition: ChartContentPostition;
 }
