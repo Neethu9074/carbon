@@ -8,9 +8,12 @@ import {
   getAvailableOptionsForEvaluationType,
   optionsValidForThresholdTyp
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
+import {
+  PER_AP,
+  PER_AP_SERVICE
+} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { PER_AP_SERVICE } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { DAILY, WEEKLY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
 
@@ -22,7 +25,7 @@ jest.mock('in-services/featureFlags', () => ({
 
 describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormData::getAvailableOptionsForEvaluationType', () => {
   test('Return all options for individual smart alert', () => {
-    const thresholdOpts = getAvailableOptionsForEvaluationType(applicationThresholdTypeOptions, null, false);
+    const thresholdOpts = getAvailableOptionsForEvaluationType(applicationThresholdTypeOptions, PER_AP, false);
     expect(thresholdOpts).toHaveLength(4);
     expect(thresholdOpts).toEqual(
       expect.arrayContaining([
@@ -35,7 +38,7 @@ describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormDat
   });
 
   test('Return only Adaptive–Baseline and Static–Threshold options for global smart alert', () => {
-    const thresholdOpts = getAvailableOptionsForEvaluationType(applicationThresholdTypeOptions, null, true);
+    const thresholdOpts = getAvailableOptionsForEvaluationType(applicationThresholdTypeOptions, PER_AP, true);
     expect(thresholdOpts).toHaveLength(2);
     expect(thresholdOpts).toEqual(
       expect.arrayContaining([

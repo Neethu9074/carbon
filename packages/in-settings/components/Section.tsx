@@ -4,11 +4,21 @@
  */
 
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import locals from './Section.mless';
 
-export default function Section({ restrictWidth, children, className }) {
+interface Props {
+  restrictWidth?: string,
+  children: ReactNode,
+  className?: string
+}
+
+export default function Section({
+  restrictWidth,
+  children,
+  className
+}: Props) {
   return (
     <div
       style={{

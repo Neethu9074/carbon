@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
@@ -12,7 +11,14 @@ import Pill from 'in-components/Pill';
 
 import locals from 'in-alerting/components/SelectedAlertTypeInfo.mless';
 
-export default function SelectedAlertTypeInfo({ title, description, svgIconType, badges = [] }) {
+interface Props {
+  title: string;
+  description: string;
+  svgIconType?: string;
+  badges?: string[];
+}
+
+export default function SelectedAlertTypeInfo({ title, description, svgIconType, badges = [] }: Props) {
   return (
     <div className={locals.outerWrapper}>
       <div className={locals.innerWrapper}>
@@ -36,10 +42,3 @@ export default function SelectedAlertTypeInfo({ title, description, svgIconType,
     </div>
   );
 }
-
-SelectedAlertTypeInfo.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  svgIconType: PropTypes.string,
-  badges: PropTypes.arrayOf(PropTypes.string)
-};

@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { AdaptiveBaselineData, Granularity, HistoricBaselineData, ThresholdConfig, ThresholdType } from 'in-types';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { ThresholdOperator, ThresholdType } from 'in-types';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { days } from 'in-services/time';
 
@@ -29,18 +29,13 @@ export function getHistoricBaselineValue(
     : baselineValue - sensitivity * deviationValue;
 }
 
-export interface AlertConfig {
-  threshold: {
-    operator: ThresholdOperator;
-    baseline: number[][];
-    deviationFactor: number;
-  };
-  granularity: number;
-}
-
-export function getApproximatedHistoricBaselineThresholdValue(alertConfig: AlertConfig, timeConfig: FixedTimeConfig) {
-  const { operator, baseline, deviationFactor } = alertConfig.threshold;
-  const baselineGranularity = alertConfig.granularity;
+export function getApproximatedHistoricBaselineThresholdValue(
+  threshold: HistoricBaselineData | AdaptiveBaselineData,
+  granularity: Granularity,
+  timeConfig: FixedTimeConfig
+) {
+  const { operator, baseline, deviationFactor } = threshold;
+  const baselineGranularity = granularity;
   const isGreaterOp = operator === '>=' || operator === '>';
 
   const baselineValues = [];
@@ -62,10 +57,10 @@ export function getAdaptiveBaselineValue(
 }
 
 export function getApproximatedAdaptiveBaselineThresholdValue(
-  alertConfig: AlertConfig,
+  threshold: ThresholdConfig,
   adaptiveBaselineInfo: Record<string, number>
 ) {
-  const { operator } = alertConfig.threshold;
+  const { operator } = threshold;
   const isGreaterOp = operator === '>=' || operator === '>';
   const baselineValues = Object.values(adaptiveBaselineInfo);
 

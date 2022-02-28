@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { days } from 'in-services/time';
+import { TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 export const chartViewConfigPropType = PropTypes.shape({
@@ -38,7 +39,7 @@ export const chartViewConfigs = Object.freeze([
   }
 ]);
 
-export function createDefaultChartConfig(timeConfig) {
+export function createDefaultChartConfig(timeConfig: TimeConfig) {
   return {
     timeConfig,
     minChartMetricGranularity: 0

@@ -15,6 +15,7 @@ import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operator
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { boundaryScopes } from 'in-applications/constants';
+import { TagFilterOperator } from 'in-types';
 
 describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
   describe('#getEntitySelectionAsTagFilterFormModel', () => {
@@ -30,8 +31,8 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         applications,
         boundaryScopes.all,
         'app1',
-        null,
-        null
+        undefined,
+        undefined
       );
 
       expect(actualFormModel).to.deep.equal([destinationTagFilter('application.id', EQUALS, 'app1')]);
@@ -44,6 +45,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
           inclusive: true,
           services: {
             service1: {
+              endpoints: {},
               serviceId: 'service1',
               inclusive: false
             }
@@ -54,8 +56,8 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         applications,
         boundaryScopes.all,
         'app1',
-        null,
-        null
+        undefined,
+        undefined
       );
 
       expect(actualFormModel).to.deep.equal([
@@ -72,10 +74,12 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
           inclusive: false,
           services: {
             service1: {
+              endpoints: {},
               serviceId: 'service1',
               inclusive: true
             },
             service2: {
+              endpoints: {},
               serviceId: 'service2',
               inclusive: true
             }
@@ -86,8 +90,8 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         applications,
         boundaryScopes.all,
         'app1',
-        null,
-        null
+        undefined,
+        undefined
       );
 
       expect(actualFormModel).to.deep.equal([
@@ -160,6 +164,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
               }
             },
             service5: {
+              endpoints: {},
               serviceId: 'service5',
               inclusive: false
             }
@@ -171,7 +176,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         boundaryScopes.all,
         'app1',
         'appName',
-        null
+        undefined
       );
 
       expect(actualFormModel).to.deep.equal([
@@ -280,6 +285,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
               }
             },
             service5: {
+              endpoints: {},
               serviceId: 'service5',
               inclusive: true
             }
@@ -290,8 +296,8 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
         applications,
         boundaryScopes.all,
         'app1',
-        null,
-        null
+        undefined,
+        undefined
       );
 
       expect(actualFormModel).to.deep.equal([
@@ -342,7 +348,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
           applications,
           boundaryScopes.all,
           'app1',
-          null,
+          undefined,
           'service1'
         );
 
@@ -360,10 +366,12 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
             inclusive: false,
             services: {
               service1: {
+                endpoints: {},
                 serviceId: 'service1',
                 inclusive: true
               },
               service2: {
+                endpoints: {},
                 serviceId: 'service2',
                 inclusive: true
               }
@@ -374,7 +382,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
           applications,
           boundaryScopes.inbound,
           'app1',
-          null,
+          undefined,
           'service2'
         );
 
@@ -406,10 +414,12 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
                 }
               },
               service2: {
+                endpoints: {},
                 serviceId: 'service2',
                 inclusive: false
               },
               service3: {
+                endpoints: {},
                 serviceId: 'service3',
                 inclusive: false
               }
@@ -420,7 +430,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
           applications,
           boundaryScopes.all,
           'app1',
-          null,
+          undefined,
           'service1'
         );
 
@@ -456,10 +466,12 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
                 }
               },
               service2: {
+                endpoints: {},
                 serviceId: 'service2',
                 inclusive: false
               },
               service3: {
+                endpoints: {},
                 serviceId: 'service3',
                 inclusive: false
               }
@@ -470,7 +482,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
           applications,
           boundaryScopes.all,
           'app1',
-          null,
+          undefined,
           'service1'
         );
 
@@ -510,10 +522,12 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
                 }
               },
               service2: {
+                endpoints: {},
                 serviceId: 'service2',
                 inclusive: true
               },
               service3: {
+                endpoints: {},
                 serviceId: 'service3',
                 inclusive: true
               }
@@ -524,7 +538,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
           applications,
           boundaryScopes.all,
           'app1',
-          null,
+          undefined,
           'service1'
         );
 
@@ -560,10 +574,12 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
                 }
               },
               service2: {
+                endpoints: {},
                 serviceId: 'service2',
                 inclusive: true
               },
               service3: {
+                endpoints: {},
                 serviceId: 'service3',
                 inclusive: true
               }
@@ -574,7 +590,7 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
           applications,
           boundaryScopes.all,
           'app1',
-          null,
+          undefined,
           'service1'
         );
 
@@ -651,6 +667,6 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
   });
 });
 
-function destinationTagFilter(name, operator, value) {
+function destinationTagFilter(name: string, operator: TagFilterOperator, value: string) {
   return tagFilter(name, operator, value, null, DESTINATION);
 }

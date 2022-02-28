@@ -3,18 +3,32 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment, forwardRef } from 'react';
+import React, { forwardRef, Fragment } from 'react';
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon, SvgIconProps } from '@instana/components';
+import { Observable } from '@instana/observables';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 
 import locals from 'in-alerting/components/ScopePath.mless';
 
-const ScopePath = forwardRef(({ entries, iconSize = 's', noBottomMargin }, ref) => {
+interface ScopePathProps {
+  entries: ScopeEntryType[];
+  iconSize?: Size;
+  noBottomMargin?: boolean;
+}
+type Size = SvgIconProps['size'];
+
+type ScopeEntryType = {
+  iconType: string;
+  label: string;
+  href?: string;
+  href$?: Observable<string>;
+};
+
+const ScopePath = forwardRef<HTMLDivElement, ScopePathProps>((props, ref) => {
+  const { entries, iconSize = 's', noBottomMargin } = props;
   return (
     <HorizontalFlexWrapper
       ref={ref}
@@ -33,11 +47,15 @@ const ScopePath = forwardRef(({ entries, iconSize = 's', noBottomMargin }, ref) 
   );
 });
 
-function ArrowSeparator({ iconSize }) {
+function ArrowSeparator({ iconSize }: { iconSize: Size }) {
   return <SvgIcon className={locals.separator} size={iconSize} type="lib_arrow_expand_right" />;
 }
 
-function ScopeEntry({ iconType, iconSize, label, href, href$ }) {
+interface ScopeEntryProps extends ScopeEntryType {
+  iconSize: Size;
+}
+
+function ScopeEntry({ iconType, iconSize, label, href, href$ }: ScopeEntryProps) {
   return (
     <>
       <SvgIcon className={locals.icon} size={iconSize} type={iconType} />
@@ -49,18 +67,5 @@ function ScopeEntry({ iconType, iconSize, label, href, href$ }) {
 }
 
 ScopePath.displayName = 'ScopePath';
-
-ScopePath.propTypes = {
-  entries: PropTypes.arrayOf(
-    PropTypes.shape({
-      iconType: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      href$: PropTypes.object,
-      href: PropTypes.string
-    })
-  ).isRequired,
-  iconSize: PropTypes.string,
-  noBottomMargin: PropTypes.bool
-};
 
 export default ScopePath;

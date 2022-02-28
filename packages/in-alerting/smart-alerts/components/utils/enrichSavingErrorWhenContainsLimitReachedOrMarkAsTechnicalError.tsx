@@ -5,9 +5,16 @@
 
 import React from 'react';
 
+import { Error } from '@instana/components/types/util/dataRetrieval';
 import { Link } from '@instana/components';
 
 import { t, Trans } from 'in-i18n';
+
+interface EnrichedError {
+  level: string;
+  message: string | JSX.Element;
+  code?: string;
+}
 
 /**
  * When the given Error has a message which contains the
@@ -15,10 +22,10 @@ import { t, Trans } from 'in-i18n';
  * <a> html object to render it later in the UI.
  *
  * Without that PHRASE we treat the error as a technical error, which will hide its message behind a generic one in production builds
- *
- * @type error: Error => Error | { readonly code: ErrorCode; message: JSX.Element }
  */
-export function enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(error) {
+export function enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(
+  error: Error | { message: string }
+): EnrichedError {
   // in ErrorResultPresenter, there is a similar check to show only a "TechnicalError",
   // but on __DEV__ it would show an empty box.
   if (typeof error === 'string' && __DEV__) {
@@ -40,6 +47,7 @@ export function enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError(
           <br />
           <Trans
             i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.pleaseContactSupportToRiseLimit"
+            // @ts-expect-error required prop children will be filled via i18n translation
             components={{ supportLink: <Link external href="https://support.instana.com" /> }}
             values={{
               instanaSupportPortal: t('in-alerting:smartAlerts.components.smartAlertDialog.instanaSupportPortal')
