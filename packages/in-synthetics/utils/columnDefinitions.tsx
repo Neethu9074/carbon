@@ -37,10 +37,10 @@ export const columnDefinitions = [
       return (
         <div>
           <Link
-            href$={getModifiedUrlStream(_location => {
-              _location.pathname = testResultSummaryPath;
-              setOrDeleteMatrixKey(_location, syntheticsPath, 'testId', test.id);
-              return _location;
+            href$={getModifiedUrlStream(summaryUrl => {
+              summaryUrl.pathname = testResultSummaryPath;
+              setOrDeleteMatrixKey(summaryUrl, syntheticsPath, 'testId', test.id);
+              return summaryUrl;
             })}
           >
             <h4 className={locals.label}>{test.label}</h4>
