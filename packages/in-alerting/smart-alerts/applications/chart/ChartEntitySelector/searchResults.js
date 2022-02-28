@@ -40,32 +40,23 @@ export function createApOnlyItem({ applicationName, applicationId }) {
   };
 }
 
-export function searchResultsToListItems(searchResult, evaluationType) {
-  const items = searchResult?.items;
-  if (!items) {
-    return [];
-  }
-
-  const canLoadMore = searchResult?.canLoadMore;
+export function searchResultList(items, evaluationType) {
   if (evaluationType === PER_AP_SERVICE) {
-    const list = items.map(({ appDataEntityChain }) => {
-      const { applicationName, serviceName, serviceId } = appDataEntityChain;
+    return items.map(({ appDataEntityChain }) => {
+      const { applicationId, applicationName, serviceName, serviceId } = appDataEntityChain;
 
       return {
         type: 'SERVICE',
         label: serviceName,
         path: <ScopeSelectorServiceItem applicationName={applicationName} serviceName={serviceName} />,
+        applicationId,
         id: serviceId
       };
     });
-    if (canLoadMore) {
-      return [...list, tooManyResultsItemOption];
-    }
-    return list;
   }
 
-  const list = items.map(({ appDataEntityChain }) => {
-    const { applicationName, serviceName, endpointName, endpointId } = appDataEntityChain;
+  return items.map(({ appDataEntityChain }) => {
+    const { applicationId, serviceId, applicationName, serviceName, endpointName, endpointId } = appDataEntityChain;
 
     return {
       type: 'ENDPOINT',
@@ -77,9 +68,22 @@ export function searchResultsToListItems(searchResult, evaluationType) {
           endpointName={endpointName}
         />
       ),
+      applicationId,
+      serviceId,
       id: endpointId
     };
   });
+}
+
+export function searchResultsToListItems(searchResult, evaluationType) {
+  const items = searchResult?.items;
+  if (!items) {
+    return [];
+  }
+
+  const list = searchResultList(items, evaluationType);
+
+  const canLoadMore = searchResult?.canLoadMore;
   if (canLoadMore) {
     return [...list, tooManyResultsItemOption];
   }
