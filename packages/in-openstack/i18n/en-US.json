@@ -12,6 +12,10 @@
     "openstackRegions": "OpenStack Regions",
     "name": "Name",
     "hypervisors": "Hypervisors",
+    "computeInstances": "Compute Instances",
+    "summary": "Summary",
+    "memoryUsage": "Memory Usage",
+    "cpuUsage": "CPU Usage",
     "noDataAvailable": {
       "hypervisorTitle": "No OpenStack Hypervisor available",
       "hypervisorDescription": "There were no OpenStack Hypervisor retrieved for the selected time range."

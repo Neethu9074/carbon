@@ -17,9 +17,6 @@ export const regionList = '/regions';
 export const regionListFullyQualified = `${openstack}${regionList}`;
 export const regionDashboard = `/region`;
 export const regionDashboardFullyQualified = `${openstack}${regionDashboard}`;
-
-export const hypervisorList = '/hypervisors';
-export const hypervisorListFullyQualified = `${openstack}${hypervisorList}`;
 export const hypervisorDashboard = `/hypervisor`;
 export const hypervisorDashboardFullyQualified = `${openstack}${hypervisorDashboard}`;
 

@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-// import TabLabelWithCounter from 'in-openstack/Dashboards/commonComponents/TabLabelWithCounter';
-import Hypervisors from 'in-openstack/Dashboards/Regions/tabs/Hypervisors';
+import ComputeInstances from 'in-openstack/Dashboards/Regions/tabs/ComputeInstances';
 import { regionDashboardFullyQualified } from 'in-openstack/navigation/paths';
+import Hypervisors from 'in-openstack/Dashboards/Regions/tabs/Hypervisors';
 import { t } from 'in-i18n';
 
 export default [
@@ -13,5 +13,10 @@ export default [
     label: t('in-openstack:dashboards.hypervisors'),
     path: `${regionDashboardFullyQualified}/hypervisors`,
     component: Hypervisors
+  },
+  {
+    label: t('in-openstack:dashboards.computeInstances'),
+    path: `${regionDashboardFullyQualified}/computeInstances`,
+    component: ComputeInstances
   }
 ];
