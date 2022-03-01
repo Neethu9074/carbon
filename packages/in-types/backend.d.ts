@@ -9,7 +9,7 @@ export interface AbstractApplicationAlertConfig {
   readonly customPayloadFields: StaticStringField[];
   readonly description: string;
   readonly evaluationType: AlertEvaluationType;
-  readonly granularity?: Granularity;
+  readonly granularity: Granularity;
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
   readonly name: string;
