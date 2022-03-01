@@ -49,7 +49,6 @@ export interface TimeShiftOption {
   offset: TimeShiftOffset;
   label: string;
   description: string;
-  disallowSelection?: boolean;
 }
 
 export const defaultTimeShift: TimeShiftOption = {
@@ -80,8 +79,7 @@ export const timeShifts: TimeShiftOption[] = [
   {
     offset: -1 * days.toMillis(7),
     label: t('in-stores:time.shiftingLabelLastWeek'),
-    description: t('in-stores:time.shiftingDescriptionLastWeek'),
-    disallowSelection: true
+    description: t('in-stores:time.shiftingDescriptionLastWeek')
   }
 ];
 

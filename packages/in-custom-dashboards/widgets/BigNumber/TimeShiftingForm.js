@@ -62,12 +62,8 @@ export default function TimeShiftingForm({ form, onChange }) {
           >
             {timeShifts
               .filter(
-                // Some options may not be selectable, but if a configuration is already persisted with this
-                // option, then we do allow it temporarily.
-                //
-                // Also hide the default time shift option (no time shift)
-                ({ offset, disallowSelection }) =>
-                  offset !== defaultTimeShift.offset && (disallowSelection !== true || offset === timeShiftField.value)
+                // Hide the default time shift option (no time shift)
+                ({ offset }) => offset !== defaultTimeShift.offset
               )
               .map(({ offset, label }) => (
                 <option key={offset} value={offset}>
