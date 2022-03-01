@@ -16,8 +16,8 @@ import { t } from 'in-i18n';
 
 // import { Row, Col } from 'in-components/layout/Grid';
 
-export default function Summary({ data: hypervisor }) {
-  const snapshotId = hypervisor.id;
+export default function Summary({ data: instance }) {
+  const snapshotId = instance.id;
 
   return (
     <Fragment>

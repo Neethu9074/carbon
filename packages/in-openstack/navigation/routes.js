@@ -3,18 +3,26 @@
  * (c) Copyright Instana Inc.
  */
 
+import HypervisorDashboard from 'promise-loader?global,openstack!in-openstack/Dashboards/Hypervisors/HypervisorDashboard';
+import InstanceDashboard from 'promise-loader?global,openstack!in-openstack/Dashboards/Instances/InstanceDashboard';
 import RegionDashboard from 'promise-loader?global,openstack!in-openstack/Dashboards/Regions/RegionDashboard';
 import OpenstackMainView from 'promise-loader?global,openstack!in-openstack/OpenstackMainView';
 import { Route } from 'react-router-dom';
 import React, { Fragment } from 'react';
 
+import {
+  regionDashboardFullyQualified,
+  hypervisorDashboardFullyQualified,
+  instanceDashboardFullyQualified
+} from 'in-openstack/navigation/paths';
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { regionDashboardFullyQualified } from 'in-openstack/navigation/paths';
 import { openstack } from 'in-openstack/navigation/paths';
 
 export default (
   <Fragment>
     <Route path={regionDashboardFullyQualified} component={createAsyncViewComponent(RegionDashboard)} />
+    <Route path={hypervisorDashboardFullyQualified} component={createAsyncViewComponent(HypervisorDashboard)} />
+    <Route path={instanceDashboardFullyQualified} component={createAsyncViewComponent(InstanceDashboard)} />
     <Route path={openstack} component={createAsyncViewComponent(OpenstackMainView)} />
   </Fragment>
 );

@@ -3,14 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { hypervisorDashboardFullyQualified } from 'in-openstack/navigation/paths';
+import { instanceDashboardFullyQualified } from 'in-openstack/navigation/paths';
 import Summary from 'in-openstack/Dashboards/Hypervisors/tabs/Summary';
 import { t } from 'in-i18n';
 
 export default [
   {
     label: t('in-openstack:dashboards.summary'),
-    path: `${hypervisorDashboardFullyQualified}/summary`,
+    path: `${instanceDashboardFullyQualified}/summary`,
     component: Summary
   }
 ];

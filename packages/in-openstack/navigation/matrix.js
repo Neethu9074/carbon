@@ -5,3 +5,4 @@
 
 export const regionId = 'regionId';
 export const hypervisorId = 'hypervisorId';
+export const instanceId = 'instanceId';

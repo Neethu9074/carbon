@@ -6,6 +6,7 @@
 // import { vmId as matrixVmId } from 'in-vsphere/navigation/matrix';
 import { emptyObject } from 'in-services/fixedObjects';
 import { hypervisorId as matrixHypervisorId } from 'in-openstack/navigation/matrix';
+import { instanceId as matrixInstanceId } from 'in-openstack/navigation/matrix';
 import { regionId as matrixRegionId } from 'in-openstack/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
@@ -19,6 +20,8 @@ export const regionDashboard = `/region`;
 export const regionDashboardFullyQualified = `${openstack}${regionDashboard}`;
 export const hypervisorDashboard = `/hypervisor`;
 export const hypervisorDashboardFullyQualified = `${openstack}${hypervisorDashboard}`;
+export const instanceDashboard = `/instance`;
+export const instanceDashboardFullyQualified = `${openstack}${instanceDashboard}`;
 
 export function getOpenstackRegionDashboard(regionId, { tab, tabMatrix, timeConfig } = emptyObject) {
   return getDashboard({
@@ -42,6 +45,20 @@ export function getOpenstackHypervisorDashboard(hypervisorId, { tab, tabMatrix, 
     id: hypervisorId,
     paramsCallback: params => {
       setOrDeleteMatrixKey(params, hypervisorDashboard, matrixRegionId, regionId);
+    }
+  });
+}
+export function getOpenstackInstanceDashboard(instanceId, { tab, tabMatrix, timeConfig, regionId } = emptyObject) {
+  return getDashboard({
+    base: instanceDashboardFullyQualified,
+    tab,
+    tabMatrix,
+    timeConfig,
+    matrixSegment: instanceDashboard,
+    matrixParam: matrixInstanceId,
+    id: instanceId,
+    paramsCallback: params => {
+      setOrDeleteMatrixKey(params, instanceDashboard, matrixRegionId, regionId);
     }
   });
 }
