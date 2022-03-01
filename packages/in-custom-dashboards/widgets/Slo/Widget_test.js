@@ -24,12 +24,7 @@ describe('in-custom-dashboards/widgets/Slo/Widget', () => {
   };
 
   it('should render widget with WidgetLeftHeader if configuration status is pending.', () => {
-    useSliConfiguration.mockReturnValueOnce([
-      {
-        id: config.sliConfigId
-      },
-      'pending'
-    ]);
+    useSliConfiguration.mockReturnValueOnce([{ id: config.sliConfigId }, 'pending', [], { loading: false }]);
 
     const widgetElement = shallow(
       <Widget actions={<></>} config={config} isPreview title="Test Widget" dragHandle={<></>} />
@@ -39,12 +34,7 @@ describe('in-custom-dashboards/widgets/Slo/Widget', () => {
   });
 
   it('should render widget with WidgetLeftHeader if configuration status is resolved.', () => {
-    useSliConfiguration.mockReturnValueOnce([
-      {
-        id: config.sliConfigId
-      },
-      'resolved'
-    ]);
+    useSliConfiguration.mockReturnValueOnce([{ id: config.sliConfigId }, 'resolved', [], { loading: false }]);
 
     const widgetElement = shallow(
       <Widget actions={<></>} config={config} isPreview title="Test Widget" dragHandle={<></>} />
@@ -54,12 +44,7 @@ describe('in-custom-dashboards/widgets/Slo/Widget', () => {
   });
 
   it('should render widget without WidgetLeftHeader if configuration status is rejected.', () => {
-    useSliConfiguration.mockReturnValueOnce([
-      {
-        id: config.sliConfigId
-      },
-      'rejected'
-    ]);
+    useSliConfiguration.mockReturnValueOnce([{ id: config.sliConfigId }, 'rejected', [], { loading: false }]);
 
     const widgetElement = shallow(
       <Widget actions={<></>} config={config} isPreview title="Test Widget" dragHandle={<></>} />

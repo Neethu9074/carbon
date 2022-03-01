@@ -44,7 +44,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
   it('renders a LoadingIndicator if the website for entityId is still pending', () => {
     // Given
-    useWebsite.mockReturnValueOnce([undefined, 'pending', []]);
+    useWebsite.mockReturnValueOnce([undefined, 'pending', [], { loading: false }]);
 
     // When
     const wrapper = shallow(<CreateWebsiteSliForm entityId="someString" close={jest.fn()} setFooter={jest.fn()} />);
@@ -57,7 +57,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
   it('renders a LoadingIndicator if the sliConfig is undefined', () => {
     // Given
     const sliConfig = undefined;
-    useWebsite.mockReturnValueOnce([{} as Website, 'resolved', []]);
+    useWebsite.mockReturnValueOnce([{} as Website, 'resolved', [], { loading: false }]);
 
     // When
     const wrapper = shallow(
@@ -71,7 +71,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
   it('validates the forms filterExpression as valid if both good* and badEventFilterExpression are valid for event based sli', () => {
     // Given
-    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', []]);
+    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<WebsiteEventBasedSliEntity> = {
       sliName: 'someSli',
       sliEntity: {
@@ -109,7 +109,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
   it('validates the forms filterExpression as invalid if the goodEventFilterExpression is invalid for event based sli', () => {
     // Given
-    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', []]);
+    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<WebsiteEventBasedSliEntity> = {
       sliName: 'someSli',
       sliEntity: {
@@ -144,7 +144,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
   it('validates the forms filterExpression as invalid if the badEventFilterExpression is invalid for event based sli', () => {
     // Given
-    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', []]);
+    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<WebsiteEventBasedSliEntity> = {
       sliName: 'someSli',
       sliEntity: {
@@ -179,7 +179,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
   it('validates the forms filterExpression as valid if the filterExpression is valid for time based sli', () => {
     // Given
-    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', []]);
+    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<WebsiteTimeBasedSliEntity> = {
       sliName: 'someSli',
       sliEntity: {
@@ -213,7 +213,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
   it('correctly maps the form data for an website event based sli entity to a SliConfig on submit', () => {
     // Given
-    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', []]);
+    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<WebsiteEventBasedSliEntity> = {
       sliName: 'someSli',
       sliEntity: {
@@ -246,7 +246,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm', () 
 
   it('correctly maps the form data for an website time based sli entity to a SliConfig on submit', () => {
     // Given
-    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', []]);
+    useWebsite.mockReturnValueOnce([mockWebsite, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<WebsiteTimeBasedSliEntity> = {
       sliName: 'someSli',
       sliEntity: {

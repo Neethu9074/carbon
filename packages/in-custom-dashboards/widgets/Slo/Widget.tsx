@@ -5,23 +5,21 @@
 
 import React from 'react';
 
-import { Message, Card } from '@instana/components';
+import { Card } from '@instana/components';
 
 import { ensureConfigBackwardCompatibility, SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/form';
-import { isApplicationSliEntity, isAvailabilitySliEntity } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
-import { MetricResult, Result, SliConfigurationWithLastUpdated, TimeConfig } from 'in-types';
 import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/WidgetLeftHeader';
 import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
 import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
-import Chart, { ChartTrackers } from 'in-custom-dashboards/widgets/Slo/Chart';
 import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
+import { findMetric } from 'in-custom-dashboards/widgets/Slo/metric';
 import { days, hours, minutes } from 'in-services/time/time';
 import { MetricDataSeries } from 'in-components/Chart/types';
-import { hasError } from 'in-services/util/result';
-import { t } from 'in-i18n';
+import { all } from 'in-hooks/utils/fetchStatus';
+import WidgetContent from './WidgetContent';
+import { TimeConfig } from 'in-types';
 
 import locals from './Widget.mless';
 
@@ -68,11 +66,18 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   const granularity = getGranularity(timeConfig);
 
   const [sliConfiguration, sliConfigurationStatus] = useSliConfiguration(sliConfigId);
-  const [entity] = useSloEntity({ entityId, entityType });
 
-  const sloMetricsResult = useSloMetrics({ slo, sliId: sliConfigId, timeConfig, granularity, isPreview });
+  const [entity, entityStatus] = useSloEntity({ entityId, entityType });
 
-  const sloMetrics = sloMetricsResult?.data;
+  const [sloMetrics, sloMetricsStatus, sloMetricsError, sloMetricsProgress] = useSloMetrics({
+    slo,
+    sliId: sliConfigId,
+    timeConfig,
+    granularity,
+    isPreview
+  });
+
+  const unifiedStatus = all(sliConfigurationStatus, entityStatus, sloMetricsStatus);
 
   const budget = getMetricValue(findMetric('budget', sloMetrics));
 
@@ -88,7 +93,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
       title={title}
       headerClassName={locals.title}
       leftHeaderContent={
-        sliConfigurationStatus !== 'rejected' ? (
+        unifiedStatus !== 'rejected' ? (
           <WidgetLeftHeader monitoredEntityType={entityType} monitoredEntity={entity} sliConfig={sliConfiguration} />
         ) : (
           undefined
@@ -109,7 +114,9 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
       />
       <div className={locals.chart}>
         <WidgetContent
-          sloMetricsResult={sloMetricsResult}
+          sloMetrics={sloMetrics}
+          loadingErrors={sloMetricsError}
+          loadingProgress={sloMetricsProgress}
           sliConfigId={sliConfigId}
           timeConfig={timeConfig}
           granularity={granularity}
@@ -123,30 +130,8 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
   );
 }
 
-const findMetric = (metricName: string, sloMetrics: MetricResult[] = []): MetricDataSeries => {
-  const metric = sloMetrics?.find(({ id }) => id === metricName);
-  return (metric?.values ?? []) as MetricDataSeries;
-};
-
 const getMetricValue = (metric: MetricDataSeries = []): number => {
   return metric[0]?.[1];
-};
-
-const filterAvailableData = (dataSeries: MetricDataSeries): MetricDataSeries => {
-  if (!dataSeries) {
-    return [];
-  }
-  // when no data for a specific metric was returned
-  if (dataSeries.length === 1) {
-    if (dataSeries[0][0] == null) {
-      return [];
-    }
-  }
-  // Filtering-out the values with timestamps in future
-  // This should be done on the backend normally, but it was not specified, hence it was
-  // implemented on the client in time.
-  const now = new Date().getTime();
-  return dataSeries.filter(([ts]) => ts <= now);
 };
 
 function getGranularity(timeConfig: TimeConfig): number {
@@ -163,62 +148,3 @@ function getGranularity(timeConfig: TimeConfig): number {
   }
   return hours.toMillis(1);
 }
-
-const isConfiguredSliDeleted = (sloMetricsResult: Result<MetricResult[]>, sliConfigId: string): boolean => {
-  return (
-    hasError(sloMetricsResult) &&
-    sloMetricsResult.errors.some(
-      ({ message }) => message === `The SliConfiguration for the id ${sliConfigId} does not exist`
-    )
-  );
-};
-
-interface WidgetContentProps {
-  sloMetricsResult: Result<MetricResult[]>;
-  sliConfigId: string;
-  timeConfig: TimeConfig;
-  granularity: number;
-  budget: number;
-  sliConfig?: SliConfigurationWithLastUpdated;
-  isPreview?: boolean;
-  disableZooming?: boolean;
-}
-
-const WidgetContent = ({ sloMetricsResult, sliConfigId, isPreview, ...otherChartProps }: WidgetContentProps) => {
-  if (isConfiguredSliDeleted(sloMetricsResult, sliConfigId)) {
-    return (
-      <Message
-        type="error"
-        withIcon
-        title={t('in-custom-dashboards:widgets.chart.errorTitleForConfiguredSliDeletion')}
-        description={t('in-custom-dashboards:widgets.chart.errorDescriptionToConfigureOtherSLI')}
-      />
-    );
-  }
-
-  return (
-    <Chart
-      result={sloMetricsResult}
-      consumed={filterAvailableData(findMetric('consumed', sloMetricsResult?.data))}
-      hourlyBudget={filterAvailableData(findMetric('hourlyBudget', sloMetricsResult?.data))}
-      trackers={chartTrackers}
-      automaticallySize={!isPreview}
-      {...otherChartProps}
-    />
-  );
-};
-
-const chartTrackers: ChartTrackers = {
-  trackJumpToUnboundedAnalytics: entity => {
-    if (isAvailabilitySliEntity(entity) || isApplicationSliEntity(entity)) {
-      const { sliType, applicationId, serviceId, endpointId, boundaryScope } = entity;
-      trackJumpToUnboundedAnalyticsFromSloWidget({
-        sliType,
-        applicationId,
-        serviceId,
-        endpointId,
-        boundaryScope
-      });
-    }
-  }
-};

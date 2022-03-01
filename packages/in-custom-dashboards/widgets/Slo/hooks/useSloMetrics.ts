@@ -11,14 +11,15 @@ import {
   AggregationType,
   MetricResult,
   MetricSource,
-  Result,
   ResultType,
   TimeConfig,
   TimeShift,
   UnifiedMetricConfiguration
 } from 'in-types';
 import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscriptions/getUnifiedSloMetrics';
+import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { pendingResult } from 'in-services/fixedObjects';
+import { FetchedState } from 'in-hooks/utils/types';
 
 interface MetricBaseConfig {
   sliConfigId: string;
@@ -84,7 +85,7 @@ export default function useSloMetrics({
   timeConfig,
   granularity,
   isPreview
-}: UseSloMetricsProps): Result<MetricResult[]> {
+}: UseSloMetricsProps): FetchedState<MetricResult[]> {
   const metrics = useMemo(() => {
     const metricConfig: MetricBaseConfig = {
       sliConfigId: sliId,
@@ -99,5 +100,6 @@ export default function useSloMetrics({
     return getMetrics(metricConfig, granularity);
   }, [slo, sliId, timeConfig, granularity, isPreview]);
 
-  return useObservable(() => getUnifiedSloMetrics({ metrics }), [metrics]) ?? pendingResult;
+  const result = useObservable(() => getUnifiedSloMetrics({ metrics }), [metrics]) ?? pendingResult;
+  return resultToFetchedStateResponse(result);
 }

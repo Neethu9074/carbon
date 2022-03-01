@@ -45,7 +45,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm',
 
   it('renders a LoadingIndicator if the application for entityId is still pending', () => {
     // Given
-    useApplication.mockReturnValueOnce([undefined, 'pending', []]);
+    useApplication.mockReturnValueOnce([undefined, 'pending', [], { loading: false }]);
 
     // When
     const wrapper = shallow(<CreateApplicationSliForm entityId="someString" close={jest.fn()} setFooter={jest.fn()} />);
@@ -58,7 +58,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm',
   it('renders a LoadingIndicator if the sliConfig is undefined', () => {
     // Given
     const sliConfig = undefined;
-    useApplication.mockReturnValueOnce([{} as Application, 'resolved', []]);
+    useApplication.mockReturnValueOnce([{} as Application, 'resolved', [], { loading: false }]);
 
     // When
     const wrapper = shallow(
@@ -72,7 +72,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm',
 
   it('validates the forms filterExpression as valid if both good* and badEventFilterExpression are valid', () => {
     // Given
-    useApplication.mockReturnValueOnce([mockApplication, 'resolved', []]);
+    useApplication.mockReturnValueOnce([mockApplication, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<AvailabilitySliEntity> = {
       sliName: 'someSli',
       sliEntity: {
@@ -109,7 +109,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm',
 
   it('validates the forms filterExpression as invalid if the goodEventFilterExpression is invalid', () => {
     // Given
-    useApplication.mockReturnValueOnce([mockApplication, 'resolved', []]);
+    useApplication.mockReturnValueOnce([mockApplication, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<AvailabilitySliEntity> = {
       sliName: 'someSli',
       sliEntity: {
@@ -146,7 +146,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm',
 
   it('validates the forms filterExpression as invalid if the badEventFilterExpression is invalid', () => {
     // Given
-    useApplication.mockReturnValueOnce([mockApplication, 'resolved', []]);
+    useApplication.mockReturnValueOnce([mockApplication, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<AvailabilitySliEntity> = {
       sliName: 'someSli',
       sliEntity: {
@@ -183,7 +183,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm',
 
   it('correctly maps the form data for an availability sli entity to a SliConfig on submit', () => {
     // Given
-    useApplication.mockReturnValueOnce([mockApplication, 'resolved', []]);
+    useApplication.mockReturnValueOnce([mockApplication, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<AvailabilitySliEntity> = {
       sliName: 'someSli',
       sliEntity: {
@@ -218,7 +218,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm',
 
   it('correctly maps the form data for an application sli entity to a SliConfig on submit', () => {
     // Given
-    useApplication.mockReturnValueOnce([mockApplication, 'resolved', []]);
+    useApplication.mockReturnValueOnce([mockApplication, 'resolved', [], { loading: false }]);
     const sliConfig: SliConfig<ApplicationSliEntity> = {
       sliName: 'someSli',
       sliEntity: {
