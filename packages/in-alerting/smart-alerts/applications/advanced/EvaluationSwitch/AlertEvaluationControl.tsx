@@ -6,8 +6,7 @@
 import { Field, MapForm } from 'formalistic';
 import React from 'react';
 
-// @ts-expect-error source needs to be converted to TS
-import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { ApplicationAlertType, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { AlertEvaluationControlPresenter } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControlPresenter';
 // @ts-expect-error source needs to be converted to TS
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
@@ -23,7 +22,7 @@ interface Props {
 
 export default function AlertEvaluationControl({ form, updateForm, isGlobalSmartAlert }: Props) {
   const evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>).value;
-  const alertType = ((form.get('rule') as MapForm)!.get('alertType') as Field<string>)!.value;
+  const alertType = ((form.get('rule') as MapForm)!.get('alertType') as Field<ApplicationAlertType>)!.value;
   const isBuiltIn = (form.get('builtIn') as Field<boolean>).value;
   const thresholdType = ((form.get('threshold') as MapForm).get('type') as Field<ThresholdType>)?.value;
   const isAdaptiveThreshold = thresholdType === ADAPTIVE_BASELINE;
