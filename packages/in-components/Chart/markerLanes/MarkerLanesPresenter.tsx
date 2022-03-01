@@ -29,6 +29,9 @@ export interface PresentedLaneProps {
   timeConfig: TimeConfig;
   laneLabelsVisible: boolean;
   onLaneHasMarkersToRender: () => void;
+  chartHeight?: number;
+  timeAxisHeight?: number;
+  markerPaneHeight?: number;
 }
 
 type PartialMarkerLanesPresenterProps = Omit<MarkerLanesPresenterProps, 'children' | 'granularity'> & {
@@ -42,6 +45,9 @@ type MarkerLanesPresenterProps = {
   chartWidth: number;
   chartBucketWidth: number;
   timeConfig: TimeConfig;
+  chartHeight?: number;
+  timeAxisHeight?: number;
+  markerPaneHeight?: number;
 };
 
 type MarkerLanesWrapperProps = Omit<MarkerLanesPresenterProps, 'children'> & {

@@ -50,7 +50,7 @@ export default class RenderScheduler<CallbackHolderType extends Partial<Renderab
 
     this.xScaleBackBuffer = createScale();
     this.xScaleBackBuffer.setRangeFrom(0);
-    // other places like the chart overlay are not directly controlled my the scheduler but organize themselves.
+    // other places like the chart overlay are not directly controlled by the scheduler but organize themselves.
     // therefore, we expose the current up-2-date scale via an observable
     this.xScaleBackBuffer$ = create<ScaleType>().emit(this.xScaleBackBuffer);
 

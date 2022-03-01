@@ -51,7 +51,7 @@ export interface MarkerLaneEvent {
  * Note: This is missing props provided through the restProps mechanism, because this would create a very messy type structure.
  *       Please only add the needed props from the restProps when migrating marker lane overlays.
  */
-interface MarkerLaneHoverOverlayConfig {
+export interface MarkerLaneHoverOverlayConfig {
   xPos?: number;
   fromXPos: number;
   toXPos: number;
@@ -61,6 +61,9 @@ interface MarkerLaneHoverOverlayConfig {
   clusterWidth: number;
   commonOverlayStyles: ReturnType<typeof getCommonOverlayStyles>;
   isClustered?: boolean;
+  chartHeight?: number;
+  timeAxisHeight?: number;
+  markerPaneHeight?: number;
 }
 
 /**
@@ -88,7 +91,9 @@ interface MarkersLaneProps extends Partial<PresentedLaneProps> {
   SecondaryHoverOverlay?: React.JSXElementConstructor<MarkerLaneHoverOverlayConfig>;
   selectedEventData?: MarkerLaneEvent;
   isLoading?: boolean;
+  /* when present, this message will be shown instead of any events */
   errorMessage?: string;
+  /* when present, a retry button will be rendered */
   onRetry?: () => void;
   trackMarkerHoverEvent?: (event: MarkerLaneEvent) => void;
   color?: string;
@@ -279,7 +284,7 @@ interface GetCommonOverlayStylesProps {
   color?: string;
 }
 
-function getCommonOverlayStyles({ chartContentPosition, color }: GetCommonOverlayStylesProps) {
+function getCommonOverlayStyles({ chartContentPosition, color }: GetCommonOverlayStylesProps): React.CSSProperties {
   return {
     // setting zIndex to ensure the lanes added before the chart (1st in stacking order) will overlay the chart when hovered
     zIndex: chartContentPosition === 'pre' ? 1 : 'auto',
