@@ -4293,7 +4293,7 @@ export interface WebsiteAlertConfig {
   readonly alertChannelIds: string[];
   readonly customPayloadFields: StaticStringField[];
   readonly description: string;
-  readonly granularity?: Granularity;
+  readonly granularity: Granularity;
   readonly name: string;
   readonly rule: WebsiteAlertRule;
   readonly severity: number;
