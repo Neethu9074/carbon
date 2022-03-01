@@ -3,19 +3,49 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import { stopPropagationAndPreventDefault } from 'in-services/util/function';
+import { OverlayContentProps, OverlayMounterContentProps } from 'in-components/overlays/Overlay/types';
+import { MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
 import { clearActiveTooltip } from 'in-components/Tooltip/store';
-import { propTypeTimeConfig } from 'in-stores/time/config';
 import Overlay from 'in-components/overlays/Overlay';
+import { TimeConfig } from 'in-types';
 
 import locals from './LaneIcon.mless';
 
-export default function LaneIcon({ timeConfig, calloutContent, onClick, eventData, showIconForCluster, iconConfig }) {
+interface IconConfig {
+  type: string;
+  typeCluster: string;
+  color: string;
+}
+
+interface ForwardedOverlayContentProps<EventType extends MarkerLaneEvent> {
+  timeConfig?: TimeConfig;
+  eventData: EventType;
+  iconConfig: IconConfig;
+}
+
+interface LaneIconProps<EventType extends MarkerLaneEvent> {
+  timeConfig?: TimeConfig;
+  calloutContent: React.ComponentType<
+    OverlayContentProps & OverlayMounterContentProps & ForwardedOverlayContentProps<EventType>
+  >;
+  onClick?: (e: EventType) => void;
+  eventData: EventType;
+  showIconForCluster?: boolean;
+  iconConfig: IconConfig;
+}
+
+export default function LaneIcon<EventType extends MarkerLaneEvent>({
+  timeConfig,
+  calloutContent,
+  onClick,
+  eventData,
+  showIconForCluster,
+  iconConfig
+}: LaneIconProps<EventType>) {
   return (
     <Overlay props={{ iconConfig, eventData, timeConfig }} content={calloutContent} withoutWrapper>
       {({ open, ref }) => {
@@ -26,8 +56,7 @@ export default function LaneIcon({ timeConfig, calloutContent, onClick, eventDat
             onClick={
               !calloutContent && !onClick
                 ? undefined
-                : e => {
-                    stopPropagationAndPreventDefault(e);
+                : () => {
                     if (calloutContent) open();
                     onClick?.(eventData);
                     clearActiveTooltip();
@@ -35,23 +64,10 @@ export default function LaneIcon({ timeConfig, calloutContent, onClick, eventDat
             }
             type={showIconForCluster ? iconConfig.typeCluster : iconConfig.type}
             color={iconConfig.color}
-            ref={ref}
+            ref={ref as MutableRefObject<SVGSVGElement> | undefined}
           />
         );
       }}
     </Overlay>
   );
 }
-
-LaneIcon.propTypes = {
-  calloutContent: PropTypes.func,
-  eventData: PropTypes.object.isRequired,
-  iconConfig: PropTypes.shape({
-    color: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    typeCluster: PropTypes.string.isRequired
-  }),
-  onClick: PropTypes.func,
-  showIconForCluster: PropTypes.bool,
-  timeConfig: propTypeTimeConfig
-};

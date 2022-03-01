@@ -14,8 +14,8 @@ import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import RenderScheduler from 'in-components/Chart/RenderScheduler';
 import { ChartContentPostition } from 'in-components/Chart/types';
 import Tooltip from 'in-components/Tooltip/Tooltip';
+import { Nullish, TimeConfig } from 'in-types';
 import { ScaleType } from 'in-services/scale';
-import { Nullish } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -70,39 +70,42 @@ export interface MarkerLaneHoverOverlayConfig {
  * Note: This is missing props provided through the restProps mechanism, because this would create a very messy type structure.
  *       Please only add the needed props from the restProps when migrating marker lane items.
  */
-export interface LaneItemProps {
+export interface LaneItemProps<EventType extends MarkerLaneEvent> {
   xPos?: number;
-  onHover: (event: MarkerLaneEvent | Nullish) => void;
+  onHover: (event: EventType | Nullish) => void;
   showIconForCluster?: boolean;
   chartContentPosition: ChartContentPostition;
   isClustered?: boolean;
-  eventData: MarkerLaneEvent;
+  eventData: EventType;
   xScale: ScaleType | Nullish;
+  timeConfig?: TimeConfig;
 }
 
-interface MarkersLaneProps extends Partial<PresentedLaneProps> {
+interface MarkersLaneProps<EventType extends MarkerLaneEvent> extends Partial<PresentedLaneProps> {
   width: number;
-  events: MarkerLaneEvent[];
-  TooltipContent?: React.JSXElementConstructor<MarkerLaneEvent>;
+  events: EventType[];
+  TooltipContent?: React.JSXElementConstructor<EventType>;
   label: string;
   chartContentPosition: ChartContentPostition;
-  LaneItem: React.JSXElementConstructor<LaneItemProps>;
+  LaneItem: React.JSXElementConstructor<LaneItemProps<EventType>>;
   HoverOverlay?: React.JSXElementConstructor<MarkerLaneHoverOverlayConfig>;
   SecondaryHoverOverlay?: React.JSXElementConstructor<MarkerLaneHoverOverlayConfig>;
-  selectedEventData?: MarkerLaneEvent;
+  selectedEventData?: EventType;
   isLoading?: boolean;
   /* when present, this message will be shown instead of any events */
   errorMessage?: string;
   /* when present, a retry button will be rendered */
   onRetry?: () => void;
-  trackMarkerHoverEvent?: (event: MarkerLaneEvent) => void;
+  trackMarkerHoverEvent?: (event: EventType) => void;
   color?: string;
 }
 
-class MarkersLaneRenderScheduler extends React.Component<MarkersLaneProps> {
+class MarkersLaneRenderScheduler<EventType extends MarkerLaneEvent> extends React.Component<
+  MarkersLaneProps<EventType>
+> {
   renderScheduler: RenderScheduler<this>;
 
-  constructor(props: MarkersLaneProps) {
+  constructor(props: MarkersLaneProps<EventType>) {
     super(props);
     this.renderScheduler = new RenderScheduler(this);
   }
@@ -121,11 +124,11 @@ class MarkersLaneRenderScheduler extends React.Component<MarkersLaneProps> {
   }
 }
 
-interface MarkersLanePresenterProps extends MarkersLaneProps {
-  renderScheduler: RenderScheduler<MarkersLaneRenderScheduler>;
+interface MarkersLanePresenterProps<EventType extends MarkerLaneEvent> extends MarkersLaneProps<EventType> {
+  renderScheduler: RenderScheduler<MarkersLaneRenderScheduler<EventType>>;
 }
 
-function MarkersLanePresenter({
+function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
   events,
   TooltipContent,
   renderScheduler,
@@ -143,7 +146,7 @@ function MarkersLanePresenter({
   onRetry,
   trackMarkerHoverEvent,
   ...remainingProps
-}: MarkersLanePresenterProps) {
+}: MarkersLanePresenterProps<EventType>) {
   const { timeConfig, clusterSizeMillis } = remainingProps;
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [timeConfig!.autoRefresh], {
     pure: !timeConfig!.autoRefresh
@@ -219,7 +222,7 @@ function MarkersLanePresenter({
             );
           })}
         {!errorMessage && laneLabelsVisible && (
-          <div className={locals.laneLabel} style={{ [labelAlignment as any]: 0 }}>
+          <div className={locals.laneLabel} style={{ [labelAlignment!]: 0 }}>
             <div
               className={locals.laneLabelText}
               style={{
@@ -292,7 +295,9 @@ function getCommonOverlayStyles({ chartContentPosition, color }: GetCommonOverla
   };
 }
 
-export default function MarkersLane(props: Omit<MarkersLaneProps, 'width'>) {
+export default function MarkersLane<EventType extends MarkerLaneEvent>(
+  props: Omit<MarkersLaneProps<EventType>, 'width'>
+) {
   const ref = useRef<HTMLDivElement>(null);
   return <div ref={ref}>{<MarkersLaneRenderScheduler {...props} width={ref.current?.offsetWidth ?? 0} />}</div>;
 }

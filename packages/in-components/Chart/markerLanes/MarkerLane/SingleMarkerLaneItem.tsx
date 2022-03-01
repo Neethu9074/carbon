@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { forwardRef } from 'react';
+import React, { ForwardedRef, forwardRef } from 'react';
 import classNames from 'classnames';
 
 import { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
@@ -13,20 +13,20 @@ import { Nullish } from 'in-types';
 
 import locals from './SingleMarkerLaneItem.mless';
 
-export interface MarkerItemProps {
-  eventData: MarkerLaneEvent;
+export interface MarkerItemProps<EventType extends MarkerLaneEvent> {
+  eventData: EventType;
   showIconForCluster?: boolean;
   chartContentPosition: ChartContentPostition;
   isClustered?: boolean;
   xScale: ScaleType | Nullish;
 }
 
-interface SingleMarkerLaneItemProps extends LaneItemProps {
-  renderMarkerItem: React.JSXElementConstructor<MarkerItemProps>;
+interface SingleMarkerLaneItemProps<EventType extends MarkerLaneEvent> extends LaneItemProps<EventType> {
+  renderMarkerItem: React.JSXElementConstructor<MarkerItemProps<EventType>>;
   hideDefaultHoverStyle?: boolean;
 }
 
-const SingleMarkerLaneItem = forwardRef<HTMLDivElement, SingleMarkerLaneItemProps>(function SingleMarkerLaneItem(
+const SingleMarkerLaneItem = forwardRef(function SingleMarkerLaneItem<EventType extends MarkerLaneEvent>(
   {
     xPos,
     onHover,
@@ -34,8 +34,8 @@ const SingleMarkerLaneItem = forwardRef<HTMLDivElement, SingleMarkerLaneItemProp
     renderMarkerItem: MarkerItem,
     hideDefaultHoverStyle,
     ...remainingProps
-  }: SingleMarkerLaneItemProps,
-  ref
+  }: SingleMarkerLaneItemProps<EventType>,
+  ref: ForwardedRef<HTMLDivElement>
 ) {
   return (
     <div
@@ -55,6 +55,10 @@ const SingleMarkerLaneItem = forwardRef<HTMLDivElement, SingleMarkerLaneItemProp
       <MarkerItem {...remainingProps} eventData={eventData} />
     </div>
   );
-});
+  // Cast forwardRef result to keep generic signature
+}) as <EventType extends MarkerLaneEvent>(
+  props: SingleMarkerLaneItemProps<EventType>,
+  ref: ForwardedRef<HTMLDivElement>
+) => React.ReactElement;
 
 export default SingleMarkerLaneItem;
