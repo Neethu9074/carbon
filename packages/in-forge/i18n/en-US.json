@@ -8740,8 +8740,7 @@
       "startedAt": "Started At",
       "alternatedAt": "Alternated At",
       "messagesIn": "Messages In",
-      "messagesOut": "Messages Out",
-      "topicString": "Topic String"
+      "messagesOut": "Messages Out"
     },
     "ibmMqListener": {
       "dashboard": {
@@ -8887,8 +8886,7 @@
         "publications": "Publications",
         "count": "Count",
         "subscriptions": "Subscriptions",
-        "ibmMqTopic": "IBM MQ Topic",
-        "topicString": "Topic String"
+        "ibmMqTopic": "IBM MQ Topic"
       },
       "name": "Name",
       "queueManager": "Queue Manager",
