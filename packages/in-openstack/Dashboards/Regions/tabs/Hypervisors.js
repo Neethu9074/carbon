@@ -11,10 +11,10 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
 import { regionIdUrlParameter } from 'in-openstack/navigation/urlParameters';
+// import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
-import { plugins } from 'in-forge/constants';
-import { t } from 'in-i18n';
 
 const pathSegment = '/openstack-hypervisors';
 const matrixPrefix = 'hypervisor.';
@@ -22,7 +22,7 @@ const matrixPrefix = 'hypervisor.';
 const columnDefinitions = [
   {
     id: 'label',
-    label: t('in-openstack:dashboards.name'),
+    label: t('in-vsphere:dashboards.name'),
     getContent(item) {
       const regionId = item.regionId;
       return <EntityLink label={item.label} href$={getOpenstackHypervisorDashboard(item.id, { regionId })} />;
@@ -33,9 +33,9 @@ const columnDefinitions = [
 const ServerTableWithUrlState = createServerTableWithUrlState({
   Renderer: withEmptyTableState({
     columnDefinitions,
-    plugin: plugins.openstackHypervisor,
-    title: t('in-openstack:dashboards.noDataAvailable.hypervisorTitle'),
-    description: t('in-openstack:dashboards.noDataAvailable.hypervisorDescription')
+    // plugin: plugins.openstackHypervisor,
+    title: t('in-vsphere:dashboards.noDataAvailable.vsphereHostTitle'),
+    description: t('in-vsphere:dashboards.noDataAvailable.vsphereHostDescription')
   }),
   paginationResettingUrlParameters: [...timeConfigUrlParameters, regionIdUrlParameter],
   columnDefinitions,

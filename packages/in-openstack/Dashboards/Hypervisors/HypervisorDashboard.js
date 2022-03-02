@@ -6,22 +6,22 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-// import { HypervisorBreadcrumbs } from 'in-openstack/breadcrumbs';
-import EntityVersionList from 'in-components/EntityVersionList';
 // import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-// import { plugins } from 'in-forge/constants';
-import Footer from 'in-components/Footer';
+// import { HostBreadcrumbs } from 'in-vsphere/breadcrumbs';
+import tabs from 'in-openstack/Dashboards/Hypervisors/tabs/index';
 import getOpenstackHypervisor from 'in-openstack/subscriptions/getOpenstackHypervisor';
 import { hypervisorId as matrixHypervisorId } from 'in-openstack/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { regionId as matrixRegionId } from 'in-openstack/navigation/matrix';
 import { hypervisorDashboard } from 'in-openstack/navigation/paths';
-import tabs from 'in-openstack/Dashboards/Hypervisors/tabs/index';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import EntityVersionList from 'in-components/EntityVersionList';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
+import { plugins } from 'in-forge/constants';
+import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default function HypervisorDashboard({ location }) {
@@ -34,10 +34,10 @@ export default function HypervisorDashboard({ location }) {
 
   return (
     <Fragment>
-      {/* <Breadcrumbs items={HypervisorBreadcrumbs(props)} /> */}
+      {/* <Breadcrumbs items={HostBreadcrumbs(props)} /> */}
       <ViewTrackingMeta
         data={{
-          productArea: 'openstack',
+          productArea: 'OpenStack',
           pageRootName: t('in-openstack:dashboards.hypervisors')
         }}
       />
@@ -57,7 +57,7 @@ export default function HypervisorDashboard({ location }) {
         renderErrors={errors => (
           <CenterAlignmentColumn>
             <EntityVersionList
-              // plugin={plugins.vsphereHost}
+              plugin={plugins.openstackHypervisor}
               snapshotId={props.hypervisorId}
               timeConfig={props.timeConfig}
               errors={errors}
