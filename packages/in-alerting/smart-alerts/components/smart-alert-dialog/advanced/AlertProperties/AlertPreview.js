@@ -9,11 +9,12 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer.mless';
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview.mless';
 
 export function AlertPreview({ form, label, entityIconType, getDescriptionPlaceholder, renderHeadline }) {
   const description = form.get('description').value;
   const severity = Number(form.get('severity').value);
+  const triggering = form.get('triggering').value;
 
   return (
     <div
@@ -29,7 +30,7 @@ export function AlertPreview({ form, label, entityIconType, getDescriptionPlaceh
           [locals.severityLow]: severity <= 5,
           [locals.severityHigh]: severity > 5
         })}
-        type={severity <= 5 ? 'lib_events_warning' : 'lib_events_critical'}
+        type={getIconType(severity, triggering)}
       />
       <div className={locals.alertPreviewContent}>
         {renderHeadline()}
@@ -50,6 +51,13 @@ export function AlertPreview({ form, label, entityIconType, getDescriptionPlaceh
       </div>
     </div>
   );
+}
+
+function getIconType(severity, triggering) {
+  if (triggering) {
+    return 'lib_events_incident';
+  }
+  return severity <= 5 ? 'lib_events_warning' : 'lib_events_critical';
 }
 
 export function AlertPreviewHeadline({ title }) {
