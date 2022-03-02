@@ -9,7 +9,7 @@ export interface AbstractApplicationAlertConfig {
   readonly customPayloadFields: StaticStringField[];
   readonly description: string;
   readonly evaluationType: AlertEvaluationType;
-  readonly granularity?: Granularity;
+  readonly granularity: Granularity;
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
   readonly name: string;
@@ -2025,6 +2025,11 @@ export interface HasLogsResult {
   readonly hasLogs: boolean;
 }
 
+export interface HasQueryContext {
+  readonly queryContext?: QueryContext;
+  readonly websocket: boolean;
+}
+
 export interface HealthData {
   readonly metadata?: { [index: string]: any };
   readonly problems?: ProblemObject[];
@@ -3070,6 +3075,9 @@ export interface MobileAppSubdivisionsItem {
   readonly subdivisionCode?: string;
 }
 
+export interface MutableQueryContext extends QueryContext {
+}
+
 export interface NewApplicationConfig extends AbstractApplicationConfig {
 }
 
@@ -3308,6 +3316,10 @@ export interface Progress {
   readonly loading: boolean;
   readonly note?: string;
   readonly percentage?: number;
+}
+
+export interface QueryContext {
+  readonly querySource?: QuerySource;
 }
 
 export interface QueryWithMetrics extends FilteredQuery {
@@ -4069,7 +4081,7 @@ export interface TreeMapNode<T> {
   readonly label?: string;
 }
 
-export interface UiQuery {
+export interface UiQuery extends HasQueryContext {
 }
 
 export interface UnifiedMetricConfiguration {
@@ -4293,7 +4305,7 @@ export interface WebsiteAlertConfig {
   readonly alertChannelIds: string[];
   readonly customPayloadFields: StaticStringField[];
   readonly description: string;
-  readonly granularity?: Granularity;
+  readonly granularity: Granularity;
   readonly name: string;
   readonly rule: WebsiteAlertRule;
   readonly severity: number;
@@ -4724,6 +4736,8 @@ export type OrderDirection = 'ASC' | 'DESC';
 export type PathSegmentType = 'UNSUPPORTED' | 'FIXED' | 'PARAMETER' | 'MATCH_ALL';
 
 export type QueryPrecision = 'APPROXIMATE' | 'FULL';
+
+export type QuerySource = 'UNKNOWN' | 'WEBSOCKET';
 
 export type Relationship = 'CONTAINS' | 'DEFINED_IN' | 'DEPLOYED_ON' | 'DEPLOYED_WITHIN' | 'EXECUTED_BY' | 'EXECUTING' | 'EXPOSED_BY' | 'EXPOSED_THROUGH' | 'EXPOSES' | 'EXPOSING' | 'ORCHESTRATED_IN' | 'ORCHESTRATED_ON' | 'ORCHESTRATING' | 'PART_OF' | 'PROVIDED_BY' | 'PROVIDED_FROM' | 'PROVIDED_ON' | 'PROVIDED_WITHIN' | 'PROVIDES' | 'RUNS' | 'RUNS_IN' | 'RUNS_ON' | 'RUNS_WITHIN' | 'SCHEDULED' | 'SCHEDULED_BY' | 'SCHEDULED_ON' | 'SCHEDULED_WITHIN' | 'SCHEDULES' | 'SCHEDULING_IN' | 'SCHEDULING_ON' | 'SERVED_BY' | 'SERVED_THROUGH' | 'SERVES' | 'SERVES_ON' | 'SERVES_WITHIN' | 'SPANS_ACROSS' | 'WITHIN';
 
