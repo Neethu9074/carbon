@@ -4,7 +4,6 @@
  */
 
 import React, { Fragment } from 'react';
-import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { SvgIcon, Stack, Message } from '@instana/components';
@@ -59,7 +58,6 @@ AdvancedModeContainer.propTypes = {
       scrollId: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      checked: PropTypes.bool,
       valid: PropTypes.bool,
       content: PropTypes.element
     })
@@ -73,17 +71,8 @@ AdvancedModeContainer.propTypes = {
   )
 };
 
-function renderIcon({ checked, valid }) {
-  const invalid = checked && !valid;
-  return (
-    <SvgIcon
-      className={classNames({
-        [locals.icon]: true,
-        [locals.checked]: checked,
-        [locals.invalid]: invalid
-      })}
-      type={invalid ? 'lib_help_error_error_circle' : 'lib_check'}
-      size="xs"
-    />
-  );
+function renderIcon({ valid }) {
+  if (valid) return null;
+
+  return <SvgIcon className={locals.icon} type="lib_help_error_error_circle" size="xs" />;
 }

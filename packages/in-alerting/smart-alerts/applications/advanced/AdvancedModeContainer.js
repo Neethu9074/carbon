@@ -75,6 +75,7 @@ export default function AdvancedModeContainer(props) {
       navItems={[
         {
           scrollId: '1',
+          valid: true,
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.title'),
           content: (
