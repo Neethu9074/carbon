@@ -6,10 +6,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-// import { HypervisorBreadcrumbs } from 'in-openstack/breadcrumbs';
-import EntityVersionList from 'in-components/EntityVersionList';
-// import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 // import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
 import getOpenstackInstance from 'in-openstack/subscriptions/getOpenstackInstance';
@@ -19,7 +15,11 @@ import { regionId as matrixRegionId } from 'in-openstack/navigation/matrix';
 import { instanceDashboard } from 'in-openstack/navigation/paths';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import EntityVersionList from 'in-components/EntityVersionList';
 import tabs from 'in-openstack/Dashboards/Instances/tabs/index';
+import { InstanceBreadcrumbs } from 'in-openstack/breadcrumbs';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
 import { t } from 'in-i18n';
@@ -34,7 +34,7 @@ export default function InstanceDashboard({ location }) {
 
   return (
     <Fragment>
-      {/* <Breadcrumbs items={HypervisorBreadcrumbs(props)} /> */}
+      <Breadcrumbs items={InstanceBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
           productArea: 'openstack',

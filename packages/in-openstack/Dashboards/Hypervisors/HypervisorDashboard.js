@@ -6,18 +6,18 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-// import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
-import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
-// import { HostBreadcrumbs } from 'in-vsphere/breadcrumbs';
-import tabs from 'in-openstack/Dashboards/Hypervisors/tabs/index';
 import getOpenstackHypervisor from 'in-openstack/subscriptions/getOpenstackHypervisor';
 import { hypervisorId as matrixHypervisorId } from 'in-openstack/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
 import { regionId as matrixRegionId } from 'in-openstack/navigation/matrix';
 import { hypervisorDashboard } from 'in-openstack/navigation/paths';
+import tabs from 'in-openstack/Dashboards/Hypervisors/tabs/index';
+import { HypervisorBreadcrumbs } from 'in-openstack/breadcrumbs';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import EntityVersionList from 'in-components/EntityVersionList';
+import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
+import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
@@ -34,7 +34,7 @@ export default function HypervisorDashboard({ location }) {
 
   return (
     <Fragment>
-      {/* <Breadcrumbs items={HostBreadcrumbs(props)} /> */}
+      <Breadcrumbs items={HypervisorBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
           productArea: 'OpenStack',

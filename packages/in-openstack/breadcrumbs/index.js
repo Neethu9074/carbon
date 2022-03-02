@@ -5,34 +5,32 @@
 
 import React from 'react';
 
-// import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
-import RegionBreadcrumb from 'in-openstack/breadcrumbs/RegionBreadcrumb';
+import HypervisorBreadcrumb from 'in-openstack/breadcrumbs/HypervisorBreadcrumb';
+import InstanceBreadcrumb from 'in-openstack/breadcrumbs/HypervisorBreadcrumb';
 import HomeViewBreadcrumb from 'in-openstack/breadcrumbs/HomeViewBreadcrumb';
-
-// import HostBreadcrumb from 'in-vsphere/breadcrumbs/HostBreadcrumb';
-// import VmBreadcrumb from 'in-vsphere/breadcrumbs/VmBreadcrumb';
+import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
+import RegionBreadcrumb from 'in-openstack/breadcrumbs/RegionBreadcrumb';
 
 export function RegionBreadcrumbs(props) {
   const { regionId } = props;
   return [<HomeViewBreadcrumb />, regionId && <RegionBreadcrumb {...props} />];
 }
 
-// export function HostBreadcrumbs(props) {
-//   const { hostId, datacenterId } = props;
+export function HypervisorBreadcrumbs(props) {
+  const { hypervisorId, regionId } = props;
 
-//   return [
-//     <HomeViewBreadcrumb />,
-//     datacenterId && <DatacenterBreadcrumb {...props} href$={getVsphereDatacenterDashboard(datacenterId)} />,
-//     hostId && <HostBreadcrumb {...props} />
-//   ];
-// }
+  return [
+    <HomeViewBreadcrumb />,
+    regionId && <RegionBreadcrumb {...props} href$={getOpenstackRegionDashboard(regionId)} />,
+    hypervisorId && <HypervisorBreadcrumb {...props} />
+  ];
+}
+export function InstanceBreadcrumbs(props) {
+  const { instanceId, regionId } = props;
 
-// export function VmBreadcrumbs(props) {
-//   const { vmId, hostId, datacenterId } = props;
-//   return [
-//     <HomeViewBreadcrumb />,
-//     datacenterId && <DatacenterBreadcrumb {...props} href$={getVsphereDatacenterDashboard(datacenterId)} />,
-//     hostId && <HostBreadcrumb {...props} href$={getVsphereHostDashboard(hostId, { datacenterId })} />,
-//     vmId && <VmBreadcrumb {...props} />
-//   ];
-// }
+  return [
+    <HomeViewBreadcrumb />,
+    regionId && <RegionBreadcrumb {...props} href$={getOpenstackRegionDashboard(regionId)} />,
+    instanceId && <InstanceBreadcrumb {...props} />
+  ];
+}
