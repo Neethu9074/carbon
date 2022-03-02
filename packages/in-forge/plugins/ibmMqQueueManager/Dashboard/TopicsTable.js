@@ -28,7 +28,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topic.getIn(['data', 'topicString']);
+        return row.topic.getIn(['data', 'topicString'], 'N/A');
       }
     }
   },
@@ -37,7 +37,7 @@ const cols = [
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topic.getIn(['data', 'topicType']);
+        return row.topic.getIn(['data', 'topicType'], 'N/A');
       }
     }
   },
