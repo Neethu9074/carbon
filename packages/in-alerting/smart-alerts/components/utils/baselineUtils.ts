@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { AdaptiveBaselineData, Granularity, HistoricBaselineData, ThresholdConfig, ThresholdType } from 'in-types';
-import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { AdaptiveBaselineData, Granularity, HistoricBaselineData, ThresholdConfig } from 'in-types';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { days } from 'in-services/time';
 
@@ -65,8 +64,4 @@ export function getApproximatedAdaptiveBaselineThresholdValue(
   const baselineValues = Object.values(adaptiveBaselineInfo);
 
   return isGreaterOp ? Math.floor(Math.min(...baselineValues)) : Math.ceil(Math.max(...baselineValues));
-}
-
-export function isHistoricBaseline(type?: ThresholdType): boolean {
-  return type === HISTORIC_BASELINE;
 }

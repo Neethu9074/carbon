@@ -10,8 +10,8 @@ import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/websites/advanc
 import ThroughputInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/ThroughputInteractiveChart';
 import JsErrorsInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/JsErrorsInteractiveChart';
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/SlownessInteractiveChart';
-import { isHistoricBaseline } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
+import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export function ThresholdSection(props) {
   const {
@@ -25,6 +25,8 @@ export function ThresholdSection(props) {
     timeConfig,
     updateForm
   } = props;
+
+  const thresholdType = form.get('threshold').get('type').value;
 
   return (
     <>
@@ -78,9 +80,7 @@ export function ThresholdSection(props) {
           />
         )}
       />
-      {isHistoricBaseline(form.get('threshold').get('type').value) && (
-        <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
-      )}
+      {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
     </>
   );
 }
