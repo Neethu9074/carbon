@@ -4,7 +4,7 @@
  */
 
 import { instanceDashboardFullyQualified } from 'in-openstack/navigation/paths';
-import Summary from 'in-openstack/Dashboards/Hypervisors/tabs/Summary';
+import Summary from 'in-openstack/Dashboards/Instances/tabs/Summary';
 import { t } from 'in-i18n';
 
 export default [
