@@ -9,8 +9,8 @@
   "noMonitoringDataFound": "No Monitoring Data Found",
   "noData": "No OpenStack data is available.",
   "openstackRegions": "OpenStack Regions",
-  "memoryResources": "memoryResources",
-  "cpuResources": "cpuResources",
+  "memoryResources": "Memory Resources",
+  "cpuResources": "CPU Resources",
   "memoryUsage": "Memory Usage",
   "cpuUsage": "CPU Usage",
   "dashboards": {
@@ -22,8 +22,7 @@
     "summary": "Summary",
     "memoryUsage": "Memory Usage",
     "cpuUsage": "CPU Usage",
-    "memoryResources": "memoryResources",
-    "cpuResources": "cpuResources",
+    "cpuResources": "CPU Resources",
     "noDataAvailable": {
       "hypervisorTitle": "No OpenStack Hypervisor available",
       "hypervisorDescription": "There were no OpenStack Hypervisor retrieved for the selected time range."

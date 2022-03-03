@@ -6,8 +6,6 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
-// import { plugins } from 'in-forge/constants';
-import Footer from 'in-components/Footer';
 import getOpenstackInstance from 'in-openstack/subscriptions/getOpenstackInstance';
 import { instanceId as matrixInstanceId } from 'in-openstack/navigation/matrix';
 import CenterAlignmentColumn from 'in-components/layout/CenterAlignmentColumn';
@@ -22,6 +20,8 @@ import Breadcrumbs from 'in-components/breadcrumb/Breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
 import { getTimeConfig } from 'in-stores/time/config';
+import { plugins } from 'in-forge/constants';
+import Footer from 'in-components/Footer';
 import { t } from 'in-i18n';
 
 export default function InstanceDashboard({ location }) {
@@ -46,7 +46,7 @@ export default function InstanceDashboard({ location }) {
         result$={getOpenstackInstance({
           filter: {
             regionId: props.regionId,
-            hypervisorId: props.hypervisorId,
+            instanceId: props.instanceId,
             timeConfig: props.timeConfig
           }
         })}
@@ -57,8 +57,8 @@ export default function InstanceDashboard({ location }) {
         renderErrors={errors => (
           <CenterAlignmentColumn>
             <EntityVersionList
-              // plugin={plugins.vsphereHost}
-              snapshotId={props.hypervisorId}
+              plugin={plugins.openstackInstance}
+              snapshotId={props.instanceId}
               timeConfig={props.timeConfig}
               errors={errors}
             />
