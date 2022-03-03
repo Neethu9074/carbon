@@ -32,6 +32,13 @@ const columnDefinitions = [
     getContent(item) {
       return <EntityLink label={item.label} href$={getOpenstackRegionDashboard(item.id)} />;
     }
+  },
+  {
+    id: 'openstack',
+    label: t('in-openstack:openstack'),
+    getContent(item) {
+      return item.openstackId;
+    }
   }
 ];
 
