@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { TimeConfig, TagType, BeaconType } from 'in-types/backendCorrections';
+import { TimeConfig, TagType, BeaconType, HasQueryContext } from 'in-types/backendCorrections';
 
 export interface AbstractApplicationAlertConfig {
   readonly alertChannelIds: string[];
