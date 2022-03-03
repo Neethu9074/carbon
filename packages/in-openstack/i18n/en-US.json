@@ -1,12 +1,18 @@
 {
   "breadcrumbs": {
-    "regions": "Regions"
+    "regions": "Regions",
+    "hypervisors": "Hypervisors",
+    "computeInstances":"Compute Instances"
   },
   "name": "Name",
   "regions": "Regions",
   "noMonitoringDataFound": "No Monitoring Data Found",
   "noData": "No OpenStack data is available.",
   "openstackRegions": "OpenStack Regions",
+  "memoryResources": "memoryResources",
+  "cpuResources": "cpuResources",
+  "memoryUsage": "Memory Usage",
+  "cpuUsage": "CPU Usage",
   "dashboards": {
     "regions": "Regions",
     "openstackRegions": "OpenStack Regions",
@@ -16,6 +22,8 @@
     "summary": "Summary",
     "memoryUsage": "Memory Usage",
     "cpuUsage": "CPU Usage",
+    "memoryResources": "memoryResources",
+    "cpuResources": "cpuResources",
     "noDataAvailable": {
       "hypervisorTitle": "No OpenStack Hypervisor available",
       "hypervisorDescription": "There were no OpenStack Hypervisor retrieved for the selected time range."

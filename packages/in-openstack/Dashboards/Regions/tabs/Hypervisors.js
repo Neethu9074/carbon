@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import getOpenstackHypervisors from 'in-openstack/subscriptions/getOpenstackHypervisors';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
@@ -13,6 +14,7 @@ import { getOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
 import { regionIdUrlParameter } from 'in-openstack/navigation/urlParameters';
 // import { plugins } from 'in-forge/constants';
 import { t } from 'in-i18n';
+import { number, percentage } from 'in-services/formatters/number';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 
@@ -26,6 +28,66 @@ const columnDefinitions = [
     getContent(item) {
       const regionId = item.regionId;
       return <EntityLink label={item.label} href$={getOpenstackHypervisorDashboard(item.id, { regionId })} />;
+    }
+  },
+  {
+    id: 'cpuUsage',
+    label: t('in-openstack:cpuUsage'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="cpuUsagePercentage"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentage.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'cpuResources',
+    label: t('in-openstack:cpuResources'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="cpuResources"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={number.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryUsage',
+    label: t('in-openstack:memoryUsage'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="memoryUsagePercentage"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={percentage.compact}
+        />
+      );
+    }
+  },
+  {
+    id: 'memoryResources',
+    label: t('in-openstack:memoryResources'),
+    sortable: true,
+    getContent(item, props, columnId) {
+      return (
+        <ServerSideSortedMetricValue
+          snapshotId={item.id}
+          metric="memoryResources"
+          sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
+          formatter={number.compact}
+        />
+      );
     }
   }
 ];
