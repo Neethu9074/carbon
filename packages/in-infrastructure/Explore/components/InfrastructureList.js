@@ -40,6 +40,7 @@ export default function InfrastructureList({
     items,
     totalHits,
     totalRepresentedItemCount,
+    totalRetainedItemCount,
     loadMore: cursorPaginationDefaultLoadMore,
     cursor,
     errors,
@@ -65,6 +66,7 @@ export default function InfrastructureList({
           availableMetrics={availableMetrics}
           setMetrics={setMetrics}
           totalRepresentedItemCount={totalRepresentedItemCount}
+          totalRetainedItemCount={totalRetainedItemCount}
           totalHits={totalHits}
           hasErrors={hasErrors}
           isLoading={isLoading}
@@ -81,6 +83,7 @@ export default function InfrastructureList({
           cursorPaginationDefaultLoadMore();
           tracking?.onLoadMore?.(pagesLoaded(cursor?.offset, retrievalSize));
         }}
+        progress={progress}
         {...tableProps}
         items={items}
         fixedLayout

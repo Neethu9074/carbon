@@ -70,6 +70,7 @@ export default function GroupedInfrastructure(props) {
 
 function Presenter({
   totalRepresentedItemCount,
+  totalRetainedItemCount,
   tagFilterExpression,
   backendQueryModel,
   availableMetrics,
@@ -128,6 +129,7 @@ function Presenter({
     <>
       <Header
         totalRepresentedItemCount={totalRepresentedItemCount}
+        totalRetainedItemCount={totalRetainedItemCount}
         hasErrors={hasErrors}
         isLoading={isLoading}
         availableMetrics={availableMetrics}
