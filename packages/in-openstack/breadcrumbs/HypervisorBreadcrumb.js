@@ -27,7 +27,7 @@ export default connectTo(
         {hypervisor && (
           <Breadcrumb
             href$={getOpenstackHypervisorDashboard(hypervisor.id, { regionId: hypervisor.regionId })}
-            label={t('in-openstsack:breadcrumbs.hypervisors')}
+            label={t('in-openstack:breadcrumbs.hypervisors')}
           >
             {hypervisor.label}
           </Breadcrumb>

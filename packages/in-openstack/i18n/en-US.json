@@ -23,6 +23,7 @@
     "memoryUsage": "Memory Usage",
     "cpuUsage": "CPU Usage",
     "cpuResources": "CPU Resources",
+    "memoryResources": "Memory Resources",
     "noDataAvailable": {
       "hypervisorTitle": "No OpenStack Hypervisor available",
       "hypervisorDescription": "There were no OpenStack Hypervisor retrieved for the selected time range."
