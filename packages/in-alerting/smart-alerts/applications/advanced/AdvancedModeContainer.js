@@ -18,11 +18,13 @@ import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/advanc
 import ApplicationAlertPropertiesTitleRow from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPropertiesTitleRow';
 import GlobalAdvancedModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeContainer';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/HistoricBaselineErrorMessage';
+import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
 import ApplicationAlertPreviewHeadline from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPreviewHeadline';
 import AlertEvaluationControl from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControl';
 import { AlertPreview } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/ThroughputInteractiveChart';
 import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -34,9 +36,7 @@ import { validateCheckForCustomPayload } from 'in-alerting/components/CustomPayl
 import LogsInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
-import { isHistoricBaseline } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
@@ -75,6 +75,7 @@ export default function AdvancedModeContainer(props) {
       navItems={[
         {
           scrollId: '1',
+          valid: true,
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.title'),
           content: (
@@ -145,15 +146,15 @@ export default function AdvancedModeContainer(props) {
                 renderStatusCode={props => <StatusCodeInteractiveChart {...props} />}
                 renderThroughput={props => <ThroughputInteractiveChart {...props} timeConfig={timeConfig} />}
               />
-              {isHistoricBaseline(form.get('threshold').get('type').value) && (
+              {thresholdType === HISTORIC_BASELINE && (
                 <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
+              )}
+              {thresholdType === ADAPTIVE_BASELINE && (
+                <AdaptiveBaselineErrorMessage adaptiveBaselineSuggestionResponse={thresholdResult?.data} />
               )}
             </>
           ),
-          checked:
-            form.get('threshold').get('type').value === STATIC_THRESHOLD
-              ? form.get('threshold').hierarchyTouched
-              : true,
+          checked: thresholdType === STATIC_THRESHOLD ? form.get('threshold').hierarchyTouched : true,
           valid: formFieldsValid(form, ['rule', 'threshold'])
         },
         {

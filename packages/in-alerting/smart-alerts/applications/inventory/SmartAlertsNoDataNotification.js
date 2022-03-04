@@ -15,7 +15,7 @@ import { t } from 'in-i18n';
 export default function SmartAlertsNoDataNotification() {
   return (
     <EntityPageMainNotification
-      icon="lib_events_warning"
+      icon="lib_events_critical"
       title={t('in-alerting:smartAlerts.titleNoSmartAlertsConfigured')}
       explanation={() => (
         <>

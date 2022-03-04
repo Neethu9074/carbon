@@ -5,7 +5,6 @@
 
 import { createField, createMapForm, MapForm } from 'formalistic';
 
-// @ts-expect-error file will need to be converted to typescript
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';

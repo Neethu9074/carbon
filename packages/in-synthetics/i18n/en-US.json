@@ -85,6 +85,10 @@
   "dashboard": {
     "testList": {
       "mainLabel": "Synthetic Tests",
+      "secondaryLabels": {
+        "tests": "Tests",
+        "location": "Location"
+      },
       "locationsSubText": "{{count}} Location",
       "locationsSubText_plural": "{{count}} Locations",
       "frequencySubText": "Every {{count}} Min",

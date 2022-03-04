@@ -18,10 +18,10 @@ export default function IbmMqQueueUsageDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.ibmMqQueueUsage.dashboard.openInputs')}>
-          <MetricValue snapshotId={snapshotId} metric="openInputs" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="openInputs" formatter={number.detailed} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.ibmMqQueueUsage.dashboard.openOutputs')}>
-          <MetricValue snapshotId={snapshotId} metric="openOutputs" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="openOutputs" formatter={number.detailed} />
         </KpiKeyValue>
       </KpiSection>
 
@@ -30,9 +30,9 @@ export default function IbmMqQueueUsageDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
-            metrics: [`openInputs`, `openOutputs`],
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
+            metrics: ['openInputs', 'openOutputs'],
             labels: [
               t('in-forge:plugins.ibmMqQueueUsage.dashboard.inputs'),
               t('in-forge:plugins.ibmMqQueueUsage.dashboard.outputs')

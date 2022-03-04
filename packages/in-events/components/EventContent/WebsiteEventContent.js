@@ -19,6 +19,7 @@ import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventB
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import useWebsiteEventAlertConfig from 'in-events/hooks/useWebsiteEventAlertConfig';
+import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
@@ -80,7 +81,9 @@ export default function WebsiteEventContent({ event }) {
         <Col xs>
           <Card
             title={t('in-events:titleMetrics')}
-            leftHeaderContent={<HighlightDataRetention metricResultPrecision={metricResultPrecision} />}
+            leftHeaderContent={
+              <HighlightDataRetention hasApproximateData={isApproximatePrecision(metricResultPrecision)} />
+            }
           >
             <WebsitesAlertingChartWithErrorMessage
               alertConfigWithFormModel={{

@@ -36,6 +36,7 @@ export default connectTo(
               data: {}
             }
           : mergeResult({
+              timeConfig: props.timeConfig,
               result: applyPostProcessing(metrics, props.postProcessMetric, props.timeConfig, props.granularity),
               y1: props.y1,
               thresholdType: props.thresholdType,
@@ -59,7 +60,7 @@ function extendProps(props) {
   };
 }
 
-function getThreshold(y1, thresholdType, metricData) {
+function getThreshold(y1, thresholdType, metricData, timeConfig) {
   const {
     threshold: thresholdValue,
     baseline,
@@ -72,7 +73,14 @@ function getThreshold(y1, thresholdType, metricData) {
   if ((baseline ?? []).length === 0 && (eventBasedAdaptiveBaseline ?? []).length === 0) {
     return metricData.map(([time]) => [time, thresholdValue]);
   } else if (thresholdType === ADAPTIVE_BASELINE) {
-    return getThresholdInTimeframe(eventBasedAdaptiveBaseline, baseline, sensitivity, isGreaterOperator(operator));
+    return getThresholdInTimeframe(
+      eventBasedAdaptiveBaseline,
+      baseline,
+      sensitivity,
+      isGreaterOperator(operator),
+      thresholdGranularity,
+      timeConfig
+    );
   } else {
     const isGreaterOp = isGreaterOperator(operator);
 
@@ -89,7 +97,7 @@ function getThreshold(y1, thresholdType, metricData) {
   }
 }
 
-function mergeResult({ result, y1, thresholdType, setMetricResultPrecision = noop }) {
+function mergeResult({ result, y1, thresholdType, setMetricResultPrecision = noop, timeConfig }) {
   const metricName = y1.metricIds[0];
   const mergedResult = {
     time: 0,
@@ -111,7 +119,7 @@ function mergeResult({ result, y1, thresholdType, setMetricResultPrecision = noo
     time: Math.max(mergedResult.time, result.time),
     data: {
       [metricName]: metricData,
-      threshold: getThreshold(y1, thresholdType, metricData)
+      threshold: getThreshold(y1, thresholdType, metricData, timeConfig)
     }
   };
 }

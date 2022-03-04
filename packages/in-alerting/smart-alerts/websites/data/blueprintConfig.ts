@@ -5,6 +5,7 @@
 
 import {
   AggregationType,
+  HistoricBaselineData,
   SlownessWebsiteAlertRule,
   SpecificJsErrorsWebsiteAlertRule,
   StatusCodeWebsiteAlertRule,
@@ -302,8 +303,11 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
   if (isStaticThresholdConfig(threshold)) {
     value = threshold.value;
   } else {
-    // @ts-expect-error TS2345: Argument of type 'WebsiteAlertConfig' is not assignable to parameter of type 'AlertConfig'.
-    value = getApproximatedHistoricBaselineThresholdValue(alertConfig, timeConfig);
+    value = getApproximatedHistoricBaselineThresholdValue(
+      threshold as HistoricBaselineData,
+      alertConfig.granularity!, // worked before, so type check can be overruled
+      timeConfig
+    );
   }
 
   return [tagFilter('beacon.duration', toTagFilterNumberOperator(threshold.operator), value)];

@@ -682,7 +682,6 @@
   "pluginName_ibmMqListener_1": "IBM MQ Listeners",
   "pluginName_ibmMqListener_2": "IBM MQ Listeners",
   "pluginName_ibmMqListener": "IBM MQ Listener",
-  "pluginName_ibmMqManager": "IBM MQ Queue Manager",
   "pluginName_ibmMqQueue_plural": "IBM MQ Queues",
   "pluginName_ibmMqQueue_0": "IBM MQ Queues",
   "pluginName_ibmMqQueue_1": "IBM MQ Queues",
@@ -1162,6 +1161,14 @@
   "pluginName_webSphereApplicationContainer_1": "WebSpheres",
   "pluginName_webSphereApplicationContainer_2": "WebSpheres",
   "pluginName_webSphereApplicationContainer": "WebSphere",
+  "pluginName_webSphereDeploymentManager": "WebSphere Deployment Manager",
+  "pluginName_webSphereDeploymentManager_plural": "WebSphere Deployment Managers",
+  "pluginName_webSphereInfrastructureManager": "WebSphere Infrastructure Manager",
+  "pluginName_webSphereInfrastructureManager_plural": "WebSphere Infrastructure Managers",
+  "pluginName_webSphereCluster": "WebSphere Cluster Manager",
+  "pluginName_webSphereCluster_plural": "WebSphere Cluster Managers",
+  "pluginName_webSphereClusterMember": "Member",
+  "pluginName_webSphereClusterMember_plural": "Members",
   "pluginName_webSphereLibertyApplicationContainer_plural": "WebSphere Liberty Servers",
   "pluginName_webSphereLibertyApplicationContainer_0": "WebSphere Liberty Servers",
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty Servers",
@@ -8420,6 +8427,7 @@
     "ibmIDb2": {
       "troubleshootingDocs": "Troubleshooting docs",
       "collectionServicesNotEnabledDescription": "Agent could not obtain Db2 on i metrics. Please turn on Collection Services in order to monitor Db2 on i.",
+      "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
       "name": "Db2 on i",
       "sidebar": {
         "ibmIDb2Info": "Db2 on i Info",
@@ -8670,7 +8678,9 @@
         }
       },
       "name": "IBM i",
-      "memoryPool": "Memory Pool"
+      "memoryPool": "Memory Pool",
+      "unableToConnect": "Cannot connect to {{host}} using user {{user}}.",
+      "troubleshootingDocs": "Troubleshooting docs"
     },
     "ibmMqChannel": {
       "dashboard": {
@@ -8734,6 +8744,7 @@
         "messages": "Messages",
         "publications": "Publications",
         "subscriptions": "Subscriptions",
+        "topicString": "Topic String",
         "topicsWithCount": "Topics ({{len}})"
       },
       "name": "Name",
@@ -8898,7 +8909,8 @@
       "count": "Count",
       "lastResetTime": "Last Reset Time",
       "reset": "Reset",
-      "subscriptions": "Subscriptions"
+      "subscriptions": "Subscriptions",
+      "topicString": "Topic String"
     },
     "ibmMqSubscription": {
       "dashboard": {
@@ -8988,7 +9000,10 @@
         "info": "Info",
         "cpuLoad": "CPU Load",
         "load": "Load",
-        "memory": "Memory",
+        "memory": "JVM Memory",
+        "systemMemory": "System Memory",
+        "userAndSystemShowLoadInPercentWhere100EqualASingleCoreAtFullLoad":"User and System show load in percent where 100% equal a single core at full load. ",
+        "LoadIsComputedInTheJVMRelatedToTheCombinedProcessingPowerAndNormalizedTo1":"Load is computed in the JVM related to the combined processing power and normalized to 1.",
         "heap": "Heap",
         "directBuffers": "Direct Buffers",
         "offHeap": "Off Heap",
@@ -9124,7 +9139,8 @@
       "sensorCount": "Sensor Count",
       "discoveryCount": "Discovery Count",
       "sensors": "Sensors",
-      "hostname": "Hostname"
+      "hostname": "Hostname",
+      "startType": "Start Type"
     },
     "sparkStandalone": {
       "titleApplicationId": "Application Id",
@@ -10311,6 +10327,42 @@
       "labelObjectPools": "Object Pools",
       "labelJ2CModule": "J2C Module",
       "labelJ2CModules": "J2C Modules"
+    },
+    "webSphereCluster": {
+      "webSphereClusterInfo": "WebSphere Cluster",
+      "membersWithCount": "Members ({{len}})",
+      "clusterName": "Cluster Name",
+      "status": "Status",
+      "memberCount": "Members",
+      "dashboard": {
+        "memberName": "Member Name",
+        "nodeName": "Node Name",
+        "status": "Status",
+        "weight": "Weight"
+      }
+    },
+    "webSphereDeploymentManager": {
+      "webSphereDeploymentManagerInfo": "WebSphere Deployment Manager",
+      "clustersWithCount": "Clusters ({{len}})",
+      "pid": "PID",
+      "serverName": "Server Name",
+      "hostName": "Host Name",
+      "cellName": "Cell Name",
+      "version": "Version",
+      "serverType": "Server Type",
+      "dashboard": {
+        "clusterName": "Cluster Name",
+        "status": "Status",
+        "memberCount": "Members"
+      }
+    },
+    "webSphereInfrastructureManager": {
+        "hostName": "Host Name",
+        "cellName": "Cell Name",
+        "serverName": "Server Name",
+        "webSphereInfrastructureManagerInfo": "WebSphere Infrastructure Manager",
+        "deploymentManagerNumber": "Deployment Manager ({{count}})",
+        "deploymentManagerNumber_plural": "Deployment Managers ({{count}})"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "Name",

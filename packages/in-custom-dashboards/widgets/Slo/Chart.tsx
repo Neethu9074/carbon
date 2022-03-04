@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Observable, just } from '@instana/observables';
 
@@ -14,43 +14,37 @@ import {
   isWebsiteTimeBasedSliConfig,
   SliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import {
-  ApplicationSliEntity,
-  AvailabilitySliEntity,
-  MetricResult,
-  Result,
-  SliConfiguration,
-  TagCatalog,
-  TagFilter,
-  TimeConfig
-} from 'in-types';
-import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href';
-import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
-import { tagFilter, toNewTagFilterFormat } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
+import { useLinkToUnboundedAnalytics } from 'in-custom-dashboards/widgets/Slo/hooks/useLinkToUnboundedAnalytics';
 import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
-import { getTagCatalog } from 'in-applications/analyze/components/workspace/CallQueryBuilder';
-import { EQUALS, GREATER_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
-import { getSliFormatter } from 'in-custom-dashboards/widgets/Slo/sliFormatter';
+import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
+import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
+import { MetricResult, Result, SliEntity, TimeConfig } from 'in-types';
+import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { createChartedMetric } from 'in-analyze/navigation/paths';
-import { ChartedMetric } from 'in-applications/navigation/paths';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import { entityTypes } from 'in-analyze/applicationFilter';
-import { Axis } from 'in-components/Chart/types';
+import { MetricDataSeries } from 'in-components/Chart/types';
+import { pendingResult } from 'in-services/fixedObjects';
+import { CALLS } from 'in-applications/analyze/metrics';
+import { error } from 'in-services/util/result';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
+
+export interface ChartTrackers {
+  trackJumpToUnboundedAnalytics?: (e: SliEntity) => void;
+}
 
 export interface ChartProps {
   result: Result<MetricResult[]>;
   timeConfig: TimeConfig;
   granularity: number;
-  consumed: [number, number][];
-  hourlyBudget: [number, number][];
+  consumed: MetricDataSeries;
+  hourlyBudget: MetricDataSeries;
   budget: number;
   sliConfig?: SliConfig;
   isPreview?: boolean;
   disableZooming?: boolean;
+  trackers?: ChartTrackers;
+  automaticallySize?: boolean;
 }
 
 export default function Chart({
@@ -62,12 +56,16 @@ export default function Chart({
   budget,
   sliConfig,
   isPreview,
-  disableZooming
+  disableZooming,
+  trackers,
+  automaticallySize
 }: ChartProps) {
-  const tagCatalog = useTagCatalog(getTagCatalog);
+  const tagCatalogLoader = useTagCatalogLoader(sliConfig);
+  const tagCatalog = useTagCatalog(tagCatalogLoader);
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
+  const linkToUnboundAnalytics = useLinkToUnboundedAnalytics(sliConfig, tagCatalog);
 
-  let metrics: Axis['metrics'] = [consumed, hourlyBudget];
+  let metrics: MetricDataSeries[] = [consumed, hourlyBudget];
 
   if (isStaticBudget) {
     // TODO replace with a more elegant way, by moving this feature into the renderer
@@ -78,6 +76,7 @@ export default function Chart({
     <ResultAwareChart
       result={result}
       config={{
+        automaticallySize,
         granularity,
         timeConfig,
         y1: {
@@ -92,37 +91,27 @@ export default function Chart({
           colors: [theme.lib.colors.blue800, theme.lib.colors.red800],
           renderer: stairway,
           metrics: [...metrics],
-          formatter: getSliFormatter(sliConfig?.sliEntity),
+          formatter: useSliFormatter(sliConfig?.sliEntity),
           isStaticBudget
         },
         nonInteractive: isPreview,
-        ...getCustomAnalyzeContextMenuProperties(sliConfig, disableZooming, tagCatalog)
+        ...getCustomAnalyzeContextMenuProperties(linkToUnboundAnalytics, sliConfig, disableZooming, trackers)
       }}
     />
   );
 }
 
 function getCustomAnalyzeContextMenuProperties(
+  linkToUnboundAnalytics: (tc: TimeConfig) => Observable<string> | undefined,
   sliConfig?: SliConfig,
   disableZooming?: boolean,
-  tagCatalog?: TagCatalog
+  trackers?: ChartTrackers
 ) {
-  if (!sliConfig || !tagCatalog) {
+  if (!sliConfig) {
     return {}; // use defaults
   }
 
-  let onClick;
-  if (isAvailabilitySliConfig(sliConfig) || isApplicationSliConfig(sliConfig)) {
-    const { sliType, applicationId, serviceId, endpointId, boundaryScope } = sliConfig.sliEntity;
-    onClick = () =>
-      trackJumpToUnboundedAnalyticsFromSloWidget({
-        sliType,
-        applicationId,
-        serviceId,
-        endpointId,
-        boundaryScope
-      });
-  }
+  const onClick = () => trackers?.trackJumpToUnboundedAnalytics?.(sliConfig.sliEntity);
 
   return {
     primaryContextMenuAction: 'analyze',
@@ -134,123 +123,26 @@ function getCustomAnalyzeContextMenuProperties(
         label: t('in-custom-dashboards:widgets.slo.chart.viewInAnalyze'),
         allowClickPropagationAndDefault: true,
         onClick,
-        getHref$: (highlightedTime: TimeConfig) => getLinkToUnboundAnalytics(sliConfig, tagCatalog, highlightedTime)
+        getHref$: linkToUnboundAnalytics
       }
     ]
   };
 }
 
-function getLinkToUnboundAnalytics(
-  sliConfig: SliConfiguration,
-  tagCatalog: TagCatalog,
-  highlightedTime: TimeConfig
-): Observable<string> | undefined {
-  if (isAvailabilitySliConfig(sliConfig)) {
-    return buildAvailabilitySliEntityUA2Link(sliConfig, highlightedTime);
-  }
-
-  if (isApplicationSliConfig(sliConfig)) {
-    return buildApplicationSliEntityUA2Link(sliConfig, tagCatalog, highlightedTime);
-  }
-
-  if (isWebsiteTimeBasedSliConfig(sliConfig)) {
-    // TODO: soon to be implemented
-    return just('');
-  }
-
-  if (isWebsiteEventBasedSliConfig(sliConfig)) {
-    // TODO: soon to be implemented
-    return just('');
-  }
-
-  return just('');
-}
-
-function getAdditionalFiltersForApplicationSli(sliConfig: SliConfig<ApplicationSliEntity>): [] | TagFilter[] {
-  const { metricConfiguration } = sliConfig;
-
-  switch (metricConfiguration?.metricName) {
-    case 'latency': {
-      const thresholdValue = metricConfiguration.threshold;
-      return [tagFilter('call.latency', GREATER_THAN, thresholdValue)];
+function useTagCatalogLoader(config?: SliConfig): Parameters<typeof useTagCatalog>[0] {
+  return useMemo(() => {
+    if (!config) {
+      return () => just(pendingResult);
     }
-    case 'errors':
-    case 'erroneousCalls':
-      return [tagFilter('call.erroneous', EQUALS, true)];
-    case 'calls':
-    default:
-      // no filter to add
-      return [];
-  }
-}
-
-function getChartsParam(sliConfig: SliConfiguration): ChartedMetric[] {
-  if (isApplicationSliConfig(sliConfig)) {
-    const metricName = sliConfig.metricConfiguration?.metricName;
-    if (metricName === 'latency') {
-      return [createChartedMetric('latency', 'DISTRIBUTION')];
+    if (isApplicationSliConfig(config) || isAvailabilitySliConfig(config)) {
+      return getApplicationTagCatalog({ dataSource: CALLS, useCase: 'SLI_MANAGEMENT' });
     }
-  }
-  return [createChartedMetric('calls', 'SUM')];
-}
-
-interface EntityIds {
-  readonly applicationId?: string;
-  readonly serviceId?: string;
-  readonly endpointId?: string;
-}
-function getGroupByParam(enityIds: EntityIds) {
-  const groupbyTag = enityIds.serviceId == null && enityIds.endpointId == null ? 'service.name' : 'endpoint.name';
-  return {
-    groupbyTagEntity: entityTypes.DESTINATION,
-    groupbyTag
-  };
-}
-
-function buildAvailabilitySliEntityUA2Link(sliConfig: SliConfig<AvailabilitySliEntity>, highlightedTime: TimeConfig) {
-  const {
-    boundaryScope,
-    includeInternal,
-    includeSynthetic,
-    badEventFilterExpression = getEmptyTagFilterExpression(),
-    ...remainingSliEntityProps
-  } = sliConfig.sliEntity;
-
-  const additionalParams = {
-    timeConfig: highlightedTime,
-    groupBy: getGroupByParam(remainingSliEntityProps),
-    hiddenCalls: { includeInternal, includeSynthetic },
-    chartedMetrics: getChartsParam(sliConfig)
-  } as const;
-
-  return getJumpDirectlyToApplicationLikeUA2Href$(
-    remainingSliEntityProps,
-    badEventFilterExpression,
-    [],
-    boundaryScope,
-    additionalParams
-  );
-}
-
-function buildApplicationSliEntityUA2Link(
-  sliConfig: SliConfig<ApplicationSliEntity>,
-  tagCatalog: TagCatalog,
-  highlightedTime: TimeConfig
-): Observable<string> {
-  const filters = getAdditionalFiltersForApplicationSli(sliConfig);
-  const { boundaryScope, ...remainingSliEntityProps } = sliConfig.sliEntity;
-
-  const additionalParams = {
-    timeConfig: highlightedTime,
-    groupBy: getGroupByParam(remainingSliEntityProps),
-    chartedMetrics: getChartsParam(sliConfig)
-  };
-
-  return getJumpDirectlyToApplicationLikeUA2Href$(
-    remainingSliEntityProps,
-    getEmptyTagFilterExpression(),
-    filters.map(f => toNewTagFilterFormat(f, tagCatalog)),
-    boundaryScope,
-    additionalParams
-  );
+    if (isWebsiteTimeBasedSliConfig(config) || isWebsiteEventBasedSliConfig(config)) {
+      const {
+        sliEntity: { beaconType }
+      } = config;
+      return () => getWebsiteTagCatalog({ beaconType, useCase: 'SMART_ALERTS' });
+    }
+    return () => just(error([]));
+  }, [config]);
 }

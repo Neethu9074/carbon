@@ -45,7 +45,7 @@ export function updateTest(testConfig: SyntheticTest): Observable<unknown> {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: testsUrl,
+    url: `${testsUrl}/${testConfig.id}`,
     data: testConfig
   }).map(response => deepFreeze(response.body));
 }

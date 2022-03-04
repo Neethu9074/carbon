@@ -6,9 +6,9 @@
 import { find } from 'lodash';
 import React from 'react';
 
-import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 // eslint-disable-next-line no-restricted-imports
 import { getResolvedTimeConfig } from 'in-applications/metrics';
+import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { identity } from 'in-services/util/function';
 import ButtonGroup from 'in-components/ButtonGroup';
@@ -31,7 +31,8 @@ export default function GroupMetricsChartPresenter({
   metrics,
   primaryContextMenuAction,
   additionalContextMenuButtons,
-  renderPostChartContent
+  renderPostChartContent,
+  renderHistoricDataIndicator
 }) {
   cardHeader = (
     <div className={locals.actions}>
@@ -50,6 +51,8 @@ export default function GroupMetricsChartPresenter({
     </div>
   );
 
+  const hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
   const chartConfig = {
     cardTitle,
     cardHeader,
@@ -60,7 +63,9 @@ export default function GroupMetricsChartPresenter({
       formatter: selectedMetricDefinition.formatter,
       renderer: selectedMetricDefinition.renderer
     },
-    renderPostChartContent
+    renderPostChartContent,
+    renderHistoricDataIndicator,
+    hasApproximateData
   };
 
   const validItem = findValidItem(result, selectedMetricKey);

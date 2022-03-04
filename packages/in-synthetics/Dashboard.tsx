@@ -8,23 +8,22 @@ import React, { useState } from 'react';
 import { Card, Stack } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
-import DashboardHeader from 'in-components/DashboardHeader';
 import SortingConfigurator, { SortOrderBy } from 'in-components/SortingConfigurator/SortingConfigurator';
-import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
 // @ts-expect-error Module needs to be translated to TS
 import Sticky from 'in-components/Sticky';
 import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingActionButtons';
 import TestConfigDialogPresenter from 'in-synthetics/components/TestConfigDialogPresenter';
+import { dummyTests, UrlState, urlStateDefinition } from 'in-synthetics/utils/constants';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { dummyTests, UrlState, urlStateDefinition } from 'in-synthetics/utils/constants';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { compareIgnoreCase } from 'in-services/util/string';
+import Tests, { TestsResponse } from 'in-synthetics/Tests';
+import ViewSwitcher from './components/ViewSwitcher';
 import { deepFreeze } from 'in-services/util/object';
 import SearchInput from 'in-components/SearchInput';
-import Tests, { TestsResponse } from 'in-synthetics/Tests';
 import { compare } from 'in-services/util/number';
 import Pagination from 'in-components/Pagination';
 import useUrlState from 'in-hooks/useUrlState';
@@ -39,17 +38,6 @@ export const sortOptions = deepFreeze([
   { label: t('in-synthetics:dashboard.sortOptions.name'), value: 'name' },
   { label: t('in-synthetics:dashboard.sortOptions.frequency'), value: 'frequency' }
 ]);
-
-const header = (
-  <>
-    <DashboardHeader
-      icon="lib_infra_ibmCos"
-      label={t('in-synthetics:dashboard.testList.mainLabel')}
-      title={t('in-synthetics:dashboard.testList.mainLabel')}
-    />
-    <DashboardHeaderShadowModule />
-  </>
-);
 
 const pageSize = 15;
 
@@ -77,11 +65,11 @@ export default function Dashboard() {
   }
 
   return (
-    <Sticky header={header}>
+    <Sticky header={<ViewSwitcher />}>
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
-            productArea: 'EUM: Sythetics',
+            productArea: 'EUM: Synthetics',
             pageRootName: 'Synthetics'
           }}
         />

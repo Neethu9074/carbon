@@ -95,6 +95,7 @@ export default function Views({ timeConfig, tagFilters, mobileAppId }) {
         get={getTableData}
         mobileAppId={mobileAppId}
         tagFilters={tagFilters}
+        cardTitle={t('in-mobile-apps:dashboard.tabs.viewsLabel')}
         timeConfig={timeConfig}
       />
     </Card>

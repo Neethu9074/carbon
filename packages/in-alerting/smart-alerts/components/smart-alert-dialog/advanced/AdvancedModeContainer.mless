@@ -37,17 +37,9 @@
   }
 
   .icon {
-    background-color: @lib__colors__N400;
-    border-radius: 50%;
+    border-radius: 50%; // creates a round icon
     margin-left: 0.5rem;
     fill: @lib__colors__white;
-
-    &.checked {
-      background-color: @lib__colors__teal800;
-    }
-
-    &.invalid {
-      background-color: @lib__colors__failure;
-    }
+    background-color: @lib__colors__failure;
   }
 }
