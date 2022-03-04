@@ -132,7 +132,6 @@ function startDevProxy(cb) {
   }
 
   if (envConfig.local) {
-    // HIER IsUserPermittedResource
     httpProxy['/api/checkUserAccessPermitted'] = `${uiBackendUrl}/api/checkUserAccessPermitted`;
   }
 
