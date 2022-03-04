@@ -26,7 +26,3 @@ export interface TimeConfig {
 // Therefor we redefine the possible values to use the actual casing used in the api.
 // See: https://github.ibm.com/instana/backend/blob/251e4b43db264e43a72f53db8bcebb9172e12008/service-level-objectives/slo-shared/src/main/java/com/instana/slo/model/sli/WebsiteSliEntity.java#L78
 export type BeaconType = 'pageLoad' | 'resourceLoad' | 'httpRequest' | 'error' | 'custom' | 'pageChange';
-
-// The query context is used in the backend to distinguish a request from the UI using websocket or from the API.
-// However we don't need this in the ui-client and we shouldn't have to worry.
-export interface HasQueryContext {}
