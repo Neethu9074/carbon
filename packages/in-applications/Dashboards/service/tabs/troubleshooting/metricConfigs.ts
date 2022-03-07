@@ -52,7 +52,7 @@ export const getServiceMappingMetricConfig = (serviceId: string) => {
 
 export const groupByInfraLinkingOutcome: Group = {
   groupbyTag: 'call.meta_tags',
-  groupbyTagSecondLevelKey: 'destination_infra_final_detection_detail'
+  groupbyTagSecondLevelKey: 'destination_infra_detection_detail'
 } as Group;
 
 export const getInfraLinkingMetricConfig = (serviceId: string) => {
