@@ -78,7 +78,7 @@ export interface Axis {
   timeShifts?: TimeShift[] | null;
   metricIds: string[];
   labels: string[];
-  colors: sting[];
+  colors: string[];
   icons?: AxisIcons;
   formatter?: Formatter;
 

@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { AggregationType } from 'in-types';
+import { EntityType } from 'in-analyze/applicationFilter';
+import { AggregationType, Group, Order } from 'in-types';
 
 interface ChartMetric {
   metricId: string;
@@ -15,12 +16,7 @@ export function createChartedMetric(
   aggregationId: ChartMetric['aggregationId']
 ): ChartMetric;
 
-interface OrderBy {
-  by: string;
-  direction?: string;
-}
-
-export function createOrderBy(by: string, direction?: string): OrderBy;
+export function createOrderBy(by: string, direction?: string): Order;
 
 interface MetricField {
   metricId: string;
@@ -29,3 +25,5 @@ interface MetricField {
 }
 
 export function createMetricField(metric: string, aggregation: AggregationType): MetricField;
+
+export function createGroupBy(groupbyTag: string, groupbyTagEntity?: EntityType): Group;

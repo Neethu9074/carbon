@@ -12,8 +12,15 @@ import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { alwaysNull } from 'in-services/fixedStreams';
+import { Result } from 'in-types';
 
-function getLabels({ applicationId, serviceId, endpointId }) {
+interface GetLabelsProps {
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+}
+
+function getLabels({ applicationId, serviceId, endpointId }: GetLabelsProps) {
   return combineLatest([
     applicationId ? getApplication({ id: applicationId }).map(getLabel) : alwaysNull,
     serviceId ? getServiceLabel({ id: serviceId }).map(getLabel) : alwaysNull,
@@ -25,11 +32,15 @@ function getLabels({ applicationId, serviceId, endpointId }) {
   }));
 }
 
-function getLabel(result) {
+interface ResultWithLabel {
+  label: string;
+}
+
+function getLabel(result: Result<ResultWithLabel>) {
   return get(result, ['data', 'label'], null);
 }
 
-export default function getJumpToAnalyzeHref$(ids, additionalParams) {
+export default function getJumpToAnalyzeHref$(ids: GetLabelsProps, additionalParams: any) {
   return getLabels(ids).flatMap(({ applicationLabel, serviceLabel, endpointLabel }) =>
     getLinkToAnalyze({
       applicationName: applicationLabel,

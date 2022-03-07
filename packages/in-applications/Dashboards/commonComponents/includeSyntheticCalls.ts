@@ -8,7 +8,7 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { syntheticCallsOptions } from 'in-applications/constants';
 
-export function getTagFiltersForSyntheticOption(includeSyntheticOption) {
+export function getTagFiltersForSyntheticOption(includeSyntheticOption: string) {
   const filters = [];
   if (includeSyntheticOption === syntheticCallsOptions.exclude) {
     filters.push({ name: 'include_synthetic', value: false, operator: 'EQUALS' });
@@ -21,14 +21,14 @@ export function getTagFiltersForSyntheticOption(includeSyntheticOption) {
   return filters;
 }
 
-export function createFormModelFromSyntheticOption(includeSyntheticOption) {
+export function createFormModelFromSyntheticOption(includeSyntheticOption: string) {
   if (includeSyntheticOption === syntheticCallsOptions.only) {
     return [tagFilter('call.is_synthetic', EQUALS, true)];
   }
   return emptyArray;
 }
 
-export function createHiddenCallsFromSyntheticOption(includeSyntheticOption) {
+export function createHiddenCallsFromSyntheticOption(includeSyntheticOption: string) {
   if (
     includeSyntheticOption === syntheticCallsOptions.include ||
     includeSyntheticOption === syntheticCallsOptions.only
@@ -38,7 +38,7 @@ export function createHiddenCallsFromSyntheticOption(includeSyntheticOption) {
   return emptyObject;
 }
 
-export function isSyntheticOption(includeSyntheticOption) {
+export function isSyntheticOption(includeSyntheticOption: string): boolean {
   return (
     includeSyntheticOption === syntheticCallsOptions.include || includeSyntheticOption === syntheticCallsOptions.only
   );
