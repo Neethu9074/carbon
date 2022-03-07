@@ -4,19 +4,37 @@
  */
 
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-import { on } from '@instana/observables';
+import { Disposable, on } from '@instana/observables';
 
 import { scrollIntoView } from 'in-services/util/dom';
 
 import locals from './SideNav.mless';
 
-export default class SideNav extends React.Component {
+export type NavItem = {
+  scrollId: string;
+  label: string;
+  title: string;
+  content: React.ReactNode;
+  checked?: boolean;
+  valid?: boolean;
+};
+
+interface SideNavProps {
+  addRightSeparator?: boolean;
+  className?: string;
+  addLeftSeparator?: boolean;
+  renderPreIcon?: (navItem: NavItem, selected: boolean) => ReactNode;
+  renderPostIcon?: (navItem: NavItem) => ReactNode;
+  navItems: NavItem[];
+}
+
+export default class SideNav extends React.Component<SideNavProps> {
   static displayName = 'SideNav';
 
   state = { itemSelected: 0 };
+  wheelSubscription: Disposable | null | undefined;
 
   componentDidMount() {
     this.wheelSubscription = on(document, 'wheel', { passive: true })
@@ -34,13 +52,13 @@ export default class SideNav extends React.Component {
 
   render() {
     const { addRightSeparator, className, addLeftSeparator, navItems, renderPreIcon, renderPostIcon } = this.props;
-    const setItemSelected = i => this.setState({ itemSelected: i });
+    const setItemSelected = (i: number) => this.setState({ itemSelected: i });
 
     return (
       <nav
         className={classNames({
           [locals.container]: true,
-          [className]: className,
+          [className ?? '']: className,
           [locals.rightSeparator]: addRightSeparator,
           [locals.leftSeparator]: addLeftSeparator
         })}
@@ -70,7 +88,7 @@ export default class SideNav extends React.Component {
     );
   }
 
-  onItemClicked = (i, navItem) => {
+  onItemClicked = (_i: unknown, navItem: NavItem) => {
     scrollIntoView(document.getElementById(navItem.scrollId), { behavior: 'smooth' });
   };
 
@@ -78,7 +96,7 @@ export default class SideNav extends React.Component {
     const navItems = this.props.navItems
       .map((item, index) => {
         const element = document.getElementById(item.scrollId);
-        const { top, height } = element.getBoundingClientRect();
+        const { top, height } = element!.getBoundingClientRect();
         return { index, top, bottom: top + height };
       })
       .filter(item => item.bottom > 0);
@@ -99,17 +117,3 @@ export default class SideNav extends React.Component {
     this.setState({ itemSelected: navItemsFullInView[navItemsFullInView.length - 1].index });
   };
 }
-
-SideNav.propTypes = {
-  addRightSeparator: PropTypes.bool,
-  className: PropTypes.string,
-  addLeftSeparator: PropTypes.bool,
-  renderPreIcon: PropTypes.func,
-  renderPostIcon: PropTypes.func,
-  navItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      checked: PropTypes.bool
-    })
-  ).isRequired
-};

@@ -17,7 +17,7 @@ export function applyTransform(ele: HTMLElement, transform: string) {
   }
 }
 
-export function scrollIntoView(element: HTMLElement, options: ScrollIntoViewOptions = {}) {
+export function scrollIntoView(element: HTMLElement | Nullish, options: ScrollIntoViewOptions = {}) {
   if (!element) {
     return;
   }
