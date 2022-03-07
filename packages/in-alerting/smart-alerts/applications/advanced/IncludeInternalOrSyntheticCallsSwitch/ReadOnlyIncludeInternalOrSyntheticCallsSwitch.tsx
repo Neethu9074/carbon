@@ -6,11 +6,16 @@
 import React from 'react';
 
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
+import { ApplicationAlertConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/advanced/IncludeInternalOrSyntheticCallsSwitch/ReadOnlyIncludeInternalOrSyntheticCallsSwitch.mless';
 
-export default function ReadOnlyIncludeInternalOrSyntheticCallsSwitch({ alertConfig }) {
+export default function ReadOnlyIncludeInternalOrSyntheticCallsSwitch({
+  alertConfig
+}: {
+  alertConfig: ApplicationAlertConfig;
+}) {
   const { includeInternal, includeSynthetic } = alertConfig;
   if (!includeInternal && !includeSynthetic) {
     return null;
