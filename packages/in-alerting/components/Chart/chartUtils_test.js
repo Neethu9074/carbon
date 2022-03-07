@@ -6,13 +6,14 @@
 import { zeroFillMetric } from 'in-alerting/components/Chart/chartUtils';
 
 const granularity = 1000;
-const timeConfig = { to: 12345, windowSize: 10000, autoRefresh: false };
+const toTime = 12345;
+const adjustedTimeWindow = 10000;
 
 describe('in-alerting/components/Chart/chartUtils', () => {
   describe('zeroFillMetric', () => {
     it('should fully fill empty metric', () => {
       const metricData = [];
-      expect(zeroFillMetric(metricData, timeConfig, granularity)).toStrictEqual([
+      expect(zeroFillMetric(metricData, granularity, toTime, adjustedTimeWindow)).toStrictEqual([
         [2000, 0],
         [3000, 0],
         [4000, 0],
@@ -28,7 +29,7 @@ describe('in-alerting/components/Chart/chartUtils', () => {
 
     it('should fill single value metric', () => {
       const metricData = [[5000, 123]];
-      expect(zeroFillMetric(metricData, timeConfig, granularity)).toStrictEqual([
+      expect(zeroFillMetric(metricData, granularity, toTime, adjustedTimeWindow)).toStrictEqual([
         [2000, 0],
         [3000, 0],
         [4000, 0],
@@ -55,7 +56,7 @@ describe('in-alerting/components/Chart/chartUtils', () => {
         [10000, 8],
         [11000, 9]
       ];
-      expect(zeroFillMetric(metricData, timeConfig, granularity)).toStrictEqual([...metricData]);
+      expect(zeroFillMetric(metricData, granularity, toTime, adjustedTimeWindow)).toStrictEqual([...metricData]);
     });
 
     it('align to-time with respect to granularity and compute from-Time using respective aligned to-time and window-size', () => {
@@ -69,10 +70,12 @@ describe('in-alerting/components/Chart/chartUtils', () => {
         [1644109200000, 1872],
         [1644110400000, 2010]
       ];
-      const timeConfig = { to: 1644112914343, windowSize: 10800000, autoRefresh: false };
       const granularity = 1200000;
 
-      expect(zeroFillMetric(metricData, timeConfig, granularity)).toStrictEqual([...metricData, [1644111600000, 0]]);
+      expect(zeroFillMetric(metricData, granularity, 1644112914343, 10800000)).toStrictEqual([
+        ...metricData,
+        [1644111600000, 0]
+      ]);
     });
   });
 });
