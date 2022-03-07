@@ -8,17 +8,19 @@ import React from 'react';
 import { Card } from '@instana/components';
 
 import { ensureConfigBackwardCompatibility, SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/form';
+import WidgetLoadingIndicator from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetLoadingIndicator';
+import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetLeftHeader';
+import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetHeader';
 import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
-import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/WidgetLeftHeader';
+import WidgetContent from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetContent';
 import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
 import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
-import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
 import { findMetric } from 'in-custom-dashboards/widgets/Slo/metric';
+import { all as allStatus } from 'in-hooks/utils/fetchStatus';
 import { days, hours, minutes } from 'in-services/time/time';
 import { MetricDataSeries } from 'in-components/Chart/types';
-import { all } from 'in-hooks/utils/fetchStatus';
-import WidgetContent from './WidgetContent';
+import { all as allProgress } from 'in-hooks/utils/progress';
 import { TimeConfig } from 'in-types';
 
 import locals from './Widget.mless';
@@ -65,9 +67,9 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
 
   const granularity = getGranularity(timeConfig);
 
-  const [sliConfiguration, sliConfigurationStatus] = useSliConfiguration(sliConfigId);
+  const [sliConfiguration, sliConfigurationStatus, , sliConfigurationProgress] = useSliConfiguration(sliConfigId);
 
-  const [entity, entityStatus] = useSloEntity({ entityId, entityType });
+  const [entity, entityStatus, , entityProgress] = useSloEntity({ entityId, entityType });
 
   const [sloMetrics, sloMetricsStatus, sloMetricsError, sloMetricsProgress] = useSloMetrics({
     slo,
@@ -77,56 +79,62 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
     isPreview
   });
 
-  const unifiedStatus = all(sliConfigurationStatus, entityStatus, sloMetricsStatus);
+  const unifiedStatus = allStatus(sliConfigurationStatus, entityStatus, sloMetricsStatus);
+  const unifiedProgress = allProgress(sliConfigurationProgress, entityProgress, sloMetricsProgress);
 
   const budget = getMetricValue(findMetric('budget', sloMetrics));
 
   return (
-    <Card
-      bodyClassName={locals.bodyNoPadding}
-      rightHeaderContent={
-        <>
-          {dragHandle}
-          {actions}
-        </>
-      }
-      title={title}
-      headerClassName={locals.title}
-      leftHeaderContent={
-        unifiedStatus !== 'rejected' ? (
-          <WidgetLeftHeader monitoredEntityType={entityType} monitoredEntity={entity} sliConfig={sliConfiguration} />
-        ) : (
-          undefined
-        )
-      }
-    >
-      <WidgetHeader
-        slo={slo}
-        budget={budget}
-        isDynamic={isDynamic}
-        isRolling={isRolling}
-        fromTimestamp={fromTimestamp}
-        toTimestamp={toTimestamp}
-        sliEntity={sliConfiguration?.sliEntity}
-        metricSpent={getMetricValue(findMetric('spent', sloMetrics))}
-        metricSli={getMetricValue(findMetric('sli', sloMetrics))}
-        metricRemaining={getMetricValue(findMetric('remaining', sloMetrics))}
-      />
-      <div className={locals.chart}>
-        <WidgetContent
-          sloMetrics={sloMetrics}
-          loadingErrors={sloMetricsError}
-          loadingProgress={sloMetricsProgress}
-          sliConfigId={sliConfigId}
-          timeConfig={timeConfig}
-          granularity={granularity}
+    <div className={locals.loadingBarContainer}>
+      <WidgetLoadingIndicator progress={unifiedProgress} />
+      <Card
+        bodyClassName={locals.bodyNoPadding}
+        rightHeaderContent={
+          <>
+            {dragHandle}
+            {actions}
+          </>
+        }
+        title={title}
+        headerClassName={locals.title}
+        leftHeaderContent={
+          <WidgetLeftHeader
+            status={unifiedStatus}
+            monitoredEntityType={entityType}
+            monitoredEntity={entity}
+            sliConfig={sliConfiguration}
+          />
+        }
+      >
+        <WidgetHeader
+          status={unifiedStatus}
+          slo={slo}
           budget={budget}
-          sliConfig={sliConfiguration}
-          isPreview={isPreview}
-          disableZooming={isFixed || isRolling}
+          isDynamic={isDynamic}
+          isRolling={isRolling}
+          fromTimestamp={fromTimestamp}
+          toTimestamp={toTimestamp}
+          sliEntity={sliConfiguration?.sliEntity}
+          metricSpent={getMetricValue(findMetric('spent', sloMetrics))}
+          metricSli={getMetricValue(findMetric('sli', sloMetrics))}
+          metricRemaining={getMetricValue(findMetric('remaining', sloMetrics))}
         />
-      </div>
-    </Card>
+        <div className={locals.chart}>
+          <WidgetContent
+            sloMetrics={sloMetrics}
+            loadingErrors={sloMetricsError}
+            loadingProgress={unifiedProgress}
+            sliConfigId={sliConfigId}
+            timeConfig={timeConfig}
+            granularity={granularity}
+            budget={budget}
+            sliConfig={sliConfiguration}
+            isPreview={isPreview}
+            disableZooming={isFixed || isRolling}
+          />
+        </div>
+      </Card>
+    </div>
   );
 }
 

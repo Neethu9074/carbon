@@ -5,24 +5,36 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
+import { LoadingSkeleton, Stack } from '@instana/components';
 
 import { CombinedSliEntity, SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { SloEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import SloEntityInfo from 'in-custom-dashboards/widgets/Slo/SloEntityInfo';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
+import { FetchStatus } from 'in-hooks/utils/types';
+
+import locals from './WidgetLeftHeader.mless';
 
 interface WidgetLeftHeaderProps {
+  status: FetchStatus;
   sliConfig?: SliConfig<CombinedSliEntity>;
   monitoredEntityType: MonitoringSource;
   monitoredEntity?: SloEntity;
 }
 
-export default function WidgetLeftHeader({ sliConfig, monitoredEntityType, monitoredEntity }: WidgetLeftHeaderProps) {
-  if (!sliConfig || !monitoredEntity) {
-    return <SvgIcon type="lib_actions_loading" spinning />;
-  }
+export default function WidgetLeftHeader({
+  status,
+  sliConfig,
+  monitoredEntityType,
+  monitoredEntity
+}: WidgetLeftHeaderProps) {
+  if (status === 'pending' || !monitoredEntity)
+    return (
+      <Stack direction="horizontal">
+        <LoadingSkeleton className={locals.loadingSkeleton} />
+      </Stack>
+    );
 
   return (
     <>

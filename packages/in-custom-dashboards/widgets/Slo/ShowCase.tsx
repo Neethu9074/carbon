@@ -7,8 +7,8 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
+import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetHeader';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/WidgetHeader';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
 import Chart, { ChartProps } from 'in-custom-dashboards/widgets/Slo/Chart';
 import { SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
