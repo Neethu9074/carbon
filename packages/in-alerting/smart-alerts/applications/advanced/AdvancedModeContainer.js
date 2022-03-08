@@ -69,13 +69,18 @@ export default function AdvancedModeContainer(props) {
       ? blueprintConfigs
       : blueprintConfigs.filter(config => config?.type !== 'logs');
 
+  const isLogsBlueprint = blueprintConfig.type === 'logs';
+  const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
+
   return (
     <GlobalAdvancedModeContainer
       {...props}
       navItems={[
         {
           scrollId: '1',
-          valid: true,
+          valid:
+            (!isLogsBlueprint || !(form.get('rule')?.get('message')?.valid === false)) &&
+            (!isStatusCodeBluePrint || !(form.get('rule')?.get('statusCode')?.hierarchyValid === false)),
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.title'),
           content: (
@@ -106,7 +111,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.title'),
           checked: formFieldsValid(form, ['applications']),
-          valid: true,
+          valid: formFieldsValid(form, ['applications']) && isTagFilterFormModelValid,
           content: (
             <>
               <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
@@ -155,14 +160,23 @@ export default function AdvancedModeContainer(props) {
             </>
           ),
           checked: thresholdType === STATIC_THRESHOLD ? form.get('threshold').hierarchyTouched : true,
-          valid: formFieldsValid(form, ['rule', 'threshold'])
+          valid:
+            formFieldsValid(form, ['rule', 'threshold']) ||
+            // when the rule definition is incomplete, we do not show a preview chart and
+            // the threshold is _per se invalid_ , so
+            // we ignore this fact, to avoid an invalid step,
+            // to be more clear to the user
+            !blueprintConfig.isRuleComplete(form.get('rule').toJS()) ||
+            // when incomplete baseline data exist, we ignore this, because the user can save it anyway
+            (thresholdType === HISTORIC_BASELINE && thresholdResult?.errors?.length > 0) ||
+            (thresholdType === ADAPTIVE_BASELINE && thresholdResult?.data?.message)
         },
         {
           scrollId: '4',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.title'),
           checked: true,
-          valid: true,
+          valid: !(form.get('timeThreshold')?.get('requests')?.valid === false),
           content: (
             <TimeThresholdConfigPresenter
               form={form}
@@ -229,7 +243,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title'),
           checked: validateCheckForCustomPayload(form),
-          valid: true,
+          valid: isCustomPayloadValidOrUntouched(form),
           content: <AlertConfigCustomPayload form={form} setForm={updateForm} />
         }
       ]}
@@ -243,4 +257,23 @@ function formFieldsValid(form, fieldsToCheck) {
     .filter(([field]) => fieldsToCheck?.includes(field))
     .some(([, { hierarchyValid }]) => !hierarchyValid);
   return !fieldInvalid;
+}
+
+function fieldTouchedAndInvalid(field) {
+  return field && field.touched && !field.valid;
+}
+
+function payloadItemInvalid(item) {
+  const key = item.get('key');
+  const val = item.get('value');
+  return fieldTouchedAndInvalid(key) || fieldTouchedAndInvalid(val);
+}
+
+function isCustomPayloadValidOrUntouched(form) {
+  const customPayloadForm = form.get('customPayloadFields');
+  const { touched, valid, items } = customPayloadForm;
+  if (!touched) return true;
+  if (!valid) return false; // valid as long as all keys are unique
+
+  return !items.find(item => payloadItemInvalid(item));
 }

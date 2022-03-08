@@ -58,6 +58,8 @@ export default function AlertConfigCustomPayload({ form, setForm }) {
   }
 
   function addRow() {
-    setForm(form.updateIn(['customPayloadFields'], f => f.push(createNewFormEntry()).setTouched(true)));
+    let newEntry = createNewFormEntry();
+    newEntry = newEntry.setTouched(true, { recurse: true });
+    setForm(form.updateIn(['customPayloadFields'], f => f.push(newEntry).setTouched(true)));
   }
 }

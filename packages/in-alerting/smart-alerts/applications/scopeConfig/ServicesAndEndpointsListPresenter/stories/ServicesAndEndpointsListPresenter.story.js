@@ -35,7 +35,7 @@ export default {
   component: ServicesAndEndpointsListPresenter
 };
 
-export function servicesAndEndpointsListGlobalAlerts() {
+export function GlobalAlerts() {
   return (
     <ServicesAndEndpointsListPresenter
       apiSubscriptions={{
@@ -53,8 +53,26 @@ export function servicesAndEndpointsListGlobalAlerts() {
     />
   );
 }
+export function WithError() {
+  return (
+    <ServicesAndEndpointsListPresenter
+      apiSubscriptions={{
+        getApplicationsCursorPaginated: () => just(getApplicationsResult),
+        getApplication: () => just(getApplicationResult),
+        getServicesCursorPaginated: () => just(getServicesResult),
+        getEndpointsCursorPaginated: () => just(getEndpointsResult)
+      }}
+      validationError={'Please select at least one entry.'}
+      applicationsSelection={{}}
+      boundaryScope="INBOUND"
+      timeConfig={oneDayTimeConfig}
+      onChange={noop}
+      isGlobalSmartAlert
+    />
+  );
+}
 
-export function servicesAndEndpointsListIndividualAlerts() {
+export function IndividualAlerts() {
   return (
     <ServicesAndEndpointsListPresenter
       apiSubscriptions={{
@@ -73,7 +91,7 @@ export function servicesAndEndpointsListIndividualAlerts() {
   );
 }
 
-export function servicesAndEndpointsListAlertsWithStaleConfig() {
+export function WithStaleConfig() {
   return (
     <ServicesAndEndpointsListPresenter
       apiSubscriptions={{
