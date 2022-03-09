@@ -5,7 +5,7 @@
     "computeInstances":"Compute Instances"
   },
   "name": "Name",
-  "openstack": "Openstack",
+  "openstack": "OpenStack",
   "regions": "Regions",
   "noMonitoringDataFound": "No Monitoring Data Found",
   "noData": "No OpenStack data is available.",
