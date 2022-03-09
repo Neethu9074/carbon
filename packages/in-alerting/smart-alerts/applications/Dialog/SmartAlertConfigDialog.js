@@ -20,6 +20,7 @@ import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart
 import { stepConfigs, stepRenderers } from 'in-alerting/smart-alerts/applications/simple/simpleModeSteps';
 import { SimpleDialogFooter } from 'in-alerting/smart-alerts/applications/components/SimpleDialogFooter';
 import AdvancedModeContainer from 'in-alerting/smart-alerts/applications/advanced/AdvancedModeContainer';
+import { isValidChartViewEntitySelection } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { thresholdOrBaselineLoadingSignal$ } from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -187,6 +188,35 @@ function SmartAlertConfigDialogWithQueryValidation({
   );
 }
 
+function isValidEntitySelection(alertConfigWithFormModel) {
+  const {
+    threshold: { type }
+  } = alertConfigWithFormModel;
+
+  if (!adaptiveBaselineEnabled || type !== ADAPTIVE_BASELINE) {
+    return true;
+  }
+
+  const {
+    evaluationType,
+    hiddenFields: { chartViewEntitySelection }
+  } = alertConfigWithFormModel;
+
+  return isValidChartViewEntitySelection(evaluationType, chartViewEntitySelection);
+}
+
+function shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel) {
+  const {
+    hiddenFields: { calculateThresholdOnBackend }
+  } = alertConfigWithFormModel;
+
+  return (
+    !isValid ||
+    !calculateThresholdOnBackend ||
+    (calculateThresholdOnBackend && !isValidEntitySelection(alertConfigWithFormModel))
+  );
+}
+
 function resolveThresholdRequest(
   alertConfigWithFormModel,
   blueprintConfig,
@@ -201,11 +231,10 @@ function resolveThresholdRequest(
     includeInternal,
     includeSynthetic,
     granularity,
-    evaluationType,
-    hiddenFields: { calculateThresholdOnBackend }
+    evaluationType
   } = alertConfigWithFormModel;
 
-  if (!isValid || !calculateThresholdOnBackend) {
+  if (shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel)) {
     return empty;
   }
 
@@ -218,6 +247,7 @@ function resolveThresholdRequest(
   };
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
+
   return thresholdSuggestionRequest({
     tagFilterExpression: toBackendQueryModel(enrichedTagFilterFormModel),
     includeInternal,

@@ -6,6 +6,11 @@
 import { isEmpty } from 'lodash';
 
 import {
+  PER_AP,
+  PER_AP_ENDPOINT,
+  PER_AP_SERVICE
+} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import {
   getLogLevelRuleOperatorLabel,
   getStatusCodeLabel
 } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
@@ -283,4 +288,14 @@ export function isEntitySelectionValid(entitySelection, isBuiltInAlert) {
   );
 
   return entitySelection !== undefined && hasAtLeastOneValidApplicationSelection;
+}
+
+export function isValidChartViewEntitySelection(evaluationType, chartViewEntitySelection) {
+  const { applicationId, serviceId, endpointId } = chartViewEntitySelection;
+
+  return (
+    (evaluationType === PER_AP && applicationId) ||
+    (evaluationType === PER_AP_SERVICE && applicationId && serviceId) ||
+    (evaluationType === PER_AP_ENDPOINT && applicationId && serviceId && endpointId)
+  );
 }
