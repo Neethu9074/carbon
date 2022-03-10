@@ -99,6 +99,13 @@
     "sortOptions": {
       "name": "Name",
       "frequency": "Frequency"
+    },
+    "summary": {
+      "successRate": "Success rate",
+      "locations": "Locations",
+      "meanResponseTime": "Mean response time",
+      "avgResponseSize": "Avg. response size",
+      "summaryTab": "Summary"
     }
   }
 }
