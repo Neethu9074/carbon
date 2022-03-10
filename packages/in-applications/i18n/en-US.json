@@ -32,7 +32,7 @@
   "labelTechnologies": "Technologies",
   "labelEndpoints": "Endpoints",
   "labelHealth": "Health",
-  "labelOther": "Other",
+  "labelNonHttp": "Non-HTTP",
   "labelCallCount": "Call count",
   "labelHTTPStatusCodes": "HTTP status codes",
   "labelInfraIssues": "Infra Issues",

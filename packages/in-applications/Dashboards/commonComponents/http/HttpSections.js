@@ -103,7 +103,7 @@ export default function HttpSections({
     chartMetrics.push({
       config: otherCallsMetricConfig,
       metric: 'calls',
-      label: t('in-applications:labelOther'),
+      label: t('in-applications:labelNonHttp'),
       color: '#9aa5a9'
     });
   }

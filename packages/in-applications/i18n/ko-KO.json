@@ -31,7 +31,7 @@
   "labelTechnologies": "기술",
   "labelEndpoints": "엔드포인트",
   "labelHealth": "상태",
-  "labelOther": "기타",
+  "labelNonHttp": "기타",
   "labelCallCount": "호출 개수",
   "labelHTTPStatusCodes": "HTTP 상태 코드",
   "labelInfraIssues": "인프라 문제",

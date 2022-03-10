@@ -31,7 +31,7 @@
   "labelTechnologies": "Tecnologie",
   "labelEndpoints": "Endpoint",
   "labelHealth": "Integrità",
-  "labelOther": "Altro",
+  "labelNonHttp": "Altro",
   "labelCallCount": "Conteggio chiamate",
   "labelHTTPStatusCodes": "Codici di stato HTTP",
   "labelInfraIssues": "Problemi infrastruttura",
