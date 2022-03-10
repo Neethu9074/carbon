@@ -210,11 +210,7 @@ function shouldSkipFetchingThresholdSuggestion(isValid, alertConfigWithFormModel
     hiddenFields: { calculateThresholdOnBackend }
   } = alertConfigWithFormModel;
 
-  return (
-    !isValid ||
-    !calculateThresholdOnBackend ||
-    (calculateThresholdOnBackend && !isValidEntitySelection(alertConfigWithFormModel))
-  );
+  return !isValid || !calculateThresholdOnBackend || !isValidEntitySelection(alertConfigWithFormModel);
 }
 
 function resolveThresholdRequest(

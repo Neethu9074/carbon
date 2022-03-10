@@ -87,7 +87,10 @@ function resetBaseline(form) {
 }
 
 function requestThresholdOnEvaluationTypeChange(form) {
-  // reset chartViewEntitySelection when evaluationType changes
+  // Reset chartViewEntitySelection when evaluationType changes.
+  // That's because as part of this side-effect we request the threshold suggestion. Resetting chartViewEntitySelection
+  // lets us decide that entity selection is valid or invalid while requesting threshold suggestion so we don't end-up
+  // requesting threshold suggestion using wrong applicationId/serviceId/endpointId as part of TagFilter
   const chartViewEntitySelection = form
     .get('hiddenFields')
     .get('chartViewEntitySelection')
