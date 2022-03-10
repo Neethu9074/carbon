@@ -24,14 +24,14 @@ export default function Summary({ timeConfig, data: hypervisor }) {
         <InfraMetricKpiCard
           title={t('in-openstack:dashboards.cpuUsage')}
           snapshotId={snapshotId}
-          metric="cpuUsagePercentage"
+          metric="cpuUsage"
           formatter={percentage.detailed}
         />
 
         <InfraMetricKpiCard
           title={t('in-openstack:dashboards.memoryUsage')}
           snapshotId={snapshotId}
-          metric="memoryUsagePercentage"
+          metric="memoryUsage"
           formatter={percentage.detailed}
         />
       </KpiGridRow>
@@ -43,7 +43,7 @@ export default function Summary({ timeConfig, data: hypervisor }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['cpuUsagePercentage'],
+                metrics: ['cpuUsage'],
                 labels: [t('in-openstack:dashboards.cpuUsage')],
                 formatter: percentage.compact,
                 type: 'line'
@@ -59,7 +59,7 @@ export default function Summary({ timeConfig, data: hypervisor }) {
               timeConfig={timeConfig}
               y1={{
                 min: 0,
-                metrics: ['memoryUsagePercentage'],
+                metrics: ['memoryUsage'],
                 labels: [t('in-openstack:dashboards.memoryUsage')],
                 formatter: percentage.compact,
                 type: 'line'
