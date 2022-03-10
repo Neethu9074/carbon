@@ -4,149 +4,163 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { createField } from 'formalistic';
 
 import { Button } from '@instana/components';
 
-import { getConfigAsResultObservable as getOidcConfigAsResultObservable } from 'in-settings/tabs/AuthSettings/api/oidc';
-import { isAnotherIdpActivated } from 'in-settings/tabs/AuthSettings/pages/indentityProviders/configuredIdPCheck';
-import { getConfigAsResultObservable, refresh } from 'in-settings/tabs/MigrationSettings/api/exportConfig';
-import { getConfigAsResultObservable as getLdapConfig } from 'in-settings/tabs/AuthSettings/api/ldap';
+import { postConfigAsResultObservable } from 'in-settings/tabs/MigrationSettings/api/importConfig';
+import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import { Row, Col } from 'in-components/layout/Grid';
 import Section from 'in-settings/components/Section';
-import FormGroup from 'in-components/form/FormGroup';
 import { shorten } from 'in-services/util/string';
-import Label from 'in-components/form/Label';
-import Input from 'in-components/form/Input';
+import ViewSwitcher from './ViewSwitcher';
 import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
-import locals from './Saml.mless';
+import locals from './Import.mless';
+
+const columnDefinitions = [
+  {
+    id: 'applicationLabel',
+    label: t('in-applications:labelName'),
+    getContent(item) {
+      return item.label;
+    }
+  },
+  {
+    id: 'applicationId',
+    label: t('in-applications:labelName'),
+    getContent(item) {
+      return item.id;
+    }
+  }
+];
 
 export default function ImportConfig() {
   const inputDOMNode = document.createElement('input');
   const [input] = useState(inputDOMNode);
   const [file, setFile] = useState(null);
+  const [configJSON, setConfigJSON] = useState({ applicationConfigs: [] });
   inputDOMNode.onchange = () => setFile(input && input.files && input.files.length > 0 ? input.files[0] : undefined);
 
+  useEffect(() => {
+    if (file) {
+      const reader = new FileReader();
+      // reader.onload = logFile;
+      reader.onload = function(evt) {
+        let str = evt.target.result;
+        let json = JSON.parse(str);
+        setConfigJSON(json);
+      };
+      reader.readAsText(file, 'UTF-8');
+    }
+  }, [file, setConfigJSON]);
+
   return (
-    <ApiItemView
-      getObservables={() => ({
-        config: getConfigAsResultObservable(),
-        oidcConfig: getOidcConfigAsResultObservable(),
-        ldapConfig: getLdapConfig()
-      })}
-      enrichForm={enrichForm}
-      input={input}
-      file={file}
-      onCancelClick={() => {
-        setFile(null);
-        refresh();
-      }}
-      saveItem={({ setMessage }) => {
-        if (file == null) {
-          setMessage({
-            text: t('in-settings:tabs.failedToSaveConfig', { err: t('in-settings:tabs.IdPMetadataRequired') }),
-            type: 'error'
-          });
-          return;
-        }
-        const reader = new FileReader();
-        reader.readAsText(file, 'UTF-8');
-        reader.onload = function(evt) {
-          if (evt.target.result.length > 2000000) {
-            setMessage({
-              text: t('in-settings:tabs.failedToSaveConfig', {
-                err: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
-              }),
-              type: 'error'
-            });
-            return;
+    <>
+      <ApiItemView
+        input={input}
+        file={file}
+        onCancelClick={() => {
+          setFile(null);
+          // refresh();
+        }}
+        saveItem={({ setMessage }) => {
+          if (file) {
+            const reader = new FileReader();
+            reader.readAsText(file, 'UTF-8');
+            reader.onload = function(evt) {
+              if (evt.target.result.length > 2000000) {
+                setMessage({
+                  text: t('in-settings:tabs.failedToSaveConfig', {
+                    err: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
+                  }),
+                  type: 'error'
+                });
+                return;
+              }
+
+              postConfigAsResultObservable(configJSON).once(
+                () => {
+                  setMessage({
+                    text: t('in-settings:tabs.configSuccessfullyDeleted'),
+                    type: 'success'
+                  });
+                },
+                error =>
+                  setMessage({
+                    text: t('in-settings:tabs.failedToDeleteConfig', { err: error.message }),
+                    type: 'error'
+                  })
+              );
+            };
           }
-        };
-      }}
-      Content={Content}
-    />
+        }}
+        Content={Content}
+      />
+      <ViewSwitcher />
+
+      <Title title={t('in-applications:labelApplications')} />
+
+      <ServerTablePresenter
+        columnDefinitions={columnDefinitions}
+        page={1}
+        orderBy="label"
+        orderDirection="ASC"
+        pageSize={10}
+        cardTitle={
+          configJSON.applicationConfigs.length > 0
+            ? 'Applications (' + configJSON.applicationConfigs.length + ')'
+            : 'Applications'
+        }
+        result={{
+          progress: {
+            loading: false
+          },
+          data: file ? { items: configJSON.applicationConfigs } : { items: [{ application: { label: 'app1' } }] },
+          errors: []
+        }}
+      />
+    </>
   );
 }
 
-function Content({ file, form, setForm, input, setCanSaveItem, result }) {
+function Content({ file, input, setCanSaveItem }) {
   useEffect(
-    // allow only saving when idP metadata has been uploaded
-    () => setCanSaveItem(!!file),
-    [file, form, setCanSaveItem]
+    // allow only saving when config metadata has been uploaded
+    () => {
+      setCanSaveItem(!!file);
+    },
+    [file, input, setCanSaveItem]
   );
 
   return (
     <>
       <Title title={t('in-settings:tabs.configImport')} />
       <SubViewHeader>{t('in-settings:tabs.configImport')}</SubViewHeader>
-      {isAnotherIdpActivated([result.ldapConfig?.base, result.oidcConfig?.activated]) ? (
-        <h2>{t('in-settings:tabs.cannotConfigureSamlIfAnotherOneIsAlreadyActive')}</h2>
-      ) : (
-        <>
-          <h2>{t('in-settings:tabs.uploadTheConfigurationDataSummary')}</h2>
-          <p>
-            <Trans i18nKey="in-settings:tabs.configImportHelp" />
-          </p>
+      <h2>{t('in-settings:tabs.uploadTheConfigurationDataSummary')}</h2>
+      <p>
+        <Trans i18nKey="in-settings:tabs.configImportHelp" />
+      </p>
 
-          <form method="post" encType="multipart/form-data">
-            <Section restrictWidth="50rem">
-              <Row>
-                <Col xs={12}>
-                  {form.get('spEntityId').map(field => (
-                    <FormGroup>
-                      <Label htmlFor="spEntityId" hasError={!field.valid && field.touched}>
-                        {t('in-settings:tabs.configExportTypes')}
-                      </Label>
-
-                      <Input
-                        className={locals.input}
-                        type="text"
-                        id="spEntityId"
-                        value={field.value}
-                        onChange={e => {
-                          setForm(form.updateIn(['spEntityId'], f => f.setValue(e.target.value).setTouched(true)));
-                        }}
-                        autoComplete="off"
-                      />
-                    </FormGroup>
-                  ))}
-                </Col>
-              </Row>
-            </Section>
-
-            <Section restrictWidth="50rem">
-              <h2>{t('in-settings:tabs.configImport')}</h2>
-              <div className={locals.flexWrapper}>
-                <Button
-                  kind="secondary"
-                  icon="lib_views_file"
-                  onClick={() => {
-                    input.type = 'file';
-                    input.accept = 'text/json';
-                    input.click();
-                  }}
-                >
-                  {file ? shorten(file.name, 32) : t('in-settings:tabs.chooseFile')}
-                </Button>
-              </div>
-            </Section>
-          </form>
-        </>
-      )}
+      <form method="post" encType="multipart/form-data">
+        <Section restrictWidth="50rem">
+          <h2>{t('in-settings:tabs.configImport')}</h2>
+          <div className={locals.flexWrapper}>
+            <Button
+              kind="secondary"
+              icon="lib_views_file"
+              onClick={() => {
+                input.type = 'file';
+                input.accept = 'application/json';
+                input.click();
+              }}
+            >
+              {file ? shorten(file.name, 32) : t('in-settings:tabs.chooseFile')}
+            </Button>
+          </div>
+        </Section>
+      </form>
     </>
   );
-}
-
-function enrichForm(form, { setCanDeleteItem, result: { config } }) {
-  setCanDeleteItem(!!config.activated);
-  return form
-    .put('samlSignInCallbackUrl', createField({ value: config.samlSignInCallbackUrl || '' }))
-    .put('samlSignOutCallbackUrl', createField({ value: config.samlSignOutCallbackUrl || '' }))
-    .put('spEntityId', createField({ value: config.spEntityId || '' }))
-    .put('ownerEmail', createField({ value: '' }))
-    .put('nameIdFormat', createField({ value: config.nameIdFormat || '' }));
 }
