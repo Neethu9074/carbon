@@ -94,7 +94,7 @@ function createStaticThresholdForm(threshold) {
           ];
         }
       }
-    }).setTouched(true)
+    })
   );
 }
 

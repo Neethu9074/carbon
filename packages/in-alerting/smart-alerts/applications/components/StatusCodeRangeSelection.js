@@ -8,7 +8,6 @@ import React from 'react';
 
 import { Stack } from '@instana/components';
 
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import { Col, Row } from 'in-components/layout/Grid';
 import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
@@ -16,13 +15,13 @@ import Label from 'in-components/form/Label';
 import locals from './StatusCodeRangeSelection.mless';
 
 export default function StatusCodeRangeSelection({
-  startField,
-  endField,
+  start = '',
+  end = '',
+  startHasError,
+  endHasError,
   onStartSelectionUpdate,
   onEndSelectionUpdate
 }) {
-  const startHasError = !startField.valid && startField.touched;
-  const endHasError = !endField.valid && endField.touched;
   return (
     <Row>
       <Col lg={3}>
@@ -34,12 +33,11 @@ export default function StatusCodeRangeSelection({
             id="statusCodeStart"
             name="statusCodeStart"
             placeholder="500"
-            value={startField.value}
+            value={start}
             onChange={e => onStartSelectionUpdate(e.target.value)}
             hasError={startHasError}
             type="number"
           />
-          <TouchedMessages field={startField} />
         </Stack>
       </Col>
       <Col lg={3}>
@@ -51,12 +49,11 @@ export default function StatusCodeRangeSelection({
             id="statusCodeEnd"
             name="statusCodeEnd"
             placeholder="599"
-            value={endField.value}
+            value={end}
             onChange={e => onEndSelectionUpdate(e.target.value)}
             hasError={endHasError}
             type="number"
           />
-          <TouchedMessages field={endField} />
         </Stack>
       </Col>
     </Row>
@@ -64,8 +61,10 @@ export default function StatusCodeRangeSelection({
 }
 
 StatusCodeRangeSelection.propTypes = {
-  startField: PropTypes.object.isRequired,
-  endField: PropTypes.object.isRequired,
+  start: PropTypes.number,
+  end: PropTypes.number,
+  startHasError: PropTypes.bool,
+  endHasError: PropTypes.bool,
   onStartSelectionUpdate: PropTypes.func.isRequired,
   onEndSelectionUpdate: PropTypes.func.isRequired
 };
