@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { TimeConfig, TagType, BeaconType, HasQueryContext } from 'in-types/backendCorrections';
+import { TimeConfig, TagType, BeaconType } from 'in-types/backendCorrections';
 
 export interface AbstractApplicationAlertConfig {
   readonly alertChannelIds: string[];
@@ -1135,7 +1135,7 @@ export interface GetInfrastructureExploreQuery {
   readonly filter: TagSetFilter;
   readonly metrics?: { [index: string]: InfraMetricQuery };
   readonly order?: Order;
-  readonly pagination?: CursorPagination<IngestionOffsetCursor>;
+  readonly pagination?: CursorPagination<InfraExploreCursor>;
   readonly type?: string;
 }
 
@@ -1153,7 +1153,7 @@ export interface GetInfrastructureGroupsQuery {
   readonly groupBy: string[];
   readonly metrics?: { [index: string]: InfraMetricQuery };
   readonly order?: Order;
-  readonly pagination?: CursorPagination<IngestionOffsetCursor>;
+  readonly pagination?: CursorPagination<InfraExploreCursor>;
   readonly type?: string;
 }
 
@@ -2025,11 +2025,6 @@ export interface HasLogsResult {
   readonly hasLogs: boolean;
 }
 
-export interface HasQueryContext {
-  readonly queryContext?: QueryContext;
-  readonly websocket: boolean;
-}
-
 export interface HealthData {
   readonly metadata?: { [index: string]: any };
   readonly problems?: ProblemObject[];
@@ -2118,6 +2113,11 @@ export interface Incident extends Event {
   readonly issueOrderMap?: { [index: string]: number };
   readonly recentEvents?: string[];
   readonly triggeringEvent: string;
+}
+
+export interface InfraExploreCursor extends IngestionOffsetCursor {
+  readonly totalHits: number;
+  readonly totalRepresentedItemCount: number;
 }
 
 export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
@@ -4081,7 +4081,7 @@ export interface TreeMapNode<T> {
   readonly label?: string;
 }
 
-export interface UiQuery extends HasQueryContext {
+export interface UiQuery {
 }
 
 export interface UnifiedMetricConfiguration {
