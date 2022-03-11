@@ -203,11 +203,13 @@ export default function ServerTablePresenter<
     }
     return (
       <Card title={cardTitle} leftHeaderContent={leftHeaderContent} rightHeaderContent={header}>
+        {scopeNotification}
         {tableElement}
         {pagination}
       </Card>
     );
   }
+
   return (
     <Fragment>
       {header && (
