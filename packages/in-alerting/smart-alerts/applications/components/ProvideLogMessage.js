@@ -157,6 +157,7 @@ export default function ProvideLogMessage({ form, timeConfig, onSelectLogMessage
               hasError={!field.valid && field.touched}
               maxLength={65536}
             />
+
             <TouchedMessages field={field} />
           </FormGroup>
         ))}

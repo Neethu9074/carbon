@@ -40,13 +40,13 @@ export default function ApplicationsList({ isGlobalSmartAlert, searchQuery, ...p
   const getStaleEntity = props.getApplication;
 
   return isGlobalSmartAlert ? (
-    <ApplicationListMultipleApplications {...props} searchQuery={trimmedSearchQuery} getStaleEntity={getStaleEntity} />
+    <ApplicationListMutlipleApplications {...props} searchQuery={trimmedSearchQuery} getStaleEntity={getStaleEntity} />
   ) : (
     <ApplicationListSingleApplication {...props} searchQuery={trimmedSearchQuery} getStaleEntity={getStaleEntity} />
   );
 }
 
-function ApplicationListMultipleApplications({ getApplicationsCursorPaginated, ...props }) {
+function ApplicationListMutlipleApplications({ getApplicationsCursorPaginated, ...props }) {
   const { boundaryScope, includeSynthetic, readOnly, stateManagement, timeConfig, searchQuery } = props;
 
   let { items = [], ...tableProps } = useCursorPagination(
@@ -105,7 +105,7 @@ function ApplicationListSingleApplication({ appIdForIndividualSmartAlert, getApp
   );
 }
 
-function ApplicationBaseList({ items = [], isLoading, getStaleEntity, initiallyOpen, validationError, ...props }) {
+function ApplicationBaseList({ items = [], isLoading, getStaleEntity, initiallyOpen, ...props }) {
   const {
     stateManagement: { state },
     searchQuery,
@@ -130,7 +130,6 @@ function ApplicationBaseList({ items = [], isLoading, getStaleEntity, initiallyO
           ? sortListBySelectionState(listData, enhanceParentIdsWithChildId, hasUserInteractedWithItem(state))
           : listData
       }
-      validationError={validationError}
       /* eslint-disable-next-line react/display-name */
       renderSubList={({ applicationId }) => () => {
         return <ServicesList {...props} parentIds={{ applicationId }} />;
@@ -222,7 +221,6 @@ ApplicationsList.propTypes = {
   searchQuery: PropTypes.string,
   boundaryScope: PropTypes.string.isRequired,
   showInteractedItemsOnly: PropTypes.bool,
-  validationError: PropTypes.string,
   editMode: PropTypes.bool,
   readOnly: PropTypes.bool,
   appIdForIndividualSmartAlert: PropTypes.string,

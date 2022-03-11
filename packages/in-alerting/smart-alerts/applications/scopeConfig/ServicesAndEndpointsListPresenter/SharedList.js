@@ -15,7 +15,6 @@ import { just } from '@instana/observables';
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-import ValidationBlock from 'in-components/form/ValidationBlock';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
@@ -93,7 +92,6 @@ export default function SharedList({
   canLoadMore,
   loadMore,
   isLoading,
-  validationError,
   stateProcessors: {
     enhanceParentIdsWithChildId,
     entityType,
@@ -116,11 +114,6 @@ export default function SharedList({
 
   return (
     <Ul framed={isFramed}>
-      {validationError && (
-        <Li className={locals.listItem}>
-          <ValidationBlock>{validationError}</ValidationBlock>
-        </Li>
-      )}
       {listData.map(({ item }) => {
         const { id, isStaleItem, label } = item;
 
@@ -213,7 +206,6 @@ SharedList.propTypes = {
   ).isRequired,
   loadMore: PropTypes.func.isRequired,
   renderSubList: PropTypes.func,
-  validationError: PropTypes.string,
   stateManagement: stateManagementPropType,
   stateProcessors: PropTypes.shape({
     enhanceParentIdsWithChildId: PropTypes.func.isRequired,
