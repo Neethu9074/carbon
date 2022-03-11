@@ -2893,6 +2893,19 @@ export interface Message {
   readonly title: string;
 }
 
+export interface Metric {
+  readonly description?: string;
+  readonly label?: string;
+  readonly name?: string;
+  readonly type?: string;
+  readonly valueType?: MetricType;
+}
+
+export interface MetricCatalog {
+  readonly list?: Metric[];
+  readonly tree?: MetricTreeLevel[];
+}
+
 export interface MetricConfiguration {
   readonly aggregation: AggregationType;
   readonly granularity?: number;
@@ -2938,6 +2951,36 @@ export interface MetricResult {
   readonly id: string;
   readonly resultPrecisionDetails?: ResultPrecisionDetails;
   readonly values: number[][];
+}
+
+export interface MetricTreeLevel extends MetricTreeNode {
+  readonly children: MetricTreeNodeUnion[];
+  readonly description?: string;
+  readonly label: string;
+  readonly type: 'LEVEL';
+}
+
+export interface MetricTreeMetric extends MetricTreeNode {
+  readonly allowedCrossSeriesAggregations?: AggregationType[];
+  readonly description?: string;
+  readonly label: string;
+  readonly name: string;
+  readonly parentType: string;
+  readonly type: 'METRIC';
+}
+
+export interface MetricTreeMetricBuilder extends MetricTreeNodeBuilder<MetricTreeMetricBuilder, MetricTreeMetric> {
+  readonly allowedAggregations?: AggregationType[];
+}
+
+export interface MetricTreeNode {
+  readonly icon?: string;
+  readonly label?: string;
+  readonly type: 'LEVEL' | 'METRIC';
+}
+
+export interface MetricTreeNodeBuilder<BUILDER_TYPE, RESULT_TYPE> {
+  readonly label?: string;
 }
 
 export interface Metricific {
@@ -3427,6 +3470,10 @@ export interface Result<T> {
 
 export interface ResultPrecisionDetails {
   readonly resultPrecision: ResultPrecision;
+}
+
+export interface SearchMetric extends Metric {
+  readonly category?: Category;
 }
 
 export interface Service {
@@ -4665,6 +4712,8 @@ export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
 
 export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SMART_ALERTS_LOGS' | 'SMART_ALERTS_ADAPTIVE_BASELINE' | 'SLI_MANAGEMENT' | 'APPLICATION_CONFIG' | 'APPLICATION_CONFIG_BLUEPRINT';
 
+export type Category = 'APPLICATION' | 'SERVICE' | 'ENDPOINT' | 'PLATFORM' | 'CALL' | 'TRACE' | 'CLOUD' | 'CONTAINER' | 'GEO_LOCATION' | 'LOG' | 'HOST' | 'CLUSTER' | 'DATABASE' | 'INFRA' | 'PROCESS' | 'TECHNOLOGY' | 'INTERNAL' | 'WEBSITE' | 'MOBILE' | 'MESSAGING' | 'HTTP' | 'RPC' | 'BATCH' | 'EVENT' | 'SHELL' | 'SDK' | 'AGENT' | 'KUBERNETES' | 'OPEN_TELEMETRY' | 'OPEN_TELEMETRY_HTTP' | 'OPEN_TELEMETRY_DATABASE' | 'OPEN_TELEMETRY_MESSAGING' | 'OPEN_TELEMETRY_RPC' | 'OPEN_TELEMETRY_CUSTOM' | 'HIDDEN_CALLS' | 'DEPLOYMENT_SERVER' | 'WEBSPHERE' | 'USER' | 'DEVICE' | 'APP' | 'MOBILE_OS' | 'VIEWPORT' | 'MOBILE_LOCATION' | 'MOBILE_HTTP' | 'ERROR' | 'STACKTRACE' | 'WEB_LOCATION' | 'WEB_USER' | 'WINDOW' | 'BROWSER' | 'WEB_OS' | 'WEB_HTTP' | 'WEB_TIMING' | 'WEB_CSP' | 'WEB_GRAPHQL' | 'SOLR' | 'AEROSPIKE' | 'CLICKHOUSE' | 'MONGODB' | 'MSSQL' | 'VAULT' | 'LXC' | 'CONTAINERD' | 'CRIO' | 'DOCKER' | 'MARATHON' | 'NOMAD' | 'COMPOSE' | 'PHP' | 'RUBY' | 'EJB' | 'CLR' | 'CRYSTAL' | 'GO' | 'JVM' | 'JBOSS' | 'WEBLOGIC' | 'NETCORE' | 'PYTHON' | 'NODEJS' | 'GRAPHQL' | 'SPRINGBOOT' | 'DROPWIZARD' | 'HASKELL' | 'CICS' | 'IMS' | 'ZCEE' | 'CLOUDFOUNDRY' | 'VSPHERE' | 'OPENSHIFT' | 'NOVA' | 'PHMC' | 'ZHMC' | 'ALICLOUD' | 'AWS' | 'AZURE' | 'GCP' | 'OPC' | 'FAAS' | 'ACTIVEMQ' | 'KAFKA' | 'IBMDATAPOWER' | 'ACE' | 'RABBITMQ' | 'TIBCOEMS' | 'LOG_V2' | 'SYNTHETIC';
+
 export type ChangeType = 'CREATE' | 'UPDATE' | 'DELETE' | 'ENABLE' | 'DISABLE' | 'RESTORE' | 'UNKNOWN';
 
 export type Conjunction = 'AND' | 'OR';
@@ -4730,6 +4779,8 @@ export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISH
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
 export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'UNKNOWN';
+
+export type MetricTreeNodeUnion = MetricTreeLevel | MetricTreeMetric;
 
 export type OrderDirection = 'ASC' | 'DESC';
 

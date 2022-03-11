@@ -6,10 +6,10 @@
 import { createField } from 'formalistic';
 
 import { addTagFilterExpressionField } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/form';
+import { arrayValidator, stringValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { notUndefinedValidator } from 'in-services/validators/undefined';
 import { notBlankValidator } from 'in-services/validators/string';
-import { stringValidator } from 'in-services/validators/jsonType';
 import { buildEnumValidator } from 'in-services/validators/enum';
 import { aggregationLabels } from 'in-stores/metric/metric';
 
@@ -50,6 +50,20 @@ export function createForm(form, savedState) {
           notBlankValidator,
           buildEnumValidator(Object.keys(aggregationLabels))
         )
+      })
+    )
+    .put(
+      'allowedCrossSeriesAggregations',
+      createField({
+        value: savedState?.allowedCrossSeriesAggregations || [],
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, arrayValidator)
+      })
+    )
+    .put(
+      'metricPath',
+      createField({
+        value: savedState?.metricPath || [],
+        validator: composeAndShortCircuitOnError(notUndefinedValidator, arrayValidator)
       })
     );
 }
