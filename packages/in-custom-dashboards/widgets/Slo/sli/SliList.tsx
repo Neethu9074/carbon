@@ -4,7 +4,6 @@
  */
 
 import { get } from 'lodash';
-import rpt from 'prop-types';
 import React from 'react';
 
 import { Observable } from '@instana/observables';
@@ -39,8 +38,8 @@ import theme from 'in-themes';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/SliManageList.mless';
 
-type OverwrittenServerTableProps = 'onRowClick' | 'numSkeletonRows' | 'isSearchable';
-type OptionalServerTableProps = 'orderDirection';
+type OverwrittenServerTableProps = 'onRowClick' | 'numSkeletonRows' | 'isSearchable' | 'columnDefinitions';
+type OptionalServerTableProps = 'orderDirection' | 'page' | 'pageSize' | 'orderBy';
 
 interface SliListProps
   extends Omit<ServerTablePresenterProps<SliConfiguration>, OverwrittenServerTableProps | OptionalServerTableProps> {
@@ -62,6 +61,9 @@ export default function SliList(props: SliListPropsWithOptionals) {
   return (
     <ServerTablePresenter<SliConfiguration, InternalSliListProps>
       getRowProps={getRowProps}
+      page={1}
+      pageSize={100}
+      orderBy="name"
       orderDirection="ASC"
       cardTitle={t('in-custom-dashboards:widgets.slo.sliList.serviceLevelIndicators')}
       {...props}
@@ -74,15 +76,6 @@ export default function SliList(props: SliListPropsWithOptionals) {
     />
   );
 }
-
-SliList.propTypes = {
-  getItems: rpt.func.isRequired,
-  rightHeader: rpt.node,
-  selectSli: rpt.func.isRequired,
-  onChange: rpt.func.isRequired,
-  query: rpt.string,
-  EmptyStateComponent: rpt.func
-};
 
 const deleteSliConfig = (id: string): void => {
   deleteSliConfiguration(id).once(

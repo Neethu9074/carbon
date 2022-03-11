@@ -13,7 +13,6 @@ import {
   isWebsiteEventBasedSliEntity,
   isWebsiteTimeBasedSliEntity,
   NewSliConfig,
-  SliConfig,
   websiteTimeBased
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import {
@@ -22,23 +21,17 @@ import {
 } from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
 import { createForm, SliFormData, WebsiteSliEntityFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { useWebsiteSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
+import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliFormFactory';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
-import { Result, TimeConfig, Website, WebsiteSliEntity } from 'in-types';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
+import { Result, TimeConfig, Website } from 'in-types';
 import useWebsite from 'in-websites/hooks/useWebsite';
 
-export interface CreateWebsiteSliFormProps {
-  entityId: string;
-  close: () => void;
-  sliConfig?: SliConfig<WebsiteSliEntity>;
-  setFooter: (footer: React.ReactNode) => void;
-}
-
-export default function CreateWebsiteSliForm({ entityId, close, sliConfig, setFooter }: CreateWebsiteSliFormProps) {
+export default function CreateWebsiteSliForm({ entityId, close, sliConfig, setFooter }: CreateSliFormProps<'website'>) {
   const [website, status] = useWebsite(entityId);
 
   if (status !== 'resolved' || sliConfig == null) {
@@ -61,7 +54,7 @@ function CreateWebsiteSliFormComponent({
   sliConfig,
   close,
   setFooter
-}: CreateWebsiteSliFormProps & { website: Website }) {
+}: CreateSliFormProps<'website'> & { website: Website }) {
   const [form, setForm] = useState(createForm('website', sliConfig ?? {}, entityId, website));
   const updateForm = useWebsiteSliFormSideEffects(form, setForm as (f: Item) => void);
 
