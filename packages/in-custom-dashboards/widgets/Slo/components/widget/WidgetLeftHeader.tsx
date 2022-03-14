@@ -8,10 +8,10 @@ import React from 'react';
 import { LoadingSkeleton, Stack } from '@instana/components';
 
 import { CombinedSliEntity, SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo';
 import { SloEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import SloEntityInfo from 'in-custom-dashboards/widgets/Slo/SloEntityInfo';
-import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
 import { FetchStatus } from 'in-hooks/utils/types';
 
 import locals from './WidgetLeftHeader.mless';

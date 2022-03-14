@@ -7,15 +7,15 @@ import React from 'react';
 
 import SloTileSkeleton from 'in-custom-dashboards/widgets/Slo/Tiles/SloTileSkeleton';
 
-import locals from './WidgetHeader.mless';
+import locals from './SliSummary.mless';
 
-interface WidgetHeaderSkeletonProps {
+interface SliSummarySkeletonProps {
   compact?: boolean;
 }
 
-export default function WidgetHeaderSkeleton({ compact }: WidgetHeaderSkeletonProps) {
+export default function SliSummarySkeleton({ compact }: SliSummarySkeletonProps) {
   return (
-    <div className={compact ? locals.listContainer : locals.tilesContainer} data-testid="widget-header-skeleton">
+    <div className={compact ? locals.listContainer : locals.tilesContainer} data-testid="sli-summary-skeleton">
       <SloTileSkeleton compact={compact} />
       <SloTileSkeleton compact={compact} />
       <SloTileSkeleton compact={compact} />

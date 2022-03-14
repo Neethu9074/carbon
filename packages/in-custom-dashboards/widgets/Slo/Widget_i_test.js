@@ -56,7 +56,7 @@ describe('in-custom-dashboards/widgets/Slo/Widget', () => {
 
     render(<Widget actions={<></>} config={widgetConfig} isPreview title="Test Widget" dragHandle={<></>} />);
 
-    expect(screen.getByTestId('widget-header-skeleton')).toBeVisible();
+    expect(screen.getByTestId('sli-summary-skeleton')).toBeVisible();
     expect(screen.getByTestId('widget-loader')).toBeVisible();
     expect(screen.getAllByTestId('slo-tile-skeleton')).toHaveLength(3);
   });
@@ -71,16 +71,18 @@ describe('in-custom-dashboards/widgets/Slo/Widget', () => {
 
     expect(screen.getByText('Test Widget')).toBeVisible();
     expect(screen.getByText('Test Entity Label')).toBeVisible();
-    expect(screen.getByText(t('in-custom-dashboards:widgets.slo.widgetHeader.status'), { exact: false })).toBeVisible();
-    expect(screen.getByText(t('in-custom-dashboards:widgets.slo.widgetHeader.target'), { exact: false })).toBeVisible();
+    expect(screen.getByText(t('in-custom-dashboards:widgets.slo.sliSummary.status'), { exact: false })).toBeVisible();
+    expect(screen.getByText(t('in-custom-dashboards:widgets.slo.sliSummary.target'), { exact: false })).toBeVisible();
     expect(
-      screen.getByText(t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudgetSpent'), { exact: false })
+      screen.getByText(t('in-custom-dashboards:widgets.slo.sliSummary.errorBudgetSpent'), { exact: false })
     ).toBeVisible();
     expect(
-      screen.getByText(t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudget'), { exact: false })
+      screen.getByText(t('in-custom-dashboards:widgets.slo.sliSummary.errorBudget'), { exact: false })
     ).toBeVisible();
     expect(
-      screen.getByText(t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow'), { exact: false })
+      screen.getByText(t('in-custom-dashboards:widgets.slo.sliSummary.timeWindowType', { context: 'dynamic' }), {
+        exact: false
+      })
     ).toBeVisible();
   });
 });

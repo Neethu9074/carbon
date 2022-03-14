@@ -7,9 +7,9 @@ import React from 'react';
 
 import { Card } from '@instana/components';
 
-import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetHeader';
+import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo';
+import SliSummary from 'in-custom-dashboards/widgets/Slo/components/SliSummary';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/SliConfigInfo';
 import Chart, { ChartProps } from 'in-custom-dashboards/widgets/Slo/Chart';
 import { SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { AvailabilitySliEntity, MetricResult, Result } from 'in-types';
@@ -193,11 +193,9 @@ export default function ShowCase() {
           </>
         }
       >
-        <WidgetHeader
-          slo=""
+        <SliSummary
           budget={budget}
-          isDynamic={false}
-          isRolling
+          timeWindowType="rolling"
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
           sliEntity={sliConfig?.sliEntity}

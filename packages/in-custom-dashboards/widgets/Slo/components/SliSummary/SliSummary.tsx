@@ -6,23 +6,23 @@
 import { useMediaQuery } from '@material-ui/core';
 import React from 'react';
 
-import WidgetHeaderSkeleton from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetHeaderSkeleton';
+import SliSummarySkeleton from 'in-custom-dashboards/widgets/Slo/components/SliSummary/SliSummarySkeleton';
 import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
 import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
+import { TimeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
 import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import { percentage } from 'in-services/formatters/number';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { SliEntity } from 'in-types';
 import { t } from 'in-i18n';
 
-import locals from './WidgetHeader.mless';
+import locals from './SliSummary.mless';
 
-interface WidgetHeaderProps {
+interface SliSummaryProps {
   status?: FetchStatus;
-  slo: number | '';
+  slo?: number;
   budget?: number;
-  isDynamic?: boolean;
-  isRolling?: boolean;
+  timeWindowType: TimeWindowType;
   fromTimestamp: number;
   toTimestamp: number;
   sliEntity?: SliEntity;
@@ -31,22 +31,21 @@ interface WidgetHeaderProps {
   metricRemaining?: number;
 }
 
-export function WidgetHeader({
+export function SliSummary({
   status,
   slo,
   budget,
-  isDynamic,
-  isRolling,
+  timeWindowType,
   fromTimestamp,
   toTimestamp,
   sliEntity,
   metricSpent: spent,
   metricSli: sli,
   metricRemaining: remaining
-}: WidgetHeaderProps) {
+}: SliSummaryProps) {
   const isCompact = !useMediaQuery('(min-width: 1300px)');
 
-  if (status === 'pending') return <WidgetHeaderSkeleton compact={isCompact} />;
+  if (status === 'pending') return <SliSummarySkeleton compact={isCompact} />;
 
   const sloSpent = slo != null && sli != null && sli < slo;
   const budgetSpent = remaining != null && remaining <= 0;
@@ -55,30 +54,26 @@ export function WidgetHeader({
   return (
     <div className={isCompact ? locals.listContainer : locals.tilesContainer}>
       <SloTile
-        title={t('in-custom-dashboards:widgets.slo.widgetHeader.status')}
+        title={t('in-custom-dashboards:widgets.slo.sliSummary.status')}
         value={sli && percentage.detailed(sli)}
-        budgetTitle={t('in-custom-dashboards:widgets.slo.widgetHeader.target')}
+        budgetTitle={t('in-custom-dashboards:widgets.slo.sliSummary.target')}
         budget={slo && percentage.detailed(slo)}
         budgetSpent={sloSpent}
         compact={isCompact}
       />
       <SloTile
-        title={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudgetSpent')}
+        title={t('in-custom-dashboards:widgets.slo.sliSummary.errorBudgetSpent')}
         value={spent && sliFormatter(spent)}
-        budgetTitle={t('in-custom-dashboards:widgets.slo.widgetHeader.errorBudget')}
+        budgetTitle={t('in-custom-dashboards:widgets.slo.sliSummary.errorBudget')}
         budget={budget && sliFormatter(budget)}
         budgetSpent={budgetSpent}
         compact={isCompact}
       />
       <SloTimeTile
-        title={t('in-custom-dashboards:widgets.slo.widgetHeader.timeWindow')}
-        timeFrameLabel={
-          isDynamic
-            ? t('in-custom-dashboards:widgets.slo.widgetHeader.dynamicTimeWindow')
-            : isRolling
-            ? t('in-custom-dashboards:widgets.slo.widgetHeader.rollingTimeWindow')
-            : t('in-custom-dashboards:widgets.slo.widgetHeader.fixedTimeWindow')
-        }
+        title={t('in-custom-dashboards:widgets.slo.sliSummary.timeWindow')}
+        timeFrameLabel={t('in-custom-dashboards:widgets.slo.sliSummary.timeWindowType', {
+          context: timeWindowType
+        })}
         fromTimestamp={fromTimestamp}
         toTimestamp={toTimestamp}
         compact={isCompact}
@@ -87,4 +82,4 @@ export function WidgetHeader({
   );
 }
 
-export default WidgetHeader;
+export default SliSummary;

@@ -523,15 +523,16 @@
         "enterDateFormatYyyyMmDd": "Please enter a date in the format YYYY-MM-DD.",
         "enterTimeInFormatHhMmSs": "Please enter a time in the format HH:mm:ss."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Status",
         "target": "Target:",
         "errorBudgetSpent": "Error Budget Spent",
         "errorBudget": "Error Budget:",
         "timeWindow": "Time Window",
-        "dynamicTimeWindow": "Dynamic time window",
-        "rollingTimeWindow": "Rolling time window",
-        "fixedTimeWindow": "Fixed time window"
+        "timeWindowType": "Unknown time window",
+        "timeWindowType_dynamic": "Dynamic time window",
+        "timeWindowType_rolling": "Rolling time window",
+        "timeWindowType_fixed": "Fixed time window"
       },
       "sloEntityInfo": {
         "tooltip": {

@@ -10,11 +10,11 @@ import { Card } from '@instana/components';
 import { ensureConfigBackwardCompatibility, SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/form';
 import WidgetLoadingIndicator from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetLoadingIndicator';
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetLeftHeader';
-import { WidgetHeader } from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetHeader';
 import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
 import WidgetContent from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetContent';
 import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
+import SliSummary from 'in-custom-dashboards/widgets/Slo/components/SliSummary';
 import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { findMetric } from 'in-custom-dashboards/widgets/Slo/metric';
 import { all as allStatus } from 'in-hooks/utils/fetchStatus';
@@ -45,7 +45,6 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
     timeWindowStart
   } = ensureConfigBackwardCompatibility(config);
 
-  const isDynamic = timeWindowType === 'dynamic';
   const isRolling = timeWindowType === 'rolling';
   const isFixed = timeWindowType === 'fixed';
 
@@ -106,12 +105,11 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
           />
         }
       >
-        <WidgetHeader
+        <SliSummary
           status={unifiedStatus}
           slo={slo}
           budget={budget}
-          isDynamic={isDynamic}
-          isRolling={isRolling}
+          timeWindowType={timeWindowType}
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
           sliEntity={sliConfiguration?.sliEntity}
