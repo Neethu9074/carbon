@@ -3,21 +3,24 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { Group } from 'in-types';
+import { Group, TagFilter } from 'in-types';
 
-export const createServiceTagFilter = (serviceId: string) => {
-  return {
-    stringValue: serviceId,
-    name: 'service.id',
-    entity: DESTINATION,
-    operator: EQUALS
-  };
+export const createServiceTagFilter = (serviceId: string): TagFilter => {
+  return tagFilter('service.id', EQUALS, serviceId);
 };
-export const createServiceTagFilterExpression = (serviceId: string) => {
+export const qualifiedReferencesFilter: TagFilter = tagFilter(
+  'call.meta_tags',
+  EQUALS,
+  'QUALIFIED_REFERENCE',
+  'destination_infra_reference_type'
+);
+
+export const createTagFilterExpression = (serviceId: string, ...otherFilters: TagFilter[]) => {
   return {
-    elements: [createServiceTagFilter(serviceId)],
+    elements: [createServiceTagFilter(serviceId), ...otherFilters],
     logicalOperator: 'AND',
     type: 'EXPRESSION'
   };
@@ -28,7 +31,7 @@ const getDefaultMetricConfig = (serviceId: string) => {
     metric: 'calls',
     aggregation: 'SUM',
     source: 'APPLICATION',
-    tagFilterExpression: createServiceTagFilterExpression(serviceId)
+    tagFilterExpression: createTagFilterExpression(serviceId)
   };
 };
 
@@ -75,7 +78,6 @@ export const groupByHostname: Group = {
 export const getGroupByHostnameConfig = (serviceId: string) => {
   return {
     ...getDefaultMetricConfig(serviceId),
-    metric: 'erroneousCalls',
     grouping: [
       {
         by: groupByHostname,
@@ -92,7 +94,6 @@ export const groupByHttpHost: Group = {
 export const getGroupByHttpHostConfig = (serviceId: string) => {
   return {
     ...getDefaultMetricConfig(serviceId),
-    metric: 'erroneousCalls',
     grouping: [
       {
         by: groupByHttpHost,
@@ -127,7 +128,6 @@ export const groupBySpanType: Group = {
 export const getGroupBySpanType = (serviceId: string) => {
   return {
     ...getDefaultMetricConfig(serviceId),
-    metric: 'erroneousCalls',
     grouping: [
       {
         by: groupBySpanType,

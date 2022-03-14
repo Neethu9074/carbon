@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { CursorPaginatedResult, GetCallGroupsQuery, MetricResult, Result } from 'in-types';
+import { CallGroupsItem, CursorPaginatedResult, GetCallGroupsQuery, Result } from 'in-types';
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export interface GetCallGroupsResult extends Result<CursorPaginatedResult<MetricResult[]>> {}
+export interface GetCallGroupsResult extends Result<CursorPaginatedResult<CallGroupsItem>> {}
 
 export default createResultSubscriptionFactory<GetCallGroupsQuery, GetCallGroupsResult>({
   eventId: 'getCallGroups',

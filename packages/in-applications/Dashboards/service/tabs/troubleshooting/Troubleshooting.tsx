@@ -21,7 +21,8 @@ import {
   groupByProcessUptime,
   groupByServiceMappingOutcome,
   groupByServiceRuleId,
-  groupBySpanType
+  groupBySpanType,
+  qualifiedReferencesFilter
 } from './metricConfigs';
 import GroupBigNumberKpiCard, { groupedBigNumberKpiMapper } from './GroupedBigNumberKpiCard';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -47,7 +48,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
   return (
     <>
       <Row>
-        <Col lg>
+        <Col xs>
           <GroupBigNumberKpiCard
             title={t('in-applications:serviceTroubleshooting.numberOfHosts')}
             resultMapper={groupedBigNumberKpiMapper}
@@ -60,7 +61,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             groupByTagEntity={DESTINATION}
           />
         </Col>
-        <Col lg>
+        <Col xs>
           <GroupBigNumberKpiCard
             title={t('in-applications:serviceTroubleshooting.numberOfHostnames')}
             resultMapper={groupedBigNumberKpiMapper}
@@ -70,6 +71,20 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             syntheticCalls={syntheticCalls}
             serviceId={serviceId}
             groupByTag={'call.http.host'}
+          />
+        </Col>
+        <Col xs>
+          <GroupBigNumberKpiCard
+            title={t('in-applications:serviceTroubleshooting.numberOfQualifiedReferences')}
+            resultMapper={groupedBigNumberKpiMapper}
+            timeConfig={timeConfig}
+            timeShiftConfig={timeShiftConfig}
+            boundaryScope={boundaryScope}
+            syntheticCalls={syntheticCalls}
+            serviceId={serviceId}
+            groupByTag={'call.meta_tags'}
+            groupByTagSecondLevel={'destination_infra_reference'}
+            tagFilters={[qualifiedReferencesFilter]}
           />
         </Col>
       </Row>
@@ -100,50 +115,13 @@ export default function Troubleshooting(props: TroubleShootingProps) {
       <Row>
         <Col xs>
           <TroubleShootingChart
-            title={t('in-applications:serviceTroubleshooting.hostNameErrors')}
-            explanation={t('in-applications:serviceTroubleshooting.hostNameErrorsExplanation')}
+            title={t('in-applications:serviceTroubleshooting.serviceRuleId')}
+            explanation={t('in-applications:serviceTroubleshooting.serviceRuleIdExplanation')}
             serviceId={serviceId}
-            metricConfig={getGroupByHostnameConfig(serviceId)}
+            metricConfig={getGroupByServiceRuleId(serviceId)}
             boundaryScope={boundaryScope}
             syntheticCalls={syntheticCalls}
-            groupBy={groupByHostname}
-          />
-        </Col>
-        <Col xs>
-          <TroubleShootingChart
-            title={t('in-applications:serviceTroubleshooting.httpHostErrors')}
-            explanation={t('in-applications:serviceTroubleshooting.httpHostErrorsExplanation')}
-            serviceId={serviceId}
-            metricConfig={getGroupByHttpHostConfig(serviceId)}
-            boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
-            groupBy={groupByHttpHost}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs>
-          <TroubleShootingChart
-            title={t('in-applications:serviceTroubleshooting.spanTypeErrors')}
-            explanation={t('in-applications:serviceTroubleshooting.spanTypeErrorsExplanation')}
-            serviceId={serviceId}
-            metricConfig={getGroupBySpanType(serviceId)}
-            boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
-            groupBy={groupBySpanType}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs>
-          <TroubleShootingChart
-            title={t('in-applications:serviceTroubleshooting.processUptime')}
-            explanation={t('in-applications:serviceTroubleshooting.processUptimeExplanation')}
-            serviceId={serviceId}
-            metricConfig={getGroupByProcessUptime(serviceId)}
-            boundaryScope={boundaryScope}
-            syntheticCalls={syntheticCalls}
-            groupBy={groupByProcessUptime}
+            groupBy={groupByServiceRuleId}
           />
         </Col>
         <Col xs>
@@ -159,15 +137,54 @@ export default function Troubleshooting(props: TroubleShootingProps) {
         </Col>
       </Row>
       <Row>
-        <Col xs>
+        <Col lg>
           <TroubleShootingChart
-            title={t('in-applications:serviceTroubleshooting.serviceRuleId')}
-            explanation={t('in-applications:serviceTroubleshooting.serviceRuleIdExplanation')}
+            title={t('in-applications:serviceTroubleshooting.hostName')}
+            explanation={t('in-applications:serviceTroubleshooting.hostNameExplanation')}
             serviceId={serviceId}
-            metricConfig={getGroupByServiceRuleId(serviceId)}
+            metricConfig={getGroupByHostnameConfig(serviceId)}
             boundaryScope={boundaryScope}
             syntheticCalls={syntheticCalls}
-            groupBy={groupByServiceRuleId}
+            groupBy={groupByHostname}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg>
+          <TroubleShootingChart
+            title={t('in-applications:serviceTroubleshooting.httpHost')}
+            explanation={t('in-applications:serviceTroubleshooting.httpHostExplanation')}
+            serviceId={serviceId}
+            metricConfig={getGroupByHttpHostConfig(serviceId)}
+            boundaryScope={boundaryScope}
+            syntheticCalls={syntheticCalls}
+            groupBy={groupByHttpHost}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg>
+          <TroubleShootingChart
+            title={t('in-applications:serviceTroubleshooting.spanType')}
+            explanation={t('in-applications:serviceTroubleshooting.spanTypeExplanation')}
+            serviceId={serviceId}
+            metricConfig={getGroupBySpanType(serviceId)}
+            boundaryScope={boundaryScope}
+            syntheticCalls={syntheticCalls}
+            groupBy={groupBySpanType}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg>
+          <TroubleShootingChart
+            title={t('in-applications:serviceTroubleshooting.processUptime')}
+            explanation={t('in-applications:serviceTroubleshooting.processUptimeExplanation')}
+            serviceId={serviceId}
+            metricConfig={getGroupByProcessUptime(serviceId)}
+            boundaryScope={boundaryScope}
+            syntheticCalls={syntheticCalls}
+            groupBy={groupByProcessUptime}
           />
         </Col>
       </Row>

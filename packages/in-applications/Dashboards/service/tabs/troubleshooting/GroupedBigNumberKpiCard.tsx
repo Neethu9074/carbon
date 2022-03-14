@@ -12,21 +12,22 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import {
+  Group,
   MetricResult,
   Result,
-  TagFilterExpressionElement,
+  TagFilter,
+  TagFilterEntity,
   TimeConfig,
   TimeShift,
   UnifiedMetricConfiguration
 } from 'in-types';
-import { createChartedMetric, createGroupBy, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
+import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import getCallGroups, { GetCallGroupsResult } from 'in-applications/subscriptions/getCallGroups';
 import ResultAwareBigNumberKpiCard from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { createServiceTagFilter, createServiceTagFilterExpression } from './metricConfigs';
+import { createServiceTagFilter, createTagFilterExpression } from './metricConfigs';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { syntheticCallsOptions } from 'in-applications/constants';
 import { hasError, isLoading } from 'in-services/util/result';
-import { EntityType } from 'in-analyze/applicationFilter';
 import { pendingResult } from 'in-services/fixedObjects';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
@@ -38,7 +39,9 @@ export interface GroupBasedBigNumberKpiCardProps {
   timeShiftConfig: TimeShift;
   serviceId: string;
   groupByTag: string;
-  groupByTagEntity?: EntityType;
+  groupByTagSecondLevel?: string;
+  groupByTagEntity?: TagFilterEntity;
+  tagFilters?: TagFilter[];
   syntheticCalls: string;
   boundaryScope: string;
 }
@@ -50,12 +53,13 @@ export const groupedBigNumberKpiMapper = (result: GetCallGroupsResult): Result<M
       data: undefined
     };
   }
+
   return {
     ...result,
     data: [
       {
         id: 'bigNumber',
-        values: [[0, result?.data?.totalHits]]
+        values: [[0, result?.data?.totalHits ?? 0]]
       } as MetricResult
     ]
   };
@@ -71,12 +75,18 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
     resultMapper,
     boundaryScope,
     groupByTag,
-    groupByTagEntity
+    groupByTagSecondLevel,
+    groupByTagEntity,
+    tagFilters = []
   } = props;
   const syntheticCalls = urlSyntheticCalls || syntheticCallsOptions.default;
 
   const serviceFilter = createServiceTagFilter(serviceId);
-  const groupBy = createGroupBy(groupByTag, groupByTagEntity);
+  const groupBy = {
+    groupbyTag: groupByTag,
+    groupbyTagSecondLevelKey: groupByTagSecondLevel,
+    groupbyTagEntity: groupByTagEntity
+  } as Group;
 
   const result =
     useObservable(
@@ -101,7 +111,7 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
         includeInternal: false,
         removeUnmatchedGroup: false,
         timeShift: timeShiftConfig,
-        tagFilterExpressionElement: createServiceTagFilterExpression(serviceId) as TagFilterExpressionElement
+        tagFilterExpressionElement: createTagFilterExpression(serviceId, ...tagFilters)
       }).map(resultMapper),
       []
     ) || pendingResult;
@@ -133,7 +143,7 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
             timeConfig,
             boundaryScope,
             groupBy,
-            formModel: createFormModelFromSyntheticOption(syntheticCalls),
+            formModel: [...createFormModelFromSyntheticOption(syntheticCalls), ...tagFilters],
             hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
             fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
             chartedMetrics: [createChartedMetric('calls', 'SUM')]
