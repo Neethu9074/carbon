@@ -88,7 +88,6 @@
     "applicationDirectory": "應用程式目錄",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Fargate on ECS 上的 Python 支援，就與任何 Python 應用程式的運作方式相同。請遵循 <go>Python 文件</go>的指示。",
     "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "在 ECS 上的 Ruby on Fargate 的支援與任何 Ruby 應用程式的運作方式相同。請遵循 <go>Ruby 文件</go>的指示。",
-
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "AWS Fargate 支援是設計成與 Elastic Container Service (ECS) 上的 AWS Fargate 搭配運作。",
     "selectYourApplicationRuntime": "選取您的應用程式執行時期：",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "以 Go 寫成的 AWS Lambda 函數需要手動檢測，才能收集追蹤資料。請遵循 <go>AWS Lambda Go 文件</go>的指示。",
@@ -153,6 +152,7 @@
     "setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision": "在「Cloud Run 服務修訂」中設定下列環境變數：",
     "setTheFollowingEnvironmentVariablesOnTheCloudRunServiceDefinition": "在「Cloud Run 服務定義」上設定下列環境變數：",
     "theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe": "Google Cloud Run（受完整管理）上的 Go 支援，就與任何 Go 應用程式的運作方式相同。請遵循 <go>Go 文件</go>的指示。",
+    "theSupportForPythonOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "對 Python on Google Cloud Run（完全受管理）的支援與任何 Python 應用程式的運作方式都相同。 請遵循 <go>Python 文件</go>的指示。",
     "supportForGoogleCloudRunIsDesignedToWorkWithTheFullyManagedGoogleCloudRunPlatformCloudRunOnAnthosGkeIsCurrentlyNotSupported": "依照設計，Google Cloud Run 支援會與受到完整管理的 Google Cloud Run 平台搭配運作。目前不支援 Anthos/GKE 上的 Cloud Run。",
     "makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe": "請確定已設定 Instana 代理程式來監視 GCP 專案。如需針對 GCP 設定 Instana 代理程式的詳細資料，請參閱 <go>Instana GCP 支援文件</go>。",
     "selectTheInstallationMethod": "選取安裝方法：",
@@ -206,6 +206,7 @@
     "endpointHost": "端點主機",
     "endpointPort": "端點埠",
     "agentKey": "代理程式金鑰",
+    "downloadKey": "下載金鑰",
     "finallyYouWillNeedToGiveYourVMwareTanzuFoundationANameForExampleProdEuOrDev01ViaTheAgentZoneSettingInTheAgentConfigurationTab": "最後，您需要透過「代理程式配置」標籤中的「代理程式區域」設定，提供一個名稱給 VMWare Tanzu 基礎，例如 \"prod-eu\" 或 \"dev01\"。",
     "applyTheChangesIntroducedByTheInstanaMicroservicesApplicationMonitoringTileToAllTilesInTheOpsManagerTilesThatAreNotSelectedForTheApplyChangesStepInOpsManagerWillNotBeVisibleInInstana": "將「Instana 微服務應用程式監視」圖磚引進的變更，套用至 Ops Manager 中的所有圖磚。Ops Manager 中未選給「套用變更」步驟的圖磚，在 Instana 中將看不見。",
     "supportedOpsManagerVersions": "支援的 Ops Manager 版本",

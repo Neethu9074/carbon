@@ -26,6 +26,7 @@
     "noComponentStatusDataAvailable": "Nessun dato ComponentStatus disponibile",
     "debuggingInformation": "Informazioni di debug",
     "noDebuggingInformation": "Nessuna informazione di debug",
+    "noClusterDataAvailable": "Nessun dato cluster disponibile",
     "summary": "Riepilogo",
     "details": "Dettagli",
     "events": "Eventi",
@@ -45,6 +46,7 @@
     "memoryUsage": "Utilizzo della memoria",
     "phase": "Fase",
     "reclaimPolicy": "Politica di recupero",
+    "storageCapacity": "Capacità di archiviazione",
     "storageClassName": "Nome classe di storage",
     "cpuRequests": "Richieste CPU",
     "cpuLimitsAlloc": "Assegnazione limiti CPU",
@@ -77,6 +79,9 @@
     "table": "Tabella",
     "map": "Mappa",
     "services": "Servizi",
+    "serviceCount": "Conteggio servizi",
+    "appWorkloadCount": "Carichi di lavoro app",
+    "batchWorkloadCount": "Carichi di lavoro batch",
     "cpuRequestsAlloc": "Assegnazione richieste CPU",
     "memoryRequestsAlloc": "Assegnazione richieste memoria",
     "roles": "Ruoli",
@@ -263,6 +268,7 @@
   "cronJobs": "Lavori Cron",
   "health": "Condizioni",
   "clusters": "Cluster",
+  "explore": "Esplora (anteprima tecnica)",
   "noMonitoringDataFound": "Nessun dato di monitoraggio trovato",
   "clusterName": "Nome del cluster",
   "running": "In esecuzione",
@@ -273,7 +279,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "Non è disponibile alcun dato Kubernetes. Per informazioni sulla risoluzione dei problemi, consultare la [documentazione][Doc].\n\n[Docs]:https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+    "noData": "Non è disponibile alcun dato Kubernetes. Per informazioni sulla risoluzione dei problemi, consultare la [documentazione][Doc].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
   },
   "pod": {
     "pending": "Podi in sospeso",

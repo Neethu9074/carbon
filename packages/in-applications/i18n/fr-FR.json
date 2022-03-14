@@ -31,7 +31,7 @@
   "labelTechnologies": "Technologies",
   "labelEndpoints": "Noeuds finaux",
   "labelHealth": "Intégrité",
-  "labelNonHttp": "Autre",
+  "labelOther": "Autre",
   "labelCallCount": "Nombre d'appels",
   "labelHTTPStatusCodes": "Codes de statut HTTP",
   "labelInfraIssues": "Problèmes d'infrastructure",
@@ -108,7 +108,7 @@
   "buttonAddTag": "Ajouter une étiquette",
   "buttonOK": "OK",
   "buttonCreate": "Créer",
-  "buttonCancel": "annuler",
+  "buttonCancel": "Annuler",
   "buttonRemoveApplicationPerspective": "Retirer la perspective d'application",
   "buttonAddDescription": "Ajouter une description",
   "buttonAddSyntheticEndpointRule": "Ajouter une règle de noeud final synthétique",
@@ -198,7 +198,6 @@
     "listBatchTypeTooltip": "Ce {{type}} est traité par lots et représente {{batchCount}} {{types}} individuels.",
     "listBatchLatencyTooltip": "Latence totale de {{batchCount}} {{types}} traités par lots",
     "traceIdTooltip": "Certaines données relatives à cette trace sont en retard. Rechargez la page dans quelques instants. Cela se produit, par exemple, lorsque vous affichez une trace très récente et que certaines de ses données sont toujours en cours de traitement.",
-    "downloadTraceTooltip": "Téléchargez la trace complète.",
     "closeTraceDetail": "Fermer les information de trace",
     "invalidQueryConfig": "La configuration de la requête n'est pas valide. Veuillez résoudre les échecs de validation avant de continuer.",
     "errorRateLabel": "Appels erronés (taux)",
@@ -527,7 +526,7 @@
     "showApplicationsScopeWithApplicationLabel": "Affichage des applications <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> dans le contexte de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Affichage des services <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> dans le contexte de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "Encore aucun service",
-    "servicesNoData": "Aucun appel de service n'est disponible pour la période sélectionnée. Pour obtenir des informations sur le traitement des incidents, consultez la [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "Aucun appel de service n'est disponible pour la période sélectionnée. Pour plus d'informations sur le traitement des incidents, consultez la [documentation] [Docs].\n\n[Docs] : https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Lot",
@@ -570,23 +569,14 @@
         "largeTraceLink": "Cette trace est grande, et son rendu peut entraîner des incidents de performances dans votre navigateur. Vous pouvez <linkToDocs>télécharger la trace</linkToDocs> pour une inspection manuelle ou tenter d'effectuer le rendu de la trace dans votre navigateur. Nous ne rendrons qu'un sous-ensemble des composants, afin d'augmenter les performances de la  tentative.",
         "calls": "Appels",
         "erroneousTrace": "Trace erronée",
-        "attemptToRenderTrace": "Trace de tentative de rendu"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "Informations sur le service",
-          "showServiceInformationExpl": "Afficher les informations sur le service sous l'intitulé de l'appel",
-          "showSubCalls": "Afficher les sous-appels",
-          "showSubCallsExpl": "Afficher les sous-appels directs sur chaque ligne"
-        }
+        "attemptToRenderTrace": "Trace de tentative de rendu",
+        "analyzeBeacons": "Analyser les balises",
+        "adjustedTimeConfig": "L'intervalle a été ajusté pour inclure la balise sélectionnée."
       }
     }
   },
   "tabs": {
-    "labelDetail": "Informations",
-    "labelSummary": "Récapitulatif",
-    "servicesAndEndpoint": "Services et noeuds finaux",
-    "logs": "Journaux"
+    "labelDetail": "Informations"
   },
   "metrics": {
     "calls_calls": "Appels",
@@ -598,5 +588,12 @@
     "traces_latency": "Latence",
     "traces_erroneousCalls": "Traces erronées",
     "traces_errors": "Taux de traces erronées"
+  },
+  "viewLists": {
+    "application": "Applications",
+    "services": "Services",
+    "errorMessages": "Messages d'erreur",
+    "logMessages": "Messages de journal",
+    "endpoints": "Noeuds finaux"
   }
 }

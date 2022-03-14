@@ -88,7 +88,6 @@
     "applicationDirectory": "应用程序目录",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Fargate on ECS 上对 Python 的支持与对任何 Python 应用程序的支持方式相同。请遵循 <go>Python 文档</go>的指示信息操作。",
     "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "Fargate on ECS 上对 Ruby 的支持与对任何 Ruby 应用程序的支持方式相同。请遵循 <go>Ruby 文档</go>的指示信息操作。",
-
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "对 AWS Fargate 的支持旨在与 Elastic Container Service (ECS) 上的 AWS Fargate 一起工作。",
     "selectYourApplicationRuntime": "选择您的应用程序运行时：",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "需要手动检测在 Go 中编写的 AWS Lambda 函数，以便收集跟踪数据。请遵循 <go>AWS Lambda Go 文档</go>的指示信息操作。",
@@ -153,6 +152,7 @@
     "setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision": "在 Cloud Run Service Revision 中设置以下环境变量：",
     "setTheFollowingEnvironmentVariablesOnTheCloudRunServiceDefinition": "在 Cloud Run 服务定义上设置以下环境变量：",
     "theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe": "Google Cloud Run 上对 Go（完全受管）的支持与对任何 Go 应用程序的支持方式相同。请遵循 <go>Go 文档</go>的指示信息操作。",
+    "theSupportForPythonOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "对 Python on Google Cloud Run（完全受管）的支持方式与任何 Python 应用程序的支持方式相同。 请遵循 <go>Python 文档</go>的指示信息操作。",
     "supportForGoogleCloudRunIsDesignedToWorkWithTheFullyManagedGoogleCloudRunPlatformCloudRunOnAnthosGkeIsCurrentlyNotSupported": "支持 Google Cloud Run 旨在与完全受管的 Google Cloud Run 平台一起使用。当前不支持 Anthos/GKE 上的 Cloud Run。",
     "makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe": "请确保已设置 Instana 代理程序，以监视您的 GCP 项目。有关为 GCP 设置 Instana 代理程序的详细信息，请参阅 <go>Instana GCP 支持文档</go>。",
     "selectTheInstallationMethod": "选择安装方法：",
@@ -206,6 +206,7 @@
     "endpointHost": "端点主机",
     "endpointPort": "端点端口",
     "agentKey": "代理程序密钥",
+    "downloadKey": "下载密钥",
     "finallyYouWillNeedToGiveYourVMwareTanzuFoundationANameForExampleProdEuOrDev01ViaTheAgentZoneSettingInTheAgentConfigurationTab": "最后，您需要通过“代理程序配置”选项卡中的“代理区域”设置，为 VMware Tanzu Foundation 指定名称，如“prod-eu”或“dev01”。",
     "applyTheChangesIntroducedByTheInstanaMicroservicesApplicationMonitoringTileToAllTilesInTheOpsManagerTilesThatAreNotSelectedForTheApplyChangesStepInOpsManagerWillNotBeVisibleInInstana": "将“Instana 微服务应用程序监视”磁贴引入的更改应用于 Ops Manager 中的所有磁贴。未在 Ops Manager 的“应用更改”步骤中选中的磁贴在 Instana 中将不可见。",
     "supportedOpsManagerVersions": "受支持的 Ops Manager 版本",

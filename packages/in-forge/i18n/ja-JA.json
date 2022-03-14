@@ -14,11 +14,6 @@
   "pluginName_aceMessageFlow_1": "IBM ACE メッセージ・フロー",
   "pluginName_aceMessageFlow_2": "IBM ACE メッセージ・フロー",
   "pluginName_aceMessageFlow": "IBM ACE メッセージ・フロー",
-  "pluginName_aceFlowNode_plural": "IBM ACE フロー・ノード",
-  "pluginName_aceFlowNode_0": "IBM ACE フロー・ノード",
-  "pluginName_aceFlowNode_1": "IBM ACE フロー・ノード",
-  "pluginName_aceFlowNode_2": "IBM ACE フロー・ノード",
-  "pluginName_aceFlowNode": "IBM ACE フロー・ノード",
   "pluginName_activeMQ_plural": "ActiveMQs",
   "pluginName_activeMQ_0": "ActiveMQs",
   "pluginName_activeMQ_1": "ActiveMQs",
@@ -34,6 +29,16 @@
   "pluginName_aerospike_1": "Aerospike",
   "pluginName_aerospike_2": "Aerospike",
   "pluginName_aerospike": "Aerospike",
+  "pluginName_aliCloudOss_plural": "アリクラウド OSS",
+  "pluginName_aliCloudOss_0": "アリクラウド OSS",
+  "pluginName_aliCloudOss_1": "アリクラウド OSS",
+  "pluginName_aliCloudOss_2": "アリクラウド OSS",
+  "pluginName_aliCloudOss": "アリクラウド OSS",
+  "pluginName_aliCloudOssBucket_plural": "AliCloud OSS バケット",
+  "pluginName_aliCloudOssBucket_0": "AliCloud OSS バケット",
+  "pluginName_aliCloudOssBucket_1": "AliCloud OSS バケット",
+  "pluginName_aliCloudOssBucket_2": "AliCloud OSS バケット",
+  "pluginName_aliCloudOssBucket": "AliCloud OSS バケット",
   "pluginName_aliCloudRocketMq_plural": "AliCloud RocketMqs",
   "pluginName_aliCloudRocketMq_0": "AliCloud RocketMqs",
   "pluginName_aliCloudRocketMq_1": "AliCloud RocketMqs",
@@ -319,6 +324,11 @@
   "pluginName_crio_1": "CRI-O コンテナー",
   "pluginName_crio_2": "CRI-O コンテナー",
   "pluginName_crio": "CRI-O コンテナー",
+  "pluginName_crowdStrikeFalcon_plural": "クラウドストライク・ファルコン・エージェント",
+  "pluginName_crowdStrikeFalcon_0": "クラウドストライク・ファルコン・エージェント",
+  "pluginName_crowdStrikeFalcon_1": "クラウドストライク・ファルコン・エージェント",
+  "pluginName_crowdStrikeFalcon_2": "クラウドストライク・ファルコン・エージェント",
+  "pluginName_crowdStrikeFalcon": "クラウドストライク・ファルコン",
   "pluginName_crystalRuntimePlatform_plural": "Crystal アプリケーション",
   "pluginName_crystalRuntimePlatform_0": "Crystal アプリケーション",
   "pluginName_crystalRuntimePlatform_1": "Crystal アプリケーション",
@@ -940,6 +950,11 @@
   "pluginName_openshiftDeploymentConfig_1": "OpenShift デプロイメント構成",
   "pluginName_openshiftDeploymentConfig_2": "OpenShift デプロイメント構成",
   "pluginName_openshiftDeploymentConfig": "OpenShift デプロイメント構成",
+  "pluginName_openTelemetry_plural": "OpenTelemetry",
+  "pluginName_openTelemetry_0": "OpenTelemetry",
+  "pluginName_openTelemetry_1": "OpenTelemetry",
+  "pluginName_openTelemetry_2": "OpenTelemetry",
+  "pluginName_openTelemetry": "OpenTelemetry",
   "pluginName_oracleDB_plural": "OracleDB",
   "pluginName_oracleDB_0": "OracleDB",
   "pluginName_oracleDB_1": "OracleDB",
@@ -1147,6 +1162,14 @@
   "pluginName_webSphereApplicationContainer_1": "WebSphere",
   "pluginName_webSphereApplicationContainer_2": "WebSphere",
   "pluginName_webSphereApplicationContainer": "WebSphere",
+  "pluginName_webSphereDeploymentManager": "WebSphere デプロイメント・マネージャー",
+  "pluginName_webSphereDeploymentManager_plural": "WebSphere 展開マネージャー",
+  "pluginName_webSphereInfrastructureManager": "WebSphere インフラストラクチャー・マネージャー",
+  "pluginName_webSphereInfrastructureManager_plural": "WebSphere インフラストラクチャー・マネージャー",
+  "pluginName_webSphereCluster": "WebSphere クラスター・マネージャー",
+  "pluginName_webSphereCluster_plural": "WebSphere クラスター・マネージャー",
+  "pluginName_webSphereClusterMember": "メンバー",
+  "pluginName_webSphereClusterMember_plural": "メンバー",
   "pluginName_webSphereLibertyApplicationContainer_plural": "WebSphere Liberty サーバー",
   "pluginName_webSphereLibertyApplicationContainer_0": "WebSphere Liberty サーバー",
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty サーバー",
@@ -1157,6 +1180,11 @@
   "pluginName_zhmcConsole_2": "複数の zHMC",
   "pluginName_zhmcConsole_1": "複数の zHMC",
   "pluginName_zhmcConsole": "zHMC",
+  "pluginName_zhmcCpc_plural": "複数の zHMC",
+  "pluginName_zhmcCpc_0": "zHMC Cpcs",
+  "pluginName_zhmcCpc_2": "zHMC Cpcs",
+  "pluginName_zhmcCpc_1": "zHMC Cpcs",
+  "pluginName_zhmcCpc": "zHMC CPC",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeeper",
   "pluginName_zooKeeper_0": "ZooKeeper",
@@ -1264,6 +1292,11 @@
   "tracingTypeName_axisserver_0": "HTTP 呼び出し",
   "tracingTypeName_axisserver_1": "HTTP 呼び出し",
   "tracingTypeName_axisserver_2": "HTTP 呼び出し",
+  "tracingTypeName_azq": "Azure キュー",
+  "tracingTypeName_azq_plural": "Azure キュー",
+  "tracingTypeName_azq_0": "Azure キュー",
+  "tracingTypeName_azq_1": "Azure キュー",
+  "tracingTypeName_azq_2": "Azure キュー",
   "tracingTypeName_batchsynthetic": "内部トリガー",
   "tracingTypeName_batchsynthetic_plural": "内部トリガー",
   "tracingTypeName_batchsynthetic_0": "内部トリガー",
@@ -2253,11 +2286,66 @@
       "serverName": "サーバー名",
       "cellName": "セル名",
       "webModules": "Web モジュール",
-      "ejbModules": "EJB",
+      "ejbModules": "EJB モジュール",
       "datasources": "データ・ソース数",
       "installDir": "インストール・ディレクトリー",
       "startedAt": "開始日時",
       "layers": "レイヤー"
+    },
+    "aliCloudOss": {
+      "aliCloudOssInfo": "OSS ユーザー・インスタンス",
+      "userId": "ユーザー ID",
+      "bucketsList": "バケット・リスト",
+      "bucketId": "バケット ID"
+    },
+    "aliCloudOssBucket": {
+      "aliCloudOssBucketInfo": "OSS バケット・インスタンス",
+      "instanceId": "インスタンス ID (Instance ID)",
+      "region": "リージョン",
+      "userId": "ユーザー ID",
+      "storageClass": "ストレージ・\nクラス",
+      "creationDate": "作成日",
+      "successRequest": "請求成功",
+      "successCount": "Count",
+      "successRate": "レート",
+      "availability": "使用可能",
+      "requestValidRate": "請求の有効率",
+      "requestCount": "要求カウント",
+      "validRequestCount": "有効請求計数",
+      "totalRequestCount": "合計請求計数",
+      "inOut": "フローの受信/送信",
+      "internetRecv": "インターネット RX",
+      "intranetRecv": "イントラネット RX",
+      "cdnRecv": "CDN RX",
+      "syncRecv": "RXの同期",
+      "internetSend": "インターネット SX",
+      "intranetSend": "イントラネット SX",
+      "cdnSend": "CDN (SX)",
+      "syncSend": "SX の同期",
+      "appendObject": "追加",
+      "copyObject": "コピー",
+      "deleteObject": "Delete",
+      "deleteObjects": "削除",
+      "getObject": "取得",
+      "headObject": "トップ",
+      "postObject": "ポスト",
+      "putObject": "書き込み",
+      "uploadPart": "アップロード・パーツ",
+      "uploadPartCopy": "アップロード・パーツ・コピー",
+      "objectOperation": "オブジェクト操作計数",
+      "averageE2Latency": "平均 E2E 待機時間",
+      "averageServerLatency": "平均サーバー待機時間",
+      "maxE2Latency": "最大 E2E 待機時間",
+      "maxServerLatency": "最大サーバー待機時間",
+      "errorCount": "エラー・カウント",
+      "errorRate": "エラー率",
+      "authorization": "許可",
+      "clientOther": "他のクライアント",
+      "clientTimeout": "クライアント・タイムアウト",
+      "network": "ネットワーク",
+      "resourceNotFound": "リソースが見つかりません。",
+      "server": "サーバー",
+      "metering": "計測"
     },
     "aliCloudRocketMq": {
       "aliCloudRocketMqInfo": "RocketMq インスタンス",
@@ -2619,25 +2707,18 @@
       "flowNodeName": "フロー・ノード名",
       "nodeType": "ノード・タイプ",
       "flowNodeNumber": "フロー・ノード数 ({{count}})",
-      "flowNodeNumber_plural": "フロー・ノード数 ({{count}})"
+      "flowNodeNumber_plural": "フロー・ノード数 ({{count}})",
+      "messageFlowThreadUtilization": "スレッド使用率",
+      "messageFlowHealth": "正常性"
     },
     "aceFlowNode": {
-      "flowNodeInfo": "IBM ACE フロー・ノード",
-      "nodeName": "ノード名",
-      "flowName": "フロー名",
-      "serverName": "サーバー名",
-      "applicationName": "アプリケーション名",
-      "type": "タイプ",
-      "cpuTime": "CPU 時間",
       "totalCpuTime": "合計 CPU 時間",
       "maxCpuTime": "最大 CPU 時間",
       "minCpuTime": "最小 CPU 時間",
-      "elapsedTime": "経過時間",
       "totalElapsedTime": "合計経過時間",
       "maxElapsedTime": "最大経過時間",
       "minElapsedTime": "最小経過時間",
       "invocations": "呼び出し数",
-      "terminals": "端末数",
       "inputTerminals": "入力タイプの端末数",
       "outputTerminals": "出力タイプの端末数"
     },
@@ -2782,7 +2863,14 @@
       "labelNoDataInstances": "「No Data」インスタンス数",
       "labelWarningInstances": "「Warning」インスタンス数",
       "labelInstanceHealth": "インスタンスの正常性",
-      "labelInstanceDiskUsage": "インスタンスのディスク使用状況"
+      "labelInstanceDiskUsage": "インスタンスのディスク使用状況",
+      "labelOK": "OK (0)",
+      "labelInfo": "情報 (1)",
+      "labelUnknown": "不明 (5)",
+      "labelNoData": "データなし (10)",
+      "labelWarning": "警告 (15)",
+      "labelDegraded": "機能低下 (20)",
+      "labelSevere": "重大 (25)"
     },
     "awsDynamoDb": {
       "labelProvisioned": "プロビジョン済み",
@@ -3026,23 +3114,23 @@
       "total": "インスタンス要求の総数"
     },
     "labelCPUStatesMetric": {
-      "irq": "CPU irq",
-      "idle": "CPU アイドル",
-      "user": "CPU ユーザー",
-      "system": "CPU システム",
-      "softirq": "CPU softirq",
-      "iowait": "CPU iowait",
-      "nice": "CPU nice",
-      "load": "CPU 負荷"
+      "irq": "IRQ",
+      "idle": "アイドル",
+      "user": "ユーザー",
+      "system": "システム",
+      "softirq": "SoftIRQ",
+      "iowait": "IOWait",
+      "nice": "良好",
+      "load": "Load"
     },
     "labelInstanceCPUStatesMetric": {
-      "irq": "インスタンス CPU irq",
+      "irq": "インスタンスCPU IRQ",
       "idle": "インスタンス CPU アイドル",
       "user": "インスタンス CPU ユーザー",
       "system": "インスタンス CPU システム",
-      "softirq": "インスタンス CPU softirq",
-      "iowait": "インスタンス CPU iowait",
-      "nice": "インスタンス CPU nice",
+      "softirq": "インスタンスCPU SoftIRQ",
+      "iowait": "インスタンス CPU  IOWait",
+      "nice": "インスタンス CPU 良好",
       "load": "インスタンス CPU 負荷"
     },
     "labelLatencyMetric": {
@@ -4174,6 +4262,13 @@
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
       "infoTitle": "プロセス ID",
+      "table": {
+        "host": "ホスト",
+        "name": "名前",
+        "metrics": "管理対象測定基準",
+        "cpu": "ホスト CPU の使用量",
+        "memory": "ホスト・メモリーの使用量"
+      },
       "dashboard": {
         "labelMetrics": "メトリック",
         "labelMessages": "メッセージ数",
@@ -4964,6 +5059,20 @@
       "cpuUsage": "CPU 使用率",
       "memoryUsage": "メモリー使用率"
     },
+    "crowdStrikeFalcon": {
+      "dashboard": {
+        "thereIsNoFurtherInformationAboutThisEntity": "このエンティティーに関する詳細情報はありません。"
+      },
+      "table": {
+        "host": "ホスト",
+        "name": "名前"
+      },
+      "rfm-state": "削減された機能モード",
+      "rfm-reason": "機能低下の理由",
+      "aid": "エージェント ID",
+      "cid": "カスタマーID",
+      "version": "バージョン"
+    },
     "crystalRuntimePlatform": {
       "dashboard": {
         "heap": "ヒープ",
@@ -5103,7 +5212,8 @@
         "hadrConnect": "HADR 接続状況",
         "hadrPrimaryLog": "HADR 1 次ログ情報",
         "hadrSecondaryLog": "HADR 2 次ログ情報",
-        "hadrLogMetrics": "HADR ログ・メトリック"
+        "hadrLogMetrics": "HADR ログ・メトリック",
+        "hadrTakeOverTime": "HADR 最終テークオーバー時間"
       },
       "db2": "DB2",
       "processId": "プロセス ID",
@@ -5128,6 +5238,8 @@
       "staticQueries": "静的照会数",
       "dynamicQueries": "動的照会数",
       "failedQueries": "失敗した照会数",
+      "daysLastBackup": "前回のバックアップ",
+      "daysAgo": "日前",
       "physicalWrites": "物理書き込み数",
       "physicalReads": "物理読み取り数",
       "logicalReads": "論理読み取り数",
@@ -5185,8 +5297,7 @@
       "totalIOTime": "I/O 時間",
       "lockTimeouts": "ロック・タイムアウト",
       "deadlocks": "デッドロック数",
-      "omsCons": "リモート接続",
-      "omsConsExec": "実行中のリモート接続",
+      "totalConnections": "合計接続数",
       "agentHighWmark": "エージェントの最大数",
       "coordAgentsHighWmark": "コーディネーター・エージェントの最大数",
       "agentCreatedVSReused": "作成されたエージェント数と再使用されたエージェント数の比較",
@@ -5308,7 +5419,9 @@
       "sockRecBufReq": "要求された受信バッファー",
       "sockRecvBufAct": "実際の受信バッファー",
       "logHadrWaitCur": "現在のロガー待機時間",
-      "logHadrWaitTime": "合計ロガー待機時間"
+      "logHadrWaitTime": "合計ロガー待機時間",
+      "unableToConnect": "ユーザー {{user}} を使用して {{connectionUrl}} に接続することはできません。",
+      "troubleshootingDocs": "トラブルシューティング資料"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "1 秒当たりの呼び出し数 (すべての呼び出し)",
@@ -7640,6 +7753,7 @@
     },
     "host": {
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "このホストのオペレーティング・システムは、プロセス異常終了検出に必要な拡張 Berkeley Packet Filter (eBPF) 機能を提供していないようです。",
+      "theHostAgentIsVulnerableToLog4jCVE": "ホストエージェントはLog4j   CVE-2021-44228およびCVE-2021-45046に対して脆弱です。これらの脆弱性を軽減するために、エージェントのインストールを新しいバージョンに更新してください。",
       "troubleshootingDocs": "トラブルシューティング資料",
       "dashboard": {
         "gpuMemoryProcess": "GPU メモリー/プロセス",
@@ -7731,6 +7845,7 @@
       "fqdn": "FQDN",
       "machineId": "マシン ID",
       "bootId": "ブート ID",
+      "systemId": "システム ID",
       "startedAt": "開始日時",
       "interfacesWithSize": "インターフェース ({{size}})",
       "cpuUsed": "使用中の CPU",
@@ -8306,6 +8421,7 @@
     "ibmIDb2": {
       "troubleshootingDocs": "トラブルシューティング資料",
       "collectionServicesNotEnabledDescription": "エージェントが Db2 on i メトリックを取得できませんでした。 Db2 on i をモニターするには、収集サービスをオンにしてください。",
+      "unableToConnect": "ユーザー {{user}}では{{host}} に接続できません。",
       "name": "Db2 on i",
       "sidebar": {
         "ibmIDb2Info": "Db2 on i の情報",
@@ -8527,15 +8643,41 @@
             "tcpState": "TCP 状態",
             "bytesSentRemotely": "リモートで送信されるバイト数",
             "bytesReceivedLocally": "ローカルで受信したバイト数"
+          },
+          "messageQueue": {
+            "name": "メッセージ・キュー",
+            "messageId": "ID",
+            "messageType": "タイプ",
+            "severity": "重大度",
+            "messageQueueLibrary": "ライブラリー名",
+            "messageQueueName": "キュー名",
+            "messageTimestamp": "タイム・スタンプ",
+            "messageText": "テキスト",
+            "messageSecondLevelText": "セカンドレベル・テキスト",
+            "messageKey": "キー"
+          },
+          "historyLog": {
+            "name": "履歴ログ",
+            "messageId": "ID",
+            "messageType": "タイプ",
+            "severity": "重大度",
+            "fromUser": "ユーザー",
+            "fromJob": "ジョブ",
+            "fromProgram": "プログラム",
+            "messageTimestamp": "タイム・スタンプ",
+            "messageText": "テキスト",
+            "messageSecondLevelText": "セカンドレベル・テキスト"
           }
         }
       },
       "name": "IBM i",
-      "memoryPool": "メモリー・プール"
+      "memoryPool": "メモリー・プール",
+      "unableToConnect": "ユーザー {{user}}では{{host}} に接続できません。",
+      "troubleshootingDocs": "トラブルシューティング資料"
     },
     "ibmMqChannel": {
       "dashboard": {
-        "messagesSent": "送信済みメッセージ数",
+        "messagesSent": "送信済み/受信済みメッセージ数",
         "messagesAvailable": "使用可能なメッセージ数",
         "messages": "メッセージ数",
         "sentReceived": "送信済み/受信済み",
@@ -8593,7 +8735,7 @@
         "ibmMqCluster": "IBM MQ クラスター",
         "type": "タイプ",
         "messages": "メッセージ数",
-        "publishers": "パブリッシャー数",
+        "publications": "資料",
         "subscriptions": "サブスクリプション数",
         "topicsWithCount": "トピック数 ({{len}})"
       },
@@ -8628,8 +8770,6 @@
         "messageTime": "メッセージ時間",
         "oldest": "最も古い",
         "onQueue": "キュー待機中",
-        "reset": "リセット",
-        "last": "最後",
         "calls": "呼び出し",
         "openInputs": "オープン入力数",
         "openOutputs": "オープン出力数",
@@ -8657,8 +8797,6 @@
       "messages": "メッセージ数",
       "messageTime": "メッセージ時間",
       "onQueueMessageTime": "キュー待機中のメッセージ時間",
-      "lastResetTime": "最終リセット時刻",
-      "reset": "リセット",
       "openInputCount": "オープン入力数",
       "openOutputCount": "オープン出力数",
       "calls": "呼び出し"
@@ -8685,12 +8823,15 @@
         "usage": "使用状況",
         "monitoring": "モニタリング",
         "queuesWithCount": "キュー数 ({{len}})",
+        "queueFullPercentage": "深さの割合（％）",
+        "openInputCount": "入力オープン",
+        "openOutputCount": "出力オープン",
         "application": "アプリケーション",
         "channel": "チャネル",
         "connection": "接続",
         "handleState": "ハンドル状態",
         "user": "ユーザー",
-        "queuesUsageWithCount": "キュー使用数 ({{len}})",
+        "queuesUsageWithCount": "アプリケーションのキュー使用量 ({{len}})",
         "ibmMqQueueManager": "IBM MQ キュー・マネージャー",
         "subsWithCount": "サブスクリプション（{{len}}）",
         "topicString": "トピック・ストリング",
@@ -8702,6 +8843,8 @@
       "name": "名前",
       "version": "バージョン",
       "status": "状況",
+      "channelInitiatorStatus": "チャネル・イニシエーター状態",
+      "pubsubStatus": "パブリッシュ/サブスクライブ・エンジン状態",
       "startedAt": "開始日時",
       "alternatedAt": "入れ替え日時",
       "platform": "プラットフォーム",
@@ -8743,7 +8886,7 @@
     "ibmMqTopic": {
       "dashboard": {
         "messages": "メッセージ数",
-        "publishers": "パブリッシャー数",
+        "publications": "資料",
         "count": "カウント",
         "subscriptions": "サブスクリプション数",
         "ibmMqTopic": "IBM MQ トピック"
@@ -8754,7 +8897,7 @@
       "topicType": "トピック・タイプ",
       "topicAlternatedAt": "トピックの入れ替え日時",
       "messages": "メッセージ数",
-      "publishers": "パブリッシャー数",
+      "publications": "資料",
       "count": "カウント",
       "lastResetTime": "最終リセット時刻",
       "reset": "リセット",
@@ -8848,7 +8991,10 @@
         "info": "情報",
         "cpuLoad": "CPU 負荷",
         "load": "負荷",
-        "memory": "メモリー",
+        "memory": "JVM メモリー",
+        "systemMemory": "システム・メモリー",
+        "userAndSystemShowLoadInPercentWhere100EqualASingleCoreAtFullLoad": "ユーザーとシステムの負荷はパーセントで表示されます。100% は、全負荷時の単一コアに相当します。 ",
+        "LoadIsComputedInTheJVMRelatedToTheCombinedProcessingPowerAndNormalizedTo1": "負荷は、結合された処理能力に関連するJVMで計算され、1に正規化されます。",
         "heap": "ヒープ",
         "directBuffers": "ダイレクト・バッファー",
         "offHeap": "オフ・ヒープ",
@@ -8957,6 +9103,8 @@
       "ibmDataPowerVariablesInvalid": "IBM DataPower インスタンスが正しく構成されていません。インスタンス <code>{{instanceName}}</code> の変数 <code>{{invalidKey}}</code> の値 <code>{{invalidValue}}</code> が正しくありません。",
       "ibmDataPowerConnectionError": "IBM DataPower の照会中にエラーが発生しました。URL: <code>{{url}}</code>、戻りコード: <code>{{rtnCode}}</code>、応答: <code>{{response}}</code>。センサーの構成 (ホスト/ポートなど) または IBM DataPower インスタンスを確認してください。",
       "ibmDataPowerExceptionError": "センサーが例外 <code>{{errorMessage}}</code> を生成しました。",
+      "agentTlsExpired": "<code>{{context}}</code>でエージェント TLS 証明書 <code>{{cert}}</code> の有効期限が切れました。",
+      "agentTlsAboutToExpire": "エージェント TLS 証明書 <code>{{cert}}</code> は、あと <code>{{context}}</code> 日で有効期限が切れます。",
       "agentVersion": "エージェントのバージョン",
       "bootVersion": "ブート・バージョン",
       "origin": "発信元",
@@ -8982,7 +9130,8 @@
       "sensorCount": "センサー・カウント",
       "discoveryCount": "ディスカバリー・カウント",
       "sensors": "センサー",
-      "hostname": "ホスト名"
+      "hostname": "ホスト名",
+      "startType": "始動タイプ"
     },
     "sparkStandalone": {
       "titleApplicationId": "アプリケーション ID",
@@ -9427,7 +9576,7 @@
       "activeConnections": "アクティブな接続",
       "availableConnections": "使用可能な接続数",
       "inUseConnection": "使用中の接続",
-      "connectionPools": "接続プール数",
+      "connectionPools": "接続プール",
       "connectionPoolsWithCount": "接続プール数 ({{len}})",
       "active": "アクティブ",
       "available": "使用可能",
@@ -9441,7 +9590,7 @@
       "datasourceJndiName": "データ・ソース JNDI 名",
       "connectionsCurrentlyInUse": "現在使用中の接続数",
       "timeWaitedForExclusiveLockOnPool": "プールの排他ロックの待機時間",
-      "datasourcesWithCount": "データ・ソース接続プール数 ({{len}})",
+      "datasourcesWithCount": "データ・ソース数 ({{len}})",
       "timedOut": "タイムアウト",
       "timeSpentOnCreatingConnections": "接続の作成に要した時間",
       "deployment": "デプロイメント",
@@ -9476,7 +9625,7 @@
       "webDeployments": "Web デプロイメント数",
       "servlets": "サーブレット数",
       "connectors": "コネクター数",
-      "datasources": "データ・ソース接続プール数",
+      "datasources": "データ・ソース",
       "connectionsInUse": "使用中の接続数",
       "connectionsCreated": "作成された接続の数",
       "connectionsUsedPercentage": "使用済みの接続のパーセンテージ",
@@ -9849,7 +9998,7 @@
       "titleServletsOfWebAppCount": "{{webAppContext}} のサーブレット数 ({{len}})",
       "headerTomcat": "Tomcat",
       "headerWebapps": "Web アプリケーション数",
-      "categoryDatasources": "データ・ソース接続プール数",
+      "categoryDatasources": "データ・ソース接続プール",
       "categoryThreadPools": "スレッド・プール数",
       "labelDatasource": "データ・ソース",
       "labelSessions": "セッション",
@@ -10089,6 +10238,13 @@
       "labelDataSource": "データ・ソース",
       "labelJMSDestination": "JMS 宛先",
       "labelSAFAgent": "SAF エージェント",
+      "labelHealthState": "正常性の状態",
+      "labelHealthStateUnknown": "不明",
+      "labelHealthStateOK": "OK (0)",
+      "labelHealthStateWarning": "警告 (1)",
+      "labelHealthStateCritical": "CRITICAL (2)",
+      "labelHealthStateFailed": "FAILED (3)",
+      "labelHealthStateOverloaded": "OVERLOADED (4)",
       "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
@@ -10103,7 +10259,8 @@
       "titleAverageWaitingTime": "平均待機時間",
       "titleDatasourcesCount": "データ・ソース数 ({{len}})",
       "titleWebModulesCount": "Web モジュール数 ({{len}})",
-      "titleEJBModulesCount": "EJB 数 ({{len}})",
+      "titleEJBModulesCount": "EJB モジュール ({{len}})",
+      "titleEJBBeansCount": "EJB Bean ({{len}})",
       "titleObjectPoolsCount": "オブジェクト・プール数 ({{len}})",
       "titleJ2CModulesCount": "J2C モジュール数 ({{len}})",
       "titleMaxConnections": "最大接続数",
@@ -10153,12 +10310,50 @@
       "labelResponseTime": "応答時間",
       "lableResponseCount": "応答数",
       "webSphere": "WebSphere",
-      "labelEJB": "EJB",
-      "labelEJBs": "EJB",
+      "labelEjbModule": "EJB モジュール",
+      "labelEjbModules": "EJB モジュール",
+      "labelEjbBean": "EJB Bean",
+      "labelEjbBeans": "EJB Bean",
       "labelObjectPool": "オブジェクト・プール",
       "labelObjectPools": "オブジェクト・プール",
       "labelJ2CModule": "J2C モジュール",
       "labelJ2CModules": "J2C モジュール"
+    },
+    "webSphereCluster": {
+      "webSphereClusterInfo": "WebSphere クラスター",
+      "membersWithCount": "メンバー ({{len}})",
+      "clusterName": "クラスター名",
+      "status": "状況",
+      "memberCount": "メンバー",
+      "dashboard": {
+        "memberName": "メンバー名",
+        "nodeName": "ノード名",
+        "status": "状況",
+        "weight": "ウェイト"
+      }
+    },
+    "webSphereDeploymentManager": {
+      "webSphereDeploymentManagerInfo": "WebSphere デプロイメント・マネージャー",
+      "clustersWithCount": "クラスター ({{len}})",
+      "pid": "PID",
+      "serverName": "サーバー名",
+      "hostName": "ホスト名",
+      "cellName": "セル名",
+      "version": "バージョン",
+      "serverType": "サーバー・タイプ",
+      "dashboard": {
+        "clusterName": "クラスター名",
+        "status": "状況",
+        "memberCount": "メンバー"
+      }
+    },
+    "webSphereInfrastructureManager": {
+      "hostName": "ホスト名",
+      "cellName": "セル名",
+      "serverName": "サーバー名",
+      "webSphereInfrastructureManagerInfo": "WebSphere インフラストラクチャー・マネージャー",
+      "deploymentManagerNumber": "展開マネージャー ({{count}})",
+      "deploymentManagerNumber_plural": "展開マネージャー ({{count}})"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "名前",
@@ -10233,7 +10428,16 @@
       "bytesPerSecondReceived": "秒当たりのの受信バイト数",
       "bytesPerSecondSent": "秒当たりのの送信バイト数",
       "utilization": "使用率",
-      "flags": "フラグ"
+      "flags": "フラグ",
+      "networkUsage": "ネットワークの使用状況",
+      "storageUsage": "ストレージの使用状況",
+      "acceleratorUsage": "アクセラレーターの使用状況",
+      "cryptoUsage": "暗号の使用状況",
+      "cpSharedProcessorUsage": "共有プロセッサー使用量",
+      "cpAllProcessorUsage": "すべてのプロセッサー使用量",
+      "iflSharedProcessorUsage": "IFL 共有プロセッサー使用量",
+      "allSharedProcessorUsage": "すべての共有プロセッサー使用量",
+      "iflAllProcessorUsage": "すべての IFL プロセッサー使用量"
     },
     "zooKeeper": {
       "titleTicks": "ティック数",
@@ -10253,7 +10457,8 @@
       "labelAliveConnections": "稼働中の接続数",
       "labelPacketsReceived": "受信パケット数",
       "labelPacketsSent": "送信パケット数",
-      "labelPeer": "ピア"
+      "labelPeer": "ピア",
+      "zxid": "ZXID"
     },
     "lxc": {
       "networkWithNetworkInterface": "ネットワーク ({{networkInterface}})",
@@ -11006,6 +11211,9 @@
       "cpuRequests": "CPU 要求",
       "cpuLimits": "CPU 制限"
     },
+    "openTelemetry": {
+      "openTelemetry": "OpenTelemetry"
+    },
     "oracleDB": {
       "dbTimePerSecond": "1 秒当たりの DB 時間",
       "db": "DB",
@@ -11185,6 +11393,8 @@
       "labelEvents": "イベント",
       "titleDetails": "イベントの詳細",
       "labelS3Events": "S3 イベント",
+      "labelDynamoDbEvents": "DynamoDB イベント",
+      "labelEventSourceARN": "イベント・ソース ARN",
       "titleQueues": "キュー",
       "labelMessages": "メッセージ",
       "titleARN": "ARN",
@@ -11193,6 +11403,7 @@
       "titleTrigger": "トリガー",
       "bodyCloudWatchEvents": "CloudWatch イベント",
       "bodyAWSEvents": "AWS S3 イベント",
+      "bodyAWSDynamoDbEvents": "AWS DynamoDB イベント",
       "bodyAWSMessages": "AWS SQS メッセージ",
       "bodyAWSEvent": "AWS イベント",
       "bodyAWSEventDetail": "Lambda プロキシー・オプションおよび未識別の Lambda トリガーを使用しない API ゲートウェイ呼び出し。",
@@ -11203,6 +11414,13 @@
       "timeoutMessage": "{{milliseconds}} ミリ秒しか残っていないときに、Lambda 関数は引き続き実行されていました。タイムアウトになった可能性があります。",
       "yes": "はい",
       "no": "いいえ"
+    },
+    "azq": {
+      "queuename": "キュー名",
+      "messagesuri": "メッセージ URI",
+      "storageaccountname": "ストレージ・アカウント名",
+      "queueuri": "キュー URI",
+      "methodname": "メソッド名"
     },
     "LambdaInvoke": {
       "titleARN": "ARN",

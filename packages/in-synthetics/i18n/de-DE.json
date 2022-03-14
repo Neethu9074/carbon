@@ -32,7 +32,7 @@
         "title": "Wie lautet der Name dieses Ping-Tests",
         "labelName": "Name des Tests",
         "labelDescription": "Beschreibung",
-        "labelFreequency": "Frequenz"
+        "labelFrequency": "Frequenz"
       },
       "bluePrint": {
         "pingApi": {
@@ -68,9 +68,12 @@
     },
     "feedback": {
       "successTitle": "Erfolgreich!",
-      "successMessage": "Synthetischer Test wurde erfolgreich erstellt",
+      "successMessageCreate": "Synthetischer Test wurde erfolgreich erstellt",
+      "successMessageDelete": "Synthetischer Test erfolgreich gelöscht",
       "failureTitle": "Fehlgeschlagen!",
-      "failureMessage": "Synthetischer Test konnte nicht erstellt werden. Versuchen Sie es zu einem späteren Zeitpunkt erneut"
+      "failureMessageCreate": "Synthetischer Test konnte nicht erstellt werden. Versuchen Sie es später erneut.",
+      "failureMessageUpdate": "Der synthetische Test konnte nicht aktualisiert werden. Versuchen Sie es später erneut.",
+      "failuteMesssageDelete": "Der synthetische Test konnte nicht gelöscht werden. Versuchen Sie es später erneut."
     }
   },
   "createTest": {
@@ -78,5 +81,24 @@
   },
   "navigation": {
     "synthetics": "Synthetics"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "Synthetische Tests",
+      "secondaryLabels": {
+        "tests": "Tests",
+        "location": "Position"
+      },
+      "locationsSubText": "{{count}} Position",
+      "locationsSubText_plural": "{{count}} Positionen",
+      "frequencySubText": "Jede {{count}} Min.",
+      "frequencySubText_plural": "Jede {{count}} Minuten",
+      "pause": "Test anhalten",
+      "resume": "Test fortsetzen"
+    },
+    "sortOptions": {
+      "name": "Name",
+      "frequency": "Frequenz"
+    }
   }
 }

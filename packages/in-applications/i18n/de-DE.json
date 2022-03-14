@@ -31,7 +31,7 @@
   "labelTechnologies": "Technologien",
   "labelEndpoints": "Endpunkte",
   "labelHealth": "Allgemeinzustand",
-  "labelNonHttp": "Andere",
+  "labelOther": "Andere",
   "labelCallCount": "Aufrufzahl",
   "labelHTTPStatusCodes": "HTTP-Statuscodes",
   "labelInfraIssues": "Infra-Probleme",
@@ -198,7 +198,6 @@
     "listBatchTypeTooltip": "Dieser {{type}} wurde gebündelt und stellt {{batchCount}} einzelne {{types}} dar.",
     "listBatchLatencyTooltip": "Gesmatlatenz von {{batchCount}} gebündelten {{types}}.",
     "traceIdTooltip": "Einige Daten, die sich auf diesen Trace beziehen, sind verzögert. Bitte laden Sie die Seite etwas später erneut. Ein Beispiel, bei dem dies vorkommen kann, ist die Anzeige eines sehr aktuellen Trace, bei dem ein Teil der Daten noch verarbeitet wird.",
-    "downloadTraceTooltip": "Vollständigen Trace herunterladen.",
     "closeTraceDetail": "Details zum Trace schließen",
     "invalidQueryConfig": "Die Abfragekonfiguration ist ungültig. Beheben Sie die Gültigkeitsfehler, bevor Sie fortfahren.",
     "errorRateLabel": "Fehlerhafte Aufrufe (Rate)",
@@ -527,7 +526,7 @@
     "showApplicationsScopeWithApplicationLabel": "<bold>{{contextScope}}</bold> von <linkToEntity>{{entityLabel}}</linkToEntity> Anwendungen werden im Kontext von <linkToApplication>{{applicationLabel}}</linkToApplication> angezeigt",
     "showServicesScopeWithServiceLabel": "<bold>{{contextScope}}</bold> von <linkToEntity>{{entityLabel}}</linkToEntity> Services werden im Kontext von <linkToApplication>{{applicationLabel}}</linkToApplication> angezeigt",
     "titleNoService": "Noch keine Services",
-    "servicesNoData": "Für den ausgewählten Zeitraum sind keine Serviceaufrufe verfügbar. Informationen zur Fehlerbehebung finden Sie in der [Dokumentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "Für den ausgewählten Zeitraum sind keine Serviceaufrufe verfügbar. Fehlerbehebungsinformationen finden Sie in der [Dokumentation] [Docs].\n\n[Docs] :https://www.ibm.com/docs/de/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Batch",
@@ -570,23 +569,14 @@
         "largeTraceLink": "Dieser Trace ist groß und die Wiedergabe dieses Trace kann zu Leistungsproblemen in Ihrem Browser führen. Sie können entweder den <linkToDocs>Trace herunterladen</linkToDocs>, um ihn manuell zu überprüfen, oder versuchen, den Trace im Browser wiederzugeben. Es wird nur eine Teilmenge der Komponenten wiedergegeben, um die Leistung bei diesem Versuch zu steigern. ",
         "calls": "Aufrufe",
         "erroneousTrace": "Fehlerhafter Trace",
-        "attemptToRenderTrace": "Versuch, Trace wiederzugeben"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "Serviceinformationen",
-          "showServiceInformationExpl": "Serviceinformationen unter der Aufrufbezeichnung anzeigen",
-          "showSubCalls": "Untergeordnete Aufrufe anzeigen",
-          "showSubCallsExpl": "Direkte untergeordnete Aufrufe in jeder Zeile anzeigen"
-        }
+        "attemptToRenderTrace": "Versuch, Trace wiederzugeben",
+        "analyzeBeacons": "Beacons analysieren",
+        "adjustedTimeConfig": "Der Zeitbereich wurde angepasst, um den ausgewählten Beacon einzuschließen."
       }
     }
   },
   "tabs": {
-    "labelDetail": "Details",
-    "labelSummary": "Zusammenfassung",
-    "servicesAndEndpoint": "Services und Endpunkte",
-    "logs": "Protokolle"
+    "labelDetail": "Details"
   },
   "metrics": {
     "calls_calls": "Aufrufe",
@@ -598,5 +588,12 @@
     "traces_latency": "Latenzzeit",
     "traces_erroneousCalls": "Fehlerhafte Traces",
     "traces_errors": "Rate fehlerhafter Traces "
+  },
+  "viewLists": {
+    "application": "Anwendungen",
+    "services": "Services",
+    "errorMessages": "Fehlernachrichten",
+    "logMessages": "Protokollnachrichten",
+    "endpoints": "Endpunkte"
   }
 }

@@ -164,7 +164,10 @@
       "metricsFormComponent": {
         "metric": "Métrique",
         "selectMetric": "Sélectionner une métrique",
-        "aggregation": "Agrégation"
+        "aggregation": "Agrégation",
+        "crossSeriesAggregation": "Utiliser SUM pour l'agrégation inter-séries",
+        "crossSeriesAggregationHelp": "Normalement, l'agrégation inter-séries est identique à l'agrégation à travers le temps (méthode utilisée pour combiner les points de données en un seul intervalle). Avec ce bouton à bascule activé, nous ferons la somme des intervalles de la série de données au lieu d'utiliser l'agrégation spécifiée.",
+        "crossSeriesAggregationDisabledHelp": "Non applicable à {{aggregation}}"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure et plateformes",
@@ -344,7 +347,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Mise en route",
-        "text": "Instana est la première et la seule solution de performances des applications (APM) entièrement automatisée, conçue\nspécifiquement pour relever les défis de la gestion des applications de micro-services et des applications natives du cloud.\n\nLa mise en route est facile\n\n1. Si vous n'avez pas encore accès à Instana, rendez-vous sur [Instana.com](https://www.instana.com) et inscrivez-vous pour un essai gratuit.\n2. Explorez notre écosystème de centaines de [technologies prises en charge](https://www.instana.com/docs/ecosystem).\n3. Commencez à collecter des données avec l'un de nos [agents](https://www.instana.com/docs/setup_and_manage).\n4. Apprenez [comment utiliser Instana](https://www.instana.com/docs/using_instana) pour vos cas d'utilisation.\n5. Découvrez nos [capacités de base] uniques(https://www.instana.com/docs/core_capabilities/).\n6. Etendez Instana avec nos [Intégrations, SDK &amp;TWBAMP; API](https://www.instana.com/docs/integrations).\n\nEt voilà !\n\nVous ne trouvez pas ce que vous cherchez ? Rendez-vous sur [instana.com/docs](https://www.instana.com/docs/) !"
+        "text": "Instana est la première et la seule solution de performances des applications (APM) entièrement automatisée, conçue spécifiquement pour relever les défis de la gestion des applications de micro-services et des applications natives du cloud.\n\nLa mise en route est facile.1. Si vous n'avez pas encore accès à Instana, rendez-vous sur [Instana.com](https://www.instana.com) et inscrivez-vous pour un essai gratuit.2. Explorez notre ecosystème de centaines de [technologies prises en charge](https://www.ibm.com/docs/en/obi/current?topic=supported-technologies).3. Commencez à collecter des données avec l'un de nos [agents](https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana).4. Apprenez [à utiliser Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) pour vos cas d'utilisation.5. Découvrez nos [fonctionnalités de base] uniques(https://www.ibm.com/docs/en/obi/current?topic=core-capabilities).6. Etendez Instana avec nos [intégrations, SDK & APIs](https://www.ibm.com/docs/en/obi/current?topic=integrations-sdks-apis).\n\nC'est tout !\n\nVous ne trouvez pas ce que vous cherchez ? Consultez la [documentation](https: //www.ibm.com/docs/en/obi/current) !"
       },
       "formComp": {
         "whatULikeShow": "Que voulez-vous afficher ?",
@@ -377,14 +380,16 @@
         "userJourneyOffering": "Processus utilisateur/offre",
         "appnPerspective": "Perspective d'application",
         "selectAppPerspect": "Sélectionnez une perspective d'application.",
-        "appPerspectHelpAction": "Configurez des processus utilisateur/offres en les modélisant en tant que perspective d'application dans la zone Applications du produit.",
+        "appPerspectHelpAction": "Configurez des démarches/offres d'utilisateur en les modélisant en tant que perspective d'application dans la zone Applications.",
+        "rbacHint": "Les applications affichées peuvent être limitées par droits d'accès.",
         "noAppPerspect": "Aucune perspective d'application.",
         "pleaseSelect": "Sélectionnez"
       },
       "websiteSelector": {
         "website": "Site Web",
         "selectWebsite": "Sélectionner un site Web",
-        "websiteHelpAction": "Configurez les sites Web dans la zone Websites &amp; Mobile Apps du produit.",
+        "websiteHelpAction": "Configurez les sites Web dans la zone Sites Web et applications mobiles.",
+        "rbacHint": "Les sites Web affichés peuvent être limités par droits d'accès.",
         "noWebsites": "Aucun site Web trouvé",
         "pleaseSelect": "Veuillez sélectionner"
       },
@@ -398,8 +403,6 @@
         "sliCreateSuccess": "SLI créé avec succès",
         "failCreateSli": "Échec de la création du SLI.",
         "problemCreateSli": "Une erreur s'est produite lors de la création du SLI : \"{{sliName}}\"",
-        "cloning": "Clonage en cours...",
-        "creating": "Création en cours...",
         "clone": "Cloner",
         "create": "Créer",
         "sliConfigMsg": "Les paramètres du SLI ne peuvent pas être modifiés pour empêcher l'invalidation des budgets dépensés calculés. C'est la raison pour laquelle le SLI doit être cloné lorsque vous modifiez un paramètre.",
@@ -412,13 +415,16 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "Événements corrects",
-        "badEvents": "Événements incorrects"
+        "badEvents": "Événements incorrects",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "Latence",
         "callCount": "Nombre d'appels",
         "errorRate": "Taux d'erreurs",
         "erroneousCalls": "Appels erronés",
+        "beaconErrorRate": "Taux d'erreurs de balise",
+        "beaconDuration": "Durée des balises",
         "mean": "moyenne",
         "min": "min",
         "max": "max",
@@ -542,7 +548,19 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Vous devez configurer au moins une expression de filtre.",
       "timeBased": "En fonction du temps",
       "eventBased": "En fonction des événements",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "Application",
+        "source_website": "Site Web"
+      },
+      "sliFormatter": {
+        "unit": "appel",
+        "unit_plural": "appels",
+        "unit_0": "appels",
+        "unit_1": "appel",
+        "unit_2": "appels",
+        "thousandCallsFormat": "{{count}}K appels"
+      }
     },
     "timezone": {
       "demo": {

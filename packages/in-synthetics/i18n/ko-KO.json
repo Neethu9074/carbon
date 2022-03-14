@@ -32,7 +32,7 @@
         "title": "ping 테스트 이름",
         "labelName": "테스트 이름",
         "labelDescription": "설명",
-        "labelFreequency": "빈도"
+        "labelFrequency": "빈도"
       },
       "bluePrint": {
         "pingApi": {
@@ -68,9 +68,12 @@
     },
     "feedback": {
       "successTitle": "완료!",
-      "successMessage": "합성 테스트가 성공적으로 작성됨",
+      "successMessageCreate": "합성 테스트가 성공적으로 작성됨",
+      "successMessageDelete": "합성 테스트 삭제 완료",
       "failureTitle": "실패함",
-      "failureMessage": "합성 테스트를 작성하는 데 실패했습니다. 나중에 다시 시도하십시오."
+      "failureMessageCreate": "합성 테스트를 작성하는 데 실패했습니다. 나중에 다시 시도하십시오.",
+      "failureMessageUpdate": "합성 테스트를 업데이트하는 데 실패했습니다. 나중에 다시 시도하십시오.",
+      "failuteMesssageDelete": "합성 테스트를 삭제하는 데 실패했습니다. 나중에 다시 시도하십시오."
     }
   },
   "createTest": {
@@ -78,5 +81,24 @@
   },
   "navigation": {
     "synthetics": "합성"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "합성 테스트",
+      "secondaryLabels": {
+        "tests": "테스트",
+        "location": "위치"
+      },
+      "locationsSubText": "{{count}}개의 위치",
+      "locationsSubText_plural": "{{count}}개의 위치",
+      "frequencySubText": "{{count}}분마다",
+      "frequencySubText_plural": "{{count}}분마다",
+      "pause": "테스트 일시정지",
+      "resume": "테스트 재개"
+    },
+    "sortOptions": {
+      "name": "이름",
+      "frequency": "빈도"
+    }
   }
 }

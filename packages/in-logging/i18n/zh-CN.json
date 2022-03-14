@@ -17,9 +17,11 @@
   "messageParam": "消息参数",
   "applicationCounter": "{{count}} 个应用程序",
   "exceptionMessageHeader": "异常消息",
+  "stackTrace": "堆栈跟踪",
   "service": "服务",
   "stream": "流",
   "tooltipCopyToClipboard": "复制到剪贴板",
+  "tooltipCopyLinkToClipboard": "复制日志链接",
   "tooltipAddAsGroup": "按标记分组",
   "tooltipAddAsFilter": "将标记添加为过滤器",
   "sorting": {

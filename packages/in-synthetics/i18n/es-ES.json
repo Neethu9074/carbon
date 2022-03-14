@@ -32,7 +32,7 @@
         "title": "¿Cuál es el nombre de esta prueba del ping?",
         "labelName": "Nombre de la prueba",
         "labelDescription": "Descripción",
-        "labelFreequency": "Frecuencia"
+        "labelFrequency": "Frecuencia"
       },
       "bluePrint": {
         "pingApi": {
@@ -68,9 +68,12 @@
     },
     "feedback": {
       "successTitle": "Operación satisfactoria.",
-      "successMessage": "Prueba sintética creada satisfactoriamente",
+      "successMessageCreate": "Prueba sintética creada satisfactoriamente",
+      "successMessageDelete": "La prueba sintética se ha suprimido correctamente",
       "failureTitle": "Failed!",
-      "failureMessage": "No se ha podido crear una prueba sintética. Repita la operación más tarde"
+      "failureMessageCreate": "No se ha podido crear una prueba sintética. Repita la operación más tarde",
+      "failureMessageUpdate": "No se ha podido actualizar la prueba sintética. Inténtelo más tarde.",
+      "failuteMesssageDelete": "No se ha podido suprimir la prueba sintética. Inténtelo más tarde."
     }
   },
   "createTest": {
@@ -78,5 +81,24 @@
   },
   "navigation": {
     "synthetics": "Synthetics"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "Pruebas sintéticas",
+      "secondaryLabels": {
+        "tests": "Pruebas",
+        "location": "Ubicación"
+      },
+      "locationsSubText": "{{count}} ubicación",
+      "locationsSubText_plural": "{{count}} ubicaciones",
+      "frequencySubText": "Cada {{count}} min",
+      "frequencySubText_plural": "Cada {{count}} minutos",
+      "pause": "Pausar la prueba",
+      "resume": "Reanudar la prueba"
+    },
+    "sortOptions": {
+      "name": "Nombre",
+      "frequency": "Frecuencia"
+    }
   }
 }

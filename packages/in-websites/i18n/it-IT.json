@@ -162,6 +162,7 @@
         "httpRequestBeaconHeaderRequest": "Richiesta",
         "httpRequestBeaconHeaderCallDetails": "Dettagli chiamata",
         "httpRequestBeaconHeaderMeta": "Meta",
+        "httpRequestBeaconHeaderHttpHeaders": "Intestazioni HTTP",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "Tempo risorsa",
         "httpRequestBeaconHeaderNetworkInsights": "Analisi approfondita della rete",
@@ -479,6 +480,36 @@
         "configurationRenameTitle": "Ridenomina sito Web",
         "configurationRenameButton": "Ridenomina",
         "configurationTrackingScriptTitle": "Script di tracciamento",
+        "saved": "Salvato",
+        "ipMasking": {
+          "title": "Mascheramento IP",
+          "help": "Il mascheramento IP protegge la privacy degli utenti finali mascherando (anonimizzando) i segmenti degli indirizzi IP. Questo avviene al più presto possibile nella pipeline di inserimento Instana in modo che gli indirizzi IP completi non siano mai memorizzati. Instana maschera sempre gli indirizzi IP utilizzando le regole comunemente usate nel settore. È possibile configurare regole di mascheramento IP più rigide se l'organizzazione lo richiede.",
+          "option_DEFAULT": "Predefinito, maschera gli ultimi 8 bit per IPv4 e gli ultimi 80 bit per IPv6",
+          "option_STRICT": "Rigido, maschera gli ultimi 16 bit per IPv4 e gli ultimi 96 bit per IPv6",
+          "option_REMOVE_ALL_DETAILS": "Rimuovi gli indirizzi IP (resta solo un suggerimento di utilizzo IPv4 e IPv6)"
+        },
+        "geoDetailRemoval": {
+          "title": "Rimozione dettagli geografici",
+          "help": "Instana determina una posizione geografica approssimativa per i dati in entrata in base agli indirizzi IP degli utenti finali. Questo include informazioni sulle coordinate degli utenti finali e informazioni su città, stato, paese e continente. Alcune organizzazioni possono ritenere che questi dati siano identificabili dall'utente finale e possono quindi desiderare di anonimizzare ulteriormente questa informazione approssimativa di posizione. Questo può essere ottenuto utilizzando la rimozione dei dettagli geografici.",
+          "option_NO_REMOVAL": "Nessuna rimozione dettagli geografici",
+          "option_REMOVE_COORDINATES": "Rimuovi informazioni su latitudine, longitudine e precisione",
+          "option_REMOVE_CITY": "Rimuovi informazioni su città, latitudine, longitudine e precisione",
+          "option_REMOVE_ALL": "Rimuovi tutti i dettagli geografici"
+        },
+        "customGeoDetails": {
+          "title": "Dettagli geografici personalizzati",
+          "help1": "Instana mappa gli indirizzi IP degli utenti finali ai dettagli geografici, ad esempio nomi di città e di paese. Questo avviene ispezionando le diverse intestazioni HTTP per richiamare gli indirizzi IP degli utenti finali. Questi indirizzi IP vengono poi tradotti in dettagli geografici con il supporto dei <maxmind>Database geografici di Maxmind</maxmind>. Il caso d'uso principale per queste regole di mappatura personalizzata sono le reti private. Ad esempio, quando si accede a installazioni Instana (auto-ospitate) attraverso reti private. In questi casi, i database geografici pubblici non conterranno mai informazioni rilevanti, e di conseguenza il processo di conversione non fornirà alcun risultato o solo risultati errati/non utili.",
+          "help2": "Le regole per i dettagli geografici personalizzati sono sempre espresse attraverso valori separati da virgole (CSV). Il formato CSV e l'utilizzo dell'API REST web sono definiti all'interno della <documentation>documentazione</documentation> del prodotto.",
+          "download": "Scarica configurazione attiva (CSV)",
+          "documentation": "Documentazione",
+          "uploader": {
+            "title": "Carica nuove regole",
+            "help": "Le regole di dettaglio geografico personalizzate sono file CSV definiti e caricati tramite l'API REST web o tramite questo modulo. Per ulteriori informazioni sulla struttura dei file, i limiti e le API REST web, fare riferimento alla <documentation>documentazione</documentation>.",
+            "failureToReadFileContent": "Impossibile leggere il contenuto del file: {{error}}",
+            "failureToCallApiForTechnicalReason": "Impossibile eseguire la chiamata HTTP: {{error}}",
+            "failureToCallApiForStatusCodeReason": "Chiamata HTTP restituita con risultato errato: {{error}}"
+          }
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Salvataggio della configurazione…",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "Configurazione aggiornata.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "Nuova configurazione salvata.",
@@ -519,7 +550,9 @@
         "stackTraceTranslationLabelOr": " o ",
         "configurationTitle": "Configurazione",
         "configurationLabelOptions": "Opzioni",
-        "configurationLabelJSStackTraceTranslation": "Traduzione traccia di stack JS"
+        "configurationLabelPrivacy": "Privacy",
+        "configurationLabelJSStackTraceTranslation": "Traduzione traccia di stack JS",
+        "configurationLabelCustomGeoDetails": "Dettagli geografici personalizzati"
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "Dettagli evento personalizzato sito Web",

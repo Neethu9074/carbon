@@ -164,7 +164,10 @@
       "metricsFormComponent": {
         "metric": "指标",
         "selectMetric": "选择指标",
-        "aggregation": "汇总"
+        "aggregation": "汇总",
+        "crossSeriesAggregation": "使用 SUM 进行跨系列聚集",
+        "crossSeriesAggregationHelp": "通常，跨系列聚集与跨时间聚集（用于将数据点组合到单个存储区中的方法）相同。 启用此切换开关后，我们将对跨数据系列的存储区求和，而不使用指定的聚集求和。",
+        "crossSeriesAggregationDisabledHelp": "不适用于 {{aggregation}}"
       },
       "metrics": {
         "infrastructurePlatforms": "基础架构和平台",
@@ -344,7 +347,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - 入门",
-        "text": "Instana 是首个也是唯一一个完全自动化的应用程序性能 (APM) 解决方案，\n专用于应对微服务和云原生应用程序管理的相关问题。\n\n入门很简单\n\n1. 如果您尚未访问 Instana，请前往 [Instana.com](https://www.instana.com) 并注册免费试用。\n2. 探索我们包含数百项 [受支持技术](//www.instana.com/docs/ecosystem) 的生态系统。\n3. 开始使用我们的一个 [代理程序](https://www.instana.com/docs/setup_and_manage) 收集数据。\n4. 了解 [如何将 Instana](https://www.instana.com/docs/using_instana) 用于您的用例。\n5. 了解我们独特的 [核心功能](https://www.instana.com/docs/core_capabilities/)。\n6.使用我们的 [集成，SDK & API](https://www.instana.com/docs/integrations) 扩展 Instana。\n\n以上即为全部步骤！\n\n找不到所要查找的内容？转至 [instana.com/docs](https://www.instana.com/docs/)！"
+        "text": "Instana 是第一个也是唯一一个专为管理微服务和云原生应用的挑战而设计的全自动化应用程序性能 (APM) 解决方案。\n\n开始使用很简单。1. 如果您还无权访问 Instana，请转至 [Instana.com](https://www.instana.com) 并注册以免费试用。2. 探索我们包含数百种[受支持的技术](https://www.ibm.com/docs/en/obi/current?topic=supported-technologies)的生态系统。3. 开始使用其中一个[代理程序](https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana)收集数据。4. 了解[如何使用 Instana](https://www.ibm.com/docs/en/obi/current?topic=using-instana) 以便用于您的用例。5. 阅读有关独特[核心功能](https://www.ibm.com/docs/en/obi/current?topic=core-capabilities)的内容。6. 通过[集成、SDK 和 API](https://www.ibm.com/docs/en/obi/current?topic=integrations-sdks-apis) 扩展 Instana。\n\n好了！\n\n找不到所要查找的内容？ 跳至[文档](https://www.ibm.com/docs/en/obi/current)！"
       },
       "formComp": {
         "whatULikeShow": "您想要显示什么？",
@@ -377,14 +380,16 @@
         "userJourneyOffering": "用户旅程/产品",
         "appnPerspective": "应用程序透视图",
         "selectAppPerspect": "请选择应用程序透视图。",
-        "appPerspectHelpAction": "通过在产品的“应用程序”区域中将用户旅程/产品建模为应用程序透视图来对其进行设置。",
+        "appPerspectHelpAction": "通过在“应用程序”区域中将用户教程/产品建模为应用程序透视图来设置用户教程/产品。",
+        "rbacHint": "显示的应用程序可能受许可权限制。",
         "noAppPerspect": "无应用程序透视图！",
         "pleaseSelect": "请选择"
       },
       "websiteSelector": {
         "website": "Web 站点",
         "selectWebsite": "请选择 Web 站点",
-        "websiteHelpAction": "在产品的“Web 站点和移动应用程序”区域中配置 Web 站点。",
+        "websiteHelpAction": "在“Web 站点和移动应用程序”区域中配置 Web 站点。",
+        "rbacHint": "显示的 Web 站点可能受许可权限制。",
         "noWebsites": "找不到 Web 站点",
         "pleaseSelect": "请选择"
       },
@@ -398,8 +403,6 @@
         "sliCreateSuccess": "已成功创建 SLI",
         "failCreateSli": "无法创建 SLI。",
         "problemCreateSli": "创建此 SLI 时出现问题：“{{sliName}}”",
-        "cloning": "正在克隆...",
-        "creating": "正在创建...",
         "clone": "克隆",
         "create": "创建",
         "sliConfigMsg": "不能修改 SLI 的参数，以防止计算的预算支出失效。这就是在更改任何参数时需要克隆 SLI 的原因。",
@@ -412,13 +415,16 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "良性事件",
-        "badEvents": "恶性事件"
+        "badEvents": "恶性事件",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "等待时间",
         "callCount": "调用计数",
         "errorRate": "错误率",
         "erroneousCalls": "错误调用数",
+        "beaconErrorRate": "信标错误率",
+        "beaconDuration": "信标持续时间",
         "mean": "平均值",
         "min": "最小值",
         "max": "最大值",
@@ -542,7 +548,19 @@
       "atLeastOneFilterExpressionMustBeConfigured": "必须至少配置一个过滤表达式。",
       "timeBased": "基于时间",
       "eventBased": "基于事件",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "应用程序",
+        "source_website": "Web 站点"
+      },
+      "sliFormatter": {
+        "unit": "调用",
+        "unit_plural": "调用",
+        "unit_0": "调用",
+        "unit_1": "调用",
+        "unit_2": "调用",
+        "thousandCallsFormat": "{{count}}000 个调用"
+      }
     },
     "timezone": {
       "demo": {

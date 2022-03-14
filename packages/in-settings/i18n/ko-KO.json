@@ -25,7 +25,8 @@
       "heading": "이용 약관",
       "introduction": "계속 진행하기 전에 그리고 Instana 제품 및 서비스를 사용하기 전에 이용 약관을 읽고 동의해야 합니다.",
       "documents": "잠시 시간을 내어 다음 문서를 검토하시기 바랍니다.",
-      "agreeToS": "Instana <tosButton />을(를) 읽고 동의함"
+      "agreeToS": "Instana의 <tosButton />을(를) 읽었으며 이에 동의합니다.",
+      "ibmTos": "IBM 고객에게는 IBM의 서비스 이용 약관이 적용됩니다."
     },
     "termsPage2": {
       "heading": "메시징"
@@ -110,6 +111,8 @@
   },
   "tabs": {
     "failedToSaveConfig": "구성을 저장하는 데 실패함: {{err}}",
+    "IdPMetadataRequired": "IdP 메타데이터 파일이 필요합니다.",
+    "IdPMetadataLargerThanTwoMega": "IdP 메타데이터 파일은 2MB를 초과할 수 없습니다.",
     "ldapHelpDoc": "도움말 및 지원은 <docLink>문서 페이지</docLink>에서 사용 가능합니다.",
     "testConfiguration": "구성 테스트",
     "requiredSettings": "필수 설정",
@@ -803,7 +806,8 @@
     "deprecatedEventSelectedMessage": "엔티티 유형 <em>애플리케이션, 서비스 및 엔드포인트</em>는 사용자 정의 이벤트에 대해 더 이상 사용되지 않으며 곧 스마트 경보로 마이그레이션되어야 합니다. 사용자 정의 이벤트 대신 각각의 스마트 경보를 구성하는 것이 좋습니다. 자세한 정보는 <documentationLink>관련 문서를 참조하십시오</documentationLink>."
   },
   "languageSelection": {
-    "language": "언어"
+    "language": "언어",
+    "collationLanguage": "정렬을 위한 언어"
   },
   "terms": {
     "failedToSaveSettings": "설정을 저장하는 데 실패함: {{settings}} {{err}}",

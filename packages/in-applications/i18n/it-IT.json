@@ -31,7 +31,7 @@
   "labelTechnologies": "Tecnologie",
   "labelEndpoints": "Endpoint",
   "labelHealth": "Integrità",
-  "labelNonHttp": "Altro",
+  "labelOther": "Altro",
   "labelCallCount": "Conteggio chiamate",
   "labelHTTPStatusCodes": "Codici di stato HTTP",
   "labelInfraIssues": "Problemi infrastruttura",
@@ -108,7 +108,7 @@
   "buttonAddTag": "Aggiungi tag",
   "buttonOK": "OK",
   "buttonCreate": "Crea",
-  "buttonCancel": "annulla",
+  "buttonCancel": "Annulla",
   "buttonRemoveApplicationPerspective": "Rimuovi prospettiva applicazione",
   "buttonAddDescription": "Aggiungi descrizione",
   "buttonAddSyntheticEndpointRule": "Aggiungi regola endpoint sintetico",
@@ -198,7 +198,6 @@
     "listBatchTypeTooltip": "Questo {{type}} è stato eseguito in batch e rappresenta {{batchCount}} {{types}} singoli.",
     "listBatchLatencyTooltip": "Latenza totale di {{batchCount}} {{types}} eseguiti in batch.",
     "traceIdTooltip": "Alcuni dati correlati a questa traccia sono ritardati, pertanto ricaricare la pagina tra qualche minuto. Un esempio di questa situazione è la visualizzazione di una traccia molto recente con alcuni di tali dati ancora in fase di elaborazione.",
-    "downloadTraceTooltip": "Scarica traccia completa.",
     "closeTraceDetail": "Chiudi dettagli traccia",
     "invalidQueryConfig": "La configurazione della query non è valida. Correggere gli errori di convalida prima di continuare.",
     "errorRateLabel": "Chiamate errate (tasso)",
@@ -527,7 +526,7 @@
     "showApplicationsScopeWithApplicationLabel": "Visualizzazione applicazioni <bold>{{contextScope}}</bold> di <linkToEntity>{{entityLabel}}</linkToEntity> nel contesto di <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Visualizzazione servizi <bold>{{contextScope}}</bold> di <linkToEntity>{{entityLabel}}</linkToEntity> nel contesto di <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "Ancora nessun servizio",
-    "servicesNoData": "Nessuna chiamata di servizio disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi consultare la [documentazione][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "Nessuna chiamata di servizio disponibile per l'intervallo di tempo selezionato. Per informazioni sulla risoluzione dei problemi, consultare la [documentazione][Doc].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Batch",
@@ -570,23 +569,14 @@
         "largeTraceLink": "Questa traccia è di grandi dimensioni ed il rendering di questa traccia può causare problemi di prestazioni all'interno del browser. È possibile <linkToDocs>scaricare la trace</linkToDocs> per l'ispezione manuale oppure provare il rendering della traccia all'interno del proprio browser. Verrà eseguito il rendering di un sottoinsieme dei componenti per incrementare le prestazioni di questo tentativo.",
         "calls": "Chiamate",
         "erroneousTrace": "Traccia errata",
-        "attemptToRenderTrace": "Tentativo di rendering della traccia"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "Informazioni sul servizio",
-          "showServiceInformationExpl": "Mostra informazioni di servizio sotto l'etichetta di chiamata",
-          "showSubCalls": "Mostra chiamate secondarie",
-          "showSubCallsExpl": "Mostra chiamate secondarie dirette su ciascuna riga"
-        }
+        "attemptToRenderTrace": "Tentativo di rendering della traccia",
+        "analyzeBeacons": "Analizza beacon",
+        "adjustedTimeConfig": "L'intervallo di tempo è stato adattato per includere il beacon selezionato."
       }
     }
   },
   "tabs": {
-    "labelDetail": "Dettaglio",
-    "labelSummary": "Riepilogo",
-    "servicesAndEndpoint": "Servizi ed Endpoint",
-    "logs": "Log"
+    "labelDetail": "Dettaglio"
   },
   "metrics": {
     "calls_calls": "Chiamate",
@@ -598,5 +588,12 @@
     "traces_latency": "Latenza",
     "traces_erroneousCalls": "Tracce errate",
     "traces_errors": "Tasso di tracce errate"
+  },
+  "viewLists": {
+    "application": "Applicazioni",
+    "services": "Servizi",
+    "errorMessages": "Messaggi di errore",
+    "logMessages": "Messaggi di log",
+    "endpoints": "Endpoint"
   }
 }

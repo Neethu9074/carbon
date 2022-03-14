@@ -162,6 +162,7 @@
         "httpRequestBeaconHeaderRequest": "요청",
         "httpRequestBeaconHeaderCallDetails": "호출 세부사항",
         "httpRequestBeaconHeaderMeta": "메타",
+        "httpRequestBeaconHeaderHttpHeaders": "HTTP 헤더",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "리소스 타이밍",
         "httpRequestBeaconHeaderNetworkInsights": "Network Insights",
@@ -479,6 +480,36 @@
         "configurationRenameTitle": "웹 사이트 이름 바꾸기",
         "configurationRenameButton": "이름 바꾸기",
         "configurationTrackingScriptTitle": "추적 스크립트",
+        "saved": "저장됨",
+        "ipMasking": {
+          "title": "IP 마스킹",
+          "help": "IP 마스킹은 IP 주소의 세그먼트를 마스킹(익명화)하여 일반 사용자의 개인 정보를 보호합니다. 이는 전체 IP 주소가 저장되지 않도록 Instana의 수집 파이프라인 내에서 가능한 가장 빠른 시점에 발생합니다. Instana는 항상 업계에서 일반적으로 사용되는 규칙을 사용하여 IP 주소를 마스킹합니다. 조직에서 요구하는 경우 더 엄격한 IP 마스킹 규칙을 구성할 수 있습니다.",
+          "option_DEFAULT": "기본값, IPv4의 경우 마지막 8비트, IPv6의 경우 마지막 80비트를 마스킹합니다.",
+          "option_STRICT": "엄격, IPv4의 경우 마지막 16비트, IPv6의 경우 마지막 96비트를 마스킹합니다.",
+          "option_REMOVE_ALL_DETAILS": "IP 주소 제거(IPv4 및 IPv6 사용에 대한 힌트만 남음)"
+        },
+        "geoDetailRemoval": {
+          "title": "지리적 세부사항 제거",
+          "help": "Instana는 일반 사용자 IP 주소를 기반으로 수신 데이터의 대략적인 지리적 위치를 판별합니다. 여기에는 일반 사용자 좌표, 도시, 주, 국가 및 대륙 정보에 대한 정보가 포함됩니다. 일부 조직에서는 이 데이터를 일반 사용자를 식별할 수 있는 것으로 간주할 수 있으므로 이 대략적인 위치 정보를 추가로 익명화하기를 원할 수 있습니다. 이는 지리적 세부사항 제거를 사용하여 수행할 수 있습니다.",
+          "option_NO_REMOVAL": "지리적 세부사항 제거가 없음",
+          "option_REMOVE_COORDINATES": "위도, 경도 및 정확도 정보 제거",
+          "option_REMOVE_CITY": "도시, 위도, 경도 및 정확도 정보 제거",
+          "option_REMOVE_ALL": "모든 지리적 정보 제거"
+        },
+        "customGeoDetails": {
+          "title": "사용자 정의 지리적 세부사항",
+          "help1": "Instana는 일반 사용자 IP 주소를 도시 및 국가 이름과 같은 지리적 세부사항에 맵핑합니다. 이는 다양한 HTTP 헤더를 검사하여 일반 사용자 IP 주소를 검색하여 수행됩니다. 이러한 IP 주소는 <maxmind>Maxmind의 지리적 데이터베이스</maxmind>를 통해 지리적 세부사항으로 변환됩니다. 이러한 사용자 정의 맵핑 규칙의 주요 유스 케이스는 사설 네트워크입니다. 예를 들어, 사설 네트워크를 통해 (자체 호스팅된) Instana 설치에 액세스하는 경우입니다. 이러한 경우 공용 지리적 데이터베이스에는 관련 정보가 포함되지 않으며 이러한 변환 프로세스는 결과가 없거나 잘못되었거나 도움이 되지 않는 결과만 제공합니다.",
+          "help2": "사용자 정의 지리적 세부사항에 대한 규칙은 항상 쉼표로 구분된 값(CSV)을 통해 표현됩니다. 웹 REST API의 CSV 형식 및 사용법은 <documentation>문서</documentation> 내에 정의되어 있습니다.",
+          "download": "활성 구성(CSV) 다운로드",
+          "documentation": "문서",
+          "uploader": {
+            "title": "새 규칙 업로드",
+            "help": "사용자 정의 지리적 세부사항 규칙은 CSV 파일로 정의되며 웹 REST API 또는 이 양식을 통해 업로드됩니다. 파일 구조, 한계 및 웹 REST API에 대한 자세한 정보는 <documentation>문서</documentation>를 참조하십시오.",
+            "failureToReadFileContent": "파일 컨텐츠 읽기 실패: {{error}}",
+            "failureToCallApiForTechnicalReason": "HTTP 호출 실행 실패: {{error}}",
+            "failureToCallApiForStatusCodeReason": "잘못된 결과와 함께 HTTP 호출이 리턴됨: {{error}}"
+          }
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "구성 저장",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "구성이 업데이트되었습니다.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "새 구성이 저장되었습니다.",
@@ -519,7 +550,9 @@
         "stackTraceTranslationLabelOr": " 또는 ",
         "configurationTitle": "구성",
         "configurationLabelOptions": "옵션",
-        "configurationLabelJSStackTraceTranslation": "JS 스택 추적 변환"
+        "configurationLabelPrivacy": "개인정보 보호",
+        "configurationLabelJSStackTraceTranslation": "JS 스택 추적 변환",
+        "configurationLabelCustomGeoDetails": "사용자 정의 지리적 세부사항"
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "웹 사이트 사용자 정의 이벤트 세부사항",

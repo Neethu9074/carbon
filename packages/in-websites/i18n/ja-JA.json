@@ -162,6 +162,7 @@
         "httpRequestBeaconHeaderRequest": "要求",
         "httpRequestBeaconHeaderCallDetails": "呼び出しの詳細",
         "httpRequestBeaconHeaderMeta": "メタ",
+        "httpRequestBeaconHeaderHttpHeaders": "HTTPヘッダー",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "リソース・タイミング",
         "httpRequestBeaconHeaderNetworkInsights": "ネットワークの洞察",
@@ -479,6 +480,36 @@
         "configurationRenameTitle": "Web サイトの名前変更",
         "configurationRenameButton": "名前を変更",
         "configurationTrackingScriptTitle": "トラッキング・スクリプト",
+        "saved": "保存",
+        "ipMasking": {
+          "title": "IP マスキング",
+          "help": "IPマスキングは、IPアドレスのセグメントをマスキング（匿名化）することにより、エンドユーザーのプライバシーを保護します。 これは、Instanaの取り込みパイプライン内の可能な限り早い時点で発生するため、完全なIPアドレスが保存されることはありません。 Instana は常に、業界で一般的に使われている規則で IP アドレスをマスクします。 組織で IP マスキング・ルールが必要な場合は、より厳密な IP マスキング・ルールを構成できます。",
+          "option_DEFAULT": "デフォルトでは、 IPv4 の場合は最後の 8 ビットをマスクし、 IPv6 の場合は最後の 80 ビットをマスクします。",
+          "option_STRICT": "厳密に、IPv4の場合は最後の16ビットをマスクし、IPv6の場合は最後の96ビットをマスクします。",
+          "option_REMOVE_ALL_DETAILS": "IP アドレスを削除します ( IPv4 と IPv6 の使用法のヒントのみが残ります)"
+        },
+        "geoDetailRemoval": {
+          "title": "地理的詳細の削除",
+          "help": "Instana は、エンド・ユーザー IP アドレスに基づいて、着信データのおおよその地理的位置を決定します。 これには、エンド・ユーザーの座標、市区町村、都道府県、国、大陸情報が含まれます。 一部の組織は、このデータをエンドユーザーが識別できると見なす場合があるため、このおおよその位置情報をさらに匿名化することを希望する場合があります。 これは、地理的な詳細を削除することで実現します。",
+          "option_NO_REMOVAL": "地理的詳細の削除なし",
+          "option_REMOVE_COORDINATES": "緯度、経度、精度情報を削除します。",
+          "option_REMOVE_CITY": "市区町村、緯度、経度、精度の情報を削除します。",
+          "option_REMOVE_ALL": "すべての地理的詳細を削除します。"
+        },
+        "customGeoDetails": {
+          "title": "カスタム地理の詳細",
+          "help1": "Instanaは、エンドユーザーのIPアドレスを地理的な詳細（都市名や国名など）にマッピングします。 これは、さまざまな HTTP ヘッダーを検査してエンド・ユーザー IP アドレスを取得することによって行われます。 これらのIPアドレスは、<maxmind>Maxmindの地理データベース</maxmind>を使用して地理的な詳細に変換されます。 これらのカスタムマッピングルールの主な使用例は、プライベートネットワークです。 たとえば、プライベートネットワークを介して（セルフホストの）Instanaインストールにアクセスする場合。 このような場合、公共の地理データベースに関連情報が含まれることはなく、そのため、翻訳プロセスでは結果が得られないか、間違った/役に立たない結果しか得られません。",
+          "help2": "カスタムの地理的詳細のルールは、常にコンマ区切り値（CSV）で表されます。 Web REST API の CSV 形式と使用法は、 <documentation>資料</documentation>に定義されます。",
+          "download": "アクティブ構成 (CSV) のダウンロード",
+          "documentation": "資料",
+          "uploader": {
+            "title": "新規ルールのアップロード",
+            "help": "カスタム地理詳細ルールは定義されたCSVファイルであり、Web RESTAPIまたはこのフォームを介してアップロードされます。 ファイル構造、制限、Web REST API については、 <documentation>資料</documentation>を参照してください。",
+            "failureToReadFileContent": "ファイル・コンテンツの読み取りに失敗しました: {{error}}",
+            "failureToCallApiForTechnicalReason": "HTTP 呼び出しの実行に失敗しました: {{error}}",
+            "failureToCallApiForStatusCodeReason": "誤った結果で HTTP 呼び出しが返されました: {{error}}"
+          }
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "構成を保存しています…",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "構成を更新しました。",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "新しい構成が保存されました。",
@@ -519,7 +550,9 @@
         "stackTraceTranslationLabelOr": " または ",
         "configurationTitle": "構成",
         "configurationLabelOptions": "オプション",
-        "configurationLabelJSStackTraceTranslation": "JS スタック・トレース変換"
+        "configurationLabelPrivacy": "個人情報について",
+        "configurationLabelJSStackTraceTranslation": "JS スタック・トレース変換",
+        "configurationLabelCustomGeoDetails": "カスタム地理の詳細"
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "Web サイト・カスタム・イベントの詳細",

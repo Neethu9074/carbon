@@ -88,7 +88,6 @@
     "applicationDirectory": "アプリケーション・ディレクトリー",
     "theSupportForPythonOnFargateOnEcsWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Fargate on ECS では、他の Python アプリケーションと同じように Python がサポートされます。 <go>Python の資料</go>の説明に従ってください。",
     "theSupportForRubyOnFargateOnEcsWorksTheSameWayAsWithAnyRubyApplicationFollowTheInstructionsOfThe": "Fargate on ECS では、他の Ruby アプリケーションと同じように Ruby がサポートされます。 <go>Ruby の資料</go>の説明に従ってください。",
-
     "supportForAwsFargateIsDesignedToWorkWithAwsFargateOnTheElasticContainerServiceEcs": "AWS Fargate のサポートは、AWS Fargate on ECS (Elastic Container Service) と連動するように設計されています。",
     "selectYourApplicationRuntime": "アプリケーション・ランタイムの選択:",
     "awsLambdaFunctionsWrittenInGoNeedToBeManuallyInstrumentedInOrderToCollectTraceDataFollowTheInstructionsOfThe": "トレース・データを収集するには、Go で作成された AWS Lambda 関数を手動でインスツルメントする必要があります。 <go>AWS Lambda Go の資料</go>の説明に従ってください。",
@@ -153,6 +152,7 @@
     "setTheFollowingEnvironmentVariablesInTheCloudRunServiceRevision": "Cloud Run サービス・リビジョンで以下の環境変数を設定します:",
     "setTheFollowingEnvironmentVariablesOnTheCloudRunServiceDefinition": "Cloud Run サービス定義で以下の環境変数を設定します:",
     "theSupportForGoOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyGoApplicationFollowTheInstructionsOfThe": "Google Cloud Run (フルマネージド) では、他の Go アプリケーションと同じように Go がサポートされます。 <go>Go の資料</go>の説明に従ってください。",
+    "theSupportForPythonOnGoogleCloudRunFullyManagedWorksTheSameWayAsWithAnyPythonApplicationFollowTheInstructionsOfThe": "Google Cloud Run（完全に管理されている）でのPythonのサポートは、他のPythonアプリケーションと同じように機能します。 <go>Python の資料</go>の説明に従ってください。",
     "supportForGoogleCloudRunIsDesignedToWorkWithTheFullyManagedGoogleCloudRunPlatformCloudRunOnAnthosGkeIsCurrentlyNotSupported": "Google Cloud Run のサポートは、フルマネージドの Google Cloud Run プラットフォームと連動するように設計されています。 Cloud Run on Anthos/GKE は、現在サポートされていません。",
     "makeSureYouHaveAnInstanaAgentSetUpToMonitorYourGcpProjectForDetailsOnSettingUpTheInstanaAgentForGcpReferToThe": "Instana エージェントが GCP プロジェクトをモニターするようにセットアップされていることを確認します。 GCP に対する Instana エージェントのセットアップについて詳しくは、<go>Instana GCP サポートの資料</go>を参照してください。",
     "selectTheInstallationMethod": "インストール方法を選択します。",
@@ -206,6 +206,7 @@
     "endpointHost": "エンドポイント・ホスト",
     "endpointPort": "エンドポイント・ポート",
     "agentKey": "エージェント・キー",
+    "downloadKey": "鍵のダウンロード",
     "finallyYouWillNeedToGiveYourVMwareTanzuFoundationANameForExampleProdEuOrDev01ViaTheAgentZoneSettingInTheAgentConfigurationTab": "最後に、「エージェント構成」タブの「エージェント・ゾーン」設定を使用して、VMware Tanzu ファウンデーションに名前を付ける必要があります (prod-eu や dev01 など)。",
     "applyTheChangesIntroducedByTheInstanaMicroservicesApplicationMonitoringTileToAllTilesInTheOpsManagerTilesThatAreNotSelectedForTheApplyChangesStepInOpsManagerWillNotBeVisibleInInstana": "「Instana Microservices Application Monitoring」タイルによって導入された変更を、Ops Manager 内のすべてのタイルに適用します。 Ops Manager の「変更の適用」ステップで選択されなかったタイルは Instana に表示されません。",
     "supportedOpsManagerVersions": "サポートされる Ops Manager のバージョン",

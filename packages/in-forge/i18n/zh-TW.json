@@ -14,11 +14,6 @@
   "pluginName_aceMessageFlow_1": "IBM ACE 訊息流程",
   "pluginName_aceMessageFlow_2": "IBM ACE 訊息流程",
   "pluginName_aceMessageFlow": "IBM ACE 訊息流程",
-  "pluginName_aceFlowNode_plural": "IBM ACE 流程節點",
-  "pluginName_aceFlowNode_0": "IBM ACE 流程節點",
-  "pluginName_aceFlowNode_1": "IBM ACE 流程節點",
-  "pluginName_aceFlowNode_2": "IBM ACE 流程節點",
-  "pluginName_aceFlowNode": "IBM ACE 流程節點",
   "pluginName_activeMQ_plural": "ActiveMQ",
   "pluginName_activeMQ_0": "ActiveMQ",
   "pluginName_activeMQ_1": "ActiveMQ",
@@ -34,6 +29,16 @@
   "pluginName_aerospike_1": "Aerospike",
   "pluginName_aerospike_2": "Aerospike",
   "pluginName_aerospike": "Aerospike",
+  "pluginName_aliCloudOss_plural": "AliCloud OSS",
+  "pluginName_aliCloudOss_0": "AliCloud OSS",
+  "pluginName_aliCloudOss_1": "AliCloud OSS",
+  "pluginName_aliCloudOss_2": "AliCloud OSS",
+  "pluginName_aliCloudOss": "AliCloud OSS",
+  "pluginName_aliCloudOssBucket_plural": "AliCloud OSS 儲存區",
+  "pluginName_aliCloudOssBucket_0": "AliCloud OSS 儲存區",
+  "pluginName_aliCloudOssBucket_1": "AliCloud OSS 儲存區",
+  "pluginName_aliCloudOssBucket_2": "AliCloud OSS 儲存區",
+  "pluginName_aliCloudOssBucket": "AliCloud OSS 儲存區",
   "pluginName_aliCloudRocketMq_plural": "AliCloud RocketMqs",
   "pluginName_aliCloudRocketMq_0": "AliCloud RocketMqs",
   "pluginName_aliCloudRocketMq_1": "AliCloud RocketMqs",
@@ -319,6 +324,11 @@
   "pluginName_crio_1": "CRI-O 儲存器",
   "pluginName_crio_2": "CRI-O 儲存器",
   "pluginName_crio": "CRI-O 儲存器",
+  "pluginName_crowdStrikeFalcon_plural": "CrowdStrike Falcon 代理程式",
+  "pluginName_crowdStrikeFalcon_0": "CrowdStrike Falcon 代理程式",
+  "pluginName_crowdStrikeFalcon_1": "CrowdStrike Falcon 代理程式",
+  "pluginName_crowdStrikeFalcon_2": "CrowdStrike Falcon 代理程式",
+  "pluginName_crowdStrikeFalcon": "CrowdStrike Falcon",
   "pluginName_crystalRuntimePlatform_plural": "Crystal 應用程式",
   "pluginName_crystalRuntimePlatform_0": "Crystal 應用程式",
   "pluginName_crystalRuntimePlatform_1": "Crystal 應用程式",
@@ -940,6 +950,11 @@
   "pluginName_openshiftDeploymentConfig_1": "Openshift 部署配置",
   "pluginName_openshiftDeploymentConfig_2": "Openshift 部署配置",
   "pluginName_openshiftDeploymentConfig": "Openshift 部署配置",
+  "pluginName_openTelemetry_plural": "OpenTelemetry",
+  "pluginName_openTelemetry_0": "OpenTelemetry",
+  "pluginName_openTelemetry_1": "OpenTelemetry",
+  "pluginName_openTelemetry_2": "OpenTelemetry",
+  "pluginName_openTelemetry": "OpenTelemetry",
   "pluginName_oracleDB_plural": "OracleDB",
   "pluginName_oracleDB_0": "OracleDB",
   "pluginName_oracleDB_1": "OracleDB",
@@ -1147,6 +1162,14 @@
   "pluginName_webSphereApplicationContainer_1": "WebSphere",
   "pluginName_webSphereApplicationContainer_2": "WebSphere",
   "pluginName_webSphereApplicationContainer": "WebSphere",
+  "pluginName_webSphereDeploymentManager": "WebSphere Deployment Manager",
+  "pluginName_webSphereDeploymentManager_plural": "WebSphere Deployment Manager",
+  "pluginName_webSphereInfrastructureManager": "WebSphere Infrastructure Manager",
+  "pluginName_webSphereInfrastructureManager_plural": "WebSphere Infrastructure Manager",
+  "pluginName_webSphereCluster": "WebSphere Cluster Manager",
+  "pluginName_webSphereCluster_plural": "WebSphere Cluster Manager",
+  "pluginName_webSphereClusterMember": "成員",
+  "pluginName_webSphereClusterMember_plural": "成員",
   "pluginName_webSphereLibertyApplicationContainer_plural": "WebSphere Liberty 伺服器",
   "pluginName_webSphereLibertyApplicationContainer_0": "WebSphere Liberty 伺服器",
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty 伺服器",
@@ -1157,6 +1180,11 @@
   "pluginName_zhmcConsole_2": "zHMC",
   "pluginName_zhmcConsole_1": "zHMC",
   "pluginName_zhmcConsole": "zHMC",
+  "pluginName_zhmcCpc_plural": "zHMC",
+  "pluginName_zhmcCpc_0": "zHMC Cpc",
+  "pluginName_zhmcCpc_2": "zHMC Cpc",
+  "pluginName_zhmcCpc_1": "zHMC Cpc",
+  "pluginName_zhmcCpc": "zHMC Cpc",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeeper",
   "pluginName_zooKeeper_0": "ZooKeeper",
@@ -1264,6 +1292,11 @@
   "tracingTypeName_axisserver_0": "HTTP 呼叫",
   "tracingTypeName_axisserver_1": "HTTP 呼叫",
   "tracingTypeName_axisserver_2": "HTTP 呼叫",
+  "tracingTypeName_azq": "Azure 佇列",
+  "tracingTypeName_azq_plural": "Azure 佇列",
+  "tracingTypeName_azq_0": "Azure 佇列",
+  "tracingTypeName_azq_1": "Azure 佇列",
+  "tracingTypeName_azq_2": "Azure 佇列",
   "tracingTypeName_batchsynthetic": "內部觸發程式",
   "tracingTypeName_batchsynthetic_plural": "內部觸發程式",
   "tracingTypeName_batchsynthetic_0": "內部觸發程式",
@@ -2253,11 +2286,66 @@
       "serverName": "伺服器名稱",
       "cellName": "Cell 名稱",
       "webModules": "Web 模組",
-      "ejbModules": "EJB",
+      "ejbModules": "EJB 模組",
       "datasources": "資料來源",
       "installDir": "安裝目錄",
       "startedAt": "開始時間",
       "layers": "層"
+    },
+    "aliCloudOss": {
+      "aliCloudOssInfo": "OSS 使用者實例",
+      "userId": "使用者 ID",
+      "bucketsList": "儲存區清單",
+      "bucketId": "儲存區 ID"
+    },
+    "aliCloudOssBucket": {
+      "aliCloudOssBucketInfo": "OSS 儲存區實例",
+      "instanceId": "實例 ID",
+      "region": "地區",
+      "userId": "使用者 ID",
+      "storageClass": "儲存類別",
+      "creationDate": "建立日期",
+      "successRequest": "成功要求",
+      "successCount": "計數",
+      "successRate": "比率",
+      "availability": "可用性",
+      "requestValidRate": "要求有效率",
+      "requestCount": "要求計數",
+      "validRequestCount": "有效要求計數",
+      "totalRequestCount": "要求總數",
+      "inOut": "接收/傳送流程",
+      "internetRecv": "網際網路 RX",
+      "intranetRecv": "內部網路 RX",
+      "cdnRecv": "CDN RX",
+      "syncRecv": "同步 RX",
+      "internetSend": "網際網路 SX",
+      "intranetSend": "內部網路 SX",
+      "cdnSend": "CDN SX",
+      "syncSend": "同步 SX",
+      "appendObject": "附加",
+      "copyObject": "複製",
+      "deleteObject": "刪除",
+      "deleteObjects": "刪除",
+      "getObject": "取得",
+      "headObject": "頭部",
+      "postObject": "張貼",
+      "putObject": "放置",
+      "uploadPart": "UploadPart",
+      "uploadPartCopy": "UploadPartCopy",
+      "objectOperation": "物件作業計數",
+      "averageE2Latency": "平均 E2E 延遲時間",
+      "averageServerLatency": "平均伺服器延遲時間",
+      "maxE2Latency": "E2E 延遲時間上限",
+      "maxServerLatency": "伺服器延遲時間上限",
+      "errorCount": "錯誤計數",
+      "errorRate": "錯誤率",
+      "authorization": "授權",
+      "clientOther": "用戶端其他",
+      "clientTimeout": "用戶端逾時",
+      "network": "網路",
+      "resourceNotFound": "找不到資源",
+      "server": "伺服器",
+      "metering": "計量"
     },
     "aliCloudRocketMq": {
       "aliCloudRocketMqInfo": "RocketMq 實例",
@@ -2619,25 +2707,18 @@
       "flowNodeName": "流程節點名稱",
       "nodeType": "節點類型",
       "flowNodeNumber": "流程節點 ({{count}})",
-      "flowNodeNumber_plural": "流程節點 ({{count}})"
+      "flowNodeNumber_plural": "流程節點 ({{count}})",
+      "messageFlowThreadUtilization": "執行緒使用率",
+      "messageFlowHealth": "性能"
     },
     "aceFlowNode": {
-      "flowNodeInfo": "IBM ACE 流程節點",
-      "nodeName": "節點名稱",
-      "flowName": "流程名稱",
-      "serverName": "伺服器名稱",
-      "applicationName": "應用程式名稱",
-      "type": "類型",
-      "cpuTime": "CPU 時間",
       "totalCpuTime": "CPU 時間總計",
       "maxCpuTime": "最長 CPU 時間",
       "minCpuTime": "最短 CPU 時間",
-      "elapsedTime": "經歷時間",
       "totalElapsedTime": "經歷時間總計",
       "maxElapsedTime": "最長經歷時間",
       "minElapsedTime": "最短經歷時間",
       "invocations": "呼叫",
-      "terminals": "終端機",
       "inputTerminals": "輸入類型終端機數目",
       "outputTerminals": "輸出類型終端機數目"
     },
@@ -2782,7 +2863,14 @@
       "labelNoDataInstances": "無資料實例",
       "labelWarningInstances": "警告實例",
       "labelInstanceHealth": "實例性能",
-      "labelInstanceDiskUsage": "實例磁碟用量"
+      "labelInstanceDiskUsage": "實例磁碟用量",
+      "labelOK": "正常 (0)",
+      "labelInfo": "參考資訊 (1)",
+      "labelUnknown": "不明 (5)",
+      "labelNoData": "無資料 (10)",
+      "labelWarning": "警告 (15)",
+      "labelDegraded": "欠佳 (20)",
+      "labelSevere": "嚴重 (25)"
     },
     "awsDynamoDb": {
       "labelProvisioned": "已佈建",
@@ -3026,23 +3114,23 @@
       "total": "實例要求總計"
     },
     "labelCPUStatesMetric": {
-      "irq": "CPU irq",
-      "idle": "CPU 閒置",
-      "user": "CPU 使用者",
-      "system": "CPU 系統",
-      "softirq": "CPU softirq",
-      "iowait": "CPU iowait",
-      "nice": "CPU nice",
-      "load": "CPU 負載"
+      "irq": "IRQ",
+      "idle": "閒置",
+      "user": "使用者",
+      "system": "系統",
+      "softirq": "SoftIRQ",
+      "iowait": "IOWait",
+      "nice": "良好",
+      "load": "載入"
     },
     "labelInstanceCPUStatesMetric": {
-      "irq": "實例 CPU irq",
+      "irq": "實例 CPU IRQ",
       "idle": "實例 CPU 閒置",
       "user": "實例 CPU 使用者",
       "system": "實例 CPU 系統",
-      "softirq": "實例 CPU softirq",
-      "iowait": "實例 CPU iowait",
-      "nice": "實例 CPU nice",
+      "softirq": "實例 CPU SoftIRQ",
+      "iowait": "實例 CPU IOWait",
+      "nice": "實例 CPU 良好",
       "load": "實例 CPU 負載"
     },
     "labelLatencyMetric": {
@@ -4174,6 +4262,13 @@
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
       "infoTitle": "程序 ID",
+      "table": {
+        "host": "主機",
+        "name": "名稱",
+        "metrics": "受管理度量",
+        "cpu": "主機 CPU 使用率",
+        "memory": "主機記憶體使用率"
+      },
       "dashboard": {
         "labelMetrics": "度量",
         "labelMessages": "訊息",
@@ -4964,6 +5059,20 @@
       "cpuUsage": "CPU 使用率",
       "memoryUsage": "記憶體用量"
     },
+    "crowdStrikeFalcon": {
+      "dashboard": {
+        "thereIsNoFurtherInformationAboutThisEntity": "沒有此實體的進一步資訊。"
+      },
+      "table": {
+        "host": "主機",
+        "name": "名稱"
+      },
+      "rfm-state": "降低功能模式",
+      "rfm-reason": "降低功能原因",
+      "aid": "代理程式 ID",
+      "cid": "客戶 ID",
+      "version": "版本"
+    },
     "crystalRuntimePlatform": {
       "dashboard": {
         "heap": "資料堆",
@@ -5103,7 +5212,8 @@
         "hadrConnect": "HADR 連線狀態",
         "hadrPrimaryLog": "HADR 主要日誌資訊",
         "hadrSecondaryLog": "HADR 次要日誌資訊",
-        "hadrLogMetrics": "HADR 日誌度量"
+        "hadrLogMetrics": "HADR 日誌度量",
+        "hadrTakeOverTime": "HADR 前次接管時間"
       },
       "db2": "Db2",
       "processId": "程序 ID",
@@ -5128,6 +5238,8 @@
       "staticQueries": "靜態查詢",
       "dynamicQueries": "動態查詢",
       "failedQueries": "失敗的查詢",
+      "daysLastBackup": "前次備份",
+      "daysAgo": "天前",
       "physicalWrites": "實體寫入",
       "physicalReads": "實體讀取",
       "logicalReads": "邏輯讀取",
@@ -5185,8 +5297,7 @@
       "totalIOTime": "IO 時間",
       "lockTimeouts": "鎖定逾時數",
       "deadlocks": "死鎖",
-      "omsCons": "遠端連線數",
-      "omsConsExec": "執行中的遠端連線數",
+      "totalConnections": "連線總數",
       "agentHighWmark": "代理程式數上限",
       "coordAgentsHighWmark": "協調代理程式數目上限",
       "agentCreatedVSReused": "建立的代理程式、重複使用的 V/S 代理程式",
@@ -5308,7 +5419,9 @@
       "sockRecBufReq": "要求的接收緩衝區",
       "sockRecvBufAct": "實際接收緩衝區",
       "logHadrWaitCur": "現行日誌程式等待時間",
-      "logHadrWaitTime": "日誌程式等待時間總計"
+      "logHadrWaitTime": "日誌程式等待時間總計",
+      "unableToConnect": "無法以使用者 {{user}} 身分連接至 {{connectionUrl}}。",
+      "troubleshootingDocs": "疑難排解文件"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "每秒所有呼叫數",
@@ -7640,6 +7753,7 @@
     },
     "host": {
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "此主機的作業系統似乎沒有提供「程序異常終止」偵測所需的延伸「Berkeley 封包過濾器 (eBPF)」功能。",
+      "theHostAgentIsVulnerableToLog4jCVE": "主機代理程式容易遭到 Log4j CVE-2021-44228 及 CVE-2021-45046 的攻擊，請將代理程式安裝更新至較新版本，以減輕這些漏洞。",
       "troubleshootingDocs": "疑難排解文件",
       "dashboard": {
         "gpuMemoryProcess": "GPU 記憶體/程序",
@@ -7731,6 +7845,7 @@
       "fqdn": "FQDN",
       "machineId": "機器 ID",
       "bootId": "開機 ID",
+      "systemId": "系統 ID",
       "startedAt": "開始時間",
       "interfacesWithSize": "介面 ({{size}})",
       "cpuUsed": "已用的 CPU",
@@ -8306,6 +8421,7 @@
     "ibmIDb2": {
       "troubleshootingDocs": "疑難排解文件",
       "collectionServicesNotEnabledDescription": "代理程式無法取得 Db2 on i 度量值。請開啟「資料收集服務」，以監視 Db2 on i。",
+      "unableToConnect": "無法使用使用者 {{user}} 連接至 {{host}}。",
       "name": "Db2 on i",
       "sidebar": {
         "ibmIDb2Info": "Db2 on i 資訊",
@@ -8527,15 +8643,41 @@
             "tcpState": "TCP 狀態",
             "bytesSentRemotely": "遠端傳送的位元組數",
             "bytesReceivedLocally": "本端接收的位元組數"
+          },
+          "messageQueue": {
+            "name": "訊息佇列",
+            "messageId": "ID",
+            "messageType": "類型",
+            "severity": "嚴重性",
+            "messageQueueLibrary": "磁帶庫名稱",
+            "messageQueueName": "佇列名稱",
+            "messageTimestamp": "時間戳記",
+            "messageText": "文字",
+            "messageSecondLevelText": "第二層文字",
+            "messageKey": "索引鍵"
+          },
+          "historyLog": {
+            "name": "歷程日誌",
+            "messageId": "ID",
+            "messageType": "類型",
+            "severity": "嚴重性",
+            "fromUser": "使用者",
+            "fromJob": "工作",
+            "fromProgram": "程式",
+            "messageTimestamp": "時間戳記",
+            "messageText": "文字",
+            "messageSecondLevelText": "第二層文字"
           }
         }
       },
       "name": "IBM i",
-      "memoryPool": "記憶體儲存區"
+      "memoryPool": "記憶體儲存區",
+      "unableToConnect": "無法使用使用者 {{user}} 連接至 {{host}}。",
+      "troubleshootingDocs": "疑難排解文件"
     },
     "ibmMqChannel": {
       "dashboard": {
-        "messagesSent": "已傳送的訊息",
+        "messagesSent": "傳送/接收的訊息數",
         "messagesAvailable": "可用的訊息",
         "messages": "訊息",
         "sentReceived": "已傳送/已接收",
@@ -8593,7 +8735,7 @@
         "ibmMqCluster": "IBM MQ 叢集",
         "type": "類型",
         "messages": "訊息",
-        "publishers": "發佈者",
+        "publications": "出版品",
         "subscriptions": "訂閱",
         "topicsWithCount": "主題 ({{len}})"
       },
@@ -8628,8 +8770,6 @@
         "messageTime": "訊息時間",
         "oldest": "最舊",
         "onQueue": "佇列上",
-        "reset": "重設",
-        "last": "前次",
         "calls": "呼叫",
         "openInputs": "開啟的輸入",
         "openOutputs": "開啟的輸出",
@@ -8657,8 +8797,6 @@
       "messages": "訊息",
       "messageTime": "訊息時間",
       "onQueueMessageTime": "佇列上的訊息時間",
-      "lastResetTime": "前次重設時間",
-      "reset": "重設",
       "openInputCount": "開啟輸入計數",
       "openOutputCount": "開啟輸出計數",
       "calls": "呼叫"
@@ -8685,12 +8823,15 @@
         "usage": "用量",
         "monitoring": "監視",
         "queuesWithCount": "佇列 ({{len}})",
+        "queueFullPercentage": "深度百分比",
+        "openInputCount": "開啟輸入",
+        "openOutputCount": "開啟輸出",
         "application": "應用程式",
         "channel": "通道",
         "connection": "連線",
         "handleState": "控點狀態",
         "user": "使用者",
-        "queuesUsageWithCount": "佇列使用情形 ({{len}})",
+        "queuesUsageWithCount": "依應用程式排序的佇列使用情形 ({{len}})",
         "ibmMqQueueManager": "IBM MQ 佇列管理程式",
         "subsWithCount": "訂閱 ({{len}})",
         "topicString": "主題字串",
@@ -8702,6 +8843,8 @@
       "name": "名稱",
       "version": "版本",
       "status": "狀態",
+      "channelInitiatorStatus": "通道起始程式狀態",
+      "pubsubStatus": "發佈/訂閱引擎狀態",
       "startedAt": "開始時間",
       "alternatedAt": "替代時間",
       "platform": "平台",
@@ -8743,7 +8886,7 @@
     "ibmMqTopic": {
       "dashboard": {
         "messages": "訊息",
-        "publishers": "發佈者",
+        "publications": "出版品",
         "count": "計數",
         "subscriptions": "訂閱",
         "ibmMqTopic": "IBM MQ 主題"
@@ -8754,7 +8897,7 @@
       "topicType": "主題類型",
       "topicAlternatedAt": "主題替代時間",
       "messages": "訊息",
-      "publishers": "發佈者",
+      "publications": "出版品",
       "count": "計數",
       "lastResetTime": "前次重設時間",
       "reset": "重設",
@@ -8848,7 +8991,10 @@
         "info": "資訊",
         "cpuLoad": "CPU 負載",
         "load": "負載",
-        "memory": "記憶體",
+        "memory": "JVM 記憶體",
+        "systemMemory": "系統記憶體",
+        "userAndSystemShowLoadInPercentWhere100EqualASingleCoreAtFullLoad": "使用者和系統會以百分比顯示負載，其中 100% 等於完整負載的單一核心。 ",
+        "LoadIsComputedInTheJVMRelatedToTheCombinedProcessingPowerAndNormalizedTo1": "在 JVM 中計算與結合處理能力相關的負載，並正規化為 1。",
         "heap": "資料堆",
         "directBuffers": "直接緩衝區",
         "offHeap": "資料堆外",
@@ -8957,6 +9103,8 @@
       "ibmDataPowerVariablesInvalid": "未正確配置 IBM DataPower 實例。實例 <code>{{instanceName}}</code> 的變數 <code>{{invalidKey}}</code> 具有錯誤值 <code>{{invalidValue}}</code>。",
       "ibmDataPowerConnectionError": "查詢 URL 為 <code>{{url}}</code> 的 IBM DataPower 時發生錯誤，回覆碼 <code>{{rtnCode}}</code>，回應為 <code>{{response}}</code>。請檢查感應器配置，例如，主機/埠或 IBM DataPower 實例",
       "ibmDataPowerExceptionError": "「感應器」產生了下列異常狀況：<code>{{errorMessage}}</code>。",
+      "agentTlsExpired": "代理程式 TLS 憑證 <code>{{cert}}</code> 在 <code>{{context}}</code> 內過期。",
+      "agentTlsAboutToExpire": "代理程式 TLS 憑證 <code>{{cert}}</code> 即將在 <code>{{context}}</code> 天後到期。",
       "agentVersion": "代理程式版本",
       "bootVersion": "開機版本",
       "origin": "來源",
@@ -8982,7 +9130,8 @@
       "sensorCount": "感應器計數",
       "discoveryCount": "探索計數",
       "sensors": "感應器",
-      "hostname": "主機名稱"
+      "hostname": "主機名稱",
+      "startType": "啟動類型"
     },
     "sparkStandalone": {
       "titleApplicationId": "應用程式 ID",
@@ -9441,7 +9590,7 @@
       "datasourceJndiName": "資料來源 JNDI 名稱",
       "connectionsCurrentlyInUse": "目前使用中的連線",
       "timeWaitedForExclusiveLockOnPool": "等待專用鎖定儲存區的時間",
-      "datasourcesWithCount": "資料來源連線儲存區 ({{len}})",
+      "datasourcesWithCount": "資料來源 ({{len}})",
       "timedOut": "逾時",
       "timeSpentOnCreatingConnections": "建立連線所耗費的時間",
       "deployment": "部署",
@@ -9476,7 +9625,7 @@
       "webDeployments": "Web 部署",
       "servlets": "Servlet",
       "connectors": "連接器",
-      "datasources": "資料來源連線儲存區",
+      "datasources": "資料來源",
       "connectionsInUse": "使用中的連線",
       "connectionsCreated": "已建立的連線",
       "connectionsUsedPercentage": "已用連線百分比",
@@ -10089,6 +10238,13 @@
       "labelDataSource": "資料來源",
       "labelJMSDestination": "JMS 目的地",
       "labelSAFAgent": "SAF 代理程式",
+      "labelHealthState": "性能狀態",
+      "labelHealthStateUnknown": "不明",
+      "labelHealthStateOK": "正常 (0)",
+      "labelHealthStateWarning": "警告 (1)",
+      "labelHealthStateCritical": "嚴重 (2)",
+      "labelHealthStateFailed": "失敗 (3)",
+      "labelHealthStateOverloaded": "超載 (4)",
       "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
@@ -10103,7 +10259,8 @@
       "titleAverageWaitingTime": "平均等待時間",
       "titleDatasourcesCount": "資料來源 ({{len}})",
       "titleWebModulesCount": "Web 模組 ({{len}})",
-      "titleEJBModulesCount": "EJB ({{len}})",
+      "titleEJBModulesCount": "EJB 模組 ({{len}})",
+      "titleEJBBeansCount": "EJB Bean ({{len}})",
       "titleObjectPoolsCount": "物件儲存區 ({{len}})",
       "titleJ2CModulesCount": "J2C 模組 ({{len}})",
       "titleMaxConnections": "連線數上限",
@@ -10153,12 +10310,50 @@
       "labelResponseTime": "回應時間",
       "lableResponseCount": "回應計數",
       "webSphere": "WebSphere",
-      "labelEJB": "EJB",
-      "labelEJBs": "EJB",
+      "labelEjbModule": "EJB 模組",
+      "labelEjbModules": "EJB 模組",
+      "labelEjbBean": "EJB Bean",
+      "labelEjbBeans": "EJB Bean",
       "labelObjectPool": "物件儲存區",
       "labelObjectPools": "物件儲存區",
       "labelJ2CModule": "J2C 模組",
       "labelJ2CModules": "J2C 模組"
+    },
+    "webSphereCluster": {
+      "webSphereClusterInfo": "WebSphere 叢集",
+      "membersWithCount": "成員 ({{len}})",
+      "clusterName": "叢集名稱",
+      "status": "狀態",
+      "memberCount": "成員",
+      "dashboard": {
+        "memberName": "成員名稱",
+        "nodeName": "節點名稱",
+        "status": "狀態",
+        "weight": "權重"
+      }
+    },
+    "webSphereDeploymentManager": {
+      "webSphereDeploymentManagerInfo": "WebSphere Deployment Manager",
+      "clustersWithCount": "叢集 ({{len}})",
+      "pid": "PID",
+      "serverName": "伺服器名稱",
+      "hostName": "主機名稱",
+      "cellName": "資料格名稱",
+      "version": "版本",
+      "serverType": "伺服器類型",
+      "dashboard": {
+        "clusterName": "叢集名稱",
+        "status": "狀態",
+        "memberCount": "成員"
+      }
+    },
+    "webSphereInfrastructureManager": {
+      "hostName": "主機名稱",
+      "cellName": "資料格名稱",
+      "serverName": "伺服器名稱",
+      "webSphereInfrastructureManagerInfo": "WebSphere Infrastructure Manager",
+      "deploymentManagerNumber": "部署管理程式 ({{count}})",
+      "deploymentManagerNumber_plural": "部署管理程式 ({{count}})"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "名稱",
@@ -10233,7 +10428,16 @@
       "bytesPerSecondReceived": "接收的每秒位元組數",
       "bytesPerSecondSent": "傳送的每秒位元組數",
       "utilization": "使用率",
-      "flags": "旗標"
+      "flags": "旗標",
+      "networkUsage": "網路用量",
+      "storageUsage": "儲存體用量",
+      "acceleratorUsage": "加速器用量",
+      "cryptoUsage": "加密用量",
+      "cpSharedProcessorUsage": "共用處理器用量",
+      "cpAllProcessorUsage": "所有處理器用量",
+      "iflSharedProcessorUsage": "Ifl 共用處理器用量",
+      "allSharedProcessorUsage": "所有共用處理器用量",
+      "iflAllProcessorUsage": "Ifl 所有處理器用量"
     },
     "zooKeeper": {
       "titleTicks": "刻度記號",
@@ -10253,7 +10457,8 @@
       "labelAliveConnections": "作用中連線",
       "labelPacketsReceived": "已接收的封包數",
       "labelPacketsSent": "已傳送的封包數",
-      "labelPeer": "同層級"
+      "labelPeer": "同層級",
+      "zxid": "zxid"
     },
     "lxc": {
       "networkWithNetworkInterface": "網路 ({{networkInterface}})",
@@ -11006,6 +11211,9 @@
       "cpuRequests": "CPU 要求",
       "cpuLimits": "CPU 限制"
     },
+    "openTelemetry": {
+      "openTelemetry": "OpenTelemetry"
+    },
     "oracleDB": {
       "dbTimePerSecond": "每秒資料庫時間",
       "db": "資料庫",
@@ -11185,6 +11393,8 @@
       "labelEvents": "事件",
       "titleDetails": "事件詳細資料",
       "labelS3Events": "S3 事件",
+      "labelDynamoDbEvents": "DynamoDB 事件",
+      "labelEventSourceARN": "事件來源 ARN",
       "titleQueues": "佇列",
       "labelMessages": "訊息",
       "titleARN": "ARN",
@@ -11193,6 +11403,7 @@
       "titleTrigger": "觸發",
       "bodyCloudWatchEvents": "CloudWatch 事件",
       "bodyAWSEvents": "AWS S3 事件",
+      "bodyAWSDynamoDbEvents": "AWS DynamoDB 事件",
       "bodyAWSMessages": "AWS SQS 訊息",
       "bodyAWSEvent": "AWS 事件",
       "bodyAWSEventDetail": "不使用 Lambda Proxy 選項或不明 Lambda 觸發程式的「API 閘道」。",
@@ -11203,6 +11414,13 @@
       "timeoutMessage": "當只剩下 {{milliseconds}} 毫秒時，Lambda 函數仍在執行中，它可能已在逾時中結束。",
       "yes": "是",
       "no": "否"
+    },
+    "azq": {
+      "queuename": "佇列名稱",
+      "messagesuri": "訊息 URI",
+      "storageaccountname": "儲存體帳戶名稱",
+      "queueuri": "佇列 URI",
+      "methodname": "方法名稱"
     },
     "LambdaInvoke": {
       "titleARN": "ARN",

@@ -72,8 +72,8 @@
   "permissionCanConfigureSessionSettingsLabel": "Acceso a valores de tiempo de espera de señal y sesión",
   "permissionCanConfigureSessionSettingsDescription": "Permite el acceso para configurar los tiempos de espera de señal y sesión.",
   "permissionCanConfigureSessionSettingsCategory": "Control de acceso",
-  "permissionCanViewLogsLabel": "Acceso a registros en la vista de detalles de rastreo",
-  "permissionCanViewLogsDescription": "Habilitar acceso a registros.",
+  "permissionCanViewLogsLabel": "Acceso a registros",
+  "permissionCanViewLogsDescription": "Permite el acceso a los registros de visualización.",
   "permissionCanViewLogsCategory": "Control de acceso",
   "permissionCanViewTraceDetailsLabel": "Acceso a detalles del rastreo en la vista de detalles de rastreo",
   "permissionCanViewTraceDetailsDescription": "Habilita el acceso a detalles del rastreo.",
@@ -89,7 +89,6 @@
   "permissionCanViewAccountAndBillingInformationCategory": "Información de cuenta",
   "permissionRestrictedLabel": "Limitar acceso por ámbitos de acceso de grupo",
   "permissionRestrictedHelp": "Habilitar rol basado en el control de acceso.",
-
   "metric": {
     "metric_MEAN": "media",
     "metric_MIN": "mín",
@@ -104,14 +103,12 @@
     "metric_DISTINCT_COUNT": "recuento distinto",
     "metric_SUM": "suma",
     "metric_DISTRIBUTION": "distribución",
-
     "formatterLabelNumber": "Número, por ejemplo {{example}}",
     "formatterLabelPercentage": "Porcentaje, por ejemplo {{example}}",
     "formatterLabelBytes": "Bytes, por ejemplo {{example}}",
     "formatterLabelMilliseconds": "Milisegundos, por ejemplo {{example}}",
     "formatterLabelLatency": "Latencia, por ejemplo {{example}}",
     "formatterLabelSIPrefix": "Prefijo SI, por ejemplo {{example}}",
-
     "rendererLabelArea": "Área",
     "rendererLabelAreaStacked": "Área (apilada)",
     "rendererLabelBar": "Barra",
@@ -122,10 +119,8 @@
     "rendererLabelPoint": "Puntual",
     "rendererLabelPie": "Circular"
   },
-
   "search": {
     "queryInvalidLuceneQuery": "Consulta de lucene no válida.",
-
     "fieldsEntity": "Infraestructura y entidad de aplicación",
     "fieldsEntityAgent": "Agente de Instana",
     "fieldsEntityAgentGitops": "Configuración de GitOps del agente de Instana",
@@ -191,6 +186,7 @@
     "fieldsEntityVsphereEsxihost": "vSphere ESXi Host",
     "fieldsEntityVsphereVm": "vSphere Virtual Machine",
     "fieldsEntityWebsphere": "IBM WebSphere Application Server",
+    "fieldsEntityWebsphereDeploymentManager": "Gestor de despliegue IBM WebSphere",
     "fieldsTrace": "Span de rastreo y raíz",
     "fieldsEvent": "Cambios, problemas e incidencias",
     "fieldsSpan": "Spans en rastreos",
@@ -205,7 +201,6 @@
     "fieldsSpanEndpoint": "Campos específicos de punto final",
     "fieldsSavedFilter": "Filtro guardado"
   },
-
   "time": {
     "shiftingLabelOff": "Desactivado",
     "shiftingDescriptionOff": "Ver datos sin salto en el tiempo",
@@ -219,7 +214,6 @@
     "shiftingDescriptionLastWeek": "Comparar con una semana anterior a la ventana de tiempo seleccionada",
     "shiftingCustomDuration": "{{duration}} anterior"
   },
-
   "view": {
     "viewGroupingsCompose": "Nombre de proyecto de Docker Compose",
     "viewGroupingsCustom_container": "Etiquetas de contenedor",
@@ -232,10 +226,8 @@
     "viewGroupingsCfSpace": "Espacio de Cloud Foundry",
     "viewGroupingsMarathon": "ID de aplicación de Marathon",
     "viewGroupingsNomad": "Nombre de tarea Nomad",
-
     "viewGroupingsInfraZone": "Zona",
     "viewGroupingsInstanceType": "Tipo de instancia",
-
     "viewGroupingsCpuCount": "Número de CPU",
     "viewGroupingsCpuModel": "Modelo de CPU",
     "viewGroupingsOsArc": "Arquitectura de SO",

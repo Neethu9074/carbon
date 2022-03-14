@@ -17,9 +17,11 @@
   "messageParam": "Parametro messaggio ",
   "applicationCounter": "{{count}} applicazioni ",
   "exceptionMessageHeader": "Messaggio di eccezione",
+  "stackTrace": "StackTrace",
   "service": "Servizio",
   "stream": "Flusso",
   "tooltipCopyToClipboard": "Copia negli appunti",
+  "tooltipCopyLinkToClipboard": "Copia link del log",
   "tooltipAddAsGroup": "Raggruppa per tag",
   "tooltipAddAsFilter": "Aggiungi tag come filtro",
   "sorting": {

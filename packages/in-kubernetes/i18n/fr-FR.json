@@ -26,6 +26,7 @@
     "noComponentStatusDataAvailable": "Aucune donnée ComponentStatus disponible",
     "debuggingInformation": "Informations de débogage",
     "noDebuggingInformation": "Aucune information de débogage",
+    "noClusterDataAvailable": "Aucune donnée de cluster disponible",
     "summary": "Récapitulatif",
     "details": "Informations",
     "events": "Événements",
@@ -45,6 +46,7 @@
     "memoryUsage": "Utilisation de la mémoire",
     "phase": "Phase",
     "reclaimPolicy": "Stratégie de récupération",
+    "storageCapacity": "Capacité de stockage",
     "storageClassName": "Nom de classe de stockage",
     "cpuRequests": "Demandes d'UC",
     "cpuLimitsAlloc": "Allocation de limites d'UC",
@@ -77,6 +79,9 @@
     "table": "Table",
     "map": "Mappe",
     "services": "Services",
+    "serviceCount": "Nombre de services",
+    "appWorkloadCount": "Charges de travail d'application",
+    "batchWorkloadCount": "Charges de travail par lots",
     "cpuRequestsAlloc": "Allocation des demandes d'UC",
     "memoryRequestsAlloc": "Allocation des demandes de mémoire",
     "roles": "Rôles",
@@ -263,6 +268,7 @@
   "cronJobs": "CronJobs",
   "health": "Intégrité",
   "clusters": "Clusters",
+  "explore": "Exploration (aperçu technique)",
   "noMonitoringDataFound": "Aucune donnée de surveillance trouvée",
   "clusterName": "Nom de cluster",
   "running": "En cours d'exécution",
@@ -273,7 +279,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "Aucune donnée Kubernetes n'est disponible. Pour plus d'informations sur le traitement des incidents, consultez la [documentation] [Docs].\n\n [ Documentations ] :https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-ou-namespaces"
+    "noData": "Aucune donnée Kubernetes n'est disponible. Pour plus d'informations sur le traitement des incidents, consultez la [documentation] [Docs].\n\n[Docs] : https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
   },
   "pod": {
     "pending": "Pods en attente",

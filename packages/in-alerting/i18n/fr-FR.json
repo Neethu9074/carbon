@@ -21,6 +21,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "Vous visualisez la révision {{description}} de cette configuration d'alerte. Veuillez <latestRevisionButton>sélectionner la dernière révision</latestRevisionButton> ou <restoreRevisionButton>restaurer à partir de la révision en cours</restoreRevisionButton> si vous voulez apporter des modifications.",
     "alertHeaderAriaLabelSeverity": "Evénement de gravité {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertes créées ({{totalRepresentedItemCount}})",
+    "alertStateActive": "actif",
     "alertPropertyInfosLabelTitle": "Titre",
     "alertPropertyInfosLabelAlertLevel": "Niveau d'alerte",
     "alertPropertyInfosLabelTriggersIncident": "Déclenche un incident",
@@ -39,9 +40,10 @@
     "chart": {
       "alertingChartLabelThreshold": "Seuil",
       "alertingChartLabelViolations": "Violations",
-      "alertingChartTooltipSmoothedMetric": "Métrique lissée",
       "alertingChartMessageInvalidFilterQuery": "Requête de filtre non valide.",
       "alertingChartMessageEntitySelectionInvalid": "Aucune entité sélectionnée.",
+      "chartAlertsLaneErrorMessage": "Impossible de charger les alertes",
+      "chartAlertsPreviewLanePresenterAlertsLabel": "Alertes",
       "chartViewConfigsLast24Hours": "Dernières 24 heures",
       "chartViewConfigsLast7Days": "7 derniers jours"
     },
@@ -123,9 +125,11 @@
         "alertPropertyInsertPlaceholderLabel": "Insérer un espace réservé",
         "evaluationSwitch": {
           "individual": "Alertes individuelles",
+          "optionNotAvailableForAdaptiveThreshold": "Cette option n'est pas disponible avec le seuil adaptatif",
           "evaluationTypePERAP": {
             "selectionText": "pour cette perspective d'application",
             "globalSelectionText": "par perspective d'application",
+            "shortText": "Par perspective d'application",
             "columnText": "agrégé",
             "description": "Alerte individuelle pour cette perspective d'application",
             "globalDescription": "Alerte individuelle par perspective d'application"
@@ -133,6 +137,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "par service pour cette perspective d'application",
             "globalSelectionText": "par service dans le contexte de chaque perspective d'application",
+            "shortText": "Par service",
             "columnText": "par service",
             "description": "Alerte individuelle par service pour cette perspective d'application",
             "globalDescription": "Alerte individuelle par service dans le contexte de chaque perspective d'application"
@@ -140,6 +145,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "par nœud final pour cette perspective d'application",
             "globalSelectionText": "par nœud final dans le contexte de chaque perspective d'application",
+            "shortText": "Par noeud final",
             "columnText": "par nœud final",
             "description": "Alerte individuelle par nœud final pour cette perspective d'application",
             "globalDescription": "Alerte individuelle par nœud final dans le contexte de chaque perspective d'application"
@@ -164,6 +170,18 @@
             "confirmButtonLabel": "Confirmer"
           }
         },
+        "staticOrAdaptive": {
+          "config": {
+            "static": {
+              "title": "Statique",
+              "description": "Le seuil est une valeur de seuil fixe ou avec contrainte horaire. Instana vous aide à choisir la valeur de seuil appropriée en fonction des données récentes"
+            },
+            "adaptive": {
+              "title": "Adaptative",
+              "description": "Le seuil s'adapte automatiquement aux modifications de la métrique sous-jacente"
+            }
+          }
+        },
         "includeInternalOrSynthethicCalls": {
           "includeInternalCalls": "Inclure les appels internes",
           "includeSyntethicCalls": "Inclure les appels synthétiques"
@@ -183,6 +201,11 @@
             "title": "Déclencheur : sur quoi souhaitez-vous être alerté ?",
             "logMessageCardTitle": "Message de journal",
             "httpStatusCodesCardTitle": "Codes de statut HTTP"
+          },
+          "threshold": {
+            "staticOrAdaptiveTitle": "Type de seuil",
+            "label": "Seuil",
+            "title": "Seuil : Quand la condition est-elle violée ?"
           },
           "timeThreshold": {
             "label": "Seuil de temps",
@@ -208,7 +231,7 @@
           "applications": "Applications :",
           "services": "Services :"
         },
-        "noChartForAdaptiveBaseline": "Aucun aperçu n'est disponible alors que ce déclencheur est basé sur une ligne de base adaptative.",
+        "noChartForAdaptiveBaseline": "Aucun aperçu n'est disponible lorsque ce déclencheur est basé sur un seuil adaptatif.",
         "noDataWithoutEndpointSelection": "Sélectionnez un service pour afficher l'aperçu.",
         "noDataAvailable": "Sélectionner un service pour afficher l'aperçu"
       },
@@ -446,6 +469,10 @@
         "labelGlobalSmartAlertsList": "Smart Alerts d'application globale ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Smart Alerts d'application ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "Seuil statique, {{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "Saisonnalité quotidienne statique, {{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "Saisonnalité hebdomadaire statique, {{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "Seuil adaptatif, {{metricLabel}}",
         "labelActionButtonEdit": "Éditer",
         "labelActionButtonDuplicate": "Dupliquer",
         "labelActionButtonDelete": "Supprimer",
@@ -475,6 +502,10 @@
       }
     },
     "details": {
+      "header": "Détails",
+      "thresholdTypeTitle": "Type de seuil",
+      "metricTitle": "Métrique",
+      "entityTitle": "Portée",
       "titleBuiltInIndicator": "Intégré"
     },
     "form": {
@@ -483,7 +514,7 @@
       "ruleAggregationOptionP25": "25e",
       "ruleAggregationOptionP50": "50e",
       "ruleAggregationOptionP75": "75e",
-      "ruleAggregationOptionP90": "90e (recommandé)",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "95e",
       "ruleAggregationOptionP98": "98e",
       "ruleAggregationOptionP99": "99e",
@@ -494,7 +525,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Annuler",
-        "sharedListTooltip": "Le {{typeName}} sélectionné n'est plus disponible.",
+        "sharedListTooltip": "{{typeName}} n'est plus disponible",
         "clearTagFilterExpressionButton": "Effacer",
         "baselineErrorMessageInsufficientDataToCompute": "Données insuffisantes pour calculer la référence sélectionnée. Sélectionnez <em>Seuil statique</em> à la place.",
         "pleaseContactSupportToRiseLimit": "Merci de nous contacter via notre <supportLink>{{instanaSupportPortal}}</supportLink> pour demander une augmentation de cette limite.",
@@ -549,20 +580,20 @@
         "timeThresholdDescriptionViolationsInPeriod_2": "Au moins {{count}} violations au cours du dernier {{formattedTimeWindow}}",
         "timeThresholdConfigNumberOfConsecutiveViolations": "Nombre de violations consécutives des mesures",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Nombre d'évaluations consécutives",
-        "timeThresholdConfigNumberOfEvaluationWindows": "Nombre de fenêtres d'évaluation pour l'impact utilisateur",
-        "timeThresholdConfigImpactEvaluationMethod": "Méthode d'évaluation de l'impact utilisateur",
+        "timeThresholdConfigNumberOfEvaluationWindows": "Nombre de violations consécutives",
+        "timeThresholdConfigImpactEvaluationMethod": "Méthode d'évaluation de l'impact sur les utilisateurs",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Agréger toutes les fenêtres d'évaluation",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calculer pour chaque fenêtre d'évaluation",
         "timeThresholdConfigNumberOfViolations": "Nombre de violations de mesures",
         "timeThresholdConfigEvaluationGranularity": "Granularité de l'évaluation",
-        "timeThresholdConfigNumberOfRequestsThreshold": "Seuil du nombre de demandes",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Seuil du nombre d'utilisateurs affectés",
+        "timeThresholdConfigNumberOfRequestsThreshold": "Nombre de demandes impactées",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Nombre d'utilisateurs impactés",
         "timeThresholdConfigAtLeast": "Au moins",
-        "timeThresholdConfigNumberOfRequests": "Nombre de demandes",
+        "timeThresholdConfigNumberOfRequests": "Nombre de demandes impactées",
         "timeThresholdConfigMinutes": "{{min}} min",
-        "timeThresholdConfigNumberOfUsers": "Nombre d'utilisateurs",
-        "timeThresholdConfigPercentageOfUsers": "Pourcentage d'utilisateurs",
-        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Seuil du pourcentage d'utilisateurs affectés",
+        "timeThresholdConfigNumberOfUsers": "Nombre d'utilisateurs impactés",
+        "timeThresholdConfigPercentageOfUsers": "% d'utilisateurs impactés",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Pourcentage d'utilisateurs impactés",
         "timeThresholdConfigOff": "désactivé",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Veuillez indiquer un nombre >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Veuillez fournir un nombre compris entre 1 % et 100 %",
@@ -572,8 +603,8 @@
         "timeThresholdConfigTimeThresholdLabelRequestImpact": "Lorsqu'un certain nombre de demandes sont affectées",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "Persistance dans le temps",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "Nombre de violations dans le temps",
-        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Impact sur l'utilisateur",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Impact sur la demande",
+        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Impact sur les utilisateurs",
+        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Impact sur les demandes",
         "timeThresholdConfigNoUserSessionDetected": "Non <linkToIdentifyingUsers>utilisateurs</linkToIdentifyingUsers> ou <linkToSessionTracking>sessions</linkToSessionTracking> détecté.",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Veuillez configurer la surveillance du site Web avant d'utiliser cette option.",
         "alertPropertiesWarning": "Avertissement",
@@ -585,22 +616,26 @@
         "alertPropertiesAlertProperties": "Propriétés d'alerte",
         "buttonSave": "Enregistrer",
         "buttonCreate": "Créer",
+        "buttonMigrate": "Migrer",
         "selectedBlueprint": "Plan directeur sélectionné",
         "buttonRecalculateBaseline": "Recalculer la référence",
         "sensitivitySliderLow": "faible",
         "sensitivitySliderHigh": "élevé",
         "labelThreshold": "Seuil",
         "labelSensitivity": "Sensibilité",
+        "staticThresholdTypeOptionsTooltip": "Un seuil journalier/hebdomadaire statique est un seuil avec contrainte horaire basé sur des données d'historique. Le seuil ne change pas automatiquement et peut être recalculé manuellement si nécessaire.",
         "thresholdTypeOptionStaticThreshold": "Seuil statique",
-        "thresholdTypeOptionHistoricBaselineDaily": "Référence (saisonnalité quotidienne)",
-        "thresholdTypeOptionHistoricBaselineWeekly": "Référence (saisonnalité hebdomadaire)",
-        "thresholdTypeOptionAdaptiveBaseline": "Ligne de base adaptative",
+        "thresholdTypeOptionHistoricBaselineDaily": "Saisonnalité quotidienne statique",
+        "thresholdTypeOptionHistoricBaselineWeekly": "Saisonnalité hebdomadaire statique",
+        "thresholdTypeOptionAdaptiveBaseline": "Seuil adaptatif",
         "useSuggestedvalue": "Utiliser la valeur suggérée",
         "loadingThresholdSuggestion": "Chargement de la suggestion de seuil",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Ajouter une Smart Alert",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Modifier une Smart Alert globale",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Créer une Smart Alert",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Créer une Smart Alert globale",
+        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migrer vers Smart Alert",
+        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migrer vers une alerte intelligente globale",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passer en mode avancé",
         "simpleAlertConfigDialogStep3Headline": "Qui doit recevoir les alertes ?",
         "Loading": "Chargement en cours...",
@@ -608,7 +643,8 @@
         "PreviewForEndpoint": "Aperçu pour le nœud final :",
         "PreviewForService": "Aperçu du service :",
         "PreviewSelectLoadingEndpoints": "Chargement de la liste des noeuds finaux",
-        "thresholdValue": "Valeur de seuil"
+        "thresholdValue": "Valeur de seuil",
+        "migrationModeWarning": "La migration de cet événement personnalisé vers une alerte intelligente a pour conséquence de le désactiver. L'événement ne peut pas être réactivé par la suite."
       },
       "userInfo": {
         "success": {
@@ -683,6 +719,8 @@
         "slownessInteractiveChartThresholdValue": "Valeur de seuil",
         "scopeLabel": "Portée",
         "scopeTitle": "Porté : où cette condition se produit-elle ?",
+        "thresholdLabel": "Seuil",
+        "thresholdTitle": "Seuil : Quand la condition est-elle violée ?",
         "triggerLabel": "Déclencheur",
         "triggerTitle": "Déclencheur : sur quoi souhaitez-vous être alerté ?",
         "JSErrorMessage": "Message d'erreur JS",
@@ -877,7 +915,10 @@
       "migrateButton": "Migrer vers Smart Alert",
       "migrateButtonTooltip": "Ouvre une boîte de dialogue de configuration Smart Alert préremplie avec les valeurs migrées de l'événement en cours dans la mesure du possible. Veuillez vérifier attentivement le résultat !",
       "markAsMigratedButton": "Marquer comme migré",
-      "markAsMigratedButtonTooltip": "Marque l'événement comme migré. A utiliser si vous avez déjà configuré une alerte Smart Alert qui remplacera cet événement."
+      "markAsMigratedButtonTooltip": "Marque l'événement comme migré. A utiliser si vous avez déjà configuré une alerte Smart Alert qui remplacera cet événement.",
+      "markAsMigratedButtonConfirmationTitle": "Veuillez confirmer.",
+      "markAsMigratedButtonConfirmationDescription": "Le marquage de cet événement personnalisé comme migré a pour conséquence de le désactiver. L'événement ne peut pas être réactivé par la suite. Voulez-vous continuer ?",
+      "markAsMigratedButtonConfirmationConfirmLabel": "Confirmer"
     }
   }
 }

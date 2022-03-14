@@ -14,11 +14,6 @@
   "pluginName_aceMessageFlow_1": "Flujos de mensajes de IBM ACE",
   "pluginName_aceMessageFlow_2": "Flujos de mensajes de IBM ACE",
   "pluginName_aceMessageFlow": "Flujo de mensajes de IBM ACE",
-  "pluginName_aceFlowNode_plural": "Nodos de flujo IBM ACE",
-  "pluginName_aceFlowNode_0": "Nodos de flujo IBM ACE",
-  "pluginName_aceFlowNode_1": "Nodos de flujo IBM ACE",
-  "pluginName_aceFlowNode_2": "Nodos de flujo IBM ACE",
-  "pluginName_aceFlowNode": "Nodo de flujo de IBM ACE",
   "pluginName_activeMQ_plural": "ActiveMQs",
   "pluginName_activeMQ_0": "ActiveMQs",
   "pluginName_activeMQ_1": "ActiveMQs",
@@ -34,6 +29,16 @@
   "pluginName_aerospike_1": "Aerospike",
   "pluginName_aerospike_2": "Aerospike",
   "pluginName_aerospike": "Aerospike",
+  "pluginName_aliCloudOss_plural": "AliCloud OSS",
+  "pluginName_aliCloudOss_0": "AliCloud OSS",
+  "pluginName_aliCloudOss_1": "AliCloud OSS",
+  "pluginName_aliCloudOss_2": "AliCloud OSS",
+  "pluginName_aliCloudOss": "AliCloud OSS",
+  "pluginName_aliCloudOssBucket_plural": "Grupos de AliCloud OSS",
+  "pluginName_aliCloudOssBucket_0": "Grupos de AliCloud OSS",
+  "pluginName_aliCloudOssBucket_1": "Grupos de AliCloud OSS",
+  "pluginName_aliCloudOssBucket_2": "Grupos de AliCloud OSS",
+  "pluginName_aliCloudOssBucket": "Grupo de AliCloud OSS",
   "pluginName_aliCloudRocketMq_plural": "AliCloud RocketMqs",
   "pluginName_aliCloudRocketMq_0": "AliCloud RocketMqs",
   "pluginName_aliCloudRocketMq_1": "AliCloud RocketMqs",
@@ -319,6 +324,11 @@
   "pluginName_crio_1": "Contenedores CRI-O",
   "pluginName_crio_2": "Contenedores CRI-O",
   "pluginName_crio": "Contenedor CRI-O",
+  "pluginName_crowdStrikeFalcon_plural": "Agentes CrowdStrike Falcon",
+  "pluginName_crowdStrikeFalcon_0": "Agentes CrowdStrike Falcon",
+  "pluginName_crowdStrikeFalcon_1": "Agentes CrowdStrike Falcon",
+  "pluginName_crowdStrikeFalcon_2": "Agentes CrowdStrike Falcon",
+  "pluginName_crowdStrikeFalcon": "CrowdStrike Falcon",
   "pluginName_crystalRuntimePlatform_plural": "Aplicaciones Crystal",
   "pluginName_crystalRuntimePlatform_0": "Aplicaciones Crystal",
   "pluginName_crystalRuntimePlatform_1": "Aplicaciones Crystal",
@@ -940,6 +950,11 @@
   "pluginName_openshiftDeploymentConfig_1": "Configuraciones de Openshift Deployment",
   "pluginName_openshiftDeploymentConfig_2": "Configuraciones de Openshift Deployment",
   "pluginName_openshiftDeploymentConfig": "Configuración de Openshift Deployment",
+  "pluginName_openTelemetry_plural": "OpenTelemetry",
+  "pluginName_openTelemetry_0": "OpenTelemetry",
+  "pluginName_openTelemetry_1": "OpenTelemetry",
+  "pluginName_openTelemetry_2": "OpenTelemetry",
+  "pluginName_openTelemetry": "OpenTelemetry",
   "pluginName_oracleDB_plural": "OracleDB",
   "pluginName_oracleDB_0": "OracleDB",
   "pluginName_oracleDB_1": "OracleDB",
@@ -1147,6 +1162,14 @@
   "pluginName_webSphereApplicationContainer_1": "WebSpheres",
   "pluginName_webSphereApplicationContainer_2": "WebSpheres",
   "pluginName_webSphereApplicationContainer": "WebSphere",
+  "pluginName_webSphereDeploymentManager": "WebSphere Deployment Manager",
+  "pluginName_webSphereDeploymentManager_plural": "WebSphere Deployment Managers",
+  "pluginName_webSphereInfrastructureManager": "WebSphere Infrastructure Manager",
+  "pluginName_webSphereInfrastructureManager_plural": "WebSphere Infrastructure Managers",
+  "pluginName_webSphereCluster": "WebSphere Cluster Manager",
+  "pluginName_webSphereCluster_plural": "WebSphere Cluster Managers",
+  "pluginName_webSphereClusterMember": "Miembro",
+  "pluginName_webSphereClusterMember_plural": "Miembros",
   "pluginName_webSphereLibertyApplicationContainer_plural": "WebSphere Liberty Server",
   "pluginName_webSphereLibertyApplicationContainer_0": "WebSphere Liberty Server",
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty Server",
@@ -1157,6 +1180,11 @@
   "pluginName_zhmcConsole_2": "zHMCs",
   "pluginName_zhmcConsole_1": "zHMCs",
   "pluginName_zhmcConsole": "ZHMC",
+  "pluginName_zhmcCpc_plural": "zHMCs",
+  "pluginName_zhmcCpc_0": "zHMC Cpcs",
+  "pluginName_zhmcCpc_2": "zHMC Cpcs",
+  "pluginName_zhmcCpc_1": "zHMC Cpcs",
+  "pluginName_zhmcCpc": "zHMC Cpc",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeepers",
   "pluginName_zooKeeper_0": "ZooKeepers",
@@ -1183,10 +1211,10 @@
   "tracingTypeName_activerecord_0": "Llamadas de ActiveRecord",
   "tracingTypeName_activerecord_1": "ActiveRecord",
   "tracingTypeName_activerecord_2": "Llamadas de ActiveRecord",
-  "tracingTypeName_adonet": "Llamada de ADO'",
+  "tracingTypeName_adonet": "Llamada ADO",
   "tracingTypeName_adonet_plural": "Llamadas de ADO",
   "tracingTypeName_adonet_0": "Llamadas de ADO",
-  "tracingTypeName_adonet_1": "Llamada de ADO'",
+  "tracingTypeName_adonet_1": "Llamada ADO",
   "tracingTypeName_adonet_2": "Llamadas de ADO",
   "tracingTypeName_aerospike": "Llamada de Aerospike",
   "tracingTypeName_aerospike_plural": "Llamadas de Aerospike",
@@ -1264,6 +1292,11 @@
   "tracingTypeName_axisserver_0": "Llamada HTTP",
   "tracingTypeName_axisserver_1": "Llamadas HTTP",
   "tracingTypeName_axisserver_2": "Llamadas HTTP",
+  "tracingTypeName_azq": "Cola de Azure",
+  "tracingTypeName_azq_plural": "Colas de Azure",
+  "tracingTypeName_azq_0": "Cola de Azure",
+  "tracingTypeName_azq_1": "Colas de Azure",
+  "tracingTypeName_azq_2": "Colas de Azure",
   "tracingTypeName_batchsynthetic": "Activador interno",
   "tracingTypeName_batchsynthetic_plural": "Activadores internos",
   "tracingTypeName_batchsynthetic_0": "Activadores internos",
@@ -2253,11 +2286,66 @@
       "serverName": "Nombre de servidor",
       "cellName": "Nombre de celda",
       "webModules": "Módulos web",
-      "ejbModules": "EJB",
+      "ejbModules": "Módulos EJB",
       "datasources": "Orígenes de datos",
       "installDir": "Directorio de instalación",
       "startedAt": "Iniciado a las",
       "layers": "Capas"
+    },
+    "aliCloudOss": {
+      "aliCloudOssInfo": "Instancia de usuario de OSS",
+      "userId": "ID de usuario",
+      "bucketsList": "Lista de grupos",
+      "bucketId": "ID de grupo"
+    },
+    "aliCloudOssBucket": {
+      "aliCloudOssBucketInfo": "Instancia de grupo de OSS",
+      "instanceId": "ID de instancia",
+      "region": "Región",
+      "userId": "ID de usuario",
+      "storageClass": "Clase de almacenamiento",
+      "creationDate": "Fecha de creación",
+      "successRequest": "Solicitud correcta",
+      "successCount": "Count",
+      "successRate": "Tasa",
+      "availability": "Disponibilidad",
+      "requestValidRate": "Tasa válida de solicitud",
+      "requestCount": "Recuento de solicitudes",
+      "validRequestCount": "Recuento de solicitudes válido",
+      "totalRequestCount": "Recuento total de solicitudes",
+      "inOut": "Flujo de recepción/envío",
+      "internetRecv": "Internet RX",
+      "intranetRecv": "Intranet RX",
+      "cdnRecv": "CDN RX",
+      "syncRecv": "Sync RX",
+      "internetSend": "Internet SX",
+      "intranetSend": "Intranet SX",
+      "cdnSend": "CDN SX",
+      "syncSend": "Sync SX",
+      "appendObject": "Añadir",
+      "copyObject": "Copiar",
+      "deleteObject": "Suprimir",
+      "deleteObjects": "Supresiones",
+      "getObject": "Obtener",
+      "headObject": "Cabecera",
+      "postObject": "Publicar",
+      "putObject": "Transferir",
+      "uploadPart": "UploadPart",
+      "uploadPartCopy": "UploadPartCopy",
+      "objectOperation": "Recuento de operaciones de objeto",
+      "averageE2Latency": "Latencia media de E2E",
+      "averageServerLatency": "Latencia media de servidor",
+      "maxE2Latency": "Latencia máxima de E2E",
+      "maxServerLatency": "Latencia máxima de servidor",
+      "errorCount": "Recuento de errores",
+      "errorRate": "Tasa de errores",
+      "authorization": "Autorización",
+      "clientOther": "Cliente Otros",
+      "clientTimeout": "Tiempo de espera de cliente",
+      "network": "Red",
+      "resourceNotFound": "No se ha encontrado el recurso",
+      "server": "Servidor",
+      "metering": "Medición"
     },
     "aliCloudRocketMq": {
       "aliCloudRocketMqInfo": "Instancia de RocketMq",
@@ -2619,25 +2707,18 @@
       "flowNodeName": "Nombre del nodo de flujo",
       "nodeType": "Tipo de nodo",
       "flowNodeNumber": "Nodo de flujo ({{count}})",
-      "flowNodeNumber_plural": "Nodos de flujo ({{count}})"
+      "flowNodeNumber_plural": "Nodos de flujo ({{count}})",
+      "messageFlowThreadUtilization": "Utilización de hebras",
+      "messageFlowHealth": "Estado"
     },
     "aceFlowNode": {
-      "flowNodeInfo": "Nodo de flujo de IBM ACE",
-      "nodeName": "Nombre de nodo",
-      "flowName": "Nombre de flujo",
-      "serverName": "Nombre de servidor",
-      "applicationName": "Nombre de aplicación",
-      "type": "Tipo",
-      "cpuTime": "Tiempo de CPU",
       "totalCpuTime": "Tiempo total de CPU",
       "maxCpuTime": "Tiempo máximo de CPU",
       "minCpuTime": "Tiempo mínimo de CPU",
-      "elapsedTime": "Tiempo transcurrido",
       "totalElapsedTime": "Tiempo total transcurrido",
       "maxElapsedTime": "Tiempo máximo transcurrido",
       "minElapsedTime": "Tiempo mínimo transcurrido",
       "invocations": "Invocaciones",
-      "terminals": "Terminals",
       "inputTerminals": "Número de terminales de tipo de entrada",
       "outputTerminals": "Número de terminales de tipo de salida"
     },
@@ -2782,7 +2863,14 @@
       "labelNoDataInstances": "Sin instancias de datos",
       "labelWarningInstances": "Instancias de aviso",
       "labelInstanceHealth": "Salud de instancia",
-      "labelInstanceDiskUsage": "Uso de disco de la instancia"
+      "labelInstanceDiskUsage": "Uso de disco de la instancia",
+      "labelOK": "Correcto (0)",
+      "labelInfo": "Info (1)",
+      "labelUnknown": "Desconocido (5)",
+      "labelNoData": "Sin datos (10)",
+      "labelWarning": "Aviso (15)",
+      "labelDegraded": "Degradado (20)",
+      "labelSevere": "Grave (25)"
     },
     "awsDynamoDb": {
       "labelProvisioned": "Suministrado",
@@ -3026,23 +3114,23 @@
       "total": "Total de solicitudes de instancia"
     },
     "labelCPUStatesMetric": {
-      "irq": "CPU irq",
-      "idle": "CPU desocupada",
-      "user": "Usuario de CPU",
-      "system": "Sistema de CPU",
-      "softirq": "CPU softirq",
-      "iowait": "CPU iowait",
-      "nice": "CPU nice",
-      "load": "Carga de CPU"
+      "irq": "IRQ",
+      "idle": "Desocupado",
+      "user": "Usuario",
+      "system": "Sistema",
+      "softirq": "SoftIRQ",
+      "iowait": "IOWait",
+      "nice": "Niza",
+      "load": "Cargar"
     },
     "labelInstanceCPUStatesMetric": {
-      "irq": "irq de CPU de instancia",
+      "irq": "IRT de CPU de instancia",
       "idle": "CPU de instancia desocupada",
       "user": "Usuario de CPU de instancia",
       "system": "Sistema de CPU de instancia",
-      "softirq": "softirq de CPU de instancia",
-      "iowait": "iowait de CPU de instancia",
-      "nice": "nice de CPU de instancia",
+      "softirq": "SoftIRQ de CPU de instancia",
+      "iowait": "IOWait de CPU de instancia",
+      "nice": "Nice de CPU de instancia",
       "load": "Carga de CPU de instancia"
     },
     "labelLatencyMetric": {
@@ -4174,6 +4262,13 @@
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
       "infoTitle": "ID de proceso",
+      "table": {
+        "host": "Host",
+        "name": "Nombre",
+        "metrics": "Métricas gestionadas",
+        "cpu": "Utilización de CPU de host",
+        "memory": "Utilización de memoria de host"
+      },
       "dashboard": {
         "labelMetrics": "Métricas",
         "labelMessages": "Mensajes",
@@ -4964,6 +5059,20 @@
       "cpuUsage": "Uso de CPU",
       "memoryUsage": "Uso de memoria"
     },
+    "crowdStrikeFalcon": {
+      "dashboard": {
+        "thereIsNoFurtherInformationAboutThisEntity": "No hay más información sobre esta entidad."
+      },
+      "table": {
+        "host": "Host",
+        "name": "Nombre"
+      },
+      "rfm-state": "Modalidad de funcionalidad reducida",
+      "rfm-reason": "Razón de funcionalidad reducida",
+      "aid": "Identificador de alerta",
+      "cid": "Identificador de cliente",
+      "version": "Versión"
+    },
     "crystalRuntimePlatform": {
       "dashboard": {
         "heap": "Almacenamiento dinámico",
@@ -5103,7 +5212,8 @@
         "hadrConnect": "HADR - Estado de conexión",
         "hadrPrimaryLog": "HADR - Información de anotaciones cronológicas primarias",
         "hadrSecondaryLog": "HADR - Información de registro secundario",
-        "hadrLogMetrics": "HADR - Métricas de registro"
+        "hadrLogMetrics": "HADR - Métricas de registro",
+        "hadrTakeOverTime": "Hora de última toma de control de HADR"
       },
       "db2": "DB2",
       "processId": "ID de proceso",
@@ -5128,6 +5238,8 @@
       "staticQueries": "Consultas estáticas",
       "dynamicQueries": "Consultas dinámicas",
       "failedQueries": "Consultas anómalas",
+      "daysLastBackup": "Última copia de seguridad",
+      "daysAgo": "días antes",
       "physicalWrites": "Escrituras físicas",
       "physicalReads": "Lecturas físicas",
       "logicalReads": "Lecturas lógicas",
@@ -5185,8 +5297,7 @@
       "totalIOTime": "Tiempo de E/S",
       "lockTimeouts": "Tiempos de espera de bloqueo",
       "deadlocks": "Puntos muertos",
-      "omsCons": "Conexiones remotas",
-      "omsConsExec": "Conexiones remotas en ejecución",
+      "totalConnections": "Total de conexiones",
       "agentHighWmark": "Número máximo de agentes",
       "coordAgentsHighWmark": "Número máximo de agentes de coordinación",
       "agentCreatedVSReused": "Agentes creados por agentes V/S reutilizados",
@@ -5308,7 +5419,9 @@
       "sockRecBufReq": "Almacenamiento intermedio de recepción solicitado",
       "sockRecvBufAct": "Almacenamiento intermedio de recepción real",
       "logHadrWaitCur": "Tiempo de espera de registrador actual",
-      "logHadrWaitTime": "Tiempo de espera de registrador total"
+      "logHadrWaitTime": "Tiempo de espera de registrador total",
+      "unableToConnect": "No se puede conectar con {{connectionUrl}} utilizando el usuario {{user}}.",
+      "troubleshootingDocs": "Resolución de problemas de docs"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "Todas las llamadas por segundo",
@@ -7640,6 +7753,7 @@
     },
     "host": {
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "El sistema operativo de este host no parece ofrecer la función eBPF (extended Berkeley Packet Filter) necesaria para determinar la finalización anómala de proceso.",
+      "theHostAgentIsVulnerableToLog4jCVE": "El agente de host es vulnerable a Log4j CVE-2021-44228 y a CVE-2021-45046; actualice la instalación del agente a una versión más nueva para mitigar estas vulnerabilidades.",
       "troubleshootingDocs": "Documentos de resolución de problemas",
       "dashboard": {
         "gpuMemoryProcess": "GPU de memoria/proceso",
@@ -7731,6 +7845,7 @@
       "fqdn": "FQDN",
       "machineId": "ID de máquina",
       "bootId": "ID de arranque",
+      "systemId": "ID del sistema",
       "startedAt": "Iniciado a las",
       "interfacesWithSize": "Interfaces ({{size}})",
       "cpuUsed": "CPU utilizada",
@@ -8306,6 +8421,7 @@
     "ibmIDb2": {
       "troubleshootingDocs": "Documentos de resolución de problemas",
       "collectionServicesNotEnabledDescription": "El agente no ha podido obtener las métricas de Db2 en i. Active los Servicios de recogida para poder supervisar Db2 en i.",
+      "unableToConnect": "No se puede conectar con {{host}} utilizando el usuario {{user}}.",
       "name": "Db2 on i",
       "sidebar": {
         "ibmIDb2Info": "Información de Db2 on i",
@@ -8527,15 +8643,41 @@
             "tcpState": "Estado de TCP",
             "bytesSentRemotely": "Bytes enviados de forma remota",
             "bytesReceivedLocally": "Bytes recibidos localmente"
+          },
+          "messageQueue": {
+            "name": "Cola de mensajes",
+            "messageId": "ID",
+            "messageType": "Tipo",
+            "severity": "Gravedad",
+            "messageQueueLibrary": "Nombre de la biblioteca",
+            "messageQueueName": "Nombre de cola",
+            "messageTimestamp": "Indicación de fecha y hora",
+            "messageText": "Texto",
+            "messageSecondLevelText": "Texto de segundo nivel",
+            "messageKey": "Clave"
+          },
+          "historyLog": {
+            "name": "Registro histórico",
+            "messageId": "ID",
+            "messageType": "Tipo",
+            "severity": "Severity",
+            "fromUser": "Usuario",
+            "fromJob": "Trabajo",
+            "fromProgram": "Program",
+            "messageTimestamp": "Indicación de fecha y hora",
+            "messageText": "Texto",
+            "messageSecondLevelText": "Texto de segundo nivel"
           }
         }
       },
       "name": "IBM i",
-      "memoryPool": "Agrupación de memoria"
+      "memoryPool": "Agrupación de memoria",
+      "unableToConnect": "No se puede conectar con {{host}} utilizando el usuario {{user}}.",
+      "troubleshootingDocs": "Resolución de problemas de docs"
     },
     "ibmMqChannel": {
       "dashboard": {
-        "messagesSent": "Mensajes enviados",
+        "messagesSent": "Mensajes enviados/recibidos",
         "messagesAvailable": "Mensajes disponibles",
         "messages": "Mensajes",
         "sentReceived": "Enviado/Recibido",
@@ -8593,7 +8735,7 @@
         "ibmMqCluster": "Clúster de IBM MQ",
         "type": "Tipo",
         "messages": "Mensajes",
-        "publishers": "Editores",
+        "publications": "Publicaciones",
         "subscriptions": "Suscripciones",
         "topicsWithCount": "Temas ({{len}})"
       },
@@ -8628,8 +8770,6 @@
         "messageTime": "Hora de mensaje",
         "oldest": "Más antiguo",
         "onQueue": "En cola",
-        "reset": "Restablecer",
-        "last": "Último",
         "calls": "Llamadas",
         "openInputs": "Entradas abiertas",
         "openOutputs": "Salidas abiertas",
@@ -8657,8 +8797,6 @@
       "messages": "Mensajes",
       "messageTime": "Hora de mensaje",
       "onQueueMessageTime": "Tiempo de mensaje de cola",
-      "lastResetTime": "Hora del último restablecimiento",
-      "reset": "Restablecer",
       "openInputCount": "Recuento de entradas abiertas",
       "openOutputCount": "Recuento de salidas abiertas",
       "calls": "Llamadas"
@@ -8685,12 +8823,15 @@
         "usage": "Uso",
         "monitoring": "Supervisión",
         "queuesWithCount": "Colas ({{len}})",
+        "queueFullPercentage": "Porcentaje de profundidad",
+        "openInputCount": "Abrir entrada",
+        "openOutputCount": "Abrir salida",
         "application": "Aplicación",
         "channel": "Canal",
         "connection": "Conexión",
         "handleState": "Estado del manejador",
         "user": "Usuario",
-        "queuesUsageWithCount": "Uso de colas ({{len}})",
+        "queuesUsageWithCount": "Uso de cola por parte de la aplicación ({{len}})",
         "ibmMqQueueManager": "Gestor de colas de IBM MQ",
         "subsWithCount": "Suscripciones ({{len}})",
         "topicString": "Serie de tema",
@@ -8702,6 +8843,8 @@
       "name": "Nombre",
       "version": "Versión",
       "status": "Estado",
+      "channelInitiatorStatus": "Estado del iniciador de canal",
+      "pubsubStatus": "Estado del motor de publicación/suscripción",
       "startedAt": "Iniciado a las",
       "alternatedAt": "Alternado a las",
       "platform": "Plataforma",
@@ -8743,7 +8886,7 @@
     "ibmMqTopic": {
       "dashboard": {
         "messages": "Mensajes",
-        "publishers": "Editores",
+        "publications": "Publicaciones",
         "count": "Número",
         "subscriptions": "Suscripciones",
         "ibmMqTopic": "Tema de IBM MQ"
@@ -8754,7 +8897,7 @@
       "topicType": "Tipo de tema",
       "topicAlternatedAt": "Tema alternado a las",
       "messages": "Mensajes",
-      "publishers": "Editores",
+      "publications": "Publicaciones",
       "count": "Número",
       "lastResetTime": "Hora del último restablecimiento",
       "reset": "Restablecer",
@@ -8848,7 +8991,10 @@
         "info": "Información",
         "cpuLoad": "Carga de CPU",
         "load": "Cargar",
-        "memory": "Memoria",
+        "memory": "Memoria de JVM",
+        "systemMemory": "Memoria del sistema",
+        "userAndSystemShowLoadInPercentWhere100EqualASingleCoreAtFullLoad": "Usuario y Sistema muestran la carga en porcentaje, donde el 100 % equivale a un solo núcleo a plena carga. ",
+        "LoadIsComputedInTheJVMRelatedToTheCombinedProcessingPowerAndNormalizedTo1": "La carga se calcula en la JVM en relación con la potencia de proceso combinada y normalizada a 1.",
         "heap": "Almacenamiento dinámico",
         "directBuffers": "Almacenamientos intermedios directos",
         "offHeap": "Almacenamiento dinámico desactivado",
@@ -8957,6 +9103,8 @@
       "ibmDataPowerVariablesInvalid": "La instancia de IBM DataPower no está configurada correctamente. La variable <code>{{invalidKey}}</code> de la instancia <code>{{instanceName}}</code> tiene el valor incorrecto <code>{{invalidValue}}</code>.",
       "ibmDataPowerConnectionError": "Se ha producido un error al consultar el IBM DataPower con el URL <code>{{url}}</code>, código de retorno <code>{{rtnCode}}</code>y la respuesta es <code>{{response}}</code>. Compruebe la configuración del sensor, es decir, el host/puerto o la instancia de IBM DataPower",
       "ibmDataPowerExceptionError": "El sensor ha generado la siguiente excepción: <code>{{errorMessage}}</code>.",
+      "agentTlsExpired": "El certificado TLS de agente <code>{{cert}}</code> ha caducado el <code>{{context}}</code>.",
+      "agentTlsAboutToExpire": "El certificado TLS de agente <code>{{cert}}</code> está a punto de caducar en <code>{{context}}</code> días.",
       "agentVersion": "Versión del agente",
       "bootVersion": "Versión de arranque",
       "origin": "Origen",
@@ -8982,7 +9130,8 @@
       "sensorCount": "Número de sensores",
       "discoveryCount": "Número de descubrimientos",
       "sensors": "Sensores",
-      "hostname": "Nombre de host"
+      "hostname": "Nombre de host",
+      "startType": "Tipo de inicio"
     },
     "sparkStandalone": {
       "titleApplicationId": "ID de aplicación",
@@ -9441,7 +9590,7 @@
       "datasourceJndiName": "Nombre JNDI de origen de datos",
       "connectionsCurrentlyInUse": "Conexiones en uso actualmente",
       "timeWaitedForExclusiveLockOnPool": "Tiempo de espera de bloqueo exclusivo en la agrupación",
-      "datasourcesWithCount": "Agrupaciones de conexiones de origen de datos ({{len}})",
+      "datasourcesWithCount": "Orígenes de datos ({{len}})",
       "timedOut": "Tiempo de espera excedido",
       "timeSpentOnCreatingConnections": "Tiempo empleado en crear conexiones",
       "deployment": "Despliegue",
@@ -9476,7 +9625,7 @@
       "webDeployments": "Despliegues web",
       "servlets": "Servlets",
       "connectors": "Conectores",
-      "datasources": "Agrupaciones de conexiones de origen de datos",
+      "datasources": "Orígenes de datos",
       "connectionsInUse": "Conexiones en uso",
       "connectionsCreated": "Conexiones creadas",
       "connectionsUsedPercentage": "Porcentaje de conexiones utilizadas",
@@ -10089,6 +10238,13 @@
       "labelDataSource": "Origen de datos",
       "labelJMSDestination": "Destino de JMS",
       "labelSAFAgent": "Agente SAF",
+      "labelHealthState": "Estado de salud",
+      "labelHealthStateUnknown": "DESCONOCIDO",
+      "labelHealthStateOK": "Correcto (0)",
+      "labelHealthStateWarning": "AVISO (1)",
+      "labelHealthStateCritical": "GRAVE (2)",
+      "labelHealthStateFailed": "ERROR (3)",
+      "labelHealthStateOverloaded": "SOBRECARGADO (4)",
       "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
@@ -10103,7 +10259,8 @@
       "titleAverageWaitingTime": "Tiempo promedio de espera",
       "titleDatasourcesCount": "Orígenes de datos ({{len}})",
       "titleWebModulesCount": "Módulos web ({{len}})",
-      "titleEJBModulesCount": "EJB ({{len}})",
+      "titleEJBModulesCount": "Módulos EJB ({{len}})",
+      "titleEJBBeansCount": "Beans EJB ({{len}})",
       "titleObjectPoolsCount": "Agrupaciones de objetos ({{len}})",
       "titleJ2CModulesCount": "Módulos J2C ({{len}})",
       "titleMaxConnections": "Máximo de conexiones",
@@ -10153,12 +10310,50 @@
       "labelResponseTime": "Tiempo de respuesta",
       "lableResponseCount": "Recuento de respuestas",
       "webSphere": "WebSphere",
-      "labelEJB": "EJB",
-      "labelEJBs": "EJB",
+      "labelEjbModule": "Módulo EJB",
+      "labelEjbModules": "Módulos EJB",
+      "labelEjbBean": "Bean EJB",
+      "labelEjbBeans": "Beans EJB",
       "labelObjectPool": "Agrupación de objetos",
       "labelObjectPools": "Agrupaciones de objetos",
       "labelJ2CModule": "Módulo J2C",
       "labelJ2CModules": "Módulos J2C"
+    },
+    "webSphereCluster": {
+      "webSphereClusterInfo": "Clúster de WebSphere",
+      "membersWithCount": "Miembros ({{len}})",
+      "clusterName": "Nombre de clúster",
+      "status": "Estado",
+      "memberCount": "Miembros",
+      "dashboard": {
+        "memberName": "Nombre de miembro",
+        "nodeName": "Nombre de nodo",
+        "status": "Estado",
+        "weight": "peso"
+      }
+    },
+    "webSphereDeploymentManager": {
+      "webSphereDeploymentManagerInfo": "WebSphere Deployment Manager",
+      "clustersWithCount": "Clústeres ({{len}})",
+      "pid": "PID",
+      "serverName": "Nombre de servidor",
+      "hostName": "Nombre de host",
+      "cellName": "Nombre de célula",
+      "version": "Versión",
+      "serverType": "Tipo de servidor",
+      "dashboard": {
+        "clusterName": "Nombre de clúster",
+        "status": "Estado",
+        "memberCount": "Miembros"
+      }
+    },
+    "webSphereInfrastructureManager": {
+      "hostName": "Nombre de host",
+      "cellName": "Nombre de célula",
+      "serverName": "Nombre de servidor",
+      "webSphereInfrastructureManagerInfo": "WebSphere Infrastructure Manager",
+      "deploymentManagerNumber": "Gestor de despliegue ({{count}})",
+      "deploymentManagerNumber_plural": "Gestores de despliegue ({{count}})"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "Nombre",
@@ -10233,7 +10428,16 @@
       "bytesPerSecondReceived": "Bytes por segundo recibidos",
       "bytesPerSecondSent": "Bytes por segundo enviados",
       "utilization": "Utilización",
-      "flags": "Distintivos"
+      "flags": "Distintivos",
+      "networkUsage": "Uso de red",
+      "storageUsage": "Uso de almacenamiento",
+      "acceleratorUsage": "Uso del acelerador",
+      "cryptoUsage": "Uso criptográfico",
+      "cpSharedProcessorUsage": "Uso de procesador compartido",
+      "cpAllProcessorUsage": "Uso de todos los procesadores",
+      "iflSharedProcessorUsage": "Uso del procesador compartido Ifl",
+      "allSharedProcessorUsage": "Uso de todos los procesadores compartidos",
+      "iflAllProcessorUsage": "Uso de todos los procesadores Ifl"
     },
     "zooKeeper": {
       "titleTicks": "Marcas",
@@ -10253,7 +10457,8 @@
       "labelAliveConnections": "Conexiones activas",
       "labelPacketsReceived": "Paquetes recibidos",
       "labelPacketsSent": "Paquetes enviados",
-      "labelPeer": "Igual"
+      "labelPeer": "Igual",
+      "zxid": "zxid"
     },
     "lxc": {
       "networkWithNetworkInterface": "Red ({{networkInterface}})",
@@ -11006,6 +11211,9 @@
       "cpuRequests": "Solicitudes de CPU",
       "cpuLimits": "Límites de CPU"
     },
+    "openTelemetry": {
+      "openTelemetry": "OpenTelemetry"
+    },
     "oracleDB": {
       "dbTimePerSecond": "Tiempo de BD por segundo",
       "db": "BD",
@@ -11185,6 +11393,8 @@
       "labelEvents": "sucesos",
       "titleDetails": "Detalles de suceso",
       "labelS3Events": "Sucesos S3",
+      "labelDynamoDbEvents": "Sucesos de DynamoDB",
+      "labelEventSourceARN": "ARN de origen de sucesos",
       "titleQueues": "Colas",
       "labelMessages": "mensajes",
       "titleARN": "ARN",
@@ -11193,6 +11403,7 @@
       "titleTrigger": "Activador",
       "bodyCloudWatchEvents": "Suceso(s) de CloudWatch",
       "bodyAWSEvents": "Suceso(s) de AWS S3",
+      "bodyAWSDynamoDbEvents": "Sucesos de AWS DynamoDB",
       "bodyAWSMessages": "Mensaje(s) de AWS SQS",
       "bodyAWSEvent": "Suceso de AWS",
       "bodyAWSEventDetail": "Una llamada de API Gateway que no utiliza la opción de proxy Lambda o un activador Lambda no identificado.",
@@ -11203,6 +11414,13 @@
       "timeoutMessage": "La función Lambda seguía ejecutándose cuando sólo quedaban {{milliseconds}} ms, lo que podría haber terminado en un tiempo de espera.",
       "yes": "Sí",
       "no": "No se han detectado"
+    },
+    "azq": {
+      "queuename": "Nombre de cola",
+      "messagesuri": "Uri de mensajes",
+      "storageaccountname": "Nombre de cuenta de almacenamiento",
+      "queueuri": "Uri de cola",
+      "methodname": "Nombre de método"
     },
     "LambdaInvoke": {
       "titleARN": "ARN",

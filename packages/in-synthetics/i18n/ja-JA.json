@@ -32,7 +32,7 @@
         "title": "この ping テストの名前は何ですか",
         "labelName": "テストの名前",
         "labelDescription": "説明",
-        "labelFreequency": "頻度"
+        "labelFrequency": "頻度"
       },
       "bluePrint": {
         "pingApi": {
@@ -68,9 +68,12 @@
     },
     "feedback": {
       "successTitle": "成功",
-      "successMessage": "シンセティック・テストの作成に成功しました",
+      "successMessageCreate": "シンセティック・テストの作成に成功しました",
+      "successMessageDelete": "シンセティック・テストの削除に成功しました。",
       "failureTitle": "失敗",
-      "failureMessage": "シンセティック・テストの作成に失敗しました。 後で再試行してください"
+      "failureMessageCreate": "シンセティック・テストの作成に失敗しました。 後で再試行してください",
+      "failureMessageUpdate": "シンセティック・テストの更新に失敗しました。 後で再試行してください",
+      "failuteMesssageDelete": "シンセティック・テストの削除に失敗しました。 後で再試行してください"
     }
   },
   "createTest": {
@@ -78,5 +81,24 @@
   },
   "navigation": {
     "synthetics": "シンセティック"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "シンセティック・テスト",
+      "secondaryLabels": {
+        "tests": "テスト",
+        "location": "ロケーション"
+      },
+      "locationsSubText": "{{count}} ロケーション",
+      "locationsSubText_plural": "{{count}} ロケーション",
+      "frequencySubText": "{{count}} 分ごと",
+      "frequencySubText_plural": "{{count}} 分ごと",
+      "pause": "テストの一時停止",
+      "resume": "テストの再開"
+    },
+    "sortOptions": {
+      "name": "名前",
+      "frequency": "頻度"
+    }
   }
 }

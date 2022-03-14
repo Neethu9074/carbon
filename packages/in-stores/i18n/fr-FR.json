@@ -72,8 +72,8 @@
   "permissionCanConfigureSessionSettingsLabel": "Accès aux paramètres de dépassement du délai d'attente de jeton et de session",
   "permissionCanConfigureSessionSettingsDescription": "Permet des configurer les dépassements du délai d'attente des jetons et des sessions.",
   "permissionCanConfigureSessionSettingsCategory": "Contrôle d'accès",
-  "permissionCanViewLogsLabel": "Accès aux journaux dans la vue des informations de trace",
-  "permissionCanViewLogsDescription": "Activez l'accès aux journaux.",
+  "permissionCanViewLogsLabel": "Accéder aux journaux",
+  "permissionCanViewLogsDescription": "Autorise l'accès pour visualiser les journaux.",
   "permissionCanViewLogsCategory": "Contrôle d'accès",
   "permissionCanViewTraceDetailsLabel": "Accès aux informations de trace dans la vue des informations de trace",
   "permissionCanViewTraceDetailsDescription": "Activez l'accès aux informations de trace.",
@@ -89,7 +89,6 @@
   "permissionCanViewAccountAndBillingInformationCategory": "Informations sur le compte",
   "permissionRestrictedLabel": "Limiter l'accès en fonction des portées d'accès du groupe",
   "permissionRestrictedHelp": "Activer le contrôle d'accès basé sur le rôle.",
-
   "metric": {
     "metric_MEAN": "moyenne",
     "metric_MIN": "min",
@@ -104,14 +103,12 @@
     "metric_DISTINCT_COUNT": "nombre distinct",
     "metric_SUM": "somme",
     "metric_DISTRIBUTION": "distribution",
-
     "formatterLabelNumber": "Nombre, par exemple, {{example}}",
     "formatterLabelPercentage": "Pourcentage, par exemple, {{example}}",
     "formatterLabelBytes": "Octets, par exemple, {{example}}",
     "formatterLabelMilliseconds": "Millisecondes, par exemple, {{example}}",
     "formatterLabelLatency": "Latence, par exemple, {{example}}",
     "formatterLabelSIPrefix": "Préfixe SI, par exemple {{example}}",
-
     "rendererLabelArea": "Zone",
     "rendererLabelAreaStacked": "Zone (empilée)",
     "rendererLabelBar": "Barre",
@@ -122,10 +119,8 @@
     "rendererLabelPoint": "Point",
     "rendererLabelPie": "À secteurs"
   },
-
   "search": {
     "queryInvalidLuceneQuery": "Requête lucene non valide.",
-
     "fieldsEntity": "Infrastructure et entité d'application",
     "fieldsEntityAgent": "Agent Instana",
     "fieldsEntityAgentGitops": "Configuration d'Instana Agent GitOps",
@@ -191,6 +186,7 @@
     "fieldsEntityVsphereEsxihost": "Hôte vSphere ESXi",
     "fieldsEntityVsphereVm": "vSphere Virtual Machine",
     "fieldsEntityWebsphere": "Serveur d'applications IBM WebSphere",
+    "fieldsEntityWebsphereDeploymentManager": "IBM WebSphere deployment manager",
     "fieldsTrace": "Trace et plage racine",
     "fieldsEvent": "Changements, problèmes et incidents",
     "fieldsSpan": "Plages dans les traces",
@@ -205,7 +201,6 @@
     "fieldsSpanEndpoint": "Zones spécifique de nœud final",
     "fieldsSavedFilter": "Filtre enregistré"
   },
-
   "time": {
     "shiftingLabelOff": "Désactivé",
     "shiftingDescriptionOff": "Afficher les données sans rétrospective",
@@ -219,7 +214,6 @@
     "shiftingDescriptionLastWeek": "Comparer à une semaine avant la fenêtre de temps sélectionnée",
     "shiftingCustomDuration": "{{duration}} précédente"
   },
-
   "view": {
     "viewGroupingsCompose": "Nom du projet Docker Compose",
     "viewGroupingsCustom_container": "Libellés de conteneur",
@@ -232,10 +226,8 @@
     "viewGroupingsCfSpace": "Espace Cloud Foundry",
     "viewGroupingsMarathon": "ID de l'application Marathon",
     "viewGroupingsNomad": "Nom de la tâche Nomad",
-
     "viewGroupingsInfraZone": "Zone",
     "viewGroupingsInstanceType": "Type d'instance",
-
     "viewGroupingsCpuCount": "Nombre d'UC",
     "viewGroupingsCpuModel": "Modèle d'UC",
     "viewGroupingsOsArc": "Architecture OS",

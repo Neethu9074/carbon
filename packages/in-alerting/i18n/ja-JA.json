@@ -21,6 +21,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "このアラート構成のリビジョン {{description}} を表示しています。 変更する場合は、<latestRevisionButton>最新の改定を選択</latestRevisionButton>するか、または<restoreRevisionButton>現在のリビジョンから復元</restoreRevisionButton>してください。",
     "alertHeaderAriaLabelSeverity": "イベントの重大度は {{severity}} です",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "作成済みのアラート ({{totalRepresentedItemCount}})",
+    "alertStateActive": "アクティブ",
     "alertPropertyInfosLabelTitle": "タイトル",
     "alertPropertyInfosLabelAlertLevel": "アラート・レベル",
     "alertPropertyInfosLabelTriggersIncident": "インシデントのトリガー",
@@ -39,9 +40,10 @@
     "chart": {
       "alertingChartLabelThreshold": "しきい値",
       "alertingChartLabelViolations": "違反",
-      "alertingChartTooltipSmoothedMetric": "平滑化されたメトリック",
       "alertingChartMessageInvalidFilterQuery": "フィルター・クエリーが無効です。",
       "alertingChartMessageEntitySelectionInvalid": "エンティティーが選択されていません。",
+      "chartAlertsLaneErrorMessage": "アラートをロードできませんでした。",
+      "chartAlertsPreviewLanePresenterAlertsLabel": "アラート",
       "chartViewConfigsLast24Hours": "過去 24 時間",
       "chartViewConfigsLast7Days": "過去 7 日間"
     },
@@ -123,9 +125,11 @@
         "alertPropertyInsertPlaceholderLabel": "プレースホルダーの挿入",
         "evaluationSwitch": {
           "individual": "個別のアラート",
+          "optionNotAvailableForAdaptiveThreshold": "このオプションは、適応しきい値では使用できません。",
           "evaluationTypePERAP": {
             "selectionText": "このアプリケーション・パースペクティブに対して",
             "globalSelectionText": "アプリケーション・パースペクティブごと",
+            "shortText": "アプリケーション・パースペクティブごと",
             "columnText": "集約",
             "description": "このアプリケーション・パースペクティブに対して個別にアラートを発行します",
             "globalDescription": "アプリケーション・パースペクティブごとに個別にアラートを発行します"
@@ -133,6 +137,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "このアプリケーション・パースペクティブのサービスごと",
             "globalSelectionText": "各アプリケーション・パースペクティブのコンテキストでサービスごと",
+            "shortText": "サービスごと",
             "columnText": "サービスごと",
             "description": "このアプリケーション・パースペクティブのサービスごとに個別にアラートを発行します",
             "globalDescription": "各アプリケーション・パースペクティブのコンテキストでサービスごとに個別にアラートを発行します"
@@ -140,6 +145,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "このアプリケーション・パースペクティブのエンドポイントごと",
             "globalSelectionText": "各アプリケーション・パースペクティブのコンテキストでエンドポイントごと",
+            "shortText": "エンドポイントごと",
             "columnText": "エンドポイントごと",
             "description": "このアプリケーション・パースペクティブのエンドポイントごとに個別にアラートを発行します",
             "globalDescription": "各アプリケーション・パースペクティブのコンテキストでエンドポイントごとに個別にアラートを発行します"
@@ -164,6 +170,18 @@
             "confirmButtonLabel": "確認"
           }
         },
+        "staticOrAdaptive": {
+          "config": {
+            "static": {
+              "title": "静的",
+              "description": "しきい値は、固定しきい値または時間依存しきい値のいずれかです。 Instanaで、最新のデータに基づいて適切なしきい値を選択できます。"
+            },
+            "adaptive": {
+              "title": "適応",
+              "description": "しきい値は、基礎となるメトリックの変更に自動的に適応します。"
+            }
+          }
+        },
         "includeInternalOrSynthethicCalls": {
           "includeInternalCalls": "内部呼び出しを含める",
           "includeSyntethicCalls": "シンセティック呼び出しを含める"
@@ -183,6 +201,11 @@
             "title": "トリガー: アラートの対象",
             "logMessageCardTitle": "ログ・メッセージ",
             "httpStatusCodesCardTitle": "HTTP 状況コード"
+          },
+          "threshold": {
+            "staticOrAdaptiveTitle": "しきい値のタイプ",
+            "label": "閾値",
+            "title": "しきい値：条件に違反するのはいつですか？"
           },
           "timeThreshold": {
             "label": "時間しきい値",
@@ -208,7 +231,7 @@
           "applications": "アプリケーション:",
           "services": "サービス:"
         },
-        "noChartForAdaptiveBaseline": "このトリガーが適応ベースラインをベースにしている間、プレビューは選択できません。",
+        "noChartForAdaptiveBaseline": "このトリガーが適応しきい値に基づいている間は、プレビューは利用できません。",
         "noDataWithoutEndpointSelection": "プレビューを表示するエンドポイントを選択してください",
         "noDataAvailable": "プレビューを表示するサービスを選択してください"
       },
@@ -446,6 +469,10 @@
         "labelGlobalSmartAlertsList": "グローバル・アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "labelSmartAlertsList": "アプリケーション・スマート・アラート ({{numberOfAlerts}} 個)",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "静的しきい値、 {{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "静的日次季節性、 {{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "静的週次季節性、 {{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "適応しきい値、{{metricLabel}}",
         "labelActionButtonEdit": "編集",
         "labelActionButtonDuplicate": "複製",
         "labelActionButtonDelete": "削除",
@@ -475,6 +502,10 @@
       }
     },
     "details": {
+      "header": "詳細",
+      "thresholdTypeTitle": "しきい値タイプ",
+      "metricTitle": "メトリック",
+      "entityTitle": "範囲",
       "titleBuiltInIndicator": "組み込み"
     },
     "form": {
@@ -483,7 +514,7 @@
       "ruleAggregationOptionP25": "25 パーセンタイル",
       "ruleAggregationOptionP50": "50 パーセンタイル",
       "ruleAggregationOptionP75": "75 パーセンタイル",
-      "ruleAggregationOptionP90": "90 パーセンタイル (推奨)",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "95 パーセンタイル",
       "ruleAggregationOptionP98": "98 パーセンタイル",
       "ruleAggregationOptionP99": "99 パーセンタイル",
@@ -494,7 +525,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "キャンセル",
-        "sharedListTooltip": "選択された {{typeName}} は使用できなくなりました",
+        "sharedListTooltip": "{{typeName}} は利用できなくなりました。",
         "clearTagFilterExpressionButton": "クリア",
         "baselineErrorMessageInsufficientDataToCompute": "選択したベースラインを計算するにはデータが不十分です。 代わりに<em>静的しきい値</em> を選択してください。",
         "pleaseContactSupportToRiseLimit": "この上限を増やすには <supportLink>{{instanaSupportPortal}}</supportLink> からお問い合わせください。",
@@ -549,20 +580,20 @@
         "timeThresholdDescriptionViolationsInPeriod_2": "過去 {{formattedTimeWindow}}内で少なくとも {{count}} 件の違反",
         "timeThresholdConfigNumberOfConsecutiveViolations": "連続したメトリック違反の数",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "連続した評価の数",
-        "timeThresholdConfigNumberOfEvaluationWindows": "ユーザーへの影響の評価ウィンドウの数",
+        "timeThresholdConfigNumberOfEvaluationWindows": "連続した違反の数",
         "timeThresholdConfigImpactEvaluationMethod": "ユーザー・インパクト評価方法",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "すべての評価ウィンドウで集計",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "評価ウィンドウごとに計算",
         "timeThresholdConfigNumberOfViolations": "メトリック違反の数",
         "timeThresholdConfigEvaluationGranularity": "評価の粒度",
-        "timeThresholdConfigNumberOfRequestsThreshold": "要求数のしきい値",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "影響を受けるユーザー数のしきい値",
+        "timeThresholdConfigNumberOfRequestsThreshold": "影響請求数",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "影響ユーザー数",
         "timeThresholdConfigAtLeast": "最小",
-        "timeThresholdConfigNumberOfRequests": "要求数",
+        "timeThresholdConfigNumberOfRequests": "影響請求数",
         "timeThresholdConfigMinutes": "{{min}} 分",
-        "timeThresholdConfigNumberOfUsers": "ユーザー数",
-        "timeThresholdConfigPercentageOfUsers": "ユーザーの %",
-        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "影響を受けるユーザーのパーセンテージのしきい値",
+        "timeThresholdConfigNumberOfUsers": "影響ユーザー数",
+        "timeThresholdConfigPercentageOfUsers": "影響ユーザーの割合 (%)",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "影響ユーザーの割合",
         "timeThresholdConfigOff": "オフ",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "1 以上の数値を指定してください",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "1% から 100% までの数値を指定してください",
@@ -572,8 +603,8 @@
         "timeThresholdConfigTimeThresholdLabelRequestImpact": "特定の数の要求が影響を受ける場合",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "長期にわたる持続性",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "違反数の経時変化",
-        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "ユーザーへの影響",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "要求への影響",
+        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "ユーザー影響",
+        "timeThresholdConfigTimeThresholdTitleRequestImpact": "請求影響",
         "timeThresholdConfigNoUserSessionDetected": "<linkToIdentifyingUsers>ユーザー</linkToIdentifyingUsers>や<linkToSessionTracking>セッション</linkToSessionTracking>が検出されません",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "このオプションを使用する前に Web サイト・モニタリングを構成してください。",
         "alertPropertiesWarning": "警告",
@@ -585,22 +616,26 @@
         "alertPropertiesAlertProperties": "アラートのプロパティー",
         "buttonSave": "保存",
         "buttonCreate": "作成",
+        "buttonMigrate": "移行",
         "selectedBlueprint": "選択されたブループリント",
         "buttonRecalculateBaseline": "ベースラインの再計算",
         "sensitivitySliderLow": "低",
         "sensitivitySliderHigh": "高",
         "labelThreshold": "しきい値",
         "labelSensitivity": "重要度",
+        "staticThresholdTypeOptionsTooltip": "静的日次/週次しきい値は、履歴データに基づく時間依存のしきい値です。 しきい値は自動的に変更されないため、必要に応じて手動で再計算してください。",
         "thresholdTypeOptionStaticThreshold": "静的しきい値",
-        "thresholdTypeOptionHistoricBaselineDaily": "ベースライン (毎日の季節性)",
-        "thresholdTypeOptionHistoricBaselineWeekly": "ベースライン (毎週の季節性)",
-        "thresholdTypeOptionAdaptiveBaseline": "適応ベースライン",
+        "thresholdTypeOptionHistoricBaselineDaily": "静的日次季節性",
+        "thresholdTypeOptionHistoricBaselineWeekly": "静的週次季節性",
+        "thresholdTypeOptionAdaptiveBaseline": "適応しきい値",
         "useSuggestedvalue": "推奨値を使用",
         "loadingThresholdSuggestion": "しきい値の提案をロード中",
         "alertConfigDialogPresenterTitleEditAlert_Local": "スマート・アラートの編集",
         "alertConfigDialogPresenterTitleEditAlert_Global": "グローバル・スマート・アラートの編集",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "新規スマート・アラートの作成",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "新規グローバル・スマート・アラートの作成",
+        "alertConfigDialogPresenterTitleMigrateAlert_Local": "スマート・アラートにマイグレーション",
+        "alertConfigDialogPresenterTitleMigrateAlert_Global": "グローバル・スマート・アラートへの移行",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "拡張モードに切り替える",
         "simpleAlertConfigDialogStep3Headline": "だれがアラートを受け取りますか?",
         "Loading": "ロード中…",
@@ -608,7 +643,8 @@
         "PreviewForEndpoint": "エンドポイントのプレビュー:",
         "PreviewForService": "サービスのプレビュー:",
         "PreviewSelectLoadingEndpoints": "エンドポイント・リストをロード中",
-        "thresholdValue": "しきい値"
+        "thresholdValue": "しきい値",
+        "migrationModeWarning": "このカスタム・イベントをスマート・アラートに移行すると、無効になります。 後でイベントを再度有効にすることはできません。"
       },
       "userInfo": {
         "success": {
@@ -683,6 +719,8 @@
         "slownessInteractiveChartThresholdValue": "しきい値",
         "scopeLabel": "スコープ",
         "scopeTitle": "スコープ: 状況が発生している場所",
+        "thresholdLabel": "閾値",
+        "thresholdTitle": "しきい値：条件に違反するのはいつですか？",
         "triggerLabel": "トリガー",
         "triggerTitle": "トリガー: アラートの対象",
         "JSErrorMessage": "JS エラー・メッセージ",
@@ -877,7 +915,10 @@
       "migrateButton": "スマート・アラートにマイグレーション",
       "migrateButtonTooltip": "スマート・アラート構成ダイアログを開きます。ここには、現行のイベントから可能な限り最良の範囲までマイグレーションされた値が事前に入力されています。 結果を慎重に確認してください。",
       "markAsMigratedButton": "移行済みとしてマーク",
-      "markAsMigratedButtonTooltip": "イベントを移行済みとしてマークします。 このイベントに置き換わるスマート・アラートを既に構成している場合は、これを使用してください。"
+      "markAsMigratedButtonTooltip": "イベントを移行済みとしてマークします。 このイベントに置き換わるスマート・アラートを既に構成している場合は、これを使用してください。",
+      "markAsMigratedButtonConfirmationTitle": "ご確認ください",
+      "markAsMigratedButtonConfirmationDescription": "このカスタム・イベントに移行済みのマークを付けると、無効になります。 後でイベントを再度有効にすることはできません。 続行しますか?",
+      "markAsMigratedButtonConfirmationConfirmLabel": "確認"
     }
   }
 }

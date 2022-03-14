@@ -125,9 +125,6 @@
         "hideWebsiteInformation": "Ocultar información del sitio web",
         "showWebsiteInformation": "Mostrar información del sitio web",
         "viewWebsiteActivity": "Ver actividad del sitio web"
-      },
-      "logs": {
-        "noDataMessage": "No hay registros disponibles para este rastreo"
       }
     },
     "components": {
@@ -176,25 +173,18 @@
       },
       "callTree": {
         "expandButtonForRow": "Expandir todas las subllamadas",
-        "collapseButtonForRow": "Contraer todas las subllamadas",
         "of": "de",
-        "inheritedFrom": "Heredado desde",
-        "cardTitle": "Llamadas"
+        "inheritedFrom": "Heredado desde"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "Colorear por",
-        "colorizeByExpl": "Cambia el color de las barras de llamada",
-        "endpoint": "Punto final",
-        "service": "Servicio"
-      },
-      "viewToggleButtons": {
-        "expl": "Ver como",
-        "tree": "Árbol",
-        "chart": "Línea temporal"
+        "endpoint": "Punto final"
       },
       "logTooltipContent": {
         "errorLog": "Registro de errores",
-        "warningLog": "Registro de avisos"
+        "warningLog": "Registro de avisos",
+        "restrictedAccess": "Acceso restringido",
+        "restrictedAccessExpl": "No tiene permiso para acceder a esta información"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} error",
@@ -285,7 +275,7 @@
     "analyzeLogsLabel": "Analizar registros",
     "similarLogs": "Registros similares",
     "similarServiceLogs": "Mostrar registros en contexto de este servicio",
-    "service": "Mostrar servicio"
+    "restrictedAccessExpl": "No tiene permiso para acceder a esta información"
   },
   "traceDetails": {
     "labelTotal": "Total",

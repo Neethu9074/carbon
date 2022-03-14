@@ -21,6 +21,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警示配置的修訂 {{description}}。如需您想進行變更，請<latestRevisionButton>選取最新修訂</latestRevisionButton>或<restoreRevisionButton>從現行修訂還原</restoreRevisionButton>。",
     "alertHeaderAriaLabelSeverity": "事件具有嚴重性 {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "已建立的警示 ({{totalRepresentedItemCount}})",
+    "alertStateActive": "作用中",
     "alertPropertyInfosLabelTitle": "標題",
     "alertPropertyInfosLabelAlertLevel": "警示層次",
     "alertPropertyInfosLabelTriggersIncident": "觸發事故",
@@ -39,9 +40,10 @@
     "chart": {
       "alertingChartLabelThreshold": "臨界值",
       "alertingChartLabelViolations": "違規",
-      "alertingChartTooltipSmoothedMetric": "平滑度量",
       "alertingChartMessageInvalidFilterQuery": "無效的過濾查詢。",
       "alertingChartMessageEntitySelectionInvalid": "未選取實體。",
+      "chartAlertsLaneErrorMessage": "無法載入警示",
+      "chartAlertsPreviewLanePresenterAlertsLabel": "警示",
       "chartViewConfigsLast24Hours": "過去 24 小時",
       "chartViewConfigsLast7Days": "過去 7 天"
     },
@@ -123,9 +125,11 @@
         "alertPropertyInsertPlaceholderLabel": "插入位置保留",
         "evaluationSwitch": {
           "individual": "個別警示",
+          "optionNotAvailableForAdaptiveThreshold": "此選項無法與調適性臨界值搭配使用",
           "evaluationTypePERAP": {
             "selectionText": "針對此「應用程式視景」",
             "globalSelectionText": "各「應用程式視景」",
+            "shortText": "根據「應用程式視景」",
             "columnText": "聚集的",
             "description": "針對此「應用程式視景」個別發出警示",
             "globalDescription": "針對各「應用程式視景」個別發出警示"
@@ -133,6 +137,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "針對此「應用程式視景」的各服務",
             "globalSelectionText": "依每一個「應用程式視景」的環境定義中的服務",
+            "shortText": "根據「服務」",
             "columnText": "各服務",
             "description": "針對此「應用程式視景」的各服務個別發出警示",
             "globalDescription": "針對每個「應用程式視景」環境定義中的各服務個別發出警示"
@@ -140,6 +145,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "針對此應用程式視景的各服務",
             "globalSelectionText": "每個「應用程式視景」環境定義中的各端點",
+            "shortText": "根據「端點」",
             "columnText": "各端點",
             "description": "針對此「應用程式視景」的各端點個別發出警示",
             "globalDescription": "針對每個「應用程式視景」環境定義中的各端點個別發出警示"
@@ -164,6 +170,18 @@
             "confirmButtonLabel": "確認"
           }
         },
+        "staticOrAdaptive": {
+          "config": {
+            "static": {
+              "title": "靜態",
+              "description": "臨界值是固定值或時間相依臨界值。 Instana 可協助您根據最近的資料來挑選正確的臨界值"
+            },
+            "adaptive": {
+              "title": "調適性",
+              "description": "臨界值會自動適應基礎度量值的變更"
+            }
+          }
+        },
         "includeInternalOrSynthethicCalls": {
           "includeInternalCalls": "包含內部呼叫",
           "includeSyntethicCalls": "包含合成呼叫"
@@ -183,6 +201,11 @@
             "title": "觸發：您想針對什麼產生警示？",
             "logMessageCardTitle": "日誌訊息",
             "httpStatusCodesCardTitle": "HTTP 狀態碼"
+          },
+          "threshold": {
+            "staticOrAdaptiveTitle": "臨界值類型",
+            "label": "臨界值",
+            "title": "臨界值：何時違反條件？"
           },
           "timeThreshold": {
             "label": "時間臨界值",
@@ -208,7 +231,7 @@
           "applications": "應用程式：",
           "services": "服務："
         },
-        "noChartForAdaptiveBaseline": "如果此觸發程式以調適性基準線為基礎，則無法使用預覽。",
+        "noChartForAdaptiveBaseline": "當此觸發程式基於調適性臨界值時，沒有可用的預覽。",
         "noDataWithoutEndpointSelection": "請選取端點，以查看預覽",
         "noDataAvailable": "請選取服務以查看預覽"
       },
@@ -446,6 +469,10 @@
         "labelGlobalSmartAlertsList": "廣域智慧型警示 ({{numberOfAlerts}})",
         "labelSmartAlertsList": "應用程式智慧型警示 ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "靜態臨界值，{{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "靜態每日週期性，{{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "靜態每週週期性，{{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "調適性臨界值，{{metricLabel}}",
         "labelActionButtonEdit": "編輯",
         "labelActionButtonDuplicate": "複製",
         "labelActionButtonDelete": "刪除",
@@ -475,6 +502,10 @@
       }
     },
     "details": {
+      "header": "詳細資料",
+      "thresholdTypeTitle": "臨界值類型",
+      "metricTitle": "度量",
+      "entityTitle": "範圍",
       "titleBuiltInIndicator": "內建"
     },
     "form": {
@@ -483,7 +514,7 @@
       "ruleAggregationOptionP25": "第 25 個",
       "ruleAggregationOptionP50": "第 50 個",
       "ruleAggregationOptionP75": "第 75 個",
-      "ruleAggregationOptionP90": "第 90 個（建議）",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "第 95 個",
       "ruleAggregationOptionP98": "第 98 個",
       "ruleAggregationOptionP99": "第 99 個",
@@ -494,7 +525,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "取消",
-        "sharedListTooltip": "選取的 {{typeName}} 再也無法使用",
+        "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageInsufficientDataToCompute": "資料不足而無法計算選取的基準線。請改為選取<em>靜態臨界值</em>。",
         "pleaseContactSupportToRiseLimit": "請透過 <supportLink>{{instanaSupportPortal}}</supportLink>聯絡我們以要求增加此限制。",
@@ -549,20 +580,20 @@
         "timeThresholdDescriptionViolationsInPeriod_2": "在過去 {{formattedTimeWindow}} 內，至少有 {{count}} 項違規",
         "timeThresholdConfigNumberOfConsecutiveViolations": "連續度量違規數",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "連續評估數",
-        "timeThresholdConfigNumberOfEvaluationWindows": "使用者影響的評估時段數",
+        "timeThresholdConfigNumberOfEvaluationWindows": "連續違規數",
         "timeThresholdConfigImpactEvaluationMethod": "使用者影響評估方法",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "針對所有評估範圍進行總計",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "針對每個評估範圍計算",
         "timeThresholdConfigNumberOfViolations": "度量違規數",
         "timeThresholdConfigEvaluationGranularity": "評估精度",
-        "timeThresholdConfigNumberOfRequestsThreshold": "要求數臨界值",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影響的使用者數目臨界值",
+        "timeThresholdConfigNumberOfRequestsThreshold": "受影響要求數",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影響使用者數",
         "timeThresholdConfigAtLeast": "至少",
-        "timeThresholdConfigNumberOfRequests": "要求數",
+        "timeThresholdConfigNumberOfRequests": "受影響要求數",
         "timeThresholdConfigMinutes": "{{min}} 分鐘",
-        "timeThresholdConfigNumberOfUsers": "使用者數目",
-        "timeThresholdConfigPercentageOfUsers": "佔使用者數目的百分比",
-        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "受影響的使用者數目臨界值百分比",
+        "timeThresholdConfigNumberOfUsers": "受影響使用者數",
+        "timeThresholdConfigPercentageOfUsers": "受影響使用者的百分比",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "受影響使用者的百分比",
         "timeThresholdConfigOff": "關閉",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "請提供大於等於 1 的數字",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "請提供 1% 到 100% 之間的數字",
@@ -585,22 +616,26 @@
         "alertPropertiesAlertProperties": "警示內容",
         "buttonSave": "儲存",
         "buttonCreate": "建立",
+        "buttonMigrate": "移轉",
         "selectedBlueprint": "選取的藍圖",
         "buttonRecalculateBaseline": "重新計算基準線",
         "sensitivitySliderLow": "低",
         "sensitivitySliderHigh": "高",
         "labelThreshold": "臨界值",
         "labelSensitivity": "靈敏度",
+        "staticThresholdTypeOptionsTooltip": "「靜態每日/每週臨界值」是基於歷程資料的時間相依臨界值。 臨界值不會自動變更，必要時可以手動重新計算。",
         "thresholdTypeOptionStaticThreshold": "靜態臨界值",
-        "thresholdTypeOptionHistoricBaselineDaily": "基準線（每日季節性）",
-        "thresholdTypeOptionHistoricBaselineWeekly": "基準線（每週季節性）",
-        "thresholdTypeOptionAdaptiveBaseline": "調適性基準線",
+        "thresholdTypeOptionHistoricBaselineDaily": "靜態每日週期性",
+        "thresholdTypeOptionHistoricBaselineWeekly": "靜態每週週期性",
+        "thresholdTypeOptionAdaptiveBaseline": "調適性臨界值",
         "useSuggestedvalue": "使用建議值",
         "loadingThresholdSuggestion": "正在載入臨界值建議",
         "alertConfigDialogPresenterTitleEditAlert_Local": "編輯智慧型警示",
         "alertConfigDialogPresenterTitleEditAlert_Global": "編輯廣域智慧型警示",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "建立新的智慧型警示",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "建立新的廣域智慧型警示",
+        "alertConfigDialogPresenterTitleMigrateAlert_Local": "移轉至智慧型警示",
+        "alertConfigDialogPresenterTitleMigrateAlert_Global": "移轉至廣域智慧型警示",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "切換至進階模式",
         "simpleAlertConfigDialogStep3Headline": "誰應該取得警示？",
         "Loading": "載入中...",
@@ -608,7 +643,8 @@
         "PreviewForEndpoint": "端點的預覽：",
         "PreviewForService": "服務的預覽：",
         "PreviewSelectLoadingEndpoints": "載入端點清單",
-        "thresholdValue": "臨界值"
+        "thresholdValue": "臨界值",
+        "migrationModeWarning": "將此自訂事件移轉至智慧型警示將會停用它。 之後無法重新啟用事件。"
       },
       "userInfo": {
         "success": {
@@ -683,6 +719,8 @@
         "slownessInteractiveChartThresholdValue": "臨界值",
         "scopeLabel": "範圍",
         "scopeTitle": "範圍：該狀況發生在何處？",
+        "thresholdLabel": "臨界值",
+        "thresholdTitle": "臨界值：何時違反條件？",
         "triggerLabel": "觸發",
         "triggerTitle": "觸發：您想針對什麼產生警示？",
         "JSErrorMessage": "JS 錯誤訊息",
@@ -877,7 +915,10 @@
       "migrateButton": "移轉至智慧型警示",
       "migrateButtonTooltip": "開啟一個智慧型警示配置對話框，其中預先填入了從現行事件到我們所能達到最佳延伸的移轉值。請仔細核對結果！",
       "markAsMigratedButton": "標示為已移轉",
-      "markAsMigratedButtonTooltip": "將事件標示為已移轉。 如果您已配置將取代此事件的「智慧型警示」，請使用此選項。"
+      "markAsMigratedButtonTooltip": "將事件標示為已移轉。 如果您已配置將取代此事件的「智慧型警示」，請使用此選項。",
+      "markAsMigratedButtonConfirmationTitle": "請確認",
+      "markAsMigratedButtonConfirmationDescription": "將此「自訂事件」標示為已移轉將會停用它。 之後無法重新啟用事件。 要繼續嗎？",
+      "markAsMigratedButtonConfirmationConfirmLabel": "確認"
     }
   }
 }

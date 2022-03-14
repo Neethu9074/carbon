@@ -32,7 +32,7 @@
         "title": "Qual è il nome di questa prova di ping",
         "labelName": "Nome della prova",
         "labelDescription": "Descrizione",
-        "labelFreequency": "Frequenza"
+        "labelFrequency": "Frequenza"
       },
       "bluePrint": {
         "pingApi": {
@@ -68,9 +68,12 @@
     },
     "feedback": {
       "successTitle": "Operazione riuscita.",
-      "successMessage": "Prova sintetica creata correttamente",
+      "successMessageCreate": "Prova sintetica creata correttamente",
+      "successMessageDelete": "Test sintetico eliminato correttamente",
       "failureTitle": "Non riuscito.",
-      "failureMessage": "Impossibile creare una prova sintetica. Riprovare successivamente"
+      "failureMessageCreate": "Impossibile creare una prova sintetica. Riprovare successivamente",
+      "failureMessageUpdate": "Impossibile aggiornare il test sintetico. Riprovare successivamente",
+      "failuteMesssageDelete": "Impossibile eliminare il test sintetico. Riprovare successivamente"
     }
   },
   "createTest": {
@@ -78,5 +81,24 @@
   },
   "navigation": {
     "synthetics": "Sintetici"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "Test sintetici",
+      "secondaryLabels": {
+        "tests": "Test",
+        "location": "Ubicazione"
+      },
+      "locationsSubText": "{{count}} ubicazione",
+      "locationsSubText_plural": "{{count}} ubicazioni",
+      "frequencySubText": "Ogni {{count}} minuto",
+      "frequencySubText_plural": "Ogni {{count}} minuti",
+      "pause": "Sospendi il test",
+      "resume": "Riprendi il test"
+    },
+    "sortOptions": {
+      "name": "Nome",
+      "frequency": "Frequenza"
+    }
   }
 }

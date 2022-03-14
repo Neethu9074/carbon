@@ -72,8 +72,8 @@
   "permissionCanConfigureSessionSettingsLabel": "토큰 및 세션 제한시간 설정에 대한 액세스",
   "permissionCanConfigureSessionSettingsDescription": "토큰 및 세션 제한시간을 구성하기 위한 액세스를 허용합니다.",
   "permissionCanConfigureSessionSettingsCategory": "액세스 제어",
-  "permissionCanViewLogsLabel": "추적 세부사항 보기의 로그에 액세스",
-  "permissionCanViewLogsDescription": "로그에 대한 액세스를 사용으로 설정합니다.",
+  "permissionCanViewLogsLabel": "로그에 대한 액세스",
+  "permissionCanViewLogsDescription": "로그 보기에 대한 액세스를 허용합니다.",
   "permissionCanViewLogsCategory": "액세스 제어",
   "permissionCanViewTraceDetailsLabel": "추적 세부사항 보기의 추적 세부사항에 액세스",
   "permissionCanViewTraceDetailsDescription": "추적 세부사항에 대한 액세스를 사용으로 설정합니다.",
@@ -89,7 +89,6 @@
   "permissionCanViewAccountAndBillingInformationCategory": "계정 정보",
   "permissionRestrictedLabel": "그룹 액세스 범위별로 액세스 제한",
   "permissionRestrictedHelp": "역할 기반 액세스 제어를 사용으로 설정합니다.",
-
   "metric": {
     "metric_MEAN": "평균",
     "metric_MIN": "최소",
@@ -104,14 +103,12 @@
     "metric_DISTINCT_COUNT": "고유 개수",
     "metric_SUM": "합계",
     "metric_DISTRIBUTION": "분포",
-
     "formatterLabelNumber": "숫자(예: {{example}})",
     "formatterLabelPercentage": "백분율(예: {{example}})",
     "formatterLabelBytes": "바이트(예: {{example}})",
     "formatterLabelMilliseconds": "밀리초(예: {{example}})",
     "formatterLabelLatency": "대기 시간(예: {{example}})",
     "formatterLabelSIPrefix": "SI 접두부(예: {{example}})",
-
     "rendererLabelArea": "영역",
     "rendererLabelAreaStacked": "영역(누적)",
     "rendererLabelBar": "막대",
@@ -122,10 +119,8 @@
     "rendererLabelPoint": "지점",
     "rendererLabelPie": "파이"
   },
-
   "search": {
     "queryInvalidLuceneQuery": "Lucene 조회가 올바르지 않습니다.",
-
     "fieldsEntity": "인프라 및 애플리케이션 엔티티",
     "fieldsEntityAgent": "Instana 에이전트",
     "fieldsEntityAgentGitops": "Instana 에이전트 GitOps 구성",
@@ -191,6 +186,7 @@
     "fieldsEntityVsphereEsxihost": "vSphere ESXi 호스트",
     "fieldsEntityVsphereVm": "vSphere 가상 머신",
     "fieldsEntityWebsphere": "IBM WebSphere Application Server",
+    "fieldsEntityWebsphereDeploymentManager": "IBM WebSphere 배치 관리자",
     "fieldsTrace": "추적 및 루트 범위",
     "fieldsEvent": "변경사항, 문제 및 인시던트",
     "fieldsSpan": "추적 내의 범위",
@@ -205,7 +201,6 @@
     "fieldsSpanEndpoint": "엔드포인트 특정 필드",
     "fieldsSavedFilter": "저장된 필터"
   },
-
   "time": {
     "shiftingLabelOff": "해제",
     "shiftingDescriptionOff": "시간 이동 없이 데이터 보기",
@@ -219,7 +214,6 @@
     "shiftingDescriptionLastWeek": "선택한 기간 1주일 전과 비교",
     "shiftingCustomDuration": "이전 {{duration}}"
   },
-
   "view": {
     "viewGroupingsCompose": "Docker 작성 프로젝트 이름",
     "viewGroupingsCustom_container": "컨테이너 레이블",
@@ -232,10 +226,8 @@
     "viewGroupingsCfSpace": "Cloud Foundry 영역",
     "viewGroupingsMarathon": "Marathon 애플리케이션 ID",
     "viewGroupingsNomad": "Nomad 태스크 이름",
-
     "viewGroupingsInfraZone": "구역",
     "viewGroupingsInstanceType": "인스턴스 유형",
-
     "viewGroupingsCpuCount": "CPU 개수",
     "viewGroupingsCpuModel": "CPU 모델",
     "viewGroupingsOsArc": "OS 아키텍처",

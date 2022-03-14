@@ -32,7 +32,7 @@
         "title": "此連線測試的名稱為何",
         "labelName": "測試的名稱",
         "labelDescription": "說明",
-        "labelFreequency": "頻率"
+        "labelFrequency": "頻率"
       },
       "bluePrint": {
         "pingApi": {
@@ -68,9 +68,12 @@
     },
     "feedback": {
       "successTitle": "成功！",
-      "successMessage": "已順利建立綜合測試",
+      "successMessageCreate": "已順利建立綜合測試",
+      "successMessageDelete": "已順利刪除綜合測試",
       "failureTitle": "失敗！",
-      "failureMessage": "無法建立綜合測試。 請稍後重試"
+      "failureMessageCreate": "無法建立綜合測試。 請稍後重試",
+      "failureMessageUpdate": "無法更新綜合測試。 請稍後重試",
+      "failuteMesssageDelete": "無法刪除綜合測試。 請稍後重試"
     }
   },
   "createTest": {
@@ -78,5 +81,24 @@
   },
   "navigation": {
     "synthetics": "綜合"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "虛構測試",
+      "secondaryLabels": {
+        "tests": "測試",
+        "location": "位置"
+      },
+      "locationsSubText": "{{count}} 個位置",
+      "locationsSubText_plural": "{{count}} 個位置",
+      "frequencySubText": "每 {{count}} 分鐘",
+      "frequencySubText_plural": "每 {{count}} 分鐘",
+      "pause": "暫停測試",
+      "resume": "回復測試"
+    },
+    "sortOptions": {
+      "name": "名稱",
+      "frequency": "頻率"
+    }
   }
 }

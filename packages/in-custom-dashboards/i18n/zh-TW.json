@@ -164,7 +164,10 @@
       "metricsFormComponent": {
         "metric": "度量",
         "selectMetric": "選取度量",
-        "aggregation": "聚集"
+        "aggregation": "聚集",
+        "crossSeriesAggregation": "使用 SUM 進行跨系列聚集",
+        "crossSeriesAggregationHelp": "通常，跨系列聚集與跨時間聚集（用於將資料點結合至單一儲存區的方法）相同。 啟用此切換開關後，我們將加總所有資料系列之間的儲存區，而不是使用指定的聚集。",
+        "crossSeriesAggregationDisabledHelp": "不適用於 {{aggregation}}"
       },
       "metrics": {
         "infrastructurePlatforms": "基礎架構和平台",
@@ -344,7 +347,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - 入門",
-        "text": "Instana 是第一個且唯一完全自動化的應用程式效能 (APM) 解決方案，專為\n應對管理微服務與雲端原生應用程式所帶來的挑戰而設計。\n\n入門很容易\n\n1. 如果您尚未存取 Instana，請移至 [Instana.com](https://www.instana.com) 並註冊免費試用版。\n2. 探索我們數百種 [支援的技術] 的生態系統 (https://www.instana.com/docs/ecosystem)。\n3. 開始使用我們的其中一個 [代理程式] 收集資料 (https://www.instana.com/docs/setup_and_manage)。\n4. 學習 [如何使用 Instana](https://www.instana.com/docs/using_instana) 來處理您的使用案例。\n5. 瞭解我們特有的 [核心功能](https://www.instana.com/docs/core_capabilities/)。\n6. 使用我們的 [整合、SDK 與 API](https://www.instana.com/docs/integrations) 來延伸 Instana。\n\n沒錯！\n\n找不到您要尋找的資訊嗎？跳至 [instana.com/docs](https://www.instana.com/docs/)！"
+        "text": "Instana 是第一個也是唯一完全自動化的應用程式效能 (APM) 解決方案，專門針對管理微服務和雲端原生應用程式的挑戰而設計。\n\n入門很容易 1. 如果您尚未存取 Instana，請前往 [Instana.com] (https://www.instana.com) 並註冊「免費試用」。2. 探索包含數百種 [支援的技術] 的生態系統 (https://www.ibm.com/docs/en/obi/current?topic=supported-technologies)。3. 使用其中一個 [代理程式] 開始收集資料 (https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana)。4. 瞭解針對您的使用案例 [如何使用 Instana] (https://www.ibm.com/docs/en/obi/current?topic=using-instana)。5. 閱讀我們的獨特 [核心功能] (https://www.ibm.com/docs/en/obi/current?topic=core-capabilities)。6. 使用我們的 [整合、SDK 和 API] 來延伸 Instana (https://www.ibm.com/docs/en/obi/current?topic = integrations-sdks-apis)。\n\n就這樣！\n\n找不到您要尋找的內容？ 跳至 [文件] (跳至 [文件] (https://www.ibm.com/docs/en/obi/current)！"
       },
       "formComp": {
         "whatULikeShow": "您想要顯示什麼？",
@@ -377,14 +380,16 @@
         "userJourneyOffering": "使用者旅程 / 供應項目",
         "appnPerspective": "應用程式視景",
         "selectAppPerspect": "請選取應用程式視景。",
-        "appPerspectHelpAction": "設定使用者旅程 / 供應項目，作法是在產品的「應用程式」區域中，將它們建模成「應用程式視景」。",
+        "appPerspectHelpAction": "將使用者旅程/供應項目建模為「應用程式」區域中的「應用程式視景」，以設定使用者旅程/供應項目。",
+        "rbacHint": "所顯示的應用程式可能受到權限限制。",
         "noAppPerspect": "無應用程式視景！",
         "pleaseSelect": "請選取"
       },
       "websiteSelector": {
         "website": "網站",
         "selectWebsite": "請選取網站",
-        "websiteHelpAction": "在產品的「網站及行動式應用程式」區域中配置網站。",
+        "websiteHelpAction": "在網站及行動式應用程式區域中配置網站。",
+        "rbacHint": "所顯示的網站可能受到權限限制。",
         "noWebsites": "找不到網站",
         "pleaseSelect": "請選取"
       },
@@ -398,8 +403,6 @@
         "sliCreateSuccess": "已順利建立 SLI",
         "failCreateSli": "無法建立 SLI。",
         "problemCreateSli": "建立此 SLI 時發生問題：\"{{sliName}}\"",
-        "cloning": "複製中...",
-        "creating": "建立中…",
         "clone": "複製",
         "create": "建立",
         "sliConfigMsg": "無法修改 SLI 的參數來防止所計算的耗費預算失效。這就是當您變更任何參數時，需要複製 SLI 的原因。",
@@ -412,13 +415,16 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "良好事件",
-        "badEvents": "不當事件"
+        "badEvents": "不當事件",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "延遲時間",
         "callCount": "呼叫計數",
         "errorRate": "錯誤率",
         "erroneousCalls": "錯誤呼叫",
+        "beaconErrorRate": "引標錯誤率",
+        "beaconDuration": "引標持續時間",
         "mean": "平均值",
         "min": "最小值",
         "max": "最大值",
@@ -542,7 +548,19 @@
       "atLeastOneFilterExpressionMustBeConfigured": "至少需要配置一個過濾表示式。",
       "timeBased": "時間型",
       "eventBased": "事件型",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "應用程式",
+        "source_website": "網站"
+      },
+      "sliFormatter": {
+        "unit": "呼叫",
+        "unit_plural": "呼叫",
+        "unit_0": "呼叫",
+        "unit_1": "呼叫",
+        "unit_2": "呼叫",
+        "thousandCallsFormat": "{{count}}K 個呼叫"
+      }
     },
     "timezone": {
       "demo": {

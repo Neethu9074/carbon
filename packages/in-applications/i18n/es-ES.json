@@ -31,7 +31,7 @@
   "labelTechnologies": "Tecnologías",
   "labelEndpoints": "Puntos finales",
   "labelHealth": "Salud",
-  "labelNonHttp": "Otros",
+  "labelOther": "Otros",
   "labelCallCount": "Número de llamadas",
   "labelHTTPStatusCodes": "Códigos de estado HTTP",
   "labelInfraIssues": "Problemas de la infraestructura",
@@ -108,7 +108,7 @@
   "buttonAddTag": "Añadir código",
   "buttonOK": "Aceptar",
   "buttonCreate": "Crear",
-  "buttonCancel": "cancelar",
+  "buttonCancel": "Cancelar",
   "buttonRemoveApplicationPerspective": "Eliminar perspectiva de aplicación",
   "buttonAddDescription": "Añadir descripción",
   "buttonAddSyntheticEndpointRule": "Añadir regla de punto final sintético",
@@ -198,7 +198,6 @@
     "listBatchTypeTooltip": "Este {{type}} está en un lote y representa {{batchCount}} {{types}} individuales.",
     "listBatchLatencyTooltip": "Latencia total de {{batchCount}} {{types}} por lotes.",
     "traceIdTooltip": "Algunos datos relacionados con este rastreo se retrasan, por lo tanto, vuelva a cargar la página más adelante. Por ejemplo, esto puede suceder cuando se visualiza un rastreo muy reciente y algunos de sus datos todavía se están procesando.",
-    "downloadTraceTooltip": "Descargue el rastreo completo.",
     "closeTraceDetail": "Cerrar detalle de rastreo",
     "invalidQueryConfig": "La configuración de la consulta no es válida. Solucione las anomalías de validación antes de continuar.",
     "errorRateLabel": "Llamadas erróneas (tasa)",
@@ -527,7 +526,7 @@
     "showApplicationsScopeWithApplicationLabel": "Mostrando aplicaciones <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> en el contexto de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Mostrando servicios <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> en el contexto de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "Sin servicios todavía",
-    "servicesNoData": "No hay llamadas de servicio disponibles para el rango de tiempo seleccionado. Para obtener información sobre resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "No hay ninguna llamada de servicio disponible para el rango de tiempo seleccionado. Para obtener información sobre la resolución de problemas, consulte [documentation][Docs].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Lote",
@@ -570,23 +569,14 @@
         "largeTraceLink": "Este es un rastreo de gran tamaño y la representación de este rastreo puede generar problemas de rendimiento en su navegador. Puede <linkToDocs>descargar el rastreo</linkToDocs> para realizar una inspección manual o para intentar visualizar el rastreo en el navegador. Sólo se visualizará un subconjunto de los componentes para mejorar el rendimiento durante este intento.",
         "calls": "Llamadas",
         "erroneousTrace": "Rastreo erróneo",
-        "attemptToRenderTrace": "Intento de visualización del rastreo"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "Información del servicio",
-          "showServiceInformationExpl": "Mostrar información de servicio debajo de la etiqueta de llamada",
-          "showSubCalls": "Mostrar subllamadas",
-          "showSubCallsExpl": "Mostrar subllamadas directas en cada fila"
-        }
+        "attemptToRenderTrace": "Intento de visualización del rastreo",
+        "analyzeBeacons": "Analizar balizas",
+        "adjustedTimeConfig": "El rango de tiempo se ha ajustado para incluir la baliza seleccionada."
       }
     }
   },
   "tabs": {
-    "labelDetail": "Detalle",
-    "labelSummary": "Resumen",
-    "servicesAndEndpoint": "Servicios y puntos finales",
-    "logs": "Registros"
+    "labelDetail": "Detalle"
   },
   "metrics": {
     "calls_calls": "Llamadas",
@@ -598,5 +588,12 @@
     "traces_latency": "Latencia",
     "traces_erroneousCalls": "Rastreos erróneos",
     "traces_errors": "Tasa de rastreos erróneos"
+  },
+  "viewLists": {
+    "application": "Aplicaciones",
+    "services": "Servicios",
+    "errorMessages": "Mensajes de error",
+    "logMessages": "Mensajes de registro",
+    "endpoints": "Puntos finales"
   }
 }
