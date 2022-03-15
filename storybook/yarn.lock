@@ -411,6 +411,11 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@babel/helper-validator-identifier/-/helper-validator-identifier-7.15.7.tgz#220df993bfe904a4a6b02ab4f3385a5ebf6e2389"
   integrity sha1-Ig35k7/pBKSmsCq08zhaXr9uI4k=
 
+"@babel/helper-validator-identifier@^7.16.7":
+  version "7.16.7"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@babel/helper-validator-identifier/-/helper-validator-identifier-7.16.7.tgz#e8c602438c4a8195751243da9031d1607d247cad"
+  integrity sha1-6MYCQ4xKgZV1EkPakDHRYH0kfK0=
+
 "@babel/helper-validator-option@^7.12.17":
   version "7.12.17"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@babel/helper-validator-option/-/helper-validator-option-7.12.17.tgz#d1fbf012e1a79b7eebbfdc6d270baaf8d9eb9831"
@@ -1293,6 +1298,14 @@
     debug "^4.1.0"
     globals "^11.1.0"
 
+"@babel/types@^7.0.0", "@babel/types@^7.3.0":
+  version "7.17.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@babel/types/-/types-7.17.0.tgz#a826e368bccb6b3d84acd76acad5c0d87342390b"
+  integrity sha1-qCbjaLzLaz2ErNdqytXA2HNCOQs=
+  dependencies:
+    "@babel/helper-validator-identifier" "^7.16.7"
+    to-fast-properties "^2.0.0"
+
 "@babel/types@^7.12.11", "@babel/types@^7.14.9", "@babel/types@^7.15.4", "@babel/types@^7.15.6":
   version "7.15.6"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@babel/types/-/types-7.15.6.tgz#99abdc48218b2881c058dd0a7ab05b99c9be758f"
@@ -1596,17 +1609,17 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@popperjs/core/-/core-2.10.2.tgz#0798c03351f0dea1a5a4cabddf26a55a7cbee590"
   integrity sha1-B5jAM1Hw3qGlpMq93yalWny+5ZA=
 
-"@storybook/addon-actions@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-actions/-/addon-actions-6.4.13.tgz#3c33cbffb8857f27f528d0e35ae9ba806d95ee0b"
-  integrity sha1-PDPL/7iFfyf1KNDjWum6gG2V7gs=
+"@storybook/addon-actions@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-actions/-/addon-actions-6.4.19.tgz#10631d9c0a6669810264ea7fac3bff7201553084"
+  integrity sha1-EGMdnApmaYECZOp/rDv/cgFVMIQ=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/theming" "6.4.13"
+    "@storybook/theming" "6.4.19"
     core-js "^3.8.2"
     fast-deep-equal "^3.1.3"
     global "^4.4.0"
@@ -1620,18 +1633,18 @@
     util-deprecate "^1.0.2"
     uuid-browser "^3.1.0"
 
-"@storybook/addon-backgrounds@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-backgrounds/-/addon-backgrounds-6.4.13.tgz#e233daa7e5bcf417bfd885e1ad7e2d8d7873e9ad"
-  integrity sha1-4jPap+W89Be/2IXhrX4tjXhz6a0=
+"@storybook/addon-backgrounds@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-backgrounds/-/addon-backgrounds-6.4.19.tgz#76435e2037824bb3a6fed9f7d51b9df34fae8af2"
+  integrity sha1-dkNeIDeCS7Om/tn31Rud80+uivI=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/theming" "6.4.13"
+    "@storybook/theming" "6.4.19"
     core-js "^3.8.2"
     global "^4.4.0"
     memoizerific "^1.11.3"
@@ -1639,28 +1652,28 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/addon-controls@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-controls/-/addon-controls-6.4.13.tgz#7875abb01ddcf893dd915bf2f965f97b53cfae84"
-  integrity sha1-eHWrsB3c+JPdkVvy+WX5e1PProQ=
+"@storybook/addon-controls@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-controls/-/addon-controls-6.4.19.tgz#1ebf74f7b0843ea0eccd319f5295dfa48947a975"
+  integrity sha1-Hr9097CEPqDszTGfUpXfpIlHqXU=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/core-common" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/core-common" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/node-logger" "6.4.13"
-    "@storybook/store" "6.4.13"
-    "@storybook/theming" "6.4.13"
+    "@storybook/node-logger" "6.4.19"
+    "@storybook/store" "6.4.19"
+    "@storybook/theming" "6.4.19"
     core-js "^3.8.2"
     lodash "^4.17.21"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-docs@6.4.13", "@storybook/addon-docs@^6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-docs/-/addon-docs-6.4.13.tgz#7d6990d3afcb4e6334891880ea55da7cab118719"
-  integrity sha1-fWmQ06/LTmM0iRiA6lXafKsRhxk=
+"@storybook/addon-docs@6.4.19", "@storybook/addon-docs@^6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-docs/-/addon-docs-6.4.19.tgz#229deabc74ea478c34fee96b85edb73da439680e"
+  integrity sha1-Ip3qvHTqR4w0/ulrhe23PaQ5aA4=
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/generator" "^7.12.11"
@@ -1671,21 +1684,21 @@
     "@mdx-js/loader" "^1.6.22"
     "@mdx-js/mdx" "^1.6.22"
     "@mdx-js/react" "^1.6.22"
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/builder-webpack4" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/core" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/builder-webpack4" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/core" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/csf-tools" "6.4.13"
-    "@storybook/node-logger" "6.4.13"
-    "@storybook/postinstall" "6.4.13"
-    "@storybook/preview-web" "6.4.13"
-    "@storybook/source-loader" "6.4.13"
-    "@storybook/store" "6.4.13"
-    "@storybook/theming" "6.4.13"
+    "@storybook/csf-tools" "6.4.19"
+    "@storybook/node-logger" "6.4.19"
+    "@storybook/postinstall" "6.4.19"
+    "@storybook/preview-web" "6.4.19"
+    "@storybook/source-loader" "6.4.19"
+    "@storybook/store" "6.4.19"
+    "@storybook/theming" "6.4.19"
     acorn "^7.4.1"
     acorn-jsx "^5.3.1"
     acorn-walk "^7.2.0"
@@ -1700,7 +1713,7 @@
     lodash "^4.17.21"
     nanoid "^3.1.23"
     p-limit "^3.1.0"
-    prettier "<=2.3.0"
+    prettier ">=2.2.1 <=2.3.0"
     prop-types "^15.7.2"
     react-element-to-jsx-string "^14.3.4"
     regenerator-runtime "^0.13.7"
@@ -1709,114 +1722,141 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/addon-essentials@^6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-essentials/-/addon-essentials-6.4.13.tgz#9deec5014dcad4ce58c66e5a6f7bf289cea0f10f"
-  integrity sha1-ne7FAU3K1M5Yxm5ab3vyic6g8Q8=
+"@storybook/addon-essentials@^6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-essentials/-/addon-essentials-6.4.19.tgz#20f6d65270d1f15830fb0631dfcc935fddb95137"
+  integrity sha1-IPbWUnDR8Vgw+wYx38yTX925UTc=
   dependencies:
-    "@storybook/addon-actions" "6.4.13"
-    "@storybook/addon-backgrounds" "6.4.13"
-    "@storybook/addon-controls" "6.4.13"
-    "@storybook/addon-docs" "6.4.13"
-    "@storybook/addon-measure" "6.4.13"
-    "@storybook/addon-outline" "6.4.13"
-    "@storybook/addon-toolbars" "6.4.13"
-    "@storybook/addon-viewport" "6.4.13"
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/node-logger" "6.4.13"
+    "@storybook/addon-actions" "6.4.19"
+    "@storybook/addon-backgrounds" "6.4.19"
+    "@storybook/addon-controls" "6.4.19"
+    "@storybook/addon-docs" "6.4.19"
+    "@storybook/addon-measure" "6.4.19"
+    "@storybook/addon-outline" "6.4.19"
+    "@storybook/addon-toolbars" "6.4.19"
+    "@storybook/addon-viewport" "6.4.19"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/node-logger" "6.4.19"
     core-js "^3.8.2"
     regenerator-runtime "^0.13.7"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-measure@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-measure/-/addon-measure-6.4.13.tgz#dcf2f3f791f662a35a1331f8133d1c3bae3b823b"
-  integrity sha1-3PLz95H2YqNaEzH4Ez0cO647gjs=
+"@storybook/addon-measure@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-measure/-/addon-measure-6.4.19.tgz#cd648a3d07b84505863f6d9918c6023a2921a596"
+  integrity sha1-zWSKPQe4RQWGP22ZGMYCOikhpZY=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
     core-js "^3.8.2"
     global "^4.4.0"
 
-"@storybook/addon-outline@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-outline/-/addon-outline-6.4.13.tgz#891955b0d88de843863d3e5860f29754bc98144b"
-  integrity sha1-iRlVsNiN6EOGPT5YYPKXVLyYFEs=
+"@storybook/addon-outline@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-outline/-/addon-outline-6.4.19.tgz#07990749de4286c525593cc74d49fbb120f7cf22"
+  integrity sha1-B5kHSd5ChsUlWTzHTUn7sSD3zyI=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
     core-js "^3.8.2"
     global "^4.4.0"
     regenerator-runtime "^0.13.7"
     ts-dedent "^2.0.0"
 
-"@storybook/addon-toolbars@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-toolbars/-/addon-toolbars-6.4.13.tgz#c28fb72897709f689cda3675d3c0a4c26a6fe20d"
-  integrity sha1-wo+3KJdwn2ic2jZ108Ckwmpv4g0=
+"@storybook/addon-storyshots@^6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-storyshots/-/addon-storyshots-6.4.19.tgz#ff7251c077c6abf8533e9323185dec76dc7a7473"
+  integrity sha1-/3JRwHfGq/hTPpMjGF3sdtx6dHM=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/theming" "6.4.13"
+    "@jest/transform" "^26.6.2"
+    "@storybook/addons" "6.4.19"
+    "@storybook/babel-plugin-require-context-hook" "1.0.1"
+    "@storybook/client-api" "6.4.19"
+    "@storybook/core" "6.4.19"
+    "@storybook/core-client" "6.4.19"
+    "@storybook/core-common" "6.4.19"
+    "@storybook/csf" "0.0.2--canary.87bc651.0"
+    "@types/glob" "^7.1.3"
+    "@types/jest" "^26.0.16"
+    "@types/jest-specific-snapshot" "^0.5.3"
+    core-js "^3.8.2"
+    glob "^7.1.6"
+    global "^4.4.0"
+    jest-specific-snapshot "^4.0.0"
+    preact-render-to-string "^5.1.19"
+    pretty-format "^26.6.2"
+    react-test-renderer "^16.8.0 || ^17.0.0"
+    read-pkg-up "^7.0.1"
+    regenerator-runtime "^0.13.7"
+    ts-dedent "^2.0.0"
+
+"@storybook/addon-toolbars@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-toolbars/-/addon-toolbars-6.4.19.tgz#75a8d531c0f7bfda1c6c97d19bf95fdd2ad54d3f"
+  integrity sha1-dajVMcD3v9ocbJfRm/lf3SrVTT8=
+  dependencies:
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/theming" "6.4.19"
     core-js "^3.8.2"
     regenerator-runtime "^0.13.7"
 
-"@storybook/addon-viewport@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-viewport/-/addon-viewport-6.4.13.tgz#0307e7664ef1c791d5f0f28e11e229d2cc7c35c1"
-  integrity sha1-AwfnZk7xx5HV8PKOEeIp0sx8NcE=
+"@storybook/addon-viewport@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addon-viewport/-/addon-viewport-6.4.19.tgz#08702f5c2103c8ec5bc69344c06b85553949d274"
+  integrity sha1-CHAvXCEDyOxbxpNEwGuFVTlJ0nQ=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/core-events" "6.4.13"
-    "@storybook/theming" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/core-events" "6.4.19"
+    "@storybook/theming" "6.4.19"
     core-js "^3.8.2"
     global "^4.4.0"
     memoizerific "^1.11.3"
     prop-types "^15.7.2"
     regenerator-runtime "^0.13.7"
 
-"@storybook/addons@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addons/-/addons-6.4.13.tgz#df35a7ad908018125eb817ec6a3af05fac09543a"
-  integrity sha1-3zWnrZCAGBJeuBfsajrwX6wJVDo=
+"@storybook/addons@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/addons/-/addons-6.4.19.tgz#797d912b8b5a86cd6e0d31fa4c42d1f80808a432"
+  integrity sha1-eX2RK4tahs1uDTH6TELR+AgIpDI=
   dependencies:
-    "@storybook/api" "6.4.13"
-    "@storybook/channels" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/api" "6.4.19"
+    "@storybook/channels" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/router" "6.4.13"
-    "@storybook/theming" "6.4.13"
+    "@storybook/router" "6.4.19"
+    "@storybook/theming" "6.4.19"
     "@types/webpack-env" "^1.16.0"
     core-js "^3.8.2"
     global "^4.4.0"
     regenerator-runtime "^0.13.7"
 
-"@storybook/api@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/api/-/api-6.4.13.tgz#bf5ced25a31c4c76432fd57a133406f8e2a1ce45"
-  integrity sha1-v1ztJaMcTHZDL9V6EzQG+OKhzkU=
+"@storybook/api@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/api/-/api-6.4.19.tgz#8000a0e4c52c39b910b4ccc6731419e8e71800ef"
+  integrity sha1-gACg5MUsObkQtMzGcxQZ6OcYAO8=
   dependencies:
-    "@storybook/channels" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/channels" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/router" "6.4.13"
+    "@storybook/router" "6.4.19"
     "@storybook/semver" "^7.3.2"
-    "@storybook/theming" "6.4.13"
+    "@storybook/theming" "6.4.19"
     core-js "^3.8.2"
     fast-deep-equal "^3.1.3"
     global "^4.4.0"
@@ -1828,10 +1868,15 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/builder-webpack4@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/builder-webpack4/-/builder-webpack4-6.4.13.tgz#529087b9d64c3634e237f0a837f97fe1db4a564a"
-  integrity sha1-UpCHudZMNjTiN/CoN/l/4dtKVko=
+"@storybook/babel-plugin-require-context-hook@1.0.1":
+  version "1.0.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/babel-plugin-require-context-hook/-/babel-plugin-require-context-hook-1.0.1.tgz#0a4ec9816f6c7296ebc97dd8de3d2b7ae76f2e26"
+  integrity sha1-Ck7JgW9scpbryX3Y3j0reudvLiY=
+
+"@storybook/builder-webpack4@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/builder-webpack4/-/builder-webpack4-6.4.19.tgz#ca8228639be06e50d5f1555b844dd4177e5068ad"
+  integrity sha1-yoIoY5vgblDV8VVbhE3UF35QaK0=
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/plugin-proposal-class-properties" "^7.12.1"
@@ -1854,22 +1899,22 @@
     "@babel/preset-env" "^7.12.11"
     "@babel/preset-react" "^7.12.10"
     "@babel/preset-typescript" "^7.12.7"
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/channel-postmessage" "6.4.13"
-    "@storybook/channels" "6.4.13"
-    "@storybook/client-api" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/core-common" "6.4.13"
-    "@storybook/core-events" "6.4.13"
-    "@storybook/node-logger" "6.4.13"
-    "@storybook/preview-web" "6.4.13"
-    "@storybook/router" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/channel-postmessage" "6.4.19"
+    "@storybook/channels" "6.4.19"
+    "@storybook/client-api" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/core-common" "6.4.19"
+    "@storybook/core-events" "6.4.19"
+    "@storybook/node-logger" "6.4.19"
+    "@storybook/preview-web" "6.4.19"
+    "@storybook/router" "6.4.19"
     "@storybook/semver" "^7.3.2"
-    "@storybook/store" "6.4.13"
-    "@storybook/theming" "6.4.13"
-    "@storybook/ui" "6.4.13"
+    "@storybook/store" "6.4.19"
+    "@storybook/theming" "6.4.19"
+    "@storybook/ui" "6.4.19"
     "@types/node" "^14.0.10"
     "@types/webpack" "^4.41.26"
     autoprefixer "^9.8.6"
@@ -1903,10 +1948,10 @@
     webpack-hot-middleware "^2.25.1"
     webpack-virtual-modules "^0.2.2"
 
-"@storybook/builder-webpack5@^6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/builder-webpack5/-/builder-webpack5-6.4.13.tgz#c1657bcd9e546a6b0510f3b50f1cb8d90f860c42"
-  integrity sha1-wWV7zZ5UamsFEPO1Dxy42Q+GDEI=
+"@storybook/builder-webpack5@^6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/builder-webpack5/-/builder-webpack5-6.4.19.tgz#f9d3cf6e7f7769ec2eba11e226e662e4116da659"
+  integrity sha1-+dPPbn93aewuuhHiJuZi5BFtplk=
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/plugin-proposal-class-properties" "^7.12.1"
@@ -1928,21 +1973,21 @@
     "@babel/preset-env" "^7.12.11"
     "@babel/preset-react" "^7.12.10"
     "@babel/preset-typescript" "^7.12.7"
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/channel-postmessage" "6.4.13"
-    "@storybook/channels" "6.4.13"
-    "@storybook/client-api" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/core-common" "6.4.13"
-    "@storybook/core-events" "6.4.13"
-    "@storybook/node-logger" "6.4.13"
-    "@storybook/preview-web" "6.4.13"
-    "@storybook/router" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/channel-postmessage" "6.4.19"
+    "@storybook/channels" "6.4.19"
+    "@storybook/client-api" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/core-common" "6.4.19"
+    "@storybook/core-events" "6.4.19"
+    "@storybook/node-logger" "6.4.19"
+    "@storybook/preview-web" "6.4.19"
+    "@storybook/router" "6.4.19"
     "@storybook/semver" "^7.3.2"
-    "@storybook/store" "6.4.13"
-    "@storybook/theming" "6.4.13"
+    "@storybook/store" "6.4.19"
+    "@storybook/theming" "6.4.19"
     "@types/node" "^14.0.10"
     babel-loader "^8.0.0"
     babel-plugin-macros "^3.0.1"
@@ -1955,6 +2000,7 @@
     glob-promise "^3.4.0"
     html-webpack-plugin "^5.0.0"
     path-browserify "^1.0.1"
+    process "^0.11.10"
     stable "^0.1.8"
     style-loader "^2.0.0"
     terser-webpack-plugin "^5.0.3"
@@ -1965,51 +2011,51 @@
     webpack-hot-middleware "^2.25.1"
     webpack-virtual-modules "^0.4.1"
 
-"@storybook/channel-postmessage@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/channel-postmessage/-/channel-postmessage-6.4.13.tgz#e299a75db2e572662b9bd7f92bc9eedd2df51dd9"
-  integrity sha1-4pmnXbLlcmYrm9f5K8nu3S31Hdk=
+"@storybook/channel-postmessage@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/channel-postmessage/-/channel-postmessage-6.4.19.tgz#5db4e1188aaa9de05fee3ba6a6b7f3b988cade03"
+  integrity sha1-XbThGIqqneBf7jumprfzuYjK3gM=
   dependencies:
-    "@storybook/channels" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/channels" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     core-js "^3.8.2"
     global "^4.4.0"
     qs "^6.10.0"
     telejson "^5.3.2"
 
-"@storybook/channel-websocket@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/channel-websocket/-/channel-websocket-6.4.13.tgz#6a85b6c846097f3a601038dcd58e8f624a9a3600"
-  integrity sha1-aoW2yEYJfzpgEDjc1Y6PYkqaNgA=
+"@storybook/channel-websocket@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/channel-websocket/-/channel-websocket-6.4.19.tgz#5b2f34f9089966bab66c55721766d3d1803edf2e"
+  integrity sha1-Wy80+QiZZrq2bFVyF2bT0YA+3y4=
   dependencies:
-    "@storybook/channels" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
+    "@storybook/channels" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
     core-js "^3.8.2"
     global "^4.4.0"
     telejson "^5.3.2"
 
-"@storybook/channels@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/channels/-/channels-6.4.13.tgz#d79005f712be7575be093d917c13f3a0033bb44d"
-  integrity sha1-15AF9xK+dXW+CT2RfBPzoAM7tE0=
+"@storybook/channels@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/channels/-/channels-6.4.19.tgz#095bbaee494bf5b03f7cb92d34626f2f5063cb31"
+  integrity sha1-CVu67klL9bA/fLktNGJvL1BjyzE=
   dependencies:
     core-js "^3.8.2"
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/client-api@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/client-api/-/client-api-6.4.13.tgz#7cc59353a1329a6e9fca7247ae255d5ebceb80a4"
-  integrity sha1-fMWTU6Eymm6fynJHriVdXrzrgKQ=
+"@storybook/client-api@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/client-api/-/client-api-6.4.19.tgz#131597e160f112f51240a4e407191053e5ed972f"
+  integrity sha1-ExWX4WDxEvUSQKTkBxkQU+Xtly8=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/channel-postmessage" "6.4.13"
-    "@storybook/channels" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/channel-postmessage" "6.4.19"
+    "@storybook/channels" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/store" "6.4.13"
+    "@storybook/store" "6.4.19"
     "@types/qs" "^6.9.5"
     "@types/webpack-env" "^1.16.0"
     core-js "^3.8.2"
@@ -2024,23 +2070,23 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/client-logger@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/client-logger/-/client-logger-6.4.13.tgz#2467ee13c7f85e9f6c0d9cd64c11ee7a109b060a"
-  integrity sha1-JGfuE8f4Xp9sDZzWTBHuehCbBgo=
+"@storybook/client-logger@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/client-logger/-/client-logger-6.4.19.tgz#b2011ad2fa446cce4a9afdb41974b2a576e9fad2"
+  integrity sha1-sgEa0vpEbM5Kmv20GXSypXbp+tI=
   dependencies:
     core-js "^3.8.2"
     global "^4.4.0"
 
-"@storybook/components@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/components/-/components-6.4.13.tgz#2e7f109ecef63ae0c6f096939d69e26abbb39c6b"
-  integrity sha1-Ln8Qns72OuDG8JaTnWniaruznGs=
+"@storybook/components@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/components/-/components-6.4.19.tgz#084ba21f26a3eeab82f45178de6899688eecb2fc"
+  integrity sha1-CEuiHyaj7quC9FF43miZaI7ssvw=
   dependencies:
     "@popperjs/core" "^2.6.0"
-    "@storybook/client-logger" "6.4.13"
+    "@storybook/client-logger" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/theming" "6.4.13"
+    "@storybook/theming" "6.4.19"
     "@types/color-convert" "^2.0.0"
     "@types/overlayscrollbars" "^1.12.0"
     "@types/react-syntax-highlighter" "11.0.5"
@@ -2062,21 +2108,21 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/core-client@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/core-client/-/core-client-6.4.13.tgz#c25a6f5916f9642c64a9f2aeb9f5f7cee12b053a"
-  integrity sha1-wlpvWRb5ZCxkqfKuufX3zuErBTo=
+"@storybook/core-client@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/core-client/-/core-client-6.4.19.tgz#fc6902c4321ae9e7c2858126172bc0752a84321c"
+  integrity sha1-/GkCxDIa6efChYEmFyvAdSqEMhw=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/channel-postmessage" "6.4.13"
-    "@storybook/channel-websocket" "6.4.13"
-    "@storybook/client-api" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/channel-postmessage" "6.4.19"
+    "@storybook/channel-websocket" "6.4.19"
+    "@storybook/client-api" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/preview-web" "6.4.13"
-    "@storybook/store" "6.4.13"
-    "@storybook/ui" "6.4.13"
+    "@storybook/preview-web" "6.4.19"
+    "@storybook/store" "6.4.19"
+    "@storybook/ui" "6.4.19"
     airbnb-js-shims "^2.2.1"
     ansi-to-html "^0.6.11"
     core-js "^3.8.2"
@@ -2088,10 +2134,10 @@
     unfetch "^4.2.0"
     util-deprecate "^1.0.2"
 
-"@storybook/core-common@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/core-common/-/core-common-6.4.13.tgz#019ce8089d5f3a96c436f208962fbf711ccf8e5c"
-  integrity sha1-AZzoCJ1fOpbENvIIli+/cRzPjlw=
+"@storybook/core-common@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/core-common/-/core-common-6.4.19.tgz#18e6c6095ebd9a94b074529917c693084921d3ca"
+  integrity sha1-GObGCV69mpSwdFKZF8aTCEkh08o=
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/plugin-proposal-class-properties" "^7.12.1"
@@ -2114,7 +2160,7 @@
     "@babel/preset-react" "^7.12.10"
     "@babel/preset-typescript" "^7.12.7"
     "@babel/register" "^7.12.1"
-    "@storybook/node-logger" "6.4.13"
+    "@storybook/node-logger" "6.4.19"
     "@storybook/semver" "^7.3.2"
     "@types/node" "^14.0.10"
     "@types/pretty-hrtime" "^1.0.0"
@@ -2143,29 +2189,29 @@
     util-deprecate "^1.0.2"
     webpack "4"
 
-"@storybook/core-events@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/core-events/-/core-events-6.4.13.tgz#caf1adafd743f8d53a151bc402449f841896cb9c"
-  integrity sha1-yvGtr9dD+NU6FRvEAkSfhBiWy5w=
+"@storybook/core-events@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/core-events/-/core-events-6.4.19.tgz#d2a03156783a3cb9bd9f7ba81a06a798a5c296ae"
+  integrity sha1-0qAxVng6PLm9n3uoGganmKXClq4=
   dependencies:
     core-js "^3.8.2"
 
-"@storybook/core-server@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/core-server/-/core-server-6.4.13.tgz#cbc11d442a8be6f06929c8d655e9b752204ebca9"
-  integrity sha1-y8EdRCqL5vBpKcjWVem3UiBOvKk=
+"@storybook/core-server@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/core-server/-/core-server-6.4.19.tgz#0d1b4b2094749b8bce03e3d01422e14e5fef8e66"
+  integrity sha1-DRtLIJR0m4vOA+PQFCLhTl/vjmY=
   dependencies:
     "@discoveryjs/json-ext" "^0.5.3"
-    "@storybook/builder-webpack4" "6.4.13"
-    "@storybook/core-client" "6.4.13"
-    "@storybook/core-common" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/builder-webpack4" "6.4.19"
+    "@storybook/core-client" "6.4.19"
+    "@storybook/core-common" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/csf-tools" "6.4.13"
-    "@storybook/manager-webpack4" "6.4.13"
-    "@storybook/node-logger" "6.4.13"
+    "@storybook/csf-tools" "6.4.19"
+    "@storybook/manager-webpack4" "6.4.19"
+    "@storybook/node-logger" "6.4.19"
     "@storybook/semver" "^7.3.2"
-    "@storybook/store" "6.4.13"
+    "@storybook/store" "6.4.19"
     "@types/node" "^14.0.10"
     "@types/node-fetch" "^2.5.7"
     "@types/pretty-hrtime" "^1.0.0"
@@ -2198,18 +2244,18 @@
     webpack "4"
     ws "^8.2.3"
 
-"@storybook/core@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/core/-/core-6.4.13.tgz#a317df48d72cb4e7ac9fda6f935be7b2d67f5877"
-  integrity sha1-oxffSNcstOesn9pvk1vnstZ/WHc=
+"@storybook/core@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/core/-/core-6.4.19.tgz#58dd055bcc0ef335e0e0d3f6eca74b4d4d49eba1"
+  integrity sha1-WN0FW8wO8zXg4NP27KdLTU1J66E=
   dependencies:
-    "@storybook/core-client" "6.4.13"
-    "@storybook/core-server" "6.4.13"
+    "@storybook/core-client" "6.4.19"
+    "@storybook/core-server" "6.4.19"
 
-"@storybook/csf-tools@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/csf-tools/-/csf-tools-6.4.13.tgz#393b19f3901784d7c820abbe7379977e7ec5f15c"
-  integrity sha1-OTsZ85AXhNfIIKu+c3mXfn7F8Vw=
+"@storybook/csf-tools@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/csf-tools/-/csf-tools-6.4.19.tgz#28bdea11da17501a8bc4e761b821d7721880eaf6"
+  integrity sha1-KL3qEdoXUBqLxOdhuCHXchiA6vY=
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/generator" "^7.12.11"
@@ -2225,7 +2271,7 @@
     global "^4.4.0"
     js-string-escape "^1.0.1"
     lodash "^4.17.21"
-    prettier "<=2.3.0"
+    prettier ">=2.2.1 <=2.3.0"
     regenerator-runtime "^0.13.7"
     ts-dedent "^2.0.0"
 
@@ -2236,20 +2282,20 @@
   dependencies:
     lodash "^4.17.15"
 
-"@storybook/manager-webpack4@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/manager-webpack4/-/manager-webpack4-6.4.13.tgz#69d6d60818192dc18d6b2dee9548482e8abf6a54"
-  integrity sha1-adbWCBgZLcGNay3ulUhILoq/alQ=
+"@storybook/manager-webpack4@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/manager-webpack4/-/manager-webpack4-6.4.19.tgz#999577afb9b9a57fc478f7c5e5d95d785ea69da3"
+  integrity sha1-mZV3r7m5pX/EePfF5dldeF6mnaM=
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/plugin-transform-template-literals" "^7.12.1"
     "@babel/preset-react" "^7.12.10"
-    "@storybook/addons" "6.4.13"
-    "@storybook/core-client" "6.4.13"
-    "@storybook/core-common" "6.4.13"
-    "@storybook/node-logger" "6.4.13"
-    "@storybook/theming" "6.4.13"
-    "@storybook/ui" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/core-client" "6.4.19"
+    "@storybook/core-common" "6.4.19"
+    "@storybook/node-logger" "6.4.19"
+    "@storybook/theming" "6.4.19"
+    "@storybook/ui" "6.4.19"
     "@types/node" "^14.0.10"
     "@types/webpack" "^4.41.26"
     babel-loader "^8.0.0"
@@ -2278,20 +2324,20 @@
     webpack-dev-middleware "^3.7.3"
     webpack-virtual-modules "^0.2.2"
 
-"@storybook/manager-webpack5@^6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/manager-webpack5/-/manager-webpack5-6.4.13.tgz#618b19859b831831fd004486e38266ae03923cbd"
-  integrity sha1-YYsZhZuDGDH9AESG44JmrgOSPL0=
+"@storybook/manager-webpack5@^6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/manager-webpack5/-/manager-webpack5-6.4.19.tgz#161809337b69e6c4ea6a4eb6f881a32760bbeb60"
+  integrity sha1-FhgJM3tp5sTqak62+IGjJ2C762A=
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/plugin-transform-template-literals" "^7.12.1"
     "@babel/preset-react" "^7.12.10"
-    "@storybook/addons" "6.4.13"
-    "@storybook/core-client" "6.4.13"
-    "@storybook/core-common" "6.4.13"
-    "@storybook/node-logger" "6.4.13"
-    "@storybook/theming" "6.4.13"
-    "@storybook/ui" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/core-client" "6.4.19"
+    "@storybook/core-common" "6.4.19"
+    "@storybook/node-logger" "6.4.19"
+    "@storybook/theming" "6.4.19"
+    "@storybook/ui" "6.4.19"
     "@types/node" "^14.0.10"
     babel-loader "^8.0.0"
     case-sensitive-paths-webpack-plugin "^2.3.0"
@@ -2304,6 +2350,7 @@
     fs-extra "^9.0.1"
     html-webpack-plugin "^5.0.0"
     node-fetch "^2.6.1"
+    process "^0.11.10"
     read-pkg-up "^7.0.1"
     regenerator-runtime "^0.13.7"
     resolve-from "^5.0.0"
@@ -2316,10 +2363,10 @@
     webpack-dev-middleware "^4.1.0"
     webpack-virtual-modules "^0.4.1"
 
-"@storybook/node-logger@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/node-logger/-/node-logger-6.4.13.tgz#67f294e56b5014c81dde542940f9a17f7d74604a"
-  integrity sha1-Z/KU5WtQFMgd3lQpQPmhf310YEo=
+"@storybook/node-logger@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/node-logger/-/node-logger-6.4.19.tgz#554f9efad4e95ce6fa63222d026f43258293c896"
+  integrity sha1-VU+e+tTpXOb6YyItAm9DJYKTyJY=
   dependencies:
     "@types/npmlog" "^4.1.2"
     chalk "^4.1.0"
@@ -2327,24 +2374,24 @@
     npmlog "^5.0.1"
     pretty-hrtime "^1.0.3"
 
-"@storybook/postinstall@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/postinstall/-/postinstall-6.4.13.tgz#508f73e0a2f07ba994554d43daad0f6b49945ffa"
-  integrity sha1-UI9z4KLwe6mUVU1D2q0Pa0mUX/o=
+"@storybook/postinstall@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/postinstall/-/postinstall-6.4.19.tgz#ba9799e30a727e39f51168f9c193aab99ef87bdf"
+  integrity sha1-upeZ4wpyfjn1EWj5wZOquZ74e98=
   dependencies:
     core-js "^3.8.2"
 
-"@storybook/preview-web@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/preview-web/-/preview-web-6.4.13.tgz#14b9e106f3cc00dd411a43be9cd280e5e8a0ecfc"
-  integrity sha1-FLnhBvPMAN1BGkO+nNKA5eig7Pw=
+"@storybook/preview-web@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/preview-web/-/preview-web-6.4.19.tgz#bdfab7b2f760caf72140229dd64fd57617ad000b"
+  integrity sha1-vfq3svdgyvchQCKd1k/VdhetAAs=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/channel-postmessage" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/channel-postmessage" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/store" "6.4.13"
+    "@storybook/store" "6.4.19"
     ansi-to-html "^0.6.11"
     core-js "^3.8.2"
     global "^4.4.0"
@@ -2369,22 +2416,22 @@
     react-docgen-typescript "^2.0.0"
     tslib "^2.0.0"
 
-"@storybook/react@^6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/react/-/react-6.4.13.tgz#f51f2c56dd57554dbb53fdbfd0b5a20a3ad914b8"
-  integrity sha1-9R8sVt1XVU27U/2/0LWiCjrZFLg=
+"@storybook/react@^6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/react/-/react-6.4.19.tgz#1707b785b5a65c867e291ede12113e7fd55f8998"
+  integrity sha1-Fwe3hbWmXIZ+KR7eEhE+f9VfiZg=
   dependencies:
     "@babel/preset-flow" "^7.12.1"
     "@babel/preset-react" "^7.12.10"
     "@pmmmwh/react-refresh-webpack-plugin" "^0.5.1"
-    "@storybook/addons" "6.4.13"
-    "@storybook/core" "6.4.13"
-    "@storybook/core-common" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/core" "6.4.19"
+    "@storybook/core-common" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
-    "@storybook/node-logger" "6.4.13"
+    "@storybook/node-logger" "6.4.19"
     "@storybook/react-docgen-typescript-plugin" "1.0.2-canary.253f8c1.0"
     "@storybook/semver" "^7.3.2"
-    "@storybook/store" "6.4.13"
+    "@storybook/store" "6.4.19"
     "@types/webpack-env" "^1.16.0"
     babel-plugin-add-react-displayname "^0.0.5"
     babel-plugin-named-asset-import "^0.3.1"
@@ -2399,12 +2446,12 @@
     ts-dedent "^2.0.0"
     webpack "4"
 
-"@storybook/router@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/router/-/router-6.4.13.tgz#f83dc12b21906f9a671d4e963cac747972d848c7"
-  integrity sha1-+D3BKyGQb5pnHU6WPKx0eXLYSMc=
+"@storybook/router@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/router/-/router-6.4.19.tgz#e653224dd9a521836bbd2610f604f609a2c77af2"
+  integrity sha1-5lMiTdmlIYNrvSYQ9gT2CaLHevI=
   dependencies:
-    "@storybook/client-logger" "6.4.13"
+    "@storybook/client-logger" "6.4.19"
     core-js "^3.8.2"
     fast-deep-equal "^3.1.3"
     global "^4.4.0"
@@ -2424,30 +2471,30 @@
     core-js "^3.6.5"
     find-up "^4.1.0"
 
-"@storybook/source-loader@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/source-loader/-/source-loader-6.4.13.tgz#ba7b379148885eb53c838e520c7b4882c82e891b"
-  integrity sha1-uns3kUiIXrU8g45SDHtIgsguiRs=
+"@storybook/source-loader@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/source-loader/-/source-loader-6.4.19.tgz#24d134750bc41a13255b2b4a545f2d82613f004f"
+  integrity sha1-JNE0dQvEGhMlWytKVF8tgmE/AE8=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
     core-js "^3.8.2"
     estraverse "^5.2.0"
     global "^4.4.0"
     loader-utils "^2.0.0"
     lodash "^4.17.21"
-    prettier "<=2.3.0"
+    prettier ">=2.2.1 <=2.3.0"
     regenerator-runtime "^0.13.7"
 
-"@storybook/store@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/store/-/store-6.4.13.tgz#afeccc2dfe0126208d869da199f702635858c1e5"
-  integrity sha1-r+zMLf4BJiCNhp2hmfcCY1hYweU=
+"@storybook/store@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/store/-/store-6.4.19.tgz#bf4031499f4d49909d7b691c03cc5ef1ec00ad74"
+  integrity sha1-v0AxSZ9NSZCde2kcA8xe8ewArXQ=
   dependencies:
-    "@storybook/addons" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/core-events" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/core-events" "6.4.19"
     "@storybook/csf" "0.0.2--canary.87bc651.0"
     core-js "^3.8.2"
     fast-deep-equal "^3.1.3"
@@ -2461,15 +2508,15 @@
     ts-dedent "^2.0.0"
     util-deprecate "^1.0.2"
 
-"@storybook/theming@6.4.13", "@storybook/theming@^6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/theming/-/theming-6.4.13.tgz#1a8aadeddb6c3a115f739aa1a4bbd7e65d4a3830"
-  integrity sha1-Goqt7dtsOhFfc5qhpLvX5l1KODA=
+"@storybook/theming@6.4.19", "@storybook/theming@^6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/theming/-/theming-6.4.19.tgz#0a6834d91e0b0eadbb10282e7fb2947e2bbf9e9e"
+  integrity sha1-Cmg02R4LDq27ECguf7KUfiu/np4=
   dependencies:
     "@emotion/core" "^10.1.1"
     "@emotion/is-prop-valid" "^0.8.6"
     "@emotion/styled" "^10.0.27"
-    "@storybook/client-logger" "6.4.13"
+    "@storybook/client-logger" "6.4.19"
     core-js "^3.8.2"
     deep-object-diff "^1.1.0"
     emotion-theming "^10.0.27"
@@ -2479,21 +2526,21 @@
     resolve-from "^5.0.0"
     ts-dedent "^2.0.0"
 
-"@storybook/ui@6.4.13":
-  version "6.4.13"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/ui/-/ui-6.4.13.tgz#79e04f988ca537a4c350fe470ad7c14392794b8b"
-  integrity sha1-eeBPmIylN6TDUP5HCtfBQ5J5S4s=
+"@storybook/ui@6.4.19":
+  version "6.4.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@storybook/ui/-/ui-6.4.19.tgz#1fb9f6cd875ee4937cf9d81ca45d5156800176d1"
+  integrity sha1-H7n2zYde5JN8+dgcpF1RVoABdtE=
   dependencies:
     "@emotion/core" "^10.1.1"
-    "@storybook/addons" "6.4.13"
-    "@storybook/api" "6.4.13"
-    "@storybook/channels" "6.4.13"
-    "@storybook/client-logger" "6.4.13"
-    "@storybook/components" "6.4.13"
-    "@storybook/core-events" "6.4.13"
-    "@storybook/router" "6.4.13"
+    "@storybook/addons" "6.4.19"
+    "@storybook/api" "6.4.19"
+    "@storybook/channels" "6.4.19"
+    "@storybook/client-logger" "6.4.19"
+    "@storybook/components" "6.4.19"
+    "@storybook/core-events" "6.4.19"
+    "@storybook/router" "6.4.19"
     "@storybook/semver" "^7.3.2"
-    "@storybook/theming" "6.4.13"
+    "@storybook/theming" "6.4.19"
     copy-to-clipboard "^3.3.1"
     core-js "^3.8.2"
     core-js-pure "^3.8.2"
@@ -2517,6 +2564,13 @@
   version "1.3.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/anymatch/-/anymatch-1.3.1.tgz#336badc1beecb9dacc38bea2cf32adf627a8421a"
   integrity sha1-M2utwb7sudrMOL6izzKt9ieoQho=
+
+"@types/babel__traverse@^7.0.4":
+  version "7.14.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/babel__traverse/-/babel__traverse-7.14.2.tgz#ffcd470bbb3f8bf30481678fb5502278ca833a43"
+  integrity sha1-/81HC7s/i/MEgWePtVAieMqDOkM=
+  dependencies:
+    "@babel/types" "^7.3.0"
 
 "@types/color-convert@^2.0.0":
   version "2.0.0"
@@ -2555,6 +2609,14 @@
   version "7.1.4"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/glob/-/glob-7.1.4.tgz#ea59e21d2ee5c517914cb4bc8e4153b99e566672"
   integrity sha1-6lniHS7lxReRTLS8jkFTuZ5WZnI=
+  dependencies:
+    "@types/minimatch" "*"
+    "@types/node" "*"
+
+"@types/glob@^7.1.3":
+  version "7.2.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/glob/-/glob-7.2.0.tgz#bc1b5bf3aa92f25bd5dd39f35c57361bdce5b2eb"
+  integrity sha1-vBtb86qS8lvV3TnzXFc2G9zlsus=
   dependencies:
     "@types/minimatch" "*"
     "@types/node" "*"
@@ -2606,6 +2668,29 @@
   integrity sha1-kVP+mLuivVZaY63ZQ21vDX+EaP8=
   dependencies:
     "@types/istanbul-lib-report" "*"
+
+"@types/jest-specific-snapshot@^0.5.3":
+  version "0.5.5"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/jest-specific-snapshot/-/jest-specific-snapshot-0.5.5.tgz#47ce738870be99898ed6d7b08dbf0240c74ae553"
+  integrity sha1-R85ziHC+mYmO1tewjb8CQMdK5VM=
+  dependencies:
+    "@types/jest" "*"
+
+"@types/jest@*":
+  version "27.4.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/jest/-/jest-27.4.0.tgz#037ab8b872067cae842a320841693080f9cb84ed"
+  integrity sha1-A3q4uHIGfK6EKjIIQWkwgPnLhO0=
+  dependencies:
+    jest-diff "^27.0.0"
+    pretty-format "^27.0.0"
+
+"@types/jest@^26.0.16":
+  version "26.0.24"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/jest/-/jest-26.0.24.tgz#943d11976b16739185913a1936e0de0c4a7d595a"
+  integrity sha1-lD0Rl2sWc5GFkToZNuDeDEp9WVo=
+  dependencies:
+    jest-diff "^26.0.0"
+    pretty-format "^26.0.0"
 
 "@types/json-schema@*", "@types/json-schema@^7.0.4", "@types/json-schema@^7.0.8":
   version "7.0.9"
@@ -2672,6 +2757,11 @@
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/parse5/-/parse5-5.0.3.tgz#e7b5aebbac150f8b5fdd4a46e7f0bd8e65e19109"
   integrity sha1-57Wuu6wVD4tf3UpG5/C9jmXhkQk=
 
+"@types/prettier@^2.0.0":
+  version "2.4.3"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/prettier/-/prettier-2.4.3.tgz#a3c65525b91fca7da00ab1a3ac2b5a2a4afbffbf"
+  integrity sha1-o8ZVJbkfyn2gCrGjrCtaKkr7/78=
+
 "@types/pretty-hrtime@^1.0.0":
   version "1.0.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/pretty-hrtime/-/pretty-hrtime-1.0.1.tgz#72a26101dc567b0d68fd956cf42314556e42d601"
@@ -2712,6 +2802,11 @@
   version "0.1.2"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/source-list-map/-/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"
   integrity sha1-AHiDYGP/rxdBI0m7o2QIfgrALsk=
+
+"@types/stack-utils@^2.0.0":
+  version "2.0.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/@types/stack-utils/-/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"
+  integrity sha1-IPGClPeX8iCbX2XI47XI6CYdEnw=
 
 "@types/tapable@^1", "@types/tapable@^1.0.5":
   version "1.0.7"
@@ -3200,6 +3295,11 @@ ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   integrity sha1-7dgDYornHATIWuegkG7a00tkiTc=
   dependencies:
     color-convert "^2.0.1"
+
+ansi-styles@^5.0.0:
+  version "5.2.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/ansi-styles/-/ansi-styles-5.2.0.tgz#07449690ad45777d1924ac2abb2fc8895dba836b"
+  integrity sha1-B0SWkK1Fd30ZJKwquy/IiV26g2s=
 
 ansi-to-html@^0.6.11:
   version "0.6.14"
@@ -4676,6 +4776,16 @@ detect-port@^1.3.0:
     address "^1.0.1"
     debug "^2.6.0"
 
+diff-sequences@^26.6.2:
+  version "26.6.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/diff-sequences/-/diff-sequences-26.6.2.tgz#48ba99157de1923412eed41db6b6d4aa9ca7c0b1"
+  integrity sha1-SLqZFX3hkjQS7tQdtrbUqpynwLE=
+
+diff-sequences@^27.5.1:
+  version "27.5.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/diff-sequences/-/diff-sequences-27.5.1.tgz#eaecc0d327fd68c8d9672a1e64ab8dccb2ef5327"
+  integrity sha1-6uzA0yf9aMjZZyoeZKuNzLLvUyc=
+
 diffie-hellman@^5.0.0:
   version "5.0.3"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/diffie-hellman/-/diffie-hellman-5.0.3.tgz#40e8ee98f55a2149607146921c63e1ae5f3d2875"
@@ -5028,6 +5138,11 @@ escape-string-regexp@^1.0.5:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
 
+escape-string-regexp@^2.0.0:
+  version "2.0.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
+  integrity sha1-owME6Z2qMuI7L9IPUbq9B8/8o0Q=
+
 escodegen@^2.0.0:
   version "2.0.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/escodegen/-/escodegen-2.0.0.tgz#5e32b12833e8aa8fa35e1bf0befa89380484c7dd"
@@ -5131,6 +5246,18 @@ expand-brackets@^2.1.4:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
+
+expect@^26.6.2:
+  version "26.6.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/expect/-/expect-26.6.2.tgz#c6b996bf26bf3fe18b67b2d0f51fc981ba934417"
+  integrity sha1-xrmWvya/P+GLZ7LQ9R/JgbqTRBc=
+  dependencies:
+    "@jest/types" "^26.6.2"
+    ansi-styles "^4.0.0"
+    jest-get-type "^26.3.0"
+    jest-matcher-utils "^26.6.2"
+    jest-message-util "^26.6.2"
+    jest-regex-util "^26.0.0"
 
 express@^4.17.1:
   version "4.17.1"
@@ -6268,6 +6395,13 @@ is-core-module@^2.2.0:
   dependencies:
     has "^1.0.3"
 
+is-core-module@^2.8.1:
+  version "2.8.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/is-core-module/-/is-core-module-2.8.1.tgz#f59fdfca701d5879d0a6b100a40aa1560ce27211"
+  integrity sha1-9Z/fynAdWHnQprEApAqhVgzichE=
+  dependencies:
+    has "^1.0.3"
+
 is-data-descriptor@^0.1.4:
   version "0.1.4"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/is-data-descriptor/-/is-data-descriptor-0.1.4.tgz#0b5ee648388e2c860282e793f1856fec3f301b56"
@@ -6550,6 +6684,36 @@ iterate-value@^1.0.2:
     es-get-iterator "^1.0.2"
     iterate-iterator "^1.0.1"
 
+jest-diff@^26.0.0, jest-diff@^26.6.2:
+  version "26.6.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-diff/-/jest-diff-26.6.2.tgz#1aa7468b52c3a68d7d5c5fdcdfcd5e49bd164394"
+  integrity sha1-GqdGi1LDpo19XF/c381eSb0WQ5Q=
+  dependencies:
+    chalk "^4.0.0"
+    diff-sequences "^26.6.2"
+    jest-get-type "^26.3.0"
+    pretty-format "^26.6.2"
+
+jest-diff@^27.0.0:
+  version "27.5.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-diff/-/jest-diff-27.5.1.tgz#a07f5011ac9e6643cf8a95a462b7b1ecf6680def"
+  integrity sha1-oH9QEayeZkPPipWkYrex7PZoDe8=
+  dependencies:
+    chalk "^4.0.0"
+    diff-sequences "^27.5.1"
+    jest-get-type "^27.5.1"
+    pretty-format "^27.5.1"
+
+jest-get-type@^26.3.0:
+  version "26.3.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-get-type/-/jest-get-type-26.3.0.tgz#e97dc3c3f53c2b406ca7afaed4493b1d099199e0"
+  integrity sha1-6X3Dw/U8K0Bsp6+u1Ek7HQmRmeA=
+
+jest-get-type@^27.5.1:
+  version "27.5.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-get-type/-/jest-get-type-27.5.1.tgz#3cd613c507b0f7ace013df407a1c1cd578bcb4f1"
+  integrity sha1-PNYTxQew96zgE99Aehwc1Xi8tPE=
+
 jest-haste-map@^26.6.2:
   version "26.6.2"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-haste-map/-/jest-haste-map-26.6.2.tgz#dd7e60fe7dc0e9f911a23d79c5ff7fb5c2cafeaa"
@@ -6571,10 +6735,54 @@ jest-haste-map@^26.6.2:
   optionalDependencies:
     fsevents "^2.1.2"
 
+jest-matcher-utils@^26.6.2:
+  version "26.6.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-matcher-utils/-/jest-matcher-utils-26.6.2.tgz#8e6fd6e863c8b2d31ac6472eeb237bc595e53e7a"
+  integrity sha1-jm/W6GPIstMaxkcu6yN7xZXlPno=
+  dependencies:
+    chalk "^4.0.0"
+    jest-diff "^26.6.2"
+    jest-get-type "^26.3.0"
+    pretty-format "^26.6.2"
+
+jest-message-util@^26.6.2:
+  version "26.6.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-message-util/-/jest-message-util-26.6.2.tgz#58173744ad6fc0506b5d21150b9be56ef001ca07"
+  integrity sha1-WBc3RK1vwFBrXSEVC5vlbvABygc=
+  dependencies:
+    "@babel/code-frame" "^7.0.0"
+    "@jest/types" "^26.6.2"
+    "@types/stack-utils" "^2.0.0"
+    chalk "^4.0.0"
+    graceful-fs "^4.2.4"
+    micromatch "^4.0.2"
+    pretty-format "^26.6.2"
+    slash "^3.0.0"
+    stack-utils "^2.0.2"
+
+jest-pnp-resolver@^1.2.2:
+  version "1.2.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-pnp-resolver/-/jest-pnp-resolver-1.2.2.tgz#b704ac0ae028a89108a4d040b3f919dfddc8e33c"
+  integrity sha1-twSsCuAoqJEIpNBAs/kZ393I4zw=
+
 jest-regex-util@^26.0.0:
   version "26.0.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-regex-util/-/jest-regex-util-26.0.0.tgz#d25e7184b36e39fd466c3bc41be0971e821fee28"
   integrity sha1-0l5xhLNuOf1GbDvEG+CXHoIf7ig=
+
+jest-resolve@^26.6.2:
+  version "26.6.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-resolve/-/jest-resolve-26.6.2.tgz#a3ab1517217f469b504f1b56603c5bb541fbb507"
+  integrity sha1-o6sVFyF/RptQTxtWYDxbtUH7tQc=
+  dependencies:
+    "@jest/types" "^26.6.2"
+    chalk "^4.0.0"
+    graceful-fs "^4.2.4"
+    jest-pnp-resolver "^1.2.2"
+    jest-util "^26.6.2"
+    read-pkg-up "^7.0.1"
+    resolve "^1.18.1"
+    slash "^3.0.0"
 
 jest-serializer@^26.6.2:
   version "26.6.2"
@@ -6583,6 +6791,35 @@ jest-serializer@^26.6.2:
   dependencies:
     "@types/node" "*"
     graceful-fs "^4.2.4"
+
+jest-snapshot@^26.3.0:
+  version "26.6.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-snapshot/-/jest-snapshot-26.6.2.tgz#f3b0af1acb223316850bd14e1beea9837fb39c84"
+  integrity sha1-87CvGssiMxaFC9FOG+6pg3+znIQ=
+  dependencies:
+    "@babel/types" "^7.0.0"
+    "@jest/types" "^26.6.2"
+    "@types/babel__traverse" "^7.0.4"
+    "@types/prettier" "^2.0.0"
+    chalk "^4.0.0"
+    expect "^26.6.2"
+    graceful-fs "^4.2.4"
+    jest-diff "^26.6.2"
+    jest-get-type "^26.3.0"
+    jest-haste-map "^26.6.2"
+    jest-matcher-utils "^26.6.2"
+    jest-message-util "^26.6.2"
+    jest-resolve "^26.6.2"
+    natural-compare "^1.4.0"
+    pretty-format "^26.6.2"
+    semver "^7.3.2"
+
+jest-specific-snapshot@^4.0.0:
+  version "4.0.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/jest-specific-snapshot/-/jest-specific-snapshot-4.0.0.tgz#a52a2e223e7576e610dbeaf341207c557ac20554"
+  integrity sha1-pSouIj51duYQ2+rzQSB8VXrCBVQ=
+  dependencies:
+    jest-snapshot "^26.3.0"
 
 jest-util@^26.6.2:
   version "26.6.2"
@@ -6822,7 +7059,7 @@ lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=
 
-loose-envify@^1.0.0, loose-envify@^1.4.0:
+loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8=
@@ -7303,6 +7540,11 @@ nanomatch@^1.2.9:
     regex-not "^1.0.0"
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
+
+natural-compare@^1.4.0:
+  version "1.4.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
+  integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
 negotiator@0.6.2:
   version "0.6.2"
@@ -7819,6 +8061,11 @@ path-parse@^1.0.6:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
   integrity sha1-1i27VnlAXXLEc37FhgDp3c8G0kw=
 
+path-parse@^1.0.7:
+  version "1.0.7"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/path-parse/-/path-parse-1.0.7.tgz#fbc114b60ca42b30d9daf5858e4bd68bbedb6735"
+  integrity sha1-+8EUtgykKzDZ2vWFjkvWi77bZzU=
+
 path-to-regexp@0.1.7:
   version "0.1.7"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/path-to-regexp/-/path-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
@@ -8045,12 +8292,19 @@ postcss@^8.2.15:
     picocolors "^1.0.0"
     source-map-js "^1.0.1"
 
+preact-render-to-string@^5.1.19:
+  version "5.1.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/preact-render-to-string/-/preact-render-to-string-5.1.19.tgz#ffae7c3bd1680be5ecf5991d41fe3023b3051e0e"
+  integrity sha1-/658O9FoC+Xs9ZkdQf4wI7MFHg4=
+  dependencies:
+    pretty-format "^3.8.0"
+
 prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
 
-prettier@<=2.3.0:
+"prettier@>=2.2.1 <=2.3.0":
   version "2.3.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/prettier/-/prettier-2.3.0.tgz#b6a5bf1284026ae640f17f7ff5658a7567fc0d18"
   integrity sha1-tqW/EoQCauZA8X9/9WWKdWf8DRg=
@@ -8070,6 +8324,30 @@ pretty-error@^4.0.0:
   dependencies:
     lodash "^4.17.20"
     renderkid "^3.0.0"
+
+pretty-format@^26.0.0, pretty-format@^26.6.2:
+  version "26.6.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/pretty-format/-/pretty-format-26.6.2.tgz#e35c2705f14cb7fe2fe94fa078345b444120fc93"
+  integrity sha1-41wnBfFMt/4v6U+geDRbREEg/JM=
+  dependencies:
+    "@jest/types" "^26.6.2"
+    ansi-regex "^5.0.0"
+    ansi-styles "^4.0.0"
+    react-is "^17.0.1"
+
+pretty-format@^27.0.0, pretty-format@^27.5.1:
+  version "27.5.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/pretty-format/-/pretty-format-27.5.1.tgz#2181879fdea51a7a5851fb39d920faa63f01d88e"
+  integrity sha1-IYGHn96lGnpYUfs52SD6pj8B2I4=
+  dependencies:
+    ansi-regex "^5.0.1"
+    ansi-styles "^5.0.0"
+    react-is "^17.0.1"
+
+pretty-format@^3.8.0:
+  version "3.8.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/pretty-format/-/pretty-format-3.8.0.tgz#bfbed56d5e9a776645f4b1ff7aa1a3ac4fa3c385"
+  integrity sha1-v77VbV6ad2ZF9LH/eqGjrE+jw4U=
 
 pretty-hrtime@^1.0.3:
   version "1.0.3"
@@ -8352,7 +8630,7 @@ react-inspector@^5.1.0:
     is-dom "^1.0.0"
     prop-types "^15.0.0"
 
-react-is@17.0.2, react-is@^17.0.2:
+react-is@17.0.2, "react-is@^16.12.0 || ^17.0.0", react-is@^17.0.1, react-is@^17.0.2:
   version "17.0.2"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha1-5pHUqOnHiTZWVVOas3J2Kw77VPA=
@@ -8399,6 +8677,14 @@ react-router@6.2.1, react-router@^6.0.0:
   dependencies:
     history "^5.2.0"
 
+react-shallow-renderer@^16.13.1:
+  version "16.14.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/react-shallow-renderer/-/react-shallow-renderer-16.14.1.tgz#bf0d02df8a519a558fd9b8215442efa5c840e124"
+  integrity sha1-vw0C34pRmlWP2bghVELvpchA4SQ=
+  dependencies:
+    object-assign "^4.1.1"
+    react-is "^16.12.0 || ^17.0.0"
+
 react-sizeme@^3.0.1:
   version "3.0.2"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/react-sizeme/-/react-sizeme-3.0.2.tgz#4a2f167905ba8f8b8d932a9e35164e459f9020e4"
@@ -8419,6 +8705,16 @@ react-syntax-highlighter@^13.5.3:
     lowlight "^1.14.0"
     prismjs "^1.21.0"
     refractor "^3.1.0"
+
+"react-test-renderer@^16.8.0 || ^17.0.0":
+  version "17.0.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/react-test-renderer/-/react-test-renderer-17.0.2.tgz#4cd4ae5ef1ad5670fc0ef776e8cc7e1231d9866c"
+  integrity sha1-TNSuXvGtVnD8Dvd26Mx+EjHZhmw=
+  dependencies:
+    object-assign "^4.1.1"
+    react-is "^17.0.2"
+    react-shallow-renderer "^16.13.1"
+    scheduler "^0.20.2"
 
 react-textarea-autosize@^8.3.0:
   version "8.3.3"
@@ -8704,6 +9000,15 @@ resolve@^1.10.0, resolve@^1.12.0, resolve@^1.14.2, resolve@^1.19.0, resolve@^1.3
     is-core-module "^2.2.0"
     path-parse "^1.0.6"
 
+resolve@^1.18.1:
+  version "1.22.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/resolve/-/resolve-1.22.0.tgz#5e0b8c67c15df57a89bdbabe603a002f21731198"
+  integrity sha1-XguMZ8Fd9XqJvbq+YDoALyFzEZg=
+  dependencies:
+    is-core-module "^2.8.1"
+    path-parse "^1.0.7"
+    supports-preserve-symlinks-flag "^1.0.0"
+
 ret@~0.1.10:
   version "0.1.15"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
@@ -8796,6 +9101,14 @@ sane@^4.0.3:
     micromatch "^3.1.4"
     minimist "^1.1.1"
     walker "~1.0.5"
+
+scheduler@^0.20.2:
+  version "0.20.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/scheduler/-/scheduler-0.20.2.tgz#4baee39436e34aa93b4874bddcbf0fe8b8b50e91"
+  integrity sha1-S67jlDbjSqk7SHS93L8P6Li1DpE=
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 schema-utils@2.7.0:
   version "2.7.0"
@@ -9151,6 +9464,13 @@ stable@^0.1.8:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/stable/-/stable-0.1.8.tgz#836eb3c8382fe2936feaf544631017ce7d47a3cf"
   integrity sha1-g26zyDgv4pNv6vVEYxAXzn1Ho88=
 
+stack-utils@^2.0.2:
+  version "2.0.5"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/stack-utils/-/stack-utils-2.0.5.tgz#d25265fca995154659dbbfba3b49254778d2fdd5"
+  integrity sha1-0lJl/KmVFUZZ27+6O0klR3jS/dU=
+  dependencies:
+    escape-string-regexp "^2.0.0"
+
 stackframe@^1.1.1:
   version "1.2.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/stackframe/-/stackframe-1.2.0.tgz#52429492d63c62eb989804c11552e3d22e779303"
@@ -9389,6 +9709,11 @@ supports-color@^8.0.0:
   integrity sha1-zW/BfihQDP9WwbhsCn/UpUpzAFw=
   dependencies:
     has-flag "^4.0.0"
+
+supports-preserve-symlinks-flag@^1.0.0:
+  version "1.0.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
+  integrity sha1-btpL00SjyUrqN21MwxvHcxEDngk=
 
 symbol.prototype.description@^1.0.0:
   version "1.0.4"

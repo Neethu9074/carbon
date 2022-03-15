@@ -9,6 +9,7 @@ import StackTraceBehavior from 'in-applications/analyze/components/TraceDetails/
 
 export default {
   parameters: {
+    storyshots: { disable: true },
     chromatic: { disable: true }
   },
   component: StackTraceBehavior

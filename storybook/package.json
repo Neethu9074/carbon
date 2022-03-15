@@ -6,15 +6,16 @@
   "license": "UNLICENSED",
   "scripts": {},
   "dependencies": {
-    "@storybook/addon-docs": "^6.4.13",
-    "@storybook/addon-essentials": "^6.4.13",
-    "@storybook/react": "^6.4.13",
-    "@storybook/theming": "^6.4.13"
+    "@storybook/addon-docs": "^6.4.19",
+    "@storybook/addon-essentials": "^6.4.19",
+    "@storybook/addon-storyshots": "^6.4.19",
+    "@storybook/react": "^6.4.19",
+    "@storybook/theming": "^6.4.19"
   },
   "devDependencies": {
     "@babel/core": "^7.15.5",
-    "@storybook/builder-webpack5": "^6.4.13",
-    "@storybook/manager-webpack5": "^6.4.13",
+    "@storybook/builder-webpack5": "^6.4.19",
+    "@storybook/manager-webpack5": "^6.4.19",
     "babel-loader": "^8.1.0",
     "chromatic": "^6.4.1",
     "webpack": "5.66.0"
