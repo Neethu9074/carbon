@@ -3,13 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, Field, MapForm } from 'formalistic';
 
+import { ApplicationAlertRule, LogsApplicationAlertRule, StatusCodeApplicationAlertRule } from 'in-types';
+import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
 
-export default function createRuleForm(rule) {
-  const { alertType } = rule;
+/**
+ * StatusCodeApplicationAlertRule has a different structure.
+ * On client side we use an extended form with to store customRange differently
+ */
+export interface StatusCodeRangeLikeApplicationAlertRule extends StatusCodeApplicationAlertRule {
+  statusCode?: {
+    isCustomRange?: boolean;
+    statusCodeStart?: string;
+    statusCodeEnd?: string;
+  };
+}
+
+export default function createRuleForm(rule: ApplicationAlertRule): MapForm | void {
+  const alertType = rule.alertType as ApplicationAlertType;
+
   const baseForm = createBaseForm(rule);
 
   if (alertType === 'errorRate' || alertType === 'throughput') {
@@ -21,15 +36,15 @@ export default function createRuleForm(rule) {
   }
 
   if (alertType === 'logs') {
-    return extendForLogs(baseForm, rule);
+    return extendForLogs(baseForm, rule as LogsApplicationAlertRule);
   }
 
   if (alertType === 'statusCode') {
-    return extendForStatusCode(baseForm, rule);
+    return extendForStatusCode(baseForm, rule as StatusCodeRangeLikeApplicationAlertRule);
   }
 }
 
-function createBaseForm(rule) {
+function createBaseForm(rule: ApplicationAlertRule): MapForm {
   return createMapForm()
     .put(
       'alertType',
@@ -45,7 +60,7 @@ function createBaseForm(rule) {
     );
 }
 
-function extendForSlowness(baseForm, rule) {
+function extendForSlowness(baseForm: MapForm, rule: ApplicationAlertRule): MapForm {
   return baseForm.put(
     'aggregation',
     createField({
@@ -54,7 +69,7 @@ function extendForSlowness(baseForm, rule) {
   );
 }
 
-function extendForLogs(baseForm, rule) {
+function extendForLogs(baseForm: MapForm, rule: LogsApplicationAlertRule): MapForm {
   return baseForm
     .put(
       'operator',
@@ -88,7 +103,7 @@ function extendForLogs(baseForm, rule) {
     );
 }
 
-function extendForStatusCode(baseForm, rule) {
+function extendForStatusCode(baseForm: MapForm, rule: StatusCodeRangeLikeApplicationAlertRule) {
   const statusCodeForm = createMapForm({
     items: {
       statusCodeStart: createField({
@@ -122,8 +137,8 @@ function extendForStatusCode(baseForm, rule) {
       isCustomRange: createField({ value: rule.statusCode?.isCustomRange ?? false })
     },
     validator: items => {
-      const start = items['statusCodeStart'].value;
-      const end = items['statusCodeEnd'].value;
+      const start = (items['statusCodeStart'] as Field<string>).value;
+      const end = (items['statusCodeEnd'] as Field<string>).value;
       if (start > end) {
         return [
           {
