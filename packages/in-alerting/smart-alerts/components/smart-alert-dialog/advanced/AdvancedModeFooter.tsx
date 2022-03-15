@@ -3,11 +3,22 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { MapForm } from 'formalistic';
 import PropTypes from 'prop-types';
 import React from 'react';
 
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { t } from 'in-i18n';
+
+interface AdvancedModeFooterProps {
+  onClose: () => void;
+  onCreate: () => void;
+  additionalValidationCheck: () => boolean;
+  form: MapForm;
+  isSaving?: boolean;
+  editMode?: boolean;
+  migrationMode?: boolean;
+}
 
 export function AdvancedModeFooter({
   onClose,
@@ -18,7 +29,7 @@ export function AdvancedModeFooter({
   additionalValidationCheck,
   editMode,
   migrationMode
-}) {
+}: AdvancedModeFooterProps) {
   return (
     <FormFooter>
       <CancelButton onClick={() => onClose()} />
@@ -42,7 +53,7 @@ export function AdvancedModeFooter({
   );
 }
 
-function getSaveButtonLabel({ editMode, migrationMode }) {
+function getSaveButtonLabel({ editMode, migrationMode }: { editMode?: boolean; migrationMode?: boolean }) {
   if (migrationMode) return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonMigrate');
   if (editMode) return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
   return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
