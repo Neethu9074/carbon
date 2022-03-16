@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { TimeConfig, TagType, BeaconType } from 'in-types/backendCorrections';
+import { TimeConfig, TagType, BeaconType, HasQueryContext } from 'in-types/backendCorrections';
 
 export interface AbstractApplicationAlertConfig {
   readonly alertChannelIds: string[];
@@ -1709,11 +1709,17 @@ export interface GetTechnologyBreakdownQuery extends FilteredQuery {
   readonly granularity?: number;
 }
 
+export interface GetTestResultMetadataQuery extends UiQuery {
+  readonly testid: string;
+  readonly testresultid: string;
+}
+
 export interface GetTestResultQuery extends UiQuery {
   readonly applicationId?: string;
   readonly locationId?: string[];
   readonly metrics: { [index: string]: SyntheticMetricConfiguration };
   readonly order?: Order;
+  readonly pagination?: Pagination;
   readonly serviceId?: string;
   readonly testId: string;
   readonly timeConfig: TimeConfig;
@@ -2923,6 +2929,8 @@ export interface MetricDescription {
 
 export interface MetricMetadata {
   readonly category?: string;
+  readonly crossSeriesAggregations?: AggregationType[];
+  readonly description?: string;
   readonly format?: Formatter;
   readonly id?: string;
   readonly infraTagCategory: InfraTagCategory;
@@ -2969,17 +2977,13 @@ export interface MetricTreeMetric extends MetricTreeNode {
   readonly type: 'METRIC';
 }
 
-export interface MetricTreeMetricBuilder extends MetricTreeNodeBuilder<MetricTreeMetricBuilder, MetricTreeMetric> {
-  readonly allowedAggregations?: AggregationType[];
-}
-
 export interface MetricTreeNode {
   readonly icon?: string;
   readonly label?: string;
   readonly type: 'LEVEL' | 'METRIC';
 }
 
-export interface MetricTreeNodeBuilder<BUILDER_TYPE, RESULT_TYPE> {
+export interface MetricTreeNodeBuilder<B, R> {
   readonly label?: string;
 }
 
@@ -3838,6 +3842,10 @@ export interface SyntheticTypeConfiguration {
   readonly syntheticType: 'BrowserScript' | 'HTTPAction' | 'HTTPScript' | 'WebpageConfiguration' | 'WebpageAction' | 'WebpageScript';
 }
 
+export interface SyntheticUnifiedMetricConfiguration extends UnifiedMetricConfiguration {
+  readonly tagFilters?: TagFilter[];
+}
+
 export interface SystemRule extends AbstractRule {
   readonly systemRuleId: string;
 }
@@ -3952,6 +3960,12 @@ export interface TestResultItem {
   readonly metrics?: { [index: string]: any }[];
   readonly serviceId?: string;
   readonly testId: string;
+}
+
+export interface TestResultMetadata {
+  readonly metadata?: { [index: string]: any };
+  readonly testId: string;
+  readonly testResultId?: string;
 }
 
 export interface ThresholdBounds {
@@ -4778,7 +4792,7 @@ export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISH
 
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
-export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'UNKNOWN';
+export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'SYNTHETICS' | 'UNKNOWN';
 
 export type MetricTreeNodeUnion = MetricTreeLevel | MetricTreeMetric;
 
