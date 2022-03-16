@@ -10,6 +10,7 @@ import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
 import { updateCanvasDimensions } from 'in-components/Chart/canvas';
 import { createCanvas } from 'in-components/Chart/canvasHelper';
 import { copyCanvasInto } from 'in-components/Chart/canvas';
+import { drawCircleWithLine } from './utils';
 
 export default {
   render: ({ metrics, colors, colors100, scale, config, axis }) => {
@@ -26,9 +27,7 @@ export default {
     }
 
     for (let iMetric = metrics.length - 1; iMetric >= 0; iMetric--) {
-      layerBufferCtx.fillStyle = colors[iMetric];
-      layerBufferCtx.strokeStyle = colors100[iMetric];
-      renderDataSeries(config, metrics[iMetric], metricMap, scale, iMetric === 0);
+      renderDataSeries(config, metrics[iMetric], metricMap, scale, iMetric === 0, colors100[iMetric], colors[iMetric]);
     }
 
     const dpr = window.devicePixelRatio;
@@ -50,47 +49,67 @@ function resizeLayerBuffer(config) {
   updateCanvasDimensions(layerBuffer, layerBufferCtx, config.backBufferWidth, config.height, config.devicePixelRatio);
 }
 
-function renderDataSeries(config, dataSeries, metricMap, scale, isLastSeries) {
+function renderDataSeries(config, dataSeries, metricMap, scale, isLastSeries, strokeStyle, fillStyle) {
   const blocks = config.calculateBlocks(dataSeries);
   for (let i = 0; i < blocks.length; i++) {
-    drawBlock(metricMap, config, scale, blocks[i], isLastSeries);
+    drawBlock(metricMap, config, scale, blocks[i], isLastSeries, strokeStyle, fillStyle);
   }
 }
 
-function drawBlock(metricMap, config, scale, block, cutArea) {
+function drawBlock(metricMap, config, scale, block, cutArea, strokeStyle, fillStyle) {
   const firstDataPoint = block[0];
   const lastDataPoint = block[block.length - 1];
   const firstDataPointXPos = config.xScaleBackBuffer.getRange(firstDataPoint[0]);
   const lastDataPointXPos = config.xScaleBackBuffer.getRange(lastDataPoint[0]);
 
-  layerBufferCtx.beginPath();
-  layerBufferCtx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
+  if (block.length === 1) {
+    // a block with a lone data point
+    const { xPos, yPos } = getPosition(firstDataPoint, metricMap, config, scale);
+    drawCircleWithLine({
+      renderingContext: layerBufferCtx,
+      config,
+      xPos,
+      yPos,
+      circleStyle: strokeStyle,
+      lineStyle: fillStyle
+    });
+  } else {
+    layerBufferCtx.fillStyle = fillStyle;
+    layerBufferCtx.strokeStyle = strokeStyle;
+    layerBufferCtx.beginPath();
+    layerBufferCtx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
 
-  for (let i = 1; i < block.length; i++) {
-    const dataPoint = block[i];
-    if (!dataPoint) {
-      continue;
+    for (let i = 1; i < block.length; i++) {
+      const dataPoint = block[i];
+      if (!dataPoint) {
+        continue;
+      }
+
+      const { xPos, yPos } = getPosition(dataPoint, metricMap, config, scale);
+      layerBufferCtx.lineTo(xPos, yPos);
     }
 
-    const time = dataPoint[0];
-
-    let value = dataPoint[1];
-    if (metricMap[time]) {
-      value = metricMap[time];
-      metricMap[time] -= dataPoint[1];
+    layerBufferCtx.stroke();
+    if (cutArea) {
+      layerBufferCtx.globalCompositeOperation = 'destination-out';
     }
-    const xPos = config.xScaleBackBuffer.getRange(time);
-    const yPos = scale.getRange(value);
-    layerBufferCtx.lineTo(xPos, yPos);
+    layerBufferCtx.lineTo(lastDataPointXPos - 1, config.height - config.timeAxisHeight);
+    layerBufferCtx.lineTo(firstDataPointXPos - 1, config.height - config.timeAxisHeight);
+    layerBufferCtx.closePath();
+    layerBufferCtx.fill();
+    layerBufferCtx.globalCompositeOperation = 'source-over';
   }
+}
 
-  layerBufferCtx.stroke();
-  if (cutArea) {
-    layerBufferCtx.globalCompositeOperation = 'destination-out';
+function getPosition(dataPoint, metricMap, config, scale) {
+  const time = dataPoint[0];
+
+  let value = dataPoint[1];
+  if (metricMap[time]) {
+    value = metricMap[time];
+    metricMap[time] -= dataPoint[1];
   }
-  layerBufferCtx.lineTo(lastDataPointXPos - 1, config.height - config.timeAxisHeight);
-  layerBufferCtx.lineTo(firstDataPointXPos - 1, config.height - config.timeAxisHeight);
-  layerBufferCtx.closePath();
-  layerBufferCtx.fill();
-  layerBufferCtx.globalCompositeOperation = 'source-over';
+  const xPos = config.xScaleBackBuffer.getRange(time);
+  const yPos = scale.getRange(value);
+  return { xPos, yPos };
 }
