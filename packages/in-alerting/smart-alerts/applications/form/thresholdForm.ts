@@ -45,7 +45,7 @@ export default function createThresholdForm(
   }
 }
 
-export function createErrorRateForm(threshold: ThresholdConfig): MapForm {
+function createErrorRateForm(threshold: ThresholdConfig): MapForm {
   const thresholdType = threshold.type;
   if (thresholdType === ADAPTIVE_BASELINE) {
     return createAdaptiveBaselineForm(threshold as AdaptiveBaselineData);
@@ -53,7 +53,7 @@ export function createErrorRateForm(threshold: ThresholdConfig): MapForm {
   return createStaticThresholdForm(threshold as StaticThresholdConfig);
 }
 
-export function createLogsForm(threshold: ThresholdConfig): MapForm {
+function createLogsForm(threshold: ThresholdConfig): MapForm {
   const thresholdType = threshold.type;
   if (thresholdType === ADAPTIVE_BASELINE) {
     return createAdaptiveBaselineForm(threshold as AdaptiveBaselineData);
@@ -61,15 +61,15 @@ export function createLogsForm(threshold: ThresholdConfig): MapForm {
   return createStaticThresholdForm(threshold as StaticThresholdConfig);
 }
 
-export function createStatusCodeForm(threshold: ThresholdConfig): MapForm {
+function createStatusCodeForm(threshold: ThresholdConfig): MapForm {
   return createBaselineEnabledForm(threshold);
 }
 
-export function createSlownessForm(threshold: ThresholdConfig): MapForm {
+function createSlownessForm(threshold: ThresholdConfig): MapForm {
   return createBaselineEnabledForm(threshold);
 }
 
-export function createThroughputForm(threshold: ThresholdConfig): MapForm {
+function createThroughputForm(threshold: ThresholdConfig): MapForm {
   return createBaselineEnabledForm(threshold);
 }
 
