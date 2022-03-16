@@ -11,6 +11,7 @@ export default {
   component: UpstreamDownstreamPresenter,
   parameters: {
     // Error creating WebGL context. ... at new WebGLRenderer
+    storyshots: { disable: true },
     chromatic: { disable: true }
   }
 };

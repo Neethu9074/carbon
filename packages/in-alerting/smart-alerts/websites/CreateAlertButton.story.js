@@ -10,6 +10,7 @@ import CreateAlert from 'in-alerting/smart-alerts/websites/CreateAlert';
 export default {
   parameters: {
     // TODO remove after fixing broken story
+    storyshots: { disable: true },
     chromatic: { disable: true }
   },
   component: CreateAlert

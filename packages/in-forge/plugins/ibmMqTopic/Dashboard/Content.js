@@ -21,7 +21,7 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
           <MetricValue snapshotId={snapshotId} metric="messagesCount" formatter={number.compact} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.ibmMqTopic.dashboard.publications')}>
-          <MetricValue snapshotId={snapshotId} metric="publishCount" formatter={number.compact} />
+          <MetricValue snapshotId={snapshotId} metric="publishCount" formatter={number.detailed} />
         </KpiKeyValue>
       </KpiSection>
       <DashboardSection title={t('in-forge:plugins.ibmMqTopic.dashboard.messages')}>
@@ -42,8 +42,8 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
             metrics: [`publishCount`],
             labels: [t('in-forge:plugins.ibmMqTopic.dashboard.count')],
             type: 'line'
@@ -55,8 +55,8 @@ export default function IbmMqTopicDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
             metrics: [`subscriptionCount`],
             labels: [t('in-forge:plugins.ibmMqTopic.dashboard.count')],
             type: 'line'

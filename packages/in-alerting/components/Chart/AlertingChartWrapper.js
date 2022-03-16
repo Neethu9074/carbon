@@ -37,7 +37,7 @@ export default connectTo(
             }
           : mergeResult({
               timeConfig: props.timeConfig,
-              result: applyPostProcessing(metrics, props.postProcessMetric, props.timeConfig, props.granularity),
+              result: applyPostProcessing(metrics, props.postProcessMetric, props.granularity),
               y1: props.y1,
               thresholdType: props.thresholdType,
               setMetricResultPrecision: props.setMetricResultPrecision

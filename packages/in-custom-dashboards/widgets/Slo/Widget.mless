@@ -6,6 +6,11 @@
 @import '~in-themes/active.less';
 
 :local {
+  .loadingBarContainer {
+    width: 100%;
+    height: 100%;
+  }
+
   .bodyNoPadding {
     padding: 0;
   }

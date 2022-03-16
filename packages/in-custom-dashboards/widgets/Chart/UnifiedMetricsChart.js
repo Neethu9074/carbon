@@ -77,16 +77,17 @@ export default function UnifiedMetricsChart({
   );
   useEffect(() => setTimeConfigExtendedForLiveMode(extendWindowSizeOnLiveMode(timeConfig)), [timeConfig]);
 
+  const resolvedConfig = configureChart(config, timeConfig);
   const suggestedNumberOfDataPoints =
-    (forceLoadingIndicator ? null : getSuggestedNumberOfDataPoints(config)) || defaultNumberOfSuggestedDatapoints;
+    (forceLoadingIndicator ? null : resolvedConfig.suggestedNumberOfDataPoints) || defaultNumberOfSuggestedDatapoints;
   const configuredGranularity = forceLoadingIndicator
     ? null
     : config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode, suggestedNumberOfDataPoints);
-  const minimumGranularity = forceLoadingIndicator ? null : getMinGranularity(config, timeConfig);
+  const minimumGranularity = forceLoadingIndicator ? null : resolvedConfig.minGranularity;
   const granularity = forceLoadingIndicator ? null : Math.max(minimumGranularity, configuredGranularity);
   let result =
     useResultData(config, granularity, timeConfigExtendedForLiveMode, forceLoadingIndicator) ?? pendingResult;
-  const renderErrorDetail = shouldRenderErrorDetail(config);
+  const renderErrorDetail = resolvedConfig.shouldRenderErrorDetail;
 
   // Transform result data structure into the structure expected by the chart
   let resultDataAsList = result?.data;
@@ -324,30 +325,24 @@ function toMetricsConfiguration(config, resultDataAsList) {
   }
 }
 
-function shouldRenderErrorDetail(config) {
-  return getAllMetricSources(config).reduce((a, source) => a || source.renderErrorDetail, false);
+function configureChart(config, timeConfig) {
+  const metrics = getAllMetrics(config);
+  return metrics.reduce((acc, metric) => {
+    return sources[metric.source]?.configureChart?.(acc, timeConfig, metric) ?? acc;
+  }, initialChartConfig);
 }
 
-function getSuggestedNumberOfDataPoints(config) {
-  return getAllMetricSources(config)
-    .map(source => source.suggestedNumberOfDataPoints ?? defaultNumberOfSuggestedDatapoints)
-    .reduce((a, m) => Math.max(a, m), 0);
-}
+const initialChartConfig = {
+  renderErrorDetail: false,
+  suggestedNumberOfDataPoints: defaultNumberOfSuggestedDatapoints,
+  minGranularity: 0
+};
 
-function getMinGranularity(config, timeConfig) {
-  return getAllMetricSources(config)
-    .map(source => source.getMinGranularity?.(timeConfig) ?? 0)
-    .reduce((a, m) => Math.max(a, m), 0);
-}
-
-function getAllMetricSources(config) {
-  if (config) {
-    return config.y1.metrics
-      .concat(config.y2?.metrics ?? [])
-      .map(c => sources[c.source])
-      .filter(Boolean);
+function getAllMetrics(config) {
+  if (!config) {
+    return [];
   }
-  return [];
+  return config.y1.metrics.concat(config.y2?.metrics ?? []);
 }
 
 // For charts in custom dashboards we support a feature called "Display Current Values".

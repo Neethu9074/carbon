@@ -4497,9 +4497,9 @@
     },
     "ceph": {
       "infoProcessID": "Process ID",
-      "infoClusterName": "ClusterName",
+      "infoClusterName": "Cluster Name",
       "infoVersion": "Version",
-      "infoFsid": "Fsid",
+      "infoFsid": "File System ID (fsid)",
       "labelOverallStatus": "Overall Status",
       "labelActiveMonitors": "Active Monitors",
       "labelNumberOfMonitors": "Number of monitors",

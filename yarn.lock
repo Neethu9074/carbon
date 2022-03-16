@@ -2944,6 +2944,11 @@ babel-plugin-react-docgen@^4.1.0:
     lodash "^4.17.15"
     react-docgen "^5.0.0"
 
+babel-plugin-require-context-hook@1.0.0:
+  version "1.0.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/babel-plugin-require-context-hook/-/babel-plugin-require-context-hook-1.0.0.tgz#3f0e7cce87c338f53639b948632fd4e73834632d"
+  integrity sha1-Pw58zofDOPU2OblIYy/U5zg0Yy0=
+
 babel-plugin-syntax-class-properties@^6.8.0:
   version "6.13.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/babel-plugin-syntax-class-properties/-/babel-plugin-syntax-class-properties-6.13.0.tgz#d7eb23b79a317f8543962c505b827c7d6cac27de"
@@ -3466,7 +3471,7 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-db/-/caniuse-db-1.0.30001278.tgz#93faad7b20164754cc1302dac5dc36dfa44e2758"
   integrity sha1-k/qteyAWR1TMEwLaxdw236ROJ1g=
 
-caniuse-lite@^1.0.30001272, caniuse-lite@^1.0.30001280:
+caniuse-lite@^1.0.30001272:
   version "1.0.30001283"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001283.tgz#8573685bdae4d733ef18f78d44ba0ca5fe9e896b"
   integrity sha1-hXNoW9rk1zPvGPeNRLoMpf6eiWs=
@@ -3475,6 +3480,11 @@ caniuse-lite@^1.0.30001274:
   version "1.0.30001278"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001278.tgz#51cafc858df77d966b17f59b5839250b24417fff"
   integrity sha1-Ucr8hY33fZZrF/WbWDklCyRBf/8=
+
+caniuse-lite@^1.0.30001280:
+  version "1.0.30001286"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/caniuse-lite/-/caniuse-lite-1.0.30001286.tgz#3e9debad420419618cfdf52dc9b6572b28a8fff6"
+  integrity sha1-Pp3rrUIEGWGM/fUtybZXKyio//Y=
 
 case-sensitive-paths-webpack-plugin@^2.3.0:
   version "2.4.0"
@@ -4401,7 +4411,7 @@ debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.2.0, debug@^4.3.1:
   dependencies:
     ms "2.1.2"
 
-debug@^3.1.1, debug@^3.2.6, debug@^3.2.7:
+debug@^3.1.1, debug@^3.2.7:
   version "3.2.7"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/debug/-/debug-3.2.7.tgz#72580b7e9145fb39b6676f9c5e5fb100b934179a"
   integrity sha1-clgLfpFF+zm2Z2+cXl+xALk0F5o=
@@ -4894,9 +4904,9 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.886:
   integrity sha1-C3xvdihVlZLVQG3tooF4jzcQd5A=
 
 electron-to-chromium@^1.3.896:
-  version "1.4.3"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/electron-to-chromium/-/electron-to-chromium-1.4.3.tgz#82480df3ef607f04bb38cc3f30a628d8b895339f"
-  integrity sha1-gkgN8+9gfwS7OMw/MKYo2LiVM58=
+  version "1.4.15"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/electron-to-chromium/-/electron-to-chromium-1.4.15.tgz#4bd144d9d13f8b375c65e1a593e7f4a90bd01b90"
+  integrity sha1-S9FE2dE/izdcZeGlk+f0qQvQG5A=
 
 emittery@^0.8.1:
   version "0.8.1"
@@ -5417,7 +5427,7 @@ events@^3.2.0:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha1-Mala0Kkk4tLEGagTrrLE6HjqdAA=
 
-eventsource@^1.0.7:
+eventsource@^1.1.0:
   version "1.1.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/eventsource/-/eventsource-1.1.0.tgz#00e8ca7c92109e94b0ddf32dac677d841028cfaf"
   integrity sha1-AOjKfJIQnpSw3fMtrGd9hBAoz68=
@@ -5707,7 +5717,7 @@ favico.js@^0.3.10:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/favico.js/-/favico.js-0.3.10.tgz#80586e27a117f24a8d51c18a99bdc714d4339301"
   integrity sha1-gFhuJ6EX8kqNUcGKmb3HFNQzkwE=
 
-faye-websocket@^0.11.3:
+faye-websocket@^0.11.3, faye-websocket@^0.11.4:
   version "0.11.4"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/faye-websocket/-/faye-websocket-0.11.4.tgz#7f0d9275cfdd86a1c963dc8b65fcc451edcbb1da"
   integrity sha1-fw2Sdc/dhqHJY9yLZfzEUe3Lsdo=
@@ -8393,11 +8403,6 @@ json-stable-stringify-without-jsonify@^1.0.1:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/json-stable-stringify-without-jsonify/-/json-stable-stringify-without-jsonify-1.0.1.tgz#9db7b59496ad3f3cfef30a75142d2d930ad72651"
   integrity sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
 
-json3@^3.3.3:
-  version "3.3.3"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/json3/-/json3-3.3.3.tgz#7fc10e375fc5ae42c4705a5cc0aa6f62be305b81"
-  integrity sha1-f8EON1/FrkLEcFpcwKpvYr4wW4E=
-
 json5@^1.0.1:
   version "1.0.1"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/json5/-/json5-1.0.1.tgz#779fb0018604fa854eacbf6252180d83543e3dbe"
@@ -9154,14 +9159,14 @@ mime-db@1.51.0:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/mime-db/-/mime-db-1.51.0.tgz#d9ff62451859b18342d960850dc3cfb77e63fb0c"
   integrity sha1-2f9iRRhZsYNC2WCFDcPPt35j+ww=
 
-mime-types@^2.1.12, mime-types@~2.1.17:
+mime-types@^2.1.12, mime-types@~2.1.17, mime-types@~2.1.24:
   version "2.1.33"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/mime-types/-/mime-types-2.1.33.tgz#1fa12a904472fafd068e48d9e8401f74d3f70edb"
   integrity sha1-H6EqkERy+v0GjkjZ6EAfdNP3Dts=
   dependencies:
     mime-db "1.50.0"
 
-mime-types@^2.1.27, mime-types@^2.1.31, mime-types@~2.1.24:
+mime-types@^2.1.27, mime-types@^2.1.31:
   version "2.1.34"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/mime-types/-/mime-types-2.1.34.tgz#5a712f9ec1503511a945803640fafe09d3793c24"
   integrity sha1-WnEvnsFQNRGpRYA2QPr+CdN5PCQ=
@@ -9172,11 +9177,6 @@ mime@1.6.0, mime@^1.4.1:
   version "1.6.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
   integrity sha1-Ms2eXGRVO9WNGaVor0Uqz/BJgbE=
-
-mime@^2.3.1:
-  version "2.6.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/mime/-/mime-2.6.0.tgz#a2a682a95cd4d0cb1d6257e28f83da7e35800367"
-  integrity sha1-oqaCqVzU0MsdYlfij4PafjWAA2c=
 
 mimic-fn@^2.1.0:
   version "2.1.0"
@@ -9304,6 +9304,11 @@ mozjpeg@^6.0.0:
     bin-build "^3.0.0"
     bin-wrapper "^4.0.0"
     logalot "^2.1.0"
+
+mrmime@^1.0.0:
+  version "1.0.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/mrmime/-/mrmime-1.0.0.tgz#14d387f0585a5233d291baba339b063752a2398b"
+  integrity sha1-FNOH8FhaUjPSkbq6M5sGN1KiOYs=
 
 ms@2.0.0:
   version "2.0.0"
@@ -10521,7 +10526,15 @@ postcss-selector-parser@^2.0.0, postcss-selector-parser@^2.2.2:
     indexes-of "^1.0.1"
     uniq "^1.0.1"
 
-postcss-selector-parser@^6.0.2, postcss-selector-parser@^6.0.4:
+postcss-selector-parser@^6.0.2:
+  version "6.0.7"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/postcss-selector-parser/-/postcss-selector-parser-6.0.7.tgz#48404830a635113a71fd79397de8209ed05a66fc"
+  integrity sha1-SEBIMKY1ETpx/Xk5feggntBaZvw=
+  dependencies:
+    cssesc "^3.0.0"
+    util-deprecate "^1.0.2"
+
+postcss-selector-parser@^6.0.4:
   version "6.0.6"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/postcss-selector-parser/-/postcss-selector-parser-6.0.6.tgz#2c5bba8174ac2f6981ab631a42ab0ee54af332ea"
   integrity sha1-LFu6gXSsL2mBq2MaQqsO5UrzMuo=
@@ -10554,9 +10567,9 @@ postcss-value-parser@^3.0.1, postcss-value-parser@^3.0.2, postcss-value-parser@^
   integrity sha1-n/giVH4okyE88cMO+lGsX9G6goE=
 
 postcss-value-parser@^4.1.0:
-  version "4.1.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/postcss-value-parser/-/postcss-value-parser-4.1.0.tgz#443f6a20ced6481a2bda4fa8532a6e55d789a2cb"
-  integrity sha1-RD9qIM7WSBor2k+oUypuVdeJoss=
+  version "4.2.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
+  integrity sha1-cjwJkgg2um0+WvAZ+SvAlxwC5RQ=
 
 postcss-zindex@^2.0.1:
   version "2.2.0"
@@ -10637,9 +10650,9 @@ prism-react-renderer@^1.2.1:
   integrity sha1-OSRgrPY1QJYOXjyqaZ2FEmTpm4k=
 
 prismjs@^1.24.1:
-  version "1.26.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/prismjs/-/prismjs-1.26.0.tgz#16881b594828bb6b45296083a8cbab46b0accd47"
-  integrity sha1-FogbWUgou2tFKWCDqMurRrCszUc=
+  version "1.25.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/prismjs/-/prismjs-1.25.0.tgz#6f822df1bdad965734b310b315a23315cf999756"
+  integrity sha1-b4It8b2tllc0sxCzFaIzFc+Zl1Y=
 
 process-nextick-args@^2.0.0, process-nextick-args@~2.0.0:
   version "2.0.1"
@@ -11892,12 +11905,12 @@ sinon@^7.3.2:
     supports-color "^5.5.0"
 
 sirv@^1.0.7:
-  version "1.0.18"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/sirv/-/sirv-1.0.18.tgz#105fab52fb656ce8a2bebbf36b11052005952899"
-  integrity sha1-EF+rUvtlbOiivrvzaxEFIAWVKJk=
+  version "1.0.19"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/sirv/-/sirv-1.0.19.tgz#1d73979b38c7fe91fcba49c85280daa9c2363b49"
+  integrity sha1-HXOXmzjH/pH8uknIUoDaqcI2O0k=
   dependencies:
     "@polka/url" "^1.0.0-next.20"
-    mime "^2.3.1"
+    mrmime "^1.0.0"
     totalist "^1.0.0"
 
 sisteransi@^1.0.5:
@@ -11963,17 +11976,16 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-sockjs-client@^1.5.1:
-  version "1.5.2"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/sockjs-client/-/sockjs-client-1.5.2.tgz#4bc48c2da9ce4769f19dc723396b50f5c12330a3"
-  integrity sha1-S8SMLanOR2nxnccjOWtQ9cEjMKM=
+sockjs-client@^1.6.0:
+  version "1.6.0"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/sockjs-client/-/sockjs-client-1.6.0.tgz#e0277b8974558edcb557eafc7d3027ef6128d865"
+  integrity sha1-4Cd7iXRVjty1V+r8fTAn72Eo2GU=
   dependencies:
-    debug "^3.2.6"
-    eventsource "^1.0.7"
-    faye-websocket "^0.11.3"
+    debug "^3.2.7"
+    eventsource "^1.1.0"
+    faye-websocket "^0.11.4"
     inherits "^2.0.4"
-    json3 "^3.3.3"
-    url-parse "^1.5.3"
+    url-parse "^1.5.10"
 
 sockjs@^0.3.21:
   version "0.3.21"
@@ -13104,10 +13116,18 @@ url-parse-lax@^3.0.0:
   dependencies:
     prepend-http "^2.0.0"
 
-url-parse@^1.4.3, url-parse@^1.5.3:
+url-parse@^1.4.3:
   version "1.5.3"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/url-parse/-/url-parse-1.5.3.tgz#71c1303d38fb6639ade183c2992c8cc0686df862"
   integrity sha1-ccEwPTj7Zjmt4YPCmSyMwGht+GI=
+  dependencies:
+    querystringify "^2.1.1"
+    requires-port "^1.0.0"
+
+url-parse@^1.5.10:
+  version "1.5.10"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/url-parse/-/url-parse-1.5.10.tgz#9d3c2f736c1d75dd3bd2be507dcc111f1e2ea9c1"
+  integrity sha1-nTwvc2wddd070r5QfcwRHx4uqcE=
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"

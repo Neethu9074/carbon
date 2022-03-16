@@ -3,53 +3,55 @@
  * (c) Copyright Instana Inc.
  */
 
-import { TimeConfig } from 'in-types';
-
 export interface AdjustedTimeframe {
   to: number;
   from: number;
   numBuckets: number;
 }
 
-type Metrics = { data?: Record<string, Metric[]> };
+type Metrics = { data?: Record<string, Metric[]>; time: number; adjustedWindowSize: number };
 type Metric = [MetricTimestamp, MetricValue];
 type MetricTimestamp = number;
 type MetricValue = number;
 
 type MetricPostProcessor =
-  | ((metric: Metric[], timeConfig: TimeConfig, granularity: number) => Metric[])
+  | ((metric: Metric[], granularity: number, toTime: number, adjustedWindowSize: number) => Metric[])
   | false
   | undefined;
 
 export function applyPostProcessing<T extends Metrics>(
-  metrics: T,
+  metricsResult: T,
   postProcessMetric: MetricPostProcessor,
-  timeConfig: TimeConfig,
   granularity: number
 ): T {
-  if (postProcessMetric && metrics.data) {
-    const processedMetricsData: Record<string, Metric[]> = {};
-
-    Object.entries(metrics.data).reduce((resultMap, [metricName, metrics]) => {
-      resultMap[metricName] = postProcessMetric(metrics, timeConfig, granularity);
-      return resultMap;
-    }, processedMetricsData);
+  if (postProcessMetric && metricsResult.data) {
+    const processedMetricsData: Record<string, Metric[]> = Object.entries(metricsResult.data).reduce(
+      (resultMap: Record<string, Metric[]>, [metricName, metrics]) => {
+        resultMap[metricName] = postProcessMetric(
+          metrics,
+          granularity,
+          metricsResult.time,
+          metricsResult.adjustedWindowSize
+        );
+        return resultMap;
+      },
+      {}
+    );
 
     return {
-      ...metrics,
+      ...metricsResult,
       data: processedMetricsData
     };
   }
-  return metrics;
+  return metricsResult;
 }
 
 /**
  * Because the backend metrics API does not provide the capability yet to define the filling behaviour of missing values, we are
  * applying zero filling in the client side. This could be removed as soon as the metric APIs provide such a capability.
  */
-export const zeroFillMetric: MetricPostProcessor = (metricData, timeConfig, granularity) => {
-  const { windowSize, to } = timeConfig;
-  const adjustedTimeframe = getAdjustedTimeframe(to ?? Date.now(), windowSize, granularity);
+export const zeroFillMetric: MetricPostProcessor = (metricData, granularity, toTime, adjustedWindowSize) => {
+  const adjustedTimeframe = getAdjustedTimeframe(toTime, adjustedWindowSize, granularity);
 
   if (metricData.length === adjustedTimeframe.numBuckets) {
     // do not modify the metric data when it is already complete

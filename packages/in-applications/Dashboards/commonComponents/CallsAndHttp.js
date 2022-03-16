@@ -57,7 +57,7 @@ const allMetrics = [
   },
   {
     id: 'nonHttp',
-    label: t('in-applications:labelOther'),
+    label: t('in-applications:labelNonHttp'),
     value: 'calls',
     tab: tabHttpStatusCodes.id
   },
@@ -76,7 +76,7 @@ const allMetrics = [
   }
 ];
 
-const allMetricsWithoutHttpOther = allMetrics.filter(metric => metric.id !== 'nonHttp');
+const allMetricsWithoutNonHttp = allMetrics.filter(metric => metric.id !== 'nonHttp');
 const allMetricsWithoutHttp = allMetrics.filter(m => m.tab !== tabHttpStatusCodes.id);
 
 export default function CallsAndHttp({
@@ -96,11 +96,7 @@ export default function CallsAndHttp({
   syntheticCalls
 }) {
   const tabs = showHttp ? allTabs : callsOnlyTab;
-  const metrics = showHttp
-    ? hasHttpAndOtherEndpoints
-      ? allMetrics
-      : allMetricsWithoutHttpOther
-    : allMetricsWithoutHttp;
+  const metrics = showHttp ? (hasHttpAndOtherEndpoints ? allMetrics : allMetricsWithoutNonHttp) : allMetricsWithoutHttp;
 
   return (
     <TimeShiftAwareChartSelectorWithUrlState
@@ -145,7 +141,6 @@ function ChartPresenter({
   cardTitle,
   selectorComponent
 }) {
-
   return selectedTabId === tabCallCount.id ? (
     <CallsErrorsChart
       applicationId={applicationId}

@@ -6,8 +6,8 @@
 import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
-import { translateOffsetToTimeShiftConfig, getTimeShiftLabel } from 'in-stores/time/shifting';
-import { MetricResult, Result, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
+import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
+import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
 import KpiCard, { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -23,13 +23,15 @@ export const companionMetricKey = 'companion';
 export const comparisonMetricKey = 'comparison';
 
 export interface Config {
-  metricConfiguration: UnifiedMetricConfiguration & {
-    timeShift: number;
-  };
+  metricConfiguration: UnifiedMetricConfiguration;
+  formatter?: string;
+  tagFilters?: TagFilter[];
+}
+
+export interface ConfigWithCompanionMetric extends Config {
   companionMetricConfiguration: UnifiedMetricConfiguration;
   comparisonIncreaseColor: string;
   comparisonDecreaseColor: string;
-  formatter?: string;
 }
 
 export interface ResultAwareBigNumberKpiCardProps {
@@ -38,10 +40,16 @@ export interface ResultAwareBigNumberKpiCardProps {
   companionFormatter?: FormatterFn;
   useMaxAvailableHeight?: boolean;
   iconAction?: IconAction;
-  config: Config;
+  config: Config | ConfigWithCompanionMetric;
   actions?: ReactNode;
   dragHandle?: ReactNode;
   result: Result<MetricResult[]>;
+}
+
+export function isConfigWithCompanionMetric(
+  config: Config | ConfigWithCompanionMetric
+): config is ConfigWithCompanionMetric {
+  return (config as ConfigWithCompanionMetric).companionMetricConfiguration != null;
 }
 
 export default function ResultAwareBigNumberKpiCard({
@@ -92,7 +100,7 @@ export default function ResultAwareBigNumberKpiCard({
 
 export function renderKpiCard(
   result: Result<MetricResult[]>,
-  config: Config,
+  config: Config | ConfigWithCompanionMetric,
   formatter: FormatterFn,
   title: string,
   timeConfig: TimeConfig,
@@ -152,13 +160,13 @@ function renderCompanionValue(result: Result<MetricResult[]>, companionFormatter
 }
 
 function renderTimeShiftValue(
-  config: Config,
+  config: Config | ConfigWithCompanionMetric,
   result: Result<MetricResult[]>,
   formatter: FormatterFn,
   value: number | null,
   timeConfig: TimeConfig
 ) {
-  const timeShift = config.metricConfiguration.timeShift as number;
+  const timeShift = config.metricConfiguration.timeShift.offset;
   if (timeShift === 0 || value == null) {
     return null;
   }
@@ -174,10 +182,12 @@ function renderTimeShiftValue(
   }
 
   let colorId = blue.id;
-  if (value > comparisonValue) {
-    colorId = config.comparisonIncreaseColor;
-  } else if (value < comparisonValue) {
-    colorId = config.comparisonDecreaseColor;
+  if (isConfigWithCompanionMetric(config)) {
+    if (value > comparisonValue) {
+      colorId = config.comparisonIncreaseColor;
+    } else if (value < comparisonValue) {
+      colorId = config.comparisonDecreaseColor;
+    }
   }
 
   const difference = comparisonValue === 0 ? (value === 0 ? 0 : value / Math.abs(value)) : value / comparisonValue - 1;

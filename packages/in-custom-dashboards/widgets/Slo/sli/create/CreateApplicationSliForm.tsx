@@ -15,19 +15,12 @@ import {
 import {
   CombinedApplicationSliEntity,
   isAvailabilitySliEntity,
-  NewSliConfig,
-  SliConfig
+  NewSliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import {
-  Application,
-  ApplicationBoundaryScope,
-  ApplicationSliEntity,
-  AvailabilitySliEntity,
-  Result,
-  TimeConfig
-} from 'in-types';
 import { useApplicationSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
+import { Application, ApplicationBoundaryScope, ApplicationSliEntity, Result, TimeConfig } from 'in-types';
 import { sliFieldNames, createForm, SliFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliFormFactory';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { ApplicationSliForm } from 'in-custom-dashboards/widgets/Slo/sli/ApplicationSliForm';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
@@ -36,19 +29,12 @@ import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import useApplication from 'in-applications/hooks/useApplication';
 
-export interface CreateApplicationSliFormProps {
-  entityId: string;
-  close: () => void;
-  sliConfig?: SliConfig<ApplicationSliEntity | AvailabilitySliEntity>;
-  setFooter: (footer: React.ReactNode) => void;
-}
-
 export default function CreateApplicationSliForm({
   entityId,
   close,
   sliConfig,
   setFooter
-}: CreateApplicationSliFormProps) {
+}: CreateSliFormProps<'application'>) {
   const [application, status] = useApplication(entityId);
 
   if (status !== 'resolved' || sliConfig == null) {
@@ -71,7 +57,7 @@ function CreateApplicationSliFormComponent({
   close,
   sliConfig,
   setFooter
-}: CreateApplicationSliFormProps & { application: Application }) {
+}: CreateSliFormProps<'application'> & { application: Application }) {
   const [form, setForm] = useState(createForm('application', sliConfig ?? {}, entityId, application));
   const updateForm = useApplicationSliFormSideEffects(form, setForm as (f: Item) => void);
 

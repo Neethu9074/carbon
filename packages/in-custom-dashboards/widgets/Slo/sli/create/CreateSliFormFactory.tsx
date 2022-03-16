@@ -5,17 +5,21 @@
 
 import React from 'react';
 
-import CreateApplicationSliForm, {
-  CreateApplicationSliFormProps
-} from 'in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm';
-import CreateWebsiteSliForm, {
-  CreateWebsiteSliFormProps
-} from 'in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm';
+import CreateApplicationSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm';
+import CreateWebsiteSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm';
+import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { SliType } from 'in-types';
 
-type CreateSliFormFactoryProps<SLI_TYPE extends Lowercase<SliType>> = {
+export interface CreateSliFormProps<SLI_TYPE extends Lowercase<SliType>> {
+  entityId: string;
+  close: () => void;
+  sliConfig?: Partial<SliConfigBySliType<SLI_TYPE>>;
+  setFooter: (footer: React.ReactNode) => void;
+}
+
+interface CreateSliFormFactoryProps<SLI_TYPE extends Lowercase<SliType>> extends CreateSliFormProps<SLI_TYPE> {
   entityType: SLI_TYPE;
-} & (SLI_TYPE extends 'application' ? CreateApplicationSliFormProps : CreateWebsiteSliFormProps);
+}
 
 export default function CreateSliFormFactory<SLI_TYPE extends Lowercase<SliType>>({
   entityType,
@@ -23,10 +27,10 @@ export default function CreateSliFormFactory<SLI_TYPE extends Lowercase<SliType>
 }: CreateSliFormFactoryProps<SLI_TYPE>) {
   switch (entityType) {
     case 'application':
-      return <CreateApplicationSliForm {...(remainingProps as CreateApplicationSliFormProps)} />;
+      return <CreateApplicationSliForm {...(remainingProps as CreateSliFormProps<'application'>)} />;
 
     case 'website':
-      return <CreateWebsiteSliForm {...(remainingProps as CreateWebsiteSliFormProps)} />;
+      return <CreateWebsiteSliForm {...(remainingProps as CreateSliFormProps<'website'>)} />;
 
     default:
       return null;

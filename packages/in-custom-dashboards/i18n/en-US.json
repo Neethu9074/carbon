@@ -167,14 +167,16 @@
         "aggregation": "Aggregation",
         "crossSeriesAggregation": "Use SUM for cross-series aggregation",
         "crossSeriesAggregationHelp": "Normally, the cross-series aggregation is the same as the cross-time aggregation (the method used to combine data-points into a single bucket). With this toggle enabled, we'll sum the buckets across the data-series rather than using the specified aggregation.",
-        "crossSeriesAggregationDisabledHelp": "Not applicable to {{aggregation}}"
+        "crossSeriesAggregationDisabledHelp": "Not applicable to {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "Not applicable to this metric"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure & Platforms",
         "comingSoon": "(coming soon)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Please select a metric"
+        "pleaseSelectMetric": "Please select a metric",
+        "loadingMetrics": "Loading metrics..."
       }
     },
     "srcMobileApp": {
@@ -521,15 +523,16 @@
         "enterDateFormatYyyyMmDd": "Please enter a date in the format YYYY-MM-DD.",
         "enterTimeInFormatHhMmSs": "Please enter a time in the format HH:mm:ss."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Status",
         "target": "Target:",
         "errorBudgetSpent": "Error Budget Spent",
         "errorBudget": "Error Budget:",
         "timeWindow": "Time Window",
-        "dynamicTimeWindow": "Dynamic time window",
-        "rollingTimeWindow": "Rolling time window",
-        "fixedTimeWindow": "Fixed time window"
+        "timeWindowType": "Unknown time window",
+        "timeWindowType_dynamic": "Dynamic time window",
+        "timeWindowType_rolling": "Rolling time window",
+        "timeWindowType_fixed": "Fixed time window"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -553,7 +556,7 @@
         "source_application": "Application",
         "source_website": "Website"
       },
-      "sliFormatter":  {
+      "sliFormatter": {
         "unit": "call",
         "unit_plural": "calls",
         "unit_0": "calls",

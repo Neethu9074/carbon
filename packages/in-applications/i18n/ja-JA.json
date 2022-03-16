@@ -31,7 +31,7 @@
   "labelTechnologies": "テクノロジー",
   "labelEndpoints": "エンドポイント",
   "labelHealth": "正常性",
-  "labelOther": "その他",
+  "labelNonHttp": "その他",
   "labelCallCount": "呼び出し数",
   "labelHTTPStatusCodes": "HTTP 状況コード",
   "labelInfraIssues": "インフラの問題",

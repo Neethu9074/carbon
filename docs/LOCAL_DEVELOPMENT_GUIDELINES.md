@@ -56,7 +56,7 @@ later time.**
 
 During development you will mostly work with `yarn run dev`, but in production the assets are served by a small Node.js
 app which you can find in `packages/in-server`. This component also makes a few preliminary requests, for example
-to `/checkUserAccessPermitted`, `/api/ui/settings`, `/api/search/fields` and a few more. The results of some of these
+to `/api/checkUserAccessPermitted`, `/api/ui/settings`, `/api/search/fields` and a few more. The results of some of these
 requests will be injected into the Handlebars template for index.html (`packages/in-server/templates/index.hbs`, which
 is also only used in production while `packages/in-client/index.html` is used during development).
 
