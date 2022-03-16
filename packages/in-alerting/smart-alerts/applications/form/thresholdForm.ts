@@ -13,7 +13,12 @@ import {
   ThresholdConfig,
   ThresholdOperator
 } from 'in-types';
-import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import {
+  ADAPTIVE_BASELINE,
+  HISTORIC_BASELINE,
+  isHistoricBaselineConfig,
+  isStaticThresholdConfig
+} from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
@@ -76,12 +81,12 @@ function createThroughputForm(threshold: ThresholdConfig): MapForm {
 function createBaselineEnabledForm(threshold: ThresholdConfig): MapForm {
   const thresholdType = threshold.type;
 
-  if (thresholdType === STATIC_THRESHOLD) {
-    return createStaticThresholdForm(threshold as StaticThresholdConfig);
+  if (isStaticThresholdConfig(threshold)) {
+    return createStaticThresholdForm(threshold);
   }
 
-  if (thresholdType === HISTORIC_BASELINE) {
-    return createHistoricBaselineForm(threshold as HistoricBaselineConfig);
+  if (isHistoricBaselineConfig(threshold)) {
+    return createHistoricBaselineForm(threshold);
   }
 
   if (thresholdType === ADAPTIVE_BASELINE) {
