@@ -6,7 +6,6 @@
 import { createField, createMapForm, MapForm } from 'formalistic';
 
 import {
-  AdaptiveBaselineConfig,
   HistoricBaselineConfig,
   Seasonality,
   StaticThresholdConfig,
@@ -21,7 +20,7 @@ import { t } from 'in-i18n';
 export const defaultDeviationFactor = 3;
 
 export default function createThresholdForm(
-  threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
+  threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig,
   alertType: WebsitesAlertType
 ): MapForm | void {
   let form = createBaseForm(threshold);
