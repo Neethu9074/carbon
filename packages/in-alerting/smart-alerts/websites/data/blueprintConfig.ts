@@ -305,7 +305,7 @@ function getExtraSlownessAnalyzeLinkTagFilterFormModel(
   } else {
     value = getApproximatedHistoricBaselineThresholdValue(
       threshold as HistoricBaselineData,
-      alertConfig.granularity!, // worked before, so type check can be overruled
+      alertConfig.granularity,
       timeConfig
     );
   }
