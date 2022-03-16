@@ -3,15 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, MapForm } from 'formalistic';
 
+import {
+  AdaptiveBaselineConfig,
+  AdaptiveBaselineData,
+  HistoricBaselineConfig,
+  StaticThresholdConfig,
+  ThresholdConfig,
+  ThresholdOperator
+} from 'in-types';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
 
 export const defaultDeviationFactor = 3;
 
-export default function createThresholdForm(threshold = {}, alertType) {
+export default function createThresholdForm(
+  threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
+  alertType: ApplicationAlertType
+): MapForm | void {
   if (alertType === 'slowness') {
     return createSlownessForm(threshold);
   }
@@ -33,53 +45,53 @@ export default function createThresholdForm(threshold = {}, alertType) {
   }
 }
 
-export function createErrorRateForm(threshold = {}) {
+export function createErrorRateForm(threshold: ThresholdConfig): MapForm {
   const thresholdType = threshold.type;
   if (thresholdType === ADAPTIVE_BASELINE) {
-    return createAdaptiveBaselineForm(threshold);
+    return createAdaptiveBaselineForm(threshold as AdaptiveBaselineData);
   }
-  return createStaticThresholdForm(threshold);
+  return createStaticThresholdForm(threshold as StaticThresholdConfig);
 }
 
-export function createLogsForm(threshold = {}) {
+export function createLogsForm(threshold: ThresholdConfig): MapForm {
   const thresholdType = threshold.type;
   if (thresholdType === ADAPTIVE_BASELINE) {
-    return createAdaptiveBaselineForm(threshold);
+    return createAdaptiveBaselineForm(threshold as AdaptiveBaselineData);
   }
-  return createStaticThresholdForm(threshold);
+  return createStaticThresholdForm(threshold as StaticThresholdConfig);
 }
 
-export function createStatusCodeForm(threshold = {}) {
+export function createStatusCodeForm(threshold: ThresholdConfig): MapForm {
   return createBaselineEnabledForm(threshold);
 }
 
-export function createSlownessForm(threshold = {}) {
+export function createSlownessForm(threshold: ThresholdConfig): MapForm {
   return createBaselineEnabledForm(threshold);
 }
 
-export function createThroughputForm(threshold = {}) {
+export function createThroughputForm(threshold: ThresholdConfig): MapForm {
   return createBaselineEnabledForm(threshold);
 }
 
-function createBaselineEnabledForm(threshold) {
+function createBaselineEnabledForm(threshold: ThresholdConfig): MapForm {
   const thresholdType = threshold.type;
 
   if (thresholdType === STATIC_THRESHOLD) {
-    return createStaticThresholdForm(threshold);
+    return createStaticThresholdForm(threshold as StaticThresholdConfig);
   }
 
   if (thresholdType === HISTORIC_BASELINE) {
-    return createHistoricBaselineForm(threshold);
+    return createHistoricBaselineForm(threshold as HistoricBaselineConfig);
   }
 
   if (thresholdType === ADAPTIVE_BASELINE) {
-    return createAdaptiveBaselineForm(threshold);
+    return createAdaptiveBaselineForm(threshold as AdaptiveBaselineData);
   }
 
   throw new Error(`Unknown threshold type ${thresholdType}.`);
 }
 
-function createStaticThresholdForm(threshold) {
+function createStaticThresholdForm(threshold: StaticThresholdConfig): MapForm {
   return createBaseForm(threshold).put(
     'value',
     createField({
@@ -93,12 +105,13 @@ function createStaticThresholdForm(threshold) {
             }
           ];
         }
+        return null;
       }
     })
   );
 }
 
-function createHistoricBaselineForm(threshold) {
+function createHistoricBaselineForm(threshold: HistoricBaselineConfig): MapForm {
   return createBaseForm(threshold)
     .put(
       'seasonality',
@@ -118,6 +131,7 @@ function createHistoricBaselineForm(threshold) {
               }
             ];
           }
+          return null;
         },
         value: threshold.baseline
       })
@@ -130,7 +144,7 @@ function createHistoricBaselineForm(threshold) {
     );
 }
 
-function createAdaptiveBaselineForm(threshold) {
+function createAdaptiveBaselineForm(threshold: AdaptiveBaselineData) {
   return createBaseForm(threshold)
     .put(
       'baseline',
@@ -147,7 +161,7 @@ function createAdaptiveBaselineForm(threshold) {
     );
 }
 
-function createBaseForm(threshold) {
+function createBaseForm(threshold: { type?: string; operator?: ThresholdOperator; lastUpdated?: number }): MapForm {
   return createMapForm()
     .put(
       'type',

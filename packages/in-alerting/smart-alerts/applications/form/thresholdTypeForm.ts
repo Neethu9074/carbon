@@ -13,18 +13,15 @@ import {
 import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 // @ts-expect-error file needs to be converted into typescript
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
-// @ts-expect-error file needs to be converted into typescript
-import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import {
   PER_AP,
   PER_AP_ENDPOINT,
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
-// @ts-expect-error file needs to be converted into typescript
-import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
+import { perEndpointAdaptiveBaselineEnabled, perServiceAdaptiveBaselineEnabled } from 'in-services/featureFlags';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { perEndpointAdaptiveBaselineEnabled } from 'in-services/featureFlags';
-import { perServiceAdaptiveBaselineEnabled } from 'in-services/featureFlags';
+import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { AlertEvaluationType, ThresholdType } from 'in-types';
 
 export function onThresholdTypeChange(
@@ -44,7 +41,7 @@ export function onThresholdTypeChange(
       type: updatedThresholdType
     },
     alertType
-  );
+  )!; // it was working before without any check;
 
   if (updatedThresholdType === HISTORIC_BASELINE) {
     const seasonality = typeSeasonalityParts[1];
@@ -53,7 +50,7 @@ export function onThresholdTypeChange(
     );
   }
 
-  const newRuleForm = createRuleForm({ ...rule });
+  const newRuleForm = createRuleForm({ ...rule })!; // it was working before without any check
 
   let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
 
