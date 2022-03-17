@@ -70,7 +70,7 @@ export function getThresholdInTimeframe(
 }
 
 function calculateFirstBucketInChartStartTime(timeConfig, granularity) {
-  return Date.now() - timeConfig.windowSize - granularity;
+  return timeConfig.to - timeConfig.windowSize - granularity;
 }
 
 function renderAdaptiveBaseline(axis, config, scale, colors50, colors100) {
@@ -103,6 +103,11 @@ function renderAdaptiveBaseline(axis, config, scale, colors50, colors100) {
 
   // Backgrounds
   const len = oneSidedThresholdInTimeframe.length;
+
+  if (len === 0) {
+    return;
+  }
+
   const xPosStart = xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[0][0]);
   const xPosEnd = xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[len - 1][0]);
   const yPosStart = scale.getRange(oneSidedThresholdInTimeframe[0][1]);
