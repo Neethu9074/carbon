@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2022
  * (c) Copyright Instana Inc.
  */
 
@@ -12,11 +12,10 @@ import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTable
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { getOpenstackHypervisorDashboard } from 'in-openstack/navigation/paths';
 import { regionIdUrlParameter } from 'in-openstack/navigation/urlParameters';
-// import { plugins } from 'in-forge/constants';
-import { t } from 'in-i18n';
 import { number, percentage } from 'in-services/formatters/number';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
+import { t } from 'in-i18n';
 
 const pathSegment = '/openstack-hypervisors';
 const matrixPrefix = 'hypervisor.';

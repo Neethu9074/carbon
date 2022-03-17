@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2022
  * (c) Copyright Instana Inc.
  */
 
@@ -52,6 +52,7 @@ export default function Summary({ timeConfig, data: instance }) {
             />
           </Card>
         </Col>
+        <Col lg={6} />
         <Col lg={6}>
           <Card title={t('in-openstack:dashboards.memoryResources')} useMaxAvailableHeight>
             <Chart

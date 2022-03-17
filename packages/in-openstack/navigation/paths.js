@@ -1,15 +1,14 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2022
  * (c) Copyright Instana Inc.
  */
 
-// import { vmId as matrixVmId } from 'in-vsphere/navigation/matrix';
-import { emptyObject } from 'in-services/fixedObjects';
 import { hypervisorId as matrixHypervisorId } from 'in-openstack/navigation/matrix';
 import { instanceId as matrixInstanceId } from 'in-openstack/navigation/matrix';
 import { regionId as matrixRegionId } from 'in-openstack/navigation/matrix';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
+import { emptyObject } from 'in-services/fixedObjects';
 import { setTimeConfig } from 'in-stores/time/config';
 
 export const openstack = '/openstack';
