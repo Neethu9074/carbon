@@ -20,7 +20,7 @@ import TechnologyIndicatorList from 'in-applications/components/TechnologyIndica
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { serviceListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { getServiceDashboard, servicesList } from 'in-applications/navigation/paths';

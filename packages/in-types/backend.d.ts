@@ -2085,9 +2085,14 @@ export interface HostAvailabilityRule extends AbstractRule {
 }
 
 export interface HttpActionConfiguration extends SyntheticTypeConfiguration {
+  readonly allowInsecure?: boolean;
   readonly body?: string;
+  readonly expectStatus?: number;
+  readonly followRedirect?: boolean;
   readonly headers?: { [index: string]: string };
   readonly operation?: HttpActionOperation;
+  readonly retries?: number;
+  readonly retryInterval?: number;
   readonly syntheticType: 'HTTPAction';
   readonly url: string;
   readonly validationString?: string;
@@ -4764,7 +4769,7 @@ export type GeoDetailRemoval = 'NO_REMOVAL' | 'REMOVE_COORDINATES' | 'REMOVE_CIT
 
 export type Granularity = 60000 | 300000 | 600000 | 900000 | 1200000 | 1800000;
 
-export type HttpActionOperation = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type HttpActionOperation = 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT';
 
 export type HttpPathSegmentMatchingRuleUnion = UnsupportedHttpPathSegmentMatchingRule | MatchAllHttpPathSegmentMatchingRule | PathParameterHttpPathSegmentMatchingRule | FixedHttpPathSegmentMatchingRule;
 
