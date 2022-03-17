@@ -3,8 +3,11 @@
     "label": {
       "chooseSingle": "Choose file…",
       "chooseMultiple": "Choose files…",
-      "multipleSelected_1": "{{countFormatted}} file selected",
-      "multipleSelected_plural": "{{countFormatted}} files selected"
+      "multipleSelected": "{{countFormatted}} file selected",
+      "multipleSelected_plural": "{{countFormatted}} files selected",
+      "multipleSelected_0": "{{countFormatted}} files selected",
+      "multipleSelected_1": "{{countFormatted}} files selected",
+      "multipleSelected_2": "{{countFormatted}} files selected"
     }
   },
   "chart": {
@@ -209,9 +212,9 @@
     "result": "{{formattedCount}} $t(in-components:analyzeView.resultTitle, { \"context\": \"{{dataSource}}\" })",
     "groupedViewHeader": "{{formattedCount}} Groups",
     "groupedViewHeader_plural": "{{formattedCount}} Groups",
-    "groupedViewHeader_0": "Groups",
-    "groupedViewHeader_1": "Groups",
-    "groupedViewHeader_2": "Groups",
+    "groupedViewHeader_0": "{{formattedCount}} Groups",
+    "groupedViewHeader_1": "{{formattedCount}} Groups",
+    "groupedViewHeader_2": "{{formattedCount}} Groups",
     "groupedViewHeaderRetained": "Retained from {{formattedCount}}",
     "resultHeaderLoading": "Loading…",
     "resultHeaderTooltip": "The query time range has been rounded up to nearest full minute to allow this view to load more quickly.",
