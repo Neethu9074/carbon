@@ -5,7 +5,12 @@
 
 import { createField, createMapForm, Field, MapForm } from 'formalistic';
 
-import { ApplicationAlertRule, LogsApplicationAlertRule, StatusCodeApplicationAlertRule } from 'in-types';
+import {
+  ApplicationAlertRule,
+  LogsApplicationAlertRule,
+  SlownessApplicationAlertRule,
+  StatusCodeApplicationAlertRule
+} from 'in-types';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { operators } from 'in-analyze/applicationFilter';
 import { t } from 'in-i18n';
@@ -153,8 +158,9 @@ function extendForStatusCode(baseForm: MapForm, rule: StatusCodeRangeLikeApplica
   return baseForm.put('statusCode', statusCodeForm);
 }
 
-export const defaultAlertRule = {
+// @ts-expect-error missing field stableHash, which is only defined on backend model
+export const defaultAlertRule: SlownessApplicationAlertRule = {
   alertType: 'slowness',
-  operator: 'EQUALS',
+  aggregation: 'P90',
   metricName: 'latency'
 };

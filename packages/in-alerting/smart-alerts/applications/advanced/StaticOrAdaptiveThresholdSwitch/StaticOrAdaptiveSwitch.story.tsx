@@ -5,11 +5,10 @@
 
 import React, { useState } from 'react';
 
-// @ts-expect-error file needs to be converted to typescript
-import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import { someErrorRateFormData } from 'in-alerting/smart-alerts/applications/advanced/stories/formSampleData';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { noop } from 'in-services/util/function';
 import { ThresholdType } from 'in-types';
 
@@ -20,6 +19,7 @@ export default {
 export const Default = ({ type }: { type: ThresholdType }) => {
   const defaultSmartAlertForm = createSmartAlertForm({
     ...someErrorRateFormData(),
+    // @ts-expect-error demo data are not fully matching expected type, but here it is okay
     threshold: {
       type
     }
@@ -42,6 +42,7 @@ Default.argTypes = {
 export const Adaptive = () => {
   const smartAlertFormWithAdaptiveBaseline = createSmartAlertForm({
     ...someErrorRateFormData(),
+    // @ts-expect-error demo data are not fully matching expected type, but here it is okay
     threshold: {
       type: ADAPTIVE_BASELINE
     }

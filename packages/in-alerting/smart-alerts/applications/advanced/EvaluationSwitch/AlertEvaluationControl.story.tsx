@@ -5,8 +5,6 @@
 
 import React, { useState } from 'react';
 
-// @ts-expect-error source needs to be converted to typescript
-import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import {
   PER_AP,
   PER_AP_SERVICE,
@@ -15,6 +13,7 @@ import {
 import { AlertEvaluationControlPresenter } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControlPresenter';
 import AlertEvaluationControl from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControl';
 import { someErrorRateFormData } from 'in-alerting/smart-alerts/applications/advanced/stories/formSampleData';
+import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { noop } from 'in-services/fixedObjects';
 
 export default {
@@ -41,6 +40,7 @@ Default.argTypes = {
 };
 
 export const Interactive = () => {
+  // @ts-expect-error demo data are not fully matching expected type, but here it is okay
   const [form, setForm] = useState(createSmartAlertForm(someErrorRateFormData()));
 
   return <AlertEvaluationControl form={form} updateForm={setForm} />;

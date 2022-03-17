@@ -10,8 +10,6 @@ import {
   defaultAdaptiveBaselineTimeWindow
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 // @ts-expect-error file needs to be converted into typescript
-import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
-// @ts-expect-error file needs to be converted into typescript
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import {
   PER_AP,
@@ -19,6 +17,7 @@ import {
   PER_AP_SERVICE
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { perEndpointAdaptiveBaselineEnabled, perServiceAdaptiveBaselineEnabled } from 'in-services/featureFlags';
+import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
