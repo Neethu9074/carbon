@@ -21,7 +21,7 @@ import FloatingActionButtons from 'in-components/FloatingActionButton/FloatingAc
 import { getApplicationDashboard, applicationsList } from 'in-applications/navigation/paths';
 import { getApplicationsWithDefaults } from 'in-applications/subscriptions/getApplications';
 import { applicationListPrefix as matrixPrefix } from 'in-applications/navigation/matrix';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import HealthIndicatorPresenter from 'in-components/health/HealthIndicatorPresenter';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import ScopeNotification from 'in-applications/lists/components/ScopeNotification';

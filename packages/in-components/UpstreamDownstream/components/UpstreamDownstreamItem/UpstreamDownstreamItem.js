@@ -10,7 +10,7 @@ import { Li } from '@instana/components';
 
 import EndpointTypeBadgeList from 'in-applications/Dashboards/commonComponents/EndpointTypeBadgeList';
 import { getServiceDashboard, getApplicationDashboard } from 'in-applications/navigation/paths';
-import { getSparkChartGranularity, getResolvedTimeConfig } from 'in-applications/metrics';
+import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import { number, meanLatencyFixed, percentage } from 'in-services/formatters/number';
 import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';

@@ -18,6 +18,7 @@ export default class LineMetricRenderer {
     this.height = props.height;
     this.percentageMetric = props.percentageMetric;
     this.theme = props.theme;
+    this.showDots = props.showDots;
 
     const { paddingLeft = 0, paddingRight = 0, paddingTop = 0, paddingBottom = 0 } = props;
 
@@ -189,7 +190,9 @@ export default class LineMetricRenderer {
     this.ctx.strokeStyle = theme.lib.colors.chart.strokeColors100[0];
 
     this.renderBlocks();
-    this.renderDataPoints();
+    if (this.showDots) {
+      this.renderDataPoints();
+    }
   }
 
   renderBlocks() {

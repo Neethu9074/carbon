@@ -44,7 +44,7 @@ import { t } from 'in-i18n';
 export default function ApplicationsTopList({ applicationId, config }) {
   const entityResult = useObservable(getConfig, [applicationId]);
 
-  const header = role.canConfigureApplications && (
+  const header = role.canConfigureApplications ? (
     <Button
       kind="action"
       icon="lib_openclose_add_circle_outline"
@@ -63,7 +63,7 @@ export default function ApplicationsTopList({ applicationId, config }) {
     >
       {t('in-cockpit:component.applTopList.newAppPerspect')}
     </Button>
-  );
+  ) : null;
 
   return (
     <TopListWidget
