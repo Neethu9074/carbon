@@ -30,6 +30,15 @@ export function getTests(): Observable<unknown> {
   }).map(response => deepFreeze(response));
 }
 
+export function getTest(testId: string): Observable<unknown> {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: testsUrl + '/' + testId,
+    mapToResultObject: true
+  }).map(response => deepFreeze(response));
+}
+
 export function createTest(testConfig: SyntheticTest): Observable<unknown> {
   return http({
     method: 'POST',

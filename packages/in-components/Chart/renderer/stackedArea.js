@@ -4,6 +4,7 @@
  */
 
 import { calculateMetricMap } from 'in-components/Chart/renderer/utils';
+import { drawCircleWithLine } from './utils';
 
 export default {
   render: ({ metrics, colors, colors100, scale, config, axis }) => {
@@ -22,48 +23,66 @@ export default {
   }
 };
 
-function renderDataSeries(config, color, borderColor, dataSeries, metricMap, scale) {
+function renderDataSeries(config, fillStyle, strokeStyle, dataSeries, metricMap, scale) {
   config.backBufferCtx.beginPath();
-  config.backBufferCtx.fillStyle = color;
 
   const blocks = config.calculateBlocks(dataSeries);
   for (let i = 0; i < blocks.length; i++) {
-    drawBlock(metricMap, config, scale, blocks[i], borderColor);
+    drawBlock(metricMap, config, scale, blocks[i], fillStyle, strokeStyle);
   }
 }
 
-function drawBlock(metricMap, config, scale, block, borderColor) {
+function drawBlock(metricMap, config, scale, block, fillStyle, strokeStyle) {
   const firstDataPoint = block[0];
   const lastDataPoint = block[block.length - 1];
   const firstDataPointXPos = config.xScaleBackBuffer.getRange(firstDataPoint[0]);
   const lastDataPointXPos = config.xScaleBackBuffer.getRange(lastDataPoint[0]);
 
-  config.backBufferCtx.beginPath();
-  config.backBufferCtx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
+  if (block.length === 1) {
+    // a block with a lone data point
+    const { xPos, yPos } = getPosition(firstDataPoint, metricMap, config, scale);
+    drawCircleWithLine({
+      renderingContext: config.backBufferCtx,
+      config,
+      xPos,
+      yPos,
+      circleStyle: strokeStyle,
+      lineStyle: fillStyle
+    });
+  } else {
+    config.backBufferCtx.fillStyle = fillStyle;
+    config.backBufferCtx.beginPath();
+    config.backBufferCtx.moveTo(firstDataPointXPos, scale.getRange(firstDataPoint[1]));
 
-  for (let i = 1; i < block.length; i++) {
-    const dataPoint = block[i];
-    if (!dataPoint) {
-      continue;
+    for (let i = 1; i < block.length; i++) {
+      const dataPoint = block[i];
+      if (!dataPoint) {
+        continue;
+      }
+
+      const { xPos, yPos } = getPosition(dataPoint, metricMap, config, scale);
+      config.backBufferCtx.lineTo(xPos, yPos);
     }
 
-    const time = dataPoint[0];
-
-    let value = dataPoint[1];
-    if (metricMap[time]) {
-      value = metricMap[time];
-      metricMap[time] -= dataPoint[1];
-    }
-    const xPos = config.xScaleBackBuffer.getRange(time);
-    const yPos = scale.getRange(value);
-    config.backBufferCtx.lineTo(xPos, yPos);
+    config.backBufferCtx.strokeStyle = strokeStyle;
+    config.backBufferCtx.lineWidth = 2;
+    config.backBufferCtx.stroke();
+    config.backBufferCtx.lineTo(lastDataPointXPos, config.height - config.timeAxisHeight);
+    config.backBufferCtx.lineTo(firstDataPointXPos, config.height - config.timeAxisHeight);
+    config.backBufferCtx.closePath();
+    config.backBufferCtx.fill();
   }
+}
 
-  config.backBufferCtx.strokeStyle = borderColor;
-  config.backBufferCtx.lineWidth = 2;
-  config.backBufferCtx.stroke();
-  config.backBufferCtx.lineTo(lastDataPointXPos, config.height - config.timeAxisHeight);
-  config.backBufferCtx.lineTo(firstDataPointXPos, config.height - config.timeAxisHeight);
-  config.backBufferCtx.closePath();
-  config.backBufferCtx.fill();
+function getPosition(dataPoint, metricMap, config, scale) {
+  const time = dataPoint[0];
+
+  let value = dataPoint[1];
+  if (metricMap[time]) {
+    value = metricMap[time];
+    metricMap[time] -= dataPoint[1];
+  }
+  const xPos = config.xScaleBackBuffer.getRange(time);
+  const yPos = scale.getRange(value);
+  return { xPos, yPos };
 }

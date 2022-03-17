@@ -3,17 +3,30 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import { useLocation } from 'react-router';
 import React, { Fragment } from 'react';
 
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+import { number, percentage } from 'in-services/formatters/number';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
 export default function Summary() {
   const timeShiftConfig = useTimeShiftConfig();
+  const location = useLocation();
+  const testId = getMatrixParameter(location, syntheticsPath, 'testId') ?? '';
+
+  let tagFilters = [
+    {
+      stringValue: testId,
+      name: 'testId',
+      operator: EQUALS
+    }
+  ];
 
   // The values in the config object passed as prop in BigNumberKpiCard
   // are just temporal values until we implement the data retreival logic.
@@ -23,18 +36,17 @@ export default function Summary() {
         <Col xs>
           <BigNumberKpiCard
             title={t('in-synthetics:dashboard.summary.successRate')}
-            formatter={number.compact}
+            formatter={percentage.detailed}
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
                 aggregation: 'MEAN',
                 metric: 'status',
-                resultType: 'SINGLE_NUMBER',
-                source: 'APPLICATION',
+                source: 'SYNTHETICS',
+                tagFilters: tagFilters,
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
               },
-              tagFilter: tagFilter('status', 'EQUALS'),
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
               comparisonIncreaseColor: 'greenish'
@@ -48,14 +60,13 @@ export default function Summary() {
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
-                aggregation: 'MEAN',
-                metric: 'locations',
-                resultType: 'SINGLE_NUMBER',
-                source: 'APPLICATION',
+                aggregation: 'DISTINCT_COUNT',
+                metric: 'location_id',
+                source: 'SYNTHETICS',
+                tagFilters: tagFilters,
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
               },
-              tagFilter: tagFilter('status', 'EQUALS'),
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
               comparisonIncreaseColor: 'greenish'
@@ -71,12 +82,11 @@ export default function Summary() {
               metricConfiguration: {
                 aggregation: 'MEAN',
                 metric: 'response_time',
-                resultType: 'SINGLE_NUMBER',
-                source: 'APPLICATION',
+                source: 'SYNTHETICS',
+                tagFilters: tagFilters,
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
               },
-              tagFilter: tagFilter('status', 'EQUALS'),
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
               comparisonIncreaseColor: 'greenish'
@@ -92,12 +102,11 @@ export default function Summary() {
               metricConfiguration: {
                 aggregation: 'MEAN',
                 metric: 'response_size',
-                resultType: 'SINGLE_NUMBER',
-                source: 'APPLICATION',
+                source: 'SYNTHETICS',
+                tagFilters: tagFilters,
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
               },
-              tagFilter: tagFilter('status', 'EQUALS'),
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
               comparisonIncreaseColor: 'greenish'
