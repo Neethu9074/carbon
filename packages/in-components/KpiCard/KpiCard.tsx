@@ -118,9 +118,11 @@ export default function KpiCard({
         <Tooltip content={title} align="bottomLeft">
           <span className={locals.titleText}>{title}</span>
         </Tooltip>
-        {hasApproximateData && (
-          <MultiLineToolTipIcon withMargin lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
-        )}
+        <div className={locals.flexTooltip}>
+          {hasApproximateData && (
+            <MultiLineToolTipIcon withMargin lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
+          )}
+        </div>
         {iconAction && (
           <div
             className={classNames({
