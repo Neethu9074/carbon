@@ -429,16 +429,6 @@ function Platforms(props) {
   const platforms = (
     <>
       {/* Keep the list of platforms sorted alphabetically */}
-      {openstackEnabled && (
-        <ViewItemForPlatforms
-          id="main-nav-openstack"
-          label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
-          icon="lib_openstack"
-          href$={getView(regionListFullyQualified)}
-          isActive$={isView(openstack)}
-          {...props}
-        />
-      )}
       {pcfEnabled && (
         <ViewItemForPlatforms
           id="main-nav-cloudfoundry"
@@ -446,6 +436,16 @@ function Platforms(props) {
           icon="lib_cloudfoundry_inverted"
           href$={getView(cloudfoundryApplicationList)}
           isActive$={isView(cloudfoundry)}
+          {...props}
+        />
+      )}
+      {openstackEnabled && (
+        <ViewItemForPlatforms
+          id="main-nav-openstack"
+          label={t('in-components:mainNavigation.viewSwitcherLabelOpenstack')}
+          icon="lib_openstack"
+          href$={getView(regionListFullyQualified)}
+          isActive$={isView(openstack)}
           {...props}
         />
       )}
