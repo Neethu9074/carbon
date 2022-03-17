@@ -44,6 +44,12 @@
     font-weight: 200;
   }
 
+  .flexTooltip {
+    display: flex;
+    flex-grow: 2;
+    align-items: flex-start;
+  }
+
   .centerTitle {
     justify-content: center;
   }
