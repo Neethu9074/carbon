@@ -44,7 +44,7 @@ function _get_run_sh {
   RUN_SCRIPT=${COMPONENT_RUN_SCRIPT}
 
   _create_usr_bin_dir
-  cp ${RUN_SCRIPT} "${COMPONENT_USR_BIN_DIR}/run.sh"  
+  cp ${RUN_SCRIPT} "${COMPONENT_USR_BIN_DIR}/run.sh"
   case "$(uname -s)" in
     Darwin) sed -i '' -e "s/\${replace_me_component_name}/${COMPONENT_NAME}/" "${COMPONENT_USR_BIN_DIR}/run.sh";;
     Linux) sed -i -e "s/\${replace_me_component_name}/${COMPONENT_NAME}/" "${COMPONENT_USR_BIN_DIR}/run.sh";;
@@ -121,9 +121,9 @@ function _run_docker_build {
 
 function _scan_image() {
   local TAG=$1
-  local INSTANA_TWISTCLI_VERSION='0.2.1'
+  local INSTANA_TWISTCLI_VERSION='0.2.8'
   _log_info "Triggering scan for image ${TAG} with instana-twistcli ${INSTANA_TWISTCLI_VERSION}"
-  
+
   if [[ -f ${COMPONENT_TWISTLOCK_IGNOREFILE} ]]; then
     MIN_VULN_SEVERITY=high \
       IGNOREFILE=${COMPONENT_TWISTLOCK_IGNOREFILE} \
