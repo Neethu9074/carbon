@@ -2094,7 +2094,6 @@ export interface Incident extends Event {
 
 export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
   readonly crossSeriesAggregation?: AggregationType;
-  readonly crossSeriesAggregationValid: boolean;
   readonly grouping?: Grouping[];
   readonly tagFilterExpression: TagFilterExpressionElement;
   readonly type: string;
