@@ -59,7 +59,8 @@ export const groupedBigNumberKpiMapper = (result: GetCallGroupsResult): Result<M
     data: [
       {
         id: 'bigNumber',
-        values: [[0, result?.data?.totalHits ?? 0]]
+        values: [[0, result?.data?.totalHits ?? 0]],
+        resultPrecisionDetails: result.resultPrecisionDetails
       } as MetricResult
     ]
   };

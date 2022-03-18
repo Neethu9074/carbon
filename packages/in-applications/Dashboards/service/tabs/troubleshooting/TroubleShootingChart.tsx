@@ -13,6 +13,7 @@ import {
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { createMetricField } from 'in-analyze/navigation/paths';
+import { MetricConfig } from './metricConfigs';
 import { Group, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -20,10 +21,11 @@ export interface TroubleShootingChartProps {
   title: string;
   explanation?: string;
   serviceId: string;
-  metricConfig: {};
+  metricConfigs: MetricConfig[];
   groupBy: Group;
   boundaryScope: string;
   syntheticCalls: string;
+  colorMapper?: (id: string, label: string) => string | null;
 }
 
 export default function TroubleShootingChart({
@@ -31,9 +33,10 @@ export default function TroubleShootingChart({
   explanation,
   groupBy,
   serviceId,
-  metricConfig,
+  metricConfigs,
   boundaryScope,
-  syntheticCalls
+  syntheticCalls,
+  colorMapper
 }: TroubleShootingChartProps) {
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
 
@@ -43,11 +46,13 @@ export default function TroubleShootingChart({
       rightHeaderContent={explanation && <i>{explanation}</i>}
       automaticallySize={false}
       renderLegend
+      renderHistoricDataIndicator
       config={{
         y1: {
-          metrics: [metricConfig],
+          metrics: metricConfigs,
           formatter: 'number.compact',
-          renderer: 'line'
+          renderer: 'line',
+          colorMapper
         },
         type: 'TIME_SERIES',
         additionalContextMenuButtons: [

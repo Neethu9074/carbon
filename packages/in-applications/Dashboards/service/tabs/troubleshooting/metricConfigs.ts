@@ -39,7 +39,6 @@ export const groupByServiceMappingOutcome: Group = {
   groupbyTag: 'call.meta_tags',
   groupbyTagSecondLevelKey: 'destination_service_mapping_outcome_detail'
 } as Group;
-
 export const getServiceMappingMetricConfig = (serviceId: string) => {
   return {
     ...getDefaultMetricConfig(serviceId),
@@ -57,7 +56,6 @@ export const groupByInfraLinkingOutcome: Group = {
   groupbyTag: 'call.meta_tags',
   groupbyTagSecondLevelKey: 'destination_infra_detection_detail'
 } as Group;
-
 export const getInfraLinkingMetricConfig = (serviceId: string) => {
   return {
     ...getDefaultMetricConfig(serviceId),
@@ -108,7 +106,6 @@ export const groupByInfraReferenceType: Group = {
   groupbyTag: 'call.meta_tags',
   groupbyTagSecondLevelKey: 'destination_infra_reference_type'
 } as Group;
-
 export const getInfraReferenceTypeMetricConfig = (serviceId: string) => {
   return {
     ...getDefaultMetricConfig(serviceId),
@@ -142,7 +139,6 @@ export const groupByProcessUptime: Group = {
   groupbyTag: 'call.meta_tags',
   groupbyTagSecondLevelKey: 'destination_process_uptime'
 } as Group;
-
 export const getGroupByProcessUptime = (serviceId: string) => {
   return {
     ...getDefaultMetricConfig(serviceId),
@@ -170,4 +166,52 @@ export const getGroupByServiceRuleId = (serviceId: string) => {
       }
     ]
   };
+};
+
+export type MetricConfig = ReturnType<typeof getServiceMappingMetricConfig>;
+
+const serviceMappingColorMap: Record<string, string> = {
+  MANUAL_MAPPING_UNMONITORED_SERVICE: 'lightBlue',
+  MANUAL_MAPPING_EXISTING_SERVICE: 'orange',
+  RESILIENT_MAPPING_FIRST_LEVEL_CACHE: 'deepPurple',
+  RESILIENT_MAPPING_SECOND_LEVEL_CACHE: 'cyan',
+  FALLBACK_MAPPING_NO_CACHE_HIT: '#97af20',
+  FALLBACK_MAPPING_ENTITY_NOT_TRUSTWORTHY: 'pink',
+  FALLBACK_MAPPING_AMBIGUOUS: 'teal',
+  FALLBACK_MAPPING_ERROR: 'purple',
+  FALLBACK_MAPPING_ENTITY_LOWER_IN_PRIO: 'indigo',
+  FALLBACK_MAPPING_NO_CACHE_KEY: '#4596A4',
+  REGULAR_MAPPING: 'green',
+  MISSING_RULE: 'red'
+};
+export const serviceMappingColorMapper = (_: string, label: string) => {
+  return serviceMappingColorMap[label] ?? null;
+};
+
+const infraLinkingColorMap: Record<string, string> = {
+  PARTIAL_PROCESS_ON_HOST_MISSING: 'lightBlue',
+  PARTIAL_SPECIFIC_PROCESS_MISSING: 'orange',
+  PARTIAL_APP_SERVER_MISSING_ON_JVM: 'deepPurple',
+  PARTIAL_CONTAINER_MISSING: 'cyan',
+  PARTIAL_K8S_INFRA_MISSING: '#97af20',
+  PARTIAL_PCF_INFRA_MISSING: 'pink',
+  PARTIAL_EC2_INSTANCE_MISSING: 'teal',
+  PARTIAL_ECS_TASK_MISSING: 'purple',
+  FULL: 'green',
+  NONE_AMBIGUOUS_INFRA_REF: '#4596A4',
+  NONE: 'red'
+};
+export const infraLinkingColorMapper = (_: string, label: string) => {
+  return infraLinkingColorMap[label] ?? null;
+};
+
+const infraReferenceColorMap: Record<string, string> = {
+  UNQUALIFIED_REFERENCE_HOST_AND_PORT: 'lightBlue',
+  UNQUALIFIED_REFERENCE_CLUSTER_NAME: 'orange',
+  UNQUALIFIED_REFERENCE_CLOUD_ID: 'deepPurple',
+  QUALIFIED_REFERENCE: 'green',
+  UNKNOWN_REFERENCE: 'red'
+};
+export const infraReferenceColorMapper = (_: string, label: string) => {
+  return infraReferenceColorMap[label] ?? null;
 };

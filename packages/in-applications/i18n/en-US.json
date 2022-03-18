@@ -618,6 +618,8 @@
     "processUptime": "Calls by process uptime",
     "processUptimeExplanation": "Are there any recently started processes which might not be fully instrumented yet?",
     "serviceRuleId": "Calls by service rule id",
-    "serviceRuleIdExplanation": "Based on which service rules is the given service created?"
+    "serviceRuleIdExplanation": "Based on which service rules is the given service created?",
+    "alternativeServicesTitle": "Alternative Services",
+    "alternativeServices": "To which alternative services did the missing calls spill over, based on {{correlationTag}}?"
   }
 }

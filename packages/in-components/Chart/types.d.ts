@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+import { Observable } from '@instana/observables';
+
 import { RenderProps } from 'in-components/Chart/renderer/types';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { FilterInterface, TimeConfig } from 'in-types';
@@ -18,7 +20,9 @@ export interface ContextMenuButton {
   name: string;
   icon: string;
   label: string;
-  getHref$: () => void;
+  getHref$: (props: any) => Observable<string> | undefined;
+  allowClickPropagationAndDefault?: boolean;
+  onClick?: () => void;
 }
 
 export interface Config {
@@ -30,6 +34,9 @@ export interface Config {
   rightHeaderContent?: React.ReactElement;
   cardHeader?: React.ReactElement;
   showNoDataInfoWhenEmpty?: boolean;
+
+  primaryContextMenuAction?: string;
+  additionalContextMenuButtons?: ContextMenuButton[];
 
   timeConfig?: TimeConfig;
   y1: Axis;
