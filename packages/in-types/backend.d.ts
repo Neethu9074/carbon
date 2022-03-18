@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { TimeConfig, TagType } from 'in-types/backendCorrections';
+import { TimeConfig, TagType, BeaconType } from 'in-types/backendCorrections';
 
 export interface AbstractApplicationAlertConfig {
   readonly alertChannelIds: string[];
@@ -46,6 +46,12 @@ export interface AbstractRule {
   readonly severity: number;
 }
 
+export interface AbstractSliConfiguration {
+  readonly metricConfiguration?: SliConfigMetricConfiguration;
+  readonly sliEntity: SliEntity;
+  readonly sliName: string;
+}
+
 export interface AbstractThresholdSuggestionQuery extends ThresholdSuggestionQuery, UiQuery {
   readonly operator: ThresholdOperator;
   readonly rbacRestrictions?: any;
@@ -71,6 +77,11 @@ export interface AdaptiveBaselineData extends ThresholdData {
 export interface AdaptiveBaselineSuggestionResponse extends ThresholdSuggestionResponse {
   readonly baseline: number[][];
   readonly message?: string;
+}
+
+export interface AdjustedTimeframe {
+  readonly to: number;
+  readonly windowSize: number;
 }
 
 export interface AgentMonitoringIssueWithSnapshot {
@@ -208,6 +219,7 @@ export interface ApplicationAlertConfigWithMetadata extends ApplicationAlertConf
 
 export interface ApplicationAlertRule extends AlertRule {
   readonly alertType: string;
+  readonly stableHash: number;
 }
 
 export interface ApplicationAlertStats {
@@ -469,6 +481,7 @@ export interface CursorPaginatedResult<ITEM> {
   readonly items: ITEM[];
   readonly totalHits: number;
   readonly totalRepresentedItemCount: number;
+  readonly totalRetainedItemCount: number;
 }
 
 export interface CursorPaginatedWithNext<ITEM, CURSOR> {
@@ -477,6 +490,7 @@ export interface CursorPaginatedWithNext<ITEM, CURSOR> {
   readonly next?: CURSOR;
   readonly totalHits: number;
   readonly totalRepresentedItemCount: number;
+  readonly totalRetainedItemCount: number;
 }
 
 export interface CursorPagination<CURSOR_TYPE> {
@@ -628,6 +642,13 @@ export interface EndpointQueryConstants {
 export interface EndpointTypeSummary {
   readonly metrics: { [index: string]: number[][] };
   readonly type: EndpointType;
+}
+
+export interface Energy {
+  readonly machineSerial?: string;
+  readonly machineTypeModel?: string;
+  readonly sampleType?: string;
+  readonly uuid?: string;
 }
 
 export interface EntityHealthInfo {
@@ -2072,6 +2093,8 @@ export interface Incident extends Event {
 }
 
 export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
+  readonly crossSeriesAggregation?: AggregationType;
+  readonly crossSeriesAggregationValid: boolean;
   readonly grouping?: Grouping[];
   readonly tagFilterExpression: TagFilterExpressionElement;
   readonly type: string;
@@ -2079,6 +2102,7 @@ export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
 
 export interface InfraMetricQuery {
   readonly aggregation: AggregationType;
+  readonly crossSeriesAggregation?: AggregationType;
   readonly granularity?: number;
   readonly metric: string;
 }
@@ -2882,6 +2906,7 @@ export interface MetricQuery {
 }
 
 export interface MetricResult {
+  readonly adjustedTimeframe?: AdjustedTimeframe;
   readonly id: string;
   readonly resultPrecisionDetails?: ResultPrecisionDetails;
   readonly values: number[][];
@@ -3135,6 +3160,7 @@ export interface PhmcQueryFilter extends FilterInterface {
 
 export interface PhmcSystemItem {
   readonly consoleId?: string;
+  readonly energy?: Energy;
   readonly id: string;
   readonly label: string;
   readonly name: string;
@@ -3481,12 +3507,12 @@ export interface SliConfigMetricConfiguration {
   readonly threshold: number;
 }
 
-export interface SliConfiguration {
+export interface SliConfiguration extends AbstractSliConfiguration {
   readonly id: string;
   readonly initialEvaluationTimestamp: number;
-  readonly metricConfiguration?: SliConfigMetricConfiguration;
-  readonly sliEntity: SliEntity;
-  readonly sliName: string;
+}
+
+export interface SliConfigurationInput extends AbstractSliConfiguration {
 }
 
 export interface SliConfigurationWithLastUpdated extends SliConfiguration {
@@ -4596,8 +4622,6 @@ export type AuthorType = 'API' | 'USER' | 'INSTANA' | 'UNKNOWN';
 
 export type AvailabilitySliEventType = 'GOOD' | 'BAD';
 
-export type BeaconType = 'PAGELOAD' | 'RESOURCELOAD' | 'HTTPREQUEST' | 'ERROR' | 'CUSTOM' | 'PAGE_CHANGE';
-
 export type BoundaryScope = 'ALL' | 'INBOUND' | 'DEFAULT';
 
 export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
@@ -4668,7 +4692,7 @@ export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISH
 
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
-export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'DISTRIBUTED_LOGS_V2' | 'UNKNOWN';
+export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'UNKNOWN';
 
 export type OrderDirection = 'ASC' | 'DESC';
 
@@ -4685,6 +4709,8 @@ export type ResultType = 'TIME_SERIES' | 'HISTOGRAM' | 'SINGLE_NUMBER';
 export type Seasonality = 'WEEKLY' | 'DAILY';
 
 export type SliMetricType = 'SLI' | 'ERROR_BUDGET_SPENT' | 'ERROR_BUDGET_REMAINING' | 'TOTAL_ERROR_BUDGET' | 'HOURLY_ERROR_BUDGET_CHART' | 'CONSUMED_ERROR_BUDGET_CHART';
+
+export type SliScope = 'TIME' | 'GOOD' | 'BAD';
 
 export type SliType = 'APPLICATION' | 'WEBSITE';
 
