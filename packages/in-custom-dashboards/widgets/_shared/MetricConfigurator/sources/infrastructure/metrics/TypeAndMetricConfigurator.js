@@ -91,7 +91,7 @@ function TypeAndMetricLabel({ selectMetric, path, label, loading }) {
       </div>
     );
   }
-  if (!label || !path) {
+  if (!label || !path || path.length == 0) {
     return selectMetric;
   }
   return (
