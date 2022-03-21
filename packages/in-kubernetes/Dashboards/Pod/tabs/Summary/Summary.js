@@ -8,6 +8,13 @@ import { get } from 'lodash';
 
 import { Card } from '@instana/components';
 
+import {
+  LogsChartInteractionWrapper,
+  tagEquals,
+  andQuery,
+  kubernetesClusterTagEquals,
+  kubernetesNamespaceTagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
@@ -34,6 +41,10 @@ export default function Summary({ data: pod, timeConfig }) {
   const containerStatuses = get(pod, ['status', 'containerStatuses'], []);
   const { orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
   const kpiWidth = 2;
+
+  const clusterTag = kubernetesClusterTagEquals(pod.clusterId);
+  const nsTag = kubernetesNamespaceTagEquals(pod.namespace);
+  const podTag = tagEquals('kubernetes.pod.name', pod.label);
 
   return (
     <Fragment>
@@ -172,6 +183,15 @@ export default function Summary({ data: pod, timeConfig }) {
               minRollup={10000}
             />
           </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <LogsChartInteractionWrapper
+            tagFilterExpression={andQuery(clusterTag, nsTag, podTag)}
+            timeConfig={timeConfig}
+          />
         </Col>
       </Row>
 
