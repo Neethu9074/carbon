@@ -3,17 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
-import { zeroFillMetric } from 'in-alerting/components/Chart/chartUtils';
+import { adjustTimestamp, zeroFillMetric } from 'in-alerting/components/Chart/chartUtils';
 
 const granularity = 1000;
-const toTime = 12345;
-const adjustedTimeWindow = 10000;
+const adjustedTo = 12345;
+const adjustedTimeWindow = 10 * granularity;
 
 describe('in-alerting/components/Chart/chartUtils', () => {
   describe('zeroFillMetric', () => {
     it('should fully fill empty metric', () => {
       const metricData = [];
-      expect(zeroFillMetric(metricData, granularity, toTime, adjustedTimeWindow)).toStrictEqual([
+      expect(zeroFillMetric(metricData, granularity, adjustedTo, adjustedTimeWindow)).toStrictEqual([
         [2000, 0],
         [3000, 0],
         [4000, 0],
@@ -29,7 +29,7 @@ describe('in-alerting/components/Chart/chartUtils', () => {
 
     it('should fill single value metric', () => {
       const metricData = [[5000, 123]];
-      expect(zeroFillMetric(metricData, granularity, toTime, adjustedTimeWindow)).toStrictEqual([
+      expect(zeroFillMetric(metricData, granularity, adjustedTo, adjustedTimeWindow)).toStrictEqual([
         [2000, 0],
         [3000, 0],
         [4000, 0],
@@ -56,7 +56,7 @@ describe('in-alerting/components/Chart/chartUtils', () => {
         [10000, 8],
         [11000, 9]
       ];
-      expect(zeroFillMetric(metricData, granularity, toTime, adjustedTimeWindow)).toStrictEqual([...metricData]);
+      expect(zeroFillMetric(metricData, granularity, adjustedTo, adjustedTimeWindow)).toStrictEqual([...metricData]);
     });
 
     it('align to-time with respect to granularity and compute from-Time using respective aligned to-time and window-size', () => {
@@ -75,6 +75,26 @@ describe('in-alerting/components/Chart/chartUtils', () => {
       expect(zeroFillMetric(metricData, granularity, 1644112914343, 10800000)).toStrictEqual([
         ...metricData,
         [1644111600000, 0]
+      ]);
+    });
+
+    it('should not zero fill future values', () => {
+      const granularity = 600000;
+      const adjustedTimeWindow = 10 * granularity;
+      // Please note that there is a minimal chance of flakiness as this NOW timestamp might differ to the one used inside the
+      // zeroFillMetric() function. In case you ever see this test-case failing, please give @eng-alerting a friendly ping.
+      const alignedNow = adjustTimestamp(Date.now(), granularity);
+      const adjustedTo = alignedNow + 5 * granularity;
+      const metricData = [
+        [alignedNow - 3 * granularity, 123],
+        [alignedNow - 2 * granularity, 234]
+      ];
+      expect(zeroFillMetric(metricData, granularity, adjustedTo, adjustedTimeWindow)).toStrictEqual([
+        [alignedNow - 5 * granularity, 0],
+        [alignedNow - 4 * granularity, 0],
+        [alignedNow - 3 * granularity, 123],
+        [alignedNow - 2 * granularity, 234],
+        [alignedNow - granularity, 0]
       ]);
     });
   });
