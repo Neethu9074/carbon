@@ -10,8 +10,6 @@
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Please Confirm",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore <strong>\"{{description}}\"</strong>?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
-    "alertHeaderDisableTooltip": " Disable",
-    "alertHeaderEnableTooltip": " Enable",
     "alertHeaderRestoreDeleteTooltip": "Delete",
     "alertHeaderEditTooltip": "Edit",
     "alertHeaderDuplicateTooltip": "Duplicate",
@@ -920,6 +918,8 @@
       "markAsMigratedButtonConfirmationTitle": "Please Confirm",
       "markAsMigratedButtonConfirmationDescription": "Marking this Custom Event as migrated will disable it. The event cannot be re-enabled afterwards. Do you want to proceed?",
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirm"
-    }
+    },
+    "enable": "Enable",
+    "disable": "Disable"
   }
 }
