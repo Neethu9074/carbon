@@ -3,28 +3,61 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import { useLocation } from 'react-router';
+import { get } from 'lodash';
 import React from 'react';
+
+import { useObservable } from '@instana/hooks';
+import { t } from '@instana/i18n-react';
 
 // @ts-expect-error Module needs to be translated to TS
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import tabs from 'in-synthetics/dashboards/summary/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
+import { dummyTest } from 'in-synthetics/utils/constants';
+import { Progress, SyntheticTest } from 'in-types';
+import { getTest } from 'in-synthetics/api';
+
+export interface TestResponse {
+  data?: SyntheticTest;
+  errors?: Error[];
+  progress: Progress;
+  time?: number;
+}
 
 function Header(props: DashboardHeaderProps) {
   //Page label and title needs to be replaced with the real test label value
-  return (
-    <DashboardHeader
-      {...props}
-      icon="lib_infra_ibmCos"
-      title={'Test1'}
-      label={'Test1'}
-      showHistoricDataWarning={false}
-    />
-  );
+  const location = useLocation();
+  const testId = getMatrixParameter(location, syntheticsPath, 'testId') ?? '';
+  let test: TestResponse = useObservable<any, []>(() => getTest(testId), []) || dummyTest;
+  if (!test.progress.loading) {
+    const label = get(test, ['data', 'label']);
+    return (
+      <DashboardHeader
+        {...props}
+        icon="lib_infra_ibmCos"
+        title={t('in-synthetics:dashboard.testList.mainLabel')}
+        label={label}
+        showHistoricDataWarning={false}
+      />
+    );
+  } else {
+    return (
+      <DashboardHeader
+        {...props}
+        icon="lib_infra_ibmCos"
+        title={t('in-synthetics:dashboard.testList.mainLabel')}
+        label={''}
+        showHistoricDataWarning={false}
+      />
+    );
+  }
 }
 
-export default function SyntheticSymmaryDashboard() {
+export default function SyntheticSummaryDashboard() {
   return (
     <>
       <ViewTrackingMeta
