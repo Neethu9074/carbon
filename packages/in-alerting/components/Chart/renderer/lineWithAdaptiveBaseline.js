@@ -70,7 +70,8 @@ export function getThresholdInTimeframe(
 }
 
 function calculateFirstBucketInChartStartTime(timeConfig, granularity) {
-  return timeConfig.to - timeConfig.windowSize - granularity;
+  const to = timeConfig.to ?? Date.now();
+  return to - timeConfig.windowSize - granularity;
 }
 
 function renderAdaptiveBaseline(axis, config, scale, colors50, colors100) {
