@@ -498,7 +498,9 @@
       "chart": {
         "spent": "Spent",
         "budget": "Budget",
-        "viewInAnalyze": "View in Analyze"
+        "viewInAnalyze": "View in Analyze",
+        "initialEvaluation": "SLI created",
+        "missingDataInfo": "The time of creation for this SLI is within the displayed time range. Data prior to the SLI's creation will be missing."
       },
       "formComponent": {
         "sliManagement": "SLI Management",

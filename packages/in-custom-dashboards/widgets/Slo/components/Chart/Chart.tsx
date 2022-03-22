@@ -6,6 +6,7 @@
 import React, { useMemo } from 'react';
 
 import { Observable, just } from '@instana/observables';
+import { Message } from '@instana/components';
 
 import {
   isApplicationSliConfig,
@@ -15,7 +16,8 @@ import {
   SliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { useLinkToUnboundedAnalytics } from 'in-custom-dashboards/widgets/Slo/hooks/useLinkToUnboundedAnalytics';
-import stairway, { hourlyBudgetMetricId } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
+import PostChartContent from 'in-custom-dashboards/widgets/Slo/components/Chart/PostChartContent';
+import { useStairwayRenderer } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
 import { MetricResult, Result, SliEntity, TimeConfig } from 'in-types';
@@ -23,11 +25,13 @@ import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { MetricDataSeries } from 'in-components/Chart/types';
+import { error, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { CALLS } from 'in-applications/analyze/metrics';
-import { error } from 'in-services/util/result';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
+
+import locals from './Chart.mless';
 
 export interface ChartTrackers {
   trackJumpToUnboundedAnalytics?: (e: SliEntity) => void;
@@ -65,6 +69,8 @@ export default function Chart({
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
   const linkToUnboundAnalytics = useLinkToUnboundedAnalytics(sliConfig, tagCatalog);
 
+  const showMissingDataIndicators = !isLoading(result) && sliCreatedWithinTimeWindow(sliConfig, timeConfig);
+
   let metrics: MetricDataSeries[] = [consumed, hourlyBudget];
 
   if (isStaticBudget) {
@@ -72,32 +78,46 @@ export default function Chart({
     metrics = [consumed, consumed.map<[number, number]>(timeValue => [timeValue[0], budget])];
   }
 
+  const renderer = useStairwayRenderer({
+    metricConfiguration: {
+      hourlyBudget: { fillTopBackground: true }
+    },
+    firstCollectedMetricTimestamp: sliConfig?.initialEvaluationTimestamp
+  });
+
   return (
-    <ResultAwareChart
-      result={result}
-      config={{
-        automaticallySize,
-        granularity,
-        timeConfig,
-        y1: {
-          metricIds: ['consumed', hourlyBudgetMetricId],
-          labels: [
-            t('in-custom-dashboards:widgets.slo.chart.spent'),
-            t('in-custom-dashboards:widgets.slo.chart.budget')
-          ],
-          icons: {
-            types: ['lib_flame', 'lib_actions_stop']
+    <div className={locals.chartContainer}>
+      <ResultAwareChart
+        result={result}
+        config={{
+          automaticallySize,
+          granularity,
+          timeConfig,
+          y1: {
+            metricIds: ['consumed', 'hourlyBudget'],
+            labels: [
+              t('in-custom-dashboards:widgets.slo.chart.spent'),
+              t('in-custom-dashboards:widgets.slo.chart.budget')
+            ],
+            icons: {
+              types: ['lib_flame', 'lib_actions_stop']
+            },
+            colors: [theme.lib.colors.blue800, theme.lib.colors.red800],
+            renderer,
+            metrics: [...metrics],
+            formatter: useSliFormatter(sliConfig?.sliEntity),
+            isStaticBudget
           },
-          colors: [theme.lib.colors.blue800, theme.lib.colors.red800],
-          renderer: stairway,
-          metrics: [...metrics],
-          formatter: useSliFormatter(sliConfig?.sliEntity),
-          isStaticBudget
-        },
-        nonInteractive: isPreview,
-        ...getCustomAnalyzeContextMenuProperties(linkToUnboundAnalytics, sliConfig, disableZooming, trackers)
-      }}
-    />
+          nonInteractive: isPreview,
+          renderPostChartContent: props =>
+            showMissingDataIndicators && <PostChartContent sliConfig={sliConfig} {...props} />,
+          ...getCustomAnalyzeContextMenuProperties(linkToUnboundAnalytics, sliConfig, disableZooming, trackers)
+        }}
+      />
+      {showMissingDataIndicators && (
+        <Message title={t('in-custom-dashboards:widgets.slo.chart.missingDataInfo')} withIcon dismissible small />
+      )}
+    </div>
   );
 }
 
@@ -145,4 +165,10 @@ function useTagCatalogLoader(config?: SliConfig): Parameters<typeof useTagCatalo
     }
     return () => just(error([]));
   }, [config]);
+}
+
+function sliCreatedWithinTimeWindow(sliConfig: SliConfig | undefined, timeConfig: TimeConfig): boolean {
+  return (
+    Boolean(sliConfig) && sliConfig!.initialEvaluationTimestamp >= (timeConfig.to ?? Date.now()) - timeConfig.windowSize
+  );
 }

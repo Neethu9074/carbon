@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { ForwardedRef, forwardRef } from 'react';
+import React, { ForwardedRef, forwardRef, Ref } from 'react';
 import classNames from 'classnames';
 
 import { LaneItemProps, MarkerLaneEvent } from 'in-components/Chart/markerLanes/MarkerLane/MarkerLane';
@@ -57,8 +57,7 @@ const SingleMarkerLaneItem = forwardRef(function SingleMarkerLaneItem<EventType 
   );
   // Cast forwardRef result to keep generic signature
 }) as <EventType extends MarkerLaneEvent>(
-  props: SingleMarkerLaneItemProps<EventType>,
-  ref: ForwardedRef<HTMLDivElement>
+  props: SingleMarkerLaneItemProps<EventType> & { ref?: Ref<HTMLDivElement> }
 ) => React.ReactElement;
 
 export default SingleMarkerLaneItem;

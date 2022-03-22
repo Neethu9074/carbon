@@ -29,7 +29,7 @@ interface ForwardedOverlayContentProps<EventType extends MarkerLaneEvent> {
 
 interface LaneIconProps<EventType extends MarkerLaneEvent> {
   timeConfig?: TimeConfig;
-  calloutContent: React.ComponentType<
+  calloutContent?: React.ComponentType<
     OverlayContentProps & OverlayMounterContentProps & ForwardedOverlayContentProps<EventType>
   >;
   onClick?: (e: EventType) => void;
@@ -47,7 +47,13 @@ export default function LaneIcon<EventType extends MarkerLaneEvent>({
   iconConfig
 }: LaneIconProps<EventType>) {
   return (
-    <Overlay props={{ iconConfig, eventData, timeConfig }} content={calloutContent} withoutWrapper>
+    <Overlay
+      props={{ iconConfig, eventData, timeConfig }}
+      // Casting calloutContent here, because the overlay will not be opened if the content is not present.
+      // However, properly avoiding rendering of the Overlay if the calloutContent is not present is too complicated in this case
+      content={calloutContent!}
+      withoutWrapper
+    >
       {({ open, ref }) => {
         return (
           <SvgIcon

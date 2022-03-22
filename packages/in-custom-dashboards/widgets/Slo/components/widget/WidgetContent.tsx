@@ -10,7 +10,7 @@ import { Message } from '@instana/components';
 import { isApplicationSliEntity, isAvailabilitySliEntity } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { Error, MetricResult, Progress, SliConfigurationWithLastUpdated, TimeConfig } from 'in-types';
 import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
-import Chart, { ChartTrackers } from 'in-custom-dashboards/widgets/Slo/Chart';
+import Chart, { ChartTrackers } from 'in-custom-dashboards/widgets/Slo/components/Chart/Chart';
 import { findMetric } from 'in-custom-dashboards/widgets/Slo/metric';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { t } from 'in-i18n';
