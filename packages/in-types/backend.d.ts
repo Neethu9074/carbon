@@ -1527,6 +1527,12 @@ export interface GetOpenEventsCountTimeSeriesQuery {
   readonly timeConfig: TimeConfig;
 }
 
+export interface GetOpenstackQuery extends PaginatedQuery {
+  readonly filter: OpenstackQueryFilter;
+  readonly order: Order;
+  readonly pagination: Pagination;
+}
+
 export interface GetPhmcQuery extends PaginatedQuery {
   readonly filter: PhmcQueryFilter;
   readonly order: Order;
@@ -3134,6 +3140,32 @@ export interface NewApplicationConfig extends AbstractApplicationConfig {
 
 export interface NewApplicationConfigWithAlertingDetails extends NewApplicationConfig {
   readonly builtInAlertIds: string[];
+}
+
+export interface OpenstackItem {
+  readonly id: string;
+  readonly itemId: string;
+  readonly label: string;
+  readonly name: string;
+  readonly openstackId: string;
+}
+
+export interface OpenstackListItem extends FilterableListItem, ListItemWithMetric {
+  readonly entityId?: EntityId;
+  readonly id: string;
+  readonly label: string;
+  readonly openstackId?: string;
+  readonly regionId?: string;
+}
+
+export interface OpenstackQueryFilter extends FilterInterface {
+  readonly hypervisorId?: string;
+  readonly instanceId?: string;
+  readonly label?: string;
+  readonly openstackId?: string;
+  readonly regionId?: string;
+  readonly snapshotId?: string;
+  readonly timeConfig: TimeConfig;
 }
 
 export interface OperatingSystem {
