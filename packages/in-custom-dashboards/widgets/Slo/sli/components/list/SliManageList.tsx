@@ -6,20 +6,22 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 
 import { Message, Button } from '@instana/components';
+import { useObservable } from '@instana/hooks';
 
-import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliFormFactory';
+import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
+import { deleteSliConfiguration, getSliConfigurationsByEntity } from 'in-custom-dashboards/api';
 import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { PaginatedResult, Result, SliConfiguration, SliType } from 'in-types';
-import { getSliConfigurationsByEntity } from 'in-custom-dashboards/api';
-import SliList from 'in-custom-dashboards/widgets/Slo/sli/SliList';
+import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import { isLoading, hasError } from 'in-services/util/result';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { role } from 'in-stores/user';
 import { Trans, t } from 'in-i18n';
 
-import locals from './SliManageList.mless';
+import locals from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList.mless';
 
 type SubSlideState<S extends Lowercase<SliType>> = [
   Partial<SliConfigBySliType<S>> | undefined,
@@ -39,6 +41,10 @@ export default function SliManageList<S extends Lowercase<SliType>>({
   const [selectedSli, setSelectedSli] = subSlideState;
   const [nameQuery, setNameQuery] = useState<string>('');
   const close = () => setSelectedSli(undefined);
+  const sliResult = useObservable(
+    () => getSliConfigurationsByEntity({ entityType, entityId }).map(searchBySliName(nameQuery)),
+    [entityType, entityId, nameQuery]
+  );
 
   const canConfigureServiceLevelIndicators = role?.canConfigureServiceLevelIndicators ?? false;
 
@@ -54,7 +60,7 @@ export default function SliManageList<S extends Lowercase<SliType>>({
       )}
       <SliList
         onChange={({ query }) => setNameQuery(query ?? '')}
-        getItems={() => getSliConfigurationsByEntity({ entityType, entityId }).map(searchBySliName(nameQuery))}
+        result={sliResult}
         rightHeader={
           canConfigureServiceLevelIndicators && (
             <Button
@@ -75,6 +81,7 @@ export default function SliManageList<S extends Lowercase<SliType>>({
           setSelectedSli(sliConfig as SliConfigBySliType<S>);
           trackSliViewSLI({ sliId: sliConfig.id, sliType: sliConfig.sliEntity?.sliType });
         }}
+        onDelete={deleteSliConfig}
       />
     </div>
   );
@@ -121,3 +128,28 @@ function searchBySliName(query: string): (r: Result<SliConfiguration[]>) => Resu
     };
   };
 }
+
+const deleteSliConfig = (id: string): void => {
+  deleteSliConfiguration(id).once(
+    () => {
+      addMessage(
+        {
+          type: 'info',
+          timeout: 2000,
+          content: t('in-custom-dashboards:widgets.slo.sliList.sliConfigDeleted')
+        },
+        'custom-dashboard-info'
+      );
+    },
+    () => {
+      addMessage(
+        {
+          type: 'danger',
+          timeout: 3000,
+          content: t('in-custom-dashboards:widgets.slo.sliList.failedDelSli')
+        },
+        'custom-dashboard-error'
+      );
+    }
+  );
+};

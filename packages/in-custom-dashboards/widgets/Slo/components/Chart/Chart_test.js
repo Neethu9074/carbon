@@ -6,13 +6,17 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import { Message } from '@instana/components';
+
+import PostChartContent from 'in-custom-dashboards/widgets/Slo/components/Chart/PostChartContent';
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
+import Chart from 'in-custom-dashboards/widgets/Slo/components/Chart/Chart';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import Chart from 'in-custom-dashboards/widgets/Slo/Chart';
 import { CALLS } from 'in-applications/analyze/metrics';
 import { emptyArray } from 'in-services/fixedObjects';
 import { success } from 'in-services/util/result';
+import { t } from 'in-i18n';
 
 jest.mock('in-applications/api/catalog', () => ({
   getApplicationTagCatalog: jest.fn(() => () => ({ tags: [] }))
@@ -145,7 +149,7 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     );
   });
 
-  it('it disables zoomIn if disableZooming is true', () => {
+  it('disables zoomIn if disableZooming is true', () => {
     // Given
     const sliConfig = {
       sliEntity: { sliType: 'availability' }
@@ -161,5 +165,77 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
         excludedContextMenuActions: ['zoomIn']
       })
     );
+  });
+
+  it('renders a missing data info message when the sli was created within the configured timeWindow', () => {
+    // Given
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      initialEvaluationTimestamp: 3
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+
+    // When
+    const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
+
+    // Then
+    expect(wrapper.find(Message).prop('title')).toEqual(t('in-custom-dashboards:widgets.slo.chart.missingDataInfo'));
+  });
+
+  it('does renders a missing data info message when the sli when the sli was created within now and the timeConfigs windowSize when live mode is enabled', () => {
+    // Given
+    jest.useFakeTimers();
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      initialEvaluationTimestamp: 7
+    };
+    const timeConfig = { windowSize: 5, autoRefresh: true };
+    jest.setSystemTime(10);
+
+    // When
+    const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
+
+    // Then
+    expect(wrapper.find(Message).prop('title')).toEqual(t('in-custom-dashboards:widgets.slo.chart.missingDataInfo'));
+  });
+
+  it('does not render a missing data info message when the sli when the sli was created outside the configured timeWindow and live mode is enabled', () => {
+    jest.useFakeTimers();
+    // Given
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      initialEvaluationTimestamp: 1
+    };
+    const timeConfig = { windowSize: 5, autoRefresh: true };
+    jest.setSystemTime(10);
+
+    // When
+    const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
+
+    // Then
+    expect(wrapper.containsMatchingElement(<Message />)).toBeFalsy();
+  });
+
+  it('renders the sli PostChartContent when the sli was created within the configured timeWindow', () => {
+    // Given
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      initialEvaluationTimestamp: 3
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+
+    // When
+    const wrapper = shallow(<Chart {...defaultProps} sliConfig={sliConfig} timeConfig={timeConfig} />);
+    const RenderPostChartContent = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
+    const postChartContentWrapper = shallow(
+      <RenderPostChartContent timeConfig={timeConfig} chartContentPosition={'post'} />
+    );
+
+    // Then
+    expect(
+      postChartContentWrapper.containsMatchingElement(
+        <PostChartContent sliConfig={sliConfig} timeConfig={timeConfig} chartContentPosition={'post'} />
+      )
+    ).toBeTruthy();
   });
 });

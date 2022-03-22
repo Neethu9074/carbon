@@ -20,13 +20,17 @@ import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ru
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { isPercentageMetric } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import Dropdown from 'in-alerting/components/Dropdown';
+
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/ThresholdCondition.mless';
 
 export default function JsErrorsThresholdCondition({ form, blueprintConfig, updateForm }) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const percentageMetric = isPercentageMetric(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
+  const thresholdField = form.get('threshold').get('value');
 
   return (
     <ThresholdConditionFormGroup>
@@ -44,14 +48,18 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
         updateForm={updateForm}
         trackingCallback={websitesAlertingThresholdOperatorChanged}
       />
-      <ThresholdValueInput
-        max={maxValue}
-        form={form}
-        updateForm={updateForm}
-        percentageMetric={percentageMetric}
-        trackChange={websitesAlertingThresholdValueChanged}
-        metricUnitPostfix={metricUnitPostfix}
-      />
+      <div className={locals.thresholdValueWithValidationMessage}>
+        <ThresholdValueInput
+          max={maxValue}
+          form={form}
+          updateForm={updateForm}
+          percentageMetric={percentageMetric}
+          trackChange={websitesAlertingThresholdValueChanged}
+          metricUnitPostfix={metricUnitPostfix}
+        />
+        <TouchedMessages field={thresholdField} />
+      </div>
+
       <UseSuggestedValueButton
         form={form}
         updateForm={updateForm}

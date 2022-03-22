@@ -12,7 +12,7 @@ export default {
   component: ConfigureTimeWindow
 };
 
-export const standard = () => {
+export const Standard = () => {
   const [timeThresholdTimeWindow, setTimeThresholdTimeWindow] = useState(minutes.toMillis(5));
 
   const props = {

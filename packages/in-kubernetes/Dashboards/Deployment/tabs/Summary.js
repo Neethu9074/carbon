@@ -7,6 +7,13 @@ import React, { Fragment } from 'react';
 
 import { Card } from '@instana/components';
 
+import {
+  LogsChartInteractionWrapper,
+  andQuery,
+  kubernetesClusterTagEquals,
+  kubernetesNamespaceTagEquals,
+  tagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import { zeroDecimalPlaces, timeByMillisTwoDecimalPlaces } from 'in-services/formatters/number';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
@@ -33,6 +40,10 @@ export default function Summary({ timeConfig, data: deployment }) {
     deepPurple800: unscheduled,
     pink800: unready
   } = theme.lib.colors;
+
+  const clusterTag = kubernetesClusterTagEquals(deployment.clusterId);
+  const nsTag = kubernetesNamespaceTagEquals(deployment.namespace);
+  const workloadTag = tagEquals('kubernetes.deployment.name', deployment.name);
 
   return (
     <Fragment>
@@ -103,6 +114,7 @@ export default function Summary({ timeConfig, data: deployment }) {
             />
           </Card>
         </Col>
+
         <Col lg={4}>
           <Card title={t('in-kubernetes:dashboards.memoryResources')}>
             <Chart
@@ -152,6 +164,16 @@ export default function Summary({ timeConfig, data: deployment }) {
           </Card>
         </Col>
       </Row>
+
+      <Row>
+        <Col lg={12}>
+          <LogsChartInteractionWrapper
+            tagFilterExpression={andQuery(clusterTag, nsTag, workloadTag)}
+            timeConfig={timeConfig}
+          />
+        </Col>
+      </Row>
+
       <Row>
         <Col lg={6}>
           <Card title={t('in-kubernetes:dashboards.replicas')}>

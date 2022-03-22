@@ -7,6 +7,13 @@ import React, { Fragment } from 'react';
 
 import { Card } from '@instana/components';
 
+import {
+  LogsChartInteractionWrapper,
+  andQuery,
+  kubernetesClusterTagEquals,
+  kubernetesNamespaceTagEquals,
+  tagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
 import { resourceQuotaNumber, resourceQuotaBytes } from 'in-kubernetes/formatters';
@@ -28,6 +35,10 @@ export default function Summary({ timeConfig, data: statefulSet }) {
     deepPurple800: unscheduled,
     pink800: unready
   } = theme.lib.colors;
+
+  const clusterTag = kubernetesClusterTagEquals(statefulSet.clusterId);
+  const nsTag = kubernetesNamespaceTagEquals(statefulSet.namespace);
+  const workloadTag = tagEquals('kubernetes.statefulset.name', statefulSet.name);
 
   return (
     <Fragment>
@@ -148,6 +159,16 @@ export default function Summary({ timeConfig, data: statefulSet }) {
           </Card>
         </Col>
       </Row>
+
+      <Row>
+        <Col lg={12}>
+          <LogsChartInteractionWrapper
+            tagFilterExpression={andQuery(clusterTag, nsTag, workloadTag)}
+            timeConfig={timeConfig}
+          />
+        </Col>
+      </Row>
+
       <Row>
         <Col lg={12}>
           <Card title={t('in-kubernetes:dashboards.replicas')}>

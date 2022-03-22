@@ -31,6 +31,7 @@ import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
 import IconButton from 'in-components/IconButton/IconButton';
 import { stopPropagation } from 'in-services/util/function';
+import Tooltip from 'in-components/Tooltip';
 import { t, Trans } from 'in-i18n';
 
 import locals from './ListActionsColumn.mless';
@@ -52,15 +53,17 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
 
   return (
     <HorizontalFlexWrapper className={locals.actions}>
-      <IconButton
-        kind="primaryv2"
-        type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
-        iconSpinning={isSaving}
-        onClick={e => {
-          stopPropagation(e);
-          handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);
-        }}
-      />
+      <Tooltip content={getTooltipForAction()}>
+        <IconButton
+          kind="primaryv2"
+          type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
+          iconSpinning={isSaving}
+          onClick={e => {
+            stopPropagation(e);
+            handleToggleEnabled(enabled, id, setIsSaving, isGlobalSmartAlertConfig);
+          }}
+        />
+      </Tooltip>
 
       <MoreMenu
         renderInteractiveElement={({ ref, toggle }) => (
@@ -97,6 +100,14 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
       </MoreMenu>
     </HorizontalFlexWrapper>
   );
+
+  function getTooltipForAction() {
+    if (isSaving) {
+      return '';
+    }
+
+    return enabled ? t('in-alerting:smartAlerts.disable') : t('in-alerting:smartAlerts.enable');
+  }
 }
 
 function handleDelete(id, setIsSaving, isGlobalSmartAlertConfig, configName) {

@@ -41,7 +41,7 @@ packages/in-init                    @pr-approval @Instana-IBM-GitHub-Enterprise 
 packages/in-integrations            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-sensors @instana/eng-ui
 # Shared ownership
 # packages/in-internal
-packages/in-kubernetes              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-k8s @instana/eng-ui
+packages/in-kubernetes              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-k8s @instana/eng-ui
 packages/in-logging                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-logs @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-map                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui

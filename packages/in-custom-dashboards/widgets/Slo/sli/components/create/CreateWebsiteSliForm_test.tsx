@@ -10,9 +10,9 @@ import React from 'react';
 
 import { useValidateWebsiteFilterExpression as uVWFE } from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
 import { SliConfig, websiteEventBased, websiteTimeBased } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import CreateWebsiteSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm';
+import CreateWebsiteSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateWebsiteSliForm';
+import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { Website, WebsiteEventBasedSliEntity, WebsiteTimeBasedSliEntity } from 'in-types';
-import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';

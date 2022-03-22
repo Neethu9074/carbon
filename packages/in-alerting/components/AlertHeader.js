@@ -197,9 +197,7 @@ export default function AlertHeader({
             <>
               <Tooltip
                 content={
-                  alertConfig.enabled
-                    ? t('in-alerting:components.alertHeaderDisableTooltip')
-                    : t('in-alerting:components.alertHeaderEnableTooltip')
+                  alertConfig.enabled ? t('in-alerting:smartAlerts.disable') : t('in-alerting:smartAlerts.enable')
                 }
               >
                 <IconButton

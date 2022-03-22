@@ -14,6 +14,7 @@ export function AdvancedModeFooter({
   onCreate,
   isSaving,
   form,
+  setForm,
   additionalValidationCheck,
   editMode,
   migrationMode
@@ -23,10 +24,17 @@ export function AdvancedModeFooter({
       <CancelButton onClick={() => onClose()} />
 
       <SaveButton
-        onClick={() => onCreate()}
+        onClick={() => {
+          if (additionalValidationCheck()) {
+            onCreate();
+          } else {
+            if (form && !form.hierarchyValid) {
+              setForm?.(form.setTouched(true, { recurse: true }));
+            }
+          }
+        }}
         isSaving={isSaving}
-        form={form}
-        disabled={!form.hierarchyValid || !additionalValidationCheck()}
+        disabled={isSaving}
       >
         {getSaveButtonLabel({ editMode, migrationMode })}
       </SaveButton>
@@ -45,6 +53,7 @@ AdvancedModeFooter.propTypes = {
   onCreate: PropTypes.func.isRequired,
   additionalValidationCheck: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
+  setForm: PropTypes.func.isRequired,
   isSaving: PropTypes.bool,
   editMode: PropTypes.bool,
   migrationMode: PropTypes.bool

@@ -15,7 +15,7 @@ type MetricTimestamp = number;
 type MetricValue = number;
 
 type MetricPostProcessor =
-  | ((metric: Metric[], granularity: number, toTime: number, adjustedWindowSize: number) => Metric[])
+  | ((metric: Metric[], granularity: number, adjustedTo: number, adjustedWindowSize: number) => Metric[])
   | false
   | undefined;
 
@@ -50,8 +50,12 @@ export function applyPostProcessing<T extends Metrics>(
  * Because the backend metrics API does not provide the capability yet to define the filling behaviour of missing values, we are
  * applying zero filling in the client side. This could be removed as soon as the metric APIs provide such a capability.
  */
-export const zeroFillMetric: MetricPostProcessor = (metricData, granularity, toTime, adjustedWindowSize) => {
-  const adjustedTimeframe = getAdjustedTimeframe(toTime, adjustedWindowSize, granularity);
+export const zeroFillMetric: MetricPostProcessor = (metricData, granularity, adjustedTo, adjustedWindowSize) => {
+  const adjustedNow = adjustTimestamp(Date.now(), granularity);
+  const trimmedAdjustedNow = Math.min(adjustedTo, adjustedNow);
+  const trimmedAdjustedWindowSize = adjustedWindowSize - (adjustedTo - trimmedAdjustedNow);
+
+  const adjustedTimeframe = adjustTimeframe(trimmedAdjustedNow, trimmedAdjustedWindowSize, granularity);
 
   if (metricData.length === adjustedTimeframe.numBuckets) {
     // do not modify the metric data when it is already complete
@@ -75,8 +79,14 @@ export const zeroFillMetric: MetricPostProcessor = (metricData, granularity, toT
   return resultMetricData;
 };
 
-function getAdjustedTimeframe(to: number, windowSize: number, granularity: number): AdjustedTimeframe {
-  const adjustedTo: number = Math.floor(to / granularity) * granularity;
+/**
+ * Adjusts the timeframe to be left-aligned
+ * @param to          The end of the timeframe.
+ * @param windowSize  The width of the timeframe.
+ * @param granularity The metric granularity.
+ */
+function adjustTimeframe(to: number, windowSize: number, granularity: number): AdjustedTimeframe {
+  const adjustedTo: number = adjustTimestamp(to, granularity);
   const adjustedFrom: number = adjustedTo - windowSize;
   const numberOfBuckets: number = Math.floor(windowSize / granularity);
 
@@ -85,4 +95,13 @@ function getAdjustedTimeframe(to: number, windowSize: number, granularity: numbe
     from: adjustedFrom,
     numBuckets: numberOfBuckets
   };
+}
+
+/**
+ * Adjust timestamp to be left-aligned based on granularity to match with the definition for metric timestamps.
+ * @param timestamp   The timestamp to adjust.
+ * @param granularity The metric granularity.
+ */
+export function adjustTimestamp(timestamp: number, granularity: number) {
+  return Math.floor(timestamp / granularity) * granularity;
 }

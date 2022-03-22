@@ -7,6 +7,12 @@ import React, { Fragment } from 'react';
 
 import { Card } from '@instana/components';
 
+import {
+  LogsChartInteractionWrapper,
+  andQuery,
+  kubernetesClusterTagEquals,
+  tagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import ConditionsTableCard from 'in-kubernetes/Dashboards/commonComponents/ConditionsTableCard';
 import K8DashboardsMarkerLanes from 'in-kubernetes/Dashboards/K8DashboardsMarkerLanes';
@@ -27,6 +33,9 @@ import { t } from 'in-i18n';
 export default function Summary({ timeConfig, data: node }) {
   const snapshotId = node.id;
   const { teal800: capacity, orange800: limits, lime800: requests, lightBlue800: usage } = theme.lib.colors;
+
+  const clusterTag = kubernetesClusterTagEquals(node.clusterId);
+  const workloadTag = tagEquals('kubernetes.node.name', node.name);
 
   return (
     <Fragment>
@@ -155,6 +164,15 @@ export default function Summary({ timeConfig, data: node }) {
               renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <LogsChartInteractionWrapper
+            tagFilterExpression={andQuery(clusterTag, workloadTag)}
+            timeConfig={timeConfig}
+          />
         </Col>
       </Row>
 
