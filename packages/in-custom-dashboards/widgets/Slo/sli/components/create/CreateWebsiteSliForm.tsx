@@ -20,11 +20,11 @@ import {
   useWebsiteQueryBuilder
 } from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
 import { createForm, SliFormData, WebsiteSliEntityFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
+import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import { useWebsiteSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
-import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliFormFactory';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { createSliConfiguration } from 'in-custom-dashboards/api';

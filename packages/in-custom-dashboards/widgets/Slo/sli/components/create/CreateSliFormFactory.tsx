@@ -5,8 +5,8 @@
 
 import React from 'react';
 
-import CreateApplicationSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm';
-import CreateWebsiteSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateWebsiteSliForm';
+import CreateApplicationSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateApplicationSliForm';
+import CreateWebsiteSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateWebsiteSliForm';
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { SliType } from 'in-types';
 

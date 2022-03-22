@@ -11,7 +11,7 @@ import { create, just } from '@instana/observables';
 import { Message } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
+import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { addMessage as aM } from 'in-components/MessageFlyout/stores/messages';
 

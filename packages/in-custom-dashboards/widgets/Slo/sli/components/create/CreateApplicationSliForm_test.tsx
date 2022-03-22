@@ -9,10 +9,10 @@ import { isMatch } from 'lodash';
 import React from 'react';
 
 import { useValidateApplicationFilterExpression as uVAFE } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
+import CreateApplicationSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateApplicationSliForm';
 import { applicationType, availabilityType, SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import CreateApplicationSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateApplicationSliForm';
+import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { ApplicationSliForm } from 'in-custom-dashboards/widgets/Slo/sli/ApplicationSliForm';
-import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
 import { Application, ApplicationSliEntity, AvailabilitySliEntity } from 'in-types';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';

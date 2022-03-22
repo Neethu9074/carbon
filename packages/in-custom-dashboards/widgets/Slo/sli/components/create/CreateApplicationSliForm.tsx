@@ -18,13 +18,13 @@ import {
   NewSliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { useApplicationSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';
+import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import { Application, ApplicationBoundaryScope, ApplicationSliEntity, Result, TimeConfig } from 'in-types';
 import { sliFieldNames, createForm, SliFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
-import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliFormFactory';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
+import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { ApplicationSliForm } from 'in-custom-dashboards/widgets/Slo/sli/ApplicationSliForm';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
-import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
 import { createSliConfiguration } from 'in-custom-dashboards/api';
 import useApplication from 'in-applications/hooks/useApplication';

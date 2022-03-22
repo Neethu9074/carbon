@@ -480,7 +480,9 @@
         "delSliConfig": "Delete SLI Configuration",
         "pleaseConfirm": "Please Confirm",
         "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{sliName}}</strong>?",
-        "delete": "Delete"
+        "delete": "Delete",
+        "eventBasedSli": "Event-based",
+        "timeBasedSli": "Time-based, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "You are not having the required <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> permission to create or edit SLIs.",
