@@ -152,6 +152,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   ) : (
     <AdvancedModeFooter
       form={form}
+      setForm={updateForm}
       onClose={withTrackClose}
       onCreate={withTrackCreate}
       isSaving={isSaving}
