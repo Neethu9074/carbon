@@ -767,8 +767,6 @@
     "antiAliasing": "Anti-aliasing",
     "podMap": "Pod Map",
     "showUngroupedPods": "Show ungrouped pods",
-    "platform": "Platform",
-    "showOpenstack": "Show OpenStack",
     "useQueryableTagsOnly": "Use queryable tags only",
     "troubleshooting": "Troubleshooting",
     "theFollowingOptionsShouldNeverBeTurnedOnWithoutBeingAskedToDoSoByInstanaSupport": "The following options should never be turned on without being asked to do so by Instana Support.",
