@@ -142,6 +142,18 @@ export default function UiConfigAdvancedPage() {
         </HorizontalFormGroup>
       </div>
 
+      <SectionHeading>{t('in-settings:tabs.platform')}</SectionHeading>
+      <div style={{ marginBottom: '1rem' }}>
+        <HorizontalFormGroup>
+          <Heading text={t('in-settings:tabs.showOpenstack')} htmlFor="openstack" />
+          <Toggle
+            id="openstack"
+            checked={get(settings, ['openstack_enabled'], true)}
+            onChange={e => saveSetting('openstack_enabled', e.target.checked)}
+          />
+        </HorizontalFormGroup>
+      </div>
+
       <SectionHeading>{t('in-settings:tabs.infrastructure')}</SectionHeading>
       <div style={{ marginBottom: '1rem' }}>
         <HorizontalFormGroup>
