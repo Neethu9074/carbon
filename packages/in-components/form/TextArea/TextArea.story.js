@@ -16,6 +16,14 @@ export const Default = () => {
   return <TextArea />;
 };
 
+export const WithError = () => {
+  return <TextArea hasError />;
+};
+
+export const WithErrorAndHiddenValidationInfoOnFocus = () => {
+  return <TextArea hasError hideValidityInformationOnFocus />;
+};
+
 export const Debounced = () => {
   const [debouncedText, setDebouncedText] = useState('please edit this text and see changes');
   const [withoutDebouncing, setDirect] = useState(() => debouncedText);
