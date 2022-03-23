@@ -21,10 +21,10 @@
       color: rgba(58, 75, 81, 0.48);
       cursor: not-allowed;
     }
+  }
 
-    .error:not(:focus),
-    .error:focus:not(.hideValidityInformationOnFocus) {
-      border-color: @lib__colors__failure;
-    }
+  .error:not(:focus),
+  .error:focus:not(.hideValidityInformationOnFocus) {
+    border-color: @lib__colors__failure;
   }
 }
