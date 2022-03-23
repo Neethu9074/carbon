@@ -27,7 +27,7 @@ export interface StatusCodeRangeLikeApplicationAlertRule extends StatusCodeAppli
   };
 }
 
-export default function createRuleForm(rule: ApplicationAlertRule): MapForm | void {
+export default function createRuleForm(rule: ApplicationAlertRule): MapForm {
   const alertType = rule.alertType as ApplicationAlertType;
 
   const baseForm = createBaseForm(rule);
@@ -47,6 +47,8 @@ export default function createRuleForm(rule: ApplicationAlertRule): MapForm | vo
   if (alertType === 'statusCode') {
     return extendForStatusCode(baseForm, rule as StatusCodeRangeLikeApplicationAlertRule);
   }
+
+  return baseForm;
 }
 
 function createBaseForm(rule: ApplicationAlertRule): MapForm {

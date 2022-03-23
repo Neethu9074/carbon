@@ -19,8 +19,8 @@ import { t } from 'in-i18n';
 
 export const defaultDeviationFactor = 3;
 
-export default function createThresholdForm(threshold: ThresholdConfig, alertType: WebsitesAlertType): MapForm | void {
-  let form = createBaseForm(threshold);
+export default function createThresholdForm(threshold: ThresholdConfig, alertType: WebsitesAlertType): MapForm {
+  const form = createBaseForm(threshold);
 
   if (alertType === 'slowness') {
     return createBaselineEnabledForm(form, threshold);
@@ -37,6 +37,8 @@ export default function createThresholdForm(threshold: ThresholdConfig, alertTyp
   if (alertType === 'throughput') {
     return createBaselineEnabledForm(form, threshold);
   }
+
+  return form;
 }
 
 function createBaseForm(threshold: { type?: string; operator?: ThresholdOperator; lastUpdated?: number }): MapForm {
@@ -61,7 +63,7 @@ function createBaseForm(threshold: { type?: string; operator?: ThresholdOperator
     );
 }
 
-function createBaselineEnabledForm(baseForm: MapForm, threshold: ThresholdConfig): MapForm | void {
+function createBaselineEnabledForm(baseForm: MapForm, threshold: ThresholdConfig): MapForm {
   const thresholdType = threshold.type;
 
   if (thresholdType === STATIC_THRESHOLD) {
@@ -71,6 +73,8 @@ function createBaselineEnabledForm(baseForm: MapForm, threshold: ThresholdConfig
   if (thresholdType === HISTORIC_BASELINE) {
     return createThresholdFormHistoricBaseline(baseForm, threshold as HistoricBaselineConfig);
   }
+
+  return baseForm;
 }
 
 function createThresholdFormStaticThreshold(baseForm: MapForm, threshold: { value?: number }): MapForm {

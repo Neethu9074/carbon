@@ -24,10 +24,7 @@ import { t } from 'in-i18n';
 
 export const defaultDeviationFactor = 3;
 
-export default function createThresholdForm(
-  threshold: ThresholdConfig,
-  alertType: ApplicationAlertType
-): MapForm | void {
+export default function createThresholdForm(threshold: ThresholdConfig, alertType: ApplicationAlertType): MapForm {
   if (alertType === 'slowness') {
     return createSlownessForm(threshold);
   }
@@ -47,6 +44,8 @@ export default function createThresholdForm(
   if (alertType === 'throughput') {
     return createThroughputForm(threshold);
   }
+
+  return createBaselineEnabledForm(threshold);
 }
 
 function createErrorRateForm(threshold: ThresholdConfig): MapForm {
