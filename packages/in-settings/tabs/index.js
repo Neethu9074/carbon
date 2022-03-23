@@ -5,6 +5,7 @@
 
 import { userSettings, teamSettings, authSettings, ampSettings, migSettings } from 'in-settings/navigation/paths';
 import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
+import { configMigrationFeatureEnabled } from 'in-services/featureFlags';
 import MigrationSettings from 'in-settings/tabs/MigrationSettings/View';
 import UserSettings from 'in-settings/tabs/UserSettings/View';
 import TeamSettings from 'in-settings/tabs/TeamSettings/View';
@@ -46,7 +47,11 @@ const migrationTab = {
 
 export default function getTabs() {
   const ampTabVisible = ampEnabled && role.canViewAccountAndBillingInformation;
-  return [roleHasAnyTeamPermissions() && teamTab, userTab, authTab, ampTabVisible && ampTab, migrationTab].filter(
-    Boolean
-  );
+  return [
+    roleHasAnyTeamPermissions() && teamTab,
+    userTab,
+    authTab,
+    ampTabVisible && ampTab,
+    configMigrationFeatureEnabled && migrationTab
+  ].filter(Boolean);
 }

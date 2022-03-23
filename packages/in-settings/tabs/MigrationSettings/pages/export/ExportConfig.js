@@ -1,92 +1,103 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2022
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
-import { Button } from '@instana/components';
-
+import { getConfigData } from 'in-settings/tabs/MigrationSettings/api/exportConfig';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import SectionLine from 'in-settings/components/SectionLine';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import AccordionConfigs from '../import/AccordionConfigs';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
-import locals from './Export.mless';
-
 export default function ExportConfig() {
-  const inputDOMNode = document.createElement('input');
-  const [input] = useState(inputDOMNode);
-  const [file, setFile] = useState(null);
-  inputDOMNode.onchange = () => setFile(input && input.files && input.files.length > 0 ? input.files[0] : undefined);
+  // const [selectedConfigs, setSelectedConfigs] = useState([]);
 
-  return (
-    <ApiItemView
-      input={input}
-      file={file}
-      onCancelClick={() => {
-        setFile(null);
-        // refresh();
-      }}
-      saveItem={({ setMessage }) => {
-        if (file == null) {
-          setMessage({
-            text: t('in-settings:tabs.failedToSaveConfig', { err: t('in-settings:tabs.IdPMetadataRequired') }),
-            type: 'error'
-          });
-          return;
-        }
-        const reader = new FileReader();
-
-        reader.readAsText(file, 'UTF-8');
-        reader.onload = function(evt) {
-          if (evt.target.result.length > 2000000) {
-            setMessage({
-              text: t('in-settings:tabs.failedToSaveConfig', {
-                err: t('in-settings:tabs.IdPMetadataLargerThanTwoMega')
-              }),
-              type: 'error'
-            });
-            return;
-          }
-        };
-      }}
-      Content={Content}
-    />
-  );
+  return <ApiItemView saveLabel={t('in-settings:tabs.migrationExport')} Content={Content} onSubmit={onSubmit} />;
 }
 
-function Content({ file, form, setCanSaveItem }) {
+function download(content, fileName, contentType) {
+  const a = document.createElement('a');
+  const file = new Blob([content], { type: contentType });
+  a.href = URL.createObjectURL(file);
+  a.download = fileName;
+  a.click();
+}
+
+function onSubmit(e, props) {
+  e.preventDefault();
+  saveItem(props);
+}
+
+function saveItem({ setMessage }) {
+  setMessage({
+    message: t('in-settings:tabs.exportingConfig'),
+    type: 'neutral',
+    isSaving: true
+  });
+  const configResult$ = getConfigData();
+  configResult$.once(
+    resp => {
+      setMessage({
+        text: t('in-settings:tabs.configSuccessfullyExported'),
+        type: 'success'
+      });
+      download(JSON.stringify(resp), 'config-export.json', 'text/plain');
+    },
+    error =>
+      setMessage({
+        text: t('in-settings:tabs.failedToExportConfig', { err: error.message }),
+        type: 'error'
+      })
+  );
+  // }
+}
+
+function Content({ file, form, setCanSaveItem, enableImport, appConfigs }) {
   useEffect(
     // allow only saving when idP metadata has been uploaded
-    () => setCanSaveItem(!!file),
-    [file, form, setCanSaveItem]
+    () => setCanSaveItem(true),
+    [file, form, setCanSaveItem, enableImport]
   );
 
   return (
     <>
       <Title title={t('in-settings:tabs.configExport')} />
       <SubViewHeader>{t('in-settings:tabs.configExport')}</SubViewHeader>
-
-      <h2>{t('in-settings:tabs.downloadTheConfigurationDataSummary')}</h2>
+      <SectionLine />
+      <h2>{t('in-settings:tabs.downloadTheConfigurationData')}</h2>
       <p>
         <Trans i18nKey="in-settings:tabs.configExportHelp" />
       </p>
-
-      <form method="post" encType="multipart/form-data">
-        <Section restrictWidth="50rem">
-          <h2>{t('in-settings:tabs.configExport')}</h2>
-          <Button kind="secondary" icon="lib_actions_download" href={`/api/settings/export-configuration/`}>
-            {t('in-settings:tabs.configurationMetadata')}
-          </Button>
-
-          <ul className={locals.list}>
-            <li>{t('in-settings:tabs.downloadTheConfigurationData')}</li>
-            <li>{t('in-settings:tabs.useImportToUploadConfigurationData')}</li>
-          </ul>
-        </Section>
-      </form>
+      <Section>
+        <AccordionConfigs appConfigs={appConfigs} label="Applications" id="appconfigs" icon="lib_application" checked />
+        <AccordionConfigs appConfigs={appConfigs} label="Websites" id="websiteconfigs" icon="lib_website" />
+        <AccordionConfigs appConfigs={appConfigs} label="Mobile Apps" id="mobileappconfigs" icon="lib_mobile_app" />
+        <AccordionConfigs
+          appConfigs={appConfigs}
+          label="Alert Channels"
+          id="alertchannelconfigs"
+          icon="lib_alerts_alert"
+        />
+        <AccordionConfigs
+          appConfigs={appConfigs}
+          label="Custom Events"
+          id="customeventconfigs"
+          icon="lib_help_error_warning"
+        />
+        <AccordionConfigs
+          appConfigs={appConfigs}
+          label="Smart Alerts"
+          id="smartalertconfigs"
+          icon="lib_events_critical"
+        />
+        <AccordionConfigs appConfigs={appConfigs} label="Alerts" id="alertconfigs" icon="lib_alerts_alert" />
+        <AccordionConfigs appConfigs={appConfigs} label="Groups" id="groupconfigs" icon="lib_group_by" />
+      </Section>
     </>
   );
 }

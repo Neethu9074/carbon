@@ -53,5 +53,6 @@ module.exports = {
   perEndpointAdaptiveBaselineEnabled: false,
   smartAlertsLogsBlueprintEnabled: true,
   syntheticsTestEnabled: true,
-  kubernetesExploreEnabled: true
+  kubernetesExploreEnabled: true,
+  configMigrationFeatureEnabled: true
 };

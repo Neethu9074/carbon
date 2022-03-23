@@ -5,26 +5,25 @@
 
 import { create } from '@instana/observables';
 
-// import createObservable from 'in-services/http/observableHttpResult';
-import http from 'in-services/http';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
+import http from 'in-services/http';
 
 const refreshSignal = create().emit(true);
 export function refresh() {
   refreshSignal.emit(true);
 }
 
-export function postConfigAsResultObservable(config) {
+export interface ConfigJSON {
+  applicationConfigs?: any;
+}
+
+export function postConfigAsResultObservable(config: ConfigJSON) {
   return http({
     method: 'POST',
     maxRetries: 3,
-    url: ' http://localhost:8080/api/settings/import-configuration',
-    headers: {
-      'Content-Type': 'application/json',
-      // accept: 'application/json',
-      ...getCsrfHeader()
-    },
-    data: JSON.stringify(config)
+    url: '/api/settings/import-configuration',
+    headers: getCsrfHeader(),
+    data: config
   }).map(v => {
     refreshSignal.emit(config);
     return v;
