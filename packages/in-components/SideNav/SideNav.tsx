@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import classNames from 'classnames';
 import React, { ReactNode } from 'react';
+import classNames from 'classnames';
 
 import { Disposable, on } from '@instana/observables';
 
@@ -73,7 +73,7 @@ export default class SideNav extends React.Component<SideNavProps> {
               })}
               onClick={() => {
                 setItemSelected(i);
-                this.onItemClicked(i, navItem);
+                this.onItemClicked(navItem);
               }}
             >
               <span className={locals.label}>
@@ -88,7 +88,7 @@ export default class SideNav extends React.Component<SideNavProps> {
     );
   }
 
-  onItemClicked = (_i: unknown, navItem: NavItem) => {
+  onItemClicked = (navItem: NavItem) => {
     scrollIntoView(document.getElementById(navItem.scrollId), { behavior: 'smooth' });
   };
 

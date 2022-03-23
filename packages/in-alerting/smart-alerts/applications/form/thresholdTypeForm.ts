@@ -40,7 +40,7 @@ export function onThresholdTypeChange(
       type: updatedThresholdType
     },
     alertType
-  )!; // it was working before without any check;
+  )!; // querk, can be removed after https://instana.kanbanize.com/ctrl_board/37/cards/92498/
 
   if (updatedThresholdType === HISTORIC_BASELINE) {
     const seasonality = typeSeasonalityParts[1];
@@ -49,7 +49,7 @@ export function onThresholdTypeChange(
     );
   }
 
-  const newRuleForm = createRuleForm({ ...rule })!; // it was working before without any check
+  const newRuleForm = createRuleForm({ ...rule })!; // querk, can be removed after https://instana.kanbanize.com/ctrl_board/37/cards/92498/
 
   let updatedForm = form.put('threshold', newThresholdForm).put('rule', newRuleForm);
 

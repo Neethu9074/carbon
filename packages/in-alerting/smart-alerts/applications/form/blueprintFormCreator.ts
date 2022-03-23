@@ -5,21 +5,19 @@
 
 import { MapForm } from 'formalistic';
 
-import {
-  AdaptiveBaselineConfig,
-  ApplicationAlertRule,
-  HistoricBaselineConfig,
-  StaticThresholdConfig,
-  ThresholdConfig
-} from 'in-types';
 import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
+import { AdaptiveBaselineConfig, ApplicationAlertRule, HistoricBaselineConfig, StaticThresholdConfig } from 'in-types';
 import { ApplicationAlertType, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
-export default function createBlueprintForm(form: MapForm, alertType: ApplicationAlertType, alertThreshold = {}) {
+export default function createBlueprintForm(
+  form: MapForm,
+  alertType: ApplicationAlertType,
+  alertThreshold = {}
+): MapForm {
   const threshold = (form.get('threshold') as MapForm).toJS();
 
   const blueprintConfig = getBlueprintConfig(alertType)!;
@@ -29,7 +27,7 @@ export default function createBlueprintForm(form: MapForm, alertType: Applicatio
       ...threshold,
       ...alertThreshold,
       type: blueprintConfig.baselineEnabled ? threshold.type : STATIC_THRESHOLD
-    } as ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
+    } as HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
     // while the alertType and the Type of thresholdConfig are not combined in a parent Alert Config, this is
     // currently a too complicated typing, and will need further refactoring and improving!,
     alertType
@@ -47,11 +45,11 @@ export default function createBlueprintForm(form: MapForm, alertType: Applicatio
     metricName
   })!;
 
-  let updatedForm = form.put('rule', newRuleForm).put('threshold', newThresholdForm);
+  const updatedForm = form.put('rule', newRuleForm).put('threshold', newThresholdForm);
 
   const timeThreshold = updatedForm.get('timeThreshold')!.toJS();
   if (blueprintConfig?.impactTimeThresholdDisabled && timeThreshold.type === timeThresholdTypes.requestImpact) {
-    updatedForm = updatedForm.put('timeThreshold', createViolationsInSequenceForm(timeThreshold, threshold.type));
+    return updatedForm.put('timeThreshold', createViolationsInSequenceForm(timeThreshold, threshold.type));
   }
 
   return updatedForm;

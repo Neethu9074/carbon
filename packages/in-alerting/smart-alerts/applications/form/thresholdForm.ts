@@ -6,19 +6,18 @@
 import { createField, createMapForm, MapForm } from 'formalistic';
 
 import {
-  AdaptiveBaselineConfig,
+  ADAPTIVE_BASELINE,
+  HISTORIC_BASELINE,
+  isHistoricBaselineConfig,
+  isStaticThresholdConfig
+} from 'in-alerting/smart-alerts/data/thresholdTypes';
+import {
   AdaptiveBaselineData,
   HistoricBaselineConfig,
   StaticThresholdConfig,
   ThresholdConfig,
   ThresholdOperator
 } from 'in-types';
-import {
-  ADAPTIVE_BASELINE,
-  HISTORIC_BASELINE,
-  isHistoricBaselineConfig,
-  isStaticThresholdConfig
-} from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { t } from 'in-i18n';
@@ -26,7 +25,7 @@ import { t } from 'in-i18n';
 export const defaultDeviationFactor = 3;
 
 export default function createThresholdForm(
-  threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
+  threshold: ThresholdConfig,
   alertType: ApplicationAlertType
 ): MapForm | void {
   if (alertType === 'slowness') {
