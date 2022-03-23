@@ -32,7 +32,7 @@ export default function createBlueprintForm(form: MapForm, alertType: WebsitesAl
     // while the alertType and the Type of thresholdConfig are not combined in a parent Alert Config, this is
     // currently a too complicated typing, and will need further refactoring and improving!
     alertType
-  )!;
+  );
 
   const metricName = blueprintConfig.defaultMetric;
   const newRuleForm = createRuleForm({

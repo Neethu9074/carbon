@@ -24,7 +24,7 @@ export function updateThresholdInForm<ALERT_TYPE extends WebsitesAlertType | App
   createThresholdForm: (
     threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
     alertType: ALERT_TYPE
-  ) => MapForm | void,
+  ) => MapForm,
   form: MapForm,
   updateForm: (form: MapForm) => void,
   data: { type: string; value: any },

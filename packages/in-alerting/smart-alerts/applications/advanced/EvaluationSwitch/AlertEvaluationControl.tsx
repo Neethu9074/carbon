@@ -46,7 +46,7 @@ export default function AlertEvaluationControl({ form, updateForm, isGlobalSmart
       updateForm(
         form
           .updateIn(['evaluationType'], f => (f as Field<AlertEvaluationType>).setValue(type).setTouched(true))
-          .put('threshold', createThresholdForm(newThreshold, alertType)!) // it was working before without any check;
+          .put('threshold', createThresholdForm(newThreshold, alertType))
       );
     }
   };
