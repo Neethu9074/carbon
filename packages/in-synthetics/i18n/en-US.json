@@ -105,7 +105,13 @@
       "locations": "Locations",
       "meanResponseTime": "Mean response time",
       "avgResponseSize": "Avg. response size",
-      "summaryTab": "Summary"
+      "summaryTab": "Summary",
+      "widgets": {
+        "failures": "Failures",
+        "responseTimes": "Response Times",
+        "averageResponseSize": "Average Response Size",
+        "responseStatus": "Response Status"
+      }
     }
   }
 }

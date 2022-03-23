@@ -17,7 +17,9 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { dummyTest } from 'in-synthetics/utils/constants';
+import ResponseStatus from './components/ResponseStatus';
 import { Col, Row } from 'in-components/layout/Grid';
+import ResponseSize from './components/ResponseSize';
 import { getTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
@@ -127,6 +129,14 @@ export default function Summary() {
         </Col>
         <Col xs>
           <ResponseTime test={test} timeShiftConfig={timeShiftConfig} />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs>
+          <ResponseSize test={test} timeShiftConfig={timeShiftConfig} />
+        </Col>
+        <Col xs>
+          <ResponseStatus test={test} timeShiftConfig={timeShiftConfig} />
         </Col>
       </Row>
     </Fragment>
