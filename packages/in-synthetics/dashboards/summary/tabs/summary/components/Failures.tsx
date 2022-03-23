@@ -6,18 +6,16 @@
 import { get } from 'lodash';
 import React from 'react';
 
-//@ts-ignore
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-//@ts-ignore
-import { stackedBar } from 'in-stores/metric/renderer';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { getChartGranularity } from 'in-stores/metric/metric';
+import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { TestResponse } from 'in-synthetics/utils/constants';
+import { stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TimeConfig, TimeShift } from 'in-types';
 import { getChartTestMetrics } from './utils';
+import { TimeShift } from 'in-types';
 import { t } from 'in-i18n';
 
 type Props = {
@@ -27,22 +25,21 @@ type Props = {
 
 export default function Failures({ test, timeShiftConfig }: Props) {
   const timeConfig = useTimeConfig();
-  const granularity = getChartGranularity(timeConfig);
   if (!test.progress.loading) {
-    return renderChart(test, timeShiftConfig, timeConfig, granularity);
+    return renderChart(test, timeShiftConfig);
   } else {
     return (
       <ResultAwareChart
         config={{
-          granularity,
+          timeConfig,
           y1: {
             metrics: [],
             colors: [],
-            renderer: stackedBar.id,
+            renderer: stackedBar,
             metricIds: [],
             labels: []
           },
-          cardTitle: `${t('in-synthetics:dashboard.summary.widgets.failures')}`
+          title: `${t('in-synthetics:dashboard.summary.widgets.failures')}`
         }}
         result={{ errors: [], progress: { loading: test.progress.loading } }}
       />
@@ -50,7 +47,7 @@ export default function Failures({ test, timeShiftConfig }: Props) {
   }
 }
 
-function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig: TimeConfig, granularity: number) {
+function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
   const locations = get(test, ['data', 'locations']);
   const id = get(test, ['data', 'id']);
 
@@ -62,37 +59,27 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig:
     }
   ];
 
-  const testMetricConfig = {
-    granularity,
+  const testMetricConfig: Metric = {
     aggregation: 'SUM',
     source: 'SYNTHETICS',
     tagFilters: tagFilters,
-    timeConfig: timeConfig,
-    timeShift: 0
+    timeShift: 0,
+    metric: 'status'
   };
 
   const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'status');
 
-  let metricConfigs;
-  let renderer;
-  let colors;
-
-  metricConfigs = chartTestMetrics.map(m => ({
-    metric: m.metric,
-    label: m.label,
-    ...m.config
-  }));
-  colors = chartTestMetrics.map(m => m.color);
-  renderer = stackedBar.id;
+  const metricConfigs: Metric[] = chartTestMetrics.map(m => m.config);
+  const colors = chartTestMetrics.map(m => m.color);
+  const renderer = stackedBar.id;
 
   return (
     <UnifiedMetricsChart
       title={t('in-synthetics:dashboard.summary.widgets.failures')}
       renderHistoricDataIndicator
-      timeConfig={timeConfig}
       automaticallySize={false}
-      reverseLegendOrder={timeShiftConfig.offset}
-      reverseTooltipOrder={timeShiftConfig.offset}
+      reverseLegendOrder={Boolean(timeShiftConfig.offset)}
+      reverseTooltipOrder={Boolean(timeShiftConfig.offset)}
       config={{
         y1: {
           metrics: metricConfigs,
@@ -100,9 +87,6 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig:
           formatter: 'number.compact',
           tooltipFormatter: number.compact,
           renderer: renderer
-        },
-        y2: {
-          metrics: []
         },
         reverseOrder: false,
         type: 'TIME_SERIES'

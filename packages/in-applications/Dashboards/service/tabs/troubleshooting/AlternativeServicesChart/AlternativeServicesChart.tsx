@@ -10,25 +10,25 @@ import { KeyValue, Li, SvgIcon, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import AlternativeServicesChartPresenter from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/AlternativeServicesChartPresenter';
+import { AggregationType, PaginatedResult, Result, ServiceItem, TagFilterEntity, TimeConfig } from 'in-types';
 import getServicesCorrelatedByTag from 'in-applications/subscriptions/getServicesCorrelatedByTag';
-import { PaginatedResult, Result, ServiceItem, TagFilterEntity, TimeConfig } from 'in-types';
 import { availableCorrelationTags, CorrelationTag } from './correlationTags';
 import { OverlayContentProps } from 'in-components/overlays/Overlay/types';
 import AlternativeServicesTopList from './AlternativeServicesTopList';
 import DropdownButton from 'in-components/Button/DropdownButton';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import { Renderer } from 'in-components/Chart/renderer/types';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
-import { Renderer } from 'in-components/Chart/types';
 
 import locals from './AlternativeServicesChartPresenter.mless';
 
 export interface MetricDefinition {
   label: string;
   metric: string;
-  aggregation: string;
+  aggregation: AggregationType;
   formatter: FormatterFn;
   renderer: Renderer;
   fallbackMetricValue?: [number, number][];
@@ -99,7 +99,7 @@ export default function AlternativeServicesChartWrapper(props: AlternativeServic
           <AlternativeServicesChartPresenter
             {...props}
             result={result}
-            cardHeader={tagSelectionOverlay}
+            rightHeaderContent={tagSelectionOverlay}
             metricDefinition={metricDefinition}
             renderPostChartContent={props.renderInfoBox}
             renderHistoricDataIndicator={hasApproximateData}

@@ -3,12 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import stairway, {
-  StairwayRenderConfig,
-  StairwayRenderProps,
-  useStairwayRenderer
-} from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
-import { DataSeries } from 'in-components/Chart/renderer/types';
+import stairway, { useStairwayRenderer } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
+import { DataSeries, RenderConfig, RenderProps } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
 import createScale from 'in-services/scale';
 
@@ -34,7 +30,7 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
       lineWidth: 1,
       markerPaneHeight: 1
     }
-  } as unknown) as StairwayRenderConfig;
+  } as unknown) as RenderConfig;
   let scale = createScale();
   const color = '#15f4ee';
 
@@ -51,7 +47,7 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
     stairway.render({
       config,
       dataSeries
-    } as StairwayRenderProps);
+    } as RenderProps);
 
     // Then
     expect(config.backBufferCtx.beginPath).not.toHaveBeenCalled();
@@ -70,7 +66,7 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
       dataSeries,
       color,
       scale
-    } as StairwayRenderProps);
+    } as RenderProps);
 
     // Then
     expect(config.backBufferCtx.beginPath).toHaveBeenCalledTimes(1);
