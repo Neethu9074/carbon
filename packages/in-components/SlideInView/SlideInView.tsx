@@ -4,7 +4,6 @@
  */
 
 import React, { ReactNode, useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { ReactComponentLike } from 'prop-types';
 import classNames from 'classnames';
 
 import DialogHeaderComponent from 'in-components/SlideInView/internalComponents/DialogHeader';
@@ -40,7 +39,7 @@ interface SlideInViewProps {
    *
    * Use this only if you need to add a footer.
    */
-  renderSlideInContent?: (setSlideInFooter: (footer: ReactNode) => void) => ReactComponentLike;
+  renderSlideInContent?: (setSlideInFooter: (footer: ReactNode) => void) => React.ReactElement;
 }
 
 export default function SlideInView({

@@ -6,7 +6,6 @@
 import invariant from 'invariant';
 
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
-import { smoothMetrics } from 'in-alerting/smart-alerts/components/utils/chartUtil';
 import line from 'in-components/Chart/renderer/line';
 
 export default {
@@ -17,7 +16,7 @@ export default {
 
     // historical data
     line.render({
-      dataSeries: config.withMetricSmoothing ? smoothMetrics(metrics[0]) : metrics[0],
+      dataSeries: metrics[0],
       color: colors100[0],
       scale,
       config

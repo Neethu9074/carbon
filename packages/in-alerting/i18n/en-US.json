@@ -10,8 +10,6 @@
     "alertHeaderRestoreRevisionConfirmationDialogHeader": "Please Confirm",
     "alertHeaderRestoreRevisionConfirmationDialogDescription": "Are you sure you want to restore <strong>\"{{description}}\"</strong>?",
     "alertHeaderRestoreRevisionConfirmationDialogConfirmButton": "Restore",
-    "alertHeaderDisableTooltip": " Disable",
-    "alertHeaderEnableTooltip": " Enable",
     "alertHeaderRestoreDeleteTooltip": "Delete",
     "alertHeaderEditTooltip": "Edit",
     "alertHeaderDuplicateTooltip": "Duplicate",
@@ -40,7 +38,6 @@
     "chart": {
       "alertingChartLabelThreshold": "Threshold",
       "alertingChartLabelViolations": "Violations",
-      "alertingChartTooltipSmoothedMetric": "Smoothed metric",
       "alertingChartMessageInvalidFilterQuery": "Invalid filter query.",
       "alertingChartMessageEntitySelectionInvalid": "No entities selected.",
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
@@ -130,7 +127,7 @@
           "evaluationTypePERAP": {
             "selectionText": "for this Application Perspective",
             "globalSelectionText": "per Application Perspective",
-            "shortText": "Application Perspective",
+            "shortText": "Per Application Perspective",
             "columnText": "aggregated",
             "description": "Alert individually for this Application Perspective",
             "globalDescription": "Alert individually per Application Perspective"
@@ -138,7 +135,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per Service for this Application Perspective",
             "globalSelectionText": "per Service in the context of each Application Perspective",
-            "shortText": "Service",
+            "shortText": "Per Service",
             "columnText": "per Service",
             "description": "Alert individually per Service for this Application Perspective",
             "globalDescription": "Alert individually per Service in the context of each Application Perspective"
@@ -146,7 +143,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per Endpoint for this Application Perspective",
             "globalSelectionText": "per Endpoint in the context of each Application Perspective",
-            "shortText": "Endpoint",
+            "shortText": "Per Endpoint",
             "columnText": "per Endpoint",
             "description": "Alert individually per Endpoint for this Application Perspective",
             "globalDescription": "Alert individually per Endpoint in the context of each Application Perspective"
@@ -204,6 +201,7 @@
             "httpStatusCodesCardTitle": "HTTP Status Codes"
           },
           "threshold": {
+            "staticOrAdaptiveTitle": "Type of Threshold",
             "label": "Threshold",
             "title": "Threshold: When is the condition violated?"
           },
@@ -216,12 +214,12 @@
             "title": "Alert Channels: Who needs to be alerted?"
           },
           "propertiesOptional": {
-            "label": "Properties (optional)",
-            "title": "Additional Alert Properties (optional)"
+            "label": "Properties",
+            "title": "Additional Alert Properties"
           },
           "payloadsOptional": {
-            "label": "Payloads (optional)",
-            "title": "Custom Payload (optional)"
+            "label": "Payloads",
+            "title": "Custom Payload"
           }
         }
       },
@@ -231,7 +229,7 @@
           "applications": "Applications:",
           "services": "Services:"
         },
-        "noChartForAdaptiveBaseline": "No preview available while this trigger is based on an adaptive baseline.",
+        "noChartForAdaptiveBaseline": "No preview available while this trigger is based on an adaptive threshold.",
         "noDataWithoutEndpointSelection": "Please select an endpoint to see the preview",
         "noDataAvailable": "Please select a service to see the preview"
       },
@@ -472,7 +470,7 @@
         "getSubtitleForStaticThreshold": "Static Threshold, {{metricLabel}} {{operator}} {{value}}",
         "getSubtitleForStaticDailySeasonality": "Static Daily Seasonality, {{metricLabel}}",
         "getSubtitleForStaticWeeklySeasonality": "Static Weekly Seasonality, {{metricLabel}}",
-        "getSubtitleForAdaptiveThreshold": "Adaptive Baseline, {{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "Adaptive Threshold, {{metricLabel}}",
         "labelActionButtonEdit": "Edit",
         "labelActionButtonDuplicate": "Duplicate",
         "labelActionButtonDelete": "Delete",
@@ -529,6 +527,7 @@
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
         "pleaseContactSupportToRiseLimit": "Please contact us via our <supportLink>{{instanaSupportPortal}}</supportLink> to request an increase of this limit.",
+        "adaptiveBaselineErrorMessage": "The adaptive threshold cannot be previewed because there is not enough historic data available at this moment.<br />This Smart Alert can still be created and alerting will start working as soon as there is at least 2 weeks of data available.",
         "instanaSupportPortal": "Instana support portal",
         "baselineErrorMessageReason": "Reason:",
         "blueprintDescriptionButtonSelect": "Select",
@@ -729,11 +728,11 @@
         "timeThresholdTitle": "Time Threshold: When do you want to be alerted?",
         "alertChannelsLabel": "Alert Channels",
         "alertChannelsTitle": "Alert Channels: Who needs to be alerted?",
-        "propertiesLabel": "Properties (optional)",
-        "propertiesTitle": "Additional Alert Properties (optional)",
+        "propertiesLabel": "Properties",
+        "propertiesTitle": "Additional Alert Properties",
         "thresholdValue": "Threshold Value",
-        "payloadsLabel": "Payloads (optional)",
-        "payloadsTitle": "Custom Payloads (optional)"
+        "payloadsLabel": "Payloads",
+        "payloadsTitle": "Custom Payloads"
       },
       "components": {
         "provideStatusCodeStatusCode": "Status Code",
@@ -919,6 +918,8 @@
       "markAsMigratedButtonConfirmationTitle": "Please Confirm",
       "markAsMigratedButtonConfirmationDescription": "Marking this Custom Event as migrated will disable it. The event cannot be re-enabled afterwards. Do you want to proceed?",
       "markAsMigratedButtonConfirmationConfirmLabel": "Confirm"
-    }
+    },
+    "enable": "Enable",
+    "disable": "Disable"
   }
 }

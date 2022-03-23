@@ -6,7 +6,7 @@
 /* eslint-env node */
 /* import-sort-ignore */
 
-import { DocsPage, DocsContainer } from '@storybook/addon-docs/blocks';
+import { DocsPage, DocsContainer } from '@storybook/addon-docs';
 import { configure, addDecorator, addParameters } from '@storybook/react';
 import { themes } from '@storybook/theming';
 import React from 'react';

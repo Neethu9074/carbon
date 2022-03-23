@@ -24,11 +24,20 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.ibmMqCluster.dashboard.topicString'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.topic.getIn(['data', 'topicString'], 'N/A');
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.ibmMqCluster.dashboard.type'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.topic.getIn(['data', 'topicType']);
+        return row.topic.getIn(['data', 'topicType'], 'N/A');
       }
     }
   },

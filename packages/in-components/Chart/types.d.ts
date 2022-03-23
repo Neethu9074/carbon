@@ -3,6 +3,10 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import React from 'react';
+
+import { Observable } from '@instana/observables';
+
 import { RenderProps } from 'in-components/Chart/renderer/types';
 import { FormatterFn } from 'in-stores/metric/formatters';
 import { FilterInterface, TimeConfig } from 'in-types';
@@ -16,17 +20,23 @@ export interface ContextMenuButton {
   name: string;
   icon: string;
   label: string;
-  getHref$: () => void;
+  getHref$: (props: any) => Observable<string> | undefined;
+  allowClickPropagationAndDefault?: boolean;
+  onClick?: () => void;
 }
 
 export interface Config {
   frontBufferWidth?: number;
   customHeight?: number;
+  automaticallySize?: boolean;
   cardTitle?: string;
   leftHeaderContent?: React.ReactElement;
   rightHeaderContent?: React.ReactElement;
   cardHeader?: React.ReactElement;
   showNoDataInfoWhenEmpty?: boolean;
+
+  primaryContextMenuAction?: string;
+  additionalContextMenuButtons?: ContextMenuButton[];
 
   timeConfig?: TimeConfig;
   y1: Axis;
@@ -37,6 +47,9 @@ export interface Config {
   metricsConfiguration?: MetricsConfiguration;
   renderErrorDetail?: boolean;
   withoutPadding?: boolean;
+
+  renderPreChartContent?: (props: AdditionChartContentProps) => React.ReactNode;
+  renderPostChartContent?: (props: AdditionChartContentProps) => React.ReactNode;
 
   getAllDomainValues?: () => number[];
   renderHistoricDataIndicator?: boolean;
@@ -69,16 +82,31 @@ type AxisIcons = {
   types: string[];
 };
 
+export type MetricDataSeries = [number, number][];
+
 export interface Axis {
   renderer: Renderer;
-  metrics: [number, number][][];
+  metrics: MetricDataSeries[];
   timeShifts?: TimeShift[] | null;
   metricIds: string[];
   labels: string[];
-  colors: sting[];
+  colors: string[];
   icons?: AxisIcons;
   formatter?: Formatter;
 
   // Sometimes use–case specific props are added to the Axis
   [key: string]: unknown;
+}
+
+export type ChartContentPostition = 'pre' | 'post';
+
+export interface AdditionChartContentProps {
+  timeConfig: TimeConfig;
+  granularity?: number;
+  chartBucketWidth?: number;
+  chartWidth?: number;
+  chartHeight?: number;
+  timeAxisHeight?: number;
+  markerPaneHeight?: number;
+  chartContentPosition: ChartContentPostition;
 }

@@ -5,7 +5,8 @@
 
 import stairway, {
   StairwayRenderConfig,
-  StairwayRenderProps
+  StairwayRenderProps,
+  useStairwayRenderer
 } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { DataSeries } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
@@ -27,6 +28,7 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
       lineTo: jest.fn(),
       save: jest.fn(),
       restore: jest.fn(),
+      fillRect: jest.fn(),
 
       stokeStyle: '#fff',
       lineWidth: 1,
@@ -153,9 +155,9 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
     expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(5, 5, 8);
   });
 
-  it('fills the area under the graph if metricId is hourlyBudget', () => {
+  it('fills the area under the graph if fillTopBackground is enabled for the metricId', () => {
     // Given
-    const metricId = 'hourlyBudget';
+    const metricId = 'snackBudget';
     const dataSeries: DataSeries = [
       [2, 4],
       [4, 8]
@@ -164,9 +166,14 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
       ...config,
       markerPaneHeight: 0.5
     };
+    const renderer = useStairwayRenderer({
+      metricConfiguration: {
+        snackBudget: { fillTopBackground: true }
+      }
+    });
 
     // When
-    stairway.render({
+    renderer.render({
       config: cfg,
       dataSeries,
       color,
@@ -186,5 +193,34 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
     expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(10, 5, 8);
     expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(11, 5, 0.5);
     expect(config.backBufferCtx.lineTo).toHaveBeenNthCalledWith(12, 0, 0.5);
+  });
+
+  it('marks the area before the firstCollectedMetricTimestamp by overlaying it with a rect', () => {
+    // Given
+    const dataSeries: DataSeries = [
+      [2, 4],
+      [4, 8],
+      [6, 16]
+    ];
+    const cfg = {
+      ...config,
+      height: 20,
+      markerPaneHeight: 5,
+      timeAxisHeight: 2.5
+    };
+    const renderer = useStairwayRenderer({
+      firstCollectedMetricTimestamp: 2
+    });
+
+    // When
+    renderer.render({
+      config: cfg,
+      dataSeries,
+      color,
+      scale
+    });
+
+    // Then
+    expect(config.backBufferCtx.fillRect).toHaveBeenCalledWith(0, 5, 2, 20 - 5 - 2.5);
   });
 });

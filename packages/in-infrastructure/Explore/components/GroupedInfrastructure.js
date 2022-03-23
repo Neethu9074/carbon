@@ -50,18 +50,33 @@ export default function GroupedInfrastructure(props) {
 
   const granularity = getGranularity(timeConfig);
 
+  const fullQualifiedGroup = group.groupbyTagSecondLevelKey
+    ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey
+    : group.groupbyTag;
+
   const cursorPaginatedProps = useCursorPagination(
     ({ cursor }) =>
-      getGroups({ timeConfig, backendQueryModel, group, order, type, metrics, granularity, cursor, retrievalSize }),
-    [timeConfig, backendQueryModel, group, order, type, metrics]
+      getGroups({
+        timeConfig,
+        backendQueryModel,
+        group: fullQualifiedGroup,
+        order,
+        type,
+        metrics,
+        granularity,
+        cursor,
+        retrievalSize
+      }),
+    [timeConfig, backendQueryModel, fullQualifiedGroup, order, type, metrics]
   );
 
   return (
     <Presenter
       backendQueryModel={backendQueryModel}
+      fullQualifiedGroup={fullQualifiedGroup}
+      retrievalSize={retrievalSize}
       granularity={granularity}
       timeConfig={timeConfig}
-      retrievalSize={retrievalSize}
       {...cursorPaginatedProps}
       {...props}
     />
@@ -70,7 +85,9 @@ export default function GroupedInfrastructure(props) {
 
 function Presenter({
   totalRepresentedItemCount,
+  totalRetainedItemCount,
   tagFilterExpression,
+  fullQualifiedGroup,
   backendQueryModel,
   availableMetrics,
   canLoadMore,
@@ -83,7 +100,6 @@ function Presenter({
   progress,
   metrics,
   errors,
-  group,
   order,
   items,
   type,
@@ -101,7 +117,7 @@ function Presenter({
     [tagFilterExpression]
   );
   const columnDefinitions = columns({
-    groupBy: [group.groupbyTag],
+    groupBy: [fullQualifiedGroup],
     getParamsForGroup,
     granularity,
     timeConfig,
@@ -109,10 +125,10 @@ function Presenter({
     type,
     onFocusOnGroup: tracking?.onFocusOnGroup
   });
-  const groupSortOptions = group.groupbyTag
+  const groupSortOptions = fullQualifiedGroup
     ? [
         {
-          label: group.groupbyTag,
+          label: fullQualifiedGroup,
           value: defaultOrder.by
         }
       ]
@@ -128,6 +144,7 @@ function Presenter({
     <>
       <Header
         totalRepresentedItemCount={totalRepresentedItemCount}
+        totalRetainedItemCount={totalRetainedItemCount}
         hasErrors={hasErrors}
         isLoading={isLoading}
         availableMetrics={availableMetrics}
@@ -277,7 +294,7 @@ function getGroups({ timeConfig, backendQueryModel, group, cursor, type, order, 
       cursor,
       retrievalSize
     },
-    groupBy: [group.groupbyTag],
+    groupBy: [group],
     type,
     metrics: Object.fromEntries(
       metrics.flatMap(({ metric, aggregation }) => [

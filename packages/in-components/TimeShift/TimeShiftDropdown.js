@@ -30,7 +30,7 @@ export default function TimeShiftDropdown({ disabled, onChange: onTimeShiftChang
   const [{ timeShiftOffset }, onChange] = useUrlState(urlStateDefinition);
 
   const options = timeShifts
-    .filter(({ disallowSelection, offset }) => disallowSelection !== true && offset !== previousHourTimeShift.offset)
+    .filter(({ offset }) => offset !== previousHourTimeShift.offset)
     .map(v => ({
       value: v.offset,
       label: renderItemContent(v, timeConfig)

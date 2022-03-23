@@ -9,6 +9,12 @@ import { get } from 'lodash';
 import { Card } from '@instana/components';
 
 import {
+  kubernetesClusterTagEquals,
+  LogsChartInteractionWrapper,
+  andQuery,
+  kubernetesNamespaceTagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
+import {
   resourceQuotaPercentage,
   resourceQuotaNumber,
   resourceQuotaBytes,
@@ -43,6 +49,9 @@ export default function Summary({ timeConfig, data: namespace }) {
     slushGreen800: pods,
     lightBlue800: usage
   } = theme.lib.colors;
+
+  const clusterTag = kubernetesClusterTagEquals(namespace.clusterName);
+  const nsTag = kubernetesNamespaceTagEquals(namespace.label);
 
   return (
     <Fragment>
@@ -189,6 +198,12 @@ export default function Summary({ timeConfig, data: namespace }) {
               minRollup={10000}
             />
           </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <LogsChartInteractionWrapper tagFilterExpression={andQuery(clusterTag, nsTag)} timeConfig={timeConfig} />
         </Col>
       </Row>
 

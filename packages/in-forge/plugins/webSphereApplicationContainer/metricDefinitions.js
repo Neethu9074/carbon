@@ -152,16 +152,30 @@ export default [
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('ejbs', 'responseTime', t('in-forge:plugins.webSphereAppContainer.labelEJB')),
+    metric: getDynamicMetricMatch('ejbs', 'responseTime', t('in-forge:plugins.webSphereAppContainer.labelEjbModule')),
     label: t('in-forge:plugins.webSphereAppContainer.titleResponseTime'),
-    category: [t('in-forge:plugins.webSphereAppContainer.labelEJBs')],
+    category: [t('in-forge:plugins.webSphereAppContainer.labelEjbModules')],
     min: 0,
     formatter: millis
   },
   {
-    metric: getDynamicMetricMatch('ejbs', 'reponseCount', t('in-forge:plugins.webSphereAppContainer.labelEJB')),
+    metric: getDynamicMetricMatch('ejbs', 'reponseCount', t('in-forge:plugins.webSphereAppContainer.labelEjbModule')),
     label: t('in-forge:plugins.webSphereAppContainer.titleResponseCount'),
-    category: [t('in-forge:plugins.webSphereAppContainer.labelEJBs')],
+    category: [t('in-forge:plugins.webSphereAppContainer.labelEjbModules')],
+    min: 0,
+    formatter: number
+  },
+  {
+    metric: getDynamicMetricMatch('ejbBeans', 'responseTime', t('in-forge:plugins.webSphereAppContainer.labelEjbBean')),
+    label: t('in-forge:plugins.webSphereAppContainer.titleResponseTime'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelEjbBeans')],
+    min: 0,
+    formatter: millis
+  },
+  {
+    metric: getDynamicMetricMatch('ejbBeans', 'reponseCount', t('in-forge:plugins.webSphereAppContainer.labelEjbBean')),
+    label: t('in-forge:plugins.webSphereAppContainer.titleResponseCount'),
+    category: [t('in-forge:plugins.webSphereAppContainer.labelEjbBeans')],
     min: 0,
     formatter: number
   },

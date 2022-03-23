@@ -23,7 +23,7 @@ export default function AlertsPreviewLanePresenter({ alerts, ...remainingProps }
       events={alerts}
       label={t('in-alerting:components.chart.chartAlertsPreviewLanePresenterAlertsLabel')}
       iconConfig={{
-        type: 'lib_events_warning',
+        type: 'lib_events_critical',
         typeCluster: 'lib_alerts_multiple_alerts',
         color: theme.lib.colors.red800
       }}

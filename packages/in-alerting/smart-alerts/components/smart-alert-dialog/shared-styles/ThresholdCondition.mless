@@ -10,4 +10,8 @@
     color: @lib__colors__N700Medium;
     gap: 1rem;
   }
+
+  .thresholdValueWithValidationMessage {
+    padding: 1rem 0;
+  }
 }

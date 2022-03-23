@@ -5,7 +5,7 @@
 
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
-import { Result, SyntheticTest } from 'in-types';
+import { Progress, Result, SyntheticTest } from 'in-types';
 import { Options } from 'in-hooks/useUrlState';
 
 export const dummyLocations = {
@@ -18,6 +18,14 @@ export const dummyLocations = {
 
 export const dummyTests: Result<SyntheticTest[]> = {
   data: [] as SyntheticTest[],
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export const dummyTest: Result<SyntheticTest> = {
+  data: {} as SyntheticTest,
   errors: [],
   progress: {
     loading: true
@@ -36,6 +44,13 @@ export const defaultUrlState: UrlState = {
   page: 1,
   query: ''
 };
+
+export interface TestResponse {
+  data?: SyntheticTest;
+  errors?: Error[];
+  progress: Progress;
+  time?: number;
+}
 
 export const urlStateDefinition = {
   bind: [

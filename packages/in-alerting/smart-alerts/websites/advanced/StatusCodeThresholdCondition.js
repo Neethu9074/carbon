@@ -19,6 +19,7 @@ import { isPercentageMetric, getMetricUnitPostfix } from 'in-alerting/smart-aler
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/websites/form/ruleFormData';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import Dropdown from 'in-alerting/components/Dropdown';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
@@ -28,6 +29,7 @@ export default function StatusCodeThresholdCondition({ form, blueprintConfig, up
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const percentageMetric = isPercentageMetric(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
+  const thresholdField = form.get('threshold').get('value');
 
   return (
     <ThresholdConditionFormGroup>
@@ -46,15 +48,18 @@ export default function StatusCodeThresholdCondition({ form, blueprintConfig, up
         updateForm={updateForm}
         trackingCallback={websitesAlertingThresholdOperatorChanged}
       />
-      <ThresholdValueInput
-        className={locals.narrowControl}
-        max={maxValue}
-        form={form}
-        updateForm={updateForm}
-        trackChange={websitesAlertingThresholdValueChanged}
-        percentageMetric={percentageMetric}
-        metricUnitPostfix={metricUnitPostfix}
-      />
+      <div className={locals.thresholdValueWithValidationMessage}>
+        <ThresholdValueInput
+          className={locals.narrowControl}
+          max={maxValue}
+          form={form}
+          updateForm={updateForm}
+          trackChange={websitesAlertingThresholdValueChanged}
+          percentageMetric={percentageMetric}
+          metricUnitPostfix={metricUnitPostfix}
+        />
+        <TouchedMessages field={thresholdField} />
+      </div>
       <UseSuggestedValueButton
         form={form}
         updateForm={updateForm}

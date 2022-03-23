@@ -10,6 +10,7 @@ import { useObservable } from '@instana/hooks';
 
 import TypeAndMetricConfigurator from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/TypeAndMetricConfigurator';
 import { useTagFilterExpressionState } from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/tagFilterUtils/useTagFilterExpressionState';
+import getMetricMetadata from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure/metrics/getMetricMetadata';
 import {
   onChangeGrouping,
   isRequiringGroupingConfiguration
@@ -20,9 +21,7 @@ import QueryBuilder, { getTagCatalog } from 'in-infrastructure/Explore/component
 import { EMPTY_EXPRESSION } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import GroupingConfigurator from 'in-infrastructure/Explore/components/GroupingConfigurator';
 import QueryBuilderSection from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
-import getMetricMetadata from 'in-infrastructure/subscriptions/getMetricMetadata';
 import getMetricCatalog from 'in-infrastructure/subscriptions/getMetricCatalog';
-import useMetricMetadata from 'in-infrastructure/hooks/useMetricMetadata';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import useMetricCatalog from 'in-infrastructure/hooks/useMetricCatalog';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -52,13 +51,18 @@ export default function FormComponent({
   const metricField = form.get('metric');
   const aggregationField = form.get('aggregation');
   const crossSeriesAggregationField = form.get('crossSeriesAggregation');
+  const allowedCrossSeriesAggregations = form.get('allowedCrossSeriesAggregations');
+  const isCrossSeriesAggregationRestricted = allowedCrossSeriesAggregations.value?.length > 0;
   const tagFilterExpressionField = form.get('tagFilterExpression');
   const groupingField = form.get('grouping');
+  const metricLabelField = form.get('metricLabel');
+  const metricPathField = form.get('metricPath');
   const grouping = getGrouping(form);
   const onDirectionChange = (direction, maxResults) =>
     onChangeGrouping(onChange, { ...grouping, direction, maxResults });
   const onIncludeOthersChange = includeOthers => onChangeGrouping(onChange, { ...grouping, includeOthers });
-  const isCrossSeriesAggregationToggleEnabled = ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
+  const isCrossSeriesSumAggregationToggleEnabled =
+    !isCrossSeriesAggregationRestricted && ['MEAN', 'MIN', 'MAX'].includes(aggregationField.value);
   const isSumCrossSeriesAggregation = crossSeriesAggregationField.value === 'SUM';
 
   const tagCatalogResult = useObservable(getTagCatalog, []) ?? pendingResult;
@@ -75,19 +79,30 @@ export default function FormComponent({
       tagFilterExpressionField.value != invalidMarker ? tagFilterExpressionField.value : EMPTY_EXPRESSION,
     query: catalogQuery.debouncedValue
   });
-  const metricMetadata = useMetricMetadata({ getMetricMetadata, type: typeField.value, metric: metricField.value });
-
-  useEffect(
-    () =>
-      onChange([], form => {
-        if (form.get('metricLabel')) {
-          return form.updateIn(['metricLabel'], field => field.setValue(metricMetadata.label).setTouched(true));
-        }
-        return form;
-      }),
+  useEffect(() => {
+    if (metricCatalog.data) {
+      const metadata = getMetricMetadata({
+        metricCatalog: metricCatalog.data,
+        type: typeField.value,
+        metric: metricField.value
+      });
+      if (metadata) {
+        onChange([], form =>
+          form
+            .updateIn(['metricLabel'], field => field.setValue(metadata.label).setTouched(true))
+            .updateIn(['metricPath'], field => field.setValue(metadata.path).setTouched(true))
+        );
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [metricMetadata]
-  );
+  }, [metricCatalog, typeField.value, metricField.value]);
+  const metricMetadata = {
+    label: metricLabelField.value,
+    path: metricPathField.value,
+    loading:
+      (!metricLabelField.value || !metricPathField.value || metricPathField.value.length == 0) &&
+      metricCatalog.progress.loading
+  };
 
   return (
     <Stack gap="xsmall">
@@ -97,19 +112,27 @@ export default function FormComponent({
           <TypeAndMetricConfigurator
             metricMetadata={metricMetadata}
             metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
-            onChange={({ metric, type }) =>
+            onChange={({ metric, parentType, allowedCrossSeriesAggregations, label, parentLabels }) => {
               onChange([], form =>
                 form
                   .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
-                  .updateIn(['type'], field => field.setValue(type).setTouched(true))
+                  .updateIn(['type'], field => field.setValue(parentType).setTouched(true))
+                  .updateIn(['metricLabel'], field => field.setValue(label).setTouched(true))
+                  .updateIn(['metricPath'], field => field.setValue(parentLabels).setTouched(true))
                   .updateIn(['aggregation'], field =>
                     field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true)
                   )
-                  .updateIn(['crossSeriesAggregation'], field =>
-                    field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true)
+                  .updateIn(['crossSeriesAggregation'], field => {
+                    if (allowedCrossSeriesAggregations?.length > 0) {
+                      return field.setValue(allowedCrossSeriesAggregations[0]).setTouched(true);
+                    }
+                    return field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true);
+                  })
+                  .updateIn(['allowedCrossSeriesAggregations'], field =>
+                    field.setValue(allowedCrossSeriesAggregations).setTouched(true)
                   )
-              )
-            }
+              );
+            }}
             query={catalogQuery.value}
             onQueryChange={catalogQuery.onChange}
             selectMetric={t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.selectMetric')}
@@ -124,7 +147,12 @@ export default function FormComponent({
             onChange([], form =>
               form
                 .updateIn(['aggregation'], field => field.setValue(e.target.value).setTouched(true))
-                .updateIn(['crossSeriesAggregation'], field => field.setValue(e.target.value).setTouched(true))
+                .updateIn(['crossSeriesAggregation'], field => {
+                  if (isCrossSeriesAggregationRestricted) {
+                    return field;
+                  }
+                  return field.setValue(e.target.value).setTouched(true);
+                })
             )
           }
           additionalContent={
@@ -133,7 +161,8 @@ export default function FormComponent({
               <div className={locals.crossSeriesAggregationWrapper}>
                 <Tooltip
                   content={getCrossSeriesAggregationTooltip(
-                    isCrossSeriesAggregationToggleEnabled,
+                    isCrossSeriesAggregationRestricted,
+                    isCrossSeriesSumAggregationToggleEnabled,
                     aggregationField.value
                   )}
                 >
@@ -141,7 +170,7 @@ export default function FormComponent({
                     <Toggle
                       id="metric-configurator-cross-series-aggregation"
                       checked={isSumCrossSeriesAggregation}
-                      disabled={!isCrossSeriesAggregationToggleEnabled}
+                      disabled={!isCrossSeriesSumAggregationToggleEnabled}
                       onChange={e => {
                         let newCrossSeriesAggregation = aggregationField.value;
                         if (e.target.checked) {
@@ -218,7 +247,16 @@ function getGrouping(form) {
     ?.toJS();
 }
 
-function getCrossSeriesAggregationTooltip(isCrossSeriesAggregationEnabled, aggregation) {
+function getCrossSeriesAggregationTooltip(
+  isCrossSeriesAggregationRestricted,
+  isCrossSeriesAggregationEnabled,
+  aggregation
+) {
+  if (isCrossSeriesAggregationRestricted) {
+    return t(
+      'in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationRestrictedHelp'
+    );
+  }
   return !isCrossSeriesAggregationEnabled && aggregation !== 'SUM'
     ? t('in-custom-dashboards:widgets.srcInfrastructure.metricsFormComponent.crossSeriesAggregationDisabledHelp', {
         aggregation: aggregationLabels[aggregation]

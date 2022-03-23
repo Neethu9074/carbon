@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { TimeConfig, TagType, BeaconType } from 'in-types/backendCorrections';
+import { TimeConfig, TagType, BeaconType, HasQueryContext } from 'in-types/backendCorrections';
 
 export interface AbstractApplicationAlertConfig {
   readonly alertChannelIds: string[];
@@ -490,6 +490,7 @@ export interface CursorPaginatedWithNext<ITEM, CURSOR> {
   readonly next?: CURSOR;
   readonly totalHits: number;
   readonly totalRepresentedItemCount: number;
+  readonly totalRetainedItemCount: number;
 }
 
 export interface CursorPagination<CURSOR_TYPE> {
@@ -1139,9 +1140,10 @@ export interface GetInfrastructureExploreQuery {
 }
 
 export interface GetInfrastructureExploreTagValueSuggestionsQuery {
+  readonly fetchKeySuggestions: boolean;
   readonly partialValue?: string;
-  readonly tagName?: string;
-  readonly timeConfig?: TimeConfig;
+  readonly tagName: string;
+  readonly timeConfig: TimeConfig;
   readonly valueCount: number;
 }
 
@@ -1442,6 +1444,9 @@ export interface GetMobileAppBeaconGroupsQuery extends QueryWithMetrics, CursorP
   readonly timeShift: TimeShift;
 }
 
+export interface GetMobileAppBeaconGroupsQueryBuilder {
+}
+
 export interface GetMobileAppBeaconsForSessionQuery extends UiQuery {
   readonly beaconTimestamp?: number;
   readonly rbacRestrictions?: any;
@@ -1456,6 +1461,9 @@ export interface GetMobileAppBeaconsQuery extends CursorPaginatedQuery {
   readonly tagFilterExpression?: TagFilterExpressionElement;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
+}
+
+export interface GetMobileAppBeaconsQueryBuilder {
 }
 
 export interface GetMobileAppCountryBreakdownQuery extends PaginatedUIQuery {
@@ -1473,6 +1481,9 @@ export interface GetMobileAppMetricsQuery extends QueryWithMetrics, UiQuery {
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
   readonly timeShift: TimeShift;
+}
+
+export interface GetMobileAppMetricsQueryBuilder {
 }
 
 export interface GetMobileAppPaginatedBeaconGroupsQuery extends PaginatedUIQuery {
@@ -1514,6 +1525,12 @@ export interface GetOpenEventsCountTimeSeriesQuery {
   readonly granularity: number;
   readonly query?: string;
   readonly timeConfig: TimeConfig;
+}
+
+export interface GetOpenstackQuery extends PaginatedQuery {
+  readonly filter: OpenstackQueryFilter;
+  readonly order: Order;
+  readonly pagination: Pagination;
 }
 
 export interface GetPhmcQuery extends PaginatedQuery {
@@ -1626,6 +1643,19 @@ export interface GetServiceQuery extends FilteredQuery {
   readonly id: string;
 }
 
+export interface GetServicesCorrelatedByTagQuery extends PaginatedQuery, QueryWithPrecision {
+  readonly correlationTag: string;
+  readonly correlationTagEntity: TagFilterEntity;
+  readonly correlationTagSecondLevelKey?: string;
+  readonly filter: Filter;
+  readonly metrics: { [index: string]: AppDataMetricConfiguration };
+  readonly order: Order;
+  readonly pagination: Pagination;
+  readonly queryPrecision: QueryPrecision;
+  readonly serviceId: string;
+  readonly tagFilterExpression?: TagFilterExpressionElement;
+}
+
 export interface GetServicesCursorPaginatedQuery extends CursorPaginatedQuery, QueryWithMetrics, QueryWithPrecision {
   readonly contextScope?: ContextScope;
   readonly filter: Filter;
@@ -1685,11 +1715,17 @@ export interface GetTechnologyBreakdownQuery extends FilteredQuery {
   readonly granularity?: number;
 }
 
+export interface GetTestResultMetadataQuery extends UiQuery {
+  readonly testid: string;
+  readonly testresultid: string;
+}
+
 export interface GetTestResultQuery extends UiQuery {
   readonly applicationId?: string;
   readonly locationId?: string[];
   readonly metrics: { [index: string]: SyntheticMetricConfiguration };
   readonly order?: Order;
+  readonly pagination?: Pagination;
   readonly serviceId?: string;
   readonly testId: string;
   readonly timeConfig: TimeConfig;
@@ -2055,9 +2091,14 @@ export interface HostAvailabilityRule extends AbstractRule {
 }
 
 export interface HttpActionConfiguration extends SyntheticTypeConfiguration {
+  readonly allowInsecure?: boolean;
   readonly body?: string;
+  readonly expectStatus?: number;
+  readonly followRedirect?: boolean;
   readonly headers?: { [index: string]: string };
   readonly operation?: HttpActionOperation;
+  readonly retries?: number;
+  readonly retryInterval?: number;
   readonly syntheticType: 'HTTPAction';
   readonly url: string;
   readonly validationString?: string;
@@ -2093,7 +2134,6 @@ export interface Incident extends Event {
 
 export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
   readonly crossSeriesAggregation?: AggregationType;
-  readonly crossSeriesAggregationValid: boolean;
   readonly grouping?: Grouping[];
   readonly tagFilterExpression: TagFilterExpressionElement;
   readonly type: string;
@@ -2864,6 +2904,19 @@ export interface Message {
   readonly title: string;
 }
 
+export interface Metric {
+  readonly description?: string;
+  readonly label?: string;
+  readonly name?: string;
+  readonly type?: string;
+  readonly valueType?: MetricType;
+}
+
+export interface MetricCatalog {
+  readonly list?: Metric[];
+  readonly tree?: MetricTreeLevel[];
+}
+
 export interface MetricConfiguration {
   readonly aggregation: AggregationType;
   readonly granularity?: number;
@@ -2881,6 +2934,8 @@ export interface MetricDescription {
 
 export interface MetricMetadata {
   readonly category?: string;
+  readonly crossSeriesAggregations?: AggregationType[];
+  readonly description?: string;
   readonly format?: Formatter;
   readonly id?: string;
   readonly infraTagCategory: InfraTagCategory;
@@ -2909,6 +2964,32 @@ export interface MetricResult {
   readonly id: string;
   readonly resultPrecisionDetails?: ResultPrecisionDetails;
   readonly values: number[][];
+}
+
+export interface MetricTreeLevel extends MetricTreeNode {
+  readonly children: MetricTreeNodeUnion[];
+  readonly description?: string;
+  readonly label: string;
+  readonly type: 'LEVEL';
+}
+
+export interface MetricTreeMetric extends MetricTreeNode {
+  readonly allowedCrossSeriesAggregations?: AggregationType[];
+  readonly description?: string;
+  readonly label: string;
+  readonly name: string;
+  readonly parentType: string;
+  readonly type: 'METRIC';
+}
+
+export interface MetricTreeNode {
+  readonly icon?: string;
+  readonly label?: string;
+  readonly type: 'LEVEL' | 'METRIC';
+}
+
+export interface MetricTreeNodeBuilder<B, R> {
+  readonly label?: string;
 }
 
 export interface Metricific {
@@ -3051,6 +3132,32 @@ export interface NewApplicationConfig extends AbstractApplicationConfig {
 
 export interface NewApplicationConfigWithAlertingDetails extends NewApplicationConfig {
   readonly builtInAlertIds: string[];
+}
+
+export interface OpenstackItem {
+  readonly id: string;
+  readonly itemId: string;
+  readonly label: string;
+  readonly name: string;
+  readonly openstackId: string;
+}
+
+export interface OpenstackListItem extends FilterableListItem, ListItemWithMetric {
+  readonly entityId?: EntityId;
+  readonly id: string;
+  readonly label: string;
+  readonly openstackId?: string;
+  readonly regionId?: string;
+}
+
+export interface OpenstackQueryFilter extends FilterInterface {
+  readonly hypervisorId?: string;
+  readonly instanceId?: string;
+  readonly label?: string;
+  readonly openstackId?: string;
+  readonly regionId?: string;
+  readonly snapshotId?: string;
+  readonly timeConfig: TimeConfig;
 }
 
 export interface OperatingSystem {
@@ -3393,6 +3500,10 @@ export interface ResultPrecisionDetails {
   readonly resultPrecision: ResultPrecision;
 }
 
+export interface SearchMetric extends Metric {
+  readonly category?: Category;
+}
+
 export interface Service {
   readonly entityType?: UiEntityType;
   readonly id: string;
@@ -3523,6 +3634,8 @@ export interface SliEntity {
 }
 
 export interface SliUnifiedMetricConfiguration extends UnifiedMetricConfiguration {
+  readonly isPreview: boolean;
+  readonly preview: boolean;
   readonly sliConfigId: string;
   readonly slo: number;
 }
@@ -3753,6 +3866,10 @@ export interface SyntheticTypeConfiguration {
   readonly syntheticType: 'BrowserScript' | 'HTTPAction' | 'HTTPScript' | 'WebpageConfiguration' | 'WebpageAction' | 'WebpageScript';
 }
 
+export interface SyntheticUnifiedMetricConfiguration extends UnifiedMetricConfiguration {
+  readonly tagFilters?: TagFilter[];
+}
+
 export interface SystemRule extends AbstractRule {
   readonly systemRuleId: string;
 }
@@ -3867,6 +3984,12 @@ export interface TestResultItem {
   readonly metrics?: { [index: string]: any }[];
   readonly serviceId?: string;
   readonly testId: string;
+}
+
+export interface TestResultMetadata {
+  readonly metadata?: { [index: string]: any };
+  readonly testId: string;
+  readonly testResultId?: string;
 }
 
 export interface ThresholdBounds {
@@ -4627,6 +4750,8 @@ export type BreakdownType = 'RESPONSE_TIME' | 'PROCESSING_TIME';
 
 export type CatalogUseCase = 'GROUPING' | 'FILTERING' | 'SMART_ALERTS' | 'SMART_ALERTS_LOGS' | 'SMART_ALERTS_ADAPTIVE_BASELINE' | 'SLI_MANAGEMENT' | 'APPLICATION_CONFIG' | 'APPLICATION_CONFIG_BLUEPRINT';
 
+export type Category = 'APPLICATION' | 'SERVICE' | 'ENDPOINT' | 'PLATFORM' | 'CALL' | 'TRACE' | 'CLOUD' | 'CONTAINER' | 'GEO_LOCATION' | 'LOG' | 'HOST' | 'CLUSTER' | 'DATABASE' | 'INFRA' | 'PROCESS' | 'TECHNOLOGY' | 'INTERNAL' | 'WEBSITE' | 'MOBILE' | 'MESSAGING' | 'HTTP' | 'RPC' | 'BATCH' | 'EVENT' | 'SHELL' | 'SDK' | 'AGENT' | 'KUBERNETES' | 'OPEN_TELEMETRY' | 'OPEN_TELEMETRY_HTTP' | 'OPEN_TELEMETRY_DATABASE' | 'OPEN_TELEMETRY_MESSAGING' | 'OPEN_TELEMETRY_RPC' | 'OPEN_TELEMETRY_CUSTOM' | 'HIDDEN_CALLS' | 'DEPLOYMENT_SERVER' | 'WEBSPHERE' | 'USER' | 'DEVICE' | 'APP' | 'MOBILE_OS' | 'VIEWPORT' | 'MOBILE_LOCATION' | 'MOBILE_HTTP' | 'ERROR' | 'STACKTRACE' | 'WEB_LOCATION' | 'WEB_USER' | 'WINDOW' | 'BROWSER' | 'WEB_OS' | 'WEB_HTTP' | 'WEB_TIMING' | 'WEB_CSP' | 'WEB_GRAPHQL' | 'SOLR' | 'AEROSPIKE' | 'CLICKHOUSE' | 'MONGODB' | 'MSSQL' | 'VAULT' | 'LXC' | 'CONTAINERD' | 'CRIO' | 'DOCKER' | 'MARATHON' | 'NOMAD' | 'COMPOSE' | 'PHP' | 'RUBY' | 'EJB' | 'CLR' | 'CRYSTAL' | 'GO' | 'JVM' | 'JBOSS' | 'WEBLOGIC' | 'NETCORE' | 'PYTHON' | 'NODEJS' | 'GRAPHQL' | 'SPRINGBOOT' | 'DROPWIZARD' | 'HASKELL' | 'CICS' | 'IMS' | 'ZCEE' | 'CLOUDFOUNDRY' | 'VSPHERE' | 'OPENSHIFT' | 'NOVA' | 'PHMC' | 'ZHMC' | 'ALICLOUD' | 'AWS' | 'AZURE' | 'GCP' | 'OPC' | 'FAAS' | 'ACTIVEMQ' | 'KAFKA' | 'IBMDATAPOWER' | 'ACE' | 'RABBITMQ' | 'TIBCOEMS' | 'LOG_V2' | 'SYNTHETIC';
+
 export type ChangeType = 'CREATE' | 'UPDATE' | 'DELETE' | 'ENABLE' | 'DISABLE' | 'RESTORE' | 'UNKNOWN';
 
 export type Conjunction = 'AND' | 'OR';
@@ -4663,7 +4788,7 @@ export type GeoDetailRemoval = 'NO_REMOVAL' | 'REMOVE_COORDINATES' | 'REMOVE_CIT
 
 export type Granularity = 60000 | 300000 | 600000 | 900000 | 1200000 | 1800000;
 
-export type HttpActionOperation = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type HttpActionOperation = 'DELETE' | 'GET' | 'HEAD' | 'OPTIONS' | 'PATCH' | 'POST' | 'PUT';
 
 export type HttpPathSegmentMatchingRuleUnion = UnsupportedHttpPathSegmentMatchingRule | MatchAllHttpPathSegmentMatchingRule | PathParameterHttpPathSegmentMatchingRule | FixedHttpPathSegmentMatchingRule;
 
@@ -4691,7 +4816,9 @@ export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISH
 
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
-export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'UNKNOWN';
+export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'SYNTHETICS' | 'UNKNOWN';
+
+export type MetricTreeNodeUnion = MetricTreeLevel | MetricTreeMetric;
 
 export type OrderDirection = 'ASC' | 'DESC';
 

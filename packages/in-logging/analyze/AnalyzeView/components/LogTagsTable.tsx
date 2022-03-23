@@ -38,13 +38,12 @@ import useResolvedName from 'in-logging/analyze/AnalyzeView/components/useResolv
 import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
 import ErrorList from 'in-components/lists/List/sharedComponents/ErrorList';
 // @ts-ignore
-import CopyToClipboard from 'in-components/CopyToClipboard';
-// @ts-ignore
 import Overlay from 'in-components/overlays/Overlay';
 // @ts-ignore
 import Header from 'in-components/Dialog/Header';
 import { hasError, isLoading } from 'in-services/util/result';
 import IconButton from 'in-components/IconButton/IconButton';
+import CopyToClipboard from 'in-components/CopyToClipboard';
 import IconLink from 'in-components/IconButton/IconLink';
 import { pendingResult } from 'in-services/fixedObjects';
 import { getTagCatalog } from 'in-logging/api/catalog';

@@ -6,6 +6,7 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 
+import Troubleshooting from 'in-applications/Dashboards/service/tabs/troubleshooting/Troubleshooting';
 import ErrorMessagesTab from 'in-applications/Dashboards/commonTabs/messages/ErrorMessages';
 import LogMessagesTab from 'in-applications/Dashboards/commonTabs/messages/LogMessages';
 import InfrastructureTab from 'in-applications/Dashboards/commonTabs/Infrastructure';
@@ -49,6 +50,12 @@ export default [
     label: t('in-applications:labelInfrastructure'),
     path: `${serviceDashboard}/infrastructure`,
     component: wrapWithMessage(InfrastructureTab)
+  },
+  {
+    label: t('in-applications:labelTroubleshooting'),
+    path: `${serviceDashboard}/troubleshooting`,
+    component: wrapWithMessage(Troubleshooting),
+    isInternal: true
   }
 ].filter(Boolean);
 

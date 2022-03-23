@@ -159,6 +159,7 @@ export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobi
         mobileAppId={mobileAppId}
         tagFilters={tagFilters}
         timeConfig={timeConfig}
+        cardTitle={t('in-mobile-apps:dashboard.tabs.httpRequestLabel')}
         rightHeader={rightHeader}
       />
     </Card>

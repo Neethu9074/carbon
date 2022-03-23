@@ -82,5 +82,26 @@ describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () =>
 
       expect(updateThresholdPointsIfRequired(baseline, thresholdGranularity)).toStrictEqual(expected);
     });
+
+    it('should filter-out point before start time', () => {
+      const t1 = 1627254000000;
+      const t2 = t1 + 10 * oneMinute;
+      const t3 = t2 + 10 * oneMinute;
+
+      const startTime = t1 + oneMinute;
+
+      const baseline = [
+        [t1, 95.5],
+        [t2, 95.5],
+        [t3, 105.5]
+      ];
+
+      const expected = [
+        [t2, 95.5],
+        [t3, 105.5]
+      ];
+
+      expect(updateThresholdPointsIfRequired(baseline, thresholdGranularity, startTime)).toStrictEqual(expected);
+    });
   });
 });

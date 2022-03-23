@@ -8,6 +8,7 @@ import React from 'react';
 import { combineLatest } from '@instana/observables';
 
 import AffectedEntitiesPresenter from 'in-events/components/AffectedEntities/AffectedEntitiesPresenter';
+import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -23,7 +24,8 @@ export default function AffectedEntities(props) {
     orderBy,
     isValid,
     hiddenCalls,
-    totalTagFilterExpression
+    totalTagFilterExpression,
+    setApproxDataForAffectedEntities
   } = props;
 
   const tableProps = useCursorPagination(
@@ -69,7 +71,9 @@ export default function AffectedEntities(props) {
         }
       });
 
-      return combineLatest([affected, allEntities]).map(enrichMetricResults);
+      return combineLatest([affected, allEntities]).map(results =>
+        enrichMetricResults(results, setApproxDataForAffectedEntities)
+      );
     },
     [timeConfig, retrievalSize, tagFilterExpression, orderBy, isValid, hiddenCalls]
   );
@@ -77,9 +81,20 @@ export default function AffectedEntities(props) {
   return <AffectedEntitiesPresenter {...props} {...tableProps} />;
 }
 
-function enrichMetricResults([affected, total]) {
+function getResultPrecision(result) {
+  return result?.resultPrecisionDetails?.resultPrecision;
+}
+
+function enrichMetricResults([affected, total], setApproxDataForAffectedEntities) {
   const loading = affected.progress?.loading || total.progress?.loading;
   const dataWithTotalCounts = enrichItemsWithTotalCounts(affected.data, total.data);
+  const approxDataForAffectedEntities =
+    isApproximatePrecision(getResultPrecision(affected)) || isApproximatePrecision(getResultPrecision(total));
+
+  if (!loading) {
+    setApproxDataForAffectedEntities(approxDataForAffectedEntities);
+  }
+
   return {
     ...affected,
     errors: [...affected.errors, ...total.errors],

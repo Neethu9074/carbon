@@ -1,0 +1,70 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+import {
+  PER_AP_ENDPOINT,
+  PER_AP_SERVICE
+} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
+import { AlertEvaluationType, ThresholdType } from 'in-types';
+import { deepFreeze } from 'in-services/util/object';
+import { t } from 'in-i18n';
+
+type Option = { readonly value: string; readonly label: string };
+type Options = readonly Option[];
+
+const baselineTypes = [HISTORIC_BASELINE, ADAPTIVE_BASELINE];
+
+export const applicationThresholdTypeOptions: Options = adaptiveBaselineEnabled
+  ? deepFreeze([
+      ...thresholdTypeOptions,
+      {
+        value: ADAPTIVE_BASELINE,
+        label: t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdTypeOptionAdaptiveBaseline')
+      }
+    ])
+  : thresholdTypeOptions;
+
+/**
+ * @returns true only if thresholdType is one of types 'historicBaseline' | 'adaptiveBaseline'
+ */
+export function isOneOfBaselineTypes(thresholdType: ThresholdType): boolean {
+  return baselineTypes.includes(thresholdType);
+}
+
+export function getAvailableOptionsForEvaluationType(
+  thresholdTypeOptions: Options = [],
+  evaluationType: AlertEvaluationType,
+  isGlobalSmartAlert: boolean
+): Options {
+  return thresholdTypeOptions.filter(({ value }) => {
+    if (isGlobalSmartAlert || [PER_AP_SERVICE, PER_AP_ENDPOINT].includes(evaluationType)) {
+      return [ADAPTIVE_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0] as ThresholdType);
+    }
+    return true;
+  });
+}
+
+export function withoutHistoricBaselineOptions(thresholdTypeOptions: Options = []): Options {
+  return thresholdTypeOptions.filter(({ value }) =>
+    [ADAPTIVE_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0] as ThresholdType)
+  );
+}
+
+export function withoutAdaptiveBaselineOptions(thresholdTypeOptions: Options = []): Options {
+  return thresholdTypeOptions.filter(({ value }) =>
+    [HISTORIC_BASELINE, STATIC_THRESHOLD].includes(value.split('.')[0] as ThresholdType)
+  );
+}
+
+const isAdaptiveBaselineOption = (option: Option) => ADAPTIVE_BASELINE === option.value;
+
+/* filter-out any option which does not match depending on the type: (adaptive) or (historic|static) */
+export const optionsValidForThresholdTyp = (type: string | ThresholdType): ((option: Option) => boolean) =>
+  type === ADAPTIVE_BASELINE //
+    ? isAdaptiveBaselineOption
+    : (option: Option) => !isAdaptiveBaselineOption(option);

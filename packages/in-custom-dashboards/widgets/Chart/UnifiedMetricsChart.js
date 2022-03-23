@@ -58,8 +58,7 @@ export default function UnifiedMetricsChart({
   renderHistoricDataIndicator,
   cardUseMaxAvailableHeight,
   excludedContextMenuActions,
-  renderLegend = true,
-  // In some cases the parent component needs to signal to this component that it is loading data needed for the chart
+  renderLegend = true, // In some cases the parent component needs to signal to this component that it is loading data needed for the chart
   // configuration, e.g. list of groups for group charts. While this flag is set, no back-end queries should be executed
   // and a loading indicator should be displayed.
   forceLoadingIndicator = false,
@@ -77,23 +76,23 @@ export default function UnifiedMetricsChart({
   );
   useEffect(() => setTimeConfigExtendedForLiveMode(extendWindowSizeOnLiveMode(timeConfig)), [timeConfig]);
 
+  const resolvedConfig = configureChart(config, timeConfig);
   const suggestedNumberOfDataPoints =
-    (forceLoadingIndicator ? null : getSuggestedNumberOfDataPoints(config)) || defaultNumberOfSuggestedDatapoints;
+    (forceLoadingIndicator ? null : resolvedConfig.suggestedNumberOfDataPoints) || defaultNumberOfSuggestedDatapoints;
   const configuredGranularity = forceLoadingIndicator
     ? null
     : config.granularity ?? getChartGranularity(timeConfigExtendedForLiveMode, suggestedNumberOfDataPoints);
-  const minimumGranularity = forceLoadingIndicator ? null : getMinGranularity(config, timeConfig);
+  const minimumGranularity = forceLoadingIndicator ? null : resolvedConfig.minGranularity;
   const granularity = forceLoadingIndicator ? null : Math.max(minimumGranularity, configuredGranularity);
   let result =
     useResultData(config, granularity, timeConfigExtendedForLiveMode, forceLoadingIndicator) ?? pendingResult;
-  const renderErrorDetail = shouldRenderErrorDetail(config);
+  const renderErrorDetail = resolvedConfig.shouldRenderErrorDetail;
 
   // Transform result data structure into the structure expected by the chart
   let resultDataAsList = result?.data;
   if (result?.data) {
     result = {
-      ...result,
-      // Turn the list of metric results into a map of metric results.
+      ...result, // Turn the list of metric results into a map of metric results.
       data: result.data.reduce((agg, { id, label, values }) => {
         // The backend can send multiple results for the same ID. In that case we will be talking about grouped metrics.
         if (label) {
@@ -103,6 +102,20 @@ export default function UnifiedMetricsChart({
         return agg;
       }, {})
     };
+
+    if (config.y1?.colorMapper || config.y2?.colorMapper) {
+      const axisColors = {};
+      for (const item in result.data) {
+        const [axis, id, ...labelParts] = item.split('-');
+        const label = labelParts.join('-');
+        const colors = axisColors[axis] ?? [];
+        axisColors[axis] = [...colors, config[axis]?.colorMapper?.(id, label)];
+      }
+
+      for (const axis in axisColors) {
+        config[axis].colors = axisColors[axis];
+      }
+    }
   }
 
   const hasApproximateData =
@@ -324,30 +337,24 @@ function toMetricsConfiguration(config, resultDataAsList) {
   }
 }
 
-function shouldRenderErrorDetail(config) {
-  return getAllMetricSources(config).reduce((a, source) => a || source.renderErrorDetail, false);
+function configureChart(config, timeConfig) {
+  const metrics = getAllMetrics(config);
+  return metrics.reduce((acc, metric) => {
+    return sources[metric.source]?.configureChart?.(acc, timeConfig, metric) ?? acc;
+  }, initialChartConfig);
 }
 
-function getSuggestedNumberOfDataPoints(config) {
-  return getAllMetricSources(config)
-    .map(source => source.suggestedNumberOfDataPoints ?? defaultNumberOfSuggestedDatapoints)
-    .reduce((a, m) => Math.max(a, m), 0);
-}
+const initialChartConfig = {
+  renderErrorDetail: false,
+  suggestedNumberOfDataPoints: defaultNumberOfSuggestedDatapoints,
+  minGranularity: 0
+};
 
-function getMinGranularity(config, timeConfig) {
-  return getAllMetricSources(config)
-    .map(source => source.getMinGranularity?.(timeConfig) ?? 0)
-    .reduce((a, m) => Math.max(a, m), 0);
-}
-
-function getAllMetricSources(config) {
-  if (config) {
-    return config.y1.metrics
-      .concat(config.y2?.metrics ?? [])
-      .map(c => sources[c.source])
-      .filter(Boolean);
+function getAllMetrics(config) {
+  if (!config) {
+    return [];
   }
-  return [];
+  return config.y1.metrics.concat(config.y2?.metrics ?? []);
 }
 
 // For charts in custom dashboards we support a feature called "Display Current Values".

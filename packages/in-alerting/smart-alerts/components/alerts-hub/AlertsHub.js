@@ -112,7 +112,7 @@ function renderContent({ websites, applications, infrastructure }) {
       buttons: [
         {
           text: t('in-alerting:smartAlerts.components.alertsHub.infrastructure.button0'),
-          icon: 'lib_events_warning',
+          icon: 'lib_events_critical',
           path: teamSettingsAlertingAlerts
         },
         {

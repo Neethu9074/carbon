@@ -191,6 +191,7 @@
     "fieldsEntityVsphereEsxihost": "vSphere ESXi Host",
     "fieldsEntityVsphereVm": "vSphere Virtual Machine",
     "fieldsEntityWebsphere": "IBM WebSphere application server",
+    "fieldsEntityWebsphereDeploymentManager": "IBM WebSphere deployment manager",
     "fieldsTrace": "Trace and root span",
     "fieldsEvent": "Changes, issues and incidents",
     "fieldsSpan": "Spans within traces",

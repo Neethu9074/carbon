@@ -61,11 +61,11 @@ export function createParameters(path: string) {
       parser: buildJsonParser(null)
     },
 
-    initialLogPages: {
+    initialLogLines: {
       path,
-      name: 'initialLogPages',
+      name: 'initialLogLines',
       serializer: buildJsonSerializer(),
-      parser: buildJsonParser(1)
+      parser: buildJsonParser(20)
     },
 
     fields: {

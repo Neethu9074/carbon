@@ -25,7 +25,7 @@ export default function MetricSelectorOverlay({ metricCatalog, loading, onChange
       options={options}
       loading={loading}
       onChange={node => {
-        onChange({ metric: node.metric, type: node.type });
+        onChange(node);
         close();
       }}
       query={query}
@@ -46,16 +46,19 @@ function toOptions(metricTreeNodes, parentLabels = []) {
           hasChildren={metricTreeNode.children?.length > 0}
         />
       ),
+      parentLabels,
       description: metricTreeNode.description,
       metric: metricTreeNode.name,
       type: metricTreeNode.type,
+      parentType: metricTreeNode.parentType ?? metricTreeNode.type, // parentType was previously sent as type before R221
       icon: metricTreeNode.icon,
+      allowedCrossSeriesAggregations: metricTreeNode.allowedCrossSeriesAggregations ?? [],
       keywords: [
         joinedParentLabels,
         metricTreeNode.label,
         metricTreeNode.description,
         metricTreeNode.name,
-        metricTreeNode.type
+        metricTreeNode.parentType
       ]
         .filter(Boolean)
         .join(' '),

@@ -40,9 +40,9 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
 import useStableObjectInstance from 'in-hooks/useStableObjectInstance';
 import { tagFilter } from '../QueryBuilder/transformation/tagFilter';
-import { getSparkChartGranularity } from 'in-applications/metrics';
 import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import Header from 'in-components/QueryBuilder/components/Header';
+import { getSparkChartGranularity } from 'in-applications/metrics';
 import { enrichTagCatalog } from 'in-services/tags/tagCatalog';
 import useCursorPagination from 'in-hooks/useCursorPagination';
 import { getFormatter } from 'in-stores/metric/formatters';
@@ -129,7 +129,6 @@ export default function GroupedAnalyzeView(props) {
   const actionColumnDefinitions = actionColumns();
 
   const sparkChartGranularity = getSparkChartGranularity(timeConfig);
-
   const backendMetrics = useStableObjectInstance(
     fields
       .filter(({ type }) => type === metricType)
@@ -155,6 +154,7 @@ export default function GroupedAnalyzeView(props) {
     loadMore,
     totalHits,
     totalRepresentedItemCount,
+    totalRetainedItemCount,
     adjustedWindowSize,
     resultPrecisionDetails
   } = useCursorPagination(
@@ -265,6 +265,7 @@ export default function GroupedAnalyzeView(props) {
             metrics={selectableFields.map(m => ({ metric: m.metricId, aggregation: m.aggregationId }))}
             totalHits={totalHits}
             totalRepresentedItemCount={totalRepresentedItemCount}
+            totalRetainedItemCount={totalRetainedItemCount}
             hasErrors={hasErrors}
             isLoading={isLoading}
             order={orderByGroups}

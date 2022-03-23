@@ -11,7 +11,8 @@ import {
   SliEntity,
   WebsiteTimeBasedSliEntity,
   WebsiteSliEntity,
-  SliConfigurationInput
+  SliConfigurationInput,
+  SliType
 } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -74,6 +75,10 @@ export interface NewSliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntity>
   extends Omit<SliConfigurationInput, 'sliEntity'> {
   readonly sliEntity: SLI_ENTITY_TYPE;
 }
+
+export type SliConfigBySliType<S extends Lowercase<SliType>> = S extends 'website'
+  ? SliConfig<WebsiteSliEntity>
+  : SliConfig<ApplicationSliEntity | AvailabilitySliEntity>;
 
 export type SliEntityType =
   | typeof applicationType

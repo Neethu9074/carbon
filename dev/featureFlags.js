@@ -50,7 +50,8 @@ module.exports = {
   builtInGlobalApplicationSmartAlertsEnabled: true,
   websiteSloEnabled: true,
   disableAppDataLegacyEvents: false,
-  perEntityAdaptiveBaselineEnabled: true,
+  perServiceAdaptiveBaselineEnabled: true,
+  perEndpointAdaptiveBaselineEnabled: false,
   smartAlertsLogsBlueprintEnabled: true,
   syntheticsTestEnabled: true,
   kubernetesExploreEnabled: true

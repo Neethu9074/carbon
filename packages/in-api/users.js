@@ -3,8 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { fromJS } from 'immutable';
-
 import { create } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
@@ -47,14 +45,6 @@ function getInvitationsInternal() {
 
 // regular calls
 
-export function getUsersAndInvitations() {
-  return http({
-    method: 'GET',
-    maxRetries: 3,
-    url: `/api/settings/users/overview`
-  }).map(response => fromJS(response.body));
-}
-
 export function getUsers() {
   return http({
     method: 'GET',
@@ -78,7 +68,7 @@ export function removeUserFromTenant(userId) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/tenant/users/${encodeURIComponent(userId)}`
+    url: `/api/settings/users/${encodeURIComponent(userId)}`
   }).map(v => {
     refreshSignalUsers.emit(userId);
     return v;

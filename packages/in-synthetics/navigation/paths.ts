@@ -4,3 +4,5 @@
  */
 
 export const syntheticsPath = '/synthetics';
+export const syntheticsDashboard = '/synthetic';
+export const syntheticsSummaryPath = `${syntheticsPath}/summary`;

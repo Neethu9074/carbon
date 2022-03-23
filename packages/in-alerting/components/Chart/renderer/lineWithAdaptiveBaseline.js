@@ -31,7 +31,14 @@ function drawLineGraph(len, config, oneSidedThresholdInTimeframe, scale) {
   }
 }
 
-export function getThresholdInTimeframe(baselineEntriesFromMetadata, baseline, sensitivity, isGreaterOp) {
+export function getThresholdInTimeframe(
+  baselineEntriesFromMetadata,
+  baseline,
+  sensitivity,
+  isGreaterOp,
+  granularity,
+  timeConfig
+) {
   const thresholdInTimeframe = [];
   const eventBasedAdaptiveBaseline = baselineEntriesFromMetadata ?? [];
 
@@ -39,9 +46,19 @@ export function getThresholdInTimeframe(baselineEntriesFromMetadata, baseline, s
   // 1) In SA Dialogue via fetching the threshold suggestion
   // 2) In event details view using event metadata
   if (eventBasedAdaptiveBaseline.length === 0) {
-    for (let [timestamp, baselineValue, deviationValue] of baseline) {
-      const thresholdValue = getAdaptiveBaselineValue(baselineValue, deviationValue, sensitivity, isGreaterOp);
-      thresholdInTimeframe.push([timestamp, thresholdValue]);
+    if (timeConfig) {
+      const startTime = calculateFirstBucketInChartStartTime(timeConfig, granularity);
+      for (let [timestamp, baselineValue, deviationValue] of baseline) {
+        if (timestamp >= startTime) {
+          const thresholdValue = getAdaptiveBaselineValue(baselineValue, deviationValue, sensitivity, isGreaterOp);
+          thresholdInTimeframe.push([timestamp, thresholdValue]);
+        }
+      }
+    } else {
+      for (let [timestamp, baselineValue, deviationValue] of baseline) {
+        const thresholdValue = getAdaptiveBaselineValue(baselineValue, deviationValue, sensitivity, isGreaterOp);
+        thresholdInTimeframe.push([timestamp, thresholdValue]);
+      }
     }
   } else {
     for (const [timestamp, thresholdValue] of eventBasedAdaptiveBaseline) {
@@ -50,6 +67,11 @@ export function getThresholdInTimeframe(baselineEntriesFromMetadata, baseline, s
   }
 
   return thresholdInTimeframe;
+}
+
+function calculateFirstBucketInChartStartTime(timeConfig, granularity) {
+  const to = timeConfig.to ?? Date.now();
+  return to - timeConfig.windowSize - granularity;
 }
 
 function renderAdaptiveBaseline(axis, config, scale, colors50, colors100) {
@@ -65,11 +87,28 @@ function renderAdaptiveBaseline(axis, config, scale, colors50, colors100) {
   const alrightColor = colors50[0];
   const violationColor = colors50[1];
   const isGreaterOp = operator === undefined || isGreaterOperator(operator);
-  const thresholdInTimeframe = getThresholdInTimeframe(eventBasedAdaptiveBaseline, baseline, sensitivity, isGreaterOp);
-  const oneSidedThresholdInTimeframe = updateThresholdPointsIfRequired(thresholdInTimeframe, thresholdGranularity);
+  const thresholdInTimeframe = getThresholdInTimeframe(
+    eventBasedAdaptiveBaseline,
+    baseline,
+    sensitivity,
+    isGreaterOp,
+    thresholdGranularity
+  );
+
+  const startTime = calculateFirstBucketInChartStartTime(config.timeConfig, thresholdGranularity);
+  const oneSidedThresholdInTimeframe = updateThresholdPointsIfRequired(
+    thresholdInTimeframe,
+    thresholdGranularity,
+    startTime
+  );
 
   // Backgrounds
   const len = oneSidedThresholdInTimeframe.length;
+
+  if (len === 0) {
+    return;
+  }
+
   const xPosStart = xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[0][0]);
   const xPosEnd = xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[len - 1][0]);
   const yPosStart = scale.getRange(oneSidedThresholdInTimeframe[0][1]);
@@ -128,8 +167,10 @@ function distanceBetweenThresholdPointsIsTooBig(next, current, thresholdGranular
 /**
  * We are not passing maxDistanceBetweenDataPointsInMillis explicitly,
  * in our case granularity * allowedMultiplesOfRollupSizeMissingInCharts would be maxDistanceBetweenDataPointsInMillis
+ *
+ * baseline items may be before of current time-window, so we need to filter by minimum startTime
  */
-export function updateThresholdPointsIfRequired(baseline, thresholdGranularity) {
+export function updateThresholdPointsIfRequired(baseline, thresholdGranularity, startTime) {
   const result = [];
   const halfBucketInMillis = thresholdGranularity * 0.5;
 
@@ -137,6 +178,13 @@ export function updateThresholdPointsIfRequired(baseline, thresholdGranularity) 
 
   for (let i = 0; i < baseline.length; i++) {
     const currentThresholdPoint = baseline[i];
+    const [currentTime, currentValue] = currentThresholdPoint;
+
+    //filter out items before minimum start time
+    if (currentTime < startTime) {
+      continue;
+    }
+
     const nextThresholdPoint = baseline[i + 1];
 
     // As adaptive baseline might not be continuous, instead of rendering a dot we would render a tiny line
@@ -146,8 +194,8 @@ export function updateThresholdPointsIfRequired(baseline, thresholdGranularity) 
       distanceBetweenThresholdPointsIsTooBig(nextThresholdPoint, currentThresholdPoint, thresholdGranularity)
     ) {
       result.push(
-        [Number(currentThresholdPoint[0]) - halfBucketInMillis, currentThresholdPoint[1]],
-        [Number(currentThresholdPoint[0]) + halfBucketInMillis, currentThresholdPoint[1]]
+        [Number(currentTime) - halfBucketInMillis, currentValue],
+        [Number(currentTime) + halfBucketInMillis, currentValue]
       );
     } else {
       result.push(currentThresholdPoint);

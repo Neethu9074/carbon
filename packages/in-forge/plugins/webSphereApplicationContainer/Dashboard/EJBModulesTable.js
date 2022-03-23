@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import EJBBeanTable from 'in-forge/plugins/webSphereApplicationContainer/Dashboard/EJBBeanTable';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
 import { zeroDecimalPlaces, millis } from 'in-services/formatters/number';
@@ -65,6 +66,7 @@ export default function EJBModulesTable({ snapshot, timeConfig }) {
   const rows = ejbModules.toArray().map(key => {
     return {
       key,
+      snapshot,
       snapshotId: snapshot.get('id'),
       timeConfig
     };
@@ -103,6 +105,8 @@ function getRowDetails(row) {
         }}
         renderPostChartContent={PluginDashboardsMarkerLanes}
       />
+
+      <EJBBeanTable ejbContext={row.key} snapshot={row.snapshot} timeConfig={row.timeConfig} />
     </div>
   );
 }

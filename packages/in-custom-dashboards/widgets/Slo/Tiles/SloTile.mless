@@ -62,6 +62,24 @@
     .budgetSpent {
       color: @lib__colors__red800;
     }
+
+    .titleSkeleton {
+      display: inline-block;
+      height: 1rem;
+      width: 40%;
+    }
+
+    .budgetSkeleton {
+      display: inline-block;
+      height: 2.375rem;
+      width: 80%;
+    }
+
+    .targetInfoSkeleton {
+      display: inline-block;
+      height: 0.875rem;
+      width: 60%;
+    }
   }
 
   .oneRow {
@@ -118,6 +136,24 @@
 
     .budgetSpent {
       color: @lib__colors__red800;
+    }
+
+    .titleSkeleton {
+      display: inline-block;
+      min-height: 1rem;
+      width: 2.5rem;
+    }
+
+    .budgetSkeleton {
+      display: inline-block;
+      min-height: 1rem;
+      width: 2.5rem;
+    }
+
+    .targetInfoSkeleton {
+      display: inline-block;
+      min-height: 1rem;
+      width: 13rem;
     }
   }
 }

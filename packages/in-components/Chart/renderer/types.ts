@@ -15,6 +15,9 @@ export interface RenderConfig extends Config {
   backBufferCtx: CanvasRenderingContext2D;
 
   markerPaneHeight: number;
+  timeAxisHeight: number;
+  height: number;
+  width: number;
 }
 
 export interface RenderProps {

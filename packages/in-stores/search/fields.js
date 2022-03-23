@@ -78,6 +78,7 @@ const helpTexts = {
   'entity.vsphere.esxihost': t('in-stores:search.fieldsEntityVsphereEsxihost'),
   'entity.vsphere.vm': t('in-stores:search.fieldsEntityVsphereVm'),
   'entity.websphere': t('in-stores:search.fieldsEntityWebsphere'),
+  'entity.webspheredmgr.dmgr': t('in-stores:search.fieldsEntityWebsphereDeploymentManager'),
   trace: t('in-stores:search.fieldsTrace'),
   event: t('in-stores:search.fieldsEvent'),
   span: t('in-stores:search.fieldsSpan'),

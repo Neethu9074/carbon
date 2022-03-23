@@ -121,6 +121,7 @@ export default function SyntheticCallConfigDialog() {
                                 )
                               );
                             }}
+                            onRemove={() => updateForm(form.updateIn(['customRules'], list => list.remove(index)))}
                             onEdit={() =>
                               addActiveDialog(
                                 <CustomSyntheticRuleDialog
