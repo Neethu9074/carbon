@@ -53,7 +53,7 @@ export default function ListActionsColumn({ config, isLoading, isGlobalSmartAler
 
   return (
     <HorizontalFlexWrapper className={locals.actions}>
-      <Tooltip content={getTooltipForAction()}>
+      <Tooltip content={getTooltipForAction()} delay={500}>
         <IconButton
           kind="primaryv2"
           type={isSaving ? 'lib_actions_loading' : enabled ? 'lib_actions_pause' : 'lib_actions_play'}
