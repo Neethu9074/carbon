@@ -24,40 +24,18 @@ export default function ImportConfig() {
   const [input] = useState(inputDOMNode);
   const [file, setFile] = useState(null);
   const [configJSON, setConfigJSON] = useState(null);
-  const [appConfigs, setAppConfigs] = useState([]);
   inputDOMNode.onchange = () => setFile(input && input.files && input.files.length > 0 ? input.files[0] : undefined);
 
-  const initLoadedConfig = () => {
-    setConfigJSON(null);
-    setAppConfigs([]);
-  };
   useEffect(() => {
-    if (!file && configJSON) initLoadedConfig();
-
-    if (file && !configJSON) {
+    if (file) {
       const reader = new FileReader();
       reader.readAsText(file, 'UTF-8');
-      reader.onload = function(evt) {
-        let str = evt.target.result;
-        let json = JSON.parse(str);
-        let apps = [];
+      reader.onloadend = function() {
+        let json = JSON.parse(reader.result);
         setConfigJSON(json);
-
-        if (json.applicationConfigs) {
-          json.applicationConfigs.forEach(obj => {
-            apps.push({
-              service: {
-                id: obj.id,
-                label: obj.label
-              }
-            });
-            return obj;
-          });
-          setAppConfigs(apps);
-        }
       };
     }
-  }, [file, setConfigJSON, configJSON, setAppConfigs, appConfigs]);
+  }, [file]);
 
   return (
     <>
@@ -66,9 +44,6 @@ export default function ImportConfig() {
         file={file}
         onCancelClick={() => {
           setFile(null);
-          setConfigJSON(null);
-          setAppConfigs([]);
-          // refresh();
         }}
         saveLabel={t('in-settings:tabs.migrationImport')}
         saveItem={({ setMessage }) => {
@@ -92,17 +67,53 @@ export default function ImportConfig() {
     </>
   );
 }
-function Content({ file, setCanSaveItem, input, appConfigs }) {
-  const [loadedAppConfigs, setLoadedAppConfigs] = useState(appConfigs);
+
+function Content({ file, setCanSaveItem, input }) {
+  const [selectedAppConfigs, setSelectedAppConfigs] = useState([]);
+  const [selectedWebsites, setSelectedWebsites] = useState([]);
 
   useEffect(
     // allow only saving when config metadata has been uploaded
     () => {
       setCanSaveItem(!!file);
-      setLoadedAppConfigs(appConfigs);
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsText(file, 'UTF-8');
+        reader.onloadend = function() {
+          let json = JSON.parse(reader.result);
+          // setConfigJSON(json);
+          let apps = [];
+          if (json && json.applicationConfigs) {
+            json.applicationConfigs.forEach(obj => {
+              apps.push({
+                service: {
+                  id: obj.id,
+                  label: obj.label
+                }
+              });
+              return obj;
+            });
+            setSelectedAppConfigs(apps);
+          }
+          let websites = [];
+          if (json && json.websiteConfigs) {
+            json.websiteConfigs.forEach(obj => {
+              websites.push({
+                service: {
+                  id: obj.id,
+                  label: obj.label
+                }
+              });
+              return obj;
+            });
+            setSelectedWebsites(websites);
+          }
+        };
+      }
     },
-    [file, setCanSaveItem, appConfigs]
+    [file, setCanSaveItem]
   );
+
   return (
     <>
       <Title title={t('in-settings:tabs.configImport')} />
@@ -131,13 +142,13 @@ function Content({ file, setCanSaveItem, input, appConfigs }) {
         </Section>
       </form>
       <AccordionConfigs
-        appConfigs={loadedAppConfigs}
+        appConfigs={selectedAppConfigs}
         label={'Applications'}
         id="import_appconfigs"
         icon="lib_application"
       />
-      {/* <AccordionConfigs appConfigs={appConfigs} label="Websites" id="import_websiteconfigs" icon="lib_website" />
-      <AccordionConfigs appConfigs={appConfigs} label="Mobile Apps" id="import_mobileappconfigs" icon="lib_mobile_app" />
+      <AccordionConfigs appConfigs={selectedWebsites} label="Websites" id="import_websiteconfigs" icon="lib_website" />
+      {/*  <AccordionConfigs appConfigs={appConfigs} label="Mobile Apps" id="import_mobileappconfigs" icon="lib_mobile_app" />
       <AccordionConfigs
         appConfigs={appConfigs}
         label="Alert Channels"

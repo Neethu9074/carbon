@@ -10,12 +10,12 @@ import { just } from '@instana/observables';
 
 import AccordionListPresenter from './AccordionListPresenter';
 
-export default function AccordionConfigs({ appConfigs, label, id, icon, checked, onChange }) {
+export default function AccordionConfigs({ configs, label, id, icon, checked, onChange }) {
   const [labelWithCount, setLabelWithCount] = useState(label);
 
   useEffect(() => {
-    if (appConfigs) setLabelWithCount(label + '(' + appConfigs.length + ')');
-  }, [appConfigs, label, setLabelWithCount]);
+    if (configs) setLabelWithCount(label + ' (' + configs.length + ')');
+  }, [configs, label, setLabelWithCount]);
 
   return (
     <>
@@ -46,7 +46,7 @@ export default function AccordionConfigs({ appConfigs, label, id, icon, checked,
           getServicesCursorPaginated: () =>
             just({
               data: {
-                items: appConfigs
+                items: configs
                 // page: 1,
                 // pageSize: 10,
                 // totalHits: 1
