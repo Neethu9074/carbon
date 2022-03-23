@@ -170,7 +170,7 @@ export const getGroupByServiceRuleId = (serviceId: string) => {
 
 export type MetricConfig = ReturnType<typeof getServiceMappingMetricConfig>;
 
-const serviceMappingColorMap: Record<string, string> = {
+export const serviceMappingColorMap: Record<string, string> = {
   MANUAL_MAPPING_UNMONITORED_SERVICE: 'lightBlue',
   MANUAL_MAPPING_EXISTING_SERVICE: 'orange',
   RESILIENT_MAPPING_FIRST_LEVEL_CACHE: 'deepPurple',
@@ -188,7 +188,7 @@ export const serviceMappingColorMapper = (_: string, label: string) => {
   return serviceMappingColorMap[label] ?? null;
 };
 
-const infraLinkingColorMap: Record<string, string> = {
+export const infraLinkingColorMap: Record<string, string> = {
   PARTIAL_PROCESS_ON_HOST_MISSING: 'lightBlue',
   PARTIAL_SPECIFIC_PROCESS_MISSING: 'orange',
   PARTIAL_APP_SERVER_MISSING_ON_JVM: 'deepPurple',
@@ -205,7 +205,7 @@ export const infraLinkingColorMapper = (_: string, label: string) => {
   return infraLinkingColorMap[label] ?? null;
 };
 
-const infraReferenceColorMap: Record<string, string> = {
+export const infraReferenceColorMap: Record<string, string> = {
   UNQUALIFIED_REFERENCE_HOST_AND_PORT: 'lightBlue',
   UNQUALIFIED_REFERENCE_CLUSTER_NAME: 'orange',
   UNQUALIFIED_REFERENCE_CLOUD_ID: 'deepPurple',

@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import {
   createFormModelFromSyntheticOption,
@@ -19,7 +19,8 @@ import { t } from 'in-i18n';
 
 export interface TroubleShootingChartProps {
   title: string;
-  explanation?: string;
+  problemStatement?: string;
+  renderInfoBox?: () => ReactNode;
   serviceId: string;
   metricConfigs: MetricConfig[];
   groupBy: Group;
@@ -30,7 +31,8 @@ export interface TroubleShootingChartProps {
 
 export default function TroubleShootingChart({
   title,
-  explanation,
+  problemStatement,
+  renderInfoBox,
   groupBy,
   serviceId,
   metricConfigs,
@@ -43,10 +45,11 @@ export default function TroubleShootingChart({
   return (
     <UnifiedMetricsChart
       title={title}
-      rightHeaderContent={explanation && <i>{explanation}</i>}
+      rightHeaderContent={problemStatement && <i>{problemStatement}</i>}
       automaticallySize={false}
       renderLegend
       renderHistoricDataIndicator
+      renderPostChartContent={renderInfoBox}
       config={{
         y1: {
           metrics: metricConfigs,
