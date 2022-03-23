@@ -26,9 +26,15 @@ import {
   infraReferenceColorMapper,
   qualifiedReferencesFilter,
   serviceMappingColorMapper
-} from './metricConfigs';
-import GroupBigNumberKpiCard, { groupedBigNumberKpiMapper } from './GroupedBigNumberKpiCard';
-import AlternativeServicesChart from './AlternativeServicesChart/AlternativeServicesChart';
+} from 'in-applications/Dashboards/service/tabs/troubleshooting/metricConfigs';
+import GroupBigNumberKpiCard, {
+  groupedBigNumberKpiMapper
+} from 'in-applications/Dashboards/service/tabs/troubleshooting/GroupedBigNumberKpiCard';
+import AlternativeServicesChart from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/AlternativeServicesChart';
+import InfraReferenceTypesInfoxBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/InfraReferenceTypesInfoxBox';
+import ServiceMappingRulesInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ServiceMappingRulesInfoBox';
+import ServiceMappingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ServiceMappingInfoBox';
+import InfraLinkingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/InfraLinkingInfoBox';
 // @ts-expect-error
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -99,7 +105,8 @@ export default function Troubleshooting(props: TroubleShootingProps) {
         <Col xs>
           <TroubleShootingChart
             title={t('in-applications:serviceTroubleshooting.serviceMapping')}
-            explanation={t('in-applications:serviceTroubleshooting.serviceMappingExplanation')}
+            problemStatement={t('in-applications:serviceTroubleshooting.serviceMappingProblemStatement')}
+            renderInfoBox={ServiceMappingInfoBox}
             serviceId={serviceId}
             metricConfigs={[getServiceMappingMetricConfig(serviceId)]}
             boundaryScope={boundaryScope}
@@ -108,10 +115,13 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             colorMapper={serviceMappingColorMapper}
           />
         </Col>
+      </Row>
+      <Row>
         <Col xs>
           <TroubleShootingChart
             title={t('in-applications:serviceTroubleshooting.infraLinking')}
-            explanation={t('in-applications:serviceTroubleshooting.infraLinkingExplanation')}
+            problemStatement={t('in-applications:serviceTroubleshooting.infraLinkingProblemStatement')}
+            renderInfoBox={InfraLinkingInfoBox}
             serviceId={serviceId}
             metricConfigs={[getInfraLinkingMetricConfig(serviceId)]}
             boundaryScope={boundaryScope}
@@ -125,7 +135,8 @@ export default function Troubleshooting(props: TroubleShootingProps) {
         <Col xs>
           <TroubleShootingChart
             title={t('in-applications:serviceTroubleshooting.serviceRuleId')}
-            explanation={t('in-applications:serviceTroubleshooting.serviceRuleIdExplanation')}
+            problemStatement={t('in-applications:serviceTroubleshooting.serviceRuleIdProblemStatement')}
+            renderInfoBox={ServiceMappingRulesInfoBox}
             serviceId={serviceId}
             metricConfigs={[getGroupByServiceRuleId(serviceId)]}
             boundaryScope={boundaryScope}
@@ -133,10 +144,13 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             groupBy={groupByServiceRuleId}
           />
         </Col>
+      </Row>
+      <Row>
         <Col xs>
           <TroubleShootingChart
             title={t('in-applications:serviceTroubleshooting.infraReferenceType')}
-            explanation={t('in-applications:serviceTroubleshooting.infraReferenceTypeExplanation')}
+            problemStatement={t('in-applications:serviceTroubleshooting.infraReferenceTypeProblemStatement')}
+            renderInfoBox={InfraReferenceTypesInfoxBox}
             serviceId={serviceId}
             metricConfigs={[getInfraReferenceTypeMetricConfig(serviceId)]}
             boundaryScope={boundaryScope}
@@ -150,7 +164,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
         <Col lg>
           <TroubleShootingChart
             title={t('in-applications:serviceTroubleshooting.hostName')}
-            explanation={t('in-applications:serviceTroubleshooting.hostNameExplanation')}
+            problemStatement={t('in-applications:serviceTroubleshooting.hostNameProblemStatement')}
             serviceId={serviceId}
             metricConfigs={[getGroupByHostnameConfig(serviceId)]}
             boundaryScope={boundaryScope}
@@ -163,7 +177,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
         <Col lg>
           <TroubleShootingChart
             title={t('in-applications:serviceTroubleshooting.httpHost')}
-            explanation={t('in-applications:serviceTroubleshooting.httpHostExplanation')}
+            problemStatement={t('in-applications:serviceTroubleshooting.httpHostProblemStatement')}
             serviceId={serviceId}
             metricConfigs={[getGroupByHttpHostConfig(serviceId)]}
             boundaryScope={boundaryScope}
@@ -176,7 +190,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
         <Col lg>
           <TroubleShootingChart
             title={t('in-applications:serviceTroubleshooting.spanType')}
-            explanation={t('in-applications:serviceTroubleshooting.spanTypeExplanation')}
+            problemStatement={t('in-applications:serviceTroubleshooting.spanTypeProblemStatement')}
             serviceId={serviceId}
             metricConfigs={[getGroupBySpanType(serviceId)]}
             boundaryScope={boundaryScope}
@@ -189,7 +203,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
         <Col lg>
           <TroubleShootingChart
             title={t('in-applications:serviceTroubleshooting.processUptime')}
-            explanation={t('in-applications:serviceTroubleshooting.processUptimeExplanation')}
+            problemStatement={t('in-applications:serviceTroubleshooting.processUptimeProblemStatement')}
             serviceId={serviceId}
             metricConfigs={[getGroupByProcessUptime(serviceId)]}
             boundaryScope={boundaryScope}

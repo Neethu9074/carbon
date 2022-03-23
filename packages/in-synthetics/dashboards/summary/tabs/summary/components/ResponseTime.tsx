@@ -6,6 +6,8 @@
 import { get } from 'lodash';
 import React from 'react';
 
+import { t } from '@instana/i18n-react';
+
 //@ts-ignore
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
@@ -41,7 +43,7 @@ export default function ResponseTime({ test, timeShiftConfig }: Props) {
             metricIds: [],
             labels: []
           },
-          cardTitle: 'Response Times'
+          cardTitle: `${t('in-synthetics:dashboard.summary.widgets.responseTimes')}`
         }}
         result={{ errors: [], progress: { loading: test.progress.loading } }}
       />
@@ -78,7 +80,6 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig:
   metricConfigs = chartTestMetrics.map(m => ({
     metric: m.metric,
     label: m.label,
-    defaultDisabled: m.defaultDisabled,
     ...m.config
   }));
   colors = chartTestMetrics.map(m => m.color);
@@ -87,7 +88,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig:
   return (
     <UnifiedMetricsChart
       renderHistoricDataIndicator
-      title={'Response Times'}
+      title={t('in-synthetics:dashboard.summary.widgets.responseTimes')}
       timeConfig={timeConfig}
       automaticallySize={false}
       reverseLegendOrder={timeShiftConfig.offset}
