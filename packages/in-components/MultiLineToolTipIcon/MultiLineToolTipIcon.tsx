@@ -29,7 +29,7 @@ export default function MultiLineToolTipIcon({
 }: Props) {
   return (
     <Tooltip
-      align="bottomMiddle"
+      align="bottomLeft"
       content={lines.map((line, idx) => (
         <p className={locals.tooltipItem} key={idx}>
           {line}
