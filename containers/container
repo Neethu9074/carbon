@@ -4,7 +4,7 @@ FROM containers.instana.io/instana/product/nodejs:${base_version} AS builder
 
 COPY build/ /
 
-RUN dnf install -y gcc gcc-c++ make
+RUN microdnf --nodocs --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y gcc gcc-c++ make
 RUN npm install --prefix /opt/instana/ui-client/target --production
 
 FROM containers.instana.io/instana/product/nodejs:${base_version}
