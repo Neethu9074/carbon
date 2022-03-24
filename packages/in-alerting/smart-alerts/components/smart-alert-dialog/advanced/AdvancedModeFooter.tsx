@@ -15,6 +15,7 @@ interface AdvancedModeFooterProps {
   onCreate: () => void;
   additionalValidationCheck: () => boolean;
   form: MapForm;
+  setForm: (updatedForm: MapForm) => void;
   isSaving?: boolean;
   editMode?: boolean;
   migrationMode?: boolean;
