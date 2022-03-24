@@ -42,6 +42,7 @@ export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
+export const kubernetesLoggingEnabled = isFeatureFlagEnabled('kubernetesLoggingEnabled', false);
 
 export const showUserSettingInternalTagsInUA = isFeatureFlagEnabled('showUserSettingInternalTagsInUA', false);
 export const syntheticCallsEnabled = isFeatureFlagEnabled('syntheticCallsEnabled');
