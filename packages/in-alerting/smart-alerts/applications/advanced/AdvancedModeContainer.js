@@ -24,7 +24,6 @@ import ApplicationAlertPreviewHeadline from 'in-alerting/smart-alerts/applicatio
 import AlertEvaluationControl from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControl';
 import { AlertPreview } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/ThroughputInteractiveChart';
 import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
@@ -32,15 +31,14 @@ import ErrorRateInteractiveChart from 'in-alerting/smart-alerts/applications/adv
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/advanced/BluePrintSelectionSection';
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/SlownessInteractiveChart';
-import { validateCheckForCustomPayload } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import LogsInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
+import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
 import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
 import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
-import { noop } from 'in-services/util/function';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
@@ -51,17 +49,19 @@ export default function AdvancedModeContainer(props) {
     setSliderState,
     setCustomSlideInHeaderConfig,
     updateForm,
-    applicationLabel,
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
     thresholdResult,
+    messages,
     editMode,
-    isGlobalSmartAlert,
     QueryBuilderComponent,
     isTagFilterFormModelValid,
+    applicationLabel,
+    isGlobalSmartAlert,
     initialConfiguredApplications = {}
   } = props;
-  const alertType = form.get('rule').get('alertType').value;
+  const ruleForm = form.get('rule');
+  const alertType = ruleForm.get('alertType').value;
   const thresholdType = form.get('threshold').get('type').value;
   const blueprintConfig = getBlueprintConfig(alertType);
   const blueprintConfigList =
@@ -69,15 +69,22 @@ export default function AdvancedModeContainer(props) {
       ? blueprintConfigs
       : blueprintConfigs.filter(config => config?.type !== 'logs');
 
+  const isLogsBlueprint = blueprintConfig.type === 'logs';
+  const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
+
   return (
     <GlobalAdvancedModeContainer
-      {...props}
+      messages={messages}
       navItems={[
         {
           scrollId: '1',
-          valid: true,
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.trigger.title'),
+          valid:
+            (!isLogsBlueprint || !fieldTouchedAndInvalid(ruleForm?.get('message'))) &&
+            // for custom ranges only: we do have direct invalidation feedback on the fields,
+            // so only can get invalid after the user has changed it
+            (!isStatusCodeBluePrint || !ruleForm?.get('statusCode')?.hierarchyValid === false),
           content: (
             <>
               <BluePrintSelectionSection
@@ -105,8 +112,7 @@ export default function AdvancedModeContainer(props) {
           scrollId: '2',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.title'),
-          checked: formFieldsValid(form, ['applications']),
-          valid: true,
+          valid: formFieldsValid(form, ['applications']) && isTagFilterFormModelValid,
           content: (
             <>
               <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
@@ -128,18 +134,29 @@ export default function AdvancedModeContainer(props) {
           scrollId: '3',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.title'),
+          valid:
+            !fieldTouchedAndInvalid(form.get('threshold')) ||
+            // when filter is invalid, baseline depends on it, avoid redundant invalidation indicator
+            (thresholdType === HISTORIC_BASELINE && !isTagFilterFormModelValid) ||
+            // when the rule definition is incomplete, we do not show a preview chart and
+            // the threshold is _per se invalid_ , so
+            // we ignore this fact to avoid an invalid step to be clearer to the user
+            !blueprintConfig.isRuleComplete(form.get('rule').toJS()) ||
+            // when incomplete baseline data exist, we ignore this, because the user can save it anyway
+            (thresholdType === HISTORIC_BASELINE && thresholdResult?.errors?.length > 0) ||
+            (thresholdType === ADAPTIVE_BASELINE && thresholdResult?.data?.message),
           content: (
             <>
               <AlertTypeSwitch
                 isGlobalSmartAlert={isGlobalSmartAlert}
                 alertType={alertType}
                 blueprintConfig={blueprintConfig}
+                editMode={editMode}
                 form={form}
                 onChange={onChange}
                 updateForm={updateForm}
                 onChartViewConfigChange={onChartViewConfigChange}
                 selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                editMode={editMode}
                 renderErrorRate={props => <ErrorRateInteractiveChart {...props} timeConfig={timeConfig} />}
                 renderSlowness={props => <SlownessInteractiveChart {...props} timeConfig={timeConfig} />}
                 renderLogs={props => <LogsInteractiveChart {...props} timeConfig={timeConfig} />}
@@ -153,16 +170,13 @@ export default function AdvancedModeContainer(props) {
                 <AdaptiveBaselineErrorMessage adaptiveBaselineSuggestionResponse={thresholdResult?.data} />
               )}
             </>
-          ),
-          checked: thresholdType === STATIC_THRESHOLD ? form.get('threshold').hierarchyTouched : true,
-          valid: formFieldsValid(form, ['rule', 'threshold'])
+          )
         },
         {
           scrollId: '4',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.timeThreshold.title'),
-          checked: true,
-          valid: true,
+          valid: !fieldTouchedAndInvalid(form.get('timeThreshold').get('requests')),
           content: (
             <TimeThresholdConfigPresenter
               form={form}
@@ -177,7 +191,6 @@ export default function AdvancedModeContainer(props) {
           scrollId: '5',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.alertChannel.title'),
-          checked: form.get('alertChannelIds').value.length > 0,
           valid: true,
           content: (
             <ConfigureAlertChannel
@@ -193,7 +206,6 @@ export default function AdvancedModeContainer(props) {
           scrollId: '6',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.propertiesOptional.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.propertiesOptional.title'),
-          checked: Boolean(form.get('name').value || form.get('description').value),
           valid: true,
           content: (
             <AlertPropertiesContainer
@@ -216,7 +228,6 @@ export default function AdvancedModeContainer(props) {
                   form={form}
                   label={applicationLabel}
                   entityIconType="lib_application"
-                  getTitlePlaceholder={noop}
                   getDescriptionPlaceholder={getDescriptionPlaceholder}
                   renderHeadline={() => <ApplicationAlertPreviewHeadline form={form} />}
                 />
@@ -228,19 +239,38 @@ export default function AdvancedModeContainer(props) {
           scrollId: '7',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.payloadsOptional.title'),
-          checked: validateCheckForCustomPayload(form),
-          valid: true,
+          valid: isCustomPayloadValidOrUntouched(form),
           content: <AlertConfigCustomPayload form={form} setForm={updateForm} />
         }
       ]}
-      additionalValidationCheck={() => isTagFilterFormModelValid}
     />
   );
 }
 
+// TODO extract this into own module as part of story https://instana.kanbanize.com/ctrl_board/37/cards/91077
 function formFieldsValid(form, fieldsToCheck) {
-  const fieldInvalid = Object.entries(form?.items ?? {})
-    .filter(([field]) => fieldsToCheck?.includes(field))
+  const invalid = Object.entries(form?.items ?? {})
+    .filter(([fieldName]) => fieldsToCheck?.includes(fieldName))
     .some(([, { hierarchyValid }]) => !hierarchyValid);
-  return !fieldInvalid;
+  return !invalid;
+}
+
+function fieldTouchedAndInvalid(field) {
+  return field && field.touched && !field.valid;
+}
+
+function payloadItemInvalid(item) {
+  const key = item.get('key');
+  const val = item.get('value');
+  return fieldTouchedAndInvalid(key) || fieldTouchedAndInvalid(val);
+}
+
+// TODO extract this into own module as part of story https://instana.kanbanize.com/ctrl_board/37/cards/91077
+function isCustomPayloadValidOrUntouched(form) {
+  const customPayloadForm = form.get('customPayloadFields');
+  const { touched, valid, items } = customPayloadForm;
+  if (!touched) return true;
+  if (!valid) return false; // valid as long as all keys are unique
+
+  return !items.find(item => payloadItemInvalid(item));
 }

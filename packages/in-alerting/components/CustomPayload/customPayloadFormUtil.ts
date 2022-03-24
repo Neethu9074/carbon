@@ -150,13 +150,6 @@ export function createForm(payloadFields: StaticStringField[], addEmptyEntry = t
   );
 }
 
-export function validateCheckForCustomPayload(form: MapForm): boolean {
-  const listForm = form.get('customPayloadFields') as ListForm;
-
-  // @ts-expect-error ListForm does not contain items in is type definition, yet
-  return listForm.hierarchyValid && listForm.items.length > 0;
-}
-
 export const enrichedWithUniqId = (item: any = {}): StaticStringField => {
   return {
     ...item,
