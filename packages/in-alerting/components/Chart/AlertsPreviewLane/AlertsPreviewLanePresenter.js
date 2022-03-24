@@ -17,11 +17,16 @@ import { t } from 'in-i18n';
 import locals from './AlertsPreviewLanePresenter.mless';
 
 export default function AlertsPreviewLanePresenter({ alerts, ...remainingProps }) {
+  const alertsPreviewLaneLabel = alerts?.length
+    ? t('in-alerting:components.chart.chartAlertsPreviewLanePresenterAlertsLabel')
+    : t('in-alerting:components.chart.chartAlertsPreviewLanePresenterNoAlertsLabel');
+
   return (
     <MarkerLane
       {...remainingProps}
       events={alerts}
-      label={t('in-alerting:components.chart.chartAlertsPreviewLanePresenterAlertsLabel')}
+      alwaysDisplayLabels={alerts && alerts.length === 0}
+      label={alertsPreviewLaneLabel}
       iconConfig={{
         type: 'lib_events_critical',
         typeCluster: 'lib_alerts_multiple_alerts',

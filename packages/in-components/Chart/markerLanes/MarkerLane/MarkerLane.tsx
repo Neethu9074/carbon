@@ -98,6 +98,8 @@ interface MarkersLaneProps<EventType extends MarkerLaneEvent> extends Partial<Pr
   onRetry?: () => void;
   trackMarkerHoverEvent?: (event: EventType) => void;
   color?: string;
+  // optionally overriding label visibility to make it always visible
+  alwaysDisplayLabels?: boolean;
 }
 
 class MarkersLaneRenderScheduler<EventType extends MarkerLaneEvent> extends React.Component<
@@ -147,7 +149,7 @@ function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
   trackMarkerHoverEvent,
   ...remainingProps
 }: MarkersLanePresenterProps<EventType>) {
-  const { timeConfig, clusterSizeMillis } = remainingProps;
+  const { timeConfig, clusterSizeMillis, alwaysDisplayLabels } = remainingProps;
   const xScale = useObservable(renderScheduler.xScaleBackBuffer$.nextFrame(), [timeConfig!.autoRefresh], {
     pure: !timeConfig!.autoRefresh
   });
@@ -221,7 +223,7 @@ function MarkersLanePresenter<EventType extends MarkerLaneEvent>({
               </Tooltip>
             );
           })}
-        {!errorMessage && laneLabelsVisible && (
+        {!errorMessage && (alwaysDisplayLabels || laneLabelsVisible) && (
           <div className={locals.laneLabel} style={{ [labelAlignment!]: 0 }}>
             <div
               className={locals.laneLabelText}
