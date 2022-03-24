@@ -35,6 +35,7 @@ export default function GlobalSmartAlertsTab({ location }) {
       <LeftRightPadding>
         <ViewTrackingMeta
           data={{
+            // i18n: no need for translation, it is only used within tracking
             productArea: 'Applications',
             pageRootName: 'Smart Alerts'
           }}

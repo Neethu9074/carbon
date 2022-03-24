@@ -35,7 +35,11 @@ export default function AlertsPreviewLanePresenter({ alerts, ...remainingProps }
       color={theme.lib.colors.red800}
       TooltipContent={({ count }) => (
         <div className={locals.tooltipContent}>
-          <div>Alerts: {count}</div>
+          <div>
+            {t('in-alerting:components.chart.chartAlertsPreviewLanePresenterTooltip', {
+              count
+            })}
+          </div>
         </div>
       )}
       LaneItem={SingleMarkerLaneItem}

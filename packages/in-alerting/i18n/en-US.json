@@ -43,6 +43,11 @@
       "chartAlertsLaneErrorMessage": "Alerts could not be loaded",
       "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
       "chartAlertsPreviewLanePresenterNoAlertsLabel": "No Alerts",
+      "chartAlertsPreviewLanePresenterTooltip": "Alert: {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_plural": "Alerts: {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_0": "Alerts: {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_1": "Alerts: {{count}}",
+      "chartAlertsPreviewLanePresenterTooltip_2": "Alerts: {{count}}",
       "chartViewConfigsLast24Hours": "Last 24 hours",
       "chartViewConfigsLast7Days": "Last 7 days"
     },

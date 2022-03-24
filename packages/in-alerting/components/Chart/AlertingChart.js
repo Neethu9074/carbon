@@ -95,6 +95,7 @@ export default function AlertingChart({
     return {
       colors: chartColors,
       metricIds: [metricName, 'threshold'],
+      // i18n: Violations does not need to be translated, it is an internal name
       excludedLabelsFromTooltip: ['Violations', highlight?.label].filter(Boolean),
       nonToggleableSeries: enhanceNonToggleableSeries(metricName, highlight),
       labels: enhanceLabels(metricLabel, highlight),
@@ -221,6 +222,7 @@ function enhanceNonToggleableSeries(metricName, highlight) {
   const labels = new Map([
     ['threshold', null],
     ['alerts', null],
+    // i18n: Violations does not need to be translated, it is an internal name
     ['Violations', null],
     [metricName, null]
   ]);
