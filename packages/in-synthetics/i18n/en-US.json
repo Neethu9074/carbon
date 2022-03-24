@@ -111,7 +111,10 @@
         "responseTimes": "Response Times",
         "averageResponseSize": "Average Response Size",
         "responseStatus": "Response Status"
-      }
+      },
+      "runsFailed": "{{runsFailed}} runs failed",
+      "locationsFailed": "{{locationsFailed}} failing now",
+      "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th"
     }
   }
 }

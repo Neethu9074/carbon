@@ -10,9 +10,9 @@ import { useObservable } from '@instana/hooks';
 
 import ResponseTime from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseTime';
 import Failures from 'in-synthetics/dashboards/summary/tabs/summary/components/Failures';
+import { bytes, meanLatency, number, percentage } from 'in-services/formatters/number';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
-import { number, percentage } from 'in-services/formatters/number';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -37,6 +37,18 @@ export default function Summary() {
     }
   ];
 
+  let compTagFilters = [
+    {
+      stringValue: testId,
+      name: 'testId',
+      operator: EQUALS
+    },
+    {
+      stringValue: 0,
+      name: 'status',
+      operator: EQUALS
+    }
+  ];
   // The values in the config object passed as prop in BigNumberKpiCard
   // are just temporal values until we implement the data retreival logic.
   return (
@@ -46,6 +58,11 @@ export default function Summary() {
           <BigNumberKpiCard
             title={t('in-synthetics:dashboard.summary.successRate')}
             formatter={percentage.detailed}
+            companionFormatter={v =>
+              t('in-synthetics:dashboard.summary.runsFailed', {
+                runsFailed: number.compact(v)
+              })
+            }
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
@@ -55,6 +72,13 @@ export default function Summary() {
                 tagFilters: tagFilters,
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
+              },
+              companionMetricConfiguration: {
+                aggregation: 'DISTINCT_COUNT',
+                metric: 'id',
+                source: 'SYNTHETICS',
+                // @ts-ignore
+                tagFilters: compTagFilters
               },
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
@@ -66,6 +90,11 @@ export default function Summary() {
           <BigNumberKpiCard
             title={t('in-synthetics:dashboard.summary.locations')}
             formatter={number.compact}
+            companionFormatter={v =>
+              t('in-synthetics:dashboard.summary.locationsFailed', {
+                locationsFailed: number.compact(v)
+              })
+            }
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
@@ -76,6 +105,13 @@ export default function Summary() {
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
               },
+              companionMetricConfiguration: {
+                aggregation: 'DISTINCT_COUNT',
+                metric: 'location_id',
+                source: 'SYNTHETICS',
+                // @ts-ignore
+                tagFilters: compTagFilters
+              },
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
               comparisonIncreaseColor: 'greenish'
@@ -85,7 +121,12 @@ export default function Summary() {
         <Col xs>
           <BigNumberKpiCard
             title={t('in-synthetics:dashboard.summary.meanResponseTime')}
-            formatter={number.compact}
+            formatter={meanLatency.detailed}
+            companionFormatter={v =>
+              t('in-synthetics:dashboard.summary.meanLatencyFor90th', {
+                meanLatencyDetail: meanLatency.detailed(v)
+              })
+            }
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
@@ -96,7 +137,13 @@ export default function Summary() {
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
               },
-              // Need to add the companion metric config
+              companionMetricConfiguration: {
+                aggregation: 'P90',
+                metric: 'response_time',
+                source: 'SYNTHETICS',
+                // @ts-ignore
+                tagFilters: tagFilters
+              },
               comparisonDecreaseColor: 'redish',
               comparisonIncreaseColor: 'greenish'
             }}
@@ -105,7 +152,7 @@ export default function Summary() {
         <Col xs>
           <BigNumberKpiCard
             title={t('in-synthetics:dashboard.summary.avgResponseSize')}
-            formatter={number.compact}
+            formatter={bytes.detailed}
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
