@@ -109,6 +109,7 @@ function Content({ file, setCanSaveItem, input }) {
   const [selectedCustomEventConfigs, setSelectedCustomEventConfigs] = useState([]);
   const [selectedAlertConfigs, setSelectedAlertConfigs] = useState([]);
   const [selectedGroupConfigs, setSelectedGroupConfigs] = useState([]);
+  const [loadedFile, setLoadedFile] = useState(null);
 
   let MIGRATION_CONFIGS = [
     {
@@ -166,23 +167,27 @@ function Content({ file, setCanSaveItem, input }) {
     // allow only saving when config metadata has been uploaded
     () => {
       setCanSaveItem(!!file);
-      if (file) {
+      if (file && loadedFile !== file) {
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
         reader.onloadend = function() {
           let allConfigs = JSON.parse(reader.result);
-          setSelectedAppConfigs(cleanConfigs(allConfigs[APP_CONFIGS]));
-          setSelectedWebsiteConfigs(cleanConfigs(allConfigs[WEB_CONFIGS]));
-          setSelectedMobileAppConfigs(cleanConfigs(allConfigs[MOB_CONFIGS]));
-          setSelectedAlertChannelConfigs(cleanConfigs(allConfigs[ALERT_CHANNEL_CONFIGS]));
-          setSelectedCustomEventConfigs(cleanConfigs(allConfigs[EVENT_CONFIGS]));
-          setSelectedSmartAlertConfigs(cleanConfigs(allConfigs[SMART_ALERT_CONFIGS]));
-          setSelectedAlertConfigs(cleanConfigs(allConfigs[ALERT_CONFIGS]));
-          setSelectedGroupConfigs(cleanConfigs(allConfigs[GROUP_CONFIGS]));
+          setLoadedFile(file);
+
+          if (allConfigs[APP_CONFIGS]) setSelectedAppConfigs(cleanConfigs(allConfigs[APP_CONFIGS]));
+          if (allConfigs[WEB_CONFIGS]) setSelectedWebsiteConfigs(cleanConfigs(allConfigs[WEB_CONFIGS]));
+          if (allConfigs[MOB_CONFIGS]) setSelectedMobileAppConfigs(cleanConfigs(allConfigs[MOB_CONFIGS]));
+          if (allConfigs[ALERT_CONFIGS])
+            setSelectedAlertChannelConfigs(cleanConfigs(allConfigs[ALERT_CHANNEL_CONFIGS]));
+          if (allConfigs[EVENT_CONFIGS]) setSelectedCustomEventConfigs(cleanConfigs(allConfigs[EVENT_CONFIGS]));
+          if (allConfigs[SMART_ALERT_CONFIGS])
+            setSelectedSmartAlertConfigs(cleanConfigs(allConfigs[SMART_ALERT_CONFIGS]));
+          if (allConfigs[ALERT_CONFIGS]) setSelectedAlertConfigs(cleanConfigs(allConfigs[ALERT_CONFIGS]));
+          if (allConfigs[GROUP_CONFIGS]) setSelectedGroupConfigs(cleanConfigs(allConfigs[GROUP_CONFIGS]));
         };
       }
     },
-    [file, setCanSaveItem]
+    [file, setCanSaveItem, loadedFile]
   );
 
   return (

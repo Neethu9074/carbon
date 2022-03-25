@@ -60,7 +60,6 @@ export default function AccordionConfigs({ configs, label, id, icon, checked, on
                 note: null
               }
             })
-          // getEndpointsCursorPaginated: () => just(getEndpointsResult)
         }}
         alertApplicationId="btg-B701Rx6o9QNXUS4TVw"
         applicationsSelection={{}}
