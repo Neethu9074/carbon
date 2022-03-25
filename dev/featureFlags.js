@@ -37,6 +37,7 @@ module.exports = {
   ampEnabled: true,
   persistentVolumeSupportEnabled: true,
   loggingEnabled: true,
+  kubernetesLoggingEnabled: true,
   pseudoLanguageEnabled: true,
   syntheticCallsEnabled: true,
   applicationHealthOverviewEnabled: true,

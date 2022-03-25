@@ -8,7 +8,6 @@ import React, { useState } from 'react';
 
 import { enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError } from 'in-alerting/smart-alerts/components/utils/enrichSavingErrorWhenContainsLimitReachedOrMarkAsTechnicalError';
 import AlertConfigDialogWithThreshold from 'in-alerting/smart-alerts/websites/alertConfigDialogWithThreshold/AlertConfigDialogWithThreshold';
-import { toAlertConfig } from 'in-alerting/smart-alerts/applications/Dialog/SmartAlertConfigDialogWrapper';
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import alertFormDefinition from 'in-alerting/smart-alerts/websites/form/alertDialogFormDefinition';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/AlertConfigDialog';
@@ -16,7 +15,10 @@ import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { noop } from 'in-services/util/function';
 
 export default {
-  component: AlertConfigDialogWithThreshold
+  component: AlertConfigDialog,
+  parameters: {
+    chromatic: { disable: true }
+  }
 };
 
 export const AdvancedAlertConfigDialog = () => {
@@ -37,7 +39,7 @@ export const AdvancedSlownessAlertConfigDialog = () => {
       form={form}
       withTrackClose={() => {
         // eslint-disable-next-line no-console
-        console.log(toAlertConfig(form));
+        console.log(form.toJS());
       }}
       withTrackCreate={() => {
         // eslint-disable-next-line no-console

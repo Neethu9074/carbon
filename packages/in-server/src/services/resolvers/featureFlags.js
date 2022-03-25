@@ -155,6 +155,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'kubernetesLoggingEnabled',
+    instanaCtlKey: 'feature.kubernetes.logging.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'showUserSettingInternalTagsInUA',
     instanaCtlKey: 'feature.show.user.setting.internal.tags.in.ua',
     defaultValue: false

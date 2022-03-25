@@ -11,12 +11,22 @@ import { SyntheticTest } from 'in-types';
 import http from 'in-services/http';
 
 const testsUrl = `/api/synthetics/settings/tests`;
+const locationUrl = `/api/synthetics/settings/locations`;
 
 export function getLocations(): Observable<unknown> {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/synthetics/settings/locations`,
+    url: locationUrl,
+    mapToResultObject: true
+  }).map(response => deepFreeze(response));
+}
+
+export function getLocation(locationId: string): Observable<unknown> {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: locationUrl + '/' + locationId,
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }

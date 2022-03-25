@@ -23,7 +23,7 @@ export default [
   },
   {
     metrics: ['status.SLOW_QUERIES', 'status.COM_SHOW_ERRORS'],
-    labels: [],
+    labels: [t('in-forge:plugins.mySqlDatabase.slowQueries'), t('in-forge:plugins.mySqlDatabase.errors')],
     min: 0,
     category: [t('in-forge:plugins.mySqlDatabase.slowQueries')],
     formatter: number
