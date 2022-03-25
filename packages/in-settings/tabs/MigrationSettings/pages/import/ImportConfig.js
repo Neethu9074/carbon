@@ -163,10 +163,23 @@ function Content({ file, setCanSaveItem, input }) {
     }
   ];
 
+  function initSelectedConfigs() {
+    setSelectedAppConfigs([]);
+    setSelectedWebsiteConfigs([]);
+    setSelectedMobileAppConfigs([]);
+    setSelectedAlertChannelConfigs([]);
+    setSelectedCustomEventConfigs([]);
+    setSelectedSmartAlertConfigs([]);
+    setSelectedAlertConfigs([]);
+    setSelectedGroupConfigs([]);
+  }
+
   useEffect(
     // allow only saving when config metadata has been uploaded
     () => {
       setCanSaveItem(!!file);
+      if (!file) initSelectedConfigs();
+
       if (file && loadedFile !== file) {
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
