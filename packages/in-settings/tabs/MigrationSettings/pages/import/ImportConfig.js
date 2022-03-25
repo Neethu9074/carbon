@@ -9,10 +9,10 @@ import { Button } from '@instana/components';
 
 import { postConfigAsResultObservable } from 'in-settings/tabs/MigrationSettings/api/importConfig';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import AccordionConfigs from '../../components/AccordionConfigs';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import SectionLine from 'in-settings/components/SectionLine';
 import Section from 'in-settings/components/Section';
-import AccordionConfigs from './AccordionConfigs';
 import { shorten } from 'in-services/util/string';
 import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';

@@ -7,9 +7,9 @@ import React, { useEffect } from 'react';
 
 import { getConfigData } from 'in-settings/tabs/MigrationSettings/api/exportConfig';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
+import AccordionConfigs from '../../components/AccordionConfigs';
 import SectionLine from 'in-settings/components/SectionLine';
 import ApiItemView from 'in-settings/components/ApiItemView';
-import AccordionConfigs from '../import/AccordionConfigs';
 import Section from 'in-settings/components/Section';
 import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
