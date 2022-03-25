@@ -3,14 +3,22 @@
  * (c) Copyright Instana Inc.
  */
 
-import { createField, createMapForm } from 'formalistic';
+import { createField, createMapForm, MapForm } from 'formalistic';
 
+import {
+  ApplicationAlertConfig,
+  ApplicationAlertConfigWithMetadata,
+  GlobalApplicationAlertConfigWithMetadata,
+  ThresholdType
+} from 'in-types';
+// @ts-expect-error file needs to be converted
+import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import createTimeThresholdForm from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 import { createForm as createListFormForCustomPayloads } from 'in-alerting/components/CustomPayload/customPayloadFormUtil';
 import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { applyEditMode } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
 import createRuleForm, { defaultAlertRule } from 'in-alerting/smart-alerts/applications/form/ruleForm';
-import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { MAX_LABEL_LENGTH, MAX_LONG_STRING_LENGTH } from 'in-alerting/formFieldLengths';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -22,114 +30,156 @@ const defaultSeverity = 5;
 export const defaultGranularity = 600000;
 export const defaultAdaptiveBaselineGranularity = 1200000;
 
-export function createSmartAlertForm(alertConfig, editMode) {
-  const granularity = alertConfig.granularity ?? getDefaultGranularity(alertConfig);
+export interface AlertConfigHiddenFields {
+  // an optional, "hidden" from field, will not be part with server communication
+  calculateThresholdOnBackend?: boolean;
+}
+
+export interface UiExtraData {
+  applicationId?: string;
+  endpointId?: string;
+  serviceId?: string;
+
+  builtIn?: boolean;
+  editMode?: boolean;
+}
+
+export function createSmartAlertForm(
+  alertConfig: (GlobalApplicationAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata) &
+    AlertConfigHiddenFields &
+    UiExtraData
+): MapForm {
+  const {
+    applicationId,
+    alertChannelIds,
+    applications,
+    boundaryScope,
+    builtIn,
+    customPayloadFields,
+    created,
+    description,
+    editMode,
+    enabled,
+    evaluationType,
+    id,
+    granularity,
+    includeSynthetic,
+    includeInternal,
+    name,
+    readOnly,
+    rule,
+    severity,
+    tagFilterExpression,
+    threshold,
+    timeThreshold,
+    triggering
+  } = alertConfig;
 
   let form = createMapForm()
     .put(
       'name',
       createField({
-        value: alertConfig.name ?? '',
+        value: name ?? '',
         validator: stringMaxLengthValidator(MAX_LABEL_LENGTH)
       })
     )
     .put(
       'description',
       createField({
-        value: alertConfig.description ?? '',
+        value: description ?? '',
         validator: stringMaxLengthValidator(MAX_LONG_STRING_LENGTH)
       })
     )
     .put(
       'applicationId', // deprecated: use 'applications' instead
       createField({
-        value: alertConfig.applicationId ?? ''
+        value: applicationId ?? ''
       })
     )
     .put(
       'boundaryScope',
       createField({
-        value: alertConfig.boundaryScope ?? 'INBOUND'
+        value: boundaryScope ?? 'INBOUND'
       })
     )
     .put(
       'includeSynthetic',
       createField({
-        value: alertConfig.includeSynthetic || false
+        value: includeSynthetic || false
       })
     )
     .put(
       'includeInternal',
       createField({
-        value: alertConfig.includeInternal || false
+        value: includeInternal || false
       })
     )
     .put(
       'severity',
       createField({
-        value: alertConfig.severity ?? defaultSeverity
+        value: severity ?? defaultSeverity
       })
     )
     .put(
       'triggering',
       createField({
-        value: alertConfig.triggering ?? false
+        value: triggering ?? false
       })
     )
     .put(
       'tagFilterExpression',
       createField({
-        value: fromBackendModel(alertConfig.tagFilterExpression)
+        value: fromBackendModel(tagFilterExpression)
       })
     )
     .put(
       'evaluationType',
       createField({
-        value: alertConfig.evaluationType ?? PER_AP
+        value: evaluationType ?? PER_AP
       })
     )
     .put(
       'alertChannelIds',
       createField({
-        value: alertConfig.alertChannelIds ?? []
+        value: alertChannelIds ?? []
       })
     )
     .put(
       'granularity',
       createField({
-        value: granularity
+        value: granularity ?? getDefaultGranularity(alertConfig)
       })
     )
     .put(
       'id',
       createField({
-        value: alertConfig.id ?? ''
+        value: id ?? ''
       })
     )
     .put(
       'created',
       createField({
-        value: alertConfig.created ?? ''
+        value: created ?? ''
       })
     )
     .put(
       'readOnly',
       createField({
-        value: alertConfig.readOnly ?? false
+        value: readOnly ?? false
       })
     )
     .put(
       'enabled',
       createField({
-        value: alertConfig.enabled ?? true
+        value: enabled ?? true
       })
     )
     .put(
       'builtIn',
       createField({
-        value: alertConfig.builtIn,
+        value: builtIn,
         validator: value => {
-          if (value !== alertConfig.builtIn) {
+          if (value !== builtIn) {
             return [
               {
                 severity: 'error',
@@ -144,9 +194,9 @@ export function createSmartAlertForm(alertConfig, editMode) {
     .put(
       'applications',
       createField({
-        value: alertConfig.applications ?? {},
+        value: applications ?? {},
         validator: entitySelection => {
-          if (!isEntitySelectionValid(entitySelection, alertConfig.builtIn)) {
+          if (!isEntitySelectionValid(entitySelection, builtIn)) {
             return [
               {
                 severity: 'error',
@@ -159,30 +209,27 @@ export function createSmartAlertForm(alertConfig, editMode) {
         }
       })
     )
-    .put('rule', createRuleForm(alertConfig.rule ?? defaultAlertRule))
-    .put(
-      'timeThreshold',
-      createTimeThresholdForm(alertConfig.timeThreshold ?? {}, granularity, alertConfig.threshold?.type)
-    )
+    .put('rule', createRuleForm(rule ?? defaultAlertRule))
+    .put('timeThreshold', createTimeThresholdForm(timeThreshold ?? {}, granularity, threshold?.type as ThresholdType))
     .put('hiddenFields', createHiddenFieldsForm(alertConfig))
-    .put('customPayloadFields', createListFormForCustomPayloads(alertConfig.customPayloadFields ?? [], false));
+    .put('customPayloadFields', createListFormForCustomPayloads(customPayloadFields ?? [], false));
 
-  const alertType = alertConfig.rule?.alertType ?? 'errorRate';
-  form = form.put('threshold', createThresholdForm(alertConfig.threshold, alertType));
+  const alertType = rule?.alertType ?? 'errorRate';
+  form = form.put('threshold', createThresholdForm(threshold, alertType as ApplicationAlertType));
 
-  return applyEditMode(form, editMode);
+  return applyEditMode(form, editMode ?? false);
 }
 
-function getDefaultGranularity(alertConfig) {
+function getDefaultGranularity(alertConfig: ApplicationAlertConfig) {
   return alertConfig.threshold?.type === ADAPTIVE_BASELINE ? defaultAdaptiveBaselineGranularity : defaultGranularity;
 }
 
-function createHiddenFieldsForm(alertConfig) {
+function createHiddenFieldsForm({ calculateThresholdOnBackend }: AlertConfigHiddenFields) {
   return createMapForm()
     .put(
       'calculateThresholdOnBackend',
       createField({
-        value: Boolean(alertConfig.calculateThresholdOnBackend)
+        value: Boolean(calculateThresholdOnBackend)
       })
     )
     .put(

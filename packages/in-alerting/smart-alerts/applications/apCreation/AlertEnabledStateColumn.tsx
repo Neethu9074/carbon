@@ -8,7 +8,7 @@ import React from 'react';
 import Pill from 'in-components/Pill/Pill';
 import { t } from 'in-i18n';
 
-export default function AlertEnabledStateColumn({ enabled }) {
+export default function AlertEnabledStateColumn({ enabled }: { enabled: boolean }) {
   return enabled ? null : (
     <Pill kind="info"> {t('in-alerting:smartAlerts.applications.apCreation.alertCurrentlyDisabled')}</Pill>
   );

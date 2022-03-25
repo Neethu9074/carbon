@@ -15,7 +15,7 @@ export interface MenuItem {
   name: string;
 }
 export interface MenuProps<T extends MenuItem> {
-  addRightSeparator: boolean;
+  addRightSeparator?: boolean;
   items: T[] | readonly T[];
   onItemClick: (item: T) => any;
   initialItemSelected: MenuItem;

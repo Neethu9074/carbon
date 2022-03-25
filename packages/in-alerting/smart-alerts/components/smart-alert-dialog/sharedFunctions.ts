@@ -16,14 +16,15 @@ import {
   VersionedConfig
 } from 'in-types';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { ApplicationAlertType } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { t } from 'in-i18n';
 
-export function updateThresholdInForm(
+export function updateThresholdInForm<ALERT_TYPE extends WebsitesAlertType | ApplicationAlertType>(
   createThresholdForm: (
     threshold: ThresholdConfig | HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
-    alertType: WebsitesAlertType
-  ) => MapForm | void,
+    alertType: ALERT_TYPE
+  ) => MapForm,
   form: MapForm,
   updateForm: (form: MapForm) => void,
   data: { type: string; value: any },
@@ -33,7 +34,7 @@ export function updateThresholdInForm(
 ): void {
   thresholdOrBaselineLoadingSignal$.emit(false);
 
-  const alertType = ((form.get('rule') as MapForm).get('alertType') as Field<WebsitesAlertType>).value;
+  const alertType = ((form.get('rule') as MapForm).get('alertType') as Field<ALERT_TYPE>).value;
   const thresholdForm = form.get('threshold') as MapForm;
   const currentThreshold = thresholdForm.toJS() as ThresholdConfig;
 

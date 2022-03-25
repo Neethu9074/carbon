@@ -5,11 +5,21 @@
 
 import React, { Fragment } from 'react';
 
-import Pill from 'in-components/Pill';
+import Pill, { Kind } from 'in-components/Pill';
 
 import locals from './BadgeList.mless';
 
-export default function BadgeList({ type, types, getColor, kind = 'light' }) {
+export default function BadgeList<T extends string>({
+  type,
+  types,
+  getColor,
+  kind = 'light'
+}: {
+  type: T;
+  types: T[];
+  getColor: (type: T) => string;
+  kind?: Kind;
+}) {
   if (type && !types) {
     types = [type];
   }
