@@ -25,8 +25,8 @@ import useDebouncedValue from 'in-hooks/useDebouncedValue';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { boundaryScopes } from 'in-applications/constants';
 import SearchInput from 'in-components/SearchInput';
-import ApplicationsList from './ApplicationsList';
 import usePrevious from 'in-hooks/usePrevious';
+import ConfigsList from './ConfigsList';
 
 const backendApiSubscriptions = {
   getApplication,
@@ -96,7 +96,7 @@ export default function AccordionListPresenter({
   ]);
 
   return (
-    <ApplicationsList
+    <ConfigsList
       isGlobalSmartAlert={isGlobalSmartAlert}
       stateManagement={{ state, dispatch }}
       timeConfig={timeConfigWithFixedFocussedMoment}

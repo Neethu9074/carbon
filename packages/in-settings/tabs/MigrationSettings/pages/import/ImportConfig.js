@@ -52,19 +52,24 @@ export default function ImportConfig() {
         saveLabel={t('in-settings:tabs.migrationImport')}
         saveItem={({ setMessage }) => {
           if (allConfigs)
-            postConfigAsResultObservable(allConfigs).once(
-              () => {
-                setMessage({
-                  text: t('in-settings:tabs.configSuccessfullyImported'),
-                  type: 'success'
-                });
-              },
-              error =>
-                setMessage({
-                  text: t('in-settings:tabs.failedToImportConfig', { err: error.message }),
-                  type: 'error'
-                })
-            );
+            setMessage({
+              message: t('in-settings:tabs.importingConfig'),
+              type: 'neutral',
+              isSaving: true
+            });
+          postConfigAsResultObservable(allConfigs).once(
+            () => {
+              setMessage({
+                text: t('in-settings:tabs.configSuccessfullyImported'),
+                type: 'success'
+              });
+            },
+            error =>
+              setMessage({
+                text: t('in-settings:tabs.failedToImportConfig', { err: error.message }),
+                type: 'error'
+              })
+          );
         }}
         Content={Content}
       />

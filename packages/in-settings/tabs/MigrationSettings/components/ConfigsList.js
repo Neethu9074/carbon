@@ -23,7 +23,7 @@ import { isLoading } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
 import SharedList from './SharedList';
 
-export default function ApplicationsList({ searchQuery, ...props }) {
+export default function ConfigsList({ searchQuery, ...props }) {
   const trimmedSearchQuery = searchQuery?.trim();
   const getStaleEntity = props.getApplication;
   return (
@@ -131,7 +131,7 @@ function hasUserInteractedWithItem(state) {
   return itemTreeIds => Boolean(selectApplication(state, itemTreeIds));
 }
 
-ApplicationsList.propTypes = {
+ConfigsList.propTypes = {
   getApplication: PropTypes.func.isRequired,
   getApplicationsCursorPaginated: PropTypes.func.isRequired,
   stateManagement: stateManagementPropType.isRequired,
