@@ -3,17 +3,27 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode, useState } from 'react';
+import classNames from 'classnames';
 
+import { KeyValue, Li, SvgIcon, Ul } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import AlternativeServicesChartPresenter from 'in-applications/Dashboards/service/tabs/troubleshooting/AlternativeServicesChart/AlternativeServicesChartPresenter';
 import getServicesCorrelatedByTag from 'in-applications/subscriptions/getServicesCorrelatedByTag';
 import { PaginatedResult, Result, ServiceItem, TagFilterEntity, TimeConfig } from 'in-types';
+import { availableCorrelationTags, CorrelationTag } from './correlationTags';
+import { OverlayContentProps } from 'in-components/overlays/Overlay/types';
+import AlternativeServicesTopList from './AlternativeServicesTopList';
+import DropdownButton from 'in-components/Button/DropdownButton';
 import { getChartGranularity } from 'in-stores/metric/metric';
+import Overlay from 'in-components/overlays/Overlay/Overlay';
 import { FormatterFn } from 'in-stores/metric/formatters';
+import { Col, Row } from 'in-components/layout/Grid/Grid';
 import { pendingResult } from 'in-services/fixedObjects';
 import { Renderer } from 'in-components/Chart/types';
+
+import locals from './AlternativeServicesChartPresenter.mless';
 
 export interface MetricDefinition {
   label: string;
@@ -27,46 +37,85 @@ export interface MetricDefinition {
 export interface AlternativeServicesChartWrapperProps {
   timeConfig: TimeConfig;
   serviceId: string;
-  correlationTag: string;
-  correlationTagEntity: TagFilterEntity;
-  correlationTagSecondLevelKey?: string;
   cardHeader?: ReactElement;
   cardTitle?: string;
   metricDefinition: MetricDefinition;
+  renderInfoBox?: () => ReactNode;
 }
 
 export default function AlternativeServicesChartWrapper(props: AlternativeServicesChartWrapperProps) {
-  const {
-    timeConfig,
-    serviceId,
-    correlationTag,
-    correlationTagEntity,
-    correlationTagSecondLevelKey,
-    metricDefinition
-  } = props;
+  const { timeConfig, serviceId, metricDefinition } = props;
+
+  const [selectedCorrelationTag, setSelectedCorrelationTag] = useState<CorrelationTag>(availableCorrelationTags[0]);
 
   const result: Result<PaginatedResult<ServiceItem>> =
     useObservable(getServicesCorrelationByTagObservable, [
       timeConfig,
       serviceId,
-      correlationTag,
-      correlationTagEntity,
-      correlationTagSecondLevelKey
+      selectedCorrelationTag.correlationTag,
+      selectedCorrelationTag.correlationTagEntity,
+      selectedCorrelationTag.correlationTagSecondLevelKey
     ]) ?? pendingResult;
 
   const hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
-  return (
-    <AlternativeServicesChartPresenter
-      {...props}
-      result={result}
-      metricDefinition={metricDefinition}
-      renderHistoricDataIndicator={hasApproximateData}
-      translateLabel={(id: string) => {
-        const serviceItem = result?.data?.items?.find((item: ServiceItem) => item.service.id === id);
-        return serviceItem?.service?.label ?? id;
+  const tagSelection = ({ close }: OverlayContentProps) => {
+    const items = availableCorrelationTags.map((value: CorrelationTag) => {
+      return (
+        <Li
+          key={value.correlationTag}
+          className={classNames(locals.option, locals.alignLeft)}
+          onClick={() => {
+            setSelectedCorrelationTag(value);
+            close();
+          }}
+        >
+          <SvgIcon type={'lib_views_tag'} />
+          <KeyValue
+            className={locals.optionValueMargin}
+            label={value.label}
+            value={`${value.correlationTagSecondLevelKey ?? ''}${value.correlationTag}`}
+            accentuated
+          />
+        </Li>
+      );
+    });
+
+    return <Ul>{items}</Ul>;
+  };
+
+  const tagSelectionOverlay = (
+    <Overlay align="bottomRight" content={tagSelection}>
+      {({ toggle }) => {
+        return <DropdownButton onClick={toggle}>{selectedCorrelationTag.label}</DropdownButton>;
       }}
-    />
+    </Overlay>
+  );
+
+  return (
+    <>
+      <Row>
+        <Col xs>
+          <AlternativeServicesChartPresenter
+            {...props}
+            result={result}
+            cardHeader={tagSelectionOverlay}
+            metricDefinition={metricDefinition}
+            renderPostChartContent={props.renderInfoBox}
+            renderHistoricDataIndicator={hasApproximateData}
+            translateLabel={(id: string) => {
+              const serviceItem = result?.data?.items?.find((item: ServiceItem) => item.service.id === id);
+              return serviceItem?.service?.label ?? id;
+            }}
+          />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs>
+          <AlternativeServicesTopList result={result} cardHeader={tagSelectionOverlay} />
+        </Col>
+      </Row>
+    </>
   );
 }
 
@@ -95,6 +144,10 @@ function getServicesCorrelationByTagObservable([
         metric: 'calls',
         aggregation: 'SUM',
         granularity: getChartGranularity(timeConfig)
+      },
+      callsAgg: {
+        metric: 'calls',
+        aggregation: 'SUM'
       }
     },
     filter: {

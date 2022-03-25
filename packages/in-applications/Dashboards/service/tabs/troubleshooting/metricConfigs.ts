@@ -8,8 +8,11 @@ import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { Group, TagFilter } from 'in-types';
 
-export const createServiceTagFilter = (serviceId: string): TagFilter => {
+export const createServiceIdTagFilter = (serviceId: string): TagFilter => {
   return tagFilter('service.id', EQUALS, serviceId);
+};
+export const createServiceNameTagFilter = (serviceName: string): TagFilter => {
+  return tagFilter('service.name', EQUALS, serviceName, null, DESTINATION);
 };
 export const qualifiedReferencesFilter: TagFilter = tagFilter(
   'call.meta_tags',
@@ -20,7 +23,7 @@ export const qualifiedReferencesFilter: TagFilter = tagFilter(
 
 export const createTagFilterExpression = (serviceId: string, ...otherFilters: TagFilter[]) => {
   return {
-    elements: [createServiceTagFilter(serviceId), ...otherFilters],
+    elements: [createServiceIdTagFilter(serviceId), ...otherFilters],
     logicalOperator: 'AND',
     type: 'EXPRESSION'
   };
