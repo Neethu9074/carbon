@@ -22,6 +22,13 @@ import locals from './Import.mless';
 const APP_CONFIGS = 'applicationConfigs';
 const MOB_CONFIGS = 'mobileAppConfigs';
 const WEB_CONFIGS = 'websiteConfigs';
+const ALERT_CHANNEL_CONFIGS = 'alertChannelConfigs';
+const EVENT_CONFIGS = 'eventConfigs';
+const SMART_ALERT_CONFIGS = 'smartAlertConfigs';
+const ALERT_CONFIGS = 'alertConfigs';
+const GROUP_CONFIGS = 'groupConfigs';
+
+const ACTION = 'import';
 
 export default function ImportConfig() {
   const inputDOMNode = document.createElement('input');
@@ -95,8 +102,65 @@ function cleanConfigs(allConfigsArray) {
 
 function Content({ file, setCanSaveItem, input }) {
   const [selectedAppConfigs, setSelectedAppConfigs] = useState([]);
-  const [selectedWebsites, setSelectedWebsites] = useState([]);
+  const [selectedWebsiteConfigs, setSelectedWebsiteConfigs] = useState([]);
   const [selectedMobileAppConfigs, setSelectedMobileAppConfigs] = useState([]);
+  const [selectedSmartAlertConfigs, setSelectedSmartAlertConfigs] = useState([]);
+  const [selectedAlertChannelConfigs, setSelectedAlertChannelConfigs] = useState([]);
+  const [selectedCustomEventConfigs, setSelectedCustomEventConfigs] = useState([]);
+  const [selectedAlertConfigs, setSelectedAlertConfigs] = useState([]);
+  const [selectedGroupConfigs, setSelectedGroupConfigs] = useState([]);
+
+  let MIGRATION_CONFIGS = [
+    {
+      id: ACTION + APP_CONFIGS,
+      label: 'Applications',
+      icon: 'lib_application',
+      configs: selectedAppConfigs
+    },
+    {
+      id: ACTION + WEB_CONFIGS,
+      label: 'Websites',
+      icon: 'lib_website',
+      configs: selectedWebsiteConfigs
+    },
+    {
+      id: ACTION + MOB_CONFIGS,
+      label: 'Mobile Apps',
+      icon: 'lib_mobile_app',
+      configs: selectedMobileAppConfigs
+    },
+    {
+      id: ACTION + ALERT_CHANNEL_CONFIGS,
+      label: 'Alert Channels',
+      icon: 'lib_alerts_alert',
+      configs: selectedAlertChannelConfigs
+    },
+
+    {
+      id: ACTION + EVENT_CONFIGS,
+      label: 'Custom Events',
+      icon: 'lib_help_error_warning',
+      configs: selectedCustomEventConfigs
+    },
+    {
+      id: ACTION + SMART_ALERT_CONFIGS,
+      label: 'Smart Alerts',
+      icon: 'lib_events_critical',
+      configs: selectedSmartAlertConfigs
+    },
+    {
+      id: ACTION + ALERT_CONFIGS,
+      label: 'Alerts',
+      icon: 'lib_alerts_alert',
+      configs: selectedAlertConfigs
+    },
+    {
+      id: ACTION + GROUP_CONFIGS,
+      label: 'Groups',
+      icon: 'lib_group_by',
+      configs: selectedGroupConfigs
+    }
+  ];
 
   useEffect(
     // allow only saving when config metadata has been uploaded
@@ -108,8 +172,13 @@ function Content({ file, setCanSaveItem, input }) {
         reader.onloadend = function() {
           let allConfigs = JSON.parse(reader.result);
           setSelectedAppConfigs(cleanConfigs(allConfigs[APP_CONFIGS]));
-          setSelectedWebsites(cleanConfigs(allConfigs[WEB_CONFIGS]));
+          setSelectedWebsiteConfigs(cleanConfigs(allConfigs[WEB_CONFIGS]));
           setSelectedMobileAppConfigs(cleanConfigs(allConfigs[MOB_CONFIGS]));
+          setSelectedAlertChannelConfigs(cleanConfigs(allConfigs[ALERT_CHANNEL_CONFIGS]));
+          setSelectedCustomEventConfigs(cleanConfigs(allConfigs[EVENT_CONFIGS]));
+          setSelectedSmartAlertConfigs(cleanConfigs(allConfigs[SMART_ALERT_CONFIGS]));
+          setSelectedAlertConfigs(cleanConfigs(allConfigs[ALERT_CONFIGS]));
+          setSelectedGroupConfigs(cleanConfigs(allConfigs[GROUP_CONFIGS]));
         };
       }
     },
@@ -143,40 +212,16 @@ function Content({ file, setCanSaveItem, input }) {
           </div>
         </Section>
       </form>
-      <AccordionConfigs
-        configs={selectedAppConfigs}
-        label={'Applications'}
-        id="import_appconfigs"
-        icon="lib_application"
-      />
-      <AccordionConfigs configs={selectedWebsites} label="Websites" id="import_websiteconfigs" icon="lib_website" />
-      <AccordionConfigs
-        configs={selectedMobileAppConfigs}
-        label="Mobile Apps"
-        id="import_mobileappconfigs"
-        icon="lib_mobile_app"
-      />
-      {/*<AccordionConfigs
-        configs={appConfigs}
-        label="Alert Channels"
-        id="import_alertchannelconfigs"
-        icon="lib_alerts_alert"
-      />
-      <AccordionConfigs
-        configs={appConfigs}
-        label="Custom Events"
-        id="import_customeventconfigs"
-        icon="lib_help_error_warning"
-      />
-      <AccordionConfigs
-        configs={appConfigs}
-        label="Smart Alerts"
-        id="import_smartalertconfigs"
-        icon="lib_events_critical"
-      />
-      <AccordionConfigs configs={appConfigs} label="Alerts" id="import_alertconfigs" icon="lib_alerts_alert" />
-      <AccordionConfigs configs={appConfigs} label="Groups" id="import_groupconfigs" icon="lib_group_by" />
-    </> */}
+      {MIGRATION_CONFIGS.map(migrationConfig => (
+        <AccordionConfigs
+          key={migrationConfig.id}
+          id={migrationConfig.id}
+          label={migrationConfig.label}
+          icon={migrationConfig.icon}
+          configs={migrationConfig.configs}
+          checked={migrationConfig.configs.length > 0}
+        />
+      ))}
     </>
   );
 }
