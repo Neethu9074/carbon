@@ -37,6 +37,7 @@ import ServiceMappingInfoBox from 'in-applications/Dashboards/service/tabs/troub
 import InfraLinkingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/InfraLinkingInfoBox';
 // @ts-expect-error
 import Renderer from 'in-components/Chart/renderer/Renderer';
+import AlternativeServicesInfoBox from './infobox/AlternativeServicesInfoBox';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { syntheticCallsOptions } from 'in-applications/constants';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -217,9 +218,6 @@ export default function Troubleshooting(props: TroubleShootingProps) {
           <AlternativeServicesChart
             timeConfig={timeConfig}
             serviceId={serviceId}
-            correlationTag={'call.meta_tags'}
-            correlationTagEntity={'NOT_APPLICABLE'}
-            correlationTagSecondLevelKey={'destination_infra_reference'}
             cardHeader={
               <i>
                 {t('in-applications:serviceTroubleshooting.alternativeServices', {
@@ -228,56 +226,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
               </i>
             }
             cardTitle={t('in-applications:serviceTroubleshooting.alternativeServicesTitle')}
-            metricDefinition={{
-              label: 'alternativeServices',
-              metric: 'calls',
-              aggregation: 'SUM',
-              formatter: number.compact,
-              renderer: Renderer.line
-            }}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs>
-          <AlternativeServicesChart
-            timeConfig={timeConfig}
-            serviceId={serviceId}
-            correlationTag={'host.name'}
-            correlationTagEntity={'DESTINATION'}
-            cardHeader={
-              <i>
-                {t('in-applications:serviceTroubleshooting.alternativeServices', {
-                  correlationTag: 'host.name'
-                })}
-              </i>
-            }
-            cardTitle={t('in-applications:serviceTroubleshooting.alternativeServicesTitle')}
-            metricDefinition={{
-              label: 'alternativeServices',
-              metric: 'calls',
-              aggregation: 'SUM',
-              formatter: number.compact,
-              renderer: Renderer.line
-            }}
-          />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs>
-          <AlternativeServicesChart
-            timeConfig={timeConfig}
-            serviceId={serviceId}
-            correlationTag={'call.http.host'}
-            correlationTagEntity={'NOT_APPLICABLE'}
-            cardHeader={
-              <i>
-                {t('in-applications:serviceTroubleshooting.alternativeServices', {
-                  correlationTag: 'call.http.host'
-                })}
-              </i>
-            }
-            cardTitle={t('in-applications:serviceTroubleshooting.alternativeServicesTitle')}
+            renderInfoBox={AlternativeServicesInfoBox}
             metricDefinition={{
               label: 'alternativeServices',
               metric: 'calls',

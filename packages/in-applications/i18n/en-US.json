@@ -629,6 +629,12 @@
     "customServiceRuleDocumentation": "The customer may have defined their own custom service mapping rules:",
     "customServiceRuleConfiguration": "Configure Custom Service Rules",
     "problem": "<bold>Yes</bold>, if you see results of type",
-    "possibleProblem": "<bold>Possibly</bold>, if you see results of type"
+    "possibleProblem": "<bold>Possibly</bold>, if you see results of type",
+    "viewInAnalyze": "Open in Unbounded Analytics",
+    "alternativeServicesProblemStatement": "<bold>What is an alternative service?</bold>",
+    "alternativeServicesExplanation": "The current service and its alternative services receive calls which share the same property: same destination host name, same HTTP \"Host\" header, same infrastructure reference, etc.<br/><br/>For example, the current service receives calls whose HTTP \"Host\" header is <code>mycompany.com</code>, but it happens that some other services receive calls whose HTTP \"Host\" header is <code>mycompany.com</code>.<br/><br/>For HTTP calls, the \"Host\" header is an important piece of information because it is used as the first level cache key in resilient service mapping.",
+    "alternativeServicesOk": "<bold>Is it ok to see alternative services?</bold>",
+    "alternativeServicesProblem": "<bold>No</bold>, if the name of the current service comes from the HTTP \"Host\" header (service mapping rule whose id is call.http.host) and the name of the alternative service does not (because its name comes from a rule which is based on infrastructure tags), or vice versa. These are duplicate services.",
+    "alternativeServicesPossibleProblem": "<bold>Maybe</bold>, if the current service and the alternative service names do not come from the HTTP \"Host\" header, then they are either services sitting behind a proxy (good) or they are duplicate services (bad): some of the services are fully linked to infra, while others are partially linked to infra."
   }
 }

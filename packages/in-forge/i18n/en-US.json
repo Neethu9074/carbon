@@ -8674,6 +8674,23 @@
             "messageText": "Text",
             "messageSecondLevelText" : "Second Level Text"
 
+          },
+          "spinningDiskType": {
+            "name": "Disk Info",
+            "resourceName" : "Resource Name",
+            "unitStorageCapacity" : "Storage Capacity",
+            "percentUsed" : "Percent Used",
+            "diskType" : "Disk Type",
+            "unitNumber" : "Unit Number",
+            "aspNumber" : "ASP Number",
+            "raidType" : "Raid Type",
+            "protectionStatus" : "Protection Status",
+            "unitMediaCapacityGb" : "Media Capacity(GB)",
+            "charts": {
+              "elapsedIoRequests": "Elapsed IO Requests",
+              "elapsedRequestSize": "Elapsed Request Size",
+              "elapsedPercentBusy": "Elapsed Percent Busy"
+            }
           }
         }
       },

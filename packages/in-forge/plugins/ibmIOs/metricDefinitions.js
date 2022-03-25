@@ -399,5 +399,161 @@ export default [
     min: 0,
     formatter: number,
     category: [t('in-forge:plugins.ibmIOs.dashboard.tables.historyLog.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSpinningDiskTypeMetrics',
+        'unitNumber',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.unitNumber')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSpinningDiskTypeMetrics',
+        'aspNumber',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.aspNumber')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSpinningDiskTypeMetrics',
+        'unitMediaCapacityGb',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.unitMediaCapacityGb')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSpinningDiskTypeMetrics',
+        'unitStorageCapacity',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.unitStorageCapacity')],
+    min: 0,
+    formatter: bytes.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSpinningDiskTypeMetrics',
+        'percentUsed',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.percentUsed')],
+    min: 0,
+    formatter: percentage.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSpinningDiskTypeMetrics',
+        'elapsedIoRequests',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.charts.elapsedIoRequests')],
+    min: 0,
+    formatter: number.compact,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSpinningDiskTypeMetrics',
+        'elapsedRequestSize',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.charts.elapsedRequestSize')],
+    min: 0,
+    formatter: bytes.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'advanceSpinningDiskTypeMetrics',
+        'elapsedPercentBusy',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.charts.elapsedPercentBusy')],
+    min: 0,
+    formatter: percentage.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'basicSpinningDiskTypeMetrics',
+        'unitNumber',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.unitNumber')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'basicSpinningDiskTypeMetrics',
+        'aspNumber',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.aspNumber')],
+    min: 0,
+    formatter: number,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'basicSpinningDiskTypeMetrics',
+        'unitStorageCapacity',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.unitStorageCapacity')],
+    min: 0,
+    formatter: bytes.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'basicSpinningDiskTypeMetrics',
+        'percentUsed',
+        t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')
+      )
+    ],
+    labels: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.percentUsed')],
+    min: 0,
+    formatter: percentage.detailed,
+    category: [t('in-forge:plugins.ibmIOs.dashboard.tables.spinningDiskType.name')]
   }
 ];
