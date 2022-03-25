@@ -181,6 +181,7 @@ function Content({ file, setCanSaveItem, input }) {
       if (!file) initSelectedConfigs();
 
       if (file && loadedFile !== file) {
+        initSelectedConfigs();
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
         reader.onloadend = function() {
