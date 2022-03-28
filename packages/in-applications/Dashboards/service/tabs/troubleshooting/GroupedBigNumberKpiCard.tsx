@@ -24,7 +24,7 @@ import {
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import getCallGroups, { GetCallGroupsResult } from 'in-applications/subscriptions/getCallGroups';
 import ResultAwareBigNumberKpiCard from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { createServiceTagFilter, createTagFilterExpression } from './metricConfigs';
+import { createServiceIdTagFilter, createTagFilterExpression } from './metricConfigs';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { syntheticCallsOptions } from 'in-applications/constants';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -82,7 +82,7 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
   } = props;
   const syntheticCalls = urlSyntheticCalls || syntheticCallsOptions.default;
 
-  const serviceFilter = createServiceTagFilter(serviceId);
+  const serviceFilter = createServiceIdTagFilter(serviceId);
   const groupBy = {
     groupbyTag: groupByTag,
     groupbyTagSecondLevelKey: groupByTagSecondLevel,

@@ -13,8 +13,6 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { MetricDefinition } from './AlternativeServicesChart';
 
-import locals from './AlternativeServicesChartPresenter.mless';
-
 export interface AlternativeServicesChartPresenterProps {
   result: Result<PaginatedResult<ServiceItem>>;
   metricDefinition: MetricDefinition;
@@ -32,10 +30,10 @@ export interface AlternativeServicesChartPresenterProps {
 
 export default function AlternativeServicesChartPresenter({
   result,
+  cardHeader,
   metricDefinition,
   timeConfig,
   cardTitle,
-  cardHeader,
   translateLabel,
   translateColor,
   metricIds,
@@ -44,8 +42,6 @@ export default function AlternativeServicesChartPresenter({
   renderPostChartContent,
   renderHistoricDataIndicator
 }: AlternativeServicesChartPresenterProps) {
-  cardHeader = <div className={locals.actions}>{cardHeader}</div>;
-
   const hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
   const chartConfig: Config = {
