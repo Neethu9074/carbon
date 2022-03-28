@@ -6,7 +6,7 @@
 import { Observable } from '@instana/observables';
 
 import { ApplicationDataSource, CatalogUseCase, Result, TagCatalog, TimeConfig } from 'in-types';
-import { isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
+import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
 import { roundDownToWeek } from 'in-services/util/date';
 import http from 'in-services/http';
 
@@ -22,7 +22,7 @@ export const getApplicationTagCatalog = ({
   // round down the from timestamp to the beginning of the week to make the caching more efficient
   const from = timeConfig ? roundDownToWeek((timeConfig.to || Date.now()) - timeConfig.windowSize) : undefined;
 
-  return isShowInternalTagsEnabled$.flatMap(includeInternalTags =>
+  return isTroubleshootingModeEnabled$.flatMap(includeInternalTags =>
     http<TagCatalog>({
       method: 'GET',
       maxRetries: 3,

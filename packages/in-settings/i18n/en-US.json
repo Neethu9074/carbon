@@ -770,7 +770,7 @@
     "useQueryableTagsOnly": "Use queryable tags only",
     "troubleshooting": "Troubleshooting",
     "theFollowingOptionsShouldNeverBeTurnedOnWithoutBeingAskedToDoSoByInstanaSupport": "The following options should never be turned on without being asked to do so by Instana Support.",
-    "showInternalTagsInUnboundedAnalytics": "Show internal tags in Unbounded Analytics",
+    "enableTroubleshootingMode": "Enable troubleshooting mode",
     "communicationSettings": "Communication Settings",
     "controlForWhatPurposesWeContactYou": "Control for what purposes we contact you",
     "productOnboardingSuccessTips": "Product onboarding & success tips",

@@ -16,7 +16,7 @@ module.exports = {
   beeInstanaInfraMetricsEnabled: true,
   highResolutionInfrastructureMetricsEnabled: true,
   internalMonitoringUnit: true,
-  showUserSettingInternalTagsInUA: true,
+  enableTroubleshootingMode: true,
   isSelfService: false,
   isUsageInfoPopupEnabled: false,
   latencyDistributionBase10Enabled: true,
