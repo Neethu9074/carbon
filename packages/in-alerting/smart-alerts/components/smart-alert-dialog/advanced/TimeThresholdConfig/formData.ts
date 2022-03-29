@@ -11,12 +11,12 @@ export type TimeThresholdType =
   | 'userImpactOfViolationsInSequence'
   | 'requestImpact';
 
-export const timeThresholdTypes: Record<TimeThresholdType, TimeThresholdType> = Object.freeze({
+export const timeThresholdTypes = Object.freeze({
   violationsInSequence: 'violationsInSequence',
   violationsInPeriod: 'violationsInPeriod',
   userImpactOfViolationsInSequence: 'userImpactOfViolationsInSequence',
   requestImpact: 'requestImpact'
-});
+} as const);
 
 export const timeThresholdLabels: Record<TimeThresholdType, string> = {
   violationsInSequence: t(

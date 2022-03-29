@@ -23,14 +23,7 @@ export default function TimeThresholdDescription({ timeThreshold, granularity = 
     <div className={locals.container}>
       <SvgIcon className={locals.icon} type={getIconType(timeThreshold.type)} />
       <div>
-        <span className={locals.label}>
-          {
-            // @ts-expect-error at the moment timeThreshold.type is just a string instead of a TimeThresholdType.
-            // after that will be changed in the backend -> type generation we can remove this
-            // statement. Alternatively do some switch/case workaround like getIconType()
-            timeThresholdLabels[timeThreshold.type]
-          }
-        </span>
+        <span className={locals.label}>{timeThresholdLabels[timeThreshold.type]}</span>
         <p>{getDescription(timeThreshold, granularity)}</p>
       </div>
     </div>

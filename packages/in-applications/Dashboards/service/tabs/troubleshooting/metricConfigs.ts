@@ -6,7 +6,7 @@
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { Group, TagFilter } from 'in-types';
+import { Group, TagFilter, TagFilterExpression } from 'in-types';
 
 export const createServiceIdTagFilter = (serviceId: string): TagFilter => {
   return tagFilter('service.id', EQUALS, serviceId);
@@ -21,7 +21,7 @@ export const qualifiedReferencesFilter: TagFilter = tagFilter(
   'destination_infra_reference_type'
 );
 
-export const createTagFilterExpression = (serviceId: string, ...otherFilters: TagFilter[]) => {
+export const createTagFilterExpression = (serviceId: string, ...otherFilters: TagFilter[]): TagFilterExpression => {
   return {
     elements: [createServiceIdTagFilter(serviceId), ...otherFilters],
     logicalOperator: 'AND',

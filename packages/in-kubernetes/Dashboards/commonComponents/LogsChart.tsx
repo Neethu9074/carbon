@@ -9,8 +9,8 @@ import { Observable } from '@instana/observables';
 
 // @ts-expect-error
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
-import { TagFilterExpression, TagFilterExpressionElement } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -22,7 +22,7 @@ interface AdditionalContextMenuButtonConfig {
 }
 
 interface LogsChartProps {
-  tagFilterExpression: TagFilterExpression | TagFilterExpressionElement;
+  tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
   additionalContextMenuButtons: AdditionalContextMenuButtonConfig[];
 }
 
@@ -49,7 +49,7 @@ export default function LogsChart(props: LogsChartProps) {
 }
 
 interface GetLogMetricRequest {
-  tagFilterExpression: TagFilterExpression | TagFilterExpressionElement;
+  tagFilterExpression: TagFilterExpression | TagFilterExpressionElementUnion;
   level: string;
 }
 
@@ -64,15 +64,15 @@ const getLogMetric = (props: GetLogMetricRequest) => {
   };
 };
 
-const errorMetric = (tagFilterExpression: TagFilterExpressionElement) =>
+const errorMetric = (tagFilterExpression: TagFilterExpressionElementUnion) =>
   getLogMetric({ tagFilterExpression, level: 'ERROR' });
-const warnMetric = (tagFilterExpression: TagFilterExpressionElement) =>
+const warnMetric = (tagFilterExpression: TagFilterExpressionElementUnion) =>
   getLogMetric({ tagFilterExpression, level: 'WARN' });
-const infoMetric = (tagFilterExpression: TagFilterExpressionElement) =>
+const infoMetric = (tagFilterExpression: TagFilterExpressionElementUnion) =>
   getLogMetric({ tagFilterExpression, level: 'INFO' });
 
 interface AddLogLevelFilterTagToQueryModelRequest {
-  tagFilterExpression: TagFilterExpressionElement | TagFilterExpression;
+  tagFilterExpression: TagFilterExpressionElementUnion | TagFilterExpression;
   value: string;
 }
 

@@ -37,7 +37,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
         operator: 'EQUALS',
         booleanValue: true,
         entity: 'DESTINATION',
-        type: 'available'
+        type: 'TAG_FILTER'
       }
     ];
     const QueryBuilder = jest.fn();
@@ -61,7 +61,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
         operator: 'EQUALS',
         booleanValue: true,
         entity: 'DESTINATION',
-        type: 'available'
+        type: 'TAG_FILTER'
       }
     ];
     const QueryBuilder = jest.fn();
@@ -95,7 +95,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/BeaconConfigurator', () => {
         operator: 'EQUALS',
         booleanValue: true,
         entity: 'DESTINATION',
-        type: 'available'
+        type: 'TAG_FILTER'
       }
     ];
     const QueryBuilder = jest.fn();

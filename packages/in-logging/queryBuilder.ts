@@ -36,11 +36,11 @@ interface ReducedTagFilterWithDefaults {
   value: string;
   key?: string;
   operator?: TagFilterOperator;
-  type?: string;
+  type?: typeof TAG_FILTER_TYPE;
   entity?: TagFilterEntity;
 }
 
-export function getValueMatchTagFilter(tagFilter: ReducedTagFilterWithDefaults) {
+export function getValueMatchTagFilter(tagFilter: ReducedTagFilterWithDefaults): TagFilter {
   const { name, key, value, operator = EQUALS, type = TAG_FILTER_TYPE, entity = 'NOT_APPLICABLE' } = tagFilter;
   return sanitizeTagFilter(
     key ? { type, operator: NOT_EMPTY, name, key: value, entity } : { type, operator, name, value, entity }

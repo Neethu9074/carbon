@@ -54,6 +54,7 @@ export function updateThresholdInForm<ALERT_TYPE extends WebsitesAlertType | App
 
   let updatedThresholdForm = createThresholdForm(
     {
+      // @ts-expect-error
       lastUpdated: time,
       ...(shouldAddNewThresholdData(simpleMode, thresholdForm) ? thresholdData : currentThreshold)
     },

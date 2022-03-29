@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { TimeConfig, TagType, BeaconType, HasQueryContext } from 'in-types/backendCorrections';
+import { TimeConfig, TagType, BeaconType } from './backendCorrections';
 
 export interface AbstractApplicationAlertConfig {
   readonly alertChannelIds: string[];
@@ -13,12 +13,12 @@ export interface AbstractApplicationAlertConfig {
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
   readonly name: string;
-  readonly rule: ApplicationAlertRule;
+  readonly rule: ApplicationAlertRuleUnion;
   readonly severity: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
-  readonly threshold: ThresholdConfig;
-  readonly timeThreshold: ApplicationTimeThreshold;
+  readonly threshold: ThresholdConfigUnion;
+  readonly timeThreshold: ApplicationTimeThresholdUnion;
   readonly triggering: boolean;
 }
 
@@ -31,7 +31,7 @@ export interface AbstractApplicationConfig {
    */
   readonly matchSpecification?: MatchExpressionDTO;
   readonly scope: ApplicationConfigScope;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
 }
 
 export interface AbstractKubernetesContainerState {
@@ -42,20 +42,20 @@ export interface AbstractKubernetesContainerState {
 }
 
 export interface AbstractRule {
-  readonly ruleType: string;
+  readonly ruleType: 'entity_verification' | 'host_availability' | 'system' | 'threshold' | 'ThresholdRuleWithMetricInfo';
   readonly severity: number;
 }
 
 export interface AbstractSliConfiguration {
   readonly metricConfiguration?: SliConfigMetricConfiguration;
-  readonly sliEntity: SliEntity;
+  readonly sliEntity: SliEntityUnion;
   readonly sliName: string;
 }
 
 export interface AbstractThresholdSuggestionQuery extends ThresholdSuggestionQuery, UiQuery {
   readonly operator: ThresholdOperator;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression: TagFilterExpressionElement;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
   readonly type: ThresholdType;
 }
 
@@ -67,11 +67,13 @@ export interface AccessRule {
 
 export interface AdaptiveBaselineConfig extends ThresholdConfig {
   readonly deviationFactor: number;
+  readonly type: 'adaptiveBaseline';
 }
 
 export interface AdaptiveBaselineData extends ThresholdData {
   readonly baseline: number[][];
   readonly deviationFactor: number;
+  readonly type: 'adaptiveBaseline';
 }
 
 export interface AdaptiveBaselineSuggestionResponse extends ThresholdSuggestionResponse {
@@ -94,6 +96,14 @@ export interface AgentMonitoringIssueWithSnapshot {
   readonly id: string;
   readonly start: number;
   readonly triggeringTime: number;
+}
+
+export interface AgentRequest {
+  readonly action?: string;
+  readonly args?: { [index: string]: any };
+  readonly messageId?: string;
+  readonly target?: VolatileId;
+  readonly tenant?: TenantUnitWithEnvironmentCoordinates;
 }
 
 export interface AgentSnapshot extends Snapshot {
@@ -132,9 +142,9 @@ export interface AlertRule {
 export interface AlertRuleWithGranularity {
   readonly granularity: Granularity;
   readonly operator: ThresholdOperator;
-  readonly rule: ApplicationAlertRule;
+  readonly rule: ApplicationAlertRuleUnion;
   readonly seasonality?: Seasonality;
-  readonly timeThreshold: ApplicationTimeThreshold;
+  readonly timeThreshold: ApplicationTimeThresholdUnion;
 }
 
 export interface AlertingChannelInputInfo {
@@ -218,7 +228,7 @@ export interface ApplicationAlertConfigWithMetadata extends ApplicationAlertConf
 }
 
 export interface ApplicationAlertRule extends AlertRule {
-  readonly alertType: string;
+  readonly alertType: 'errorRate' | 'logs' | 'slowness' | 'statusCode' | 'throughput';
   readonly stableHash: number;
 }
 
@@ -251,7 +261,7 @@ export interface ApplicationMetricConfiguration extends UnifiedMetricConfigurati
   readonly grouping?: Grouping[];
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
 }
 
@@ -275,10 +285,11 @@ export interface ApplicationSliEntity extends SliEntity {
   readonly boundaryScope: AlertingApplicationBoundaryScope;
   readonly endpointId?: string;
   readonly serviceId?: string;
+  readonly sliType: 'application';
 }
 
 export interface ApplicationTimeThreshold extends TimeThreshold {
-  readonly type: string;
+  readonly type: 'requestImpact' | 'violationsInPeriod' | 'violationsInSequence';
 }
 
 export interface Author {
@@ -288,15 +299,16 @@ export interface Author {
 
 export interface AvailabilitySliEntity extends SliEntity {
   readonly applicationId?: string;
-  readonly badEventFilterExpression?: TagFilterExpressionElement;
+  readonly badEventFilterExpression?: TagFilterExpressionElementUnion;
   readonly badEventFilters?: TagFilter[];
   readonly boundaryScope: AlertingApplicationBoundaryScope;
   readonly endpointId?: string;
-  readonly goodEventFilterExpression?: TagFilterExpressionElement;
+  readonly goodEventFilterExpression?: TagFilterExpressionElementUnion;
   readonly goodEventFilters?: TagFilter[];
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
   readonly serviceId?: string;
+  readonly sliType: 'availability';
 }
 
 export interface AvailableMetrics {
@@ -536,7 +548,7 @@ export interface CustomDashboardPreview {
 }
 
 export interface CustomEventSpecification extends CustomAbstractEventSpecification<AbstractRule> {
-  readonly rules: AbstractRule[];
+  readonly rules: AbstractRuleUnion[];
 }
 
 export interface CustomEventSpecificationWithLastUpdated extends CustomEventSpecification {
@@ -544,7 +556,7 @@ export interface CustomEventSpecificationWithLastUpdated extends CustomEventSpec
 }
 
 export interface CustomPayloadConfiguration {
-  readonly fields: CustomPayloadField[];
+  readonly fields: CustomPayloadFieldUnion[];
 }
 
 export interface CustomPayloadConfigurationWithLastUpdated extends CustomPayloadConfiguration {
@@ -553,7 +565,7 @@ export interface CustomPayloadConfigurationWithLastUpdated extends CustomPayload
 
 export interface CustomPayloadField {
   readonly key: string;
-  readonly type: string;
+  readonly type: 'dynamic' | 'staticString';
 }
 
 export interface DatabaseStatementTopListItem extends Metricific {
@@ -585,6 +597,7 @@ export interface DomainSpecificStackBuilder {
 }
 
 export interface DynamicField extends CustomPayloadField {
+  readonly type: 'dynamic';
   readonly value: DynamicFieldValue;
 }
 
@@ -670,6 +683,7 @@ export interface EntityVerificationRule extends AbstractRule {
   readonly matchingEntityType: string;
   readonly matchingOperator: AlertingStringMatchingOperator;
   readonly offlineDuration: number;
+  readonly ruleType: 'entity_verification';
 }
 
 export interface Error {
@@ -683,6 +697,7 @@ export interface ErrorMessageItem {
 }
 
 export interface ErrorRateApplicationAlertRule extends ApplicationAlertRule {
+  readonly alertType: 'errorRate';
 }
 
 export interface Event {
@@ -857,7 +872,7 @@ export interface GetAppDataEntityChainsQuery extends CursorPaginatedQuery {
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
   readonly rbacRestrictions?: any;
   readonly searchTerm: string;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly timeConfig: TimeConfig;
 }
 
@@ -880,7 +895,7 @@ export interface GetApplicationEntityHealthInfoQuery {
 export interface GetApplicationLiveViewQuery extends PaginatedUIQuery {
   readonly downstreamScope: ApplicationDownstreamScope;
   readonly pagination: Pagination;
-  readonly tagFilterExpression: TagFilterExpressionElement;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
   readonly timeConfig: TimeConfig;
 }
 
@@ -893,10 +908,10 @@ export interface GetApplicationMetricsNonClusteredAlertPreviewQuery extends UiQu
   readonly includeSynthetic: boolean;
   readonly metrics: { [index: string]: AppDataMetricConfiguration };
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression: TagFilterExpressionElement;
-  readonly threshold: ThresholdData;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
+  readonly threshold: ThresholdDataUnion;
   readonly timeConfig: TimeConfig;
-  readonly timeThreshold: ApplicationTimeThreshold;
+  readonly timeThreshold: ApplicationTimeThresholdUnion;
 }
 
 export interface GetApplicationMetricsQuery extends QueryWithMetrics, UiQuery, QueryWithPrecision {
@@ -905,7 +920,7 @@ export interface GetApplicationMetricsQuery extends QueryWithMetrics, UiQuery, Q
   readonly includeSynthetic: boolean;
   readonly metrics: { [index: string]: AppDataMetricConfiguration };
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
   readonly timeShift: TimeShift;
@@ -923,7 +938,7 @@ export interface GetApplicationPotentialProblemsQuery extends FilteredQuery {
   readonly alertRules?: { [index: string]: AlertRuleWithGranularity };
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
-  readonly tagFilterExpression: TagFilterExpressionElement;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
   readonly timeConfig: TimeConfig;
 }
 
@@ -954,7 +969,7 @@ export interface GetApplicationsCursorPaginatedQuery extends CursorPaginatedQuer
   readonly order: Order;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
   readonly supportedOrderByCriteria: boolean;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
 }
 
@@ -965,7 +980,7 @@ export interface GetApplicationsQuery extends PaginatedQuery {
   readonly order: Order;
   readonly pagination: Pagination;
   readonly supportedOrderByCriteria: boolean;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
 }
 
@@ -990,7 +1005,7 @@ export interface GetCallGroupsQuery extends CursorPaginatedQuery, FilteredQuery,
   readonly order: Order;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
   readonly removeUnmatchedGroup: boolean;
-  readonly tagFilterExpressionElement?: TagFilterExpressionElement;
+  readonly tagFilterExpressionElement?: TagFilterExpressionElementUnion;
   /**
    * @deprecated
    */
@@ -1008,7 +1023,7 @@ export interface GetCallsQuery extends CursorPaginatedQuery, FilteredQuery, Quer
   readonly metrics?: { [index: string]: MetricConfiguration };
   readonly order: Order;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
-  readonly tagFilterExpressionElement?: TagFilterExpressionElement;
+  readonly tagFilterExpressionElement?: TagFilterExpressionElementUnion;
   /**
    * @deprecated
    */
@@ -1052,7 +1067,7 @@ export interface GetDatabaseStatementTopListQuery extends TopListQuery {
 }
 
 export interface GetDeprecationsQuery extends UiQuery {
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
@@ -1076,7 +1091,7 @@ export interface GetEndpointsCursorPaginatedQuery extends CursorPaginatedQuery, 
   readonly order: Order;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
   readonly supportedOrderByCriteria: boolean;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
 }
 
 export interface GetEndpointsQuery extends PaginatedQuery {
@@ -1085,7 +1100,7 @@ export interface GetEndpointsQuery extends PaginatedQuery {
   readonly order: Order;
   readonly pagination: Pagination;
   readonly supportedOrderByCriteria: boolean;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
 }
 
 export interface GetEntitiesHealthQuery extends UiQuery {
@@ -1400,7 +1415,7 @@ export interface GetLatencyDistributionBase10Query extends FilteredQuery {
   readonly includePercentiles: boolean;
   readonly includeSynthetic: boolean;
   readonly maxLatencyBuckets: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   /**
    * @deprecated
    */
@@ -1438,7 +1453,7 @@ export interface GetMobileAppBeaconGroupsQuery extends QueryWithMetrics, CursorP
   readonly metrics: { [index: string]: MobileAppMonitoringMetricsConfiguration };
   readonly order: Order;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
   readonly timeShift: TimeShift;
@@ -1458,7 +1473,7 @@ export interface GetMobileAppBeaconsQuery extends CursorPaginatedQuery {
   readonly order: Order;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
@@ -1470,14 +1485,14 @@ export interface GetMobileAppCountryBreakdownQuery extends PaginatedUIQuery {
   readonly order: Order;
   readonly pagination: Pagination;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
 
 export interface GetMobileAppMetricsQuery extends QueryWithMetrics, UiQuery {
   readonly metrics: { [index: string]: MobileAppMonitoringMetricsConfiguration };
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
   readonly timeShift: TimeShift;
@@ -1492,7 +1507,7 @@ export interface GetMobileAppPaginatedBeaconGroupsQuery extends PaginatedUIQuery
   readonly order: Order;
   readonly pagination: Pagination;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
@@ -1507,7 +1522,7 @@ export interface GetMobileAppSubdivisionsQuery extends PaginatedUIQuery {
   readonly order: Order;
   readonly pagination: Pagination;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
@@ -1653,7 +1668,7 @@ export interface GetServicesCorrelatedByTagQuery extends PaginatedQuery, QueryWi
   readonly pagination: Pagination;
   readonly queryPrecision: QueryPrecision;
   readonly serviceId: string;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
 }
 
 export interface GetServicesCursorPaginatedQuery extends CursorPaginatedQuery, QueryWithMetrics, QueryWithPrecision {
@@ -1662,7 +1677,7 @@ export interface GetServicesCursorPaginatedQuery extends CursorPaginatedQuery, Q
   readonly metrics: { [index: string]: AppDataMetricConfiguration };
   readonly order: Order;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
 }
 
@@ -1672,7 +1687,7 @@ export interface GetServicesQuery extends PaginatedQuery {
   readonly metrics: { [index: string]: AppDataMetricConfiguration };
   readonly order: Order;
   readonly pagination: Pagination;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
 }
 
@@ -1703,7 +1718,7 @@ export interface GetTagSuggestionsQuery extends FilteredQuery {
   readonly removeRequestedTagFromFilters?: boolean;
   readonly requestingSecondaryKeySuggestions: boolean;
   readonly secondLevelKeyTagName?: string;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly tagName: string;
   readonly valueFilter?: string;
@@ -1727,6 +1742,7 @@ export interface GetTestResultQuery extends UiQuery {
   readonly order?: Order;
   readonly pagination?: Pagination;
   readonly serviceId?: string;
+  readonly tagFilters?: TagFilter[];
   readonly testId: string;
   readonly timeConfig: TimeConfig;
 }
@@ -1744,7 +1760,7 @@ export interface GetTraceGroupsQuery extends CursorPaginatedQuery, FilteredQuery
   readonly order: Order;
   readonly pagination: CursorPagination<any>;
   readonly removeUnmatchedGroup: boolean;
-  readonly tagFilterExpressionElement?: TagFilterExpressionElement;
+  readonly tagFilterExpressionElement?: TagFilterExpressionElementUnion;
   /**
    * @deprecated
    */
@@ -1771,7 +1787,7 @@ export interface GetTracesQuery extends CursorPaginatedQuery, FilteredQuery, Que
   readonly includeSynthetic: boolean;
   readonly order: Order;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
-  readonly tagFilterExpressionElement?: TagFilterExpressionElement;
+  readonly tagFilterExpressionElement?: TagFilterExpressionElementUnion;
   /**
    * @deprecated
    */
@@ -1812,7 +1828,7 @@ export interface GetWebsiteBeaconGroupsQuery extends QueryWithMetrics, CursorPag
   readonly metrics: { [index: string]: WebsiteMonitoringMetricsConfiguration };
   readonly order: Order;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
   readonly timeShift: TimeShift;
@@ -1832,7 +1848,7 @@ export interface GetWebsiteBeaconsQuery extends CursorPaginatedQuery {
   readonly order: Order;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
@@ -1844,7 +1860,7 @@ export interface GetWebsiteCountryBreakdownQuery extends PaginatedUIQuery {
   readonly order: Order;
   readonly pagination: Pagination;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
@@ -1861,7 +1877,7 @@ export interface GetWebsiteErrorsQuery extends PaginatedUIQuery {
   readonly order: Order;
   readonly pagination: Pagination;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
@@ -1875,15 +1891,15 @@ export interface GetWebsiteMetricAlertsPreviewQuery extends UiQuery {
   readonly granularity: number;
   readonly metrics: { [index: string]: WebsiteMonitoringMetricsConfiguration };
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression: TagFilterExpressionElement;
-  readonly threshold: ThresholdData;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
+  readonly threshold: ThresholdDataUnion;
   readonly timeConfig: TimeConfig;
-  readonly timeThreshold: WebsiteTimeThreshold;
+  readonly timeThreshold: WebsiteTimeThresholdUnion;
 }
 
 export interface GetWebsiteMetricsQuery extends QueryWithMetrics, UiQuery {
   readonly metrics: { [index: string]: WebsiteMonitoringMetricsConfiguration };
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
   readonly timeShift: TimeShift;
@@ -1902,7 +1918,7 @@ export interface GetWebsitePaginatedBeaconGroupsQuery extends PaginatedUIQuery {
   readonly order: Order;
   readonly pagination: Pagination;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
@@ -1916,15 +1932,15 @@ export interface GetWebsiteRateMetricAlertsPreviewQuery extends UiQuery {
   readonly granularity: number;
   readonly metrics: { [index: string]: WebsiteRateMetricConfiguration };
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression: TagFilterExpressionElement;
-  readonly threshold: ThresholdData;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
+  readonly threshold: ThresholdDataUnion;
   readonly timeConfig: TimeConfig;
-  readonly timeThreshold: WebsiteTimeThreshold;
+  readonly timeThreshold: WebsiteTimeThresholdUnion;
 }
 
 export interface GetWebsiteRateMetricQuery extends QueryWithMetrics, UiQuery {
   readonly metrics: { [index: string]: WebsiteRateMetricConfiguration };
-  readonly tagFilterExpression: TagFilterExpressionElement;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
   readonly timeConfig: TimeConfig;
 }
 
@@ -1937,7 +1953,7 @@ export interface GetWebsiteSubdivisionsQuery extends PaginatedUIQuery {
   readonly order: Order;
   readonly pagination: Pagination;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
@@ -1945,7 +1961,7 @@ export interface GetWebsiteSubdivisionsQuery extends PaginatedUIQuery {
 export interface GetWebsiteUniqueUsersInSlidingWindowQuery extends QueryWithMetrics {
   readonly metrics: { [index: string]: WebsiteMonitoringMetricsConfiguration };
   readonly slidingWindowSize: number;
-  readonly tagFilterExpression: TagFilterExpressionElement;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
   readonly timeConfig: TimeConfig;
 }
 
@@ -1954,7 +1970,7 @@ export interface GetWebsiteWebBrowsersQuery extends PaginatedUIQuery {
   readonly order: Order;
   readonly pagination: Pagination;
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
 }
@@ -1970,7 +1986,7 @@ export interface GetWebsitesQuery extends PaginatedUIQuery {
 
 export interface GetWindowWidthBreakdownQuery extends UiQuery {
   readonly rbacRestrictions?: any;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
   readonly timeConfig: TimeConfig;
   readonly windowWidths: number[];
@@ -2029,7 +2045,7 @@ export interface Grouping {
 }
 
 export interface HasLogsQuery {
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly timeConfig: TimeConfig;
 }
 
@@ -2071,12 +2087,14 @@ export interface HistoricBaselineConfig extends ThresholdConfig {
   readonly deviationFactor: number;
   readonly lastUpdated: number;
   readonly seasonality: Seasonality;
+  readonly type: 'historicBaseline';
 }
 
 export interface HistoricBaselineData extends ThresholdData {
   readonly baseline: number[][];
   readonly deviationFactor: number;
   readonly seasonality: Seasonality;
+  readonly type: 'historicBaseline';
 }
 
 export interface HistoricBaselineSuggestionResponse extends ThresholdSuggestionResponse {
@@ -2087,6 +2105,7 @@ export interface HistoricBaselineSuggestionResponse extends ThresholdSuggestionR
 export interface HostAvailabilityRule extends AbstractRule {
   readonly closeAfter: number;
   readonly offlineDuration: number;
+  readonly ruleType: 'host_availability';
   readonly tagFilter?: TagFilter;
 }
 
@@ -2140,7 +2159,7 @@ export interface InfraExploreCursor extends IngestionOffsetCursor {
 export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
   readonly crossSeriesAggregation?: AggregationType;
   readonly grouping?: Grouping[];
-  readonly tagFilterExpression: TagFilterExpressionElement;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
   readonly type: string;
 }
 
@@ -2780,8 +2799,8 @@ export interface LogGroupItem extends Cursorific<IngestionOffsetCursor> {
 export interface LogGroupsQuery {
   readonly group: Group;
   readonly pagination: CursorPagination<IngestionOffsetCursor>;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
-  readonly tagTagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
+  readonly tagTagFilterExpression?: TagFilterExpressionElementUnion;
   readonly timeConfig: TimeConfig;
 }
 
@@ -2799,18 +2818,18 @@ export interface LogMessageItem {
 }
 
 export interface LogMetricConfig {
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
 }
 
 export interface LogMetricConfiguration extends UnifiedMetricConfiguration {
-  readonly metricTagFilterExpression?: TagFilterExpressionElement;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly metricTagFilterExpression?: TagFilterExpressionElementUnion;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
 }
 
 export interface LogMetricsQuery {
   readonly configs: { [index: string]: LogMetricConfig };
   readonly granularity: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly timeConfig: TimeConfig;
 }
 
@@ -2820,7 +2839,7 @@ export interface LogMetricsResult {
 
 export interface LogQuery {
   readonly itemId: string;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
 }
 
 export interface LogTag {
@@ -2835,13 +2854,14 @@ export interface LogTag {
 export interface LogTagSuggestionsQuery {
   readonly key?: string;
   readonly propose?: TagSuggestionProposeType;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagName: string;
   readonly timeConfig: TimeConfig;
   readonly value?: string;
 }
 
 export interface LogsApplicationAlertRule extends ApplicationAlertRule {
+  readonly alertType: 'logs';
   readonly level: LogsApplicationAlertRuleLogLevel;
   readonly loglevel?: LogsApplicationAlertRuleLogLevel;
   readonly message?: string;
@@ -2852,7 +2872,7 @@ export interface LogsQuery {
   readonly afterKey?: string;
   readonly orderDirection?: OrderDirection;
   readonly retrievalSize: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tags?: string[];
   readonly timeConfig: TimeConfig;
 }
@@ -3021,6 +3041,11 @@ export interface MobileAppBeaconsItem extends Cursorific<IngestionOffsetCursor> 
   readonly cursor: IngestionOffsetCursor;
 }
 
+export interface MobileAppConfiguration {
+  readonly id: string;
+  readonly name: string;
+}
+
 export interface MobileAppCountryBreakdown {
   readonly continent: string;
   readonly continentCode: string;
@@ -3037,7 +3062,7 @@ export interface MobileAppItem {
 export interface MobileAppMetricConfiguration extends UnifiedMetricConfiguration {
   readonly beaconType?: string;
   readonly grouping?: Grouping[];
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
 }
 
@@ -3309,7 +3334,7 @@ export interface PhysicalContext {
 
 export interface PotentialProblems {
   readonly alerts?: Alert[];
-  readonly thresholds?: { [index: string]: ThresholdData };
+  readonly thresholds?: { [index: string]: ThresholdDataUnion };
 }
 
 export interface Problem {
@@ -3485,6 +3510,7 @@ export interface ReleaseWithIdInternal extends ReleaseWithId {
 
 export interface RequestImpactApplicationTimeThreshold extends ApplicationTimeThreshold {
   readonly requests: number;
+  readonly type: 'requestImpact';
 }
 
 export interface RequestQuoteQuery {
@@ -3501,6 +3527,7 @@ export interface RequestQuoteQuery {
 
 export interface Result<T> {
   readonly adjustedWindowSize?: number;
+  readonly backendTraceId?: string;
   readonly data?: T;
   readonly errors: Error[];
   readonly progress: Progress;
@@ -3642,7 +3669,7 @@ export interface SliConfigurationWithLastUpdated extends SliConfiguration {
 }
 
 export interface SliEntity {
-  readonly sliType: string;
+  readonly sliType: 'application' | 'availability' | 'websiteEventBased' | 'websiteTimeBased';
 }
 
 export interface SliUnifiedMetricConfiguration extends UnifiedMetricConfiguration {
@@ -3654,10 +3681,12 @@ export interface SliUnifiedMetricConfiguration extends UnifiedMetricConfiguratio
 
 export interface SlownessApplicationAlertRule extends ApplicationAlertRule {
   readonly aggregation: AggregationType;
+  readonly alertType: 'slowness';
 }
 
 export interface SlownessWebsiteAlertRule extends WebsiteAlertRule {
   readonly aggregation: AggregationType;
+  readonly alertType: 'slowness';
 }
 
 export interface Snapshot {
@@ -3770,6 +3799,7 @@ export interface SpanRelation {
 }
 
 export interface SpecificJsErrorsWebsiteAlertRule extends WebsiteAlertRule {
+  readonly alertType: 'specificJsError';
   readonly operator: TagFilterOperator;
   readonly value?: string;
 }
@@ -3797,15 +3827,18 @@ export interface StackTraceLine {
 }
 
 export interface StaticStringField extends CustomPayloadField {
+  readonly type: 'staticString';
   readonly value: string;
 }
 
 export interface StaticThresholdConfig extends ThresholdConfig {
   readonly lastUpdated: number;
+  readonly type: 'staticThreshold';
   readonly value: number;
 }
 
 export interface StaticThresholdData extends ThresholdData {
+  readonly type: 'staticThreshold';
   readonly value: number;
 }
 
@@ -3814,11 +3847,13 @@ export interface StaticThresholdSuggestionResponse extends ThresholdSuggestionRe
 }
 
 export interface StatusCodeApplicationAlertRule extends ApplicationAlertRule {
+  readonly alertType: 'statusCode';
   readonly statusCodeEnd: number;
   readonly statusCodeStart: number;
 }
 
 export interface StatusCodeWebsiteAlertRule extends WebsiteAlertRule {
+  readonly alertType: 'statusCode';
   readonly operator: TagFilterOperator;
   readonly value: string;
 }
@@ -3831,7 +3866,7 @@ export interface SyntheticGeoPoint {
 }
 
 export interface SyntheticLocation {
-  readonly createdAt?: Date;
+  readonly createdAt?: number;
   readonly customProperties?: { [index: string]: string };
   readonly description?: string;
   readonly displayLabel?: string;
@@ -3839,8 +3874,8 @@ export interface SyntheticLocation {
   readonly id?: string;
   readonly label: string;
   readonly locationType: string;
-  readonly modifiedAt?: Date;
-  readonly observedAt?: Date;
+  readonly modifiedAt?: number;
+  readonly observedAt?: number;
   readonly playbackCapabilities: SyntheticPlaybackCapabilities;
   readonly popVersion?: string;
 }
@@ -3857,16 +3892,16 @@ export interface SyntheticTest {
   readonly active: boolean;
   readonly applicationId?: string;
   readonly configuration: SyntheticTypeConfigurationUnion;
-  readonly createdAt?: Date;
+  readonly createdAt?: number;
   readonly createdBy?: string;
   readonly customProperties?: { [index: string]: string };
   readonly deleted?: boolean;
-  readonly deletedAt?: Date;
+  readonly deletedAt?: number;
   readonly description?: string;
   readonly id?: string;
   readonly label: string;
   readonly locations: string[];
-  readonly modifiedAt?: Date;
+  readonly modifiedAt?: number;
   readonly modifiedBy?: string;
   readonly playbackMode: SyntheticPlaybackMode;
   readonly serviceId?: string;
@@ -3879,10 +3914,13 @@ export interface SyntheticTypeConfiguration {
 }
 
 export interface SyntheticUnifiedMetricConfiguration extends UnifiedMetricConfiguration {
+  readonly order?: Order;
+  readonly pagination?: Pagination;
   readonly tagFilters?: TagFilter[];
 }
 
 export interface SystemRule extends AbstractRule {
+  readonly ruleType: 'system';
   readonly systemRuleId: string;
 }
 
@@ -3916,16 +3954,18 @@ export interface TagFilter extends TagFilterExpressionElement {
   readonly numberValue?: number;
   readonly operator: TagFilterOperator;
   readonly stringValue?: string;
+  readonly type: 'TAG_FILTER';
   readonly value?: any;
 }
 
 export interface TagFilterExpression extends TagFilterExpressionElement {
-  readonly elements: TagFilterExpressionElement[];
+  readonly elements: TagFilterExpressionElementUnion[];
   readonly logicalOperator: LogicalOperator;
+  readonly type: 'EXPRESSION';
 }
 
 export interface TagFilterExpressionElement {
-  readonly type: string;
+  readonly type: 'TAG_FILTER' | 'EXPRESSION';
 }
 
 export interface TagMatcherDTO extends MatchExpressionDTO {
@@ -3936,7 +3976,7 @@ export interface TagMatcherDTO extends MatchExpressionDTO {
 }
 
 export interface TagSetFilter {
-  readonly tagFilterExpression: TagFilterExpressionElement;
+  readonly tagFilterExpression: TagFilterExpressionElementUnion;
   readonly timeConfig: TimeConfig;
 }
 
@@ -3985,6 +4025,15 @@ export interface TenantHealthDownstreamValue {
   readonly tenantConfig?: TenantConfig;
 }
 
+export interface TenantUnitCoordinates {
+  readonly tenant: string;
+  readonly unit: string;
+}
+
+export interface TenantUnitWithEnvironmentCoordinates extends TenantUnitCoordinates {
+  readonly environment: string;
+}
+
 export interface TestResult {
   readonly testResult?: TestResultItem[];
   readonly testResultItems?: TestResultItem[];
@@ -4012,12 +4061,12 @@ export interface ThresholdBounds {
 
 export interface ThresholdConfig {
   readonly operator: ThresholdOperator;
-  readonly type: string;
+  readonly type: 'adaptiveBaseline' | 'historicBaseline' | 'staticThreshold';
 }
 
 export interface ThresholdData {
   readonly operator: ThresholdOperator;
-  readonly type: string;
+  readonly type: 'adaptiveBaseline' | 'historicBaseline' | 'staticThreshold';
 }
 
 export interface ThresholdRule extends AbstractRule {
@@ -4027,12 +4076,14 @@ export interface ThresholdRule extends AbstractRule {
   readonly metricName?: string;
   readonly metricPattern?: MetricPattern;
   readonly rollup: number;
+  readonly ruleType: 'threshold' | 'ThresholdRuleWithMetricInfo';
   readonly window: number;
 }
 
 export interface ThresholdRuleWithMetricInfo extends ThresholdRule {
   readonly metricFormat?: Formatter;
   readonly metricLabel?: string;
+  readonly ruleType: 'ThresholdRuleWithMetricInfo';
 }
 
 export interface ThresholdSuggestionQuery {
@@ -4048,9 +4099,11 @@ export interface ThresholdSuggestionResponse {
 }
 
 export interface ThroughputApplicationAlertRule extends ApplicationAlertRule {
+  readonly alertType: 'throughput';
 }
 
 export interface ThroughputWebsiteAlertRule extends WebsiteAlertRule {
+  readonly alertType: 'throughput';
 }
 
 export interface TimeBucket {
@@ -4078,6 +4131,11 @@ export interface Timeframe {
 
 export interface TopListQuery extends FilteredQuery {
   readonly metric?: MetricConfiguration;
+}
+
+export interface TosAndPrivacyVersions {
+  readonly privacyVersion?: string;
+  readonly tosVersion?: string;
 }
 
 export interface Trace {
@@ -4213,6 +4271,7 @@ export interface UserImpactThreshold {
 
 export interface UserImpactWebsiteTimeThreshold extends WebsiteTimeThreshold, UserImpactThreshold {
   readonly impactMeasurementMethod: ImpactMeasurementMethod;
+  readonly type: 'userImpactOfViolationsInSequence';
 }
 
 export interface UserResult {
@@ -4244,17 +4303,21 @@ export interface VersionedConfig {
 }
 
 export interface ViolationsInPeriodApplicationTimeThreshold extends ApplicationTimeThreshold {
+  readonly type: 'violationsInPeriod';
   readonly violations: number;
 }
 
 export interface ViolationsInPeriodWebsiteTimeThreshold extends WebsiteTimeThreshold {
+  readonly type: 'violationsInPeriod';
   readonly violations: number;
 }
 
 export interface ViolationsInSequenceApplicationTimeThreshold extends ApplicationTimeThreshold {
+  readonly type: 'violationsInSequence';
 }
 
 export interface ViolationsInSequenceWebsiteTimeThreshold extends WebsiteTimeThreshold {
+  readonly type: 'violationsInSequence';
 }
 
 export interface VolatileId {
@@ -4404,12 +4467,12 @@ export interface WebsiteAlertConfig {
   readonly description: string;
   readonly granularity: Granularity;
   readonly name: string;
-  readonly rule: WebsiteAlertRule;
+  readonly rule: WebsiteAlertRuleUnion;
   readonly severity: number;
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
-  readonly threshold: ThresholdConfig;
-  readonly timeThreshold: WebsiteTimeThreshold;
+  readonly threshold: ThresholdConfigUnion;
+  readonly timeThreshold: WebsiteTimeThresholdUnion;
   readonly triggering: boolean;
   readonly websiteId: string;
 }
@@ -4419,7 +4482,7 @@ export interface WebsiteAlertConfigWithMetadata extends WebsiteAlertConfig, Vers
 }
 
 export interface WebsiteAlertRule extends AlertRule {
-  readonly alertType: string;
+  readonly alertType: 'slowness' | 'specificJsError' | 'statusCode' | 'throughput';
 }
 
 export interface WebsiteAlertStats {
@@ -4463,8 +4526,9 @@ export interface WebsiteErrorsItem {
 }
 
 export interface WebsiteEventBasedSliEntity extends WebsiteSliEntity {
-  readonly badEventFilterExpression: TagFilterExpressionElement;
-  readonly goodEventFilterExpression: TagFilterExpressionElement;
+  readonly badEventFilterExpression: TagFilterExpressionElementUnion;
+  readonly goodEventFilterExpression: TagFilterExpressionElementUnion;
+  readonly sliType: 'websiteEventBased';
 }
 
 export interface WebsiteItem {
@@ -4476,7 +4540,7 @@ export interface WebsiteItem {
 export interface WebsiteMetricConfiguration extends UnifiedMetricConfiguration {
   readonly beaconType?: string;
   readonly grouping?: Grouping[];
-  readonly tagFilterExpression?: TagFilterExpressionElement;
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
 }
 
@@ -4601,7 +4665,7 @@ export interface WebsiteRateMetricConfiguration extends WebsiteMonitoringMetrics
 
 export interface WebsiteSliEntity extends SliEntity {
   readonly beaconType: BeaconType;
-  readonly sliType: string;
+  readonly sliType: 'websiteEventBased' | 'websiteTimeBased';
   readonly websiteId?: string;
 }
 
@@ -4616,11 +4680,12 @@ export interface WebsiteSubdivisionsItem {
 }
 
 export interface WebsiteTimeBasedSliEntity extends WebsiteSliEntity {
-  readonly filterExpression?: TagFilterExpressionElement;
+  readonly filterExpression?: TagFilterExpressionElementUnion;
+  readonly sliType: 'websiteTimeBased';
 }
 
 export interface WebsiteTimeThreshold extends TimeThreshold {
-  readonly type: string;
+  readonly type: 'userImpactOfViolationsInSequence' | 'violationsInPeriod' | 'violationsInSequence';
 }
 
 export interface WebsiteWebBrowsersItem {
@@ -4716,6 +4781,8 @@ export interface ZhmcQueryFilter extends FilterInterface {
   readonly timeConfig: TimeConfig;
 }
 
+export type AbstractRuleUnion = ThresholdRule | SystemRule | EntityVerificationRule | HostAvailabilityRule;
+
 export type AccessRuleRelationType = 'USER' | 'API_TOKEN' | 'ROLE' | 'TEAM' | 'GLOBAL';
 
 export type AccessType = 'READ' | 'READ_WRITE';
@@ -4740,6 +4807,8 @@ export type AlertingMatchingOperator = 'is' | 'contains' | 'startsWith' | 'endsW
 
 export type AlertingStringMatchingOperator = 'is' | 'contains' | 'startsWith' | 'endsWith';
 
+export type ApplicationAlertRuleUnion = SlownessApplicationAlertRule | ErrorRateApplicationAlertRule | LogsApplicationAlertRule | StatusCodeApplicationAlertRule | ThroughputApplicationAlertRule;
+
 export type ApplicationBoundaryScope = 'ALL' | 'INBOUND';
 
 export type ApplicationConfigScope = 'INCLUDE_NO_DOWNSTREAM' | 'INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING' | 'INCLUDE_ALL_DOWNSTREAM';
@@ -4751,6 +4820,8 @@ export type ApplicationDownstreamScope = 'INCLUDE_NO_DOWNSTREAM' | 'INCLUDE_IMME
 export type ApplicationTagFilterEntity = 'NOT_APPLICABLE' | 'DESTINATION' | 'SOURCE';
 
 export type ApplicationTagFilterOperator = 'EQUALS' | 'NOT_EQUAL' | 'CONTAINS' | 'NOT_CONTAIN' | 'IS_EMPTY' | 'NOT_EMPTY' | 'IS_BLANK' | 'NOT_BLANK' | 'STARTS_WITH' | 'ENDS_WITH' | 'NOT_STARTS_WITH' | 'NOT_ENDS_WITH' | 'GREATER_OR_EQUAL_THAN' | 'LESS_OR_EQUAL_THAN' | 'LESS_THAN' | 'GREATER_THAN';
+
+export type ApplicationTimeThresholdUnion = ViolationsInSequenceApplicationTimeThreshold | ViolationsInPeriodApplicationTimeThreshold | RequestImpactApplicationTimeThreshold;
 
 export type AuthorType = 'API' | 'USER' | 'INSTANA' | 'UNKNOWN';
 
@@ -4771,6 +4842,8 @@ export type Conjunction = 'AND' | 'OR';
 export type ContextScope = 'NONE' | 'UPSTREAM' | 'DOWNSTREAM';
 
 export type CustomDashboardPreviewAnnotation = 'SHARED' | 'WRITABLE';
+
+export type CustomPayloadFieldUnion = StaticStringField | DynamicField;
 
 export type DataSource = 'CALLS' | 'TRACES';
 
@@ -4848,6 +4921,8 @@ export type ResultType = 'TIME_SERIES' | 'HISTOGRAM' | 'SINGLE_NUMBER';
 
 export type Seasonality = 'WEEKLY' | 'DAILY';
 
+export type SliEntityUnion = ApplicationSliEntity | AvailabilitySliEntity | WebsiteTimeBasedSliEntity | WebsiteEventBasedSliEntity;
+
 export type SliMetricType = 'SLI' | 'ERROR_BUDGET_SPENT' | 'ERROR_BUDGET_REMAINING' | 'TOTAL_ERROR_BUDGET' | 'HOURLY_ERROR_BUDGET_CHART' | 'CONSUMED_ERROR_BUDGET_CHART';
 
 export type SliScope = 'TIME' | 'GOOD' | 'BAD';
@@ -4868,11 +4943,17 @@ export type SyntheticTypeConfigurationUnion = BrowserScriptConfiguration | HttpA
 
 export type TagFilterEntity = 'NOT_APPLICABLE' | 'DESTINATION' | 'SOURCE';
 
+export type TagFilterExpressionElementUnion = TagFilter | TagFilterExpression;
+
 export type TagFilterOperator = 'EQUALS' | 'CONTAINS' | 'LESS_THAN' | 'LESS_OR_EQUAL_THAN' | 'GREATER_THAN' | 'GREATER_OR_EQUAL_THAN' | 'NOT_EMPTY' | 'NOT_EQUAL' | 'NOT_CONTAIN' | 'IS_EMPTY' | 'NOT_BLANK' | 'IS_BLANK' | 'STARTS_WITH' | 'ENDS_WITH' | 'NOT_STARTS_WITH' | 'NOT_ENDS_WITH';
 
 export type TagSuggestionProposeType = 'KEYS' | 'VALUES';
 
 export type TagTreeNodeUnion = TagTreeLevel | TagTreeTag;
+
+export type ThresholdConfigUnion = StaticThresholdConfig | HistoricBaselineConfig | AdaptiveBaselineConfig;
+
+export type ThresholdDataUnion = StaticThresholdData | HistoricBaselineData | AdaptiveBaselineData;
 
 export type ThresholdOperator = '>' | '>=' | '<' | '<=';
 
@@ -4881,3 +4962,7 @@ export type ThresholdType = 'staticThreshold' | 'historicBaseline' | 'adaptiveBa
 export type Type = 'HEALTHY' | 'WARNING' | 'CRITICAL' | 'UNKNOWN';
 
 export type UiEntityType = 'APPLICATION' | 'SERVICE' | 'ENDPOINT';
+
+export type WebsiteAlertRuleUnion = SpecificJsErrorsWebsiteAlertRule | SlownessWebsiteAlertRule | StatusCodeWebsiteAlertRule | ThroughputWebsiteAlertRule;
+
+export type WebsiteTimeThresholdUnion = ViolationsInSequenceWebsiteTimeThreshold | ViolationsInPeriodWebsiteTimeThreshold | UserImpactWebsiteTimeThreshold;

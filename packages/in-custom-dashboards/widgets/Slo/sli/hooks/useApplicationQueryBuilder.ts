@@ -10,8 +10,8 @@ import { useObservable } from '@instana/hooks';
 
 import { DEFAULT_MAX_EXPRESSION_DEPTH } from 'in-components/QueryBuilder/workspace/QueryBuilderSection';
 import { getApplicationIdTagFilter } from 'in-alerting/smart-alerts/applications/data/entitySelection';
+import { BoundaryScope, Result, TagFilterExpressionElementUnion, TimeConfig } from 'in-types';
 import { addTagFilters } from 'in-components/QueryBuilder/transformation/backendQueryModel';
-import { BoundaryScope, Result, TagFilterExpressionElement, TimeConfig } from 'in-types';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
@@ -30,7 +30,7 @@ export function useApplicationQueryBuilder({
   boundaryScope = 'DEFAULT'
 }: UseApplicationQueryBuilderProps) {
   return useMemo(() => {
-    const additionalTagFilters: TagFilterExpressionElement[] = [];
+    const additionalTagFilters: TagFilterExpressionElementUnion[] = [];
     if (applicationId) {
       additionalTagFilters.push(getApplicationIdTagFilter(boundaryScope, applicationId));
     }
