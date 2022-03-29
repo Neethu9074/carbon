@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { TimeConfig, TagType, BeaconType, HasQueryContext } from 'in-types/backendCorrections';
+import { TimeConfig, TagType, BeaconType } from 'in-types/backendCorrections';
 
 export interface AbstractApplicationAlertConfig {
   readonly alertChannelIds: string[];
@@ -9,7 +9,7 @@ export interface AbstractApplicationAlertConfig {
   readonly customPayloadFields: StaticStringField[];
   readonly description: string;
   readonly evaluationType: AlertEvaluationType;
-  readonly granularity?: Granularity;
+  readonly granularity: Granularity;
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
   readonly name: string;
@@ -94,6 +94,14 @@ export interface AgentMonitoringIssueWithSnapshot {
   readonly id: string;
   readonly start: number;
   readonly triggeringTime: number;
+}
+
+export interface AgentRequest {
+  readonly action?: string;
+  readonly args?: { [index: string]: any };
+  readonly messageId?: string;
+  readonly target?: VolatileId;
+  readonly tenant?: TenantUnitWithEnvironmentCoordinates;
 }
 
 export interface AgentSnapshot extends Snapshot {
@@ -1135,7 +1143,7 @@ export interface GetInfrastructureExploreQuery {
   readonly filter: TagSetFilter;
   readonly metrics?: { [index: string]: InfraMetricQuery };
   readonly order?: Order;
-  readonly pagination?: CursorPagination<IngestionOffsetCursor>;
+  readonly pagination?: CursorPagination<InfraExploreCursor>;
   readonly type?: string;
 }
 
@@ -1153,7 +1161,7 @@ export interface GetInfrastructureGroupsQuery {
   readonly groupBy: string[];
   readonly metrics?: { [index: string]: InfraMetricQuery };
   readonly order?: Order;
-  readonly pagination?: CursorPagination<IngestionOffsetCursor>;
+  readonly pagination?: CursorPagination<InfraExploreCursor>;
   readonly type?: string;
 }
 
@@ -2132,6 +2140,11 @@ export interface Incident extends Event {
   readonly triggeringEvent: string;
 }
 
+export interface InfraExploreCursor extends IngestionOffsetCursor {
+  readonly totalHits: number;
+  readonly totalRepresentedItemCount: number;
+}
+
 export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
   readonly crossSeriesAggregation?: AggregationType;
   readonly grouping?: Grouping[];
@@ -3016,6 +3029,11 @@ export interface MobileAppBeaconsItem extends Cursorific<IngestionOffsetCursor> 
   readonly cursor: IngestionOffsetCursor;
 }
 
+export interface MobileAppConfiguration {
+  readonly id: string;
+  readonly name: string;
+}
+
 export interface MobileAppCountryBreakdown {
   readonly continent: string;
   readonly continentCode: string;
@@ -3125,6 +3143,9 @@ export interface MobileAppSubdivisionsItem {
   readonly metrics: { [index: string]: number[][] };
   readonly subdivision: string;
   readonly subdivisionCode?: string;
+}
+
+export interface MutableQueryContext extends QueryContext {
 }
 
 export interface NewApplicationConfig extends AbstractApplicationConfig {
@@ -3391,6 +3412,10 @@ export interface Progress {
   readonly loading: boolean;
   readonly note?: string;
   readonly percentage?: number;
+}
+
+export interface QueryContext {
+  readonly querySource?: QuerySource;
 }
 
 export interface QueryWithMetrics extends FilteredQuery {
@@ -3819,7 +3844,7 @@ export interface SyntheticGeoPoint {
 }
 
 export interface SyntheticLocation {
-  readonly createdAt?: Date;
+  readonly createdAt?: number;
   readonly customProperties?: { [index: string]: string };
   readonly description?: string;
   readonly displayLabel?: string;
@@ -3827,8 +3852,8 @@ export interface SyntheticLocation {
   readonly id?: string;
   readonly label: string;
   readonly locationType: string;
-  readonly modifiedAt?: Date;
-  readonly observedAt?: Date;
+  readonly modifiedAt?: number;
+  readonly observedAt?: number;
   readonly playbackCapabilities: SyntheticPlaybackCapabilities;
   readonly popVersion?: string;
 }
@@ -3845,16 +3870,16 @@ export interface SyntheticTest {
   readonly active: boolean;
   readonly applicationId?: string;
   readonly configuration: SyntheticTypeConfigurationUnion;
-  readonly createdAt?: Date;
+  readonly createdAt?: number;
   readonly createdBy?: string;
   readonly customProperties?: { [index: string]: string };
   readonly deleted?: boolean;
-  readonly deletedAt?: Date;
+  readonly deletedAt?: number;
   readonly description?: string;
   readonly id?: string;
   readonly label: string;
   readonly locations: string[];
-  readonly modifiedAt?: Date;
+  readonly modifiedAt?: number;
   readonly modifiedBy?: string;
   readonly playbackMode: SyntheticPlaybackMode;
   readonly serviceId?: string;
@@ -3973,6 +3998,15 @@ export interface TenantHealthDownstreamValue {
   readonly tenantConfig?: TenantConfig;
 }
 
+export interface TenantUnitCoordinates {
+  readonly tenant: string;
+  readonly unit: string;
+}
+
+export interface TenantUnitWithEnvironmentCoordinates extends TenantUnitCoordinates {
+  readonly environment: string;
+}
+
 export interface TestResult {
   readonly testResult?: TestResultItem[];
   readonly testResultItems?: TestResultItem[];
@@ -4066,6 +4100,11 @@ export interface Timeframe {
 
 export interface TopListQuery extends FilteredQuery {
   readonly metric?: MetricConfiguration;
+}
+
+export interface TosAndPrivacyVersions {
+  readonly privacyVersion?: string;
+  readonly tosVersion?: string;
 }
 
 export interface Trace {
@@ -4390,7 +4429,7 @@ export interface WebsiteAlertConfig {
   readonly alertChannelIds: string[];
   readonly customPayloadFields: StaticStringField[];
   readonly description: string;
-  readonly granularity?: Granularity;
+  readonly granularity: Granularity;
   readonly name: string;
   readonly rule: WebsiteAlertRule;
   readonly severity: number;
@@ -4825,6 +4864,8 @@ export type OrderDirection = 'ASC' | 'DESC';
 export type PathSegmentType = 'UNSUPPORTED' | 'FIXED' | 'PARAMETER' | 'MATCH_ALL';
 
 export type QueryPrecision = 'APPROXIMATE' | 'FULL';
+
+export type QuerySource = 'UNKNOWN' | 'WEBSOCKET';
 
 export type Relationship = 'CONTAINS' | 'DEFINED_IN' | 'DEPLOYED_ON' | 'DEPLOYED_WITHIN' | 'EXECUTED_BY' | 'EXECUTING' | 'EXPOSED_BY' | 'EXPOSED_THROUGH' | 'EXPOSES' | 'EXPOSING' | 'ORCHESTRATED_IN' | 'ORCHESTRATED_ON' | 'ORCHESTRATING' | 'PART_OF' | 'PROVIDED_BY' | 'PROVIDED_FROM' | 'PROVIDED_ON' | 'PROVIDED_WITHIN' | 'PROVIDES' | 'RUNS' | 'RUNS_IN' | 'RUNS_ON' | 'RUNS_WITHIN' | 'SCHEDULED' | 'SCHEDULED_BY' | 'SCHEDULED_ON' | 'SCHEDULED_WITHIN' | 'SCHEDULES' | 'SCHEDULING_IN' | 'SCHEDULING_ON' | 'SERVED_BY' | 'SERVED_THROUGH' | 'SERVES' | 'SERVES_ON' | 'SERVES_WITHIN' | 'SPANS_ACROSS' | 'WITHIN';
 
