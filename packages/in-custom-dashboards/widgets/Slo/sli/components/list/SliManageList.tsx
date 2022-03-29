@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Message, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
@@ -23,34 +23,59 @@ import { Trans, t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList.mless';
 
-type SubSlideState<S extends Lowercase<SliType>> = [
-  Partial<SliConfigBySliType<S>> | undefined,
-  Dispatch<SetStateAction<Partial<SliConfigBySliType<S> | undefined>>>
-];
 interface SliManageListProps<S extends Lowercase<SliType>> {
   entityType: S;
   entityId: string;
-  subSlideState: SubSlideState<S>;
+  onChange: (sli?: Partial<SliConfigBySliType<S>>) => void;
+  value?: Partial<SliConfigBySliType<S>>;
 }
 
 export default function SliManageList<S extends Lowercase<SliType>>({
   entityType,
   entityId,
-  subSlideState
+  value,
+  onChange
 }: SliManageListProps<S>) {
-  const [selectedSli, setSelectedSli] = subSlideState;
+  const close = () => onChange(undefined);
+
+  return (
+    <SlideInView
+      onShowSlideInContentChange={close}
+      showSlideInContent={Boolean(value)}
+      HeaderComponent={NoHeader}
+      slideTransitionDurationMillis={500}
+      slideInContentTitle={t('in-custom-dashboards:widgets.slo.sliManageList.sliList')}
+      renderSlideInContent={setFooter => (
+        <div className={locals.formWrapper}>
+          <CreateSliFormFactory<S>
+            entityType={entityType}
+            entityId={entityId}
+            close={close}
+            setFooter={setFooter}
+            sliConfig={value}
+          />
+        </div>
+      )}
+      staticContent={<SliManageListContent entityId={entityId} entityType={entityType} onChange={onChange} />}
+      enforceMaxHeightForStaticContent
+    />
+  );
+}
+
+function SliManageListContent<S extends Lowercase<SliType>>({
+  entityType,
+  entityId,
+  onChange
+}: Omit<SliManageListProps<S>, 'value'>) {
   const [nameQuery, setNameQuery] = useState<string>('');
-  const close = () => setSelectedSli(undefined);
   const sliResult = useObservable(
     () => getSliConfigurationsByEntity({ entityType, entityId }).map(searchBySliName(nameQuery)),
     [entityType, entityId, nameQuery]
   );
 
-  const canConfigureServiceLevelIndicators = role?.canConfigureServiceLevelIndicators ?? false;
-
-  const sliManageListMain = (
+  return (
     <div>
-      {!canConfigureServiceLevelIndicators && (
+      {!role?.canConfigureServiceLevelIndicators && (
         <Message className={locals.message} withIcon>
           <Trans
             i18nKey="in-custom-dashboards:widgets.slo.sliManageList.configSrvLevelIndicatorsMsg"
@@ -62,11 +87,11 @@ export default function SliManageList<S extends Lowercase<SliType>>({
         onChange={({ query }) => setNameQuery(query ?? '')}
         result={sliResult}
         rightHeader={
-          canConfigureServiceLevelIndicators && (
+          role?.canConfigureServiceLevelIndicators && (
             <Button
               kind="action"
               onClick={() => {
-                setSelectedSli({});
+                onChange({});
                 trackSliCreate({});
               }}
               icon="lib_openclose_add_circle_outline"
@@ -78,35 +103,12 @@ export default function SliManageList<S extends Lowercase<SliType>>({
         }
         query={nameQuery}
         selectSli={sliConfig => {
-          setSelectedSli(sliConfig as SliConfigBySliType<S>);
+          onChange(sliConfig as SliConfigBySliType<S>);
           trackSliViewSLI({ sliId: sliConfig.id, sliType: sliConfig.sliEntity?.sliType });
         }}
         onDelete={deleteSliConfig}
       />
     </div>
-  );
-
-  return (
-    <SlideInView
-      onShowSlideInContentChange={close}
-      showSlideInContent={Boolean(selectedSli)}
-      HeaderComponent={NoHeader}
-      slideTransitionDurationMillis={500}
-      slideInContentTitle={t('in-custom-dashboards:widgets.slo.sliManageList.sliList')}
-      renderSlideInContent={setFooter => (
-        <div className={locals.formWrapper}>
-          <CreateSliFormFactory<S>
-            entityType={entityType}
-            entityId={entityId}
-            close={close}
-            setFooter={setFooter}
-            sliConfig={selectedSli}
-          />
-        </div>
-      )}
-      staticContent={sliManageListMain}
-      enforceMaxHeightForStaticContent
-    />
   );
 }
 
