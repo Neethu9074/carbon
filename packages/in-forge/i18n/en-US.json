@@ -2630,6 +2630,7 @@
       "integrationNodeInfo": "IBM ACE Integration Node",
       "serverName": "Server Name",
       "status": "Status",
+      "serverHealth": "Health",
       "integrationServerNumber": "Integration Server ({{count}})",
       "integrationServerNumber_plural": "Integration Servers ({{count}})",
       "brokerName": "Broker Name",

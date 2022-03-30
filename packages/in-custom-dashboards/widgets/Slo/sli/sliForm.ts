@@ -11,15 +11,16 @@ import {
   websiteEventBased,
   websiteTimeBased,
   CombinedWebsiteSliEntity,
-  CombinedApplicationSliEntity
+  CombinedApplicationSliEntity,
+  SliConfig,
+  CombinedSliEntity
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import {
   Application,
   AvailabilitySliEntity,
   SliConfigMetricConfiguration,
-  SliConfiguration,
   SliType,
-  TagFilterExpressionElement,
+  TagFilterExpressionElementUnion,
   Website,
   WebsiteEventBasedSliEntity
 } from 'in-types';
@@ -35,8 +36,8 @@ import { boundaryScopes } from 'in-applications/constants';
 import { t } from 'in-i18n';
 
 interface EventBasedSliEntity {
-  readonly badEventFilterExpression: TagFilterExpressionElement;
-  readonly goodEventFilterExpression: TagFilterExpressionElement;
+  readonly badEventFilterExpression: TagFilterExpressionElementUnion;
+  readonly goodEventFilterExpression: TagFilterExpressionElementUnion;
 }
 
 export interface SliFormData<SLI_TYPE extends SliType> {
@@ -69,19 +70,19 @@ export const sliFieldNames = Object.freeze({
 
 export function createForm(
   entityType: 'application',
-  sliConfig: Partial<SliConfiguration>,
+  sliConfig: Partial<SliConfig<CombinedApplicationSliEntity>>,
   entityId: string,
   entity: Application
 ): MapForm;
 export function createForm(
   entityType: 'website',
-  sliConfig: Partial<SliConfiguration>,
+  sliConfig: Partial<SliConfig<CombinedWebsiteSliEntity>>,
   entityId: string,
   entity: Website
 ): MapForm;
 export function createForm(
   entityType: MonitoringSource,
-  sliConfig: Partial<SliConfiguration>,
+  sliConfig: Partial<SliConfig<CombinedSliEntity>>,
   entityId: string,
   entity: SloEntity
 ): MapForm {

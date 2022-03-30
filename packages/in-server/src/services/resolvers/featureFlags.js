@@ -160,8 +160,8 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'showUserSettingInternalTagsInUA',
-    instanaCtlKey: 'feature.show.user.setting.internal.tags.in.ua',
+    uiClientKey: 'enableTroubleshootingMode',
+    instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
   },
   {

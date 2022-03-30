@@ -7,6 +7,7 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLogLevel } from 'in-logging/analyze/AnalyzeView/logLevel';
 import { LOG_LEVEL } from 'in-logging/queryBuilder';
@@ -14,7 +15,6 @@ import { LogTag, TagFilter } from 'in-types';
 import Pill from 'in-components/Pill';
 import theme from 'in-themes';
 
-// @ts-ignore
 import locals from './LogHealthColumn.mless';
 
 interface Props {
@@ -37,19 +37,7 @@ export default function LogHealthColumn({ tags, onSelectTagHref }: Props) {
   const color = colorMappings.get(logLevel.toLowerCase());
 
   return (
-    <Link
-      href={
-        onSelectTagHref
-          ? onSelectTagHref({
-              name: LOG_LEVEL,
-              value: logLevel,
-              type: 'STRING',
-              operator: EQUALS,
-              entity: 'NOT_APPLICABLE'
-            })
-          : undefined
-      }
-    >
+    <Link href={onSelectTagHref ? onSelectTagHref(tagFilter(LOG_LEVEL, EQUALS, logLevel)) : undefined}>
       <Pill className={locals.pill} color={color}>
         {logLevel}
       </Pill>

@@ -101,8 +101,10 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
           }
         };
       },
-      getContent({ subSlideState }) {
-        return <SliManageList entityType={entityTypeValue} entityId={entityIdValue} subSlideState={subSlideState} />;
+      getContent({ subSlideState: [value, onChange] }) {
+        return (
+          <SliManageList entityType={entityTypeValue} entityId={entityIdValue} value={value} onChange={onChange} />
+        );
       }
     });
   }

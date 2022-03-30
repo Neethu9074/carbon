@@ -3,25 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { RenderConfig, RenderProps } from 'in-components/Chart/renderer/types';
+import { RenderConfig, RenderProps, Renderer } from 'in-components/Chart/renderer/types';
 import { drawPoint } from 'in-components/Chart/renderer/point';
-import { Axis, Renderer } from 'in-components/Chart/types';
 import { ScaleType } from 'in-services/scale';
 import { TimeConfig } from 'in-types';
 import theme from 'in-themes';
 
-export interface StairwayAxis extends Axis {
-  isStaticBudget?: boolean;
-  lineWidth?: number;
-}
-
-export interface StairwayRenderConfig extends RenderConfig {
-  y1: StairwayAxis;
-}
-
-export interface StairwayRenderProps extends RenderProps {
-  config: StairwayRenderConfig;
-}
+export const hourlyBudgetMetricId = 'hourlyBudget';
 
 type Vertex = [number, number];
 
@@ -45,7 +33,7 @@ function createStairwayRenderer({
 }: UseStairwayRendererProps): Required<Renderer> {
   return {
     id: 'stairway',
-    render: ({ color, scale, config, dataSeries, metricId }: StairwayRenderProps) => {
+    render: ({ color, scale, config, dataSeries, metricId }: RenderProps) => {
       if (!dataSeries || dataSeries.length === 0) {
         return;
       }
@@ -91,7 +79,7 @@ function createStairwayRenderer({
 
 function generateVertices(
   dataSeries: [number, number][],
-  config: StairwayRenderConfig,
+  config: RenderConfig,
   isStaticBudget: boolean,
   scale: ScaleType,
   stepDelta: number,
@@ -147,7 +135,7 @@ function drawLines(lineVertices: Vertex[], config: RenderConfig) {
 
 function fillTopBackground(
   lineVertices: Vertex[],
-  config: StairwayRenderConfig,
+  config: RenderConfig,
   color: string,
   markerPaneHeight: number
 ): void {
@@ -175,7 +163,7 @@ function timeWindowIncludesFirstCollectionTimestamp(
   return start < firstCollectionTimestamp;
 }
 
-function renderMissingDataIndicator(config: StairwayRenderConfig, endTimestamp: number) {
+function renderMissingDataIndicator(config: RenderConfig, endTimestamp: number) {
   config.backBufferCtx.save();
 
   config.backBufferCtx.fillStyle = theme.lib.colors.N300;

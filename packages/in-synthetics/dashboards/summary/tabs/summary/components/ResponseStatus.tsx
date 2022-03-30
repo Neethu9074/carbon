@@ -12,14 +12,13 @@ import { t } from '@instana/i18n-react';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { getChartGranularity } from 'in-stores/metric/metric';
-//@ts-ignore
-import { pie } from 'in-stores/metric/renderer';
+import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { latencyFixed } from 'in-services/formatters/number';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TimeConfig, TimeShift } from 'in-types';
+import { pie } from 'in-stores/metric/renderer';
 import { getChartTestMetrics } from './utils';
+import { TimeShift } from 'in-types';
 
 type Props = {
   timeShiftConfig: TimeShift;
@@ -28,22 +27,21 @@ type Props = {
 
 export default function ResponseStatus({ test, timeShiftConfig }: Props) {
   const timeConfig = useTimeConfig();
-  const granularity = getChartGranularity(timeConfig);
   if (!test.progress.loading) {
-    return renderChart(test, timeShiftConfig, timeConfig, granularity);
+    return renderChart(test, timeShiftConfig);
   } else {
     return (
       <ResultAwareChart
         config={{
-          granularity,
+          timeConfig,
           y1: {
             metrics: [],
             colors: [],
-            renderer: pie.id,
+            renderer: pie,
             metricIds: [],
             labels: []
           },
-          cardTitle: `${t('in-synthetics:dashboard.summary.widgets.responseStatus')}`
+          title: `${t('in-synthetics:dashboard.summary.widgets.responseStatus')}`
         }}
         result={{ errors: [], progress: { loading: test.progress.loading } }}
       />
@@ -51,7 +49,7 @@ export default function ResponseStatus({ test, timeShiftConfig }: Props) {
   }
 }
 
-function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig: TimeConfig, granularity: number) {
+function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
   const locations: [] = get(test, ['data', 'locations']);
   const id = get(test, ['data', 'id']);
   let tagFilters = [
@@ -62,36 +60,26 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig:
     }
   ];
 
-  const testMetricConfig = {
-    granularity,
+  const testMetricConfig: Metric = {
     aggregation: 'MEAN',
     source: 'SYNTHETICS',
     tagFilters: tagFilters,
-    timeConfig: timeConfig,
-    timeShift: timeShiftConfig.offset
+    timeShift: timeShiftConfig.offset,
+    metric: 'status'
   };
 
   const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'status');
 
-  let metricConfigs;
-  let renderer;
-  let colors;
-
-  metricConfigs = chartTestMetrics.map(m => ({
-    metric: m.metric,
-    label: m.label,
-    ...m.config
-  }));
-  colors = chartTestMetrics.map(m => m.color);
-  renderer = pie.id;
+  const metricConfigs = chartTestMetrics.map(m => m.config);
+  const colors = chartTestMetrics.map(m => m.color);
+  const renderer = pie.id;
 
   return (
     <UnifiedMetricsChart
       renderHistoricDataIndicator
       title={t('in-synthetics:dashboard.summary.widgets.responseStatus')}
-      timeConfig={timeConfig}
       automaticallySize={false}
-      reverseLegendOrder={timeShiftConfig.offset}
+      reverseLegendOrder={Boolean(timeShiftConfig.offset)}
       reverseTooltipOrder
       shareMaxAxisDomain
       config={{
@@ -102,9 +90,6 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig:
           calculateStackDifferences: true,
           metrics: metricConfigs,
           colors: colors
-        },
-        y2: {
-          metrics: []
         },
         type: 'TIME_SERIES'
       }}

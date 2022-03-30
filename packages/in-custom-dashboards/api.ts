@@ -6,8 +6,8 @@
 import { create, Observable } from '@instana/observables';
 
 import { CustomDashboardPreview, CustomDashboard, Result, SliConfigurationWithLastUpdated, UserResult } from 'in-types';
+import { CombinedSliEntity, NewSliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
-import { NewSliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
@@ -158,7 +158,7 @@ function getConfiguredSliById(sliConfigId: string) {
 }
 
 export function createSliConfiguration(
-  sliConfiguration: NewSliConfig
+  sliConfiguration: NewSliConfig<CombinedSliEntity>
 ): Observable<Response<SliConfigurationWithLastUpdated>> {
   return http<SliConfigurationWithLastUpdated>({
     method: 'POST',

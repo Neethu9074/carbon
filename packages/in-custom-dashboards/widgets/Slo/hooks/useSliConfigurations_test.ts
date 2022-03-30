@@ -7,7 +7,7 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { just } from '@instana/observables';
 
-import { Result, SliConfigMetricConfiguration, SliConfigurationWithLastUpdated, SliEntity } from 'in-types';
+import { Result, SliConfigMetricConfiguration, SliConfigurationWithLastUpdated, SliEntityUnion } from 'in-types';
 import useSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations';
 import { getSliConfigurationsByEntity } from 'in-custom-dashboards/api';
 
@@ -32,7 +32,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations', () => {
           id: 'id1',
           initialEvaluationTimestamp: 123,
           metricConfiguration: {} as SliConfigMetricConfiguration,
-          sliEntity: {} as SliEntity,
+          sliEntity: {} as SliEntityUnion,
           sliName: 'Awesome SLI 1',
           lastUpdated: 123
         },
@@ -40,7 +40,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations', () => {
           id: 'id2',
           initialEvaluationTimestamp: 456,
           metricConfiguration: {} as SliConfigMetricConfiguration,
-          sliEntity: {} as SliEntity,
+          sliEntity: {} as SliEntityUnion,
           sliName: 'Awesome SLI 2',
           lastUpdated: 123
         }

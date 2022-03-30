@@ -8,10 +8,15 @@ import React from 'react';
 import { SvgIcon } from '@instana/components';
 
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
+import { ApplicationAlertConfig } from 'in-types';
 
 import locals from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/ReadOnlyInboundOrAllCalls.mless';
 
-export default function ReadOnlyInboundOutboundCalls({ alertConfig }) {
+interface Props {
+  alertConfig: ApplicationAlertConfig;
+}
+
+export default function ReadOnlyInboundOutboundCalls({ alertConfig }: Props) {
   const { icon, text, dashboard } = boundaryScopes.info[alertConfig.boundaryScope];
   return (
     <div className={locals.container}>

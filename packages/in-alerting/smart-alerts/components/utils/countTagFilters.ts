@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { TagFilterExpression, TagFilterExpressionElement } from 'in-types';
+import { TagFilterExpressionElementUnion } from 'in-types';
 
 /**
  * Recursively go through the expression tree and count the number of tag filters.
@@ -11,13 +11,12 @@ import { TagFilterExpression, TagFilterExpressionElement } from 'in-types';
  * @param {Object} tagFilterExpression the backend model of the tag-filter expression.
  * @returns count of tagFilters, recursively collected
  */
-export function countTagFilters(tagFilterExpression: TagFilterExpression | TagFilterExpressionElement): number {
+export function countTagFilters(tagFilterExpression: TagFilterExpressionElementUnion): number {
   if (tagFilterExpression.type === 'TAG_FILTER') {
     return 1;
   }
 
-  // only TagFilterExpression can have elements so we could cast here
-  let { elements = [] } = tagFilterExpression as TagFilterExpression;
+  let { elements = [] } = tagFilterExpression;
 
   if (tagFilterExpression.type === 'EXPRESSION' && elements.length === 0) {
     return 0;

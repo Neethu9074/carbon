@@ -6,20 +6,20 @@
 import { expect } from 'chai';
 
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { createSlownessForm } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 
 describe('in-alerting/smart-alerts/applications/form/thresholdForm', () => {
   describe('when alertType is slowness', () => {
     describe('when thresholdType is staticThreshold', () => {
       it('should contain fields: type, operator, lastUpdated, value', () => {
-        const thresholdForm = createSlownessForm({ type: STATIC_THRESHOLD }).toJS();
+        const thresholdForm = createThresholdForm({ type: STATIC_THRESHOLD }, 'slowness').toJS();
         expect(thresholdForm).to.have.keys('type', 'operator', 'lastUpdated', 'value');
       });
     });
 
     describe('when thresholdType includes historicBaseline', () => {
       it('should contain fields: type, operator, lastUpdated, seasonality, baseline, deviationFactor', () => {
-        const thresholdForm = createSlownessForm({ type: HISTORIC_BASELINE }).toJS();
+        const thresholdForm = createThresholdForm({ type: HISTORIC_BASELINE }, 'slowness').toJS();
         expect(thresholdForm).to.have.keys(
           'type',
           'operator',
@@ -34,7 +34,7 @@ describe('in-alerting/smart-alerts/applications/form/thresholdForm', () => {
 
   describe('when thresholdType is adaptiveBaseline', () => {
     it('should contain fields: type, operator, lastUpdated, baseline, deviationFactor', () => {
-      const thresholdForm = createSlownessForm({ type: ADAPTIVE_BASELINE }).toJS();
+      const thresholdForm = createThresholdForm({ type: ADAPTIVE_BASELINE }, 'slowness').toJS();
       expect(thresholdForm).to.have.keys('type', 'operator', 'lastUpdated', 'baseline', 'deviationFactor');
     });
   });

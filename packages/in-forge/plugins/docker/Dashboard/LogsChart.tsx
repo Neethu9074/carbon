@@ -5,25 +5,17 @@
 
 import React from 'react';
 
-import { Observable } from '@instana/observables';
-
-// @ts-expect-error
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
+import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
+import { ContextMenuButton } from 'in-components/Chart/types';
 import { TagFilterExpression } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-interface AdditionalContextMenuButtonConfig {
-  name: string;
-  icon: string;
-  label: string;
-  getHref$: () => Observable<string>;
-}
-
 interface LogsChartProps {
   tagFilterExpression: TagFilterExpression;
-  additionalContextMenuButtons: AdditionalContextMenuButtonConfig[];
+  additionalContextMenuButtons: ContextMenuButton[];
 }
 
 interface AddLogLevelFilterTagToQueryModelRequest {
@@ -33,6 +25,10 @@ interface AddLogLevelFilterTagToQueryModelRequest {
 
 interface GetMetricConfigRequest extends AddLogLevelFilterTagToQueryModelRequest {
   label: string;
+}
+
+interface LogMetric extends Metric {
+  tagFilterExpression: TagFilterExpression;
 }
 
 export default function LogsChart(props: LogsChartProps) {
@@ -66,14 +62,13 @@ export default function LogsChart(props: LogsChartProps) {
           formatter: 'number.compact',
           renderer: 'stackedBar'
         },
-        y2: { metrics: [] },
         type: 'TIME_SERIES'
       }}
     />
   );
 }
 
-function getMetricConfig({ tagFilterExpression, value, label }: GetMetricConfigRequest) {
+function getMetricConfig({ tagFilterExpression, value, label }: GetMetricConfigRequest): LogMetric {
   return {
     metric: 'logs_distribution',
     aggregation: 'SUM',
@@ -84,7 +79,10 @@ function getMetricConfig({ tagFilterExpression, value, label }: GetMetricConfigR
   };
 }
 
-function addLogLevelFilterTagToQueryModel({ value, tagFilterExpression }: AddLogLevelFilterTagToQueryModelRequest) {
+function addLogLevelFilterTagToQueryModel({
+  value,
+  tagFilterExpression
+}: AddLogLevelFilterTagToQueryModelRequest): TagFilterExpression {
   return {
     elements: [
       getValueMatchTagFilter({

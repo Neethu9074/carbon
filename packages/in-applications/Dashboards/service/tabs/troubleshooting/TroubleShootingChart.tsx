@@ -9,11 +9,10 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-// @ts-expect-error
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { createMetricField } from 'in-analyze/navigation/paths';
-import { MetricConfig } from './metricConfigs';
 import { Group, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -22,7 +21,7 @@ export interface TroubleShootingChartProps {
   problemStatement?: string;
   renderInfoBox?: () => ReactNode;
   serviceId: string;
-  metricConfigs: MetricConfig[];
+  metricConfigs: Metric[];
   groupBy: Group;
   boundaryScope: string;
   syntheticCalls: string;
@@ -45,7 +44,7 @@ export default function TroubleShootingChart({
   return (
     <UnifiedMetricsChart
       title={title}
-      rightHeaderContent={problemStatement && <i>{problemStatement}</i>}
+      rightHeaderContent={problemStatement ? <i>{problemStatement}</i> : undefined}
       automaticallySize={false}
       renderLegend
       renderHistoricDataIndicator
