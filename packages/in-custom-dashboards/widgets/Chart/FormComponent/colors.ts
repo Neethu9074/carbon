@@ -6,7 +6,13 @@
 import theme from 'in-themes/active.json';
 import { t } from 'in-i18n';
 
-export const colors = [
+interface Color {
+  id: string;
+  label: string;
+  color: string;
+}
+
+export const colors: Color[] = [
   {
     id: 'lightBlue',
     label: t('in-custom-dashboards:widgets.formCompChart.color.lightBlue'),

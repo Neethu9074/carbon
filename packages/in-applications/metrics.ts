@@ -42,7 +42,7 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
 export const getSparkChartGranularity = getChartGranularity;
 
 export function extendMetricConfigurationOnLiveMode(metricsConfiguration: MetricsConfiguration): MetricsConfiguration {
-  const timeConfig = metricsConfiguration.filter.timeConfig;
+  const timeConfig = metricsConfiguration.filter?.timeConfig;
   if (!timeConfig?.autoRefresh) {
     return metricsConfiguration;
   }

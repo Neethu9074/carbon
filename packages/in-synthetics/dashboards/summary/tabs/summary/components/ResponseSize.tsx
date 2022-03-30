@@ -12,14 +12,13 @@ import { t } from '@instana/i18n-react';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-//@ts-ignore
-import { integral } from 'in-stores/metric/renderer';
-import { getChartGranularity } from 'in-stores/metric/metric';
+import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { latencyFixed } from 'in-services/formatters/number';
 import { TestResponse } from 'in-synthetics/utils/constants';
+import { integral } from 'in-stores/metric/renderer';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TimeConfig, TimeShift } from 'in-types';
 import { getChartTestMetrics } from './utils';
+import { TimeShift } from 'in-types';
 
 type Props = {
   timeShiftConfig: TimeShift;
@@ -28,22 +27,21 @@ type Props = {
 
 export default function ResponseSize({ test, timeShiftConfig }: Props) {
   const timeConfig = useTimeConfig();
-  const granularity = getChartGranularity(timeConfig);
   if (!test.progress.loading) {
-    return renderChart(test, timeShiftConfig, timeConfig, granularity);
+    return renderChart(test, timeShiftConfig);
   } else {
     return (
       <ResultAwareChart
         config={{
-          granularity,
+          timeConfig,
           y1: {
             metrics: [],
             colors: [],
-            renderer: integral.id,
+            renderer: integral,
             metricIds: [],
             labels: []
           },
-          cardTitle: `${t('in-synthetics:dashboard.summary.widgets.averageResponseSize')}`
+          title: `${t('in-synthetics:dashboard.summary.widgets.averageResponseSize')}`
         }}
         result={{ errors: [], progress: { loading: test.progress.loading } }}
       />
@@ -51,7 +49,7 @@ export default function ResponseSize({ test, timeShiftConfig }: Props) {
   }
 }
 
-function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig: TimeConfig, granularity: number) {
+function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
   const locations: [] = get(test, ['data', 'locations']);
   const id = get(test, ['data', 'id']);
   let tagFilters = [
@@ -62,36 +60,26 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig:
     }
   ];
 
-  const testMetricConfig = {
-    granularity,
+  const testMetricConfig: Metric = {
     aggregation: 'MEAN',
     source: 'SYNTHETICS',
     tagFilters: tagFilters,
-    timeConfig: timeConfig,
-    timeShift: timeShiftConfig.offset
+    timeShift: timeShiftConfig.offset,
+    metric: 'response_size'
   };
 
   const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'response_size');
 
-  let metricConfigs;
-  let renderer;
-  let colors;
-
-  metricConfigs = chartTestMetrics.map(m => ({
-    metric: m.metric,
-    label: m.label,
-    ...m.config
-  }));
-  colors = chartTestMetrics.map(m => m.color);
-  renderer = integral.id;
+  const metricConfigs = chartTestMetrics.map(m => m.config);
+  const colors = chartTestMetrics.map(m => m.color);
+  const renderer = integral.id;
 
   return (
     <UnifiedMetricsChart
       renderHistoricDataIndicator
       title={t('in-synthetics:dashboard.summary.widgets.averageResponseSize')}
-      timeConfig={timeConfig}
       automaticallySize={false}
-      reverseLegendOrder={timeShiftConfig.offset}
+      reverseLegendOrder={Boolean(timeShiftConfig.offset)}
       reverseTooltipOrder
       shareMaxAxisDomain
       config={{
@@ -102,9 +90,6 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift, timeConfig:
           calculateStackDifferences: true,
           metrics: metricConfigs,
           colors: colors
-        },
-        y2: {
-          metrics: []
         },
         type: 'TIME_SERIES'
       }}

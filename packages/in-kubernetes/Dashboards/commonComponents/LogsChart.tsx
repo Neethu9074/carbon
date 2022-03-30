@@ -7,10 +7,10 @@ import React from 'react';
 
 import { Observable } from '@instana/observables';
 
-// @ts-expect-error
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { TagFilterExpression, TagFilterExpressionElementUnion } from 'in-types';
 import { getValueMatchTagFilter, LOG_LEVEL } from 'in-logging/queryBuilder';
+import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -53,7 +53,7 @@ interface GetLogMetricRequest {
   level: string;
 }
 
-const getLogMetric = (props: GetLogMetricRequest) => {
+function getLogMetric(props: GetLogMetricRequest): Metric {
   const { tagFilterExpression, level } = props;
   return {
     metric: 'logs_distribution',
@@ -62,7 +62,7 @@ const getLogMetric = (props: GetLogMetricRequest) => {
     source: 'LOG',
     tagFilterExpression: addLogLevelFilterTagToQueryModel({ value: level, tagFilterExpression })
   };
-};
+}
 
 const errorMetric = (tagFilterExpression: TagFilterExpressionElementUnion) =>
   getLogMetric({ tagFilterExpression, level: 'ERROR' });

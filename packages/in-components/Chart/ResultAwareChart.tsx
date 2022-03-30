@@ -33,7 +33,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     y1,
     frontBufferWidth,
     customHeight,
-    cardTitle,
+    title,
     showNoDataInfoWhenEmpty = true,
     renderErrorDetail = false,
     renderHistoricDataIndicator = false,
@@ -64,7 +64,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
   } else if (!timeConfig || !y1 || !y1.metrics || (showNoDataInfoWhenEmpty && containsOnlyEmptyData(y1.metrics))) {
     content = <NoDataAvailable width={frontBufferWidth} height={height} />;
   } else {
-    if (config.y1.renderer.id === Renderer.pie.id) {
+    if (config.y1?.renderer.id === Renderer.pie.id) {
       content = <PieChart renderLegend={renderLegend} config={config} />;
     } else {
       config = normalizeTimeShiftedTimestamps(config);
@@ -72,7 +72,7 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     }
   }
 
-  if (cardTitle == null) {
+  if (title == null) {
     return content;
   }
 
@@ -85,10 +85,10 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
 
   const card = (
     <Card
-      title={cardTitle}
+      title={title}
       useMaxAvailableHeight={config.cardUseMaxAvailableHeight}
       leftHeaderContent={leftHeaderContent}
-      rightHeaderContent={config.cardHeader}
+      rightHeaderContent={config.rightHeaderContent}
       size="l"
     >
       {content}
@@ -143,7 +143,9 @@ function normalizeTimeShiftedTimestamps(config: Config) {
   const copiedConfig = {
     ...config
   };
-  copiedConfig.y1 = normalizeTimeShiftedTimestampsForAxis(config.y1);
+  if (config.y1) {
+    copiedConfig.y1 = normalizeTimeShiftedTimestampsForAxis(config.y1);
+  }
   if (config.y2) {
     copiedConfig.y2 = normalizeTimeShiftedTimestampsForAxis(config.y2);
   }
