@@ -87,12 +87,14 @@ export function onData({ subscriptionId }: SubscriptionDescription<any>, data: R
     ineum('reportEvent', eventName, {
       duration: timeTillFirstData,
       error: new Error('Received failing result from backend'),
-      meta
+      meta,
+      backendTraceId: data.backendTraceId
     });
   } else {
     ineum('reportEvent', eventName, {
       duration: timeTillFirstData,
-      meta
+      meta,
+      backendTraceId: data.backendTraceId
     });
   }
 }

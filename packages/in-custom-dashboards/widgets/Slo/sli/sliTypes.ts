@@ -11,7 +11,9 @@ import {
   SliEntity,
   WebsiteTimeBasedSliEntity,
   WebsiteSliEntity,
-  SliConfigurationInput
+  SliConfigurationInput,
+  SliType,
+  SliEntityUnion
 } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -21,10 +23,11 @@ export const websiteTimeBased = 'websiteTimeBased';
 export const websiteEventBased = 'websiteEventBased';
 
 export type CombinedApplicationSliEntity = (ApplicationSliEntity | AvailabilitySliEntity) &
-  Partial<ApplicationSliEntity & AvailabilitySliEntity>;
+  Partial<Omit<ApplicationSliEntity, 'sliType'> & Omit<AvailabilitySliEntity, 'sliType'>>;
 export type CombinedWebsiteSliEntity = WebsiteSliEntity &
-  Partial<WebsiteTimeBasedSliEntity & WebsiteEventBasedSliEntity>;
-export type CombinedSliEntity = SliEntity & Partial<CombinedApplicationSliEntity & CombinedWebsiteSliEntity>;
+  Partial<Omit<WebsiteTimeBasedSliEntity, 'sliType'> & Omit<WebsiteEventBasedSliEntity, 'sliType'>>;
+export type CombinedSliEntity = SliEntity &
+  Partial<Omit<CombinedApplicationSliEntity, 'sliType'> & Omit<CombinedWebsiteSliEntity, 'sliType'>>;
 
 export function isAvailabilitySliConfig(
   sliConfiguration: SliConfiguration
@@ -66,14 +69,19 @@ export function isWebsiteEventBasedSliEntity(sliEntity: SliEntity): sliEntity is
   return sliEntity.sliType === websiteEventBased;
 }
 
-export interface SliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntity> extends Omit<SliConfiguration, 'sliEntity'> {
+export interface SliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntityUnion>
+  extends Omit<SliConfiguration, 'sliEntity'> {
   readonly sliEntity: SLI_ENTITY_TYPE;
 }
 
-export interface NewSliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntity>
+export interface NewSliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntityUnion>
   extends Omit<SliConfigurationInput, 'sliEntity'> {
   readonly sliEntity: SLI_ENTITY_TYPE;
 }
+
+export type SliConfigBySliType<S extends Lowercase<SliType>> = S extends 'website'
+  ? SliConfig<WebsiteSliEntity>
+  : SliConfig<ApplicationSliEntity | AvailabilitySliEntity>;
 
 export type SliEntityType =
   | typeof applicationType

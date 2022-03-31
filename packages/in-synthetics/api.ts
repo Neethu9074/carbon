@@ -11,12 +11,22 @@ import { SyntheticTest } from 'in-types';
 import http from 'in-services/http';
 
 const testsUrl = `/api/synthetics/settings/tests`;
+const locationUrl = `/api/synthetics/settings/locations`;
 
 export function getLocations(): Observable<unknown> {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/synthetics/settings/locations`,
+    url: locationUrl,
+    mapToResultObject: true
+  }).map(response => deepFreeze(response));
+}
+
+export function getLocation(locationId: string): Observable<unknown> {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: locationUrl + '/' + locationId,
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }
@@ -26,6 +36,15 @@ export function getTests(): Observable<unknown> {
     method: 'GET',
     maxRetries: 3,
     url: testsUrl,
+    mapToResultObject: true
+  }).map(response => deepFreeze(response));
+}
+
+export function getTest(testId: string): Observable<unknown> {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: testsUrl + '/' + testId,
     mapToResultObject: true
   }).map(response => deepFreeze(response));
 }
@@ -45,7 +64,7 @@ export function updateTest(testConfig: SyntheticTest): Observable<unknown> {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: testsUrl,
+    url: `${testsUrl}/${testConfig.id}`,
     data: testConfig
   }).map(response => deepFreeze(response.body));
 }

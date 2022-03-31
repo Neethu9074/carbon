@@ -54,6 +54,9 @@ export default function ServicesAndEndpointsListPresenter({
   const previousBoundaryScope = usePrevious(boundaryScope);
 
   useEffect(() => {
+    // do not trigger an onChange on the first rendering, because it is no change at all.
+    if (state === applicationsSelection) return;
+
     onChange?.(state);
     // since onChange func can be re-created when parent rerenders we only want to trigger the effect if  state changes
     // otherwise it could happen that we get an infinite rendering loop if parent forgets to use useCallback hook.

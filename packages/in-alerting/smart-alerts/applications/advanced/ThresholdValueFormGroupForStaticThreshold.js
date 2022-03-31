@@ -9,7 +9,10 @@ import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/sma
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
 import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
 import { applicationsAlertingThresholdValueChanged } from 'in-alerting/smart-alerts/applications/tracker';
+import TouchedMessages from 'in-components/form/TouchedMessages';
 import { t } from 'in-i18n';
+
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/ThresholdCondition.mless';
 
 export default function ThresholdValueFormGroupForStaticThreshold({
   form,
@@ -21,17 +24,22 @@ export default function ThresholdValueFormGroupForStaticThreshold({
   isGlobalSmartAlert,
   label = t('in-alerting:smartAlerts.components.smartAlertDialog.thresholdValue')
 }) {
+  const thresholdField = form.get('threshold').get('value');
+
   return (
     <ThresholdConditionFormGroup iconType="lib_threshold" label={label}>
-      <ThresholdValueInput
-        max={maxValue}
-        form={form}
-        updateForm={updateForm}
-        trackChange={applicationsAlertingThresholdValueChanged}
-        metricUnitPostfix={metricUnitPostfix}
-        className={thresholdValueInputClassName}
-        percentageMetric={percentageMetric}
-      />
+      <div className={locals.thresholdValueWithValidationMessage}>
+        <ThresholdValueInput
+          max={maxValue}
+          form={form}
+          updateForm={updateForm}
+          trackChange={applicationsAlertingThresholdValueChanged}
+          metricUnitPostfix={metricUnitPostfix}
+          className={thresholdValueInputClassName}
+          percentageMetric={percentageMetric}
+        />
+        <TouchedMessages field={thresholdField} />
+      </div>
       <UseSuggestedValueButton
         form={form}
         updateForm={updateForm}

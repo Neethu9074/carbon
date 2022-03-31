@@ -11,4 +11,12 @@ export default {
   component: Input
 };
 
+export const WithError = () => {
+  return <Input hasError />;
+};
+
+export const WithErrorAndHiddenValidationInfoOnFocus = () => {
+  return <Input hasError hideValidityInformationOnFocus />;
+};
+
 export const Default = () => <Input />;

@@ -10,16 +10,17 @@ import {
   defaultAdaptiveBaselineTimeWindow
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/form';
 // @ts-expect-error file needs to be converted into typescript
-import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
-// @ts-expect-error file needs to be converted into typescript
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
-// @ts-expect-error file needs to be converted into typescript
-import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
-// @ts-expect-error file needs to be converted into typescript
-import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
-import { PER_AP } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import {
+  PER_AP,
+  PER_AP_ENDPOINT,
+  PER_AP_SERVICE
+} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { perEndpointAdaptiveBaselineEnabled, perServiceAdaptiveBaselineEnabled } from 'in-services/featureFlags';
+import { defaultAdaptiveBaselineGranularity } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { perEntityAdaptiveBaselineEnabled } from 'in-services/featureFlags';
+import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
 import { AlertEvaluationType, ThresholdType } from 'in-types';
 
 export function onThresholdTypeChange(
@@ -65,10 +66,22 @@ export function onThresholdTypeChange(
       )
     );
 
-    if (!perEntityAdaptiveBaselineEnabled) {
-      // reset if there is only PER_AP supported
+    let evaluationType = (form.get('evaluationType') as Field<AlertEvaluationType>).value;
+    let evaluationTypeChanged = false;
+
+    if (evaluationType == PER_AP_ENDPOINT && !perEndpointAdaptiveBaselineEnabled) {
+      evaluationType = PER_AP_SERVICE;
+      evaluationTypeChanged = true;
+    }
+
+    if (evaluationType == PER_AP_SERVICE && !perServiceAdaptiveBaselineEnabled) {
+      evaluationType = PER_AP;
+      evaluationTypeChanged = true;
+    }
+
+    if (evaluationTypeChanged) {
       updatedForm = updatedForm.updateIn(['evaluationType'], f =>
-        (f as Field<AlertEvaluationType>).setValue(PER_AP).setTouched(true)
+        (f as Field<AlertEvaluationType>).setValue(evaluationType).setTouched(true)
       );
     }
 

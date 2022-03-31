@@ -378,11 +378,7 @@ function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicat
       }
       const entityEnabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
       return (
-        <Tooltip
-          content={
-            entityEnabled ? t('in-settings:components.clickToDisable') : t('in-settings:components.clickToEnable')
-          }
-        >
+        <Tooltip content={entityEnabled ? t('in-settings:components.disable') : t('in-settings:components.enable')}>
           <IconButton
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"
@@ -470,7 +466,7 @@ function addDeselectAction(columns, actionDefinition) {
     widthInAbsoluteUnit: true,
     getContent(entity) {
       return (
-        <Tooltip content={t('in-settings:components.clickToDeselect')}>
+        <Tooltip content={t('in-settings:components.deselect')}>
           <IconButton
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"

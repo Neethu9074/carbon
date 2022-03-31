@@ -23,6 +23,11 @@
   .topText {
     padding: 0 1rem 0 0;
     margin: 0;
+    font-size: 0.875rem;
+  }
+
+  .totalRepresentedText {
+    font-weight: 400;
   }
 
   .adjustmentIcon {

@@ -8,7 +8,7 @@ import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 
 const someFormData = {
   id: '<generated server side',
-  name: 'JS Specific errors example',
+  name: 'Alert Config Example',
   description: 'Foobar',
   severity: 5,
   triggering: false,
@@ -26,8 +26,7 @@ const someFormData = {
     }
   ],
   rule: {
-    matchingOperator: 'CONTAINS',
-    value: 'unknown error'
+    metricName: 'errors'
   },
   baseline: {
     to: 0,
@@ -44,9 +43,12 @@ const someFormData = {
 export function someLogsFormData() {
   return {
     ...someFormData,
+    name: 'JS Specific errors example',
     rule: {
-      ...someFormData.rule,
       alertType: 'logs',
+      metricName: 'errors',
+      operator: 'CONTAINS',
+      value: 'unknown error',
       message: 'dummy message'
     },
     threshold: {
@@ -60,7 +62,6 @@ export function someErrorRateFormData() {
   return {
     ...someFormData,
     rule: {
-      ...someFormData.rule,
       metricName: 'calls',
       alertType: 'errorRate'
     },
@@ -74,7 +75,7 @@ export function someErrorRateFormData() {
 export const someSlownessFormData = {
   ...someFormData,
   rule: {
-    ...someFormData.rule,
+    metricName: 'errors',
     alertType: 'slowness'
   },
   threshold: {

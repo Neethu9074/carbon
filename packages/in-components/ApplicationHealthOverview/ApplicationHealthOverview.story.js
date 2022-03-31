@@ -8,6 +8,9 @@ import React from 'react';
 import ApplicationHealthOverview from 'in-components/ApplicationHealthOverview';
 
 export default {
+  parameters: {
+    storyshots: { disable: true }
+  },
   component: ApplicationHealthOverview
 };
 

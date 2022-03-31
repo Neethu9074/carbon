@@ -5,18 +5,19 @@
 
 import emptyTagFilterExpression from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { countTagFilters } from 'in-alerting/smart-alerts/components/utils/countTagFilters';
+import { TagFilter, TagFilterExpression } from 'in-types';
 
 const tagFilter = {
   type: 'TAG_FILTER',
   name: 'AVAILABLE'
   // ...
-};
+} as TagFilter;
 
 const expression = {
   type: 'EXPRESSION',
   logicalOperator: 'AND'
   // ...
-};
+} as TagFilterExpression;
 
 describe('in-alerting/smart-alerts/components/utils/countTagFilters#countTagFilters', () => {
   test('number of tagFilters on an empty expression is 0', () => {

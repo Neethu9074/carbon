@@ -160,8 +160,13 @@ module.exports = exports = [
     defaultValue: true
   },
   {
-    uiClientKey: 'showUserSettingInternalTagsInUA',
-    instanaCtlKey: 'feature.show.user.setting.internal.tags.in.ua',
+    uiClientKey: 'kubernetesLoggingEnabled',
+    instanaCtlKey: 'feature.kubernetes.logging.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'enableTroubleshootingMode',
+    instanaCtlKey: 'feature.troubleshooting.mode.enabled',
     defaultValue: false
   },
   {
@@ -225,8 +230,13 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'perEntityAdaptiveBaselineEnabled',
-    instanaCtlKey: 'feature.adaptive.baseline.per.entity.enabled',
+    uiClientKey: 'perServiceAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.adaptive.baseline.per.service.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'perEndpointAdaptiveBaselineEnabled',
+    instanaCtlKey: 'feature.adaptive.baseline.per.endpoint.enabled',
     defaultValue: false
   },
   {

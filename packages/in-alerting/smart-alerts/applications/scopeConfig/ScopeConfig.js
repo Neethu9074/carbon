@@ -24,7 +24,7 @@ import { t } from 'in-i18n';
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig.mless';
 
 /**
- * Timeframe used for both the entities listed in the advanced AP/Service/Endpoint selector, as well as for the tag-suggestions
+ * Timeframe used for both the entities listed in the advanced AP/Service/Endpoint selector and for the tag-suggestions
  * in QB2. The bigger the timeframe, the better the coverage of entities to be selected, even for entities that did not receive
  * any calls recently. However, large timeframes makes resolving entities/suggestions and UI interaction slow, or even impossible
  * due to timeouts.
@@ -108,6 +108,10 @@ export default function ScopeConfig({
               showInteractedItemsOnly={filterBySelectionState}
               isGlobalSmartAlert={isGlobalSmartAlert}
               initialConfiguredApplications={initialConfiguredApplications}
+              validationError={
+                !form.get('applications').valid &&
+                t('in-alerting:smartAlerts.components.smartAlertDialog.scopeConfigSelectOneEntryMessage')
+              }
             />
           </div>
           {shouldDisplayAlertConfigurator && (

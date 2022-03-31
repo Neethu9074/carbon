@@ -15,7 +15,7 @@ import {
   NewApplicationConfig,
   NewApplicationConfigWithAlertingDetails,
   Result,
-  TagFilterExpressionElement,
+  TagFilterExpressionElementUnion,
   TagMatcherDTO
 } from 'in-types';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
@@ -173,7 +173,7 @@ function mapToServerResponse(
 function mapToServerResponse(config: MappedApplicationConfig | MappedNewApplicationConfig): AbstractApplicationConfig;
 function mapToServerResponse(config: MappedApplicationConfig | MappedNewApplicationConfig): AbstractApplicationConfig {
   let matchSpecification: MatchExpressionDTO | undefined = undefined;
-  let tagFilterExpression: TagFilterExpressionElement | undefined = undefined;
+  let tagFilterExpression: TagFilterExpressionElementUnion | undefined = undefined;
 
   if (config.matchSpecification) {
     const originalMatchSpecifications = config.matchSpecification.map(({ secondLevelName, key, ...specification }) => {

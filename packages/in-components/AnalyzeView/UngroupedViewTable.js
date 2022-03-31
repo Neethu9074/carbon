@@ -45,7 +45,8 @@ function Table(props) {
     withEmbeddedLoadingIndicator = false,
     withEmbeddedNoDataIndicator = false,
     withEmbeddedApproximateDataIndicator,
-    resultPrecisionDetails
+    resultPrecisionDetails,
+    dataSource
   } = props;
   const fields = [...fixedFields, ...selectableFields];
 
@@ -119,7 +120,8 @@ function Table(props) {
             iconSize="s"
             label={t('in-components:approximateDataIndicator.retainedLabel', {
               totalHits: number.compact(props.totalHits),
-              representedHits: number.compact(props.totalRepresentedItemCount)
+              representedHits: number.compact(props.totalRepresentedItemCount),
+              context: dataSource
             })}
           />
         </div>

@@ -5,7 +5,7 @@
 
 import { generateStableHash } from '@instana/utils';
 
-import { isShowInternalTagsEnabled$ } from 'in-applications/isShowInternalTagsEnabled';
+import { isTroubleshootingModeEnabled$ } from 'in-applications/isTroubleshootingModeEnabled';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { roundDownToWeek } from 'in-services/util/date';
@@ -25,7 +25,7 @@ export const getTagCatalog = memoize(
 
 function getTagCatalogInternal({ useCase, dataSource, timeConfig }) {
   const from = timeConfig ? (timeConfig.to || Date.now()) - timeConfig.windowSize : null;
-  return isShowInternalTagsEnabled$.flatMap(includeInternalTags => {
+  return isTroubleshootingModeEnabled$.flatMap(includeInternalTags => {
     return createObservable(
       http({
         method: 'GET',

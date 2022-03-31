@@ -7,7 +7,7 @@ import { get } from 'lodash';
 
 import { combineLatest, Observable } from '@instana/observables';
 
-import { ApplicationBoundaryScope, Nullish, Result, TagFilter, TagFilterExpressionElement } from 'in-types';
+import { ApplicationBoundaryScope, Nullish, Result, TagFilter, TagFilterExpressionElementUnion } from 'in-types';
 import { joinExpressions, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
@@ -48,7 +48,7 @@ function getLabel(result: Result<{ label: string }>): string | null {
 
 export default function getJumpDirectlyToApplicationLikeUA2Href$(
   ids: GetLabelsProps,
-  backendModel: TagFilterExpressionElement,
+  backendModel: TagFilterExpressionElementUnion,
   filters: TagFilter[] = [],
   boundaryScope: ApplicationBoundaryScope,
   additionalParams: { [key: string]: unknown }

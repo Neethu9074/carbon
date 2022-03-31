@@ -17,20 +17,29 @@ import { t } from 'in-i18n';
 import locals from './AlertsPreviewLanePresenter.mless';
 
 export default function AlertsPreviewLanePresenter({ alerts, ...remainingProps }) {
+  const alertsPreviewLaneLabel = alerts?.length
+    ? t('in-alerting:components.chart.chartAlertsPreviewLanePresenterAlertsLabel')
+    : t('in-alerting:components.chart.chartAlertsPreviewLanePresenterNoAlertsLabel');
+
   return (
     <MarkerLane
       {...remainingProps}
       events={alerts}
-      label={t('in-alerting:components.chart.chartAlertsPreviewLanePresenterAlertsLabel')}
+      alwaysDisplayLabels={alerts && alerts.length === 0}
+      label={alertsPreviewLaneLabel}
       iconConfig={{
-        type: 'lib_events_warning',
+        type: 'lib_events_critical',
         typeCluster: 'lib_alerts_multiple_alerts',
         color: theme.lib.colors.red800
       }}
       color={theme.lib.colors.red800}
       TooltipContent={({ count }) => (
         <div className={locals.tooltipContent}>
-          <div>Alerts: {count}</div>
+          <div>
+            {t('in-alerting:components.chart.chartAlertsPreviewLanePresenterTooltip', {
+              count
+            })}
+          </div>
         </div>
       )}
       LaneItem={SingleMarkerLaneItem}

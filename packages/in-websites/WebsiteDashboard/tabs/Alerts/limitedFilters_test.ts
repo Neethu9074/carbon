@@ -22,7 +22,7 @@ describe('in-websites/WebsiteDashboard/tabs/alerts/limitedFilters', () => {
     entity: 'NOT_APPLICABLE',
     name: 'test',
     operator: 'EQUALS',
-    type: 'any type'
+    type: 'TAG_FILTER'
   };
   const closingBracket: Bracket = { type: CLOSE_BRACKET };
 
@@ -35,7 +35,7 @@ describe('in-websites/WebsiteDashboard/tabs/alerts/limitedFilters', () => {
       const tagFilters: FormModelElement[] = [
         and,
         closingBracket,
-        { ...somTagFilter, type: 'wrong type, gets filtered-out' },
+        ({ ...somTagFilter, type: 'wrong type, gets filtered-out' } as unknown) as TagFilter,
         { ...somTagFilter, type: TAG_FILTER }
       ];
 
@@ -46,7 +46,7 @@ describe('in-websites/WebsiteDashboard/tabs/alerts/limitedFilters', () => {
   describe('getLimitedNumberOfFilters', () => {
     it('reduces the size of filters to specific number', () => {
       const tagFilters: FormModelElement[] = [
-        { ...somTagFilter, type: 'wrong type, gets filtered-out' },
+        ({ ...somTagFilter, type: 'wrong type, gets filtered-out' } as unknown) as TagFilter,
         and,
         { ...somTagFilter, type: TAG_FILTER },
         and,

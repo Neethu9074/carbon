@@ -97,6 +97,7 @@ AlertingChartWithErrorMessage.propTypes = {
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
   isQB1only: PropTypes.bool,
+  setMetricResultPrecision: PropTypes.func,
   /**
    * Optionally add a specific validation.
    * Called to verify if filters are valid.

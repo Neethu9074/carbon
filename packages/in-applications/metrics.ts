@@ -6,10 +6,8 @@
 import { assign, merge } from 'lodash';
 
 import { WIGGLE_ROOM, ANIMATION_DURATION } from 'in-components/Chart/Configuration';
-import { getBlockSizeMillis } from 'in-services/util/dynamicAggregation';
 import { MetricsConfiguration } from 'in-components/Chart/types';
 import { getChartGranularity } from 'in-stores/metric/metric';
-import { seconds, minutes, hours } from 'in-services/time';
 import { Mutable, TimeConfig } from 'in-types';
 
 const EXTEND_TIME_WINDOW_CUTOFF = 24 * 3600 * 1000;
@@ -41,53 +39,10 @@ export function getResolvedTimeConfig(timeConfig: TimeConfig, resultOrTime: numb
   };
 }
 
-function isBlockSizeLessThanMinute(roundedBlockSize: number): boolean {
-  return roundedBlockSize < 1;
-}
-
-function isBlockSizeGreaterThanOrEqualHour(roundedBlockSize: number): boolean {
-  return roundedBlockSize >= 60;
-}
-
-function roundMillisToSeconds(blockSizeMillis: number): number {
-  return Math.round(blockSizeMillis / 1000);
-}
-
-function roundMillisToMinutes(blockSizeMillis: number): number {
-  return Math.round(blockSizeMillis / (1000 * 60));
-}
-
-function roundMillisToHours(blockSizeMillis: number): number {
-  return Math.round(blockSizeMillis / (1000 * 60 * 60));
-}
-
-export function getSparkChartGranularity(timeConfig: TimeConfig): number {
-  const blockSizeMillis = getBlockSizeMillis({
-    windowSize: timeConfig.windowSize,
-    minPixelsPerBlock: 25,
-    width: 300
-  });
-
-  let roundedBlockSize = roundMillisToMinutes(blockSizeMillis);
-  // If the roundedBlockSize is less than 1minute round to seconds instead.
-  if (isBlockSizeLessThanMinute(roundedBlockSize)) {
-    roundedBlockSize = roundMillisToSeconds(blockSizeMillis);
-
-    return seconds.toMillis(roundedBlockSize);
-  }
-
-  // If the roundedBlockSize is greater than or equal 60min round to hours instead.
-  if (isBlockSizeGreaterThanOrEqualHour(roundedBlockSize)) {
-    roundedBlockSize = roundMillisToHours(blockSizeMillis);
-
-    return hours.toMillis(roundedBlockSize);
-  }
-
-  return minutes.toMillis(roundedBlockSize);
-}
+export const getSparkChartGranularity = getChartGranularity;
 
 export function extendMetricConfigurationOnLiveMode(metricsConfiguration: MetricsConfiguration): MetricsConfiguration {
-  const timeConfig = metricsConfiguration.filter.timeConfig;
+  const timeConfig = metricsConfiguration.filter?.timeConfig;
   if (!timeConfig?.autoRefresh) {
     return metricsConfiguration;
   }

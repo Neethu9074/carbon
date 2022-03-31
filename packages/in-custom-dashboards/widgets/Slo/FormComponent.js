@@ -30,11 +30,11 @@ import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/component
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects';
+import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList';
 import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
-import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/SliManageList';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { websiteSloEnabled } from 'in-services/featureFlags';
@@ -101,8 +101,10 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
           }
         };
       },
-      getContent({ subSlideState }) {
-        return <SliManageList entityType={entityTypeValue} entityId={entityIdValue} subSlideState={subSlideState} />;
+      getContent({ subSlideState: [value, onChange] }) {
+        return (
+          <SliManageList entityType={entityTypeValue} entityId={entityIdValue} value={value} onChange={onChange} />
+        );
       }
     });
   }

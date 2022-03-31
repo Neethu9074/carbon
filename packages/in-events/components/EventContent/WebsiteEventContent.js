@@ -3,26 +3,27 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Card } from '@instana/components';
 
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
+import { getChartTimeConfigByEvent, getTimeConfigFromEvent, getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { getQueryBuilderForBeaconType } from 'in-alerting/smart-alerts/websites/components/AlertQueryBuilder';
+import { HighlightDataRetention } from 'in-events/components/EventContent/HighlightDataRetention';
 import WebsiteScopePath from 'in-alerting/smart-alerts/websites/components/WebsiteScopePath';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
-import { getChartTimeConfigByEvent, getTimeConfigFromEvent } from 'in-events/timeframe';
 import { createDefaultChartConfig } from 'in-alerting/components/Chart/chartViewConfig';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import AnalyzeWebsiteEventButton from 'in-events/components/AnalyzeWebsiteEventButton';
 import { alertingEventDetailsChartTimeframe } from 'in-alerting/components/constants';
 import WebsiteAlertConfigButton from 'in-events/components/WebsiteAlertConfigButton';
 import useWebsiteEventAlertConfig from 'in-events/hooks/useWebsiteEventAlertConfig';
+import { isApproximatePrecision } from 'in-events/components/util/metricResultUtil';
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
-import { getSmartAlertAnalyzeTimeframe } from 'in-events/timeframe';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -31,6 +32,7 @@ import locals from 'in-events/components/EventContent/WebsiteEventContent.mless'
 export default function WebsiteEventContent({ event }) {
   const eventEntity = useWebsiteEventEntity(event);
   const alertConfig = useWebsiteEventAlertConfig(event);
+  const [metricResultPrecision, setMetricResultPrecision] = useState();
 
   if (!eventEntity || !alertConfig) {
     return null;
@@ -77,7 +79,12 @@ export default function WebsiteEventContent({ event }) {
 
       <Row withoutSideMargin>
         <Col xs>
-          <Card title={t('in-events:titleMetrics')}>
+          <Card
+            title={t('in-events:titleMetrics')}
+            leftHeaderContent={
+              <HighlightDataRetention hasApproximateData={isApproximatePrecision(metricResultPrecision)} />
+            }
+          >
             <WebsitesAlertingChartWithErrorMessage
               alertConfigWithFormModel={{
                 ...alertConfig,
@@ -85,6 +92,7 @@ export default function WebsiteEventContent({ event }) {
               }}
               viewConfig={chartViewConfig}
               blueprintConfig={blueprintConfig}
+              setMetricResultPrecision={setMetricResultPrecision}
             />
           </Card>
         </Col>

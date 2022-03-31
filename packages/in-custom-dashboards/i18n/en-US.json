@@ -167,14 +167,16 @@
         "aggregation": "Aggregation",
         "crossSeriesAggregation": "Use SUM for cross-series aggregation",
         "crossSeriesAggregationHelp": "Normally, the cross-series aggregation is the same as the cross-time aggregation (the method used to combine data-points into a single bucket). With this toggle enabled, we'll sum the buckets across the data-series rather than using the specified aggregation.",
-        "crossSeriesAggregationDisabledHelp": "Not applicable to {{aggregation}}"
+        "crossSeriesAggregationDisabledHelp": "Not applicable to {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "Not applicable to this metric"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastructure & Platforms",
         "comingSoon": "(coming soon)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Please select a metric"
+        "pleaseSelectMetric": "Please select a metric",
+        "loadingMetrics": "Loading metrics..."
       }
     },
     "srcMobileApp": {
@@ -478,7 +480,9 @@
         "delSliConfig": "Delete SLI Configuration",
         "pleaseConfirm": "Please Confirm",
         "pleaseConfirmMsg": "Are you sure you want to delete <strong>{{sliName}}</strong>?",
-        "delete": "Delete"
+        "delete": "Delete",
+        "eventBasedSli": "Event-based",
+        "timeBasedSli": "Time-based, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "You are not having the required <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> permission to create or edit SLIs.",
@@ -494,7 +498,9 @@
       "chart": {
         "spent": "Spent",
         "budget": "Budget",
-        "viewInAnalyze": "View in Analyze"
+        "viewInAnalyze": "View in Analyze",
+        "initialEvaluation": "SLI created",
+        "missingDataInfo": "The time of creation for this SLI is within the displayed time range. Data prior to the SLI's creation will be missing."
       },
       "formComponent": {
         "sliManagement": "SLI Management",
@@ -521,15 +527,16 @@
         "enterDateFormatYyyyMmDd": "Please enter a date in the format YYYY-MM-DD.",
         "enterTimeInFormatHhMmSs": "Please enter a time in the format HH:mm:ss."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Status",
         "target": "Target:",
         "errorBudgetSpent": "Error Budget Spent",
         "errorBudget": "Error Budget:",
         "timeWindow": "Time Window",
-        "dynamicTimeWindow": "Dynamic time window",
-        "rollingTimeWindow": "Rolling time window",
-        "fixedTimeWindow": "Fixed time window"
+        "timeWindowType": "Unknown time window",
+        "timeWindowType_dynamic": "Dynamic time window",
+        "timeWindowType_rolling": "Rolling time window",
+        "timeWindowType_fixed": "Fixed time window"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -552,6 +559,14 @@
       "monitoringSourceSelector": {
         "source_application": "Application",
         "source_website": "Website"
+      },
+      "sliFormatter": {
+        "unit": "call",
+        "unit_plural": "calls",
+        "unit_0": "calls",
+        "unit_1": "call",
+        "unit_2": "calls",
+        "thousandCallsFormat": "{{count}}K calls"
       }
     },
     "timezone": {

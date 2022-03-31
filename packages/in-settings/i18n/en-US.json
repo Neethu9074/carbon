@@ -98,8 +98,8 @@
     "backToParentViewName": "Back to {{parentViewName}}",
     "search": "Search...",
     "confirmRemoveItem": "Are you sure you want to remove <strong>{{itemName}}</strong>?",
-    "clickToEnable": "Click to enable.",
-    "clickToDisable": "Click to disable.",
+    "enable": "Enable",
+    "disable": "Disable",
     "deleteEntity": "Delete {{entity}}.",
     "deselectAll": "Deselect All ({{len}})",
     "selectAll": "Select All ({{len}})",
@@ -107,7 +107,7 @@
     "failedToRemoveItem": "Failed to remove item",
     "pleaseConfirm": "Please Confirm",
     "createNew": "Create New",
-    "clickToDeselect": "Click to deselect."
+    "deselect": "Deselect"
   },
   "tabs": {
     "failedToSaveConfig": "Failed to save config: {{err}}",
@@ -770,7 +770,7 @@
     "useQueryableTagsOnly": "Use queryable tags only",
     "troubleshooting": "Troubleshooting",
     "theFollowingOptionsShouldNeverBeTurnedOnWithoutBeingAskedToDoSoByInstanaSupport": "The following options should never be turned on without being asked to do so by Instana Support.",
-    "showInternalTagsInUnboundedAnalytics": "Show internal tags in Unbounded Analytics",
+    "enableTroubleshootingMode": "Enable troubleshooting mode",
     "communicationSettings": "Communication Settings",
     "controlForWhatPurposesWeContactYou": "Control for what purposes we contact you",
     "productOnboardingSuccessTips": "Product onboarding & success tips",

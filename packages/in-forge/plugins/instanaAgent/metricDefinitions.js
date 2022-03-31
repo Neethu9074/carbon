@@ -3,20 +3,29 @@
  * (c) Copyright Instana Inc.
  */
 
-import { number, bytes } from 'in-services/formatters/number';
+import { percentage, number, bytes } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default [
   {
-    metrics: ['cpu.load'],
-    labels: [t('in-forge:plugins.instanaAgent.load')],
+    metrics: ['cpu.load', 'proc.cpu.user', 'proc.cpu.sys'],
+    labels: [
+      t('in-forge:plugins.instanaAgent.load'),
+      t('in-forge:plugins.process.user'),
+      t('in-forge:plugins.process.system')
+    ],
     min: 0,
     category: [t('in-forge:plugins.instanaAgent.cpu')],
     formatter: number
   },
   {
-    metrics: ['memory.used'],
-    labels: [t('in-forge:plugins.instanaAgent.used')],
+    metrics: ['memory.used', 'proc.mem.virtual', 'proc.mem.resident', 'proc.mem.share'],
+    labels: [
+      t('in-forge:plugins.instanaAgent.used'),
+      t('in-forge:plugins.process.virtual'),
+      t('in-forge:plugins.process.resident'),
+      t('in-forge:plugins.process.share')
+    ],
     min: 0,
     getMax(snapshot) {
       return snapshot.getIn(['data', 'memory.total']);
@@ -52,5 +61,13 @@ export default [
     min: 0,
     category: [t('in-forge:plugins.instanaAgent.sensors')],
     formatter: number
+  },
+  {
+    metric: 'proc.openFiles.used',
+    label: t('in-forge:plugins.process.used'),
+    category: [t('in-forge:plugins.process.openFiles')],
+    min: 0,
+    max: 1,
+    formatter: percentage
   }
 ];

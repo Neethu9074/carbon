@@ -93,6 +93,7 @@ export default function Results(props) {
       }}
       DetailView={TraceDetailView}
       getDetailData={getTraceSummary}
+      dataSource={dataSource}
       hideMetricAndSortingConfigurator
       withOverflow
     />

@@ -58,8 +58,8 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
             metrics: [`messagesIn`, `messagesOut`, `uncommittedMessages`],
             labels: [
               t('in-forge:plugins.ibmMqQueue.dashboard.in'),
@@ -95,8 +95,8 @@ export default function IbmMqQueueDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: number.compact,
-            tooltipFormatter: number.compact,
+            formatter: number.detailed,
+            tooltipFormatter: number.detailed,
             metrics: [`openInputCount`, `openOutputCount`],
             labels: [
               t('in-forge:plugins.ibmMqQueue.dashboard.openInputs'),

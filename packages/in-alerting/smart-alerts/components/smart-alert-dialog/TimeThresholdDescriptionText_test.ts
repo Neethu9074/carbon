@@ -141,6 +141,6 @@ describe('in-alerting/smart-alerts/components/smart-alert-dialog/TimeThresholdDe
     return {
       ...timeThreshold,
       timeWindow: 120000
-    };
+    } as WebsiteTimeThreshold;
   }
 });

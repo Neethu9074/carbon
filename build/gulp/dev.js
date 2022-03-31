@@ -132,7 +132,7 @@ function startDevProxy(cb) {
   }
 
   if (envConfig.local) {
-    httpProxy['/api/checkUserAccessPermitted'] = `${uiBackendUrl}/checkUserAccessPermitted`;
+    httpProxy['/api/checkUserAccessPermitted'] = `${uiBackendUrl}/api/checkUserAccessPermitted`;
   }
 
   const websocketProxy = {

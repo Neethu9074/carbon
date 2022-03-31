@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { Progress, Result, SyntheticLocation, SyntheticTest } from 'in-types';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
-import { Result, SyntheticTest } from 'in-types';
 import { Options } from 'in-hooks/useUrlState';
 
 export const dummyLocations = {
@@ -23,6 +23,23 @@ export const dummyTests: Result<SyntheticTest[]> = {
     loading: true
   }
 };
+
+export const dummyTest: Result<SyntheticTest> = {
+  data: {} as SyntheticTest,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export const dummyLocationn: Result<SyntheticLocation> = {
+  data: {} as SyntheticLocation,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
 export interface UrlState {
   orderBy: string;
   orderDirection: string;
@@ -36,6 +53,13 @@ export const defaultUrlState: UrlState = {
   page: 1,
   query: ''
 };
+
+export interface TestResponse {
+  data?: SyntheticTest;
+  errors?: Error[];
+  progress: Progress;
+  time?: number;
+}
 
 export const urlStateDefinition = {
   bind: [

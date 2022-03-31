@@ -85,6 +85,10 @@
   "dashboard": {
     "testList": {
       "mainLabel": "Synthetic Tests",
+      "secondaryLabels": {
+        "tests": "Tests",
+        "location": "Location"
+      },
       "locationsSubText": "{{count}} Location",
       "locationsSubText_plural": "{{count}} Locations",
       "frequencySubText": "Every {{count}} Min",
@@ -95,6 +99,22 @@
     "sortOptions": {
       "name": "Name",
       "frequency": "Frequency"
+    },
+    "summary": {
+      "successRate": "Success rate",
+      "locations": "Locations",
+      "meanResponseTime": "Mean response time",
+      "avgResponseSize": "Avg. response size",
+      "summaryTab": "Summary",
+      "widgets": {
+        "failures": "Failures",
+        "responseTimes": "Response Times",
+        "averageResponseSize": "Average Response Size",
+        "responseStatus": "Response Status"
+      },
+      "runsFailed": "{{runsFailed}} runs failed",
+      "locationsFailed": "{{locationsFailed}} failing now",
+      "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th"
     }
   }
 }

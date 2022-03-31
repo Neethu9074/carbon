@@ -33,6 +33,15 @@ const cols = [
         return row.snapshot.getIn(['data', 'state'], missingValue);
       }
     }
+  },
+  {
+    title: t('in-forge:plugins.aceIntegrationNode.serverHealth'),
+    type: 'health',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      }
+    }
   }
 ];
 

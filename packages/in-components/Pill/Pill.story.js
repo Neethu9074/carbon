@@ -60,22 +60,18 @@ export const allPredefinedColorStyles = () => {
   );
 };
 
-export const bold = props => {
-  return <Pill color={props.color}>{props.label}</Pill>;
-};
+export const bold = props => <Pill color={props.color}>{props.label}</Pill>;
 bold.args = {
   color: Object.keys(options)[0],
   label: 'Placeholder'
 };
 bold.argTypes = { ...colorArgType };
 
-export const light = props => {
-  return (
-    <Pill kind="light" color={props.color}>
-      {props.label}
-    </Pill>
-  );
-};
+export const light = props => (
+  <Pill kind="light" color={props.color}>
+    {props.label}
+  </Pill>
+);
 light.args = {
   color: Object.keys(options)[0],
   label: 'Placeholder'
@@ -84,12 +80,10 @@ light.argTypes = { ...colorArgType };
 
 export const lighter = () => <Pill kind="lighter">Lighter</Pill>;
 
-export const inverted = props => {
-  return (
-    <Pill kind="inverted" color={props.color}>
-      {props.label}
-    </Pill>
-  );
-};
+export const inverted = props => (
+  <Pill kind="inverted" color={props.color}>
+    {props.label}
+  </Pill>
+);
 inverted.args = { color: Object.keys(options)[0], label: 'Placeholder' };
 inverted.argTypes = { ...colorArgType };

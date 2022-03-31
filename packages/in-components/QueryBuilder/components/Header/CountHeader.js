@@ -13,11 +13,12 @@ import locals from './CountHeader.mless';
 
 export default function CountHeader({
   totalRepresentedItemCount,
+  totalRetainedItemCount,
   totalHits,
+  dataSource,
   isLoading,
   hasErrors,
   withGrouping = false,
-  withResultsInGroups = false,
   withAdjustedWindowSizeTooltip = false,
   renderHistoricDataIndicator = false
 }) {
@@ -29,28 +30,26 @@ export default function CountHeader({
   }
 
   let topText;
-  let bottomText;
+  let totalRepresentedText;
+
+  const showRetainedItemsCount = renderHistoricDataIndicator && totalRepresentedItemCount > totalRetainedItemCount;
+
   if (withGrouping) {
     topText = t('in-components:analyzeView.groupedViewHeader', {
       count: totalHits,
       formattedCount: number.compact(totalHits)
     });
-    if (withResultsInGroups) {
-      bottomText = t('in-components:analyzeView.result', {
-        count: totalRepresentedItemCount,
-        formattedCount: number.compact(totalRepresentedItemCount)
-      });
-    }
   } else {
     topText = t('in-components:analyzeView.result', {
-      count: totalRepresentedItemCount,
-      formattedCount: number.compact(totalRepresentedItemCount)
+      count: totalRetainedItemCount,
+      formattedCount: number.compact(totalRetainedItemCount),
+      dataSource: dataSource
     });
-    const showRetainedItemsCount = renderHistoricDataIndicator && totalRepresentedItemCount > totalHits;
+
     if (showRetainedItemsCount) {
-      bottomText = t('in-components:analyzeView.resultRetained', {
-        count: totalHits,
-        formattedCount: number.compact(totalHits)
+      totalRepresentedText = t('in-components:analyzeView.groupedViewHeaderRetained', {
+        count: totalRepresentedItemCount,
+        formattedCount: number.compact(totalRepresentedItemCount)
       });
     }
   }
@@ -58,7 +57,7 @@ export default function CountHeader({
   return (
     <Presenter
       topText={topText}
-      bottomText={bottomText}
+      totalRepresentedText={totalRepresentedText}
       withAdjustedWindowSizeTooltip={withAdjustedWindowSizeTooltip}
       renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
@@ -70,30 +69,35 @@ function Placeholder() {
 }
 
 function ErroneousResult() {
-  return <Presenter />;
+  return (
+    <div className={locals.header}>
+      <div className={locals.topTextWithTooltip}>
+        <h3 className={locals.topText} />
+      </div>
+    </div>
+  );
 }
 
 function generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator) {
   const lines = [];
-  if (withAdjustedWindowSizeTooltip) {
-    lines.push(t('in-components:analyzeView.resultHeaderTooltip'));
-  }
   if (renderHistoricDataIndicator) {
     lines.push(t('in-components:approximateDataIndicator.dataRetention'));
   }
   if (lines.length > 0) {
-    return <MultiLineToolTipIcon lines={lines} />;
+    return <MultiLineToolTipIcon lines={lines} label={'Approximate Data'} iconSize="s" />;
   }
 }
 
-function Presenter({ topText, bottomText, withAdjustedWindowSizeTooltip, renderHistoricDataIndicator }) {
+function Presenter({ topText, totalRepresentedText, withAdjustedWindowSizeTooltip, renderHistoricDataIndicator }) {
   return (
     <div className={locals.header}>
       <div className={locals.topTextWithTooltip}>
-        <h3 className={locals.topText}>{topText}</h3>
+        <h3 className={locals.topText}>
+          {topText}{' '}
+          {totalRepresentedText && <span className={locals.totalRepresentedText}>{totalRepresentedText}</span>}
+        </h3>
         {generateTooltips(withAdjustedWindowSizeTooltip, renderHistoricDataIndicator)}
       </div>
-      {bottomText ? <span className={locals.bottomText}>{bottomText}</span> : null}
     </div>
   );
 }

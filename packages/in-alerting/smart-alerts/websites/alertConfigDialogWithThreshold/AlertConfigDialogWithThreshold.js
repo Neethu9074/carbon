@@ -76,6 +76,7 @@ function SmartAlertConfigDialogWithQueryValidation({
 
   const websiteId = alertConfigWithFormModel.websiteId;
   const beaconType = blueprintConfig.getBeaconType(alertConfigWithFormModel.rule.metricName);
+
   const { QueryBuilder: AlertQueryBuilder, isQueryValid } = useMemo(
     () => createBoundedAlertQueryBuilder(websiteId, beaconType, tagSuggestionTimeConfig),
     [websiteId, beaconType]
@@ -83,10 +84,12 @@ function SmartAlertConfigDialogWithQueryValidation({
   // we are validating only the user-defined part, not the whole enriched form model here,
   // because only that part can ever be invalid
   const isAlertQueryValid = createIsAlertQueryValid(isQueryValid);
+
   const isTagFilterFormModelValid = useIsTagFilterFormModelValid(
     alertConfigWithFormModel.tagFilterExpression,
     isAlertQueryValid
   );
+
   const isValid = blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule) && isTagFilterFormModelValid;
 
   const [thresholdResult, setThresholdResult] = useState();
@@ -123,6 +126,7 @@ function SmartAlertConfigDialogWithQueryValidation({
   ) : (
     <AdvancedModeFooter
       form={form}
+      setForm={updateForm}
       onClose={withTrackClose}
       onCreate={withTrackCreate}
       isSaving={isSaving}
@@ -144,7 +148,6 @@ function SmartAlertConfigDialogWithQueryValidation({
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
       QueryBuilderComponent={AlertQueryBuilder}
-      isQueryValid={isQueryValid}
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
       isTagFilterFormModelValid={isTagFilterFormModelValid}

@@ -18,7 +18,7 @@ export function getMaintenanceConfigsMutable() {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/maintenanceConfigs`
+    url: `/api/settings/maintenance`
   }).map(response => response.body);
 }
 
@@ -26,7 +26,7 @@ export function getMaintenanceConfig(id) {
   return http({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/maintenanceConfigs/${encodeURIComponent(id)}`,
+    url: `/api/settings/maintenance/${encodeURIComponent(id)}`,
     treat400AsError: false
   }).map(response => fromJS(response.body));
 }
@@ -36,7 +36,7 @@ export function saveMaintenanceConfig(config) {
     method: 'PUT',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/maintenanceConfigs/${encodeURIComponent(config.get('id'))}`,
+    url: `/api/settings/maintenance/${encodeURIComponent(config.get('id'))}`,
     data: config.toJS()
   }).map(response => fromJS(response.body));
 }
@@ -46,7 +46,7 @@ export function deleteMaintenanceConfig(id) {
     method: 'DELETE',
     maxRetries: 3,
     headers: getCsrfHeader(),
-    url: `/api/maintenanceConfigs/${encodeURIComponent(id)}`
+    url: `/api/settings/maintenance/${encodeURIComponent(id)}`
   }).map(response => fromJS(response.body));
 }
 

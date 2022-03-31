@@ -65,6 +65,7 @@ export default function KpiCard({
   resultPrecision
 }: KpiCardProps) {
   const { ref, width } = useResizeObserver<HTMLDivElement>();
+  const hasApproximateData = resultPrecision === 'PRECISION_APPROXIMATE';
 
   let content;
   if (raw || renderValue) {
@@ -114,11 +115,11 @@ export default function KpiCard({
         })}
         ref={ref}
       >
-        <div className={locals.innerTitle}>
-          <Tooltip content={title} align="bottomMiddle">
-            <span className={locals.truncatedTitle}>{title}</span>
-          </Tooltip>
-          {resultPrecision === 'PRECISION_APPROXIMATE' && (
+        <Tooltip content={title} align="bottomLeft">
+          <span className={locals.titleText}>{title}</span>
+        </Tooltip>
+        <div className={locals.flexTooltip}>
+          {hasApproximateData && (
             <MultiLineToolTipIcon withMargin lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
           )}
         </div>
@@ -145,10 +146,10 @@ export default function KpiCard({
             </Button>
           </div>
         )}
+        {actions && <div className={locals.actions}>{actions}</div>}
       </div>
       {content}
       {companionValue && <span className={locals.companion}>{companionValue}</span>}
-      {actions && <div className={locals.actions}>{actions}</div>}
     </div>
   );
 }

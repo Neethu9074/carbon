@@ -8,6 +8,11 @@
 const path = require('path');
 
 module.exports = {
+  env: {
+    test: {
+      plugins: ['require-context-hook']
+    }
+  },
   plugins: [
     // Manually added to enforce throwIfClosureRequired
     [

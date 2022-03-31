@@ -55,6 +55,7 @@ export default function CreateApplicationDialog({ formData, timeConfig, onClose,
   const footer = simpleMode ? null : (
     <AdvancedModeFooter
       form={form}
+      setForm={setForm}
       onClose={withTrackClose}
       onCreate={onCreate}
       isSaving={isSaving}

@@ -28,6 +28,7 @@ export default function CreateGlobalSmartAlertButton({ renderAsSimpleButton, loc
 
   const buttonProps = {
     icon: 'lib_alerts_create',
+    // i18n: primaryv2 is an internal technical name, no translation needed
     kind: 'primaryv2',
     onClick() {
       addActiveDialog(

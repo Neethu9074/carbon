@@ -46,7 +46,7 @@ export default function AppViewSwitcher() {
           {applicationSmartAlertsEnabled && (
             <SecondLevelNavigationItem
               href$={getModifiedUrlStream(p => (p.pathname = alertsList))}
-              icon="lib_events_warning"
+              icon="lib_events_critical"
               label={t('in-applications:labelSmartAlerts')}
               isActive={isSmartAlertsViewActive && !isServiceViewActive}
             />

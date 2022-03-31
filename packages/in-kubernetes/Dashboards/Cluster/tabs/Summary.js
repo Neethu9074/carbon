@@ -8,6 +8,10 @@ import { get } from 'lodash';
 
 import { Card } from '@instana/components';
 
+import {
+  LogsChartInteractionWrapper,
+  kubernetesClusterTagEquals
+} from 'in-kubernetes/Dashboards/commonComponents/LogsChartInteractionWrapper';
 import { zeroDecimalPlaces, twoDecimalPlaces, bytesTwoDecimalPlaces, percentage } from 'in-services/formatters/number';
 import MissingK8sPermissions from 'in-kubernetes/Dashboards/commonComponents/MissingK8sPermissions';
 import TopDeploymentsList from 'in-kubernetes/Dashboards/commonComponents/TopDeploymentsList';
@@ -36,6 +40,10 @@ export default function Summary({ timeConfig, data: cluster }) {
     orange800: pending,
     lightBlue800: allocated
   } = theme.lib.colors;
+
+  const label = ' (cluster)';
+  const clusterName = cluster.label.substr(0, cluster.label.length - label.length);
+  const clusterTag = kubernetesClusterTagEquals(clusterName);
 
   return (
     <Fragment>
@@ -153,6 +161,12 @@ export default function Summary({ timeConfig, data: cluster }) {
               renderPostChartContent={K8DashboardsMarkerLanes}
             />
           </Card>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col lg={12}>
+          <LogsChartInteractionWrapper tagFilterExpression={[clusterTag]} timeConfig={timeConfig} />
         </Col>
       </Row>
 

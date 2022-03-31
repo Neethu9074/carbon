@@ -31,7 +31,7 @@
   "labelTechnologies": "技術",
   "labelEndpoints": "端點",
   "labelHealth": "性能",
-  "labelOther": "其他",
+  "labelNonHttp": "其他",
   "labelCallCount": "呼叫計數",
   "labelHTTPStatusCodes": "HTTP 狀態碼",
   "labelInfraIssues": "基礎架構問題",
