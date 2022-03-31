@@ -227,7 +227,7 @@ module.exports = exports = [
   {
     uiClientKey: 'perServiceAdaptiveBaselineEnabled',
     instanaCtlKey: 'feature.adaptive.baseline.per.service.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'perEndpointAdaptiveBaselineEnabled',
