@@ -3,11 +3,11 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import { searchResultsToListItems } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/searchResults';
 import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import { searchResultsToListItems } from 'in-alerting/smart-alerts/applications/chart/ChartEntitySelector/searchResults';
 
 describe('in-alerting/smart-alerts/applications/chart/ChartEntitySelector/searchResults', () => {
   describe('createOptionList for an empty AP selection', () => {

@@ -65,6 +65,11 @@ module.exports = exports = [
     defaultValue: false
   },
   {
+    uiClientKey: 'openstackEnabled',
+    instanaCtlKey: 'feature.openstack.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'phmcEnabled',
     instanaCtlKey: 'feature.phmc.enabled',
     defaultValue: false

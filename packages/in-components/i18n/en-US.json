@@ -392,6 +392,7 @@
     "viewSwitcherLabelCloudFoundry": "Cloud Foundry",
     "viewSwitcherLabelphmc": "IBM Power",
     "viewSwitcherLabelvSphere": "vSphere",
+    "viewSwitcherLabelOpenstack": "OpenStack",
     "viewSwitcherLabelzhmc": "IBM Z",
     "viewSwitcherLabelPlatforms": "Platforms",
     "viewSwitcherButtonSignOut": "Sign Out",
