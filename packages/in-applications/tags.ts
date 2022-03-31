@@ -71,6 +71,7 @@ export const customServiceMappingTagKeys = [
   'nodejs.app.name',
   'nomad.job.name',
   'nomad.task.name',
+  'oracledb.sid',
   'process.name',
   'ruby.name',
   'service.default_name',
