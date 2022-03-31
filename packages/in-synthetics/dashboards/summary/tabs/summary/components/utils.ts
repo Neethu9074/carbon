@@ -8,7 +8,7 @@ import { TimeShift } from 'in-types';
 import theme from 'in-themes';
 
 export function getChartTestMetrics(
-  locations: [],
+  locations: String[],
   testMetricConfig: Metric,
   timeShiftConfig: TimeShift,
   metric: string
@@ -19,7 +19,7 @@ export function getChartTestMetrics(
     let test = {
       config: testMetricConfig,
       metric: metric,
-      label: `${locations[i]}`,
+      label: `${locations[i].split('_', 1)}`,
       color: theme.lib.colors.chart.strokeColors25[i],
       defaultDisabled: !timeShiftConfig.offset
     };
