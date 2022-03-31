@@ -56,20 +56,25 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       stringValue: id,
       name: 'testId',
       operator: EQUALS
+    },
+    {
+      stringValue: '0',
+      name: 'status',
+      operator: EQUALS
     }
   ];
 
   const testMetricConfig: Metric = {
-    aggregation: 'SUM',
+    aggregation: 'DISTINCT_COUNT',
     source: 'SYNTHETICS',
     tagFilters: tagFilters,
     timeShift: 0,
-    metric: 'status'
+    metric: 'id'
   };
 
   const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'status');
 
-  const metricConfigs: Metric[] = chartTestMetrics.map(m => m.config);
+  const metricConfigs: Metric[] = chartTestMetrics.map(m => ({ label: m.label, ...m.config }));
   const colors = chartTestMetrics.map(m => m.color);
   const renderer = stackedBar.id;
 

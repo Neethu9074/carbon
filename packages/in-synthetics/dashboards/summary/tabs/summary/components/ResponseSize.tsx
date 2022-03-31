@@ -70,7 +70,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
 
   const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'response_size');
 
-  const metricConfigs = chartTestMetrics.map(m => m.config);
+  const metricConfigs = chartTestMetrics.map(m => ({ label: m.label, ...m.config }));
   const colors = chartTestMetrics.map(m => m.color);
   const renderer = integral.id;
 
