@@ -174,7 +174,7 @@ export function getLinkToAnalyze({
           extendingFormModel,
           {
             type: TAG_FILTER,
-            name: ENDPOINT.type,
+            name: 'endpoint.type',
             value: endpointType,
             operator: operators.EQUALS,
             entity: entityTypes.DESTINATION

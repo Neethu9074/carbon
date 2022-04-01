@@ -149,7 +149,7 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
             timeConfig,
             boundaryScope,
             groupBy,
-            endpointType,
+            endpointType: endpointType,
             formModel: [...createFormModelFromSyntheticOption(syntheticCalls), ...tagFilters],
             hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
             fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
