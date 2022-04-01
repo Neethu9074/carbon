@@ -190,9 +190,7 @@ export default class LineMetricRenderer {
     this.ctx.strokeStyle = theme.lib.colors.chart.strokeColors100[0];
 
     this.renderBlocks();
-    if (this.showDots) {
-      this.renderDataPoints();
-    }
+    this.renderDataPoints();
   }
 
   renderBlocks() {
@@ -322,12 +320,22 @@ export default class LineMetricRenderer {
     this.ctx.fillStyle = fillStyle;
     for (let i = 0; i < this.blocks.length; i++) {
       const block = this.blocks[i];
+      /*
+       * This is to check if we want to render dots at all
+       * And as a backup if a spot is a single block we want to draw a circle on it.
+       * Because we do not draw lines on single blocks.
+       */
       for (let iB = 0; iB < block.length; iB++) {
         this.ctx.fillStyle = fillStyle;
         const dataPoint = block[iB];
-        this.ctx.beginPath();
-        this.ctx.arc(dataPoint.x, dataPoint.y, radius, 0, 2 * Math.PI, false);
-        this.ctx.fill();
+
+        if (this.showDots) {
+          this.ctx.beginPath();
+          this.ctx.arc(dataPoint.x, dataPoint.y, radius, 0, 2 * Math.PI, false);
+          this.ctx.fill();
+        } else if (block.length === 1) {
+          this.drawSinglePoints(dataPoint, fillStyle, radius);
+        }
 
         if (withRespectToZeroValues && dataPoint.value == 0) {
           /*
@@ -340,5 +348,9 @@ export default class LineMetricRenderer {
         }
       }
     }
+  }
+
+  drawSinglePoints(dataPoint, fillStyle, radius) {
+    this.ctx.fillRect(dataPoint.x, dataPoint.y, radius, radius);
   }
 }
