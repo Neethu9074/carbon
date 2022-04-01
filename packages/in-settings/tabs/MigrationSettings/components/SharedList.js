@@ -8,20 +8,15 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import { ColumnizedContent, Li, Ul } from '@instana/components';
-import { LiLoadMore } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 import { just } from '@instana/observables';
 
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
-import LoadingList from 'in-components/lists/List/sharedComponents/LoadingList';
-import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import IconLabel from 'in-alerting/components/IconLabel';
 import { noop } from 'in-services/util/function';
-import Tooltip from 'in-components/Tooltip';
 import theme from 'in-themes';
-import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/SharedList.mless';
 
@@ -47,33 +42,20 @@ const columnDefinitions = [
   {
     getContent({ label, tooltipSettings, isStaleItem, touched }) {
       return (
-        <Tooltip
-          align="topLeft"
-          content={
-            isStaleItem ? (
-              <span>
-                {t('in-alerting:smartAlerts.components.smartAlertDialog.sharedListTooltip', {
-                  typeName: tooltipSettings.name
-                })}
-              </span>
-            ) : null
-          }
+        <div
+          className={classNames({
+            [locals.iconLabelTouched]: touched
+          })}
         >
-          <div
-            className={classNames({
-              [locals.iconLabelTouched]: touched
-            })}
-          >
-            <IconLabel
-              text={label}
-              type={tooltipSettings.iconType}
-              width="100%"
-              color={isStaleItem ? theme.lib.colors.N400 : undefined}
-              noBottomMargin
-              ellipsis
-            />
-          </div>
-        </Tooltip>
+          <IconLabel
+            text={label}
+            type={tooltipSettings.iconType}
+            width="100%"
+            color={isStaleItem ? theme.lib.colors.N400 : undefined}
+            noBottomMargin
+            ellipsis
+          />
+        </div>
       );
     }
   },
@@ -99,29 +81,24 @@ export default function SharedList({
   listData,
   renderSubList,
   stateManagement = {},
-  canLoadMore,
-  loadMore,
-  isLoading,
   stateProcessors: {
     enhanceParentIdsWithChildId,
     entityType,
     getStaleEntity$,
-    getNoDataCustomText: noDataCustomText,
     getTooltipSettings,
     isIndeterminate,
     hasUserInteractedWithItem,
     isChecked,
     isImplicitlyChecked,
-    shouldAdd,
-    getBadgeElement
+    shouldAdd
   },
   initiallyOpen,
   timeConfig,
   isFramed = true,
-  viewOnly
+  viewOnly,
+  toggleContentOnRowClick
 }) {
   const { dispatch } = stateManagement;
-
   return (
     <Ul framed={isFramed}>
       {listData.map(({ item }) => {
@@ -135,8 +112,8 @@ export default function SharedList({
         return (
           <Li
             key={_id}
-            renderNestedContent={renderSubList?.(itemTreeIds)}
-            toggleContentOnRowClick={Boolean(renderSubList)}
+            renderNestedContent={toggleContentOnRowClick && renderSubList?.(itemTreeIds)}
+            toggleContentOnRowClick={toggleContentOnRowClick && Boolean(renderSubList)}
             className={locals.listItem}
             initiallyOpen={initiallyOpen}
           >
@@ -147,7 +124,7 @@ export default function SharedList({
               item={item}
               id={_id}
             >
-              {({ resolvedLabel, itemExistsInBackend, bagdeContent }) => (
+              {({ resolvedLabel, itemExistsInBackend }) => (
                 <ColumnizedContent
                   label={resolvedLabel}
                   isStaleItem={isStaleItem && !itemExistsInBackend}
@@ -164,7 +141,7 @@ export default function SharedList({
                       dispatch({ type: `REMOVE_${entityType}`, ...itemTreeIds });
                     }
                   }}
-                  BadgeElement={getBadgeElement(bagdeContent)}
+                  // BadgeElement={getBadgeElement(bagdeContent)}
                   viewOnly={viewOnly}
                 />
               )}
@@ -172,9 +149,9 @@ export default function SharedList({
           </Li>
         );
       })}
-      {canLoadMore && <LiLoadMore loadMore={loadMore} />}
+      {/* {canLoadMore && <LiLoadMore loadMore={loadMore} />}
       {isLoading && <LoadingList numSkeletonRows="1" />}
-      {!isLoading && !listData?.length && <NoDataAvailable text={noDataCustomText()} height={86} />}
+      {!isLoading && !listData?.length && <NoDataAvailable text={noDataCustomText()} height={86} />} */}
     </Ul>
   );
 }
@@ -206,14 +183,11 @@ function StaleItemPropsInjector({ getStaleEntity$, id, children, timeConfig, ite
 }
 
 SharedList.propTypes = {
-  canLoadMore: PropTypes.bool,
-  isLoading: PropTypes.bool,
   listData: PropTypes.arrayOf(
     PropTypes.shape({
       item: PropTypes.object
     })
   ).isRequired,
-  loadMore: PropTypes.func.isRequired,
   renderSubList: PropTypes.func,
   stateManagement: stateManagementPropType,
   stateProcessors: PropTypes.shape({
@@ -232,5 +206,6 @@ SharedList.propTypes = {
   initiallyOpen: PropTypes.bool,
   timeConfig: propTypeTimeConfig,
   isFramed: PropTypes.bool,
-  viewOnly: PropTypes.bool
+  viewOnly: PropTypes.bool,
+  toggleContentOnRowClick: PropTypes.bool
 };

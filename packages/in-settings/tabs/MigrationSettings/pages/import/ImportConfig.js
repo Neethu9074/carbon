@@ -22,8 +22,8 @@ import locals from './Import.mless';
 const APP_CONFIGS = 'applicationConfigs';
 const MOB_CONFIGS = 'mobileAppConfigs';
 const WEB_CONFIGS = 'websiteConfigs';
-const ALERT_CHANNEL_CONFIGS = 'alertChannelConfigs';
-const EVENT_CONFIGS = 'eventConfigs';
+const ALERT_CHANNEL_CONFIGS = 'abstractIntegrationConfigs';
+const EVENT_CONFIGS = 'customEventSpecificationConfigs';
 const SMART_ALERT_CONFIGS = 'smartAlertConfigs';
 const ALERT_CONFIGS = 'alertConfigs';
 const GROUP_CONFIGS = 'groupConfigs';
@@ -91,7 +91,9 @@ function cleanConfigs(allConfigsArray) {
       cleanedConfigs.push({
         service: {
           id: obj.id,
-          label: obj.label ? obj.label : obj.name ? obj.name : obj.id
+          label: obj.label ? obj.label : obj.name ? obj.name : obj.id,
+          checked: true,
+          inclusive: true
         }
       });
       return obj;
@@ -109,29 +111,34 @@ function Content({ file, setCanSaveItem, input }) {
   const [selectedCustomEventConfigs, setSelectedCustomEventConfigs] = useState([]);
   const [selectedAlertConfigs, setSelectedAlertConfigs] = useState([]);
   const [selectedGroupConfigs, setSelectedGroupConfigs] = useState([]);
+  // const [allFileConfigs, setAllFileConfigs] = useState({});
   const [loadedFile, setLoadedFile] = useState(null);
 
   let MIGRATION_CONFIGS = [
     {
       id: ACTION + APP_CONFIGS,
+      type: APP_CONFIGS,
       label: 'Applications',
       icon: 'lib_application',
       configs: selectedAppConfigs
     },
     {
       id: ACTION + WEB_CONFIGS,
+      type: WEB_CONFIGS,
       label: 'Websites',
       icon: 'lib_website',
       configs: selectedWebsiteConfigs
     },
     {
       id: ACTION + MOB_CONFIGS,
+      type: MOB_CONFIGS,
       label: 'Mobile Apps',
       icon: 'lib_mobile_app',
       configs: selectedMobileAppConfigs
     },
     {
       id: ACTION + ALERT_CHANNEL_CONFIGS,
+      type: ALERT_CHANNEL_CONFIGS,
       label: 'Alert Channels',
       icon: 'lib_alerts_alert',
       configs: selectedAlertChannelConfigs
@@ -139,24 +146,28 @@ function Content({ file, setCanSaveItem, input }) {
 
     {
       id: ACTION + EVENT_CONFIGS,
+      type: EVENT_CONFIGS,
       label: 'Custom Events',
       icon: 'lib_help_error_warning',
       configs: selectedCustomEventConfigs
     },
     {
       id: ACTION + SMART_ALERT_CONFIGS,
+      type: SMART_ALERT_CONFIGS,
       label: 'Smart Alerts',
       icon: 'lib_events_critical',
       configs: selectedSmartAlertConfigs
     },
     {
       id: ACTION + ALERT_CONFIGS,
+      type: ALERT_CONFIGS,
       label: 'Alerts',
       icon: 'lib_alerts_alert',
       configs: selectedAlertConfigs
     },
     {
       id: ACTION + GROUP_CONFIGS,
+      type: GROUP_CONFIGS,
       label: 'Groups',
       icon: 'lib_group_by',
       configs: selectedGroupConfigs
@@ -174,6 +185,38 @@ function Content({ file, setCanSaveItem, input }) {
     setSelectedGroupConfigs([]);
   }
 
+  // function setSelectedConfigsByType(configType, selectedConfigs) {
+  //   let configs = cleanConfigs(selectedConfigs);
+  //   switch (configType) {
+  //     case APP_CONFIGS:
+  //       setSelectedAppConfigs(configs);
+  //       return;
+  //     case WEB_CONFIGS:
+  //       setSelectedWebsiteConfigs(configs);
+  //       return;
+  //     case MOB_CONFIGS:
+  //       setSelectedMobileAppConfigs(configs);
+  //       return;
+  //     case ALERT_CHANNEL_CONFIGS:
+  //       setSelectedAlertChannelConfigs(configs);
+  //       return;
+  //     case EVENT_CONFIGS:
+  //       setSelectedCustomEventConfigs(configs);
+  //       return;
+  //     case SMART_ALERT_CONFIGS:
+  //       setSelectedSmartAlertConfigs(configs);
+  //       return;
+  //     case ALERT_CONFIGS:
+  //       setSelectedAlertConfigs(configs);
+  //       return;
+  //     case GROUP_CONFIGS:
+  //       setSelectedGroupConfigs(configs);
+  //       return;
+  //     default:
+  //       return;
+  //   }
+  // }
+
   useEffect(
     // allow only saving when config metadata has been uploaded
     () => {
@@ -187,11 +230,12 @@ function Content({ file, setCanSaveItem, input }) {
         reader.onloadend = function() {
           let allConfigs = JSON.parse(reader.result);
           setLoadedFile(file);
+          // setAllFileConfigs(allConfigs);
 
           if (allConfigs[APP_CONFIGS]) setSelectedAppConfigs(cleanConfigs(allConfigs[APP_CONFIGS]));
           if (allConfigs[WEB_CONFIGS]) setSelectedWebsiteConfigs(cleanConfigs(allConfigs[WEB_CONFIGS]));
           if (allConfigs[MOB_CONFIGS]) setSelectedMobileAppConfigs(cleanConfigs(allConfigs[MOB_CONFIGS]));
-          if (allConfigs[ALERT_CONFIGS])
+          if (allConfigs[ALERT_CHANNEL_CONFIGS])
             setSelectedAlertChannelConfigs(cleanConfigs(allConfigs[ALERT_CHANNEL_CONFIGS]));
           if (allConfigs[EVENT_CONFIGS]) setSelectedCustomEventConfigs(cleanConfigs(allConfigs[EVENT_CONFIGS]));
           if (allConfigs[SMART_ALERT_CONFIGS])
@@ -233,12 +277,12 @@ function Content({ file, setCanSaveItem, input }) {
       </form>
       {MIGRATION_CONFIGS.map(migrationConfig => (
         <AccordionConfigs
-          key={migrationConfig.id}
-          id={migrationConfig.id}
+          key={migrationConfig.type}
           label={migrationConfig.label}
           icon={migrationConfig.icon}
           configs={migrationConfig.configs}
-          checked={migrationConfig.configs.length > 0}
+          configType={migrationConfig.type}
+          toggleContentOnRowClick
         />
       ))}
     </>

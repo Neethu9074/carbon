@@ -16,11 +16,11 @@ import {
 } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/utils';
 import { stateManagementPropType } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/sharedPropTypes';
 import { selectApplication } from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/selectors';
-import ServicesList from 'in-alerting/smart-alerts/applications/scopeConfig/ServicesAndEndpointsListPresenter/ServicesList';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { pendingResult } from 'in-services/fixedObjects';
 import { isLoading } from 'in-services/util/result';
 import { noop } from 'in-services/util/function';
+import ConfigSubList from './ConfigSubList';
 import SharedList from './SharedList';
 
 export default function ConfigsList({ searchQuery, ...props }) {
@@ -81,7 +81,7 @@ function ApplicationBaseList({ items = [], isLoading, getStaleEntity, initiallyO
       }
       /* eslint-disable-next-line react/display-name */
       renderSubList={({ applicationId }) => () => {
-        return <ServicesList {...props} parentIds={{ applicationId }} />;
+        return <ConfigSubList {...props} parentIds={{ applicationId }} icon={icon} />;
       }}
       stateProcessors={{
         entityType: 'APPLICATION',

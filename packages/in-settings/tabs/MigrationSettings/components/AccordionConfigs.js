@@ -4,13 +4,22 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { noop } from 'lodash';
 
 import { just } from '@instana/observables';
 
 import AccordionListPresenter from './AccordionListPresenter';
 
-export default function AccordionConfigs({ configs, label, id, icon, checked, onChange }) {
+export default function AccordionConfigs({
+  configs,
+  label,
+  icon,
+  checked,
+  onChange,
+  configType,
+  toggleContentOnRowClick
+}) {
   const [labelWithCount, setLabelWithCount] = useState(label);
 
   useEffect(() => {
@@ -27,7 +36,7 @@ export default function AccordionConfigs({ configs, label, id, icon, checked, on
                 items: [
                   {
                     application: {
-                      id: id,
+                      id: configType,
                       label: labelWithCount,
                       isStaleItem: true
                     }
@@ -38,7 +47,7 @@ export default function AccordionConfigs({ configs, label, id, icon, checked, on
           getApplication: () =>
             just({
               data: {
-                id: id,
+                id: configType,
                 label: labelWithCount,
                 isStaleItem: true
               }
@@ -59,17 +68,29 @@ export default function AccordionConfigs({ configs, label, id, icon, checked, on
                 loading: false,
                 note: null
               }
-            })
+            }),
+          getEndpointsCursorPaginated: () => just({ data: { items: [] } })
         }}
-        alertApplicationId="btg-B701Rx6o9QNXUS4TVw"
         applicationsSelection={{}}
         boundaryScope="INBOUND"
         timeConfig={{ windowSize: 86400000 }}
         onChange={onChange ? onChange : noop}
         includeSynthetic={false}
         icon={icon}
+        entityType={configType}
         checked={checked}
+        toggleContentOnRowClick={toggleContentOnRowClick}
       />
     </>
   );
 }
+
+AccordionConfigs.propTypes = {
+  onChange: PropTypes.func,
+  checked: PropTypes.bool,
+  icon: PropTypes.string,
+  label: PropTypes.string,
+  toggleContentOnRowClick: PropTypes.bool.isRequired,
+  configs: PropTypes.array,
+  configType: PropTypes.string
+};

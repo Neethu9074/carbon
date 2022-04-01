@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { getConfigData } from 'in-settings/tabs/MigrationSettings/api/exportConfig';
+import { MIGRATION_CONFIGS } from '../../components/MigrationTypes';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import AccordionConfigs from '../../components/AccordionConfigs';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -15,9 +16,17 @@ import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
 export default function ExportConfig() {
-  // const [selectedConfigs, setSelectedConfigs] = useState([]);
+  const [selectedConfigTypes, setSelectedConfigTypes] = useState([]);
 
-  return <ApiItemView saveLabel={t('in-settings:tabs.migrationExport')} Content={Content} onSubmit={onSubmit} />;
+  return (
+    <ApiItemView
+      saveLabel={t('in-settings:tabs.migrationExport')}
+      Content={Content}
+      onSubmit={onSubmit}
+      selectedConfigs={selectedConfigTypes}
+      callBackSelectedConfigs={configs => setSelectedConfigTypes(configs)}
+    />
+  );
 }
 
 function download(content, fileName, contentType) {
@@ -57,12 +66,36 @@ function saveItem({ setMessage }) {
   // }
 }
 
-function Content({ file, form, setCanSaveItem, enableImport, appConfigs }) {
-  useEffect(
-    // allow only saving when idP metadata has been uploaded
-    () => setCanSaveItem(true),
-    [file, form, setCanSaveItem, enableImport]
-  );
+function initSelected() {
+  let defaultSelectedConfigs = [];
+  MIGRATION_CONFIGS.forEach(configType => {
+    let defaultSelectedConfigType = { ...configType, selected: true };
+    defaultSelectedConfigs.push(defaultSelectedConfigType);
+  });
+
+  return defaultSelectedConfigs;
+}
+
+function updateSelectedConfigs(prevSelectedConfigs, selectedConfigType, isSelected) {
+  if (prevSelectedConfigs) {
+    let updateSelected = [];
+    prevSelectedConfigs.forEach(configType => {
+      if (configType.type === selectedConfigType) {
+        let selectedConfig = { ...configType, selected: isSelected };
+        updateSelected.push(selectedConfig);
+      } else updateSelected.push(configType);
+    });
+    return updateSelected;
+  }
+}
+
+function Content({ setCanSaveItem, callBackSelectedConfigs }) {
+  const [selectedConfigs, setSelectedConfigs] = useState(initSelected());
+
+  useEffect(() => {
+    setCanSaveItem(true);
+    callBackSelectedConfigs(selectedConfigs);
+  }, [setCanSaveItem, callBackSelectedConfigs, selectedConfigs]);
 
   return (
     <>
@@ -74,29 +107,24 @@ function Content({ file, form, setCanSaveItem, enableImport, appConfigs }) {
         <Trans i18nKey="in-settings:tabs.configExportHelp" />
       </p>
       <Section>
-        <AccordionConfigs appConfigs={appConfigs} label="Applications" id="appconfigs" icon="lib_application" checked />
-        <AccordionConfigs appConfigs={appConfigs} label="Websites" id="websiteconfigs" icon="lib_website" />
-        <AccordionConfigs appConfigs={appConfigs} label="Mobile Apps" id="mobileappconfigs" icon="lib_mobile_app" />
-        <AccordionConfigs
-          appConfigs={appConfigs}
-          label="Alert Channels"
-          id="alertchannelconfigs"
-          icon="lib_alerts_alert"
-        />
-        <AccordionConfigs
-          appConfigs={appConfigs}
-          label="Custom Events"
-          id="customeventconfigs"
-          icon="lib_help_error_warning"
-        />
-        <AccordionConfigs
-          appConfigs={appConfigs}
-          label="Smart Alerts"
-          id="smartalertconfigs"
-          icon="lib_events_critical"
-        />
-        <AccordionConfigs appConfigs={appConfigs} label="Alerts" id="alertconfigs" icon="lib_alerts_alert" />
-        <AccordionConfigs appConfigs={appConfigs} label="Groups" id="groupconfigs" icon="lib_group_by" />
+        {selectedConfigs ? (
+          selectedConfigs.map(configType => (
+            <AccordionConfigs
+              key={configType.type}
+              label={configType.label}
+              icon={configType.icon}
+              checked={configType.selected}
+              toggleContentOnRowClick={false}
+              onChange={changed => {
+                const isSelected = Object.keys(changed).length !== 0;
+                let updated = updateSelectedConfigs(selectedConfigs, configType.type, isSelected);
+                setSelectedConfigs(updated);
+              }}
+            />
+          ))
+        ) : (
+          <div>No Configurations</div>
+        )}
       </Section>
     </>
   );
