@@ -42,13 +42,24 @@ function onSubmit(e, props) {
   saveItem(props);
 }
 
-function saveItem({ setMessage }) {
+function getSelectedConfigIds(selectedConfigs) {
+  let selectedIds = [];
+  if (selectedConfigs) {
+    selectedConfigs.forEach(config => {
+      if (config.selected) selectedIds.push(config.type);
+    });
+  }
+  return selectedIds;
+}
+
+function saveItem({ setMessage, selectedConfigs }) {
+  let selectedConfigIds = getSelectedConfigIds(selectedConfigs);
   setMessage({
     message: t('in-settings:tabs.exportingConfig'),
     type: 'neutral',
     isSaving: true
   });
-  const configResult$ = getConfigData();
+  const configResult$ = getConfigData(selectedConfigIds);
   configResult$.once(
     resp => {
       setMessage({
