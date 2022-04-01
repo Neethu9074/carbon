@@ -71,6 +71,7 @@ export const perEndpointAdaptiveBaselineEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('perEndpointAdaptiveBaselineEnabled', false);
 
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false);
+export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 
 // SmartAlerts, Strontium-cloudberry:
 // Logs-Blueprint behind FF, Closed-Beta, only for customers already using it

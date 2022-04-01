@@ -238,5 +238,10 @@ module.exports = exports = [
     uiClientKey: 'syntheticsTestEnabled',
     instanaCtlKey: 'feature.synthetics.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'sliCHClusterAccessEnabled',
+    instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
+    defaultValue: false
   }
 ];

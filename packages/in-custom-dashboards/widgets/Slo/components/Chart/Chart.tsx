@@ -22,6 +22,7 @@ import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFo
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
 import { MetricResult, Result, SliEntity, TimeConfig } from 'in-types';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
+import { sliCHClusterAccessEnabled } from 'in-services/featureFlags';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { MetricDataSeries } from 'in-components/Chart/types';
@@ -48,7 +49,6 @@ export interface ChartProps {
   isPreview?: boolean;
   disableZooming?: boolean;
   trackers?: ChartTrackers;
-  automaticallySize?: boolean;
 }
 
 export default function Chart({
@@ -61,15 +61,15 @@ export default function Chart({
   sliConfig,
   isPreview,
   disableZooming,
-  trackers,
-  automaticallySize
+  trackers
 }: ChartProps) {
   const tagCatalogLoader = useTagCatalogLoader(sliConfig);
   const tagCatalog = useTagCatalog(tagCatalogLoader);
   const isStaticBudget = hourlyBudget === null || hourlyBudget.length === 0;
   const linkToUnboundAnalytics = useLinkToUnboundedAnalytics(sliConfig, tagCatalog);
 
-  const showMissingDataIndicators = !isLoading(result) && sliCreatedWithinTimeWindow(sliConfig, timeConfig);
+  const showMissingDataIndicators =
+    sliCHClusterAccessEnabled && !isLoading(result) && !isPreview && sliCreatedWithinTimeWindow(sliConfig, timeConfig);
 
   let metrics: MetricDataSeries[] = [consumed, hourlyBudget];
 
@@ -82,7 +82,8 @@ export default function Chart({
     metricConfiguration: {
       hourlyBudget: { fillTopBackground: true }
     },
-    firstCollectedMetricTimestamp: sliConfig?.initialEvaluationTimestamp
+    // Setting undefined here will disable the missing data indicator in the chart
+    firstCollectedMetricTimestamp: sliCHClusterAccessEnabled ? sliConfig?.initialEvaluationTimestamp : undefined
   });
 
   return (
@@ -90,7 +91,7 @@ export default function Chart({
       <ResultAwareChart
         result={result}
         config={{
-          automaticallySize,
+          automaticallySize: !isPreview,
           granularity,
           timeConfig,
           y1: {

@@ -44,12 +44,12 @@ export function SliSummary({
   metricRemaining: remaining
 }: SliSummaryProps) {
   const isCompact = !useMediaQuery('(min-width: 1300px)');
+  const sliFormatter = useSliFormatter(sliEntity);
 
   if (status === 'pending') return <SliSummarySkeleton compact={isCompact} />;
 
   const sloSpent = slo != null && sli != null && sli < slo;
   const budgetSpent = remaining != null && remaining <= 0;
-  const sliFormatter = useSliFormatter(sliEntity);
 
   return (
     <div className={isCompact ? locals.listContainer : locals.tilesContainer}>
