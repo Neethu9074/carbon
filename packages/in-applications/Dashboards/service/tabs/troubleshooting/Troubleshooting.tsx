@@ -70,6 +70,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             boundaryScope={boundaryScope}
             syntheticCalls={syntheticCalls}
             serviceId={serviceId}
+            endpointType={'DATABASE'}
             groupByTag={'host.name'}
             groupByTagEntity={DESTINATION}
           />
@@ -83,6 +84,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             boundaryScope={boundaryScope}
             syntheticCalls={syntheticCalls}
             serviceId={serviceId}
+            endpointType={'DATABASE'}
             groupByTag={'call.http.host'}
           />
         </Col>
@@ -95,6 +97,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             boundaryScope={boundaryScope}
             syntheticCalls={syntheticCalls}
             serviceId={serviceId}
+            endpointType={'DATABASE'}
             groupByTag={'call.meta_tags'}
             groupByTagSecondLevel={'destination_infra_reference'}
             tagFilters={[qualifiedReferencesFilter]}

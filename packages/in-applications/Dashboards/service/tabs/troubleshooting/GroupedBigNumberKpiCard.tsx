@@ -38,6 +38,7 @@ export interface GroupBasedBigNumberKpiCardProps {
   timeConfig: TimeConfig;
   timeShiftConfig: TimeShift;
   serviceId: string;
+  endpointType: string;
   groupByTag: string;
   groupByTagSecondLevel?: string;
   groupByTagEntity?: TagFilterEntity;
@@ -72,6 +73,7 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
     timeConfig,
     timeShiftConfig,
     serviceId,
+    endpointType,
     syntheticCalls: urlSyntheticCalls,
     resultMapper,
     boundaryScope,
@@ -147,6 +149,7 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
             timeConfig,
             boundaryScope,
             groupBy,
+            endpointType,
             formModel: [...createFormModelFromSyntheticOption(syntheticCalls), ...tagFilters],
             hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
             fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],

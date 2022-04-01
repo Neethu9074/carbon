@@ -4,6 +4,7 @@
  */
 
 import { Observable } from '@instana/observables';
+
 import { Group, Order, TagCatalog, TimeConfig } from 'in-types';
 
 interface ChartedMetric {
@@ -25,6 +26,7 @@ interface GetLinkToAnalyzProps {
   applicationName: string;
   serviceName: string;
   endpointName: string;
+  endpointType: string;
   boundaryScope: ApplicationBoundaryScope;
   jumpToSource: boolean;
   dataSource: Lowercase<ApplicationDataSource>;
