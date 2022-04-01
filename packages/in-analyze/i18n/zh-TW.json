@@ -125,9 +125,6 @@
         "hideWebsiteInformation": "隱藏網站資訊",
         "showWebsiteInformation": "顯示網站資訊",
         "viewWebsiteActivity": "檢視網站活動"
-      },
-      "logs": {
-        "noDataMessage": "此追蹤沒有可用的日誌"
       }
     },
     "components": {
@@ -176,25 +173,18 @@
       },
       "callTree": {
         "expandButtonForRow": "展開所有子呼叫",
-        "collapseButtonForRow": "收合所有子呼叫",
         "of": "的",
-        "inheritedFrom": "繼承自",
-        "cardTitle": "呼叫"
+        "inheritedFrom": "繼承自"
       },
       "colorCodingToggleButtons": {
         "colorizeBy": "著色依據",
-        "colorizeByExpl": "變更呼叫列的顏色",
-        "endpoint": "端點",
-        "service": "服務"
-      },
-      "viewToggleButtons": {
-        "expl": "檢視方式",
-        "tree": "Tree",
-        "chart": "時間表"
+        "endpoint": "端點"
       },
       "logTooltipContent": {
         "errorLog": "錯誤日誌",
-        "warningLog": "警告日誌"
+        "warningLog": "警告日誌",
+        "restrictedAccess": "受限存取權",
+        "restrictedAccessExpl": "您無權存取此資訊"
       },
       "callTooltipContent": {
         "numbersOfErrors": "{{count}} 個錯誤",
@@ -285,7 +275,7 @@
     "analyzeLogsLabel": "分析日誌",
     "similarLogs": "類似日誌",
     "similarServiceLogs": "在此服務的環境定義中顯示日誌",
-    "service": "顯示服務"
+    "restrictedAccessExpl": "您無權存取此資訊"
   },
   "traceDetails": {
     "labelTotal": "總計",

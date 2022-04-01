@@ -21,6 +21,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "Dies ist die Überarbeitung {{description}} dieser Alertkonfiguration. Wählen Sie die <latestRevisionButton>aktuelle Überarbeitung aus</latestRevisionButton> oder nehmen Sie eine <restoreRevisionButton>Wiederherstellung aus der aktuellen Überarbeitung vor</restoreRevisionButton>, wenn Sie Änderungen vornehmen möchten. ",
     "alertHeaderAriaLabelSeverity": "Ereignis hat Schweregrad {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Erstellte Alerts ({{totalRepresentedItemCount}})",
+    "alertStateActive": "aktiv",
     "alertPropertyInfosLabelTitle": "Titel",
     "alertPropertyInfosLabelAlertLevel": "Alertstufe",
     "alertPropertyInfosLabelTriggersIncident": "Löst Vorfall aus",
@@ -39,9 +40,10 @@
     "chart": {
       "alertingChartLabelThreshold": "Schwellenwert",
       "alertingChartLabelViolations": "Verstöße",
-      "alertingChartTooltipSmoothedMetric": "Geglätteter Messwert",
       "alertingChartMessageInvalidFilterQuery": "Ungültige Filterabfrage.",
       "alertingChartMessageEntitySelectionInvalid": "Keine Entitäten ausgewählt.",
+      "chartAlertsLaneErrorMessage": "Alerts konnten nicht geladen werden",
+      "chartAlertsPreviewLanePresenterAlertsLabel": "Alerts",
       "chartViewConfigsLast24Hours": "Letzte 24 Stunden",
       "chartViewConfigsLast7Days": "Letzte 7 Tage"
     },
@@ -123,9 +125,11 @@
         "alertPropertyInsertPlaceholderLabel": "Platzhalter einfügen",
         "evaluationSwitch": {
           "individual": "Einzelne Alerts",
+          "optionNotAvailableForAdaptiveThreshold": "Diese Option ist mit adaptivem Schwellenwert nicht verfügbar",
           "evaluationTypePERAP": {
             "selectionText": "für diese Anwendungsperspektive",
             "globalSelectionText": "pro Anwendungsperspektive",
+            "shortText": "Pro Anwendungsperspektive",
             "columnText": "aggregiert",
             "description": "Alerts für diese Anwendungsperspektive",
             "globalDescription": "Alert einzeln pro Anwendungsperspektive"
@@ -133,6 +137,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "pro Service für diese Anwendungsperspektive",
             "globalSelectionText": "pro Service im Kontext der einzelnen Anwendungsperspektive",
+            "shortText": "Pro Service",
             "columnText": "pro Service",
             "description": "Alerts einzeln pro Service für diese Anwendungsperspektive",
             "globalDescription": "Alert einzeln pro Service im Kontext der einzelnen Anwendungsperspektive"
@@ -140,6 +145,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "pro Endpunkt für diese Anwendungsperspektive",
             "globalSelectionText": "pro Endpunkt im Kontext der einzelnen Anwendungsperspektive",
+            "shortText": "Pro Endpunkt",
             "columnText": "pro Endpunkt",
             "description": "Alert einzeln pro Endpunkt für diese Anwendungsperspektive",
             "globalDescription": "Alert einzeln pro Endpunkt im Kontext der einzelnen Anwendungsperspektive"
@@ -164,6 +170,18 @@
             "confirmButtonLabel": "Bestätigen"
           }
         },
+        "staticOrAdaptive": {
+          "config": {
+            "static": {
+              "title": "Statisch",
+              "description": "Der Schwellenwert ist entweder ein fester oder ein zeitabhängiger Schwellenwert. Instana unterstützt Sie bei der Auswahl des richtigen Schwellenwerts auf der Basis aktueller Daten"
+            },
+            "adaptive": {
+              "title": "Adaptiv",
+              "description": "Schwellenwert passt sich automatisch an die Änderungen der zugrunde liegenden Metrik an"
+            }
+          }
+        },
         "includeInternalOrSynthethicCalls": {
           "includeInternalCalls": "Interne Aufrufe einschließen",
           "includeSyntethicCalls": "Synthetische Aufrufe einschließen"
@@ -183,6 +201,11 @@
             "title": "Trigger: Worüber möchten Sie benachrichtigt werden?",
             "logMessageCardTitle": "Protokollnachricht",
             "httpStatusCodesCardTitle": "HTTP-Statuscodes"
+          },
+          "threshold": {
+            "staticOrAdaptiveTitle": "Typ des Schwellenwerts",
+            "label": "Schwellenwert",
+            "title": "Schwellenwert: Wann wird gegen die Bedingung verstoßen?"
           },
           "timeThreshold": {
             "label": "Zeitschwellenwert",
@@ -208,7 +231,7 @@
           "applications": "Anwendungen:",
           "services": "Services:"
         },
-        "noChartForAdaptiveBaseline": "Es ist keine Vorschau verfügbar, während dieser Trigger auf adaptiven Vergleichsdaten basiert.",
+        "noChartForAdaptiveBaseline": "Keine Vorschau verfügbar, wenn dieser Auslöser auf einem adaptiven Schwellenwert basiert.",
         "noDataWithoutEndpointSelection": "Wählen Sie einen Endpunkt aus, um die Vorschau anzuzeigen",
         "noDataAvailable": "Wählen Sie einen Service zum Anzeigen der Vorschau aus"
       },
@@ -446,6 +469,10 @@
         "labelGlobalSmartAlertsList": "Smart Alerts für globale Anwendungen ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Smart Alerts für individuelle Anwendungen ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "Statischer Schwellenwert, {{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "Statische tägliche Saisonalität, {{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "Statische wöchentliche Saisonalität, {{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "Adaptiver Schwellenwert, {{metricLabel}}",
         "labelActionButtonEdit": "Bearbeiten",
         "labelActionButtonDuplicate": "Duplizieren",
         "labelActionButtonDelete": "Löschen",
@@ -475,6 +502,10 @@
       }
     },
     "details": {
+      "header": "Details",
+      "thresholdTypeTitle": "Schwellenwerttyp",
+      "metricTitle": "Metrik",
+      "entityTitle": "Bereich",
       "titleBuiltInIndicator": "Integriert"
     },
     "form": {
@@ -483,7 +514,7 @@
       "ruleAggregationOptionP25": "25.",
       "ruleAggregationOptionP50": "50.",
       "ruleAggregationOptionP75": "75.",
-      "ruleAggregationOptionP90": "90. (empfohlen)",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "95.",
       "ruleAggregationOptionP98": "98.",
       "ruleAggregationOptionP99": "99.",
@@ -494,7 +525,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Abbrechen",
-        "sharedListTooltip": "Der ausgewählte {{typeName}} ist nicht mehr verfügbar",
+        "sharedListTooltip": "{{typeName}} ist nicht mehr verfügbar",
         "clearTagFilterExpressionButton": "Löschen",
         "baselineErrorMessageInsufficientDataToCompute": "Unzureichende Daten zur Berechnung der ausgewählten Referenzversion. Wählen Sie stattdessen <em>Statischer Schwellenwert</em> aus.",
         "pleaseContactSupportToRiseLimit": "Wenden Sie sich über unser <supportLink>{{instanaSupportPortal}}</supportLink> an uns, um eine Erhöhung dieses Schwellenwerts anzufordern. ",
@@ -549,20 +580,20 @@
         "timeThresholdDescriptionViolationsInPeriod_2": "Mindestens {{count}} Verstöße innerhalb der letzten {{formattedTimeWindow}}",
         "timeThresholdConfigNumberOfConsecutiveViolations": "Anzahl aufeinanderfolgender Messwertverstöße",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Anzahl der aufeinanderfolgenden Auswertungen",
-        "timeThresholdConfigNumberOfEvaluationWindows": "Anzahl der Evaluierungsfenster für Auswirkung auf Benutzer",
+        "timeThresholdConfigNumberOfEvaluationWindows": "Anzahl aufeinanderfolgender Verstöße",
         "timeThresholdConfigImpactEvaluationMethod": "Auswertungsmethode für die Auswirkungen auf Benutzer",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Für alle Auswertungsfenster aggregieren",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Für jedes Auswertungsfenster berechnen",
         "timeThresholdConfigNumberOfViolations": "Anzahl der Messwertverstöße",
         "timeThresholdConfigEvaluationGranularity": "Evaluierungsgranularität",
-        "timeThresholdConfigNumberOfRequestsThreshold": "Schwellenwert für Anzahl der Anforderungen",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Schwellenwert für Anzahl der betroffenen Benutzer",
+        "timeThresholdConfigNumberOfRequestsThreshold": "Anzahl der betroffenen Anforderungen",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Anzahl der betroffenen Benutzer",
         "timeThresholdConfigAtLeast": "Mindestens",
-        "timeThresholdConfigNumberOfRequests": "Anzahl der Anforderungen",
+        "timeThresholdConfigNumberOfRequests": "Anzahl der betroffenen Anforderungen",
         "timeThresholdConfigMinutes": "{{min}} Min.",
-        "timeThresholdConfigNumberOfUsers": "Anzahl der Benutzer",
-        "timeThresholdConfigPercentageOfUsers": "% der Benutzer",
-        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Schwellenwert für Prozentsatz der betroffenen Benutzer",
+        "timeThresholdConfigNumberOfUsers": "Anzahl der betroffenen Benutzer",
+        "timeThresholdConfigPercentageOfUsers": "% der betroffenen Benutzer",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Prozentsatz der betroffenen Benutzer",
         "timeThresholdConfigOff": "aus",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Geben Sie eine Zahl >= 1 ein",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Geben Sie eine Zahl zwischen 1 und 100 % an",
@@ -572,8 +603,8 @@
         "timeThresholdConfigTimeThresholdLabelRequestImpact": "Wenn eine bestimmte Menge an Anforderungen betroffen ist",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "Persistenz im Laufe der Zeit",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "Anzahl der Verstöße im Laufe der Zeit",
-        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Auswirkung auf Benutzer",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Wirkung auf die Anforderung",
+        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Auswirkungen auf Benutzer",
+        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Auswirkung auf Anforderungen",
         "timeThresholdConfigNoUserSessionDetected": "Keine <linkToIdentifyingUsers>Benutzer</linkToIdentifyingUsers> oder<linkToSessionTracking>Sitzungen</linkToSessionTracking> erkannt.",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Konfigurieren Sie die Website-Überwachung, bevor Sie diese Option verwenden.",
         "alertPropertiesWarning": "Warnung",
@@ -585,22 +616,26 @@
         "alertPropertiesAlertProperties": "Alerteigenschaften",
         "buttonSave": "Speichern",
         "buttonCreate": "Erstellen",
+        "buttonMigrate": "Migrieren",
         "selectedBlueprint": "Ausgewählter Blueprint",
         "buttonRecalculateBaseline": "Grundlinie neu berechnen",
         "sensitivitySliderLow": "niedrig",
         "sensitivitySliderHigh": "hoch",
         "labelThreshold": "Schwellenwert",
         "labelSensitivity": "Sensitivität",
+        "staticThresholdTypeOptionsTooltip": "Ein statischer täglicher/wöchentlicher Schwellenwert ist ein zeitabhängiger Schwellenwert, der auf Protokolldaten basiert. Der Schwellenwert wird nicht automatisch geändert und kann bei Bedarf manuell neu berechnet werden.",
         "thresholdTypeOptionStaticThreshold": "Statischer Schwellenwert",
-        "thresholdTypeOptionHistoricBaselineDaily": "Grundlinie (tägliche Saisonalität)",
-        "thresholdTypeOptionHistoricBaselineWeekly": "Grundlinie (wöchentliche Saisonalität)",
-        "thresholdTypeOptionAdaptiveBaseline": "Adaptive Vergleichsdaten",
+        "thresholdTypeOptionHistoricBaselineDaily": "Statische tägliche Saisonalität",
+        "thresholdTypeOptionHistoricBaselineWeekly": "Statische wöchentliche Saisonalität",
+        "thresholdTypeOptionAdaptiveBaseline": "Adaptiver Schwellenwert",
         "useSuggestedvalue": "Vorgeschlagenen Wert verwenden",
         "loadingThresholdSuggestion": "Vorschlag für Schwellenwert",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Smart Alert bearbeiten",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Globalen Smart Alert bearbeiten",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Neuen Smart Alert erstellen",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Neuen globalen Smart Alert erstellen",
+        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Zu Smart Alert migrieren",
+        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Auf globalen Smart Alert migrieren",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Zum erweiterten Modus wechseln",
         "simpleAlertConfigDialogStep3Headline": "Wer sollte die Alerts bekommen?",
         "Loading": "Ladevorgang läuft...",
@@ -608,7 +643,8 @@
         "PreviewForEndpoint": "Vorschau für Endpunkt:",
         "PreviewForService": "Vorschau für Service:",
         "PreviewSelectLoadingEndpoints": "Endpunktliste wird geladen",
-        "thresholdValue": "Schwellenwert"
+        "thresholdValue": "Schwellenwert",
+        "migrationModeWarning": "Durch die Migration dieses angepassten Ereignisses auf einen Smart Alert wird es inaktiviert. Das Ereignis kann anschließend nicht erneut aktiviert werden."
       },
       "userInfo": {
         "success": {
@@ -683,6 +719,8 @@
         "slownessInteractiveChartThresholdValue": "Schwellenwert",
         "scopeLabel": "Bereich",
         "scopeTitle": "Bereich: Wo geschieht die Bedingung?",
+        "thresholdLabel": "Schwellenwert",
+        "thresholdTitle": "Schwellenwert: Wann wird gegen die Bedingung verstoßen?",
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: Worüber möchten Sie benachrichtigt werden?",
         "JSErrorMessage": "JS-Fehlernachricht",
@@ -877,7 +915,10 @@
       "migrateButton": "Zu Smart Alert migrieren",
       "migrateButtonTooltip": "Öffnet einen Smart Alert-Konfigurationsdialog, der bereits mit den migrierten Werten aus dem aktuellen Ereignis gefüllt wurde, um die bestmögliche Erweiterung zu erzielen. Bitte überprüfen Sie das Ergebnis sorgfältig!",
       "markAsMigratedButton": "Als migriert markieren",
-      "markAsMigratedButtonTooltip": "Kennzeichnet das Ereignis als migriertes Ereignis. Verwenden Sie dies, falls Sie bereits einen Smart Alert konfiguriert haben. Das Ereignis wird dadurch ersetzt."
+      "markAsMigratedButtonTooltip": "Kennzeichnet das Ereignis als migriertes Ereignis. Verwenden Sie dies, falls Sie bereits einen Smart Alert konfiguriert haben. Das Ereignis wird dadurch ersetzt.",
+      "markAsMigratedButtonConfirmationTitle": "Bitte bestätigen",
+      "markAsMigratedButtonConfirmationDescription": "Durch das Markieren dieses angepassten Ereignisses als migriert wird es inaktiviert. Das Ereignis kann anschließend nicht erneut aktiviert werden. Möchten Sie fortfahren?",
+      "markAsMigratedButtonConfirmationConfirmLabel": "Bestätigen"
     }
   }
 }

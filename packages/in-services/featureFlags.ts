@@ -40,6 +40,7 @@ export const ampEnabled = isFeatureFlagEnabled('ampEnabled', true);
 export const pcfEnabled = isFeatureFlagEnabled('pcfEnabled');
 export const phmcEnabled = isFeatureFlagEnabled('phmcEnabled');
 export const vsphereEnabled = isFeatureFlagEnabled('vsphereEnabled');
+export const openstackEnabled = isFeatureFlagEnabled('openstackEnabled');
 export const zhmcEnabled = isFeatureFlagEnabled('zhmcEnabled');
 export const loggingEnabled = isFeatureFlagEnabled('loggingEnabled');
 export const kubernetesLoggingEnabled = isFeatureFlagEnabled('kubernetesLoggingEnabled', false);

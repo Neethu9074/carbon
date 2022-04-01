@@ -31,7 +31,7 @@
   "labelTechnologies": "技術",
   "labelEndpoints": "端點",
   "labelHealth": "性能",
-  "labelNonHttp": "其他",
+  "labelOther": "其他",
   "labelCallCount": "呼叫計數",
   "labelHTTPStatusCodes": "HTTP 狀態碼",
   "labelInfraIssues": "基礎架構問題",
@@ -198,7 +198,6 @@
     "listBatchTypeTooltip": "此 {{type}} 已批次處理，代表 {{batchCount}} 個個別的 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 個批次處理 {{types}} 的延遲時間總計。",
     "traceIdTooltip": "此追蹤的某些相關資料有所延遲，請稍後再重新載入頁面。舉例來說，當正在檢視最近的追蹤時，若其某些資料仍在處理中，就可能發生此情況。",
-    "downloadTraceTooltip": "下載完整追蹤。",
     "closeTraceDetail": "關閉追蹤明細",
     "invalidQueryConfig": "查詢配置無效。請先處理驗證失敗情況，再繼續進行。",
     "errorRateLabel": "錯誤呼叫（比率）",
@@ -527,7 +526,7 @@
     "showApplicationsScopeWithApplicationLabel": "顯示環境定義 <linkToApplication>{{applicationLabel}}</linkToApplication> 中之 <linkToEntity>{{entityLabel}}</linkToEntity> 的應用程式 <bold>{{contextScope}}</bold>",
     "showServicesScopeWithServiceLabel": "顯示環境定義 <linkToApplication>{{applicationLabel}}</linkToApplication> 中之 <linkToEntity>{{entityLabel}}</linkToEntity> 的服務 <bold>{{contextScope}}</bold>",
     "titleNoService": "尚無服務",
-    "servicesNoData": "在選取的時間範圍內沒有任何可用的服務呼叫。如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "在選取的時間範圍內沒有任何可用的服務呼叫。 如需疑難排解資訊，請參閱 [說明文件][文件]。\n\n[文件]：https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Batch",
@@ -570,23 +569,14 @@
         "largeTraceLink": "此追蹤很大，在呈現此追蹤時可能導致您瀏覽器內出現效能問題。您可以<linkToDocs>下載追蹤</linkToDocs>以手動檢驗，或在您的瀏覽器內嘗試呈現追蹤。為了在此嘗試期間提高效能，我們只會呈現一部分的元件。",
         "calls": "呼叫",
         "erroneousTrace": "錯誤追蹤",
-        "attemptToRenderTrace": "嘗試呈現追蹤"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "服務資訊",
-          "showServiceInformationExpl": "在呼叫標籤下方顯示服務資訊",
-          "showSubCalls": "顯示子呼叫",
-          "showSubCallsExpl": "在每一列上顯示直接子呼叫"
-        }
+        "attemptToRenderTrace": "嘗試呈現追蹤",
+        "analyzeBeacons": "分析引標",
+        "adjustedTimeConfig": "已將時間範圍調整為包括選取的引標。"
       }
     }
   },
   "tabs": {
-    "labelDetail": "詳細資料",
-    "labelSummary": "摘要",
-    "servicesAndEndpoint": "服務和端點",
-    "logs": "日誌"
+    "labelDetail": "詳細資料"
   },
   "metrics": {
     "calls_calls": "呼叫",
@@ -598,5 +588,12 @@
     "traces_latency": "延遲時間",
     "traces_erroneousCalls": "錯誤追蹤",
     "traces_errors": "錯誤追蹤率"
+  },
+  "viewLists": {
+    "application": "應用程式",
+    "services": "服務",
+    "errorMessages": "錯誤訊息",
+    "logMessages": "日誌訊息",
+    "endpoints": "端點"
   }
 }

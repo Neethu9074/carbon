@@ -25,7 +25,8 @@
       "heading": "服務條款",
       "introduction": "在繼續前進之前，以及使用 Instana 產品和服務之前，您需要閱讀並同意我們的「服務條款」。",
       "documents": "請花點時間閱讀下列文件：",
-      "agreeToS": "我已閱讀並同意 Instana <tosButton />"
+      "agreeToS": "我已閱讀並同意 Instana 的 <tosButton />。",
+      "ibmTos": "IBM 的服務條款將控管 IBM 用戶端。"
     },
     "termsPage2": {
       "heading": "傳訊"
@@ -110,6 +111,8 @@
   },
   "tabs": {
     "failedToSaveConfig": "無法儲存配置：{{err}}",
+    "IdPMetadataRequired": "需要 IdP meta 資料檔",
+    "IdPMetadataLargerThanTwoMega": "IdP meta 資料檔不能大於 2 MB",
     "ldapHelpDoc": "協助及支援可在我們的<docLink>說明文件頁面</docLink>中找到。",
     "testConfiguration": "測試配置",
     "requiredSettings": "必要設定",
@@ -803,7 +806,8 @@
     "deprecatedEventSelectedMessage": "實體類型<em>應用程式、服務及端點</em>已針對自訂事件淘汰，且需要很快移轉至「智慧型警示」。 我們建議配置個別的「智慧型警示」，而不是自訂事件。 如需相關資訊，請<documentationLink>參閱我們的文件</documentationLink>。"
   },
   "languageSelection": {
-    "language": "語言"
+    "language": "語言",
+    "collationLanguage": "排序的語言"
   },
   "terms": {
     "failedToSaveSettings": "無法儲存設定：{{settings}} {{err}}",

@@ -31,7 +31,7 @@
   "labelTechnologies": "기술",
   "labelEndpoints": "엔드포인트",
   "labelHealth": "상태",
-  "labelNonHttp": "기타",
+  "labelOther": "기타",
   "labelCallCount": "호출 개수",
   "labelHTTPStatusCodes": "HTTP 상태 코드",
   "labelInfraIssues": "인프라 문제",
@@ -198,7 +198,6 @@
     "listBatchTypeTooltip": "이 {{type}}은(는) 일괄처리되며 {{batchCount}}개 개별 {{types}}을(를) 나타냅니다.",
     "listBatchLatencyTooltip": "일괄처리된 {{batchCount}}개 {{types}}의 총 대기 시간입니다.",
     "traceIdTooltip": "이 추적과 관련된 일부 데이터가 지연되므로 잠시 후에 페이지를 다시 로드하십시오. 이러한 경우가 발생할 수 있는 예제는 해당 데이터의 일부가 처리 중인 매우 최근 추적에서 나타나고 있습니다.",
-    "downloadTraceTooltip": "전체 추적을 다운로드하십시오.",
     "closeTraceDetail": "추적 세부사항 닫기",
     "invalidQueryConfig": "조회 구성이 올바르지 않습니다. 계속하기 전에 유효성 검증 실패를 해결하십시오.",
     "errorRateLabel": "잘못된 호출(비율)",
@@ -527,7 +526,7 @@
     "showApplicationsScopeWithApplicationLabel": "<linkToApplication>{{applicationLabel}}</linkToApplication>의 컨텍스트에서 <linkToEntity>{{entityLabel}}</linkToEntity>의 애플리케이션 <bold>{{contextScope}}</bold> 표시",
     "showServicesScopeWithServiceLabel": "<linkToApplication>{{applicationLabel}}</linkToApplication>의 컨텍스트에서 <linkToEntity>{{entityLabel}}</linkToEntity>의 서비스 <bold>{{contextScope}}</bold> 표시",
     "titleNoService": "아직 서비스 없음",
-    "servicesNoData": "선택한 시간 범위에 사용할 수 있는 서비스 호출이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "선택한 시간 범위에 사용할 수 있는 서비스 호출이 없습니다. 문제점 해결 정보는 [문서][문서]를 참조하십시오.\n\n[문서]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "일괄처리",
@@ -570,23 +569,14 @@
         "largeTraceLink": "이 추적은 대형이며 이 추적을 렌더링하면 브라우저 내의 성능에 문제가 발생할 수 있습니다. 수동으로 조사하려는 경우 <linkToDocs>추적을 다운로드</linkToDocs>하거나 브라우저 내에서 추적 렌더링을 시도할 수 있습니다. 이 시도의 성능을 높이기 위해 컴포넌트의 서브세트만 렌더링합니다.",
         "calls": "호출",
         "erroneousTrace": "잘못된 추적",
-        "attemptToRenderTrace": "추적을 렌더링하는 시도"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "서비스 정보",
-          "showServiceInformationExpl": "호출 레이블 아래 서비스 정보 표시",
-          "showSubCalls": "하위 호출 표시",
-          "showSubCallsExpl": "각 행에서 직접 하위 호출 표시"
-        }
+        "attemptToRenderTrace": "추적을 렌더링하는 시도",
+        "analyzeBeacons": "비콘 분석",
+        "adjustedTimeConfig": "선택한 비콘을 포함하도록 시간 범위가 조정되었습니다."
       }
     }
   },
   "tabs": {
-    "labelDetail": "세부사항",
-    "labelSummary": "요약",
-    "servicesAndEndpoint": "서비스 및 엔드포인트",
-    "logs": "로그"
+    "labelDetail": "세부사항"
   },
   "metrics": {
     "calls_calls": "호출",
@@ -598,5 +588,12 @@
     "traces_latency": "대기 시간",
     "traces_erroneousCalls": "잘못된 추적",
     "traces_errors": "잘못된 추적 비율"
+  },
+  "viewLists": {
+    "application": "애플리케이션",
+    "services": "서비스",
+    "errorMessages": "오류 메시지",
+    "logMessages": "로그 메시지",
+    "endpoints": "엔드포인트"
   }
 }

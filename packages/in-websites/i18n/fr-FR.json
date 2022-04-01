@@ -162,6 +162,7 @@
         "httpRequestBeaconHeaderRequest": "Demande",
         "httpRequestBeaconHeaderCallDetails": "Informations sur l'appel",
         "httpRequestBeaconHeaderMeta": "Méta",
+        "httpRequestBeaconHeaderHttpHeaders": "En-têtes HTTP",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "Délai de ressource",
         "httpRequestBeaconHeaderNetworkInsights": "Informations sur le réseau",
@@ -479,6 +480,36 @@
         "configurationRenameTitle": "Renommer le site Web",
         "configurationRenameButton": "Renommer",
         "configurationTrackingScriptTitle": "Script de suivi",
+        "saved": "Sauvegardé",
+        "ipMasking": {
+          "title": "Masquage des adresses IP",
+          "help": "Le masquage des adresses IP protège la vie privée des utilisateurs finaux en masquant (anonymisant) les segments d'adresses IP. Cela se produit le plus tôt possible dans le pipeline d'ingestion d'Instana de sorte que les adresses IP complètes ne soient jamais stockées. Instana masque toujours les adresses IP à l'aide de règles couramment utilisées dans l'industrie. Vous pouvez configurer des règles de masquage IP plus strictes si votre organisation l'exige.",
+          "option_DEFAULT": "Par défaut, masquer les 8 derniers bits pour IPv4 et les 80 derniers bits pour IPv6",
+          "option_STRICT": "Strict, masquer les 16 derniers bits pour IPv4 et les 96 derniers bits pour IPv6",
+          "option_REMOVE_ALL_DETAILS": "Supprimer les adresses IP (seule une indication de l'utilisation de IPv4 et de IPv6 est conservée)"
+        },
+        "geoDetailRemoval": {
+          "title": "Retrait des détails géographiques",
+          "help": "Instana détermine un emplacement géographique approximatif pour les données entrantes en fonction des adresses IP de l'utilisateur final. Ceci inclut des informations sur les coordonnées de l'utilisateur final (ville, état, pays et continent). Certaines organisations considéreront peut-être ces données comme des informations d'identification d'un utilisateur final et par conséquent souhaiteront peut-être anonymiser davantage ces informations approximatives sur l'emplacement. Pour de faire, elles pourront utiliser notre fonction de retrait des détails géographiques.",
+          "option_NO_REMOVAL": "Pas de retrait des détails géographiques",
+          "option_REMOVE_COORDINATES": "Retirer les informations de latitude, de longitude et d'exactitude",
+          "option_REMOVE_CITY": "Retirer les informations de ville, de latitude, de longitude et d'exactitude",
+          "option_REMOVE_ALL": "Retirer tous les détails géographiques"
+        },
+        "customGeoDetails": {
+          "title": "Détails géographiques personnalisés",
+          "help1": "Instana mappe les adresses IP de l'utilisateur final à des détails géographiques, par exemple, les noms de ville et de pays. A cet effet, différents en-têtes HTTP sont examinés afin d'extraire les adresses IP de l'utilisateur final. Ces adresses IP sont ensuite traduites en détails géographiques avec l'aide de <maxmind>bases de données géographiques de Maxmind</maxmind>. Les réseaux privés constituent le cas d'utilisation principal de ces règles de mappage personnalisées. Par exemple, lors de l'accès aux installations Instana (auto-hébergées) via des réseaux privés. Dans de tels cas, les bases de données géographiques publiques ne contiennent jamais d'information pertinente et, à ce titre, le processus de traduction ne fournit aucun résultat ou seulement des résultats inappropriés ou inutiles.",
+          "help2": "Les règles relatives aux détails géographiques personnalisés sont toujours exprimées au moyen de valeurs séparées par des virgules (CSV). Le format CSV et l'utilisation de notre API REST Web sont définis dans notre <documentation>documentation</documentation>.",
+          "download": "Télécharger la configuration active (CSV)",
+          "documentation": "Documentation",
+          "uploader": {
+            "title": "Télécharger de nouvelles règles",
+            "help": "Les règles relatives aux détails géographiques personnalisés sont des fichiers CSV définis et sont téléchargées via notre API REST Web ou via ce formulaire. Pour plus d'informations sur la structure de fichier, les limites et l'API REST Web, voir notre <documentation>documentation</documentation>.",
+            "failureToReadFileContent": "Echec de la lecture du contenu du fichier : {{error}}",
+            "failureToCallApiForTechnicalReason": "Echec de l'exécution de l'appel HTTP : {{error}}",
+            "failureToCallApiForStatusCodeReason": "Appel HTTP renvoyé avec un résultat erroné : {{error}}"
+          }
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Enregistrement de la configuration en cours...",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "ConfigurationUpdated.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "La nouvelle configuration a été enregistrée.",
@@ -519,7 +550,9 @@
         "stackTraceTranslationLabelOr": " ou ",
         "configurationTitle": "Configuration",
         "configurationLabelOptions": "Options",
-        "configurationLabelJSStackTraceTranslation": "Conversion de trace de pile JS"
+        "configurationLabelPrivacy": "Confidentialité",
+        "configurationLabelJSStackTraceTranslation": "Conversion de trace de pile JS",
+        "configurationLabelCustomGeoDetails": "Détails géographiques personnalisés"
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "Informations sur l'événement personnalisé de site Web",

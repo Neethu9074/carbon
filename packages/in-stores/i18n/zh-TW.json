@@ -72,8 +72,8 @@
   "permissionCanConfigureSessionSettingsLabel": "存取記號和階段作業逾時設定",
   "permissionCanConfigureSessionSettingsDescription": "允許存取配置記號和階段作業逾時值。",
   "permissionCanConfigureSessionSettingsCategory": "存取控制",
-  "permissionCanViewLogsLabel": "存取追蹤詳細視圖中的日誌",
-  "permissionCanViewLogsDescription": "能夠存取日誌。",
+  "permissionCanViewLogsLabel": "存取日誌",
+  "permissionCanViewLogsDescription": "允許存取檢視日誌。",
   "permissionCanViewLogsCategory": "存取控制",
   "permissionCanViewTraceDetailsLabel": "存取追蹤詳細視圖中的追蹤詳細資料",
   "permissionCanViewTraceDetailsDescription": "能夠存取追蹤詳細資料。",
@@ -89,7 +89,6 @@
   "permissionCanViewAccountAndBillingInformationCategory": "帳戶資訊",
   "permissionRestrictedLabel": "依群組存取範圍來限制存取",
   "permissionRestrictedHelp": "啟用角色型存取控制。",
-
   "metric": {
     "metric_MEAN": "平均值",
     "metric_MIN": "最小值",
@@ -104,14 +103,12 @@
     "metric_DISTINCT_COUNT": "個別的計數",
     "metric_SUM": "總和",
     "metric_DISTRIBUTION": "分佈",
-
     "formatterLabelNumber": "數字，例如 {{example}}",
     "formatterLabelPercentage": "百分比，例如 {{example}}",
     "formatterLabelBytes": "位元組數，例如 {{example}}",
     "formatterLabelMilliseconds": "毫秒，例如 {{example}}",
     "formatterLabelLatency": "延遲時間，例如：{{example}}",
     "formatterLabelSIPrefix": "SI 字首，例如 {{example}}",
-
     "rendererLabelArea": "區域",
     "rendererLabelAreaStacked": "區域（堆疊）",
     "rendererLabelBar": "長條",
@@ -122,10 +119,8 @@
     "rendererLabelPoint": "點",
     "rendererLabelPie": "圓餅圖"
   },
-
   "search": {
     "queryInvalidLuceneQuery": "無效的 Lucene 查詢。",
-
     "fieldsEntity": "基礎架構和應用程式實體",
     "fieldsEntityAgent": "Instana 代理程式",
     "fieldsEntityAgentGitops": "Instana 代理程式 GitOps 配置",
@@ -191,6 +186,7 @@
     "fieldsEntityVsphereEsxihost": "vSphere ESXi 主機",
     "fieldsEntityVsphereVm": "vSphere 虛擬機器",
     "fieldsEntityWebsphere": "IBM WebSphere 應用程式伺服器",
+    "fieldsEntityWebsphereDeploymentManager": "IBM WebSphere Deployment Manager",
     "fieldsTrace": "追蹤和根範圍",
     "fieldsEvent": "變更、問題和事故",
     "fieldsSpan": "追蹤內的範圍",
@@ -205,7 +201,6 @@
     "fieldsSpanEndpoint": "端點特定的欄位",
     "fieldsSavedFilter": "已儲存的過濾器"
   },
-
   "time": {
     "shiftingLabelOff": "關閉",
     "shiftingDescriptionOff": "檢視不隨時間遷移的資料",
@@ -219,7 +214,6 @@
     "shiftingDescriptionLastWeek": "從所選時間範圍前一週開始比較",
     "shiftingCustomDuration": "前一個 {{duration}}"
   },
-
   "view": {
     "viewGroupingsCompose": "Docker 編製專案名稱",
     "viewGroupingsCustom_container": "儲存器標籤",
@@ -232,10 +226,8 @@
     "viewGroupingsCfSpace": "Cloud Foundry 空間",
     "viewGroupingsMarathon": "Marathon 應用程式 ID",
     "viewGroupingsNomad": "Nomad 作業名稱",
-
     "viewGroupingsInfraZone": "區域",
     "viewGroupingsInstanceType": "實例類型",
-
     "viewGroupingsCpuCount": "CPU 計數",
     "viewGroupingsCpuModel": "CPU 型號",
     "viewGroupingsOsArc": "OS 架構",

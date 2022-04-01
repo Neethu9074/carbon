@@ -72,8 +72,8 @@
   "permissionCanConfigureSessionSettingsLabel": "Accesso alle impostazioni di timeout del token e della sessione",
   "permissionCanConfigureSessionSettingsDescription": "Consente l'accesso alla configurazione dei timeout del token e della sessione.",
   "permissionCanConfigureSessionSettingsCategory": "Controllo accessi",
-  "permissionCanViewLogsLabel": "Accesso dei log nella vista dettagli della traccia",
-  "permissionCanViewLogsDescription": "Consente l'accesso ai log.",
+  "permissionCanViewLogsLabel": "Accesso ai log",
+  "permissionCanViewLogsDescription": "Consente l'accesso per visualizzare i log.",
   "permissionCanViewLogsCategory": "Controllo accessi",
   "permissionCanViewTraceDetailsLabel": "Accesso dei dettagli di traccia nella vista dei dettagli della traccia",
   "permissionCanViewTraceDetailsDescription": "Abilita l'accesso ai dettagli della traccia.",
@@ -89,7 +89,6 @@
   "permissionCanViewAccountAndBillingInformationCategory": "Informazioni sull'account",
   "permissionRestrictedLabel": "Limita l'accesso in base agli ambiti di accesso del gruppo",
   "permissionRestrictedHelp": "Abilita il controllo degli accessi basato sui ruoli.",
-
   "metric": {
     "metric_MEAN": "media",
     "metric_MIN": "min",
@@ -104,14 +103,12 @@
     "metric_DISTINCT_COUNT": "conteggio distinto",
     "metric_SUM": "somma",
     "metric_DISTRIBUTION": "distribuzione",
-
     "formatterLabelNumber": "Numero, ad esempio {{example}}",
     "formatterLabelPercentage": "Percentuale, ad esempio {{example}}",
     "formatterLabelBytes": "Byte, ad esempio {{example}}",
     "formatterLabelMilliseconds": "Millisecondi, ad esempio {{example}}",
     "formatterLabelLatency": "Latenza, ad es. {{example}}",
     "formatterLabelSIPrefix": "Prefisso SI, ad esempio {{example}}",
-
     "rendererLabelArea": "Area",
     "rendererLabelAreaStacked": "Area (in pila)",
     "rendererLabelBar": "Barre",
@@ -122,10 +119,8 @@
     "rendererLabelPoint": "Punti",
     "rendererLabelPie": "Torta"
   },
-
   "search": {
     "queryInvalidLuceneQuery": "Query lucene non valida.",
-
     "fieldsEntity": "Entità infrastruttura ed applicazione",
     "fieldsEntityAgent": "Agent Instana",
     "fieldsEntityAgentGitops": "Configurazione GitOps agent Instana",
@@ -191,6 +186,7 @@
     "fieldsEntityVsphereEsxihost": "Host vSphere ESXi",
     "fieldsEntityVsphereVm": "Macchina virtuale vSphere",
     "fieldsEntityWebsphere": "IBM WebSphere application server",
+    "fieldsEntityWebsphereDeploymentManager": "IBM WebSphere Deployment Manager",
     "fieldsTrace": "Traccia ed estensione root",
     "fieldsEvent": "Modifiche, problemi e incidenti",
     "fieldsSpan": "Estensioni all'interno delle tracce",
@@ -205,7 +201,6 @@
     "fieldsSpanEndpoint": "Campi specifici endpoint",
     "fieldsSavedFilter": "Filtro salvato"
   },
-
   "time": {
     "shiftingLabelOff": "Disattivo",
     "shiftingDescriptionOff": "Visualizza dati senza spostamento temporale",
@@ -219,7 +214,6 @@
     "shiftingDescriptionLastWeek": "Confronta con i dati di una settimana prima della finestra temporale selezionata",
     "shiftingCustomDuration": "Precedente {{duration}}"
   },
-
   "view": {
     "viewGroupingsCompose": "Nome progetto Docker Compose",
     "viewGroupingsCustom_container": "Etichette contenitore",
@@ -232,10 +226,8 @@
     "viewGroupingsCfSpace": "Spazio Cloud Foundry",
     "viewGroupingsMarathon": "ID applicazione Marathon",
     "viewGroupingsNomad": "Nome attività Nomad",
-
     "viewGroupingsInfraZone": "Zona",
     "viewGroupingsInstanceType": "Tipo di istanza",
-
     "viewGroupingsCpuCount": "Conteggio CPU",
     "viewGroupingsCpuModel": "Modello CPU",
     "viewGroupingsOsArc": "Architettura del sistema operativo",

@@ -21,6 +21,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "您正在查看此警报配置的修订版 {{description}}。如果要进行更改，请<latestRevisionButton>选择最新修订版</latestRevisionButton>或<restoreRevisionButton>从当前修订版复原</restoreRevisionButton>。",
     "alertHeaderAriaLabelSeverity": "事件的严重性为 {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "已创建警报（{{totalRepresentedItemCount}} 个）",
+    "alertStateActive": "活动",
     "alertPropertyInfosLabelTitle": "标题",
     "alertPropertyInfosLabelAlertLevel": "警报级别",
     "alertPropertyInfosLabelTriggersIncident": "触发事件",
@@ -39,9 +40,10 @@
     "chart": {
       "alertingChartLabelThreshold": "阈值",
       "alertingChartLabelViolations": "违例",
-      "alertingChartTooltipSmoothedMetric": "平稳化指标",
       "alertingChartMessageInvalidFilterQuery": "过滤器查询无效。",
       "alertingChartMessageEntitySelectionInvalid": "未选择任何实体。",
+      "chartAlertsLaneErrorMessage": "无法装入警告",
+      "chartAlertsPreviewLanePresenterAlertsLabel": "警报",
       "chartViewConfigsLast24Hours": "过去 24 小时",
       "chartViewConfigsLast7Days": "过去 7 天"
     },
@@ -123,9 +125,11 @@
         "alertPropertyInsertPlaceholderLabel": "插入占位符",
         "evaluationSwitch": {
           "individual": "个别警报",
+          "optionNotAvailableForAdaptiveThreshold": "对于自适应阈值，此选项不可用",
           "evaluationTypePERAP": {
             "selectionText": "对于此应用程序透视图",
             "globalSelectionText": "每个应用程序透视图",
+            "shortText": "按应用程序透视图",
             "columnText": "已汇总",
             "description": "针对此应用程序透视图单独发出警报",
             "globalDescription": "对每个应用程序透视图单独发出警报"
@@ -133,6 +137,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "此应用程序透视图的每个服务",
             "globalSelectionText": "每个应用程序透视图上下文中的每个服务",
+            "shortText": "按服务",
             "columnText": "每个服务",
             "description": "针对此应用程序透视图的每个服务单独发出警报",
             "globalDescription": "针对每个应用程序透视图上下文中的每个服务单独发出警报"
@@ -140,6 +145,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "此应用程序透视图的每个端点",
             "globalSelectionText": "每个应用程序透视图上下文中的每个端点",
+            "shortText": "按端点",
             "columnText": "每个端点",
             "description": "针对此应用程序透视图的每个端点单独发出警报",
             "globalDescription": "针对每个应用程序透视图上下文中的每个端点单独发出警报"
@@ -164,6 +170,18 @@
             "confirmButtonLabel": "确认"
           }
         },
+        "staticOrAdaptive": {
+          "config": {
+            "static": {
+              "title": "静态",
+              "description": "阈值是固定阈值或与时间相关的阈值。 Instana 可帮助您根据最近的数据选取正确的阈值"
+            },
+            "adaptive": {
+              "title": "自适应",
+              "description": "阈值会自动根据底层度量值的更改而调整"
+            }
+          }
+        },
         "includeInternalOrSynthethicCalls": {
           "includeInternalCalls": "包含内部调用数",
           "includeSyntethicCalls": "包含合成调用数"
@@ -183,6 +201,11 @@
             "title": "触发器：您希望收到关于何种内容的警报？",
             "logMessageCardTitle": "日志消息",
             "httpStatusCodesCardTitle": "HTTP 状态码"
+          },
+          "threshold": {
+            "staticOrAdaptiveTitle": "阈值类型",
+            "label": "阈值",
+            "title": "阈值：何时违反条件？"
           },
           "timeThreshold": {
             "label": "时间阈值",
@@ -208,7 +231,7 @@
           "applications": "应用程序：",
           "services": "服务："
         },
-        "noChartForAdaptiveBaseline": "此触发器基于自适应基线时不提供预览。",
+        "noChartForAdaptiveBaseline": "在此触发器基于自适应阈值时，没有预览可用。",
         "noDataWithoutEndpointSelection": "请选择一个端点以查看预览",
         "noDataAvailable": "请选择服务以查看预览"
       },
@@ -446,6 +469,10 @@
         "labelGlobalSmartAlertsList": "全局应用程序智能警报数（{{numberOfAlerts}} 个）",
         "labelSmartAlertsList": "应用程序智能警报数（{{numberOfAlerts}} 个）",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "静态阈值：{{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "静态每日季节性：{{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "静态每周季节性：{{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "自适应阈值：{{metricLabel}}",
         "labelActionButtonEdit": "编辑 ",
         "labelActionButtonDuplicate": "复制",
         "labelActionButtonDelete": "删除",
@@ -475,6 +502,10 @@
       }
     },
     "details": {
+      "header": "详细信息",
+      "thresholdTypeTitle": "阈值类型",
+      "metricTitle": "度量值",
+      "entityTitle": "作用域",
       "titleBuiltInIndicator": "内置"
     },
     "form": {
@@ -483,7 +514,7 @@
       "ruleAggregationOptionP25": "第 25 个",
       "ruleAggregationOptionP50": "第 50 个",
       "ruleAggregationOptionP75": "第 75 个",
-      "ruleAggregationOptionP90": "第 90 个（推荐）",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "第 95 个",
       "ruleAggregationOptionP98": "第 98 个",
       "ruleAggregationOptionP99": "第 99 个",
@@ -494,7 +525,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "取消",
-        "sharedListTooltip": "选定的 {{typeName}} 不再可用",
+        "sharedListTooltip": "{{typeName}} 不再可用",
         "clearTagFilterExpressionButton": "清除",
         "baselineErrorMessageInsufficientDataToCompute": "数据不足，无法计算所选基线。请改为选择<em>静态阈值</em>。",
         "pleaseContactSupportToRiseLimit": "请通过我们的 <supportLink>{{instanaSupportPortal}}</supportLink>联系我们，以请求增大此限制。",
@@ -549,20 +580,20 @@
         "timeThresholdDescriptionViolationsInPeriod_2": "至少{{count}} 个违例在过去 {{formattedTimeWindow}} 内受影响",
         "timeThresholdConfigNumberOfConsecutiveViolations": "连续指标违例数",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "连续评估数",
-        "timeThresholdConfigNumberOfEvaluationWindows": "用于用户影响的评估窗口数",
+        "timeThresholdConfigNumberOfEvaluationWindows": "连续违例数",
         "timeThresholdConfigImpactEvaluationMethod": "用户影响评估方法",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "在所有评估窗口中聚集",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "为每个评估窗口计算",
         "timeThresholdConfigNumberOfViolations": "指标违例数",
         "timeThresholdConfigEvaluationGranularity": "评估详细程度",
-        "timeThresholdConfigNumberOfRequestsThreshold": "请求数阈值",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影响用户数阈值",
+        "timeThresholdConfigNumberOfRequestsThreshold": "受影响的请求数",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "受影响的用户数",
         "timeThresholdConfigAtLeast": "至少",
-        "timeThresholdConfigNumberOfRequests": "请求数",
+        "timeThresholdConfigNumberOfRequests": "受影响的请求数",
         "timeThresholdConfigMinutes": "{{min}} 分钟",
-        "timeThresholdConfigNumberOfUsers": "用户数",
-        "timeThresholdConfigPercentageOfUsers": "用户百分比",
-        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "受影响用户百分比阈值",
+        "timeThresholdConfigNumberOfUsers": "受影响的用户数",
+        "timeThresholdConfigPercentageOfUsers": "受影响用户的百分比",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "受影响用户的百分比",
         "timeThresholdConfigOff": "关闭",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "请提供大于或等于 1 的数字",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "请提供 1% 到 100% 之间的数字",
@@ -585,22 +616,26 @@
         "alertPropertiesAlertProperties": "警报属性",
         "buttonSave": "保存",
         "buttonCreate": "创建",
+        "buttonMigrate": "迁移",
         "selectedBlueprint": "已选择蓝图",
         "buttonRecalculateBaseline": "重新计算基线",
         "sensitivitySliderLow": "低",
         "sensitivitySliderHigh": "高",
         "labelThreshold": "阈值",
         "labelSensitivity": "敏感度",
+        "staticThresholdTypeOptionsTooltip": "“静态每日/每周阈值”是基于历史数据的时间相关阈值。 此阈值不会自动更改，可以根据需要手动重新计算。",
         "thresholdTypeOptionStaticThreshold": "静态阈值",
-        "thresholdTypeOptionHistoricBaselineDaily": "基线（每日季节性）",
-        "thresholdTypeOptionHistoricBaselineWeekly": "基线（每周季节性）",
-        "thresholdTypeOptionAdaptiveBaseline": "自适应基线",
+        "thresholdTypeOptionHistoricBaselineDaily": "静态每日季节性",
+        "thresholdTypeOptionHistoricBaselineWeekly": "静态每周季节性",
+        "thresholdTypeOptionAdaptiveBaseline": "自适应阈值",
         "useSuggestedvalue": "使用建议值",
         "loadingThresholdSuggestion": "正在加载阈值建议",
         "alertConfigDialogPresenterTitleEditAlert_Local": "编辑智能警报",
         "alertConfigDialogPresenterTitleEditAlert_Global": "编辑全局智能警报",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "新建智能警报",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "新建全局智能警报",
+        "alertConfigDialogPresenterTitleMigrateAlert_Local": "迁移到智能警报",
+        "alertConfigDialogPresenterTitleMigrateAlert_Global": "迁移到全局智能警报",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "切换到高级模式",
         "simpleAlertConfigDialogStep3Headline": "谁应该接收警报？",
         "Loading": "正在加载...",
@@ -608,7 +643,8 @@
         "PreviewForEndpoint": "端点预览：",
         "PreviewForService": "服务预览：",
         "PreviewSelectLoadingEndpoints": "正在加载端点列表",
-        "thresholdValue": "阈值"
+        "thresholdValue": "阈值",
+        "migrationModeWarning": "将此定制事件迁移到智能警报将禁用此事件。 在此之后无法重新启用此事件。"
       },
       "userInfo": {
         "success": {
@@ -683,6 +719,8 @@
         "slownessInteractiveChartThresholdValue": "阈值",
         "scopeLabel": "作用域",
         "scopeTitle": "作用域：这种情况在哪里发生？",
+        "thresholdLabel": "阈值",
+        "thresholdTitle": "阈值：何时违反条件？",
         "triggerLabel": "触发器",
         "triggerTitle": "触发器：您希望收到关于何种内容的警报？",
         "JSErrorMessage": "JS 错误消息",
@@ -877,7 +915,10 @@
       "migrateButton": "迁移到智能警报",
       "migrateButtonTooltip": "打开“智能警报配置”对话框，其中尽我们所能预填充了来自当前事件的已迁移值。请仔细检查结果！",
       "markAsMigratedButton": "标记为已迁移",
-      "markAsMigratedButtonTooltip": "将事件标记为已迁移。 如果您已配置将替换此事件的智能警报，请使用此方法。"
+      "markAsMigratedButtonTooltip": "将事件标记为已迁移。 如果您已配置将替换此事件的智能警报，请使用此方法。",
+      "markAsMigratedButtonConfirmationTitle": "请确认",
+      "markAsMigratedButtonConfirmationDescription": "将此定制事件标记为已迁移将禁用此事件。 在此之后无法重新启用此事件。 要继续吗？",
+      "markAsMigratedButtonConfirmationConfirmLabel": "确认"
     }
   }
 }

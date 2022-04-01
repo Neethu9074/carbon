@@ -3,22 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-import classNames from 'classnames';
 import React, { ReactNode } from 'react';
+import classNames from 'classnames';
 
 import locals from './Section.mless';
 
 interface Props {
-  restrictWidth?: string,
-  children: ReactNode,
-  className?: string
+  restrictWidth?: string;
+  children: ReactNode;
+  className?: string;
 }
 
-export default function Section({
-  restrictWidth,
-  children,
-  className
-}: Props) {
+export default function Section({ restrictWidth, children, className }: Props) {
   return (
     <div
       style={{

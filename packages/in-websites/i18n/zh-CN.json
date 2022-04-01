@@ -162,6 +162,7 @@
         "httpRequestBeaconHeaderRequest": "请求",
         "httpRequestBeaconHeaderCallDetails": "调用详细信息",
         "httpRequestBeaconHeaderMeta": "元",
+        "httpRequestBeaconHeaderHttpHeaders": "HTTP 头",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "资源计时",
         "httpRequestBeaconHeaderNetworkInsights": "Network Insights",
@@ -479,6 +480,36 @@
         "configurationRenameTitle": "重命名 Web 站点",
         "configurationRenameButton": "重命名",
         "configurationTrackingScriptTitle": "跟踪脚本",
+        "saved": "已保存",
+        "ipMasking": {
+          "title": "IP 掩蔽",
+          "help": "IP 掩蔽通过掩蔽（匿名化）IP 地址段来保护最终用户隐私。 这会在 Instana 的摄入管道中尽早执行，因此永远不会存储完整的 IP 地址。 Instana 始终使用业内常用的规则来掩蔽 IP 地址。 如果您的组织需要，您可以配置更严格的 IP 掩蔽规则。",
+          "option_DEFAULT": "缺省值：对于 IPv4，掩蔽最后 8 位；对于 IPv6，掩蔽最后 80 位",
+          "option_STRICT": "严格：对于 IPv4，掩蔽最后 16 位；对于 IPv6，掩蔽最后 96 位",
+          "option_REMOVE_ALL_DETAILS": "除去 IP 地址（仅保留 IPv4 和 IPv6 用法提示）"
+        },
+        "geoDetailRemoval": {
+          "title": "除去地理详细信息",
+          "help": "Instana 根据最终用户 IP 地址来确定入局数据的大致地理位置。 这包括有关最终用户坐标、所在城市、省/自治区/直辖市、国家/地区和大陆的信息。 一些组织可能认为这些数据是最终用户可识别的信息，因此可能希望进一步对这些大致位置信息进行匿名化。 这可以通过除去地理详细信息来实现。",
+          "option_NO_REMOVAL": "无地理详细信息除去",
+          "option_REMOVE_COORDINATES": "除去纬度、经度和准确性信息",
+          "option_REMOVE_CITY": "除去城市、纬度、经度和准确性信息",
+          "option_REMOVE_ALL": "除去所有地理详细信息"
+        },
+        "customGeoDetails": {
+          "title": "定制地理详细信息",
+          "help1": "Instana 将最终用户 IP 地址映射到地理详细信息，例如所在城市和国家/地区名称。 这是通过检查各种 HTTP 头以检索最终用户 IP 地址来完成的。 然后，借助 <maxmind>Maxmind 的地理数据库</maxmind>将这些 IP 地址转换为地理详细信息。 这些定制映射规则的主要用例是专用网络。 例如，通过专用网络访问（自托管）Instana 安装时。 在这种情况下，公共地理数据库绝不会包含相关信息，因此，翻译过程不会提供任何结果，或仅提供错误/无用的结果。",
+          "help2": "定制地理详细信息的规则始终以逗号分隔值 (CSV) 表示。 <documentation>文档</documentation>中定义了 Web REST API 的 CSV 格式和用法。",
+          "download": "下载活动配置 (CSV)",
+          "documentation": "文档",
+          "uploader": {
+            "title": "上载新规则",
+            "help": "定制地理详细信息规则是定义的 CSV 文件，可通过我们的 Web REST API 或通过此表单进行上载。 有关文件结构、限制和 Web REST API 的更多信息，请参阅<documentation>文档</documentation>。",
+            "failureToReadFileContent": "未能读取文件内容：{{error}}",
+            "failureToCallApiForTechnicalReason": "未能执行 HTTP 调用：{{error}}",
+            "failureToCallApiForStatusCodeReason": "HTTP 调用返回了错误的结果：{{error}}"
+          }
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "正在保存配置...",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "已更新配置。",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "已保存新配置。",
@@ -519,7 +550,9 @@
         "stackTraceTranslationLabelOr": " 或",
         "configurationTitle": "配置",
         "configurationLabelOptions": "选项 ",
-        "configurationLabelJSStackTraceTranslation": "JS 堆栈跟踪转换"
+        "configurationLabelPrivacy": "隐私",
+        "configurationLabelJSStackTraceTranslation": "JS 堆栈跟踪转换",
+        "configurationLabelCustomGeoDetails": "定制地理详细信息"
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "Web 站点定制事件详细信息",

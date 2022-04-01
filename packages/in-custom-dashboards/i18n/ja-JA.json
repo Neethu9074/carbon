@@ -164,7 +164,10 @@
       "metricsFormComponent": {
         "metric": "メトリック",
         "selectMetric": "メトリックの選択",
-        "aggregation": "集約"
+        "aggregation": "集約",
+        "crossSeriesAggregation": "クロス系列集計に SUM を使います。",
+        "crossSeriesAggregationHelp": "通常、クロスシリーズアグリゲーションはクロスタイムアグリゲーション（データポイントを単一のバケット参加方法）と同じです。 このトグルを有効にすると、指定された集計を使用するのではなく、データ系列全体のバケットを参加します。",
+        "crossSeriesAggregationDisabledHelp": "{{aggregation}} には適用されません。"
       },
       "metrics": {
         "infrastructurePlatforms": "インフラストラクチャーとプラットフォーム",
@@ -344,7 +347,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - はじめに",
-        "text": "Instana は最初で唯一の完全自動化されたアプリケーション・パフォーマンス管理 (APM) ソリューションであり、\nマイクロサービスやクラウドネイティブのアプリケーションを管理するという課題のために特別に設計されています。\n\n始めるのは簡単です。\n\n1. まだ Instana にアクセスできない場合は、[Instana.com](https://www.instana.com) に進み、無料の試用版に登録します。\n2. 多数の [サポート対象テクノロジー] で構成されるエコシステムを探索します (https://www.instana.com/docs/ecosystem)。\n3. いずれかの [エージェント] を使用してデータの収集を開始します (https://www.instana.com/docs/setup_and_manage)。\n4. ユース・ケースでの [Instana の使用方法] を確認します (https://www.instana.com/docs/using_instana)。\n5. 独自の [コア機能] の説明を確認します (https://www.instana.com/docs/core_capabilities/)。\n6. [統合、SDK、および API] で Instana を拡張します (https://www.instana.com/docs/integrations)。\n\nこれで完了です。\n\nお探しのものが見つかりませんか? [instana.com/docs] (https://www.instana.com/docs/) に進んでください。"
+        "text": "Instanaは、マイクロサービスやクラウドネイティブアプリケーションの管理に特別に設計され、最初かつ唯一の完全自動化されたアプリケーションパフォーマンス（APM）ソリューションです。\n\n始めるのは簡単です1。 Instana にまだアクセスできない場合、[Instana.com] (https://www.instana.com) にアクセスして、無料トライアルに登録してください。2。 何百もの[サポートされているテクノロジー]（https://www.ibm.com/docs/en/obi/current?topic=supported-technologies）のエコシステムを探索します。3 [エージェント]（https://www.ibm.com/docs/en/obi/current?topic=set-up-manage-instana）のいずれかを使用してデータの収集を開始します。4。 ユース・ケースの [Instana の使用方法] (https://www.ibm.com/docs/en/obi/current?topic = using-instana) について説明します。5. 独自の[コア機能]（https://www.ibm.com/docs/en/obi/current?topic=core-capabilities）についてお読みください。6。 [Integrations, SDK & APIs](https://www.ibm.com/docs/en/obi/current?topic=integrations-sdks-apis)の拡張Instana。\n\nこれで完了です。\n\nお探しのものが見つかりませんか? [documentation] (https: //www.ibm.com/docs/en/obi/current) にホップします。"
       },
       "formComp": {
         "whatULikeShow": "表示する項目",
@@ -377,14 +380,16 @@
         "userJourneyOffering": "ユーザー・ジャーニー/オファリング",
         "appnPerspective": "アプリケーション・パースペクティブ",
         "selectAppPerspect": "アプリケーション・パースペクティブを選択してください。",
-        "appPerspectHelpAction": "製品の「アプリケーション」領域でアプリケーション・パースペクティブとしてモデル化することにより、ユーザー・ジャーニー/オファリングをセットアップします。",
+        "appPerspectHelpAction": "アプリケーション領域でアプリケーションパースペクティブとしてモデル化することにより、ユーザージャーニー/オファリングを設定します。",
+        "rbacHint": "表示アプリケーションは、権限に制限される場合があります。",
         "noAppPerspect": "アプリケーション・パースペクティブがありません。",
         "pleaseSelect": "選択してください"
       },
       "websiteSelector": {
         "website": "Web サイト",
         "selectWebsite": "Web サイトを選択してください",
-        "websiteHelpAction": "本製品の「Web サイト ＆ モバイル・アプリケーション」領域で Web サイトを構成します。",
+        "websiteHelpAction": "ウェブサイト＆amp;でウェブサイトを設定する モバイルアプリエリア。",
+        "rbacHint": "表示Web サイトは権限に制限される場合があります。",
         "noWebsites": "Web サイトが見つかりません",
         "pleaseSelect": "選択してください"
       },
@@ -398,8 +403,6 @@
         "sliCreateSuccess": "SLI が正常に作成されました",
         "failCreateSli": "SLI の作成に失敗しました。",
         "problemCreateSli": "次の SLI の作成中に問題が発生しました: 「{{sliName}}」",
-        "cloning": "複製中…",
-        "creating": "作成中…",
         "clone": "複製",
         "create": "作成",
         "sliConfigMsg": "計算済みの費やされたバジェットが無効にならないようにするために、SLI のパラメーターを変更することはできません。 そのため、パラメーターを変更する場合、SLI を複製する必要があります。",
@@ -412,13 +415,16 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "良好なイベント",
-        "badEvents": "不良イベント"
+        "badEvents": "不良イベント",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "待ち時間",
         "callCount": "呼び出し数",
         "errorRate": "エラー率",
         "erroneousCalls": "エラーのある呼び出し数",
+        "beaconErrorRate": "ビーコン・エラー率",
+        "beaconDuration": "ビーコン期間",
         "mean": "平均",
         "min": "最小",
         "max": "最大",
@@ -542,7 +548,19 @@
       "atLeastOneFilterExpressionMustBeConfigured": "少なくとも 1 つのフィルター式を構成する必要があります。",
       "timeBased": "時刻ベース",
       "eventBased": "イベント・ベース",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "アプリケーション",
+        "source_website": "ウェブサイト"
+      },
+      "sliFormatter": {
+        "unit": "コール",
+        "unit_plural": "呼び出し",
+        "unit_0": "呼び出し",
+        "unit_1": "コール",
+        "unit_2": "呼び出し",
+        "thousandCallsFormat": "{{count}}K 呼び出し"
+      }
     },
     "timezone": {
       "demo": {

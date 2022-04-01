@@ -14,11 +14,6 @@
   "pluginName_aceMessageFlow_1": "IBM ACE 메시지 플로우",
   "pluginName_aceMessageFlow_2": "IBM ACE 메시지 플로우",
   "pluginName_aceMessageFlow": "IBM ACE 메시지 플로우",
-  "pluginName_aceFlowNode_plural": "IBM ACE 플로우 노드",
-  "pluginName_aceFlowNode_0": "IBM ACE 플로우 노드",
-  "pluginName_aceFlowNode_1": "IBM ACE 플로우 노드",
-  "pluginName_aceFlowNode_2": "IBM ACE 플로우 노드",
-  "pluginName_aceFlowNode": "IBM ACE 플로우 노드",
   "pluginName_activeMQ_plural": "ActiveMQ",
   "pluginName_activeMQ_0": "ActiveMQ",
   "pluginName_activeMQ_1": "ActiveMQ",
@@ -34,6 +29,16 @@
   "pluginName_aerospike_1": "Aerospike",
   "pluginName_aerospike_2": "Aerospike",
   "pluginName_aerospike": "Aerospike",
+  "pluginName_aliCloudOss_plural": "AliCloud OSS",
+  "pluginName_aliCloudOss_0": "AliCloud OSS",
+  "pluginName_aliCloudOss_1": "AliCloud OSS",
+  "pluginName_aliCloudOss_2": "AliCloud OSS",
+  "pluginName_aliCloudOss": "AliCloud OSS",
+  "pluginName_aliCloudOssBucket_plural": "AliCloud OSS 버킷",
+  "pluginName_aliCloudOssBucket_0": "AliCloud OSS 버킷",
+  "pluginName_aliCloudOssBucket_1": "AliCloud OSS 버킷",
+  "pluginName_aliCloudOssBucket_2": "AliCloud OSS 버킷",
+  "pluginName_aliCloudOssBucket": "AliCloud OSS 버킷",
   "pluginName_aliCloudRocketMq_plural": "AliCloud RocketMqs",
   "pluginName_aliCloudRocketMq_0": "AliCloud RocketMqs",
   "pluginName_aliCloudRocketMq_1": "AliCloud RocketMqs",
@@ -319,6 +324,11 @@
   "pluginName_crio_1": "CRI-O 컨테이너",
   "pluginName_crio_2": "CRI-O 컨테이너",
   "pluginName_crio": "CRI-O 컨테이너",
+  "pluginName_crowdStrikeFalcon_plural": "CrowdStrike Falcon 에이전트",
+  "pluginName_crowdStrikeFalcon_0": "CrowdStrike Falcon 에이전트",
+  "pluginName_crowdStrikeFalcon_1": "CrowdStrike Falcon 에이전트",
+  "pluginName_crowdStrikeFalcon_2": "CrowdStrike Falcon 에이전트",
+  "pluginName_crowdStrikeFalcon": "CrowdStrike Falcon",
   "pluginName_crystalRuntimePlatform_plural": "Crystal App",
   "pluginName_crystalRuntimePlatform_0": "Crystal App",
   "pluginName_crystalRuntimePlatform_1": "Crystal App",
@@ -940,6 +950,11 @@
   "pluginName_openshiftDeploymentConfig_1": "Openshift 배치 구성",
   "pluginName_openshiftDeploymentConfig_2": "Openshift 배치 구성",
   "pluginName_openshiftDeploymentConfig": "Openshift 배치 구성",
+  "pluginName_openTelemetry_plural": "OpenTelemetry",
+  "pluginName_openTelemetry_0": "OpenTelemetry",
+  "pluginName_openTelemetry_1": "OpenTelemetry",
+  "pluginName_openTelemetry_2": "OpenTelemetry",
+  "pluginName_openTelemetry": "OpenTelemetry",
   "pluginName_oracleDB_plural": "OracleDB",
   "pluginName_oracleDB_0": "OracleDB",
   "pluginName_oracleDB_1": "OracleDB",
@@ -1147,6 +1162,14 @@
   "pluginName_webSphereApplicationContainer_1": "WebSphere",
   "pluginName_webSphereApplicationContainer_2": "WebSphere",
   "pluginName_webSphereApplicationContainer": "WebSphere",
+  "pluginName_webSphereDeploymentManager": "WebSphere 배치 관리자",
+  "pluginName_webSphereDeploymentManager_plural": "WebSphere 배치 관리자",
+  "pluginName_webSphereInfrastructureManager": "WebSphere 인프라 관리자",
+  "pluginName_webSphereInfrastructureManager_plural": "WebSphere 인프라 관리자",
+  "pluginName_webSphereCluster": "WebSphere 클러스터 관리자",
+  "pluginName_webSphereCluster_plural": "WebSphere 클러스터 관리자",
+  "pluginName_webSphereClusterMember": "멤버",
+  "pluginName_webSphereClusterMember_plural": "멤버",
   "pluginName_webSphereLibertyApplicationContainer_plural": "WebSphere Liberty 서버",
   "pluginName_webSphereLibertyApplicationContainer_0": "WebSphere Liberty 서버",
   "pluginName_webSphereLibertyApplicationContainer_1": "WebSphere Liberty 서버",
@@ -1157,6 +1180,11 @@
   "pluginName_zhmcConsole_2": "zHMC",
   "pluginName_zhmcConsole_1": "zHMC",
   "pluginName_zhmcConsole": "zHMC",
+  "pluginName_zhmcCpc_plural": "zHMC",
+  "pluginName_zhmcCpc_0": "zHMC Cpc",
+  "pluginName_zhmcCpc_2": "zHMC Cpc",
+  "pluginName_zhmcCpc_1": "zHMC Cpc",
+  "pluginName_zhmcCpc": "zHMC Cpc",
   "pluginName_zooKeeper": "ZooKeeper",
   "pluginName_zooKeeper_plural": "ZooKeeper",
   "pluginName_zooKeeper_0": "ZooKeeper",
@@ -1264,6 +1292,11 @@
   "tracingTypeName_axisserver_0": "HTTP 호출",
   "tracingTypeName_axisserver_1": "HTTP 호출",
   "tracingTypeName_axisserver_2": "HTTP 호출",
+  "tracingTypeName_azq": "Azure 큐",
+  "tracingTypeName_azq_plural": "Azure 큐",
+  "tracingTypeName_azq_0": "Azure 큐",
+  "tracingTypeName_azq_1": "Azure 큐",
+  "tracingTypeName_azq_2": "Azure 큐",
   "tracingTypeName_batchsynthetic": "내부 트리거",
   "tracingTypeName_batchsynthetic_plural": "내부 트리거",
   "tracingTypeName_batchsynthetic_0": "내부 트리거",
@@ -2253,11 +2286,66 @@
       "serverName": "서버 이름",
       "cellName": "셀 이름",
       "webModules": "웹 모듈",
-      "ejbModules": "EJB",
+      "ejbModules": "EJB 모듈",
       "datasources": "데이터 소스",
       "installDir": "설치 디렉토리",
       "startedAt": "시작 시간",
       "layers": "계층"
+    },
+    "aliCloudOss": {
+      "aliCloudOssInfo": "OSS 사용자 인스턴스",
+      "userId": "사용자 ID",
+      "bucketsList": "버킷 목록",
+      "bucketId": "버킷 ID"
+    },
+    "aliCloudOssBucket": {
+      "aliCloudOssBucketInfo": "OSS 버킷 인스턴스",
+      "instanceId": "인스턴스 ID",
+      "region": "지역",
+      "userId": "사용자 ID",
+      "storageClass": "스토리지 클래스",
+      "creationDate": "작성 날짜",
+      "successRequest": "성공 요청",
+      "successCount": "개수",
+      "successRate": "비율",
+      "availability": "가용성",
+      "requestValidRate": "유효한 요청 비율",
+      "requestCount": "요청 개수",
+      "validRequestCount": "유효한 요청 수",
+      "totalRequestCount": "총 요청 수",
+      "inOut": "수신/송신 플로우",
+      "internetRecv": "인터넷 RX",
+      "intranetRecv": "인트라넷 RX",
+      "cdnRecv": "CDN RX",
+      "syncRecv": "동기화 RX",
+      "internetSend": "인터넷 SX",
+      "intranetSend": "인트라넷 SX",
+      "cdnSend": "CDN SX",
+      "syncSend": "동기화 SX",
+      "appendObject": "추가",
+      "copyObject": "복사",
+      "deleteObject": "삭제",
+      "deleteObjects": "삭제",
+      "getObject": "가져오기",
+      "headObject": "헤드",
+      "postObject": "게시",
+      "putObject": "삽입",
+      "uploadPart": "UploadPart",
+      "uploadPartCopy": "UploadPartCopy",
+      "objectOperation": "오브젝트 조작 수",
+      "averageE2Latency": "평균 E2E 대기 시간",
+      "averageServerLatency": "평균 서버 대기 시간",
+      "maxE2Latency": "최대 E2E 대기 시간",
+      "maxServerLatency": "최대 서버 대기 시간",
+      "errorCount": "오류 수",
+      "errorRate": "오류 비율",
+      "authorization": "권한 부여",
+      "clientOther": "클라이언트 기타",
+      "clientTimeout": "클라이언트 제한시간 초과",
+      "network": "네트워크",
+      "resourceNotFound": "자원을 찾을 수 없음",
+      "server": "서버",
+      "metering": "미터링"
     },
     "aliCloudRocketMq": {
       "aliCloudRocketMqInfo": "RocketMq 인스턴스",
@@ -2619,25 +2707,18 @@
       "flowNodeName": "플로우 노드 이름",
       "nodeType": "노드 유형",
       "flowNodeNumber": "플로우 노드({{count}})",
-      "flowNodeNumber_plural": "플로우 노드({{count}})"
+      "flowNodeNumber_plural": "플로우 노드({{count}})",
+      "messageFlowThreadUtilization": "스레드 활용도",
+      "messageFlowHealth": "상태"
     },
     "aceFlowNode": {
-      "flowNodeInfo": "IBM ACE 플로우 노드",
-      "nodeName": "노드 이름",
-      "flowName": "플로우 이름",
-      "serverName": "서버 이름",
-      "applicationName": "애플리케이션 이름",
-      "type": "유형",
-      "cpuTime": "CPU 시간",
       "totalCpuTime": "총 CPU 시간",
       "maxCpuTime": "최대 CPU 시간",
       "minCpuTime": "최소 CPU 시간",
-      "elapsedTime": "경과 시간",
       "totalElapsedTime": "총 경과 시간",
       "maxElapsedTime": "최대 경과 시간",
       "minElapsedTime": "최소 경과 시간",
       "invocations": "호출",
-      "terminals": "터미널",
       "inputTerminals": "입력 유형 터미널 수",
       "outputTerminals": "출력 유형 터미널 수"
     },
@@ -2782,7 +2863,14 @@
       "labelNoDataInstances": "데이터 인스턴스 없음",
       "labelWarningInstances": "경고 인스턴스",
       "labelInstanceHealth": "인스턴스 상태",
-      "labelInstanceDiskUsage": "인스턴스 디스크 사용"
+      "labelInstanceDiskUsage": "인스턴스 디스크 사용",
+      "labelOK": "OK(0)",
+      "labelInfo": "정보(1)",
+      "labelUnknown": "알 수 없음(5)",
+      "labelNoData": "데이터 없음(0)",
+      "labelWarning": "경고(15)",
+      "labelDegraded": "등급 저하(20)",
+      "labelSevere": "심각(25)"
     },
     "awsDynamoDb": {
       "labelProvisioned": "프로비저닝됨",
@@ -3026,23 +3114,23 @@
       "total": "인스턴스 요청 총계"
     },
     "labelCPUStatesMetric": {
-      "irq": "CPU irq",
-      "idle": "CPU 유휴",
-      "user": "CPU 사용자",
-      "system": "CPU 시스템",
-      "softirq": "CPU softirq",
-      "iowait": "CPU iowait",
-      "nice": "CPU nice",
-      "load": "CPU 로드"
+      "irq": "IRQ",
+      "idle": "유휴",
+      "user": "사용자",
+      "system": "시스템",
+      "softirq": "SoftIRQ",
+      "iowait": "IOWait",
+      "nice": "양호",
+      "load": "로드"
     },
     "labelInstanceCPUStatesMetric": {
-      "irq": "인스턴스 CPU irq",
+      "irq": "인스턴스 CPU IRQ",
       "idle": "인스턴스 CPU 유휴",
       "user": "인스턴스 CPU 사용자",
       "system": "인스턴스 CPU 시스템",
-      "softirq": "인스턴스 CPU softirq",
-      "iowait": "인스턴스 CPU iowait",
-      "nice": "인스턴스 CPU nice",
+      "softirq": "인스턴스 CPU SoftIRQ",
+      "iowait": "인스턴스 CPU IOWait",
+      "nice": "인스턴스 CPU 양호",
       "load": "인스턴스 CPU 로드"
     },
     "labelLatencyMetric": {
@@ -4174,6 +4262,13 @@
     "beeInstana": {
       "labelBeeInstana": "BeeInstana",
       "infoTitle": "프로세스 ID",
+      "table": {
+        "host": "호스트",
+        "name": "이름",
+        "metrics": "관리 메트릭",
+        "cpu": "호스트 CPU 사용량",
+        "memory": "호스트 메모리 사용량"
+      },
       "dashboard": {
         "labelMetrics": "메트릭",
         "labelMessages": "메시지",
@@ -4964,6 +5059,20 @@
       "cpuUsage": "CPU 사용량",
       "memoryUsage": "메모리 사용량"
     },
+    "crowdStrikeFalcon": {
+      "dashboard": {
+        "thereIsNoFurtherInformationAboutThisEntity": "이 엔티티에 대한 추가 정보가 없습니다."
+      },
+      "table": {
+        "host": "호스트",
+        "name": "이름"
+      },
+      "rfm-state": "감소된 기능 모드",
+      "rfm-reason": "감소된 기능 이유",
+      "aid": "에이전트 ID",
+      "cid": "고객 ID",
+      "version": "버전"
+    },
     "crystalRuntimePlatform": {
       "dashboard": {
         "heap": "힙",
@@ -5103,7 +5212,8 @@
         "hadrConnect": "HADR 연결 상태",
         "hadrPrimaryLog": "HADR 1차 로그 정보",
         "hadrSecondaryLog": "HADR 2차 로그 정보",
-        "hadrLogMetrics": "HADR 로그 메트릭"
+        "hadrLogMetrics": "HADR 로그 메트릭",
+        "hadrTakeOverTime": "HADR 마지막 인수 시간"
       },
       "db2": "DB2",
       "processId": "프로세스 ID",
@@ -5128,6 +5238,8 @@
       "staticQueries": "정적 조회",
       "dynamicQueries": "동적 조회",
       "failedQueries": "실패한 조회",
+      "daysLastBackup": "마지막 백업",
+      "daysAgo": "며칠 전",
       "physicalWrites": "물리적 쓰기",
       "physicalReads": "물리적 읽기",
       "logicalReads": "논리적 읽기",
@@ -5185,8 +5297,7 @@
       "totalIOTime": "IO 시간",
       "lockTimeouts": "잠금 제한시간",
       "deadlocks": "교착 상태",
-      "omsCons": "원격 연결",
-      "omsConsExec": "원격 연결 실행",
+      "totalConnections": "총 연결 수",
       "agentHighWmark": "에이전트 최대 수",
       "coordAgentsHighWmark": "조정 에이전트 최대 수",
       "agentCreatedVSReused": "에이전트 작성됨 V/S 에이전트 재사용됨",
@@ -5308,7 +5419,9 @@
       "sockRecBufReq": "요청된 수신 버퍼",
       "sockRecvBufAct": "실제 수신 버퍼",
       "logHadrWaitCur": "현재 로거 대기 시간",
-      "logHadrWaitTime": "총 로거 대기 시간"
+      "logHadrWaitTime": "총 로거 대기 시간",
+      "unableToConnect": "{{user}} 사용자를 사용하여 {{connectionUrl}}에 연결할 수 없습니다.",
+      "troubleshootingDocs": "문제점 해결 문서"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "초당 모든 호출",
@@ -7640,6 +7753,7 @@
     },
     "host": {
       "theOperatingSystemOfThisHostDoesNotSeemToOfferTheExtendedBerkeleyPacketFilterEBpfFunctionality": "이 호스트의 운영 체제는 프로세스 비정상 종료를 발견하는 데 필요한 eBPF(extended Berkeley Packet Filter) 기능을 제공하지 않는 것 같습니다.",
+      "theHostAgentIsVulnerableToLog4jCVE": "호스트 에이전트는 Log4j CVE-2021-44228 및 CVE-2021-45046에 취약합니다. 이러한 취약성을 완화하려면 에이전트 설치를 최신 버전으로 업데이트하십시오.",
       "troubleshootingDocs": "문제점 해결 문서",
       "dashboard": {
         "gpuMemoryProcess": "GPU 메모리/프로세스",
@@ -7731,6 +7845,7 @@
       "fqdn": "FQDN",
       "machineId": "머신 ID",
       "bootId": "부트 ID",
+      "systemId": "시스템 ID",
       "startedAt": "시작 시간",
       "interfacesWithSize": "인터페이스({{size}})",
       "cpuUsed": "사용된 CPU",
@@ -8306,6 +8421,7 @@
     "ibmIDb2": {
       "troubleshootingDocs": "문제점 해결 문서",
       "collectionServicesNotEnabledDescription": "에이전트는 i 메트릭에서 Db2를 확보할 수 없습니다. i에서 Db2를 모니터링하려면 콜렉션 서비스를 켜십시오.",
+      "unableToConnect": "{{user}} 사용자를 사용하여 {{host}}에 연결할 수 없습니다.",
       "name": "Db2 on i",
       "sidebar": {
         "ibmIDb2Info": "Db2 on i 정보",
@@ -8527,15 +8643,41 @@
             "tcpState": "TCP 상태",
             "bytesSentRemotely": "원격으로 송신된 바이트 수",
             "bytesReceivedLocally": "로컬로 수신된 바이트 수"
+          },
+          "messageQueue": {
+            "name": "메시지 큐",
+            "messageId": "ID",
+            "messageType": "유형",
+            "severity": "심각도",
+            "messageQueueLibrary": "라이브러리 이름",
+            "messageQueueName": "큐 이름",
+            "messageTimestamp": "시간소인",
+            "messageText": "텍스트",
+            "messageSecondLevelText": "2차 레벨 텍스트",
+            "messageKey": "키"
+          },
+          "historyLog": {
+            "name": "히스토리 로그",
+            "messageId": "ID",
+            "messageType": "유형",
+            "severity": "심각도",
+            "fromUser": "사용자",
+            "fromJob": "작업",
+            "fromProgram": "프로그램",
+            "messageTimestamp": "시간소인",
+            "messageText": "텍스트",
+            "messageSecondLevelText": "2차 레벨 텍스트"
           }
         }
       },
       "name": "IBM i",
-      "memoryPool": "메모리 풀"
+      "memoryPool": "메모리 풀",
+      "unableToConnect": "{{user}} 사용자를 사용하여 {{host}}에 연결할 수 없습니다.",
+      "troubleshootingDocs": "문제점 해결 문서"
     },
     "ibmMqChannel": {
       "dashboard": {
-        "messagesSent": "전송된 메시지",
+        "messagesSent": "보낸/받은 메시지",
         "messagesAvailable": "사용 가능한 메시지",
         "messages": "메시지",
         "sentReceived": "보냄/받음",
@@ -8593,7 +8735,7 @@
         "ibmMqCluster": "IBM MQ 클러스터",
         "type": "유형",
         "messages": "메시지",
-        "publishers": "발행자",
+        "publications": "서적",
         "subscriptions": "구독",
         "topicsWithCount": "토픽({{len}})"
       },
@@ -8628,8 +8770,6 @@
         "messageTime": "메시지 시간",
         "oldest": "가장 오래됨",
         "onQueue": "큐에 있음",
-        "reset": "재설정",
-        "last": "마지막",
         "calls": "호출",
         "openInputs": "입력 열기",
         "openOutputs": "출력 열기",
@@ -8657,8 +8797,6 @@
       "messages": "메시지",
       "messageTime": "메시지 시간",
       "onQueueMessageTime": "큐에 있는 메시지 시간",
-      "lastResetTime": "마지막 재설정 시간",
-      "reset": "재설정",
       "openInputCount": "입력 열기 수",
       "openOutputCount": "출력 열기 수",
       "calls": "호출"
@@ -8685,12 +8823,15 @@
         "usage": "사용량",
         "monitoring": "모니터링",
         "queuesWithCount": "큐({{len}})",
+        "queueFullPercentage": "깊이 백분율",
+        "openInputCount": "입력 열기",
+        "openOutputCount": "출력 열기",
         "application": "애플리케이션",
         "channel": "채널",
         "connection": "연결",
         "handleState": "핸들 상태",
         "user": "사용자",
-        "queuesUsageWithCount": "큐 사용량({{len}})",
+        "queuesUsageWithCount": "애플리케이션별 큐 사용량({{len}})",
         "ibmMqQueueManager": "IBM MQ 큐 관리자",
         "subsWithCount": "등록({{len}})",
         "topicString": "토픽 문자열",
@@ -8702,6 +8843,8 @@
       "name": "이름",
       "version": "버전",
       "status": "상태",
+      "channelInitiatorStatus": "채널 시작 프로그램 상태",
+      "pubsubStatus": "발행/구독 엔진 상태",
       "startedAt": "시작 시간",
       "alternatedAt": "대체 시간",
       "platform": "플랫폼",
@@ -8743,7 +8886,7 @@
     "ibmMqTopic": {
       "dashboard": {
         "messages": "메시지",
-        "publishers": "발행자",
+        "publications": "서적",
         "count": "개수",
         "subscriptions": "구독",
         "ibmMqTopic": "IBM MQ 토픽"
@@ -8754,7 +8897,7 @@
       "topicType": "토픽 유형",
       "topicAlternatedAt": "토픽 대체 시간",
       "messages": "메시지",
-      "publishers": "발행자",
+      "publications": "서적",
       "count": "개수",
       "lastResetTime": "마지막 재설정 시간",
       "reset": "재설정",
@@ -8848,7 +8991,10 @@
         "info": "정보",
         "cpuLoad": "CPU 로드",
         "load": "로드",
-        "memory": "메모리",
+        "memory": "JVM 메모리",
+        "systemMemory": "시스템 메모리",
+        "userAndSystemShowLoadInPercentWhere100EqualASingleCoreAtFullLoad": "사용자 및 시스템은 전체 로드 시 100%가 단일 코어와 같은 로드 비율로 로드됩니다. ",
+        "LoadIsComputedInTheJVMRelatedToTheCombinedProcessingPowerAndNormalizedTo1": "로드는 결합된 처리 능력과 관련된 JVM에서 계산되고 1로 정규화됩니다.",
         "heap": "힙",
         "directBuffers": "다이렉트 버퍼",
         "offHeap": "Off-Heap",
@@ -8957,6 +9103,8 @@
       "ibmDataPowerVariablesInvalid": "IBM DataPower 인스턴스가 올바르게 구성되지 않았습니다. <code>{{instanceName}}</code> 인스턴스의 <code>{{invalidKey}}</code> 변수에 올바르지 않은 값 <code>{{invalidValue}}</code>이(가) 있습니다.",
       "ibmDataPowerConnectionError": "URL이 <code>{{url}}</code>이고 리턴 코드가 <code>{{rtnCode}}</code>인 IBM DataPower를 조회하는 중에 오류가 발생했으며, 응답은 <code>{{response}}</code>입니다. 센서의 구성(예: 호스트/포트 또는 IBM DataPower 인스턴스)을 확인하십시오.",
       "ibmDataPowerExceptionError": "센서가 다음 예외를 생성했습니다. <code>{{errorMessage}}</code>.",
+      "agentTlsExpired": "에이전트 TLS 인증서 <code>{{cert}}</code>이(가) <code>{{context}}</code>에 만료되었습니다.",
+      "agentTlsAboutToExpire": "에이전트 TLS 인증서 <code>{{cert}}</code>이(가) <code>{{context}}</code>일 후에 만료됩니다.",
       "agentVersion": "에이전트 버전",
       "bootVersion": "부트 버전",
       "origin": "오리진",
@@ -8982,7 +9130,8 @@
       "sensorCount": "센서 수",
       "discoveryCount": "발견 개수",
       "sensors": "센서",
-      "hostname": "호스트 이름"
+      "hostname": "호스트 이름",
+      "startType": "시작 유형"
     },
     "sparkStandalone": {
       "titleApplicationId": "애플리케이션 ID",
@@ -9441,7 +9590,7 @@
       "datasourceJndiName": "데이터 소스 JNDI 이름",
       "connectionsCurrentlyInUse": "현재 사용 중인 연결",
       "timeWaitedForExclusiveLockOnPool": "풀에서 배타적 잠금 대기 시간",
-      "datasourcesWithCount": "데이터 소스 연결 풀({{len}})",
+      "datasourcesWithCount": "데이터 소스({{len}})",
       "timedOut": "제한시간 초과됨",
       "timeSpentOnCreatingConnections": "연결 작성에 소요된 시간",
       "deployment": "배치",
@@ -9476,7 +9625,7 @@
       "webDeployments": "웹 배치",
       "servlets": "서블릿",
       "connectors": "커넥터",
-      "datasources": "데이터 소스 연결 풀",
+      "datasources": "데이터 소스",
       "connectionsInUse": "사용 중인 연결",
       "connectionsCreated": "작성된 연결",
       "connectionsUsedPercentage": "사용된 연결 백분율",
@@ -10089,6 +10238,13 @@
       "labelDataSource": "데이터 소스",
       "labelJMSDestination": "JMS 대상",
       "labelSAFAgent": "SAF 에이전트",
+      "labelHealthState": "성능 상태",
+      "labelHealthStateUnknown": "UNKNOWN",
+      "labelHealthStateOK": "OK(0)",
+      "labelHealthStateWarning": "WARNING(1)",
+      "labelHealthStateCritical": "CRITICAL(2)",
+      "labelHealthStateFailed": "FAILED(3)",
+      "labelHealthStateOverloaded": "OVERLOADED(4)",
       "weblogic": "WebLogic"
     },
     "webSphereAppContainer": {
@@ -10103,7 +10259,8 @@
       "titleAverageWaitingTime": "평균 대기 시간",
       "titleDatasourcesCount": "데이터 소스({{len}})",
       "titleWebModulesCount": "웹 모듈({{len}})",
-      "titleEJBModulesCount": "EJB({{len}})",
+      "titleEJBModulesCount": "EJB 모듈({{len}})",
+      "titleEJBBeansCount": "EJB Bean({{len}})",
       "titleObjectPoolsCount": "오브젝트 풀({{len}})",
       "titleJ2CModulesCount": "J2C 모듈({{len}})",
       "titleMaxConnections": "최대 연결",
@@ -10153,12 +10310,50 @@
       "labelResponseTime": "응답 시간",
       "lableResponseCount": "응답 수",
       "webSphere": "WebSphere",
-      "labelEJB": "EJB",
-      "labelEJBs": "EJB",
+      "labelEjbModule": "EJB 모듈",
+      "labelEjbModules": "EJB 모듈",
+      "labelEjbBean": "EJB Bean",
+      "labelEjbBeans": "EJB Bean",
       "labelObjectPool": "오브젝트 풀",
       "labelObjectPools": "오브젝트 풀",
       "labelJ2CModule": "J2C 모듈",
       "labelJ2CModules": "J2C 모듈"
+    },
+    "webSphereCluster": {
+      "webSphereClusterInfo": "WebSphere 클러스터",
+      "membersWithCount": "멤버({{len}})",
+      "clusterName": "클러스터 이름",
+      "status": "상태",
+      "memberCount": "멤버",
+      "dashboard": {
+        "memberName": "멤버 이름",
+        "nodeName": "노드 이름",
+        "status": "상태",
+        "weight": "가중치"
+      }
+    },
+    "webSphereDeploymentManager": {
+      "webSphereDeploymentManagerInfo": "WebSphere 배치 관리자",
+      "clustersWithCount": "클러스터({{len}})",
+      "pid": "PID",
+      "serverName": "서버 이름",
+      "hostName": "호스트 이름",
+      "cellName": "셀 이름",
+      "version": "버전",
+      "serverType": "서버 유형",
+      "dashboard": {
+        "clusterName": "클러스터 이름",
+        "status": "상태",
+        "memberCount": "멤버"
+      }
+    },
+    "webSphereInfrastructureManager": {
+      "hostName": "호스트 이름",
+      "cellName": "셀 이름",
+      "serverName": "서버 이름",
+      "webSphereInfrastructureManagerInfo": "WebSphere 인프라 관리자",
+      "deploymentManagerNumber": "배치 관리자({{count}})",
+      "deploymentManagerNumber_plural": "배치 관리자({{count}})"
     },
     "webSphereLibertyAppContainer": {
       "titleName": "이름",
@@ -10233,7 +10428,16 @@
       "bytesPerSecondReceived": "수신된 초당 바이트 수",
       "bytesPerSecondSent": "송신된 초당 바이트 수",
       "utilization": "활용도",
-      "flags": "플래그"
+      "flags": "플래그",
+      "networkUsage": "네트워크 사용량",
+      "storageUsage": "스토리지 사용량",
+      "acceleratorUsage": "액셀러레이터 사용",
+      "cryptoUsage": "Crypto 사용",
+      "cpSharedProcessorUsage": "공유 프로세서 사용량",
+      "cpAllProcessorUsage": "모든 프로세서 사용량",
+      "iflSharedProcessorUsage": "Ifl 공유 프로세서 사용량",
+      "allSharedProcessorUsage": "모든 공유 프로세서 사용량",
+      "iflAllProcessorUsage": "Ifl 모든 프로세서 사용량"
     },
     "zooKeeper": {
       "titleTicks": "틱",
@@ -10253,7 +10457,8 @@
       "labelAliveConnections": "활성 연결",
       "labelPacketsReceived": "수신된 패킷",
       "labelPacketsSent": "전송된 패킷",
-      "labelPeer": "피어"
+      "labelPeer": "피어",
+      "zxid": "zxid"
     },
     "lxc": {
       "networkWithNetworkInterface": "네트워크({{networkInterface}})",
@@ -11006,6 +11211,9 @@
       "cpuRequests": "CPU 요청",
       "cpuLimits": "CPU 한계"
     },
+    "openTelemetry": {
+      "openTelemetry": "OpenTelemetry"
+    },
     "oracleDB": {
       "dbTimePerSecond": "초당 DB 시간",
       "db": "DB",
@@ -11185,6 +11393,8 @@
       "labelEvents": "이벤트",
       "titleDetails": "이벤트 세부사항",
       "labelS3Events": "S3 이벤트",
+      "labelDynamoDbEvents": "DynamoDB 이벤트",
+      "labelEventSourceARN": "이벤트 소스 ARN",
       "titleQueues": "큐",
       "labelMessages": "메시지",
       "titleARN": "ARN",
@@ -11193,6 +11403,7 @@
       "titleTrigger": "트리거",
       "bodyCloudWatchEvents": "CloudWatch 이벤트",
       "bodyAWSEvents": "AWS S3 이벤트",
+      "bodyAWSDynamoDbEvents": "AWS DynamoDB 이벤트",
       "bodyAWSMessages": "AWS SQS 메시지",
       "bodyAWSEvent": "AWS 이벤트",
       "bodyAWSEventDetail": "Lambda 프록시 옵션 또는 식별되지 않은 Lambda 트리거를 사용하지 않는 API 게이트웨이 호출입니다.",
@@ -11203,6 +11414,13 @@
       "timeoutMessage": "Lambda 함수는 {{milliseconds}}밀리초만 남긴 상태에서도 계속 실행되며, 이로 인해 제한시간이 초과될 수 있습니다.",
       "yes": "예",
       "no": "아니오"
+    },
+    "azq": {
+      "queuename": "큐 이름",
+      "messagesuri": "메시지 Uri",
+      "storageaccountname": "스토리지 계정 이름",
+      "queueuri": "큐 Uri",
+      "methodname": "메소드 이름"
     },
     "LambdaInvoke": {
       "titleARN": "ARN",

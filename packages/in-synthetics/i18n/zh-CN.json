@@ -32,7 +32,7 @@
         "title": "此 ping 测试的名称是什么",
         "labelName": "测试的名称",
         "labelDescription": "描述",
-        "labelFreequency": "频率"
+        "labelFrequency": "频率"
       },
       "bluePrint": {
         "pingApi": {
@@ -68,9 +68,12 @@
     },
     "feedback": {
       "successTitle": "成功！",
-      "successMessage": "已成功创建合成测试",
+      "successMessageCreate": "已成功创建合成测试",
+      "successMessageDelete": "已成功删除合成测试",
       "failureTitle": "失败！",
-      "failureMessage": "未能创建合成测试。 请稍后重试"
+      "failureMessageCreate": "未能创建合成测试。 请稍后重试",
+      "failureMessageUpdate": "未能更新合成测试。 请稍后重试",
+      "failuteMesssageDelete": "未能删除合成测试。 请稍后重试"
     }
   },
   "createTest": {
@@ -78,5 +81,24 @@
   },
   "navigation": {
     "synthetics": "合成"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "合成测试",
+      "secondaryLabels": {
+        "tests": "测试",
+        "location": "位置"
+      },
+      "locationsSubText": "{{count}} 个位置",
+      "locationsSubText_plural": "{{count}} 个位置",
+      "frequencySubText": "每 {{count}} 分钟",
+      "frequencySubText_plural": "每 {{count}} 分钟",
+      "pause": "暂停测试",
+      "resume": "恢复测试"
+    },
+    "sortOptions": {
+      "name": "名称",
+      "frequency": "频率"
+    }
   }
 }

@@ -164,7 +164,10 @@
       "metricsFormComponent": {
         "metric": "Messwert",
         "selectMetric": "Messwert auswählen",
-        "aggregation": "Aggregation "
+        "aggregation": "Aggregation ",
+        "crossSeriesAggregation": "SUM für die serienübergreifende Aggregation verwenden",
+        "crossSeriesAggregationHelp": "Normalerweise ist die serienübergreifende Aggregation mit der zeitübergreifenden Aggregation identisch (die Methode, die zum Kombinieren von Datenpunkten in einem einzelnen Bucket verwendet wird). Wenn diese Umschaltfläche aktiviert ist, werden die Buckets über die Datenserie hinweg summiert, anstatt die angegebene Aggregation zu verwenden.",
+        "crossSeriesAggregationDisabledHelp": "Nicht zutreffend für {{aggregation}}"
       },
       "metrics": {
         "infrastructurePlatforms": "Infrastruktur und Plattformen",
@@ -344,7 +347,7 @@
     "markdown": {
       "demo": {
         "title": "Instana - Erste Schritte",
-        "text": "Instana ist die erste und einzige vollständig automatisierte APM-Lösung (APM - Application Performance), die speziell für die Herausforderungen bei der Verwaltung von Microservice- und cloudnativen Anwendungen konzipiert wurde.\n\nDie ersten Schritte sind ganz einfach.\n\n1. Wenn Sie noch keinen Zugriff auf Instana haben, rufen Sie [Instana.com] (https://www.instana.com) auf und registrieren Sie sich für eine kostenlose Testversion.\n2. Erkunden Sie unser Ökosystem von Hunderten von [unterstützten Technologien] (https: //www.instana.com/docs/ecosystem).\n3. Beginnen Sie mit dem Sammeln von Daten mit einem unserer [Agenten] (https: //www.instana.com/docs/setup_and_manage).\n4.Informieren Sie sich, wie Sie Instana (https://www.instana.com/docs/using_instana) für Ihre Anwendungsfälle [verwenden können].\n5. Lesen Sie mehr über unsere einzigartigen [Kernkompetenzen] (https://www.instana.com/docs/core_capabilities/).\n6. Erweitern Sie Instana mit unseren [Integrationen, SDK und APIs] (https://www.instana.com/docs/integrations).\n\nDas war's! \n\nSie finden nicht, wonach Sie gesucht haben? Versuchen Sie es mit [instana.com/docs](https://www.instana.com/docs/)!"
+        "text": "Instana ist die erste und einzige voll automatisierte APM-Lösung (APM = Application Performance), die speziell für die Herausforderungen bei der Verwaltung von Mikroservice- und cloudnativen Anwendungen entwickelt wurde.\n\nDer Einstieg ist einfach1. Wenn Sie noch keinen Zugriff auf Instana haben, rufen Sie [Instana.com] (https://www.instana.com) auf und registrieren Sie sich für eine kostenlose Testversion.2. Lernen Sie unser Ökosystem von Hunderten [unterstützten Technologien] kennen (https://www.ibm.com/docs/de/obi/current?topic=supported-technologies).3. Starten Sie die Datenerfassung mit einem unserer [Agenten] (https://www.ibm.com/docs/de/obi/current?topic=set-up-manage-instana).4. Erhalten Sie Einblicke in die [Verwendungsweise von Instana](https://www.ibm.com/docs/de/obi/current?topic=using-instana) für Ihre Anwendungsfälle.5. Erfahren Sie mehr über unsere einzigartigen [Kernfunktionen](https://www.ibm.com/docs/de/obi/current?topic=core-capabilities).6. Erweitern Sie Instana mit unseren [Integrationen, SDKs & APIs](https://www.ibm.com/docs/de/obi/current?topic=integrations-sdks-apis).\n\nDas ist alles!\n\nHaben Sie nicht gefunden, wonach Sie gesucht haben? Rufen Sie die [Dokumentation] auf (https://www.ibm.com/docs/de/obi/current)!"
       },
       "formComp": {
         "whatULikeShow": "Was möchten Sie anzeigen?",
@@ -377,14 +380,16 @@
         "userJourneyOffering": "User Journey/Angebot",
         "appnPerspective": "Anwendungsperspektive",
         "selectAppPerspect": "Wählen Sie eine Anwendungsperspektive aus.",
-        "appPerspectHelpAction": "Konfigurieren Sie User Journeys/Angebote, indem Sie sie als Anwendungsperspektive im Produktbereich 'Anwendungen' modellieren.",
+        "appPerspectHelpAction": "Richten Sie Benutzerjourneys/Angebote ein, indem Sie sie als Anwendungsperspektive im Bereich \"Anwendungen\" modellieren.",
+        "rbacHint": "Die angezeigten Anwendungen können durch Berechtigungen eingeschränkt sein.",
         "noAppPerspect": "Keine Anwendungsperspektiven!",
         "pleaseSelect": "Bitte auswählen"
       },
       "websiteSelector": {
         "website": "Website",
         "selectWebsite": "Wählen Sie eine Website aus",
-        "websiteHelpAction": "Konfigurieren Sie Websites im Bereich des Produkts für Websites und mobile Apps.",
+        "websiteHelpAction": "Konfigurieren Sie Websites im Bereich für Websites und mobile Apps.",
+        "rbacHint": "Die angezeigten Websites können durch Berechtigungen eingeschränkt sein.",
         "noWebsites": "Keine Websites gefunden",
         "pleaseSelect": "Bitte auswählen"
       },
@@ -398,8 +403,6 @@
         "sliCreateSuccess": "SLI wurde erfolgreich erstellt",
         "failCreateSli": "Fehler beim Erstellen des SLI.",
         "problemCreateSli": "Problem beim Erstellen des folgenden SLI: \"{{sliName}}\"",
-        "cloning": "Wird geklont...",
-        "creating": "Wird erstellt...",
         "clone": "Klonen",
         "create": "Erstellen",
         "sliConfigMsg": "Die Parameter des SLI können nicht geändert werden, um eine Invalidierung der berechneten verbrauchten Budgets zu verhindern. Dies ist der Grund, warum das SLI geklont werden muss, wenn Sie einen Parameter ändern.",
@@ -412,13 +415,16 @@
       },
       "goodBadEventsForm": {
         "goodEvents": "Fehlerfreie Ereignisse",
-        "badEvents": "Fehlerhafte Ereignisse"
+        "badEvents": "Fehlerhafte Ereignisse",
+        "websitesFilterLabel": "{{websiteLabel}} / {{beaconType}}"
       },
       "metricFormData": {
         "latency": "Latenzzeit",
         "callCount": "Aufrufzahl",
         "errorRate": "Fehlerrate",
         "erroneousCalls": "Fehlerhafte Aufrufe",
+        "beaconErrorRate": "Beacon-Fehlerrate",
+        "beaconDuration": "Beacon-Dauer",
         "mean": "Mittelwert",
         "min": "Min.",
         "max": "Max.",
@@ -542,7 +548,19 @@
       "atLeastOneFilterExpressionMustBeConfigured": "Es muss mindestens ein Filterausdruck konfiguriert werden.",
       "timeBased": "Zeitbasiert",
       "eventBased": "Ereignisbasiert",
-      "slo": "SLO"
+      "slo": "SLO",
+      "monitoringSourceSelector": {
+        "source_application": "Anwendung",
+        "source_website": "Website"
+      },
+      "sliFormatter": {
+        "unit": "Aufruf",
+        "unit_plural": "Aufrufe",
+        "unit_0": "Aufrufe",
+        "unit_1": "Aufruf",
+        "unit_2": "Aufrufe",
+        "thousandCallsFormat": "{{count}}K Aufrufe"
+      }
     },
     "timezone": {
       "demo": {

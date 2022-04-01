@@ -32,7 +32,7 @@
         "title": "Qual é o nome deste teste de ping",
         "labelName": "Nome do teste",
         "labelDescription": "Descrição",
-        "labelFreequency": "Frequência"
+        "labelFrequency": "Frequência"
       },
       "bluePrint": {
         "pingApi": {
@@ -68,9 +68,12 @@
     },
     "feedback": {
       "successTitle": "Com sucesso!",
-      "successMessage": "Teste sintético criado com sucesso",
+      "successMessageCreate": "Teste sintético criado com sucesso",
+      "successMessageDelete": "O teste sintético foi eliminado com sucesso",
       "failureTitle": "Falhou!",
-      "failureMessage": "Falha ao criar um teste sintético. Tente novamente mais tarde"
+      "failureMessageCreate": "Falha ao criar um teste sintético. Tente novamente mais tarde",
+      "failureMessageUpdate": "Falha ao atualizar o teste sintético. Tente novamente mais tarde",
+      "failuteMesssageDelete": "Falha ao excluir o teste sintético. Tente novamente mais tarde"
     }
   },
   "createTest": {
@@ -78,5 +81,24 @@
   },
   "navigation": {
     "synthetics": "Sintéticos"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "Testes sintéticos",
+      "secondaryLabels": {
+        "tests": "Testes",
+        "location": "Local"
+      },
+      "locationsSubText": "{{count}} local",
+      "locationsSubText_plural": "{{count}} locais",
+      "frequencySubText": "A cada {{count}} minuto",
+      "frequencySubText_plural": "A cada {{count}} minutos",
+      "pause": "Pausar o teste",
+      "resume": "Continuar o teste"
+    },
+    "sortOptions": {
+      "name": "Nome",
+      "frequency": "Frequência"
+    }
   }
 }

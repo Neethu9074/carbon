@@ -44,7 +44,7 @@ import {
   APPLICATIONS_ALERTING_STATUS_CODE_CHANGED
 } from 'in-services/tracking/tracking';
 
-export const applicationsAlertingAddAlert = (pathname:string, applicationName:string) =>
+export const applicationsAlertingAddAlert = (pathname: string, applicationName: string) =>
   track(APPLICATIONS_ALERTING_ADD_ALERT, { pathname, applicationName });
 
 export const applicationsAlertingCloseDialog = (e: any) => track(APPLICATIONS_ALERTING_CLOSE_DIALOG, e);
@@ -56,7 +56,8 @@ export const applicationsAlertingListAlertPaused = (e: any) => track(APPLICATION
 export const applicationsAlertingListAlertResumed = (e: any) => track(APPLICATIONS_ALERTING_LIST_ALERT_RESUMED, e);
 export const applicationsAlertingListAlertDeleted = (e: any) => track(APPLICATIONS_ALERTING_LIST_ALERT_DELETED, e);
 
-export const applicationsAlertingAlertRevisionChanged = (e: any) => track(APPLICATIONS_ALERTING_ALERT_REVISION_CHANGED, e);
+export const applicationsAlertingAlertRevisionChanged = (e: any) =>
+  track(APPLICATIONS_ALERTING_ALERT_REVISION_CHANGED, e);
 export const applicationsAlertingAlertPaused = (e: any) => track(APPLICATIONS_ALERTING_ALERT_PAUSED, e);
 export const applicationsAlertingAlertResumed = (e: any) => track(APPLICATIONS_ALERTING_ALERT_RESUMED, e);
 export const applicationsAlertingAlertDeleted = (e: any) => track(APPLICATIONS_ALERTING_ALERT_DELETED, e);
@@ -75,10 +76,12 @@ export const applicationsAlertingBlueprintChanged = (e: any) => track(APPLICATIO
 
 export const applicationsAlertingThresholdOperatorChanged = (e: any) =>
   track(APPLICATIONS_ALERTING_THRESHOLD_OPERATOR_CHANGED, e);
-export const applicationsAlertingThresholdValueChanged = (e: any) => track(APPLICATIONS_ALERTING_THRESHOLD_VALUE_CHANGED, e);
+export const applicationsAlertingThresholdValueChanged = (e: any) =>
+  track(APPLICATIONS_ALERTING_THRESHOLD_VALUE_CHANGED, e);
 export const applicationsAlertingThresholdAggregationChanged = (e: any) =>
   track(APPLICATIONS_ALERTING_THRESHOLD_AGGREGATION_CHANGED, e);
-export const applicationsAlertingThresholdTypeChanged = (e: any) => track(APPLICATIONS_ALERTING_THRESHOLD_TYPE_CHANGED, e);
+export const applicationsAlertingThresholdTypeChanged = (e: any) =>
+  track(APPLICATIONS_ALERTING_THRESHOLD_TYPE_CHANGED, e);
 export const applicationsAlertingThresholdTypeHelpIconHovered = (e: any) =>
   track(APPLICATIONS_ALERTING_THRESHOLD_TYPE_HELP_ICON_HOVERED, e);
 export const applicationsAlertingThresholdDeviationFactorChanged = (e: any) =>
@@ -87,7 +90,8 @@ export const applicationsAlertingThresholdDeviationFactorChanged = (e: any) =>
 export const applicationsAlertingLogMsgChanged = (e: any) => track(APPLICATIONS_ALERTING_LOG_MSG_CHANGED, e);
 export const applicationsAlertingLogLevelChanged = (e: any) => track(APPLICATIONS_ALERTING_LOG_LEVEL_CHANGED, e);
 export const applicationsAlertingLogOperatorChanged = (e: any) => track(APPLICATIONS_ALERTING_LOG_OPERATOR_CHANGED, e);
-export const applicationsAlertingLogOpenMsgSelectView = (e: any) => track(APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW, e);
+export const applicationsAlertingLogOpenMsgSelectView = (e: any) =>
+  track(APPLICATIONS_ALERTING_LOG_OPEN_MSG_SELECT_VIEW, e);
 export const applicationsAlertingLogMsgSelected = (e: any) => track(APPLICATIONS_ALERTING_LOG_MSG_SELECTED, e);
 export const applicationsAlertingFilterAdd = (e: any) => track(APPLICATIONS_ALERTING_FILTER_ADD, e);
 export const applicationsAlertingFilterRemove = (e: any) => track(APPLICATIONS_ALERTING_FILTER_REMOVE, e);

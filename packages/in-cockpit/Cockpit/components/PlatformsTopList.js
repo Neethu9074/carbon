@@ -14,21 +14,25 @@ import {
   kubernetesCluster as kubernetesClusterType,
   pcfApplication as pcfApplicationType,
   vsphereDatacenter as vsphereDatacenterType,
+  openstackRegion as openstackRegionType,
   phmcServer as phmcServerType,
   zhmcServer as zhmcServerType
 } from 'in-cockpit/starredItems/types';
 import { getCloudfoundryApplicationsWithDefaults } from 'in-cloudfoundry/subscriptions/getCloudfoundryApplications';
+import { pcfEnabled, vsphereEnabled, openstackEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
 import { getKubernetesClustersWithDefaults } from 'in-kubernetes/subscriptions/getKubernetesClusters';
 import { getVSphereDatacentersWithDefaults } from 'in-vsphere/subscriptions/getVsphereDatacenters';
 import getCloudfoundryApplication from 'in-cloudfoundry/subscriptions/getCloudfoundryApplication';
-import { pcfEnabled, vsphereEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
+import { getOpenstackRegionsWithDefaults } from 'in-openstack/subscriptions/getOpenstackRegions';
 import HistoricMetricSparkChart from 'in-components/SparkChart/HistoricMetricSparkChart';
 import getKubernetesCluster from 'in-kubernetes/subscriptions/getKubernetesCluster';
 import { bytesZeroDecimalPlaces, percentage } from 'in-services/formatters/number';
 import getVsphereDatacenter from 'in-vsphere/subscriptions/getVsphereDatacenter';
+import getOpenstackRegion from 'in-openstack/subscriptions/getOpenstackRegion';
 import InstanceMetric from 'in-cloudfoundry/commonComponents/InstanceMetric';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
+import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { toTitleCase, compareIgnoreCase } from 'in-services/util/string';
 import mergeResults from 'in-cockpit/widgets/TopListWidget/mergeResults';
@@ -53,6 +57,7 @@ export default function PlatformsTopList({ config }) {
     hasKubernetesAccess && kubernetesClusterType,
     pcfEnabled && pcfApplicationType,
     vsphereEnabled && vsphereDatacenterType,
+    openstackEnabled && openstackRegionType,
     phmcEnabled && phmcServerType,
     zhmcEnabled && zhmcServerType
   ].filter(Boolean);
@@ -80,6 +85,8 @@ export default function PlatformsTopList({ config }) {
           ? getApplicationDashboard
           : item.isZhmc
           ? getIbmzZhmcDashboard
+          : item.isOpenstack
+          ? getOpenstackRegionDashboard
           : getVsphereDatacenterDashboard)(getId(item));
       }}
     />
@@ -93,6 +100,9 @@ function getId(item) {
 function getTypeByItem(item) {
   if (item.isKubernetes) {
     return kubernetesClusterType;
+  }
+  if (item.isOpenstack) {
+    return openstackRegionType;
   }
   if (item.isPcf) {
     return pcfApplicationType;
@@ -115,6 +125,8 @@ function getMergedData(params) {
       pcfEnabled && 'isPcf',
       vsphereEnabled && getVSphereDatacentersWithDefaults(params),
       vsphereEnabled && 'isVsphere',
+      openstackEnabled && getOpenstackRegionsWithDefaults(params),
+      openstackEnabled && 'isOpenstack',
       phmcEnabled && getPhmcsWithDefaults(params),
       phmcEnabled && 'isPhmc',
       zhmcEnabled && getZhmcsWithDefaults(params),
@@ -126,6 +138,9 @@ function getMergedData(params) {
 function getItem(id, timeConfig, type) {
   if (type === kubernetesClusterType) {
     return getKubernetesClusterById(id, timeConfig);
+  }
+  if (type === openstackRegionType) {
+    return getOpenstackRegion({ filter: { regionId: id, timeConfig } }).map(mapOpenstackResult);
   }
   if (type === pcfApplicationType) {
     return getCloudfoundryApplication({ filter: { applicationId: id, timeConfig } }).map(mapPcfResult);
@@ -157,7 +172,9 @@ function getKubernetesClusterById(id, timeConfig) {
 function mapVsphereResult(result) {
   return result.data ? success({ ...result.data, isVsphere: true }) : result;
 }
-
+function mapOpenstackResult(result) {
+  return result.data ? success({ ...result.data, isOpenstack: true }) : result;
+}
 function mapPcfResult(result) {
   return result.data ? success({ ...result.data, isPcf: true }) : result;
 }
@@ -265,6 +282,9 @@ function getIcon(item) {
     const clusterDistribution = get(item, ['cluster', 'clusterDistribution'], 'kubernetes');
     return `lib_${clusterDistribution}`;
   }
+  if (item.isOpenstack) {
+    return 'lib_openstack';
+  }
   if (item.isPcf) {
     return 'lib_cloudfoundry_application';
   }
@@ -299,6 +319,9 @@ function getSubTitle(item) {
   }
   if (item.isZhmc) {
     return t('in-cockpit:component.platformsTopList.ibmz');
+  }
+  if (item.isOpenstack) {
+    return t('in-cockpit:component.platformsTopList.openstackRegion');
   }
   return t('in-cockpit:component.platformsTopList.vSphereDatacenter');
 }

@@ -13,8 +13,8 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
-import { latencyFixed } from 'in-services/formatters/number';
 import { TestResponse } from 'in-synthetics/utils/constants';
+import { bytes } from 'in-services/formatters/number';
 import { integral } from 'in-stores/metric/renderer';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getChartTestMetrics } from './utils';
@@ -70,7 +70,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
 
   const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'response_size');
 
-  const metricConfigs = chartTestMetrics.map(m => m.config);
+  const metricConfigs = chartTestMetrics.map(m => ({ label: m.label, ...m.config }));
   const colors = chartTestMetrics.map(m => m.color);
   const renderer = integral.id;
 
@@ -85,8 +85,8 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       config={{
         y1: {
           renderer: renderer,
-          formatter: 'millis.compact',
-          tooltipFormatter: latencyFixed.compact,
+          formatter: 'bytes.detailed',
+          tooltipFormatter: bytes.detailed,
           calculateStackDifferences: true,
           metrics: metricConfigs,
           colors: colors

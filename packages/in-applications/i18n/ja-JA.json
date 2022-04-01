@@ -31,7 +31,7 @@
   "labelTechnologies": "テクノロジー",
   "labelEndpoints": "エンドポイント",
   "labelHealth": "正常性",
-  "labelNonHttp": "その他",
+  "labelOther": "その他",
   "labelCallCount": "呼び出し数",
   "labelHTTPStatusCodes": "HTTP 状況コード",
   "labelInfraIssues": "インフラの問題",
@@ -108,7 +108,7 @@
   "buttonAddTag": "タグの追加",
   "buttonOK": "OK",
   "buttonCreate": "作成",
-  "buttonCancel": "キャンセル",
+  "buttonCancel": "取り消し",
   "buttonRemoveApplicationPerspective": "アプリケーション・パースペクティブの削除",
   "buttonAddDescription": "説明の追加",
   "buttonAddSyntheticEndpointRule": "シンセティック・エンドポイント・ルールの追加",
@@ -198,7 +198,6 @@
     "listBatchTypeTooltip": "この {{type}} はバッチ処理され、{{batchCount}} 個の個別の {{types}} を表します。",
     "listBatchLatencyTooltip": "{{batchCount}} 個のバッチ処理された {{types}} の合計待ち時間。",
     "traceIdTooltip": "このトレースに関連するデータの一部が遅延しているため、少し時間をおいてからページを再ロードしてください。 例えば、データの一部がまだ処理中の最新のトレースを表示する場合に、このような現象が発生する場合があります。",
-    "downloadTraceTooltip": "トレース全体をダウンロードします。",
     "closeTraceDetail": "トレースの詳細を閉じる",
     "invalidQueryConfig": "照会構成が無効です。 続行する前に検証の失敗に対処してください。",
     "errorRateLabel": "エラーのある呼び出し (率)",
@@ -527,7 +526,7 @@
     "showApplicationsScopeWithApplicationLabel": "アプリケーション (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity> (コンテキスト <linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
     "showServicesScopeWithServiceLabel": "サービス (<bold>{{contextScope}}</bold>/<linkToEntity>{{entityLabel}}</linkToEntity> (コンテキスト <linkToApplication>{{applicationLabel}}</linkToApplication>)) を表示しています",
     "titleNoService": "サービスがまだありません",
-    "servicesNoData": "選択された時刻範囲に使用可能なサービス呼び出しがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "選択された時刻範囲に使用可能なサービス呼び出しがありません。 トラブルシューティング情報については、[資料][Docs] を参照してください。\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "バッチ",
@@ -570,23 +569,14 @@
         "largeTraceLink": "このトレースはサイズが大きいため、このトレースをレンダリングすると、ブラウザーにパフォーマンス上の問題が生じる可能性があります。 <linkToDocs>トレースをダウンロード</linkToDocs>して手動で検査するか、ブラウザー内でトレース・レンダリングを試行することができます。 この試行では、パフォーマンスを向上させるために、コンポーネントのサブセットのみがレンダリングされます。",
         "calls": "呼び出し",
         "erroneousTrace": "エラーのあるトレース",
-        "attemptToRenderTrace": "トレース・レンダリングの試行"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "サービス情報",
-          "showServiceInformationExpl": "呼び出しラベルの下にサービス情報を表示します",
-          "showSubCalls": "サブ呼び出しの表示",
-          "showSubCallsExpl": "各行に直接サブ呼び出しを表示します"
-        }
+        "attemptToRenderTrace": "トレース・レンダリングの試行",
+        "analyzeBeacons": "ビーコンの分析",
+        "adjustedTimeConfig": "時間範囲は、選択ビーコンを含むように調整されました。"
       }
     }
   },
   "tabs": {
-    "labelDetail": "詳細",
-    "labelSummary": "サマリー",
-    "servicesAndEndpoint": "サービスおよびエンドポイント",
-    "logs": "ログ"
+    "labelDetail": "詳細"
   },
   "metrics": {
     "calls_calls": "呼び出し",
@@ -598,5 +588,12 @@
     "traces_latency": "待ち時間",
     "traces_erroneousCalls": "エラーのあるトレース数",
     "traces_errors": "エラーのあるトレース率"
+  },
+  "viewLists": {
+    "application": "アプリケーション",
+    "services": "サービス",
+    "errorMessages": "エラー・メッセージ",
+    "logMessages": "ログ・メッセージ",
+    "endpoints": "Endpoints"
   }
 }

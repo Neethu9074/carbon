@@ -26,6 +26,7 @@
     "noComponentStatusDataAvailable": "无可用组件状态数据",
     "debuggingInformation": "调试信息",
     "noDebuggingInformation": "无调试信息",
+    "noClusterDataAvailable": "没有可用的集群数据",
     "summary": "摘要",
     "details": "详细信息",
     "events": "事件",
@@ -45,6 +46,7 @@
     "memoryUsage": "内存使用率",
     "phase": "阶段",
     "reclaimPolicy": "回收策略",
+    "storageCapacity": "存储容量",
     "storageClassName": "存储类名",
     "cpuRequests": "CPU 请求",
     "cpuLimitsAlloc": "CPU 限制分配",
@@ -77,6 +79,9 @@
     "table": "表格",
     "map": "图",
     "services": "服务",
+    "serviceCount": "服务计数",
+    "appWorkloadCount": "应用程序工作负载",
+    "batchWorkloadCount": "批处理工作负载",
     "cpuRequestsAlloc": "CPU 请求分配",
     "memoryRequestsAlloc": "内存请求分配",
     "roles": "角色",
@@ -263,6 +268,7 @@
   "cronJobs": "定时作业",
   "health": "运行状况",
   "clusters": "集群",
+  "explore": "浏览（技术预览）",
   "noMonitoringDataFound": "找不到监视数据",
   "clusterName": "集群名称",
   "running": "正在运行",
@@ -273,7 +279,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "无可用 Kubernetes 数据。有关故障诊断信息，请参阅[文档]。\n\n[文档]:https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+    "noData": "无可用 Kubernetes 数据。 有关故障诊断信息，请参阅[文档]。\n\n[文档]：https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
   },
   "pod": {
     "pending": "Pod 处于暂挂状态",

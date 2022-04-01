@@ -162,6 +162,7 @@
         "httpRequestBeaconHeaderRequest": "要求",
         "httpRequestBeaconHeaderCallDetails": "呼叫明細",
         "httpRequestBeaconHeaderMeta": "Meta",
+        "httpRequestBeaconHeaderHttpHeaders": "HTTP 標頭",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "資源計時",
         "httpRequestBeaconHeaderNetworkInsights": "網路洞察",
@@ -479,6 +480,36 @@
         "configurationRenameTitle": "重新命名網站",
         "configurationRenameButton": "重新命名",
         "configurationTrackingScriptTitle": "追蹤 Script",
+        "saved": "已儲存",
+        "ipMasking": {
+          "title": "IP 遮罩",
+          "help": "IP 遮罩透過遮罩（匿名化）IP 位址區段來保護一般使用者隱私。 這會在 Instana 汲取管線內的最早可能點發生，因此永遠不會儲存完整 IP 位址。 Instana 一律使用業界常用的規則來遮罩 IP 位址。 如果您的組織需要更嚴格的 IP 遮罩規則，您可以進行配置。",
+          "option_DEFAULT": "預設值，遮罩 IPv4 的最後 8 個位元及 IPv6 的最後 80 個位元",
+          "option_STRICT": "嚴格，遮罩 IPv4 的最後 16 個位元及 IPv6 的最後 96 個位元",
+          "option_REMOVE_ALL_DETAILS": "移除 IP 位址（只保留 IPv4 及 IPv6 使用情形的提示）"
+        },
+        "geoDetailRemoval": {
+          "title": "地理明細移除",
+          "help": "Instana 根據一般使用者 IP 位址來決定送入資料的大約地理位置。 這包括一般使用者座標、城市、州/省、國家/地區及洲資訊的相關資訊。 部分組織可能會將此資料視為一般使用者可識別資料，因此可能想要進一步匿名化此近似位置資訊。 這可以使用我們的地理明細移除功能來達成。",
+          "option_NO_REMOVAL": "沒有地理明細移除功能",
+          "option_REMOVE_COORDINATES": "移除緯度、經度和精確度資訊",
+          "option_REMOVE_CITY": "移除城市、緯度、經度和精確度資訊",
+          "option_REMOVE_ALL": "移除所有地理詳細資料"
+        },
+        "customGeoDetails": {
+          "title": "自訂地理詳細資料",
+          "help1": "Instana 將一般使用者 IP 位址對映至地理詳細資料，例如城市和國家/地區名稱。 這可以透過檢查各種 HTTP 標頭以擷取一般使用者 IP 位址來達成。 然後，在 <maxmind>Maxmind 的地理資料庫</maxmind>的協助下，這些 IP 位址會轉換為地理詳細資料。 這些自訂對映規則的主要使用案例是私密網路。 例如，透過私密網路存取（自行管理的）Instana 安裝時。 在這種情況下，公用地理資料庫將永遠不會包含相關資訊，因此翻譯程序將不會提供任何結果或僅提供錯誤/無助益的結果。",
+          "help2": "自訂地理詳細資料的規則一律以逗點區隔值 (CSV) 來表示。 Web REST API 的 CSV 格式和用法在<documentation>文件</documentation>內有定義。",
+          "download": "下載作用中配置 (CSV)",
+          "documentation": "文件",
+          "uploader": {
+            "title": "上傳新規則",
+            "help": "自訂地理詳細資料規則是定義的 CSV 檔，透過 Web REST API 或透過此表單上傳。 如需檔案結構、限制及 Web REST API 的相關資訊，請參閱我們的<documentation>文件</documentation>。",
+            "failureToReadFileContent": "無法讀取檔案內容：{{error}}",
+            "failureToCallApiForTechnicalReason": "無法執行 HTTP 呼叫：{{error}}",
+            "failureToCallApiForStatusCodeReason": "HTTP 呼叫傳回錯誤結果：{{error}}"
+          }
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "正在儲存配置...",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "已更新配置。",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "已儲存新配置。",
@@ -519,7 +550,9 @@
         "stackTraceTranslationLabelOr": " 或",
         "configurationTitle": "配置",
         "configurationLabelOptions": "選項",
-        "configurationLabelJSStackTraceTranslation": "JS 堆疊追蹤轉換"
+        "configurationLabelPrivacy": "隱私權",
+        "configurationLabelJSStackTraceTranslation": "JS 堆疊追蹤轉換",
+        "configurationLabelCustomGeoDetails": "自訂地理詳細資料"
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "網站自訂事件詳細資料",

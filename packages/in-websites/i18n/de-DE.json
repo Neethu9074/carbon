@@ -162,6 +162,7 @@
         "httpRequestBeaconHeaderRequest": "Anfrage",
         "httpRequestBeaconHeaderCallDetails": "Aufrufdetails",
         "httpRequestBeaconHeaderMeta": "Meta",
+        "httpRequestBeaconHeaderHttpHeaders": "HTTP-Header",
         "httpRequestBeaconHeaderGraphQL": "GraphQL",
         "httpRequestBeaconHeaderResourceTiming": "Ressourcentiming",
         "httpRequestBeaconHeaderNetworkInsights": "Netzeinblicke",
@@ -479,6 +480,36 @@
         "configurationRenameTitle": "Website umbenennen",
         "configurationRenameButton": "Umbenennen",
         "configurationTrackingScriptTitle": "Überwachungsscript",
+        "saved": "Gespeichert",
+        "ipMasking": {
+          "title": "IP-Maskierung",
+          "help": "Die IP-Maskierung schützt die Privatsphäre von Endbenutzern durch das Maskieren (Anonymisieren) von IP-Adresssegmenten. Dies geschieht zum frühestmöglichen Zeitpunkt in der Aufnahmepipeline von Instana, sodass vollständige IP-Adressen nie gespeichert werden. Instana maskiert IP-Adressen immer mit in der Branche häufig verwendeten Regeln. Sie können jedoch strengere IP-Maskierungsregeln konfigurieren, wenn dies für Ihr Unternehmen erforderlich ist.",
+          "option_DEFAULT": "Standardmäßig werden die letzten 8 Bit für IPv4 und die letzten 80 Bit für IPv6 maskiert.",
+          "option_STRICT": "Bei einer strengen Maskierung werden die letzten 16 Bit für IPv4 und die letzten 96 Bit für IPv6 maskiert.",
+          "option_REMOVE_ALL_DETAILS": "IP-Adressen entfernen (es bleibt nur ein Hinweis auf die Verwendung von IPv4 und IPv6 erhalten)"
+        },
+        "geoDetailRemoval": {
+          "title": "Entfernung geografischer Details",
+          "help": "Instana ermittelt anhand der IP-Adressen von Endbenutzern einen ungefähren Standort für eingehende Daten. Dazu gehören Informationen zu Koordinaten, Stadt, Bundesstaat, Land und Kontinent des Endbenutzers. Einige Unternehmen sind möglicherweise der Ansicht, dass anhand dieser Daten Endbenutzer identifizierbar sind und möchten daher diese ungefähren Standortinformationen weiter anonymisieren. Dies kann durch das Entfernen geografischer Details erreicht werden.",
+          "option_NO_REMOVAL": "Kein Entfernen geografischer Details",
+          "option_REMOVE_COORDINATES": "Informationen zu Breitengrad, Längengrad und Genauigkeit entfernen",
+          "option_REMOVE_CITY": "Informationen zu Stadt, Breitengrad, Längengrad und Genauigkeit entfernen",
+          "option_REMOVE_ALL": "Alle geografischen Details entfernen"
+        },
+        "customGeoDetails": {
+          "title": "Benutzerdefinierte geografische Details",
+          "help1": "Instana ordnet IP-Adressen von Endbenutzern geografischen Details zu, z. B. dem Namen einer Stadt oder eines Landes. Dazu werden verschiedene HTTP-Header überprüft, um die IP-Adressen der Endbenutzer abzurufen. Diese IP-Adressen werden dann mithilfe von <maxmind>geografischen Datenbanken von Maxmind</maxmind> in geografische Details umgesetzt. Der Hauptanwendungsfall für diese angepassten Zuordnungsregeln sind private Netzwerke, beispielsweise, wenn Sie über private Netze auf (selbst gehostete) Instana-Installationen zugreifen. In solchen Fällen enthalten die öffentlichen geografischen Datenbanken niemals relevante Informationen und der Umsetzungsprozess liefert daher entweder keine Ergebnisse oder nur falsche/nicht hilfreiche Ergebnisse.",
+          "help2": "Regeln für benutzerdefinierte geografische Details werden immer durch durch Kommas getrennte Werte (CSV) ausgedrückt. Das CSV-Format und die Verwendung unserer Web-REST-API sind in unserer <documentation>Dokumentation</documentation> definiert.",
+          "download": "Aktive Konfiguration herunterladen (CSV)",
+          "documentation": "Dokumentation",
+          "uploader": {
+            "title": "Neue Regeln hochladen",
+            "help": "Benutzerdefinierte geografische Detailregeln sind CSV-Dateien und werden über unsere Web-REST-API oder über dieses Formular hochgeladen. Weitere Informationen zur Dateistruktur, zu Grenzwerten und zur Web-REST-API finden Sie in unserer <documentation>Dokumentation</documentation>.",
+            "failureToReadFileContent": "Dateiinhalt konnte nicht gelesen werden: {{error}}",
+            "failureToCallApiForTechnicalReason": "HTTP-Aufruf konnte nicht ausgeführt werden: {{error}}",
+            "failureToCallApiForStatusCodeReason": "HTTP-Aufruf mit fehlerhaftem Ergebnis zurückgegeben: {{error}}"
+          }
+        },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Konfiguration wird gespeichert...",
         "fileDownloadConfigurationDialogMessageConfigurationUpdated": "Konfiguration wurde aktualisiert. ",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "Neue Konfiguration gespeichert.",
@@ -519,7 +550,9 @@
         "stackTraceTranslationLabelOr": " oder",
         "configurationTitle": "Konfiguration",
         "configurationLabelOptions": "Optionen",
-        "configurationLabelJSStackTraceTranslation": "JS-Stack-Trace-Übersetzungen"
+        "configurationLabelPrivacy": "Datenschutz",
+        "configurationLabelJSStackTraceTranslation": "JS-Stack-Trace-Übersetzungen",
+        "configurationLabelCustomGeoDetails": "Benutzerdefinierte geografische Details"
       },
       "customEvents": {
         "customEventTitleWebsiteCustomEventDetails": "Angepasste Ereignisdetails der Website",

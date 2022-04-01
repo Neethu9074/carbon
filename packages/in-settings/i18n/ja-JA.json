@@ -25,7 +25,8 @@
       "heading": "サービス利用規約",
       "introduction": "次に進む前、また Instana の製品とサービスを使用する前には、サービス利用規約を読み、同意する必要があります。",
       "documents": "次の文書をお読みください:",
-      "agreeToS": "次の文書を読み、これに同意します: Instana の <tosButton />"
+      "agreeToS": "Instana の <tosButton />を読み、同意しました。",
+      "ibmTos": "IBMサービスのご利用条件は、 IBM のお客様に適用されます。"
     },
     "termsPage2": {
       "heading": "メッセージング"
@@ -110,6 +111,8 @@
   },
   "tabs": {
     "failedToSaveConfig": "構成の保存に失敗しました: {{err}}",
+    "IdPMetadataRequired": "IdP メタデータ・ファイルが必要です",
+    "IdPMetadataLargerThanTwoMega": "IdPメタデータファイルは2メガバイト以上になってはなりません。",
     "ldapHelpDoc": "ヘルプとサポートのアクセス先: <docLink>資料ページ</docLink>.",
     "testConfiguration": "構成のテスト",
     "requiredSettings": "必要な設定",
@@ -803,7 +806,8 @@
     "deprecatedEventSelectedMessage": "エンティティー・タイプの<em>アプリケーション、サービス、エンドポイント</em>はカスタム・イベントでは非推奨であり、まもなくスマート・アラートに移行する必要があります。 カスタム・イベントではなく、それぞれのスマート・アラートを構成することをお勧めします。 詳しくは、<documentationLink>弊社の資料を参照してください</documentationLink>。"
   },
   "languageSelection": {
-    "language": "言語"
+    "language": "言語",
+    "collationLanguage": "ソートの言語"
   },
   "terms": {
     "failedToSaveSettings": "設定の保存に失敗しました: {{settings}} {{err}}",

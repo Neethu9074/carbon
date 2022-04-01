@@ -21,6 +21,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "Si sta esaminando la revisione {{description}} di questa configurazione dell'avviso. Selezionare <latestRevisionButton>la revisione più recente</latestRevisionButton> o <restoreRevisionButton>eseguire il ripristino dalla revisione corrente</restoreRevisionButton> se si desidera apportare modifiche.",
     "alertHeaderAriaLabelSeverity": "L'evento ha severità {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Avvisi creati ({{totalRepresentedItemCount}})",
+    "alertStateActive": "attivo",
     "alertPropertyInfosLabelTitle": "Titolo",
     "alertPropertyInfosLabelAlertLevel": "Livello avviso",
     "alertPropertyInfosLabelTriggersIncident": "Attiva incidente",
@@ -39,9 +40,10 @@
     "chart": {
       "alertingChartLabelThreshold": "Soglia",
       "alertingChartLabelViolations": "Violazioni",
-      "alertingChartTooltipSmoothedMetric": "Metrica smussata",
       "alertingChartMessageInvalidFilterQuery": "Query di filtro non valida.",
       "alertingChartMessageEntitySelectionInvalid": "Nessuna entità selezionata.",
+      "chartAlertsLaneErrorMessage": "Non è stato possibile caricare gli avvisi",
+      "chartAlertsPreviewLanePresenterAlertsLabel": "Avvisi",
       "chartViewConfigsLast24Hours": "Ultime 24 ore",
       "chartViewConfigsLast7Days": "Ultimi 7 giorni"
     },
@@ -123,9 +125,11 @@
         "alertPropertyInsertPlaceholderLabel": "Inserisci segnaposto",
         "evaluationSwitch": {
           "individual": "Avvisi singoli",
+          "optionNotAvailableForAdaptiveThreshold": "Questa opzione non è disponibile con la soglia adattiva",
           "evaluationTypePERAP": {
             "selectionText": "per questa prospettiva applicazione",
             "globalSelectionText": "Per prospettiva applicazione",
+            "shortText": "Per prospettiva dell'applicazione",
             "columnText": "aggregati",
             "description": "Avvisa individualmente per questa prospettiva applicazione",
             "globalDescription": "Avvisa individualmente per questa prospettiva applicazione"
@@ -133,6 +137,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "per servizio per questa prospettiva applicazione",
             "globalSelectionText": "per servizio nel contesto di ogni prospettiva applicazione",
+            "shortText": "Per servizio",
             "columnText": "per servizio",
             "description": "Avvisa individualmente per questa prospettiva applicazione",
             "globalDescription": "Avvisa individualmente per questa prospettiva applicazione"
@@ -140,6 +145,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "per endpoint per questa prospettiva applicazione",
             "globalSelectionText": "per endpoint nel contesto di ogni prospettiva applicazione",
+            "shortText": "Per endpoint",
             "columnText": "per endpoint",
             "description": "Avvisa individualmente per endpoint per questa prospettiva applicazione",
             "globalDescription": "Avvisa individualmente per endpoint nel contesto di ogni prospettiva applicazione."
@@ -164,6 +170,18 @@
             "confirmButtonLabel": "Conferma"
           }
         },
+        "staticOrAdaptive": {
+          "config": {
+            "static": {
+              "title": "Statico",
+              "description": "La soglia è un valore di soglia fisso o dipendente dal tempo. Instana aiuta a scegliere il valore di soglia giusto in base ai dati recenti"
+            },
+            "adaptive": {
+              "title": "Adattivo",
+              "description": "La soglia si adatta automaticamente alle modifiche della metrica sottostante"
+            }
+          }
+        },
         "includeInternalOrSynthethicCalls": {
           "includeInternalCalls": "Includi chiamate interne",
           "includeSyntethicCalls": "Includi chiamate sintetiche"
@@ -183,6 +201,11 @@
             "title": "Trigger: Per cosa si desidera ricevere l'avviso?",
             "logMessageCardTitle": "Messaggio di log",
             "httpStatusCodesCardTitle": "Codici di stato HTTP"
+          },
+          "threshold": {
+            "staticOrAdaptiveTitle": "Tipo di soglia",
+            "label": "Soglia",
+            "title": "Soglia: Quando viene violata la condizione?"
           },
           "timeThreshold": {
             "label": "Soglia temporale",
@@ -208,7 +231,7 @@
           "applications": "Applicazioni:",
           "services": "Servizi:"
         },
-        "noChartForAdaptiveBaseline": "Nessuna anteprima disponibile sebbene questo trigger si basa su una baseline adattativa.",
+        "noChartForAdaptiveBaseline": "Nessuna anteprima disponibile perché questo trigger si basa su una soglia adattiva.",
         "noDataWithoutEndpointSelection": "Selezionare un endpoint per visualizzare l'anteprima",
         "noDataAvailable": "Selezionare un servizio per visualizzare l'anteprima"
       },
@@ -446,6 +469,10 @@
         "labelGlobalSmartAlertsList": "Avvisi smart applicazione globali ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Avvisi smart applicazione ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "Soglia statica, {{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "Stagionalità giornaliera statica, {{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "Stagionalità settimanale statica, {{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "Soglia adattiva, {{metricLabel}}",
         "labelActionButtonEdit": "Modifica",
         "labelActionButtonDuplicate": "Duplica",
         "labelActionButtonDelete": "Elimina",
@@ -475,6 +502,10 @@
       }
     },
     "details": {
+      "header": "Dettagli",
+      "thresholdTypeTitle": "Tipo di soglia",
+      "metricTitle": "Metrica",
+      "entityTitle": "Ambito",
       "titleBuiltInIndicator": "Integrato"
     },
     "form": {
@@ -483,7 +514,7 @@
       "ruleAggregationOptionP25": "25esimo",
       "ruleAggregationOptionP50": "50esimo",
       "ruleAggregationOptionP75": "75esimo",
-      "ruleAggregationOptionP90": "90esimo (consigliato)",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "95esimo",
       "ruleAggregationOptionP98": "98esimo",
       "ruleAggregationOptionP99": "99esimo",
@@ -494,7 +525,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Annulla",
-        "sharedListTooltip": "{{typeName}} selezionato non più disponibile",
+        "sharedListTooltip": "{{typeName}} non è più disponibile",
         "clearTagFilterExpressionButton": "Ripulisci",
         "baselineErrorMessageInsufficientDataToCompute": "Dati insufficienti per calcolare la baseline selezionata. Selezionare <em>Soglia statica</em>.",
         "pleaseContactSupportToRiseLimit": "Contattare il supporto tramite <supportLink>{{instanaSupportPortal}}</supportLink> per richiedere di aumentare questo limite. ",
@@ -549,20 +580,20 @@
         "timeThresholdDescriptionViolationsInPeriod_2": "Almeno {{count}} violazioni negli ultimi {{formattedTimeWindow}}",
         "timeThresholdConfigNumberOfConsecutiveViolations": "Numero di violazioni metriche consecutive",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Numero di valutazioni consecutive",
-        "timeThresholdConfigNumberOfEvaluationWindows": "Numero di finestre di valutazione per utente interessato",
+        "timeThresholdConfigNumberOfEvaluationWindows": "Numero di violazioni consecutive",
         "timeThresholdConfigImpactEvaluationMethod": "Metodo di valutazione dell'impatto sugli utenti",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Aggrega tutte le finestre di valutazione",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcola per ogni finestra di valutazione",
         "timeThresholdConfigNumberOfViolations": "Numero di violazioni metriche",
         "timeThresholdConfigEvaluationGranularity": "Granularità valutazione",
-        "timeThresholdConfigNumberOfRequestsThreshold": "Soglia del numero di richieste",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Numero di soglie utente interessate",
+        "timeThresholdConfigNumberOfRequestsThreshold": "Numero di richieste con impatto",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Numero di utenti con impatto",
         "timeThresholdConfigAtLeast": "Almeno",
-        "timeThresholdConfigNumberOfRequests": "# di richieste",
+        "timeThresholdConfigNumberOfRequests": "N. di richieste con impatto",
         "timeThresholdConfigMinutes": "{{min}} min",
-        "timeThresholdConfigNumberOfUsers": "# di utenti",
-        "timeThresholdConfigPercentageOfUsers": "% di utenti",
-        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Percentuale di soglie utente interessate",
+        "timeThresholdConfigNumberOfUsers": "N. di utenti con impatto",
+        "timeThresholdConfigPercentageOfUsers": "% di utenti con impatto",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Percentuale di utenti con impatto",
         "timeThresholdConfigOff": "disattivo",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Fornire un numero >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Fornire un numero compreso tra 1% e 100%",
@@ -585,22 +616,26 @@
         "alertPropertiesAlertProperties": "Proprietà avviso",
         "buttonSave": "Salva",
         "buttonCreate": "Crea",
+        "buttonMigrate": "Migra",
         "selectedBlueprint": "Progetto iniziale selezionato",
         "buttonRecalculateBaseline": "Ricalcola baseline",
         "sensitivitySliderLow": "basso",
         "sensitivitySliderHigh": "alto",
         "labelThreshold": "Soglia",
         "labelSensitivity": "Sensibilità",
+        "staticThresholdTypeOptionsTooltip": "Una soglia giornaliera/settimanale statica è una soglia dipendente dal tempo basata su dati storici. La soglia non cambia automaticamente e può essere ricalcolata manualmente, se necessario.",
         "thresholdTypeOptionStaticThreshold": "Soglia statica",
-        "thresholdTypeOptionHistoricBaselineDaily": "Baseline (stagionalità giornaliera)",
-        "thresholdTypeOptionHistoricBaselineWeekly": "Baseline (stagionalità settimanale)",
-        "thresholdTypeOptionAdaptiveBaseline": "Baseline adattativa",
+        "thresholdTypeOptionHistoricBaselineDaily": "Stagionalità giornaliera statica",
+        "thresholdTypeOptionHistoricBaselineWeekly": "Stagionalità settimanale statica",
+        "thresholdTypeOptionAdaptiveBaseline": "Soglia adattiva",
         "useSuggestedvalue": "Utilizza valore suggerito",
         "loadingThresholdSuggestion": "Caricamento suggerimento soglia",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Modifica avviso Smart",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Modifica avviso Smart globale",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crea nuovo avviso Smart",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crea nuovo avviso Smart globale",
+        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migra ad Avviso Smart",
+        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migra in Global Smart Alert",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Passa alla modalità avanzata",
         "simpleAlertConfigDialogStep3Headline": "Chi deve ricevere gli avvisi?",
         "Loading": "Caricamento…",
@@ -608,7 +643,8 @@
         "PreviewForEndpoint": "Anteprima dell'Endpoint:",
         "PreviewForService": "Anteprima per il servizio:",
         "PreviewSelectLoadingEndpoints": "Caricamento dell'elenco di endpoint",
-        "thresholdValue": "Valore soglia"
+        "thresholdValue": "Valore soglia",
+        "migrationModeWarning": "La migrazione di questo evento personalizzato a un avviso smart lo disabiliterà. L'evento non può essere abilitato di nuovo successivamente."
       },
       "userInfo": {
         "success": {
@@ -683,6 +719,8 @@
         "slownessInteractiveChartThresholdValue": "Valore soglia",
         "scopeLabel": "Ambito",
         "scopeTitle": "Ambito: dove si sta verificando la condizione?",
+        "thresholdLabel": "Soglia",
+        "thresholdTitle": "Soglia: Quando viene violata la condizione?",
         "triggerLabel": "Trigger",
         "triggerTitle": "Trigger: Per cosa si desidera ricevere l'avviso?",
         "JSErrorMessage": "Messaggio di errore JS",
@@ -877,7 +915,10 @@
       "migrateButton": "Migra ad Avviso Smart",
       "migrateButtonTooltip": "Apre una finestra di dialogo di configurazione dell'Avviso Smart precompilata nel modo migliore possibile con i valori migrati dall'evento corrente. Controllare attentamente il risultato.",
       "markAsMigratedButton": "Contrassegna come migrato",
-      "markAsMigratedButtonTooltip": "Contrassegnare l'evento come migrato. Utilizzare nel caso in cui sia già stato configurato un avviso smart che sostituirà questo evento."
+      "markAsMigratedButtonTooltip": "Contrassegnare l'evento come migrato. Utilizzare nel caso in cui sia già stato configurato un avviso smart che sostituirà questo evento.",
+      "markAsMigratedButtonConfirmationTitle": "Confermare",
+      "markAsMigratedButtonConfirmationDescription": "Contrassegnando questo evento personalizzato come migrato verrà disabilitato. L'evento non può essere abilitato di nuovo successivamente. Desideri procedere?",
+      "markAsMigratedButtonConfirmationConfirmLabel": "Conferma"
     }
   }
 }

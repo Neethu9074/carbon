@@ -17,9 +17,11 @@
   "messageParam": "メッセージ・パラメーター",
   "applicationCounter": "{{count}} 個のアプリケーション",
   "exceptionMessageHeader": "例外メッセージ",
+  "stackTrace": "スタック・トレース",
   "service": "サービス",
   "stream": "ストリーム",
   "tooltipCopyToClipboard": "クリップボードにコピー",
+  "tooltipCopyLinkToClipboard": "ログ・リンクのコピー",
   "tooltipAddAsGroup": "タグで分類",
   "tooltipAddAsFilter": "タグをフィルターとして追加",
   "sorting": {

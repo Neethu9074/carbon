@@ -25,7 +25,8 @@
       "heading": "Termos de serviço",
       "introduction": "Antes de seguir em frente, e antes de usar produtos e serviços da Instana, é necessário ler e concordar com nossos Termos de serviço.",
       "documents": "Leia os documentos a seguir:",
-      "agreeToS": "Li e concordo com o <tosButton /> da Instana"
+      "agreeToS": "Eu li e concordo com o <tosButton /> do Instana.",
+      "ibmTos": "Os Termos de serviço da IBM regerão os clientes IBM."
     },
     "termsPage2": {
       "heading": "Sistema de mensagens"
@@ -110,6 +111,8 @@
   },
   "tabs": {
     "failedToSaveConfig": "Falha ao salvar configuração: {{err}}",
+    "IdPMetadataRequired": "O arquivo de metadados IDP é necessário",
+    "IdPMetadataLargerThanTwoMega": "O arquivo de metadados IDP não pode ter mais de dois megabytes",
     "ldapHelpDoc": "A ajuda e o suporte estão disponíveis em nossas <docLink>páginas de documentação</docLink>.",
     "testConfiguration": "Configuração de teste",
     "requiredSettings": "Configurações necessárias",
@@ -803,7 +806,8 @@
     "deprecatedEventSelectedMessage": "Os tipos de entidade <em>Aplicativo, Serviço e Terminal</em> foram descontinuados para eventos customizados e precisam ser migrados para um Alerta Inteligente em breve. Aconselhamos configurar um respectivo Alerta Inteligente em vez de um Evento customizado. Para obter mais informações, <documentationLink>consulte a nossa documentação</documentationLink>."
   },
   "languageSelection": {
-    "language": "Idioma"
+    "language": "Idioma",
+    "collationLanguage": "Linguagem para classificação"
   },
   "terms": {
     "failedToSaveSettings": "falha ao salvar configurações: {{settings}} {{err}}",

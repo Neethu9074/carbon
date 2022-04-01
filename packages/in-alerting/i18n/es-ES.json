@@ -21,6 +21,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "Está viendo la revisión {{description}} de esta configuración de alertas. Por favor, <latestRevisionButton>seleccione la revisión más reciente</latestRevisionButton> o <restoreRevisionButton>restaure desde la revisión actual</restoreRevisionButton> si desea realizar cambios.",
     "alertHeaderAriaLabelSeverity": "El suceso tiene gravedad {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertas creadas ({{totalRepresentedItemCount}})",
+    "alertStateActive": "activas",
     "alertPropertyInfosLabelTitle": "Título",
     "alertPropertyInfosLabelAlertLevel": "Nivel de alerta",
     "alertPropertyInfosLabelTriggersIncident": "Incidencia de activadores",
@@ -39,9 +40,10 @@
     "chart": {
       "alertingChartLabelThreshold": "Umbral",
       "alertingChartLabelViolations": "Infracciones",
-      "alertingChartTooltipSmoothedMetric": "Métrica ajustada",
       "alertingChartMessageInvalidFilterQuery": "Consulta de filtro no válida.",
       "alertingChartMessageEntitySelectionInvalid": "No se han seleccionado entidades.",
+      "chartAlertsLaneErrorMessage": "No se han podido cargar las alertas",
+      "chartAlertsPreviewLanePresenterAlertsLabel": "Alertas",
       "chartViewConfigsLast24Hours": "Últimas 24 horas",
       "chartViewConfigsLast7Days": "Últimos 7 días"
     },
@@ -123,9 +125,11 @@
         "alertPropertyInsertPlaceholderLabel": "Insertar marcador",
         "evaluationSwitch": {
           "individual": "Alertas individuales",
+          "optionNotAvailableForAdaptiveThreshold": "Esta opción no está disponible con el umbral adaptable",
           "evaluationTypePERAP": {
             "selectionText": "para esta perspectiva de aplicación",
             "globalSelectionText": "por perspectiva de aplicación",
+            "shortText": "Por perspectiva de aplicación",
             "columnText": "agregado",
             "description": "Alertar de forma individual para esta perspectiva de aplicación",
             "globalDescription": "Alertar de forma individual por perspectiva de aplicación"
@@ -133,6 +137,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "por servicio para esta perspectiva de aplicación",
             "globalSelectionText": "por servicio en el contexto de cada perspectiva de aplicación",
+            "shortText": "Por servicio",
             "columnText": "por servicio",
             "description": "Alertar de forma individual por servicio para esta perspectiva de aplicación",
             "globalDescription": "Alertar de forma individual por servicio en el contexto de cada perspectiva de aplicación"
@@ -140,6 +145,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "por punto final para esta perspectiva de aplicación",
             "globalSelectionText": "por punto final en el contexto de cada perspectiva de aplicación",
+            "shortText": "Por punto final",
             "columnText": "por punto final",
             "description": "Alertar de forma individual por punto final para esta perspectiva de aplicación",
             "globalDescription": "Alertar de forma individual por punto final en el contexto de cada perspectiva de aplicación"
@@ -164,6 +170,18 @@
             "confirmButtonLabel": "Confirmar"
           }
         },
+        "staticOrAdaptive": {
+          "config": {
+            "static": {
+              "title": "Estático",
+              "description": "El umbral es un valor de umbral fijo o dependiente del tiempo. Instana le ayuda a elegir el valor de umbral correcto basado en datos recientes"
+            },
+            "adaptive": {
+              "title": "Adaptable",
+              "description": "El umbral se adapta automáticamente a los cambios de la métrica subyacente"
+            }
+          }
+        },
         "includeInternalOrSynthethicCalls": {
           "includeInternalCalls": "Incluir llamadas internas",
           "includeSyntethicCalls": "Incluir llamadas sintéticas"
@@ -183,6 +201,11 @@
             "title": "Activador: ¿Sobre qué desea que se le alerte?",
             "logMessageCardTitle": "Mensaje de registro",
             "httpStatusCodesCardTitle": "Códigos de estado HTTP"
+          },
+          "threshold": {
+            "staticOrAdaptiveTitle": "Tipo de umbral",
+            "label": "Umbral",
+            "title": "Umbral: ¿Cuándo se infringe la condición?"
           },
           "timeThreshold": {
             "label": "Umbral de tiempo",
@@ -208,7 +231,7 @@
           "applications": "Aplicaciones:",
           "services": "Servicios:"
         },
-        "noChartForAdaptiveBaseline": "No hay ninguna vista previa disponible mientras este desencadenante se basa en una línea base adaptativa.",
+        "noChartForAdaptiveBaseline": "No hay ninguna vista previa disponible mientras este desencadenante se base en un umbral adaptable.",
         "noDataWithoutEndpointSelection": "Seleccione un punto final para ver la vista previa",
         "noDataAvailable": "Seleccione un servicio para ver la vista previa"
       },
@@ -446,6 +469,10 @@
         "labelGlobalSmartAlertsList": "Alertas inteligentes de aplicación global ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Alertas inteligentes de aplicación ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "Umbral estático, {{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "Estacionalidad diaria estática, {{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "Estacionalidad semanal estática, {{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "Umbral adaptable, {{metricLabel}}",
         "labelActionButtonEdit": "Editar",
         "labelActionButtonDuplicate": "Duplicar",
         "labelActionButtonDelete": "Suprimir",
@@ -475,6 +502,10 @@
       }
     },
     "details": {
+      "header": "Detalles",
+      "thresholdTypeTitle": "Tipo de umbral",
+      "metricTitle": "Métrica",
+      "entityTitle": "Ámbito",
       "titleBuiltInIndicator": "Integrado"
     },
     "form": {
@@ -483,7 +514,7 @@
       "ruleAggregationOptionP25": "25º",
       "ruleAggregationOptionP50": "50º",
       "ruleAggregationOptionP75": "75º",
-      "ruleAggregationOptionP90": "90º (recomendado)",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "95º",
       "ruleAggregationOptionP98": "98º",
       "ruleAggregationOptionP99": "99º",
@@ -494,7 +525,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Cancelar",
-        "sharedListTooltip": "El {{typeName}} seleccionado ya no está disponible",
+        "sharedListTooltip": "{{typeName}} ya no está disponible",
         "clearTagFilterExpressionButton": "Borrar",
         "baselineErrorMessageInsufficientDataToCompute": "Los datos son insuficientes para calcular la línea base seleccionada. En su lugar, seleccione <em>Umbral estático</em>.",
         "pleaseContactSupportToRiseLimit": "Póngase en contacto con nosotros a través de nuestro <supportLink>{{instanaSupportPortal}}</supportLink> para solicitar un aumento de este límite.",
@@ -549,20 +580,20 @@
         "timeThresholdDescriptionViolationsInPeriod_2": "Al menos {{count}} infracciones en las últimas {{formattedTimeWindow}}",
         "timeThresholdConfigNumberOfConsecutiveViolations": "Número de infracciones consecutivas de la métrica",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Número de evaluaciones consecutivas",
-        "timeThresholdConfigNumberOfEvaluationWindows": "Número de ventanas de evaluación para el impacto del usuario",
-        "timeThresholdConfigImpactEvaluationMethod": "Método de evaluación Impacto de usuario",
+        "timeThresholdConfigNumberOfEvaluationWindows": "Número de infracciones consecutivas",
+        "timeThresholdConfigImpactEvaluationMethod": "Método de evaluación de impacto de usuario",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Agregar en todas las ventanas de evaluación",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada ventana de evaluación",
         "timeThresholdConfigNumberOfViolations": "Número de violaciones de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidad de la evaluación",
-        "timeThresholdConfigNumberOfRequestsThreshold": "Umbral de número de solicitudes",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de umbrales de usuarios afectados",
+        "timeThresholdConfigNumberOfRequestsThreshold": "Número de solicitudes afectadas",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de usuarios afectados",
         "timeThresholdConfigAtLeast": "Al menos",
-        "timeThresholdConfigNumberOfRequests": "Nº de solicitudes",
+        "timeThresholdConfigNumberOfRequests": "Núm. de solicitudes afectadas",
         "timeThresholdConfigMinutes": "{{min}} min",
-        "timeThresholdConfigNumberOfUsers": "Nº de usuarios",
-        "timeThresholdConfigPercentageOfUsers": "% de usuarios",
-        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Porcentaje de umbral de usuarios afectados",
+        "timeThresholdConfigNumberOfUsers": "Núm. de usuarios afectados",
+        "timeThresholdConfigPercentageOfUsers": "% de usuarios afectados",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Porcentaje de usuarios afectados",
         "timeThresholdConfigOff": "inactivo",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Proporcione un número >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Proporcione un número entre 1% y 100%",
@@ -572,8 +603,8 @@
         "timeThresholdConfigTimeThresholdLabelRequestImpact": "Cuando una determinada cantidad de solicitudes resultan afectadas",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "Persistencia a lo largo del tiempo",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "Número de infracciones a lo largo del tiempo",
-        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Impacto del usuario",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Impacto de la solicitud",
+        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Impacto de usuario",
+        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Impacto de solicitud",
         "timeThresholdConfigNoUserSessionDetected": "No se han detectado <linkToIdentifyingUsers>usuarios</linkToIdentifyingUsers> o <linkToSessionTracking>sesiones</linkToSessionTracking> .",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Configure la supervisión del sitio web antes de utilizar esta opción.",
         "alertPropertiesWarning": "Aviso",
@@ -585,22 +616,26 @@
         "alertPropertiesAlertProperties": "Propiedades de alerta",
         "buttonSave": "Guardar",
         "buttonCreate": "Crear",
+        "buttonMigrate": "Migrar",
         "selectedBlueprint": "Blueprint seleccionado",
         "buttonRecalculateBaseline": "Volver a calcular línea base",
         "sensitivitySliderLow": "bajo",
         "sensitivitySliderHigh": "alto",
         "labelThreshold": "Umbral",
         "labelSensitivity": "Confidencialidad",
+        "staticThresholdTypeOptionsTooltip": "Un umbral diario / semanal estático es un umbral dependiente del tiempo basado en datos históricos. El umbral no cambia automáticamente y se puede volver a calcular manualmente si es necesario.",
         "thresholdTypeOptionStaticThreshold": "Umbral estático",
-        "thresholdTypeOptionHistoricBaselineDaily": "Línea base (Temporalidad diaria)",
-        "thresholdTypeOptionHistoricBaselineWeekly": "Línea base (Temporalidad semanal)",
-        "thresholdTypeOptionAdaptiveBaseline": "Línea base adaptable",
+        "thresholdTypeOptionHistoricBaselineDaily": "Estacionalidad diaria estática",
+        "thresholdTypeOptionHistoricBaselineWeekly": "Estacionalidad semanal estática",
+        "thresholdTypeOptionAdaptiveBaseline": "Umbral adaptable",
         "useSuggestedvalue": "Utilizar valor sugerido",
         "loadingThresholdSuggestion": "Cargando sugerencia de umbral",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Editar alerta inteligente",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Editar alerta inteligente global",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Crear nueva alerta inteligente",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Crear nueva alerta inteligente global",
+        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migrar a alerta inteligente",
+        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migrar a alerta inteligente global",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Cambiar a modalidad avanzada",
         "simpleAlertConfigDialogStep3Headline": "¿Quién debe recibir las alertas?",
         "Loading": "Cargando…",
@@ -608,7 +643,8 @@
         "PreviewForEndpoint": "Vista previa para punto final:",
         "PreviewForService": "Vista previa para el servicio:",
         "PreviewSelectLoadingEndpoints": "Cargando lista de puntos finales",
-        "thresholdValue": "Valor de umbral"
+        "thresholdValue": "Valor de umbral",
+        "migrationModeWarning": "Si se migra este este suceso personalizado a una alerta inteligente, se inhabilitará. El suceso no se puede volver a habilitar después."
       },
       "userInfo": {
         "success": {
@@ -683,6 +719,8 @@
         "slownessInteractiveChartThresholdValue": "Valor de umbral",
         "scopeLabel": "Ámbito",
         "scopeTitle": "Ámbito: ¿Dónde se está produciendo la condición?",
+        "thresholdLabel": "Umbral",
+        "thresholdTitle": "Umbral: ¿Cuándo se infringe la condición?",
         "triggerLabel": "Activador",
         "triggerTitle": "Activador: ¿Sobre qué desea que se le alerte?",
         "JSErrorMessage": "Mensaje de error JS",
@@ -877,7 +915,10 @@
       "migrateButton": "Migrar a alerta inteligente",
       "migrateButtonTooltip": "Abre un diálogo de configuración de Alerta inteligente cargado previamente con los valores migrados del suceso actual en la mayor medida posible. Por favor, compruebe el resultado con cuidado.",
       "markAsMigratedButton": "Marcar como migrado",
-      "markAsMigratedButtonTooltip": "Marca el suceso como migrado. Por favor, utilice esta opción en caso de que ya haya configurado una alerta inteligente que vaya a sustituir este suceso."
+      "markAsMigratedButtonTooltip": "Marca el suceso como migrado. Por favor, utilice esta opción en caso de que ya haya configurado una alerta inteligente que vaya a sustituir este suceso.",
+      "markAsMigratedButtonConfirmationTitle": "Confírmelo",
+      "markAsMigratedButtonConfirmationDescription": "Si se marca este suceso personalizado como migrado, se inhabilitará. El suceso no se puede volver a habilitar después. ¿Desea continuar?",
+      "markAsMigratedButtonConfirmationConfirmLabel": "Confirmar"
     }
   }
 }

@@ -17,9 +17,9 @@ import {
   getPodDashboard,
   getServiceDashboard
 } from 'in-kubernetes/navigation/paths';
+import { pcfEnabled, vsphereEnabled, openstackEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import { getSnapshot, shouldStayInCurrentTimeModeForNavigationToSnapshot } from 'in-stores/snapshot';
-import { pcfEnabled, vsphereEnabled, phmcEnabled, zhmcEnabled } from 'in-services/featureFlags';
 import { getResolvedTimeConfig, getSparkChartGranularity } from 'in-applications/metrics';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { meanLatencyFixed, number, percentage } from 'in-services/formatters/number';
@@ -27,6 +27,7 @@ import SparkChart from 'in-components/tables/ServerTable/components/SparkChart';
 import getInfrastructure from 'in-applications/subscriptions/getInfrastructure';
 import { getDashboardLink } from 'in-stores/navigation/paths/dashboardPaths';
 import { getVsphereDatacenterDashboard } from 'in-vsphere/navigation/paths';
+import { getOpenstackRegionDashboard } from 'in-openstack/navigation/paths';
 import { getApplicationDashboard } from 'in-cloudfoundry/navigation/paths';
 import { getOptionalSnapshotDefinition } from 'in-sdk/snapshot/registry';
 import { getIbmzZhmcDashboard } from 'in-zhmc/navigation/paths';
@@ -225,6 +226,32 @@ function WithVSpherePhysicalContext({ children, datacenter }) {
                   <Link
                     className={locals.entityLink}
                     href$={vsphereEnabled ? getVsphereDatacenterDashboard(datacenter.id) : null}
+                  />
+                )
+              }}
+            />
+          </Fragment>
+        )}
+      </div>
+    </div>
+  );
+}
+function WithOpenstackPhysicalContext({ children, region }) {
+  return (
+    <div className={locals.linkWithMetaEntities}>
+      {children}
+      <div className={locals.metaRow}>
+        {region && (
+          <Fragment>
+            <Trans
+              i18nKey="in-applications:dashboards.infrastructure.instanceOfEntity"
+              values={{ entityLabel: region.label }}
+              components={{
+                icon: <SvgIcon className={locals.entitiyIcon} type="lib_openstack" />,
+                entityLink: (
+                  <Link
+                    className={locals.entityLink}
+                    href$={openstackEnabled ? getOpenstackRegionDashboard(region.id) : null}
                   />
                 )
               }}
@@ -578,6 +605,11 @@ function getColumnDefinitions(type) {
 
         if (item.physicalContext.vsphere) {
           return <WithVSpherePhysicalContext {...item.physicalContext.vsphere}>{link}</WithVSpherePhysicalContext>;
+        }
+        if (item.physicalContext.openstack) {
+          return (
+            <WithOpenstackPhysicalContext {...item.physicalContext.openstack}>{link}</WithOpenstackPhysicalContext>
+          );
         }
         if (item.physicalContext.phmc) {
           return <WithPhmcPhysicalContext {...item.physicalContext.phmc}>{link}</WithPhmcPhysicalContext>;

@@ -26,6 +26,7 @@
     "noComponentStatusDataAvailable": "Keine ComponentStatus-Daten verfügbar",
     "debuggingInformation": "Fehlerbehebungsinformationen",
     "noDebuggingInformation": "Keine Fehlerbehebungsinformationen",
+    "noClusterDataAvailable": "Keine Clusterdaten verfügbar",
     "summary": "Zusammenfassung",
     "details": "Details",
     "events": "Ereignisse",
@@ -45,6 +46,7 @@
     "memoryUsage": "Speichernutzung",
     "phase": "Phase",
     "reclaimPolicy": "Richtlinie für Rückforderung",
+    "storageCapacity": "Speicherkapazität",
     "storageClassName": "Speicherklassenname",
     "cpuRequests": "CPU-Anforderungen",
     "cpuLimitsAlloc": "CPU-Limitzuordnung",
@@ -77,6 +79,9 @@
     "table": "Tabelle",
     "map": "Zuordnung",
     "services": "Services",
+    "serviceCount": "Anzahl der Services",
+    "appWorkloadCount": "App-Workloads",
+    "batchWorkloadCount": "Stapelworkloads",
     "cpuRequestsAlloc": "CPU-Anforderungszuordnung",
     "memoryRequestsAlloc": "Speicheranfragenzuordnung",
     "roles": "Rollen",
@@ -263,6 +268,7 @@
   "cronJobs": "Cron-Jobs",
   "health": "Allgemeinzustand",
   "clusters": "Cluster",
+  "explore": "Untersuchen (Technologievorschau)",
   "noMonitoringDataFound": "Keine Überwachungsdaten gefunden",
   "clusterName": "Clustername",
   "running": "Aktiv",
@@ -273,7 +279,7 @@
   "kubernetesPageRootName": "Kubernetes {{objectType}}",
   "kubernetesHeader": "Kubernetes",
   "kubernetes": {
-    "noData": "Es sind keine Kubernetes-Daten verfügbar. Fehlerbehebungsinformationen finden Sie in der [Dokumentation] [Docs].\n\n[Docs]:https://instana.com/docs/ecosystem/kubernetes/#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
+    "noData": "Es sind keine Kubernetes-Daten verfügbar. Fehlerbehebungsinformationen finden Sie in der [Dokumentation] [Docs].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=instana-monitoring-kubernetes#why-am-i-not-seeing-any-kubernetes-clusters-or-namespaces"
   },
   "pod": {
     "pending": "Anstehende Pods",

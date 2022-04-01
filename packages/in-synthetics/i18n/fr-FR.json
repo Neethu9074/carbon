@@ -32,7 +32,7 @@
         "title": "Quel est le nom de ce test PING ?",
         "labelName": "Nom du test",
         "labelDescription": "Description",
-        "labelFreequency": "Fréquence"
+        "labelFrequency": "Fréquence"
       },
       "bluePrint": {
         "pingApi": {
@@ -68,9 +68,12 @@
     },
     "feedback": {
       "successTitle": "L'opération a abouti !",
-      "successMessage": "La création du test synthétique a abouti.",
+      "successMessageCreate": "La création du test synthétique a abouti.",
+      "successMessageDelete": "La suppression du test synthétique a abouti",
       "failureTitle": "Echec !",
-      "failureMessage": "Echec de création d'un test synthétique. Veuillez réessayer ultérieurement."
+      "failureMessageCreate": "Echec de création d'un test synthétique. Réessayez plus tard",
+      "failureMessageUpdate": "Echec de la mise à jour du test synthétique. Réessayez plus tard",
+      "failuteMesssageDelete": "Echec de la suppression du test synthétique. Réessayez plus tard"
     }
   },
   "createTest": {
@@ -78,5 +81,24 @@
   },
   "navigation": {
     "synthetics": "Synthétiques"
+  },
+  "dashboard": {
+    "testList": {
+      "mainLabel": "Tests synthétiques",
+      "secondaryLabels": {
+        "tests": "Tests",
+        "location": "Emplacement"
+      },
+      "locationsSubText": "{{count}} emplacement",
+      "locationsSubText_plural": "{{count}} emplacements",
+      "frequencySubText": "Chaque {{count}} minute",
+      "frequencySubText_plural": "Toutes les {{count}} minutes",
+      "pause": "Mettre le test en pause",
+      "resume": "Reprendre le test"
+    },
+    "sortOptions": {
+      "name": "Nom",
+      "frequency": "Fréquence"
+    }
   }
 }

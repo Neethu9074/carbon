@@ -31,7 +31,7 @@
   "labelTechnologies": "技术",
   "labelEndpoints": "端点",
   "labelHealth": "运行状况",
-  "labelNonHttp": "其他",
+  "labelOther": "其他",
   "labelCallCount": "调用计数",
   "labelHTTPStatusCodes": "HTTP 状态码",
   "labelInfraIssues": "基础架构问题",
@@ -198,7 +198,6 @@
     "listBatchTypeTooltip": "此 {{type}} 已批处理，且表示 {{batchCount}} 个个别 {{types}}。",
     "listBatchLatencyTooltip": "{{batchCount}} 个批处理的 {{types}} 的总等待时间。",
     "traceIdTooltip": "与此跟踪相关的一些数据发生延迟，请稍后重新装入页面。可能发生此情况的一个示例如下：正在查看最近跟踪，而其部分数据仍在处理中。",
-    "downloadTraceTooltip": "下载完整跟踪。",
     "closeTraceDetail": "关闭跟踪详细信息",
     "invalidQueryConfig": "查询配置无效。请在继续之前处理验证失败。",
     "errorRateLabel": "错误调用数（率）",
@@ -527,7 +526,7 @@
     "showApplicationsScopeWithApplicationLabel": "显示上下文 <linkToApplication>{{applicationLabel}}</linkToApplication> 中 <linkToEntity>{{entityLabel}}</linkToEntity> 的应用程序 <bold>{{contextScope}}</bold>",
     "showServicesScopeWithServiceLabel": "显示上下文 <linkToApplication>{{applicationLabel}}</linkToApplication> 中 <linkToEntity>{{entityLabel}}</linkToEntity> 的服务 <bold>{{contextScope}}</bold>",
     "titleNoService": "尚无服务",
-    "servicesNoData": "未针对所选的时间范围提供任何服务调用。有关故障诊断信息，请参阅[文档]。\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "没有任何服务调用可用于所选时间范围。 有关故障诊断信息，请参阅[文档]。\n\n[文档]：https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "批处理",
@@ -570,23 +569,14 @@
         "largeTraceLink": "此跟踪很大，且呈现此跟踪可能会导致浏览器出现性能问题。您可以<linkToDocs>下载跟踪</linkToDocs>以进行手动检查，或者尝试在浏览器中呈现跟踪。我们将仅呈现组件的一个子集，以提高本次尝试的性能。",
         "calls": "调用",
         "erroneousTrace": "错误跟踪",
-        "attemptToRenderTrace": "尝试呈现跟踪"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "服务信息",
-          "showServiceInformationExpl": "在调用标签下显示服务信息",
-          "showSubCalls": "显示子调用",
-          "showSubCallsExpl": "在每行中显示直接子调用"
-        }
+        "attemptToRenderTrace": "尝试呈现跟踪",
+        "analyzeBeacons": "分析信标",
+        "adjustedTimeConfig": "时间范围已调整为包含所选信标。"
       }
     }
   },
   "tabs": {
-    "labelDetail": "详细信息",
-    "labelSummary": "摘要",
-    "servicesAndEndpoint": "服务和端点",
-    "logs": "日志"
+    "labelDetail": "详细信息"
   },
   "metrics": {
     "calls_calls": "调用次数",
@@ -598,5 +588,12 @@
     "traces_latency": "等待时间",
     "traces_erroneousCalls": "错误跟踪数",
     "traces_errors": "错误跟踪率"
+  },
+  "viewLists": {
+    "application": "应用程序",
+    "services": "服务",
+    "errorMessages": "错误消息",
+    "logMessages": "日志消息",
+    "endpoints": "端点"
   }
 }

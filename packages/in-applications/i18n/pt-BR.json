@@ -31,7 +31,7 @@
   "labelTechnologies": "Tecnologias",
   "labelEndpoints": "Terminais",
   "labelHealth": "Funcionamento",
-  "labelNonHttp": "Outro",
+  "labelOther": "Outro",
   "labelCallCount": "Contagem de chamadas",
   "labelHTTPStatusCodes": "Códigos de status HTTP",
   "labelInfraIssues": "Problemas de infraestrutura",
@@ -108,7 +108,7 @@
   "buttonAddTag": "Incluir tag",
   "buttonOK": "OK",
   "buttonCreate": "Criar",
-  "buttonCancel": "cancelar",
+  "buttonCancel": "Cancelar",
   "buttonRemoveApplicationPerspective": "Remover perspectiva de aplicativo",
   "buttonAddDescription": "Incluir descrição",
   "buttonAddSyntheticEndpointRule": "Incluir regra de terminal sintético",
@@ -198,7 +198,6 @@
     "listBatchTypeTooltip": "Este {{type}} está em lote e representa {{batchCount}} {{types}} individuais.",
     "listBatchLatencyTooltip": "Latência total de {{batchCount}} {{types}} em lote.",
     "traceIdTooltip": "Alguns dados relacionados a esse rastreio estão atrasados, portanto, recarregue a página um pouco mais tarde. Um exemplo no qual isso pode acontecer é visualizar um rastreio muito recente com alguns dos dados dele ainda sendo processados.",
-    "downloadTraceTooltip": "Baixe o rastreio completo.",
     "closeTraceDetail": "Fechar detalhe de rastreio",
     "invalidQueryConfig": "A configuração da consulta é inválida. Trate as falhas de validação antes de continuar.",
     "errorRateLabel": "Chamadas errôneas (taxa)",
@@ -527,7 +526,7 @@
     "showApplicationsScopeWithApplicationLabel": "Mostrando aplicativos <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> no contexto de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "showServicesScopeWithServiceLabel": "Mostrando serviços <bold>{{contextScope}}</bold> de <linkToEntity>{{entityLabel}}</linkToEntity> no contexto de <linkToApplication>{{applicationLabel}}</linkToApplication>",
     "titleNoService": "Nenhum serviço ainda",
-    "servicesNoData": "Nenhuma chamada de serviço está disponível para o intervalo de tempo selecionado. Para obter informações de resolução de problemas, consulte a [documentação][Docs].\n\n[Docs]:https://instana.com/docs/application_monitoring/services/#why-am-i-not-seeing-any-services-listed"
+    "servicesNoData": "Nenhuma chamada de serviço disponível para o intervalo de tempo selecionado. Para obter informações de resolução de problemas, consulte [documentação][Docs].\n\n[Docs]:https://www.ibm.com/docs/en/obi/current?topic=applications-services#why-am-i-not-seeing-any-services-listed"
   },
   "endpointTypes": {
     "batch": "Lote",
@@ -570,23 +569,14 @@
         "largeTraceLink": "Este rastreio é grande e sua renderização pode resultar em problemas de desempenho dentro do seu navegador. Também é possível <linkToDocs>fazer download do rastreio</linkToDocs> para inspeção manual ou tentar a renderização do rastreio dentro do seu navegador. Renderizaremos somente um subconjunto dos componentes a fim de aumentar o desempenho dessa tentativa.",
         "calls": "Chamadas",
         "erroneousTrace": "Rastreio errôneo",
-        "attemptToRenderTrace": "Tentativa de renderização de rastreio"
-      },
-      "calls": {
-        "settings": {
-          "showServiceInformation": "Informações de serviço",
-          "showServiceInformationExpl": "Mostrar informações de serviço abaixo da etiqueta de chamada",
-          "showSubCalls": "Mostrar subchamadas",
-          "showSubCallsExpl": "Mostrar subchamadas diretas em cada linha"
-        }
+        "attemptToRenderTrace": "Tentativa de renderização de rastreio",
+        "analyzeBeacons": "Analisar indicadores",
+        "adjustedTimeConfig": "O intervalo de tempo foi ajustado para incluir o indicador selecionado."
       }
     }
   },
   "tabs": {
-    "labelDetail": "Detalhe",
-    "labelSummary": "Resumo",
-    "servicesAndEndpoint": "Serviços e terminais",
-    "logs": "Logs"
+    "labelDetail": "Detalhe"
   },
   "metrics": {
     "calls_calls": "Chamadas",
@@ -598,5 +588,12 @@
     "traces_latency": "Latência",
     "traces_erroneousCalls": "Rastreios errôneos",
     "traces_errors": "Taxa de rastreios errôneos"
+  },
+  "viewLists": {
+    "application": "Aplicativos",
+    "services": "Serviços",
+    "errorMessages": "Mensagens de erro",
+    "logMessages": "Mensagens de log",
+    "endpoints": "Terminais"
   }
 }

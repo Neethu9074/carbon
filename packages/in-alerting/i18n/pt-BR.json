@@ -21,6 +21,7 @@
     "alertHeaderIsNotLatestRevisionMessage": "Você está consultando a revisão {{description}} desta configuração de alerta. <latestRevisionButton>Selecione a revisão mais recente</latestRevisionButton> ou <restoreRevisionButton>restaure da revisão atual</restoreRevisionButton> se quiser fazer mudanças.",
     "alertHeaderAriaLabelSeverity": "O evento tem a severidade {{severity}}",
     "alertHistoryListTitleWithTotalRepresentedItemCount": "Alertas Criados ({{totalRepresentedItemCount}})",
+    "alertStateActive": "ativo",
     "alertPropertyInfosLabelTitle": "Título",
     "alertPropertyInfosLabelAlertLevel": "Nível de alerta",
     "alertPropertyInfosLabelTriggersIncident": "Incidente de acionadores",
@@ -39,9 +40,10 @@
     "chart": {
       "alertingChartLabelThreshold": "Limite",
       "alertingChartLabelViolations": "Violações",
-      "alertingChartTooltipSmoothedMetric": "Métrica suavizada",
       "alertingChartMessageInvalidFilterQuery": "Consulta inválida de filtro.",
       "alertingChartMessageEntitySelectionInvalid": "Nenhuma entidade selecionada.",
+      "chartAlertsLaneErrorMessage": "Não foi possível carregar alertas",
+      "chartAlertsPreviewLanePresenterAlertsLabel": "Alertas",
       "chartViewConfigsLast24Hours": "Últimas 24 horas",
       "chartViewConfigsLast7Days": "Últimos sete dias"
     },
@@ -123,9 +125,11 @@
         "alertPropertyInsertPlaceholderLabel": "Inserir item temporário",
         "evaluationSwitch": {
           "individual": "Alertas individuais",
+          "optionNotAvailableForAdaptiveThreshold": "Esta opção não está disponível com limite adaptável",
           "evaluationTypePERAP": {
             "selectionText": "para esta Perspectiva de aplicativo",
             "globalSelectionText": "por Perspectiva de aplicativo",
+            "shortText": "Perspectiva por aplicativo",
             "columnText": "agregada",
             "description": "Alertar individualmente para esta Perspectiva de aplicativo",
             "globalDescription": "Alertar individualmente por Perspectiva de aplicativo"
@@ -133,6 +137,7 @@
           "evaluationTypePERAPSERVICE": {
             "selectionText": "por serviço para esta Perspectiva de aplicativo",
             "globalSelectionText": "por serviço no contexto de cada Perspectiva de aplicativo",
+            "shortText": "Por serviço",
             "columnText": "por serviço",
             "description": "Alertar individualmente por serviço para esta Perspectiva de aplicativo",
             "globalDescription": "Alertar individualmente por serviço no contexto de cada Perspectiva de aplicativo"
@@ -140,6 +145,7 @@
           "evaluationTypePERAPENDPOINT": {
             "selectionText": "por Terminal para esta Perspectiva de aplicativo",
             "globalSelectionText": "por Terminal no contexto de cada Perspectiva de aplicativo",
+            "shortText": "Por terminal",
             "columnText": "por Terminal",
             "description": "Alertar individualmente por Terminal para esta Perspectiva de aplicativo",
             "globalDescription": "Alertar individualmente por Terminal no contexto de cada Perspectiva de aplicativo"
@@ -164,6 +170,18 @@
             "confirmButtonLabel": "Confirmar"
           }
         },
+        "staticOrAdaptive": {
+          "config": {
+            "static": {
+              "title": "Estático",
+              "description": "O limite é um valor fixo ou dependente de tempo. O Instana ajuda a escolher o valor de limite certo com base em dados recentes"
+            },
+            "adaptive": {
+              "title": "Adaptável",
+              "description": "O limite adapta-se automaticamente às mudanças da métrica subjacente"
+            }
+          }
+        },
         "includeInternalOrSynthethicCalls": {
           "includeInternalCalls": "Incluir chamadas internas",
           "includeSyntethicCalls": "Incluir chamadas sintéticas"
@@ -183,6 +201,11 @@
             "title": "Acionador: sobre o que você quer ser alertado?",
             "logMessageCardTitle": "Mensagem de log",
             "httpStatusCodesCardTitle": "Códigos de status HTTP"
+          },
+          "threshold": {
+            "staticOrAdaptiveTitle": "Tipo de limite",
+            "label": "Limite",
+            "title": "Limite: quando a condição é violada?"
           },
           "timeThreshold": {
             "label": "Limite de tempo",
@@ -208,7 +231,7 @@
           "applications": "Aplicativos:",
           "services": "Serviços:"
         },
-        "noChartForAdaptiveBaseline": "Nenhuma visualização disponível enquanto este acionador for baseado em uma linha de base adaptativa.",
+        "noChartForAdaptiveBaseline": "Nenhuma visualização disponível enquanto este acionador se baseia em um limite adaptável.",
         "noDataWithoutEndpointSelection": "Selecione um terminal para abrir a visualização prévia",
         "noDataAvailable": "Selecione um serviço para abrir sua visualização"
       },
@@ -446,6 +469,10 @@
         "labelGlobalSmartAlertsList": "Alertas inteligentes de aplicativos globais ({{numberOfAlerts}})",
         "labelSmartAlertsList": "Alertas inteligentes de aplicativos ({{numberOfAlerts}})",
         "getSubtitle": "{{blueprintConfigName}}, {{metricLabel}}",
+        "getSubtitleForStaticThreshold": "Limite estático, {{metricLabel}} {{operator}} {{value}}",
+        "getSubtitleForStaticDailySeasonality": "Sazonalidade diária estática, {{metricLabel}}",
+        "getSubtitleForStaticWeeklySeasonality": "Sazonalidade semanal estática, {{metricLabel}}",
+        "getSubtitleForAdaptiveThreshold": "Limite adaptável, {{metricLabel}}",
         "labelActionButtonEdit": "Editar",
         "labelActionButtonDuplicate": "Duplicata",
         "labelActionButtonDelete": "Excluir",
@@ -475,6 +502,10 @@
       }
     },
     "details": {
+      "header": "Detalhes",
+      "thresholdTypeTitle": "Tipo de limite",
+      "metricTitle": "Métrica",
+      "entityTitle": "Escopo",
       "titleBuiltInIndicator": "Integrado"
     },
     "form": {
@@ -483,7 +514,7 @@
       "ruleAggregationOptionP25": "25º",
       "ruleAggregationOptionP50": "50º",
       "ruleAggregationOptionP75": "75º",
-      "ruleAggregationOptionP90": "90º (recomendado)",
+      "ruleAggregationOptionP90": "90th",
       "ruleAggregationOptionP95": "95º",
       "ruleAggregationOptionP98": "98º",
       "ruleAggregationOptionP99": "99º",
@@ -494,7 +525,7 @@
     "components": {
       "smartAlertDialog": {
         "cancelTitle": "Cancelar",
-        "sharedListTooltip": "O {{typeName}} selecionado não está mais disponível",
+        "sharedListTooltip": "{{typeName}} não está mais disponível",
         "clearTagFilterExpressionButton": "Limpar",
         "baselineErrorMessageInsufficientDataToCompute": "Dados insuficientes para computar a linha de base selecionada. Selecione <em>Limite estático</em> como alternativa.",
         "pleaseContactSupportToRiseLimit": "Entre em contato conosco por meio de nosso <supportLink>{{instanaSupportPortal}}</supportLink> para solicitar um aumento desse limite.",
@@ -549,20 +580,20 @@
         "timeThresholdDescriptionViolationsInPeriod_2": "Pelo menos {{count}} violações dentro do último {{formattedTimeWindow}}",
         "timeThresholdConfigNumberOfConsecutiveViolations": "Número de violações de métrica consecutivas",
         "timeThresholdConfigNumberOfConsecutiveEvaluations": "Número de avaliações consecutivas",
-        "timeThresholdConfigNumberOfEvaluationWindows": "Número de Janelas de avaliação para Impacto de Usuário",
-        "timeThresholdConfigImpactEvaluationMethod": "Método de avaliação do Impacto de usuário",
+        "timeThresholdConfigNumberOfEvaluationWindows": "Número de violações consecutivas",
+        "timeThresholdConfigImpactEvaluationMethod": "Método de avaliação de impacto do usuário",
         "timeThresholdConfigImpactEvaluationMethodAggregated": "Agregar em todas as janelas de avaliação",
         "timeThresholdConfigImpactEvaluationMethodPerWindow": "Calcular para cada janela de avaliação",
         "timeThresholdConfigNumberOfViolations": "Número de violações de métrica",
         "timeThresholdConfigEvaluationGranularity": "Granularidade da avaliação",
-        "timeThresholdConfigNumberOfRequestsThreshold": "Número do limite de solicitações",
-        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de Limite de usuários impactados",
+        "timeThresholdConfigNumberOfRequestsThreshold": "Número de solicitações afetadas",
+        "timeThresholdConfigNumberOfImpactedUsersThreshold": "Número de usuários afetados",
         "timeThresholdConfigAtLeast": "Pelo menos",
-        "timeThresholdConfigNumberOfRequests": "Nº de solicitações",
+        "timeThresholdConfigNumberOfRequests": "N.º de solicitações afetadas",
         "timeThresholdConfigMinutes": "{{min}} mín.",
-        "timeThresholdConfigNumberOfUsers": "Nº de usuários",
-        "timeThresholdConfigPercentageOfUsers": "% de Usuários",
-        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Porcentagem de Limite de Usuários impactados",
+        "timeThresholdConfigNumberOfUsers": "N.º de usuários afetados",
+        "timeThresholdConfigPercentageOfUsers": "% de usuários afetados",
+        "timeThresholdConfigPercentageOfImpactedUsersThreshold": "Porcentagem de usuários afetados",
         "timeThresholdConfigOff": "desligado",
         "timeThresholdConfigErrorPleaseProvideANumberGreaterEqualsToOne": "Forneça um número >= 1",
         "timeThresholdConfigErrorPleaseProvideANumberBetween1and100Percent": "Forneça um número entre 1% e 100%",
@@ -572,8 +603,8 @@
         "timeThresholdConfigTimeThresholdLabelRequestImpact": "Quando uma determinada quantidade de solicitações for impactada",
         "timeThresholdConfigTimeThresholdTitleViolationsInSequence": "Persistência ao longo do tempo",
         "timeThresholdConfigTimeThresholdTitleViolationsInPeriod": "Número de violações ao longo do tempo",
-        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Impacto do usuário",
-        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Impacto de solicitação",
+        "timeThresholdConfigTimeThresholdTitleUserImpactOfViolationsInSequence": "Impacto no usuário",
+        "timeThresholdConfigTimeThresholdTitleRequestImpact": "Impacto na solicitação",
         "timeThresholdConfigNoUserSessionDetected": "Não <linkToIdentifyingUsers>usuários</linkToIdentifyingUsers> ou <linkToSessionTracking>sessões</linkToSessionTracking> detectados.",
         "timeThresholdConfigPleaseConfigureWebsiteMonitoringBeforeUsingThisOption": "Configure o monitoramento do website antes de usar esta opção.",
         "alertPropertiesWarning": "Aviso",
@@ -585,22 +616,26 @@
         "alertPropertiesAlertProperties": "Propriedades de alerta",
         "buttonSave": "Salvar",
         "buttonCreate": "Criar",
+        "buttonMigrate": "Migrar o",
         "selectedBlueprint": "Blueprint selecionado",
         "buttonRecalculateBaseline": "Recalcular linha de base",
         "sensitivitySliderLow": "baixo",
         "sensitivitySliderHigh": "alto",
         "labelThreshold": "Limite",
         "labelSensitivity": "Sensibilidade",
+        "staticThresholdTypeOptionsTooltip": "Um limite diário/semanal estático é um limite dependente do tempo baseado em dados históricos. O limite não muda automaticamente e poderá ser recalculado manualmente, se necessário.",
         "thresholdTypeOptionStaticThreshold": "Limite estático",
-        "thresholdTypeOptionHistoricBaselineDaily": "Linha de base (sazonalidade diária)",
-        "thresholdTypeOptionHistoricBaselineWeekly": "Linha de base (sazonalidade semanal)",
-        "thresholdTypeOptionAdaptiveBaseline": "Linha de base adaptativa",
+        "thresholdTypeOptionHistoricBaselineDaily": "Sazonalidade diária estática",
+        "thresholdTypeOptionHistoricBaselineWeekly": "Sazonalidade semanal estática",
+        "thresholdTypeOptionAdaptiveBaseline": "Limite adaptável",
         "useSuggestedvalue": "Usar valor sugerido",
         "loadingThresholdSuggestion": "Sugestão de limite de carregamento",
         "alertConfigDialogPresenterTitleEditAlert_Local": "Editar alerta inteligente",
         "alertConfigDialogPresenterTitleEditAlert_Global": "Editar alerta inteligente global",
         "alertConfigDialogPresenterTitleCreateNewAlert_Local": "Criar novo alerta inteligente",
         "alertConfigDialogPresenterTitleCreateNewAlert_Global": "Criar novo alerta inteligente global",
+        "alertConfigDialogPresenterTitleMigrateAlert_Local": "Migrar para Alerta inteligente",
+        "alertConfigDialogPresenterTitleMigrateAlert_Global": "Migrar para o Alerta inteligente global",
         "alertConfigDialogPresenterButtonSwitchToAdvancedMode": "Alternar para o modo avançado",
         "simpleAlertConfigDialogStep3Headline": "Quem deve receber os alertas?",
         "Loading": "Carregando…",
@@ -608,7 +643,8 @@
         "PreviewForEndpoint": "Visualização para terminal:",
         "PreviewForService": "Visualização para serviço:",
         "PreviewSelectLoadingEndpoints": "Carregando a lista de terminais",
-        "thresholdValue": "Valor do limite"
+        "thresholdValue": "Valor do limite",
+        "migrationModeWarning": "Migrar este Evento customizado para um Alerta inteligente o desativará. O evento não poderá ser reativado posteriormente."
       },
       "userInfo": {
         "success": {
@@ -683,6 +719,8 @@
         "slownessInteractiveChartThresholdValue": "Valor do limite",
         "scopeLabel": "Escopo",
         "scopeTitle": "Escopo: onde a condição está acontecendo?",
+        "thresholdLabel": "Limite",
+        "thresholdTitle": "Limite: quando a condição é violada?",
         "triggerLabel": "Acionar",
         "triggerTitle": "Acionador: sobre o que você quer ser alertado?",
         "JSErrorMessage": "Mensagem de Erro de JS",
@@ -877,7 +915,10 @@
       "migrateButton": "Migrar para Alerta inteligente",
       "migrateButtonTooltip": "Abre um diálogo de configuração do Alerta inteligente pré-preenchido com os valores migrados do evento atual para a melhor extensão possível. Verifique o resultado com cuidado.",
       "markAsMigratedButton": "Marcar como migrado",
-      "markAsMigratedButtonTooltip": "Marca o Evento como migrado. Use isso caso já tenha configurado um Alerta Inteligente que substituirá este Evento."
+      "markAsMigratedButtonTooltip": "Marca o Evento como migrado. Use isso caso já tenha configurado um Alerta Inteligente que substituirá este Evento.",
+      "markAsMigratedButtonConfirmationTitle": "Confirme",
+      "markAsMigratedButtonConfirmationDescription": "Marcar este Evento customizado como migrado o desativará. O evento não poderá ser reativado posteriormente. Deseja prosseguir?",
+      "markAsMigratedButtonConfirmationConfirmLabel": "Confirmar"
     }
   }
 }

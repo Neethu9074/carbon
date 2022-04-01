@@ -17,9 +17,11 @@
   "messageParam": "Paramètre du message",
   "applicationCounter": "{{count}} applications",
   "exceptionMessageHeader": "Message d'exception",
+  "stackTrace": "StackTrace",
   "service": "Service",
   "stream": "Flux",
   "tooltipCopyToClipboard": "Copier dans le presse-papiers",
+  "tooltipCopyLinkToClipboard": "Copier le lien de journal",
   "tooltipAddAsGroup": "Regrouper par indicateur",
   "tooltipAddAsFilter": "Ajouter un indicateur comme filtre",
   "sorting": {
