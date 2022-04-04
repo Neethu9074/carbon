@@ -12,15 +12,15 @@ import locals from './SloTile.mless';
 
 interface SloTileProps {
   title: string;
-  value?: string | number;
-  budget?: string | number;
+  value?: string;
+  budget?: string;
   budgetTitle: string;
   compact?: boolean;
   budgetSpent?: boolean;
 }
 
 export default function SloTile({ compact, title, value, budgetTitle, budget, budgetSpent }: SloTileProps) {
-  const valuesPresent = value && budget;
+  const valuesPresent = value !== undefined && budget !== undefined;
 
   if (compact) {
     return (
@@ -34,12 +34,12 @@ export default function SloTile({ compact, title, value, budgetTitle, budget, bu
               [locals.budgetSpent]: valuesPresent && budgetSpent
             })}
           >
-            {value || valueMissingPlaceholder}
+            {value ?? valueMissingPlaceholder}
           </span>
         </div>
         <div className={locals.targetInfo}>
           <span>{budgetTitle}</span>
-          <span className={locals.targetInfoValue}>{budget || valueMissingPlaceholder}</span>
+          <span className={locals.targetInfoValue}>{budget ?? valueMissingPlaceholder}</span>
         </div>
       </div>
     );
@@ -55,11 +55,11 @@ export default function SloTile({ compact, title, value, budgetTitle, budget, bu
           [locals.budgetSpent]: valuesPresent && budgetSpent
         })}
       >
-        <span>{value || valueMissingPlaceholder}</span>
+        <span>{value ?? valueMissingPlaceholder}</span>
       </div>
 
       <div className={locals.targetInfo}>
-        <span>{budgetTitle}</span> <span className={locals.leftSpace}>{budget || valueMissingPlaceholder}</span>
+        <span>{budgetTitle}</span> <span className={locals.leftSpace}>{budget ?? valueMissingPlaceholder}</span>
       </div>
     </div>
   );
