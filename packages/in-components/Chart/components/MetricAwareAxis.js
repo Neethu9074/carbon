@@ -16,6 +16,13 @@ export default connectTo(
   function MetricAwareAxis({ chart, axisName, height, align, filteredDataSeries }) {
     const axis = chart.config[axisName];
 
+    if (!axis) {
+      // When a chart is drawn with y1 and y2 for a while in live mode and then y2 is removed from the chart config, the
+      // second MetricAwareAxis seems to get disposed too late and we try to render a MetricAwareAxis for which there is
+      // no corresponding axis in the config for one render cycle.
+      return null;
+    }
+
     if (!axis.labels || axis.labels.filter((v, i) => !filteredDataSeries.has(`${axisName}-${i}`)).length == 0) {
       return <div style={{ minWidth: 0, height: `${height || verticalAxisHeight}px` }} />;
     }
