@@ -96,6 +96,14 @@ export interface AgentMonitoringIssueWithSnapshot {
   readonly triggeringTime: number;
 }
 
+export interface AgentRequest {
+  readonly action?: string;
+  readonly args?: { [index: string]: any };
+  readonly messageId?: string;
+  readonly target?: VolatileId;
+  readonly tenant?: TenantUnitWithEnvironmentCoordinates;
+}
+
 export interface AgentSnapshot extends Snapshot {
   readonly monitoringIssuesCountByCategory?: { [index: string]: { [index: string]: number } };
   readonly monitoringIssuesTotalCount: number;
@@ -3021,6 +3029,11 @@ export interface MobileAppBeaconsItem extends Cursorific<IngestionOffsetCursor> 
   readonly cursor: IngestionOffsetCursor;
 }
 
+export interface MobileAppConfiguration {
+  readonly id: string;
+  readonly name: string;
+}
+
 export interface MobileAppCountryBreakdown {
   readonly continent: string;
   readonly continentCode: string;
@@ -3831,7 +3844,7 @@ export interface SyntheticGeoPoint {
 }
 
 export interface SyntheticLocation {
-  readonly createdAt?: Date;
+  readonly createdAt?: number;
   readonly customProperties?: { [index: string]: string };
   readonly description?: string;
   readonly displayLabel?: string;
@@ -3839,8 +3852,8 @@ export interface SyntheticLocation {
   readonly id?: string;
   readonly label: string;
   readonly locationType: string;
-  readonly modifiedAt?: Date;
-  readonly observedAt?: Date;
+  readonly modifiedAt?: number;
+  readonly observedAt?: number;
   readonly playbackCapabilities: SyntheticPlaybackCapabilities;
   readonly popVersion?: string;
 }
@@ -3857,16 +3870,16 @@ export interface SyntheticTest {
   readonly active: boolean;
   readonly applicationId?: string;
   readonly configuration: SyntheticTypeConfigurationUnion;
-  readonly createdAt?: Date;
+  readonly createdAt?: number;
   readonly createdBy?: string;
   readonly customProperties?: { [index: string]: string };
   readonly deleted?: boolean;
-  readonly deletedAt?: Date;
+  readonly deletedAt?: number;
   readonly description?: string;
   readonly id?: string;
   readonly label: string;
   readonly locations: string[];
-  readonly modifiedAt?: Date;
+  readonly modifiedAt?: number;
   readonly modifiedBy?: string;
   readonly playbackMode: SyntheticPlaybackMode;
   readonly serviceId?: string;
@@ -3985,6 +3998,15 @@ export interface TenantHealthDownstreamValue {
   readonly tenantConfig?: TenantConfig;
 }
 
+export interface TenantUnitCoordinates {
+  readonly tenant: string;
+  readonly unit: string;
+}
+
+export interface TenantUnitWithEnvironmentCoordinates extends TenantUnitCoordinates {
+  readonly environment: string;
+}
+
 export interface TestResult {
   readonly testResult?: TestResultItem[];
   readonly testResultItems?: TestResultItem[];
@@ -4078,6 +4100,11 @@ export interface Timeframe {
 
 export interface TopListQuery extends FilteredQuery {
   readonly metric?: MetricConfiguration;
+}
+
+export interface TosAndPrivacyVersions {
+  readonly privacyVersion?: string;
+  readonly tosVersion?: string;
 }
 
 export interface Trace {
