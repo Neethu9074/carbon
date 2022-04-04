@@ -224,7 +224,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
                 })}
               </i>
             }
-            cardTitle={t('in-applications:serviceTroubleshooting.alternativeServicesTitle')}
+            title={t('in-applications:serviceTroubleshooting.alternativeServicesTitle')}
             renderInfoBox={AlternativeServicesInfoBox}
             metricDefinition={{
               label: 'alternativeServices',

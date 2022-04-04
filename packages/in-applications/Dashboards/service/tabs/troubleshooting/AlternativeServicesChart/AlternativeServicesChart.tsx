@@ -38,7 +38,7 @@ export interface AlternativeServicesChartWrapperProps {
   timeConfig: TimeConfig;
   serviceId: string;
   cardHeader?: ReactElement;
-  cardTitle?: string;
+  title?: string;
   metricDefinition: MetricDefinition;
   renderInfoBox?: () => ReactNode;
 }
