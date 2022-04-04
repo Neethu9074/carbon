@@ -67,11 +67,12 @@ export const kubernetesExploreEnabled = isFeatureFlagEnabled('kubernetesExploreE
 export const disableAppDataLegacyEvents =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('disableAppDataLegacyEvents');
 export const perServiceAdaptiveBaselineEnabled =
-  applicationSmartAlertsEnabled && isFeatureFlagEnabled('perServiceAdaptiveBaselineEnabled', false);
+  applicationSmartAlertsEnabled && isFeatureFlagEnabled('perServiceAdaptiveBaselineEnabled', true);
 export const perEndpointAdaptiveBaselineEnabled =
   applicationSmartAlertsEnabled && isFeatureFlagEnabled('perEndpointAdaptiveBaselineEnabled', false);
 
 export const websiteSloEnabled = isFeatureFlagEnabled('websiteSloEnabled', false);
+export const sliCHClusterAccessEnabled = isFeatureFlagEnabled('sliCHClusterAccessEnabled');
 
 // SmartAlerts, Strontium-cloudberry:
 // Logs-Blueprint behind FF, Closed-Beta, only for customers already using it

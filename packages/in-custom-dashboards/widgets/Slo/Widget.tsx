@@ -9,9 +9,9 @@ import { Card } from '@instana/components';
 
 import { ensureConfigBackwardCompatibility, SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/form';
 import WidgetLoadingIndicator from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetLoadingIndicator';
+import useSliConfigWithPreview from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview';
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetLeftHeader';
 import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
-import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
 import WidgetContent from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetContent';
 import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
 import SliSummary from 'in-custom-dashboards/widgets/Slo/components/SliSummary';
@@ -66,7 +66,11 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
 
   const granularity = getGranularity(timeConfig);
 
-  const [sliConfiguration, sliConfigurationStatus, , sliConfigurationProgress] = useSliConfiguration(sliConfigId);
+  const [sliConfiguration, sliConfigurationStatus, , sliConfigurationProgress] = useSliConfigWithPreview(
+    sliConfigId,
+    timeConfig,
+    isPreview
+  );
 
   const [entity, entityStatus, , entityProgress] = useSloEntity({ entityId, entityType });
 
@@ -109,7 +113,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
           status={unifiedStatus}
           slo={slo}
           budget={budget}
-          timeWindowType={timeWindowType}
+          timeWindowType={timeWindowType ?? 'dynamic'}
           fromTimestamp={fromTimestamp}
           toTimestamp={toTimestamp}
           sliEntity={sliConfiguration?.sliEntity}

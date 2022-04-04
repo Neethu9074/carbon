@@ -232,7 +232,7 @@ module.exports = exports = [
   {
     uiClientKey: 'perServiceAdaptiveBaselineEnabled',
     instanaCtlKey: 'feature.adaptive.baseline.per.service.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'perEndpointAdaptiveBaselineEnabled',
@@ -242,6 +242,11 @@ module.exports = exports = [
   {
     uiClientKey: 'syntheticsTestEnabled',
     instanaCtlKey: 'feature.synthetics.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'sliCHClusterAccessEnabled',
+    instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
     defaultValue: false
   }
 ];

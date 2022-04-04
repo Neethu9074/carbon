@@ -47,10 +47,13 @@ export function applyPostProcessing<T extends Metrics>(
 }
 
 /**
- * Because the backend metrics API does not provide the capability yet to define the filling behaviour of missing values, we are
- * applying zero filling in the client side. This could be removed as soon as the metric APIs provide such a capability.
+ * Because the backend metrics API does not provide the capability yet to define the filling behaviour of missing values,
+ * we are applying zero filling in the client side. Furthermore, we are clipping incomplete values that the backend can
+ * return in case the request-timeframe ranges into the future.
+ * <p>
+ * This could be removed as soon as the metric APIs provide such a capability.
  */
-export const zeroFillMetric: MetricPostProcessor = (metricData, granularity, adjustedTo, adjustedWindowSize) => {
+export const zeroFillAndClipMetric: MetricPostProcessor = (metricData, granularity, adjustedTo, adjustedWindowSize) => {
   const adjustedNow = adjustTimestamp(Date.now(), granularity);
   const trimmedAdjustedNow = Math.min(adjustedTo, adjustedNow);
   const trimmedAdjustedWindowSize = adjustedWindowSize - (adjustedTo - trimmedAdjustedNow);
@@ -73,7 +76,12 @@ export const zeroFillMetric: MetricPostProcessor = (metricData, granularity, adj
     const value = item[1];
     const index = (timestamp - adjustedTimeframe.from) / granularity;
 
-    resultMetricData[index][1] = value;
+    // Because we might request a timeframe ranging into the future, such as for PP chart, our backend actually can return
+    // partial buckets that are beyond the above adjustedNow. In this case, we want to ignore these values because they would
+    // be incorrect, incomplete or misleading, especially in case of SUM aggregated metrics.
+    if (index < resultMetricData.length) {
+      resultMetricData[index][1] = value;
+    }
   }
 
   return resultMetricData;

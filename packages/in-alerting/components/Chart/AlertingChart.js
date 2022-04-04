@@ -13,8 +13,8 @@ import MarkerLanesPresenter from 'in-components/Chart/markerLanes/MarkerLanesPre
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import AlertingChartWrapper from 'in-alerting/components/Chart/AlertingChartWrapper';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
+import { zeroFillAndClipMetric } from 'in-alerting/components/Chart/chartUtils';
 import { getColorWithTransparency } from 'in-components/Chart/strokeColors';
-import { zeroFillMetric } from 'in-alerting/components/Chart/chartUtils';
 import Renderer from 'in-alerting/components/Chart/renderer/Renderer';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -82,7 +82,7 @@ export default function AlertingChart({
       timeConfig={viewConfig.timeConfig}
       granularity={metricChartGranularity}
       getMetric={blueprintConfig.getMetricsRequest(metricName)}
-      postProcessMetric={requiresZeroFilling && zeroFillMetric}
+      postProcessMetric={requiresZeroFilling && zeroFillAndClipMetric}
       metricsConfiguration={getMetricsConfiguration()}
       y1={getY1()}
       canReload={canReload}

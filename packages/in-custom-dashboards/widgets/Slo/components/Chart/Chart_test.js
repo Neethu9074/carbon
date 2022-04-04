@@ -12,9 +12,9 @@ import PostChartContent from 'in-custom-dashboards/widgets/Slo/components/Chart/
 import { getTagCatalog as getWebsiteTagCatalog } from 'in-websites/api/tagCatalog';
 import Chart from 'in-custom-dashboards/widgets/Slo/components/Chart/Chart';
 import { getApplicationTagCatalog } from 'in-applications/api/catalog';
+import { emptyArray, pendingResult } from 'in-services/fixedObjects';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { CALLS } from 'in-applications/analyze/metrics';
-import { emptyArray } from 'in-services/fixedObjects';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
@@ -23,6 +23,9 @@ jest.mock('in-applications/api/catalog', () => ({
 }));
 jest.mock('in-websites/api/tagCatalog', () => ({
   getTagCatalog: jest.fn(() => () => ({ tags: [] }))
+}));
+jest.mock('in-services/featureFlags', () => ({
+  sliCHClusterAccessEnabled: true
 }));
 
 describe('in-custom-dashboards/widgets/Slo/Chart', () => {
@@ -182,6 +185,40 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     expect(wrapper.find(Message).prop('title')).toEqual(t('in-custom-dashboards:widgets.slo.chart.missingDataInfo'));
   });
 
+  it('does not render a missing data info message when the sli was created within the configured timeWindow, but the result is loading', () => {
+    // Given
+    const result = pendingResult;
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      initialEvaluationTimestamp: 3
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+
+    // When
+    const wrapper = shallow(<Chart {...defaultProps} result={result} sliConfig={sliConfig} timeConfig={timeConfig} />);
+
+    // Then
+    expect(wrapper.containsMatchingElement(<Message />)).toBeFalsy();
+  });
+
+  it('does not render a missing data info message when the sli was created within the configured timeWindow, but isPreview is true', () => {
+    // Given
+    const isPreview = true;
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      initialEvaluationTimestamp: 3
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+
+    // When
+    const wrapper = shallow(
+      <Chart {...defaultProps} isPreview={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />
+    );
+
+    // Then
+    expect(wrapper.containsMatchingElement(<Message />)).toBeFalsy();
+  });
+
   it('does renders a missing data info message when the sli when the sli was created within now and the timeConfigs windowSize when live mode is enabled', () => {
     // Given
     jest.useFakeTimers();
@@ -199,7 +236,7 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     expect(wrapper.find(Message).prop('title')).toEqual(t('in-custom-dashboards:widgets.slo.chart.missingDataInfo'));
   });
 
-  it('does not render a missing data info message when the sli when the sli was created outside the configured timeWindow and live mode is enabled', () => {
+  it('does not render a missing data info message when the sli was created outside the configured timeWindow and live mode is enabled', () => {
     jest.useFakeTimers();
     // Given
     const sliConfig = {
@@ -237,5 +274,55 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
         <PostChartContent sliConfig={sliConfig} timeConfig={timeConfig} chartContentPosition={'post'} />
       )
     ).toBeTruthy();
+  });
+
+  it('does not render the sli PostChartContent when the sli was created within the configured timeWindow, but the result is loading', () => {
+    // Given
+    const result = pendingResult;
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      initialEvaluationTimestamp: 3
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+
+    // When
+    const wrapper = shallow(<Chart {...defaultProps} result={result} sliConfig={sliConfig} timeConfig={timeConfig} />);
+    const RenderPostChartContent = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
+    const postChartContentWrapper = shallow(
+      <RenderPostChartContent timeConfig={timeConfig} chartContentPosition={'post'} />
+    );
+
+    // Then
+    expect(
+      postChartContentWrapper.containsMatchingElement(
+        <PostChartContent sliConfig={sliConfig} timeConfig={timeConfig} chartContentPosition={'post'} />
+      )
+    ).toBeFalsy();
+  });
+
+  it('does not render the sli PostChartContent when the sli was created within the configured timeWindow, but isPreview is true', () => {
+    // Given
+    const isPreview = true;
+    const sliConfig = {
+      sliEntity: { sliType: 'availability' },
+      initialEvaluationTimestamp: 3
+    };
+    const timeConfig = { to: 10, windowSize: 9, autoRefresh: false };
+
+    // When
+    const wrapper = shallow(
+      <Chart {...defaultProps} isPreview={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />
+    );
+    const RenderPostChartContent = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
+    const postChartContentWrapper = shallow(
+      <RenderPostChartContent timeConfig={timeConfig} chartContentPosition={'post'} />
+    );
+
+    // Then
+    expect(
+      postChartContentWrapper.containsMatchingElement(
+        <PostChartContent sliConfig={sliConfig} timeConfig={timeConfig} chartContentPosition={'post'} />
+      )
+    ).toBeFalsy();
   });
 });

@@ -89,7 +89,7 @@ export function createForm(oldSavedState: Partial<SloWidgetConfiguration> = {}):
         value: savedState[sliConfigId]
       })
     );
-  const windowType = savedState[timeWindowType];
+  const windowType = savedState[timeWindowType] ?? 'dynamic';
   form = form.put(
     timeWindowType,
     createField({
