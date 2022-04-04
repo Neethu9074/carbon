@@ -3,13 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
-import { ValidationResult } from 'formalistic';
 import { parse, isValid } from 'date-fns';
 
 import { fillMissingInputTime, TimeFormat } from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import { timeFormat as defaultTimeFormat, dateFormat } from 'in-services/formatters/date';
 import { isBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
+import { ValidationResult } from 'formalistic';
+import { Nullish } from 'in-types';
 
 export function timeValidator(v: string, timeFormat: TimeFormat = defaultTimeFormat): ValidationResult {
   if (isBlank(v)) {
@@ -30,14 +31,14 @@ export function timeValidator(v: string, timeFormat: TimeFormat = defaultTimeFor
   ];
 }
 
-export function dateValidator(v: string): ValidationResult {
+export function dateValidator(v: string | Nullish): ValidationResult {
   if (isBlank(v)) {
     return null;
   }
 
   if (isValid(parse(v, dateFormat, new Date()))) {
     return null;
-  } else if (v.length !== dateFormat.length) {
+  } else if (v!.length !== dateFormat.length) {
     return [
       {
         severity: 'error',
