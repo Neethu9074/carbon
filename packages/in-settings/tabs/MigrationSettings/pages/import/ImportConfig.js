@@ -144,24 +144,20 @@ function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selecte
           setLoadedFile(file);
           // reset selected configs
           let updatedConfigs = [];
-          MIGRATION_CONFIGS.forEach((config, index) => {
-            updatedConfigs[index] = { ...config, selected: false, configs: [] };
-          });
           // Update selected configs with loaded config file data
           Object.keys(allConfigs).forEach(configType => {
-            let foundIndex = updatedConfigs.findIndex(function(element) {
+            let foundConfig = MIGRATION_CONFIGS.find(function(element) {
               return element.type === configType;
             });
-            let defaultConfig = MIGRATION_CONFIGS[foundIndex];
-            if (foundIndex != -1)
-              updatedConfigs[foundIndex] = { ...defaultConfig, selected: true, configs: allConfigs[configType] };
+            // let defaultConfig = MIGRATION_CONFIGS[foundIndex];
+            if (foundConfig) updatedConfigs.push({ ...foundConfig, selected: true, configs: allConfigs[configType] });
           });
           checkSelectedForImport(updatedConfigs);
           callBackSelectedConfigs(updatedConfigs);
         };
       }
     },
-    [file, setCanSaveItem, loadedFile, callBackSelectedConfigs]
+    [file, setCanSaveItem, loadedFile, callBackSelectedConfigs, okToImport]
   );
 
   return (
@@ -191,7 +187,8 @@ function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selecte
           </div>
         </Section>
       </form>
-      {selectedConfigTypes ? (
+      {file &&
+        selectedConfigTypes &&
         selectedConfigTypes.map(configType => (
           <AccordionConfigs
             key={configType.type}
@@ -207,10 +204,7 @@ function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selecte
               callBackSelectedConfigs(updated);
             }}
           />
-        ))
-      ) : (
-        <div>No Configurations</div>
-      )}
+        ))}
     </>
   );
 }
