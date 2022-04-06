@@ -16,14 +16,14 @@ import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
 export default function ExportConfig() {
-  const [selectedConfigTypes, setSelectedConfigTypes] = useState([]);
+  const [selectedConfigTypes, setSelectedConfigTypes] = useState(initSelected());
 
   return (
     <ApiItemView
       saveLabel={t('in-settings:tabs.migrationExport')}
       Content={Content}
       onSubmit={onSubmit}
-      selectedConfigs={selectedConfigTypes}
+      selectedConfigTypes={selectedConfigTypes}
       callBackSelectedConfigs={configs => setSelectedConfigTypes(configs)}
     />
   );
@@ -100,13 +100,11 @@ function updateSelectedConfigs(prevSelectedConfigs, selectedConfigType, isSelect
   }
 }
 
-function Content({ setCanSaveItem, callBackSelectedConfigs }) {
-  const [selectedConfigs, setSelectedConfigs] = useState(initSelected());
-
+function Content({ setCanSaveItem, callBackSelectedConfigs, selectedConfigTypes }) {
   useEffect(() => {
     setCanSaveItem(true);
-    callBackSelectedConfigs(selectedConfigs);
-  }, [setCanSaveItem, callBackSelectedConfigs, selectedConfigs]);
+    callBackSelectedConfigs(selectedConfigTypes);
+  }, [setCanSaveItem, callBackSelectedConfigs, selectedConfigTypes]);
 
   return (
     <>
@@ -118,8 +116,8 @@ function Content({ setCanSaveItem, callBackSelectedConfigs }) {
         <Trans i18nKey="in-settings:tabs.configExportHelp" />
       </p>
       <Section>
-        {selectedConfigs ? (
-          selectedConfigs.map(configType => (
+        {selectedConfigTypes ? (
+          selectedConfigTypes.map(configType => (
             <AccordionConfigs
               key={configType.type}
               label={configType.label}
@@ -128,8 +126,8 @@ function Content({ setCanSaveItem, callBackSelectedConfigs }) {
               toggleContentOnRowClick={false}
               onChange={changed => {
                 const isSelected = Object.keys(changed).length !== 0;
-                let updated = updateSelectedConfigs(selectedConfigs, configType.type, isSelected);
-                setSelectedConfigs(updated);
+                let updated = updateSelectedConfigs(selectedConfigTypes, configType.type, isSelected);
+                callBackSelectedConfigs(updated);
               }}
             />
           ))
