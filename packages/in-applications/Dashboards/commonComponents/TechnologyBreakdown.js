@@ -74,7 +74,7 @@ export default connectTo(
 
       config = {
         renderPostChartContent,
-        cardTitle: config.cardTitle,
+        title: config.cardTitle,
         originalTimeConfig: timeConfig,
         timeConfig: getResolvedTimeConfig(timeConfig, result),
         granularity: getChartGranularity(timeConfig),

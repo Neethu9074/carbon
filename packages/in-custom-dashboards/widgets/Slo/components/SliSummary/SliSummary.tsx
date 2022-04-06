@@ -44,28 +44,28 @@ export function SliSummary({
   metricRemaining: remaining
 }: SliSummaryProps) {
   const isCompact = !useMediaQuery('(min-width: 1300px)');
+  const sliFormatter = useSliFormatter(sliEntity);
 
   if (status === 'pending') return <SliSummarySkeleton compact={isCompact} />;
 
   const sloSpent = slo != null && sli != null && sli < slo;
   const budgetSpent = remaining != null && remaining <= 0;
-  const sliFormatter = useSliFormatter(sliEntity);
 
   return (
     <div className={isCompact ? locals.listContainer : locals.tilesContainer}>
       <SloTile
         title={t('in-custom-dashboards:widgets.slo.sliSummary.status')}
-        value={sli && percentage.detailed(sli)}
+        value={sli !== undefined ? percentage.detailed(sli) : undefined}
         budgetTitle={t('in-custom-dashboards:widgets.slo.sliSummary.target')}
-        budget={slo && percentage.detailed(slo)}
+        budget={slo !== undefined ? percentage.detailed(slo) : undefined}
         budgetSpent={sloSpent}
         compact={isCompact}
       />
       <SloTile
         title={t('in-custom-dashboards:widgets.slo.sliSummary.errorBudgetSpent')}
-        value={spent && sliFormatter(spent)}
+        value={spent !== undefined ? sliFormatter(spent) : undefined}
         budgetTitle={t('in-custom-dashboards:widgets.slo.sliSummary.errorBudget')}
-        budget={budget && sliFormatter(budget)}
+        budget={budget !== undefined ? sliFormatter(budget) : undefined}
         budgetSpent={budgetSpent}
         compact={isCompact}
       />

@@ -84,5 +84,5 @@ export default function getJumpDirectlyToApplicationLikeUA2Href$(
 }
 
 function createEqualsTagFilter(name: string, value: string): TagFilter {
-  return tagFilter(name, 'EQUALS', value);
+  return tagFilter(name, 'EQUALS', value, undefined, 'DESTINATION');
 }

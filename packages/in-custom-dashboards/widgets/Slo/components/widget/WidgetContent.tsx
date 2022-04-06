@@ -72,7 +72,6 @@ export default function WidgetContent({
   loadingErrors,
   loadingProgress,
   sliConfigId,
-  isPreview,
   ...otherChartProps
 }: WidgetContentProps) {
   if (isConfiguredSliDeleted(loadingErrors, sliConfigId)) {
@@ -96,7 +95,6 @@ export default function WidgetContent({
       consumed={filterAvailableData(findMetric('consumed', sloMetrics))}
       hourlyBudget={filterAvailableData(findMetric('hourlyBudget', sloMetrics))}
       trackers={chartTrackers}
-      automaticallySize={!isPreview}
       {...otherChartProps}
     />
   );
