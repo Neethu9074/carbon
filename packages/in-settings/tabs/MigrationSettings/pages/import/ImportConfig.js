@@ -89,6 +89,7 @@ export default function ImportConfig() {
 
 function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selectedConfigTypes }) {
   const [loadedFile, setLoadedFile] = useState(null);
+  const [ok, setok] = useState(false);
 
   function getLoadedConfig(configType) {
     let foundConfig = {};
@@ -105,6 +106,17 @@ function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selecte
     };
   }
 
+  function checkSelectedForImport(selectedConfigTypes) {
+    let okToImport = false;
+    if (selectedConfigTypes) {
+      selectedConfigTypes.forEach(configType => {
+        if (!okToImport && configType.selected) okToImport = true;
+      });
+      setok(okToImport);
+    }
+    return okToImport;
+  }
+
   function updateSelectedConfigs(prevSelectedConfigs, selectedConfigType, isSelected) {
     if (prevSelectedConfigs) {
       let updateSelected = [];
@@ -114,6 +126,7 @@ function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selecte
           updateSelected.push(selectedConfig);
         } else updateSelected.push(configType);
       });
+      checkSelectedForImport(updateSelected);
       return updateSelected;
     }
   }
@@ -121,7 +134,7 @@ function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selecte
   useEffect(
     // allow only saving when config metadata has been uploaded
     () => {
-      setCanSaveItem(!!file);
+      setCanSaveItem(!!ok);
 
       if (file && loadedFile !== file) {
         const reader = new FileReader();
@@ -143,6 +156,7 @@ function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selecte
             if (foundIndex != -1)
               updatedConfigs[foundIndex] = { ...defaultConfig, selected: true, configs: allConfigs[configType] };
           });
+          checkSelectedForImport(updatedConfigs);
           callBackSelectedConfigs(updatedConfigs);
         };
       }
