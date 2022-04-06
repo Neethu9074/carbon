@@ -89,7 +89,7 @@ export default function ImportConfig() {
 
 function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selectedConfigTypes }) {
   const [loadedFile, setLoadedFile] = useState(null);
-  const [ok, setok] = useState(false);
+  const [okToImport, setOkToImport] = useState(false);
 
   function getLoadedConfig(configType) {
     let foundConfig = {};
@@ -112,7 +112,7 @@ function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selecte
       selectedConfigTypes.forEach(configType => {
         if (!okToImport && configType.selected) okToImport = true;
       });
-      setok(okToImport);
+      setOkToImport(okToImport);
     }
     return okToImport;
   }
@@ -134,7 +134,7 @@ function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selecte
   useEffect(
     // allow only saving when config metadata has been uploaded
     () => {
-      setCanSaveItem(!!ok);
+      setCanSaveItem(!!okToImport);
 
       if (file && loadedFile !== file) {
         const reader = new FileReader();
