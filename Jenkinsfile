@@ -275,7 +275,6 @@ def markStableImageVersions(branchName, instanaImageVersion) {
 def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instanaImageVersion) {
   try {
     waitForStableBackendVersions(branchName)
-    def instanaOpenShiftImageVersion = instanaImageVersion - "-0" + "-openshift"
     def backendStableVersion =
         sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js backend ${branchName}").trim()
     def backendStableImageVersion = sh(returnStdout: true, script: "./build/ci-shared-tools/scripts/componentVersioning/getStableVersion.js instana-image-from-backend ${branchName}").trim()
@@ -284,19 +283,12 @@ def rebuildBackend(backendComponents, branchName, instanaUiClientVersion, instan
     backendComponents.each {
         def currentBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${backendStableImageVersion}"
         def newBackendTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaImageVersion}"
-        def newBackendOpenShiftTag = "containers.instana.io/instana/${branchName}/product/${it}:${instanaOpenShiftImageVersion}"
         rebuildBackendComponents[it] = {
           sh """
           ./build/ci-shared-tools/scripts/docker/imageOverride.js \
           ${currentBackendTag} \
           ${newBackendTag} \
           "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaImageVersion}"
-          """
-          sh """
-          ./build/ci-shared-tools/scripts/docker/imageOverride.js \
-          ${currentBackendTag} \
-          ${newBackendOpenShiftTag} \
-          "--build-arg current_fully_qualified_tag=${currentBackendTag} --label com.instana.image.tag=${instanaOpenShiftImageVersion}"
           """
       }
     }
