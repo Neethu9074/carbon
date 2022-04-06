@@ -57,24 +57,25 @@ export default function AlertingChart({
       renderPreChartContent={props => {
         if (!alertsPreviewEnabled) return;
 
+        const alertsPreviewQuery = getAlertsPreviewQuery({
+          enrichedTagFilterExpression,
+          includeInternal,
+          includeSynthetic,
+          timeConfig: viewConfig.timeConfig,
+          metricName,
+          numeratorFilter,
+          aggregation,
+          granularity,
+          threshold,
+          timeThreshold
+        });
+
         return (
-          <MarkerLanesPresenter
-            {...props}
-            getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
-            alertsPreviewConfiguration={getAlertsPreviewQuery({
-              enrichedTagFilterExpression,
-              includeInternal,
-              includeSynthetic,
-              timeConfig: viewConfig.timeConfig,
-              metricName,
-              numeratorFilter,
-              aggregation,
-              granularity,
-              threshold,
-              timeThreshold
-            })}
-          >
-            <AlertsPreviewLane />
+          <MarkerLanesPresenter {...props}>
+            <AlertsPreviewLane
+              getAlertsPreview={blueprintConfig.getAlertsPreviewRequest(metricName)}
+              alertsPreviewConfiguration={alertsPreviewQuery}
+            />
           </MarkerLanesPresenter>
         );
       }}
