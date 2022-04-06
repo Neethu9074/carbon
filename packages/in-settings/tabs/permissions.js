@@ -12,6 +12,7 @@ import {
   teamSettingsLogManagementHumio,
   teamSettingsAccessControlGroups
 } from 'in-settings/navigation/paths';
+import { productOwnerPermissions } from 'in-stores/permission';
 import { role } from 'in-stores/user';
 
 export function roleHasAnyTeamPermissions() {
@@ -48,4 +49,8 @@ export function findFirstPermittedTeamPage() {
   if (role.canConfigureLogManagement) {
     return teamSettingsLogManagementHumio;
   }
+}
+
+export function hasOwnerPermission() {
+  return productOwnerPermissions && productOwnerPermissions.length > 0;
 }

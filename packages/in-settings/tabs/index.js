@@ -4,7 +4,7 @@
  */
 
 import { userSettings, teamSettings, authSettings, ampSettings, migSettings } from 'in-settings/navigation/paths';
-import { roleHasAnyTeamPermissions } from 'in-settings/tabs/permissions';
+import { roleHasAnyTeamPermissions, hasOwnerPermission } from 'in-settings/tabs/permissions';
 import { configMigrationFeatureEnabled } from 'in-services/featureFlags';
 import MigrationSettings from 'in-settings/tabs/MigrationSettings/View';
 import UserSettings from 'in-settings/tabs/UserSettings/View';
@@ -52,6 +52,6 @@ export default function getTabs() {
     userTab,
     authTab,
     ampTabVisible && ampTab,
-    configMigrationFeatureEnabled && migrationTab
+    configMigrationFeatureEnabled && hasOwnerPermission() && migrationTab
   ].filter(Boolean);
 }
