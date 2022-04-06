@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { noop } from 'lodash';
+import React from 'react';
 
 import { just } from '@instana/observables';
 
@@ -20,12 +20,7 @@ export default function AccordionConfigs({
   configType,
   toggleContentOnRowClick
 }) {
-  const [labelWithCount, setLabelWithCount] = useState(label);
-
-  useEffect(() => {
-    if (configs) setLabelWithCount(label + ' (' + configs.length + ')');
-  }, [configs, label, setLabelWithCount]);
-
+  let labelWithCount = configs ? label + ' (' + configs.length + ')' : label;
   return (
     <>
       <AccordionListPresenter

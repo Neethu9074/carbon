@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@instana/components';
 
 import { postConfigAsResultObservable } from 'in-settings/tabs/MigrationSettings/api/importConfig';
+import { MIGRATION_CONFIGS } from '../../components/MigrationTypes';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import AccordionConfigs from '../../components/AccordionConfigs';
 import ApiItemView from 'in-settings/components/ApiItemView';
@@ -19,32 +20,30 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './Import.mless';
 
-const APP_CONFIGS = 'applicationConfigs';
-const MOB_CONFIGS = 'mobileAppConfigs';
-const WEB_CONFIGS = 'websiteConfigs';
-const ALERT_CHANNEL_CONFIGS = 'abstractIntegrationConfigs';
-const EVENT_CONFIGS = 'customEventSpecificationConfigs';
-const SMART_ALERT_CONFIGS = 'smartAlertConfigs';
-const ALERT_CONFIGS = 'alertConfigs';
-const GROUP_CONFIGS = 'groupConfigs';
-
-const ACTION = 'import';
-
 export default function ImportConfig() {
   const inputDOMNode = document.createElement('input');
   const [input] = useState(inputDOMNode);
   const [file, setFile] = useState(null);
-  const [allConfigs, setAllConfigs] = useState(null);
+  const [selectedConfigTypes, setSelectedConfigTypes] = useState(MIGRATION_CONFIGS);
+
   inputDOMNode.onchange = () => setFile(input && input.files && input.files.length > 0 ? input.files[0] : undefined);
 
+  function setImportConfigs(selectedConfigTypes) {
+    let cleanedConfigs = {};
+    selectedConfigTypes.forEach(configType => {
+      if (configType.selected) cleanedConfigs[configType.type] = configType.configs;
+    });
+    return cleanedConfigs;
+  }
+
   useEffect(() => {
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsText(file, 'UTF-8');
-      reader.onloadend = function() {
-        let configs = JSON.parse(reader.result);
-        setAllConfigs(configs);
-      };
+    if (!file) {
+      // reset selected configs
+      let updatedConfigs = [];
+      MIGRATION_CONFIGS.forEach((config, index) => {
+        updatedConfigs[index] = { ...config, selected: false, configs: [] };
+      });
+      setSelectedConfigTypes(updatedConfigs);
     }
   }, [file]);
 
@@ -57,195 +56,98 @@ export default function ImportConfig() {
           setFile(null);
         }}
         saveLabel={t('in-settings:tabs.migrationImport')}
-        saveItem={({ setMessage }) => {
-          if (allConfigs)
+        saveItem={({ setMessage, selectedConfigTypes }) => {
+          let importConfigs = setImportConfigs(selectedConfigTypes);
+          if (importConfigs && Object.keys(importConfigs).length !== 0) {
             setMessage({
               message: t('in-settings:tabs.importingConfig'),
               type: 'neutral',
               isSaving: true
             });
-          postConfigAsResultObservable(allConfigs).once(
-            () => {
-              setMessage({
-                text: t('in-settings:tabs.configSuccessfullyImported'),
-                type: 'success'
-              });
-            },
-            error =>
-              setMessage({
-                text: t('in-settings:tabs.failedToImportConfig', { err: error.message }),
-                type: 'error'
-              })
-          );
+            postConfigAsResultObservable(importConfigs).once(
+              () => {
+                setMessage({
+                  text: t('in-settings:tabs.configSuccessfullyImported'),
+                  type: 'success'
+                });
+              },
+              error =>
+                setMessage({
+                  text: t('in-settings:tabs.failedToImportConfig', { err: error.message }),
+                  type: 'error'
+                })
+            );
+          }
         }}
         Content={Content}
+        selectedConfigTypes={selectedConfigTypes}
+        callBackSelectedConfigs={configs => setSelectedConfigTypes(configs)}
       />
     </>
   );
 }
 
-function cleanConfigs(allConfigsArray) {
-  let cleanedConfigs = [];
-  if (allConfigsArray) {
-    allConfigsArray.forEach(obj => {
-      cleanedConfigs.push({
-        service: {
-          id: obj.id,
-          label: obj.label ? obj.label : obj.name ? obj.name : obj.id,
-          checked: true,
-          inclusive: true
-        }
-      });
-      return obj;
-    });
-  }
-  return cleanedConfigs;
-}
-
-function Content({ file, setCanSaveItem, input }) {
-  const [selectedAppConfigs, setSelectedAppConfigs] = useState([]);
-  const [selectedWebsiteConfigs, setSelectedWebsiteConfigs] = useState([]);
-  const [selectedMobileAppConfigs, setSelectedMobileAppConfigs] = useState([]);
-  const [selectedSmartAlertConfigs, setSelectedSmartAlertConfigs] = useState([]);
-  const [selectedAlertChannelConfigs, setSelectedAlertChannelConfigs] = useState([]);
-  const [selectedCustomEventConfigs, setSelectedCustomEventConfigs] = useState([]);
-  const [selectedAlertConfigs, setSelectedAlertConfigs] = useState([]);
-  const [selectedGroupConfigs, setSelectedGroupConfigs] = useState([]);
-  // const [allFileConfigs, setAllFileConfigs] = useState({});
+function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selectedConfigTypes }) {
   const [loadedFile, setLoadedFile] = useState(null);
 
-  let MIGRATION_CONFIGS = [
-    {
-      id: ACTION + APP_CONFIGS,
-      type: APP_CONFIGS,
-      label: 'Applications',
-      icon: 'lib_application',
-      configs: selectedAppConfigs
-    },
-    {
-      id: ACTION + WEB_CONFIGS,
-      type: WEB_CONFIGS,
-      label: 'Websites',
-      icon: 'lib_website',
-      configs: selectedWebsiteConfigs
-    },
-    {
-      id: ACTION + MOB_CONFIGS,
-      type: MOB_CONFIGS,
-      label: 'Mobile Apps',
-      icon: 'lib_mobile_app',
-      configs: selectedMobileAppConfigs
-    },
-    {
-      id: ACTION + ALERT_CHANNEL_CONFIGS,
-      type: ALERT_CHANNEL_CONFIGS,
-      label: 'Alert Channels',
-      icon: 'lib_alerts_alert',
-      configs: selectedAlertChannelConfigs
-    },
-
-    {
-      id: ACTION + EVENT_CONFIGS,
-      type: EVENT_CONFIGS,
-      label: 'Custom Events',
-      icon: 'lib_help_error_warning',
-      configs: selectedCustomEventConfigs
-    },
-    {
-      id: ACTION + SMART_ALERT_CONFIGS,
-      type: SMART_ALERT_CONFIGS,
-      label: 'Smart Alerts',
-      icon: 'lib_events_critical',
-      configs: selectedSmartAlertConfigs
-    },
-    {
-      id: ACTION + ALERT_CONFIGS,
-      type: ALERT_CONFIGS,
-      label: 'Alerts',
-      icon: 'lib_alerts_alert',
-      configs: selectedAlertConfigs
-    },
-    {
-      id: ACTION + GROUP_CONFIGS,
-      type: GROUP_CONFIGS,
-      label: 'Groups',
-      icon: 'lib_group_by',
-      configs: selectedGroupConfigs
+  function getLoadedConfig(configType) {
+    let foundConfig = {};
+    if (selectedConfigTypes) {
+      foundConfig = selectedConfigTypes.find(function(element) {
+        return element.type === configType;
+      });
     }
-  ];
-
-  function initSelectedConfigs() {
-    setSelectedAppConfigs([]);
-    setSelectedWebsiteConfigs([]);
-    setSelectedMobileAppConfigs([]);
-    setSelectedAlertChannelConfigs([]);
-    setSelectedCustomEventConfigs([]);
-    setSelectedSmartAlertConfigs([]);
-    setSelectedAlertConfigs([]);
-    setSelectedGroupConfigs([]);
+    let isSelected = foundConfig && foundConfig.selected ? foundConfig.selected : false;
+    let configs = foundConfig && foundConfig.configs ? foundConfig.configs : [];
+    return {
+      isSelected: isSelected,
+      configs: configs
+    };
   }
 
-  // function setSelectedConfigsByType(configType, selectedConfigs) {
-  //   let configs = cleanConfigs(selectedConfigs);
-  //   switch (configType) {
-  //     case APP_CONFIGS:
-  //       setSelectedAppConfigs(configs);
-  //       return;
-  //     case WEB_CONFIGS:
-  //       setSelectedWebsiteConfigs(configs);
-  //       return;
-  //     case MOB_CONFIGS:
-  //       setSelectedMobileAppConfigs(configs);
-  //       return;
-  //     case ALERT_CHANNEL_CONFIGS:
-  //       setSelectedAlertChannelConfigs(configs);
-  //       return;
-  //     case EVENT_CONFIGS:
-  //       setSelectedCustomEventConfigs(configs);
-  //       return;
-  //     case SMART_ALERT_CONFIGS:
-  //       setSelectedSmartAlertConfigs(configs);
-  //       return;
-  //     case ALERT_CONFIGS:
-  //       setSelectedAlertConfigs(configs);
-  //       return;
-  //     case GROUP_CONFIGS:
-  //       setSelectedGroupConfigs(configs);
-  //       return;
-  //     default:
-  //       return;
-  //   }
-  // }
+  function updateSelectedConfigs(prevSelectedConfigs, selectedConfigType, isSelected) {
+    if (prevSelectedConfigs) {
+      let updateSelected = [];
+      prevSelectedConfigs.forEach(configType => {
+        if (configType.type === selectedConfigType) {
+          let selectedConfig = { ...configType, selected: isSelected };
+          updateSelected.push(selectedConfig);
+        } else updateSelected.push(configType);
+      });
+      return updateSelected;
+    }
+  }
 
   useEffect(
     // allow only saving when config metadata has been uploaded
     () => {
       setCanSaveItem(!!file);
-      if (!file) initSelectedConfigs();
 
       if (file && loadedFile !== file) {
-        initSelectedConfigs();
         const reader = new FileReader();
         reader.readAsText(file, 'UTF-8');
         reader.onloadend = function() {
           let allConfigs = JSON.parse(reader.result);
           setLoadedFile(file);
-          // setAllFileConfigs(allConfigs);
-
-          if (allConfigs[APP_CONFIGS]) setSelectedAppConfigs(cleanConfigs(allConfigs[APP_CONFIGS]));
-          if (allConfigs[WEB_CONFIGS]) setSelectedWebsiteConfigs(cleanConfigs(allConfigs[WEB_CONFIGS]));
-          if (allConfigs[MOB_CONFIGS]) setSelectedMobileAppConfigs(cleanConfigs(allConfigs[MOB_CONFIGS]));
-          if (allConfigs[ALERT_CHANNEL_CONFIGS])
-            setSelectedAlertChannelConfigs(cleanConfigs(allConfigs[ALERT_CHANNEL_CONFIGS]));
-          if (allConfigs[EVENT_CONFIGS]) setSelectedCustomEventConfigs(cleanConfigs(allConfigs[EVENT_CONFIGS]));
-          if (allConfigs[SMART_ALERT_CONFIGS])
-            setSelectedSmartAlertConfigs(cleanConfigs(allConfigs[SMART_ALERT_CONFIGS]));
-          if (allConfigs[ALERT_CONFIGS]) setSelectedAlertConfigs(cleanConfigs(allConfigs[ALERT_CONFIGS]));
-          if (allConfigs[GROUP_CONFIGS]) setSelectedGroupConfigs(cleanConfigs(allConfigs[GROUP_CONFIGS]));
+          // reset selected configs
+          let updatedConfigs = [];
+          MIGRATION_CONFIGS.forEach((config, index) => {
+            updatedConfigs[index] = { ...config, selected: false, configs: [] };
+          });
+          // Update selected configs with loaded config file data
+          Object.keys(allConfigs).forEach(configType => {
+            let foundIndex = updatedConfigs.findIndex(function(element) {
+              return element.type === configType;
+            });
+            let defaultConfig = MIGRATION_CONFIGS[foundIndex];
+            if (foundIndex != -1)
+              updatedConfigs[foundIndex] = { ...defaultConfig, selected: true, configs: allConfigs[configType] };
+          });
+          callBackSelectedConfigs(updatedConfigs);
         };
       }
     },
-    [file, setCanSaveItem, loadedFile]
+    [file, setCanSaveItem, loadedFile, callBackSelectedConfigs]
   );
 
   return (
@@ -275,16 +177,26 @@ function Content({ file, setCanSaveItem, input }) {
           </div>
         </Section>
       </form>
-      {MIGRATION_CONFIGS.map(migrationConfig => (
-        <AccordionConfigs
-          key={migrationConfig.type}
-          label={migrationConfig.label}
-          icon={migrationConfig.icon}
-          configs={migrationConfig.configs}
-          configType={migrationConfig.type}
-          toggleContentOnRowClick
-        />
-      ))}
+      {selectedConfigTypes ? (
+        selectedConfigTypes.map(configType => (
+          <AccordionConfigs
+            key={configType.type}
+            label={configType.label}
+            icon={configType.icon}
+            configs={getLoadedConfig(configType.type).configs}
+            configType={configType.type}
+            checked={getLoadedConfig(configType.type).isSelected}
+            toggleContentOnRowClick={false}
+            onChange={changed => {
+              const isSelected = Object.keys(changed).length !== 0;
+              let updated = updateSelectedConfigs(selectedConfigTypes, configType.type, isSelected);
+              callBackSelectedConfigs(updated);
+            }}
+          />
+        ))
+      ) : (
+        <div>No Configurations</div>
+      )}
     </>
   );
 }
