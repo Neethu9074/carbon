@@ -26,7 +26,6 @@ export default function ExportConfig() {
       enrichForm={enrichForm}
       render={render}
       saveItem={saveItem}
-      canSaveItem
     />
   );
 }
