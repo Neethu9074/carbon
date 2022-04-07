@@ -87,7 +87,6 @@ export function getLinkToAnalyze({
   applicationName,
   serviceName,
   endpointName,
-  endpointType,
   boundaryScope = boundaryScopes.inbound,
   jumpToSource,
   dataSource = 'calls',
@@ -162,20 +161,6 @@ export function getLinkToAnalyze({
             type: TAG_FILTER,
             name: ENDPOINT.name,
             value: endpointName,
-            operator: operators.EQUALS,
-            entity: entityTypes.DESTINATION
-          }
-        ]
-      });
-    }
-    if (endpointType != null) {
-      extendingFormModel = joinExpressions({
-        expressions: [
-          extendingFormModel,
-          {
-            type: TAG_FILTER,
-            name: 'endpoint.type',
-            value: endpointType,
             operator: operators.EQUALS,
             entity: entityTypes.DESTINATION
           }

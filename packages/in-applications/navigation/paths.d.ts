@@ -26,7 +26,6 @@ interface GetLinkToAnalyzProps {
   applicationName: string;
   serviceName: string;
   endpointName: string;
-  endpointType: string;
   boundaryScope: ApplicationBoundaryScope;
   jumpToSource: boolean;
   dataSource: Lowercase<ApplicationDataSource>;
