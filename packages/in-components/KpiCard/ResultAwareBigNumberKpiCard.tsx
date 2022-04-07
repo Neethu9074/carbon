@@ -6,7 +6,7 @@
 import React, { ReactNode } from 'react';
 import { find } from 'lodash';
 
-import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
+import { MetricResult, Result, TagFilter, TimeConfig, UnifiedMetricConfigurationUnion } from 'in-types';
 import { getTimeShiftLabel, translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { blue } from 'in-custom-dashboards/widgets/BigNumber/comparisonColors';
 import ResultAwareKpiCard from 'in-components/KpiCard/ResultAwareKpiCard';
@@ -23,13 +23,13 @@ export const companionMetricKey = 'companion';
 export const comparisonMetricKey = 'comparison';
 
 export interface Config {
-  metricConfiguration: UnifiedMetricConfiguration;
+  metricConfiguration: UnifiedMetricConfigurationUnion;
   formatter?: string;
   tagFilters?: TagFilter[];
 }
 
 export interface ConfigWithCompanionMetric extends Config {
-  companionMetricConfiguration: UnifiedMetricConfiguration;
+  companionMetricConfiguration: UnifiedMetricConfigurationUnion;
   comparisonIncreaseColor: string;
   comparisonDecreaseColor: string;
 }

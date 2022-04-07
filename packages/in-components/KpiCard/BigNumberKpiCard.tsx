@@ -12,7 +12,7 @@ import ResultAwareBigNumberKpiCard, {
   ConfigWithCompanionMetric,
   isConfigWithCompanionMetric
 } from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
-import { MetricResult, Result, UnifiedMetricConfiguration } from 'in-types';
+import { MetricResult, Result, UnifiedMetricConfigurationUnion } from 'in-types';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import getUnifiedMetrics from 'in-subscription/getUnifiedMetrics';
 import { IconAction } from 'in-components/KpiCard/KpiCard';
@@ -47,15 +47,15 @@ export default function BigNumberKpiCard({
 }: BigNumberKpiCardProps) {
   const timeConfig = useTimeConfig();
 
-  const metricDefaults: Partial<UnifiedMetricConfiguration> = {
+  const metricDefaults = {
     timeShift: {
       offset: 0
     },
     timeConfig,
     resultType: 'SINGLE_NUMBER'
-  };
+  } as const;
 
-  const metrics: { [index: string]: UnifiedMetricConfiguration } = {
+  const metrics: { [index: string]: UnifiedMetricConfigurationUnion } = {
     [metricKey]: {
       ...config.metricConfiguration,
       ...config.tagFilters,

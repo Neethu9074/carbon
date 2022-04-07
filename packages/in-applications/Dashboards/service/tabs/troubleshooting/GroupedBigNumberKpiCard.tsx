@@ -12,14 +12,14 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import {
+  ApplicationMetricConfiguration,
   Group,
   MetricResult,
   Result,
   TagFilter,
   TagFilterEntity,
   TimeConfig,
-  TimeShift,
-  UnifiedMetricConfiguration
+  TimeShift
 } from 'in-types';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import getCallGroups, { GetCallGroupsResult } from 'in-applications/subscriptions/getCallGroups';
@@ -128,11 +128,14 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
           metric: 'calls',
           aggregation: 'SUM',
           source: 'APPLICATION',
-          tagFilters: serviceFilter,
+          tagFilters: [serviceFilter],
           timeConfig,
           timeShift: timeShiftConfig,
-          resultType: 'SINGLE_NUMBER'
-        } as UnifiedMetricConfiguration
+          resultType: 'SINGLE_NUMBER',
+          dataSource: 'CALLS',
+          includeSynthetic: false,
+          includeInternal: false
+        } as ApplicationMetricConfiguration
       }}
       iconAction={{
         text: t('in-applications:lineViewInAnalyze'),

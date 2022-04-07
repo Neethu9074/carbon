@@ -69,6 +69,7 @@ export default function Summary() {
                 aggregation: 'MEAN',
                 metric: 'status',
                 source: 'SYNTHETICS',
+                // @ts-expect-error tagFilters do not fully match the TagFilter type
                 tagFilters: tagFilters,
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
@@ -101,6 +102,7 @@ export default function Summary() {
                 aggregation: 'DISTINCT_COUNT',
                 metric: 'location_id',
                 source: 'SYNTHETICS',
+                // @ts-expect-error tagFilters do not fully match the TagFilter type
                 tagFilters: tagFilters,
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
@@ -133,6 +135,7 @@ export default function Summary() {
                 aggregation: 'MEAN',
                 metric: 'response_time',
                 source: 'SYNTHETICS',
+                // @ts-expect-error tagFilters do not fully match the TagFilter type
                 tagFilters: tagFilters,
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
@@ -159,6 +162,7 @@ export default function Summary() {
                 aggregation: 'MEAN',
                 metric: 'response_size',
                 source: 'SYNTHETICS',
+                // @ts-expect-error tagFilters do not fully match the TagFilter type
                 tagFilters: tagFilters,
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset

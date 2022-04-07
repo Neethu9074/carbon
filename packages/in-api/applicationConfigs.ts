@@ -11,7 +11,7 @@ import {
   ApplicationConfigWithAlertingDetails,
   BinaryOperatorDTO,
   Conjunction,
-  MatchExpressionDTO,
+  MatchExpressionDTOUnion,
   NewApplicationConfig,
   NewApplicationConfigWithAlertingDetails,
   Result,
@@ -23,7 +23,6 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import createObservable from 'in-services/http/observableHttpResult';
 import memoize from 'in-services/util/memoizingObservableGenerator';
-import { ApplicationTagFilter } from 'in-analyze/applicationFilter';
 import { deepFreeze, deepCopy } from 'in-services/util/object';
 import { boundaryScopes } from 'in-applications/constants';
 import { getKeyValuePairTag } from 'in-applications/tags';
@@ -32,8 +31,15 @@ import http, { Response } from 'in-services/http';
 
 const basePath = '/api/application-monitoring/settings/application';
 
-type IntermediateConjunction = { conjunction?: Conjunction };
-type MappedMatchExpression = ApplicationTagFilter & TagMatcherDTO & IntermediateConjunction;
+type IntermediateConjunction = { conjunction: Conjunction };
+type MappedMatchExpression = Omit<TagMatcherDTO, 'type'> & {
+  conjunction?: Conjunction;
+  left?: MappedMatchExpression[];
+  right?: MappedMatchExpression[];
+} & {
+  type?: string;
+};
+
 export interface MappedApplicationConfig extends Omit<ApplicationConfig, 'matchSpecification' | 'tagFilterExpression'> {
   matchSpecification: MappedMatchExpression[];
   tagFilterExpression?: FormModelElement[];
@@ -172,16 +178,19 @@ function mapToServerResponse(
 ): ApplicationConfigWithAlertingDetails | NewApplicationConfigWithAlertingDetails;
 function mapToServerResponse(config: MappedApplicationConfig | MappedNewApplicationConfig): AbstractApplicationConfig;
 function mapToServerResponse(config: MappedApplicationConfig | MappedNewApplicationConfig): AbstractApplicationConfig {
-  let matchSpecification: MatchExpressionDTO | undefined = undefined;
+  let matchSpecification: MatchExpressionDTOUnion | undefined = undefined;
   let tagFilterExpression: TagFilterExpressionElementUnion | undefined = undefined;
 
   if (config.matchSpecification) {
-    const originalMatchSpecifications = config.matchSpecification.map(({ secondLevelName, key, ...specification }) => {
-      return {
-        ...specification,
-        key: secondLevelName ? `${key}.${secondLevelName}` : key
-      };
-    });
+    const originalMatchSpecifications = config.matchSpecification.map(
+      // @ts-expect-error TS2339: Property 'secondLevelName' does not exist on type 'MappedMatchExpression'.
+      ({ secondLevelName, key, ...specification }) => {
+        return {
+          ...specification,
+          key: secondLevelName ? `${key}.${secondLevelName}` : key
+        } as MappedMatchExpression;
+      }
+    );
     matchSpecification = originalMatchSpecifications.length
       ? mapMatchSpecificationListToTree(originalMatchSpecifications)!
       : undefined;
@@ -197,14 +206,14 @@ function mapFromServerResponse(
 function mapFromServerResponse(c: Result<ApplicationConfig>): Result<MappedApplicationConfig>;
 function mapFromServerResponse(
   c: Result<ApplicationConfig | ApplicationConfigWithAlertingDetails>
-): Result<MappedApplicationConfig | MappedNewApplicationConfigWithAlerting> {
+): Result<MappedApplicationConfig | ApplicationConfigWithAlertingDetails> {
   if (!c.data) {
-    return c as Result<MappedApplicationConfig | MappedNewApplicationConfigWithAlerting>; // The actual data is not yet present, so the generic type can be safely ignored
+    return (c as unknown) as Result<MappedApplicationConfig | ApplicationConfigWithAlertingDetails>; // The actual data is not yet present, so the generic type can be safely ignored
   }
 
   const config = deepCopy(c);
   const matchSpecifications = mapMatchSpecificationTreeToList(config.data?.matchSpecification).map(
-    matchSpecification => {
+    (matchSpecification: MappedMatchExpression) => {
       const keyValueTag = getKeyValuePairTag(matchSpecification.key);
       if (keyValueTag) {
         const name = keyValueTag.fullyQualifiedName;
@@ -241,18 +250,20 @@ function mapFromServerResponse(
 
 export function mapMatchSpecificationListToTree(
   matchSpecificationList: MappedMatchExpression[]
-): MatchExpressionDTO | null {
+): MatchExpressionDTOUnion | null {
   if (!matchSpecificationList || matchSpecificationList.length === 0) {
     return null;
   }
   const tree = (matchSpecificationList.length === 1
     ? matchSpecificationList[0]
-    : split(matchSpecificationList)) as MatchExpressionDTO;
+    : split(matchSpecificationList)) as MatchExpressionDTOUnion;
   annotateWithTypes(tree);
   return tree;
 }
 
-export function split(list?: MappedMatchExpression[]): MatchExpressionDTO[] | BinaryOperatorDTO | readonly never[] {
+export function split(
+  list?: MappedMatchExpression[]
+): MatchExpressionDTOUnion[] | BinaryOperatorDTO | readonly never[] {
   if (!list || list.length === 0) {
     return emptyArray;
   }
@@ -262,27 +273,30 @@ export function split(list?: MappedMatchExpression[]): MatchExpressionDTO[] | Bi
     splitList = splitBy(splitList, 'AND');
   }
   if (!Array.isArray(splitList)) {
-    let left: MatchExpressionDTO | undefined = undefined;
+    let left: MatchExpressionDTOUnion | undefined = undefined;
     if (splitList.left) {
-      left = splitList.left.length > 1 ? (split(splitList.left) as MatchExpressionDTO) : splitList.left[0];
+      left =
+        splitList.left.length > 1
+          ? (split(splitList.left) as MatchExpressionDTOUnion)
+          : (splitList.left[0] as MatchExpressionDTOUnion);
     }
 
-    let right: MatchExpressionDTO | undefined = undefined;
+    let right: MatchExpressionDTOUnion | undefined = undefined;
     if (splitList.right) {
       if (splitList.right.length > 1) {
-        right = split(splitList.right) as MatchExpressionDTO;
+        right = split(splitList.right) as MatchExpressionDTOUnion;
       } else {
         const rightLeaf = splitList.right[0];
         delete rightLeaf.conjunction;
-        right = rightLeaf;
+        right = rightLeaf as MatchExpressionDTOUnion;
       }
     }
-    return { ...splitList, left: left!, right: right! };
+    return { ...splitList, left: left!, right: right! } as BinaryOperatorDTO;
   }
-  return splitList;
+  return splitList as MatchExpressionDTOUnion[];
 }
 
-type IntermediateBinaryOperatorDTO = Omit<BinaryOperatorDTO, 'left' | 'right'> & {
+type IntermediateBinaryOperatorDTO = Omit<BinaryOperatorDTO, 'left' | 'right' | 'type'> & {
   left: MappedMatchExpression[];
   right: MappedMatchExpression[];
 };
@@ -298,7 +312,7 @@ export function splitBy(
   }
 
   for (let i = 0; i < subList.length - 1; i++) {
-    const item = subList[i];
+    const item: MappedMatchExpression = subList[i];
     if (item.conjunction === operator) {
       delete item.conjunction;
       return {
@@ -313,8 +327,8 @@ export function splitBy(
 }
 
 interface MatchExpressionWithoutType {
-  left?: MatchExpressionDTO;
-  right?: MatchExpressionDTO;
+  left?: MatchExpressionDTOUnion;
+  right?: MatchExpressionDTOUnion;
   type?: string;
   conjunction?: Conjunction;
 }
@@ -334,7 +348,7 @@ export function annotateWithTypes(node?: MatchExpressionWithoutType) {
   annotateWithTypes(node.right);
 }
 
-export function mapMatchSpecificationTreeToList(tree?: MatchExpressionDTO): MappedMatchExpression[] {
+export function mapMatchSpecificationTreeToList(tree?: MatchExpressionDTOUnion): MappedMatchExpression[] {
   if (!tree) {
     return [];
   }
@@ -342,14 +356,14 @@ export function mapMatchSpecificationTreeToList(tree?: MatchExpressionDTO): Mapp
   return combineNodes(resolve(tree));
 }
 
-function isLeaf(n: MatchExpressionDTO): n is TagMatcherDTO {
+function isLeaf(n: MatchExpressionDTOUnion): n is TagMatcherDTO {
   const node = n as BinaryOperatorDTO;
   // Left and Right are non nullable in BinaryOperatorDTO, their absence thus signifies that the node is of type TagMatcherDTO
   // The type field of MatchExpressionDTO is not used here, because it is typed as optional and string, which breaks any type safety is would bring
   return !node.left && !node.right;
 }
 
-function resolve(node: MatchExpressionDTO): (TagMatcherDTO | IntermediateConjunction)[] {
+function resolve(node: TagMatcherDTO | BinaryOperatorDTO): (TagMatcherDTO | IntermediateConjunction)[] {
   if (!node) {
     return [];
   }
