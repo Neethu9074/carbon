@@ -3,33 +3,35 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useEffect, useState } from 'react';
+import { createField } from 'formalistic';
+import React from 'react';
 
 import { getConfigData } from 'in-settings/tabs/MigrationSettings/api/exportConfig';
 import { MIGRATION_CONFIGS } from '../../components/MigrationTypes';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import AccordionConfigs from '../../components/AccordionConfigs';
 import SectionLine from 'in-settings/components/SectionLine';
 import ApiItemView from 'in-settings/components/ApiItemView';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Section from 'in-settings/components/Section';
+import FormGroup from 'in-components/form/FormGroup';
 import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
-export default function ExportConfig() {
-  const [selectedConfigTypes, setSelectedConfigTypes] = useState(initSelected());
+const EXPORT_CONFIG_FILE_NAME = 'config-export.json';
 
+export default function ExportConfig() {
   return (
     <ApiItemView
       saveLabel={t('in-settings:tabs.migrationExport')}
-      Content={Content}
-      onSubmit={onSubmit}
-      selectedConfigTypes={selectedConfigTypes}
-      callBackSelectedConfigs={configs => setSelectedConfigTypes(configs)}
+      enrichForm={enrichForm}
+      render={render}
+      saveItem={saveItem}
+      canSaveItem
     />
   );
 }
 
-function download(content, fileName, contentType) {
+function downloadConfigs(content, fileName, contentType) {
   const a = document.createElement('a');
   const file = new Blob([content], { type: contentType });
   a.href = URL.createObjectURL(file);
@@ -37,23 +39,19 @@ function download(content, fileName, contentType) {
   a.click();
 }
 
-function onSubmit(e, props) {
-  e.preventDefault();
-  saveItem(props);
-}
-
 function getSelectedConfigIds(selectedConfigs) {
   let selectedIds = [];
   if (selectedConfigs) {
-    selectedConfigs.forEach(config => {
-      if (config.selected) selectedIds.push(config.type);
+    let configIds = Object.keys(selectedConfigs);
+    Object.values(selectedConfigs).forEach((config, index) => {
+      if (config.value) selectedIds.push(configIds[index]);
     });
   }
   return selectedIds;
 }
 
-function saveItem({ setMessage, selectedConfigs }) {
-  let selectedConfigIds = getSelectedConfigIds(selectedConfigs);
+function saveItem({ form, setMessage }) {
+  let selectedConfigIds = getSelectedConfigIds(form.items);
   setMessage({
     message: t('in-settings:tabs.exportingConfig'),
     type: 'neutral',
@@ -66,7 +64,7 @@ function saveItem({ setMessage, selectedConfigs }) {
         text: t('in-settings:tabs.configSuccessfullyExported'),
         type: 'success'
       });
-      download(JSON.stringify(resp), 'config-export.json', 'text/plain');
+      downloadConfigs(JSON.stringify(resp), EXPORT_CONFIG_FILE_NAME, 'text/plain');
     },
     error =>
       setMessage({
@@ -74,38 +72,9 @@ function saveItem({ setMessage, selectedConfigs }) {
         type: 'error'
       })
   );
-  // }
 }
 
-function initSelected() {
-  let defaultSelectedConfigs = [];
-  MIGRATION_CONFIGS.forEach(configType => {
-    let defaultSelectedConfigType = { ...configType, selected: true };
-    defaultSelectedConfigs.push(defaultSelectedConfigType);
-  });
-
-  return defaultSelectedConfigs;
-}
-
-function updateSelectedConfigs(prevSelectedConfigs, selectedConfigType, isSelected) {
-  if (prevSelectedConfigs) {
-    let updateSelected = [];
-    prevSelectedConfigs.forEach(configType => {
-      if (configType.type === selectedConfigType) {
-        let selectedConfig = { ...configType, selected: isSelected };
-        updateSelected.push(selectedConfig);
-      } else updateSelected.push(configType);
-    });
-    return updateSelected;
-  }
-}
-
-function Content({ setCanSaveItem, callBackSelectedConfigs, selectedConfigTypes }) {
-  useEffect(() => {
-    setCanSaveItem(true);
-    callBackSelectedConfigs(selectedConfigTypes);
-  }, [setCanSaveItem, callBackSelectedConfigs, selectedConfigTypes]);
-
+function render({ form, setForm, setCanSaveItem }) {
   return (
     <>
       <Title title={t('in-settings:tabs.configExport')} />
@@ -115,26 +84,52 @@ function Content({ setCanSaveItem, callBackSelectedConfigs, selectedConfigTypes 
       <p>
         <Trans i18nKey="in-settings:tabs.configExportHelp" />
       </p>
-      <Section>
-        {selectedConfigTypes ? (
-          selectedConfigTypes.map(configType => (
-            <AccordionConfigs
-              key={configType.type}
-              label={configType.label}
-              icon={configType.icon}
-              checked={configType.selected}
-              toggleContentOnRowClick={false}
-              onChange={changed => {
-                const isSelected = Object.keys(changed).length !== 0;
-                let updated = updateSelectedConfigs(selectedConfigTypes, configType.type, isSelected);
-                callBackSelectedConfigs(updated);
-              }}
-            />
-          ))
-        ) : (
-          <div>No Configurations</div>
-        )}
-      </Section>
+      <form>
+        <Section>
+          <FormGroup>
+            {MIGRATION_CONFIGS.map(config =>
+              form.get(config.type).map(field => (
+                <CheckboxFancy
+                  key={config.type}
+                  id={config.type}
+                  label={config.label}
+                  checked={field.value}
+                  onChange={e => {
+                    setForm(form.updateIn([config.type], f => f.setValue(e.target.checked).setTouched(true)));
+                    if (e.target.checked) setCanSaveItem(e.target.checked);
+                    else {
+                      // need to check that at least one other configuration type is selected to enable Save button
+                      let selectedIds = getSelectedConfigIds(form.items);
+                      if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type)))
+                        setCanSaveItem(true);
+                      else setCanSaveItem(false);
+                    }
+                  }}
+                  size="larger"
+                />
+              ))
+            )}
+          </FormGroup>
+        </Section>
+      </form>
     </>
   );
+}
+
+/**
+ * Default is for all checkboxes to be checked and Export button enabled
+
+ * @param {*} form
+ * @returns updated form
+ */
+function enrichForm(form) {
+  MIGRATION_CONFIGS.forEach(conf => {
+    form = form.put(
+      conf.type,
+      createField({
+        value: true
+      })
+    );
+  });
+  return form;
 }

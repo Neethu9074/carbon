@@ -74,7 +74,7 @@ export const MIGRATION_CONFIGS = [
   {
     key: ALERT_CONFIGS,
     type: ALERT_CONFIGS,
-    label: 'Alerts',
+    label: 'Infrastructure Alerts',
     icon: 'lib_alerts_alert',
     configs: [],
     selected: null
