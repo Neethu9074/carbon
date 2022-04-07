@@ -29,7 +29,7 @@ export interface AbstractApplicationConfig {
   /**
    * @deprecated
    */
-  readonly matchSpecification?: MatchExpressionDTO;
+  readonly matchSpecification?: MatchExpressionDTOUnion;
   readonly scope: ApplicationConfigScope;
   readonly tagFilterExpression?: TagFilterExpressionElementUnion;
 }
@@ -261,6 +261,7 @@ export interface ApplicationMetricConfiguration extends UnifiedMetricConfigurati
   readonly grouping?: Grouping[];
   readonly includeInternal: boolean;
   readonly includeSynthetic: boolean;
+  readonly source: 'APPLICATION';
   readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
 }
@@ -328,8 +329,9 @@ export interface BeaconTypeSerializer extends JsonSerializer<BeaconType> {
 
 export interface BinaryOperatorDTO extends MatchExpressionDTO {
   readonly conjunction: Conjunction;
-  readonly left: MatchExpressionDTO;
-  readonly right: MatchExpressionDTO;
+  readonly left: MatchExpressionDTOUnion;
+  readonly right: MatchExpressionDTOUnion;
+  readonly type: 'BINARY_OP';
 }
 
 export interface BrowserScriptConfiguration extends SyntheticTypeConfiguration {
@@ -586,6 +588,7 @@ export interface Dependency {
 
 export interface DfqInfraMetricConfiguration extends UnifiedMetricConfiguration {
   readonly dynamicFocusQuery: string;
+  readonly source: 'INFRASTRUCTURE';
 }
 
 export interface DomainSpecificStack {
@@ -726,6 +729,7 @@ export interface EventMetricConfiguration extends UnifiedMetricConfiguration {
   readonly dynamicFocusQuery: string;
   readonly includeAgentMonitoringIssues: boolean;
   readonly includeK8sInfoEvents: boolean;
+  readonly source: 'EVENT';
 }
 
 export interface EventMetricsCatalog {
@@ -1798,7 +1802,7 @@ export interface GetTracesQueryBuilder {
 }
 
 export interface GetUnifiedMetricsQuery {
-  readonly metrics: { [index: string]: UnifiedMetricConfiguration };
+  readonly metrics: { [index: string]: UnifiedMetricConfigurationUnion };
   readonly rbacRestrictions?: any;
 }
 
@@ -2159,6 +2163,7 @@ export interface InfraExploreCursor extends IngestionOffsetCursor {
 export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
   readonly crossSeriesAggregation?: AggregationType;
   readonly grouping?: Grouping[];
+  readonly source: 'INFRASTRUCTURE_METRICS';
   readonly tagFilterExpression: TagFilterExpressionElementUnion;
   readonly type: string;
 }
@@ -2823,6 +2828,7 @@ export interface LogMetricConfig {
 
 export interface LogMetricConfiguration extends UnifiedMetricConfiguration {
   readonly metricTagFilterExpression?: TagFilterExpressionElementUnion;
+  readonly source: 'LOG';
   readonly tagFilterExpression?: TagFilterExpressionElementUnion;
 }
 
@@ -2909,7 +2915,7 @@ export interface MatchAllHttpPathSegmentMatchingRule extends HttpPathSegmentMatc
 }
 
 export interface MatchExpressionDTO {
-  readonly type?: string;
+  readonly type: 'LEAF' | 'BINARY_OP';
 }
 
 export interface MatchingRule {
@@ -3062,6 +3068,7 @@ export interface MobileAppItem {
 export interface MobileAppMetricConfiguration extends UnifiedMetricConfiguration {
   readonly beaconType?: string;
   readonly grouping?: Grouping[];
+  readonly source: 'MOBILE_APP';
   readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
 }
@@ -3677,6 +3684,7 @@ export interface SliUnifiedMetricConfiguration extends UnifiedMetricConfiguratio
   readonly preview: boolean;
   readonly sliConfigId: string;
   readonly slo: number;
+  readonly source: 'SLI';
 }
 
 export interface SlownessApplicationAlertRule extends ApplicationAlertRule {
@@ -3916,6 +3924,7 @@ export interface SyntheticTypeConfiguration {
 export interface SyntheticUnifiedMetricConfiguration extends UnifiedMetricConfiguration {
   readonly order?: Order;
   readonly pagination?: Pagination;
+  readonly source: 'SYNTHETICS';
   readonly tagFilters?: TagFilter[];
 }
 
@@ -3972,6 +3981,7 @@ export interface TagMatcherDTO extends MatchExpressionDTO {
   readonly entity: ApplicationTagFilterEntity;
   readonly key: string;
   readonly operator: ApplicationTagFilterOperator;
+  readonly type: 'LEAF';
   readonly value?: string;
 }
 
@@ -4244,7 +4254,7 @@ export interface UnifiedMetricConfiguration {
   readonly granularity?: number;
   readonly metric: string;
   readonly resultType: ResultType;
-  readonly source: MetricSource;
+  readonly source: 'APPLICATION' | 'INFRASTRUCTURE' | 'EVENT' | 'INFRASTRUCTURE_METRICS' | 'LOG' | 'MOBILE_APP' | 'SLI' | 'SYNTHETICS' | 'UNKNOWN' | 'USAGE' | 'WEBSITE';
   readonly timeConfig: TimeConfig;
   readonly timeShift: TimeShift;
 }
@@ -4255,10 +4265,12 @@ export interface UnsupportedHttpPathSegmentMatchingRule extends HttpPathSegmentM
 }
 
 export interface UnsupportedMetricSource extends UnifiedMetricConfiguration {
+  readonly source: 'UNKNOWN';
 }
 
 export interface UsageMetricConfiguration extends UnifiedMetricConfiguration {
   readonly showAggregatedMetrics: boolean;
+  readonly source: 'USAGE';
   readonly tenant?: string;
   readonly unit?: string;
 }
@@ -4540,6 +4552,7 @@ export interface WebsiteItem {
 export interface WebsiteMetricConfiguration extends UnifiedMetricConfiguration {
   readonly beaconType?: string;
   readonly grouping?: Grouping[];
+  readonly source: 'WEBSITE';
   readonly tagFilterExpression?: TagFilterExpressionElementUnion;
   readonly tagFilters?: TagFilter[];
 }
@@ -4899,6 +4912,8 @@ export type LogsApplicationAlertRuleLogLevel = 'WARN' | 'ERROR' | 'ANY';
 
 export type MaintenanceStatus = 'UNSCHEDULED' | 'SCHEDULED' | 'ACTIVE' | 'FINISHED';
 
+export type MatchExpressionDTOUnion = TagMatcherDTO | BinaryOperatorDTO;
+
 export type MetricDataSource = 'CALLS' | 'TRACES';
 
 export type MetricSource = 'INFRASTRUCTURE_METRICS' | 'INFRASTRUCTURE' | 'APPLICATION' | 'WEBSITE' | 'MOBILE_APP' | 'EVENT' | 'SLI' | 'USAGE' | 'LOG' | 'SYNTHETICS' | 'UNKNOWN';
@@ -4962,6 +4977,8 @@ export type ThresholdType = 'staticThreshold' | 'historicBaseline' | 'adaptiveBa
 export type Type = 'HEALTHY' | 'WARNING' | 'CRITICAL' | 'UNKNOWN';
 
 export type UiEntityType = 'APPLICATION' | 'SERVICE' | 'ENDPOINT';
+
+export type UnifiedMetricConfigurationUnion = InfraMetricConfiguration | DfqInfraMetricConfiguration | WebsiteMetricConfiguration | MobileAppMetricConfiguration | ApplicationMetricConfiguration | EventMetricConfiguration | SliUnifiedMetricConfiguration | UsageMetricConfiguration | LogMetricConfiguration | SyntheticUnifiedMetricConfiguration | UnsupportedMetricSource;
 
 export type WebsiteAlertRuleUnion = SpecificJsErrorsWebsiteAlertRule | SlownessWebsiteAlertRule | StatusCodeWebsiteAlertRule | ThroughputWebsiteAlertRule;
 

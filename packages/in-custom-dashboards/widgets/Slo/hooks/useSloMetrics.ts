@@ -14,7 +14,7 @@ import {
   ResultType,
   TimeConfig,
   TimeShift,
-  UnifiedMetricConfiguration
+  UnifiedMetricConfigurationUnion
 } from 'in-types';
 import getUnifiedSloMetrics from 'in-custom-dashboards/widgets/Slo/subscriptions/getUnifiedSloMetrics';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
@@ -33,7 +33,7 @@ interface MetricBaseConfig {
 }
 
 interface UnifiedMetricConfigurations {
-  [index: string]: UnifiedMetricConfiguration;
+  [index: string]: UnifiedMetricConfigurationUnion;
 }
 
 const getMetrics = (metricBaseConfig: MetricBaseConfig, granularity: number): UnifiedMetricConfigurations => {
@@ -68,7 +68,7 @@ const getMetrics = (metricBaseConfig: MetricBaseConfig, granularity: number): Un
       metric: 'HOURLY_ERROR_BUDGET_CHART',
       granularity
     }
-  };
+  } as UnifiedMetricConfigurations;
 };
 
 interface UseSloMetricsProps {

@@ -15,7 +15,14 @@ import {
   ConfigFromDataSeries,
   Metric
 } from 'in-custom-dashboards/widgets/Chart/types';
-import { Grouping, LabeledMetricResult, MetricResult, Result, TimeConfig, UnifiedMetricConfiguration } from 'in-types';
+import {
+  Grouping,
+  LabeledMetricResult,
+  MetricResult,
+  Result,
+  TimeConfig,
+  UnifiedMetricConfigurationUnion
+} from 'in-types';
 import { MetricsConfiguration, Axis as ChartAxis, Metric as ChartMetric, AxisColor } from 'in-components/Chart/types';
 import { defaultRenderer, renderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
 import { enforceSingleNumberResult } from 'in-custom-dashboards/widgets/Chart/renderer';
@@ -164,7 +171,7 @@ function useResultData(
   granularity: number,
   timeConfig: TimeConfig
 ): Result<MetricResult[]> | undefined | null {
-  const metrics: { [id: string]: UnifiedMetricConfiguration } = {};
+  const metrics: { [id: string]: UnifiedMetricConfigurationUnion } = {};
   const resultType = enforceSingleNumberResult.find(({ id }) => id === config?.y1.renderer)
     ? 'SINGLE_NUMBER'
     : config?.type;
@@ -180,7 +187,7 @@ function useResultData(
         timeShift: metricConfiguration.timeShift
           ? translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
           : { offset: 0 }
-      })
+      } as UnifiedMetricConfigurationUnion)
   );
 
   config?.y2?.metrics?.forEach(
@@ -193,7 +200,7 @@ function useResultData(
         timeShift: metricConfiguration.timeShift
           ? translateOffsetToTimeShiftConfig(metricConfiguration.timeShift, timeConfig)
           : { offset: 0 }
-      })
+      } as UnifiedMetricConfigurationUnion)
   );
 
   const stableConfig = useStableObjectInstance(config);
