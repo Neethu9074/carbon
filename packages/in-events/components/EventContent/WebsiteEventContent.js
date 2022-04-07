@@ -24,6 +24,7 @@ import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
 import useWebsiteEventEntity from 'in-events/hooks/useWebsiteEventEntity';
+import { fixateTimeConfig } from 'in-stores/time/config';
 import { Row, Col } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -53,6 +54,7 @@ export default function WebsiteEventContent({ event }) {
     windowSize: alertingEventDetailsChartTimeframe
   };
   const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
+  const fixedAnalyzeTimeConfig = fixateTimeConfig(analyzeTimeConfig);
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -70,7 +72,7 @@ export default function WebsiteEventContent({ event }) {
               <AnalyzeWebsiteEventButton
                 alertConfig={alertConfig}
                 websiteName={eventEntity.websiteName}
-                timeConfig={analyzeTimeConfig}
+                timeConfig={fixedAnalyzeTimeConfig}
               />
             </DescriptionButtons>
           </Card>
