@@ -28,6 +28,7 @@ import useApplicationEventEntity from 'in-events/hooks/useApplicationEventEntity
 import ProblemDescription from 'in-events/components/legacy/ProblemDescription';
 import DescriptionButtons from 'in-events/components/legacy/DescriptionButtons';
 import ScopeConfigPresenter from 'in-alerting/components/ScopeConfigPresenter';
+import { fixateTimeConfig } from 'in-stores/time/config';
 import { Col, Row } from 'in-components/layout/Grid';
 import { t } from 'in-i18n';
 
@@ -57,6 +58,8 @@ export default function ApplicationEventContent({ event }) {
     windowSize: alertingEventDetailsChartTimeframe
   };
   const analyzeTimeConfig = getSmartAlertAnalyzeTimeframe(event, alertConfig);
+  const fixedAnalyzeTimeConfig = fixateTimeConfig(analyzeTimeConfig);
+
   const chartViewConfig = createDefaultChartConfig(timeConfig);
 
   const tagFilterFormModel = fromBackendModel(tagFilterExpression);
@@ -85,7 +88,7 @@ export default function ApplicationEventContent({ event }) {
               <AnalyzeApplicationEventButton
                 {...eventEntity}
                 alertConfig={alertConfig}
-                timeConfig={analyzeTimeConfig}
+                timeConfig={fixedAnalyzeTimeConfig}
                 adaptiveBaselineInfo={adaptiveBaselineInfo}
               />
             </DescriptionButtons>
