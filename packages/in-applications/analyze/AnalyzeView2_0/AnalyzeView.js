@@ -44,6 +44,7 @@ import getTagSuggestions from 'in-applications/subscriptions/getTagSuggestions';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { getMetricTemplates } from 'in-applications/api/metricTemplates';
 import StateManagement from 'in-components/AnalyzeView/StateManagement';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import { getMetricCatalog } from 'in-applications/api/metricCatalog';
 import { getTypeTextByCount } from 'in-applications/analyze/metrics';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
@@ -300,16 +301,14 @@ function getFixedFields(dataSource) {
 }
 
 function createMetricCatalogTransformer(dataSource) {
-  const supportedMetrics = {
-    calls: ['calls', 'latency', 'erroneousCalls', 'errors'],
-    traces: ['traces', 'latency', 'erroneousCalls', 'errors']
-  };
+  const supportedMetrics = dataSourceConstants[dataSource].metricCatalogSupportedMetrics;
   return metricDefinition => {
-    if (!supportedMetrics[dataSource].includes(metricDefinition.metricId)) {
+    if (!supportedMetrics[metricDefinition.metricId]) {
       return null;
     }
     return {
       ...metricDefinition,
+      aggregations: supportedMetrics[metricDefinition.metricId],
       label:
         dataSource === 'traces'
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
@@ -320,9 +319,9 @@ function createMetricCatalogTransformer(dataSource) {
 
 function createChartableMetricCatalogTransformer(dataSource) {
   // For chartable metrics (unifiedMetricsQuery) the 'traces' dataSource uses 'calls' metric instead of 'traces'
-  const supportedMetrics = ['calls', 'latency', 'erroneousCalls', 'errors'];
+  const supportedMetrics = dataSourceConstants.calls.metricCatalogSupportedChartableMetrics;
   return metricDefinition => {
-    if (!supportedMetrics.includes(metricDefinition.metricId)) {
+    if (!supportedMetrics[metricDefinition.metricId]) {
       return null;
     }
     return {
@@ -331,10 +330,7 @@ function createChartableMetricCatalogTransformer(dataSource) {
         dataSource === 'traces'
           ? t('in-applications:metrics.traces', { context: metricDefinition.metricId })
           : t('in-applications:metrics.calls', { context: metricDefinition.metricId }),
-      aggregations:
-        metricDefinition.metricId === 'latency'
-          ? [...metricDefinition.aggregations, 'DISTRIBUTION']
-          : metricDefinition.aggregations,
+      aggregations: supportedMetrics[metricDefinition.metricId],
       formatter: metricFormatter(metricDefinition)
     };
   };
