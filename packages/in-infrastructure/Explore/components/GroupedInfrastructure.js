@@ -351,7 +351,7 @@ function toTagFilters(tags, tagType) {
 const defaultGroupIcon = 'lib_views_tag';
 
 function isKeyValue(tagType) {
-  return tagType === 'KEY_VALUE_PAIR';
+  return tagType !== undefined && 'KEY_VALUE_PAIR' === tagType;
 }
 
 function getKey(str) {
