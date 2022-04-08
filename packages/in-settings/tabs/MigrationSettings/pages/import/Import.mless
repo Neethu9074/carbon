@@ -8,4 +8,9 @@
     display: flex;
     align-items: center;
   }
+  .keyValueEllipsis {
+    white-space: normal !important;
+    text-overflow: ellipsis;
+    overflow: initial;
+  }
 }

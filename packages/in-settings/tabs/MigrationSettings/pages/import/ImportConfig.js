@@ -4,16 +4,19 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { createField } from 'formalistic';
 
+import { Ul, Li, KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
 
 import { postConfigAsResultObservable } from 'in-settings/tabs/MigrationSettings/api/importConfig';
 import { MIGRATION_CONFIGS } from '../../components/MigrationTypes';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
-import AccordionConfigs from '../../components/AccordionConfigs';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import SectionLine from 'in-settings/components/SectionLine';
+import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import Section from 'in-settings/components/Section';
+import FormGroup from 'in-components/form/FormGroup';
 import { shorten } from 'in-services/util/string';
 import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
@@ -24,28 +27,39 @@ export default function ImportConfig() {
   const inputDOMNode = document.createElement('input');
   const [input] = useState(inputDOMNode);
   const [file, setFile] = useState(null);
-  const [selectedConfigTypes, setSelectedConfigTypes] = useState(MIGRATION_CONFIGS);
+  const [loadedConfigs, setLoadedConfigs] = useState([]);
+  const [loadedFile, setLoadedFile] = useState(null);
 
   inputDOMNode.onchange = () => setFile(input && input.files && input.files.length > 0 ? input.files[0] : undefined);
 
-  function setImportConfigs(selectedConfigTypes) {
+  function setImportConfigs(form, loadedConfigs) {
     let cleanedConfigs = {};
-    selectedConfigTypes.forEach(configType => {
-      if (configType.selected) cleanedConfigs[configType.type] = configType.configs;
+    loadedConfigs.forEach(loadedConfig => {
+      if (form.get(loadedConfig.type).value) cleanedConfigs[loadedConfig.type] = loadedConfig.configs;
     });
     return cleanedConfigs;
   }
 
   useEffect(() => {
-    if (!file) {
-      // reset selected configs
-      let updatedConfigs = [];
-      MIGRATION_CONFIGS.forEach((config, index) => {
-        updatedConfigs[index] = { ...config, selected: false, configs: [] };
-      });
-      setSelectedConfigTypes(updatedConfigs);
+    // set loaded configs
+    if (file && loadedFile !== file) {
+      const reader = new FileReader();
+      reader.readAsText(file, 'UTF-8');
+      reader.onloadend = function() {
+        setLoadedFile(file);
+        let allConfigs = JSON.parse(reader.result);
+        let loadedConfigs = [];
+        let configIds = Object.keys(allConfigs);
+        Object.values(allConfigs).forEach((children, index) => {
+          let configDetail = MIGRATION_CONFIGS.find(function(element) {
+            return element.type === configIds[index];
+          });
+          loadedConfigs.push({ ...configDetail, configs: children });
+        });
+        setLoadedConfigs(loadedConfigs);
+      };
     }
-  }, [file]);
+  }, [file, loadedFile]);
 
   return (
     <>
@@ -56,110 +70,124 @@ export default function ImportConfig() {
           setFile(null);
         }}
         saveLabel={t('in-settings:tabs.migrationImport')}
-        saveItem={({ setMessage, selectedConfigTypes }) => {
-          let importConfigs = setImportConfigs(selectedConfigTypes);
-          if (importConfigs && Object.keys(importConfigs).length !== 0) {
-            setMessage({
-              message: t('in-settings:tabs.importingConfig'),
-              type: 'neutral',
-              isSaving: true
-            });
-            postConfigAsResultObservable(importConfigs).once(
-              () => {
-                setMessage({
-                  text: t('in-settings:tabs.configSuccessfullyImported'),
-                  type: 'success'
-                });
-              },
-              error =>
-                setMessage({
-                  text: t('in-settings:tabs.failedToImportConfig', { err: error.message }),
-                  type: 'error'
-                })
-            );
-          }
+        enrichForm={enrichForm}
+        render={render}
+        saveItem={({ form, setMessage, loadedConfigs }) => {
+          setMessage({
+            message: t('in-settings:tabs.importingConfig'),
+            type: 'neutral',
+            isSaving: true
+          });
+          let importConfigs = setImportConfigs(form, loadedConfigs);
+          postConfigAsResultObservable(importConfigs).once(
+            () => {
+              setMessage({
+                text: t('in-settings:tabs.configSuccessfullyImported'),
+                type: 'success'
+              });
+            },
+            error =>
+              setMessage({
+                text: t('in-settings:tabs.failedToImportConfig', { err: error.message }),
+                type: 'error'
+              })
+          );
         }}
-        Content={Content}
-        selectedConfigTypes={selectedConfigTypes}
-        callBackSelectedConfigs={configs => setSelectedConfigTypes(configs)}
+        loadedConfigs={loadedConfigs}
       />
     </>
   );
 }
 
-function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selectedConfigTypes }) {
-  const [loadedFile, setLoadedFile] = useState(null);
-  const [okToImport, setOkToImport] = useState(false);
-
-  function getLoadedConfig(configType) {
-    let foundConfig = {};
-    if (selectedConfigTypes) {
-      foundConfig = selectedConfigTypes.find(function(element) {
-        return element.type === configType;
-      });
-    }
-    let isSelected = foundConfig && foundConfig.selected ? foundConfig.selected : false;
-    let configs = foundConfig && foundConfig.configs ? foundConfig.configs : [];
-    return {
-      isSelected: isSelected,
-      configs: configs
-    };
+function getSelectedConfigIds(selectedConfigs) {
+  let selectedIds = [];
+  if (selectedConfigs) {
+    let configIds = Object.keys(selectedConfigs);
+    Object.values(selectedConfigs).forEach((config, index) => {
+      if (config.value) selectedIds.push(configIds[index]);
+    });
   }
+  return selectedIds;
+}
 
-  function checkSelectedForImport(selectedConfigTypes) {
-    let okToImport = false;
-    if (selectedConfigTypes) {
-      selectedConfigTypes.forEach(configType => {
-        if (!okToImport && configType.selected) okToImport = true;
-      });
-      setOkToImport(okToImport);
-    }
-    return okToImport;
-  }
-
-  function updateSelectedConfigs(prevSelectedConfigs, selectedConfigType, isSelected) {
-    if (prevSelectedConfigs) {
-      let updateSelected = [];
-      prevSelectedConfigs.forEach(configType => {
-        if (configType.type === selectedConfigType) {
-          let selectedConfig = { ...configType, selected: isSelected };
-          updateSelected.push(selectedConfig);
-        } else updateSelected.push(configType);
-      });
-      checkSelectedForImport(updateSelected);
-      return updateSelected;
-    }
-  }
-
-  useEffect(
-    // allow only saving when config metadata has been uploaded
-    () => {
-      setCanSaveItem(!!okToImport);
-
-      if (file && loadedFile !== file) {
-        const reader = new FileReader();
-        reader.readAsText(file, 'UTF-8');
-        reader.onloadend = function() {
-          let allConfigs = JSON.parse(reader.result);
-          setLoadedFile(file);
-          // reset selected configs
-          let updatedConfigs = [];
-          // Update selected configs with loaded config file data
-          Object.keys(allConfigs).forEach(configType => {
-            let foundConfig = MIGRATION_CONFIGS.find(function(element) {
-              return element.type === configType;
-            });
-            // let defaultConfig = MIGRATION_CONFIGS[foundIndex];
-            if (foundConfig) updatedConfigs.push({ ...foundConfig, selected: true, configs: allConfigs[configType] });
-          });
-          checkSelectedForImport(updatedConfigs);
-          callBackSelectedConfigs(updatedConfigs);
-        };
-      }
-    },
-    [file, setCanSaveItem, loadedFile, callBackSelectedConfigs, okToImport]
+function getConfigList(loadedConfigs, form, setForm, setCanSaveItem) {
+  return (
+    <Ul>
+      {loadedConfigs.map(config =>
+        form.get(config.type).map(field => (
+          <Li
+            key={config.type}
+            open
+            renderNestedContent={() => (
+              <Ul>
+                {config.configs.map(child => (
+                  <Li key={child.id}>
+                    <CheckboxFancy
+                      key={child.id}
+                      id={child.id}
+                      label={
+                        <KeyValue
+                          className={locals.keyValueEllipsis}
+                          label={
+                            child.label
+                              ? child.label
+                              : child.name
+                              ? child.name
+                              : child.alertName
+                              ? child.alertName
+                              : child.id
+                          }
+                          value={child.description ? child.description : child.kind ? child.kind : ''}
+                        />
+                      }
+                      size="larger"
+                      onChange={
+                        {
+                          // e => {
+                          // console.log(e.target.checked);
+                          // setForm(form.updateIn([config.type], f => f.setValue(e.target.checked).setTouched(true)));
+                          // if (e.target.checked) setCanSaveItem(e.target.checked);
+                          // else {
+                          //   // need to check that at least one other configuration type is selected to enable Save button
+                          //   let selectedIds = getSelectedConfigIds(form.items);
+                          //   if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type)))
+                          //     setCanSaveItem(true);
+                          //   else setCanSaveItem(false);
+                          // }
+                        }
+                      }
+                    />
+                  </Li>
+                ))}
+              </Ul>
+            )}
+          >
+            <CheckboxFancy
+              key={config.type}
+              id={config.type}
+              label={config.label + ' (' + config.configs.length + ')'}
+              checked={field.value}
+              onChange={e => {
+                setForm(form.updateIn([config.type], f => f.setValue(e.target.checked).setTouched(true)));
+                if (e.target.checked) setCanSaveItem(e.target.checked);
+                else {
+                  // need to check that at least one other configuration type is selected to enable Save button
+                  let selectedIds = getSelectedConfigIds(form.items);
+                  if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type)))
+                    setCanSaveItem(true);
+                  else setCanSaveItem(false);
+                }
+              }}
+              size="larger"
+            />
+          </Li>
+        ))
+      )}
+    </Ul>
   );
+}
 
+function render({ form, setForm, setCanSaveItem, input, file, loadedConfigs }) {
   return (
     <>
       <Title title={t('in-settings:tabs.configImport')} />
@@ -186,25 +214,30 @@ function Content({ file, setCanSaveItem, input, callBackSelectedConfigs, selecte
             </Button>
           </div>
         </Section>
+        <Section>
+          <FormGroup>
+            {file && loadedConfigs ? getConfigList(loadedConfigs, form, setForm, setCanSaveItem) : <div />}
+          </FormGroup>
+        </Section>
       </form>
-      {file &&
-        selectedConfigTypes &&
-        selectedConfigTypes.map(configType => (
-          <AccordionConfigs
-            key={configType.type}
-            label={configType.label}
-            icon={configType.icon}
-            configs={getLoadedConfig(configType.type).configs}
-            configType={configType.type}
-            checked={getLoadedConfig(configType.type).isSelected}
-            toggleContentOnRowClick={false}
-            onChange={changed => {
-              const isSelected = Object.keys(changed).length !== 0;
-              let updated = updateSelectedConfigs(selectedConfigTypes, configType.type, isSelected);
-              callBackSelectedConfigs(updated);
-            }}
-          />
-        ))}
     </>
   );
+}
+
+/**
+ * Default is for all checkboxes to be checked and Export button enabled
+
+ * @param {*} form
+ * @returns updated form
+ */
+function enrichForm(form) {
+  MIGRATION_CONFIGS.forEach(conf => {
+    form = form.put(
+      conf.type,
+      createField({
+        value: true
+      })
+    );
+  });
+  return form;
 }
