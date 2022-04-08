@@ -12,6 +12,7 @@ import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
 import ApiItemView from 'in-settings/components/ApiItemView';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
+import IconLabel from 'in-alerting/components/IconLabel';
 import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import Title from 'in-components/Title';
@@ -91,7 +92,7 @@ function render({ form, setForm, setCanSaveItem }) {
                 <CheckboxFancy
                   key={config.type}
                   id={config.type}
-                  label={config.label}
+                  label={<IconLabel type={config.icon} text={config.label} noBottomMargin />}
                   checked={field.value}
                   onChange={e => {
                     setForm(form.updateIn([config.type], f => f.setValue(e.target.checked).setTouched(true)));
