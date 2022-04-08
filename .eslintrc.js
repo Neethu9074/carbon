@@ -15,6 +15,12 @@ module.exports = {
 
   parser: '@babel/eslint-parser',
 
+  parserOptions: {
+    babelOptions: {
+      configFile: __dirname + '/babel.config.js'
+    }
+  },
+
   extends: ['eslint:recommended', 'prettier', 'plugin:react-hooks/recommended'],
 
   plugins: ['react', 'jest', 'babel', 'header', 'import'],
