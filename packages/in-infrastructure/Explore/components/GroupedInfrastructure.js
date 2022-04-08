@@ -49,7 +49,7 @@ export default function GroupedInfrastructure(props) {
   const retrievalSize = 20;
 
   const granularity = getGranularity(timeConfig);
-
+  const tagType = group?.tagType;
   const fullQualifiedGroup = group.groupbyTagSecondLevelKey
     ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey
     : group.groupbyTag;
@@ -77,6 +77,7 @@ export default function GroupedInfrastructure(props) {
       retrievalSize={retrievalSize}
       granularity={granularity}
       timeConfig={timeConfig}
+      tagType={tagType}
       {...cursorPaginatedProps}
       {...props}
     />
@@ -105,14 +106,15 @@ function Presenter({
   type,
   loadMore: defaultCursorPaginationLoadMore,
   retrievalSize,
-  tracking
+  tracking,
+  tagType
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
   const getParamsForGroup = useCallback(
     item => ({
       group: emptyObject,
-      tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, toTagFilters(item.tags)] })
+      tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, toTagFilters(item.tags, tagType)] })
     }),
     [tagFilterExpression]
   );
@@ -336,16 +338,37 @@ function addTagsToBackendModel(backendQueryModel, tags) {
   return addTagFilters(backendQueryModel, toTagFilters(tags));
 }
 
-function toTagFilters(tags) {
-  return Object.entries(tags).map(([key, value]) => ({
+function toTagFilters(tags, tagType) {
+  return Object.entries(tags).map(([name, value]) => ({
     type: TAG_FILTER_TYPE,
     operator: EQUALS,
-    name: key,
-    value
+    name,
+    value: isKeyValue(tagType) ? getValue(value) : value,
+    key: isKeyValue(tagType) ? getKey(value) : undefined
   }));
 }
 
 const defaultGroupIcon = 'lib_views_tag';
+
+function isKeyValue(tagType) {
+  return tagType === 'KEY_VALUE_PAIR';
+}
+
+function getKey(str) {
+  let index = str.indexOf('=');
+  if (index > 0) {
+    return str.substring(0, index);
+  }
+  return undefined;
+}
+
+function getValue(str) {
+  let index = str.indexOf('=');
+  if (index > 0) {
+    return str.substring(index + 1);
+  }
+  return str;
+}
 
 function getGroupPlugin(group) {
   const plugin = group.tags[pluginTag];

@@ -39,7 +39,7 @@ export default function TagSelectorOverlay({ tagCatalog, onChange, close, showTy
       withIcons
       options={options}
       onChange={node => {
-        onChange({ name: node.tagName });
+        onChange({ name: node.tagName, tagType: node.tagType });
         close();
       }}
       query={query}
@@ -84,7 +84,8 @@ function toOptions(tagCatalog, tagTreeNodes, parentLabels = [], showTypeBadge, q
             keywords: [joinedParentLabels, tagTreeNode.label].filter(Boolean).join(' '),
             tagName: tagTreeNode.tagName,
             icon: tagTreeNode.icon,
-            children: filteredChildren
+            children: filteredChildren,
+            tagType: tagCatalog.tagsByName[tagTreeNode.tagName]?.type
           };
     })
     .filter(Boolean);
@@ -121,5 +122,6 @@ TagSelectorOverlay.propTypes = {
   tagCatalog: PropTypes.any.isRequired,
   showTypeBadge: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-  close: PropTypes.func.isRequired
+  close: PropTypes.func.isRequired,
+  tagType: PropTypes.string
 };
