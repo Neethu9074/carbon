@@ -18,8 +18,8 @@ import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/advan
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
 import GoodBadEventsConfigurator from 'in-custom-dashboards/widgets/Slo/sli/GoodBadEventsConfigurator';
-import ServicesSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServicesSelectBox';
 import EndpointSelectBox from 'in-custom-dashboards/widgets/Slo/sli/EndpointSelectBox';
+import ServiceSelectBox from 'in-custom-dashboards/widgets/Slo/sli/ServiceSelectBox';
 import { MetricsForm } from 'in-custom-dashboards/widgets/Slo/sli/MetricsForm';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import InputInSection from 'in-components/form/Input/InputInSection';
@@ -176,7 +176,7 @@ export function ApplicationSliForm({ form, onChange, apName, QueryBuilderCompone
           {sliType === applicationType && (
             <>
               <Sections>
-                <ServicesSelectBox
+                <ServiceSelectBox
                   boundaryScope={boundaryScope}
                   applicationId={applicationId}
                   value={serviceId}
