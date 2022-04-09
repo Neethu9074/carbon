@@ -20,7 +20,7 @@ export const MIGRATION_CONFIGS = [
     label: 'Applications',
     icon: 'lib_application',
     configs: [],
-    selected: null
+    selected: []
   },
   {
     key: WEB_CONFIGS,
@@ -28,7 +28,7 @@ export const MIGRATION_CONFIGS = [
     label: 'Websites',
     icon: 'lib_website',
     configs: [],
-    selected: null
+    selected: []
   },
   {
     key: MOB_CONFIGS,
@@ -36,7 +36,7 @@ export const MIGRATION_CONFIGS = [
     label: 'Mobile Apps',
     icon: 'lib_mobile_app',
     configs: [],
-    selected: null
+    selected: []
   },
   {
     key: ALERT_CHANNEL_CONFIGS,
@@ -44,7 +44,7 @@ export const MIGRATION_CONFIGS = [
     label: 'Alert Channels',
     icon: 'lib_alerts_alert',
     configs: [],
-    selected: null
+    selected: []
   },
 
   {
@@ -53,7 +53,7 @@ export const MIGRATION_CONFIGS = [
     label: 'Custom Events',
     icon: 'lib_help_error_warning',
     configs: [],
-    selected: null
+    selected: []
   },
   {
     key: SMART_APP_ALERT_CONFIGS,
@@ -61,7 +61,7 @@ export const MIGRATION_CONFIGS = [
     label: 'Application Alerts',
     icon: 'lib_events_critical',
     configs: [],
-    selected: null
+    selected: []
   },
   {
     key: SMART_WEB_ALERT_CONFIGS,
@@ -69,7 +69,7 @@ export const MIGRATION_CONFIGS = [
     label: 'Website Alerts',
     icon: 'lib_events_critical',
     configs: [],
-    selected: null
+    selected: []
   },
   {
     key: ALERT_CONFIGS,
@@ -77,7 +77,7 @@ export const MIGRATION_CONFIGS = [
     label: 'Infrastructure Alerts',
     icon: 'lib_alerts_alert',
     configs: [],
-    selected: null
+    selected: []
   },
   {
     key: GROUP_CONFIGS,
@@ -85,6 +85,6 @@ export const MIGRATION_CONFIGS = [
     label: 'Groups',
     icon: 'lib_group_by',
     configs: [],
-    selected: null
+    selected: []
   }
 ];

@@ -36,7 +36,13 @@ export default function ImportConfig() {
   function setImportConfigs(form, loadedConfigs) {
     let cleanedConfigs = {};
     loadedConfigs.forEach(loadedConfig => {
-      if (form.get(loadedConfig.type).value) cleanedConfigs[loadedConfig.type] = loadedConfig.configs;
+      if (form.get(loadedConfig.type).value) {
+        let configsToImport = [];
+        loadedConfig.configs.forEach(config => {
+          if (loadedConfig.selected.includes(config.id)) configsToImport.push(config);
+        });
+        cleanedConfigs[loadedConfig.type] = configsToImport;
+      }
     });
     return cleanedConfigs;
   }
@@ -55,7 +61,9 @@ export default function ImportConfig() {
           let configDetail = MIGRATION_CONFIGS.find(function(element) {
             return element.type === configIds[index];
           });
-          loadedConfigs.push({ ...configDetail, configs: children });
+          let defaultAllSelected = [];
+          children.forEach(child => defaultAllSelected.push(child.id));
+          loadedConfigs.push({ ...configDetail, configs: children, selected: defaultAllSelected });
         });
         setLoadedConfigs(loadedConfigs);
       };
@@ -95,6 +103,14 @@ export default function ImportConfig() {
           );
         }}
         loadedConfigs={loadedConfigs}
+        callBackSetChildLoadedConfigs={(configType, selectedConfigs) => {
+          let updatedLoadedConfigs = [];
+          loadedConfigs.forEach(config => {
+            if (config.type === configType) updatedLoadedConfigs.push({ ...config, selected: selectedConfigs });
+            else updatedLoadedConfigs.push(config);
+          });
+          setLoadedConfigs(updatedLoadedConfigs);
+        }}
       />
     </>
   );
@@ -111,10 +127,10 @@ function getSelectedConfigIds(selectedConfigs) {
   return selectedIds;
 }
 
-function getConfigList(loadedConfigs, form, setForm, setCanSaveItem) {
+function getConfigList(loadedConfigs, form, setForm, setCanSaveItem, callBackSetChildLoadedConfigs) {
   return (
     <Ul>
-      {loadedConfigs.map(config =>
+      {loadedConfigs.map((config, index) =>
         form.get(config.type).map(field => (
           <Li
             key={config.type}
@@ -142,21 +158,19 @@ function getConfigList(loadedConfigs, form, setForm, setCanSaveItem) {
                         />
                       }
                       size="larger"
-                      onChange={
-                        {
-                          // e => {
-                          // console.log(e.target.checked);
-                          // setForm(form.updateIn([config.type], f => f.setValue(e.target.checked).setTouched(true)));
-                          // if (e.target.checked) setCanSaveItem(e.target.checked);
-                          // else {
-                          //   // need to check that at least one other configuration type is selected to enable Save button
-                          //   let selectedIds = getSelectedConfigIds(form.items);
-                          //   if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type)))
-                          //     setCanSaveItem(true);
-                          //   else setCanSaveItem(false);
-                          // }
-                        }
-                      }
+                      checked={config.selected.includes(child.id)}
+                      onChange={e => {
+                        let configsSelected = loadedConfigs[index].selected;
+                        let childExistIndex = configsSelected.indexOf(child.id);
+                        // remove item if found and not selected
+                        if (childExistIndex > -1 && !e.target.checked) {
+                          configsSelected.splice(childExistIndex, 1);
+                        } else configsSelected.push(child.id);
+                        callBackSetChildLoadedConfigs(config.type, configsSelected);
+                        setForm(
+                          form.updateIn([config.type], f => f.setValue(configsSelected.length > 0).setTouched(true))
+                        );
+                      }}
                     />
                   </Li>
                 ))}
@@ -172,13 +186,19 @@ function getConfigList(loadedConfigs, form, setForm, setCanSaveItem) {
               checked={field.value}
               onChange={e => {
                 setForm(form.updateIn([config.type], f => f.setValue(e.target.checked).setTouched(true)));
-                if (e.target.checked) setCanSaveItem(e.target.checked);
-                else {
+                if (e.target.checked) {
+                  setCanSaveItem(e.target.checked);
+                  let defaultAllSelected = [];
+                  config.configs.forEach(config => defaultAllSelected.push(config.id));
+                  callBackSetChildLoadedConfigs(config.type, defaultAllSelected);
+                } else {
                   // need to check that at least one other configuration type is selected to enable Save button
                   let selectedIds = getSelectedConfigIds(form.items);
                   if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type)))
                     setCanSaveItem(true);
                   else setCanSaveItem(false);
+                  // clear all child selected configs
+                  callBackSetChildLoadedConfigs(config.type, []);
                 }
               }}
               size="larger"
@@ -190,7 +210,7 @@ function getConfigList(loadedConfigs, form, setForm, setCanSaveItem) {
   );
 }
 
-function render({ form, setForm, setCanSaveItem, input, file, loadedConfigs }) {
+function render({ form, setForm, setCanSaveItem, input, file, loadedConfigs, callBackSetChildLoadedConfigs }) {
   return (
     <>
       <Title title={t('in-settings:tabs.configImport')} />
@@ -219,7 +239,11 @@ function render({ form, setForm, setCanSaveItem, input, file, loadedConfigs }) {
         </Section>
         <Section>
           <FormGroup>
-            {file && loadedConfigs ? getConfigList(loadedConfigs, form, setForm, setCanSaveItem) : <div />}
+            {file && loadedConfigs ? (
+              getConfigList(loadedConfigs, form, setForm, setCanSaveItem, callBackSetChildLoadedConfigs)
+            ) : (
+              <div />
+            )}
           </FormGroup>
         </Section>
       </form>
