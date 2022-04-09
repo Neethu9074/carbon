@@ -84,7 +84,7 @@
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "Synthetic Tests",
+      "mainLabel": "Synthetics",
       "secondaryLabels": {
         "tests": "Tests",
         "location": "Location"

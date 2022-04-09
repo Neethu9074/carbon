@@ -132,6 +132,18 @@ export const dataSourceConstants = {
         aggregations: ['SUM']
       }
     },
+    metricCatalogSupportedMetrics: {
+      calls: ['SUM'],
+      latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX'],
+      erroneousCalls: ['SUM'],
+      errors: ['MEAN']
+    },
+    metricCatalogSupportedChartableMetrics: {
+      calls: ['SUM'],
+      latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX', 'DISTRIBUTION'],
+      erroneousCalls: ['SUM'],
+      errors: ['MEAN']
+    },
     latencyTag: 'call.latency',
     getData: getCalls,
     getGroupData: getCallGroups,
@@ -193,6 +205,12 @@ export const dataSourceConstants = {
         type: 'count',
         aggregations: ['SUM']
       }
+    },
+    metricCatalogSupportedMetrics: {
+      traces: ['SUM'],
+      latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX'],
+      erroneousCalls: ['SUM'],
+      errors: ['MEAN']
     },
     latencyTag: 'trace.latency',
     getData: getTraces,

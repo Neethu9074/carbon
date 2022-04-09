@@ -10,7 +10,7 @@ import { ApplicationBoundaryScope, Nullish } from 'in-types';
 import useServices from 'in-applications/hooks/useServices';
 import { t } from 'in-i18n';
 
-interface ServicesSelectBoxProps {
+interface ServiceSelectBoxProps {
   hasError?: boolean;
   applicationId: string;
   boundaryScope: ApplicationBoundaryScope;
@@ -18,13 +18,13 @@ interface ServicesSelectBoxProps {
   onChange: (application?: string) => void;
 }
 
-export default function ServicesSelectBox({
+export default function ServiceSelectBox({
   applicationId,
   hasError,
   boundaryScope,
   value,
   onChange
-}: ServicesSelectBoxProps) {
+}: ServiceSelectBoxProps) {
   const [servicesPage, status] = useServices({
     application: applicationId,
     filter: {

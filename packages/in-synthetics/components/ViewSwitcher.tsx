@@ -25,7 +25,7 @@ export default function ViewSwitcher() {
   return (
     <>
       <DashboardHeader
-        icon="lib_infra_ibmCos"
+        icon="lib_synthetic"
         label={t('in-synthetics:dashboard.testList.mainLabel')}
         title={t('in-synthetics:dashboard.testList.mainLabel')}
         showHistoricDataWarning={false}
@@ -36,11 +36,13 @@ export default function ViewSwitcher() {
             href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticsPath))}
             label={t('in-synthetics:dashboard.testList.secondaryLabels.tests')}
             isActive={isTestsActive && !isLocationsActive}
+            icon={'lib_synthetic'}
           />
           <SecondLevelNavigationItem
             href$={getModifiedUrlStream(p => (p.pathname = paths.syntheticsPath))}
             label={t('in-synthetics:dashboard.testList.secondaryLabels.location')}
             isActive={isLocationsActive && !isTestsActive}
+            icon={'lib_synthetic_location'}
           />
         </SecondLevelNavigation>
       </DashboardHeaderModule>

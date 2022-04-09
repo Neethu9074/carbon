@@ -293,7 +293,7 @@ function Synthetics(props) {
     <View
       id="main-nav-synthetics"
       label={t('in-synthetics:navigation.synthetics')}
-      icon="lib_infra_ibmCos"
+      icon={'lib_synthetic'}
       isActive$={isView(syntheticsPath)}
       href$={getView(syntheticsPath)}
       {...props}

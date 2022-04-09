@@ -18,7 +18,7 @@ import {
 import {
   useValidateWebsiteFilterExpression,
   useWebsiteQueryBuilder
-} from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
+} from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
 import { createForm, SliFormData, WebsiteSliEntityFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { CreateSliFormProps } from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import { useWebsiteSliFormSideEffects } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useSliFormSideEffects';

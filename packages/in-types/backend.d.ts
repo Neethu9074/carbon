@@ -1734,6 +1734,17 @@ export interface GetTechnologyBreakdownQuery extends FilteredQuery {
   readonly granularity?: number;
 }
 
+export interface GetTestResultListQuery extends PaginatedQuery {
+  readonly filter: Filter;
+  readonly order: Order;
+  readonly pagination: Pagination;
+  readonly syntheticMetrics: string[];
+  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
+  readonly tagFilterExpressionElement?: TagFilterExpressionElementUnion;
+  readonly tagFilters?: TagFilter[];
+  readonly testId?: string;
+}
+
 export interface GetTestResultMetadataQuery extends UiQuery {
   readonly testid: string;
   readonly testresultid: string;
@@ -2992,6 +3003,7 @@ export interface MetricQuery {
 
 export interface MetricResult {
   readonly adjustedTimeframe?: AdjustedTimeframe;
+  readonly granularity?: number;
   readonly id: string;
   readonly resultPrecisionDetails?: ResultPrecisionDetails;
   readonly values: number[][];
@@ -4049,12 +4061,22 @@ export interface TestResult {
   readonly testResultItems?: TestResultItem[];
 }
 
+export interface TestResultCommonProperties {
+  readonly locationId: string;
+  readonly testId: string;
+}
+
 export interface TestResultItem {
   readonly applicationId?: string;
   readonly locationId?: string[];
   readonly metrics?: { [index: string]: any }[];
   readonly serviceId?: string;
   readonly testId: string;
+}
+
+export interface TestResultListItem extends Metricific {
+  readonly metrics: { [index: string]: number[][] };
+  readonly testResultCommonProperties: TestResultCommonProperties;
 }
 
 export interface TestResultMetadata {
@@ -4802,7 +4824,7 @@ export type AccessType = 'READ' | 'READ_WRITE';
 
 export type AgentMonitoringIssueCategory = 'SENSOR' | 'TRACER' | 'PROFILER' | 'UNKNOWN';
 
-export type AggregationType = 'SUM' | 'MEAN' | 'MAX' | 'MIN' | 'P25' | 'P50' | 'P75' | 'P90' | 'P95' | 'P98' | 'P99' | 'P99_9' | 'P99_99' | 'DISTRIBUTION' | 'DISTINCT_COUNT' | 'SUM_POSITIVE';
+export type AggregationType = 'SUM' | 'MEAN' | 'MAX' | 'MIN' | 'P25' | 'P50' | 'P75' | 'P90' | 'P95' | 'P98' | 'P99' | 'P99_9' | 'P99_99' | 'DISTRIBUTION' | 'DISTINCT_COUNT' | 'SUM_POSITIVE' | 'PER_SECOND';
 
 export type AlertEvaluationType = 'PER_AP' | 'PER_AP_SERVICE' | 'PER_AP_ENDPOINT';
 

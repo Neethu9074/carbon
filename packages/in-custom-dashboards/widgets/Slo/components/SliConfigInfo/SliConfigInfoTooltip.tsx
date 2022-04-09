@@ -17,7 +17,7 @@ import {
 import SliConfigInfoMetricItem from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo/SliConfigInfoMetricItem';
 import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
 import SliConfigInfoItem from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo/SliConfigInfoItem';
-import { useWebsiteQueryBuilder } from 'in-custom-dashboards/widgets/Slo/websiteQueryBuilder';
+import { useWebsiteQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder';
 import { fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';

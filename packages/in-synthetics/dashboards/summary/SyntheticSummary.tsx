@@ -38,7 +38,7 @@ function Header(props: DashboardHeaderProps) {
     return (
       <DashboardHeader
         {...props}
-        icon="lib_infra_ibmCos"
+        icon={'lib_synthetic'}
         title={t('in-synthetics:dashboard.testList.mainLabel')}
         label={label}
         showHistoricDataWarning={false}
@@ -48,7 +48,7 @@ function Header(props: DashboardHeaderProps) {
     return (
       <DashboardHeader
         {...props}
-        icon="lib_infra_ibmCos"
+        icon={'lib_synthetic'}
         title={t('in-synthetics:dashboard.testList.mainLabel')}
         label={''}
         showHistoricDataWarning={false}

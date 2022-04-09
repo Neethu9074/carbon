@@ -7,7 +7,7 @@ import React from 'react';
 
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import PluginDashboardsMarkerLanes from 'in-forge/PluginDashboardsMarkerLanes';
-import metrics from 'in-forge/plugins/clickHouseDatabase/Dashboard/metrics';
+import metrics from 'in-forge/plugins/clickHouseDatabase/metricDefinitions';
 import Table from 'in-sdk/components/dashboard/Table';
 import { t } from 'in-i18n';
 
@@ -42,12 +42,15 @@ const cols = [
 ];
 
 export default function MetricsTable({ snapshot, timeConfig }) {
-  const rows = metrics.map(metric => ({
-    key: metric.metric,
-    snapshotId: snapshot.get('id'),
-    timeConfig,
-    ...metric
-  }));
+  const rows = metrics
+    // Filter out dynamic metrics which do not define a metric field.
+    .filter(metric => metric.metric != null)
+    .map(metric => ({
+      key: metric.metric,
+      snapshotId: snapshot.get('id'),
+      timeConfig,
+      ...metric
+    }));
 
   return (
     <Table
