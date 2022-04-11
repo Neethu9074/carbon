@@ -346,39 +346,46 @@ function toTagFilters(tags, tagType, group) {
     type: TAG_FILTER_TYPE,
     operator: EQUALS,
     name: getName(name, group),
-    value: isKeyValue(tagType) ? getValue(value) : value,
-    key: isKeyValue(tagType) ? getKeyValue(value) : getKeyName(name, group)
+    value: getValue(tagType, value),
+    key: getKey(tagType, value, name, group)
   }));
 }
 
 const defaultGroupIcon = 'lib_views_tag';
 
-function getName(name, group) {
-  if (group.groupbyTag + '.' + group.groupbyTagSecondLevelKey === name) {
-    return group.groupbyTag;
-  }
-  return name;
+function isTagAndKeyConcat(name, group) {
+  return group.groupbyTag + '.' + group.groupbyTagSecondLevelKey === name;
 }
 
 function isKeyValue(tagType) {
   return tagType !== undefined && 'KEY_VALUE_PAIR' === tagType;
 }
 
-function getKeyValue(str) {
-  let index = str.indexOf('=');
+function getName(name, group) {
+  return isTagAndKeyConcat(name, group) ? group.groupbyTag : name;
+}
+
+function getValue(tagType, value) {
+  return isKeyValue(tagType) ? extractValue(value) : value;
+}
+
+function getKey(tagType, value, name, group) {
+  return isKeyValue(tagType) ? getKeyValue(value, name, group) : getKeyName(name, group);
+}
+
+function getKeyValue(value, name, group) {
+  let index = value.indexOf('=');
   if (index > 0) {
-    return str.substring(0, index);
+    return value.substring(0, index);
   }
-  return undefined;
+  return getKeyName(name, group);
 }
 
 function getKeyName(name, group) {
-  if (group.groupbyTag + '.' + group.groupbyTagSecondLevelKey === name) {
-    return group.groupbyTagSecondLevelKey;
-  }
+  return isTagAndKeyConcat(name, group) ? group.groupbyTagSecondLevelKey : undefined;
 }
 
-function getValue(str) {
+function extractValue(str) {
   let index = str.indexOf('=');
   if (index > 0) {
     return str.substring(index + 1);
