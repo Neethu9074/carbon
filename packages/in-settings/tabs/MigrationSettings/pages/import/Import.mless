@@ -1,0 +1,16 @@
+/*
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc.
+ */
+
+:local {
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
+  .keyValueEllipsis {
+    white-space: normal !important;
+    text-overflow: ellipsis;
+    overflow: initial;
+  }
+}

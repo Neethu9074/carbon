@@ -54,6 +54,8 @@ export const openFacetedSearchByDefault = isFeatureFlagEnabled('openFacetedSearc
 
 export const agentInstallViewRestrictedToIBMSaas = isFeatureFlagEnabled('agentInstallViewRestrictedToIBMSaas');
 
+export const configMigrationFeatureEnabled = isFeatureFlagEnabled('configMigrationFeatureEnabled');
+
 // SmartAlerts & AP Alert Migration related feature flags
 export const applicationSmartAlertsEnabled = isFeatureFlagEnabled('applicationSmartAlertsEnabled');
 export const builtInGlobalApplicationSmartAlertsEnabled =

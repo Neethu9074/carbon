@@ -112,6 +112,11 @@ const audit = `${teamSettings}/audit`;
 export const teamSettingsActionLog = `${audit}/actionlog`;
 export const teamSettingsAccessLog = `${audit}/accessLog`;
 
+// config migration
+export const migSettings = `${settingsPath}/migration`;
+export const migExportSettings = `${migSettings}/export`;
+export const migImportSettings = `${migSettings}/import`;
+
 export function getEntityHref(path, id) {
   if (id) {
     return `${path}/${encodeURIComponent(id)}`;
