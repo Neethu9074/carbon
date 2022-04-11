@@ -45,7 +45,7 @@ export default connectTo(
   function Summary(props) {
     const timeShiftConfig = useTimeShiftConfig();
     const { timeConfig, applicationId, serviceId, boundaryScope, data, syntheticCalls: urlSyntheticCalls } = props;
-    const types = data.types;
+    const endpointTypes = data.types;
     const syntheticCalls = urlSyntheticCalls || syntheticCallsOptions.default;
     const includeSyntheticCalls = isSyntheticOption(urlSyntheticCalls);
 
@@ -105,7 +105,7 @@ export default connectTo(
                     groupBy: createGroupBy('endpoint.name', DESTINATION),
                     formModel: [
                       createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointTypeUnsafe(types)
+                      ...filterByEndpointTypeUnsafe(endpointTypes)
                     ],
                     hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
                     fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
@@ -157,7 +157,7 @@ export default connectTo(
                     formModel: joinExpressions({
                       expressions: [
                         createFormModelFromSyntheticOption(syntheticCalls),
-                        ...filterByEndpointTypeUnsafe(types)
+                        ...filterByEndpointTypeUnsafe(endpointTypes)
                       ]
                     }),
                     facets: { 'call.erroneous': [true] },
@@ -210,7 +210,7 @@ export default connectTo(
                     orderByGroups: createOrderBy('latency_MEAN', 'DESC'),
                     formModel: [
                       createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointTypeUnsafe(types)
+                      ...filterByEndpointTypeUnsafe(endpointTypes)
                     ],
                     hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls)
                   }
@@ -232,11 +232,11 @@ export default connectTo(
               callGroupBy={createGroupBy('endpoint.name', entityTypes.DESTINATION)}
               renderPostChartContent={withPotentialProblemsLane}
               renderPostChartContentHttpStatus={MarkerLanes}
-              showHttp={hasHttpEndpoints(types)}
-              hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints(types)}
+              showHttp={hasHttpEndpoints(endpointTypes)}
+              hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints(endpointTypes)}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
               syntheticCalls={syntheticCalls}
-              types={types}
+              endpointTypes={endpointTypes}
             />
           </Col>
           <Col lg={4}>
@@ -288,7 +288,7 @@ export default connectTo(
             />
           </Col>
           <Col lg={4}>
-            {types.includes('DATABASE') ? (
+            {endpointTypes.includes('DATABASE') ? (
               <DatabaseSections
                 boundaryScope={boundaryScope}
                 {...props}

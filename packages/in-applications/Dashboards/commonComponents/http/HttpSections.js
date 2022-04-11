@@ -41,7 +41,7 @@ export default function HttpSections({
   hasHttpAndOtherEndpoints,
   cardTitle,
   rightHeaderContent,
-  types
+  endpointTypes
 }) {
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
@@ -217,7 +217,7 @@ export default function HttpSections({
                     expressions: [
                       createFormModelFromSyntheticOption(syntheticCalls),
                       selectedMetricsToFormModel(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
-                      filterByEndpointTypeUnsafe(types)
+                      filterByEndpointTypeUnsafe(endpointTypes)
                     ]
                   }),
                   hiddenCalls,
