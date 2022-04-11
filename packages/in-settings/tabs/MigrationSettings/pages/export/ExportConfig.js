@@ -75,6 +75,11 @@ function saveItem({ form, setMessage }) {
 }
 
 function render({ form, setForm, setCanSaveItem }) {
+  if (form.get('firstLoad').value) {
+    setCanSaveItem(true);
+    setForm(form.updateIn(['firstLoad'], f => f.setValue(false)));
+  }
+
   return (
     <>
       <Title title={t('in-settings:tabs.configExport')} />
@@ -123,6 +128,12 @@ function render({ form, setForm, setCanSaveItem }) {
  * @returns updated form
  */
 function enrichForm(form) {
+  form = form.put(
+    'firstLoad',
+    createField({
+      value: true
+    })
+  );
   MIGRATION_CONFIGS.forEach(conf => {
     form = form.put(
       conf.type,

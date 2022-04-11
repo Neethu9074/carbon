@@ -211,6 +211,10 @@ function getConfigList(loadedConfigs, form, setForm, setCanSaveItem, callBackSet
 }
 
 function render({ form, setForm, setCanSaveItem, input, file, loadedConfigs, callBackSetChildLoadedConfigs }) {
+  if (file && form.get('firstLoad').value) {
+    setCanSaveItem(true);
+    setForm(form.updateIn(['firstLoad'], f => f.setValue(false)));
+  }
   return (
     <>
       <Title title={t('in-settings:tabs.configImport')} />
@@ -258,6 +262,12 @@ function render({ form, setForm, setCanSaveItem, input, file, loadedConfigs, cal
  * @returns updated form
  */
 function enrichForm(form) {
+  form = form.put(
+    'firstLoad',
+    createField({
+      value: true
+    })
+  );
   MIGRATION_CONFIGS.forEach(conf => {
     form = form.put(
       conf.type,
