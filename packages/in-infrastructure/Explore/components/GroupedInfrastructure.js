@@ -354,7 +354,7 @@ function toTagFilters(tags, tagType, group) {
 const defaultGroupIcon = 'lib_views_tag';
 
 function isTagAndKeyConcat(name, group) {
-  return group.groupbyTag.concat('.', group.groupbyTagSecondLevelKey) === name;
+  return group?.groupbyTag?.concat('.', group?.groupbyTagSecondLevelKey) === name;
 }
 
 function isKeyValue(tagType) {
