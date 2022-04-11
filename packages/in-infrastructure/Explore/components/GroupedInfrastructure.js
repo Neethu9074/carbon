@@ -354,7 +354,7 @@ function toTagFilters(tags, tagType, group) {
 const defaultGroupIcon = 'lib_views_tag';
 
 function isTagAndKeyConcat(name, group) {
-  return group.groupbyTag + '.' + group.groupbyTagSecondLevelKey === name;
+  return group.groupbyTag.concat('.', group.groupbyTagSecondLevelKey) === name;
 }
 
 function isKeyValue(tagType) {
@@ -370,19 +370,21 @@ function getValue(tagType, value) {
 }
 
 function getKey(tagType, value, name, group) {
-  return isKeyValue(tagType) ? getKeyValue(value, name, group) : getKeyName(name, group);
+  if (isTagAndKeyConcat(name, group)) {
+    return group.groupbyTagSecondLevelKey;
+  }
+  if (isKeyValue(tagType)) {
+    return extractKey(value, name, group);
+  }
+  return undefined;
 }
 
-function getKeyValue(value, name, group) {
+function extractKey(value) {
   let index = value.indexOf('=');
   if (index > 0) {
     return value.substring(0, index);
   }
-  return getKeyName(name, group);
-}
-
-function getKeyName(name, group) {
-  return isTagAndKeyConcat(name, group) ? group.groupbyTagSecondLevelKey : undefined;
+  return undefined;
 }
 
 function extractValue(str) {
