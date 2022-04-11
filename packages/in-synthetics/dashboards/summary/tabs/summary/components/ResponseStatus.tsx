@@ -79,7 +79,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       renderHistoricDataIndicator
       title={t('in-synthetics:dashboard.summary.widgets.responseStatus')}
       automaticallySize={false}
-      reverseLegendOrder={Boolean(timeShiftConfig.offset)}
+      reverseLegendOrder={false}
       reverseTooltipOrder
       shareMaxAxisDomain
       config={{

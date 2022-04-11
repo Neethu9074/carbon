@@ -8,9 +8,11 @@ import React, { Fragment } from 'react';
 
 import { useObservable } from '@instana/hooks';
 
+import ResultsTopList from 'in-synthetics/dashboards/summary/tabs/summary/components/ResultsTopList';
 import ResponseTime from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseTime';
 import Failures from 'in-synthetics/dashboards/summary/tabs/summary/components/Failures';
 import { bytes, meanLatency, number, percentage } from 'in-services/formatters/number';
+import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -33,20 +35,9 @@ export default function Summary() {
     {
       stringValue: testId,
       name: 'testId',
-      operator: EQUALS
-    }
-  ];
-
-  let compTagFilters = [
-    {
-      stringValue: testId,
-      name: 'testId',
-      operator: EQUALS
-    },
-    {
-      stringValue: 0,
-      name: 'status',
-      operator: EQUALS
+      operator: EQUALS,
+      entity: NOT_APPLICABLE,
+      type: 'TAG_FILTER'
     }
   ];
   // The values in the config object passed as prop in BigNumberKpiCard
@@ -59,8 +50,8 @@ export default function Summary() {
             title={t('in-synthetics:dashboard.summary.successRate')}
             formatter={percentage.detailed}
             companionFormatter={v =>
-              t('in-synthetics:dashboard.summary.runsFailed', {
-                runsFailed: number.compact(v)
+              t('in-synthetics:dashboard.summary.totalRuns', {
+                totalRuns: number.compact(v)
               })
             }
             useMaxAvailableHeight
@@ -79,7 +70,7 @@ export default function Summary() {
                 metric: 'id',
                 source: 'SYNTHETICS',
                 // @ts-ignore
-                tagFilters: compTagFilters
+                tagFilters: tagFilters
               },
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
@@ -91,11 +82,6 @@ export default function Summary() {
           <BigNumberKpiCard
             title={t('in-synthetics:dashboard.summary.locations')}
             formatter={number.compact}
-            companionFormatter={v =>
-              t('in-synthetics:dashboard.summary.locationsFailed', {
-                locationsFailed: number.compact(v)
-              })
-            }
             useMaxAvailableHeight
             config={{
               metricConfiguration: {
@@ -106,13 +92,6 @@ export default function Summary() {
                 tagFilters: tagFilters,
                 // @ts-ignore
                 timeShift: timeShiftConfig.offset
-              },
-              companionMetricConfiguration: {
-                aggregation: 'DISTINCT_COUNT',
-                metric: 'location_id',
-                source: 'SYNTHETICS',
-                // @ts-ignore
-                tagFilters: compTagFilters
               },
               // Need to add the companion metric config
               comparisonDecreaseColor: 'redish',
@@ -183,10 +162,13 @@ export default function Summary() {
         </Col>
       </Row>
       <Row>
-        <Col xs>
+        <Col lg={4}>
           <ResponseSize test={test} timeShiftConfig={timeShiftConfig} />
         </Col>
-        <Col xs>
+        <Col lg={4}>
+          <ResultsTopList testId={testId} />
+        </Col>
+        <Col lg={4}>
           <ResponseStatus test={test} timeShiftConfig={timeShiftConfig} />
         </Col>
       </Row>

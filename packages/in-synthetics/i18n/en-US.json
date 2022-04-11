@@ -110,10 +110,14 @@
         "failures": "Failures",
         "responseTimes": "Response Times",
         "averageResponseSize": "Average Response Size",
-        "responseStatus": "Response Status"
+        "responseStatus": "Response Status",
+        "slowest": "Slowest",
+        "latest": "Latest",
+        "failed": "Failed",
+        "results": "Results",
+        "linkViewAllTestResults": "View all results"
       },
-      "runsFailed": "{{runsFailed}} runs failed",
-      "locationsFailed": "{{locationsFailed}} failing now",
+      "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th"
     }
   }
