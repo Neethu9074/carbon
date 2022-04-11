@@ -25,6 +25,7 @@ import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyz
 import getCallGroups, { GetCallGroupsResult } from 'in-applications/subscriptions/getCallGroups';
 import ResultAwareBigNumberKpiCard from 'in-components/KpiCard/ResultAwareBigNumberKpiCard';
 import { createServiceIdTagFilter, createTagFilterExpression } from './metricConfigs';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { syntheticCallsOptions } from 'in-applications/constants';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -147,7 +148,9 @@ export default function GroupBigNumberKpiCard(props: GroupBasedBigNumberKpiCardP
             timeConfig,
             boundaryScope,
             groupBy,
-            formModel: [...createFormModelFromSyntheticOption(syntheticCalls), ...tagFilters],
+            formModel: joinExpressions({
+              expressions: [...createFormModelFromSyntheticOption(syntheticCalls), ...tagFilters]
+            }),
             hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
             fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
             chartedMetrics: [createChartedMetric('calls', 'SUM')]
