@@ -53,7 +53,7 @@ export default function TroubleShootingChart({
         y1: {
           metrics: metricConfigs,
           formatter: 'number.compact',
-          renderer: 'line',
+          renderer: 'bar',
           colorMapper
         },
         type: 'TIME_SERIES',

@@ -231,7 +231,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
               metric: 'calls',
               aggregation: 'SUM',
               formatter: number.compact,
-              renderer: Renderer.line
+              renderer: Renderer.bar
             }}
           />
         </Col>
