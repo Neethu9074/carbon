@@ -35,18 +35,17 @@ import InfraReferenceTypesInfoxBox from 'in-applications/Dashboards/service/tabs
 import ServiceMappingRulesInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ServiceMappingRulesInfoBox';
 import ServiceMappingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ServiceMappingInfoBox';
 import InfraLinkingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/InfraLinkingInfoBox';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 // @ts-expect-error
 import Renderer from 'in-components/Chart/renderer/Renderer';
-import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import AlternativeServicesInfoBox from './infobox/AlternativeServicesInfoBox';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticCallsOptions } from 'in-applications/constants';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
-import { EndpointType, Service, TimeConfig } from 'in-types';
 import TroubleShootingChart from './TroubleShootingChart';
 import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
+import { Service, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface TroubleShootingProps {
@@ -75,7 +74,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             boundaryScope={boundaryScope}
             syntheticCalls={syntheticCalls}
             serviceId={serviceId}
-            tagFilters={filterByType(types)}
+            tagFilters={filterByEndpointType(types)}
             groupByTag={'host.name'}
             groupByTagEntity={DESTINATION}
           />
@@ -89,7 +88,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             boundaryScope={boundaryScope}
             syntheticCalls={syntheticCalls}
             serviceId={serviceId}
-            tagFilters={filterByType(types)}
+            tagFilters={filterByEndpointType(types)}
             groupByTag={'call.http.host'}
           />
         </Col>
@@ -104,7 +103,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             groupByTag={'call.meta_tags'}
             groupByTagSecondLevel={'destination_infra_reference'}
-            tagFilters={[qualifiedReferencesFilter] && filterByType(types)}
+            tagFilters={[qualifiedReferencesFilter, ...filterByEndpointType(types)]}
           />
         </Col>
       </Row>
@@ -245,12 +244,4 @@ export default function Troubleshooting(props: TroubleShootingProps) {
       </Row>
     </>
   );
-}
-
-function filterByType(types: EndpointType[]) {
-  if (types.length === 1) {
-    return [tagFilter('call.type', EQUALS, types[0])];
-  } else {
-    return [];
-  }
 }

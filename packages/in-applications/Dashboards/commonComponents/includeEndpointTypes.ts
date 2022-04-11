@@ -5,20 +5,39 @@
 
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { EndpointType } from 'in-types';
+import { EndpointType, TagFilter } from 'in-types';
 
-export function filterByType(types: EndpointType[]) {
+export function filterByEndpointType(types: EndpointType[]): TagFilter[] {
   if (types.length === 1) {
     return [tagFilter('call.type', EQUALS, types[0])];
-  } else {
+  }
+  // else if (types.length === 2) {
+  //   return joinExpressions({
+  //     logicalOperator: or,
+  //     expressions: [
+  //       tagFilter('call.type', EQUALS, types[0]),
+  //       tagFilter('call.type', EQUALS, types[1])
+  //   ]};
+  // }
+  else {
     return [];
   }
 }
 
-export function filterByTypeUnsafe(types: any) {
+export function filterByEndpointTypeUnsafe(types: any) {
   if (types.length === 1) {
     return [tagFilter('call.type', EQUALS, types[0])];
-  } else {
+  }
+  // else if (types.length === 2) {
+  //   return joinExpressions({
+  //     logicalOperator: or,
+  //     expressions: [
+  //       tagFilter('call.type', EQUALS, types[0]),
+  //       tagFilter('call.type', EQUALS, types[1])
+  //     ]
+  //   });
+  // }
+  else {
     return [];
   }
 }
