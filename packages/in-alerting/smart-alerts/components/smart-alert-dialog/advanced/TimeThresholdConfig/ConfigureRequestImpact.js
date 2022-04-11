@@ -51,8 +51,14 @@ export default function ConfigureRequestImpact({ form, onChange }) {
             </FormGroup>
           </div>
         </div>
+        <div className={locals.configureImpactControlsWrapper}>
+          {timeThresholdForm.containsKey('requests') && (
+            <div className={locals.errorMessageBelowInput}>
+              <TouchedMessages field={timeThresholdForm.get('requests')} />
+            </div>
+          )}
+        </div>
       </AlertThresholdConfigItemContainer>
-      <TouchedMessages field={timeThresholdForm.get('requests')} />
     </>
   );
 }

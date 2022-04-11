@@ -215,7 +215,7 @@ export function createSmartAlertForm(
     .put('customPayloadFields', createListFormForCustomPayloads(customPayloadFields ?? [], false));
 
   const alertType = rule?.alertType ?? 'errorRate';
-  form = form.put('threshold', createThresholdForm(threshold, alertType as ApplicationAlertType));
+  form = form.put('threshold', createThresholdForm(threshold ?? {}, alertType as ApplicationAlertType));
 
   return applyEditMode(form, editMode ?? false);
 }

@@ -121,6 +121,13 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
             }}
           />
         </div>
+        <div className={locals.configureImpactControlsWrapper}>
+          {timeThresholdForm.containsKey('users') && (
+            <div className={locals.errorMessageBelowInput}>
+              <TouchedMessages field={timeThresholdForm.get('users')} />
+            </div>
+          )}
+        </div>
       </AlertThresholdConfigItemContainer>
       <AlertThresholdConfigItemContainer iconType="lib_alerts_user_impacted" noIcon>
         <div>
@@ -183,11 +190,14 @@ export default function ConfigureUserImpact({ form, onChange, updateForm }) {
             }}
           />
         </div>
+        <div className={locals.configureImpactControlsWrapper}>
+          {timeThresholdForm.containsKey('userPercentage') && (
+            <div className={locals.errorMessageBelowInput}>
+              <TouchedMessages field={timeThresholdForm.get('userPercentage')} />
+            </div>
+          )}
+        </div>
       </AlertThresholdConfigItemContainer>
-      {timeThresholdForm.containsKey('userPercentage') && (
-        <TouchedMessages field={timeThresholdForm.get('userPercentage')} />
-      )}
-      {timeThresholdForm.containsKey('users') && <TouchedMessages field={timeThresholdForm.get('users')} />}
     </>
   );
 }
