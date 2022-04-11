@@ -10,7 +10,12 @@
     display: grid;
     align-items: center;
     justify-items: start;
-    height: 5.3125rem;
+    min-height: 5.3125rem;
+
+    /* to have have the main label aligned with content, separately from any error message */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+
     border-bottom: 1px solid @lib__colors__N300;
     &.columns4 {
       grid-template-columns: 10% 20% repeat(2, auto);
@@ -84,11 +89,19 @@
   }
 
   .configureImpactControlsWrapper {
+    // allow more than one entries that will each start on a new grid row
+    grid-column-start: 2;
+    width: 100%;
+    padding: 0 1rem;
     display: grid;
     grid-template-columns: 25% auto auto;
     align-items: center;
-    width: 100%;
-    padding: 0 1rem;
+
+    .errorMessageBelowInput {
+      // error message should be aligned with input field
+      grid-column-start: 2;
+      padding-left: 0.5rem;
+    }
   }
 
   .configureSingleControlWrapper {

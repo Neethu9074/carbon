@@ -15,18 +15,15 @@ export default {
 
 export const Default = props => {
   const timeThresholdConfig = {
+    userPercentage: 1,
     type: 'userImpactOfViolationsInSequence'
   };
 
   const alertConfig = {};
   const [form, updateForm] = useState(
-    createSmartAlertForm(alertConfig, false).put(
+    createSmartAlertForm(alertConfig).put(
       'timeThreshold',
-      createTimeThresholdForm(
-        timeThresholdConfig,
-        alertConfig.granularity ?? defaultGranularity,
-        alertConfig.threshold?.type
-      )
+      createTimeThresholdForm(timeThresholdConfig, defaultGranularity)
     )
   );
 
@@ -43,3 +40,51 @@ export const Default = props => {
 };
 
 Default.args = {};
+
+export const Requests = () => {
+  const timeThresholdConfig = {
+    type: 'requestImpact'
+  };
+
+  const alertConfig = {};
+  const [form, updateForm] = useState(
+    createSmartAlertForm(alertConfig).put(
+      'timeThreshold',
+      createTimeThresholdForm(timeThresholdConfig, defaultGranularity)
+    )
+  );
+
+  return (
+    <ConfigureAlertingThreshold
+      form={form}
+      updateForm={updateForm}
+      onChange={(path, fn) => {
+        updateForm(form.updateIn(path, fn));
+      }}
+    />
+  );
+};
+
+export const ViolationsInSequence = () => {
+  const timeThresholdConfig = {
+    type: 'violationsInSequence'
+  };
+
+  const alertConfig = {};
+  const [form, updateForm] = useState(
+    createSmartAlertForm(alertConfig).put(
+      'timeThreshold',
+      createTimeThresholdForm(timeThresholdConfig, defaultGranularity)
+    )
+  );
+
+  return (
+    <ConfigureAlertingThreshold
+      form={form}
+      updateForm={updateForm}
+      onChange={(path, fn) => {
+        updateForm(form.updateIn(path, fn));
+      }}
+    />
+  );
+};
