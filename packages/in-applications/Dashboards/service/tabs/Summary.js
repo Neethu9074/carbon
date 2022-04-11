@@ -227,6 +227,7 @@ export default connectTo(
               hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints(types)}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
               syntheticCalls={syntheticCalls}
+              types={types}
             />
           </Col>
           <Col lg={4}>

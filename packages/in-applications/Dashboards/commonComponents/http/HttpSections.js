@@ -13,8 +13,8 @@ import formModelFromHttpStatusRange, { TAG_CALL_HTTP_STATUS } from 'in-applicati
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import { EQUALS, IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
-import { IS_EMPTY, NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
@@ -39,7 +39,8 @@ export default function HttpSections({
   timeShiftMetric,
   hasHttpAndOtherEndpoints,
   cardTitle,
-  rightHeaderContent
+  rightHeaderContent,
+  types
 }) {
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
@@ -214,7 +215,8 @@ export default function HttpSections({
                   formModel: joinExpressions({
                     expressions: [
                       createFormModelFromSyntheticOption(syntheticCalls),
-                      selectedMetricsToFormModel(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
+                      selectedMetricsToFormModel(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
+                      filterByType(types)
                     ]
                   }),
                   hiddenCalls,
@@ -272,5 +274,13 @@ function getFirstStatusCodeDigit(metric) {
       return 4;
     case 'http.5xx':
       return 5;
+  }
+}
+
+function filterByType(types) {
+  if (types.length === 1) {
+    return [tagFilter('call.type', EQUALS, types[0])];
+  } else {
+    return [];
   }
 }
