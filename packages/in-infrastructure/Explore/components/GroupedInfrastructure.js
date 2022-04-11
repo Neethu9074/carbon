@@ -107,14 +107,17 @@ function Presenter({
   loadMore: defaultCursorPaginationLoadMore,
   retrievalSize,
   tracking,
-  tagType
+  tagType,
+  group
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
   const getParamsForGroup = useCallback(
     item => ({
       group: emptyObject,
-      tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, toTagFilters(item.tags, tagType)] })
+      tagFilterExpression: joinExpressions({
+        expressions: [tagFilterExpression, toTagFilters(item.tags, tagType, group)]
+      })
     }),
     [tagFilterExpression]
   );
@@ -338,28 +341,41 @@ function addTagsToBackendModel(backendQueryModel, tags) {
   return addTagFilters(backendQueryModel, toTagFilters(tags));
 }
 
-function toTagFilters(tags, tagType) {
+function toTagFilters(tags, tagType, group) {
   return Object.entries(tags).map(([name, value]) => ({
     type: TAG_FILTER_TYPE,
     operator: EQUALS,
-    name,
+    name: getName(name, group),
     value: isKeyValue(tagType) ? getValue(value) : value,
-    key: isKeyValue(tagType) ? getKey(value) : undefined
+    key: isKeyValue(tagType) ? getKeyValue(value) : getKeyName(name, group)
   }));
 }
 
 const defaultGroupIcon = 'lib_views_tag';
 
+function getName(name, group) {
+  if (group.groupbyTag + '.' + group.groupbyTagSecondLevelKey === name) {
+    return group.groupbyTag;
+  }
+  return name;
+}
+
 function isKeyValue(tagType) {
   return tagType !== undefined && 'KEY_VALUE_PAIR' === tagType;
 }
 
-function getKey(str) {
+function getKeyValue(str) {
   let index = str.indexOf('=');
   if (index > 0) {
     return str.substring(0, index);
   }
   return undefined;
+}
+
+function getKeyName(name, group) {
+  if (group.groupbyTag + '.' + group.groupbyTagSecondLevelKey === name) {
+    return group.groupbyTagSecondLevelKey;
+  }
 }
 
 function getValue(str) {
