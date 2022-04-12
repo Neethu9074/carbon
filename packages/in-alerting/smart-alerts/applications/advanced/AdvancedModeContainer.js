@@ -20,9 +20,7 @@ import GlobalAdvancedModeContainer from 'in-alerting/smart-alerts/components/sma
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
-import ApplicationAlertPreviewHeadline from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPreviewHeadline';
 import AlertEvaluationControl from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControl';
-import { AlertPreview } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/ThroughputInteractiveChart';
@@ -30,6 +28,7 @@ import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/a
 import ErrorRateInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/ErrorRateInteractiveChart';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/advanced/BluePrintSelectionSection';
+import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPreview';
 import SlownessInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/SlownessInteractiveChart';
 import LogsInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
@@ -60,6 +59,10 @@ export default function AdvancedModeContainer(props) {
     isGlobalSmartAlert,
     initialConfiguredApplications = {}
   } = props;
+  const description = form.get('description').value;
+  const severity = Number(form.get('severity').value);
+  const triggering = form.get('triggering').value;
+  const evaluationType = form.get('evaluationType').value;
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
   const thresholdType = form.get('threshold').get('type').value;
@@ -228,12 +231,13 @@ export default function AdvancedModeContainer(props) {
                 />
               )}
               renderAlertPreview={() => (
-                <AlertPreview
+                <ApplicationAlertPreview
                   form={form}
-                  label={applicationLabel}
-                  entityIconType="lib_application"
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
-                  renderHeadline={() => <ApplicationAlertPreviewHeadline form={form} />}
+                  description={description}
+                  applicationLabel={applicationLabel}
+                  evaluationType={evaluationType}
+                  severity={severity}
+                  triggering={triggering}
                 />
               )}
             />

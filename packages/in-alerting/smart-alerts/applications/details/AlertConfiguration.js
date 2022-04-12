@@ -45,6 +45,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
   const [selectedChartViewConfigIndex, setSelectedChartViewConfigIndex] = useState(initialChartConfigIndex);
 
   const {
+    name,
     rule: { operator, alertType, message, level, aggregation },
     threshold,
     evaluationType,
@@ -161,7 +162,9 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
       >
         <AlertPropertyInfos
           alertConfig={alertConfig}
-          renderCustomTitle={() => <AlertTitleWithPlaceholderHighlighting configName={alertConfig.name} />}
+          renderCustomTitle={() => (
+            <AlertTitleWithPlaceholderHighlighting configName={name} evaluationType={evaluationType} />
+          )}
         />
       </ExpandableLightCard>
       <CustomPayloadCard customPayloadFields={customPayloadFields} />

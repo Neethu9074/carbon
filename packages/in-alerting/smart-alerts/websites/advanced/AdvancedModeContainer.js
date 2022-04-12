@@ -182,12 +182,12 @@ export default function AdvancedModeContainer(props) {
               renderAlertPreview={() => (
                 <AlertPreview
                   form={form}
-                  label={websiteLabel}
-                  entityIconType="lib_website"
-                  getDescriptionPlaceholder={getDescriptionPlaceholder}
                   renderHeadline={() => (
                     <AlertPreviewHeadline title={form.get('name').value || getTitlePlaceholder(form)} />
                   )}
+                  getDescriptionPlaceholder={getDescriptionPlaceholder}
+                  entityLabel={websiteLabel}
+                  entityIconType="lib_website"
                 />
               )}
             />

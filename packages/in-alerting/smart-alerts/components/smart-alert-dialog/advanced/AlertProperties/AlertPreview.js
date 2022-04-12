@@ -11,7 +11,7 @@ import { SvgIcon } from '@instana/components';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview.mless';
 
-export function AlertPreview({ form, label, entityIconType, getDescriptionPlaceholder, renderHeadline }) {
+export function AlertPreview({ form, renderHeadline, getDescriptionPlaceholder, entityLabel, entityIconType }) {
   const description = form.get('description').value;
   const severity = Number(form.get('severity').value);
   const triggering = form.get('triggering').value;
@@ -35,7 +35,7 @@ export function AlertPreview({ form, label, entityIconType, getDescriptionPlaceh
       <div className={locals.alertPreviewContent}>
         {renderHeadline()}
         <p className={locals.siteAndPageNames}>
-          {label && (
+          {entityLabel && (
             <span
               className={classNames({
                 [locals.centered]: true,
@@ -43,7 +43,7 @@ export function AlertPreview({ form, label, entityIconType, getDescriptionPlaceh
               })}
             >
               <SvgIcon className={locals.filterIcon} size="s" type={entityIconType} />
-              {label}
+              {entityLabel}
             </span>
           )}
         </p>
@@ -65,9 +65,9 @@ export function AlertPreviewHeadline({ title }) {
 }
 
 AlertPreview.propTypes = {
-  entityIconType: PropTypes.string.isRequired,
   form: PropTypes.object.isRequired,
+  renderHeadline: PropTypes.func.isRequired,
   getDescriptionPlaceholder: PropTypes.func.isRequired,
-  label: PropTypes.string,
-  renderHeadline: PropTypes.func.isRequired
+  entityIconType: PropTypes.string.isRequired,
+  entityLabel: PropTypes.string
 };

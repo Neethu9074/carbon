@@ -10,12 +10,8 @@ import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
 
 import AlertPropertiesTextarea from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesTextArea';
-import {
-  PER_AP_ENDPOINT,
-  PER_AP_SERVICE
-} from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
 import { applicationsAlertingAdditionalPropsTitleChanged } from 'in-alerting/smart-alerts/applications/tracker';
-import { placeholders, placeholderTypes } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
+import { placeholdersByEvaluationType } from 'in-alerting/smart-alerts/applications/inventory/placeholders';
 import { getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
@@ -51,7 +47,7 @@ export default function ApplicationAlertPropertiesTitleRow({ form, onChange }) {
               </Button>
             )}
           >
-            {placeholders.filter(placeholderSuggestionsFilter(alertEvaluationType)).map(({ template }) => {
+            {placeholdersByEvaluationType[alertEvaluationType].map(({ template }) => {
               return (
                 <MoreMenuButton onClick={insertPlaceholderText(titleTextareaRef, template, onChange)} key={template}>
                   {template}
@@ -74,25 +70,6 @@ export default function ApplicationAlertPropertiesTitleRow({ form, onChange }) {
       </Stack>
     </AlertSection>
   );
-}
-
-function placeholderSuggestionsFilter(alertEvaluationType) {
-  return ({ type }) => {
-    if (type === placeholderTypes.application) {
-      return true;
-    }
-
-    if (type === placeholderTypes.endpoint && alertEvaluationType === PER_AP_ENDPOINT) {
-      return true;
-    }
-
-    if (
-      (type === placeholderTypes.service && alertEvaluationType === PER_AP_SERVICE) ||
-      alertEvaluationType === PER_AP_ENDPOINT
-    ) {
-      return true;
-    }
-  };
 }
 
 function insertPlaceholderText(titleTextareaRef, placeholderString, onChange) {

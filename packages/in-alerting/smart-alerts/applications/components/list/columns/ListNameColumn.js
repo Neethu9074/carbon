@@ -34,7 +34,7 @@ import { t } from 'in-i18n';
 import locals from './ListColumns.mless';
 
 export function ListNameColumn({ config, configsCategory, additionalMatrixKeys = () => [], goToGlobalAlertDetails }) {
-  const { description, enabled, name, severity, rule, threshold, id, created, builtIn } = config;
+  const { description, enabled, name, severity, rule, threshold, id, created, builtIn, evaluationType } = config;
 
   return (
     <HorizontalFlexWrapper className={locals.nameListColumn}>
@@ -62,7 +62,7 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
               return _location;
             })}
           >
-            <AlertTitleWithPlaceholderHighlighting configName={name} />
+            <AlertTitleWithPlaceholderHighlighting configName={name} evaluationType={evaluationType} />
           </Link>
         </Tooltip>
         <div className={locals.nameSubtext}>{getSubtitle(rule, threshold)}</div>
@@ -132,6 +132,7 @@ ListNameColumn.propTypes = {
       type: PropTypes.string.isRequired,
       value: PropTypes.number
     }).isRequired,
+    evaluationType: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     created: PropTypes.number.isRequired,
     builtIn: PropTypes.bool
