@@ -186,9 +186,14 @@
             }
           }
         },
-        "includeInternalOrSynthethicCalls": {
+        "includeInternalOrSyntheticCalls": {
           "includeInternalCalls": "Include Internal Calls",
-          "includeSyntethicCalls": "Include Synthetic Calls"
+          "includeSyntheticCalls": "Include Synthetic Calls",
+          "confirmationDialog": {
+            "pleaseConfirm": "Please Confirm",
+            "description": "Deselecting \"{{callType}}\" would reset application selection.",
+            "confirmButtonLabel": "Confirm"
+          }
         },
         "includeInternalOrSyntheticCallsInfo": {
           "includeOnlyInternal": "Include internal calls",

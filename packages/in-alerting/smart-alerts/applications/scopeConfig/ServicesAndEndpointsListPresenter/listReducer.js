@@ -18,7 +18,7 @@ export const actionType = {
   REMOVE_APPLICATION: 'REMOVE_APPLICATION',
   REMOVE_SERVICE: 'REMOVE_SERVICE',
   REMOVE_ENDPOINT: 'REMOVE_ENDPOINT',
-  RESET_STATE: 'RESET_STATE'
+  SET_SELECTION: 'SET_SELECTION'
 };
 
 export function listReducer(state, action) {
@@ -139,8 +139,8 @@ export function listReducer(state, action) {
       };
     }
 
-    case actionType.RESET_STATE: {
-      return action?.initialState ?? {};
+    case actionType.SET_SELECTION: {
+      return action?.applicationsSelection ?? {};
     }
 
     default:

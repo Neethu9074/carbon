@@ -116,8 +116,12 @@ export default function AdvancedModeContainer(props) {
           content: (
             <>
               <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
-              <InboundOutboundCallsSwitch form={form} updateForm={updateForm} />
-              <IncludeInternalOrSyntheticCallsSwitch form={form} updateForm={updateForm} />
+              <InboundOutboundCallsSwitch form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
+              <IncludeInternalOrSyntheticCallsSwitch
+                form={form}
+                updateForm={updateForm}
+                isGlobalSmartAlert={isGlobalSmartAlert}
+              />
               <ScopeConfig
                 form={form}
                 updateForm={updateForm}
