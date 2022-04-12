@@ -195,6 +195,7 @@ function ServiceEndpointSelectionCard({ alertConfig, isGlobalSmartAlert }) {
         onChange={noop}
         applicationsSelection={alertConfig.applications}
         boundaryScope={alertConfig.boundaryScope}
+        includeInternal={alertConfig.includeInternal}
         includeSynthetic={alertConfig.includeSynthetic}
         timeConfig={timeConfig}
         isGlobalSmartAlert={isGlobalSmartAlert}

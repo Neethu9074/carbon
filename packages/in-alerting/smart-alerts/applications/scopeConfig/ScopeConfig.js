@@ -43,6 +43,7 @@ export default function ScopeConfig({
   const applications = form.get('applications').value;
   const boundaryScope = form.get('boundaryScope').value;
   const tagFilterExpression = form.get('tagFilterExpression').value;
+  const includeInternal = form.get('includeInternal').value;
   const includeSynthetic = form.get('includeSynthetic').value;
   const isBuiltIn = form.get('builtIn').value;
   const alertType = form.get('rule').get('alertType').value;
@@ -102,6 +103,7 @@ export default function ScopeConfig({
               }
               timeConfig={scopeSelectionTimeConfig}
               boundaryScope={boundaryScope}
+              includeInternal={includeInternal}
               includeSynthetic={includeSynthetic}
               searchQuery={searchQuery}
               editMode={editMode}

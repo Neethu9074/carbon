@@ -314,3 +314,25 @@ function getApplicationTagFilter(
 export function firstApplicationId(applications?: Record<string, ApplicationNode>): string | undefined {
   return applications && Object.values(applications)[0]?.applicationId;
 }
+
+export function hasSubEntitySelection(applications?: Record<string, ApplicationNode>): boolean {
+  return Object.values(applications ?? {}).some(({ services }) => !isEmpty(services));
+}
+
+export function resetEntitySelection(
+  isGlobalSmartAlert: boolean,
+  applications: Record<string, ApplicationNode>
+): Record<string, ApplicationNode> {
+  if (isGlobalSmartAlert) {
+    return {};
+  }
+
+  const applicationId = Object.keys(applications)[0];
+  return {
+    [applicationId]: {
+      applicationId,
+      inclusive: true,
+      services: {}
+    }
+  };
+}

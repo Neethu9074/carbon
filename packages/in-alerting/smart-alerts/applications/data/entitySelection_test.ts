@@ -6,10 +6,12 @@
 import { expect } from 'chai';
 
 import {
+  getEntitySelection,
   getEntitySelectionAsTagFilterFormModel,
-  getEntitySelection
+  hasSubEntitySelection,
+  resetEntitySelection
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
-import { CONJUNCTION, OPEN_BRACKET, CLOSE_BRACKET } from 'in-components/QueryBuilder/transformation/formModel';
+import { CLOSE_BRACKET, CONJUNCTION, OPEN_BRACKET } from 'in-components/QueryBuilder/transformation/formModel';
 import { and, or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { EQUALS, NOT_EQUAL } from 'in-components/QueryBuilder/tagFilter/operators';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
@@ -663,6 +665,116 @@ describe('in-alerting/smart-alerts/applications/data/entitySelection', () => {
           }
         }
       });
+    });
+  });
+
+  describe('#hasSubEntitySelection', () => {
+    it('should return FALSE for default (individual) SA selection', () => {
+      const defaultApplicationSelection = {
+        app1: {
+          applicationId: 'app1',
+          inclusive: true,
+          services: {}
+        }
+      };
+
+      expect(hasSubEntitySelection(defaultApplicationSelection)).to.equal(false);
+    });
+
+    it('should return FALSE for default/empty GSA selection', () => {
+      const emptyApplicationSelection = {};
+
+      expect(hasSubEntitySelection(emptyApplicationSelection)).to.equal(false);
+    });
+
+    it('should return TRUE for single AP with sub-entity selection', () => {
+      const singleServiceSelection = {
+        app1: {
+          applicationId: 'app1',
+          inclusive: false,
+          services: {
+            service1: {
+              endpoints: {},
+              serviceId: 'service1',
+              inclusive: true
+            }
+          }
+        }
+      };
+
+      expect(hasSubEntitySelection(singleServiceSelection)).to.equal(true);
+    });
+
+    it('should return TRUE for multiple AP with sub-entity selection', () => {
+      const multiAppWithServicesSelection = {
+        app1: {
+          applicationId: 'app1',
+          inclusive: false,
+          services: {
+            service1: {
+              endpoints: {},
+              serviceId: 'service1',
+              inclusive: true
+            }
+          }
+        },
+        app2: {
+          applicationId: 'app2',
+          inclusive: true,
+          services: {}
+        }
+      };
+
+      expect(hasSubEntitySelection(multiAppWithServicesSelection)).to.equal(true);
+    });
+  });
+
+  describe('#resetEntitySelection', () => {
+    it('reset and return default single AP selection for (individual) SA', () => {
+      const applications = {
+        app1: {
+          applicationId: 'app1',
+          inclusive: true,
+          services: {
+            service1: {
+              endpoints: {},
+              serviceId: 'service1',
+              inclusive: true
+            }
+          }
+        }
+      };
+
+      expect(resetEntitySelection(false, applications)).to.deep.equal({
+        app1: {
+          applicationId: 'app1',
+          inclusive: true,
+          services: {}
+        }
+      });
+    });
+
+    it('reset and return fully empty selection for GSA', () => {
+      const multiAppSelection = {
+        app1: {
+          applicationId: 'app1',
+          inclusive: true,
+          services: {
+            service1: {
+              endpoints: {},
+              serviceId: 'service1',
+              inclusive: true
+            }
+          }
+        },
+        app2: {
+          applicationId: 'app2',
+          inclusive: true,
+          services: {}
+        }
+      };
+
+      expect(resetEntitySelection(true, multiAppSelection)).to.deep.equal({});
     });
   });
 });

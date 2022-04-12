@@ -3,10 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
-import { isEmpty } from 'lodash';
 import React from 'react';
 
 import InboundOrAllCallsOption from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsOption';
+import {
+  hasSubEntitySelection,
+  resetEntitySelection
+} from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import { boundaryScopes } from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/config';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
@@ -15,8 +18,9 @@ import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOrAllCallsSwitch.mless';
 
-export default function InboundOutboundCallsSwitch({ form, updateForm }) {
+export default function InboundOutboundCallsSwitch({ form, updateForm, isGlobalSmartAlert }) {
   const boundaryScope = form.get('boundaryScope').value;
+  const applications = form.get('applications').value;
 
   return (
     <div className={locals.inboundOutboundCallsSwitchContainer}>
@@ -43,8 +47,19 @@ export default function InboundOutboundCallsSwitch({ form, updateForm }) {
     updateForm(form.updateIn(['boundaryScope'], f => f.setValue(boundaryScope).setTouched(true)));
   }
 
+  function updateBoundaryScopeAndResetSelection(boundaryScope) {
+    const updatedApplications = resetEntitySelection(isGlobalSmartAlert, applications);
+    let updatedForm = form
+      .updateIn(['boundaryScope'], f => f.setValue(boundaryScope).setTouched(true))
+      .updateIn(['applications'], f => f.setValue(updatedApplications).setTouched(true));
+    updateForm(updatedForm);
+  }
+
   function handleChangeToInboundCalls() {
-    if (shouldPromptConfirmDialog()) {
+    const applications = form.get('applications').value;
+    const shouldPromptConfirmDialog = hasSubEntitySelection(applications);
+
+    if (shouldPromptConfirmDialog) {
       addActiveDialog(
         <ConfirmationDialog
           header={t(
@@ -57,7 +72,7 @@ export default function InboundOutboundCallsSwitch({ form, updateForm }) {
             'in-alerting:smartAlerts.applications.advanced.inboundOutboundCalls.confirmationDialog.confirmButtonLabel'
           )}
           onSubmit={() => {
-            updateBoundaryScope(boundaryScopes.inbound);
+            updateBoundaryScopeAndResetSelection(boundaryScopes.inbound);
             close();
           }}
         />
@@ -65,11 +80,5 @@ export default function InboundOutboundCallsSwitch({ form, updateForm }) {
     } else {
       updateBoundaryScope(boundaryScopes.inbound);
     }
-  }
-
-  function shouldPromptConfirmDialog() {
-    const applications = form.get('applications').value;
-
-    return Object.values(applications ?? {}).some(({ services }) => !isEmpty(services));
   }
 }
