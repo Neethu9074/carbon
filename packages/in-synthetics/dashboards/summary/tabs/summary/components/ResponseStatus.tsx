@@ -13,7 +13,6 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
-import { latencyFixed } from 'in-services/formatters/number';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { pie } from 'in-stores/metric/renderer';
@@ -61,16 +60,29 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
   ];
 
   const testMetricConfig: Metric = {
-    aggregation: 'MEAN',
+    aggregation: 'DISTINCT_COUNT',
     source: 'SYNTHETICS',
     tagFilters: tagFilters,
     timeShift: timeShiftConfig.offset,
-    metric: 'status'
+    metric: 'id',
+    order: {
+      by: 'status_code',
+      direction: 'DESC'
+    }
+    /*
+    grouping: [{
+      by: {groupbyTag: 'status_code',
+           groupbyTagEntity: 'NOT_APPLICABLE'},
+      direction: 'DESC',
+      includeOthers:false,
+      includeUnmatched: false,
+      maxResults:5
+    }]*/
   };
 
-  const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'status');
+  const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'status_code');
 
-  const metricConfigs = chartTestMetrics.map(m => m.config);
+  const metricConfigs = chartTestMetrics.map(m => ({ label: m.label, ...m.config }));
   const colors = chartTestMetrics.map(m => m.color);
   const renderer = pie.id;
 
@@ -86,12 +98,12 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
         y1: {
           renderer: renderer,
           formatter: 'number.compact',
-          tooltipFormatter: latencyFixed.compact,
+          tooltipFormatter: Number.toString,
           calculateStackDifferences: true,
           metrics: metricConfigs,
           colors: colors
         },
-        type: 'TIME_SERIES'
+        type: 'SINGLE_NUMBER'
       }}
     />
   );

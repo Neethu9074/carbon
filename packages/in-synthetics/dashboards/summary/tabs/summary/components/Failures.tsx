@@ -15,7 +15,7 @@ import { stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getChartTestMetrics } from './utils';
-import { TimeShift } from 'in-types';
+import { Order, TimeShift } from 'in-types';
 import { t } from 'in-i18n';
 
 type Props = {
@@ -64,12 +64,18 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
     }
   ];
 
+  const order: Order = {
+    by: 'location_id',
+    direction: 'ASC'
+  };
+
   const testMetricConfig: Metric = {
     aggregation: 'DISTINCT_COUNT',
     source: 'SYNTHETICS',
     tagFilters: tagFilters,
     timeShift: 0,
-    metric: 'id'
+    metric: 'id',
+    order
   };
 
   const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'status');

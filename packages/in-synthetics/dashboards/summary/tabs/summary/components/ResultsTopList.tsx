@@ -23,6 +23,11 @@ import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 const metrics = ['response_time', 'finish_time', 'status'];
+const metricInPayload = new Map<string, string>([
+  ['response_time', 'response_time'],
+  ['finish_time', 'finish_time'],
+  ['status', 'finish_time']
+]);
 const orders = new Map<string, Order>([
   ['response_time', { by: 'response_time', direction: 'DESC' }],
   ['finish_time', { by: 'finish_time', direction: 'DESC' }],
@@ -111,12 +116,6 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
     ['response_time', baseTagFilters],
     ['finish_time', baseTagFilters],
     ['status', statusTagFilters]
-  ]);
-
-  let metricInPayload = new Map<string, string>([
-    ['response_time', 'response_time'],
-    ['finish_time', 'finish_time'],
-    ['status', 'finish_time']
   ]);
 
   const metrics = [metricInPayload.get(selectedMetric)];
