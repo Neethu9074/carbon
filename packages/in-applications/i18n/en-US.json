@@ -605,7 +605,7 @@
     "alternativeServices": "To which alternative services did the missing calls spill over, based on {{correlationTag}}?",
     "numberOfHosts": "How many hosts are running this service?",
     "numberOfHostnames": "How many HTTP \"Host\" headers are used to call this service?",
-    "numberOfQualifiedReferences": "How many infrastructure references are used to call this service?",
+    "numberOfQualifiedReferences": "How many qualified references are used to call this service?",
     "serviceMapping": "Service mapping outcome",
     "serviceMappingProblemStatement": "Did resilient service mapping kick in?",
     "serviceMappingDocumentation": "Documentation for all of the possible service mapping outcomes:",
