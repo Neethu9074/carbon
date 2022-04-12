@@ -36,10 +36,11 @@ export default function ManualUnixContent({ agentKey, downloadKey, butlerDomain,
         <DropDown value={option} options={agentOptions} onChange={setOption} />
         <DownloadButton href={getAgentDownloadURL(tenant, tenantUnit, agentKey, downloadKey, option, butlerDomain)} />
       </Row>
-      <HelpBox title={t('in-waiting-for-deployment:content.requiresAJava8Runtime')}>
+      <HelpBox title={t('in-waiting-for-deployment:content.requiresAJava8Or11Runtime')}>
         <Listing
           items={[
-            t('in-waiting-for-deployment:content.azulZuluJdk8Preferred'),
+            t('in-waiting-for-deployment:content.ibmJ911Preferred'),
+            t('in-waiting-for-deployment:content.azulZuluJdk8'),
             t('in-waiting-for-deployment:content.oracleHotspotJdk8'),
             t('in-waiting-for-deployment:content.ibmJ98'),
             t('in-waiting-for-deployment:content.openJdk8'),
