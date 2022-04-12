@@ -127,6 +127,9 @@
       "alertConfiguration": "Alert Configuration",
       "advanced": {
         "alertPropertyInsertPlaceholderLabel": "Insert placeholder",
+        "applicationNamePlaceholder": "application-name",
+        "serviceNamePlaceholder": "service-name",
+        "endpointNamePlaceholder": "endpoint-name",
         "evaluationSwitch": {
           "individual": "Individual Alerts",
           "optionNotAvailableForAdaptiveThreshold": "This option is not available with adaptive threshold",

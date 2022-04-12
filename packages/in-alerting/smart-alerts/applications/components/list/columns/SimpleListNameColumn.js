@@ -19,7 +19,7 @@ import { t } from 'in-i18n';
 import locals from './ListColumns.mless';
 
 export function SimpleListNameColumn({ config }) {
-  const { description, enabled, name, severity, rule, builtIn } = config;
+  const { description, enabled, name, severity, rule, builtIn, evaluationType } = config;
 
   return (
     <HorizontalFlexWrapper className={locals.nameListColumn}>
@@ -34,7 +34,7 @@ export function SimpleListNameColumn({ config }) {
       <div className={locals.name}>
         <Tooltip content={description} align="topMiddle" delay={500}>
           <div>
-            <AlertTitleWithPlaceholderHighlighting configName={name} />
+            <AlertTitleWithPlaceholderHighlighting configName={name} evaluationType={evaluationType} />
           </div>
         </Tooltip>
         <div className={locals.nameSubtext}>{getSubtitle(rule)}</div>
@@ -64,6 +64,7 @@ SimpleListNameColumn.propTypes = {
       alertType: PropTypes.string.isRequired,
       metricName: PropTypes.string.isRequired
     }).isRequired,
+    evaluationType: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     created: PropTypes.number.isRequired,
     builtIn: PropTypes.bool

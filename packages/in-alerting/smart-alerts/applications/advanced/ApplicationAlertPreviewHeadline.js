@@ -11,8 +11,14 @@ import { getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/
 
 export default function ApplicationAlertPreviewHeadline({ form }) {
   const manuallyChangedTitle = form.get('name').value;
-  const titleWithReplacedplaceholders = replacePlaceholdersWithMarkup(manuallyChangedTitle, ({ name }) => name);
+  const evaluationType = form.get('evaluationType').value;
+  const titleWithReplacedPlaceholders = replacePlaceholdersWithMarkup(
+    evaluationType,
+    manuallyChangedTitle,
+    ({ name }) => name
+  );
+
   return (
-    <AlertPreviewHeadline title={manuallyChangedTitle ? titleWithReplacedplaceholders : getTitlePlaceholder(form)} />
+    <AlertPreviewHeadline title={manuallyChangedTitle ? titleWithReplacedPlaceholders : getTitlePlaceholder(form)} />
   );
 }
