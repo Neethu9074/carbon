@@ -255,6 +255,7 @@ export default connectTo(
               groupBy={createGroupBy('endpoint.name', entityTypes.DESTINATION)}
               renderPostChartContent={withPotentialProblemsLane}
               syntheticCalls={syntheticCalls}
+              endpointTypes={endpointTypes}
             />
           </Col>
           <Col lg={4}>
@@ -269,6 +270,7 @@ export default connectTo(
               renderPostChartContent={withPotentialProblemsLane}
               syntheticCalls={syntheticCalls}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
+              endpointTypes={endpointTypes}
             />
           </Col>
         </Row>

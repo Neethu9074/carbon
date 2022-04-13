@@ -157,6 +157,7 @@ function ChartPresenter({
       groupBy={callGroupBy}
       renderPostChartContent={renderPostChartContent}
       syntheticCalls={syntheticCalls}
+      endpointTypes={endpointTypes}
       cardTitle={cardTitle}
       rightHeaderContent={selectorComponent}
     />

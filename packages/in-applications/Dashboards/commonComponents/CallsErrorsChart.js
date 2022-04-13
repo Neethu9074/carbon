@@ -13,7 +13,9 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
+import { filterByEndpointTypeUnsafe } from './includeEndpointTypes';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import theme from 'in-themes';
@@ -32,7 +34,8 @@ export default function CallsErrorsChart({
   boundaryScope,
   cardTitle,
   renderPostChartContent,
-  rightHeaderContent
+  rightHeaderContent,
+  endpointTypes
 }) {
   const granularity = getChartGranularity(timeConfig);
   const throughputBlueprintConfig = getBlueprintConfig('throughput');
@@ -164,7 +167,12 @@ export default function CallsErrorsChart({
                   timeConfig: highlightedTime,
                   boundaryScope,
                   groupBy,
-                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                  formModel: joinExpressions({
+                    expressions: [
+                      createFormModelFromSyntheticOption(syntheticCalls),
+                      ...filterByEndpointTypeUnsafe(endpointTypes)
+                    ]
+                  }),
                   hiddenCalls,
                   fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
                   chartedMetrics: getChartedMetrics(config)
