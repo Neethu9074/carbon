@@ -145,6 +145,11 @@ module.exports = exports = [
     defaultValue: true
   },
   {
+    uiClientKey: 'configMigrationFeatureEnabled',
+    instanaCtlKey: 'feature.config.migration.feature.enabled',
+    defaultValue: false
+  },
+  {
     uiClientKey: 'persistentVolumeSupportEnabled',
     instanaCtlKey: 'feature.kubernetes.pvc.enabled',
     defaultValue: false
