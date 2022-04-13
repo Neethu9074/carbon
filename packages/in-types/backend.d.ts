@@ -34,6 +34,12 @@ export interface AbstractApplicationConfig {
   readonly tagFilterExpression?: TagFilterExpressionElementUnion;
 }
 
+export interface AbstractIntegration {
+  readonly id: string;
+  readonly kind: 'EMAIL' | 'SLACK' | 'SPLUNK' | 'PAGER_DUTY' | 'VICTOR_OPS' | 'OPS_GENIE' | 'WEB_HOOK' | 'OFFICE_365' | 'GOOGLE_CHAT' | 'PROMETHEUS_WEBHOOK' | 'WEBEX_TEAMS_WEBHOOK' | 'WATSON_AIOPS_WEBHOOK';
+  readonly name: string;
+}
+
 export interface AbstractKubernetesContainerState {
   readonly running: boolean;
   readonly status?: string;
@@ -609,6 +615,11 @@ export interface DynamicFieldValue {
   readonly tagName: string;
 }
 
+export interface EmailIntegration extends AbstractIntegration {
+  readonly emails: string[];
+  readonly kind: 'EMAIL';
+}
+
 export interface Endpoint {
   readonly entityType?: UiEntityType;
   readonly id: string;
@@ -763,6 +774,19 @@ export interface EventSpecificationMatch {
   readonly query?: string;
   readonly queryEvaluationTimestamp?: number;
   readonly rollup: number;
+}
+
+export interface ExportConfig {
+  readonly abstractIntegrationConfigs?: AbstractIntegrationUnion[];
+  readonly alertingConfigs?: AlertingConfigurationWithLastUpdated[];
+  readonly applicationAlertConfigs?: ApplicationAlertConfigWithMetadata[];
+  readonly applicationConfig?: ApplicationConfig[];
+  readonly applicationConfigs?: ApplicationConfig[];
+  readonly customEventSpecificationConfigs?: CustomEventSpecificationWithLastUpdated[];
+  readonly groupConfigs?: GroupWithRoles[];
+  readonly mobileAppConfigs?: MobileAppConfiguration[];
+  readonly websiteAlertConfigs?: WebsiteAlertConfigWithMetadata[];
+  readonly websiteConfigs?: WebsiteConfiguration[];
 }
 
 export interface ExtendedMetricsTimeConfig extends TimeConfig {
@@ -2033,6 +2057,11 @@ export interface GlobalApplicationsAlertConfig extends AbstractApplicationAlertC
   readonly applications: { [index: string]: ApplicationNode };
 }
 
+export interface GoogleChatIntegration extends AbstractIntegration {
+  readonly kind: 'GOOGLE_CHAT';
+  readonly webhookUrl: string;
+}
+
 export interface Group {
   readonly groupbyTag: string;
   readonly groupbyTagEntity: TagFilterEntity;
@@ -2047,6 +2076,13 @@ export interface GroupKey {
   readonly contextGuideGroup?: EntityContextGuideGroup;
   readonly relationship?: Relationship;
   readonly type?: string;
+}
+
+export interface GroupWithRoles {
+  readonly id?: string;
+  readonly members: Member[];
+  readonly name: string;
+  readonly permissionSet: PermissionSetWithRoles;
 }
 
 export interface Grouping {
@@ -2939,6 +2975,11 @@ export interface MatchingRule {
   readonly pathSuffix?: string;
 }
 
+export interface Member {
+  readonly email?: string;
+  readonly userId: string;
+}
+
 export interface Message {
   readonly errorCode: ErrorCode;
   readonly subscriptionId?: number;
@@ -3186,6 +3227,11 @@ export interface NewApplicationConfigWithAlertingDetails extends NewApplicationC
   readonly builtInAlertIds: string[];
 }
 
+export interface Office365Integration extends AbstractIntegration {
+  readonly kind: 'OFFICE_365';
+  readonly webhookUrl: string;
+}
+
 export interface OpenstackItem {
   readonly id: string;
   readonly itemId: string;
@@ -3217,10 +3263,23 @@ export interface OperatingSystem {
   readonly version?: string;
 }
 
+export interface OpsgenieIntegration extends AbstractIntegration {
+  readonly alias?: string;
+  readonly apiKey: string;
+  readonly kind: 'OPS_GENIE';
+  readonly region: Region;
+  readonly tags?: string;
+}
+
 export interface Order {
   readonly by: string;
   readonly collation?: string;
   readonly direction: OrderDirection;
+}
+
+export interface PagerdutyIntegration extends AbstractIntegration {
+  readonly kind: 'PAGER_DUTY';
+  readonly serviceIntegrationKey: string;
 }
 
 export interface PaginatedQuery extends QueryWithMetrics, PaginatedUIQuery {
@@ -3263,6 +3322,16 @@ export interface PartialSliReport {
 export interface PathParameterHttpPathSegmentMatchingRule extends HttpPathSegmentMatchingRule {
   readonly name: string;
   readonly type: 'PARAMETER';
+}
+
+export interface PermissionSetWithRoles {
+  readonly applicationIds: ScopeBinding[];
+  readonly infraDfqFilter?: ScopeBinding;
+  readonly kubernetesClusterUUIDs: ScopeBinding[];
+  readonly kubernetesNamespaceUIDs: ScopeBinding[];
+  readonly mobileAppIds: ScopeBinding[];
+  readonly permissions: string[];
+  readonly websiteIds: ScopeBinding[];
 }
 
 export interface PhmcConsoleItem {
@@ -3445,6 +3514,12 @@ export interface Progress {
   readonly percentage?: number;
 }
 
+export interface PrometheusWebhookIntegration extends AbstractIntegration {
+  readonly kind: 'PROMETHEUS_WEBHOOK';
+  readonly receiver?: string;
+  readonly webhookUrl: string;
+}
+
 export interface QueryContext {
   readonly querySource?: QuerySource;
 }
@@ -3558,6 +3633,11 @@ export interface ResultPrecisionDetails {
   readonly resultPrecision: ResultPrecision;
 }
 
+export interface ScopeBinding {
+  readonly scopeId?: string;
+  readonly scopeRoleId?: string;
+}
+
 export interface SearchMetric extends Metric {
   readonly category?: Category;
 }
@@ -3667,6 +3747,13 @@ export interface ServiceScopedToWithId {
 export interface ServiceStackItem extends Item {
   readonly endpointTypes?: string[];
   readonly technologies?: string[];
+}
+
+export interface SlackIntegration extends AbstractIntegration {
+  readonly channel: string;
+  readonly iconUrl: string;
+  readonly kind: 'SLACK';
+  readonly webhookUrl: string;
 }
 
 export interface SliConfigMetricConfiguration {
@@ -3822,6 +3909,12 @@ export interface SpecificJsErrorsWebsiteAlertRule extends WebsiteAlertRule {
   readonly alertType: 'specificJsError';
   readonly operator: TagFilterOperator;
   readonly value?: string;
+}
+
+export interface SplunkIntegration extends AbstractIntegration {
+  readonly kind: 'SPLUNK';
+  readonly token: string;
+  readonly url: string;
 }
 
 export interface Stack {
@@ -4336,6 +4429,12 @@ export interface VersionedConfig {
   readonly readOnly: boolean;
 }
 
+export interface VictorOpsIntegration extends AbstractIntegration {
+  readonly apiKey: string;
+  readonly kind: 'VICTOR_OPS';
+  readonly routingKey: string;
+}
+
 export interface ViolationsInPeriodApplicationTimeThreshold extends ApplicationTimeThreshold {
   readonly type: 'violationsInPeriod';
   readonly violations: number;
@@ -4462,9 +4561,25 @@ export interface VsphereVmListItem extends FilterableListItem, ListItemWithMetri
   readonly memTotal: number;
 }
 
+export interface WatsonAIOpsWebhookIntegration extends AbstractIntegration {
+  readonly kind: 'WATSON_AIOPS_WEBHOOK';
+  readonly webhookUrl: string;
+}
+
 export interface WebBrowser {
   readonly name: string;
   readonly version?: string;
+}
+
+export interface WebexTeamsWebhookIntegration extends AbstractIntegration {
+  readonly kind: 'WEBEX_TEAMS_WEBHOOK';
+  readonly webhookUrl: string;
+}
+
+export interface WebhookIntegration extends AbstractIntegration {
+  readonly headers?: string[];
+  readonly kind: 'WEB_HOOK';
+  readonly webhookUrls: string[];
 }
 
 export interface WebpageActionConfiguration extends WebpageConfiguration {
@@ -4816,6 +4931,8 @@ export interface ZhmcQueryFilter extends FilterInterface {
   readonly timeConfig: TimeConfig;
 }
 
+export type AbstractIntegrationUnion = EmailIntegration | SlackIntegration | SplunkIntegration | PagerdutyIntegration | VictorOpsIntegration | OpsgenieIntegration | WebhookIntegration | Office365Integration | GoogleChatIntegration | PrometheusWebhookIntegration | WebexTeamsWebhookIntegration | WatsonAIOpsWebhookIntegration;
+
 export type AbstractRuleUnion = ThresholdRule | SystemRule | EntityVerificationRule | HostAvailabilityRule;
 
 export type AccessRuleRelationType = 'USER' | 'API_TOKEN' | 'ROLE' | 'TEAM' | 'GLOBAL';
@@ -4949,6 +5066,8 @@ export type PathSegmentType = 'UNSUPPORTED' | 'FIXED' | 'PARAMETER' | 'MATCH_ALL
 export type QueryPrecision = 'APPROXIMATE' | 'FULL';
 
 export type QuerySource = 'UNKNOWN' | 'WEBSOCKET';
+
+export type Region = 'US' | 'EU';
 
 export type Relationship = 'CONTAINS' | 'DEFINED_IN' | 'DEPLOYED_ON' | 'DEPLOYED_WITHIN' | 'EXECUTED_BY' | 'EXECUTING' | 'EXPOSED_BY' | 'EXPOSED_THROUGH' | 'EXPOSES' | 'EXPOSING' | 'ORCHESTRATED_IN' | 'ORCHESTRATED_ON' | 'ORCHESTRATING' | 'PART_OF' | 'PROVIDED_BY' | 'PROVIDED_FROM' | 'PROVIDED_ON' | 'PROVIDED_WITHIN' | 'PROVIDES' | 'RUNS' | 'RUNS_IN' | 'RUNS_ON' | 'RUNS_WITHIN' | 'SCHEDULED' | 'SCHEDULED_BY' | 'SCHEDULED_ON' | 'SCHEDULED_WITHIN' | 'SCHEDULES' | 'SCHEDULING_IN' | 'SCHEDULING_ON' | 'SERVED_BY' | 'SERVED_THROUGH' | 'SERVES' | 'SERVES_ON' | 'SERVES_WITHIN' | 'SPANS_ACROSS' | 'WITHIN';
 
