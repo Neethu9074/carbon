@@ -36,11 +36,10 @@ import ServiceMappingRulesInfoBox from 'in-applications/Dashboards/service/tabs/
 import ServiceMappingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ServiceMappingInfoBox';
 import InfraLinkingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/InfraLinkingInfoBox';
 import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
-// @ts-expect-error
-import Renderer from 'in-components/Chart/renderer/Renderer';
 import AlternativeServicesInfoBox from './infobox/AlternativeServicesInfoBox';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { syntheticCallsOptions } from 'in-applications/constants';
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import TroubleShootingChart from './TroubleShootingChart';
 import { number } from 'in-services/formatters/number';
@@ -230,7 +229,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
                 })}
               </i>
             }
-            cardTitle={t('in-applications:serviceTroubleshooting.alternativeServicesTitle')}
+            title={t('in-applications:serviceTroubleshooting.alternativeServicesTitle')}
             renderInfoBox={AlternativeServicesInfoBox}
             metricDefinition={{
               label: 'alternativeServices',
