@@ -17,7 +17,7 @@ import { TestResponse } from 'in-synthetics/utils/constants';
 import { integral } from 'in-stores/metric/renderer';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { getChartTestMetrics } from './utils';
-import { TimeShift } from 'in-types';
+import { Order, TimeShift } from 'in-types';
 
 type Props = {
   timeShiftConfig: TimeShift;
@@ -59,12 +59,18 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
     }
   ];
 
+  const order: Order = {
+    by: 'location_id',
+    direction: 'ASC'
+  };
+
   const testMetricConfig: Metric = {
     aggregation: 'MEAN',
     source: 'SYNTHETICS',
     tagFilters: tagFilters,
     timeShift: timeShiftConfig.offset,
-    metric: 'response_time'
+    metric: 'response_time',
+    order
   };
 
   const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'response_time');
