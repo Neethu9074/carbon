@@ -64,8 +64,6 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
     timeWindowStartTime
   });
 
-  const granularity = getGranularity(timeConfig);
-
   const [sliConfiguration, sliConfigurationStatus, , sliConfigurationProgress] = useSliConfigWithPreview(
     sliConfigId,
     timeConfig,
@@ -74,6 +72,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
 
   const [entity, entityStatus, , entityProgress] = useSloEntity({ entityId, entityType });
 
+  const granularity = getGranularity(timeConfig);
   const [sloMetrics, sloMetricsStatus, sloMetricsError, sloMetricsProgress] = useSloMetrics({
     slo,
     sliId: sliConfigId,
@@ -81,6 +80,9 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
     granularity,
     isPreview
   });
+
+  const [firstMetric] = sloMetrics ?? [];
+  const chartGranularity = firstMetric?.granularity || granularity;
 
   const unifiedStatus = allStatus(sliConfigurationStatus, entityStatus, sloMetricsStatus);
   const unifiedProgress = allProgress(sliConfigurationProgress, entityProgress, sloMetricsProgress);
@@ -128,7 +130,7 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
             loadingProgress={unifiedProgress}
             sliConfigId={sliConfigId}
             timeConfig={timeConfig}
-            granularity={granularity}
+            granularity={chartGranularity}
             budget={budget}
             sliConfig={sliConfiguration}
             isPreview={isPreview}
