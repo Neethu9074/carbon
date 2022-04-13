@@ -5,6 +5,8 @@
 
 import React from 'react';
 
+// import { filterByEndpointTypeUnsafe } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
+import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption,
@@ -13,8 +15,6 @@ import {
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { createChartedMetric, createGroupBy, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { filterByEndpointTypeUnsafe } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
-import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
@@ -103,10 +103,13 @@ export default connectTo(
                     timeConfig,
                     boundaryScope,
                     groupBy: createGroupBy('endpoint.name', DESTINATION),
-                    formModel: [
+                    //joinExpressions({
+                    formModel:
+                      //expressions: [
                       createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointTypeUnsafe(endpointTypes)
-                    ],
+                    //...filterByEndpointTypeUnsafe(endpointTypes)
+                    //   ]
+                    //}),
                     hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
                     fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
                     chartedMetrics: [createChartedMetric('calls', 'SUM')]
@@ -156,8 +159,8 @@ export default connectTo(
                     orderByGroups: createOrderBy('errors_MEAN', 'DESC'),
                     formModel: joinExpressions({
                       expressions: [
-                        createFormModelFromSyntheticOption(syntheticCalls),
-                        ...filterByEndpointTypeUnsafe(endpointTypes)
+                        createFormModelFromSyntheticOption(syntheticCalls)
+                        //...filterByEndpointTypeUnsafe(endpointTypes)
                       ]
                     }),
                     facets: { 'call.erroneous': [true] },
@@ -208,10 +211,13 @@ export default connectTo(
                     boundaryScope,
                     groupBy: createGroupBy('endpoint.name', DESTINATION),
                     orderByGroups: createOrderBy('latency_MEAN', 'DESC'),
-                    formModel: [
+                    //joinExpressions({
+                    formModel:
+                      //expressions: [
                       createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointTypeUnsafe(endpointTypes)
-                    ],
+                    //...filterByEndpointTypeUnsafe(endpointTypes)
+                    // ]
+                    //}),
                     hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls)
                   }
                 )
