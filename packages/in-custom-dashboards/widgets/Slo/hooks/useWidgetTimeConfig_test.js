@@ -4,9 +4,9 @@
  */
 
 import { renderHook } from '@testing-library/react-hooks';
-import moment from 'moment';
 
 import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
+import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import { dateFormat, timeFormat } from 'in-services/formatters/date';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { days } from 'in-services/time';
@@ -27,15 +27,15 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig', () => {
 
   const oneWeekInMillis = days.toMillis(7);
 
-  const now = moment();
+  const now = new Date();
   const widgetTimeConfig = {
     isPreview: true,
     isRolling: false,
     isFixed: false,
     timeWindowDuration: 1,
     timeWindowDurationUnit: 'days',
-    timeWindowStartDate: now.format(dateFormat),
-    timeWindowStartTime: now.format(timeFormat)
+    timeWindowStartDate: formatDateWithActiveLanguage(now, dateFormat),
+    timeWindowStartTime: formatDateWithActiveLanguage(now, timeFormat)
   };
 
   it('should return a windowSize of 7 days if timeWindowDuration is less then 7 days', () => {

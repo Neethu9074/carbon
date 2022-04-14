@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import moment from 'moment';
+import { zonedTimeToUtc } from 'date-fns-tz';
+import { parse } from 'date-fns';
 
 import { getSetting$ } from 'in-services/settings';
 
@@ -20,8 +21,8 @@ export {
 } from '@instana/format-date';
 
 export const timeFormat = 'HH:mm:ss';
-export const dateFormat = 'YYYY-MM-DD';
-const dateTimeFormat = dateFormat + ' ' + timeFormat;
+export const dateFormat = 'yyyy-MM-dd';
+export const dateTimeFormat = dateFormat + ' ' + timeFormat;
 
 let parseDateInternal = parseDateAccordingToLocalTime;
 let parseDateTimeInternal = parseDateTimeAccordingToLocalTime;
@@ -41,11 +42,13 @@ export function parseDate(dateString: string): Date {
 }
 
 function parseDateAsUtc(dateString: string): Date {
-  return moment.utc(dateString, dateFormat).toDate();
+  const dateAccordingToLocalTime: Date = parseDateAccordingToLocalTime(dateString);
+
+  return zonedTimeToUtc(dateAccordingToLocalTime, 'UTC');
 }
 
 function parseDateAccordingToLocalTime(dateString: string): Date {
-  return moment(dateString, dateFormat).toDate();
+  return parse(dateString, dateFormat, new Date());
 }
 
 export function parseDateTime(dateTimeString: string): Date {
@@ -53,9 +56,11 @@ export function parseDateTime(dateTimeString: string): Date {
 }
 
 function parseDateTimeAsUtc(dateTimeString: string): Date {
-  return moment.utc(dateTimeString, dateTimeFormat).toDate();
+  const dateTimeAccordingToLocalTime: Date = parseDateTimeAccordingToLocalTime(dateTimeString);
+
+  return zonedTimeToUtc(dateTimeAccordingToLocalTime, 'UTC');
 }
 
 function parseDateTimeAccordingToLocalTime(dateTimeString: string): Date {
-  return moment(dateTimeString, dateTimeFormat).toDate();
+  return parse(dateTimeString, dateTimeFormat, new Date());
 }

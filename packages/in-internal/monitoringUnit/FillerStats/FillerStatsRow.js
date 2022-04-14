@@ -3,12 +3,16 @@
  * (c) Copyright Instana Inc.
  */
 
-import { combineLatest } from '@instana/observables';
-import moment from 'moment';
+import { addDays } from 'date-fns';
 import React from 'react';
 
+import { combineLatest } from '@instana/observables';
+
+import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import createLatestMetricsSubscription from 'in-subscription/latestMetrics';
 import createMetricsSubscription from 'in-subscription/metrics';
+import { isSameDayOrBefore } from 'in-services/util/date';
+import { dateFormat } from 'in-services/formatters/date';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
@@ -131,19 +135,21 @@ function calculateAverage(values, windowSize, rollup) {
 }
 
 function calculateTop(values) {
-  if (values.length == 0) return 0;
+  if (values.length === 0) return 0;
   return Math.max(...values);
 }
 
 function getDateStrings(timeConfig) {
-  const fromDate = moment(timeConfig.to - timeConfig.windowSize);
-  const toDate = moment(timeConfig.to);
-  let dateStrings = [];
+  const fromDate = new Date(timeConfig.to - timeConfig.windowSize);
+  const toDate = new Date(timeConfig.to);
+  const dateStrings = [];
   let enumDate = fromDate;
-  while (enumDate.isSameOrBefore(toDate, 'day')) {
-    dateStrings.push(enumDate.format('YYYY-MM-DD'));
-    enumDate.add(1, 'day');
+
+  while (isSameDayOrBefore(enumDate, toDate)) {
+    dateStrings.push(formatDateWithActiveLanguage(enumDate, dateFormat));
+    enumDate = addDays(enumDate, 1);
   }
+
   return dateStrings;
 }
 

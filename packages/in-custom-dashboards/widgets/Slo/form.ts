@@ -4,10 +4,10 @@
  */
 
 import { createMapForm, createField, composeValidators, ValidationResult, MapForm, Field } from 'formalistic';
-import moment from 'moment';
+import { isValid, parse } from 'date-fns';
 
+import { dateTimeFormat, formatDate, formatTime, parseDateTime } from 'in-services/formatters/date';
 import { numericValidator, positiveNumberValidator } from 'in-services/validators/number';
-import { formatDate, formatTime, parseDateTime } from 'in-services/formatters/date';
 import { numberValidator, stringValidator } from 'in-services/validators/jsonType';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
@@ -99,7 +99,7 @@ export function createForm(oldSavedState: Partial<SloWidgetConfiguration> = {}):
   if (windowType === 'fixed') {
     const start = savedState[timeWindowStart];
     // auto-corrects invalid dates:
-    const ts = parsedTimestamp(start?.date + ' ' + start?.time);
+    const ts = parseTimestamp(start?.date + ' ' + start?.time);
     form = addFormForStartTimeStamp(form, ts);
   }
   if (windowType === 'fixed' || windowType === 'rolling') {
@@ -143,8 +143,10 @@ function getTimeWindowDurationInDays(value: number, unit: TimeWindowDuration): n
   }
 }
 
-export const parsedTimestamp = (str: string): number | null => {
-  if (!moment(str).isValid()) return null;
+export const parseTimestamp = (str: string, strFormat: string = dateTimeFormat): number | null => {
+  if (!isValid(parse(str, strFormat, new Date()))) {
+    return null;
+  }
 
   return parseDateTime(str).getTime();
 };
