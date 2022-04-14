@@ -162,6 +162,8 @@ function DataLoadingWrapper({
       granularity={granularity}
       renderErrorDetail={renderErrorDetail}
       hasApproximateData={hasApproximateData}
+      primaryContextMenuAction={config?.primaryContextMenuAction}
+      additionalContextMenuButtons={config?.additionalContextMenuButtons}
       {...props}
     />
   );
