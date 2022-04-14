@@ -71,6 +71,8 @@ export function TopListWithUrlState(props) {
   const result =
     useObservable(props.getList(newProps), [...Object.values(props), newProps.selectedMetric]) ?? pendingResult;
 
+  newProps.hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
   const Renderer = props.Renderer;
 
   return <Renderer {...newProps} result={result} />;

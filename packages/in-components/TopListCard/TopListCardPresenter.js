@@ -27,7 +27,8 @@ export default function TopListCard(props) {
     List: ListRenderer = List,
     showMetricSelectorsForSingleMetrics,
     useMaxAvailableHeight,
-    renderHistoricDataIndicator = false
+    renderHistoricDataIndicator = false,
+    hasApproximateData = false
   } = props;
 
   const shouldRenderOnItem = showMetricSelectorsForSingleMetrics && metrics.length === 1;
@@ -68,7 +69,7 @@ export default function TopListCard(props) {
   }
 
   const leftHeaderContent =
-    renderHistoricDataIndicator && result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE' ? (
+    renderHistoricDataIndicator && hasApproximateData ? (
       <MultiLineToolTipIcon lines={[t('in-components:approximateDataIndicator.dataRetention')]} />
     ) : (
       undefined
