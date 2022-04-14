@@ -45,7 +45,8 @@ export function getThresholdInTimeframe(
   // NOTE: We are rendering adaptive baseline for 2 use-cases.
   // 1) In SA Dialogue via fetching the threshold suggestion
   // 2) In event details view using event metadata
-  if (eventBasedAdaptiveBaseline.length === 0) {
+  // 3) In Alert Configuration Details
+  if (eventBasedAdaptiveBaseline.length === 0 && baseline?.length >= 0) {
     if (timeConfig) {
       const startTime = calculateFirstBucketInChartStartTime(timeConfig, granularity);
       for (let [timestamp, baselineValue, deviationValue] of baseline) {
