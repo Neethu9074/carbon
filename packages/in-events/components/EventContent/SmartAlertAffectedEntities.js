@@ -64,7 +64,7 @@ export function SmartAlertAffectedEntities({
         endpointId,
         endpointName,
         alertConfig,
-        fixedTimeConfig,
+        timeConfig: fixedTimeConfig,
         groupingTagName: needsGroupByEndpoint ? 'endpoint.name' : 'service.name',
         adaptiveBaselineInfo
       })}
