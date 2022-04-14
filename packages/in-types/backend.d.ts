@@ -1758,6 +1758,14 @@ export interface GetTechnologyBreakdownQuery extends FilteredQuery {
   readonly granularity?: number;
 }
 
+export interface GetTestResultDetailDataQuery extends UiQuery {
+  readonly testId?: string;
+  readonly testid?: string;
+  readonly testresultId?: string;
+  readonly testresultid?: string;
+  readonly type: string;
+}
+
 export interface GetTestResultListQuery extends PaginatedQuery {
   readonly filter: Filter;
   readonly order: Order;
@@ -4157,6 +4165,16 @@ export interface TestResult {
 export interface TestResultCommonProperties {
   readonly locationId: string;
   readonly testId: string;
+}
+
+export interface TestResultDetailData {
+  readonly har?: any;
+  readonly images?: any;
+  readonly logs?: string;
+  readonly subtransactions?: string;
+  readonly testId?: string;
+  readonly testResultId?: string;
+  readonly videos?: any;
 }
 
 export interface TestResultItem {
