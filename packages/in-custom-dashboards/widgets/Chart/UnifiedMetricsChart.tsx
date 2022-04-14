@@ -161,6 +161,7 @@ function DataLoadingWrapper({
       result={remappedResult}
       granularity={granularity}
       renderErrorDetail={renderErrorDetail}
+      hasApproximateData={hasApproximateData}
       {...props}
     />
   );
