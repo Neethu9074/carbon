@@ -142,7 +142,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.threshold.title'),
           valid:
-            !fieldTouchedAndInvalid(form.get('threshold')) ||
+            !fieldTouchedAndInvalid(form.get('threshold')?.get('value')) ||
             // when filter is invalid, baseline depends on it, avoid redundant invalidation indicator
             (thresholdType === HISTORIC_BASELINE && !isTagFilterFormModelValid) ||
             // when the rule definition is incomplete, we do not show a preview chart and
