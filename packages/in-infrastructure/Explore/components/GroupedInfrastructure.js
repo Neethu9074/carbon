@@ -119,7 +119,7 @@ function Presenter({
         expressions: [tagFilterExpression, toTagFilters(item.tags, tagType, group)]
       })
     }),
-    [tagFilterExpression]
+    [tagFilterExpression, group, tagType]
   );
   const columnDefinitions = columns({
     groupBy: [fullQualifiedGroup],
