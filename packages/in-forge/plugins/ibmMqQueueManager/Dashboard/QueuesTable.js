@@ -6,7 +6,7 @@
 import React from 'react';
 
 import getIbmMqQueuesForQueueManager from 'in-forge/plugins/ibmMqQueueManager/subscriptions/getIbmMqQueuesForQueueManager';
-import { number, percentage } from 'in-services/formatters/number';
+import { number } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -24,16 +24,32 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.queueFullPercentage'),
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.queueDepth'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
       },
       getMetricName() {
-        return 'queueFullPercentage';
+        return 'queueDepth';
       },
-      getContent: percentage.detailed,
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.maxQueueDepth'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'maxQueueDepth';
+      },
+      getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
       }
@@ -72,15 +88,6 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.type'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'queueType']);
-      }
-    }
-  },
-  {
     title: t('in-forge:plugins.ibmMqQueueManager.dashboard.usage'),
     type: 'string',
     typeArgs: {
@@ -90,11 +97,20 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.monitoring'),
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.lastPutDateTime'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'queueMonitoring']);
+        return row.snapshot.getIn(['data', 'lastPutDateTime'], 'N/A');
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.lastGetDateTime'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'lastGetDateTime'], 'N/A');
       }
     }
   }
