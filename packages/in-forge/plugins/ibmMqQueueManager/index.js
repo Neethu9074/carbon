@@ -7,10 +7,14 @@ import metricDefinitions from 'in-forge/plugins/ibmMqQueueManager/metricDefiniti
 import kpiDefinitions from 'in-forge/plugins/ibmMqQueueManager/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.ibmMqQueueManager,
 
   kpiDefinitions,
-  metricDefinitions
+  metricDefinitions,
+  technologyDescriptor: {
+    label: t('in-forge:tracingTypeName_ibmmq')
+  }
 });
