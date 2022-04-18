@@ -17,21 +17,22 @@ import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { latency, number } from 'in-services/formatters/number';
+import { latency } from 'in-services/formatters/number';
 import { Order, TagFilter, TimeConfig } from 'in-types';
+import { fromNow } from 'in-services/formatters/date';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-const metrics = ['response_time', 'finish_time', 'status'];
+const metrics = ['response_time', 'start_time', 'status'];
 const metricInPayload = new Map<string, string>([
   ['response_time', 'response_time'],
-  ['finish_time', 'finish_time'],
-  ['status', 'finish_time']
+  ['start_time', 'start_time'],
+  ['status', 'start_time']
 ]);
 const orders = new Map<string, Order>([
   ['response_time', { by: 'response_time', direction: 'DESC' }],
-  ['finish_time', { by: 'finish_time', direction: 'DESC' }],
-  ['status', { by: 'finish_time', direction: 'DESC' }]
+  ['start_time', { by: 'start_time', direction: 'DESC' }],
+  ['status', { by: 'start_time', direction: 'DESC' }]
 ]);
 
 const labels = [
@@ -39,7 +40,7 @@ const labels = [
   t('in-synthetics:dashboard.summary.widgets.latest'),
   t('in-synthetics:dashboard.summary.widgets.failed')
 ];
-const formatters = [latency.compact, number.compact, number.compact];
+const formatters = [latency.compact, fromNow, fromNow];
 const companionMetrics = [null, null, null];
 const companionFormatters = [null, null, null];
 const colors = [null, null, theme.lib.colors.failure];
@@ -114,7 +115,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
 
   let tagFilters = new Map<string, TagFilter[]>([
     ['response_time', baseTagFilters],
-    ['finish_time', baseTagFilters],
+    ['start_time', baseTagFilters],
     ['status', statusTagFilters]
   ]);
 
