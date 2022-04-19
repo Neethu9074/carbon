@@ -10,16 +10,7 @@ import { EndpointType, TagFilter } from 'in-types';
 export function filterByEndpointType(types: EndpointType[]): TagFilter[] {
   if (types.length === 1) {
     return [tagFilter('call.type', EQUALS, types[0])];
-  }
-  // else if (types.length === 2) {
-  //   return joinExpressions({
-  //     logicalOperator: or,
-  //     expressions: [
-  //       tagFilter('call.type', EQUALS, types[0]),
-  //       tagFilter('call.type', EQUALS, types[1])
-  //   ]};
-  // }
-  else {
+  } else {
     return [];
   }
 }
@@ -27,17 +18,7 @@ export function filterByEndpointType(types: EndpointType[]): TagFilter[] {
 export function filterByEndpointTypeUnsafe(types: any) {
   if (types.length === 1) {
     return [tagFilter('call.type', EQUALS, types[0])];
-  }
-  // else if (types.length === 2) {
-  //   return joinExpressions({
-  //     logicalOperator: or,
-  //     expressions: [
-  //       tagFilter('call.type', EQUALS, types[0]),
-  //       tagFilter('call.type', EQUALS, types[1])
-  //     ]
-  //   });
-  // }
-  else {
+  } else {
     return [];
   }
 }
