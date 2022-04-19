@@ -29,7 +29,7 @@ export default function User({ timeConfig, tagFilters, websiteId, websiteLabel }
       <Row>
         <Col lg={12}>
           <WebsiteChartWrapper
-            cardTitle={t('in-websites:websiteDashboard.tabs.user.usersCardTitleActivity')}
+            title={t('in-websites:websiteDashboard.tabs.user.usersCardTitleActivity')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               websiteLabel

@@ -127,7 +127,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
         <Row>
           <Col xs={6}>
             <WebsiteBeaconGroupsChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleResourceLoads')}
+              title={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleResourceLoads')}
               timeConfig={timeConfig}
               tagFilters={tagFiltersForResource}
               viewInAnalytics={viewInAnalytics}
@@ -153,7 +153,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
 
           <Col lg={6}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleRetrievalTime')}
+              title={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleRetrievalTime')}
               reverseTooltipOrder
               shareMaxAxisDomain
               timeConfig={timeConfig}
@@ -248,7 +248,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
               >
                 {({ aggregation, aggregationSelector }) => (
                   <WebsiteChartWrapper
-                    cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleResourceTiming')}
+                    title={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleResourceTiming')}
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
                     customHeight={300}
@@ -350,7 +350,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
           <Row>
             <Col lg={6}>
               <WebsiteBeaconGroupsChartWrapper
-                cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleCachingStatistics')}
+                title={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleCachingStatistics')}
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForResource}
                 viewInAnalytics={viewInAnalytics}
@@ -375,7 +375,7 @@ function ResourceTab({ resourceId, result, websiteId, websiteLabel, pageId, tagF
 
             <Col lg={6}>
               <WebsiteBeaconGroupsChartWrapper
-                cardTitle={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleResourceSizes')}
+                title={t('in-websites:websiteDashboard.tabs.resources.resourceCardTitleResourceSizes')}
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForResource}
                 viewInAnalytics={viewInAnalytics}

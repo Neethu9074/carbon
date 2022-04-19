@@ -31,7 +31,7 @@ export default connectTo({
       <Row>
         <Col lg>
           <CallGroupsChartWrapper
-            cardTitle={t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.mostActiveUnits')}
+            title={t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.mostActiveUnits')}
             cardHeader={
               <Fragment>
                 <Button
@@ -76,7 +76,7 @@ export default connectTo({
       <Row>
         <Col lg>
           <CallGroupsChartWrapper
-            cardTitle={t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.mostCommonQueries')}
+            title={t('in-internal:monitoringUnit.appdata.appDataQueryPerformance.mostCommonQueries')}
             cardHeader={
               <Fragment>
                 <Button

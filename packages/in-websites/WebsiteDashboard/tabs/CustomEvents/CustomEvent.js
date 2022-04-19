@@ -187,7 +187,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
       <Row>
         <Col lg={6}>
           <WebsiteChartWrapper
-            cardTitle={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleOccurrences')}
+            title={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleOccurrences')}
             timeConfig={timeConfig}
             renderLegend={false}
             viewInAnalytics={viewInAnalytics}
@@ -215,7 +215,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
         </Col>
         <Col lg={6}>
           <WebsiteChartWrapper
-            cardTitle={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleUsers')}
+            title={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleUsers')}
             timeConfig={timeConfig}
             renderLegend={false}
             viewInAnalytics={viewInAnalytics}
@@ -245,7 +245,7 @@ export default function CustomEvent({ location, tagFilters, timeConfig, websiteI
       <Row>
         <Col lg={12}>
           <WebsiteChartWrapper
-            cardTitle={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleDuration')}
+            title={t('in-websites:websiteDashboard.tabs.customEvents.customEventTitleDuration')}
             reverseTooltipOrder
             shareMaxAxisDomain
             timeConfig={timeConfig}

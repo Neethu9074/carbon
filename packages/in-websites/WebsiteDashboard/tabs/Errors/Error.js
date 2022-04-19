@@ -237,7 +237,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
         <Row>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.errors.errorCardTitlePageViews')}
+              title={t('in-websites:websiteDashboard.tabs.errors.errorCardTitlePageViews')}
               timeConfig={timeConfig}
               renderLegend={false}
               viewInAnalytics={viewInAnalytics}
@@ -273,7 +273,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           </Col>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.errors.errorCardTitleOccurrences')}
+              title={t('in-websites:websiteDashboard.tabs.errors.errorCardTitleOccurrences')}
               timeConfig={timeConfig}
               renderLegend={false}
               viewInAnalytics={viewInAnalytics}
@@ -302,7 +302,7 @@ function ErrorTab({ errorId, result, websiteId, websiteLabel, pageId, tagFilters
           </Col>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.errors.errorCardTitleAffectedUsers')}
+              title={t('in-websites:websiteDashboard.tabs.errors.errorCardTitleAffectedUsers')}
               timeConfig={timeConfig}
               renderLegend={false}
               viewInAnalytics={viewInAnalytics}

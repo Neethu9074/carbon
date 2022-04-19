@@ -117,7 +117,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
         <Row>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleCalls')}
+              title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleCalls')}
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}
               y1={{
@@ -154,7 +154,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
           </Col>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleErroneousCallRate')}
+              title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleErroneousCallRate')}
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}
               y1={{
@@ -181,7 +181,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
           </Col>
           <Col lg={4}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleLatency')}
+              title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleLatency')}
               reverseTooltipOrder
               shareMaxAxisDomain
               timeConfig={timeConfig}
@@ -263,7 +263,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
               >
                 {({ aggregation, aggregationSelector }) => (
                   <WebsiteChartWrapper
-                    cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleResourceTiming')}
+                    title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleResourceTiming')}
                     cardHeader={aggregationSelector}
                     customHeight={300}
                     timeConfig={timeConfig}
@@ -364,7 +364,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
         <Row>
           <Col xs={6}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleHTTPStatusCodeBreakdown')}
+              title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleHTTPStatusCodeBreakdown')}
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}
               y1={{
@@ -430,7 +430,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
 
           <Col lg={6}>
             <WebsiteChartWrapper
-              cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleHTTPMethodBreakdown')}
+              title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleHTTPMethodBreakdown')}
               timeConfig={timeConfig}
               viewInAnalytics={viewInAnalytics}
               y1={{
@@ -484,7 +484,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
           <Row>
             <Col lg={6}>
               <WebsiteBeaconGroupsChartWrapper
-                cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleCachingStatistics')}
+                title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleCachingStatistics')}
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForRequests}
                 viewInAnalytics={viewInAnalytics}
@@ -514,7 +514,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
               >
                 {({ aggregation, aggregationSelector }) => (
                   <WebsiteChartWrapper
-                    cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleResourceSizes')}
+                    title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleResourceSizes')}
                     cardHeader={aggregationSelector}
                     timeConfig={timeConfig}
                     viewInAnalytics={viewInAnalytics}
@@ -564,7 +564,7 @@ function XhrRequestTab({ websiteId, websiteLabel, pageId, tagFilters, timeConfig
           <Row>
             <Col lg={6}>
               <WebsiteBeaconGroupsChartWrapper
-                cardTitle={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleGraphQLOperationTypes')}
+                title={t('in-websites:websiteDashboard.tabs.ajax.xhrRequestCardTitleGraphQLOperationTypes')}
                 timeConfig={timeConfig}
                 tagFilters={tagFiltersForRequests}
                 viewInAnalytics={viewInAnalytics}
