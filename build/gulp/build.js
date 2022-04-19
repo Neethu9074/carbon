@@ -101,8 +101,9 @@ function webpackBuild(cb) {
       terserOptions: {
         output: {
           preamble: `/*
- * (c) Copyright IBM Corp. ${new Date().getFullYear()}
- * (c) Copyright Instana Inc. ${new Date().getFullYear()}
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. ${new Date().getFullYear()}
  */`,
           comments: false
         }
