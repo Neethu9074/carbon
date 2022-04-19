@@ -1771,8 +1771,7 @@ export interface GetTestResultListQuery extends PaginatedQuery {
   readonly order: Order;
   readonly pagination: Pagination;
   readonly syntheticMetrics: string[];
-  readonly tagFilterExpression?: TagFilterExpressionElementUnion;
-  readonly tagFilterExpressionElement?: TagFilterExpressionElementUnion;
+  readonly tagFilterExpression?: TagFilterExpression;
   readonly tagFilters?: TagFilter[];
   readonly testId?: string;
 }
@@ -1789,6 +1788,7 @@ export interface GetTestResultQuery extends UiQuery {
   readonly order?: Order;
   readonly pagination?: Pagination;
   readonly serviceId?: string;
+  readonly tagFilterExpression?: TagFilterExpression;
   readonly tagFilters?: TagFilter[];
   readonly testId: string;
   readonly timeConfig: TimeConfig;
@@ -4038,6 +4038,7 @@ export interface SyntheticUnifiedMetricConfiguration extends UnifiedMetricConfig
   readonly order?: Order;
   readonly pagination?: Pagination;
   readonly source: 'SYNTHETICS';
+  readonly tagFilterExpression?: TagFilterExpression;
   readonly tagFilters?: TagFilter[];
 }
 
