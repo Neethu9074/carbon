@@ -15,7 +15,7 @@ export const withLeadingZeros = (value: string | number) => {
     .padStart(2, '0');
 };
 
-export function fillMissingInputTime(input: string, timeFormat: TimeFormat) {
+export function fillMissingInputTime(input: string, timeFormat: TimeFormat): string {
   const strings = input.split(':');
 
   return timeFormat
@@ -24,7 +24,7 @@ export function fillMissingInputTime(input: string, timeFormat: TimeFormat) {
     .join(':');
 }
 
-export default function formatInputTime(input: string, timeFormat: TimeFormat) {
+export default function formatInputTime(input: string, timeFormat: TimeFormat): string {
   const enrichedTime = fillMissingInputTime(input, timeFormat);
   const date = parse(enrichedTime, timeFormat, new Date());
 

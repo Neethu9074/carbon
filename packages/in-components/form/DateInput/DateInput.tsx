@@ -21,23 +21,49 @@ import { t, activeLanguage } from 'in-i18n';
 import theme from 'in-themes';
 
 import locals from './DateInput.mless';
+import { OverlayContentProps } from 'in-components/overlays/Overlay/types';
+import { Nullish } from 'in-types';
 
 const { isTab } = keyCodes;
 const modifiersStyles = {
   selected: { backgroundColor: theme.lib.colors.teal800 },
   current: { color: theme.lib.colors.N900Primary }
-};
+} as const;
 
-export default function DatePicker(props) {
+type DateInputValue = string | Nullish;
+type DateInputOnChange = (s: DateInputValue) => void;
+
+interface DateInputProps {
+  value: DateInputValue;
+  onChange: DateInputOnChange;
+  iconType?: string;
+  disabled?: boolean;
+}
+
+export default function DateInput(props: DateInputProps) {
   const { value, onChange = identity, disabled, iconType } = props;
   const inputProps = assign({}, props);
-  delete inputProps.onChange;
+
+  // @ts-expect-error ignoring the from a type perspective superfluous deletes here,
+  // because some older code might rely on them and there is no downside to having them
   delete inputProps.type;
+  // @ts-expect-error
   delete inputProps.onClick;
+  // @ts-expect-error
   delete inputProps.overlayPosition;
+  // @ts-expect-error
+  delete inputProps.onChange;
 
   if (disabled) {
-    return <Input type="text" {...inputProps} />;
+    return (
+      <Input
+        {...inputProps}
+        type="text"
+        value={value || ''}
+        // explicitly setting onChange to undefined here to avoid typescript conflicts with the signature of onChange from DateInputProps
+        onChange={undefined}
+      />
+    );
   }
   return (
     <Overlay content={DatePickerOverlay} props={{ value, onChange, inputProps, iconType }} withoutWrapper>
@@ -55,30 +81,48 @@ export default function DatePicker(props) {
   );
 }
 
-function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconType }) {
+interface DatePickerInputProps {
+  inputProps: DateInputProps;
+  iconType?: DateInputProps['iconType'];
+  onChange: DateInputOnChange;
+
+  open: () => void;
+  close: () => void;
+
+  refSetter: OverlayContentProps['refSetter'];
+}
+
+function DatePickerInput({ open, onChange, refSetter, inputProps, close, iconType }: DatePickerInputProps) {
   return (
     <Input
       type="text"
       autoComplete="off"
-      onChange={e => onChange(e.target.value)}
       onKeyDown={e => {
         if (isTab(e)) {
           close();
         }
       }}
       onClick={open}
-      refSetter={refSetter}
       onIconClick={iconType ? open : undefined}
       {...inputProps}
+      onChange={e => onChange(e.target.value)}
+      // @ts-expect-error ignoring ts error on ref type narrowing issues
+      refSetter={refSetter}
     />
   );
 }
 
-function DatePickerOverlay({ onChange, close, value }) {
+interface DatePickerOverlayProps {
+  onChange: DateInputOnChange;
+  value: DateInputValue;
+  close: () => void;
+}
+
+function DatePickerOverlay({ onChange, close, value }: DatePickerOverlayProps) {
   const dateValid = dateValidator(value) == null;
 
   const modifiers = {
-    selected: dateValid && !isBlank(value) ? new Date(value) : null,
+    selected: dateValid && !isBlank(value) ? new Date(value!) : undefined,
     current: new Date()
   };
 
@@ -88,7 +132,7 @@ function DatePickerOverlay({ onChange, close, value }) {
         month={modifiers.selected ?? modifiers.current}
         modifiersStyles={modifiersStyles}
         modifiers={modifiers}
-        selectedDays={dateValid ? parseDate(value) : undefined}
+        selectedDays={dateValid ? parseDate(value!) : undefined}
         onDayClick={d => {
           onChange(formatDate(d));
           close();

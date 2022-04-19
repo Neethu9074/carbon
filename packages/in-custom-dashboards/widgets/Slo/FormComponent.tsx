@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
+import { Field, MapForm } from 'formalistic';
 
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
@@ -16,7 +17,9 @@ import {
   timeWindowStart,
   entityId,
   entityType,
-  getMaxTimeWindowDurationValue
+  getMaxTimeWindowDurationValue,
+  TimeWindowType,
+  TimeWindowDuration
 } from 'in-custom-dashboards/widgets/Slo/form';
 import {
   trackAPSelected,
@@ -34,6 +37,7 @@ import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/components/list/
 import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
+import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -45,41 +49,59 @@ import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
 import Header from 'in-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
+import { Nullish, SliType } from 'in-types';
 import { Trans, t } from 'in-i18n';
 
 import locals from './FormComponent.mless';
 
-export default function FormComponent({ form, onChange: originalOnChange, setSlideInView }) {
-  const [configChanged, setConfigChanged] = useState();
+export type SubSlideState<S> = [Partial<S> | undefined, Dispatch<SetStateAction<S | undefined>>];
+
+interface SlideInView<SlideoutState> {
+  renderTitle: (sliSelected: SlideoutState | undefined) => string;
+  slideOutHandler: (slideOut: () => void, state: SubSlideState<SlideoutState>) => void;
+  getContent: (props: { subSlideState: SubSlideState<SlideoutState> }) => React.ReactNode;
+}
+
+interface FormComponentProps {
+  form: MapForm;
+  onChange: (path: string[], updater: (f: MapForm) => MapForm) => void;
+  setSlideInView: (view: SlideInView<Partial<SliConfigBySliType<'application' | 'website'>>>) => void;
+}
+
+export default function FormComponent({ form, onChange: originalOnChange, setSlideInView }: FormComponentProps) {
+  const [configChanged, setConfigChanged] = useState<boolean>();
   const updateForm = useSloFormSideEffects(form, updatedForm => {
     if (!configChanged) {
-      trackStartEditingSloWidgetConfig();
+      trackStartEditingSloWidgetConfig({});
       setConfigChanged(true);
     }
-    originalOnChange([], () => updatedForm);
+    originalOnChange([], () => updatedForm as MapForm);
   });
 
-  const entityIdField = form.get(entityId);
+  const entityIdField = form.get(entityId) as Field<string>;
   const entityIdValue = entityIdField?.value;
-  const entityTypeValue = form.get(entityType)?.value;
+  const entityTypeValue = (form.get(entityType) as Field<Lowercase<SliType>>)?.value;
 
-  const timeWindowTypeValue = form.get(timeWindowType)?.value ?? 'dynamic';
+  const timeWindowTypeValue = (form.get(timeWindowType) as Field<TimeWindowType>)?.value ?? 'dynamic';
   const isFixed = timeWindowTypeValue === 'fixed';
   const isRolling = timeWindowTypeValue === 'rolling';
 
-  const onChangeTimeWindowType = value => {
-    updateForm(form.updateIn([timeWindowType], f => f.setValue(value).setTouched(true)));
+  const onChangeTimeWindowType = (value: TimeWindowType) => {
+    updateForm(form.updateIn([timeWindowType], f => (f as Field<TimeWindowType>).setValue(value).setTouched(true)));
     trackTimeWindowTypeChanged({ type: value });
   };
 
   const timeWindowDurationUnitValue =
-    form.get(timeWindowDurationUnit)?.value ?? t('in-custom-dashboards:widgets.slo.formComponent.weeks');
+    (form.get(timeWindowDurationUnit) as Field<TimeWindowDuration>)?.value ??
+    t('in-custom-dashboards:widgets.slo.formComponent.weeks');
 
-  const onChangeTimeDurationUnit = value => {
-    updateForm(form.updateIn([timeWindowDurationUnit], f => f.setValue(value).setTouched(true)));
+  const onChangeTimeDurationUnit = (value: TimeWindowDuration): void => {
+    updateForm(
+      form.updateIn([timeWindowDurationUnit], f => (f as Field<TimeWindowDuration>).setValue(value).setTouched(true))
+    );
   };
-  const dateField = form.get(timeWindowStart)?.get('date');
-  const timeField = form.get(timeWindowStart)?.get('time');
+  const dateField = (form.get(timeWindowStart) as MapForm)?.get('date') as Field<string>;
+  const timeField = (form.get(timeWindowStart) as MapForm)?.get('time') as Field<string>;
 
   function activateManageSliSlideIn() {
     return setSlideInView({
@@ -97,7 +119,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
             slideOut(); // close list
           } else {
             // "cancel"/close, go back to list
-            selectSli(null);
+            selectSli(undefined);
           }
         };
       },
@@ -109,8 +131,8 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     });
   }
 
-  function onUpdateAppId(id) {
-    updateForm(form.updateIn([entityId], f => f.setValue(id).setTouched(true)));
+  function onUpdateAppId(id: string | undefined): void {
+    updateForm(form.updateIn([entityId], f => (f as Field<string | undefined>).setValue(id).setTouched(true)));
     trackAPSelected({ applicationId: id });
   }
 
@@ -125,7 +147,11 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               <MonitoringSourceSelector
                 value={entityTypeValue}
                 onChange={type =>
-                  updateForm(form.updateIn([entityType], field => field.setValue(type).setTouched(true)))
+                  updateForm(
+                    form.updateIn([entityType], field =>
+                      (field as Field<Lowercase<SliType>>).setValue(type).setTouched(true)
+                    )
+                  )
                 }
               />
             </Section>
@@ -138,7 +164,9 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         {entityTypeValue === 'website' && (
           <WebsiteSelector
             websiteIdField={entityIdField}
-            onChange={id => updateForm(form.updateIn([entityId], field => field.setValue(id).setTouched(true)))}
+            onChange={id =>
+              updateForm(form.updateIn([entityId], field => (field as Field<string>).setValue(id).setTouched(true)))
+            }
           />
         )}
 
@@ -162,7 +190,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         />
 
         <Sections>
-          {form.get(sloTarget).map(field => (
+          {(form.get(sloTarget) as Field<number | undefined>).map(field => (
             <Section
               title={t('in-custom-dashboards:widgets.slo.formComponent.sloTarget')}
               titleHtmlFor={sloTarget}
@@ -172,14 +200,16 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 id={sloTarget}
                 value={field.value}
                 onChange={value => {
-                  updateForm(form.updateIn([sloTarget], f => f.setValue(value).setTouched(true)));
-                  debouncedTrackSloChanged(value);
+                  updateForm(
+                    form.updateIn([sloTarget], f => (f as Field<number | undefined>).setValue(value).setTouched(true))
+                  );
+                  debouncedTrackSloChanged({ sloTarget: value });
                 }}
                 hasError={!field.valid && field.touched}
               />
               <span className={locals.sloUnit}>%</span>
               <OverridingFieldValidationMessage
-                field={form.get(sloTarget)}
+                field={form.get(sloTarget)!}
                 message={t('in-custom-dashboards:widgets.slo.formComponent.enterVal0to100')}
               />
             </Section>
@@ -191,7 +221,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
             id="time-window-type"
             label={t('in-custom-dashboards:widgets.slo.formComponent.timeWindow')}
             value={timeWindowTypeValue}
-            onChange={({ target }) => onChangeTimeWindowType(target.value)}
+            onChange={({ target }) => onChangeTimeWindowType(target.value as TimeWindowType)}
             actions={
               <HelpAction>
                 <Trans
@@ -225,13 +255,13 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
               useAlternateBg
             >
               <HorizontalFlexWrapper>
-                {form.get(timeWindowDuration).map(field => (
+                {(form.get(timeWindowDuration) as Field<number>).map(field => (
                   <Input
                     id="time-window-size"
                     onChange={e =>
                       updateForm(
-                        form.updateIn([timeWindowDuration], field =>
-                          field.setValue(e.target.valueAsNumber).setTouched(true)
+                        form.updateIn([timeWindowDuration], f =>
+                          (f as Field<number>).setValue(e.target.valueAsNumber).setTouched(true)
                         )
                       )
                     }
@@ -244,11 +274,11 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                   />
                 ))}
 
-                {form.get(timeWindowDuration).map(field => (
+                {(form.get(timeWindowDuration) as Field<number>).map(field => (
                   <Select
                     hasError={!field.valid && field.touched}
                     value={timeWindowDurationUnitValue}
-                    onChange={e => onChangeTimeDurationUnit(e.target.value)}
+                    onChange={e => onChangeTimeDurationUnit(e.target.value as TimeWindowDuration)}
                     className={locals.timeWindowUnit}
                   >
                     <option value="days">{t('in-custom-dashboards:widgets.slo.formComponent.days')}</option>
@@ -260,7 +290,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
               <TouchedMessages field={form.get(timeWindowDuration)} />
               <OverridingFieldValidationMessage
-                field={form.get(timeWindowDuration)}
+                field={form.get(timeWindowDuration)!}
                 message={t('in-custom-dashboards:widgets.slo.formComponent.pleaseSpecifyTheNumber', {
                   timeValue: timeWindowDurationUnitValue
                 })}
@@ -275,9 +305,12 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 <DateInput
                   value={dateField?.value}
                   onChange={v =>
-                    updateForm(form.updateIn([timeWindowStart, 'date'], f => f.setValue(v).setTouched(true)))
+                    updateForm(
+                      form.updateIn([timeWindowStart, 'date'], f =>
+                        (f as Field<string | Nullish>).setValue(v).setTouched(true)
+                      )
+                    )
                   }
-                  hasError={!dateField.valid && dateField.touched}
                   iconType="lib_datetime_date"
                 />
 
@@ -288,13 +321,15 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                     onBlur={({ target }) =>
                       updateForm(
                         form.updateIn([timeWindowStart, 'time'], f =>
-                          f.setValue(formatInputTime(target.value, 'HH:mm:ss')).setTouched(true)
+                          (f as Field<string>).setValue(formatInputTime(target.value, 'HH:mm:ss')).setTouched(true)
                         )
                       )
                     }
                     onChange={({ target }) =>
                       updateForm(
-                        form.updateIn([timeWindowStart, 'time'], f => f.setValue(target.value).setTouched(true))
+                        form.updateIn([timeWindowStart, 'time'], f =>
+                          (f as Field<string>).setValue(target.value).setTouched(true)
+                        )
                       )
                     }
                     hasError={!timeField.valid && timeField.touched}
