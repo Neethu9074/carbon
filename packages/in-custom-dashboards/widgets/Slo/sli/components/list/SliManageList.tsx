@@ -8,8 +8,8 @@ import React, { useState } from 'react';
 import { Message, Button } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
+import { deleteSliConfiguration, getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
-import { deleteSliConfiguration, getSliConfigurationsByEntity } from 'in-custom-dashboards/api';
 import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';

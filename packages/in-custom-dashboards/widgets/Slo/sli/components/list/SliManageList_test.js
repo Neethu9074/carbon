@@ -9,8 +9,8 @@ import React from 'react';
 import { Message } from '@instana/components';
 
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList';
+import { getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';
-import { getSliConfigurationsByEntity } from 'in-custom-dashboards/api';
 import { success, error, hasError } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
 import { role } from 'in-stores/user';
@@ -19,7 +19,7 @@ import { Trans } from 'in-i18n';
 jest.mock('@instana/hooks', () => ({
   useObservable: jest.fn((o, d) => o(d))
 }));
-jest.mock('in-custom-dashboards/api', () => ({
+jest.mock('in-custom-dashboards/widgets/Slo/sli/api', () => ({
   deleteSliConfiguration: jest.fn(),
   getSliConfigurationsByEntity: jest.fn()
 }));

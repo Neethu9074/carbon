@@ -9,11 +9,11 @@ import { just } from '@instana/observables';
 
 import { Result, SliConfigMetricConfiguration, SliConfigurationWithLastUpdated, SliEntityUnion } from 'in-types';
 import useSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations';
-import { getSliConfigurationsByEntity } from 'in-custom-dashboards/api';
+import { getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/Slo/sli/api';
 
-jest.mock('in-custom-dashboards/api', () => {
+jest.mock('in-custom-dashboards/widgets/Slo/sli/api', () => {
   return {
-    ...jest.requireActual('in-custom-dashboards/api'),
+    ...jest.requireActual('in-custom-dashboards/widgets/Slo/sli/api'),
     getSliConfigurationsByEntity: jest.fn(),
     __esModule: true
   };
