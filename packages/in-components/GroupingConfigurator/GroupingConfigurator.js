@@ -41,9 +41,9 @@ export default function GroupingConfigurator({
         content={TagSelectorOverlay}
         props={{
           tagCatalog,
-          onChange: props => {
+          onChange: ({ name, tagType }) => {
             autoFocus.current = Date.now();
-            const selectedGroup = setEntityIfNecessary(props.name, props.tagType);
+            const selectedGroup = setEntityIfNecessary(name, tagType);
             tracking?.onGroupAdded?.(selectedGroup);
             onChange(selectedGroup);
           }
