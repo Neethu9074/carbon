@@ -34,13 +34,15 @@ export default React.forwardRef(function ActiveGroupingConfiguration(
     fieldsToWatch: [autoFocus]
   });
   const timeConfig = useTimeConfig();
+
+  const tagTreeNode = tagCatalog.tagsByName[groupbyTag];
+
   const result = useDebouncedValue(
     groupbyTagSecondLevelKey,
-    v => onChange({ groupbyTagEntity, groupbyTag, groupbyTagSecondLevelKey: v }),
+    v => onChange({ groupbyTagEntity, groupbyTag, groupbyTagSecondLevelKey: v, tagType: tagTreeNode.type }),
     500
   );
 
-  const tagTreeNode = tagCatalog.tagsByName[groupbyTag];
   const path = tagTreeNode?.path;
 
   if (!path) {
