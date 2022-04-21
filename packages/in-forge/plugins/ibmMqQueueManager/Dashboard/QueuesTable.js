@@ -6,7 +6,7 @@
 import React from 'react';
 
 import getIbmMqQueuesForQueueManager from 'in-forge/plugins/ibmMqQueueManager/subscriptions/getIbmMqQueuesForQueueManager';
-import { number } from 'in-services/formatters/number';
+import { number, percentage } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -20,6 +20,22 @@ const cols = [
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.queueFullPercentage'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'queueFullPercentage';
+      },
+      getContent: percentage.detailed,
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   },
@@ -84,15 +100,6 @@ const cols = [
       getContent: number.compact,
       getTimeWindowAggregation() {
         return 'mean';
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.usage'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'queueUsage']);
       }
     }
   },
