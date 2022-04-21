@@ -5435,7 +5435,8 @@
       "logHadrWaitCur": "Current Logger Wait Time",
       "logHadrWaitTime": "Total Logger Wait Time",
       "unableToConnect": "Cannot connect to {{connectionUrl}} using user {{user}}.",
-      "troubleshootingDocs": "Troubleshooting docs"
+      "troubleshootingDocs": "Troubleshooting docs",
+      "oldConfigUsed": "Db2 Sensor now supports monitoring of multiple instances and databases on the host where Instana Agent is running. Please refer to the docs for the new configuration format."
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
