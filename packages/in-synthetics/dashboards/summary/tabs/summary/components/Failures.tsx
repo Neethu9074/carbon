@@ -58,7 +58,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       operator: EQUALS
     },
     {
-      stringValue: '0',
+      numberValue: 0,
       name: 'status',
       operator: EQUALS
     }
