@@ -15,6 +15,9 @@ export function constructLink(
   accountId: string,
   baseUrl: string | null
 ) {
+  if (!baseUrl) {
+    baseUrl = instanceType === 'LOG_DNA_SAAS' ? logDnaDefaultBaseURL : ibmCloudDefaultBaseURL;
+  }
   return instanceType === 'LOG_DNA_SAAS'
     ? `${baseUrl}${accountId}/logs/view${toParams(queryParameters, '?', '&')}`
     : `${baseUrl}${accountId}${toParams(queryParameters, '?', '&')}`;

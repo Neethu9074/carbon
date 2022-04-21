@@ -22,7 +22,7 @@ export default function IbmCloudLogDnaForm({ form, onChange, disabled, areFields
   let accountId = form.get('accountId').value;
   let instanceType = 'IBM_CLOUD';
   let ibmCloudBaseURL = form.get('baseUrl').value;
-  const logdnaUrl = constructLink(null, instanceType, accountId, ibmCloudBaseURL);
+  const logdnaUrl = constructLink({}, instanceType, accountId, ibmCloudBaseURL);
 
   return (
     <fieldset>

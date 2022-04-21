@@ -22,7 +22,7 @@ export default function LogDnaSaasForm({ form, onChange, disabled, areFieldsInva
   let accountId = form.get('accountId').value;
   let instanceType = 'LOG_DNA_SAAS';
   let logDnaBaseURL = form.get('baseUrl').value;
-  const logdnaUrl = constructLink(null, instanceType, accountId, logDnaBaseURL);
+  const logdnaUrl = constructLink({}, instanceType, accountId, logDnaBaseURL);
 
   return (
     <fieldset>
