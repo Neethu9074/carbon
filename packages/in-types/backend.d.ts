@@ -527,14 +527,11 @@ export interface Cursorific<T> {
 }
 
 export interface CustomAbstractEventSpecification<T> {
-  readonly applicationAlertConfigId?: string;
-  readonly deleted: boolean;
   readonly description?: string;
   readonly enabled: boolean;
   readonly entityType: string;
   readonly expirationTime: number;
   readonly id: string;
-  readonly migrated: boolean;
   readonly name: string;
   readonly query?: string;
   readonly rules: T[];
@@ -559,7 +556,7 @@ export interface CustomEventSpecification extends CustomAbstractEventSpecificati
   readonly rules: AbstractRuleUnion[];
 }
 
-export interface CustomEventSpecificationWithLastUpdated extends CustomEventSpecification {
+export interface CustomEventSpecificationWithLastUpdated extends WithMetadata {
   readonly lastUpdated: number;
 }
 
@@ -4164,6 +4161,8 @@ export interface TestResult {
 }
 
 export interface TestResultCommonProperties {
+  readonly clientId: string;
+  readonly id: string;
   readonly locationId: string;
   readonly testId: string;
 }
@@ -4878,6 +4877,12 @@ export interface WindowWidthBreakdown {
   readonly minWindowWidth: number;
   readonly pageLoads: number;
   readonly users: number;
+}
+
+export interface WithMetadata extends CustomEventSpecification {
+  readonly applicationAlertConfigId?: string;
+  readonly deleted: boolean;
+  readonly migrated: boolean;
 }
 
 export interface WithResolvedName extends Author {
