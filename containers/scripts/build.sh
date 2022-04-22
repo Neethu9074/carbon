@@ -101,12 +101,27 @@ function _run_docker_build {
   local TARGET_OVERRIDE=${4:-'none'}
   _log_info "Building image ${TAG}"
 
+  local REGISTRY_USERNAME
+  local REGISTRY_PASSWORD
+
+  if [[ ${ARTIFACT_VERSION} == 'local' ]]; then
+    REGISTRY_AUTH=$(yarn config get '//artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/:_auth' | base64 -d)
+    IFS=':' read -r REGISTRY_USERNAME REGISTRY_PASSWORD <<< "$REGISTRY_AUTH"
+  else
+    REGISTRY_USERNAME=${ARTIFACT_RND_INSTANA_IO_USER}
+    REGISTRY_PASSWORD=${ARTIFACT_RND_INSTANA_IO_PASSWORD}
+  fi
+
   docker build \
     --build-arg base_version=${BASE_VERSION} \
     --build-arg component_name=${COMPONENT_NAME} \
     --build-arg image_version=${DESIRED_IMAGE_VERSION} \
     --build-arg branch=${BRANCH_NAME} \
     --build-arg commit_id=${COMMIT_ID} \
+    --build-arg registry='https://artifact-rnd.instana.io' \
+    --build-arg repository_key='npm-virtual-internal' \
+    --build-arg registry_username=${REGISTRY_USERNAME} \
+    --build-arg registry_password=${REGISTRY_PASSWORD} \
     -f ${PATH_TO_CONTAINER_FILE} \
     -t ${TAG} \
     ${COMPONENT_CONTAINER_DIR}
