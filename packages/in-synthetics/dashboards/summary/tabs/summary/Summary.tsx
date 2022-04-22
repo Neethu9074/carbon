@@ -15,8 +15,8 @@ import { bytes, meanLatency, number, percentage } from 'in-services/formatters/n
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import BigNumberKpiCard from 'in-components/KpiCard/BigNumberKpiCard';
+import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { dummyTest } from 'in-synthetics/utils/constants';
 import ResponseStatus from './components/ResponseStatus';
@@ -28,7 +28,7 @@ import { t } from 'in-i18n';
 export default function Summary() {
   const timeShiftConfig = useTimeShiftConfig();
   const location = useLocation();
-  const testId = getMatrixParameter(location, syntheticsPath, 'testId') ?? '';
+  const testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   let test = useObservable<any, []>(() => getTest(testId), []) || dummyTest;
 
   let tagFilters = [

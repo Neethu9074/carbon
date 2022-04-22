@@ -106,6 +106,7 @@
       "meanResponseTime": "Mean response time",
       "avgResponseSize": "Avg. response size",
       "summaryTab": "Summary",
+      "resultsTab": "Results",
       "widgets": {
         "failures": "Failures",
         "responseTimes": "Response Times",
@@ -119,6 +120,16 @@
       },
       "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th"
+    },
+    "resultsListPage": {
+      "startedColumn": "Started",
+      "locationColumn": "Location",
+      "responseTimeColumn": "Response Time",
+      "responseSizeColumn": "Response Size"
+    },
+    "noDataAvailable": {
+      "resultsTitle": "No results available",
+      "resultsDescription": "There were no results retrieved for the selected time range."
     }
   }
 }

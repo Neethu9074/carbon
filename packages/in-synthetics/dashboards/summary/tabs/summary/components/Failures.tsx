@@ -73,7 +73,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
     aggregation: 'DISTINCT_COUNT',
     source: 'SYNTHETICS',
     tagFilters: tagFilters,
-    timeShift: 0,
+    timeShift: timeShiftConfig.offset,
     metric: 'id',
     order
   };
