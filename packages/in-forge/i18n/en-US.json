@@ -1345,6 +1345,8 @@
   "tracingTypeName_cicshttpexit": "CICS HTTP Call",
   "tracingTypeName_cicsrpcentry": "CICS RPC Call",
   "tracingTypeName_cicsrpcexit": "CICS RPC Call",
+  "tracingTypeName_cicsmqentry": "CICS MQ Call",
+  "tracingTypeName_cicsmqexit": "CICS MQ Call",
   "tracingTypeName_corba": "Corba call",
   "tracingTypeName_corba_plural": "Corba calls",
   "tracingTypeName_corba_0": "Corba calls",
@@ -11538,6 +11540,12 @@
       "titleUserId": "CICS User ID",
       "titleTaskNumber": "CICS Task Number",
       "titleRegion": "CICS Region"
+    },
+    "mq": {
+      "titleMqAttributes": "MQ Attributes",
+      "operation" : "Operation",
+      "manager" : "Manager",
+      "queue" : "Queue"
     },
     "corba": {
       "titleMethod": "Method",
