@@ -526,19 +526,6 @@ export interface Cursorific<T> {
   readonly cursor?: T;
 }
 
-export interface CustomAbstractEventSpecification<T> {
-  readonly description?: string;
-  readonly enabled: boolean;
-  readonly entityType: string;
-  readonly expirationTime: number;
-  readonly id: string;
-  readonly name: string;
-  readonly query?: string;
-  readonly rules: T[];
-  readonly triggering: boolean;
-  readonly validVersion: number;
-}
-
 export interface CustomDashboard {
   readonly accessRules: AccessRule[];
   readonly id: string;
@@ -552,8 +539,16 @@ export interface CustomDashboardPreview {
   readonly title: string;
 }
 
-export interface CustomEventSpecification extends CustomAbstractEventSpecification<AbstractRule> {
+export interface CustomEventSpecification {
+  readonly description?: string;
+  readonly enabled: boolean;
+  readonly entityType: string;
+  readonly expirationTime: number;
+  readonly name: string;
+  readonly query?: string;
   readonly rules: AbstractRuleUnion[];
+  readonly triggering: boolean;
+  readonly validVersion: number;
 }
 
 export interface CustomEventSpecificationWithLastUpdated extends WithMetadata {
@@ -4882,6 +4877,7 @@ export interface WindowWidthBreakdown {
 export interface WithMetadata extends CustomEventSpecification {
   readonly applicationAlertConfigId?: string;
   readonly deleted: boolean;
+  readonly id: string;
   readonly migrated: boolean;
 }
 
