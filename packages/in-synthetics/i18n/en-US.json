@@ -116,7 +116,11 @@
         "latest": "Latest",
         "failed": "Failed",
         "results": "Results",
-        "linkViewAllTestResults": "View all results"
+        "linkViewAllTestResults": "View all results",
+        "ok": "Success",
+        "redirection": "Redirection",
+        "clientError": "Client Error",
+        "serverError": "Server Error"
       },
       "totalRuns": "{{totalRuns}} total runs",
       "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th"

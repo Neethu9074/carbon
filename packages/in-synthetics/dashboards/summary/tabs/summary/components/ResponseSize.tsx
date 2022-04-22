@@ -17,8 +17,8 @@ import { TestResponse } from 'in-synthetics/utils/constants';
 import { bytes } from 'in-services/formatters/number';
 import { integral } from 'in-stores/metric/renderer';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { getChartTestMetrics } from './utils';
-import { Order, TimeShift } from 'in-types';
+import { TimeShift } from 'in-types';
+import theme from 'in-themes';
 
 type Props = {
   timeShiftConfig: TimeShift;
@@ -50,34 +50,37 @@ export default function ResponseSize({ test, timeShiftConfig }: Props) {
 }
 
 function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
-  const locations: [] = get(test, ['data', 'locations']);
+  const locations: string[] = get(test, ['data', 'locations']);
   const id = get(test, ['data', 'id']);
-  let tagFilters = [
-    {
-      stringValue: id,
-      name: 'testId',
-      operator: EQUALS
-    }
-  ];
+  let tagFilters = [];
+  let testMetricConfigs: Metric[] = [];
+  var locationLabel: string;
+  for (let i = 0; i < locations.length; i++) {
+    locationLabel = `${locations[i].split('_', 1)}`;
+    tagFilters = [
+      {
+        stringValue: id,
+        name: 'testId',
+        operator: EQUALS
+      },
+      {
+        stringValue: locations[i],
+        name: 'locationId',
+        operator: EQUALS
+      }
+    ];
 
-  const order: Order = {
-    by: 'location_id',
-    direction: 'ASC'
-  };
+    testMetricConfigs[i] = {
+      aggregation: 'MEAN',
+      source: 'SYNTHETICS',
+      tagFilters: tagFilters,
+      timeShift: timeShiftConfig.offset,
+      metric: 'response_size',
+      label: locationLabel,
+      color: theme.lib.colors.chart.strokeColors25[i]
+    };
+  }
 
-  const testMetricConfig: Metric = {
-    aggregation: 'MEAN',
-    source: 'SYNTHETICS',
-    tagFilters: tagFilters,
-    timeShift: timeShiftConfig.offset,
-    metric: 'response_size',
-    order
-  };
-
-  const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'response_size');
-
-  const metricConfigs = chartTestMetrics.map(m => ({ label: m.label, ...m.config }));
-  const colors = chartTestMetrics.map(m => m.color);
   const renderer = integral.id;
 
   return (
@@ -94,8 +97,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
           formatter: 'bytes.detailed',
           tooltipFormatter: bytes.detailed,
           calculateStackDifferences: true,
-          metrics: metricConfigs,
-          colors: colors
+          metrics: testMetricConfigs
         },
         type: 'TIME_SERIES'
       }}
