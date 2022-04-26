@@ -50,7 +50,7 @@ const columnDefinitions = [
     id: 'location_id',
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: any) {
-      return <span className={locals.metricLabel}>{item.testResultCommonProperties.locationLabel}</span>;
+      return <span className={locals.metricLabel}>{item.testResultCommonProperties.locationId}</span>;
     }
   },
   {
@@ -101,9 +101,17 @@ type GetList = {
   timeConfig: TimeConfig;
   orderBy: any;
   orderDirection: any;
+  page: number;
+  pageSize: number;
 };
 
-function getSynthTableData({ timeConfig, orderBy = 'response_time', orderDirection = 'DESC' }: GetList) {
+function getSynthTableData({
+  timeConfig,
+  orderBy = 'response_time',
+  orderDirection = 'DESC',
+  page = 1,
+  pageSize = 20
+}: GetList) {
   let baseTagFilters: TagFilter[] = [
     {
       stringValue: testId,
@@ -116,8 +124,8 @@ function getSynthTableData({ timeConfig, orderBy = 'response_time', orderDirecti
 
   return getTestResultList({
     pagination: {
-      page: 1,
-      pageSize: 20
+      page,
+      pageSize
     },
     // @ts-ignore
     order: { by: orderBy, direction: orderDirection },
