@@ -13,6 +13,6 @@ registerSpanDefinition({
   detailView: 'CicsMqEntryDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'ibm-mq', 'queue'], '<unknown>');
+    return span.getIn(['data', 'mq', 'queue'], '<unknown>');
   }
 });

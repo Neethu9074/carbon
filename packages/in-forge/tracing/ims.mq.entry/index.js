@@ -7,10 +7,10 @@ import { registerSpanDefinition } from 'in-sdk/tracing';
 import { t } from 'in-i18n';
 
 registerSpanDefinition({
-  type: 'cics.mq.exit',
+  type: 'ims.mq.entry',
   category: t('in-forge:tracingCategory.messaging'),
 
-  detailView: 'CicsMqExitDetailView',
+  detailView: 'ImsMqEntryDetailView',
 
   getLabel(span) {
     return span.getIn(['data', 'mq', 'queue'], '<unknown>');

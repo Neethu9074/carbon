@@ -1347,6 +1347,8 @@
   "tracingTypeName_cicsrpcexit": "CICS RPC Call",
   "tracingTypeName_cicsmqentry": "CICS MQ Call",
   "tracingTypeName_cicsmqexit": "CICS MQ Call",
+  "tracingTypeName_imsmqentry": "IMS MQ Call",
+  "tracingTypeName_imsmqexit": "IMS MQ Call",
   "tracingTypeName_corba": "Corba call",
   "tracingTypeName_corba_plural": "Corba calls",
   "tracingTypeName_corba_0": "Corba calls",
