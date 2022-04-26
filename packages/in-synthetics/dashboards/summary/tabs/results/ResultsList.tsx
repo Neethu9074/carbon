@@ -8,7 +8,6 @@ import { get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 
-import { Link } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
 // @ts-ignore
@@ -18,13 +17,12 @@ import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/Sever
 import { timeByMillisZeroDecimalPlaces, kiloBytesTwoDecimalPlaces } from 'in-services/formatters/number';
 // @ts-ignore
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { syntheticsDashboard, syntheticsSummaryPath } from 'in-synthetics/navigation/paths';
-import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
+import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TagFilter, TimeConfig } from 'in-types';
 import Footer from 'in-components/Footer/Footer';
@@ -52,17 +50,7 @@ const columnDefinitions = [
     id: 'location_id',
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: any) {
-      return (
-        <Link
-          href$={getModifiedUrlStream(summaryUrl => {
-            summaryUrl.pathname = syntheticsSummaryPath;
-            setOrDeleteMatrixKey(summaryUrl, syntheticsDashboard, 'testId', item.testResultCommonProperties.testId);
-            return summaryUrl;
-          })}
-        >
-          <h4>{item.testResultCommonProperties.locationId.split('_', 1)}</h4>
-        </Link>
-      );
+      return <span className={locals.metricLabel}>{item.testResultCommonProperties.locationLabel}</span>;
     }
   },
   {
