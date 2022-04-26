@@ -154,7 +154,7 @@ type Lab = {
 };
 
 function Label({ item }: Lab) {
-  return item.testResultCommonProperties.locationId;
+  return item.testResultCommonProperties.locationLabel;
 }
 
 type Met = {
