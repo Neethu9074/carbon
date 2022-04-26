@@ -14,9 +14,12 @@ import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 // @ts-ignore
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+import { syntheticResultsListPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
+import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { latency } from 'in-services/formatters/number';
 import { Order, TagFilter, TimeConfig } from 'in-types';
 import { fromNow } from 'in-services/formatters/date';
@@ -141,9 +144,15 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
   });
 }
 
-function ViewAll() {
+function ViewAll({ testId }: Props) {
   return (
-    <Link href={''} onClick={() => trackTopListNavigation()}>
+    <Link
+      href$={getModifiedUrlStream(resultListUrl => {
+        resultListUrl.pathname = syntheticResultsListPath;
+        setOrDeleteMatrixKey(resultListUrl, syntheticsDashboard, 'testId', testId);
+        return resultListUrl;
+      })}
+    >
       {t('in-synthetics:dashboard.summary.widgets.linkViewAllTestResults')}
     </Link>
   );
