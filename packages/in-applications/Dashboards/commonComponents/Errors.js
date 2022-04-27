@@ -15,7 +15,7 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { filterByEndpointTypeUnsafe } from './includeEndpointTypes';
+import { filterByEndpointType } from './includeEndpointTypes';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
@@ -123,7 +123,7 @@ export default function Errors({
                   formModel: joinExpressions({
                     expressions: [
                       createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointTypeUnsafe(endpointTypes)
+                      ...filterByEndpointType(endpointTypes)
                     ]
                   }),
                   facets: { 'call.erroneous': [true] },

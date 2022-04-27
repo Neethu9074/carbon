@@ -5,8 +5,6 @@
 
 import React from 'react';
 
-// import { filterByEndpointTypeUnsafe } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
-import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
 import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption,
@@ -15,7 +13,8 @@ import {
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import { createChartedMetric, createGroupBy, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
-import { filterByEndpointTypeUnsafe } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
+import ApplicationDashboardsMarkerLanes from 'in-applications/Dashboards/ApplicationDashboardsMarkerLanes';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import LatencyAndDistribution from 'in-applications/Dashboards/commonComponents/LatencyAndDistribution';
 import DatabaseSections from 'in-applications/Dashboards/commonComponents/database/DatabaseSections';
 import TechnologyBreakdown from 'in-applications/Dashboards/commonComponents/TechnologyBreakdown';
@@ -107,7 +106,7 @@ export default connectTo(
                     formModel: joinExpressions({
                       expressions: [
                         createFormModelFromSyntheticOption(syntheticCalls),
-                        ...filterByEndpointTypeUnsafe(endpointTypes)
+                        ...filterByEndpointType(endpointTypes)
                       ]
                     }),
                     hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),
@@ -160,7 +159,7 @@ export default connectTo(
                     formModel: joinExpressions({
                       expressions: [
                         createFormModelFromSyntheticOption(syntheticCalls),
-                        ...filterByEndpointTypeUnsafe(endpointTypes)
+                        ...filterByEndpointType(endpointTypes)
                       ]
                     }),
                     facets: { 'call.erroneous': [true] },
@@ -214,7 +213,7 @@ export default connectTo(
                     formModel: joinExpressions({
                       expressions: [
                         createFormModelFromSyntheticOption(syntheticCalls),
-                        ...filterByEndpointTypeUnsafe(endpointTypes)
+                        ...filterByEndpointType(endpointTypes)
                       ]
                     }),
                     hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls)

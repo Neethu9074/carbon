@@ -9,13 +9,13 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
-import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
-import { filterByEndpointTypeUnsafe } from './includeEndpointTypes';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import theme from 'in-themes';
@@ -170,7 +170,7 @@ export default function CallsErrorsChart({
                   formModel: joinExpressions({
                     expressions: [
                       createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointTypeUnsafe(endpointTypes)
+                      ...filterByEndpointType(endpointTypes)
                     ]
                   }),
                   hiddenCalls,

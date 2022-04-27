@@ -10,8 +10,8 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import formModelFromHttpStatusRange, { TAG_CALL_HTTP_STATUS } from 'in-applications/analyze/utils/formModelUtils';
-import { filterByEndpointTypeUnsafe } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { or } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -217,7 +217,7 @@ export default function HttpSections({
                     expressions: [
                       createFormModelFromSyntheticOption(syntheticCalls),
                       selectedMetricsToFormModel(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
-                      filterByEndpointTypeUnsafe(endpointTypes)
+                      filterByEndpointType(endpointTypes)
                     ]
                   }),
                   hiddenCalls,

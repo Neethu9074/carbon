@@ -14,11 +14,3 @@ export function filterByEndpointType(types: EndpointType[]): TagFilter[] {
     return [];
   }
 }
-
-export function filterByEndpointTypeUnsafe(types: any) {
-  if (types.length === 1) {
-    return [tagFilter('call.type', EQUALS, types[0])];
-  } else {
-    return [];
-  }
-}

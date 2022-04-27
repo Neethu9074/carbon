@@ -9,8 +9,8 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import { filterByEndpointTypeUnsafe } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -187,7 +187,7 @@ export default function Latency({
                   formModel: joinExpressions({
                     expressions: [
                       createFormModelFromSyntheticOption(syntheticCalls),
-                      ...filterByEndpointTypeUnsafe(endpointTypes)
+                      ...filterByEndpointType(endpointTypes)
                     ]
                   }),
                   hiddenCalls,
