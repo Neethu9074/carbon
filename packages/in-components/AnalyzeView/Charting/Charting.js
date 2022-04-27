@@ -9,11 +9,17 @@ import { Stack } from '@instana/components';
 
 import { childrenArgsAsPropTypes } from 'in-components/AnalyzeView/StateManagement';
 import Configurator from 'in-components/AnalyzeView/Charting/Configurator';
+import { dataSourceConstants } from 'in-applications/analyze/metrics';
 import Chart from 'in-components/AnalyzeView/Charting/Chart';
 import { aggregationLabels } from 'in-stores/metric';
 
 function isCallOverviewTemplate(template) {
   return template.templateId === 'calls.overview';
+}
+
+function isSupportedAggregation(metricId, aggregation) {
+  const supportedAggregations = dataSourceConstants.calls.metricCatalogSupportedChartableMetrics[metricId];
+  return supportedAggregations.includes(aggregation);
 }
 
 export default function Charting(props) {
@@ -32,7 +38,7 @@ export default function Charting(props) {
       chartedMetricsTemplate.metrics?.map(metric => ({
         metricId: metric.metricId,
         aggregations: isCallOverviewTemplate(chartedMetricsTemplate)
-          ? metric.aggregations.filter(agg => agg !== 'DISTRIBUTION')
+          ? metric.aggregations.filter(agg => agg !== 'DISTRIBUTION' && isSupportedAggregation(metric.metricId, agg))
           : metric.aggregations
       })) ?? [];
   } else {

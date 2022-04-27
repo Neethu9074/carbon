@@ -26,8 +26,8 @@ import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/b
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
+import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { createSliConfiguration } from 'in-custom-dashboards/api';
 import { Result, TimeConfig, Website } from 'in-types';
 import useWebsite from 'in-websites/hooks/useWebsite';
 

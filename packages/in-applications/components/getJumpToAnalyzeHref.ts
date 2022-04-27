@@ -14,7 +14,7 @@ import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { alwaysNull } from 'in-services/fixedStreams';
 import { Result } from 'in-types';
 
-interface GetLabelsProps {
+export interface GetLabelsProps {
   applicationId?: string;
   serviceId?: string;
   endpointId?: string;

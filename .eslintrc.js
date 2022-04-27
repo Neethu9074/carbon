@@ -50,21 +50,28 @@ module.exports = {
   })(),
 
   rules: {
+    // ###########################################################
+    // ### Copyright Header
+    // ###########################################################
+    // This supports both the old pattern:
+    // /*
+    //  * (c) Copyright IBM Corp. 2021
+    //  * (c) Copyright Instana Inc.
+    //  */
+    // As well as the new pattern
+    // /*
+    //  * IBM Confidential
+    //  * PID 5737-N85, 5900-AG5
+    //  * Copyright IBM Corp. 2022
+    //  */
+    // Newly generated notices default to the second pattern and the year is automatically set to the current one
     'header/header': [
       2,
       'block',
-      [
-        '',
-        {
-          template: ` * (c) Copyright IBM Corp. ${new Date().getFullYear()}`,
-          pattern: /^ \* \(c\) Copyright IBM Corp\. \d\d\d\d$/
-        },
-        {
-          template: ` * (c) Copyright Instana Inc. ${new Date().getFullYear()}`,
-          pattern: /^ \* \(c\) Copyright Instana Inc\.( \d\d\d\d)?$/
-        },
-        ' '
-      ],
+      {
+        template: `\n * IBM Confidential\n * PID 5737-N85, 5900-AG5\n * Copyright IBM Corp. ${new Date().getFullYear()}\n `,
+        pattern: /\n(^ \* \(c\) Copyright IBM Corp\. \d\d\d\d$\n^ \* \(c\) Copyright Instana Inc\.( \d\d\d\d)?$|^ \* IBM Confidential$\n^ \* PID 5737-N85, 5900-AG5$\n^ \* Copyright IBM Corp. \d\d\d\d$)\n /m
+      },
       2
     ],
 

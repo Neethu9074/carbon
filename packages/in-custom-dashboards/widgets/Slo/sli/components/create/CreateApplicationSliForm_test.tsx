@@ -14,9 +14,9 @@ import { applicationType, availabilityType, SliConfig } from 'in-custom-dashboar
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { ApplicationSliForm } from 'in-custom-dashboards/widgets/Slo/sli/ApplicationSliForm';
 import { Application, ApplicationSliEntity, AvailabilitySliEntity } from 'in-types';
+import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { createSliConfiguration } from 'in-custom-dashboards/api';
 import uA from 'in-applications/hooks/useApplication';
 
 jest.mock('in-applications/hooks/useApplication', () => ({
@@ -27,7 +27,7 @@ jest.mock('in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder
   useApplicationQueryBuilder: jest.fn(() => ({ QueryBuilder: jest.fn(), isQueryValid: jest.fn() })),
   useValidateApplicationFilterExpression: jest.fn(() => false)
 }));
-jest.mock('in-custom-dashboards/api', () => ({
+jest.mock('in-custom-dashboards/widgets/Slo/sli/api', () => ({
   createSliConfiguration: jest.fn()
 }));
 

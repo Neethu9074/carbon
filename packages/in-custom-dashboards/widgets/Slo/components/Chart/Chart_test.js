@@ -76,7 +76,7 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     shallow(<Chart {...defaultProps} sliConfig={sliConfig} />);
 
     // Then
-    expect(getWebsiteTagCatalog).toHaveBeenLastCalledWith({ beaconType: 'HONKS', useCase: 'SMART_ALERTS' });
+    expect(getWebsiteTagCatalog).toHaveBeenLastCalledWith({ beaconType: 'HONKS', useCase: 'FILTERING' });
   });
 
   it('uses the website tag catalog for website event based sli configs and selects teh configs beacon type', () => {
@@ -89,7 +89,7 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
     shallow(<Chart {...defaultProps} sliConfig={sliConfig} />);
 
     // Then
-    expect(getWebsiteTagCatalog).toHaveBeenLastCalledWith({ beaconType: 'HONKS', useCase: 'SMART_ALERTS' });
+    expect(getWebsiteTagCatalog).toHaveBeenLastCalledWith({ beaconType: 'HONKS', useCase: 'FILTERING' });
   });
 
   it.each([[null], [emptyArray]])(

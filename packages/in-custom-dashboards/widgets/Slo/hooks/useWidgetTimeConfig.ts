@@ -3,10 +3,10 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import { addDays, addMonths, addWeeks, isBefore, subDays, subMonths, subWeeks } from 'date-fns';
 import { useMemo } from 'react';
-import moment from 'moment';
 
-import { parsedTimestamp, TimeWindowDuration } from 'in-custom-dashboards/widgets/Slo/form';
+import { parseTimestamp, TimeWindowDuration } from 'in-custom-dashboards/widgets/Slo/form';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { days } from 'in-services/time/time';
 import { TimeConfig } from 'in-types';
@@ -27,6 +27,30 @@ interface TimeWindowConfig {
   toTimestamp: number;
 }
 
+function getAddForTimeWindowUnit(timeWindowDurationUnit: TimeWindowDuration) {
+  switch (timeWindowDurationUnit) {
+    case 'months':
+      return addMonths;
+    case 'weeks':
+      return addWeeks;
+    case 'days':
+    default:
+      return addDays;
+  }
+}
+
+function getSubForTimeWindowUnit(timeWindowDurationUnit: TimeWindowDuration) {
+  switch (timeWindowDurationUnit) {
+    case 'months':
+      return subMonths;
+    case 'weeks':
+      return subWeeks;
+    case 'days':
+    default:
+      return subDays;
+  }
+}
+
 function calculateTimeWindowConfig({
   timeConfig,
   isRolling,
@@ -42,32 +66,38 @@ function calculateTimeWindowConfig({
   let toTimestamp = timeConfig.to ?? fromTimestamp + timeConfig.windowSize;
 
   if (isRolling) {
-    fromTimestamp = moment(toTimestamp)
-      .subtract(timeWindowDuration, timeWindowDurationUnit)
-      .valueOf();
+    const subtraction = getSubForTimeWindowUnit(timeWindowDurationUnit);
+    fromTimestamp = subtraction(new Date(toTimestamp), timeWindowDuration).getTime();
+
     timeWindowConfig.windowSize = toTimestamp - fromTimestamp;
   }
 
   if (isFixed) {
-    let timeWindowStartTimeStamp = parsedTimestamp(timeWindowStartDate + '  ' + timeWindowStartTime);
+    const dateTime = timeWindowStartDate + ' ' + timeWindowStartTime;
+    let timeWindowStartTimeStamp = parseTimestamp(dateTime);
+
     if (timeWindowStartTimeStamp) {
-      let now = moment();
-      let nextStart = moment(timeWindowStartTimeStamp);
+      const now = new Date();
+      const addition = getAddForTimeWindowUnit(timeWindowDurationUnit);
+      let nextStart = new Date(timeWindowStartTimeStamp);
       let latestIntervalStart;
+
       do {
         latestIntervalStart = nextStart;
-        nextStart = latestIntervalStart.clone().add(timeWindowDuration, timeWindowDurationUnit);
-      } while (nextStart.isBefore(now));
+        nextStart = addition(latestIntervalStart, timeWindowDuration);
+      } while (isBefore(nextStart, now));
 
-      fromTimestamp = latestIntervalStart.valueOf();
-      toTimestamp = nextStart.valueOf();
-      timeWindowConfig.windowSize = nextStart.valueOf() - fromTimestamp;
+      fromTimestamp = latestIntervalStart.getTime();
+      toTimestamp = nextStart.getTime();
+      timeWindowConfig.windowSize = nextStart.getTime() - fromTimestamp;
     }
   }
+
   if (!timeConfig.autoRefresh) {
     timeWindowConfig.to = toTimestamp;
     timeWindowConfig.focusedMoment = toTimestamp;
   }
+
   return { timeConfig: timeWindowConfig, fromTimestamp, toTimestamp };
 }
 

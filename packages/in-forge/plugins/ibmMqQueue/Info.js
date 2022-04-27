@@ -18,6 +18,12 @@ export default function Info({ snapshot }) {
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.alternatedAt')}>
         {data.get('queueAlternated')}
       </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.lastPutDateTime')}>
+        {data.get('lastPutDateTime')}
+      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.lastGetDateTime')}>
+        {data.get('lastGetDateTime')}
+      </DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.inhibitPut')}>{data.get('inhibitPut')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.inhibitGet')}>{data.get('inhibitGet')}</DescriptionItem>
       <DescriptionItem title={t('in-forge:plugins.ibmMqQueue.deliverySequence')}>

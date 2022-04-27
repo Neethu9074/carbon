@@ -140,7 +140,7 @@ export default function CustomEvents({ timeConfig, tagFilters, websiteId, websit
         pageId={pageId}
         tagFilters={tagFilters}
         timeConfig={timeConfig}
-        cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelCustomEvents')}
+        title={t('in-websites:websiteDashboard.tabs.indexLabelCustomEvents')}
         rightHeader={rightHeader}
       />
     </Card>

@@ -23,7 +23,7 @@ export default function GroupMetricsChartPresenter({
   selectedMetricDefinition,
   setSelectedMetricKey,
   timeConfig,
-  cardTitle,
+  title,
   cardHeader,
   translateLabel = identity,
   translateColor,
@@ -54,7 +54,7 @@ export default function GroupMetricsChartPresenter({
   const hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
   const chartConfig = {
-    cardTitle,
+    title,
     cardHeader,
     granularity: getChartGranularity(timeConfig),
     primaryContextMenuAction,

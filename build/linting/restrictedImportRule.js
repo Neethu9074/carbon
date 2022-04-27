@@ -36,6 +36,10 @@ exports.createImportRestrictionRule = ({
         '@instana/hooks/lib',
         '@instana/logger/lib',
         '@instana/roemitter/lib',
+        // We are migrating moment usage to respective date-fns implementation
+        // The only usage of moment-timezone is used in timezone widget for now.
+        'in-services/moment-timezone',
+        'moment-timezone',
         ...paths
       ],
       patterns: [

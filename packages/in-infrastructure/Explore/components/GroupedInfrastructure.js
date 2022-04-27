@@ -49,7 +49,7 @@ export default function GroupedInfrastructure(props) {
   const retrievalSize = 20;
 
   const granularity = getGranularity(timeConfig);
-
+  const tagType = group?.tagType;
   const fullQualifiedGroup = group.groupbyTagSecondLevelKey
     ? group.groupbyTag + '.' + group.groupbyTagSecondLevelKey
     : group.groupbyTag;
@@ -77,6 +77,7 @@ export default function GroupedInfrastructure(props) {
       retrievalSize={retrievalSize}
       granularity={granularity}
       timeConfig={timeConfig}
+      tagType={tagType}
       {...cursorPaginatedProps}
       {...props}
     />
@@ -105,16 +106,20 @@ function Presenter({
   type,
   loadMore: defaultCursorPaginationLoadMore,
   retrievalSize,
-  tracking
+  tracking,
+  tagType,
+  group
 }) {
   const hasErrors = errors?.length > 0;
   const isLoading = progress?.loading;
   const getParamsForGroup = useCallback(
     item => ({
       group: emptyObject,
-      tagFilterExpression: joinExpressions({ expressions: [tagFilterExpression, toTagFilters(item.tags)] })
+      tagFilterExpression: joinExpressions({
+        expressions: [tagFilterExpression, toTagFilters(item.tags, tagType, group)]
+      })
     }),
-    [tagFilterExpression]
+    [tagFilterExpression, group, tagType]
   );
   const columnDefinitions = columns({
     groupBy: [fullQualifiedGroup],
@@ -336,16 +341,59 @@ function addTagsToBackendModel(backendQueryModel, tags) {
   return addTagFilters(backendQueryModel, toTagFilters(tags));
 }
 
-function toTagFilters(tags) {
-  return Object.entries(tags).map(([key, value]) => ({
+function toTagFilters(tags, tagType, group) {
+  return Object.entries(tags).map(([name, value]) => ({
     type: TAG_FILTER_TYPE,
     operator: EQUALS,
-    name: key,
-    value
+    name: getName(name, group),
+    value: getValue(tagType, value),
+    key: getKey(tagType, value, name, group)
   }));
 }
 
 const defaultGroupIcon = 'lib_views_tag';
+
+function isTagAndKeyConcat(name, group) {
+  return group?.groupbyTag?.concat('.', group?.groupbyTagSecondLevelKey) === name;
+}
+
+function isKeyValue(tagType) {
+  return tagType !== undefined && 'KEY_VALUE_PAIR' === tagType;
+}
+
+function getName(name, group) {
+  return isTagAndKeyConcat(name, group) ? group.groupbyTag : name;
+}
+
+function getValue(tagType, value) {
+  return isKeyValue(tagType) ? extractValue(value) : value;
+}
+
+function getKey(tagType, value, name, group) {
+  if (isTagAndKeyConcat(name, group)) {
+    return group.groupbyTagSecondLevelKey;
+  }
+  if (isKeyValue(tagType)) {
+    return extractKey(value, name, group);
+  }
+  return undefined;
+}
+
+function extractKey(value) {
+  let index = value.indexOf('=');
+  if (index > 0) {
+    return value.substring(0, index);
+  }
+  return undefined;
+}
+
+function extractValue(str) {
+  let index = str.indexOf('=');
+  if (index > 0) {
+    return str.substring(index + 1);
+  }
+  return str;
+}
 
 function getGroupPlugin(group) {
   const plugin = group.tags[pluginTag];

@@ -21,7 +21,7 @@ import { t } from 'in-i18n';
 interface WebsiteSelectorProps {
   websiteIdField: Field<string>;
   onChange: (id: string) => void;
-  getWebsiteConfigs: () => Observable<WebsiteConfiguration[]>;
+  getWebsiteConfigs?: () => Observable<WebsiteConfiguration[]>;
 }
 
 export default function WebsiteSelector({

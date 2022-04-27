@@ -15,6 +15,7 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { perSecondAggregationEnabled } from 'in-services/featureFlags';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { barOverlapping, line } from 'in-stores/metric/renderer';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -42,9 +43,18 @@ export default function CallsErrorsChart({
   const errorRateBlueprintConfig = getBlueprintConfig('errorRate');
   const hiddenCalls = createHiddenCallsFromSyntheticOption(syntheticCalls);
 
+  const aggregation = perSecondAggregationEnabled ? 'PER_SECOND' : 'SUM';
+  const formatter = perSecondAggregationEnabled ? 'perSecond.detailed' : 'number.compact';
+  const callsLabel = perSecondAggregationEnabled
+    ? t('in-applications:labelCallsPerSecondShort')
+    : t('in-applications:labelCalls');
+  const erroneousCallsLabel = perSecondAggregationEnabled
+    ? t('in-applications:labelErroneousCallsPerSecondShort')
+    : t('in-applications:titleErroneousCalls');
+
   const defaultMetricConfig = {
     granularity,
-    aggregation: 'SUM',
+    aggregation,
     source: 'APPLICATION',
     tagFilters: tagFilters,
     timeConfig: timeConfig,
@@ -57,14 +67,14 @@ export default function CallsErrorsChart({
       config: defaultMetricConfig,
       id: 'calls.all',
       metric: 'calls',
-      label: t('in-applications:labelCalls'),
+      label: callsLabel,
       color: theme.lib.colors.chart.strokeColors25[0]
     },
     {
       config: defaultMetricConfig,
       id: 'erroneousCalls',
       metric: 'erroneousCalls',
-      label: t('in-applications:titleErroneousCalls'),
+      label: erroneousCallsLabel,
       color: theme.lib.colors.failure
     }
   ];
@@ -147,7 +157,7 @@ export default function CallsErrorsChart({
           metrics: metricConfigs,
           reverseOrder: true,
           colors: colors,
-          formatter: 'number.compact',
+          formatter,
           renderer: renderer
         },
         y2: {
@@ -174,8 +184,8 @@ export default function CallsErrorsChart({
                     ]
                   }),
                   hiddenCalls,
-                  fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
-                  chartedMetrics: getChartedMetrics(config)
+                  fields: [createMetricField('erroneousCalls', aggregation), createMetricField('latency', 'MEAN')],
+                  chartedMetrics: getChartedMetrics(config, aggregation)
                 }
               )
           }
@@ -185,6 +195,8 @@ export default function CallsErrorsChart({
   );
 }
 
-function getChartedMetrics(config) {
-  return [createChartedMetric(config.renderedMetrics[0] === 'erroneousCalls' ? 'erroneousCalls' : 'calls', 'SUM')];
+function getChartedMetrics(config, aggregation) {
+  return [
+    createChartedMetric(config.renderedMetrics[0] === 'erroneousCalls' ? 'erroneousCalls' : 'calls', aggregation)
+  ];
 }

@@ -162,7 +162,7 @@ function useTagCatalogLoader(config?: SliConfig): Parameters<typeof useTagCatalo
       const {
         sliEntity: { beaconType }
       } = config;
-      return () => getWebsiteTagCatalog({ beaconType, useCase: 'SMART_ALERTS' });
+      return () => getWebsiteTagCatalog({ beaconType, useCase: 'FILTERING' });
     }
     return () => just(error([]));
   }, [config]);

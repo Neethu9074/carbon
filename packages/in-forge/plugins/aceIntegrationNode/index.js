@@ -7,10 +7,14 @@ import metricDefinitions from 'in-forge/plugins/aceIntegrationNode/metricDefinit
 import kpiDefinitions from 'in-forge/plugins/aceIntegrationNode/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
 import { plugins } from 'in-forge/constants';
+import { t } from 'in-i18n';
 
 registerSnapshotDefinition({
   plugin: plugins.aceIntegrationNode,
 
   kpiDefinitions,
-  metricDefinitions
+  metricDefinitions,
+  technologyDescriptor: {
+    label: t('in-forge:tracingTypeName_ace')
+  }
 });

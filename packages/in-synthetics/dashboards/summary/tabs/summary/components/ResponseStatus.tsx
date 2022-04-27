@@ -8,17 +8,16 @@ import React from 'react';
 
 import { t } from '@instana/i18n-react';
 
+import { EQUALS, GREATER_OR_EQUAL_THAN, LESS_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 //@ts-ignore
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
-import { latencyFixed } from 'in-services/formatters/number';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { pie } from 'in-stores/metric/renderer';
-import { getChartTestMetrics } from './utils';
 import { TimeShift } from 'in-types';
+import theme from 'in-themes';
 
 type Props = {
   timeShiftConfig: TimeShift;
@@ -50,28 +49,119 @@ export default function ResponseStatus({ test, timeShiftConfig }: Props) {
 }
 
 function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
-  const locations: [] = get(test, ['data', 'locations']);
   const id = get(test, ['data', 'id']);
-  let tagFilters = [
+
+  const okTagFilters = [
     {
       stringValue: id,
       name: 'testId',
       operator: EQUALS
+    },
+    {
+      numberValue: 200,
+      name: 'status_code',
+      operator: GREATER_OR_EQUAL_THAN
+    },
+    {
+      numberValue: 300,
+      name: 'status_code',
+      operator: LESS_THAN
     }
   ];
 
-  const testMetricConfig: Metric = {
-    aggregation: 'MEAN',
-    source: 'SYNTHETICS',
-    tagFilters: tagFilters,
-    timeShift: timeShiftConfig.offset,
-    metric: 'status'
-  };
+  const redirectTagFilters = [
+    {
+      stringValue: id,
+      name: 'testId',
+      operator: EQUALS
+    },
+    {
+      numberValue: 300,
+      name: 'status_code',
+      operator: GREATER_OR_EQUAL_THAN
+    },
+    {
+      numberValue: 400,
+      name: 'status_code',
+      operator: LESS_THAN
+    }
+  ];
 
-  const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'status');
+  const clientErrorTagFilters = [
+    {
+      stringValue: id,
+      name: 'testId',
+      operator: EQUALS
+    },
+    {
+      numberValue: 400,
+      name: 'status_code',
+      operator: GREATER_OR_EQUAL_THAN
+    },
+    {
+      numberValue: 500,
+      name: 'status_code',
+      operator: LESS_THAN
+    }
+  ];
 
-  const metricConfigs = chartTestMetrics.map(m => m.config);
-  const colors = chartTestMetrics.map(m => m.color);
+  const serverErrorTagFilters = [
+    {
+      stringValue: id,
+      name: 'testId',
+      operator: EQUALS
+    },
+    {
+      numberValue: 500,
+      name: 'status_code',
+      operator: GREATER_OR_EQUAL_THAN
+    },
+    {
+      numberValue: 600,
+      name: 'status_code',
+      operator: LESS_THAN
+    }
+  ];
+
+  let testMetricConfigs: Metric[] = [
+    {
+      aggregation: 'DISTINCT_COUNT',
+      source: 'SYNTHETICS',
+      tagFilters: okTagFilters,
+      timeShift: timeShiftConfig.offset,
+      metric: 'id',
+      label: `${t('in-synthetics:dashboard.summary.widgets.ok')}`,
+      color: theme.lib.colors.chart.strokeColors25[0]
+    },
+    {
+      aggregation: 'DISTINCT_COUNT',
+      source: 'SYNTHETICS',
+      tagFilters: redirectTagFilters,
+      timeShift: timeShiftConfig.offset,
+      metric: 'id',
+      label: `${t('in-synthetics:dashboard.summary.widgets.redirection')}`,
+      color: theme.lib.colors.chart.strokeColors25[1]
+    },
+    {
+      aggregation: 'DISTINCT_COUNT',
+      source: 'SYNTHETICS',
+      tagFilters: clientErrorTagFilters,
+      timeShift: timeShiftConfig.offset,
+      metric: 'id',
+      label: `${t('in-synthetics:dashboard.summary.widgets.clientError')}`,
+      color: theme.lib.colors.chart.strokeColors25[2]
+    },
+    {
+      aggregation: 'DISTINCT_COUNT',
+      source: 'SYNTHETICS',
+      tagFilters: serverErrorTagFilters,
+      timeShift: timeShiftConfig.offset,
+      metric: 'id',
+      label: `${t('in-synthetics:dashboard.summary.widgets.serverError')}`,
+      color: theme.lib.colors.chart.strokeColors25[3]
+    }
+  ];
+
   const renderer = pie.id;
 
   return (
@@ -86,12 +176,11 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
         y1: {
           renderer: renderer,
           formatter: 'number.compact',
-          tooltipFormatter: latencyFixed.compact,
+          tooltipFormatter: Number.toString,
           calculateStackDifferences: true,
-          metrics: metricConfigs,
-          colors: colors
+          metrics: testMetricConfigs
         },
-        type: 'TIME_SERIES'
+        type: 'SINGLE_NUMBER'
       }}
     />
   );

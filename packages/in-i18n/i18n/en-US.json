@@ -77,5 +77,6 @@
   "aggregation_MAX": "max",
   "aggregation_DISTINCT_COUNT": "distinct count",
   "aggregation_SUM": "sum",
-  "aggregation_DISTRIBUTION": "distribution"
+  "aggregation_DISTRIBUTION": "distribution",
+  "aggregation_PER_SECOND": "per second"
 }

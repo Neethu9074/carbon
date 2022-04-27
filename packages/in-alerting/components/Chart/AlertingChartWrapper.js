@@ -70,9 +70,7 @@ function getThreshold(y1, thresholdType, metricData, timeConfig) {
     eventBasedAdaptiveBaseline
   } = y1;
 
-  if ((baseline ?? []).length === 0 && (eventBasedAdaptiveBaseline ?? []).length === 0) {
-    return metricData.map(([time]) => [time, thresholdValue]);
-  } else if (thresholdType === ADAPTIVE_BASELINE) {
+  if (thresholdType === ADAPTIVE_BASELINE) {
     return getThresholdInTimeframe(
       eventBasedAdaptiveBaseline,
       baseline,
@@ -81,6 +79,8 @@ function getThreshold(y1, thresholdType, metricData, timeConfig) {
       thresholdGranularity,
       timeConfig
     );
+  } else if ((baseline ?? []).length === 0 && (eventBasedAdaptiveBaseline ?? []).length === 0) {
+    return metricData.map(([time]) => [time, thresholdValue]);
   } else {
     const isGreaterOp = isGreaterOperator(operator);
 

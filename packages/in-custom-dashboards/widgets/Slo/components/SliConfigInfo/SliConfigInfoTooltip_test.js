@@ -50,6 +50,25 @@ describe('packages/in-custom-dashboards/widgets/Slo/components/SliConfigInfo/Sli
     ).toEqual(t(`in-custom-dashboards:widgets.slo.timeBased`));
   });
 
+  it('should have an item containing label and time based SLI type as value', () => {
+    const wrapper = shallow(
+      <SliConfigInfoTooltip sliConfig={{ sliEntity: { sliType: 'websiteTimeBased' }, sliName: 'foo' }} />
+    );
+
+    expect(
+      wrapper
+        .find(SliConfigInfoItem)
+        .last()
+        .prop('label')
+    ).toEqual(`${t(`in-custom-dashboards:widgets.slo.sliConfig.sliType`)}:`);
+    expect(
+      wrapper
+        .find(SliConfigInfoItem)
+        .last()
+        .prop('value')
+    ).toEqual(t(`in-custom-dashboards:widgets.slo.timeBased`));
+  });
+
   it('should have an item containing metric infos', () => {
     const wrapper = shallow(
       <SliConfigInfoTooltip

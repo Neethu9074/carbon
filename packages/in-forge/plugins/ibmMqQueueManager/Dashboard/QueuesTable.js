@@ -40,6 +40,38 @@ const cols = [
     }
   },
   {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.queueDepth'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'queueDepth';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.maxQueueDepth'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      },
+      getMetricName() {
+        return 'maxQueueDepth';
+      },
+      getContent: number.compact,
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
     title: t('in-forge:plugins.ibmMqQueueManager.dashboard.openInputCount'),
     type: 'metric',
     typeArgs: {
@@ -72,29 +104,20 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.type'),
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.lastPutDateTime'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'queueType']);
+        return row.snapshot.getIn(['data', 'lastPutDateTime'], 'N/A');
       }
     }
   },
   {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.usage'),
+    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.lastGetDateTime'),
     type: 'string',
     typeArgs: {
       getValue(row) {
-        return row.snapshot.getIn(['data', 'queueUsage']);
-      }
-    }
-  },
-  {
-    title: t('in-forge:plugins.ibmMqQueueManager.dashboard.monitoring'),
-    type: 'string',
-    typeArgs: {
-      getValue(row) {
-        return row.snapshot.getIn(['data', 'queueMonitoring']);
+        return row.snapshot.getIn(['data', 'lastGetDateTime'], 'N/A');
       }
     }
   }

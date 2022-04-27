@@ -13,8 +13,8 @@ import { t } from '@instana/i18n-react';
 // @ts-expect-error Module needs to be translated to TS
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import DashboardHeader, { DashboardHeaderProps } from 'in-components/DashboardHeader';
+import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
-import { syntheticsPath } from 'in-synthetics/navigation/paths';
 import tabs from 'in-synthetics/dashboards/summary/tabs/index';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import { dummyTest } from 'in-synthetics/utils/constants';
@@ -31,7 +31,7 @@ export interface TestResponse {
 function Header(props: DashboardHeaderProps) {
   //Page label and title needs to be replaced with the real test label value
   const location = useLocation();
-  const testId = getMatrixParameter(location, syntheticsPath, 'testId') ?? '';
+  const testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   let test: TestResponse = useObservable<any, []>(() => getTest(testId), []) || dummyTest;
   if (!test.progress.loading) {
     const label = get(test, ['data', 'label']);
@@ -58,6 +58,12 @@ function Header(props: DashboardHeaderProps) {
 }
 
 export default function SyntheticSummaryDashboard() {
+  const location = useLocation();
+
+  const props = {
+    location,
+    currentTab: location.pathname.substr(location.pathname.lastIndexOf('/'))
+  };
   return (
     <>
       <ViewTrackingMeta
@@ -67,7 +73,7 @@ export default function SyntheticSummaryDashboard() {
         }}
       />
 
-      <TabView HeaderComponent={Header} location={location} tabs={tabs} />
+      <TabView HeaderComponent={Header} location={location} tabs={tabs} props={props} />
     </>
   );
 }

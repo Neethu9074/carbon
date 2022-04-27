@@ -41,9 +41,9 @@ export default function GroupingConfigurator({
         content={TagSelectorOverlay}
         props={{
           tagCatalog,
-          onChange: ({ name }) => {
+          onChange: ({ name, tagType }) => {
             autoFocus.current = Date.now();
-            const selectedGroup = setEntityIfNecessary(name);
+            const selectedGroup = setEntityIfNecessary(name, tagType);
             tracking?.onGroupAdded?.(selectedGroup);
             onChange(selectedGroup);
           }
@@ -81,7 +81,7 @@ export default function GroupingConfigurator({
     </>
   );
 
-  function setEntityIfNecessary(groupbyTag) {
+  function setEntityIfNecessary(groupbyTag, tagType) {
     const tagTreeNode = tagCatalog?.tagsByName[groupbyTag];
     if (tagTreeNode.canApplyToSource && tagTreeNode.canApplyToDestination) {
       return {
@@ -90,7 +90,7 @@ export default function GroupingConfigurator({
       };
     }
 
-    return { groupbyTag };
+    return { groupbyTag, tagType };
   }
 }
 
@@ -107,5 +107,7 @@ GroupingConfigurator.propTypes = {
   tagFilterExpression: rpt.object.isRequired,
   tracking: rpt.shape(trackingProps),
   label: rpt.string,
-  loadingLabel: rpt.string
+  loadingLabel: rpt.string,
+  name: rpt.string,
+  tagType: rpt.string
 };

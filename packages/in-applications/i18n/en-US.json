@@ -8,6 +8,9 @@
   "labelTrace": "Trace",
   "linkDownload": "Download",
   "labelCalls": "Calls",
+  "labelCallsPerSecondShort": "Calls/s",
+  "labelErroneousCallsPerSecondShort": "Erroneous Calls/s",
+  "labelCallsPerSecondFull": "Calls Per Second",
   "labelTraces": "Traces",
   "labelErrorRate": "Error Rate",
   "labelDisableSizing": "Disable sizing",
@@ -418,6 +421,10 @@
     }
   },
   "dashboards": {
+    "callCount": "{{formattedCount}} total call",
+    "callCount_plural": "{{formattedCount}} total calls",
+    "erroneousCallCount": "{{formattedCount}} total erroneous call",
+    "erroneousCallCount_plural": "{{formattedCount}} total erroneous calls",
     "percentOfCalls": "{{percentage}} of all calls",
     "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
     "infrastructureIssuesChanges": "Infrastructure Issues & Changes",

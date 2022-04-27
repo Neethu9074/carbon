@@ -4,10 +4,10 @@
  */
 
 import { composeValidators, createField, createMapForm } from 'formalistic';
+import { startOfDay, subDays, getTime as getTimestamp } from 'date-fns';
 import React, { useEffect, useMemo, useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
-import moment from 'moment';
 
 import { Button } from '@instana/components';
 
@@ -18,6 +18,7 @@ import {
   formatTimeWithoutSeconds,
   parseDateTime
 } from 'in-services/formatters/date';
+import { formatDateWithActiveLanguage } from 'in-services/formatters/dateFnsFormatWrapper';
 import DateTimeInput from 'in-components/time/TimeSelectionDialogPresenter/DateTimeInput';
 import Section from 'in-components/time/TimeSelectionDialogPresenter/Section';
 import { dateValidator, timeValidator } from 'in-services/validators/date';
@@ -116,12 +117,7 @@ export default function CustomTime({ timeConfig, onChange }) {
   }
 
   function getTickPositions(now) {
-    const getTimeMinusDays = days =>
-      moment()
-        .startOf('day')
-        .subtract(days, 'days')
-        .toDate()
-        .getTime();
+    const getTimeMinusDays = numberOfDays => getTimestamp(subDays(startOfDay(new Date()), numberOfDays));
 
     const today = getTimeMinusDays(0);
     return [
@@ -152,15 +148,14 @@ export default function CustomTime({ timeConfig, onChange }) {
     ].filter(Boolean);
   }
 
-  function getMark(value) {
-    const months = moment.monthsShort();
-    const date = new Date(value);
-    const days = moment.weekdaysShort();
+  function getMark(timestamp) {
+    const date = new Date(timestamp);
+
     return (
       <div className={locals.mark}>
-        <span>{days[date.getDay()]}</span>
+        <span>{formatDateWithActiveLanguage(timestamp, 'EEE')}</span>
         <span>
-          {months[date.getMonth()]} {date.getDate()}
+          {formatDateWithActiveLanguage(timestamp, 'LLL')} {date.getDate()}
         </span>
       </div>
     );
@@ -191,6 +186,7 @@ export default function CustomTime({ timeConfig, onChange }) {
 function createForm(timeConfig) {
   const to = timeConfig.to || Date.now();
   const from = to - timeConfig.windowSize;
+
   return (
     createMapForm({
       validator: validateForm,

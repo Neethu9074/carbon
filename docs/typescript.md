@@ -94,12 +94,12 @@ these types, e.g., to request data and to process/present data. To account for t
 we have [a generator] that turns the types found within the backend (Java code/OpenAPI
 specs) into TypeScript type definitions.
 
-The generated types reside within the `in-types/backend.d.ts` file, and they get updated
-via automatically created pull requests on every delivery branch (`^develop|release-*$`) commit
-in the backend repository.
+The generated types reside within the `@instana/types` package, and they get updated
+via automatically created pull requests on the `develop` branch for every new version of `@instana/types`.
+If an type update for a `release-*` branch is required it needs to be done manually.
 
-You can import the backend types via `import { … } from 'in-types';`. Please do not import
-`in-types/backend` directory!
+You can import the backend types via `import { … } from '@instana/types';`. Please do not import via the
+`in-types` directory, as that method should be considered deprecated, but is kept for backward compatibility!
 
 [a generator]: https://github.ibm.com/instana/backend/blob/develop/ui/typescript-generation/README.md
 
@@ -189,13 +189,13 @@ interface Context<T> {
 }
 ```
 
-There is also this new/future (V4.4) compile flag [exactOptionalPropertyTypes](https://www.typescriptlang.org/tsconfig#exactOptionalPropertyTypes) (disabled per default), 
+There is also this new/future (V4.4) compile flag [exactOptionalPropertyTypes](https://www.typescriptlang.org/tsconfig#exactOptionalPropertyTypes) (disabled per default),
 which would only allow in the format of `| unknown` ...
 
 On the other side, a Sonarqube rule ([typescript:S4782](https://sonarqube.instana.io/coding_rules?open=typescript%3AS4782&rule_key=typescript%3AS4782)) recommends the **shorter version**.
 
 **Here is why:**
-> Using `| undefined` for optional property is redundant, **it can be omitted without change** to the actual type. 
+> Using `| undefined` for optional property is redundant, **it can be omitted without change** to the actual type.
 > Still **if you want to force** the property in the object consider using only `| undefined` without `?`.
 
 So our style guide: Use this short form:

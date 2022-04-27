@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Field } from 'formalistic';
+import { Item } from 'formalistic';
 import React from 'react';
 
 import ValidationBlock from 'in-components/form/ValidationBlock';
@@ -12,7 +12,7 @@ import { Trans } from 'in-i18n';
 import locals from './TouchedMessages.mless';
 
 export interface TouchedMessagesProps {
-  field?: Field<unknown>;
+  field?: Item;
   className?: string;
 }
 

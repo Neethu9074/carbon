@@ -13,11 +13,11 @@ import React, { Fragment } from 'react';
 
 // @ts-expect-error module need to be translated to TS
 import { createAsyncViewComponent } from 'in-components/routing/createAsyncComponent';
-import { syntheticsPath, syntheticsSummaryPath } from 'in-synthetics/navigation/paths';
+import { syntheticsPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 
 export default (
   <Fragment>
     <Route exact path={syntheticsPath} component={createAsyncViewComponent(SyntheticsView)} />
-    <Route path={syntheticsSummaryPath} component={createAsyncViewComponent(SyntheticSummaryDashboard)} />
+    <Route path={syntheticsDashboard} component={createAsyncViewComponent(SyntheticSummaryDashboard)} />
   </Fragment>
 );

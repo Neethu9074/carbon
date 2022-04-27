@@ -418,7 +418,8 @@
     "aggregation_MAX": "MAX",
     "aggregation_DISTINCTCOUNT": "DISTINCT_COUNT",
     "aggregation_SUM": "SUM",
-    "aggregation_DISTRIBUTION": "DISTRIBUTION"
+    "aggregation_DISTRIBUTION": "DISTRIBUTION",
+    "aggregation_PERSECOND": "per second"
   },
   "profiling": {
     "headerColumnDefinitionsUsed": "Used",

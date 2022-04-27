@@ -9,7 +9,7 @@ import { Link, Stack } from '@instana/components';
 
 // @ts-expect-error Module needs to be translated to TS
 import { MoreMenu, MoreMenuButton } from 'in-components/MoreMenu';
-import { syntheticsSummaryPath, syntheticsPath } from 'in-synthetics/navigation/paths';
+import { syntheticsSummaryPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { InteractiveElementsProps } from 'in-components/MoreMenu/MoreMenu';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import IconButton from 'in-components/IconButton/IconButton';
@@ -39,7 +39,7 @@ export const columnDefinitions = [
           <Link
             href$={getModifiedUrlStream(summaryUrl => {
               summaryUrl.pathname = syntheticsSummaryPath;
-              setOrDeleteMatrixKey(summaryUrl, syntheticsPath, 'testId', test.id);
+              setOrDeleteMatrixKey(summaryUrl, syntheticsDashboard, 'testId', test.id);
               return summaryUrl;
             })}
           >

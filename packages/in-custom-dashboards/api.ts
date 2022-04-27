@@ -5,16 +5,13 @@
 
 import { create, Observable } from '@instana/observables';
 
-import { CustomDashboardPreview, CustomDashboard, Result, SliConfigurationWithLastUpdated, UserResult } from 'in-types';
-import { CombinedSliEntity, NewSliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
+import { CustomDashboard, CustomDashboardPreview, Result, UserResult } from 'in-types';
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import { refreshSignalUsers } from 'in-api/usersRefreshSignal';
-import http, { Response } from 'in-services/http';
+import http from 'in-services/http';
 
 const refreshSignal = create<string>().emit('');
-const refreshSignalSlis = create<string>().emit('');
 
 export const getCustomDashboards = memoize<void, Result<CustomDashboardPreview[]>>(
   getCustomDashboardsInternal,
@@ -105,83 +102,4 @@ function getUsersInternal() {
       mapToResultObject: true
     })
   );
-}
-
-export const getSliConfigurations = memoize<void, Result<SliConfigurationWithLastUpdated[]>>(
-  getConfiguredSlis,
-  () => '',
-  60000
-);
-function getConfiguredSlis() {
-  return refreshSignalSlis.flatMap(() =>
-    http<SliConfigurationWithLastUpdated[]>({
-      method: 'GET',
-      maxRetries: 3,
-      url: '/api/settings/v2/sli',
-      mapToResultObject: true
-    })
-  );
-}
-
-export const getSliConfigurationsByEntity = memoize<
-  { entityType: MonitoringSource; entityId: string },
-  Result<SliConfigurationWithLastUpdated[]>
->(
-  ({ entityType, entityId }) =>
-    refreshSignalSlis.flatMap(() => {
-      return http<SliConfigurationWithLastUpdated[]>({
-        method: 'GET',
-        maxRetries: 3,
-        url: `/api/settings/v2/sli/${entityType}/${entityId}`,
-        mapToResultObject: true
-      });
-    }),
-  ({ entityType, entityId }) => `${entityType}-${entityId}`,
-  60000
-);
-
-export const getSliConfiguration = memoize<string, Result<SliConfigurationWithLastUpdated>>(
-  getConfiguredSliById,
-  sliConfigId => sliConfigId,
-  60000
-);
-function getConfiguredSliById(sliConfigId: string) {
-  return refreshSignalSlis.flatMap(() =>
-    http<SliConfigurationWithLastUpdated>({
-      method: 'GET',
-      maxRetries: 3,
-      url: `/api/settings/v2/sli/${encodeURIComponent(sliConfigId)}`,
-      headers: getCsrfHeader(),
-      mapToResultObject: true
-    })
-  );
-}
-
-export function createSliConfiguration(
-  sliConfiguration: NewSliConfig<CombinedSliEntity>
-): Observable<Response<SliConfigurationWithLastUpdated>> {
-  return http<SliConfigurationWithLastUpdated>({
-    method: 'POST',
-    maxRetries: 3,
-    url: `/api/settings/v2/sli`,
-    headers: getCsrfHeader(),
-    data: sliConfiguration
-  }).map(res => {
-    if (res.body?.id) {
-      refreshSignalSlis.emit(res.body.id);
-    }
-    return res;
-  });
-}
-
-export function deleteSliConfiguration(id: string): Observable<true> {
-  return http({
-    method: 'DELETE',
-    maxRetries: 3,
-    url: `/api/settings/v2/sli/${encodeURIComponent(id)}`,
-    headers: getCsrfHeader()
-  }).map(() => {
-    refreshSignalSlis.emit(id);
-    return true;
-  });
 }

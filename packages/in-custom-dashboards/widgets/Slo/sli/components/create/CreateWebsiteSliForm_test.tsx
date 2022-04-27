@@ -14,9 +14,9 @@ import CreateWebsiteSliForm from 'in-custom-dashboards/widgets/Slo/sli/component
 import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliForm';
 import { Website, WebsiteEventBasedSliEntity, WebsiteTimeBasedSliEntity } from 'in-types';
 import { WebsiteSliForm } from 'in-custom-dashboards/widgets/Slo/sli/WebsiteSliForm';
+import { createSliConfiguration } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { LoadingIndicator } from 'in-components/LoadingIndicators';
-import { createSliConfiguration } from 'in-custom-dashboards/api';
 import uW from 'in-websites/hooks/useWebsite';
 
 jest.mock('in-websites/hooks/useWebsite', () => ({
@@ -27,7 +27,7 @@ jest.mock('in-custom-dashboards/widgets/Slo/sli/hooks/useWebsiteQueryBuilder', (
   useWebsiteQueryBuilder: jest.fn(() => ({ QueryBuilder: jest.fn(), isQueryValid: jest.fn() })),
   useValidateWebsiteFilterExpression: jest.fn(() => false)
 }));
-jest.mock('in-custom-dashboards/api', () => ({
+jest.mock('in-custom-dashboards/widgets/Slo/sli/api', () => ({
   createSliConfiguration: jest.fn()
 }));
 

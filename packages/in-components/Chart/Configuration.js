@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { create } from '@instana/observables';
 import { assign } from 'lodash';
+
+import { create } from '@instana/observables';
 
 import {
   allowedMillisGapsInOneSecondResolution,
@@ -31,7 +32,10 @@ export default class Config {
     this.timeAxisHeight = 30;
     this.markerPaneHeight = 22;
 
+    // This is used to handle the overlay when you select on a chart
     this.localHighlightedTimeframe$ = create().emit(null);
+    // This is used to handle the zooming, when selecting on a chart and zooming into the selected timeframe
+    this.localZoomedTimeframe$ = create().emit(null);
 
     this.filteredDataSeries$ = create();
     this.filteredDataSeries = new Set();
@@ -177,6 +181,10 @@ export default class Config {
 
   setLocalHighlightedtimeframe(t1, t2) {
     this.localHighlightedTimeframe$.emit([Math.min(t1, t2), Math.max(t1, t2)]);
+  }
+
+  setLocalZoomedTimeframe(t1, t2) {
+    this.localZoomedTimeframe$.emit([Math.min(t1, t2), Math.max(t1, t2)]);
   }
 
   getAllDomainValues() {

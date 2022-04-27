@@ -147,6 +147,7 @@ export const bytes = markAsFormatterType(
 
 export const timeByNanoTwoDecimalPlaces = (t: number) => formatTime(t, timeNanoUnits, number.detailed);
 export const timeByMicroTwoDecimalPlaces = (t: number) => formatTime(t, timeMicroUnits, number.detailed);
+export const timeByMillisZeroDecimalPlaces = (t: number) => formatTime(t, timeMilliUnits, number.compact);
 export const timeByMillisTwoDecimalPlaces = (t: number) => formatTime(t, timeMilliUnits, number.detailed);
 export const timeByMillisFourDecimalPlaces = (t: number) => formatTime(t, timeMilliUnits, fourDecimalPlaces);
 export const timeBySecondsTwoDecimalPlaces = (t: number) => formatTime(t, timeSecondUnits, number.compact);

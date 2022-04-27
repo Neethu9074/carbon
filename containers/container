@@ -2,12 +2,33 @@ ARG base_version
 
 FROM containers.instana.io/instana/product/nodejs:${base_version} AS builder
 
+ARG registry
+ARG repository_key
+ARG registry_username
+ARG registry_password
+
 COPY build/ /
 
-RUN microdnf --nodocs --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y gcc gcc-c++ make
-RUN npm install --prefix /opt/instana/ui-client/target --production
+RUN microdnf --nodocs --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y gcc gcc-c++ python3 make
+
+RUN REGISTRY=${registry} \
+            REPOSITORY_KEY=${repository_key} \
+            USERNAME=${registry_username} \
+            PASSWORD=${registry_password} \
+            NON_INTERACTIVE=true \
+            npx create-artifactory-access-config
+
+RUN echo -e "\
+always-auth=true\n\
+registry=${registry}/artifactory/api/npm/${repository_key}/ \
+" > /opt/instana/ui-client/target/.npmrc
+
+RUN npx yarn install --production --frozen-lockfile --cwd /opt/instana/ui-client/target
 
 FROM containers.instana.io/instana/product/nodejs:${base_version}
+
+RUN microdnf --nodocs --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y python3 \
+    && microdnf clean all
 
 COPY --from=builder /opt/instana/ui-client/target /opt/instana/ui-client
 COPY --from=builder /usr/bin/run.sh /usr/bin/run.sh

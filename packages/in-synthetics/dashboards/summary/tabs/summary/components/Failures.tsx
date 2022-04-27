@@ -14,8 +14,8 @@ import { TestResponse } from 'in-synthetics/utils/constants';
 import { stackedBar } from 'in-stores/metric/renderer';
 import { number } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { getChartTestMetrics } from './utils';
 import { TimeShift } from 'in-types';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 type Props = {
@@ -51,31 +51,42 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
   const locations = get(test, ['data', 'locations']);
   const id = get(test, ['data', 'id']);
 
-  let tagFilters = [
-    {
-      stringValue: id,
-      name: 'testId',
-      operator: EQUALS
-    },
-    {
-      stringValue: '0',
-      name: 'status',
-      operator: EQUALS
-    }
-  ];
+  let tagFilters = [];
+  let testMetricConfigs: Metric[] = [];
+  var locationLabel: string;
+  let colors = [];
+  for (let i = 0; i < locations.length; i++) {
+    locationLabel = `${locations[i].split('_', 1)}`;
+    tagFilters = [
+      {
+        stringValue: id,
+        name: 'testId',
+        operator: EQUALS
+      },
+      {
+        numberValue: 0,
+        name: 'status',
+        operator: EQUALS
+      },
+      {
+        stringValue: locations[i],
+        name: 'locationId',
+        operator: EQUALS
+      }
+    ];
 
-  const testMetricConfig: Metric = {
-    aggregation: 'DISTINCT_COUNT',
-    source: 'SYNTHETICS',
-    tagFilters: tagFilters,
-    timeShift: 0,
-    metric: 'id'
-  };
+    testMetricConfigs[i] = {
+      aggregation: 'DISTINCT_COUNT',
+      source: 'SYNTHETICS',
+      tagFilters: tagFilters,
+      timeShift: timeShiftConfig.offset,
+      metric: 'id',
+      label: locationLabel
+    };
 
-  const chartTestMetrics = getChartTestMetrics(locations, testMetricConfig, timeShiftConfig, 'status');
+    colors[i] = theme.lib.colors.chart.strokeColors25[i];
+  }
 
-  const metricConfigs: Metric[] = chartTestMetrics.map(m => ({ label: m.label, ...m.config }));
-  const colors = chartTestMetrics.map(m => m.color);
   const renderer = stackedBar.id;
 
   return (
@@ -87,7 +98,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       reverseTooltipOrder={Boolean(timeShiftConfig.offset)}
       config={{
         y1: {
-          metrics: metricConfigs,
+          metrics: testMetricConfigs,
           colors: colors,
           formatter: 'number.compact',
           tooltipFormatter: number.compact,

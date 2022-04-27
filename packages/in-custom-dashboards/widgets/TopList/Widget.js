@@ -83,7 +83,8 @@ export function ListWidgetRenderer({ result, isErroneous, tagCatalog, config, ti
       Metric={Metric}
       config={config}
       tagCatalog={tagCatalog}
-      renderHistoricDataIndicator={hasApproximateData}
+      renderHistoricDataIndicator
+      hasApproximateData={hasApproximateData}
       header={
         <>
           {dragHandle}

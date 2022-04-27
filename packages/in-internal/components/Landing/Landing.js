@@ -362,30 +362,34 @@ export default connectTo({ timeConfig: timeConfig$, isInternalVisible: isInterna
                 {role.canSeeExtendedInternalMonitoring && (
                   <LinkListItem label={t('in-internal:components.landing.dataStores')}>
                     <LinkList>
-                      <LinkListItem
-                        label={t('in-internal:components.landing.metricsCassandra')}
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = '/internal/monitoringUnit/sre/metricscassandra')
-                        )}
-                      />
-                      <LinkListItem
-                        label={t('in-internal:components.landing.spansCassandra')}
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = '/internal/monitoringUnit/sre/spanscassandra')
-                        )}
-                      />
-                      <LinkListItem
-                        label={t('in-internal:components.landing.profilesCassandra')}
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = '/internal/monitoringUnit/sre/profilescassandra')
-                        )}
-                      />
-                      <LinkListItem
-                        label={t('in-internal:components.landing.stateCassandra')}
-                        href$={getModifiedUrlStream(
-                          params => (params.pathname = '/internal/monitoringUnit/sre/statecassandra')
-                        )}
-                      />
+                      <LinkListItem label={t('in-internal:components.landing.cassandra')}>
+                        <LinkList>
+                          <LinkListItem
+                            label={t('in-internal:components.landing.metricsCassandra')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sre/metricscassandra')
+                            )}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.spansCassandra')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sre/spanscassandra')
+                            )}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.profilesCassandra')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sre/profilescassandra')
+                            )}
+                          />
+                          <LinkListItem
+                            label={t('in-internal:components.landing.stateCassandra')}
+                            href$={getModifiedUrlStream(
+                              params => (params.pathname = '/internal/monitoringUnit/sre/statecassandra')
+                            )}
+                          />
+                        </LinkList>
+                      </LinkListItem>
                       <LinkListItem label={t('in-internal:components.landing.clickhouse')}>
                         <LinkList>
                           <LinkListItem

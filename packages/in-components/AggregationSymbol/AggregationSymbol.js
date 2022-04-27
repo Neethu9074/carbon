@@ -7,13 +7,17 @@ import React from 'react';
 
 import { SvgIcon } from '@instana/components';
 
-import { aggregationLabels, aggregationIcons } from 'in-stores/metric/metric';
+import { aggregationLabels, aggregationIcons, hasIcon } from 'in-stores/metric/metric';
 import Tooltip from 'in-components/Tooltip';
 
 import locals from './AggregationSymbol.mless';
 
 export default function AggregationSymbol({ aggregation }) {
   const label = aggregationLabels[aggregation] || aggregation.toLowerCase();
+
+  if (!hasIcon(aggregation)) {
+    return null;
+  }
 
   if (aggregation.startsWith('P')) {
     return (

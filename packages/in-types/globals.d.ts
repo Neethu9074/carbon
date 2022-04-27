@@ -5,7 +5,7 @@
 
 import { FormatLocaleDefinition } from 'd3-format';
 
-import { Tag } from 'in-types/backend';
+import { Tag } from '@instana/types';
 
 export interface UiSettings {
   [key: string]: any;

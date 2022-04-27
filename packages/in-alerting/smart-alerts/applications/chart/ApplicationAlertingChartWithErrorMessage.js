@@ -6,36 +6,65 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
+import { useObservable } from '@instana/hooks';
+
 import {
   PER_AP_SERVICE,
   PER_AP_ENDPOINT
 } from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/alertEvaluationTypes';
+import onSubscribeBaselinePredictions from 'in-alerting/smart-alerts/applications/subscriptions/getAdaptiveBaselinePredictions';
 import { getQueryBuilderForAlertType } from 'in-alerting/smart-alerts/applications/components/AlertQueryBuilder';
 import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/AlertingChartWithErrorMessage';
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
+import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
+import { hasError, isLoading } from 'in-services/util/result';
+import { pendingResult } from 'in-services/fixedObjects';
 import { t } from 'in-i18n';
 
 const NoDataPlaceHolder = ({ text }) => <NoDataAvailable text={text} height={230} />;
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {
   const {
-    alertConfigWithFormModel: { evaluationType, threshold },
+    alertConfigWithFormModel: { evaluationType, threshold, created, id },
+    viewConfig: { timeConfig },
+    applicationId,
     serviceId,
     endpointId,
     isAlertDetailView
   } = props;
 
-  const isAdaptiveBaseline = threshold?.type === ADAPTIVE_BASELINE;
-  if (isAdaptiveBaseline && isAlertDetailView) {
-    return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noChartForAdaptiveBaseline')} />;
-  }
+  const usingPersistedAdaptiveBaseline = isAlertDetailView && threshold?.type === ADAPTIVE_BASELINE;
+
+  const selectedEntityId = endpointId ?? serviceId ?? applicationId;
+  const queryParams = {
+    alertConfigId: id,
+    alertCreated: created,
+    applicationId,
+    entityId: selectedEntityId, // either endpoint or service or appId if selected
+    timeConfig
+  };
+  const fetchPersistedBaselineResult = useObservable(
+    usingPersistedAdaptiveBaseline && selectedEntityId
+      ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult)
+      : null,
+    [usingPersistedAdaptiveBaseline, id, created, applicationId, selectedEntityId, timeConfig]
+  );
+
   if (PER_AP_ENDPOINT === evaluationType && !endpointId) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataWithoutEndpointSelection')} />;
   }
   if (PER_AP_SERVICE === evaluationType && !serviceId) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} />;
+  }
+
+  if (usingPersistedAdaptiveBaseline) {
+    const adaptiveBaseline =
+      hasError(fetchPersistedBaselineResult) || isLoading(fetchPersistedBaselineResult)
+        ? []
+        : fetchPersistedBaselineResult?.data;
+    return <ApplicationAlertingChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={adaptiveBaseline} />;
   }
 
   return <ApplicationAlertingChartWithErrorMessageAndData {...props} />;
@@ -86,7 +115,11 @@ function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
 }
 
 ApplicationAlertingChartWithErrorMessage.propTypes = {
+  viewConfig: chartViewConfigPropType.isRequired,
   alertConfigWithFormModel: PropTypes.shape({
+    eventBasedAdaptiveBaseline: PropTypes.array,
+    id: PropTypes.string.isRequired,
+    created: PropTypes.number,
     applications: PropTypes.object.isRequired,
     rule: PropTypes.shape({
       alertType: PropTypes.string
@@ -98,16 +131,19 @@ ApplicationAlertingChartWithErrorMessage.propTypes = {
   }).isRequired,
 
   /**
-   * Optional serviceId, used
-   * to scope down the metric in the chart to a single application config
+   * Optional applicationId, used to scope down the metric in the chart to a single application entity
+   **/
+  applicationId: PropTypes.string,
+
+  /**
+   * Optional serviceId, used to scope down the metric in the chart to a single service entity
    **/
   serviceId: PropTypes.string,
   isAlertDetailView: PropTypes.bool,
   setMetricResultPrecision: PropTypes.func,
 
   /**
-   * Optional endpointId
-   * to scope down the metric in the chart to a single entity
+   * Optional endpointId to scope down the metric in the chart to a single entity
    **/
   endpointId: PropTypes.string
 };

@@ -5435,7 +5435,8 @@
       "logHadrWaitCur": "Current Logger Wait Time",
       "logHadrWaitTime": "Total Logger Wait Time",
       "unableToConnect": "Cannot connect to {{connectionUrl}} using user {{user}}.",
-      "troubleshootingDocs": "Troubleshooting docs"
+      "troubleshootingDocs": "Troubleshooting docs",
+      "oldConfigUsed": "Db2 Sensor now supports monitoring of multiple instances and databases on the host where Instana Agent is running. Please refer to the docs for the new configuration format."
     },
     "defaultEntity20": {
       "allCallsPerSecond": "All Calls per Second",
@@ -8827,6 +8828,8 @@
       "maxQueueDepth": "Max Queue Depth",
       "currentQueueDepth": "Current Queue Depth",
       "queueFullPercentage": "Queue Depth Percentage",
+      "lastGetDateTime": "Last Get Time",
+      "lastPutDateTime": "Last Put Time",
       "depth": "Depth",
       "messagesIn": "Messages In",
       "messagesOut": "Messages Out",
@@ -8856,11 +8859,12 @@
         "in": "In",
         "out": "Out",
         "uncommitted": "Uncommitted",
-        "type": "Type",
-        "usage": "Usage",
-        "monitoring": "Monitoring",
         "queuesWithCount": "Queues ({{len}})",
         "queueFullPercentage": "Depth Percentage",
+        "queueDepth": "Current Depth",
+        "lastGetDateTime": "Last Get Time",
+        "lastPutDateTime": "Last Put Time",
+        "maxQueueDepth": "Max Depth",
         "openInputCount": "Open Input",
         "openOutputCount": "Open Output",
         "application": "Application",
@@ -8872,9 +8876,9 @@
         "ibmMqQueueManager": "IBM MQ Queue Manager",
         "subsWithCount": "Subscriptions ({{len}})",
         "topicString": "Topic String",
-        "subType": "Subscription Type",
+        "subType": "Type",
         "durable": "Durable",
-        "subAlternatedAt": "Subscription Alternated At",
+        "subAlternatedAt": "Alternated At",
         "numberMessages": "Number of Messages"
       },
       "name": "Name",
@@ -8950,8 +8954,8 @@
       "name": "Name",
       "queueManager": "Queue Manager",
       "clusterName": "Cluster Name",
-      "subType": "Subscription Type",
-      "subAlternatedAt": "Subscription Alternated At",
+      "subType": "Type",
+      "subAlternatedAt": "Alternated At",
       "numberMessages": "Number of Messages"
     },
     "ibmVsi": {

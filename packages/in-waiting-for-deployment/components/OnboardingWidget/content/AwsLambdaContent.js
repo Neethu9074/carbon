@@ -370,7 +370,7 @@ export default function AwsLambdaContent({ agentKey, downloadKey, serverlessEndp
               `   --layers ${nodejsLayerArn} \\`,
               '   --handler instana-aws-lambda-auto-wrap.handler',
               `   --environment "Variables={${
-                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
+                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANDLER=${lambdaHandler}, `
               }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
             ]}
           />
@@ -530,7 +530,7 @@ export default function AwsLambdaContent({ agentKey, downloadKey, serverlessEndp
               `   --layers ${pythonLayerArn} \\`,
               '   --handler instana.lambda_handler',
               `   --environment "Variables={${
-                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANLDER=${lambdaHandler}, `
+                lambdaHandler === 'index.handler' ? '' : `LAMBDA_HANDLER=${lambdaHandler}, `
               }INSTANA_ENDPOINT_URL=${serverlessEndpoint}, INSTANA_AGENT_KEY=${agentKey} }"`
             ]}
           />

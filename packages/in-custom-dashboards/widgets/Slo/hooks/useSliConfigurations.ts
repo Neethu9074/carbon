@@ -6,8 +6,8 @@
 import { useObservable } from '@instana/hooks';
 
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
+import { getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
-import { getSliConfigurationsByEntity } from 'in-custom-dashboards/api';
 import { SliConfigurationWithLastUpdated } from 'in-types';
 import { FetchedState } from 'in-hooks/utils/types';
 
