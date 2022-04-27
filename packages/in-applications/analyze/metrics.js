@@ -12,6 +12,7 @@ import { callClickedTracker, traceClickedTracker } from 'in-analyze/tracker';
 import { number, percentage, millis } from 'in-services/formatters/number';
 import getTraceGroups from 'in-applications/subscriptions/getTraceGroups';
 import getCallGroups from 'in-applications/subscriptions/getCallGroups';
+import { perSecondAggregationEnabled } from 'in-services/featureFlags';
 import getTraces from 'in-applications/subscriptions/getTraces';
 import getCalls from 'in-applications/subscriptions/getCalls';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -133,15 +134,15 @@ export const dataSourceConstants = {
       }
     },
     metricCatalogSupportedMetrics: {
-      calls: ['SUM'],
+      calls: perSecondAggregationEnabled ? ['SUM', 'PER_SECOND'] : ['SUM'],
       latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX'],
-      erroneousCalls: ['SUM'],
+      erroneousCalls: perSecondAggregationEnabled ? ['SUM', 'PER_SECOND'] : ['SUM'],
       errors: ['MEAN']
     },
     metricCatalogSupportedChartableMetrics: {
-      calls: ['SUM'],
+      calls: perSecondAggregationEnabled ? ['SUM', 'PER_SECOND'] : ['SUM'],
       latency: ['P25', 'P50', 'P95', 'SUM', 'P75', 'P90', 'P98', 'P99', 'MEAN', 'MIN', 'MAX', 'DISTRIBUTION'],
-      erroneousCalls: ['SUM'],
+      erroneousCalls: perSecondAggregationEnabled ? ['SUM', 'PER_SECOND'] : ['SUM'],
       errors: ['MEAN']
     },
     latencyTag: 'call.latency',

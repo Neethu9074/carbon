@@ -87,6 +87,11 @@ const privateFormatters: Formatter[] = [
     id: 'fourDecimalPlaces.detailed',
     label: t('in-stores:metric.formatterLabelNumber', { example: fourDecimalPlaces(42.15) }),
     formatter: fourDecimalPlaces
+  },
+  {
+    id: 'perSecond.detailed',
+    label: t('in-stores:metric.formatterLabelNumber', { example: number.perSecond.detailed(42.15) }),
+    formatter: number.perSecond.detailed
   }
 ];
 

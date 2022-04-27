@@ -503,6 +503,8 @@ function metricColumns({
         let formatter;
         if (customFormatterId != null) {
           formatter = getFormatter(customFormatterId);
+        } else if (field.aggregationId === 'PER_SECOND') {
+          formatter = getFormatter('perSecond.detailed');
         } else {
           // The width of metric values rendered using NUMBER formatter can vary significantly which may
           // break column alignment, use more dense SI prefix based formatter instead.

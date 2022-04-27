@@ -253,5 +253,10 @@ module.exports = exports = [
     uiClientKey: 'sliCHClusterAccessEnabled',
     instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'perSecondAggregationEnabled',
+    instanaCtlKey: 'feature.per.second.aggregation.enabled',
+    defaultValue: false
   }
 ];

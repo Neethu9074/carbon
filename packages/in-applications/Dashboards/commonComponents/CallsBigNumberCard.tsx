@@ -9,9 +9,10 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import DashboardBigNumberCard, { BigNumberCardProps } from './DashboardBigNumberCard';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
+import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { perSecondAggregationEnabled } from 'in-services/featureFlags';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
@@ -22,24 +23,48 @@ export default function CallsBigNumberCard({
   boundaryScope,
   jumpToAnalyze
 }: BigNumberCardProps) {
-  return (
-    <DashboardBigNumberCard
-      title={t('in-applications:labelCalls')}
-      metric={'calls'}
-      aggregation={'SUM'}
-      formatter={number.compact}
-      jumpToAnalyzeHref={getJumpToAnalyzeHref$(jumpToAnalyze.ids, {
-        timeConfig: timeConfig,
-        boundaryScope: boundaryScope,
-        groupBy: jumpToAnalyze.groupBy,
-        formModel: createFormModelFromSyntheticOption(syntheticCallsOption),
-        hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
-        fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
-        chartedMetrics: [createChartedMetric('calls', 'SUM')]
-      })}
-      tagFilters={tagFilters}
-      syntheticCallsOption={syntheticCallsOption}
-      timeConfig={timeConfig}
-    />
-  );
+  const jumpToAnalyzeHref = getJumpToAnalyzeHref$(jumpToAnalyze.ids, {
+    timeConfig: timeConfig,
+    boundaryScope: boundaryScope,
+    groupBy: jumpToAnalyze.groupBy,
+    formModel: createFormModelFromSyntheticOption(syntheticCallsOption),
+    hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
+    fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
+    chartedMetrics: [createChartedMetric('calls', 'SUM')]
+  });
+  if (perSecondAggregationEnabled) {
+    return (
+      <DashboardBigNumberCard
+        title={t('in-applications:labelCallsPerSecondFull')}
+        metric={'calls'}
+        aggregation={'PER_SECOND'}
+        formatter={number.perSecond.detailed}
+        companionMetric={'calls'}
+        companionAggregation={'SUM'}
+        companionFormatter={(v: number) =>
+          t('in-applications:dashboards.callCount', {
+            formattedCount: number.compact(v),
+            count: v
+          })
+        }
+        jumpToAnalyzeHref={jumpToAnalyzeHref}
+        tagFilters={tagFilters}
+        syntheticCallsOption={syntheticCallsOption}
+        timeConfig={timeConfig}
+      />
+    );
+  } else {
+    return (
+      <DashboardBigNumberCard
+        title={t('in-applications:labelCalls')}
+        metric={'calls'}
+        aggregation={'SUM'}
+        formatter={number.compact}
+        jumpToAnalyzeHref={jumpToAnalyzeHref}
+        tagFilters={tagFilters}
+        syntheticCallsOption={syntheticCallsOption}
+        timeConfig={timeConfig}
+      />
+    );
+  }
 }
