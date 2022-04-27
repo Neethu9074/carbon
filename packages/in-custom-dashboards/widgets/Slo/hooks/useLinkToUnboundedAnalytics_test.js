@@ -5,13 +5,19 @@
 
 import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href';
 import { useLinkToUnboundedAnalytics } from 'in-custom-dashboards/widgets/Slo/hooks/useLinkToUnboundedAnalytics';
+import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/getLinkToWebsiteAnalyze';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
+import getWebsite from 'in-websites/subscriptions/getWebsite';
+import { successObservable } from 'in-services/util/result';
+import { noop } from 'in-services/fixedObjects';
 
-jest.mock('in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href', () => ({
-  __esModule: true,
-  default: jest.fn()
-}));
+jest.mock('in-websites/subscriptions/getWebsite');
+jest.mock('in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href');
+jest.mock('in-custom-dashboards/widgets/Slo/getLinkToWebsiteAnalyze', () => {
+  const { successObservable } = jest.requireActual('in-services/util/result');
+  return { __esModule: true, default: jest.fn(() => successObservable('')) };
+});
 
 describe('in-custom-dashboards/widgets/Slo/hooks/useLinkToUnboundedAnalytics', () => {
   afterEach(jest.clearAllMocks);
@@ -472,5 +478,136 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useLinkToUnboundedAnalytics', (
       expect(data).toEqual('');
       done();
     }, done);
+  });
+
+  describe('for website event based sli configurations', () => {
+    it('returns a valid UA2 link', () => {
+      // Given
+      const sliConfig = {
+        id: 'some-id',
+        sliName: 'some event based SLI',
+        sliEntity: {
+          sliType: 'websiteEventBased',
+          websiteId: 'some-website-id',
+          beaconType: 'httpRequest',
+          badEventFilterExpression: {
+            type: 'EXPRESSION',
+            logicalOperator: 'AND',
+            elements: []
+          }
+        }
+      };
+
+      getWebsite.mockReturnValueOnce(
+        successObservable({
+          id: 'some-website-id',
+          label: 'A Cool Website'
+        })
+      );
+
+      // When
+      const actual = useLinkToUnboundedAnalytics(sliConfig, tagCatalog)(timeConfig);
+      actual.subscribe(noop);
+
+      //Then
+      expect(getLinkToWebsiteAnalyze).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          websiteId: 'some-website-id',
+          beaconType: 'httpRequest',
+          filterExpression: {
+            type: 'EXPRESSION',
+            logicalOperator: 'AND',
+            elements: []
+          }
+        })
+      );
+    });
+  });
+
+  describe('for website time based sli configurations', () => {
+    it('returns a valid UA2 link if no metricConfiguration is provided', () => {
+      // Given
+      const sliConfig = {
+        id: 'some-id',
+        sliName: 'some time based SLI',
+        sliEntity: {
+          sliType: 'websiteTimeBased',
+          websiteId: 'some-website-id',
+          beaconType: 'httpRequest',
+          filterExpression: {
+            type: 'EXPRESSION',
+            logicalOperator: 'AND',
+            elements: []
+          }
+        }
+      };
+
+      getWebsite.mockReturnValueOnce(
+        successObservable({
+          id: 'some-website-id',
+          label: 'A Cool Website'
+        })
+      );
+
+      // When
+      const actual = useLinkToUnboundedAnalytics(sliConfig, tagCatalog)(timeConfig);
+      actual.subscribe(noop);
+
+      //Then
+      expect(getLinkToWebsiteAnalyze).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          websiteId: 'some-website-id',
+          beaconType: 'httpRequest'
+        })
+      );
+    });
+    it('returns a valid UA2 link if metricConfiguration is provided', () => {
+      // Given
+      const sliConfig = {
+        id: 'some-id',
+        sliName: 'some time based SLI',
+        metricConfiguration: {
+          metricName: 'beaconDuration',
+          metricAggregation: 'P90',
+          threshold: 100
+        },
+        sliEntity: {
+          sliType: 'websiteTimeBased',
+          websiteId: 'some-website-id',
+          beaconType: 'httpRequest',
+          filterExpression: {
+            type: 'EXPRESSION',
+            logicalOperator: 'AND',
+            elements: []
+          }
+        }
+      };
+
+      getWebsite.mockReturnValueOnce(
+        successObservable({
+          id: 'some-website-id',
+          label: 'A Cool Website'
+        })
+      );
+
+      // When
+      const actual = useLinkToUnboundedAnalytics(sliConfig, tagCatalog)(timeConfig);
+      actual.subscribe(noop);
+
+      //Then
+      expect(getLinkToWebsiteAnalyze).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          websiteId: 'some-website-id',
+          beaconType: 'httpRequest',
+          filterExpression: {
+            type: 'EXPRESSION',
+            logicalOperator: 'AND',
+            elements: []
+          },
+          chartedMetrics: [{ aggregationId: 'P90', metricId: 'beaconDuration' }],
+          fields: [{ aggregationId: 'P90', metricId: 'beaconDuration', type: 'metric' }]
+        })
+      );
+    });
   });
 });

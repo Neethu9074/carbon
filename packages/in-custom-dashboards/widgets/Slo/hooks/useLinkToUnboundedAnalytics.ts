@@ -6,23 +6,26 @@
 import { just, Observable } from '@instana/observables';
 
 import {
+  ApplicationSliEntity,
+  AvailabilitySliEntity,
+  SliConfiguration,
+  TagCatalog,
+  TagFilter,
+  TimeConfig,
+  WebsiteEventBasedSliEntity,
+  WebsiteTimeBasedSliEntity
+} from 'in-types';
+import {
   isApplicationSliConfig,
   isAvailabilitySliConfig,
   isWebsiteEventBasedSliConfig,
   isWebsiteTimeBasedSliConfig,
   SliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import {
-  ApplicationSliEntity,
-  AvailabilitySliEntity,
-  SliConfiguration,
-  TagCatalog,
-  TagFilter,
-  TimeConfig
-} from 'in-types';
 import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href';
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { tagFilter, toNewTagFilterFormat } from 'in-components/QueryBuilder/transformation/tagFilter';
+import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/getLinkToWebsiteAnalyze';
 import { EQUALS, GREATER_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
 import { ChartedMetric } from 'in-applications/navigation/paths';
@@ -31,7 +34,7 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 export function useLinkToUnboundedAnalytics(
   sliConfig: SliConfiguration | undefined,
   tagCatalog: TagCatalog | undefined
-): (tc: TimeConfig) => Observable<string> | undefined {
+): (tc: TimeConfig) => Observable<string> {
   if (!sliConfig || !tagCatalog) {
     return () => just('');
   }
@@ -45,13 +48,11 @@ export function useLinkToUnboundedAnalytics(
   }
 
   if (isWebsiteTimeBasedSliConfig(sliConfig)) {
-    // TODO: soon to be implemented
-    return () => just('');
+    return highlightedTime => buildWebsiteTimeBaseSliEntityUA2Link(sliConfig, tagCatalog, highlightedTime);
   }
 
   if (isWebsiteEventBasedSliConfig(sliConfig)) {
-    // TODO: soon to be implemented
-    return () => just('');
+    return highlightedTime => buildWebsiteEventBasedSliEntityUA2Link(sliConfig, tagCatalog, highlightedTime);
   }
 
   return () => just('');
@@ -103,6 +104,55 @@ function buildApplicationSliEntityUA2Link(
     boundaryScope,
     additionalParams
   );
+}
+
+function buildWebsiteTimeBaseSliEntityUA2Link(
+  sliConfig: SliConfig<WebsiteTimeBasedSliEntity>,
+  tagCatalog?: TagCatalog,
+  timeConfig?: TimeConfig
+): Observable<string> {
+  const { sliEntity, metricConfiguration } = sliConfig;
+  const { beaconType, websiteId, filterExpression } = sliEntity;
+
+  const hasValidMetricConfig = metricConfiguration?.metricName && metricConfiguration?.metricAggregation;
+
+  const websiteAnlayzeProps = {
+    websiteId: websiteId!,
+    beaconType,
+    tagCatalog,
+    timeConfig,
+    filterExpression
+  };
+
+  if (!hasValidMetricConfig) return getLinkToWebsiteAnalyze(websiteAnlayzeProps);
+
+  const filterMetric = {
+    metricId: metricConfiguration.metricName,
+    aggregationId: metricConfiguration.metricAggregation
+  };
+
+  return getLinkToWebsiteAnalyze({
+    ...websiteAnlayzeProps,
+    chartedMetrics: [filterMetric],
+    fields: [{ ...filterMetric, type: 'metric' }]
+  });
+}
+
+function buildWebsiteEventBasedSliEntityUA2Link(
+  sliConfig: SliConfig<WebsiteEventBasedSliEntity>,
+  tagCatalog?: TagCatalog,
+  timeConfig?: TimeConfig
+): Observable<string> {
+  const { sliEntity } = sliConfig;
+  const { beaconType, websiteId, badEventFilterExpression } = sliEntity;
+
+  return getLinkToWebsiteAnalyze({
+    websiteId: websiteId!,
+    beaconType,
+    tagCatalog,
+    timeConfig,
+    filterExpression: badEventFilterExpression
+  });
 }
 
 interface EntityIds {

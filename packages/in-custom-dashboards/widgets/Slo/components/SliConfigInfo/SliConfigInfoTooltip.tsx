@@ -12,7 +12,8 @@ import {
   CombinedSliEntity,
   CombinedWebsiteSliEntity,
   SliConfig,
-  websiteEventBased
+  websiteEventBased,
+  websiteTimeBased
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SliConfigInfoMetricItem from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo/SliConfigInfoMetricItem';
 import { useApplicationQueryBuilder } from 'in-custom-dashboards/widgets/Slo/sli/hooks/useApplicationQueryBuilder';
@@ -26,8 +27,8 @@ import { t } from 'in-i18n';
 
 import locals from './SliConfigInfo.mless';
 
-const getSliTypeToDisplay = (sliEntity: SliEntity): string => {
-  const sliTypeKey = sliEntity?.sliType === applicationType ? 'timeBased' : 'eventBased';
+const getSliTypeToDisplay = (sliType: SliEntity['sliType']): string => {
+  const sliTypeKey = sliType === applicationType || sliType === websiteTimeBased ? 'timeBased' : 'eventBased';
 
   return t(`in-custom-dashboards:widgets.slo.${sliTypeKey}`);
 };
@@ -81,7 +82,7 @@ export default function SliConfigInfoTooltip({ sliConfig, entityType }: Required
   return (
     <div className={locals.sliConfigGridContainer}>
       <SliConfigInfoItem label={sliNameLabel} value={sliConfig.sliName} />
-      <SliConfigInfoItem label={sliTypeLabel} value={getSliTypeToDisplay(sliConfig.sliEntity)} />
+      <SliConfigInfoItem label={sliTypeLabel} value={getSliTypeToDisplay(sliType)} />
       <SliConfigInfoMetricItem entityType={entityType} sliConfig={sliConfig} />
       {sliType === availabilityType && (
         <ApplicationBadEventFilters sliConfig={sliConfig as SliConfig<CombinedApplicationSliEntity>} />
