@@ -3,7 +3,6 @@
     "accountSettings": {
       "accountSettings": "Account Settings",
       "billingAddress": "Billing Address",
-      "shippingAddress": "Shipping Address",
       "country": "Country",
       "state": "State",
       "zip": "Zip",

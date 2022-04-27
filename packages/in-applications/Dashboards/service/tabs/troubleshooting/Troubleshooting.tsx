@@ -35,8 +35,10 @@ import InfraReferenceTypesInfoxBox from 'in-applications/Dashboards/service/tabs
 import ServiceMappingRulesInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ServiceMappingRulesInfoBox';
 import ServiceMappingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ServiceMappingInfoBox';
 import InfraLinkingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/InfraLinkingInfoBox';
+import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import AlternativeServicesInfoBox from './infobox/AlternativeServicesInfoBox';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
+import { NOT_EMPTY } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticCallsOptions } from 'in-applications/constants';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
@@ -72,6 +74,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             groupByTag={'host.name'}
             groupByTagEntity={DESTINATION}
+            tagFilters={[tagFilter('host.name', NOT_EMPTY, '', null, DESTINATION)]}
           />
         </Col>
         <Col xs>

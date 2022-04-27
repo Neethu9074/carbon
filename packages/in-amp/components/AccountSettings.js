@@ -56,9 +56,6 @@ function render({ form }) {
           <Col xs={4}>
             <span className={locals.heading}>{t('in-amp:components.accountSettings.billingAddress')}</span>
           </Col>
-          <Col xs={4}>
-            <span className={locals.heading}>{t('in-amp:components.accountSettings.shippingAddress')}</span>
-          </Col>
         </Row>
 
         <Row className={locals.row}>
@@ -77,28 +74,6 @@ function render({ form }) {
                 title={t('in-amp:components.accountSettings.additionalAddress')}
                 form={form}
                 fieldName="billingStreet2"
-              />
-            </Dl>
-          </Col>
-          <Col xs={4}>
-            <Dl>
-              <FormValue
-                title={t('in-amp:components.accountSettings.country')}
-                form={form}
-                fieldName="shippingCountry"
-              />
-              <FormValue title={t('in-amp:components.accountSettings.state')} form={form} fieldName="shippingState" />
-              <FormValue title={t('in-amp:components.accountSettings.zip')} form={form} fieldName="shippingZip" />
-              <FormValue title={t('in-amp:components.accountSettings.city')} form={form} fieldName="shippingCity" />
-              <FormValue
-                title={t('in-amp:components.accountSettings.address')}
-                form={form}
-                fieldName="shippingStreet"
-              />
-              <FormValue
-                title={t('in-amp:components.accountSettings.additionalAddress')}
-                form={form}
-                fieldName="shippingStreet2"
               />
             </Dl>
           </Col>
@@ -140,13 +115,7 @@ function enrichForm(form, { result: { account } }) {
     .put('billingState', createField({ value: account.billingAddress.state || '', validator: notBlankValidator }))
     .put('billingStreet', createField({ value: account.billingAddress.street || '', validator: notBlankValidator }))
     .put('billingStreet2', createField({ value: account.billingAddress.street2 || '', validator: notBlankValidator }))
-    .put('billingZip', createField({ value: account.billingAddress.zip || '', validator: notBlankValidator }))
-    .put('shippingCity', createField({ value: account.shippingAddress.city || '', validator: notBlankValidator }))
-    .put('shippingCountry', createField({ value: account.shippingAddress.country || '', validator: notBlankValidator }))
-    .put('shippingState', createField({ value: account.shippingAddress.state || '', validator: notBlankValidator }))
-    .put('shippingStreet', createField({ value: account.shippingAddress.street || '', validator: notBlankValidator }))
-    .put('shippingStreet2', createField({ value: account.shippingAddress.street2 || '', validator: notBlankValidator }))
-    .put('shippingZip', createField({ value: account.shippingAddress.zip || '', validator: notBlankValidator }));
+    .put('billingZip', createField({ value: account.billingAddress.zip || '', validator: notBlankValidator }));
 }
 
 // function fromToModel(form) {
@@ -163,14 +132,6 @@ function enrichForm(form, { result: { account } }) {
 //       street: form.billingStreet,
 //       street2: form.billingStreet2,
 //       zip: form.billingZip
-//     },
-//     shippingAddress: {
-//       city: form.shippingCity,
-//       country: form.shippingCountry,
-//       state: form.shippingState,
-//       street: form.shippingStreet,
-//       street2: form.shippingStreet2,
-//       zip: form.shippingZip
 //     }
 //   };
 // }
