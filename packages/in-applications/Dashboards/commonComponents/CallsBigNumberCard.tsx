@@ -10,14 +10,17 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import DashboardBigNumberCard, { BigNumberCardProps } from './DashboardBigNumberCard';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { createChartedMetric, createMetricField } from 'in-analyze/navigation/paths';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { perSecondAggregationEnabled } from 'in-services/featureFlags';
+import { filterByEndpointType } from './includeEndpointTypes';
 import { number } from 'in-services/formatters/number';
 import { t } from 'in-i18n';
 
 export default function CallsBigNumberCard({
   tagFilters,
+  endpointTypes,
   syntheticCallsOption,
   timeConfig,
   boundaryScope,
@@ -27,7 +30,9 @@ export default function CallsBigNumberCard({
     timeConfig: timeConfig,
     boundaryScope: boundaryScope,
     groupBy: jumpToAnalyze.groupBy,
-    formModel: createFormModelFromSyntheticOption(syntheticCallsOption),
+    formModel: joinExpressions({
+      expressions: [createFormModelFromSyntheticOption(syntheticCallsOption), ...filterByEndpointType(endpointTypes)]
+    }),
     hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
     fields: [createMetricField('erroneousCalls', 'SUM'), createMetricField('latency', 'MEAN')],
     chartedMetrics: [createChartedMetric('calls', 'SUM')]
