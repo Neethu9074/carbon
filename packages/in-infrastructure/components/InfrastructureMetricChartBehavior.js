@@ -15,6 +15,7 @@ import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
 import createQueue from 'in-components/Chart/data/queue';
+import { fixateTimeConfig } from 'in-stores/time/config';
 
 // we don't need to open subscriptions on the componentDidMount. This is because the getElementDimensions hoc
 // needs to calculate the dimensions of the chart first. The hoc will definitely set a state which results in a
@@ -82,8 +83,13 @@ class InfrastructureMetricChartBehavior extends React.Component {
       renderPostChartContent,
       originalTimeConfig
     } = props;
-    this.timeConfig = resolveTimeConfig(timeConfig);
-    this.granularity = getInfraGranularity(timeConfig, minRollup);
+
+    // When displaying metrics until now, the ingestion pipeline has not had time to fully ingest entities
+    // Ingestion time is about 20s, so charts should not go further than present time - 20s to avoid drops at end of charts due to incomplete ingestion
+    const timeSkew = 20000;
+
+    this.timeConfig = fixateTimeConfig(timeConfig, timeSkew);
+    this.granularity = getInfraGranularity(this.timeConfig, minRollup);
     this.primaryContextMenuAction = primaryContextMenuAction;
     this.additionalContextMenuButtons = additionalContextMenuButtons;
     this.customHeight = customHeight;
@@ -171,7 +177,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
         getMetricsForTimeframe({
           snapshotId,
           metric: metrics[i],
-          timeConfig: this.props.timeConfig,
+          timeConfig: this.timeConfig,
           rollup: this.granularity,
           aggregation: axis.aggregation,
           blockSizeMillis: blockSizeMillis,
@@ -262,13 +268,6 @@ class InfrastructureMetricChartBehavior extends React.Component {
       />
     );
   }
-}
-
-function resolveTimeConfig(timeConfig) {
-  return {
-    ...timeConfig,
-    to: timeConfig.to || Date.now()
-  };
 }
 
 function mapAxis(axis) {
