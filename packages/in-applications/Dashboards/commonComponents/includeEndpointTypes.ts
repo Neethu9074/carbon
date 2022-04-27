@@ -8,7 +8,7 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { EndpointType, TagFilter } from 'in-types';
 
 export function filterByEndpointType(types: EndpointType[]): TagFilter[] {
-  if (types.length === 1) {
+  if (types?.length === 1) {
     return [tagFilter('call.type', EQUALS, types[0])];
   } else {
     return [];
