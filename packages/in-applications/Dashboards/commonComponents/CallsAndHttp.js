@@ -96,7 +96,8 @@ export default function CallsAndHttp({
   showHttp,
   hasHttpAndOtherEndpoints,
   urlMatrixParamConfig,
-  syntheticCalls
+  syntheticCalls,
+  endpointTypes
 }) {
   const tabs = showHttp ? allTabs : callsOnlyTab;
   const metrics = showHttp ? (hasHttpAndOtherEndpoints ? allMetrics : allMetricsWithoutNonHttp) : allMetricsWithoutHttp;
@@ -121,6 +122,7 @@ export default function CallsAndHttp({
         renderPostChartContentHttpStatus={renderPostChartContentHttpStatus}
         hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints}
         syntheticCalls={syntheticCalls}
+        endpointTypes={endpointTypes}
       />
     </TimeShiftAwareChartSelectorWithUrlState>
   );
@@ -142,7 +144,8 @@ function ChartPresenter({
   timeShiftConfig, // passed implicitly by TimeShiftAwareChartSelectorWithUrlState
   syntheticCalls,
   cardTitle,
-  selectorComponent
+  selectorComponent,
+  endpointTypes
 }) {
   return selectedTabId === tabCallCount.id ? (
     <CallsErrorsChart
@@ -157,6 +160,7 @@ function ChartPresenter({
       groupBy={callGroupBy}
       renderPostChartContent={renderPostChartContent}
       syntheticCalls={syntheticCalls}
+      endpointTypes={endpointTypes}
       cardTitle={cardTitle}
       rightHeaderContent={selectorComponent}
     />
@@ -177,6 +181,7 @@ function ChartPresenter({
       syntheticCalls={syntheticCalls}
       cardTitle={cardTitle}
       rightHeaderContent={selectorComponent}
+      endpointTypes={endpointTypes}
     />
   );
 }

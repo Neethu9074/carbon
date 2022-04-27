@@ -15,6 +15,7 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { filterByEndpointType } from './includeEndpointTypes';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { bar, line } from 'in-stores/metric/renderer';
@@ -30,6 +31,7 @@ export default function Errors({
   boundaryScope,
   cardTitle,
   syntheticCalls,
+  endpointTypes,
   groupBy,
   renderPostChartContent
 }) {
@@ -119,7 +121,10 @@ export default function Errors({
                   groupBy,
                   orderByGroups: createOrderBy('errors_MEAN', 'DESC'),
                   formModel: joinExpressions({
-                    expressions: [createFormModelFromSyntheticOption(syntheticCalls)]
+                    expressions: [
+                      createFormModelFromSyntheticOption(syntheticCalls),
+                      ...filterByEndpointType(endpointTypes)
+                    ]
                   }),
                   facets: { 'call.erroneous': [true] },
                   hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCalls),

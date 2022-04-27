@@ -75,6 +75,7 @@ export default function LatencyAndDistribution({
   timeConfig,
   boundaryScope,
   syntheticCalls,
+  endpointTypes,
   cardTitle,
   percentileGroupBy,
   renderPostChartContent,
@@ -95,6 +96,7 @@ export default function LatencyAndDistribution({
         timeConfig={timeConfig}
         boundaryScope={boundaryScope}
         syntheticCalls={syntheticCalls}
+        endpointTypes={endpointTypes}
         percentileGroupBy={percentileGroupBy}
         renderPostChartContent={renderPostChartContent}
       />
@@ -110,6 +112,7 @@ function ChartPresenter({
   timeConfig,
   boundaryScope,
   syntheticCalls,
+  endpointTypes,
   percentileGroupBy,
   renderPostChartContent,
   selectedTabId,
@@ -133,6 +136,7 @@ function ChartPresenter({
       groupBy={percentileGroupBy}
       renderPostChartContent={renderPostChartContent}
       syntheticCalls={syntheticCalls}
+      endpointTypes={endpointTypes}
     />
   ) : (
     <LatencyDistributionHistogram
@@ -144,6 +148,7 @@ function ChartPresenter({
       timeConfig={timeConfig}
       boundaryScope={boundaryScope}
       syntheticCalls={syntheticCalls}
+      endpointTypes={endpointTypes}
       renderHistoricDataIndicator
     />
   );

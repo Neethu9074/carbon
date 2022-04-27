@@ -13,13 +13,16 @@ import DashboardBigNumberCard, {
   BigNumberCardProps
 } from 'in-applications/Dashboards/commonComponents/DashboardBigNumberCard';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { perSecondAggregationEnabled } from 'in-services/featureFlags';
 import { number, percentage } from 'in-services/formatters/number';
+import { filterByEndpointType } from './includeEndpointTypes';
 import { t } from 'in-i18n';
 
 export default function ErroneousCallsBigNumberCard({
   tagFilters,
+  endpointTypes,
   syntheticCallsOption,
   timeConfig,
   boundaryScope,
@@ -30,7 +33,9 @@ export default function ErroneousCallsBigNumberCard({
     boundaryScope,
     groupBy: jumpToAnalyze.groupBy,
     orderByGroups: createOrderBy('errors_MEAN', 'DESC'),
-    formModel: createFormModelFromSyntheticOption(syntheticCallsOption),
+    formModel: joinExpressions({
+      expressions: [createFormModelFromSyntheticOption(syntheticCallsOption), ...filterByEndpointType(endpointTypes)]
+    }),
     facets: { 'call.erroneous': [true] },
     hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
     fields: [createMetricField('errors', 'MEAN'), createMetricField('latency', 'MEAN')],

@@ -5,8 +5,8 @@
 
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { emptyArray, emptyObject } from 'in-services/fixedObjects';
 import { syntheticCallsOptions } from 'in-applications/constants';
+import { emptyObject } from 'in-services/fixedObjects';
 
 export function getTagFiltersForSyntheticOption(includeSyntheticOption: string) {
   const filters = [];
@@ -25,7 +25,7 @@ export function createFormModelFromSyntheticOption(includeSyntheticOption: strin
   if (includeSyntheticOption === syntheticCallsOptions.only) {
     return [tagFilter('call.is_synthetic', EQUALS, true)];
   }
-  return emptyArray;
+  return [];
 }
 
 export function createHiddenCallsFromSyntheticOption(includeSyntheticOption: string) {

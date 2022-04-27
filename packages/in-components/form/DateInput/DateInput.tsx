@@ -11,6 +11,7 @@ import React from 'react';
 
 import { keyCodes } from '@instana/components';
 
+import { OverlayContentProps } from 'in-components/overlays/Overlay/types';
 import { formatDate, parseDate } from 'in-services/formatters/date';
 import { dateValidator } from 'in-services/validators/date';
 import Overlay from 'in-components/overlays/Overlay';
@@ -18,11 +19,10 @@ import { identity } from 'in-services/util/function';
 import { isBlank } from 'in-services/util/string';
 import Input from 'in-components/form/Input';
 import { t, activeLanguage } from 'in-i18n';
+import { Nullish } from 'in-types';
 import theme from 'in-themes';
 
 import locals from './DateInput.mless';
-import { OverlayContentProps } from 'in-components/overlays/Overlay/types';
-import { Nullish } from 'in-types';
 
 const { isTab } = keyCodes;
 const modifiersStyles = {

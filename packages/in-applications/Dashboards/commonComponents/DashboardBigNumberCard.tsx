@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { Observable } from '@instana/observables';
+import { EndpointType } from '@instana/types';
 
 import { AggregationType, ApplicationMetricConfiguration, Group, TagFilter, TimeConfig } from 'in-types';
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
@@ -99,6 +100,7 @@ export interface JumpToAnalyzeConfig {
 
 export interface BigNumberCardProps {
   tagFilters: TagFilter[];
+  endpointTypes: EndpointType[];
   syntheticCallsOption: string;
   timeConfig: TimeConfig;
   boundaryScope: string;

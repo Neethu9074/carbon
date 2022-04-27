@@ -35,6 +35,7 @@ import InfraReferenceTypesInfoxBox from 'in-applications/Dashboards/service/tabs
 import ServiceMappingRulesInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ServiceMappingRulesInfoBox';
 import ServiceMappingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/ServiceMappingInfoBox';
 import InfraLinkingInfoBox from 'in-applications/Dashboards/service/tabs/troubleshooting/infobox/InfraLinkingInfoBox';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import AlternativeServicesInfoBox from './infobox/AlternativeServicesInfoBox';
 import { DESTINATION } from 'in-components/QueryBuilder/tagFilter/entities';
 import { syntheticCallsOptions } from 'in-applications/constants';
@@ -43,7 +44,7 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import TroubleShootingChart from './TroubleShootingChart';
 import { number } from 'in-services/formatters/number';
 import { Col, Row } from 'in-components/layout/Grid';
-import { TimeConfig } from 'in-types';
+import { Service, TimeConfig } from 'in-types';
 import { t } from 'in-i18n';
 
 interface TroubleShootingProps {
@@ -51,11 +52,13 @@ interface TroubleShootingProps {
   serviceId: string;
   syntheticCalls: string;
   boundaryScope: string;
+  data: Service;
 }
 
 export default function Troubleshooting(props: TroubleShootingProps) {
   const timeShiftConfig = useTimeShiftConfig();
-  const { timeConfig, serviceId, syntheticCalls: urlSyntheticCalls, boundaryScope } = props;
+  const { timeConfig, serviceId, syntheticCalls: urlSyntheticCalls, boundaryScope, data } = props;
+  const endpointTypes = data.types;
   const syntheticCalls = urlSyntheticCalls || syntheticCallsOptions.default;
 
   return (
@@ -70,6 +73,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             boundaryScope={boundaryScope}
             syntheticCalls={syntheticCalls}
             serviceId={serviceId}
+            tagFilters={filterByEndpointType(endpointTypes)}
             groupByTag={'host.name'}
             groupByTagEntity={DESTINATION}
           />
@@ -83,6 +87,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             boundaryScope={boundaryScope}
             syntheticCalls={syntheticCalls}
             serviceId={serviceId}
+            tagFilters={filterByEndpointType(endpointTypes)}
             groupByTag={'call.http.host'}
           />
         </Col>
@@ -97,7 +102,7 @@ export default function Troubleshooting(props: TroubleShootingProps) {
             serviceId={serviceId}
             groupByTag={'call.meta_tags'}
             groupByTagSecondLevel={'destination_infra_reference'}
-            tagFilters={[qualifiedReferencesFilter]}
+            tagFilters={[qualifiedReferencesFilter, ...filterByEndpointType(endpointTypes)]}
           />
         </Col>
       </Row>

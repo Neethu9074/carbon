@@ -4,6 +4,7 @@
  */
 
 import { Observable } from '@instana/observables';
+
 import { Group, Order, TagCatalog, TimeConfig } from 'in-types';
 
 interface ChartedMetric {

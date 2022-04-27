@@ -14,11 +14,13 @@ import {
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { createChartedMetric, createOrderBy } from 'in-analyze/navigation/paths';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { filterByEndpointType } from './includeEndpointTypes';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { fixateTimeConfig } from 'in-stores/time/config';
 import { emptyObject } from 'in-services/fixedObjects';
@@ -31,6 +33,7 @@ export default function LatencyDistributionHistogram({
   endpointId,
   boundaryScope,
   syntheticCalls,
+  endpointTypes,
   rightHeaderContent,
   cardTitle,
   renderHistoricDataIndicator = false
@@ -108,7 +111,12 @@ export default function LatencyDistributionHistogram({
                 {
                   timeConfig: fixateTimeConfig(timeConfig),
                   boundaryScope,
-                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                  formModel: joinExpressions({
+                    expressions: [
+                      createFormModelFromSyntheticOption(syntheticCalls),
+                      ...filterByEndpointType(endpointTypes)
+                    ]
+                  }),
                   facets: latencyFacet,
                   hiddenCalls,
                   chartedMetrics: [createChartedMetric('latency', 'DISTRIBUTION')],

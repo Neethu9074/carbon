@@ -9,14 +9,17 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import DashboardBigNumberCard, { BigNumberCardProps } from './DashboardBigNumberCard';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
+import { filterByEndpointType } from './includeEndpointTypes';
 import { meanLatency } from 'in-services/formatters/number';
 import { createOrderBy } from 'in-analyze/navigation/paths';
 import { t } from 'in-i18n';
 
 export default function LatencyBigNumberCard({
   tagFilters,
+  endpointTypes,
   syntheticCallsOption,
   timeConfig,
   boundaryScope,
@@ -39,7 +42,12 @@ export default function LatencyBigNumberCard({
         timeConfig,
         boundaryScope,
         groupBy: jumpToAnalyze.groupBy,
-        formModel: createFormModelFromSyntheticOption(syntheticCallsOption),
+        formModel: joinExpressions({
+          expressions: [
+            createFormModelFromSyntheticOption(syntheticCallsOption),
+            ...filterByEndpointType(endpointTypes)
+          ]
+        }),
         hiddenCalls: createHiddenCallsFromSyntheticOption(syntheticCallsOption),
         orderByGroups: createOrderBy('latency_MEAN', 'DESC')
       })}

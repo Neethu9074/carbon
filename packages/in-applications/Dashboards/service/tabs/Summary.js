@@ -39,7 +39,7 @@ export default connectTo(
   },
   function Summary(props) {
     const { timeConfig, applicationId, serviceId, boundaryScope, data, syntheticCalls: urlSyntheticCalls } = props;
-    const types = data.types;
+    const endpointTypes = data.types;
     const syntheticCalls = urlSyntheticCalls || syntheticCallsOptions.default;
     const includeSyntheticCalls = isSyntheticOption(urlSyntheticCalls);
 
@@ -70,6 +70,7 @@ export default connectTo(
 
     const bigNumberCardConfiguration = {
       tagFilters,
+      endpointTypes,
       syntheticCallsOption: syntheticCalls,
       timeConfig,
       boundaryScope,
@@ -105,10 +106,11 @@ export default connectTo(
               callGroupBy={createGroupBy('endpoint.name', entityTypes.DESTINATION)}
               renderPostChartContent={withPotentialProblemsLane}
               renderPostChartContentHttpStatus={MarkerLanes}
-              showHttp={hasHttpEndpoints(types)}
-              hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints(types)}
+              showHttp={hasHttpEndpoints(endpointTypes)}
+              hasHttpAndOtherEndpoints={hasHttpAndOtherEndpoints(endpointTypes)}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'callsTab', paramMetric: 'callsMetric' }}
               syntheticCalls={syntheticCalls}
+              endpointTypes={endpointTypes}
             />
           </Col>
           <Col lg={4}>
@@ -122,6 +124,7 @@ export default connectTo(
               groupBy={createGroupBy('endpoint.name', entityTypes.DESTINATION)}
               renderPostChartContent={withPotentialProblemsLane}
               syntheticCalls={syntheticCalls}
+              endpointTypes={endpointTypes}
             />
           </Col>
           <Col lg={4}>
@@ -136,6 +139,7 @@ export default connectTo(
               renderPostChartContent={withPotentialProblemsLane}
               syntheticCalls={syntheticCalls}
               urlMatrixParamConfig={{ path: summaryTab, paramTab: 'latencyTab', paramMetric: 'latencyMetric' }}
+              endpointTypes={endpointTypes}
             />
           </Col>
         </Row>
@@ -160,7 +164,7 @@ export default connectTo(
             />
           </Col>
           <Col lg={4}>
-            {types.includes('DATABASE') ? (
+            {endpointTypes.includes('DATABASE') ? (
               <DatabaseSections
                 boundaryScope={boundaryScope}
                 {...props}

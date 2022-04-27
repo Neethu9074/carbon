@@ -10,8 +10,10 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import UnifiedMetricsChart, { parseMetricId } from 'in-custom-dashboards/widgets/Chart/UnifiedMetricsChart';
+import { filterByEndpointType } from 'in-applications/Dashboards/commonComponents/includeEndpointTypes';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -29,6 +31,7 @@ export default function Latency({
   boundaryScope,
   cardTitle,
   syntheticCalls,
+  endpointTypes,
   timeShiftAggregation,
   tagFilters,
   groupBy,
@@ -181,7 +184,12 @@ export default function Latency({
                   boundaryScope,
                   groupBy,
                   orderByGroups: createOrderBy('latency_P50', 'DESC'),
-                  formModel: createFormModelFromSyntheticOption(syntheticCalls),
+                  formModel: joinExpressions({
+                    expressions: [
+                      createFormModelFromSyntheticOption(syntheticCalls),
+                      ...filterByEndpointType(endpointTypes)
+                    ]
+                  }),
                   hiddenCalls,
                   fields: getFields(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig),
                   chartedMetrics: getChartedMetrics(metricsToAdd.renderedMetrics, metricConfigs, timeShiftConfig)
