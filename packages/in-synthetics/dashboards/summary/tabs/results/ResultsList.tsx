@@ -50,7 +50,7 @@ const columnDefinitions = [
     id: 'location_id',
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
     getContent(item: any) {
-      return <span className={locals.metricLabel}>{item.testResultCommonProperties.locationId}</span>;
+      return <span className={locals.metricLabel}>{item.testResultCommonProperties.locationLabel}</span>;
     }
   },
   {
