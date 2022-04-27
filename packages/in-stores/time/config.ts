@@ -58,11 +58,11 @@ export interface FixedTimeConfig {
   readonly autoRefresh: boolean;
 }
 
-export function fixateTimeConfig(timeConfig: TimeConfig): FixedTimeConfig {
+export function fixateTimeConfig(timeConfig: TimeConfig, timeSkew: number = 0): FixedTimeConfig {
   if (timeConfig.to != null) {
     return timeConfig as FixedTimeConfig;
   }
-  const now = Date.now();
+  const now = Date.now() - timeSkew;
 
   return {
     to: now,
