@@ -41,13 +41,13 @@ export interface UiExtraData {
   serviceId?: string;
 
   builtIn?: boolean;
-  editMode?: boolean;
 }
 
 export function createSmartAlertForm(
   alertConfig: (GlobalApplicationAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata) &
     AlertConfigHiddenFields &
-    UiExtraData
+    UiExtraData,
+  editMode?: boolean
 ): MapForm {
   const {
     applicationId,
@@ -58,7 +58,6 @@ export function createSmartAlertForm(
     customPayloadFields,
     created,
     description,
-    editMode,
     enabled,
     evaluationType,
     id,
