@@ -9,3 +9,4 @@ CVE-2021-44568 # Will be patched after the release. See this slack thread for wh
 CVE-2022-25235 # Will be patched after the release. See this slack thread for why: https://instana.slack.com/archives/GKKKN695Y/p1645523433822589
 CVE-2022-25236 # Will be patched after the release. See this slack thread for why: https://instana.slack.com/archives/GKKKN695Y/p1645523433822589
 CVE-2022-24407 # Will be patched after the release. See this slack thread for why: https://instana.slack.com/archives/GKKKN695Y/p1645703032991819
+CVE-2021-3807 # release-223 is in production until next May 2nd, then we will need to remove it again. Ignoring it will allow to do a hot-fix. See in #tech-ui-dev https://instana.slack.com/archives/G5LCSUJGY/p1651141061729339?thread_ts=1651140558.152909&cid=G5LCSUJGY
