@@ -58,17 +58,30 @@ export interface FixedTimeConfig {
   readonly autoRefresh: boolean;
 }
 
-export function fixateTimeConfig(timeConfig: TimeConfig, timeSkew: number = 0): FixedTimeConfig {
+export function fixateTimeConfig(timeConfig: TimeConfig): FixedTimeConfig {
   if (timeConfig.to != null) {
     return timeConfig as FixedTimeConfig;
   }
-  const now = Date.now() - timeSkew;
+  const now = Date.now();
 
   return {
     to: now,
     focusedMoment: now,
     autoRefresh: false,
     windowSize: timeConfig.windowSize
+  };
+}
+
+export function timeConfigWithShift(timeConfig: TimeConfig, timeSkew: number) {
+  if (timeConfig.autoRefresh) {
+    return timeConfig;
+  }
+  const now = Date.now() - timeSkew;
+
+  return {
+    ...timeConfig,
+    to: now,
+    focusedMoment: now
   };
 }
 

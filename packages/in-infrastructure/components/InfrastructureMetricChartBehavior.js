@@ -14,8 +14,8 @@ import createDataHolder from 'in-components/Chart/data/dataHolder';
 import useResizeObserverCustom from 'in-hooks/useResizeObserver';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import Chart from 'in-components/Chart/ChartReactComponent';
+import { timeConfigWithShift } from 'in-stores/time/config';
 import createQueue from 'in-components/Chart/data/queue';
-import { fixateTimeConfig } from 'in-stores/time/config';
 
 // we don't need to open subscriptions on the componentDidMount. This is because the getElementDimensions hoc
 // needs to calculate the dimensions of the chart first. The hoc will definitely set a state which results in a
@@ -88,7 +88,7 @@ class InfrastructureMetricChartBehavior extends React.Component {
     // Ingestion time is about 20s, so charts should not go further than present time - 20s to avoid drops at end of charts due to incomplete ingestion
     const timeSkew = 20000;
 
-    this.timeConfig = fixateTimeConfig(timeConfig, timeSkew);
+    this.timeConfig = timeConfigWithShift(timeConfig, timeSkew, timeConfig.autoRefresh);
     this.granularity = getInfraGranularity(this.timeConfig, minRollup);
     this.primaryContextMenuAction = primaryContextMenuAction;
     this.additionalContextMenuButtons = additionalContextMenuButtons;
