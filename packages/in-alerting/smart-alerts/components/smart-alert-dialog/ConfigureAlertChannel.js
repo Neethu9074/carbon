@@ -127,7 +127,7 @@ function SelectListDialogContent({
                   }
                   secondaryActionText={t('in-alerting:smartAlerts.components.smartAlertDialog.cancelTitle')}
                   renderCustomSaveAction={() => (
-                    <SaveButton type="submit" kind="create" form={form} disabled={!numberOfItems}>
+                    <SaveButton type="submit" kind="create" disabled={!numberOfItems}>
                       {numberOfItems
                         ? t('in-alerting:smartAlerts.components.smartAlertDialog.addChannel', {
                             count: numberOfItems
