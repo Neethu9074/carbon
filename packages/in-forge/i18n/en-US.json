@@ -11310,6 +11310,7 @@
       "tablespacesWithCount": "Tablespaces ({{len}})",
       "version": "Version",
       "oracleSid": "Oracle SID",
+      "serviceNames": "Service Names",
       "port": "Port",
       "cpuCount": "CPU Count",
       "maxSessions": "Max Sessions",
