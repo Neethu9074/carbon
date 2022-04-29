@@ -34,7 +34,7 @@ import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.ml
 const pathSegment = '/results';
 const matrixPrefix = 'result.';
 let testId = '';
-const metrics = ['start_time', 'location_id', 'response_time', 'response_size'];
+const metrics = ['start_time', 'location_id', 'response_time', 'response_size', 'status'];
 
 const columnDefinitions = [
   {
@@ -42,8 +42,9 @@ const columnDefinitions = [
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
     isSortable: false,
     getContent(item: any) {
-      const relativeTime = moment.unix(get(item, ['metrics', 'start_time', 0, 0], moment.now()) / 1000).fromNow();
-      return <SeverityAwareEntityLink severity={5} icon="lib_synthetic" label={relativeTime} />;
+      return (
+        <SeverityAwareEntityLink severity={getSeverity(item)} icon="lib_synthetic" label={getRelativeTime(item)} />
+      );
     }
   },
   {
@@ -140,4 +141,18 @@ function getSynthTableData({
     // @ts-ignore
     tagFilters: baseTagFilters
   });
+}
+
+function getSeverity(item: any) {
+  return getStatus(item) === 1 ? 0 : 10;
+}
+
+function getRelativeTime(item: any) {
+  let status = getStatus(item);
+  let date = get(item, ['metrics', 'start_time', 0, 0], moment.now()) / 1000;
+  return status === 1 ? moment.unix(date).fromNow() : moment.unix(date).format('MMM Do YYYY, h:mm:ss a');
+}
+
+function getStatus(item: any) {
+  return get(item, ['metrics', 'status', 0, 1], 0);
 }
