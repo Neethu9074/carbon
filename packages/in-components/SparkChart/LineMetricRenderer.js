@@ -4,8 +4,8 @@
  */
 
 import {
-  allowedMultiplesOfRollupSizeMissingInCharts,
-  allowedMillisGapsInOneSecondResolution
+  allowedMillisGapsInOneSecondResolution,
+  allowedMultiplesOfRollupSizeMissingInCharts
 } from 'in-services/featureFlags';
 import createScale from 'in-services/scale';
 import theme from 'in-themes';
@@ -137,6 +137,7 @@ export default class LineMetricRenderer {
     blocks.push(currentBlock);
 
     metrics = this.mapMetricsToAStructureWhichIsEasyToConsume(metrics);
+
     for (let i = 0; i < metrics.length; i++) {
       const dataPoint = metrics[i];
       currentBlock.push(dataPoint);
@@ -208,9 +209,9 @@ export default class LineMetricRenderer {
   drawBlock(block) {
     /*
      * Create paths that represent areas under sequences
-     * that have no consecuritve zeros inside, because in
-     * those cases we would pain area highlight under the
-     * line connecting two zeros and it is wrong.
+     * that have no consecutive zeros inside, because in
+     * those cases we would paint area highlight under the
+     * line connecting two zeros and this is wrong.
      */
     let dataPoints = Array.from(block);
 
@@ -282,6 +283,7 @@ export default class LineMetricRenderer {
       this.ctx.closePath();
     }
 
+    // Anonymous block to avoid const vars already being defined.
     {
       if (block.length < 2) {
         // Only one item in the block, no lines need to be painted
@@ -328,16 +330,16 @@ export default class LineMetricRenderer {
       for (let iB = 0; iB < block.length; iB++) {
         this.ctx.fillStyle = fillStyle;
         const dataPoint = block[iB];
+        this.ctx.beginPath();
 
         if (this.showDots) {
-          this.ctx.beginPath();
           this.ctx.arc(dataPoint.x, dataPoint.y, radius, 0, 2 * Math.PI, false);
           this.ctx.fill();
         } else if (block.length === 1) {
           this.drawSinglePoints(dataPoint, fillStyle, radius);
         }
 
-        if (withRespectToZeroValues && dataPoint.value == 0) {
+        if (withRespectToZeroValues && dataPoint.value === 0) {
           /*
            * To help differentiate zero from some other value,
            * paint the dot representing zero as a thin blue halo
@@ -346,6 +348,7 @@ export default class LineMetricRenderer {
           this.ctx.fillStyle = '#c8ddec';
           this.ctx.fill();
         }
+        this.ctx.closePath();
       }
     }
   }
