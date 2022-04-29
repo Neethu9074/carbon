@@ -57,5 +57,6 @@ module.exports = {
   syntheticsTestEnabled: true,
   kubernetesExploreEnabled: true,
   configMigrationFeatureEnabled: false,
-  sliCHClusterAccessEnabled: true
+  sliCHClusterAccessEnabled: true,
+  baselinePreviewOnAlertPageEnabled: true
 };
