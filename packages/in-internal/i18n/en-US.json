@@ -387,11 +387,18 @@
           "write": "Log Batch Writes",
           "failWrite": "Log Batch Write Failures"
         },
+        "logtagsets": {
+          "incoming": "Incoming Log-TagSets",
+          "failIncoming": "Failed Incoming Log-TagSets"
+        },
         "tagsets": {
           "incoming": "Incoming TagSets",
           "failIncoming": "Failed Incoming TagSets",
           "write": "TagSets Batch Writes",
-          "failWrite": "TagSets Batch Write Failures"
+          "failBatchWrite": "TagSets Batch Write Failures",
+          "failWrite": "TagSet Write Failures",
+          "droppedByCache": "Dropped duplicate TagSets by cache",
+          "droppedByQuery": "Dropped duplicate TagSets by query"
         },
         "clickHouse": {
           "insert": "ClickHouse Inserts",
@@ -440,17 +447,34 @@
           "99th": "99th"
         }
       },
-      "housekeeping" : {
+      "housekeeping": {
         "title": "log-housekeeping (running inside log-writer)",
-        "cleanup" : {
+        "cleanup": {
           "success": "Log clean-up success",
           "failure": "Log clean-up failure",
           "duration": "Log clean-up duration (99th)",
-          "skips" : {
+          "skips": {
             "mutations": "Log clean-up skips (mutations)"
           }
         },
-        "coldTier" : {
+        "tagSetCleanup": {
+          "success": "Tag-set clean-up success",
+          "failure": "Tag-set clean-up failure",
+          "duration": "Tag-set clean-up duration (99th)",
+          "killedMutations": "Killed Tag-set clean-up jobs",
+          "skips": {
+            "mutations": "Tag-set clean-up skips (mutations)"
+          }
+        },
+        "tagSetCleanupOld": {
+          "success": "Old Tag-set clean-up success",
+          "failure": "Old Tag-set clean-up failure",
+          "duration": "Old Tag-set clean-up duration (99th)",
+          "skips": {
+            "mutations": "Old Tag-set clean-up skips (mutations)"
+          }
+        },
+        "coldTier": {
           "success": "Log cold-tier success",
           "failure": "Log cold-tier failure",
           "optimize": "Log cold-tier optimize",

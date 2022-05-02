@@ -161,7 +161,7 @@ export default connectTo(
         </Columize>
 
         <Columize>
-          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.tagsets.incoming')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logtagsets.incoming')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -175,7 +175,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.tagsets.failIncoming')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.logtagsets.failIncoming')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -205,7 +205,7 @@ export default connectTo(
             />
           </DashboardSection>
 
-          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.tagsets.failWrite')}>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.tagsets.failBatchWrite')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
               timeConfig={timeConfig}
@@ -221,6 +221,86 @@ export default connectTo(
         </Columize>
 
         <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.tagsets.failWrite')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(
+                  () => `metrics.meters.com.instana.logging.writer.service.LogTagSetConsumer.tag-set-write-errors`
+                ),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.tagsets.droppedByCache')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(
+                  () => `metrics.meters.com.instana.logging.writer.service.LogTagSetConsumer.duplicate-dropped-by-cache`
+                ),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.tagsets.droppedByQuery')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.compact,
+                metrics: rows.map(
+                  () => `metrics.meters.com.instana.logging.writer.service.LogTagSetConsumer.duplicate-dropped-by-query`
+                ),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.tagsets.incoming')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.tag_sets.calls`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+        </Columize>
+
+        <Columize>
+          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.tagsets.failIncoming')}>
+            <Chart
+              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+              timeConfig={timeConfig}
+              y1={{
+                min: 0,
+                formatter: number.perSecond.compact,
+                metrics: rows.map(() => `metrics.meters.KPI.incoming.tag_sets.errors`),
+                labels: labels,
+                type: 'line'
+              }}
+            />
+          </DashboardSection>
+
           <DashboardSection title={t('in-internal:monitoringUnit.log.writer.clickHouse.insert')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -236,7 +316,9 @@ export default connectTo(
               }}
             />
           </DashboardSection>
+        </Columize>
 
+        <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.log.writer.clickHouse.failInsert')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -252,9 +334,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-        </Columize>
 
-        <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.log.writer.clickHouse.queryLatency50')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -267,7 +347,9 @@ export default connectTo(
               }}
             />
           </DashboardSection>
+        </Columize>
 
+        <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.log.writer.clickHouse.queryLatency99')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -280,9 +362,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-        </Columize>
 
-        <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.log.writer.clickHouse.queryCalls')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -296,7 +376,9 @@ export default connectTo(
               }}
             />
           </DashboardSection>
+        </Columize>
 
+        <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.log.writer.clickHouse.queryErrorRate')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -310,9 +392,7 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-        </Columize>
 
-        <Columize>
           <DashboardSection title={t('in-internal:monitoringUnit.log.writer.clickHouse.queuedCalls')}>
             <Chart
               snapshotIds={rows.map(r => r.dropwizard.get('id'))}
@@ -326,21 +406,21 @@ export default connectTo(
               }}
             />
           </DashboardSection>
-
-          <DashboardSection title={t('in-internal:monitoringUnit.log.writer.clickHouse.newlyQueuedCalls')}>
-            <Chart
-              snapshotIds={rows.map(r => r.dropwizard.get('id'))}
-              timeConfig={timeConfig}
-              y1={{
-                min: 0,
-                formatter: number.compact,
-                metrics: rows.map(() => `metrics.meters.clickHouse.clustered.queueAttempts.calls`),
-                labels: labels,
-                type: 'line'
-              }}
-            />
-          </DashboardSection>
         </Columize>
+
+        <DashboardSection title={t('in-internal:monitoringUnit.log.writer.clickHouse.newlyQueuedCalls')}>
+          <Chart
+            snapshotIds={rows.map(r => r.dropwizard.get('id'))}
+            timeConfig={timeConfig}
+            y1={{
+              min: 0,
+              formatter: number.compact,
+              metrics: rows.map(() => `metrics.meters.clickHouse.clustered.queueAttempts.calls`),
+              labels: labels,
+              type: 'line'
+            }}
+          />
+        </DashboardSection>
 
         <DashboardSection
           title={t('in-internal:monitoringUnit.log.writer.instances', {
