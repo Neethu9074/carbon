@@ -52,7 +52,7 @@ export default [
     component: InfrastructureTab
   },
   applicationSmartAlertsEnabled && {
-    label: t('in-applications:labelAlerts'),
+    label: t('in-applications:labelSmartAlerts'),
     path: `${applicationDashboard}/alerts`,
     component: Alerts
   },
