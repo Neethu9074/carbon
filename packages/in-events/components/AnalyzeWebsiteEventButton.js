@@ -13,6 +13,7 @@ import { websitesAlertingEventDetailsGoToAnalyze } from 'in-alerting/smart-alert
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { urlWithoutQueryParameter } from 'in-events/components/urlWithoutQueryParameter';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getLinkToAnalyze } from 'in-websites/navigation/paths';
 import { propTypeTimeConfig } from 'in-stores/time/config';
 import { defaultGroupings } from 'in-websites/tags';
@@ -35,7 +36,7 @@ export default function AnalyzeWebsiteEventButton({ alertConfig, websiteName, ti
         beaconType,
         formModel: joinExpressions({
           expressions: [
-            [tagFilter('beacon.website.name', 'EQUALS', websiteName)],
+            [tagFilter('beacon.website.name', EQUALS, websiteName)],
             tagFilterFormModel,
             blueprintConfig.getRuleTagFilterFormModel(rule),
             blueprintConfig.getExtraAnalyzeLinkTagFilterFormModel(alertConfig, timeConfig)
@@ -67,6 +68,8 @@ function getGrouping(alertType, metricName) {
       return metricName === 'pageLoads' ? defaultGroupings.pageLoad : defaultGroupings.pageChange;
     case 'slowness':
       return defaultGroupings.none;
+    case 'customEvent':
+      return defaultGroupings.custom;
     default:
       throw Error('Unsupported alert type');
   }
@@ -77,6 +80,7 @@ function getChartedMetrics(alertType, aggregation) {
     case 'specificJsError':
     case 'statusCode':
     case 'throughput':
+    case 'customEvent':
       return [
         {
           metricId: 'beaconCount',
@@ -105,6 +109,8 @@ function getIcon(alertType) {
       return 'lib_website_page_load';
     case 'slowness':
       return 'lib_website_page_load';
+    case 'customEvent':
+      return 'lib_website_custom';
     default:
       throw Error('Unsupported alert type');
   }
@@ -113,7 +119,7 @@ function getIcon(alertType) {
 function getLinkTitle(alertType, metricName) {
   switch (alertType) {
     case 'specificJsError':
-      return 'Analyze JS Errors';
+      return t('in-events:titleAnalyzeJsErrors');
     case 'statusCode':
       return t('in-events:titleAnalyzeHTTPRequests');
     case 'throughput':
@@ -121,7 +127,9 @@ function getLinkTitle(alertType, metricName) {
         ? t('in-events:titleAnalyzePageLoads')
         : t('in-events:titleAnalyzePageTransitions');
     case 'slowness':
-      return 'Analyze Load Time';
+      return t('in-events:titleAnalyzeLoadTime');
+    case 'customEvent':
+      return t('in-events:titleAnalyzeCustomEvents');
     default:
       throw Error('Unsupported alert type');
   }

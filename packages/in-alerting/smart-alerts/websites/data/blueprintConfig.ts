@@ -71,7 +71,7 @@ const baseBlueprint: BluePrintBase = Object.freeze({
   thresholdDefaults: {
     operator: '>='
   },
-  getEntityTagFilterFormModel: alertConfig => tagFilter('beacon.website.id', 'EQUALS', alertConfig.websiteId),
+  getEntityTagFilterFormModel: alertConfig => tagFilter('beacon.website.id', EQUALS, alertConfig.websiteId),
   getRuleTagFilterFormModel: () => [],
   getExtraAnalyzeLinkTagFilterFormModel: () => []
 });
