@@ -1319,7 +1319,7 @@
   "tracingTypeName_camunda": "Camunda Calls",
   "tracingTypeName_camunda_plural": "Camunda Calls",
   "tracingTypeName_camunda_0": "Camunda Calls",
-  "tracingTypeName_camunda_1": "Camunda Calls",
+  "tracingTypeName_camunda_1": "Camunda Call",
   "tracingTypeName_camunda_2": "Camunda Calls",
   "tracingTypeName_cassandra": "Cassandra query",
   "tracingTypeName_cassandra_plural": "Cassandra queries",
