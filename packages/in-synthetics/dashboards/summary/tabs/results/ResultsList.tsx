@@ -42,9 +42,7 @@ const columnDefinitions = [
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
     isSortable: false,
     getContent(item: any) {
-      return (
-        <SeverityAwareEntityLink severity={getSeverity(item)} icon="lib_synthetic" label={getRelativeTime(item)} />
-      );
+      return <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} />;
     }
   },
   {
