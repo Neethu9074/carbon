@@ -219,7 +219,6 @@ export interface ApplicationAlertConfigWithMetadata extends ApplicationAlertConf
 
 export interface ApplicationAlertRule extends AlertRule {
   readonly alertType: string;
-  readonly stableHash: number;
 }
 
 export interface ApplicationAlertStats {
@@ -642,13 +641,6 @@ export interface EndpointQueryConstants {
 export interface EndpointTypeSummary {
   readonly metrics: { [index: string]: number[][] };
   readonly type: EndpointType;
-}
-
-export interface Energy {
-  readonly machineSerial?: string;
-  readonly machineTypeModel?: string;
-  readonly sampleType?: string;
-  readonly uuid?: string;
 }
 
 export interface EntityHealthInfo {
@@ -2093,7 +2085,6 @@ export interface Incident extends Event {
 }
 
 export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
-  readonly crossSeriesAggregation?: AggregationType;
   readonly grouping?: Grouping[];
   readonly tagFilterExpression: TagFilterExpressionElement;
   readonly type: string;
@@ -2101,7 +2092,6 @@ export interface InfraMetricConfiguration extends UnifiedMetricConfiguration {
 
 export interface InfraMetricQuery {
   readonly aggregation: AggregationType;
-  readonly crossSeriesAggregation?: AggregationType;
   readonly granularity?: number;
   readonly metric: string;
 }
@@ -3159,7 +3149,6 @@ export interface PhmcQueryFilter extends FilterInterface {
 
 export interface PhmcSystemItem {
   readonly consoleId?: string;
-  readonly energy?: Energy;
   readonly id: string;
   readonly label: string;
   readonly name: string;
@@ -4708,8 +4697,6 @@ export type ResultType = 'TIME_SERIES' | 'HISTOGRAM' | 'SINGLE_NUMBER';
 export type Seasonality = 'WEEKLY' | 'DAILY';
 
 export type SliMetricType = 'SLI' | 'ERROR_BUDGET_SPENT' | 'ERROR_BUDGET_REMAINING' | 'TOTAL_ERROR_BUDGET' | 'HOURLY_ERROR_BUDGET_CHART' | 'CONSUMED_ERROR_BUDGET_CHART';
-
-export type SliScope = 'TIME' | 'GOOD' | 'BAD';
 
 export type SliType = 'APPLICATION' | 'WEBSITE';
 
