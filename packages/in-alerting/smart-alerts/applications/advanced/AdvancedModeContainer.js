@@ -174,7 +174,7 @@ export default function AdvancedModeContainer(props) {
                 <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
               )}
               {thresholdType === ADAPTIVE_BASELINE && (
-                <AdaptiveBaselineErrorMessage adaptiveBaselineSuggestionResponse={thresholdResult?.data} />
+                <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />
               )}
             </>
           )
