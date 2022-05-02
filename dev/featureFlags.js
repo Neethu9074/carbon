@@ -58,5 +58,6 @@ module.exports = {
   kubernetesExploreEnabled: true,
   configMigrationFeatureEnabled: false,
   sliCHClusterAccessEnabled: true,
-  perSecondAggregationEnabled: false
+  perSecondAggregationEnabled: false,
+  baselinePreviewOnAlertPageEnabled: true
 };

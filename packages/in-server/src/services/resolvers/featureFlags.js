@@ -258,5 +258,10 @@ module.exports = exports = [
     uiClientKey: 'perSecondAggregationEnabled',
     instanaCtlKey: 'feature.per.second.aggregation.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'baselinePreviewOnAlertPageEnabled',
+    instanaCtlKey: 'feature.baseline.preview.on.alert.page.enabled',
+    defaultValue: false
   }
 ];

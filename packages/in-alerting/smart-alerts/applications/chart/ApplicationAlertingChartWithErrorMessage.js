@@ -18,6 +18,7 @@ import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/Alerting
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
+import { baselinePreviewOnAlertPageEnabled } from 'in-services/featureFlags';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
@@ -45,25 +46,32 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
     entityId: selectedEntityId, // either endpoint or service or appId if selected
     timeConfig
   };
+
   const fetchPersistedBaselineResult = useObservable(
-    usingPersistedAdaptiveBaseline && selectedEntityId
+    usingPersistedAdaptiveBaseline && selectedEntityId && baselinePreviewOnAlertPageEnabled
       ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult)
       : null,
     [usingPersistedAdaptiveBaseline, id, created, applicationId, selectedEntityId, timeConfig]
   );
 
+  if (usingPersistedAdaptiveBaseline && !baselinePreviewOnAlertPageEnabled) {
+    return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noChartForAdaptiveBaseline')} />;
+  }
+
   if (PER_AP_ENDPOINT === evaluationType && !endpointId) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataWithoutEndpointSelection')} />;
   }
+
   if (PER_AP_SERVICE === evaluationType && !serviceId) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} />;
   }
 
-  if (usingPersistedAdaptiveBaseline) {
+  if (usingPersistedAdaptiveBaseline && baselinePreviewOnAlertPageEnabled) {
     const adaptiveBaseline =
       hasError(fetchPersistedBaselineResult) || isLoading(fetchPersistedBaselineResult)
         ? []
         : fetchPersistedBaselineResult?.data;
+
     return <ApplicationAlertingChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={adaptiveBaseline} />;
   }
 
