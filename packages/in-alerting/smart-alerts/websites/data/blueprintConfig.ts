@@ -9,12 +9,14 @@ import {
   SlownessWebsiteAlertRule,
   SpecificJsErrorsWebsiteAlertRule,
   StatusCodeWebsiteAlertRule,
+  CustomEventWebsiteAlertRule,
   TagFilterOperator,
   ThresholdConfig,
   ThresholdOperator,
   WebsiteAlertConfig,
   WebsiteAlertRule
-} from 'in-types';
+} from '@instana/types';
+
 import getWebsiteRateMetricThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricThresholdSuggestion';
 import getWebsiteMetricsThresholdSuggestion from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricsThresholdSuggestion';
 import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetricAlertsPreview';
@@ -28,6 +30,7 @@ import { isStaticThresholdConfig } from 'in-alerting/smart-alerts/data/threshold
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getWebsiteMetrics from 'in-websites/subscriptions/getWebsiteMetrics';
 import { millis, number, percentage } from 'in-services/formatters/number';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
@@ -53,9 +56,10 @@ export type MetricName =
   | 'onLoadTime'
   | 'pageLoads'
   | 'httpxxx'
-  | 'errors';
+  | 'errors'
+  | 'beaconCount';
 
-export type WebsitesAlertType = 'slowness' | 'specificJsError' | 'statusCode' | 'throughput';
+export type WebsitesAlertType = 'slowness' | 'specificJsError' | 'statusCode' | 'throughput' | 'customEvent';
 
 const baseBlueprint: BluePrintBase = Object.freeze({
   isCustomRateMetric: isCustomRateMetric,
@@ -192,11 +196,36 @@ const throughputBlueprintConfig: BluePrint = Object.freeze({
   impactTimeThresholdDisabled: true
 });
 
+const customEventBlueprintConfig: BluePrint = Object.freeze({
+  ...baseBlueprint,
+  type: 'customEvent',
+  name: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigName'),
+  headline: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigHeadline'),
+  text: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigText'),
+  getAvailableTags: () => getIncludedTags(availableFilterTags.custom),
+  baselineEnabled: false,
+  defaultMetric: 'beaconCount',
+  getMetricName: () => 'beaconCount',
+  getMetricLabel: () => t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigMetricLabel'),
+  getMetricFormat: () => number.forcedCompact,
+  getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
+  getAggregation: () => 'SUM',
+  isRuleComplete: (alertRule: WebsiteAlertRule) =>
+    isNotBlank((alertRule as CustomEventWebsiteAlertRule).customEventName),
+  incompleteRuleMessage: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigIncompleteRuleMessage'),
+  getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => [
+    tagFilter('beacon.type', EQUALS, 'custom'),
+    tagFilter('beacon.customEvent.name', EQUALS, (alertRule as CustomEventWebsiteAlertRule).customEventName)
+  ],
+  getBeaconType: () => 'custom'
+});
+
 export const blueprintConfigs: readonly BluePrint[] = Object.freeze([
   slownessBlueprintConfig,
   jsErrorsBlueprintConfig,
   statusCodeBlueprintConfig,
-  throughputBlueprintConfig
+  throughputBlueprintConfig,
+  customEventBlueprintConfig
 ]);
 
 interface BluePrintBase {
@@ -266,7 +295,8 @@ export const simpleModeBlueprintConfigs: readonly BluePrint[] = [
     headline: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberHeadline'),
     text: t('in-alerting:smartAlerts.websites.data.simpleModeBlueprintConfigsUnexpectedlyHighNumberText'),
     isSelected: ({ operator }) => operator === '>=' || operator === '>'
-  }
+  },
+  customEventBlueprintConfig
 ];
 
 const excludedWebsiteTags: readonly string[] = Object.freeze(['beacon.website.id', 'beacon.website.name']);
