@@ -253,5 +253,10 @@ module.exports = exports = [
     uiClientKey: 'sliCHClusterAccessEnabled',
     instanaCtlKey: 'feature.sli.CHCluster.access.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'baselinePreviewOnAlertPageEnabled',
+    instanaCtlKey: 'feature.baseline.preview.on.alert.page.enabled',
+    defaultValue: false
   }
 ];
