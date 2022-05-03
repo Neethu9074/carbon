@@ -541,7 +541,7 @@
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
         "pleaseContactSupportToRiseLimit": "Please contact us via our <supportLink>{{instanaSupportPortal}}</supportLink> to request an increase of this limit.",
-        "adaptiveBaselineErrorMessage": "The adaptive threshold cannot be previewed because there was an error at this moment.<br />This Smart Alert can still be created.",
+        "adaptiveBaselineErrorMessage": "Threshold preview is currently unavailable due to an unexpected error. Please try again later or proceed creating this smart alert.",
         "adaptiveBaselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline at this moment.<br />This Smart Alert can still be created and alerting will start working as soon as there is at least 4 weeks of data available.",
         "instanaSupportPortal": "Instana support portal",
         "baselineErrorMessageReason": "Reason:",
