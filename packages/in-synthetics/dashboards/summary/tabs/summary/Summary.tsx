@@ -32,8 +32,7 @@ export default function Summary() {
   const location = useLocation();
   const testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   let test = useObservable<any, []>(() => getTest(testId), []) || dummyTest;
-  let testType = get(test, ['data', 'configuration', 'syntheticType']);
-  let renderPie = testType === 'HTTPAction' ? true : false;
+  let testType = get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
 
   let tagFilters = [
     {
@@ -164,20 +163,20 @@ export default function Summary() {
         <Col xs>
           <ResponseTime test={test} timeShiftConfig={timeShiftConfig} />
         </Col>
-        {renderPie && (
+        {testType && (
           <Col xs>
             <NetworkTimings test={test} timeShiftConfig={timeShiftConfig} />
           </Col>
         )}
       </Row>
       <Row>
-        <Col lg={renderPie ? 4 : 6}>
+        <Col lg={testType ? 4 : 6}>
           <ResponseSize test={test} timeShiftConfig={timeShiftConfig} />
         </Col>
-        <Col lg={renderPie ? 4 : 6}>
+        <Col lg={testType ? 4 : 6}>
           <ResultsTopList testId={testId} />
         </Col>
-        {renderPie && (
+        {testType && (
           <Col lg={4}>
             <ResponseStatus test={test} timeShiftConfig={timeShiftConfig} />
           </Col>
