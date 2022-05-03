@@ -6,11 +6,12 @@
 import React, { useEffect, useMemo } from 'react';
 
 import { CheckableSuggestion } from 'in-components/AnalyzeView/FacetedFilters/CheckableSuggestion';
-import { Loading } from 'in-components/AnalyzeView/FacetedFilters/Placeholders';
+import { Errors, Loading } from 'in-components/AnalyzeView/FacetedFilters/Placeholders';
 import { identity } from 'in-services/util/function';
-import { t } from 'in-i18n';
 
 import locals from './MultiSelectSuggestions.mless';
+
+// import { t } from 'in-i18n';
 
 export function MultiSelectSuggestions({
   tag,
@@ -32,23 +33,13 @@ export function MultiSelectSuggestions({
   if (loading) {
     return <Loading numberOfRows={numberOfPresentedRows} loadingSkeletonClass={locals.multiselectPlaceholder} />;
   } else if (errors?.length > 0) {
-    return (
-      // <Suggestions
-      //   tag={tag}
-      //   dataSource={dataSource}
-      //   suggestions={[]}
-      //   getMetric={getMetric}
-      //   setNumberOfPresentedRows={setNumberOfPresentedRows}
-      //   showMore={showMore}
-      //   setNextBatch={setNextBatch}
-      //   customLabelMapper={customLabelMapper}
-      //   addToSelection={addToSelection}
-      //   tracker={tracker}
-      // />
-      // );
-      t('in-components:analyze.noResults')
-    );
-    // <Errors errors={errors} setNumberOfPresentedRows={setNumberOfPresentedRows} />;
+    if (tag === 'call.erroneous') {
+      return (
+        <CheckableSuggestion key={0} label={customLabelMapper(true)} checked={false} count={null} onChange={null} />
+      );
+    } else {
+      return <Errors errors={errors} setNumberOfPresentedRows={setNumberOfPresentedRows} />;
+    }
   } else if (!suggestions) {
     return null;
   } else if (suggestions?.length > 0) {
