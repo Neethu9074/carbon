@@ -117,8 +117,10 @@ export default connectTo(
     );
   }
 );
-function renderButtonLine() {
-  return <ButtonLine />;
+
+function renderButtonLine(props) {
+  const { agentSnapshots } = props;
+  return <ButtonLine agentSnapshots={agentSnapshots} />;
 }
 
 const ButtonLine = connectTo({ isInternalVisible: isInternalVisible$ }, function ButtonLine({
