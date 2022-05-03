@@ -10,7 +10,9 @@ import { get } from 'lodash';
 import { useObservable } from '@instana/hooks';
 
 import ResultsTopList from 'in-synthetics/dashboards/summary/tabs/summary/components/ResultsTopList';
+import NetworkTimings from 'in-synthetics/dashboards/summary/tabs/summary/components/NetworkTiming';
 import ResponseTime from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseTime';
+import ResponseSize from 'in-synthetics/dashboards/summary/tabs/summary/components/ResponseSize';
 import Failures from 'in-synthetics/dashboards/summary/tabs/summary/components/Failures';
 import { bytes, meanLatency, number, percentage } from 'in-services/formatters/number';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
@@ -22,7 +24,6 @@ import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { dummyTest } from 'in-synthetics/utils/constants';
 import ResponseStatus from './components/ResponseStatus';
 import { Col, Row } from 'in-components/layout/Grid';
-import ResponseSize from './components/ResponseSize';
 import { getTest } from 'in-synthetics/api';
 import { t } from 'in-i18n';
 
@@ -31,8 +32,7 @@ export default function Summary() {
   const location = useLocation();
   const testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
   let test = useObservable<any, []>(() => getTest(testId), []) || dummyTest;
-  let testType = get(test, ['data', 'configuration', 'syntheticType']);
-  let renderPie = testType === 'HTTPAction' ? true : false;
+  let testType = get(test, ['data', 'configuration', 'syntheticType']) === 'HTTPAction' ? true : false;
 
   let tagFilters = [
     {
@@ -163,15 +163,20 @@ export default function Summary() {
         <Col xs>
           <ResponseTime test={test} timeShiftConfig={timeShiftConfig} />
         </Col>
+        {testType && (
+          <Col xs>
+            <NetworkTimings test={test} timeShiftConfig={timeShiftConfig} />
+          </Col>
+        )}
       </Row>
       <Row>
-        <Col lg={renderPie ? 4 : 6}>
+        <Col lg={testType ? 4 : 6}>
           <ResponseSize test={test} timeShiftConfig={timeShiftConfig} />
         </Col>
-        <Col lg={renderPie ? 4 : 6}>
+        <Col lg={testType ? 4 : 6}>
           <ResultsTopList testId={testId} />
         </Col>
-        {renderPie && (
+        {testType && (
           <Col lg={4}>
             <ResponseStatus test={test} timeShiftConfig={timeShiftConfig} />
           </Col>
