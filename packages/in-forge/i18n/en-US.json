@@ -1316,6 +1316,11 @@
   "tracingTypeName_camel_0": "Camel Calls",
   "tracingTypeName_camel_1": "Camel Call",
   "tracingTypeName_camel_2": "Camel Calls",
+  "tracingTypeName_camunda": "Camunda Call",
+  "tracingTypeName_camunda_plural": "Camunda Calls",
+  "tracingTypeName_camunda_0": "Camunda Calls",
+  "tracingTypeName_camunda_1": "Camunda Call",
+  "tracingTypeName_camunda_2": "Camunda Calls",
   "tracingTypeName_cassandra": "Cassandra query",
   "tracingTypeName_cassandra_plural": "Cassandra queries",
   "tracingTypeName_cassandra_0": "Cassandra queries",
@@ -11495,6 +11500,14 @@
       "titleTimer": "Timer",
       "titleSort": "Sort",
       "titleSize": "Size"
+    },
+    "camunda": {
+      "titleProcessId": "Root Process ID",
+      "titleProcessName": "Root Process Name",
+      "titleProcessDesc": "Root Process Description",
+      "titleActivityId": "Activity ID",
+      "titleActivityName": "Activity Name",
+      "titleActivityDesc": "Activity Description"
     },
     "cassandra": {
       "titleKeyspace": "Keyspace",
