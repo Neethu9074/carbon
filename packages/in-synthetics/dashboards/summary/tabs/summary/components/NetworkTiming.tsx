@@ -134,7 +134,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
           calculateStackDifferences: true,
           metrics: testMetricConfigs
         },
-        type: 'SINGLE_NUMBER'
+        type: 'TIME_SERIES'
       }}
     />
   );
