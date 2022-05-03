@@ -13,7 +13,7 @@
     //
     // see also comment here:
     // https://github.ibm.com/instana/ui-client/pull/9161#discussion_r6011985
-    height: 296px;
+    min-height: 296px;
   }
 
   .labelWithGap {
