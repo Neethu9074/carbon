@@ -15,6 +15,7 @@ import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
 import { integral, stackedArea } from 'in-stores/metric/renderer';
 import { TestResponse } from 'in-synthetics/utils/constants';
+import { latencyFixed } from 'in-services/formatters/number';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeShift } from 'in-types';
 import theme from 'in-themes';
@@ -128,8 +129,8 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
       config={{
         y1: {
           renderer: renderer,
-          formatter: 'number.compact',
-          tooltipFormatter: Number.toString,
+          formatter: 'millis.compact',
+          tooltipFormatter: latencyFixed.compact,
           calculateStackDifferences: true,
           metrics: testMetricConfigs
         },
