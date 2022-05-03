@@ -4,7 +4,7 @@
  */
 
 import { extendAlertConfigVersions } from 'in-alerting/components/configVersionsEnrichment';
-import { AuthorType, ChangeType } from 'in-types';
+import { AuthorAuthorType, ChangeType } from 'in-types';
 import { t } from 'in-i18n';
 
 jest.mock('in-i18n', () => ({ t: jest.fn() }));
@@ -173,7 +173,12 @@ describe('in-alerting/components/configVersionsEnrichment::extendAlertConfigVers
   });
 });
 
-function getChangeSummary(changeType: ChangeType, authorFullName?: string, authorId?: string, authorType?: AuthorType) {
+function getChangeSummary(
+  changeType: ChangeType,
+  authorFullName?: string,
+  authorId?: string,
+  authorType?: AuthorAuthorType
+) {
   return {
     changeSummary: {
       changeType,

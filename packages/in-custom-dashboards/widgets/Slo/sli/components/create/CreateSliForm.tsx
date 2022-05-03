@@ -15,7 +15,7 @@ import { SliEntityType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { SliFormData } from 'in-custom-dashboards/widgets/Slo/sli/sliForm';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
 import Form from 'in-components/form/binding/Form';
-import { SliType } from 'in-types';
+import { SliEntitySliType } from 'in-types';
 import { t } from 'in-i18n';
 
 interface FormSubmitState {
@@ -24,7 +24,7 @@ interface FormSubmitState {
   error: boolean;
 }
 
-interface CreateSliFormProps<SLI_TYPE extends SliType> {
+interface CreateSliFormProps<SLI_TYPE extends SliEntitySliType> {
   form: MapForm;
   updateForm: (updatedForm: MapForm) => void;
   setFooter: (footer: React.ReactNode) => void;
@@ -35,7 +35,7 @@ interface CreateSliFormProps<SLI_TYPE extends SliType> {
   editMode?: boolean;
 }
 
-export default function CreateSliForm<SLI_TYPE extends SliType>({
+export default function CreateSliForm<SLI_TYPE extends SliEntitySliType>({
   form,
   updateForm,
   editMode = false,
@@ -84,7 +84,7 @@ export default function CreateSliForm<SLI_TYPE extends SliType>({
 }
 
 type UseSetFooterProps = Pick<
-  CreateSliFormProps<SliType>,
+  CreateSliFormProps<SliEntitySliType>,
   'form' | 'filterExpressionValid' | 'setFooter' | 'close' | 'editMode'
 > & { saving: boolean };
 
@@ -119,7 +119,7 @@ function useSetFooter({ form, filterExpressionValid, setFooter, close, saving, e
 }
 
 function onSaveSuccess(
-  submittedFormData: SliFormData<SliType>,
+  submittedFormData: SliFormData<SliEntitySliType>,
   editMode: boolean,
   setFormSubmitState: React.Dispatch<React.SetStateAction<FormSubmitState>>,
   close: () => void
@@ -151,7 +151,7 @@ function onSaveSuccess(
 }
 
 function onSaveFailure(
-  submittedFormData: SliFormData<SliType>,
+  submittedFormData: SliFormData<SliEntitySliType>,
   setFormSubmitState: React.Dispatch<React.SetStateAction<FormSubmitState>>
 ): () => void {
   return () => {

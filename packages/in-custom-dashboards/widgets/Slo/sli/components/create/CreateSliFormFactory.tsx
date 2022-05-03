@@ -8,20 +8,20 @@ import React from 'react';
 import CreateApplicationSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateApplicationSliForm';
 import CreateWebsiteSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateWebsiteSliForm';
 import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { SliType } from 'in-types';
+import { SliEntitySliType } from 'in-types';
 
-export interface CreateSliFormProps<SLI_TYPE extends Lowercase<SliType>> {
+export interface CreateSliFormProps<SLI_TYPE extends Lowercase<SliEntitySliType>> {
   entityId: string;
   close: () => void;
   sliConfig?: Partial<SliConfigBySliType<SLI_TYPE>>;
   setFooter: (footer: React.ReactNode) => void;
 }
 
-interface CreateSliFormFactoryProps<SLI_TYPE extends Lowercase<SliType>> extends CreateSliFormProps<SLI_TYPE> {
+interface CreateSliFormFactoryProps<SLI_TYPE extends Lowercase<SliEntitySliType>> extends CreateSliFormProps<SLI_TYPE> {
   entityType: SLI_TYPE;
 }
 
-export default function CreateSliFormFactory<SLI_TYPE extends Lowercase<SliType>>({
+export default function CreateSliFormFactory<SLI_TYPE extends Lowercase<SliEntitySliType>>({
   entityType,
   ...remainingProps
 }: CreateSliFormFactoryProps<SLI_TYPE>) {

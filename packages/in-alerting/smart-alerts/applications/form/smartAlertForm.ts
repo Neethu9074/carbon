@@ -8,7 +8,7 @@ import { createField, createMapForm, MapForm } from 'formalistic';
 import {
   ApplicationAlertConfig,
   ApplicationAlertConfigWithMetadata,
-  GlobalApplicationAlertConfigWithMetadata,
+  GlobalApplicationsAlertConfigWithMetadata,
   ThresholdType
 } from 'in-types';
 // @ts-expect-error file needs to be converted
@@ -44,7 +44,7 @@ export interface UiExtraData {
 }
 
 export function createSmartAlertForm(
-  alertConfig: (GlobalApplicationAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata) &
+  alertConfig: (GlobalApplicationsAlertConfigWithMetadata | ApplicationAlertConfigWithMetadata) &
     AlertConfigHiddenFields &
     UiExtraData,
   editMode?: boolean

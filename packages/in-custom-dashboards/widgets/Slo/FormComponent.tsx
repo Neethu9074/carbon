@@ -47,9 +47,9 @@ import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
+import { Nullish, SliEntitySliType } from 'in-types';
 import Header from 'in-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
-import { Nullish, SliType } from 'in-types';
 import { Trans, t } from 'in-i18n';
 
 import locals from './FormComponent.mless';
@@ -80,7 +80,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
   const entityIdField = form.get(entityId) as Field<string>;
   const entityIdValue = entityIdField?.value;
-  const entityTypeValue = (form.get(entityType) as Field<Lowercase<SliType>>)?.value;
+  const entityTypeValue = (form.get(entityType) as Field<Lowercase<SliEntitySliType>>)?.value;
 
   const timeWindowTypeValue = (form.get(timeWindowType) as Field<TimeWindowType>)?.value ?? 'dynamic';
   const isFixed = timeWindowTypeValue === 'fixed';
@@ -149,7 +149,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 onChange={type =>
                   updateForm(
                     form.updateIn([entityType], field =>
-                      (field as Field<Lowercase<SliType>>).setValue(type).setTouched(true)
+                      (field as Field<Lowercase<SliEntitySliType>>).setValue(type).setTouched(true)
                     )
                   )
                 }

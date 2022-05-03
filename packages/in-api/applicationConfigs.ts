@@ -10,13 +10,13 @@ import {
   ApplicationConfig,
   ApplicationConfigWithAlertingDetails,
   BinaryOperatorDTO,
-  Conjunction,
   MatchExpressionDTOUnion,
   NewApplicationConfig,
   NewApplicationConfigWithAlertingDetails,
   Result,
   TagFilterExpressionElementUnion,
-  TagMatcherDTO
+  TagMatcherDTO,
+  BinaryOperatorDTOConjunction
 } from 'in-types';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
@@ -31,9 +31,9 @@ import http, { Response } from 'in-services/http';
 
 const basePath = '/api/application-monitoring/settings/application';
 
-type IntermediateConjunction = { conjunction: Conjunction };
+type IntermediateConjunction = { conjunction: BinaryOperatorDTOConjunction };
 type MappedMatchExpression = Omit<TagMatcherDTO, 'type'> & {
-  conjunction?: Conjunction;
+  conjunction?: BinaryOperatorDTOConjunction;
   left?: MappedMatchExpression[];
   right?: MappedMatchExpression[];
 } & {
@@ -302,7 +302,7 @@ type IntermediateBinaryOperatorDTO = Omit<BinaryOperatorDTO, 'left' | 'right' | 
 };
 export function splitBy(
   subList: MappedMatchExpression[],
-  operator: Conjunction
+  operator: BinaryOperatorDTOConjunction
 ): MappedMatchExpression[] | IntermediateBinaryOperatorDTO {
   if (!subList || subList.length === 0) {
     return [];
@@ -330,7 +330,7 @@ interface MatchExpressionWithoutType {
   left?: MatchExpressionDTOUnion;
   right?: MatchExpressionDTOUnion;
   type?: string;
-  conjunction?: Conjunction;
+  conjunction?: BinaryOperatorDTOConjunction;
 }
 export function annotateWithTypes(node?: MatchExpressionWithoutType) {
   if (!node) {

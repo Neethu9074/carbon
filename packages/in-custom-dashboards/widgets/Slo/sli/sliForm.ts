@@ -19,7 +19,7 @@ import {
   Application,
   AvailabilitySliEntity,
   SliConfigMetricConfiguration,
-  SliType,
+  SliEntitySliType,
   TagFilterExpressionElementUnion,
   Website,
   WebsiteEventBasedSliEntity
@@ -40,7 +40,7 @@ interface EventBasedSliEntity {
   readonly goodEventFilterExpression: TagFilterExpressionElementUnion;
 }
 
-export interface SliFormData<SLI_TYPE extends SliType> {
+export interface SliFormData<SLI_TYPE extends SliEntitySliType> {
   id: string;
   sliName: string;
   sliEntity: SLI_TYPE extends 'APPLICATION' ? ApplicationSliEntityFormData : WebsiteSliEntityFormData;
