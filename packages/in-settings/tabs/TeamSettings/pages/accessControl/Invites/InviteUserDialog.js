@@ -111,7 +111,7 @@ export default connectTo(
                     invite.get('groupId').map(field => (
                       <FormGroup>
                         <Label htmlFor={`invitation-role_${i}`} hasError={!field.valid && field.touched}>
-                          {t('in-settings:tabs.Group')}
+                          {t('in-settings:tabs.group')}
                         </Label>
                         <Select
                           id={`invitation-group_${i}`}
