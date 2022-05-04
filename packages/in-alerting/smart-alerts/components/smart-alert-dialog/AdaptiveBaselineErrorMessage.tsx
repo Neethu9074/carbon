@@ -9,7 +9,7 @@ import { Message } from '@instana/components';
 
 import { AdaptiveBaselineSuggestionResponse, Result } from 'in-types';
 import { hasError } from 'in-services/util/result';
-import { t, Trans } from 'in-i18n';
+import { Trans } from 'in-i18n';
 import theme from 'in-themes';
 
 interface Props {
@@ -28,14 +28,9 @@ export default function AdaptiveBaselineErrorMessage({ thresholdResult }: Props)
   }
 
   if (thresholdResult && hasError(thresholdResult)) {
-    const errorReason = thresholdResult.errors[0]?.message;
-
     return (
       <Message type="neutral" iconColor={theme.lib.colors.N800Dark} withIcon>
         <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.adaptiveBaselineErrorMessage" />
-        <br />
-        <b>{`${t('in-alerting:smartAlerts.components.smartAlertDialog.baselineErrorMessageReason')} `}</b>
-        {errorReason}
       </Message>
     );
   }

@@ -20,10 +20,6 @@ export const WithError = {
       {
         code: 'TIMEOUT',
         message: 'Could not fetch metrics: Metric request returned errors.'
-      },
-      {
-        code: 'TIMEOUT',
-        message: 'will be ignored anyway'
       }
     ])
   }
