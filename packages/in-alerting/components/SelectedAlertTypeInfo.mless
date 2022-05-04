@@ -28,7 +28,6 @@
 
   .icon {
     margin-right: 1rem;
-    fill: @lib__colors__N300;
   }
 
   .heading {

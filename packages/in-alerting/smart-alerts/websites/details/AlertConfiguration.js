@@ -32,7 +32,7 @@ const initialChartConfigIndex = 0;
 
 export default function AlertConfiguration({ alertConfig }) {
   const {
-    rule: { operator, value, alertType, metricName },
+    rule: { operator, value, alertType, metricName, customEventName },
     timeThreshold,
     granularity,
     alertChannelIds,
@@ -81,6 +81,14 @@ export default function AlertConfiguration({ alertConfig }) {
               <SelectedAlertTypeInfo
                 title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleHTTPStatusCode')}
                 description={getStatusCodeLabel(value)}
+              />
+            )}
+            {alertType === 'customEvent' && (
+              <SelectedAlertTypeInfo
+                title={t('in-websites:websiteDashboard.tabs.alerts.alertConfigurationTitleCustomEvent')}
+                description={customEventName}
+                svgIconType="lib_website_custom"
+                darkSvgIcon
               />
             )}
             <WebsitesAlertingChartWithErrorMessage
