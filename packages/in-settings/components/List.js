@@ -310,7 +310,7 @@ export function createNewEntityButton({ labelNew, pathNew, onCreateNew, disabled
   const href$ = onCreateNew ? null : getModifiedUrlStream(p => (p.pathname = pathNew));
   if (disabledMessage) {
     return (
-      <Tooltip content={disabledMessage} align="bottomMiddle">
+      <Tooltip content={disabledMessage} delay={500} align="bottomMiddle">
         <NewEntityButton label={labelNew} disabled trackEvent={trackEvent} />
       </Tooltip>
     );
@@ -378,7 +378,10 @@ function addToggleEnabledAction(columns, actionDefinition, perCellLoadingIndicat
       }
       const entityEnabled = actionDefinition.get ? actionDefinition.get(entity) : entity[actionDefinition.key];
       return (
-        <Tooltip content={entityEnabled ? t('in-settings:components.disable') : t('in-settings:components.enable')}>
+        <Tooltip
+          content={entityEnabled ? t('in-settings:components.disable') : t('in-settings:components.enable')}
+          delay={500}
+        >
           <IconButton
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"
@@ -427,7 +430,7 @@ function addDeleteAction(columns, actionDefinition, perCellLoadingIndicator, get
 
       return (
         <div className={locals.deleteWrapper}>
-          <Tooltip content={t('in-settings:components.deleteEntity', { entity: getEntityName(entity) })}>
+          <Tooltip content={t('in-settings:components.deleteEntity', { entity: getEntityName(entity) })} delay={500}>
             <Delete
               {...actionDefinition}
               disabled={disabled}
@@ -466,7 +469,7 @@ function addDeselectAction(columns, actionDefinition) {
     widthInAbsoluteUnit: true,
     getContent(entity) {
       return (
-        <Tooltip content={t('in-settings:components.deselect')}>
+        <Tooltip content={t('in-settings:components.deselect')} delay={500}>
           <IconButton
             disabled={actionDefinition.disabled?.(entity)}
             kind="primaryv2"
