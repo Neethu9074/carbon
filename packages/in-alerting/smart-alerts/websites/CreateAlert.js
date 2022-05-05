@@ -4,7 +4,6 @@
  */
 
 import PropTypes from 'prop-types';
-import { get } from 'lodash';
 import React from 'react';
 
 import useTagCatalog from 'in-applications/hooks/useTagCatalog'; // TODO can this be moved outside of AP area, since it seems to be generic to be used in Website area as well
@@ -16,58 +15,52 @@ import { fromTagFiltersArray } from 'in-components/QueryBuilder/transformation/f
 import { websitesAlertingAddAlert } from 'in-alerting/smart-alerts/websites/tracker';
 import AlertConfigDialog from 'in-alerting/smart-alerts/websites/AlertConfigDialog';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import getWebsiteError from 'in-websites/subscriptions/getWebsiteError';
+import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import FloatingActionButton from 'in-components/FloatingActionButton';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import useWebsiteError from 'in-websites/hooks/useWebsiteError';
+import { propTypeTimeConfig } from 'in-stores/time/config';
 import { propTypeLocation } from 'in-stores/navigation';
-import { alwaysNull } from 'in-services/fixedStreams';
+import useWebsite from 'in-websites/hooks/useWebsite';
 import { reload } from 'in-settings/components/List';
-import connectTo from 'in-hoc/connectTo';
+import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 const implicitTagFilters = ['beacon.website.id'];
 
-export default connectTo(props => {
-  const observables = {};
+export default function CreateAlert({ location, websiteId, tagFilters, timeConfig }) {
+  const errorId = getMatrixParameter(location, '/details', 'errorId');
+  const customEventName = getMatrixParameter(location, '/details', 'customEventId');
 
-  const errorId = getMatrixParameter(props.location, '/details', 'errorId');
-
-  if (!props.error && errorId) {
-    observables.websiteErrorResult = getWebsiteError({
-      timeConfig: props.timeConfig,
-      websiteId: props.websiteId,
-      errorId
-    });
-  }
-
-  observables.websiteResult = props.websiteResult$ ? props.websiteResult$ : alwaysNull;
-
-  return observables;
-})(CreateAlert);
-
-function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, websiteLabel, tagFilters, error }) {
-  if (!error && websiteErrorResult) {
-    error = get(websiteErrorResult, ['data']);
-  }
-
-  if (!websiteLabel && websiteResult) {
-    websiteLabel = get(websiteResult, ['data', 'label']);
-  }
-
-  const alertType = error?.message ? 'specificJsError' : 'slowness';
-  const metricName = error?.message ? 'errors' : 'onLoadTime';
+  const alertType = deriveAlertType(errorId, customEventName);
   const blueprintConfig = getBlueprintConfig(alertType);
+  const metricName = blueprintConfig.defaultMetric;
   const beaconType = blueprintConfig.getBeaconType(metricName);
   const boundedAlertQueryBuilder = getQueryBuilderForBeaconType(beaconType);
+
   const tagCatalog = useTagCatalog(boundedAlertQueryBuilder.getTagCatalog);
-  if (!tagCatalog) {
+  const [website, websiteStatus] = useWebsite(websiteId);
+
+  const websiteError = useWebsiteError(websiteId, errorId, timeConfig);
+
+  if (location.pathname.includes('/websiteMonitoring/website/configuration')) {
+    // generally do not show this button in the configurations section
     return null;
   }
 
-  if (location.pathname.includes('/websiteMonitoring/website/configuration')) {
+  if (!tagCatalog || websiteStatus !== 'resolved') {
     return null;
   }
+
+  const alertConfig = generateAlertConfig(
+    websiteId,
+    tagFilters,
+    tagCatalog,
+    blueprintConfig,
+    websiteError?.data?.message,
+    customEventName
+  );
 
   return (
     <>
@@ -82,13 +75,13 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
                   reload();
                 }
               }}
-              alertConfig={generateAlertConfig(websiteId, tagFilters, error, tagCatalog)}
-              websiteLabel={websiteLabel}
+              alertConfig={alertConfig}
+              websiteLabel={website.label}
               startWithSimpleMode
             />
           );
 
-          websitesAlertingAddAlert(location.pathname, websiteLabel);
+          websitesAlertingAddAlert(location.pathname, website.label);
         }}
         withBoxShadow
       >
@@ -98,33 +91,42 @@ function CreateAlert({ websiteErrorResult, websiteResult, location, websiteId, w
   );
 }
 
+function deriveAlertType(errorId, customEventName) {
+  if (isNotBlank(errorId)) {
+    return 'specificJsError';
+  }
+  if (isNotBlank(customEventName)) {
+    return 'customEvent';
+  }
+  return 'slowness';
+}
+
 CreateAlert.propTypes = {
-  error: PropTypes.object,
   location: propTypeLocation.isRequired,
   tagFilters: PropTypes.array.isRequired,
   websiteId: PropTypes.string.isRequired,
-  websiteLabel: PropTypes.string,
-  websiteResult: PropTypes.object,
-  websiteErrorResult: PropTypes.object
+  timeConfig: propTypeTimeConfig
 };
 
-function generateAlertConfig(websiteId, tagFilters, error, tagCatalog) {
+function generateAlertConfig(websiteId, tagFilters, tagCatalog, blueprintConfig, errorMessage, customEventName) {
   const tagFiltersWithoutImplicitFilters = tagFilters.filter(({ name }) => !implicitTagFilters.includes(name));
   const tagFilterFormModel = fromTagFiltersArray(tagFiltersWithoutImplicitFilters, tagCatalog);
-  const alertType = error?.message ? 'specificJsError' : 'slowness';
-  const metricName = error?.message ? 'errors' : 'onLoadTime';
+  const alertType = blueprintConfig.type;
+  const metricName = blueprintConfig.defaultMetric;
+  const useBaseline = blueprintConfig.baselineEnabled;
 
   return {
     tagFilterExpression: toBackendQueryModel(tagFilterFormModel),
     rule: {
       alertType,
-      operator: 'EQUALS',
-      value: error?.message ?? null,
+      operator: EQUALS,
+      value: errorMessage,
+      customEventName,
       metricName
     },
     threshold: {
-      type: error?.message ? STATIC_THRESHOLD : HISTORIC_BASELINE,
-      seasonality: error?.message ?? DAILY,
+      type: useBaseline ? HISTORIC_BASELINE : STATIC_THRESHOLD,
+      seasonality: useBaseline ? DAILY : undefined,
       value: 0.0
     },
     websiteId,
