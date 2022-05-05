@@ -8,15 +8,18 @@ import PropTypes from 'prop-types';
 
 import { SvgIcon, Stack, Message } from '@instana/components';
 
+import { useScrollToFirstInvalidNavItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
 import ScrollStep from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ScrollStep';
 import { compareIgnoreCase } from 'in-services/util/string';
 import Divider from 'in-components/workspace/Divider';
 import Header from 'in-components/workspace/Header';
 import SideNav from 'in-components/SideNav';
 
-import locals from './AdvancedModeContainer.mless';
+import locals from './AdvancedModeStepsContainer.mless';
 
-export default function AdvancedModeContainer({ navItems, messages = [] }) {
+export default function AdvancedModeStepsContainer({ navItems, messages = [] }) {
+  useScrollToFirstInvalidNavItem(navItems);
+
   return (
     <nav className={locals.container}>
       <div className={locals.scrollWrapper}>
@@ -52,7 +55,7 @@ export default function AdvancedModeContainer({ navItems, messages = [] }) {
   );
 }
 
-AdvancedModeContainer.propTypes = {
+AdvancedModeStepsContainer.propTypes = {
   navItems: PropTypes.arrayOf(
     PropTypes.shape({
       scrollId: PropTypes.string.isRequired,

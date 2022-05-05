@@ -4,7 +4,6 @@
  */
 
 import { MapForm } from 'formalistic';
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import FormFooter, { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
@@ -13,7 +12,15 @@ import { t } from 'in-i18n';
 interface AdvancedModeFooterProps {
   onClose: () => void;
   onCreate: () => void;
+  /**
+   * When user wants to submit, and the whole form is valid then this will be triggered
+   * and only when it returns true then the onCreate() will be called.
+   */
   additionalValidationCheck: () => boolean;
+  /**
+   * gets triggered after pressing submit, if there was an error while validating the form
+   */
+  scrollToFirstFormError: () => void;
   form: MapForm;
   setForm: (updatedForm: MapForm) => void;
   isSaving?: boolean;
@@ -27,6 +34,7 @@ export function AdvancedModeFooter({
   isSaving,
   form,
   setForm,
+  scrollToFirstFormError,
   additionalValidationCheck,
   editMode,
   migrationMode
@@ -37,12 +45,13 @@ export function AdvancedModeFooter({
 
       <SaveButton
         onClick={() => {
+          if (form && !form.hierarchyValid) {
+            setForm?.(form.setTouched(true, { recurse: true }));
+            scrollToFirstFormError?.();
+            return;
+          }
           if (additionalValidationCheck()) {
             onCreate();
-          } else {
-            if (form && !form.hierarchyValid) {
-              setForm?.(form.setTouched(true, { recurse: true }));
-            }
           }
         }}
         isSaving={isSaving}
@@ -59,14 +68,3 @@ function getSaveButtonLabel({ editMode, migrationMode }: { editMode?: boolean; m
   if (editMode) return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonSave');
   return t('in-alerting:smartAlerts.components.smartAlertDialog.buttonCreate');
 }
-
-AdvancedModeFooter.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  onCreate: PropTypes.func.isRequired,
-  additionalValidationCheck: PropTypes.func.isRequired,
-  form: PropTypes.object.isRequired,
-  setForm: PropTypes.func.isRequired,
-  isSaving: PropTypes.bool,
-  editMode: PropTypes.bool,
-  migrationMode: PropTypes.bool
-};
