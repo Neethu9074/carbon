@@ -15,8 +15,8 @@ import TimeThresholdConfigPresenter from 'in-alerting/smart-alerts/components/sm
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/advanced/InboundOutboundCallsSwitch/InboundOutboundCallsSwitch';
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
+import AdvancedModeStepsContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeStepsContainer';
 import ApplicationAlertPropertiesTitleRow from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPropertiesTitleRow';
-import GlobalAdvancedModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeContainer';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
@@ -76,7 +76,7 @@ export default function AdvancedModeContainer(props) {
   const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
 
   return (
-    <GlobalAdvancedModeContainer
+    <AdvancedModeStepsContainer
       messages={messages}
       navItems={[
         {
@@ -174,7 +174,7 @@ export default function AdvancedModeContainer(props) {
                 <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
               )}
               {thresholdType === ADAPTIVE_BASELINE && (
-                <AdaptiveBaselineErrorMessage adaptiveBaselineSuggestionResponse={thresholdResult?.data} />
+                <AdaptiveBaselineErrorMessage thresholdResult={thresholdResult} />
               )}
             </>
           )

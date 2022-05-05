@@ -12,6 +12,7 @@ import { useRemoveInvalidTagsFromFilterExpression } from 'in-alerting/smart-aler
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
+import { triggerScrollToInvalidItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
 import useIsTagFilterFormModelValid from 'in-alerting/smart-alerts/applications/hooks/useIsTagFilterFormModelValid';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
@@ -159,6 +160,7 @@ function SmartAlertConfigDialogWithQueryValidation({
       editMode={editMode}
       migrationMode={migrationMode}
       additionalValidationCheck={() => isTagFilterFormModelValid}
+      scrollToFirstFormError={() => triggerScrollToInvalidItem()}
     />
   );
 

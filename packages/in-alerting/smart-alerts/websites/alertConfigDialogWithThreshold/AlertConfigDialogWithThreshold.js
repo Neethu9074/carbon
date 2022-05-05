@@ -15,6 +15,7 @@ import {
 import AlertConfigDialogPresenter from 'in-alerting/smart-alerts/components/smart-alert-dialog/AlertConfigDialogPresenter';
 import { useSimpleModePageNavigation } from 'in-alerting/smart-alerts/applications/components/useSimpleModePageNavigation';
 import { AdvancedModeFooter } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeFooter';
+import { triggerScrollToInvalidItem } from 'in-alerting/smart-alerts/applications/hooks/useScrollToFirstInvalidNavItem';
 import SimpleModeContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/simple/SimpleModeContainer';
 import { getEnhancedTagFilterFormModel } from 'in-alerting/smart-alerts/components/utils/tagfilterEnrichmentUtil';
 import { updateThresholdInForm } from 'in-alerting/smart-alerts/components/smart-alert-dialog/sharedFunctions';
@@ -132,6 +133,7 @@ function SmartAlertConfigDialogWithQueryValidation({
       isSaving={isSaving}
       editMode={editMode}
       additionalValidationCheck={() => isTagFilterFormModelValid}
+      scrollToFirstFormError={() => triggerScrollToInvalidItem()}
     />
   );
 

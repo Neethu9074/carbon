@@ -541,7 +541,8 @@
         "clearTagFilterExpressionButton": "Clear",
         "baselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected baseline. Please select <em>Static Threshold</em> instead.",
         "pleaseContactSupportToRiseLimit": "Please contact us via our <supportLink>{{instanaSupportPortal}}</supportLink> to request an increase of this limit.",
-        "adaptiveBaselineErrorMessage": "The adaptive threshold cannot be previewed because there is not enough historic data available at this moment.<br />This Smart Alert can still be created and alerting will start working as soon as there is at least 2 weeks of data available.",
+        "adaptiveBaselineErrorMessage": "Threshold preview is currently unavailable.<br />This Smart Alert can still be saved.",
+        "adaptiveBaselineErrorMessageInsufficientDataToCompute": "Insufficient data to compute the selected threshold at this moment.<br />This Smart Alert can still be saved and alerting will start working as soon as there is at least 2 weeks of data available.",
         "instanaSupportPortal": "Instana support portal",
         "baselineErrorMessageReason": "Reason:",
         "blueprintDescriptionButtonSelect": "Select",
@@ -798,6 +799,7 @@
       "form": {
         "anyJSErrors": "Any JS Errors",
         "JSErrors": "JS Error(s): {{errorMessage}}",
+        "customEvents": "Custom Event: {{customEventName}}",
         "HTTPStatusCodes": "HTTP Status Code(s):{{statusCode}}",
         "unsupportedAlertType": "Unsupported alert type: {{alertType}}",
         "JSErrorsHaveBeenDetected": "JS Errors have been detected.",
@@ -806,6 +808,7 @@
         "JSErrorTextContains": "JS Errors which contain \"{{ruleValue}}\" have been detected.",
         "JSErrorTextStartsWith": "JS Errors which start with \"{{ruleValue}}\" have been detected.",
         "JSErrorTextEndsWith": "JS Errors which end with \"{{ruleValue}}\" have been detected.",
+        "customEventsText": "Custom Events which equal \"{{customEventName}}\" have been detected.",
         "slownessSimpleHighOperatorText": "onLoad Time ({{aggregationText}}) is too high",
         "slownessSimpleLowOperatorText": "onLoad Time ({{aggregationText}}) is too low",
         "throughputSimpleHighOperatorText": "Number of {{metricLabel}} is anomalously high",
@@ -828,7 +831,7 @@
         "thresholdLowerEqualsOperatorText": "The number of {{metricLabel}} lower or equal to expected.",
         "errorPleaseProvideAnErrorMessage": "Please provide an error message",
         "errorPleaseProvideANumberGreaterEqualsToZero": "Please provide a number >= 0",
-        "errorPleaseProvideCustomEventByName": "Please provide a custom event by name",
+        "errorPleaseProvideCustomEventName": "Please provide a custom event name",
         "errorBaselineIsEmpty": "baseline is empty",
         "ruleJsErrorsOperatorOptionAny": "Any",
         "ruleJsErrorsOperatorOptionEquals": "Equals",
@@ -919,6 +922,16 @@
         "stepConfigsStep1Title": "Step 1: Select Alert",
         "stepConfigsStep2Title": "Step 2: Select Scope",
         "stepConfigsStep3Title": "Step 3: Select Alerting Channels"
+      },
+      "customEvent" : {
+        "noCustomEventsFound": "No custom events found",
+        "searchCustomEvents": "Filter Events",
+        "customEventSelectionSliderTitle": "Choose Custom Event",
+        "customEventNameColumnLabel": "Event Name",
+        "customEventLabel": "Custom Event",
+        "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
+        "searchCustomEventButtonLabel": "Select Custom Event",
+        "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
       },
       "addAlert": "Add Alert"
     },

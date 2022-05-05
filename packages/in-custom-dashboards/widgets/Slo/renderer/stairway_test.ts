@@ -217,6 +217,6 @@ describe('in-custom-dashboards/widgets/Slo/renderer/stairway', () => {
     });
 
     // Then
-    expect(config.backBufferCtx.fillRect).toHaveBeenCalledWith(0, 5, 2, 20 - 5 - 2.5);
+    expect(config.backBufferCtx.fillRect).toHaveBeenCalledWith(0, 5 - 1, 2, 20 - 5 - 2.5 + 1);
   });
 });

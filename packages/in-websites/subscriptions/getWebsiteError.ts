@@ -4,8 +4,9 @@
  */
 
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
+import { GetWebsiteErrorQuery, Result, JavaScriptError } from 'in-types';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetWebsiteErrorQuery, Result<JavaScriptError>>({
   eventId: 'getWebsiteError',
   trackSubscriptionStatistics: true
 });

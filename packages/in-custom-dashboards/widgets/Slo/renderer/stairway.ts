@@ -49,7 +49,7 @@ function createStairwayRenderer({
         return;
       }
 
-      const lineWidth = config.y1?.lineWidth ?? 2;
+      const lineWidth = getLineWidth(config);
       const isStaticBudget = config.y1?.isStaticBudget ?? false;
       const markerPaneHeight = config.markerPaneHeight;
 
@@ -124,6 +124,10 @@ function generateVertices(
   return lineVertices;
 }
 
+function getLineWidth(config: RenderConfig) {
+  return config.y1?.lineWidth ?? 2;
+}
+
 function drawLines(lineVertices: Vertex[], config: RenderConfig) {
   const startVertex = lineVertices[0];
   config.backBufferCtx.moveTo(startVertex[0], startVertex[1]);
@@ -168,11 +172,13 @@ function renderMissingDataIndicator(config: RenderConfig, endTimestamp: number) 
 
   config.backBufferCtx.fillStyle = theme.lib.colors.N300;
 
+  const borderWidth = getLineWidth(config) * 0.5;
   const endX = config.xScaleBackBuffer.getRange(endTimestamp);
-  const startY = config.markerPaneHeight;
-  const height = config.height - config.markerPaneHeight - config.timeAxisHeight;
+  const startY = config.markerPaneHeight - borderWidth;
+  const height = config.height - config.markerPaneHeight - config.timeAxisHeight + borderWidth;
 
   config.backBufferCtx.fillRect(0, startY, endX, height);
+  config.backBufferCtx.lineTo(0, endX);
 
   config.backBufferCtx.restore();
 }

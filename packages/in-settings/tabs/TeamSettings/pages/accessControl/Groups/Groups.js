@@ -32,7 +32,7 @@ export default function Groups() {
         ListRenderer={ListRenderer}
         getItems={getGroupsAsResultObservable}
         deleteItem={deleteGroup}
-        itemName="group"
+        itemName="Group"
         searchFields={['name']}
         orderBy="name"
         renderAdditionalHeaderContent={renderAdditionalHeaderContent}

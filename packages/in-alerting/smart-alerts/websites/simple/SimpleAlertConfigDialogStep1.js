@@ -13,6 +13,7 @@ import { BlueprintDescription } from 'in-alerting/smart-alerts/components/smart-
 import SimpleAlertConfigDialogChart from 'in-alerting/smart-alerts/websites/simple/SimpleAlertConfigDialogChart';
 import SimpleModeStepContentWrapper from 'in-components/BlueprintFormMultistep/SimpleModeStepContentWrapper';
 import SelectedBlueprintPresenter from 'in-components/BlueprintFormMultistep/SelectedBlueprintPresenter';
+import ProvideCustomEvent from 'in-alerting/smart-alerts/websites/components/ProvideCustomEvent';
 import ProvideStatusCode from 'in-alerting/smart-alerts/websites/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/websites/form/blueprintFormCreator';
 import { websitesAlertingBlueprintChanged } from 'in-alerting/smart-alerts/websites/tracker';
@@ -26,7 +27,7 @@ import { t } from 'in-i18n';
 export default function SimpleAlertConfigDialogStep1({
   form,
   onChange,
-  setJsErrorsListVisible,
+  setSliderState,
   updateForm,
   onChartViewConfigChange,
   selectedChartViewConfigIndex
@@ -57,7 +58,7 @@ export default function SimpleAlertConfigDialogStep1({
             <ProvideJsError
               form={form}
               updateForm={updateForm}
-              onSelectJsError={setJsErrorsListVisible}
+              onSelectJsError={setSliderState}
               timeConfig={{
                 windowSize: alertingDialogItemPickerTimeframe
               }}
@@ -72,6 +73,19 @@ export default function SimpleAlertConfigDialogStep1({
           </SelectedBlueprintPresenter>
         )}
         renderThroughput={() => <BlueprintDescription config={blueprintConfig} isSimpleMode />}
+        renderCustomEvent={() => (
+          <SelectedBlueprintPresenter title={blueprintConfig.headline} description={blueprintConfig.text}>
+            <ProvideCustomEvent
+              form={form}
+              updateForm={updateForm}
+              onSelectCustomEvent={setSliderState}
+              timeConfig={{
+                windowSize: alertingDialogItemPickerTimeframe
+              }}
+              mode={modeSimple}
+            />
+          </SelectedBlueprintPresenter>
+        )}
       />
       <SimpleAlertConfigDialogChart
         form={form}

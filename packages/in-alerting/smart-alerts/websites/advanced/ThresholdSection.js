@@ -6,6 +6,7 @@
 import React from 'react';
 
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/HistoricBaselineErrorMessage';
+import CustomEventsInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/CustomEventsInteractiveChart';
 import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/StatusCodeInteractiveChart';
 import ThroughputInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/ThroughputInteractiveChart';
 import JsErrorsInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/JsErrorsInteractiveChart';
@@ -39,18 +40,15 @@ export function ThresholdSection(props) {
           <JsErrorsInteractiveChart
             blueprintConfig={blueprintConfig}
             form={form}
-            timeConfig={timeConfig}
             updateForm={updateForm}
             onChartViewConfigChange={onChartViewConfigChange}
             selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-            editMode={editMode}
           />
         )}
         renderSlowness={() => (
           <SlownessInteractiveChart
             blueprintConfig={blueprintConfig}
             form={form}
-            timeConfig={timeConfig}
             updateForm={updateForm}
             onChartViewConfigChange={onChartViewConfigChange}
             selectedChartViewConfigIndex={selectedChartViewConfigIndex}
@@ -62,21 +60,27 @@ export function ThresholdSection(props) {
             blueprintConfig={blueprintConfig}
             form={form}
             updateForm={updateForm}
-            timeConfig={timeConfig}
             onChartViewConfigChange={onChartViewConfigChange}
             selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-            editMode={editMode}
           />
         )}
         renderThroughput={() => (
           <ThroughputInteractiveChart
             blueprintConfig={blueprintConfig}
             form={form}
-            timeConfig={timeConfig}
             updateForm={updateForm}
             onChartViewConfigChange={onChartViewConfigChange}
             selectedChartViewConfigIndex={selectedChartViewConfigIndex}
             editMode={editMode}
+          />
+        )}
+        renderCustomEvent={() => (
+          <CustomEventsInteractiveChart
+            blueprintConfig={blueprintConfig}
+            form={form}
+            updateForm={updateForm}
+            onChartViewConfigChange={onChartViewConfigChange}
+            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
           />
         )}
       />

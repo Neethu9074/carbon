@@ -10,9 +10,9 @@
     color: @lib__colors__N600Light;
   }
 
-  pre.meta {
+  .meta {
     max-height: 100%;
-    padding: 1rem;
+    height: 100%;
   }
 
   .address {

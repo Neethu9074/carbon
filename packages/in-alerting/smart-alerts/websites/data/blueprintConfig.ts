@@ -23,6 +23,7 @@ import getWebsiteRateMetricAlertsPreview from 'in-alerting/smart-alerts/websites
 import getWebsiteMetricAlertsPreview from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteMetricAlertsPreview';
 import { getApproximatedHistoricBaselineThresholdValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import getWebsiteRateMetric from 'in-alerting/smart-alerts/websites/subscriptions/getWebsiteRateMetric';
+import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 // @ts-expect-error needs conversion to TS
 import { availableFilterTags } from 'in-websites/tags';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
@@ -213,10 +214,13 @@ const customEventBlueprintConfig: BluePrint = Object.freeze({
   isRuleComplete: (alertRule: WebsiteAlertRule) =>
     isNotBlank((alertRule as CustomEventWebsiteAlertRule).customEventName),
   incompleteRuleMessage: t('in-alerting:smartAlerts.websites.data.customEventBlueprintConfigIncompleteRuleMessage'),
-  getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => [
-    tagFilter('beacon.type', EQUALS, 'custom'),
-    tagFilter('beacon.customEvent.name', EQUALS, (alertRule as CustomEventWebsiteAlertRule).customEventName)
-  ],
+  getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) =>
+    joinExpressions({
+      expressions: [
+        tagFilter('beacon.type', EQUALS, 'custom'),
+        tagFilter('beacon.customEvent.name', EQUALS, (alertRule as CustomEventWebsiteAlertRule).customEventName)
+      ]
+    }),
   getBeaconType: () => 'custom'
 });
 
@@ -241,9 +245,7 @@ interface BluePrintBase {
   readonly getEntityTagFilterFormModel: (
     alertConfig: WebsiteAlertConfig
   ) => { name: string; operator: TagFilterOperator; value?: any };
-  readonly getRuleTagFilterFormModel: (
-    alertRule: WebsiteAlertRule
-  ) => { name: string; operator: TagFilterOperator; value?: any }[];
+  readonly getRuleTagFilterFormModel: (alertRule: WebsiteAlertRule) => FormModelElement[];
   readonly getExtraAnalyzeLinkTagFilterFormModel: (
     alertConfig: WebsiteAlertConfig,
     timeConfig: FixedTimeConfig

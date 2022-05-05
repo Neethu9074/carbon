@@ -25,7 +25,7 @@ export const stepConfigs = [
 ];
 
 export const stepRenderers = [
-  parentProps => <SimpleAlertConfigDialogStep1 setJsErrorsListVisible={parentProps.setSliderState} {...parentProps} />,
+  parentProps => <SimpleAlertConfigDialogStep1 setSliderState={parentProps.setSliderState} {...parentProps} />,
   parentProps => <SimpleAlertConfigDialogStep2 {...parentProps} />,
   parentProps => <SimpleAlertConfigDialogStep3 {...parentProps} />
 ];

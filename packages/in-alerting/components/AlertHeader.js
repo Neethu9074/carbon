@@ -199,6 +199,7 @@ export default function AlertHeader({
                 content={
                   alertConfig.enabled ? t('in-alerting:smartAlerts.disable') : t('in-alerting:smartAlerts.enable')
                 }
+                delay={500}
               >
                 <IconButton
                   kind="primaryv2"
@@ -214,10 +215,10 @@ export default function AlertHeader({
                   alignment="right"
                 />
               </Tooltip>
-              <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')}>
+              <Tooltip content={t('in-alerting:components.alertHeaderEditTooltip')} delay={500}>
                 <IconButton alignment="right" kind="primaryv2" type="lib_actions_edit" onClick={openDialog} />
               </Tooltip>
-              <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')}>
+              <Tooltip content={t('in-alerting:components.alertHeaderDuplicateTooltip')} delay={500}>
                 <IconButton
                   kind="primaryv2"
                   type="lib_actions_copy"
@@ -226,7 +227,7 @@ export default function AlertHeader({
                 />
               </Tooltip>
               {!alertConfig?.builtIn && (
-                <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')}>
+                <Tooltip content={t('in-alerting:components.alertHeaderRestoreDeleteTooltip')} delay={500}>
                   <IconButton
                     kind="primaryv2"
                     type={isDeleting ? 'lib_actions_loading' : 'lib_actions_delete'}

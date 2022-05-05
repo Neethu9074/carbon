@@ -22,23 +22,17 @@ export const defaultDeviationFactor = 3;
 export default function createThresholdForm(threshold: ThresholdConfig, alertType: WebsitesAlertType): MapForm {
   const form = createBaseForm(threshold);
 
-  if (alertType === 'slowness') {
-    return createBaselineEnabledForm(form, threshold);
+  switch (alertType) {
+    case 'slowness':
+    case 'throughput':
+      return createBaselineEnabledForm(form, threshold);
+    case 'specificJsError':
+    case 'statusCode':
+    case 'customEvent':
+      return createThresholdFormStaticThreshold(form, threshold as { value?: number });
+    default:
+      return form;
   }
-
-  if (alertType === 'specificJsError') {
-    return createSpecificJsErrorForm(form, threshold as { value?: number });
-  }
-
-  if (alertType === 'statusCode') {
-    return createStatusCodeForm(form, threshold as { value?: number });
-  }
-
-  if (alertType === 'throughput') {
-    return createBaselineEnabledForm(form, threshold);
-  }
-
-  return form;
 }
 
 function createBaseForm(threshold: { type?: string; operator?: ThresholdOperator; lastUpdated?: number }): MapForm {
@@ -135,12 +129,4 @@ function createThresholdFormHistoricBaseline(
         value: threshold.deviationFactor ?? defaultDeviationFactor
       })
     );
-}
-
-function createSpecificJsErrorForm(baseForm: MapForm, threshold: { value?: number }): MapForm {
-  return createThresholdFormStaticThreshold(baseForm, threshold);
-}
-
-function createStatusCodeForm(baseForm: MapForm, threshold: { value?: number }): MapForm {
-  return createThresholdFormStaticThreshold(baseForm, threshold);
 }

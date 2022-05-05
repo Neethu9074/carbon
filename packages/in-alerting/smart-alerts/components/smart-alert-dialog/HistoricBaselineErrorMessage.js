@@ -7,11 +7,12 @@ import React from 'react';
 
 import { Message } from '@instana/components';
 
+import { hasError } from 'in-services/util/result';
 import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
 
 export default function HistoricBaselineErrorMessage({ thresholdResult }) {
-  if (!hasBaselineError(thresholdResult)) {
+  if (!hasError(thresholdResult)) {
     return null;
   }
 
@@ -23,10 +24,6 @@ export default function HistoricBaselineErrorMessage({ thresholdResult }) {
       {getErrorReason(thresholdResult)}
     </Message>
   );
-}
-
-function hasBaselineError(thresholdResult) {
-  return thresholdResult && thresholdResult.errors?.length > 0;
 }
 
 function getErrorReason(thresholdResult) {

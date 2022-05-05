@@ -455,6 +455,7 @@
       "alerts": {
         "alertConfigurationListTitleAlertConfiguration": "Alert Configuration",
         "alertConfigurationTitleTrigger": "Trigger",
+        "alertConfigurationTitleCustomEvent": "Custom Event",
         "alertConfigurationTitleErrorMessage": "Error Message",
         "alertConfigurationTitleHTTPStatusCode": "HTTP Status Code",
         "alertConfigurationTitleScope": "Scope",
