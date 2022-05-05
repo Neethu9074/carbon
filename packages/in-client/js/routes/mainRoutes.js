@@ -42,6 +42,7 @@ import configurationRoutes from 'in-settings/navigation/routes';
 import syntheticsRoutes from 'in-synthetics/navigation/routes';
 import LandingPage from 'in-client/js/LandingPage/LandingPage';
 import kubernetesRoutes from 'in-kubernetes/navigation/routes';
+import automationRoutes from 'in-automation/navigation/routes';
 import profilingRoutes from 'in-profiling/navigation/routes';
 import openstackRoutes from 'in-openstack/navigation/routes';
 import loggingRoutes from 'in-logging/navigation/routes';
@@ -87,7 +88,7 @@ export default (
     {profilingRoutes}
     {loggingRoutes}
     {deepLinkRoutes}
-
+    {automationRoutes}
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />
   </FragmentSupportingSwitch>

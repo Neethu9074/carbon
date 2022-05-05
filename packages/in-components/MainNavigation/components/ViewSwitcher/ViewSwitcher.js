@@ -60,6 +60,7 @@ import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { phmcListFullyQualified, ibmp } from 'in-phmc/navigation/paths';
 import { zhmcListFullyQualified, ibmz } from 'in-zhmc/navigation/paths';
+import { getLinkToAutomation } from 'in-automation/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
@@ -121,6 +122,7 @@ export default function ViewSwitcher({
       <SpacerListItem />
       <Analyze {...commonProps} />
       <Incidents {...commonProps} />
+      <Automation {...commonProps} />
       <SpacerListItem />
       <View
         id="main-nav-settings"
@@ -520,5 +522,24 @@ function SpacerListItem() {
       <Spacer vertical="small" />
       <Spacer vertical="small" />
     </li>
+  );
+}
+
+function Automation(props) {
+  return (
+    <View
+      id="main-nav-automation"
+      label={t('in-components:mainNavigation.viewSwitcherLabelAutomation')}
+      icon="lib_automation_inverted"
+      isActive$={any(
+        isView(isAnalyzeView),
+        isWebsiteAnalyzeView,
+        isMobileAppAnalyzeView,
+        isProfileAnalyzeView,
+        isLogsAnalyzeView
+      )}
+      href$={getLinkToAutomation()}
+      {...props}
+    />
   );
 }

@@ -1,0 +1,14 @@
+{
+  "titleAutomation": "Automation",
+  "actionPlans": "Action Plans",
+  "actionCatalog": "Action Catalog",
+  "actionSources": "Action Sources",
+  "action": {
+    "name": "Name",
+    "description": "Description",
+    "type": "Type",
+    "invocations": "Invocations",
+    "successRate": "Success Rate",
+    "lastModified": "Last Modified"
+  }
+}
