@@ -11,8 +11,6 @@ import { identity } from 'in-services/util/function';
 
 import locals from './MultiSelectSuggestions.mless';
 
-// import { t } from 'in-i18n';
-
 export function MultiSelectSuggestions({
   tag,
   dataSource,
@@ -28,18 +26,13 @@ export function MultiSelectSuggestions({
   setNumberOfPresentedRows,
   addToSelection,
   customLabelMapper,
-  tracker
+  tracker,
+  errorHandler = SuggestionErrorHandler
 }) {
   if (loading) {
     return <Loading numberOfRows={numberOfPresentedRows} loadingSkeletonClass={locals.multiselectPlaceholder} />;
   } else if (errors?.length > 0) {
-    if (tag === 'call.erroneous') {
-      return (
-        <CheckableSuggestion key={0} label={customLabelMapper(true)} checked={false} count={null} onChange={null} />
-      );
-    } else {
-      return <Errors errors={errors} setNumberOfPresentedRows={setNumberOfPresentedRows} />;
-    }
+    return errorHandler.apply(null, arguments);
   } else if (!suggestions) {
     return null;
   } else if (suggestions?.length > 0) {
@@ -105,4 +98,8 @@ function Suggestions({
       />
     );
   });
+}
+
+export default function SuggestionErrorHandler(props) {
+  return <Errors errors={props.errors} setNumberOfPresentedRows={props.setNumberOfPresentedRows} />;
 }

@@ -36,6 +36,7 @@ import FacetedFilterMultiSelect from 'in-components/AnalyzeView/FacetedFilters/F
 import FacetedFilterRangeInput from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterRangeInput';
 import { custom as customType, metric as metricType } from 'in-components/AnalyzeView/fieldTypes';
 import FacetedFilterGeneric from 'in-components/AnalyzeView/FacetedFilters/FacetedFilterGeneric';
+import { CheckableSuggestion } from 'in-components/AnalyzeView/FacetedFilters/CheckableSuggestion';
 import GroupedResults from 'in-applications/analyze/AnalyzeView2_0/components/GroupedResults';
 import BatchingIndicator from 'in-analyze/components/BatchingIndicator/BatchingIndicator';
 import { toBackendQuery } from 'in-components/AnalyzeView/FacetedFilters/facets';
@@ -380,7 +381,8 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       customLabelMapper: () => t('in-applications:analyze.facetedSearch.showOnlyErroneous'),
       getSuggestionName,
       getMetric,
-      openByDefault: true
+      openByDefault: true,
+      errorHandler: showEmptyErroneous
     },
     {
       renderer,
@@ -499,4 +501,9 @@ function getFacetedSearchSuggestions({
     },
     removeRequestedTagFromFilters: false
   });
+}
+
+function showEmptyErroneous() {
+  const label = t('in-applications:analyze.facetedSearch.showOnlyErroneous');
+  return <CheckableSuggestion key={0} label={label} count={null} onChange={() => {}} />;
 }
