@@ -9,6 +9,7 @@ import { get } from 'lodash';
 import { useObservable } from '@instana/hooks';
 
 import ServicesNoDataNotification from 'in-applications/lists/components/ServicesNoDataNotification';
+import MapOverlay from 'in-applications/ApplicationMap/misc/OverlayReactComponentMounter';
 import { buildJsonParser, buildJsonSerializer } from 'in-stores/navigation/matrix';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getWebGLCanvasContext, isWebGLSupported } from 'in-map/services/webGL';
@@ -144,7 +145,7 @@ export function ApplicationMapReactComponent(props) {
 
   return (
     <div className={locals.wrapper} ref={resizeObserverRef}>
-      <div className={locals.overlay} ref={overlayRef} />
+      <MapOverlay serviceLocatorUid={map?.serviceLocatorUid} {...props} ref={overlayRef} />
       <canvas className={locals.canvas} ref={canvasRef} />
       {(isLoading || hasErrors) && (
         <div className={locals.centerWrapper}>

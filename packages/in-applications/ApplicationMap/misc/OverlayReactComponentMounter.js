@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
-import ReactDOM from 'react-dom';
+import React, { forwardRef } from 'react';
 
 import LayoutingLoadingScreen from 'in-applications/ApplicationMap/components/LayoutingLoadingScreen';
 import ConnectionTooltip from 'in-applications/ApplicationMap/components/Tooltips/ConnectionTooltip';
@@ -12,24 +11,23 @@ import SearchBar from 'in-applications/ApplicationMap/components/SearchBar';
 import Controls from 'in-applications/ApplicationMap/components/Controls';
 import Nodes from 'in-applications/ApplicationMap/components/Nodes';
 
-export default class OverlayReactComponentMounter {
-  constructor(nodesReactComponentWrapper, serviceLocatorUid, props) {
-    this.nodesReactComponentWrapper = nodesReactComponentWrapper;
-    this.serviceLocatorUid = serviceLocatorUid;
+import locals from './MapOverlay.mless';
 
-    ReactDOM.render(
-      <Fragment>
-        <Nodes {...props} serviceLocatorUid={serviceLocatorUid} />
-        <LayoutingLoadingScreen serviceLocatorUid={serviceLocatorUid} />
-        <Controls {...props} serviceLocatorUid={serviceLocatorUid} />
-        <SearchBar serviceLocatorUid={serviceLocatorUid} />
-        <ConnectionTooltip {...props} serviceLocatorUid={serviceLocatorUid} />
-      </Fragment>,
-      this.nodesReactComponentWrapper
-    );
-  }
+function MapOverlay(props, ref) {
+  const { applicationId, serviceLocatorUid, onChangeUrlProperties, result, value, setValue } = props;
 
-  dispose() {
-    ReactDOM.unmountComponentAtNode(this.nodesReactComponentWrapper);
-  }
+  return props.serviceLocatorUid ? (
+    <div ref={ref} className={locals.overlay}>
+      <Nodes applicationId={applicationId} serviceLocatorUid={serviceLocatorUid} />
+      <LayoutingLoadingScreen serviceLocatorUid={serviceLocatorUid} />
+      <Controls serviceLocatorUid={serviceLocatorUid} result={result} onChangeUrlProperties={onChangeUrlProperties} />
+      <SearchBar serviceLocatorUid={serviceLocatorUid} value={value} setValue={setValue} />
+      <ConnectionTooltip serviceLocatorUid={serviceLocatorUid} />
+    </div>
+  ) : (
+    // We have to render this div to make sure the eventListeners for resize observe can attach.
+    <div ref={ref} />
+  );
 }
+
+export default forwardRef(MapOverlay);
