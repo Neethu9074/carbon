@@ -6,6 +6,7 @@
 import React from 'react';
 
 import BlueprintSelection from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/BlueprintSelection';
+import ProvideCustomEvent from 'in-alerting/smart-alerts/websites/components/ProvideCustomEvent';
 import ProvideStatusCode from 'in-alerting/smart-alerts/websites/components/ProvideStatusCode';
 import createBlueprintForm from 'in-alerting/smart-alerts/websites/form/blueprintFormCreator';
 import { websitesAlertingBlueprintChanged } from 'in-alerting/smart-alerts/websites/tracker';
@@ -47,6 +48,23 @@ export default function BluePrintSelectionSection(props) {
         renderStatusCode={() => (
           <LightCard title={t('in-alerting:smartAlerts.websites.advanced.HTTPStatusCode')} withoutPadding darkFrame>
             <ProvideStatusCode form={form} updateForm={updateForm} mode={modeAdvanced} />
+          </LightCard>
+        )}
+        renderCustomEvent={() => (
+          <LightCard
+            title={t('in-alerting:smartAlerts.websites.customEvent.customEventLabel')}
+            withoutPadding
+            darkFrame
+          >
+            <ProvideCustomEvent
+              form={form}
+              timeConfig={{
+                windowSize: alertingDialogItemPickerTimeframe
+              }}
+              updateForm={updateForm}
+              onSelectCustomEvent={setSliderState}
+              mode={modeAdvanced}
+            />
           </LightCard>
         )}
       />

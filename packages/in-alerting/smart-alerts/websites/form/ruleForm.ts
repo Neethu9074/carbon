@@ -121,7 +121,7 @@ function extendForCustomEvent(baseForm: MapForm, rule: { customEventName?: strin
           return [
             {
               severity: 'error',
-              message: t('in-alerting:smartAlerts.websites.form.errorPleaseProvideCustomEventByName')
+              message: t('in-alerting:smartAlerts.websites.form.errorPleaseProvideCustomEventName')
             }
           ];
         } else {

@@ -10,7 +10,8 @@ export default function AlertTypeSwitch({
   renderJsErrors,
   renderSlowness,
   renderStatusCode,
-  renderThroughput
+  renderThroughput,
+  renderCustomEvent
 }) {
   let render;
   if (alertType === 'specificJsError') {
@@ -21,6 +22,8 @@ export default function AlertTypeSwitch({
     render = renderSlowness;
   } else if (alertType === 'throughput') {
     render = renderThroughput;
+  } else if (alertType === 'customEvent') {
+    render = renderCustomEvent;
   }
   return render?.() ?? null;
 }
@@ -30,5 +33,6 @@ AlertTypeSwitch.propTypes = {
   renderJsErrors: PropTypes.func,
   renderSlowness: PropTypes.func,
   renderStatusCode: PropTypes.func,
-  renderThroughput: PropTypes.func
+  renderThroughput: PropTypes.func,
+  renderCustomEvent: PropTypes.func
 };
