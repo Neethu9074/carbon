@@ -14,6 +14,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getWebGLCanvasContext, isWebGLSupported } from 'in-map/services/webGL';
 import ApplicationMap from 'in-applications/ApplicationMap/ApplicationMap';
 import WithEmptyStateFallback from 'in-components/WithEmptyStateFallback';
+import MapOverlay from 'in-applications/ApplicationMap/misc/MapOverlay';
 import getServiceMap from 'in-applications/subscriptions/getServiceMap';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
@@ -144,7 +145,7 @@ export function ApplicationMapReactComponent(props) {
 
   return (
     <div className={locals.wrapper} ref={resizeObserverRef}>
-      <div className={locals.overlay} ref={overlayRef} />
+      <MapOverlay serviceLocatorUid={map?.serviceLocatorUid} {...props} ref={overlayRef} />
       <canvas className={locals.canvas} ref={canvasRef} />
       {(isLoading || hasErrors) && (
         <div className={locals.centerWrapper}>
