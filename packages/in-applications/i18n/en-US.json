@@ -424,7 +424,6 @@
     "callCount_plural": "{{formattedCount}} total calls",
     "erroneousCallCount": "{{formattedCount}} total erroneous call",
     "erroneousCallCount_plural": "{{formattedCount}} total erroneous calls",
-    "percentOfCalls": "{{percentage}} of all calls",
     "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
     "infrastructureIssuesChanges": "Infrastructure Issues & Changes",
     "unknownTime": "Unknown at {{entityTime}}",
