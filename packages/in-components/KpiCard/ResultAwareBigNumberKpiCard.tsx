@@ -26,12 +26,12 @@ export interface Config {
   metricConfiguration: UnifiedMetricConfigurationUnion;
   formatter?: string;
   tagFilters?: TagFilter[];
+  comparisonIncreaseColor: string;
+  comparisonDecreaseColor: string;
 }
 
 export interface ConfigWithCompanionMetric extends Config {
   companionMetricConfiguration: UnifiedMetricConfigurationUnion;
-  comparisonIncreaseColor: string;
-  comparisonDecreaseColor: string;
 }
 
 export interface ResultAwareBigNumberKpiCardProps {
@@ -182,12 +182,10 @@ function renderTimeShiftValue(
   }
 
   let colorId = blue.id;
-  if (isConfigWithCompanionMetric(config)) {
-    if (value > comparisonValue) {
-      colorId = config.comparisonIncreaseColor;
-    } else if (value < comparisonValue) {
-      colorId = config.comparisonDecreaseColor;
-    }
+  if (value > comparisonValue) {
+    colorId = config.comparisonIncreaseColor;
+  } else if (value < comparisonValue) {
+    colorId = config.comparisonDecreaseColor;
   }
 
   const difference = comparisonValue === 0 ? (value === 0 ? 0 : value / Math.abs(value)) : value / comparisonValue - 1;

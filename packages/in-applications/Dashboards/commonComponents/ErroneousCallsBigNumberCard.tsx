@@ -10,7 +10,8 @@ import {
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 import DashboardBigNumberCard, {
-  BigNumberCardProps
+  BigNumberCardProps,
+  increaseIsBad
 } from 'in-applications/Dashboards/commonComponents/DashboardBigNumberCard';
 import { createChartedMetric, createMetricField, createOrderBy } from 'in-analyze/navigation/paths';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
@@ -54,6 +55,7 @@ export default function ErroneousCallsBigNumberCard({
           count: v
         })
       }
+      comparisonColors={increaseIsBad}
       jumpToAnalyzeHref={jumpToAnalyzeHref}
       tagFilters={tagFilters}
       syntheticCallsOption={syntheticCallsOption}

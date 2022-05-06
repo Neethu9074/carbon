@@ -24,11 +24,27 @@ interface DashboardBigNumberCardProps {
   companionMetric?: string;
   companionAggregation?: AggregationType;
   companionFormatter?: FormatterFn;
+  comparisonColors: ComparisonColors;
   tagFilters: TagFilter[];
   syntheticCallsOption: string;
   timeConfig: TimeConfig;
   jumpToAnalyzeHref: Observable<string>;
 }
+
+interface ComparisonColors {
+  decreaseColor: string;
+  increaseColor: string;
+}
+
+export const increaseIsBad: ComparisonColors = {
+  decreaseColor: 'greenish',
+  increaseColor: 'redish'
+};
+
+export const increaseIsGood: ComparisonColors = {
+  decreaseColor: 'redish',
+  increaseColor: 'greenish'
+};
 
 export default function DashboardBigNumberCard({
   title,
@@ -38,6 +54,7 @@ export default function DashboardBigNumberCard({
   companionMetric,
   companionAggregation,
   companionFormatter,
+  comparisonColors,
   tagFilters,
   syntheticCallsOption,
   timeConfig,
@@ -60,22 +77,20 @@ export default function DashboardBigNumberCard({
     timeShift: timeShift.offset
   };
 
-  const cardConfiguration = companionMetric
-    ? {
-        metricConfiguration: metricConfiguration,
-        comparisonDecreaseColor: 'redish',
-        comparisonIncreaseColor: 'greenish',
-        companionMetricConfiguration: {
-          metric: companionMetric,
-          aggregation: companionAggregation,
-          source: 'APPLICATION',
-          tagFilters: tagFilters,
-          includeSynthetic: includeSyntheticCalls
-        }
+  const cardConfiguration = {
+    metricConfiguration: metricConfiguration,
+    comparisonDecreaseColor: comparisonColors.decreaseColor,
+    comparisonIncreaseColor: comparisonColors.increaseColor,
+    ...(companionMetric && {
+      companionMetricConfiguration: {
+        metric: companionMetric,
+        aggregation: companionAggregation,
+        source: 'APPLICATION',
+        tagFilters: tagFilters,
+        includeSynthetic: includeSyntheticCalls
       }
-    : {
-        metricConfiguration: metricConfiguration
-      };
+    })
+  };
 
   return (
     <BigNumberKpiCard
