@@ -13,7 +13,7 @@ export default class FlowMapState {
   constructor() {
     this.nodes = new Map();
     this.pathFinder = new PathFinder(this.nodes);
-    this.resultPrecision = unknownResultPrecision;
+    this.resultPrecisionDetails = unknownResultPrecision;
   }
 
   getNode(nodeConfig) {
@@ -100,8 +100,8 @@ export default class FlowMapState {
 
     this.clearCurrentNodesFromDummies(nodeId, endpointId);
 
-    const { nodes, resultPrecision } = this.mapResult(result, path, direction);
-    onResult(nodes, resultPrecision);
+    const { nodes, resultPrecisionDetails } = this.mapResult(result, path, direction);
+    onResult(nodes, resultPrecisionDetails);
   }
 
   mutateNodesWithPlaceHolderIfNecessary(node, endpointId, nodes, result, direction, createPlaceHolderNodeFunction) {
@@ -127,8 +127,8 @@ export default class FlowMapState {
   processServiceResult(nodeId, endpointId, result, direction, path) {
     const node = this.nodes.get(nodeId);
 
-    const onResult = (nodes, resultPrecision) => {
-      this.resultPrecision = resultPrecision;
+    const onResult = (nodes, resultPrecisionDetails) => {
+      this.resultPrecisionDetails = resultPrecisionDetails;
       node.isLoading[direction] = false;
       node.hasRelatedNodes[direction] = false;
 
@@ -234,11 +234,11 @@ export default class FlowMapState {
         relatedNodesCount: n.relatedNodesCount,
         metrics: n.metrics
       }));
-    const resultPrecision = result?.resultPrecisionDetails ?? unknownResultPrecision;
+    const resultPrecisionDetails = result?.resultPrecisionDetails ?? unknownResultPrecision;
 
     return {
       nodes,
-      resultPrecision
+      resultPrecisionDetails: resultPrecisionDetails
     };
   }
 
