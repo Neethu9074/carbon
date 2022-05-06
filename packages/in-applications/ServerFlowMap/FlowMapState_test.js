@@ -153,7 +153,7 @@ describe('in-applications/ServerFlowMap/FlowMapState', () => {
             metrics: 4
           }
         ],
-        resultPrecision: { resultPrecision: 'PRECISION_UNKNOWN' }
+        resultPrecisionDetails: { resultPrecision: 'PRECISION_UNKNOWN' }
       });
 
       expect(
@@ -185,7 +185,7 @@ describe('in-applications/ServerFlowMap/FlowMapState', () => {
             metrics: 4
           }
         ],
-        resultPrecision: { resultPrecision: 'PRECISION_UNKNOWN' }
+        resultPrecisionDetails: { resultPrecision: 'PRECISION_UNKNOWN' }
       });
     });
 

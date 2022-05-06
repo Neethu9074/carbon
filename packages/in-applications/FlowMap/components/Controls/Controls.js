@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
 import HorizontalControlsPresenter from 'in-components/MapControls/HorizontalControlsPresenter';
 import VerticalControlsPresenter from 'in-components/MapControls/VerticalControlsPresenter';
@@ -28,9 +28,12 @@ export const SIGNAL_VALUES = {
 
 export default function Controls({ serviceLocatorUid, resultPrecisionDetails }) {
   const eventBusServiceLocator = getServiceLocators(serviceLocatorUid).eventBusServiceLocator;
-  const hasApproximateData = resultPrecisionDetails.resultPrecision === 'PRECISION_UNKNOWN';
-  eventBusServiceLocator.emit(SIGNALS.PARTICLES, false);
-  eventBusServiceLocator.emit(SIGNALS.HEATMAP, null);
+  const hasApproximateData = resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
+
+  useEffect(() => {
+    eventBusServiceLocator.emit(SIGNALS.PARTICLES, false);
+    eventBusServiceLocator.emit(SIGNALS.HEATMAP, null);
+  }, [eventBusServiceLocator]);
 
   return (
     <Fragment>
