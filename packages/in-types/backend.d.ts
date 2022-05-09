@@ -1671,6 +1671,7 @@ export interface GetServiceLinksByTagsQuery extends UiQuery {
 
 export interface GetServiceMapQuery extends FilteredQuery {
   readonly filter: Filter;
+  readonly includeHealthInfo: boolean;
 }
 
 export interface GetServiceQuery extends FilteredQuery {
