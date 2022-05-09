@@ -13,9 +13,9 @@ import UnifiedMetricsChart from 'in-custom-dashboards/widgets/Chart/UnifiedMetri
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { Metric } from 'in-custom-dashboards/widgets/Chart/types';
-import { integral, stackedArea } from 'in-stores/metric/renderer';
 import { TestResponse } from 'in-synthetics/utils/constants';
 import { latencyFixed } from 'in-services/formatters/number';
+import { stackedArea } from 'in-stores/metric/renderer';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import { TimeShift } from 'in-types';
 import theme from 'in-themes';
@@ -116,7 +116,7 @@ function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
     ];
   }
 
-  const renderer = integral.id;
+  const renderer = stackedArea.id;
 
   return (
     <UnifiedMetricsChart
