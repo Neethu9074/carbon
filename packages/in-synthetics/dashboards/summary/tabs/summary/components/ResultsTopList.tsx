@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-//import { get } from 'lodash';
+import { get } from 'lodash';
+import moment from 'moment';
 import React from 'react';
 
 import { Link } from '@instana/components';
@@ -122,8 +123,6 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
     ['status', statusTagFilters]
   ]);
 
-  const metrics = [metricInPayload.get(selectedMetric)];
-
   return getTestResultList({
     pagination: {
       page: 1,
@@ -160,10 +159,27 @@ function ViewAll({ testId }: Props) {
 
 type Lab = {
   item: any;
+  selectedMetric: string;
 };
 
-function Label({ item }: Lab) {
-  return item.testResultCommonProperties.locationLabel;
+function Label({ item, selectedMetric }: Lab) {
+  return item.testResultCommonProperties.locationLabel + AdditionalLabel({ item, selectedMetric });
+}
+
+function AdditionalLabel({ item, selectedMetric }: Lab) {
+  let additionalLabel = '';
+  let formattedTime = '';
+  if (metricInPayload.get(selectedMetric) === 'response_time') {
+    let startTime = moment.unix(get(item, ['metrics', 'start_time', 0, 1], moment.now()) / 1000);
+    if (startTime.diff(moment.now(), 'days') < -1) {
+      // start time is greater than 24 hours, show LTS
+      formattedTime = startTime.format('YYYY-MM-DD, LTS');
+    } else {
+      formattedTime = startTime.fromNow();
+    }
+    additionalLabel = ', ' + formattedTime;
+  }
+  return additionalLabel;
 }
 
 type Met = {
