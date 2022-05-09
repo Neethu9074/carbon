@@ -3,7 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
+// eslint-disable-next-line no-restricted-imports
 import MuiSlider from '@material-ui/core/Slider';
+// eslint-disable-next-line no-restricted-imports
 import { withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
