@@ -7,7 +7,7 @@ import { get } from 'lodash';
 import moment from 'moment';
 import React from 'react';
 
-import { formatDateTime } from '@instana/format-date';
+import { formatDateTime, fromNow } from '@instana/format-date';
 import { Link } from '@instana/components';
 
 //import { TestResponse } from 'in-synthetics/utils/constants';
@@ -24,7 +24,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { latency } from 'in-services/formatters/number';
 import { Order, TagFilter, TimeConfig } from 'in-types';
-import { fromNow } from 'in-services/formatters/date';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -172,11 +171,12 @@ function AdditionalLabel({ item, selectedMetric }: Lab) {
   let formattedTime = '';
   if (metricInPayload.get(selectedMetric) === 'response_time') {
     let startTime = moment.unix(get(item, ['metrics', 'start_time', 0, 1], moment.now()) / 1000);
-    if (startTime.diff(moment.now(), 'days') < -1) {
+    let date = get(item, ['metrics', 'start_time', 0, 1]);
+    if (startTime.diff(moment.now(), 'days') > -1) {
       // start time is greater than 24 hours, show date time
-      formattedTime = formatDateTime(startTime!.valueOf()) as string;
+      formattedTime = formatDateTime(date) as string;
     } else {
-      formattedTime = startTime.fromNow();
+      formattedTime = fromNow(date) as string;
     }
     additionalLabel = ', ' + formattedTime;
   }
