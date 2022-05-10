@@ -1,18 +1,28 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
-import PropTypes from 'prop-types';
+import React from 'react';
+
+interface AlertTypeSwitchProps {
+  alertType: string;
+  renderJsErrors?: () => React.ReactNode;
+  renderSlowness?: () => React.ReactNode;
+  renderStatusCode?: () => React.ReactNode;
+  renderThroughput?: () => React.ReactNode;
+  renderCustomEvent?: () => React.ReactNode;
+}
 
 export default function AlertTypeSwitch({
-  alertType,
-  renderJsErrors,
-  renderSlowness,
-  renderStatusCode,
-  renderThroughput,
-  renderCustomEvent
-}) {
+                                          alertType,
+                                          renderJsErrors,
+                                          renderSlowness,
+                                          renderStatusCode,
+                                          renderThroughput,
+                                          renderCustomEvent
+                                        }: AlertTypeSwitchProps) {
   let render;
   if (alertType === 'specificJsError') {
     render = renderJsErrors;
@@ -27,12 +37,3 @@ export default function AlertTypeSwitch({
   }
   return render?.() ?? null;
 }
-
-AlertTypeSwitch.propTypes = {
-  alertType: PropTypes.string.isRequired,
-  renderJsErrors: PropTypes.func,
-  renderSlowness: PropTypes.func,
-  renderStatusCode: PropTypes.func,
-  renderThroughput: PropTypes.func,
-  renderCustomEvent: PropTypes.func
-};
