@@ -10,18 +10,25 @@ import React from 'react';
 import WebsitesAlertingChartWithErrorMessage from 'in-alerting/smart-alerts/websites/chart/WebsitesAlertingChartWithErrorMessage';
 import IncompleteChartPlaceholder from 'in-alerting/smart-alerts/components/smart-alert-dialog/IncompleteChartPlaceholder';
 import CustomEventsThresholdCondition from 'in-alerting/smart-alerts/websites/advanced/CustomEventsThresholdCondition';
+import StatusCodeThresholdCondition from 'in-alerting/smart-alerts/websites/advanced/StatusCodeThresholdCondition';
+import ThroughputThresholdCondition from 'in-alerting/smart-alerts/websites/advanced/ThroughputThresholdCondition';
 import ChartViewConfigurator from 'in-alerting/smart-alerts/components/smart-alert-dialog/ChartViewConfigurator';
+import JsErrorsThresholdCondition from 'in-alerting/smart-alerts/websites/advanced/JsErrorsThresholdCondition';
+import SlownessThresholdCondition from 'in-alerting/smart-alerts/websites/advanced/SlownessThresholdCondition';
 import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
+import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 
 import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
 
-export default function CustomEventsInteractiveChart({
+export default function ThresholdSelectionInteractiveChart({
+  alertType,
   blueprintConfig,
   form,
   updateForm,
   onChartViewConfigChange,
-  selectedChartViewConfigIndex
+  selectedChartViewConfigIndex,
+  editMode
 }) {
   const alertConfigWithFormModel = alertConfigWithDefaultThreshold(form);
 
@@ -35,7 +42,34 @@ export default function CustomEventsInteractiveChart({
 
   return (
     <div className={locals.container}>
-      <CustomEventsThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
+      <AlertTypeSwitch
+        alertType={alertType}
+        renderJsErrors={() => (
+          <JsErrorsThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
+        )}
+        renderCustomEvent={() => (
+          <CustomEventsThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
+        )}
+        renderSlowness={() => (
+          <SlownessThresholdCondition
+            form={form}
+            blueprintConfig={blueprintConfig}
+            updateForm={updateForm}
+            editMode={editMode}
+          />
+        )}
+        renderStatusCode={() => (
+          <StatusCodeThresholdCondition form={form} blueprintConfig={blueprintConfig} updateForm={updateForm} />
+        )}
+        renderThroughput={() => (
+          <ThroughputThresholdCondition
+            form={form}
+            updateForm={updateForm}
+            blueprintConfig={blueprintConfig}
+            editMode={editMode}
+          />
+        )}
+      />
 
       <ChartViewConfigurator
         alertConfigWithFormModel={alertConfigWithFormModel}
@@ -57,10 +91,12 @@ export default function CustomEventsInteractiveChart({
   );
 }
 
-CustomEventsInteractiveChart.propTypes = {
+ThresholdSelectionInteractiveChart.propTypes = {
+  alertType: PropTypes.string.isRequired,
   blueprintConfig: blueprintConfigPropType,
   form: PropTypes.object.isRequired,
   updateForm: PropTypes.func.isRequired,
   onChartViewConfigChange: PropTypes.func.isRequired,
-  selectedChartViewConfigIndex: PropTypes.number.isRequired
+  selectedChartViewConfigIndex: PropTypes.number.isRequired,
+  editMode: PropTypes.bool
 };
