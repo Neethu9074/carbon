@@ -11,10 +11,10 @@ import { Link } from '@instana/components';
 //import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 // @ts-ignore
-import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
-// @ts-ignore
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { syntheticResultsListPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
+// @ts-ignore
+import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
