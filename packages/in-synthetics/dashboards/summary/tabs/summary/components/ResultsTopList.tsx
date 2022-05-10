@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-//import { get } from 'lodash';
+import { get } from 'lodash';
+import moment from 'moment';
 import React from 'react';
 
+import { formatDateTime, fromNow } from '@instana/format-date';
 import { Link } from '@instana/components';
 
 //import { TestResponse } from 'in-synthetics/utils/constants';
@@ -22,7 +24,6 @@ import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { latency } from 'in-services/formatters/number';
 import { Order, TagFilter, TimeConfig } from 'in-types';
-import { fromNow } from 'in-services/formatters/date';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -122,8 +123,6 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
     ['status', statusTagFilters]
   ]);
 
-  const metrics = [metricInPayload.get(selectedMetric)];
-
   return getTestResultList({
     pagination: {
       page: 1,
@@ -160,10 +159,28 @@ function ViewAll({ testId }: Props) {
 
 type Lab = {
   item: any;
+  selectedMetric: string;
 };
 
-function Label({ item }: Lab) {
-  return item.testResultCommonProperties.locationLabel;
+function Label({ item, selectedMetric }: Lab) {
+  return item.testResultCommonProperties.locationLabel + AdditionalLabel({ item, selectedMetric });
+}
+
+function AdditionalLabel({ item, selectedMetric }: Lab) {
+  let additionalLabel = '';
+  let formattedTime = '';
+  if (metricInPayload.get(selectedMetric) === 'response_time') {
+    let startTime = moment.unix(get(item, ['metrics', 'start_time', 0, 1], moment.now()) / 1000);
+    let date = get(item, ['metrics', 'start_time', 0, 1]);
+    if (startTime.diff(moment.now(), 'days') < -1) {
+      // start time is greater than 24 hours, show date time
+      formattedTime = formatDateTime(date) as string;
+    } else {
+      formattedTime = fromNow(date) as string;
+    }
+    additionalLabel = ', ' + formattedTime;
+  }
+  return additionalLabel;
 }
 
 type Met = {
