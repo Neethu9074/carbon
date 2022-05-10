@@ -172,7 +172,7 @@ function AdditionalLabel({ item, selectedMetric }: Lab) {
   if (metricInPayload.get(selectedMetric) === 'response_time') {
     let startTime = moment.unix(get(item, ['metrics', 'start_time', 0, 1], moment.now()) / 1000);
     let date = get(item, ['metrics', 'start_time', 0, 1]);
-    if (startTime.diff(moment.now(), 'days') > -1) {
+    if (startTime.diff(moment.now(), 'days') < -1) {
       // start time is greater than 24 hours, show date time
       formattedTime = formatDateTime(date) as string;
     } else {
