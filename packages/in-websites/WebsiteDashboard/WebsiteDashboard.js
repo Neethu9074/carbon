@@ -19,10 +19,10 @@ import WebsiteContextIcon from 'in-websites/WebsiteDashboard/components/WebsiteC
 import { tagFiltersInDashboardUrlParameter } from 'in-websites/navigation/urlParameters';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import WebsiteContext from 'in-websites/WebsiteDashboard/components/WebsiteContext';
+import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
 import { websiteTabs, pageTabs } from 'in-websites/WebsiteDashboard/tabs/index';
 import { dashboardTagFilters as tagFiltersTrackers } from 'in-websites/tracker';
 import QuickFilterBar from 'in-websites/analyze/AnalyzeView/QuickFilterBar';
-import CreateAlert from 'in-alerting/smart-alerts/websites/CreateAlert';
 import { tagFilterManipulators } from 'in-websites/tagFiltersHoc';
 import TabView from 'in-components/LocationAwareTabView/TabView';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
@@ -134,7 +134,7 @@ function WebsiteDashboard({
       />
       {role.canConfigureCustomAlerts && (
         <FloatingActionButtons>
-          <CreateAlert
+          <CreateSmartAlert
             websiteId={props.websiteId}
             tagFilters={tagFilters}
             websiteResult$={getWebsite({

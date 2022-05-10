@@ -934,7 +934,7 @@
         "searchCustomEventButtonLabel": "Select Custom Event",
         "customEventListInfoLabel": "Showing custom events that have been triggered in the last 7 days"
       },
-      "addAlert": "Add Alert"
+      "addSmartAlert": "Add Smart Alert"
     },
     "sortOptions": {
       "name": "Name",

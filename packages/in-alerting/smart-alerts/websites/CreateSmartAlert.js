@@ -29,7 +29,7 @@ import { t } from 'in-i18n';
 
 const implicitTagFilters = ['beacon.website.id'];
 
-export default function CreateAlert({ location, websiteId, tagFilters, timeConfig }) {
+export default function CreateSmartAlert({ location, websiteId, tagFilters, timeConfig }) {
   const errorId = getMatrixParameter(location, '/details', 'errorId');
   const customEventName = getMatrixParameter(location, '/details', 'customEventId');
 
@@ -85,7 +85,7 @@ export default function CreateAlert({ location, websiteId, tagFilters, timeConfi
         }}
         withBoxShadow
       >
-        {t('in-alerting:smartAlerts.websites.addAlert')}
+        {t('in-alerting:smartAlerts.websites.addSmartAlert')}
       </FloatingActionButton>
     </>
   );
@@ -101,7 +101,7 @@ function deriveAlertType(errorId, customEventName) {
   return 'slowness';
 }
 
-CreateAlert.propTypes = {
+CreateSmartAlert.propTypes = {
   location: propTypeLocation.isRequired,
   tagFilters: PropTypes.array.isRequired,
   websiteId: PropTypes.string.isRequired,

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import CreateAlert from 'in-alerting/smart-alerts/websites/CreateAlert';
+import CreateSmartAlert from 'in-alerting/smart-alerts/websites/CreateSmartAlert';
 
 export default {
   parameters: {
@@ -13,7 +13,7 @@ export default {
     storyshots: { disable: true },
     chromatic: { disable: true }
   },
-  component: CreateAlert
+  component: CreateSmartAlert
 };
 
-export const CreateAlertButton = () => <CreateAlert />;
+export const CreateAlertButton = () => <CreateSmartAlert />;
