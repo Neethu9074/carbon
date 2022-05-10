@@ -97,6 +97,7 @@ export default function FormComponent({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metricCatalog, typeField.value, metricField.value]);
   const metricMetadata = {
+    metric: metricField.value,
     label: metricLabelField.value,
     path: metricPathField.value,
     loading:

@@ -80,7 +80,7 @@ function Errors({ errors }) {
   );
 }
 
-function TypeAndMetricLabel({ selectMetric, path, label, loading }) {
+function TypeAndMetricLabel({ selectMetric, path, label, loading, metric }) {
   if (loading) {
     return (
       <div className={locals.loadingWrapper}>
@@ -91,14 +91,14 @@ function TypeAndMetricLabel({ selectMetric, path, label, loading }) {
       </div>
     );
   }
-  if (!label || !path || path.length == 0) {
+  if (!metric && !label && (!path || path.length == 0)) {
     return selectMetric;
   }
   return (
     <>
       {path
         .slice(1)
-        .concat([label])
+        .concat([label || metric])
         .reduce((acc, elem) => (
           <>
             {acc}
