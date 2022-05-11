@@ -6,8 +6,10 @@
 
 import React from 'react';
 
+import { WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
+
 interface AlertTypeSwitchProps {
-  alertType: string;
+  alertType: WebsitesAlertType;
   renderJsErrors?: () => React.ReactNode;
   renderSlowness?: () => React.ReactNode;
   renderStatusCode?: () => React.ReactNode;
@@ -16,13 +18,13 @@ interface AlertTypeSwitchProps {
 }
 
 export default function AlertTypeSwitch({
-                                          alertType,
-                                          renderJsErrors,
-                                          renderSlowness,
-                                          renderStatusCode,
-                                          renderThroughput,
-                                          renderCustomEvent
-                                        }: AlertTypeSwitchProps) {
+  alertType,
+  renderJsErrors,
+  renderSlowness,
+  renderStatusCode,
+  renderThroughput,
+  renderCustomEvent
+}: AlertTypeSwitchProps) {
   let render;
   if (alertType === 'specificJsError') {
     render = renderJsErrors;
