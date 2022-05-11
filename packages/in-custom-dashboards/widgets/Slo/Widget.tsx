@@ -100,14 +100,15 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
             {actions}
           </>
         }
-        title={title}
         headerClassName={locals.title}
         leftHeaderContent={
           <WidgetLeftHeader
+            title={title}
             status={unifiedStatus}
             monitoredEntityType={entityType}
             monitoredEntity={entity}
             sliConfig={sliConfiguration}
+            isPreview={isPreview}
           />
         }
       >

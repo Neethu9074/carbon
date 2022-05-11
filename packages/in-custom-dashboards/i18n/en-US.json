@@ -558,7 +558,9 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
-        "source_website": "Website"
+        "source_website": "Website",
+        "callOut_application": "Excludes factors beyond your control such as poor internet connectivity of end-users, but may not accurately reflect end-user experience",
+        "callOut_website": "Most accurately reflects end-user experience, but does not exclude factors beyond your control such as poor internet connectivity of end-users"
       },
       "sliFormatter": {
         "unit": "call",
@@ -567,6 +569,9 @@
         "unit_1": "call",
         "unit_2": "calls",
         "thousandCallsFormat": "{{count}}K calls"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "Preview data is shown up to 7 days in the past if SLI configuration was created recently. The final widget will only include data since SLI creation"
       }
     },
     "timezone": {
