@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { fromJS } from 'immutable';
 import React from 'react';
 
 import { SvgIcon } from '@instana/components';
@@ -126,12 +127,19 @@ const On = connectTo(
     }
   },
   function On({ rawEvent, entity, app20IconType }) {
-    if (!entity || (entity.progress && entity.progress.loading) || (entity.errors && entity.errors.length > 0)) {
+    if (
+      (!entity && !rawEvent.entityLabel) ||
+      (entity && entity.progress && entity.progress.loading) ||
+      (entity && entity.errors && entity.errors.length > 0)
+    ) {
       return null;
     }
 
     let label;
-    if (isAppDataEntityType(rawEvent.entityType) || isWebsiteEntityType(rawEvent.entityType)) {
+    if (!entity) {
+      label = rawEvent.entityLabel;
+      entity = fromJS({ plugin: 'host' });
+    } else if (isAppDataEntityType(rawEvent.entityType) || isWebsiteEntityType(rawEvent.entityType)) {
       label = entity.data.label;
     } else {
       label = getLabel(entity);
