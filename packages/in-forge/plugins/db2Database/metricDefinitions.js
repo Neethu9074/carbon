@@ -507,5 +507,43 @@ export default [
     labels: [t('in-forge:plugins.db2Database.logHadrWaitTime')],
     min: 0,
     formatter: millis
+  },
+  {
+    metrics: [
+      'lockstats.numberOfLocksHeld',
+      'lockstats.lockEscals',
+      'lockstats.lockTimeouts',
+      'lockstats.deadlocks',
+      'lockstats.lockWaitTime',
+      'lockstats.numberOfConnections',
+      'lockstats.activeLockWaits',
+      'lockstats.averageLockEscalsPerAct',
+      'lockstats.lockListValue'
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.numberOfLocksHeld'),
+      t('in-forge:plugins.db2Database.lockEscals'),
+      t('in-forge:plugins.db2Database.lockTimeouts'),
+      t('in-forge:plugins.db2Database.deadlocks'),
+      t('in-forge:plugins.db2Database.lockWaitTime'),
+      t('in-forge:plugins.db2Database.numberOfConnections'),
+      t('in-forge:plugins.db2Database.activeLockWaits'),
+      t('in-forge:plugins.db2Database.averageLockEscalsPerAct'),
+      t('in-forge:plugins.db2Database.lockListValue')
+    ],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: ['lockstats.lockListInUse'],
+    labels: [t('in-forge:plugins.db2Database.lockListInUse')],
+    min: 0,
+    formatter: bytes
+  },
+  {
+    metrics: ['lockstats.lockWaitTime'],
+    labels: [t('in-forge:plugins.db2Database.lockWaitTime')],
+    min: 0,
+    formatter: millis
   }
 ];
