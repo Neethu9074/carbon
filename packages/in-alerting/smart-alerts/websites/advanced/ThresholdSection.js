@@ -6,12 +6,7 @@
 import React from 'react';
 
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/HistoricBaselineErrorMessage';
-import CustomEventsInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/CustomEventsInteractiveChart';
-import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/StatusCodeInteractiveChart';
-import ThroughputInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/ThroughputInteractiveChart';
-import JsErrorsInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/JsErrorsInteractiveChart';
-import SlownessInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/SlownessInteractiveChart';
-import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
+import ThresholdSelectionInteractiveChart from 'in-alerting/smart-alerts/websites/advanced/ThresholdSelectionInteractiveChart';
 import { HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export function ThresholdSection(props) {
@@ -23,7 +18,6 @@ export function ThresholdSection(props) {
     onChartViewConfigChange,
     selectedChartViewConfigIndex,
     thresholdResult,
-    timeConfig,
     updateForm
   } = props;
 
@@ -31,58 +25,14 @@ export function ThresholdSection(props) {
 
   return (
     <>
-      <AlertTypeSwitch
-        form={form}
-        timeConfig={timeConfig}
-        updateForm={updateForm}
+      <ThresholdSelectionInteractiveChart
         alertType={alertType}
-        renderJsErrors={() => (
-          <JsErrorsInteractiveChart
-            blueprintConfig={blueprintConfig}
-            form={form}
-            updateForm={updateForm}
-            onChartViewConfigChange={onChartViewConfigChange}
-            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-          />
-        )}
-        renderSlowness={() => (
-          <SlownessInteractiveChart
-            blueprintConfig={blueprintConfig}
-            form={form}
-            updateForm={updateForm}
-            onChartViewConfigChange={onChartViewConfigChange}
-            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-            editMode={editMode}
-          />
-        )}
-        renderStatusCode={() => (
-          <StatusCodeInteractiveChart
-            blueprintConfig={blueprintConfig}
-            form={form}
-            updateForm={updateForm}
-            onChartViewConfigChange={onChartViewConfigChange}
-            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-          />
-        )}
-        renderThroughput={() => (
-          <ThroughputInteractiveChart
-            blueprintConfig={blueprintConfig}
-            form={form}
-            updateForm={updateForm}
-            onChartViewConfigChange={onChartViewConfigChange}
-            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-            editMode={editMode}
-          />
-        )}
-        renderCustomEvent={() => (
-          <CustomEventsInteractiveChart
-            blueprintConfig={blueprintConfig}
-            form={form}
-            updateForm={updateForm}
-            onChartViewConfigChange={onChartViewConfigChange}
-            selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-          />
-        )}
+        blueprintConfig={blueprintConfig}
+        form={form}
+        updateForm={updateForm}
+        onChartViewConfigChange={onChartViewConfigChange}
+        selectedChartViewConfigIndex={selectedChartViewConfigIndex}
+        editMode={editMode}
       />
       {thresholdType === HISTORIC_BASELINE && <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />}
     </>
