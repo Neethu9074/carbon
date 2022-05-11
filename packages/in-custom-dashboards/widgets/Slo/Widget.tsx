@@ -66,7 +66,6 @@ export default function Widget({ actions, config, isPreview, title, dragHandle }
 
   const [sliConfiguration, sliConfigurationStatus, , sliConfigurationProgress] = useSliConfigWithPreview(
     sliConfigId,
-    timeConfig,
     isPreview
   );
 
