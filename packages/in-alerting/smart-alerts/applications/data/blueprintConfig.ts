@@ -73,7 +73,7 @@ interface Option<VALUE_TYPE> {
 
 type ThresholdTypeOptions = readonly Option<string>[]; // LATER replace with Option<ThresholdTypeOptions>[];
 
-interface BluePrint extends BluePrintBase {
+export interface BluePrint extends BluePrintBase {
   readonly type: ApplicationAlertType;
   readonly name: string;
   readonly headline: string;

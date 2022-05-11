@@ -9,8 +9,8 @@ import React from 'react';
 import { Stack, Spacer } from '@instana/components';
 
 import {
-  getAvailableOptionsForEvaluationType,
-  optionsValidForThresholdTyp
+  filterThresholdTypeOptionsForEvaluationType,
+  getOptionsFilterForThresholdTyp
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import ShowStaticThresholdLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowStaticThresholdLabelOrDropdown';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
@@ -34,9 +34,11 @@ export default function ThresholdTypeSelection({
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const evaluationType = form.get('evaluationType').value;
-  const options = getAvailableOptionsForEvaluationType(thresholdTypeOptions, evaluationType, isGlobalSmartAlert).filter(
-    optionsValidForThresholdTyp(thresholdType)
-  );
+  const options = filterThresholdTypeOptionsForEvaluationType(
+    thresholdTypeOptions,
+    evaluationType,
+    isGlobalSmartAlert
+  ).filter(getOptionsFilterForThresholdTyp(thresholdType));
 
   return (
     <ShowStaticThresholdLabelOrDropdown evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert}>
