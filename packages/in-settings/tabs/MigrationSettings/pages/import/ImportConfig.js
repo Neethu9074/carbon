@@ -113,14 +113,20 @@ export default function ImportConfig() {
           );
         }}
         loadedConfigs={loadedConfigs}
-        callBackUpdateSelectedConfigs={(configType, selectedConfigs) => {
+        callBackUpdateSelectedConfigs={(configType, selectedConfigs, setCanSaveItem) => {
+          let canSave = false;
           let updatedLoadedConfigs = [];
           loadedConfigs.forEach(config => {
             if (config.type === configType) {
               updatedLoadedConfigs.push({ ...config, selected: selectedConfigs, shadowSelected: selectedConfigs });
-            } else updatedLoadedConfigs.push(config);
+              if (!canSave && selectedConfigs.length > 0) canSave = true;
+            } else {
+              updatedLoadedConfigs.push(config);
+              if (!canSave && config.selected.length > 0) canSave = true;
+            }
           });
           setLoadedConfigs(updatedLoadedConfigs);
+          setCanSaveItem(canSave);
         }}
         callBackUpdateFilteredConfigs={(filtered, configType) => {
           let updatedLoadedConfigs = [];
@@ -245,7 +251,7 @@ function getConfigList(
                               if (childExistIndex > -1 && !e.target.checked) {
                                 configsSelected.splice(childExistIndex, 1);
                               } else configsSelected.push(child.id);
-                              callBackUpdateSelectedConfigs(config.type, configsSelected);
+                              callBackUpdateSelectedConfigs(config.type, configsSelected, setCanSaveItem);
                               setForm(
                                 form.updateIn([config.type], f =>
                                   f.setValue(configsSelected.length > 0).setTouched(true)
@@ -286,7 +292,7 @@ function getConfigList(
                     setCanSaveItem(e.target.checked);
                     let defaultAllSelected = [];
                     config.configs.forEach(config => defaultAllSelected.push(config.id));
-                    callBackUpdateSelectedConfigs(config.type, defaultAllSelected);
+                    callBackUpdateSelectedConfigs(config.type, defaultAllSelected, setCanSaveItem);
                   } else {
                     // need to check that at least one other configuration type is selected to enable Save button
                     let selectedIds = getSelectedConfigIds(form.items);
@@ -294,7 +300,7 @@ function getConfigList(
                       setCanSaveItem(true);
                     else setCanSaveItem(false);
                     // clear all child selected configs
-                    callBackUpdateSelectedConfigs(config.type, []);
+                    callBackUpdateSelectedConfigs(config.type, [], setCanSaveItem);
                   }
                 }}
                 size="larger"
