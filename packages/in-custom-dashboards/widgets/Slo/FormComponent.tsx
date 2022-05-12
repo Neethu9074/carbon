@@ -31,6 +31,7 @@ import {
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
+import FormComponentHeader from 'in-custom-dashboards/widgets/Slo/components/FormComponentHeader';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList';
@@ -48,7 +49,6 @@ import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
 import { Nullish, SliEntitySliType } from 'in-types';
-import Header from 'in-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
 import { Trans, t } from 'in-i18n';
 
@@ -136,9 +136,11 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     trackAPSelected({ applicationId: id });
   }
 
+  const isWebsiteEntityType = entityTypeValue === 'website';
+
   return (
     <Stack gap="normal">
-      <Header>{t('in-custom-dashboards:widgets.slo.formComponent.sloConfig')}</Header>
+      <FormComponentHeader showFeedbackButton={isWebsiteEntityType} />
 
       <Stack gap="xsmall">
         {websiteSloEnabled && (
@@ -161,7 +163,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         {entityTypeValue === 'application' && (
           <ApplicationSelector apIdField={entityIdField} onChange={onUpdateAppId} />
         )}
-        {entityTypeValue === 'website' && (
+        {isWebsiteEntityType && (
           <WebsiteSelector
             websiteIdField={entityIdField}
             onChange={id =>
