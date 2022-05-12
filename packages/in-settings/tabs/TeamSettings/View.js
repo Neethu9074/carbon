@@ -37,7 +37,10 @@ import {
   teamSettingsLogManagementHumio,
   teamSettingsLogManagementLogDna,
   teamSettingsLogManagementSplunk,
-  teamSettingsAlertingHub
+  teamSettingsAlertingHub,
+  teamSettingsAutomations,
+  teamSettingsActionCatalog,
+  teamSettingsActionSources
 } from 'in-settings/navigation/paths';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
@@ -46,6 +49,7 @@ import GlobalCustomPayloadPage from 'in-settings/tabs/TeamSettings/pages/eventsA
 import StickySidebarNavigationAndContent from 'in-components/layout/SideNavigationAndContent/StickySidebarNavigationAndContent';
 import AlertChannelsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannels';
 import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/AlertChannels/AlertChannel';
+import ActionCatalogPage from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionCatalog';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
@@ -237,6 +241,30 @@ function navigationTreeForRole(role) {
       pages: eventsAndAlertsPages
     });
   }
+
+  // if (role.canConfigureAutomation) {
+  // if (true) {
+  navigationTree.push({
+    title: t('in-settings:tabs.automation'),
+    pages: [
+      {
+        path: teamSettingsAutomations,
+        label: t('in-settings:tabs.automations'),
+        component: () => 'automations'
+      },
+      {
+        path: teamSettingsActionCatalog,
+        label: t('in-settings:tabs.actionCatalog'),
+        component: ActionCatalogPage
+      },
+      {
+        path: teamSettingsActionSources,
+        label: t('in-settings:tabs.actionSources'),
+        component: () => 'actionSources'
+      }
+    ]
+  });
+  // }
 
   if (role.canConfigureLogManagement) {
     navigationTree.push({
