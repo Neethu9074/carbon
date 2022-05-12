@@ -51,6 +51,7 @@ export default function AdvancedModeContainer(props) {
   const thresholdType = form.get('threshold').get('type').value;
   const blueprintConfig = getBlueprintConfig(alertType);
   const isSpecificJsErrorBlueprint = blueprintConfig.type === 'specificJsError';
+  const isCustomEvent = blueprintConfig.type === 'customEvent';
 
   return (
     <AdvancedModeStepsContainer
@@ -58,9 +59,12 @@ export default function AdvancedModeContainer(props) {
       navItems={[
         {
           scrollId: '1',
-          valid:
-            !isSpecificJsErrorBlueprint ||
-            !(ruleForm?.get('value')?.valid === false && ruleForm?.get('value')?.touched),
+          valid: !(
+            (isCustomEvent &&
+              ruleForm?.get('customEventName')?.valid === false &&
+              ruleForm?.get('customEventName')?.touched) ||
+            (isSpecificJsErrorBlueprint && ruleForm?.get('value')?.valid === false && ruleForm?.get('value')?.touched)
+          ),
           label: t('in-alerting:smartAlerts.websites.advanced.triggerLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.triggerTitle'),
           content: (
