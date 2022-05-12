@@ -3,8 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import { Link } from '@instana/components';
 
@@ -13,11 +12,17 @@ import { t } from 'in-i18n';
 
 import locals from './FeatureFeedback.mless';
 
+interface FeatureFeedbackProps {
+  href: string;
+  labelText?: string;
+  styles?: CSSProperties;
+}
+
 export default function FeatureFeedback({
   href,
   labelText = t('in-components:featureFeedback.labelBETA'),
   styles = {}
-}) {
+}: FeatureFeedbackProps) {
   return (
     <div className={locals.betaMarker} style={styles}>
       <Pill kind="primary" className={locals.betaPill}>
@@ -29,9 +34,3 @@ export default function FeatureFeedback({
     </div>
   );
 }
-
-FeatureFeedback.propTypes = {
-  href: PropTypes.string.isRequired,
-  labelText: PropTypes.string,
-  styles: PropTypes.object
-};
