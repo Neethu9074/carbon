@@ -50,12 +50,13 @@ export default function ResponseTime({ test, timeShiftConfig }: Props) {
 
 function renderChart(test: TestResponse, timeShiftConfig: TimeShift) {
   const locations: string[] = get(test, ['data', 'locations']);
+  const locationLabels: string[] = get(test, ['data', 'locationLabels']);
   const id = get(test, ['data', 'id']);
   let tagFilters = [];
   let testMetricConfigs: Metric[] = [];
   var locationLabel: string;
   for (let i = 0; i < locations.length; i++) {
-    locationLabel = `${locations[i].split('_', 1)}`;
+    locationLabel = `${locationLabels[i]}`;
     tagFilters = [
       {
         stringValue: id,

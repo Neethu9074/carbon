@@ -23,21 +23,17 @@ import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { latency } from 'in-services/formatters/number';
-import { Order, TagFilter, TimeConfig } from 'in-types';
+import { TagFilter, TimeConfig } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 const metrics = ['response_time', 'start_time', 'status'];
-const metricInPayload = new Map<string, string>([
-  ['response_time', 'response_time'],
-  ['start_time', 'start_time'],
-  ['status', 'start_time']
-]);
-const orders = new Map<string, Order>([
-  ['response_time', { by: 'response_time', direction: 'DESC' }],
-  ['start_time', { by: 'start_time', direction: 'DESC' }],
-  ['status', { by: 'start_time', direction: 'DESC' }]
-]);
+
+const orders = [
+  { by: 'response_time', direction: 'DESC' },
+  { by: 'start_time', direction: 'DESC' },
+  { by: 'start_time', direction: 'DESC' }
+];
 
 const labels = [
   t('in-synthetics:dashboard.summary.widgets.slowest'),
@@ -109,7 +105,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
       type: 'TAG_FILTER'
     },
     {
-      stringValue: '0',
+      numberValue: 0,
       name: 'status',
       operator: EQUALS,
       entity: NOT_APPLICABLE,
@@ -117,11 +113,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
     }
   ];
 
-  let tagFilters = new Map<string, TagFilter[]>([
-    ['response_time', baseTagFilters],
-    ['start_time', baseTagFilters],
-    ['status', statusTagFilters]
-  ]);
+  let tagFilters = [baseTagFilters, baseTagFilters, statusTagFilters];
 
   return getTestResultList({
     pagination: {
@@ -129,7 +121,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
       pageSize: 5
     },
     // @ts-ignore
-    order: orders.get(selectedMetric),
+    order: orders[metrics.indexOf(selectedMetric)],
     // @ts-ignore
     syntheticMetrics: metrics,
     filter: {
@@ -139,7 +131,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
       useLongTermDataOnly: false
     },
     // @ts-ignore
-    tagFilters: tagFilters.get(selectedMetric)
+    tagFilters: tagFilters[metrics.indexOf(selectedMetric)]
   });
 }
 
@@ -169,7 +161,7 @@ function Label({ item, selectedMetric }: Lab) {
 function AdditionalLabel({ item, selectedMetric }: Lab) {
   let additionalLabel = '';
   let formattedTime = '';
-  if (metricInPayload.get(selectedMetric) === 'response_time') {
+  if (selectedMetric === 'response_time') {
     let startTime = moment.unix(get(item, ['metrics', 'start_time', 0, 1], moment.now()) / 1000);
     let date = get(item, ['metrics', 'start_time', 0, 1]);
     if (startTime.diff(moment.now(), 'days') < -1) {
@@ -185,8 +177,10 @@ function AdditionalLabel({ item, selectedMetric }: Lab) {
 
 type Met = {
   formattedMetricValue: any;
+  item: any;
+  selectedMetric: string;
 };
 
-function Metric({ formattedMetricValue }: Met) {
-  return formattedMetricValue;
+function Metric({ formattedMetricValue, item, selectedMetric }: Met) {
+  return selectedMetric !== 'status' ? formattedMetricValue : fromNow(get(item, ['metrics', 'start_time', 0, 1]));
 }
