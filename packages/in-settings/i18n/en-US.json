@@ -482,7 +482,7 @@
     "migrationExport": "Export",
     "configExport": "Export Configuration",
     "downloadTheConfigurationData": "Download configuration data to replicate current settings in another Instana instance.",
-    "configExportHelp": "Select the configurations to export:",
+    "configExportHelp": "The following configurations are exported:",
     "exportingConfig": "Exporting configuration data",
     "configSuccessfullyExported": "Configuration data successfully exported",
     "failedToExportConfig": "Failed to export configuration data: {{err}}",
