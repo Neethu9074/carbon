@@ -187,7 +187,7 @@ type Met = {
 function Metric({ formattedMetricValue, item, selectedMetric }: Met) {
   let status = get(item, ['metrics', 'status', 0, 1], 0);
   if (selectedMetric !== 'status') {
-    if (status === 1) {
+    if (status !== 1) {
       return formattedMetricValue;
     } else {
       return (
