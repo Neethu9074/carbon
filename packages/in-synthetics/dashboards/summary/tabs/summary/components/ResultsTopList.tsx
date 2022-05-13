@@ -3,11 +3,12 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+import React, { Fragment } from 'react';
 import { get } from 'lodash';
 import moment from 'moment';
-import React from 'react';
 
 import { formatDateTime, fromNow } from '@instana/format-date';
+import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 //import { TestResponse } from 'in-synthetics/utils/constants';
@@ -26,6 +27,8 @@ import { latency } from 'in-services/formatters/number';
 import { TagFilter, TimeConfig } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
+
+import locals from './ResultsTopList.mless';
 
 const metrics = ['response_time', 'start_time', 'status'];
 
@@ -182,5 +185,19 @@ type Met = {
 };
 
 function Metric({ formattedMetricValue, item, selectedMetric }: Met) {
-  return selectedMetric !== 'status' ? formattedMetricValue : fromNow(get(item, ['metrics', 'start_time', 0, 1]));
+  let status = get(item, ['metrics', 'status', 0, 1], 0);
+  if (selectedMetric !== 'status') {
+    if (status === 1) {
+      return formattedMetricValue;
+    } else {
+      return (
+        <Fragment>
+          <SvgIcon className={locals.alertIcon} size="xs" type="lib_help_error_warning" />
+          {formattedMetricValue}
+        </Fragment>
+      );
+    }
+  } else {
+    return fromNow(get(item, ['metrics', 'start_time', 0, 1]));
+  }
 }

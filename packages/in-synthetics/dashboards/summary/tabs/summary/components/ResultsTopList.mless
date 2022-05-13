@@ -1,0 +1,14 @@
+/*
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc.
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .alertIcon {
+    margin-right: 0.25rem;
+    margin-bottom: -0.25rem;
+    fill: #ff4229;
+  }
+}
