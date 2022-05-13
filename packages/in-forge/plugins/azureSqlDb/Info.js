@@ -33,8 +33,9 @@ export default function Info({ snapshot }) {
           {data.get('zoneRedundant') ? 'Yes' : 'No'}
         </DescriptionItem>
         <DescriptionItem title={t('in-forge:plugins.azureSqlDb.infoSKU')}>{data.get('sku')}</DescriptionItem>
-        <TagList snapshot={snapshot} />
       </DescriptionList>
+
+      <TagList snapshot={snapshot} />
     </div>
   );
 }
