@@ -122,7 +122,9 @@ export default function ImportConfig() {
               if (!canSave && selectedConfigs.length > 0) canSave = true;
             } else {
               updatedLoadedConfigs.push(config);
-              if (!canSave && config.selected.length > 0) canSave = true;
+              if (!canSave && config.selected.length > 0) {
+                canSave = true;
+              }
             }
           });
           setLoadedConfigs(updatedLoadedConfigs);
