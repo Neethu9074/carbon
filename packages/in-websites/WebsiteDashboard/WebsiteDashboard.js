@@ -108,6 +108,9 @@ function WebsiteDashboard({
 
   const tagFilters = (props.tagFilters = customTagFilters.concat(implicitTagFilters));
 
+  const showAlertButton =
+    role.canConfigureCustomAlerts && !location.pathname.includes('/websiteMonitoring/website/configuration');
+
   return (
     <>
       <ViewTrackingMeta
@@ -132,7 +135,7 @@ function WebsiteDashboard({
           websiteLabel: get(result, ['data', 'label'])
         })}
       />
-      {role.canConfigureCustomAlerts && (
+      {showAlertButton && (
         <FloatingActionButtons>
           <CreateSmartAlert
             websiteId={props.websiteId}
