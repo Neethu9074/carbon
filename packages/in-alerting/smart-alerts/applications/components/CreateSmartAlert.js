@@ -29,10 +29,6 @@ export default function CreateSmartAlert({
   endpointId,
   location
 }) {
-  if (location.pathname.includes('/application/configuration')) {
-    return null;
-  }
-
   if (isBlank(applicationId)) {
     return null;
   }

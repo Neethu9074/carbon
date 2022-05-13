@@ -86,6 +86,8 @@ export default function ServiceDashboard({ location }) {
     props.syntheticCalls = syntheticCalls || syntheticCallsOptions.default;
   }
 
+  const showAlertButton = role.canConfigureCustomAlerts && applicationSmartAlertsEnabled;
+
   return (
     <>
       <ViewTrackingMeta
@@ -111,7 +113,7 @@ export default function ServiceDashboard({ location }) {
         props={props}
       />
 
-      {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
+      {showAlertButton && (
         <FloatingActionButtons>
           <CreateSmartAlert
             serviceId={props.serviceId}

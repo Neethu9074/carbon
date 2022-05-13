@@ -44,11 +44,6 @@ export default function CreateSmartAlert({ location, websiteId, tagFilters, time
 
   const websiteError = useWebsiteError(websiteId, errorId, timeConfig);
 
-  if (location.pathname.includes('/websiteMonitoring/website/configuration')) {
-    // generally do not show this button in the configurations section
-    return null;
-  }
-
   if (!tagCatalog || websiteStatus !== 'resolved') {
     return null;
   }
