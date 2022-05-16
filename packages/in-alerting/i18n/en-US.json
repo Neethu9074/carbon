@@ -929,6 +929,8 @@
         "searchCustomEvents": "Filter Events",
         "customEventSelectionSliderTitle": "Choose Custom Event",
         "customEventNameColumnLabel": "Event Name",
+        "customEventOccurrencesColumnLabel": "Occurrences",
+        "customEventUsersColumnLabel": "Users",
         "customEventLabel": "Custom Event",
         "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
         "searchCustomEventButtonLabel": "Select Custom Event",
