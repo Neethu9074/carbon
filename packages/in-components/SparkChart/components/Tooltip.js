@@ -69,7 +69,6 @@ export default class Tooltip extends React.Component {
         </div>
 
         <div
-          style={{ width: this.xScale.getRangeTo() - this.xScale.getRangeFrom() }}
           className={locals.glassPane}
           ref={glassPane => {
             this.glassPane = glassPane;
