@@ -1,5 +1,132 @@
 /*
- * IBM Confidential
- * PID 5737-N85, 5900-AG5
- * Copyright IBM Corp. 2022
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
  */
+
+import React from 'react';
+
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
+import DescriptionText from 'in-components/form/DescriptionText';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
+import SectionLine from 'in-settings/components/SectionLine';
+import SaveCancel from 'in-settings/components/SaveCancel';
+import FormGroup from 'in-settings/components/FormGroup';
+import Table from 'in-sdk/components/dashboard/Table';
+import { compare } from 'in-services/util/string';
+import { getAction } from 'in-api/automation';
+import Label from 'in-components/form/Label';
+import connectTo from 'in-hoc/connectTo';
+import Title from 'in-components/Title';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
+
+import locals from './Action.mless';
+
+const paramCols = [
+  stringColumn(t('in-settings:tabs.name'), 'name'),
+  stringColumn(t('in-settings:tabs.description'), 'description', 120),
+  stringColumn(t('in-settings:tabs.encoding'), 'encoding'),
+  formattedColumn(t('in-settings:tabs.value'), 'value')
+];
+
+export default connectTo(
+  props => ({
+    action: getAction(props.match.params.id)
+  }),
+  function Action({ action }) {
+    if (!action) {
+      return <LoadingIndicator />;
+    }
+
+    if (action && action.errors) {
+      return (
+        <SettingsDetailPage>
+          <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
+            {t('in-settings:tabs.unknownAction')}
+          </SubViewHeader>
+          <SectionLine />
+          <DescriptionText>
+            {action.errors[0]}
+            <br />
+            {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
+          </DescriptionText>
+        </SettingsDetailPage>
+      );
+    }
+
+    const paramRows = action.fields.map(field => ({
+      ...field,
+      key: field.name
+    }));
+
+    return (
+      <SettingsDetailPage>
+        <Title title={t('in-settings:tabs.actionDetails')} />
+        <SubViewHeader>
+          {t('in-settings:tabs.action')}: {action.name}
+        </SubViewHeader>
+        <SectionLine />
+
+        <FormGroup>
+          <Label>{t('in-settings:tabs.actionType')}</Label>
+          <div className={locals.flexWrapper}>{action.type}</div>
+        </FormGroup>
+        <FormGroup>
+          <Label>{t('in-settings:tabs.name')}</Label>
+          {action.name}
+        </FormGroup>
+        <FormGroup>
+          <Label>{t('in-settings:tabs.description')}</Label>
+          {action.description}
+        </FormGroup>
+        <FormGroup moreMargin>
+          <Label>{t('in-settings:tabs.fields')}</Label>
+          <Table cols={paramCols} rows={paramRows} />
+        </FormGroup>
+        <SaveCancel
+          message=""
+          loading={!action}
+          isCreate={false}
+          listPath={teamSettingsActionCatalog}
+          cancelButtonLabel={t('in-settings:tabs.back')}
+          hasSaveButton={false}
+        />
+      </SettingsDetailPage>
+    );
+  }
+);
+
+function stringColumn(title, attr, width = 80) {
+  return {
+    title,
+    type: 'string',
+    width,
+    typeArgs: {
+      getValue(row) {
+        return row[attr];
+      }
+    }
+  };
+}
+
+function formattedColumn(title, attr) {
+  return {
+    title,
+    type: 'link',
+    width: 50,
+    typeArgs: {
+      comparator: compare,
+      get(row) {
+        const value = row[attr];
+        return {
+          value,
+          external: true,
+          href: value,
+          label: value
+        };
+      }
+    }
+  };
+}

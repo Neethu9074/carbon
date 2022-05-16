@@ -40,6 +40,7 @@ import {
   teamSettingsAlertingHub,
   teamSettingsAutomations,
   teamSettingsActionCatalog,
+  teamSettingsActionDetails,
   teamSettingsActionSources
 } from 'in-settings/navigation/paths';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
@@ -52,6 +53,7 @@ import AlertChannelPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlert
 import ActionCatalogPage from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionCatalog';
 import BuiltInEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/BuiltInEvent';
 import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/CustomEvent';
+import ActionDetailsPage from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
@@ -255,7 +257,13 @@ function navigationTreeForRole(role) {
       {
         path: teamSettingsActionCatalog,
         label: t('in-settings:tabs.actionCatalog'),
-        component: ActionCatalogPage
+        component: ActionCatalogPage,
+        subPages: [
+          {
+            path: teamSettingsActionDetails,
+            component: ActionDetailsPage
+          }
+        ]
       },
       {
         path: teamSettingsActionSources,

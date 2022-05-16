@@ -12,3 +12,12 @@ export function getAllActions() {
     url: '/api/automation/settings/actions'
   }).map(response => response.body);
 }
+
+export function getAction(actionId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/automation/settings/actions/${encodeURIComponent(actionId)}`,
+    treat400AsError: false
+  }).map(response => response.body);
+}

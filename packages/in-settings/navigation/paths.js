@@ -83,6 +83,7 @@ export const teamSettingsAlertingHub = `${alerting}/hub`;
 export const automation = `${teamSettings}/automation`;
 export const teamSettingsAutomations = `${automation}/automations`;
 export const teamSettingsActionCatalog = `${automation}/actionCatalog`;
+export const teamSettingsActionDetails = `${automation}/actionCatalog/:id`;
 export const teamSettingsActionSources = `${automation}/actionSources`;
 
 // legacy knowledge management paths (prior to unification of alerting configuration in 2019-02)

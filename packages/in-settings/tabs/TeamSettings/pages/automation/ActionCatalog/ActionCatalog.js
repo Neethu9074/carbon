@@ -5,6 +5,9 @@
 
 import React from 'react';
 
+import { Link } from '@instana/components';
+
+import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { getAllActions } from 'in-api/automation';
 import { t } from 'in-i18n';
@@ -16,7 +19,7 @@ const columnDefinitions = [
     label: t('in-automation:action:name'),
     id: 'name',
     getContent(row) {
-      return row.name;
+      return <Link href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>{row.name}</Link>;
     }
   },
   {
@@ -52,6 +55,13 @@ const columnDefinitions = [
     id: 'lastModified',
     getContent(row) {
       return new Date(row._modifiedAt).toLocaleString();
+    }
+  },
+  {
+    label: t('in-automation:action:tags'),
+    id: 'tags',
+    getContent() {
+      return '';
     }
   }
 ];

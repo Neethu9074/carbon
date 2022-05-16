@@ -636,6 +636,7 @@
     "configureCustomPayload": "Configure Custom Payload",
     "youAreNotPermittedToEditCustomPayloads": "You are not permitted to edit custom payloads.",
     "unknownEvent": "Unknown Event",
+    "unknownAction": "Unknown Action",
     "builtInEventDefinition": "Built-in Event Definition",
     "entityType": "Entity type",
     "eventInputs": "Event inputs",
@@ -824,7 +825,12 @@
     "actionCatalog": "Action Catalog",
     "actionSources": "Action Sources",
     "actions": "Actions",
-    "filterActions": "Filter Actions"
+    "action": "Action",
+    "actionType": "Action Type",
+    "actionDetails": "Action Details",
+    "filterActions": "Filter Actions",
+    "encoding": "Encoding",
+    "fields": "Fields"
   },
   "languageSelection": {
     "language": "Language",

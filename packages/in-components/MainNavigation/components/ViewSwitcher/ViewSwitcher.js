@@ -40,6 +40,8 @@ import {
   getLinkToAnalyze as getLinkToApplicationsAnalyze,
   isApplicationsView
 } from 'in-applications/navigation/paths';
+// import { getLinkToAutomation } from 'in-automation/navigation/paths';
+import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
@@ -60,9 +62,7 @@ import View from 'in-components/MainNavigation/components/ViewSwitcher/View';
 import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { phmcListFullyQualified, ibmp } from 'in-phmc/navigation/paths';
 import { zhmcListFullyQualified, ibmz } from 'in-zhmc/navigation/paths';
-import { getLinkToAutomation } from 'in-automation/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
-import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';
@@ -122,7 +122,7 @@ export default function ViewSwitcher({
       <SpacerListItem />
       <Analyze {...commonProps} />
       <Incidents {...commonProps} />
-      <Automation {...commonProps} />
+      {/* <Automation {...commonProps} /> */}
       <SpacerListItem />
       <View
         id="main-nav-settings"
@@ -525,21 +525,21 @@ function SpacerListItem() {
   );
 }
 
-function Automation(props) {
-  return (
-    <View
-      id="main-nav-automation"
-      label={t('in-components:mainNavigation.viewSwitcherLabelAutomation')}
-      icon="lib_automation_inverted"
-      isActive$={any(
-        isView(isAnalyzeView),
-        isWebsiteAnalyzeView,
-        isMobileAppAnalyzeView,
-        isProfileAnalyzeView,
-        isLogsAnalyzeView
-      )}
-      href$={getLinkToAutomation()}
-      {...props}
-    />
-  );
-}
+// function Automation(props) {
+//   return (
+//     <View
+//       id="main-nav-automation"
+//       label={t('in-components:mainNavigation.viewSwitcherLabelAutomation')}
+//       icon="lib_automation_inverted"
+//       isActive$={any(
+//         isView(isAnalyzeView),
+//         isWebsiteAnalyzeView,
+//         isMobileAppAnalyzeView,
+//         isProfileAnalyzeView,
+//         isLogsAnalyzeView
+//       )}
+//       href$={getLinkToAutomation()}
+//       {...props}
+//     />
+//   );
+// }

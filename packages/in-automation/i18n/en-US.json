@@ -9,6 +9,7 @@
     "type": "Type",
     "invocations": "Invocations",
     "successRate": "Success Rate",
-    "lastModified": "Last Modified"
+    "lastModified": "Last Modified",
+    "tags": "Tags"
   }
 }
