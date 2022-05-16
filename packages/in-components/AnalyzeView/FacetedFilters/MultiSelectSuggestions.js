@@ -27,12 +27,18 @@ export function MultiSelectSuggestions({
   addToSelection,
   customLabelMapper,
   tracker,
-  errorHandler = SuggestionErrorHandler
+  defaultValues
 }) {
   if (loading) {
     return <Loading numberOfRows={numberOfPresentedRows} loadingSkeletonClass={locals.multiselectPlaceholder} />;
   } else if (errors?.length > 0) {
-    return errorHandler.apply(null, arguments);
+    if (defaultValues?.length > 0) {
+      return defaultValues.map(defaultValue => {
+        return <CheckableSuggestion label={defaultValue} count={null} onChange={() => {}} />;
+      });
+    } else {
+      return <Errors errors={errors} setNumberOfPresentedRows={setNumberOfPresentedRows} />;
+    }
   } else if (!suggestions) {
     return null;
   } else if (suggestions?.length > 0) {
@@ -98,8 +104,4 @@ function Suggestions({
       />
     );
   });
-}
-
-export default function SuggestionErrorHandler(props) {
-  return <Errors errors={props.errors} setNumberOfPresentedRows={props.setNumberOfPresentedRows} />;
 }
