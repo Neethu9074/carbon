@@ -11543,12 +11543,6 @@
       "titleTaskNumber": "CICS Task Number",
       "titleRegion": "CICS Region"
     },
-    "mq": {
-      "titleMqAttributes": "MQ Attributes",
-      "operation" : "Operation",
-      "manager" : "Manager",
-      "queue" : "Queue"
-    },
     "corba": {
       "titleMethod": "Method",
       "titleORB": "ORB"
