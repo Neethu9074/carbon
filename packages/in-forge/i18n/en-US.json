@@ -249,6 +249,11 @@
   "pluginName_bizTalk_1": "BizTalk Hosts",
   "pluginName_bizTalk_2": "BizTalk Hosts",
   "pluginName_bizTalk": "BizTalk Host",
+  "pluginName_camunda_plural": "Camunda",
+  "pluginName_camunda_0": "Camunda",
+  "pluginName_camunda_1": "Camunda",
+  "pluginName_camunda_2": "Camunda",
+  "pluginName_camunda": "Camunda",
   "pluginName_cassandraCluster_plural": "Cassandra Clusters",
   "pluginName_cassandraCluster_0": "Cassandra Clusters",
   "pluginName_cassandraCluster_1": "Cassandra Clusters",
@@ -11502,9 +11507,11 @@
       "titleSize": "Size"
     },
     "camunda": {
-      "titleProcessId": "Root Process ID",
-      "titleProcessName": "Root Process Name",
-      "titleProcessDesc": "Root Process Description",
+      "titleBusinessKey": "Business Key",
+      "titleCaseIntanceId": "Case Instance ID",
+      "titleRootProcessUUID": "Root Process UUID",
+      "titleProcessId": "Process ID",
+      "titleProcessName": "Process Name",
       "titleActivityId": "Activity ID",
       "titleActivityName": "Activity Name",
       "titleActivityDesc": "Activity Description"
