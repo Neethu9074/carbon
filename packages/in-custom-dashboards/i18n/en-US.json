@@ -574,6 +574,10 @@
         "previewDataInfo": "Preview data is shown up to 7 days in the past if SLI configuration was created recently. The final widget will only include data since SLI creation"
       }
     },
+    "apdex": {
+      "apdex": "Apdex: Chart",
+      "formComponent": { "apdexConfig": "Apdex: Chart" }
+    },
     "timezone": {
       "demo": {
         "title": "Team Availability",

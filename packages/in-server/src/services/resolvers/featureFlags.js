@@ -263,5 +263,10 @@ module.exports = exports = [
     uiClientKey: 'baselinePreviewOnAlertPageEnabled',
     instanaCtlKey: 'feature.baseline.preview.on.alert.page.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'apdexWidgetEnabled',
+    instanaCtlKey: 'feature.apdex.enabled',
+    defaultValue: false
   }
 ];
