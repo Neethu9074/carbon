@@ -11508,7 +11508,7 @@
     },
     "camunda": {
       "titleBusinessKey": "Business Key",
-      "titleCaseIntanceId": "Case Instance Id",
+      "titleCaseIntanceId": "Case Instance ID",
       "titleRootProcessUUID": "Root Process UUID",
       "titleProcessId": "Process ID",
       "titleProcessName": "Process Name",
