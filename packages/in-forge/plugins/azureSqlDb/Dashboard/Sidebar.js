@@ -6,7 +6,8 @@
 import React from 'react';
 
 import Collapsible from 'in-sdk/components/sidebar/Collapsible';
-import { t } from '../../../../in-i18n';
+import TagList from 'in-sdk/components/sidebar/TagList';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function AzureSqlDbSidebarDetails({ snapshot }) {
@@ -18,6 +19,8 @@ export default function AzureSqlDbSidebarDetails({ snapshot }) {
           <Info snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
+
+      <TagList snapshot={snapshot} />
     </div>
   );
 }
