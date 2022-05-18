@@ -63,7 +63,7 @@ interface WidgetContentProps {
   granularity: number;
   budget: number;
   sliConfig?: SliConfigurationWithLastUpdated;
-  isPreview?: boolean;
+  nonInteractive?: boolean;
   disableZooming?: boolean;
 }
 

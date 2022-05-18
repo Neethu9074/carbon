@@ -376,6 +376,7 @@
     "slo": {
       "demo": {
         "title": "SLO Title",
+        "sliName": "Example Sli",
         "appName": "Example Application Name"
       },
       "apConfigFormComp": {

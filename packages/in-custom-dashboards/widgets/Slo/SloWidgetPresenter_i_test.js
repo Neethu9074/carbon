@@ -7,10 +7,10 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
+import SloWidgetPresenter from 'in-custom-dashboards/widgets/Slo/SloWidgetPresenter';
 import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
 import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
-import Widget from 'in-custom-dashboards/widgets/Slo/Widget';
 import { t } from 'in-i18n';
 
 jest.mock('in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration', () => ({
@@ -33,7 +33,7 @@ jest.mock('in-applications/hooks/useTagCatalog', () => ({
   default: jest.fn()
 }));
 
-describe('in-custom-dashboards/widgets/Slo/Widget', () => {
+describe('in-custom-dashboards/widgets/Slo/SloWidgetPresenter', () => {
   beforeEach(jest.clearAllMocks);
 
   const widgetConfig = {
@@ -54,7 +54,15 @@ describe('in-custom-dashboards/widgets/Slo/Widget', () => {
     useSloEntity.mockReturnValue([sloEntityMock, 'pending', [], { loading: true }]);
     useSloMetrics.mockReturnValue([[], 'pending', [], { loading: true }]);
 
-    render(<Widget actions={<></>} config={widgetConfig} isPreview title="Test Widget" dragHandle={<></>} />);
+    render(
+      <SloWidgetPresenter
+        actions={<></>}
+        config={widgetConfig}
+        isPreview
+        title="Test SloWidgetPresenter"
+        dragHandle={<></>}
+      />
+    );
 
     expect(screen.getByTestId('sli-summary-skeleton')).toBeVisible();
     expect(screen.getByTestId('widget-loader')).toBeVisible();
@@ -67,7 +75,9 @@ describe('in-custom-dashboards/widgets/Slo/Widget', () => {
     useSloEntity.mockReturnValue([sloEntityMock, 'resolved', [], { loading: false }]);
     useSloMetrics.mockReturnValue([[], 'resolved', [], { loading: false }]);
 
-    render(<Widget actions={<></>} config={widgetConfig} isPreview title="Test Widget" dragHandle={<></>} />);
+    render(
+      <SloWidgetPresenter actions={<></>} config={widgetConfig} isPreview title="Test Widget" dragHandle={<></>} />
+    );
 
     expect(screen.getByText('Test Widget')).toBeVisible();
     expect(screen.getByText('Test Entity Label')).toBeVisible();

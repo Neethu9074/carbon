@@ -21,7 +21,7 @@ interface CalculateTimeWindowConfigProps {
   timeWindowStartTime?: string;
 }
 
-interface TimeWindowConfig {
+export interface TimeWindowConfig {
   timeConfig: TimeConfig;
   fromTimestamp: number;
   toTimestamp: number;
