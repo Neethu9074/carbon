@@ -4123,8 +4123,7 @@
         "labelInMemoryOLTPStorage": "In-Memory OLTP storage",
         "labelCPULimit": "CPU Limit",
         "labelCPUUsed": "CPU Used"
-      },
-      "database": "Database"
+      }
     },
     "azureSqlElasticPool": {
       "infoName": "Name",
