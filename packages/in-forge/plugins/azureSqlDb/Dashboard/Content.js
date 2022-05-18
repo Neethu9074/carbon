@@ -5,12 +5,7 @@
 
 import React from 'react';
 
-import {
-  number,
-  percentagePlainTwoDecimalPlaces,
-  zeroDecimalPlaces,
-  bytesTwoDecimalPlaces
-} from 'in-services/formatters/number';
+import { number, percentage, zeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import DBmarlinNotificationMessage from 'in-forge/plugins/awsRds/Dashboard/DBmarlinNotificationMessage';
 import Chart from 'in-infrastructure/components/InfrastructureMetricChartBehavior';
 import { KpiSection, KpiKeyValue } from 'in-sdk/components/dashboard/KpiSection';
@@ -27,25 +22,17 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
     <div>
       <KpiSection>
         <KpiKeyValue label={t('in-forge:plugins.azureSqlDb.dashboard.labelCPU')}>
-          <MetricValue
-            snapshotId={snapshotId}
-            metric="metrics.cpu_percent"
-            formatter={percentagePlainTwoDecimalPlaces}
-          />
+          <MetricValue snapshotId={snapshotId} metric="metrics.cpu_percent" formatter={percentage.compact} />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.azureSqlDb.dashboard.labelEDTU')}>
           <MetricValue
             snapshotId={snapshotId}
             metric="metrics.dtu_consumption_percent"
-            formatter={percentagePlainTwoDecimalPlaces}
+            formatter={percentage.compact}
           />
         </KpiKeyValue>
         <KpiKeyValue label={t('in-forge:plugins.azureSqlDb.dashboard.labelStorage')}>
-          <MetricValue
-            snapshotId={snapshotId}
-            metric="metrics.storage_percent"
-            formatter={percentagePlainTwoDecimalPlaces}
-          />
+          <MetricValue snapshotId={snapshotId} metric="metrics.storage_percent" formatter={percentage.compact} />
         </KpiKeyValue>
       </KpiSection>
 
@@ -67,7 +54,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
               type: 'line'
             }}
             y2={{
-              formatter: percentagePlainTwoDecimalPlaces,
+              formatter: percentage.compact,
               metrics: ['metrics.dtu_consumption_percent'],
               labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelDTUPercentage')],
               type: 'bar'
@@ -88,7 +75,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             type: 'line'
           }}
           y2={{
-            formatter: percentagePlainTwoDecimalPlaces,
+            formatter: percentage.compact,
             metrics: ['metrics.storage_percent'],
             labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelDatabaseSize')],
             type: 'bar'
@@ -102,7 +89,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: percentagePlainTwoDecimalPlaces,
+            formatter: percentage.compact,
             metrics: ['metrics.cpu_percent'],
             labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelCPUPercentage')],
             type: 'line'
@@ -162,7 +149,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              formatter: percentagePlainTwoDecimalPlaces,
+              formatter: percentage.compact,
               metrics: ['metrics.physical_data_read_percent'],
               labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelDataIO')],
               type: 'line'
@@ -174,7 +161,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              formatter: percentagePlainTwoDecimalPlaces,
+              formatter: percentage.compact,
               metrics: ['metrics.log_write_percent'],
               labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelLogIO')],
               type: 'line'
@@ -190,7 +177,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              formatter: percentagePlainTwoDecimalPlaces,
+              formatter: percentage.compact,
               metrics: ['metrics.workers_percent'],
               labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelWorkers')],
               type: 'line'
@@ -202,7 +189,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
             snapshotId={snapshotId}
             timeConfig={timeConfig}
             y1={{
-              formatter: percentagePlainTwoDecimalPlaces,
+              formatter: percentage.compact,
               metrics: ['metrics.sessions_percent'],
               labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelSessions')],
               type: 'line'
@@ -217,7 +204,7 @@ export default function AzureSqlDbDashboard({ snapshot, timeConfig }) {
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
-            formatter: percentagePlainTwoDecimalPlaces,
+            formatter: percentage.compact,
             metrics: ['metrics.xtp_storage_percent'],
             labels: [t('in-forge:plugins.azureSqlDb.dashboard.labelInMemoryOLTPStorage')],
             type: 'line'
