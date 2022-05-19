@@ -4,6 +4,7 @@
  */
 
 import React, { Fragment, useState } from 'react';
+import { isNumber } from 'lodash';
 
 import { combineLatest, just } from '@instana/observables';
 import { Button, Card, Stack } from '@instana/components';
@@ -21,6 +22,7 @@ import HelpParagraph from 'in-websites/WebsiteDashboard/tabs/Configuration/Optio
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import { bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { formatDateTime } from 'in-services/formatters/date';
 import { isNotBlank } from 'in-services/util/string';
 import ButtonGroup from 'in-components/ButtonGroup';
 import List from 'in-settings/components/List';
@@ -43,15 +45,13 @@ const columnDefinitionsUpload = [
   {
     id: 'configuration',
     label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelConfiguration'),
-    width: '4rem',
-    widthInAbsoluteUnit: true,
     getValue: toUploadLabel,
     getContent: toUploadLabel
   },
   {
     id: 'fileCount',
     label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelFiles'),
-    width: '4rem',
+    width: '8rem',
     widthInAbsoluteUnit: true,
     getValue: toUploadFileCount,
     getContent: toUploadFileCount
@@ -59,10 +59,18 @@ const columnDefinitionsUpload = [
   {
     id: 'totalSize',
     label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelTotalSize'),
-    width: '4rem',
+    width: '8rem',
     widthInAbsoluteUnit: true,
     getValue: toUploadTotalSize,
     getContent: toUploadTotalSize
+  },
+  {
+    id: 'lastModified',
+    label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelLastModified'),
+    width: '14rem',
+    widthInAbsoluteUnit: true,
+    getValue: toUploadLastModified,
+    getContent: toUploadLastModified
   }
 ];
 
@@ -253,6 +261,10 @@ function toUploadLabel(config) {
 
 function toUploadFileCount(config) {
   return config.metadata?.length;
+}
+
+function toUploadLastModified(config) {
+  return isNumber(config.modifiedAt) ? formatDateTime(config.modifiedAt * 1000) : '';
 }
 
 function toUploadTotalSize(config) {

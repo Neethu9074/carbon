@@ -42,57 +42,49 @@ curl -X PUT \\
       onClose={close}
       className={locals.dialog}
     >
-      {!form.get('id').value && (
-        <form onSubmit={onSubmit}>
-          <SectionHeading withoutTopSpacing>
-            {t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogHeadingDescription')}
-          </SectionHeading>
-          <SectionHelp>
-            <p>{t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogDescriptionHelp')}</p>
-            {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
-          </SectionHelp>
-          <Row>
-            <Col md={12}>
-              <FormGroup>
-                <Label htmlFor={`config-headers-desc-key`}>Description</Label>
-                <Input
-                  id={`config-headers-desc-key`}
-                  type="text"
-                  value={form.get('description').value}
-                  onChange={e => onChange(['description'], e.target.value)}
-                />
-              </FormGroup>
-            </Col>
-          </Row>
+      <form onSubmit={onSubmit}>
+        {message && <TemporaryMessage type={message.type} message={message.message} duration={5000} />}
 
-          <SaveCancel form={form} onClickCancelButton={close} isCreate={isBlank(form.get('id').value)} />
-        </form>
-      )}
-      {form.get('id').value && (
-        <>
-          <p>
-            <strong>{form.get('description').value}</strong>
-          </p>
-          <SectionHeading withoutTopSpacing>openAPI for uploading [Draft, debug purpose]</SectionHeading>
-          <SectionHelp>
-            <p>[Debug purpose] Upload sourcemap files by using openapi.</p>
-          </SectionHelp>
-          <div className={locals.snippetWrapper}>
-            <div className={locals.snippet}>
-              <Code code={curlCode} lang="bash" showLineNumbers={false} softWrap />
+        <SectionHeading withoutTopSpacing>
+          {t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogHeadingDescription')}
+        </SectionHeading>
+        <SectionHelp>
+          <p>{t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogDescriptionHelp')}</p>
+        </SectionHelp>
+        <Row>
+          <Col md={12}>
+            <FormGroup>
+              <Label htmlFor={`config-headers-desc-key`}>
+                {t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogLabelDescription')}
+              </Label>
+              <Input
+                id={`config-headers-desc-key`}
+                type="text"
+                value={form.get('description').value}
+                onChange={e => onChange(['description'], e.target.value)}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+
+        {form.get('id').value && (
+          <>
+            <SectionHeading withoutTopSpacing>
+              {t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogHeadingOpenAPI')}
+            </SectionHeading>
+            <SectionHelp>
+              <p>{t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogOpenAPIHelp')}</p>
+            </SectionHelp>
+            <div className={locals.snippetWrapper}>
+              <div className={locals.snippet}>
+                <Code code={curlCode} lang="bash" showLineNumbers={false} softWrap />
+              </div>
             </div>
-          </div>
-          <SectionHeading withoutTopSpacing>SourceMap Files [Draft, debug purpose]</SectionHeading>
-          <SectionHelp>
-            <p>[Debug purpose] Uploaded files are listed here</p>
-          </SectionHelp>
-          <div className={locals.snippetWrapper}>
-            <div className={locals.snippet}>
-              <Code code={form.get('metadata').value} lang="json" showLineNumbers={false} withoutCopyButton />
-            </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
+
+        <SaveCancel form={form} onClickCancelButton={close} isCreate={isBlank(form.get('id').value)} />
+      </form>
     </Dialog>
   );
 }

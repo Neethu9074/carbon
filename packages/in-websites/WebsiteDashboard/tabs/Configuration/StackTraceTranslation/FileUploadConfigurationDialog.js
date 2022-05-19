@@ -82,15 +82,5 @@ export function createForm(config) {
         value: config?.description || '',
         validator: notBlankValidator
       })
-    )
-    .put(
-      'metadata',
-      createField({
-        value: JSON.stringify(
-          config?.metadata?.map(it => `${it.url} (${it.size}, ${it.sizeOnDisk})`),
-          null,
-          2
-        )
-      })
     );
 }
