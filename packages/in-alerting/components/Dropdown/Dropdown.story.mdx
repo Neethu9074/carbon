@@ -17,13 +17,13 @@ Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom
   <Story name="default">
     <>
       <p>
-        <Dropdown label="Plain Dropdown" items={[{ label: 'Foobar' }]} />
+        <Dropdown value="plain" items={[{ value: 'plain', label: 'Plain Dropdown' }]} />
       </p>
       <p>
-        <Dropdown icon="lib_actions_settings" label="Dropdown With Icon" items={[{ label: 'Foobar' }]} />
+        <Dropdown icon="lib_actions_settings" value="with_icon" items={[{ value: 'with_icon', label: 'Dropdown With Icon' }]} />
       </p>
       <p>
-        <Dropdown icon="lib_actions_settings" label="Dropdown in 'Simple' Style" asSimpleDropdown items={[{ label: 'Foobar' }]} />
+        <Dropdown icon="lib_actions_settings" value="simple_style" asSimpleDropdown items={[{ value: 'simple_style', label: 'Dropdown in \'Simple\' Style' }]} />
       </p>
     </>
   </Story>
@@ -33,34 +33,32 @@ Check out `MoreMenu` for a ready-made solution or `Combobox` which allows custom
 ## Triggering onChange and handling duplicates:
 
 * When selecting the **currently selected** item, this component **ignores** to call the onChange callback.
-* When there are duplicated labels, it **will not switch** to a different entry when the **label was equal**.
+* When there are duplicated values, it **will not switch** to a different entry when the **value was equal**.
 
 You can test this by watching the results in Storybook's Action addon tab.
 
 <Preview>
   <Story name="onChange">
     {() => {
-      const [current, setCurrent] = useState({ label: 'DuplicateLabel', value: 3 });
+      const [currentValue, setCurrentValue] = useState(3);
       return (
         <>
           <p>
             <Dropdown
-              label={current.label}
-              onChange={v => {
-                storybookAction('onChange')(v.label, v.value);
-                setCurrent(v);
+              value={currentValue}
+              onChange={value => {
+                storybookAction('onChange')(value);
+                setCurrentValue(value);
               }}
               items={[
                 { value: 1, label: 'Foobar' },
                 { value: 2, label: 'Baz' },
-                { value: 3, label: 'DuplicateLabel' },
-                { value: 4, label: 'DuplicateLabel' }
+                { value: 3, label: 'Duplicate A' },
+                { value: 3, label: 'Duplicate B' }
               ]}
             />
           </p>
-          <dt>Selected item, abel:</dt>
-          <dd>{current.label}</dd>
-          <dt>Selected item, value:</dt>
+          <dt>Selected item value:</dt>
           <dd>{current.value}</dd>
         </>
       );
@@ -70,4 +68,3 @@ You can test this by watching the results in Storybook's Action addon tab.
 
 ### Props
 <Props of={Dropdown} />
-

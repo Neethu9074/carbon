@@ -13,6 +13,7 @@ import {
 } from 'in-alerting/smart-alerts/applications/tracker';
 import {
   getAggregationLabel,
+  getAggregationValue,
   getConfiguredThreshold,
   getOperatorLabel
 } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
@@ -61,9 +62,9 @@ export default function SlownessThresholdCondition({
             <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
             <Dropdown
               asSimpleDropdown
-              label={getAggregationLabel(form)}
+              value={getAggregationValue(form)}
               items={getAggregationOptions(form)}
-              onChange={({ value = '' }) => {
+              onChange={value => {
                 updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
 
                 applicationsAlertingThresholdAggregationChanged(getTrackingObject(form, { value }));

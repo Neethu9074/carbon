@@ -19,7 +19,7 @@ import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-a
 import { thresholdTypeOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormData';
 import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
 import { getAggregationOptions } from 'in-alerting/smart-alerts/components/smart-alert-dialog/form/ruleForm';
-import { getAggregationLabel } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
+import { getAggregationValue } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/websites/advanced/ThresholdTypeSelection';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/websites/form/thresholdForm';
@@ -48,9 +48,9 @@ export default function SlownessThresholdCondition({ form, updateForm, blueprint
         <Label>{blueprintConfig.getMetricLabel(metricName)}</Label>
         <Dropdown
           asSimpleDropdown
-          label={getAggregationLabel(form)}
+          value={getAggregationValue(form)}
           items={getAggregationOptions(form)}
-          onChange={({ value = '' }) => {
+          onChange={value => {
             updateForm(form.updateIn(['rule', 'aggregation'], f => f.setValue(value).setTouched(true)));
             websitesAlertingAggregationChanged(getTrackingObject(form, { value }));
           }}
