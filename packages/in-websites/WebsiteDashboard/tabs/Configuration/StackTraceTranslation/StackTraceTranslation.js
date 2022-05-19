@@ -53,7 +53,7 @@ const columnDefinitionsUpload = [
     label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelFiles'),
     width: '8rem',
     widthInAbsoluteUnit: true,
-    getValue: toUploadFileCount,
+    getValue: toUploadFileCountValue,
     getContent: toUploadFileCount
   },
   {
@@ -61,7 +61,7 @@ const columnDefinitionsUpload = [
     label: t('in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationLabelTotalSize'),
     width: '8rem',
     widthInAbsoluteUnit: true,
-    getValue: toUploadTotalSize,
+    getValue: toUploadTotalSizeValue,
     getContent: toUploadTotalSize
   },
   {
@@ -259,23 +259,31 @@ function toUploadLabel(config) {
   return config.description;
 }
 
+function toUploadFileCountValue(config) {
+  return config.metadata?.length || 0;
+}
+
 function toUploadFileCount(config) {
-  return config.metadata?.length;
+  return config.metadata?.length || '-';
 }
 
 function toUploadLastModified(config) {
   return isNumber(config.modifiedAt) ? formatDateTime(config.modifiedAt * 1000) : '';
 }
 
-function toUploadTotalSize(config) {
+function toUploadTotalSizeValue(config) {
   if (!config.metadata?.length) {
     return 0;
   }
-  const totalSize = config.metadata.reduce((prev, curr) => prev + curr.size, 0);
-  if (totalSize) {
-    return bytesTwoDecimalPlaces(totalSize);
+  return config.metadata.reduce((prev, curr) => prev + curr.size, 0);
+}
+
+function toUploadTotalSize(config) {
+  const v = toUploadTotalSizeValue(config);
+  if (!v) {
+    return '-';
   }
-  return 0;
+  return bytesTwoDecimalPlaces(v);
 }
 
 function toDownloadLabel(config) {
