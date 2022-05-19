@@ -17,7 +17,7 @@ export default function ShowCase() {
         config={{
           metricsConfiguration: { metrics: [] },
           timeConfig: { windowSize: 60000, to: 1624888952857 },
-          cardTitle: t('in-custom-dashboards:widgets.pie.index.testTitle'),
+          title: t('in-custom-dashboards:widgets.pie.index.testTitle'),
           y1: {
             formatter: x => x,
             renderer: { id: 'pie' },
