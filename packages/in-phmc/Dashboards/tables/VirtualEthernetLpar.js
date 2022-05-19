@@ -177,9 +177,9 @@ export default connectTo(
                 min: 0,
                 formatter: number,
                 metrics: [
-                  'virtualEthernetAdapter.' + row.key + '.sentPackets',
-                  'virtualEthernetAdapter.' + row.key + '.receivedPackets',
-                  'virtualEthernetAdapter.' + row.key + '.droppedPackets'
+                  'virtualEthernetAdapters.' + row.key + '.sentPackets',
+                  'virtualEthernetAdapters.' + row.key + '.receivedPackets',
+                  'virtualEthernetAdapters.' + row.key + '.droppedPackets'
                 ],
                 labels: [t('in-phmc:sentPackets'), t('in-phmc:recievedPackets'), t('in-phmc:droppedPackets')],
                 type: 'line'
@@ -195,9 +195,9 @@ export default connectTo(
                 min: 0,
                 formatter: number,
                 metrics: [
-                  'virtualEthernetAdapter.' + row.key + '.sentBytes',
-                  'virtualEthernetAdapter.' + row.key + '.receivedBytes',
-                  'virtualEthernetAdapter.' + row.key + '.transferredBytes'
+                  'virtualEthernetAdapters.' + row.key + '.sentBytes',
+                  'virtualEthernetAdapters.' + row.key + '.receivedBytes',
+                  'virtualEthernetAdapters.' + row.key + '.transferredBytes'
                 ],
                 labels: [t('in-phmc:sentBytes'), t('in-phmc:recievedBytes'), t('in-phmc:transferredBytes')],
                 type: 'line'

@@ -168,8 +168,8 @@ export default connectTo(
                 min: 0,
                 formatter: number,
                 metrics: [
-                  'virtualFiberChannelAdapter.' + row.key + '.numOfReads',
-                  'virtualFiberChannelAdapter.' + row.key + '.numOfWrites'
+                  'virtualFiberChannelAdapters.' + row.key + '.numOfReads',
+                  'virtualFiberChannelAdapters.' + row.key + '.numOfWrites'
                 ],
                 labels: [t('in-phmc:reads'), t('in-phmc:writes')],
                 type: 'line'
@@ -185,9 +185,9 @@ export default connectTo(
                 min: 0,
                 formatter: number,
                 metrics: [
-                  'virtualFiberChannelAdapter.' + row.key + '.readBytes',
-                  'virtualFiberChannelAdapter.' + row.key + '.writeBytes',
-                  'virtualFiberChannelAdapter.' + row.key + '.transmittedBytes'
+                  'virtualFiberChannelAdapters.' + row.key + '.readBytes',
+                  'virtualFiberChannelAdapters.' + row.key + '.writeBytes',
+                  'virtualFiberChannelAdapters.' + row.key + '.transmittedBytes'
                 ],
                 labels: [t('in-phmc:readBytes'), t('in-phmc:writeBytes'), t('in-phmc:transmittedBytes')],
                 type: 'line'
