@@ -6,7 +6,7 @@
 import classNames from 'classnames';
 import React from 'react';
 
-import { SvgIcon, SvgIconSizes } from '@instana/components';
+import { SvgIcon, SvgIconProps } from '@instana/components';
 
 import { IconComponentProps } from 'in-components/IconButton/types';
 
@@ -15,17 +15,17 @@ import locals from './IconButton.mless';
 
 interface IconProps extends IconComponentProps {}
 
-const iconDimensions = new Map<string, SvgIconSizes>([
-  ['normal', 24],
-  ['compact', 16]
+const iconDimensions = new Map<string, SvgIconProps['size']>([
+  ['normal', 'regular'],
+  ['compact', 'xs']
 ]);
 
 export default function Icon({ type, size = 'normal', iconSize, iconSpinning, kind = 'action', disabled }: IconProps) {
-  let iSize: typeof iconSize = 24;
+  let iSize: typeof iconSize = 'regular';
   if (iconSize) {
     iSize = iconSize;
   } else if (size) {
-    iSize = iconDimensions.get(size) ?? 24;
+    iSize = iconDimensions.get(size) ?? 'regular';
   }
   return (
     <SvgIcon

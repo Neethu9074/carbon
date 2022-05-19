@@ -1,0 +1,16 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc. 2021
+ */
+
+@import '~in-themes/active.less';
+
+:local {
+  .row {
+    margin-top: @grid__gutter * 1px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
