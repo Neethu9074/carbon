@@ -4071,6 +4071,7 @@
       "traffic": "Traffic"
     },
     "azureSqlDb": {
+      "infoAzureSqlDb": "Azure SQL Database",
       "infoName": "Name",
       "infoResourceGroup": "Resource Group",
       "infoLocation": "Location",
@@ -4090,7 +4091,7 @@
       "labelDeadlocks": "Deadlocks",
       "labelDTUUsed": "DTU Used",
       "labelCPUUsed": "CPU Used",
-      "labelDatabasesize": "Database size",
+      "labelDatabaseSize": "Database size",
       "labelDataIO": "Data IO",
       "labelLogIO": "Log IO",
       "labelInMemoryOLTPStorage": "In-Memory OLTP storage",
@@ -4127,8 +4128,7 @@
         "labelInMemoryOLTPStorage": "In-Memory OLTP storage",
         "labelCPULimit": "CPU Limit",
         "labelCPUUsed": "CPU Used"
-      },
-      "database": "Database"
+      }
     },
     "azureSqlElasticPool": {
       "infoName": "Name",
