@@ -35,20 +35,6 @@ export function CookiePolicyButton({ label, fontSize }) {
   );
 }
 
-export function TosButton({ withIcon, label, fontSize }) {
-  return (
-    <Button
-      style={{ padding: 0, margin: 0, fontSize }}
-      kind="action"
-      icon={withIcon ? 'lib_views_external_link' : ''}
-      target="_blank"
-      href="https://www.ibm.com/docs/en/SSE1JP5_current/static/instana-terms-latest.pdf"
-    >
-      {label ? label : t('in-settings:termsDialog.termsOfService')}
-    </Button>
-  );
-}
-
 export function PrivacyButton({ withIcon, label, fontSize }) {
   return (
     <Button

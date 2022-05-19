@@ -9,10 +9,9 @@ import React, { useState } from 'react';
 import termsFormDefinition, { addDynamicRoleField } from 'in-settings/terms/termsFormDefinition';
 import TermsProgressIndicator from 'in-settings/terms/dialog/TermsProgressIndicator';
 import TermsDialogPresenter from 'in-settings/terms/dialog/TermsDialogPresenter';
-import TermsPage1 from 'in-settings/terms/dialog/TermsPage1';
-import TermsPage2 from 'in-settings/terms/dialog/TermsPage2';
-import TermsPage3 from 'in-settings/terms/dialog/TermsPage3';
-import TermsPage4 from 'in-settings/terms/dialog/TermsPage4';
+import TermsPageMessaging from 'in-settings/terms/dialog/TermsPageMessaging';
+import TermsPageCookies from 'in-settings/terms/dialog/TermsPageCookies';
+import TermsPageProfile from 'in-settings/terms/dialog/TermsPageProfile';
 
 export default {
   component: TermsDialogPresenter
@@ -111,22 +110,12 @@ export const ProgessIndicator = () => {
   );
 };
 
-export const Page1 = () => {
-  const [form, setForm] = useState(termsFormDefinition(userSettings));
-
-  return (
-    <div style={{ height: '520px', width: '650px' }}>
-      <TermsPage1 form={form} onChange={onChange(setForm)} />
-    </div>
-  );
-};
-
 export const Page2 = () => {
   const [form, setForm] = useState(termsFormDefinition(userSettings));
 
   return (
     <div style={{ height: '520px', width: '650px' }}>
-      <TermsPage2 form={form} onChange={onChange(setForm)} />
+      <TermsPageMessaging form={form} onChange={onChange(setForm)} />
     </div>
   );
 };
@@ -136,7 +125,7 @@ export const Page3 = () => {
 
   return (
     <div style={{ height: '520px', width: '650px' }}>
-      <TermsPage3 form={form} onChange={onChange(setForm)} />
+      <TermsPageCookies form={form} onChange={onChange(setForm)} />
     </div>
   );
 };
@@ -146,7 +135,7 @@ export const Page4 = () => {
 
   return (
     <div style={{ height: '520px', width: '650px' }}>
-      <TermsPage4 form={form} onChange={onChange(setForm)} userEmail="cesar@salad.de" userName="Cesar Salad" />
+      <TermsPageProfile form={form} onChange={onChange(setForm)} userEmail="cesar@salad.de" userName="Cesar Salad" />
     </div>
   );
 };

@@ -17,12 +17,12 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './TermsPages.mless';
 
-export default function TermsPage3({ onBack, onNext, onChange, form, nrPages }) {
+export default function TermsPageCookies({ onBack, onNext, onChange, form, nrPages }) {
   return (
     <div className={locals.container}>
       <div className={locals.pageContent}>
         <div>
-          <TermsProgressIndicator pageNumber={3} nrPages={nrPages} />
+          <TermsProgressIndicator pageNumber={2} nrPages={nrPages} />
           <h1 className={locals.heading}>{t('in-settings:termsDialog.termsPage3.heading')}</h1>
 
           <Stack>
@@ -44,16 +44,16 @@ export default function TermsPage3({ onBack, onNext, onChange, form, nrPages }) 
       </div>
 
       <FormFooter className={locals.buttons}>
-        <Button onClick={() => onBack(2)} kind="secondary">
+        <Button onClick={() => onBack(1)} kind="secondary">
           {t('in-settings:termsDialog.back')}
         </Button>
-        <Button onClick={() => onNext(4)}>{t('in-settings:termsDialog.next')}</Button>
+        <Button onClick={() => onNext(3)}>{t('in-settings:termsDialog.next')}</Button>
       </FormFooter>
     </div>
   );
 }
 
-TermsPage3.propTypes = {
+TermsPageCookies.propTypes = {
   onBack: PropTypes.func.isRequired,
   onNext: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

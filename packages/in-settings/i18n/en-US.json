@@ -5,8 +5,6 @@
     "save": "Save",
     "dataProtectionMail": "dataprotection@instana.com",
     "cookiePolicy": "Cookie Policy",
-    "instanaTermsOfService": "Instana's Terms of Service",
-    "termsOfService": "Terms of Service",
     "privacyProductPolicy": "Privacy Product Policy",
     "productOnboarding": "Product onboarding & success tips",
     "productOnboardingExplanation": "to help you make the most of Instana products",
@@ -21,13 +19,6 @@
     "roleNeededText": "You need to type in a role.",
     "testingGroup": "User Testing Group",
     "testingGroupExplanation": "to participate in optional interviews and survey with our product team",
-    "termsPage1": {
-      "heading": "Terms of Service",
-      "introduction": "Before moving forward, and before using Instana products and services, you need to read and agree to our Terms of Service.",
-      "documents": "Please take a moment to read the following documents:",
-      "agreeToS": "I have read and agree to Instana's <tosButton />.",
-      "ibmTos": "IBM’s Terms of Service will govern for IBM clients."
-    },
     "termsPage2": {
       "heading": "Messaging"
     },
@@ -832,7 +823,6 @@
     "purpose": "Purpose",
     "moreInformation": "More Information",
     "preferences": "Preferences",
-    "youCannotUseInstanaUntilYouHaveAcceptedTheTermsOfServiceAndPrivacyPolicy": "You cannot use Instana until you have accepted the Terms of Service and Privacy Policy.",
     "preferNotToSay": "Prefer not to say",
     "frontendDeveloper": "Frontend Developer",
     "backendDeveloper": "Backend Developer",
@@ -846,7 +836,6 @@
     "otherPleaseSpecify": "Other (please specify)",
     "role": "Role",
     "whatIsYourRole": "What is your role?",
-    "termsAgreementMissing": "Terms agreement missing",
     "roleMissing": "Role missing"
   },
   "settings": "Settings",

@@ -20,7 +20,7 @@ import { t } from 'in-i18n';
 
 import locals from './TermsPages.mless';
 
-export default function TermsPage4({
+export default function TermsPageProfile({
   onBack,
   onChange,
   form,
@@ -112,13 +112,13 @@ function InputField({ label, value }) {
 function handleBackClick(hasErrorOnSave, unsetSaveError, onBack, fullTermsConfigEnabled) {
   if (hasErrorOnSave) unsetSaveError();
   if (fullTermsConfigEnabled) {
-    onBack(3);
-  } else {
     onBack(2);
+  } else {
+    onBack(1);
   }
 }
 
-TermsPage4.propTypes = {
+TermsPageProfile.propTypes = {
   onBack: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,

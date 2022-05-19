@@ -17,12 +17,12 @@ import { t } from 'in-i18n';
 
 import locals from './TermsPages.mless';
 
-export default function TermsPage2({ onBack, onNext, onChange, form, fullTermsConfigEnabled, nrPages }) {
+export default function TermsPageMessaging({ onNext, onChange, form, fullTermsConfigEnabled, nrPages }) {
   return (
     <div className={locals.container}>
       <div className={locals.pageContent}>
         <div>
-          <TermsProgressIndicator pageNumber={2} nrPages={nrPages} />
+          <TermsProgressIndicator pageNumber={1} nrPages={nrPages} />
           <h1 className={locals.heading}>{t('in-settings:termsDialog.termsPage2.heading')}</h1>
         </div>
 
@@ -63,25 +63,16 @@ export default function TermsPage2({ onBack, onNext, onChange, form, fullTermsCo
       </div>
 
       <FormFooter className={locals.buttons}>
-        <Button onClick={() => onBack(1)} kind="secondary">
-          {t('in-settings:termsDialog.back')}
-        </Button>
-        <Button onClick={() => handleNextClick(form, onNext, onChange)}>{t('in-settings:termsDialog.next')}</Button>
+        <Button onClick={() => onNext(2)}>{t('in-settings:termsDialog.next')}</Button>
       </FormFooter>
     </div>
   );
 }
 
-TermsPage2.propTypes = {
-  onBack: PropTypes.func.isRequired,
+TermsPageMessaging.propTypes = {
   onNext: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   fullTermsConfigEnabled: PropTypes.bool,
   nrPages: PropTypes.number
 };
-
-function handleNextClick(form, onNext, onChange) {
-  onChange(form, 'privacyAgreementAccepted', true);
-  onNext(3);
-}
