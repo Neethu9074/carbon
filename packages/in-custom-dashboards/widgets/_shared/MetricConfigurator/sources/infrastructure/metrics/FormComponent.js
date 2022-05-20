@@ -87,21 +87,23 @@ export default function FormComponent({
         metric: metricField.value
       });
       if (metadata) {
-        onChange([], form =>
-          form
-            .updateIn(['metricLabel'], field => field.setValue(metadata.label).setTouched(true))
-            .updateIn(['metricPath'], field => field.setValue(metadata.path).setTouched(true))
-        );
+        onChange([], form => {
+          var f = form.updateIn(['metricPath'], field => field.setValue(metadata.path).setTouched(true));
+          if(f.containsKey('metricLabel')){
+            f = f.updateIn(['metricLabel'], field => field.setValue(metadata.label).setTouched(true));
+          }
+          return f;
+      });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metricCatalog, typeField.value, metricField.value]);
   const metricMetadata = {
     metric: metricField.value,
-    label: metricLabelField.value,
+    label: metricLabelField?.value,
     path: metricPathField.value,
     loading:
-      (!metricLabelField.value || !metricPathField.value || metricPathField.value.length == 0) &&
+      ((metricLabelField && !metricLabelField.value) || !metricPathField.value || metricPathField.value.length == 0) &&
       metricCatalog.progress.loading
   };
 
@@ -114,11 +116,10 @@ export default function FormComponent({
             metricMetadata={metricMetadata}
             metricCatalog={(catalogQuery.value === catalogQuery.debouncedValue && metricCatalog) || pendingResult}
             onChange={({ metric, parentType, allowedCrossSeriesAggregations, label, parentLabels }) => {
-              onChange([], form =>
-                form
+              onChange([], form => {
+                var f = form
                   .updateIn(['metric'], field => field.setValue(metric).setTouched(true))
                   .updateIn(['type'], field => field.setValue(parentType).setTouched(true))
-                  .updateIn(['metricLabel'], field => field.setValue(label).setTouched(true))
                   .updateIn(['metricPath'], field => field.setValue(parentLabels).setTouched(true))
                   .updateIn(['aggregation'], field =>
                     field.setValue(Object.keys(aggregationLabels)[0]).setTouched(true)
@@ -131,7 +132,12 @@ export default function FormComponent({
                   })
                   .updateIn(['allowedCrossSeriesAggregations'], field =>
                     field.setValue(allowedCrossSeriesAggregations).setTouched(true)
-                  )
+                  );
+                  if(f.containsKey('metricLabel')){
+                    f = f.updateIn(['metricLabel'], field => field.setValue(label).setTouched(true));
+                  }
+                  return f;
+                }
               );
             }}
             query={catalogQuery.value}
