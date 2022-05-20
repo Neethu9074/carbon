@@ -16,9 +16,9 @@ echo "Configuring SonarQube scanner"
 echo "sonar.host.url=$SONARQUBE_URL" > "sonar-scanner-$SONARQUBE_SCANNER_VERSION/conf/sonar-scanner.properties"
 
 echo "Install all dependencies"
-yarn
+yarn install --frozen-lockfile
 pushd packages/in-server
-yarn
+yarn install --frozen-lockfile
 popd
 
 echo "Generate the lcov coverage report"
