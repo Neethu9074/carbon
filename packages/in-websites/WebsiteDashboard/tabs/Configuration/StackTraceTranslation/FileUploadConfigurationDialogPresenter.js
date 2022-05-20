@@ -1,9 +1,12 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
 import React, { Fragment } from 'react';
+
+import { Link } from '@instana/components';
 
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -16,21 +19,12 @@ import { isBlank } from 'in-services/util/string';
 import Dialog from 'in-components/Dialog/Dialog';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
-import Code from 'in-components/Code';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 import locals from './FileUploadConfigurationDialogPresenter.mless';
 
 export default function FileUploadConfigurationDialogPresenter(props) {
   const { form, message, onSubmit, websiteId, onChange } = props;
-  const host = document.location.host;
-  const curlCode = `
-curl -X PUT \\
-  'https://${host}/api/website-monitoring/config/${websiteId}/sourceMapUpload/${form.get('id').value}/form' \\
-  --header 'authorization: apiToken <YOUR-API-TOKEN>' \\
-  -F 'url="<FULL-URL-TO-JS>"' \\
-  -F 'sourceMap=@"<FULL-PATH-TO-LOCAL-SOURCEMAP>"'
-`;
 
   return (
     <Dialog
@@ -73,13 +67,21 @@ curl -X PUT \\
               {t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogHeadingOpenAPI')}
             </SectionHeading>
             <SectionHelp>
-              <p>{t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogOpenAPIHelp')}</p>
+              <Trans
+                i18nKey="in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogOpenAPIHelp"
+                values={{ websiteId: websiteId, configId: form.get('id').value }}
+                components={{
+                  documentation: (
+                    <Link
+                      href="https://www.ibm.com/docs/en/obi/current?topic=monitoring-web-rest-api-examples"
+                      external
+                    >
+                      null
+                    </Link>
+                  )
+                }}
+              />
             </SectionHelp>
-            <div className={locals.snippetWrapper}>
-              <div className={locals.snippet}>
-                <Code code={curlCode} lang="bash" showLineNumbers={false} softWrap />
-              </div>
-            </div>
           </>
         )}
 
