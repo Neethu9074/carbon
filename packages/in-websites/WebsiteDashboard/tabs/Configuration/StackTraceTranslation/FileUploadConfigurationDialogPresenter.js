@@ -24,7 +24,7 @@ import { t, Trans } from 'in-i18n';
 import locals from './FileUploadConfigurationDialogPresenter.mless';
 
 export default function FileUploadConfigurationDialogPresenter(props) {
-  const { form, message, onSubmit, websiteId, onChange } = props;
+  const { form, message, onSubmit, onChange } = props;
 
   return (
     <Dialog
@@ -69,7 +69,7 @@ export default function FileUploadConfigurationDialogPresenter(props) {
             <SectionHelp>
               <Trans
                 i18nKey="in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogOpenAPIHelp"
-                values={{ websiteId: websiteId, configId: form.get('id').value }}
+                values={{ configId: form.get('id').value }}
                 components={{
                   documentation: (
                     <Link

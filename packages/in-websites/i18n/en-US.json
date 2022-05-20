@@ -545,7 +545,7 @@
         "fileUploadConfigurationDialogHeadingDescription": "Description",
         "fileUploadConfigurationDialogDescriptionHelp": "An upload configuration will help you to better organize your uploaded files.",
         "fileUploadConfigurationDialogHeadingOpenAPI": "Uploading Files",
-        "fileUploadConfigurationDialogOpenAPIHelp": "Upload your files by calling Instana's Web REST API. This could be integrated into your pipeline process for automated deployment. The explaination and usage of our Web REST API is defined within our <documentation>documentation</documentation>. The website id for this configuration is <code>{{websiteId}}</code> and the ID of this configuration itself is <code>{{configId}}</code>, you will need them while making the Web REST API call.",
+        "fileUploadConfigurationDialogOpenAPIHelp": "Upload your files by calling Instana's Web REST API. This could be integrated into your pipeline process for automated deployment. The explaination and usage of our Web REST API is defined within our <documentation>documentation</documentation>. The ID of this configuration is <code>{{configId}}</code> which you will need while making the Web REST API call.",
         "stackTraceTranslationLabelConfiguration": "Configuration",
         "stackTraceTranslationLabelFiles": "Files",
         "stackTraceTranslationLabelTotalSize": "Total Size",
