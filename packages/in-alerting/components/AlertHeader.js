@@ -46,7 +46,8 @@ export default function AlertHeader({
 
   const alertRevision =
     extendedAlertConfigVersions.find(({ created }) => alertConfig.created === created) ?? alertConfig;
-  const isDeletedConfig = extendedAlertConfigVersions.some(alertConfig => alertConfig.deleted);
+  const isLatestVersionDeleted =
+    extendedAlertConfigVersions.length > 0 && extendedAlertConfigVersions[0].changeSummary.changeType === 'DELETE';
   const isNotLatestRevision = alertRevision.created < extendedAlertConfigVersions[0].created;
 
   const [errorMessage, setErrorMessage] = useState(null);
@@ -177,12 +178,8 @@ export default function AlertHeader({
             </>
           )}
 
-          {alertConfig.readOnly && !isDeletedConfig && (
-            <Tooltip
-              content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip', {
-                description: alertRevision.description
-              })}
-            >
+          {alertConfig.readOnly && (
+            <Tooltip content={t('in-alerting:components.alertHeaderRestoreRevisionTooltip')}>
               <IconButton
                 kind="primaryv2"
                 type="lib_actions_revert"
@@ -262,7 +259,7 @@ export default function AlertHeader({
           )}
         </div>
       </div>
-      {isDeletedConfig && (
+      {isLatestVersionDeleted && (
         <Message
           type="warning"
           withIcon
@@ -272,7 +269,7 @@ export default function AlertHeader({
           )}
         />
       )}
-      {!isDeletedConfig && isNotLatestRevision && (
+      {!isLatestVersionDeleted && isNotLatestRevision && (
         <Message withIcon className={locals.bottomSpace}>
           <Trans
             i18nKey="in-alerting:components.alertHeaderIsNotLatestRevisionMessage"
@@ -328,12 +325,7 @@ function openRestoreConfirmationDialog(alertRevision, doRestore) {
   addActiveDialog(
     <ConfirmationDialog
       header={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogHeader')}
-      description={
-        <Trans
-          i18nKey="in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogDescription"
-          values={{ description: alertRevision.description }}
-        />
-      }
+      description={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogDescription')}
       confirmButtonLabel={t('in-alerting:components.alertHeaderRestoreRevisionConfirmationDialogConfirmButton')}
       onSubmit={() => {
         close();
