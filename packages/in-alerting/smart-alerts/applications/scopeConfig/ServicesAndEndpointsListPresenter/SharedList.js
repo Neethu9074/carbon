@@ -213,7 +213,7 @@ SharedList.propTypes = {
   ).isRequired,
   loadMore: PropTypes.func.isRequired,
   renderSubList: PropTypes.func,
-  validationError: PropTypes.string,
+  validationError: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   stateManagement: stateManagementPropType,
   stateProcessors: PropTypes.shape({
     enhanceParentIdsWithChildId: PropTypes.func.isRequired,
