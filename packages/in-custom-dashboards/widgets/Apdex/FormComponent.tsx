@@ -16,7 +16,7 @@ export default function FormComponent() {
     <Stack gap="normal">
       <Header>
         <Stack direction="horizontal" distribution="spaceBetween" align="end" wrap>
-          <StackItem>{t('in-custom-dashboards:widgets.apdex.formComponent.apdexConfig')}</StackItem>
+          <StackItem>{t('in-custom-dashboards:widgets.apdex.formComponent.title')}</StackItem>
         </Stack>
       </Header>
     </Stack>

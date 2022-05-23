@@ -1,0 +1,43 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import React from 'react';
+
+import { Stack, StackItem, SvgIcon } from '@instana/components';
+
+import { ApdexType } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
+import Tooltip from 'in-components/Tooltip/Tooltip';
+import theme from 'in-themes';
+import { t } from 'in-i18n';
+
+import locals from './WidgetHeader.mless';
+
+interface WidgetHeaderProps {
+  title: string;
+  entityType: ApdexType;
+  entityLabel: string;
+}
+
+export default function WidgetHeader({ title, entityType, entityLabel }: WidgetHeaderProps) {
+  const iconType = { website: 'lib_website' }[entityType];
+  const tooltipText = t('in-custom-dashboards:widgets.apdex.entityInfo.tooltip', { context: entityType });
+
+  return (
+    <Stack direction="horizontal" align="center">
+      <StackItem>
+        <div className={locals.title}>{title}</div>
+      </StackItem>
+      <StackItem>
+        <Stack direction="horizontal">
+          <Tooltip content={tooltipText}>
+            <SvgIcon type={iconType} color={theme.lib.colors.N600Light} aria-label={tooltipText} />
+          </Tooltip>
+          <span className={locals.entityLabel}>{entityLabel}</span>
+        </Stack>
+      </StackItem>
+    </Stack>
+  );
+}

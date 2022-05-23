@@ -576,8 +576,21 @@
       }
     },
     "apdex": {
-      "apdex": "Apdex: Chart",
-      "formComponent": { "apdexConfig": "Apdex: Chart" }
+      "title": "Apdex: Chart",
+      "chart": {
+        "metricLabel": "Apdex"
+      },
+      "demo": {
+        "title": "Apdex for Prod",
+        "entityLabel": "Robot Shop"
+      },
+      "formComponent": {
+        "title": "Apdex Configuration"
+      },
+      "entityInfo": {
+        "tooltip": "Unknown Apdex",
+        "tooltip_website": "Website Apdex"
+      }
     },
     "timezone": {
       "demo": {
