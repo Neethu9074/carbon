@@ -267,7 +267,7 @@
           "metricLabel": "Error Rate"
         },
         "logs": {
-          "name": "Error and Warning Logs",
+          "name": "Logs",
           "headline": "Automatic Alerts for Error and Warning Logs",
           "text": "Receive an alert when the number of calls with given error and warning log messages is higher than expected.",
           "metricLabel": "Calls",

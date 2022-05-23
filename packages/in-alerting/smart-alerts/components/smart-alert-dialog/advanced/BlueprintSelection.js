@@ -95,6 +95,7 @@ BlueprintSelection.propTypes = {
     PropTypes.shape({
       type: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
+      isBeta: PropTypes.bool.isRequired,
       headline: PropTypes.string.isRequired,
       text: PropTypes.string.isRequired
     })
