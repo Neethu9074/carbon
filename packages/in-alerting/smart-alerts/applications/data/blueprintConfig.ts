@@ -62,6 +62,7 @@ interface BluePrintBase {
     alertConfig: ApplicationAlertConfig,
     timeConfig: FixedTimeConfig
   ) => FormModelElement[];
+  readonly isBeta: boolean;
 }
 
 export type ApplicationAlertType = 'slowness' | 'errorRate' | 'logs' | 'statusCode' | 'throughput';
@@ -102,6 +103,7 @@ const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   thresholdDefaults: {
     operator: '>='
   },
+  isBeta: false,
   getEntityTagFilterFormModel: (
     alertConfig: ApplicationAlertConfig,
     applicationId: string,
@@ -166,6 +168,7 @@ const logsBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   name: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.name'),
   headline: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.headline'),
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.logs.text'),
+  isBeta: true,
   baselineEnabled: false,
   defaultMetric: 'calls',
   getMetricName: () => 'calls',
