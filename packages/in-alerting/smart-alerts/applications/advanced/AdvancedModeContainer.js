@@ -17,6 +17,10 @@ import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/ad
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import AdvancedModeStepsContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeStepsContainer';
 import ApplicationAlertPropertiesTitleRow from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPropertiesTitleRow';
+import {
+  fieldTouchedAndInvalid,
+  isCustomPayloadValidOrUntouched
+} from 'in-alerting/smart-alerts/components/utils/formUtils';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
@@ -115,7 +119,7 @@ export default function AdvancedModeContainer(props) {
           scrollId: '2',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.title'),
-          valid: formFieldsValid(form, ['applications']) && isTagFilterFormModelValid,
+          valid: form.get('applications')?.valid && isTagFilterFormModelValid,
           content: (
             <>
               <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
@@ -253,32 +257,4 @@ export default function AdvancedModeContainer(props) {
       ]}
     />
   );
-}
-
-// TODO extract this into own module as part of story https://instana.kanbanize.com/ctrl_board/37/cards/91077
-function formFieldsValid(form, fieldsToCheck) {
-  const invalid = Object.entries(form?.items ?? {})
-    .filter(([fieldName]) => fieldsToCheck?.includes(fieldName))
-    .some(([, { hierarchyValid }]) => !hierarchyValid);
-  return !invalid;
-}
-
-function fieldTouchedAndInvalid(field) {
-  return field && field.touched && !field.valid;
-}
-
-function payloadItemInvalid(item) {
-  const key = item.get('key');
-  const val = item.get('value');
-  return fieldTouchedAndInvalid(key) || fieldTouchedAndInvalid(val);
-}
-
-// TODO extract this into own module as part of story https://instana.kanbanize.com/ctrl_board/37/cards/91077
-function isCustomPayloadValidOrUntouched(form) {
-  const customPayloadForm = form.get('customPayloadFields');
-  const { touched, valid, items } = customPayloadForm;
-  if (!touched) return true;
-  if (!valid) return false; // valid as long as all keys are unique
-
-  return !items.find(item => payloadItemInvalid(item));
 }
