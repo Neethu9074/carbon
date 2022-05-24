@@ -14,8 +14,9 @@ import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 
 export default function FileUploadConfigurationDialog(props) {
-  const { websiteId, onFinished, config } = props;
-  const [form, setForm] = useState(createForm(config));
+  const { websiteId, onFinished } = props;
+  const inputConfig = props.config;
+  const [form, setForm] = useState(createForm(inputConfig));
   const [message, setMessage] = useState(null);
 
   const extraProps = {
@@ -55,9 +56,14 @@ export default function FileUploadConfigurationDialog(props) {
       }
 
       response$.once(
-        () => {
+        data => {
           onFinished({ message: successMessage, type: 'success' });
-          close();
+          if (newConfig.id) {
+            close();
+          } else {
+            setMessage({ message: successMessage, type: 'success' });
+            setForm(createForm(data));
+          }
         },
         error => {
           setMessage({

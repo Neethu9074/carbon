@@ -512,7 +512,7 @@
           }
         },
         "fileDownloadConfigurationDialogMessageSavingConfiguration": "Saving configuration…",
-        "fileDownloadConfigurationDialogMessageConfigurationUpdated": "ConfigurationUpdated.",
+        "fileDownloadConfigurationDialogMessageConfigurationUpdated": "Configuration Updated.",
         "fileDownloadConfigurationDialogMessageNewConfigurationSaved": "New configuration saved.",
         "fileDownloadConfigurationDialogMessageFailedToSaveConfiguration": "Failed to save configuration: {{message}}",
         "fileDownloadConfigurationDialogPathValidatorIsAtLeastOneMatchingRuleDefinedValidatorMessage": "At least one matching rule is required.",
