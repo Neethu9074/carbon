@@ -16,49 +16,49 @@ import { t } from 'in-i18n';
 
 const columnDefinitions = [
   {
-    label: t('in-automation:action:name'),
+    label: t('in-settings:tabs:name'),
     id: 'name',
     getContent(row) {
       return <Link href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>{row.name}</Link>;
     }
   },
   {
-    label: t('in-automation:action:description'),
+    label: t('in-settings:tabs:description'),
     id: 'description',
     getContent(row) {
       return row.description;
     }
   },
   {
-    label: t('in-automation:action:type'),
+    label: t('in-settings:tabs:type'),
     id: 'type',
     getContent(row) {
       return row.type;
     }
   },
   {
-    label: t('in-automation:action:invocations'),
+    label: t('in-settings:tabs:invocations'),
     id: 'invocations',
     getContent(row) {
       return row?.stats?.runs?.total.toString() ?? '0';
     }
   },
   {
-    label: t('in-automation:action:successRate'),
+    label: t('in-settings:tabs:successRate'),
     id: 'successRate',
     getContent(row) {
       return row?.stats?.runspercent?.toString() ?? null;
     }
   },
   {
-    label: t('in-automation:action:lastModified'),
+    label: t('in-settings:tabs:lastModified'),
     id: 'lastModified',
     getContent(row) {
       return new Date(row._modifiedAt).toLocaleString();
     }
   },
   {
-    label: t('in-automation:action:tags'),
+    label: t('in-settings:tabs:tags'),
     id: 'tags',
     getContent() {
       return '';

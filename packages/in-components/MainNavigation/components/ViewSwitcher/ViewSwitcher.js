@@ -40,8 +40,6 @@ import {
   getLinkToAnalyze as getLinkToApplicationsAnalyze,
   isApplicationsView
 } from 'in-applications/navigation/paths';
-// import { getLinkToAutomation } from 'in-automation/navigation/paths';
-import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import {
   applicationListFullyQualified as cloudfoundryApplicationList,
   cloudfoundry
@@ -63,6 +61,7 @@ import { customDashboardsPath } from 'in-custom-dashboards/navigation/url';
 import { phmcListFullyQualified, ibmp } from 'in-phmc/navigation/paths';
 import { zhmcListFullyQualified, ibmz } from 'in-zhmc/navigation/paths';
 import { addActiveDialog } from 'in-components/DialogPresenter/store';
+import { cockpit as cockpitPath } from 'in-cockpit/navigation/paths';
 import AboutInstanaDialog from 'in-components/AboutInstanaDialog';
 import Stan from 'in-components/MainNavigation/components/Stan';
 import { syntheticsPath } from 'in-synthetics/navigation/paths';

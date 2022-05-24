@@ -830,7 +830,10 @@
     "actionDetails": "Action Details",
     "filterActions": "Filter Actions",
     "encoding": "Encoding",
-    "fields": "Fields"
+    "fields": "Fields",
+    "invocations": "Invocations",
+    "successRate": "Success Rate",
+    "lastModified": "Last Modified"
   },
   "languageSelection": {
     "language": "Language",
