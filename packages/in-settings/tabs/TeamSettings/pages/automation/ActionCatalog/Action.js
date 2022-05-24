@@ -6,6 +6,7 @@
 import React from 'react';
 
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -27,7 +28,6 @@ import locals from './Action.mless';
 const paramCols = [
   stringColumn(t('in-settings:tabs.name'), 'name'),
   stringColumn(t('in-settings:tabs.description'), 'description', 120),
-  stringColumn(t('in-settings:tabs.encoding'), 'encoding'),
   formattedColumn(t('in-settings:tabs.value'), 'value')
 ];
 
@@ -71,7 +71,7 @@ export default connectTo(
 
         <FormGroup>
           <Label>{t('in-settings:tabs.actionType')}</Label>
-          <div className={locals.flexWrapper}>{action.type}</div>
+          <div className={locals.flexWrapper}>{getType(action)}</div>
         </FormGroup>
         <FormGroup>
           <Label>{t('in-settings:tabs.name')}</Label>

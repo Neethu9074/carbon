@@ -833,7 +833,8 @@
     "fields": "Fields",
     "invocations": "Invocations",
     "successRate": "Success Rate",
-    "lastModified": "Last Modified"
+    "lastModified": "Last Modified",
+    "docLink": "Documentation Link"
   },
   "languageSelection": {
     "language": "Language",

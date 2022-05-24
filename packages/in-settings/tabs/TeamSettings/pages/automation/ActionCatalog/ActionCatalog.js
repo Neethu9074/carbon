@@ -8,11 +8,10 @@ import React from 'react';
 import { Link } from '@instana/components';
 
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
+import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { getAllActions } from 'in-api/automation';
 import { t } from 'in-i18n';
-
-// import locals from './Events.mless';
 
 const columnDefinitions = [
   {
@@ -32,9 +31,7 @@ const columnDefinitions = [
   {
     label: t('in-settings:tabs:type'),
     id: 'type',
-    getContent(row) {
-      return row.type;
-    }
+    getContent: getType
   },
   {
     label: t('in-settings:tabs:invocations'),
@@ -54,14 +51,14 @@ const columnDefinitions = [
     label: t('in-settings:tabs:lastModified'),
     id: 'lastModified',
     getContent(row) {
-      return new Date(row._modifiedAt).toLocaleString();
+      return new Date(row.lastModified).toLocaleString();
     }
   },
   {
     label: t('in-settings:tabs:tags'),
     id: 'tags',
-    getContent() {
-      return '';
+    getContent(row) {
+      return row.tags;
     }
   }
 ];
@@ -76,7 +73,7 @@ export default function ActionCatalog({ setTitle = true, noDataMessage, pageSize
       loadEntities={getAllActions}
       columnDefinitions={columnDefinitions}
       getHeader={getHeader()}
-      searchAttributes={['name', 'description']}
+      searchAttributes={['name', 'description', 'tags']}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
     />
