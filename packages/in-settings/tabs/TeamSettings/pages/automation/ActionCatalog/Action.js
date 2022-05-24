@@ -40,7 +40,7 @@ export default connectTo(
       return <LoadingIndicator />;
     }
 
-    if (action && action.errors) {
+    if ((action && action.errors) || (action && !action.fields)) {
       return (
         <SettingsDetailPage>
           <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
@@ -48,7 +48,7 @@ export default connectTo(
           </SubViewHeader>
           <SectionLine />
           <DescriptionText>
-            {action.errors[0]}
+            {action.errors ? action.errors[0] : action.message}
             <br />
             {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
           </DescriptionText>
