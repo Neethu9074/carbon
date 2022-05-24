@@ -114,4 +114,4 @@ export const allowDownloadMetricsFromCharts = isInstanaEmail;
 
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
 
-export const automationEnabled = isFeatureFlagEnabled('automationEnabled', true);
+export const automationEnabled = isFeatureFlagEnabled('automationEnabled', false);

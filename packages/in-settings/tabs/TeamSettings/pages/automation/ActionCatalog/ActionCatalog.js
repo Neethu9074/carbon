@@ -37,7 +37,7 @@ const columnDefinitions = [
     label: t('in-settings:tabs:invocations'),
     id: 'invocations',
     getContent(row) {
-      return row?.stats?.runs?.total.toString() ?? '0';
+      return row?.stats?.runs?.total?.toString() ?? '0';
     }
   },
   {
