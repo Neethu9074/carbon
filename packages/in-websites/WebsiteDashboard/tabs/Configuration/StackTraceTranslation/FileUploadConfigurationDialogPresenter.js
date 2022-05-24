@@ -9,6 +9,7 @@ import React, { Fragment } from 'react';
 import { Link } from '@instana/components';
 
 import TemporaryMessage from 'in-components/TemporaryMessage/TemporaryMessage';
+import CopyToClipboardButton from 'in-components/CopyToClipboardButton';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import SectionHelp from 'in-settings/components/SectionHelp';
 import { close } from 'in-components/DialogPresenter/store';
@@ -19,12 +20,13 @@ import { isBlank } from 'in-services/util/string';
 import Dialog from 'in-components/Dialog/Dialog';
 import Label from 'in-components/form/Label';
 import Input from 'in-components/form/Input';
+import { baseUrl } from 'in-services/config';
 import { t, Trans } from 'in-i18n';
 
 import locals from './FileUploadConfigurationDialogPresenter.mless';
 
 export default function FileUploadConfigurationDialogPresenter(props) {
-  const { form, message, onSubmit, onChange } = props;
+  const { form, message, onSubmit, onChange, websiteId } = props;
 
   return (
     <Dialog
@@ -69,7 +71,6 @@ export default function FileUploadConfigurationDialogPresenter(props) {
             <SectionHelp>
               <Trans
                 i18nKey="in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogOpenAPIHelp"
-                values={{ configId: form.get('id').value }}
                 components={{
                   documentation: (
                     <Link
@@ -82,11 +83,44 @@ export default function FileUploadConfigurationDialogPresenter(props) {
                 }}
               />
             </SectionHelp>
+            <Row>
+              <Col xs={12}>
+                <CopyableText
+                  title={t('in-websites:websiteDashboard.tabs.configuration.fileUploadUrl')}
+                  value={`${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${
+                    form.get('id').value
+                  }/form`}
+                  fieldName="sourceMapUploadFormUrl"
+                />
+              </Col>
+              <Col xs={12}>
+                <CopyableText
+                  title={t('in-websites:websiteDashboard.tabs.configuration.clearUploadedFilesUrl')}
+                  value={`${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${
+                    form.get('id').value
+                  }/clear`}
+                  fieldName="sourceMapUploadClearUrl"
+                />
+              </Col>
+            </Row>
           </>
         )}
 
         <SaveCancel form={form} onClickCancelButton={close} isCreate={isBlank(form.get('id').value)} />
       </form>
     </Dialog>
+  );
+}
+
+function CopyableText({ title, value, fieldName }) {
+  return (
+    <FormGroup>
+      <Label htmlFor={fieldName}>{title}</Label>
+
+      <div className={locals.flexWrapper}>
+        <Input className={locals.input} readOnly type="text" id={fieldName} value={value} autoComplete="off" />
+        <CopyToClipboardButton getText={() => value} />
+      </div>
+    </FormGroup>
   );
 }

@@ -1,10 +1,11 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
  */
 
-import { compose, withProps, withState } from 'recompose';
 import { createMapForm, createField } from 'formalistic';
+import React, { useState } from 'react';
 
 import FileUploadConfigurationDialogPresenter from 'in-websites/WebsiteDashboard/tabs/Configuration/StackTraceTranslation/FileUploadConfigurationDialogPresenter';
 import { addSourceMapUploadConfiguration, updateSourceMapUploadConfiguration } from 'in-websites/api/websites';
@@ -12,10 +13,14 @@ import { notBlankValidator } from 'in-services/validators/string';
 import { close } from 'in-components/DialogPresenter/store';
 import { t } from 'in-i18n';
 
-export default compose(
-  withState('form', 'setForm', ({ config }) => createForm(config)),
-  withState('message', 'setMessage', null),
-  withProps(({ form, setForm, setMessage, websiteId, onFinished }) => ({
+export default function FileUploadConfigurationDialog(props) {
+  const { websiteId, onFinished, config } = props;
+  const [form, setForm] = useState(createForm(config));
+  const [message, setMessage] = useState(null);
+
+  const extraProps = {
+    form,
+    message,
     onChange(path, value) {
       setForm(form.updateIn(path, field => field.setValue(value).setTouched(true)));
     },
@@ -27,7 +32,7 @@ export default compose(
         return;
       }
 
-      const config = form.toJS();
+      const newConfig = form.toJS();
       let response$;
       let successMessage;
       setMessage({
@@ -37,13 +42,13 @@ export default compose(
         type: 'success',
         isSaving: true
       });
-      if (config.id) {
-        response$ = updateSourceMapUploadConfiguration(websiteId, config);
+      if (newConfig.id) {
+        response$ = updateSourceMapUploadConfiguration(websiteId, newConfig);
         successMessage = t(
           'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageConfigurationUpdated'
         );
       } else {
-        response$ = addSourceMapUploadConfiguration(websiteId, config);
+        response$ = addSourceMapUploadConfiguration(websiteId, newConfig);
         successMessage = t(
           'in-websites:websiteDashboard.tabs.configuration.fileDownloadConfigurationDialogMessageNewConfigurationSaved'
         );
@@ -65,8 +70,10 @@ export default compose(
         }
       );
     }
-  }))
-)(FileUploadConfigurationDialogPresenter);
+  };
+
+  return <FileUploadConfigurationDialogPresenter {...props} {...extraProps} />;
+}
 
 export function createForm(config) {
   return createMapForm()

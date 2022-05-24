@@ -41,4 +41,15 @@
     flex-grow: 1;
     margin: 0 1rem 0 0;
   }
+
+  .input {
+    width: 100%;
+
+    margin-right: 0.5rem;
+  }
+
+  .flexWrapper {
+    display: flex;
+    align-items: center;
+  }
 }
