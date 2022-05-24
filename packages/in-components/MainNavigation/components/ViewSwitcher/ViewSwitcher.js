@@ -121,7 +121,6 @@ export default function ViewSwitcher({
       <SpacerListItem />
       <Analyze {...commonProps} />
       <Incidents {...commonProps} />
-      {/* <Automation {...commonProps} /> */}
       <SpacerListItem />
       <View
         id="main-nav-settings"
@@ -523,22 +522,3 @@ function SpacerListItem() {
     </li>
   );
 }
-
-// function Automation(props) {
-//   return (
-//     <View
-//       id="main-nav-automation"
-//       label={t('in-components:mainNavigation.viewSwitcherLabelAutomation')}
-//       icon="lib_automation_inverted"
-//       isActive$={any(
-//         isView(isAnalyzeView),
-//         isWebsiteAnalyzeView,
-//         isMobileAppAnalyzeView,
-//         isProfileAnalyzeView,
-//         isLogsAnalyzeView
-//       )}
-//       href$={getLinkToAutomation()}
-//       {...props}
-//     />
-//   );
-// }

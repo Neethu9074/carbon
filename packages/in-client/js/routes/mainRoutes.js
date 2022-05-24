@@ -87,6 +87,7 @@ export default (
     {profilingRoutes}
     {loggingRoutes}
     {deepLinkRoutes}
+
     {/* The landing page must be the very last item as it dynamically redirects */}
     <Route path="/" component={LandingPage} />
   </FragmentSupportingSwitch>
