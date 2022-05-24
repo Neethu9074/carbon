@@ -181,11 +181,11 @@
           "config": {
             "static": {
               "title": "Static",
-              "description": "Threshold is either a fixed or time-dependent threshold value. Instana helps you pick the right threshold value based on recent data"
+              "description": "Threshold is either a fixed or time-dependent threshold value. Instana helps you pick the right threshold value based on recent data."
             },
             "adaptive": {
               "title": "Adaptive",
-              "description": "Threshold automatically adapts to the changes of the underlying metric"
+              "description": "Threshold automatically adapts to the changes of the underlying metric."
             }
           }
         },
