@@ -13,7 +13,7 @@ export default function ImsMqEntryDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title={t('in-forge:tracing.jms.titleDestination')}>{span.getIn(['data', 'mq', 'queue'])}</Di>
+        <Di title={t('in-forge:tracing.ims.titleDestination')}>{span.getIn(['data', 'mq', 'queue'])}</Di>
       </Dl>
 
       <Dl>

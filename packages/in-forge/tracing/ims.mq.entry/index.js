@@ -13,6 +13,6 @@ registerSpanDefinition({
   detailView: 'ImsMqEntryDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'mq', 'queue'], '<unknown>');
+    return span.getIn(['data', 'mq', 'queue'], t('in-forge:tracing.ims.titleUnknown'));
   }
 });

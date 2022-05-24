@@ -13,6 +13,6 @@ registerSpanDefinition({
   detailView: 'CicsMqEntryDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'mq', 'queue'], '<unknown>');
+    return span.getIn(['data', 'mq', 'queue'], t('in-forge:tracing.cics.titleUnknown'));
   }
 });
