@@ -113,3 +113,5 @@ export const allowedMultiplesOfRollupSizeMissingInCharts = 4;
 export const allowDownloadMetricsFromCharts = isInstanaEmail;
 
 export const perSecondAggregationEnabled = isFeatureFlagEnabled('perSecondAggregationEnabled', false);
+
+export const automationEnabled = isFeatureFlagEnabled('automationEnabled', false);

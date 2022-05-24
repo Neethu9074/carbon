@@ -38,10 +38,8 @@ import {
   teamSettingsLogManagementLogDna,
   teamSettingsLogManagementSplunk,
   teamSettingsAlertingHub,
-  teamSettingsAutomations,
   teamSettingsActionCatalog,
-  teamSettingsActionDetails,
-  teamSettingsActionSources
+  teamSettingsActionDetails
 } from 'in-settings/navigation/paths';
 import MaintenanceWindowsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfigurations';
 import MaintenanceWindowPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/MaintenanceConfigurations/MaintenanceConfiguration';
@@ -58,6 +56,7 @@ import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Api
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
+import { applicationSmartAlertsEnabled, automationEnabled } from 'in-services/featureFlags';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
 import AccessLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AccessLog/AccessLog';
@@ -73,7 +72,6 @@ import UserPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Users/Us
 import AlertsHub from 'in-alerting/smart-alerts/components/alerts-hub/AlertsHub';
 import ElkPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Elk/Elk';
 import { findFirstPermittedTeamPage } from 'in-settings/tabs/permissions';
-import { applicationSmartAlertsEnabled } from 'in-services/featureFlags';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import NotFoundPage from 'in-settings/tabs/pages/NotFound';
 import SetBodyColor from 'in-components/SetBodyColor';
@@ -244,35 +242,24 @@ function navigationTreeForRole(role) {
     });
   }
 
-  // if (role.canConfigureAutomation) {
-  // if (true) {
-  navigationTree.push({
-    title: t('in-settings:tabs.automation'),
-    pages: [
-      {
-        path: teamSettingsAutomations,
-        label: t('in-settings:tabs.automations'),
-        component: () => 'automations'
-      },
-      {
-        path: teamSettingsActionCatalog,
-        label: t('in-settings:tabs.actionCatalog'),
-        component: ActionCatalogPage,
-        subPages: [
-          {
-            path: teamSettingsActionDetails,
-            component: ActionDetailsPage
-          }
-        ]
-      },
-      {
-        path: teamSettingsActionSources,
-        label: t('in-settings:tabs.actionSources'),
-        component: () => 'actionSources'
-      }
-    ]
-  });
-  // }
+  if (automationEnabled) {
+    navigationTree.push({
+      title: t('in-settings:tabs.automation'),
+      pages: [
+        {
+          path: teamSettingsActionCatalog,
+          label: t('in-settings:tabs.actionCatalog'),
+          component: ActionCatalogPage,
+          subPages: [
+            {
+              path: teamSettingsActionDetails,
+              component: ActionDetailsPage
+            }
+          ]
+        }
+      ]
+    });
+  }
 
   if (role.canConfigureLogManagement) {
     navigationTree.push({
