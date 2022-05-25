@@ -8,7 +8,7 @@ import React from 'react';
 
 import WidgetHeader from 'in-custom-dashboards/widgets/Apdex/components/WidgetHeader';
 import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
-import { ApdexType } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
+import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { Axis, MetricDataSeries } from 'in-components/Chart/types';
 import Renderer from 'in-components/Chart/renderer/Renderer';
@@ -18,7 +18,7 @@ import { t } from 'in-i18n';
 
 interface ApdexWidgetProps {
   title: string;
-  entityType: ApdexType;
+  entityType: ApdexEntityTypes;
   entityLabel: string;
   dragHandle: React.ReactNode;
   actions: React.ReactNode;

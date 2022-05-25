@@ -4,5 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
-export type ApdexWebsiteType = 'website';
-export type ApdexType = ApdexWebsiteType;
+import { ApdexEntityApdexType } from 'in-types';
+
+export type ApdexEntityTypes = Lowercase<ApdexEntityApdexType>;
+export const AvailableEntityTypes: readonly ApdexEntityTypes[] = Object.freeze(['website'] as const);

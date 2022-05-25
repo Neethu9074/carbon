@@ -585,11 +585,24 @@
         "entityLabel": "Robot Shop"
       },
       "formComponent": {
-        "title": "Apdex Configuration"
+        "title": "Apdex Configuration",
+        "entityTypeTitle": "Apdex Type"
+      },
+      "configurationSelector": {
+        "label": "Apdex Configuration",
+        "selectConfig": "Please select a configuration",
+        "manageConfig": "Manage Apdex",
+        "noneAvailCreateOne": "None available, please create one.",
+        "pleaseSelect": "Please select"
+      },
+      "entityTypeSelector": {
+        "type": "Unknown Type",
+        "type_website": "Website"
       },
       "entityInfo": {
         "tooltip": "Unknown Apdex",
-        "tooltip_website": "Website Apdex"
+        "tooltip_website": "Website Apdex",
+        "tooltip_application": "Application Apdex"
       }
     },
     "timezone": {

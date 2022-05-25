@@ -27,4 +27,18 @@ describe('in-custom-dashboards/widgets/Apdex/components/WidgetHeader', () => {
       t('in-custom-dashboards:widgets.apdex.entityInfo.tooltip_website')
     );
   });
+
+  it('renders the corresponding values for application entity ', () => {
+    const wrapper = shallow(
+      <WidgetHeader title="This is a necessary regression." entityType="application" entityLabel="Application Adex" />
+    );
+
+    expect(wrapper.find(SvgIcon).prop('type')).toBe('lib_application');
+    expect(wrapper.find(SvgIcon).prop('aria-label')).toBe(
+      t('in-custom-dashboards:widgets.apdex.entityInfo.tooltip_application')
+    );
+    expect(wrapper.find(Tooltip).prop('content')).toBe(
+      t('in-custom-dashboards:widgets.apdex.entityInfo.tooltip_application')
+    );
+  });
 });

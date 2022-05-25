@@ -1,0 +1,70 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+import { Field } from 'formalistic';
+import React from 'react';
+
+import { Button } from '@instana/components';
+
+import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
+import useApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfiguration';
+import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
+import SelectInSection from 'in-components/form/Select/SelectInSection';
+import { t } from 'in-i18n';
+
+interface ConfigurationSelectorProps {
+  field?: Field<string>;
+  entityId: string;
+  entityType: ApdexEntityTypes;
+  onChange: (value: string) => void;
+  onOpenConfigurationManager: () => void;
+}
+
+export default function ConfigurationSelector({
+  field,
+  entityId,
+  entityType,
+  onChange,
+  onOpenConfigurationManager
+}: ConfigurationSelectorProps) {
+  const [apdexConfigurations, status] = useApdexConfiguration(entityType, entityId);
+
+  const isFieldValid = field?.valid;
+  const isFieldTouched = field?.touched;
+  const hasError = isFieldValid && isFieldTouched;
+  const isResolved = status === 'resolved';
+  const hasSomeConfig = apdexConfigurations?.length !== 0;
+  const configId = field?.value;
+
+  return (
+    <SelectInSection
+      label={t('in-custom-dashboards:widgets.apdex.configurationSelector.label')}
+      disabled={!entityId}
+      value={configId}
+      onChange={e => onChange(e.target.value)}
+      hasError={hasError}
+      additionalContent={
+        <OverridingFieldValidationMessage
+          field={field}
+          message={t('in-custom-dashboards:widgets.apdex.configurationSelector.selectConfig')}
+        />
+      }
+      actions={
+        <Button disabled={!entityId} kind="primary" onClick={onOpenConfigurationManager}>
+          {t('in-custom-dashboards:widgets.apdex.configurationSelector.manageConfig')}
+        </Button>
+      }
+    >
+      {(!isResolved || hasSomeConfig) && (
+        <option>{t('in-custom-dashboards:widgets.apdex.configurationSelector.pleaseSelect')}</option>
+      )}
+
+      {isResolved && !hasSomeConfig && (
+        <option>{t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne')}</option>
+      )}
+    </SelectInSection>
+  );
+}
