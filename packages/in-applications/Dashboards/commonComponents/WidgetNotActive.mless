@@ -1,0 +1,18 @@
+@import '~in-themes/active.less';
+
+:local {
+  .disabledWidget {
+    height: 100%;
+    background: @lib__colors__N050;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .disabledText {
+    margin-top: 0.25rem;
+    color: @lib__colors__N500;
+    font-size: @lib__typography__body__font-size;
+  }
+}
