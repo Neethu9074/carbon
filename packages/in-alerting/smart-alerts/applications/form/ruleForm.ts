@@ -116,7 +116,7 @@ function extendForStatusCode(baseForm: MapForm, rule: StatusCodeRangeLikeApplica
       statusCodeStart: createField({
         value: rule.statusCode?.statusCodeStart ?? 500,
         validator: value => {
-          if (!Number.isInteger(value)) {
+          if (!Number.isInteger(value) || value < 1) {
             return [
               {
                 severity: 'error',
@@ -130,7 +130,7 @@ function extendForStatusCode(baseForm: MapForm, rule: StatusCodeRangeLikeApplica
       statusCodeEnd: createField({
         value: rule.statusCode?.statusCodeEnd ?? 599,
         validator: value => {
-          if (!Number.isInteger(value)) {
+          if (!Number.isInteger(value) || value < 1) {
             return [
               {
                 severity: 'error',
