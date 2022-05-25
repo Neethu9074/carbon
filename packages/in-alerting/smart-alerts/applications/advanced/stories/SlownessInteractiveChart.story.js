@@ -5,18 +5,20 @@
 
 import React, { useState } from 'react';
 
-import SlownessInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/SlownessInteractiveChart';
+import SlownessThresholdCondition from 'in-alerting/smart-alerts/applications/advanced/SlownessThresholdCondition';
 import { someSlownessFormData } from 'in-alerting/smart-alerts/applications/advanced/stories/formSampleData';
 import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form/smartAlertForm';
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export default {
-  component: SlownessInteractiveChart
+  component: SlownessThresholdCondition()
 };
 
+const blueprintConfig = getBlueprintConfig('slowness');
+
 export function WithStaticThreshold() {
-  const [form, setForm] = useState(
+  const [form, updateForm] = useState(
     createSmartAlertForm({
       ...someSlownessFormData,
       threshold: {
@@ -27,21 +29,19 @@ export function WithStaticThreshold() {
 
   const props = {
     form,
-    onChange: (path, fn) => setForm(form.updateIn(path, fn)),
-    blueprintConfig: getBlueprintConfig('slowness'),
-    updateForm: setForm
+    blueprintConfig,
+    updateForm
   };
-  return <SlownessInteractiveChart {...props} />;
+  return <SlownessThresholdCondition {...props} />;
 }
 
 export function WithHistoricBaseline() {
-  const [form, setForm] = useState(createSmartAlertForm(someSlownessFormData));
+  const [form, updateForm] = useState(createSmartAlertForm(someSlownessFormData));
 
   const props = {
     form,
-    onChange: (path, fn) => setForm(form.updateIn(path, fn)),
-    blueprintConfig: getBlueprintConfig('slowness'),
-    updateForm: setForm
+    updateForm,
+    blueprintConfig
   };
-  return <SlownessInteractiveChart {...props} />;
+  return <SlownessThresholdCondition {...props} />;
 }

@@ -5,7 +5,6 @@
 
 import { Field, ListForm, MapForm } from 'formalistic';
 
-import { getFormValueOrDefault } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/thresholdFormHelper';
 import { AggregationType } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -47,20 +46,6 @@ export function alertConfigWithDefaultThreshold(form: MapForm) {
     threshold: {
       ...threshold?.toJS(),
       value: thresholdValue?.value ?? 0
-    }
-  };
-}
-
-export function alertConfigWithDefaultValues(form: MapForm) {
-  const threshold: MapForm = form.get('threshold') as MapForm;
-
-  return {
-    ...form.toJS(),
-    threshold: {
-      ...threshold?.toJS(),
-      value: getFormValueOrDefault(threshold, 'value', 0),
-      baseline: getFormValueOrDefault(threshold, 'baseline', []),
-      deviationFactor: Number(getFormValueOrDefault(threshold, 'deviationFactor', 0))
     }
   };
 }
