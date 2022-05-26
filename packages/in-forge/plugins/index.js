@@ -118,6 +118,7 @@ import './ibmMqQueueUsage';
 import './jiraApplication';
 import './mariaDbDatabase';
 import './pCFOrganization';
+import './rocketMqCluster';
 import './sparkStandalone';
 import './tanzuFoundation';
 import './unmonitoredHost';
