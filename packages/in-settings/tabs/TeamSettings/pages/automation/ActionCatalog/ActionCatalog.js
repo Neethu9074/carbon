@@ -53,7 +53,6 @@ const columnDefinitions = [
     id: 'modifiedAt',
     getContent(row) {
       return formatDateTime(row.modifiedAt * 1000);
-      // return new Date(Math.trunc(row.modifiedAt*1000)).toLocaleString();
     }
   },
   {
