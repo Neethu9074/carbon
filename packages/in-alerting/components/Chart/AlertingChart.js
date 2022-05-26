@@ -43,7 +43,7 @@ export default function AlertingChart({
   const { granularity, rule, threshold, timeThreshold, includeInternal, includeSynthetic } = alertConfigWithFormModel;
 
   const metricName = blueprintConfig.getMetricName(rule);
-  const metricChartGranularity = Math.max(granularity, viewConfig.minChartMetricGranularity);
+  const metricChartGranularity = granularity;
   const formatter = blueprintConfig.getMetricFormat(metricName);
   const aggregation = blueprintConfig.getAggregation(rule);
   const metricLabel = blueprintConfig.getMetricLabel(metricName);

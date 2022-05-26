@@ -16,6 +16,10 @@ import {
 } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPreview';
 import AlertPropertiesContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertPropertiesContainer';
 import AdvancedModeStepsContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeStepsContainer';
+import {
+  isCustomPayloadValidOrUntouched,
+  fieldTouchedAndInvalid
+} from 'in-alerting/smart-alerts/components/utils/formUtils';
 import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
 import AlertTagFilterExpressionConfig from 'in-alerting/smart-alerts/websites/components/AlertTagFilterExpressionConfig';
 import WebsiteAlertPropertiesTitleRow from 'in-alerting/smart-alerts/websites/advanced/WebsiteAlertPropertiesTitleRow';
@@ -60,10 +64,8 @@ export default function AdvancedModeContainer(props) {
         {
           scrollId: '1',
           valid: !(
-            (isCustomEvent &&
-              ruleForm?.get('customEventName')?.valid === false &&
-              ruleForm?.get('customEventName')?.touched) ||
-            (isSpecificJsErrorBlueprint && ruleForm?.get('value')?.valid === false && ruleForm?.get('value')?.touched)
+            (isCustomEvent && fieldTouchedAndInvalid(ruleForm?.get('customEventName'))) ||
+            (isSpecificJsErrorBlueprint && fieldTouchedAndInvalid(ruleForm?.get('value')))
           ),
           label: t('in-alerting:smartAlerts.websites.advanced.triggerLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.triggerTitle'),
@@ -95,8 +97,7 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.websites.advanced.thresholdLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.thresholdTitle'),
           valid:
-            formFieldsValid(form, ['threshold']) ||
-            !formFieldsTouched(form, ['threshold']) ||
+            !fieldTouchedAndInvalid(form.get('threshold')) ||
             // when filter is invalid, baseline depends on it, avoid redundant invalidation indicator
             (thresholdType === HISTORIC_BASELINE && !isTagFilterFormModelValid) ||
             // when the rule definition is incomplete, we do not show a preview chart and
@@ -129,14 +130,8 @@ export default function AdvancedModeContainer(props) {
           label: t('in-alerting:smartAlerts.websites.advanced.timeThresholdLabel'),
           title: t('in-alerting:smartAlerts.websites.advanced.timeThresholdTitle'),
           valid:
-            !(
-              form.get('timeThreshold')?.get('users')?.valid === false &&
-              form.get('timeThreshold')?.get('users')?.touched
-            ) &&
-            !(
-              form.get('timeThreshold')?.get('userPercentage')?.valid === false &&
-              form.get('timeThreshold')?.get('userPercentage')?.touched
-            ),
+            !fieldTouchedAndInvalid(form.get('timeThreshold')?.get('users')) &&
+            !fieldTouchedAndInvalid(form.get('timeThreshold')?.get('userPercentage')),
           content: (
             <TimeThresholdConfig
               form={form}
@@ -207,38 +202,4 @@ export default function AdvancedModeContainer(props) {
       ]}
     />
   );
-}
-
-function formFieldsValid(form, fieldsToCheck) {
-  const invalid = Object.entries(form?.items ?? {})
-    .filter(([fieldName]) => fieldsToCheck?.includes(fieldName))
-    .some(([, { hierarchyValid }]) => !hierarchyValid);
-  return !invalid;
-}
-
-function formFieldsTouched(form, fieldsToCheck) {
-  const touched = Object.entries(form?.items ?? {})
-    .filter(([fieldName]) => fieldsToCheck?.includes(fieldName))
-    .some(([, { hierarchyTouched }]) => hierarchyTouched);
-  return touched;
-}
-
-function fieldTouchedAndInvalid(field) {
-  return field && field.touched && !field.valid;
-}
-
-function payloadItemInvalid(item) {
-  const key = item.get('key');
-  const val = item.get('value');
-  return fieldTouchedAndInvalid(key) || fieldTouchedAndInvalid(val);
-}
-
-// TODO extract this into own module as part of story https://instana.kanbanize.com/ctrl_board/37/cards/91077
-function isCustomPayloadValidOrUntouched(form) {
-  const customPayloadForm = form.get('customPayloadFields');
-  const { touched, valid, items } = customPayloadForm;
-  if (!touched) return true;
-  if (!valid) return false; // valid as long as all keys are unique
-
-  return !items.find(item => payloadItemInvalid(item));
 }

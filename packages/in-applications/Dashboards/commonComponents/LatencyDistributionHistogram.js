@@ -14,6 +14,7 @@ import {
 import LatencyDistributionBase10Chart from 'in-components/LatencyDistributionBase10Chart/LatencyDistributionBase10Chart';
 import getLatencyDistributionBase10 from 'in-applications/subscriptions/getLatencyDistributionBase10';
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
+import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { jumpToUnboundedAnalyticsFromLatencyTracker } from 'in-applications/tracker';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
@@ -93,6 +94,10 @@ export default function LatencyDistributionHistogram({
     ) : (
       undefined
     );
+
+  if (timeConfig.autoRefresh) {
+    return <WidgetNotActive title={cardTitle} rightHeaderContent={rightHeaderContent} />;
+  }
 
   return (
     <Card title={cardTitle} leftHeaderContent={leftHeaderContent} rightHeaderContent={rightHeaderContent} size="l">

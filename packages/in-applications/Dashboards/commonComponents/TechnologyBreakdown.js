@@ -13,6 +13,7 @@ import {
 import { createChartedMetric, createGroupBy, createOrderBy } from 'in-analyze/navigation/paths';
 import { extendWindowSizeOnLiveMode, getResolvedTimeConfig } from 'in-applications/metrics';
 import getTechnologyBreakdown from 'in-applications/subscriptions/getTechnologyBreakdown';
+import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
 import { endpointNameTranslations, getColorChart } from 'in-applications/endpointTypes';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
@@ -120,7 +121,9 @@ export default connectTo(
       };
     }
 
-    return (
+    return timeConfig.autoRefresh ? (
+      <WidgetNotActive title={config.title} />
+    ) : (
       <ResultAwareChart
         result={result}
         config={config}

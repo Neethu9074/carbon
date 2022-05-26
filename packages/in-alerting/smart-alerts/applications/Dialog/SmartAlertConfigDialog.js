@@ -28,7 +28,6 @@ import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/b
 import { applicationsAlertingStepSwitch } from 'in-alerting/smart-alerts/applications/tracker';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import FeatureFeedback from 'in-components/FeatureFeedback/FeatureFeedback';
 import { DAILY } from 'in-alerting/smart-alerts/data/seasonalities';
 import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 
@@ -176,14 +175,6 @@ function SmartAlertConfigDialogWithQueryValidation({
       simpleMode={simpleMode}
       setSimpleMode={setSimpleMode}
       thresholdResult={thresholdResult}
-      featureFeedbackElement={
-        <FeatureFeedback
-          href={`https://docs.google.com/forms/d/e/1FAIpQLSdJfdTTcWhC_X2LaVK503OuyMuZe2ruSFmMEBqb5rjYuWd_VA/viewform`}
-          styles={{
-            marginRight: '2rem'
-          }}
-        />
-      }
       SimpleModeElement={SimpleModeContainer}
       AdvancedModeElement={AdvancedModeContainer}
       isTagFilterFormModelValid={isTagFilterFormModelValid}

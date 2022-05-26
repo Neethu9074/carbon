@@ -1350,6 +1350,10 @@
   "tracingTypeName_cicshttpexit": "CICS HTTP Call",
   "tracingTypeName_cicsrpcentry": "CICS RPC Call",
   "tracingTypeName_cicsrpcexit": "CICS RPC Call",
+  "tracingTypeName_cicsmqentry": "CICS MQ Message",
+  "tracingTypeName_cicsmqexit": "CICS MQ Message",
+  "tracingTypeName_imsmqentry": "IMS MQ Message",
+  "tracingTypeName_imsmqexit": "IMS MQ Message",
   "tracingTypeName_corba": "Corba call",
   "tracingTypeName_corba_plural": "Corba calls",
   "tracingTypeName_corba_0": "Corba calls",
@@ -11542,7 +11546,9 @@
       "titleCicsAttributes": "CICS Attributes",
       "titleUserId": "CICS User ID",
       "titleTaskNumber": "CICS Task Number",
-      "titleRegion": "CICS Region"
+      "titleRegion": "CICS Region",
+      "titleDestination": "Destination",
+      "titleUnknown": "unknown"
     },
     "corba": {
       "titleMethod": "Method",
@@ -11776,7 +11782,9 @@
     "ims": {
       "titleImsAttributes": "IMS Attributes",
       "titleEventKey": "IMS Event Key",
-      "titleComponent": "IMS Component"
+      "titleComponent": "IMS Component",
+      "titleDestination": "Destination",
+      "titleUnknown": "unknown"
     },
     "jaeger": {
       "titleService": "Service",

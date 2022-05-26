@@ -11,10 +11,6 @@ import { createSmartAlertForm } from 'in-alerting/smart-alerts/applications/form
 import { getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
 
 export default {
-  parameters: {
-    // Error: Evaluation failed: TypeError: (void 0) is not a function
-    chromatic: { disable: true }
-  },
   component: ErrorRateThresholdCondition
 };
 
