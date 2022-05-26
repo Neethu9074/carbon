@@ -10,6 +10,7 @@ import { Link } from '@instana/components';
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
+import { formatDateTime } from 'in-services/formatters/date';
 import { getAllActions } from 'in-api/automation';
 import { t } from 'in-i18n';
 
@@ -49,9 +50,10 @@ const columnDefinitions = [
   },
   {
     label: t('in-settings:tabs:lastModified'),
-    id: 'lastModified',
+    id: 'modifiedAt',
     getContent(row) {
-      return new Date(row.lastModified).toLocaleString();
+      return formatDateTime(row.modifiedAt * 1000);
+      // return new Date(Math.trunc(row.modifiedAt*1000)).toLocaleString();
     }
   },
   {
