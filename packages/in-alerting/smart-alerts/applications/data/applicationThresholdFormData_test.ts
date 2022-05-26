@@ -5,8 +5,8 @@
 
 import {
   applicationThresholdTypeOptions,
-  getAvailableOptionsForEvaluationType,
-  optionsValidForThresholdTyp
+  filterThresholdTypeOptionsForEvaluationType,
+  getOptionsFilterForThresholdTyp
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import {
   PER_AP,
@@ -23,9 +23,9 @@ jest.mock('in-services/featureFlags', () => ({
   }
 }));
 
-describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormData::getAvailableOptionsForEvaluationType', () => {
+describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormData::filterThresholdTypeOptionsForEvaluationType', () => {
   test('Return all options for individual smart alert', () => {
-    const thresholdOpts = getAvailableOptionsForEvaluationType(applicationThresholdTypeOptions, PER_AP, false);
+    const thresholdOpts = filterThresholdTypeOptionsForEvaluationType(applicationThresholdTypeOptions, PER_AP, false);
     expect(thresholdOpts).toHaveLength(4);
     expect(thresholdOpts).toEqual(
       expect.arrayContaining([
@@ -38,7 +38,7 @@ describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormDat
   });
 
   test('Return only Adaptive–Baseline and Static–Threshold options for global smart alert', () => {
-    const thresholdOpts = getAvailableOptionsForEvaluationType(applicationThresholdTypeOptions, PER_AP, true);
+    const thresholdOpts = filterThresholdTypeOptionsForEvaluationType(applicationThresholdTypeOptions, PER_AP, true);
     expect(thresholdOpts).toHaveLength(2);
     expect(thresholdOpts).toEqual(
       expect.arrayContaining([
@@ -49,7 +49,11 @@ describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormDat
   });
 
   test('Return only Adaptive–Baseline and Static–Threshold options for individual smart alert where evaluation type is Per–Service', () => {
-    const thresholdOpts = getAvailableOptionsForEvaluationType(applicationThresholdTypeOptions, PER_AP_SERVICE, false);
+    const thresholdOpts = filterThresholdTypeOptionsForEvaluationType(
+      applicationThresholdTypeOptions,
+      PER_AP_SERVICE,
+      false
+    );
     expect(thresholdOpts).toHaveLength(2);
     expect(thresholdOpts).toEqual(
       expect.arrayContaining([
@@ -60,7 +64,7 @@ describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormDat
   });
 });
 
-describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormData::optionsValidForThresholdTyp', () => {
+describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormData::getOptionsFilterForThresholdTyp', () => {
   // contains all, independent of the feature-flag
   const allApplicationThresholdTypeOptions = [
     ...thresholdTypeOptions,
@@ -71,14 +75,14 @@ describe('in-alerting/smart-alerts/applications/data/applicationThresholdFormDat
   ];
 
   test('Return only Adaptive–Baseline option for AdaptiveBaseline Threshold', () => {
-    const thresholdOpts = allApplicationThresholdTypeOptions.filter(optionsValidForThresholdTyp(ADAPTIVE_BASELINE));
+    const thresholdOpts = allApplicationThresholdTypeOptions.filter(getOptionsFilterForThresholdTyp(ADAPTIVE_BASELINE));
 
     expect(thresholdOpts).toHaveLength(1);
     expect(thresholdOpts.map(option => option.value)).toEqual(['adaptiveBaseline']);
   });
 
   test('Return no Adaptive option for Static–Threshold', () => {
-    const thresholdOpts = allApplicationThresholdTypeOptions.filter(optionsValidForThresholdTyp(STATIC_THRESHOLD));
+    const thresholdOpts = allApplicationThresholdTypeOptions.filter(getOptionsFilterForThresholdTyp(STATIC_THRESHOLD));
 
     expect(thresholdOpts).toHaveLength(3);
     expect(thresholdOpts.map(option => option.value)).toEqual(

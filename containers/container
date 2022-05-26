@@ -30,9 +30,12 @@ FROM containers.instana.io/instana/product/nodejs:${base_version}
 RUN microdnf --nodocs --setopt=install_weak_deps=0 --setopt=tsflags=nodocs install -y python3 \
     && microdnf clean all
 
-COPY --from=builder /opt/instana/ui-client/target /opt/instana/ui-client
+COPY --from=builder --chown=instana:0 /opt/instana/ui-client/target /opt/instana/ui-client
 COPY --from=builder /usr/bin/run.sh /usr/bin/run.sh
-RUN mkdir -p /etc/instana/ui-client
+
+RUN mkdir -p /etc/instana/ui-client \
+    && chown -R instana:0 /etc/instana/ui-client \
+    && chmod -R g=u /etc/instana/ui-client
 
 ARG image_version
 ARG branch
@@ -48,6 +51,8 @@ LABEL com.instana.commit.id="${commit_id}" \
       com.instana.branch="${branch}" \
       com.instana.image.tag="${image_version}"
 
-USER instana:instana
+# The instana user has uid 1000.
+# We need to set to user to its numerical uid for OCP compatibility!
+USER 1000
 
 CMD ["/usr/bin/run.sh"]

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+// eslint-disable-next-line no-restricted-imports
 import { withStyles } from '@material-ui/core';
 import React from 'react';
 

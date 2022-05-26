@@ -40,9 +40,13 @@ exports.createImportRestrictionRule = ({
         // The only usage of moment-timezone is used in timezone widget for now.
         'in-services/moment-timezone',
         'moment-timezone',
+        // There should be no new imports for material ui
+        // mui will be imported and managed on foundation
+        '@material-ui/core',
         ...paths
       ],
       patterns: [
+        '@material-ui/core/*',
         // Forbid relative JavaScript imports
         ...(enforceAbsoluteImportPaths
           ? ['./**/*', '../**/*', '!./**/*.mless', '!../**/*.mless', '!./**/*.less', '!../**/*.less']

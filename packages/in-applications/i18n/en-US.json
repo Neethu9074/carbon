@@ -424,7 +424,6 @@
     "callCount_plural": "{{formattedCount}} total calls",
     "erroneousCallCount": "{{formattedCount}} total erroneous call",
     "erroneousCallCount_plural": "{{formattedCount}} total erroneous calls",
-    "percentOfCalls": "{{percentage}} of all calls",
     "meanLatencyFor90th": "{{meanLatencyDetail}} for 90th",
     "infrastructureIssuesChanges": "Infrastructure Issues & Changes",
     "unknownTime": "Unknown at {{entityTime}}",
@@ -642,5 +641,8 @@
     "alternativeServicesOk": "<bold>Is it ok to see alternative services?</bold>",
     "alternativeServicesProblem": "<bold>No</bold>, if the name of the current service comes from the HTTP \"Host\" header (service mapping rule whose id is call.http.host) and the name of the alternative service does not (because its name comes from a rule which is based on infrastructure tags), or vice versa. These are duplicate services.",
     "alternativeServicesPossibleProblem": "<bold>Maybe</bold>, if the current service and the alternative service names do not come from the HTTP \"Host\" header, then they are either services sitting behind a proxy (good) or they are duplicate services (bad): some of the services are fully linked to infra, while others are partially linked to infra."
+  },
+  "widgetNotActive": {
+    "title": "Widget is not supported in Live Mode"
   }
 }

@@ -79,7 +79,9 @@ export interface NewSliConfig<SLI_ENTITY_TYPE extends SliEntity = SliEntityUnion
   readonly sliEntity: SLI_ENTITY_TYPE;
 }
 
-export type SliConfigBySliType<S extends Lowercase<SliEntitySliType>> = S extends 'website'
+export type SliType = Lowercase<SliEntitySliType>;
+
+export type SliConfigBySliType<S extends SliType> = S extends 'website'
   ? SliConfig<WebsiteSliEntity>
   : SliConfig<ApplicationSliEntity | AvailabilitySliEntity>;
 

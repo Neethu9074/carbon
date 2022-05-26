@@ -5,12 +5,22 @@
 
 import React from 'react';
 
+import Collapsible from 'in-sdk/components/sidebar/Collapsible';
+import TagList from 'in-sdk/components/sidebar/TagList';
+import { t } from 'in-i18n';
 import Info from '../Info';
 
 export default function AzureSqlDbSidebarDetails({ snapshot }) {
   return (
     <div>
-      <Info snapshot={snapshot} />
+      <Collapsible initiallyOpen>
+        <Collapsible.Header>{t('in-forge:plugins.azureSqlDb.infoAzureSqlDb')}</Collapsible.Header>
+        <Collapsible.Content>
+          <Info snapshot={snapshot} />
+        </Collapsible.Content>
+      </Collapsible>
+
+      <TagList snapshot={snapshot} />
     </div>
   );
 }

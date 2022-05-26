@@ -6,6 +6,7 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
+import { Message, Spacer } from '@instana/components';
 import { useObservable } from '@instana/hooks';
 
 import {
@@ -22,15 +23,13 @@ import { baselinePreviewOnAlertPageEnabled } from 'in-services/featureFlags';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { hasError, isLoading } from 'in-services/util/result';
 import { pendingResult } from 'in-services/fixedObjects';
-import { t } from 'in-i18n';
+import { t, Trans } from 'in-i18n';
 
 const NoDataPlaceHolder = ({ text }) => <NoDataAvailable text={text} height={230} />;
 
 export default function ApplicationAlertingChartWithErrorMessage(props) {
   const {
-    alertConfigWithFormModel: { evaluationType, threshold, created, id },
-    viewConfig: { timeConfig },
-    applicationId,
+    alertConfigWithFormModel: { evaluationType, threshold },
     serviceId,
     endpointId,
     isAlertDetailView
@@ -38,23 +37,8 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
 
   const usingPersistedAdaptiveBaseline = isAlertDetailView && threshold?.type === ADAPTIVE_BASELINE;
 
-  const selectedEntityId = endpointId ?? serviceId ?? applicationId;
-  const queryParams = {
-    alertConfigId: id,
-    alertCreated: created,
-    applicationId,
-    entityId: selectedEntityId, // either endpoint or service or appId if selected
-    timeConfig
-  };
-
-  const fetchPersistedBaselineResult = useObservable(
-    usingPersistedAdaptiveBaseline && selectedEntityId && baselinePreviewOnAlertPageEnabled
-      ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult)
-      : null,
-    [usingPersistedAdaptiveBaseline, id, created, applicationId, selectedEntityId, timeConfig]
-  );
-
   if (usingPersistedAdaptiveBaseline && !baselinePreviewOnAlertPageEnabled) {
+    // info shown as long as previews is disabled by feature flag
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noChartForAdaptiveBaseline')} />;
   }
 
@@ -67,15 +51,51 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
   }
 
   if (usingPersistedAdaptiveBaseline && baselinePreviewOnAlertPageEnabled) {
-    const adaptiveBaseline =
-      hasError(fetchPersistedBaselineResult) || isLoading(fetchPersistedBaselineResult)
-        ? []
-        : fetchPersistedBaselineResult?.data;
-
-    return <ApplicationAlertingChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={adaptiveBaseline} />;
+    return <ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
   }
 
   return <ApplicationAlertingChartWithErrorMessageAndData {...props} />;
+}
+
+function ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline(props) {
+  const {
+    alertConfigWithFormModel: { created, id },
+    viewConfig: { timeConfig },
+    applicationId,
+    serviceId,
+    endpointId
+  } = props;
+
+  const selectedEntityId = endpointId ?? serviceId ?? applicationId;
+
+  const queryParams = {
+    alertConfigId: id,
+    alertCreated: created,
+    applicationId,
+    entityId: selectedEntityId, // either endpoint or service or appId if selected
+    timeConfig
+  };
+  const fetchPersistedBaselineResult = useObservable(
+    props.selectedEntityId ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult) : null,
+    [id, created, applicationId, selectedEntityId, timeConfig]
+  );
+
+  const error = hasError(fetchPersistedBaselineResult);
+  const adaptiveBaseline = error || isLoading(fetchPersistedBaselineResult) ? [] : fetchPersistedBaselineResult?.data;
+
+  return (
+    <>
+      <ApplicationAlertingChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={adaptiveBaseline} />
+      {error && (
+        <>
+          <Spacer size="normal" />
+          <Message type="warning" withIcon small>
+            <Trans i18nKey="in-alerting:smartAlerts.components.smartAlertDialog.adaptiveBaselineErrorMessageNotAvailable" />
+          </Message>
+        </>
+      )}
+    </>
+  );
 }
 
 // Extracted, because it needs a memoization of the isQueryValid-method to avoid unneeded re-rendering

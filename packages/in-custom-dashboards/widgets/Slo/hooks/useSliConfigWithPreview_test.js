@@ -27,6 +27,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview', () =>
 
     expect(actual).toEqual([undefined, 'pending', [], progress]);
   });
+
   it('returns rejected and errors if useSliConfiguration returns a rejected status', () => {
     const status = 'rejected';
     const sliConfig = undefined;
@@ -39,6 +40,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview', () =>
 
     expect(actual).toEqual([undefined, 'rejected', [{ code: 42, message: 'the answer' }], progress]);
   });
+
   describe('If status is resolved', () => {
     const sliConfig = {
       sliName: 'someSliName',
@@ -60,14 +62,17 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview', () =>
         { loading: false }
       ]);
     });
+
     describe('If isPreview is true', () => {
       const isPreview = true;
-      it('returns sliConfiguration unchanged if initialEvaluationTimestamp is seven days before timeConfig.to ', () => {
+
+      it('returns sliConfiguration unchanged if initialEvaluationTimestamp is seven days before the current date', () => {
         useSliConfiguration.mockReturnValueOnce([sliConfig, 'resolved', [], progress]);
 
-        const to = days.toMillis(18);
+        jest.useFakeTimers();
+        jest.setSystemTime(days.toMillis(18));
 
-        const actual = useSliConfigWithPreview('someId', { to }, isPreview);
+        const actual = useSliConfigWithPreview('someId', isPreview);
 
         expect(actual).toEqual([
           { sliName: 'someSliName', initialEvaluationTimestamp: days.toMillis(10) },
@@ -76,12 +81,14 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview', () =>
           { loading: false }
         ]);
       });
-      it('returns sliConfiguration with overwritten initialEvaluationTimestamp if the original is less then seven days before timeConfig.to', () => {
+
+      it('returns sliConfiguration with overwritten initialEvaluationTimestamp if the original is less then seven days before the current date', () => {
         useSliConfiguration.mockReturnValueOnce([sliConfig, 'resolved', [], progress]);
 
-        const to = days.toMillis(11);
+        jest.useFakeTimers();
+        jest.setSystemTime(days.toMillis(11));
 
-        const actual = useSliConfigWithPreview('someId', { to }, isPreview);
+        const actual = useSliConfigWithPreview('someId', isPreview);
 
         expect(actual).toEqual([
           { sliName: 'someSliName', initialEvaluationTimestamp: days.toMillis(4) },

@@ -9,12 +9,15 @@ import { Item } from 'formalistic';
 import ValidationBlock from 'in-components/form/ValidationBlock';
 
 interface OverridingFieldValidationMessageProps {
-  field: Item;
+  field?: Item;
   message: ReactNode;
 }
 
 export function OverridingFieldValidationMessage({ field, message }: OverridingFieldValidationMessageProps) {
-  if (!(field.touched && !field.valid)) {
+  const isFieldValid = field?.valid;
+  const isFieldTouched = field?.touched;
+
+  if (!(isFieldTouched && !isFieldValid)) {
     return null;
   }
   return <ValidationBlock>{message}</ValidationBlock>;

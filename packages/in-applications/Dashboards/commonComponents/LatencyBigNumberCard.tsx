@@ -9,7 +9,10 @@ import {
   createFormModelFromSyntheticOption,
   createHiddenCallsFromSyntheticOption
 } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
-import DashboardBigNumberCard, { BigNumberCardProps } from './DashboardBigNumberCard';
+import DashboardBigNumberCard, {
+  BigNumberCardProps,
+  increaseIsBad
+} from 'in-applications/Dashboards/commonComponents/DashboardBigNumberCard';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import getJumpToAnalyzeHref$ from 'in-applications/components/getJumpToAnalyzeHref';
 import { filterByEndpointType } from './includeEndpointTypes';
@@ -38,6 +41,7 @@ export default function LatencyBigNumberCard({
           meanLatencyDetail: meanLatency.detailed(v)
         })
       }
+      comparisonColors={increaseIsBad}
       jumpToAnalyzeHref={getJumpToAnalyzeHref$(jumpToAnalyze.ids, {
         timeConfig,
         boundaryScope,

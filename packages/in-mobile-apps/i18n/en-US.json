@@ -208,6 +208,7 @@
       "retrievalTimeLabel": "Retrieval Time",
       "callDetailsHeader": "Call Details",
       "httpCallURITitle": "HTTP Call URI",
+      "httpHeadersHeader": "HTTP Headers",
       "httpMethodTitle": "HTTP Method",
       "httpStatusTitle": "HTTP Status",
       "errMsgTitle": "Error Message",

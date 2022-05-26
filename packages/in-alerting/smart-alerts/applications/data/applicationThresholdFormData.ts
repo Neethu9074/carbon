@@ -36,7 +36,7 @@ export function isOneOfBaselineTypes(thresholdType: ThresholdType): boolean {
   return baselineTypes.includes(thresholdType);
 }
 
-export function getAvailableOptionsForEvaluationType(
+export function filterThresholdTypeOptionsForEvaluationType(
   thresholdTypeOptions: Options = [],
   evaluationType: AlertEvaluationType,
   isGlobalSmartAlert: boolean
@@ -64,7 +64,7 @@ export function withoutAdaptiveBaselineOptions(thresholdTypeOptions: Options = [
 const isAdaptiveBaselineOption = (option: Option) => ADAPTIVE_BASELINE === option.value;
 
 /* filter-out any option which does not match depending on the type: (adaptive) or (historic|static) */
-export const optionsValidForThresholdTyp = (type: string | ThresholdType): ((option: Option) => boolean) =>
+export const getOptionsFilterForThresholdTyp = (type: string | ThresholdType): ((option: Option) => boolean) =>
   type === ADAPTIVE_BASELINE //
     ? isAdaptiveBaselineOption
     : (option: Option) => !isAdaptiveBaselineOption(option);

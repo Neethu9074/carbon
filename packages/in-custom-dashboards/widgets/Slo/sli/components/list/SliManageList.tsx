@@ -10,12 +10,12 @@ import { useObservable } from '@instana/hooks';
 
 import { deleteSliConfiguration, getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
+import { SliConfigBySliType, SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
-import { PaginatedResult, Result, SliConfiguration, SliEntitySliType } from 'in-types';
-import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
+import { PaginatedResult, Result, SliConfiguration } from 'in-types';
 import { isLoading, hasError } from 'in-services/util/result';
 import { containsIgnoreCase } from 'in-services/util/string';
 import { role } from 'in-stores/user';
@@ -23,14 +23,14 @@ import { Trans, t } from 'in-i18n';
 
 import locals from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList.mless';
 
-interface SliManageListProps<S extends Lowercase<SliEntitySliType>> {
+interface SliManageListProps<S extends SliType> {
   entityType: S;
   entityId: string;
   onChange: (sli?: Partial<SliConfigBySliType<S>>) => void;
   value?: Partial<SliConfigBySliType<S>>;
 }
 
-export default function SliManageList<S extends Lowercase<SliEntitySliType>>({
+export default function SliManageList<S extends SliType>({
   entityType,
   entityId,
   value,
@@ -62,7 +62,7 @@ export default function SliManageList<S extends Lowercase<SliEntitySliType>>({
   );
 }
 
-function SliManageListContent<S extends Lowercase<SliEntitySliType>>({
+function SliManageListContent<S extends SliType>({
   entityType,
   entityId,
   onChange

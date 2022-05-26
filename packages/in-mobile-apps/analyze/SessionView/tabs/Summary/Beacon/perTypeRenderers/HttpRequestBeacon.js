@@ -7,6 +7,7 @@ import React, { Fragment } from 'react';
 
 import BatchIndicator from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BatchIndicator';
 import KeyValueHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/KeyValueHeader';
+import HttpHeaders from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/HttpHeaders';
 import BodyHeader from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BodyHeader';
 import BackendDi from 'in-mobile-apps/analyze/SessionView/tabs/Summary/Beacon/components/BackendDi';
 import { latencyFixed, bytes, millisToTwoDecimalSeconds } from 'in-services/formatters/number';
@@ -95,6 +96,15 @@ export const Body = ({ beacon }) => {
           </Col>
         )}
       </Row>
+
+      {Object.keys(beacon.httpCallHeaders).length > 0 && (
+        <Row>
+          <Col lg={12}>
+            <BodyHeader>{t('in-mobile-apps:sessionView.tabsSumHttpRequestBeacon.httpHeadersHeader')}</BodyHeader>
+            <HttpHeaders beacon={beacon} />
+          </Col>
+        </Row>
+      )}
 
       {hasTransferSize ||
         hasEncodedBodySize ||

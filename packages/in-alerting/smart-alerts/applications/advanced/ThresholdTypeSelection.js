@@ -9,8 +9,8 @@ import React from 'react';
 import { Stack, Spacer } from '@instana/components';
 
 import {
-  getAvailableOptionsForEvaluationType,
-  optionsValidForThresholdTyp
+  filterThresholdTypeOptionsForEvaluationType,
+  getOptionsFilterForThresholdTyp
 } from 'in-alerting/smart-alerts/applications/data/applicationThresholdFormData';
 import ShowStaticThresholdLabelOrDropdown from 'in-alerting/smart-alerts/applications/advanced/ShowStaticThresholdLabelOrDropdown';
 import RecalculateBaselineButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/RecalculateBaselineButton';
@@ -19,7 +19,6 @@ import { applicationsAlertingThresholdTypeHelpIconHovered } from 'in-alerting/sm
 import { ThresholdTypesHelp } from 'in-alerting/smart-alerts/components/smart-alert-dialog/ThresholdTypesHelp';
 import { onThresholdTypeChange } from 'in-alerting/smart-alerts/applications/form/thresholdTypeForm';
 import { HISTORIC_BASELINE, ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { findEntryByValue } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import Dropdown from 'in-alerting/components/Dropdown';
 
 export default function ThresholdTypeSelection({
@@ -34,9 +33,12 @@ export default function ThresholdTypeSelection({
 }) {
   const thresholdType = form.get('threshold').get('type')?.value;
   const evaluationType = form.get('evaluationType').value;
-  const options = getAvailableOptionsForEvaluationType(thresholdTypeOptions, evaluationType, isGlobalSmartAlert).filter(
-    optionsValidForThresholdTyp(thresholdType)
-  );
+  const options = filterThresholdTypeOptionsForEvaluationType(
+    thresholdTypeOptions,
+    evaluationType,
+    isGlobalSmartAlert
+  ).filter(getOptionsFilterForThresholdTyp(thresholdType));
+  const thresholdComboBoxValue = getThresholdComboBoxValue(form);
 
   return (
     <ShowStaticThresholdLabelOrDropdown evaluationType={evaluationType} isGlobalSmartAlert={isGlobalSmartAlert}>
@@ -45,9 +47,9 @@ export default function ThresholdTypeSelection({
       ) : (
         <Dropdown
           asSimpleDropdown
-          label={findEntryByValue(thresholdTypeOptions, getThresholdComboBoxValue(form))?.label}
+          value={thresholdComboBoxValue}
           items={options}
-          onChange={({ value = '' }) => {
+          onChange={value => {
             onThresholdTypeChange(value, form, updateForm, trackThresholdTypeChanged);
           }}
         />

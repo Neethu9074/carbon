@@ -60,13 +60,6 @@ export function createForm(form, savedState) {
       })
     )
     .put(
-      'metricLabel',
-      createField({
-        value: savedState?.metricLabel || [],
-        validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator)
-      })
-    )
-    .put(
       'metricPath',
       createField({
         value: savedState?.metricPath || [],

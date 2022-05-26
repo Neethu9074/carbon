@@ -5,23 +5,16 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
+import { TimeConfig, Application, SliConfigurationWithLastUpdated } from '@instana/types';
 
-import Chart, { ChartProps } from 'in-custom-dashboards/widgets/Slo/components/Chart/Chart';
-import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo';
-import SliSummary from 'in-custom-dashboards/widgets/Slo/components/SliSummary';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
-import { SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { AvailabilitySliEntity, MetricResult, Result } from 'in-types';
-import { MetricDataSeries } from 'in-components/Chart/types';
-import { success } from 'in-services/util/result';
+import Widget from 'in-custom-dashboards/widgets/Slo/components/widget/Widget';
 import { t } from 'in-i18n';
 
-import showCaseLocals from './ShowCase.mless';
-import locals from './Widget.mless';
+import locals from './ShowCase.mless';
 
 export default function ShowCase() {
-  const result = success([
+  const dataSeries = [
     {
       id: 'consumed',
       values: [
@@ -158,11 +151,11 @@ export default function ShowCase() {
         [1625037180000, 240435]
       ]
     }
-  ]);
+  ];
 
-  const sliConfig: SliConfig<AvailabilitySliEntity> = {
+  const sliConfig: SliConfigurationWithLastUpdated = {
     id: '1',
-    sliName: 'grafanatest',
+    sliName: t('in-custom-dashboards:widgets.slo.demo.sliName'),
     initialEvaluationTimestamp: 1608719460000,
     sliEntity: {
       sliType: 'availability',
@@ -171,82 +164,45 @@ export default function ShowCase() {
       includeSynthetic: false,
       goodEventFilterExpression: tagFilter('call.erroneous', 'EQUALS', false),
       badEventFilterExpression: tagFilter('call.erroneous', 'EQUALS', true)
-    }
+    },
+    lastUpdated: 1
+  };
+  const application: Application = {
+    boundaryScope: 'INBOUND',
+    id: 'exampleAP',
+    label: t('in-custom-dashboards:widgets.slo.demo.appName')
   };
 
-  const budget = 240436;
+  const slo = 0.9999;
+  const granularity = 60000;
 
   const fromTimestamp = 1625034006696;
-  const timeWindowConfig = { to: 1625037606696, windowSize: 3600000, focusedMoment: 1625037606696, autoRefresh: false };
+  const timeConfig: TimeConfig = {
+    to: 1625037606696,
+    windowSize: 3600000,
+    focusedMoment: 1625037606696,
+    autoRefresh: false
+  };
   const toTimestamp = 1625037606696;
 
   return (
-    <div className={showCaseLocals.wrapper}>
-      <Card
-        bodyClassName={locals.bodyNoPadding}
+    <div className={locals.wrapper}>
+      <Widget
         title={t('in-custom-dashboards:widgets.slo.demo.title')}
-        headerClassName={locals.title}
-        leftHeaderContent={
-          <>
-            <span className={locals.apName}>{t('in-custom-dashboards:widgets.slo.demo.appName')}</span>
-            <SliConfigInfo sliConfig={sliConfig} entityType="application" />
-          </>
-        }
-      >
-        <SliSummary
-          budget={budget}
-          timeWindowType="rolling"
-          fromTimestamp={fromTimestamp}
-          toTimestamp={toTimestamp}
-          sliEntity={sliConfig?.sliEntity}
-        />
-        <div className={locals.chart}>
-          <WidgetContent
-            result={result}
-            timeConfig={timeWindowConfig}
-            granularity={60000}
-            budget={budget}
-            sliConfig={sliConfig}
-            isPreview
-            disableZooming
-          />
-        </div>
-      </Card>
+        entityType="application"
+        entity={application}
+        sliConfiguration={sliConfig}
+        slo={slo}
+        sloMetrics={dataSeries}
+        granularity={granularity}
+        timeWindowType="rolling"
+        timeWindowConfig={{ timeConfig, fromTimestamp, toTimestamp }}
+        status="resolved"
+        progress={{ loading: false }}
+        errors={[]}
+        disableZooming
+        nonInteractive
+      />
     </div>
   );
 }
-
-export const findResultMetric = (result: Result<MetricResult[]>, id: string): MetricDataSeries | undefined => {
-  return (result?.data ?? []).find(dataSeries => dataSeries.id === id)?.values as MetricDataSeries;
-};
-
-const filterAvailableData = (dataSeries: MetricDataSeries): MetricDataSeries => {
-  if (!dataSeries) {
-    return [];
-  }
-
-  // when no data for a specific metric was returned
-  if (dataSeries.length === 1) {
-    if (dataSeries[0][0] == null) {
-      return [];
-    }
-  }
-  // Filtering-out the values with timestamps in future
-  // This should be done on the backend normally, but it was not specified, hence it was
-  // implemented on the client in time.
-  const now = new Date().getTime();
-  return dataSeries.filter(([ts]) => ts <= now);
-};
-
-interface WidgetContentProps extends Omit<ChartProps, 'consumed' | 'hourlyBudget'> {}
-
-const WidgetContent = ({ result, ...otherChartProps }: WidgetContentProps) => {
-  return (
-    <Chart
-      result={result}
-      consumed={filterAvailableData(findResultMetric(result, 'consumed') || [])}
-      hourlyBudget={filterAvailableData(findResultMetric(result, 'hourlyBudget') || [])}
-      {...otherChartProps}
-    />
-  );
-};

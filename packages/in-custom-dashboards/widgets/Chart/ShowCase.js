@@ -18,7 +18,7 @@ export default function ShowCase() {
         config={{
           granularity: 1000,
           timeConfig: { windowSize: 60000, to: 1624949300207 },
-          cardTitle: t('in-custom-dashboards:widgets.chart.index.testTitle'),
+          title: t('in-custom-dashboards:widgets.chart.index.testTitle'),
           y1: {
             renderer: Renderer.line,
             labels: [

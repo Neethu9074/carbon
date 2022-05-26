@@ -55,5 +55,7 @@ ResultHeader.propTypes = {
   totalHits: rpt.number,
   adjustedWindowSize: rpt.number,
   isLoading: rpt.bool,
-  resultPrecisionDetails: rpt.string
+  resultPrecisionDetails: rpt.shape({
+    resultPrecision: rpt.string
+  })
 };

@@ -180,6 +180,15 @@ export default function LogDna() {
 }
 
 function createForm(integration) {
+  function getBaseUrlValue() {
+    if (integration?.baseUrl) {
+      return integration.baseUrl;
+    } else if (integration?.instanceType === 'IBM_CLOUD') {
+      return ibmCloudDefaultBaseURL;
+    }
+    return logDnaDefaultBaseURL;
+  }
+
   return createMapForm()
     .put(
       'type',
@@ -197,12 +206,7 @@ function createForm(integration) {
     .put(
       'baseUrl',
       createField({
-        value:
-          integration && integration['baseUrl']
-            ? integration['baseUrl']
-            : integration['instanceType'] === 'LOG_DNA_SAAS'
-            ? logDnaDefaultBaseURL
-            : ibmCloudDefaultBaseURL,
+        value: getBaseUrlValue(),
         validator: notBlankValidator
       })
     )
@@ -248,7 +252,7 @@ function useLogDnaFormSideEffects(form, setForm, integration) {
   });
 
   function updateBaseUrl(form) {
-    let savedInstance = integration['instanceType'];
+    let savedInstance = integration?.instanceType;
     let formInstance = form.get('instanceType').value;
     if (formInstance === savedInstance) {
       return form.updateIn(['baseUrl'], f => f.setValue(integration['baseUrl']));

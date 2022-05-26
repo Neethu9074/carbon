@@ -13,33 +13,44 @@ import { SloEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import SloEntityInfo from 'in-custom-dashboards/widgets/Slo/SloEntityInfo';
 import { FetchStatus } from 'in-hooks/utils/types';
+import { t } from 'in-i18n';
 
 import locals from './WidgetLeftHeader.mless';
 
 interface WidgetLeftHeaderProps {
+  title: string;
   status: FetchStatus;
   sliConfig?: SliConfig<CombinedSliEntity>;
   monitoredEntityType: MonitoringSource;
   monitoredEntity?: SloEntity;
+  isPreview?: boolean;
 }
 
 export default function WidgetLeftHeader({
+  title,
   status,
   sliConfig,
   monitoredEntityType,
-  monitoredEntity
+  monitoredEntity,
+  isPreview
 }: WidgetLeftHeaderProps) {
-  if (status === 'pending' || !monitoredEntity)
-    return (
-      <Stack direction="horizontal">
-        <LoadingSkeleton className={locals.loadingSkeleton} />
-      </Stack>
-    );
+  const isLoading = status === 'pending' || !monitoredEntity;
 
   return (
-    <>
-      <SloEntityInfo entityType={monitoredEntityType} entity={monitoredEntity} />
-      <SliConfigInfo sliConfig={sliConfig} entityType={monitoredEntityType} />
-    </>
+    <div className={locals.container}>
+      <Stack direction="horizontal" align="center">
+        <div className={locals.title}>{title}</div>
+        {isLoading && <LoadingSkeleton className={locals.loadingSkeleton} />}
+        {!isLoading && (
+          <Stack direction="horizontal" gap="xxsmall" align="center">
+            <SloEntityInfo entityType={monitoredEntityType} entity={monitoredEntity} />
+            <SliConfigInfo sliConfig={sliConfig} entityType={monitoredEntityType} />
+          </Stack>
+        )}
+      </Stack>
+      {isPreview && (
+        <span className={locals.subtext}>{t('in-custom-dashboards:widgets.slo.widgetLeftHeader.previewDataInfo')}</span>
+      )}
+    </div>
   );
 }

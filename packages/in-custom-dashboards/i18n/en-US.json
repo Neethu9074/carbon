@@ -376,6 +376,7 @@
     "slo": {
       "demo": {
         "title": "SLO Title",
+        "sliName": "Example Sli",
         "appName": "Example Application Name"
       },
       "apConfigFormComp": {
@@ -558,7 +559,9 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Application",
-        "source_website": "Website"
+        "source_website": "Website (Beta)",
+        "callOut_application": "Excludes factors beyond your control such as poor internet connectivity of end-users, but may not accurately reflect end-user experience",
+        "callOut_website": "Most accurately reflects end-user experience, but does not exclude factors beyond your control such as poor internet connectivity of end-users"
       },
       "sliFormatter": {
         "unit": "call",
@@ -567,6 +570,39 @@
         "unit_1": "call",
         "unit_2": "calls",
         "thousandCallsFormat": "{{count}}K calls"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "Preview data is shown up to 7 days in the past if SLI configuration was created recently. The final widget will only include data since SLI creation"
+      }
+    },
+    "apdex": {
+      "title": "Apdex: Chart",
+      "chart": {
+        "metricLabel": "Apdex"
+      },
+      "demo": {
+        "title": "Apdex for Prod",
+        "entityLabel": "Robot Shop"
+      },
+      "formComponent": {
+        "title": "Apdex Configuration",
+        "entityTypeTitle": "Apdex Type"
+      },
+      "configurationSelector": {
+        "label": "Apdex Configuration",
+        "selectConfig": "Please select a configuration",
+        "manageConfig": "Manage Apdex",
+        "noneAvailCreateOne": "None available, please create one.",
+        "pleaseSelect": "Please select"
+      },
+      "entityTypeSelector": {
+        "type": "Unknown Type",
+        "type_website": "Website"
+      },
+      "entityInfo": {
+        "tooltip": "Unknown Apdex",
+        "tooltip_website": "Website Apdex",
+        "tooltip_application": "Application Apdex"
       }
     },
     "timezone": {

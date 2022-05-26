@@ -212,7 +212,7 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
 
     // When
     const wrapper = shallow(
-      <Chart {...defaultProps} isPreview={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />
+      <Chart {...defaultProps} nonInteractive={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />
     );
 
     // Then
@@ -311,7 +311,7 @@ describe('in-custom-dashboards/widgets/Slo/Chart', () => {
 
     // When
     const wrapper = shallow(
-      <Chart {...defaultProps} isPreview={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />
+      <Chart {...defaultProps} nonInteractive={isPreview} sliConfig={sliConfig} timeConfig={timeConfig} />
     );
     const RenderPostChartContent = wrapper.find(ResultAwareChart).prop('config').renderPostChartContent;
     const postChartContentWrapper = shallow(

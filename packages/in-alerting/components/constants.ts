@@ -13,6 +13,7 @@ export const alertingEventDetailsChartTimeframe = hours.toMillis(12);
 export const blueprintConfigPropType = PropTypes.shape({
   type: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  isBeta: PropTypes.bool,
   headline: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   baselineEnabled: PropTypes.bool.isRequired,

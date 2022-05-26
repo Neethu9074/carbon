@@ -3,11 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+// eslint-disable-next-line no-restricted-imports
+import { withStyles } from '@material-ui/core/styles';
+// eslint-disable-next-line no-restricted-imports
+import Tooltip from '@material-ui/core/Tooltip';
 import { composeValidators, createField, createMapForm } from 'formalistic';
 import { startOfDay, subDays, getTime as getTimestamp } from 'date-fns';
 import React, { useEffect, useMemo, useState } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
 
 import { Button } from '@instana/components';
 

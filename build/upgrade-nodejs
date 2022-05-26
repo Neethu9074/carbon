@@ -50,11 +50,11 @@ echo "" > .git/hooks/pre-commit
 npm install -g yarn@1.22.5
 
 # and install all the dependencies
-yarn
+yarn install
 cd packages/in-server
-yarn
+yarn install
 cd ../../storybook
-yarn
+yarn install
 
 ACTUAL_NODE_VERSION=$(node --version)
 

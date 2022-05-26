@@ -3,12 +3,12 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Tooltip } from '@material-ui/core';
 import React from 'react';
 
 import { Stack, SvgIcon } from '@instana/components';
 
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
+import Tooltip from 'in-components/Tooltip/Tooltip';
 import { Application, Website } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -29,7 +29,7 @@ export default function SloEntityInfo({ entity, entityType }: WidgetLeftHeaderPr
 
   return (
     <Stack direction="horizontal">
-      <Tooltip title={toolTipText}>
+      <Tooltip content={toolTipText}>
         <SvgIcon type={iconType} aria-label={toolTipText} />
       </Tooltip>
       <span className={locals.entityLabel}>{entity.label}</span>

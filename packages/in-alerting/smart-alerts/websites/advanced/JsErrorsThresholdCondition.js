@@ -36,9 +36,9 @@ export default function JsErrorsThresholdCondition({ form, blueprintConfig, upda
     <ThresholdConditionFormGroup>
       <Dropdown
         asSimpleDropdown
-        label={blueprintConfig.getMetricLabel(metricName)}
+        value={metricName}
         items={ruleMetricNameOptions.specificJsError}
-        onChange={({ value = '' }) => {
+        onChange={value => {
           updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
           websitesAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
         }}

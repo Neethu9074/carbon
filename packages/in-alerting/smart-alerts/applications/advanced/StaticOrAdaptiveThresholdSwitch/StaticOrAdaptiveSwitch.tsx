@@ -29,7 +29,7 @@ export default function StaticOrAdaptiveSwitch({ form, setForm }: Props) {
   const currentType = thresholdType === ADAPTIVE_BASELINE ? types.adaptive : types.static;
 
   return (
-    <Row>
+    <Row className={locals.verticalAlignedCells}>
       <Col lg={6}>
         <StaticOrAdaptiveOption currentType={currentType} onChange={updateThresholdType} baselineType={types.static} />
       </Col>

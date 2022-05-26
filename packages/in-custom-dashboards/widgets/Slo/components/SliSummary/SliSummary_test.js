@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc. 2022
  */
 
+// eslint-disable-next-line no-restricted-imports
 import { useMediaQuery } from '@material-ui/core';
 import { shallow } from 'enzyme';
 import React from 'react';

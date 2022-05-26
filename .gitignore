@@ -35,3 +35,4 @@ ui-server-license-report.csv
 
 # ci-shared-tools is dynamically downloaded
 build/ci-shared-tools
+/containers/.container*
