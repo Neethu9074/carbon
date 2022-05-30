@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Button, Link, Stack } from '@instana/components';
 
+import { CheckableSuggestion } from 'in-components/AnalyzeView/FacetedFilters/CheckableSuggestion';
 import { Errors, Loading } from 'in-components/AnalyzeView/FacetedFilters/Placeholders';
 import { addFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
@@ -29,19 +30,26 @@ export default function SuggestionsPresenter({
   getUpdatedFacetedSearchHref,
   customLabelMapper,
   dataSource,
-  tracker
+  tracker,
+  defaultValues
 }) {
   const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {
     return <Loading numberOfRows={numberOfPresentedRows} />;
   } else if (errors?.length > 0) {
-    return (
-      <Errors
-        errors={errors}
-        numberOfPresentedRows={numberOfPresentedRows}
-        setNumberOfPresentedRows={setNumberOfPresentedRows}
-      />
-    );
+    if (defaultValues?.length > 0) {
+      return defaultValues.map(defaultValue => {
+        return <CheckableSuggestion label={defaultValue} count={null} onChange={() => {}} />;
+      });
+    } else {
+      return (
+        <Errors
+          errors={errors}
+          numberOfPresentedRows={numberOfPresentedRows}
+          setNumberOfPresentedRows={setNumberOfPresentedRows}
+        />
+      );
+    }
   } else if (!suggestions) {
     return null;
   } else if (suggestions.length > 0) {
