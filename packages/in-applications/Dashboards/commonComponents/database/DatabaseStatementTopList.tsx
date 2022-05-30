@@ -6,21 +6,33 @@
 import React, { Fragment } from 'react';
 import { get } from 'lodash';
 
+import {
+  BoundaryScope,
+  Result,
+  Service,
+  TimeConfig,
+  AggregationType,
+  DatabaseStatementTopListItem,
+  ApplicationBoundaryScope
+} from '@instana/types';
+import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
 
-import getDatabaseStatementTopList from 'in-applications/subscriptions/getDatabaseStatementTopList';
+// @ts-expect-error
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
+// @ts-expect-error
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+import getDatabaseStatementTopList from 'in-applications/subscriptions/getDatabaseStatementTopList';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { UrlMatrixParamConfig, WithLabel } from 'in-applications/types';
 import { getLinkToAnalyze } from 'in-applications/navigation/paths';
 import { millis, number } from 'in-services/formatters/number';
 import { boundaryScopes } from 'in-applications/constants';
 import { shorten } from 'in-services/util/string';
-import connect from 'in-hoc/connectTo';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -34,30 +46,29 @@ const aggregations = ['MEAN', 'SUM', 'SUM'];
 const formatters = [millis.fixedCompact, number.compact, number.compact];
 const colors = [null, null, theme.lib.colors.failure];
 
-export default connect(({ applicationId, serviceId, endpointId }) => {
-  const observables = {};
-  if (applicationId) {
-    observables.applicationLabel = getApplication({ id: applicationId }).map(getLabel);
-  }
-  if (serviceId) {
-    observables.serviceLabel = getServiceLabel({ id: serviceId }).map(getLabel);
-  }
-  if (endpointId) {
-    observables.endpointLabel = getEndpointInfo({ id: endpointId }).map(getLabel);
-  }
-  return observables;
-})(function DatabaseStatementTopList({
+interface DatabaseStatementTopListProps {
+  applicationId: string;
+  serviceId: string;
+  endpointId: string;
+  boundaryScope: BoundaryScope;
+  timeConfig: TimeConfig;
+  urlMatrixParamConfig: UrlMatrixParamConfig;
+  renderHistoricDataIndicator: boolean;
+}
+
+export default function DatabaseStatementTopList({
   applicationId,
-  applicationLabel,
   serviceId,
-  serviceLabel,
   endpointId,
-  endpointLabel,
   boundaryScope,
   timeConfig,
   urlMatrixParamConfig,
   renderHistoricDataIndicator
-}) {
+}: DatabaseStatementTopListProps) {
+  const applicationLabel = useObservable(getApplication({ id: applicationId }).map(getLabel), [applicationId]);
+  const serviceLabel = useObservable(getServiceLabel({ id: serviceId }).map(getLabel), [serviceId]);
+  const endpointLabel = useObservable(getEndpointInfo({ id: endpointId }).map(getLabel), [endpointId]);
+
   return (
     <TopListWithUrlState
       title={t('in-applications:titleTopStatements')}
@@ -84,14 +95,24 @@ export default connect(({ applicationId, serviceId, endpointId }) => {
       renderHistoricDataIndicator={renderHistoricDataIndicator}
     />
   );
-});
+}
 
-function getItemsFromResult(result) {
+function getItemsFromResult(result: Result<Service>) {
   return result.data;
 }
 
-function getMetricValueFromItem(metricId, item) {
+function getMetricValueFromItem(_metricId: string, item: DatabaseStatementTopListItem) {
   return item.metricValue;
+}
+
+interface GetListProps {
+  applicationId: string;
+  serviceId: string;
+  endpointId: string;
+  boundaryScope: ApplicationBoundaryScope;
+  timeConfig: TimeConfig;
+  selectedMetric: string;
+  selectedMetricAggregation: AggregationType;
 }
 
 function getList({
@@ -102,23 +123,40 @@ function getList({
   timeConfig,
   selectedMetric,
   selectedMetricAggregation
-}) {
+}: GetListProps) {
   return getDatabaseStatementTopList({
-    metric: {
-      metric: selectedMetric,
-      aggregation: selectedMetricAggregation
+    metrics: {
+      [selectedMetric]: {
+        metric: selectedMetric,
+        aggregation: selectedMetricAggregation
+      }
     },
     filter: {
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
       applicationBoundaryScope: boundaryScope,
-      timeConfig
+      timeConfig,
+      includeInternalCalls: false,
+      includeSyntheticCalls: false,
+      useLongTermDataOnly: false
+    },
+    order: {
+      by: selectedMetric,
+      direction: 'DESC'
     }
   });
 }
 
-function Label({ item, applicationLabel, serviceLabel, endpointLabel, className }) {
+interface LabelProps {
+  item: DatabaseStatementTopListItem;
+  applicationLabel: string;
+  serviceLabel: string;
+  endpointLabel: string;
+  className: string;
+}
+
+function Label({ item, applicationLabel, serviceLabel, endpointLabel, className }: LabelProps) {
   return (
     <Fragment>
       <Link
@@ -139,10 +177,14 @@ function Label({ item, applicationLabel, serviceLabel, endpointLabel, className 
   );
 }
 
-function Metric({ formattedMetricValue }) {
+interface MetricProps {
+  formattedMetricValue: string;
+}
+
+function Metric({ formattedMetricValue }: MetricProps) {
   return formattedMetricValue;
 }
 
-function getLabel(result) {
+function getLabel(result: WithLabel): string {
   return get(result, ['data', 'label'], null);
 }

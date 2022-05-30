@@ -3,9 +3,14 @@
  * (c) Copyright Instana Inc.
  */
 
+import { DatabaseStatementTopListItem, GetDatabaseStatementTopListQuery, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<
+  GetDatabaseStatementTopListQuery,
+  Result<DatabaseStatementTopListItem[]>
+>({
   eventId: 'getDatabaseStatementTopList',
   trackSubscriptionStatistics: true
 });

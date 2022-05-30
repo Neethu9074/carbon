@@ -5,13 +5,19 @@
 
 import React from 'react';
 
+import { AggregationType, ApplicationBoundaryScope, BoundaryScope, TimeConfig } from '@instana/types';
+import { EndpointItem } from '@instana/types';
 import { Link } from '@instana/components';
 
-import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+// @ts-expect-error
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
-import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
+// @ts-expect-error
 import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
+import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
+// @ts-expect-error
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
+import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
+import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
@@ -31,6 +37,22 @@ const companionAggregations = [null, null, 'MEAN'];
 const companionFormatters = [null, null, percentage.detailed];
 const colors = [null, null, theme.lib.colors.failure];
 
+interface EndpointTopListProps {
+  applicationId: string;
+  serviceId: string;
+  boundaryScope: BoundaryScope;
+  timeConfig: TimeConfig;
+  urlMatrixParamConfig: UrlMatrixParamConfig;
+  syntheticCalls: string;
+  renderHistoricDataIndicator: boolean;
+}
+
+interface UrlMatrixParamConfig {
+  path: string;
+  paramTab: string;
+  paramMetric: string;
+}
+
 export default function EndpointTopList({
   applicationId,
   serviceId,
@@ -39,8 +61,10 @@ export default function EndpointTopList({
   urlMatrixParamConfig,
   syntheticCalls,
   renderHistoricDataIndicator
-}) {
-  return (
+}: EndpointTopListProps) {
+  return timeConfig.autoRefresh ? (
+    <WidgetNotActive title={t('in-applications:titleTopEndpoints')} />
+  ) : (
     <TopListWithUrlState
       title={t('in-applications:titleTopEndpoints')}
       metrics={metrics}
@@ -68,6 +92,18 @@ export default function EndpointTopList({
   );
 }
 
+interface GetListProps {
+  applicationId: string;
+  serviceId: string;
+  boundaryScope: ApplicationBoundaryScope;
+  timeConfig: TimeConfig;
+  selectedMetric: string;
+  selectedMetricAggregation: AggregationType;
+  selectedCompanionMetric: string;
+  selectedCompanionMetricAggregation: AggregationType;
+  syntheticCalls: string;
+}
+
 function getList({
   applicationId,
   serviceId,
@@ -78,7 +114,7 @@ function getList({
   selectedCompanionMetric,
   selectedCompanionMetricAggregation,
   syntheticCalls
-}) {
+}: GetListProps) {
   const metrics = {
     [selectedMetric]: {
       metric: selectedMetric,
@@ -106,12 +142,24 @@ function getList({
       service: serviceId,
       includeSyntheticCalls: isSyntheticOption(syntheticCalls),
       applicationBoundaryScope: boundaryScope,
-      timeConfig
-    }
+      timeConfig,
+      includeInternalCalls: false,
+      useLongTermDataOnly: false
+    },
+    supportedOrderByCriteria: false
   });
 }
 
-function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric, syntheticCalls, className }) {
+interface ViewAllProps {
+  applicationId: string;
+  serviceId: string;
+  boundaryScope: BoundaryScope;
+  selectedMetric: string;
+  syntheticCalls: string;
+  className: string;
+}
+
+function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric, syntheticCalls, className }: ViewAllProps) {
   return (
     <Link
       className={className}
@@ -131,7 +179,16 @@ function ViewAll({ applicationId, serviceId, boundaryScope, selectedMetric, synt
   );
 }
 
-function Label({ item, applicationId, serviceId, boundaryScope, syntheticCalls, className }) {
+interface LabelProps {
+  item: EndpointItem;
+  applicationId: string;
+  serviceId: string;
+  boundaryScope: BoundaryScope;
+  syntheticCalls: string;
+  className: string;
+}
+
+function Label({ item, applicationId, serviceId, boundaryScope, syntheticCalls, className }: LabelProps) {
   return (
     <Link
       className={className}
@@ -143,10 +200,18 @@ function Label({ item, applicationId, serviceId, boundaryScope, syntheticCalls, 
   );
 }
 
-function Metric({ formattedMetricValue }) {
+interface MetricProps {
+  formattedMetricValue: string;
+}
+
+function Metric({ formattedMetricValue }: MetricProps) {
   return formattedMetricValue;
 }
 
-function CompanionMetric({ formattedCompanionMetric }) {
+interface CompanionMetricProps {
+  formattedCompanionMetric: string;
+}
+
+function CompanionMetric({ formattedCompanionMetric }: CompanionMetricProps) {
   return <span className={locals.companion}>({formattedCompanionMetric})</span>;
 }
