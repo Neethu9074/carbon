@@ -392,7 +392,7 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       getSuggestionName,
       getMetric,
       orderSuggestions: orderByValue,
-      defaultValues: ['2xx', '3xx', '4xx', '5xx']
+      defaultValues: ['1xx', '2xx', '3xx', '4xx', '5xx']
     },
     {
       renderer,
