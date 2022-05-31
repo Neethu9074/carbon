@@ -3,14 +3,42 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  ApplicationItem,
+  GetApplicationsQuery,
+  CursorPaginatedResult,
+  Result,
+  TimeConfig,
+  OrderDirection,
+  ContextScope,
+  TagFilter
+} from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 
-const getApplicationsCursorPaginated = createResultSubscriptionFactory({
+const getApplicationsCursorPaginated = createResultSubscriptionFactory<
+  GetApplicationsQuery,
+  Result<CursorPaginatedResult<ApplicationItem>>
+>({
   eventId: 'getApplicationsCursorPaginated',
   trackSubscriptionStatistics: true
 });
 export default getApplicationsCursorPaginated;
+
+interface GetApplicationsCursorPaginatedWithDefaultsProps {
+  timeConfig: TimeConfig;
+  query: string;
+  page: number;
+  pageSize: number;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  contextScope: ContextScope;
+  tagFilters?: TagFilter[];
+}
 
 export function getApplicationsCursorPaginatedWithDefaults({
   timeConfig,
@@ -22,7 +50,7 @@ export function getApplicationsCursorPaginatedWithDefaults({
   endpointId,
   contextScope,
   tagFilters
-}) {
+}: GetApplicationsCursorPaginatedWithDefaultsProps) {
   return getApplicationsCursorPaginated({
     pagination: {
       page: 1,
@@ -78,9 +106,13 @@ export function getApplicationsCursorPaginatedWithDefaults({
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
-      timeConfig
+      timeConfig,
+      includeInternalCalls: false,
+      includeSyntheticCalls: false,
+      useLongTermDataOnly: false
     },
     contextScope: contextScope ? contextScope : 'NONE',
-    tagFilters: tagFilters ? [...tagFilters] : null
+    tagFilters: tagFilters ? [...tagFilters] : undefined,
+    supportedOrderByCriteria: false
   });
 }
