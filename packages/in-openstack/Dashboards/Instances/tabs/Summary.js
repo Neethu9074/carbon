@@ -35,7 +35,7 @@ export default function Summary({ timeConfig, data: instance }) {
           formatter={percentage.detailed}
         />
       </KpiGridRow>
-      <Row>
+      <Row verticallyStretchColumns>
         <Col lg={6}>
           <Card title={t('in-openstack:dashboards.cpuResources')} useMaxAvailableHeight>
             <Chart
@@ -52,7 +52,6 @@ export default function Summary({ timeConfig, data: instance }) {
             />
           </Card>
         </Col>
-        <Col lg={6} />
         <Col lg={6}>
           <Card title={t('in-openstack:dashboards.memoryResources')} useMaxAvailableHeight>
             <Chart

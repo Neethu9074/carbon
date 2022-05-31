@@ -11,6 +11,7 @@ import { LoadingSkeleton } from '@instana/components';
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetLeftHeader';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo';
 import SloEntityInfo from 'in-custom-dashboards/widgets/Slo/SloEntityInfo';
+import { t } from 'in-i18n';
 
 describe('in-custom-dashboards/widgets/Slo/components/widget/WidgetLeftHeader', () => {
   describe('if status equals pending and monitoredEntity is set', () => {
@@ -40,5 +41,17 @@ describe('in-custom-dashboards/widgets/Slo/components/widget/WidgetLeftHeader', 
       const wrapper = shallow(<WidgetLeftHeader status="resolved" monitoredEntity={{ id: 'foo', label: 'bar' }} />);
       expect(wrapper.find(SliConfigInfo)).toHaveLength(1);
     });
+  });
+  it('should render a preview message if isPreview is true', () => {
+    // Given
+    const isPreview = true;
+
+    // When
+    const wrapper = shallow(<WidgetLeftHeader isPreview={isPreview} title="" status="" monitoredEntityType="" />);
+
+    // Then
+    expect(
+      wrapper.containsMatchingElement(t('in-custom-dashboards:widgets.slo.widgetLeftHeader.previewDataInfo'))
+    ).toBeTruthy();
   });
 });

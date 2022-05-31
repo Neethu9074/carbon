@@ -7,14 +7,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import getWebsitePaginatedBeaconGroups from 'in-websites/subscriptions/getWebsitePaginatedBeaconGroups';
+import {
+  getEventName,
+  getMetricCount,
+  getTableData
+} from 'in-alerting/smart-alerts/websites/components/customEventsUtil';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
+import CustomEventRow from 'in-alerting/smart-alerts/websites/components/CustomEventRow';
 import { joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
+import MetricValue from 'in-components/tables/ServerTable/components/MetricValue';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import List from 'in-settings/components/List';
 import Label from 'in-components/form/Label';
-import Tooltip from 'in-components/Tooltip';
 import { t } from 'in-i18n';
 
 import locals from 'in-alerting/smart-alerts/websites/components/CustomEventsList.mless';
@@ -22,8 +27,23 @@ import locals from 'in-alerting/smart-alerts/websites/components/CustomEventsLis
 const columnDefinitions = [
   {
     id: 'name',
+    width: '60',
     label: t('in-alerting:smartAlerts.websites.customEvent.customEventNameColumnLabel'),
-    getContent: item => CustomEventRow(item)
+    getContent: item => <CustomEventRow item={item} />
+  },
+  {
+    id: 'occurrencesAgg',
+    width: '20',
+    label: t('in-alerting:smartAlerts.websites.customEvent.customEventOccurrencesColumnLabel'),
+    getValue: item => getMetricCount(item.metrics.occurrencesAgg),
+    getContent: item => <MetricValue value={getMetricCount(item.metrics.occurrencesAgg, true)} />
+  },
+  {
+    id: 'usersAgg',
+    width: '20',
+    label: t('in-alerting:smartAlerts.websites.customEvent.customEventUsersColumnLabel'),
+    getValue: item => getMetricCount(item.metrics.usersAgg),
+    getContent: item => <MetricValue value={getMetricCount(item.metrics.usersAgg, true)} />
   }
 ];
 
@@ -84,54 +104,3 @@ CustomEventsList.propTypes = {
   slideOut: PropTypes.func.isRequired,
   timeConfig: PropTypes.object.isRequired
 };
-
-function getTableData({ timeConfig, tagFilterExpression }) {
-  return getWebsitePaginatedBeaconGroups({
-    tagFilterExpression,
-    timeConfig,
-    pagination: {
-      page: 1,
-      pageSize: 200
-    },
-    order: {
-      by: 'occurrencesAgg',
-      direction: 'DESC',
-      collation: 'en-US'
-    },
-    group: {
-      groupbyTag: 'beacon.customEvent.name'
-    },
-    metrics: {
-      occurrencesAgg: {
-        metric: 'beaconCount',
-        aggregation: 'SUM'
-      },
-      usersAgg: {
-        metric: 'uniqueUsersOrSessions',
-        aggregation: 'DISTINCT_COUNT'
-      }
-    }
-  });
-}
-
-function getEventName(item) {
-  let label = item.name;
-  // We do the below parsing as the back-end is sending name property as json wrapped in string.
-  // Ref Code https://github.ibm.com/instana/backend/blob/cd654045c239c68baacc5bd424c3ec81975ac102/appdata-reader/src/main/java/com/instana/application/datareader/command/website/GetWebsiteBeaconGroupsCommandHandler.java#L417-L417
-  try {
-    label = String(JSON.parse(label));
-  } catch (e) {
-    // ignore
-  }
-  return label;
-}
-
-function CustomEventRow(item) {
-  let label = getEventName(item);
-
-  return (
-    <Tooltip content={label} align="topLeft" delay={500}>
-      <div className={locals.row}>{label}</div>
-    </Tooltip>
-  );
-}

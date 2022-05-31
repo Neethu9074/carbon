@@ -295,6 +295,12 @@ export const INFRA_EXPLORE_SORTED = 'infra.explore.sorted';
 export const AMP_TENANT_UNIT_CHANGED = 'amp.tenant.unit.metrics.changed';
 
 export const AGENT_LOGS_DOWNLOAD_CLICKED = 'agent.logs.download.clicked';
+export const AGENT_REBOOT_CLICKED = 'agent.reboot.clicked';
+export const AGENT_RESET_CLICKED = 'agent.reset.clicked';
+export const AGENT_UPDATE_CLICKED = 'agent.update.clicked';
+export const AGENT_SENSOR_RESET_INTERNAL_CLICKED = 'agent.internal.reset.sensors.clicked';
+export const AGENTS_RESET_ALL_AGENTS_INTERNAL_CLICKED = 'agents.internal.reset.all.clicked';
+export const AGENTS_UPDATE_ALL_AGENTS_INTERNAL_CLICKED = 'agents.internal.update.all.clicked';
 
 // Potential Problems Marker Lane
 export const POTENTIAL_PROBLEMS_MARKER_HOVERED = 'potential.problems.marker.hovered';

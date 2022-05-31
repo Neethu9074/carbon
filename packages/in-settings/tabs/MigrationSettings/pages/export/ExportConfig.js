@@ -97,6 +97,7 @@ function render({ form, setForm, setCanSaveItem }) {
                 <CheckboxFancy
                   key={config.type}
                   id={config.type}
+                  disabled
                   label={<IconLabel type={config.icon} text={config.label} noBottomMargin />}
                   checked={field.value}
                   onChange={e => {

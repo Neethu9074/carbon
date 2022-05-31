@@ -66,7 +66,9 @@ function PercentileMenuContent({ percentilesShown, onChange }) {
                   ? onChange(percentilesShown.filter(p => p !== percentile))
                   : onChange(percentilesShown.push(percentile).sort())
               }
-              label={'p' + percentile}
+              label={t('in-components:metricConfigurator.aggregation', {
+                context: `p${percentile}`.toUpperCase().replace(/_/g, '')
+              })}
             />
           </li>
         );

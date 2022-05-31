@@ -46,7 +46,7 @@ export interface ChartProps {
   hourlyBudget: MetricDataSeries;
   budget: number;
   sliConfig?: SliConfig;
-  isPreview?: boolean;
+  nonInteractive?: boolean;
   disableZooming?: boolean;
   trackers?: ChartTrackers;
 }
@@ -59,7 +59,7 @@ export default function Chart({
   hourlyBudget,
   budget,
   sliConfig,
-  isPreview,
+  nonInteractive,
   disableZooming,
   trackers
 }: ChartProps) {
@@ -69,7 +69,10 @@ export default function Chart({
   const linkToUnboundAnalytics = useLinkToUnboundedAnalytics(sliConfig, tagCatalog);
 
   const showMissingDataIndicators =
-    sliCHClusterAccessEnabled && !isLoading(result) && !isPreview && sliCreatedWithinTimeWindow(sliConfig, timeConfig);
+    sliCHClusterAccessEnabled &&
+    !isLoading(result) &&
+    !nonInteractive &&
+    sliCreatedWithinTimeWindow(sliConfig, timeConfig);
 
   let metrics: MetricDataSeries[] = [consumed, hourlyBudget];
 
@@ -91,7 +94,7 @@ export default function Chart({
       <ResultAwareChart
         result={result}
         config={{
-          automaticallySize: !isPreview,
+          automaticallySize: !nonInteractive,
           granularity,
           timeConfig,
           y1: {
@@ -109,7 +112,7 @@ export default function Chart({
             formatter: useSliFormatter(sliConfig?.sliEntity),
             isStaticBudget
           },
-          nonInteractive: isPreview,
+          nonInteractive: nonInteractive,
           renderPostChartContent: props =>
             showMissingDataIndicators && <PostChartContent sliConfig={sliConfig} {...props} />,
           ...getCustomAnalyzeContextMenuProperties(linkToUnboundAnalytics, sliConfig, disableZooming, trackers)

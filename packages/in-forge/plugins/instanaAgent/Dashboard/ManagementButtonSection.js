@@ -5,6 +5,13 @@
 
 import React from 'react';
 
+import {
+  track,
+  AGENT_REBOOT_CLICKED,
+  AGENT_RESET_CLICKED,
+  AGENT_UPDATE_CLICKED,
+  AGENT_SENSOR_RESET_INTERNAL_CLICKED
+} from 'in-services/tracking/tracking';
 import { resetAgent, resetSensors, updateAgent, rebootAgent } from 'in-forge/plugins/instanaAgent/selfMonitoring';
 import { isInternalVisible$ } from 'in-components/MainNavigation/components/ViewSwitcher/isInternalVisibleStore';
 import ImageButton from 'in-forge/plugins/instanaAgent/Dashboard/ImageButton';
@@ -40,26 +47,50 @@ export default connectTo(
         ) : null}
 
         {role.canConfigureAgents ? (
-          <ImageButton iconType="lib_actions_refresh" onClick={() => updateAgent(snapshot)}>
+          <ImageButton
+            iconType="lib_actions_refresh"
+            onClick={() => {
+              track(AGENT_UPDATE_CLICKED);
+              updateAgent(snapshot);
+            }}
+          >
             {t('in-forge:plugins.instanaAgent.dashboard.updateAgent')}
           </ImageButton>
         ) : null}
 
         {isInternalVisible && role.canConfigureAgents ? (
           // Resetting the sensors is a feature that we almost never use, restrict it to instana engineer
-          <ImageButton iconType="lib_actions_refresh" onClick={() => resetSensors(snapshot)}>
+          <ImageButton
+            iconType="lib_actions_refresh"
+            onClick={() => {
+              track(AGENT_SENSOR_RESET_INTERNAL_CLICKED);
+              resetSensors(snapshot);
+            }}
+          >
             {t('in-forge:plugins.instanaAgent.dashboard.resetSensors')}
           </ImageButton>
         ) : null}
 
         {role.canConfigureAgents ? (
-          <ImageButton iconType="lib_actions_refresh" onClick={() => resetAgent(snapshot)}>
+          <ImageButton
+            iconType="lib_actions_refresh"
+            onClick={() => {
+              track(AGENT_RESET_CLICKED);
+              resetAgent(snapshot);
+            }}
+          >
             {t('in-forge:plugins.instanaAgent.dashboard.resetAgent')}
           </ImageButton>
         ) : null}
 
         {role.canConfigureAgents ? (
-          <ImageButton iconType="lib_actions_refresh" onClick={() => rebootAgent(snapshot)}>
+          <ImageButton
+            iconType="lib_actions_refresh"
+            onClick={() => {
+              track(AGENT_REBOOT_CLICKED);
+              rebootAgent(snapshot);
+            }}
+          >
             {t('in-forge:plugins.instanaAgent.dashboard.rebootAgent')}
           </ImageButton>
         ) : null}

@@ -48,7 +48,7 @@ phases:
           npx create-artifactory-access-config
       # Install project dependencies
       - npm install -g yarn
-      - yarn
+      - yarn install --frozen-lockfile
   build:
     commands:
       - test -n "$DEPLOY_STORYBOOK" -a "$DEPLOY_STORYBOOK" = "true" && yarn run storybookBuild && npm install s3-deploy@1.4.0 -g && s3-deploy './storybookTarget/**' --cwd './storybookTarget/' --bucket instana-devinfra-ui-client-playground --deleteRemoved --invalidate || true

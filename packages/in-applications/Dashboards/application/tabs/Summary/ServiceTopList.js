@@ -11,6 +11,7 @@ import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/i
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
 import { getApplicationDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
+import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import getServices from 'in-applications/subscriptions/getServices';
 import theme from 'in-themes';
@@ -39,7 +40,9 @@ export default function ServiceTopList({
   syntheticCalls,
   renderHistoricDataIndicator
 }) {
-  return (
+  return timeConfig.autoRefresh ? (
+    <WidgetNotActive title={t('in-applications:titleTopServices')} />
+  ) : (
     <TopListWithUrlState
       title={t('in-applications:titleTopServices')}
       metrics={metrics}

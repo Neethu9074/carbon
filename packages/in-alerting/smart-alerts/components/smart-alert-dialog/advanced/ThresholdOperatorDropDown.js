@@ -17,14 +17,14 @@ import Dropdown from 'in-alerting/components/Dropdown';
 export function ThresholdOperatorDropDown({ form, updateForm, customOnChange, trackingCallback, allOptions }) {
   const operatorValue = form.get('threshold').get('operator').value;
   const options = allOptions ? thresholdOperatorOptions : enrichThresholdOperatorOptionsForApiConfigs(operatorValue);
-  const label = (findEntryByValue(options, operatorValue) ?? options[0]).label;
+  const value = (findEntryByValue(options, operatorValue) ?? options[0]).value;
 
   return (
     <Dropdown
       asSimpleDropdown
-      label={label}
+      value={value}
       items={options}
-      onChange={({ value = '' }) => {
+      onChange={value => {
         if (customOnChange) {
           customOnChange(value);
         } else {

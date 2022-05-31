@@ -5,16 +5,16 @@
 
 import { useLocation } from 'react-router';
 import { get } from 'lodash';
-import moment from 'moment';
 import React from 'react';
 
+import { formatDateTime, fromNow } from '@instana/format-date';
 import { t } from '@instana/i18n-react';
 
 // @ts-ignore
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 // @ts-ignore
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import { timeByMillisZeroDecimalPlaces, kiloBytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { timeByMillisZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
 // @ts-ignore
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
@@ -65,7 +65,7 @@ const columnDefinitions = [
     label: t('in-synthetics:dashboard.resultsListPage.responseSizeColumn'),
     getContent(item: any) {
       const count = get(item, ['metrics', 'response_size', 0, 1], 0);
-      return <span className={locals.metricLabel}>{kiloBytesTwoDecimalPlaces(count)}</span>;
+      return <span className={locals.metricLabel}>{bytesTwoDecimalPlaces(count)}</span>;
     }
   }
 ];
@@ -147,8 +147,8 @@ function getSeverity(item: any) {
 
 function getRelativeTime(item: any) {
   let status = getStatus(item);
-  let date = get(item, ['metrics', 'start_time', 0, 0], moment.now()) / 1000;
-  return status === 1 ? moment.unix(date).fromNow() : moment.unix(date).format('MMM Do YYYY, h:mm:ss a');
+  let date = get(item, ['metrics', 'start_time', 0, 1]);
+  return status === 1 ? fromNow(date) : formatDateTime(date);
 }
 
 function getStatus(item: any) {

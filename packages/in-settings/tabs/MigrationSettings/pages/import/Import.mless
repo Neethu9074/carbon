@@ -13,4 +13,20 @@
     text-overflow: ellipsis;
     overflow: initial;
   }
+
+  .searchInput {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 0.5rem;
+  }
+
+  .hide {
+    display: none;
+  }
+
+  .fontItalic {
+    font-style: italic;
+  }
 }

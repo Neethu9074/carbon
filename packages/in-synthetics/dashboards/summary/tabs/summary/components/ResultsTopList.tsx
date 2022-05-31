@@ -3,40 +3,40 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-//import { get } from 'lodash';
-import React from 'react';
+import React, { Fragment } from 'react';
+import { get } from 'lodash';
+import moment from 'moment';
 
+import { formatDateTime, fromNow } from '@instana/format-date';
+import { SvgIcon } from '@instana/components';
 import { Link } from '@instana/components';
 
 //import { TestResponse } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 // @ts-ignore
-import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
-// @ts-ignore
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
 import { syntheticResultsListPath, syntheticsDashboard } from 'in-synthetics/navigation/paths';
+// @ts-ignore
+import { TopListWithUrlState } from 'in-components/TopListWithUrlState';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import { setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { latency } from 'in-services/formatters/number';
-import { Order, TagFilter, TimeConfig } from 'in-types';
-import { fromNow } from 'in-services/formatters/date';
+import { TagFilter, TimeConfig } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
+import locals from './ResultsTopList.mless';
+
 const metrics = ['response_time', 'start_time', 'status'];
-const metricInPayload = new Map<string, string>([
-  ['response_time', 'response_time'],
-  ['start_time', 'start_time'],
-  ['status', 'start_time']
-]);
-const orders = new Map<string, Order>([
-  ['response_time', { by: 'response_time', direction: 'DESC' }],
-  ['start_time', { by: 'start_time', direction: 'DESC' }],
-  ['status', { by: 'start_time', direction: 'DESC' }]
-]);
+
+const orders = [
+  { by: 'response_time', direction: 'DESC' },
+  { by: 'start_time', direction: 'DESC' },
+  { by: 'start_time', direction: 'DESC' }
+];
 
 const labels = [
   t('in-synthetics:dashboard.summary.widgets.slowest'),
@@ -108,7 +108,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
       type: 'TAG_FILTER'
     },
     {
-      stringValue: '0',
+      numberValue: 0,
       name: 'status',
       operator: EQUALS,
       entity: NOT_APPLICABLE,
@@ -116,13 +116,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
     }
   ];
 
-  let tagFilters = new Map<string, TagFilter[]>([
-    ['response_time', baseTagFilters],
-    ['start_time', baseTagFilters],
-    ['status', statusTagFilters]
-  ]);
-
-  const metrics = [metricInPayload.get(selectedMetric)];
+  let tagFilters = [baseTagFilters, baseTagFilters, statusTagFilters];
 
   return getTestResultList({
     pagination: {
@@ -130,7 +124,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
       pageSize: 5
     },
     // @ts-ignore
-    order: orders.get(selectedMetric),
+    order: orders[metrics.indexOf(selectedMetric)],
     // @ts-ignore
     syntheticMetrics: metrics,
     filter: {
@@ -140,7 +134,7 @@ function getList({ testId, timeConfig, selectedMetric }: GetList) {
       useLongTermDataOnly: false
     },
     // @ts-ignore
-    tagFilters: tagFilters.get(selectedMetric)
+    tagFilters: tagFilters[metrics.indexOf(selectedMetric)]
   });
 }
 
@@ -160,16 +154,50 @@ function ViewAll({ testId }: Props) {
 
 type Lab = {
   item: any;
+  selectedMetric: string;
 };
 
-function Label({ item }: Lab) {
-  return item.testResultCommonProperties.locationLabel;
+function Label({ item, selectedMetric }: Lab) {
+  return item.testResultCommonProperties.locationLabel + AdditionalLabel({ item, selectedMetric });
+}
+
+function AdditionalLabel({ item, selectedMetric }: Lab) {
+  let additionalLabel = '';
+  let formattedTime = '';
+  if (selectedMetric === 'response_time') {
+    let startTime = moment.unix(get(item, ['metrics', 'start_time', 0, 1], moment.now()) / 1000);
+    let date = get(item, ['metrics', 'start_time', 0, 1]);
+    if (startTime.diff(moment.now(), 'days') < -1) {
+      // start time is greater than 24 hours, show date time
+      formattedTime = formatDateTime(date) as string;
+    } else {
+      formattedTime = fromNow(date) as string;
+    }
+    additionalLabel = ', ' + formattedTime;
+  }
+  return additionalLabel;
 }
 
 type Met = {
   formattedMetricValue: any;
+  item: any;
+  selectedMetric: string;
 };
 
-function Metric({ formattedMetricValue }: Met) {
-  return formattedMetricValue;
+function Metric({ formattedMetricValue, item, selectedMetric }: Met) {
+  let status = get(item, ['metrics', 'status', 0, 1], 0);
+  if (selectedMetric !== 'status') {
+    if (status === 1) {
+      return formattedMetricValue;
+    } else {
+      return (
+        <Fragment>
+          <SvgIcon className={locals.alertIcon} size="xs" type="lib_help_error_warning" />
+          {formattedMetricValue}
+        </Fragment>
+      );
+    }
+  } else {
+    return fromNow(get(item, ['metrics', 'start_time', 0, 1]));
+  }
 }

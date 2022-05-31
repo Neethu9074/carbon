@@ -13,7 +13,10 @@ import { t } from 'in-i18n';
 export const stepConfigs = [
   {
     title: t('in-alerting:smartAlerts.websites.simple.stepConfigsStep1Title'),
-    validateIntermediately: [['rule', 'value']]
+    validateIntermediately: [
+      ['rule', 'value'],
+      ['rule', 'customEventName']
+    ]
   },
   {
     title: t('in-alerting:smartAlerts.websites.simple.stepConfigsStep2Title')

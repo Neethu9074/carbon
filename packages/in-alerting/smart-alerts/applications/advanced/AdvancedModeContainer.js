@@ -17,39 +17,36 @@ import InboundOutboundCallsSwitch from 'in-alerting/smart-alerts/applications/ad
 import StaticOrAdaptiveSwitch from 'in-alerting/smart-alerts/applications/advanced/StaticOrAdaptiveThresholdSwitch/StaticOrAdaptiveSwitch';
 import AdvancedModeStepsContainer from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AdvancedModeStepsContainer';
 import ApplicationAlertPropertiesTitleRow from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPropertiesTitleRow';
+import {
+  fieldTouchedAndInvalid,
+  isCustomPayloadValidOrUntouched
+} from 'in-alerting/smart-alerts/components/utils/formUtils';
 import HistoricBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/HistoricBaselineErrorMessage';
 import AdaptiveBaselineErrorMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/AdaptiveBaselineErrorMessage';
 import AlertProperties from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/AlertProperties/AlertProperties';
 import AlertEvaluationControl from 'in-alerting/smart-alerts/applications/advanced/EvaluationSwitch/AlertEvaluationControl';
 import { getDescriptionPlaceholder, getTitlePlaceholder } from 'in-alerting/smart-alerts/applications/form/formUtils';
-import StatusCodeInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/StatusCodeInteractiveChart';
-import ThroughputInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/ThroughputInteractiveChart';
 import { blueprintConfigs, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
-import ErrorRateInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/ErrorRateInteractiveChart';
 import ConfigureAlertChannel from 'in-alerting/smart-alerts/components/smart-alert-dialog/ConfigureAlertChannel';
 import BluePrintSelectionSection from 'in-alerting/smart-alerts/applications/advanced/BluePrintSelectionSection';
 import { ApplicationAlertPreview } from 'in-alerting/smart-alerts/applications/advanced/ApplicationAlertPreview';
-import SlownessInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/SlownessInteractiveChart';
-import LogsInteractiveChart from 'in-alerting/smart-alerts/applications/advanced/LogsInteractiveChart';
 import AlertConfigCustomPayload from 'in-alerting/components/CustomPayload/AlertConfigCustomPayload';
 import { ADAPTIVE_BASELINE, HISTORIC_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import AlertTypeSwitch from 'in-alerting/smart-alerts/applications/components/AlertTypeSwitch';
+import { smartAlertsLogsBlueprintEnabled, adaptiveBaselineEnabled } from 'in-services/featureFlags';
+import { ThresholdSection } from 'in-alerting/smart-alerts/applications/advanced/ThresholdSection';
 import ScopeConfig from 'in-alerting/smart-alerts/applications/scopeConfig/ScopeConfig';
-import { smartAlertsLogsBlueprintEnabled } from 'in-services/featureFlags';
-import { adaptiveBaselineEnabled } from 'in-services/featureFlags';
 import LightCard from 'in-alerting/components/LightCard/LightCard';
 import { t } from 'in-i18n';
 
 export default function AdvancedModeContainer(props) {
   const {
+    onChartViewConfigChange,
+    selectedChartViewConfigIndex,
     form,
-    timeConfig,
     onChange,
     setSliderState,
     setCustomSlideInHeaderConfig,
     updateForm,
-    onChartViewConfigChange,
-    selectedChartViewConfigIndex,
     thresholdResult,
     messages,
     editMode,
@@ -66,11 +63,16 @@ export default function AdvancedModeContainer(props) {
   const ruleForm = form.get('rule');
   const alertType = ruleForm.get('alertType').value;
   const thresholdType = form.get('threshold').get('type').value;
+
   const blueprintConfig = getBlueprintConfig(alertType);
   const blueprintConfigList =
     smartAlertsLogsBlueprintEnabled || blueprintConfig?.type === 'logs'
       ? blueprintConfigs
       : blueprintConfigs.filter(config => config?.type !== 'logs');
+
+  const ruleComplete = blueprintConfig?.isRuleComplete(ruleForm.toJS());
+
+  const alertConfigWithFormModel = blueprintConfig.enrichWithDefaultThresholdValues(form.toJS());
 
   const isLogsBlueprint = blueprintConfig.type === 'logs';
   const isStatusCodeBluePrint = blueprintConfig.type === 'statusCode';
@@ -115,7 +117,7 @@ export default function AdvancedModeContainer(props) {
           scrollId: '2',
           label: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.label'),
           title: t('in-alerting:smartAlerts.applications.advanced.advancedModeContainer.scope.title'),
-          valid: formFieldsValid(form, ['applications']) && isTagFilterFormModelValid,
+          valid: form.get('applications')?.valid && isTagFilterFormModelValid,
           content: (
             <>
               <AlertEvaluationControl form={form} updateForm={updateForm} isGlobalSmartAlert={isGlobalSmartAlert} />
@@ -148,27 +150,23 @@ export default function AdvancedModeContainer(props) {
             // when the rule definition is incomplete, we do not show a preview chart and
             // the threshold is _per se invalid_ , so
             // we ignore this fact to avoid an invalid step to be clearer to the user
-            !blueprintConfig.isRuleComplete(form.get('rule').toJS()) ||
+            !ruleComplete ||
             // when incomplete baseline data exist, we ignore this, because the user can save it anyway
             (thresholdType === HISTORIC_BASELINE && thresholdResult?.errors?.length > 0) ||
             (thresholdType === ADAPTIVE_BASELINE && thresholdResult?.data?.message),
           content: (
             <>
-              <AlertTypeSwitch
-                isGlobalSmartAlert={isGlobalSmartAlert}
+              <ThresholdSection
+                alertConfigWithFormModel={alertConfigWithFormModel}
                 alertType={alertType}
                 blueprintConfig={blueprintConfig}
                 editMode={editMode}
                 form={form}
-                onChange={onChange}
-                updateForm={updateForm}
                 onChartViewConfigChange={onChartViewConfigChange}
                 selectedChartViewConfigIndex={selectedChartViewConfigIndex}
-                renderErrorRate={props => <ErrorRateInteractiveChart {...props} timeConfig={timeConfig} />}
-                renderSlowness={props => <SlownessInteractiveChart {...props} timeConfig={timeConfig} />}
-                renderLogs={props => <LogsInteractiveChart {...props} timeConfig={timeConfig} />}
-                renderStatusCode={props => <StatusCodeInteractiveChart {...props} />}
-                renderThroughput={props => <ThroughputInteractiveChart {...props} timeConfig={timeConfig} />}
+                updateForm={updateForm}
+                ruleComplete={ruleComplete}
+                isGlobalSmartAlert={isGlobalSmartAlert}
               />
               {thresholdType === HISTORIC_BASELINE && (
                 <HistoricBaselineErrorMessage thresholdResult={thresholdResult} />
@@ -253,32 +251,4 @@ export default function AdvancedModeContainer(props) {
       ]}
     />
   );
-}
-
-// TODO extract this into own module as part of story https://instana.kanbanize.com/ctrl_board/37/cards/91077
-function formFieldsValid(form, fieldsToCheck) {
-  const invalid = Object.entries(form?.items ?? {})
-    .filter(([fieldName]) => fieldsToCheck?.includes(fieldName))
-    .some(([, { hierarchyValid }]) => !hierarchyValid);
-  return !invalid;
-}
-
-function fieldTouchedAndInvalid(field) {
-  return field && field.touched && !field.valid;
-}
-
-function payloadItemInvalid(item) {
-  const key = item.get('key');
-  const val = item.get('value');
-  return fieldTouchedAndInvalid(key) || fieldTouchedAndInvalid(val);
-}
-
-// TODO extract this into own module as part of story https://instana.kanbanize.com/ctrl_board/37/cards/91077
-function isCustomPayloadValidOrUntouched(form) {
-  const customPayloadForm = form.get('customPayloadFields');
-  const { touched, valid, items } = customPayloadForm;
-  if (!touched) return true;
-  if (!valid) return false; // valid as long as all keys are unique
-
-  return !items.find(item => payloadItemInvalid(item));
 }

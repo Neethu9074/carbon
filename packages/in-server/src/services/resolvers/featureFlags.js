@@ -87,7 +87,7 @@ module.exports = exports = [
   {
     uiClientKey: 'applicationSmartAlertsEnabled',
     instanaCtlKey: 'feature.application.smart.alerts.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'agentMonitoringIssuesEnabled',
@@ -262,6 +262,11 @@ module.exports = exports = [
   {
     uiClientKey: 'baselinePreviewOnAlertPageEnabled',
     instanaCtlKey: 'feature.baseline.preview.on.alert.page.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'apdexWidgetEnabled',
+    instanaCtlKey: 'feature.apdex.enabled',
     defaultValue: false
   }
 ];

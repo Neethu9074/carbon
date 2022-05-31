@@ -105,6 +105,8 @@ export default function EndpointDashboard({ location }) {
       ? tab => tab.label === t('in-applications:labelSummary')
       : () => true;
 
+  const showAlertButton = role.canConfigureCustomAlerts && applicationSmartAlertsEnabled;
+
   return (
     <>
       <ViewTrackingMeta
@@ -124,7 +126,7 @@ export default function EndpointDashboard({ location }) {
         props={props}
       />
 
-      {role.canConfigureCustomAlerts && applicationSmartAlertsEnabled && (
+      {showAlertButton && (
         <FloatingActionButtons>
           <CreateSmartAlert
             serviceId={props.serviceId}

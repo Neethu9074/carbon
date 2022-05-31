@@ -31,13 +31,14 @@ import {
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
+import FormComponentHeader from 'in-custom-dashboards/widgets/Slo/components/FormComponentHeader';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList';
+import { SliConfigBySliType, SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import PercentageInput from 'in-custom-dashboards/widgets/Slo/components/PercentageInput';
 import WebsiteSelector from 'in-custom-dashboards/widgets/Slo/components/WebsiteSelector';
 import SliSelectionForm from 'in-custom-dashboards/widgets/Slo/components/SliSelector';
-import { SliConfigBySliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import HorizontalFlexWrapper from 'in-components/layout/HorizontalFlexWrapper';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
@@ -47,9 +48,8 @@ import Sections from 'in-components/workspace/Sections';
 import Section from 'in-components/workspace/Section';
 import Select from 'in-components/form/Select/Select';
 import DateInput from 'in-components/form/DateInput';
-import { Nullish, SliEntitySliType } from 'in-types';
-import Header from 'in-components/workspace/Header';
 import Input from 'in-components/form/Input/Input';
+import { Nullish } from 'in-types';
 import { Trans, t } from 'in-i18n';
 
 import locals from './FormComponent.mless';
@@ -80,7 +80,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
 
   const entityIdField = form.get(entityId) as Field<string>;
   const entityIdValue = entityIdField?.value;
-  const entityTypeValue = (form.get(entityType) as Field<Lowercase<SliEntitySliType>>)?.value;
+  const entityTypeValue = (form.get(entityType) as Field<SliType>)?.value;
 
   const timeWindowTypeValue = (form.get(timeWindowType) as Field<TimeWindowType>)?.value ?? 'dynamic';
   const isFixed = timeWindowTypeValue === 'fixed';
@@ -136,9 +136,11 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     trackAPSelected({ applicationId: id });
   }
 
+  const isWebsiteEntityType = entityTypeValue === 'website';
+
   return (
     <Stack gap="normal">
-      <Header>{t('in-custom-dashboards:widgets.slo.formComponent.sloConfig')}</Header>
+      <FormComponentHeader showFeedbackButton={isWebsiteEntityType} />
 
       <Stack gap="xsmall">
         {websiteSloEnabled && (
@@ -148,9 +150,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
                 value={entityTypeValue}
                 onChange={type =>
                   updateForm(
-                    form.updateIn([entityType], field =>
-                      (field as Field<Lowercase<SliEntitySliType>>).setValue(type).setTouched(true)
-                    )
+                    form.updateIn([entityType], field => (field as Field<SliType>).setValue(type).setTouched(true))
                   )
                 }
               />
@@ -161,7 +161,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
         {entityTypeValue === 'application' && (
           <ApplicationSelector apIdField={entityIdField} onChange={onUpdateAppId} />
         )}
-        {entityTypeValue === 'website' && (
+        {isWebsiteEntityType && (
           <WebsiteSelector
             websiteIdField={entityIdField}
             onChange={id =>
