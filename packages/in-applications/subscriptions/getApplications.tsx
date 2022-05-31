@@ -3,15 +3,42 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  TimeConfig,
+  ContextScope,
+  OrderDirection,
+  TagFilter,
+  PaginatedResult,
+  ApplicationItem,
+  GetApplicationsQuery,
+  Result
+} from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 import { collationLanguage } from 'in-i18n';
 
-const getApplications = createResultSubscriptionFactory({
-  eventId: 'getApplications',
-  trackSubscriptionStatistics: true
-});
+const getApplications = createResultSubscriptionFactory<GetApplicationsQuery, Result<PaginatedResult<ApplicationItem>>>(
+  {
+    eventId: 'getApplications',
+    trackSubscriptionStatistics: true
+  }
+);
 export default getApplications;
+
+interface GetApplicationsWithDefaultsProps {
+  timeConfig: TimeConfig;
+  query: string;
+  page: number;
+  pageSize: number;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  contextScope: ContextScope;
+  tagFilters?: TagFilter[];
+}
 
 export function getApplicationsWithDefaults({
   timeConfig,
@@ -25,7 +52,7 @@ export function getApplicationsWithDefaults({
   endpointId = '',
   contextScope,
   tagFilters = []
-}) {
+}: GetApplicationsWithDefaultsProps) {
   return getApplications({
     pagination: {
       page,
@@ -82,9 +109,13 @@ export function getApplicationsWithDefaults({
       application: applicationId,
       service: serviceId,
       endpoint: endpointId,
-      timeConfig
+      timeConfig,
+      includeInternalCalls: false,
+      includeSyntheticCalls: false,
+      useLongTermDataOnly: false
     },
     contextScope: contextScope ? contextScope : 'NONE',
-    tagFilters: tagFilters ? [...tagFilters] : null
+    tagFilters: tagFilters ? [...tagFilters] : undefined,
+    supportedOrderByCriteria: false
   });
 }
