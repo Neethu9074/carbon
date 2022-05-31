@@ -19,7 +19,7 @@ describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () =>
       const t2 = t1 + fixedDistance;
       const t3 = t2 + 10 * oneMinute;
 
-      const baseline = [
+      const baseline: [number, number][] = [
         [t1, 105.5],
         [t2, 115.5],
         [t3, 125.5]
@@ -40,7 +40,7 @@ describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () =>
       const t2 = t1 + 10 * oneMinute;
       const t3 = t2 + fixedDistance;
 
-      const baseline = [
+      const baseline: [number, number][] = [
         [t1, 105.5],
         [t2, 115.5],
         [t3, 125.5]
@@ -63,7 +63,7 @@ describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () =>
       const t4 = t3 + fixedDistance;
       const t5 = t4 + 10 * oneMinute;
 
-      const baseline = [
+      const baseline: [number, number][] = [
         [t1, 95.5],
         [t2, 95.5],
         [t3, 105.5],
@@ -90,7 +90,7 @@ describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () =>
 
       const startTime = t1 + oneMinute;
 
-      const baseline = [
+      const baseline: [number, number][] = [
         [t1, 95.5],
         [t2, 95.5],
         [t3, 105.5]
