@@ -9,18 +9,14 @@ import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/ale
 import line from 'in-components/Chart/renderer/line';
 
 export default {
-  render: ({ colors100, colors50, scale, config, metrics }) => {
+  render: ({ colors50, colors100, scale, config, metrics }) => {
     validateProps(config);
+    const metric = metrics[0];
 
     renderStaticThresholdLineAndBackgrounds(config, scale, colors100, colors50);
 
     // historical data
-    line.render({
-      dataSeries: metrics[0],
-      color: colors100[0],
-      scale,
-      config
-    });
+    line.render({ dataSeries: metric, color: colors100[0], scale, config });
   },
   enrich: (config, axis) => {
     axis.valuesDependOnEachOther = true;
@@ -28,18 +24,17 @@ export default {
 };
 
 export function renderStaticThresholdLineAndBackgrounds(config, scale, colors100, colors50) {
-  const backBufferCtx = config.backBufferCtx;
-  const xScale = config.xScaleBackBuffer;
-  const yScale = config.scales.y1;
+  const { backBufferCtx, markerPaneHeight, scales, xScaleBackBuffer, y1 } = config;
+  const { operator, thresholdLineWidth } = y1;
+
+  const yScale = scales.y1;
   const chartHeight = scale.getRangeFrom();
-  const chartWidth = xScale.getRangeTo();
-  const thresholdLineWidth = config.y1.thresholdLineWidth;
-  const threshold = yScale.getRangeFrom() - yScale.getRange(config.y1.threshold);
+  const chartWidth = xScaleBackBuffer.getRangeTo();
+  const threshold = yScale.getRangeFrom() - yScale.getRange(y1.threshold);
   const thresholdColor = colors100[1];
   const alrightColor = colors50[0];
   const violationColor = colors50[1];
-  const isGreaterOp = config.y1.operator === undefined || isGreaterOperator(config.y1.operator);
-  const markerPaneHeight = config.markerPaneHeight;
+  const isGreaterOp = operator === undefined || isGreaterOperator(operator);
 
   backBufferCtx.save();
   // Background above line

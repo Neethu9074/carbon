@@ -21,6 +21,19 @@ export default {
   component: AlertingRenderer
 };
 
+export function BaselineWithGaps() {
+  return (
+    <>
+      <p>Adaptive Baseline</p>
+      <Chart renderer={AlertingRenderer.lineWithAdaptiveBaseline} />
+      <p>Historic Baseline</p>
+      <Chart renderer={AlertingRenderer.lineWithHistoricBaseline} />
+      <p>Baseline with optional PotentialProblem</p>
+      <Chart renderer={AlertingRenderer.lineWithBaselineAndPotentialProblem} />
+    </>
+  );
+}
+
 const metricsBarWithBaseline = [generateMetrics(40, 100, oneDay / 6)];
 
 const baselineBarWithBaseline = generateBaselineForMetric(
@@ -31,11 +44,11 @@ const baselineBarWithBaseline = generateBaselineForMetric(
   3.0
 ).map((metric, idx) => [metricsBarWithBaseline[0][idx][0], metric[1], metric[2]]);
 
-export function BarWithBaselineWithGaps() {
+function Chart({ renderer }) {
   const baselineBarWithBaselineWithGaps = baselineBarWithBaseline
     .slice(1, 2)
-    .concat(baselineBarWithBaseline.slice(12, 13))
-    .concat(baselineBarWithBaseline.slice(23, 24));
+    .concat(baselineBarWithBaseline.slice(10, 13))
+    .concat(baselineBarWithBaseline.slice(20));
 
   return (
     <ResultAwareChart
@@ -63,7 +76,7 @@ export function BarWithBaselineWithGaps() {
             return metricsMaxValue * 1.4; // TODO include sensitivity and baseline as well, not just the max-metric-value
           },
           colors: [theme.lib.colors.lightBlue800, theme.lib.colors.red800, theme.lib.colors.orange800],
-          renderer: AlertingRenderer.lineWithAdaptiveBaseline,
+          renderer,
           metrics: metricsBarWithBaseline,
           baseline: baselineBarWithBaselineWithGaps,
           operator: '>=',
