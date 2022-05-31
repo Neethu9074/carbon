@@ -89,11 +89,11 @@ export default function FormComponent({
       if (metadata) {
         onChange([], form => {
           var f = form.updateIn(['metricPath'], field => field.setValue(metadata.path).setTouched(true));
-          if (f.containsKey('metricLabel')) {
+          if(f.containsKey('metricLabel')){
             f = f.updateIn(['metricLabel'], field => field.setValue(metadata.label).setTouched(true));
           }
           return f;
-        });
+      });
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -133,11 +133,12 @@ export default function FormComponent({
                   .updateIn(['allowedCrossSeriesAggregations'], field =>
                     field.setValue(allowedCrossSeriesAggregations).setTouched(true)
                   );
-                if (f.containsKey('metricLabel')) {
-                  f = f.updateIn(['metricLabel'], field => field.setValue(label).setTouched(true));
+                  if(f.containsKey('metricLabel')){
+                    f = f.updateIn(['metricLabel'], field => field.setValue(label).setTouched(true));
+                  }
+                  return f;
                 }
-                return f;
-              });
+              );
             }}
             query={catalogQuery.value}
             onQueryChange={catalogQuery.onChange}
