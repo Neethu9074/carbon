@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2022
  * (c) Copyright Instana Inc.
  */
 
@@ -11,7 +11,7 @@ registerSpanDefinition({
   type: 'dubbo.rpc.exit',
   category: t('in-forge:tracingCategory.rpc'),
 
-  detailView: 'RpcClientDetailView',
+  detailView: 'DubboRpcExitDetailView',
 
   getLabel
 });
