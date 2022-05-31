@@ -510,15 +510,15 @@ export default [
   },
   {
     metrics: [
-      'lockstats.numberOfLocksHeld',
-      'lockstats.lockEscals',
-      'lockstats.lockTimeouts',
-      'lockstats.deadlocks',
-      'lockstats.lockWaitTime',
-      'lockstats.numberOfConnections',
-      'lockstats.activeLockWaits',
-      'lockstats.averageLockEscalsPerAct',
-      'lockstats.lockListValue'
+      'vmonlockstats.numberOfLocksHeld',
+      'vmonlockstats.lockEscals',
+      'vmonlockstats.lockTimeouts',
+      'vmonlockstats.deadlocks',
+      'vmonlockstats.lockWaitTime',
+      'vmonlockstats.numberOfConnections',
+      'vmonlockstats.activeLockWaits',
+      'vmonlockstats.averageLockEscalsPerAct',
+      'vmonlockstats.lockListValue'
     ],
     labels: [
       t('in-forge:plugins.db2Database.numberOfLocksHeld'),
@@ -535,13 +535,57 @@ export default [
     formatter: number
   },
   {
-    metrics: ['lockstats.lockListInUse'],
+    metrics: ['vmonlockstats.lockListInUse'],
     labels: [t('in-forge:plugins.db2Database.lockListInUse')],
     min: 0,
     formatter: bytes
   },
   {
-    metrics: ['lockstats.lockWaitTime'],
+    metrics: ['vmonlockstats.lockWaitTime'],
+    labels: [t('in-forge:plugins.db2Database.lockWaitTime')],
+    min: 0,
+    formatter: millis
+  },
+  {
+    metrics: [
+      'databasevmondeltastats.indexReadEfficiency',
+      'databasevmondeltastats.sorts',
+      'databasevmondeltastats.sortsPerTransactions',
+      'databasevmondeltastats.sqls'
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.indexReadEfficiency'),
+      t('in-forge:plugins.db2Database.sorts'),
+      t('in-forge:plugins.db2Database.sortsPerTransactions'),
+      t('in-forge:plugins.db2Database.sqls')
+    ],
+    min: 0,
+    formatter: number
+  },
+  {
+    metrics: [
+      getDynamicMetricMatch(
+        'databasevmondeltastats',
+        'syncReadPercentage',
+        t('in-forge:plugins.db2Database.dashboard.databasevmondeltastats')
+      ),
+      getDynamicMetricMatch(
+        'databasevmondeltastats',
+        'asyncWritePercentage',
+        t('in-forge:plugins.db2Database.dashboard.databasevmondeltastats')
+      )
+    ],
+    labels: [
+      t('in-forge:plugins.db2Database.syncReadPercentage'),
+      t('in-forge:plugins.db2Database.asyncWritePercentage')
+    ],
+    category: [t('in-forge:plugins.db2Database.dashboard.databasevmondeltastats')],
+    min: 0,
+    max: 100,
+    formatter: percentage.detailed
+  },
+  {
+    metrics: ['databasevmondeltastats.lockWaitTime'],
     labels: [t('in-forge:plugins.db2Database.lockWaitTime')],
     min: 0,
     formatter: millis
