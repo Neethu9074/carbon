@@ -18,8 +18,7 @@ import SlownessThresholdCondition from 'in-alerting/smart-alerts/websites/advanc
 import { alertConfigWithDefaultThreshold } from 'in-alerting/smart-alerts/components/utils/formUtils';
 import AlertTypeSwitch from 'in-alerting/smart-alerts/websites/components/AlertTypeSwitch';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
-
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
+import BorderedContainer from 'in-alerting/components/BorderedContainer';
 
 export default function ThresholdSelectionInteractiveChart({
   alertType,
@@ -34,14 +33,14 @@ export default function ThresholdSelectionInteractiveChart({
 
   if (!blueprintConfig.isRuleComplete(alertConfigWithFormModel.rule)) {
     return (
-      <div className={locals.container}>
+      <BorderedContainer>
         <IncompleteChartPlaceholder message={blueprintConfig.incompleteRuleMessage} />
-      </div>
+      </BorderedContainer>
     );
   }
 
   return (
-    <div className={locals.container}>
+    <BorderedContainer>
       <AlertTypeSwitch
         alertType={alertType}
         renderJsErrors={() => (
@@ -87,7 +86,7 @@ export default function ThresholdSelectionInteractiveChart({
           />
         )}
       </ChartViewConfigurator>
-    </div>
+    </BorderedContainer>
   );
 }
 

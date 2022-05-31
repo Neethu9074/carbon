@@ -24,8 +24,6 @@ import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import { t } from 'in-i18n';
 
-import interactiveChartLocals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/InteractiveChart.mless';
-
 export default function ErrorRateThresholdCondition({
   form,
   updateForm,
@@ -79,9 +77,9 @@ export default function ErrorRateThresholdCondition({
           updateForm={updateForm}
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
-          thresholdValueInputClassName={interactiveChartLocals.narrowControl}
-          percentageMetric
           isGlobalSmartAlert={isGlobalSmartAlert}
+          hasSmallInputField
+          percentageMetric
         />
       )}
 
