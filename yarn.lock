@@ -5960,12 +5960,10 @@ events@^3.2.0:
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/events/-/events-3.3.0.tgz#31a95ad0a924e2d2c419a813aeb2c4e878ea7400"
   integrity sha1-Mala0Kkk4tLEGagTrrLE6HjqdAA=
 
-eventsource@^1.1.0:
-  version "1.1.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/eventsource/-/eventsource-1.1.0.tgz#00e8ca7c92109e94b0ddf32dac677d841028cfaf"
-  integrity sha1-AOjKfJIQnpSw3fMtrGd9hBAoz68=
-  dependencies:
-    original "^1.0.0"
+eventsource@^2.0.2:
+  version "2.0.2"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/eventsource/-/eventsource-2.0.2.tgz#76dfcc02930fb2ff339520b6d290da573a9e8508"
+  integrity sha1-dt/MApMPsv8zlSC20pDaVzqehQg=
 
 exec-buffer@^3.0.0:
   version "3.2.0"
@@ -10446,13 +10444,6 @@ ordered-read-streams@^1.0.0:
   dependencies:
     readable-stream "^2.0.1"
 
-original@^1.0.0:
-  version "1.0.2"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/original/-/original-1.0.2.tgz#e442a61cffe1c5fd20a65f3261c26663b303f25f"
-  integrity sha1-5EKmHP/hxf0gpl8yYcJmY7MD8l8=
-  dependencies:
-    url-parse "^1.4.3"
-
 os-filter-obj@^2.0.0:
   version "2.0.0"
   resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/os-filter-obj/-/os-filter-obj-2.0.0.tgz#1c0b62d5f3a2442749a2d139e6dddee6e81d8d16"
@@ -12655,13 +12646,13 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-sockjs-client@^1.6.0:
-  version "1.6.0"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/sockjs-client/-/sockjs-client-1.6.0.tgz#e0277b8974558edcb557eafc7d3027ef6128d865"
-  integrity sha1-4Cd7iXRVjty1V+r8fTAn72Eo2GU=
+sockjs-client@^1.6.1:
+  version "1.6.1"
+  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/sockjs-client/-/sockjs-client-1.6.1.tgz#350b8eda42d6d52ddc030c39943364c11dcad806"
+  integrity sha1-NQuO2kLW1S3cAww5lDNkwR3K2AY=
   dependencies:
     debug "^3.2.7"
-    eventsource "^1.1.0"
+    eventsource "^2.0.2"
     faye-websocket "^0.11.4"
     inherits "^2.0.4"
     url-parse "^1.5.10"
@@ -13804,14 +13795,6 @@ url-parse-lax@^3.0.0:
   integrity sha1-FrXK/Afb42dsGxmZF3gj1lA6yww=
   dependencies:
     prepend-http "^2.0.0"
-
-url-parse@^1.4.3:
-  version "1.5.3"
-  resolved "https://artifact-rnd.instana.io/artifactory/api/npm/npm-virtual-internal/url-parse/-/url-parse-1.5.3.tgz#71c1303d38fb6639ade183c2992c8cc0686df862"
-  integrity sha1-ccEwPTj7Zjmt4YPCmSyMwGht+GI=
-  dependencies:
-    querystringify "^2.1.1"
-    requires-port "^1.0.0"
 
 url-parse@^1.5.10:
   version "1.5.10"
