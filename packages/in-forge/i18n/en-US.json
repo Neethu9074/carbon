@@ -11588,7 +11588,7 @@
       "titleGroup": "Group",
       "titleProviderVersion": "Provider Version",
       "titleConsumerVersion": "Consumer Version",
-      "titleVersion": "Version",
+      "titleVersion": "Protocol Version",
       "titleTag": "Tag",
       "titleToken": "Token",
       "titleRemoteApplication": "Remote Application"
