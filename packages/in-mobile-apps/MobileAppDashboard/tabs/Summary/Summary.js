@@ -102,7 +102,7 @@ export default function Summary({ tagFilters, timeConfig, mobileAppId, mobileApp
       <Row>
         <Col lg={12}>
           <MobileAppChartWrapper
-            cardTitle={t('in-mobile-apps:dashboard.tabs.activityCardTitle')}
+            title={t('in-mobile-apps:dashboard.tabs.activityCardTitle')}
             timeConfig={timeConfig}
             viewInAnalytics={{
               mobileAppLabel
