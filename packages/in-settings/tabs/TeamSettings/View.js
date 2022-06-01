@@ -54,9 +54,9 @@ import CustomEventPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts
 import ActionDetailsPage from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Action';
 import ApiTokensPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiTokens';
 import CoralogixPage from 'in-settings/tabs/TeamSettings/pages/logManagement/Coralogix/Coralogix';
+import { applicationSmartAlertsEnabled, actionAutomationEnabled } from 'in-services/featureFlags';
 import ApiTokenPage from 'in-settings/tabs/TeamSettings/pages/accessControl/ApiTokens/ApiToken';
 import InvitesPage from 'in-settings/tabs/TeamSettings/pages/accessControl/Invites/Invites';
-import { applicationSmartAlertsEnabled, automationEnabled } from 'in-services/featureFlags';
 import EventsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import AlertsPage from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alerts';
 import AccessLogPage from 'in-settings/tabs/TeamSettings/pages/audit/AccessLog/AccessLog';
@@ -242,7 +242,7 @@ function navigationTreeForRole(role) {
     });
   }
 
-  if (automationEnabled) {
+  if (actionAutomationEnabled) {
     navigationTree.push({
       title: t('in-settings:tabs.automation'),
       pages: [
