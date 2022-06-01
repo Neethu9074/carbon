@@ -4,11 +4,10 @@
  */
 
 // @ts-expect-error modules is not yet migrated to typescript
-import { renderHistoricBaseline } from 'in-alerting/components/Chart/renderer/historicBaseline';
-// @ts-expect-error modules is not yet migrated to typescript
 import line from 'in-components/Chart/renderer/line';
-import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
+import { renderHistoricBaseline } from 'in-alerting/components/Chart/renderer/historicBaseline';
 import { RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
+import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
 import { ScaleType } from 'in-services/scale';
 
 export default {

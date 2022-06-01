@@ -4,24 +4,40 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Granularity, ThresholdOperator, TimeConfig } from '@instana/types';
+
+import {
+  BaselineDataSeries,
+  RenderAxisWithBaseline
+} from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { renderThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
 import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { DataSeries, RenderConfig } from 'in-components/Chart/renderer/types';
 import { hexToRGBA } from 'in-services/formatters/color';
+import { AxisColor } from 'in-components/Chart/types';
+import { ScaleType } from 'in-services/scale';
 import theme from 'in-themes';
 
 /**
  * Renders the historic baseline and the backgrounds above/below. Optionally, if metric parameter is provided,
  * it gets used to render/mark the area without available data.
  */
-export function renderHistoricBaseline(config, scale, colors50, colors100, metric) {
+export function renderHistoricBaseline(
+  config: RenderConfig,
+  scale: ScaleType,
+  colors50: AxisColor[],
+  colors100: AxisColor[],
+  metric?: DataSeries
+  //7metrics: MetricDataSeries[];
+): void {
   const { markerPaneHeight, timeConfig, y1 } = config;
-  const { baseline, operator, sensitivity, thresholdGranularity } = y1;
+  const { baseline, sensitivity, operator, thresholdGranularity } = y1 as RenderAxisWithBaseline;
 
   if (!baseline || baseline.length === 0) {
     return;
   }
-
+  if (baseline && baseline.length > 0) {
   const { isGreaterOp, oneSidedThresholdInTimeframe } = initOneSidedThreshold(
     baseline,
     operator,
@@ -33,9 +49,9 @@ export function renderHistoricBaseline(config, scale, colors50, colors100, metri
   renderThresholdLineAndBackgrounds(config, scale, colors50, colors100, oneSidedThresholdInTimeframe, isGreaterOp);
 
   let numOfThresholds = oneSidedThresholdInTimeframe.length;
-  let numOfMetrics = metric?.length;
+    let numOfMetrics = metric?.length ?? 0;
 
-  if (numOfThresholds >= 0 && numOfMetrics >= 0) {
+    if (numOfThresholds > 0 && metric && numOfMetrics > 0) {
     const lastAvailableThresholdTimestamp = oneSidedThresholdInTimeframe[numOfThresholds - 1][0];
 
     const chartHeight = scale.getRangeFrom();
@@ -52,34 +68,41 @@ export function renderHistoricBaseline(config, scale, colors50, colors100, metri
   }
 }
 
-export function initOneSidedThreshold(baseline, operator, sensitivity, thresholdGranularity, timeConfig) {
-  const baselineWindowSize = (timeConfig.windowSize / thresholdGranularity) * thresholdGranularity;
-  const chartFrom = timeConfig.to - baselineWindowSize;
-  const chartTo = chartFrom + baselineWindowSize;
-
+export function initOneSidedThreshold(
+  baseline: BaselineDataSeries,
+  operator: ThresholdOperator,
+  sensitivity: number,
+  thresholdGranularity: Granularity,
+  timeConfig: TimeConfig
+): { isGreaterOp: boolean; oneSidedThresholdInTimeframe: DataSeries } {
+  const oneSidedThresholdInTimeframe: DataSeries = [];
   const isGreaterOp = operator === undefined || isGreaterOperator(operator);
 
-  const oneSidedThresholdInTimeframe = [];
+  if (timeConfig.to) {
+    const baselineWindowSize = (timeConfig.windowSize / thresholdGranularity) * thresholdGranularity;
+    const chartFrom = timeConfig.to - baselineWindowSize;
+    const chartTo = chartFrom + baselineWindowSize;
 
-  for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += thresholdGranularity) {
-    const thresholdValue = getHistoricBaselineValue(
-      timestamp,
-      baseline,
-      sensitivity,
-      thresholdGranularity,
-      isGreaterOp
-    );
-    oneSidedThresholdInTimeframe.push([timestamp, thresholdValue]);
+    for (let timestamp = chartFrom; timestamp <= chartTo; timestamp += thresholdGranularity) {
+      const thresholdValue = getHistoricBaselineValue(
+        timestamp,
+        baseline,
+        sensitivity,
+        thresholdGranularity,
+        isGreaterOp
+      );
+      oneSidedThresholdInTimeframe.push([timestamp, thresholdValue]);
+    }
   }
   return { isGreaterOp, oneSidedThresholdInTimeframe };
 }
 
 // grey out portion of background for which no metric data is available
 function renderMetricUnavailableIndicator(
-  config,
-  graphAreaHeight,
-  lastAvailableThresholdTimestamp,
-  lastAvailableMetricTimestamp
+  config: RenderConfig,
+  graphAreaHeight: number,
+  lastAvailableThresholdTimestamp: number,
+  lastAvailableMetricTimestamp: number
 ) {
   const { backBufferCtx, markerPaneHeight, xScaleBackBuffer } = config;
 

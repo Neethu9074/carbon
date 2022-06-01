@@ -3,17 +3,18 @@
  * (c) Copyright Instana Inc. 2021
  */
 
+import { ThresholdOperator } from '@instana/types';
+
 import { renderThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
-import { updateThresholdPointsIfRequired } from 'in-alerting/components/Chart/renderer/adaptiveBaseline';
-import { getAdaptiveBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
-import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 // @ts-expect-error modules is not yet migrated to typescript
 import line from 'in-components/Chart/renderer/line';
-import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
+import { updateThresholdPointsIfRequired } from 'in-alerting/components/Chart/renderer/adaptiveBaseline';
+import { getAdaptiveBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { DataSeries, RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
-import { ScaleType } from 'in-services/scale';
+import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
 import { Granularity, TimeConfig } from 'in-types';
-import { ThresholdOperator } from '@instana/types';
+import { ScaleType } from 'in-services/scale';
 
 /**
  * DataSeries: array of items of
@@ -21,7 +22,7 @@ import { ThresholdOperator } from '@instana/types';
  * - value
  * - deviation
  */
-type BaselineDataSeries = [number, number, number][];
+export type BaselineDataSeries = [number, number, number][];
 
 export default {
   render: ({
@@ -94,7 +95,7 @@ function calculateFirstBucketInChartStartTime(timeConfig: TimeConfig, granularit
   return to - timeConfig.windowSize - granularity;
 }
 
-interface RenderAxisWithBaseline extends RenderAxis {
+export interface RenderAxisWithBaseline extends RenderAxis {
   baseline: BaselineDataSeries;
   sensitivity: number;
   operator: ThresholdOperator;
