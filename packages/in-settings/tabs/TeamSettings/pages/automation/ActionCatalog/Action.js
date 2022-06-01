@@ -40,7 +40,7 @@ export default function Action(props) {
     return <LoadingIndicator />;
   }
 
-  if ((action && action.errors) || (action && !action.fields)) {
+  if (action && action.errors) {
     return (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
@@ -48,7 +48,7 @@ export default function Action(props) {
         </SubViewHeader>
         <SectionLine />
         <DescriptionText>
-          {action.errors ? action.errors[0] : action.message}
+          {action.errors[0]}
           <br />
           {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
