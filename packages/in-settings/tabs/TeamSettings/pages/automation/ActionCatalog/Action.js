@@ -84,9 +84,7 @@ export default function Action(props) {
         <Table cols={paramCols} rows={paramRows} />
       </FormGroup>
       <SaveCancel
-        message=""
         loading={!action}
-        isCreate={false}
         listPath={teamSettingsActionCatalog}
         cancelButtonLabel={t('in-settings:tabs.back')}
         hasSaveButton={false}
