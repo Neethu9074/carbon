@@ -6,11 +6,8 @@
 
 import { Granularity, ThresholdOperator, TimeConfig } from '@instana/types';
 
-import {
-  BaselineDataSeries,
-  RenderAxisWithBaseline
-} from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { renderThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
+import { RenderAxisWithBaseline } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
 import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { DataSeries, RenderConfig } from 'in-components/Chart/renderer/types';
@@ -18,6 +15,14 @@ import { hexToRGBA } from 'in-services/formatters/color';
 import { AxisColor } from 'in-components/Chart/types';
 import { ScaleType } from 'in-services/scale';
 import theme from 'in-themes';
+
+/**
+ * DataSeries: array of items of
+ * - timestamp
+ * - value
+ * - deviation
+ */
+export type BaselineDataSeries = [number, number, number][];
 
 /**
  * Renders the historic baseline and the backgrounds above/below. Optionally, if metric parameter is provided,
@@ -29,7 +34,6 @@ export function renderHistoricBaseline(
   colors50: AxisColor[],
   colors100: AxisColor[],
   metric?: DataSeries
-  //7metrics: MetricDataSeries[];
 ): void {
   const { markerPaneHeight, timeConfig, y1 } = config;
   const { baseline, sensitivity, operator, thresholdGranularity } = y1 as RenderAxisWithBaseline;
