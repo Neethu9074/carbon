@@ -11714,16 +11714,11 @@
       "titleMethod": "Method"
     },
     "dubbo": {
-      "titleRequestType": "Request Type",
       "titlePath": "Path",
       "titleInterface": "Interface",
-      "titleGroup": "Group",
       "titleProviderVersion": "Provider Version",
       "titleConsumerVersion": "Consumer Version",
-      "titleVersion": "Protocol Version",
-      "titleTag": "Tag",
-      "titleToken": "Token",
-      "titleRemoteApplication": "Remote Application"
+      "titleVersion": "Protocol Version"
     },
     "dynamoDB": {
       "titleTable": "Table",
