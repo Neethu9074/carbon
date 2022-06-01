@@ -3,11 +3,28 @@
  * (c) Copyright Instana Inc.
  */
 
+// @ts-expect-error modules is not yet migrated to typescript
 import { renderHistoricBaseline } from 'in-alerting/components/Chart/renderer/historicBaseline';
+// @ts-expect-error modules is not yet migrated to typescript
 import line from 'in-components/Chart/renderer/line';
+import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
+import { RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
+import { ScaleType } from 'in-services/scale';
 
 export default {
-  render: ({ colors50, colors100, scale, config, metrics }) => {
+  render: ({
+    colors50,
+    colors100,
+    scale,
+    config,
+    metrics
+  }: {
+    colors50: AxisColor[];
+    colors100: AxisColor[];
+    scale: ScaleType;
+    config: RenderConfig;
+    metrics: MetricDataSeries[];
+  }): void => {
     const metric = metrics[0];
 
     renderHistoricBaseline(config, scale, colors50, colors100, metric);
@@ -15,31 +32,37 @@ export default {
     renderHighlight(config, scale);
 
     // historical data
-    line.render({ dataSeries: metric, color: colors100[0], scale, config });
+    line.render({ dataSeries: metric, color: colors100[0]!, scale, config });
   },
-  enrich: (config, axis) => {
+  enrich: (_config: RenderConfig, axis: RenderAxis) => {
+    // @ts-expect-error field actually does not yet exist in Axis
     axis.valuesDependOnEachOther = true;
   }
-};
+} as const;
 
-function renderHighlight(config, scale) {
+function renderHighlight(config: RenderConfig, scale: ScaleType): void {
   const { backBufferCtx, markerPaneHeight, xScaleBackBuffer, y1 } = config;
+
+  // @ts-expect-error field actually does not yet exist in Axis
   const { highlight } = y1;
 
   if (!highlight) {
     return;
   }
 
-  const {
-    area: { start, end },
-    color
-  } = highlight;
+  const { area, color } = highlight as Highlight;
 
-  const chartHeight = scale.getRangeFrom();
-  const height = chartHeight - markerPaneHeight;
-  const y = markerPaneHeight;
+  if (!area) {
+    return;
+  }
+
+  const { start, end } = area;
 
   if (start && end) {
+    const chartHeight = scale.getRangeFrom();
+    const height = chartHeight - markerPaneHeight;
+    const y = markerPaneHeight;
+
     const startX = xScaleBackBuffer.getRange(start);
     const endX = xScaleBackBuffer.getRange(end);
 
@@ -57,4 +80,20 @@ function renderHighlight(config, scale) {
     });
     backBufferCtx.restore();
   }
+}
+
+interface Highlight {
+  area?: {
+    /** the start x coordinate (in the metrics x range) */
+    start?: number;
+    /** the end x coordinate (in the metrics x range) */
+    end?: number;
+  };
+  /**
+   * an array of color strings:
+   * -Index 0 being the highlights fill color and
+   * - index 1 being its border color.
+   */
+  color: string[];
+  label: string;
 }
