@@ -33,7 +33,7 @@ export default {
     // historical data
     line.render({ dataSeries: metric, color: colors100[0]!, scale, config });
   },
-  enrich: (_config: RenderConfig, axis: RenderAxis) => {
+  enrich: (_config: unknown, axis: RenderAxis) => {
     // @ts-expect-error field actually does not yet exist in Axis
     axis.valuesDependOnEachOther = true;
   }
