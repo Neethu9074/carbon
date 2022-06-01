@@ -30,7 +30,7 @@ export function updateThresholdPointsIfRequired(
   const halfBucketInMillis = thresholdGranularity * 0.5;
   const maxDistanceBetweenDatapointsInMillis = thresholdGranularity * allowedMultiplesOfRollupSizeMissingInCharts;
 
-  let previousThresholdPoint: [number, number] | undefined;
+  let previousThresholdPoint: [number, number] | undefined = undefined;
 
   for (let i = 0; i < baseline.length; i++) {
     const currentThresholdPoint: [number, number] = baseline[i];
