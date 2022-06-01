@@ -81,5 +81,5 @@ export default function ActionCatalog({ setTitle = true, noDataMessage, pageSize
   );
 }
 function getHeader() {
-  return leftHeaderWithSelectAll(t('in-settings:tabs.actions'), false, {});
+  return leftHeaderWithSelectAll(t('in-settings:tabs.action_plural'), false, {});
 }

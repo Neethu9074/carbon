@@ -64,9 +64,7 @@ export default function Action(props) {
   return (
     <SettingsDetailPage>
       <Title title={t('in-settings:tabs.actionDetails')} />
-      <SubViewHeader>
-        {t('in-settings:tabs.action')}: {action.name}
-      </SubViewHeader>
+      <SubViewHeader>{t('in-settings:tabs.actionWithName', { actionName: action.name })}</SubViewHeader>
       <SectionLine />
 
       <FormGroup>
