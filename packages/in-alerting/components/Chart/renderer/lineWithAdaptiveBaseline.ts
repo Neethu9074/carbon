@@ -7,31 +7,58 @@ import { renderThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/
 import { updateThresholdPointsIfRequired } from 'in-alerting/components/Chart/renderer/adaptiveBaseline';
 import { getAdaptiveBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
+// @ts-expect-error modules is not yet migrated to typescript
 import line from 'in-components/Chart/renderer/line';
+import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
+import { DataSeries, RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
+import { ScaleType } from 'in-services/scale';
+import { Granularity, TimeConfig } from 'in-types';
+import { ThresholdOperator } from '@instana/types';
+
+/**
+ * DataSeries: array of items of
+ * - timestamp
+ * - value
+ * - deviation
+ */
+type BaselineDataSeries = [number, number, number][];
 
 export default {
-  render: ({ colors50, colors100, scale, config, metrics }) => {
+  render: ({
+    colors50,
+    colors100,
+    scale,
+    config,
+    metrics
+  }: {
+    colors50: AxisColor[];
+    colors100: AxisColor[];
+    scale: ScaleType;
+    config: RenderConfig;
+    metrics: MetricDataSeries[];
+  }): void => {
     const metric = metrics[0];
 
     renderAdaptiveBaseline(config, scale, colors50, colors100);
 
     // historical data
-    line.render({ dataSeries: metric, color: colors100[0], scale, config });
+    line.render({ dataSeries: metric, color: colors100[0]!, scale, config });
   },
-  enrich: (config, axis) => {
+  enrich: (_config: RenderConfig, axis: RenderAxis) => {
+    // @ts-expect-error field actually does not yet exist in Axis
     axis.valuesDependOnEachOther = true;
   }
-};
+} as const;
 
 export function getThresholdInTimeframe(
-  baselineEntriesFromMetadata,
-  baseline,
-  sensitivity,
-  isGreaterOp,
-  granularity,
-  timeConfig
-) {
-  const thresholdInTimeframe = [];
+  baselineEntriesFromMetadata: DataSeries,
+  baseline: BaselineDataSeries,
+  sensitivity: number,
+  isGreaterOp: boolean,
+  granularity: Granularity,
+  timeConfig?: TimeConfig
+): DataSeries {
+  const thresholdInTimeframe: DataSeries = [];
   const eventBasedAdaptiveBaseline = baselineEntriesFromMetadata ?? [];
 
   // NOTE: We are rendering adaptive baseline for 2 use-cases.
@@ -62,21 +89,40 @@ export function getThresholdInTimeframe(
   return thresholdInTimeframe;
 }
 
-function calculateFirstBucketInChartStartTime(timeConfig, granularity) {
+function calculateFirstBucketInChartStartTime(timeConfig: TimeConfig, granularity: Granularity): number {
   const to = timeConfig.to ?? Date.now();
   return to - timeConfig.windowSize - granularity;
 }
 
-function renderAdaptiveBaseline(config, scale, colors50, colors100) {
+interface RenderAxisWithBaseline extends RenderAxis {
+  baseline: BaselineDataSeries;
+  sensitivity: number;
+  operator: ThresholdOperator;
+  eventBasedAdaptiveBaseline: DataSeries;
+  thresholdGranularity: Granularity;
+}
+
+function renderAdaptiveBaseline(
+  config: RenderConfig,
+  scale: ScaleType,
+  colors50: AxisColor[],
+  colors100: AxisColor[]
+): void {
   const { y1 } = config;
-  const { baseline, sensitivity, operator, eventBasedAdaptiveBaseline, thresholdGranularity } = y1;
+  const {
+    baseline,
+    sensitivity,
+    operator,
+    eventBasedAdaptiveBaseline,
+    thresholdGranularity
+  } = y1 as RenderAxisWithBaseline;
 
   if ((baseline ?? []).length === 0 && (eventBasedAdaptiveBaseline ?? []).length === 0) {
     return;
   }
 
   const isGreaterOp = operator === undefined || isGreaterOperator(operator);
-  const thresholdInTimeframe = getThresholdInTimeframe(
+  const thresholdInTimeframe: DataSeries = getThresholdInTimeframe(
     eventBasedAdaptiveBaseline,
     baseline,
     sensitivity,
@@ -85,7 +131,7 @@ function renderAdaptiveBaseline(config, scale, colors50, colors100) {
   );
 
   const startTime = calculateFirstBucketInChartStartTime(config.timeConfig, thresholdGranularity);
-  const oneSidedThresholdInTimeframe = updateThresholdPointsIfRequired(
+  const oneSidedThresholdInTimeframe: DataSeries = updateThresholdPointsIfRequired(
     thresholdInTimeframe,
     thresholdGranularity,
     startTime
