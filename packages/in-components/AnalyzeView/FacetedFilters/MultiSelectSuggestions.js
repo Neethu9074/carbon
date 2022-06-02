@@ -33,14 +33,11 @@ export function MultiSelectSuggestions({
     return <Loading numberOfRows={numberOfPresentedRows} loadingSkeletonClass={locals.multiselectPlaceholder} />;
   } else if (errors?.length > 0) {
     if (defaultValues?.length > 0) {
-      const suggestions = defaultValues.map(defaultValue => {
-        return mapToSuggestion(defaultValue);
-      });
       return (
         <Suggestions
           tag={tag}
           dataSource={dataSource}
-          suggestions={suggestions}
+          suggestions={defaultValues}
           getMetric={getDefaultMetric}
           selection={alreadySelectedValues}
           setNumberOfPresentedRows={setNumberOfPresentedRows}
@@ -122,11 +119,4 @@ function Suggestions({
 
 function getDefaultMetric() {
   return '';
-}
-
-function mapToSuggestion(defaultValue) {
-  return {
-    name: defaultValue,
-    value: defaultValue
-  };
 }
