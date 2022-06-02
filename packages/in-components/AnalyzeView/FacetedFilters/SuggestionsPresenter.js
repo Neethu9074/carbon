@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react';
 
 import { Button, Link, Stack } from '@instana/components';
 
-import { CheckableSuggestion } from 'in-components/AnalyzeView/FacetedFilters/CheckableSuggestion';
 import { Errors, Loading } from 'in-components/AnalyzeView/FacetedFilters/Placeholders';
 import { addFacetItem } from 'in-components/AnalyzeView/FacetedFilters/facets';
 import { withSiPrefixOneDecimalPlace } from 'in-services/formatters/number';
@@ -38,9 +37,20 @@ export default function SuggestionsPresenter({
     return <Loading numberOfRows={numberOfPresentedRows} />;
   } else if (errors?.length > 0) {
     if (defaultValues?.length > 0) {
-      return defaultValues.map(defaultValue => {
-        return <CheckableSuggestion label={defaultValue} count={null} onChange={() => {}} />;
-      });
+      return (
+        <Results
+          suggestions={defaultValues}
+          getMetric={getDefaultMetric}
+          orderSuggestions={orderSuggestions}
+          facets={facets}
+          tag={tag}
+          getUpdatedFacetedSearchHref={getUpdatedFacetedSearchHref}
+          setNumberOfPresentedRows={setNumberOfPresentedRows}
+          customLabelMapper={customLabelMapper}
+          dataSource={dataSource}
+          tracker={tracker}
+        />
+      );
     } else {
       return (
         <Errors
@@ -134,4 +144,8 @@ function Results({
       </div>
     </Stack>
   );
+}
+
+function getDefaultMetric() {
+  return '';
 }
