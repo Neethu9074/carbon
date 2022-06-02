@@ -5,25 +5,35 @@
  */
 
 import { allowedMultiplesOfRollupSizeMissingInCharts } from 'in-services/featureFlags';
+import { DataSeries } from 'in-components/Chart/renderer/types';
 
 /**
- * We are not passing maxDistanceBetweenDataPointsInMillis explicitly,
- * in our case granularity * allowedMultiplesOfRollupSizeMissingInCharts would be maxDistanceBetweenDataPointsInMillis
+ * Filters-out items before minimum startTime (if given).
  *
- * baseline items may be before of current time-window, so we need to filter by minimum startTime
+ * Replaces an entry with 2 entries, if it would be rendered as a point, because too far away from its neighbors.
+ *
+ * We are not passing maxDistanceBetweenDataPointsInMillis is calculated:
+ * it is `granularity * allowedMultiplesOfRollupSizeMissingInCharts`
+ *
+ * @param baseline - items may be before of current time-window, so we need to filter by minimum startTime
+ * @param thresholdGranularity - the bucket size used for extending
+ * @param startTime - if omitted, then there is no filtering based on the time.
+ *
+ * @return a new list of baseline items.
  */
 export function updateThresholdPointsIfRequired(
-  baseline: [number, number][],
+  baseline: DataSeries,
   thresholdGranularity: number,
   startTime: number = 0
-): [number, number][] {
-  const result: [number, number][] = [];
+): DataSeries {
+  const result: DataSeries = [];
   const halfBucketInMillis = thresholdGranularity * 0.5;
+  const maxDistanceBetweenDatapointsInMillis = thresholdGranularity * allowedMultiplesOfRollupSizeMissingInCharts;
 
-  let previousThresholdPoint;
+  let previousThresholdPoint: [number, number] | undefined;
 
   for (let i = 0; i < baseline.length; i++) {
-    const currentThresholdPoint = baseline[i];
+    const currentThresholdPoint: [number, number] = baseline[i];
     const [currentTime, currentValue] = currentThresholdPoint;
 
     //filter out items before minimum start time
@@ -31,18 +41,23 @@ export function updateThresholdPointsIfRequired(
       continue;
     }
 
-    const nextThresholdPoint = baseline[i + 1];
+    const nextThresholdPoint: [number, number] | undefined = baseline[i + 1];
 
     // As adaptive baseline might not be continuous, instead of rendering a dot we would render a tiny line
-    // in the event details view so threshold is clearly visible to the user.
+    // so that the threshold is clearly visible to the user.
     if (
-      distanceBetweenThresholdPointsIsTooBig(currentThresholdPoint, previousThresholdPoint, thresholdGranularity) &&
-      distanceBetweenThresholdPointsIsTooBig(nextThresholdPoint, currentThresholdPoint, thresholdGranularity)
+      distanceBetweenThresholdPointsIsTooBig(
+        currentThresholdPoint,
+        previousThresholdPoint,
+        maxDistanceBetweenDatapointsInMillis
+      ) &&
+      distanceBetweenThresholdPointsIsTooBig(
+        nextThresholdPoint,
+        currentThresholdPoint,
+        maxDistanceBetweenDatapointsInMillis
+      )
     ) {
-      result.push(
-        [Number(currentTime) - halfBucketInMillis, currentValue],
-        [Number(currentTime) + halfBucketInMillis, currentValue]
-      );
+      result.push([currentTime - halfBucketInMillis, currentValue], [currentTime + halfBucketInMillis, currentValue]);
     } else {
       result.push(currentThresholdPoint);
     }
@@ -53,14 +68,19 @@ export function updateThresholdPointsIfRequired(
   return result;
 }
 
+/** Compares the timestamps of a and b if they are too far away:
+ *
+ * Only results in false, when time difference is smaller than given maxDistanceBetweenDatapointsInMillis.
+ *
+ * @param a Tuple containing a timestamp as its first item, or undefined
+ * @param b Tuple containing a timestamp as its first item, or undefined
+ * @param maxDistanceBetweenDatapointsInMillis base for comparision.
+ * @return true if either a or b are undefined of do not have a timestamp.
+ */
 function distanceBetweenThresholdPointsIsTooBig(
-  next: (string | number)[],
-  current: (string | number)[] | undefined,
-  thresholdGranularity: number
+  a: number[] | undefined,
+  b: number[] | undefined,
+  maxDistanceBetweenDatapointsInMillis: number
 ): boolean {
-  return (
-    !next ||
-    !current ||
-    Number(next[0]) - Number(current[0]) > thresholdGranularity * allowedMultiplesOfRollupSizeMissingInCharts
-  );
+  return !a || !b || a[0] - b[0] > maxDistanceBetweenDatapointsInMillis;
 }

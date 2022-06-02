@@ -91,5 +91,15 @@ function renderAdaptiveBaseline(config, scale, colors50, colors100) {
     startTime
   );
 
-  renderThresholdLineAndBackgrounds(config, scale, colors50, colors100, oneSidedThresholdInTimeframe, isGreaterOp);
+  const withGaps = true;
+
+  renderThresholdLineAndBackgrounds(
+    config,
+    scale,
+    colors50,
+    colors100,
+    oneSidedThresholdInTimeframe,
+    isGreaterOp,
+    withGaps
+  );
 }

@@ -46,9 +46,9 @@ const baselineBarWithBaseline = generateBaselineForMetric(
 
 function Chart({ renderer }) {
   const baselineBarWithBaselineWithGaps = baselineBarWithBaseline
-    .slice(1, 2)
-    .concat(baselineBarWithBaseline.slice(10, 13))
-    .concat(baselineBarWithBaseline.slice(20));
+    .slice(0, 1)
+    .concat(baselineBarWithBaseline.slice(10, 11))
+    .concat(baselineBarWithBaseline.slice(19));
 
   return (
     <ResultAwareChart

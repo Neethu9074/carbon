@@ -18,7 +18,7 @@ export type RenderAxisWithThreshold = RenderAxis & {
   thresholdLineWidth: number;
 };
 
-export function renderBackground(
+function renderBackground(
   xStart: number,
   xEnd: number,
   yStart: number,
@@ -29,6 +29,7 @@ export function renderBackground(
 ) {
   config.backBufferCtx.save();
   config.backBufferCtx.fillStyle = fillStyle;
+
   config.backBufferCtx.beginPath();
   config.backBufferCtx.moveTo(xStart, scale.getRange(timebasePoints[0][1]));
 
@@ -39,6 +40,68 @@ export function renderBackground(
   config.backBufferCtx.closePath();
   config.backBufferCtx.fill();
   config.backBufferCtx.restore();
+}
+
+function renderBackgroundWithGaps(
+  segments: DataSeries[],
+  yStart: number,
+  fillStyle: string,
+  scale: ScaleType,
+  config: RenderConfig
+) {
+  segments.forEach(timebasePoints => {
+    const xStart = config.xScaleBackBuffer.getRange(timebasePoints[0][0]);
+    const xEnd = config.xScaleBackBuffer.getRange(timebasePoints[timebasePoints.length - 1][0]);
+
+    renderBackground(xStart, xEnd, yStart, timebasePoints, fillStyle, scale, config);
+  });
+}
+
+function calculateSegments(timebasePoints: DataSeries, maxDistanceBetweenDatapointsInMillis: number) {
+  const segments: DataSeries[] = [];
+
+  let currentSeg: DataSeries = [];
+  let previousDataPoint: [number, number] | undefined;
+
+  function distanceBetweenDataPointsIsTooBig(a: any, b: any) {
+    return !a || !b || a[0] - b[0] > maxDistanceBetweenDatapointsInMillis;
+  }
+
+  for (let i = 0; i < timebasePoints.length; i++) {
+    const dataPoint = timebasePoints[i];
+    if (!dataPoint) {
+      continue;
+    }
+
+    if (previousDataPoint && distanceBetweenDataPointsIsTooBig(dataPoint, previousDataPoint)) {
+      if (currentSeg.length > 0) {
+        segments.push(currentSeg);
+      }
+      currentSeg = [dataPoint];
+    } else {
+      currentSeg.push(dataPoint);
+    }
+
+    const nextDataPoint = i < timebasePoints.length ? timebasePoints[i + 1] : undefined;
+    if (
+      (!previousDataPoint && !nextDataPoint) ||
+      (distanceBetweenDataPointsIsTooBig(nextDataPoint, dataPoint) &&
+        distanceBetweenDataPointsIsTooBig(dataPoint, previousDataPoint))
+    ) {
+      // segment with only one item exists - we would render a small circle
+      segments.push(currentSeg);
+      currentSeg = [];
+    }
+
+    previousDataPoint = dataPoint;
+  }
+
+  // last item
+  if (currentSeg.length > 0) {
+    segments.push(currentSeg);
+  }
+
+  return segments;
 }
 
 function drawLineGraph(len: number, config: RenderConfig, metric: DataSeries, scale: ScaleType) {
@@ -53,7 +116,8 @@ export function renderThresholdLineAndBackgrounds(
   colors50: AxisColor[],
   colors100: AxisColor[],
   oneSidedThresholdInTimeframe: DataSeries,
-  isGreaterOp: boolean
+  isGreaterOp: boolean,
+  indicateGaps: boolean = false
 ) {
   const len = oneSidedThresholdInTimeframe.length;
 
@@ -61,42 +125,28 @@ export function renderThresholdLineAndBackgrounds(
     return;
   }
 
-  const { backBufferCtx, markerPaneHeight, xScaleBackBuffer, y1 } = config;
+  const { backBufferCtx, markerPaneHeight, y1 } = config;
   const { thresholdLineWidth } = y1 as RenderAxisWithThreshold;
-
-  const xPosStart = xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[0][0]);
-  const xPosEnd = xScaleBackBuffer.getRange(oneSidedThresholdInTimeframe[oneSidedThresholdInTimeframe.length - 1][0]);
 
   const chartHeight = scale.getRangeFrom();
   const thresholdColor = colors100[1]!;
   const alrightColor = colors50[0]!;
   const violationColor = colors50[1]!;
 
-  // Background below line
-  renderBackground(
-    xPosStart,
-    xPosEnd,
-    chartHeight,
-    oneSidedThresholdInTimeframe,
-    isGreaterOp ? alrightColor : violationColor,
-    scale,
-    config
-  );
+  function getSegments() {
+    // @ts-expect-error TS2339: Property 'maxDistanceBetweenDatapointsInMillis' does not exist on type 'RenderConfig'.
+    const { maxDistanceBetweenDatapointsInMillis } = config;
 
-  // Background Above line
-  renderBackground(
-    xPosStart,
-    xPosEnd,
-    markerPaneHeight,
-    oneSidedThresholdInTimeframe,
-    isGreaterOp ? violationColor : alrightColor,
-    scale,
-    config
-  );
+    return calculateSegments(oneSidedThresholdInTimeframe, maxDistanceBetweenDatapointsInMillis);
+  }
+
+  const segments = indicateGaps ? getSegments() : [oneSidedThresholdInTimeframe];
+
+  renderBackgroundWithGaps(segments, chartHeight, isGreaterOp ? alrightColor : violationColor, scale, config);
+  renderBackgroundWithGaps(segments, markerPaneHeight, isGreaterOp ? violationColor : alrightColor, scale, config);
 
   // one-sided time-dependent threshold line
   backBufferCtx.save();
-  backBufferCtx.lineWidth = thresholdLineWidth;
   line.render({
     dataSeries: oneSidedThresholdInTimeframe,
     color: thresholdColor,
