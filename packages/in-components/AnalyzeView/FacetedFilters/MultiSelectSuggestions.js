@@ -33,9 +33,23 @@ export function MultiSelectSuggestions({
     return <Loading numberOfRows={numberOfPresentedRows} loadingSkeletonClass={locals.multiselectPlaceholder} />;
   } else if (errors?.length > 0) {
     if (defaultValues?.length > 0) {
-      return defaultValues.map(defaultValue => {
-        return <CheckableSuggestion label={defaultValue} count={null} onChange={() => {}} />;
+      const suggestions = defaultValues.map(defaultValue => {
+        return mapToSuggestion(defaultValue);
       });
+      return (
+        <Suggestions
+          tag={tag}
+          dataSource={dataSource}
+          suggestions={suggestions}
+          getMetric={getDefaultMetric}
+          selection={alreadySelectedValues}
+          setNumberOfPresentedRows={setNumberOfPresentedRows}
+          setNextBatch={setNextBatch}
+          customLabelMapper={customLabelMapper}
+          addToSelection={addToSelection}
+          tracker={tracker}
+        />
+      );
     } else {
       return <Errors errors={errors} setNumberOfPresentedRows={setNumberOfPresentedRows} />;
     }
@@ -104,4 +118,15 @@ function Suggestions({
       />
     );
   });
+}
+
+function getDefaultMetric() {
+  return '';
+}
+
+function mapToSuggestion(defaultValue) {
+  return {
+    name: defaultValue,
+    value: defaultValue
+  };
 }
