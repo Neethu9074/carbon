@@ -41,6 +41,7 @@ export function MultiSelectSuggestions({
           getMetric={getDefaultMetric}
           selection={alreadySelectedValues}
           setNumberOfPresentedRows={setNumberOfPresentedRows}
+          showMore={showMore}
           setNextBatch={setNextBatch}
           customLabelMapper={customLabelMapper}
           addToSelection={addToSelection}

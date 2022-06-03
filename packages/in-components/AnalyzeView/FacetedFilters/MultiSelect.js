@@ -60,19 +60,18 @@ export function MultiSelect(props) {
   return (
     <>
       <Stack gap="xxsmall">
-        {errors?.length === 0 &&
-          (!isBlank(valueFilter) ||
-            suggestions?.length >= DEFAULT_SUGGESTIONS_SIZE ||
-            selectedValues.length >= DEFAULT_SUGGESTIONS_SIZE ||
-            numberOfPresentedRows >= DEFAULT_SUGGESTIONS_SIZE) && (
-            <SearchInput
-              onChange={setValueFilter}
-              query={valueFilter}
-              className={locals.searchContainer}
-              inputClassName={locals.search}
-              withoutIcon
-            />
-          )}
+        {(!isBlank(valueFilter) ||
+          suggestions?.length >= DEFAULT_SUGGESTIONS_SIZE ||
+          selectedValues.length >= DEFAULT_SUGGESTIONS_SIZE ||
+          numberOfPresentedRows >= DEFAULT_SUGGESTIONS_SIZE) && (
+          <SearchInput
+            onChange={setValueFilter}
+            query={valueFilter}
+            className={locals.searchContainer}
+            inputClassName={locals.search}
+            withoutIcon
+          />
+        )}
         {selectedValues.length > 0 && (
           <CurrentSelection
             selection={selectedValues}
