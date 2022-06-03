@@ -381,7 +381,7 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       getSuggestionName,
       getMetric,
       openByDefault: true,
-      defaultValues: [{ name: t('in-applications:analyze.facetedSearch.showOnlyErroneous'), value: true }]
+      fallbackValues: [{ name: t('in-applications:analyze.facetedSearch.showOnlyErroneous'), value: true }]
     },
     {
       renderer,
@@ -392,7 +392,7 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       getSuggestionName,
       getMetric,
       orderSuggestions: orderByValue,
-      defaultValues: [
+      fallbackValues: [
         { name: '1xx', value: '1xx' },
         { name: '2xx', value: '2xx' },
         { name: '3xx', value: '3xx' },

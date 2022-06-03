@@ -27,17 +27,17 @@ export function MultiSelectSuggestions({
   addToSelection,
   customLabelMapper,
   tracker,
-  defaultValues
+  fallbackValues
 }) {
   if (loading) {
     return <Loading numberOfRows={numberOfPresentedRows} loadingSkeletonClass={locals.multiselectPlaceholder} />;
   } else if (errors?.length > 0) {
-    if (defaultValues?.length > 0) {
+    if (fallbackValues?.length > 0) {
       return (
         <Suggestions
           tag={tag}
           dataSource={dataSource}
-          suggestions={defaultValues}
+          suggestions={fallbackValues}
           getMetric={getDefaultMetric}
           selection={alreadySelectedValues}
           setNumberOfPresentedRows={setNumberOfPresentedRows}

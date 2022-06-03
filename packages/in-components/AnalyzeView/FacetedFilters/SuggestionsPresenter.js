@@ -30,16 +30,16 @@ export default function SuggestionsPresenter({
   customLabelMapper,
   dataSource,
   tracker,
-  defaultValues
+  fallbackValues
 }) {
   const [numberOfPresentedRows, setNumberOfPresentedRows] = useState(DEFAULT_SUGGESTIONS_SIZE);
   if (loading) {
     return <Loading numberOfRows={numberOfPresentedRows} />;
   } else if (errors?.length > 0) {
-    if (defaultValues?.length > 0) {
+    if (fallbackValues?.length > 0) {
       return (
         <Results
-          suggestions={defaultValues}
+          suggestions={fallbackValues}
           getMetric={getDefaultMetric}
           orderSuggestions={orderSuggestions}
           facets={facets}

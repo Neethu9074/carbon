@@ -175,7 +175,7 @@ function SearchAndSuggestions(props) {
         customLabelMapper={customLabelMapper}
         dataSource={dataSource}
         tracker={tracker}
-        defaultValues={props.defaultValues}
+        fallbackValues={props.fallbackValues}
       />
     </Stack>
   );
