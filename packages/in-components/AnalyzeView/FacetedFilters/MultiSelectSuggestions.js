@@ -38,7 +38,7 @@ export function MultiSelectSuggestions({
           tag={tag}
           dataSource={dataSource}
           suggestions={fallbackValues}
-          getMetric={getDefaultMetric}
+          getMetric={getMetric}
           selection={alreadySelectedValues}
           setNumberOfPresentedRows={setNumberOfPresentedRows}
           showMore={showMore}
@@ -116,8 +116,4 @@ function Suggestions({
       />
     );
   });
-}
-
-function getDefaultMetric() {
-  return '';
 }

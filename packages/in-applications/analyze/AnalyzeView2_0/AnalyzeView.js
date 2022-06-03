@@ -357,7 +357,7 @@ function getSuggestionName({ label }) {
 }
 
 function getMetric({ metrics }) {
-  return metrics?.facetedSearchMetric[0][1];
+  return metrics?.facetedSearchMetric?.[0]?.[1];
 }
 
 function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls }) {
