@@ -4,7 +4,7 @@
  */
 
 // eslint-disable-next-line no-restricted-imports
-import { useMediaQuery } from '@material-ui/core';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import SliSummarySkeleton from 'in-custom-dashboards/widgets/Slo/components/SliSummary/SliSummarySkeleton';
