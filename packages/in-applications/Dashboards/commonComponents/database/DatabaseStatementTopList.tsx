@@ -17,6 +17,7 @@ import {
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
 import { Link } from '@instana/components';
+import { just } from '@instana/observables';
 
 // @ts-expect-error
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
@@ -47,9 +48,9 @@ const formatters = [millis.fixedCompact, number.compact, number.compact];
 const colors = [null, null, theme.lib.colors.failure];
 
 interface DatabaseStatementTopListProps {
-  applicationId: string;
-  serviceId: string;
-  endpointId: string;
+  applicationId?: string | undefined;
+  serviceId?: string | undefined;
+  endpointId?: string | undefined;
   boundaryScope: BoundaryScope;
   timeConfig: TimeConfig;
   urlMatrixParamConfig: UrlMatrixParamConfig;
@@ -65,9 +66,16 @@ export default function DatabaseStatementTopList({
   urlMatrixParamConfig,
   renderHistoricDataIndicator
 }: DatabaseStatementTopListProps) {
-  const applicationLabel = useObservable(getApplication({ id: applicationId }).map(getLabel), [applicationId]);
-  const serviceLabel = useObservable(getServiceLabel({ id: serviceId }).map(getLabel), [serviceId]);
-  const endpointLabel = useObservable(getEndpointInfo({ id: endpointId }).map(getLabel), [endpointId]);
+  const applicationLabel = useObservable(
+    applicationId ? getApplication({ id: applicationId }).map(getLabel) : just(''),
+    [applicationId]
+  );
+  const serviceLabel = useObservable(serviceId ? getServiceLabel({ id: serviceId }).map(getLabel) : just(''), [
+    serviceId
+  ]);
+  const endpointLabel = useObservable(endpointId ? getEndpointInfo({ id: endpointId }).map(getLabel) : just(''), [
+    endpointId
+  ]);
 
   return (
     <TopListWithUrlState
@@ -78,7 +86,6 @@ export default function DatabaseStatementTopList({
       formatters={formatters}
       getList={getList}
       getItemsFromResult={getItemsFromResult}
-      getMetricValueFromItem={getMetricValueFromItem}
       Renderer={TopListCardPresenter}
       Label={Label}
       Metric={Metric}
@@ -99,10 +106,6 @@ export default function DatabaseStatementTopList({
 
 function getItemsFromResult(result: Result<Service>) {
   return result.data;
-}
-
-function getMetricValueFromItem(_metricId: string, item: DatabaseStatementTopListItem) {
-  return item.metricValue;
 }
 
 interface GetListProps {
