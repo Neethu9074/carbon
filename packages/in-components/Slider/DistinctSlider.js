@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+// eslint-disable-next-line no-restricted-imports
 import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';

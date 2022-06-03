@@ -4,8 +4,8 @@
  */
 
 // eslint-disable-next-line no-restricted-imports
-import Slider from '@mui/material/Slider';
 import styled from '@emotion/styled';
+import Slider from '@mui/material/Slider';
 import PropTypes from 'prop-types';
 
 import theme from 'in-themes';
