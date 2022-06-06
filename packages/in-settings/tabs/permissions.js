@@ -13,7 +13,6 @@ import {
   teamSettingsAccessControlGroups,
   teamSettingsActionCatalog
 } from 'in-settings/navigation/paths';
-import { actionAutomationEnabled } from 'in-services/featureFlags';
 import { productOwnerPermissions } from 'in-stores/permission';
 import { role } from 'in-stores/user';
 
@@ -26,7 +25,7 @@ export function roleHasAnyTeamPermissions() {
     role.canConfigureIntegrations ||
     role.canViewAuditLog ||
     role.canConfigureLogManagement ||
-    actionAutomationEnabled
+    role.canConfigureAutomationActions
   );
 }
 
@@ -52,7 +51,7 @@ export function findFirstPermittedTeamPage() {
   if (role.canConfigureLogManagement) {
     return teamSettingsLogManagementHumio;
   }
-  if (actionAutomationEnabled) {
+  if (role.canConfigureAutomationActions) {
     return teamSettingsActionCatalog;
   }
 }

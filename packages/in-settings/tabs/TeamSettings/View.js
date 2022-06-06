@@ -242,7 +242,7 @@ function navigationTreeForRole(role) {
     });
   }
 
-  if (actionAutomationEnabled) {
+  if (role.canConfigureAutomationActions && actionAutomationEnabled) {
     navigationTree.push({
       title: t('in-settings:tabs.automation'),
       pages: [
