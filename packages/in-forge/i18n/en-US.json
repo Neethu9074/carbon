@@ -12105,7 +12105,8 @@
       "operation": "Operation",
       "traceState": "Trace State",
       "error": "Error",
-      "tags": "Tags"
+      "tags": "Tags",
+      "resource": "Resource"
     },
     "pdo": {
       "driver": "Driver",
