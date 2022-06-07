@@ -21,13 +21,15 @@ export interface ApdexWidgetConfiguration {
   [entityIdKey]: string;
 }
 
+export const defaultEntityType = 'website';
+
 export function createForm(savedState: Partial<ApdexWidgetConfiguration> = {}) {
   return createMapForm()
     .put(
       entityTypeKey,
       createField({
         validator: composeAndShortCircuitOnError(notUndefinedValidator, stringValidator, notBlankValidator),
-        value: savedState[entityTypeKey]
+        value: savedState[entityTypeKey] ?? defaultEntityType
       })
     )
     .put(
