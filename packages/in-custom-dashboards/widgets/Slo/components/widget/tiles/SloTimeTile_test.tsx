@@ -6,11 +6,11 @@
 import { mount, shallow } from 'enzyme';
 import React from 'react';
 
-import SloTimeTile, { compactTimeInterval } from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
+import SloTimeTile, { compactTimeInterval } from 'in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTimeTile';
 
-import locals from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile.mless';
+import locals from './SloTile.mless';
 
-describe('in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile', function() {
+describe('in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTimeTile', function() {
   describe('#compactTimeInterval', function() {
     function testConversionResult(fromDate: Date, toDate: Date): string {
       const { fromStr, toStr } = compactTimeInterval(fromDate.getTime(), toDate.getTime());

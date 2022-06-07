@@ -9,10 +9,10 @@ import { shallow } from 'enzyme';
 import React from 'react';
 
 import SliSummarySkeleton from 'in-custom-dashboards/widgets/Slo/components/SliSummary/SliSummarySkeleton';
+import SloTimeTile from 'in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTimeTile';
 import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
+import SloTile from 'in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTile';
 import SliSummary from 'in-custom-dashboards/widgets/Slo/components/SliSummary';
-import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
-import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import { days } from 'in-services/time';
 import { t } from 'in-i18n';
 

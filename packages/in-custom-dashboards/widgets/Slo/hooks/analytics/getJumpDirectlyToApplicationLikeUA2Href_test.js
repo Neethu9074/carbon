@@ -5,7 +5,7 @@
 
 import { just } from '@instana/observables';
 
-import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href';
+import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import getServiceLabel from 'in-applications/subscriptions/getServiceLabel';
 import getEndpointInfo from 'in-applications/subscriptions/getEndpointInfo';
@@ -43,7 +43,7 @@ jest.mock('in-applications/subscriptions/getApplication', () => {
   };
 });
 
-describe('in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href', () => {
+describe('in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href', () => {
   beforeEach(jest.clearAllMocks);
 
   it('fetches the labels for the application, service and endpoint if their ids are in the slo configuration', () => {

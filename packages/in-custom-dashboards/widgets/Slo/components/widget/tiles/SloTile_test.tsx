@@ -6,12 +6,12 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
+import SloTile from 'in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTile';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
-import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 
 import locals from './SloTile.mless';
 
-describe('in-custom-dashboards/widgets/Slo/Tiles/SloTile', () => {
+describe('in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTile', () => {
   it('renders a placeholder if value is undefined', () => {
     // Given
     const value = undefined;

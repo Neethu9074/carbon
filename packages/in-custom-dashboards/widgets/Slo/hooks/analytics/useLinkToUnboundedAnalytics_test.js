@@ -3,9 +3,9 @@
  * (c) Copyright Instana Inc. 2022
  */
 
-import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href';
-import { useLinkToUnboundedAnalytics } from 'in-custom-dashboards/widgets/Slo/hooks/useLinkToUnboundedAnalytics';
-import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/getLinkToWebsiteAnalyze';
+import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
+import { useLinkToUnboundedAnalytics } from 'in-custom-dashboards/widgets/Slo/hooks/analytics/useLinkToUnboundedAnalytics';
+import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
@@ -13,13 +13,13 @@ import { successObservable } from 'in-services/util/result';
 import { noop } from 'in-services/fixedObjects';
 
 jest.mock('in-websites/subscriptions/getWebsite');
-jest.mock('in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href');
-jest.mock('in-custom-dashboards/widgets/Slo/getLinkToWebsiteAnalyze', () => {
+jest.mock('in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href');
+jest.mock('in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze', () => {
   const { successObservable } = jest.requireActual('in-services/util/result');
   return { __esModule: true, default: jest.fn(() => successObservable('')) };
 });
 
-describe('in-custom-dashboards/widgets/Slo/hooks/useLinkToUnboundedAnalytics', () => {
+describe('in-custom-dashboards/widgets/Slo/hooks/analytics/useLinkToUnboundedAnalytics', () => {
   afterEach(jest.clearAllMocks);
 
   const tagCatalog = { tags: [] };

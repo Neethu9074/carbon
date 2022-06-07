@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import SloTileSkeleton from 'in-custom-dashboards/widgets/Slo/Tiles/SloTileSkeleton';
+import SloTileSkeleton from 'in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTileSkeleton';
 
 import locals from './SliSummary.mless';
 

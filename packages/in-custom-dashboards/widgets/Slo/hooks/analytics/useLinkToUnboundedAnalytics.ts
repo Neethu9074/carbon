@@ -22,10 +22,10 @@ import {
   isWebsiteTimeBasedSliConfig,
   SliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/getJumpDirectlyToApplicationLikeUA2Href';
+import getJumpDirectlyToApplicationLikeUA2Href$ from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getJumpDirectlyToApplicationLikeUA2Href';
+import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/hooks/analytics/getLinkToWebsiteAnalyze';
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { tagFilter, toNewTagFilterFormat } from 'in-components/QueryBuilder/transformation/tagFilter';
-import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/getLinkToWebsiteAnalyze';
 import { EQUALS, GREATER_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
 import { ChartedMetric } from 'in-applications/navigation/paths';
