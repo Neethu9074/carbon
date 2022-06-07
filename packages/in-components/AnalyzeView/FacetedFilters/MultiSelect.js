@@ -96,7 +96,7 @@ export function MultiSelect(props) {
         />
       </Stack>
       <div className={locals.buttonRow}>
-        {suggestions?.length > 0 && nextBatch > 0 && (
+        {(suggestions?.length > 0 || (errors?.length > 0 && props.fallbackValues?.length > 0)) && nextBatch > 0 && (
           <Button className={locals.loadMore} kind="action" onClick={() => setShowMore(showMore + nextBatch)}>
             {t('in-components:analyze.loadMore')}
           </Button>

@@ -357,7 +357,7 @@ function getSuggestionName({ label }) {
 }
 
 function getMetric({ metrics }) {
-  return metrics?.facetedSearchMetric[0][1];
+  return metrics?.facetedSearchMetric?.[0]?.[1];
 }
 
 function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls }) {
@@ -380,7 +380,8 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       customLabelMapper: () => t('in-applications:analyze.facetedSearch.showOnlyErroneous'),
       getSuggestionName,
       getMetric,
-      openByDefault: true
+      openByDefault: true,
+      fallbackValues: [{ name: t('in-applications:analyze.facetedSearch.showOnlyErroneous'), value: true }]
     },
     {
       renderer,
@@ -390,7 +391,14 @@ function getFacetedSearchItems({ dataSource, hiddenCalls, onChangeHiddenCalls })
       getItems,
       getSuggestionName,
       getMetric,
-      orderSuggestions: orderByValue
+      orderSuggestions: orderByValue,
+      fallbackValues: [
+        { name: '1xx', value: '1xx' },
+        { name: '2xx', value: '2xx' },
+        { name: '3xx', value: '3xx' },
+        { name: '4xx', value: '4xx' },
+        { name: '5xx', value: '5xx' }
+      ]
     },
     {
       renderer,
