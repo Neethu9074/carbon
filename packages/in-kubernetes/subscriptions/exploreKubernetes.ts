@@ -31,6 +31,7 @@ export interface KubernetesQueryFilter {
   clusterId?: string;
   timeConfig: TimeConfig;
 }
+
 export interface Pagination {
   cursor?: Cursor;
   retrievalSize: number;
@@ -40,6 +41,7 @@ export interface Order {
   by: string;
   direction: string;
 }
+
 export interface KubernetesExploreQuery {
   query: ExploreClusterQuery;
 }
@@ -48,7 +50,14 @@ export interface ExploreClusterQuery {
   pagination: Pagination;
   timeConfig: TimeConfig;
   search: String;
+  facets?: Facets;
 }
+
+interface Facets {
+  podUID?: string;
+  workloadUID?: string;
+}
+
 export interface KubernetesClusterExploreQuery {
   filter: KubernetesQueryFilter;
   orderBy: Order;

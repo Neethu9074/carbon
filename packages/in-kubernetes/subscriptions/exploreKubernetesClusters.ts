@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { KubernetesExploreQuery } from 'in-kubernetes/subscriptions/getKubernetesExplore';
+import { KubernetesExploreQuery } from 'in-kubernetes/subscriptions/exploreKubernetes';
 import createSubscription from 'in-subscription/subscription';
 import { Result } from 'in-types';
 
