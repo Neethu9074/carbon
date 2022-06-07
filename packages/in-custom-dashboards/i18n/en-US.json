@@ -603,6 +603,10 @@
         "tooltip": "Unknown Apdex",
         "tooltip_website": "Website Apdex",
         "tooltip_application": "Application Apdex"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "Unknown Application",
+        "unknownEntityLabel_website": "Unknown Website"
       }
     },
     "timezone": {

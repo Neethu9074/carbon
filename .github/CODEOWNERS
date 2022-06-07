@@ -155,6 +155,8 @@ packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrast
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/mobileApp         @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/sli               @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-stan @instana/eng-alerting @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/websites          @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
+packages/in-custom-dashboards/widgets/Slo @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-stan @instana/eng-ui
+packages/in-custom-dashboards/widgets/Apdex @pr-approval @Instana-IBM-Github-Enterprise @instana/eng-stan @instana/eng-ui
 
 # Container images
 /containers/ @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-delivery-enablement @instana/eng-ui

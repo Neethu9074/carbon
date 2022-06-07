@@ -13,19 +13,22 @@ import getWebsite from 'in-websites/subscriptions/getWebsite';
 import { Application, Result, Website } from 'in-types';
 import { FetchedState } from 'in-hooks/utils/types';
 
-export type SloEntity = Application | Website;
+export type MonitoredEntity = Application | Website;
 
-interface UseSloEntityRequest {
+interface UseMonitoredEntityRequest {
   entityId: string;
   entityType: MonitoringSource;
 }
 
-export default function useSloEntity({ entityId, entityType }: UseSloEntityRequest): FetchedState<SloEntity> {
+export default function useMonitoredEntity({
+  entityId,
+  entityType
+}: UseMonitoredEntityRequest): FetchedState<MonitoredEntity> {
   const result = useObservable(() => loadEntity(entityType, entityId), [entityType, entityId]);
   return resultToFetchedStateResponse(result);
 }
 
-function loadEntity(entityType: MonitoringSource, entityId: string): Observable<Result<SloEntity>> {
+function loadEntity(entityType: MonitoringSource, entityId: string): Observable<Result<MonitoredEntity>> {
   switch (entityType) {
     case 'application':
       return getApplication({ id: entityId });

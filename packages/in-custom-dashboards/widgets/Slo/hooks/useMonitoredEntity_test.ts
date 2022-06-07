@@ -7,7 +7,7 @@ import { renderHook } from '@testing-library/react-hooks';
 
 import { generateUniqueShortId } from '@instana/utils';
 
-import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
+import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import getApplication from 'in-applications/subscriptions/getApplication';
 import getWebsite from 'in-websites/subscriptions/getWebsite';
 
@@ -26,7 +26,7 @@ jest.mock('in-websites/subscriptions/getWebsite', () => {
   };
 });
 
-describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
+describe('in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity', () => {
   beforeEach(jest.clearAllMocks);
 
   it('subscribes to websites for entityType Websites', () => {
@@ -35,7 +35,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
     const entityId = generateUniqueShortId();
 
     // WHEN
-    const { result } = renderHook(() => useSloEntity({ entityType, entityId }));
+    const { result } = renderHook(() => useMonitoredEntity({ entityType, entityId }));
 
     // THEN
     const [, status] = result.current;
@@ -49,7 +49,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
     const entityId = generateUniqueShortId();
 
     // WHEN
-    const { result } = renderHook(() => useSloEntity({ entityType, entityId }));
+    const { result } = renderHook(() => useMonitoredEntity({ entityType, entityId }));
 
     // THEN
     const [, status] = result.current;
@@ -63,7 +63,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
     const entityId = generateUniqueShortId();
 
     // WHEN
-    const { rerender } = renderHook(useSloEntity, { initialProps: { entityType, entityId } });
+    const { rerender } = renderHook(useMonitoredEntity, { initialProps: { entityType, entityId } });
     rerender({ entityId, entityType: 'website' });
 
     // THEN
@@ -78,7 +78,7 @@ describe('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => {
     const secondEntityId = generateUniqueShortId();
 
     // WHEN
-    const { rerender } = renderHook(useSloEntity, { initialProps: { entityType, entityId: firstEntityId } });
+    const { rerender } = renderHook(useMonitoredEntity, { initialProps: { entityType, entityId: firstEntityId } });
     rerender({ entityId: secondEntityId, entityType });
 
     // THEN

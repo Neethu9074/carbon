@@ -25,7 +25,7 @@ import {
   WebsiteEventBasedSliEntity
 } from 'in-types';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
-import { SloEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
+import { MonitoredEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import { composeAndShortCircuitOnError } from 'in-services/validators/compose';
 import { numericValidator, minValidator } from 'in-services/validators/number';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
@@ -84,7 +84,7 @@ export function createForm(
   entityType: MonitoringSource,
   sliConfig: Partial<SliConfig<CombinedSliEntity>>,
   entityId: string,
-  entity: SloEntity
+  entity: MonitoredEntity
 ): MapForm {
   const { id, sliName, sliEntity, metricConfiguration } = sliConfig;
 

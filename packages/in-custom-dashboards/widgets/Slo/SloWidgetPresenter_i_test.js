@@ -7,9 +7,9 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import useSliConfiguration from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration';
+import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import SloWidgetPresenter from 'in-custom-dashboards/widgets/Slo/SloWidgetPresenter';
 import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
-import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import useTagCatalog from 'in-applications/hooks/useTagCatalog';
 import { t } from 'in-i18n';
 
@@ -18,7 +18,7 @@ jest.mock('in-custom-dashboards/widgets/Slo/hooks/useSliConfiguration', () => ({
   default: jest.fn()
 }));
 
-jest.mock('in-custom-dashboards/widgets/Slo/hooks/useSloEntity', () => ({
+jest.mock('in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity', () => ({
   __esModule: true,
   default: jest.fn()
 }));
@@ -51,7 +51,7 @@ describe('in-custom-dashboards/widgets/Slo/SloWidgetPresenter', () => {
   it('should render loader and skeletons if status are pending.', async () => {
     useTagCatalog.mockReturnValue(useTagCatalogReturnValue);
     useSliConfiguration.mockReturnValue([sliConfigurationMock, 'pending', [], { loading: false }]);
-    useSloEntity.mockReturnValue([sloEntityMock, 'pending', [], { loading: true }]);
+    useMonitoredEntity.mockReturnValue([sloEntityMock, 'pending', [], { loading: true }]);
     useSloMetrics.mockReturnValue([[], 'pending', [], { loading: true }]);
 
     render(
@@ -72,7 +72,7 @@ describe('in-custom-dashboards/widgets/Slo/SloWidgetPresenter', () => {
   it('should render correctly if status are resolved.', async () => {
     useTagCatalog.mockReturnValue(useTagCatalogReturnValue);
     useSliConfiguration.mockReturnValue([sliConfigurationMock, 'resolved', [], { loading: false }]);
-    useSloEntity.mockReturnValue([sloEntityMock, 'resolved', [], { loading: false }]);
+    useMonitoredEntity.mockReturnValue([sloEntityMock, 'resolved', [], { loading: false }]);
     useSloMetrics.mockReturnValue([[], 'resolved', [], { loading: false }]);
 
     render(
