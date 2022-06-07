@@ -5,8 +5,17 @@
 
 import { assign } from 'lodash';
 
-import { create } from '@instana/observables';
+import { create, Subject } from '@instana/observables';
+import { TimeConfig } from '@instana/types';
 
+import {
+  Axis,
+  AxisConfiguration,
+  Config as CombinedChartConfig,
+  Formatter,
+  FormatterObject,
+  MetricDataSeries
+} from 'in-components/Chart/types';
 import {
   allowedMillisGapsInOneSecondResolution,
   allowedMultiplesOfRollupSizeMissingInCharts
@@ -15,10 +24,12 @@ import { getBlockSizeMillis, getPredefinedBlockSizeMillisForBlockSize } from 'in
 import { collectAllDomainValues } from 'in-components/Chart/data/dataSearchUtils';
 import { enrichAxisWithColors } from 'in-components/Chart/strokeColors';
 import { formatDurationAccurately } from 'in-services/formatters/date';
+import { HighlightedTimeframe } from 'in-stores/highlightedTimeframe';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { getInfraGranularity } from 'in-stores/metric';
 import { number } from 'in-services/formatters/number';
 import Scales from 'in-components/Chart/Scales';
+import { Nullish } from 'in-types';
 
 // Hard real time is hard. We are always 2-3 seconds behing the current server time in terms
 // of availability of metrics. We are removing x millis from the right border in order to
@@ -27,15 +38,52 @@ export const WIGGLE_ROOM = 5000;
 
 export const ANIMATION_DURATION = 1000;
 
+export type MetricsFilterKey = 'defaultDisabledMetrics' | 'forceDisabledMetrics';
+
+interface ConfigProps extends CombinedChartConfig {
+  height: number;
+}
+
 export default class Config {
-  constructor(props) {
+  timeAxisHeight: number;
+  markerPaneHeight: number;
+  height?: number;
+  width?: number;
+
+  localHighlightedTimeframe$: Subject<HighlightedTimeframe>;
+  localZoomedTimeframe$: Subject<HighlightedTimeframe>;
+
+  filteredDataSeries$: Subject<Set<string>>;
+  filteredDataSeries: Set<string>;
+  userFilteredDataSeries: Set<string>;
+  forceFilteredDataSeries: Set<string> = new Set();
+
+  granularity?: number;
+  rollup?: number;
+  rollupLabel?: string | Nullish;
+
+  timeConfig?: TimeConfig;
+
+  maxDistanceBetweenDatapoints?: number;
+  maxDistanceBetweenDatapointsInMillis?: number;
+
+  y1?: Axis;
+  y2?: Axis;
+
+  scales?: Scales;
+
+  allDomainValues?: number[] | Nullish;
+
+  shareMaxAxisDomain?: boolean;
+
+  constructor(props: ConfigProps) {
     this.timeAxisHeight = 30;
     this.markerPaneHeight = 22;
 
     // This is used to handle the overlay when you select on a chart
-    this.localHighlightedTimeframe$ = create().emit(null);
+    this.localHighlightedTimeframe$ = create<HighlightedTimeframe>().emit(null);
     // This is used to handle the zooming, when selecting on a chart and zooming into the selected timeframe
-    this.localZoomedTimeframe$ = create().emit(null);
+    this.localZoomedTimeframe$ = create<HighlightedTimeframe>().emit(null);
 
     this.filteredDataSeries$ = create();
     this.filteredDataSeries = new Set();
@@ -44,7 +92,7 @@ export default class Config {
     this.update(props);
   }
 
-  getFilteredMetrics(props, key) {
+  getFilteredMetrics(props: ConfigProps, key: MetricsFilterKey): Set<string> {
     let filteredMetrics = this.getMetricsForAxis('y1', props.y1, key);
     if (props.y2) {
       filteredMetrics = filteredMetrics.concat(this.getMetricsForAxis('y2', props.y2, key));
@@ -52,11 +100,11 @@ export default class Config {
     return new Set(filteredMetrics);
   }
 
-  getMetricsForAxis(axisName, axis, key) {
+  getMetricsForAxis(axisName: string, axis: AxisConfiguration, key: MetricsFilterKey): string[] {
     const disabledLabels = [];
     if (axis[key]) {
       for (let mId = 0; mId < axis.metricIds.length; mId++) {
-        if (axis[key].indexOf(axis.metricIds[mId]) >= 0) {
+        if (axis[key]!.indexOf(axis.metricIds[mId]) >= 0) {
           disabledLabels.push(`${axisName}-${mId}`);
         }
       }
@@ -64,7 +112,7 @@ export default class Config {
     return disabledLabels;
   }
 
-  updateFilteredDataSeries() {
+  updateFilteredDataSeries(): void {
     this.filteredDataSeries.clear();
     for (const label of this.userFilteredDataSeries) {
       this.filteredDataSeries.add(label);
@@ -75,11 +123,11 @@ export default class Config {
     this.filteredDataSeries$.emit(this.filteredDataSeries);
   }
 
-  isFiltered(axisName, index) {
+  isFiltered(axisName: string, index: number): boolean {
     return this.filteredDataSeries.has(`${axisName}-${index}`);
   }
 
-  update(props) {
+  update(props: ConfigProps): void {
     assign(this, props);
     this.enrichConfig();
 
@@ -92,22 +140,22 @@ export default class Config {
     this.scales.update();
   }
 
-  calculateMaxMillisBetweenDatapoints() {
+  calculateMaxMillisBetweenDatapoints(): number {
     if (this.maxDistanceBetweenDatapoints) {
       return this.maxDistanceBetweenDatapoints;
     }
     if (this.rollup === 1000) {
       return allowedMillisGapsInOneSecondResolution;
     }
-    return this.rollup * allowedMultiplesOfRollupSizeMissingInCharts;
+    return this.rollup! * allowedMultiplesOfRollupSizeMissingInCharts;
   }
 
-  enrichConfig() {
+  enrichConfig(): void {
     if (this.granularity) {
       this.rollup = this.granularity;
       this.rollupLabel = formatDurationAccurately(this.rollup, 100);
     } else {
-      this.rollup = getInfraGranularity(this.timeConfig);
+      this.rollup = getInfraGranularity(this.timeConfig!);
       this.rollupLabel = formatDurationAccurately(this.rollup, 100);
     }
 
@@ -121,7 +169,7 @@ export default class Config {
     this.allDomainValues = null;
   }
 
-  enrichAxis(axis) {
+  enrichAxis(axis?: Axis): void {
     if (!axis) {
       return;
     }
@@ -135,55 +183,56 @@ export default class Config {
     }
   }
 
-  getFormatterForAxis(axis) {
+  getFormatterForAxis(axis: AxisConfiguration & { numOfSeries: number }): FormatterObject[] {
     if (axis.numOfSeries === 0) {
       return [number];
     } else if (Array.isArray(axis.formatter)) {
       return axis.formatter;
     }
-    const formatter = [];
+    const formatter: FormatterObject[] = [];
     for (let i = 0; i < axis.numOfSeries; i++) {
       const f = axis.formatter || number;
+      const isObject = isFormatterObject(f);
       formatter.push({
-        compact: f.compact ? f.compact : f,
-        detailed: f.detailed ? f.detailed : f
+        compact: isObject ? f.compact : f,
+        detailed: isObject ? f.detailed : f
       });
     }
     return formatter;
   }
 
-  addBlockSizeMillisForAxis(axis) {
+  addBlockSizeMillisForAxis(axis: Axis): void {
     axis.dynamicCalculatedBlockSizeMillis = Math.max(
-      this.granularity,
+      this.granularity!,
       getPredefinedBlockSizeMillisForBlockSize(
         getBlockSizeMillis({
-          windowSize: this.timeConfig.windowSize,
+          windowSize: this.timeConfig!.windowSize,
           maxDataPoints: axis.maxDataPoints,
           minPixelsPerBlock: axis.minPixelsPerBlock || 1,
-          width: this.width,
+          width: this.width!,
           rollup: this.granularity
         })
       )
     );
   }
 
-  determineSeriesColors() {
-    enrichAxisWithColors(this.y1);
+  determineSeriesColors(): void {
+    enrichAxisWithColors(this.y1!);
 
     if (this.y2) {
-      enrichAxisWithColors(this.y2, this.y1.numOfSeries);
+      enrichAxisWithColors(this.y2, this.y1!.numOfSeries);
     }
   }
 
-  clearLocalHighlightedTimeframe() {
+  clearLocalHighlightedTimeframe(): void {
     this.localHighlightedTimeframe$.emit(null);
   }
 
-  setLocalHighlightedtimeframe(t1, t2) {
+  setLocalHighlightedtimeframe(t1: number, t2: number): void {
     this.localHighlightedTimeframe$.emit([Math.min(t1, t2), Math.max(t1, t2)]);
   }
 
-  setLocalZoomedTimeframe(t1, t2) {
+  setLocalZoomedTimeframe(t1: number, t2: number): void {
     this.localZoomedTimeframe$.emit([Math.min(t1, t2), Math.max(t1, t2)]);
   }
 
@@ -194,13 +243,13 @@ export default class Config {
     return this.allDomainValues;
   }
 
-  calculateBlocks(dataSeries) {
-    const blocks = [];
+  calculateBlocks(dataSeries: MetricDataSeries): MetricDataSeries[] {
+    const blocks: MetricDataSeries[] = [];
     if (dataSeries.length === 0) {
       return blocks;
     }
 
-    let currentBlock = [];
+    let currentBlock: MetricDataSeries = [];
     blocks.push(currentBlock);
 
     for (let i = 0; i < dataSeries.length; i++) {
@@ -213,7 +262,7 @@ export default class Config {
       const nextDataPoint = i + 1 < dataSeries.length ? dataSeries[i + 1] : dataPoint;
       let isEndOfBlock = true;
       if (nextDataPoint) {
-        isEndOfBlock = nextDataPoint[0] - dataPoint[0] > this.maxDistanceBetweenDatapointsInMillis;
+        isEndOfBlock = nextDataPoint[0] - dataPoint[0] > this.maxDistanceBetweenDatapointsInMillis!;
       }
 
       if (isEndOfBlock) {
@@ -225,13 +274,17 @@ export default class Config {
     return blocks.filter(block => block.length !== 0);
   }
 
-  toggleDataSeries(label) {
+  toggleDataSeries(label: string): void {
     if (this.userFilteredDataSeries.has(label)) {
       this.userFilteredDataSeries.delete(label);
     } else {
       this.userFilteredDataSeries.add(label);
     }
     this.updateFilteredDataSeries();
-    this.scales.update();
+    this.scales!.update();
   }
+}
+
+function isFormatterObject(f: Formatter): f is FormatterObject {
+  return typeof f !== 'function';
 }

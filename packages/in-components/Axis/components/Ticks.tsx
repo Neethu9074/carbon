@@ -4,13 +4,25 @@
  */
 
 import classNames from 'classnames';
+import { Property } from 'csstype';
 import React from 'react';
 
 import { getTickStyle } from 'in-components/Axis/components/tickStyle';
+import { AxisAlign } from 'in-components/Axis/Axis';
+import { Tick } from 'in-services/ticks/types';
 
 import locals from './Ticks.mless';
 
-export default function Ticks({ tickPositions, isVertical, align, tickLength, tickColor }) {
+interface TicksProps {
+  tickPositions: Tick[];
+  align: AxisAlign;
+  tickLength: number;
+  tickColor?: Property.Color;
+
+  isVertical?: boolean;
+}
+
+export default function Ticks({ tickPositions, isVertical = false, align, tickLength, tickColor }: TicksProps) {
   return (
     <>
       {tickPositions.map(tick => {

@@ -3,7 +3,18 @@
  * (c) Copyright Instana Inc.
  */
 
-export function getTickStyle(tick, isVertical, align, offset = 0, labelOffset = 0) {
+import { CSSProperties } from 'react';
+
+import { AxisAlign } from 'in-components/Axis/Axis';
+import { Tick } from 'in-services/ticks/types';
+
+export function getTickStyle(
+  tick: Tick,
+  isVertical: boolean,
+  align: AxisAlign,
+  offset: number = 0,
+  labelOffset: number = 0
+): CSSProperties {
   const labelHeight = 14;
   if (isVertical) {
     if (align === 'right') {
@@ -22,8 +33,8 @@ export function getTickStyle(tick, isVertical, align, offset = 0, labelOffset = 
   }
 
   return {
-    top: align === 'bottom' && offset,
+    top: align === 'bottom' ? offset : undefined,
     left: tick.range - labelOffset,
-    bottom: align === 'top' && offset
+    bottom: align === 'top' ? offset : undefined
   };
 }

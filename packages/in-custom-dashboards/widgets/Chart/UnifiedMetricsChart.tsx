@@ -16,6 +16,17 @@ import {
   Metric
 } from 'in-custom-dashboards/widgets/Chart/types';
 import {
+  defaultRenderer,
+  renderer as availableRenderers,
+  enforceSingleNumberResult
+} from 'in-custom-dashboards/widgets/Chart/renderer';
+import {
+  MetricsConfiguration,
+  AxisConfiguration as ChartAxis,
+  Metric as ChartMetric,
+  AxisColor
+} from 'in-components/Chart/types';
+import {
   Grouping,
   LabeledMetricResult,
   MetricResult,
@@ -23,9 +34,6 @@ import {
   TimeConfig,
   UnifiedMetricConfigurationUnion
 } from 'in-types';
-import { MetricsConfiguration, Axis as ChartAxis, Metric as ChartMetric, AxisColor } from 'in-components/Chart/types';
-import { defaultRenderer, renderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
-import { enforceSingleNumberResult } from 'in-custom-dashboards/widgets/Chart/renderer';
 import sources from 'in-custom-dashboards/widgets/_shared/MetricConfigurator/sources';
 import { colors } from 'in-custom-dashboards/widgets/Chart/FormComponent/colors';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
@@ -180,7 +188,7 @@ function useResultData(
     : config?.type;
   const adjustedGranularity = resultType === 'SINGLE_NUMBER' ? undefined : granularity;
 
-  config?.y1.metrics.forEach(
+  config?.y1?.metrics.forEach(
     (metricConfiguration, i) =>
       (metrics[getMetricId('y1', i)] = {
         ...metricConfiguration,
@@ -265,7 +273,7 @@ function getAllMetrics(config: Config) {
   if (!config) {
     return [];
   }
-  return config.y1.metrics.concat(config.y2?.metrics ?? []);
+  return config.y1?.metrics.concat(config.y2?.metrics ?? []);
 }
 
 export function toMetricsConfiguration(

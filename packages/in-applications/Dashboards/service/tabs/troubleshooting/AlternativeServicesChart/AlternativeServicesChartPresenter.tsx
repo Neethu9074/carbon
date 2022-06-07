@@ -7,13 +7,13 @@ import React, { ReactElement } from 'react';
 
 import {
   AdditionChartContentProps,
-  Axis,
-  Config,
+  AxisConfiguration,
   ContextMenuButton,
   MetricDataSeries
 } from 'in-components/Chart/types';
 // eslint-disable-next-line no-restricted-imports
 import { getResolvedTimeConfig, TimeResult } from 'in-applications/metrics';
+import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { PaginatedResult, Result, ServiceItem, TimeConfig } from 'in-types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { getChartGranularity } from 'in-stores/metric/metric';
@@ -50,7 +50,7 @@ export default function AlternativeServicesChartPresenter({
 }: AlternativeServicesChartPresenterProps) {
   const hasApproximateData = result?.resultPrecisionDetails?.resultPrecision === 'PRECISION_APPROXIMATE';
 
-  const y1: Axis = {
+  const y1: AxisConfiguration = {
     formatter: metricDefinition.formatter,
     renderer: metricDefinition.renderer,
     metrics: [],
@@ -92,7 +92,7 @@ export default function AlternativeServicesChartPresenter({
     }
   }
 
-  const chartConfig: Config = {
+  const chartConfig: ChartReactComponentProps = {
     title,
     rightHeaderContent,
     granularity: getChartGranularity(timeConfig),
@@ -105,5 +105,5 @@ export default function AlternativeServicesChartPresenter({
     timeConfig
   };
 
-  return <ResultAwareChart result={result} config={(chartConfig as unknown) as Config} />;
+  return <ResultAwareChart result={result} config={chartConfig} />;
 }

@@ -3,12 +3,17 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Tick } from 'in-services/ticks/types';
+
 export interface ScaleType {
   rangeFrom: number;
   rangeTo: number;
   domainFrom: number;
   domainTo: number;
   clamp: boolean;
+
+  // Property is set in in-components/Chart/Scales
+  tickPositions?: Tick[];
 
   setRangeFrom: (v: number) => void;
   getRangeFrom: () => number;

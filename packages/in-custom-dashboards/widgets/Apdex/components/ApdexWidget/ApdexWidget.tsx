@@ -9,8 +9,8 @@ import React from 'react';
 import WidgetHeader from 'in-custom-dashboards/widgets/Apdex/components/WidgetHeader';
 import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
+import { AxisConfiguration, MetricDataSeries } from 'in-components/Chart/types';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { Axis, MetricDataSeries } from 'in-components/Chart/types';
 import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Error, Progress, TimeConfig } from 'in-types';
 import theme from 'in-themes';
@@ -68,7 +68,7 @@ export default function ApdexWidget({
   );
 }
 
-function getAxis(metrics: MetricDataSeries[]): Axis {
+function getAxis(metrics: MetricDataSeries[]): AxisConfiguration {
   return {
     metricIds: ['apdex'],
     labels: [t('in-custom-dashboards:widgets.apdex.chart.metricLabel')],

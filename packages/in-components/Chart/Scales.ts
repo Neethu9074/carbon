@@ -5,11 +5,19 @@
 
 import { get } from 'lodash';
 
-import getTickPositions, { getTickStrategyByFormatter } from 'in-services/ticks/vertical';
-import createScale from 'in-services/scale';
+import getTickPositions, { getTickStrategyByFormatter, mapTickPositions } from 'in-services/ticks/vertical';
+import { Axis, MetricDataSeries } from 'in-components/Chart/types';
+import Configuration from 'in-components/Chart/Configuration';
+import createScale, { ScaleType } from 'in-services/scale';
 
 export default class Scales {
-  constructor(config, filteredDataSeries) {
+  config: Configuration;
+  filteredDataSeries: Set<string>;
+
+  y1: ScaleType;
+  y2?: ScaleType;
+
+  constructor(config: Configuration, filteredDataSeries: Set<string>) {
     this.config = config;
     this.filteredDataSeries = filteredDataSeries || new Map();
 
@@ -27,8 +35,8 @@ export default class Scales {
     increaseMaxValueForHumanReadability(this.config.y2);
 
     if (this.config.shareMaxAxisDomain && this.config.y2) {
-      const maxValueOfBothAxis = Math.max(this.config.y1.maxValue, this.config.y2.maxValue);
-      this.config.y1.maxValue = maxValueOfBothAxis;
+      const maxValueOfBothAxis = Math.max(this.config.y1!.maxValue, this.config.y2.maxValue);
+      this.config.y1!.maxValue = maxValueOfBothAxis;
       this.config.y2.maxValue = maxValueOfBothAxis;
     }
 
@@ -40,28 +48,33 @@ export default class Scales {
     this.updateAxisScale(this.config.y2, this.y2);
   }
 
-  updateAxisScale(axis, scale) {
-    if (!axis) {
+  updateAxisScale(axis: Axis | undefined, scale?: ScaleType) {
+    if (!axis || !scale) {
       return;
     }
 
     scale.setRangeTo(this.config.markerPaneHeight);
-    scale.setRangeFrom(this.config.height - this.config.timeAxisHeight);
+    scale.setRangeFrom(this.config.height! - this.config.timeAxisHeight);
 
     scale.setDomainFrom(axis.minValue);
     scale.setDomainTo(axis.maxValue);
 
-    scale.tickPositions = getTickPositions({ scale, formatter: axis.formatter[0].detailed, numIntermediateSteps: 3 });
+    if (axis.fixedTickPositions) {
+      scale.tickPositions = mapTickPositions(axis.fixedTickPositions, scale);
+    } else {
+      scale.tickPositions = getTickPositions({ scale, formatter: axis.formatter[0].detailed, numIntermediateSteps: 3 });
+    }
   }
 }
 
-export function calculateAxisMinMax(axisName, axis, filteredDataSeries) {
+export function calculateAxisMinMax(axisName: string, axis: Axis | undefined, filteredDataSeries: Set<string>): void {
   if (!axis) {
     return;
   }
 
   axis.minValue = axis.min ?? 0;
   if (axis.max != null) {
+    // @ts-expect-error The return value seems to not be used anywhere, so the function return type really should be void. However, it seems safer to avoid breaking things by not refactoring this
     return (axis.maxValue = axis.max);
   }
 
@@ -71,17 +84,19 @@ export function calculateAxisMinMax(axisName, axis, filteredDataSeries) {
     : calculateMaxValueIndependetMetrics)(axisName, axis, metrics, filteredDataSeries);
 
   if (axis.getMax != null) {
+    // @ts-expect-error The return value seems to not be used anywhere, so the function return type really should be void. However, it seems safer to avoid breaking things by not refactoring this
     return (axis.maxValue = axis.getMax(maxValue));
   }
 
   if (maxValue === 0) {
+    // @ts-expect-error The return value seems to not be used anywhere, so the function return type really should be void. However, it seems safer to avoid breaking things by not refactoring this
     return (axis.maxValue = 1);
   }
 
   axis.maxValue = maxValue;
 }
 
-function increaseMaxValueForHumanReadability(axis) {
+function increaseMaxValueForHumanReadability(axis?: Axis): void {
   if (!axis) {
     return;
   }
@@ -89,7 +104,12 @@ function increaseMaxValueForHumanReadability(axis) {
   axis.maxValue = strategy.roundMaxValueToNextHighestHumanFriendlyValue(axis.maxValue);
 }
 
-function calculateMaxValueForStackedMetrics(axisName, axis, metrics, filteredDataSeries) {
+function calculateMaxValueForStackedMetrics(
+  axisName: string,
+  axis: Axis,
+  metrics: MetricDataSeries[],
+  filteredDataSeries: Set<string>
+): number {
   const metricMapByTimestamp = new Map();
   for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
     const isIgnoredIndex = filteredDataSeries.has(`${axisName}-${iMetric}`);
@@ -130,7 +150,12 @@ function calculateMaxValueForStackedMetrics(axisName, axis, metrics, filteredDat
   return maxValue;
 }
 
-function calculateMaxValueIndependetMetrics(axisName, axis, metrics, filteredDataSeries) {
+function calculateMaxValueIndependetMetrics(
+  axisName: string,
+  _axis: Axis,
+  metrics: MetricDataSeries[],
+  filteredDataSeries: Set<string>
+): number {
   let maxValue = 0;
   for (let iMetric = 0; iMetric < metrics.length; iMetric++) {
     const isIgnoredIndex = filteredDataSeries.has(`${axisName}-${iMetric}`);
@@ -144,7 +169,12 @@ function calculateMaxValueIndependetMetrics(axisName, axis, metrics, filteredDat
   return maxValue;
 }
 
-function getMinMaxValueForDataSeries(dataSeries) {
+interface MinMax {
+  minValue: number;
+  maxValue: number;
+}
+
+function getMinMaxValueForDataSeries(dataSeries: MetricDataSeries): MinMax {
   let minValue = Number.MAX_VALUE;
   let maxValue = 0;
   for (let i = 0; i < dataSeries.length; i++) {

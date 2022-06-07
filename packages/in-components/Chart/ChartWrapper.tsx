@@ -6,10 +6,10 @@
 import invariant from 'invariant';
 import React from 'react';
 
-import { Axis, Config, MetricMap, TimeShift } from 'in-components/Chart/types';
+import ResultAwareChart, { ResultAwareChartConfig } from 'in-components/Chart/ResultAwareChart';
+import { AxisConfiguration, MetricMap, TimeShift } from 'in-components/Chart/types';
 import { translateOffsetToTimeShiftConfig } from 'in-stores/time/shifting';
 import { MetricData } from 'in-custom-dashboards/widgets/Chart/types';
-import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
 import { getResolvedTimeConfig } from 'in-applications/metrics';
 import { getChartGranularity } from 'in-stores/metric/metric';
 import { deepCopy } from 'in-services/util/object';
@@ -62,7 +62,7 @@ import { t } from 'in-i18n';
           />
  */
 
-interface Props extends Config {
+interface Props extends ResultAwareChartConfig {
   result: Result<MetricData>;
 }
 
@@ -70,7 +70,7 @@ export default function ChartWrapper({ result, ...props }: Props): React.ReactEl
   return <ResultAwareChart result={result} config={wrapProps(result, props)} />;
 }
 
-function wrapProps(result: Result<MetricData>, props: Config): Config {
+function wrapProps(result: Result<MetricData>, props: ResultAwareChartConfig): ResultAwareChartConfig {
   const metricsConfiguration = props.metricsConfiguration;
   if (__DEV__ && metricsConfiguration) {
     props.y1?.metricIds.forEach(id => {
@@ -109,7 +109,7 @@ function wrapProps(result: Result<MetricData>, props: Config): Config {
     };
   }
 
-  const propsClone: Config = deepCopy({
+  const propsClone: ResultAwareChartConfig = deepCopy({
     ...props,
     // cardHeader can be defined and it could be a React element. Cloning this is a super expensive
     // operation that is getting more and more expensive the more often this is executed.
@@ -143,7 +143,7 @@ function wrapProps(result: Result<MetricData>, props: Config): Config {
   return propsClone;
 }
 
-function determineTimeShifts(axis: Axis, timeConfig: TimeConfig, metrics?: MetricMap) {
+function determineTimeShifts(axis: AxisConfiguration, timeConfig: TimeConfig, metrics?: MetricMap) {
   let hasTimeShifts = false;
 
   axis.timeShifts = axis.metricIds.map(id => {
@@ -162,7 +162,7 @@ function determineTimeShifts(axis: Axis, timeConfig: TimeConfig, metrics?: Metri
 
 // Time shifts are always negative, e.g. last hour is 1000 * 60 * 60 * -1. This in turn
 // means that the smallest time shift is the largest number
-function getSmallestTimeShift(y1?: Axis, y2?: Axis): number {
+function getSmallestTimeShift(y1?: AxisConfiguration, y2?: AxisConfiguration): number {
   if (!y1 || !y1?.timeShifts) {
     return 0;
   }

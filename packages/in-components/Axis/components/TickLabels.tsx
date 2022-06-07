@@ -5,21 +5,39 @@
 
 import React, { Fragment } from 'react';
 import classNames from 'classnames';
+import { Property } from 'csstype';
 
 import { getTickStyle } from 'in-components/Axis/components/tickStyle';
+import { FormatterObject } from 'in-components/Chart/types';
+import { AxisAlign } from 'in-components/Axis/Axis';
+import { Tick } from 'in-services/ticks/types';
 
 import locals from './Ticks.mless';
 
-export default function Ticks({
+interface TickLabelsProps {
+  tickPositions: Tick[];
+  formatter: FormatterObject;
+  align: AxisAlign;
+  tickLength: number;
+
+  // See Ticks.mless for default colors
+  tickColor?: Property.Color;
+  backgroundColor?: Property.Color;
+
+  isVertical?: boolean;
+  detailedFormatting?: boolean;
+}
+
+export default function TickLabels({
   tickPositions,
-  isVertical,
+  isVertical = false,
   formatter,
   align,
   tickLength,
   detailedFormatting,
   tickColor,
   backgroundColor
-}) {
+}: TickLabelsProps) {
   return (
     <Fragment>
       {tickPositions.map(tick => {

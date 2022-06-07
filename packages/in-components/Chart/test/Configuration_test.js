@@ -202,6 +202,7 @@ describe('in-components/Chart/Configuration', () => {
   describe('getFormatterForAxis', () => {
     it('should split formatter according to number of data series', () => {
       const config = new Config(defaultProps);
+      const testFormatter = jest.fn();
 
       let formatter = config.getFormatterForAxis({
         numOfSeries: 4
@@ -210,17 +211,17 @@ describe('in-components/Chart/Configuration', () => {
 
       formatter = config.getFormatterForAxis({
         numOfSeries: 2,
-        formatter: 'test'
+        formatter: testFormatter
       });
       expect(formatter).to.have.length(2);
       expect(formatter).to.deep.equal([
         {
-          compact: 'test',
-          detailed: 'test'
+          compact: testFormatter,
+          detailed: testFormatter
         },
         {
-          compact: 'test',
-          detailed: 'test'
+          compact: testFormatter,
+          detailed: testFormatter
         }
       ]);
     });

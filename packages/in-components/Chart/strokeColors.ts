@@ -3,9 +3,12 @@
  * (c) Copyright Instana Inc.
  */
 
+import { Property } from 'csstype';
+
+import { Axis } from 'in-components/Chart/types';
 import theme from 'in-themes';
 
-export function enrichAxisWithColors(axis, offset = 0) {
+export function enrichAxisWithColors(axis: Axis, offset = 0) {
   if (axis.colors100 && axis.colors50) {
     return;
   }
@@ -24,7 +27,13 @@ export function enrichAxisWithColors(axis, offset = 0) {
   }
 }
 
-export function getColorWithTransparency(color) {
+export interface ColorWithTransparency {
+  c25: Property.Color;
+  c50: Property.Color;
+  c100: Property.Color;
+}
+
+export function getColorWithTransparency(color: Property.Color): ColorWithTransparency {
   const color25Index = theme.lib.colors.chart.strokeColors25.indexOf(color);
   if (color25Index >= 0) {
     return {

@@ -5,7 +5,7 @@
 
 import { flatMap } from 'lodash';
 
-export function find(array, predicate) {
+export function find<T>(array: T[], predicate: (element: T) => boolean): T | undefined {
   for (let i = 0; i < array.length; i++) {
     if (predicate(array[i])) {
       // return fist match
@@ -16,8 +16,14 @@ export function find(array, predicate) {
   return undefined;
 }
 
-export function diff(a, b) {
-  const result = {
+interface DiffResult<T> {
+  uniqueItemsA: T[];
+  sharedItems: T[];
+  uniqueItemsB: T[];
+}
+
+export function diff<T>(a: T[], b: T[]): DiffResult<T> {
+  const result: DiffResult<T> = {
     uniqueItemsA: [],
     sharedItems: [],
     uniqueItemsB: []
@@ -42,6 +48,8 @@ export function diff(a, b) {
   return result;
 }
 
+type Interspersee<T> = (i: number) => T;
+
 /**
  * Inserts an element between every pair of elements in the source array.
  *
@@ -51,12 +59,13 @@ export function diff(a, b) {
  * add a unique key property to each inserted element).
  * @returns a new array
  */
-export function intersperse(array, interspersed) {
-  const interspersee = typeof interspersed === 'function' ? interspersed : () => interspersed;
+export function intersperse<T>(array: T[], interspersed: T | Interspersee<T>): T[] {
+  const interspersee: Interspersee<T> =
+    typeof interspersed === 'function' ? (interspersed as Interspersee<T>) : () => interspersed;
   return flatMap(array, (element, idx) => (idx ? [interspersee(idx), element] : [element]));
 }
 
-export function uniq(array, extractKey) {
+export function uniq<T>(array: T[], extractKey: (element: T) => any): T[] {
   const seen = new Set();
   return array.filter(item => {
     const key = extractKey(item);
