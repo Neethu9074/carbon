@@ -18,9 +18,11 @@ import tabs from 'in-vsphere/Dashboards/Datacenter/tabs/index';
 import { DatacenterBreadcrumbs } from 'in-vsphere/breadcrumbs';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import DashboardHeader from 'in-components/DashboardHeader';
+import BadgeList from 'in-components/BadgeList/BadgeList';
 import { getTimeConfig } from 'in-stores/time/config';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
+import theme from 'in-themes';
 import { t } from 'in-i18n';
 
 export default function DatacenterDashboard({ location }) {
@@ -75,6 +77,12 @@ function Header(props) {
       title={t('in-vsphere:dashboards.vSphereDatacenter')}
       icon="lib_vsphere_datacenter"
       label={get(props.result, ['data', 'label'])}
+      renderMetaInformation={renderMetaInformation}
     />
   );
+}
+
+function renderMetaInformation({ result }) {
+  const version = get(result, ['data', 'version']);
+  return <>{version && <BadgeList type={version} getColor={() => theme.lib.colors.N700Medium} />}</>;
 }
