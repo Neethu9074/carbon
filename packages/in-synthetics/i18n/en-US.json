@@ -135,7 +135,8 @@
       "startedColumn": "Started",
       "locationColumn": "Location",
       "responseTimeColumn": "Response Time",
-      "responseSizeColumn": "Response Size"
+      "responseSizeColumn": "Response Size",
+      "title": "Results"
     },
     "noDataAvailable": {
       "resultsTitle": "No results available",
