@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -133,17 +132,17 @@ export default function CustomEvents({ timeConfig, tagFilters, websiteId, websit
   );
 
   return (
-    <Card>
+    <>
       <ServerTableWithUrlState
         get={getTableData}
         websiteId={websiteId}
         pageId={pageId}
         tagFilters={tagFilters}
         timeConfig={timeConfig}
-        title={t('in-websites:websiteDashboard.tabs.indexLabelCustomEvents')}
+        cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelCustomEvents')}
         rightHeader={rightHeader}
       />
-    </Card>
+    </>
   );
 }
 

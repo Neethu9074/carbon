@@ -8,8 +8,8 @@ import React from 'react';
 import { ensureConfigBackwardCompatibility, SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/form';
 import useSliConfigWithPreview from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview';
 import useWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
+import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import useSloMetrics from 'in-custom-dashboards/widgets/Slo/hooks/useSloMetrics';
-import useSloEntity from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import Widget from 'in-custom-dashboards/widgets/Slo/components/widget/Widget';
 import { all as allStatus } from 'in-hooks/utils/fetchStatus';
 import { days, hours, minutes } from 'in-services/time/time';
@@ -61,7 +61,7 @@ export default function SloWidgetPresenter({ actions, config, isPreview, title, 
     isPreview
   );
 
-  const [entity, entityStatus, , entityProgress] = useSloEntity({ entityId, entityType });
+  const [entity, entityStatus, , entityProgress] = useMonitoredEntity({ entityId, entityType });
 
   const granularity = getGranularity(timeConfig);
   const [sloMetrics, sloMetricsStatus, sloMetricsError, sloMetricsProgress] = useSloMetrics({

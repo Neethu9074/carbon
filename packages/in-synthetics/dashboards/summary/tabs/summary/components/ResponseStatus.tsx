@@ -36,7 +36,7 @@ export default function ResponseStatus({ test, timeShiftConfig }: Props) {
           y1: {
             metrics: [],
             colors: [],
-            renderer: pie,
+            renderer: pie.renderer,
             metricIds: [],
             labels: []
           },

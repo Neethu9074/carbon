@@ -11,6 +11,7 @@ import { Stack, StackItem } from '@instana/components';
 
 import {
   apdexConfigIdKey,
+  defaultEntityType,
   entityIdKey,
   entityTypeKey,
   getField,
@@ -36,8 +37,7 @@ export default function FormComponent({ form, onChange }: FormComponentProps) {
     onChange([], () => item);
   }
 
-  const defaultEntityType = 'website';
-  const entityType = getField<ApdexEntityTypes>(form, entityTypeKey)?.value || defaultEntityType;
+  const entityType = getField<ApdexEntityTypes>(form, entityTypeKey)?.value ?? defaultEntityType;
   const entityIdField = getField<string>(form, entityIdKey);
   const configIdField = getField<string>(form, apdexConfigIdKey);
   const entityId = entityIdField?.value || '';
@@ -54,7 +54,7 @@ export default function FormComponent({ form, onChange }: FormComponentProps) {
         <Sections>
           <Section title={t('in-custom-dashboards:widgets.apdex.formComponent.entityTypeTitle')}>
             <EntityTypeSelector
-              value={entityType ?? defaultEntityType}
+              value={entityType}
               onChange={type => updateForm<ApdexEntityTypes>(entityTypeKey, type)}
             />
           </Section>

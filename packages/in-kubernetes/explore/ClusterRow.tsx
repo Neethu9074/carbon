@@ -10,7 +10,7 @@ import { useObservable } from '@instana/hooks';
 
 // @ts-expect-error
 import getKubernetesClusterItemCounters from 'in-kubernetes/subscriptions/getKubernetesClusterItemCounters';
-import { KubernetesListItemWithCursor } from 'in-kubernetes/subscriptions/getKubernetesExplore';
+import { KubernetesListItemWithCursor } from 'in-kubernetes/subscriptions/exploreKubernetes';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { TimeConfig, Result, KubernetesClusterItemCounters } from 'in-types';
 // @ts-expect-error

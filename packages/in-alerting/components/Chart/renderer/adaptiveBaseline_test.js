@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { updateThresholdPointsIfRequired } from 'in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline';
+import { updateThresholdPointsIfRequired } from 'in-alerting/components/Chart/renderer/adaptiveBaseline';
 import { allowedMultiplesOfRollupSizeMissingInCharts } from 'in-services/featureFlags';
 import { minutes } from 'in-services/time';
 

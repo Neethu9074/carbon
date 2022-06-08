@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -153,7 +152,7 @@ export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobi
   tagFilters = tagFilters.concat({ name: 'mobileBeacon.type', operator: 'EQUALS', stringValue: 'httpRequest' });
 
   return (
-    <Card>
+    <>
       <ServerTableWithUrlState
         get={getTableData}
         mobileAppId={mobileAppId}
@@ -162,7 +161,7 @@ export default function HttpRequests({ timeConfig, tagFilters, mobileAppId, mobi
         cardTitle={t('in-mobile-apps:dashboard.tabs.httpRequestLabel')}
         rightHeader={rightHeader}
       />
-    </Card>
+    </>
   );
 }
 

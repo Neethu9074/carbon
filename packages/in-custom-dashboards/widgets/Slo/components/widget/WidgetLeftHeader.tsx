@@ -8,8 +8,8 @@ import React from 'react';
 import { LoadingSkeleton, Stack } from '@instana/components';
 
 import { CombinedSliEntity, SliConfig } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
+import { MonitoredEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import SliConfigInfo from 'in-custom-dashboards/widgets/Slo/components/SliConfigInfo';
-import { SloEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
 import SloEntityInfo from 'in-custom-dashboards/widgets/Slo/SloEntityInfo';
 import { FetchStatus } from 'in-hooks/utils/types';
@@ -22,7 +22,7 @@ interface WidgetLeftHeaderProps {
   status: FetchStatus;
   sliConfig?: SliConfig<CombinedSliEntity>;
   monitoredEntityType: MonitoringSource;
-  monitoredEntity?: SloEntity;
+  monitoredEntity?: MonitoredEntity;
   isPreview?: boolean;
 }
 

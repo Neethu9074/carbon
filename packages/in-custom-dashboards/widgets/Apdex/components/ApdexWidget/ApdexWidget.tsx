@@ -6,15 +6,17 @@
 
 import React from 'react';
 
+import useApdexLineRenderer from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexLineRenderer';
 import WidgetHeader from 'in-custom-dashboards/widgets/Apdex/components/WidgetHeader';
 import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import ResultAwareChart from 'in-components/Chart/ResultAwareChart';
-import { Axis, MetricDataSeries } from 'in-components/Chart/types';
-import Renderer from 'in-components/Chart/renderer/Renderer';
+import { MetricDataSeries } from 'in-components/Chart/types';
 import { Error, Progress, TimeConfig } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
+
+const apdexAreas = [0, 0.7, 0.9, 1] as const;
 
 interface ApdexWidgetProps {
   title: string;
@@ -43,6 +45,8 @@ export default function ApdexWidget({
   timeConfig,
   nonInteractive
 }: ApdexWidgetProps) {
+  const renderer = useApdexLineRenderer(apdexAreas);
+
   return (
     <WidgetCard
       dragHandle={dragHandle}
@@ -52,9 +56,18 @@ export default function ApdexWidget({
     >
       <ResultAwareChart
         config={{
-          y1: getAxis(metrics),
+          y1: {
+            metricIds: ['apdex'],
+            labels: [t('in-custom-dashboards:widgets.apdex.chart.metricLabel')],
+            colors: [theme.lib.colors.lightBlue800],
+            renderer,
+            metrics,
+            fixedTickPositions: [...apdexAreas],
+            detailedFormatting: true,
+            renderAllTickLabels: true
+          },
           granularity,
-          automaticallySize: !nonInteractive,
+          automaticallySize: true,
           nonInteractive,
           timeConfig
         }}
@@ -66,14 +79,4 @@ export default function ApdexWidget({
       />
     </WidgetCard>
   );
-}
-
-function getAxis(metrics: MetricDataSeries[]): Axis {
-  return {
-    metricIds: ['apdex'],
-    labels: [t('in-custom-dashboards:widgets.apdex.chart.metricLabel')],
-    colors: [theme.lib.colors.lightBlue800],
-    renderer: Renderer.line,
-    metrics
-  };
 }

@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useLocation } from 'react-router';
 import React from 'react';
 
@@ -23,37 +24,41 @@ import GlobalTheme from 'in-themes/GlobalTheme';
 import 'in-themes/foundation.less';
 import locals from './App.mless';
 
+const defaultTheme = createTheme();
+
 export default function App() {
   const location = useLocation();
 
   return (
     <ErrorBoundary name="app">
       <GlobalTheme>
-        <GlobalTimeConfig location={location}>
-          <ErrorBoundary name="main-navigation">
-            <MainNavigation />
-          </ErrorBoundary>
+        <ThemeProvider theme={defaultTheme}>
+          <GlobalTimeConfig location={location}>
+            <ErrorBoundary name="main-navigation">
+              <MainNavigation />
+            </ErrorBoundary>
 
-          <div className={locals.content}>
-            <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
-          </div>
+            <div className={locals.content}>
+              <ErrorBoundary name="app-routes">{routes}</ErrorBoundary>
+            </div>
 
-          <ErrorBoundary name="dialogs">
-            {/* for release notes */}
-            <ReleaseNotesDialog />
-            <TooltipPresenter />
-            <OverlayPresenter />
-            {/* the flyouts on the top right corner */}
-            <MessageFlyout />
-            {/* all the different dialogs e.g. in the settings */}
-            <DialogPresenter />
-          </ErrorBoundary>
+            <ErrorBoundary name="dialogs">
+              {/* for release notes */}
+              <ReleaseNotesDialog />
+              <TooltipPresenter />
+              <OverlayPresenter />
+              {/* the flyouts on the top right corner */}
+              <MessageFlyout />
+              {/* all the different dialogs e.g. in the settings */}
+              <DialogPresenter />
+            </ErrorBoundary>
 
-          <ErrorBoundary name="floatinButtons">
-            {/* floating action buttons at the bottom of the screen */}
-            <FloatingActionButtonPresenter />
-          </ErrorBoundary>
-        </GlobalTimeConfig>
+            <ErrorBoundary name="floatinButtons">
+              {/* floating action buttons at the bottom of the screen */}
+              <FloatingActionButtonPresenter />
+            </ErrorBoundary>
+          </GlobalTimeConfig>
+        </ThemeProvider>
       </GlobalTheme>
     </ErrorBoundary>
   );

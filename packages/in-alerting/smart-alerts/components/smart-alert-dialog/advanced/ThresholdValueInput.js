@@ -13,6 +13,8 @@ import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-ale
 import DebouncedInput from 'in-components/form/Input/DebouncedInput';
 import { isNotBlank } from 'in-services/util/string';
 
+import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/ThresholdCondition.mless';
+
 /*
  * input field can represent a percentage or normal number field
  */
@@ -30,6 +32,7 @@ export default function ThresholdValueInput({
   trackChange,
   percentageMetric,
   metricUnitPostfix,
+  isSmall,
   ...props
 }) {
   const onValueChange = targetValue => {
@@ -64,6 +67,7 @@ export default function ThresholdValueInput({
         min={min}
         step={step}
         {...props}
+        className={isSmall && locals.narrowControl}
         onValueChange={onValueChange}
         value={value ?? ''}
         hasError={hasError}

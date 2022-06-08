@@ -88,7 +88,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ApdexWidget/ApdexWidget'
           metrics
         },
         granularity: minutes.toMillis(1),
-        automaticallySize: false,
+        automaticallySize: true,
         nonInteractive: true,
         timeConfig: { windowSize: minutes.toMillis(30), to: 1652968505779, autoRefresh: false }
       },

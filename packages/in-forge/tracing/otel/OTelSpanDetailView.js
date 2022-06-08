@@ -16,6 +16,7 @@ export default function OTelSpanDetailView({ span }) {
   const error = span.getIn(['data', 'error']);
   const errorDetail = span.getIn(['data', 'error_detail']);
   const traceState = span.getIn(['data', 'trace_state']);
+  const resource = span.getIn(['data', 'resource']);
 
   return (
     <div>
@@ -32,6 +33,11 @@ export default function OTelSpanDetailView({ span }) {
         <Di title={t('in-forge:tracing.otel.tags')} verticalDisplay>
           <Code code={JSON.stringify(span.getIn(['data', 'tags'], emptyMap).toJS(), 0, 2)} lang="json" />
         </Di>
+        {resource != null && (
+          <Di title={t('in-forge:tracing.otel.resource')} verticalDisplay>
+            <Code code={JSON.stringify(resource.toJS(), 0, 2)} lang="json" />
+          </Di>
+        )}
       </Dl>
     </div>
   );

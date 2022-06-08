@@ -15,7 +15,7 @@ import {
   isWebsiteTimeBasedSliConfig,
   SliConfig
 } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { useLinkToUnboundedAnalytics } from 'in-custom-dashboards/widgets/Slo/hooks/useLinkToUnboundedAnalytics';
+import { useLinkToUnboundedAnalytics } from 'in-custom-dashboards/widgets/Slo/hooks/analytics/useLinkToUnboundedAnalytics';
 import PostChartContent from 'in-custom-dashboards/widgets/Slo/components/Chart/PostChartContent';
 import { useStairwayRenderer } from 'in-custom-dashboards/widgets/Slo/renderer/stairway';
 import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';

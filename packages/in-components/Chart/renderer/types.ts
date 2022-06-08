@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc. 2021
  */
 
-import { Config, Axis } from 'in-components/Chart/types';
+import { Config, AxisConfiguration, Axis } from 'in-components/Chart/types';
+import Configuration from 'in-components/Chart/Configuration';
 import { ScaleType } from 'in-services/scale';
 
 // TODO: this is very likely incomplete
@@ -22,7 +23,7 @@ export interface RenderConfig extends Config {
   y1: RenderAxis;
 }
 
-export interface RenderAxis extends Axis {
+export interface RenderAxis extends AxisConfiguration {
   isStaticBudget?: boolean;
   lineWidth?: number;
 }
@@ -38,5 +39,6 @@ export interface RenderProps {
 
 export interface Renderer {
   id?: string;
-  render?: (args: RenderProps) => void;
+  render: (args: RenderProps) => void;
+  enrich?: (config: Configuration, axis: Axis) => void;
 }

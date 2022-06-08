@@ -37,7 +37,7 @@ export default function ResponseSize({ test, timeShiftConfig }: Props) {
           y1: {
             metrics: [],
             colors: [],
-            renderer: integral,
+            renderer: integral.renderer,
             metricIds: [],
             labels: []
           },
