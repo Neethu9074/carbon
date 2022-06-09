@@ -32,7 +32,7 @@ export default function AlertingChart({
   viewConfig,
   blueprintConfig,
   alertsPreviewEnabled,
-  numeratorFilter,
+  numeratorTagFilterExpression,
   enrichedTagFilterExpression,
   canReload,
   rendererOverride,
@@ -63,7 +63,7 @@ export default function AlertingChart({
           includeSynthetic,
           timeConfig: viewConfig.timeConfig,
           metricName,
-          numeratorFilter,
+          numeratorTagFilterExpression,
           aggregation,
           granularity,
           threshold,
@@ -154,7 +154,7 @@ export default function AlertingChart({
           metric: metricName,
           granularity: metricChartGranularity,
           aggregation,
-          numeratorFilter
+          numeratorTagFilterExpression
         }
       }
     };
@@ -177,7 +177,7 @@ function getAlertsPreviewQuery({
   includeInternal,
   includeSynthetic,
   metricName,
-  numeratorFilter,
+  numeratorTagFilterExpression,
   aggregation,
   granularity,
   threshold,
@@ -197,7 +197,7 @@ function getAlertsPreviewQuery({
           metric: metricName,
           aggregation,
           granularity,
-          numeratorFilter
+          numeratorTagFilterExpression
         }
       }
     };
@@ -280,7 +280,7 @@ AlertingChart.propTypes = {
   blueprintConfig: PropTypes.object.isRequired,
   alertsPreviewEnabled: PropTypes.bool,
   canReload: PropTypes.bool,
-  numeratorFilter: PropTypes.object,
+  numeratorTagFilterExpression: PropTypes.object,
   isQB1only: PropTypes.bool,
   enrichedTagFilters: PropTypes.array,
   enrichedTagFilterExpression: PropTypes.object,

@@ -117,6 +117,19 @@ export const ruleStatusCodeValueOptions = Object.freeze([
   { value: 'custom', label: t('in-alerting:smartAlerts.applications.form.ruleStatusCodeValueOptionCustom') }
 ]);
 
+export const ruleMetricNameOptions = Object.freeze({
+  statusCode: [
+    {
+      value: 'calls',
+      label: t('in-alerting:smartAlerts.applications.form.ruleMetricNameOptionStatusCodeCount')
+    },
+    {
+      value: 'callRate',
+      label: t('in-alerting:smartAlerts.applications.form.ruleMetricNameOptionStatusCodeRate')
+    }
+  ]
+});
+
 export function getStatusCodeLabel(value) {
   return ruleStatusCodeValueOptions.filter(entry => entry.value === value)[0]?.label ?? value.toString();
 }
