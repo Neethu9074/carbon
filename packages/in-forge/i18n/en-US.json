@@ -4458,6 +4458,7 @@
       "titleDatacenter": "Datacenter",
       "titleRack": "Rack",
       "titleHostID": "Host ID",
+      "titleSeeds": "Seeds",
       "labelClientReadRequests": "Client Read Requests",
       "labelMeanReadRequests": "Mean Read Requests",
       "labelMean": "Mean",
