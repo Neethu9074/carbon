@@ -118,6 +118,7 @@ import './net-http';
 import './play2.ws';
 import './postgres';
 import './rabbitmq';
+import './rocketmq';
 import './resteasy';
 import './scalatra';
 import './ado.net';

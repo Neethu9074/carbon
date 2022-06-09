@@ -1874,6 +1874,11 @@
   "tracingTypeName_rabbitmq_0": "RabbitMQ messages",
   "tracingTypeName_rabbitmq_1": "RabbitMQ message",
   "tracingTypeName_rabbitmq_2": "RabbitMQ messages",
+  "tracingTypeName_rocketmq": "RocketMQ message",
+  "tracingTypeName_rocketmq_plural": "RocketMQ messages",
+  "tracingTypeName_rocketmq_0": "RocketMQ messages",
+  "tracingTypeName_rocketmq_1": "RocketMQ message",
+  "tracingTypeName_rocketmq_2": "RocketMQ messages",
   "tracingTypeName_rack": "Rack",
   "tracingTypeName_rack_plural": "Rack Calls",
   "tracingTypeName_rack_0": "Rack Calls",
@@ -12173,6 +12178,9 @@
       "exchange": "Exchange",
       "key": "Key",
       "size": "Size"
+    },
+    "rocketmq": {
+      "topic": "Topic"
     },
     "redis": {
       "connection": "Connection",
