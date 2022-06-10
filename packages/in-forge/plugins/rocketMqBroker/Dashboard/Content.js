@@ -144,9 +144,10 @@ export default function RocketMqBrokerDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             formatter: number.detailed,
-            metrics: ['queryThreadPoolQueueSize', 'sendThreadPoolQueueSize'],
+            metrics: ['queryThreadPoolQueueSize', 'pullThreadPoolQueueSize', 'sendThreadPoolQueueSize'],
             labels: [
               t('in-forge:plugins.rocketMqBroker.queryThreadPoolQueueSize'),
+              t('in-forge:plugins.rocketMqBroker.pullThreadPoolQueueSize'),
               t('in-forge:plugins.rocketMqBroker.sendThreadPoolQueueSize')
             ],
             type: 'line'
