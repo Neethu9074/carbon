@@ -10,11 +10,11 @@ import Collapsible from 'in-sdk/components/sidebar/Collapsible';
 import { t } from 'in-i18n';
 import Info from '../Info';
 
-export default function RocketMqClusterSidebar({ snapshot }) {
+export default function RocketMqBrokerSidebar({ snapshot }) {
   return (
     <Fragment>
       <Collapsible initiallyOpen>
-        <Collapsible.Header>{t('in-forge:plugins.rocketMqCluster.rocketMqClusterInfo')}</Collapsible.Header>
+        <Collapsible.Header>{t('in-forge:plugins.rocketMqBroker.rocketMqBrokerInfo')}</Collapsible.Header>
         <Collapsible.Content>
           <Info snapshot={snapshot} />
         </Collapsible.Content>

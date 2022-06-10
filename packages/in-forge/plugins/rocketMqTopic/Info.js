@@ -12,12 +12,7 @@ export default function Info({ snapshot }) {
   const data = snapshot.get('data');
   return (
     <DescriptionList>
-      <DescriptionItem title={t('in-forge:plugins.rocketMqCluster.clusterName')}>
-        {data.get('clusterName')}
-      </DescriptionItem>
-      <DescriptionItem title={t('in-forge:plugins.rocketMqCluster.nameSrvAddrs')}>
-        {data.get('nameSrvAddrs')}
-      </DescriptionItem>
+      <DescriptionItem title={t('in-forge:plugins.rocketMqTopic.topicName')}>{data.get('topicName')}</DescriptionItem>
     </DescriptionList>
   );
 }

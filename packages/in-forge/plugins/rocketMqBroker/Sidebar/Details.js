@@ -3,5 +3,5 @@
  * (c) Copyright Instana Inc.
  */
 
-import Details from 'in-forge/plugins/rocketMqCluster/Dashboard/Sidebar';
+import Details from 'in-forge/plugins/rocketMqBroker/Dashboard/Sidebar';
 export default Details;

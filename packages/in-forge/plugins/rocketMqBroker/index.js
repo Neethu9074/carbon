@@ -3,13 +3,13 @@
  * (c) Copyright Instana Inc.
  */
 
+import metricDefinitions from '../rocketMqBroker/metricDefinitions';
+import kpiDefinitions from '../rocketMqBroker/kpiDefinitions';
 import { registerSnapshotDefinition } from 'in-sdk/snapshot';
-import metricDefinitions from './metricDefinitions';
-import kpiDefinitions from './kpiDefinitions';
 import { plugins } from 'in-forge/constants';
 
 registerSnapshotDefinition({
-  plugin: plugins.rocketMqCluster,
+  plugin: plugins.rocketMqBroker,
   kpiDefinitions,
   metricDefinitions
 });

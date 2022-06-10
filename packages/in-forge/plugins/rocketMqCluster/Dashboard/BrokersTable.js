@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import getRocketMqTopics from 'in-forge/plugins/rocketMqCluster/subscriptions/getRocketMqTopics';
+import getRocketMqBrokers from 'in-forge/plugins/rocketMqCluster/subscriptions/getRocketMqBrokers';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
@@ -14,7 +14,7 @@ import { t } from 'in-i18n';
 
 const cols = [
   {
-    title: t('in-forge:plugins.rocketMqCluster.topicName'),
+    title: t('in-forge:plugins.rocketMqCluster.brokerName'),
     type: 'snapshotLink',
     typeArgs: {
       getSnapshotId(row) {
@@ -26,21 +26,21 @@ const cols = [
 
 export default connectTo(
   props => ({
-    topics: timeConfig$
-      .flatMap(timeConfig => getRocketMqTopics({ snapshotId: props.snapshotId, timeConfig }))
+    brokers: timeConfig$
+      .flatMap(timeConfig => getRocketMqBrokers({ snapshotId: props.snapshotId, timeConfig }))
       .flatMap(getSnapshots)
   }),
-  function TopicsTable({ topics, timeConfig }) {
-    if (topics == null || topics.length === 0) {
+  function BrokersTable({ brokers, timeConfig }) {
+    if (brokers == null || brokers.length === 0) {
       return null;
     }
 
-    const rows = topics.map(topic => {
-      const id = topic.get('id');
+    const rows = brokers.map(broker => {
+      const id = broker.get('id');
       return {
         key: id,
         snapshotId: id,
-        snapshot: topic,
+        snapshot: broker,
         timeConfig
       };
     });
@@ -48,7 +48,7 @@ export default connectTo(
     return (
       <Table
         withoutPadding
-        cardTitle={t('in-forge:plugins.rocketMqCluster.topicsNumber', { count: rows.length })}
+        cardTitle={t('in-forge:plugins.rocketMqCluster.brokersNumber', { count: rows.length })}
         cols={cols}
         rows={rows}
       />
