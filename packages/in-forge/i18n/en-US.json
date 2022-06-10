@@ -12254,9 +12254,6 @@
       "key": "Key",
       "size": "Size"
     },
-    "rocketmq": {
-      "topic": "Topic"
-    },
     "redis": {
       "connection": "Connection",
       "driver": "Driver",
