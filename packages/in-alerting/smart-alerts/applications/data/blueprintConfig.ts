@@ -33,7 +33,6 @@ import {
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
-// @ts-expect-error file needs to be migrated
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import getApplicationRateMetrics from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationRateMetrics';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';

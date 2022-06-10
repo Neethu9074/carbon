@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { PaginatedResult, GetTraceParticipantsQuery, TraceParticipant, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetTraceParticipantsQuery, Result<PaginatedResult<TraceParticipant>>>({
   eventId: 'getTraceParticipants',
   trackSubscriptionStatistics: true
 });

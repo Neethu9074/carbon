@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { CursorPaginatedResult, GetTracesQuery, Result, TraceItem } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetTracesQuery, Result<CursorPaginatedResult<TraceItem>>>({
   eventId: 'getTraces',
   disposeSubscriptionOnDocumentHidden: false,
   trackSubscriptionStatistics: true

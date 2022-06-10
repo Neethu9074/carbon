@@ -3,15 +3,45 @@
  * (c) Copyright Instana Inc.
  */
 
+import {
+  ContextScope,
+  CursorPaginatedResult,
+  GetServicesCursorPaginatedQuery,
+  OrderDirection,
+  Result,
+  ServiceCursorPaginatedItem,
+  TagFilter,
+  TimeConfig,
+  EndpointType
+} from '@instana/types';
+import { Observable } from '@instana/observables';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 import { getSparkChartGranularity } from 'in-applications/metrics';
 
-const getServicesCursorPaginated = createResultSubscriptionFactory({
+const getServicesCursorPaginated = createResultSubscriptionFactory<
+  GetServicesCursorPaginatedQuery,
+  Result<CursorPaginatedResult<ServiceCursorPaginatedItem>>
+>({
   eventId: 'getServicesCursorPaginated',
   trackSubscriptionStatistics: true
 });
 
 export default getServicesCursorPaginated;
+
+interface GetServicesCursorPaginatedWithDefaultsProps {
+  query: string;
+  orderBy: string;
+  orderDirection: OrderDirection;
+  endpointTypes: EndpointType[];
+  technologies: string[];
+  timeConfig: TimeConfig;
+  applicationId?: string;
+  serviceId?: string;
+  endpointId?: string;
+  contextScope: ContextScope;
+  tagFilters: TagFilter[];
+}
 
 export function getServicesCursorPaginatedWithDefaults({
   query = '',
@@ -25,7 +55,7 @@ export function getServicesCursorPaginatedWithDefaults({
   endpointId,
   contextScope,
   tagFilters
-}) {
+}: GetServicesCursorPaginatedWithDefaultsProps): Observable<Result<CursorPaginatedResult<ServiceCursorPaginatedItem>>> {
   return getServicesCursorPaginated({
     pagination: {
       retrievalSize: 20
@@ -86,9 +116,12 @@ export function getServicesCursorPaginatedWithDefaults({
       service: serviceId,
       endpoint: endpointId,
       endpointTypes,
-      technologies
+      technologies,
+      includeInternalCalls: false,
+      includeSyntheticCalls: false,
+      useLongTermDataOnly: false
     },
     contextScope: contextScope ? contextScope : 'NONE',
-    tagFilters: tagFilters ? [...tagFilters] : null
+    tagFilters: tagFilters ? [...tagFilters] : undefined
   });
 }
