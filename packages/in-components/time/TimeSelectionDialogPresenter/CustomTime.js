@@ -4,9 +4,9 @@
  */
 
 // eslint-disable-next-line no-restricted-imports
-import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@mui/material/Tooltip';
 // eslint-disable-next-line no-restricted-imports
-import Tooltip from '@material-ui/core/Tooltip';
+import { withStyles } from '@mui/styles';
 import { composeValidators, createField, createMapForm } from 'formalistic';
 import { startOfDay, subDays, getTime as getTimestamp } from 'date-fns';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -82,7 +82,7 @@ export default function CustomTime({ timeConfig, onChange }) {
     return (
       <DistinctSlider
         valueLabelDisplay="auto"
-        ValueLabelComponent={TimeSliderTooltip}
+        valueLabelComponent={TimeSliderTooltip}
         marks={tickPositions}
         min={tickPositions[0].value}
         max={tickPositions[tickPositions.length - 1].value}

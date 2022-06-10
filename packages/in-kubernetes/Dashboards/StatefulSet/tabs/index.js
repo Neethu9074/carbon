@@ -5,17 +5,17 @@
 
 import React from 'react';
 
+import PersistentVolumeClaims from 'in-kubernetes/Dashboards/commonComponents/pvc/PersistentVolumeClaims';
 import { EventsWithoutNamespace } from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Events';
 import Services from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Services';
 import { statefulSetDashboardFullyQualified } from 'in-kubernetes/navigation/paths';
 import Nodes from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Nodes';
 import { WorkloadTab } from 'in-kubernetes/Dashboards/commonComponents/Tabs';
 import Pods from 'in-kubernetes/Dashboards/commonComponents/commonTabs/Pods';
+import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
 import Summary from 'in-kubernetes/Dashboards/StatefulSet/tabs/Summary';
 import Details from 'in-kubernetes/Dashboards/StatefulSet/tabs/Details';
 import { t } from 'in-i18n';
-import { persistentVolumeSupportEnabled } from 'in-services/featureFlags';
-import PersistentVolumes from '../../Cluster/tabs/PersistentVolumes';
 
 export default [
   {
@@ -52,10 +52,9 @@ export default [
     header: props => getCounterComponent(props, v => v.pods)
   },
   persistentVolumeSupportEnabled && {
-    label: t('in-kubernetes:dashboards.persistentVolumes'),
-    path: `${statefulSetDashboardFullyQualified}/persistentvolumes`,
-    component: PersistentVolumes,
-    header: props => getCounterComponent(props, v => v.volumes),
+    label: t('in-kubernetes:dashboards.persistentVolumeClaims'),
+    path: `${statefulSetDashboardFullyQualified}/persistentvolumeclaims`,
+    component: PersistentVolumeClaims,
     stickToBottom: true
   }
 ].filter(Boolean);

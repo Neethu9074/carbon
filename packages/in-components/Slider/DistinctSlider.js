@@ -4,22 +4,21 @@
  */
 
 // eslint-disable-next-line no-restricted-imports
-import { withStyles } from '@material-ui/core';
+import styled from '@emotion/styled';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import { StyledMuiSliderBase } from 'in-components/Slider/base/StyledMuiSliderBase';
+import BaseSlider from 'in-components/Slider/base/StyledMuiSliderBase';
 import { identity } from 'in-services/util/function';
 import theme from 'in-themes';
 
-const StyledMuiSlider = withStyles({
-  mark: {
-    background: theme.lib.colors.N500,
-    borderRadius: '50%',
-    marginTop: -1,
-    height: 4
+const StyledMuiSlider = styled(BaseSlider)(`
+  .MuiSlider-mark {
+    background: ${theme.lib.colors.N500};
+    border-radius: 50%;
+    height: 4px;
   }
-})(StyledMuiSliderBase);
+`);
 
 export default function DistinctSlider(props) {
   const {
@@ -32,7 +31,7 @@ export default function DistinctSlider(props) {
     style,
     disabled = false,
     valueLabelFormat = identity,
-    ValueLabelComponent,
+    valueLabelComponent,
     valueLabelDisplay = 'on'
   } = props;
 
@@ -46,7 +45,7 @@ export default function DistinctSlider(props) {
       }}
     >
       <StyledMuiSlider
-        ValueLabelComponent={ValueLabelComponent}
+        valueLabelComponent={valueLabelComponent}
         disabled={disabled}
         orientation="horizontal"
         value={value}
@@ -72,7 +71,7 @@ DistinctSlider.propTypes = {
     }).isRequired
   ),
   step: PropTypes.number.isRequired,
-  ValueLabelComponent: PropTypes.func,
+  valueLabelComponent: PropTypes.func,
   max: PropTypes.number.isRequired,
   min: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,

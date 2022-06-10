@@ -277,7 +277,6 @@
           "name": "HTTP Status Codes",
           "headline": "Automatic Alerts for HTTP Status Codes",
           "text": "Receive an alert every time when matching HTTP Status Codes occur more often than usual.",
-          "metricLabel": "Status Code",
           "incompleteRuleMessage": "Please select a Status Code to see when this alert triggers"
         },
         "throughput": {
@@ -450,6 +449,8 @@
         "ruleStatusCodeValueOption510": "510 (Not Extended)",
         "ruleStatusCodeValueOption511": "511 (Network Authentication Required)",
         "ruleStatusCodeValueOption599": "599 (Network Connect Timeout Error)",
+        "ruleMetricNameOptionStatusCodeCount": "Status Code Count",
+        "ruleMetricNameOptionStatusCodeRate": "Status Code Rate",
         "ruleStatusCodeValueOptionCustom": "Custom Range",
         "ruleFormErrorStatusCodeStartGTEnd": "Please select an end HTTP status code that is greater or equal than the start HTTP status code",
         "ruleFormPleaseProvideALogMessage": "Please provide a log message",
@@ -929,6 +930,8 @@
         "searchCustomEvents": "Filter Events",
         "customEventSelectionSliderTitle": "Choose Custom Event",
         "customEventNameColumnLabel": "Event Name",
+        "customEventOccurrencesColumnLabel": "Occurrences",
+        "customEventUsersColumnLabel": "Users",
         "customEventLabel": "Custom Event",
         "customEventInputPlaceholder": "Paste a custom event name or select one from the list of events",
         "searchCustomEventButtonLabel": "Select Custom Event",

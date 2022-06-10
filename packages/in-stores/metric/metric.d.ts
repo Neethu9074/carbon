@@ -10,3 +10,5 @@ export function getChartGranularity(tc: TimeConfig, maxDataPoints?: number, minG
 export function getFinestAvailableGranularity(tc: TimeConfig, minimumGranularity?: number): number;
 
 export const sensibleGranularities: number[];
+
+export function getInfraGranularity(tc: TimeConfig, minGranularity?: number, maxDataPoints?: number): number;

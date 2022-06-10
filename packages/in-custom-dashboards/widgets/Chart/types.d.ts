@@ -3,7 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Axis as ChartAxis, Config as ChartConfig, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
+import { AxisConfiguration, ChartConfig, ContextMenuConfig, TimeShift } from 'in-components/Chart/types';
+import { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import { Grouping, ResultType, UnifiedMetricConfiguration } from 'in-types';
 import { TimeShiftOffset } from 'in-stores/time/shifting';
 
@@ -22,7 +23,7 @@ interface Config extends ContextMenuConfig {
 }
 
 type AxisParams = 'colors' | 'min' | 'max' | 'tooltipFormatter' | 'calculateStackDifferences';
-type Axis = Partial<Pick<ChartAxis, AxisParams>> & {
+type Axis = Partial<Pick<AxisConfiguration, AxisParams>> & {
   metrics: Metric[];
   formatter?: string;
   renderer?: string;
@@ -46,9 +47,9 @@ interface Metric extends BaseMetric {
 }
 
 type OmittedChartConfigParams = 'y1' | 'y2' | 'timeConfig';
-type BaseChartConfig = Omit<ChartConfig, OmittedChartConfigParams>;
+type BaseChartConfig = Omit<ChartReactComponentProps, OmittedChartConfigParams>;
 
-interface UnifiedMetricsChartProps extends BaseChartConfig {
+interface UnifiedMetricsChartProps extends Omit<BaseChartConfig, 'timeConfig'> {
   config: Config;
 
   onApproximateDataChange?: (hasApproximateData: boolean) => void;

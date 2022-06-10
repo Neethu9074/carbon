@@ -7,6 +7,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
+import ThresholdValueInputWithValidationMessage from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueWithValidationMessage';
 import {
   websitesAlertingThresholdOperatorChanged,
   websitesAlertingThresholdValueChanged
@@ -14,21 +15,16 @@ import {
 import ThresholdConditionFormGroup from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdConditionFormGroup';
 import { ThresholdOperatorDropDown } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdOperatorDropDown';
 import UseSuggestedValueButton from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/UseSuggestedValueButton';
-import ThresholdValueInput from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdValueInput';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { isPercentageMetric } from 'in-alerting/smart-alerts/websites/form/formUtils';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
-import TouchedMessages from 'in-components/form/TouchedMessages';
 import Label from 'in-components/form/Label';
-
-import locals from 'in-alerting/smart-alerts/components/smart-alert-dialog/shared-styles/ThresholdCondition.mless';
 
 export default function CustomEventsThresholdCondition({ form, blueprintConfig, updateForm }) {
   const metricName = form.get('rule').get('metricName').value;
   const metricUnitPostfix = getMetricUnitPostfix(metricName);
   const percentageMetric = isPercentageMetric(metricName);
   const maxValue = blueprintConfig.getMaxMetricValue(metricName);
-  const thresholdField = form.get('threshold').get('value');
 
   return (
     <ThresholdConditionFormGroup>
@@ -39,18 +35,14 @@ export default function CustomEventsThresholdCondition({ form, blueprintConfig, 
         trackingCallback={websitesAlertingThresholdOperatorChanged}
         allOptions
       />
-      <div className={locals.thresholdValueWithValidationMessage}>
-        <ThresholdValueInput
-          max={maxValue}
-          form={form}
-          updateForm={updateForm}
-          percentageMetric={percentageMetric}
-          trackChange={websitesAlertingThresholdValueChanged}
-          metricUnitPostfix={metricUnitPostfix}
-        />
-        <TouchedMessages field={thresholdField} />
-      </div>
-
+      <ThresholdValueInputWithValidationMessage
+        max={maxValue}
+        form={form}
+        updateForm={updateForm}
+        percentageMetric={percentageMetric}
+        trackChange={websitesAlertingThresholdValueChanged}
+        metricUnitPostfix={metricUnitPostfix}
+      />
       <UseSuggestedValueButton
         form={form}
         updateForm={updateForm}

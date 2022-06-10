@@ -6,7 +6,7 @@
 
 :local {
   .showCase {
-    max-height: 20rem;
+    height: 22rem;
     min-width: 40rem;
   }
 }

@@ -35,7 +35,7 @@ export default function Failures({ test, timeShiftConfig }: Props) {
           y1: {
             metrics: [],
             colors: [],
-            renderer: stackedBar,
+            renderer: stackedBar.renderer,
             metricIds: [],
             labels: []
           },

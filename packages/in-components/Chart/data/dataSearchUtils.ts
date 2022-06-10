@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Axis, Config } from 'in-components/Chart/types';
+import Configuration from 'in-components/Chart/Configuration';
+import { Axis } from 'in-components/Chart/types';
 
-export function getNearestDataPointDomainForTimestamp(config: Config, timestamp: number, floor = false) {
+export function getNearestDataPointDomainForTimestamp(config: Configuration, timestamp: number, floor = false) {
   if (timeIsNotDefined(timestamp)) {
     return null;
   }
@@ -35,7 +36,7 @@ interface DataPoints {
   y2?: [number, number][];
 }
 
-export function collectAllDataPointsAtTime(config: Config, timestamp: number) {
+export function collectAllDataPointsAtTime(config: Configuration, timestamp: number) {
   if (timeIsNotDefined(timestamp)) {
     return null;
   }
@@ -82,7 +83,7 @@ function timeIsNotDefined(timestamp: number) {
   return timestamp == null || timestamp == undefined;
 }
 
-export function collectAllDomainValues(config: Config) {
+export function collectAllDomainValues(config: Configuration) {
   let allDomainValues = new Set<number>();
   collectAllDomainValuesForAxis(allDomainValues, config.y1);
   collectAllDomainValuesForAxis(allDomainValues, config.y2);

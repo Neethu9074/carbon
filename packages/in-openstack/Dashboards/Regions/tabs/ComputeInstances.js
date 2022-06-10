@@ -38,7 +38,7 @@ const columnDefinitions = [
       return (
         <ServerSideSortedMetricValue
           snapshotId={item.id}
-          metric="cpuUsagePercentage"
+          metric="cpuUsage"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={percentage.compact}
         />
@@ -68,7 +68,7 @@ const columnDefinitions = [
       return (
         <ServerSideSortedMetricValue
           snapshotId={item.id}
-          metric="memoryUsagePercentage"
+          metric="memoryUsage"
           sortedMetricValue={props.orderBy === columnId && item.sortedMetricValue}
           formatter={percentage.compact}
         />

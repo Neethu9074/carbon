@@ -5,7 +5,6 @@
 
 import React from 'react';
 
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -129,15 +128,13 @@ const ServerTableWithUrlState = createServerTableWithUrlState({
 export default function Pages({ timeConfig, tagFilters, websiteId }) {
   return (
     <>
-      <Card>
-        <ServerTableWithUrlState
-          get={getTableData}
-          websiteId={websiteId}
-          tagFilters={tagFilters}
-          title={t('in-websites:websiteDashboard.tabs.indexLabelPages')}
-          timeConfig={timeConfig}
-        />
-      </Card>
+      <ServerTableWithUrlState
+        get={getTableData}
+        websiteId={websiteId}
+        tagFilters={tagFilters}
+        cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelPages')}
+        timeConfig={timeConfig}
+      />
       <Footer />
     </>
   );

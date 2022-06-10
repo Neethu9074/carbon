@@ -8,21 +8,23 @@ import React from 'react';
 import { Card, HorizontalIndicator, LoadingSkeleton, Message } from '@instana/components';
 
 import MultiLineToolTipIcon from 'in-components/MultiLineToolTipIcon/MultiLineToolTipIcon';
-// @ts-ignore
-import Renderer from 'in-components/Chart/renderer/Renderer';
-// @ts-ignore
-import Chart from 'in-components/Chart/ChartReactComponent';
+import Chart, { ChartReactComponentProps } from 'in-components/Chart/ChartReactComponent';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
-// @ts-ignore
+// @ts-expect-error
 import PieChart from 'in-components/PieChart';
-import { Axis, Config } from 'in-components/Chart/types';
+import { AxisConfiguration } from 'in-components/Chart/types';
+import Renderer from 'in-components/Chart/renderer/Renderer';
 import { Result } from 'in-types';
 import { t } from 'in-i18n';
 
 import locals from './ResultAwareChart.mless';
 
+export type ResultAwareChartConfig = Omit<ChartReactComponentProps, 'y1'> & {
+  y1?: AxisConfiguration;
+};
+
 interface Props {
-  config: Config;
+  config: ResultAwareChartConfig;
   renderLegend?: boolean;
   result: Result<unknown>;
 }
@@ -67,8 +69,8 @@ export default function ResultAwareChart({ result, config, renderLegend = true }
     if (config.y1?.renderer.id === Renderer.pie.id) {
       content = <PieChart renderLegend={renderLegend} config={config} />;
     } else {
-      config = normalizeTimeShiftedTimestamps(config);
-      content = <Chart renderLegend={renderLegend} {...config} />;
+      config = normalizeTimeShiftedTimestamps(config as ChartReactComponentProps);
+      content = <Chart renderLegend={renderLegend} {...(config as ChartReactComponentProps)} />;
     }
   }
 
@@ -139,7 +141,7 @@ function containsOnlyEmptyData(metrics: [number, number][][]) {
   return true;
 }
 
-function normalizeTimeShiftedTimestamps(config: Config) {
+function normalizeTimeShiftedTimestamps(config: ChartReactComponentProps) {
   const copiedConfig = {
     ...config
   };
@@ -153,7 +155,7 @@ function normalizeTimeShiftedTimestamps(config: Config) {
   return copiedConfig;
 }
 
-function normalizeTimeShiftedTimestampsForAxis(axis: Axis) {
+function normalizeTimeShiftedTimestampsForAxis(axis: AxisConfiguration) {
   if (!axis.timeShifts) {
     return axis;
   }

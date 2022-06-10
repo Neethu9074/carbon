@@ -170,6 +170,7 @@ export default connectTo(
                 {...props}
                 urlMatrixParamConfig={{ path: summaryTab, paramTab: 'stmtTab' }}
                 renderHistoricDataIndicator
+                endpointTypes={endpointTypes}
               />
             ) : (
               <TechnologyBreakdown

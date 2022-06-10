@@ -13,8 +13,8 @@ import WidgetLoadingIndicator from 'in-custom-dashboards/widgets/Slo/components/
 import WidgetLeftHeader from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetLeftHeader';
 import { TimeWindowConfig } from 'in-custom-dashboards/widgets/Slo/hooks/useWidgetTimeConfig';
 import WidgetContent from 'in-custom-dashboards/widgets/Slo/components/widget/WidgetContent';
+import { MonitoredEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import SliSummary from 'in-custom-dashboards/widgets/Slo/components/SliSummary';
-import { SloEntity } from 'in-custom-dashboards/widgets/Slo/hooks/useSloEntity';
 import { SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { TimeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
 import { findMetric } from 'in-custom-dashboards/widgets/Slo/metric';
@@ -26,7 +26,7 @@ import locals from './Widget.mless';
 interface WidgetProps {
   title: string;
   entityType: SliType;
-  entity?: SloEntity;
+  entity?: MonitoredEntity;
   sliConfiguration?: SliConfigurationWithLastUpdated;
 
   slo: number;
