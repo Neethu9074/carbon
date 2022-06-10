@@ -40,9 +40,9 @@ export default function IcicleChart(props) {
       <div className={locals.framesWrapper} style={{ height: `${chartHeight}px` }}>
         {callFrames
           .filter(callFrame => callFrame.model !== 'LOG')
-          .map(callFrame => {
+          .map((callFrame, idx) => {
             return (
-              <Fragment key={callFrame.id}>
+              <Fragment key={callFrame.id + idx}>
                 <Tooltip
                   themeStyle="light"
                   content={<CallTooltipContent call={callFrame} getColor={getColor} />}
