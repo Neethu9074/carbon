@@ -9,25 +9,18 @@ import React from 'react';
 
 import { useObservable } from '@instana/hooks';
 
-// @ts-expect-error
-import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-// @ts-expect-error
-import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
-// @ts-expect-error
-import SubViewHeader from 'in-settings/components/SubViewHeader';
-// @ts-expect-error
-import DescriptionText from 'in-components/form/DescriptionText';
-// @ts-expect-error
-import SectionLine from 'in-settings/components/SectionLine';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-// @ts-expect-error
-import SaveCancel from 'in-settings/components/SaveCancel';
-// @ts-expect-error
-import Table from 'in-sdk/components/dashboard/Table';
+import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
+import SubViewHeader from 'in-settings/components/SubViewHeader';
+import DescriptionText from 'in-components/form/DescriptionText';
 import { hasError, isLoading } from 'in-services/util/result';
+import SectionLine from 'in-settings/components/SectionLine';
+import SaveCancel from 'in-settings/components/SaveCancel';
 import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
+import Table from 'in-sdk/components/dashboard/Table';
 import { compare } from 'in-services/util/string';
 import { getAction } from 'in-api/automation';
 import Label from 'in-components/form/Label';

@@ -8,11 +8,9 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-// @ts-expect-error
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
-// @ts-expect-error
-import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
+import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getAllActions } from 'in-api/automation';
 import { Action } from 'in-types';
