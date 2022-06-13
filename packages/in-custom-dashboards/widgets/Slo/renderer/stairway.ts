@@ -30,7 +30,7 @@ interface UseStairwayRendererProps {
 function createStairwayRenderer({
   firstCollectedMetricTimestamp = 0,
   metricConfiguration
-}: UseStairwayRendererProps): Required<Renderer> {
+}: UseStairwayRendererProps): Renderer {
   return {
     id: 'stairway',
     render: ({ color, scale, config, dataSeries, metricId }: RenderProps) => {

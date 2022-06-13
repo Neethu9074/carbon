@@ -6,12 +6,15 @@
 
 import React from 'react';
 
+import useMonitoredEntity from 'in-custom-dashboards/widgets/Slo/hooks/useMonitoredEntity';
 import ApdexWidget from 'in-custom-dashboards/widgets/Apdex/components/ApdexWidget';
 import { ApdexWidgetConfiguration } from 'in-custom-dashboards/widgets/Apdex/form';
 import { WidgetProps } from 'in-custom-dashboards/widgets/types';
 import { apdexWidgetEnabled } from 'in-services/featureFlags';
-import { days, minutes } from 'in-services/time/time';
-import { success } from 'in-services/util/result';
+import { all as allProgress } from 'in-hooks/utils/progress';
+import useTimeConfig from 'in-hooks/useTimeConfig';
+import { minutes } from 'in-services/time/time';
+import { t } from 'in-i18n';
 
 export default function ApdexWidgetPresenter({
   actions,
@@ -20,16 +23,20 @@ export default function ApdexWidgetPresenter({
   isPreview,
   config
 }: WidgetProps<ApdexWidgetConfiguration>) {
-  if (!apdexWidgetEnabled) return;
+  const timeConfig = useTimeConfig();
 
-  const { entityType } = config;
+  const { entityType, entityId } = config;
+  const [entity, , , entityProgress] = useMonitoredEntity({ entityType, entityId });
+  const entityLabel =
+    entity?.label ?? t('in-custom-dashboards:widgets.apdex.widget.unknownEntityLabel', { context: entityType });
+
+  const progress = allProgress(entityProgress);
+
+  if (!apdexWidgetEnabled) return;
 
   // TODO: This block must be replaced later as the backend API connection
   // is out of scope for the current task.
-  const entityLabel = 'Dummy Label';
   const granularity = minutes.toMillis(1);
-  const timeConfig = { windowSize: days.toMillis(7), to: 1624949300207, autoRefresh: false };
-  const { errors, progress } = success(null);
   /////////////////////////////////////////////////
 
   return (
@@ -39,7 +46,7 @@ export default function ApdexWidgetPresenter({
       dragHandle={dragHandle}
       entityLabel={entityLabel}
       entityType={entityType}
-      errors={errors}
+      errors={[]}
       metrics={[]}
       progress={progress}
       granularity={granularity}

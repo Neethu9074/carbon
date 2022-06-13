@@ -35,11 +35,11 @@ import DashboardHeaderShadowModule from 'in-components/DashboardHeader/Dashboard
 import { analyzePath as profilingAnalyzePath } from 'in-components/Profiling/navigation/paths';
 import DashboardHeaderModule from 'in-components/DashboardHeader/DashboardHeaderModule';
 import DashboardHeaderButton from 'in-components/DashboardHeader/DashboardHeaderButton';
-import FeatureFeedback from 'in-components/FeatureFeedback/FeatureFeedback';
 import DashboardHeader, { themes } from 'in-components/DashboardHeader';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import Overlay from 'in-components/overlays/Overlay/Overlay';
+import BetaBadge from 'in-components/BetaBadge/BetaBadge';
 import { emptyArray } from 'in-services/fixedObjects';
 import { isNotBlank } from 'in-services/util/string';
 import Title from 'in-components/Title/Title';
@@ -63,13 +63,7 @@ export default function AnalyzeHeader({ renderQuickFilterBar, isGrouped, formMod
         ]}
         renderMetaInformation={() => {
           if (activeConfiguration?.beta) {
-            return (
-              <FeatureFeedback
-                href={`https://docs.google.com/forms/d/e/1FAIpQLSdlmZfvaeJTcs6ZzIN7hJv2B2m1lAiux_He4Y5pUzPJWXCDxA/viewform?usp=pp_url&entry.1874481307=${encodeURIComponent(
-                  window.location.href
-                )}`}
-              />
-            );
+            return <BetaBadge />;
           }
           return null;
         }}

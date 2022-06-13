@@ -4,14 +4,14 @@
  */
 
 // eslint-disable-next-line no-restricted-imports
-import { useMediaQuery } from '@material-ui/core';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import React from 'react';
 
 import SliSummarySkeleton from 'in-custom-dashboards/widgets/Slo/components/SliSummary/SliSummarySkeleton';
+import SloTimeTile from 'in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTimeTile';
 import { useSliFormatter } from 'in-custom-dashboards/widgets/Slo/hooks/useSliFormatter';
-import SloTimeTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTimeTile';
+import SloTile from 'in-custom-dashboards/widgets/Slo/components/widget/tiles/SloTile';
 import { TimeWindowType } from 'in-custom-dashboards/widgets/Slo/form';
-import SloTile from 'in-custom-dashboards/widgets/Slo/Tiles/SloTile';
 import { percentage } from 'in-services/formatters/number';
 import { FetchStatus } from 'in-hooks/utils/types';
 import { SliEntity } from 'in-types';

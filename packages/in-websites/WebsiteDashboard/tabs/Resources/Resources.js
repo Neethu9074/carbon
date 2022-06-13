@@ -7,7 +7,6 @@ import React, { Fragment } from 'react';
 import { compose } from 'recompose';
 
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -165,16 +164,16 @@ function Resources({ timeConfig, tagFilters, websiteId, resourceType, setFilter,
     : tagFilters;
 
   return (
-    <Card>
+    <>
       <ServerTableWithUrlState
         get={getTableData}
         websiteId={websiteId}
         tagFilters={tagFiltersForResourceList}
         timeConfig={timeConfig}
-        title={t('in-websites:websiteDashboard.tabs.indexLabelResources')}
+        cardTitle={t('in-websites:websiteDashboard.tabs.indexLabelResources')}
         rightHeader={resourcesListRightHeader}
       />
-    </Card>
+    </>
   );
 }
 

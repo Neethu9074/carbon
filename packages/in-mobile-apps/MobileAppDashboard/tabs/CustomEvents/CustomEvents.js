@@ -6,7 +6,6 @@
 import React from 'react';
 
 import { Button } from '@instana/components';
-import { Card } from '@instana/components';
 import { Link } from '@instana/components';
 
 import {
@@ -133,7 +132,7 @@ export default function CustomEvents({ timeConfig, tagFilters, mobileAppId, mobi
   );
 
   return (
-    <Card>
+    <>
       <ServerTableWithUrlState
         get={getTableData}
         mobileAppId={mobileAppId}
@@ -142,7 +141,7 @@ export default function CustomEvents({ timeConfig, tagFilters, mobileAppId, mobi
         cardTitle={t('in-mobile-apps:dashboard.tabs.customEventsLabel')}
         rightHeader={rightHeader}
       />
-    </Card>
+    </>
   );
 }
 

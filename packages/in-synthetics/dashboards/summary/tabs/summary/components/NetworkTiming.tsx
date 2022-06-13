@@ -37,7 +37,7 @@ export default function NetworkTimings({ test, timeShiftConfig }: Props) {
           y1: {
             metrics: [],
             colors: [],
-            renderer: stackedArea,
+            renderer: stackedArea.renderer,
             metricIds: [],
             labels: []
           },

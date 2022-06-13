@@ -10,9 +10,10 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
-import useApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfiguration';
+import useApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfigurations';
 import { ApdexEntityTypes } from 'in-custom-dashboards/widgets/Apdex/apdexTypes';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
+import { compareIgnoreCase } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
 interface ConfigurationSelectorProps {
@@ -30,11 +31,11 @@ export default function ConfigurationSelector({
   onChange,
   onOpenConfigurationManager
 }: ConfigurationSelectorProps) {
-  const [apdexConfigurations, status] = useApdexConfiguration(entityType, entityId);
+  const [apdexConfigurations, status] = useApdexConfigurations(entityType, entityId);
 
   const isFieldValid = field?.valid;
   const isFieldTouched = field?.touched;
-  const hasError = isFieldValid && isFieldTouched;
+  const hasError = !isFieldValid && isFieldTouched;
   const isResolved = status === 'resolved';
   const hasSomeConfig = apdexConfigurations?.length !== 0;
   const configId = field?.value;
@@ -65,6 +66,15 @@ export default function ConfigurationSelector({
       {isResolved && !hasSomeConfig && (
         <option>{t('in-custom-dashboards:widgets.apdex.configurationSelector.noneAvailCreateOne')}</option>
       )}
+
+      {isResolved &&
+        [...apdexConfigurations!]
+          .sort((a, b) => compareIgnoreCase(a.apdexName, b.apdexName))
+          .map(({ id, apdexName }) => (
+            <option key={id} value={id}>
+              {apdexName}
+            </option>
+          ))}
     </SelectInSection>
   );
 }

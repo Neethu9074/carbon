@@ -33,13 +33,13 @@ export function BlueprintDescription({ config, selectButtonDisabled, isSimpleMod
 }
 
 export function BlueprintText({ config }) {
-  const { headline, text } = config;
+  const { headline, text, isBeta } = config;
 
   return (
     <div>
       <h3 className={locals.headline}>
         <span>{headline}</span>
-        {config.isBeta && <BetaBadge />}
+        {isBeta && <BetaBadge />}
       </h3>
       <DangerousHtmlPresenter className={locals.text} html={text} />
     </div>

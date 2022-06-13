@@ -9,13 +9,13 @@ import React from 'react';
 
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import ConfigurationSelector from 'in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector';
-import useApdexConfiguration from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfiguration';
+import useApdexConfigurations from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexConfigurations';
 import { resultToFetchedStateResponse } from 'in-hooks/utils/resultToFetchedStateResponse';
 import { createForm } from 'in-custom-dashboards/widgets/Apdex/form';
 import { success } from 'in-services/util/result';
 import { t } from 'in-i18n';
 
-jest.mock('in-custom-dashboards/widgets/Apdex/hooks/useApdexConfiguration', () => ({
+jest.mock('in-custom-dashboards/widgets/Apdex/hooks/useApdexConfigurations', () => ({
   __esModule: true,
   default: jest.fn()
 }));
@@ -28,7 +28,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector/Co
     const entityId = 'someEntityId';
     const entityType = 'website';
 
-    useApdexConfiguration.mockReturnValueOnce(
+    useApdexConfigurations.mockReturnValueOnce(
       resultToFetchedStateResponse(
         success([
           {
@@ -59,9 +59,12 @@ describe('in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector/Co
     );
 
     // Then
-    expect(wrapper.find('option').text()).toEqual(
-      t('in-custom-dashboards:widgets.apdex.configurationSelector.pleaseSelect')
-    );
+    expect(
+      wrapper
+        .find('option')
+        .first()
+        .text()
+    ).toEqual(t('in-custom-dashboards:widgets.apdex.configurationSelector.pleaseSelect'));
   });
 
   it('renders the correct option text if no config is available', () => {
@@ -69,7 +72,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ConfigurationSelector/Co
     const entityId = 'someEntityId';
     const entityType = 'website';
 
-    useApdexConfiguration.mockReturnValueOnce(resultToFetchedStateResponse(success([])));
+    useApdexConfigurations.mockReturnValueOnce(resultToFetchedStateResponse(success([])));
 
     // When
     const wrapper = shallow(
