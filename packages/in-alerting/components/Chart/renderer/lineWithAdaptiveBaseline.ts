@@ -41,7 +41,7 @@ export default {
   enrich: (_config: unknown, axis: RenderAxis) => {
     axis.valuesDependOnEachOther = true;
   }
-} as const;
+};
 
 export function getThresholdInTimeframe(
   baselineEntriesFromMetadata: DataSeries,

@@ -36,7 +36,7 @@ export default {
   enrich: (_config: unknown, axis: RenderAxis) => {
     axis.valuesDependOnEachOther = true;
   }
-} as const;
+};
 
 function renderHighlight(config: RenderConfig, scale: ScaleType): void {
   const { backBufferCtx, markerPaneHeight, xScaleBackBuffer, y1 } = config;

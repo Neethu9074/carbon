@@ -37,7 +37,7 @@ export default {
   enrich: (_config: unknown, axis: RenderAxis) => {
     axis.valuesDependOnEachOther = true;
   }
-} as const;
+};
 
 function validateProps(config: Config) {
   if (__DEV__) {

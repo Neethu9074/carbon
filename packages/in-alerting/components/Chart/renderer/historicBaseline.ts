@@ -42,37 +42,38 @@ export function renderHistoricBaseline(
     return;
   }
   if (baseline && baseline.length > 0) {
-  const { isGreaterOp, oneSidedThresholdInTimeframe } = initOneSidedThreshold(
-    baseline,
-    operator,
-    sensitivity,
-    thresholdGranularity,
-    timeConfig
-  );
+    const { isGreaterOp, oneSidedThresholdInTimeframe } = initOneSidedThreshold(
+      baseline,
+      operator,
+      sensitivity,
+      thresholdGranularity,
+      timeConfig
+    );
 
-  renderThresholdLineAndBackgrounds(config, scale, colors50, colors100, oneSidedThresholdInTimeframe, isGreaterOp);
+    renderThresholdLineAndBackgrounds(config, scale, colors50, colors100, oneSidedThresholdInTimeframe, isGreaterOp);
 
-  let numOfThresholds = oneSidedThresholdInTimeframe.length;
-    let numOfMetrics = metric?.length ?? 0;
+    const numOfThresholds = oneSidedThresholdInTimeframe.length;
+    const numOfMetrics = metric?.length ?? 0;
 
     if (numOfThresholds > 0 && metric && numOfMetrics > 0) {
-    const lastAvailableThresholdTimestamp = oneSidedThresholdInTimeframe[numOfThresholds - 1][0];
+      const lastAvailableThresholdTimestamp = oneSidedThresholdInTimeframe[numOfThresholds - 1][0];
 
-    const chartHeight = scale.getRangeFrom();
+      const chartHeight = scale.getRangeFrom();
 
-    const graphAreaHeight = chartHeight - markerPaneHeight;
-    const lastAvailableMetricTimestamp = metric[numOfMetrics - 1][0];
+      const graphAreaHeight = chartHeight - markerPaneHeight;
+      const lastAvailableMetricTimestamp = metric[numOfMetrics - 1][0];
 
-    renderMetricUnavailableIndicator(
-      config,
-      graphAreaHeight,
-      lastAvailableThresholdTimestamp,
-      lastAvailableMetricTimestamp
-    );
+      renderGreyAreaAsMetricUnavailableIndicator(
+        config,
+        graphAreaHeight,
+        lastAvailableThresholdTimestamp,
+        lastAvailableMetricTimestamp
+      );
+    }
   }
 }
 
-export function initOneSidedThreshold(
+function initOneSidedThreshold(
   baseline: BaselineDataSeries,
   operator: ThresholdOperator,
   sensitivity: number,
@@ -102,7 +103,7 @@ export function initOneSidedThreshold(
 }
 
 // grey out portion of background for which no metric data is available
-function renderMetricUnavailableIndicator(
+function renderGreyAreaAsMetricUnavailableIndicator(
   config: RenderConfig,
   graphAreaHeight: number,
   lastAvailableThresholdTimestamp: number,
