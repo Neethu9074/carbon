@@ -20,12 +20,15 @@ import {
   getConfiguredThreshold,
   getOperatorLabel
 } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
-import ThresholdLabel from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/ThresholdLabel';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/applications/advanced/ThresholdTypeSelection';
+import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
+import { applicationsAlertingThresholdMetricChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
+import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
 import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
+import Dropdown from 'in-alerting/components/Dropdown';
 
 export default function StatusCodeThresholdCondition({
   form,
@@ -52,7 +55,16 @@ export default function StatusCodeThresholdCondition({
           />
         ) : (
           <>
-            <ThresholdLabel>{blueprintConfig.getMetricLabel(metricName)}</ThresholdLabel>
+            <Dropdown
+              asSimpleDropdown
+              value={metricName}
+              items={ruleMetricNameOptions.statusCode}
+              onChange={value => {
+                updateForm(form.updateIn(['rule', 'metricName'], f => f.setValue(value).setTouched(true)));
+
+                applicationsAlertingThresholdMetricChanged(getTrackingObject(form, { value }));
+              }}
+            />
             <ThresholdOperatorDropDown
               form={form}
               updateForm={updateForm}

@@ -202,7 +202,7 @@ module.exports = exports = [
   {
     uiClientKey: 'deprecateAppDataLegacyEvents',
     instanaCtlKey: 'feature.deprecated.appdata.legacy.events',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'potentialProblemsEnabled',

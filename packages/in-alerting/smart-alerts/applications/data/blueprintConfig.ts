@@ -25,14 +25,16 @@ import {
   getApproximatedAdaptiveBaselineThresholdValue,
   getApproximatedHistoricBaselineThresholdValue
 } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
+import getApplicationRateMetricsThresholdSuggestion from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationRateMetricsThresholdSuggestion';
 import getApplicationMetricsThresholdSuggestion from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsThresholdSuggestion';
+import getApplicationRateMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationRateMetricsAlertsPreview';
 import {
   firstApplicationId,
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
-// @ts-expect-error file needs to be migrated
 import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
+import getApplicationRateMetrics from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationRateMetrics';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
@@ -43,13 +45,24 @@ import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
 import { t } from 'in-i18n';
 
-export type MetricName = 'latency' | 'errors' | 'calls';
+const statusCodeMetricLabelsByName: Record<string, string> = Object.freeze({
+  calls: t('in-alerting:smartAlerts.applications.form.ruleMetricNameOptionStatusCodeCount'),
+  callRate: t('in-alerting:smartAlerts.applications.form.ruleMetricNameOptionStatusCodeRate')
+});
+
+export type MetricName = 'latency' | 'errors' | 'calls' | 'callRate';
 
 interface BluePrintBase {
-  readonly isCustomRateMetric: () => boolean;
-  readonly getMetricsRequest: () => typeof getApplicationMetrics;
-  readonly getAlertsPreviewRequest: (metricName: MetricName) => typeof getApplicationMetricsAlertPreview;
-  readonly getThresholdSuggestionRequest: (metricName: MetricName) => typeof getApplicationMetricsThresholdSuggestion;
+  readonly isCustomRateMetric: typeof isCustomRateMetric;
+  readonly getMetricsRequest: (
+    metricName: MetricName
+  ) => typeof getApplicationMetrics | typeof getApplicationRateMetrics;
+  readonly getAlertsPreviewRequest: (
+    metricName: MetricName
+  ) => typeof getApplicationMetricsAlertPreview | typeof getApplicationRateMetricsAlertPreview;
+  readonly getThresholdSuggestionRequest: (
+    metricName: MetricName
+  ) => typeof getApplicationMetricsThresholdSuggestion | typeof getApplicationRateMetricsThresholdSuggestion;
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
   readonly enrichWithDefaultThresholdValues: (alertConfig: ApplicationAlertConfig) => ApplicationAlertConfig;
   readonly getEntityTagFilterFormModel: (
@@ -98,10 +111,14 @@ export interface BluePrint extends BluePrintBase {
 }
 
 const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
-  isCustomRateMetric: () => false,
-  getMetricsRequest: () => getApplicationMetrics,
-  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
-  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
+  isCustomRateMetric: isCustomRateMetric,
+  getMetricsRequest: metricName => (isCustomRateMetric(metricName) ? getApplicationRateMetrics : getApplicationMetrics),
+  getAlertsPreviewRequest: metricName =>
+    isCustomRateMetric(metricName) ? getApplicationRateMetricsAlertPreview : getApplicationMetricsAlertPreview,
+  getThresholdSuggestionRequest: metricName =>
+    isCustomRateMetric(metricName)
+      ? getApplicationRateMetricsThresholdSuggestion
+      : getApplicationMetricsThresholdSuggestion,
   thresholdDefaults: {
     operator: '>='
   },
@@ -197,8 +214,8 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   text: t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.text'),
   baselineEnabled: true,
   defaultMetric: 'calls',
-  getMetricName: () => 'calls',
-  getMetricLabel: () => t('in-alerting:smartAlerts.applications.blueprintConfig.statusCode.metricLabel'),
+  getMetricName: (alertRule: ApplicationAlertRule) => alertRule.metricName,
+  getMetricLabel: (metricName: MetricName) => statusCodeMetricLabelsByName[metricName],
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: () => 'SUM',
@@ -283,6 +300,10 @@ export function getSimpleModeBlueprintConfig(
   return simpleModeBlueprintConfigs
     .filter(blueprint => blueprint.type === alertType)
     .find(blueprint => !blueprint.isSelected || blueprint.isSelected(alertThreshold));
+}
+
+function isCustomRateMetric(metricName: MetricName | string): boolean {
+  return metricName === 'callRate';
 }
 
 function getLogLevelFormModel(alertRule: LogsApplicationAlertRule): FormModelElement[] {

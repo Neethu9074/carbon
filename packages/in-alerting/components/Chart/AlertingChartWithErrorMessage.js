@@ -29,7 +29,7 @@ export default function AlertingChartWithErrorMessage({
   viewConfig,
   ...remainingProps
 }) {
-  const { numeratorFilter, enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(
+  const { numeratorTagFilterFormModel, enrichedTagFilterFormModel } = getEnhancedTagFilterFormModel(
     alertConfigWithFormModel,
     blueprintConfig,
     applicationId,
@@ -64,7 +64,7 @@ export default function AlertingChartWithErrorMessage({
       alertConfigWithFormModel={alertConfigWithFormModel}
       blueprintConfig={blueprintConfig}
       viewConfig={viewConfig}
-      numeratorFilter={numeratorFilter}
+      numeratorTagFilterExpression={toBackendQueryModel(numeratorTagFilterFormModel)}
       enrichedTagFilterExpression={enrichedTagFilterExpression}
     />
   ) : (

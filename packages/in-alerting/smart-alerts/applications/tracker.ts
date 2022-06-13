@@ -22,6 +22,7 @@ import {
   APPLICATIONS_ALERTING_ADDITIONAL_PROPS_INCIDENT_TRIGGER_CHANGED,
   APPLICATIONS_ALERTING_ADDITIONAL_PROPS_DESCRIPTION_CHANGED,
   APPLICATIONS_ALERTING_BLUEPRINT_CHANGED,
+  APPLICATIONS_ALERTING_THRESHOLD_METRIC_CHANGED,
   APPLICATIONS_ALERTING_THRESHOLD_OPERATOR_CHANGED,
   APPLICATIONS_ALERTING_THRESHOLD_VALUE_CHANGED,
   APPLICATIONS_ALERTING_THRESHOLD_AGGREGATION_CHANGED,
@@ -74,6 +75,8 @@ export const applicationsAlertingAdditionalPropsDescriptionChanged = (e: any) =>
 
 export const applicationsAlertingBlueprintChanged = (e: any) => track(APPLICATIONS_ALERTING_BLUEPRINT_CHANGED, e);
 
+export const applicationsAlertingThresholdMetricChanged = (e: any) =>
+  track(APPLICATIONS_ALERTING_THRESHOLD_METRIC_CHANGED, e);
 export const applicationsAlertingThresholdOperatorChanged = (e: any) =>
   track(APPLICATIONS_ALERTING_THRESHOLD_OPERATOR_CHANGED, e);
 export const applicationsAlertingThresholdValueChanged = (e: any) =>

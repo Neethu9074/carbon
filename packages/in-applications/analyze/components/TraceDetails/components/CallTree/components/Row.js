@@ -174,7 +174,7 @@ function CallInformation(props) {
           </Tooltip>
         )}
         {!isUnknownTypeSpan(call) && call.endpoint && (
-          <Pill kind="light" color={getEndpointColor(call.endpoint.type)}>
+          <Pill kind="light" color={getEndpointColor(call.endpoint.type)} className={locals.pillFixer}>
             {call.endpoint.type}
           </Pill>
         )}

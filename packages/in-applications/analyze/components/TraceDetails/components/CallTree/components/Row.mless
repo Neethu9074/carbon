@@ -63,6 +63,7 @@
     margin-right: 0.5rem;
     fill: @lib__colors__primary1;
     cursor: pointer;
+    z-index: 1;
 
     &:hover {
       fill: #12978e;
@@ -86,6 +87,12 @@
 
   .clickable {
     cursor: pointer;
+    // This is to compensate for the horizontal growth that "collapses" elements
+    // We want to force this into a minimum width to not have the text collapse completely
+    min-width: 100px;
+    position: relative;
+    z-index: 1;
+    background: @lib__colors__white;
 
     &:hover {
       text-decoration: underline;
@@ -94,6 +101,10 @@
 
   .batchSizeIndicator {
     margin-right: 0.5rem;
+  }
+
+  .pillFixer {
+    z-index: 2;
   }
 
   .dashedLine {

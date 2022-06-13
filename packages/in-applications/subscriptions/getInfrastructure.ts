@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { GetInfrastructureQuery, InfrastructureItem, PaginatedResult, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetInfrastructureQuery, Result<PaginatedResult<InfrastructureItem>>>({
   eventId: 'getInfrastructure',
   trackSubscriptionStatistics: true
 });
