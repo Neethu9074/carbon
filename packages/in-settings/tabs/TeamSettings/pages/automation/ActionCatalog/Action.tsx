@@ -28,7 +28,6 @@ import FormGroup from 'in-settings/components/FormGroup';
 import { pendingResult } from 'in-services/fixedObjects';
 import Table from 'in-sdk/components/dashboard/Table';
 import Section from 'in-settings/components/Section';
-import { isLoading } from 'in-services/util/result';
 import { compare } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
 import Label from 'in-components/form/Label';
@@ -132,7 +131,7 @@ const Form = entityForm(function DetailsForm(props) {
   const { entity, form, message, error, loading, isCreate, saveEnabled } = props;
 
   if (!entity || !form) {
-    return <LoadingIndicator />;
+    return <LoadingIndicator size={'xl'} />;
   }
 
   if (entity && entity.get('errors')) {

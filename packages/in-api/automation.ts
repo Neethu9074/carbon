@@ -30,7 +30,8 @@ export function getAction(actionId: string): Observable<Result<Action>> {
   });
 }
 
-export function saveNewAction(actionSpecification) {
+// TODO
+export function saveNewAction(actionSpecification: any) {
   return http({
     method: 'POST',
     maxRetries: 3,
@@ -40,7 +41,8 @@ export function saveNewAction(actionSpecification) {
   }).map(response => fromJS(response.body));
 }
 
-export function saveAction(actionSpecification) {
+// TODO
+export function saveAction(actionSpecification: any) {
   return http({
     method: 'PUT',
     maxRetries: 3,

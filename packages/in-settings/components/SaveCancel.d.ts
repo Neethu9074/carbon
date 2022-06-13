@@ -6,9 +6,11 @@
 
 interface SaveCancelProps {
   loading: boolean;
+  form?: object;
   listPath?: string;
   cancelButtonLabel?: string;
   hasSaveButton?: boolean;
+  message?: string;
 }
 
 declare function SaveCancelComponent(props: SaveCancelProps): JSX.Element;
