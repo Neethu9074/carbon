@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
-import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
+import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
@@ -32,6 +32,7 @@ import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/S
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
 import FormComponentHeader from 'in-custom-dashboards/widgets/Slo/components/FormComponentHeader';
+import { SlideInViewConfig } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/types';
 import formatInputTime from 'in-components/time/TimeSelectionDialogPresenter/timeInputFormatter';
 import useSloFormSideEffects from 'in-custom-dashboards/widgets/Slo/hooks/useSloFormSideEffects';
 import SliManageList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliManageList';
@@ -54,18 +55,10 @@ import { Trans, t } from 'in-i18n';
 
 import locals from './FormComponent.mless';
 
-export type SubSlideState<S> = [Partial<S> | undefined, Dispatch<SetStateAction<S | undefined>>];
-
-interface SlideInView<SlideoutState> {
-  renderTitle: (sliSelected: SlideoutState | undefined) => string;
-  slideOutHandler: (slideOut: () => void, state: SubSlideState<SlideoutState>) => void;
-  getContent: (props: { subSlideState: SubSlideState<SlideoutState> }) => React.ReactNode;
-}
-
 interface FormComponentProps {
   form: MapForm;
   onChange: (path: string[], updater: (f: MapForm) => MapForm) => void;
-  setSlideInView: (view: SlideInView<Partial<SliConfigBySliType<'application' | 'website'>>>) => void;
+  setSlideInView: (view: SlideInViewConfig<Partial<SliConfigBySliType<'application' | 'website'>>>) => void;
 }
 
 export default function FormComponent({ form, onChange: originalOnChange, setSlideInView }: FormComponentProps) {

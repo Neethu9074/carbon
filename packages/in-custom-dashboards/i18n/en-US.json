@@ -586,7 +586,8 @@
       },
       "formComponent": {
         "title": "Apdex Configuration",
-        "entityTypeTitle": "Apdex Type"
+        "entityTypeTitle": "Apdex Type",
+        "manageListTitle": "Apdex Management"
       },
       "configurationSelector": {
         "label": "Apdex Configuration",
@@ -598,6 +599,20 @@
       "entityTypeSelector": {
         "type": "Unknown Type",
         "type_website": "Website"
+      },
+      "apdexManageList": {
+        "title": "Apdex List"
+      },
+      "apdexList": {
+        "cardTitle": "Apdex Configuration",
+        "nameColumn": "Apdex configuration",
+        "thresholdColumn": "Treshold",
+        "confirmDeleteHeader": "Please Confirm",
+        "confirmDeleteMessage": "Are you sure you want to delete {{apdex}}?",
+        "editApdexTooltip": "Edit/Clone Apdex configuration",
+        "deleteApdexTooltip": "Delete Apdex configuration",
+        "confirmDeleteButton": "Delete",
+        "createButton": "Create Apdex Configuration"
       },
       "entityInfo": {
         "tooltip": "Unknown Apdex",

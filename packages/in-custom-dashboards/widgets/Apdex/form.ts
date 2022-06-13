@@ -57,7 +57,3 @@ export function setFieldValue<T>(field: Item, value: T, isTouched = false): Fiel
   if (!isTouched) return updatedField;
   return updatedField.setTouched(true);
 }
-
-export function updateFormField<T>(form: MapForm, path: string, value: T, isTouched = false) {
-  return form.updateIn([path], field => setFieldValue<T>(field, value, isTouched));
-}
