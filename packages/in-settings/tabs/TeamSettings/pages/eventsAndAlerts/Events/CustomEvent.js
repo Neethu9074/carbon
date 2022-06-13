@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { Link, Message, Stack } from '@instana/components';
+import { Stack } from '@instana/components';
 
 import {
   createCustomSystemRuleBasedEventSpecification,
@@ -31,6 +31,7 @@ import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAle
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
+import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
 import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
@@ -45,8 +46,8 @@ import { getPluginName } from 'in-sdk/pluginName';
 import { goToPath } from 'in-stores/navigation';
 import entityForm from 'in-hoc/entityForm';
 import { role } from 'in-stores/user';
-import { t, Trans } from 'in-i18n';
 import theme from 'in-themes';
+import { t } from 'in-i18n';
 
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
@@ -120,25 +121,7 @@ const Form = entityForm(function DetailsForm(props) {
       </Stack>
       <SectionLine />
 
-      {isDeprecated && (
-        <Message type="warning" withIcon small>
-          {isMigrated ? (
-            <Trans
-              i18nKey={'in-settings:tabs.migratedEventMessage'}
-              components={{
-                documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current" external />
-              }}
-            />
-          ) : (
-            <Trans
-              i18nKey={'in-settings:tabs.deprecatedEventMessage'}
-              components={{
-                documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current" external />
-              }}
-            />
-          )}
-        </Message>
-      )}
+      {isDeprecated && <LegacyAppdataEventInfoMessage migrated={isMigrated} saved />}
 
       {message ? (
         <Section>

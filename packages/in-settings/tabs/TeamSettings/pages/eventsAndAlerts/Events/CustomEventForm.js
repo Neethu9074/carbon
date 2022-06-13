@@ -8,7 +8,7 @@ import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 import { isEqual } from 'lodash';
 
-import { Link, Message, Spacer, Toggle } from '@instana/components';
+import { Link, Spacer, Toggle } from '@instana/components';
 import { create, just } from '@instana/observables';
 
 import {
@@ -89,6 +89,7 @@ import { deprecateAppDataLegacyEvents, disableAppDataLegacyEvents } from 'in-ser
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { compareIgnoreCase, isBlank, isNotBlank } from 'in-services/util/string';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import { combinedValidationResults, valid } from 'in-settings/validation';
 import EventDescription from 'in-events/components/EventDescription';
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -522,16 +523,7 @@ function EventForm({
       )}
       {!disableAppDataLegacyEvents &&
         deprecateAppDataLegacyEvents &&
-        isAppDataEntityType(form.get('entityType')?.value ?? '') && (
-          <Message type="warning" withIcon small>
-            <Trans
-              i18nKey={'in-settings:tabs.deprecatedEventSelectedMessage'}
-              components={{
-                documentationLink: <Link href="https://www.ibm.com/docs/en/obi/current" external />
-              }}
-            />
-          </Message>
-        )}
+        isAppDataEntityType(form.get('entityType')?.value ?? '') && <LegacyAppdataEventInfoMessage />}
 
       <SectionHeading>{t('in-settings:tabs.3Scope')}</SectionHeading>
       <Row>
