@@ -3,9 +3,11 @@
  * (c) Copyright Instana Inc.
  */
 
+import { GetServiceMapQuery, ServiceMap, Result } from '@instana/types';
+
 import { createResultSubscriptionFactory } from 'in-subscription/resultSubscriptions';
 
-export default createResultSubscriptionFactory({
+export default createResultSubscriptionFactory<GetServiceMapQuery, Result<ServiceMap>>({
   eventId: 'getServiceMap',
   disposeSubscriptionOnDocumentHidden: false,
   trackSubscriptionStatistics: true

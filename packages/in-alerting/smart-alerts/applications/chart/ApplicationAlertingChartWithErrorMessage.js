@@ -76,7 +76,7 @@ function ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline(props) {
     timeConfig
   };
   const fetchPersistedBaselineResult = useObservable(
-    props.selectedEntityId ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult) : null,
+    selectedEntityId ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult) : null,
     [id, created, applicationId, selectedEntityId, timeConfig]
   );
 

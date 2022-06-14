@@ -10,26 +10,24 @@ import React from 'react';
 import { formatDateTime, fromNow } from '@instana/format-date';
 import { t } from '@instana/i18n-react';
 
-// @ts-ignore
+// @ts-expect-error
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
-// @ts-ignore
+// @ts-expect-error
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
-import { timeByMillisZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-// @ts-ignore
+// @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
+import { timeByMillisZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
+import { OrderDirection, TagFilter, TestResultListItem, TimeConfig } from 'in-types';
+import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
-import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
 import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import useTimeConfig from 'in-hooks/useTimeConfig';
-import { TagFilter, TimeConfig } from 'in-types';
 import Footer from 'in-components/Footer/Footer';
 
 import locals from 'in-synthetics/dashboards/summary/tabs/results/ResultsList.mless';
-
-//import { TableEntityCounter } from '@instana/components';
 
 const pathSegment = '/results';
 const matrixPrefix = 'result.';
@@ -41,21 +39,21 @@ const columnDefinitions = [
     id: 'start_time',
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
     isSortable: false,
-    getContent(item: any) {
+    getContent(item: TestResultListItem) {
       return <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} />;
     }
   },
   {
     id: 'location_id',
     label: t('in-synthetics:dashboard.resultsListPage.locationColumn'),
-    getContent(item: any) {
+    getContent(item: TestResultListItem) {
       return <span className={locals.metricLabel}>{item.testResultCommonProperties.locationLabel}</span>;
     }
   },
   {
     id: 'response_time',
     label: t('in-synthetics:dashboard.resultsListPage.responseTimeColumn'),
-    getContent(item: any) {
+    getContent(item: TestResultListItem) {
       const count = get(item, ['metrics', 'response_time', 0, 1], 0);
       return <span className={locals.metricLabel}>{timeByMillisZeroDecimalPlaces(count)}</span>;
     }
@@ -63,7 +61,7 @@ const columnDefinitions = [
   {
     id: 'response_size',
     label: t('in-synthetics:dashboard.resultsListPage.responseSizeColumn'),
-    getContent(item: any) {
+    getContent(item: TestResultListItem) {
       const count = get(item, ['metrics', 'response_size', 0, 1], 0);
       return <span className={locals.metricLabel}>{bytesTwoDecimalPlaces(count)}</span>;
     }
@@ -88,9 +86,14 @@ export default function ResultsList() {
   const timeConfig = useTimeConfig();
   const location = useLocation();
   testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
+
   return (
     <>
-      <ServerTableWithUrlState get={getSynthTableData} timeConfig={timeConfig} cardTitle={'Results'} />
+      <ServerTableWithUrlState
+        get={getSynthTableData}
+        timeConfig={timeConfig}
+        cardTitle={t('in-synthetics:dashboard.resultsListPage.title')}
+      />
       <Footer />
     </>
   );
@@ -98,10 +101,11 @@ export default function ResultsList() {
 
 type GetList = {
   timeConfig: TimeConfig;
-  orderBy: any;
-  orderDirection: any;
+  orderBy: string;
+  orderDirection: OrderDirection;
   page: number;
   pageSize: number;
+  query: string;
 };
 
 function getSynthTableData({
@@ -109,7 +113,8 @@ function getSynthTableData({
   orderBy = 'response_time',
   orderDirection = 'DESC',
   page = 1,
-  pageSize = 20
+  pageSize = 20,
+  query = ''
 }: GetList) {
   let baseTagFilters: TagFilter[] = [
     {
@@ -121,14 +126,31 @@ function getSynthTableData({
     }
   ];
 
+  if (query && query.length > 0) {
+    baseTagFilters = [
+      {
+        stringValue: testId,
+        name: 'testId',
+        operator: EQUALS,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      },
+      {
+        stringValue: query,
+        name: 'location_id',
+        operator: CONTAINS,
+        entity: NOT_APPLICABLE,
+        type: 'TAG_FILTER'
+      }
+    ];
+  }
+
   return getTestResultList({
     pagination: {
       page,
       pageSize
     },
-    // @ts-ignore
     order: { by: orderBy, direction: orderDirection },
-    // @ts-ignore
     syntheticMetrics: metrics,
     filter: {
       timeConfig,
@@ -136,21 +158,20 @@ function getSynthTableData({
       includeSyntheticCalls: false,
       useLongTermDataOnly: false
     },
-    // @ts-ignore
     tagFilters: baseTagFilters
   });
 }
 
-function getSeverity(item: any) {
+function getSeverity(item: TestResultListItem) {
   return getStatus(item) === 1 ? 0 : 10;
 }
 
-function getRelativeTime(item: any) {
+function getRelativeTime(item: TestResultListItem) {
   let status = getStatus(item);
   let date = get(item, ['metrics', 'start_time', 0, 1]);
   return status === 1 ? fromNow(date) : formatDateTime(date);
 }
 
-function getStatus(item: any) {
+function getStatus(item: TestResultListItem) {
   return get(item, ['metrics', 'status', 0, 1], 0);
 }
