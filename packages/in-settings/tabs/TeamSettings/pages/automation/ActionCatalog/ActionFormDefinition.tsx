@@ -10,9 +10,9 @@ import { NewAction } from 'in-api/automation';
 import { notBlankValidator } from 'in-services/validators/string';
 
 // eslint-disable-next-line no-unused-vars
-export function createActionFormDefinition(action: NewAction, isCreate: boolean) {
+export function createActionFormDefinition(action: NewAction, _isCreate: boolean) {
   // eslint-disable-next-line no-undef
-  const { name, description, fields } = action;
+  const { name, description, fields, type } = action;
 
   let form = createMapForm()
     .put(
@@ -26,6 +26,13 @@ export function createActionFormDefinition(action: NewAction, isCreate: boolean)
       'description',
       createField({
         value: description,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'type',
+      createField({
+        value: type,
         validator: notBlankValidator
       })
     )

@@ -11,6 +11,8 @@ interface SaveCancelProps {
   cancelButtonLabel?: string;
   hasSaveButton?: boolean;
   message?: string;
+  saveEnabled?: boolean;
+  isCreate?: boolean;
 }
 
 declare function SaveCancelComponent(props: SaveCancelProps): JSX.Element;

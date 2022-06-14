@@ -10,7 +10,7 @@ import locals from './typography.mless';
 
 interface SectionHeadingProps {
   children: ReactNode;
-  withoutTopSpacing: boolean;
+  withoutTopSpacing?: boolean;
 };
 
 export default function SectionHeading({ children, withoutTopSpacing = false }: SectionHeadingProps) {

@@ -40,11 +40,11 @@ export function saveNewAction(actionSpecification: NewAction) {
   }).map(response => fromJS(response.body));
 }
 
-export function saveAction(actionSpecification: Action) {
+export function saveAction(actionSpecification: NewAction, id: string) {
   return http({
     method: 'PUT',
     maxRetries: 3,
-    url: `/api/automation/settings/actions/${encodeURIComponent(actionSpecification.id)}`,
+    url: `/api/automation/settings/actions/${encodeURIComponent(id)}`,
     headers: getCsrfHeader(),
     data: actionSpecification
   }).map(response => fromJS(response.body));

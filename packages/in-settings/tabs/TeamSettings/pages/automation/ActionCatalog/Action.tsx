@@ -34,12 +34,12 @@ import { goToPath } from 'in-stores/navigation';
 import Label from 'in-components/form/Label';
 // @ts-expect-error
 import entityForm from 'in-hoc/entityForm';
-import {} from 'in-services/http/types';
 import Title from 'in-components/Title';
 import { Action } from 'in-types';
 import { Result } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
+import { MapForm } from 'formalistic';
 
 const paramCols = [
   stringColumn(t('in-settings:tabs.name'), 'name'),
@@ -113,7 +113,7 @@ export default function ActionComponent(props: RouteComponentProps<MatchParams>)
   );
 }
 
-export function CustomEvent(props) {
+export function CustomEvent(props: any) {
   const entityId = props.match.params.id;
 
   return (
@@ -124,12 +124,12 @@ export function CustomEvent(props) {
       createForm={(action: NewAction) => createActionFormDefinition(action, !entityId)}
       getEntityFromApi={getAction}
       openEntities={() => goToPath(teamSettingsActionCatalog)}
-      saveEntity={(action: NewAction, form: any) => save(action, form, !entityId)}
+      saveEntity={(action: NewAction, form: any) => save(action, form, entityId)}
     />
   );
 }
 
-const Form = entityForm(function DetailsForm(props) {
+const Form = entityForm(function DetailsForm(props: any) {
   const { entity, form, message, error, loading, isCreate, saveEnabled } = props;
 
   if (!entity || !form) {
@@ -184,59 +184,29 @@ const Form = entityForm(function DetailsForm(props) {
   );
 });
 
-function save(action: NewAction, form: any, isCreate: boolean) {
-  const actionSpecification = getActionSpecification(action, form);
-
+function save(action: NewAction, form: MapForm, id: string) {
+  const actionSpecification = getActionSpecification(form);
+  // eslint-disable-next-line no-console
+  console.log(action, form, id);
+  const isCreate = !id;
   if(isCreate) {
     return saveNewAction(actionSpecification);
   } else {
-    return saveAction(actionSpecification);
+    return saveAction(actionSpecification, id);
   }
 }
 
-function getActionSpecification(event, form) {
-  const ruleType = form.get('dataSource') && form.get('dataSource').value === dataSourceSystem ? 'system' : 'threshold';
-  const query = serializeQuery(form);
-  const formatterType = form.get('formatter')?.value ?? null;
-  let conditionValue = Number(form.get('conditionValue')?.value ?? 0);
-  conditionValue = unmapConditionValue(conditionValue, formatterType);
-
-  const entityType = form.get('entityType')?.value ?? null;
-  let metricName = form.get('metricName')?.value ?? null;
-  let metricPattern = null;
-
-  if (isBuiltInDynamicMetric(entityType, metricName)) {
-    const metricDefinition = getMetricDefinition(entityType, metricName);
-    if (metricDefinition && metricDefinition.metricPattern) {
-      metricPattern = {
-        prefix: metricDefinition.metricPattern.pre,
-        postfix: metricDefinition.metricPattern.post,
-        operator: form.get('metricPatternOperator').value,
-        placeholder: form.get('metricPatternPlaceholder')?.value ?? null
-      };
-      metricName = null;
-    }
-  }
-
-  return createCustomThresholdBasedEventSpecification(
-    event ? event.get('id') : null,
-    form.get('name').value,
-    form.get('entityType')?.value ?? null,
-    query,
-    form.get('triggering').value,
-    form.get('description').value,
-    form.get('gracePeriod').value,
-    event ? event.get('enabled') : true,
-    ruleType,
-    metricName,
-    metricPattern,
-    form.get('rollup') ? Number(form.get('rollup').value) : null,
-    form.get('window') ? Number(form.get('window').value) : null,
-    form.get('aggregation')?.value ?? null,
-    form.get('conditionOperator')?.value ?? null,
-    conditionValue,
-    Number(form.get('severity')?.value ?? 0)
-  );
+function getActionSpecification(form: MapForm): NewAction  {
+  const name = form?.get('name')?.toJS();
+  const description = form?.get('description')?.toJS();
+  const fields = form?.get('fields')?.toJS();
+  const type = form?.get('type')?.toJS();
+  return {
+    name,
+    description,
+    fields,
+    type
+  };
 }
 
 type Row = Record<string, string>;
