@@ -5,6 +5,7 @@
 
 import { updateThresholdPointsIfRequired } from 'in-alerting/components/Chart/renderer/adaptiveBaseline';
 import { allowedMultiplesOfRollupSizeMissingInCharts } from 'in-services/featureFlags';
+import { DataSeries } from 'in-components/Chart/renderer/types';
 import { minutes } from 'in-services/time';
 
 describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () => {
@@ -19,13 +20,13 @@ describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () =>
       const t2 = t1 + fixedDistance;
       const t3 = t2 + 10 * oneMinute;
 
-      const baseline: [number, number][] = [
+      const baseline: DataSeries = [
         [t1, 105.5],
         [t2, 115.5],
         [t3, 125.5]
       ];
 
-      const expected = [
+      const expected: DataSeries = [
         [t1 - halfBucket, 105.5],
         [t1 + halfBucket, 105.5],
         [t2, 115.5],
@@ -40,7 +41,7 @@ describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () =>
       const t2 = t1 + 10 * oneMinute;
       const t3 = t2 + fixedDistance;
 
-      const baseline: [number, number][] = [
+      const baseline: DataSeries = [
         [t1, 105.5],
         [t2, 115.5],
         [t3, 125.5]
@@ -63,7 +64,7 @@ describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () =>
       const t4 = t3 + fixedDistance;
       const t5 = t4 + 10 * oneMinute;
 
-      const baseline: [number, number][] = [
+      const baseline: DataSeries = [
         [t1, 95.5],
         [t2, 95.5],
         [t3, 105.5],
@@ -71,7 +72,7 @@ describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () =>
         [t5, 125.5]
       ];
 
-      const expected = [
+      const expected: DataSeries = [
         [t1, 95.5],
         [t2, 95.5],
         [t3 - halfBucket, 105.5],
@@ -90,13 +91,13 @@ describe('in-alerting/components/Chart/renderer/lineWithAdaptiveBaseline', () =>
 
       const startTime = t1 + oneMinute;
 
-      const baseline: [number, number][] = [
+      const baseline: DataSeries = [
         [t1, 95.5],
         [t2, 95.5],
         [t3, 105.5]
       ];
 
-      const expected = [
+      const expected: DataSeries = [
         [t2, 95.5],
         [t3, 105.5]
       ];
