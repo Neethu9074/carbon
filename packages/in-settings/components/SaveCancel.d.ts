@@ -5,7 +5,7 @@
  */
 
 interface SaveCancelProps {
-  loading: boolean;
+  loading?: boolean;
   listPath?: string;
   cancelButtonLabel?: string;
   hasSaveButton?: boolean;
