@@ -33,6 +33,7 @@ export function getMetricUnitPostfix(metricName) {
     case 'latency':
       return 'ms';
     case 'errors':
+    case 'callRate':
       return '%';
     default:
       return '';
@@ -298,4 +299,8 @@ export function isValidChartViewEntitySelection(evaluationType, chartViewEntityS
     (evaluationType === PER_AP_SERVICE && applicationId && serviceId) ||
     (evaluationType === PER_AP_ENDPOINT && applicationId && serviceId && endpointId)
   );
+}
+
+export function isPercentageMetric(metricName) {
+  return metricName === 'callRate';
 }
