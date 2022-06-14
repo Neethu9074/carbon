@@ -20,12 +20,12 @@ import {
   getConfiguredThreshold,
   getOperatorLabel
 } from 'in-alerting/smart-alerts/applications/advanced/thresholdConditionUtil';
+import { getMetricUnitPostfix, isPercentageMetric } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import ThresholdTypeSelection from 'in-alerting/smart-alerts/applications/advanced/ThresholdTypeSelection';
 import { getTrackingObject } from 'in-alerting/smart-alerts/components/smart-alert-dialog/trackingHelpers';
 import { applicationsAlertingThresholdMetricChanged } from 'in-alerting/smart-alerts/applications/tracker';
 import { defaultDeviationFactor } from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import { ruleMetricNameOptions } from 'in-alerting/smart-alerts/applications/form/ruleFormData';
-import { getMetricUnitPostfix } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { blueprintConfigPropType } from 'in-alerting/components/constants';
 import Dropdown from 'in-alerting/components/Dropdown';
@@ -43,6 +43,7 @@ export default function StatusCodeThresholdCondition({
   const thresholdType = form.get('threshold').get('type')?.value;
   const isBuiltIn = form.get('builtIn').value;
   const thresholdTypeOptions = blueprintConfig.getThresholdTypeOptions();
+  const percentageMetric = isPercentageMetric(metricName);
 
   return (
     <>
@@ -93,6 +94,7 @@ export default function StatusCodeThresholdCondition({
           maxValue={maxValue}
           metricUnitPostfix={metricUnitPostfix}
           isGlobalSmartAlert={isGlobalSmartAlert}
+          percentageMetric={percentageMetric}
         />
       )}
 

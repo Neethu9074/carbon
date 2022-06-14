@@ -203,7 +203,7 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   defaultMetric: 'calls',
   getMetricName: (alertRule: ApplicationAlertRule) => alertRule.metricName,
   getMetricLabel: (metricName: MetricName) => statusCodeMetricLabelsByName[metricName],
-  getMetricFormat: () => number.forcedCompact,
+  getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
   getAggregation: (alertRule: ApplicationAlertRule) => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   getThresholdTypeOptions: () => applicationThresholdTypeOptions,
