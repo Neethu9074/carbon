@@ -4,11 +4,16 @@
  */
 
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import locals from './typography.mless';
 
-export default function SectionHeading({ children, withoutTopSpacing }) {
+interface SectionHeadingProps {
+  children: ReactNode;
+  withoutTopSpacing: boolean;
+};
+
+export default function SectionHeading({ children, withoutTopSpacing = false }: SectionHeadingProps) {
   return (
     <h3
       className={classNames({

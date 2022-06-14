@@ -10,6 +10,7 @@ import { RouteComponentProps } from 'react-router';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
+import { NewAction, saveAction, saveNewAction } from 'in-api/automation';
 
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
@@ -31,6 +32,7 @@ import Section from 'in-settings/components/Section';
 import { compare } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
 import Label from 'in-components/form/Label';
+// @ts-expect-error
 import entityForm from 'in-hoc/entityForm';
 import {} from 'in-services/http/types';
 import Title from 'in-components/Title';
@@ -119,10 +121,10 @@ export function CustomEvent(props) {
       title={t('in-settings:tabs.action')}
       entityId={entityId}
       createDefaultEntity={createAction}
-      createForm={action => createActionFormDefinition(action, !entityId)}
+      createForm={(action: NewAction) => createActionFormDefinition(action, !entityId)}
       getEntityFromApi={getAction}
       openEntities={() => goToPath(teamSettingsActionCatalog)}
-      saveEntity={save}
+      saveEntity={(action: NewAction, form: any) => save(action, form, !entityId)}
     />
   );
 }
@@ -182,13 +184,17 @@ const Form = entityForm(function DetailsForm(props) {
   );
 });
 
-function save(action, form) {
-  const eventSpecification = getEventSpecification(action, form);
-  // eslint-disable-next-line no-undef
-  return saveCustomEventSpecification(eventSpecification);
+function save(action: NewAction, form: any, isCreate: boolean) {
+  const actionSpecification = getActionSpecification(action, form);
+
+  if(isCreate) {
+    return saveNewAction(actionSpecification);
+  } else {
+    return saveAction(actionSpecification);
+  }
 }
 
-function getEventSpecification(event, form) {
+function getActionSpecification(event, form) {
   const ruleType = form.get('dataSource') && form.get('dataSource').value === dataSourceSystem ? 'system' : 'threshold';
   const query = serializeQuery(form);
   const formatterType = form.get('formatter')?.value ?? null;

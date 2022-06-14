@@ -9,7 +9,7 @@ import { fromJS } from 'immutable';
 import { Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { Action, Result } from 'in-types';
+import { Action, Field, Result, Mutable } from 'in-types';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -30,8 +30,7 @@ export function getAction(actionId: string): Observable<Result<Action>> {
   });
 }
 
-// TODO
-export function saveNewAction(actionSpecification: any) {
+export function saveNewAction(actionSpecification: NewAction) {
   return http({
     method: 'POST',
     maxRetries: 3,
@@ -41,8 +40,7 @@ export function saveNewAction(actionSpecification: any) {
   }).map(response => fromJS(response.body));
 }
 
-// TODO
-export function saveAction(actionSpecification: any) {
+export function saveAction(actionSpecification: Action) {
   return http({
     method: 'PUT',
     maxRetries: 3,
@@ -52,12 +50,14 @@ export function saveAction(actionSpecification: any) {
   }).map(response => fromJS(response.body));
 }
 
+export type NewAction = Mutable<Omit<Action, 'createdAt' | 'modifiedAt' | 'id'>>;
+
 export function createAction(
-  name = t('in-settings:tabs.newAction'),
-  type = 'doc_link',
-  description = '',
-  fields = [{ description: 'URL to remediation documentation', encoding: 'UTF8', name: 'URL', value: '' }]
-) {
+  name: string = t('in-settings:tabs.newAction'),
+  type: string = 'doc_link',
+  description: string = '',
+  fields: Field[] = [{ description: 'URL to remediation documentation', encoding: 'UTF8', name: 'URL', value: '' }]
+): NewAction {
   return {
     name,
     type,

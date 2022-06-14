@@ -5,14 +5,14 @@
  */
 
 import { createField, createMapForm } from 'formalistic';
+import { NewAction } from 'in-api/automation';
 
 import { notBlankValidator } from 'in-services/validators/string';
 
 // eslint-disable-next-line no-unused-vars
-export function createActionFormDefinition(eventSpec, isCreate) {
+export function createActionFormDefinition(action: NewAction, isCreate: boolean) {
   // eslint-disable-next-line no-undef
-  const mutableEvent = getMutableEventSpecification(eventSpec);
-  const { name, description } = mutableEvent;
+  const { name, description, fields } = action;
 
   let form = createMapForm()
     .put(
@@ -26,6 +26,13 @@ export function createActionFormDefinition(eventSpec, isCreate) {
       'description',
       createField({
         value: description,
+        validator: notBlankValidator
+      })
+    )
+    .put(
+      'fields',
+      createField({
+        value: fields,
         validator: notBlankValidator
       })
     );
