@@ -205,7 +205,7 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   getMetricLabel: (metricName: MetricName) => statusCodeMetricLabelsByName[metricName],
   getMetricFormat: () => number.forcedCompact,
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
-  getAggregation: () => 'SUM',
+  getAggregation: (alertRule: ApplicationAlertRule) => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   getThresholdTypeOptions: () => applicationThresholdTypeOptions,
   isRuleComplete: (alertRule: ApplicationAlertRule) => {
     // TODO replace by introducing a new type reflecting the client-side view model
