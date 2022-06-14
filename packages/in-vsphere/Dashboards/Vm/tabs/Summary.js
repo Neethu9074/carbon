@@ -51,7 +51,7 @@ export default function Summary({ timeConfig, data: vm }) {
       <KpiGridRow sizes={[6, 6]}>
         <KpiCard
           title={t('in-vsphere:dashboards.guestOs')}
-          value={<Capitalize>{vm.guestFullName || valueMissingPlaceholder}</Capitalize>}
+          value={vm.guestFullName || valueMissingPlaceholder}
           raw
           borderless
         />
