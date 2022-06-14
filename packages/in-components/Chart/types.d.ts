@@ -154,7 +154,6 @@ export interface AxisConfiguration {
 
   colors100?: Property.Color[];
   colors50?: Property.Color[];
-  colors?: Property.Color[];
 
   valuesDependOnEachOther?: boolean;
   valuesNeedToBeStacked?: boolean;

@@ -6,14 +6,13 @@
 import { ThresholdOperator } from '@instana/types';
 
 import { renderThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
-// @ts-expect-error modules is not yet migrated to typescript
-import line from 'in-components/Chart/renderer/line';
 import { updateThresholdPointsIfRequired } from 'in-alerting/components/Chart/renderer/adaptiveBaseline';
 import { getAdaptiveBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { BaselineDataSeries } from 'in-alerting/components/Chart/renderer/historicBaseline';
 import { DataSeries, RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
+import line from 'in-components/Chart/renderer/line';
 import { Granularity, TimeConfig } from 'in-types';
 import { ScaleType } from 'in-services/scale';
 

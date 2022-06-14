@@ -4,11 +4,10 @@
  * Copyright IBM Corp. 2022
  */
 
-// @ts-expect-error is not yet migrated to typescript
-import line from 'in-components/Chart/renderer/line';
 import { DataSeries, RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { AxisColor } from 'in-components/Chart/types';
+import line from 'in-components/Chart/renderer/line';
 import { ScaleType } from 'in-services/scale';
 import { ThresholdOperator } from 'in-types';
 

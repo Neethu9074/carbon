@@ -3,11 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-// @ts-expect-error modules is not yet migrated to typescript
-import line from 'in-components/Chart/renderer/line';
 import { renderHistoricBaseline } from 'in-alerting/components/Chart/renderer/historicBaseline';
 import { RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
 import { AxisColor, MetricDataSeries } from 'in-components/Chart/types';
+import line from 'in-components/Chart/renderer/line';
 import { ScaleType } from 'in-services/scale';
 
 export default {
