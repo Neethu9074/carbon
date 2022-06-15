@@ -27,6 +27,8 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './Import.mless';
 
+const IMPORT_CONFIG_FILE_NAME = 'config-import';
+
 export default function ImportConfig() {
   const inputDOMNode = document.createElement('input');
   const [input] = useState(inputDOMNode);
@@ -74,6 +76,28 @@ export default function ImportConfig() {
       } else updatedLoadedConfigs.push(children);
     });
     return updatedLoadedConfigs;
+  }
+
+  function downloadConfigs(content, fileName, contentType) {
+    const a = document.createElement('a');
+    const file = new Blob([content], { type: contentType });
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+  }
+
+  function getFilenameWithDate() {
+    let date = new Date().toISOString();
+    return IMPORT_CONFIG_FILE_NAME + '_' + date + '.json';
+  }
+
+  function saveImportConfigResultsInUIFormat(report) {
+    let finalFormat = {};
+
+    report.forEach(config => {
+      finalFormat[config.type] = config.configs;
+    });
+    return finalFormat;
   }
 
   function initLoadedConfigs(allConfigs) {
@@ -136,7 +160,10 @@ export default function ImportConfig() {
                 text: t('in-settings:tabs.configSuccessfullyImported'),
                 type: 'success'
               });
-              setLoadedConfigs(mergeConfigResults(resp.body));
+              let mergedResults = mergeConfigResults(resp.body);
+              setLoadedConfigs(mergedResults);
+              let saveResult = saveImportConfigResultsInUIFormat(mergedResults);
+              downloadConfigs(JSON.stringify(saveResult), getFilenameWithDate(), 'text/plain');
             },
             error =>
               setMessage({
