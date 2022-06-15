@@ -82,7 +82,7 @@ describe('in-custom-dashboards/widgets/Apdex/components/ApdexWidget/ApdexWidget'
     expect(wrapper.find(ResultAwareChart).props()).toMatchObject({
       config: {
         y1: {
-          metricIds: ['apdex'],
+          metricIds: ['APDEX'],
           labels: [t('in-custom-dashboards:widgets.apdex.chart.metricLabel')],
           colors: [theme.lib.colors.lightBlue800],
           metrics

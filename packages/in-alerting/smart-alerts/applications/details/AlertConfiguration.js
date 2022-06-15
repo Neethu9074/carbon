@@ -46,7 +46,7 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
 
   const {
     name,
-    rule: { operator, alertType, message, level, aggregation },
+    rule: { operator, alertType, message, level, aggregation, metricName },
     threshold,
     evaluationType,
     timeThreshold,
@@ -67,7 +67,11 @@ export default function AlertConfiguration({ alertConfig, isGlobalSmartAlert }) 
         openByDefault
         darkFrame
       >
-        <AlertThresholdInfos threshold={threshold} evaluationType={evaluationType} rule={{ alertType, aggregation }} />
+        <AlertThresholdInfos
+          threshold={threshold}
+          evaluationType={evaluationType}
+          rule={{ alertType, aggregation, metricName }}
+        />
       </ExpandableLightCard>
 
       <ChartViewConfiguratorWithEntitySelection
