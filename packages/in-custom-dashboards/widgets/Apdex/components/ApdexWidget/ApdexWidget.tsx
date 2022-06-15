@@ -57,14 +57,16 @@ export default function ApdexWidget({
       <ResultAwareChart
         config={{
           y1: {
-            metricIds: ['apdex'],
+            metricIds: ['APDEX'],
             labels: [t('in-custom-dashboards:widgets.apdex.chart.metricLabel')],
             colors: [theme.lib.colors.lightBlue800],
             renderer,
             metrics,
             fixedTickPositions: [...apdexAreas],
             detailedFormatting: true,
-            renderAllTickLabels: true
+            renderAllTickLabels: true,
+            min: 0,
+            max: 1
           },
           granularity,
           automaticallySize: true,
