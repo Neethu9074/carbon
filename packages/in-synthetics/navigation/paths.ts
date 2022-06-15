@@ -7,3 +7,4 @@ export const syntheticsPath = '/synthetics';
 export const syntheticsDashboard = '/synthetic';
 export const syntheticsSummaryPath = `${syntheticsDashboard}/summary`;
 export const syntheticResultsListPath = `${syntheticsDashboard}/results`;
+export const syntheticDetailsPath = `/details`;

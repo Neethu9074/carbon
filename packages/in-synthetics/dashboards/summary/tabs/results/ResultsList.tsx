@@ -7,6 +7,7 @@ import { useLocation } from 'react-router';
 import { get } from 'lodash';
 import React from 'react';
 
+import { OrderDirection, TagFilter, TestResultListItem, TimeConfig } from '@instana/types';
 import { formatDateTime, fromNow } from '@instana/format-date';
 import { t } from '@instana/i18n-react';
 
@@ -16,14 +17,14 @@ import createServerTableWithUrlState from 'in-components/tables/ServerTable/Serv
 import SeverityAwareEntityLink from 'in-components/tables/sharedComponents/SeverityAwareEntityLink';
 // @ts-expect-error
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
-import { timeByMillisZeroDecimalPlaces, bytesTwoDecimalPlaces } from 'in-services/formatters/number';
-import { OrderDirection, TagFilter, TestResultListItem, TimeConfig } from 'in-types';
+import { bytesTwoDecimalPlaces, timeByMillisZeroDecimalPlaces } from 'in-services/formatters/number';
+import { syntheticsDashboard, syntheticDetailsPath } from 'in-synthetics/navigation/paths';
+import { getMatrixParameter, setOrDeleteMatrixKey } from 'in-stores/navigation/matrix';
 import { CONTAINS, EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
-import { syntheticsDashboard } from 'in-synthetics/navigation/paths';
-import { getMatrixParameter } from 'in-stores/navigation/matrix';
+import { getModifiedUrlStream } from 'in-stores/navigation/navigation';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 import Footer from 'in-components/Footer/Footer';
 
@@ -39,8 +40,19 @@ const columnDefinitions = [
     id: 'start_time',
     label: t('in-synthetics:dashboard.resultsListPage.startedColumn'),
     isSortable: false,
-    getContent(item: TestResultListItem) {
-      return <SeverityAwareEntityLink severity={getSeverity(item)} label={getRelativeTime(item)} />;
+    getContent(item: any) {
+      return (
+        <SeverityAwareEntityLink
+          severity={getSeverity(item)}
+          label={getRelativeTime(item)}
+          href$={getModifiedUrlStream(detailsUrl => {
+            detailsUrl.pathname = syntheticDetailsPath;
+            setOrDeleteMatrixKey(detailsUrl, syntheticDetailsPath, 'testId', item.testResultCommonProperties.testId);
+            setOrDeleteMatrixKey(detailsUrl, syntheticDetailsPath, 'id', item.testResultCommonProperties.id);
+            return detailsUrl;
+          })}
+        />
+      );
     }
   },
   {

@@ -103,10 +103,15 @@
     "summary": {
       "successRate": "Success rate",
       "locations": "Locations",
+      "responseTime": "Response Time",
       "meanResponseTime": "Mean response time",
+      "responseSize": "Response Size",
       "avgResponseSize": "Avg. response size",
       "summaryTab": "Summary",
       "resultsTab": "Results",
+      "startTime": "Start Time",
+      "status": "Status",
+      "requests": "Requests",
       "widgets": {
         "failures": "Failures",
         "responseTimes": "Response Times",
