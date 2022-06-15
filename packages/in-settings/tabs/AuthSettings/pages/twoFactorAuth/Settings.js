@@ -90,7 +90,7 @@ function TwoFactorUnverified({ form, setForm, twoFactorCredentials }) {
       {form.get('2faToken').map(field => (
         <Input
           className={locals.input}
-          type="number"
+          type="text"
           id="2faToken_input"
           value={field.value || ''}
           onChange={e =>
