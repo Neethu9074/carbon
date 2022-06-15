@@ -50,15 +50,22 @@ export default function ImportConfig() {
     return cleanedConfigs;
   }
 
+  // Merge import results data with already loaded configs
   function mergeConfigResults(resultConfigs) {
     let updatedLoadedConfigs = [];
     Object.values(loadedConfigs).forEach(children => {
       let configResults = resultConfigs[children.type];
       if (configResults && configResults.length > 0) {
         let updatedConfigs = [];
-        configResults.forEach(configResult => {
-          let configData = configResult.config ? configResult.config : configResults;
-          updatedConfigs.push({ ...configData, result: configResult.result, message: configResult.message });
+        children.configs.forEach(child => {
+          let foundResultConfig = findConfigById(child.id, configResults);
+          if (isEmpty(foundResultConfig)) updatedConfigs.push(child);
+          else
+            updatedConfigs.push({
+              ...foundResultConfig.config,
+              result: foundResultConfig.result,
+              message: foundResultConfig.message
+            });
         });
         updatedLoadedConfigs.push({
           ...children,
@@ -191,11 +198,19 @@ function getSelectedConfigIds(selectedConfigs) {
   return selectedIds;
 }
 
+const isEmpty = obj => {
+  return !obj || Object.keys(obj).length === 0;
+};
+
 function findConfigById(findId, configs) {
   let found = {};
   if (configs && findId) {
     configs.forEach(config => {
-      if (config.id === findId) found = config;
+      // note import response with results leaves initial config data in a 'config' prop
+      // therefore also test with config.config
+      if (isEmpty(found) && (config.id === findId || config.config?.id === findId)) {
+        found = config;
+      }
     });
   }
   return found;
