@@ -18,47 +18,47 @@ import { t } from 'in-i18n';
 
 const columnDefinitions = [
   {
-    label: t('in-settings:tabs:name'),
+    label: t('in-settings:tabs.name'),
     id: 'name',
     getContent(row: Action) {
       return <Link href$={getEntityIdView(teamSettingsActionCatalog, row.id)}>{row.name}</Link>;
     }
   },
   {
-    label: t('in-settings:tabs:description'),
+    label: t('in-settings:tabs.description'),
     id: 'description',
     getContent(row: Action) {
       return row.description;
     }
   },
   {
-    label: t('in-settings:tabs:type'),
+    label: t('in-settings:tabs.type'),
     id: 'type',
     getContent: getType
   },
   {
-    label: t('in-settings:tabs:invocations'),
+    label: t('in-settings:tabs.invocations'),
     id: 'invocations',
     getContent() {
       return '0';
     }
   },
   {
-    label: t('in-settings:tabs:successRate'),
+    label: t('in-settings:tabs.successRate'),
     id: 'successRate',
     getContent() {
       return null;
     }
   },
   {
-    label: t('in-settings:tabs:lastModified'),
+    label: t('in-settings:tabs.lastModified'),
     id: 'modifiedAt',
     getContent(row: Action) {
       return formatDateTime(+row.modifiedAt * 1000);
     }
   },
   {
-    label: t('in-settings:tabs:tags'),
+    label: t('in-settings:tabs.tags'),
     id: 'tags',
     getContent() {
       return null;

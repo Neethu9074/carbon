@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import { Field, MapForm } from 'formalistic';
 import React, { Fragment } from 'react';
 
 import SectionHeading from 'in-settings/components/SectionHeading';
@@ -18,14 +19,21 @@ import { t } from 'in-i18n';
 
 import locals from './CustomEventForm.mless';
 
-export default function ActionForm({ form, onChange }) {
+interface ActionFormProps {
+  form: MapForm;
+  onChange: Function;
+}
+
+export default function ActionForm({ form, onChange }: ActionFormProps) {
+  const name = form.get('name') as Field<string>;
+  const description = form.get('name') as Field<string>;
   return (
     <fieldset>
       <SectionHeading>{t('in-settings:tabs.1ActionDetails')}</SectionHeading>
       <Row>
         <Col lg={8}>
           <Fragment>
-            {form.get('name').map(field => (
+            {name.map(field => (
               <FormGroup>
                 <Label htmlFor="action-name" hasError={!field.valid && field.touched}>
                   {t('in-settings:tabs.name')}
@@ -45,18 +53,16 @@ export default function ActionForm({ form, onChange }) {
                 </HelpText>
               </FormGroup>
             ))}
-            {form.get('description').map(field => (
+            {description.map(field => (
               <FormGroup>
                 <Label htmlFor="action-description" hasError={!field.valid && field.touched}>
                   {t('in-settings:tabs.description')}
                 </Label>
                 <TextArea
                   id="action-description"
-                  rows="3"
                   value={field.value}
-                  onChange={e => onChange('description', e.target.value)}
+                  onChange={e => onChange('description', (e.target as HTMLTextAreaElement).value)}
                   hasError={!field.valid && field.touched}
-                  maxLength={65536}
                 />
                 <TouchedMessages field={field} className={locals.subErrorTextFormField} />
                 <HelpText className={locals.subTextFormField}>

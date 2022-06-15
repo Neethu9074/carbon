@@ -25,21 +25,18 @@ import {
   getApproximatedAdaptiveBaselineThresholdValue,
   getApproximatedHistoricBaselineThresholdValue
 } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
-import getApplicationRateMetricsThresholdSuggestion from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationRateMetricsThresholdSuggestion';
 import getApplicationMetricsThresholdSuggestion from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsThresholdSuggestion';
-import getApplicationRateMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationRateMetricsAlertsPreview';
 import {
   firstApplicationId,
   getEntitySelectionAsTagFilterFormModel
 } from 'in-alerting/smart-alerts/applications/data/entitySelection';
 import getApplicationMetricsAlertPreview from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationMetricsAlertsPreview';
-import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
-import getApplicationRateMetrics from 'in-alerting/smart-alerts/applications/subscriptions/getApplicationRateMetrics';
 import { FormModelElement, joinExpressions } from 'in-components/QueryBuilder/transformation/formModel';
 import { ADAPTIVE_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toTagFilterNumberOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { and } from 'in-components/QueryBuilder/ConjunctionSelectorOverlay/supportedSelections';
 import { millis, number, NumberFormatter, percentage } from 'in-services/formatters/number';
+import getApplicationMetrics from 'in-applications/subscriptions/getApplicationMetrics';
 import { tagFilter } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { FixedTimeConfig } from 'in-stores/time/config';
 import { isNotBlank } from 'in-services/util/string';
@@ -54,15 +51,9 @@ export type MetricName = 'latency' | 'errors' | 'calls' | 'callRate';
 
 interface BluePrintBase {
   readonly isCustomRateMetric: typeof isCustomRateMetric;
-  readonly getMetricsRequest: (
-    metricName: MetricName
-  ) => typeof getApplicationMetrics | typeof getApplicationRateMetrics;
-  readonly getAlertsPreviewRequest: (
-    metricName: MetricName
-  ) => typeof getApplicationMetricsAlertPreview | typeof getApplicationRateMetricsAlertPreview;
-  readonly getThresholdSuggestionRequest: (
-    metricName: MetricName
-  ) => typeof getApplicationMetricsThresholdSuggestion | typeof getApplicationRateMetricsThresholdSuggestion;
+  readonly getMetricsRequest: () => typeof getApplicationMetrics;
+  readonly getAlertsPreviewRequest: () => typeof getApplicationMetricsAlertPreview;
+  readonly getThresholdSuggestionRequest: () => typeof getApplicationMetricsThresholdSuggestion;
   readonly thresholdDefaults: { readonly operator: ThresholdOperator };
   readonly enrichWithDefaultThresholdValues: (alertConfig: ApplicationAlertConfig) => ApplicationAlertConfig;
   readonly getEntityTagFilterFormModel: (
@@ -112,13 +103,9 @@ export interface BluePrint extends BluePrintBase {
 
 const baseBlueprint: Readonly<BluePrintBase> = Object.freeze({
   isCustomRateMetric: isCustomRateMetric,
-  getMetricsRequest: metricName => (isCustomRateMetric(metricName) ? getApplicationRateMetrics : getApplicationMetrics),
-  getAlertsPreviewRequest: metricName =>
-    isCustomRateMetric(metricName) ? getApplicationRateMetricsAlertPreview : getApplicationMetricsAlertPreview,
-  getThresholdSuggestionRequest: metricName =>
-    isCustomRateMetric(metricName)
-      ? getApplicationRateMetricsThresholdSuggestion
-      : getApplicationMetricsThresholdSuggestion,
+  getMetricsRequest: () => getApplicationMetrics,
+  getAlertsPreviewRequest: () => getApplicationMetricsAlertPreview,
+  getThresholdSuggestionRequest: () => getApplicationMetricsThresholdSuggestion,
   thresholdDefaults: {
     operator: '>='
   },
@@ -216,9 +203,9 @@ const statusCodeBlueprintConfig: Readonly<BluePrint> = Object.freeze({
   defaultMetric: 'calls',
   getMetricName: (alertRule: ApplicationAlertRule) => alertRule.metricName,
   getMetricLabel: (metricName: MetricName) => statusCodeMetricLabelsByName[metricName],
-  getMetricFormat: () => number.forcedCompact,
+  getMetricFormat: (metricName: MetricName) => (isCustomRateMetric(metricName) ? percentage : number.forcedCompact),
   getMaxMetricValue: () => Number.MAX_SAFE_INTEGER,
-  getAggregation: () => 'SUM',
+  getAggregation: (alertRule: ApplicationAlertRule) => (isCustomRateMetric(alertRule.metricName) ? 'MEAN' : 'SUM'),
   getThresholdTypeOptions: () => applicationThresholdTypeOptions,
   isRuleComplete: (alertRule: ApplicationAlertRule) => {
     // TODO replace by introducing a new type reflecting the client-side view model

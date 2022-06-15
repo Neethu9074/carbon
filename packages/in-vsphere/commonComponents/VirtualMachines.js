@@ -12,12 +12,14 @@ import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/S
 import createServerTableWithUrlState from 'in-components/tables/ServerTable/ServerTableWithUrlState';
 import withEmptyTableState from 'in-components/tables/ServerTable/WithEmptyTableState';
 import { urlParameters as timeConfigUrlParameters } from 'in-stores/time/config';
+import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { datacenterIdUrlParameter } from 'in-vsphere/navigation/urlParameters';
 import { getVsphereVmDashboard } from 'in-vsphere/navigation/paths';
 import getVsphereVms from 'in-vsphere/subscriptions/getVsphereVms';
 import { getInfraGranularity } from 'in-stores/metric/metric';
 import EntityLink from 'in-components/EntityLink/EntityLink';
 import { percentage } from 'in-services/formatters/number';
+import Capitalize from 'in-components/Capitalize';
 import { plugins } from 'in-forge/constants';
 import { MemoryTotal } from './MemoryTotal';
 import { t } from 'in-i18n';
@@ -39,6 +41,14 @@ const columnDefinitions = [
           icon={resolveIcon(item)}
         />
       );
+    }
+  },
+  {
+    id: 'guestState',
+    label: t('in-vsphere:dashboards.state'),
+    sortable: true,
+    getContent(item) {
+      return <Capitalize>{get(item, ['guestState'], valueMissingPlaceholder)}</Capitalize>;
     }
   },
   {

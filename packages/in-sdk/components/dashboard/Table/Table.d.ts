@@ -11,4 +11,4 @@ interface TableProps {
 
 declare function TableComponent(props: TableProps): JSX.Element;
 
-export default TableComponentx;
+export default TableComponent;
