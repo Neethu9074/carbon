@@ -10,7 +10,7 @@ import { t } from 'in-i18n';
 
 export const getType = (action: Action | Nullish) => {
   if (action?.type === 'doc_link') {
-    return t('in-settings:tabs:docLink');
+    return t('in-settings:tabs.docLink');
   } else {
     return action?.type;
   }
