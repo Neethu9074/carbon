@@ -819,6 +819,7 @@
     "automation": "Automation",
     "actionCatalog": "Action Catalog",
     "action_plural": "Actions",
+    "action": "action",
     "actionWithName": "Action: {{actionName}}",
     "actionType": "Action Type",
     "actionDetails": "Action Details",

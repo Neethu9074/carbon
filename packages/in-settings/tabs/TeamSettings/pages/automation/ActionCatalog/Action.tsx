@@ -7,19 +7,22 @@
 /* eslint-disable no-undef */
 
 import { RouteComponentProps } from 'react-router';
+import { MapForm } from 'formalistic';
 import React from 'react';
 
 import { useObservable } from '@instana/hooks';
-import { NewAction, saveAction, saveNewAction } from 'in-api/automation';
 
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
+import { NewAction, saveAction, saveNewAction } from 'in-api/automation';
 import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
+// @ts-expect-error
+import entityForm from 'in-hoc/entityForm';
 import { hasError, isLoading } from 'in-services/util/result';
 import SectionLine from 'in-settings/components/SectionLine';
 import { getAction, createAction } from 'in-api/automation';
@@ -32,14 +35,11 @@ import Section from 'in-settings/components/Section';
 import { compare } from 'in-services/util/string';
 import { goToPath } from 'in-stores/navigation';
 import Label from 'in-components/form/Label';
-// @ts-expect-error
-import entityForm from 'in-hoc/entityForm';
 import Title from 'in-components/Title';
 import { Action } from 'in-types';
 import { Result } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
-import { MapForm } from 'formalistic';
 
 const paramCols = [
   stringColumn(t('in-settings:tabs.name'), 'name'),
@@ -51,7 +51,7 @@ interface MatchParams {
   id: string;
 }
 
-export default function ActionComponent(props: RouteComponentProps<MatchParams>) {
+export function ActionComponent(props: RouteComponentProps<MatchParams>) {
   const result: Result<Action> =
     useObservable(getAction(props.match.params.id), [props.match.params.id]) ?? pendingResult;
   if (isLoading(result)) {
@@ -113,7 +113,7 @@ export default function ActionComponent(props: RouteComponentProps<MatchParams>)
   );
 }
 
-export function CustomEvent(props: any) {
+export default function CustomEvent(props: RouteComponentProps<MatchParams>) {
   const entityId = props.match.params.id;
 
   return (
@@ -122,7 +122,7 @@ export function CustomEvent(props: any) {
       entityId={entityId}
       createDefaultEntity={createAction}
       createForm={(action: NewAction) => createActionFormDefinition(action, !entityId)}
-      getEntityFromApi={getAction}
+      getEntityFromApi={(id: string) => {console.log('yo'); return getAction(id).map(response => response.data);}}
       openEntities={() => goToPath(teamSettingsActionCatalog)}
       saveEntity={(action: NewAction, form: any) => save(action, form, entityId)}
     />
@@ -130,13 +130,14 @@ export function CustomEvent(props: any) {
 }
 
 const Form = entityForm(function DetailsForm(props: any) {
-  const { entity, form, message, error, loading, isCreate, saveEnabled } = props;
-
-  if (!entity || !form) {
+  const { entity, form, isCreate, saveEnabled } = props;
+  let message;
+  console.log(props);
+  if (isLoading(entity)) {
     return <LoadingIndicator size={'xl'} />;
   }
-
-  if (entity && entity.get('errors')) {
+  if (hasError(entity)) {
+    message = entity.errors[0].message;
     return (
       <SettingsDetailPage>
         <SubViewHeader iconType="lib_help_error_error_circle" iconColor={theme.lib.colors.yellow800}>
@@ -144,7 +145,7 @@ const Form = entityForm(function DetailsForm(props: any) {
         </SubViewHeader>
         <SectionLine />
         <DescriptionText>
-          {entity.get('errors').get(0)}
+          {message}
           <br />
           {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
         </DescriptionText>
@@ -157,14 +158,14 @@ const Form = entityForm(function DetailsForm(props: any) {
       <SubViewHeader>
         {isCreate
           ? t('in-settings:tabs.createANewAction')
-          : t('in-settings:tabs.configureActionEntityName', { entityName: entity.get('name') })}
+          : t('in-settings:tabs.configureActionEntityName', { entityName: entity.name })}
       </SubViewHeader>
 
       <SectionLine />
 
       {message ? (
         <Section>
-          <Notification failure={error} loading={loading}>
+          <Notification failure={hasError(entity)} loading={isLoading(entity)}>
             {message}
           </Notification>
         </Section>
@@ -175,7 +176,7 @@ const Form = entityForm(function DetailsForm(props: any) {
       <SaveCancel
         form={form}
         message={message}
-        loading={loading}
+        loading={isLoading(entity)}
         saveEnabled={saveEnabled}
         isCreate={isCreate}
         listPath={teamSettingsActionCatalog}
