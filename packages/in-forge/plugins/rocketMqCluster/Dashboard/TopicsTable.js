@@ -47,7 +47,7 @@ const cols = [
     }
   },
   {
-    title: t('in-forge:plugins.rocketMqTopic.putNums'),
+    title: t('in-forge:plugins.rocketMqTopic.getNums'),
     type: 'metric',
     typeArgs: {
       getSnapshotId(row) {
