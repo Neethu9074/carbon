@@ -73,15 +73,15 @@ export function ListNameColumn({ config, configsCategory, additionalMatrixKeys =
 }
 
 function getSubtitle(rule, threshold) {
-  const { alertType, aggregation } = rule;
+  const { alertType, aggregation, metricName } = rule;
   const blueprintConfig = getBlueprintConfig(alertType);
-  const metricLabel = blueprintConfig.getMetricLabel();
+  const metricLabel = blueprintConfig.getMetricLabel(metricName);
   const formattedMetricLabel =
     alertType === 'slowness' ? `${metricLabel} (${getAggregationText(aggregation)})` : metricLabel;
 
   const { operator, seasonality, type, value } = threshold;
   if (type === STATIC_THRESHOLD) {
-    const metricFormat = blueprintConfig.getMetricFormat();
+    const metricFormat = blueprintConfig.getMetricFormat(metricName);
     const formattedValue = metricFormat.compact(value);
     return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticThreshold', {
       metricLabel: formattedMetricLabel,
