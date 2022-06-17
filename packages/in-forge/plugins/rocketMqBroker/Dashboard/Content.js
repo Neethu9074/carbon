@@ -20,11 +20,8 @@ export default function RocketMqBrokerDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             formatter: number.detailed,
-            metrics: ['brokerPutNums', 'brokerGetNums'],
-            labels: [
-              t('in-forge:plugins.rocketMqBroker.brokerPutNums'),
-              t('in-forge:plugins.rocketMqBroker.brokerGetNums')
-            ],
+            metrics: ['putNums', 'getNums'],
+            labels: [t('in-forge:plugins.rocketMqBroker.putNums'), t('in-forge:plugins.rocketMqBroker.getNums')],
             type: 'line'
           }}
         />

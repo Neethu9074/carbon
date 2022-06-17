@@ -6,12 +6,14 @@
 import React from 'react';
 
 import getRocketMqTopics from 'in-forge/plugins/rocketMqCluster/subscriptions/getRocketMqTopics';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
 import Table from 'in-sdk/components/dashboard/Table';
 import { timeConfig$ } from 'in-stores/time/config';
 import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
+const missingValue = '/';
 const cols = [
   {
     title: t('in-forge:plugins.rocketMqCluster.topicName'),
@@ -19,6 +21,50 @@ const cols = [
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.rocketMqTopic.putNums'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'putNums';
+      },
+      getContent: function(putNums) {
+        if (putNums < 0) {
+          return missingValue;
+        } else {
+          return zeroDecimalPlaces(putNums);
+        }
+      },
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.rocketMqTopic.putNums'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'getNums';
+      },
+      getContent: function(getNums) {
+        if (getNums < 0) {
+          return missingValue;
+        } else {
+          return zeroDecimalPlaces(getNums);
+        }
+      },
+      getTimeWindowAggregation() {
+        return 'mean';
       }
     }
   }

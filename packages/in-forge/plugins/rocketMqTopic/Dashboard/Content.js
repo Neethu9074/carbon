@@ -20,11 +20,8 @@ export default function RocketMqTopicDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             formatter: number.detailed,
-            metrics: ['topicPutNums', 'topicGetNums'],
-            labels: [
-              t('in-forge:plugins.rocketMqTopic.topicPutNums'),
-              t('in-forge:plugins.rocketMqTopic.topicGetNums')
-            ],
+            metrics: ['putNums', 'getNums'],
+            labels: [t('in-forge:plugins.rocketMqTopic.putNums'), t('in-forge:plugins.rocketMqTopic.getNums')],
             type: 'line'
           }}
         />
@@ -35,23 +32,23 @@ export default function RocketMqTopicDashboard({ snapshot, timeConfig }) {
           timeConfig={timeConfig}
           y1={{
             formatter: number.detailed,
-            metrics: ['topicPutMessageSize', 'topicGetMessageSize'],
+            metrics: ['putMessageSize', 'getMessageSize'],
             labels: [
-              t('in-forge:plugins.rocketMqTopic.topicPutMessageSize'),
-              t('in-forge:plugins.rocketMqTopic.topicGetMessageSize')
+              t('in-forge:plugins.rocketMqTopic.putMessageSize'),
+              t('in-forge:plugins.rocketMqTopic.getMessageSize')
             ],
             type: 'line'
           }}
         />
       </DashboardSection>
-      <DashboardSection title={t('in-forge:plugins.rocketMqTopic.topicSendBackNums')}>
+      <DashboardSection title={t('in-forge:plugins.rocketMqTopic.sendBackNums')}>
         <Chart
           snapshotId={snapshotId}
           timeConfig={timeConfig}
           y1={{
             formatter: number.detailed,
-            metrics: ['topicSendBackNums'],
-            labels: [t('in-forge:plugins.rocketMqTopic.topicSendBackNums')],
+            metrics: ['sendBackNums'],
+            labels: [t('in-forge:plugins.rocketMqTopic.sendBackNums')],
             type: 'line'
           }}
         />

@@ -12,6 +12,7 @@ import { getSnapshots } from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
+const missingValue = '/';
 const cols = [
   {
     title: t('in-forge:plugins.rocketMqCluster.brokerName'),
@@ -19,6 +20,33 @@ const cols = [
     typeArgs: {
       getSnapshotId(row) {
         return row.key;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.rocketMqCluster.brokerAddr'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'brokerAddr'], missingValue);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.rocketMqCluster.bootTimestamp'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'bootTimestamp'], missingValue);
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.rocketMqCluster.brokerVersionDesc'),
+    type: 'string',
+    typeArgs: {
+      getValue(row) {
+        return row.snapshot.getIn(['data', 'brokerVersionDesc'], missingValue);
       }
     }
   }
