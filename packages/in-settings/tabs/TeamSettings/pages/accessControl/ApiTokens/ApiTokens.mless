@@ -29,4 +29,12 @@
     font-size: 1.25rem;
     font-weight: 600;
   }
+
+  // do to styles in reboot.lees for :not([href]):not([tabindex])
+  // this is the only location we see this, so fixing it locally
+  a:not([href]):not([tabindex]),
+  a:not([href]):not([tabindex]):hover,
+  a:not([href]):not([tabindex]):focus {
+    color: var(--colors-primary1);
+  }
 }
