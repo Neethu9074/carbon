@@ -1,5 +1,5 @@
 /*
- * (c) Copyright IBM Corp. 2021
+ * (c) Copyright IBM Corp. 2022
  * (c) Copyright Instana Inc.
  */
 
@@ -21,31 +21,11 @@ interface MigrationResultIconLabelProps {
   toolTip: string;
   color?: string;
   noBottomMargin?: boolean;
-  width?: string | number;
-  ellipsis?: boolean;
   size?: Size;
-  /**
-   * By default the icon has the same color as set in color prop.
-   * Use this prop only if the icon should have a different color
-   */
-  iconColor?: string;
 }
 
 const MigrationResultIconLabel = forwardRef<HTMLDivElement, MigrationResultIconLabelProps>(
-  (
-    {
-      text = '',
-      type,
-      noBottomMargin,
-      color = theme.lib.colors.N900Primary,
-      iconColor,
-      width,
-      ellipsis,
-      toolTip = '',
-      size
-    },
-    ref
-  ) => {
+  ({ text = '', type, noBottomMargin, color = theme.lib.colors.N900Primary, size, toolTip = '' }, ref) => {
     return (
       <div className={locals.padIcon}>
         <Tooltip content={toolTip}>
@@ -55,17 +35,16 @@ const MigrationResultIconLabel = forwardRef<HTMLDivElement, MigrationResultIconL
               [locals.container]: true,
               [locals.noBottomMargin]: noBottomMargin
             })}
-            style={{ color, width }}
+            style={{ color }}
           >
             {type !== '' ? (
-              <SvgIcon className={locals.icon} color={iconColor ?? color} type={type} size={size ?? size} />
+              <SvgIcon className={locals.icon} color={color} type={type} size={size ?? size} />
             ) : (
               <div className={locals.noImport} />
             )}
             <div
               className={classNames({
                 [locals.text]: true,
-                [locals.ellipsis]: ellipsis,
                 [locals.padIcon]: true
               })}
             >
