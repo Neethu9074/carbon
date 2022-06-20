@@ -44,7 +44,9 @@ export default function ImportConfig() {
       if (form.get(loadedConfig.type).value) {
         let configsToImport = [];
         loadedConfig.configs.forEach(config => {
-          if (loadedConfig.selected.includes(config.id)) configsToImport.push(config);
+          if (loadedConfig.selected.includes(config.id)) {
+            configsToImport.push(config);
+          }
         });
         cleanedConfigs[loadedConfig.type] = configsToImport;
       }
@@ -61,19 +63,23 @@ export default function ImportConfig() {
         let updatedConfigs = [];
         children.configs.forEach(child => {
           let foundResultConfig = findConfigById(child.id, configResults);
-          if (isEmpty(foundResultConfig)) updatedConfigs.push(child);
-          else
+          if (isEmpty(foundResultConfig)) {
+            updatedConfigs.push(child);
+          } else {
             updatedConfigs.push({
               ...foundResultConfig.config,
               result: foundResultConfig.result,
               message: foundResultConfig.message
             });
+          }
         });
         updatedLoadedConfigs.push({
           ...children,
           configs: updatedConfigs
         });
-      } else updatedLoadedConfigs.push(children);
+      } else {
+        updatedLoadedConfigs.push(children);
+      }
     });
     return updatedLoadedConfigs;
   }
@@ -108,10 +114,11 @@ export default function ImportConfig() {
         return element.type === configIds[index];
       });
       let defaultAllSelected = [];
-      if (children)
+      if (children) {
         children.forEach(child => {
           defaultAllSelected.push(child.id || child.config?.id);
         });
+      }
       loadedConfigs.push({
         ...configDetail,
         configs: children,
@@ -190,7 +197,9 @@ export default function ImportConfig() {
             });
             setLoadedConfigs(updatedLoadedConfigs);
             setCanSaveItem(canSave);
-          } else setLoadedConfigs(selectedConfigs);
+          } else {
+            setLoadedConfigs(selectedConfigs);
+          }
         }}
         callBackUpdateFilteredConfigs={(filtered, configType) => {
           let updatedLoadedConfigs = [];
@@ -205,7 +214,9 @@ export default function ImportConfig() {
               } else {
                 updatedLoadedConfigs.push({ ...config, filtered: filtered, selected: config.shadowSelected });
               }
-            } else updatedLoadedConfigs.push(config);
+            } else {
+              updatedLoadedConfigs.push(config);
+            }
           });
           setLoadedConfigs(updatedLoadedConfigs);
         }}
@@ -219,7 +230,9 @@ function getSelectedConfigIds(selectedConfigs) {
   if (selectedConfigs) {
     let configIds = Object.keys(selectedConfigs);
     Object.values(selectedConfigs).forEach((config, index) => {
-      if (config.value) selectedIds.push(configIds[index]);
+      if (config.value) {
+        selectedIds.push(configIds[index]);
+      }
     });
   }
   return selectedIds;
@@ -244,12 +257,16 @@ function findConfigById(findId, configs) {
 }
 
 function checkFilterByResult(config, value) {
-  if (value.trim() === '') return true;
+  if (value.trim() === '') {
+    return true;
+  }
   return config.result === value || (!config.result && value === 'na');
 }
 
 function checkSearchFilter(config, value) {
-  if (value.trim() === '') return true;
+  if (value.trim() === '') {
+    return true;
+  }
   let lcFilter = value.toLowerCase();
   return (
     config.label?.toLowerCase().includes(lcFilter) ||
@@ -398,7 +415,9 @@ function getConfigList(
                               // remove item if found and not selected
                               if (childExistIndex > -1 && !e.target.checked) {
                                 configsSelected.splice(childExistIndex, 1);
-                              } else configsSelected.push(child.id);
+                              } else {
+                                configsSelected.push(child.id);
+                              }
                               callBackUpdateSelectedConfigs(config.type, configsSelected, setCanSaveItem);
                               setForm(
                                 form.updateIn([config.type], f =>
@@ -436,9 +455,11 @@ function getConfigList(
                 } else {
                   // need to check that at least one other configuration type is selected to enable Save button
                   let selectedIds = getSelectedConfigIds(form.items);
-                  if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type)))
+                  if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type))) {
                     setCanSaveItem(true);
-                  else setCanSaveItem(false);
+                  } else {
+                    setCanSaveItem(false);
+                  }
                   // clear all child selected configs
                   callBackUpdateSelectedConfigs(config.type, [], setCanSaveItem);
                 }

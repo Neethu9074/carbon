@@ -20,7 +20,9 @@ export function getResultIconLabel(result, label, size) {
   let foundResult;
   if (result) {
     RESULT_TYPES.forEach(type => {
-      if (!foundResult && type.value === result.toLowerCase()) foundResult = type;
+      if (!foundResult && type.value === result.toLowerCase()) {
+        foundResult = type;
+      }
     });
     return (
       <MigrationResultIconLabel
@@ -37,22 +39,18 @@ export function getResultIconLabel(result, label, size) {
   return label;
 }
 
-// export function showConfigResultSummary(configReport) {
-//   return RESULT_TYPES.map(type => getResultIconLabel(type.value, configReport[type.value].length));
-// }
-
 // returns a summary of result type counts from config data
 export function getConfigReportSummary(allConfigData) {
   let reportSummary = {};
   if (allConfigData) {
-    Object.values(allConfigData).forEach(configType => {
+    Object.values(allConfigData).map(configType => {
       if (configType !== null) {
         let resultCreatedIds = [];
         let resultUpdatedIds = [];
         let resultSkippedIds = [];
         let resultErrorIds = [];
         let noResultIds = [];
-        configType.configs.forEach(config => {
+        configType.configs.map(config => {
           if (config.result) {
             switch (config.result.toLowerCase()) {
               case 'created':
@@ -67,10 +65,10 @@ export function getConfigReportSummary(allConfigData) {
               case 'error':
                 resultErrorIds.push(config.id);
                 break;
-              default:
-                break;
             }
-          } else noResultIds.push(config.id);
+          } else {
+            noResultIds.push(config.id);
+          }
         });
         let configReportSummary = {
           created: resultCreatedIds,
