@@ -9,6 +9,7 @@ import { createField } from 'formalistic';
 import { Ul, Li, KeyValue } from '@instana/components';
 import { Button } from '@instana/components';
 
+import { RESULT_TYPES, getResultIconLabel, getConfigReportSummary } from '../../components/MigrationResultTypes';
 import { postConfigAsResultObservable } from 'in-settings/tabs/MigrationSettings/api/importConfig';
 import { MIGRATION_CONFIGS } from '../../components/MigrationTypes';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
@@ -20,10 +21,13 @@ import Section from 'in-settings/components/Section';
 import FormGroup from 'in-components/form/FormGroup';
 import SearchInput from 'in-components/SearchInput';
 import { shorten } from 'in-services/util/string';
+import ComboBox from 'in-components/ComboBox';
 import Title from 'in-components/Title';
 import { t, Trans } from 'in-i18n';
 
 import locals from './Import.mless';
+
+const IMPORT_CONFIG_FILE_NAME = 'config-import';
 
 export default function ImportConfig() {
   const inputDOMNode = document.createElement('input');
@@ -40,12 +44,90 @@ export default function ImportConfig() {
       if (form.get(loadedConfig.type).value) {
         let configsToImport = [];
         loadedConfig.configs.forEach(config => {
-          if (loadedConfig.selected.includes(config.id)) configsToImport.push(config);
+          if (loadedConfig.selected.includes(config.id)) {
+            configsToImport.push(config);
+          }
         });
         cleanedConfigs[loadedConfig.type] = configsToImport;
       }
     });
     return cleanedConfigs;
+  }
+
+  // Merge import results data with already loaded configs
+  function mergeConfigResults(resultConfigs) {
+    let updatedLoadedConfigs = [];
+    Object.values(loadedConfigs).forEach(children => {
+      let configResults = resultConfigs[children.type];
+      if (configResults && configResults.length > 0) {
+        let updatedConfigs = [];
+        children.configs.forEach(child => {
+          let foundResultConfig = findConfigById(child.id, configResults);
+          if (isEmpty(foundResultConfig)) {
+            updatedConfigs.push(child);
+          } else {
+            updatedConfigs.push({
+              ...foundResultConfig.config,
+              result: foundResultConfig.result,
+              message: foundResultConfig.message
+            });
+          }
+        });
+        updatedLoadedConfigs.push({
+          ...children,
+          configs: updatedConfigs
+        });
+      } else {
+        updatedLoadedConfigs.push(children);
+      }
+    });
+    return updatedLoadedConfigs;
+  }
+
+  function downloadConfigs(content, fileName, contentType) {
+    const a = document.createElement('a');
+    const file = new Blob([content], { type: contentType });
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+  }
+
+  function getFilenameWithDate() {
+    let date = new Date().toISOString();
+    return IMPORT_CONFIG_FILE_NAME + '_' + date + '.json';
+  }
+
+  function saveImportConfigResultsInUIFormat(report) {
+    let finalFormat = {};
+
+    report.forEach(config => {
+      finalFormat[config.type] = config.configs;
+    });
+    return finalFormat;
+  }
+
+  function initLoadedConfigs(allConfigs) {
+    let loadedConfigs = [];
+    let configIds = Object.keys(allConfigs);
+    Object.values(allConfigs).forEach((children, index) => {
+      let configDetail = MIGRATION_CONFIGS.find(function(element) {
+        return element.type === configIds[index];
+      });
+      let defaultAllSelected = [];
+      if (children) {
+        children.forEach(child => {
+          defaultAllSelected.push(child.id || child.config?.id);
+        });
+      }
+      loadedConfigs.push({
+        ...configDetail,
+        configs: children,
+        selected: defaultAllSelected,
+        filtered: defaultAllSelected,
+        shadowSelected: defaultAllSelected
+      });
+    });
+    return loadedConfigs;
   }
 
   useEffect(() => {
@@ -56,26 +138,7 @@ export default function ImportConfig() {
       reader.onloadend = function() {
         setLoadedFile(file);
         let allConfigs = JSON.parse(reader.result);
-        let loadedConfigs = [];
-        let configIds = Object.keys(allConfigs);
-
-        Object.values(allConfigs).forEach((children, index) => {
-          let configDetail = MIGRATION_CONFIGS.find(function(element) {
-            return element.type === configIds[index];
-          });
-          let defaultAllSelected = [];
-          children.forEach(child => {
-            defaultAllSelected.push(child.id);
-          });
-          loadedConfigs.push({
-            ...configDetail,
-            configs: children,
-            selected: defaultAllSelected,
-            filtered: defaultAllSelected,
-            shadowSelected: defaultAllSelected
-          });
-        });
-        setLoadedConfigs(loadedConfigs);
+        setLoadedConfigs(initLoadedConfigs(allConfigs));
       };
     }
   }, [file, loadedFile]);
@@ -99,11 +162,15 @@ export default function ImportConfig() {
           });
           let importConfigs = setImportConfigs(form, loadedConfigs);
           postConfigAsResultObservable(importConfigs).once(
-            () => {
+            resp => {
               setMessage({
                 text: t('in-settings:tabs.configSuccessfullyImported'),
                 type: 'success'
               });
+              let mergedResults = mergeConfigResults(resp.body);
+              setLoadedConfigs(mergedResults);
+              let saveResult = saveImportConfigResultsInUIFormat(mergedResults);
+              downloadConfigs(JSON.stringify(saveResult), getFilenameWithDate(), 'text/plain');
             },
             error =>
               setMessage({
@@ -116,19 +183,23 @@ export default function ImportConfig() {
         callBackUpdateSelectedConfigs={(configType, selectedConfigs, setCanSaveItem) => {
           let canSave = false;
           let updatedLoadedConfigs = [];
-          loadedConfigs.forEach(config => {
-            if (config.type === configType) {
-              updatedLoadedConfigs.push({ ...config, selected: selectedConfigs, shadowSelected: selectedConfigs });
-              if (!canSave && selectedConfigs.length > 0) canSave = true;
-            } else {
-              updatedLoadedConfigs.push(config);
-              if (!canSave && config.selected.length > 0) {
-                canSave = true;
+          if (configType !== null) {
+            loadedConfigs.forEach(config => {
+              if (config.type === configType) {
+                updatedLoadedConfigs.push({ ...config, selected: selectedConfigs, shadowSelected: selectedConfigs });
+                if (!canSave && selectedConfigs.length > 0) canSave = true;
+              } else {
+                updatedLoadedConfigs.push(config);
+                if (!canSave && config.selected.length > 0) {
+                  canSave = true;
+                }
               }
-            }
-          });
-          setLoadedConfigs(updatedLoadedConfigs);
-          setCanSaveItem(canSave);
+            });
+            setLoadedConfigs(updatedLoadedConfigs);
+            setCanSaveItem(canSave);
+          } else {
+            setLoadedConfigs(selectedConfigs);
+          }
         }}
         callBackUpdateFilteredConfigs={(filtered, configType) => {
           let updatedLoadedConfigs = [];
@@ -141,14 +212,11 @@ export default function ImportConfig() {
                 });
                 updatedLoadedConfigs.push({ ...config, filtered: filtered, selected: updatedSelectedConfigs });
               } else {
-                let filteredIds = [];
-                // reset filter to show all and previously selected
-                config.configs.forEach(child => {
-                  filteredIds.push(child.id);
-                });
-                updatedLoadedConfigs.push({ ...config, filtered: filteredIds, selected: config.shadowSelected });
+                updatedLoadedConfigs.push({ ...config, filtered: filtered, selected: config.shadowSelected });
               }
-            } else updatedLoadedConfigs.push(config);
+            } else {
+              updatedLoadedConfigs.push(config);
+            }
           });
           setLoadedConfigs(updatedLoadedConfigs);
         }}
@@ -162,36 +230,81 @@ function getSelectedConfigIds(selectedConfigs) {
   if (selectedConfigs) {
     let configIds = Object.keys(selectedConfigs);
     Object.values(selectedConfigs).forEach((config, index) => {
-      if (config.value) selectedIds.push(configIds[index]);
+      if (config.value) {
+        selectedIds.push(configIds[index]);
+      }
     });
   }
   return selectedIds;
 }
 
-function filterConfigs(filter, loadedConfigs) {
-  let filteredIds = [];
-  if (filter) {
-    Object.values(loadedConfigs).forEach(config => {
-      let lcFilter = filter.toLowerCase();
-      if (
-        config.label?.toLowerCase().includes(lcFilter) ||
-        config.name?.toLowerCase().includes(lcFilter) ||
-        config.alertName?.toLowerCase().includes(lcFilter)
-      )
-        filteredIds.push(config.id);
-    });
-  }
-  return filteredIds;
-}
+const isEmpty = obj => {
+  return !obj || Object.keys(obj).length === 0;
+};
 
 function findConfigById(findId, configs) {
   let found = {};
-  if (configs && findId && Object.keys(found).length === 0) {
-    Object.values(configs).forEach(config => {
-      if (config.id === findId) found = config;
+  if (configs && findId) {
+    configs.forEach(config => {
+      // note import response with results leaves initial config data in a 'config' prop
+      // therefore also test with config.config
+      if (isEmpty(found) && (config.id === findId || config.config?.id === findId)) {
+        found = config;
+      }
     });
   }
   return found;
+}
+
+function checkFilterByResult(config, value) {
+  if (value.trim() === '') {
+    return true;
+  }
+  return config.result === value || (!config.result && value === 'na');
+}
+
+function checkSearchFilter(config, value) {
+  if (value.trim() === '') {
+    return true;
+  }
+  let lcFilter = value.toLowerCase();
+  return (
+    config.label?.toLowerCase().includes(lcFilter) ||
+    config.name?.toLowerCase().includes(lcFilter) ||
+    config.description?.toLowerCase().includes(lcFilter) ||
+    config.alertName?.toLowerCase().includes(lcFilter)
+  );
+}
+
+function onChangeFilter(form, config, callBackUpdateFilteredConfigs) {
+  let resultFilterValue = form.get(config.type + '_resultFilter').value;
+  let searchFilterValue = form.get(config.type + '_searchFilter').value;
+
+  // get filtered configs
+  const previousFilteredConfigsFromFilterByResult = config.configs
+    .filter(fConfig => checkFilterByResult(fConfig, resultFilterValue))
+    .filter(fConfig => checkSearchFilter(fConfig, searchFilterValue))
+    .map(fConfig => fConfig.id);
+  callBackUpdateFilteredConfigs(previousFilteredConfigsFromFilterByResult, config.type);
+}
+
+function getSectionTitle(config) {
+  return (
+    <IconLabel
+      type={config.icon}
+      text={
+        config.label +
+        ' (displaying ' +
+        config.filtered.length +
+        ' of ' +
+        config.configs.length +
+        ', selected: ' +
+        config.selected.length +
+        ')'
+      }
+      noBottomMargin
+    />
+  );
 }
 
 function getConfigList(
@@ -202,37 +315,87 @@ function getConfigList(
   callBackUpdateSelectedConfigs,
   callBackUpdateFilteredConfigs
 ) {
+  let report = getConfigReportSummary(loadedConfigs);
   return (
-    <Ul>
-      {loadedConfigs.map(config =>
-        form.get(config.type).map(field => {
-          return (
-            <Li
-              key={config.type}
-              open
-              toggleContentOnRowClick
-              renderNestedContent={() => (
-                <>
+    <>
+      <div className={locals.selectAll}>
+        <CheckboxFancy
+          label="Select All"
+          checked={form.get('selectAll').value}
+          size="larger"
+          onChange={e => {
+            setForm(form.updateIn(['selectAll'], f => f.setValue(e.target.checked)));
+            let updatedLoadedConfigs = [];
+            loadedConfigs.forEach(config => {
+              if (!e.target.checked) {
+                updatedLoadedConfigs.push({ ...config, selected: [] });
+              } else {
+                let allConfigsSelected = [];
+                config.configs.forEach(child => allConfigsSelected.push(child.id));
+                updatedLoadedConfigs.push({ ...config, selected: allConfigsSelected });
+              }
+              // setForm(form.updateIn([config.type], f => f.setValue(e.target.checked).setTouched(true)));
+            });
+            setCanSaveItem(e.target.checked);
+            callBackUpdateSelectedConfigs(null, updatedLoadedConfigs, setCanSaveItem);
+          }}
+        />
+      </div>
+      <Ul>
+        {loadedConfigs.map(config => (
+          <Li
+            key={config.type}
+            open
+            toggleContentOnRowClick
+            renderNestedContent={() => (
+              <>
+                <div className={locals.flexWrapper}>
+                  <div className={locals.reportSummary}>
+                    Import Results:
+                    {RESULT_TYPES.map(type =>
+                      getResultIconLabel(type.value, report[config.type][type.value].length, 'xs')
+                    )}
+                  </div>
                   <div className={locals.searchInput}>
+                    <ComboBox
+                      key={config.type + '_resultFilter'}
+                      name={config.type + '_resultFilter'}
+                      value={form.get(config.type + '_resultFilter').value}
+                      options={RESULT_TYPES}
+                      onChange={e => {
+                        let value = e ? e.value : '';
+                        let updatedForm = form.updateIn([config.type + '_resultFilter'], f => f.setValue(value));
+                        setForm(updatedForm);
+                        onChangeFilter(updatedForm, config, callBackUpdateFilteredConfigs);
+                      }}
+                      placeholder={t('in-settings:tabs.configImportResult')}
+                      className={locals.stateDropdown}
+                    />
                     <SearchInput
+                      key={config.type + '_searchFilter'}
+                      name={config.type + '_searchFilter'}
                       onChange={queryFilter => {
-                        let filtered = filterConfigs(queryFilter, config.configs);
-                        callBackUpdateFilteredConfigs(filtered, config.type);
+                        let updatedForm = form.updateIn([config.type + '_searchFilter'], f => f.setValue(queryFilter));
+                        setForm(updatedForm);
+                        onChangeFilter(updatedForm, config, callBackUpdateFilteredConfigs);
                       }}
                     />
                   </div>
-                  <Ul>
-                    {config.filtered.map(filteredId => {
+                </div>
+                <Ul>
+                  {config.filtered && config.filtered.length > 0 ? (
+                    config.filtered.map((filteredId, index) => {
                       let child = findConfigById(filteredId, config.configs);
                       return (
-                        <Li key={child.id}>
+                        <Li key={child.id + '_' + index}>
                           <CheckboxFancy
-                            key={child.id}
+                            key={child.id + '_' + index}
                             id={child.id}
                             label={
                               <KeyValue
                                 className={locals.keyValueEllipsis}
-                                label={
+                                label={getResultIconLabel(
+                                  child.result,
                                   child.label
                                     ? child.label
                                     : child.name
@@ -240,7 +403,7 @@ function getConfigList(
                                     : child.alertName
                                     ? child.alertName
                                     : child.id
-                                }
+                                )}
                                 value={child.description ? child.description : child.kind ? child.kind : ''}
                               />
                             }
@@ -252,7 +415,9 @@ function getConfigList(
                               // remove item if found and not selected
                               if (childExistIndex > -1 && !e.target.checked) {
                                 configsSelected.splice(childExistIndex, 1);
-                              } else configsSelected.push(child.id);
+                              } else {
+                                configsSelected.push(child.id);
+                              }
                               callBackUpdateSelectedConfigs(config.type, configsSelected, setCanSaveItem);
                               setForm(
                                 form.updateIn([config.type], f =>
@@ -263,55 +428,48 @@ function getConfigList(
                           />
                         </Li>
                       );
-                    })}
-                  </Ul>
-                </>
-              )}
-            >
-              <CheckboxFancy
-                key={config.type}
-                id={config.type}
-                label={
-                  <IconLabel
-                    type={config.icon}
-                    text={
-                      config.label +
-                      ' (displaying ' +
-                      config.filtered.length +
-                      ' of ' +
-                      config.configs.length +
-                      ', selected: ' +
-                      config.selected.length +
-                      ')'
-                    }
-                    noBottomMargin
-                  />
-                }
-                checked={field.value}
-                onChange={e => {
-                  setForm(form.updateIn([config.type], f => f.setValue(e.target.checked).setTouched(true)));
-                  if (e.target.checked) {
-                    setCanSaveItem(e.target.checked);
-                    let defaultAllSelected = [];
-                    config.configs.forEach(config => defaultAllSelected.push(config.id));
-                    callBackUpdateSelectedConfigs(config.type, defaultAllSelected, setCanSaveItem);
+                    })
+                  ) : (
+                    <div className={locals.fontItalic}>No filter results</div>
+                  )}
+                </Ul>
+              </>
+            )}
+          >
+            <CheckboxFancy
+              key={config.type}
+              id={config.type}
+              label={getSectionTitle(config)}
+              checked={config.selected.length > 0}
+              onChange={e => {
+                setForm(form.updateIn([config.type], f => f.setValue(e.target.checked).setTouched(true)));
+                if (e.target.checked) {
+                  setCanSaveItem(e.target.checked);
+                  // let defaultAllSelected = [];
+                  // config.configs.forEach(config => defaultAllSelected.push(config.id));
+                  callBackUpdateSelectedConfigs(
+                    config.type,
+                    config.configs.map(config => config.id),
+                    setCanSaveItem
+                  );
+                } else {
+                  // need to check that at least one other configuration type is selected to enable Save button
+                  let selectedIds = getSelectedConfigIds(form.items);
+                  if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type))) {
+                    setCanSaveItem(true);
                   } else {
-                    // need to check that at least one other configuration type is selected to enable Save button
-                    let selectedIds = getSelectedConfigIds(form.items);
-                    if (selectedIds.length > 1 || (selectedIds.length === 1 && !selectedIds.includes(config.type)))
-                      setCanSaveItem(true);
-                    else setCanSaveItem(false);
-                    // clear all child selected configs
-                    callBackUpdateSelectedConfigs(config.type, [], setCanSaveItem);
+                    setCanSaveItem(false);
                   }
-                }}
-                size="larger"
-              />
-            </Li>
-          );
-        })
-      )}
-    </Ul>
+                  // clear all child selected configs
+                  callBackUpdateSelectedConfigs(config.type, [], setCanSaveItem);
+                }
+              }}
+              size="larger"
+            />
+          </Li>
+        ))}
+      </Ul>
+    </>
   );
 }
 
@@ -329,7 +487,6 @@ function render({
     setCanSaveItem(true);
     setForm(form.updateIn(['firstLoad'], f => f.setValue(false)));
   }
-
   return (
     <>
       <Title title={t('in-settings:tabs.configImport')} />
@@ -390,6 +547,7 @@ function enrichForm(form) {
       value: true
     })
   );
+  // Checkbox value for each config type (accordion list header)
   MIGRATION_CONFIGS.forEach(conf => {
     form = form.put(
       conf.type,
@@ -398,5 +556,25 @@ function enrichForm(form) {
       })
     );
   });
+  // Text Search Filter value for each config type
+  MIGRATION_CONFIGS.forEach(conf => {
+    form = form.put(
+      conf.type + '_searchFilter',
+      createField({
+        value: ''
+      })
+    );
+  });
+  // Import Result Dropdown Filter value for each config type
+  MIGRATION_CONFIGS.forEach(conf => {
+    form = form.put(
+      conf.type + '_resultFilter',
+      createField({
+        value: ''
+      })
+    );
+  });
+  // Select All Config Types checkbox value
+  form = form.put('selectAll', createField({ value: true }));
   return form;
 }

@@ -82,7 +82,9 @@ export default function CustomTime({ timeConfig, onChange }) {
     return (
       <DistinctSlider
         valueLabelDisplay="auto"
-        valueLabelComponent={TimeSliderTooltip}
+        components={{
+          ValueLabel: TimeSliderTooltip
+        }}
         marks={tickPositions}
         min={tickPositions[0].value}
         max={tickPositions[tickPositions.length - 1].value}

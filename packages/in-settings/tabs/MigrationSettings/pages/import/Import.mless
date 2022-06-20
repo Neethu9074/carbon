@@ -2,6 +2,7 @@
  * (c) Copyright IBM Corp. 2022
  * (c) Copyright Instana Inc.
  */
+@import '~in-themes/active.less';
 
 :local {
   .flexWrapper {
@@ -28,5 +29,29 @@
 
   .fontItalic {
     font-style: italic;
+  }
+
+  .infoIcon {
+    margin-left: 0.5rem;
+    fill: @lib__colors__N400;
+  }
+
+  .stateDropdown {
+    margin-right: 0.5rem;
+    width: 12rem;
+  }
+
+  .selectAll {
+    padding-bottom: 0.5rem;
+    font-style: italic;
+  }
+
+  .reportSummary {
+    display: flex;
+    align-items: center;
+  }
+
+  .grid {
+    display: grid;
   }
 }
