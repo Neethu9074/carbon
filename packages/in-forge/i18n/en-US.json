@@ -1419,6 +1419,11 @@
   "tracingTypeName_distributemeclient_0": "DistributeMe calls",
   "tracingTypeName_distributemeclient_1": "DistributeMe call",
   "tracingTypeName_distributemeclient_2": "DistributeMe calls",
+  "tracingTypeName_datagrid": "Data Grid call",
+  "tracingTypeName_datagrid_plural": "Data Grid Calls",
+  "tracingTypeName_datagrid_0": "Data Grid Calls",
+  "tracingTypeName_datagrid_1": "Data Grid Calls",
+  "tracingTypeName_datagrid_2": "Data Grid Calls",
   "tracingTypeName_django": "Django",
   "tracingTypeName_django_plural": "Django Calls",
   "tracingTypeName_django_0": "Django Calls",
@@ -9793,6 +9798,7 @@
       "datasourceJndi": "Datasource JNDI"
     },
     "jbossDataGrid": {
+      "datagrid": "Data Grid",
       "cacheName": "Cache [{{cacheName}}]",
       "jGroupsClusterName": "JGroups Cluster [{{clusterName}}]",
       "hitRatio": "Hit Ratio",
@@ -11783,6 +11789,12 @@
       "titleErrorCode": "Error Code",
       "titleSQL": "SQL"
     },
+    "datagrid": {
+      "titleOperation": "Operation",
+      "titleKey": "Key",
+      "titleCacheName": "Cache Name",
+      "titleClusterName": "Cluster Name"
+    },	
     "distributeme": {
       "titleService": "Service",
       "titleMethod": "Method"
