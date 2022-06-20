@@ -11,6 +11,7 @@ import getKubernetesNamespaces from 'in-kubernetes/subscriptions/getKubernetesNa
 import ServerListPresenter from 'in-components/lists/List/ServerListPresenter';
 import CheckboxFancy from 'in-components/form/CheckboxFancy';
 import useTimeConfig from 'in-hooks/useTimeConfig';
+import Tooltip from 'in-components/Tooltip';
 
 const columnDefinitions = [
   {
@@ -22,7 +23,11 @@ const columnDefinitions = [
   },
   {
     getContent({ item }) {
-      return item.namespace.label;
+      return (
+        <Tooltip content={item.namespace.label} align="topLeft" delay={500}>
+          <div>{item.namespace.label}</div>
+        </Tooltip>
+      );
     }
   }
 ];
