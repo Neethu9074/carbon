@@ -640,6 +640,7 @@
     "unknown": "UNKNOWN",
     "1EventDetails": "1. Event Details",
     "1ActionDetails": "1. Action Details",
+    "2Parameters": "2. Parameters",
     "showsUpInTheListOfEvents": "Shows up in the list of events. This is also the name of issues. Should be unique and meaningful.",
     "showsUpInTheIssueDescription": "Shows up in the issue description. Should be as descriptive as possible. Supports markdown.",
     "issueSeverity": "Issue Severity",
@@ -828,7 +829,9 @@
     "invocations": "Invocations",
     "successRate": "Success Rate",
     "lastModified": "Last Modified",
-    "docLink": "Documentation Link"
+    "docLink": "Documentation Link",
+    "docLinkValue": "Documentation Link Value",
+    "docLinkDescription": "Documentation Link Description"
   },
   "languageSelection": {
     "language": "Language",

@@ -30,7 +30,7 @@ export default function entityForm(ComposedComponent) {
     const errorSubscription = useRef();
 
     const { title, entityId } = props;
-    const { form, entity, saveEnabled } = state;
+    const { form, entity, saveEnabled, loading } = state;
 
     useLayoutEffect(() => {
       load(props);
@@ -41,7 +41,7 @@ export default function entityForm(ComposedComponent) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [entityId]);
 
-    if (!entity) {
+    if (!entity && loading) {
       return <LoadingIndicator />;
     }
 
@@ -65,10 +65,8 @@ export default function entityForm(ComposedComponent) {
 
     function load({ entityId, createDefaultEntity, getEntityFromApi }) {
       disposeAsyncAction();
-      console.log('hit');
 
       if (!entityId) {
-        console.log('hit1');
         const entity = fromJS(createDefaultEntity());
         setState({
           ...state,
@@ -92,9 +90,7 @@ export default function entityForm(ComposedComponent) {
       });
 
       const apiEntityResult$ = getEntityFromApi(entityId);
-      console.log(apiEntityResult$)
       responseSubscription.current = apiEntityResult$.once(entity => {
-        console.log(entity);
         setState({
           ...state,
           loading: false,
@@ -106,7 +102,6 @@ export default function entityForm(ComposedComponent) {
       });
 
       errorSubscription.current = apiEntityResult$.errors().once(() => {
-        console.log('hit3');
         scrollToTopSmoothly();
         setState({
           ...state,

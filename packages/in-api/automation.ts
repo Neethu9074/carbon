@@ -9,7 +9,7 @@ import { fromJS } from 'immutable';
 import { Observable } from '@instana/observables';
 
 import { getHeader as getCsrfHeader } from 'in-services/security/csrf';
-import { Action, Field, Result, Mutable } from 'in-types';
+import { Action, Field, Mutable } from 'in-types';
 import http from 'in-services/http';
 import { t } from 'in-i18n';
 
@@ -21,13 +21,12 @@ export function getAllActions(): Observable<Action[]> {
   }).map(response => response.body);
 }
 
-export function getAction(actionId: string): Observable<Result<Action>> {
+export function getAction(actionId: string): Observable<Action> {
   return http<Action>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/automation/settings/actions/${encodeURIComponent(actionId)}`,
-    mapToResultObject: true
-  });
+    url: `/api/automation/settings/actions/${encodeURIComponent(actionId)}`
+  }).map(response => response.body);
 }
 
 export function saveNewAction(actionSpecification: NewAction) {
@@ -56,12 +55,14 @@ export function createAction(
   name: string = t('in-settings:tabs.newAction'),
   type: string = 'doc_link',
   description: string = '',
-  fields: Field[] = [{ description: 'URL to remediation documentation', encoding: 'UTF8', name: 'URL', value: '' }]
+  fields: Field[] = [{ description: 'URL to remediation documentation', encoding: 'UTF8', name: 'URL', value: '' }],
+  tags: []
 ): NewAction {
   return {
     name,
     type,
     description,
-    fields
+    fields,
+    tags
   };
 }

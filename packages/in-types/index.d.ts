@@ -16,6 +16,7 @@ export interface Action {
   readonly name: string;
   readonly parameters?: Parameter[];
   readonly type: string;
+  readonly tags: string[];
 }
 
 export interface Field {

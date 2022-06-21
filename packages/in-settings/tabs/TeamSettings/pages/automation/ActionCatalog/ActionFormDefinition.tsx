@@ -4,15 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
-import { createField, createMapForm } from 'formalistic';
-import { NewAction } from 'in-api/automation';
+import { createField, createMapForm, MapForm } from 'formalistic';
 
 import { notBlankValidator } from 'in-services/validators/string';
+import { NewAction } from 'in-api/automation';
 
-// eslint-disable-next-line no-unused-vars
 export function createActionFormDefinition(action: NewAction, _isCreate: boolean) {
-  // eslint-disable-next-line no-undef
-  const { name, description, fields, type } = action;
+  const { name, description, type, tags } = action;
 
   let form = createMapForm()
     .put(
@@ -37,12 +35,33 @@ export function createActionFormDefinition(action: NewAction, _isCreate: boolean
       })
     )
     .put(
-      'fields',
+      'tags',
       createField({
-        value: fields,
+        value: tags,
         validator: notBlankValidator
       })
     );
 
+  form = putDocLinkFields(form, action);
   return form;
+}
+
+export function putDocLinkFields(form: MapForm, action: NewAction) {
+  const { fields } = action;
+  const field = fields?.[0];
+  const { value, description } = field ?? {};
+  return form
+    .put(
+      'docLinkValue',
+      createField({
+        value: value,
+        validator: notBlankValidator
+      })
+    ).put(
+      'docLinkDescription',
+      createField({
+        value: description,
+        validator: notBlankValidator
+      })
+    );
 }
