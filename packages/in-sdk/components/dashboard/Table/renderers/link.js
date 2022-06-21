@@ -3,9 +3,10 @@
  * (c) Copyright Instana Inc.
  */
 
-import { Link } from '@instana/components';
 import invariant from 'invariant';
 import React from 'react';
+
+import { Link } from '@instana/components';
 
 import { cellLoadingIndicatorInstance } from 'in-infrastructure/tableView/components/Table/components/CellLoadingIndicator';
 import { noop } from 'in-services/fixedObjects';
@@ -61,7 +62,11 @@ function setResult(result, col, row, emitRawDataChange) {
   } else {
     col.value = result.value;
     if (result.href) {
-      col.content = <Link href={result.href}>{result.label}</Link>;
+      col.content = (
+        <Link external={result.external} href={result.href}>
+          {result.label}
+        </Link>
+      );
     } else {
       col.content = result.label;
     }

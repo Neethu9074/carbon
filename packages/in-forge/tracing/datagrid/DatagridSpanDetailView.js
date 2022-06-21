@@ -13,8 +13,10 @@ export default function DatagridSpanDetailView({ span }) {
   return (
     <div>
       <Dl>
-        <Di title={t('in-forge:tracing.datagrid.titleClusterName')}>{span.getIn(['data', 'datagrid', 'clusterName'])}</Di>
-        <Di title={t('in-forge:tracing.datagrid.titleCacheName')}>{span.getIn(['data', 'datagrid', 'cacheName'])}</Di>		
+        <Di title={t('in-forge:tracing.datagrid.titleClusterName')}>
+          {span.getIn(['data', 'datagrid', 'clusterName'])}
+        </Di>
+        <Di title={t('in-forge:tracing.datagrid.titleCacheName')}>{span.getIn(['data', 'datagrid', 'cacheName'])}</Di>
         <Di title={t('in-forge:tracing.datagrid.titleOperation')}>{span.getIn(['data', 'datagrid', 'operation'])}</Di>
         <Di title={t('in-forge:tracing.datagrid.titleKey')}>{span.getIn(['data', 'datagrid', 'key'])}</Di>
         <ErrorDescriptionItem error={span.getIn(['data', 'datagrid', 'error'])} />

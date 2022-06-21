@@ -60,5 +60,6 @@ module.exports = {
   sliCHClusterAccessEnabled: true,
   perSecondAggregationEnabled: false,
   baselinePreviewOnAlertPageEnabled: true,
-  apdexWidgetEnabled: true
+  apdexWidgetEnabled: true,
+  actionAutomationEnabled: true
 };
