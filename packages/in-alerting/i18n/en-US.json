@@ -733,7 +733,6 @@
     },
     "websites": {
       "advanced": {
-        "slownessInteractiveChartThresholdValue": "Threshold Value",
         "scopeLabel": "Scope",
         "scopeTitle": "Scope: Where is the condition happening?",
         "thresholdLabel": "Threshold",

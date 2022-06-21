@@ -25,10 +25,10 @@ export default function createThresholdForm(threshold: ThresholdConfig, alertTyp
   switch (alertType) {
     case 'slowness':
     case 'throughput':
+    case 'customEvent':
       return createBaselineEnabledForm(form, threshold);
     case 'specificJsError':
     case 'statusCode':
-    case 'customEvent':
       return createThresholdFormStaticThreshold(form, threshold as { value?: number });
     default:
       return form;

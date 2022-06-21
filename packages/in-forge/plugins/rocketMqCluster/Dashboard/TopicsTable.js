@@ -1,0 +1,103 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import React from 'react';
+
+import getRocketMqTopics from 'in-forge/plugins/rocketMqCluster/subscriptions/getRocketMqTopics';
+import { zeroDecimalPlaces } from 'in-services/formatters/number';
+import Table from 'in-sdk/components/dashboard/Table';
+import { timeConfig$ } from 'in-stores/time/config';
+import { getSnapshots } from 'in-stores/snapshot';
+import connectTo from 'in-hoc/connectTo';
+import { t } from 'in-i18n';
+
+const missingValue = '/';
+const cols = [
+  {
+    title: t('in-forge:plugins.rocketMqCluster.topicName'),
+    type: 'snapshotLink',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.key;
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.rocketMqTopic.putNums'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'putNums';
+      },
+      getContent: function(putNums) {
+        if (putNums < 0) {
+          return missingValue;
+        } else {
+          return zeroDecimalPlaces(putNums);
+        }
+      },
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  },
+  {
+    title: t('in-forge:plugins.rocketMqTopic.getNums'),
+    type: 'metric',
+    typeArgs: {
+      getSnapshotId(row) {
+        return row.snapshotId;
+      },
+      getMetricName() {
+        return 'getNums';
+      },
+      getContent: function(getNums) {
+        if (getNums < 0) {
+          return missingValue;
+        } else {
+          return zeroDecimalPlaces(getNums);
+        }
+      },
+      getTimeWindowAggregation() {
+        return 'mean';
+      }
+    }
+  }
+];
+
+export default connectTo(
+  props => ({
+    topics: timeConfig$
+      .flatMap(timeConfig => getRocketMqTopics({ snapshotId: props.snapshotId, timeConfig }))
+      .flatMap(getSnapshots)
+  }),
+  function TopicsTable({ topics, timeConfig }) {
+    if (topics == null || topics.length === 0) {
+      return null;
+    }
+
+    const rows = topics.map(topic => {
+      const id = topic.get('id');
+      return {
+        key: id,
+        snapshotId: id,
+        snapshot: topic,
+        timeConfig
+      };
+    });
+
+    return (
+      <Table
+        withoutPadding
+        cardTitle={t('in-forge:plugins.rocketMqCluster.topicsNumber', { count: rows.length })}
+        cols={cols}
+        rows={rows}
+      />
+    );
+  }
+);

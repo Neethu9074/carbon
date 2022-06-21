@@ -24,7 +24,7 @@ import { Progress, SyntheticTest } from 'in-types';
 import { updateTest } from 'in-synthetics/api';
 import { getTest } from 'in-synthetics/api';
 
-export interface TestResponse {
+interface SynthTestResponse {
   data: SyntheticTest;
   errors?: Error[];
   progress: Progress;
@@ -48,7 +48,7 @@ function RenderButtonLine() {
   let location = useLocation();
   const [count, setReloadCount] = useState(0);
   let testId = getMatrixParameter(location, syntheticsDashboard, 'testId') ?? '';
-  let test: TestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
+  let test: SynthTestResponse = useObservable<any, [number]>(() => getTest(testId), [count]) || dummyTest;
   let isActive = test.data?.active;
 
   function pauseOrResume(test: SyntheticTest) {
