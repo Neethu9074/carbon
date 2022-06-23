@@ -4,7 +4,6 @@
  * Copyright IBM Corp. 2022
  */
 
-import { renderStaticThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
 import { renderThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
 import { getHistoricBaselineValue } from 'in-alerting/smart-alerts/components/utils/baselineUtils';
 import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
@@ -20,37 +19,36 @@ export function renderHistoricBaseline(config, scale, colors50, colors100, metri
   const { baseline, operator, sensitivity, thresholdGranularity } = y1;
 
   if (!baseline || baseline.length === 0) {
-    renderStaticThresholdLineAndBackgrounds(config, scale, colors100, colors50);
+    return;
   }
-  if (baseline && baseline.length > 0) {
-    const { isGreaterOp, oneSidedThresholdInTimeframe } = initOneSidedThreshold(
-      baseline,
-      operator,
-      sensitivity,
-      thresholdGranularity,
-      timeConfig
+
+  const { isGreaterOp, oneSidedThresholdInTimeframe } = initOneSidedThreshold(
+    baseline,
+    operator,
+    sensitivity,
+    thresholdGranularity,
+    timeConfig
+  );
+
+  renderThresholdLineAndBackgrounds(config, scale, colors50, colors100, oneSidedThresholdInTimeframe, isGreaterOp);
+
+  let numOfThresholds = oneSidedThresholdInTimeframe.length;
+  let numOfMetrics = metric?.length;
+
+  if (numOfThresholds >= 0 && numOfMetrics >= 0) {
+    const lastAvailableThresholdTimestamp = oneSidedThresholdInTimeframe[numOfThresholds - 1][0];
+
+    const chartHeight = scale.getRangeFrom();
+
+    const graphAreaHeight = chartHeight - markerPaneHeight;
+    const lastAvailableMetricTimestamp = metric[numOfMetrics - 1][0];
+
+    renderMetricUnavailableIndicator(
+      config,
+      graphAreaHeight,
+      lastAvailableThresholdTimestamp,
+      lastAvailableMetricTimestamp
     );
-
-    renderThresholdLineAndBackgrounds(config, scale, colors50, colors100, oneSidedThresholdInTimeframe, isGreaterOp);
-
-    let numOfThresholds = oneSidedThresholdInTimeframe.length;
-    let numOfMetrics = metric?.length;
-
-    if (numOfThresholds >= 0 && numOfMetrics >= 0) {
-      const lastAvailableThresholdTimestamp = oneSidedThresholdInTimeframe[numOfThresholds - 1][0];
-
-      const chartHeight = scale.getRangeFrom();
-
-      const graphAreaHeight = chartHeight - markerPaneHeight;
-      const lastAvailableMetricTimestamp = metric[numOfMetrics - 1][0];
-
-      renderMetricUnavailableIndicator(
-        config,
-        graphAreaHeight,
-        lastAvailableThresholdTimestamp,
-        lastAvailableMetricTimestamp
-      );
-    }
   }
 }
 
