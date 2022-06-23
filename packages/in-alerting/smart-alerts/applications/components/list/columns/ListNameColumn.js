@@ -82,7 +82,7 @@ function getSubtitle(rule, threshold) {
   const { operator, seasonality, type, value } = threshold;
   if (type === STATIC_THRESHOLD) {
     const metricFormat = blueprintConfig.getMetricFormat(metricName);
-    const formattedValue = metricFormat.compact(value);
+    const formattedValue = (metricFormat.short || metricFormat.compact)(value);
     return t('in-alerting:smartAlerts.applications.inventory.getSubtitleForStaticThreshold', {
       metricLabel: formattedMetricLabel,
       operator,
