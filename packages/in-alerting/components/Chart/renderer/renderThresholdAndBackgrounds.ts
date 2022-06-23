@@ -7,7 +7,6 @@
 // @ts-expect-error is not yet migrated to typescript
 import line from 'in-components/Chart/renderer/line';
 import { DataSeries, RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
-import { isGreaterOperator } from 'in-alerting/smart-alerts/components/utils/alertUtils';
 import { AxisColor } from 'in-components/Chart/types';
 import { ScaleType } from 'in-services/scale/scale';
 import { ThresholdOperator } from 'in-types';
@@ -159,44 +158,5 @@ export function renderThresholdLineAndBackgrounds(
       }
     }
   });
-  backBufferCtx.restore();
-}
-
-export function renderStaticThresholdLineAndBackgrounds(
-  config: RenderConfig,
-  scale: ScaleType,
-  colors50: AxisColor[],
-  colors100: AxisColor[]
-) {
-  const { backBufferCtx, markerPaneHeight, xScaleBackBuffer, y1 } = config;
-  const { operator, thresholdLineWidth } = y1 as RenderAxisWithThreshold;
-
-  // @ts-expect-error scales is not yet defined on config
-  const yScale: ScaleType = config.scales.y1;
-
-  const chartHeight = scale.getRangeFrom();
-  const chartWidth = xScaleBackBuffer.getRangeTo();
-  const threshold = yScale.getRangeFrom() - yScale.getRange((y1 as RenderAxisWithThreshold)!.threshold);
-  const thresholdColor = colors100[1]!;
-  const alrightColor = colors50[0]!;
-  const violationColor = colors50[1]!;
-  const isGreaterOp = operator === undefined || isGreaterOperator(operator);
-
-  backBufferCtx.save();
-  // Background above line
-  backBufferCtx.fillStyle = isGreaterOp ? violationColor : alrightColor;
-  backBufferCtx.fillRect(0, markerPaneHeight, chartWidth, chartHeight - threshold - markerPaneHeight!);
-
-  // Background below line
-  backBufferCtx.fillStyle = isGreaterOp ? alrightColor : violationColor;
-  backBufferCtx.fillRect(0, chartHeight - threshold, chartWidth, threshold);
-
-  // static horizontal line
-  backBufferCtx.beginPath();
-  backBufferCtx.moveTo(0, chartHeight - threshold);
-  backBufferCtx.lineWidth = thresholdLineWidth;
-  backBufferCtx.strokeStyle = thresholdColor;
-  backBufferCtx.lineTo(chartWidth, chartHeight - threshold);
-  backBufferCtx.stroke();
   backBufferCtx.restore();
 }
