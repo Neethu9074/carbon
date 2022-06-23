@@ -68,7 +68,7 @@ export function createMetricLabel(alertType, aggregation, thresholdType, value, 
 
   if (thresholdType === STATIC_THRESHOLD) {
     const metricFormat = blueprintConfig.getMetricFormat(metricName);
-    const formattedValue = metricFormat.compact(value);
+    const formattedValue = (metricFormat.short || metricFormat.compact)(value);
     formattedMetricLabel += ` ${operator} ${formattedValue}`;
   }
 
