@@ -224,6 +224,17 @@ export function saveCustomEventSpecification(eventSpecification) {
   }).map(response => fromJS(response.body));
 }
 
+export function saveActionAssociation(actionId, eventSpecification) {
+  return http({
+    method: 'POST',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(
+      eventSpecification.id
+    )}/actions/${encodeURIComponent(actionId)}`,
+    headers: getCsrfHeader()
+  }).map(response => fromJS(response.body));
+}
+
 export function setBuiltInEventSpecificationsEnabled(eventSpecificationId, enabled) {
   return http({
     method: 'POST',

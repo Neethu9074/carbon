@@ -677,7 +677,7 @@ function ActionsSelection({ form, setForm }) {
             limit={limitForConnectedEvents}
             createSubmitLabel={numberOfItems =>
               numberOfItems > 0
-                ? t('in-settings:tabs.addNumberOfItemsEvent', { count: numberOfItems })
+                ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })
                 : t('in-settings:tabs.addActions')
             }
             requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}

@@ -13,7 +13,8 @@ import {
   createCustomSystemRuleBasedHostAvailability,
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
-  saveCustomEventSpecification
+  saveCustomEventSpecification,
+  saveActionAssociation
 } from 'in-api/eventSpecifications';
 import {
   createEventFormDefinition,
@@ -150,6 +151,7 @@ function save(event, form) {
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn').value;
+  const actionIds = form.get('actionIds').value;
 
   submitEventTracker({
     scopeType,
@@ -159,7 +161,13 @@ function save(event, form) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  return saveCustomEventSpecification(eventSpecification);
+  let a = saveCustomEventSpecification(eventSpecification);
+  if (actionIds.length > 0) {
+    actionIds.map(id => {
+      a = a.merge(saveActionAssociation(id, eventSpecification));
+    });
+  }
+  return a;
 }
 
 function getTagFilterForHostAvailability(form) {
