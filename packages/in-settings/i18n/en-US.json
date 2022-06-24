@@ -821,6 +821,7 @@
     "actionCatalog": "Action Catalog",
     "action_plural": "Actions",
     "action": "action",
+    "actionWithNameForDelete": "action {{actionName}}",
     "actionWithName": "Action: {{actionName}}",
     "actionType": "Action Type",
     "actionDetails": "Action Details",
@@ -831,7 +832,11 @@
     "lastModified": "Last Modified",
     "docLink": "Documentation Link",
     "docLinkValue": "Documentation Link Value",
-    "docLinkDescription": "Documentation Link Description"
+    "docLinkDescription": "Documentation Link Description",
+    "noTagsConfigured": "No Tags Configured",
+    "addRow": "Add Row",
+    "showsUpInTheListOfActions": "Shows up in the list of actions. Should be unique and meaningful.",
+    "showsUpInTheActionDescription": "Shows up in the action description. Should be as descriptive as possible."
   },
   "languageSelection": {
     "language": "Language",

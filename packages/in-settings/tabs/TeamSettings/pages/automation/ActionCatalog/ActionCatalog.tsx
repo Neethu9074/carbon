@@ -8,11 +8,11 @@ import React from 'react';
 
 import { Link } from '@instana/components';
 
-import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
+import { teamSettingsActionCatalog, getEntityIdView, teamSettingsActionDetailsNew } from 'in-settings/navigation/paths';
+import List, { leftHeaderWithSelectAll, createNewEntityButton } from 'in-settings/components/List';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
-import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
+import { getAllActions, deleteAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
-import { getAllActions } from 'in-api/automation';
 import { Action } from 'in-types';
 import { t } from 'in-i18n';
 
@@ -65,6 +65,11 @@ const columnDefinitions = [
     }
   }
 ];
+const tableActions = {
+  delete: {
+    deleteEntity: (action: Action) => deleteAction(action.id)
+  }
+};
 export default function ActionCatalog({ setTitle = true, pageSize = 20 }) {
   return (
     <List
@@ -73,15 +78,25 @@ export default function ActionCatalog({ setTitle = true, pageSize = 20 }) {
       pageSize={pageSize}
       initialOrderBy="name"
       isSearchable
+      tableActions={tableActions}
       loadEntities={getAllActions}
+      getEntityName={(action: Action) => t('in-settings:tabs.actionWithNameForDelete', { actionName: action.name })}
       columnDefinitions={columnDefinitions}
       getHeader={getHeader()}
       searchAttributes={['name', 'description', 'tags']}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
+      rightHeader={defaultRightHeader()}
     />
   );
 }
 function getHeader() {
   return leftHeaderWithSelectAll(t('in-settings:tabs.action_plural'), false, {});
+}
+
+function defaultRightHeader() {
+  return createNewEntityButton({
+    labelNew: t('in-settings:tabs.newAction'),
+    pathNew: teamSettingsActionDetailsNew
+  });
 }

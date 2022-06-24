@@ -126,7 +126,6 @@ export default function entityForm(ComposedComponent) {
       }
 
       const result$ = props.saveEntity(entity, form);
-
       disposeAsyncAction();
 
       setState({

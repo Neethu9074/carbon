@@ -5,62 +5,66 @@
  */
 
 import { createField, createMapForm, MapForm } from 'formalistic';
+import { List, Map } from 'immutable';
+
+import { generateUniqueShortId } from '@instana/utils';
 
 import { notBlankValidator } from 'in-services/validators/string';
-import { NewAction } from 'in-api/automation';
+import { ImmutableNewAction } from 'in-api/automation';
 
-export function createActionFormDefinition(action: NewAction, _isCreate: boolean) {
-  const { name, description, type, tags } = action;
+export function createActionFormDefinition(action: ImmutableNewAction, _isCreate: boolean) {
+  const tags = (action.get('tags') as string[]) ?? [];
+  const mappedTags = tags.map(tag => ({ value: tag, id: generateUniqueShortId() }));
 
   let form = createMapForm()
     .put(
       'name',
       createField({
-        value: name,
+        value: action.get('name'),
         validator: notBlankValidator
       })
     )
     .put(
       'description',
       createField({
-        value: description,
+        value: action.get('description'),
         validator: notBlankValidator
       })
     )
     .put(
       'type',
       createField({
-        value: type,
+        value: action.get('type'),
         validator: notBlankValidator
       })
     )
     .put(
       'tags',
       createField({
-        value: tags,
+        value: mappedTags,
         validator: notBlankValidator
       })
     );
-
   form = putDocLinkFields(form, action);
   return form;
 }
 
-export function putDocLinkFields(form: MapForm, action: NewAction) {
-  const { fields } = action;
-  const field = fields?.[0];
-  const { value, description } = field ?? {};
+export function putDocLinkFields(form: MapForm, action: ImmutableNewAction) {
+  const fields = action.get('fields') as List<Map<string, string>>;
+  const field = fields.get(0);
+
   return form
     .put(
       'docLinkValue',
       createField({
-        value: value,
+        value: field.get('value'),
         validator: notBlankValidator
       })
-    ).put(
+    )
+    .put(
       'docLinkDescription',
       createField({
-        value: description,
+        value: field.get('description'),
         validator: notBlankValidator
       })
     );

@@ -10,9 +10,9 @@ import React from 'react';
 
 import { createActionFormDefinition } from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionFormDefinition';
 import ActionForm from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionForm';
+import { createDocLinkField, NewAction, saveAction, saveNewAction } from 'in-api/automation';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
-import { NewAction, saveAction, saveNewAction } from 'in-api/automation';
 import { teamSettingsActionCatalog } from 'in-settings/navigation/paths';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -22,8 +22,10 @@ import SectionLine from 'in-settings/components/SectionLine';
 import { getAction, createAction } from 'in-api/automation';
 import SaveCancel from 'in-settings/components/SaveCancel';
 import Notification from 'in-components/form/Notification';
+import { ImmutableNewAction } from 'in-api/automation';
 import Section from 'in-settings/components/Section';
 import { goToPath } from 'in-stores/navigation';
+import { Field } from 'in-types';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
@@ -31,18 +33,23 @@ interface MatchParams {
   id: string;
 }
 
-export default function Action(props: RouteComponentProps<MatchParams>) {
-  const entityId = props.match.params.id;
+export interface Tag {
+  id: string;
+  value: string;
+}
 
+export default function Action(props: RouteComponentProps<MatchParams>) {
+  const id = props.match.params.id;
+  const entityId = id === 'new' ? undefined : id;
   return (
     <Form
       title={t('in-settings:tabs.action')}
       entityId={entityId}
       createDefaultEntity={createAction}
-      createForm={(action: NewAction) => createActionFormDefinition(action, !entityId)}
+      createForm={(action: ImmutableNewAction) => createActionFormDefinition(action, !entityId)}
       getEntityFromApi={getAction}
       openEntities={() => goToPath(teamSettingsActionCatalog)}
-      saveEntity={(action: NewAction, form: any) => save(action, form, entityId)}
+      saveEntity={(_: NewAction, form: any) => save(form, entityId)}
     />
   );
 }
@@ -102,28 +109,35 @@ const Form = entityForm(function ActionFormWrapper(props: any) {
   );
 });
 
-function save(action: NewAction, form: MapForm, id: string) {
+function save(form: MapForm, id?: string) {
   const actionSpecification = getActionSpecification(form);
-  console.log(action, form, id);
   const isCreate = !id;
-  if(isCreate) {
+  if (isCreate) {
     return saveNewAction(actionSpecification);
   } else {
     return saveAction(actionSpecification, id);
   }
 }
 
-function getActionSpecification(form: MapForm): NewAction  {
+function getActionSpecification(form: MapForm): NewAction {
   const name = form?.get('name')?.toJS();
   const description = form?.get('description')?.toJS();
-  const fields = form?.get('fields')?.toJS();
   const type = form?.get('type')?.toJS();
   const tags = form?.get('tags')?.toJS();
+
+  const fields: Field[] = [];
+
+  if (type === 'doc_link') {
+    const docLinkValue = form?.get('docLinkValue')?.toJS();
+    const docLinkDescription = form?.get('docLinkDescription')?.toJS();
+    fields.push(createDocLinkField(docLinkValue, docLinkDescription));
+  }
+
   return {
     name,
     description,
     fields,
     type,
-    tags
+    tags: tags.map((tag: Tag) => tag.value)
   };
 }

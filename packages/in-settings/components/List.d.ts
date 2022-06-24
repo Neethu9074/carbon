@@ -6,23 +6,33 @@
 
 import { ReactNode } from 'react';
 
+import { Observable } from '@instana/observables';
+
 interface ColumnDefinition {
   id: number | string;
-  getContent: function;
+  getContent: Function;
 }
 
+interface TableActions {
+  delete: {
+    deleteEntity: (entity) => Observable<any>;
+  };
+}
 interface ListProps {
   title?: ReactNode;
   noDataMessage?: string;
   pageSize?: number;
   initialOrderBy?: string;
   isSearchable?: boolean;
-  loadEntities: function;
+  loadEntities: Function;
   columnDefinitions: ColumnDefinition[];
-  getHeader?: function;
+  getHeader?: Function;
   searchAttributes?: string[];
   searchPlaceholder?: string;
   searchMaxWidth?: number;
+  rightHeader?: ReactNode;
+  tableActions?: TableActions;
+  getEntityName: Function;
 }
 
 declare function ListComponent(props: ListProps): JSX.Element;
@@ -31,6 +41,20 @@ export declare function leftHeaderWithSelectAll(
   entityName: string,
   inSelectListDialog: boolean,
   tableActions: object
-): function;
+): Function;
+
+export declare function createNewEntityButton({
+  labelNew,
+  pathNew,
+  onCreateNew,
+  disabledMessage,
+  trackEvent
+}: {
+  labelNew: string;
+  pathNew: string;
+  onCreateNew?: Function;
+  disabledMessage?: string;
+  trackEvent?: Function;
+}): ReactNode;
 
 export default ListComponent;
