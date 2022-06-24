@@ -235,6 +235,15 @@ export function saveActionAssociation(actionId, eventSpecification) {
   }).map(response => fromJS(response.body));
 }
 
+export function getActionAssociation(eventSpecificationId) {
+  return http({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventSpecificationId)}/actions`,
+    treat400AsError: false
+  }).map(response => fromJS(response.body));
+}
+
 export function setBuiltInEventSpecificationsEnabled(eventSpecificationId, enabled) {
   return http({
     method: 'POST',
