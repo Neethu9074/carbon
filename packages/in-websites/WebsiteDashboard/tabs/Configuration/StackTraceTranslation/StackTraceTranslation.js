@@ -182,6 +182,9 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
         <Card>
           {fileConfigType === fileConfigTypes.download && (
             <List
+              title={t(
+                'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJSStackTraceTranslationConfigurations'
+              )}
               getHeader={
                 websiteUploadConfigEnabled
                   ? null
@@ -227,6 +230,9 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
           )}
           {websiteUploadConfigEnabled && fileConfigType === fileConfigTypes.upload && (
             <List
+              title={t(
+                'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationTitleJSStackTraceTranslationConfigurations'
+              )}
               getCustomHeader={buttonGroup}
               getEntityName={getUploadEntityName}
               columnDefinitions={columnDefinitionsUpload}
