@@ -4,9 +4,9 @@
  */
 
 import { compose, lifecycle, withState } from 'recompose';
+import { isEqual, filter } from 'lodash';
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
-import { isEqual } from 'lodash';
 
 import { Link, Spacer, Toggle } from '@instana/components';
 import { create, just } from '@instana/observables';
@@ -79,13 +79,20 @@ import {
   isAppDataEntityType
 } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/util';
 import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
+import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import {
+  deprecateAppDataLegacyEvents,
+  disableAppDataLegacyEvents,
+  actionAutomationEnabled
+} from 'in-services/featureFlags';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/BuiltInMetricSelector';
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
+import { limitForConnectedEvents } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import { deprecateAppDataLegacyEvents, disableAppDataLegacyEvents } from 'in-services/featureFlags';
+import AssociatedActions from 'in-settings/tabs/TeamSettings/pages/automation/AssociatedActions';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { compareIgnoreCase, isBlank, isNotBlank } from 'in-services/util/string';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -97,10 +104,12 @@ import DescriptionText from 'in-components/form/DescriptionText';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { getFormatterType } from 'in-services/formatters/number';
 import HelpText from 'in-components/form/HelpText/HelpText';
+import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import TextArea from 'in-components/form/TextArea';
 import { getPluginName } from 'in-sdk/pluginName';
+import { getAllActions } from 'in-api/automation';
 import Helpify from 'in-components/form/Helpify';
 import ComboBox from 'in-components/ComboBox';
 import { find } from 'in-services/arrayUtils';
@@ -108,6 +117,7 @@ import Input from 'in-components/form/Input';
 import Label from 'in-components/form/Label';
 import { validate } from 'in-api/search';
 import connectTo from 'in-hoc/connectTo';
+import { role } from 'in-stores/user';
 import { t, Trans } from 'in-i18n';
 
 import locals from './CustomEventForm.mless';
@@ -599,6 +609,12 @@ function EventForm({
           )}
         </Col>
       </Row>
+      {role.canConfigureAutomationActions && actionAutomationEnabled && (
+        <>
+          <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading>
+          <ActionsSelection form={form} setForm={setForm} />
+        </>
+      )}
       {form.get('applyOn').value === scopeApplication &&
         form.get('applicationIds').map(field => (
           <FormGroup>
@@ -610,14 +626,14 @@ function EventForm({
               tableActions={applicationSelectionTableActions(form, setForm)}
               rightHeader={
                 <SelectListDialogButton
-                  form={form}
+                  // form={form}
                   onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
                   title={t('in-settings:tabs.addApplicationPerspectives')}
                   label={t('in-settings:tabs.addApplicationPerspectives')}
                   listComponent={Applications}
                   listComponentRightHeader={noRightHeader}
                   limit={10}
-                  hiddenIds={selectedApplicationIds}
+                  // hiddenIds={selectedApplicationIds}
                   createSubmitLabel={numberOfItems =>
                     numberOfItems > 0
                       ? t('in-settings:tabs.addNumberOfItemsApplicationPerspective', { count: numberOfItems })
@@ -636,6 +652,42 @@ function EventForm({
   function isHostAvailabilitySystemRule() {
     return form.get('systemRule')?.value === hostAvailabilityDetection.id;
   }
+}
+
+function ActionsSelection({ form, setForm }) {
+  let selectedActions = form.get('actionIds') ? form.get('actionIds').value : [];
+
+  return (
+    <Fragment>
+      <AssociatedActions
+        setTitle
+        loadEntities={() => getSelectedEventsForAlert(selectedActions)}
+        hasRowNavigation={false}
+        noDataMessage={t('in-settings:tabs.noActionsSelected')}
+        tableActions={ActionSelectionTableActions(form, setForm)}
+        pageSize={10}
+        rightHeader={
+          <SelectListDialogButton
+            form={form}
+            onSubmit={selectedIds => submitActionSelection(form, setForm, selectedIds)}
+            title={t('in-settings:tabs.addActions')}
+            label={t('in-settings:tabs.addActions')}
+            listComponent={AssociatedActions}
+            hiddenIds={selectedActions}
+            limit={limitForConnectedEvents}
+            createSubmitLabel={numberOfItems =>
+              numberOfItems > 0
+                ? t('in-settings:tabs.addNumberOfItemsEvent', { count: numberOfItems })
+                : t('in-settings:tabs.addActions')
+            }
+            requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneAction')}
+          />
+        }
+      />
+      <TouchedMessages field={form.get('selectedActions')} />
+      <Spacer vertical="large" />
+    </Fragment>
+  );
 }
 
 function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions = [], onChange }) {
@@ -1025,3 +1077,42 @@ function isCustomDataSourceSelected(form) {
 function isSystemRuleDataSourceSelected(form) {
   return form.get('dataSource').value === dataSourceSystem;
 }
+
+function ActionSelectionTableActions(form, setForm) {
+  return {
+    deselect: {
+      deselect: deselectedEntity => {
+        if (deselectedEntity) {
+          setForm(
+            form.updateIn(['actionIds'], field => {
+              return field
+                .setValue(field.value.filter(referencedId => referencedId !== deselectedEntity.id))
+                .setTouched(true);
+            })
+          );
+        }
+      }
+    }
+  };
+}
+
+function submitActionSelection(form, setForm, selectedIds) {
+  setForm(
+    form.updateIn(['actionIds'], field => {
+      return field.setValue(field.value.concat(selectedIds)).setTouched(true);
+    })
+  );
+}
+
+const getSelectedEventsForAlert = createMemoizedObservableForReferencedEntities(function(selectedActions) {
+  if (selectedActions.length === 0) {
+    return alwaysEmptyArray;
+  }
+  // null is treated as a pending result when converting the HTTP response into a result
+  // return getEventSpecificationByIds(selectedActions).startWith(null);
+  return getAllActions().map(action =>
+    filter(action, function(app) {
+      return selectedActions.indexOf(app.id) >= 0;
+    })
+  );
+});

@@ -58,6 +58,7 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
     applyOn: null,
     applicationName: null,
     applicationIds: [],
+    actionIds: [],
     tagValueForHostAvailability: null,
     tagOperatorForHostAvailability: null
   };
@@ -152,7 +153,7 @@ export function createEventFormDefinition(eventSpec, isCreate) {
         validator: notBlankValidator
       })
     );
-
+  form = putActionField(form);
   if (dataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, eventSpec);
   } else {
@@ -164,7 +165,6 @@ export function createEventFormDefinition(eventSpec, isCreate) {
       form = putHostAvailabilityDetectionFields(form, eventSpec);
     }
   }
-
   if (applyOn === scopeApplication) {
     form = putApplicationField(form, applicationName);
     form = putApplicationIdField(form, applicationIds);
@@ -550,6 +550,15 @@ export function putTagValueField(form, tagValue) {
     createField({
       value: tagValue ?? '',
       validator: notBlankValidator
+    })
+  );
+}
+
+export function putActionField(form, tagValue) {
+  return form.put(
+    'actionIds',
+    createField({
+      value: tagValue ?? []
     })
   );
 }

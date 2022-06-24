@@ -23,6 +23,9 @@ interface ListProps {
   searchAttributes?: string[];
   searchPlaceholder?: string;
   searchMaxWidth?: number;
+  onRowClick?: function;
+  rightHeader?: ReactNode;
+  tableActions?: object;
 }
 
 declare function ListComponent(props: ListProps): JSX.Element;
@@ -30,7 +33,9 @@ declare function ListComponent(props: ListProps): JSX.Element;
 export declare function leftHeaderWithSelectAll(
   entityName: string,
   inSelectListDialog: boolean,
-  tableActions: object
+  trackEvent: object
 ): function;
+
+export declare function createNewEntityButton(labelNew: string, pathNew: any, tableActions: function): function;
 
 export default ListComponent;
