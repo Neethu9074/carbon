@@ -107,8 +107,8 @@ const ChartReactWrapper = React.forwardRef(function ChartReactWrapper(props, out
     }
   });
 
-  // We need to execute a dispose call when the chart changes. This is already handled within
-  // canvasRefSetter. With this effect we only want to handle unmounting of the component.
+  // With this effect we only want to handle to properly dispose the chart when unmounting the component.
+  // The handling of disposing the chart when it changes is handled within canvasRefSetter above.
   useEffect(() => () => chart?.dispose(), [chart]);
 
   const heightOfDrawableCanvas = chart ? chartHeight - chart.config.timeAxisHeight - chart.config.markerPaneHeight : 0;
