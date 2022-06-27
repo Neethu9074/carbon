@@ -84,7 +84,7 @@
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "Test sintetici",
+      "mainLabel": "Synthetics",
       "secondaryLabels": {
         "tests": "Test",
         "location": "Ubicazione"
@@ -99,6 +99,48 @@
     "sortOptions": {
       "name": "Nome",
       "frequency": "Frequenza"
+    },
+    "summary": {
+      "successRate": "Percentuale di successo",
+      "locations": "Ubicazioni",
+      "meanResponseTime": "Tempo medio di risposta",
+      "avgResponseSize": "Media dimensione risposta",
+      "summaryTab": "Riepilogo",
+      "resultsTab": "Risultati",
+      "widgets": {
+        "failures": "Errori",
+        "responseTimes": "Tempi di risposta",
+        "averageResponseSize": "Media dimensione risposta",
+        "responseStatus": "Stato della risposta",
+        "networkTimings": "Tempistiche di rete",
+        "blocking": "Bloccante",
+        "dns": "Ricerca DNS",
+        "sending": "Invio",
+        "waiting": "In attesa",
+        "receiving": "Ricezione",
+        "slowest": "Più lento",
+        "latest": "Più recente",
+        "failed": "Non riuscito",
+        "results": "Risultati",
+        "linkViewAllTestResults": "Visualizza tutti i risultati",
+        "ok": "Operazione riuscita",
+        "redirection": "Reindirizzamento",
+        "clientError": "Errore del client",
+        "serverError": "Errore del server"
+      },
+      "totalRuns": "Numero totale di esecuzioni: {{totalRuns}}",
+      "meanLatencyFor90th": "{{meanLatencyDetail}} per 90esimo"
+    },
+    "resultsListPage": {
+      "startedColumn": "Avviato",
+      "locationColumn": "Ubicazione",
+      "responseTimeColumn": "Tempo di risposta",
+      "responseSizeColumn": "Dimensione risposta",
+      "title": "Risultati"
+    },
+    "noDataAvailable": {
+      "resultsTitle": "Nessun risultato disponibile",
+      "resultsDescription": "Nessun risultato richiamato per l'intervallo di tempo selezionato."
     }
   }
 }

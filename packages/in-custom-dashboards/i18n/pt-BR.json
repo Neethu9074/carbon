@@ -167,14 +167,16 @@
         "aggregation": "Agregação",
         "crossSeriesAggregation": "Use SUM para agregação de séries cruzadas",
         "crossSeriesAggregationHelp": "Normalmente, a agregação de série cruzada é a mesma da agregação de tempo cruzado (o método usado para combinar pontos de dados em um único depósito). Com essa alternância ativada, vamos somar os depósitos nas séries de dados, em vez de usar a agregação especificada.",
-        "crossSeriesAggregationDisabledHelp": "Não aplicável a {{aggregation}}"
+        "crossSeriesAggregationDisabledHelp": "Não aplicável a {{aggregation}}",
+        "crossSeriesAggregationRestrictedHelp": "Não aplicável a esta métrica"
       },
       "metrics": {
         "infrastructurePlatforms": "Infraestrutura e plataformas",
         "comingSoon": "(em breve)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "Selecione uma métrica"
+        "pleaseSelectMetric": "Selecione uma métrica",
+        "loadingMetrics": "Carregando métricas..."
       }
     },
     "srcMobileApp": {
@@ -374,6 +376,7 @@
     "slo": {
       "demo": {
         "title": "Título do SLO",
+        "sliName": "Exemplo de Sli",
         "appName": "Nome do aplicativo de exemplo"
       },
       "apConfigFormComp": {
@@ -478,7 +481,9 @@
         "delSliConfig": "Excluir configuração de SLI",
         "pleaseConfirm": "Confirme",
         "pleaseConfirmMsg": "Tem certeza de que deseja excluir <strong>{{sliName}}</strong>?",
-        "delete": "Excluir"
+        "delete": "Excluir",
+        "eventBasedSli": "Com base em evento",
+        "timeBasedSli": "Com base em tempo, {{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "Você não tem a permissão necessária <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> para criar ou editar SLIs.",
@@ -494,7 +499,9 @@
       "chart": {
         "spent": "Gasto",
         "budget": "Orçamento",
-        "viewInAnalyze": "Visualizar na análise"
+        "viewInAnalyze": "Visualizar na análise",
+        "initialEvaluation": "SLI criado",
+        "missingDataInfo": "O tempo de criação para esta SLI está dentro do intervalo de tempo exibido. Os dados anteriores à criação do SLI estarão ausentes."
       },
       "formComponent": {
         "sliManagement": "Gerenciamento de SLI",
@@ -521,15 +528,16 @@
         "enterDateFormatYyyyMmDd": "Insira uma data no formato DD-MM-AAAA.",
         "enterTimeInFormatHhMmSs": "Insira um horário no formato HH:mm:ss."
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "Status",
         "target": "Destino:",
         "errorBudgetSpent": "Orçamento gasto com erro",
         "errorBudget": "Orçamento com erro:",
         "timeWindow": "Espaço de tempo",
-        "dynamicTimeWindow": "Espaço de tempo dinâmico",
-        "rollingTimeWindow": "Espaço de tempo contínuo",
-        "fixedTimeWindow": "Espaço de tempo fixo"
+        "timeWindowType": "Espaço de tempo desconhecido",
+        "timeWindowType_dynamic": "Espaço de tempo dinâmico",
+        "timeWindowType_rolling": "Espaço de tempo contínuo",
+        "timeWindowType_fixed": "Espaço de tempo fixo"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -551,7 +559,9 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "Aplicação",
-        "source_website": "Website"
+        "source_website": "Website (Beta)",
+        "callOut_application": "Exclui fatores além de seu controle, como conectividade de Internet insatisfatória de usuários finais, mas pode não refletir com precisão a experiência do usuário final",
+        "callOut_website": "A maioria reflete com precisão a experiência do usuário final, mas não exclui fatores além de seu controle, como conectividade de Internet insatisfatória de usuários finais"
       },
       "sliFormatter": {
         "unit": "Chamada",
@@ -560,6 +570,58 @@
         "unit_1": "Chamada",
         "unit_2": "chamadas",
         "thousandCallsFormat": "{{count}}K chamadas"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "Dados de visualização são mostrados em até 7 dias no passado caso a configuração SLI tenha sido criada recentemente. O widget final incluirá apenas dados desde a criação do SLI"
+      }
+    },
+    "apdex": {
+      "title": "Apdex: Gráfico",
+      "chart": {
+        "metricLabel": "Apdex"
+      },
+      "demo": {
+        "title": "Apdex para Produção",
+        "entityLabel": "Loja de Robô"
+      },
+      "formComponent": {
+        "title": "Configuração do Apdex",
+        "entityTypeTitle": "Tipo de Adex",
+        "manageListTitle": "Gerenciamento do Apdex"
+      },
+      "configurationSelector": {
+        "label": "Configuração do Apdex",
+        "selectConfig": "Selecione uma configuração",
+        "manageConfig": "Gerenciar o Apdex",
+        "noneAvailCreateOne": "Nenhum disponível, crie um.",
+        "pleaseSelect": "Selecione"
+      },
+      "entityTypeSelector": {
+        "type": "Tipo desconhecido",
+        "type_website": "Website"
+      },
+      "apdexManageList": {
+        "title": "Lista do Apdex"
+      },
+      "apdexList": {
+        "cardTitle": "Configuração do Apdex",
+        "nameColumn": "Configuração do Apdex",
+        "thresholdColumn": "Limite",
+        "confirmDeleteHeader": "Confirme",
+        "confirmDeleteMessage": "Tem certeza de que deseja excluir {{apdex}}?",
+        "editApdexTooltip": "Editar/clonar configuração do Apdex",
+        "deleteApdexTooltip": "Excluir configuração do Apdex",
+        "confirmDeleteButton": "Excluir",
+        "createButton": "Criar configuração do Apdex"
+      },
+      "entityInfo": {
+        "tooltip": "Apdex desconhecido",
+        "tooltip_website": "Apdex do website",
+        "tooltip_application": "Apdex do aplicativo"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "Aplicativo desconhecido",
+        "unknownEntityLabel_website": "Website desconhecido"
       }
     },
     "timezone": {

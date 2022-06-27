@@ -84,7 +84,7 @@
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "シンセティック・テスト",
+      "mainLabel": "シンセティック",
       "secondaryLabels": {
         "tests": "テスト",
         "location": "ロケーション"
@@ -99,6 +99,48 @@
     "sortOptions": {
       "name": "名前",
       "frequency": "頻度"
+    },
+    "summary": {
+      "successRate": "成功率",
+      "locations": "ロケーション",
+      "meanResponseTime": "平均応答時間",
+      "avgResponseSize": "平均 応答サイズ",
+      "summaryTab": "サマリー",
+      "resultsTab": "結果",
+      "widgets": {
+        "failures": "障害",
+        "responseTimes": "応答時間",
+        "averageResponseSize": "平均の応答サイズ",
+        "responseStatus": "応答状況",
+        "networkTimings": "ネットワーク時間",
+        "blocking": "ブロッキング",
+        "dns": "DNS ルックアップ",
+        "sending": "送信",
+        "waiting": "待機",
+        "receiving": "受信",
+        "slowest": "最も遅い",
+        "latest": "最新バージョン",
+        "failed": "失敗",
+        "results": "結果",
+        "linkViewAllTestResults": "すべての結果の表示",
+        "ok": "成功",
+        "redirection": "リダイレクト",
+        "clientError": "クライアント・エラー",
+        "serverError": "サーバー・エラー"
+      },
+      "totalRuns": "{{totalRuns}}の合計実行数",
+      "meanLatencyFor90th": "90 パーセンタイルでは {{meanLatencyDetail}}"
+    },
+    "resultsListPage": {
+      "startedColumn": "開始済み",
+      "locationColumn": "Location",
+      "responseTimeColumn": "応答時間",
+      "responseSizeColumn": "応答サイズ",
+      "title": "結果"
+    },
+    "noDataAvailable": {
+      "resultsTitle": "使用可能な結果はありません",
+      "resultsDescription": "選択した時刻範囲について、取得された結果はありませんでした。"
     }
   }
 }

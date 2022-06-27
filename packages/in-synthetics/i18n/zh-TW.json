@@ -84,7 +84,7 @@
   },
   "dashboard": {
     "testList": {
-      "mainLabel": "虛構測試",
+      "mainLabel": "綜合",
       "secondaryLabels": {
         "tests": "測試",
         "location": "位置"
@@ -99,6 +99,48 @@
     "sortOptions": {
       "name": "名稱",
       "frequency": "頻率"
+    },
+    "summary": {
+      "successRate": "成功率",
+      "locations": "位置",
+      "meanResponseTime": "回應的平均時間",
+      "avgResponseSize": "平均 回應大小",
+      "summaryTab": "摘要",
+      "resultsTab": "結果",
+      "widgets": {
+        "failures": "失敗",
+        "responseTimes": "回應時間",
+        "averageResponseSize": "平均回應大小",
+        "responseStatus": "回應狀態",
+        "networkTimings": "網路計時",
+        "blocking": "封鎖中",
+        "dns": "DNS 查閱",
+        "sending": "傳送中",
+        "waiting": "等待中",
+        "receiving": "接收中",
+        "slowest": "最慢",
+        "latest": "最新",
+        "failed": "失敗",
+        "results": "結果",
+        "linkViewAllTestResults": "檢視所有結果",
+        "ok": "成功",
+        "redirection": "重新導向",
+        "clientError": "用戶端錯誤",
+        "serverError": "伺服器錯誤"
+      },
+      "totalRuns": "{{totalRuns}} 執行總數",
+      "meanLatencyFor90th": "第 90 個的 {{meanLatencyDetail}}"
+    },
+    "resultsListPage": {
+      "startedColumn": "已開始",
+      "locationColumn": "位置",
+      "responseTimeColumn": "回應時間",
+      "responseSizeColumn": "回應大小",
+      "title": "結果"
+    },
+    "noDataAvailable": {
+      "resultsTitle": "無可用的結果",
+      "resultsDescription": "在選取的時間範圍內未擷取任何結果。"
     }
   }
 }
