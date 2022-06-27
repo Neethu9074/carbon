@@ -61,6 +61,8 @@ export function TopListWithUrlState(props) {
     selectedMetric: metrics[i],
     selectedMetricFormatter: formatters[i],
     selectedMetricAggregation: aggregations && aggregations[i],
+    selectedCompanionMetricAlias:
+      companionMetrics[i] === metrics[i] ? `${companionMetrics[i]}_${companionAggregations[i]}` : undefined,
     selectedCompanionMetric: companionMetrics && companionMetrics[i],
     selectedCompanionMetricFormatter: companionFormatters && companionFormatters[i],
     selectedCompanionMetricAggregation: companionAggregations && companionAggregations[i],
