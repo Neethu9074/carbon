@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 import React, { Fragment } from 'react';
@@ -12,7 +12,15 @@ import TemporaryPresenter from 'in-components/TemporaryPresenter';
 
 import locals from './TemporaryMessage.mless';
 
-export default function TemporaryMessage({ type = 'success', duration = 5000, id, onHide, message }) {
+interface Props {
+  type: 'success' | 'error';
+  duration: number;
+  id?: string;
+  message: string;
+  onHide?: () => void;
+}
+
+export default function TemporaryMessage({ type = 'success', duration = 5000, id, onHide, message }: Props) {
   return (
     <TemporaryPresenter duration={duration} id={id || message} onHide={onHide}>
       <Fragment>

@@ -4,7 +4,8 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { Fragment } from 'react';
+import { Field, MapForm } from 'formalistic';
+import React from 'react';
 
 import { Link } from '@instana/components';
 
@@ -25,13 +26,27 @@ import { t, Trans } from 'in-i18n';
 
 import locals from './FileUploadConfigurationDialogPresenter.mless';
 
-export default function FileUploadConfigurationDialogPresenter(props) {
+export interface MessageType {
+  type: 'success' | 'error';
+  message: string;
+  isSaving?: boolean;
+}
+
+interface Props {
+  form: MapForm;
+  websiteId: string;
+  message?: MessageType | null;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
+  onChange: (path: Array<string>, value: string) => void;
+}
+
+export default function FileUploadConfigurationDialogPresenter(props: Props) {
   const { form, message, onSubmit, onChange, websiteId } = props;
 
   return (
     <Dialog
       title={
-        form.get('id').value
+        (form.get('id') as Field<any>).value
           ? t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogTitleEdit')
           : t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogTitleNew')
       }
@@ -56,14 +71,14 @@ export default function FileUploadConfigurationDialogPresenter(props) {
               <Input
                 id={`config-headers-desc-key`}
                 type="text"
-                value={form.get('description').value}
+                value={(form.get('description') as Field<any>).value}
                 onChange={e => onChange(['description'], e.target.value)}
               />
             </FormGroup>
           </Col>
         </Row>
 
-        {form.get('id').value && (
+        {(form.get('id') as Field<any>).value && (
           <>
             <SectionHeading withoutTopSpacing>
               {t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogHeadingOpenAPI')}
@@ -88,7 +103,7 @@ export default function FileUploadConfigurationDialogPresenter(props) {
                 <CopyableText
                   title={t('in-websites:websiteDashboard.tabs.configuration.fileUploadUrl')}
                   value={`${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${
-                    form.get('id').value
+                    (form.get('id') as Field<any>).value
                   }/form`}
                   fieldName="sourceMapUploadFormUrl"
                 />
@@ -97,7 +112,7 @@ export default function FileUploadConfigurationDialogPresenter(props) {
                 <CopyableText
                   title={t('in-websites:websiteDashboard.tabs.configuration.clearUploadedFilesUrl')}
                   value={`${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${
-                    form.get('id').value
+                    (form.get('id') as Field<any>).value
                   }/clear`}
                   fieldName="sourceMapUploadClearUrl"
                 />
@@ -106,13 +121,13 @@ export default function FileUploadConfigurationDialogPresenter(props) {
           </>
         )}
 
-        <SaveCancel form={form} onClickCancelButton={close} isCreate={isBlank(form.get('id').value)} />
+        <SaveCancel form={form} onClickCancelButton={close} isCreate={isBlank((form.get('id') as Field<any>).value)} />
       </form>
     </Dialog>
   );
 }
 
-function CopyableText({ title, value, fieldName }) {
+function CopyableText({ title, value, fieldName }: { title: string; value: string; fieldName: string }) {
   return (
     <FormGroup>
       <Label htmlFor={fieldName}>{title}</Label>

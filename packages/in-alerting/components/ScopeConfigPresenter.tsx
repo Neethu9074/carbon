@@ -1,16 +1,15 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 import React, { ReactNode } from 'react';
 
 import { Stack } from '@instana/components';
 
-// @ts-expect-error this component needs to be converted to typescript
-import HelpText from 'in-components/form/HelpText';
 import { FormModelElement } from 'in-components/QueryBuilder/transformation/formModel';
 import { QueryBuilderComponent } from 'in-components/QueryBuilder';
+import HelpText from 'in-components/form/HelpText';
 import { t } from 'in-i18n';
 
 export default function ScopeConfigPresenter({

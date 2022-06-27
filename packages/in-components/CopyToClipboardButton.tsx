@@ -1,17 +1,25 @@
 /*
- * (c) Copyright IBM Corp. 2021
- * (c) Copyright Instana Inc.
+ * (c) Copyright IBM Corp. 2022
+ * (c) Copyright Instana Inc. 2022
  */
 
 import React, { forwardRef } from 'react';
 
+import { Sizes, Kinds } from '@instana/components/types/components/Button/types';
 import { Button } from '@instana/components';
 
-import CopyToClipboard from 'in-components/CopyToClipboard';
+import CopyToClipboard, { CopyToClipboardProps } from 'in-components/CopyToClipboard';
 import { compositeRef } from 'in-services/util/react';
 import { t } from 'in-i18n';
 
-export default forwardRef(function CopyToClipboardButton(props, ref) {
+export interface CopyToClipBoardButtonProps extends Partial<CopyToClipboardProps> {
+  disabled?: boolean;
+  size?: keyof typeof Sizes;
+  kind?: keyof typeof Kinds;
+  className?: string;
+}
+
+export default forwardRef(function CopyToClipboardButton(props: CopyToClipBoardButtonProps, ref) {
   if (props.disabled) {
     return (
       <Button
