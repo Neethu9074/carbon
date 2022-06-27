@@ -59,7 +59,7 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
 
 function ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline(props) {
   const {
-    alertConfigWithFormModel: { created, id },
+    alertConfigWithFormModel: { created, id, granularity },
     viewConfig: { timeConfig },
     applicationId,
     serviceId,
@@ -73,7 +73,8 @@ function ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline(props) {
     alertCreated: created,
     applicationId,
     entityId: selectedEntityId, // either endpoint or service or appId if selected
-    timeConfig
+    timeConfig,
+    granularity
   };
   const fetchPersistedBaselineResult = useObservable(
     selectedEntityId ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult) : null,
