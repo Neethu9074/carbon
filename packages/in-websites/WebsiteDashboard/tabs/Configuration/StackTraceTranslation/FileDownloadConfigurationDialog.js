@@ -1,6 +1,6 @@
 /*
- * (c) Copyright IBM Corp. 2022
- * (c) Copyright Instana Inc. 2022
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
  */
 
 import { createMapForm, createField, createListForm, composeValidators } from 'formalistic';
