@@ -5,8 +5,7 @@
 
 import React, { forwardRef } from 'react';
 
-import { Sizes, Kinds } from '@instana/components/types/components/Button/types';
-import { Button } from '@instana/components';
+import { Button, ButtonKinds, ButtonSizes } from '@instana/components';
 
 import CopyToClipboard, { CopyToClipboardProps } from 'in-components/CopyToClipboard';
 import { compositeRef } from 'in-services/util/react';
@@ -14,8 +13,8 @@ import { t } from 'in-i18n';
 
 export interface CopyToClipBoardButtonProps extends Partial<CopyToClipboardProps> {
   disabled?: boolean;
-  size?: keyof typeof Sizes;
-  kind?: keyof typeof Kinds;
+  size?: keyof typeof ButtonSizes;
+  kind?: keyof typeof ButtonKinds;
   className?: string;
 }
 

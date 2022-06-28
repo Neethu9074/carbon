@@ -35,7 +35,7 @@ export default function FileUploadConfigurationDialog(props: Props) {
     form,
     message,
     onChange(path: Array<string>, value: string) {
-      setForm(form.updateIn(path, field => (field as Field<any>).setValue(value).setTouched(true)));
+      setForm(form.updateIn(path, field => (field as Field<string>).setValue(value).setTouched(true)));
     },
     onSubmit(e: FormEvent<HTMLFormElement>) {
       e.preventDefault();

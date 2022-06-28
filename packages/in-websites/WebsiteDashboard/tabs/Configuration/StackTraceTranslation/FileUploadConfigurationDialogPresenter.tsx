@@ -46,7 +46,7 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
   return (
     <Dialog
       title={
-        (form.get('id') as Field<any>).value
+        (form.get('id') as Field<string>).value
           ? t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogTitleEdit')
           : t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogTitleNew')
       }
@@ -71,14 +71,14 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
               <Input
                 id={`config-headers-desc-key`}
                 type="text"
-                value={(form.get('description') as Field<any>).value}
+                value={(form.get('description') as Field<string>).value}
                 onChange={e => onChange(['description'], e.target.value)}
               />
             </FormGroup>
           </Col>
         </Row>
 
-        {(form.get('id') as Field<any>).value && (
+        {(form.get('id') as Field<string>).value && (
           <>
             <SectionHeading withoutTopSpacing>
               {t('in-websites:websiteDashboard.tabs.configuration.fileUploadConfigurationDialogHeadingOpenAPI')}
@@ -103,7 +103,7 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
                 <CopyableText
                   title={t('in-websites:websiteDashboard.tabs.configuration.fileUploadUrl')}
                   value={`${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${
-                    (form.get('id') as Field<any>).value
+                    (form.get('id') as Field<string>).value
                   }/form`}
                   fieldName="sourceMapUploadFormUrl"
                 />
@@ -112,7 +112,7 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
                 <CopyableText
                   title={t('in-websites:websiteDashboard.tabs.configuration.clearUploadedFilesUrl')}
                   value={`${baseUrl}/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${
-                    (form.get('id') as Field<any>).value
+                    (form.get('id') as Field<string>).value
                   }/clear`}
                   fieldName="sourceMapUploadClearUrl"
                 />
@@ -121,13 +121,23 @@ export default function FileUploadConfigurationDialogPresenter(props: Props) {
           </>
         )}
 
-        <SaveCancel form={form} onClickCancelButton={close} isCreate={isBlank((form.get('id') as Field<any>).value)} />
+        <SaveCancel
+          form={form}
+          onClickCancelButton={close}
+          isCreate={isBlank((form.get('id') as Field<string>).value)}
+        />
       </form>
     </Dialog>
   );
 }
 
-function CopyableText({ title, value, fieldName }: { title: string; value: string; fieldName: string }) {
+interface CopyableTextProps {
+  title: string;
+  value: string;
+  fieldName: string;
+}
+
+function CopyableText({ title, value, fieldName }: CopyableTextProps) {
   return (
     <FormGroup>
       <Label htmlFor={fieldName}>{title}</Label>

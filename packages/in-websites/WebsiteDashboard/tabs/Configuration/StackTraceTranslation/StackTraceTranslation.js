@@ -4,9 +4,8 @@
  */
 
 import React, { Fragment, useState } from 'react';
-import { isNumber } from 'lodash';
 
-import { combineLatest, fromPromise } from '@instana/observables';
+import { combineLatest, just } from '@instana/observables';
 import { Button, Card, Stack } from '@instana/components';
 
 import {
@@ -27,6 +26,7 @@ import { websiteUploadConfigEnabled } from 'in-services/featureFlags';
 import { formatDateTime } from 'in-services/formatters/date';
 import { isNotBlank } from 'in-services/util/string';
 import ButtonGroup from 'in-components/ButtonGroup';
+import { seconds } from 'in-services/time';
 import { t, Trans } from 'in-i18n';
 
 import locals from './StackTraceTranslation.mless';
@@ -91,25 +91,16 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
   };
 
   const onLoadEntities = () => {
-    return fromPromise(
-      new Promise((resolve, reject) => {
-        if (allConfigs) {
-          resolve(fileConfigTypes.download === fileConfigType ? allConfigs.downloadConfigs : allConfigs.uploadConfigs);
-          return;
-        }
-
-        combineLatest([
-          getSourceMapUploadConfigurations(websiteId),
-          getSourceMapDownloadConfigurations(websiteId)
-        ]).once(
-          ([uploadConfigs, downloadConfigs]) => {
-            setAllConfigs({ uploadConfigs: uploadConfigs, downloadConfigs: downloadConfigs });
-            resolve(fileConfigTypes.download === fileConfigType ? downloadConfigs : uploadConfigs);
-          },
-          err => reject(err)
-        );
-      })
-    );
+    if (allConfigs) {
+      return just(fileConfigTypes.download === fileConfigType ? allConfigs.downloadConfigs : allConfigs.uploadConfigs);
+    }
+    return combineLatest([
+      getSourceMapUploadConfigurations(websiteId),
+      getSourceMapDownloadConfigurations(websiteId)
+    ]).map(([uploadConfigs, downloadConfigs]) => {
+      setAllConfigs({ uploadConfigs: uploadConfigs, downloadConfigs: downloadConfigs });
+      return fileConfigTypes.download === fileConfigType ? downloadConfigs : uploadConfigs;
+    });
   };
 
   const headerWithCount = (cfgType, totalHitsBeforeFilter, totalHitsAfterFilter) => {
@@ -300,7 +291,7 @@ function toUploadFileCount(config) {
 }
 
 function toUploadLastModified(config) {
-  return isNumber(config.modifiedAt) ? formatDateTime(config.modifiedAt * 1000) : '';
+  return formatDateTime(seconds.toMillis(config.modifiedAt));
 }
 
 function toUploadTotalSizeValue(config) {

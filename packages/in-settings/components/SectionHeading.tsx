@@ -9,7 +9,7 @@ import React from 'react';
 import locals from './typography.mless';
 
 export interface Props {
-  withoutTopSpacing: boolean;
+  withoutTopSpacing?: boolean;
   children: React.ReactNode;
 }
 

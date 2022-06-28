@@ -13,8 +13,8 @@ import TemporaryPresenter from 'in-components/TemporaryPresenter';
 import locals from './TemporaryMessage.mless';
 
 interface Props {
-  type: 'success' | 'error';
-  duration: number;
+  type?: 'success' | 'error';
+  duration?: number;
   id?: string;
   message: string;
   onHide?: () => void;
