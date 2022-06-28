@@ -7,6 +7,10 @@ import React from 'react';
 
 import locals from './typography.mless';
 
-export default function SectionHelp({ children }) {
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function SectionHelp({ children }: Props) {
   return <div className={locals.sectionHelp}>{children}</div>;
 }

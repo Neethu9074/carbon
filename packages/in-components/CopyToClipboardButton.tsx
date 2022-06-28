@@ -5,13 +5,20 @@
 
 import React, { forwardRef } from 'react';
 
-import { Button } from '@instana/components';
+import { Button, ButtonKinds, ButtonSizes } from '@instana/components';
 
-import CopyToClipboard from 'in-components/CopyToClipboard';
+import CopyToClipboard, { CopyToClipboardProps } from 'in-components/CopyToClipboard';
 import { compositeRef } from 'in-services/util/react';
 import { t } from 'in-i18n';
 
-export default forwardRef(function CopyToClipboardButton(props, ref) {
+export interface CopyToClipBoardButtonProps extends Partial<CopyToClipboardProps> {
+  disabled?: boolean;
+  size?: keyof typeof ButtonSizes;
+  kind?: keyof typeof ButtonKinds;
+  className?: string;
+}
+
+export default forwardRef(function CopyToClipboardButton(props: CopyToClipBoardButtonProps, ref) {
   if (props.disabled) {
     return (
       <Button

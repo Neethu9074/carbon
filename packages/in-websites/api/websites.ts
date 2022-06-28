@@ -7,7 +7,8 @@ import { Observable } from '@instana/observables';
 
 import {
   SourceMapDownloadConfig,
-  SourceMapDownloadConfigs,
+  SourceMapUploadConfig,
+  SourceMapUploadConfigs,
   WebsiteConfiguration,
   IpMaskingConfiguration,
   GeoLocationConfiguration,
@@ -61,44 +62,92 @@ export function renameWebsite(id: string, name: string): Observable<Response<Web
   }).map(response => response);
 }
 
-export function getSourceMapConfigurations(id: string): Observable<SourceMapDownloadConfigs> {
-  return http<SourceMapDownloadConfigs>({
+export function getSourceMapDownloadConfigurations(id: string): Observable<Array<SourceMapDownloadConfig>> {
+  return http<Array<SourceMapDownloadConfig>>({
     method: 'GET',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(id)}/sourceMap`,
+    url: `/api/website-monitoring/config/${encodeURIComponent(id)}/sourceMapDownload`,
     headers: getCsrfHeader()
   }).map(response => response.body);
 }
 
-export function addSourceMapConfiguration(
+export function addSourceMapDownloadConfiguration(
   websiteId: string,
   config: SourceMapDownloadConfig
 ): Observable<SourceMapDownloadConfig> {
   return http<SourceMapDownloadConfig>({
     method: 'POST',
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMap`,
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapDownload`,
     headers: getCsrfHeader(),
     data: config
   }).map(response => response.body);
 }
 
-export function updateSourceMapConfiguration(
+export function updateSourceMapDownloadConfiguration(
   websiteId: string,
   config: SourceMapDownloadConfig
 ): Observable<SourceMapDownloadConfig> {
   return http<SourceMapDownloadConfig>({
     method: 'PUT',
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMap/${encodeURIComponent(config.id)}`,
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapDownload/${encodeURIComponent(
+      config.id
+    )}`,
     headers: getCsrfHeader(),
     data: config
   }).map(response => response.body);
 }
 
-export function removeSourceMapConfiguration(websiteId: string, sourceMapConfigId: string): Observable<never> {
+export function removeSourceMapDownloadConfiguration(websiteId: string, sourceMapConfigId: string): Observable<never> {
   return http<never>({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMap/${encodeURIComponent(
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapDownload/${encodeURIComponent(
+      sourceMapConfigId
+    )}`,
+    headers: getCsrfHeader()
+  }).map(response => response.body);
+}
+
+export function addSourceMapUploadConfiguration(
+  websiteId: string,
+  config: SourceMapUploadConfig
+): Observable<SourceMapUploadConfig> {
+  return http<SourceMapUploadConfig>({
+    method: 'POST',
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload`,
+    headers: getCsrfHeader(),
+    data: config
+  }).map(response => response.body);
+}
+
+export function updateSourceMapUploadConfiguration(
+  websiteId: string,
+  config: SourceMapUploadConfig
+): Observable<SourceMapUploadConfig> {
+  return http<SourceMapUploadConfig>({
+    method: 'PUT',
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${encodeURIComponent(
+      config.id
+    )}`,
+    headers: getCsrfHeader(),
+    data: config
+  }).map(response => response.body);
+}
+
+export function getSourceMapUploadConfigurations(id: string): Observable<Array<SourceMapUploadConfig>> {
+  return http<SourceMapUploadConfigs>({
+    method: 'GET',
+    maxRetries: 3,
+    url: `/api/website-monitoring/config/${encodeURIComponent(id)}/sourceMapUpload`,
+    headers: getCsrfHeader()
+  }).map(response => response.body.configs);
+}
+
+export function removeSourceMapUploadConfiguration(websiteId: string, sourceMapConfigId: string): Observable<never> {
+  return http<never>({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/website-monitoring/config/${encodeURIComponent(websiteId)}/sourceMapUpload/${encodeURIComponent(
       sourceMapConfigId
     )}`,
     headers: getCsrfHeader()
