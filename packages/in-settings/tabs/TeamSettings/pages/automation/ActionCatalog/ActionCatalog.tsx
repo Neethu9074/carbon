@@ -60,8 +60,8 @@ const columnDefinitions = [
   {
     label: t('in-settings:tabs.tags'),
     id: 'tags',
-    getContent() {
-      return null;
+    getContent(row: Action) {
+      return row.tags;
     }
   }
 ];
