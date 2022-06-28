@@ -1,0 +1,49 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+
+import invariant from 'invariant';
+
+import { renderStaticThresholdLineAndBackgrounds } from 'in-alerting/components/Chart/renderer/renderThresholdAndBackgrounds';
+import { AxisColor, Config, MetricDataSeries } from 'in-components/Chart/types';
+import { RenderAxis, RenderConfig } from 'in-components/Chart/renderer/types';
+import line from 'in-components/Chart/renderer/line';
+import { ScaleType } from 'in-services/scale';
+
+export default {
+  render: ({
+    colors50,
+    colors100,
+    scale,
+    config,
+    metrics
+  }: {
+    colors50: AxisColor[];
+    colors100: AxisColor[];
+    scale: ScaleType;
+    config: RenderConfig;
+    metrics: MetricDataSeries[];
+  }): void => {
+    validateProps(config);
+    const metric = metrics[0];
+
+    renderStaticThresholdLineAndBackgrounds(config, scale, colors100, colors50);
+
+    // historical data
+    line.render({ dataSeries: metric, color: colors100[0]!, scale, config });
+  },
+  enrich: (_config: unknown, axis: RenderAxis) => {
+    axis.valuesDependOnEachOther = true;
+  }
+} as const;
+
+function validateProps(config: Config) {
+  if (__DEV__) {
+    invariant(
+      // @ts-expect-error threshold it not part of current type Axis
+      Number(config.y1.threshold) >= 0,
+      'Property "threshold" is missing in config. Example: y1={{ threshold, colors:[], ... }}'
+    );
+  }
+}

@@ -109,6 +109,7 @@ export default function AlertingChart({
       thresholdGranularity: granularity,
       lineWidth: 1.75,
       thresholdLineWidth: 1,
+      // used as additional data inside the renderers:
       threshold: threshold.value,
       operator: threshold.operator,
       sensitivity: threshold.deviationFactor,
