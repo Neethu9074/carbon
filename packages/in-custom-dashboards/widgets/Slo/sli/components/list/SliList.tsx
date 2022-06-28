@@ -17,7 +17,6 @@ import ApplicationPerspectiveLabels from 'in-custom-dashboards/widgets/Slo/sli/c
 import ServerTablePresenter, { ServerTablePresenterProps } from 'in-components/tables/ServerTable/ServerTablePresenter';
 import { valueMissingPlaceholder } from 'in-components/valueMissingPlaceholder';
 import { addActiveDialog, close } from 'in-components/DialogPresenter/store';
-import { trackSliDeleted } from 'in-custom-dashboards/widgets/Slo/tracker';
 import { ColumnDefinition } from 'in-components/tables/ServerTable/types';
 import ConfirmationDialog from 'in-components/Dialog/ConfirmationDialog';
 import { ApplicationSliEntity, SliConfiguration } from 'in-types';
@@ -150,7 +149,6 @@ const columnDefinitions: ColumnDefinition<SliConfiguration, InternalSliListProps
                     onSubmit={() => {
                       close();
                       onDelete(item.id);
-                      trackSliDeleted({ sliType: item.sliEntity?.sliType });
                     }}
                   />
                 );

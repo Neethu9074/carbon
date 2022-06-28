@@ -15,7 +15,6 @@ import CreateSliForm from 'in-custom-dashboards/widgets/Slo/sli/components/creat
 import { CancelButton, SaveButton } from 'in-components/form/FormFooter/FormFooter';
 import { addMessage as aM } from 'in-components/MessageFlyout/stores/messages';
 
-jest.mock('in-custom-dashboards/widgets/Slo/tracker');
 jest.mock('in-components/MessageFlyout/stores/messages', () => ({
   addMessage: jest.fn()
 }));

@@ -7,10 +7,8 @@ import React from 'react';
 
 import { Message } from '@instana/components';
 
-import { isApplicationSliEntity, isAvailabilitySliEntity } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
 import { Error, MetricResult, Progress, SliConfigurationWithLastUpdated, TimeConfig } from 'in-types';
-import { trackJumpToUnboundedAnalyticsFromSloWidget } from 'in-custom-dashboards/widgets/Slo/tracker';
-import Chart, { ChartTrackers } from 'in-custom-dashboards/widgets/Slo/components/Chart/Chart';
+import Chart from 'in-custom-dashboards/widgets/Slo/components/Chart/Chart';
 import { findMetric } from 'in-custom-dashboards/widgets/Slo/metric';
 import { MetricDataSeries } from 'in-components/Chart/types';
 import { t } from 'in-i18n';
@@ -37,21 +35,6 @@ const isConfiguredSliDeleted = (sloMetricsErrors: Error[], sliConfigId: string):
     sloMetricsErrors.length > 0 &&
     sloMetricsErrors.some(({ message }) => message === `The SliConfiguration for the id ${sliConfigId} does not exist`)
   );
-};
-
-const chartTrackers: ChartTrackers = {
-  trackJumpToUnboundedAnalytics: entity => {
-    if (isAvailabilitySliEntity(entity) || isApplicationSliEntity(entity)) {
-      const { sliType, applicationId, serviceId, endpointId, boundaryScope } = entity;
-      trackJumpToUnboundedAnalyticsFromSloWidget({
-        sliType,
-        applicationId,
-        serviceId,
-        endpointId,
-        boundaryScope
-      });
-    }
-  }
 };
 
 interface WidgetContentProps {
@@ -94,7 +77,6 @@ export default function WidgetContent({
       }}
       consumed={filterAvailableData(findMetric('consumed', sloMetrics))}
       hourlyBudget={filterAvailableData(findMetric('hourlyBudget', sloMetrics))}
-      trackers={chartTrackers}
       {...otherChartProps}
     />
   );
