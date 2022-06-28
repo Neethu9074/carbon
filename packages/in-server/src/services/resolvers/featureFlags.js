@@ -273,5 +273,10 @@ module.exports = exports = [
     uiClientKey: 'websiteUploadConfigEnabled',
     instanaCtlKey: 'feature.website.sourcemap.upload.enabled',
     defaultValue: false
+  },
+  {
+    uiClientKey: 'actionAutomationEnabled',
+    instanaCtlKey: 'feature.automation.enabled',
+    defaultValue: false
   }
 ];
