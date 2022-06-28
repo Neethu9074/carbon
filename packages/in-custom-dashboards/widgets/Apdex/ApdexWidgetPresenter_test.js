@@ -34,6 +34,16 @@ jest.mock('in-custom-dashboards/widgets/Apdex/hooks/useApdexMetrics', () => {
     default: jest.fn(() => resultToFetchedStateResponse(success({})))
   };
 });
+jest.mock('in-custom-dashboards/widgets/Apdex/hooks/useApdexConfiguration', () => {
+  const { resultToFetchedStateResponse } = jest.requireActual('in-hooks/utils/resultToFetchedStateResponse');
+  const { success } = jest.requireActual('in-services/util/result');
+  return {
+    __esModule: true,
+    default: jest.fn(() => resultToFetchedStateResponse(success({})))
+  };
+});
+jest.mock('in-custom-dashboards/widgets/Apdex/hooks/useTagCatalogLoader');
+jest.mock('in-applications/hooks/useTagCatalog');
 
 jest.mock('in-services/featureFlags', () => ({
   apdexWidgetEnabled: true

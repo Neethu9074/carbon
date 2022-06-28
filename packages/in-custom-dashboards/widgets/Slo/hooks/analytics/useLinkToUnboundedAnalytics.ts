@@ -27,6 +27,7 @@ import getLinkToWebsiteAnalyze from 'in-custom-dashboards/widgets/Slo/hooks/anal
 import { getEmptyTagFilterExpression } from 'in-components/QueryBuilder/tagFilter/emptyTagFilterExpression';
 import { tagFilter, toNewTagFilterFormat } from 'in-components/QueryBuilder/transformation/tagFilter';
 import { EQUALS, GREATER_THAN } from 'in-components/QueryBuilder/tagFilter/operators';
+import { TimeConfigAwareHref$Creator } from 'in-components/Chart/types';
 import { createChartedMetric } from 'in-analyze/navigation/paths';
 import { ChartedMetric } from 'in-applications/navigation/paths';
 import { entityTypes } from 'in-analyze/applicationFilter';
@@ -34,7 +35,7 @@ import { entityTypes } from 'in-analyze/applicationFilter';
 export function useLinkToUnboundedAnalytics(
   sliConfig: SliConfiguration | undefined,
   tagCatalog: TagCatalog | undefined
-): (tc: TimeConfig) => Observable<string> {
+): TimeConfigAwareHref$Creator {
   if (!sliConfig || !tagCatalog) {
     return () => just('');
   }
@@ -116,7 +117,7 @@ function buildWebsiteTimeBaseSliEntityUA2Link(
 
   const hasValidMetricConfig = metricConfiguration?.metricName && metricConfiguration?.metricAggregation;
 
-  const websiteAnlayzeProps = {
+  const websiteAnalyzeProps = {
     websiteId: websiteId!,
     beaconType,
     tagCatalog,
@@ -124,7 +125,7 @@ function buildWebsiteTimeBaseSliEntityUA2Link(
     filterExpression
   };
 
-  if (!hasValidMetricConfig) return getLinkToWebsiteAnalyze(websiteAnlayzeProps);
+  if (!hasValidMetricConfig) return getLinkToWebsiteAnalyze(websiteAnalyzeProps);
 
   const filterMetric = {
     metricId: metricConfiguration.metricName,
@@ -132,7 +133,7 @@ function buildWebsiteTimeBaseSliEntityUA2Link(
   };
 
   return getLinkToWebsiteAnalyze({
-    ...websiteAnlayzeProps,
+    ...websiteAnalyzeProps,
     chartedMetrics: [filterMetric],
     fields: [{ ...filterMetric, type: 'metric' }]
   });
