@@ -154,7 +154,13 @@ export default function StackTraceTranslationConfigurationPresenter({ websiteId 
           )}
         >
           <HelpParagraph>
-            <Trans i18nKey="in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationExplanation" />
+            <Trans
+              i18nKey={
+                websiteUploadConfigEnabled
+                  ? 'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationExplanationWithUploadFeature'
+                  : 'in-websites:websiteDashboard.tabs.configuration.stackTraceTranslationExplanation'
+              }
+            />
           </HelpParagraph>
 
           <Stack direction="horizontal">
