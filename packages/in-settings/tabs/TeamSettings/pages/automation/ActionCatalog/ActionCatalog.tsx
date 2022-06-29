@@ -10,6 +10,7 @@ import { Link } from '@instana/components';
 
 import { teamSettingsActionCatalog, getEntityIdView, teamSettingsActionDetailsNew } from 'in-settings/navigation/paths';
 import List, { leftHeaderWithSelectAll, createNewEntityButton } from 'in-settings/components/List';
+import Tag from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/Tag';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import { getAllActions, deleteAction } from 'in-api/automation';
 import { formatDateTime } from 'in-services/formatters/date';
@@ -61,7 +62,14 @@ const columnDefinitions = [
     label: t('in-settings:tabs.tags'),
     id: 'tags',
     getContent(row: Action) {
-      return row.tags;
+      const { tags } = row;
+      return (
+        <>
+          {tags.map(tag => (
+            <Tag tag={tag} />
+          ))}
+        </>
+      );
     }
   }
 ];
