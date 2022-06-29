@@ -112,6 +112,7 @@
       "startTime": "Start Time",
       "status": "Status",
       "requests": "Requests",
+      "failedRun": "Failed Run(Exception)",
       "widgets": {
         "failures": "Failures",
         "responseTimes": "Response Times",

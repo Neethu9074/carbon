@@ -1,0 +1,23 @@
+/*
+ * (c) Copyright IBM Corp. 2021
+ * (c) Copyright Instana Inc.
+ */
+@import '~in-themes/active.less';
+
+:local {
+  .failedTitle {
+    color: #ff4229;
+  }
+
+  .errorMessageHeader {
+    position: relative;
+    min-width: 1px;
+    color: black;
+  }
+  .errorMessage {
+    position: relative;
+    color: black;
+    margin-top: auto;
+    margin-bottom: 0.75rem;
+  }
+}
