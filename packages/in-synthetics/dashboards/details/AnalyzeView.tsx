@@ -212,7 +212,7 @@ export default function SyntheticAnalyzeView() {
               </Row>
               <Row>
                 <Col xs>
-                  <FailedRun />
+                  <FailedRun details={details} />
                 </Col>
               </Row>
               <Row>

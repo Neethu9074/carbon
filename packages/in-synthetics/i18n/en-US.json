@@ -159,6 +159,9 @@
       "subtransactionReceiving": "Receiving",
       "showLessSubDetails": "Show Less",
       "showMoreSubDetails": "Show More",
+      "failedRun": "Failed Run(Exception)",
+      "failedRunErrorTitle": "Error Message",
+      "noFailedErrorMessage": "No error message",
       "subtransactionBody": {
         "contentType": "Content type",
         "size": "Size",
