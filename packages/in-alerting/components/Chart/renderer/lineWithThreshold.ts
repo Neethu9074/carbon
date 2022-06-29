@@ -28,7 +28,7 @@ export default {
     validateProps(config);
     const metric = metrics[0];
 
-    renderStaticThresholdLineAndBackgrounds(config, scale, colors100, colors50);
+    renderStaticThresholdLineAndBackgrounds(config, scale, colors50, colors100);
 
     // historical data
     line.render({ dataSeries: metric, color: colors100[0]!, scale, config });
