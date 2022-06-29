@@ -24,16 +24,16 @@ import { t } from 'in-i18n';
 
 import locals from './EndpointTopList.mless';
 
-const metrics = ['latency', 'calls', 'erroneousCalls'];
+const metrics = ['latency', 'calls', 'errors'];
 const labels = [
   t('in-applications:labelLatency'),
   t('in-applications:labelCalls'),
-  t('in-applications:titleErroneousCalls')
+  t('in-applications:titleErroneousCallRate')
 ];
-const aggregations = ['MEAN', 'SUM', 'SUM'];
+const aggregations = ['MEAN', 'SUM', 'MEAN'];
 const formatters = [meanLatencyLargeInSeconds.compact, number.compact, number.compact];
-const companionMetrics = [null, null, 'errors'];
-const companionAggregations = [null, null, 'MEAN'];
+const companionMetrics = [null, null, 'erroneousCalls'];
+const companionAggregations = [null, null, 'SUM'];
 const companionFormatters = [null, null, percentage.detailed];
 const colors = [null, null, theme.lib.colors.failure];
 
