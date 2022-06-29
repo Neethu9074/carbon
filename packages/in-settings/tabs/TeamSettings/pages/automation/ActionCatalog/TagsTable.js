@@ -8,28 +8,21 @@ import React from 'react';
 import { Button } from '@instana/components';
 
 import ServerTablePresenter from 'in-components/tables/ServerTable/ServerTablePresenter';
-import TouchedMessages from 'in-components/form/TouchedMessages';
-import Section from 'in-settings/components/Section';
 import { t } from 'in-i18n';
 
 import locals from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/TagsTable.mless';
 
-export default function TagsTable({ columnDefinitions, result, addRow, deleteRow, form }) {
+export default function TagsTable({ columnDefinitions, result, addRow, deleteRow }) {
   return (
-    <div>
-      <ServerTablePresenter
-        columnDefinitions={columnDefinitions}
-        getRowProps={getRowProps}
-        result={result}
-        isSearchable={false}
-        rightHeader={<RightHeader addRow={addRow} />}
-        noDataMessage={t('in-settings:tabs.noTagsConfigured')}
-        deleteRow={deleteRow}
-      />
-      <Section>
-        <TouchedMessages field={form} />
-      </Section>
-    </div>
+    <ServerTablePresenter
+      columnDefinitions={columnDefinitions}
+      getRowProps={getRowProps}
+      result={result}
+      isSearchable={false}
+      rightHeader={<RightHeader addRow={addRow} />}
+      noDataMessage={t('in-settings:tabs.noTagsConfigured')}
+      deleteRow={deleteRow}
+    />
   );
 }
 

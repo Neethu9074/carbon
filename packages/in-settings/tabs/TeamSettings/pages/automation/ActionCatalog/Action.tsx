@@ -68,11 +68,7 @@ const Form = entityForm(function ActionFormWrapper(props: any) {
           {t('in-settings:tabs.unknownAction')}
         </SubViewHeader>
         <SectionLine />
-        <DescriptionText>
-          {message}
-          <br />
-          {t('in-settings:tabs.ifYouFollowedALinkToGetHereItHasMostLikelyBeenDeleted')}
-        </DescriptionText>
+        <DescriptionText>{message}</DescriptionText>
       </SettingsDetailPage>
     );
   }

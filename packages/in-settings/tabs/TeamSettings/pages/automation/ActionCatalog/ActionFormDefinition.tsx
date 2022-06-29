@@ -11,6 +11,7 @@ import { generateUniqueShortId } from '@instana/utils';
 
 import { notBlankValidator } from 'in-services/validators/string';
 import { ImmutableNewAction } from 'in-api/automation';
+import { t } from 'in-i18n';
 
 export function createActionFormDefinition(action: ImmutableNewAction, _isCreate: boolean) {
   const tags = (action.get('tags') as string[]) ?? [];
@@ -42,7 +43,18 @@ export function createActionFormDefinition(action: ImmutableNewAction, _isCreate
       'tags',
       createField({
         value: mappedTags,
-        validator: notBlankValidator
+        validator: tags => {
+          const hasBlankTags = tags.reduce((hasBlank, tag) => hasBlank || tag.value === '', false);
+          if (hasBlankTags) {
+            return [
+              {
+                severity: 'error',
+                message: t('in-services:validators.theValueMustNotBeBlank')
+              }
+            ];
+          }
+          return null;
+        }
       })
     );
   form = putDocLinkFields(form, action);

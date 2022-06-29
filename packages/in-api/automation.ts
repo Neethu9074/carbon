@@ -75,7 +75,7 @@ export function createAction(
   type: string = 'doc_link',
   description: string = '',
   fields: Field[] = [createDocLinkField('', 'URL to remediation documentation')],
-  tags: []
+  tags: List<string> = List()
 ): ImmutableNewAction {
   return fromJS({
     name,

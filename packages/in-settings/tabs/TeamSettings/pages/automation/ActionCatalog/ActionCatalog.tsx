@@ -65,8 +65,8 @@ const columnDefinitions = [
       const { tags } = row;
       return (
         <>
-          {tags.map(tag => (
-            <Tag tag={tag} />
+          {tags.map((tag, idx) => (
+            <Tag key={tag + idx} tag={tag} />
           ))}
         </>
       );

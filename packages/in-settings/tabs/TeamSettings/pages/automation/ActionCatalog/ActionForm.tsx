@@ -108,7 +108,9 @@ export default function ActionForm({ form, setForm, onChange, entity: action }: 
                 </HelpText>
               </FormGroup>
             ))}
-            <TagsWrapper form={form} setForm={setForm} onChange={onChange} />
+            <FormGroup>
+              <TagsWrapper form={form} setForm={setForm} onChange={onChange} />
+            </FormGroup>
             {isDocLink(form) && (
               <Fragment>
                 {docLinkValue.map(field => (

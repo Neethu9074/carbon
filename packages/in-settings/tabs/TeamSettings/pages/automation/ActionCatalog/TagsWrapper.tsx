@@ -3,8 +3,9 @@
  * (c) Copyright Instana Inc.
  */
 
-import { MapForm, Field } from 'formalistic';
 import React, { SetStateAction } from 'react';
+import { MapForm, Field } from 'formalistic';
+import { List } from 'immutable';
 
 import { generateUniqueShortId } from '@instana/utils';
 import { SvgIcon } from '@instana/components';
@@ -28,7 +29,7 @@ interface AlertConfigCustomPayloadProps {
 }
 
 const keyColumnDefinition = (form: MapForm, onChange: Function) => ({
-  id: 'tags',
+  id: 'id',
   sortable: false,
   label: t('in-settings:tabs.tags'),
   getContent(item: Tag) {
@@ -39,13 +40,13 @@ const keyColumnDefinition = (form: MapForm, onChange: Function) => ({
           <Input
             className={locals.key}
             value={item.value}
-            hasError={!tagsField?.valid && tagsField?.touched}
+            hasError={!tagsField?.valid && tagsField?.touched && item.value === ''}
             onChange={({ target }: any) => {
-              const tags = (tagsField as Field<Tag[]>)?.value;
+              const tags = (tagsField as Field<List<Tag>>)?.value;
               onChange(
                 'tags',
                 tags.map(tag =>
-                  tag.id === item.id
+                  tag?.id === item.id
                     ? {
                         id: tag.id,
                         value: target.value
@@ -57,7 +58,7 @@ const keyColumnDefinition = (form: MapForm, onChange: Function) => ({
             maxLength={128}
           />
         </HorizontalFlexWrapper>
-        <TouchedMessages field={tagsField} />
+        {item.value === '' && <TouchedMessages field={tagsField} />}
       </FormGroup>
     );
   }
@@ -80,6 +81,7 @@ const deleteItemColumnDefinition = {
 
 export default function AlertConfigCustomPayload({ form, setForm, onChange }: AlertConfigCustomPayloadProps) {
   const tableColumnDefinitions = [keyColumnDefinition(form, onChange), deleteItemColumnDefinition];
+  const tags = (form?.get('tags') as Field<List<Tag>>)?.value.toJS();
   const data = {
     // Parent component would only render if 'result has no errors' or 'result not loading'. Passing loading and errors param accordingly.
     progress: {
@@ -87,37 +89,27 @@ export default function AlertConfigCustomPayload({ form, setForm, onChange }: Al
     },
     errors: [],
     data: {
-      items: form?.get('tags')?.toJS() ?? [],
+      items: tags ?? [],
       // Show all tags
       page: 1,
-      pageSize: form?.get('tags')?.toJS()?.length ?? 0,
-      totalHits: form?.get('tags')?.toJS()?.length ?? 0
+      pageSize: tags?.length ?? 0,
+      totalHits: tags?.length ?? 0
     }
   };
 
-  return (
-    <TagsTable
-      columnDefinitions={tableColumnDefinitions}
-      addRow={addRow}
-      deleteRow={deleteRow}
-      result={data}
-      form={form.get('tags')}
-    />
-  );
+  return <TagsTable columnDefinitions={tableColumnDefinitions} addRow={addRow} deleteRow={deleteRow} result={data} />;
 
   function deleteRow(id: string) {
     const rowIndex = form
       ?.get('tags')
       ?.toJS()
-      .reduce((acc: Tag[], item: Tag, i: number) => (item.id === id ? i : acc), -1);
-
+      .reduce((acc: number, item: Tag, i: number) => (item.id === id ? i : acc), -1);
     if (rowIndex >= 0) {
       setForm(
         form.updateIn(['tags'], f => {
-          const castedF = f as Field<Tag[]>;
+          const castedF = f as Field<List<Tag>>;
           const value = castedF.value;
-          value.splice(rowIndex, 1);
-          return castedF.setValue(value).setTouched(true);
+          return castedF.setValue(value.remove(rowIndex)).setTouched(true);
         })
       );
     }
@@ -125,9 +117,11 @@ export default function AlertConfigCustomPayload({ form, setForm, onChange }: Al
 
   function addRow() {
     setForm(
-      form.updateIn(['tags'], f =>
-        (f as Field<Tag[]>).setValue([...f.toJS(), { value: '', id: generateUniqueShortId() }]).setTouched(true)
-      )
+      form.updateIn(['tags'], f => {
+        const castedF = f as Field<List<Tag>>;
+        const value = castedF.value;
+        return castedF.setValue(value.push({ value: '', id: generateUniqueShortId() })).setTouched(false);
+      })
     );
   }
 }
