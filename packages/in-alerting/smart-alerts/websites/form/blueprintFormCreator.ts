@@ -11,13 +11,18 @@ import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/compone
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { getBlueprintConfig, WebsitesAlertType } from 'in-alerting/smart-alerts/websites/data/blueprintConfig';
 import { FormModelElement, fromBackendModel } from 'in-components/QueryBuilder/transformation/formModel';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { toBackendQueryModel } from 'in-components/QueryBuilder/transformation/backendQueryModel';
 import createThresholdForm from 'in-alerting/smart-alerts/websites/form/thresholdForm';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createRuleForm from 'in-alerting/smart-alerts/websites/form/ruleForm';
 import { HistoricBaselineConfig, StaticThresholdConfig } from 'in-types';
 
-export default function createBlueprintForm(form: MapForm, alertType: WebsitesAlertType, alertThreshold = {}) {
+export default function createBlueprintForm(
+  form: MapForm,
+  alertType: WebsitesAlertType,
+  alertThreshold = {},
+  isSimpleMode: boolean
+) {
   const threshold = (form.get('threshold') as MapForm).toJS();
   const tagFilterExpression = (form.get('tagFilterExpression') as Field<FormModelElement[]>).value;
 
@@ -27,7 +32,9 @@ export default function createBlueprintForm(form: MapForm, alertType: WebsitesAl
     {
       ...threshold,
       ...alertThreshold,
-      type: blueprintConfig.baselineEnabled ? threshold.type : STATIC_THRESHOLD
+      // In simple mode, user does not have a choice to change threshold type, so we need to set it to HISTORIC_BASELINE
+      // when user select a blueprint which has baseline enabled!
+      type: blueprintConfig.baselineEnabled ? (isSimpleMode ? HISTORIC_BASELINE : threshold.type) : STATIC_THRESHOLD
     } as HistoricBaselineConfig | StaticThresholdConfig,
     // while the alertType and the Type of thresholdConfig are not combined in a parent Alert Config, this is
     // currently a too complicated typing, and will need further refactoring and improving!
