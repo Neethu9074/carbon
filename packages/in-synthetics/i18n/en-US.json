@@ -112,7 +112,6 @@
       "startTime": "Start Time",
       "status": "Status",
       "requests": "Requests",
-      "failedRun": "Failed Run(Exception)",
       "widgets": {
         "failures": "Failures",
         "responseTimes": "Response Times",
@@ -160,6 +159,9 @@
       "subtransactionReceiving": "Receiving",
       "showLessSubDetails": "Show Less",
       "showMoreSubDetails": "Show More",
+      "failedRun": "Failed Run(Exception)",
+      "failedRunErrorTitle": "Error Message",
+      "noErrorMessage": "No error message",
       "subtransactionBody": {
         "contentType": "Content type",
         "size": "Size",

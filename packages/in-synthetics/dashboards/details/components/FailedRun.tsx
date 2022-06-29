@@ -85,8 +85,8 @@ export default function FailedRun({ details }: FailedRunProps) {
   }
 
   return (
-    <Card className={locals.failedTitle} title={t('in-synthetics:dashboard.summary.failedRun')}>
-      <h3 className={locals.errorMessageHeader}>Error Message</h3>
+    <Card className={locals.failedTitle} title={t('in-synthetics:dashboard.detailsPage.failedRun')}>
+      <h3 className={locals.errorMessageHeader}>{t('in-synthetics:dashboard.detailsPage.failedRunErrorTitle')}</h3>
       <span className={locals.errorMessage}>{content}</span>
     </Card>
   );
