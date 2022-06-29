@@ -161,7 +161,7 @@
       "showMoreSubDetails": "Show More",
       "failedRun": "Failed Run(Exception)",
       "failedRunErrorTitle": "Error Message",
-      "noErrorMessage": "No error message",
+      "noFailedErrorMessage": "No error message",
       "subtransactionBody": {
         "contentType": "Content type",
         "size": "Size",

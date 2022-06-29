@@ -79,7 +79,7 @@ export default function FailedRun({ details }: FailedRunProps) {
     return <></>;
   } else if (getStatus(resultList) === 0 && getErrors(resultList)?.length === 0) {
     // if test failed with no error message, show "No error message"
-    content = 'No error message';
+    content = t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage');
   } else {
     content = resultList.data?.items[0]?.testResultCommonProperties.errors;
   }
