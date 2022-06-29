@@ -213,7 +213,7 @@ function resolveThresholdRequest(
   blueprintConfig,
   enrichedTagFilterFormModel,
   numeratorTagFilterFormModel,
-  fallbackOnError,
+  isSimpleMode,
   isValid
 ) {
   const {
@@ -235,7 +235,9 @@ function resolveThresholdRequest(
       // request static threshold
       return null;
     }
-    return fallbackOnError ? DAILY : seasonality;
+    // In simple mode, user does not have a choice to change threshold type, so we set it to HISTORIC_BASELINE for
+    // blueprint where baseline is enabled and here we need to select DAILY seasonality as default!
+    return isSimpleMode ? DAILY : seasonality;
   };
 
   const thresholdSuggestionRequest = blueprintConfig.getThresholdSuggestionRequest(metricName);
@@ -253,7 +255,7 @@ function resolveThresholdRequest(
     operator,
     seasonality: getSeasonality(),
     evaluationType: type === ADAPTIVE_BASELINE ? null : evaluationType,
-    fallbackOnError,
+    fallbackOnError: isSimpleMode,
     type
   });
 }

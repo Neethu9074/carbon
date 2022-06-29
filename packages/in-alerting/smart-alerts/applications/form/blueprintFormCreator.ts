@@ -9,14 +9,15 @@ import { createViolationsInSequenceForm } from 'in-alerting/smart-alerts/compone
 import { timeThresholdTypes } from 'in-alerting/smart-alerts/components/smart-alert-dialog/advanced/TimeThresholdConfig/formData';
 import { AdaptiveBaselineConfig, ApplicationAlertRule, HistoricBaselineConfig, StaticThresholdConfig } from 'in-types';
 import { ApplicationAlertType, getBlueprintConfig } from 'in-alerting/smart-alerts/applications/data/blueprintConfig';
+import { HISTORIC_BASELINE, STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import createThresholdForm from 'in-alerting/smart-alerts/applications/form/thresholdForm';
 import createRuleForm from 'in-alerting/smart-alerts/applications/form/ruleForm';
-import { STATIC_THRESHOLD } from 'in-alerting/smart-alerts/data/thresholdTypes';
 
 export default function createBlueprintForm(
   form: MapForm,
   alertType: ApplicationAlertType,
-  alertThreshold = {}
+  alertThreshold = {},
+  isSimpleMode: boolean
 ): MapForm {
   const threshold = (form.get('threshold') as MapForm).toJS();
 
@@ -26,7 +27,9 @@ export default function createBlueprintForm(
     {
       ...threshold,
       ...alertThreshold,
-      type: blueprintConfig.baselineEnabled ? threshold.type : STATIC_THRESHOLD
+      // In simple mode, user does not have a choice to change threshold type, so we need to set it to HISTORIC_BASELINE
+      // when user select a blueprint which has baseline enabled!
+      type: blueprintConfig.baselineEnabled ? (isSimpleMode ? HISTORIC_BASELINE : threshold.type) : STATIC_THRESHOLD
     } as HistoricBaselineConfig | StaticThresholdConfig | AdaptiveBaselineConfig,
     // while the alertType and the Type of thresholdConfig are not combined in a parent Alert Config, this is
     // currently a too complicated typing, and will need further refactoring and improving!,
