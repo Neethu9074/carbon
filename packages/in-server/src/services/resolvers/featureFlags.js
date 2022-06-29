@@ -167,7 +167,7 @@ module.exports = exports = [
   {
     uiClientKey: 'kubernetesLoggingEnabled',
     instanaCtlKey: 'feature.kubernetes.logging.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'enableTroubleshootingMode',
