@@ -74,10 +74,10 @@ export default function FailedRun({ details }: FailedRunProps) {
 
   if (details.progress.loading || resultList.progress.loading) {
     content = <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} size="xxxl" />;
-  } else if (getErrors(resultList)?.length === 0 && getStatus(resultList) === 1) {
+  } else if (getStatus(resultList) === 1 && getErrors(resultList)?.length === 0) {
     // hide widget
     return <></>;
-  } else if (getErrors(resultList)?.length === 0 && getStatus(resultList) === 0) {
+  } else if (getStatus(resultList) === 0 && getErrors(resultList)?.length === 0) {
     // if test failed with no error message, show "No error message"
     content = 'No error message';
   } else {
