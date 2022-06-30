@@ -11,27 +11,24 @@ import { useObservable } from '@instana/hooks';
 import { Card } from '@instana/components';
 import { t } from '@instana/i18n-react';
 
-import { dummyTests, ResultDetailsResponse } from 'in-synthetics/utils/constants';
-import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
+import { dummyTests } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './FailedRun.mless';
 
 interface FailedRunProps {
-  details: ResultDetailsResponse;
+  testId: string;
+  resultId: string;
 }
 
-export default function FailedRun({ details }: FailedRunProps) {
+export default function FailedRun({ testId, resultId }: FailedRunProps) {
   const timeConfig = useTimeConfig();
   let page = 1;
   let pageSize = 1;
   let content;
-  const height = 160;
-  const testId = details.data?.testId;
-  const resultId = details.data?.testResultId;
 
   let tagFilters = [
     {
@@ -72,9 +69,7 @@ export default function FailedRun({ details }: FailedRunProps) {
       [0]
     ) || dummyTests;
 
-  if (details.progress.loading || resultList.progress.loading) {
-    content = <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} size="xxxl" />;
-  } else if (getStatus(resultList) === 1 && getErrors(resultList)?.length === 0) {
+  if (getStatus(resultList) === 1 && getErrors(resultList)?.length === 0) {
     // hide widget
     return <></>;
   } else if (getStatus(resultList) === 0 && getErrors(resultList)?.length === 0) {
