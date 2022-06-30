@@ -72,7 +72,7 @@ export default function FailedRun({ testId, resultId }: FailedRunProps) {
       [0]
     ) || dummyTests;
 
-  if (resultList.progress.loading || resultList.progress.loading) {
+  if (resultList.progress.loading) {
     content = <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} size="xxxl" />;
   }
   {
