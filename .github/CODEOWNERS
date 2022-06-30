@@ -13,19 +13,18 @@
 # person.
 
 packages/in-amp                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-enterprise @instana/eng-portal @instana/eng-ui
-packages/in-alerting                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-stan @instana/eng-alerting
+packages/in-alerting                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-alerting
 packages/in-analyze                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-eum @instana/eng-ui
 # Deprecated: We should not make any more changes within this package (aside from code removal)
 packages/in-api                     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-applications            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
-packages/in-applications/alerting   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui @instana/eng-stan @instana/eng-alerting
+packages/in-applications/alerting   @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui @instana/eng-alerting
 packages/in-client                  @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-cloudfoundry            @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 # No clear ownership: Fallback to eng-ui
 packages/in-cockpit                 @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-components              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
-packages/in-components/alerting     @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui @instana/eng-stan @instana/eng-alerting
 packages/in-connection              @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-ui
 packages/in-custom-dashboards       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui
 packages/in-custom-dashboards/widgets/Slo @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-stan
@@ -149,7 +148,7 @@ packages/in-vsphere                 @pr-approval @Instana-IBM-GitHub-Enterprise 
 # Shared ownership
 # packages/in-waiting-for-deployment
 packages/in-websites                @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-application @instana/eng-ui
-packages/in-websites/alerting       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-stan @instana/eng-alerting
+packages/in-websites/alerting       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-eum @instana/eng-ui @instana/eng-alerting
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/application       @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-application @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/event             @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-stan @instana/eng-alerting @instana/eng-ui
 packages/in-custom-dashboards/widgets/_shared/MetricConfigurator/sources/infrastructure    @pr-approval @Instana-IBM-GitHub-Enterprise @instana/eng-infrastructure @instana/eng-ui
