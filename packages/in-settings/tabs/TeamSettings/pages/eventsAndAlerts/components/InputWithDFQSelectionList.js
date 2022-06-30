@@ -31,6 +31,7 @@ function InputWithSelectionList({
   placeholder,
   value,
   hasError,
+  disabled,
   listVisible,
   filters,
   positionAbove,
@@ -44,6 +45,7 @@ function InputWithSelectionList({
     <div className={locals.container}>
       <div className={locals.inputWithSelectionList}>
         <Input
+          disabled={disabled}
           className={locals.input}
           id={id}
           type="text"

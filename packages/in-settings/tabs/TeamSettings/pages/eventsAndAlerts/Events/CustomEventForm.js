@@ -196,7 +196,8 @@ function EventForm({
   queryValidationInProgress,
   setQueryValidationInProgress,
   setSaveEnabled,
-  existingApplication
+  existingApplication,
+  disabled
 }) {
   applyQueryValidationResult(queryValidationResult, form, onChange);
 
@@ -232,6 +233,7 @@ function EventForm({
                   {t('in-settings:tabs.name')}
                 </Label>
                 <Input
+                  disabled={disabled}
                   id="event-name"
                   type="text"
                   value={field.value}
@@ -252,6 +254,7 @@ function EventForm({
                   {t('in-settings:tabs.description')}
                 </Label>
                 <TextArea
+                  disabled={disabled}
                   id="event-description"
                   rows="3"
                   value={field.value}
@@ -274,6 +277,7 @@ function EventForm({
                         {t('in-settings:tabs.issueSeverity')}
                       </Label>
                       <ComboBox
+                        isDisabled={disabled}
                         name="event-severity"
                         value={field.value}
                         options={severityOptions}
@@ -290,6 +294,7 @@ function EventForm({
                       <Label htmlFor="event-triggering">{t('in-settings:tabs.incident')}</Label>
                       <Spacer horizontal="xxsmall" />
                       <Toggle
+                        disabled={disabled}
                         id="event-triggering"
                         checked={field.value}
                         onChange={e => onChange('triggering', e.target.checked)}
@@ -307,6 +312,7 @@ function EventForm({
                         helpText={t('in-settings:tabs.periodToWaitBeforeClosingTheIssueOnceConditionsAreNoLongerMet')}
                       >
                         <ComboBox
+                          isDisabled={disabled}
                           name="event-grace-period"
                           value={field.value}
                           className={locals.helpified}
@@ -343,6 +349,7 @@ function EventForm({
             {t('in-settings:tabs.source')}
           </Label>
           <ComboBox
+            isDisabled={disabled}
             name="event-data-source"
             value={field.value}
             options={dataSourceOptions}
@@ -365,6 +372,7 @@ function EventForm({
                 {t('in-settings:tabs.systemRule')}
               </Label>
               <ComboBox
+                isDisabled={disabled}
                 name="event-system-rule"
                 value={field.value}
                 options={systemRuleOptions(systemRules)}
@@ -381,13 +389,16 @@ function EventForm({
 
           {form.get('systemRule') && form.get('systemRule').value === entityVerification.id && (
             <ObserveHostHasMatchingEntitiesRunningFormGroup
+              disabled={disabled}
               form={form}
               entityTypes={getEntityTypeOptionsOfBuiltInMetrics()}
               onChange={onChange}
             />
           )}
 
-          {isHostAvailabilitySystemRule() && <HostAvailabilityFormGroup form={form} onChange={onChange} />}
+          {isHostAvailabilitySystemRule() && (
+            <HostAvailabilityFormGroup form={form} onChange={onChange} disabled={disabled} />
+          )}
         </>
       )}
 
@@ -396,6 +407,7 @@ function EventForm({
           <Row>
             <Col lg={3}>
               <EntityTypeFormGroup
+                disabled={disabled}
                 form={form}
                 pluginsWithMetricDefinitions={pluginsWithMetricDefinitions}
                 onChange={onChange}
@@ -409,6 +421,7 @@ function EventForm({
                       {t('in-settings:tabs.metric')}
                     </Label>
                     <BuiltInMetricSelector
+                      disabled={disabled}
                       id="event-metricName"
                       plugin={form.get('entityType').value}
                       value={form.get('metricName').value}
@@ -458,10 +471,15 @@ function EventForm({
             </Col>
           </Row>
 
-          <DynamicBuiltInFormGroup form={form} onChange={onChange} />
+          <DynamicBuiltInFormGroup form={form} onChange={onChange} disabled={disabled} />
 
           {form.get('entityType').value && form.get('metricName').value && (
-            <ThresholdsFormGroup isPercentileMetric={isPercentileMetric} form={form} onChange={onChange} />
+            <ThresholdsFormGroup
+              disabled={disabled}
+              isPercentileMetric={isPercentileMetric}
+              form={form}
+              onChange={onChange}
+            />
           )}
         </>
       )}
@@ -471,6 +489,7 @@ function EventForm({
           <Row>
             <Col lg={3}>
               <EntityTypeFormGroup
+                disabled={disabled}
                 form={form}
                 pluginsWithMetricDefinitions={pluginsWithCustomMetrics}
                 onChange={onChange}
@@ -484,6 +503,7 @@ function EventForm({
                       {t('in-settings:tabs.metric')}
                     </Label>
                     <CustomMetricSelector
+                      disabled={disabled}
                       // Workaround to clear the selection when the entity-type change.
                       // It is not that expensive, because it is a small component.
                       key={Math.random()}
@@ -517,12 +537,18 @@ function EventForm({
           </Row>
 
           {form.get('metricName').value && (
-            <ThresholdsFormGroup isPercentileMetric={isPercentileMetric} form={form} onChange={onChange} />
+            <ThresholdsFormGroup
+              disabled={disabled}
+              isPercentileMetric={isPercentileMetric}
+              form={form}
+              onChange={onChange}
+            />
           )}
         </>
       )}
       {!disableAppDataLegacyEvents &&
         deprecateAppDataLegacyEvents &&
+        !disabled &&
         isAppDataEntityType(form.get('entityType')?.value ?? '') && <LegacyAppdataEventInfoMessage />}
 
       <SectionHeading>{t('in-settings:tabs.3Scope')}</SectionHeading>
@@ -539,6 +565,7 @@ function EventForm({
                 options={isHostAvailabilitySystemRule() ? applyOnOptionsForHostAvailability : applyOnOptions}
                 isClearable={false}
                 onChange={e => onChangeApplyOn(e ? e.value : null, onChange)}
+                isDisabled={disabled}
               />
               <TouchedMessages field={field} />
               {form.get('applyOn').value === scopeEverything && (
@@ -557,6 +584,7 @@ function EventForm({
                   {t('in-settings:tabs.dynamicFocusQuery')}
                 </Label>
                 <InputWithDFQSelectionList
+                  disabled={disabled}
                   id={'event-query'}
                   placeholder={t('in-settings:tabs.formatExample', {
                     format: 'entity.zone:"prod" AND entity.service.name:"Shop"'
@@ -595,7 +623,7 @@ function EventForm({
               </FormGroup>
             ))}
           {isHostAvailabilitySystemRule() && form.get('applyOn').value === scopeHostsByTag && (
-            <ScopeHostsByTagFormGroup form={form} onChange={onChange} />
+            <ScopeHostsByTagFormGroup form={form} onChange={onChange} disabled={disabled} />
           )}
         </Col>
       </Row>
@@ -607,24 +635,26 @@ function EventForm({
               loadEntities={() => getSelectedApplicationsForAlert(selectedApplicationIds)}
               hasRowNavigation={false}
               noDataMessage={t('in-settings:tabs.noApplicationPerspectivesSelected')}
-              tableActions={applicationSelectionTableActions(form, setForm)}
+              tableActions={!disabled && applicationSelectionTableActions(form, setForm)}
               rightHeader={
-                <SelectListDialogButton
-                  form={form}
-                  onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
-                  title={t('in-settings:tabs.addApplicationPerspectives')}
-                  label={t('in-settings:tabs.addApplicationPerspectives')}
-                  listComponent={Applications}
-                  listComponentRightHeader={noRightHeader}
-                  limit={10}
-                  hiddenIds={selectedApplicationIds}
-                  createSubmitLabel={numberOfItems =>
-                    numberOfItems > 0
-                      ? t('in-settings:tabs.addNumberOfItemsApplicationPerspective', { count: numberOfItems })
-                      : t('in-settings:tabs.add')
-                  }
-                  requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneApplicationPerspectives')}
-                />
+                !disabled && (
+                  <SelectListDialogButton
+                    form={form}
+                    onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
+                    title={t('in-settings:tabs.addApplicationPerspectives')}
+                    label={t('in-settings:tabs.addApplicationPerspectives')}
+                    listComponent={Applications}
+                    listComponentRightHeader={noRightHeader}
+                    limit={10}
+                    hiddenIds={selectedApplicationIds}
+                    createSubmitLabel={numberOfItems =>
+                      numberOfItems > 0
+                        ? t('in-settings:tabs.addNumberOfItemsApplicationPerspective', { count: numberOfItems })
+                        : t('in-settings:tabs.add')
+                    }
+                    requiresAtLeastOneMessage={t('in-settings:tabs.pleaseSelectAtLeastOneApplicationPerspectives')}
+                  />
+                )
               }
             />
             <TouchedMessages field={field} />
@@ -638,13 +668,14 @@ function EventForm({
   }
 }
 
-function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions = [], onChange }) {
+function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions = [], onChange, disabled }) {
   return form.get('entityType').map(field => (
     <FormGroup>
       <Label htmlFor="event-entity-type" hasError={!field.valid && field.touched}>
         {t('in-settings:tabs.entityType')}
       </Label>
       <ComboBox
+        isDisabled={disabled}
         name="event-entity-type"
         value={field.value}
         options={pluginsWithMetricDefinitions?.filter(({ value }) => {
@@ -665,7 +696,7 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions = [], onChange
   ));
 }
 
-function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
+function ThresholdsFormGroup({ isPercentileMetric, form, onChange, disabled }) {
   return (
     <FormGroup noFlex>
       <Row>
@@ -677,6 +708,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
                   {t('in-settings:tabs.timeWindow')}
                 </Label>
                 <ComboBox
+                  isDisabled={disabled}
                   name="event-window"
                   value={field.value}
                   options={getOptionsWithAdditionalValueIfMissing(windowOptions, field.value)}
@@ -696,6 +728,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
                   {t('in-settings:tabs.windowSize')}
                 </Label>
                 <ComboBox
+                  isDisabled={disabled}
                   name="event-rollup"
                   value={field.value}
                   options={rollupOptions}
@@ -715,6 +748,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
                   {t('in-settings:tabs.aggregation')}
                 </Label>
                 <ComboBox
+                  isDisabled={disabled}
                   name="event-aggregation"
                   value={field.value}
                   options={aggregationOptions}
@@ -733,6 +767,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
                 {t('in-settings:tabs.operator')}
               </Label>
               <ComboBox
+                isDisabled={disabled}
                 name="event-conditionOperator"
                 value={field.value}
                 options={conditionOperatorOptions}
@@ -750,6 +785,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
                 {formatterTypeToDefinition(form.get('formatter').value)}
               </Label>
               <Input
+                disabled={disabled}
                 id="event-conditionValue"
                 type="text"
                 value={field.value}
@@ -765,7 +801,7 @@ function ThresholdsFormGroup({ isPercentileMetric, form, onChange }) {
   );
 }
 
-function DynamicBuiltInFormGroup({ form, onChange }) {
+function DynamicBuiltInFormGroup({ form, onChange, disabled }) {
   const entityType = form.get('entityType')?.value;
   const metricName = form.get('metricName')?.value;
 
@@ -790,6 +826,7 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
                   {t('in-settings:tabs.matchingOperator')}
                 </Label>
                 <ComboBox
+                  isDisabled={disabled}
                   name="event-metricPatternOperator"
                   value={metricPatternOperator.value}
                   options={metricPatternMatchingOptions}
@@ -821,6 +858,7 @@ function DynamicBuiltInFormGroup({ form, onChange }) {
                 {getMetricDefinition(entityType, metricName).metricPattern?.placeholderLabel ?? 'Placeholder'}
               </Label>
               <Input
+                disabled={disabled}
                 id="event-metricPatternPlaceholder"
                 type="text"
                 value={metricPatternPlaceholder.value}

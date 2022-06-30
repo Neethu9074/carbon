@@ -824,7 +824,8 @@
     "invocations": "Invocations",
     "successRate": "Success Rate",
     "lastModified": "Last Modified",
-    "docLink": "Documentation Link"
+    "docLink": "Documentation Link",
+    "deletedEventMessage": "You are looking at a deleted event configuration. Modifications are not possible."
   },
   "languageSelection": {
     "language": "Language",

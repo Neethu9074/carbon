@@ -104,6 +104,8 @@ const Form = entityForm(function DetailsForm(props) {
 
   const isMigrated = !!entity.get('migrated');
 
+  const isDeleted = !!entity.get('deleted');
+
   return (
     <SettingsDetailPage>
       <Stack direction="horizontal" distribution="spaceBetween">
@@ -113,7 +115,7 @@ const Form = entityForm(function DetailsForm(props) {
             : t('in-settings:tabs.configureEventEntityName', { entityName: entity.get('name') })}
         </SubViewHeader>
 
-        {isMigratable && (
+        {isMigratable && !isDeleted && (
           <span style={{ alignSelf: 'center' }}>
             <MigrateToSmartAlerts eventSpecificationId={props.entityId} />
           </span>
@@ -121,7 +123,7 @@ const Form = entityForm(function DetailsForm(props) {
       </Stack>
       <SectionLine />
 
-      {isDeprecated && <LegacyAppdataEventInfoMessage migrated={isMigrated} saved />}
+      {(isDeleted || isDeprecated) && <LegacyAppdataEventInfoMessage migrated={isMigrated} saved deleted={isDeleted} />}
 
       {message ? (
         <Section>
@@ -131,13 +133,13 @@ const Form = entityForm(function DetailsForm(props) {
         </Section>
       ) : null}
 
-      <CustomEventForm {...props} />
+      <CustomEventForm {...props} disabled={isDeleted || isMigrated} />
 
       <SaveCancel
         form={form}
         message={message}
         loading={loading}
-        saveEnabled={saveEnabled && !isMigrated}
+        saveEnabled={saveEnabled && !isMigrated && !isDeleted}
         isCreate={isCreate}
         listPath={teamSettingsAlertingEvents}
       />
