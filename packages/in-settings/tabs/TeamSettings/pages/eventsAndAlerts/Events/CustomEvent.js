@@ -5,6 +5,7 @@
 
 import React from 'react';
 
+import { combineLatest } from '@instana/observables';
 import { Stack } from '@instana/components';
 
 import {
@@ -14,6 +15,7 @@ import {
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
   saveCustomEventSpecification,
+  getActionAssociation,
   saveActionAssociation
 } from 'in-api/eventSpecifications';
 import {
@@ -53,13 +55,28 @@ import { t } from 'in-i18n';
 export default function CustomEvent(props) {
   const entityId = props.match.params.id;
 
+  function mergeResultData() {
+    const a1$ = getCustomEventSpecification(entityId);
+    const a2$ = getActionAssociation(entityId);
+    return combineLatest([a1$, a2$]).map(([response1, response2]) => combineResults(response1, response2));
+  }
+
+  function combineResults(entityResult, metricResult) {
+    let actionsIds = [];
+    metricResult.toJS().forEach(action => {
+      actionsIds.push(action.id);
+    });
+    entityResult.actionIds = actionsIds;
+    return entityResult;
+  }
+
   return (
     <Form
       title={t('in-settings:tabs.event')}
       entityId={entityId}
       createDefaultEntity={createCustomThresholdBasedEventSpecification}
       createForm={event => createEventFormDefinition(event, !entityId)}
-      getEntityFromApi={getCustomEventSpecification}
+      getEntityFromApi={mergeResultData}
       openEntities={() => goToPath(teamSettingsAlertingEvents)}
       saveEntity={save}
     />
@@ -161,12 +178,11 @@ function save(event, form) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  let a = saveCustomEventSpecification(eventSpecification);
+  const a = saveCustomEventSpecification(eventSpecification);
   if (actionIds.length > 0) {
-    actionIds.map(id => {
-      a = a.merge(saveActionAssociation(id, eventSpecification));
-    });
+    event.actions = combineLatest(actionIds.map(id => saveActionAssociation(id, eventSpecification)));
   }
+
   return a;
 }
 

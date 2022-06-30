@@ -81,7 +81,8 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
 
 export function createEventFormDefinition(eventSpec, isCreate) {
   const mutableEvent = getMutableEventSpecification(eventSpec);
-  const { name, entityType, query, triggering, description, expirationTime } = mutableEvent;
+  mutableEvent.actionIds = eventSpec.actionIds;
+  const { name, entityType, query, triggering, description, expirationTime, actionIds } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
   const { ruleType, severity, tagFilter } = ruleAttributes;
 
@@ -153,7 +154,7 @@ export function createEventFormDefinition(eventSpec, isCreate) {
         validator: notBlankValidator
       })
     );
-  form = putActionField(form);
+  form = putActionField(form, actionIds);
   if (dataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, eventSpec);
   } else {

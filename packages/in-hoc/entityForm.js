@@ -137,13 +137,26 @@ export default function entityForm(ComposedComponent) {
       });
 
       responseSubscription.current = result$.once(() => {
-        setState({
-          ...state,
-          loading: false,
-          error: false
-        });
-        props.onSaveSuccess?.();
-        props.openEntities?.();
+        //entity.actions added to excute second promise after the firts one executed.
+        if (entity.actions) {
+          entity.actions.once(() => {
+            setState({
+              ...state,
+              loading: false,
+              error: false
+            });
+            props.onSaveSuccess?.();
+            props.openEntities?.();
+          });
+        } else {
+          setState({
+            ...state,
+            loading: false,
+            error: false
+          });
+          props.onSaveSuccess?.();
+          props.openEntities?.();
+        }
       });
 
       errorSubscription.current = result$.errors().once(error => {
@@ -165,6 +178,25 @@ export default function entityForm(ComposedComponent) {
           message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
         });
       });
+      // errorSubscription.currentActions = entity.actions.errors().once(error => {
+      //   let message = error.message;
+      //   if (
+      //     error.response &&
+      //     error.response.body &&
+      //     error.response.body.errors &&
+      //     error.response.body.errors.length > 0
+      //   ) {
+      //     message = error.response.body.errors.join(', ');
+      //   }
+      //   scrollToTopSmoothly();
+      //   props.onSaveError?.(message);
+      //   setState({
+      //     ...state,
+      //     loading: false,
+      //     error: true,
+      //     message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
+      //   });
+      // });
     }
 
     function disposeAsyncAction() {
@@ -174,6 +206,9 @@ export default function entityForm(ComposedComponent) {
 
       if (errorSubscription.current) {
         errorSubscription.current.dispose();
+      }
+      if (errorSubscription.currentActions) {
+        errorSubscription.currentActions.dispose();
       }
     }
 

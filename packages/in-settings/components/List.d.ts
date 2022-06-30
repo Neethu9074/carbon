@@ -23,6 +23,7 @@ interface ListProps {
   searchAttributes?: string[];
   searchPlaceholder?: string;
   searchMaxWidth?: number;
+  extraFilters?: function;
   onRowClick?: function;
   rightHeader?: ReactNode;
   tableActions?: object;

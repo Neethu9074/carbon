@@ -90,7 +90,6 @@ import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
-import { limitForConnectedEvents } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import AssociatedActions from 'in-settings/tabs/TeamSettings/pages/automation/AssociatedActions';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
@@ -626,14 +625,14 @@ function EventForm({
               tableActions={applicationSelectionTableActions(form, setForm)}
               rightHeader={
                 <SelectListDialogButton
-                  // form={form}
+                  form={form}
                   onSubmit={selectedIds => submitApplicationSelection(form, setForm, selectedIds)}
                   title={t('in-settings:tabs.addApplicationPerspectives')}
                   label={t('in-settings:tabs.addApplicationPerspectives')}
                   listComponent={Applications}
                   listComponentRightHeader={noRightHeader}
                   limit={10}
-                  // hiddenIds={selectedApplicationIds}
+                  hiddenIds={selectedApplicationIds}
                   createSubmitLabel={numberOfItems =>
                     numberOfItems > 0
                       ? t('in-settings:tabs.addNumberOfItemsApplicationPerspective', { count: numberOfItems })
@@ -673,8 +672,8 @@ function ActionsSelection({ form, setForm }) {
             title={t('in-settings:tabs.addActions')}
             label={t('in-settings:tabs.addActions')}
             listComponent={AssociatedActions}
+            limit={10}
             hiddenIds={selectedActions}
-            limit={limitForConnectedEvents}
             createSubmitLabel={numberOfItems =>
               numberOfItems > 0
                 ? t('in-settings:tabs.addNumberOfItemsAction', { count: numberOfItems })

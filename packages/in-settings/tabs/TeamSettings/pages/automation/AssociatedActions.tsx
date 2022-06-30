@@ -68,6 +68,7 @@ const columnDefinitions = [
     }
   }
 ];
+
 export interface ActionProps {
   onRowClick: () => void;
   setTitle?: boolean;
@@ -76,6 +77,7 @@ export interface ActionProps {
   inSelectListDialog: boolean;
   loadEntities: any;
   tableActions?: object;
+  hiddenIds?: any;
 }
 
 const defaultTableActions = {};
@@ -87,6 +89,7 @@ export default function AssociatedActions({
   rightHeader,
   inSelectListDialog = false,
   loadEntities,
+  hiddenIds,
   tableActions = defaultTableActions
 }: ActionProps) {
   return (
@@ -102,6 +105,7 @@ export default function AssociatedActions({
       searchAttributes={['name', 'description', 'tags']}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
+      extraFilters={createFilters(hiddenIds)}
       rightHeader={getRightHeader()}
       onRowClick={onRowClick}
       tableActions={tableActions}
@@ -126,4 +130,12 @@ export default function AssociatedActions({
 }
 function getHeader() {
   return leftHeaderWithSelectAll(t('in-settings:tabs.action_plural'), false, {});
+}
+
+function createFilters(a: Array<string>) {
+  const filters = [];
+  if (a) {
+    filters.push((entity: any) => a.indexOf(entity.id) < 0);
+  }
+  return filters;
 }
