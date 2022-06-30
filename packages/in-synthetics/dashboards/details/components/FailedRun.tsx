@@ -84,6 +84,7 @@ export default function FailedRun({ testId, resultId }: FailedRunProps) {
         </Card>
       );
     }
+
     if (getStatus(resultList) === 1 && getErrors(resultList)?.length === 0) {
       // hide widget
       return <></>;
@@ -104,7 +105,7 @@ export default function FailedRun({ testId, resultId }: FailedRunProps) {
 }
 
 function getStatus(resultList: Result<PaginatedResult<TestResultListItem>>) {
-  return get(resultList?.data?.items, ['metrics', 'status', 0, 1]);
+  return get(resultList.data?.items[0], ['metrics', 'status', 0, 1], 0);
 }
 
 function getErrors(resultList: Result<PaginatedResult<TestResultListItem>>) {
