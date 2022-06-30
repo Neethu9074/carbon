@@ -31,7 +31,7 @@ const { logger } = require('./logging');
 const adminServer = require('./admin');
 const adminServerHttpTerminator = createHttpTerminator({ server: adminServer });
 
-const { activeResolver } = require('in-server/src/services/resolvers');
+const { activeResolver } = require('./services/resolvers');
 
 const app = express();
 
