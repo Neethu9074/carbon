@@ -97,7 +97,6 @@ import { compareIgnoreCase, isBlank, isNotBlank } from 'in-services/util/string'
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import { combinedValidationResults, valid } from 'in-settings/validation';
-import { deleteActionAssociation } from 'in-api/eventSpecifications';
 import EventDescription from 'in-events/components/EventDescription';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -206,8 +205,7 @@ function EventForm({
   queryValidationInProgress,
   setQueryValidationInProgress,
   setSaveEnabled,
-  existingApplication,
-  entityId
+  existingApplication
 }) {
   applyQueryValidationResult(queryValidationResult, form, onChange);
 
@@ -613,7 +611,7 @@ function EventForm({
       {role.canConfigureAutomationActions && actionAutomationEnabled && (
         <>
           <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading>
-          <ActionsSelection form={form} setForm={setForm} eventid={entityId} />
+          <ActionsSelection form={form} setForm={setForm} />
         </>
       )}
       {form.get('applyOn').value === scopeApplication &&
@@ -655,7 +653,7 @@ function EventForm({
   }
 }
 
-function ActionsSelection({ form, setForm, eventid }) {
+function ActionsSelection({ form, setForm }) {
   let selectedActions = form.get('actionIds') ? form.get('actionIds').value : [];
 
   return (
@@ -665,7 +663,7 @@ function ActionsSelection({ form, setForm, eventid }) {
         loadEntities={() => getSelectedEventsForAlert(selectedActions)}
         hasRowNavigation={false}
         noDataMessage={t('in-settings:tabs.noActionsSelected')}
-        tableActions={ActionSelectionTableActions(form, setForm, eventid)}
+        tableActions={ActionSelectionTableActions(form, setForm)}
         pageSize={10}
         rightHeader={
           <SelectListDialogButton
@@ -1079,12 +1077,11 @@ function isSystemRuleDataSourceSelected(form) {
   return form.get('dataSource').value === dataSourceSystem;
 }
 
-function ActionSelectionTableActions(form, setForm, eventid) {
+function ActionSelectionTableActions(form, setForm) {
   return {
     deselect: {
       deselect: deselectedEntity => {
         if (deselectedEntity) {
-          // console.log("deselectedEntity*****",deselectedEntity);
           setForm(
             form.updateIn(['actionIds'], field => {
               return field
@@ -1092,7 +1089,6 @@ function ActionSelectionTableActions(form, setForm, eventid) {
                 .setTouched(true);
             })
           );
-          return deleteActionAssociation(deselectedEntity.id, eventid);
         }
       }
     }

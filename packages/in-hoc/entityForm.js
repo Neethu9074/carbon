@@ -138,6 +138,17 @@ export default function entityForm(ComposedComponent) {
 
       responseSubscription.current = result$.once(() => {
         //entity.actions added to excute second promise after the firts one executed.
+        if (entity.deleteActions) {
+          entity.deleteActions.once(() => {
+            setState({
+              ...state,
+              loading: false,
+              error: false
+            });
+            props.onSaveSuccess?.();
+            props.openEntities?.();
+          });
+        }
         if (entity.actions) {
           entity.actions.once(() => {
             setState({
@@ -148,15 +159,16 @@ export default function entityForm(ComposedComponent) {
             props.onSaveSuccess?.();
             props.openEntities?.();
           });
-        } else {
+        }
+        if (!entity.deleteActions && !entity.actions)
+          // } else {
           setState({
             ...state,
             loading: false,
             error: false
           });
-          props.onSaveSuccess?.();
-          props.openEntities?.();
-        }
+        props.onSaveSuccess?.();
+        props.openEntities?.();
       });
 
       errorSubscription.current = result$.errors().once(error => {

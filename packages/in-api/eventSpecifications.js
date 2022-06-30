@@ -244,13 +244,13 @@ export function getActionAssociation(eventSpecificationId) {
   }).map(response => fromJS(response.body));
 }
 
-export function deleteActionAssociation(actionId, eventid) {
-  // console.log("innn",actionId, eventid);
+export function deleteActionAssociation(actionId, event) {
   return http({
     method: 'DELETE',
     maxRetries: 3,
-    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventid)}
-    /actions/${encodeURIComponent(actionId)}`,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(event.id)}/actions/${encodeURIComponent(
+      actionId
+    )}`,
     headers: getCsrfHeader()
   }).map(response => fromJS(response.body));
 }

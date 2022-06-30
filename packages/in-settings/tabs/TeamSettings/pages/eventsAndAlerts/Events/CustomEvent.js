@@ -3,7 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
-import { xor } from 'lodash';
+import { difference } from 'lodash';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
@@ -17,7 +17,8 @@ import {
   getCustomEventSpecification,
   saveCustomEventSpecification,
   getActionAssociation,
-  saveActionAssociation
+  saveActionAssociation,
+  deleteActionAssociation
 } from 'in-api/eventSpecifications';
 import {
   createEventFormDefinition,
@@ -170,9 +171,10 @@ function save(event, form) {
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn').value;
   const actionIds = form.get('actionIds').value;
-  const saveActionIds = form.get('saveActionIds').value;
+  const saveActionIds = form.get('saveActionIds') ? form.get('saveActionIds').value : [];
 
-  const finalActionIds = xor(actionIds, saveActionIds);
+  const finalActionIds = difference(actionIds, saveActionIds);
+  const finalActionDeleteIds = difference(saveActionIds, actionIds);
 
   submitEventTracker({
     scopeType,
@@ -185,6 +187,12 @@ function save(event, form) {
   const a = saveCustomEventSpecification(eventSpecification);
   if (finalActionIds.length > 0) {
     event.actions = combineLatest(finalActionIds.map(id => saveActionAssociation(id, eventSpecification)));
+  }
+
+  if (finalActionDeleteIds.length > 0) {
+    event.deleteActions = combineLatest(
+      finalActionDeleteIds.map(id => deleteActionAssociation(id, eventSpecification))
+    );
   }
 
   return a;
