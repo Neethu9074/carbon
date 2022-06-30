@@ -35,10 +35,20 @@ export default function Timeline({ details }: TimelineProps) {
   const { errors, data } = details;
   return (
     <Card title={t('in-synthetics:dashboard.detailsPage.timeLineWidget')}>
-      <div className={locals.overviewChartContainer}>
-        <OverviewChart errors={errors} data={data} />
-      </div>
-      <SubtransactionsList errors={errors} data={data} />
+      {data ? (
+        <>
+          <div className={locals.overviewChartContainer}>
+            <OverviewChart errors={errors} data={data} />
+          </div>
+          <SubtransactionsList errors={errors} data={data} />
+        </>
+      ) : (
+        <NoDataAvailable
+          type="lib_synthetic"
+          height={160}
+          text={t('in-synthetics:dashboard.detailsPage.noDataAvailable.timelineDescription')}
+        />
+      )}
     </Card>
   );
 }
@@ -46,7 +56,7 @@ export default function Timeline({ details }: TimelineProps) {
 function OverviewChart({ errors, data }: SubtransactionsProps) {
   const { width, ref } = useResizeObserverCustom();
 
-  if (errors?.length != undefined && data != undefined) {
+  if (errors?.length != undefined) {
     // @ts-expect-error
     if (errors.length > 0 || data?.subtransactions[0].properties === null) {
       return (
@@ -68,11 +78,10 @@ function OverviewChart({ errors, data }: SubtransactionsProps) {
     (max: number, sub: TestResultSubtransaction) => Math.max(max, sub.properties.finishTime + sub.metrics.responseTime),
     0
   );
-  let totalDuration = 0;
-
-  subData?.map((subtransaction: TestResultSubtransaction) => {
-    totalDuration += subtransaction.metrics.responseTime;
-  });
+  const totalDuration = subData?.reduce(
+    (prev: number, current: TestResultSubtransaction) => prev + current.metrics.responseTime,
+    0
+  );
 
   scale.setRangeFrom(0);
   scale.setRangeTo(1);
