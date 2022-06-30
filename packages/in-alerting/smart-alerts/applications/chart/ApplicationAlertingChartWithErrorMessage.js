@@ -32,10 +32,11 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
     alertConfigWithFormModel: { evaluationType, threshold },
     serviceId,
     endpointId,
+    isEventsView,
     isAlertDetailView
   } = props;
 
-  const usingPersistedAdaptiveBaseline = isAlertDetailView && threshold?.type === ADAPTIVE_BASELINE;
+  const usingPersistedAdaptiveBaseline = (isEventsView || isAlertDetailView) && threshold?.type === ADAPTIVE_BASELINE;
 
   if (usingPersistedAdaptiveBaseline && !baselinePreviewOnAlertPageEnabled) {
     // info shown as long as previews is disabled by feature flag
@@ -58,35 +59,10 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
 }
 
 function ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline(props) {
-  const {
-    alertConfigWithFormModel: { created, id, granularity },
-    viewConfig: { timeConfig },
-    applicationId,
-    serviceId,
-    endpointId
-  } = props;
-
-  const selectedEntityId = endpointId ?? serviceId ?? applicationId;
-
-  const queryParams = {
-    alertConfigId: id,
-    alertCreated: created,
-    applicationId,
-    entityId: selectedEntityId, // either endpoint or service or appId if selected
-    timeConfig,
-    granularity
-  };
-  const fetchPersistedBaselineResult = useObservable(
-    selectedEntityId ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult) : null,
-    [id, created, applicationId, selectedEntityId, timeConfig]
-  );
-
-  const error = hasError(fetchPersistedBaselineResult);
-  const adaptiveBaseline = error || isLoading(fetchPersistedBaselineResult) ? [] : fetchPersistedBaselineResult?.data;
-
+  const { error, baseline } = useFetchAdaptiveBaselineOrUseFallbackFromEvent(props);
   return (
     <>
-      <ApplicationAlertingChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={adaptiveBaseline} />
+      <ApplicationAlertingChartWithErrorMessageAndData {...props} eventBasedAdaptiveBaseline={baseline} />
       {error && (
         <>
           <Spacer size="normal" />
@@ -134,6 +110,48 @@ function ApplicationAlertingChartWithErrorMessageAndData(props) {
   );
 }
 
+function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props) {
+  const {
+    alertConfigWithFormModel: { created, id, granularity },
+    viewConfig: { timeConfig },
+    applicationId,
+    serviceId,
+    endpointId,
+    eventBasedAdaptiveBaseline
+  } = props;
+
+  const selectedEntityId = endpointId ?? serviceId ?? applicationId;
+
+  const queryParams = {
+    alertConfigId: id,
+    alertCreated: created,
+    applicationId,
+    entityId: selectedEntityId, // either endpoint or service or appId if selected
+    timeConfig,
+    granularity
+  };
+  const fetchPersistedBaselineResult = useObservable(
+    selectedEntityId ? onSubscribeBaselinePredictions(queryParams).startWith(pendingResult) : null,
+    [id, created, applicationId, selectedEntityId, timeConfig]
+  );
+
+  return extractBaselineFromResultsOrUseErrorFallback(fetchPersistedBaselineResult, eventBasedAdaptiveBaseline);
+}
+
+function extractBaselineFromResultsOrUseErrorFallback(fetchPersistedBaselineResult, errorFallbackBaseline) {
+  const error = hasError(fetchPersistedBaselineResult);
+  let baseline;
+
+  if (error) {
+    baseline = errorFallbackBaseline ?? [];
+  } else if (isLoading(fetchPersistedBaselineResult)) {
+    baseline = [];
+  } else {
+    baseline = fetchPersistedBaselineResult?.data;
+  }
+  return { error, baseline };
+}
+
 function getErrorMessage(isQB2Error, isServicesAndEndpointsSelectionError) {
   if (isQB2Error) {
     return t('in-alerting:components.chart.alertingChartMessageInvalidFilterQuery');
@@ -168,6 +186,9 @@ ApplicationAlertingChartWithErrorMessage.propTypes = {
    * Optional serviceId, used to scope down the metric in the chart to a single service entity
    **/
   serviceId: PropTypes.string,
+
+  // enables rendering of a persisted baseline:
+  isEventsView: PropTypes.bool,
   isAlertDetailView: PropTypes.bool,
   setMetricResultPrecision: PropTypes.func,
 
