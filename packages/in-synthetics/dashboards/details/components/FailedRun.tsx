@@ -72,18 +72,17 @@ export default function FailedRun({ testId, resultId }: FailedRunProps) {
       [0]
     ) || dummyTests;
 
-  if (resultList.progress.loading || resultList.progress.loading) {
-    content = <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} size="xxxl" />;
+  if (resultList.progress.loading) {
+    return (
+      <Card className={locals.failedTitle} title={t('in-synthetics:dashboard.detailsPage.failedRun')}>
+        <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} size="xxxl" />
+      </Card>
+    );
   }
-  {
-    if (Array.isArray(resultList.data) && !resultList.data.length) {
-      return (
-        <Card className={locals.failedTitle} title={t('in-synthetics:dashboard.detailsPage.failedRun')}>
-          <h3 className={locals.errorMessageHeader}>{t('in-synthetics:dashboard.detailsPage.failedRunErrorTitle')}</h3>
-          <span className={locals.errorMessage}>{t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage')}</span>
-        </Card>
-      );
-    }
+
+  if (resultList.data?.items.length === 0) {
+    content = t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage');
+  } else {
     if (getStatus(resultList) === 1 && getErrors(resultList)?.length === 0) {
       // hide widget
       return <></>;
