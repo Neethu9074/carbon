@@ -97,6 +97,7 @@ import { compareIgnoreCase, isBlank, isNotBlank } from 'in-services/util/string'
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import { combinedValidationResults, valid } from 'in-settings/validation';
+import { deleteActionAssociation } from 'in-api/eventSpecifications';
 import EventDescription from 'in-events/components/EventDescription';
 import SectionHeading from 'in-settings/components/SectionHeading';
 import DescriptionText from 'in-components/form/DescriptionText';
@@ -107,8 +108,8 @@ import { alwaysEmptyArray } from 'in-services/fixedStreams';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
 import FormGroup from 'in-settings/components/FormGroup';
 import TextArea from 'in-components/form/TextArea';
-import { getPluginName } from 'in-sdk/pluginName';
 import { getAllActions } from 'in-api/automation';
+import { getPluginName } from 'in-sdk/pluginName';
 import Helpify from 'in-components/form/Helpify';
 import ComboBox from 'in-components/ComboBox';
 import { find } from 'in-services/arrayUtils';
@@ -205,7 +206,8 @@ function EventForm({
   queryValidationInProgress,
   setQueryValidationInProgress,
   setSaveEnabled,
-  existingApplication
+  existingApplication,
+  entityId
 }) {
   applyQueryValidationResult(queryValidationResult, form, onChange);
 
@@ -611,7 +613,7 @@ function EventForm({
       {role.canConfigureAutomationActions && actionAutomationEnabled && (
         <>
           <SectionHeading>{t('in-settings:tabs.4ActionAssociations')}</SectionHeading>
-          <ActionsSelection form={form} setForm={setForm} />
+          <ActionsSelection form={form} setForm={setForm} eventid={entityId} />
         </>
       )}
       {form.get('applyOn').value === scopeApplication &&
@@ -653,7 +655,7 @@ function EventForm({
   }
 }
 
-function ActionsSelection({ form, setForm }) {
+function ActionsSelection({ form, setForm, eventid }) {
   let selectedActions = form.get('actionIds') ? form.get('actionIds').value : [];
 
   return (
@@ -663,7 +665,7 @@ function ActionsSelection({ form, setForm }) {
         loadEntities={() => getSelectedEventsForAlert(selectedActions)}
         hasRowNavigation={false}
         noDataMessage={t('in-settings:tabs.noActionsSelected')}
-        tableActions={ActionSelectionTableActions(form, setForm)}
+        tableActions={ActionSelectionTableActions(form, setForm, eventid)}
         pageSize={10}
         rightHeader={
           <SelectListDialogButton
@@ -1077,11 +1079,12 @@ function isSystemRuleDataSourceSelected(form) {
   return form.get('dataSource').value === dataSourceSystem;
 }
 
-function ActionSelectionTableActions(form, setForm) {
+function ActionSelectionTableActions(form, setForm, eventid) {
   return {
     deselect: {
       deselect: deselectedEntity => {
         if (deselectedEntity) {
+          // console.log("deselectedEntity*****",deselectedEntity);
           setForm(
             form.updateIn(['actionIds'], field => {
               return field
@@ -1089,6 +1092,7 @@ function ActionSelectionTableActions(form, setForm) {
                 .setTouched(true);
             })
           );
+          return deleteActionAssociation(deselectedEntity.id, eventid);
         }
       }
     }

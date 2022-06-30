@@ -244,6 +244,17 @@ export function getActionAssociation(eventSpecificationId) {
   }).map(response => fromJS(response.body));
 }
 
+export function deleteActionAssociation(actionId, eventid) {
+  // console.log("innn",actionId, eventid);
+  return http({
+    method: 'DELETE',
+    maxRetries: 3,
+    url: `/api/events/settings/event-specifications/custom/${encodeURIComponent(eventid)}
+    /actions/${encodeURIComponent(actionId)}`,
+    headers: getCsrfHeader()
+  }).map(response => fromJS(response.body));
+}
+
 export function setBuiltInEventSpecificationsEnabled(eventSpecificationId, enabled) {
   return http({
     method: 'POST',

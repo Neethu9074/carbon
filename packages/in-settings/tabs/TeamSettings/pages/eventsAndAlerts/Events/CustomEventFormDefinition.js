@@ -59,6 +59,7 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
     applicationName: null,
     applicationIds: [],
     actionIds: [],
+    saveActionIds: [],
     tagValueForHostAvailability: null,
     tagOperatorForHostAvailability: null
   };
@@ -82,7 +83,8 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
 export function createEventFormDefinition(eventSpec, isCreate) {
   const mutableEvent = getMutableEventSpecification(eventSpec);
   mutableEvent.actionIds = eventSpec.actionIds;
-  const { name, entityType, query, triggering, description, expirationTime, actionIds } = mutableEvent;
+  mutableEvent.saveActionIds = eventSpec.actionIds;
+  const { name, entityType, query, triggering, description, expirationTime, actionIds, saveActionIds } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
   const { ruleType, severity, tagFilter } = ruleAttributes;
 
@@ -154,7 +156,8 @@ export function createEventFormDefinition(eventSpec, isCreate) {
         validator: notBlankValidator
       })
     );
-  form = putActionField(form, actionIds);
+  form = putActionField('actionIds', form, actionIds);
+  form = putActionField('saveActionIds', form, saveActionIds);
   if (dataSource !== dataSourceSystem) {
     form = putAllDataSourceFields(form, eventSpec);
   } else {
@@ -555,9 +558,9 @@ export function putTagValueField(form, tagValue) {
   );
 }
 
-export function putActionField(form, tagValue) {
+export function putActionField(string, form, tagValue) {
   return form.put(
-    'actionIds',
+    string,
     createField({
       value: tagValue ?? []
     })

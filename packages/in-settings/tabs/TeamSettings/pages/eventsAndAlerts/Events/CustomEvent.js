@@ -3,6 +3,7 @@
  * (c) Copyright Instana Inc.
  */
 
+import { xor } from 'lodash';
 import React from 'react';
 
 import { combineLatest } from '@instana/observables';
@@ -169,6 +170,9 @@ function save(event, form) {
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn').value;
   const actionIds = form.get('actionIds').value;
+  const saveActionIds = form.get('saveActionIds').value;
+
+  const finalActionIds = xor(actionIds, saveActionIds);
 
   submitEventTracker({
     scopeType,
@@ -179,8 +183,8 @@ function save(event, form) {
 
   const eventSpecification = getEventSpecification(event, form);
   const a = saveCustomEventSpecification(eventSpecification);
-  if (actionIds.length > 0) {
-    event.actions = combineLatest(actionIds.map(id => saveActionAssociation(id, eventSpecification)));
+  if (finalActionIds.length > 0) {
+    event.actions = combineLatest(finalActionIds.map(id => saveActionAssociation(id, eventSpecification)));
   }
 
   return a;
