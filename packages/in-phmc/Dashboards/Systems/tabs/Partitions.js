@@ -3,7 +3,6 @@
  * (c) Copyright Instana Inc.
  */
 
-import { get } from 'lodash';
 import React from 'react';
 
 import ServerSideSortedMetricValue from 'in-components/tables/sharedComponents/ServerSideSortedMetricValue';
@@ -24,9 +23,9 @@ const columnDefinitions = [
   {
     id: 'label',
     label: t('in-phmc:name'),
-    getContent(item) {
-      const systemId = item.systemId;
-      const consoleId = item.consoleId;
+    getContent(item, props) {
+      const systemId = props.systemId;
+      const consoleId = props.consoleId;
       return <EntityLink label={item.label} href$={getIbmpLparDashboard(item.id, { systemId, consoleId })} />;
     }
   },
@@ -104,7 +103,7 @@ export default function Partitions(props) {
     <ServerTableWithUrlState
       get={getTableData}
       timeConfig={props.timeConfig}
-      consoleId={isWithinConsole(props) ? props.consoleId : undefined}
+      consoleId={props.consoleId}
       systemId={props.systemId}
     />
   );
@@ -137,9 +136,4 @@ function getTableData({
     },
     granularity: getInfraGranularity(timeConfig)
   });
-}
-
-function isWithinConsole(props) {
-  const pathname = get(props, ['location', 'pathname'], '/ibmp/console/lpar');
-  return pathname && pathname.toLowerCase().includes('console');
 }

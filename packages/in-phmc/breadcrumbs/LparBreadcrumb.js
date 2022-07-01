@@ -6,20 +6,20 @@
 import React from 'react';
 
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
-import getLpars from 'in-phmc/subscriptions/getLpars';
+import getLpar from 'in-phmc/subscriptions/getLpar';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 export default connectTo(
   props => ({
-    lpar: getLpars({
+    lpar: getLpar({
       filter: {
         lparId: props.lparId,
         timeConfig: props.timeConfig
       }
     }).map(result => result.data)
   }),
-  function LparBreadcrumbs({ lpar }) {
+  function LparBreadcrumb({ lpar }) {
     return <Breadcrumb label={t('in-phmc:breadcrumbs.logicalPartitions')}>{lpar && lpar.label}</Breadcrumb>;
   }
 );

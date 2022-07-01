@@ -18,7 +18,7 @@ import DashboardHeader from 'in-components/DashboardHeader';
 import { lparDashboard } from 'in-phmc/navigation/paths';
 import tabs from 'in-phmc/Dashboards/Lpar/tabs/index';
 import { getTimeConfig } from 'in-stores/time/config';
-import { LparBreadcrumb } from 'in-phmc/breadcrumbs';
+import { LparBreadcrumbs } from 'in-phmc/breadcrumbs';
 import getLpar from 'in-phmc/subscriptions/getLpar';
 import { plugins } from 'in-forge/constants';
 import Footer from 'in-components/Footer';
@@ -35,7 +35,7 @@ export default function LparDashboard({ location }) {
 
   return (
     <Fragment>
-      <Breadcrumbs items={LparBreadcrumb(props)} />
+      <Breadcrumbs items={LparBreadcrumbs(props)} />
       <ViewTrackingMeta
         data={{
           productArea: 'IBM Power',
@@ -47,6 +47,7 @@ export default function LparDashboard({ location }) {
         result$={getLpar({
           filter: {
             lparId: props.lparId,
+            systemId: props.systemId,
             timeConfig: props.timeConfig
           }
         })}
