@@ -28,6 +28,8 @@ export default function entityForm(ComposedComponent) {
     const [state, setState] = useState(initialState);
     const responseSubscription = useRef();
     const errorSubscription = useRef();
+    const errorAssociateActionSubscription = useRef();
+    const errorDisassociateActionSubscription = useRef();
 
     const { title, entityId } = props;
     const { form, entity, saveEnabled } = state;
@@ -137,7 +139,7 @@ export default function entityForm(ComposedComponent) {
       });
 
       responseSubscription.current = result$.once(() => {
-        //entity.actions added to excute second promise after the firts one executed.
+        //entity.deleteActions added to excute second promise dis associate actions after the firts one(save event) executed.
         if (entity.deleteActions) {
           entity.deleteActions.once(() => {
             setState({
@@ -149,6 +151,7 @@ export default function entityForm(ComposedComponent) {
             props.openEntities?.();
           });
         }
+        //entity.actions added to excute second promise associate actions after the firts one(save event) executed.
         if (entity.actions) {
           entity.actions.once(() => {
             setState({
@@ -190,25 +193,44 @@ export default function entityForm(ComposedComponent) {
           message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
         });
       });
-      // errorSubscription.currentActions = entity.actions.errors().once(error => {
-      //   let message = error.message;
-      //   if (
-      //     error.response &&
-      //     error.response.body &&
-      //     error.response.body.errors &&
-      //     error.response.body.errors.length > 0
-      //   ) {
-      //     message = error.response.body.errors.join(', ');
-      //   }
-      //   scrollToTopSmoothly();
-      //   props.onSaveError?.(message);
-      //   setState({
-      //     ...state,
-      //     loading: false,
-      //     error: true,
-      //     message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
-      //   });
-      // });
+      errorAssociateActionSubscription.current = entity.actions.errors().once(error => {
+        let message = error.message;
+        if (
+          error.response &&
+          error.response.body &&
+          error.response.body.errors &&
+          error.response.body.errors.length > 0
+        ) {
+          message = error.response.body.errors.join(', ');
+        }
+        scrollToTopSmoothly();
+        props.onSaveError?.(message);
+        setState({
+          ...state,
+          loading: false,
+          error: true,
+          message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
+        });
+      });
+      errorDisassociateActionSubscription.current = entity.actions.errors().once(error => {
+        let message = error.message;
+        if (
+          error.response &&
+          error.response.body &&
+          error.response.body.errors &&
+          error.response.body.errors.length > 0
+        ) {
+          message = error.response.body.errors.join(', ');
+        }
+        scrollToTopSmoothly();
+        props.onSaveError?.(message);
+        setState({
+          ...state,
+          loading: false,
+          error: true,
+          message: t('in-hoc:entityFormFailedToSave', { SaveFailureMessage: message })
+        });
+      });
     }
 
     function disposeAsyncAction() {
@@ -219,8 +241,11 @@ export default function entityForm(ComposedComponent) {
       if (errorSubscription.current) {
         errorSubscription.current.dispose();
       }
-      if (errorSubscription.currentActions) {
-        errorSubscription.currentActions.dispose();
+      if (errorAssociateActionSubscription.current) {
+        errorAssociateActionSubscription.current.dispose();
+      }
+      if (errorDisassociateActionSubscription.current) {
+        errorDisassociateActionSubscription.current.dispose();
       }
     }
 
