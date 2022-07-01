@@ -58,9 +58,12 @@ export default function CustomEvent(props) {
   const entityId = props.match.params.id;
 
   function mergeResultData() {
-    const a1$ = getCustomEventSpecification(entityId);
-    const a2$ = getActionAssociation(entityId);
-    return combineLatest([a1$, a2$]).map(([response1, response2]) => combineResults(response1, response2));
+    const eventDetails$ = getCustomEventSpecification(entityId);
+    const actionDetails$ = getActionAssociation(entityId);
+    // calling Get Event and Get action associations call and combining results
+    return combineLatest([eventDetails$, actionDetails$]).map(([response1, response2]) =>
+      combineResults(response1, response2)
+    );
   }
 
   function combineResults(entityResult, metricResult) {
@@ -170,11 +173,11 @@ function save(event, form) {
   const severity = Number(form.get('severity')?.value ?? 0);
   const entityType = form.get('entityType')?.value ?? null;
   const scopeType = form.get('applyOn').value;
-  const actionIds = form.get('actionIds').value;
-  const saveActionIds = form.get('saveActionIds') ? form.get('saveActionIds').value : [];
+  const actionIds = form.get('actionIds')?.value ?? [];
+  const saveActionIds = form.get('saveActionIds')?.value ?? [];
 
-  const finalActionIds = difference(actionIds, saveActionIds);
-  const finalActionDeleteIds = difference(saveActionIds, actionIds);
+  const finalActionIds = difference(actionIds, saveActionIds); // actions ids that needs to be associated in edit page
+  const finalActionDeleteIds = difference(saveActionIds, actionIds); // actions ids that are deselected and needs to be disassociated
 
   submitEventTracker({
     scopeType,
@@ -184,7 +187,7 @@ function save(event, form) {
   });
 
   const eventSpecification = getEventSpecification(event, form);
-  const a = saveCustomEventSpecification(eventSpecification);
+  const saveEvent = saveCustomEventSpecification(eventSpecification);
   if (finalActionIds.length > 0) {
     event.actions = combineLatest(finalActionIds.map(id => saveActionAssociation(id, eventSpecification)));
   }
@@ -195,7 +198,7 @@ function save(event, form) {
     );
   }
 
-  return a;
+  return saveEvent;
 }
 
 function getTagFilterForHostAvailability(form) {

@@ -82,8 +82,8 @@ function getScopeFields(isCreate, query, ruleType, tagFilter) {
 
 export function createEventFormDefinition(eventSpec, isCreate) {
   const mutableEvent = getMutableEventSpecification(eventSpec);
-  mutableEvent.actionIds = eventSpec.actionIds;
-  mutableEvent.saveActionIds = eventSpec.actionIds;
+  mutableEvent.actionIds = eventSpec.actionIds; // this is current actionIds value
+  mutableEvent.saveActionIds = eventSpec.actionIds; // Need this to compare saved value from current Actionids in edit page
   const { name, entityType, query, triggering, description, expirationTime, actionIds, saveActionIds } = mutableEvent;
   const ruleAttributes = getRuleAttributes(mutableEvent);
   const { ruleType, severity, tagFilter } = ruleAttributes;

@@ -660,7 +660,7 @@ function ActionsSelection({ form, setForm }) {
     <Fragment>
       <AssociatedActions
         setTitle
-        loadEntities={() => getSelectedEventsForAlert(selectedActions)}
+        loadEntities={() => getSelectedActionsForEvent(selectedActions)}
         hasRowNavigation={false}
         noDataMessage={t('in-settings:tabs.noActionsSelected')}
         tableActions={ActionSelectionTableActions(form, setForm)}
@@ -1103,12 +1103,11 @@ function submitActionSelection(form, setForm, selectedIds) {
   );
 }
 
-const getSelectedEventsForAlert = createMemoizedObservableForReferencedEntities(function(selectedActions) {
+const getSelectedActionsForEvent = createMemoizedObservableForReferencedEntities(function(selectedActions) {
   if (selectedActions.length === 0) {
     return alwaysEmptyArray;
   }
   // null is treated as a pending result when converting the HTTP response into a result
-  // return getEventSpecificationByIds(selectedActions).startWith(null);
   return getAllActions().map(action =>
     filter(action, function(app) {
       return selectedActions.indexOf(app.id) >= 0;
