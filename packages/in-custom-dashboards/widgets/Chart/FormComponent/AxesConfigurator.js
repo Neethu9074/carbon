@@ -6,13 +6,11 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 
-import { Toggle, Spacer } from '@instana/components';
-import { Button } from '@instana/components';
-import { Li, Ul } from '@instana/components';
-import { Stack } from '@instana/components';
+import { Button, Li, Spacer, Stack, Toggle, Ul } from '@instana/components';
 
 import { MetricsForAxis, Reorderer } from 'in-custom-dashboards/widgets/Chart/FormComponent/MetricReordering';
 import { userSelectableRenderer as availableRenderers } from 'in-custom-dashboards/widgets/Chart/renderer';
+import { getFormatter } from 'in-custom-dashboards/widgets/_shared/formatters';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import TouchedMessages from 'in-components/form/TouchedMessages';
 import { publicFormatters } from 'in-stores/metric/formatters';
@@ -75,6 +73,25 @@ function AxisConfigurator({
 }) {
   const axisForm = form.get(axisName);
   const isAxisRemovable = isSecondary && axisForm.get('metrics').size === 0;
+
+  const metricConfigurations = axisForm.get('metrics')?.map(map => {
+    const source = map.get('source').value;
+    const metric = map.get('metric').value;
+    const aggregation = map.get('aggregation').value;
+
+    return {
+      source,
+      metric,
+      aggregation
+    };
+  });
+
+  let availableFormatters = metricConfigurations.flatMap(config =>
+    getFormatter(config.source, config.metric, config.aggregation)
+  );
+  if (availableFormatters.length === 0) {
+    availableFormatters = publicFormatters;
+  }
 
   const updateShareMaxAxisDomain = e => {
     if (e.target.checked) {
@@ -163,7 +180,7 @@ function AxisConfigurator({
                 hasError={!field.valid && field.touched}
                 additionalContent={<TouchedMessages field={field} />}
               >
-                {publicFormatters.map(({ id, label }) => (
+                {availableFormatters.map(({ id, label }) => (
                   <option key={id} value={id}>
                     {label}
                   </option>
