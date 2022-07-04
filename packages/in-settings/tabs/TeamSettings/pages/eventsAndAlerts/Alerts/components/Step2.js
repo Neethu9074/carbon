@@ -6,7 +6,7 @@
 import React, { Fragment } from 'react';
 import { fromJS } from 'immutable';
 
-import { Spacer } from '@instana/components';
+import { Spacer, Message, MessageTypes } from '@instana/components';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import SelectedSmartAlertsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SelectedSmartAlertsList';
@@ -136,6 +136,13 @@ function EventsSelection({ form, setForm }) {
             onSubmit={selectedIds => submitEventSelection(form, setForm, selectedIds)}
             title={t('in-settings:tabs.addEvents')}
             label={t('in-settings:tabs.addEvents')}
+            renderCustomCloseBehaviour={() =>
+              deprecateAppDataLegacyEvents ? (
+                <Message type={MessageTypes.neutral} small withIcon>
+                  {t('in-settings:tabs.depreactedEventHiddenInfo')}
+                </Message>
+              ) : null
+            }
             listComponent={props => <Events {...props} withoutDeprecatedEvents={deprecateAppDataLegacyEvents} />}
             hiddenIds={selectedEvents}
             limit={limitForConnectedEvents}
