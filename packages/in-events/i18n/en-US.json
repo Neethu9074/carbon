@@ -5,6 +5,8 @@
     "totalCallsInAlert": "Total Calls in Alert Scope",
     "earliestTimestamp": "Earliest Timestamp"
   },
+  "associatedActions": "Associated Actions",
+  "setAssociations": "Set Associations",
   "entityInfoPresenterDefaultLabel": "On: ",
   "entityInfoLabelOfService": "Of Service:",
   "titleDetail": "Detail",

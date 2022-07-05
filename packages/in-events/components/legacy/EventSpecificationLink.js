@@ -15,7 +15,7 @@ import {
 import { role } from 'in-stores/user';
 import { t } from 'in-i18n';
 
-export default function EventSpecificationLink({ event }) {
+export default function EventSpecificationLink({ event, buttonText = null }) {
   if (!role.canConfigureCustomAlerts) {
     // at the moment the link of this button generally does not work when the canConfigureCustomAlerts permission is missing,
     // because we generally hide the Events & Alerts section, including the build-in events.
@@ -34,7 +34,11 @@ export default function EventSpecificationLink({ event }) {
       kind="secondary"
       href$={getEntityIdView(getEventSpecificationSettingsBasePath(isCustom), eventSpecificationId)}
     >
-      {isCustom ? t('in-events:buttonViewCustomEvent') : t('in-events:buttonViewBuiltInEvent')}
+      {buttonText
+        ? buttonText
+        : isCustom
+        ? t('in-events:buttonViewCustomEvent')
+        : t('in-events:buttonViewBuiltInEvent')}
     </Button>
   );
 }
