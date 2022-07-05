@@ -27,7 +27,7 @@ interface ListProps {
   loadEntities: Function;
   columnDefinitions: ColumnDefinition[];
   getHeader?: Function;
-  searchAttributes?: string[];
+  searchAttributes?: (string | ((entity) => string))[] | string;
   searchPlaceholder?: string;
   searchMaxWidth?: number;
   rightHeader?: ReactNode;

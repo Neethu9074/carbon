@@ -4,6 +4,7 @@
  * Copyright IBM Corp. 2022
  */
 
+import { get } from 'lodash';
 import React from 'react';
 
 import { Link } from '@instana/components';
@@ -91,7 +92,7 @@ export default function ActionCatalog({ setTitle = true, pageSize = 20 }) {
       getEntityName={(action: Action) => t('in-settings:tabs.actionWithNameForDelete', { actionName: action.name })}
       columnDefinitions={columnDefinitions}
       getHeader={getHeader()}
-      searchAttributes={['name', 'description', 'tags']}
+      searchAttributes={['name', 'description', (entity: Action) => get(entity, 'tags').toString()]}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
       rightHeader={defaultRightHeader()}
