@@ -103,6 +103,7 @@ function wrapProps(result: Result<MetricData>, props: ResultAwareChartConfig): R
     return {
       title: props.title,
       cardUseMaxAvailableHeight: props.cardUseMaxAvailableHeight,
+      customHeight: props.customHeight,
       rightHeaderContent: props.rightHeaderContent,
       renderErrorDetail: props.renderErrorDetail,
       timeConfig: props.timeConfig
