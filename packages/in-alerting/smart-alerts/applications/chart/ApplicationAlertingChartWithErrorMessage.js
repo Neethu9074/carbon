@@ -143,6 +143,9 @@ function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props) {
   return extractBaselineFromResultsOrUseErrorFallback(fetchPersistedBaselineResult, eventBasedAdaptiveBaseline);
 }
 
+/**
+ * @param errorFallbackBaseline We use eventBasedAdaptiveBaseline as a fallback. It's possible that errorFallbackBaseline is undefined when we are in alert details view.
+ */
 function extractBaselineFromResultsOrUseErrorFallback(fetchPersistedBaselineResult, errorFallbackBaseline) {
   const fetchError = hasError(fetchPersistedBaselineResult);
 
@@ -160,7 +163,7 @@ function extractBaselineFromResultsOrUseErrorFallback(fetchPersistedBaselineResu
     baseline = emptyArray;
   } else {
     baseline = fetchPersistedBaselineResult?.data;
-    if (baseline?.length < errorFallbackBaseline.length) {
+    if (baseline?.length < errorFallbackBaseline?.length) {
       baseline = errorFallbackBaseline;
     }
   }
