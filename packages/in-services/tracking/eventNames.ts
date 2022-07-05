@@ -13,9 +13,11 @@ export const CUSTOM_DASHBOARD_EDIT = 'custom.dashboard.edit';
 export const CUSTOM_DASHBOARD_DELETE = 'custom.dashboard.delete';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_START = 'custom.dashboard.add.widget.start';
 export const CUSTOM_DASHBOARD_ADD_WIDGET_FINISH = 'custom.dashboard.add.widget.finish';
+export const CUSTOM_DASHBOARD_ADD_WIDGET_DUPLICATE = 'custom.dashboard.add.widget.duplicate';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_START = 'custom.dashboard.edit.widget.start';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_CANCEL = 'custom.dashboard.edit.widget.cancel';
 export const CUSTOM_DASHBOARD_EDIT_WIDGET_FINISH = 'custom.dashboard.edit.widget.finish';
+export const CUSTOM_DASHBOARD_DELETE_WIDGET = 'custom.dashboard.delete.widget';
 export const CUSTOM_DASHBOARD_VIEW_WIDGET = 'custom.dashboard.view.widget';
 
 export const ANALYZE_VIEW_SELECTED = 'analyze.view.selected';
