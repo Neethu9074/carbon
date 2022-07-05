@@ -74,8 +74,7 @@ export default function FailedRun({ testId, resultId }: FailedRunProps) {
 
   if (resultList.progress.loading) {
     content = <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} size="xxxl" />;
-  }
-  {
+  } else {
     if (Array.isArray(resultList.data) && !resultList.data.length) {
       return (
         <Card className={locals.failedTitle} title={t('in-synthetics:dashboard.detailsPage.failedRun')}>
@@ -85,10 +84,13 @@ export default function FailedRun({ testId, resultId }: FailedRunProps) {
       );
     }
 
-    if (getStatus(resultList) === 1 && getErrors(resultList)?.length === 0) {
+    if (getStatus(resultList) === 1 && (getErrors(resultList) === undefined || getErrors(resultList)?.length === 0)) {
       // hide widget
       return <></>;
-    } else if (getStatus(resultList) === 0 && getErrors(resultList)?.length === 0) {
+    } else if (
+      getStatus(resultList) === 0 &&
+      (getErrors(resultList) === undefined || getErrors(resultList)?.length === 0)
+    ) {
       // if test failed with no error message, show "No error message"
       content = t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage');
     } else {
@@ -109,5 +111,5 @@ function getStatus(resultList: Result<PaginatedResult<TestResultListItem>>) {
 }
 
 function getErrors(resultList: Result<PaginatedResult<TestResultListItem>>) {
-  return resultList?.data?.items[0].testResultCommonProperties.errors;
+  return resultList?.data?.items[0].testResultCommonProperties?.errors;
 }
