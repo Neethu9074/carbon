@@ -16,7 +16,7 @@ import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navig
 import { isSyntheticOption } from 'in-applications/Dashboards/commonComponents/includeSyntheticCalls';
 // @ts-expect-error
 import TopListCardPresenter from 'in-components/TopListCard/TopListCardPresenter';
-import { meanLatencyLargeInSeconds, number, percentage } from 'in-services/formatters/number';
+import { percentage, meanLatencyLargeInSeconds, number } from 'in-services/formatters/number';
 import WidgetNotActive from 'in-applications/Dashboards/commonComponents/WidgetNotActive';
 import getEndpoints from 'in-applications/subscriptions/getEndpoints';
 import theme from 'in-themes';
@@ -24,17 +24,17 @@ import { t } from 'in-i18n';
 
 import locals from './EndpointTopList.mless';
 
-const metrics = ['latency', 'calls', 'erroneousCalls'];
+const metrics = ['latency', 'calls', 'errors'];
 const labels = [
   t('in-applications:labelLatency'),
   t('in-applications:labelCalls'),
-  t('in-applications:titleErroneousCalls')
+  t('in-applications:titleErroneousCallRate')
 ];
-const aggregations = ['MEAN', 'SUM', 'SUM'];
-const formatters = [meanLatencyLargeInSeconds.compact, number.compact, number.compact];
-const companionMetrics = [null, null, 'errors'];
-const companionAggregations = [null, null, 'MEAN'];
-const companionFormatters = [null, null, percentage.detailed];
+const aggregations = ['MEAN', 'SUM', 'MEAN'];
+const formatters = [meanLatencyLargeInSeconds.compact, number.compact, percentage.detailed];
+const companionMetrics = [null, null, 'erroneousCalls'];
+const companionAggregations = [null, null, 'SUM'];
+const companionFormatters = [null, null, number.compact];
 const colors = [null, null, theme.lib.colors.failure];
 
 interface EndpointTopListProps {

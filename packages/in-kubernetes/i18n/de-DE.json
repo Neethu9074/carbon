@@ -40,6 +40,7 @@
     "k8SServices": "K8s-Services",
     "pods": "Pods",
     "persistentVolumes": "Persistente Datenträger",
+    "persistentVolumeClaims": "Persistent Volume Claims",
     "infrastructure": "Infrastruktur",
     "name": "Name",
     "cpuUsage": "CPU-Nutzung",

@@ -126,5 +126,10 @@ export const urlStateDefinition = {
 } as Options<UrlState>;
 
 export type SubtransactionsProps = {
-  details: any;
+  errors?: Error[];
+  data?: TestResultDetailData;
+};
+
+export type OverviewChartToolTipProps = {
+  subtransaction: TestResultSubtransaction;
 };

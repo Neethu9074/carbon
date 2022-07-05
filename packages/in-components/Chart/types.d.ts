@@ -32,11 +32,13 @@ export interface Metric {
   aggregation?: AggregationType;
 }
 
+export type TimeConfigAwareHref$Creator = (tc: TimeConfig) => Observable<string> | undefined;
+
 export interface ContextMenuButton {
   name: string;
   icon: string;
   label: string;
-  getHref$: (tc: TimeConfig) => Observable<string> | undefined;
+  getHref$?: TimeConfigAwareHref$Creator;
   allowClickPropagationAndDefault?: boolean;
   onClick?: () => void;
 }
@@ -75,7 +77,7 @@ interface TooltipConfig {
   tooltipTimeFormatter?: (input: DateFormatterInput) => DateFormatterOutput;
 }
 
-interface ContextMenuConfig {
+export interface ContextMenuConfig {
   primaryContextMenuAction?: string;
   additionalContextMenuButtons?: ContextMenuButton[];
   excludedContextMenuActions?: string[];
@@ -154,7 +156,6 @@ export interface AxisConfiguration {
 
   colors100?: Property.Color[];
   colors50?: Property.Color[];
-  colors?: Property.Color[];
 
   valuesDependOnEachOther?: boolean;
   valuesNeedToBeStacked?: boolean;

@@ -16,8 +16,8 @@ import {
   ApplicationBoundaryScope
 } from '@instana/types';
 import { useObservable } from '@instana/hooks';
-import { Link } from '@instana/components';
 import { just } from '@instana/observables';
+import { Link } from '@instana/components';
 
 // @ts-expect-error
 import { TopListWithUrlState, trackTopListNavigation } from 'in-components/TopListWithUrlState';
@@ -37,13 +37,13 @@ import { shorten } from 'in-services/util/string';
 import theme from 'in-themes';
 import { t } from 'in-i18n';
 
-const metrics = ['latency', 'calls', 'erroneousCalls'];
+const metrics = ['latency', 'calls', 'errors'];
 const labels = [
   t('in-applications:labelLatency'),
   t('in-applications:labelCalls'),
-  t('in-applications:titleErroneousCalls')
+  t('in-applications:titleErroneousCallRate')
 ];
-const aggregations = ['MEAN', 'SUM', 'SUM'];
+const aggregations = ['MEAN', 'SUM', 'MEAN'];
 const formatters = [millis.fixedCompact, number.compact, number.compact];
 const colors = [null, null, theme.lib.colors.failure];
 

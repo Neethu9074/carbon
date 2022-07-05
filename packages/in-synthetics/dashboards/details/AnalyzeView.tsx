@@ -13,12 +13,16 @@ import { useObservable } from '@instana/hooks';
 import { t } from '@instana/i18n-react';
 
 import { dummyResultDetails, dummyTest, ResultDetailsResponse, TestResponse } from 'in-synthetics/utils/constants';
-import IndeterminateLoadingIndicator from 'in-components/LoadingIndicators/IndeterminateLoadingIndicator';
 import getTestResultSubtransactions from 'in-synthetics/subscriptions/getTestResultSubtransactions';
 import DashboardHeaderShadowModule from 'in-components/DashboardHeader/DashboardHeaderShadowModule';
+// @ts-expect-error Module needs to be translated to TS
+import Sticky from 'in-components/Sticky';
 import LeftRightPadding from 'in-components/layout/LeftRightPadding/LeftRightPadding';
+import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
+import FailedRun from 'in-synthetics/dashboards/details/components/FailedRun';
 import DashboardHeader from 'in-components/DashboardHeader/DashboardHeader';
+import Timeline from 'in-synthetics/dashboards/details/components/Timeline';
 import { bytes, meanLatency, number } from 'in-services/formatters/number';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
 import { syntheticDetailsPath } from 'in-synthetics/navigation/paths';
@@ -27,8 +31,6 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
-//@ts-ignore
-import Sticky from 'in-components/Sticky';
 import { getTest } from 'in-synthetics/api';
 
 export default function SyntheticAnalyzeView() {
@@ -105,7 +107,7 @@ export default function SyntheticAnalyzeView() {
         }
       >
         {details.progress.loading ? (
-          <IndeterminateLoadingIndicator />
+          <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={160} size="xxxl" />
         ) : (
           <LeftRightPadding>
             <ViewTrackingMeta
@@ -128,7 +130,7 @@ export default function SyntheticAnalyzeView() {
                         source: 'SYNTHETICS',
                         // @ts-expect-error tagFilters do not fully match the TagFilter type
                         tagFilters: tagFilters,
-                        // @ts-ignore
+                        // @ts-expect-error timeShift do not fully match the TimeShift type
                         timeShift: timeShiftConfig.offset
                       }
                     }}
@@ -147,7 +149,7 @@ export default function SyntheticAnalyzeView() {
                         source: 'SYNTHETICS',
                         // @ts-expect-error tagFilters do not fully match the TagFilter type
                         tagFilters: tagFilters,
-                        // @ts-ignore
+                        // @ts-expect-error timeShift do not fully match the TimeShift type
                         timeShift: timeShiftConfig.offset
                       }
                     }}
@@ -165,7 +167,7 @@ export default function SyntheticAnalyzeView() {
                         source: 'SYNTHETICS',
                         // @ts-expect-error tagFilters do not fully match the TagFilter type
                         tagFilters: tagFilters,
-                        // @ts-ignore
+                        // @ts-expect-error timeShift do not fully match the TimeShift type
                         timeShift: timeShiftConfig.offset
                       }
                     }}
@@ -183,7 +185,7 @@ export default function SyntheticAnalyzeView() {
                         source: 'SYNTHETICS_DETAIL',
                         // @ts-expect-error subtagFilters do not fully match the TagFilter type
                         tagFilters: subTagFilters,
-                        // @ts-ignore
+                        // @ts-expect-error timeShift do not fully match the TimeShift type
                         timeShift: timeShiftConfig.offset
                       }
                     }}
@@ -201,11 +203,21 @@ export default function SyntheticAnalyzeView() {
                         source: 'SYNTHETICS',
                         // @ts-expect-error tagFilters do not fully match the TagFilter type
                         tagFilters: tagFilters,
-                        // @ts-ignore
+                        // @ts-expect-error timeShift do not fully match the TimeShift type
                         timeShift: timeShiftConfig.offset
                       }
                     }}
                   />
+                </Col>
+              </Row>
+              <Row>
+                <Col xs>
+                  <FailedRun testId={testId} resultId={resultId} />
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={12}>
+                  <Timeline details={details} />
                 </Col>
               </Row>
             </Fragment>

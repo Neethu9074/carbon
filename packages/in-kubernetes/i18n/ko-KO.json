@@ -40,6 +40,7 @@
     "k8SServices": "K8s 서비스",
     "pods": "팟(Pod)",
     "persistentVolumes": "지속적 볼륨",
+    "persistentVolumeClaims": "지속적 볼륨 클레임",
     "infrastructure": "인프라",
     "name": "이름",
     "cpuUsage": "CPU 사용량",

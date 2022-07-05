@@ -8,7 +8,12 @@ import React from 'react';
 
 import locals from './typography.mless';
 
-export default function SectionHeading({ children, withoutTopSpacing }) {
+export interface Props {
+  withoutTopSpacing?: boolean;
+  children: React.ReactNode;
+}
+
+export default function SectionHeading({ children, withoutTopSpacing }: Props) {
   return (
     <h3
       className={classNames({

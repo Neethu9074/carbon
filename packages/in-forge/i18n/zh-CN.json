@@ -249,6 +249,11 @@
   "pluginName_bizTalk_1": "BizTalk 主机",
   "pluginName_bizTalk_2": "BizTalk 主机",
   "pluginName_bizTalk": "BizTalk 主机",
+  "pluginName_camunda_plural": "Camunda",
+  "pluginName_camunda_0": "Camunda",
+  "pluginName_camunda_1": "Camunda",
+  "pluginName_camunda_2": "Camunda",
+  "pluginName_camunda": "Camunda",
   "pluginName_cassandraCluster_plural": "Cassandra 集群",
   "pluginName_cassandraCluster_0": "Cassandra 集群",
   "pluginName_cassandraCluster_1": "Cassandra 集群",
@@ -682,7 +687,6 @@
   "pluginName_ibmMqListener_1": "IBM MQ 侦听器",
   "pluginName_ibmMqListener_2": "IBM MQ 侦听器",
   "pluginName_ibmMqListener": "IBM MQ 侦听器",
-  "pluginName_ibmMqManager": "IBM MQ 队列管理器",
   "pluginName_ibmMqQueue_plural": "IBM MQ 队列",
   "pluginName_ibmMqQueue_0": "IBM MQ 队列",
   "pluginName_ibmMqQueue_1": "IBM MQ 队列",
@@ -1152,6 +1156,21 @@
   "pluginName_vsphereVM_1": "vSphere VM",
   "pluginName_vsphereVM_2": "vSphere VM",
   "pluginName_vsphereVM": "vSphere VM",
+  "pluginName_zOS_plural": "IBM z/OS",
+  "pluginName_zOS_0": "IBM z/OS",
+  "pluginName_zOS_1": "IBM z/OS",
+  "pluginName_zOS_2": "IBM z/OS",
+  "pluginName_zOS": "IBM z/OS",
+  "pluginName_zDb2_plural": "IBM Db2 for z/OS",
+  "pluginName_zDb2_0": "IBM Db2 for z/OS",
+  "pluginName_zDb2_1": "IBM Db2 for z/OS",
+  "pluginName_zDb2_2": "IBM Db2 for z/OS",
+  "pluginName_zDb2": "IBM Db2 for z/OS",
+  "pluginName_zCics_plural": "IBM CICS for z/OS",
+  "pluginName_zCics_0": "IBM CICS for z/OS",
+  "pluginName_zCics_1": "IBM CICS for z/OS",
+  "pluginName_zCics_2": "IBM CICS for z/OS",
+  "pluginName_zCics": "IBM CICS for z/OS",
   "pluginName_webLogicApplicationContainer_plural": "WebLogic 服务器",
   "pluginName_webLogicApplicationContainer_0": "WebLogic 服务器",
   "pluginName_webLogicApplicationContainer_1": "WebLogic 服务器",
@@ -1317,6 +1336,11 @@
   "tracingTypeName_camel_0": "Camel 调用",
   "tracingTypeName_camel_1": "Camel 调用",
   "tracingTypeName_camel_2": "Camel 调用",
+  "tracingTypeName_camunda": "Camunda 调用",
+  "tracingTypeName_camunda_plural": "Camunda 调用",
+  "tracingTypeName_camunda_0": "Camunda 调用",
+  "tracingTypeName_camunda_1": "Camunda 调用",
+  "tracingTypeName_camunda_2": "Camunda 调用",
   "tracingTypeName_cassandra": "Cassandra 查询",
   "tracingTypeName_cassandra_plural": "Cassandra 查询",
   "tracingTypeName_cassandra_0": "Cassandra 查询",
@@ -1336,6 +1360,10 @@
   "tracingTypeName_cicshttpexit": "CICS HTTP 调用",
   "tracingTypeName_cicsrpcentry": "CICS RPC 调用",
   "tracingTypeName_cicsrpcexit": "CICS RPC 调用",
+  "tracingTypeName_cicsmqentry": "CICS MQ 消息",
+  "tracingTypeName_cicsmqexit": "CICS MQ 消息",
+  "tracingTypeName_imsmqentry": "IMS MQ 消息",
+  "tracingTypeName_imsmqexit": "IMS MQ 消息",
   "tracingTypeName_corba": "Corba 调用",
   "tracingTypeName_corba_plural": "Corba 调用",
   "tracingTypeName_corba_0": "Corba 调用",
@@ -1846,6 +1874,11 @@
   "tracingTypeName_rabbitmq_0": "RabbitMQ 消息",
   "tracingTypeName_rabbitmq_1": "RabbitMQ 消息",
   "tracingTypeName_rabbitmq_2": "RabbitMQ 消息",
+  "tracingTypeName_rocketmq": "RocketMQ 消息",
+  "tracingTypeName_rocketmq_plural": "RocketMQ 消息",
+  "tracingTypeName_rocketmq_0": "RocketMQ 消息",
+  "tracingTypeName_rocketmq_1": "RocketMQ 消息",
+  "tracingTypeName_rocketmq_2": "RocketMQ 消息",
   "tracingTypeName_rack": "机架",
   "tracingTypeName_rack_plural": "机架调用",
   "tracingTypeName_rack_0": "机架调用",
@@ -1906,6 +1939,16 @@
   "tracingTypeName_rpcserver_0": "RPC 服务器调用数",
   "tracingTypeName_rpcserver_1": "RPC 服务器",
   "tracingTypeName_rpcserver_2": "RPC 服务器调用数",
+  "tracingTypeName_dubborpcentry": "Dubbo 提供者",
+  "tracingTypeName_dubborpcentry_plural": "Dubbo 提供者调用",
+  "tracingTypeName_dubborpcentry_0": "Dubbo 提供者调用",
+  "tracingTypeName_dubborpcentry_1": "Dubbo 提供者",
+  "tracingTypeName_dubborpcentry_2": "Dubbo 提供者调用",
+  "tracingTypeName_dubborpcexit": "Dubbo 使用者",
+  "tracingTypeName_dubborpcexit_plural": "Dubbo 使用者调用",
+  "tracingTypeName_dubborpcexit_0": "Dubbo 使用者调用",
+  "tracingTypeName_dubborpcexit_1": "Dubbo 使用者",
+  "tracingTypeName_dubborpcexit_2": "Dubbo 使用者调用",
   "tracingTypeName_s3": "S3 调用",
   "tracingTypeName_s3_plural": "S3 调用",
   "tracingTypeName_s3_0": "S3 调用",
@@ -2630,6 +2673,7 @@
       "integrationNodeInfo": "IBM ACE 集成节点",
       "serverName": "服务器名称",
       "status": "状态",
+      "serverHealth": "运行状况",
       "integrationServerNumber": "集成服务器 ({{count}})",
       "integrationServerNumber_plural": "集成服务器 ({{count}})",
       "brokerName": "代理程序名称",
@@ -4059,6 +4103,7 @@
       "traffic": "流量"
     },
     "azureSqlDb": {
+      "infoAzureSqlDb": "Azure SQL 数据库",
       "infoName": "名称",
       "infoResourceGroup": "资源组",
       "infoLocation": "地区",
@@ -4078,7 +4123,7 @@
       "labelDeadlocks": "死锁数",
       "labelDTUUsed": "已用 DTU",
       "labelCPUUsed": "已用 CPU",
-      "labelDatabasesize": "数据库大小",
+      "labelDatabaseSize": "数据库大小",
       "labelDataIO": "数据 IO",
       "labelLogIO": "日志 IO                   ",
       "labelInMemoryOLTPStorage": "内存中 OLTP 存储器",
@@ -4115,8 +4160,7 @@
         "labelInMemoryOLTPStorage": "内存中 OLTP 存储器",
         "labelCPULimit": "CPU 限制",
         "labelCPUUsed": "已用 CPU"
-      },
-      "database": "数据库"
+      }
     },
     "azureSqlElasticPool": {
       "infoName": "名称",
@@ -4412,6 +4456,7 @@
       "titleDatacenter": "数据中心",
       "titleRack": "机架",
       "titleHostID": "主机标识",
+      "titleSeeds": "种子",
       "labelClientReadRequests": "客户机读请求",
       "labelMeanReadRequests": "平均读请求",
       "labelMean": "平均值",
@@ -4498,7 +4543,7 @@
       "infoProcessID": "进程标识",
       "infoClusterName": "集群名称",
       "infoVersion": "版本",
-      "infoFsid": "Fsid",
+      "infoFsid": "文件系统标识 (fsid)",
       "labelOverallStatus": "总体状态",
       "labelActiveMonitors": "活动监视器数",
       "labelNumberOfMonitors": "监视器数",
@@ -4614,8 +4659,19 @@
         "labelInsertQueries": "插入查询数",
         "labelInsertBytes": "插入的字节数",
         "titleMerges": "合并数",
+        "explanationMerges": "合并操作是一项后台作业，其目标是将较小的部分合并为较大的部分。 活动部分数的无限制增长是不正常的，因为它意味着合并无法跟上。",
         "labelMerges": "合并数",
         "labelActiveParts": "活动部件数",
+        "titleReplication": "复制",
+        "explanationReplication": "最大队列大小 (<code>ReplicasMaxQueueSize</code>) 表示所有复制的表的最大队列大小。 无界增长是不正常的。",
+        "labelReplicasMaxQueueSize": "最大队列大小",
+        "labelReplicasMaxInsertsInQueue": "队列中的最大插入数",
+        "labelReplicasMaxMergesInQueue": "队列中的最大合并数",
+        "labelReplicatedSend": "发送数",
+        "labelReplicatedFetch": "访存数",
+        "titleDistributedSends": "分布式发送（插入）",
+        "explanationDistributedSends": "要处理以异步方式插入到分布式表 (<code>DistributedFilesToInsert</code>) 中的暂挂文件数。 无界增长是不正常的。",
+        "labelDistributedFilesToInsert": "要插入的分布式文件",
         "titleMetric": "指标",
         "titleValue": "值",
         "titleMetrics": "指标",
@@ -5421,7 +5477,8 @@
       "logHadrWaitCur": "当前记录器等待时间",
       "logHadrWaitTime": "记录器总等待时间",
       "unableToConnect": "无法使用用户 {{user}} 连接到 {{connectionUrl}}。",
-      "troubleshootingDocs": "故障诊断文档"
+      "troubleshootingDocs": "故障诊断文档",
+      "oldConfigUsed": "Db2 传感器现在支持监视正在运行 Instana 代理程序的主机上的多个实例和数据库。 请参阅文档，以了解新的配置格式。"
     },
     "defaultEntity20": {
       "allCallsPerSecond": "每秒全部调用数",
@@ -8667,6 +8724,23 @@
             "messageTimestamp": "时间戳记",
             "messageText": "文本",
             "messageSecondLevelText": "二级文本"
+          },
+          "spinningDiskType": {
+            "name": "磁盘信息",
+            "resourceName": "资源名称",
+            "unitStorageCapacity": "存储容量",
+            "percentUsed": "已用百分比",
+            "diskType": "磁盘类型",
+            "unitNumber": "单元号",
+            "aspNumber": "ASP 编号",
+            "raidType": "Raid 类型",
+            "protectionStatus": "保护状态",
+            "unitMediaCapacityGb": "介质容量 (GB)",
+            "charts": {
+              "elapsedIoRequests": "耗用的 IO 请求数",
+              "elapsedRequestSize": "耗用的请求大小",
+              "elapsedPercentBusy": "耗用的忙碌百分比"
+            }
           }
         }
       },
@@ -8737,6 +8811,7 @@
         "messages": "消息数",
         "publications": "发布",
         "subscriptions": "订购",
+        "topicString": "主题字符串",
         "topicsWithCount": "主题 ({{len}})"
       },
       "name": "名称",
@@ -8790,6 +8865,8 @@
       "maxQueueDepth": "最大队列深度",
       "currentQueueDepth": "当前队列深度",
       "queueFullPercentage": "队列深度百分比",
+      "lastGetDateTime": "最近一次获取时间",
+      "lastPutDateTime": "最近一次放入时间",
       "depth": "深度",
       "messagesIn": "传入消息数",
       "messagesOut": "传出消息数",
@@ -8819,11 +8896,12 @@
         "in": "传入",
         "out": "传出",
         "uncommitted": "未占用",
-        "type": "类型",
-        "usage": "使用量",
-        "monitoring": "监控",
         "queuesWithCount": "队列 ({{len}})",
         "queueFullPercentage": "深度百分比",
+        "queueDepth": "当前深度",
+        "lastGetDateTime": "最近一次获取时间",
+        "lastPutDateTime": "最近一次放入时间",
+        "maxQueueDepth": "最高深度",
         "openInputCount": "打开输入",
         "openOutputCount": "打开输出",
         "application": "应用程序",
@@ -8835,9 +8913,9 @@
         "ibmMqQueueManager": "IBM MQ 队列管理器",
         "subsWithCount": "预订 ({{len}})",
         "topicString": "主题字符串",
-        "subType": "预订类型",
+        "subType": "类型",
         "durable": "持久",
-        "subAlternatedAt": "预订交替于",
+        "subAlternatedAt": "更改时间",
         "numberMessages": "消息数"
       },
       "name": "名称",
@@ -8901,7 +8979,8 @@
       "count": "计数",
       "lastResetTime": "上次重置时间",
       "reset": "重置",
-      "subscriptions": "订购"
+      "subscriptions": "订购",
+      "topicString": "主题字符串"
     },
     "ibmMqSubscription": {
       "dashboard": {
@@ -8912,8 +8991,8 @@
       "name": "名称",
       "queueManager": "队列管理器",
       "clusterName": "集群名称",
-      "subType": "预订类型",
-      "subAlternatedAt": "预订交替于",
+      "subType": "类型",
+      "subAlternatedAt": "更改时间",
       "numberMessages": "消息数"
     },
     "ibmVsi": {
@@ -8998,11 +9077,6 @@
         "heap": "堆",
         "directBuffers": "直接缓冲区",
         "offHeap": "关闭堆",
-        "garbageCollection": "垃圾回收",
-        "copyTime": "复制时间",
-        "markSweepCompactTime": "MarkSweeppact 时间",
-        "copyInvocation": "复制调用",
-        "markSweepCompactInvocation": "MarkSweepCompact 调用",
         "network": "网络",
         "received": "已接收",
         "sent": "已发送",
@@ -11268,6 +11342,7 @@
       "tablespacesWithCount": "表空间 ({{len}})",
       "version": "版本",
       "oracleSid": "Oracle SID",
+      "serviceNames": "服务名称",
       "port": "端口",
       "cpuCount": "CPU 计数",
       "maxSessions": "最大会话数",
@@ -11323,6 +11398,123 @@
     "pCFApplication": {
       "instances": "实例",
       "runningInstances": "正在运行的实例数"
+    },
+    "zDb2": {
+      "label": "IBM Db2 for z/OS",
+      "mvsSystem": "MVS 系统",
+      "lockConflictCount": "锁定冲突计数",
+      "currentThreadCount": "当前线程计数",
+      "transactionsPerSecond": "每秒事务数",
+      "pagesReadFromBps": "BPS 的页面读取次数",
+      "pagesReadFromDasd": "DASD 的页面读取次数",
+      "ecsaUsedByDb2": "DB2 使用的 ECSA",
+      "realStorageUsedByDb2": "DB2 使用的实际存储空间",
+      "originNode": "源节点",
+      "db2Version": "Db2 版本",
+      "db2Subsystem": "Db2 子系统",
+      "productCode": "产品代码",
+      "systemStates": "Db2 系统状态",
+      "pageReads": "页面读取次数",
+      "storage": "存储器",
+      "cicsExceptions": {
+        "title": "CICS 异常",
+        "cicsId": "CICS 标识",
+        "totalThreadUtilization": "线程总利用率",
+        "totalThreadsMaximum": "最大总线程数",
+        "totalThreadsInUse": "使用中的总线程数",
+        "poolThreadUtilization": "池线程利用率",
+        "poolThreadsInUse": "使用中的池线程数",
+        "poolThreadWaits": "池线程等待次数",
+        "poolThreadMaximum": "最大池线程数"
+      },
+      "imsConnections": {
+        "title": "IMS 连接",
+        "imsName": "IMS 名称",
+        "activeThreads": "活动线程数",
+        "connectedDependentRegions": "已连接的从属区域",
+        "definedDependentRegions": "已定义的从属区域",
+        "unconnectedRegions": "未连接的区域"
+      },
+      "lockContentions": {
+        "title": "锁定争用",
+        "planConnection": "计划：连接标识",
+        "lockElapsedTime": "锁定耗用时间",
+        "planName": "计划名称"
+      }
+    },
+    "zCics": {
+      "label": "IBM CICS for z/OS",
+      "originNode": "源节点",
+      "systemId": "系统标识",
+      "cicsRegionName": "CICS 区域名称",
+      "cicsVersion": "CICS 版本",
+      "cicsplexName": "CICSPlex 名称",
+      "transactionRate": "事务率",
+      "maximumTasksPercent": "最大任务百分比",
+      "cpuUtilization": "CPU 使用率",
+      "ioRate": "IO 速率",
+      "pageRate": "页面速率",
+      "storageViolations": "存储器违例次数",
+      "enqueueWaits": "入队等待次数",
+      "aids": "AIDS",
+      "ices": "ICES",
+      "worstRegionPerformanceIndex": "最差区域性能索引",
+      "queuedRemoteRequests": "排队的远程请求数",
+      "performance": "性能",
+      "rates": "速率",
+      "sos": "SOS"
+    },
+    "zOS": {
+      "label": "IBM z/OS",
+      "sysplexName": "综合系统名称",
+      "smfid": "SMF 标识",
+      "cpuCount": "物理 CPU 数",
+      "wlmMode": "工作负载管理模式",
+      "managedSystem": "受管系统",
+      "productCode": "产品代码",
+      "cpuUsage": "CPU 使用情况",
+      "avgWorkloadCpu": "平均 CPU 负载",
+      "undispatchedTasks": "未分派的任务",
+      "avgCpuPercentage": "平均 CPU 数",
+      "avgIfaPercentage": "平均 IFA 数",
+      "avgIfaCpPercentage": "CP 上的平均 IFA 数",
+      "avgziipPercentage": "平均 zIIP 数",
+      "avgziipCpPercentage": "CP 上的平均 zIIP",
+      "mvsOverhead": "MVS 开销",
+      "hiperdispatchManagement": "Hiperdispatch 管理",
+      "percentLparMsuCapacity": "LPAR MSU 容量",
+      "averageUnusedGroupMsus": "平均未使用组 MSU 数",
+      "fourHourMsus": "四小时 MSU 数",
+      "realStorage": {
+        "title": "实际存储器利用率历史记录",
+        "job": "作业",
+        "totalFrames": "总帧数",
+        "activeFrames": "活动帧数",
+        "idleFrames": "空闲帧数",
+        "auxStorageSlots": "辅助存储插槽",
+        "memoryObjectsAllocated": "分配的内存对象数",
+        "oneMegFramesInReal": "1 兆帧（实际）",
+        "activeFramesWorkingSet": "活动帧工作集",
+        "activeFramesFixed": "固定活动帧数",
+        "activeFramesDiv": "活动帧 DIV",
+        "pageInRage": "页调入速率",
+        "sharedPageInRate": "共享页调入速率",
+        "sharedPagesTotalViews": "共享页面总浏览量",
+        "sharedPagesTotalValid": "有效共享页面总数",
+        "sharedPagesValidationRate": "共享页面验证速率"
+      },
+      "commonStorage": {
+        "title": "公共存储器利用率历史记录",
+        "job": "作业",
+        "percentageCsaInUse": "使用中的 CSA 百分比",
+        "percentageEcsaInUse": "使用中的 ECSA 百分比",
+        "percentageSqaInUse": "使用中的 SQA 百分比",
+        "percentageEsqaInUse": "使用中的 ESQA 百分比",
+        "amountCsaInUse": "使用中的 CSA 量",
+        "amountEcsaInUse": "使用中的 ECSA 量",
+        "amountSqaInUse": "使用中的 SQA 量",
+        "amountEsqaInUse": "使用中的 ESQA 量"
+      }
     }
   },
   "tracing": {
@@ -11453,6 +11645,16 @@
       "titleSort": "排序",
       "titleSize": "大小"
     },
+    "camunda": {
+      "titleBusinessKey": "业务键",
+      "titleCaseIntanceId": "实例标识标识",
+      "titleRootProcessUUID": "根进程 UUID",
+      "titleProcessId": "进程标识",
+      "titleProcessName": "进程名称",
+      "titleActivityId": "活动标识",
+      "titleActivityName": "活动名称",
+      "titleActivityDesc": "活动描述"
+    },
     "cassandra": {
       "titleKeyspace": "键空间",
       "titleFetchSize": "访存大小",
@@ -11474,7 +11676,9 @@
       "titleCicsAttributes": "CICS 属性",
       "titleUserId": "CICS 用户标识",
       "titleTaskNumber": "CICS 任务号",
-      "titleRegion": "CICS 区域"
+      "titleRegion": "CICS 区域",
+      "titleDestination": "目标",
+      "titleUnknown": "未知"
     },
     "corba": {
       "titleMethod": "方法",
@@ -11501,6 +11705,13 @@
     "distributemeClient": {
       "titleService": "服务",
       "titleMethod": "方法"
+    },
+    "dubbo": {
+      "titlePath": "路径",
+      "titleInterface": "接口",
+      "titleProviderVersion": "提供者版本",
+      "titleConsumerVersion": "使用者版本",
+      "titleVersion": "协议版本"
     },
     "dynamoDB": {
       "titleTable": "表格",
@@ -11708,7 +11919,9 @@
     "ims": {
       "titleImsAttributes": "IMS 属性",
       "titleEventKey": "IMS 事件键",
-      "titleComponent": "IMS 组件"
+      "titleComponent": "IMS 组件",
+      "titleDestination": "目标",
+      "titleUnknown": "未知"
     },
     "jaeger": {
       "titleService": "服务",
@@ -11885,7 +12098,8 @@
       "operation": "操作",
       "traceState": "跟踪状态",
       "error": "错误",
-      "tags": "标记"
+      "tags": "标记",
+      "resource": "资源"
     },
     "pdo": {
       "driver": "驱动程序",
@@ -11952,6 +12166,9 @@
       "exchange": "交换",
       "key": "密钥",
       "size": "大小"
+    },
+    "rocketmq": {
+      "topic": "主题"
     },
     "redis": {
       "connection": "连接",

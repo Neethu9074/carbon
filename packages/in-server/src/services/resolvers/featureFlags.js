@@ -167,7 +167,7 @@ module.exports = exports = [
   {
     uiClientKey: 'kubernetesLoggingEnabled',
     instanaCtlKey: 'feature.kubernetes.logging.enabled',
-    defaultValue: false
+    defaultValue: true
   },
   {
     uiClientKey: 'enableTroubleshootingMode',
@@ -267,6 +267,16 @@ module.exports = exports = [
   {
     uiClientKey: 'apdexWidgetEnabled',
     instanaCtlKey: 'feature.apdex.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'websiteUploadConfigEnabled',
+    instanaCtlKey: 'feature.website.sourcemap.upload.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'actionAutomationEnabled',
+    instanaCtlKey: 'feature.automation.enabled',
     defaultValue: false
   }
 ];

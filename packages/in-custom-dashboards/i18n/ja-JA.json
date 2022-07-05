@@ -167,14 +167,16 @@
         "aggregation": "集約",
         "crossSeriesAggregation": "クロス系列集計に SUM を使います。",
         "crossSeriesAggregationHelp": "通常、クロスシリーズアグリゲーションはクロスタイムアグリゲーション（データポイントを単一のバケット参加方法）と同じです。 このトグルを有効にすると、指定された集計を使用するのではなく、データ系列全体のバケットを参加します。",
-        "crossSeriesAggregationDisabledHelp": "{{aggregation}} には適用されません。"
+        "crossSeriesAggregationDisabledHelp": "{{aggregation}} には適用されません。",
+        "crossSeriesAggregationRestrictedHelp": "このメトリックには適用されません"
       },
       "metrics": {
         "infrastructurePlatforms": "インフラストラクチャーとプラットフォーム",
         "comingSoon": "(近日公開)"
       },
       "typeAndMetricConfigurator": {
-        "pleaseSelectMetric": "メトリックを選択してください"
+        "pleaseSelectMetric": "メトリックを選択してください",
+        "loadingMetrics": "メトリックのロード中..."
       }
     },
     "srcMobileApp": {
@@ -374,6 +376,7 @@
     "slo": {
       "demo": {
         "title": "SLO のタイトル",
+        "sliName": "サンプル SLI",
         "appName": "アプリケーション名の例"
       },
       "apConfigFormComp": {
@@ -478,7 +481,9 @@
         "delSliConfig": "SLI 構成の削除",
         "pleaseConfirm": "ご確認ください",
         "pleaseConfirmMsg": "<strong>{{sliName}}</strong> を削除しますか?",
-        "delete": "削除"
+        "delete": "削除",
+        "eventBasedSli": "イベント・ベース",
+        "timeBasedSli": "時間ベース、{{metricNameLabel}}"
       },
       "sliManageList": {
         "configSrvLevelIndicatorsMsg": "SLI を作成または編集するために必要な <em>CAN_CONFIGURE_SERVICE_LEVEL_INDICATORS</em> 権限がありません。",
@@ -494,7 +499,9 @@
       "chart": {
         "spent": "費やされた",
         "budget": "バジェット",
-        "viewInAnalyze": "分析で表示"
+        "viewInAnalyze": "分析で表示",
+        "initialEvaluation": "SLIが作成されました",
+        "missingDataInfo": "このSLIの作成時刻は、表示された時刻範囲内です。 SLIの作成前のデータが欠落します。"
       },
       "formComponent": {
         "sliManagement": "SLI 管理",
@@ -521,15 +528,16 @@
         "enterDateFormatYyyyMmDd": "YYYY-MM-DD の形式で日付を入力してください。",
         "enterTimeInFormatHhMmSs": "HH:mm:ss の形式で時刻を入力してください。"
       },
-      "widgetHeader": {
+      "sliSummary": {
         "status": "状況",
         "target": "ターゲット:",
         "errorBudgetSpent": "費やされたエラー・バジェット",
         "errorBudget": "エラー・バジェット:",
         "timeWindow": "時間枠",
-        "dynamicTimeWindow": "動的時間枠",
-        "rollingTimeWindow": "ローリング時間枠",
-        "fixedTimeWindow": "固定時間枠"
+        "timeWindowType": "不明な時間枠",
+        "timeWindowType_dynamic": "動的時間枠",
+        "timeWindowType_rolling": "ローリング時間枠",
+        "timeWindowType_fixed": "固定時間枠"
       },
       "sloEntityInfo": {
         "tooltip": {
@@ -551,7 +559,9 @@
       "slo": "SLO",
       "monitoringSourceSelector": {
         "source_application": "アプリケーション",
-        "source_website": "ウェブサイト"
+        "source_website": "Web サイト (ベータ)",
+        "callOut_application": "エンド・ユーザーのインターネット接続の不良など、制御できない要因は除外されますが、エンド・ユーザーのエクスペリエンスが正確に反映されていない可能性があります。",
+        "callOut_website": "エンド・ユーザーのエクスペリエンスが最も正確に反映されますが、エンド・ユーザーのインターネット接続の不良など、制御できない要因は除外されません。"
       },
       "sliFormatter": {
         "unit": "コール",
@@ -560,6 +570,58 @@
         "unit_1": "コール",
         "unit_2": "呼び出し",
         "thousandCallsFormat": "{{count}}K 呼び出し"
+      },
+      "widgetLeftHeader": {
+        "previewDataInfo": "SLI 構成が最近作成された場合、プレビュー・データは最大 7 日前まで表示されます。 最終ウィジェットには、SLI 作成以降のデータのみが含まれます"
+      }
+    },
+    "apdex": {
+      "title": "Apdex: グラフ",
+      "chart": {
+        "metricLabel": "Apdex"
+      },
+      "demo": {
+        "title": "製品の Apdex",
+        "entityLabel": "ロボット・ショップ"
+      },
+      "formComponent": {
+        "title": "Apdex 構成",
+        "entityTypeTitle": "Apdex タイプ",
+        "manageListTitle": "Apdex 管理"
+      },
+      "configurationSelector": {
+        "label": "Apdex 構成",
+        "selectConfig": "構成を選択してください",
+        "manageConfig": "Apdex の管理",
+        "noneAvailCreateOne": "使用可能なものがありません。作成してください。",
+        "pleaseSelect": "選択してください"
+      },
+      "entityTypeSelector": {
+        "type": "不明なタイプ",
+        "type_website": "Web サイト"
+      },
+      "apdexManageList": {
+        "title": "Apdex リスト"
+      },
+      "apdexList": {
+        "cardTitle": "Apdex 構成",
+        "nameColumn": "Apdex 構成",
+        "thresholdColumn": "しきい値",
+        "confirmDeleteHeader": "ご確認ください",
+        "confirmDeleteMessage": "{{apdex}} を削除してよろしいですか?",
+        "editApdexTooltip": "Apdex 構成の編集/複製",
+        "deleteApdexTooltip": "Apdex 構成の削除",
+        "confirmDeleteButton": "削除",
+        "createButton": "Apdex 構成の作成"
+      },
+      "entityInfo": {
+        "tooltip": "不明な Apdex",
+        "tooltip_website": "Web サイト Apdex",
+        "tooltip_application": "アプリケーション Apdex"
+      },
+      "widget": {
+        "unknownEntityLabel_application": "不明なアプリケーション",
+        "unknownEntityLabel_website": "不明な Web サイト"
       }
     },
     "timezone": {

@@ -6,6 +6,9 @@
 
 import React from 'react';
 
+import { ApdexConfiguration, TagCatalog } from '@instana/types';
+
+import useApdexWidgetContextMenu from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexWidgetContextMenu';
 import useApdexLineRenderer from 'in-custom-dashboards/widgets/Apdex/hooks/useApdexLineRenderer';
 import WidgetHeader from 'in-custom-dashboards/widgets/Apdex/components/WidgetHeader';
 import WidgetCard from 'in-custom-dashboards/widgets/Apdex/components/WidgetCard';
@@ -22,6 +25,8 @@ interface ApdexWidgetProps {
   title: string;
   entityType: ApdexEntityTypes;
   entityLabel: string;
+  apdexConfig?: ApdexConfiguration;
+  tagCatalog?: TagCatalog;
   dragHandle: React.ReactNode;
   actions: React.ReactNode;
   metrics: MetricDataSeries[];
@@ -38,6 +43,8 @@ export default function ApdexWidget({
   actions,
   entityLabel,
   entityType,
+  apdexConfig,
+  tagCatalog,
   metrics,
   errors,
   progress,
@@ -46,6 +53,7 @@ export default function ApdexWidget({
   nonInteractive
 }: ApdexWidgetProps) {
   const renderer = useApdexLineRenderer(apdexAreas);
+  const contextMenu = useApdexWidgetContextMenu({ apdexConfig, tagCatalog });
 
   return (
     <WidgetCard
@@ -71,7 +79,8 @@ export default function ApdexWidget({
           granularity,
           automaticallySize: true,
           nonInteractive,
-          timeConfig
+          timeConfig,
+          ...contextMenu
         }}
         result={{
           errors,

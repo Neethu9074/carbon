@@ -578,7 +578,8 @@
     "apdex": {
       "title": "Apdex: Chart",
       "chart": {
-        "metricLabel": "Apdex"
+        "metricLabel": "Apdex",
+        "viewInAnalyze": "View in Analyze"
       },
       "demo": {
         "title": "Apdex for Prod",

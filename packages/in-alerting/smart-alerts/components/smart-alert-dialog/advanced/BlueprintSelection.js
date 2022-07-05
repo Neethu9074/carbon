@@ -82,7 +82,7 @@ function BlueprintSelectionMenu({
           selectButtonDisabled={selectButtonDisabled}
           onSelectBlueprint={blueprintConfig => {
             setSelectButtonDisabled(true);
-            updateForm(createBlueprintForm(form, blueprintConfig.type, blueprintConfig.thresholdDefaults));
+            updateForm(createBlueprintForm(form, blueprintConfig.type, blueprintConfig.thresholdDefaults, false));
           }}
         />
       </div>

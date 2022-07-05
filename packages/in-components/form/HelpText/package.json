@@ -2,5 +2,5 @@
   "name": "HelpText",
   "version": "0.0.0",
   "private": true,
-  "main": "./HelpText.js"
+  "main": "./HelpText.tsx"
 }

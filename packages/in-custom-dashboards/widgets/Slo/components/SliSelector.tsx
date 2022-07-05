@@ -9,7 +9,6 @@ import { Field, MapForm } from 'formalistic';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
 import useSliConfigurations from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigurations';
 import { MonitoringSource } from 'in-custom-dashboards/widgets/Slo/constants';
-import { trackSliChanged } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SelectInSection from 'in-components/form/Select/SelectInSection';
 import { sliConfigId } from 'in-custom-dashboards/widgets/Slo/form';
 import { compareIgnoreCase } from 'in-services/util/string';
@@ -65,7 +64,6 @@ export default function SliSelector({
               (field as Field<SliConfigIdFieldValue>).setValue(e.target.value).setTouched(true)
             )
           );
-          trackSliChanged({ sliConfigId: e.target.value });
         }}
         hasError={!sliField.valid && sliField.touched}
         additionalContent={

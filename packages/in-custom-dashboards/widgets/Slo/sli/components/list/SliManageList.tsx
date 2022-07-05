@@ -11,7 +11,6 @@ import { useObservable } from '@instana/hooks';
 import { deleteSliConfiguration, getSliConfigurationsByEntity } from 'in-custom-dashboards/widgets/Slo/sli/api';
 import CreateSliFormFactory from 'in-custom-dashboards/widgets/Slo/sli/components/create/CreateSliFormFactory';
 import { SliConfigBySliType, SliType } from 'in-custom-dashboards/widgets/Slo/sli/sliTypes';
-import { trackSliCreate, trackSliViewSLI } from 'in-custom-dashboards/widgets/Slo/tracker';
 import SliList from 'in-custom-dashboards/widgets/Slo/sli/components/list/SliList';
 import SlideInView, { NoHeader } from 'in-components/SlideInView/SlideInView';
 import { addMessage } from 'in-components/MessageFlyout/stores/messages';
@@ -92,7 +91,6 @@ function SliManageListContent<S extends SliType>({
               kind="action"
               onClick={() => {
                 onChange({});
-                trackSliCreate({});
               }}
               icon="lib_openclose_add_circle_outline"
               className={locals.createButton}
@@ -104,7 +102,6 @@ function SliManageListContent<S extends SliType>({
         query={nameQuery}
         selectSli={sliConfig => {
           onChange(sliConfig as SliConfigBySliType<S>);
-          trackSliViewSLI({ sliId: sliConfig.id, sliType: sliConfig.sliEntity?.sliType });
         }}
         onDelete={deleteSliConfig}
       />

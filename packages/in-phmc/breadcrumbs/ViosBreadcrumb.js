@@ -5,21 +5,21 @@
 
 import React from 'react';
 
-import getVIOServers from 'in-phmc/subscriptions/getVIOServers';
 import Breadcrumb from 'in-components/breadcrumb/Breadcrumb';
+import getVIOS from 'in-phmc/subscriptions/getVios';
 import connectTo from 'in-hoc/connectTo';
 import { t } from 'in-i18n';
 
 export default connectTo(
   props => ({
-    vios: getVIOServers({
+    vios: getVIOS({
       filter: {
         viosId: props.viosId,
         timeConfig: props.timeConfig
       }
     }).map(result => result.data)
   }),
-  function ViosBreadcrumbs({ vios }) {
+  function ViosBreadcrumb({ vios }) {
     return <Breadcrumb label={t('in-phmc:breadcrumbs.vios')}>{vios && vios.label}</Breadcrumb>;
   }
 );

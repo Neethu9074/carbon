@@ -1,0 +1,98 @@
+/*
+ * IBM Confidential
+ * PID 5737-N85, 5900-AG5
+ * Copyright IBM Corp. 2022
+ */
+
+@import '~in-themes/active.less';
+@import '~in-themes/mixins.less';
+
+:local {
+  .subtransaction {
+    border-top: 1px solid @lib__colors__N400;
+    background: @lib__colors__N050;
+    color: @lib__colors__N600Light;
+    position: relative;
+
+    .highlightingBase();
+  }
+
+  .highlighted {
+    .highlightingActive();
+  }
+
+  .erroneous::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    background: @lib__colors__failure;
+    content: '';
+  }
+
+  .header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+
+    &:hover,
+    &:focus {
+      outline: 0;
+      background: @lib__colors__N300;
+      cursor: pointer;
+    }
+  }
+
+  .leftHeader {
+    display: flex;
+    align-items: center;
+
+    & > * {
+      max-width: 8rem;
+      width: 8rem;
+
+      &:first-child {
+        width: 2.3rem;
+        text-transform: uppercase;
+      }
+
+      &:nth-child(2) {
+        max-width: 20rem;
+        width: 20rem;
+      }
+    }
+  }
+
+  .rightHeader {
+    display: flex;
+    align-items: center;
+  }
+
+  .body {
+    margin: 1.2rem 1rem 0 5rem;
+    padding-bottom: 2rem;
+  }
+
+  .type {
+    margin: 0 1rem 0 0;
+    text-transform: uppercase;
+  }
+
+  .subHeader {
+    display: flex;
+    flex-direction: column;
+    margin: 0 3.5rem 0 0;
+    line-height: 1.2;
+  }
+
+  .key {
+    color: @lib__colors__N600Light;
+    font-weight: 500;
+    padding: 0 0 0.188rem;
+  }
+
+  .value {
+    .ellipsis();
+  }
+}

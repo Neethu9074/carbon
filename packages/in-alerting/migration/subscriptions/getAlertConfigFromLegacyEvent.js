@@ -7,5 +7,6 @@ import { createResultSubscriptionFactory } from 'in-subscription/resultSubscript
 
 export default createResultSubscriptionFactory({
   eventId: 'getAlertConfigFromLegacyEvent',
+  memoizeFor: 1000,
   trackSubscriptionStatistics: true
 });
