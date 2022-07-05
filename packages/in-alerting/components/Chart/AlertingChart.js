@@ -89,6 +89,7 @@ export default function AlertingChart({
       canReload={canReload}
       nonInteractive
       setMetricResultPrecision={setMetricResultPrecision}
+      customHeight={182}
     />
   );
 
