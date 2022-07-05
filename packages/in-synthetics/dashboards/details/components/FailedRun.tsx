@@ -111,5 +111,5 @@ function getStatus(resultList: Result<PaginatedResult<TestResultListItem>>) {
 }
 
 function getErrors(resultList: Result<PaginatedResult<TestResultListItem>>) {
-  return resultList?.data?.items[0].testResultCommonProperties?.errors;
+  return resultList?.data?.items[0]?.testResultCommonProperties?.errors;
 }
