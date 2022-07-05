@@ -16,7 +16,7 @@ import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
 import { NOT_APPLICABLE } from 'in-components/QueryBuilder/tagFilter/entities';
 import getTestResultList from 'in-synthetics/subscriptions/getTestResultList';
 import { EQUALS } from 'in-components/QueryBuilder/tagFilter/operators';
-import { dummyTests } from 'in-synthetics/utils/constants';
+import { dummyTestResultList } from 'in-synthetics/utils/constants';
 import useTimeConfig from 'in-hooks/useTimeConfig';
 
 import locals from './FailedRun.mless';
@@ -70,7 +70,7 @@ export default function FailedRun({ testId, resultId }: FailedRunProps) {
           tagFilters: tagFilters
         }),
       [0]
-    ) || dummyTests;
+    ) || dummyTestResultList;
 
   if (resultList.progress.loading) {
     content = <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} size="xxxl" />;
