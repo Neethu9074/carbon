@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#
+# IBM Confidential
+# PID 5737-N85, 5900-AG5
+# Copyright IBM Corp. 2022, 2022
+#
+
 set -euo pipefail
 SCRIPTPATH="$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
@@ -114,7 +120,7 @@ function _run_docker_build {
 
 function _scan_image() {
   local TAG=$1
-  local INSTANA_TWISTCLI_VERSION='0.3.5'
+  local INSTANA_TWISTCLI_VERSION='0.3.9'
   _log_info "Triggering scan for image ${TAG} with instana-twistcli ${INSTANA_TWISTCLI_VERSION}"
 
   if [[ -f ${COMPONENT_TWISTLOCK_IGNOREFILE} ]]; then
