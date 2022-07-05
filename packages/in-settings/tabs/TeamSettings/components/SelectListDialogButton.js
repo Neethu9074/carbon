@@ -22,6 +22,7 @@ export default function SelectListDialogButton({
   listComponentRightHeader,
   hiddenIds = [],
   limit,
+  renderCustomCloseBehaviour,
   createSubmitLabel,
   requiresAtLeastOneMessage
 }) {
@@ -43,6 +44,7 @@ export default function SelectListDialogButton({
             onSubmit={onSubmit}
             createSubmitLabel={createSubmitLabel}
             requiresAtLeastOneMessage={requiresAtLeastOneMessage}
+            renderCustomCloseBehaviour={renderCustomCloseBehaviour}
           />
         )
       }
