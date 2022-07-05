@@ -19,7 +19,6 @@ import AlertingChartWithErrorMessage from 'in-alerting/components/Chart/Alerting
 import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/form/formUtils';
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
-import { baselinePreviewOnAlertPageEnabled } from 'in-services/featureFlags';
 import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { hasError, isLoading } from 'in-services/util/result';
@@ -36,13 +35,6 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
     isAlertDetailView
   } = props;
 
-  const usingPersistedAdaptiveBaselineOnAlertConfigView = isAlertDetailView && threshold?.type === ADAPTIVE_BASELINE;
-
-  if (usingPersistedAdaptiveBaselineOnAlertConfigView && !baselinePreviewOnAlertPageEnabled) {
-    // info shown as long as previews is disabled by feature flag
-    return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noChartForAdaptiveBaseline')} />;
-  }
-
   if (PER_AP_ENDPOINT === evaluationType && !endpointId) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataWithoutEndpointSelection')} />;
   }
@@ -52,11 +44,7 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
   }
 
   // fetch persistent baseline?
-  if (
-    threshold?.type === ADAPTIVE_BASELINE &&
-    (isAlertDetailView || isEventsView) &&
-    baselinePreviewOnAlertPageEnabled
-  ) {
+  if (threshold?.type === ADAPTIVE_BASELINE && (isAlertDetailView || isEventsView)) {
     return <ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
   }
 
