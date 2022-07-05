@@ -59,7 +59,6 @@ module.exports = {
   configMigrationFeatureEnabled: true,
   sliCHClusterAccessEnabled: true,
   perSecondAggregationEnabled: false,
-  baselinePreviewOnAlertPageEnabled: true,
   apdexWidgetEnabled: true,
   actionAutomationEnabled: true,
   websiteUploadConfigEnabled: true
