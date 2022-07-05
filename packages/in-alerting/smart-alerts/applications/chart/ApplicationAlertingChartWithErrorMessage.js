@@ -20,9 +20,9 @@ import { isEntitySelectionValid } from 'in-alerting/smart-alerts/applications/fo
 import { chartViewConfigPropType } from 'in-alerting/components/Chart/chartViewConfig';
 import { ADAPTIVE_BASELINE } from 'in-alerting/smart-alerts/data/thresholdTypes';
 import { baselinePreviewOnAlertPageEnabled } from 'in-services/featureFlags';
+import { pendingResult, emptyArray } from 'in-services/fixedObjects';
 import NoDataAvailable from 'in-components/Errors/NoDataAvailable';
 import { hasError, isLoading } from 'in-services/util/result';
-import { pendingResult } from 'in-services/fixedObjects';
 import { t, Trans } from 'in-i18n';
 
 const NoDataPlaceHolder = ({ text }) => <NoDataAvailable text={text} height={230} />;
@@ -36,9 +36,9 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
     isAlertDetailView
   } = props;
 
-  const usingPersistedAdaptiveBaseline = (isEventsView || isAlertDetailView) && threshold?.type === ADAPTIVE_BASELINE;
+  const usingPersistedAdaptiveBaselineOnAlertConfigView = isAlertDetailView && threshold?.type === ADAPTIVE_BASELINE;
 
-  if (usingPersistedAdaptiveBaseline && !baselinePreviewOnAlertPageEnabled) {
+  if (usingPersistedAdaptiveBaselineOnAlertConfigView && !baselinePreviewOnAlertPageEnabled) {
     // info shown as long as previews is disabled by feature flag
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noChartForAdaptiveBaseline')} />;
   }
@@ -51,7 +51,12 @@ export default function ApplicationAlertingChartWithErrorMessage(props) {
     return <NoDataPlaceHolder text={t('in-alerting:smartAlerts.applications.chart.noDataAvailable')} />;
   }
 
-  if (usingPersistedAdaptiveBaseline && baselinePreviewOnAlertPageEnabled) {
+  // fetch persistent baseline?
+  if (
+    threshold?.type === ADAPTIVE_BASELINE &&
+    (isAlertDetailView || isEventsView) &&
+    baselinePreviewOnAlertPageEnabled
+  ) {
     return <ApplicationAlertingChartWithErrorMessageForAdaptiveBaseline {...props} />;
   }
 
@@ -139,15 +144,25 @@ function useFetchAdaptiveBaselineOrUseFallbackFromEvent(props) {
 }
 
 function extractBaselineFromResultsOrUseErrorFallback(fetchPersistedBaselineResult, errorFallbackBaseline) {
-  const error = hasError(fetchPersistedBaselineResult);
-  let baseline;
+  const fetchError = hasError(fetchPersistedBaselineResult);
 
-  if (error) {
-    baseline = errorFallbackBaseline ?? [];
+  let error;
+  let baseline = [];
+
+  if (fetchError) {
+    // if a fallback baseline exists, hide the error
+    if (errorFallbackBaseline?.length > 0) {
+      baseline = errorFallbackBaseline;
+    } else {
+      error = fetchError;
+    }
   } else if (isLoading(fetchPersistedBaselineResult)) {
-    baseline = [];
+    baseline = emptyArray;
   } else {
     baseline = fetchPersistedBaselineResult?.data;
+    if (baseline?.length < errorFallbackBaseline.length) {
+      baseline = errorFallbackBaseline;
+    }
   }
   return { error, baseline };
 }
