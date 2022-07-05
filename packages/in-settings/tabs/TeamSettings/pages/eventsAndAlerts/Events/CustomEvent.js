@@ -30,11 +30,11 @@ import CustomEventForm from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts
 import { serializeQuery } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/shared';
 import { getMetricDefinition, isBuiltInDynamicMetric } from 'in-sdk/metrics/metrics';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
+import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import MigrateToSmartAlerts from 'in-alerting/migration/MigrateToSmartAlerts';
 import LegacyAppdataEventInfoMessage from './LegacyAppdataEventInfoMessage';
 import SettingsDetailPage from 'in-settings/components/SettingsDetailPage';
 import { teamSettingsAlertingEvents } from 'in-settings/navigation/paths';
-import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import DescriptionText from 'in-components/form/DescriptionText';
 import SubViewHeader from 'in-settings/components/SubViewHeader';
 import SectionLine from 'in-settings/components/SectionLine';
@@ -93,7 +93,7 @@ const Form = entityForm(function DetailsForm(props) {
   const hasPermissionsToEditSmartAlerts = role.canConfigureCustomAlerts && role.canConfigureGlobalAlertConfigs;
   const isMigrateableDfqScope = !entity.get('query')?.startsWith('event.');
 
-  const isDeprecated = deprecateAppDataLegacyEvents && isOneOfMigratableEntityTypes;
+  const isDeprecated = deprecateAppDataLegacyEventsEnabled && isOneOfMigratableEntityTypes;
 
   const isMigratable =
     isDeprecated &&
