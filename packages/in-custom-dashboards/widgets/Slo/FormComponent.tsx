@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import React, { useEffect, useState } from 'react';
 import { Field, MapForm } from 'formalistic';
-import React, { useState } from 'react';
 
 import { Button } from '@instana/components';
 import { Stack } from '@instana/components';
@@ -22,7 +22,9 @@ import {
   TimeWindowDuration
 } from 'in-custom-dashboards/widgets/Slo/form';
 import { OverridingFieldValidationMessage } from 'in-custom-dashboards/widgets/Slo/components/OverridingFieldValidationMessage';
+import { SLI_MANAGEMENT_EXIT, SLI_MANAGEMENT_VIEW, SLO_WIDGET_EDIT_START } from 'in-services/tracking/eventNames';
 import MonitoringSourceSelector from 'in-custom-dashboards/widgets/Slo/components/MonitoringSourceSelector';
+import { useSloWidgetTrackers } from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import ApplicationSelector from 'in-custom-dashboards/widgets/Slo/components/ApplicationSelector';
 import FormComponentHeader from 'in-custom-dashboards/widgets/Slo/components/FormComponentHeader';
 import { SlideInViewConfig } from 'in-custom-dashboards/CustomDashboard/WidgetEditorDialog/types';
@@ -63,6 +65,12 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
     originalOnChange([], () => updatedForm as MapForm);
   });
 
+  const track = useSloWidgetTrackers();
+
+  useEffect(() => {
+    track(SLO_WIDGET_EDIT_START);
+  }, [track]);
+
   const entityIdField = form.get(entityId) as Field<string>;
   const entityIdValue = entityIdField?.value;
   const entityTypeValue = (form.get(entityType) as Field<SliType>)?.value;
@@ -88,6 +96,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
   const timeField = (form.get(timeWindowStart) as MapForm)?.get('time') as Field<string>;
 
   function activateManageSliSlideIn() {
+    track(SLI_MANAGEMENT_VIEW, { entityType: entityTypeValue });
     return setSlideInView({
       renderTitle(sliSelected) {
         if (sliSelected === null) {
@@ -100,6 +109,7 @@ export default function FormComponent({ form, onChange: originalOnChange, setSli
       slideOutHandler(slideOut, [sliSelected, selectSli]) {
         return () => {
           if (sliSelected == null) {
+            track(SLI_MANAGEMENT_EXIT, { entityType: entityTypeValue });
             slideOut(); // close list
           } else {
             // "cancel"/close, go back to list
