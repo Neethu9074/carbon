@@ -142,9 +142,7 @@ function getDialogTitle({ isGlobalSmartAlert, editMode, migrationMode, builtIn }
     context: mode
   });
   if (migrationMode) {
-    title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleMigrateAlert', {
-      context: mode
-    });
+    title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleMigrateAlert');
   } else if (editMode) {
     title = t('in-alerting:smartAlerts.components.smartAlertDialog.alertConfigDialogPresenterTitleEditAlert', {
       context: mode
