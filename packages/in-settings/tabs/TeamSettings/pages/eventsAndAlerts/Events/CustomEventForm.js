@@ -90,8 +90,8 @@ import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
+import AssociatedActions from 'in-settings/tabs/TeamSettings/pages/automation/ActionCatalog/ActionCatalog';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import AssociatedActions from 'in-settings/tabs/TeamSettings/pages/automation/AssociatedActions';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { compareIgnoreCase, isBlank, isNotBlank } from 'in-services/util/string';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -694,7 +694,7 @@ function ActionsSelection({ form, setForm }) {
         setTitle
         loadEntities={() => getSelectedActionsForEvent(selectedActions)}
         hasRowNavigation={false}
-        noDataMessage={t('in-settings:tabs.noActionsSelected')}
+        emptyMessage={t('in-settings:tabs.noActionsSelected')}
         tableActions={ActionSelectionTableActions(form, setForm)}
         pageSize={10}
         rightHeader={

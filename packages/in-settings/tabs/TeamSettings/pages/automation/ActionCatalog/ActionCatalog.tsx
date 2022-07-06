@@ -4,13 +4,16 @@
  * Copyright IBM Corp. 2022
  */
 
-import React from 'react';
+import React, { ReactElement, Fragment } from 'react';
 
 import { Link } from '@instana/components';
 
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
+import { teamSettingsAlertingEventCustomNew } from 'in-settings/navigation/paths';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
+import { createNewEntityButton } from 'in-settings/components/List';
+import { openEventSubmitFormTracker } from 'in-settings/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getAllActions } from 'in-api/automation';
 import { Action } from 'in-types';
@@ -70,26 +73,71 @@ export interface ActionProps {
   onRowClick: () => void;
   setTitle?: boolean;
   pageSize?: number;
+  rightHeader: ReactElement;
+  inSelectListDialog: boolean;
+  loadEntities: any;
+  tableActions?: object;
+  hiddenIds?: any;
+  emptyMessage?: string;
 }
 
-export default function AssociatedActions({ onRowClick, setTitle = true, pageSize = 20 }: ActionProps) {
+const defaultTableActions = {};
+
+export default function AssociatedActions({
+  onRowClick,
+  setTitle = true,
+  pageSize = 20,
+  rightHeader,
+  inSelectListDialog = false,
+  loadEntities,
+  hiddenIds,
+  emptyMessage,
+  tableActions = defaultTableActions
+}: ActionProps) {
   return (
     <List
       title={setTitle ? t('in-settings:tabs.actionCatalog') : null}
-      noDataMessage={t('in-settings:tabs.noActions')}
+      noDataMessage={emptyMessage ? emptyMessage : t('in-settings:tabs.noActionsAssociated')}
       pageSize={pageSize}
       initialOrderBy="name"
       isSearchable
-      loadEntities={getAllActions}
+      loadEntities={loadEntities ? loadEntities : getAllActions}
       columnDefinitions={columnDefinitions}
       getHeader={getHeader()}
       searchAttributes={['name', 'description', 'tags']}
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
+      extraFilters={createFilters(hiddenIds)}
+      rightHeader={getRightHeader()}
       onRowClick={onRowClick}
+      tableActions={tableActions}
     />
   );
+  function getRightHeader() {
+    return !inSelectListDialog ? rightHeader ?? defaultRightHeader() : null;
+  }
+
+  function defaultRightHeader() {
+    return (
+      <Fragment>
+        {createNewEntityButton(
+          t('in-settings:tabs.newAction'),
+          { teamSettingsAlertingEventCustomNew },
+          openEventSubmitFormTracker
+        )}
+      </Fragment>
+    );
+  }
 }
+
 function getHeader() {
   return leftHeaderWithSelectAll(t('in-settings:tabs.action_plural'), false, {});
+}
+
+function createFilters(a: Array<string>) {
+  const filters = [];
+  if (a) {
+    filters.push((entity: any) => a.indexOf(entity.id) < 0);
+  }
+  return filters;
 }
