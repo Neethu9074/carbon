@@ -196,6 +196,7 @@ function EventForm({
   queryValidationInProgress,
   setQueryValidationInProgress,
   setSaveEnabled,
+  hideLegacyAppDataEventDeprecationInfo,
   existingApplication
 }) {
   applyQueryValidationResult(queryValidationResult, form, onChange);
@@ -523,6 +524,7 @@ function EventForm({
       )}
       {!hideAppDataLegacyEventsEnabled &&
         deprecateAppDataLegacyEventsEnabled &&
+        !hideLegacyAppDataEventDeprecationInfo &&
         isAppDataEntityType(form.get('entityType')?.value ?? '') && <LegacyAppdataEventInfoMessage />}
 
       <SectionHeading>{t('in-settings:tabs.3Scope')}</SectionHeading>

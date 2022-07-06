@@ -355,9 +355,17 @@ function Subscript({ entity }) {
 
   function showDeprecated() {
     return deprecateAppDataLegacyEventsEnabled && isAppDataEntityType(entity.entityType) ? (
-      <span key="deprecated" className={locals.deprecated}>
-        {t('in-settings:tabs.deprecated')}
-      </span>
+      entity.migrated ? (
+        <span key="deprecated" className={locals.deprecated}>
+          {t('in-settings:tabs.deprecated')}
+        </span>
+      ) : (
+        <Tooltip content={t('in-settings:tabs.actionNeededRecommendMigrate')}>
+          <span key="deprecated" className={locals.deprecated}>
+            {t('in-settings:tabs.deprecated')}
+          </span>
+        </Tooltip>
+      )
     ) : null;
   }
 

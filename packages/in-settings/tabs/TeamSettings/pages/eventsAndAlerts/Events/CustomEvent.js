@@ -131,7 +131,11 @@ const Form = entityForm(function DetailsForm(props) {
         </Section>
       ) : null}
 
-      <CustomEventForm {...props} />
+      <CustomEventForm
+        {...props}
+        // when we already show an information above, we need to hide another message inside the form
+        hideLegacyAppDataEventDeprecationInfo={isDeprecated}
+      />
 
       <SaveCancel
         form={form}
