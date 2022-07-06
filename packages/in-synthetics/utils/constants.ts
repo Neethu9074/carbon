@@ -4,11 +4,13 @@
  */
 
 import {
+  PaginatedResult,
   Progress,
   Result,
   SyntheticLocation,
   SyntheticTest,
   TestResultDetailData,
+  TestResultListItem,
   TestResultSubtransaction
 } from 'in-types';
 import { intParser } from 'in-stores/navigation/urlParameterUtils';
@@ -49,6 +51,14 @@ export const dummyLocationn: Result<SyntheticLocation> = {
 
 export const dummyResultDetails: Result<ResultDetails> = {
   data: {} as ResultDetails,
+  errors: [],
+  progress: {
+    loading: true
+  }
+};
+
+export const dummyTestResultList: Result<PaginatedResult<TestResultListItem>[]> = {
+  data: [] as PaginatedResult<TestResultListItem>[],
   errors: [],
   progress: {
     loading: true
