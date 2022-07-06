@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import { number, millis, bytes, micros, positiveNumber } from 'in-services/formatters/number';
+import { number, millis, bytes, micros, positiveNumber, percentage } from 'in-services/formatters/number';
 import TopTotalStmtsTable from 'in-forge/plugins/db2Database/Dashboard/TopTotalStmtsTable';
 import HadrGenericsTable from 'in-forge/plugins/db2Database/Dashboard/HadrGenericsTable';
 import DiagLogInfoTable from 'in-forge/plugins/db2Database/Dashboard//DiagLogInfoTable';
@@ -557,21 +557,28 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             metrics: [
               'databasevmondeltastats.indexReadEfficiency',
               'databasevmondeltastats.sorts',
-              'databasevmondeltastats.syncReadPercentage',
-              'databasevmondeltastats.asyncWritePercentage',
               'databasevmondeltastats.sortsPerTransactions',
               'databasevmondeltastats.sqls'
             ],
             labels: [
               t('in-forge:plugins.db2Database.indexReadEfficiency'),
               t('in-forge:plugins.db2Database.sorts'),
-              t('in-forge:plugins.db2Database.syncReadPercentage'),
-              t('in-forge:plugins.db2Database.asyncWritePercentage'),
               t('in-forge:plugins.db2Database.sortsPerTransactions'),
               t('in-forge:plugins.db2Database.sqls')
             ],
             type: 'line',
             formatter: number.compact
+          }}
+          y2={{
+            min: 0,
+            max: 100,
+            metrics: ['databasevmondeltastats.syncReadPercentage', 'databasevmondeltastats.asyncWritePercentage'],
+            labels: [
+              t('in-forge:plugins.db2Database.syncReadPercentage'),
+              t('in-forge:plugins.db2Database.asyncWritePercentage')
+            ],
+            type: 'line',
+            formatter: percentage
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
