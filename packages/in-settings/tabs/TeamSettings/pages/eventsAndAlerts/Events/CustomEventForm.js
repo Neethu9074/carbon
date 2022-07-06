@@ -84,8 +84,8 @@ import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAnd
 import CustomMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/CustomMetricSelector';
 import HostAvailabilityFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/HostAvailabilityFormGroup';
 import ScopeHostsByTagFormGroup from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ScopeHostsByTagFormGroup';
+import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
-import { deprecateAppDataLegacyEvents, disableAppDataLegacyEvents } from 'in-services/featureFlags';
 import BackendValidationMessages from 'in-components/form/BackendValidationMessages';
 import { compareIgnoreCase, isBlank, isNotBlank } from 'in-services/util/string';
 import LoadingIndicator from 'in-components/LoadingIndicators/LoadingIndicator';
@@ -196,6 +196,7 @@ function EventForm({
   queryValidationInProgress,
   setQueryValidationInProgress,
   setSaveEnabled,
+  hideLegacyAppDataEventDeprecationInfo,
   existingApplication,
   disabled
 }) {
@@ -546,8 +547,9 @@ function EventForm({
           )}
         </>
       )}
-      {!disableAppDataLegacyEvents &&
-        deprecateAppDataLegacyEvents &&
+      {!hideAppDataLegacyEventsEnabled &&
+        deprecateAppDataLegacyEventsEnabled &&
+        !hideLegacyAppDataEventDeprecationInfo &&
         !disabled &&
         isAppDataEntityType(form.get('entityType')?.value ?? '') && <LegacyAppdataEventInfoMessage />}
 
@@ -679,7 +681,7 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions = [], onChange
         name="event-entity-type"
         value={field.value}
         options={pluginsWithMetricDefinitions?.filter(({ value }) => {
-          if (disableAppDataLegacyEvents) {
+          if (hideAppDataLegacyEventsEnabled) {
             return !isAppDataEntityType(value);
           }
           return true;
