@@ -5232,8 +5232,8 @@
         "hadrSecondaryLog": "HADR Secondary Log Information",
         "hadrLogMetrics": "HADR Log Metrics",
         "hadrTakeOverTime": "HADR Last Take Over Time",
-        "vmonlockStats": "VMON Lock Stats",
-        "databasevmondeltastats": "VMON DATABASE DELTA METRCIS"
+        "vmonlockStats": "Lock Statistics",
+        "databasevmondeltastats": "Transaction Performance (Incremental Value)"
       },
       "db2": "DB2",
       "processId": "Process ID",
@@ -5441,9 +5441,8 @@
       "timeSinceLastRecv": "Time Since Last Receive",
       "logHadrWaitCur": "Current Logger Wait Time",
       "logHadrWaitTime": "Total Logger Wait Time",
-      "numberOfLocksHeld": "Number of Locks Held",
-      "lockEscals": "Lock Escalations",
       "lockWaitTime": "Lock Wait Time",
+      "lockEscals": "Lock Escalations",
       "lockListInUse": "Lock List In Use",
       "numberOfConnections": "Number of Connections",
       "activeLockWaits": "Active Lock Waits",

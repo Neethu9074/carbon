@@ -521,26 +521,18 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           y1={{
             min: 0,
             metrics: [
-              'vmonlockstats.numberOfLocksHeld',
               'vmonlockstats.lockEscals',
-              'vmonlockstats.lockTimeouts',
-              'vmonlockstats.deadlocks',
-              'vmonlockstats.lockListInUse',
-              'vmonlockstats.numberOfConnections',
               'vmonlockstats.activeLockWaits',
               'vmonlockstats.averageLockEscalsPerAct',
-              'vmonlockstats.lockListValue'
+              'vmonlockstats.lockListValue',
+              'vmonlockstats.lockListInUse'
             ],
             labels: [
-              t('in-forge:plugins.db2Database.numberOfLocksHeld'),
               t('in-forge:plugins.db2Database.lockEscals'),
-              t('in-forge:plugins.db2Database.lockTimeouts'),
-              t('in-forge:plugins.db2Database.deadlocks'),
-              t('in-forge:plugins.db2Database.lockListInUse'),
-              t('in-forge:plugins.db2Database.numberOfConnections'),
               t('in-forge:plugins.db2Database.activeLockWaits'),
               t('in-forge:plugins.db2Database.averageLockEscalsPerAct'),
-              t('in-forge:plugins.db2Database.lockListValue')
+              t('in-forge:plugins.db2Database.lockListValue'),
+              t('in-forge:plugins.db2Database.lockListInUse')
             ],
             type: 'line',
             formatter: number.compact
@@ -555,6 +547,7 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />
       </DashboardSection>
+
       <DashboardSection title={t('in-forge:plugins.db2Database.dashboard.databasevmondeltastats')}>
         <Chart
           snapshotId={snapshotId}
@@ -579,13 +572,6 @@ export default function Db2Dashboard({ snapshot, timeConfig }) {
             ],
             type: 'line',
             formatter: number.compact
-          }}
-          y2={{
-            min: 0,
-            metrics: ['databasevmondeltastats.lockWaitTime'],
-            labels: [t('in-forge:plugins.db2Database.lockWaitTime')],
-            type: 'line',
-            formatter: millis.detailed
           }}
           renderPostChartContent={PluginDashboardsMarkerLanes}
         />

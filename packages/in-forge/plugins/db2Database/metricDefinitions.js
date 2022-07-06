@@ -510,23 +510,17 @@ export default [
   },
   {
     metrics: [
-      'vmonlockstats.numberOfLocksHeld',
       'vmonlockstats.lockEscals',
       'vmonlockstats.lockTimeouts',
-      'vmonlockstats.deadlocks',
       'vmonlockstats.lockWaitTime',
-      'vmonlockstats.numberOfConnections',
       'vmonlockstats.activeLockWaits',
       'vmonlockstats.averageLockEscalsPerAct',
       'vmonlockstats.lockListValue'
     ],
     labels: [
-      t('in-forge:plugins.db2Database.numberOfLocksHeld'),
       t('in-forge:plugins.db2Database.lockEscals'),
       t('in-forge:plugins.db2Database.lockTimeouts'),
-      t('in-forge:plugins.db2Database.deadlocks'),
       t('in-forge:plugins.db2Database.lockWaitTime'),
-      t('in-forge:plugins.db2Database.numberOfConnections'),
       t('in-forge:plugins.db2Database.activeLockWaits'),
       t('in-forge:plugins.db2Database.averageLockEscalsPerAct'),
       t('in-forge:plugins.db2Database.lockListValue')
@@ -583,11 +577,5 @@ export default [
     min: 0,
     max: 100,
     formatter: percentage.detailed
-  },
-  {
-    metrics: ['databasevmondeltastats.lockWaitTime'],
-    labels: [t('in-forge:plugins.db2Database.lockWaitTime')],
-    min: 0,
-    formatter: millis
   }
 ];
