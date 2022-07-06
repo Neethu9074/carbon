@@ -200,11 +200,6 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'deprecateAppDataLegacyEvents',
-    instanaCtlKey: 'feature.deprecated.appdata.legacy.events',
-    defaultValue: true
-  },
-  {
     uiClientKey: 'potentialProblemsEnabled',
     instanaCtlKey: 'feature.potential.problems.enabled',
     defaultValue: true
@@ -230,8 +225,18 @@ module.exports = exports = [
     defaultValue: false
   },
   {
-    uiClientKey: 'disableAppDataLegacyEvents',
-    instanaCtlKey: 'feature.disable.app.data.legacy.events',
+    uiClientKey: 'deprecateAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.deprecate.app.data.legacy.events.enabled',
+    defaultValue: true
+  },
+  {
+    uiClientKey: 'disallowAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.disallow.app.data.legacy.events.enabled',
+    defaultValue: false
+  },
+  {
+    uiClientKey: 'hideAppDataLegacyEventsEnabled',
+    instanaCtlKey: 'feature.hide.app.data.legacy.events.enabled',
     defaultValue: false
   },
   {

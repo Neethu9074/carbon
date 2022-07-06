@@ -9,10 +9,14 @@ import { fromJS } from 'immutable';
 import { Spacer, Message, MessageTypes } from '@instana/components';
 
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
+import {
+  applicationSmartAlertsEnabled,
+  disallowAppDataLegacyEventsEnabled,
+  hideAppDataLegacyEventsEnabled
+} from 'in-services/featureFlags';
 import SelectedSmartAlertsList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/SelectedSmartAlertsList';
 import EventTypesSwitcher from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/EventTypesSwitcher';
 import { limitForConnectedEvents } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/Alert';
-import { applicationSmartAlertsEnabled, deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import SelectListDialogButton from 'in-settings/tabs/TeamSettings/components/SelectListDialogButton';
 import Events from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/Events';
 import { getEventSpecificationByIds } from 'in-api/eventSpecifications';
@@ -137,13 +141,15 @@ function EventsSelection({ form, setForm }) {
             title={t('in-settings:tabs.addEvents')}
             label={t('in-settings:tabs.addEvents')}
             renderCustomCloseBehaviour={() =>
-              deprecateAppDataLegacyEvents ? (
+              disallowAppDataLegacyEventsEnabled && !hideAppDataLegacyEventsEnabled ? (
                 <Message type={MessageTypes.neutral} small withIcon>
                   {t('in-settings:tabs.depreactedEventHiddenInfo')}
                 </Message>
               ) : null
             }
-            listComponent={props => <Events {...props} withoutDeprecatedEvents={deprecateAppDataLegacyEvents} />}
+            listComponent={props => (
+              <Events {...props} withoutAppDataLegacyEvents={disallowAppDataLegacyEventsEnabled} />
+            )}
             hiddenIds={selectedEvents}
             limit={limitForConnectedEvents}
             createSubmitLabel={numberOfItems =>

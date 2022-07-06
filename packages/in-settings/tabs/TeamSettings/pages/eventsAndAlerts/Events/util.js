@@ -3,8 +3,8 @@
  * (c) Copyright Instana Inc.
  */
 
+import { deprecateAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import { plugins, customIssuesDisabledForPlugins } from 'in-forge/constants';
-import { deprecateAppDataLegacyEvents } from 'in-services/featureFlags';
 import { compareIgnoreCase } from 'in-services/util/string';
 import { getPluginName } from 'in-sdk/pluginName';
 import { hasCategory } from 'in-sdk/metrics';
@@ -91,7 +91,7 @@ function getLabelForPlugin(plugin) {
 }
 
 function shouldDisplayDeprecatedLabel(plugin) {
-  return deprecateAppDataLegacyEvents && isDeprecatedAppDataEntity(plugin);
+  return deprecateAppDataLegacyEventsEnabled && isDeprecatedAppDataEntity(plugin);
 }
 
 function isDeprecatedAppDataEntity(plugin) {
