@@ -33,7 +33,7 @@ import {
   setCustomEventSpecificationsEnabled
 } from 'in-api/eventSpecifications';
 import { getPluginsWithCustomMetricsOptionsObservable } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/customMetricUtils';
-import { deprecateAppDataLegacyEvents, disableAppDataLegacyEvents } from 'in-services/featureFlags';
+import { deprecateAppDataLegacyEventsEnabled, hideAppDataLegacyEventsEnabled } from 'in-services/featureFlags';
 import List, { createNewEntityButton, leftHeaderWithSelectAll } from 'in-settings/components/List';
 import { openEventSubmitFormTracker, viewEventTracker } from 'in-settings/tracker';
 import WithSubscript from 'in-settings/components/WithSubscript';
@@ -81,10 +81,10 @@ export default function Events({
   inSelectListDialog = false,
   getHeader = defaultGetHeader(inSelectListDialog, tableActions),
   /**
-   * 1. Removes filter items for deprected/migrated events
+   * 1. Removes filter items for deprecated/migrated events
    * 2. Filters out deprecated/migrated events
    */
-  withoutDeprecatedEvents
+  withoutAppDataLegacyEvents
 }) {
   const [type, setType] = useState(null);
   const [severity, setSeverity] = useState(null);
@@ -93,12 +93,12 @@ export default function Events({
 
   const entityTypeOptionsOfCustomMetrics = useObservable(getPluginsWithCustomMetricsOptionsObservable, []);
   const allEntityTypeOptions = filterEntityTypeOptions(
-    withoutDeprecatedEvents,
+    withoutAppDataLegacyEvents,
     combineAndSortByLabel(entityTypeOptionsOfBuiltInMetrics, entityTypeOptionsOfCustomMetrics)
   );
 
-  const loadEvents = useLoadEventsFunction(withoutDeprecatedEvents, loadEntities);
-  adjustTypeOptions(withoutDeprecatedEvents);
+  const loadEvents = useLoadEventsFunction(withoutAppDataLegacyEvents, loadEntities);
+  adjustTypeOptions(withoutAppDataLegacyEvents);
 
   return (
     <List
@@ -354,10 +354,18 @@ function Subscript({ entity }) {
   }
 
   function showDeprecated() {
-    return deprecateAppDataLegacyEvents && isAppDataEntityType(entity.entityType) ? (
-      <span key="deprecated" className={locals.deprecated}>
-        {t('in-settings:tabs.deprecated')}
-      </span>
+    return deprecateAppDataLegacyEventsEnabled && isAppDataEntityType(entity.entityType) ? (
+      entity.migrated ? (
+        <span key="deprecated" className={locals.deprecated}>
+          {t('in-settings:tabs.deprecated')}
+        </span>
+      ) : (
+        <Tooltip content={t('in-settings:tabs.actionNeededRecommendMigrate')}>
+          <span key="deprecated" className={locals.deprecated}>
+            {t('in-settings:tabs.deprecated')}
+          </span>
+        </Tooltip>
+      )
     ) : null;
   }
 
@@ -402,10 +410,10 @@ function createFilters(hiddenIds, type, severity, entityType, enabled) {
   return filters;
 }
 
-function useLoadEventsFunction(withoutDeprecatedEvents, loadEntities) {
+function useLoadEventsFunction(withoutAppDataLegacyEvents, loadEntities) {
   const loadEventsFunc = loadEntities ? loadEntities : getEventSpecificationsMutable;
 
-  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
+  if (hideAppDataLegacyEventsEnabled || withoutAppDataLegacyEvents) {
     return () =>
       loadEventsFunc().map(es => {
         return es.filter(({ entityType }) => !isAppDataEntityType(entityType));
@@ -415,8 +423,8 @@ function useLoadEventsFunction(withoutDeprecatedEvents, loadEntities) {
   return loadEventsFunc;
 }
 
-function adjustTypeOptions(withoutDeprecatedEvents) {
-  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
+function adjustTypeOptions(withoutAppDataLegacyEvents) {
+  if (hideAppDataLegacyEventsEnabled || withoutAppDataLegacyEvents) {
     typeOptions = typeOptions.filter(({ value }) => [builtInEnumValue, customEnumValue].includes(value));
   } else {
     if (!typeOptions.some(({ value }) => value === deprecatedValue)) {
@@ -428,8 +436,8 @@ function adjustTypeOptions(withoutDeprecatedEvents) {
   }
 }
 
-function filterEntityTypeOptions(withoutDeprecatedEvents, options) {
-  if (disableAppDataLegacyEvents || (deprecateAppDataLegacyEvents && withoutDeprecatedEvents)) {
+function filterEntityTypeOptions(withoutAppDataLegacyEvents, options) {
+  if (hideAppDataLegacyEventsEnabled || withoutAppDataLegacyEvents) {
     return options.filter(({ value }) => !['application', 'service', 'endpoint'].includes(value));
   }
   return options;

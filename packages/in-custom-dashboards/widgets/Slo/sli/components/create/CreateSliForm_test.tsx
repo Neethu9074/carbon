@@ -31,7 +31,14 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
 
     // When
     const wrapper = shallow(
-      <CreateSliForm form={form} onSubmit={onSubmit} updateForm={jest.fn()} setFooter={jest.fn()} close={jest.fn}>
+      <CreateSliForm
+        entityType="application"
+        form={form}
+        onSubmit={onSubmit}
+        updateForm={jest.fn()}
+        setFooter={jest.fn()}
+        close={jest.fn}
+      >
         {null}
       </CreateSliForm>
     );
@@ -52,7 +59,14 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
 
     // When
     const wrapper = shallow(
-      <CreateSliForm form={form} onSubmit={onSubmit} updateForm={jest.fn()} setFooter={jest.fn()} close={jest.fn}>
+      <CreateSliForm
+        entityType="application"
+        form={form}
+        onSubmit={onSubmit}
+        updateForm={jest.fn()}
+        setFooter={jest.fn()}
+        close={jest.fn}
+      >
         {null}
       </CreateSliForm>
     );
@@ -76,7 +90,14 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
 
     // When
     const wrapper = shallow(
-      <CreateSliForm form={form} onSubmit={onSubmit} updateForm={jest.fn()} setFooter={jest.fn()} close={jest.fn}>
+      <CreateSliForm
+        entityType="application"
+        form={form}
+        onSubmit={onSubmit}
+        updateForm={jest.fn()}
+        setFooter={jest.fn()}
+        close={jest.fn}
+      >
         {null}
       </CreateSliForm>
     );
@@ -104,7 +125,14 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
 
     // When
     mount(
-      <CreateSliForm form={form} setFooter={setFooter} close={close} updateForm={jest.fn()} onSubmit={jest.fn()}>
+      <CreateSliForm
+        entityType="application"
+        form={form}
+        setFooter={setFooter}
+        close={close}
+        updateForm={jest.fn()}
+        onSubmit={jest.fn()}
+      >
         {null}
       </CreateSliForm>
     );
@@ -128,6 +156,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
     // When
     mount(
       <CreateSliForm
+        entityType="application"
         filterExpressionValid={filterExpressionValid}
         form={form}
         setFooter={setFooter}
@@ -158,6 +187,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
     // When
     mount(
       <CreateSliForm
+        entityType="application"
         filterExpressionValid={filterExpressionValid}
         form={form}
         setFooter={setFooter}
@@ -190,6 +220,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
     // When
     mount(
       <CreateSliForm
+        entityType="application"
         editMode={editMode}
         form={form}
         setFooter={setFooter}
@@ -216,6 +247,7 @@ describe('in-custom-dashboards/widgets/Slo/sli/create/CreateSliForm', () => {
     // When
     const wrapper = shallow(
       <CreateSliForm
+        entityType="application"
         editMode={editMode}
         form={form}
         setFooter={jest.fn()}

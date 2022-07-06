@@ -81,9 +81,9 @@ import {
 import { ObserveHostHasMatchingEntitiesRunningFormGroup } from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/ObserveHostHasMatchingEntitiesRunningFormGroup';
 import createMemoizedObservableForReferencedEntities from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Alerts/components/memoizeReferencedEntitiesObservable';
 import {
-  deprecateAppDataLegacyEvents,
-  disableAppDataLegacyEvents,
-  actionAutomationEnabled
+  actionAutomationEnabled,
+  deprecateAppDataLegacyEventsEnabled,
+  hideAppDataLegacyEventsEnabled
 } from 'in-services/featureFlags';
 import InputWithDFQSelectionList from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/components/InputWithDFQSelectionList';
 import BuiltInMetricSelector from 'in-settings/tabs/TeamSettings/pages/eventsAndAlerts/Events/components/BuiltInMetricSelector';
@@ -205,6 +205,7 @@ function EventForm({
   queryValidationInProgress,
   setQueryValidationInProgress,
   setSaveEnabled,
+  hideLegacyAppDataEventDeprecationInfo,
   existingApplication,
   disabled
 }) {
@@ -555,8 +556,9 @@ function EventForm({
           )}
         </>
       )}
-      {!disableAppDataLegacyEvents &&
-        deprecateAppDataLegacyEvents &&
+      {!hideAppDataLegacyEventsEnabled &&
+        deprecateAppDataLegacyEventsEnabled &&
+        !hideLegacyAppDataEventDeprecationInfo &&
         !disabled &&
         isAppDataEntityType(form.get('entityType')?.value ?? '') && <LegacyAppdataEventInfoMessage />}
 
@@ -730,7 +732,7 @@ function EntityTypeFormGroup({ form, pluginsWithMetricDefinitions = [], onChange
         name="event-entity-type"
         value={field.value}
         options={pluginsWithMetricDefinitions?.filter(({ value }) => {
-          if (disableAppDataLegacyEvents) {
+          if (hideAppDataLegacyEventsEnabled) {
             return !isAppDataEntityType(value);
           }
           return true;

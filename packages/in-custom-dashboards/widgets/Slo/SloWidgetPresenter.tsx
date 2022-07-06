@@ -5,6 +5,10 @@
 
 import React from 'react';
 
+import {
+  defaultTrackers,
+  SloWidgetTrackerProvider
+} from 'in-custom-dashboards/widgets/Slo/components/SloWidgetTrackerProvider';
 import useMetricAlignedWidgetTimeConfig from 'in-custom-dashboards/widgets/Slo/hooks/useMetricAlignedWidgetTimeConfig';
 import { ensureConfigBackwardCompatibility, SloWidgetConfiguration } from 'in-custom-dashboards/widgets/Slo/form';
 import useSliConfigWithPreview from 'in-custom-dashboards/widgets/Slo/hooks/useSliConfigWithPreview';
@@ -82,24 +86,26 @@ export default function SloWidgetPresenter({ actions, config, isPreview, title, 
   const unifiedProgress = allProgress(sliConfigurationProgress, entityProgress, sloMetricsProgress);
 
   return (
-    <Widget
-      title={title}
-      entityType={entityType}
-      entity={entity}
-      sliConfiguration={sliConfiguration}
-      slo={slo}
-      sloMetrics={sloMetrics}
-      granularity={chartGranularity}
-      timeWindowType={timeWindowType}
-      timeWindowConfig={chartTimeWindowConfig}
-      status={unifiedStatus}
-      progress={unifiedProgress}
-      errors={sloMetricsError}
-      actions={actions}
-      dragHandle={dragHandle}
-      isPreview={isPreview}
-      disableZooming={isFixed || isRolling}
-    />
+    <SloWidgetTrackerProvider value={defaultTrackers}>
+      <Widget
+        title={title}
+        entityType={entityType}
+        entity={entity}
+        sliConfiguration={sliConfiguration}
+        slo={slo}
+        sloMetrics={sloMetrics}
+        granularity={chartGranularity}
+        timeWindowType={timeWindowType}
+        timeWindowConfig={chartTimeWindowConfig}
+        status={unifiedStatus}
+        progress={unifiedProgress}
+        errors={sloMetricsError}
+        actions={actions}
+        dragHandle={dragHandle}
+        isPreview={isPreview}
+        disableZooming={isFixed || isRolling}
+      />
+    </SloWidgetTrackerProvider>
   );
 }
 

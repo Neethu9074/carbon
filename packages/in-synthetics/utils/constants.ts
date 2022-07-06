@@ -57,8 +57,8 @@ export const dummyResultDetails: Result<ResultDetails> = {
   }
 };
 
-export const dummyTestResultList: Result<PaginatedResult<TestResultListItem>> = {
-  data: {} as PaginatedResult<TestResultListItem>,
+export const dummyTestResultList: Result<PaginatedResult<TestResultListItem>[]> = {
+  data: [] as PaginatedResult<TestResultListItem>[],
   errors: [],
   progress: {
     loading: true

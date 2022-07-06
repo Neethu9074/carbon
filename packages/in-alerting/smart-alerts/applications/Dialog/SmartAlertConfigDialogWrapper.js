@@ -80,7 +80,7 @@ export default function SmartAlertConfigDialogWrapper({
   };
   const withTrackCreate = simpleMode => {
     applicationsAlertingAlertCreated({ mode: simpleMode ? 'Simple' : 'Advanced' });
-    createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving, setMessages });
+    createAlert({ form, setForm, onClose, editMode, migrationMode, isGlobalSmartAlert, setIsSaving, setMessages });
   };
 
   return (
@@ -140,7 +140,16 @@ SmartAlertConfigDialogWrapper.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, setIsSaving, setMessages }) {
+function createAlert({
+  form,
+  setForm,
+  onClose,
+  editMode,
+  migrationMode,
+  isGlobalSmartAlert,
+  setIsSaving,
+  setMessages
+}) {
   setIsSaving(true);
   setMessages(prevMessages => prevMessages.filter(m => m.level && m.level !== 'error'));
   const addMessage = message => prevMessages => [...prevMessages, message];
@@ -153,11 +162,17 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
 
   const alertConfig = toAlertConfig(form);
 
-  if (editMode) {
+  const isEffectivelyGlobalSmartAlert = migrationMode
+    ? Object.keys(alertConfig.applications).length > 1
+    : isGlobalSmartAlert;
+  // In migration mode we always create a new smart alert:
+  const isEffectivelyEditMode = migrationMode ? false : editMode;
+
+  if (isEffectivelyEditMode) {
     (isGlobalSmartAlert ? updateGlobalAlertConfig : updateAlertConfig)(alertConfig, form.get('id').value).once(
       alertConfig => {
         onClose(alertConfig);
-        showSuccessMessage(alertConfig.name, editMode, isGlobalSmartAlert);
+        showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
       },
       error => {
         logger.error(`failed to update alertConfig: ${alertConfig} ${error.message}`, error);
@@ -166,10 +181,10 @@ function createAlert({ form, setForm, onClose, editMode, isGlobalSmartAlert, set
       }
     );
   } else {
-    (isGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
+    (isEffectivelyGlobalSmartAlert ? createGlobalAlertConfig : createAlertConfig)(alertConfig).once(
       alertConfig => {
         onClose(alertConfig);
-        showSuccessMessage(alertConfig.name, editMode, isGlobalSmartAlert);
+        showSuccessMessage(alertConfig.name, isEffectivelyEditMode, isEffectivelyGlobalSmartAlert);
       },
       error => {
         logger.error(`failed to save alertConfig: ${alertConfig} ${error.message}`, error);

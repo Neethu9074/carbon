@@ -16,9 +16,13 @@ interface Props {
   deleted?: boolean;
 }
 
+const smartAlertMigrationUrl =
+  'https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts' +
+  '#how-to-migrate-a-custom-event-on-application-service-or-endpoint-metrics-to-smart-alerts';
+
 export default function LegacyAppdataEventInfoMessage({ migrated, saved, deleted }: Props) {
   return (
-    <Message type="warning" withIcon small>
+    <Message type="neutral" withIcon small>
       <TransContent migrated={migrated} saved={saved} deleted={deleted} />
     </Message>
   );
@@ -26,7 +30,7 @@ export default function LegacyAppdataEventInfoMessage({ migrated, saved, deleted
 
 function TransContent({ migrated, saved, deleted }: Props) {
   const docsLink = (
-    <Link href="https://www.ibm.com/docs/en/obi/current?topic=applications-smart-alerts" external>
+    <Link href={smartAlertMigrationUrl} external>
       &nbsp;
     </Link>
   );

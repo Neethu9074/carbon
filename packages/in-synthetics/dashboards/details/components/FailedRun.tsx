@@ -74,8 +74,7 @@ export default function FailedRun({ testId, resultId }: FailedRunProps) {
 
   if (resultList.progress.loading) {
     content = <LoadingIndicator text={t('in-components:topListCard.loadingData')} height={height} size="xxxl" />;
-  }
-  {
+  } else {
     if (Array.isArray(resultList.data) && !resultList.data.length) {
       return (
         <Card className={locals.failedTitle} title={t('in-synthetics:dashboard.detailsPage.failedRun')}>
@@ -109,5 +108,5 @@ function getStatus(resultList: Result<PaginatedResult<TestResultListItem>>) {
 }
 
 function getErrors(resultList: Result<PaginatedResult<TestResultListItem>>) {
-  return resultList?.data?.items[0].testResultCommonProperties.errors;
+  return get(resultList.data?.items[0], ['testResultCommonProperties', 'errors', 0], '');
 }
