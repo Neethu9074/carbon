@@ -84,13 +84,10 @@ export default function FailedRun({ testId, resultId }: FailedRunProps) {
       );
     }
 
-    if (getStatus(resultList) === 1 && (getErrors(resultList) === undefined || getErrors(resultList)?.length === 0)) {
+    if (getStatus(resultList) === 1 && getErrors(resultList)?.length === 0) {
       // hide widget
       return <></>;
-    } else if (
-      getStatus(resultList) === 0 &&
-      (getErrors(resultList) === undefined || getErrors(resultList)?.length === 0)
-    ) {
+    } else if (getStatus(resultList) === 0 && getErrors(resultList)?.length === 0) {
       // if test failed with no error message, show "No error message"
       content = t('in-synthetics:dashboard.detailsPage.noFailedErrorMessage');
     } else {
