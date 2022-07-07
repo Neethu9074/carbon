@@ -254,6 +254,11 @@
   "pluginName_camunda_1": "Camunda",
   "pluginName_camunda_2": "Camunda",
   "pluginName_camunda": "Camunda",
+  "pluginName_camundaexit_plural": "Camunda Exit",
+  "pluginName_camundaexit_0": "Camunda Exit",
+  "pluginName_camundaexit_1": "Camunda Exit",
+  "pluginName_camundaexit_2": "Camunda Exit",
+  "pluginName_camundaexit": "Camunda Exit",
   "pluginName_cassandraCluster_plural": "Cassandra Clusters",
   "pluginName_cassandraCluster_0": "Cassandra Clusters",
   "pluginName_cassandraCluster_1": "Cassandra Clusters",
@@ -1356,6 +1361,11 @@
   "tracingTypeName_camunda_0": "Camunda Calls",
   "tracingTypeName_camunda_1": "Camunda Call",
   "tracingTypeName_camunda_2": "Camunda Calls",
+  "tracingTypeName_camundaexit": "Camunda External Task Message",
+  "tracingTypeName_camundaexit_plural": "Camunda External Task Messages",
+  "tracingTypeName_camundaexit_0": "Camunda External Task Messages",
+  "tracingTypeName_camundaexit_1": "Camunda External Task Message",
+  "tracingTypeName_camundaexit_2": "Camunda External Task Messages",
   "tracingTypeName_cassandra": "Cassandra query",
   "tracingTypeName_cassandra_plural": "Cassandra queries",
   "tracingTypeName_cassandra_0": "Cassandra queries",
@@ -4470,6 +4480,9 @@
       "locations": "Locations",
       "threads": "Threads",
       "throttlingDelay": "Throttling & Delay"
+    },
+    "camunda": {
+      "camunda": "Camunda"
     },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
@@ -11748,7 +11761,14 @@
       "titleProcessName": "Process Name",
       "titleActivityId": "Activity ID",
       "titleActivityName": "Activity Name",
-      "titleActivityDesc": "Activity Description"
+      "titleActivityDesc": "Activity Description",
+      "titleExternalTaskWorkerId": "External Task Worker ID",
+      "titleExternalTaskTopic": "External Task Topic",
+      "titleExternalTaskId": "External Task ID",
+      "titleExternalTaskRetries": "Retries"
+    },
+    "camunda-exit": {
+      "titleExternalTaskTopic": "External Task Topic"
     },
     "cassandra": {
       "titleKeyspace": "Keyspace",
@@ -11798,7 +11818,7 @@
       "titleKey": "Key",
       "titleCacheName": "Cache Name",
       "titleClusterName": "Cluster Name"
-    },	
+    },
     "distributeme": {
       "titleService": "Service",
       "titleMethod": "Method"
