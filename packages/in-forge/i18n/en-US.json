@@ -4481,6 +4481,9 @@
       "threads": "Threads",
       "throttlingDelay": "Throttling & Delay"
     },
+    "camunda": {
+      "camunda": "Camunda"
+    },
     "cassandraCluster": {
       "indexLabel": "Cassandra",
       "infoName": "Name",
