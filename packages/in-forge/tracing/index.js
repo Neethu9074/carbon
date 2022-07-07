@@ -81,6 +81,7 @@ import './spring-batch';
 import './vertx.client';
 import './vertx.server';
 import './airflow-task';
+import './camunda-exit';
 import './ims.mq.exit';
 import './axis.client';
 import './axis.server';
