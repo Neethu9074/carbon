@@ -16,7 +16,7 @@ import {
   createCustomThresholdBasedEventSpecification,
   getCustomEventSpecification,
   saveCustomEventSpecification,
-  getActionAssociation,
+  getActionAssociationCustom,
   saveActionAssociation,
   deleteActionAssociation
 } from 'in-api/eventSpecifications';
@@ -59,7 +59,7 @@ export default function CustomEvent(props) {
 
   function mergeResultData() {
     const eventDetails$ = getCustomEventSpecification(entityId);
-    const actionDetails$ = getActionAssociation(entityId);
+    const actionDetails$ = getActionAssociationCustom(entityId);
     // calling Get Event and Get action associations call and combining results
     return combineLatest([eventDetails$, actionDetails$]).map(([response1, response2]) =>
       combineResults(response1, response2)
