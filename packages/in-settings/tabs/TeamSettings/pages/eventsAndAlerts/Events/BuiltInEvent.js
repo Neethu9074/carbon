@@ -85,14 +85,10 @@ export default function CustomEvent1(props) {
     const finalActionIds = difference(actionIds, saveActionIds); // actions ids that needs to be associated in edit page
     const finalActionDeleteIds = difference(saveActionIds, actionIds); // actions ids that are deselected and needs to be disassociated
 
-    if (finalActionIds.length > 0) {
-      const saveEvent = combineLatest(finalActionIds.map(id => saveActionAssociationBuiltin(id, entityId)));
-      return saveEvent;
-    }
-
-    if (finalActionDeleteIds.length > 0) {
-      const saveEvent = combineLatest(finalActionDeleteIds.map(id => deleteActionAssociationBuiltin(id, entityId)));
-      return saveEvent;
+    if (finalActionIds.length > 0 || finalActionDeleteIds.length > 0) {
+      const saveAction = combineLatest(finalActionIds.map(id => saveActionAssociationBuiltin(id, entityId)));
+      event.deleteActions = combineLatest(finalActionDeleteIds.map(id => deleteActionAssociationBuiltin(id, entityId)));
+      return saveAction;
     }
   }
 
