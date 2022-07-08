@@ -5,10 +5,9 @@
 
 import React from 'react';
 
-import { SvgIcon } from '@instana/components';
-import { Link } from '@instana/components';
+import { Link, SvgIcon } from '@instana/components';
 
-import { getServiceDashboard, getEndpointDashboard } from 'in-applications/navigation/paths';
+import { getEndpointDashboard, getServiceDashboard } from 'in-applications/navigation/paths';
 import getTraceParticipants from 'in-applications/subscriptions/getTraceParticipants';
 import { latencyFixed } from 'in-services/formatters/number';
 import ServerTable from 'in-components/tables/ServerTable';
@@ -16,7 +15,13 @@ import { t } from 'in-i18n';
 
 import locals from './ServiceEndpointList.mless';
 
-export default function ServiceEndpointList({ traceId, getColor, onListItemMouseEnter, onListItemMouseLeave }) {
+export default function ServiceEndpointList({
+  traceId,
+  getColor,
+  onListItemMouseEnter,
+  onListItemMouseLeave,
+  onClickTracker
+}) {
   const columnDefinitions = [
     {
       id: 'serviceLabel',
@@ -26,7 +31,11 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
           <div className={locals.cell}>
             <div style={{ background: getColor(item) }} className={locals.colorIndicator} />
             <SvgIcon type="lib_application_service" className={locals.serviceIcon} />
-            <Link className={locals.link} href$={getServiceDashboard(item.service.id)}>
+            <Link
+              className={locals.link}
+              href$={getServiceDashboard(item.service.id)}
+              onClick={() => onClickTracker?.({ service: item.service.label })}
+            >
               {item.service.label}
             </Link>
           </div>
@@ -48,6 +57,7 @@ export default function ServiceEndpointList({ traceId, getColor, onListItemMouse
             <Link
               className={locals.link}
               href$={getEndpointDashboard(item.endpoint.id, { serviceId: item.service.id })}
+              onClick={() => onClickTracker?.({ endpoint: item.endpoint.label })}
             >
               {item.endpoint.label}
             </Link>
