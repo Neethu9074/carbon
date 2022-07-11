@@ -4,16 +4,13 @@
  * Copyright IBM Corp. 2022
  */
 
-import React, { ReactElement, Fragment } from 'react';
+import React, { ReactElement } from 'react';
 
 import { Link } from '@instana/components';
 
 import { teamSettingsActionCatalog, getEntityIdView } from 'in-settings/navigation/paths';
-import { teamSettingsAlertingEventCustomNew } from 'in-settings/navigation/paths';
 import { getType } from 'in-settings/tabs/TeamSettings/pages/automation/shared';
 import List, { leftHeaderWithSelectAll } from 'in-settings/components/List';
-import { createNewEntityButton } from 'in-settings/components/List';
-import { openEventSubmitFormTracker } from 'in-settings/tracker';
 import { formatDateTime } from 'in-services/formatters/date';
 import { getAllActions } from 'in-api/automation';
 import { Action } from 'in-types';
@@ -88,7 +85,6 @@ export default function AssociatedActions({
   setTitle = true,
   pageSize = 20,
   rightHeader,
-  inSelectListDialog = false,
   loadEntities,
   hiddenIds,
   emptyMessage,
@@ -108,26 +104,11 @@ export default function AssociatedActions({
       searchPlaceholder={t('in-settings:tabs.filterActions')}
       searchMaxWidth={210}
       extraFilters={createFilters(hiddenIds)}
-      rightHeader={getRightHeader()}
+      rightHeader={rightHeader}
       onRowClick={onRowClick}
       tableActions={tableActions}
     />
   );
-  function getRightHeader() {
-    return !inSelectListDialog ? rightHeader ?? defaultRightHeader() : null;
-  }
-
-  function defaultRightHeader() {
-    return (
-      <Fragment>
-        {createNewEntityButton(
-          t('in-settings:tabs.newAction'),
-          { teamSettingsAlertingEventCustomNew },
-          openEventSubmitFormTracker
-        )}
-      </Fragment>
-    );
-  }
 }
 
 function getHeader() {
