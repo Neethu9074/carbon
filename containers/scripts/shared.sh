@@ -55,9 +55,8 @@ function _check_branch_name {
   else
     IS_DELIVERY_BRANCH=$(${UI_CLIENT_ROOT_DIR}/build/ci-shared-tools/scripts/isDeliveryBranch.js)
     if [[ "${IS_DELIVERY_BRANCH}" != "true"* ]]; then
-      echo "suspending this for little while"
-      # _log_error "Container image building and pushing are not valid for non-delivery branch ${BRANCH_NAME}"
-      # exit 1
+      _log_error "Container image building and pushing are not valid for non-delivery branch ${BRANCH_NAME}"
+      exit 1
     fi
   fi
 }
