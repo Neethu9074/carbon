@@ -166,7 +166,7 @@ function build_image {
   _cleanup_container_dir
 }
 
-functon scan_nginx {
+function scan_nginx {
   docker pull docker.io/nginx:latest
   _scan_image docker.io/nginx:latest
 }
