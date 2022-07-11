@@ -31,6 +31,7 @@ import { getMatrixParameter } from 'in-stores/navigation/matrix';
 import ViewTrackingMeta from 'in-components/ViewTrackingMeta';
 import useTimeShiftConfig from 'in-hooks/useTimeShiftConfig';
 import { Col, Row } from 'in-components/layout/Grid/Grid';
+import StatusKpiCard from './components/StatusKpiCard';
 import { getTest } from 'in-synthetics/api';
 
 export default function SyntheticAnalyzeView() {
@@ -137,23 +138,7 @@ export default function SyntheticAnalyzeView() {
                   />
                 </Col>
                 <Col xs>
-                  <BigNumberKpiCard
-                    title={t('in-synthetics:dashboard.summary.status')}
-                    formatter={number.compact}
-                    useMaxAvailableHeight
-                    // color={theme.lib.colors.failure}
-                    config={{
-                      metricConfiguration: {
-                        aggregation: 'SUM',
-                        metric: 'status_code',
-                        source: 'SYNTHETICS',
-                        // @ts-expect-error tagFilters do not fully match the TagFilter type
-                        tagFilters: tagFilters,
-                        // @ts-expect-error timeShift do not fully match the TimeShift type
-                        timeShift: timeShiftConfig.offset
-                      }
-                    }}
-                  />
+                  <StatusKpiCard testId={testId} resultId={resultId} />
                 </Col>
                 <Col xs>
                   <BigNumberKpiCard
@@ -191,6 +176,7 @@ export default function SyntheticAnalyzeView() {
                     }}
                   />
                 </Col>
+
                 <Col xs>
                   <BigNumberKpiCard
                     title={t('in-synthetics:dashboard.summary.responseSize')}

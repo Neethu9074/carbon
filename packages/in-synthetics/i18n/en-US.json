@@ -110,7 +110,6 @@
       "summaryTab": "Summary",
       "resultsTab": "Results",
       "startTime": "Start Time",
-      "status": "Status",
       "requests": "Requests",
       "widgets": {
         "failures": "Failures",
@@ -162,6 +161,9 @@
       "failedRun": "Failed Run(Exception)",
       "failedRunErrorTitle": "Error Message",
       "noFailedErrorMessage": "No error message",
+      "statusKpiCard": "Status",
+      "successResult": "Successful",
+      "failedResult": "Failed",
       "subtransactionBody": {
         "contentType": "Content type",
         "size": "Size",
