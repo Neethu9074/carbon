@@ -138,7 +138,7 @@ function CustomDashboardLoader(props) {
   function onRemoveWidget(id) {
     const newConfig = deepCopy(config);
     newConfig.widgets = newConfig.widgets.filter(widget => id !== widget.id);
-    deleteWidget(newConfig.widgets?.find(widget => id === widget.id));
+    deleteWidget(config.widgets?.find(widget => id === widget.id));
     setConfig(newConfig);
   }
 
