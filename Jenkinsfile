@@ -73,54 +73,54 @@ pipeline {
       }
     }
 
-    stage('Build') {
-      steps {
-        milestone(label: "Build", ordinal: null)
-        timeout(time: 30, unit: 'MINUTES') {
-          timestamps {
-            script {
-              try {
-                awsCodeBuild credentialsType: 'jenkins',
-                  credentialsId: 'codebuild',
-                  projectName: 'ui-client',
-                  region: 'us-west-2',
-                  imageOverride: 'aws/codebuild/standard:5.0',
-                  sourceControlType: 'project',
-                  sourceVersion: gitCommitId,
-                  envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
+    // stage('Build') {
+    //   steps {
+    //     milestone(label: "Build", ordinal: null)
+    //     timeout(time: 30, unit: 'MINUTES') {
+    //       timestamps {
+    //         script {
+    //           try {
+    //             awsCodeBuild credentialsType: 'jenkins',
+    //               credentialsId: 'codebuild',
+    //               projectName: 'ui-client',
+    //               region: 'us-west-2',
+    //               imageOverride: 'aws/codebuild/standard:5.0',
+    //               sourceControlType: 'project',
+    //               sourceVersion: gitCommitId,
+    //               envVariables: '[ {EXTERNAL_CONTAINER_TAG_OVERWRITE, ' + instanaUiClientVersion + '}, {BRANCH_NAME, ' + branchName + '}, {GIT_BRANCH, ' + branchName + '} ]'
 
-                if ( currentBuild.currentResult == 'SUCCESS' ) {
-                  setBuildStatus('Build successful', 'SUCCESS')
-                }
-              } catch (e) {
-                setBuildStatus('Build Failure', 'FAILURE')
-                if ( branchName.startsWith('typescript-typedefinitions-')) {
-                  notifyTsUpdateFailure(branchName)
-                }
-                throw e
-              }
-            }
-          }
-        }
-      }
-    }
+    //             if ( currentBuild.currentResult == 'SUCCESS' ) {
+    //               setBuildStatus('Build successful', 'SUCCESS')
+    //             }
+    //           } catch (e) {
+    //             setBuildStatus('Build Failure', 'FAILURE')
+    //             if ( branchName.startsWith('typescript-typedefinitions-')) {
+    //               notifyTsUpdateFailure(branchName)
+    //             }
+    //             throw e
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
-    stage ('Mark stable ui-client version') {
-      steps {
-        milestone(label: "Mark stable ui-client version", ordinal: null)
-        timeout(time: 10, unit: 'MINUTES') {
-          timestamps {
-            script {
-              if (isDeliveryBranch) {
-                // Mark stable version in Instana's own versioning system only on delivery branches
-                // as this value is only used on further build stages on delivery branches
-                sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaUiClientVersion}"
-              }
-            }
-          }
-        }
-      }
-    }
+    // stage ('Mark stable ui-client version') {
+    //   steps {
+    //     milestone(label: "Mark stable ui-client version", ordinal: null)
+    //     timeout(time: 10, unit: 'MINUTES') {
+    //       timestamps {
+    //         script {
+    //           if (isDeliveryBranch) {
+    //             // Mark stable version in Instana's own versioning system only on delivery branches
+    //             // as this value is only used on further build stages on delivery branches
+    //             sh "./build/ci-shared-tools/scripts/markStableVersion.bash ui-client ${branchName} ${instanaUiClientVersion}"
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
 
     stage('Build & Push ui-client images') {
       steps {
